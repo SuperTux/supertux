@@ -17,9 +17,14 @@
 #include "object/cloud_particle_system.hpp"
 
 #include "math/random.hpp"
+#include "object/camera.hpp"
+#include "supertux/sector.hpp"
+#include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "video/surface_batch.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),
@@ -96,12 +101,18 @@ void CloudParticleSystem::update(float dt_sec)
     }
   }
 
+  auto& cam = Sector::get().get_singleton_by_type<Camera>();
+
   for (auto& particle : particles) {
     auto cloudParticle = dynamic_cast<CloudParticle*>(particle.get());
     if (!cloudParticle)
       continue;
     cloudParticle->pos.x += cloudParticle->speed * dt_sec * m_current_speed;
-    
+    if (cloudParticle->pos.x < cam.get_translation().x - static_cast<float>(cloudParticle->texture->get_width()))
+      cloudParticle->pos.x += virtual_width;
+    if (cloudParticle->pos.x > cam.get_translation().x + static_cast<float>(SCREEN_WIDTH))
+      cloudParticle->pos.x -= virtual_width;
+
     // Update alpha
     if (cloudParticle->target_time_remaining > 0.f) {
       if (dt_sec >= cloudParticle->target_time_remaining) {

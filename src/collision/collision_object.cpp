@@ -18,14 +18,17 @@
 #include "collision/collision_object.hpp"
 
 #include "collision/collision_listener.hpp"
+#include "collision/collision_movement_manager.hpp"
 #include "supertux/game_object.hpp"
 
 CollisionObject::CollisionObject(CollisionGroup group, CollisionListener& listener) :
   m_listener(listener),
   m_bbox(),
-  m_movement(),
   m_group(group),
-  m_dest()
+  m_movement(),
+  m_dest(),
+  m_objects_hit_bottom(),
+  m_ground_movement_manager(nullptr)
 {
 }
 
@@ -51,6 +54,36 @@ void
 CollisionObject::collision_tile(uint32_t tile_attributes)
 {
   m_listener.collision_tile(tile_attributes);
+}
+
+void
+CollisionObject::collision_moving_object_bottom(CollisionObject& other)
+{
+  if (m_group == COLGROUP_STATIC
+    || m_group == COLGROUP_MOVING_STATIC)
+  {
+    m_objects_hit_bottom.insert(&other);
+  }
+}
+
+void
+CollisionObject::notify_object_removal(CollisionObject* other)
+{
+  m_objects_hit_bottom.erase(other);
+}
+
+void
+CollisionObject::clear_bottom_collision_list()
+{
+  m_objects_hit_bottom.clear();
+}
+
+void CollisionObject::propagate_movement(const Vector& movement)
+{
+  for (CollisionObject* other_object : m_objects_hit_bottom) {
+    m_ground_movement_manager->register_movement(*this, *other_object, movement);
+    other_object->propagate_movement(movement);
+  }
 }
 
 bool

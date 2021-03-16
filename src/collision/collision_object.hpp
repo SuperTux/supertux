@@ -19,12 +19,15 @@
 #define HEADER_SUPERTUX_COLLISION_COLLISION_OBJECT_HPP
 
 #include <stdint.h>
+#include <memory>
+#include <unordered_set>
 
 #include "collision/collision_group.hpp"
 #include "collision/collision_hit.hpp"
 #include "math/rectf.hpp"
 
 class CollisionListener;
+class CollisionGroundMovementManager;
 class GameObject;
 
 class CollisionObject
@@ -48,11 +51,30 @@ public:
   /** called when tiles with special attributes have been touched */
   void collision_tile(uint32_t tile_attributes);
 
+  /** called when this object, if (moving) static, has collided on its top with a moving object */
+  void collision_moving_object_bottom(CollisionObject& other);
+
+  void notify_object_removal(CollisionObject* other);
+
+  void set_ground_movement_manager(const std::shared_ptr<CollisionGroundMovementManager>& movement_manager)
+  {
+    m_ground_movement_manager = movement_manager;
+  }
+
+  void clear_bottom_collision_list();
+
   /** returns the bounding box of the Object */
   const Rectf& get_bbox() const
   {
     return m_bbox;
   }
+
+  void set_movement(const Vector& movement)
+  {
+    m_movement = movement;
+  }
+
+  void propagate_movement(const Vector& movement);
 
   const Vector& get_movement() const
   {
@@ -119,19 +141,25 @@ public:
       this isn't necessarily the bounding box for graphics) */
   Rectf m_bbox;
 
-  /** The movement that will happen till next frame */
-  Vector m_movement;
-
   /** The collision group */
   CollisionGroup m_group;
 
 private:
-  /** this is only here for internal collision detection use (don't touch this
+  /** The movement that will happen till next frame */
+  Vector m_movement;
+
+  /** This is only here for internal collision detection use (don't touch this
       from outside collision detection code)
 
       This field holds the currently anticipated destination of the object
       during collision detection */
   Rectf m_dest;
+
+  /** Objects that were touching the top of this object at the last frame,
+      if this object was static or moving static. */
+  std::unordered_set<CollisionObject*> m_objects_hit_bottom;
+
+  std::shared_ptr<CollisionGroundMovementManager> m_ground_movement_manager;
 
 private:
   CollisionObject(const CollisionObject&) = delete;

@@ -84,7 +84,7 @@ FlyingSnowBall::active_update(float dt_sec)
   targetHgt = targetHgt * 100.f + m_start_position.y;
   m_physic.set_velocity_y(targetHgt - get_pos().y);
 
-  m_col.m_movement=m_physic.get_movement(1.f);
+  m_col.set_movement(m_physic.get_movement(1.f));
 
   auto player = get_nearest_player();
   if (player) {
@@ -103,7 +103,7 @@ FlyingSnowBall::active_update(float dt_sec)
                                            LAYER_OBJECTS-1);
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
   }
-  
+
 }
 
 /* EOF */

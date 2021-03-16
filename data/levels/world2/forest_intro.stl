@@ -28,6 +28,7 @@
     )
     (scripttrigger
       (script "Tux.deactivate();
+start_cutscene();
 Effect.sixteen_to_nine(0);
 Tux.walk(150);
 Effect.fade_in(1.5);
@@ -56,6 +57,7 @@ Text.fade_out(1);
 wait(4);
 Effect.fade_out(2);
 wait(3.5);
+end_cutscene();
 Level.finish(true);")
       (button #f)
       (width 96)

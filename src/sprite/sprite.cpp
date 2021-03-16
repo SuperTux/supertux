@@ -79,8 +79,7 @@ Sprite::set_action(const std::string& name, int loops)
   // we prefer that over the parameter.
   m_animation_loops = newaction->has_custom_loops ? newaction->loops : loops;
 
-  // Only reset the frames if both actions don't have the same family name
-  if (m_action->family_name != newaction->family_name)
+  if (!m_action || m_action->family_name != newaction->family_name)
   {
     m_frame = 0;
     m_frameidx = 0;

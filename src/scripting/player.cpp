@@ -203,6 +203,27 @@ Player::has_grabbed(const std::string& name) const
   return object.has_grabbed(name);
 }
 
+float 
+Player::get_x() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_bbox().get_left();
+}
+
+float 
+Player::get_y() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_bbox().get_top();
+}
+
+void 
+Player::set_pos(float x, float y)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_pos(Vector(x, y));
+}
+
 } // namespace scripting
 
 /* EOF */

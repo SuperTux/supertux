@@ -1,8 +1,6 @@
 # SuperTux
 
 [![Build](https://github.com/SuperTux/supertux/workflows/main/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%3Amain)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/k9jaduxvftlhgmhp/branch/master?svg=true)](https://ci.appveyor.com/project/supertux/supertux-o8t59/branch/master)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 
 SuperTux is a jump'n'run game with strong inspiration from the
@@ -56,8 +54,6 @@ Please see them:
 * `LICENSE.txt` - The GNU General Public License, under whose terms SuperTux is
 licensed. (Most of the data subdirectory is also licensed under
 CC-by-SA)
-* `docs/levelguidelines.txt` - Very useful information for those that want to
-design levels for SuperTux.
 * `data/credits.stxt` - Credits for people that contributed to the creation of
 SuperTux. (You can view these in the game menu as well.)
 
@@ -102,7 +98,7 @@ In case you need help, feel free to reach out using the following means:
   active at the moment.
 * **Social Media:** Mostly on [Twitter](https://twitter.com/supertux_team) at
   the moment.
-* **Discord:** Also, you can join our Discord server (https://discord.com/invite/AcvtHWz) to get in touch with us.
+* **Discord:** Also, you can join our [Discord server](https://discord.com/invite/AcvtHWz) to get in touch with us.
 
 ## Development status
 

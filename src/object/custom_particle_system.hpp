@@ -30,6 +30,7 @@ class CustomParticleSystem :
   public ExposedObject<CustomParticleSystem, scripting::CustomParticles>
 {
   friend class ParticleEditor;
+  friend class scripting::CustomParticles;
 public:
   CustomParticleSystem();
   CustomParticleSystem(const ReaderMapping& reader);
@@ -63,6 +64,15 @@ protected:
   CollisionHit get_collision(Particle* particle, const Vector& movement);
 
 private:
+  struct ease_request
+  {
+    float* value;
+    float begin;
+    float end;
+    float time_total;
+    float time_remain;
+    easing func;
+  };
 
   // Local
   void add_particle(float lifetime, float x, float y);
@@ -79,8 +89,11 @@ private:
 public:
   // Scripting
   void clear() { custom_particles.clear(); }
+  void ease_value(float* value, float target, float time, easing func);
 
 private:
+  std::vector<ease_request> script_easings;
+
   enum class RotationMode {
     Fixed,
     Facing,

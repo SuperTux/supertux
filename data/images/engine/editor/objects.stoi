@@ -14,7 +14,7 @@
     (icon "images/creatures/snowman/smwalk1.png"))
   (object
     (class "bouncingsnowball")
-    (icon "images/creatures/bouncing_snowball/bs4.png"))
+    (icon "images/creatures/bouncing_snowball/bouncing_snowball-editor.png"))
   (object
     (class "captainsnowball")
     (icon "images/creatures/snowball/captain-left-1.png"))
@@ -23,7 +23,7 @@
     (icon "images/creatures/flying_snowball/left-0.png"))
   (object
     (class "kamikazesnowball")
-    (icon "images/creatures/snowball/ks1.png"))
+    (icon "images/creatures/snowball/kamikaze-snowball-editor.png"))
   (object
     (class "mrbomb")
     (icon "images/creatures/mr_bomb/bomb1.png"))
@@ -35,7 +35,7 @@
     (icon "images/creatures/haywire/hw1.png"))
   (object
     (class "short_fuse")
-    (icon "images/creatures/short_fuse/sf1.png"))
+    (icon "images/creatures/short_fuse/shortfuse-editor.png"))
   (object
     (class "mriceblock")
     (icon "images/creatures/mr_iceblock/iceblock-1.png"))
@@ -122,7 +122,7 @@
     (icon "images/creatures/spidermite/spidermite1.png"))
   (object
     (class "walking_candle")
-    (icon "images/creatures/mr_candle/c1.png"))
+    (icon "images/creatures/mr_candle/mrcandle-editor.png"))
   (object
     (class "toad")
     (icon "images/creatures/toad/toad-idle-0.png"))

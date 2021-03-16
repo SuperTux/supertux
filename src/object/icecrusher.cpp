@@ -296,7 +296,7 @@ IceCrusher::update(float dt_sec)
 
   switch (state) {
     case IDLE:
-      m_col.m_movement = Vector (0, 0);
+      m_col.set_movement(Vector (0, 0));
       if (found_victim_down() && !sideways)
         set_state(CRUSHING);
 		  if (found_victim_right() && sideways)
@@ -305,22 +305,34 @@ IceCrusher::update(float dt_sec)
         set_state(CRUSHING_LEFT);
       break;
     case CRUSHING:
-      m_col.m_movement = physic.get_movement (dt_sec);
-      if (m_col.m_movement.y > MAX_DROP_SPEED)
-        m_col.m_movement.y = MAX_DROP_SPEED;
+      {
+        Vector movement = physic.get_movement(dt_sec);
+        if (movement.y > MAX_DROP_SPEED)
+          movement.y = MAX_DROP_SPEED;
+        m_col.set_movement(movement);
+        m_col.propagate_movement(movement);
+      }
       break;
 	  case CRUSHING_RIGHT:
-	    m_col.m_movement = physic.get_movement(dt_sec);
-	    physic.set_velocity_x((physic.get_velocity_x() + 10.f));
+      {
+        Vector movement = physic.get_movement(dt_sec);
+        m_col.set_movement(movement);
+        m_col.propagate_movement(movement);
+        physic.set_velocity_x((physic.get_velocity_x() + 10.f));
+      }
       break;
 	  case CRUSHING_LEFT:
-	    m_col.m_movement = physic.get_movement(dt_sec);
-	    physic.set_velocity_x((physic.get_velocity_x() - 10.f));
+      {
+        Vector movement = physic.get_movement(dt_sec);
+        m_col.set_movement(movement);
+        m_col.propagate_movement(movement);
+        physic.set_velocity_x((physic.get_velocity_x() - 10.f));
+      }
       break;
     case RECOVERING:
       if (m_col.m_bbox.get_top() <= start_position.y+1) {
         set_pos(start_position);
-        m_col.m_movement = Vector (0, 0);
+        m_col.set_movement(Vector (0, 0));
         if (ic_size == LARGE)
           cooldown_timer = PAUSE_TIME_LARGE;
         else
@@ -328,16 +340,15 @@ IceCrusher::update(float dt_sec)
         set_state(IDLE);
       }
       else {
-        if (ic_size == LARGE)
-          m_col.m_movement = Vector (0, RECOVER_SPEED_LARGE);
-        else
-          m_col.m_movement = Vector (0, RECOVER_SPEED_NORMAL);
+        Vector movement(0, (ic_size == LARGE ? RECOVER_SPEED_LARGE : RECOVER_SPEED_NORMAL));
+        m_col.set_movement(movement);
+        m_col.propagate_movement(movement);
       }
       break;
 	  case RECOVERING_RIGHT:
       if (m_col.m_bbox.get_left() <= start_position.x+1) {
         set_pos(start_position);
-        m_col.m_movement = Vector (0, 0);
+        m_col.set_movement(Vector (0, 0));
         if (ic_size == LARGE)
           cooldown_timer = PAUSE_TIME_LARGE;
         else
@@ -345,13 +356,14 @@ IceCrusher::update(float dt_sec)
         set_state(IDLE);
       }
       else {
-          m_col.m_movement = Vector (RECOVER_SPEED_LARGE, 0);
+        m_col.set_movement(Vector(RECOVER_SPEED_LARGE, 0));
+        m_col.propagate_movement(Vector(RECOVER_SPEED_LARGE, 0));
       }
       break;
 	  case RECOVERING_LEFT:
       if (m_col.m_bbox.get_left() >= start_position.x-1) {
         set_pos(start_position);
-        m_col.m_movement = Vector (0, 0);
+        m_col.set_movement(Vector (0, 0));
         if (ic_size == LARGE)
           cooldown_timer = PAUSE_TIME_LARGE;
         else
@@ -359,7 +371,8 @@ IceCrusher::update(float dt_sec)
         set_state(IDLE);
       }
       else {
-          m_col.m_movement = Vector (-RECOVER_SPEED_LARGE, 0);
+        m_col.set_movement(Vector(-RECOVER_SPEED_LARGE, 0));
+        m_col.propagate_movement(Vector(-RECOVER_SPEED_LARGE, 0));
       }
       break;
     default:

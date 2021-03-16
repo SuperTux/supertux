@@ -6,7 +6,12 @@
 # For more information, see http://appimage.org/
 ########################################################################
 
-export ARCH=$(arch)
+
+if [ $ARCH = '64' ]; then
+  export ARCH='x86_64';
+elif [ $ARCH = '32' ]; then
+  export ARCH='i386';
+fi
 
 APP=SuperTux
 LOWERAPP=supertux2

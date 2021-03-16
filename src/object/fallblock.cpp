@@ -35,7 +35,7 @@ FallBlock::FallBlock(const ReaderMapping& reader) :
 	SoundManager::current()->preload("sounds/thud.ogg");
 	physic.enable_gravity(false);
 }
-  
+
 void
 FallBlock::update(float dt_sec)
 {
@@ -59,11 +59,11 @@ FallBlock::update(float dt_sec)
       }
       break;
     case FALL:
-      m_col.m_movement = physic.get_movement (dt_sec);
+      m_col.set_movement(physic.get_movement (dt_sec));
       set_group(COLGROUP_MOVING_STATIC);
       break;
     case LAND:
-      m_col.m_movement = physic.get_movement (dt_sec);
+      m_col.set_movement(physic.get_movement (dt_sec));
 	    set_group(COLGROUP_MOVING_STATIC);
       break;
   }
@@ -136,7 +136,7 @@ FallBlock::draw(DrawingContext& context)
 {
   Vector pos = get_pos();
   // shaking
-  if (state == SHAKE && state != IDLE && state != FALL && state != LAND)
+  if (state == SHAKE)
   {
     pos.x += static_cast<float>(graphicsRandom.rand(-8.0f, 8.0f));
 	  pos.y += static_cast<float>(graphicsRandom.rand(-5.0f, 5.0f));

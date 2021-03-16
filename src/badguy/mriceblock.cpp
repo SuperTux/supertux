@@ -261,7 +261,7 @@ void
 MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
-  m_col.m_movement = pos - get_pos();
+  m_col.set_movement(pos - get_pos());
   m_dir = dir_;
   set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   set_state(ICESTATE_GRABBED);

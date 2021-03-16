@@ -103,7 +103,7 @@ Wind::update(float dt_sec_)
     // emit a particle
 	  if (fancy_wind)
     {
-	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (abs(speed.x) > abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1); 
+	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1); 
 	  }
 	  else
     {

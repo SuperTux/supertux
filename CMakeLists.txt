@@ -164,9 +164,24 @@ if(WIN32)
   endif(VCPKG_BUILD)
 
 else(WIN32)
-  include(FindPkgConfig)
-  pkg_search_module(SDL2 REQUIRED sdl2>=2.0.1)
-  pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+
+  if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+    # 32-bit
+    find_library(SDL2_LIBRARIES SDL2)
+    find_library(SDL2IMAGE_LIBRARIES SDL2_image)
+    find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
+    find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
+    set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
+    set(SDL2IMAGE_INCLUDE_DIRS ${SDL2IMAGE_INCLUDE_DIRS}/SDL2)
+    message(STATUS "SDL LIBS: ${SDL2_LIBRARIES}")
+    message(STATUS "SDL INCL: ${SDL2_INCLUDE_DIRS}")
+  else()
+    # 64-bit
+    include(FindPkgConfig)
+    pkg_search_module(SDL2 REQUIRED sdl2>=2.0.1)
+    pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
+  endif()
+
 endif(WIN32)
 set(HAVE_SDL TRUE)
 
@@ -512,14 +527,14 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL_SavePNG/)
 # Discord SDK
 # Before removing messages, please check with the community if no one minds that the Discord SDK gets bundled with ST.
 # Some privay-concerned users or free software package managers might need an option to compile ST without the Discord integration.
-option(ENABLE_DISCORD "Compile the Discord integration" ON)
+option(ENABLE_DISCORD "Compile the Discord integration" OFF)
 if(ENABLE_DISCORD)
   message(STATUS "Discord WILL be compiled. To disable Discord, pass -DENABLE_DISCORD=Off")
   include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/discord-sdk/include)
   set(BUILD_EXAMPLES OFF)
   add_subdirectory(external/discord-sdk)
 else(ENABLE_DISCORD)
-  message(STATUS "WARNING : Discord is NOT to be compiled. To enable Discord, pass -DENABLE_DISCORD=On")
+  message(STATUS "## WARNING : Discord integration will NOT be compiled. To enable Discord, pass -DENABLE_DISCORD=On")
 endif(ENABLE_DISCORD)
 
 if(WIN32)
@@ -922,6 +937,7 @@ endif()
 
 ## Install stuff
 
+option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
 option(DISABLE_CPACK_BUNDLING "Build an .app bundle without CPack" OFF)
 if(WIN32 AND NOT UNIX)
 
@@ -965,17 +981,28 @@ else(WIN32 AND NOT UNIX)
     set(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
     set(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
 
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
+    if(UBUNTU_TOUCH)
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION ".")
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/mk/ubports/supertux2.apparmor DESTINATION ".")
+      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/ubports/manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/install/manifest.json)
+      set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/supertux2")
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "assets")
+    else(UBUNTU_TOUCH)
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
+      set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
+    endif(UBUNTU_TOUCH)
 
-    set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
-
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
 
   endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 endif(WIN32 AND NOT UNIX)
 
-install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
+if(UBUNTU_TOUCH)
+  install(TARGETS supertux2 DESTINATION ".")
+else(UBUNTU_TOUCH)
+  install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
+endif(UBUNTU_TOUCH)
 
 if(WIN32)
   get_property(SQUIRREL_LIB_PATH TARGET squirrel_lib PROPERTY IMPORTED_LOCATION)

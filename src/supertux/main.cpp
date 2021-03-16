@@ -364,7 +364,7 @@ Main::init_video()
   SDLSurfacePtr icon = SDLSurface::from_file(icon_fname);
   VideoSystem::current()->set_icon(*icon);
 
-  SDL_ShowCursor(0);
+  SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
 
   log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
            << " Window: "     << g_config->window_size
@@ -561,12 +561,13 @@ Main::run(int argc, char** argv)
 	std::string errpath = prefpath + u8"/console.err";
 	std::wstring w_errpath = converter.from_bytes(errpath);
 	_wfreopen(w_errpath.c_str(), L"a", stderr);
-#endif
 
   // Create and install global locale - this can fail on some situations:
   // - with bad values for env vars (LANG, LC_ALL, ...)
   // - targets where libstdc++ uses its generic locales code (https://gcc.gnu.org/legacy-ml/libstdc++/2003-02/msg00345.html)
   // NOTE: when moving to C++ >= 17, keep the try-catch block, but use std::locale:global(std::locale(""));
+  //
+  // This should not be necessary on *nix, so only try it on Windows.
   try
   {
     std::locale::global(boost::locale::generator().generate(""));
@@ -577,6 +578,7 @@ Main::run(int argc, char** argv)
   {
     std::cout << "Warning: " << err.what() << std::endl;
   }
+#endif
 
   int result = 0;
 
@@ -617,6 +619,10 @@ Main::run(int argc, char** argv)
 
       case CommandLineArguments::PRINT_DATADIR:
         args.print_datadir();
+        return 0;
+
+      case CommandLineArguments::PRINT_ACKNOWLEDGEMENTS:
+        args.print_acknowledgements();
         return 0;
 
       default:

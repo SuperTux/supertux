@@ -45,6 +45,7 @@ CustomParticleSystem::CustomParticleSystem() :
   ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
+  script_easings(),
   m_textures(),
   custom_particles(),
   m_particle_main_texture("/images/engine/editor/sparkle.png"),
@@ -88,6 +89,7 @@ CustomParticleSystem::CustomParticleSystem(const ReaderMapping& reader) :
   ExposedObject<CustomParticleSystem, scripting::CustomParticles>(this),
   texture_sum_odds(0.f),
   time_last_remaining(0.f),
+  script_easings(),
   m_textures(),
   custom_particles(),
   m_particle_main_texture("/images/engine/editor/sparkle.png"),
@@ -538,6 +540,23 @@ CustomParticleSystem::update(float dt_sec)
   // "enabled" being false only means new particles shouldn't spawn;
   //  update the already existing particles regardless, if any
 
+  // Handle easings
+  for (auto& req : script_easings)
+  {
+    req.time_remain -= dt_sec;
+    if (req.time_remain <= 0)
+    {
+      req.time_remain = 0;
+      *(req.value) = req.end;
+    }
+    else
+    {
+      float progress = 1.f - (req.time_remain / req.time_total);
+      progress = static_cast<float>(req.func(static_cast<double>(progress)));
+      *(req.value) = req.begin + progress * (req.end - req.begin);
+    }
+  }
+
   // Update existing particles
   for (auto& it : custom_particles) {
     auto particle = dynamic_cast<CustomParticle*>(it.get());
@@ -720,8 +739,8 @@ CustomParticleSystem::update(float dt_sec)
           {
             auto c = get_collision(particle, Vector(particle->speedX, particle->speedY) * dt_sec);
 
-            float speed_angle = atan(-particle->speedY / particle->speedX);
-            float face_angle = atan(c.slope_normal.y / c.slope_normal.x);
+            float speed_angle = atanf(-particle->speedY / particle->speedX);
+            float face_angle = atanf(c.slope_normal.y / c.slope_normal.x);
             if (c.slope_normal.x == 0.f && c.slope_normal.y == 0.f) {
               auto cX = get_collision(particle, Vector(particle->speedX, 0) * dt_sec);
               if (cX.left != cX.right)
@@ -731,8 +750,8 @@ CustomParticleSystem::update(float dt_sec)
                 particle->speedY *= -1;
             } else {
               float dest_angle = face_angle * 2.f - speed_angle; // Reflect the angle around face_angle
-              float dX = cos(dest_angle),
-                    dY = sin(dest_angle);
+              float dX = cosf(dest_angle),
+                    dY = sinf(dest_angle);
 
               float true_speed = static_cast<float>(sqrt(pow(particle->speedY, 2)
                                                       + pow(particle->speedX, 2)));
@@ -772,7 +791,7 @@ CustomParticleSystem::update(float dt_sec)
 
       switch(particle->angle_mode) {
       case RotationMode::Facing:
-        particle->angle = atan(particle->speedY / particle->speedX) * 180.f / math::PI;
+        particle->angle = atanf(particle->speedY / particle->speedX) * 180.f / math::PI;
         break;
       case RotationMode::Wiggling:
         particle->angle += graphicsRandom.randf(-particle->angle_speed / 2.f,
@@ -1206,6 +1225,19 @@ CustomParticleSystem::spawn_particles(float lifetime)
 
 // SCRIPTING
 
+void
+CustomParticleSystem::ease_value(float* value, float target, float time, easing func) {
+  assert(value);
 
+  ease_request req;
+  req.value = value;
+  req.begin = *value;
+  req.end = target;
+  req.time_total = time;
+  req.time_remain = time;
+  req.func = func;
+
+  script_easings.push_back(req);
+}
 
 /* EOF */
