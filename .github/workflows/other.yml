@@ -78,7 +78,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: ["", "--debug"]
+        build_type: [Debug, Release]
         arch: [amd64, arm64, armhf, i386]
 
     runs-on: ubuntu-20.04
