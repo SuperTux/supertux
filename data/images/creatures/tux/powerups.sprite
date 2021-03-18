@@ -160,6 +160,7 @@
          (images "fire/hat/swim-0.png"
                  "fire/hat/swim-1.png"
                  "fire/hat/swim-2.png"
+                 "fire/hat/swim-3.png"
                  "fire/hat/swim-4.png"))
 
        (action
