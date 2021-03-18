@@ -20,6 +20,7 @@
 
 #include <memory>
 
+#include "control/mobile_controller.hpp"
 #include "squirrel/squirrel_thread_queue.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
@@ -68,6 +69,7 @@ private:
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
   std::unique_ptr<ControllerHUD> m_controller_hud;
+  MobileController m_mobile_controller;
 
   float m_speed;
   struct Action

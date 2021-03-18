@@ -43,6 +43,7 @@ class MouseCursor final : public Currenton<MouseCursor>
 public:
   static MouseCursor* current() { return current_; }
   static void set_current(MouseCursor* pcursor) { current_ = pcursor; }
+  void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
 
 private:
   static MouseCursor* current_;
@@ -63,6 +64,8 @@ private:
   MouseCursorState m_applied_state;
   SpritePtr m_sprite;
   SurfacePtr m_icon;
+  int m_x, m_y;
+  bool m_mobile_mode;
 
 private:
   MouseCursor(const MouseCursor&) = delete;

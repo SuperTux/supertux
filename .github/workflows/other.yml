@@ -75,13 +75,11 @@ jobs:
             ./test_supertux2
 
   ubports:
-
     strategy:
       fail-fast: false
       matrix:
         build_type: ["", "--debug"]
-        arch: [amd64]
-        # TODO: Build for arm64 and armhf
+        arch: [amd64, arm64, armhf, i386]
 
     runs-on: ubuntu-20.04
     steps:
@@ -100,7 +98,7 @@ jobs:
           pip3 install --user --upgrade clickable-ut
       - name: Build
         env:
-          BUILD_TYPE: ${{ matrix.build_type }}
+          BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
         run: |
           # Clickable requires a reboot/logout. This is a sneaky way to bypass that :^)

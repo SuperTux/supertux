@@ -33,4 +33,6 @@
 
 #cmakedefine ENABLE_DISCORD
 
+#cmakedefine UBUNTU_TOUCH
+
 #endif /*CONFIG_H*/

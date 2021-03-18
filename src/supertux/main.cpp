@@ -328,7 +328,11 @@ class SDLSubsystem final
 public:
   SDLSubsystem()
   {
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
+    Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO;
+#ifndef UBUNTU_TOUCH
+    flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+#endif
+    if (SDL_Init(flags) < 0)
     {
       std::stringstream msg;
       msg << "Couldn't initialize SDL: " << SDL_GetError();

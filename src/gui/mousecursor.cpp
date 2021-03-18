@@ -33,7 +33,10 @@ MouseCursor::MouseCursor(SpritePtr sprite) :
   m_state(MouseCursorState::NORMAL),
   m_applied_state(MouseCursorState::HIDE),
   m_sprite(std::move(sprite)),
-  m_icon()
+  m_icon(),
+  m_x(),
+  m_y(),
+  m_mobile_mode(false)
 {
 }
 
@@ -84,6 +87,12 @@ MouseCursor::draw(DrawingContext& context)
   {
     int x, y;
     Uint32 ispressed = SDL_GetMouseState(&x, &y);
+
+    if (m_mobile_mode)
+    {
+      x = m_x;
+      y = m_y;
+    }
 
     if (ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2))
     {
