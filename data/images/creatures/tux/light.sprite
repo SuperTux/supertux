@@ -129,5 +129,34 @@
          (name "earth-buttjump-left")
          (hitbox 516 134 32 64)
          (mirror-action "earth-buttjump-right"))
+		
+       (action
+         (name "earth-swimming-right")
+         (hitbox 516 334 32 64)
+         (images "earth/light/swimlightright.png"))
 
+       (action
+         (name "earth-swimming-left")
+         (hitbox 516 334 32 64)
+         (images "earth/light/swimlightleft.png"))
+		 
+       (action
+         (name "earth-floating-right")
+         (hitbox 516 334 32 64)
+         (images "earth/light/swimlightright.png"))
+
+       (action
+         (name "earth-floating-left")
+         (hitbox 516 334 32 64)
+         (images "earth/light/swimlightleft.png"))
+		 
+       (action
+         (name "earth-swimjump-right")
+         (hitbox 516 334 32 64)
+         (images "earth/light/swimlightright.png"))
+
+       (action
+         (name "earth-swimjump-left")
+         (hitbox 516 334 32 64)
+         (images "earth/light/swimlightleft.png"))
 )
