@@ -23,6 +23,7 @@
 #include "math/vector.hpp"
 #include "control/controller.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 // Util to automatically put rectangles in their corners
 static Rectf apply_corner(const Rectf& rect, int screen_width, int screen_height)
@@ -51,6 +52,16 @@ MobileController::MobileController() :
   m_rect_jump(-160.f, -80.f, -96.f, -16.f),
   m_rect_action(-80.f, -80.f, -16.f, -16.f),
   m_rect_escape(16.f, 16.f, 64.f, 64.f),
+  m_tex_dirs(Surface::from_file("/images/engine/mobile/direction.png")),
+  m_tex_btn(Surface::from_file("/images/engine/mobile/button.png")),
+  m_tex_btn_press(Surface::from_file("/images/engine/mobile/button_press.png")),
+  m_tex_pause(Surface::from_file("/images/engine/mobile/pause.png")),
+  m_tex_up(Surface::from_file("/images/engine/mobile/direction_hightlight_up.png")),
+  m_tex_dwn(Surface::from_file("/images/engine/mobile/direction_hightlight_down.png")),
+  m_tex_lft(Surface::from_file("/images/engine/mobile/direction_hightlight_left.png")),
+  m_tex_rgt(Surface::from_file("/images/engine/mobile/direction_hightlight_right.png")),
+  m_tex_jump(Surface::from_file("/images/engine/mobile/jump.png")),
+  m_tex_action(Surface::from_file("/images/engine/mobile/action.png")),
   m_screen_width(),
   m_screen_height()
 {
@@ -62,10 +73,24 @@ MobileController::draw(DrawingContext& context)
   m_screen_width = context.get_width();
   m_screen_height = context.get_height();
 
-  context.color().draw_filled_rect(apply_corner(m_rect_directions, m_screen_width, m_screen_height), Color(m_left, m_down, m_right), 999.f, 1650);
-  context.color().draw_filled_rect(apply_corner(m_rect_action, m_screen_width, m_screen_height), m_action ? Color::WHITE : Color::BLACK, 1650);
-  context.color().draw_filled_rect(apply_corner(m_rect_jump, m_screen_width, m_screen_height), m_jump ? Color::WHITE : Color::BLACK, 1650);
-  context.color().draw_filled_rect(apply_corner(m_rect_escape, m_screen_width, m_screen_height), m_escape ? Color::WHITE : Color::BLACK, 999.f, 1650);
+  context.color().draw_surface_scaled(m_tex_dirs, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1650);
+
+  if (m_up)
+    context.color().draw_surface_scaled(m_tex_up, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1651);
+  if (m_down)
+    context.color().draw_surface_scaled(m_tex_dwn, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1651);
+  if (m_left)
+    context.color().draw_surface_scaled(m_tex_lft, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1651);
+  if (m_right)
+    context.color().draw_surface_scaled(m_tex_rgt, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1651);
+
+  context.color().draw_surface_scaled(m_action ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_action, m_screen_width, m_screen_height), 1650);
+  context.color().draw_surface_scaled(m_tex_action, apply_corner(m_rect_action, m_screen_width, m_screen_height), 1651);
+
+  context.color().draw_surface_scaled(m_jump ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_jump, m_screen_width, m_screen_height), 1650);
+  context.color().draw_surface_scaled(m_tex_jump, apply_corner(m_rect_jump, m_screen_width, m_screen_height), 1651);
+
+  context.color().draw_surface_scaled(m_tex_pause, apply_corner(m_rect_escape, m_screen_width, m_screen_height), 1650);
 }
 
 void
@@ -84,6 +109,12 @@ MobileController::update()
     throw new std::runtime_error("Error getting touchscreen info: " + std::string(SDL_GetError()));
 
   int num_touches = SDL_GetNumTouchFingers(device);
+
+  // FIXME: There's some weird problem with the escape button specifically, which
+  // I had to patch a weird way. If someone in the future finds a fix to handle
+  // escaping on mobile properly, don't forget to remove those lines.
+  if (num_touches == 0)
+    m_old_escape = false;
 
   for (int i = 0; i < num_touches; i++)
   {

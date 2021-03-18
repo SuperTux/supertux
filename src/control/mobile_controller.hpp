@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_CONTROL_MOBILE_CONTROLLER_HPP
 
 #include "math/rectf.hpp"
+#include "video/surface_ptr.hpp"
 
 class Controller;
 class DrawingContext;
@@ -38,6 +39,9 @@ private:
   bool m_jump, m_action, m_escape, m_old_escape;
 
   const Rectf m_rect_directions, m_rect_jump, m_rect_action, m_rect_escape;
+  const SurfacePtr m_tex_dirs, m_tex_btn, m_tex_btn_press, m_tex_pause,
+                   m_tex_up, m_tex_dwn, m_tex_lft, m_tex_rgt,
+                   m_tex_jump, m_tex_action;
 
   int m_screen_width, m_screen_height;
 
