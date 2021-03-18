@@ -1123,7 +1123,8 @@ Player::handle_input()
     {
       Vector pos = get_pos() + ((m_dir == Direction::LEFT)? Vector(0, m_col.m_bbox.get_height()/2) : Vector(32, m_col.m_bbox.get_height()/2));
       Direction swim_dir;
-      swim_dir = (m_physic.get_velocity_x() < 0) ? Direction::LEFT : Direction::RIGHT;
+      swim_dir = ((std::abs(m_swimming_angle) <= math::PI_2)
+        || (m_water_jump && std::abs(m_physic.get_velocity_x()) < 10.f)) ? Direction::RIGHT : Direction::LEFT;
       if (m_swimming || m_water_jump)
         Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), swim_dir, m_player_status.bonus);
       else
