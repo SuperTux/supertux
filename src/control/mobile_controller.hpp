@@ -35,7 +35,7 @@ private:
 
 private:
   bool m_up, m_down, m_left, m_right;
-  bool m_jump, m_action, m_escape;
+  bool m_jump, m_action, m_escape, m_old_escape;
 
   const Rectf m_rect_directions, m_rect_jump, m_rect_action, m_rect_escape;
 

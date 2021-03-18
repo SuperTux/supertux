@@ -25,7 +25,7 @@
 #include "video/drawing_context.hpp"
 
 // Util to automatically put rectangles in their corners
-Rectf apply_corner(const Rectf& rect, int screen_width, int screen_height)
+static Rectf apply_corner(const Rectf& rect, int screen_width, int screen_height)
 {
   Rectf r = rect;
 
@@ -46,10 +46,11 @@ MobileController::MobileController() :
   m_jump(false),
   m_action(false),
   m_escape(false),
+  m_old_escape(false),
   m_rect_directions(16.f, -144.f, 144.f, -16.f),
   m_rect_jump(-160.f, -80.f, -96.f, -16.f),
   m_rect_action(-80.f, -80.f, -16.f, -16.f),
-  m_rect_escape(16.f, 16.f, 48.f, 48.f),
+  m_rect_escape(16.f, 16.f, 64.f, 64.f),
   m_screen_width(),
   m_screen_height()
 {
@@ -118,8 +119,19 @@ MobileController::activate_widget_at_pos(float x, float y)
   if (apply_corner(m_rect_action, m_screen_width, m_screen_height).contains(pos))
     m_action = true;
 
+  // FIXME: Why do I need an extra variable (m_old_escape) just for this one?
+  // Without it, pressing escape will toggle pressed() (not hold(), pressed())
+  // every single frame, apparently
   if (apply_corner(m_rect_escape, m_screen_width, m_screen_height).contains(pos))
-    m_escape = true;
+  {
+    if (!m_old_escape)
+      m_escape = true;
+    m_old_escape = true;
+  }
+  else
+  {
+    m_old_escape = false;
+  }
 
   Rectf applied = apply_corner(m_rect_directions, m_screen_width, m_screen_height);
   Rectf up = applied;
