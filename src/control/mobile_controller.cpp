@@ -90,7 +90,8 @@ MobileController::draw(DrawingContext& context)
   context.color().draw_surface_scaled(m_jump ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_jump, m_screen_width, m_screen_height), 1650);
   context.color().draw_surface_scaled(m_tex_jump, apply_corner(m_rect_jump, m_screen_width, m_screen_height), 1651);
 
-  context.color().draw_surface_scaled(m_tex_pause, apply_corner(m_rect_escape, m_screen_width, m_screen_height), 1650);
+  context.color().draw_surface_scaled(m_old_escape ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_escape, m_screen_width, m_screen_height), 1650);
+  context.color().draw_surface_scaled(m_tex_pause, apply_corner(m_rect_escape, m_screen_width, m_screen_height).grown(-8.f), 1650);
 }
 
 void
