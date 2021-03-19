@@ -20,8 +20,10 @@
 
 #include "SDL.h"
 
-#include "math/vector.hpp"
 #include "control/controller.hpp"
+#include "math/vector.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/gameconfig.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
@@ -70,6 +72,9 @@ MobileController::MobileController() :
 void
 MobileController::draw(DrawingContext& context)
 {
+  if (!g_config->mobile_controls)
+    return;
+
   m_screen_width = context.get_width();
   m_screen_height = context.get_height();
 
@@ -97,6 +102,9 @@ MobileController::draw(DrawingContext& context)
 void
 MobileController::update()
 {
+  if (!g_config->mobile_controls)
+    return;
+
   m_up = m_down = m_left = m_right = m_jump = m_action = m_escape = false;
 
   // FIXME: This assumes that 1) there is only one touchscreen and 2) SuperTux
@@ -131,18 +139,24 @@ MobileController::update()
 void
 MobileController::apply(Controller& controller) const
 {
-  controller.set_control(Control::UP,     m_up    );
-  controller.set_control(Control::DOWN,   m_down  );
-  controller.set_control(Control::LEFT,   m_left  );
-  controller.set_control(Control::RIGHT,  m_right );
-  controller.set_control(Control::JUMP,   m_jump  );
-  controller.set_control(Control::ACTION, m_action);
-  controller.set_control(Control::ESCAPE, m_escape);
+  if (!g_config->mobile_controls)
+    return;
+
+  controller.set_control(Control::UP,     m_up     || controller.hold(Control::UP));
+  controller.set_control(Control::DOWN,   m_down   || controller.hold(Control::DOWN));
+  controller.set_control(Control::LEFT,   m_left   || controller.hold(Control::LEFT));
+  controller.set_control(Control::RIGHT,  m_right  || controller.hold(Control::RIGHT));
+  controller.set_control(Control::JUMP,   m_jump   || controller.hold(Control::JUMP));
+  controller.set_control(Control::ACTION, m_action || controller.hold(Control::ACTION));
+  controller.set_control(Control::ESCAPE, m_escape || controller.hold(Control::ESCAPE));
 }
 
 void
 MobileController::activate_widget_at_pos(float x, float y)
 {
+  if (!g_config->mobile_controls)
+    return;
+
   Vector pos(x, y);
 
   if (apply_corner(m_rect_jump, m_screen_width, m_screen_height).contains(pos))

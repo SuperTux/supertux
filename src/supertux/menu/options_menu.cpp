@@ -64,7 +64,8 @@ enum OptionsMenuIDs {
   MNID_TRANSITIONS,
   MNID_CONFIRMATION_DIALOG,
   MNID_PAUSE_ON_FOCUSLOSS,
-  MNID_CUSTOM_CURSOR
+  MNID_CUSTOM_CURSOR,
+  MNID_MOBILE_CONTROLS
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -384,14 +385,16 @@ OptionsMenu::OptionsMenu(bool complete) :
     add_inactive( _("Music (disabled)"));
   }
 
-#ifndef UBUNTU_TOUCH
   add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
     .set_help(_("Configure key-action mappings"));
 
+#ifndef UBUNTU_TOUCH
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
     .set_help(_("Configure joystick control-action mappings"));
+#else
+  add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)
+      .set_help(_("Toggle on-screen controls for mobile devices"));
 #endif
-
   MenuItem& enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
   enable_transitions.set_help(_("Enable screen transitions and smooth menu animation"));
 

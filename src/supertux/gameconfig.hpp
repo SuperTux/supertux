@@ -85,6 +85,8 @@ public:
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
 
+  bool mobile_controls;
+
   struct Addon
   {
     std::string id;

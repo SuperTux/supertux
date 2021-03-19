@@ -51,6 +51,11 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
+#ifdef UBUNTU_TOUCH
+  mobile_controls(true),
+#else
+  mobile_controls(false),
+#endif
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -169,6 +174,8 @@ Config::load()
     {
       joystick_config.read(*joystick_mapping);
     }
+
+    config_video_mapping->get("mobile_controls", mobile_controls);
   }
 
   boost::optional<ReaderCollection> config_addons_mapping;
@@ -272,6 +279,8 @@ Config::save()
     writer.start_list("joystick");
     joystick_config.write(writer);
     writer.end_list("joystick");
+
+    writer.write("mobile_controls", mobile_controls);
   }
   writer.end_list("control");
 

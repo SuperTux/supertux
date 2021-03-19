@@ -37,7 +37,8 @@
     "/usr/lib/${ARCH_TRIPLET}/libGLEW.so*",
     "/usr/lib/${ARCH_TRIPLET}/libharfbuzz.so*",
     "/usr/lib/${ARCH_TRIPLET}/libfribidi.so*",
-    "/usr/lib/${ARCH_TRIPLET}/libasound.so*"
+    "/usr/lib/${ARCH_TRIPLET}/libasound.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libsndio.so*"
   ],
   "build_args": [
     "-DUBUNTU_TOUCH=ON",
