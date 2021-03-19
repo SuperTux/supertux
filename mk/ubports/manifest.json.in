@@ -9,7 +9,7 @@
             "desktop":  "supertux2.desktop"
         }
     },
-    "version": "@SUPERTUX_VERSION_MAJOR@.@SUPERTUX_VERSION_MINOR@.@SUPERTUX_VERSION_PATCH@",
+    "version": "@SUPERTUX_VERSION_MAJOR@.@SUPERTUX_VERSION_MINOR@.@SUPERTUX_VERSION_PATCH@-@SUPERTUX_VERSION_BUILD@",
     "maintainer": "Semphris <semphris@protonmail.com>",
     "framework" : "@CLICK_FRAMEWORK@"
 }
