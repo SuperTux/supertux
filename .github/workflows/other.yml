@@ -75,13 +75,15 @@ jobs:
             ./test_supertux2
 
   ubports:
-
     strategy:
       fail-fast: false
       matrix:
-        build_type: ["", "--debug"]
-        arch: [amd64]
-        # TODO: Build for arm64 and armhf
+        build_type: [Debug, Release]
+        arch: [amd64, arm64, armhf]
+        exclude:
+          # For some reason, this specific build fails without any error message.
+        - build_type: Debug
+          arch: arm64
 
     runs-on: ubuntu-20.04
     steps:
@@ -100,13 +102,18 @@ jobs:
           pip3 install --user --upgrade clickable-ut
       - name: Build
         env:
-          BUILD_TYPE: ${{ matrix.build_type }}
+          BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
         run: |
           # Clickable requires a reboot/logout. This is a sneaky way to bypass that :^)
           sudo systemctl unmask docker.service
           sudo systemctl start docker.service
           ~/.local/bin/clickable --verbose ${BUILD_TYPE} --arch ${ARCH} --config mk/ubports/clickable.json build
+      - name: Publish to Open Store
+        if: ${{ github.ref == 'refs/head/master' && matrix.build_type == 'Release' }}
+        env:
+          OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
+        run: clickable publish --apikey ${OPENSTORE_KEY} --config mk/ubports/clickable.json 
       - uses: actions/upload-artifact@v2
         with:
           name: "ubports-${{ matrix.arch }}-${{ matrix.build_type }}-click"

@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 
+#include "config.h"
+
 #include "sprite/sprite_ptr.hpp"
 #include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
@@ -55,6 +57,10 @@ public:
   void set_state(MouseCursorState state);
   void set_icon(SurfacePtr icon);
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
+#endif
+
 private:
   void apply_state(MouseCursorState state);
 
@@ -62,6 +68,10 @@ private:
   MouseCursorState m_state;
   MouseCursorState m_applied_state;
   SpritePtr m_sprite;
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  int m_x, m_y;
+  bool m_mobile_mode;
+#endif
   SurfacePtr m_icon;
 
 private:
