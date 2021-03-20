@@ -20,6 +20,8 @@
 
 #include <memory>
 
+#include "config.h"
+
 #include "control/mobile_controller.hpp"
 #include "squirrel/squirrel_thread_queue.hpp"
 #include "supertux/screen.hpp"

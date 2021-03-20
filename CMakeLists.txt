@@ -124,6 +124,16 @@ if(WIN32)
   endif()
 endif(WIN32)
 
+# Detect mobile builds
+option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
+
+# Mobile builds
+if (UBUNTU_TOUCH)
+  option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" ON)
+else()
+  option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" OFF)
+endif()
+
 ## Add lots of dependencies to compiler switches
 
 set(Boost_ADDITIONAL_VERSIONS "1.41" "1.41.0")
@@ -937,15 +947,6 @@ if(BUILD_TESTS)
 endif()
 
 ## Install stuff
-
-option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
-
-# Mobile builds
-if (UBUNTU_TOUCH)
-  option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" ON)
-else()
-  option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" OFF)
-endif()
 
 option(DISABLE_CPACK_BUNDLING "Build an .app bundle without CPack" OFF)
 if(WIN32 AND NOT UNIX)
