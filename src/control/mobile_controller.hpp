@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_CONTROL_MOBILE_CONTROLLER_HPP
 #define HEADER_SUPERTUX_CONTROL_MOBILE_CONTROLLER_HPP
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+
 #include "math/rectf.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -49,6 +51,8 @@ private:
   MobileController(const MobileController&) = delete;
   MobileController& operator=(const MobileController&) = delete;
 };
+
+#endif
 
 #endif
 

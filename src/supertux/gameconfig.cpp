@@ -51,10 +51,8 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
-#ifdef UBUNTU_TOUCH
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   mobile_controls(true),
-#else
-  mobile_controls(false),
 #endif
   addons(),
   developer_mode(false),
@@ -143,7 +141,7 @@ Config::load()
     config_video_mapping->get("aspect_width",  aspect_size.width);
     config_video_mapping->get("aspect_height", aspect_size.height);
 
-#ifndef UBUNTU_TOUCH
+#ifndef ENABLE_TOUCHSCREEN_SUPPORT
     config_video_mapping->get("magnification", magnification);
 #else
     // TODO: Hardcoded; good idea?
@@ -175,7 +173,9 @@ Config::load()
       joystick_config.read(*joystick_mapping);
     }
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
     config_video_mapping->get("mobile_controls", mobile_controls);
+#endif
   }
 
   boost::optional<ReaderCollection> config_addons_mapping;
@@ -280,7 +280,9 @@ Config::save()
     joystick_config.write(writer);
     writer.end_list("joystick");
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
     writer.write("mobile_controls", mobile_controls);
+#endif
   }
   writer.end_list("control");
 

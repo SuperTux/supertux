@@ -52,7 +52,9 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   m_controller_hud(new ControllerHUD),
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   m_mobile_controller(),
+#endif
   m_speed(1.0),
   m_actions(),
   m_screen_fade(),
@@ -260,7 +262,9 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 
   Console::current()->draw(context);
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   m_mobile_controller.draw(context);
+#endif
 
   if (g_config->show_fps)
     draw_fps(context, fps_statistics);
@@ -282,8 +286,10 @@ ScreenManager::update_gamelogic(float dt_sec)
 {
   Controller& controller = m_input_manager.get_controller();
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   m_mobile_controller.update();
   m_mobile_controller.apply(controller);
+#endif
 
   SquirrelVirtualMachine::current()->update(g_game_time);
 
@@ -310,6 +316,7 @@ ScreenManager::process_events()
   auto session = GameSession::current();
   while (SDL_PollEvent(&event))
   {
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
     switch (event.type)
     {
       case SDL_FINGERDOWN:
@@ -353,7 +360,7 @@ ScreenManager::process_events()
         MouseCursor::current()->set_pos(event.motion.x, event.motion.y);
         break;
     }
-
+#endif
     m_input_manager.process_event(event);
 
     m_menu_manager->event(event);

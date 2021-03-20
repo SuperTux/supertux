@@ -64,8 +64,10 @@ enum OptionsMenuIDs {
   MNID_TRANSITIONS,
   MNID_CONFIRMATION_DIALOG,
   MNID_PAUSE_ON_FOCUSLOSS,
-  MNID_CUSTOM_CURSOR,
-  MNID_MOBILE_CONTROLS
+  MNID_CUSTOM_CURSOR
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  , MNID_MOBILE_CONTROLS
+#endif
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -341,7 +343,7 @@ OptionsMenu::OptionsMenu(bool complete) :
       .set_help(_("Select a profile to play with"));
   }
 
-#ifndef UBUNTU_TOUCH
+#ifndef ENABLE_TOUCHSCREEN_SUPPORT
   add_toggle(MNID_FULLSCREEN,_("Window Resizable"), &g_config->window_resizable)
     .set_help(_("Allow window resizing, might require a restart to take effect"));
 
@@ -361,7 +363,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
   vsync.set_help(_("Set the VSync mode"));
 
-#ifndef UBUNTU_TOUCH
+#ifndef ENABLE_TOUCHSCREEN_SUPPORT
   MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect.set_help(_("Adjust the aspect ratio"));
 #endif
@@ -391,7 +393,9 @@ OptionsMenu::OptionsMenu(bool complete) :
 #ifndef UBUNTU_TOUCH
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
     .set_help(_("Configure joystick control-action mappings"));
-#else
+#endif
+
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)
       .set_help(_("Toggle on-screen controls for mobile devices"));
 #endif

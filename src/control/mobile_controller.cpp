@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+
 #include "control/mobile_controller.hpp"
 
 #include <string>
@@ -200,5 +202,7 @@ MobileController::activate_widget_at_pos(float x, float y)
   if (right.contains(pos))
     m_right = true;
 }
+
+#endif
 
 /* EOF */
