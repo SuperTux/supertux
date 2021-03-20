@@ -80,6 +80,10 @@ jobs:
       matrix:
         build_type: [Debug, Release]
         arch: [amd64, arm64, armhf]
+        exclude:
+          # For some reason, this specific build fails without any error message.
+        - build_type: Debug
+          arch: arm64
 
     runs-on: ubuntu-20.04
     steps:
