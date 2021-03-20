@@ -486,7 +486,8 @@ Player::update(float dt_sec)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y(), 0.f));
   }
 
-  if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode && m_swimming)) {
+  if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode && m_swimming))
+  {
     m_physic.set_acceleration_y(-WATER_FALLOUT_FORCEBACK_STRENGTH);
   }
 
@@ -501,11 +502,13 @@ Player::update(float dt_sec)
   // calculate movement for this frame
   m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
 
-  if (m_grabbed_object != nullptr && !m_dying) {
+  if (m_grabbed_object != nullptr && !m_dying)
+  {
     position_grabbed_object();
   }
 
-  if (m_grabbed_object != nullptr && m_dying){
+  if (m_grabbed_object != nullptr && m_dying)
+  {
     m_grabbed_object->ungrab(*this, m_dir);
     m_grabbed_object = nullptr;
   }
@@ -519,7 +522,8 @@ Player::update(float dt_sec)
   // when invincible, spawn particles
   if (m_invincible_timer.started())
   {
-    if (graphicsRandom.rand(0, 2) == 0) {
+    if (graphicsRandom.rand(0, 2) == 0)
+    {
       float px = graphicsRandom.randf(m_col.m_bbox.get_left()+0, m_col.m_bbox.get_right()-0);
       float py = graphicsRandom.randf(m_col.m_bbox.get_top()+0, m_col.m_bbox.get_bottom()-0);
       Vector ppos = Vector(px, py);
@@ -554,16 +558,9 @@ Player::update(float dt_sec)
 void
 Player::handle_input_swimming()
 {
-  float pointx = 0, pointy = 0;
+  float pointx = m_controller->hold(Control::RIGHT) - m_controller->hold(Control::LEFT),
+        pointy = m_controller->hold(Control::DOWN) - m_controller->hold(Control::UP);
 
-  if (m_controller->hold(Control::UP)&&!m_controller->hold(Control::DOWN))
-    pointy = -1.f;
-  else if (m_controller->hold(Control::DOWN)&&!m_controller->hold(Control::UP))
-    pointy = 1.f;
-  if (m_controller->hold(Control::LEFT)&&!m_controller->hold(Control::RIGHT))
-    pointx = -1.f;
-  else if (m_controller->hold(Control::RIGHT)&&!m_controller->hold(Control::LEFT))
-    pointx = 1.f;
   bool boost = m_controller->hold(Control::JUMP);
 
   swim(pointx,pointy,boost);
@@ -572,35 +569,45 @@ Player::handle_input_swimming()
 void
 Player::swim(float pointx, float pointy, bool boost)
 {
-    // m_physic.enable_gravity(false);
-    if (m_swimming) m_physic.set_gravity_modifier(.0f);
+    if (m_swimming)
+      m_physic.set_gravity_modifier(.0f);
+
     // Angle
     bool is_ang_defined = (pointx != 0) || (pointy != 0);
     float pointed_angle = Vector(pointx, pointy).angle();
     float delta = 0;
+
     if(is_ang_defined)
     {
       delta = pointed_angle - m_swimming_angle;
-      if(std::abs(delta) > math::PI) delta += delta > 0 ? -math::TAU : math::TAU;
+  
+      if(std::abs(delta) > math::PI)
+        delta += delta > 0 ? -math::TAU : math::TAU;
+
       float epsilon = .1f * delta;
       m_swimming_angle += epsilon;
-      if (m_swimming_angle > math::PI) m_swimming_angle -= math::TAU;
-      if (m_swimming_angle <= -math::PI) m_swimming_angle += math::TAU;
+
+      if (m_swimming_angle > math::PI)
+        m_swimming_angle -= math::TAU;
+
+      if (m_swimming_angle <= -math::PI)
+        m_swimming_angle += math::TAU;
     }
+
     float vx = m_physic.get_velocity_x();
     float vy = m_physic.get_velocity_y();
+
     if (m_swimming && !m_water_jump)
     {
 
-      if(is_ang_defined && std::abs(delta)<0.01f) m_swimming_angle = pointed_angle;
+      if(is_ang_defined && std::abs(delta) < 0.01f)
+        m_swimming_angle = pointed_angle;
 
-      if (!is_ang_defined) m_swimming_accel_modifier = 0;
-      else m_swimming_accel_modifier = 700.f;
-      Vector swimming_direction = Vector(m_swimming_accel_modifier,pointed_angle).rectangular();
+      m_swimming_accel_modifier = is_ang_defined ? 700.f : 0.f;
+      Vector swimming_direction = Vector(m_swimming_accel_modifier, pointed_angle).rectangular();
 
       m_physic.set_acceleration_x(swimming_direction.x - 1.0f * vx);
       m_physic.set_acceleration_y(swimming_direction.y - 1.0f * vy);
-
 
       // Limit speed, if you go above this speed your acceleration is set to opposite (?)
       float limit = 300.f;
@@ -608,22 +615,26 @@ Player::swim(float pointx, float pointy, bool boost)
       {
         m_physic.set_acceleration(-vx,-vy);   // Was too lazy to set it properly ~~zwatotem
       }
+
       // Natural friction
       if (!is_ang_defined)
       {
         m_physic.set_acceleration(-2.f*vx, -2.f*vy);
       }
+
       //not boosting? let's slow this penguin down!!!
       if (!boost && (pointy < 0) && is_ang_defined && m_physic.get_velocity().norm() > 310.f)
       {
         m_physic.set_acceleration(-5.f*vx, -5.f*vy);
       }
+
       // Snapping to prevent unwanted floating
       if (!is_ang_defined && Vector(vx,vy).norm()<100.f)
       {
         vx = 0;
         vy = 0;
       }
+
       // Turbo, using pointsign
       float minboostspeed = 100.f;
       if (boost && m_physic.get_velocity().norm()>minboostspeed)
@@ -631,27 +642,22 @@ Player::swim(float pointx, float pointy, bool boost)
         if (m_physic.get_velocity().norm() < 700.f)
         {
           m_swimboosting = true;
-          if ((pointx != 0) || (pointy != 0))
+          if (is_ang_defined)
           {
             vx += 110.f * pointx;
             vy += 110.f * pointy;
           }
           else
           {
-            if (pointx == 0)
-            {
-              if (m_physic.get_velocity_x() > 100.f)
-                vx += 110.f;
-              else if (m_physic.get_velocity_x() < -100.f)
-                vx -= 110.f;
-            }
-            if (pointy == 0)
-            {
-              if (m_physic.get_velocity_y() > 100.f)
-                vy += 110.f;
-              else if (m_physic.get_velocity_y() < -100.f)
-                vy -= 110.f;
-            }
+            if (m_physic.get_velocity_x() > 100.f)
+              vx += 110.f;
+            else if (m_physic.get_velocity_x() < -100.f)
+              vx -= 110.f;
+
+            if (m_physic.get_velocity_y() > 100.f)
+              vy += 110.f;
+            else if (m_physic.get_velocity_y() < -100.f)
+              vy -= 110.f;
           }
         }
         else
@@ -671,7 +677,7 @@ Player::swim(float pointx, float pointy, bool boost)
     }
     if (m_water_jump && !m_swimming)
     {
-      m_swimming_angle = Vector(vx,vy).angle();
+      m_swimming_angle = Vector(vx, vy).angle();
     }
 
   // Direction prev_dir = m_dir;
@@ -679,40 +685,35 @@ Player::swim(float pointx, float pointy, bool boost)
           std::abs(m_swimming_angle) > math::PI_2 ? Direction::LEFT :
           m_swimming_angle < 0 ? Direction::UP :
           Direction::DOWN;
-  // if (m_player_status.bonus == BonusType::GROWUP_BONUS &&
-  //    (prev_dir == Direction::UP || prev_dir == Direction::DOWN) &&
-  //    (m_dir == Direction::RIGHT || m_dir == Direction::LEFT))
-  // {
-  //   m_col.m_bbox.set_size(BIG_TUX_HEIGHT,TUX_WIDTH);
-  // }
-  // if (m_player_status.bonus == BonusType::GROWUP_BONUS &&
-  //    (m_dir == Direction::UP || m_dir == Direction::DOWN) &&
-  //    (prev_dir == Direction::RIGHT || prev_dir == Direction::LEFT))
-  // {
-  //   m_col.m_bbox.set_size(TUX_WIDTH,BIG_TUX_HEIGHT);
-  // }
 
   // snap angle dir when water jumping to avoid crazy spinning graphics...
   if (m_water_jump && !m_swimming && std::abs(m_physic.get_velocity_x()) < 10.f)
   {
     m_sprite->set_angle(math::degrees(m_swimming_angle));
     m_powersprite->set_angle(math::degrees(m_swimming_angle));
-    if (m_player_status.bonus == EARTH_BONUS)
+    if (m_lightsprite)
     {
       m_lightsprite->set_angle(math::degrees(m_swimming_angle));
     }
   }
   else
   {
-  // otherwise angle the sprite normally
-    m_sprite->set_angle((std::abs(m_swimming_angle) <= math::PI_2) ?
-      math::degrees(m_swimming_angle) : math::degrees(math::PI + m_swimming_angle));
-    m_powersprite->set_angle((std::abs(m_swimming_angle) <= math::PI_2) ?
-      math::degrees(m_swimming_angle) : math::degrees(math::PI + m_swimming_angle));
-    if (m_player_status.bonus == EARTH_BONUS)
+    // otherwise angle the sprite normally
+    float angle = (std::abs(m_swimming_angle) <= math::PI_2) ?
+                    math::degrees(m_swimming_angle) :
+                    math::degrees(math::PI + m_swimming_angle);
+
+    m_sprite->set_angle(angle);
+    m_powersprite->set_angle(angle);
+    if (m_lightsprite)
     {
-      m_lightsprite->set_angle((std::abs(m_swimming_angle) <= math::PI_2) ?
-        math::degrees(m_swimming_angle) : math::degrees(math::PI + m_swimming_angle));
+      m_lightsprite->set_angle(angle);
+    }
+
+    if (m_swimming && !m_water_jump && boost)
+    {
+      // Force the speed to point in the direction Tux is going
+      m_physic.set_velocity(m_physic.get_velocity().at_angle(m_swimming_angle));
     }
   }
 }

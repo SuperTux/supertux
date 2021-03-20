@@ -44,6 +44,16 @@ float Vector::angle() const
   return (x==0&&y==0) ? 0 : atan2f(y,x);
 }
 
+Vector Vector::at_angle(float rad) const
+{
+  return Vector(cosf(rad), sinf(rad)) * norm();
+}
+
+Vector Vector::rotate(float rad) const
+{
+  return at_angle(angle() + rad);
+}
+
 std::ostream& operator<<(std::ostream& out, const Vector& vector)
 {
   out << "Vector(" << vector.x << ", " << vector.y << ')';
