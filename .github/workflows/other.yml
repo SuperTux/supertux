@@ -108,14 +108,14 @@ jobs:
           BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
         run: clickable --verbose ${BUILD_TYPE} --arch ${ARCH} --config mk/ubports/clickable.json build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "ubports-${{ matrix.arch }}-${{ matrix.build_type }}-click"
+          path: build.ubports/*.click
+          if-no-files-found: ignore
       - name: Publish to Open Store
         if: ${{ github.ref == 'refs/heads/master' && matrix.build_type == 'Release' }}
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
         run: clickable --apikey ${OPENSTORE_KEY} --config mk/ubports/clickable.json --arch ${ARCH} publish "$(git log -1 --pretty=%B)"
-      - uses: actions/upload-artifact@v2
-        with:
-          name: "ubports-${{ matrix.arch }}-${{ matrix.build_type }}-click"
-          path: build.ubports/*.click
-          if-no-files-found: ignore
