@@ -113,7 +113,7 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-        run: clickable publish --apikey ${OPENSTORE_KEY} --config mk/ubports/clickable.json --arch ${ARCH}
+        run: clickable --apikey ${OPENSTORE_KEY} --config mk/ubports/clickable.json --arch ${ARCH} publish "$(git log -1 --pretty=%B)"
       - uses: actions/upload-artifact@v2
         with:
           name: "ubports-${{ matrix.arch }}-${{ matrix.build_type }}-click"
