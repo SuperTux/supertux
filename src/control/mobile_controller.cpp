@@ -51,6 +51,13 @@ MobileController::MobileController() :
   m_jump(false),
   m_action(false),
   m_escape(false),
+  m_bak_escape(false),
+  m_old_up(false),
+  m_old_down(false),
+  m_old_left(false),
+  m_old_right(false),
+  m_old_jump(false),
+  m_old_action(false),
   m_old_escape(false),
   m_rect_directions(16.f, -144.f, 144.f, -16.f),
   m_rect_jump(-160.f, -80.f, -96.f, -16.f),
@@ -97,7 +104,7 @@ MobileController::draw(DrawingContext& context)
   context.color().draw_surface_scaled(m_jump ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_jump, m_screen_width, m_screen_height), 1650);
   context.color().draw_surface_scaled(m_tex_jump, apply_corner(m_rect_jump, m_screen_width, m_screen_height), 1651);
 
-  context.color().draw_surface_scaled(m_old_escape ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_escape, m_screen_width, m_screen_height), 1650);
+  context.color().draw_surface_scaled(m_bak_escape ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_escape, m_screen_width, m_screen_height), 1650);
   context.color().draw_surface_scaled(m_tex_pause, apply_corner(m_rect_escape, m_screen_width, m_screen_height).grown(-8.f), 1650);
 }
 
@@ -106,6 +113,14 @@ MobileController::update()
 {
   if (!g_config->mobile_controls)
     return;
+
+  m_old_up = m_up;
+  m_old_down = m_down;
+  m_old_left = m_left;
+  m_old_right = m_right;
+  m_old_jump = m_jump;
+  m_old_action = m_action;
+  m_old_escape = m_escape;
 
   m_up = m_down = m_left = m_right = m_jump = m_action = m_escape = false;
 
@@ -125,7 +140,7 @@ MobileController::update()
   // I had to patch a weird way. If someone in the future finds a fix to handle
   // escaping on mobile properly, don't forget to remove those lines.
   if (num_touches == 0)
-    m_old_escape = false;
+    m_bak_escape = false;
 
   for (int i = 0; i < num_touches; i++)
   {
@@ -144,13 +159,13 @@ MobileController::apply(Controller& controller) const
   if (!g_config->mobile_controls)
     return;
 
-  controller.set_control(Control::UP,     m_up     || controller.hold(Control::UP));
-  controller.set_control(Control::DOWN,   m_down   || controller.hold(Control::DOWN));
-  controller.set_control(Control::LEFT,   m_left   || controller.hold(Control::LEFT));
-  controller.set_control(Control::RIGHT,  m_right  || controller.hold(Control::RIGHT));
-  controller.set_control(Control::JUMP,   m_jump   || controller.hold(Control::JUMP));
-  controller.set_control(Control::ACTION, m_action || controller.hold(Control::ACTION));
-  controller.set_control(Control::ESCAPE, m_escape || controller.hold(Control::ESCAPE));
+  controller.set_control(Control::UP,     m_up     || (!m_old_up     && controller.hold(Control::UP)));
+  controller.set_control(Control::DOWN,   m_down   || (!m_old_down   && controller.hold(Control::DOWN)));
+  controller.set_control(Control::LEFT,   m_left   || (!m_old_left   && controller.hold(Control::LEFT)));
+  controller.set_control(Control::RIGHT,  m_right  || (!m_old_right  && controller.hold(Control::RIGHT)));
+  controller.set_control(Control::JUMP,   m_jump   || (!m_old_jump   && controller.hold(Control::JUMP)));
+  controller.set_control(Control::ACTION, m_action || (!m_old_action && controller.hold(Control::ACTION)));
+  controller.set_control(Control::ESCAPE, m_escape || (!m_old_escape && controller.hold(Control::ESCAPE)));
 }
 
 void
@@ -167,18 +182,18 @@ MobileController::activate_widget_at_pos(float x, float y)
   if (apply_corner(m_rect_action, m_screen_width, m_screen_height).contains(pos))
     m_action = true;
 
-  // FIXME: Why do I need an extra variable (m_old_escape) just for this one?
+  // FIXME: Why do I need an extra variable (m_bak_escape) just for this one?
   // Without it, pressing escape will toggle pressed() (not hold(), pressed())
   // every single frame, apparently
   if (apply_corner(m_rect_escape, m_screen_width, m_screen_height).contains(pos))
   {
-    if (!m_old_escape)
+    if (!m_bak_escape)
       m_escape = true;
-    m_old_escape = true;
+    m_bak_escape = true;
   }
   else
   {
-    m_old_escape = false;
+    m_bak_escape = false;
   }
 
   Rectf applied = apply_corner(m_rect_directions, m_screen_width, m_screen_height);

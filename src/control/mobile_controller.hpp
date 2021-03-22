@@ -39,8 +39,8 @@ private:
   void activate_widget_at_pos(float x, float y);
 
 private:
-  bool m_up, m_down, m_left, m_right;
-  bool m_jump, m_action, m_escape, m_old_escape;
+  bool m_up, m_down, m_left, m_right, m_jump, m_action, m_escape, m_bak_escape;
+  bool m_old_up, m_old_down, m_old_left, m_old_right, m_old_jump, m_old_action, m_old_escape;
 
   const Rectf m_rect_directions, m_rect_jump, m_rect_action, m_rect_escape;
   const SurfacePtr m_tex_dirs, m_tex_btn, m_tex_btn_press, m_tex_pause,
