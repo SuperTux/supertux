@@ -118,4 +118,4 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-        run: clickable publish "$(git log -1 --pretty=%B)" --apikey ${OPENSTORE_KEY} --config mk/ubports/clickable.json --arch ${ARCH}
+        run: clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config mk/ubports/clickable.json --arch ${ARCH}
