@@ -93,10 +93,12 @@ OptionsMenu::OptionsMenu(bool complete) :
   // These values go from screen:640/projection:1600 to
   // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
   magnifications.push_back(_("auto"));
+#ifndef ENABLE_TOUCHSCREEN_SUPPORT
   magnifications.push_back("40%");
   magnifications.push_back("50%");
   magnifications.push_back("62.5%");
   magnifications.push_back("80%");
+#endif
   magnifications.push_back("100%");
   magnifications.push_back("125%");
   magnifications.push_back("160%");
@@ -355,10 +357,10 @@ OptionsMenu::OptionsMenu(bool complete) :
 
   MenuItem& fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Fullscreen Resolution"), &next_resolution, resolutions);
   fullscreen_res.set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
+#endif
 
   MenuItem& magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
   magnification.set_help(_("Change the magnification of the game area"));
-#endif
 
   MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
   vsync.set_help(_("Set the VSync mode"));

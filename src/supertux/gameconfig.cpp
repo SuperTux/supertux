@@ -141,12 +141,7 @@ Config::load()
     config_video_mapping->get("aspect_width",  aspect_size.width);
     config_video_mapping->get("aspect_height", aspect_size.height);
 
-#ifndef ENABLE_TOUCHSCREEN_SUPPORT
     config_video_mapping->get("magnification", magnification);
-#else
-    // TODO: Hardcoded; good idea?
-    magnification = 2.5f;
-#endif
   }
 
   boost::optional<ReaderMapping> config_audio_mapping;

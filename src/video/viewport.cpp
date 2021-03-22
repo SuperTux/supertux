@@ -18,6 +18,8 @@
 
 #include <algorithm>
 
+#include "config.h"
+
 #include "math/rect.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
@@ -81,6 +83,10 @@ calculate_scale(const Size& min_size, const Size& max_size,
                        static_cast<float>(window_size.height) / static_cast<float>(min_size.height));
     }
   }
+
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  scale = std::max(scale, 1.f);
+#endif
 
   return scale;
 }
