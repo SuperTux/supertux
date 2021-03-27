@@ -558,8 +558,8 @@ Player::update(float dt_sec)
 void
 Player::handle_input_swimming()
 {
-  float pointx = m_controller->hold(Control::RIGHT) - m_controller->hold(Control::LEFT),
-        pointy = m_controller->hold(Control::DOWN) - m_controller->hold(Control::UP);
+  float pointx = float(m_controller->hold(Control::RIGHT)) - float(m_controller->hold(Control::LEFT)),
+        pointy = float(m_controller->hold(Control::DOWN)) - float(m_controller->hold(Control::UP));
 
   bool boost = m_controller->hold(Control::JUMP);
 
