@@ -108,10 +108,14 @@ void CloudParticleSystem::update(float dt_sec)
     if (!cloudParticle)
       continue;
     cloudParticle->pos.x += cloudParticle->speed * dt_sec * m_current_speed;
-    if (cloudParticle->pos.x < cam.get_translation().x - static_cast<float>(cloudParticle->texture->get_width()))
+    while (cloudParticle->pos.x < cam.get_translation().x - static_cast<float>(cloudParticle->texture->get_width()))
       cloudParticle->pos.x += virtual_width;
-    if (cloudParticle->pos.x > cam.get_translation().x + static_cast<float>(SCREEN_WIDTH))
+    while (cloudParticle->pos.x > cam.get_translation().x + static_cast<float>(SCREEN_WIDTH))
       cloudParticle->pos.x -= virtual_width;
+    while (cloudParticle->pos.y < cam.get_translation().y - static_cast<float>(cloudParticle->texture->get_height()))
+      cloudParticle->pos.y += virtual_height;
+    while (cloudParticle->pos.y > cam.get_translation().y + static_cast<float>(SCREEN_HEIGHT))
+      cloudParticle->pos.y -= virtual_height;
 
     // Update alpha
     if (cloudParticle->target_time_remaining > 0.f) {
@@ -152,6 +156,8 @@ int CloudParticleSystem::add_clouds(int amount, float fade_time)
 
   for (int i = 0; i < amount_to_add; ++i) {
     auto particle = std::make_unique<CloudParticle>();
+    // Don't consider the camera, because the Sector might not exist yet
+    // Instead, rely on update() to correct this when it will be called
     particle->pos.x = graphicsRandom.randf(virtual_width);
     particle->pos.y = graphicsRandom.randf(virtual_height);
     particle->texture = cloudimage;
