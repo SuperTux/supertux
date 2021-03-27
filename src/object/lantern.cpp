@@ -99,7 +99,7 @@ HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
     if (wow) {
       // collided with WillOWisp while grabbed and unlit
       SoundManager::current()->play("sounds/willocatch.wav");
-      lightcolor = Color(0,1,0);
+      lightcolor = wow->get_color();
       updateColor();
       wow->vanish();
     }

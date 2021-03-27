@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "badguy/dispenser.hpp"
 #include "badguy/ghosttree.hpp"
 #include "math/util.hpp"
 #include "object/lantern.hpp"
@@ -67,6 +68,11 @@ TreeWillOWisp::vanish()
   mystate = STATE_VANISHING;
   m_sprite->set_action("vanishing", 1);
   set_colgroup_active(COLGROUP_DISABLED);
+
+  if (m_parent_dispenser != nullptr)
+  {
+    m_parent_dispenser->notify_dead();
+  }
 }
 
 void

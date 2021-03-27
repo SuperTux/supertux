@@ -258,6 +258,10 @@ protected:
   SpritePtr m_lightsprite;
   bool m_glowing;
 
+  /** If this badguy was dispensed from a dispenser,
+      save the dispenser here. */
+  Dispenser* m_parent_dispenser;
+
 private:
   State m_state;
 
@@ -277,10 +281,6 @@ private:
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup m_colgroup_active;
-
-  /** If this badguy was dispensed from a dispenser,
-      save the dispenser here. */
-  Dispenser* m_parent_dispenser;
 
 private:
   BadGuy(const BadGuy&) = delete;
