@@ -146,6 +146,7 @@ jobs:
         working-directory: build
         run: |
           cpack -G TGZ
+          mkdir -p upload/
           mv SuperTux* upload/
       # Github actions is dumb and won't let you download single files from artifacts, so break up the artifacts instead
       - uses: actions/upload-artifact@v2
