@@ -22,6 +22,7 @@
 #include "squirrel/exposed_object.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
+#include "supertux/object_remove_listener.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/sequence.hpp"
@@ -41,6 +42,25 @@ class Player final : public MovingObject,
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
+
+private:
+  class GrabListener final : public ObjectRemoveListener
+  {
+  public:
+    GrabListener(Player& player) : m_player(player)
+    {}
+
+    virtual void object_removed(GameObject* object) override {
+      m_player.ungrab_object(object);
+    }
+
+  private:
+    Player& m_player;
+
+  private:
+    GrabListener(const GrabListener&) = delete;
+    GrabListener& operator=(const GrabListener&) = delete;
+  };
 
 public:
   Player(PlayerStatus& player_status, const std::string& name);
@@ -218,6 +238,12 @@ private:
 
   void check_bounds();
 
+  /**
+   * Ungrabs the currently grabbed object, if any. Only call with its argument
+   * from an ObjectRemoveListener.
+   */
+  void ungrab_object(GameObject* gameobject = nullptr);
+
 private:
   bool m_deactivated;
 
@@ -293,6 +319,7 @@ private:
   bool m_visible;
 
   Portable* m_grabbed_object;
+  std::unique_ptr<ObjectRemoveListener> m_grabbed_object_remove_listener;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
 
@@ -314,6 +341,7 @@ private:
   unsigned int m_idle_stage;
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
+  std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
 
 private:
   Player(const Player&) = delete;
