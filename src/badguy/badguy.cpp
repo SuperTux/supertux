@@ -98,13 +98,13 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_glowing(false),
+  m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
   m_on_ground_flag(false),
   m_floor_normal(),
-  m_colgroup_active(COLGROUP_MOVING),
-  m_parent_dispenser()
+  m_colgroup_active(COLGROUP_MOVING)
 {
   std::string dir_str = "auto";
   reader.get("direction", dir_str);
