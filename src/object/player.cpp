@@ -603,7 +603,7 @@ Player::swim(float pointx, float pointy, bool boost)
       if(is_ang_defined && std::abs(delta) < 0.01f)
         m_swimming_angle = pointed_angle;
 
-      m_swimming_accel_modifier = is_ang_defined ? 700.f : 0.f;
+      m_swimming_accel_modifier = is_ang_defined ? 600.f : 0.f;
       Vector swimming_direction = Vector(m_swimming_accel_modifier, pointed_angle).rectangular();
 
       m_physic.set_acceleration_x(swimming_direction.x - 1.0f * vx);
@@ -639,7 +639,7 @@ Player::swim(float pointx, float pointy, bool boost)
       float minboostspeed = 100.f;
       if (boost && m_physic.get_velocity().norm()>minboostspeed)
       {
-        if (m_physic.get_velocity().norm() < 700.f)
+        if (m_physic.get_velocity().norm() < 600.f)
         {
           m_swimboosting = true;
           if (is_ang_defined)
@@ -710,11 +710,12 @@ Player::swim(float pointx, float pointy, bool boost)
       m_lightsprite->set_angle(angle);
     }
 
+    /*Force the speed to point in the direction Tux is going
+    (commented until further updates and fixes)
     if (m_swimming && !m_water_jump && boost)
     {
-      // Force the speed to point in the direction Tux is going
       m_physic.set_velocity(m_physic.get_velocity().at_angle(m_swimming_angle));
-    }
+    }*/
   }
 }
 
