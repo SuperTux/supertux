@@ -144,7 +144,9 @@ jobs:
           BUILD_NAME: ${{ matrix.build_type }}
           PACKAGE: 'ON'
         working-directory: build
-        run: cpack -G TGZ
+        run: |
+          cpack -G TGZ
+          mv SuperTux* upload/
       # Github actions is dumb and won't let you download single files from artifacts, so break up the artifacts instead
       - uses: actions/upload-artifact@v2
         with:
