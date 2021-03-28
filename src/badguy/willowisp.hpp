@@ -71,7 +71,7 @@ public:
   /** make WillOWisp vanish */
   void vanish();
 
-  Color get_color() { return m_color; }
+  Color get_color() const { return m_color; }
 
 private:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
