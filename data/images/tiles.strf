@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
  
-   ;; next-id: 4195
+   ;; next-id: 4225
   
   ;; free/skipped ids (please use before any other): 101
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
@@ -946,12 +946,22 @@
       2827 2831 2829 2825
       2839 2833 2834 2840
       2835 2837 2838 2836
-	  
-	  2032 2033 2034 2035
+
+      2032 2033 2034 2035
       2036 2037    0 2038
       2039    0    0 2040
       2035 2041 2042 2032
-	)
+
+      4195 4196 4197 4198
+      4199 4200 4201 4202
+      4203 4204 4205 4206
+         0 4207 4208 4209
+
+      4210 4211 4212 4213
+      4214 4215 4216 4217
+      4218 4219 4220 4221
+         0 4222 4223 4224
+    )
   )
   
   (tilegroup
@@ -3891,6 +3901,28 @@
          0 2041 2042    0
     )
     (image "tiles/lightmap/lightmap-bw.png")
+  )
+  (tiles
+    (width 4)
+    (height 4)
+    (ids
+      4195 4196 4197 4198
+      4199 4200 4201 4202
+      4203 4204 4205 4206
+         0 4207 4208 4209
+    )
+    (image "tiles/lightmap/lightmap-white.png")
+  )
+  (tiles
+    (width 4)
+    (height 4)
+    (ids
+      4210 4211 4212 4213
+      4214 4215 4216 4217
+      4218 4219 4220 4221
+         0 4222 4223 4224
+    )
+    (image "tiles/lightmap/lightmap-black.png")
   )
   ; NOT dupes of 57/58 - unisolid
   (tiles
