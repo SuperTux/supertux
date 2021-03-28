@@ -85,6 +85,10 @@ public:
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  bool mobile_controls;
+#endif
+
   struct Addon
   {
     std::string id;

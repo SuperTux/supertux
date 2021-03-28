@@ -43,6 +43,8 @@
 #include <stdio.h>
 #include <chrono>
 
+#include "gui/dialog.hpp"
+#include "gui/mousecursor.hpp"
 
 ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
   m_video_system(video_system),
@@ -50,6 +52,9 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   m_controller_hud(new ControllerHUD),
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  m_mobile_controller(),
+#endif
   m_speed(1.0),
   m_actions(),
   m_screen_fade(),
@@ -257,6 +262,10 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 
   Console::current()->draw(context);
 
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  m_mobile_controller.draw(context);
+#endif
+
   if (g_config->show_fps)
     draw_fps(context, fps_statistics);
 
@@ -275,7 +284,12 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 void
 ScreenManager::update_gamelogic(float dt_sec)
 {
-  const Controller& controller = m_input_manager.get_controller();
+  Controller& controller = m_input_manager.get_controller();
+
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  m_mobile_controller.update();
+  m_mobile_controller.apply(controller);
+#endif
 
   SquirrelVirtualMachine::current()->update(g_game_time);
 
@@ -302,6 +316,51 @@ ScreenManager::process_events()
   auto session = GameSession::current();
   while (SDL_PollEvent(&event))
   {
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+    switch (event.type)
+    {
+      case SDL_FINGERDOWN:
+      {
+        SDL_Event event2;
+        event2.type = SDL_MOUSEBUTTONDOWN;
+        event2.button.button = SDL_BUTTON_LEFT;
+        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        SDL_PushEvent(&event2);
+
+        event.type = SDL_MOUSEMOTION;
+        event.motion.x = event2.button.x;
+        event.motion.y = event2.button.y;
+        MouseCursor::current()->set_pos(event.button.x, event.button.y);
+        break;
+      }
+
+      case SDL_FINGERUP:
+      {
+        SDL_Event event2;
+        event2.type = SDL_MOUSEBUTTONUP;
+        event2.button.button = SDL_BUTTON_LEFT;
+        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        SDL_PushEvent(&event2);
+
+        event.type = SDL_MOUSEMOTION;
+        event.motion.x = event2.button.x;
+        event.motion.y = event2.button.y;
+        MouseCursor::current()->set_pos(event.button.x, event.button.y);
+        break;
+      }
+
+      case SDL_FINGERMOTION:
+        event.type = SDL_MOUSEMOTION;
+        event.motion.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
+        event.motion.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        event.motion.xrel = Sint32(event.tfinger.dx * float(m_video_system.get_window_size().width));
+        event.motion.yrel = Sint32(event.tfinger.dy * float(m_video_system.get_window_size().height));
+        MouseCursor::current()->set_pos(event.motion.x, event.motion.y);
+        break;
+    }
+#endif
     m_input_manager.process_event(event);
 
     m_menu_manager->event(event);

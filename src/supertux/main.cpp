@@ -42,6 +42,7 @@ extern "C" {
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
@@ -328,7 +329,11 @@ class SDLSubsystem final
 public:
   SDLSubsystem()
   {
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
+    Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO;
+#ifndef UBUNTU_TOUCH
+    flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+#endif
+    if (SDL_Init(flags) < 0)
     {
       std::stringstream msg;
       msg << "Couldn't initialize SDL: " << SDL_GetError();
@@ -536,6 +541,13 @@ Main::launch_game(const CommandLineArguments& args)
       screen_manager.push_screen(std::make_unique<TitleScreen>(*default_savegame));
     }
   }
+
+#ifdef UBUNTU_TOUCH
+  Dialog::show_message(_("The UBports version is under heavy development!\n"
+                         "If you encounter issues, PLEASE contact the maintainter\n"
+                         "at https://github.com/supertux/supertux/issues or on the\n"
+                         "Open Store's Telegram at https://open-store.io/telegram"));
+#endif
 
   screen_manager.run();
 }

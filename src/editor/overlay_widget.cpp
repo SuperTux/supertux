@@ -1051,12 +1051,13 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 }
 
 void
-EditorOverlayWidget::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size)
+EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
+  bool draw_shadow) const
 {
   auto current_tm = m_editor.get_selected_tilemap();
   if (current_tm == nullptr)
     return;
- 
+
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
   auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
@@ -1071,16 +1072,43 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, const Color& line_c
   end.y = std::min(float(tm_height), end.y);
 
   Vector line_start, line_end;
+  auto draw_line = [&](const Vector& from, const Vector& to, const Color& col)
+  {
+    context.color().draw_line(from, to, col, current_tm->get_layer());
+  };
+  if (draw_shadow) {
+    Vector viewport_scale = VideoSystem::current()->get_viewport().get_scale();
+    const Color shadow_colour(0.0f, 0.0f, 0.0f, 0.05f);
+    const Vector shadow_offset(1.0f / viewport_scale.x,
+      1.0f / viewport_scale.y);
+    for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++) {
+      line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f),
+        tile_size) + shadow_offset;
+      line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y),
+        tile_size) + shadow_offset;
+      draw_line(line_start, line_end, shadow_colour);
+    }
+
+    for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++) {
+      line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)),
+        tile_size) + shadow_offset;
+      line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)),
+        tile_size) + shadow_offset;
+      draw_line(line_start, line_end, shadow_colour);
+    }
+  }
+
+  const Color line_color(1.f, 1.f, 1.f, 0.2f);
   for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++) {
-    line_start = tile_screen_pos( Vector(static_cast<float>(i), 0.0f), tile_size );
-    line_end = tile_screen_pos( Vector(static_cast<float>(i), end.y), tile_size );
-    context.color().draw_line(line_start, line_end, line_color, current_tm->get_layer());
+    line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f), tile_size);
+    line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y), tile_size);
+    draw_line(line_start, line_end, line_color);
   }
 
   for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++) {
-    line_start = tile_screen_pos( Vector(0.0f, static_cast<float>(i)), tile_size );
-    line_end = tile_screen_pos( Vector(end.x, static_cast<float>(i)), tile_size );
-    context.color().draw_line(line_start, line_end, line_color, current_tm->get_layer());
+    line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)), tile_size);
+    line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)), tile_size);
+    draw_line(line_start, line_end, line_color);
   }
 }
 
@@ -1139,11 +1167,11 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_path(context);
 
   if (render_grid) {
-    draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.2f));
+    draw_tile_grid(context, 32, true);
     draw_tilemap_border(context);
     auto snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
     if (snap_grid_size != 32) {
-      draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.2f), snap_grid_size);
+      draw_tile_grid(context, snap_grid_size, false);
     }
   }
 
