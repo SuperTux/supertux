@@ -96,6 +96,13 @@ ObjectSettings::add_int(const std::string& text, int* value_ptr,
 }
 
 void
+ObjectSettings::add_label(const std::string& text,
+                          unsigned int flags)
+{
+  add_option(std::make_unique<LabelObjectOption>(text, flags));
+}
+
+void
 ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
                           const std::string& key,
                           unsigned int flags)

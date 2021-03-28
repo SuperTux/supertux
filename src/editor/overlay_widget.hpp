@@ -45,6 +45,7 @@ public:
   static bool snap_to_grid;
   static bool autotile_mode;
   static bool autotile_help;
+  static bool alt_pressed;
   static int selected_snap_grid_size;
 
   static Color text_autotile_available_color;

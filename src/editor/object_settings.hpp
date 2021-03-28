@@ -54,6 +54,7 @@ public:
                const std::string& key = {},
                const boost::optional<int>& default_value = {},
                unsigned int flags = 0);
+  void add_label(const std::string& text, unsigned int flags = 0);
   void add_rectf(const std::string& text, Rectf* value_ptr,
                  const std::string& key = {},
                  unsigned int flags = 0);

@@ -99,4 +99,9 @@ const char* getEasingName(const EasingMode& ease_type);
 
 EasingMode EasingMode_from_string(const std::string& ease_name);
 
+EasingMode get_reverse_easing(const EasingMode& ease);
+std::string get_reverse_easing_str(const std::string& ease_name);
+
 #endif
+
+/* EOF */

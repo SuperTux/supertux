@@ -274,6 +274,7 @@ Coin::get_settings()
 
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
+    result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
   }
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");

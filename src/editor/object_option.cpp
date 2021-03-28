@@ -118,6 +118,29 @@ IntObjectOption::add_to_menu(Menu& menu) const
   menu.add_intfield(get_text(), m_pointer);
 }
 
+LabelObjectOption::LabelObjectOption(const std::string& text,
+                                 unsigned int flags) :
+  ObjectOption(text, "", flags)
+{
+}
+
+void
+LabelObjectOption::save(Writer& writer) const
+{
+}
+
+std::string
+LabelObjectOption::to_string() const
+{
+  return "";
+}
+
+void
+LabelObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_label(m_text);
+}
+
 RectfObjectOption::RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
