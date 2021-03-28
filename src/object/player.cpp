@@ -191,6 +191,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_physic(),
   m_visible(true),
   m_grabbed_object(nullptr),
+  m_grabbed_object_remove_listener(new GrabListener(*this)),
   // if/when we have complete penny gfx, we can
   // load those instead of Tux's sprite in the
   // constructor
@@ -206,7 +207,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_unduck_hurt_timer(),
   m_idle_timer(),
   m_idle_stage(0),
-  m_climbing(nullptr)
+  m_climbing(nullptr),
+  m_climbing_remove_listener(nullptr)
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
@@ -523,10 +525,8 @@ Player::update(float dt_sec)
     position_grabbed_object();
   }
 
-  if (m_grabbed_object != nullptr && m_dying){
-    m_grabbed_object->ungrab(*this, m_dir);
-    m_grabbed_object = nullptr;
-  }
+  if (m_dying)
+    ungrab_object();
 
   if (!m_ice_this_frame && on_ground())
     m_on_ice = false;
@@ -1199,6 +1199,7 @@ Player::handle_input()
         } else {
           m_grabbed_object->ungrab(*this, m_dir);
         }
+        moving_object->del_remove_listener(m_grabbed_object_remove_listener.get());
         m_grabbed_object = nullptr;
       }
     } else {
@@ -1234,17 +1235,21 @@ Player::position_grabbed_object()
 void
 Player::try_grab()
 {
-  if (m_controller->hold(Control::ACTION) && !m_grabbed_object
-     && !m_duck) {
+  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck)
+  {
 
     Vector pos;
-    if (m_dir == Direction::LEFT) {
+    if (m_dir == Direction::LEFT)
+    {
       pos = Vector(m_col.m_bbox.get_left() - 5, m_col.m_bbox.get_bottom() - 16);
-    } else {
+    }
+    else
+    {
       pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
     }
 
-    for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>()) {
+    for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>())
+    {
       Portable* portable = dynamic_cast<Portable*>(&moving_object);
       if (portable && portable->is_portable())
       {
@@ -1252,10 +1257,14 @@ Player::try_grab()
         if (moving_object.get_group() == COLGROUP_DISABLED) continue;
 
         // check if we are within reach
-        if (moving_object.get_bbox().contains(pos)) {
+        if (moving_object.get_bbox().contains(pos))
+        {
           if (m_climbing)
             stop_climbing(*m_climbing);
           m_grabbed_object = portable;
+
+          moving_object.add_remove_listener(m_grabbed_object_remove_listener.get());
+
           position_grabbed_object();
           break;
         }
@@ -2009,10 +2018,7 @@ Player::set_ghost_mode(bool enable)
 
   if (m_climbing) stop_climbing(*m_climbing);
 
-  if (m_grabbed_object) {
-    m_grabbed_object->ungrab(*this, m_dir);
-    m_grabbed_object = nullptr;
-  }
+  ungrab_object();
 
   if (enable) {
     m_ghost_mode = true;
@@ -2055,10 +2061,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
 
   m_climbing = nullptr;
 
-  if (m_grabbed_object) {
-    m_grabbed_object->ungrab(*this, m_dir);
-    m_grabbed_object = nullptr;
-  }
+  ungrab_object();
 
   m_physic.enable_gravity(true);
   m_physic.set_velocity(0, 0);
@@ -2143,6 +2146,25 @@ void
 Player::sideways_push(float delta)
 {
   m_boost = delta;
+}
+
+void
+Player::ungrab_object(GameObject* gameobject)
+{
+  if (!m_grabbed_object)
+    return;
+
+  // If gameobject is not null, then the function was called from the
+  // ObjectRemoveListener.
+  if (!gameobject)
+    m_grabbed_object->ungrab(*this, m_dir);
+
+  GameObject* go = dynamic_cast<GameObject*>(m_grabbed_object);
+
+  if (go && m_grabbed_object_remove_listener)
+    go->del_remove_listener(m_grabbed_object_remove_listener.get());
+
+  m_grabbed_object = nullptr;
 }
 
 /* EOF */
