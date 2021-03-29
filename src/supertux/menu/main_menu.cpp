@@ -49,7 +49,12 @@ MainMenu::MainMenu()
                  static_cast<float>(SCREEN_HEIGHT) / 2.0f + 35.0f);
 
   add_entry(MNID_STARTGAME, _("Start Game"));
+  // TODO: Manage to build OpenSSL for Emscripten so we can build CURL so we can
+  //       build the add-ons so we can re-enable them.
+  //       Also see src/addon/downloader.*pp
+#ifndef __EMSCRIPTEN__
   add_entry(MNID_ADDONS, _("Add-ons"));
+#endif
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
   add_entry(MNID_CREDITS, _("Credits"));
