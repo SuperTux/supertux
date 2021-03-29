@@ -52,6 +52,7 @@
 #endif
 
 ScreenManager::ScreenManager(std::unique_ptr<VideoSystem> video_system, InputManager& input_manager) :
+  m_screen_stack(),
   m_video_system(std::move(video_system)),
   m_input_manager(g_config->keyboard_config, g_config->joystick_config),
   m_menu_storage(new MenuStorage),
@@ -67,8 +68,7 @@ ScreenManager::ScreenManager(std::unique_ptr<VideoSystem> video_system, InputMan
   fps_statistics(),
   m_speed(1.0),
   m_actions(),
-  m_screen_fade(),
-  m_screen_stack()
+  m_screen_fade()
 {
 }
 

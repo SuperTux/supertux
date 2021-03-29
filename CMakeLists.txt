@@ -62,8 +62,8 @@ set(BUILD_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data")
 set(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
 ## Check endianess
 
-# FIXME: Any reason why we need this?
 if(NOT EMSCRIPTEN)
+  # FIXME: Any reason why we need this?
   include(TestBigEndian)
   test_big_endian(WORDS_BIGENDIAN)
 endif(NOT EMSCRIPTEN)
