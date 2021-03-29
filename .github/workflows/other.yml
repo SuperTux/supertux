@@ -134,8 +134,8 @@ jobs:
           fetch-depth: 0
           submodules: true
       - name: Install emscripten tools
-        working-directory: "~"
         run: |
+          cd ~
           sudo apt-get update
           sudo apt-get install -y git cmake build-essential curl
           git clone https://github.com/emscripten-core/emsdk.git
@@ -145,8 +145,9 @@ jobs:
           # Fixes a bug in emscripten - see https://github.com/emscripten-core/emscripten/issues/13590
           sed -i "s/\#define MALLOC_ALIGNMENT ((size_t)(2 \* sizeof(void \*)))/#define MALLOC_ALIGNMENT 16/g" upstream/emscripten/system/lib/dlmalloc.c
       - name: Install vcpkg and dependencies
-        working-directory: "~"
         run: |
+          source ~/emsdk/emsdk_env.sh
+          cd ~
           git clone https://github.com/microsoft/vcpkg
           ./vcpkg/bootstrap-vcpkg.sh
           ./vcpkg/vcpkg integrate install
@@ -160,13 +161,15 @@ jobs:
           ./vcpkg/vcpkg install libpng:wasm32-emscripten
           ./vcpkg/vcpkg install libogg:wasm32-emscripten
           ./vcpkg/vcpkg install libvorbis:wasm32-emscripten
-      - name: Install vcpkg and dependencies
+          ./vcpkg/vcpkg install openal-soft:wasm32-emscripten
+      - name: Patch SDL_ttf
         working-directory: external/SDL_ttf
         run: git apply ../../mk/emscripten/SDL_ttf.patch
       - name: Build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
+          source ~/emsdk/emsdk_env.sh
           mkdir build
           cd build
           emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON -DEMSCRIPTEN=1 ..
