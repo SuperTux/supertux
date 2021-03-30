@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"
@@ -44,7 +45,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_sound_source(),
   m_flyspeed(),
   m_track_range(),
-  m_vanish_range()
+  m_vanish_range(),
+  m_color(0, 1, 0)
 {
   if (Editor::is_active()) {
     reader.get("sector", m_target_sector);
@@ -62,13 +64,22 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   bool running;
   if ( !reader.get("running", running)) running = false;
 
+  std::vector<float> color;
+  if (reader.get("color", color))
+  {
+    m_color = Color(color);
+  }
+
   init_path(reader, running);
 
   m_countMe = false;
   SoundManager::current()->preload(SOUNDFILE);
   SoundManager::current()->preload("sounds/warp.wav");
 
-  m_lightsprite->set_color(Color(0.0f, 0.2f, 0.0f));
+  m_lightsprite->set_color(Color(m_color.red * 0.2f,
+                                 m_color.green * 0.2f,
+                                 m_color.blue * 0.2f));
+  m_sprite->set_color(m_color);
   m_glowing = true;
 
   m_sprite->set_action("idle");
@@ -80,6 +91,15 @@ WillOWisp::finish_construction()
   if (get_walker() && get_walker()->is_running()) {
     m_mystate = STATE_PATHMOVING_TRACK;
   }
+}
+
+void
+WillOWisp::after_editor_set()
+{
+  m_lightsprite->set_color(Color(m_color.red * 0.2f,
+                                 m_color.green * 0.2f,
+                                 m_color.blue * 0.2f));
+  m_sprite->set_color(m_color);
 }
 
 void
@@ -192,6 +212,11 @@ WillOWisp::vanish()
   m_mystate = STATE_VANISHING;
   m_sprite->set_action("vanishing", 1);
   set_colgroup_active(COLGROUP_DISABLED);
+
+  if (m_parent_dispenser != nullptr)
+  {
+    m_parent_dispenser->notify_dead();
+  }
 }
 
 bool
@@ -284,6 +309,7 @@ WillOWisp::get_settings()
   result.add_float(_("Vanish range"), &m_vanish_range, "vanish-range", VANISH_RANGE);
   result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed", FLYSPEED);
   result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+  result.add_color(_("Color"), &m_color, "color");
 
   result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "region", "x", "y"});
 
