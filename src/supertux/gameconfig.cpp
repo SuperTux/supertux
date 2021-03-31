@@ -32,6 +32,9 @@ Config::Config() :
   window_size(1280, 800),
   window_resizable(true),
   aspect_size(0, 0), // auto detect
+#ifdef __EMSCRIPTEN__
+  fit_window(true),
+#endif
   magnification(0.0f),
   use_fullscreen(false),
   video(VideoSystem::VIDEO_AUTO),
@@ -142,6 +145,10 @@ Config::load()
     config_video_mapping->get("aspect_height", aspect_size.height);
 
     config_video_mapping->get("magnification", magnification);
+
+#ifdef __EMSCRIPTEN__
+    config_video_mapping->get("fit_window", fit_window);
+#endif
   }
 
   boost::optional<ReaderMapping> config_audio_mapping;
@@ -253,6 +260,10 @@ Config::save()
 
   writer.write("aspect_width",  aspect_size.width);
   writer.write("aspect_height", aspect_size.height);
+
+#ifdef __EMSCRIPTEN__
+  writer.write("fit_window", fit_window);
+#endif
 
   writer.write("magnification", magnification);
 

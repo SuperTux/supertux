@@ -172,9 +172,9 @@ jobs:
           mkdir build
           cd build
           emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON -DEMSCRIPTEN=1 ..
-          # TODO: Pollutes the source, make it pollute the build instead
           rsync -aP ../data/ data/
           emmake make -j$(nproc)
+          rm supertux2.html && cp template.html supertux2.html
           mkdir upload/
           mv supertux2.* upload/
           # Now you can run a local server with: `emrun supertux2.html`

@@ -18,9 +18,40 @@
 
 #include "supertux/main.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+
+#include "gui/menu_manager.hpp"
+#include "video/video_system.hpp"
+#endif
+
 int main(int argc, char** argv)
 {
+#ifdef __EMSCRIPTEN__
+  EM_ASM(
+    if (window.supertux_onready)
+      window.supertux_onready();
+  );
+#endif
   return (new Main())->run(argc, argv);
 }
+
+// Export functions for emscripten
+#ifdef __EMSCRIPTEN__
+
+extern "C" {
+
+// This is probably not useful, I just want ppl to know it exists
+EMSCRIPTEN_KEEPALIVE
+void set_resolution(int w, int h)
+{
+  VideoSystem::current()->on_resize(w, h);
+  MenuManager::instance().on_window_resize();
+}
+
+}
+
+#endif
 
 /* EOF */

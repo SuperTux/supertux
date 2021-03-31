@@ -887,6 +887,9 @@ endif(WIN32)
 target_link_libraries(supertux2 supertux2_lib Boost::filesystem Boost::locale)
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
+if(EMSCRIPTEN)
+  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'] PUBLIC -sEXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
+endif(EMSCRIPTEN)
 
 if(WIN32 AND NOT VCPKG_BUILD)
   ## Copy dlls on windows
@@ -1081,6 +1084,10 @@ if(WIN32)
   get_property(PHYSFS_LIB_PATH TARGET physfs_lib PROPERTY IMPORTED_LOCATION)
   install(FILES ${SQUIRREL_LIB_PATH} ${SQSTDLIB_LIB_PATH} ${PHYSFS_LIB_PATH} DESTINATION ${INSTALL_SUBDIR_BIN})
 endif()
+
+if(EMSCRIPTEN)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/template.html.in ${CMAKE_CURRENT_BINARY_DIR}/template.html)
+endif(EMSCRIPTEN)
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md DESTINATION ${INSTALL_SUBDIR_DOC})
 

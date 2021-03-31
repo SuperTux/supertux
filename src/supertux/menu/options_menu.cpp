@@ -18,6 +18,7 @@
 #include "supertux/menu/options_menu.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "gui/dialog.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
@@ -30,6 +31,11 @@
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
 
 namespace {
 
@@ -52,6 +58,9 @@ enum OptionsMenuIDs {
   MNID_WINDOW_RESOLUTION,
   MNID_FULLSCREEN,
   MNID_FULLSCREEN_RESOLUTION,
+#ifdef __EMSCRIPTEN__
+  MNID_FIT_WINDOW,
+#endif
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
   MNID_VSYNC,
@@ -359,6 +368,11 @@ OptionsMenu::OptionsMenu(bool complete) :
   fullscreen_res.set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
 #endif
 
+#ifdef __EMSCRIPTEN__
+  MenuItem& fit_window = add_toggle(MNID_FIT_WINDOW, _("Fit to browser"), &g_config->fit_window);
+  fit_window.set_help(_("Fit the resolution to the size of your browser"));
+#endif
+
   MenuItem& magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
   magnification.set_help(_("Change the magnification of the game area"));
 
@@ -521,6 +535,26 @@ OptionsMenu::menu_action(MenuItem& item)
         }
       }
       break;
+
+#ifdef __EMSCRIPTEN__
+    case MNID_FIT_WINDOW:
+      {
+        int resultds = EM_ASM_INT({
+          if (window.supertux_setAutofit)
+            window.supertux_setAutofit($0);
+
+          return !!window.supertux_setAutofit;
+        }, g_config->fit_window);
+
+        if (!resultds)
+        {
+          Dialog::show_message(_("The game couldn't detect your browser resolution.\n"
+                                 "This most likely happens because it is not embedded\n"
+                                 "in the SuperTux custom HTML template.\n"));
+        }
+      }
+      break;
+#endif
 
     case MNID_VSYNC:
       switch (next_vsync)
