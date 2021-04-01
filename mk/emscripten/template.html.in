@@ -89,6 +89,8 @@
       vertical-align: top;
       margin-top: 30px;
       margin-left: 20px;
+      margin-bottom: 30px;
+      margin-right: 20px;
       font-weight: 700;
       color: #d7d7d7;
     }
@@ -119,7 +121,8 @@
       background-color: #000;
       color: #fff;
       font-family: 'Lucida Console', Monaco, monospace;
-      outline: 0
+      outline: 0;
+      overflow: scroll;
     }
 
     #overlay {
@@ -150,8 +153,12 @@
     </center>
   </div>
   <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
-  <textarea id="output" rows="8"></textarea>
+  <p id="output"></p>
   <script>
+    if ("@CMAKE_BUILD_TYPE@" == "Release") {
+      document.getElementById("output").style.display = "none";
+    }
+
     alert("The Web version of SuperTux is still a work in progress... and it's very slow!\n\nIf the game is too slow to be playable, please download the native version for your platform.\n\nAlso, keep in mind your progress won't be saved yet. We're working on it!");
 
     var statusElement = document.getElementById("status"),
@@ -165,16 +172,32 @@
       print: function () {
         var e = document.getElementById("output");
         if (e)
-          e.value = "";
+          e.innerHTML = "";
         return function (t) {
-            arguments.length > 1 && (t = Array.prototype.slice.call(arguments).join(" ")),
-            console.log(t),
-            e && (e.value += t + "\n", e.scrollTop = e.scrollHeight)
+          if (arguments.length > 1)
+             t = Array.prototype.slice.call(arguments).join(" ");
+          t = Array.prototype.slice.call(arguments).join(" ");
+          console.log(t);
+          if (e) {
+            e.innerHTML += t + "<br/>";
+            e.scrollTop = e.scrollHeight;
           }
+        }
       }(),
-      printErr: function (e) {
-        arguments.length > 1 && (e = Array.prototype.slice.call(arguments).join(" ")), console.error(e)
-      },
+      printErr: function () {
+        var e = document.getElementById("output");
+        if (e)
+          e.innerHTML = "";
+        return function (t) {
+          if (arguments.length > 1)
+             t = Array.prototype.slice.call(arguments).join(" ");
+          console.error(t);
+          if (e) {
+            e.innerHTML += "<span style='color:red;'>" + t + "</span><br/>";
+            e.scrollTop = e.scrollHeight;
+          }
+        }
+      }(),
       canvas: function () {
         var e = document.getElementById("canvas");
         e.addEventListener("webglcontextlost", (function (e) {
@@ -246,7 +269,7 @@
 
     window.supertux_setAutofit = function(newAutofit) {
       autofit = newAutofit;
-      document.body.style.overflow = autofit ? "hidden" : "initial";
+      document.body.style.overflow = (autofit || ("@CMAKE_BUILD_TYPE@" == "Release")) ? "hidden" : "initial";
       tryResize();
     }
 
@@ -298,7 +321,10 @@
     }
 
     window.onresize = tryResize;
-    window.onunload = supertux_saveFiles;
+    window.onunload = () => {
+      Module.ccall("save_config", "void", [], []);
+      supertux_saveFiles();
+    };
 
   </script>
   <script async src="supertux2.js"></script>

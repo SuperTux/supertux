@@ -23,6 +23,8 @@
 #include <emscripten/html5.h>
 
 #include "gui/menu_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "video/video_system.hpp"
 #endif
 
@@ -42,12 +44,17 @@ int main(int argc, char** argv)
 
 extern "C" {
 
-// This is probably not useful, I just want ppl to know it exists
-EMSCRIPTEN_KEEPALIVE
+EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists
 void set_resolution(int w, int h)
 {
   VideoSystem::current()->on_resize(w, h);
   MenuManager::instance().on_window_resize();
+}
+
+EMSCRIPTEN_KEEPALIVE // Same as above
+void save_config()
+{
+  g_config->save();
 }
 
 }
