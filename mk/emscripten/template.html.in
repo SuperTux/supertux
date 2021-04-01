@@ -250,7 +250,55 @@
       tryResize();
     }
 
+    // FIXME: Hardcoded
+    const root = "/home/web_user/.local/share/supertux2/";
+
+    window.supertux_loadFiles = function() {
+      for (var key of Object.keys(localStorage)) {
+        if (key !== "config" && !key.match("^profile[0-9]+/"))
+          continue;
+
+        if (key.indexOf("/") !== -1) {
+          try {
+            FS.mkdir(root + key.substr(0, key.indexOf("/")));
+          } catch {
+            // Folder probably already exists
+          }
+        }
+        FS.writeFile(root + key, localStorage.getItem(key));
+      }
+    }
+
+    window.supertux_saveFiles = function() {
+
+      function save(file) {
+        try {
+          localStorage.setItem(file, FS.readFile(root + file, { encoding: "utf8" }));
+          return true;
+        } catch(e) {
+          console.error(e);
+          console.error("ERROR: Couldn't save file '" + file + "'");
+          return false;
+        }
+      }
+
+      save("config");
+
+      var data_folder = FS.lookupPath(root);
+
+      for (var folder_name in data_folder.node.contents) {
+        if (!folder_name.match("^profile[0-9]+$"))
+          continue;
+        
+        for (var file_name in data_folder.node.contents[folder_name].contents) {
+          save(folder_name + "/" + file_name);
+        }
+      }
+
+    }
+
     window.onresize = tryResize;
+    window.onunload = supertux_saveFiles;
 
   </script>
   <script async src="supertux2.js"></script>

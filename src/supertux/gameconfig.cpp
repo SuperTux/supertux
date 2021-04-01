@@ -25,6 +25,11 @@
 #include "util/writer.hpp"
 #include "util/log.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 Config::Config() :
   profile(1),
   fullscreen_size(0, 0),
@@ -76,6 +81,12 @@ Config::Config() :
 void
 Config::load()
 {
+#ifdef __EMSCRIPTEN__
+  EM_ASM(
+    supertux_loadFiles();
+  );
+#endif
+
   auto doc = ReaderDocument::from_file("config");
   auto root = doc.get_root();
   if (root.get_name() != "supertux-config")

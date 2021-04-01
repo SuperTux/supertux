@@ -111,6 +111,9 @@ ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
 void
 ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
+#ifdef __EMSCRIPTEN__
+  g_config->save();
+#endif
   if (g_config->transitions_enabled)
   {
     m_screen_fade = std::move(screen_fade);
@@ -470,7 +473,7 @@ void ScreenManager::loop_iter()
       // Sleep a bit because not enough time has passed since the previous
       // logical game step
       //SDL_Delay(ms_per_step - elapsed_ticks);
-      return;
+      //return;
     }
 
     g_real_time = static_cast<float>(ticks) / 1000.0f;
