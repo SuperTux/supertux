@@ -29,8 +29,14 @@
 #else
   #include <cstdlib>
 #endif
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
 
+#include "gui/dialog.hpp"
 #include "util/log.hpp"
+#include "util/string_util.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -222,6 +228,8 @@ void open_path(const std::string& path)
 {
 #if defined(_WIN32) || defined (_WIN64)
   ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
+#elif defined(__EMSCRIPTEN__)
+  emscripten_run_script(("window.supertux_download('" + path + "');").c_str());
 #else
   #if defined(__APPLE__)
   std::string cmd = "open \"" + path + "\"";

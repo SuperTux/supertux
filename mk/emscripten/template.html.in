@@ -154,6 +154,7 @@
   </div>
   <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
   <p id="output"></p>
+  <input type="file" id="file_upload" multiple="multiple" style="display:none">
   <script>
     if ("@CMAKE_BUILD_TYPE@" == "Release") {
       document.getElementById("output").style.display = "none";
@@ -319,6 +320,91 @@
       }
 
     }
+
+    window.supertux_download = function(path) {
+      try {
+        var downloadBlob = function(data, fileName, mimeType) {
+          var blob, url;
+          blob = new Blob([data], {
+            type: mimeType
+          });
+          url = window.URL.createObjectURL(blob);
+          var a;
+          a = document.createElement('a');
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.style = 'display: none';
+          a.click();
+          a.remove()
+          setTimeout(function() {
+            return window.URL.revokeObjectURL(url);
+          }, 1000);
+        };
+        var stat = FS.stat(path);
+        var size = stat.size;
+
+        var file = FS.open(path, 'r');
+        var buf = new Uint8Array(size);
+        FS.read(file, buf, 0, size, 0);
+        FS.close(file);
+
+        downloadBlob(buf, path.substr(path.lastIndexOf('/') + 1), 'application/octet-stream');
+
+        return true;
+      } catch(e) {
+        console.error(e);
+        return false;
+      }
+    }
+
+    const file_upload = document.getElementById("file_upload");
+    var base_path = '/';
+
+    window.supertux_upload = function(base) {
+      
+      base_path = base;
+
+      // Remove one (or multiple) leading slashes
+      while (base_path.startsWith("/"))
+        base_path = base_path.substr(1);
+
+      // Add ending slash if missing
+      if (!base_path.endsWith("/"))
+        base_path += "/";
+
+      // Remove duplicate slashes
+      base_path = base_path.replaceAll(/\/+/g, "/");
+
+      file_upload.click();
+    }
+
+    file_upload.addEventListener('change', () => {
+      for (var file of file_upload.files) {
+        var fr = new FileReader();
+        fr.filename = file.name;
+        fr.onload = function(e) {
+          var data = new Uint8Array(e.target.result);
+
+          // Create all dirs if necessary
+          var index = 0;
+          while (base_path.indexOf("/", index) != -1) {
+            index = base_path.indexOf("/", index);
+            var subfolder = base_path.substr(0, index);
+
+            if (!FS.analyzePath(root + subfolder).exists)
+              FS.mkdir(root + subfolder);
+
+            index += 1;
+          }
+
+          var em_file = FS.open(root + base_path + e.target.filename, "w");
+          FS.write(em_file, data, 0, data.length, 0);
+          FS.close(em_file);
+        };
+        fr.readAsArrayBuffer(file);
+      }
+    });
 
     window.onresize = tryResize;
     window.onunload = () => {

@@ -32,7 +32,7 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
-  m_directory(basedir.empty() ? FileSystem::dirname(*filename) : basedir),
+  m_directory(basedir.empty() ? (filename ? FileSystem::dirname(*filename) : "/") : basedir),
   m_extensions(extensions),
   m_basedir(basedir),
   m_directories(),
@@ -120,6 +120,9 @@ FileSystemMenu::refresh_items()
 bool
 FileSystemMenu::has_right_suffix(const std::string& file) const
 {
+  if (m_extensions.empty())
+    return true;
+
   for (const auto& extension : m_extensions) {
     if (StringUtil::has_suffix(file, extension))
     {
