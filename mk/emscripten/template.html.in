@@ -160,7 +160,7 @@
       document.getElementById("output").style.display = "none";
     }
 
-    alert("The Web version of SuperTux is still a work in progress... and it's very slow!\n\nIf the game is too slow to be playable, please download the native version for your platform.\n\nAlso, keep in mind your progress won't be saved yet. We're working on it!");
+    alert("The Web version of SuperTux is still a work in progress... and it's very slow!\n\nIf the game is too slow to be playable, please download the native version for your platform.");
 
     var statusElement = document.getElementById("status"),
     progressElement = document.getElementById("progress"),
