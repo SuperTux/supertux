@@ -24,7 +24,7 @@
 
 static const float CRACKTIME = 0.3f;
 static const float FALLTIME = 0.8f;
-static const float RESPAWNTIME = 10.f;
+static const float RESPAWNTIME = 5.f;
 static const float FADETIME = 0.5f;
 
 SkullTile::SkullTile(const ReaderMapping& mapping) :
