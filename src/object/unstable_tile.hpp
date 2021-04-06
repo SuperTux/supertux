@@ -21,6 +21,8 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "supertux/timer.hpp"
+#include "util/fade_helper.hpp"
 
 /** A block that disintegrates when stood on */
 class UnstableTile final : public MovingSprite
@@ -30,6 +32,7 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual std::string get_class() const override { return "unstable_tile"; }
   virtual std::string get_display_name() const override { return _("Unstable Tile"); }
 
@@ -43,16 +46,21 @@ private:
   };
 
 private:
-  void startCrumbling();
   void shake();
   void dissolve();
   void fall_down();
   void slow_fall();
+  void revive();
 
 private:
   Physic physic;
   State state;
   float slowfall_timer;
+
+  Timer m_revive_timer;
+  std::unique_ptr<FadeHelper> m_respawn;
+  float m_alpha;
+  Vector m_original_pos;
 
 private:
   UnstableTile(const UnstableTile&) = delete;
