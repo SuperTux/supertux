@@ -98,13 +98,14 @@ Block::collision(GameObject& other, const CollisionHit& )
         player->get_bbox().get_left() <= m_col.m_bbox.get_right();
       if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA &&
           x_coordinates_intersect)
+      {
         if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
         {
           hit(*player);
         }
+      }
     }
   }
-}
 
   // only interact with other objects if...
   //   1) we are bouncing
