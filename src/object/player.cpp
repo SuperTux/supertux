@@ -1127,9 +1127,10 @@ Player::handle_input()
       swim_dir = ((std::abs(m_swimming_angle) <= math::PI_2)
         || (m_water_jump && std::abs(m_physic.get_velocity_x()) < 10.f)) ? Direction::RIGHT : Direction::LEFT;
       if (m_swimming || m_water_jump)
-        Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), swim_dir, m_player_status.bonus);
-      else
-        Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
+      {
+        m_dir = swim_dir;
+      }
+      Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
       SoundManager::current()->play("sounds/shoot.wav");
       m_shooting_timer.start(SHOOTING_TIME);
     }
