@@ -65,7 +65,7 @@ public:
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
 
 private:
-struct FPS_Stats;
+  struct FPS_Stats;
   void draw_fps(DrawingContext& context, FPS_Stats& fps_statistics);
   void draw_player_pos(DrawingContext& context);
   void draw(Compositor& compositor, FPS_Stats& fps_statistics);
@@ -87,7 +87,7 @@ private:
   Uint32 elapsed_ticks;
   const Uint32 ms_per_step;
   const float seconds_per_step;
-  FPS_Stats fps_statistics;
+  std::unique_ptr<FPS_Stats> m_fps_statistics;
 
   float m_speed;
   struct Action

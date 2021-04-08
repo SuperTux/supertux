@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //                2014 Ingo Ruhnke <grumbel@gmail.com>
+//                2021 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -50,91 +51,6 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
-
-ScreenManager::ScreenManager(std::unique_ptr<VideoSystem> video_system, InputManager& input_manager) :
-  m_screen_stack(),
-  m_video_system(std::move(video_system)),
-  m_input_manager(g_config->keyboard_config, g_config->joystick_config),
-  m_menu_storage(new MenuStorage),
-  m_menu_manager(new MenuManager()),
-  m_controller_hud(new ControllerHUD),
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  m_mobile_controller(),
-#endif
-  last_ticks(0),
-  elapsed_ticks(0),
-  ms_per_step(static_cast<Uint32>(1000.0f / LOGICAL_FPS)),
-  seconds_per_step(static_cast<float>(ms_per_step) / 1000.0f),
-  fps_statistics(),
-  m_speed(1.0),
-  m_actions(),
-  m_screen_fade()
-{
-}
-
-ScreenManager::~ScreenManager()
-{
-}
-
-void
-ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> screen_fade)
-{
-  log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
-  assert(screen);
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
-  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
-}
-
-void
-ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
-{
-  log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
-  m_actions.emplace_back(Action::POP_ACTION);
-}
-
-void
-ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
-{
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
-}
-
-void
-ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
-{
-  Integration::close_all();
-
-#ifdef __EMSCRIPTEN__
-  g_config->save();
-#endif
-
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
-  m_actions.emplace_back(Action::QUIT_ACTION);
-}
-
-void
-ScreenManager::set_speed(float speed)
-{
-  m_speed = speed;
-}
-
-float
-ScreenManager::get_speed() const
-{
-  return m_speed;
-}
 
 struct ScreenManager::FPS_Stats
 {
@@ -213,6 +129,91 @@ private:
   float last_fps_max;
   std::chrono::steady_clock::time_point time_prev;
 };
+
+ScreenManager::ScreenManager(std::unique_ptr<VideoSystem> video_system, InputManager& input_manager) :
+  m_screen_stack(),
+  m_video_system(std::move(video_system)),
+  m_input_manager(g_config->keyboard_config, g_config->joystick_config),
+  m_menu_storage(new MenuStorage),
+  m_menu_manager(new MenuManager()),
+  m_controller_hud(new ControllerHUD),
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  m_mobile_controller(),
+#endif
+  last_ticks(0),
+  elapsed_ticks(0),
+  ms_per_step(static_cast<Uint32>(1000.0f / LOGICAL_FPS)),
+  seconds_per_step(static_cast<float>(ms_per_step) / 1000.0f),
+  m_fps_statistics(new FPS_Stats()),
+  m_speed(1.0),
+  m_actions(),
+  m_screen_fade()
+{
+}
+
+ScreenManager::~ScreenManager()
+{
+}
+
+void
+ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> screen_fade)
+{
+  log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
+  assert(screen);
+  if (g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
+  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
+}
+
+void
+ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
+{
+  log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
+  if (g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
+  m_actions.emplace_back(Action::POP_ACTION);
+}
+
+void
+ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
+{
+  if (g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
+}
+
+void
+ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
+{
+  Integration::close_all();
+
+#ifdef __EMSCRIPTEN__
+  g_config->save();
+#endif
+
+  if (g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
+  m_actions.emplace_back(Action::QUIT_ACTION);
+}
+
+void
+ScreenManager::set_speed(float speed)
+{
+  m_speed = speed;
+}
+
+float
+ScreenManager::get_speed() const
+{
+  return m_speed;
+}
 
 void
 ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
@@ -565,10 +566,10 @@ void ScreenManager::loop_iter()
   // Do not calculate more than a few steps at once
   // The maximum number of steps executed before drawing a frame is
   // adjusted to the current average frame rate
-  float fps = fps_statistics.get_fps();
+  float fps = m_fps_statistics->get_fps();
   if (fps != 0) {
     // Skip if fps not ready yet (during first 0.5 seconds of startup).
-    float seconds_per_frame = 1.0f / fps_statistics.get_fps();
+    float seconds_per_frame = 1.0f / m_fps_statistics->get_fps();
     int max_steps_per_frame = static_cast<int>(
       ceilf(seconds_per_frame / seconds_per_step));
     if (max_steps_per_frame < 2)
@@ -601,8 +602,8 @@ void ScreenManager::loop_iter()
       || g_debug.draw_redundant_frames) {
     // Draw a frame
     Compositor compositor(*m_video_system);
-    draw(compositor, fps_statistics);
-    fps_statistics.report_frame();
+    draw(compositor, *m_fps_statistics);
+    m_fps_statistics->report_frame();
   }
 
   SoundManager::current()->update();
