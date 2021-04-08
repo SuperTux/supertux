@@ -49,6 +49,7 @@ extern "C" {
 #include "object/spawnpoint.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "port/emscripten.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -580,6 +581,10 @@ Main::run(int argc, char** argv)
 {
   // First and foremost, set error handlers (to print stack trace on SIGSEGV, etc.)
   ErrorHandler::set_handlers();
+
+#ifdef __EMSCRIPTEN__
+  init_emscripten();
+#endif
 
 #ifdef WIN32
 	//SDL is used instead of PHYSFS because both create the same path in app data

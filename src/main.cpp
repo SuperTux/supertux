@@ -16,49 +16,16 @@
 
 #include <SDL.h>
 
+#include <memory>
+
 #include "supertux/main.hpp"
 
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#include <emscripten/html5.h>
-
-#include "gui/menu_manager.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "video/video_system.hpp"
-#endif
+static std::unique_ptr<Main> g_main;
 
 int main(int argc, char** argv)
 {
-#ifdef __EMSCRIPTEN__
-  EM_ASM(
-    if (window.supertux_onready)
-      window.supertux_onready();
-  );
-#endif
-  return (new Main())->run(argc, argv);
+  g_main = std::make_unique<Main>();
+  g_main->run(argc, argv);
 }
-
-// Export functions for emscripten
-#ifdef __EMSCRIPTEN__
-
-extern "C" {
-
-EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists
-void set_resolution(int w, int h)
-{
-  VideoSystem::current()->on_resize(w, h);
-  MenuManager::instance().on_window_resize();
-}
-
-EMSCRIPTEN_KEEPALIVE // Same as above
-void save_config()
-{
-  g_config->save();
-}
-
-}
-
-#endif
 
 /* EOF */
