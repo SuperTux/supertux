@@ -228,8 +228,11 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
-    if (player->m_does_buttjump)
+    if (player->m_does_buttjump ||
+      (player->is_swimboosting() && player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA))
+    {
       try_drop(player);
+    }
   }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
@@ -412,25 +415,25 @@ BonusBlock::try_drop(Player *player)
 
     case Content::FIREGROW:
     {
-      drop_growup_bonus("images/powerups/fireflower/fireflower.sprite", countdown);
+      drop_growup_bonus(player, "images/powerups/fireflower/fireflower.sprite", direction, countdown);
       break;
     }
 
     case Content::ICEGROW:
     {
-      drop_growup_bonus("images/powerups/iceflower/iceflower.sprite", countdown);
+      drop_growup_bonus(player, "images/powerups/iceflower/iceflower.sprite", direction, countdown);
       break;
     }
 
     case Content::AIRGROW:
     {
-      drop_growup_bonus("images/powerups/airflower/airflower.sprite", countdown);
+      drop_growup_bonus(player, "images/powerups/airflower/airflower.sprite", direction, countdown);
       break;
     }
 
     case Content::EARTHGROW:
     {
-      drop_growup_bonus("images/powerups/earthflower/earthflower.sprite", countdown);
+      drop_growup_bonus(player, "images/powerups/earthflower/earthflower.sprite", direction, countdown);
       break;
     }
 
@@ -503,9 +506,12 @@ void
 BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
 {
   std::unique_ptr<MovingObject> obj;
-  if (player->get_status().bonus == NO_BONUS) {
-    obj = std::make_unique<GrowUp>(dir);
-  } else {
+  if (player->get_status().bonus == NO_BONUS)
+  {
+    obj = std::make_unique<GrowUp>(get_pos(), dir);
+  }
+  else
+  {
     obj = std::make_unique<Flower>(bonus);
   }
 
@@ -514,9 +520,16 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
 }
 
 void
-BonusBlock::drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown)
+BonusBlock::drop_growup_bonus(Player* player, const std::string& bonus_sprite_name, const Direction& dir, bool& countdown)
 {
-  Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name);
+  if (player->get_status().bonus == NO_BONUS)
+  {
+    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir);
+  }
+  else
+  {
+    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name);
+  }
   SoundManager::current()->play("sounds/upgrade.wav", upgrade_sound_gain);
   countdown = true;
 }
