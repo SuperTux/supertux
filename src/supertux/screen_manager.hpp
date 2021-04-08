@@ -59,89 +59,13 @@ public:
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
   void pop_screen(std::unique_ptr<ScreenFade> fade = {});
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
-  
+
   void loop_iter();
 
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
+
 private:
-	struct FPS_Stats
-	{
-	  FPS_Stats():
-	    measurements_cnt(0),
-	    acc_us(0),
-	    min_us(1000000),
-	    max_us(0),
-	    last_fps(0),
-	    last_fps_min(0),
-	    last_fps_max(0),
-	    // Use chrono instead of SDL_GetTicks for more precise FPS measurement
-	    time_prev(std::chrono::steady_clock::now())
-	  {
-	  }
-
-	  void report_frame()
-	  {
-	    auto time_now = std::chrono::steady_clock::now();
-	    int dtime_us = static_cast<int>(std::chrono::duration_cast<
-	      std::chrono::microseconds>(time_now - time_prev).count());
-	    assert(dtime_us >= 0);  // Steady clock.
-	    if (dtime_us == 0)
-	      return;
-	    time_prev = time_now;
-
-	    acc_us += dtime_us;
-	    ++measurements_cnt;
-	    if (min_us > dtime_us)
-	      min_us = dtime_us;
-	    if (max_us < dtime_us)
-	      max_us = dtime_us;
-
-	    float expired_seconds = static_cast<float>(acc_us) / 1000000.0f;
-	    if (expired_seconds < 0.5f)
-	      return;
-	    // Update values to be printed every 0.5 s
-	    assert(measurements_cnt > 0);  // ++measurements_cnt above.
-	    last_fps = static_cast<float>(measurements_cnt) / expired_seconds;
-	    assert(last_fps > 0);  // measurements_cnt > 0 and expired_seconds >= 0.5f.
-	    assert(max_us > 0);  // dtime_us > 0.
-	    last_fps_min = 1000000.0f / static_cast<float>(max_us);
-	    assert(last_fps_min > 0);  // max_us > 0.
-	    assert(min_us > 0);  // initialization to 1000000 and dtime_us > 0.
-	    last_fps_max = 1000000.0f / static_cast<float>(min_us);
-	    assert(last_fps_max > 0);  // min_us > 0.
-	    measurements_cnt = 0;
-	    acc_us = 0;
-	    min_us = 1000000;
-	    max_us = 0;
-	  }
-
-	  float get_fps() const { return last_fps; }
-	  float get_fps_min() const { return last_fps_min; }
-	  float get_fps_max() const { return last_fps_max; }
-
-	  // This returns the highest measured delay between two frames from the
-	  // previous and current 0.5 s measuring intervals
-	  float get_highest_max_ms() const
-	  {
-	    float previous_max_ms = 1000.0f / last_fps_min;
-	    if (measurements_cnt > 0) {
-	      float current_max_ms = static_cast<float>(max_us) / 1000.0f;
-	      return std::max<float>(previous_max_ms, current_max_ms);
-	    }
-	    return previous_max_ms;
-	  }
-
-	private:
-	  int measurements_cnt;
-	  int acc_us;
-	  int min_us;
-	  int max_us;
-	  float last_fps;
-	  float last_fps_min;
-	  float last_fps_max;
-	  std::chrono::steady_clock::time_point time_prev;
-	};
-
+struct FPS_Stats;
   void draw_fps(DrawingContext& context, FPS_Stats& fps_statistics);
   void draw_player_pos(DrawingContext& context);
   void draw(Compositor& compositor, FPS_Stats& fps_statistics);

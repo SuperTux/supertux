@@ -19,7 +19,23 @@
 
 #include <string>
 
+class AddonManager;
 class CommandLineArguments;
+class ConfigSubsystem;
+class Console;
+class ConsoleBuffer;
+class GameManager;
+class InputManager;
+class PhysfsSubsystem;
+class Resources;
+class Savegame;
+class ScreenManager;
+class SDLSubsystem;
+class SoundManager;
+class SpriteManager;
+class SquirrelVirtualMachine;
+class TileManager;
+class TTFSurfaceManager;
 
 class Main final
 {
@@ -36,6 +52,25 @@ private:
 
   void launch_game(const CommandLineArguments& args);
   void resave(const std::string& input_filename, const std::string& output_filename);
+
+private:
+  // Using pointers allows us to initialize them whenever we want
+  std::unique_ptr<PhysfsSubsystem> m_physfs_subsystem;
+  std::unique_ptr<ConfigSubsystem> m_config_subsystem;
+  std::unique_ptr<SDLSubsystem> m_sdl_subsystem;
+  std::unique_ptr<ConsoleBuffer> m_console_buffer;
+  std::unique_ptr<InputManager> m_input_manager;
+  std::unique_ptr<TTFSurfaceManager> m_ttf_surface_manager;
+  std::unique_ptr<SoundManager> m_sound_manager;
+  std::unique_ptr<SquirrelVirtualMachine> m_squirrel_virtual_machine;
+  std::unique_ptr<TileManager> m_tile_manager;
+  std::unique_ptr<SpriteManager> m_sprite_manager;
+  std::unique_ptr<Resources> m_resources;
+  std::unique_ptr<AddonManager> m_addon_manager;
+  std::unique_ptr<Console> m_console;
+  std::unique_ptr<GameManager> m_game_manager;
+  std::unique_ptr<ScreenManager> m_screen_manager;
+  std::unique_ptr<Savegame> m_savegame;
 
 private:
   Main(const Main&) = delete;
