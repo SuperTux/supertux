@@ -1122,7 +1122,7 @@ Player::handle_input()
       (m_player_status.bonus == ICE_BONUS &&
       active_bullets < m_player_status.max_ice_bullets))
     {
-      Vector pos = get_pos() + ((m_dir == Direction::LEFT)? Vector(0, m_col.m_bbox.get_height()/2) : Vector(32, m_col.m_bbox.get_height()/2));
+      Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
       Direction swim_dir;
       swim_dir = ((std::abs(m_swimming_angle) <= math::PI_2)
         || (m_water_jump && std::abs(m_physic.get_velocity_x()) < 10.f)) ? Direction::RIGHT : Direction::LEFT;
@@ -1130,7 +1130,10 @@ Player::handle_input()
       {
         m_dir = swim_dir;
       }
-      Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
+      Sector::get().add<Bullet>(pos, (is_swimming() || is_swimboosting()) ?
+        m_physic.get_velocity() + (Vector(cos(m_swimming_angle), sin(m_swimming_angle)) * 600.f) :
+        Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f),
+        m_dir, m_player_status.bonus);
       SoundManager::current()->play("sounds/shoot.wav");
       m_shooting_timer.start(SHOOTING_TIME);
     }
@@ -1150,7 +1153,7 @@ Player::handle_input()
     apply_friction();
 
   /* Revert from Stone */
-  if (m_stone && (!m_controller->hold(Control::ACTION) || m_ability_timer.get_timeleft() <= 0.5f)) {
+  if (m_stone && (!m_controller->hold(Control::ACTION) || m_ability_timer.get_timeleft() <= 0.5f || m_swimming)) {
     m_cooldown_timer.start(m_ability_timer.get_timegone()/2.0f); //The longer stone form is used, the longer until it can be used again
     m_ability_timer.stop();
     m_sprite->set_angle(0.0f);
