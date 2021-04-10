@@ -56,6 +56,7 @@
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "util/file_system.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -721,6 +722,39 @@ DisplayEffect&
 Sector::get_effect() const
 {
   return get_singleton_by_type<DisplayEffect>();
+}
+
+void
+Sector::backup(Writer& writer) const
+{
+  writer.start_list("gameobjectmanager");
+  GameObjectManager::backup(writer);
+  writer.end_list("gameobjectmanager");
+
+  writer.write("gravity", m_gravity);
+  writer.write("name", m_name);
+}
+
+void
+Sector::restore(const ReaderMapping& reader)
+{
+  auto it = reader.get_iter();
+  while (it.next())
+  {
+    if (it.get_key() == "gravity")
+    {
+      it.get(m_gravity);
+    }
+    else if (it.get_key() == "gameobjectmanager")
+    {
+      GameObjectManager::restore(it.as_mapping());
+    }
+    else if (it.get_key() != "name")
+    {
+      log_warning << "Unknown key when restoring sector from savestate: "
+                  << it.get_key() << std::endl;
+    }
+  }
 }
 
 /* EOF */

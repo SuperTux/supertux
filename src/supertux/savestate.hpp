@@ -17,25 +17,25 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SAVESTATE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SAVESTATE_HPP
 
-class Sector;
+class Level;
 
 #include <sstream>
 
-/** A savestate holds the configuration of a sector at a given frame */
+/** A savestate holds the configuration of a level at a given frame */
 class Savestate final
 {
 public:
   Savestate();
-  Savestate(Sector* sector);
+  Savestate(Level* level);
 
   /**
-   * Saves the state of the sector at the current frame.
+   * Saves the state of the level at the current frame.
    * Overrides any previous save.
    */
   void save();
 
   /**
-   * Restores the sector state according to the last save done.
+   * Restores the level state according to the last save done.
    */
   void restore();
 
@@ -46,11 +46,11 @@ public:
 
   std::string to_string() const { return m_backup_data.str(); }
 
-  Sector* get_sector() const { return m_sector; }
-  void set_sector(Sector* sector) { m_sector = sector; }
+  Level* get_level() const { return m_level; }
+  void set_level(Level* level) { m_level = level; }
 
 private:
-  Sector* m_sector;
+  Level* m_level;
   std::stringstream m_backup_data;
 
 private:
