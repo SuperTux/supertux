@@ -151,7 +151,7 @@ GameSession::restart_level(bool after_death)
 
     if (after_death) {
       try {
-        m_savestate.set_sector(&get_current_sector());
+        m_savestate.set_level(&get_current_level());
         //get_current_sector().reset_uid_generator();
         m_savestate.restore();
       } catch (std::exception& e) {
@@ -547,7 +547,7 @@ void
 GameSession::save_state()
 {
   try {
-    m_savestate.set_sector(&get_current_sector());
+    m_savestate.set_level(&get_current_level());
     m_savestate.save();
   } catch (std::exception& e) {
     log_warning << "Couldn't save savestate: " << e.what() << std::endl;

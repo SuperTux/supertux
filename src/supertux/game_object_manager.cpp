@@ -315,16 +315,14 @@ GameObjectManager::get_tiles_height() const
 }
 
 void
-GameObjectManager::backup(Writer& writer)
+GameObjectManager::backup(Writer& writer) const
 {
-  writer.start_list("supertux-savestate");
   for (const auto& gameobject : m_gameobjects)
   {
     writer.start_list(gameobject->get_uid().key_string());
     gameobject->backup(writer);
     writer.end_list(gameobject->get_uid().key_string());
   }
-  writer.end_list("supertux-savestate");
 }
 
 void

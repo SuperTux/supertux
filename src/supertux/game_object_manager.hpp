@@ -87,7 +87,7 @@ public:
 
   /** Writes the session's full state to the writer, so that another
       instance of the game can reproduce it exactly. */
-  virtual void backup(Writer& writer);
+  virtual void backup(Writer& writer) const;
 
   /** Restores this session's internal status from a savestate */
   virtual void restore(const ReaderMapping& reader);

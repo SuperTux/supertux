@@ -24,6 +24,7 @@
 #include "trigger/secretarea_trigger.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
 #include <physfs.h>
@@ -246,6 +247,48 @@ void
 Level::reactivate()
 {
   s_current = this;
+}
+
+void
+Level::backup(Writer& writer) const
+{
+  writer.start_list("supertux-savestate");
+  for (const auto& sector : m_sectors)
+  {
+    writer.start_list("sector");
+    sector->backup(writer);
+    writer.end_list("sector");
+  }
+  writer.end_list("supertux-savestate");
+}
+
+void
+Level::restore(const ReaderMapping& reader)
+{
+  auto it = reader.get_iter();
+  while (it.next())
+  {
+    if (it.get_key() == "sector")
+    {
+      auto sector_reader = it.as_mapping();
+
+      std::string sector_name;
+      sector_reader.get("name", sector_name);
+
+      auto* sector = get_sector(sector_name);
+
+      if (!sector)
+        throw std::runtime_error("Missing sector in level when"
+                                 "restoring from savestate");
+
+      sector->restore(sector_reader);
+    }
+    else
+    {
+      log_warning << "Unknown key when restoring level from savestate: "
+                  << it.get_key() << std::endl;
+    }
+  }
 }
 
 /* EOF */

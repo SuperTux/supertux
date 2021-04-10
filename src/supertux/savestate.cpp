@@ -16,7 +16,7 @@
 
 #include "supertux/savestate.hpp"
 
-#include "supertux/sector.hpp"
+#include "supertux/level.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -24,13 +24,13 @@
 #include "util/writer.hpp"
 
 Savestate::Savestate() :
-  m_sector(nullptr),
+  m_level(nullptr),
   m_backup_data()
 {
 }
 
-Savestate::Savestate(Sector* sector) :
-  m_sector(sector),
+Savestate::Savestate(Level* level) :
+  m_level(level),
   m_backup_data()
 {
 }
@@ -38,12 +38,12 @@ Savestate::Savestate(Sector* sector) :
 void
 Savestate::save()
 {
-  if (!m_sector)
-    throw std::runtime_error("Attempt to restore savestate with null sector");
+  if (!m_level)
+    throw std::runtime_error("Attempt to save savestate with null level");
 
   clear();
   Writer writer(m_backup_data);
-  m_sector->backup(writer);
+  m_level->backup(writer);
 }
 
 void
@@ -55,8 +55,8 @@ Savestate::clear()
 void
 Savestate::restore()
 {
-  if (!m_sector)
-    throw std::runtime_error("Attempt to restore savestate with null sector");
+  if (!m_level)
+    throw std::runtime_error("Attempt to restore savestate with null level");
 
   if (!to_string().empty())
   {
@@ -64,7 +64,7 @@ Savestate::restore()
     s << to_string();
     ReaderDocument doc = ReaderDocument::from_stream(s);
     ReaderObject object = doc.get_root();
-    m_sector->restore(object.get_mapping());
+    m_level->restore(object.get_mapping());
   }
 }
 
