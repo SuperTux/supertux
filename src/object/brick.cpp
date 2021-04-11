@@ -28,6 +28,7 @@
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
   Block(SpriteManager::current()->create(spriteName)),
@@ -133,5 +134,15 @@ Brick::get_settings()
   result.add_bool(_("Breakable"), &m_breakable, "breakable");
   return result;
 }
+
+BEGIN_BACKUP(Brick, Block);
+  SAVE_PRIMITIVE(m_breakable);
+  SAVE_PRIMITIVE(m_coin_counter);
+END_BACKUP(Brick);
+
+BEGIN_RESTORE(Brick, Block);
+  LOAD_PRIMITIVE(m_breakable);
+  LOAD_PRIMITIVE(m_coin_counter);
+END_RESTORE(Brick);
 
 /* EOF */

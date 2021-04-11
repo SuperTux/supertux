@@ -54,6 +54,9 @@ private:
   void write_sexp(const sexp::Value& value, bool fudge);
   void indent();
 
+public:
+  bool m_optimize;
+
 private:
   std::string m_filename;
   std::ostream* out;

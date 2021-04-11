@@ -89,4 +89,24 @@ GameObject::get_settings()
   return result;
 }
 
+void
+GameObject::backup(Writer& writer) const
+{
+  writer.write("classname", get_class());
+  writer.start_list(GameObject::get_class());
+  writer.write("name", m_name);
+  writer.end_list(GameObject::get_class());
+}
+
+void
+GameObject::restore(const ReaderMapping& reader)
+{
+  boost::optional<ReaderMapping> subreader(ReaderMapping(reader.get_doc(), reader.get_sexp()));
+
+  if (reader.get(GameObject::get_class().c_str(), subreader))
+  {
+    subreader->get("name", m_name);
+  }
+}
+
 /* EOF */

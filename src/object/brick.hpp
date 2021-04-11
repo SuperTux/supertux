@@ -30,6 +30,9 @@ public:
   virtual std::string get_class() const override { return "brick"; }
   virtual std::string get_display_name() const override { return _("Brick"); }
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   void try_break(Player* player);
 
 protected:

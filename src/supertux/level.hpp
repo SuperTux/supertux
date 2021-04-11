@@ -63,6 +63,9 @@ public:
 
   bool is_worldmap() const { return m_is_worldmap; }
 
+  void backup(Writer& writer) const;
+  void restore(const ReaderMapping& reader);
+
 private:
   void save(Writer& writer);
   void load_old_format(const ReaderMapping& reader);

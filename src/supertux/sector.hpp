@@ -66,6 +66,9 @@ public:
   Sector(Level& parent);
   ~Sector();
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
   void finish_construction(bool editable);

@@ -20,6 +20,10 @@
 #include <algorithm>
 
 #include "object/tilemap.hpp"
+#include "supertux/game_object_factory.hpp"
+#include "util/reader_iterator.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
@@ -308,6 +312,72 @@ GameObjectManager::get_tiles_height() const
       height = static_cast<float>(solids->get_height());
   }
   return height;
+}
+
+void
+GameObjectManager::backup(Writer& writer) const
+{
+  for (const auto& gameobject : m_gameobjects)
+  {
+    writer.start_list(gameobject->get_uid().key_string());
+    gameobject->backup(writer);
+    writer.end_list(gameobject->get_uid().key_string());
+  }
+}
+
+void
+GameObjectManager::restore(const ReaderMapping& reader)
+{
+  ReaderIterator it = reader.get_iter();
+
+  std::vector<UID> uids;
+
+  while (it.next())
+  {
+    try {
+      UID uid = UID::from_key_string(it.get_key());
+      uids.push_back(uid);
+
+      GameObject* obj = nullptr;
+      for (auto& pair : m_objects_by_uid) {
+        if (pair.first == uid) {
+          obj = pair.second;
+          break;
+        }
+      }
+
+      if (obj)
+      {
+        obj->restore(it.as_mapping());
+      }
+      else
+      {
+        ReaderMapping mapping = it.as_mapping();
+        std::string classname;
+        if (!mapping.get("classname", classname)) {
+          continue;
+        }
+        std::unique_ptr<GameObject> new_obj =
+                      GameObjectFactory::instance().create(classname, Vector());
+
+        if (new_obj->is_singleton())
+        {
+          // Can't use get_singleton_by_type<T>() because it uses templates
+          // TODO: Update the singleton
+          continue;
+        }
+
+        new_obj->restore(mapping);
+        add_object(std::move(new_obj));
+      }
+    } catch (...) {
+      // Could not parse an object
+    }
+  }
+
+  for (auto pair : m_objects_by_uid)
+    if (std::find(uids.begin(), uids.end(), pair.first) == uids.end() && !pair.second->is_singleton())
+      pair.second->remove_me();
 }
 
 /* EOF */

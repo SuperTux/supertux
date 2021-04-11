@@ -255,7 +255,7 @@ void
 BonusBlock::try_open(Player* player)
 {
   SoundManager::current()->play("sounds/brick.wav");
-  if (m_sprite->get_action() == "empty")
+  if (m_hit_counter == 0)
     return;
 
   if (player == nullptr)
@@ -272,7 +272,7 @@ BonusBlock::try_open(Player* player)
     {
       Sector::get().add<BouncyCoin>(get_pos(), true);
       player->get_status().add_coins(1);
-      if (m_hit_counter != 0)
+      if (m_hit_counter != -1)
         Sector::get().get_level().m_stats.increment_coins();
       break;
     }
@@ -342,6 +342,7 @@ BonusBlock::try_open(Player* player)
     }
     case Content::RAIN:
     {
+      // set at 1 because the decrementer is at the end of the function
       m_hit_counter = 1; // multiple hits of coin rain is not allowed
       Sector::get().add<CoinRain>(get_pos(), true);
       play_upgrade_sound = true;
@@ -349,6 +350,7 @@ BonusBlock::try_open(Player* player)
     }
     case Content::EXPLODE:
     {
+      // set at 1 because the decrementer is at the end of the function
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
       play_upgrade_sound = true;
@@ -364,11 +366,13 @@ BonusBlock::try_open(Player* player)
   }
 
   start_bounce(player);
-  if (m_hit_counter <= 0 || m_contents == Content::LIGHT) { //use 0 to allow infinite hits
-  } else if (m_hit_counter == 1) {
-    m_sprite->set_action("empty");
-  } else {
+  if (m_hit_counter < 0 || m_contents == Content::LIGHT) { //use 0 to allow infinite hits
+
+  } else if (m_hit_counter > 0) {
     m_hit_counter--;
+
+    if (m_hit_counter == 0)
+      m_sprite->set_action("empty");
   }
 }
 
@@ -376,7 +380,7 @@ void
 BonusBlock::try_drop(Player *player)
 {
   SoundManager::current()->play("sounds/brick.wav");
-  if (m_sprite->get_action() == "empty")
+  if (m_hit_counter == 0)
     return;
 
   // First what's below the bonus block, if solid send it up anyway (excepting doll)
@@ -475,6 +479,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::EXPLODE:
     {
+      // set at 1 because the decrementer is at the end of the function
       m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40));
       play_upgrade_sound = true;
@@ -491,11 +496,10 @@ BonusBlock::try_drop(Player *player)
   }
 
   if (countdown) { // only decrease hit counter if try_open was not called
-    if (m_hit_counter == 1) {
+    m_hit_counter--;
+
+    if (m_hit_counter == 0)
       m_sprite->set_action("empty");
-    } else {
-      m_hit_counter--;
-    }
   }
 }
 
@@ -621,5 +625,24 @@ BonusBlock::preload_contents(int d)
       break;
   }
 }
+
+BEGIN_BACKUP(BonusBlock, Block);
+  SAVE_CAST_TYPE(m_contents, int);
+  SAVE_PRIMITIVE(m_hit_counter);
+  SAVE_PRIMITIVE(m_script);
+  std::string action(m_sprite->get_action());
+  SAVE_PRIMITIVE(action);
+//  SAVE_PRIMITIVE(m_custom_sx);
+END_BACKUP(BonusBlock);
+
+BEGIN_RESTORE(BonusBlock, Block);
+  LOAD_CAST_TYPE(m_contents, Content, int, contents);
+  LOAD_PRIMITIVE(m_hit_counter);
+  LOAD_PRIMITIVE(m_script);
+  std::string action;
+  LOAD_PRIMITIVE(action);
+  m_sprite->set_action(action);
+//  LOAD_PRIMITIVE(m_custom_sx);
+END_RESTORE(BonusBlock);
 
 /* EOF */
