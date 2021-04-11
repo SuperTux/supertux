@@ -23,6 +23,7 @@
 #include "util/log.hpp"
 
 Writer::Writer(const std::string& filename) :
+  m_optimize(false),
   m_filename(filename),
   out(new OFileStream(filename)),
   out_owned(true),
@@ -33,6 +34,7 @@ Writer::Writer(const std::string& filename) :
 }
 
 Writer::Writer(std::ostream& newout) :
+  m_optimize(false),
   m_filename("<stream>"),
   out(&newout),
   out_owned(false),
@@ -54,19 +56,27 @@ Writer::~Writer()
 void
 Writer::write_comment(const std::string& comment)
 {
+  if (m_optimize)
+    return;
+
   *out << "; " << comment << "\n";
 }
 
 void
 Writer::start_list(const std::string& listname, bool string)
 {
-  indent();
+  if (!m_optimize)
+    indent();
+
   *out << '(';
   if (string)
     write_escaped_string(listname);
   else
     *out << listname;
-  *out << '\n';
+
+  if (!m_optimize)
+    *out << '\n';
+
   indent_depth += 2;
 
   lists.push_back(listname);
@@ -75,33 +85,51 @@ Writer::start_list(const std::string& listname, bool string)
 void
 Writer::end_list(const std::string& listname)
 {
-  if (lists.size() == 0) {
+  if (lists.size() == 0)
+  {
     log_warning << m_filename << ": Trying to close list '" << listname << "', which is not open" << std::endl;
     return;
   }
-  if (lists.back() != listname) {
+
+  if (lists.back() != listname)
+  {
     log_warning << m_filename << ": trying to close list '" << listname << "' while list '" << lists.back() << "' is open" << std::endl;
     return;
   }
   lists.pop_back();
 
   indent_depth -= 2;
-  indent();
-  *out << ")\n";
+  if (!m_optimize)
+    indent();
+
+  *out << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
 Writer::write(const std::string& name, int value)
 {
-  indent();
-  *out << '(' << name << ' ' << value << ")\n";
+  if (!m_optimize)
+    indent();
+
+  *out << '(' << name << ' ' << value << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
 Writer::write(const std::string& name, float value)
 {
-  indent();
-  *out << '(' << name << ' ' << value << ")\n";
+  if (!m_optimize)
+    indent();
+
+  *out << '(' << name << ' ' << value << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 /** This function is needed to properly resolve the overloaded write()
@@ -117,35 +145,53 @@ void
 Writer::write(const std::string& name, const std::string& value,
               bool translatable)
 {
-  indent();
+  if (!m_optimize)
+    indent();
+
   *out << '(' << name;
-  if (translatable) {
+  if (translatable)
+  {
     *out << " (_ ";
     write_escaped_string(value);
-    *out << "))\n";
-  } else {
+    *out << "))";
+  }
+  else
+  {
     *out << " ";
     write_escaped_string(value);
-    *out << ")\n";
+    *out << ")";
   }
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
 Writer::write(const std::string& name, bool value)
 {
-  indent();
-  *out << '(' << name << ' ' << (value ? "#t" : "#f") << ")\n";
+  if (!m_optimize)
+    indent();
+
+  *out << '(' << name << ' ' << (value ? "#t" : "#f") << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
 Writer::write(const std::string& name,
               const std::vector<int>& value)
 {
-  indent();
+  if (!m_optimize)
+    indent();
+
   *out << '(' << name;
   for (const auto& i : value)
     *out << " " << i;
-  *out << ")\n";
+  *out << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
@@ -153,7 +199,9 @@ Writer::write(const std::string& name,
               const std::vector<unsigned int>& value,
               int width)
 {
-  indent();
+  if (!m_optimize)
+    indent();
+
   *out << '(' << name;
   if (!width)
   {
@@ -162,69 +210,105 @@ Writer::write(const std::string& name,
   }
   else
   {
-    *out << "\n";
+    if (!m_optimize)
+      *out << '\n';
+
     indent();
     int count = 0;
-    for (const auto& i : value) {
+    for (const auto& i : value)
+    {
       *out << i;
       count += 1;
-      if (count >= width) {
-        *out << "\n";
-        indent();
+      if (count >= width)
+      {
+        if (!m_optimize)
+        {
+          *out << '\n';
+          indent();
+        }
         count = 0;
-      } else {
+      }
+      else
+      {
         *out << " ";
       }
     }
   }
-  *out << ")\n";
+  *out << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
 Writer::write(const std::string& name,
               const std::vector<float>& value)
 {
-  indent();
+  if (!m_optimize)
+    indent();
+
   *out << '(' << name;
   for (const auto& i : value)
     *out << " " << i;
-  *out << ")\n";
+  *out << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
 Writer::write(const std::string& name,
               const std::vector<std::string>& value)
 {
-  indent();
+  if (!m_optimize)
+    indent();
+
   *out << '(' << name;
-  for (const auto& i : value) {
+  for (const auto& i : value)
+  {
     *out << " ";
     write_escaped_string(i);
   }
-  *out << ")\n";
+  *out << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
 Writer::write_sexp(const sexp::Value& value, bool fudge)
 {
   if (value.is_array()) {
-    if (fudge) {
-      indent_depth -= 1;
-      indent();
-      indent_depth += 1;
-    } else {
-      indent();
+    if (!m_optimize)
+    {
+      if (fudge)
+      {
+        indent_depth -= 1;
+        indent();
+        indent_depth += 1;
+      }
+      else
+      {
+        indent();
+      }
     }
     *out << "(";
     auto& arr = value.as_array();
-    for(size_t i = 0; i < arr.size(); ++i) {
+    for(size_t i = 0; i < arr.size(); ++i)
+    {
       write_sexp(arr[i], false);
-      if (i != arr.size() - 1) {
+      if (i != arr.size() - 1)
+      {
         *out << " ";
       }
     }
-    *out << ")\n";
-  } else {
+    *out << ")";
+
+    if (!m_optimize)
+      *out << '\n';
+  }
+  else
+  {
     *out << value;
   }
 }
@@ -232,13 +316,25 @@ Writer::write_sexp(const sexp::Value& value, bool fudge)
 void
 Writer::write(const std::string& name, const sexp::Value& value)
 {
-  indent();
-  *out << '(' << name << "\n";
+  if (!m_optimize)
+    indent();
+
+  *out << '(' << name;
+
+  if (!m_optimize)
+    *out << '\n';
+
   indent_depth += 4;
   write_sexp(value, true);
   indent_depth -= 4;
-  indent();
-  *out << ")\n";
+
+  if (!m_optimize)
+    indent();
+
+  *out << ")";
+
+  if (!m_optimize)
+    *out << '\n';
 }
 
 void
@@ -259,6 +355,9 @@ Writer::write_escaped_string(const std::string& str)
 void
 Writer::indent()
 {
+  if (m_optimize)
+    return;
+
   for (int i = 0; i<indent_depth; ++i)
     *out << ' ';
 }
