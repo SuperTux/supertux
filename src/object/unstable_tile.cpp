@@ -147,6 +147,7 @@ UnstableTile::revive()
   m_col.set_movement(Vector());
   m_revive_timer.stop();
   m_respawn.reset(new FadeHelper(&m_alpha, FADE_IN_TIME, 1.f));
+  m_sprite->set_action("normal");
 }
 
 void
