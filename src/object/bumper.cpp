@@ -21,6 +21,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace {
 const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
@@ -81,5 +82,17 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
 	}
   return ABORT_MOVE;
 }
+
+BEGIN_BACKUP(Bumper, MovingSprite);
+  SAVE_OBJECT(physic);
+  SAVE_PRIMITIVE(left); // TODO: Shouldn't be needed, bumpers aren't created or
+                        // destroyed dynamically and left/right doesn't change
+                        // during playtime
+END_BACKUP(Bumper);
+
+BEGIN_RESTORE_WITH_SUBREADER(Bumper, MovingSprite);
+  LOAD_OBJECT(physic);
+  LOAD_PRIMITIVE(left);
+END_RESTORE(Bumper);
 
 /* EOF */

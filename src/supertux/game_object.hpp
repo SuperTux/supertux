@@ -44,7 +44,7 @@
 
 #define END_BACKUP(OBJECT)                                                     \
     writer.end_list(OBJECT::get_class());                                      \
-  } // keep this comment because after preprocessing there might be a semicolon here:
+  }
 
 // =============================================================================
 // RESTORE
@@ -87,7 +87,7 @@
 
 #define END_RESTORE(OBJECT)                                                    \
     }                                                                          \
-  } // keep this comment because after preprocessing there might be a semicolon here:
+  }
 
 // =============================================================================
 
@@ -204,13 +204,13 @@ public:
    * point it becomes possible to change a background's images in some
    * way, for example through scripting.
    * 
-   * Yes, this adds a load on code maintenance, unfortunately, as it
+   * This does add a load on code maintenance, unfortunately, as it
    * requires to keep track of which variables become, well, variable
    * during play time.
    */
   virtual void backup(Writer& writer) const;
 
-  /** Restores this object's internal status from a previously */
+  /** Restores this object's internal status from a previously saved backup. */
   virtual void restore(const ReaderMapping& reader);
 
   /** stops all looping sounds */

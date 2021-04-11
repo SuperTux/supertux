@@ -22,6 +22,8 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -113,5 +115,17 @@ Bullet::collision(GameObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }
+
+BEGIN_BACKUP(Bullet, MovingObject);
+  SAVE_OBJECT(physic);
+  SAVE_PRIMITIVE(life_count);
+  SAVE_CAST_TYPE(type, int);
+END_BACKUP(Bullet);
+
+BEGIN_RESTORE_WITH_SUBREADER(Bullet, MovingObject);
+  LOAD_OBJECT(physic);
+  LOAD_PRIMITIVE(life_count);
+  LOAD_CAST_TYPE(type, BonusType, int, temp_type);
+END_RESTORE(Bullet);
 
 /* EOF */

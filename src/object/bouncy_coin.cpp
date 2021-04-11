@@ -18,6 +18,8 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 /** this controls the time over which a bouncy coin fades */
 static const float FADE_TIME = .2f;
@@ -71,5 +73,17 @@ BouncyCoin::draw(DrawingContext& context)
     context.pop_transform();
   }
 }
+
+BEGIN_BACKUP(BouncyCoin, GameObject);
+  SAVE_VECTOR(position);
+  SAVE_OBJECT(timer);
+  SAVE_PRIMITIVE(emerge_distance);
+END_BACKUP(BouncyCoin);
+
+BEGIN_RESTORE_WITH_SUBREADER(BouncyCoin, GameObject);
+  LOAD_VECTOR(position);
+  LOAD_OBJECT(timer);
+  LOAD_PRIMITIVE(emerge_distance);
+END_RESTORE(BouncyCoin);
 
 /* EOF */

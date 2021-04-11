@@ -33,6 +33,9 @@ public:
     return false;
   }
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
 private:
   SpritePtr sprite;
   Vector position;

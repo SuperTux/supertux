@@ -34,6 +34,9 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   /** Makes bullet bounce off an object (that got hit). To be called
       by the collision handler of that object. Note that the @c hit
       parameter is filled in as perceived by the object, not by the
