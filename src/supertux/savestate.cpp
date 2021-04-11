@@ -16,6 +16,8 @@
 
 #include "supertux/savestate.hpp"
 
+#include <regex>
+
 #include "supertux/level.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
@@ -43,6 +45,7 @@ Savestate::save()
 
   clear();
   Writer writer(m_backup_data);
+  writer.m_optimize = true;
   m_level->backup(writer);
 }
 
