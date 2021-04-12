@@ -326,26 +326,37 @@ Player::update(float dt_sec)
 {
   check_bounds();
 
-  if (no_water) {
-    if (m_swimming) {
+  //handling of swimming
+
+  if (no_water)
+  {
+    if (m_swimming)
+    {
       m_water_jump = true;
     }
     m_swimming = false;
-    if(on_ground() || m_climbing || m_does_buttjump)
-    {
-      if(m_water_jump)
-      {
-        adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
-        m_dir = (m_physic.get_velocity_x() >= 0.f) ? Direction::RIGHT : Direction::LEFT;
-      }
-      m_water_jump = false;
-      m_swimboosting = false;
-      m_powersprite->set_angle(0.f);
-      m_lightsprite->set_angle(0.f);
-    }
   }
 
-  if (on_ground() && !no_water) {
+  if ((on_ground() || m_climbing || m_does_buttjump) && m_water_jump && !m_swimming)
+  {
+    if (is_big() && !adjust_height(BIG_TUX_HEIGHT))
+    {
+      //Force Tux's box up a little in order to not phase into floor
+      adjust_height(BIG_TUX_HEIGHT, 10.f);
+    }
+    else if (!is_big())
+    {
+      adjust_height(SMALL_TUX_HEIGHT);
+    }
+    m_dir = (m_physic.get_velocity_x() >= 0.f) ? Direction::RIGHT : Direction::LEFT;
+    m_water_jump = false;
+    m_swimboosting = false;
+    m_powersprite->set_angle(0.f);
+    m_lightsprite->set_angle(0.f);
+  }
+
+  if (on_ground() && !no_water)
+  {
     if(m_swimming)
       adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
     m_swimming = false;
@@ -354,10 +365,19 @@ Player::update(float dt_sec)
     m_powersprite->set_angle(0.f);
     m_lightsprite->set_angle(0.f);
   }
-  else {
+  else
+  {
     m_dive_walk = false;
   }
   no_water = true;
+
+  if ((m_swimming || m_water_jump) && is_big())
+  {
+    m_col.set_size(TUX_WIDTH, TUX_WIDTH);
+    adjust_height(TUX_WIDTH);
+  }
+
+  //end of swimming handling
 
   if (m_dying && m_dying_timer.check()) {
     Sector::get().stop_looping_sounds();
@@ -405,11 +425,6 @@ Player::update(float dt_sec)
   m_in_walljump_tile = false;
 
   //End of wallclinging
-  if ((m_swimming || m_water_jump) && is_big())
-  {
-    m_col.set_size(TUX_WIDTH, TUX_WIDTH);
-    adjust_height(TUX_WIDTH);
-  }
 
     // extend/shrink tux collision rectangle so that we fall through/walk over 1
     // tile holes
@@ -1547,7 +1562,7 @@ Player::draw(DrawingContext& context)
   else if (m_duck && is_big()) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
   }
-  else if (m_skidding_timer.started() && !m_skidding_timer.check()) {
+  else if (m_skidding_timer.started() && !m_skidding_timer.check() && !m_swimming) {
     m_sprite->set_action(sa_prefix+"-skid"+sa_postfix);
   }
   else if (m_kick_timer.started() && !m_kick_timer.check() && !m_swimming && !m_water_jump) {
