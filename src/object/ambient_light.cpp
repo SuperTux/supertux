@@ -133,22 +133,22 @@ AmbientLight::get_settings()
   return result;
 }
 
-BEGIN_BACKUP(AmbientLight, GameObject);
-  SAVE_COLOR(m_ambient_light);
-  SAVE_PRIMITIVE(m_ambient_light_fading);
-  SAVE_COLOR(m_source_ambient_light);
-  SAVE_COLOR(m_target_ambient_light);
-  SAVE_PRIMITIVE(m_ambient_light_fade_duration);
-  SAVE_PRIMITIVE(m_ambient_light_fade_accum);
-END_BACKUP(AmbientLight);
+BEGIN_BACKUP(AmbientLight, GameObject)
+  SAVE_COLOR(m_ambient_light)
+  SAVE_PRIMITIVE(m_ambient_light_fading)
+  SAVE_COLOR(m_source_ambient_light)
+  SAVE_COLOR(m_target_ambient_light)
+  SAVE_PRIMITIVE(m_ambient_light_fade_duration)
+  SAVE_PRIMITIVE(m_ambient_light_fade_accum)
+END_BACKUP(AmbientLight)
 
-BEGIN_RESTORE(AmbientLight, GameObject);
-  LOAD_COLOR(m_ambient_light, c1);
-  LOAD_PRIMITIVE(m_ambient_light_fading);
-  LOAD_COLOR(m_source_ambient_light, c2);
-  LOAD_COLOR(m_target_ambient_light, c3);
-  LOAD_PRIMITIVE(m_ambient_light_fade_duration);
-  LOAD_PRIMITIVE(m_ambient_light_fade_accum);
-END_RESTORE(AmbientLight);
+BEGIN_RESTORE(AmbientLight, GameObject)
+  LOAD_COLOR(m_ambient_light, c1)
+  LOAD_PRIMITIVE(m_ambient_light_fading)
+  LOAD_COLOR(m_source_ambient_light, c2)
+  LOAD_COLOR(m_target_ambient_light, c3)
+  LOAD_PRIMITIVE(m_ambient_light_fade_duration)
+  LOAD_PRIMITIVE(m_ambient_light_fade_accum)
+END_RESTORE(AmbientLight)
 
 /* EOF */

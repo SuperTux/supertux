@@ -479,42 +479,42 @@ Background::load_background(const std::string& image_path)
   return Surface::from_file(new_path);
 }
 
-BEGIN_BACKUP(Background, GameObject);
-  SAVE_CAST_TYPE(m_alignment, int);
-  SAVE_PRIMITIVE(m_fill);
-  SAVE_PRIMITIVE(m_layer);
-  SAVE_PRIMITIVE(m_imagefile_top);
-  SAVE_PRIMITIVE(m_imagefile);
-  SAVE_PRIMITIVE(m_imagefile_bottom);
-  SAVE_VECTOR(m_pos);
-  SAVE_VECTOR(m_parallax_speed);
-  SAVE_VECTOR(m_scroll_speed);
-  SAVE_VECTOR(m_scroll_offset);
-  SAVE_PRIMITIVE(m_has_pos_x);
-  SAVE_PRIMITIVE(m_has_pos_y);
-  SAVE_CAST_TYPE(m_blend, int);
-  SAVE_CAST_TYPE(m_target, int);
-END_BACKUP(Background);
+BEGIN_BACKUP(Background, GameObject)
+  SAVE_CAST_TYPE(m_alignment, int)
+  SAVE_PRIMITIVE(m_fill)
+  SAVE_PRIMITIVE(m_layer)
+  SAVE_PRIMITIVE(m_imagefile_top)
+  SAVE_PRIMITIVE(m_imagefile)
+  SAVE_PRIMITIVE(m_imagefile_bottom)
+  SAVE_VECTOR(m_pos)
+  SAVE_VECTOR(m_parallax_speed)
+  SAVE_VECTOR(m_scroll_speed)
+  SAVE_VECTOR(m_scroll_offset)
+  SAVE_PRIMITIVE(m_has_pos_x)
+  SAVE_PRIMITIVE(m_has_pos_y)
+  SAVE_CAST_TYPE(m_blend, int)
+  SAVE_CAST_TYPE(m_target, int)
+END_BACKUP(Background)
 
-BEGIN_RESTORE(Background, GameObject);
-  LOAD_CAST_TYPE(m_alignment, Alignment, int, a);
-  LOAD_PRIMITIVE(m_fill);
-  LOAD_PRIMITIVE(m_layer);
-  LOAD_PRIMITIVE(m_imagefile_top);
-  LOAD_PRIMITIVE(m_imagefile);
-  LOAD_PRIMITIVE(m_imagefile_bottom);
-  LOAD_VECTOR(m_pos);
-  LOAD_VECTOR(m_parallax_speed);
-  LOAD_VECTOR(m_scroll_speed);
-  LOAD_VECTOR(m_scroll_offset);
-  LOAD_PRIMITIVE(m_has_pos_x);
-  LOAD_PRIMITIVE(m_has_pos_y);
-  LOAD_CAST_TYPE(m_blend, Blend, int, b);
-  LOAD_CAST_TYPE(m_target, DrawingTarget, int, d);
+BEGIN_RESTORE(Background, GameObject)
+  LOAD_CAST_TYPE(m_alignment, Alignment, int, a)
+  LOAD_PRIMITIVE(m_fill)
+  LOAD_PRIMITIVE(m_layer)
+  LOAD_PRIMITIVE(m_imagefile_top)
+  LOAD_PRIMITIVE(m_imagefile)
+  LOAD_PRIMITIVE(m_imagefile_bottom)
+  LOAD_VECTOR(m_pos)
+  LOAD_VECTOR(m_parallax_speed)
+  LOAD_VECTOR(m_scroll_speed)
+  LOAD_VECTOR(m_scroll_offset)
+  LOAD_PRIMITIVE(m_has_pos_x)
+  LOAD_PRIMITIVE(m_has_pos_y)
+  LOAD_CAST_TYPE(m_blend, Blend, int, b)
+  LOAD_CAST_TYPE(m_target, DrawingTarget, int, d)
 
   m_image_top = load_background(m_imagefile_top);
   m_image = load_background(m_imagefile);
   m_image_bottom = load_background(m_imagefile_bottom);
-END_RESTORE(Background);
+END_RESTORE(Background)
 
 /* EOF */

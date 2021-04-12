@@ -83,16 +83,16 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   return ABORT_MOVE;
 }
 
-BEGIN_BACKUP(Bumper, MovingSprite);
-  SAVE_OBJECT(physic);
-  SAVE_PRIMITIVE(left); // TODO: Shouldn't be needed, bumpers aren't created or
+BEGIN_BACKUP(Bumper, MovingSprite)
+  SAVE_OBJECT(physic)
+  SAVE_PRIMITIVE(left)  // TODO: Shouldn't be needed, bumpers aren't created or
                         // destroyed dynamically and left/right doesn't change
                         // during playtime
-END_BACKUP(Bumper);
+END_BACKUP(Bumper)
 
-BEGIN_RESTORE_WITH_SUBREADER(Bumper, MovingSprite);
-  LOAD_OBJECT(physic);
-  LOAD_PRIMITIVE(left);
-END_RESTORE(Bumper);
+BEGIN_RESTORE_WITH_SUBREADER(Bumper, MovingSprite)
+  LOAD_OBJECT(physic)
+  LOAD_PRIMITIVE(left)
+END_RESTORE(Bumper)
 
 /* EOF */

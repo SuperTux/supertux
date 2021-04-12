@@ -648,23 +648,23 @@ BonusBlock::preload_contents(int d)
   }
 }
 
-BEGIN_BACKUP(BonusBlock, Block);
-  SAVE_CAST_TYPE(m_contents, int);
-  SAVE_PRIMITIVE(m_hit_counter);
-  SAVE_PRIMITIVE(m_script);
+BEGIN_BACKUP(BonusBlock, Block)
+  SAVE_CAST_TYPE(m_contents, int)
+  SAVE_PRIMITIVE(m_hit_counter)
+  SAVE_PRIMITIVE(m_script)
   std::string action(m_sprite->get_action());
-  SAVE_PRIMITIVE(action);
-//  SAVE_PRIMITIVE(m_custom_sx);
-END_BACKUP(BonusBlock);
+  SAVE_PRIMITIVE(action)
+//  SAVE_PRIMITIVE(m_custom_sx)
+END_BACKUP(BonusBlock)
 
 BEGIN_RESTORE(BonusBlock, Block);
-  LOAD_CAST_TYPE(m_contents, Content, int, contents);
-  LOAD_PRIMITIVE(m_hit_counter);
-  LOAD_PRIMITIVE(m_script);
+  LOAD_CAST_TYPE(m_contents, Content, int, contents)
+  LOAD_PRIMITIVE(m_hit_counter)
+  LOAD_PRIMITIVE(m_script)
   std::string action;
-  LOAD_PRIMITIVE(action);
+  LOAD_PRIMITIVE(action)
   m_sprite->set_action(action);
-//  LOAD_PRIMITIVE(m_custom_sx);
-END_RESTORE(BonusBlock);
+//  LOAD_PRIMITIVE(m_custom_sx)
+END_RESTORE(BonusBlock)
 
 /* EOF */

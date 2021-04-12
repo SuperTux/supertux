@@ -135,14 +135,14 @@ Brick::get_settings()
   return result;
 }
 
-BEGIN_BACKUP(Brick, Block);
-  SAVE_PRIMITIVE(m_breakable);
-  SAVE_PRIMITIVE(m_coin_counter);
-END_BACKUP(Brick);
+BEGIN_BACKUP(Brick, Block)
+  SAVE_PRIMITIVE(m_breakable)
+  SAVE_PRIMITIVE(m_coin_counter)
+END_BACKUP(Brick)
 
-BEGIN_RESTORE(Brick, Block);
-  LOAD_PRIMITIVE(m_breakable);
-  LOAD_PRIMITIVE(m_coin_counter);
-END_RESTORE(Brick);
+BEGIN_RESTORE(Brick, Block)
+  LOAD_PRIMITIVE(m_breakable)
+  LOAD_PRIMITIVE(m_coin_counter)
+END_RESTORE(Brick)
 
 /* EOF */

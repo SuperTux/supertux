@@ -74,16 +74,16 @@ BouncyCoin::draw(DrawingContext& context)
   }
 }
 
-BEGIN_BACKUP(BouncyCoin, GameObject);
-  SAVE_VECTOR(position);
-  SAVE_OBJECT(timer);
-  SAVE_PRIMITIVE(emerge_distance);
-END_BACKUP(BouncyCoin);
+BEGIN_BACKUP(BouncyCoin, GameObject)
+  SAVE_VECTOR(position)
+  SAVE_OBJECT(timer)
+  SAVE_PRIMITIVE(emerge_distance)
+END_BACKUP(BouncyCoin)
 
-BEGIN_RESTORE_WITH_SUBREADER(BouncyCoin, GameObject);
-  LOAD_VECTOR(position);
-  LOAD_OBJECT(timer);
-  LOAD_PRIMITIVE(emerge_distance);
-END_RESTORE(BouncyCoin);
+BEGIN_RESTORE_WITH_SUBREADER(BouncyCoin, GameObject)
+  LOAD_VECTOR(position)
+  LOAD_OBJECT(timer)
+  LOAD_PRIMITIVE(emerge_distance)
+END_RESTORE(BouncyCoin)
 
 /* EOF */

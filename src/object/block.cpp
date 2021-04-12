@@ -231,24 +231,24 @@ void Block::after_editor_set()
   m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
-BEGIN_BACKUP(Block, MovingObject);
-  SAVE_PRIMITIVE(m_sprite_name);
-  SAVE_PRIMITIVE(m_default_sprite_name);
-  SAVE_PRIMITIVE(m_bouncing);
-  SAVE_PRIMITIVE(m_breaking);
-  SAVE_PRIMITIVE(m_bounce_dir);
-  SAVE_PRIMITIVE(m_bounce_offset);
-  SAVE_PRIMITIVE(m_original_y);
-END_BACKUP(Block);
+BEGIN_BACKUP(Block, MovingObject)
+  SAVE_PRIMITIVE(m_sprite_name)
+  SAVE_PRIMITIVE(m_default_sprite_name)
+  SAVE_PRIMITIVE(m_bouncing)
+  SAVE_PRIMITIVE(m_breaking)
+  SAVE_PRIMITIVE(m_bounce_dir)
+  SAVE_PRIMITIVE(m_bounce_offset)
+  SAVE_PRIMITIVE(m_original_y)
+END_BACKUP(Block)
 
-BEGIN_RESTORE(Block, MovingObject);
-  LOAD_PRIMITIVE(m_sprite_name);
-  LOAD_PRIMITIVE(m_default_sprite_name);
-  LOAD_PRIMITIVE(m_bouncing);
-  LOAD_PRIMITIVE(m_breaking);
-  LOAD_PRIMITIVE(m_bounce_dir);
-  LOAD_PRIMITIVE(m_bounce_offset);
-  LOAD_PRIMITIVE(m_original_y);
-END_RESTORE(Block);
+BEGIN_RESTORE(Block, MovingObject)
+  LOAD_PRIMITIVE(m_sprite_name)
+  LOAD_PRIMITIVE(m_default_sprite_name)
+  LOAD_PRIMITIVE(m_bouncing)
+  LOAD_PRIMITIVE(m_breaking)
+  LOAD_PRIMITIVE(m_bounce_dir)
+  LOAD_PRIMITIVE(m_bounce_offset)
+  LOAD_PRIMITIVE(m_original_y)
+END_RESTORE(Block)
 
 /* EOF */

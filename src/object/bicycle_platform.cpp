@@ -199,10 +199,10 @@ BicyclePlatform::get_settings()
   return result;
 }
 
-BEGIN_BACKUP(BicyclePlatform, GameObject);
-END_BACKUP(BicyclePlatform);
+BEGIN_BACKUP(BicyclePlatform, GameObject)
+END_BACKUP(BicyclePlatform)
 
-BEGIN_RESTORE(BicyclePlatform, GameObject);
-END_RESTORE(BicyclePlatform);
+BEGIN_RESTORE(BicyclePlatform, GameObject)
+END_RESTORE(BicyclePlatform)
 
 /* EOF */
