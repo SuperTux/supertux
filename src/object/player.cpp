@@ -1197,28 +1197,44 @@ Player::handle_input()
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
       Rectf dest_;
-      dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
-      dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
-
-      if (m_dir == Direction::LEFT)
+      if (m_swimming || m_water_jump)
       {
-        dest_.set_right(m_col.m_bbox.get_left() - 1);
-        dest_.set_left(dest_.get_right() - grabbed_bbox.get_width());
+        dest_.set_bottom(m_col.m_bbox.get_bottom() + (sin(m_swimming_angle) * 32.f));
+        dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
+        dest_.set_left(m_col.m_bbox.get_left() + (cos(m_swimming_angle) * 32.f));
+        dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
       }
       else
       {
-        dest_.set_left(m_col.m_bbox.get_right() + 1);
-        dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
+        dest_.set_bottom(m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
+        dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
+
+        if (m_dir == Direction::LEFT)
+        {
+          dest_.set_right(m_col.m_bbox.get_left() - 1);
+          dest_.set_left(dest_.get_right() - grabbed_bbox.get_width());
+        }
+        else
+        {
+          dest_.set_left(m_col.m_bbox.get_right() + 1);
+          dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
+        }
       }
 
       if (Sector::get().is_free_of_tiles(dest_, true) &&
-         Sector::get().is_free_of_statics(dest_, moving_object, true)) {
+         Sector::get().is_free_of_statics(dest_, moving_object, true))
+      {
         moving_object->set_pos(dest_.p1());
-        if (m_controller->hold(Control::UP)) {
+        if (m_controller->hold(Control::UP))
+        {
           m_grabbed_object->ungrab(*this, Direction::UP);
-        } else if (m_controller->hold(Control::DOWN)) {
+        }
+        else if (m_controller->hold(Control::DOWN))
+        {
           m_grabbed_object->ungrab(*this, Direction::DOWN);
-        } else {
+        }
+        else
+        {
           m_grabbed_object->ungrab(*this, m_dir);
         }
         moving_object->del_remove_listener(m_grabbed_object_remove_listener.get());
@@ -1241,17 +1257,23 @@ Player::position_grabbed_object()
   auto moving_object = dynamic_cast<MovingObject*>(m_grabbed_object);
   assert(moving_object);
   const auto& object_bbox = moving_object->get_bbox();
-
-  // Position where we will hold the lower-inner corner
-  Vector pos(m_col.m_bbox.get_left() + m_col.m_bbox.get_width()/2,
+  if (!m_swimming && !m_water_jump)
+  {
+    // Position where we will hold the lower-inner corner
+    Vector pos(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
       m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f);
-
-  // Adjust to find the grabbed object's upper-left corner
-  if (m_dir == Direction::LEFT)
-    pos.x -= object_bbox.get_width();
-  pos.y -= object_bbox.get_height();
-
-  m_grabbed_object->grab(*this, pos, m_dir);
+    // Adjust to find the grabbed object's upper-left corner
+    if (m_dir == Direction::LEFT)
+      pos.x -= object_bbox.get_width();
+    pos.y -= object_bbox.get_height();
+    m_grabbed_object->grab(*this, pos, m_dir);
+  }
+  else
+  {
+    Vector pos(m_col.m_bbox.get_left() + (cos(m_swimming_angle) * 32.f),
+               m_col.m_bbox.get_top() + (sin(m_swimming_angle) * 32.f));
+    m_grabbed_object->grab(*this, pos, m_dir);
+  }
 }
 
 void
@@ -1261,13 +1283,21 @@ Player::try_grab()
   {
 
     Vector pos;
-    if (m_dir == Direction::LEFT)
+    if (!m_swimming && !m_water_jump)
     {
-      pos = Vector(m_col.m_bbox.get_left() - 5, m_col.m_bbox.get_bottom() - 16);
+      if (m_dir == Direction::LEFT)
+      {
+        pos = Vector(m_col.m_bbox.get_left() - 5, m_col.m_bbox.get_bottom() - 16);
+      }
+      else
+      {
+        pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
+      }
     }
     else
     {
-      pos = Vector(m_col.m_bbox.get_right() + 5, m_col.m_bbox.get_bottom() - 16);
+      pos = Vector(m_col.m_bbox.get_left() + 16.f + (cos(m_swimming_angle) * 48.f),
+                   m_col.m_bbox.get_top() + 16.f + (sin(m_swimming_angle) * 48.f));
     }
 
     for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>())
@@ -1559,7 +1589,7 @@ Player::draw(DrawingContext& context)
   else if (m_backflipping) {
     m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
   }
-  else if (m_duck && is_big()) {
+  else if (m_duck && is_big() && !m_swimming) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
   }
   else if (m_skidding_timer.started() && !m_skidding_timer.check() && !m_swimming) {

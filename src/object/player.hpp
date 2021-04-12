@@ -154,7 +154,9 @@ public:
   bool is_stone() const { return m_stone; }
   bool is_swimming() const { return m_swimming; }
   bool is_swimboosting() const { return m_swimboosting; }
+  bool is_water_jumping() const { return m_water_jump; }
   bool is_skidding() const { return m_skidding_timer.started(); }
+  float get_swimming_angle() const { return m_swimming_angle; }
 
   void set_visible(bool visible);
   bool get_visible() const;
