@@ -218,7 +218,7 @@ Config::save()
 
   writer.start_list("integrations");
   {
-  writer.write("hide_editor_levelnames", hide_editor_levelnames);
+    writer.write("hide_editor_levelnames", hide_editor_levelnames);
 #ifdef ENABLE_DISCORD
     writer.write("enable_discord", enable_discord);
 #endif
