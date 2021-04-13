@@ -678,14 +678,8 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   else
   {
     std::string os_path = FileSystem::join(realdir, archive);
-
- if (g_config->use_local_path) {
-    PHYSFS_mount(os_path.c_str(), nullptr, 0);
-    } else {
- PHYSFS_mount(os_path.c_str(), nullptr, 1);
-    }
-
-
+    // check if we should use local file paths for addon overrides
+    PHYSFS_mount(os_path.c_str(), nullptr, !(g_config->use_local_path));
     std::string nfo_filename = scan_for_info(os_path);
 
     if (nfo_filename.empty())
