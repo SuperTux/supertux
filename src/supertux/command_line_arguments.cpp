@@ -53,7 +53,8 @@ CommandLineArguments::CommandLineArguments() :
   christmas_mode(),
   repository_url(),
   editor(),
-  resave()
+  resave(),
+  use_local_path()
 {
 }
 
@@ -131,6 +132,8 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("Directory Options:") << "\n"
     << _("  --datadir DIR                Set the directory for the games datafiles") << "\n"
     << _("  --userdir DIR                Set the directory for user data (savegames, etc.)") << "\n"
+    << _("  --use-local-path             Set precedence for local addon file paths") << "\n"
+    << _("  --no-local-path              Unset precedence for local addon file paths") << "\n"
     << "\n"
     << _("Add-On Options:") << "\n"
     << _("  --repository-url URL         Set the URL to the Add-On repository") << "\n"
@@ -316,6 +319,14 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       christmas_mode = false;
     }
+    else if (arg == "--use-local-path")
+    {
+      use_local_path = true;
+    }
+    else if (arg == "--no-local-path")
+    {
+      use_local_path = false;
+    }
     else if (arg == "--disable-sound" || arg == "--disable-sfx")
     {
       sound_enabled = false;
@@ -437,6 +448,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(tux_spawn_pos)
   merge_option(developer_mode)
   merge_option(christmas_mode)
+  merge_option(use_local_path)
   merge_option(repository_url)
 
 #undef merge_option

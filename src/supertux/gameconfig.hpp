@@ -107,7 +107,7 @@ public:
   bool enable_discord;
 #endif
   bool hide_editor_levelnames;
-
+  bool use_local_path;
   int editor_autosave_frequency;
 
   std::string repository_url;

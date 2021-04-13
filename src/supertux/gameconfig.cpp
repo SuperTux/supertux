@@ -65,6 +65,7 @@ Config::Config() :
   enable_discord(false),
 #endif
   hide_editor_levelnames(false),
+  use_local_path(false),
   editor_autosave_frequency(5),
   repository_url()
 {
@@ -89,6 +90,7 @@ Config::load()
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
+  config_mapping.get("use_local_path", use_local_path);
 
   boost::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
@@ -216,7 +218,7 @@ Config::save()
 
   writer.start_list("integrations");
   {
-    writer.write("hide_editor_levelnames", hide_editor_levelnames);
+  writer.write("hide_editor_levelnames", hide_editor_levelnames);
 #ifdef ENABLE_DISCORD
     writer.write("enable_discord", enable_discord);
 #endif

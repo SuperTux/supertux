@@ -46,7 +46,7 @@ enum IntegrationsMenuIDs {
 
 IntegrationsMenu::IntegrationsMenu()
 {
-  add_label(_("Integrations"));
+  add_label(_("Social Integrations"));
   add_hl();
   add_toggle(MNID_LEVELNAMES_EDITOR, _("Do not share level names when editing"), &g_config->hide_editor_levelnames)
     .set_help("Enable this if you want to work on secret levels and don't want the names to be spoiled");
@@ -56,9 +56,9 @@ IntegrationsMenu::IntegrationsMenu()
 #else
   add_inactive( _("Discord (disabled; not compiled)"));
 #endif
-  add_hl();
   add_back(_("Back"));
 }
+
 
 IntegrationsMenu::~IntegrationsMenu()
 {
