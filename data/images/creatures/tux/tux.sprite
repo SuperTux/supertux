@@ -148,7 +148,7 @@
        (action
          (name "small-swimming-right")
          (fps 15.0)
-         (hitbox 16 8 32 32)
+         (hitbox 29 24 32 32)
          (images "small/swimsmall1.png"
                  "small/swimsmall2.png"
                  "small/swimsmall3.png"
@@ -158,13 +158,13 @@
        (action
          (name "small-swimming-left")
          (fps 15.0)
-         (hitbox 16 8 32 32)
+         (hitbox 29 24 32 32)
          (mirror-action "small-swimming-right"))
 
        (action
          (name "small-floating-right")
          (fps 11.0)
-         (hitbox 16 8 32 32)
+         (hitbox 29 24 32 32)
          (images "small/swimsmall1.png"
                  "small/swimsmall2.png"
                  "small/swimsmall3.png"
@@ -185,21 +185,21 @@
        (action
          (name "small-floating-left")
          (fps 11.0)
-         (hitbox 16 8 32 32)
+         (hitbox 29 24 32 32)
          (mirror-action "small-floating-right"))
 
        (action
          (name "small-swimjump-right")
          (fps 10.0)
          (loops 1)
-         (hitbox 16 8 36 35)
+         (hitbox 29 24 36 35)
          (images "small/swimsmall1.png"))
 
        (action
          (name "small-swimjump-left")
          (fps 10.0)
          (loops 1)
-         (hitbox 16 8 36 35)
+         (hitbox 29 24 36 35)
          (mirror-action "small-swimjump-right"))
 
        (action
@@ -218,6 +218,23 @@
          (name "grow-left")
          (hitbox 16 13 32 64)
          (mirror-action "grow-right"))
+         
+       (action
+         (name "swimgrow-right")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (images "small/swimsmallidle.png"
+                 "small/swimsmallidle.png"
+                 "small/swimgrow1.png"
+                 "small/swimgrow2.png"
+                 "small/swimgrow3.png"
+                 "big/swimidle1.png"
+                 "big/swimidle1.png"))
+
+       (action
+         (name "swimgrow-left")
+         (hitbox 29 24 32 64)
+         (mirror-action "swimgrow-right"))
 		 
        (action
          (name "grow-ladder-right")

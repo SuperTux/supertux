@@ -702,12 +702,11 @@ Player::swim(float pointx, float pointy, bool boost)
       m_lightsprite->set_angle(angle);
     }
 
-    /*Force the speed to point in the direction Tux is going
-    (commented until further updates and fixes)
+    //Force the speed to point in the direction Tux is going
     if (m_swimming && !m_water_jump && boost)
     {
       m_physic.set_velocity(m_physic.get_velocity().at_angle(m_swimming_angle));
-    }*/
+    }
   }
 }
 
@@ -1403,16 +1402,20 @@ Player::set_bonus(BonusType type, bool animate)
   }
 
   if ((m_player_status.bonus == NO_BONUS) && (type != NO_BONUS)) {
-    if (!adjust_height(BIG_TUX_HEIGHT)) {
-      log_debug << "Can't adjust Tux height" << std::endl;
-      return false;
+    if (!m_swimming)
+    {
+      if (!adjust_height(BIG_TUX_HEIGHT))
+      {
+        log_debug << "Can't adjust Tux height" << std::endl;
+        return false;
+      }
     }
     if (animate) {
       m_growing = true;
       if (m_climbing)
-        m_sprite->set_action((m_dir == Direction::LEFT)?"grow-ladder-left":"grow-ladder-right", 1);
+        m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-ladder-left" : "grow-ladder-right", 1);   
       else
-        m_sprite->set_action((m_dir == Direction::LEFT)?"grow-left":"grow-right", 1);
+        m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-left" : "grow-right", 1);
     }
     if (m_climbing) stop_climbing(*m_climbing);
   }
@@ -1549,7 +1552,8 @@ Player::draw(DrawingContext& context)
   }
   else if (m_growing)
   {
-    m_sprite->set_action_continued("grow"+sa_postfix);
+    m_sprite->set_action_continued(m_swimming || m_water_jump ?
+      "swimgrow"+sa_postfix : "grow"+sa_postfix);
     // while growing, do not change action
     // do_duck() will take care of cancelling growing manually
     // update() will take care of cancelling when growing completed
