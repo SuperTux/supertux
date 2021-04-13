@@ -672,12 +672,6 @@ Player::swim(float pointx, float pointy, bool boost)
       m_swimming_angle = Vector(vx, vy).angle();
     }
 
-  // Direction prev_dir = m_dir;
-  m_dir = std::abs(m_swimming_angle) < math::PI_2 ? Direction::RIGHT :
-          std::abs(m_swimming_angle) > math::PI_2 ? Direction::LEFT :
-          m_swimming_angle < 0 ? Direction::UP :
-          Direction::DOWN;
-
   // snap angle dir when water jumping to avoid crazy spinning graphics...
   if (m_water_jump && !m_swimming && std::abs(m_physic.get_velocity_x()) < 10.f)
   {
@@ -1716,6 +1710,7 @@ Player::collision_tile(uint32_t tile_attributes)
       no_water = false;
       m_water_jump = false;
       m_swimming = true;
+      m_swimming_angle = Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()).angle();
       if (is_big())
         adjust_height(TUX_WIDTH);
       m_wants_buttjump = m_does_buttjump = m_backflipping = false;
