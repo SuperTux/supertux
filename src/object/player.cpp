@@ -199,7 +199,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_swimming_angle(0),
   m_swimming_accel_modifier(100.f),
   m_water_jump(false),
-  m_dive_walk(false),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_floor_normal(),
   m_ghost_mode(false),
@@ -354,21 +353,6 @@ Player::update(float dt_sec)
     m_powersprite->set_angle(0.f);
     m_lightsprite->set_angle(0.f);
   }
-
-  if (on_ground() && !no_water)
-  {
-    if(m_swimming)
-      adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
-    m_swimming = false;
-    m_swimboosting = false;
-    m_dive_walk = true;
-    m_powersprite->set_angle(0.f);
-    m_lightsprite->set_angle(0.f);
-  }
-  else
-  {
-    m_dive_walk = false;
-  }
   no_water = true;
 
   if ((m_swimming || m_water_jump) && is_big())
@@ -435,7 +419,7 @@ Player::update(float dt_sec)
     }
 
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
-  if (on_ground() && !m_dying) {
+  if (on_ground() && !m_swimming && !m_dying) {
     if (m_floor_normal.y != 0) {
       if ((m_floor_normal.x * m_physic.get_velocity_x()) >= 0) {
         m_physic.set_velocity_y(250);
@@ -1041,12 +1025,6 @@ Player::handle_vertical_input()
   if (!m_controller->hold(Control::DOWN)) {
     m_wants_buttjump = false;
     m_does_buttjump = false;
-  }
-
-  //Back to swimming
-  if(m_dive_walk && m_controller->hold(Control::UP))
-  {
-    do_jump(-100);
   }
 
   //The real walljumping magic
@@ -1732,17 +1710,13 @@ Player::collision_tile(uint32_t tile_attributes)
   } else {
     if ( tile_attributes & Tile::WATER ){
       no_water = false;
-      if (!on_ground())
-      {
-        m_dive_walk = false;
-        m_water_jump = false;
-        m_swimming = true;
-        if (is_big())
-          adjust_height(TUX_WIDTH);
-        m_wants_buttjump = m_does_buttjump = m_backflipping = false;
-        SoundManager::current()->play("sounds/splash.wav");
-        m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
-      }
+      m_water_jump = false;
+      m_swimming = true;
+      if (is_big())
+        adjust_height(TUX_WIDTH);
+      m_wants_buttjump = m_does_buttjump = m_backflipping = false;
+      SoundManager::current()->play("sounds/splash.wav");
+      m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
     }
   }
 #endif
@@ -1765,9 +1739,8 @@ Player::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() > 0)
       m_physic.set_velocity_y(0);
 
-    if (m_dive_walk && is_big() && !m_duck && !adjust_height(BIG_TUX_HEIGHT))
-      return;
-    m_on_ground_flag = true;
+    if (!m_swimming)
+      m_on_ground_flag = true;
     m_floor_normal = hit.slope_normal;
 
     // Butt Jump landed

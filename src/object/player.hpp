@@ -328,7 +328,6 @@ private:
   float m_swimming_angle;
   float m_swimming_accel_modifier;
   bool m_water_jump;
-  bool m_dive_walk;
 
   SurfacePtr m_airarrow; /**< arrow indicating Tux' position when he's above the camera */
 
