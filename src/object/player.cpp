@@ -576,7 +576,7 @@ Player::swim(float pointx, float pointy, bool boost)
       if(std::abs(delta) > math::PI)
         delta += delta > 0 ? -math::TAU : math::TAU;
 
-      float epsilon = .1f * delta;
+      float epsilon = (boost ? .3f : .15f) * delta;
       m_swimming_angle += epsilon;
 
       if (m_swimming_angle > math::PI)
@@ -611,7 +611,7 @@ Player::swim(float pointx, float pointy, bool boost)
       // Natural friction
       if (!is_ang_defined)
       {
-        m_physic.set_acceleration(-2.f*vx, -2.f*vy);
+        m_physic.set_acceleration(-3.f*vx, -3.f*vy);
       }
 
       //not boosting? let's slow this penguin down!!!
