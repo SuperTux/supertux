@@ -450,32 +450,32 @@ AddonManager::enable_addon(const AddonId& addon_id)
     {
       if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
       {
-      log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
-                  << PHYSFS_getLastErrorCode() << std::endl;
-      }
-      else
-      {
-       if (addon.get_type() == Addon::LANGUAGEPACK)
-       {
-         PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
+        log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
+        << PHYSFS_getLastErrorCode() << std::endl;
        }
-      addon.set_enabled(true);
+       else
+      {
+        if (addon.get_type() == Addon::LANGUAGEPACK)
+          {
+             PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
+          }
+        addon.set_enabled(true);
       }
     }
-   else
+    else
    {
      if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
-      {
-      log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
-                  << PHYSFS_getLastErrorCode() << std::endl;
-      }
-      else
-      {
-       if (addon.get_type() == Addon::LANGUAGEPACK)
-        {
-         PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
-         }
-       addon.set_enabled(true);
+       {
+         log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
+         << PHYSFS_getLastErrorCode() << std::endl;
+       }
+       else
+       {
+         if (addon.get_type() == Addon::LANGUAGEPACK)
+           {
+           PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
+           }
+         addon.set_enabled(true);
       }
     }
   }
@@ -548,18 +548,18 @@ AddonManager::mount_old_addons()
       {
         if (g_config->use_local_path) 
         {
-                if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
+          if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
           {
-              log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
-              << PHYSFS_getLastErrorCode() << std::endl;
+            log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
+            << PHYSFS_getLastErrorCode() << std::endl;
           }
-        }
-        else
-        {
-        if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
-        {
-                          log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
-                          << PHYSFS_getLastErrorCode() << std::endl;
+       }
+       else
+       {
+         if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
+           {
+             log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
+             << PHYSFS_getLastErrorCode() << std::endl;
         }
       }
     }
@@ -570,12 +570,15 @@ void
 AddonManager::unmount_old_addons()
 {
   for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon)) {
+    if (is_old_enabled_addon(addon))
+    {
       if (g_config->use_local_path)
+      {
         if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
         {
           log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
-                     << PHYSFS_getLastErrorCode() << std::endl;
+          << PHYSFS_getLastErrorCode() << std::endl;
+        }
       }
     }
   }
