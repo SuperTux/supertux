@@ -342,6 +342,7 @@ Player::update(float dt_sec)
     {
       //Force Tux's box up a little in order to not phase into floor
       adjust_height(BIG_TUX_HEIGHT, 10.f);
+      do_duck();
     }
     else if (!is_big())
     {
@@ -539,10 +540,16 @@ Player::update(float dt_sec)
 
   // when climbing animate only while moving
   if (m_climbing){
-    if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
+    if ((m_physic.get_velocity_x() == 0) && (m_physic.get_velocity_y() == 0))
+    {
       m_sprite->stop_animation();
+      m_powersprite->stop_animation();
+    }
     else
+    {
       m_sprite->set_animation_loops(-1);
+      m_powersprite->set_animation_loops(-1);
+    }
   }
 
 }
@@ -2052,7 +2059,8 @@ Player::set_edit_mode(bool enable)
 void
 Player::start_climbing(Climbable& climbable)
 {
-  if (m_climbing) return;
+  if (m_climbing || m_swimming)
+    return;
 
   m_climbing = &climbable;
   m_sprite->set_angle(0.0f);
