@@ -23,6 +23,7 @@
 #include <stdint.h>
 
 #include "collision/collision.hpp"
+#include "supertux/tile.hpp"
 
 class CollisionObject;
 class CollisionGroundMovementManager;
@@ -52,7 +53,7 @@ public:
     return m_ground_movement_manager;
   }
 
-  bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
+  bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const CollisionObject* ignore_object) const;

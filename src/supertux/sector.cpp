@@ -420,9 +420,9 @@ Sector::draw(DrawingContext& context)
 }
 
 bool
-Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
+Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, uint32_t tiletype) const
 {
-  return m_collision_system->is_free_of_tiles(rect, ignoreUnisolid);
+  return m_collision_system->is_free_of_tiles(rect, ignoreUnisolid, tiletype);
 }
 
 bool

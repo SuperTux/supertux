@@ -327,6 +327,7 @@ Player::update(float dt_sec)
 
   //handling of swimming
 
+#ifdef SWIMMING
   if (no_water)
   {
     if (m_swimming)
@@ -361,6 +362,39 @@ Player::update(float dt_sec)
     m_col.set_size(TUX_WIDTH, TUX_WIDTH);
     adjust_height(TUX_WIDTH);
   }
+
+  Rectf swim_here_box = get_bbox();
+  swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
+  bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
+
+  if (m_swimming)
+  {
+    if (can_swim_here)
+    {
+      no_water = false;
+    }
+    else
+    {
+      m_swimming = false;
+      m_water_jump = true;
+    }
+  }
+  else
+  {
+    if (can_swim_here && !m_stone && !m_climbing)
+    {
+      no_water = false;
+      m_water_jump = false;
+      m_swimming = true;
+      m_swimming_angle = Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()).angle();
+      if (is_big())
+        adjust_height(TUX_WIDTH);
+      m_wants_buttjump = m_does_buttjump = m_backflipping = false;
+      m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
+      SoundManager::current()->play("sounds/splash.wav");
+    }
+  }
+#endif
 
   //end of swimming handling
 
@@ -1704,38 +1738,6 @@ Player::collision_tile(uint32_t tile_attributes)
 {
   if (tile_attributes & Tile::HURTS)
     kill(false);
-
-#ifdef SWIMMING
-  if (m_swimming)
-  {
-    if (tile_attributes & Tile::WATER)
-    {
-      no_water = false;
-    }
-    else
-    {
-      m_swimming = false;
-    }
-  }
-  else
-  {
-    if (tile_attributes & Tile::WATER)
-    {
-      if (!m_stone && !m_climbing)
-      {
-        no_water = false;
-        m_water_jump = false;
-        m_swimming = true;
-        m_swimming_angle = Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()).angle();
-        if (is_big())
-          adjust_height(TUX_WIDTH);
-        m_wants_buttjump = m_does_buttjump = m_backflipping = false;
-        m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
-        SoundManager::current()->play("sounds/splash.wav");
-      }
-    }
-  }
-#endif
 
   if (tile_attributes & Tile::WALLJUMP)
   {
