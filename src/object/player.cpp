@@ -1127,7 +1127,7 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->pressed(Control::DOWN) && m_player_status.bonus == EARTH_BONUS && !m_cooldown_timer.started() && on_ground()) {
+  if (m_controller->pressed(Control::DOWN) && m_player_status.bonus == EARTH_BONUS && !m_cooldown_timer.started() && on_ground() && !m_swimming) {
     if (m_controller->hold(Control::ACTION) && !m_ability_timer.started()) {
       m_ability_timer.start(static_cast<float>(m_player_status.max_earth_time) * STONE_TIME_PER_FLOWER);
       m_powersprite->stop_animation();
@@ -1140,7 +1140,7 @@ Player::handle_input()
     apply_friction();
 
   /* Revert from Stone */
-  if (m_stone && (!m_controller->hold(Control::ACTION) || m_ability_timer.get_timeleft() <= 0.5f || m_swimming)) {
+  if (m_stone && (!m_controller->hold(Control::ACTION) || m_ability_timer.get_timeleft() <= 0.5f)) {
     m_cooldown_timer.start(m_ability_timer.get_timegone()/2.0f); //The longer stone form is used, the longer until it can be used again
     m_ability_timer.stop();
     m_sprite->set_angle(0.0f);
@@ -1706,23 +1706,33 @@ Player::collision_tile(uint32_t tile_attributes)
     kill(false);
 
 #ifdef SWIMMING
-  if ( m_swimming ) {
-    if ( tile_attributes & Tile::WATER ){
+  if (m_swimming)
+  {
+    if (tile_attributes & Tile::WATER)
+    {
       no_water = false;
-    } else {
+    }
+    else
+    {
       m_swimming = false;
     }
-  } else {
-    if ( tile_attributes & Tile::WATER ){
-      no_water = false;
-      m_water_jump = false;
-      m_swimming = true;
-      m_swimming_angle = Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()).angle();
-      if (is_big())
-        adjust_height(TUX_WIDTH);
-      m_wants_buttjump = m_does_buttjump = m_backflipping = false;
-      SoundManager::current()->play("sounds/splash.wav");
-      m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
+  }
+  else
+  {
+    if (tile_attributes & Tile::WATER)
+    {
+      if (!m_stone && !m_climbing)
+      {
+        no_water = false;
+        m_water_jump = false;
+        m_swimming = true;
+        m_swimming_angle = Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()).angle();
+        if (is_big())
+          adjust_height(TUX_WIDTH);
+        m_wants_buttjump = m_does_buttjump = m_backflipping = false;
+        m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
+        SoundManager::current()->play("sounds/splash.wav");
+      }
     }
   }
 #endif
