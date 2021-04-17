@@ -337,7 +337,7 @@ Player::update(float dt_sec)
     m_swimming = false;
   }
 
-  if ((on_ground() || m_climbing || m_does_buttjump) && m_water_jump && !m_swimming)
+  if ((on_ground() || m_climbing || m_does_buttjump) && m_water_jump)
   {
     if (is_big() && !adjust_height(BIG_TUX_HEIGHT))
     {
@@ -891,7 +891,7 @@ Player::do_duck() {
   if (!is_big())
     return;
 
-  if (m_physic.get_velocity_y() != 0)
+  if (!m_swimming && !m_water_jump && m_physic.get_velocity_y() != 0)
     return;
   if (!on_ground())
     return;
@@ -1244,6 +1244,11 @@ Player::handle_input()
         else if (m_controller->hold(Control::DOWN))
         {
           m_grabbed_object->ungrab(*this, Direction::DOWN);
+        }
+        else if (m_swimming || m_water_jump)
+        {
+          m_grabbed_object->ungrab(*this,
+            std::abs(m_swimming_angle) <= math::PI_2 ? Direction::RIGHT : Direction::LEFT);
         }
         else
         {
@@ -1737,7 +1742,9 @@ void
 Player::collision_tile(uint32_t tile_attributes)
 {
   if (tile_attributes & Tile::HURTS)
+  {
     kill(false);
+  }
 
   if (tile_attributes & Tile::WALLJUMP)
   {
