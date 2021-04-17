@@ -1,4 +1,4 @@
-include(FindPkgConfig)
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(PC_RAQM raqm)
 find_path(RAQM_INCLUDE_DIR NAMES raqm.h HINTS ${PC_RAQM_INCLUDE_DIRS}
   ${PC_RAQM_INCLUDEDIR})

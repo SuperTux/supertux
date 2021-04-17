@@ -521,8 +521,8 @@ set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX
 link_directories(${SDL_TTF_PREFIX}/lib)
 include_directories(SYSTEM ${SDL_TTF_PREFIX}/include/SDL2)
 if(RAQM_FOUND)
-  find_package(Fribidi REQUIRED)
-  find_package(Harfbuzz REQUIRED)
+  find_package(FriBidi REQUIRED)
+  find_package(HarfBuzz REQUIRED)
   set_target_properties(SDL_ttf_lib PROPERTIES INTERFACE_LINK_LIBRARIES "${RAQM_LIBRARIES}")
 endif()
 
