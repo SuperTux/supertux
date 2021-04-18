@@ -85,43 +85,39 @@ extern "C" {
 
 static Timelog s_timelog;
 
-class ConfigSubsystem final
+ConfigSubsystem::ConfigSubsystem()
 {
-public:
-  ConfigSubsystem()
+  g_config.reset(new Config);
+  try {
+    g_config->load();
+  }
+  catch(const std::exception& e)
   {
-    g_config.reset(new Config);
-    try {
-      g_config->load();
-    }
-    catch(const std::exception& e)
-    {
-      log_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
-    }
-
-    // init random number stuff
-    gameRandom.seed(g_config->random_seed);
-    graphicsRandom.seed(0);
-    //const char *how = config->random_seed? ", user fixed.": ", from time().";
-    //log_info << "Using random seed " << config->random_seed << how << std::endl;
+    log_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
   }
 
-  ~ConfigSubsystem()
+  // init random number stuff
+  gameRandom.seed(g_config->random_seed);
+  graphicsRandom.seed(0);
+  //const char *how = config->random_seed? ", user fixed.": ", from time().";
+  //log_info << "Using random seed " << config->random_seed << how << std::endl;
+}
+
+ ConfigSubsystem::~ConfigSubsystem()
+{
+  if (g_config)
   {
-    if (g_config)
+    try
     {
-      try
-      {
-        g_config->save();
-      }
-      catch(std::exception& e)
-      {
-        log_warning << "Error saving config: " << e.what() << std::endl;
-      }
+      g_config->save();
     }
-    g_config.reset();
+    catch(std::exception& e)
+    {
+      log_warning << "Error saving config: " << e.what() << std::endl;
+    }
   }
-};
+  g_config.reset();
+}
 
 Main::Main() :
   m_physfs_subsystem(),
@@ -169,219 +165,207 @@ Main::init_tinygettext()
   }
 }
 
-class PhysfsSubsystem final
+PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
+                boost::optional<std::string> forced_datadir,
+                boost::optional<std::string> forced_userdir) :
+  m_forced_datadir(std::move(forced_datadir)),
+  m_forced_userdir(std::move(forced_userdir))
 {
-private:
-  boost::optional<std::string> m_forced_datadir;
-  boost::optional<std::string> m_forced_userdir;
-
-public:
-  PhysfsSubsystem(const char* argv0,
-                  boost::optional<std::string> forced_datadir,
-                  boost::optional<std::string> forced_userdir) :
-    m_forced_datadir(std::move(forced_datadir)),
-    m_forced_userdir(std::move(forced_userdir))
+  if (!PHYSFS_init(argv0))
   {
-    if (!PHYSFS_init(argv0))
-    {
-      std::stringstream msg;
-      msg << "Couldn't initialize physfs: " << PHYSFS_getLastErrorCode();
-      throw std::runtime_error(msg.str());
-    }
-    else
-    {
-      // allow symbolic links
-      PHYSFS_permitSymbolicLinks(1);
-
-      find_userdir();
-      find_datadir();
-    }
+    std::stringstream msg;
+    msg << "Couldn't initialize physfs: " << PHYSFS_getLastErrorCode();
+    throw std::runtime_error(msg.str());
   }
-
-  void find_datadir() const
+  else
   {
+    // allow symbolic links
+    PHYSFS_permitSymbolicLinks(1);
+
+    find_userdir();
+    find_datadir();
+  }
+}
+
+void PhysfsSubsystem::find_datadir() const
+{
 #ifndef __EMSCRIPTEN__
-    std::string datadir;
-    if (m_forced_datadir)
+  std::string datadir;
+  if (m_forced_datadir)
+  {
+    datadir = *m_forced_datadir;
+  }
+  else if (const char* env_datadir = getenv("SUPERTUX2_DATA_DIR"))
+  {
+    datadir = env_datadir;
+  }
+  else
+  {
+    // check if we run from source dir
+    char* basepath_c = SDL_GetBasePath();
+    std::string basepath = basepath_c ? basepath_c : "./";
+    SDL_free(basepath_c);
+
+    if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
     {
-      datadir = *m_forced_datadir;
-    }
-    else if (const char* env_datadir = getenv("SUPERTUX2_DATA_DIR"))
-    {
-      datadir = env_datadir;
+      datadir = BUILD_DATA_DIR;
+      // Add config dir for supplemental files
+      PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
     }
     else
     {
-      // check if we run from source dir
-      char* basepath_c = SDL_GetBasePath();
-      std::string basepath = basepath_c ? basepath_c : "./";
-      SDL_free(basepath_c);
-
-      if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
-      {
-        datadir = BUILD_DATA_DIR;
-        // Add config dir for supplemental files
-        PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
-      }
-      else
-      {
-        // if the game is not run from the source directory, try to find
-        // the global install location
-        datadir = basepath.substr(0, basepath.rfind(INSTALL_SUBDIR_BIN));
-        datadir = FileSystem::join(datadir, INSTALL_SUBDIR_SHARE);
-      }
+      // if the game is not run from the source directory, try to find
+      // the global install location
+      datadir = basepath.substr(0, basepath.rfind(INSTALL_SUBDIR_BIN));
+      datadir = FileSystem::join(datadir, INSTALL_SUBDIR_SHARE);
     }
-
-    if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
-    {
-      log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
-    }
-#else
-    if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
-    {
-      log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
-    }
-#endif
   }
 
-  void find_userdir() const
+  if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
   {
-    std::string userdir;
-    if (m_forced_userdir)
-    {
-      userdir = *m_forced_userdir;
-    }
-    else if (const char* env_userdir = getenv("SUPERTUX2_USER_DIR"))
-    {
-      userdir = env_userdir;
-    }
-    else
-    {
-		userdir = PHYSFS_getPrefDir("SuperTux","supertux2");
-    }
-	//Kept for backwards-compatability only, hence the silence
-#ifdef __GNUC__
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+  }
+#else
+  if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
+  {
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+  }
 #endif
-	std::string physfs_userdir = PHYSFS_getUserDir();
+}
+
+void PhysfsSubsystem::find_userdir() const
+{
+  std::string userdir;
+  if (m_forced_userdir)
+  {
+    userdir = *m_forced_userdir;
+  }
+  else if (const char* env_userdir = getenv("SUPERTUX2_USER_DIR"))
+  {
+    userdir = env_userdir;
+  }
+  else
+  {
+  userdir = PHYSFS_getPrefDir("SuperTux","supertux2");
+  }
+//Kept for backwards-compatability only, hence the silence
 #ifdef __GNUC__
-  #pragma GCC diagnostic pop
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+std::string physfs_userdir = PHYSFS_getUserDir();
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
 #endif
 
 #ifndef __HAIKU__
 #ifdef _WIN32
-	std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
+std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 #else
-	std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
+std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
-	if (FileSystem::is_directory(olduserdir)) {
-	  boost::filesystem::path olduserpath(olduserdir);
-	  boost::filesystem::path userpath(userdir);
+if (FileSystem::is_directory(olduserdir)) {
+  boost::filesystem::path olduserpath(olduserdir);
+  boost::filesystem::path userpath(userdir);
 
-	  boost::filesystem::directory_iterator end_itr;
+  boost::filesystem::directory_iterator end_itr;
 
-	  bool success = true;
+  bool success = true;
 
-	  // cycle through the directory
-	  for (boost::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
-		try
-		{
-		  boost::filesystem::rename(itr->path().string().c_str(), userpath / itr->path().filename());
-		}
-		catch (const boost::filesystem::filesystem_error& err)
-		{
-		  success = false;
-		  log_warning << "Failed to move contents of config directory: " << err.what() << std::endl;
-		}
-	  }
-	  if (success) {
-	    try
-      {
-        boost::filesystem::remove_all(olduserpath);
-      }
-      catch (const boost::filesystem::filesystem_error& err)
-      {
-        success = false;
-        log_warning << "Failed to remove old config directory: " << err.what();
-      }
-	  }
-	  if (success) {
-	    log_info << "Moved old config dir " << olduserdir << " to " << userdir << std::endl;
-	  }
-	}
+  // cycle through the directory
+  for (boost::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
+  try
+  {
+    boost::filesystem::rename(itr->path().string().c_str(), userpath / itr->path().filename());
+  }
+  catch (const boost::filesystem::filesystem_error& err)
+  {
+    success = false;
+    log_warning << "Failed to move contents of config directory: " << err.what() << std::endl;
+  }
+  }
+  if (success) {
+    try
+    {
+      boost::filesystem::remove_all(olduserpath);
+    }
+    catch (const boost::filesystem::filesystem_error& err)
+    {
+      success = false;
+      log_warning << "Failed to remove old config directory: " << err.what();
+    }
+  }
+  if (success) {
+    log_info << "Moved old config dir " << olduserdir << " to " << userdir << std::endl;
+  }
+}
 #endif
 
-    if (!FileSystem::is_directory(userdir))
-    {
-	  FileSystem::mkdir(userdir);
-	  log_info << "Created SuperTux userdir: " << userdir << std::endl;
-    }
-
-    if (!PHYSFS_setWriteDir(userdir.c_str()))
-    {
-      std::ostringstream msg;
-      msg << "Failed to use userdir directory '"
-          <<  userdir << "': errorcode: " << PHYSFS_getLastErrorCode();
-      throw std::runtime_error(msg.str());
-    }
-
-    PHYSFS_mount(userdir.c_str(), nullptr, 0);
-  }
-
-  static void print_search_path()
+  if (!FileSystem::is_directory(userdir))
   {
-    const char* writedir = PHYSFS_getWriteDir();
-    log_info << "PhysfsWriteDir: " << (writedir ? writedir : "(null)") << std::endl;
-    log_info << "PhysfsSearchPath:" << std::endl;
-    char** searchpath = PHYSFS_getSearchPath();
-    for (char** i = searchpath; *i != nullptr; ++i)
-    {
-      log_info << "  " << *i << std::endl;
-    }
-    PHYSFS_freeList(searchpath);
+  FileSystem::mkdir(userdir);
+  log_info << "Created SuperTux userdir: " << userdir << std::endl;
   }
 
-  ~PhysfsSubsystem()
+  if (!PHYSFS_setWriteDir(userdir.c_str()))
   {
-    PHYSFS_deinit();
+    std::ostringstream msg;
+    msg << "Failed to use userdir directory '"
+        <<  userdir << "': errorcode: " << PHYSFS_getLastErrorCode();
+    throw std::runtime_error(msg.str());
   }
-};
 
-class SDLSubsystem final
+  PHYSFS_mount(userdir.c_str(), nullptr, 0);
+}
+
+void PhysfsSubsystem::print_search_path()
 {
-public:
-  SDLSubsystem()
+  const char* writedir = PHYSFS_getWriteDir();
+  log_info << "PhysfsWriteDir: " << (writedir ? writedir : "(null)") << std::endl;
+  log_info << "PhysfsSearchPath:" << std::endl;
+  char** searchpath = PHYSFS_getSearchPath();
+  for (char** i = searchpath; *i != nullptr; ++i)
   {
-    Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO;
+    log_info << "  " << *i << std::endl;
+  }
+  PHYSFS_freeList(searchpath);
+}
+
+PhysfsSubsystem::~PhysfsSubsystem()
+{
+  PHYSFS_deinit();
+}
+
+SDLSubsystem::SDLSubsystem()
+{
+  Uint32 flags = SDL_INIT_TIMER | SDL_INIT_VIDEO;
 #ifndef UBUNTU_TOUCH
-    flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
+  flags |= SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
 #endif
-    if (SDL_Init(flags) < 0)
-    {
-      std::stringstream msg;
-      msg << "Couldn't initialize SDL: " << SDL_GetError();
-      throw std::runtime_error(msg.str());
-    }
-
-    if (TTF_Init() < 0)
-    {
-      std::stringstream msg;
-      msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
-      throw std::runtime_error(msg.str());
-    }
-
-    // just to be sure
-    atexit(TTF_Quit);
-    atexit(SDL_Quit);
-  }
-
-  ~SDLSubsystem()
+  if (SDL_Init(flags) < 0)
   {
-    TTF_Quit();
-    SDL_Quit();
+    std::stringstream msg;
+    msg << "Couldn't initialize SDL: " << SDL_GetError();
+    throw std::runtime_error(msg.str());
   }
-};
+
+  if (TTF_Init() < 0)
+  {
+    std::stringstream msg;
+    msg << "Couldn't initialize SDL TTF: " << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+
+  // just to be sure
+  atexit(TTF_Quit);
+  atexit(SDL_Quit);
+}
+
+SDLSubsystem::~SDLSubsystem()
+{
+  TTF_Quit();
+  SDL_Quit();
+}
 
 void
 Main::init_video()

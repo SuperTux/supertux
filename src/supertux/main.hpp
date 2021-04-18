@@ -17,25 +17,56 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
+#include <memory>
 #include <string>
 
-class AddonManager;
-class CommandLineArguments;
-class ConfigSubsystem;
-class Console;
-class ConsoleBuffer;
-class GameManager;
-class InputManager;
-class PhysfsSubsystem;
-class Resources;
-class Savegame;
-class ScreenManager;
-class SDLSubsystem;
-class SoundManager;
-class SpriteManager;
-class SquirrelVirtualMachine;
-class TileManager;
-class TTFSurfaceManager;
+#include "addon/addon_manager.hpp"
+#include "audio/sound_manager.hpp"
+#include "control/input_manager.hpp"
+#include "sprite/sprite_data.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
+#include "supertux/command_line_arguments.hpp"
+#include "supertux/console.hpp"
+#include "supertux/game_manager.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/savegame.hpp"
+#include "supertux/screen_manager.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/tile_set.hpp"
+#include "video/ttf_surface_manager.hpp"
+
+class ConfigSubsystem final
+{
+public:
+  ConfigSubsystem();
+  ~ConfigSubsystem();
+};
+
+
+class PhysfsSubsystem final
+{
+private:
+  boost::optional<std::string> m_forced_datadir;
+  boost::optional<std::string> m_forced_userdir;
+
+public:
+  PhysfsSubsystem(const char* argv0,
+                  boost::optional<std::string> forced_datadir,
+                  boost::optional<std::string> forced_userdir);
+  ~PhysfsSubsystem();
+  void find_datadir() const;
+  void find_userdir() const;
+  static void print_search_path();
+};
+
+class SDLSubsystem final
+{
+public:
+  SDLSubsystem();
+  ~SDLSubsystem();
+};
 
 class Main final
 {
