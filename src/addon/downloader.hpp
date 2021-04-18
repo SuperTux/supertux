@@ -18,8 +18,10 @@
 #ifndef HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
 #define HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
 
-//#include <curl/curl.h>
-//#include <curl/easy.h>
+#ifndef __EMSCRIPTEN__
+
+#include <curl/curl.h>
+#include <curl/easy.h>
 #include <functional>
 #include <memory>
 #include <string>
@@ -53,8 +55,8 @@ public:
     error_msg()
   {}
 
-  void abort() {}
-  void update() {}
+  void abort();
+  void update();
 
   void then(const std::function<void (bool)>& callback)
   {
@@ -69,33 +71,35 @@ class Transfer;
 class Downloader final
 {
 private:
-  /*CURLM* m_multi_handle;
+  CURLM* m_multi_handle;
   std::vector<std::unique_ptr<Transfer> > m_transfers;
-  int m_next_transfer_id;*/
+  int m_next_transfer_id;
 
 public:
-  Downloader() {}
-  ~Downloader() {}
+  Downloader();
+  ~Downloader();
 
   /** Download \a url and return the result as string */
-  std::string download(const std::string& url) { return {}; }
+  std::string download(const std::string& url);
 
   /** Download \a url and store the result in \a filename */
-  void download(const std::string& url, const std::string& filename) {}
+  void download(const std::string& url, const std::string& filename);
 
   void download(const std::string& url,
                 size_t (*write_func)(void* ptr, size_t size, size_t nmemb, void* userdata),
-                void* userdata) {}
+                void* userdata);
 
-  void update() {}
+  void update();
 
-  TransferStatusPtr request_download(const std::string& url, const std::string& filename) { return {}; }
-  void abort(TransferId id) {}
+  TransferStatusPtr request_download(const std::string& url, const std::string& filename);
+  void abort(TransferId id);
 
 private:
   Downloader(const Downloader&) = delete;
   Downloader& operator=(const Downloader&) = delete;
 };
+
+#endif
 
 #endif
 

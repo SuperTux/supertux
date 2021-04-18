@@ -123,10 +123,20 @@ MenuStorage::create(MenuId menu_id)
       return nullptr; //return new ContribWorldMenu();
 
     case ADDON_MENU:
+#ifndef __EMSCRIPTEN__
       return std::make_unique<AddonMenu>();
+#else
+      throw std::runtime_error("Cannot instantiate Add-on menu dialog "
+        "on Emscripten, since Curl can't be compiled with OpenSSL");
+#endif
 
     case LANGPACK_MENU:
+#ifndef __EMSCRIPTEN__
       return std::unique_ptr<Menu>(new AddonMenu);
+#else
+      throw std::runtime_error("Cannot instantiate Langpack menu dialog "
+        "on Emscripten, since Curl can't be compiled with OpenSSL");
+#endif
 
     case EDITOR_LEVELSET_SELECT_MENU:
       return std::make_unique<EditorLevelsetSelectMenu>();
@@ -135,7 +145,12 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<EditorNewLevelsetMenu>();
 
     case LANGPACK_AUTO_UPDATE_MENU:
+#ifndef __EMSCRIPTEN__
       return std::unique_ptr<Menu>(new AddonMenu(true));
+#else
+      throw std::runtime_error("Cannot instantiate Langpack menu dialog "
+        "on Emscripten, since Curl can't be compiled with OpenSSL");
+#endif
 
     case EDITOR_LEVEL_SELECT_MENU:
       return std::make_unique<EditorLevelSelectMenu>();

@@ -25,7 +25,7 @@ static std::unique_ptr<Main> g_main;
 int main(int argc, char** argv)
 {
   g_main = std::make_unique<Main>();
-  g_main->run(argc, argv);
+  return g_main->run(argc, argv);
 }
 
 /* EOF */

@@ -39,7 +39,9 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_files(),
   m_callback(std::move(callback))
 {
+#ifndef __EMSCRIPTEN__
   AddonManager::current()->unmount_old_addons();
+#endif
 
   if (!PHYSFS_exists(m_directory.c_str())) {
     m_directory = "/"; //The filename is probably included in an old add-on.
@@ -50,7 +52,9 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
 
 FileSystemMenu::~FileSystemMenu()
 {
+#ifndef __EMSCRIPTEN__
   AddonManager::current()->mount_old_addons();
+#endif
 }
 
 void
@@ -83,9 +87,11 @@ FileSystemMenu::refresh_items()
       }
       else
       {
+#ifndef __EMSCRIPTEN__
         if (AddonManager::current()->is_from_old_addon(filepath)) {
           continue;
         }
+#endif
 
         if (has_right_suffix(*file))
         {

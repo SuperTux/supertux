@@ -131,7 +131,9 @@ Main::Main() :
   m_tile_manager(),
   m_sprite_manager(),
   m_resources(),
+#ifndef __EMSCRIPTEN__
   m_addon_manager(),
+#endif
   m_console(),
   m_game_manager(),
   m_screen_manager(),
@@ -451,8 +453,10 @@ Main::launch_game(const CommandLineArguments& args)
   s_timelog.log("integrations");
   Integration::setup();
 
+#ifndef __EMSCRIPTEN__
   s_timelog.log("addons");
   m_addon_manager.reset(new AddonManager("addons", g_config->addons));
+#endif
 
   m_console.reset(new Console(*m_console_buffer));
 

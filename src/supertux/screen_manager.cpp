@@ -611,10 +611,12 @@ void ScreenManager::loop_iter()
   handle_screen_switch();
 }
 
-void g_loop_iter() {
+#ifdef __EMSCRIPTEN__
+static void g_loop_iter() {
   auto screen_manager = ScreenManager::current();
   screen_manager->loop_iter();
 }
+#endif
 
 void
 ScreenManager::run()

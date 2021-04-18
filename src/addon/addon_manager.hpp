@@ -18,6 +18,8 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 
+#ifndef __EMSCRIPTEN__
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -101,6 +103,8 @@ private:
   AddonManager(const AddonManager&) = delete;
   AddonManager& operator=(const AddonManager&) = delete;
 };
+
+#endif
 
 #endif
 

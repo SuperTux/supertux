@@ -121,8 +121,6 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
     throw std::runtime_error(msg.str());
   }
 
-  // FIXME: When using Emscripten's stock OpenAL, the code will segfault of
-  // first frame between two calls of these functions.
   SDL_RWops* ops = new SDL_RWops;
   ops->size = funcSize;
   ops->seek = funcSeek;
