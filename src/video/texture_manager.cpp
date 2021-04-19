@@ -329,7 +329,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
                       std::min(subimage->w, rect.bottom));
 
     SDL_Rect srcrect = clipped_rect.to_sdl();
-    SDL_BlitSurface(const_cast<SDL_Surface*>(&surface), &srcrect, subimage.get(), NULL);
+    SDL_BlitSurface(const_cast<SDL_Surface*>(&surface), &srcrect, subimage.get(), nullptr);
   }
   else
   {
