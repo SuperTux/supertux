@@ -20,7 +20,7 @@
 
 #include <string>
 #include <vector>
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "math/rect.hpp"
 #include "supertux/tile.hpp"
@@ -44,7 +44,7 @@ private:
   void parse_tile(const ReaderMapping& reader, int32_t min, int32_t max, int32_t offset);
   void parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max, int32_t offset);
   std::vector<SurfacePtr> parse_imagespecs(const ReaderMapping& cur,
-                                           const boost::optional<Rect>& region = boost::none) const;
+                                           const std::optional<Rect>& region = std::nullopt) const;
 
 private:
   TileSetParser(const TileSetParser&) = delete;
