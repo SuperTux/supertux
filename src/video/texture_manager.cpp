@@ -325,7 +325,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
   bottom = std::min(rect.top + rect.get_height(), surface.h);
 
   SDL_Rect srcrect = SDL_Rect{rect.left, rect.top, right - rect.left, bottom - rect.top};
-  SDL_BlitSurface(&surface, &srcrect, subimage.get(), NULL);
+  SDL_BlitSurface(&surface, &srcrect, subimage.get(), nullptr);
 
   return VideoSystem::current()->new_texture(*subimage, sampler);
 }
