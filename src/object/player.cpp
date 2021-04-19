@@ -333,6 +333,8 @@ Player::update(float dt_sec)
     if (m_swimming)
     {
       m_water_jump = true;
+      if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
+        m_physic.set_velocity_y(-350.f);
     }
     m_swimming = false;
   }
@@ -377,6 +379,8 @@ Player::update(float dt_sec)
     {
       m_swimming = false;
       m_water_jump = true;
+      if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
+        m_physic.set_velocity_y(-350.f);
     }
   }
   else
