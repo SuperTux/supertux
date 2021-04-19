@@ -142,7 +142,7 @@ Kugelblitz::active_update(float dt_sec)
     }
 
     if (is_in_water()) {
-      Sector::get().add<Electrifier>(Electrifier::TileChangeMap({ {75, 1421}, {76, 1422} }), 1.5);
+      Sector::get().add<Electrifier>(Electrifier::TileChangeMap({ {75, 1421}, {76, 1422} }), 1.5f);
       explode();
     }
   }
