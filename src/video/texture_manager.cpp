@@ -19,6 +19,7 @@
 #include <SDL_image.h>
 #include <assert.h>
 #include <sstream>
+#include <algorithm>
 
 #include "math/rect.hpp"
 #include "physfs/physfs_sdl.hpp"
@@ -304,22 +305,27 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
     convert.reset(SDL_ConvertSurfaceFormat(const_cast<SDL_Surface*>(&src_surface), SDL_PIXELFORMAT_RGBA8888, 0));
   }
 
-  const SDL_Surface& surface = convert ? *convert : src_surface;
+  SDL_Surface surface = convert ? *convert : src_surface;
 
-  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(surface.pixels) +
-                                                  rect.top * surface.pitch +
-                                                  rect.left * surface.format->BytesPerPixel,
-                                                  rect.get_width(), rect.get_height(),
-                                                  surface.format->BitsPerPixel,
-                                                  surface.pitch,
-                                                  surface.format->Rmask,
-                                                  surface.format->Gmask,
-                                                  surface.format->Bmask,
-                                                  surface.format->Amask));
+  SDLSurfacePtr subimage(SDL_CreateRGBSurface(0, rect.get_width(),
+                         rect.get_height(),
+                         surface.format->BitsPerPixel,
+                         surface.format->Rmask,
+                         surface.format->Gmask,
+                         surface.format->Bmask,
+                         surface.format->Amask));
+
   if (!subimage)
   {
     throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
   }
+
+  int right = 0, bottom = 0;
+  right = std::min(rect.left + rect.get_width(), surface.w);
+  bottom = std::min(rect.top + rect.get_height(), surface.h);
+
+  SDL_Rect srcrect = SDL_Rect{rect.left, rect.top, right - rect.left, bottom - rect.top};
+  SDL_BlitSurface(&surface, &srcrect, subimage.get(), NULL);
 
   return VideoSystem::current()->new_texture(*subimage, sampler);
 }
