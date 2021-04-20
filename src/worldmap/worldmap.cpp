@@ -716,7 +716,7 @@ WorldMap::set_passive_message(const std::string& message, float time)
 }
 
 Vector
-WorldMap::get_tux_pos()
+WorldMap::get_tux_pos() const
 {
   return m_tux->get_pos();
 }

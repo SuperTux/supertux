@@ -43,8 +43,8 @@ private:
 #endif
 
 public:
-  float get_tux_x();
-  float get_tux_y();
+  float get_tux_x() const;
+  float get_tux_y() const;
 };
 
 } // namespace scripting
