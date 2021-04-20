@@ -621,11 +621,11 @@ Main::run(int argc, char** argv)
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 
 	//All this conversion stuff is necessary to make this work for internationalized usernames
-	std::string outpath = prefpath + u8"/console.out";
+	std::string outpath = prefpath + "/console.out";
 	std::wstring w_outpath = converter.from_bytes(outpath);
 	_wfreopen(w_outpath.c_str(), L"a", stdout);
 
-	std::string errpath = prefpath + u8"/console.err";
+	std::string errpath = prefpath + "/console.err";
 	std::wstring w_errpath = converter.from_bytes(errpath);
 	_wfreopen(w_errpath.c_str(), L"a", stderr);
 #endif
