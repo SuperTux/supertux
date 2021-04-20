@@ -30,7 +30,7 @@ class GLScreenRenderer final : public GLRenderer
 {
 public:
   GLScreenRenderer(GLVideoSystem& video_system);
-  ~GLScreenRenderer();
+  ~GLScreenRenderer() override;
 
   virtual void start_draw() override;
   virtual void end_draw() override;

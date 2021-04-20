@@ -25,7 +25,7 @@ class NullTexture : public Texture
 {
 public:
   NullTexture(const Size& size);
-  virtual ~NullTexture();
+  ~NullTexture() override;
 
   virtual int get_texture_width() const override;
   virtual int get_texture_height() const override;

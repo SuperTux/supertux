@@ -49,7 +49,7 @@ class ParticleSystem : public GameObject,
 public:
   ParticleSystem(const ReaderMapping& reader, float max_particle_size = 60);
   ParticleSystem(float max_particle_size = 60);
-  virtual ~ParticleSystem();
+  ~ParticleSystem() override;
 
   virtual void draw(DrawingContext& context) override;
 

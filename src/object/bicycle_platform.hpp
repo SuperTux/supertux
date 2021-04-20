@@ -55,7 +55,7 @@ class BicyclePlatform final : public GameObject
 
 public:
   BicyclePlatform(const ReaderMapping& reader);
-  virtual ~BicyclePlatform();
+  ~BicyclePlatform() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

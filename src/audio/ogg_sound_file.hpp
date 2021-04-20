@@ -33,7 +33,7 @@ private:
 
 public:
   OggSoundFile(PHYSFS_File* file, double loop_begin, double loop_at);
-  ~OggSoundFile();
+  ~OggSoundFile() override;
 
   virtual size_t read(void* buffer, size_t buffer_size) override;
   virtual void reset() override;

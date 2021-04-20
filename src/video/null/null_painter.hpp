@@ -25,7 +25,7 @@ class NullPainter : public Painter
 {
 public:
   NullPainter();
-  virtual ~NullPainter();
+  ~NullPainter() override;
 
   virtual void draw_texture(const TextureRequest& request) override;
   virtual void draw_gradient(const GradientRequest& request) override;

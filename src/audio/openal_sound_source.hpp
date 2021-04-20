@@ -27,7 +27,7 @@ class OpenALSoundSource : public SoundSource
 
 public:
   OpenALSoundSource();
-  virtual ~OpenALSoundSource();
+  ~OpenALSoundSource() override;
 
   virtual void play() override;
   virtual void stop() override;

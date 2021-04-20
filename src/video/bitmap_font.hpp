@@ -45,7 +45,7 @@ public:
    *  @param sgadowsize   offset of shadow
    */
   BitmapFont(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
-  virtual ~BitmapFont();
+  ~BitmapFont() override;
 
   int get_shadow_size() const { return shadowsize; }
 

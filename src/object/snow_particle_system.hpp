@@ -27,7 +27,7 @@ class SnowParticleSystem final : public ParticleSystem
 public:
   SnowParticleSystem();
   SnowParticleSystem(const ReaderMapping& reader);
-  virtual ~SnowParticleSystem();
+  ~SnowParticleSystem() override;
 
   virtual void update(float dt_sec) override;
 

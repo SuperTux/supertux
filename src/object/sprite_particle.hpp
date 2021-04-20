@@ -36,7 +36,7 @@ public:
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
                  int drawing_layer = LAYER_OBJECTS-1);
-  ~SpriteParticle();
+  ~SpriteParticle() override;
 
 protected:
   virtual void update(float dt_sec) override;

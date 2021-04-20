@@ -53,7 +53,7 @@ private:
 public:
   AddonManager(const std::string& addon_directory,
                std::vector<Config::Addon>& addon_config);
-  ~AddonManager();
+  ~AddonManager() override;
 
   bool has_online_support() const;
   bool has_been_updated() const;

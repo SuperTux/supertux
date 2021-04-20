@@ -37,7 +37,7 @@ class MovingObject : public GameObject,
 public:
   MovingObject();
   MovingObject(const ReaderMapping& reader);
-  virtual ~MovingObject();
+  ~MovingObject() override;
 
   virtual void collision_solid(const CollisionHit& /*hit*/) override
   {

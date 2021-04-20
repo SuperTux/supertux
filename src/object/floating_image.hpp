@@ -25,7 +25,7 @@ class FloatingImage final : public GameObject
 {
 public:
   FloatingImage(const std::string& sprite);
-  virtual ~FloatingImage();
+  ~FloatingImage() override;
   virtual bool is_saveable() const override {
     return false;
   }

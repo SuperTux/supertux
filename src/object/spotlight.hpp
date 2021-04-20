@@ -27,7 +27,7 @@ class Spotlight final : public MovingObject
 {
 public:
   Spotlight(const ReaderMapping& reader);
-  virtual ~Spotlight();
+  ~Spotlight() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

@@ -31,7 +31,7 @@ class Climbable final : public TriggerBase
 public:
   Climbable(const ReaderMapping& reader);
   Climbable(const Rectf& area);
-  ~Climbable();
+  ~Climbable() override;
 
   virtual std::string get_class() const override { return "climbable"; }
   virtual std::string get_display_name() const override { return _("Climbable"); }

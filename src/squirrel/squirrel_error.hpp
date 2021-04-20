@@ -29,7 +29,7 @@ class SquirrelError final : public std::exception
 {
 public:
   SquirrelError(HSQUIRRELVM v, const std::string& message) throw();
-  virtual ~SquirrelError() throw();
+  ~SquirrelError() throw() override;
 
   virtual const char* what() const throw() override;
 

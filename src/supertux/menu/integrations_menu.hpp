@@ -25,7 +25,7 @@ class IntegrationsMenu final : public Menu
 {
 public:
   IntegrationsMenu();
-  virtual ~IntegrationsMenu();
+  ~IntegrationsMenu() override;
 
   void menu_action(MenuItem& item) override;
 

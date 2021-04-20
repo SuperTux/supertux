@@ -47,7 +47,7 @@ private:
 
 public:
   SoundManager();
-  virtual ~SoundManager();
+  ~SoundManager() override;
 
   void enable_sound(bool sound_enabled);
 

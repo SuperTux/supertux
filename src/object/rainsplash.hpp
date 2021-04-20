@@ -27,7 +27,7 @@ class RainSplash final : public GameObject
 {
 public:
   RainSplash(const Vector& pos, bool vertical);
-  ~RainSplash();
+  ~RainSplash() override;
   virtual bool is_saveable() const override {
     return false;
   }

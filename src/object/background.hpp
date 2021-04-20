@@ -34,7 +34,7 @@ class Background final : public GameObject,
 public:
   Background();
   Background(const ReaderMapping& reader);
-  virtual ~Background();
+  ~Background() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

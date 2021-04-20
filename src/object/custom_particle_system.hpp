@@ -34,7 +34,7 @@ class CustomParticleSystem :
 public:
   CustomParticleSystem();
   CustomParticleSystem(const ReaderMapping& reader);
-  virtual ~CustomParticleSystem();
+  ~CustomParticleSystem() override;
 
   virtual void draw(DrawingContext& context) override;
 

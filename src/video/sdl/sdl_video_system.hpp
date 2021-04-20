@@ -32,7 +32,7 @@ class SDLVideoSystem final : public SDLBaseVideoSystem
 {
 public:
   SDLVideoSystem();
-  ~SDLVideoSystem();
+  ~SDLVideoSystem() override;
 
   virtual std::string get_name() const override;
 

@@ -41,7 +41,7 @@ private:
 
 public:
   AddonMenu(bool auto_install_langpack = false);
-  ~AddonMenu();
+  ~AddonMenu() override;
 
   void refresh() override;
   void menu_action(MenuItem& item) override;

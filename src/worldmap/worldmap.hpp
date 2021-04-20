@@ -60,7 +60,7 @@ public:
 
 public:
   WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
-  ~WorldMap();
+  ~WorldMap() override;
 
   void finish_construction();
 
