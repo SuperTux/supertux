@@ -144,7 +144,10 @@ public:
   }
 
   bool operator<(const Rect& other) const {
-    return std::tie(left, top, right, bottom) < std::tie(other.left, other.top, other.right, other.bottom);
+#ifdef __clang__
+#  pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#endif
+    return std::tie(left, top, right, bottom) < std::tie(other.left, other.top, other.right, other.bottom); // NOLINT
   }
 };
 
