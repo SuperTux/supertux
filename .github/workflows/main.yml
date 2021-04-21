@@ -66,7 +66,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 64 }}
         run: |
           sudo apt-get update
-          sudo apt install -y gcc-multilib g++-multilib cmake build-essential \
+          sudo apt install -y gcc-multilib g++-multilib cmake build-essential libgtest-dev \
                 automake clang-6.0 g++-8 libc++-dev libogg-dev libvorbis-dev \
                 libopenal-dev libboost-all-dev libsdl2-dev libsdl2-image-dev \
                 libfreetype6-dev libharfbuzz-dev libfribidi-dev libglib2.0-dev \
@@ -77,14 +77,14 @@ jobs:
           sudo dpkg --add-architecture i386
           sudo apt-get update
           sudo apt install -y cmake build-essential automake gtk-doc-tools rpm sshpass
-          sudo apt install -yf gcc-multilib g++-multilib libogg-dev:i386 libvorbis-dev:i386 libopenal-dev:i386 libboost-date-time-dev:i386 libboost-filesystem-dev:i386 libboost-locale-dev:i386 libsdl2-dev:i386 libsdl2-image-dev:i386 libfreetype6-dev:i386 libcurl4-openssl-dev:i386 libharfbuzz-dev:i386 libfribidi-dev:i386
+          sudo apt install -yf gcc-multilib g++-multilib libgtest-dev:i386 libogg-dev:i386 libvorbis-dev:i386 libopenal-dev:i386 libboost-date-time-dev:i386 libboost-filesystem-dev:i386 libboost-locale-dev:i386 libsdl2-dev:i386 libsdl2-image-dev:i386 libfreetype6-dev:i386 libcurl4-openssl-dev:i386 libharfbuzz-dev:i386 libfribidi-dev:i386
           # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew-dev_1.13.0-2_i386.deb
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          brew install cmake bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
+          brew install cmake googletest bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
                 freetype harfbuzz fribidi glib gtk-doc glbinding libraqm
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework /Library/Frameworks/Mono.framework-disabled
@@ -218,6 +218,7 @@ jobs:
           ARCH: ${{ matrix.arch }}
         run: |
           vcpkg integrate install
+          vcpkg install gtest:$Env:ARCH-windows
           vcpkg install boost-date-time:$Env:ARCH-windows
           vcpkg install boost-filesystem:$Env:ARCH-windows
           vcpkg install boost-format:$Env:ARCH-windows
