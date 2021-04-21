@@ -16,7 +16,7 @@
 
 #include "supertux/menu/addon_menu.hpp"
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
 
 #include "addon/addon.hpp"
 #include "addon/addon_manager.hpp"
@@ -68,14 +68,13 @@ std::string generate_menu_item_text(const Addon& addon)
 
   if (!addon.get_author().empty())
   {
-    text = str(boost::format(_("%s \"%s\" by \"%s\""))
-               % type % addon.get_title() % addon.get_author());
+    text = fmt::format(_("{} \"{}\" by \"{}\""),
+                       type, addon.get_title(), addon.get_author());
   }
   else
   {
     // Only addon type and name, no need for translation.
-    text = str(boost::format("%s \"%s\"")
-               % type % addon.get_title());
+    text = fmt::format("{} \"{}\"", type, addon.get_title());
   }
 
   return text;
@@ -176,7 +175,7 @@ AddonMenu::rebuild_menu()
           if (addon_visible(addon))
           {
             std::string text = generate_menu_item_text(addon);
-            add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
+            add_entry(MAKE_REPOSITORY_MENU_ID(idx), fmt::format( _("Install %s *NEW*"), text));
             have_new_stuff = true;
           }
         }
@@ -187,7 +186,7 @@ AddonMenu::rebuild_menu()
         if (addon_visible(addon))
         {
           std::string text = generate_menu_item_text(addon);
-          add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
+          add_entry(MAKE_REPOSITORY_MENU_ID(idx), fmt::format( _("Install {}"), text));
           have_new_stuff = true;
         }
       }
@@ -298,7 +297,7 @@ AddonMenu::install_addon(const Addon& addon)
   auto addon_id = addon.get_id();
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
   auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install_langpack);
-  dialog->set_title(str(boost::format( _("Downloading %s") ) % generate_menu_item_text(addon)));
+  dialog->set_title(fmt::format( _("Downloading {}"), generate_menu_item_text(addon)));
   status->then([this, addon_id](bool success)
   {
     if (success)
