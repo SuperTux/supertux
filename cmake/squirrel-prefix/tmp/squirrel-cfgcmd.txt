@@ -1,1 +1,0 @@
-cmd='/usr/bin/cmake;-DCMAKE_BUILD_TYPE=;-DCMAKE_C_COMPILER=/usr/bin/cc;-DCMAKE_C_FLAGS=;-DCMAKE_CXX_COMPILER=/usr/bin/c++;-DCMAKE_CXX_FLAGS=;-DCMAKE_INSTALL_PREFIX=/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/squirrel/ex;-DINSTALL_INC_DIR=include;-DCMAKE_POSITION_INDEPENDENT_CODE=ON;-GUnix Makefiles;<SOURCE_DIR><SOURCE_SUBDIR>'

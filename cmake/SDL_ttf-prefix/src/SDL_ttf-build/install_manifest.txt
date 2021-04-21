@@ -1,2 +1,0 @@
-/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/SDL_ttf/lib/libSDL2_ttf.a
-/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/SDL_ttf/include/SDL2/SDL_ttf.h
