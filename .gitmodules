@@ -19,3 +19,6 @@
 [submodule "external/fmt"]
 	path = external/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "external/wstsound"]
+	path = external/wstsound
+	url = https://gitlab.com/Windstille/wstsound.git

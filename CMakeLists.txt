@@ -31,12 +31,6 @@
 #   make
 #
 
-
-## Project name to use as command prefix.
-
-project(SUPERTUX)
-
-
 ### CMake configuration
 
 cmake_minimum_required(VERSION 3.1)
@@ -44,7 +38,11 @@ if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
   cmake_policy(SET CMP0008 NEW)
   cmake_policy(SET CMP0023 NEW)
+  cmake_policy(SET CMP0048 NEW)
 endif()
+
+## Project name to use as command prefix.
+project(SUPERTUX VERSION 0.6.2)
 
 # Using C++20 here, C++17 would almost be enough, but is lacking filesystem on some platforms
 set(CMAKE_CXX_STANDARD 20)
@@ -149,6 +147,19 @@ endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   add_definitions(-DMACOSX)
+endif()
+
+# Build dependencies
+function(build_dependencies)
+  set(BUILD_TESTS OFF)
+  add_subdirectory(external/wstsound/ EXCLUDE_FROM_ALL)
+endfunction()
+build_dependencies()
+
+## Also build external/squirrel
+
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
+  message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
 endif()
 
 ## Add lots of dependencies to compiler switches
@@ -267,6 +278,7 @@ target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
+target_link_libraries(supertux2_lib PUBLIC wstsound)
 
 if(HAVE_OPENGL)
   target_link_libraries(supertux2_lib PUBLIC LibOpenGL)
