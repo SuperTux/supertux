@@ -167,6 +167,7 @@ LevelParser::load(const ReaderDocument& doc)
     level.get("license", m_level.m_license);
     level.get("target-time", m_level.m_target_time);
     level.get("suppress-pause-menu", m_level.m_suppress_pause_menu);
+    level.get("note",m_level.m_note);
 
     auto iter = level.get_iter();
     while (iter.next()) {

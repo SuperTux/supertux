@@ -1183,6 +1183,9 @@ msgstr "Wrogowie"
 #: src/supertux/statistics.cpp:271 src/supertux/levelintro.cpp:172
 msgid "Secrets"
 msgstr "Sekrety"
+#: src/supertux/levelintro.cpp:187
+msgid "Level Note"
+msgstr "Informacja o poziome"
 
 #: src/supertux/game_object.hpp:77
 msgid "Unknown object"

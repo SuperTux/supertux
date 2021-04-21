@@ -1,0 +1,5 @@
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/physfs/lib/libphysfs.a
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/physfs/include/physfs.h
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/physfs/lib/cmake/PhysFS/PhysFSConfig.cmake
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/physfs/lib/cmake/PhysFS/PhysFSConfig-noconfig.cmake
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/physfs/lib/pkgconfig/physfs.pc

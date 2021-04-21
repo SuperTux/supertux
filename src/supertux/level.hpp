@@ -74,6 +74,7 @@ public:
   std::string m_contact;
   std::string m_license;
   std::string m_filename;
+  std::string m_note;
   std::vector<std::unique_ptr<Sector> > m_sectors;
   Statistics m_stats;
   float m_target_time;

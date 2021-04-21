@@ -1,0 +1,14 @@
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/lib/libtinygettext.a
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/dictionary.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/dictionary_manager.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/file_system.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/iconv.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/language.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/log.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/log_stream.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/plural_forms.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/po_parser.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/tinygettext.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/unix_file_system.hpp
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/include/tinygettext/tinygettext_Export.h
+/media/kuba/eb6790e7-7282-439d-88d1-8294732abb36/Collaboration/supertux/cmake/tinygettext/lib/pkgconfig/tinygettext.pc
