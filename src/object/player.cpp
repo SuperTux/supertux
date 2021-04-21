@@ -681,20 +681,20 @@ Player::swim(float pointx, float pointy, bool boost)
           m_swimboosting = true;
           if (is_ang_defined)
           {
-            vx += 110.f * pointx;
-            vy += 110.f * pointy;
+            vx += 30.f * pointx;
+            vy += 30.f * pointy;
           }
           else
           {
             if (m_physic.get_velocity_x() > 100.f)
-              vx += 110.f;
+              vx += 30.f;
             else if (m_physic.get_velocity_x() < -100.f)
-              vx -= 110.f;
+              vx -= 30.f;
 
             if (m_physic.get_velocity_y() > 100.f)
-              vy += 110.f;
+              vy += 30.f;
             else if (m_physic.get_velocity_y() < -100.f)
-              vy -= 110.f;
+              vy -= 30.f;
           }
         }
         else
