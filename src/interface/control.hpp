@@ -28,7 +28,7 @@ class InterfaceControl : public Widget
 {
 public:
   InterfaceControl();
-  virtual ~InterfaceControl() {}
+  ~InterfaceControl() override {}
 
   virtual void update(float dt_sec) override { throw std::runtime_error("Cannot call generic update() on interface control"); }
   virtual void update(float dt_sec, const Controller& controller) {}

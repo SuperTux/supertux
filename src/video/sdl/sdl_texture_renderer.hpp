@@ -35,7 +35,7 @@ class SDLTextureRenderer final : public Renderer
 {
 public:
   SDLTextureRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer, const Size& size, int downscale);
-  ~SDLTextureRenderer();
+  ~SDLTextureRenderer() override;
 
   virtual void start_draw() override;
   virtual void end_draw() override;

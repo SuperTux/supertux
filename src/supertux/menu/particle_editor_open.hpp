@@ -31,7 +31,7 @@ private:
 
 public:
   ParticleEditorOpen();
-  ~ParticleEditorOpen();
+  ~ParticleEditorOpen() override;
 
   void menu_action(MenuItem& item) override;
 

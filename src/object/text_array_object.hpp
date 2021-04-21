@@ -38,7 +38,7 @@ public:
   TextArrayObject(const std::string& name = std::string());
   TextArrayObject(const ReaderMapping& reader);
 
-  ~TextArrayObject() = default;
+  ~TextArrayObject() override = default;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

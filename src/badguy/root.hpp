@@ -23,7 +23,7 @@ class Root final : public BadGuy
 {
 public:
   Root(const Vector& pos);
-  ~Root();
+  ~Root() override;
 
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;

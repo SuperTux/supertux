@@ -34,7 +34,7 @@ class TextScrollerScreen final : public Screen
 {
 public:
   TextScrollerScreen(const std::string& file);
-  virtual ~TextScrollerScreen();
+  ~TextScrollerScreen() override;
 
   virtual void setup() override;
   virtual void draw(Compositor& compositor) override;

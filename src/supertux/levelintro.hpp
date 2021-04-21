@@ -39,7 +39,7 @@ private:
 
 public:
   LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status);
-  virtual ~LevelIntro();
+  ~LevelIntro() override;
 
   virtual void setup() override;
   virtual void draw(Compositor& compositor) override;

@@ -44,7 +44,7 @@ public:
 
 public:
   TextureManager();
-  ~TextureManager();
+  ~TextureManager() override;
 
   TexturePtr get(const ReaderMapping& mapping, const boost::optional<Rect>& region = boost::none);
   TexturePtr get(const std::string& filename);

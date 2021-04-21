@@ -96,7 +96,7 @@ TitleScreen::setup()
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.25));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.25f));
 }
 
 void

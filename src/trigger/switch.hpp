@@ -27,7 +27,7 @@ class Switch final : public TriggerBase
 {
 public:
   Switch(const ReaderMapping& reader);
-  virtual ~Switch();
+  ~Switch() override;
 
   virtual std::string get_class() const override { return "switch"; }
   virtual std::string get_display_name() const override { return _("Switch"); }

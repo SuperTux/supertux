@@ -24,7 +24,7 @@ class Totem final : public BadGuy
 {
 public:
   Totem(const ReaderMapping& reader);
-  ~Totem();
+  ~Totem() override;
 
   virtual void initialize() override;
   virtual void active_update(float dt_sec) override;

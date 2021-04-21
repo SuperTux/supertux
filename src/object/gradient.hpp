@@ -31,7 +31,7 @@ class Gradient final :
 public:
   Gradient();
   Gradient(const ReaderMapping& reader);
-  virtual ~Gradient();
+  ~Gradient() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

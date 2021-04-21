@@ -24,7 +24,7 @@ class EndSequenceFireworks final : public EndSequence
 {
 public:
   EndSequenceFireworks();
-  virtual ~EndSequenceFireworks();
+  ~EndSequenceFireworks() override;
   virtual void draw(DrawingContext& context) override;
 
 protected:

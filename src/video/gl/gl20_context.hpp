@@ -25,7 +25,7 @@ class GL20Context final : public GLContext
 {
 public:
   GL20Context();
-  ~GL20Context();
+  ~GL20Context() override;
 
   virtual std::string get_name() const override { return "opengl20"; }
 

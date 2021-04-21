@@ -25,7 +25,7 @@ class CodeController final : public Controller
 {
 public:
   CodeController();
-  virtual ~CodeController();
+  ~CodeController() override;
 
   virtual void update() override;
 

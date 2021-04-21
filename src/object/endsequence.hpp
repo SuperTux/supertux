@@ -24,7 +24,7 @@ class EndSequence : public GameObject
 {
 public:
   EndSequence();
-  virtual ~EndSequence();
+  ~EndSequence() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

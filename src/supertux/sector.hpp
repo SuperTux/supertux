@@ -64,7 +64,7 @@ public:
 
 public:
   Sector(Level& parent);
-  ~Sector();
+  ~Sector() override;
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */

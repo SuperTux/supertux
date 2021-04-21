@@ -53,7 +53,7 @@ private:
 public:
   Camera(const std::string& name);
   Camera(const ReaderMapping& reader);
-  virtual ~Camera();
+  ~Camera() override;
 
   /** \addtogroup GameObject
       @{ */

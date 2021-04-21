@@ -48,7 +48,7 @@ private:
 
 public:
   ParticleEditor();
-  ~ParticleEditor();
+  ~ParticleEditor() override;
 
 public:
   virtual void draw(Compositor&) override;

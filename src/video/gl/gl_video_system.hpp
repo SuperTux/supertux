@@ -39,7 +39,7 @@ class GLVideoSystem final : public SDLBaseVideoSystem
 {
 public:
   GLVideoSystem(bool use_opengl33core);
-  ~GLVideoSystem();
+  ~GLVideoSystem() override;
 
   virtual std::string get_name() const override;
 

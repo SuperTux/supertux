@@ -27,7 +27,7 @@ class PneumaticPlatformChild final : public MovingSprite
 
 public:
   PneumaticPlatformChild(const ReaderMapping& reader, bool left, PneumaticPlatform& parent);
-  virtual ~PneumaticPlatformChild();
+  ~PneumaticPlatformChild() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
@@ -53,7 +53,7 @@ class PneumaticPlatform final : public GameObject
 
 public:
   PneumaticPlatform(const ReaderMapping& mapping);
-  virtual ~PneumaticPlatform();
+  ~PneumaticPlatform() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

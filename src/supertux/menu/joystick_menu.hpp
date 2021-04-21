@@ -25,7 +25,7 @@ class JoystickMenu final : public Menu
 {
 public:
   JoystickMenu(InputManager& input_manager);
-  virtual ~JoystickMenu();
+  ~JoystickMenu() override;
 
   void refresh() override;
   void refresh_menu_item(Control id);

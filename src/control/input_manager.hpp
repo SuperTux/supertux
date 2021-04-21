@@ -44,7 +44,7 @@ private:
 public:
   InputManager(KeyboardConfig& keyboard_config,
                JoystickConfig& joystick_config);
-  virtual ~InputManager();
+  ~InputManager() override;
 
   void process_event(const SDL_Event& event);
 

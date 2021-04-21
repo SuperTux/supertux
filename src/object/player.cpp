@@ -815,7 +815,7 @@ Player::handle_horizontal_input()
         // dust some particles
         Sector::get().add<Particles>(
             Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
-            m_dir == Direction::LEFT ? 50 : -70, m_dir == Direction::LEFT ? 70 : -50, 260, 280,
+            m_dir == Direction::LEFT ? 50 : -70, m_dir == Direction::LEFT ? 70 : -50, 260.0f, 280.0f,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
 
         ax *= 2.5f;
@@ -1158,7 +1158,7 @@ Player::handle_input()
                            m_col.m_bbox.get_top() + 16.0f * static_cast<float>(i % 4));
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);
-      Sector::get().add<Particles>(ppos, -60, 240, 42, 81, Vector(0.0f, 500.0f),
+      Sector::get().add<Particles>(ppos, -60, 240, 42.0f, 81.0f, Vector(0.0f, 500.0f),
                                                                 8, pcolor, 4 + graphicsRandom.randf(-0.4f, 0.4f),
                                                                 0.8f + graphicsRandom.randf(0.0f, 0.4f), LAYER_OBJECTS + 2);
     }
@@ -2069,7 +2069,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
 
   if (m_controller->hold(Control::JUMP)) {
     m_on_ground_flag = true;
-    do_jump(m_player_status.bonus == BonusType::AIR_BONUS ? -540 : -480);
+    do_jump(m_player_status.bonus == BonusType::AIR_BONUS ? -540.0f : -480.0f);
   }
   else if (m_controller->hold(Control::UP)) {
     m_on_ground_flag = true;

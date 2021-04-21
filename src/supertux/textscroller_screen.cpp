@@ -88,7 +88,7 @@ void
 TextScrollerScreen::setup()
 {
   SoundManager::current()->play_music(m_music);
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.5));
+  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 0.5f));
 }
 
 void

@@ -26,7 +26,7 @@ class LayerIcon : public ObjectIcon
 {
 public:
   LayerIcon(GameObject* layer);
-  virtual ~LayerIcon() {}
+  ~LayerIcon() override {}
 
   virtual void draw(DrawingContext& context, const Vector& pos) override;
   virtual void draw(DrawingContext& context, const Vector& pos, int pixels_shown) override;

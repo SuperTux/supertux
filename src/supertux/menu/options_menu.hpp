@@ -24,7 +24,7 @@ class OptionsMenu final : public Menu
 {
 public:
   OptionsMenu(bool complete);
-  virtual ~OptionsMenu();
+  ~OptionsMenu() override;
 
   void menu_action(MenuItem& item) override;
 

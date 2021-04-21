@@ -36,7 +36,7 @@ private:
 
 public:
   SpriteChange(const ReaderMapping& mapping);
-  virtual ~SpriteChange();
+  ~SpriteChange() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

@@ -29,7 +29,7 @@ class RainParticleSystem final :
 public:
   RainParticleSystem();
   RainParticleSystem(const ReaderMapping& reader);
-  virtual ~RainParticleSystem();
+  ~RainParticleSystem() override;
 
   virtual void draw(DrawingContext& context) override;
 

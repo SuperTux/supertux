@@ -27,7 +27,7 @@ class InterfaceLabel : public Widget
 public:
   InterfaceLabel();
   InterfaceLabel(const Rectf& rect, std::string label);
-  virtual ~InterfaceLabel() {}
+  ~InterfaceLabel() override {}
 
   virtual void draw(DrawingContext& context) override;
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;

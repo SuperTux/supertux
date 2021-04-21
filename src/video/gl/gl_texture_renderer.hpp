@@ -35,7 +35,7 @@ class GLTextureRenderer final : public GLRenderer
 {
 public:
   GLTextureRenderer(GLVideoSystem& video_system, const Size& size, int downscale);
-  ~GLTextureRenderer();
+  ~GLTextureRenderer() override;
 
   virtual void start_draw() override;
   virtual void end_draw() override;

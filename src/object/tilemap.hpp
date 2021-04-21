@@ -48,7 +48,7 @@ class TileMap final :
 public:
   TileMap(const TileSet *tileset);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
-  virtual ~TileMap();
+  ~TileMap() override;
 
   virtual void finish_construction() override;
 

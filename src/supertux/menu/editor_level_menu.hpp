@@ -24,7 +24,7 @@ class EditorLevelMenu final : public Menu
 private:
 public:
   EditorLevelMenu();
-  ~EditorLevelMenu();
+  ~EditorLevelMenu() override;
 
   void menu_action(MenuItem& item) override;
   bool on_back_action() override;
