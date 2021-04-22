@@ -348,9 +348,8 @@ SoundManager::pause_music(float fadetime)
 
   if (fadetime > 0) {
     if (m_music_source
-       && m_music_source->get_fade_state() != StreamSoundSource::FadingPause){
-        m_music_source->set_fading(StreamSoundSource::FadingPause, fadetime);
-       }
+       && m_music_source->get_fade_state() != StreamSoundSource::FadingPause)
+      m_music_source->set_fading(StreamSoundSource::FadingPause, fadetime); 
   } else {
     m_music_source->pause();
   }
@@ -402,9 +401,8 @@ SoundManager::resume_music(float fadetime)
 
   if (fadetime > 0) {
     if (m_music_source
-       && m_music_source->get_fade_state() != StreamSoundSource::FadingResume){
-        m_music_source->set_fading(StreamSoundSource::FadingResume, fadetime);
-       }
+       && m_music_source->get_fade_state() != StreamSoundSource::FadingResume)
+      m_music_source->set_fading(StreamSoundSource::FadingResume, fadetime);
   } else {
     m_music_source->resume();
   }

@@ -127,7 +127,7 @@ Level::save(Writer& writer)
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
   if(!m_note.empty()){
-    writer.write("note",m_note,false);
+    writer.write("note", m_note, false);
   }
   if (!m_contact.empty()) {
     writer.write("contact", m_contact, false);
