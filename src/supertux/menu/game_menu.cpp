@@ -48,7 +48,7 @@ GameMenu::GameMenu() :
   })
 {
   Level& level = GameSession::current()->get_current_level();
-
+  
   add_label(level.m_name);
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
