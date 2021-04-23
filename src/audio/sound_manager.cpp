@@ -535,4 +535,10 @@ SoundManager::check_al_error(const char* message)
 
 } // namespace supertux
 
+std::unique_ptr<SoundSource>
+SoundManager::create_sound_source(const std::string& filename)
+{
+  return {};
+}
+
 /* EOF */

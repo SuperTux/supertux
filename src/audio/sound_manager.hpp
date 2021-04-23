@@ -25,6 +25,8 @@
 #include <al.h>
 #include <alc.h>
 
+#include <wstsound/sound_manager.hpp>
+
 #include "audio/fwd.hpp"
 #include "math/vector.hpp"
 #include "util/currenton.hpp"
@@ -135,7 +137,84 @@ private:
 
 } // namespace supertux
 
-using SoundManager = supertux::SoundManager;
+//using SoundManager = supertux::SoundManager;
+//using SoundManager = wstsound::SoundManager;
+
+class SoundManager final : public Currenton<SoundManager>
+{
+
+public:
+  SoundManager() :
+    m_sound_mgr()
+  {
+  }
+
+  /** Convenience functions to simply play a sound at a given position. */
+  void play(const std::string& name, const Vector& pos = Vector(-1, -1),
+            const float gain = 0.5f)
+  {
+    // m_sound_mgr.play(name, pos, gain);
+  }
+  void play(const std::string& name, const float gain)
+  {
+    play(name, Vector(-1, -1), gain);
+  }
+  /** preloads a sound, so that you don't get a lag later when playing it */
+  void preload(const std::string& name) {
+  }
+
+  void play_music(const std::string& filename, float fadetime)
+  {
+  }
+
+  void play_music(const std::string& filename, bool fade = false)
+  {
+  }
+
+  void pause_music(float fadetime = 0) {}
+  void resume_music(float fadetime = 0) {}
+
+  void stop_music()
+  {
+  }
+
+  void stop_music(float)
+  {
+  }
+
+  std::string get_current_music() const { return {}; }
+
+  void pause_sounds() {}
+  void resume_sounds() {}
+  void stop_sounds() {}
+
+  void update() {}
+
+  std::unique_ptr<SoundSource> create_sound_source(const std::string& filename);
+
+  void set_listener_position(const Vector& position)
+  {
+  }
+
+  void manage_source(std::unique_ptr<SoundSource> source)
+  {
+  }
+
+  void enable_sound(bool sound_enabled) {}
+  void enable_music(bool music_enabled) {}
+
+  void set_music_volume(int volume) {}
+  void set_sound_volume(int volume) {}
+
+  bool is_audio_enabled() const { return {}; }
+
+private:
+  wstsound::SoundManager m_sound_mgr;
+
+private:
+  SoundManager(const SoundManager&) = delete;
+  SoundManager& operator=(const SoundManager&) = delete;
+};
 
 #endif
 

@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_AUDIO_SOUND_SOURCE_HPP
 #define HEADER_SUPERTUX_AUDIO_SOUND_SOURCE_HPP
 
+#include <wstsound/sound_source.hpp>
+
 #include "math/fwd.hpp"
 
 namespace supertux {
@@ -50,7 +52,27 @@ private:
 
 } // namespace supertux
 
-using SoundSource = supertux::SoundSource;
+//using SoundSource = supertux::SoundSource;
+//using SoundSource = wstsound::SoundSource;
+
+class SoundSource
+{
+public:
+  SoundSource() {}
+
+  void play() {}
+  void stop() {}
+  bool playing() const { return false; }
+  void set_pitch(float pitch) {}
+  void set_position(const Vector& position) {}
+  void set_looping(bool looping) {}
+  void set_gain(float gain) {}
+  void set_reference_distance(float distance) {}
+
+private:
+  SoundSource(const SoundSource&) = delete;
+  SoundSource& operator=(const SoundSource&) = delete;
+};
 
 #endif
 

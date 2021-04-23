@@ -17,13 +17,20 @@
 #ifndef HEADER_SUPERTUX_AUDIO_FWD_HPP
 #define HEADER_SUPERTUX_AUDIO_FWD_HPP
 
+#include <wstsound/fwd.hpp>
+
 namespace supertux {
 class SoundManager;
 class SoundSource;
 } // namespace supertux
 
-using SoundManager = supertux::SoundManager;
-using SoundSource = supertux::SoundSource;
+//using SoundManager = supertux::SoundManager;
+//using SoundSource = supertux::SoundSource;
+
+class SoundManager;
+class SoundSource;
+//using SoundManager = wstsound::SoundManager;
+//using SoundSource = wstsound::SoundSource;
 
 #endif
 
