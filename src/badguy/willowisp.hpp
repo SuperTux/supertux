@@ -17,12 +17,11 @@
 #ifndef HEADER_SUPERTUX_BADGUY_WILLOWISP_HPP
 #define HEADER_SUPERTUX_BADGUY_WILLOWISP_HPP
 
+#include "audio/fwd.hpp"
 #include "badguy/badguy.hpp"
 #include "object/path_object.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "scripting/willowisp.hpp"
-
-class SoundSource;
 
 class WillOWisp final :
   public BadGuy,

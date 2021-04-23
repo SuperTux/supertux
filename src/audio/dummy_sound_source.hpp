@@ -18,10 +18,13 @@
 #define HEADER_SUPERTUX_AUDIO_DUMMY_SOUND_SOURCE_HPP
 
 #include <memory>
+#include "audio/fwd.hpp"
 
-class SoundSource;
+namespace supertux {
 
 std::unique_ptr<SoundSource> create_dummy_sound_source();
+
+} // namespace supertux
 
 #endif
 

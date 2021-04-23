@@ -19,6 +19,8 @@
 
 #include "audio/openal_sound_source.hpp"
 
+namespace supertux {
+
 class SoundFile;
 
 class StreamSoundSource final : public OpenALSoundSource
@@ -60,6 +62,8 @@ private:
   StreamSoundSource(const StreamSoundSource&) = delete;
   StreamSoundSource& operator=(const StreamSoundSource&) = delete;
 };
+
+} // namespace supertux
 
 #endif
 

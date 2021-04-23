@@ -19,9 +19,8 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
 #define HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
 
+#include "audio/fwd.hpp"
 #include "badguy/walking_badguy.hpp"
-
-class SoundSource;
 
 class GoldBomb final : public WalkingBadguy
 {

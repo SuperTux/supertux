@@ -33,6 +33,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
 
+namespace supertux {
+
 namespace {
 
 const std::string& get_fallback_path(const std::string& file_path);
@@ -256,5 +258,6 @@ const std::string& get_fallback_path(const std::string& file_path)
 
 } // namespace
 
+} // namespace supertux
 
 /* EOF */

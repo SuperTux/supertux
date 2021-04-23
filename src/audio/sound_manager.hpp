@@ -25,11 +25,13 @@
 #include <al.h>
 #include <alc.h>
 
+#include "audio/fwd.hpp"
 #include "math/vector.hpp"
 #include "util/currenton.hpp"
 
+namespace supertux {
+
 class SoundFile;
-class SoundSource;
 class StreamSoundSource;
 class OpenALSoundSource;
 
@@ -130,6 +132,10 @@ private:
   SoundManager(const SoundManager&) = delete;
   SoundManager& operator=(const SoundManager&) = delete;
 };
+
+} // namespace supertux
+
+using SoundManager = supertux::SoundManager;
 
 #endif
 

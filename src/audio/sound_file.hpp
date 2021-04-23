@@ -22,6 +22,8 @@
 
 struct PHYSFS_File;
 
+namespace supertux {
+
 class SoundFile
 {
 public:
@@ -59,6 +61,8 @@ private:
 };
 
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename);
+
+} // namespace supertux
 
 #endif
 

@@ -20,6 +20,8 @@
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 
+namespace supertux {
+
 StreamSoundSource::StreamSoundSource() :
   m_file(),
   m_fade_state(NoFading),
@@ -168,5 +170,7 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   // return false if there aren't more buffers to fill
   return bytesread >= STREAMFRAGMENTSIZE;
 }
+
+} // namespace supertux
 
 /* EOF */

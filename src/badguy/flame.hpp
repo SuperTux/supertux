@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_FLAME_HPP
 #define HEADER_SUPERTUX_BADGUY_FLAME_HPP
 
-#include "badguy/badguy.hpp"
-
+#include "audio/fwd.hpp"
 #include "audio/sound_source.hpp"
+#include "badguy/badguy.hpp"
 
 class Flame : public BadGuy
 {

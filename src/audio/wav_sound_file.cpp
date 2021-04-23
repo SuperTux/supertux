@@ -26,6 +26,8 @@
 #include "audio/sound_error.hpp"
 #include "util/log.hpp"
 
+namespace supertux {
+
 static inline uint32_t read32LE(PHYSFS_file* file)
 {
   uint32_t result;
@@ -166,5 +168,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
 
   return readsize;
 }
+
+} // namespace supertux
 
 /* EOF */

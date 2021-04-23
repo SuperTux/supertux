@@ -21,6 +21,8 @@
 #include <assert.h>
 #include <physfs.h>
 
+namespace supertux {
+
 OggSoundFile::OggSoundFile(PHYSFS_File* file_, double loop_begin_, double loop_at_) :
   m_file(file_),
   m_vorbis_file(),
@@ -153,5 +155,7 @@ OggSoundFile::cb_tell(void* source)
   auto file = reinterpret_cast<PHYSFS_file*> (source);
   return static_cast<long> (PHYSFS_tell(file));
 }
+
+} // namespace supertux
 
 /* EOF */

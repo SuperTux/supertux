@@ -19,6 +19,8 @@
 
 #include "math/fwd.hpp"
 
+namespace supertux {
+
 /** A sound source represents the source of audio output. You can
     place sources at certain points in your world or set their
     velocity to produce doppler effects */
@@ -45,6 +47,10 @@ private:
   SoundSource(const SoundSource&) = delete;
   SoundSource& operator=(const SoundSource&) = delete;
 };
+
+} // namespace supertux
+
+using SoundSource = supertux::SoundSource;
 
 #endif
 

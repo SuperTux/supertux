@@ -18,8 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_DART_HPP
 
 #include "badguy/badguy.hpp"
-
-class SoundSource;
+#include "audio/fwd.hpp"
 
 /** Badguy "Dart" - Your average poison dart */
 class Dart final : public BadGuy

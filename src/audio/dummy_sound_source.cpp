@@ -20,6 +20,8 @@
 
 #include "audio/sound_source.hpp"
 
+namespace supertux {
+
 class DummySoundSource final : public SoundSource
 {
 public:
@@ -84,5 +86,8 @@ std::unique_ptr<SoundSource> create_dummy_sound_source()
 {
   return std::make_unique<DummySoundSource>();
 }
+
+} // namespace supertux
+
 
 /* EOF */

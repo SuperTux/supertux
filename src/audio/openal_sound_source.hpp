@@ -19,11 +19,14 @@
 
 #include <al.h>
 
+#include "audio/fwd.hpp"
 #include "audio/sound_source.hpp"
+
+namespace supertux {
 
 class OpenALSoundSource : public SoundSource
 {
-  friend class SoundManager;
+  friend class supertux::SoundManager;
 
 public:
   OpenALSoundSource();
@@ -57,6 +60,8 @@ private:
   OpenALSoundSource(const OpenALSoundSource&) = delete;
   OpenALSoundSource& operator=(const OpenALSoundSource&) = delete;
 };
+
+} // namespace supertux
 
 #endif
 

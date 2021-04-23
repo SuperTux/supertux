@@ -23,6 +23,8 @@
 
 struct PHYSFS_File;
 
+namespace supertux {
+
 class OggSoundFile final : public SoundFile
 {
 private:
@@ -49,6 +51,7 @@ private:
   OggSoundFile& operator=(const OggSoundFile&) = delete;
 };
 
+} // namespace supertux
 
 #endif
 

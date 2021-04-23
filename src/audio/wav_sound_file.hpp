@@ -21,6 +21,8 @@
 
 #include "audio/sound_file.hpp"
 
+namespace supertux {
+
 class WavSoundFile final : public SoundFile
 {
 public:
@@ -38,6 +40,8 @@ private:
   WavSoundFile(const WavSoundFile&) = delete;
   WavSoundFile& operator=(const WavSoundFile&) = delete;
 };
+
+} // namespace supertux
 
 #endif
 

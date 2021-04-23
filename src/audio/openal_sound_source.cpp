@@ -19,6 +19,8 @@
 #include "audio/sound_manager.hpp"
 #include "util/log.hpp"
 
+namespace supertux {
+
 OpenALSoundSource::OpenALSoundSource() :
   m_source(),
   m_gain(1.0f),
@@ -171,5 +173,7 @@ OpenALSoundSource::set_volume(float volume)
   m_volume = volume;
   alSourcef(m_source, AL_GAIN, m_gain * m_volume);
 }
+
+} // namespace supertux
 
 /* EOF */
