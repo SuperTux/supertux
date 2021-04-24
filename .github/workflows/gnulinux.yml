@@ -84,7 +84,6 @@ jobs:
             libogg-dev \
             libvorbis-dev \
             libopenal-dev \
-            libboost-all-dev \
             libsdl2-dev \
             libsdl2-image-dev \
             libfreetype6-dev \
@@ -137,9 +136,6 @@ jobs:
             libogg-dev:i386 \
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
-            libboost-date-time-dev:i386 \
-            libboost-filesystem-dev:i386 \
-            libboost-locale-dev:i386 \
             libsdl2-dev:i386 \
             libsdl2-image-dev:i386 \
             libfreetype6-dev:i386 \
