@@ -16,7 +16,6 @@
 
 #include "util/reader_mapping.hpp"
 
-#include <boost/ref.hpp>
 #include <sexp/io.hpp>
 #include <sstream>
 #include <stdexcept>

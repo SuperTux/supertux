@@ -29,8 +29,6 @@
 #include <physfs.h>
 #include <numeric>
 
-#include <boost/algorithm/string/predicate.hpp>
-
 Level* Level::s_current = nullptr;
 
 Level::Level(bool worldmap) :
@@ -96,7 +94,7 @@ Level::save(const std::string& filepath, bool retry)
     Writer writer(filepath);
     save(writer);
     log_info << "Level saved as " << filepath << "." 
-             << (boost::algorithm::ends_with(filepath, "~") ? " [Autosave]" : "")
+             << (filepath.ends_with("~") ? " [Autosave]" : "")
              << std::endl;
   } catch(std::exception& e) {
     if (retry) {

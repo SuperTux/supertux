@@ -190,7 +190,7 @@ void PhysfsSubsystem::find_datadir() const
   if (const char* assetpack = getenv("ANDROID_ASSET_PACK_PATH"))
   {
     // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
-    if (!PHYSFS_mount(boost::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
+    if (!PHYSFS_mount(std::filesystem::canonical(assetpack).c_str(), nullptr, 1))
     {
       log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
       return;

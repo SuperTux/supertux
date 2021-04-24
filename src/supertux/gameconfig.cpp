@@ -16,6 +16,8 @@
 
 #include "supertux/gameconfig.hpp"
 
+#include <ctime>
+
 #include "config.h"
 
 #include "editor/overlay_widget.hpp"
@@ -427,6 +429,16 @@ Config::save()
   writer.end_list("editor");
 
   writer.end_list("supertux-config");
+}
+
+bool
+Config::is_christmas() const
+{
+  time_t rawtime;
+  std::time(&rawtime);
+  struct tm* timeinfo = std::localtime(&rawtime);
+  // 6. Dec, Saint Nicholas Day
+  return timeinfo->tm_mon == 11 && timeinfo->tm_mday >= 6;
 }
 
 /* EOF */
