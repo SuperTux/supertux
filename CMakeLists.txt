@@ -61,13 +61,6 @@ set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 set(BUILD_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data")
 set(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
 
-## Check endianess
-if(NOT EMSCRIPTEN)
-  # FIXME: Any reason why we need this?
-  include(TestBigEndian)
-  test_big_endian(WORDS_BIGENDIAN)
-endif()
-
 ## Add definitions
 if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
   add_definitions(-DRELEASE)
