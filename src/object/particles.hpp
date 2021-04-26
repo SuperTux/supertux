@@ -44,11 +44,12 @@ public:
 
 private:
   struct Particle {
-    Vector pos, vel;
+    Vector pos;
+    Vector vel;
 
     Particle() :
-      pos(),
-      vel()
+      pos(0.0f, 0.0f),
+      vel(0.0f, 0.0f)
     {}
     //     float angle;
   };

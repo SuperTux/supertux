@@ -269,7 +269,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     auto iter = resetpoints->get_iter();
     while (iter.next()) {
       if (iter.get_key() == "point") {
-        Vector sp_pos;
+        Vector sp_pos(0.0f, 0.0f);
         if (reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
           m_sector.add<SpawnPointMarker>("main", sp_pos);

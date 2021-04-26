@@ -31,9 +31,6 @@ public:
   Vector(const Vector& other)
     : x(other.x), y(other.y)
   { }
-  Vector()
-    : x(0), y(0)
-  { }
 
   bool operator ==(const Vector& other) const
   {

@@ -23,7 +23,7 @@
 namespace worldmap {
 
 Teleporter::Teleporter(const ReaderMapping& mapping) :
-  m_pos(),
+  m_pos(0.0f, 0.0f),
   m_sprite(),
   m_worldmap(),
   m_spawnpoint(),

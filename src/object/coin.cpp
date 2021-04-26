@@ -30,7 +30,7 @@
 Coin::Coin(const Vector& pos) :
   MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
   PathObject(),
-  m_offset(),
+  m_offset(0.0f, 0.0f),
   m_from_tilemap(false),
   m_add_path(false),
   m_physic(),
@@ -42,7 +42,7 @@ Coin::Coin(const Vector& pos) :
 Coin::Coin(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
   PathObject(),
-  m_offset(),
+  m_offset(0.0f, 0.0f),
   m_from_tilemap(false),
   m_add_path(false),
   m_physic(),
@@ -72,7 +72,7 @@ Coin::update(float dt_sec)
 {
   // if we have a path to follow, follow it
   if (get_walker()) {
-    Vector v;
+    Vector v(0.0f, 0.0f);
     if (m_from_tilemap)
     {
       v = m_offset + get_walker()->get_pos();

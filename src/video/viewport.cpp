@@ -167,7 +167,7 @@ Viewport::from_size(const Size& target_size, const Size& desktop_size)
 
   // calculate the viewport
   Rect viewport;
-  Vector scale;
+  Vector scale(0.0f, 0.0f);
   calculate_viewport(s_min_size, s_max_size,
                      target_size,
                      pixel_aspect_ratio,
@@ -179,7 +179,7 @@ Viewport::from_size(const Size& target_size, const Size& desktop_size)
 
 Viewport::Viewport() :
   m_rect(),
-  m_scale()
+  m_scale(0.0f, 0.0f)
 {
 }
 

@@ -248,7 +248,7 @@ void
 EditorOverlayWidget::put_tile()
 {
   auto tiles = m_editor.get_tiles();
-  Vector add_tile;
+  Vector add_tile(0.0f, 0.0f);
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
 
@@ -377,7 +377,7 @@ EditorOverlayWidget::fill()
     // Autotile will happen later, so that directional filling works properly
     input_tile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
 
-    Vector pos_;
+    Vector pos_(0.0f, 0.0f);
 
     // Going left...
     pos_ = pos + Vector(-1, 0);
@@ -1025,7 +1025,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 
   Vector screen_corner = context.get_cliprect().p2() +
                         m_editor.get_sector()->get_camera().get_translation();
-  Vector drawn_tile;
+  Vector drawn_tile(0.0f, 0.0f);
   Vector corner(std::min(sp_to_tp(m_drag_start).x, m_hovered_tile.x),
                 std::min(sp_to_tp(m_drag_start).y, m_hovered_tile.y));
   auto tiles = m_rectangle_preview.get();
@@ -1071,7 +1071,8 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
   end.x = std::min(float(tm_width), end.x);
   end.y = std::min(float(tm_height), end.y);
 
-  Vector line_start, line_end;
+  Vector line_start(0.0f, 0.0f);
+  Vector line_end(0.0f, 0.0f);
   auto draw_line = [&](const Vector& from, const Vector& to, const Color& col)
   {
     context.color().draw_line(from, to, col, current_tm->get_layer());

@@ -67,7 +67,7 @@ protected:
   {
   public:
     Particle() :
-      pos(),
+      pos(0.0f, 0.0f),
       angle(),
       texture(),
       alpha(),

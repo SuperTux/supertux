@@ -77,8 +77,8 @@ SkullTile::update(float dt_sec)
       m_respawn.reset(new FadeHelper(&m_alpha, FADETIME, 1.f));
       physic.enable_gravity(false);
       m_col.set_pos(m_original_pos);
-      physic.set_velocity(Vector());
-      m_col.set_movement(Vector());
+      physic.set_velocity(Vector(0.0f, 0.0f));
+      m_col.set_movement(Vector(0.0f, 0.0f));
     }
     m_col.set_movement(physic.get_movement(dt_sec));
   } else if (hit) {

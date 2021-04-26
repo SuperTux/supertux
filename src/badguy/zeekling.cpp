@@ -29,8 +29,8 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   diveRecoverTimer(),
   state(FLYING),
   last_player(nullptr),
-  last_player_pos(),
-  last_self_pos()
+  last_player_pos(0.0f, 0.0f),
+  last_self_pos(0.0f, 0.0f)
 {
   m_physic.enable_gravity(false);
 }

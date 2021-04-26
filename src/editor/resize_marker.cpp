@@ -35,7 +35,7 @@ ResizeMarker::editor_update()
 void
 ResizeMarker::refresh_pos()
 {
-  Vector new_pos;
+  Vector new_pos(0.0f, 0.0f);
 
   switch (m_vert)
   {
@@ -101,7 +101,7 @@ ResizeMarker::move_to(const Vector& pos)
 Vector
 ResizeMarker::get_point_vector() const
 {
-  Vector result;
+  Vector result(0.0f, 0.0f);
 
   switch (m_vert) {
     case Side::NONE:

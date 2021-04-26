@@ -150,7 +150,7 @@ TextureManager::get(const ReaderMapping& mapping, const boost::optional<Rect>& r
     filter = string2filter(filter_s);
   }
 
-  Vector animate;
+  Vector animate(0.0f, 0.0f);
   std::vector<float> animate_v;
   if (mapping.get("animate", animate_v))
   {

@@ -39,7 +39,7 @@ public:
 
 public:
   Rectf() :
-    m_p1(),
+    m_p1(0.0f, 0.0f),
     m_size()
   { }
 

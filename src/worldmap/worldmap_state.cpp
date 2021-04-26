@@ -62,7 +62,7 @@ WorldMapState::load_state()
     // load tux
     vm.get_table_entry("tux");
 
-    Vector p;
+    Vector p(0.0f, 0.0f);
     bool position_was_reset = false;
     if (!vm.get_float("x", p.x) || !vm.get_float("y", p.y))
     {

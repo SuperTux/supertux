@@ -36,7 +36,7 @@ TTFSurface::create(const TTFFont& font, const std::string& text)
   if (!text_surface)
   {
     log_warning << "Couldn't render text '" << text << "' :" << SDL_GetError();
-    return std::make_shared<TTFSurface>(SurfacePtr(), Vector());
+    return std::make_shared<TTFSurface>(SurfacePtr(), Vector(0.0f, 0.0f));
   }
 
   // FIXME: handle shadow offset

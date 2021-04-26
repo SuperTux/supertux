@@ -371,7 +371,7 @@ TileMap::draw(DrawingContext& context)
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
   Vector start = get_tile_position(t_draw_rect.left, t_draw_rect.top);
 
-  Vector pos;
+  Vector pos(0.0f, 0.0f);
   int tx, ty;
 
   std::unordered_map<SurfacePtr,

@@ -453,7 +453,7 @@ void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
   std::string sector_name = "main";
-  Vector translation;
+  Vector translation(0.0f, 0.0f);
 
   if (!reset && m_sector) {
     translation = m_sector->get_camera().get_translation();

@@ -83,7 +83,7 @@ void BicyclePlatformChild::editor_delete()
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   GameObject(reader),
-  m_center(),
+  m_center(0.0f, 0.0f),
   m_radius(128),
   m_angle(0),
   m_angular_speed(0.0f),
