@@ -26,7 +26,7 @@ namespace worldmap {
 std::list<SpriteChange*> SpriteChange::s_all_sprite_changes;
 
 SpriteChange::SpriteChange(const ReaderMapping& mapping) :
-  m_pos(),
+  m_pos(0.0f, 0.0f),
   m_change_on_touch(false),
   m_sprite(),
   m_sprite_name(),

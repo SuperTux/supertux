@@ -33,8 +33,8 @@ ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   visible(),
   hit_script(),
   new_vel_set(false),
-  new_vel(),
-  new_size()
+  new_vel(0.0f, 0.0f),
+  new_size(0.0f, 0.0f)
 {
   m_default_sprite_name = {};
 

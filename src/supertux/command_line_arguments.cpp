@@ -349,7 +349,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--spawn-pos")
     {
-      Vector spawn_pos;
+      Vector spawn_pos(0.0f, 0.0f);
 
       if (++i >= argc)
         throw std::runtime_error("Need to specify a spawn-pos X,Y");

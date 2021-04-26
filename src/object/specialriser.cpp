@@ -20,7 +20,7 @@
 #include "video/drawing_context.hpp"
 
 SpecialRiser::SpecialRiser(const Vector& pos, std::unique_ptr<MovingObject> child, bool is_solid) :
-  m_start_pos(),
+  m_start_pos(0.0f, 0.0f),
   m_offset(0),
   m_child(std::move(child))
 {

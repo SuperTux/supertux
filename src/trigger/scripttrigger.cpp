@@ -27,7 +27,7 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   TriggerBase(reader),
   triggerevent(),
   script(),
-  new_size(),
+  new_size(0.0f, 0.0f),
   must_activate(false),
   oneshot(false),
   runcount(0)
@@ -55,7 +55,7 @@ ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
   TriggerBase(),
   triggerevent(EVENT_TOUCH),
   script(script_),
-  new_size(),
+  new_size(0.0f, 0.0f),
   must_activate(),
   oneshot(false),
   runcount(0)

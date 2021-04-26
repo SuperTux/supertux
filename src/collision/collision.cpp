@@ -75,9 +75,9 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
   if (!intersects(rect, triangle.bbox))
     return false;
 
-  Vector normal;
+  Vector normal(0.0f, 0.0f);
   float c = 0.0;
-  Vector p1;
+  Vector p1(0.0f, 0.0f);
   Rectf area;
   switch (triangle.dir & AATriangle::DEFORM_MASK) {
     case 0:

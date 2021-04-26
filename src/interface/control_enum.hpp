@@ -76,7 +76,7 @@ ControlEnum<T>::ControlEnum() :
   m_value(),
   m_open_list(false),
   m_options(),
-  m_mouse_pos()
+  m_mouse_pos(0.0f, 0.0f)
 {
 }
 

@@ -50,7 +50,7 @@ public:
     top(false),
     bottom(false),
     crush(false),
-    slope_normal()
+    slope_normal(0.0f, 0.0f)
   {}
 
   bool left, right;

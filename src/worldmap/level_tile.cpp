@@ -30,7 +30,7 @@ namespace worldmap {
 
 LevelTile::LevelTile(const std::string& basedir, const ReaderMapping& mapping) :
   GameObject(mapping),
-  m_pos(),
+  m_pos(0.0f, 0.0f),
   m_basedir(basedir),
   m_level_filename(),
   m_title(),

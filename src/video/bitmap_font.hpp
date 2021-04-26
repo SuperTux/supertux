@@ -107,7 +107,7 @@ private:
 
     Glyph() :
       advance(),
-      offset(),
+      offset(0.0f, 0.0f),
       surface_idx(),
       rect()
     {}

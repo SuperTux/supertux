@@ -37,7 +37,7 @@ Climbable::Climbable(const ReaderMapping& reader) :
   climbed_by(nullptr),
   activate_try_timer(),
   message(),
-  new_size()
+  new_size(0.0f, 0.0f)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
@@ -54,7 +54,7 @@ Climbable::Climbable(const Rectf& area) :
   climbed_by(nullptr),
   activate_try_timer(),
   message(),
-  new_size()
+  new_size(0.0f, 0.0f)
 {
   m_col.m_bbox = area;
 }

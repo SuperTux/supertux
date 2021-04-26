@@ -142,9 +142,9 @@ UnstableTile::revive()
   state = STATE_NORMAL;
   set_group(COLGROUP_STATIC);
   physic.enable_gravity(false);
-  physic.set_velocity(Vector());
+  physic.set_velocity(Vector(0.0f, 0.0f));
   m_col.set_pos(m_original_pos);
-  m_col.set_movement(Vector());
+  m_col.set_movement(Vector(0.0f, 0.0f));
   m_revive_timer.stop();
   m_respawn.reset(new FadeHelper(&m_alpha, FADE_IN_TIME, 1.f));
   m_sprite->set_action("normal");

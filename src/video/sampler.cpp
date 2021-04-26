@@ -20,7 +20,7 @@ Sampler::Sampler() :
   m_filter(GL_LINEAR),
   m_wrap_s(GL_CLAMP_TO_EDGE),
   m_wrap_t(GL_CLAMP_TO_EDGE),
-  m_animate()
+  m_animate(0.0f, 0.0f)
 {
 }
 

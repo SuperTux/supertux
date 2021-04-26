@@ -334,7 +334,7 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
 
   CollisionHit hit;
   if (intersects(object1->m_dest, object2->m_dest)) {
-    Vector normal;
+    Vector normal(0.0f, 0.0f);
     get_hit_normal(r1, r2, hit, normal);
 
     if (!object1->collides(*object2, hit))
@@ -575,7 +575,7 @@ CollisionSystem::update()
         continue;
 
       if (intersects(object->m_dest, object_2->m_dest)) {
-        Vector normal;
+        Vector normal(0.0f, 0.0f);
         CollisionHit hit;
         get_hit_normal(object->m_dest, object_2->m_dest,
                        hit, normal);

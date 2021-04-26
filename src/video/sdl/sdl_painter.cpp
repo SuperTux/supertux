@@ -529,10 +529,11 @@ SDLPainter::draw_triangle(const TriangleRequest& request)
   int x3 = static_cast<int>(request.pos3.x);
   int y3 = static_cast<int>(request.pos3.y);
 
-  Edge edges[3];
-  edges[0] = make_edge(x1, y1, x2, y2);
-  edges[1] = make_edge(x2, y2, x3, y3);
-  edges[2] = make_edge(x3, y3, x1, y1);
+  std::array<Edge, 3> edges{
+    make_edge(x1, y1, x2, y2),
+    make_edge(x2, y2, x3, y3),
+    make_edge(x3, y3, x1, y1)
+  };
 
   int maxLength = 0;
   int longEdge = 0;

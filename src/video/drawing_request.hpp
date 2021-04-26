@@ -82,8 +82,8 @@ struct GradientRequest : public DrawingRequest
 {
   GradientRequest()  :
     DrawingRequest(GRADIENT),
-    pos(),
-    size(),
+    pos(0.0f, 0.0f),
+    size(0.0f, 0.0f),
     top(),
     bottom(),
     direction(),
@@ -116,8 +116,8 @@ struct InverseEllipseRequest : public DrawingRequest
 {
   InverseEllipseRequest() :
     DrawingRequest(INVERSEELLIPSE),
-    pos(),
-    size(),
+    pos(0.0f, 0.0f),
+    size(0.0f, 0.0f),
     color()
   {}
 
@@ -130,8 +130,8 @@ struct LineRequest : public DrawingRequest
 {
   LineRequest() :
     DrawingRequest(LINE),
-    pos(),
-    dest_pos(),
+    pos(0.0f, 0.0f),
+    dest_pos(0.0f, 0.0f),
     color()
   {}
 
@@ -144,9 +144,9 @@ struct TriangleRequest : public DrawingRequest
 {
   TriangleRequest() :
     DrawingRequest(TRIANGLE),
-    pos1(),
-    pos2(),
-    pos3(),
+    pos1(0.0f, 0.0f),
+    pos2(0.0f, 0.0f),
+    pos3(0.0f, 0.0f),
     color()
   {}
 
@@ -158,7 +158,7 @@ struct GetPixelRequest : public DrawingRequest
 {
   GetPixelRequest() :
     DrawingRequest(GETPIXEL),
-    pos(),
+    pos(0.0f, 0.0f),
     color_ptr() {}
 
   Vector pos;

@@ -25,7 +25,7 @@
 namespace worldmap {
 
 SpecialTile::SpecialTile(const ReaderMapping& mapping) :
-  m_pos(),
+  m_pos(0.0f, 0.0f),
   m_sprite(),
   m_map_message(),
   m_passive_message(false),
