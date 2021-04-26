@@ -16,7 +16,8 @@
     "libcurl4-openssl-dev",
     "libglew-dev",
     "libharfbuzz-dev",
-    "libfribidi-dev"
+    "libfribidi-dev",
+    "libglm-dev"
   ],
   "install_lib": [
     "/usr/lib/${ARCH_TRIPLET}/libogg.so*",
