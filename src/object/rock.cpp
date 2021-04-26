@@ -177,7 +177,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
     else if (dir == Direction::DOWN) {
       physic.set_velocity(0, 500);
     }
-    else if (last_movement.norm() > 1) {
+    else if (glm::length(last_movement) > 1) {
       physic.set_velocity((dir == Direction::RIGHT) ? 200.0f : -200.0f, -200.0f);
     }
     else {

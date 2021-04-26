@@ -20,10 +20,10 @@
 #include <stdint.h>
 
 #include "video/color.hpp"
+#include "math/fwd.hpp"
 
 class Canvas;
 class TileSet;
-class Vector;
 
 void
 draw_tile(Canvas& canvas, const TileSet& tileset, uint32_t id, const Vector& pos,

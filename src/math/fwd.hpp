@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,33 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_TIP_HPP
-#define HEADER_SUPERTUX_EDITOR_TIP_HPP
+#ifndef HEADER_SUPERTUX_MATH_FWD_HPP
+#define HEADER_SUPERTUX_MATH_FWD_HPP
 
-#include <string>
-#include <vector>
+#include <glm/fwd.hpp>
 
-#include "math/fwd.hpp"
-
-class DrawingContext;
-class GameObject;
-
-class Tip final
-{
-public:
-  Tip(GameObject& object);
-
-  void draw(DrawingContext& context, const Vector& pos);
-  void draw_up(DrawingContext& context, const Vector& pos);
-
-private:
-  std::vector<std::string> m_strings;
-  std::string m_header;
-
-private:
-  Tip(const Tip&) = delete;
-  Tip& operator=(const Tip&) = delete;
-};
+using Vector = glm::vec2;
 
 #endif
 

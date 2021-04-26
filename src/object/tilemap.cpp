@@ -574,7 +574,7 @@ TileMap::get_tile(int x, int y) const
 uint32_t
 TileMap::get_tile_id_at(const Vector& pos) const
 {
-  Vector xy = (pos - m_offset) / 32;
+  Vector xy = (pos - m_offset) / 32.0f;
   return get_tile_id(int(xy.x), int(xy.y));
 }
 
@@ -595,7 +595,7 @@ TileMap::change(int x, int y, uint32_t newtile)
 void
 TileMap::change_at(const Vector& pos, uint32_t newtile)
 {
-  Vector xy = (pos - m_offset) / 32;
+  Vector xy = (pos - m_offset) / 32.0f;
   change(int(xy.x), int(xy.y), newtile);
 }
 

@@ -18,9 +18,9 @@
 #define HEADER_SUPERTUX_EDITOR_LAYER_ICON_HPP
 
 #include "editor/object_icon.hpp"
+#include "math/fwd.hpp"
 
 class GameObject;
-class Vector;
 
 class LayerIcon : public ObjectIcon
 {

@@ -20,12 +20,12 @@
 
 #include <SDL_ttf.h>
 
+#include "math/fwd.hpp"
 #include "video/color.hpp"
 #include "video/font.hpp"
 
 class Canvas;
 class Painter;
-class Vector;
 
 class TTFFont final : public Font
 {

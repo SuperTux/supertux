@@ -24,13 +24,13 @@
 
 #include "collision/collision.hpp"
 #include "supertux/tile.hpp"
+#include "math/fwd.hpp"
 
 class CollisionObject;
 class CollisionGroundMovementManager;
 class DrawingContext;
 class Rectf;
 class Sector;
-class Vector;
 
 class CollisionSystem final
 {

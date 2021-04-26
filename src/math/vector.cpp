@@ -19,6 +19,8 @@
 
 #include "math/vector.hpp"
 
+#if 0
+
 Vector Vector::unit() const
 {
   return *this / norm();
@@ -59,5 +61,7 @@ std::ostream& operator<<(std::ostream& out, const Vector& vector)
   out << "Vector(" << vector.x << ", " << vector.y << ')';
   return out;
 }
+
+#endif
 
 /* EOF */

@@ -158,7 +158,7 @@ BicyclePlatform::update(float dt_sec)
   }
   else
   {
-    m_center += Vector(m_angular_speed, 0) * dt_sec * 32;
+    m_center += Vector(m_angular_speed, 0) * dt_sec * 32.0f;
   }
 }
 

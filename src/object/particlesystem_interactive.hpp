@@ -19,7 +19,7 @@
 
 #include "object/particlesystem.hpp"
 
-class Vector;
+#include "math/fwd.hpp"
 
 /**
    This is an alternative class for particle systems. It is
