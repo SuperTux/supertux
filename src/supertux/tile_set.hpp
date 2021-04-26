@@ -21,6 +21,7 @@
 #include <stdint.h>
 #include <string>
 
+#include "math/fwd.hpp"
 #include "supertux/autotile.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
@@ -28,7 +29,6 @@
 class Canvas;
 class DrawingContext;
 class Tile;
-class Vector;
 
 class Tilegroup final
 {

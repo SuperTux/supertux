@@ -82,7 +82,7 @@ LevelTile::~LevelTile()
 void
 LevelTile::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), m_pos * 32 + Vector(16, 16), LAYER_OBJECTS - 1);
+  m_sprite->draw(context.color(), m_pos * 32.0f + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void

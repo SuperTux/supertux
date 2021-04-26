@@ -21,6 +21,7 @@
 
 #include "control/input_manager.hpp"
 #include "editor/widget.hpp"
+#include "math/fwd.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/screen.hpp"
 
@@ -29,7 +30,6 @@ class Editor;
 class GameObject;
 class LayerIcon;
 class Tip;
-class Vector;
 
 /** A widget at the bottom of the screen for switching between tilemap
     layers and other non-movable GameObjects */

@@ -123,7 +123,7 @@ TreeWillOWisp::active_update(float dt_sec)
 
   if (mystate == STATE_SUCKED) {
     Vector dir_ = suck_target - get_pos();
-    if (dir_.norm() < 5) {
+    if (glm::length(dir_) < 5) {
       vanish();
       return;
     }

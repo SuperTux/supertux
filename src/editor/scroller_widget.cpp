@@ -76,7 +76,7 @@ EditorScrollerWidget::draw_arrow(DrawingContext& context, const Vector& pos)
   Vector dir = pos - Vector(MIDDLE, MIDDLE);
   if (dir.x != 0 || dir.y != 0) {
     // draw a triangle
-    dir = dir.unit() * 8;
+    dir = glm::normalize(dir) * 8.0f;
     Vector dir2 = Vector(-dir.y, dir.x);
     context.color().draw_triangle(pos + dir, pos - dir + dir2, pos - dir - dir2,
                                     Color(1, 1, 1, 0.5), LAYER_GUI-20);
@@ -125,7 +125,7 @@ EditorScrollerWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
     m_scrolling_vec = m_mouse_pos - Vector(MIDDLE, MIDDLE);
     if (m_scrolling_vec.x != 0 || m_scrolling_vec.y != 0) {
-      float norm = m_scrolling_vec.norm();
+      float norm = glm::length(m_scrolling_vec);
       m_scrolling_vec *= powf(static_cast<float>(M_E), norm / 16.0f - 1.0f);
     }
   }

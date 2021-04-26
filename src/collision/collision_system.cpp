@@ -527,8 +527,8 @@ CollisionSystem::update()
     const Vector& mov = object->get_movement();
 
     // Make sure movement is never faster than MAX_SPEED.
-    if (mov.norm() > MAX_SPEED) {
-      object->m_movement = mov.unit() * MAX_SPEED;
+    if (glm::length(mov) > MAX_SPEED) {
+      object->m_movement = glm::normalize(mov) * MAX_SPEED;
     }
 
     object->m_dest = object->get_bbox();

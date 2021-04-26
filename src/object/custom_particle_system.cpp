@@ -25,6 +25,7 @@
 #include "math/aatriangle.hpp"
 #include "math/easing.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/fadetoblack.hpp"

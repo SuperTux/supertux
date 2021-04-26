@@ -23,10 +23,10 @@
 #include <memory>
 #include <functional>
 
+#include "math/fwd.hpp"
 #include "supertux/direction.hpp"
 
 class ReaderMapping;
-class Vector;
 class GameObject;
 
 class ObjectFactory

@@ -19,9 +19,9 @@
 
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
+#include "math/fwd.hpp"
 
 class Path;
-class Vector;
 
 enum class PathStyle
 {

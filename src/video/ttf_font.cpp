@@ -124,7 +124,7 @@ TTFFont::draw_text(Canvas& canvas, const std::string& text,
       }
 
       // draw text
-      canvas.draw_surface(ttf_surface->get_surface(), new_pos.floor(), 0.0f, color, Blend(), layer);
+      canvas.draw_surface(ttf_surface->get_surface(), glm::floor(new_pos), 0.0f, color, Blend(), layer);
     }
 
     last_y += get_height();
