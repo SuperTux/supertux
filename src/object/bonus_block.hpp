@@ -37,6 +37,7 @@ public:
     CUSTOM,
     SCRIPT,
     LIGHT,
+    LIGHT_ON,
     TRAMPOLINE,
     RAIN,
     EXPLODE
