@@ -17,8 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 #define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 
-#include "squirrel/exposed_object.hpp"
 #include "scripting/gradient.hpp"
+#include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
 #include "video/drawing_context.hpp"
 

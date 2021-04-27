@@ -22,6 +22,7 @@
 
 #include "editor/object_settings.hpp"
 #include "supertux/game_object_component.hpp"
+#include "util/fade_helper.hpp"
 #include "util/gettext.hpp"
 #include "util/uid.hpp"
 
@@ -166,6 +167,9 @@ protected:
   /** a name for the gameobject, this is mostly a hint for scripts and
       for debugging, don't rely on names being set or being unique */
   std::string m_name;
+
+  /** Fade Helpers are for easing/fading script functions */
+  std::vector<std::unique_ptr<FadeHelper>> m_fade_helpers;
 
 private:
   /** A unique id for the object to safely refer to it. This will be
