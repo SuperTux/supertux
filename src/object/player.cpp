@@ -684,18 +684,6 @@ Player::swim(float pointx, float pointy, bool boost)
             vx += 30.f * pointx;
             vy += 30.f * pointy;
           }
-          else
-          {
-            if (m_physic.get_velocity_x() > 100.f)
-              vx += 30.f;
-            else if (m_physic.get_velocity_x() < -100.f)
-              vx -= 30.f;
-
-            if (m_physic.get_velocity_y() > 100.f)
-              vy += 30.f;
-            else if (m_physic.get_velocity_y() < -100.f)
-              vy -= 30.f;
-          }
         }
         else
         {
