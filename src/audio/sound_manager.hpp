@@ -78,6 +78,12 @@ public:
 private:
   wstsound::SoundManager m_sound_mgr;
 
+  bool m_sound_enabled;
+  bool m_music_enabled;
+
+  wstsound::SoundSourcePtr m_music_source;
+  std::string m_music_filename;
+
 private:
   SoundManager(const SoundManager&) = delete;
   SoundManager& operator=(const SoundManager&) = delete;

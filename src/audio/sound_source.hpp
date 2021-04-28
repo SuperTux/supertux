@@ -24,16 +24,19 @@
 class SoundSource
 {
 public:
-  SoundSource() {}
+  SoundSource(wstsound::SoundSourcePtr source);
 
-  void play() {}
-  void stop() {}
-  bool playing() const { return false; }
-  void set_pitch(float pitch) {}
-  void set_position(const Vector& position) {}
-  void set_looping(bool looping) {}
-  void set_gain(float gain) {}
-  void set_reference_distance(float distance) {}
+  void play();
+  void stop();
+  bool playing() const;
+  void set_pitch(float pitch);
+  void set_position(const Vector& pos);
+  void set_looping(bool looping);
+  void set_gain(float gain);
+  void set_reference_distance(float distance);
+
+private:
+  wstsound::SoundSourcePtr m_source;
 
 private:
   SoundSource(const SoundSource&) = delete;
