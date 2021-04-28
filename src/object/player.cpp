@@ -643,8 +643,8 @@ Player::swim(float pointx, float pointy, bool boost)
       m_swimming_accel_modifier = is_ang_defined ? 600.f : 0.f;
       Vector swimming_direction = Vector(m_swimming_accel_modifier, pointed_angle).rectangular();
 
-      m_physic.set_acceleration_x(swimming_direction.x - 1.0f * vx);
-      m_physic.set_acceleration_y(swimming_direction.y - 1.0f * vy);
+      m_physic.set_acceleration_x((swimming_direction.x - 1.0f * vx) * 2.f);
+      m_physic.set_acceleration_y((swimming_direction.y - 1.0f * vy) * 2.f);
 
       // Limit speed, if you go above this speed your acceleration is set to opposite (?)
       float limit = 300.f;
