@@ -16,6 +16,7 @@
 
 #include "util/utf8_iterator.hpp"
 
+#include <string.h>
 #include <stdexcept>
 
 #include "util/log.hpp"
@@ -96,10 +97,9 @@ UTF8Iterator::UTF8Iterator(const std::string& text_) :
   try {
     chr = decode_utf8(text, pos);
   } catch (std::exception&) {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-align"
-    log_debug << "Malformed utf-8 sequence beginning with " << *(reinterpret_cast<const uint32_t*>(text.c_str() + pos)) << " found " << std::endl;
-#pragma GCC diagnostic pop
+    uint32_t value;
+    memcpy(&value, text.c_str() + pos, sizeof(value));
+    log_debug << "Malformed utf-8 sequence beginning with " << value << " found " << std::endl;
     chr = 0;
   }
 }
@@ -115,10 +115,9 @@ UTF8Iterator::operator++() {
     try {
       chr = decode_utf8(text, pos);
     } catch (std::exception&) {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-align"
-      log_debug << "Malformed utf-8 sequence beginning with " << *(reinterpret_cast<const uint32_t*>(text.c_str() + pos)) << " found " << std::endl;
-#pragma GCC diagnostic pop
+      uint32_t value;
+      memcpy(&value, text.c_str() + pos, sizeof(value));
+      log_debug << "Malformed utf-8 sequence beginning with " << value << " found " << std::endl;
       chr = 0;
       ++pos;
     }
