@@ -30,7 +30,7 @@ class CloudParticleSystem final :
 public:
   CloudParticleSystem();
   CloudParticleSystem(const ReaderMapping& reader);
-  virtual ~CloudParticleSystem();
+  ~CloudParticleSystem() override;
 
   void init();
   virtual void update(float dt_sec) override;

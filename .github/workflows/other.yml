@@ -57,6 +57,7 @@ jobs:
             pkg install -y pkgconf
             pkg install -y git
             pkg install -y cmake
+            pkg install -y googletest
             pkg install -y sdl2
             pkg install -y sdl2_image
             pkg install -y openal-soft

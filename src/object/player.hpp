@@ -64,7 +64,7 @@ private:
 
 public:
   Player(PlayerStatus& player_status, const std::string& name);
-  virtual ~Player();
+  ~Player() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

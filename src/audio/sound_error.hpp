@@ -24,7 +24,7 @@ class SoundError final : public std::exception
 {
 public:
   SoundError(const std::string& message) throw();
-  virtual ~SoundError() throw();
+  ~SoundError() throw() override;
 
   virtual const char* what() const throw() override;
 

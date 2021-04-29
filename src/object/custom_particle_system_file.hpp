@@ -33,7 +33,7 @@ class CustomParticleSystemFile final :
 public:
   CustomParticleSystemFile();
   CustomParticleSystemFile(const ReaderMapping& reader);
-  virtual ~CustomParticleSystemFile();
+  ~CustomParticleSystemFile() override;
 
   virtual std::string get_class() const override { return "particles-custom-file"; }
   virtual std::string get_display_name() const override { return _("Custom Particles from file"); }

@@ -75,7 +75,7 @@ Explosion::explode()
   // spawn some particles
   Vector accel = Vector(0, Sector::get().get_gravity()*100);
   Sector::get().add<Particles>(
-    m_col.m_bbox.get_middle(), -360, 360, 450, 900, accel, num_particles,
+    m_col.m_bbox.get_middle(), -360, 360, 450.0f, 900.0f, accel, num_particles,
     Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1);
 
   if (does_push) {

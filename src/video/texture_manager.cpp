@@ -292,6 +292,8 @@ TextureManager::get_surface(const std::string& filename)
 TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect, const Sampler& sampler)
 {
+  assert(rect.valid());
+
   const SDL_Surface& src_surface = get_surface(filename);
 
   SDLSurfacePtr convert;
@@ -306,19 +308,45 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 
   const SDL_Surface& surface = convert ? *convert : src_surface;
 
-  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(surface.pixels) +
-                                                  rect.top * surface.pitch +
-                                                  rect.left * surface.format->BytesPerPixel,
-                                                  rect.get_width(), rect.get_height(),
+  SDLSurfacePtr subimage;
+  if (!Rect(0, 0, surface.w, surface.h).contains(rect))
+  {
+    log_warning << filename << ": invalid subregion requested: image="
+                << surface.w << "x" << surface.h << ", rect=" << rect << std::endl;
+
+    subimage = SDLSurfacePtr(SDL_CreateRGBSurface(0,
+                                                  rect.get_width(),
+                                                  rect.get_height(),
                                                   surface.format->BitsPerPixel,
-                                                  surface.pitch,
                                                   surface.format->Rmask,
                                                   surface.format->Gmask,
                                                   surface.format->Bmask,
                                                   surface.format->Amask));
-  if (!subimage)
+
+    Rect clipped_rect(std::max(0, rect.left),
+                      std::max(0, rect.top),
+                      std::min(subimage->w, rect.right),
+                      std::min(subimage->w, rect.bottom));
+
+    SDL_Rect srcrect = clipped_rect.to_sdl();
+    SDL_BlitSurface(const_cast<SDL_Surface*>(&surface), &srcrect, subimage.get(), nullptr);
+  }
+  else
   {
-    throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
+    subimage = SDLSurfacePtr(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(surface.pixels) +
+                                                      rect.top * surface.pitch +
+                                                      rect.left * surface.format->BytesPerPixel,
+                                                      rect.get_width(), rect.get_height(),
+                                                      surface.format->BitsPerPixel,
+                                                      surface.pitch,
+                                                      surface.format->Rmask,
+                                                      surface.format->Gmask,
+                                                      surface.format->Bmask,
+                                                      surface.format->Amask));
+    if (!subimage)
+    {
+      throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
+    }
   }
 
   return VideoSystem::current()->new_texture(*subimage, sampler);

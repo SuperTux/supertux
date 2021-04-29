@@ -41,6 +41,8 @@ if(! ("fitr_up" in state)){
 
 fitr_down.set_solid(state.fitr_down);
 fitr_up.set_solid(state.fitr_up);
+fitr_down_boulder.set_alpha(state.fitr_down ? 0 : 1);
+fitr_up_boulder.set_alpha(state.fitr_up ? 0 : 1);
 
 
 

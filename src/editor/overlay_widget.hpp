@@ -53,7 +53,7 @@ public:
 
 public:
   EditorOverlayWidget(Editor& editor);
-  virtual ~EditorOverlayWidget();
+  ~EditorOverlayWidget() override;
 
   virtual void draw(DrawingContext&) override;
   virtual void update(float dt_sec) override;

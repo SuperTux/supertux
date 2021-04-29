@@ -28,7 +28,7 @@ class IFileStreambuf final : public std::streambuf
 {
 public:
   IFileStreambuf(const std::string& filename);
-  ~IFileStreambuf();
+  ~IFileStreambuf() override;
 
 protected:
   virtual int underflow() override;

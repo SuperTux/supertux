@@ -23,7 +23,7 @@ class EditorTilegroupMenu final : public Menu
 {
 public:
   EditorTilegroupMenu();
-  ~EditorTilegroupMenu();
+  ~EditorTilegroupMenu() override;
 
   void menu_action(MenuItem& item) override;
 

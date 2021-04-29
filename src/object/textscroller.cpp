@@ -258,7 +258,7 @@ TextScroller::update(float dt_sec)
     // use start or escape keys to exit
     if (controller->pressed(Control::START) ||
         controller->pressed(Control::ESCAPE)) {
-      ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5));
+      ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f));
       return;
     }
   }
@@ -272,7 +272,7 @@ TextScroller::update(float dt_sec)
     if (m_finished && !m_fading)
     {
 	  m_fading = true;
-      ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25)));
+      ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25f)));
     }
   }
 }

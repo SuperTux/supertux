@@ -34,8 +34,8 @@ public:
   {
   }
 
-  bool operator !=(const IntegrationStatus& is) { return !operator==(is); }
-  bool operator ==(const IntegrationStatus& is) {
+  bool operator !=(const IntegrationStatus& is) const { return !operator==(is); }
+  bool operator ==(const IntegrationStatus& is) const {
     if (m_details.size() != is.m_details.size())
       return false;
 

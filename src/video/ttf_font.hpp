@@ -31,7 +31,7 @@ class TTFFont final : public Font
 {
 public:
   TTFFont(const std::string& filename, int size, float line_spacing = 1.0f, int shadowsize = 0, int border = 0);
-  virtual ~TTFFont();
+  ~TTFFont() override;
 
   float get_line_spacing() {
     return m_line_spacing;

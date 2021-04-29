@@ -33,7 +33,7 @@ public:
 
 public:
   StreamSoundSource();
-  virtual ~StreamSoundSource();
+  ~StreamSoundSource() override;
 
   virtual void update() override;
   virtual void set_looping(bool looping_) override { m_looping = looping_; }

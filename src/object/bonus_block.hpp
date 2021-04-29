@@ -37,6 +37,7 @@ public:
     CUSTOM,
     SCRIPT,
     LIGHT,
+    LIGHT_ON,
     TRAMPOLINE,
     RAIN,
     EXPLODE
@@ -45,7 +46,7 @@ public:
 public:
   BonusBlock(const Vector& pos, int tile_data);
   BonusBlock(const ReaderMapping& mapping);
-  virtual ~BonusBlock();
+  ~BonusBlock() override;
 
   virtual void hit(Player& player) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;

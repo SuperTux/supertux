@@ -130,7 +130,7 @@ Door::event(Player& , EventType type)
         state = OPENING;
         SoundManager::current()->play("sounds/door.wav");
         sprite->set_action("opening", 1);
-        ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 1));
+        ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 1.0f));
       }
       break;
     case OPENING:
@@ -167,7 +167,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         if (!target_sector.empty()) {
           GameSession::current()->respawn(target_sector, target_spawnpoint,
                                           invincible, invincibilityperiod);
-          ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1));
+          ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
         }
       }
     }

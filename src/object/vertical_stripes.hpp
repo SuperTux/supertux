@@ -26,7 +26,7 @@ class VerticalStripes final : public GameObject
 {
 public:
 	VerticalStripes();
-	virtual ~VerticalStripes();
+	~VerticalStripes() override;
 
   virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override { return false; }

@@ -521,8 +521,8 @@ set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX
 link_directories(${SDL_TTF_PREFIX}/lib)
 include_directories(SYSTEM ${SDL_TTF_PREFIX}/include/SDL2)
 if(RAQM_FOUND)
-  find_package(Fribidi REQUIRED)
-  find_package(Harfbuzz REQUIRED)
+  find_package(FriBidi REQUIRED)
+  find_package(HarfBuzz REQUIRED)
   set_target_properties(SDL_ttf_lib PROPERTIES INTERFACE_LINK_LIBRARIES "${RAQM_LIBRARIES}")
 endif()
 
@@ -921,21 +921,14 @@ endif(HAVE_LIBCURL)
 
 if(BUILD_TESTS)
   find_package(Threads REQUIRED)
-
-  # build gtest
-  # ${CMAKE_CURRENT_SOURCE_DIR} in include_directories is needed to generate -isystem instead of -I flags
-  add_library(gtest_main STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/src/gtest_main.cc)
-  target_include_directories(gtest_main SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/include/)
-  add_library(gtest STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/src/gtest-all.cc)
-  target_include_directories(gtest SYSTEM PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/)
-  target_include_directories(gtest SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/include/)
+  find_package(GTest REQUIRED)
 
   # build SuperTux tests
   file(GLOB TEST_SUPERTUX_SOURCES tests/*.cpp)
   add_executable(test_supertux2 ${TEST_SUPERTUX_SOURCES})
   target_compile_options(test_supertux2 PRIVATE ${WARNINGS_CXX_FLAGS})
   target_link_libraries(test_supertux2
-    gtest gtest_main
+    GTest::GTest GTest::Main
     supertux2_lib
     ${CMAKE_THREAD_LIBS_INIT})
 

@@ -59,7 +59,7 @@ class Console final : public Currenton<Console>
 {
 public:
   Console(ConsoleBuffer& buffer);
-  ~Console();
+  ~Console() override;
 
   void on_buffer_change(int line_count);
 

@@ -26,7 +26,7 @@ class TreeWillOWisp final : public BadGuy
 {
 public:
   TreeWillOWisp(GhostTree* tree, const Vector& pos, float radius, float speed);
-  virtual ~TreeWillOWisp();
+  ~TreeWillOWisp() override;
 
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;

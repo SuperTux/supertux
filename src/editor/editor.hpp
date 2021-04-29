@@ -65,7 +65,7 @@ public:
 
 public:
   Editor();
-  ~Editor();
+  ~Editor() override;
 
   virtual void draw(Compositor&) override;
   virtual void update(float dt_sec, const Controller& controller) override;

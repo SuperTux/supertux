@@ -30,7 +30,7 @@ class SDLScreenRenderer final : public Renderer
 {
 public:
   SDLScreenRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer);
-  ~SDLScreenRenderer();
+  ~SDLScreenRenderer() override;
 
   virtual void start_draw() override;
   virtual void end_draw() override;
