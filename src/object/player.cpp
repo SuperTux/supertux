@@ -660,7 +660,7 @@ Player::swim(float pointx, float pointy, bool boost)
       }
 
       //not boosting? let's slow this penguin down!!!
-      if (!boost && (pointy < 0) && is_ang_defined && m_physic.get_velocity().norm() > 310.f)
+      if (!boost && is_ang_defined && m_physic.get_velocity().norm() > 310.f)
       {
         m_physic.set_acceleration(-5.f*vx, -5.f*vy);
       }
