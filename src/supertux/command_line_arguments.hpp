@@ -81,7 +81,7 @@ public:
 
   boost::optional<bool> editor;
   boost::optional<bool> resave;
-  boost::optional<bool> use_local_path;
+  boost::optional<bool> prioritize_addon_path;
   // boost::optional<std::string> locale;
 
 public:

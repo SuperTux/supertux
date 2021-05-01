@@ -446,7 +446,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
         break;
     }
 
-    if (g_config->use_local_path)
+    if (g_config->prioritize_addon_path)
     {
       if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
       {
@@ -546,7 +546,7 @@ AddonManager::mount_old_addons()
     {
       if (is_old_enabled_addon(addon)) 
       {
-        if (g_config->use_local_path) 
+        if (g_config->prioritize_addon_path) 
         {
           if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
           {
@@ -572,7 +572,7 @@ AddonManager::unmount_old_addons()
   for (auto& addon : m_installed_addons) {
     if (is_old_enabled_addon(addon))
     {
-      if (g_config->use_local_path)
+      if (g_config->prioritize_addon_path)
       {
         if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
         {
@@ -682,7 +682,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   {
     std::string os_path = FileSystem::join(realdir, archive);
     // check if we should use local file paths for addon overrides
-    PHYSFS_mount(os_path.c_str(), nullptr, !(g_config->use_local_path));
+    PHYSFS_mount(os_path.c_str(), nullptr, !(g_config->prioritize_addon_path));
     std::string nfo_filename = scan_for_info(os_path);
 
     if (nfo_filename.empty())

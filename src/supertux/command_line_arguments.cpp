@@ -54,7 +54,7 @@ CommandLineArguments::CommandLineArguments() :
   repository_url(),
   editor(),
   resave(),
-  use_local_path()
+  prioritize_addon_path()
 {
 }
 
@@ -132,11 +132,11 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("Directory Options:") << "\n"
     << _("  --datadir DIR                Set the directory for the games datafiles") << "\n"
     << _("  --userdir DIR                Set the directory for user data (savegames, etc.)") << "\n"
-    << _("  --use-local-path             Set precedence for local addon file paths") << "\n"
-    << _("  --no-local-path              Unset precedence for local addon file paths") << "\n"
     << "\n"
     << _("Add-On Options:") << "\n"
     << _("  --repository-url URL         Set the URL to the Add-On repository") << "\n"
+    << _("  --prioritize-addon-path      Prioritize local addon file path") << "\n"
+    << _("  --unset-addon-path           Unset priority of local addon file path") << "\n"
     << "\n"
     << _("Environment variables:") << "\n"
     << _("  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
@@ -319,13 +319,13 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       christmas_mode = false;
     }
-    else if (arg == "--use-local-path")
+    else if (arg == "--prioritize-addon-path")
     {
-      use_local_path = true;
+      prioritize_addon_path = true;
     }
-    else if (arg == "--no-local-path")
+    else if (arg == "--unset-addon-path")
     {
-      use_local_path = false;
+      prioritize_addon_path = false;
     }
     else if (arg == "--disable-sound" || arg == "--disable-sfx")
     {
@@ -448,7 +448,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(tux_spawn_pos)
   merge_option(developer_mode)
   merge_option(christmas_mode)
-  merge_option(use_local_path)
+  merge_option(prioritize_addon_path)
   merge_option(repository_url)
 
 #undef merge_option

@@ -65,7 +65,7 @@ Config::Config() :
   enable_discord(false),
 #endif
   hide_editor_levelnames(false),
-  use_local_path(false),
+  prioritize_addon_path(false),
   editor_autosave_frequency(5),
   repository_url()
 {
@@ -90,7 +90,7 @@ Config::load()
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
-  config_mapping.get("use_local_path", use_local_path);
+  config_mapping.get("prioritize_addon_path", prioritize_addon_path);
 
   boost::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
