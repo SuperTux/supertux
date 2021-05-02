@@ -165,7 +165,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
   if (player->is_swimming() || player->is_water_jumping())
   {
     float swimangle = player->get_swimming_angle();
-    physic.set_velocity(player->get_velocity() + Vector(cos(swimangle), sin(swimangle)));
+    physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
   }
   else
   {
