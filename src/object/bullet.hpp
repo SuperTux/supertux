@@ -26,7 +26,7 @@
 class Bullet final : public MovingObject
 {
 public:
-  Bullet(const Vector& pos, float xm, Direction dir, BonusType type);
+  Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
