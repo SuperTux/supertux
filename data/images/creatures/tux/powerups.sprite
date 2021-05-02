@@ -153,6 +153,71 @@
          (loops 1)
          (mirror-action "fire-buttjump-right"))
 
+       (action
+         (name "fire-swimming-right")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (images "fire/hat/swim-0.png"
+                 "fire/hat/swim-1.png"
+                 "fire/hat/swim-2.png"
+                 "fire/hat/swim-3.png"
+                 "fire/hat/swim-4.png"))
+
+       (action
+         (name "fire-swimming-left")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "fire-swimming-right"))
+
+       (action
+         (name "fire-floating-right")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (images "fire/hat/swim-0.png"
+                 "fire/hat/swim-1.png"
+                 "fire/hat/swim-2.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"
+                 "fire/hat/swimidle1.png"))
+
+       (action
+         (name "fire-floating-left")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "fire-floating-right"))
+
+       (action
+         (name "fire-swimjump-right")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (images "fire/hat/swim-0.png"))
+
+       (action
+         (name "fire-swimjump-left")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (mirror-action "fire-swimjump-right"))
+
+
 ; Ice Tux
        (action
          (name "ice-walk-right")
@@ -297,6 +362,70 @@
          (fps 20.0)
          (loops 1)
          (mirror-action "ice-buttjump-right"))
+
+       (action
+         (name "ice-swimming-right")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (images "ice/hat/swim-0.png"
+                 "ice/hat/swim-1.png"
+                 "ice/hat/swim-2.png"
+                 "ice/hat/swim-3.png"
+                 "ice/hat/swim-4.png"))
+
+       (action
+         (name "ice-swimming-left")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "ice-swimming-right"))
+
+       (action
+         (name "ice-floating-right")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (images "ice/hat/swim-0.png"
+                 "ice/hat/swim-1.png"
+                 "ice/hat/swim-2.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"
+                 "ice/hat/swimidle1.png"))
+
+       (action
+         (name "ice-floating-left")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "ice-floating-right"))
+
+       (action
+         (name "ice-swimjump-right")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (images "ice/hat/swim-0.png"))
+
+       (action
+         (name "ice-swimjump-left")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (mirror-action "ice-swimjump-right"))
 
 ; Air Tux
        (action
@@ -454,6 +583,69 @@
          (loops 1)
          (mirror-action "air-buttjump-right"))
 
+       (action
+         (name "air-swimming-right")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (images "air/hat/swim-0.png"
+                 "air/hat/swim-1.png"
+                 "air/hat/swim-2.png"
+                 "air/hat/swim-3.png"
+                 "air/hat/swim-4.png"))
+
+       (action
+         (name "air-swimming-left")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "air-swimming-right"))
+
+       (action
+         (name "air-floating-right")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (images "air/hat/swim-0.png"
+                 "air/hat/swim-1.png"
+                 "air/hat/swim-2.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"
+                 "air/hat/swimidle1.png"))
+
+       (action
+         (name "air-floating-left")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "air-floating-right"))
+
+       (action
+         (name "air-swimjump-right")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (images "air/hat/swim-0.png"))
+
+       (action
+         (name "air-swimjump-left")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (mirror-action "air-swimjump-right"))
+
 ; Earth Tux
 
        (action
@@ -484,7 +676,7 @@
        (action
          (name "earth-walljump-right")
          (hitbox 24 14 32 64)
-         (images "earth/hat/earth-walljump.png"))
+         (images "earth/hardhat/earth-walljump.png"))
 
        (action
          (name "earth-walljump-left")
@@ -599,6 +791,69 @@
          (fps 20.0)
          (loops 1)
          (mirror-action "earth-buttjump-right"))
+
+       (action
+         (name "earth-swimming-right")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (images "earth/hardhat/swim-0.png"
+                 "earth/hardhat/swim-1.png"
+                 "earth/hardhat/swim-2.png"
+                 "earth/hardhat/swim-3.png"
+                 "earth/hardhat/swim-4.png"))
+
+       (action
+         (name "earth-swimming-left")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "earth-swimming-right"))
+
+       (action
+         (name "earth-floating-right")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (images "earth/hardhat/swim-0.png"
+                 "earth/hardhat/swim-1.png"
+                 "earth/hardhat/swim-2.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"
+                 "earth/hardhat/swimidle1.png"))
+
+       (action
+         (name "earth-floating-left")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "earth-floating-right"))
+
+       (action
+         (name "earth-swimjump-right")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (images "earth/hardhat/swim-0.png"))
+
+       (action
+         (name "earth-swimjump-left")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (mirror-action "earth-swimjump-right"))
         
 ; Santa Tux
        (action
@@ -744,5 +999,69 @@
          (fps 20.0)
          (loops 1)
          (mirror-action "santa-buttjump-right"))
+
+       (action
+         (name "santa-swimming-right")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (images "fire/santa_cap/swim-0.png"
+                 "fire/santa_cap/swim-1.png"
+                 "fire/santa_cap/swim-2.png"
+                 "fire/santa_cap/swim-3.png"
+                 "fire/santa_cap/swim-4.png"))
+
+       (action
+         (name "santa-swimming-left")
+         (fps 15.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "santa-swimming-right"))
+
+       (action
+         (name "santa-floating-right")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (images "fire/santa_cap/swim-0.png"
+                 "fire/santa_cap/swim-1.png"
+                 "fire/santa_cap/swim-2.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"
+                 "fire/santa_cap/swimidle1.png"))
+
+       (action
+         (name "santa-floating-left")
+         (fps 11.0)
+         (hitbox 29 24 32 64)
+         (mirror-action "santa-floating-right"))
+
+       (action
+         (name "santa-swimjump-right")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (images "fire/santa_cap/swim-0.png"))
+
+       (action
+         (name "santa-swimjump-left")
+         (fps 10.0)
+         (loops 1)
+         (hitbox 29 24 32 64)
+         (mirror-action "santa-swimjump-right"))
 
 )

@@ -55,6 +55,13 @@ Physic::set_acceleration(float nax, float nay)
   ay = nay;
 }
 
+void
+Physic::set_acceleration(const Vector& vector)
+{
+  ax = vector.x;
+  ay = vector.y;
+}
+
 Vector
 Physic::get_movement(float dt_sec)
 {

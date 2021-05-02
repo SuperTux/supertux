@@ -24,8 +24,8 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-GrowUp::GrowUp(Direction direction) :
-  MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+GrowUp::GrowUp(const Vector& pos, Direction direction) :
+  MovingSprite(pos, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
