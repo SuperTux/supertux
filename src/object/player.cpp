@@ -1144,7 +1144,7 @@ Player::handle_input()
         m_dir = swim_dir;
       }
       Sector::get().add<Bullet>(pos, (m_swimming || m_water_jump) ?
-        m_physic.get_velocity() + (Vector(cos(m_swimming_angle), sin(m_swimming_angle)) * 600.f) :
+        m_physic.get_velocity() + (Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) :
         Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f),
         m_dir, m_player_status.bonus);
       SoundManager::current()->play("sounds/shoot.wav");
@@ -1203,9 +1203,9 @@ Player::handle_input()
       Rectf dest_;
       if (m_swimming || m_water_jump)
       {
-        dest_.set_bottom(m_col.m_bbox.get_bottom() + (sin(m_swimming_angle) * 32.f));
+        dest_.set_bottom(m_col.m_bbox.get_bottom() + (std::sin(m_swimming_angle) * 32.f));
         dest_.set_top(dest_.get_bottom() - grabbed_bbox.get_height());
-        dest_.set_left(m_col.m_bbox.get_left() + (cos(m_swimming_angle) * 32.f));
+        dest_.set_left(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f));
         dest_.set_right(dest_.get_left() + grabbed_bbox.get_width());
       }
       else
@@ -1279,8 +1279,8 @@ Player::position_grabbed_object()
   }
   else
   {
-    Vector pos(m_col.m_bbox.get_left() + (cos(m_swimming_angle) * 32.f),
-               m_col.m_bbox.get_top() + (sin(m_swimming_angle) * 32.f));
+    Vector pos(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
+               m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
     m_grabbed_object->grab(*this, pos, m_dir);
   }
 }
@@ -1305,8 +1305,8 @@ Player::try_grab()
     }
     else
     {
-      pos = Vector(m_col.m_bbox.get_left() + 16.f + (cos(m_swimming_angle) * 48.f),
-                   m_col.m_bbox.get_top() + 16.f + (sin(m_swimming_angle) * 48.f));
+      pos = Vector(m_col.m_bbox.get_left() + 16.f + (std::cos(m_swimming_angle) * 48.f),
+                   m_col.m_bbox.get_top() + 16.f + (std::sin(m_swimming_angle) * 48.f));
     }
 
     for (auto& moving_object : Sector::get().get_objects_by_type<MovingObject>())
