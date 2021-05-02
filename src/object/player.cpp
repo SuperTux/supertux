@@ -1735,7 +1735,13 @@ Player::collision_tile(uint32_t tile_attributes)
 {
   if (tile_attributes & Tile::HURTS)
   {
-    kill(false);
+    Rectf hurtbox = get_bbox();
+    hurtbox.set_left(m_col.m_bbox.get_left() + 6.f);
+    hurtbox.set_right(m_col.m_bbox.get_right() - 6.f);
+    hurtbox.set_top(m_col.m_bbox.get_top() + 6.f);
+    hurtbox.set_bottom(m_col.m_bbox.get_bottom() - 6.f);
+    if (!Sector::get().is_free_of_tiles(hurtbox, true, Tile::HURTS))
+      kill(false);
   }
 
   if (tile_attributes & Tile::WALLJUMP)
