@@ -204,27 +204,27 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 GoldBomb::ungrab(MovingObject& object, Direction dir_)
 {
-  int toss_velocity_x = 0;
-  int toss_velocity_y = 0;
   auto player = dynamic_cast<Player*> (&object);
-
-  // toss upwards
-  if (dir_ == Direction::UP)
-    toss_velocity_y += -500;
-
-  // toss to the side when moving sideways
-  if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 1) {
-    toss_velocity_x += (dir_ == Direction::LEFT) ? -200 : 200;
-    toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
-    // toss farther when running
-    if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 200)
-      toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190*(dir_ == Direction::LEFT ? -1 : 1)));
+  //handle swimming
+  if (player->is_swimming() || player->is_water_jumping())
+  {
+    float swimangle = player->get_swimming_angle();
+    m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
+      player->get_physic().get_velocity());
   }
-  log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
-
-  //set_pos(object.get_pos() + Vector((dir_ == LEFT ? -33 : 33), get_bbox().get_height()*0.66666 - 32));
-  m_physic.set_velocity(static_cast<float>(toss_velocity_x),
-                      static_cast<float>(toss_velocity_y));
+  //handle non-swimming
+  else
+  {
+    //handle y-movement
+    if (player)
+      m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
+        dir_ == Direction::DOWN ? 500.f :
+        player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
+    //handle x-movement
+    if (player && player->get_physic().get_velocity_x() != 0.f)
+      m_physic.set_velocity_x(player->get_physic().get_velocity_x() +
+      ((player->get_physic().get_velocity_x() < 0.f) ? -10.0f : 10.0f));
+  }
   set_colgroup_active(COLGROUP_MOVING);
   Portable::ungrab(object, dir_);
 }
