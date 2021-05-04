@@ -31,13 +31,10 @@ SkyDive::SkyDive(const ReaderMapping& reader) :
 void
 SkyDive::collision_solid(const CollisionHit& hit)
 {
-  if (hit.bottom) {
-    explode ();
-    return;
-  }
-
   if (hit.left || hit.right)
-    m_physic.set_velocity_x (0.0);
+    m_physic.set_velocity_x(0.0);
+  explode();
+  return;
 }
 
 HitResponse
