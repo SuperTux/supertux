@@ -15,7 +15,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (set! %load-path
-  (cons* "/ipfs/QmNbci3WpEWumBVvfbqsKhKnJTtdmkyVwYtSaPr5jVZo2m/guix-cocfree_0.0.0-56-g3a32b64"
+  (cons* "/ipfs/QmcQaosGtaQ6dsb4iykNihZ2ZTie8om2i7pgHucZ9Ranyq/guix-cocfree_0.0.0-64-gd618440"
          %load-path))
 
 (use-modules (guix build utils)
@@ -31,6 +31,7 @@
              (gnu packages gl)
              (gnu packages gtk)
              (gnu packages maths)
+             (gnu packages mp3)
              (gnu packages pkg-config)
              (gnu packages pretty-print)
              (gnu packages python)
@@ -50,7 +51,8 @@
    (arguments
     `(#:tests? #f
       #:configure-flags '("-DINSTALL_SUBDIR_BIN=bin"
-                          "-DUSE_SYSTEM_PHYSFS=ON")
+                          "-DUSE_SYSTEM_PHYSFS=ON"
+                          "-DENABLE_DISCORD=OFF")
       #:phases
       (modify-phases %standard-phases
          (add-after 'unpack 'set-version-number
@@ -71,12 +73,15 @@
    (inputs
     `(("sdl2" ,sdl2)
       ("sdl2-image" ,sdl2-image)
-      ("openal" ,openal)
       ("mesa" ,mesa)
       ("glew" ,glew)
+      ("physfs" ,physfs)
+      ("openal" ,openal)
       ("libvorbis" ,libvorbis)
       ("libogg" ,libogg)
-      ("physfs" ,physfs)
+      ("opusfile" ,opusfile)
+      ("mpg123" ,mpg123)
+      ("libmodplug" ,libmodplug)
       ("curl" ,curl)
       ("freetype" ,freetype)
       ("fmt" ,fmt)
