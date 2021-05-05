@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Ryo Nakano, 2017
-# Ryo Nakano, 2018-2019
-# Ryo Nakano, 2016
+# 515ce455fbf38ec9585626e8d26b6324_7a9a6ef, 2017
+# Ryo Nakano, 2018-2021
+# b1e11c107ebf1f339ff7adfc86b9dbe0_2e3e89d, 2016
 # Sugahara Masayuki <brindflontia@gmail.com>, 2016
 # Sanshiro sumita, 2015-2016
 # Sanshiro sumita, 2015
+# Ubuntu Jackson <santenichiyonitchigo@gmail.com>, 2020
 # 堀 風羽 <Riie-ivt@outlook.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-12-05 01:40+0000\n"
+"POT-Creation-Date: 2020-04-13 17:25+0200\n"
+"PO-Revision-Date: 2021-02-19 06:12+0000\n"
 "Last-Translator: Ryo Nakano\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: data/levels/world1/23rd_airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23番目のエアボーン"
+msgstr "第23空挺団"
 
 #: data/levels/world1/23rd_airborne.stl:355
 #: data/levels/world1/between_glaciers.stl:615
@@ -43,18 +44,18 @@ msgstr "秘密の場所を見つけました！"
 
 #: data/levels/world1/above_arctic_skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "北極の空上記"
+msgstr "極寒の空の上"
 
 #: data/levels/world1/above_arctic_skies.stl:152
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-エアーフラワー\n!images/powerups/airflower/air_flower-0.png\n#エアーフラワーをとると、\nジャンプキーを押している間、Tuxは数秒間空を飛べるようになります。"
+msgstr "-エアーフラワー\n!images/powerups/airflower/air_flower-0.png\n#エアーフラワーをとると、ジャンプキーを押している間、Tuxは数秒間空を飛べるようになります。"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
-msgstr "氷河の間"
+msgstr "氷壁に囲まれるペンギン"
 
 #: data/levels/world1/between_glaciers.stl:104
 msgid ""
@@ -112,7 +113,7 @@ msgstr "-トランポリン\n!images/objects/trampoline/trampoline2-0.png\n#ト�
 msgid ""
 "-Climbing\n"
 "#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-のぼる\n#Tuxはのぼれます。のぼるには、上キーを押してください。アクションキーまたはジャンプキーを押すと、のぼるのをやめます。"
+msgstr "-登る\n#タックスは登れます。登るには、上キーを押してください。アクションキーまたはジャンプキーを押すと、登るのをやめます。"
 
 #: data/levels/world1/fork_in_the_road.stl:106
 msgid ""
@@ -123,15 +124,15 @@ msgstr "-隠しゴール\n#複数のゴールがあるステージもありま�
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
-msgstr "凍りついたフィールド"
+msgstr "霧の平原"
 
 #: data/levels/world1/frozen_bridge.stl:3
 msgid "Over the Frozen Bridge"
-msgstr "凍った橋の彼方に"
+msgstr "腹滑って橋を渡って"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
-msgstr "穴の氷"
+msgstr "ひやひやな穴探索"
 
 #: data/levels/world1/icy_valley.stl:3
 msgid "Icy Valley"
@@ -139,7 +140,7 @@ msgstr "氷の谷"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
-msgstr "星にむかって"
+msgstr "星空の中へ"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
@@ -151,15 +152,15 @@ msgstr "旅の始まり"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "冷蔵庫の中での生活"
+msgstr "呑気な冷蔵庫生活"
 
 #: data/levels/world1/miyamoto_monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "宮本記念碑"
+msgstr "ミヤモト・モニュメント"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
-msgstr "オーノー！もっと雪玉をちょうだい！"
+msgstr "あああ！雪玉来たー！"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
@@ -171,11 +172,11 @@ msgstr "…私だけですか？"
 
 #: data/levels/world1/path_in_the_clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "雲の上の道"
+msgstr "雲の通り道"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
 msgid "Tux had reached the end of the castle."
-msgstr "Tuxは城の奥にたどり着いた。"
+msgstr "タックスは城の奥にたどり着いた。"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid "But to his surprise all he could find was a letter."
@@ -184,13 +185,13 @@ msgstr "しかし、驚いたことに、見つかったのは一枚の手紙だ
 #: data/levels/world1/scripts_castle_cutscene.txt:4
 msgid ""
 "A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "それは、Nolokに遠く離れた森へと連れ去られたことをTuxに伝える、Pennyからの手紙だった。"
+msgstr "それは、ノロークに遠く離れた森へと連れ去られたことをタックスに伝える、ペニーからの手紙だった。"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "Nolokが最愛のPennyに何をしたのか分からなかったので、Tuxはうろたえた。"
+msgstr "ノロークが最愛のペニーに何をしたのか分からなかったので、タックスはうろたえた。"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
@@ -202,21 +203,21 @@ msgstr "これは、南極のどこかの海岸でのお話…"
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "ペンギンのTuxは、ピクニックをしようと友達のPennyに会いに行くところだった。"
+msgstr "ペンギンのタックスは、ピクニックをしようと友達のペニーに会いに行くところだった。"
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "Tuxがめまいとともに目覚めると、Pennyがいなくなっていた！"
+msgstr "タックスがめまいとともに目覚めると、ペニーがいなくなっていた！"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr "Tuxはうろたえた。その時、彼は一枚の手紙を見つけた。それには、こう書いてあった。"
+msgstr "タックスはうろたえた。その時、彼は一枚の手紙を見つけた。それには、こう書いてあった。"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr "「Tuxよ、俺はお前の最愛のPennyを誘拐して、要塞に連れて行ってやった。」"
+msgstr "「タックスよ、俺はお前の最愛のペニーを誘拐して、要塞に連れて行ってやった。」"
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
@@ -224,21 +225,21 @@ msgstr "「要塞への道には俺の手先を用意しておいた。」"
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "「彼女を救うチャンスはないぞ！Nolokより。」"
+msgstr "「彼女を救うチャンスはないぞ！ノロークより。」"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Pennyが陥ったトラブルに気づき、Tuxは彼女を救う決心をした。"
+msgstr "ペニーが陥ったトラブルに気づき、タックスは彼女を救う決心をした。"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Tuxは遠くにNolokの城を見つけて、Pennyを救うべく出発した！"
+msgstr "タックスは遠くにノロークの城を見つけて、ペニーを救うべく出発した！"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "長旅の疲れから、Tuxは少し休憩を取ることにした。"
+msgstr "長旅の疲れから、タックスは少し休憩を取ることにした。"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
@@ -246,17 +247,17 @@ msgstr "しかしその時、突然遠くで大きく吠える声が聞こえた
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr "Yetiは遠くからTuxを見つけたようだ。"
+msgstr "イエティは遠くからタックスを見つけたようだ。"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr "Yetiが突然逃げたのを受けて、Tuxは旅を続けることにした。…"
+msgstr "イエティが突然逃げたのを受けて、タックスは旅を続けることにした。…"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "…絶対に二度とYetiに偶然出会いませんようにと、密かに願いながら。"
+msgstr "…絶対に二度とイエティに偶然出会いませんようにと、密かに願いながら。"
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
@@ -268,7 +269,7 @@ msgstr "やや小さめのお風呂"
 
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
-msgstr "ストーン・コールド"
+msgstr "ストーンコールド"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
@@ -296,14 +297,14 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-タマゴ\n!images/powerups/egg/egg-shade.png\n#タマゴを取ると、Tuxの体が大きくなります。\n#大きくなったTuxは、木のブロックを壊せるようになります。"
+msgstr "-タマゴ\n!images/powerups/egg/egg-shade.png\n#タマゴを取ると、タックスの体が大きくなります。大きくなったタックスは、木のブロックを壊せるようになります。"
 
 #: data/levels/world1/welcome_antarctica.stl:84
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-チェックポイント\n!images/objects/resetpoints/bell-m.png\n#これに触れると、チェックポイントを追加します。Tuxが死んだ場合、ここからレベルを再開できます。ただし、持っているコインの10%以上 (最低でも25枚) を失います。"
+msgstr "-チェックポイント\n!images/objects/resetpoints/bell-m.png\n#これに触れると、チェックポイントを追加します。タックスが死んだ場合、ここからレベルを再開できます。ただし、持っているコインの10%以上 (最低でも25枚) を失います。"
 
 #: data/levels/world1/welcome_antarctica.stl:91
 msgid ""
@@ -317,7 +318,7 @@ msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-ファイアフラワー\n!images/powerups/fireflower/fire_flower-0.png\n#ファイアフラワーを取ると、Tuxはファイアボールを打てるようになります。"
+msgstr "-ファイアフラワー\n!images/powerups/fireflower/fire_flower-0.png\n#ファイアフラワーを取ると、タックスはファイアボールを打てるようになります。"
 
 #: data/levels/world1/welcome_antarctica.stl:105
 msgid ""
@@ -330,7 +331,7 @@ msgstr "-Tuxの人形\n!images/powerups/1up/1up.png\n#これを取ると、コ�
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-秘密の場所\n#多くのコースには、壁に見えるようで、実は入ることができる秘密の場所があります。\n#手がかりをさがしてみてください。"
+msgstr "-秘密の場所\n#多くのコースには、壁に見えるようで、実は入ることができる秘密の場所があります。手がかりをさがしてみてください。"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
@@ -342,4 +343,4 @@ msgstr "アイス野郎はもうこりごり"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"
-msgstr "遠方のYeti"
+msgstr "遠方のイエティ"

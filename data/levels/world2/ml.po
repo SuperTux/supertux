@@ -1,15 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Adharsh 01 <adharshps01@gmail.com>, 2019
+# Adithyan S S <AssG.Fight.Fairy@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-23 15:39+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2020-05-24 08:12+0200\n"
+"PO-Revision-Date: 2020-12-13 10:06+0000\n"
+"Last-Translator: Adithyan S S <AssG.Fight.Fairy@gmail.com>\n"
 "Language-Team: Malayalam (http://www.transifex.com/arctic-games/supertux/language/ml/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,227 +19,202 @@ msgstr ""
 "Language: ml\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
+#: data/levels/world2/ancient_ruins.stl:3
+msgid "Ancient Ruins"
+msgstr "പുരാതന അവശിഷ്ടങ്ങൾ"
+
+#: data/levels/world2/ancient_ruins.stl:1416
+#: data/levels/world2/ancient_ruins.stl:1424
+#: data/levels/world2/bouncy_coils.stl:237
+#: data/levels/world2/bouncy_coils.stl:245
+#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/crumbling_path.stl:278
+#: data/levels/world2/crumbling_path.stl:1651
+#: data/levels/world2/going_underground.stl:199
+#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/mouldy_grotto.stl:559
+#: data/levels/world2/penguin_grow_trees.stl:459
+#: data/levels/world2/penguin_grow_trees.stl:467
+#: data/levels/world2/through_dark.stl:309
+#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/wooden_roots.stl:279
+#: data/levels/world2/worldmap.stwm:185
+msgid "You found a secret area!"
+msgstr "നിങ്ങൾ ഒരു സ്വകാര്യ സ്ഥലം കണ്ടുപിടിച്ചിരിക്കുന്നു !"
+
+#: data/levels/world2/beside_bushes.stl:3
+msgid "Beside the Bushes"
+msgstr "കുറ്റിക്കാടുകൾക്കുമറവിൽ"
+
+#: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr ""
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr ""
+#: data/levels/world2/bye_bye_forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "കാടിന് വിട"
 
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr ""
-
-#: data/levels/world2/Crumbling_Path.stl:3
+#: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
-msgstr ""
+msgstr "തകർന്നുകൊണ്ടിരിക്കുന്ന പാത"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr ""
+#: data/levels/world2/darkness_awaits.stl:3
+msgid "Darkness Awaits"
+msgstr "ഇരുട്ട് കാത്തിരിക്കുന്നു"
 
-#: data/levels/world2/El_Castillo.stl:3
-msgid "A Short Visit to El Castillo"
-msgstr ""
-
-#: data/levels/world2/Find_Big_Fish.stl:3
+#: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr ""
+msgstr "വലിയ മത്സത്തെ കണ്ടുപിടിക്കുക!"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/find_big_fish.stl:800
 msgid "-A big fish... for you."
-msgstr ""
+msgstr "-ഒരു വലിയ മത്സ്യം... നിനക്കു വേണ്ടി"
 
-#: data/levels/world2/Going_Underground.stl:3
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "ഒരു പുതിയ സ്ഥലം"
+
+#: data/levels/world2/ghost_cutscene.stl:3
+msgid "What is Happening?"
+msgstr "എന്താണ് സംഭവിക്കുന്നത് ?"
+
+#: data/levels/world2/ghostly_misery.stl:3
+msgid "Ghostly Misery"
+msgstr "പ്രേത ദുരിതം"
+
+#: data/levels/world2/ghosttrees_challenges.stl:3
+msgid "Ghosttree's Challenges"
+msgstr "ഗോസ്റ്റ്ട്രീയുടെ വെല്ലുവിളികൾ"
+
+#: data/levels/world2/ghouls_lair.stl:3
+msgid "Ghouls' Lair"
+msgstr "ഗൗളിന്റെ നുണയൻ"
+
+#: data/levels/world2/ghouls_lair.stl:847
+msgid ""
+"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
+"of them."
+msgstr "#മാജിക് ബ്ലോക്കുകളെ സോളിഡാക്കാൻ വിളക്കുകൾ ഉപയോഗിക്കുന്നു, അതിനാൽ നിങ്ങൾക്ക് അവയുടെ മുകളിൽ നടക്കാൻ കഴിയും."
+
+#: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
-msgstr ""
+msgstr "ഭൂമിക്കടിയിൽ"
 
-#: data/levels/world2/Kneep_Deep.stl:3
-msgid "Kneep-deep in the depth"
-msgstr ""
+#: data/levels/world2/i_spy_with_my_little_eye.stl:3
+msgid "I Spy With My Little Eye"
+msgstr "ഞാൻ എന്റെ ചെറിയ കണ്ണുകൊണ്ട് ചാരപ്പണി ചെയ്യുന്നു"
 
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr ""
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+msgid ""
+"-Ispy\n"
+"#Ispys will activate things like platforms whenever Tux is in their sight."
+msgstr "-ഇസ്പി\n#ടക്സിനെ കാണുമ്പോഴെല്ലാം പ്ലാറ്റ്ഫോമുകൾ പോലുള്ള കാര്യങ്ങൾ ഇസ്പികൾ സജീവമാക്കും."
 
-#: data/levels/world2/Mouldy_Grotto.stl:3
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+msgid "Hint: Use snails to break blocks!"
+msgstr "സൂചന: ബ്ലോക്കുകൾ തകർക്കാൻ ഒച്ചുകൾ ഉപയോഗിക്കുക!"
+
+#: data/levels/world2/leaf_wind.stl:3
+msgid "Like a leaf in the Wind"
+msgstr "കാറ്റിലെ ഒരു ഇല പോലെ"
+
+#: data/levels/world2/lost_village.stl:3
+msgid "Lost Village"
+msgstr "നഷ്ടപ്പെട്ട ഗ്രാമം"
+
+#: data/levels/world2/lost_village.stl:184
+msgid "#Don't forget to hit the switch!"
+msgstr "#സ്വിച്ച് അമർത്താൻ മറക്കരുത് !"
+
+#: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "ഒരു പൂപ്പൽ ഗുഹ"
 
-#: data/levels/world2/Penguin_Grow_Trees.stl:3
+#: data/levels/world2/owls_again.stl:3
+msgid "The Owls again..."
+msgstr "മൂങ്ങകൾ വീണ്ടും..."
+
+#: data/levels/world2/owls_skydive_commando.stl:3
+msgid "Owls' Skydive Commando"
+msgstr "മൂങ്ങകളുടെ വ്യോമസേന"
+
+#: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
-
-#: data/levels/world2/Rabbit_Hole.stl:3
-msgid "Down The Rabbit Hole"
-msgstr ""
-
-#: data/levels/world2/Rabbit_Hole.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr ""
-
-#: data/levels/world2/Rabbit_Hole.stl:55
-msgid "-Are you lost?"
-msgstr ""
-
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr ""
-
-#: data/levels/world2/Three_Sheets.stl:3
-msgid "Three sheets to the wind"
-msgstr ""
-
-#: data/levels/world2/Treasure_Skies.stl:3
-msgid "Treasure in the skies"
-msgstr ""
-
-#: data/levels/world2/Tree_Fortress.stl:3
-msgid "Tree Fortress"
-msgstr ""
-
-#: data/levels/world2/Tux_Builder.stl:3
-msgid "Tux the Builder"
-msgstr ""
-
-#: data/levels/world2/Tux_Builder.stl:46
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr ""
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr ""
-
-#: data/levels/world2/Up_and_Down.stl:3
-msgid "Up and Down"
-msgstr ""
-
-#: data/levels/world2/Walking_Leaves.stl:3
-msgid "Walking Leaves"
-msgstr ""
-
-#: data/levels/world2/Welcome_Forest.stl:3
-msgid "Welcome to the Forest"
-msgstr ""
-
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
-msgstr ""
-
-#: data/levels/world2/castledoor.stl:3
-#: data/levels/world2/dfk-placeholder-1.stl:3
-msgid "NOLOK"
-msgstr ""
-
-#: data/levels/world2/christophD.stl:3
-msgid "Room of Stars"
-msgstr ""
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr ""
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr ""
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr ""
-
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr ""
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr ""
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr ""
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr ""
-
-#: data/levels/world2/level6.stl:3
-msgid "No Name"
-msgstr ""
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr ""
-
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr ""
-
-#: data/levels/world2/roots_woody_roots.stl:3
-msgid "Roots, Woody Roots"
-msgstr ""
-
-#: data/levels/world2/roots_woody_roots.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr ""
-
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr ""
+msgstr "പെൻഗ്വിനുകൾ മരങ്ങളിൽ വളരുന്നില്ല"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
+msgstr "ഭീതിജനകം"
+
+#: data/levels/world2/the_forest_is_rotting.stl:3
+msgid "The Forest Is Rotting"
+msgstr "കാട് ചീഞ്ഞു പോകുന്നു"
+
+#: data/levels/world2/through_dark.stl:3
+msgid "Through the Dark"
+msgstr "ഇരുട്ടിലൂടെ"
+
+#: data/levels/world2/through_dark.stl:96
+msgid ""
+"-Earth Flower\n"
+"!images/powerups/earthflower/earth_flower-1.png\n"
+"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
+"#This does not work while jumping or falling!"
+msgstr "-എർത്ത് ഫ്ലവർ\n!images/powerups/earthflower/earth_flower-1.png\n#ഒരേ സമയം ACTION കീയും DOWN കീയും അമർത്തി കല്ലായി മാറാനുള്ള കഴിവ് എർത്ത് ഫ്ലവർ നൽകുന്നു.\n#ചാടുമ്പോഴും വീഴുമ്പോഴും ഇത് പ്രവർത്തിക്കുന്നില്ല!"
+
+#: data/levels/world2/tower_cutscene.stl:3
+msgid "Tower Cutscene"
 msgstr ""
 
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr ""
+#: data/levels/world2/tower_of_ghosts.stl:3
+msgid "Tower Of Ghosts"
+msgstr "പ്രേതങ്ങളുടെ ഗോപുരം"
 
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forest"
+#: data/levels/world2/tux_builder.stl:3
+msgid "Tux the Builder"
+msgstr "നിർമാതാവ് ടക്സ്"
+
+#: data/levels/world2/tux_builder.stl:80
+msgid ""
+"-Portable Objects:\n"
+"!images/objects/rock/rock.png\n"
+"#Tux can pick up certain objects and carry them around.\n"
+"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
+msgstr "-പോർട്ടബിൾ ഒബ്‌ജക്റ്റുകൾ:\n!images/objects/rock/rock.png\n#ടക്‌സിന് ചില വസ്‌തുക്കൾ എടുത്ത് അവയെ കൊണ്ടുപോകാൻ കഴിയും.\n#ഒബ്‌ജക്റ്റ് പിടിച്ചെടുക്കുന്നതിന് ACTION കീ അമർത്തി നിങ്ങൾ ഒബ്ജക്റ്റ് വഹിക്കാൻ ആഗ്രഹിക്കുന്നിടത്തോളം അത് അമർത്തിപ്പിടിക്കുക. ഒബ്‌ജക്റ്റ് ഉപേക്ഷിക്കുന്നതിന് ACTION കീ റിലീസ് ചെയ്യുക."
+
+#: data/levels/world2/tux_own_horror_show.stl:3
+msgid "Tux' Own Horror Show"
+msgstr "ടക്സിന്റെ സ്വന്തം പേടിപ്പിക്കുന്ന കളി"
+
+#: data/levels/world2/tux_own_horror_show.stl:790
+msgid ""
+"#Willow-wisps are small, annoying ghosts, which transport you to different, "
+"often dangerous places."
+msgstr "#വില്ലോ-വിസ്പ്പുകൾ ചെറിയ, ശല്യക്കാരായ പ്രേതങ്ങളാണ്. ഇവ നിങ്ങളെ വ്യത്യസ്തമായ, മിക്കവാറും അപകടംപിടിച്ച സ്ഥലങ്ങളിൽ കൊണ്ടെത്തിക്കും."
+
+#: data/levels/world2/walking_leaves.stl:3
+msgid "Walking Leaves"
+msgstr "നടക്കും ഇലകൾ"
+
+#: data/levels/world2/welcome_forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "കാട്ടിലേക്ക് സ്വാഗതം"
+
+#: data/levels/world2/welcome_forest.stl:50
+msgid ""
+"-Doors\n"
+"!images/objects/door/door-0.png\n"
+"#Tux can go through a door by pressing the UP key."
+msgstr "-വാതിലുകൾ\n!images/objects/door/door-0.png\n#UP കീ അമർത്തുന്നതിലൂടെ ടക്സിന് ഒരു വാതിൽ കടന്നുപോകാൻ സാധിക്കും."
+
+#: data/levels/world2/wooden_roots.stl:3
+msgid "Wooden Roots"
 msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr ""
+msgid "Forest Island"
+msgstr "വനദ്വീപ്"
+
+#: data/levels/world2/worldmap.stwm:199
+msgid "To be continued..."
+msgstr "തുടരും..."

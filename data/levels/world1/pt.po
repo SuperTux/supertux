@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# André Pinheiro <andrepinheiro2004@gmail.com>, 2021
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Rui <xymarior@yandex.com>, 2016,2018
 # Tiago Correia <tiaguito05@gmail.com>, 2019
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-25 17:10+0000\n"
-"Last-Translator: Tiago Correia <tiaguito05@gmail.com>\n"
+"POT-Creation-Date: 2020-04-13 17:25+0200\n"
+"PO-Revision-Date: 2021-04-01 12:11+0000\n"
+"Last-Translator: André Pinheiro <andrepinheiro2004@gmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +49,7 @@ msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr ""
+msgstr "Flor-de-Ar\n!images/powerups/airflower/air_flower-0.png\n#A flor-de-Ar dá ao Tux o poder de deslizar no ar durante alguns segundos, enquanto pressionada a tecla de PULAR."
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
@@ -97,27 +98,27 @@ msgid ""
 "!images/objects/pushbutton/pushbutton-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
 "#There are also buttons that you can press by jumping on them."
-msgstr ""
+msgstr "-Interruptores\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#Interruptores podem ser utilizados em muitos casos. Pressione a tecla de SUBIR para utilizar o interruptor.\n#Há também botões que podes premir saltando sobre eles."
 
 #: data/levels/world1/fork_in_the_road.stl:93
 msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr ""
+msgstr "-Trampolins\n!images/objects/trampoline/trampoline2-0.png\n#Os trampolins permitem ao Tux saltar mais alto. Mantém premida a tecla SALTAR enquanto estiveres a saltar no trampolim para saltares mais alto. "
 
 #: data/levels/world1/fork_in_the_road.stl:100
 msgid ""
 "-Climbing\n"
 "#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "-Subir Escadas\n#Tux pode subir escadas! Pressione a tecla SETA PARA CIMA para começar a subir a escada. Pressione a tecla de AÇÃO ou salta para sair da escada."
 
 #: data/levels/world1/fork_in_the_road.stl:106
 msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr ""
+msgstr "-Saídas Secretas\n#Alguns níveis possuem múltiplas saídas. Estão na sua maioria escondidas, por isso vigiem-nas.\n#Talvez o conduzam a algo especial."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"

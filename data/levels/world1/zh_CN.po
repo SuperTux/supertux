@@ -5,6 +5,7 @@
 # Translators:
 # CodingJellyfish <dumaosen_main01@outlook.com>, 2020
 # Liu Sizhuang <chinatslsz@hotmail.com>, 2008
+# a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>, 2020
 # CodingJellyfish <dumaosen_main01@outlook.com>, 2019-2020
 # 玉堂白鹤 <yjwork@qq.com>, 2018
 msgid ""
@@ -12,8 +13,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-08-03 04:02+0000\n"
-"Last-Translator: CodingJellyfish <dumaosen_main01@outlook.com>\n"
+"PO-Revision-Date: 2020-12-27 12:38+0000\n"
+"Last-Translator: a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +37,7 @@ msgstr "第23空降师"
 #: data/levels/world1/shattered_bridge.stl:269
 #: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
 msgid "You found a secret area!"
-msgstr "你找到了一个秘密区域!"
+msgstr "你找到了一个秘密区域！"
 
 #: data/levels/world1/above_arctic_skies.stl:3
 msgid "Above the Arctic Skies"
@@ -47,7 +48,7 @@ msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-空气花\n!images/powerups/airflower/air_flower-0.png\n#摘下这朵花后，Tux 能够在空中短暂停留，不过要按住“跳跃”键。"
+msgstr "- 空气花\n!images/powerups/airflower/air_flower-0.png\n#摘下这朵花后，Tux 能够在空中短暂停留，不过要按住“跳跃”键。"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
@@ -59,7 +60,7 @@ msgid ""
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-水晶\n#这关中有四个不同颜色的水晶。你能找到吗？\n#\n#注意：现在他们或许无用，不过这个情况将在更新后改变！"
+msgstr "- 水晶\n#这关中有四个不同颜色的水晶。你能找到吗？\n#\n#注意：现在他们或许无用，不过这个情况将在更新后改变！"
 
 #: data/levels/world1/castle_cutscene.stl:3
 msgid "Empty Throne Room"
@@ -96,27 +97,27 @@ msgid ""
 "!images/objects/pushbutton/pushbutton-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
 "#There are also buttons that you can press by jumping on them."
-msgstr "-开关\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#打开开关妙事多，按下“上”键就能做。\n#有时开关变按键，跳到上面事便妥。"
+msgstr "- 开关\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#打开开关妙事多，按下“上”键就能做。\n#有时开关变按键，跳到上面事便妥。"
 
 #: data/levels/world1/fork_in_the_road.stl:93
 msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-Trampolines\n!images/objects/trampoline/trampoline2-0.png\n#若想跳得高，蹦床必须要。在上按“跳跃”，高飞赛凤凰。"
+msgstr "- 蹦床\n!images/objects/trampoline/trampoline2-0.png\n#若想跳得高，蹦床必须要。在上按“跳跃”，高飞赛凤凰。"
 
 #: data/levels/world1/fork_in_the_road.stl:100
 msgid ""
 "-Climbing\n"
 "#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-爬梯子\n#这只企鹅比你想象中灵巧得多呢！按下“上”键可以让他爬上梯子，按下动作键或者跳跃能让他放手。"
+msgstr "- 爬梯子\n#这只企鹅比你想象中灵巧得多呢！按下“上”键可以让他爬上梯子，按下动作键或者跳跃能让他放手。"
 
 #: data/levels/world1/fork_in_the_road.stl:106
 msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "-秘密出口\n#有些关卡有多个出口。它们不知隐藏在哪里，所以我们最好多注意。\n#他们或许能让你到达一些特殊的地方。"
+msgstr "- 秘密出口\n#有些关卡有多个出口。它们不知隐藏在哪里，所以我们最好多注意。\n#他们或许能让你到达一些特殊的地方。"
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"

@@ -276,7 +276,7 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   {
     //move icecube a little bit away as to not insta-kill Tux
     float swimangle = player->get_swimming_angle();
-    m_col.m_bbox.move(Vector(cos(swimangle) * 48.f, sin(swimangle) * 48.f));
+    m_col.m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
   }
   if (dir_ == Direction::UP) {
     m_physic.set_velocity_y(-KICKSPEED);

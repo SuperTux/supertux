@@ -6,13 +6,14 @@
 # vpzomtrrfrt <colin@vpzom.click>, 2020
 # Robin van der Vliet <info@robinvandervliet.nl>, 2015
 # Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
+# tellovishous <skyguy@readytek.net>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-04-26 19:54+0000\n"
-"Last-Translator: vpzomtrrfrt <colin@vpzom.click>\n"
+"POT-Creation-Date: 2020-05-24 08:12+0200\n"
+"PO-Revision-Date: 2020-12-06 06:24+0000\n"
+"Last-Translator: tellovishous <skyguy@readytek.net>\n"
 "Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,9 +44,9 @@ msgstr "Antikvaj Ruinoj"
 msgid "You found a secret area!"
 msgstr "Vi trovis sekretejon!"
 
-#: data/levels/world2/besides_bushes.stl:3
+#: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
-msgstr "Krom la Arbetoj"
+msgstr "Apud la Abustoj"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
@@ -165,7 +166,7 @@ msgstr "-Terfloro\n!images/powerups/earthflower/earth_flower-1.png\n#La terfloro
 
 #: data/levels/world2/tower_cutscene.stl:3
 msgid "Tower Cutscene"
-msgstr ""
+msgstr "Filmeto de Turo"
 
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
