@@ -6,21 +6,21 @@
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Hume2 <teratux.mail@gmail.com>, 2016-2017
 # Jakub Vaněk <vanek.jakub4@seznam.cz>, 2015
-# Narre <narre@protonmail.com>, 2016
-# Narre <narre@protonmail.com>, 2013-2015
-# Narre <narre@protonmail.com>, 2020
-# Narre <narre@protonmail.com>, 2016,2018,2020
+# Jiří Paleček <narre@protonmail.com>, 2016
+# Jiří Paleček <narre@protonmail.com>, 2013-2015
+# Jiří Paleček <narre@protonmail.com>, 2020
+# Jiří Paleček <narre@protonmail.com>, 2016,2018,2020
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2014
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2006
-# fri, 2013,2018
+# fri, 2013,2018,2021
 # Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-05-03 10:26+0000\n"
-"Last-Translator: Narre <narre@protonmail.com>\n"
+"PO-Revision-Date: 2021-03-11 06:23+0000\n"
+"Last-Translator: fri\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -341,7 +341,7 @@ msgstr "Sleduje cestu"
 #: src/object/coin.cpp:267 src/object/camera.cpp:215
 #: src/object/platform.cpp:66 src/object/tilemap.cpp:240
 msgid "Path Mode"
-msgstr "Mód cesty"
+msgstr "Režim cesty"
 
 #: src/object/coin.cpp:270 src/object/coin.cpp:298
 msgid "Collect script"
@@ -353,7 +353,7 @@ msgstr "Duchové"
 
 #: src/object/camera.cpp:207
 msgid "Mode"
-msgstr "Mód"
+msgstr "Režim"
 
 #: src/object/camera.cpp:208
 msgid "normal"
@@ -727,7 +727,7 @@ msgstr "Vodorovný (přes celý sektor)"
 
 #: src/object/gradient.cpp:135
 msgid "Blend mode"
-msgstr "Mód splývání"
+msgstr "Režim splývání"
 
 #: src/object/gradient.cpp:136
 msgid "Blend"
@@ -1220,11 +1220,11 @@ msgstr "Nastavení videa:"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "  -f, --fullscreen Spustit v módu plné obrazovky"
+msgstr "  -f, --fullscreen Spustit v režimu celé obrazovky"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -w, --window                 Run in window mode"
-msgstr "  -w, --window Spustit v módu okna"
+msgstr "  -w, --window Spustit v režimu okna"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
@@ -1431,7 +1431,7 @@ msgstr "Použít rastrová písma"
 
 #: src/supertux/menu/debug_menu.cpp:72
 msgid "Dump Texture Cache"
-msgstr "Zahodit cache textur"
+msgstr "Zahodit vyrovnávací paměť textur"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose Sector"
@@ -1540,7 +1540,7 @@ msgstr "Bonus: žádný"
 #: src/supertux/menu/worldmap_cheat_menu.cpp:44
 #: src/supertux/menu/cheat_menu.cpp:42
 msgid "Leave Ghost Mode"
-msgstr "Opustit mód Duch"
+msgstr "Opustit režim Duch"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:44
 #: src/supertux/menu/cheat_menu.cpp:42
@@ -1756,7 +1756,7 @@ msgstr "Vývojářský režim"
 
 #: src/supertux/menu/options_menu.cpp:398
 msgid "Christmas Mode"
-msgstr "Vánoční mód"
+msgstr "Vánoční režim"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Confirmation Dialog"
@@ -1992,7 +1992,7 @@ msgstr "Nabídka podvodů"
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:83
 msgid "Debug Menu"
-msgstr "Ladící menu"
+msgstr "Ladicí nabídka"
 
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/joystick_menu.cpp:85
@@ -2694,11 +2694,11 @@ msgstr "za tvorbu skvělého herního prostředí\nna Linuxu"
 
 #: data//credits.stxt:1122
 msgid "and you, the player"
-msgstr "a samozřejmě Vám"
+msgstr "a samozřejmě tobě hráči"
 
 #: data//credits.stxt:1123
 msgid "for giving this game a chance and playing it"
-msgstr "že jste této hře dali šanci a hráli jste jí"
+msgstr "že jsi této hře dal šanci a hrál ji"
 
 #: data//credits.stxt:1134
 msgid "Visit our webpage at"
@@ -2761,7 +2761,7 @@ msgstr "hraní hry"
 
 #: data//credits.stxt:1232
 msgid "Penny awaits you in warmer temperatures!"
-msgstr "Penny Vás čeká ve větším teple!"
+msgstr "Penny tě čeká ve větším teple!"
 
 #: data//images/engine/editor/objects.stoi:156
 msgid "Bosses"

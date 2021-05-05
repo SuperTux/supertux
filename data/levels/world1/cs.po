@@ -4,18 +4,19 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Narre <narre@protonmail.com>, 2015-2016
-# Narre <narre@protonmail.com>, 2013-2015
-# Narre <narre@protonmail.com>, 2018,2020
-# fri, 2013
+# Jiří Paleček <narre@protonmail.com>, 2015-2016
+# Jiří Paleček <narre@protonmail.com>, 2013-2015
+# Jiří Paleček <narre@protonmail.com>, 2020
+# Jiří Paleček <narre@protonmail.com>, 2018,2020
+# fri, 2013,2021
 # Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-04-12 19:39+0000\n"
-"Last-Translator: Narre <narre@protonmail.com>\n"
+"PO-Revision-Date: 2021-03-12 15:44+0000\n"
+"Last-Translator: fri\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +106,7 @@ msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-Trampolíny\n!images/objects/trampoline/trampoline2-0.png\n#Trampolíny umožní Tuxovi vyskočít výš. Drž klávesu SKOK při dopadu na trampolínu, aby se Tux odrazil extra vysoko."
+msgstr "-Trampolíny\n!images/objects/trampoline/trampoline2-0.png\n#Trampolíny umožní Tuxovi vyskočít výš. Drž klávesu SKOK při dopadu na trampolínu, aby se Tux odrazil mimořádně vysoko."
 
 #: data/levels/world1/fork_in_the_road.stl:100
 msgid ""
@@ -118,7 +119,7 @@ msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "-Tajné cíle\n#Některé úrovně mají více cílů. Většinou jsou schované, takže se dobře dívej.\n#Možná tě dovedou na nějaké speciální místo."
+msgstr "-Tajné cíle\n#Některé úrovně mají více cílů. Většinou jsou schované, takže se dobře dívej.\n#Možná tě dovedou na nějaké zvláštní místo."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
@@ -215,7 +216,7 @@ msgstr "Tux se začínal strachovat. Potom uviděl dopis, ve kterém bylo napsá
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr "\"Tuxi, unesl jsem tvojí milovanou Penny a vzal jsem jí do své pevnosti\""
+msgstr "\"Tuxi, unesl jsem tvoji milovanou Penny a vzal jsem ji do své pevnosti\""
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
@@ -228,7 +229,7 @@ msgstr "\"Nemáš nejmenší šanci jí zachránit! Podepsán, Nolok.\""
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Tux si uvědomil, v jakém nebezpečí by Penny mohla výt, a rozhodl se jí zachránit."
+msgstr "Tux si uvědomil, v jakém nebezpečí by Penny mohla být, a rozhodl se ji zachránit."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
@@ -288,7 +289,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Bonusové bloky\n!images/objects/bonus_block/full-0.png\n#Bonusové bloky mohou obsahovat mince, vylepšení, nebo speciální předměty, které Ti pomohou na tvé výpravě.\n#\n#Vyklepni je, abys získal jejich obsah."
+msgstr "-Bonusové bloky\n!images/objects/bonus_block/full-0.png\n#Bonusové bloky mohou obsahovat mince, vylepšení, nebo speciální předměty, které ti pomohou na tvé výpravě.\n#\n#Vyklepni je, abys získal jejich obsah."
 
 #: data/levels/world1/welcome_antarctica.stl:77
 msgid ""
@@ -302,7 +303,7 @@ msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Uložováky\n!images/objects/resetpoints/bell-m.png\n#Aktivuj si uložovák. Když zemřeš, tak se vrátíš sem. Pokaždé, když se vrátíš na uložovák, ztratíš 10% svých mincí (alespoň 25 mincí)."
+msgstr "-Uložováky\n!images/objects/resetpoints/bell-m.png\n#Aktivuj si uložovák. Když zemřeš, tak se vrátíš sem. Pokaždé, když se vrátíš na uložovák, ztratíš 10 % svých mincí (alespoň 25 mincí)."
 
 #: data/levels/world1/welcome_antarctica.stl:91
 msgid ""
@@ -329,7 +330,7 @@ msgstr "-Tučňáčí stokoruna\n!images/powerups/1up/1up.png\n#Tučňáčí sto
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Tajné skrýše\n#Mnoho úrovní ukrývá za tím, co vypadá jako pevná zeď, ukrývá tajné skrýše. Hledej stopy, abys je našel."
+msgstr "-Tajné skrýše\n#Mnoho úrovní ukrývá za tím, co vypadá jako pevná zeď, tajné skrýše. Hledej stopy, abys je našel."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"

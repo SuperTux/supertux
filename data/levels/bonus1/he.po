@@ -4,14 +4,16 @@
 # 
 # Translators:
 # Evgeny Satanovsky <jenka1980@gmail.com>, 2019
-# Omer I.S., 2020
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2021
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2020-08-18 14:01+0000\n"
-"Last-Translator: Omer I.S.\n"
+"PO-Revision-Date: 2021-03-22 13:17+0000\n"
+"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/arctic-games/supertux/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +23,11 @@ msgstr ""
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr "טיסת ניסוי"
+msgstr "טיסת מבחן"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "מבוך ללא דרקונים"
+msgstr "מבוכים בלי דרקונים"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
@@ -33,7 +35,7 @@ msgstr "שקרים!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
-msgstr "הרכבת עוזבת עוד דקה"
+msgstr "הרכבת עוזבת בעוד דקה"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
@@ -84,7 +86,7 @@ msgstr "-כל הכבוד!\n\t\n#סיימת בהצלחה את\n# אי הבונו�
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr ""
+msgstr "צינור שם למטה"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
@@ -100,7 +102,7 @@ msgstr "הייתי שם קודם?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr "הדמויות הרעות מסריחות!"
+msgstr "הרעים מסריחים!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -112,7 +114,7 @@ msgstr "קל מדיי"
 
 #: data/levels/bonus1/torfi-level2.stl:42
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr ""
+msgstr "#כל השלבים הללו שודרגו לעיצוב אבן הדרך ה־2 על ידי Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -120,7 +122,7 @@ msgstr "עדיין קל מדיי"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr ""
+msgstr "קפוא למחצה"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
@@ -136,7 +138,7 @@ msgstr ""
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr ""
+msgstr "קצה הקרחון"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
@@ -148,7 +150,7 @@ msgstr "מצאת מקום סודי!"
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
-msgstr ""
+msgstr "עצה: יש להשתמש באיגלואים כדי לחזור לכאן."
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"

@@ -3,25 +3,24 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
-# Roland Kim <dyn4micwork@gmail.com>, 2014-2015
+# Tam Ezquerra <namarie.tam@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2021-05-02 19:10+0000\n"
-"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
-"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
+"PO-Revision-Date: 2021-02-24 20:02+0000\n"
+"Last-Translator: Tam Ezquerra <namarie.tam@gmail.com>\n"
+"Language-Team: Spanish (Argentina) (http://www.transifex.com/arctic-games/supertux/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: es_AR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world1/23rd_airborne.stl:3
 msgid "23rd Airborne"
-msgstr "하늘23번길"
+msgstr "Aerotransporte N°23"
 
 #: data/levels/world1/23rd_airborne.stl:355
 #: data/levels/world1/between_glaciers.stl:615
@@ -34,22 +33,22 @@ msgstr "하늘23번길"
 #: data/levels/world1/shattered_bridge.stl:269
 #: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
 msgid "You found a secret area!"
-msgstr "숨겨진 구역을 찾았습니다!"
+msgstr "¡Encontraste un área secreta!"
 
 #: data/levels/world1/above_arctic_skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "북극 하늘을 향해"
+msgstr "Sobre los Cielos del Ártico"
 
 #: data/levels/world1/above_arctic_skies.stl:152
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-공기 꽃\n!images/powerups/airflower/air_flower-0.png\n#공기 꽃은 점프 키를 누르는 동안, 턱스가 몇 초동안 공중에서 활공할 수 있도록 해 줍니다."
+msgstr "- Flor del Aire\n!images/powerups/airflower/air_flower-0.png\n#La Flor del Aire le otorga a Tux la habilidad de planear en el aire por un par de segundos, mientras presionas la tecla SALTAR."
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
-msgstr "두 빙하 사이"
+msgstr "Entre Dos Glaciares"
 
 #: data/levels/world1/between_glaciers.stl:104
 msgid ""
@@ -57,35 +56,35 @@ msgid ""
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-크리스탈\n#이 레벨에는 네 가지 색상의 크리스탈이 들어 있습니다. 이들을 찾을 수 있나요?\n#\n#참고: 이러한 크리스탈은 현재로서는 어떠한 목적으로도 주어지지 않지만 향후 게임 출시 때 포함될 수 있습니다."
+msgstr "-Cristales\n#Este nivel contiene cuatro cristales de colores. ¿podés encontrarlos?\n#\n#Aviso: Estos cristales no tienen ningún propósito por ahora, pero puede que lo tengan en un lanzamiento futuro del juego."
 
 #: data/levels/world1/castle_cutscene.stl:3
 msgid "Empty Throne Room"
-msgstr "빈 왕좌 방"
+msgstr "Vacía el Cuarto del Trono"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "놀록의 성"
+msgstr "El Castillo de Nolok"
 
 #: data/levels/world1/crystal_mine.stl:3
 msgid "The Crystal Mine"
-msgstr "크리스탈 광산"
+msgstr "La Mina de Cristal"
 
 #: data/levels/world1/crystal_mine.stl:608
 msgid "#You have to activate two switches to open this door."
-msgstr "#이 문을 열려면 스위치 두 개를 작동시켜야 합니다."
+msgstr "#Tenés que activar dos interruptores para abrir esta puerta."
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "터널의 끝"
+msgstr "Final del Túnel"
 
 #: data/levels/world1/entrance_cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "동굴 입구"
+msgstr "Entrada a la Cueva"
 
 #: data/levels/world1/fork_in_the_road.stl:3
 msgid "A Fork in the Road"
-msgstr "갈림길"
+msgstr "Un Tenedor en el Camino"
 
 #: data/levels/world1/fork_in_the_road.stl:84
 msgid ""
@@ -94,188 +93,188 @@ msgid ""
 "!images/objects/pushbutton/pushbutton-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use a switch.\n"
 "#There are also buttons that you can press by jumping on them."
-msgstr "-스위치\n!images/objects/switch/switch-0.png\n!images/objects/pushbutton/pushbutton-0.png\n#스위치는 온갖 방법을 해낼 수 있습니다. 스위치를 사용하려면 위쪽 키를 누르세요.\n#점프하여 누를 수 있는 버튼도 있습니다."
+msgstr "-Interruptores\n!images/objects/switch/switch-0.png\n#Los interruptores pueden utilizarse para hacer todo tipo de cosas. Presioná la tecla ARRIBA para utilizar un interruptor.\n#Además, hay botones que podés presionar al saltar sobre ellos."
 
 #: data/levels/world1/fork_in_the_road.stl:93
 msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the JUMP key while bouncing on the trampoline to launch extra high."
-msgstr "-트램폴린\n!images/objects/trampoline/trampoline2-0.png\n#트램폴린은 턱스를 더 높이 점프할 수 있도록 해줍니다. 트램폴린에서 뛰고 있을 때 점프 키를 누르고 있으면 더 높이 점프할 수 있습니다."
+msgstr "-Trampolines\n!images/objects/trampoline/trampoline2-0.png\n#Los trampolines le permiten a Tux saltar hacia puntos más altos. Presioná la tecla SALTAR mientras rebotás sobre el trampolín para saltar más alto."
 
 #: data/levels/world1/fork_in_the_road.stl:100
 msgid ""
 "-Climbing\n"
 "#Tux can climb! Press the UP key to start climbing. Press the ACTION key or jump to let go."
-msgstr "-오르기\n#턱스가 오를 수 있습니다! 오르려면 위쪽 키를 누르세요. 액션 키나 점프로 내보낼 수 있습니다."
+msgstr "-Escalar\n#¡Tux puede escalar!. Presioná la tecla ARRIBA para comenzar a escalar. Presioná la tecla ACCIÓN o saltá para dejar de escalar."
 
 #: data/levels/world1/fork_in_the_road.stl:106
 msgid ""
 "-Secret Exits\n"
 "#Some level can have multiple exits. They are mostly hidden, so keep an eye out for them.\n"
 "#Maybe they lead you to something special."
-msgstr "-숨겨진 출구\n#일부 레벨에는 여러 출구가 있을 수 있습니다. 대부분 숨겨져 있으므로, 출구들을 지켜봐 주세요.\n#어쩌면 특별한 무언가로 이끌어 줄 수 있습니다."
+msgstr "-Salidas Secretas\n#Algunos niveles pueden tener varias salidas. Por lo general, están ocultas, así que intenta encontrarlas.\n#Quizás pueden conducirte hacia algo especial."
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
-msgstr "서리가 내린 들판"
+msgstr "Los Campos Congelados"
 
 #: data/levels/world1/frozen_bridge.stl:3
 msgid "Over the Frozen Bridge"
-msgstr "언 다리를 건너"
+msgstr "Sobre el Puente Congelado"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
-msgstr "크레바스"
+msgstr "Hielo en el Agujero"
 
 #: data/levels/world1/icy_valley.stl:3
 msgid "Icy Valley"
-msgstr "얼음 계곡"
+msgstr "Valle Glacial"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
-msgstr "별 속으로"
+msgstr "En las Estrellas"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "페니와 소풍을"
+msgstr "Picnic con Penny"
 
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
-msgstr "여정의 시작"
+msgstr "La Travesía Comienza"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "냉장고 속 삶"
+msgstr "Viviendo en el Congelador"
 
 #: data/levels/world1/miyamoto_monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "미야모토 환상 속으로"
+msgstr "Monumento a Miyamoto"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
-msgstr "안돼! 눈덩이가 너무 많아!"
+msgstr "¡Oh No! ¡Más Bolas de Nieve!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
-msgstr "야반도주"
+msgstr "Frío Nocturno"
 
 #: data/levels/world1/or_just_me.stl:3
 msgid "...Or Is It Just Me?"
-msgstr "...아니면 나 혼자야?"
+msgstr "¿O soy sólo yo?"
 
 #: data/levels/world1/path_in_the_clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "구름 속 길"
+msgstr "Un Camino en las Nubes"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
 msgid "Tux had reached the end of the castle."
-msgstr "턱스는 성의 끝에 도달했습니다."
+msgstr "Tux ha llegado al final del camino."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid "But to his surprise all he could find was a letter."
-msgstr "그러나 놀랍게도 그가 찾을 수 있는 것은 편지가 전부였습니다."
+msgstr "Pero, para su sorpresa, todo lo que pudo encontrar fue una carta."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
 msgid ""
 "A letter from Penny telling Tux that Nolok has taken her to a far forest."
-msgstr "페니가 턱스에게 놀록이 페니를 먼 숲으로 데려갔다고 말하는 편지입니다."
+msgstr "Una carta de Penny diciéndole a Tux que Nolok la llevó a un bosque lejano."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:5
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "놀록이 페니에게 무엇을 했는지 확신이 서지 않는 턱스는 그가 사랑하는 페니를 걱정했습니다."
+msgstr "Sin saber qué le estaba haciendo Nolok, Tux comenzó a preocuparse sobre su amada Penny."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
-msgstr "갑자기..."
+msgstr "Hasta que de repente..."
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
-msgstr "남극의 어느 해안가에서..."
+msgstr "En algún lado en las costas de la Antártica..."
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
-msgstr "펭귄 턱스는 턱스의 친구인 페니를 만나 소풍을 가려고 했습니다."
+msgstr "Tux el pungüino iba a encontrarse con su amiga Penny para hacer un picnic."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux woke up, dizzy, to find that Penny was missing!"
-msgstr "어지러운 턱스가 실종된 페니를 찾기 위해 일어났습니다."
+msgstr "Tuz se despertó mareado, para encontrarse con que Penny estaba desaparecida!"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Tux was starting to become worried. He then saw a letter, and it read:"
-msgstr ""
+msgstr "Tux comenzó a preocuparse. Luego, vio una carta que decía:"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid ""
 "\"Tux, I have kidnapped your beloved Penny and have taken her to my "
 "fortress.\""
-msgstr ""
+msgstr "\"Tux, secuestré a tu amada Penny y la llevé a mi fortaleza.\""
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr ""
+msgstr "\"El camino hacia mi fortaleza está infestado con mis ayudantes.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr ""
+msgstr "\"¡No tienes oportunidad de salvarla! Firma, Nolok\""
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr ""
+msgstr "Dándose cuenta del problema en que se encontraría Penny, Tux decidió salvarla."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr ""
+msgstr "Luego, Tux vio el castillo de Nolok en la distancia y partió a rescatar a Penny!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr ""
+msgstr "Exhausto por su larga caminata, Tux decidió tomarse un pequeño descanso."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr ""
+msgstr "Entonces, de repente escuchó un fuerte rugido en la distancia."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr ""
+msgstr "Un yeti parecía estar observándolo desde la lejanía."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr ""
+msgstr "Preocupado por la retirada repentina del Yeti, Tux decidió continuar su travesía..."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr ""
+msgstr "...Mientras deseaba en secreto no encontrarse con el yeti de nuevo, bajo ninguna circunstancia."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "부서진 다리"
+msgstr "El Puente Destruído"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "나는 지금 어디를 가고 있는가"
+msgstr "El de-Alguna- Forma Baño más Pequeño"
 
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
-msgstr "얼음골"
+msgstr "Piedra Fría"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
-msgstr "얼음 밑으로"
+msgstr "Debajo del hielo"
 
 #: data/levels/world1/via_nostalgica.stl:3
 msgid "Via Nostalgica"
-msgstr "환상 속에서"
+msgstr "Ruta Nostálgica"
 
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "어서 와, 남극은 처음이지?"
+msgstr "Bienvenidos a la Antártida"
 
 #: data/levels/world1/welcome_antarctica.stl:68
 msgid ""
@@ -284,57 +283,57 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-보너스 상자\n!images/objects/bonus_block/full-0.png\n#보너스 상자에는 당신이 퀘스트를 수행하는 데 도움을 주는 코인, 파워업이나 특별한 아이템이 들어 있습니다.\n#\n#아이템을 얻으려면 아래에서 상자를 위로 치세요."
+msgstr "-Bloques con Bonus\n!images/objects/bonus_block/full-0.png\n#Los Bloques con Bonus pueden contener Monedas, Poderes o elementos especiales para ayudarte en tu búsqueda.\n#\n#Golpéalos desde abajo para obtener los contenidos."
 
 #: data/levels/world1/welcome_antarctica.stl:77
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-알\n!images/powerups/egg/egg-shade.png\n#알은 턱스를 더 크게 해 줍니다. 턱스는 머리로 나무 상자를 깰 수 있습니다."
+msgstr "-Huevos\n!images/powerups/egg/egg-shade.png\n#El huevo hace que Tux crezca. Luego, Tux puede romper bloques de madera con la cabeza."
 
 #: data/levels/world1/welcome_antarctica.stl:84
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-체크포인트\n!images/objects/resetpoints/bell-m.png\n#체크포인트를 활성화합니다. 죽으면, 여기에서 레벨을 다시 시작할 수 있습니다. 체크포인트에서 다시 시작할 때매다, (최소 25코인 정도로) 10퍼센트의 코인을 소비합니다."
+msgstr "-Puntos de Control\n!images/objects/resetpoints/bell-m.png\n\" Activa los puntos de control. Si mueres,  podés comenzar el nivel desde aquí. Cada vez que comienzas desde un punto de control, perderás el 10 por ciento de tus monedas (al menos deberás tener 25 monedas)."
 
 #: data/levels/world1/welcome_antarctica.stl:91
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-달리기\n!images/tiles/signs/run.png\n#당신 앞에 길을 막고 있습니다. 상자들을 넘으려면 점프하기 전에 더 멀리 달려서 속도를 더 얻어야 합니다."
+msgstr "-Correr\n!images/tiles/signs/run.png\n#El camino que tenés enfrente está bloqueado. Gana velocidad antes de saltar para pasar por encima de los bloques."
 
 #: data/levels/world1/welcome_antarctica.stl:98
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-불 꽃\n!images/powerups/fireflower/fire_flower-0.png\n#불 꽃은 턱스가 불을 발사할 수 있도록 해 줍니다."
+msgstr "-Flor de Fuego\n!images/powerups/fireflower/fire_flower-0.png\n#La Flor de Fuego le otorga a Tux la habilidad de disparar bolas de fuego."
 
 #: data/levels/world1/welcome_antarctica.stl:105
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-턱스 인형\n!images/powerups/1up/1up.png\n#턱스 인형은 턱스에게 100코인을 얻습니다."
+msgstr "-El muñeco Tux\n!images/powerups/1up/1up.png\n#El muñeco Tux le da 100 monedas a Tux."
 
 #: data/levels/world1/welcome_antarctica.stl:112
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-숨겨진 구역\n#많은 레벨들은 일반 벽처럼 보이는 숨겨진 구역들이 있습니다. 잘 찾아보세요."
+msgstr "-Áreas Secretas\n#Muchos niveles tienen áreas secretas detrás de los que parecen ser muros. Busca las pistas para encontrarlas."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
-msgstr "얼음 성"
+msgstr "Isla Glacial"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr "더 이상 아이스 가이 군은 없어"
+msgstr "No más Sr. Hielo"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"
-msgstr "멀리 있는 예티"
+msgstr "Un Yeti en la Distancia"
