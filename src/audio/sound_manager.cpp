@@ -23,6 +23,7 @@
 #include "audio/sound_source.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "util/file_system.hpp"
+#include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -180,7 +181,7 @@ SoundManager::SoundManager() :
   m_sound_enabled(true),
   m_music_enabled(true),
   m_music_source(),
-  m_music_filename()
+  m_current_music()
 {
 }
 
@@ -207,16 +208,50 @@ SoundManager::preload(const std::string& name)
 void
 SoundManager::play_music(const std::string& filename, float fadetime)
 {
-  m_music_filename = filename;
+  if (filename == m_current_music && m_music_source != nullptr)
+  {
+    if (m_music_source->is_paused())
+    {
+      m_music_source->resume();
+    }
+    else if (!m_music_source->is_playing())
+    {
+      m_music_source->play();
+    }
+    return;
+  }
 
-  if (filename.ends_with(".music")) {
-    auto music_file = load_music_file(filename);
-    auto sound_source = m_sound_mgr.music().prepare(music_file.file, wstsound::SoundSourceType::STREAM);
-    sound_source->set_loop(sound_source->sec_to_sample(music_file.loop_begin),
-                           sound_source->sec_to_sample(music_file.loop_at));
-    sound_source->play();
-  } else {
-    m_sound_mgr.music().play(filename, wstsound::SoundSourceType::STREAM);
+  m_current_music = filename;
+  if (!m_music_enabled) {
+    return;
+  }
+
+  if (filename.empty()) {
+    m_music_source.reset();
+    return;
+  }
+
+  try {
+    if (filename.ends_with(".music")) {
+      auto music_file = load_music_file(filename);
+      m_music_source = m_sound_mgr.music().prepare(music_file.file, wstsound::SoundSourceType::STREAM);
+      m_music_source->set_loop(m_music_source->sec_to_sample(music_file.loop_begin),
+                               m_music_source->sec_to_sample(music_file.loop_at));
+    } else {
+      m_music_source = m_sound_mgr.music().play(filename, wstsound::SoundSourceType::STREAM);
+      m_music_source->set_looping(true);
+    }
+
+    if (fadetime > 0) {
+      m_music_source->set_fading(wstsound::FadeDirection::In, fadetime);
+    }
+
+    m_music_source->set_relative(true);
+    m_music_source->play();
+  } catch(std::exception& e) {
+    log_warning << "Couldn't play music file '" << filename << "': " << e.what() << std::endl;
+    // When this happens, previous music continued playing, stop it, just in case.
+    stop_music(0);
   }
 }
 

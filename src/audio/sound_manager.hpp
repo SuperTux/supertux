@@ -82,7 +82,7 @@ private:
   bool m_music_enabled;
 
   wstsound::SoundSourcePtr m_music_source;
-  std::string m_music_filename;
+  std::string m_current_music;
 
 private:
   SoundManager(const SoundManager&) = delete;
