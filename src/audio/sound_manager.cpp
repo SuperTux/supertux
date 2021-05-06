@@ -181,7 +181,9 @@ SoundManager::SoundManager() :
     return std::make_unique<IFileStream>(filename.string());
   }),
   m_sound_enabled(true),
-  m_music_enabled(true)
+  m_music_enabled(true),
+  m_music_source(),
+  m_music_filename()
 {
 }
 
@@ -212,7 +214,10 @@ SoundManager::play_music(const std::string& filename, float fadetime)
 
   if (filename.ends_with(".music")) {
     auto music_file = load_music_file(filename);
-    m_sound_mgr.music().play(music_file.file, wstsound::SoundSourceType::STREAM);
+    auto sound_source = m_sound_mgr.music().prepare(music_file.file, wstsound::SoundSourceType::STREAM);
+    sound_source->set_loop(sound_source->sec_to_sample(music_file.loop_begin),
+                           sound_source->sec_to_sample(music_file.loop_at));
+    sound_source->play();
   } else {
     m_sound_mgr.music().play(filename, wstsound::SoundSourceType::STREAM);
   }
