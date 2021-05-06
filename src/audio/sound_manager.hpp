@@ -49,9 +49,7 @@ public:
 
   void pause_music(float fadetime = 0);
   void resume_music(float fadetime = 0);
-
-  void stop_music();
-  void stop_music(float);
+  void stop_music(float fadetime = 0.0f);
 
   std::string get_current_music() const;
 

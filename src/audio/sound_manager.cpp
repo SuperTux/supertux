@@ -274,15 +274,19 @@ SoundManager::resume_music(float fadetime)
 }
 
 void
-SoundManager::stop_music()
-{
-  m_sound_mgr.music().stop();
-}
-
-void
 SoundManager::stop_music(float fadetime)
 {
-  m_sound_mgr.music().stop();
+  if (!m_music_source) { return; }
+
+  if (fadetime > 0.0f) {
+    auto const& fade = m_music_source->get_fade();
+    if (fade && fade->direction != wstsound::FadeDirection::Out) {
+      m_music_source->set_fading(wstsound::FadeDirection::Out, fadetime);
+    }
+  } else {
+    m_music_source.reset();
+  }
+  m_current_music.clear();
 }
 
 std::string
