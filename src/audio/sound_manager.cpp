@@ -129,9 +129,9 @@ const std::string& get_fallback_path(const std::string& file_path)
 
 struct MusicFile
 {
-  std::string file;
-  float loop_begin;
-  float loop_at;
+  std::string file = {};
+  float loop_begin = 0;
+  float loop_at = -1;
 };
 
 ReaderDocument doc_from_file_fallback(std::string& filename)
@@ -156,22 +156,19 @@ MusicFile load_music_file(const std::string& filename_original)
 
   auto music = root.get_mapping();
 
-  std::string raw_music_file;
-  float loop_begin = 0;
-  float loop_at    = -1;
+  MusicFile music_file;
 
-  music.get("file", raw_music_file);
-  music.get("loop-begin", loop_begin);
-  music.get("loop-at", loop_at);
+  music.get("file", music_file.file);
+  music.get("loop-begin", music_file.loop_begin);
+  music.get("loop-at", music_file.loop_at);
 
-  if (loop_begin < 0) {
+  music_file.file = FileSystem::normalize(FileSystem::dirname(filename) + music_file.file);
+
+  if (music_file.loop_begin < 0) {
     throw std::runtime_error("can't loop from negative value");
   }
 
-  std::string basedir = FileSystem::dirname(filename);
-  raw_music_file = FileSystem::normalize(basedir + raw_music_file);
-
-  return MusicFile{raw_music_file, loop_begin, loop_at};
+  return music_file;
 }
 
 } // namespace
