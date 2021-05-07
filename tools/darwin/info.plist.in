@@ -20,6 +20,8 @@
 	<string>STUX</string>
 	<key>CFBundleVersion</key>
 	<string>${SUPERTUX_VERSION_MAJOR}.${SUPERTUX_VERSION_MINOR}.${SUPERTUX_VERSION_PATCH}</string>
+	<key>CFBundleShortVersionString</key>
+	<string>${SUPERTUX_VERSION_MAJOR}.${SUPERTUX_VERSION_MINOR}.${SUPERTUX_VERSION_PATCH}</string>
 	<key>NSMainNibFile</key>
 	<string>SDLMain</string>
 	<key>NSPrincipalClass</key>
