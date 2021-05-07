@@ -208,20 +208,24 @@ SoundManager::preload(const std::string& name)
 void
 SoundManager::play_music(const std::string& filename, float fadetime)
 {
-  if (filename == m_current_music && m_music_source != nullptr)
-  {
-    if (m_music_source->is_paused())
-    {
-      m_music_source->resume();
+  // music is currently active, figure out what to do with it
+  if (m_music_source != nullptr) {
+    if (filename == m_current_music)
+    { // current music is the same as new one
+      if (m_music_source->is_paused()) {
+        m_music_source->resume();
+      } else if (!m_music_source->is_playing()) {
+        m_music_source->play();
+      }
+      return;
+    } else {
+      // stop current song
+      m_music_source->stop(); /* FIXME: add fade-time */
     }
-    else if (!m_music_source->is_playing())
-    {
-      m_music_source->play();
-    }
-    return;
   }
 
   m_current_music = filename;
+
   if (!m_music_enabled) {
     return;
   }
@@ -250,8 +254,6 @@ SoundManager::play_music(const std::string& filename, float fadetime)
     m_music_source->play();
   } catch(std::exception& e) {
     log_warning << "Couldn't play music file '" << filename << "': " << e.what() << std::endl;
-    // When this happens, previous music continued playing, stop it, just in case.
-    stop_music(0);
   }
 }
 

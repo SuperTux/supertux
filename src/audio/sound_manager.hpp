@@ -47,8 +47,8 @@ public:
   void play_music(const std::string& filename, float fadetime);
   void play_music(const std::string& filename, bool fade = false);
 
-  void pause_music(float fadetime = 0);
-  void resume_music(float fadetime = 0);
+  void pause_music(float fadetime = 0.0f);
+  void resume_music(float fadetime = 0.0f);
   void stop_music(float fadetime = 0.0f);
 
   std::string get_current_music() const;
