@@ -27,7 +27,7 @@ class GhostParticleSystem final : public ParticleSystem
 public:
   GhostParticleSystem();
   GhostParticleSystem(const ReaderMapping& reader);
-  virtual ~GhostParticleSystem();
+  ~GhostParticleSystem() override;
 
   void init();
   virtual void update(float dt_sec) override;

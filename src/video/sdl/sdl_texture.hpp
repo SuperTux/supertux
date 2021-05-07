@@ -30,7 +30,7 @@ class SDLTexture final : public Texture
 public:
   SDLTexture(SDL_Texture* texture, int width, int height, const Sampler& sampler);
   SDLTexture(const SDL_Surface& sdl_surface, const Sampler& sampler);
-  virtual ~SDLTexture();
+  ~SDLTexture() override;
 
   virtual int get_texture_width() const override { return m_width; }
   virtual int get_texture_height() const override { return m_height; }

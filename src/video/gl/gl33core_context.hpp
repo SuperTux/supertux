@@ -30,7 +30,7 @@ class GL33CoreContext final : public GLContext
 {
 public:
   GL33CoreContext(GLVideoSystem& video_system);
-  ~GL33CoreContext();
+  ~GL33CoreContext() override;
 
   virtual std::string get_name() const override { return "opengl33"; }
 

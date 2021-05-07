@@ -159,16 +159,30 @@ Rock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 Rock::ungrab(MovingObject& object, Direction dir)
 {
+  auto player = dynamic_cast<Player*> (&object);
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
-  if (dir == Direction::UP) {
-    physic.set_velocity(0, -500);
-  } else if (dir == Direction::DOWN) {
-    physic.set_velocity(0, 500);
-  } else if (last_movement.norm() > 1) {
-    physic.set_velocity((dir == Direction::RIGHT) ? 200.0f : -200.0f, -200.0f);
-  } else {
-    physic.set_velocity(0, 0);
+  if (player->is_swimming() || player->is_water_jumping())
+  {
+    float swimangle = player->get_swimming_angle();
+    physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
+  }
+  else
+  {
+    set_group(COLGROUP_MOVING_STATIC);
+    on_ground = false;
+    if (dir == Direction::UP) {
+      physic.set_velocity(0, -500);
+    }
+    else if (dir == Direction::DOWN) {
+      physic.set_velocity(0, 500);
+    }
+    else if (last_movement.norm() > 1) {
+      physic.set_velocity((dir == Direction::RIGHT) ? 200.0f : -200.0f, -200.0f);
+    }
+    else {
+      physic.set_velocity(0, 0);
+    }
   }
 
   if (!on_ungrab_script.empty()) {

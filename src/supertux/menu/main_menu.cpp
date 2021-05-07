@@ -111,7 +111,7 @@ MainMenu::menu_action(MenuItem& item)
       {
         MenuManager::instance().clear_menu_stack();
         std::unique_ptr<Screen> screen(new Editor());
-        auto fade = std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5);
+        auto fade = std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f);
         SoundManager::current()->stop_music(0.5);
         ScreenManager::current()->push_screen(move(screen),move(fade));
         //Editor::current()->setup();
@@ -130,7 +130,7 @@ MainMenu::menu_action(MenuItem& item)
 
     case MNID_QUITMAINMENU:
       MenuManager::instance().clear_menu_stack();
-      ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25)));
+      ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeToBlack(FadeToBlack::FADEOUT, 0.25f)));
       SoundManager::current()->stop_music(0.25);
       break;
   }

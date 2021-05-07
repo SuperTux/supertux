@@ -33,7 +33,7 @@ class TitleScreen final : public Screen
 {
 public:
   TitleScreen(Savegame& savegame);
-  virtual ~TitleScreen();
+  ~TitleScreen() override;
 
   virtual void setup() override;
   virtual void leave() override;

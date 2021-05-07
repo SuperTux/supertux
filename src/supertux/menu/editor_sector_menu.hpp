@@ -27,7 +27,7 @@ class EditorSectorMenu final : public Menu
 private:
 public:
   EditorSectorMenu();
-  ~EditorSectorMenu();
+  ~EditorSectorMenu() override;
 
   void menu_action(MenuItem& item) override;
 

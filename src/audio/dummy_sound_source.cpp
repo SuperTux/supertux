@@ -26,7 +26,7 @@ public:
   DummySoundSource() :
     is_playing()
   {}
-  virtual ~DummySoundSource()
+  ~DummySoundSource() override
   {}
 
   virtual void play() override

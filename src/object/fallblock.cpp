@@ -138,8 +138,8 @@ FallBlock::draw(DrawingContext& context)
   // shaking
   if (state == SHAKE)
   {
-    pos.x += static_cast<float>(graphicsRandom.rand(-8.0f, 8.0f));
-	  pos.y += static_cast<float>(graphicsRandom.rand(-5.0f, 5.0f));
+    pos.x += static_cast<float>(graphicsRandom.rand(-8, 8));
+	  pos.y += static_cast<float>(graphicsRandom.rand(-5, 5));
   }
   m_sprite->draw(context.color(), pos, m_layer);
 }

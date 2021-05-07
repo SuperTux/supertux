@@ -8,14 +8,15 @@
 # Frist Lsat <egzofern@aol.com>, 2016
 # Robin van der Vliet <info@robinvandervliet.nl>, 2015
 # Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
+# tellovishous <skyguy@readytek.net>, 2021
 # Любомир Василев, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-04-26 14:32+0000\n"
-"Last-Translator: vpzomtrrfrt <colin@vpzom.click>\n"
+"PO-Revision-Date: 2021-02-16 01:11+0000\n"
+"Last-Translator: tellovishous <skyguy@readytek.net>\n"
 "Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -178,7 +179,7 @@ msgstr "Tux atingis la finon de la kastelo."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:3
 msgid "But to his surprise all he could find was a letter."
-msgstr "Sed surpize, li nur povis trovi leteron."
+msgstr "Sed surprize, li nur povis trovi leteron."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:4
 msgid ""
@@ -189,7 +190,7 @@ msgstr "Letero de Penny, kiu diras al Tux, ke Nolok forprenis ŝin al malproksim
 msgid ""
 "Unsure about what Nolok was doing to her, Tux became worried about his "
 "beloved Penny."
-msgstr "Nekonscia pri tio, kion Nolok faras al ŝi, Tux zorgas pri lia kara Penny."
+msgstr "Necerta pri tio, kion Nolok faras al ŝi, Tux maltrakviliĝis pri lia kara Penny."
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
@@ -223,17 +224,17 @@ msgstr "\"La vojo al mia fortokaĵo estas plenigita per miaj lakeoj.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
-msgstr "\"Vi ne havas okazo savi ŝin! Subskribita, Nolok.\""
+msgstr "\"Vi ne havas okazon savi ŝin! Subskribita, Nolok.\""
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Komprenas la danĝeron en kiu Penny povus esti, Tux iĝis decidita savi ŝin."
+msgstr "Komprenante la danĝeron en kiu Penny povus esti, Tux iĝis decidita savi ŝin."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Poste, Tux vidis la kastelo de Nolok malproksime kaj ekiri savi Penny!"
+msgstr "Poste, Tux vidis la kastelon de Nolok malproksime kaj ekiris por savi Penny!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
@@ -241,21 +242,21 @@ msgstr "Lacega pro lia longa marŝo, Tux decidis paŭzi."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
-msgstr "Subite, li aŭdis laŭtan roron de malproksime."
+msgstr "Sed tiam, li subite aŭdis laŭtan muĝon de malproksime."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:4
 msgid "A yeti seems to have observed him from afar."
-msgstr "Sajnas jetio rigardis lin fore."
+msgstr "Sajnas, ke jetio rigardis lin fore."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:5
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr "Zorgis pri la subita retiriĝo de la jetio, Tux decidis daŭrigi sian vojaĝon, ..."
+msgstr "Zorgante pri la subita retiriĝo de la jetio, Tux decidis daŭrigi sian vojaĝon, ..."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "...dum sekrete esperante ne renkonti la jetio denove."
+msgstr "...dum sekrete esperante ne renkonti la jetio denove, per ia."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
@@ -271,7 +272,7 @@ msgstr "La Malvarma Ŝtono "
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
-msgstr "Sub la glacio"
+msgstr "Sub la Glacio"
 
 #: data/levels/world1/via_nostalgica.stl:3
 msgid "Via Nostalgica"

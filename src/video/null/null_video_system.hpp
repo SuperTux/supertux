@@ -29,7 +29,7 @@ class NullVideoSystem : public VideoSystem
 {
 public:
   NullVideoSystem();
-  virtual ~NullVideoSystem();
+  ~NullVideoSystem() override;
 
   virtual std::string get_name() const override { return "Null"; }
 

@@ -183,11 +183,11 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           {
             Sector::get().add<Particles>(
               Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f, m_col.m_bbox.get_bottom()),
-              0, 90-5*j, 140, 380, Vector(0.0f, 300.0f),
+              0, 90-5*j, 140.0f, 380.0f, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
             Sector::get().add<Particles>(
               Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f, m_col.m_bbox.get_bottom()),
-              270+5*j, 360, 140, 380, Vector(0.0f, 300.0f),
+              270+5*j, 360, 140.0f, 380.0f, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
           }
         }

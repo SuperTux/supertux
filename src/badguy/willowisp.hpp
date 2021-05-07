@@ -33,6 +33,7 @@ public:
   WillOWisp(const ReaderMapping& reader);
 
   virtual void finish_construction() override;
+  virtual void after_editor_set() override;
 
   virtual void activate() override;
   virtual void deactivate() override;
@@ -70,6 +71,8 @@ public:
   /** make WillOWisp vanish */
   void vanish();
 
+  Color get_color() const { return m_color; }
+
 private:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
@@ -91,6 +94,8 @@ private:
   float m_flyspeed;
   float m_track_range;
   float m_vanish_range;
+
+  Color m_color;
 
 private:
   WillOWisp(const WillOWisp&) = delete;

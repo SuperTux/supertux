@@ -27,7 +27,7 @@ private:
 public:
   EditorLevelsetMenu();
   EditorLevelsetMenu(World* world_);
-  ~EditorLevelsetMenu();
+  ~EditorLevelsetMenu() override;
 
   void menu_action(MenuItem& item) override;
 

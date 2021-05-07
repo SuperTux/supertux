@@ -47,7 +47,7 @@ class ScreenManager final : public Currenton<ScreenManager>
 {
 public:
   ScreenManager(std::unique_ptr<VideoSystem> video_system, InputManager& input_manager);
-  ~ScreenManager();
+  ~ScreenManager() override;
 
   void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});

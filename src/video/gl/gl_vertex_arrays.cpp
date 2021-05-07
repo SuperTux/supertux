@@ -104,7 +104,7 @@ GLVertexArrays::set_colors(const float* data, size_t size)
 {
   assert_gl();
 
-  glBindBuffer(GL_ARRAY_BUFFER, m_texcoords_buffer);
+  glBindBuffer(GL_ARRAY_BUFFER, m_color_buffer);
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
   int loc = m_context.get_program().get_attrib_location("diffuse");

@@ -35,7 +35,7 @@ public:
   PathGameObject();
   PathGameObject(const Vector& pos);
   PathGameObject(const ReaderMapping& mapping, bool backward_compatibility_hack=false);
-  virtual ~PathGameObject();
+  ~PathGameObject() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

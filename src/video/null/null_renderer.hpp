@@ -28,7 +28,7 @@ class NullRenderer : public Renderer
 {
 public:
   NullRenderer();
-  ~NullRenderer();
+  ~NullRenderer() override;
 
   virtual void start_draw() override;
   virtual void end_draw() override;

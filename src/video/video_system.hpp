@@ -51,7 +51,7 @@ public:
 
 public:
   VideoSystem() {}
-  virtual ~VideoSystem() {}
+  ~VideoSystem() override {}
 
   /** Return a human readable name of the current video system */
   virtual std::string get_name() const = 0;

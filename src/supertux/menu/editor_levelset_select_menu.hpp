@@ -26,7 +26,7 @@ private:
 
 public:
   EditorLevelsetSelectMenu();
-  ~EditorLevelsetSelectMenu();
+  ~EditorLevelsetSelectMenu() override;
 
   void menu_action(MenuItem& item) override;
 

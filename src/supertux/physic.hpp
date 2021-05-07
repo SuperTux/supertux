@@ -52,6 +52,7 @@ public:
    * eventually added to the vertical acceleration)
    */
   void set_acceleration(float nax, float nay);
+  void set_acceleration(const Vector& vector);
 
   void set_acceleration_x(float nax) { ax = nax; }
   void set_acceleration_y(float nay) { ay = nay; }

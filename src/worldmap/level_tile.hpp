@@ -33,7 +33,7 @@ class LevelTile final : public GameObject
 
 public:
   LevelTile(const std::string& basedir, const ReaderMapping& mapping);
-  virtual ~LevelTile();
+  ~LevelTile() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

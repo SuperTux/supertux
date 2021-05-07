@@ -26,7 +26,7 @@ class SDLBaseVideoSystem : public VideoSystem
 private:
 public:
   SDLBaseVideoSystem();
-  virtual ~SDLBaseVideoSystem();
+  ~SDLBaseVideoSystem() override;
 
   virtual void set_title(const std::string& title) override;
   virtual void set_icon(const SDL_Surface& icon) override;

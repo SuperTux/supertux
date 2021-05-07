@@ -30,7 +30,7 @@ class Portable : public GameObjectComponent
 {
 public:
   Portable() {}
-  virtual ~Portable() {}
+  ~Portable() override {}
 
   /** called each frame when the object has been grabbed. */
   virtual void grab(MovingObject& other, const Vector& pos, Direction dir) { m_owner = &other; }

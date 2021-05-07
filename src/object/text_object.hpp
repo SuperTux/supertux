@@ -32,7 +32,7 @@ class TextObject final : public GameObject,
 
 public:
   TextObject(const std::string& name = std::string());
-  virtual ~TextObject();
+  ~TextObject() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

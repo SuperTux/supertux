@@ -25,7 +25,7 @@ class OFileStreambuf final : public std::streambuf
 {
 public:
   OFileStreambuf(const std::string& filename);
-  ~OFileStreambuf();
+  ~OFileStreambuf() override;
 
 protected:
   virtual int overflow(int c) override;

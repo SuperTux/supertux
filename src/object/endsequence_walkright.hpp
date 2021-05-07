@@ -24,7 +24,7 @@ class EndSequenceWalkRight final : public EndSequence
 {
 public:
   EndSequenceWalkRight();
-  virtual ~EndSequenceWalkRight();
+  ~EndSequenceWalkRight() override;
   virtual void draw(DrawingContext& context) override;
 
 protected:

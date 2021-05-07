@@ -32,7 +32,7 @@ class SpecialTile final : public GameObject
 {
 public:
   SpecialTile(const ReaderMapping& mapping);
-  virtual ~SpecialTile();
+  ~SpecialTile() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

@@ -271,6 +271,13 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 {
+  auto player = dynamic_cast<Player*> (&object);
+  if (player->is_swimming() || player->is_water_jumping())
+  {
+    //move icecube a little bit away as to not insta-kill Tux
+    float swimangle = player->get_swimming_angle();
+    m_col.m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
+  }
   if (dir_ == Direction::UP) {
     m_physic.set_velocity_y(-KICKSPEED);
     set_state(ICESTATE_FLAT);

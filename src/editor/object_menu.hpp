@@ -33,7 +33,7 @@ public:
 
 public:
   ObjectMenu(Editor& editor, GameObject* go);
-  ~ObjectMenu();
+  ~ObjectMenu() override;
 
   virtual void menu_action(MenuItem& item) override;
   virtual bool on_back_action() override;

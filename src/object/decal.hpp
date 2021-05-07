@@ -32,7 +32,7 @@ class Decal final : public MovingSprite,
 
 public:
   Decal(const ReaderMapping& reader);
-  virtual ~Decal();
+  ~Decal() override;
 
   virtual HitResponse collision(GameObject& , const CollisionHit& ) override { return FORCE_MOVE; }
 

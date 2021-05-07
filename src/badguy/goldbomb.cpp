@@ -220,7 +220,6 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
     if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 200)
       toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190*(dir_ == Direction::LEFT ? -1 : 1)));
   }
-  log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
 
   //set_pos(object.get_pos() + Vector((dir_ == LEFT ? -33 : 33), get_bbox().get_height()*0.66666 - 32));
   m_physic.set_velocity(static_cast<float>(toss_velocity_x),

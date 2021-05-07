@@ -25,7 +25,7 @@
 class FallingCoin final : public GameObject
 {
 public:
-  FallingCoin(const Vector& start_position, const int x_vel);
+  FallingCoin(const Vector& start_position, float x_vel);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;

@@ -41,7 +41,7 @@ public:
 public:
   TriggerBase(const ReaderMapping& mapping);
   TriggerBase();
-  ~TriggerBase();
+  ~TriggerBase() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

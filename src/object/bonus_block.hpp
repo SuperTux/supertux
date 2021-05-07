@@ -37,6 +37,7 @@ public:
     CUSTOM,
     SCRIPT,
     LIGHT,
+    LIGHT_ON,
     TRAMPOLINE,
     RAIN,
     EXPLODE
@@ -45,7 +46,7 @@ public:
 public:
   BonusBlock(const Vector& pos, int tile_data);
   BonusBlock(const ReaderMapping& mapping);
-  virtual ~BonusBlock();
+  ~BonusBlock() override;
 
   virtual void hit(Player& player) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -65,7 +66,7 @@ private:
 
   void preload_contents(int d);
   void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir);
-  void drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown);
+  void drop_growup_bonus(Player* player, const std::string& bonus_sprite_name, const Direction& dir, bool& countdown);
 
   BonusBlock::Content get_content_by_data(int tile_data) const;
   BonusBlock::Content get_content_from_string(const std::string& contentstring) const;

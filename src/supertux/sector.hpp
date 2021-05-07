@@ -25,6 +25,7 @@
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/game_object_manager.hpp"
+#include "supertux/tile.hpp"
 #include "video/color.hpp"
 
 namespace collision {
@@ -64,7 +65,7 @@ public:
 
 public:
   Sector(Level& parent);
-  ~Sector();
+  ~Sector() override;
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
@@ -98,7 +99,7 @@ public:
 
   /** Checks if the specified rectangle is free of (solid) tiles.
       Note that this does not include static objects, e.g. bonus blocks. */
-  bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
+  bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
 
   /** Checks if the specified rectangle is free of both
       1.) solid tiles and

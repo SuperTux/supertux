@@ -32,7 +32,7 @@ class WorldMapScreen final : public Screen,
 {
 public:
   WorldMapScreen(std::unique_ptr<WorldMap> worldmap);
-  ~WorldMapScreen();
+  ~WorldMapScreen() override;
 
   virtual void setup() override;
   virtual void leave() override;

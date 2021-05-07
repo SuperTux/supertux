@@ -42,7 +42,7 @@ BicyclePlatformChild::update(float dt_sec)
   float angle = m_parent.m_angle + m_angle_offset;
   angle = math::positive_fmodf(angle, math::TAU);
 
-  Vector dest = m_parent.m_center + Vector(cosf(angle), sinf(angle)) * m_parent.m_radius - (m_col.m_bbox.get_size().as_vector() * 0.5);
+  Vector dest = m_parent.m_center + Vector(cosf(angle), sinf(angle)) * m_parent.m_radius - (m_col.m_bbox.get_size().as_vector() * 0.5f);
   Vector movement = dest - get_pos();
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
@@ -190,7 +190,7 @@ BicyclePlatform::get_settings()
   result.add_float(_("Y"), &m_center.y, "y", 0.0f, OPTION_HIDDEN);
 
   result.add_int(_("Platforms"), &m_platforms, "platforms", 2);
-  result.add_float(_("Radius"), &m_radius, "radius", 128);
+  result.add_float(_("Radius"), &m_radius, "radius", 128.0f);
   result.add_float(_("Momentum change rate"), &m_momentum_change_rate, "momentum-change-rate", 0.1f);
 
   result.reorder({"platforms", "x", "y"});
