@@ -48,7 +48,7 @@ jobs:
         if: ${{ matrix.vm_os == 'freebsd' }}
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-        uses: vmactions/freebsd-vm@v0.1.0
+        uses: vmactions/freebsd-vm@v0.1.4
         with:
           envs: 'BUILD_TYPE'
           sync: rsync
