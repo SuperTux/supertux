@@ -19,26 +19,23 @@
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
 
 #include <memory>
+#include <SDL2/SDL.h>
 
 #include "config.h"
 
-#include "control/input_manager.hpp"
 #include "control/mobile_controller.hpp"
 #include "squirrel/squirrel_thread_queue.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
-#include "video/video_system.hpp"
-
-#include <assert.h>
-#include <SDL2/SDL.h>
-#include <chrono>
 
 class Compositor;
 class ControllerHUD;
 class DrawingContext;
+class InputManager;
 class MenuManager;
 class MenuStorage;
 class ScreenFade;
+class VideoSystem;
 
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
@@ -46,7 +43,7 @@ class ScreenFade;
 class ScreenManager final : public Currenton<ScreenManager>
 {
 public:
-  ScreenManager(std::unique_ptr<VideoSystem> video_system, InputManager& input_manager);
+  ScreenManager(VideoSystem& video_system, InputManager& input_manager);
   ~ScreenManager() override;
 
   void run();
@@ -62,8 +59,6 @@ public:
 
   void loop_iter();
 
-  std::vector<std::unique_ptr<Screen> > m_screen_stack;
-
 private:
   struct FPS_Stats;
   void draw_fps(DrawingContext& context, FPS_Stats& fps_statistics);
@@ -74,8 +69,8 @@ private:
   void handle_screen_switch();
 
 private:
-  std::unique_ptr<VideoSystem> m_video_system;
-  InputManager m_input_manager;
+  VideoSystem& m_video_system;
+  InputManager& m_input_manager;
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
   std::unique_ptr<ControllerHUD> m_controller_hud;
@@ -106,6 +101,7 @@ private:
   std::vector<Action> m_actions;
 
   std::unique_ptr<ScreenFade> m_screen_fade;
+  std::vector<std::unique_ptr<Screen> > m_screen_stack;
 };
 
 #endif
