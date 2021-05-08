@@ -85,11 +85,12 @@ extern "C" {
 
 static Timelog s_timelog;
 
-ConfigSubsystem::ConfigSubsystem()
+ConfigSubsystem::ConfigSubsystem() :
+  m_config()
 {
-  g_config.reset(new Config);
+  g_config = &m_config;
   try {
-    g_config->load();
+    m_config.load();
   }
   catch(const std::exception& e)
   {
@@ -97,26 +98,22 @@ ConfigSubsystem::ConfigSubsystem()
   }
 
   // init random number stuff
-  gameRandom.seed(g_config->random_seed);
+  gameRandom.seed(m_config.random_seed);
   graphicsRandom.seed(0);
   //const char *how = config->random_seed? ", user fixed.": ", from time().";
   //log_info << "Using random seed " << config->random_seed << how << std::endl;
 }
 
- ConfigSubsystem::~ConfigSubsystem()
+ConfigSubsystem::~ConfigSubsystem()
 {
-  if (g_config)
+  try
   {
-    try
-    {
-      g_config->save();
-    }
-    catch(std::exception& e)
-    {
-      log_warning << "Error saving config: " << e.what() << std::endl;
-    }
+    m_config.save();
   }
-  g_config.reset();
+  catch(std::exception& e)
+  {
+    log_warning << "Error saving config: " << e.what() << std::endl;
+  }
 }
 
 Main::Main() :

@@ -29,6 +29,7 @@
 #include "supertux/command_line_arguments.hpp"
 #include "supertux/console.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
@@ -42,8 +43,10 @@ class ConfigSubsystem final
 public:
   ConfigSubsystem();
   ~ConfigSubsystem();
-};
 
+private:
+  Config m_config;
+};
 
 class PhysfsSubsystem final
 {
