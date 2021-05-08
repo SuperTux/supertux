@@ -24,6 +24,8 @@
 
 #include "util/log.hpp"
 
+#include <iostream>
+
 namespace {
 
 Sint64 funcSize(struct SDL_RWops* context)
@@ -55,8 +57,10 @@ Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
     log_warning << "Error seeking in file: " << PHYSFS_getLastErrorCode() << std::endl;
     return -1;
   }
+  int i = static_cast<int>(PHYSFS_tell(file));
 
-  return static_cast<int>(PHYSFS_tell(file));
+
+  return i;
 }
 
 size_t funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_t maxnum)

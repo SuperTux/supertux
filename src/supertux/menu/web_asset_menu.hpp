@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,23 +14,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GLOBALS_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GLOBALS_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_WEB_ASSET_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_WEB_ASSET_MENU_HPP
 
-#include <memory>
+#include "gui/menu.hpp"
 
-class Config;
+class WebAssetMenu final : public Menu
+{
+private:
+  enum MenuIDs {
+    MNID_ADDFILES,
+    MNID_DOWNLOADFILES
+  };
 
-// This is meant to be temporarily. Code should not use
-// SCREEN_WIDTH/HEIGHT, but instead use context.get_width()/height()
-// inside the draw() call.
-#define SCREEN_WIDTH (VideoSystem::current()->get_viewport().get_screen_width())
-#define SCREEN_HEIGHT (VideoSystem::current()->get_viewport().get_screen_height())
+public:
+  WebAssetMenu();
 
-extern Config* g_config;
+  void menu_action(MenuItem& item) override;
 
-extern float g_game_time;
-extern float g_real_time;
+private:
+  std::string m_add_path;
+
+private:
+  WebAssetMenu(const WebAssetMenu&) = delete;
+  WebAssetMenu& operator=(const WebAssetMenu&) = delete;
+};
 
 #endif
 

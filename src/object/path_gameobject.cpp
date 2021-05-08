@@ -111,6 +111,11 @@ PathGameObject::draw(DrawingContext& context)
   if (m_style == PathStyle::SOLID)
   {
     boost::optional<Vector> previous_node;
+
+    // FIXME: temporary workaround for compiler warning
+    previous_node = Vector();
+    previous_node = boost::none;
+
     for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)

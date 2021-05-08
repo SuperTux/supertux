@@ -43,18 +43,32 @@
   #include <cstdlib>
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 MainMenu::MainMenu()
 {
   set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
                  static_cast<float>(SCREEN_HEIGHT) / 2.0f + 35.0f);
 
   add_entry(MNID_STARTGAME, _("Start Game"));
+  // TODO: Manage to build OpenSSL for Emscripten so we can build CURL so we can
+  //       build the add-ons so we can re-enable them.
+  //       Also see src/addon/downloader.*pp
+#ifndef __EMSCRIPTEN__
   add_entry(MNID_ADDONS, _("Add-ons"));
+#else
+  add_entry(MNID_MANAGEASSETS, _("Manage Assets"));
+#endif
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_DONATE, _("Donate"));
+#ifndef REMOVE_QUIT_BUTTON
   add_entry(MNID_QUITMAINMENU, _("Quit"));
+#endif
 }
 
 void
@@ -80,6 +94,9 @@ MainMenu::menu_action(MenuItem& item)
       MenuManager::instance().push_menu(MenuStorage::ADDON_MENU);
       break;
 
+    case MNID_MANAGEASSETS:
+      MenuManager::instance().push_menu(MenuStorage::ASSET_MENU);
+      break;
 
      case MNID_CREDITS:
     {
@@ -102,7 +119,13 @@ MainMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_DONATE:
+#ifdef __EMSCRIPTEN__
+      EM_ASM({
+        window.open("https://www.supertux.org/donate.html");
+      });
+#else
       FileSystem::open_path("https://www.supertux.org/donate.html");
+#endif
       break;
 
     case MNID_QUITMAINMENU:
