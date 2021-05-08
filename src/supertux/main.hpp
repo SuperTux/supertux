@@ -91,6 +91,7 @@ private:
   std::unique_ptr<SDLSubsystem> m_sdl_subsystem;
   std::unique_ptr<ConsoleBuffer> m_console_buffer;
   std::unique_ptr<InputManager> m_input_manager;
+  std::unique_ptr<VideoSystem> m_video_system;
   std::unique_ptr<TTFSurfaceManager> m_ttf_surface_manager;
   std::unique_ptr<SoundManager> m_sound_manager;
   std::unique_ptr<SquirrelVirtualMachine> m_squirrel_virtual_machine;

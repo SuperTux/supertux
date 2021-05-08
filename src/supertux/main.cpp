@@ -125,6 +125,7 @@ Main::Main() :
   m_sdl_subsystem(),
   m_console_buffer(),
   m_input_manager(),
+  m_video_system(),
   m_ttf_surface_manager(),
   m_sound_manager(),
   m_squirrel_virtual_machine(),
@@ -430,7 +431,7 @@ Main::launch_game(const CommandLineArguments& args)
     }
   }
   s_timelog.log("video");
-  auto video_system = VideoSystem::create(video);
+  m_video_system = VideoSystem::create(video);
   init_video();
 
   m_ttf_surface_manager.reset(new TTFSurfaceManager());
@@ -465,7 +466,7 @@ Main::launch_game(const CommandLineArguments& args)
   m_savegame = std::make_unique<Savegame>(std::string());
 
   m_game_manager.reset(new GameManager());
-  m_screen_manager.reset(new ScreenManager(std::move(video_system), *m_input_manager));
+  m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));
 
   if (!args.filenames.empty())
   {

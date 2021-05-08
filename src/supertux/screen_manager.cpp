@@ -130,10 +130,9 @@ private:
   std::chrono::steady_clock::time_point time_prev;
 };
 
-ScreenManager::ScreenManager(std::unique_ptr<VideoSystem> video_system, InputManager& input_manager) :
-  m_screen_stack(),
-  m_video_system(std::move(video_system)),
-  m_input_manager(g_config->keyboard_config, g_config->joystick_config),
+ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
+  m_video_system(video_system),
+  m_input_manager(input_manager),
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager()),
   m_controller_hud(new ControllerHUD),
@@ -147,7 +146,8 @@ ScreenManager::ScreenManager(std::unique_ptr<VideoSystem> video_system, InputMan
   m_fps_statistics(new FPS_Stats()),
   m_speed(1.0),
   m_actions(),
-  m_screen_fade()
+  m_screen_fade(),
+  m_screen_stack()
 {
 }
 
@@ -341,8 +341,8 @@ ScreenManager::process_events()
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONDOWN;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(event.tfinger.x * float(m_video_system->get_window_size().width));
-        event2.button.y = Sint32(event.tfinger.y * float(m_video_system->get_window_size().height));
+        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
 
         event.type = SDL_MOUSEMOTION;
@@ -357,8 +357,8 @@ ScreenManager::process_events()
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONUP;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(event.tfinger.x * float(m_video_system->get_window_size().width));
-        event2.button.y = Sint32(event.tfinger.y * float(m_video_system->get_window_size().height));
+        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
 
         event.type = SDL_MOUSEMOTION;
@@ -370,10 +370,10 @@ ScreenManager::process_events()
 
       case SDL_FINGERMOTION:
         event.type = SDL_MOUSEMOTION;
-        event.motion.x = Sint32(event.tfinger.x * float(m_video_system->get_window_size().width));
-        event.motion.y = Sint32(event.tfinger.y * float(m_video_system->get_window_size().height));
-        event.motion.xrel = Sint32(event.tfinger.dx * float(m_video_system->get_window_size().width));
-        event.motion.yrel = Sint32(event.tfinger.dy * float(m_video_system->get_window_size().height));
+        event.motion.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
+        event.motion.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        event.motion.xrel = Sint32(event.tfinger.dx * float(m_video_system.get_window_size().width));
+        event.motion.yrel = Sint32(event.tfinger.dy * float(m_video_system.get_window_size().height));
         MouseCursor::current()->set_pos(event.motion.x, event.motion.y);
         break;
     }
@@ -400,7 +400,7 @@ ScreenManager::process_events()
         switch (event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
-            m_video_system->on_resize(event.window.data1, event.window.data2);
+            m_video_system.on_resize(event.window.data1, event.window.data2);
             m_menu_manager->on_window_resize();
             if (Editor::is_active()) {
               Editor::current()->resize();
@@ -429,13 +429,13 @@ ScreenManager::process_events()
                  (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
-          m_video_system->apply_config();
+          m_video_system.apply_config();
           m_menu_manager->on_window_resize();
         }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
-          m_video_system->do_take_screenshot();
+          m_video_system.do_take_screenshot();
         }
         else if (event.key.keysym.sym == SDLK_F2 &&
                  event.key.keysym.mod & KMOD_CTRL)
@@ -601,7 +601,7 @@ void ScreenManager::loop_iter()
   if ((steps > 0 && !m_screen_stack.empty())
       || g_debug.draw_redundant_frames) {
     // Draw a frame
-    Compositor compositor(*m_video_system);
+    Compositor compositor(m_video_system);
     draw(compositor, *m_fps_statistics);
     m_fps_statistics->report_frame();
   }
