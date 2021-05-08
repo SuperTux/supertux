@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2021 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,23 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_AUDIO_SOUND_ERROR_HPP
-#define HEADER_SUPERTUX_AUDIO_SOUND_ERROR_HPP
+#ifndef HEADER_SUPERTUX_AUDIO_FWD_HPP
+#define HEADER_SUPERTUX_AUDIO_FWD_HPP
 
-#include <stdexcept>
-#include <string>
-
-class SoundError final : public std::exception
-{
-public:
-  SoundError(const std::string& message) throw();
-  ~SoundError() throw() override;
-
-  virtual const char* what() const throw() override;
-
-private:
-  std::string m_message;
-};
+class SoundManager;
+class SoundSource;
 
 #endif
 

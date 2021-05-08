@@ -842,7 +842,7 @@ Player::handle_horizontal_input()
         Sector::get().add<Particles>(
             Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
             m_dir == Direction::LEFT ? 50 : -70, m_dir == Direction::LEFT ? 70 : -50, 260.0f, 280.0f,
-            Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+            Vector(0.0f, 300.0f), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
 
         ax *= 2.5f;
       } else {
@@ -1181,8 +1181,8 @@ Player::handle_input()
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);
       Sector::get().add<Particles>(ppos, -60, 240, 42.0f, 81.0f, Vector(0.0f, 500.0f),
-                                                                8, pcolor, 4 + graphicsRandom.randf(-0.4f, 0.4f),
-                                                                0.8f + graphicsRandom.randf(0.0f, 0.4f), LAYER_OBJECTS + 2);
+                                   8, pcolor, 4.0f + graphicsRandom.randf(-0.4f, 0.4f),
+                                   0.8f + graphicsRandom.randf(0.0f, 0.4f), LAYER_OBJECTS + 2);
     }
   }
 
@@ -1768,11 +1768,11 @@ Player::collision_solid(const CollisionHit& hit)
       m_on_ground_flag = false;
       Sector::get().add<Particles>(
         m_col.m_bbox.p2(),
-        50, 70, 260, 280, Vector(0, 300), 3,
+        50, 70, 260.0f, 280.0f, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().add<Particles>(
         Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
-        -70, -50, 260, 280, Vector(0, 300), 3,
+        -70, -50, 260.0f, 280.0f, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().get_camera().shake(.1f, 0, 5);
     }

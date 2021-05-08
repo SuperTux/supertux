@@ -51,13 +51,13 @@ private:
 class PhysfsSubsystem final
 {
 private:
-  boost::optional<std::string> m_forced_datadir;
-  boost::optional<std::string> m_forced_userdir;
+  std::optional<std::string> m_forced_datadir;
+  std::optional<std::string> m_forced_userdir;
 
 public:
   PhysfsSubsystem(const char* argv0,
-                  boost::optional<std::string> forced_datadir,
-                  boost::optional<std::string> forced_userdir);
+                  std::optional<std::string> forced_datadir,
+                  std::optional<std::string> forced_userdir);
   ~PhysfsSubsystem();
   void find_datadir() const;
   void find_userdir() const;

@@ -16,7 +16,7 @@
 
 #include "object/path_object.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "object/path_gameobject.hpp"
 #include "supertux/d_scope.hpp"
@@ -42,7 +42,7 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   mapping.get("running", running);
 
   std::string path_ref;
-  boost::optional<ReaderMapping> path_mapping;
+  std::optional<ReaderMapping> path_mapping;
   if (mapping.get("path", path_mapping))
   {
     auto& path_gameobject = d_gameobject_manager->add<PathGameObject>(*path_mapping, true);

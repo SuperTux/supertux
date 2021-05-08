@@ -27,7 +27,7 @@ TEST(ObjectOption, to_string)
 {
   {
     std::string mystring = "field";
-    StringObjectOption textfield("test", &mystring, {}, boost::none, 0);
+    StringObjectOption textfield("test", &mystring, {}, std::nullopt, 0);
     ASSERT_EQ(mystring, textfield.to_string());
   }
 

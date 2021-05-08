@@ -17,29 +17,26 @@
 #ifndef HEADER_SUPERTUX_AUDIO_SOUND_SOURCE_HPP
 #define HEADER_SUPERTUX_AUDIO_SOUND_SOURCE_HPP
 
+#include <wstsound/sound_source.hpp>
+
 #include "math/fwd.hpp"
 
-/** A sound source represents the source of audio output. You can
-    place sources at certain points in your world or set their
-    velocity to produce doppler effects */
 class SoundSource
 {
 public:
-  SoundSource() {}
-  virtual ~SoundSource() {}
+  SoundSource(wstsound::SoundSourcePtr source);
 
-  virtual void play() = 0;
-  virtual void stop() = 0;
-  virtual bool playing() const = 0;
+  void play();
+  void stop();
+  bool playing() const;
+  void set_pitch(float pitch);
+  void set_position(const Vector& pos);
+  void set_looping(bool looping);
+  void set_gain(float gain);
+  void set_reference_distance(float distance);
 
-  virtual void set_looping(bool looping) = 0;
-  virtual void set_relative(bool relative) = 0;
-  /// Set volume (0.0 is silent, 1.0 is normal)
-  virtual void set_gain(float gain) = 0;
-  virtual void set_pitch(float pitch) = 0;
-  virtual void set_position(const Vector& position) = 0;
-  virtual void set_velocity(const Vector& velocity) = 0;
-  virtual void set_reference_distance(float distance) = 0;
+private:
+  wstsound::SoundSourcePtr m_source;
 
 private:
   SoundSource(const SoundSource&) = delete;

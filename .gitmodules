@@ -16,3 +16,6 @@
 [submodule "discord-sdk"]
 	path = external/discord-sdk
 	url = https://github.com/discord/discord-rpc
+[submodule "external/wstsound"]
+	path = external/wstsound
+	url = https://gitlab.com/Windstille/wstsound.git

@@ -17,7 +17,8 @@
 #ifndef HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 #define HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 
-#include <boost/optional.hpp>
+#include <optional>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -73,7 +74,7 @@ class BoolObjectOption : public ObjectOption
 {
 public:
   BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
-                   boost::optional<bool> default_value,
+                   std::optional<bool> default_value,
                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -82,7 +83,7 @@ public:
 
 private:
   bool* const m_pointer;
-  const boost::optional<bool> m_default_value;
+  const std::optional<bool> m_default_value;
 
 private:
   BoolObjectOption(const BoolObjectOption&) = delete;
@@ -93,7 +94,7 @@ class IntObjectOption : public ObjectOption
 {
 public:
   IntObjectOption(const std::string& text, int* pointer, const std::string& key,
-                  boost::optional<int> default_value,
+                  std::optional<int> default_value,
                   unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -102,7 +103,7 @@ public:
 
 private:
   int* const m_pointer;
-  const boost::optional<int> m_default_value;
+  const std::optional<int> m_default_value;
 
 private:
   IntObjectOption(const IntObjectOption&) = delete;
@@ -133,7 +134,7 @@ class FloatObjectOption : public ObjectOption
 {
 public:
   FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
-                    boost::optional<float> default_value,
+                    std::optional<float> default_value,
                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -142,7 +143,7 @@ public:
 
 private:
   float* const m_pointer;
-  const boost::optional<float> m_default_value;
+  const std::optional<float> m_default_value;
 
 private:
   FloatObjectOption(const FloatObjectOption&) = delete;
@@ -153,7 +154,7 @@ class StringObjectOption : public ObjectOption
 {
 public:
   StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                     boost::optional<std::string> default_value,
+                     std::optional<std::string> default_value,
                      unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -162,7 +163,7 @@ public:
 
 private:
   std::string* const m_pointer;
-  boost::optional<std::string> m_default_value;
+  std::optional<std::string> m_default_value;
 
 private:
   StringObjectOption(const StringObjectOption&) = delete;
@@ -173,7 +174,7 @@ class StringSelectObjectOption : public ObjectOption
 {
 public:
   StringSelectObjectOption(const std::string& text, int* pointer, const std::vector<std::string>& select,
-                           boost::optional<int> default_value,
+                           std::optional<int> default_value,
                            const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -183,7 +184,7 @@ public:
 private:
   int* const m_pointer;
   const std::vector<std::string> m_select;
-  const boost::optional<int> m_default_value;
+  const std::optional<int> m_default_value;
 
 private:
   StringSelectObjectOption(const StringSelectObjectOption&) = delete;
@@ -196,7 +197,7 @@ public:
   EnumObjectOption(const std::string& text, int* pointer,
                    const std::vector<std::string>& labels,
                    const std::vector<std::string>& symbols,
-                   boost::optional<int> default_value,
+                   std::optional<int> default_value,
                    const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -207,7 +208,7 @@ private:
   int* const m_pointer;
   const std::vector<std::string> m_labels;
   const std::vector<std::string> m_symbols;
-  const boost::optional<int> m_default_value;
+  const std::optional<int> m_default_value;
 
 private:
   EnumObjectOption(const EnumObjectOption&) = delete;
@@ -236,7 +237,7 @@ class FileObjectOption : public ObjectOption
 {
 public:
   FileObjectOption(const std::string& text, std::string* pointer,
-                   boost::optional<std::string> default_value,
+                   std::optional<std::string> default_value,
                    const std::string& key,
                    std::vector<std::string> filter,
                    const std::string& basedir,
@@ -248,7 +249,7 @@ public:
 
 private:
   std::string* const m_pointer;
-  boost::optional<std::string> m_default_value;
+  std::optional<std::string> m_default_value;
   const std::vector<std::string> m_filter;
   std::string m_basedir;
 
@@ -261,7 +262,7 @@ class ColorObjectOption : public ObjectOption
 {
 public:
   ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
-                    boost::optional<Color> default_value, bool use_alpha,
+                    std::optional<Color> default_value, bool use_alpha,
                     unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -270,7 +271,7 @@ public:
 
 private:
   Color* const m_pointer;
-  const boost::optional<Color> m_default_value;
+  const std::optional<Color> m_default_value;
   bool m_use_alpha;
 
 private:

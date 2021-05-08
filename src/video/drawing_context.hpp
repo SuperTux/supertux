@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 #include <obstack.h>
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "math/rect.hpp"
 #include "math/rectf.hpp"

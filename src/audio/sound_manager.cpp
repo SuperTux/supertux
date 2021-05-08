@@ -16,299 +16,219 @@
 
 #include "audio/sound_manager.hpp"
 
-#include <SDL.h>
-#include <assert.h>
-#include <stdexcept>
-#include <sstream>
-#include <memory>
+#include <unordered_map>
 
-#include "audio/dummy_sound_source.hpp"
-#include "audio/sound_file.hpp"
-#include "audio/stream_sound_source.hpp"
+#include <wstsound/sound_file.hpp>
+
+#include "audio/sound_source.hpp"
+#include "physfs/ifile_stream.hpp"
+#include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+
+namespace {
+
+// List obtained with the help of sed:
+// find | sort | sed 's:^\.:/music:; /\./ !d; s:\(.*/\)\([^/]*$\):{"\2", "\1\2"},:g'
+std::unordered_map<std::string, std::string> fallback_paths = {
+  {"airship_2.ogg", "/music/antarctic/airship_2.ogg"},
+  {"airship_remix-2.music", "/music/antarctic/airship_remix-2.music"},
+  {"airship_remix.music", "/music/antarctic/airship_remix.music"},
+  {"airship_remix.ogg", "/music/antarctic/airship_remix.ogg"},
+  {"arctic_breeze.music", "/music/antarctic/arctic_breeze.music"},
+  {"arctic_breeze.ogg", "/music/antarctic/arctic_breeze.ogg"},
+  {"arctic_cave.music", "/music/antarctic/arctic_cave.music"},
+  {"arctic_cave.ogg", "/music/antarctic/arctic_cave.ogg"},
+  {"bossattack.music", "/music/antarctic/bossattack.music"},
+  {"bossattack.ogg", "/music/antarctic/bossattack.ogg"},
+  {"cave.music", "/music/antarctic/cave.music"},
+  {"cave.ogg", "/music/antarctic/cave.ogg"},
+  {"chipdisko.music", "/music/antarctic/chipdisko.music"},
+  {"chipdisko.ogg", "/music/antarctic/chipdisko.ogg"},
+  {"jewels.music", "/music/antarctic/jewels.music"},
+  {"jewels.ogg", "/music/antarctic/jewels.ogg"},
+  {"salcon.music", "/music/antarctic/salcon.music"},
+  {"salcon.ogg", "/music/antarctic/salcon.ogg"},
+  {"voc-boss.music", "/music/antarctic/voc-boss.music"},
+  {"voc-boss.ogg", "/music/antarctic/voc-boss.ogg"},
+  {"voc-dark.music", "/music/antarctic/voc-dark.music"},
+  {"voc-dark.ogg", "/music/antarctic/voc-dark.ogg"},
+  {"voc-daytime2.music", "/music/antarctic/voc-daytime2.music"},
+  {"voc-daytime2.ogg", "/music/antarctic/voc-daytime2.ogg"},
+  {"voc-daytime.music", "/music/antarctic/voc-daytime.music"},
+  {"voc-daytime.ogg", "/music/antarctic/voc-daytime.ogg"},
+  {"voc-night.music", "/music/antarctic/voc-night.music"},
+  {"voc-night.ogg", "/music/antarctic/voc-night.ogg"},
+  {"darkforestkeep.music", "/music/castle/darkforestkeep.music"},
+  {"darkforestkeep.ogg", "/music/castle/darkforestkeep.ogg"},
+  {"fortress.music", "/music/castle/fortress.music"},
+  {"fortress.ogg", "/music/castle/fortress.ogg"},
+  {"beneath_the_rabbit_hole.music", "/music/forest/beneath_the_rabbit_hole.music"},
+  {"beneath_the_rabbit_hole.ogg", "/music/forest/beneath_the_rabbit_hole.ogg"},
+  {"bright_thunders.music", "/music/forest/bright_thunders.music"},
+  {"bright_thunders.ogg", "/music/forest/bright_thunders.ogg"},
+  {"clavelian_march.music", "/music/forest/clavelian_march.music"},
+  {"clavelian_march.ogg", "/music/forest/clavelian_march.ogg"},
+  {"forest2.music", "/music/forest/forest2.music"},
+  {"forest2.ogg", "/music/forest/forest2.ogg"},
+  {"forest3.music", "/music/forest/forest3.music"},
+  {"forest3.ogg", "/music/forest/forest3.ogg"},
+  {"forest-cave.music", "/music/forest/forest-cave.music"},
+  {"forest-cave.ogg", "/music/forest/forest-cave.ogg"},
+  {"forest-map.music", "/music/forest/forest-map.music"},
+  {"forestmap.ogg", "/music/forest/forestmap.ogg"},
+  {"forest.music", "/music/forest/forest.music"},
+  {"forest.ogg", "/music/forest/forest.ogg"},
+  {"forest-sprint.music", "/music/forest/forest-sprint.music"},
+  {"forest-sprint.ogg", "/music/forest/forest-sprint.ogg"},
+  {"forest_theme.music", "/music/forest/forest_theme.music"},
+  {"forest_theme.ogg", "/music/forest/forest_theme.ogg"},
+  {"ghostforest2.music", "/music/forest/ghostforest2.music"},
+  {"ghostforest2.ogg", "/music/forest/ghostforest2.ogg"},
+  {"ghostforest_map.music", "/music/forest/ghostforest_map.music"},
+  {"ghostforest_map.ogg", "/music/forest/ghostforest_map.ogg"},
+  {"ghostforest.music", "/music/forest/ghostforest.music"},
+  {"ghostforest.ogg", "/music/forest/ghostforest.ogg"},
+  {"greatgigantic.music", "/music/forest/greatgigantic.music"},
+  {"greatgigantic.ogg", "/music/forest/greatgigantic.ogg"},
+  {"new_forest_map.music", "/music/forest/new_forest_map.music"},
+  {"new_forest_map.ogg", "/music/forest/new_forest_map.ogg"},
+  {"shallow-green.music", "/music/forest/shallow-green.music"},
+  {"shallow-green.ogg", "/music/forest/shallow-green.ogg"},
+  {"treeboss.music", "/music/forest/treeboss.music"},
+  {"treeboss.ogg", "/music/forest/treeboss.ogg"},
+  {"wisphunt.music", "/music/forest/wisphunt.music"},
+  {"wisphunt.ogg", "/music/forest/wisphunt.ogg"},
+  {"battle_theme.music", "/music/misc/battle_theme.music"},
+  {"battle_theme.ogg", "/music/misc/battle_theme.ogg"},
+  {"bonuscave.music", "/music/misc/bonuscave.music"},
+  {"bonuscave.ogg", "/music/misc/bonuscave.ogg"},
+  {"christmas_theme.music", "/music/misc/christmas_theme.music"},
+  {"christmas_theme.ogg", "/music/misc/christmas_theme.ogg"},
+  {"credits.music", "/music/misc/credits.music"},
+  {"credits.ogg", "/music/misc/credits.ogg"},
+  {"halloween_1.music", "/music/misc/halloween_1.music"},
+  {"halloween_1.ogg", "/music/misc/halloween_1.ogg"},
+  {"intro.music", "/music/misc/intro.music"},
+  {"intro.ogg", "/music/misc/intro.ogg"},
+  {"invincible.ogg", "/music/misc/invincible.ogg"},
+  {"leveldone.ogg", "/music/misc/leveldone.ogg"},
+  {"theme.music", "/music/misc/theme.music"},
+  {"theme.ogg", "/music/misc/theme.ogg"},
+};
+
+const std::string& get_fallback_path(const std::string& file_path)
+{
+  std::string file_name = FileSystem::basename(file_path);
+  auto it = fallback_paths.find(file_name);
+  if (it != fallback_paths.end())
+    return it->second;
+  // No fallback path found
+  return file_path;
+}
+
+struct MusicFile
+{
+  std::string file = {};
+  float loop_begin = 0;
+  float loop_at = -1;
+};
+
+ReaderDocument doc_from_file_fallback(std::string& filename)
+{
+  try {
+    return ReaderDocument::from_file(filename);
+  } catch(const std::exception&) {
+    filename = get_fallback_path(filename);
+    return ReaderDocument::from_file(filename);
+  }
+}
+
+MusicFile load_music_file(const std::string& filename_original)
+{
+  // filename may be changed by doc_from_file_fallback
+  std::string filename = filename_original;
+  auto doc = doc_from_file_fallback(filename);
+  auto root = doc.get_root();
+  if (root.get_name() != "supertux-music") {
+    throw std::runtime_error("file is not a supertux-music file.");
+  }
+
+  auto music = root.get_mapping();
+
+  MusicFile music_file;
+
+  music.get("file", music_file.file);
+  music.get("loop-begin", music_file.loop_begin);
+  music.get("loop-at", music_file.loop_at);
+
+  music_file.file = FileSystem::normalize(FileSystem::dirname(filename) + music_file.file);
+
+  if (music_file.loop_begin < 0) {
+    throw std::runtime_error("can't loop from negative value");
+  }
+
+  return music_file;
+}
+
+} // namespace
 
 SoundManager::SoundManager() :
-  m_device(alcOpenDevice(nullptr)),
-  m_context(alcCreateContext(m_device, nullptr)),
-  m_sound_enabled(false),
-  m_sound_volume(0),
-  m_buffers(),
-  m_sources(),
-  m_update_list(),
+  m_sound_mgr([](std::filesystem::path const& filename){
+    return std::make_unique<IFileStream>(filename.string());
+  }),
+  m_sound_enabled(true),
+  m_music_enabled(true),
   m_music_source(),
-  m_music_enabled(false),
-  m_music_volume(0),
   m_current_music()
 {
-  try {
-    if (m_device == nullptr) {
-      throw std::runtime_error("Couldn't open audio device.");
-    }
-    check_alc_error("Couldn't create audio context: ");
-    alcMakeContextCurrent(m_context);
-    check_alc_error("Couldn't select audio context: ");
-
-    check_al_error("Audio error after init: ");
-    m_sound_enabled = true;
-    m_music_enabled = true;
-
-    set_listener_orientation(Vector(0.0f, 0.0f), Vector(0.0f, -1.0f));
-  } catch(std::exception& e) {
-    if (m_context != nullptr) {
-      alcDestroyContext(m_context);
-      m_context = nullptr;
-    }
-    if (m_device != nullptr) {
-      alcCloseDevice(m_device);
-      m_device = nullptr;
-    }
-    log_warning << "Couldn't initialize audio device: " << e.what() << std::endl;
-    print_openal_version();
-  }
-}
-
-SoundManager::~SoundManager()
-{
-  m_music_source.reset();
-  m_sources.clear();
-
-  for (const auto& buffer : m_buffers) {
-    alDeleteBuffers(1, &buffer.second);
-  }
-
-  if (m_context != nullptr) {
-    alcDestroyContext(m_context);
-    m_context = nullptr;
-  }
-  if (m_device != nullptr) {
-    alcCloseDevice(m_device);
-    m_device = nullptr;
-  }
-}
-
-ALuint
-SoundManager::load_file_into_buffer(SoundFile& file)
-{
-  ALenum format = get_sample_format(file);
-  ALuint buffer;
-  alGenBuffers(1, &buffer);
-  check_al_error("Couldn't create audio buffer: ");
-  std::unique_ptr<char[]> samples(new char[file.m_size]);
-  file.read(samples.get(), file.m_size);
-  log_debug << "buffer: " << buffer << "\n"
-            << "format: " << format << "\n"
-            << "samples: " << samples.get() << "\n"
-            << "file size: " << static_cast<ALsizei>(file.m_size) << "\n"
-            << "file rate: " << static_cast<ALsizei>(file.m_rate) << "\n";
-
-  alBufferData(buffer, format, samples.get(),
-               static_cast<ALsizei>(file.m_size),
-               static_cast<ALsizei>(file.m_rate));
-  check_al_error("Couldn't fill audio buffer: ");
-
-  return buffer;
-}
-
-std::unique_ptr<OpenALSoundSource>
-SoundManager::intern_create_sound_source(const std::string& filename)
-{
-  assert(m_sound_enabled);
-
-  auto source = std::make_unique<OpenALSoundSource>();
-  source->set_volume(static_cast<float>(m_sound_volume) / 100.0f);
-
-  ALuint buffer;
-
-  // reuse an existing static sound buffer
-  auto it = m_buffers.find(filename);
-  if (it != m_buffers.end()) {
-    buffer = it->second;
-  } else {
-    // Load sound file
-    std::unique_ptr<SoundFile> file(load_sound_file(filename));
-
-    if (file->m_size < 100000) {
-      log_debug << "Adding \"" << filename <<
-        "\" into the buffer, file size: " << file->m_size << std::endl;
-      buffer = load_file_into_buffer(*file);
-      m_buffers.insert(std::make_pair(filename, buffer));
-    } else {
-      log_debug << "Playing \"" << filename <<
-        "\" as StreamSoundSource, file size: " << file->m_size << std::endl;
-      auto stream_source = std::make_unique<StreamSoundSource>();
-      stream_source->set_sound_file(std::move(file));
-      stream_source->set_volume(static_cast<float>(m_sound_volume) / 100.0f);
-      return std::unique_ptr<OpenALSoundSource>(stream_source.release());
-    }
-  }
-
-  alSourcei(source->m_source, AL_BUFFER, buffer);
-  return source;
-}
-
-std::unique_ptr<SoundSource>
-SoundManager::create_sound_source(const std::string& filename)
-{
-  if (!m_sound_enabled)
-    return create_dummy_sound_source();
-
-  try {
-    return intern_create_sound_source(filename);
-  } catch(std::exception &e) {
-    log_warning << "Couldn't create audio source: " << e.what() << std::endl;
-    return create_dummy_sound_source();
-  }
 }
 
 void
-SoundManager::preload(const std::string& filename)
+SoundManager::play(const std::string& name, const Vector& pos, const float gain)
 {
-  if (!m_sound_enabled)
-    return;
-
-  auto it = m_buffers.find(filename);
-  // already loaded?
-  if (it != m_buffers.end())
-    return;
-  try {
-    std::unique_ptr<SoundFile> file (load_sound_file(filename));
-    // only keep small files
-    if (file->m_size >= 100000)
-      return;
-
-    ALuint buffer = load_file_into_buffer(*file);
-    m_buffers.insert(std::make_pair(filename, buffer));
-  } catch(std::exception& e) {
-    log_warning << "Error while preloading sound file: " << e.what() << std::endl;
-  }
+  auto source = m_sound_mgr.sound().play(name);
+  source->set_position(pos.x, pos.y, 0.0f);
+  source->set_gain(gain);
 }
 
 void
-SoundManager::play(const std::string& filename, const Vector& pos,
-  const float gain)
+SoundManager::play(const std::string& name, const float gain)
 {
-  if (!m_sound_enabled)
-    return;
+  play(name, Vector(-1, -1), gain);
+}
 
-  // Test gain for invalid values; it must not exceed 1 because in the end
-  // the value is set to min(sound_gain * sound_volume, 1)
-  assert(gain >= 0.0f && gain <= 1.0f);
-
-  try {
-    std::unique_ptr<OpenALSoundSource> source(intern_create_sound_source(filename));
-    source->set_gain(gain);
-
-    if (pos.x < 0 || pos.y < 0) {
-      source->set_relative(true);
-    } else {
-      source->set_position(pos);
-    }
-    source->play();
-    m_sources.push_back(std::move(source));
-  } catch(std::exception& e) {
-    log_warning << "Couldn't play sound " << filename << ": " << e.what() << std::endl;
-  }
+/** preloads a sound, so that you don't get a lag later when playing it */
+void
+SoundManager::preload(const std::string& name)
+{
 }
 
 void
-SoundManager::manage_source(std::unique_ptr<SoundSource> source)
-{
-  assert(source);
-  if (dynamic_cast<OpenALSoundSource*>(source.get()))
-  {
-    std::unique_ptr<OpenALSoundSource> openal_source(dynamic_cast<OpenALSoundSource*>(source.release()));
-    m_sources.push_back(std::move(openal_source));
-  }
-}
-
-void
-SoundManager::register_for_update(StreamSoundSource* sss)
-{
-  if (sss)
-  {
-    m_update_list.push_back(sss);
-  }
-}
-
-void
-SoundManager::remove_from_update(StreamSoundSource* sss)
-{
-  if (sss)
-  {
-    auto it = m_update_list.begin();
-    while (it != m_update_list.end()) {
-      if (*it == sss) {
-        it = m_update_list.erase(it);
-      } else {
-        ++it;
-      }
-    }
-  }
-}
-
-void
-SoundManager::enable_sound(bool enable)
-{
-  if (m_device == nullptr)
-    return;
-
-  m_sound_enabled = enable;
-}
-
-void
-SoundManager::enable_music(bool enable)
-{
-  if (m_device == nullptr)
-    return;
-
-  m_music_enabled = enable;
-  if (m_music_enabled) {
-    play_music(m_current_music);
-  } else {
-    if (m_music_source) {
-      m_music_source.reset();
-    }
-  }
-}
-
-void
-SoundManager::stop_music(float fadetime)
-{
-  if (fadetime > 0) {
-    if (m_music_source
-       && m_music_source->get_fade_state() != StreamSoundSource::FadingOff)
-      m_music_source->set_fading(StreamSoundSource::FadingOff, fadetime);
-  } else {
-    m_music_source.reset();
-  }
-  m_current_music = "";
-}
-
-void
-SoundManager::set_music_volume(int volume)
-{
-  m_music_volume = volume;
-  if (m_music_source != nullptr) m_music_source->set_volume(static_cast<float>(volume) / 100.0f);
-}
-
-void 
 SoundManager::play_music(const std::string& filename, float fadetime)
 {
-  if (filename == m_current_music && m_music_source != nullptr)
-  {
-    if (m_music_source->paused())
-    {
-      m_music_source->resume();
+  // music is currently active, figure out what to do with it
+  if (m_music_source != nullptr) {
+    if (filename == m_current_music)
+    { // current music is the same as new one
+      if (m_music_source->is_paused()) {
+        m_music_source->resume();
+      } else if (!m_music_source->is_playing()) {
+        m_music_source->play();
+      }
+      return;
+    } else {
+      // stop current song
+      m_music_source->stop(); /* FIXME: add fade-time */
     }
-    else if (!m_music_source->playing())
-    {
-      m_music_source->play();
-    }
+  }
+
+  m_current_music = filename;
+
+  if (!m_music_enabled) {
     return;
   }
-  m_current_music = filename;
-  if (!m_music_enabled)
-    return;
 
   if (filename.empty()) {
     m_music_source.reset();
@@ -316,20 +236,24 @@ SoundManager::play_music(const std::string& filename, float fadetime)
   }
 
   try {
-    auto newmusic = std::make_unique<StreamSoundSource>();
-    newmusic->set_sound_file(load_sound_file(filename));
-    newmusic->set_looping(true);
-    newmusic->set_relative(true);
-    newmusic->set_volume(static_cast<float>(m_music_volume) / 100.0f);
-    if (fadetime > 0)
-      newmusic->set_fading(StreamSoundSource::FadingOn, fadetime);
-    newmusic->play();
+    if (filename.ends_with(".music")) {
+      auto music_file = load_music_file(filename);
+      m_music_source = m_sound_mgr.music().prepare(music_file.file, wstsound::SoundSourceType::STREAM);
+      m_music_source->set_loop(m_music_source->sec_to_sample(music_file.loop_begin),
+                               m_music_source->sec_to_sample(music_file.loop_at));
+    } else {
+      m_music_source = m_sound_mgr.music().play(filename, wstsound::SoundSourceType::STREAM);
+      m_music_source->set_looping(true);
+    }
 
-    m_music_source = std::move(newmusic);
+    if (fadetime > 0) {
+      m_music_source->set_fading(wstsound::FadeDirection::In, fadetime);
+    }
+
+    m_music_source->set_relative(true);
+    m_music_source->play();
   } catch(std::exception& e) {
     log_warning << "Couldn't play music file '" << filename << "': " << e.what() << std::endl;
-    // When this happens, previous music continued playing, stop it, just in case.
-    stop_music(0);
   }
 }
 
@@ -342,190 +266,108 @@ SoundManager::play_music(const std::string& filename, bool fade)
 void
 SoundManager::pause_music(float fadetime)
 {
-  if (m_music_source == nullptr)
-    return;
-
-  if (fadetime > 0) {
-    if (m_music_source
-       && m_music_source->get_fade_state() != StreamSoundSource::FadingPause)
-      m_music_source->set_fading(StreamSoundSource::FadingPause, fadetime);
-  } else {
-    m_music_source->pause();
-  }
-}
-
-void
-SoundManager::pause_sounds()
-{
-  for (auto& source : m_sources) {
-    if (source->playing()) {
-      source->pause();
-    }
-  }
-}
-
-void
-SoundManager::resume_sounds()
-{
-  for (auto& source : m_sources) {
-    if (source->paused()) {
-      source->resume();
-    }
-  }
-}
-
-void
-SoundManager::stop_sounds()
-{
-  for (auto& source : m_sources) {
-    source->stop();
-  }
-}
-
-void
-SoundManager::set_sound_volume(int volume)
-{
-  m_sound_volume = volume;
-  for (auto& source : m_sources) {
-    source->set_volume(static_cast<float>(volume) / 100.0f);
-  }
+  m_sound_mgr.music().pause();
 }
 
 void
 SoundManager::resume_music(float fadetime)
 {
-  if (m_music_source == nullptr)
-    return;
+  m_sound_mgr.music().resume();
+}
 
-  if (fadetime > 0) {
-    if (m_music_source
-       && m_music_source->get_fade_state() != StreamSoundSource::FadingResume)
-      m_music_source->set_fading(StreamSoundSource::FadingResume, fadetime);
+void
+SoundManager::stop_music(float fadetime)
+{
+  if (!m_music_source) { return; }
+
+  if (fadetime > 0.0f) {
+    auto const& fade = m_music_source->get_fade();
+    if (fade && fade->direction != wstsound::FadeDirection::Out) {
+      m_music_source->set_fading(wstsound::FadeDirection::Out, fadetime);
+    }
   } else {
-    m_music_source->resume();
+    m_music_source.reset();
   }
+  m_current_music.clear();
+}
+
+std::string
+SoundManager::get_current_music() const
+{
+  return {};
 }
 
 void
-SoundManager::set_listener_position(const Vector& pos)
+SoundManager::pause_sounds()
 {
-  static Uint32 lastticks = SDL_GetTicks();
-
-  Uint32 current_ticks = SDL_GetTicks();
-  if (current_ticks - lastticks < 300)
-    return;
-  lastticks = current_ticks;
-
-  alListener3f(AL_POSITION, pos.x, pos.y, -300);
+  m_sound_mgr.sound().pause();
 }
 
 void
-SoundManager::set_listener_velocity(const Vector& vel)
+SoundManager::resume_sounds()
 {
-  alListener3f(AL_VELOCITY, vel.x, vel.y, 0);
+  m_sound_mgr.sound().resume();
 }
 
 void
-SoundManager::set_listener_orientation(const Vector& at, const Vector& up)
+SoundManager::stop_sounds()
 {
-  ALfloat orientation[]={at.x, at.y, 1.0, up.x, up.y, 0.0};
-  alListenerfv(AL_ORIENTATION, orientation);
+ m_sound_mgr.sound().stop();
 }
 
 void
 SoundManager::update()
 {
-  static Uint32 lasttime = SDL_GetTicks();
-  Uint32 now = SDL_GetTicks();
-
-  if (now - lasttime < 300)
-    return;
-  lasttime = now;
-
-  // update and check for finished sound sources
-  for (auto it = m_sources.begin(); it != m_sources.end(); ) {
-    auto& source = *it;
-
-    source->update();
-
-    if (!source->playing()) {
-      it = m_sources.erase(it);
-    } else {
-      ++it;
-    }
-  }
-  // check streaming sounds
-  if (m_music_source) {
-    m_music_source->update();
-  }
-
-  if (m_context)
-  {
-    alcProcessContext(m_context);
-    check_alc_error("Error while processing audio context: ");
-  }
-
-  //run update() for stream_sound_source
-  auto s = m_update_list.begin();
-  while (s != m_update_list.end()) {
-    (*s)->update();
-    ++s;
-  }
+  m_sound_mgr.update(1.0f);
 }
 
-ALenum
-SoundManager::get_sample_format(const SoundFile& file)
+std::unique_ptr<SoundSource>
+SoundManager::create_sound_source(const std::string& filename)
 {
-  if (file.m_channels == 2) {
-    if (file.m_bits_per_sample == 16) {
-      return AL_FORMAT_STEREO16;
-    } else if (file.m_bits_per_sample == 8) {
-      return AL_FORMAT_STEREO8;
-    } else {
-      throw std::runtime_error("Only 16 and 8 bit samples supported");
-    }
-  } else if (file.m_channels == 1) {
-    if (file.m_bits_per_sample == 16) {
-      return AL_FORMAT_MONO16;
-    } else if (file.m_bits_per_sample == 8) {
-      return AL_FORMAT_MONO8;
-    } else {
-      throw std::runtime_error("Only 16 and 8 bit samples supported");
-    }
-  }
-
-  throw std::runtime_error("Only 1 and 2 channel samples supported");
+  auto source = m_sound_mgr.create_sound_source(filename, m_sound_mgr.sound(),
+                                                wstsound::SoundSourceType::STATIC);
+  return std::make_unique<SoundSource>(source);
 }
 
 void
-SoundManager::print_openal_version()
+SoundManager::set_listener_position(const Vector& position)
 {
-  log_info << "OpenAL Vendor: " << alGetString(AL_VENDOR) << std::endl;
-  log_info << "OpenAL Version: " << alGetString(AL_VERSION) << std::endl;
-  log_info << "OpenAL Renderer: " << alGetString(AL_RENDERER) << std::endl;
-  log_info << "OpenAl Extensions: " << alGetString(AL_EXTENSIONS) << std::endl;
+  m_sound_mgr.set_listener_position(position.x, position.y, -300);
 }
 
 void
-SoundManager::check_alc_error(const char* message) const
+SoundManager::manage_source(std::unique_ptr<SoundSource> source)
 {
-  int err = alcGetError(m_device);
-  if (err != ALC_NO_ERROR) {
-    std::stringstream msg;
-    msg << message << alcGetString(m_device, err);
-    throw std::runtime_error(msg.str());
-  }
 }
 
 void
-SoundManager::check_al_error(const char* message)
+SoundManager::enable_sound(bool sound_enabled)
 {
-  int err = alGetError();
-  if (err != AL_NO_ERROR) {
-    std::stringstream msg;
-    msg << message << alGetString(err);
-    throw std::runtime_error(msg.str());
-  }
+  m_sound_enabled = sound_enabled;
+}
+
+void
+SoundManager::enable_music(bool music_enabled)
+{
+  m_music_enabled = music_enabled;
+}
+
+void
+SoundManager::set_music_volume(int volume)
+{
+  m_sound_mgr.music().set_gain(static_cast<float>(volume) / 100.0f);
+}
+
+void
+SoundManager::set_sound_volume(int volume)
+{
+  m_sound_mgr.sound().set_gain(static_cast<float>(volume) / 100.0f);
+}
+
+bool
+SoundManager::is_audio_enabled() const
+{
+  return true;
 }
 
 /* EOF */

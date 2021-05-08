@@ -61,7 +61,7 @@ jobs:
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: 'recursive'
       - name: Install 64-bit linux dependencies
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 64 }}
         run: |
@@ -73,16 +73,16 @@ jobs:
             gtk-doc-tools \
             rpm \
             sshpass \
-            clang-6.0 \
-            g++-8 \
+            clang \
+            g++-10 \
             gcc-multilib \
             g++-multilib \
             libgtest-dev \
+            libfmt-dev \
             libc++-dev \
             libogg-dev \
             libvorbis-dev \
             libopenal-dev \
-            libboost-all-dev \
             libsdl2-dev \
             libsdl2-image-dev \
             libfreetype6-dev \
@@ -92,13 +92,19 @@ jobs:
             libraqm-dev \
             libglew-dev \
             libcurl4-openssl-dev \
-            libglm-dev
+            libglm-dev \
+            libmodplug-dev \
+            libopusfile-dev \
+            libopus-dev \
+            libmpg123-dev
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
       - name: Install 32-bit linux dependencies
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 }}
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y \
+          sudo apt-get install --fix-broken --yes \
             cmake \
             build-essential \
             automake \
@@ -108,27 +114,52 @@ jobs:
             gcc-multilib \
             g++-multilib \
             libgtest-dev:i386 \
+            libfmt-dev:i386 \
             libogg-dev:i386 \
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
-            libboost-date-time-dev:i386 \
-            libboost-filesystem-dev:i386 \
-            libboost-locale-dev:i386 \
             libsdl2-dev:i386 \
             libsdl2-image-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
             libharfbuzz-dev:i386 \
             libfribidi-dev:i386 \
-            libglm-dev
+            libglm-dev \
+            libmodplug-dev:i386 \
+            libopusfile-dev:i386 \
+            libopus-dev:i386 \
+            libmpg123-dev:i386
           # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew-dev_1.13.0-2_i386.deb
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          brew install cmake googletest bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
-                freetype harfbuzz fribidi glib gtk-doc glbinding libraqm glm
+          brew install \
+            cmake \
+            googletest \
+            bash \
+            libogg \
+            libvorbis \
+            glew \
+            openal-soft \
+            sdl2 \
+            sdl2_image \
+            sdl2_ttf \
+            freetype \
+            harfbuzz \
+            fribidi \
+            glib \
+            gtk-doc \
+            glbinding \
+            libraqm \
+            glm \
+            fmt \
+            libmodplug \
+            opus \
+            opusfile \
+            mpg123
+          echo "OPENALDIR=/usr/local/opt/openal-soft/" >> $GITHUB_ENV
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework /Library/Frameworks/Mono.framework-disabled
       - name: Set compiler (gcc)
@@ -222,7 +253,7 @@ jobs:
           aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
           source_dir: 'build/upload'
-          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"              
+          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
       - name: Post uploaded file
         if: matrix.release == 'ON' && env.DOWNLOAD_APIKEY != null
         working-directory: build
@@ -255,21 +286,16 @@ jobs:
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: 'recursive'
       - name: Install dependencies
         env:
           ARCH: ${{ matrix.arch }}
         run: |
           vcpkg integrate install
+          vcpkg install yasm-tool:x86-windows
           vcpkg install gtest:$Env:ARCH-windows
-          vcpkg install boost-date-time:$Env:ARCH-windows
-          vcpkg install boost-filesystem:$Env:ARCH-windows
-          vcpkg install boost-format:$Env:ARCH-windows
-          vcpkg install boost-iostreams:$Env:ARCH-windows
-          vcpkg install boost-locale:$Env:ARCH-windows
-          vcpkg install boost-optional:$Env:ARCH-windows
-          vcpkg install boost-system:$Env:ARCH-windows
           vcpkg install curl:$Env:ARCH-windows
+          vcpkg install fmt:$Env:ARCH-windows
           vcpkg install --recurse freetype:$Env:ARCH-windows
           vcpkg install glew:$Env:ARCH-windows
           vcpkg install libogg:$Env:ARCH-windows
@@ -279,6 +305,10 @@ jobs:
           vcpkg install sdl2:$Env:ARCH-windows
           vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
           vcpkg install glm:$Env:ARCH-windows
+          vcpkg install libmodplug:$Env:ARCH-windows
+          vcpkg install opus:$Env:ARCH-windows
+          vcpkg install opusfile:$Env:ARCH-windows
+          vcpkg install mpg123:$Env:ARCH-windows
       - name: Configure bulid
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
@@ -317,7 +347,7 @@ jobs:
           aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
           source_dir: 'build/upload'
-          destination_dir: "${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"              
+          destination_dir: "${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"
       - name: Post uploaded file
         shell: bash
         if: matrix.release == 'ON' && env.DOWNLOAD_APIKEY != null

@@ -26,17 +26,17 @@
 #include "video/video_system.hpp"
 
 SurfacePtr
-Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect, const std::string& filename)
+Surface::from_reader(const ReaderMapping& mapping, const std::optional<Rect>& rect, const std::string& filename)
 {
   TexturePtr diffuse_texture;
-  boost::optional<ReaderMapping> diffuse_texture_mapping;
+  std::optional<ReaderMapping> diffuse_texture_mapping;
   if (mapping.get("diffuse-texture", diffuse_texture_mapping))
   {
     diffuse_texture = TextureManager::current()->get(*diffuse_texture_mapping, rect);
   }
 
   TexturePtr displacement_texture;
-  boost::optional<ReaderMapping> displacement_texture_mapping;
+  std::optional<ReaderMapping> displacement_texture_mapping;
   if (mapping.get("displacement-texture", displacement_texture_mapping))
   {
     displacement_texture = TextureManager::current()->get(*displacement_texture_mapping, rect);
@@ -55,7 +55,7 @@ Surface::from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& 
 }
 
 SurfacePtr
-Surface::from_file(const std::string& filename, const boost::optional<Rect>& rect)
+Surface::from_file(const std::string& filename, const std::optional<Rect>& rect)
 {
   if (StringUtil::has_suffix(filename, ".surface"))
   {

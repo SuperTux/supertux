@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_TREEWILLOWISP_HPP
 #define HEADER_SUPERTUX_BADGUY_TREEWILLOWISP_HPP
 
+#include "audio/fwd.hpp"
 #include "badguy/badguy.hpp"
 
 class GhostTree;
-class SoundSource;
 
 class TreeWillOWisp final : public BadGuy
 {

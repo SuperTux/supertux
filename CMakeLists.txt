@@ -31,12 +31,6 @@
 #   make
 #
 
-
-## Project name to use as command prefix.
-
-project(SUPERTUX)
-
-
 ### CMake configuration
 
 cmake_minimum_required(VERSION 3.1)
@@ -44,9 +38,14 @@ if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
   cmake_policy(SET CMP0008 NEW)
   cmake_policy(SET CMP0023 NEW)
+  cmake_policy(SET CMP0048 NEW)
 endif(COMMAND cmake_policy)
 
-set(CMAKE_CXX_STANDARD 14)
+## Project name to use as command prefix.
+
+project(SUPERTUX VERSION 0.6.2)
+
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -60,13 +59,6 @@ set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
 set(BUILD_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data")
 set(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
-## Check endianess
-
-if(NOT EMSCRIPTEN)
-  # FIXME: Any reason why we need this?
-  include(TestBigEndian)
-  test_big_endian(WORDS_BIGENDIAN)
-endif(NOT EMSCRIPTEN)
 
 ## Add definitions
 if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
@@ -128,7 +120,6 @@ if(WIN32)
   if(NOT VCPKG_BUILD)
     set(ENV{PATH} "$ENV{PATH};${DEPENDENCY_FOLDER}/include")
     set(ENV{LIB} "${DEPENDENCY_FOLDER}/lib")
-    set(ENV{OPENALDIR} "${DEPENDENCY_FOLDER}")
   endif()
 
   ## Enable multi-processor compilation (faster)
@@ -147,6 +138,11 @@ if(WIN32)
   endif()
 endif(WIN32)
 
+if(APPLE OR ${CMAKE_SYSTEM_NAME} EQUAL "FreeBSD")
+  # This is not included by default for some reason, so add it manually
+  link_directories(/usr/local/lib)
+endif()
+
 # Detect mobile builds
 option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
 
@@ -158,21 +154,6 @@ else()
 endif()
 
 ## Add lots of dependencies to compiler switches
-
-set(Boost_ADDITIONAL_VERSIONS "1.41" "1.41.0")
-if(WIN32)
-  option(ENABLE_BOOST_STATIC_LIBS "Use boost static libraries" ON)
-else(WIN32)
-  option(ENABLE_BOOST_STATIC_LIBS "Use boost static libraries" OFF)
-endif(WIN32)
-if(ENABLE_BOOST_STATIC_LIBS)
-  set(Boost_USE_STATIC_LIBS TRUE)
-else(ENABLE_BOOST_STATIC_LIBS)
-  set(Boost_USE_STATIC_LIBS FALSE)
-endif(ENABLE_BOOST_STATIC_LIBS)
-find_package(Boost REQUIRED COMPONENTS filesystem system date_time locale)
-include_directories(SYSTEM ${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIRS})
 
 find_package(glm QUIET)
 if(glm_FOUND)
@@ -193,10 +174,13 @@ else()
 endif()
 
 find_package(PNG REQUIRED)
+find_package(fmt REQUIRED)
 
 if(WIN32)
   if(VCPKG_BUILD)
     find_package(SDL2 CONFIG REQUIRED)
+    find_package(sdl2-image CONFIG REQUIRED)
+
     find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
     find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
     set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
@@ -280,19 +264,9 @@ if(ENABLE_OPENGL)
   endif()
 endif(ENABLE_OPENGL)
 
-if(NOT EMSCRIPTEN)
-  if(VCPKG_BUILD)
-    find_package(OpenAL CONFIG REQUIRED)
-  else()
-    find_package(OpenAL REQUIRED)
-  endif()
-  include_directories(SYSTEM ${OPENAL_INCLUDE_DIR})
-else()
+if(EMSCRIPTEN)
   include_directories(${CMAKE_SOURCE_DIR}/mk/emscripten/AL)
 endif()
-
-find_package(OggVorbis REQUIRED)
-include_directories(SYSTEM ${VORBIS_INCLUDE_DIR})
 
 include(CheckSymbolExists)
 
@@ -307,7 +281,13 @@ else(HAVE_PHYSFS_GETPREFDIR)
   set(USE_SYSTEM_PHYSFS OFF CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
 endif(HAVE_PHYSFS_GETPREFDIR)
 
-if(NOT USE_SYSTEM_PHYSFS)
+if(USE_SYSTEM_PHYSFS)
+  add_library(physfs_lib UNKNOWN IMPORTED)
+  set_target_properties(physfs_lib PROPERTIES
+    IMPORTED_LOCATION "${PHYSFS_LIBRARY}"
+    INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_INCLUDE_DIR}"
+    )
+else()
   if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt)
     message(FATAL_ERROR "physfs submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt is missing")
   endif()
@@ -340,17 +320,21 @@ if(NOT USE_SYSTEM_PHYSFS)
 
   if(WIN32)
     add_library(physfs_lib SHARED IMPORTED)
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}")
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_IMPLIB "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}")
+    set_target_properties(physfs_lib PROPERTIES
+      IMPORTED_LOCATION "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}"
+      IMPORTED_IMPLIB "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}"
+      INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/src"
+      )
   else()
     add_library(physfs_lib STATIC IMPORTED)
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}")
+    set_target_properties(physfs_lib PROPERTIES
+      IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}"
+      INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/src"
+      )
   endif()
-  set(PHYSFS_INCLUDE_DIR "${PHYSFS_PREFIX}/include/")
+
+  add_dependencies(physfs_lib physfs)
 endif()
-
-include_directories(BEFORE SYSTEM ${PHYSFS_INCLUDE_DIR})
-
 
 ## The curl headers are in the standard include path in dependencies
 ## so it's not required to add them here
@@ -470,6 +454,12 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
 
+# Build dependencies
+function(build_dependencies)
+  set(BUILD_TESTS OFF)
+  add_subdirectory(external/wstsound/ EXCLUDE_FROM_ALL)
+endfunction()
+build_dependencies()
 
 ## Also build external/squirrel
 
@@ -735,11 +725,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
           "-Wint-in-bool-context "
           )
       endif()
-      if(Boost_VERSION LESS 106500)
-        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-          "-Wno-implicit-fallthrough ")
-      endif()
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
         "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
@@ -755,6 +740,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-documentation "
         "-Wno-reserved-id-macro "
         "-Wno-sign-conversion "
+        "-Wno-return-std-move-in-c++11 "
 
         # warnings that should probably be fixed in code
         "-Wno-documentation-unknown-command "
@@ -888,12 +874,15 @@ add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
 add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
 if(WIN32)
   add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
-  target_link_libraries(supertux2 ${SDL2MAIN_LIBRARIES})
+  if(VCPKG_BUILD)
+    target_link_libraries(supertux2 PRIVATE SDL2::SDL2main)
+  else()
+    target_link_libraries(supertux2 PRIVATE ${SDL2MAIN_LIBRARIES})
+    endif()
 else()
   add_executable(supertux2 src/main.cpp)
 endif(WIN32)
-target_link_libraries(supertux2 supertux2_lib Boost::filesystem Boost::locale)
-target_link_libraries(supertux2 glm::glm)
+target_link_libraries(supertux2 PRIVATE supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 if(EMSCRIPTEN)
@@ -922,7 +911,7 @@ if (NOT EMSCRIPTEN)
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
   if(VCPKG_BUILD)
-    target_link_libraries(supertux2_lib PRIVATE SDL2::SDL2main SDL2::SDL2 SDL2_image)
+    target_link_libraries(supertux2_lib PUBLIC SDL2::SDL2main SDL2::SDL2 SDL2::SDL2_image)
   else()
     target_link_libraries(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
     target_link_libraries(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
@@ -939,27 +928,23 @@ endif()
 target_link_libraries(supertux2_lib PUBLIC squirrel_lib)
 target_link_libraries(supertux2_lib PUBLIC sqstdlib_lib)
 target_link_libraries(supertux2_lib PUBLIC tinygettext_lib)
+target_link_libraries(supertux2_lib PUBLIC wstsound)
 target_link_libraries(supertux2_lib PUBLIC sexp)
 target_link_libraries(supertux2_lib PUBLIC savepng)
+
 if(ENABLE_DISCORD)
 target_link_libraries(supertux2_lib PUBLIC discord-rpc)
 endif(ENABLE_DISCORD)
-if(NOT EMSCRIPTEN)
-  if(VCPKG_BUILD)
-    target_link_libraries(supertux2_lib PUBLIC OpenAL::OpenAL)
-  else()
-    target_link_libraries(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
-  endif()
-else()
+
+if(EMSCRIPTEN)
   link_libraries(-lopenal)
 endif()
-target_link_libraries(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
-target_link_libraries(supertux2_lib PUBLIC ${Boost_LIBRARIES})
-if(USE_SYSTEM_PHYSFS)
-  target_link_libraries(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
-else()
-  add_dependencies(supertux2_lib physfs)
-  target_link_libraries(supertux2_lib PUBLIC physfs_lib)
+
+target_link_libraries(supertux2_lib PUBLIC glm::glm)
+target_link_libraries(supertux2_lib PUBLIC fmt::fmt)
+
+target_link_libraries(supertux2_lib PUBLIC physfs_lib)
+if(NOT USE_SYSTEM_PHYSFS)
   if(APPLE)
     target_link_libraries(supertux2_lib PUBLIC "-framework CoreFoundation")
     target_link_libraries(supertux2_lib PUBLIC "-framework Foundation")
@@ -996,7 +981,7 @@ if(BUILD_TESTS)
   file(GLOB TEST_SUPERTUX_SOURCES tests/*.cpp)
   add_executable(test_supertux2 ${TEST_SUPERTUX_SOURCES})
   target_compile_options(test_supertux2 PRIVATE ${WARNINGS_CXX_FLAGS})
-  target_link_libraries(test_supertux2
+  target_link_libraries(test_supertux2 PRIVATE
     GTest::GTest GTest::Main
     supertux2_lib
     ${CMAKE_THREAD_LIBS_INIT})
@@ -1140,7 +1125,7 @@ configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc
 ## CPack/Installation-specific stuff
 
 include(InstallRequiredSystemLibraries)
-set(DIRS ${Boost_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
+set(DIRS ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
@@ -1241,11 +1226,6 @@ mark_as_advanced(
   )
 
 mark_as_advanced(
-  Boost_INCLUDE_DIR
-  Boost_LIBRARIES
-  )
-
-mark_as_advanced(
   GLEW_INCLUDE_DIR
   GLEW_LIBRARY
   )
@@ -1261,21 +1241,8 @@ mark_as_advanced(
   )
 
 mark_as_advanced(
-  OPENAL_INCLUDE_DIR
-  OPENAL_LIBRARY
-  )
-
-mark_as_advanced(
   SDL2TTF_INCLUDE_DIRS
   SDL2TTF_LIBRARIES
-  )
-
-mark_as_advanced(
-  OGG_LIBRARY
-  VORBISENC_LIBRARY
-  VORBISFILE_LIBRARY
-  VORBIS_INCLUDE_DIR
-  VORBIS_LIBRARY
   )
 
 mark_as_advanced(
