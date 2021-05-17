@@ -56,7 +56,7 @@ public:
             (constant speed, start slow and go progressively quicker, etc.) */
 
     Node() :
-      position(),
+      position(0.0f, 0.0f),
       time(),
       speed(),
       easing()

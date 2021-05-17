@@ -26,7 +26,7 @@
 SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   triggerevent(EVENT_TOUCH),
   sequence(SEQ_ENDSEQUENCE),
-  new_size(),
+  new_size(0.0f, 0.0f),
   new_spawnpoint(),
   fade_tilemap(),
   fade()
@@ -52,7 +52,7 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_name) :
   triggerevent(EVENT_TOUCH),
   sequence(string_to_sequence(sequence_name)),
-  new_size(),
+  new_size(0.0f, 0.0f),
   new_spawnpoint(),
   fade_tilemap(),
   fade()

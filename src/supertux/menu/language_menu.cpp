@@ -98,6 +98,7 @@ LanguageMenu::menu_action(MenuItem& item)
   // Reload font files
   Resources::load();
 
+#ifndef __EMSCRIPTEN__
   if (g_dictionary_manager->get_language().get_language() != "en" &&
       !AddonManager::current()->is_addon_installed("language-pack"))
   {
@@ -107,6 +108,9 @@ LanguageMenu::menu_action(MenuItem& item)
   {
     MenuManager::instance().clear_menu_stack();
   }
+#else
+  MenuManager::instance().clear_menu_stack();
+#endif
 }
 
 /* EOF */

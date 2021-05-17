@@ -32,7 +32,7 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
   timer(),
   state(STALACTITE_HANGING),
-  shake_delta()
+  shake_delta(0.0f, 0.0f)
 {
   m_countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);

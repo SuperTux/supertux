@@ -25,7 +25,7 @@
 namespace worldmap {
 
 SpecialTile::SpecialTile(const ReaderMapping& mapping) :
-  m_pos(),
+  m_pos(0.0f, 0.0f),
   m_sprite(),
   m_map_message(),
   m_passive_message(false),
@@ -94,7 +94,7 @@ SpecialTile::draw(DrawingContext& context)
   if (m_invisible)
     return;
 
-  m_sprite->draw(context.color(), m_pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
+  m_sprite->draw(context.color(), m_pos*32.0f + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void

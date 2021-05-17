@@ -89,7 +89,7 @@ ParticleSystem::draw(DrawingContext& context)
   for (const auto& particle : particles)
   {
     // remap x,y coordinates onto screencoordinates
-    Vector pos;
+    Vector pos(0.0f, 0.0f);
 
     // horizontal wrap when particle goes off screen to the left
     const int particle_width = particle->texture->get_width();

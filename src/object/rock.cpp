@@ -33,7 +33,7 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  last_movement(),
+  last_movement(0.0f, 0.0f),
   on_grab_script(),
   on_ungrab_script()
 {
@@ -46,7 +46,7 @@ Rock::Rock(const ReaderMapping& reader) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  last_movement(),
+  last_movement(0.0f, 0.0f),
   on_grab_script(),
   on_ungrab_script()
 {
@@ -61,7 +61,7 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
-  last_movement(),
+  last_movement(0.0f, 0.0f),
   on_grab_script(),
   on_ungrab_script()
 {
@@ -177,7 +177,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
     else if (dir == Direction::DOWN) {
       physic.set_velocity(0, 500);
     }
-    else if (last_movement.norm() > 1) {
+    else if (glm::length(last_movement) > 1) {
       physic.set_velocity((dir == Direction::RIGHT) ? 200.0f : -200.0f, -200.0f);
     }
     else {

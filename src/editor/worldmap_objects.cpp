@@ -79,10 +79,8 @@ WorldmapObject::get_settings()
 void
 WorldmapObject::move_to(const Vector& pos)
 {
-  Vector new_pos;
-  new_pos.x = 32.0f * static_cast<float>(pos.x / 32);
-  new_pos.y = 32.0f * static_cast<float>(pos.y / 32);
-  set_pos(new_pos);
+  set_pos(Vector(32.0f * static_cast<float>(pos.x / 32),
+                 32.0f * static_cast<float>(pos.y / 32)));
 }
 
 LevelDot::LevelDot(const ReaderMapping& mapping) :

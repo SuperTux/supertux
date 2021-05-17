@@ -21,8 +21,8 @@
 #include <algorithm>
 
 #include "collision/collision_hit.hpp"
+#include "math/fwd.hpp"
 
-class Vector;
 class Rectf;
 class AATriangle;
 

@@ -30,7 +30,7 @@ namespace worldmap {
 
 LevelTile::LevelTile(const std::string& basedir, const ReaderMapping& mapping) :
   GameObject(mapping),
-  m_pos(),
+  m_pos(0.0f, 0.0f),
   m_basedir(basedir),
   m_level_filename(),
   m_title(),
@@ -82,7 +82,7 @@ LevelTile::~LevelTile()
 void
 LevelTile::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), m_pos * 32 + Vector(16, 16), LAYER_OBJECTS - 1);
+  m_sprite->draw(context.color(), m_pos * 32.0f + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void

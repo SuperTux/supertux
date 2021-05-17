@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
 
 #include <memory>
+#include <SDL2/SDL.h>
 
 #include "config.h"
 
@@ -56,6 +57,8 @@ public:
   void pop_screen(std::unique_ptr<ScreenFade> fade = {});
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
+  void loop_iter();
+
 private:
   struct FPS_Stats;
   void draw_fps(DrawingContext& context, FPS_Stats& fps_statistics);
@@ -74,6 +77,12 @@ private:
 #ifdef ENABLE_TOUCHSCREEN_SUPPORT
   MobileController m_mobile_controller;
 #endif
+
+  Uint32 last_ticks;
+  Uint32 elapsed_ticks;
+  const Uint32 ms_per_step;
+  const float seconds_per_step;
+  std::unique_ptr<FPS_Stats> m_fps_statistics;
 
   float m_speed;
   struct Action

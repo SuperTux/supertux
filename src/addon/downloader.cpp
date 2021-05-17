@@ -15,6 +15,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef __EMSCRIPTEN__
+
 #include "addon/downloader.hpp"
 
 #include <algorithm>
@@ -378,5 +380,7 @@ Downloader::request_download(const std::string& url, const std::string& outfile)
   m_transfers.push_back(std::move(transfer));
   return m_transfers.back()->get_status();
 }
+
+#endif
 
 /* EOF */

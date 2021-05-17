@@ -22,6 +22,7 @@
 
 #include "math/anchor_point.hpp"
 #include "math/easing.hpp"
+#include "math/fwd.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/game_object_manager.hpp"
@@ -44,7 +45,6 @@ class ReaderMapping;
 class Rectf;
 class Size;
 class TileMap;
-class Vector;
 class Writer;
 
 /** Represents one of (potentially) multiple, separate parts of a Level.

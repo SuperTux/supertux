@@ -48,7 +48,7 @@ CollisionGroundMovementManager::apply_all_ground_movement()
 
     // Find the lowest "y" position (i.e. the highest point since
     // (0,0) is the top-left corner) and the associated object
-    Vector lowest_y_vector;
+    Vector lowest_y_vector(0.0f, 0.0f);
     bool first_to_do = true;
 
     for (const auto& movement_for_object : objects_map) {
@@ -79,7 +79,7 @@ CollisionGroundMovementManager::TargetMovementData::register_movement(
   CollisionObject& moving_object,
   const Vector& movement)
 {
-  m_moving_objects[&moving_object] = movement;
+  m_moving_objects.emplace(&moving_object, movement);
 }
 
 void
@@ -87,7 +87,7 @@ CollisionGroundMovementManager::TargetMovementData::register_movement(
   TileMap& moving_tilemap,
   const Vector& movement)
 {
-  m_moving_tilemaps[&moving_tilemap] = movement;
+  m_moving_tilemaps.emplace(std::make_pair(&moving_tilemap, movement));
 }
 
 /* EOF */

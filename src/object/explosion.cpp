@@ -85,7 +85,7 @@ Explosion::explode()
     for (auto& obj: near_objects) {
       Vector obj_vector = obj->get_bbox ().get_middle ();
       Vector direction = obj_vector - center;
-      float distance = direction.norm ();
+      float distance = glm::length(direction);
 
       /* If the distance is very small, for example because "obj" is the badguy
        * causing the explosion, skip this object. */
@@ -100,7 +100,7 @@ Explosion::explode()
       if (force > 200.0f)
         force = 200.0;
 
-      Vector add_speed = direction.unit () * force;
+      Vector add_speed = glm::normalize(direction) * force;
 
       auto player = dynamic_cast<Player *> (obj);
       if (player) {

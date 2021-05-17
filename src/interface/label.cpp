@@ -23,14 +23,14 @@
 InterfaceLabel::InterfaceLabel() :
   m_rect(),
   m_label(),
-  m_mouse_pos()
+  m_mouse_pos(0.0f, 0.0f)
 {
 }
 
 InterfaceLabel::InterfaceLabel(const Rectf& rect, std::string label) :
   m_rect(rect),
   m_label(std::move(label)),
-  m_mouse_pos()
+  m_mouse_pos(0.0f, 0.0f)
 {
 }
 

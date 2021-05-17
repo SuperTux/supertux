@@ -20,9 +20,10 @@
 #include <string>
 #include <vector>
 
+#include "math/fwd.hpp"
+
 class DrawingContext;
 class GameObject;
-class Vector;
 
 class Tip final
 {

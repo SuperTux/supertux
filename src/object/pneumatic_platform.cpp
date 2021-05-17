@@ -73,7 +73,7 @@ void PneumaticPlatformChild::editor_delete()
 
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& mapping) :
   GameObject(mapping),
-  m_pos(),
+  m_pos(0.0f, 0.0f),
   m_sprite_name(),
   m_start_y(),
   m_speed_y(0),

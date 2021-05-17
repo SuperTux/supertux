@@ -60,9 +60,9 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_levelfile(levelfile_),
   m_start_sector("main"),
   m_start_spawnpoint("main"),
-  m_start_pos(),
+  m_start_pos(0.0f, 0.0f),
   m_reset_sector(),
-  m_reset_pos(),
+  m_reset_pos(0.0f, 0.0f),
   m_newsector(),
   m_newspawnpoint(),
   m_pastinvincibility(false),
@@ -93,7 +93,7 @@ GameSession::reset_level()
   currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
   currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
   m_reset_sector = "";
-  m_reset_pos = Vector();
+  m_reset_pos = Vector(0.0f, 0.0f);
 }
 
 int
@@ -505,7 +505,7 @@ GameSession::set_start_point(const std::string& sector,
 {
   m_start_sector = sector;
   m_start_spawnpoint = spawnpoint;
-  m_start_pos = Vector();
+  m_start_pos = Vector(0.0f, 0.0f);
 }
 
 void

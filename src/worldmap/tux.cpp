@@ -43,7 +43,7 @@ Tux::Tux(WorldMap* worldmap) :
   m_controller(InputManager::current()->get_controller()),
   m_input_direction(Direction::NONE),
   m_direction(Direction::NONE),
-  m_tile_pos(),
+  m_tile_pos(0.0f, 0.0f),
   m_offset(0),
   m_moving(false),
   m_ghost_mode(false)
@@ -199,7 +199,7 @@ Tux::try_start_walking()
   auto level = m_worldmap->at_level();
 
   // We got a new direction, so lets start walking when possible
-  Vector next_tile;
+  Vector next_tile(0.0f, 0.0f);
   if ((!level || level->is_solved() || level->is_perfect()
       || (Editor::current() && Editor::current()->is_testing_level()))
       && m_worldmap->path_ok(m_input_direction, m_tile_pos, &next_tile)) {
@@ -318,7 +318,7 @@ Tux::try_continue_walking(float dt_sec)
   if (m_direction == Direction::NONE)
     return;
 
-  Vector next_tile;
+  Vector next_tile(0.0f, 0.0f);
   if (!m_ghost_mode && !m_worldmap->path_ok(m_direction, m_tile_pos, &next_tile)) {
     log_debug << "Tilemap data is buggy" << std::endl;
     stop();

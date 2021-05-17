@@ -248,7 +248,7 @@ void
 EditorOverlayWidget::put_tile()
 {
   auto tiles = m_editor.get_tiles();
-  Vector add_tile;
+  Vector add_tile(0.0f, 0.0f);
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
     for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
 
@@ -277,8 +277,8 @@ void
 EditorOverlayWidget::preview_rectangle()
 {
   Rectf dr = drag_rect();
-  dr.set_p1(sp_to_tp(dr.p1()).floor());
-  dr.set_p2(sp_to_tp(dr.p2()).floor());
+  dr.set_p1(glm::floor(sp_to_tp(dr.p1())));
+  dr.set_p2(glm::floor(sp_to_tp(dr.p2())));
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
@@ -299,8 +299,8 @@ void
 EditorOverlayWidget::draw_rectangle()
 {
   Rectf dr = drag_rect();
-  dr.set_p1(sp_to_tp(dr.p1()).floor());
-  dr.set_p2(sp_to_tp(dr.p2()).floor());
+  dr.set_p1(glm::floor(sp_to_tp(dr.p1())));
+  dr.set_p2(glm::floor(sp_to_tp(dr.p2())));
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
@@ -377,7 +377,7 @@ EditorOverlayWidget::fill()
     // Autotile will happen later, so that directional filling works properly
     input_tile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
 
-    Vector pos_;
+    Vector pos_(0.0f, 0.0f);
 
     // Going left...
     pos_ = pos + Vector(-1, 0);
@@ -583,7 +583,7 @@ EditorOverlayWidget::move_object()
     Vector new_pos = m_sector_pos - m_obj_mouse_desync;
     if (snap_to_grid) {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
-      new_pos = (new_pos / static_cast<float>(snap_grid_size)).floor() * static_cast<float>(snap_grid_size);
+      new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
 
       auto pm = dynamic_cast<MarkerObject*>(m_dragged_object);
       if (pm) {
@@ -668,7 +668,7 @@ EditorOverlayWidget::put_object()
     if (snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
-      target_pos = (m_sector_pos / static_cast<float>(snap_grid_size)).floor() * static_cast<float>(snap_grid_size);
+      target_pos = glm::floor(m_sector_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
     }
 
     auto object = GameObjectFactory::instance().create(object_class, target_pos, Direction::LEFT);
@@ -686,7 +686,7 @@ EditorOverlayWidget::put_object()
 
     auto* wo = dynamic_cast<worldmap_editor::WorldmapObject*>(object.get());
     if (wo) {
-      wo->move_to(wo->get_pos() / 32);
+      wo->move_to(wo->get_pos() / 32.0f);
     }
 
     m_editor.get_sector()->add_object(std::move(object));
@@ -1025,7 +1025,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 
   Vector screen_corner = context.get_cliprect().p2() +
                         m_editor.get_sector()->get_camera().get_translation();
-  Vector drawn_tile;
+  Vector drawn_tile(0.0f, 0.0f);
   Vector corner(std::min(sp_to_tp(m_drag_start).x, m_hovered_tile.x),
                 std::min(sp_to_tp(m_drag_start).y, m_hovered_tile.y));
   auto tiles = m_rectangle_preview.get();
@@ -1071,7 +1071,8 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
   end.x = std::min(float(tm_width), end.x);
   end.y = std::min(float(tm_height), end.y);
 
-  Vector line_start, line_end;
+  Vector line_start(0.0f, 0.0f);
+  Vector line_end(0.0f, 0.0f);
   auto draw_line = [&](const Vector& from, const Vector& to, const Color& col)
   {
     context.color().draw_line(from, to, col, current_tm->get_layer());
@@ -1277,7 +1278,7 @@ EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
   }
 
   Vector sp_ = sp + tilemap->get_offset() / static_cast<float>(tile_size);
-  return (sp_ - (sp_ % 1.f)) * static_cast<float>(tile_size);
+  return glm::trunc(sp_) * static_cast<float>(tile_size);
 }
 
 /* EOF */

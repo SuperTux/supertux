@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
 
+#ifndef __EMSCRIPTEN__
+
 #include "gui/dialog.hpp"
 
 class TransferStatus;
@@ -45,6 +47,8 @@ private:
   DownloadDialog(const DownloadDialog&) = delete;
   DownloadDialog& operator=(const DownloadDialog&) = delete;
 };
+
+#endif
 
 #endif
 

@@ -27,7 +27,7 @@ static const float JUMPY_LOW_TOLERANCE=2;
 
 Jumpy::Jumpy(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/snowjumpy/snowjumpy.sprite"),
-  pos_groundhit(),
+  pos_groundhit(0.0f, 0.0f),
   groundhit_pos_set(false)
 {
   m_sprite->set_action("left-middle");

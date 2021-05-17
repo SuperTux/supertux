@@ -20,122 +20,30 @@
 #include <math.h>
 #include <iosfwd>
 
-#include "math/util.hpp"
-/** Simple two dimensional vector. */
-class Vector final
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
+#include <glm/gtx/io.hpp>
+
+using Vector = glm::vec2;
+
+namespace math {
+
+inline Vector vec2_from_polar(float length, float angle)
 {
-public:
-  Vector(float nx, float ny)
-    : x(nx), y(ny)
-  { }
-  Vector(const Vector& other)
-    : x(other.x), y(other.y)
-  { }
-  Vector()
-    : x(0), y(0)
-  { }
+  return Vector(cosf(angle), sinf(angle)) * length;
+}
 
-  bool operator ==(const Vector& other) const
-  {
-    return x == other.x && y == other.y;
-  }
+inline float angle(Vector const& v)
+{
+  return (v.x == 0 && v.y == 0) ? 0 : atan2f(v.y, v.x);
+}
 
-  bool operator !=(const Vector& other) const
-  {
-    return !(x == other.x && y == other.y);
-  }
+inline Vector at_angle(Vector const& v, float angle)
+{
+  return vec2_from_polar(glm::length(v), angle);
+}
 
-  Vector& operator=(const Vector& other)
-  {
-    x = other.x;
-    y = other.y;
-    return *this;
-  }
-
-  Vector operator+(const Vector& other) const
-  {
-    return Vector(x + other.x, y + other.y);
-  }
-
-  Vector operator-(const Vector& other) const
-  {
-    return Vector(x - other.x, y - other.y);
-  }
-
-  Vector operator*(float s) const
-  {
-    return Vector(x * s, y * s);
-  }
-
-  Vector operator/(float s) const
-  {
-    return Vector(x / s, y / s);
-  }
-
-  Vector operator%(float s) const
-  {
-    return Vector(x - floorf(x / s) * s, y - floorf(y / s) * s);
-  }
-
-  Vector operator-() const
-  {
-    return Vector(-x, -y);
-  }
-
-  const Vector& operator +=(const Vector& other)
-  {
-    x += other.x;
-    y += other.y;
-    return *this;
-  }
-
-  const Vector& operator -=(const Vector& other)
-  {
-    x -= other.x;
-    y -= other.y;
-    return *this;
-  }
-
-  const Vector& operator *=(float val)
-  {
-    x *= val;
-    y *= val;
-    return *this;
-  }
-
-  const Vector& operator /=(float val)
-  {
-    x /= val;
-    y /= val;
-    return *this;
-  }
-
-  /// Scalar product of 2 vectors
-  float operator*(const Vector& other) const
-  {
-    return x*other.x + y*other.y;
-  }
-
-  float norm() const;
-  float angle() const;
-  Vector unit() const;
-  Vector polar() const;
-  Vector rectangular() const;
-  Vector at_angle(float rad) const;
-  Vector rotate(float rad) const;
-
-  Vector floor() const
-  {
-    return Vector(floorf(x), floorf(y));
-  }
-
-  // ... add the other operators as needed, I'm too lazy now ...
-
-  float x, y; // leave this public, get/set methods just give me headaches
-  // for such simple stuff :)
-};
-
-std::ostream& operator<<(std::ostream& out, const Vector& vector);
+} // namespace math
 
 #endif
 
