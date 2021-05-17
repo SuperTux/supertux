@@ -324,6 +324,7 @@ SoundManager::play_music(const std::string& filename, float fadetime)
     if (fadetime > 0)
       newmusic->set_fading(StreamSoundSource::FadingOn, fadetime);
     newmusic->play();
+
     m_music_source = std::move(newmusic);
   } catch(std::exception& e) {
     log_warning << "Couldn't play music file '" << filename << "': " << e.what() << std::endl;
