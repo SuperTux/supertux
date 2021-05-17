@@ -222,14 +222,14 @@ void load_worldmap(const std::string& filename)
 {
   using namespace worldmap;
 
-  if (!WorldMap::current())
+  if (!::worldmap::WorldMap::current())
   {
     throw std::runtime_error("Can't start Worldmap without active WorldMap");
   }
   else
   {
     ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
-                                            std::make_unique<WorldMap>(filename, WorldMap::current()->get_savegame())));
+                                            std::make_unique<::worldmap::WorldMap>(filename, ::worldmap::WorldMap::current()->get_savegame())));
   }
 }
 
