@@ -29,6 +29,7 @@
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_file_system.hpp"
+#include "scripting/worldmap.hpp"
 #include "sprite/sprite.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
@@ -630,6 +631,8 @@ WorldMap::setup()
   // register worldmap_table as worldmap in scripting
   m_squirrel_environment->expose_self();
 
+  m_squirrel_environment->expose("settings", std::make_unique<scripting::WorldMap>(this));
+
   //Run default.nut just before init script
   try {
     IFileStream in(m_levels_path + "default.nut");
@@ -710,6 +713,12 @@ WorldMap::set_passive_message(const std::string& message, float time)
 {
    m_passive_message = message;
    m_passive_message_timer.start(time);
+}
+
+Vector
+WorldMap::get_tux_pos()
+{
+  return m_tux->get_pos();
 }
 
 } // namespace worldmap

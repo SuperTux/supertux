@@ -1,6 +1,5 @@
-//  SuperTux - Sector scripting
-//  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
-//                2021 A. Semphris <semphris@protonmail.com>
+//  SuperTux
+//  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,33 +14,39 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_SECTOR_HPP
-#define HEADER_SUPERTUX_SCRIPTING_SECTOR_HPP
+#ifndef HEADER_SUPERTUX_SCRIPTING_GAME_OBJECT_MANAGER_HPP
+#define HEADER_SUPERTUX_SCRIPTING_GAME_OBJECT_MANAGER_HPP
 
 #ifndef SCRIPTING_API
 #include <string>
-#include "scripting/game_object_manager.hpp"
-class Sector;
+class GameObjectManager;
 #endif
 
 namespace scripting {
 
-class Sector final : public GameObjectManager
+/** Superclass for sectors and worldmaps */
+class GameObjectManager
 {
 #ifndef SCRIPTING_API
 private:
-  ::Sector* m_parent;
+  ::GameObjectManager* m_gom_parent;
 
 public:
-  Sector(::Sector* parent);
+  GameObjectManager(::GameObjectManager* parent);
 
 private:
-  Sector(const Sector&) = delete;
-  Sector& operator=(const Sector&) = delete;
+  GameObjectManager(const GameObjectManager&) = delete;
+  GameObjectManager& operator=(const GameObjectManager&) = delete;
 #endif
 
 public:
-  void set_gravity(float gravity);
+  void set_ambient_light(float red, float green, float blue);
+  void fade_to_ambient_light(float red, float green, float blue, float fadetime);
+  float get_ambient_red() const;
+  float get_ambient_green() const;
+  float get_ambient_blue() const;
+
+  void set_music(const std::string& music);
 };
 
 } // namespace scripting

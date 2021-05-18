@@ -1,6 +1,5 @@
-//  SuperTux - Sector scripting
-//  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
-//                2021 A. Semphris <semphris@protonmail.com>
+//  SuperTux
+//  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,37 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_SECTOR_HPP
-#define HEADER_SUPERTUX_SCRIPTING_SECTOR_HPP
+#include "scripting/worldmap.hpp"
 
-#ifndef SCRIPTING_API
-#include <string>
-#include "scripting/game_object_manager.hpp"
-class Sector;
-#endif
+#include "worldmap/worldmap.hpp"
 
 namespace scripting {
 
-class Sector final : public GameObjectManager
+WorldMap::WorldMap(::worldmap::WorldMap* parent) :
+  GameObjectManager(parent),
+  m_parent(parent)
 {
-#ifndef SCRIPTING_API
-private:
-  ::Sector* m_parent;
+}
 
-public:
-  Sector(::Sector* parent);
+float
+WorldMap::get_tux_x()
+{
+  return m_parent->get_tux_pos().x;
+}
 
-private:
-  Sector(const Sector&) = delete;
-  Sector& operator=(const Sector&) = delete;
-#endif
-
-public:
-  void set_gravity(float gravity);
-};
+float
+WorldMap::get_tux_y()
+{
+  return m_parent->get_tux_pos().y;
+}
 
 } // namespace scripting
-
-#endif
 
 /* EOF */

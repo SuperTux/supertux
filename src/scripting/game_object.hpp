@@ -81,7 +81,7 @@ class GameObjectManager;
 
 namespace scripting {
 
-GameObjectManager& get_game_object_manager();
+::GameObjectManager& get_game_object_manager();
 
 template<class T>
 class GameObject

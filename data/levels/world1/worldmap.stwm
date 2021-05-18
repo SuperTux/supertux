@@ -115,11 +115,6 @@
       (y 80)
     )
     (level
-      (level "end_of_tunnel.stl")
-      (x 67)
-      (y 82)
-    )
-    (level
       (level "path_in_the_clouds.stl")
       (x 68)
       (y 87)
@@ -170,31 +165,19 @@
     )
     (special-tile
       (invisible-tile #t)
-      (script "go_underground(true);")
+      (script "go_underground(true);
+worldmap.settings.fade_to_ambient_light(0.5, 0.5, 0.5, 0.5);")
       (apply-to-direction "north")
       (x 70)
       (y 74)
     )
     (special-tile
       (invisible-tile #t)
-      (script "go_underground(false);")
+      (script "go_underground(false);
+worldmap.settings.fade_to_ambient_light(0.8, 0.6, 0.7, 0.5);")
       (apply-to-direction "south")
       (x 70)
       (y 73)
-    )
-    (special-tile
-      (invisible-tile #t)
-      (script "go_underground(false);")
-      (apply-to-direction "north")
-      (x 67)
-      (y 84)
-    )
-    (special-tile
-      (invisible-tile #t)
-      (script "go_underground(true);")
-      (apply-to-direction "south")
-      (x 67)
-      (y 83)
     )
     (special-tile
       (map-message (_ "You found a secret area!"))
@@ -210,6 +193,58 @@
       (apply-to-direction "south")
       (x 28)
       (y 30)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "worldmap.settings.fade_to_ambient_light(0.8, 0.7, 0.6, 2);")
+      (x 66)
+      (y 66)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "worldmap.settings.fade_to_ambient_light(1, 1, 1, 2);")
+      (x 65)
+      (y 66)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "worldmap.settings.fade_to_ambient_light(0.8, 0.7, 0.6, 2);")
+      (x 69)
+      (y 66)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "worldmap.settings.fade_to_ambient_light(0.3, 0.4, 0.6, 2);")
+      (x 69)
+      (y 65)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "worldmap.settings.fade_to_ambient_light(0.3, 0.4, 0.6, 2);")
+      (x 72)
+      (y 70)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "worldmap.settings.fade_to_ambient_light(0.8, 0.6, 0.7, 2);")
+      (x 72)
+      (y 71)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "go_underground(false);
+worldmap.settings.fade_to_ambient_light(1, 1, 1, 0.5);")
+      (apply-to-direction "north")
+      (x 67)
+      (y 84)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "go_underground(true);
+worldmap.settings.fade_to_ambient_light(0.5, 0.5, 0.5, 0.5);")
+      (apply-to-direction "south")
+      (x 67)
+      (y 83)
     )
     (sprite-change
       (stay-action "boat")
