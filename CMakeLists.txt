@@ -176,7 +176,16 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 find_package(glm QUIET)
 if(glm_FOUND)
-  message(STATUS "Found glm")
+  if(TARGET glm::glm)
+    message(STATUS "Found glm")
+  else()
+    # fallback for old glm version in EmuELEC and Nix
+    get_target_property(GLM_INCLUDE_DIR glm INTERFACE_INCLUDE_DIRECTORIES)
+    message(STATUS "Found glm: ${GLM_INCLUDE_DIR}")
+    add_library(glm::glm INTERFACE IMPORTED)
+    set_target_properties(glm::glm PROPERTIES
+      INTERFACE_INCLUDE_DIRECTORIES ${GLM_INCLUDE_DIR})
+  endif()
 else()
   # fallback for old glm version in UBPorts
   find_path(GLM_INCLUDE_DIR
