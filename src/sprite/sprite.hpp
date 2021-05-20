@@ -43,7 +43,7 @@ public:
   /** Set number of animation cycles until animation stops */
   void set_animation_loops(int loops = -1) { m_animation_loops = loops; }
 
-  void set_frame_progress(int frame_progress) { m_frame = frame_progress; }
+  void set_frame_progress(float frame_progress) { m_frame = frame_progress; }
 
   void set_frame(int frame) { m_frameidx = frame; }
 
