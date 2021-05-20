@@ -60,7 +60,7 @@ public:
   int get_current_frame() const { return m_frameidx; }
 
   /** Get current frame progress */
-  int get_current_frame_progress() const { return m_frame; }
+  float get_current_frame_progress() const { return m_frame; }
 
   /** Get sprite's name */
   const std::string& get_name() const { return m_data.name; }
