@@ -5,15 +5,15 @@
 # Translators:
 # Anders Jonsson <transifex@norsjovallen.se>, 2018
 # Arvid Norlander <anmaster@berlios.de>, 2006-2008,2010
-# Kristoffer Grundström <hamnisdude@gmail.com>, 2016
-# Sebastian Rasmussen <sebras@gmail.com>, 2019
+# Kristoffer Grundström <lovaren@gmail.com>, 2016
+# Sebastian Rasmussen <sebras@gmail.com>, 2019-2020
 # Sebastian Rasmussen <sebras@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 02:39+0000\n"
+"POT-Creation-Date: 2020-04-13 17:25+0200\n"
+"PO-Revision-Date: 2020-10-07 08:19+0000\n"
 "Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -254,7 +254,7 @@ msgstr "Bekymrad över yetins plötsliga reträtt bestämde sig Tux för att for
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
-msgstr "…medan han i hemlighet hoppas att han slipper träffa på yetin igen."
+msgstr "…medan han i hemlighet hoppas att han, oavsett vad som händer, slipper träffa på yetin igen."
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"

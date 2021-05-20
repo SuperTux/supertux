@@ -25,7 +25,7 @@ FloatingImage::FloatingImage(const std::string& spritefile) :
   layer(LAYER_FOREGROUND1 + 1),
   visible(false),
   anchor(ANCHOR_MIDDLE),
-  pos(),
+  pos(0.0f, 0.0f),
   fading(0),
   fadetime(0)
 {

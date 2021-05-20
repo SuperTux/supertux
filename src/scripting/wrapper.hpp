@@ -34,6 +34,8 @@ class DisplayEffect;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::DisplayEffect* object, bool setup_releasehook = false);
 class FloatingImage;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::FloatingImage* object, bool setup_releasehook = false);
+class GameObjectManager;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::GameObjectManager* object, bool setup_releasehook = false);
 class Gradient;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Gradient* object, bool setup_releasehook = false);
 class LevelTime;
@@ -68,6 +70,8 @@ class WillOWisp;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::WillOWisp* object, bool setup_releasehook = false);
 class Wind;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Wind* object, bool setup_releasehook = false);
+class WorldMap;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::WorldMap* object, bool setup_releasehook = false);
 
 }
 

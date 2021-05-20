@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Ryo Nakano, 2019
-# Ryo Nakano, 2016
+# Ryo Nakano, 2019,2021
+# b1e11c107ebf1f339ff7adfc86b9dbe0_2e3e89d, 2016
 # Sanshiro sumita, 2015
 # Sanshiro sumita, 2015
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-12-05 04:10+0000\n"
+"PO-Revision-Date: 2021-02-19 06:52+0000\n"
 "Last-Translator: Ryo Nakano\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -31,11 +31,11 @@ msgstr "地球温暖化"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr "夜の空"
+msgstr "ある日の夜空"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
-msgstr "城の跡"
+msgstr "城跡"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
@@ -57,7 +57,7 @@ msgstr "-申し訳ありませんが、このリフトはなまけものです�
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "あなたは雲よりも高くのぼれません..."
+msgstr "雲より上には行けません…"
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -104,15 +104,15 @@ msgstr "結晶のフィールドの出口"
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr "暗いお城"
+msgstr "暗い城"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr "とても深いです..."
+msgstr "深く、もっと深く…"
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr "…一番深い！"
+msgstr "…最も深い場所！"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
@@ -152,7 +152,7 @@ msgstr "春になりました"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr "ゴールすることが不可能になってきました"
+msgstr "ゴール不可能になってきました"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
@@ -174,7 +174,7 @@ msgstr "トイレゾーン"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "-点滅:\n#フラッシュさせるために上キーを押してください！"
+msgstr "-水を流す:\n#水を流すには上キーを押してください！"
 
 #: data/levels/bonus3/niv-3.stl:219
 msgid ""
@@ -192,7 +192,7 @@ msgstr "ピンクの雪"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr "レッドアラート！森が燃えています！"
+msgstr "緊急事態！　森が燃えています！"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
@@ -200,11 +200,11 @@ msgstr "下水道からの脱出"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr "雨があり雨がない - それは問題です"
+msgstr "雨が降るか降らないか—それが問題だ"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr "雨があり雨がない - それは問題です(南極)"
+msgstr "雨が降るか降らないか—それが問題だ (南極バージョン)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
@@ -212,7 +212,7 @@ msgstr "雪におおわれた丘"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr "3つのさむそうな氷山"
+msgstr "3つの寒い氷山"
 
 #: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"

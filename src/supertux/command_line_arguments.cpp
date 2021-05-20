@@ -17,7 +17,6 @@
 #include "supertux/command_line_arguments.hpp"
 
 #include <boost/format.hpp>
-#include <boost/iostreams/copy.hpp>
 #include <config.h>
 #include <physfs.h>
 
@@ -74,15 +73,17 @@ void
 CommandLineArguments::print_acknowledgements() const
 {
   IFileStream in("ACKNOWLEDGEMENTS.txt");
-  if (!in.good())
+  std::string line;
+  if (in.good())
   {
-    throw std::runtime_error("Could not find acknowledgement file");
+    while (std::getline(in, line))
+    {
+      std::cout << line << std::endl;
+    }
   }
   else
   {
-    // Boost uses 0 as null pointer contants
-    boost::iostreams::copy(in, std::cerr,
-                boost::iostreams::default_device_buffer_size, nullptr, nullptr);
+    std::cout << "Could not open acknowledgements file" << std::endl;
   }
 }
 
@@ -348,7 +349,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--spawn-pos")
     {
-      Vector spawn_pos;
+      Vector spawn_pos(0.0f, 0.0f);
 
       if (++i >= argc)
         throw std::runtime_error("Need to specify a spawn-pos X,Y");

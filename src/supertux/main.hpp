@@ -17,9 +17,59 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
+#include <memory>
 #include <string>
 
-class CommandLineArguments;
+#include "addon/addon_manager.hpp"
+#include "audio/sound_manager.hpp"
+#include "control/input_manager.hpp"
+#include "sprite/sprite_data.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
+#include "supertux/command_line_arguments.hpp"
+#include "supertux/console.hpp"
+#include "supertux/game_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/savegame.hpp"
+#include "supertux/screen_manager.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/tile_set.hpp"
+#include "video/ttf_surface_manager.hpp"
+
+class ConfigSubsystem final
+{
+public:
+  ConfigSubsystem();
+  ~ConfigSubsystem();
+
+private:
+  Config m_config;
+};
+
+class PhysfsSubsystem final
+{
+private:
+  boost::optional<std::string> m_forced_datadir;
+  boost::optional<std::string> m_forced_userdir;
+
+public:
+  PhysfsSubsystem(const char* argv0,
+                  boost::optional<std::string> forced_datadir,
+                  boost::optional<std::string> forced_userdir);
+  ~PhysfsSubsystem();
+  void find_datadir() const;
+  void find_userdir() const;
+  static void print_search_path();
+};
+
+class SDLSubsystem final
+{
+public:
+  SDLSubsystem();
+  ~SDLSubsystem();
+};
 
 class Main final
 {
@@ -36,6 +86,28 @@ private:
 
   void launch_game(const CommandLineArguments& args);
   void resave(const std::string& input_filename, const std::string& output_filename);
+
+private:
+  // Using pointers allows us to initialize them whenever we want
+  std::unique_ptr<PhysfsSubsystem> m_physfs_subsystem;
+  std::unique_ptr<ConfigSubsystem> m_config_subsystem;
+  std::unique_ptr<SDLSubsystem> m_sdl_subsystem;
+  std::unique_ptr<ConsoleBuffer> m_console_buffer;
+  std::unique_ptr<InputManager> m_input_manager;
+  std::unique_ptr<VideoSystem> m_video_system;
+  std::unique_ptr<TTFSurfaceManager> m_ttf_surface_manager;
+  std::unique_ptr<SoundManager> m_sound_manager;
+  std::unique_ptr<SquirrelVirtualMachine> m_squirrel_virtual_machine;
+  std::unique_ptr<TileManager> m_tile_manager;
+  std::unique_ptr<SpriteManager> m_sprite_manager;
+  std::unique_ptr<Resources> m_resources;
+#ifndef __EMSCRIPTEN__
+  std::unique_ptr<AddonManager> m_addon_manager;
+#endif
+  std::unique_ptr<Console> m_console;
+  std::unique_ptr<GameManager> m_game_manager;
+  std::unique_ptr<ScreenManager> m_screen_manager;
+  std::unique_ptr<Savegame> m_savegame;
 
 private:
   Main(const Main&) = delete;

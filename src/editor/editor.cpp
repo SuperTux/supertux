@@ -453,7 +453,7 @@ void
 Editor::set_level(std::unique_ptr<Level> level, bool reset)
 {
   std::string sector_name = "main";
-  Vector translation;
+  Vector translation(0.0f, 0.0f);
 
   if (!reset && m_sector) {
     translation = m_sector->get_camera().get_translation();
@@ -534,6 +534,9 @@ Editor::quit_editor()
     m_enabled = false;
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
+#ifdef __EMSCRIPTEN__
+    Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nDownload the files if you want to keep them."));
+#endif
   };
 
   check_unsaved_changes([quit] {

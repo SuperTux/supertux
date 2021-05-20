@@ -111,6 +111,11 @@ PathGameObject::draw(DrawingContext& context)
   if (m_style == PathStyle::SOLID)
   {
     boost::optional<Vector> previous_node;
+
+    // FIXME: temporary workaround for compiler warning
+    previous_node = Vector();
+    previous_node = boost::none;
+
     for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)
@@ -118,8 +123,8 @@ PathGameObject::draw(DrawingContext& context)
         const Vector p1 = *previous_node;
         const Vector p2 = node.position;
         const Vector diff = (p2 - p1);
-        const float length = diff.norm();
-        const Vector unit = diff.unit();
+        const float length = glm::length(diff);
+        const Vector unit = glm::normalize(diff);
         float dot_distance = 16.0f;
 
         // Recalculate the dot distance to evenly spread across the

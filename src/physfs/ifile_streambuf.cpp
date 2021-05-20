@@ -57,7 +57,7 @@ IFileStreambuf::underflow()
   }
   setg(buf, buf, buf + bytesread);
 
-  return buf[0];
+  return static_cast<unsigned char>(buf[0]);
 }
 
 IFileStreambuf::pos_type

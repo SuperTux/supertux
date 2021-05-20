@@ -29,7 +29,7 @@ public:
   float scale;
 
   DrawingTransform() :
-    translation(),
+    translation(0.0f, 0.0f),
     flip(NO_FLIP),
     alpha(1.0f),
     scale(1.0f)

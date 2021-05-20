@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //                2014 Ingo Ruhnke <grumbel@gmail.com>
+//                2021 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,7 +21,9 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/particle_editor.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "object/player.hpp"
 #include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
@@ -42,83 +45,12 @@
 
 #include <stdio.h>
 #include <chrono>
+#include <iostream>
 
-#include "gui/dialog.hpp"
-#include "gui/mousecursor.hpp"
-
-ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
-  m_video_system(video_system),
-  m_input_manager(input_manager),
-  m_menu_storage(new MenuStorage),
-  m_menu_manager(new MenuManager),
-  m_controller_hud(new ControllerHUD),
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  m_mobile_controller(),
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
 #endif
-  m_speed(1.0),
-  m_actions(),
-  m_screen_fade(),
-  m_screen_stack()
-{
-}
-
-ScreenManager::~ScreenManager()
-{
-}
-
-void
-ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> screen_fade)
-{
-  log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
-  assert(screen);
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
-  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
-}
-
-void
-ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
-{
-  log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
-  m_actions.emplace_back(Action::POP_ACTION);
-}
-
-void
-ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
-{
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
-}
-
-void
-ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
-{
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
-  m_actions.emplace_back(Action::QUIT_ACTION);
-}
-
-void
-ScreenManager::set_speed(float speed)
-{
-  m_speed = speed;
-}
-
-float
-ScreenManager::get_speed() const
-{
-  return m_speed;
-}
 
 struct ScreenManager::FPS_Stats
 {
@@ -197,6 +129,91 @@ private:
   float last_fps_max;
   std::chrono::steady_clock::time_point time_prev;
 };
+
+ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_manager) :
+  m_video_system(video_system),
+  m_input_manager(input_manager),
+  m_menu_storage(new MenuStorage),
+  m_menu_manager(new MenuManager()),
+  m_controller_hud(new ControllerHUD),
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  m_mobile_controller(),
+#endif
+  last_ticks(0),
+  elapsed_ticks(0),
+  ms_per_step(static_cast<Uint32>(1000.0f / LOGICAL_FPS)),
+  seconds_per_step(static_cast<float>(ms_per_step) / 1000.0f),
+  m_fps_statistics(new FPS_Stats()),
+  m_speed(1.0),
+  m_actions(),
+  m_screen_fade(),
+  m_screen_stack()
+{
+}
+
+ScreenManager::~ScreenManager()
+{
+}
+
+void
+ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> screen_fade)
+{
+  log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
+  assert(screen);
+  if (g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
+  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
+}
+
+void
+ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
+{
+  log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
+  if (g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
+  m_actions.emplace_back(Action::POP_ACTION);
+}
+
+void
+ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
+{
+  if (g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
+}
+
+void
+ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
+{
+  Integration::close_all();
+
+#ifdef __EMSCRIPTEN__
+  g_config->save();
+#endif
+
+  if (g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
+  m_actions.emplace_back(Action::QUIT_ACTION);
+}
+
+void
+ScreenManager::set_speed(float speed)
+{
+  m_speed = speed;
+}
+
+float
+ScreenManager::get_speed() const
+{
+  return m_speed;
+}
 
 void
 ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
@@ -517,96 +534,103 @@ ScreenManager::handle_screen_switch()
   }
 }
 
+void ScreenManager::loop_iter()
+{
+  // Useful if screens edit their status without switching screens
+  Integration::update_status_all(m_screen_stack.back()->get_status());
+  Integration::update_all();
+
+  Uint32 ticks = SDL_GetTicks();
+  elapsed_ticks += ticks - last_ticks;
+  last_ticks = ticks;
+
+  if (elapsed_ticks > ms_per_step * 8) {
+    // when the game loads up or levels are switched the
+    // elapsed_ticks grows extremely large, so we just ignore those
+    // large time jumps
+    elapsed_ticks = 0;
+  }
+
+  if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
+    // Sleep a bit because not enough time has passed since the previous
+    // logical game step
+    //SDL_Delay(ms_per_step - elapsed_ticks);
+    //return;
+  }
+
+  g_real_time = static_cast<float>(ticks) / 1000.0f;
+
+  float speed_multiplier = g_debug.get_game_speed_multiplier();
+  int steps = elapsed_ticks / ms_per_step;
+
+  // Do not calculate more than a few steps at once
+  // The maximum number of steps executed before drawing a frame is
+  // adjusted to the current average frame rate
+  float fps = m_fps_statistics->get_fps();
+  if (fps != 0) {
+    // Skip if fps not ready yet (during first 0.5 seconds of startup).
+    float seconds_per_frame = 1.0f / m_fps_statistics->get_fps();
+    int max_steps_per_frame = static_cast<int>(
+      ceilf(seconds_per_frame / seconds_per_step));
+    if (max_steps_per_frame < 2)
+      // max_steps_per_frame is very negative when the fps value is zero
+      // Furthermore, the game should always be able to execute
+      // up to two steps before drawing a frame
+      max_steps_per_frame = 2;
+    if (max_steps_per_frame > 4)
+      // When the game is very laggy, it should slow down instead of
+      // calculating lots of steps at once so that the player can still
+      // control Tux reasonably;
+      // four steps per frame approximately corresponds to a 16 FPS gameplay
+      max_steps_per_frame = 4;
+    steps = std::min<int>(steps, max_steps_per_frame);
+  }
+
+  for (int i = 0; i < steps; ++i) {
+    // Perform a logical game step; seconds_per_step is set to a fixed value
+    // so that the game is deterministic.
+    // In cases which don't affect regular gameplay, such as the
+    // end sequence and debugging, dtime can be changed.
+    float dtime = seconds_per_step * m_speed * speed_multiplier;
+    g_game_time += dtime;
+    process_events();
+    update_gamelogic(dtime);
+    elapsed_ticks -= ms_per_step;
+  }
+
+  if ((steps > 0 && !m_screen_stack.empty())
+      || g_debug.draw_redundant_frames) {
+    // Draw a frame
+    Compositor compositor(m_video_system);
+    draw(compositor, *m_fps_statistics);
+    m_fps_statistics->report_frame();
+  }
+
+  SoundManager::current()->update();
+
+  handle_screen_switch();
+}
+
+#ifdef __EMSCRIPTEN__
+static void g_loop_iter() {
+  auto screen_manager = ScreenManager::current();
+  screen_manager->loop_iter();
+}
+#endif
+
 void
 ScreenManager::run()
 {
-  Uint32 last_ticks = 0;
-  Uint32 elapsed_ticks = 0;
-  const Uint32 ms_per_step = static_cast<Uint32>(1000.0f / LOGICAL_FPS);
-  const float seconds_per_step = static_cast<float>(ms_per_step) / 1000.0f;
-  FPS_Stats fps_statistics;
-
   Integration::init_all();
 
   handle_screen_switch();
+#ifdef __EMSCRIPTEN__
+  emscripten_set_main_loop(g_loop_iter, -1, 1);
+#else
   while (!m_screen_stack.empty()) {
-
-    // Useful if screens edit their status without switching screens
-    Integration::update_status_all(m_screen_stack.back()->get_status());
-    Integration::update_all();
-
-    Uint32 ticks = SDL_GetTicks();
-    elapsed_ticks += ticks - last_ticks;
-    last_ticks = ticks;
-
-    if (elapsed_ticks > ms_per_step * 8) {
-      // when the game loads up or levels are switched the
-      // elapsed_ticks grows extremely large, so we just ignore those
-      // large time jumps
-      elapsed_ticks = 0;
-    }
-
-    if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
-      // Sleep a bit because not enough time has passed since the previous
-      // logical game step
-      SDL_Delay(ms_per_step - elapsed_ticks);
-      continue;
-    }
-
-    g_real_time = static_cast<float>(ticks) / 1000.0f;
-
-    float speed_multiplier = g_debug.get_game_speed_multiplier();
-    int steps = elapsed_ticks / ms_per_step;
-
-    // Do not calculate more than a few steps at once
-    // The maximum number of steps executed before drawing a frame is
-    // adjusted to the current average frame rate
-    float fps = fps_statistics.get_fps();
-    if (fps != 0) {
-      // Skip if fps not ready yet (during first 0.5 seconds of startup).
-      float seconds_per_frame = 1.0f / fps_statistics.get_fps();
-      int max_steps_per_frame = static_cast<int>(
-        ceilf(seconds_per_frame / seconds_per_step));
-      if (max_steps_per_frame < 2)
-        // max_steps_per_frame is very negative when the fps value is zero
-        // Furthermore, the game should always be able to execute
-        // up to two steps before drawing a frame
-        max_steps_per_frame = 2;
-      if (max_steps_per_frame > 4)
-        // When the game is very laggy, it should slow down instead of
-        // calculating lots of steps at once so that the player can still
-        // control Tux reasonably;
-        // four steps per frame approximately corresponds to a 16 FPS gameplay
-        max_steps_per_frame = 4;
-      steps = std::min<int>(steps, max_steps_per_frame);
-    }
-
-    for (int i = 0; i < steps; ++i) {
-      // Perform a logical game step; seconds_per_step is set to a fixed value
-      // so that the game is deterministic.
-      // In cases which don't affect regular gameplay, such as the
-      // end sequence and debugging, dtime can be changed.
-      float dtime = seconds_per_step * m_speed * speed_multiplier;
-      g_game_time += dtime;
-      process_events();
-      update_gamelogic(dtime);
-      elapsed_ticks -= ms_per_step;
-    }
-
-    if ((steps > 0 && !m_screen_stack.empty())
-        || g_debug.draw_redundant_frames) {
-      // Draw a frame
-      Compositor compositor(m_video_system);
-      draw(compositor, fps_statistics);
-      fps_statistics.report_frame();
-    }
-
-    SoundManager::current()->update();
-
-    handle_screen_switch();
+    loop_iter();
   }
-
-  Integration::close_all();
+#endif
 }
 
 /* EOF */

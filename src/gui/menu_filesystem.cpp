@@ -32,14 +32,16 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
-  m_directory(basedir.empty() ? FileSystem::dirname(*filename) : basedir),
+  m_directory(basedir.empty() ? (filename ? FileSystem::dirname(*filename) : "/") : basedir),
   m_extensions(extensions),
   m_basedir(basedir),
   m_directories(),
   m_files(),
   m_callback(std::move(callback))
 {
+#ifndef __EMSCRIPTEN__
   AddonManager::current()->unmount_old_addons();
+#endif
 
   if (!PHYSFS_exists(m_directory.c_str())) {
     m_directory = "/"; //The filename is probably included in an old add-on.
@@ -50,7 +52,9 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
 
 FileSystemMenu::~FileSystemMenu()
 {
+#ifndef __EMSCRIPTEN__
   AddonManager::current()->mount_old_addons();
+#endif
 }
 
 void
@@ -83,9 +87,11 @@ FileSystemMenu::refresh_items()
       }
       else
       {
+#ifndef __EMSCRIPTEN__
         if (AddonManager::current()->is_from_old_addon(filepath)) {
           continue;
         }
+#endif
 
         if (has_right_suffix(*file))
         {
@@ -120,6 +126,9 @@ FileSystemMenu::refresh_items()
 bool
 FileSystemMenu::has_right_suffix(const std::string& file) const
 {
+  if (m_extensions.empty())
+    return true;
+
   for (const auto& extension : m_extensions) {
     if (StringUtil::has_suffix(file, extension))
     {

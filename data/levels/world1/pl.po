@@ -13,13 +13,13 @@
 # mkkot <marcin2006@gmail.com>, 2014-2015
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
-# Zwatotem <zwatotem@gmail.com>, 2019
+# Zwatotem <zwatotem@gmail.com>, 2019-2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 18:49+0000\n"
+"POT-Creation-Date: 2020-04-13 17:25+0200\n"
+"PO-Revision-Date: 2020-11-09 12:01+0000\n"
 "Last-Translator: Zwatotem <zwatotem@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-Powietrzny kwiat\n!images/powerups/airflower/air_flower-0.png\n#Powietrzny kwiat umożliwia Tuxowi fruwania przez kilka sekund podczas trzymania klawisza SKOKU."
+msgstr "-Powietrzny kwiat\n!images/powerups/airflower/air_flower-0.png\n#Powietrzny kwiat umożliwia Tuxowi fruwanie przez kilka sekund podczas trzymania klawisza SKOKU."
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
@@ -307,7 +307,7 @@ msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Punkty zapisu\n!images/objects/resetpoints/bell-m.png\n#Aktywuj punkt zapisu. Gdy zginiesz, możesz zacząć od tego miejsca. Rozpoczęcie od punktu zapisu kosztuje 10% Twoich monet (lecz musisz ich mieć co najmniej 25)."
+msgstr "-Dzwonki - Punkty zapisu\n!images/objects/resetpoints/bell-m.png\n#Aktywuj dzwonek. Gdy zginiesz, możesz zacząć od tego miejsca. Rozpoczęcie od punktu zapisu kosztuje 10% Twoich monet (lecz musisz ich mieć co najmniej 25)."
 
 #: data/levels/world1/welcome_antarctica.stl:91
 msgid ""

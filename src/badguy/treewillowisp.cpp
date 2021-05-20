@@ -41,7 +41,7 @@ TreeWillOWisp::TreeWillOWisp(GhostTree* tree_, const Vector& pos,
   speed(speed_),
   sound_source(),
   tree(tree_),
-  suck_target()
+  suck_target(0.0f, 0.0f)
 {
   SoundManager::current()->preload(TREEWILLOSOUND);
   set_colgroup_active(COLGROUP_MOVING);
@@ -123,7 +123,7 @@ TreeWillOWisp::active_update(float dt_sec)
 
   if (mystate == STATE_SUCKED) {
     Vector dir_ = suck_target - get_pos();
-    if (dir_.norm() < 5) {
+    if (glm::length(dir_) < 5) {
       vanish();
       return;
     }

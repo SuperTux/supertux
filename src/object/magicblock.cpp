@@ -52,7 +52,7 @@ MagicBlock::MagicBlock(const ReaderMapping& mapping) :
   m_solid_box(),
   m_color(),
   m_light(std::make_shared<Color>(1.0f,1.0f,1.0f)),
-  m_center(),
+  m_center(0.0f, 0.0f),
   m_black()
 {
   set_group(COLGROUP_STATIC);

@@ -309,7 +309,7 @@ Dispenser::launch_badguy()
 
       Rectf object_bbox = bad_guy.get_bbox();
 
-      Vector spawnpoint;
+      Vector spawnpoint(0.0f, 0.0f);
       switch (m_type)
       {
         case DispenserType::DROPPER:

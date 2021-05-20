@@ -23,7 +23,7 @@
 namespace worldmap {
 
 Teleporter::Teleporter(const ReaderMapping& mapping) :
-  m_pos(),
+  m_pos(0.0f, 0.0f),
   m_sprite(),
   m_worldmap(),
   m_spawnpoint(),
@@ -56,7 +56,7 @@ void
 Teleporter::draw(DrawingContext& context)
 {
   if (m_sprite) {
-    m_sprite->draw(context.color(), m_pos * 32 + Vector(16, 16), LAYER_OBJECTS - 1);
+    m_sprite->draw(context.color(), m_pos * 32.0f + Vector(16, 16), LAYER_OBJECTS - 1);
   }
 }
 

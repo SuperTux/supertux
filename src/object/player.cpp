@@ -22,6 +22,7 @@
 #include "control/codecontroller.hpp"
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
+#include "math/util.hpp"
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -200,7 +201,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_swimming_accel_modifier(100.f),
   m_water_jump(false),
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
-  m_floor_normal(),
+  m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
   m_edit_mode(false),
   m_unduck_hurt_timer(),
@@ -390,7 +391,7 @@ Player::update(float dt_sec)
       no_water = false;
       m_water_jump = false;
       m_swimming = true;
-      m_swimming_angle = Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()).angle();
+      m_swimming_angle = math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()));
       if (is_big())
         adjust_height(TUX_WIDTH);
       m_wants_buttjump = m_does_buttjump = m_backflipping = false;
@@ -611,7 +612,7 @@ Player::swim(float pointx, float pointy, bool boost)
 
     // Angle
     bool is_ang_defined = (pointx != 0) || (pointy != 0);
-    float pointed_angle = Vector(pointx, pointy).angle();
+    float pointed_angle = math::angle(Vector(pointx, pointy));
     float delta = 0;
 
     if(is_ang_defined)
@@ -641,14 +642,14 @@ Player::swim(float pointx, float pointy, bool boost)
         m_swimming_angle = pointed_angle;
 
       m_swimming_accel_modifier = is_ang_defined ? 600.f : 0.f;
-      Vector swimming_direction = Vector(m_swimming_accel_modifier, pointed_angle).rectangular();
+      Vector swimming_direction = math::vec2_from_polar(m_swimming_accel_modifier, pointed_angle);
 
       m_physic.set_acceleration_x((swimming_direction.x - 1.0f * vx) * 2.f);
       m_physic.set_acceleration_y((swimming_direction.y - 1.0f * vy) * 2.f);
 
       // Limit speed, if you go above this speed your acceleration is set to opposite (?)
       float limit = 300.f;
-      if (m_physic.get_velocity().norm()>limit)
+      if (glm::length(m_physic.get_velocity()) > limit)
       {
         m_physic.set_acceleration(-vx,-vy);   // Was too lazy to set it properly ~~zwatotem
       }
@@ -660,13 +661,13 @@ Player::swim(float pointx, float pointy, bool boost)
       }
 
       //not boosting? let's slow this penguin down!!!
-      if (!boost && is_ang_defined && m_physic.get_velocity().norm() > 310.f)
+      if (!boost && is_ang_defined && glm::length(m_physic.get_velocity()) > 310.f)
       {
         m_physic.set_acceleration(-5.f*vx, -5.f*vy);
       }
 
       // Snapping to prevent unwanted floating
-      if (!is_ang_defined && Vector(vx,vy).norm()<100.f)
+        if (!is_ang_defined && glm::length(Vector(vx,vy)) < 100.f)
       {
         vx = 0;
         vy = 0;
@@ -674,9 +675,9 @@ Player::swim(float pointx, float pointy, bool boost)
 
       // Turbo, using pointsign
       float minboostspeed = 100.f;
-      if (boost && m_physic.get_velocity().norm()>minboostspeed)
+      if (boost && glm::length(m_physic.get_velocity()) > minboostspeed)
       {
-        if (m_physic.get_velocity().norm() < 600.f)
+        if (glm::length(m_physic.get_velocity()) < 600.f)
         {
           m_swimboosting = true;
           if (is_ang_defined)
@@ -694,7 +695,7 @@ Player::swim(float pointx, float pointy, bool boost)
       }
       else
       {
-        if (m_physic.get_velocity().norm() < 310.f)
+          if (glm::length(m_physic.get_velocity()) < 310.f)
         {
           m_swimboosting = false;
         }
@@ -702,7 +703,7 @@ Player::swim(float pointx, float pointy, bool boost)
     }
     if (m_water_jump && !m_swimming)
     {
-      m_swimming_angle = Vector(vx, vy).angle();
+      m_swimming_angle = math::angle(Vector(vx, vy));
     }
 
   // snap angle dir when water jumping to avoid crazy spinning graphics...
@@ -732,7 +733,7 @@ Player::swim(float pointx, float pointy, bool boost)
     //Force the speed to point in the direction Tux is going
     if (m_swimming && !m_water_jump && boost)
     {
-      m_physic.set_velocity(m_physic.get_velocity().at_angle(m_swimming_angle));
+      m_physic.set_velocity(math::at_angle(m_physic.get_velocity(), m_swimming_angle));
     }
   }
 }
@@ -1291,7 +1292,7 @@ Player::try_grab()
   if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck)
   {
 
-    Vector pos;
+    Vector pos(0.0f, 0.0f);
     if (!m_swimming && !m_water_jump)
     {
       if (m_dir == Direction::LEFT)
@@ -1627,7 +1628,7 @@ Player::draw(DrawingContext& context)
       {
         if (m_water_jump && m_dir != m_old_dir)
           log_debug << "Obracanko (:" << std::endl;
-        if (m_physic.get_velocity().norm() < 50.f)
+        if (glm::length(m_physic.get_velocity()) < 50.f)
           m_sprite->set_action(sa_prefix + "-floating" + sa_postfix);
         else if (m_water_jump)
           m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
@@ -1901,7 +1902,7 @@ Player::kill(bool completely)
     }
     else
     {
-      GameSession::current()->set_reset_point("", Vector());
+      GameSession::current()->set_reset_point("", Vector(0.0f, 0.0f));
     }
     m_physic.enable_gravity(true);
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex

@@ -78,7 +78,7 @@ AnchorPoint string_to_anchor_point(const std::string& str)
 
 Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
 {
-  Vector result;
+  Vector result(0.0f, 0.0f);
 
   switch (point & ANCHOR_V_MASK) {
     case ANCHOR_LEFT:
@@ -118,7 +118,7 @@ Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
 Vector get_anchor_pos(const Rectf& destrect, float width, float height,
                       AnchorPoint point)
 {
-  Vector result;
+  Vector result(0.0f, 0.0f);
 
   switch (point & ANCHOR_V_MASK) {
     case ANCHOR_LEFT:

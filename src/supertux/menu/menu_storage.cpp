@@ -43,6 +43,7 @@
 #include "supertux/menu/particle_editor_save_as.hpp"
 #include "supertux/menu/particle_editor_open.hpp"
 #include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/web_asset_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/menu/worldmap_cheat_menu.hpp"
 #include "supertux/menu/world_set_menu.hpp"
@@ -122,10 +123,20 @@ MenuStorage::create(MenuId menu_id)
       return nullptr; //return new ContribWorldMenu();
 
     case ADDON_MENU:
+#ifndef __EMSCRIPTEN__
       return std::make_unique<AddonMenu>();
+#else
+      throw std::runtime_error("Cannot instantiate Add-on menu dialog "
+        "on Emscripten, since Curl can't be compiled with OpenSSL");
+#endif
 
     case LANGPACK_MENU:
+#ifndef __EMSCRIPTEN__
       return std::unique_ptr<Menu>(new AddonMenu);
+#else
+      throw std::runtime_error("Cannot instantiate Langpack menu dialog "
+        "on Emscripten, since Curl can't be compiled with OpenSSL");
+#endif
 
     case EDITOR_LEVELSET_SELECT_MENU:
       return std::make_unique<EditorLevelsetSelectMenu>();
@@ -134,7 +145,12 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<EditorNewLevelsetMenu>();
 
     case LANGPACK_AUTO_UPDATE_MENU:
+#ifndef __EMSCRIPTEN__
       return std::unique_ptr<Menu>(new AddonMenu(true));
+#else
+      throw std::runtime_error("Cannot instantiate Langpack menu dialog "
+        "on Emscripten, since Curl can't be compiled with OpenSSL");
+#endif
 
     case EDITOR_LEVEL_SELECT_MENU:
       return std::make_unique<EditorLevelSelectMenu>();
@@ -175,6 +191,9 @@ MenuStorage::create(MenuId menu_id)
 
     case PARTICLE_EDITOR_OPEN:
       return std::make_unique<ParticleEditorOpen>();
+
+    case ASSET_MENU:
+      return std::make_unique<WebAssetMenu>();
 
     case NO_MENU:
       return std::unique_ptr<Menu>();

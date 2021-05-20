@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Myeongjin <aranet100@gmail.com>, 2016-2017,2019
+# Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 00:51+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"PO-Revision-Date: 2021-03-07 06:56+0000\n"
+"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -230,4 +230,4 @@ msgstr "집으로 가기"
 
 #: data/levels/bonus3/worldmap.stwm:290
 msgid "Enter Forest Section"
-msgstr ""
+msgstr "숲 부분 입장"

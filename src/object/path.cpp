@@ -158,7 +158,7 @@ Path::get_nearest_node_no(const Vector& reference_point) const
   float nearest_node_dist = 0;
   int id = 0;
   for (std::vector<Node>::const_iterator i = m_nodes.begin(); i != m_nodes.end(); ++i, ++id) {
-    float dist = (i->position - reference_point).norm();
+    float dist = glm::distance(i->position, reference_point);
     if ((nearest_node_id == -1) || (dist < nearest_node_dist)) {
       nearest_node_id = id;
       nearest_node_dist = dist;
@@ -174,8 +174,8 @@ Path::get_farthest_node_no(const Vector& reference_point) const
   float farthest_node_dist = 0;
   int id = 0;
   for (std::vector<Node>::const_iterator i = m_nodes.begin(); i != m_nodes.end(); ++i, ++id)
-{
-    float dist = (i->position - reference_point).norm();
+  {
+    float dist = glm::distance(i->position, reference_point);
     if ((farthest_node_id == -1) || (dist > farthest_node_dist)) {
       farthest_node_id = id;
       farthest_node_dist = dist;

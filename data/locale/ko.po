@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Myeongjin <aranet100@gmail.com>, 2016-2020
+# Myeongjin <aranet100@gmail.com>, 2016-2021
 # Roland Kim <dyn4micwork@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-08-23 12:27+0000\n"
+"PO-Revision-Date: 2021-03-12 08:33+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -173,7 +173,7 @@ msgstr "천둥 번개"
 
 #: src/object/ispy.cpp:66
 msgid "Facing Down"
-msgstr ""
+msgstr "아래로 향하는 중"
 
 #: src/object/ispy.cpp:68 src/object/gradient.cpp:124
 #: src/badguy/willowisp.cpp:279 src/badguy/badguy.cpp:840
@@ -303,7 +303,7 @@ msgstr "사용자 지정"
 
 #: src/object/bonus_block.cpp:207
 msgid "Light"
-msgstr "빛"
+msgstr "조명"
 
 #: src/object/bonus_block.cpp:208 src/object/trampoline.hpp:35
 msgid "Trampoline"
@@ -319,11 +319,11 @@ msgstr "코인 폭발"
 
 #: src/object/bonus_block.cpp:212
 msgid "Custom Content"
-msgstr ""
+msgstr "사용자 지정 내용"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic Platform"
-msgstr ""
+msgstr "공압 플랫폼"
 
 #: src/object/coin.cpp:264 src/object/tilemap.cpp:236
 msgid "Following path"
@@ -340,7 +340,7 @@ msgstr "모음 스크립트"
 
 #: src/object/ghost_particle_system.hpp:36
 msgid "Ghost Particles"
-msgstr ""
+msgstr "유령 입자"
 
 #: src/object/camera.cpp:207
 msgid "Mode"
@@ -356,7 +356,7 @@ msgstr "수동"
 
 #: src/object/camera.cpp:208
 msgid "autoscroll"
-msgstr ""
+msgstr "자동스크롤"
 
 #: src/object/textscroller.cpp:280 src/object/music_object.cpp:109
 msgid "File"
@@ -369,7 +369,7 @@ msgstr "스폰지점"
 
 #: src/object/rusty_trampoline.cpp:65
 msgid "Counter"
-msgstr ""
+msgstr "카운터"
 
 #: src/object/candle.hpp:36
 msgid "Candle"
@@ -381,19 +381,19 @@ msgstr "활성화됨"
 
 #: src/object/invisible_block.hpp:31
 msgid "Invisible Block"
-msgstr ""
+msgstr "보이지 않는 상자"
 
 #: src/object/snow_particle_system.hpp:35
 msgid "Snow Particles"
-msgstr ""
+msgstr "눈 입자"
 
 #: src/object/powerup.hpp:35
 msgid "Powerup"
-msgstr ""
+msgstr "파워업"
 
 #: src/object/level_time.hpp:55
 msgid "Time Limit"
-msgstr ""
+msgstr "시간 제한"
 
 #: src/object/ambient_sound.cpp:119 src/supertux/menu/options_menu.cpp:365
 #: data//credits.stxt:335
@@ -418,7 +418,7 @@ msgstr "횃불"
 
 #: src/object/icecrusher.hpp:48
 msgid "Icecrusher"
-msgstr ""
+msgstr "얼음분쇄기"
 
 #: src/object/background.hpp:42
 msgid "Background"
@@ -426,11 +426,11 @@ msgstr "배경"
 
 #: src/object/firefly.hpp:36
 msgid "Checkpoint"
-msgstr ""
+msgstr "체크포인트"
 
 #: src/object/ambient_light.hpp:36
 msgid "Ambient Light"
-msgstr ""
+msgstr "주변 조명"
 
 #: src/object/lantern.hpp:37
 msgid "Lantern"
@@ -442,7 +442,7 @@ msgstr "바람"
 
 #: src/object/bicycle_platform.cpp:190
 msgid "Platforms"
-msgstr ""
+msgstr "플랫폼"
 
 #: src/object/bicycle_platform.cpp:191 src/badguy/flame.cpp:58
 #: src/badguy/crystallo.cpp:36
@@ -455,7 +455,7 @@ msgstr "운동량 변화율"
 
 #: src/object/rain_particle_system.hpp:34
 msgid "Rain Particles"
-msgstr ""
+msgstr "비 입자"
 
 #: src/object/platform.hpp:45
 msgid "Platform"
@@ -472,7 +472,7 @@ msgstr "음악"
 
 #: src/object/rusty_trampoline.hpp:39
 msgid "Rusty Trampoline"
-msgstr ""
+msgstr "녹슨 트램폴린"
 
 #: src/object/particlesystem.hpp:57
 msgid "Particle system"
@@ -492,7 +492,7 @@ msgstr "텍스트 배열"
 
 #: src/object/infoblock.hpp:36
 msgid "Info Block"
-msgstr ""
+msgstr "정보 상자"
 
 #: src/object/powerup.cpp:191
 msgid "Disable gravity"
@@ -500,7 +500,7 @@ msgstr "중력 비활성화"
 
 #: src/object/ambient_sound.hpp:62
 msgid "Ambient Sound"
-msgstr ""
+msgstr "주변 소리"
 
 #: src/object/level_time.cpp:51 src/supertux/statistics.cpp:288
 #: src/editor/node_marker.cpp:80
@@ -509,11 +509,11 @@ msgstr "시간"
 
 #: src/object/hurting_platform.hpp:30
 msgid "Hurting Platform"
-msgstr ""
+msgstr "다침 플랫폼"
 
 #: src/object/background.cpp:163
 msgid "Fill"
-msgstr ""
+msgstr "채우기"
 
 #: src/object/background.cpp:165
 msgid "Alignment"
@@ -557,11 +557,11 @@ msgstr "스크롤 속도 y"
 
 #: src/object/background.cpp:173
 msgid "Parallax Speed x"
-msgstr ""
+msgstr "패럴랙스 속도 x"
 
 #: src/object/background.cpp:174
 msgid "Parallax Speed y"
-msgstr ""
+msgstr "패럴랙스 속도 y"
 
 #: src/object/background.cpp:175
 msgid "Top image"
@@ -588,7 +588,7 @@ msgstr "보통"
 #: src/object/background.cpp:179 src/object/tilemap.cpp:229
 #: src/object/gradient.cpp:130
 msgid "Lightmap"
-msgstr "빛지도"
+msgstr "라이트맵"
 
 #: src/object/wind.cpp:63
 msgid "Speed X"
@@ -608,7 +608,7 @@ msgstr "취주"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle Platform"
-msgstr ""
+msgstr "자전거 플랫폼"
 
 #: src/object/platform.cpp:67 src/object/thunderstorm.cpp:69
 #: src/object/tilemap.cpp:241
@@ -633,11 +633,11 @@ msgstr "간격"
 
 #: src/object/thunderstorm.cpp:71
 msgid "Strike Script"
-msgstr ""
+msgstr "스트라이크 스크립트"
 
 #: src/object/cloud_particle_system.hpp:36
 msgid "Cloud Particles"
-msgstr ""
+msgstr "구름 입자"
 
 #: src/object/ispy.hpp:33
 msgid "Ispy"
@@ -645,7 +645,7 @@ msgstr "아이스파이"
 
 #: src/object/skull_tile.hpp:31
 msgid "Skull Tile"
-msgstr ""
+msgstr "두개골 타일"
 
 #: src/object/weak_block.cpp:211
 msgid "Linked"
@@ -682,7 +682,7 @@ msgstr "색조"
 #: src/object/tilemap.cpp:244 src/supertux/menu/editor_tilegroup_menu.cpp:26
 #: src/editor/toolbox_widget.cpp:90
 msgid "Tiles"
-msgstr ""
+msgstr "타일"
 
 #: src/object/gradient.cpp:115
 msgid "Left Colour"
@@ -718,19 +718,19 @@ msgstr "수평 (전체 부분)"
 
 #: src/object/gradient.cpp:135
 msgid "Blend mode"
-msgstr ""
+msgstr "혼합 모드"
 
 #: src/object/gradient.cpp:136
 msgid "Blend"
-msgstr ""
+msgstr "혼합"
 
 #: src/object/gradient.cpp:136
 msgid "Additive"
-msgstr ""
+msgstr "첨가"
 
 #: src/object/gradient.cpp:136
 msgid "Modulate"
-msgstr ""
+msgstr "변조"
 
 #: src/object/gradient.cpp:136 src/supertux/menu/keyboard_menu.cpp:60
 #: src/supertux/menu/joystick_menu.cpp:106
@@ -740,7 +740,7 @@ msgstr "없음"
 
 #: src/object/unstable_tile.hpp:34
 msgid "Unstable Tile"
-msgstr ""
+msgstr "불안정한 타일"
 
 #: src/object/brick.hpp:31
 msgid "Brick"
@@ -748,7 +748,7 @@ msgstr "벽돌"
 
 #: src/object/invisible_wall.hpp:34
 msgid "Invisible Wall"
-msgstr ""
+msgstr "보이지 않는 벽"
 
 #: src/object/spotlight.hpp:38
 msgid "Spotlight"
@@ -756,19 +756,19 @@ msgstr "스포트라이트"
 
 #: src/object/scripted_object.hpp:39
 msgid "Scripted Object"
-msgstr ""
+msgstr "스크립트된 개체"
 
 #: src/object/coin.hpp:75
 msgid "Heavy Coin"
-msgstr ""
+msgstr "무거운 코인"
 
 #: src/object/bonus_block.hpp:55
 msgid "Bonus Block"
-msgstr ""
+msgstr "보너스 상자"
 
 #: src/object/magicblock.hpp:41
 msgid "Magic Tile"
-msgstr ""
+msgstr "마법 타일"
 
 #: src/object/camera.hpp:67
 msgid "Camera"
@@ -776,7 +776,7 @@ msgstr "카메라"
 
 #: src/object/textscroller.hpp:44
 msgid "TextScroller"
-msgstr ""
+msgstr "텍스트스크롤러"
 
 #: src/gui/menu_badguy_select.cpp:93
 msgid "List of enemies"
@@ -837,7 +837,7 @@ msgstr "두꺼비"
 
 #: src/badguy/mrtree.hpp:29
 msgid "Walking Tree"
-msgstr ""
+msgstr "걸어다니는 나무"
 
 #: src/badguy/plant.hpp:33
 msgid "Plant"
@@ -865,7 +865,7 @@ msgstr "디스펜서"
 
 #: src/badguy/short_fuse.hpp:29
 msgid "Short Fuse"
-msgstr ""
+msgstr "짧은 퓨즈"
 
 #: src/badguy/zeekling.hpp:36
 msgid "Zeekling"
@@ -873,7 +873,7 @@ msgstr "찍새"
 
 #: src/badguy/mriceblock.hpp:46
 msgid "Iceblock"
-msgstr ""
+msgstr "얼음상자"
 
 #: src/badguy/jumpy.hpp:36
 msgid "Jumpy"
@@ -881,11 +881,11 @@ msgstr "점피"
 
 #: src/badguy/captainsnowball.hpp:31
 msgid "Captain Snowball"
-msgstr ""
+msgstr "선장 눈덩이"
 
 #: src/badguy/ghosttree.hpp:42
 msgid "Ghost Tree"
-msgstr ""
+msgstr "유령 나무"
 
 #: src/badguy/willowisp.cpp:283
 msgid "Track range"
@@ -913,23 +913,23 @@ msgstr "죽음 스크립트"
 
 #: src/badguy/sspiky.hpp:36
 msgid "Sleeping Spiky"
-msgstr ""
+msgstr "자고 있는 못박이"
 
 #: src/badguy/yeti_stalactite.hpp:33
 msgid "Yeti's Stalactite"
-msgstr ""
+msgstr "예티의 종유석"
 
 #: src/badguy/livefire.hpp:37
 msgid "Walking Flame"
-msgstr ""
+msgstr "걸어다니는 불꽃"
 
 #: src/badguy/livefire.hpp:67
 msgid "Sleeping Flame"
-msgstr ""
+msgstr "자고 있는 불꽃"
 
 #: src/badguy/livefire.hpp:83
 msgid "Dormant Flame"
-msgstr ""
+msgstr "휴면 중인 불꽃"
 
 #: src/badguy/owl.hpp:39
 msgid "Owl"
@@ -957,7 +957,7 @@ msgstr "눈덩이"
 
 #: src/badguy/smartblock.hpp:29
 msgid "Smartblock"
-msgstr ""
+msgstr "똑똑한상자"
 
 #: src/badguy/yeti.cpp:369
 msgid "Fixed position"
@@ -969,23 +969,23 @@ msgstr "생명"
 
 #: src/badguy/goldbomb.hpp:49
 msgid "Gold Bomb"
-msgstr ""
+msgstr "황금 폭탄"
 
 #: src/badguy/flyingsnowball.hpp:32
 msgid "Flying Snowball"
-msgstr ""
+msgstr "나는 눈덩이"
 
 #: src/badguy/skullyhop.hpp:37
 msgid "Skullyhop"
-msgstr ""
+msgstr "날뛰는 두개골"
 
 #: src/badguy/kamikazesnowball.hpp:32
 msgid "Snowshot"
-msgstr ""
+msgstr "눈샷"
 
 #: src/badguy/kamikazesnowball.hpp:52
 msgid "Leafshot"
-msgstr ""
+msgstr "잎샷"
 
 #: src/badguy/flame.hpp:41
 msgid "Flame"
@@ -993,11 +993,11 @@ msgstr "불꽃"
 
 #: src/badguy/poisonivy.hpp:30
 msgid "Spring Leaf"
-msgstr ""
+msgstr "봄 잎"
 
 #: src/badguy/willowisp.hpp:55
 msgid "Will o' Wisp"
-msgstr ""
+msgstr "윌 오 위스프"
 
 #: src/badguy/badguy.hpp:53
 msgid "Badguy"
@@ -1005,7 +1005,7 @@ msgstr "악당"
 
 #: src/badguy/ghostflame.hpp:30
 msgid "Ghost Flame"
-msgstr ""
+msgstr "유령 불꽃"
 
 #: src/badguy/spiky.hpp:30
 msgid "Spiky"
@@ -1013,19 +1013,19 @@ msgstr "못박이"
 
 #: src/badguy/walkingleaf.hpp:30
 msgid "Autumn Leaf"
-msgstr ""
+msgstr "가을 잎"
 
 #: src/badguy/owl.cpp:227
 msgid "Carry"
-msgstr ""
+msgstr "옮기기"
 
 #: src/badguy/darttrap.hpp:33
 msgid "Dart Trap"
-msgstr ""
+msgstr "다트 함정"
 
 #: src/badguy/skydive.hpp:38
 msgid "Skydive"
-msgstr ""
+msgstr "스카이다이브"
 
 #: src/badguy/yeti.hpp:37
 msgid "Yeti"
@@ -1037,23 +1037,23 @@ msgstr "두더지"
 
 #: src/badguy/mrbomb.hpp:42
 msgid "Bomb"
-msgstr ""
+msgstr "폭탄"
 
 #: src/badguy/walking_candle.hpp:40
 msgid "Walking Candle"
-msgstr ""
+msgstr "걸아다니는 양초"
 
 #: src/badguy/angrystone.hpp:34
 msgid "Angry Stone"
-msgstr ""
+msgstr "화난 돌"
 
 #: src/badguy/spidermite.hpp:35
 msgid "Spider"
-msgstr ""
+msgstr "거미"
 
 #: src/badguy/ghoul.hpp:28
 msgid "Ghoul"
-msgstr ""
+msgstr "악귀"
 
 #: src/badguy/snowman.hpp:28
 msgid "Snowman"
@@ -1061,7 +1061,7 @@ msgstr "눈사람"
 
 #: src/badguy/stumpy.hpp:35
 msgid "Walking Stump"
-msgstr ""
+msgstr "걸아다니는 그루터기"
 
 #: src/badguy/fish.hpp:40
 msgid "Fish"
@@ -1113,7 +1113,7 @@ msgstr "달팽이"
 
 #: src/badguy/smartball.hpp:31
 msgid "Smartball"
-msgstr ""
+msgstr "똑똑한덩이"
 
 #: src/badguy/bouncing_snowball.hpp:31
 msgid "Bouncing Snowball"
@@ -1121,7 +1121,7 @@ msgstr "뛰는 눈덩이"
 
 #: src/badguy/iceflame.hpp:33
 msgid "Ice Flame"
-msgstr ""
+msgstr "얼음꽃"
 
 #: src/badguy/dart.hpp:43
 msgid "Dart"
@@ -1255,7 +1255,7 @@ msgstr "  --edit-level                 편집기에서 주어진 레벨을 엽�
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --resave                     Loads given level and saves it"
-msgstr ""
+msgstr "  --resave                     주어진 레벨을 불러오고 이를 저장합니다"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --show-fps                   Display framerate in levels"
@@ -1402,19 +1402,19 @@ msgstr "월드맵 길 보이기"
 
 #: src/supertux/menu/debug_menu.cpp:65
 msgid "Show Controller"
-msgstr ""
+msgstr "컨트롤러 보이기"
 
 #: src/supertux/menu/debug_menu.cpp:66
 msgid "Show Framerate"
-msgstr ""
+msgstr "프레임 속도 보이기"
 
 #: src/supertux/menu/debug_menu.cpp:67
 msgid "Draw Redundant Frames"
-msgstr ""
+msgstr "중복 프레임 그리기"
 
 #: src/supertux/menu/debug_menu.cpp:68
 msgid "Show Player Position"
-msgstr ""
+msgstr "플레이어 위치 보이기"
 
 #: src/supertux/menu/debug_menu.cpp:69
 msgid "Use Bitmap Fonts"
@@ -1422,23 +1422,23 @@ msgstr "비트맵 글꼴 사용"
 
 #: src/supertux/menu/debug_menu.cpp:72
 msgid "Dump Texture Cache"
-msgstr ""
+msgstr "텍스처 캐시 덤프"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose Sector"
-msgstr ""
+msgstr "부분 선택"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:41
 msgid "Sector Settings"
-msgstr ""
+msgstr "부분 설정"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:42
 msgid "Create Sector"
-msgstr ""
+msgstr "부분 만들기"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:43
 msgid "Delete Sector"
-msgstr ""
+msgstr "부분 삭제"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:93
 msgid "Each level must have at least one sector."
@@ -1459,7 +1459,7 @@ msgstr "개체"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:58
 msgid "Empty World"
-msgstr ""
+msgstr "빈 월드"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:73
 msgid "Create Level"
@@ -1467,16 +1467,16 @@ msgstr "레벨 만들기"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:77
 msgid "Edit Worldmap"
-msgstr ""
+msgstr "월드맵 편집"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:79
 msgid "Create Worldmap"
-msgstr ""
+msgstr "월드맵 만들기"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:83
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "World Settings"
-msgstr ""
+msgstr "월드 설정"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:123
 msgid ""
@@ -1557,19 +1557,19 @@ msgstr "월드맵 재설정"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:52
 msgid "Go to level"
-msgstr ""
+msgstr "레벨로 가기"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:53
 msgid "Go to main spawnpoint"
-msgstr ""
+msgstr "주요 스폰지점으로 가기"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:145
 msgid "Select level"
-msgstr ""
+msgstr "레벨 선택"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:54
 msgid "Choose World"
-msgstr ""
+msgstr "월드 선택"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:82
 #, c-format
@@ -1579,7 +1579,7 @@ msgstr[0] "레벨 %d개"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:95
 msgid "Create World"
-msgstr ""
+msgstr "월드 만들기"
 
 #: src/supertux/menu/options_menu.cpp:85 src/supertux/menu/main_menu.cpp:53
 #: src/supertux/menu/game_menu.cpp:61 src/supertux/menu/worldmap_menu.cpp:31
@@ -1752,7 +1752,7 @@ msgstr "확인 대화 상자"
 
 #: src/supertux/menu/options_menu.cpp:401
 msgid "Confirm aborting level"
-msgstr ""
+msgstr "레벨 중단 확인"
 
 #: src/supertux/menu/options_menu.cpp:402
 msgid "Pause on focus loss"
@@ -1834,7 +1834,7 @@ msgstr "월드"
 
 #: src/supertux/menu/addon_menu.cpp:54
 msgid "Add-on"
-msgstr ""
+msgstr "부가 기능"
 
 #: src/supertux/menu/addon_menu.cpp:60
 msgid "Unknown"
@@ -1892,7 +1892,7 @@ msgstr "변경을 적용하려면 슈퍼턱스를\n다시 시작해주세요."
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New World"
-msgstr ""
+msgstr "새 월드"
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:51
 msgid "Please enter a name for this level subset."
@@ -1916,7 +1916,7 @@ msgstr "레벨 다시 시작"
 
 #: src/supertux/menu/game_menu.cpp:58
 msgid "Restart from Checkpoint"
-msgstr ""
+msgstr "체크포인트에서 다시 시작"
 
 #: src/supertux/menu/game_menu.cpp:63
 msgid "Abort Level"
@@ -2151,12 +2151,12 @@ msgstr "턱스를 죽입니다"
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:70
 msgid "Worldmap Settings"
-msgstr ""
+msgstr "월드맵 설정"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:70
 msgid "Level Settings"
-msgstr ""
+msgstr "레벨 설정"
 
 #: src/supertux/menu/editor_level_menu.cpp:34
 msgid "Author"
@@ -2176,7 +2176,7 @@ msgstr "타일셋"
 
 #: src/supertux/menu/editor_level_menu.cpp:40
 msgid "Target Time"
-msgstr ""
+msgstr "목표 시간"
 
 #: src/supertux/menu/editor_level_menu.cpp:82
 msgid "Please enter a name for this level."
@@ -2208,67 +2208,67 @@ msgstr "1 타일 (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:41
 msgid "Return to Editor"
-msgstr ""
+msgstr "편집기로 돌아가기"
 
 #: src/supertux/menu/editor_menu.cpp:42
 msgid "Save Worldmap"
-msgstr ""
+msgstr "월드맵 저장"
 
 #: src/supertux/menu/editor_menu.cpp:42
 msgid "Save Level"
-msgstr ""
+msgstr "레벨 저장"
 
 #: src/supertux/menu/editor_menu.cpp:45
 msgid "Test Level"
-msgstr ""
+msgstr "레벨 테스트"
 
 #: src/supertux/menu/editor_menu.cpp:49
 msgid "Test Worldmap"
-msgstr ""
+msgstr "월드맵 테스트"
 
 #: src/supertux/menu/editor_menu.cpp:52
 msgid "Share Level"
-msgstr ""
+msgstr "레벨 공유"
 
 #: src/supertux/menu/editor_menu.cpp:54
 msgid "Open Level Directory"
-msgstr ""
+msgstr "레벨 디렉터리 열기"
 
 #: src/supertux/menu/editor_menu.cpp:57
 msgid "Edit Another Level"
-msgstr ""
+msgstr "다른 레벨 편집"
 
 #: src/supertux/menu/editor_menu.cpp:60
 msgid "Edit Another World"
-msgstr ""
+msgstr "다른 월드 편집"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Grid Size"
-msgstr ""
+msgstr "격자 크기"
 
 #: src/supertux/menu/editor_menu.cpp:65
 msgid "Show Grid"
-msgstr ""
+msgstr "격자 보이기"
 
 #: src/supertux/menu/editor_menu.cpp:66
 msgid "Grid Snapping"
-msgstr ""
+msgstr "격자에 맞추기"
 
 #: src/supertux/menu/editor_menu.cpp:67
 msgid "Render Background"
-msgstr ""
+msgstr "배경 렌더링"
 
 #: src/supertux/menu/editor_menu.cpp:68
 msgid "Render Light"
-msgstr ""
+msgstr "조명 렌더링"
 
 #: src/supertux/menu/editor_menu.cpp:72
 msgid "Keyboard Shortcuts"
-msgstr ""
+msgstr "바로 가기 키"
 
 #: src/supertux/menu/editor_menu.cpp:75
 msgid "Exit Level Editor"
-msgstr ""
+msgstr "레벨 편집기 나가기"
 
 #: src/supertux/menu/editor_menu.cpp:122
 msgid ""
@@ -2276,7 +2276,7 @@ msgid ""
 "To find your level, click the\n"
 "\"Open Level directory\" menu item.\n"
 "Do you want to go to the forum now?"
-msgstr ""
+msgstr "우리는 슈퍼턱스 포럼에서 여러분의 레벨을 공유하는 것을 격려합니다.\n레벨을 찾으려면, \"레벨 디렉터리 열기\"\n메뉴 항목을 클릭하세요.\n이제 포럼으로 가시겠습니까?"
 
 #: src/supertux/menu/editor_menu.cpp:134
 msgid ""
@@ -2290,11 +2290,11 @@ msgid ""
 "F6 = Render Light\n"
 "F7 = Grid Snapping\n"
 "F8 = Show Grid"
-msgstr ""
+msgstr "바로 가기 키:\n---------------------\nEsc = 메뉴 열기\nCtrl+S = 저장\nCtrl+T = 테스트\nCtrl+Z = 실행 취소\nCtrl+Y = 다시 실행\nF6 = 조명 렌더링\nF7 = 격자에 맞추기\nF8 = 격자 보이기"
 
 #: src/supertux/menu/editor_menu.cpp:135
 msgid "Got it!"
-msgstr ""
+msgstr "알았어요!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
@@ -2319,7 +2319,7 @@ msgstr "기타"
 
 #: src/supertux/moving_object.cpp:44
 msgid "Region"
-msgstr ""
+msgstr "지역"
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
@@ -2399,7 +2399,7 @@ msgstr "텔레포터"
 
 #: src/editor/worldmap_objects.hpp:119
 msgid "Sprite Change"
-msgstr ""
+msgstr "스프라이트 바꾸기"
 
 #: src/editor/worldmap_objects.hpp:140
 msgid "Special tile"
@@ -2407,7 +2407,7 @@ msgstr "특수 타일"
 
 #: src/editor/editor.cpp:477
 msgid "This level contains unsaved changes, do you want to save?"
-msgstr ""
+msgstr "이 레벨에 저장하지 않는 변경이 포함되어 있습니다, 저장하시겠습니까?"
 
 #: src/editor/editor.cpp:517
 msgid ""
@@ -2489,7 +2489,7 @@ msgstr "보이지 않음"
 
 #: data//credits.stxt:25
 msgid "Current SuperTux Team"
-msgstr ""
+msgstr "현재 슈퍼턱스 팀"
 
 #: data//credits.stxt:30
 msgid "Programming, project lead ad interim"
@@ -2497,11 +2497,11 @@ msgstr "프로그래밍, 잠깐 동안 프로젝트 리드"
 
 #: data//credits.stxt:35
 msgid "Graphics, Level Design, Story"
-msgstr ""
+msgstr "그래픽, 레벨 디자인, 이야기"
 
 #: data//credits.stxt:40
 msgid "Graphics, Story, Optimisation"
-msgstr ""
+msgstr "그래픽, 이야기, 최적화"
 
 #: data//credits.stxt:45 data//credits.stxt:100 data//credits.stxt:186
 #: data//credits.stxt:498
@@ -2515,7 +2515,7 @@ msgstr "그래픽, 프로그래밍, 레벨 디자인"
 
 #: data//credits.stxt:55
 msgid "Graphics, Programming"
-msgstr ""
+msgstr "그래픽, 프로그래밍"
 
 #: data//credits.stxt:65 data//credits.stxt:130 data//credits.stxt:135
 #: data//credits.stxt:140 data//credits.stxt:145 data//credits.stxt:160
@@ -2525,7 +2525,7 @@ msgstr "프로그래밍"
 
 #: data//credits.stxt:71
 msgid "Original Developers"
-msgstr ""
+msgstr "원래 개발자"
 
 #: data//credits.stxt:76
 msgid "Original Developer"
@@ -2650,13 +2650,13 @@ msgstr "프로그래밍, 이전 유지 관리자"
 
 #: data//credits.stxt:518
 msgid "Various Contributions"
-msgstr ""
+msgstr "다양한 기여"
 
 #: data//credits.stxt:522 data//credits.stxt:526 data//credits.stxt:530
 #: data//credits.stxt:534 data//credits.stxt:538 data//credits.stxt:542
 #: data//credits.stxt:546 data//credits.stxt:550 data//credits.stxt:554
 msgid "Contributions"
-msgstr ""
+msgstr "기여"
 
 #: data//credits.stxt:560
 msgid "Localization"
@@ -2664,7 +2664,7 @@ msgstr "지역화"
 
 #: data//credits.stxt:1107
 msgid " Special Thanks to"
-msgstr ""
+msgstr "특별 감사"
 
 #: data//credits.stxt:1112
 msgid "Creator of Tux, the Linux penguin"
@@ -2682,11 +2682,11 @@ msgstr "리눅스에서 이러한 훌륭한 게임 경험을\n        가능하�
 
 #: data//credits.stxt:1122
 msgid "and you, the player"
-msgstr ""
+msgstr "그리고 플레이어인 여러분"
 
 #: data//credits.stxt:1123
 msgid "for giving this game a chance and playing it"
-msgstr ""
+msgstr "이 게임에 기회를 주고 플레이해주셔서"
 
 #: data//credits.stxt:1134
 msgid "Visit our webpage at"
@@ -2749,7 +2749,7 @@ msgstr "감사합니다"
 
 #: data//credits.stxt:1232
 msgid "Penny awaits you in warmer temperatures!"
-msgstr ""
+msgstr "페니는 따뜻한 기후에서 여러분을 기다리고 있습니다!"
 
 #: data//images/engine/editor/objects.stoi:156
 msgid "Bosses"
@@ -2761,7 +2761,7 @@ msgstr "프로젝타일"
 
 #: data//images/engine/editor/objects.stoi:181
 msgid "Environment"
-msgstr ""
+msgstr "환경"
 
 #: data//images/ice_world.strf:6 data//images/tiles.strf:327
 #: data//images/worldmap.strf:67
@@ -2798,7 +2798,7 @@ msgstr "눈"
 
 #: data//images/tiles.strf:124
 msgid "Snow Background"
-msgstr ""
+msgstr "배경 보이기"
 
 #: data//images/tiles.strf:162
 msgid "Snow Mountain"
@@ -2806,23 +2806,23 @@ msgstr "눈 산"
 
 #: data//images/tiles.strf:236
 msgid "Crystal"
-msgstr ""
+msgstr "크리스탈"
 
 #: data//images/tiles.strf:457
 msgid "Forest Background"
-msgstr ""
+msgstr "숲 배경"
 
 #: data//images/tiles.strf:572
 msgid "Block + Bonus"
-msgstr ""
+msgstr "상자 + 보너스"
 
 #: data//images/tiles.strf:618
 msgid "Pole + Signs"
-msgstr ""
+msgstr "막대기 + 표지판"
 
 #: data//images/tiles.strf:661
 msgid "Liquid"
-msgstr ""
+msgstr "액체"
 
 #: data//images/tiles.strf:833 data//images/worldmap.strf:199
 msgid "Halloween"
@@ -2834,15 +2834,15 @@ msgstr "산업적"
 
 #: data//images/tiles.strf:876
 msgid "Unisolid + Lightmap"
-msgstr ""
+msgstr "유니솔리드 + 라이트맵"
 
 #: data//images/tiles.strf:893
 msgid "Miscellaneous"
-msgstr ""
+msgstr "기타"
 
 #: data//images/tiles.strf:927
 msgid "Old/Unused"
-msgstr ""
+msgstr "오래됨/사용되지 않음"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"

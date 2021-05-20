@@ -27,8 +27,8 @@ static const float RECOVER_TIME = .5;
 
 AngryStone::AngryStone(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"),
-  attackDirection(),
-  oldWallDirection(),
+  attackDirection(0.0f, 0.0f),
+  oldWallDirection(0.0f, 0.0f),
   timer(),
   state(IDLE)
 {

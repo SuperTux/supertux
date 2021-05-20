@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Ryo Nakano, 2017
-# Ryo Nakano, 2019
+# 515ce455fbf38ec9585626e8d26b6324_7a9a6ef, 2017
+# Ryo Nakano, 2019,2021
 # Sanshiro sumita, 2015-2016
 # Sanshiro sumita, 2015
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2019-11-24 10:43+0000\n"
+"PO-Revision-Date: 2021-02-19 06:35+0000\n"
 "Last-Translator: Ryo Nakano\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -31,11 +31,11 @@ msgstr "ドラゴンのいないダンジョン"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
-msgstr "うそ！"
+msgstr "うそつき！"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
-msgstr "発車時刻まであと 1 分"
+msgstr "あと1分で発車します"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
@@ -98,11 +98,11 @@ msgstr "天空の火"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr "以前ここに来たことがありますか？"
+msgstr "見たことのある光景"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr "悪い男は臭う！"
+msgstr "悪者は臭う！"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -110,7 +110,7 @@ msgstr "良いスタート"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
-msgstr "簡単"
+msgstr "簡単すぎるレベル"
 
 #: data/levels/bonus1/torfi-level2.stl:42
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
@@ -118,11 +118,11 @@ msgstr "#ここのすべてのレベルは、Hume2 によってマイルスト�
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
-msgstr "まだ簡単"
+msgstr "まだまだ簡単すぎるレベル"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr "半分フローズン"
+msgstr "凍りかけ"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
@@ -154,35 +154,35 @@ msgstr "ヒント: ここに戻るには、イグルーを使ってください�
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
-msgstr "Matr1x のセクターにワープします"
+msgstr "Matr1xのセクターにワープします"
 
 #: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
-msgstr "Thompson のドメインにワープします"
+msgstr "Thompsonのドメインにワープします"
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
-msgstr "SuperTux チームアイランドを離れます"
+msgstr "SuperTuxチームアイランドを離れます"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
-msgstr "Abednego のエリアにワープします"
+msgstr "Abednegoのエリアにワープします"
 
 #: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr "Torfi のテリトリーを離れます"
+msgstr "Torfiのテリトリーを離れます"
 
 #: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
-msgstr "Abednego のエリアを離れます"
+msgstr "Abednegoのエリアを離れます"
 
 #: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
-msgstr "Thompson のドメインを離れます"
+msgstr "Thompsonのドメインを離れます"
 
 #: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
-msgstr "Matr1x のセクターに戻ります"
+msgstr "Matr1xのセクターに戻ります"
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
@@ -190,16 +190,16 @@ msgstr "ホームにワープします"
 
 #: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
-msgstr "SuperTux チームアイランドにワープします"
+msgstr "SuperTuxチームアイランドにワープします"
 
 #: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
-msgstr "Matr1x のセクターを離れます"
+msgstr "Matr1xのセクターを離れます"
 
 #: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
-msgstr "Matr1x のセクターを続けます"
+msgstr "Matr1xのセクターを続けます"
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
-msgstr "Torfi のテリトリーにワープします"
+msgstr "Torfiのテリトリーにワープします"

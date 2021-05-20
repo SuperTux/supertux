@@ -21,14 +21,14 @@
 
 namespace scripting {
 
-GameObjectManager& get_game_object_manager()
+::GameObjectManager& get_game_object_manager()
 {
   using namespace worldmap;
 
   if (::Sector::current() != nullptr) {
     return ::Sector::get();
-  } else if (WorldMap::current() != nullptr) {
-    return *WorldMap::current();
+  } else if (::worldmap::WorldMap::current() != nullptr) {
+    return *::worldmap::WorldMap::current();
   } else {
     throw std::runtime_error("Neither sector nor worldmap active");
   }

@@ -154,7 +154,7 @@ void NodeMarker::update_node_time(std::vector<Path::Node>::iterator current, std
     return;  // Nothing to do.
   }
   if (current->speed > 0) {
-    float delta = (next->position - current->position).norm();
+    float delta = glm::distance(next->position, current->position);
     if (delta > 0) {
       current->time = delta / current->speed;
     }
