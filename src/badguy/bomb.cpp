@@ -150,8 +150,7 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
     //handle x-movement
     if (player && player->get_physic().get_velocity_x() != 0.f)
     {
-      m_physic.set_velocity_x(player->get_physic().get_velocity_x() +
-        (player->m_dir == Direction::RIGHT ? 30.f : -30.f));
+      m_physic.set_velocity_x((player->m_dir == Direction::RIGHT ? 330.f : -330.f));
     }
   }
   set_colgroup_active(COLGROUP_MOVING);

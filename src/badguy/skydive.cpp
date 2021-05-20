@@ -85,9 +85,10 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
           dir_ == Direction::DOWN ? 500.f :
           player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
       //handle x-movement
-      if (player->get_physic().get_velocity_x() != 0.f)
-        m_physic.set_velocity_x(player->get_physic().get_velocity_x() +
-        ((player->get_physic().get_velocity_x() < 0.f) ? -10.0f : 10.0f));
+      if (player && player->get_physic().get_velocity_x() != 0.f)
+      {
+        m_physic.set_velocity_x((player->m_dir == Direction::RIGHT ? 330.f : -330.f));
+      }
     }
   }
   else
