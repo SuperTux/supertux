@@ -149,8 +149,10 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
         player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
     //handle x-movement
     if (player && player->get_physic().get_velocity_x() != 0.f)
+    {
       m_physic.set_velocity_x(player->get_physic().get_velocity_x() +
-        ((player->get_physic().get_velocity_x() < 0.f) ? -10.0f : 10.0f));
+        (player->m_dir == Direction::RIGHT ? 30.f : -30.f));
+    }
   }
   set_colgroup_active(COLGROUP_MOVING);
   Portable::ungrab(object, dir_);
