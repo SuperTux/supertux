@@ -32,7 +32,7 @@ const float STOMPED_TIME = 1.0f;
 const float TIME_STUNNED = 0.5f;
 
 const float NORMAL_WALK_SPEED = 80.0f;
-const float EXPLODING_WALK_SPEED = 160.0f;
+const float EXPLODING_WALK_SPEED = 200.0f;
 
 } // namespace
 
@@ -139,15 +139,17 @@ Haywire::active_update(float dt_sec)
     auto p = get_nearest_player ();
     float target_velocity = 0.f;
 
-    if (p && time_stunned == 0.0f) {
-      /* Player is on the right */
-      if (p->get_pos ().x > get_pos ().x)
-        target_velocity = walk_speed;
-      else /* player in on the left */
-        target_velocity = (-1.f) * walk_speed;
+    if (stomped_timer.get_timeleft() >= 0.05f)
+    {
+      target_velocity = 0.f;
+    }
+    else if (p && time_stunned == 0.0f)
+    {
+      /* Player is on the right or left*/
+        target_velocity = (p->get_pos().x > get_pos().x) ? walk_speed : (-1.f) * walk_speed;
     }
 
-    WalkingBadguy::active_update(dt_sec, target_velocity);
+    WalkingBadguy::active_update(dt_sec, target_velocity, 3.f);
   }
   else {
     WalkingBadguy::active_update(dt_sec);
