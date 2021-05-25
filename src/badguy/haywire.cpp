@@ -124,21 +124,8 @@ Haywire::active_update(float dt_sec)
     }
   }
 
-  if (is_exploding) {
-    //jump over enemies
-    for (auto& enemy : Sector::get().get_objects_by_type<WalkingBadguy>())
-    {
-      Rectf enemy_bbox = enemy.get_bbox();
-      if ((enemy_bbox.get_left() < (m_col.m_bbox.get_right() + (m_dir == Direction::RIGHT ? 48.f : -38.f)))
-        && (enemy_bbox.get_right() > (m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -48.f : 38.f)))
-        && (enemy_bbox.get_bottom() < (m_col.m_bbox.get_bottom() + 6.f))
-        && (enemy_bbox.get_top() > (m_col.m_bbox.get_top() - 6.f))
-        && on_ground() && std::abs(m_physic.get_velocity_x()) > 40.f)
-      {
-        m_physic.set_velocity_y(-325.f);
-      }
-    }
-
+  if (is_exploding)
+  {
     if (on_ground() && std::abs(m_physic.get_velocity_x()) > 40.f)
     {
       //jump over 1-tall roadblocks
@@ -201,9 +188,8 @@ Haywire::active_update(float dt_sec)
 
     WalkingBadguy::active_update(dt_sec, target_velocity, 3.f);
   }
-  else {
+  else
     WalkingBadguy::active_update(dt_sec);
-  }
 }
 
 void
@@ -309,27 +295,16 @@ void Haywire::play_looping_sounds()
   }
 }
 
-HitResponse Haywire::collision_badguy(BadGuy&, const CollisionHit& hit)
+HitResponse Haywire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if (hit.top)
-  {
-    return FORCE_MOVE;
-  }
   if (is_exploding)
   {
-    if (hit.bottom)
-    {
-      m_physic.set_velocity_y(-325.f);
-    }
+    badguy.kill_fall();
+    return FORCE_MOVE;
   }
   else
-  {
-    if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT)))
-    {
-      turn_around();
-    }
-  }
-  return CONTINUE;
+    WalkingBadguy::collision_badguy(badguy, hit);
+  return ABORT_MOVE;
 }
 
 /* EOF */
