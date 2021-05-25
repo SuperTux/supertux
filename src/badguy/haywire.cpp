@@ -125,6 +125,56 @@ Haywire::active_update(float dt_sec)
   }
 
   if (is_exploding) {
+    //jump over enemies
+    for (auto& enemy : Sector::get().get_objects_by_type<WalkingBadguy>())
+    {
+      Rectf enemy_bbox = enemy.get_bbox();
+      if ((enemy_bbox.get_left() < (m_col.m_bbox.get_right() + (m_dir == Direction::RIGHT ? 48.f : -38.f)))
+        && (enemy_bbox.get_right() > (m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -48.f : 38.f)))
+        && (enemy_bbox.get_bottom() < (m_col.m_bbox.get_bottom() + 6.f))
+        && (enemy_bbox.get_top() > (m_col.m_bbox.get_top() - 6.f))
+        && on_ground() && std::abs(m_physic.get_velocity_x()) > 40.f)
+      {
+        m_physic.set_velocity_y(-325.f);
+      }
+    }
+
+    if (on_ground() && std::abs(m_physic.get_velocity_x()) > 40.f)
+    {
+      //jump over 1-tall roadblocks
+      Rectf jump_box = get_bbox();
+      jump_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -48.f : 38.f));
+      jump_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::RIGHT ? 48.f : -38.f));
+
+      Rectf exception_box = get_bbox();
+      exception_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -48.f : 38.f));
+      exception_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::RIGHT ? 48.f : -38.f));
+      exception_box.set_top(m_col.m_bbox.get_top() - 32.f);
+      exception_box.set_bottom(m_col.m_bbox.get_bottom() - 48.f);
+
+      if (!Sector::get().is_free_of_statics(jump_box) && Sector::get().is_free_of_statics(exception_box))
+      {
+        m_physic.set_velocity_y(-325.f);
+      }
+      else
+      {
+        //jump over gaps if Tux isnt below
+        Rectf gap_box = get_bbox();
+        gap_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -38.f : 26.f));
+        gap_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::LEFT ? -26.f : 38.f));
+        gap_box.set_top(m_col.m_bbox.get_top());
+        gap_box.set_bottom(m_col.m_bbox.get_bottom() + 28.f);
+
+        if (Sector::get().is_free_of_statics(gap_box)
+          && (get_nearest_player()->get_bbox().get_bottom() <= m_col.m_bbox.get_bottom()))
+        {
+          m_physic.set_velocity_y(-325.f);
+        }
+      }
+    }
+
+    //end of pathfinding
+
 	  if (stomped_timer.get_timeleft() < 0.05f) {
         set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
         walk_left_action = "ticking-left";
@@ -204,6 +254,7 @@ void
 Haywire::start_exploding()
 {
   set_walk_speed (EXPLODING_WALK_SPEED);
+  max_drop_height = -1;
   time_until_explosion = TIME_EXPLOSION;
   is_exploding = true;
 
@@ -225,6 +276,7 @@ Haywire::stop_exploding()
   walk_left_action = "left";
   walk_right_action = "right";
   set_walk_speed(NORMAL_WALK_SPEED);
+  max_drop_height = 16;
   time_until_explosion = 0.0f;
   is_exploding = false;
 
@@ -255,6 +307,29 @@ void Haywire::play_looping_sounds()
       grunting->play();
     }
   }
+}
+
+HitResponse Haywire::collision_badguy(BadGuy&, const CollisionHit& hit)
+{
+  if (hit.top)
+  {
+    return FORCE_MOVE;
+  }
+  if (is_exploding)
+  {
+    if (hit.bottom)
+    {
+      m_physic.set_velocity_y(-325.f);
+    }
+  }
+  else
+  {
+    if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT)))
+    {
+      turn_around();
+    }
+  }
+  return CONTINUE;
 }
 
 /* EOF */
