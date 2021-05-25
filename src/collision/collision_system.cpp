@@ -384,6 +384,17 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
       collision::Constraints new_constraints = check_collisions(
         movement, dest, static_object->m_dest, &object, static_object);
 
+      // If collisions occurred, objects must be notified now, because their
+      // destination could have changed so that they don't collide anymore.
+      if (new_constraints.has_constraints()) {
+        object.collision(*static_object, new_constraints.hit);
+        std::swap(new_constraints.hit.left, new_constraints.hit.right);
+        std::swap(new_constraints.hit.top, new_constraints.hit.bottom);
+        static_object->collision(object, new_constraints.hit);
+        std::swap(new_constraints.hit.left, new_constraints.hit.right);
+        std::swap(new_constraints.hit.top, new_constraints.hit.bottom);
+      }
+
       if (new_constraints.hit.bottom)
         static_object->collision_moving_object_bottom(object);
       else if (new_constraints.hit.top)
