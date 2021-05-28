@@ -184,7 +184,8 @@ LevelIntro::draw(Compositor& compositor)
   }
   py += 32;
   if (!m_level.m_note.empty()) {
-    context.color().draw_center_text(Resources::normal_font, _("Level Note") + std::string(": ") + m_level.m_note, Vector(0, py), LAYER_FOREGROUND1);
+    //context.color().draw_center_text(Resources::normal_font, _("Level Note: %s"), Vector(0, py), LAYER_FOREGROUND1);
+    draw_stats_line(context,py,_("Level note"),m_level.m_note,false);
   }
   
 }
