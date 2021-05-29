@@ -94,7 +94,7 @@ WalkingBadguy::add_velocity (const Vector& velocity)
 }
 
 void
-WalkingBadguy::active_update(float dt_sec, float dest_x_velocity)
+WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier)
 {
   BadGuy::active_update(dt_sec);
 
@@ -118,7 +118,7 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity)
   {
     /* acceleration == walk-speed => it will take one second to get from zero
      * to full speed. */
-    m_physic.set_acceleration_x (dest_x_velocity);
+    m_physic.set_acceleration_x (dest_x_velocity * modifier);
   }
   /* Check if we're going too fast */
   else if (((dest_x_velocity <= 0.0f) && (current_x_velocity < dest_x_velocity)) ||

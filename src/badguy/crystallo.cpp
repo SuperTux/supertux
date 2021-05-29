@@ -43,19 +43,24 @@ Crystallo::get_settings()
 void
 Crystallo::active_update(float dt_sec)
 {
-  if (get_pos().x > (m_start_position.x + m_radius)) {
-    if (m_dir != Direction::LEFT){
-      turn_around();
+  float targetwalk = m_dir == Direction::LEFT ? -80.f : 80.f;
+  if (get_pos().x > (m_start_position.x + m_radius - 20.f))
+  {
+    if (m_dir != Direction::LEFT)
+    {
+      targetwalk = -80.f;
     }
   }
 
-  if (get_pos().x < (m_start_position.x - m_radius)) {
-    if (m_dir != Direction::RIGHT){
-      turn_around();
+  if (get_pos().x < (m_start_position.x - m_radius + 20.f))
+  {
+    if (m_dir != Direction::RIGHT)
+    {
+      targetwalk = 80.f;
     }
   }
 
-  BadGuy::active_update(dt_sec);
+  WalkingBadguy::active_update(dt_sec, targetwalk, 3.f);
 }
 
 bool
