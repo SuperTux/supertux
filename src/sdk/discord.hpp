@@ -36,7 +36,7 @@ public:
 
 protected:
   DiscordIntegration();
-  ~DiscordIntegration();
+  ~DiscordIntegration() override;
 
 private:
   static DiscordIntegration* driver;

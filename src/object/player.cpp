@@ -234,6 +234,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
 
 Player::~Player()
 {
+  ungrab_object();
   if (m_climbing) stop_climbing(*m_climbing);
 }
 
