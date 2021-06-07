@@ -182,6 +182,11 @@ LevelIntro::draw(Compositor& compositor)
                       Statistics::time_to_string(m_level.m_target_time), targetTimeBeaten);
     }
   }
+  py += 32;
+  if (!m_level.m_note.empty()) {
+    context.color().draw_center_text(Resources::normal_font, m_level.m_note, Vector(0, py), LAYER_FOREGROUND1);
+  }
+  
 }
 
 IntegrationStatus
