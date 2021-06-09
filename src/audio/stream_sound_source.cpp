@@ -92,7 +92,7 @@ StreamSoundSource::update()
       break;
   }
 
-  if (!playing()) {
+  if (!playing() && !paused()) {
     if (processed == 0 || !m_looping)
       return;
 
