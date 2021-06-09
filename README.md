@@ -94,8 +94,7 @@ In case you need help, feel free to reach out using the following means:
   add-ons are published there first, so this is worth checking.
 * **Mailing Lists:** The
   [supertux-devel](http://lists.lethargik.org/listinfo.cgi/supertux-devel-lethargik.org)
-  mailing list is intended for development purposes. However, it is not very
-  active at the moment.
+  mailing list is dead with no backups, unfortunately. If you have archived (most of) the list please upload it somewhere and send us a link.
 * **Social Media:** Mostly on [Twitter](https://twitter.com/supertux_team) at
   the moment.
 * **Discord:** Also, you can join our [Discord server](https://discord.com/invite/AcvtHWz) to get in touch with us.
