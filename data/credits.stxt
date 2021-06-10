@@ -463,7 +463,7 @@
       (name "Jann Horn")
       (info (_ "Code contributions"))
     )
-    (person 
+    (person
       (name "HybridDog")
       (info (_ "Code contributions")))
     (person
@@ -784,7 +784,7 @@
     (person
       (name "Bertrand Delaitre, Antoine Dumondel, Groog,"))
     (person
-      (name "Inperpetuammemoriam, Jean-Philippe L'Étoile, Simon Le Guével,")) 
+      (name "Inperpetuammemoriam, Jean-Philippe L'Étoile, Simon Le Guével,"))
     (person
       (name "Benjamin Leduc, Céline Marmin, Lucas Mascaro, MCMic, mol1,")
     )
@@ -836,7 +836,7 @@
       (name "GenghisKhan, Nemechek guricz, Evgeny Satanovsky,")
     )
     (person
-      (name " Yevgney Sliosarenko, Yevgeny"))
+      (name " Yevgney Sliosarenko, Yevgeny, Omeritzics"))
     (blank)
     (text
       (type "reference")
