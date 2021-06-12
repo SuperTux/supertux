@@ -112,7 +112,7 @@ AmbientSound::start_playing()
     if (!sound_source)
       throw std::runtime_error("file not found");
 
-    sound_source->set_gain(targetvolume);
+    sound_source->set_gain(0);
     sound_source->set_looping(true);
     sound_source->play();
   } catch(std::exception& e) {
