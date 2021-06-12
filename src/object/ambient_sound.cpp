@@ -25,19 +25,15 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
+#include "object/player.hpp"
 
 AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   MovingObject(mapping),
   ExposedObject<AmbientSound, scripting::AmbientSound>(this),
   sample(),
   sound_source(),
-  latency(),
-  distance_factor(),
-  distance_bias(),
-  silence_distance(),
-  maximumvolume(),
-  targetvolume(),
-  currentvolume(0)
+  m_effect_distance(),
+  targetvolume(1)
 {
   m_col.m_group = COLGROUP_DISABLED;
 
@@ -48,57 +44,27 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   mapping.get("height", h, 32.0f);
   m_col.m_bbox.set_size(w, h);
 
-  mapping.get("distance_factor",distance_factor, 0.0f);
-  mapping.get("distance_bias"  ,distance_bias  , 0.0f);
-  mapping.get("sample"         ,sample         , "");
-  mapping.get("volume"         ,maximumvolume  , 1.0f);
-
-  // square all distances (saves us a sqrt later)
-
-  if (!Editor::is_active()) {
-    distance_bias*=distance_bias;
-    distance_factor*=distance_factor;
-  }
-
-  // set default silence_distance
-
-  if (distance_factor == 0)
-    silence_distance = std::numeric_limits<float>::max();
-  else
-    silence_distance = 1/distance_factor;
-
-  mapping.get("silence_distance",silence_distance);
+  mapping.get("effect_distance",m_effect_distance, 0.0f);
+  mapping.get("sample"         ,sample           , "");
+  mapping.get("volume"         ,targetvolume     , 1.0f);
 
   if (!Editor::is_active()) {
     sound_source.reset(); // not playing at the beginning
     SoundManager::current()->preload(sample);
   }
-  latency=0;
 }
 
-AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vol, const std::string& file) :
+AmbientSound::AmbientSound(const Vector& pos, float distance, float vol, const std::string& file) :
   ExposedObject<AmbientSound, scripting::AmbientSound>(this),
   sample(file),
   sound_source(),
-  latency(0),
-  distance_factor(factor * factor),
-  distance_bias(bias * bias),
-  silence_distance(),
-  maximumvolume(vol),
-  targetvolume(),
-  currentvolume()
+  m_effect_distance(distance),
+  targetvolume(vol)
 {
   m_col.m_group = COLGROUP_DISABLED;
 
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(32, 32);
-
-  // set default silence_distance
-
-  if (distance_factor == 0)
-    silence_distance = std::numeric_limits<float>::max();
-  else
-    silence_distance = 1/distance_factor;
 
   if (!Editor::is_active()) {
     sound_source.reset(); // not playing at the beginning
@@ -117,11 +83,10 @@ AmbientSound::get_settings()
   ObjectSettings result = MovingObject::get_settings();
 
   result.add_sound(_("Sound"), &sample, "sample");
-  result.add_float(_("Distance factor"), &distance_factor, "distance_factor");
-  result.add_float(_("Distance bias"), &distance_bias, "distance_bias");
-  result.add_float(_("Volume"), &maximumvolume, "volume");
+  result.add_float(_("Effect distance"), &m_effect_distance, "effect_distance");
+  result.add_float(_("Volume"), &targetvolume, "volume");
 
-  result.reorder({"sample", "distance_factor", "distance_bias", "volume", "region", "name", "x", "y", "width", "height"});
+  result.reorder({"sample", "effect_distance", "volume", "region", "name", "x", "y", "width", "height"});
 
   return result;
 }
@@ -147,9 +112,8 @@ AmbientSound::start_playing()
     if (!sound_source)
       throw std::runtime_error("file not found");
 
-    sound_source->set_gain(0);
+    sound_source->set_gain(targetvolume);
     sound_source->set_looping(true);
-    currentvolume=targetvolume=1e-20f;
     sound_source->play();
   } catch(std::exception& e) {
     log_warning << "Couldn't play '" << sample << "': " << e.what() << "" << std::endl;
@@ -161,59 +125,24 @@ AmbientSound::start_playing()
 void
 AmbientSound::update(float dt_sec)
 {
-  if (latency-- <= 0) {
-    float px,py;
-    float rx,ry;
-
-    // Camera position
-    px=Sector::get().get_camera().get_center().x;
-    py=Sector::get().get_camera().get_center().y;
-
-    // Relate to which point in the area
-    rx=px<m_col.m_bbox.get_left()?m_col.m_bbox.get_left():
-      (px<m_col.m_bbox.get_right()?px:m_col.m_bbox.get_right());
-    ry=py<m_col.m_bbox.get_top()?m_col.m_bbox.get_top():
-      (py<m_col.m_bbox.get_bottom()?py:m_col.m_bbox.get_bottom());
-
-    // calculate square of distance
-    float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
-    sqrdistance-=distance_bias;
-
-    // inside the bias: full volume (distance 0)
-    if (sqrdistance<0)
-      sqrdistance=0;
-
-    // calculate target volume - will never become 0
-    targetvolume=1/(1+sqrdistance*distance_factor);
-    float rise=targetvolume/currentvolume;
-
-    // rise/fall half life?
-    currentvolume *= powf(rise, dt_sec * 10.0f);
-    currentvolume += 1e-6f; // volume is at least 1e-6 (0 would never rise)
-
-    if (sound_source != nullptr) {
-
-      // set the volume
-      sound_source->set_gain(currentvolume*maximumvolume);
-
-      if (sqrdistance>=silence_distance && currentvolume < 1e-3f)
-        stop_playing();
-      latency=0;
-    } else {
-      if (sqrdistance<silence_distance) {
-        start_playing();
-        latency=0;
-      }
-      else // set a reasonable latency
-        latency = static_cast<int>(0.001f / distance_factor);
-      //(int)(10*((sqrdistance-silence_distance)/silence_distance));
-    }
+  // check if player is within 100% volume area
+  if (m_col.get_bbox().contains(Sector::get().get_player().get_bbox()) && sound_source != nullptr)
+  {
+    sound_source->set_gain(targetvolume);
   }
-
-  // heuristically measured "good" latency maximum
-
-  //  if (latency>0.001/distance_factor)
-  // latency=
+  else
+  {
+    float dist = m_col.get_bbox().distance(Sector::get().get_player().get_bbox());
+    if (dist < m_effect_distance)
+    {
+      if (sound_source==nullptr)
+        start_playing();
+      else
+        sound_source->set_gain((1.0f - (dist / m_effect_distance)) * targetvolume);   
+    }
+    if (dist >= m_effect_distance)
+      stop_playing();
+  }
 }
 
 #ifndef SCRIPTING_API
