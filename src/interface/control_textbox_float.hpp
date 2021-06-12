@@ -24,7 +24,7 @@ class ControlTextboxFloat : public ControlTextbox
 public:
   ControlTextboxFloat();
 
-  virtual void update(float dt_sec, const Controller& controller) override;
+  virtual void update(float dt_sec) override;
 
   float get_value() const { return *m_value; }
   void set_value(float value) { *m_value = value; revert_value(); }

@@ -27,9 +27,9 @@ ControlTextboxInt::ControlTextboxInt() :
 }
 
 void
-ControlTextboxInt::update(float dt_sec, const Controller& controller)
+ControlTextboxInt::update(float dt_sec)
 {
-  ControlTextbox::update(dt_sec, controller);
+  ControlTextbox::update(dt_sec);
   if (!m_has_focus)
     revert_value();
 }
@@ -71,7 +71,7 @@ ControlTextboxInt::parse_value(bool call_on_change /* = true (see header */)
     revert_value();
 
     if (call_on_change && m_on_change)
-      (*m_on_change)();
+      m_on_change();
   }
 
   return true;

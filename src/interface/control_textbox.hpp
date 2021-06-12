@@ -36,7 +36,7 @@ public:
   virtual bool on_key_down(const SDL_KeyboardEvent& key) override;
   virtual bool event(const SDL_Event& ev) override;
 
-  virtual void update(float dt_sec, const Controller& controller) override;
+  virtual void update(float dt_sec) override;
 
   /** Binds a string to the textbox */
   void bind_string(std::string* value) { m_string = value; }
@@ -159,7 +159,6 @@ protected:
    */
   std::string m_internal_string_backup;
 
-  float m_backspace_remaining;
   float m_cursor_timer;
   int m_caret_pos;
   int m_secondary_caret_pos; /**< Used for selections */
@@ -174,7 +173,7 @@ protected:
   int m_current_offset;
 
 protected:
-  void on_backspace();
+  void delete_char_before_caret();
 
   /** Returns the largest string fitting in the box. */
   std::string get_truncated_text(std::string text) const;

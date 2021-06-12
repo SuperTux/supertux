@@ -20,7 +20,8 @@ InterfaceControl::InterfaceControl() :
   m_on_change(),
   m_label(),
   m_has_focus(),
-  m_rect()
+  m_rect(),
+  m_parent(nullptr)
 {
 }
 
