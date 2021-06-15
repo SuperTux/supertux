@@ -1,81 +1,254 @@
 (supertux-sprite
   (action
-    (hitbox 6 41 0 0)
-    (name "empty")
+    (hitbox 8 60 0 0)
+    (name "empty-right")
+	(fps 2)
     (images 
-      "boat_empty.png"
+      "boat_empty_0.png"
+	  "boat_empty_1.png"
+	  "boat_empty_2.png"
+	  "boat_empty_2.png"
+	  "boat_empty_1.png"
+	  "boat_empty_0.png"
     )
   )
   (action
-    (hitbox 6 41 0 0)
-    (name "small-stop")
-    (fps 5)
+    (hitbox 8 60 0 0)
+    (name "empty-left")
+	(fps 2)
+    (mirror-action "empty-right"))
+  
+  (action
+    (hitbox 8 60 0 0)
+    (name "small-stop-right")
+    (fps 2)
     (images 
-      "boat_1.png"
-      "boat_0.png"
+      "boat_0_small.png"
+	  "boat_1_small.png"
+	  "boat_2_small.png"
+	  "boat_2_small.png"
+	  "boat_1_small.png"
+	  "boat_0_small.png"
     )
   )
   (action
-    (hitbox 6 41 0 0)
-    (name "small-walking")
+    (hitbox 8 60 0 0)
+    (name "small-stop-left")
+	(fps 2)
+    (mirror-action "small-stop-right")
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "small-walking-right")
     (fps 5)
     (images 
-      "boat_1.png"
-      "boat_0.png"
+      "boat_0_small.png"
+	  "boat_1_small.png"
+	  "boat_2_small.png"
+	  "boat_2_small.png"
+	  "boat_1_small.png"
+	  "boat_0_small.png"
     )
   )
   (action
-    (hitbox 6 41 0 0)
-    (name "fire-stop")
+    (hitbox 8 60 0 0)
+    (name "small-walking-left")
+    (fps 5)
+    (mirror-action "small-walking-right")
+  )
+
+  (action
+    (hitbox 8 60 0 0)
+    (name "large-stop-right")
+    (fps 2)
+    (images 
+      "boat_0_big.png"
+	  "boat_1_big.png"
+	  "boat_2_big.png"
+	  "boat_2_big.png"
+	  "boat_1_big.png"
+	  "boat_0_big.png"
+    )
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "large-stop-left")
+	(fps 2)
+    (mirror-action "large-stop-right")
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "large-walking-right")
     (fps 5)
     (images 
-      "boat_1_fire.png"
+      "boat_0_big.png"
+	  "boat_1_big.png"
+	  "boat_2_big.png"
+	  "boat_2_big.png"
+	  "boat_1_big.png"
+	  "boat_0_big.png"
+    )
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "large-walking-left")
+    (fps 5)
+    (mirror-action "large-walking-right")
+  )
+  
+  (action
+    (hitbox 8 60 0 0)
+    (name "fire-stop-right")
+    (fps 2)
+    (images 
       "boat_0_fire.png"
+	  "boat_1_fire.png"
+	  "boat_2_fire.png"
+	  "boat_2_fire.png"
+	  "boat_1_fire.png"
+	  "boat_0_fire.png"
     )
   )
   (action
-    (hitbox 6 41 0 0)
-    (name "fire-walking")
+    (hitbox 8 60 0 0)
+    (name "fire-stop-left")
+	(fps 2)
+    (mirror-action "fire-stop-right")
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "fire-walking-right")
     (fps 5)
     (images 
-      "boat_1_fire.png"
       "boat_0_fire.png"
+	  "boat_1_fire.png"
+	  "boat_2_fire.png"
+	  "boat_2_fire.png"
+	  "boat_1_fire.png"
+	  "boat_0_fire.png"
     )
   )
   (action
-    (hitbox 6 41 0 0)
-    (name "large-stop")
+    (hitbox 8 60 0 0)
+    (name "fire-walking-left")
     (fps 5)
-    (images 
-      "boat_1.png"
-      "boat_0.png"
-    )
+    (mirror-action "fire-walking-right")
   )
+  
   (action
-    (hitbox 6 41 0 0)
-    (name "large-walking")
-    (fps 5)
+    (hitbox 8 60 0 0)
+    (name "ice-stop-right")
+    (fps 2)
     (images 
-      "boat_1.png"
-      "boat_0.png"
-    )
-  )
-  (action
-    (hitbox 6 41 0 0)
-    (name "ice-stop")
-    (fps 5)
-    (images 
-      "boat_1_ice.png"
       "boat_0_ice.png"
+	  "boat_1_ice.png"
+	  "boat_2_ice.png"
+	  "boat_2_ice.png"
+	  "boat_1_ice.png"
+	  "boat_0_ice.png"
     )
   )
   (action
-    (hitbox 6 41 0 0)
-    (name "ice-walking")
+    (hitbox 8 60 0 0)
+    (name "ice-stop-left")
+	(fps 2)
+    (mirror-action "ice-stop-right")
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "ice-walking-right")
     (fps 5)
     (images 
-      "boat_1_ice.png"
       "boat_0_ice.png"
+	  "boat_1_ice.png"
+	  "boat_2_ice.png"
+	  "boat_2_ice.png"
+	  "boat_1_ice.png"
+	  "boat_0_ice.png"
     )
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "ice-walking-left")
+    (fps 5)
+    (mirror-action "ice-walking-right")
+  )
+  
+  (action
+    (hitbox 8 60 0 0)
+    (name "air-stop-right")
+    (fps 2)
+    (images 
+      "boat_0_air.png"
+	  "boat_1_air.png"
+	  "boat_2_air.png"
+	  "boat_2_air.png"
+	  "boat_1_air.png"
+	  "boat_0_air.png"
+    )
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "air-stop-left")
+	(fps 2)
+    (mirror-action "small-stop-right")
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "air-walking-right")
+    (fps 5)
+    (images 
+      "boat_0_air.png"
+	  "boat_1_air.png"
+	  "boat_2_air.png"
+	  "boat_2_air.png"
+	  "boat_1_air.png"
+	  "boat_0_air.png"
+    )
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "air-walking-left")
+    (fps 5)
+    (mirror-action "air-walking-right")
+  )
+  
+  (action
+    (hitbox 8 60 0 0)
+    (name "earth-stop-right")
+    (fps 2)
+    (images 
+      "boat_0_earth.png"
+	  "boat_1_earth.png"
+	  "boat_2_earth.png"
+	  "boat_2_earth.png"
+	  "boat_1_earth.png"
+	  "boat_0_earth.png"
+    )
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "earth-stop-left")
+	(fps 2)
+    (mirror-action "earth-stop-right")
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "earth-walking-right")
+    (fps 5)
+    (images 
+      "boat_0_earth.png"
+	  "boat_1_earth.png"
+	  "boat_2_earth.png"
+	  "boat_2_earth.png"
+	  "boat_1_earth.png"
+	  "boat_0_earth.png"
+    )
+  )
+  (action
+    (hitbox 8 60 0 0)
+    (name "earth-walking-left")
+    (fps 5)
+    (mirror-action "earth-walking-right")
   )
 )
