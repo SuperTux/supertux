@@ -28,7 +28,7 @@ class InterfaceContainer final : public InterfaceControl
 {
 public:
   InterfaceContainer();
-  virtual ~InterfaceContainer() {}
+  virtual ~InterfaceContainer() override {}
 
   virtual bool event(const SDL_Event& ev) override;
   virtual void update(float dt_sec) override;
