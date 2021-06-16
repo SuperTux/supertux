@@ -76,7 +76,7 @@ jobs:
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
 
-  ubports:
+  clickable:
     strategy:
       fail-fast: false
       matrix:
@@ -109,18 +109,18 @@ jobs:
         env:
           BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
-        run: ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config mk/ubports/clickable.json
+        run: ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config mk/clickable/clickable.json
       - uses: actions/upload-artifact@v2
         with:
-          name: "ubports-${{ matrix.arch }}-${{ matrix.build_type }}-click"
-          path: build.ubports/*.click
+          name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-click"
+          path: build.clickable/*.click
           if-no-files-found: ignore
       - name: Publish to Open Store
         if: ${{ github.ref == 'refs/heads/master' && matrix.build_type == 'Release' }}
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-        run: ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config mk/ubports/clickable.json --arch ${ARCH}
+        run: ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config mk/clickable/clickable.json --arch ${ARCH}
 
   wasm:
     strategy:
