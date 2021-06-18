@@ -16,6 +16,8 @@
 
 #include "supertux/gameconfig.hpp"
 
+#include <ctime>
+
 #include "config.h"
 
 #include "editor/overlay_widget.hpp"
@@ -104,7 +106,7 @@ Config::load()
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
 
-  boost::optional<ReaderMapping> config_integrations_mapping;
+  std::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
   {
     config_integrations_mapping->get("hide_editor_levelnames", hide_editor_levelnames);
@@ -128,7 +130,7 @@ Config::load()
   config_mapping.get("random_seed", random_seed);
   config_mapping.get("repository_url", repository_url);
 
-  boost::optional<ReaderMapping> config_video_mapping;
+  std::optional<ReaderMapping> config_video_mapping;
   if (config_mapping.get("video", config_video_mapping))
   {
     config_video_mapping->get("fullscreen", use_fullscreen);
@@ -162,7 +164,7 @@ Config::load()
 #endif
   }
 
-  boost::optional<ReaderMapping> config_audio_mapping;
+  std::optional<ReaderMapping> config_audio_mapping;
   if (config_mapping.get("audio", config_audio_mapping))
   {
     config_audio_mapping->get("sound_enabled", sound_enabled);
@@ -171,16 +173,16 @@ Config::load()
     config_audio_mapping->get("music_volume", music_volume);
   }
 
-  boost::optional<ReaderMapping> config_control_mapping;
+  std::optional<ReaderMapping> config_control_mapping;
   if (config_mapping.get("control", config_control_mapping))
   {
-    boost::optional<ReaderMapping> keymap_mapping;
+    std::optional<ReaderMapping> keymap_mapping;
     if (config_control_mapping->get("keymap", keymap_mapping))
     {
       keyboard_config.read(*keymap_mapping);
     }
 
-    boost::optional<ReaderMapping> joystick_mapping;
+    std::optional<ReaderMapping> joystick_mapping;
     if (config_control_mapping->get("joystick", joystick_mapping))
     {
       joystick_config.read(*joystick_mapping);
@@ -191,7 +193,7 @@ Config::load()
 #endif
   }
 
-  boost::optional<ReaderCollection> config_addons_mapping;
+  std::optional<ReaderCollection> config_addons_mapping;
   if (config_mapping.get("addons", config_addons_mapping))
   {
     for (auto const& addon_node : config_addons_mapping->get_objects())
@@ -314,6 +316,16 @@ Config::save()
   writer.end_list("addons");
 
   writer.end_list("supertux-config");
+}
+
+bool
+Config::is_christmas() const
+{
+  time_t rawtime;
+  std::time(&rawtime);
+  struct tm* timeinfo = std::localtime(&rawtime);
+  // 6. Dec, Saint Nicholas Day
+  return timeinfo->tm_mon == 11 && timeinfo->tm_mday >= 6;
 }
 
 /* EOF */

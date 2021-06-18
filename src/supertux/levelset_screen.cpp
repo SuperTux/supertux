@@ -29,7 +29,7 @@
 
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
                                Savegame& savegame,
-                               const boost::optional<std::pair<std::string, Vector>>& start_pos) :
+                               const std::optional<std::pair<std::string, Vector>>& start_pos) :
   m_basedir(basedir),
   m_level_filename(level_filename),
   m_savegame(savegame),

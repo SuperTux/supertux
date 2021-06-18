@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_SURFACE_HPP
 
 #include <string>
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "math/rect.hpp"
 #include "math/vector.hpp"
@@ -36,8 +36,8 @@ class Surface final
 {
 public:
   static SurfacePtr from_texture(const TexturePtr& texture);
-  static SurfacePtr from_file(const std::string& filename, const boost::optional<Rect>& rect = boost::none);
-  static SurfacePtr from_reader(const ReaderMapping& mapping, const boost::optional<Rect>& rect = boost::none, const std::string& filename = "");
+  static SurfacePtr from_file(const std::string& filename, const std::optional<Rect>& rect = std::nullopt);
+  static SurfacePtr from_reader(const ReaderMapping& mapping, const std::optional<Rect>& rect = std::nullopt, const std::string& filename = "");
 
 private:
   Surface(const TexturePtr& diffuse_texture, const TexturePtr& displacement_texture, Flip flip, const std::string& filename = "");

@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_COMMAND_LINE_ARGUMENTS_HPP
 #define HEADER_SUPERTUX_SUPERTUX_COMMAND_LINE_ARGUMENTS_HPP
 
-#include <boost/optional.hpp>
+#include <optional>
 #include <vector>
 
 #include "math/size.hpp"
@@ -45,44 +45,44 @@ private:
   LogLevel m_log_level;
 
 public:
-  boost::optional<std::string> datadir;
-  boost::optional<std::string> userdir;
+  std::optional<std::string> datadir;
+  std::optional<std::string> userdir;
 
-  boost::optional<Size> fullscreen_size;
-  boost::optional<int> fullscreen_refresh_rate;
-  boost::optional<Size> window_size;
-  boost::optional<Size> aspect_size;
+  std::optional<Size> fullscreen_size;
+  std::optional<int> fullscreen_refresh_rate;
+  std::optional<Size> window_size;
+  std::optional<Size> aspect_size;
 
-  // boost::optional<float> magnification;
+  // std::optional<float> magnification;
 
-  boost::optional<bool> use_fullscreen;
-  boost::optional<VideoSystem::Enum> video;
-  // boost::optional<bool> try_vsync;
-  boost::optional<bool> show_fps;
-  boost::optional<bool> show_player_pos;
-  boost::optional<bool> sound_enabled;
-  boost::optional<bool> music_enabled;
+  std::optional<bool> use_fullscreen;
+  std::optional<VideoSystem::Enum> video;
+  // std::optional<bool> try_vsync;
+  std::optional<bool> show_fps;
+  std::optional<bool> show_player_pos;
+  std::optional<bool> sound_enabled;
+  std::optional<bool> music_enabled;
 
-  // boost::optional<int> random_seed;
+  // std::optional<int> random_seed;
 
   std::vector<std::string> filenames;
-  boost::optional<bool> enable_script_debugger;
-  boost::optional<std::string> start_demo;
-  boost::optional<std::string> record_demo;
-  boost::optional<Vector> tux_spawn_pos;
-  boost::optional<std::string> sector;
-  boost::optional<std::string> spawnpoint;
+  std::optional<bool> enable_script_debugger;
+  std::optional<std::string> start_demo;
+  std::optional<std::string> record_demo;
+  std::optional<Vector> tux_spawn_pos;
+  std::optional<std::string> sector;
+  std::optional<std::string> spawnpoint;
 
-  boost::optional<bool> developer_mode;
+  std::optional<bool> developer_mode;
 
-  boost::optional<bool> christmas_mode;
+  std::optional<bool> christmas_mode;
 
-  boost::optional<std::string> repository_url;
+  std::optional<std::string> repository_url;
 
-  boost::optional<bool> editor;
-  boost::optional<bool> resave;
+  std::optional<bool> editor;
+  std::optional<bool> resave;
 
-  // boost::optional<std::string> locale;
+  // std::optional<std::string> locale;
 
 public:
   CommandLineArguments();
