@@ -127,7 +127,7 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          brew install cmake googletest bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
+          brew install boost cmake googletest bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
                 freetype harfbuzz fribidi glib gtk-doc glbinding libraqm glm
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework /Library/Frameworks/Mono.framework-disabled
