@@ -54,6 +54,7 @@
 #include "badguy/snowball.hpp"
 #include "badguy/snowman.hpp"
 #include "badguy/spidermite.hpp"
+#include "badguy/scrystallo.hpp"
 #include "badguy/spiky.hpp"
 #include "badguy/sspiky.hpp"
 #include "badguy/stalactite.hpp"
@@ -179,6 +180,7 @@ GameObjectFactory::init_factories()
   add_factory<Owl>("owl");
   add_factory<Plant>("plant");
   add_factory<PoisonIvy>("poisonivy");
+  add_factory<SCrystallo>("scrystallo");
   add_factory<ShortFuse>("short_fuse");
   add_factory<SSpiky>("sspiky");
   add_factory<SkyDive>("skydive");
