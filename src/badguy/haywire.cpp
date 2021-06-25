@@ -183,7 +183,7 @@ Haywire::active_update(float dt_sec)
     else if (p && time_stunned == 0.0f)
     {
       /* Player is on the right or left*/
-        target_velocity = (p->get_pos().x > get_pos().x) ? walk_speed : (-1.f) * walk_speed;
+      target_velocity = (p->get_pos().x > get_pos().x) ? walk_speed : (-1.f) * walk_speed;
     }
 
     WalkingBadguy::active_update(dt_sec, target_velocity, 3.f);
@@ -303,7 +303,9 @@ HitResponse Haywire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
     return FORCE_MOVE;
   }
   else
+  {
     WalkingBadguy::collision_badguy(badguy, hit);
+  }
   return ABORT_MOVE;
 }
 
