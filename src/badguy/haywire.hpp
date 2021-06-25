@@ -39,6 +39,8 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+
   virtual std::string get_class() const override { return "haywire"; }
   virtual std::string get_display_name() const override { return _("Haywire"); }
 

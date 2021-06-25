@@ -51,7 +51,7 @@ public:
   virtual void freeze() override;
   virtual void unfreeze() override;
 
-  void active_update(float dt_sec, float target_velocity);
+  void active_update(float dt_sec, float target_velocity, float modifier = 1.f);
 
   float get_velocity_x() const { return m_physic.get_velocity_x(); }
   float get_velocity_y() const { return m_physic.get_velocity_y(); }
