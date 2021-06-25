@@ -619,7 +619,7 @@ Player::swim(float pointx, float pointy, bool boost)
     if(is_ang_defined)
     {
       delta = pointed_angle - m_swimming_angle;
-  
+
       if(std::abs(delta) > math::PI)
         delta += delta > 0 ? -math::TAU : math::TAU;
 
@@ -946,17 +946,20 @@ Player::do_jump(float yspeed) {
   if (!on_ground() && !m_coyote_timer.started())
     return;
 
-  m_physic.set_velocity_y(yspeed);
-  //bbox.move(Vector(0, -1));
-  m_jumping = true;
-  m_on_ground_flag = false;
-  m_can_jump = false;
+  // jump only if it would make Tux go faster upwards
+  if (m_physic.get_velocity_y() > yspeed) {
+    m_physic.set_velocity_y(yspeed);
+    //bbox.move(Vector(0, -1));
+    m_jumping = true;
+    m_on_ground_flag = false;
+    m_can_jump = false;
 
-  // play sound
-  if (is_big()) {
-    SoundManager::current()->play("sounds/bigjump.wav");
-  } else {
-    SoundManager::current()->play("sounds/jump.wav");
+    // play sound
+    if (is_big()) {
+      SoundManager::current()->play("sounds/bigjump.wav");
+    } else {
+      SoundManager::current()->play("sounds/jump.wav");
+    }
   }
 }
 
@@ -1447,7 +1450,7 @@ Player::set_bonus(BonusType type, bool animate)
     if (animate) {
       m_growing = true;
       if (m_climbing)
-        m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-ladder-left" : "grow-ladder-right", 1);   
+        m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-ladder-left" : "grow-ladder-right", 1);
       else
         m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-left" : "grow-right", 1);
     }
