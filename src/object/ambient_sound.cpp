@@ -132,7 +132,11 @@ AmbientSound::update(float dt_sec)
   }
   else
   {
-    float dist = m_col.get_bbox().distance(Sector::get().get_player().get_bbox());
+    float dist_left = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_LEFT);
+    float dist_right = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_RIGHT);
+    float dist_top = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_TOP);
+    float dist_bottom = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_BOTTOM);
+    float dist = std::min({dist_left, dist_right, dist_top, dist_bottom});
     if (dist < m_effect_distance)
     {
       if (sound_source==nullptr)
