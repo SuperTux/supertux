@@ -14,13 +14,14 @@
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Zwatotem <zwatotem@gmail.com>, 2019-2020
+# Grzegorz Szymaszek <gszymaszek@short.pl>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-11-09 12:01+0000\n"
-"Last-Translator: Zwatotem <zwatotem@gmail.com>\n"
+"PO-Revision-Date: 2021-06-26 19:13+0200\n"
+"Last-Translator: Grzegorz Szymaszek <gszymaszek@short.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -300,7 +301,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Jajka\n!images/powerups/egg/egg-0.png\n#Jajka uczynią Tuksa większym. Tux może wtedy niszczyć drewniane bloki swoją głową."
+msgstr "-Jajka\n!images/powerups/egg/egg-shade.png\n#Jajka uczynią Tuksa większym. Tux może wtedy niszczyć drewniane bloki swoją głową."
 
 #: data/levels/world1/welcome_antarctica.stl:84
 msgid ""
