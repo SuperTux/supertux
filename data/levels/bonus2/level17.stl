@@ -24,7 +24,7 @@
       (z-pos -290)
     )
     (background
-      (scroll-offset-y -250)
+      (scroll-offset-y -265)
       (color 1 1 1)
       (x 12288)
       (y 800)
