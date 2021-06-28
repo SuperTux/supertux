@@ -1,5 +1,19 @@
 (supertux-sprite
   (action
+    (name "sleeping-left")
+    (fps 14)
+    (hitbox 8 12 32 14)
+    (loops 1)
+    (images "crystallo-sleeping.png"))
+
+  (action
+    (name "sleeping-right")
+    (fps 14)
+    (hitbox 8 12 32 14)
+    (loops 1)
+    (mirror-action "sleeping-left"))
+
+  (action
     (name "left")
     (fps 14)
     (hitbox 8 9 32 20)
@@ -39,25 +53,6 @@
     (mirror-action "shattered-left"))
 
   (action
-    (name "editor")
-    (hitbox 100 7 135 20)
-    (images "crystallo-editor.png"))
-
-  (action
-    (name "sleeping-left")
-    (fps 14)
-    (hitbox 8 12 32 14)
-    (loops 1)
-    (images "crystallo-sleeping.png"))
-
-  (action
-    (name "sleeping-right")
-    (fps 14)
-    (hitbox 8 12 32 14)
-    (loops 1)
-    (mirror-action "sleeping-left"))
-
-  (action
     (name "waking-left")
     (fps 14)
     (hitbox 8 12 32 14)
@@ -69,21 +64,8 @@
             "crystallo-waking-1.png"
             "crystallo-waking-1.png"
             "crystallo-waking-1.png"
-            "crystallo-waking-1.png"))
-
-  (action
-    (name "waking-right")
-    (fps 14)
-    (hitbox 8 12 32 14)
-    (loops 1)
-    (mirror-action "waking-left"))
-
-  (action
-    (name "preparing-left")
-    (fps 14)
-    (hitbox 8 12 32 14)
-    (loops 1)
-    (images "crystallo-preparing-0.png"
+            "crystallo-waking-1.png"
+            "crystallo-preparing-0.png"
             "crystallo-preparing-1.png"
             "crystallo-preparing-0.png"
             "crystallo-preparing-1.png"
@@ -92,11 +74,11 @@
             "crystallo-preparing-0.png"))
 
   (action
-    (name "preparing-right")
+    (name "waking-right")
     (fps 14)
     (hitbox 8 12 32 14)
     (loops 1)
-    (mirror-action "preparing-left"))
+    (mirror-action "waking-left"))
 
   (action
     (name "jumping-left")

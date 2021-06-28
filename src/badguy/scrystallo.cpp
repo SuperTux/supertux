@@ -22,7 +22,7 @@
 #include "util/reader_mapping.hpp"
 
 SCrystallo::SCrystallo(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
+  WalkingBadguy(reader, "images/creatures/crystallo/scrystallo.sprite", "sleeping-left", "sleeping-right"),
   state(SCRYSTALLO_SLEEPING),
   m_radius(),
   m_range(),
@@ -38,7 +38,7 @@ void
 SCrystallo::initialize()
 {
   state = SCRYSTALLO_SLEEPING;
-  m_physic.set_gravity_modifier(0);
+  m_physic.enable_gravity(false);
   m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
 }
 
@@ -84,6 +84,8 @@ SCrystallo::active_update(float dt_sec)
   switch (state)
   {
   case SCRYSTALLO_SLEEPING:
+    m_physic.set_velocity(0.f, 0.f);
+    m_physic.set_acceleration(0.f, 0.f);
     // is sleeping peacefully
     if (player)
     {
@@ -99,19 +101,12 @@ SCrystallo::active_update(float dt_sec)
     BadGuy::active_update(dt_sec);
     break;
   case SCRYSTALLO_WAKING:
+    m_physic.set_velocity(0.f, 0.f);
+    m_physic.set_acceleration(0.f, 0.f);
     //wake up, acknowledge surroundings
     if (m_sprite->animation_done())
     {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "preparing-left" : "preparing-right", 1);
-      state = SCRYSTALLO_PREPARING;
-    }
-    BadGuy::active_update(dt_sec);
-    break;
-  case SCRYSTALLO_PREPARING:
-    //anticipating leaving the hole
-    if (m_sprite->animation_done())
-    {
-      m_physic.set_gravity_modifier(1);
+      m_physic.enable_gravity(true);
       m_physic.set_velocity_y(-250.f);
       WalkingBadguy::initialize();
       set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right", -1);
@@ -149,7 +144,7 @@ SCrystallo::collision_squished(GameObject& object)
 {
   set_action(m_dir == Direction::LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
-  m_physic.set_gravity_modifier(1.f);
+  m_physic.enable_gravity(true);
   m_physic.set_velocity_x(0.0);
   m_physic.set_acceleration_x(0.0);
   return true;
