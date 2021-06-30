@@ -91,9 +91,23 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
       //player is falling down on trampoline
       if (hit.top && vy >= 0) {
         if (!(player->get_status().bonus == AIR_BONUS))
-          vy = (player->get_controller().hold(Control::JUMP) || player->get_controller().hold(Control::DOWN)) ? VY_MIN : VY_INITIAL;
+        {
+          if (player->get_controller().hold(Control::JUMP))
+            vy = VY_MIN;
+          else if (player->get_controller().hold(Control::DOWN))
+            vy = VY_MIN + 100;
+          else
+            vy = VY_INITIAL;
+        }
         else
-          vy = (player->get_controller().hold(Control::JUMP) || player->get_controller().hold(Control::DOWN)) ? VY_MIN - 300 : VY_INITIAL - 40;
+        {
+          if (player->get_controller().hold(Control::JUMP))
+            vy = VY_MIN - 300;
+          else if (player->get_controller().hold(Control::DOWN))
+            vy = VY_MIN - 200;
+          else
+            vy = VY_INITIAL - 40;
+        }
         player->get_physic().set_velocity_y(vy);
         SoundManager::current()->play(TRAMPOLINE_SOUND);
         m_sprite->set_action("swinging", 1);
