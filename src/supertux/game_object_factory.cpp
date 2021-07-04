@@ -45,6 +45,7 @@
 #include "badguy/owl.hpp"
 #include "badguy/plant.hpp"
 #include "badguy/poisonivy.hpp"
+#include "badguy/rcrystallo.hpp"
 #include "badguy/short_fuse.hpp"
 #include "badguy/skullyhop.hpp"
 #include "badguy/skydive.hpp"
@@ -108,6 +109,7 @@
 #include "object/rublight.hpp"
 #include "object/rusty_trampoline.hpp"
 #include "object/scripted_object.hpp"
+#include "object/shard.hpp"
 #include "object/skull_tile.hpp"
 #include "object/snow_particle_system.hpp"
 #include "object/spawnpoint.hpp"
@@ -180,6 +182,7 @@ GameObjectFactory::init_factories()
   add_factory<Owl>("owl");
   add_factory<Plant>("plant");
   add_factory<PoisonIvy>("poisonivy");
+  add_factory<RCrystallo>("rcrystallo");
   add_factory<SCrystallo>("scrystallo");
   add_factory<ShortFuse>("short_fuse");
   add_factory<SSpiky>("sspiky");
@@ -245,6 +248,7 @@ GameObjectFactory::init_factories()
   add_factory<Rock>("rock");
   add_factory<RubLight>("rublight");
   add_factory<ScriptedObject>("scriptedobject");
+  add_factory<Shard>("shard");
   add_factory<SkullTile>("skull_tile");
   add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
