@@ -696,6 +696,8 @@ EditorOverlayWidget::put_object()
 void
 EditorOverlayWidget::process_left_click()
 {
+  if (MenuManager::instance().has_dialog())
+    return;
   m_dragging = true;
   m_dragging_right = false;
   m_drag_start = m_sector_pos;
