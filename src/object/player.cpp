@@ -1227,8 +1227,18 @@ Player::handle_input()
         }
       }
 
+      std::vector<MovingObject*> nearby_objects = Sector::get().get_nearby_objects(dest_.get_middle(), 48);
+      bool found_other_object = false;
+      for (unsigned int i = 0; i < nearby_objects.size(); i++)
+      {
+        if (dest_.contains(nearby_objects[i]->get_bbox()) && nearby_objects[i]->get_uid() != moving_object->get_uid())
+        {
+          found_other_object = true;
+          break;
+        }
+      }
       if (Sector::get().is_free_of_tiles(dest_, true) &&
-         Sector::get().is_free_of_statics(dest_, moving_object, true))
+         Sector::get().is_free_of_statics(dest_, moving_object, true) && !found_other_object)
       {
         moving_object->set_pos(dest_.p1());
         if (m_controller->hold(Control::UP))
