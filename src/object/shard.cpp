@@ -23,6 +23,7 @@
 
 Shard::Shard(const ReaderMapping& reader) :
   MovingSprite(reader, "images/creatures/crystallo/shard.sprite", LAYER_TILES - 2, COLGROUP_MOVING),
+  m_physic(),
   m_stick_timer()
 {
   m_physic.enable_gravity(true);
@@ -30,6 +31,7 @@ Shard::Shard(const ReaderMapping& reader) :
 
 Shard::Shard(const Vector& pos, const Vector& velocity) :
   MovingSprite(pos, "images/creatures/crystallo/shard.sprite", LAYER_TILES - 2, COLGROUP_MOVING),
+  m_physic(),
   m_stick_timer()
 {
   m_physic.enable_gravity(true);
