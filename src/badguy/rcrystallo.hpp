@@ -35,7 +35,7 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual bool is_flammable() const override;
-  virtual void kill_fall();
+  virtual void kill_fall() override;
 
 protected:
   enum RCrystalloState
