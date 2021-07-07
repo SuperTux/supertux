@@ -34,12 +34,6 @@ public:
   virtual std::string get_display_name() const override { return _("Shard"); }
 
 protected:
-  enum ShardState
-  {
-    SHARD_FLY,
-    SHARD_STICK
-  };
-  ShardState state;
   Physic m_physic;
 
 private:

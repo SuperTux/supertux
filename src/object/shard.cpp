@@ -26,7 +26,6 @@ Shard::Shard(const ReaderMapping& reader) :
   m_stick_timer()
 {
   m_physic.enable_gravity(true);
-  state = SHARD_FLY;
 }
 
 Shard::Shard(const Vector& pos, const Vector& velocity) :
@@ -34,7 +33,6 @@ Shard::Shard(const Vector& pos, const Vector& velocity) :
   m_stick_timer()
 {
   m_physic.enable_gravity(true);
-  state = SHARD_FLY;
   m_physic.set_velocity(velocity);
   m_sprite->set_action("default");
 }
@@ -42,30 +40,21 @@ Shard::Shard(const Vector& pos, const Vector& velocity) :
 void
 Shard::update(float dt_sec)
 {
-  switch (state)
-  {
-  case SHARD_FLY:
+  if (m_physic.get_velocity() != Vector(0.f, 0.f))
     m_sprite->set_angle(math::degrees(math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()))));
-    break;
-  case SHARD_STICK:
-    if (m_stick_timer.check())
-      remove_me();
-    break;
-  }
   m_col.set_movement(m_physic.get_movement(dt_sec));
+  if (m_stick_timer.check())
+    remove_me();
 }
 
 void
 Shard::collision_solid(const CollisionHit& hit)
 {
-  if (state != SHARD_STICK)
-  {
-    m_physic.set_velocity(0.f, 0.f);
-    m_physic.set_acceleration(0.f, 0.f);
-    m_physic.enable_gravity(false);
+  m_physic.set_velocity(0.f, 0.f);
+  m_physic.set_acceleration(0.f, 0.f);
+  m_physic.enable_gravity(hit.bottom);
+  if (!m_stick_timer.started())
     m_stick_timer.start(5.f);
-    state = SHARD_STICK;
-  }
 }
 
 HitResponse
