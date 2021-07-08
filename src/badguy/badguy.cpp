@@ -315,15 +315,23 @@ BadGuy::collision_tile(uint32_t tile_attributes)
     m_in_water = false;
   }
 
-  if (tile_attributes & Tile::HURTS && is_hurtable()) {
-    if (tile_attributes & Tile::FIRE) {
-      if (is_flammable()) ignite();
-    }
-    else if (tile_attributes & Tile::ICE) {
-      if (is_freezable()) freeze();
-    }
-    else {
-      kill_fall();
+  if (tile_attributes & Tile::HURTS && is_hurtable())
+  {
+    Rectf hurtbox = get_bbox().grown(-6.f);
+    if (!Sector::get().is_free_of_tiles(hurtbox, true, Tile::HURTS))
+    {
+      if (tile_attributes & Tile::FIRE)
+      {
+        if (is_flammable()) ignite();
+      }
+      else if (tile_attributes & Tile::ICE)
+      {
+        if (is_freezable()) freeze();
+      }
+      else
+      {
+        kill_fall();
+      }
     }
   }
 }
