@@ -51,7 +51,7 @@ Crystallo::active_update(float dt_sec)
   set_action(std::abs(m_physic.get_velocity_x()) < 80.f ?
     m_dir == Direction::LEFT ? "slowdown-left" : "slowdown-right" :
     m_dir == Direction::LEFT ? "left" : "right", -1);
-  WalkingBadguy::active_update(dt_sec, targetwalk, 3.f);
+  WalkingBadguy::active_update(dt_sec, targetwalk, 2.f);
 }
 
 bool

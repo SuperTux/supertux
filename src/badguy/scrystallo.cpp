@@ -22,7 +22,7 @@
 #include "util/reader_mapping.hpp"
 
 SCrystallo::SCrystallo(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/crystallo/scrystallo.sprite", "sleeping-left", "sleeping-right"),
+  WalkingBadguy(reader, "images/creatures/crystallo/scrystallo.sprite", "editor-left", "editor-right"),
   state(SCRYSTALLO_SLEEPING),
   m_radius(),
   m_range(),
@@ -39,7 +39,7 @@ SCrystallo::initialize()
 {
   state = SCRYSTALLO_SLEEPING;
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "editor-left" : "editor-right");
 }
 
 ObjectSettings
@@ -134,7 +134,7 @@ SCrystallo::active_update(float dt_sec)
     set_action(std::abs(m_physic.get_velocity_x()) < 80.f ?
       m_dir == Direction::LEFT ? "slowdown-left" : "slowdown-right" :
       m_dir == Direction::LEFT ? "left" : "right", -1);
-    WalkingBadguy::active_update(dt_sec, targetwalk, 3.f);
+    WalkingBadguy::active_update(dt_sec, targetwalk, 2.f);
     break;
 	}
 }

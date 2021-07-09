@@ -1,17 +1,17 @@
 (supertux-sprite
   (action
-    (name "sleeping-left")
+    (name "editor-left")
     (fps 14)
     (hitbox 8 12 32 14)
     (loops 1)
     (images "crystallo-sleeping.png"))
 
   (action
-    (name "sleeping-right")
+    (name "editor-right")
     (fps 14)
     (hitbox 8 12 32 14)
     (loops 1)
-    (mirror-action "sleeping-left"))
+    (mirror-action "editor-left"))
 
   (action
     (name "left")

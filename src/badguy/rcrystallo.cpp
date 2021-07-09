@@ -87,7 +87,7 @@ RCrystallo::active_update(float dt_sec)
       set_action(m_dir == Direction::LEFT ? "detected-left" : "detected-right", 1, ANCHOR_TOP);
       state = RCRYSTALLO_DETECT;
     }
-    WalkingBadguy::active_update(dt_sec, targetwalk, 3.f);
+    WalkingBadguy::active_update(dt_sec, targetwalk, 2.f);
     break;
   case RCRYSTALLO_DETECT:
     m_physic.set_velocity_x(0.f);
