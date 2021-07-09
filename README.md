@@ -79,11 +79,11 @@ enter the current level.
 
 In case you need help, feel free to reach out using the following means:
 
-* **IRC:** [#supertux](ircs://irc.libera.chat/#supertux) on
-  [Libera Chat](https://libera.chat) hosts most of the discussions between
+* **IRC:** [#supertux](ircs://chat.freenode.net/#supertux) on
+  [freenode](https://freenode.net) hosts most of the discussions between
   developers. Also, real-time support can be provided here. If you don't know
   how to use an IRC client, you access the channel using a web-based
-  [client](https://kiwiirc.com/nextclient/irc.libera.chat:+6697/?nick=Guest?#supertux).
+  [client](https://kiwiirc.com/client/chat.freenode.net:+6697/?nick=Guest?#supertux).
   Please stay around after asking questions, otherwise you will be disconnected
   and might miss potential answers.
 * **Matrix:** [#supertux:matrix.org](https://matrix.to/#/#supertux:matrix.org)

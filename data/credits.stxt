@@ -1177,7 +1177,7 @@
       )
       (text
         (type "reference")
-        (string (_ "#supertux at web.libera.chat"))
+        (string (_ "#supertux at webchat.freenode.net"))
       )
       (blank)
       (text
