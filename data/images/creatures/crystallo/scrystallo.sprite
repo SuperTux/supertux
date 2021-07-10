@@ -2,14 +2,14 @@
   (action
     (name "editor-left")
     (fps 14)
-    (hitbox 8 12 32 14)
+    (hitbox 8 13 32 14)
     (loops 1)
     (images "crystallo-sleeping.png"))
 
   (action
     (name "editor-right")
     (fps 14)
-    (hitbox 8 12 32 14)
+    (hitbox 9 13 32 14)
     (loops 1)
     (mirror-action "editor-left"))
 
@@ -55,7 +55,7 @@
   (action
     (name "waking-left")
     (fps 14)
-    (hitbox 8 12 32 14)
+    (hitbox 8 13 32 14)
     (loops 1)
     (images "crystallo-waking-0.png"
             "crystallo-waking-1.png"
@@ -76,7 +76,7 @@
   (action
     (name "waking-right")
     (fps 14)
-    (hitbox 8 12 32 14)
+    (hitbox 9 13 32 14)
     (loops 1)
     (mirror-action "waking-left"))
 
