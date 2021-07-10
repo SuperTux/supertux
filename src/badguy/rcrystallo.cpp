@@ -15,6 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/rcrystallo.hpp"
+
+#include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "object/shard.hpp"
@@ -30,6 +32,7 @@ RCrystallo::RCrystallo(const ReaderMapping& reader) :
   walk_speed = 80;
   max_drop_height = 16;
   reader.get("radius", m_radius, 100.0f);
+  SoundManager::current()->preload("sounds/crystallo-shatter.ogg");
 }
 
 void
@@ -155,6 +158,7 @@ RCrystallo::kill_fall()
   m_physic.set_gravity_modifier(1.f);
   if (state == RCRYSTALLO_FALLING)
   {
+    SoundManager::current()->play("sounds/crystallo-shatter.ogg", get_pos());
     if (is_valid())
     {
       remove_me();

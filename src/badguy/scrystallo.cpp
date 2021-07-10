@@ -16,6 +16,7 @@
 
 #include "badguy/scrystallo.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -32,6 +33,7 @@ SCrystallo::SCrystallo(const ReaderMapping& reader) :
   max_drop_height = 16;
   reader.get("radius", m_radius, 100.0f);
   reader.get("range", m_range, 250.0f);
+  SoundManager::current()->preload("sounds/crystallo-pop.ogg");
 }
 
 void
@@ -106,6 +108,7 @@ SCrystallo::active_update(float dt_sec)
     //wake up, acknowledge surroundings
     if (m_sprite->animation_done())
     {
+      SoundManager::current()->play("sounds/crystallo-pop.ogg", get_pos());
       m_physic.enable_gravity(true);
       m_physic.set_velocity_y(-250.f);
       WalkingBadguy::initialize();

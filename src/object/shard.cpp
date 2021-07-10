@@ -14,10 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/shard.hpp"
+
+#include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
-#include "object/shard.hpp"
 #include "sprite/sprite.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -27,6 +29,7 @@ Shard::Shard(const ReaderMapping& reader) :
   m_stick_timer()
 {
   m_physic.enable_gravity(true);
+  SoundManager::current()->preload("sounds/crystallo-shardhit.ogg");
 }
 
 Shard::Shard(const Vector& pos, const Vector& velocity) :
@@ -37,6 +40,7 @@ Shard::Shard(const Vector& pos, const Vector& velocity) :
   m_physic.enable_gravity(true);
   m_physic.set_velocity(velocity);
   m_sprite->set_action("default");
+  SoundManager::current()->preload("sounds/crystallo-shardhit.ogg");
 }
 
 void
@@ -56,7 +60,10 @@ Shard::collision_solid(const CollisionHit& hit)
   m_physic.set_acceleration(0.f, 0.f);
   m_physic.enable_gravity(hit.bottom);
   if (!m_stick_timer.started())
+  {
     m_stick_timer.start(5.f);
+    SoundManager::current()->play("sounds/crystallo-shardhit.ogg", get_pos());
+  }
 }
 
 HitResponse
