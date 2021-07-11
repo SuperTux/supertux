@@ -64,6 +64,12 @@
     (class "crystallo")
     (icon "images/creatures/crystallo/crystallo-left-0.png"))
   (object
+    (class "scrystallo")
+    (icon "images/creatures/crystallo/crystallo-sleeping.png"))
+  (object
+    (class "rcrystallo")
+    (icon "images/creatures/crystallo/rcrystallo-editor.png"))
+  (object
     (class "icecrusher")
     (icon "images/creatures/icecrusher/iceblock.png"))
   (object

@@ -1,0 +1,101 @@
+(supertux-sprite
+  (action
+    (name "editor-left")
+    (fps 14)
+    (hitbox 8 13 32 14)
+    (loops 1)
+    (images "crystallo-sleeping.png"))
+
+  (action
+    (name "editor-right")
+    (fps 14)
+    (hitbox 9 13 32 14)
+    (loops 1)
+    (mirror-action "editor-left"))
+
+  (action
+    (name "left")
+    (fps 14)
+    (hitbox 8 9 32 20)
+    (images "crystallo-left-0.png"
+            "crystallo-left-1.png"
+            "crystallo-left-2.png"
+            "crystallo-left-3.png"
+            "crystallo-left-4.png"
+            "crystallo-left-5.png"
+            "crystallo-left-6.png"
+            "crystallo-left-7.png"))
+
+  (action
+    (name "right")
+    (fps 14)
+    (hitbox 8 9 32 20)
+    (mirror-action "left"))
+
+  (action
+    (name "slowdown-left")
+    (fps 5)
+    (hitbox 8 9 32 20)
+    (clone-action "left"))
+
+  (action
+    (name "slowdown-right")
+    (fps 5)
+    (hitbox 8 9 32 20)
+    (clone-action "right"))
+
+  (action
+    (name "shattered-left")
+    (images "shattered-left.png"))
+
+  (action
+    (name "shattered-right")
+    (mirror-action "shattered-left"))
+
+  (action
+    (name "waking-left")
+    (fps 14)
+    (hitbox 8 13 32 14)
+    (loops 1)
+    (images "crystallo-waking-0.png"
+            "crystallo-waking-1.png"
+            "crystallo-sleeping.png"
+            "crystallo-waking-0.png"
+            "crystallo-waking-1.png"
+            "crystallo-waking-1.png"
+            "crystallo-waking-1.png"
+            "crystallo-waking-1.png"
+            "crystallo-preparing-0.png"
+            "crystallo-preparing-1.png"
+            "crystallo-preparing-0.png"
+            "crystallo-preparing-1.png"
+            "crystallo-preparing-0.png"
+            "crystallo-preparing-1.png"
+            "crystallo-preparing-0.png"))
+
+  (action
+    (name "waking-right")
+    (fps 14)
+    (hitbox 9 13 32 14)
+    (loops 1)
+    (mirror-action "waking-left"))
+
+  (action
+    (name "jumping-left")
+    (fps 14)
+    (hitbox 8 9 32 20)
+    (loops 1)
+    (images "crystallo-jump-1.png"
+            "crystallo-jump-2.png"
+            "crystallo-jump-3.png"
+            "crystallo-jump-4.png"
+            "crystallo-jump-5.png"
+            "crystallo-jump-6.png"))
+
+  (action
+    (name "jumping-right")
+    (fps 14)
+    (hitbox 8 9 32 20)
+    (loops 1)
+    (mirror-action "jumping-left"))
+)
