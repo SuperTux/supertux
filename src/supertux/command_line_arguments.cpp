@@ -52,7 +52,8 @@ CommandLineArguments::CommandLineArguments() :
   christmas_mode(),
   repository_url(),
   editor(),
-  resave()
+  resave(),
+  prioritize_addon_path()
 {
 }
 
@@ -135,6 +136,8 @@ CommandLineArguments::print_help(const char* arg0) const
     << "\n"
     << _("Add-On Options:") << "\n"
     << _("  --repository-url URL         Set the URL to the Add-On repository") << "\n"
+    << _("  --prioritize-addon-path      Prioritize local addon file path") << "\n"
+    << _("  --unset-addon-path           Unset priority of local addon file path") << "\n"
     << "\n"
     << _("Environment variables:") << "\n"
     << _("  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
@@ -317,6 +320,14 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       christmas_mode = false;
     }
+    else if (arg == "--prioritize-addon-path")
+    {
+      prioritize_addon_path = true;
+    }
+    else if (arg == "--unset-addon-path")
+    {
+      prioritize_addon_path = false;
+    }
     else if (arg == "--disable-sound" || arg == "--disable-sfx")
     {
       sound_enabled = false;
@@ -438,6 +449,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(tux_spawn_pos)
   merge_option(developer_mode)
   merge_option(christmas_mode)
+  merge_option(prioritize_addon_path)
   merge_option(repository_url)
 
 #undef merge_option

@@ -112,7 +112,7 @@ public:
   bool enable_discord;
 #endif
   bool hide_editor_levelnames;
-
+  bool prioritize_addon_path;
   int editor_autosave_frequency;
 
   std::string repository_url;

@@ -25,6 +25,7 @@
 #include "addon/md5.hpp"
 #include "physfs/util.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -447,18 +448,37 @@ AddonManager::enable_addon(const AddonId& addon_id)
         break;
     }
 
-    if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
+    if (g_config->prioritize_addon_path)
     {
-      log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
-                  << PHYSFS_getLastErrorCode() << std::endl;
+      if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
+      {
+        log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
+        << PHYSFS_getLastErrorCode() << std::endl;
+       }
+       else
+      {
+        if (addon.get_type() == Addon::LANGUAGEPACK)
+          {
+             PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
+          }
+        addon.set_enabled(true);
+      }
     }
     else
-    {
-      if (addon.get_type() == Addon::LANGUAGEPACK)
-      {
-        PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
+   {
+     if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
+       {
+         log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
+         << PHYSFS_getLastErrorCode() << std::endl;
+       }
+       else
+       {
+         if (addon.get_type() == Addon::LANGUAGEPACK)
+           {
+           PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, nullptr);
+           }
+         addon.set_enabled(true);
       }
-      addon.set_enabled(true);
     }
   }
 }
@@ -524,12 +544,25 @@ void
 AddonManager::mount_old_addons()
 {
   std::string mountpoint;
-  for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon)) {
-      if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
+  for (auto& addon : m_installed_addons) 
+    {
+      if (is_old_enabled_addon(addon)) 
       {
-        log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
-                    << PHYSFS_getLastErrorCode() << std::endl;
+        if (g_config->prioritize_addon_path) 
+        {
+          if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
+          {
+            log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
+            << PHYSFS_getLastErrorCode() << std::endl;
+          }
+       }
+       else
+       {
+         if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
+           {
+             log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
+             << PHYSFS_getLastErrorCode() << std::endl;
+        }
       }
     }
   }
@@ -539,11 +572,15 @@ void
 AddonManager::unmount_old_addons()
 {
   for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon)) {
-      if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
+    if (is_old_enabled_addon(addon))
+    {
+      if (g_config->prioritize_addon_path)
       {
-        log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
-                    << PHYSFS_getLastErrorCode() << std::endl;
+        if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
+        {
+          log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
+          << PHYSFS_getLastErrorCode() << std::endl;
+        }
       }
     }
   }
@@ -646,9 +683,8 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   else
   {
     std::string os_path = FileSystem::join(realdir, archive);
-
-    PHYSFS_mount(os_path.c_str(), nullptr, 1);
-
+    // check if we should use local file paths for addon overrides
+    PHYSFS_mount(os_path.c_str(), nullptr, !(g_config->prioritize_addon_path));
     std::string nfo_filename = scan_for_info(os_path);
 
     if (nfo_filename.empty())
