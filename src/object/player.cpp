@@ -745,6 +745,12 @@ Player::on_ground() const
   return m_on_ground_flag;
 }
 
+void
+Player::set_on_ground(bool flag)
+{
+  m_on_ground_flag = flag;
+}
+
 bool
 Player::is_big() const
 {

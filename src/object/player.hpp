@@ -162,6 +162,7 @@ public:
   bool get_visible() const;
 
   bool on_ground() const;
+  void set_on_ground(bool flag);
 
   Portable* get_grabbed_object() const { return m_grabbed_object; }
   void stop_grabbing() { m_grabbed_object = nullptr; }
