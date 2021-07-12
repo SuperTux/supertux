@@ -11092,6 +11092,66 @@ static SQInteger WorldMap_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
+static SQInteger WorldMap_get_tux_x_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_tux_x' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_tux_x();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_tux_x'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger WorldMap_get_tux_y_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_tux_y' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_tux_y();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_tux_y'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return scripting::display(vm);
@@ -14792,6 +14852,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'WorldMap'";
     throw SquirrelError(v, msg.str());
   }
+  sq_pushstring(v, "get_tux_x", -1);
+  sq_newclosure(v, &WorldMap_get_tux_x_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_tux_x'");
+  }
+
+  sq_pushstring(v, "get_tux_y", -1);
+  sq_newclosure(v, &WorldMap_get_tux_y_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_tux_y'");
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'WorldMap'");
   }

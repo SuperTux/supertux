@@ -219,8 +219,9 @@ public:
 
 private:
   void handle_input();
-  void handle_input_ghost(); /**< input handling while in ghost mode */
-  void handle_input_climbing(); /**< input handling while climbing */
+  void handle_input_ghost();
+  void handle_input_climbing();
+  void handle_input_rolling();
 
   void handle_input_swimming();
 

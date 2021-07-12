@@ -433,7 +433,7 @@ Player::update(float dt_sec)
   wallclingright.set_right(wallclingright.get_right() + 8.f);
   m_on_right_wall = !Sector::get().is_free_of_statics(wallclingright);
 
-  m_can_walljump = ((m_on_right_wall || m_on_left_wall) && !on_ground() && !m_swimming && m_in_walljump_tile);
+  m_can_walljump = ((m_on_right_wall || m_on_left_wall) && !on_ground() && !m_swimming && m_in_walljump_tile) && !m_stone;
   if (m_can_walljump && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_physic.get_velocity_y() >= 0.f && !m_controller->pressed(Control::JUMP))
   {
     m_physic.set_velocity_y(MAX_WALLCLING_YM);
@@ -450,6 +450,12 @@ Player::update(float dt_sec)
   m_in_walljump_tile = false;
 
   //End of wallclinging
+
+  // Roll the sprite if Tux is rolling
+  if (m_stone)
+  {
+    m_sprite->set_angle(m_sprite->get_angle() + m_physic.get_movement(dt_sec).x);
+  }
 
     // extend/shrink tux collision rectangle so that we fall through/walk over 1
     // tile holes
@@ -598,6 +604,37 @@ Player::update(float dt_sec)
     }
   }
 
+}
+
+void
+Player::handle_input_rolling()
+{
+  if (!m_controller->hold(Control::ACTION))
+  {
+    m_stone = false;
+    adjust_height(BIG_TUX_HEIGHT);
+  }
+
+  if (m_controller->hold(Control::LEFT) && !m_controller->hold(Control::RIGHT))
+  {
+    //m_physic.set_velocity_x(std::max(m_physic.get_velocity_x(), 32.f));
+    m_physic.set_acceleration_x(-32.f);
+  }
+
+  if (m_controller->hold(Control::RIGHT) && !m_controller->hold(Control::LEFT))
+  {
+    //m_physic.set_velocity_x(std::min(m_physic.get_velocity_x(), -32.f));
+    m_physic.set_acceleration_x(32.f);
+  }
+
+  if (on_ground())
+  {
+    Vector direction;
+    direction.x = m_floor_normal.y;
+    direction.y = -m_floor_normal.x;
+    direction = glm::normalize(direction);
+    m_physic.set_acceleration(m_physic.get_acceleration() + m_floor_normal);
+  }
 }
 
 void
@@ -1090,6 +1127,10 @@ Player::handle_input()
     handle_input_climbing();
     return;
   }
+  if (m_stone) {
+    handle_input_rolling();
+    return;
+  }
   if (m_swimming) {
     handle_input_swimming();
   }
@@ -1169,27 +1210,23 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->pressed(Control::DOWN) && m_player_status.bonus == EARTH_BONUS && !m_cooldown_timer.started() && on_ground() && !m_swimming) {
-    if (m_controller->hold(Control::ACTION) && !m_ability_timer.started()) {
-      m_ability_timer.start(static_cast<float>(m_player_status.max_earth_time) * STONE_TIME_PER_FLOWER);
-      m_powersprite->stop_animation();
-      m_stone = true;
-      m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
-    }
+  if (m_controller->hold(Control::ACTION) && m_player_status.bonus == EARTH_BONUS) {
+    m_powersprite->stop_animation();
+    m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
+    adjust_height(TUX_WIDTH);
+    m_stone = true;
   }
 
   if (m_stone)
     apply_friction();
 
   /* Revert from Stone */
-  if (m_stone && (!m_controller->hold(Control::ACTION) || m_ability_timer.get_timeleft() <= 0.5f)) {
-    m_cooldown_timer.start(m_ability_timer.get_timegone()/2.0f); //The longer stone form is used, the longer until it can be used again
-    m_ability_timer.stop();
+  if (m_stone && !m_controller->hold(Control::ACTION)) {
     m_sprite->set_angle(0.0f);
     m_powersprite->set_angle(0.0f);
     m_lightsprite->set_angle(0.0f);
     m_stone = false;
-    for (int i = 0; i < 8; i++)
+    /*for (int i = 0; i < 8; i++)
     {
       Vector ppos = Vector(m_col.m_bbox.get_left() + 8.0f + 16.0f * static_cast<float>(static_cast<int>(i / 4)),
                            m_col.m_bbox.get_top() + 16.0f * static_cast<float>(i % 4));
@@ -1198,7 +1235,7 @@ Player::handle_input()
       Sector::get().add<Particles>(ppos, -60, 240, 42.0f, 81.0f, Vector(0.0f, 500.0f),
                                                                 8, pcolor, 4 + graphicsRandom.randf(-0.4f, 0.4f),
                                                                 0.8f + graphicsRandom.randf(0.0f, 0.4f), LAYER_OBJECTS + 2);
-    }
+    }*/
   }
 
   /* Duck or Standup! */
@@ -1449,7 +1486,7 @@ Player::set_bonus(BonusType type, bool animate)
     return false;
   }
 
-  if ((m_player_status.bonus == NO_BONUS) && (type != NO_BONUS)) {
+  if ((m_player_status.bonus == NO_BONUS) && (type != NO_BONUS || m_stone)) {
     if (!m_swimming)
     {
       if (!adjust_height(BIG_TUX_HEIGHT))
@@ -1727,23 +1764,12 @@ Player::draw(DrawingContext& context)
   /* Draw Tux */
   if (m_safe_timer.started() && size_t(g_game_time*40)%2)
     ;  // don't draw Tux
-  else if (m_player_status.bonus == EARTH_BONUS){ // draw special effects with earthflower bonus
-    // shake at end of maximum stone duration
-    Vector shake_delta = (m_stone && m_ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.randf(-3.0f, 3.0f) * 1.0f, 0) : Vector(0,0);
-    m_sprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
-    // draw hardhat
-    m_powersprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
-    // light
-    m_lightsprite->draw(context.light(), get_pos(), 0);
-
-    // give an indicator that stone form cannot be used for a while
-    if (m_cooldown_timer.started() && graphicsRandom.rand(0, 4) == 0) {
-      float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
-      float py = m_col.m_bbox.get_bottom()+8;
-      Vector ppos = Vector(px, py);
-      Sector::get().add<SpriteParticle>(
-        "images/particles/sparkle.sprite", "dark",
-        ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS+1+5);
+  else if (m_player_status.bonus == EARTH_BONUS){
+    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
+    if (!m_stone)
+    {
+      m_powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
+      m_lightsprite->draw(context.light(), get_pos(), 0);
     }
   }
   else {

@@ -103,7 +103,7 @@ Explosion::explode()
       Vector add_speed = glm::normalize(direction) * force;
 
       auto player = dynamic_cast<Player *> (obj);
-      if (player) {
+      if (player && !player->is_stone()) {
         player->add_velocity (add_speed);
       }
 
