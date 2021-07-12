@@ -26,17 +26,21 @@
 #include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/menu/editor_levelset_menu.hpp"
+#include "supertux/menu/editor_delete_level_menu.hpp"
+#include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
-  m_levelset()
+  m_levelset(),
+  m_levelset_select_menu()
 {
   initialize();
 }
 
-EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world) :
-  m_levelset()
+EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world,EditorLevelsetSelectMenu* levelset_select_menu) :
+  m_levelset(),
+  m_levelset_select_menu(levelset_select_menu)
 {
   Editor::current()->set_world(std::move(world));
   initialize();
@@ -76,9 +80,9 @@ void EditorLevelSelectMenu::initialize() {
   if (PHYSFS_exists(worldmap_file.c_str())) {
     add_entry(-4, _("Edit Worldmap"));
   } else {
-    add_entry(-5, _("Create Worldmap"));
+    add_entry(-6, _("Create Worldmap"));
   }
-
+  add_entry(-5,_("Delete level"));
   add_hl();
   add_entry(-3, _("World Settings"));
   add_back(_("Back"),-2);
@@ -188,7 +192,15 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
         editor->set_level("worldmap.stwm");
         MenuManager::instance().clear_menu_stack();
         break;
-      case -5:
+      case -5: {
+        if (m_levelset->get_num_levels() > 0)
+        {
+          auto delete_menu = std::unique_ptr<Menu>(new EditorDeleteLevelMenu(m_levelset, this, m_levelset_select_menu));
+          MenuManager::instance().push_menu(std::move(delete_menu));
+        }
+        break;
+      }
+      case -6:
         create_worldmap();
         break;
       default:
@@ -196,5 +208,10 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
     }
   }
 }
-
+void
+EditorLevelSelectMenu::reload_menu()
+{
+  clear();
+  initialize();
+}
 /* EOF */
