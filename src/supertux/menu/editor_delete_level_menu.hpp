@@ -30,3 +30,4 @@ private:
   EditorDeleteLevelMenu(const EditorDeleteLevelMenu&) = delete;
   EditorDeleteLevelMenu& operator=(const EditorDeleteLevelMenu&) = delete;
 };
+/* EOF */

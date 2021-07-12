@@ -46,7 +46,7 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
 {
   int id = item.get_id();
   // Cast to avoid compilation warning
-  if(id >= 0 && id < static_cast<int>(m_level_full_paths.size()))
+  if (id >= 0 && id < static_cast<int>(m_level_full_paths.size()))
   {
     if (LevelParser::get_level_name(m_level_full_paths[id]) == Editor::current()->get_level()->m_name)
       Dialog::show_message(_("You cannot delete level that you are editing!"));
@@ -61,3 +61,4 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
     }
   }
 }
+/* EOF */
