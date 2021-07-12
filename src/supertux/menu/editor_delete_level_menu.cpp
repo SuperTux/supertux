@@ -25,10 +25,11 @@
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/dialog.hpp"
-EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu)
+EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu) : 
+  m_level_full_paths(),
+  m_level_select_menu(level_select_menu),
+  m_levelset_select_menu(levelset_select_menu)
 {
-  m_level_select_menu = level_select_menu;
-  m_levelset_select_menu = levelset_select_menu;
   add_label(_("Delete level"));
   for (int i = 0; i < levelset->get_num_levels(); i++)
   {
@@ -44,8 +45,8 @@ void
 EditorDeleteLevelMenu::menu_action(MenuItem& item)
 {
   int id = item.get_id();
-  // (int) To avoid compilation warning
-  if(id >= 0 && id < (int)m_level_full_paths.size())
+  // Cast to avoid compilation warning
+  if(id >= 0 && id < static_cast<int>(m_level_full_paths.size()))
   {
     if (LevelParser::get_level_name(m_level_full_paths[id]) == Editor::current()->get_level()->m_name)
       Dialog::show_message(_("You cannot delete level that you are editing!"));

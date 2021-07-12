@@ -32,7 +32,8 @@
 #include "util/file_system.hpp"
 
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
-  m_levelset()
+  m_levelset(),
+  m_levelset_select_menu()
 {
   initialize();
 }
