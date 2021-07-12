@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -13,44 +13,20 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_SELECT_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_SELECT_MENU_HPP
-
 #include "gui/menu.hpp"
-
 class Levelset;
-class World;
+class EditorLevelSelectMenu;
 class EditorLevelsetSelectMenu;
-
-class EditorLevelSelectMenu final : public Menu
+class EditorDeleteLevelMenu final : public Menu
 {
 private:
-  std::unique_ptr<Levelset> m_levelset;
+  std::vector<std::string> m_level_full_paths;
+  EditorLevelSelectMenu* m_level_select_menu;
   EditorLevelsetSelectMenu* m_levelset_select_menu;
-
 public:
-  EditorLevelSelectMenu();
-  EditorLevelSelectMenu(std::unique_ptr<World> world, EditorLevelsetSelectMenu* levelset_select_menu);
-  ~EditorLevelSelectMenu() override;
-
+  EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu);
   void menu_action(MenuItem& item) override;
-
-  void open_level(const std::string& filename);
-
-  void reload_menu();
-
 private:
-  void initialize();
-  void create_level();
-  void create_worldmap();
-  void create_item(bool worldmap);
-
-private:
-  EditorLevelSelectMenu(const EditorLevelSelectMenu&) = delete;
-  EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&) = delete;
+  EditorDeleteLevelMenu(const EditorDeleteLevelMenu&) = delete;
+  EditorDeleteLevelMenu& operator=(const EditorDeleteLevelMenu&) = delete;
 };
-
-#endif
-
-/* EOF */
