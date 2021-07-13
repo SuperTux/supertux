@@ -93,52 +93,8 @@ ContribMenu::ContribMenu() :
       std::unique_ptr<World> world = World::from_directory(*it);
       if (!world->hide_from_contribs())
       {
-        auto savegame = Savegame::from_file(world->get_savegame_filename());
-
-        if (world->is_levelset())
+        if (world->is_levelset() || world->is_worldmap())
         {
-          int level_count = 0;
-          int solved_count = 0;
-
-          const auto& state = savegame->get_levelset_state(world->get_basedir());
-          for (const auto& level_state : state.level_states)
-          {
-            if (level_state.filename.empty())
-              continue;
-
-            if (level_state.solved)
-            {
-              solved_count += 1;
-            }
-            level_count += 1;
-          }
-
-          std::ostringstream title;
-          title << "[" << world->get_title() << "]";
-          //add_entry(i++, title.str());
-          m_contrib_worlds.push_back(std::move(world));
-        }
-        else if (world->is_worldmap())
-        {
-          int level_count = 0;
-          int solved_count = 0;
-
-          const auto& state = savegame->get_worldmap_state(world->get_worldmap_filename());
-          for (const auto& level_state : state.level_states)
-          {
-            if (level_state.filename.empty())
-              continue;
-
-            if (level_state.solved)
-            {
-              solved_count += 1;
-            }
-            level_count += 1;
-          }
-
-          std::ostringstream title;
-          title << world->get_title();
-          //add_entry(i++, title.str());
           m_contrib_worlds.push_back(std::move(world));
         }
         else
@@ -181,20 +137,6 @@ ContribMenu::menu_action(MenuItem& item)
     break;
   }
   }
-  // if (index != -1)
-  // {
-  //   // reload the World so that we have something that we can safely
-  //   // std::move() around without wreaking the ContribMenu
-  //   std::unique_ptr<World> world = World::from_directory(m_contrib_worlds[index]->get_basedir());
-  //   if (!world->is_levelset())
-  //   {
-  //     GameManager::current()->start_worldmap(*world);
-  //   }
-  //   else
-  //   {
-  //     MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribLevelsetMenu(std::move(world))));
-  //   }
-  // }
 }
 
 /* EOF */
