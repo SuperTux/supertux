@@ -53,7 +53,7 @@ World::from_directory(const std::string& directory)
     info.get("description", world->m_description);
     info.get("levelset", world->m_is_levelset, true);
     info.get("hide-from-contribs", world->m_hide_from_contribs, false);
-
+    info.get("contrib-type", world->m_contrib_type, "community");
     return world;
   }
   catch (const std::exception& err)
