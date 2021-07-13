@@ -100,6 +100,7 @@ World::create(const std::string& title, const std::string& desc)
 
 World::World(const std::string& directory) :
   m_title(),
+  m_contrib_type()
   m_description(),
   m_is_levelset(true),
   m_basedir(directory),
