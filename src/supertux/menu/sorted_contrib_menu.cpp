@@ -16,6 +16,7 @@
 
 #include "supertux/menu/sorted_contrib_menu.hpp"
 
+#include <sstream>
 #include "util/gettext.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/player_status.hpp"
