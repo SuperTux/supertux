@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_SORTED_CONTRIB_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_SORTED_CONTRIB_MENU_HPP
 #include "gui/menu.hpp"
 #include "supertux/world.hpp"
 class SortedContribMenu : public Menu
@@ -27,4 +29,5 @@ private:
   SortedContribMenu(const SortedContribMenu&) = delete;
   SortedContribMenu& operator=(const SortedContribMenu&) = delete;
 };
+#endif
 /* EOF */
