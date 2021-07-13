@@ -90,9 +90,9 @@ const float MAX_RUN_XM = 320;
 /** bonus run velocity addition (pixel/s) */
 const float BONUS_RUN_XM = 80;
 /** maximum horizontal climb velocity */
-const float MAX_CLIMB_XM = 96;
+const float MAX_CLIMB_XM = 200;
 /** maximum vertical climb velocity */
-const float MAX_CLIMB_YM = 128;
+const float MAX_CLIMB_YM = 200;
 /** maximum vertical glide velocity */
 const float MAX_GLIDE_YM = 128;
 /** sliding down walls velocity */
@@ -2113,11 +2113,6 @@ Player::stop_climbing(Climbable& /*climbable*/)
     m_on_ground_flag = true;
     do_jump(m_player_status.bonus == BonusType::AIR_BONUS ? -540.0f : -480.0f);
   }
-  else if (m_controller->hold(Control::UP)) {
-    m_on_ground_flag = true;
-    // TODO: This won't help. Why?
-    do_jump(-300);
-  }
 }
 
 void
@@ -2151,10 +2146,6 @@ Player::handle_input_climbing()
     }
   } else {
     m_can_jump = true;
-  }
-  if (m_controller->hold(Control::ACTION)) {
-    stop_climbing(*m_climbing);
-    return;
   }
   m_physic.set_velocity(vx, vy);
   m_physic.set_acceleration(0, 0);
