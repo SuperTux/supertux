@@ -141,6 +141,7 @@ World::save(bool retry)
     writer.write("title", m_title, true);
     writer.write("description", m_description, true);
     writer.write("levelset", m_is_levelset);
+    writer.write("contrib-type", "user");
     writer.write("hide-from-contribs", m_hide_from_contribs);
 
     writer.end_list("supertux-level-subset");
