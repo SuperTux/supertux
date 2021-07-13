@@ -94,8 +94,6 @@ ContribMenu::ContribMenu() :
       std::unique_ptr<World> world = World::from_directory(*it);
       if (!world->hide_from_contribs())
       {
-        auto savegame = Savegame::from_file(world->get_savegame_filename());
-
         if (world->is_levelset() || world->is_worldmap())
         {
           m_contrib_worlds.push_back(std::move(world));
