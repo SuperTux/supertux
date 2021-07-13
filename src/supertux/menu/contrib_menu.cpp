@@ -127,13 +127,13 @@ ContribMenu::menu_action(MenuItem& item)
     MenuManager::instance().push_menu(std::move(contrib_menu));
     break;
   }
-  case 1:{
+  case 1: {
     auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "community", _("Community Contrib Levels"),
       _("No Community Contrib Levels yet. Download them from the Add-ons Menu."));
     MenuManager::instance().push_menu(std::move(contrib_menu));
     break;
   }
-  case 2:{
+  case 2: {
     auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "user", _("User Contrib Levels"),
       _("No User Contrib Levels yet. Create some with the Level Editor."));
     MenuManager::instance().push_menu(std::move(contrib_menu));
