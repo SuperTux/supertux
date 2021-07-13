@@ -38,16 +38,16 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       if (worlds[i]->is_levelset())
       {
         m_world_folders.push_back(worlds[i]->get_basedir());
-        std::ostringstream title;
-        title << "[" << worlds[i]->get_title() << "]";
-        add_entry(world_id++, title.str());
+        std::ostringstream title_stream;
+        title_stream << "[" << worlds[i]->get_title() << "]";
+        add_entry(world_id++, title_stream.str());
       }
       else if (worlds[i]->is_worldmap())
       {
         m_world_folders.push_back(worlds[i]->get_basedir());
-        std::ostringstream title;
-        title << worlds[i]->get_title();
-        add_entry(world_id++,title.str());
+        std::ostringstream title_stream;
+        title_stream << worlds[i]->get_title();
+        add_entry(world_id++,title_stream.str());
       }
     }
   }
