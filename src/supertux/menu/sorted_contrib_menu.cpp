@@ -24,7 +24,7 @@
 #include "supertux/menu/contrib_levelset_menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
-SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, std::string contrib_type, std::string title) : 
+SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, std::string contrib_type, std::string title, std::string empty_message) : 
   m_world_folders()
 { 
   add_label(title);
@@ -50,6 +50,10 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         add_entry(world_id++,title.str());
       }
     }
+  }
+  if (world_id == 0)
+  {
+    add_inactive(empty_message);
   }
   add_hl();
   add_back(_("Back"));

@@ -81,7 +81,6 @@ ContribMenu::ContribMenu() :
   add_label(_("Contrib Levels"));
   add_hl();
 
-  int i = 0;
   for (std::vector<std::string>::const_iterator it = level_worlds.begin(); it != level_worlds.end(); ++it)
   {
     try
@@ -123,17 +122,20 @@ ContribMenu::menu_action(MenuItem& item)
   switch (index)
   {
   case 0: {
-    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "official", _("Official Contrib Levels"));
+    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "official", _("Official Contrib Levels"),
+      _("How is this possible? There are no Official Contrib Levels!"));
     MenuManager::instance().push_menu(std::move(contrib_menu));
     break;
   }
   case 1:{
-    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "community", _("Community Contrib Levels"));
+    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "community", _("Community Contrib Levels"),
+      _("No Community Contrib Levels yet. Download them from the Add-ons Menu."));
     MenuManager::instance().push_menu(std::move(contrib_menu));
     break;
   }
   case 2:{
-    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "user", _("User Contrib Levels"));
+    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "user", _("User Contrib Levels"),
+      _("No User Contrib Levels yet. Create some with the Level Editor."));
     MenuManager::instance().push_menu(std::move(contrib_menu));
     break;
   }
