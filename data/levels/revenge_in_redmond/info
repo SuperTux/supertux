@@ -2,5 +2,6 @@
   (title (_ "Revenge in Redmond"))
   (description (_ "A small and simple level pack celebrating the good old days of early SuperTux, Revenge in Redmond."))
   (levelset #f)
+  (contrib-type "official")
   (hide-from-contribs #f)
 )
