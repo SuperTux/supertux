@@ -48,6 +48,16 @@ PlayerStatus::PlayerStatus() :
   }
 }
 
+void
+PlayerStatus::take_checkpoint_coins()
+{
+  int subtract_value = std::max(coins / 10, 25);
+  if (coins - subtract_value >= 0)
+    coins -= subtract_value;
+  else
+    coins = 0;
+}
+
 void PlayerStatus::reset()
 {
   coins = START_COINS;
