@@ -34,6 +34,12 @@ NullPainter::draw_texture(const TextureRequest& request)
 }
 
 void
+NullPainter::draw_depthmap(const DepthmapRequest& request)
+{
+  log_info << "NullPainter::draw_depthmap()" << std::endl;
+}
+
+void
 NullPainter::draw_gradient(const GradientRequest& request)
 {
   log_info << "NullPainter::draw_gradient()" << std::endl;

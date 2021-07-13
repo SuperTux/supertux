@@ -262,6 +262,13 @@ SDLPainter::draw_texture(const TextureRequest& request)
 }
 
 void
+SDLPainter::draw_depthmap(const DepthmapRequest& request)
+{
+  // TODO
+  log_debug << "Attempt to draw Depthmap with SDL renderer" << std::endl;
+}
+
+void
 SDLPainter::draw_gradient(const GradientRequest& request)
 {
   const Color& top = request.top;
