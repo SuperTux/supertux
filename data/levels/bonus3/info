@@ -2,4 +2,5 @@
   (title (_ "Bonus Island III"))
   (description "Collection of the multitudes of levels submitted to the bugtracker prior to development moving over to Git.")
   (levelset #f)
+  (contrib-type "official")
 )

@@ -2,5 +2,6 @@
   (title (_ "Halloween Special"))
   (description "Halloween 2014 Level Pack")
   (hide-from-contribs #f)
+  (contrib-type "official")
   (levelset #f)
 )
