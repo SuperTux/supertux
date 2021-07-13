@@ -74,7 +74,7 @@ MusicObject::resume_music()
 {
   if (SoundManager::current()->get_current_music() == m_music)
   {
-    SoundManager::current()->resume_music(3.2f);
+    SoundManager::current()->resume_music(0);
   }
   else
   {
