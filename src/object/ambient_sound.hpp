@@ -53,7 +53,7 @@ class AmbientSound final : public MovingObject,
 {
 public:
   AmbientSound(const ReaderMapping& mapping);
-  AmbientSound(const Vector& pos, float factor, float bias, float vol, const std::string& file);
+  AmbientSound(const Vector& pos, float distance, float vol, const std::string& file);
   ~AmbientSound() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
@@ -85,15 +85,9 @@ protected:
 private:
   std::string sample;
   std::unique_ptr<SoundSource> sound_source;
-  int latency;
 
-  float distance_factor;  /// distance scaling
-  float distance_bias;    /// 100% volume disc radius
-  float silence_distance; /// not implemented yet
-
-  float maximumvolume; /// maximum volume
-  float targetvolume;  /// how loud we want to be
-  float currentvolume; /// how loud we are
+  float m_effect_distance;  // distance within sound is hearable
+  float targetvolume;  // how loud we want to be
 
 private:
   AmbientSound(const AmbientSound&) = delete;
