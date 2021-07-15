@@ -58,6 +58,7 @@ ParticleEditorOpen::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_OPEN:
+      std::replace(m_filename.begin(), m_filename.end(), '\\', '/');
       ParticleEditor::current()->open("/particles/" + m_filename);
       MenuManager::instance().clear_menu_stack();
       break;
