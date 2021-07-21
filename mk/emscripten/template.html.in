@@ -22,7 +22,7 @@
 
     canvas.emscripten {
       border: 0 none;
-      background-color: #000;
+      background-color: #0000;
     }
 
     .spinner {
@@ -118,7 +118,7 @@
       padding-left: 0;
       padding-right: 0;
       display: block;
-      background-color: #000;
+      background-color: #0000;
       color: #fff;
       font-family: 'Lucida Console', Monaco, monospace;
       outline: 0;
@@ -133,6 +133,9 @@
       width: 100%;
       background-color: #000d;
       z-index: 10;
+      background-image: linear-gradient(to bottom, #000a, #000a), url('supertux2.png'), url('supertux2_bkg.png');
+      background-position: 0 0, 50% calc(50% - 100px);
+      background-repeat: repeat, no-repeat;
     }
 
     .center_stuff {
@@ -160,7 +163,7 @@
       document.getElementById("output").style.display = "none";
     }
 
-    alert("The Web version of SuperTux is still a work in progress... and it's very slow!\n\nIf the game is too slow to be playable, please download the native version for your platform.");
+    alert("If the game is too slow to be playable, please download the native version for your platform at https://www.supertux.org/");
 
     var statusElement = document.getElementById("status"),
     progressElement = document.getElementById("progress"),

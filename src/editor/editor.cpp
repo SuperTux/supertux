@@ -535,7 +535,7 @@ Editor::quit_editor()
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
 #ifdef __EMSCRIPTEN__
-    Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nDownload the files if you want to keep them."));
+    Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
 #endif
   };
 
