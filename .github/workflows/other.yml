@@ -180,7 +180,7 @@ jobs:
           emmake make -j$(nproc)
           rm supertux2.html && cp template.html supertux2.html
           mkdir upload/
-          mv supertux2.* upload/
+          mv supertux2* upload/
           # Now you can run a local server with: `emrun supertux2.html`
           # Or any traditional web server will do the job
           # Note: opening the html file manually (file:///) won't work
