@@ -198,6 +198,8 @@ Tux.do_duck();
   Effect.fade_out(2);
   wait(2.1);
   end_cutscene();
+  // If cutscene has been skipped, Tux won't have shrinked
+  Tux.set_bonus("none");
   Level.finish(true);
 }
 
@@ -241,6 +243,8 @@ function end_level()
   Effect.fade_out(2);
   wait(2.1);
   end_cutscene();
+  // If cutscene has been skipped, Tux won't have shrinked
+  Tux.set_bonus("none");
   Level.finish(true);
 }
 
