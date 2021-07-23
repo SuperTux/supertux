@@ -15,8 +15,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __EMSCRIPTEN__
-
 #include "addon/addon_manager.hpp"
 
 #include <physfs.h>
@@ -786,7 +784,5 @@ AddonManager::check_for_langpack_updates()
     // If anything fails here, just silently ignore.
   }
 }
-
-#endif
 
 /* EOF */

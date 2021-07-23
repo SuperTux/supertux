@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __EMSCRIPTEN__
-
 #include "supertux/menu/download_dialog.hpp"
 
 #include "addon/addon_manager.hpp"
@@ -99,7 +97,5 @@ DownloadDialog::on_download_complete()
       MenuManager::instance().set_dialog({});
     });
 }
-
-#endif
 
 /* EOF */

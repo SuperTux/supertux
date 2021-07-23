@@ -18,8 +18,6 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
-#ifndef __EMSCRIPTEN__
-
 #include <memory>
 #include <string>
 
@@ -85,8 +83,6 @@ private:
   Addon(const Addon&) = delete;
   Addon& operator=(const Addon&) = delete;
 };
-
-#endif
 
 #endif
 

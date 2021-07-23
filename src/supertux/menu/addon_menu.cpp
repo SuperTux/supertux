@@ -14,8 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __EMSCRIPTEN__
-
 #include "supertux/menu/addon_menu.hpp"
 
 #include <boost/format.hpp>
@@ -352,7 +350,5 @@ AddonMenu::toggle_addon(const Addon& addon)
     MenuManager::instance().set_dialog(std::move(dialog));
   }
 }
-
-#endif
 
 /* EOF */

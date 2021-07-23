@@ -18,8 +18,6 @@
 #ifndef HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
 #define HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
 
-#ifndef __EMSCRIPTEN__
-
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <functional>
@@ -98,8 +96,6 @@ private:
   Downloader(const Downloader&) = delete;
   Downloader& operator=(const Downloader&) = delete;
 };
-
-#endif
 
 #endif
 
