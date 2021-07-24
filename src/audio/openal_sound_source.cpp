@@ -47,6 +47,8 @@ OpenALSoundSource::stop()
   //        https://github.com/emscripten-core/emscripten/issues/13797
   // The sounds stop anyways, but the code is probably unclean as a result.
   alSourceRewindv(1, &m_source); // Stops the source
+#else
+  set_volume(0.f);
 #endif
   alSourcei(m_source, AL_BUFFER, AL_NONE);
   try
