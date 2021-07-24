@@ -136,12 +136,23 @@
       background-image: linear-gradient(to bottom, #000a, #000a), url('supertux2.png'), url('supertux2_bkg.png');
       background-position: 0 0, 50% calc(50% - 100px);
       background-repeat: repeat, no-repeat;
+      animation: movebkg 10s linear infinite;
     }
 
     .center_stuff {
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    @keyframes movebkg {
+      from {
+        background-position: 0 0, 50% calc(50% - 100px);
+      }
+
+      to {
+        background-position: 256px 0, 50% calc(50% - 100px);
+      }
     }
   </style>
 </head>
