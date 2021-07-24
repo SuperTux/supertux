@@ -158,7 +158,11 @@ Config::load()
     config_video_mapping->get("magnification", magnification);
 
 #ifdef __EMSCRIPTEN__
-    config_video_mapping->get("fit_window", fit_window);
+    // Forcibly set autofit to true
+    // TODO: Remove the autofit parameter entirely - it should always be true
+
+    //config_video_mapping->get("fit_window", fit_window);
+    fit_window = true;
 #endif
   }
 
@@ -273,7 +277,9 @@ Config::save()
   writer.write("aspect_height", aspect_size.height);
 
 #ifdef __EMSCRIPTEN__
-  writer.write("fit_window", fit_window);
+  // Forcibly set autofit to true
+  // TODO: Remove the autofit parameter entirely - it should always be true
+  writer.write("fit_window", true /* fit_window */);
 #endif
 
   writer.write("magnification", magnification);

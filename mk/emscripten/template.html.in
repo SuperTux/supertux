@@ -22,7 +22,7 @@
 
     canvas.emscripten {
       border: 0 none;
-      background-color: #000;
+      background-color: #0000;
     }
 
     .spinner {
@@ -118,7 +118,7 @@
       padding-left: 0;
       padding-right: 0;
       display: block;
-      background-color: #000;
+      background-color: #0000;
       color: #fff;
       font-family: 'Lucida Console', Monaco, monospace;
       outline: 0;
@@ -133,6 +133,9 @@
       width: 100%;
       background-color: #000d;
       z-index: 10;
+      background-image: linear-gradient(to bottom, #000a, #000a), url('supertux2.png'), url('supertux2_bkg.png');
+      background-position: 0 0, 50% calc(50% - 100px);
+      background-repeat: repeat, no-repeat;
     }
 
     .center_stuff {
@@ -152,7 +155,7 @@
       <div class="emscripten"><progress hidden id="progress" max="100" value="0"></progress></div>
     </center>
   </div>
-  <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+  <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <p id="output"></p>
   <input type="file" id="file_upload" multiple="multiple" style="display:none">
   <script>
@@ -160,7 +163,7 @@
       document.getElementById("output").style.display = "none";
     }
 
-    alert("The Web version of SuperTux is still a work in progress... and it's very slow!\n\nIf the game is too slow to be playable, please download the native version for your platform.");
+    alert("If the game is too slow to be playable, please download the native version for your platform at https://www.supertux.org/");
 
     var statusElement = document.getElementById("status"),
     progressElement = document.getElementById("progress"),
@@ -200,12 +203,24 @@
         }
       }(),
       canvas: function () {
-        var e = document.getElementById("canvas");
-        e.addEventListener("webglcontextlost", (function (e) {
+        var c = document.getElementById("canvas");
+        c.addEventListener("webglcontextlost", (function (e) {
           alert("WebGL context lost. You will need to reload the page.");
           e.preventDefault();
         }), !1);
-        return e;
+        // Fixed a bug where an iframe containing SuperTUx (e. g. Newgrounds)
+        // would lose focus if the user clicks outside of the iframe and cannot
+        // get focus back when user clicks inside the iframe, thus preventing
+        // any keyboard input from being received by SuperTux.
+        // If you want to try: Disable the three lines below, compile, upload on
+        // Newgrounds, wait for the game to load, click outside the game, click
+        // back inside the game, then try to press buttons (e. g. arrows), it'll
+        // behave as if focus was outside the iframe (e. g. pressing down will scroll
+        // the page instead of navigating the menus/worldmap/ducking/whatever)
+        c.addEventListener("click", function(e) {
+          c.focus();
+        });
+        return c;
       }(),
       setStatus: function (e) {
         overlayElement.style.display = e ? "flex" : "none";
@@ -255,7 +270,7 @@
       }
     }
 
-    var autofit = false;
+    var autofit = true;
     var setResolution = null;
 
     function tryResize() {

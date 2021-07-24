@@ -354,7 +354,7 @@ OptionsMenu::OptionsMenu(bool complete) :
       .set_help(_("Select a profile to play with"));
   }
 
-#ifndef ENABLE_TOUCHSCREEN_SUPPORT
+#if !defined(ENABLE_TOUCHSCREEN_SUPPORT) && !defined(__EMSCRIPTEN__)
   add_toggle(MNID_FULLSCREEN,_("Window Resizable"), &g_config->window_resizable)
     .set_help(_("Allow window resizing, might require a restart to take effect"));
 
@@ -368,9 +368,11 @@ OptionsMenu::OptionsMenu(bool complete) :
   fullscreen_res.set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
 #endif
 
+#if 0
 #ifdef __EMSCRIPTEN__
   MenuItem& fit_window = add_toggle(MNID_FIT_WINDOW, _("Fit to browser"), &g_config->fit_window);
   fit_window.set_help(_("Fit the resolution to the size of your browser"));
+#endif
 #endif
 
   MenuItem& magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
@@ -379,7 +381,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
   vsync.set_help(_("Set the VSync mode"));
 
-#ifndef ENABLE_TOUCHSCREEN_SUPPORT
+#if !defined(ENABLE_TOUCHSCREEN_SUPPORT) && !defined(__EMSCRIPTEN__)
   MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect.set_help(_("Adjust the aspect ratio"));
 #endif
