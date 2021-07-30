@@ -473,6 +473,12 @@ Player::update(float dt_sec)
     //prevent player from changing direction when backflipping
     m_dir = (m_backflip_direction == 1) ? Direction::LEFT : Direction::RIGHT;
     if (m_backflip_timer.started()) m_physic.set_velocity_x(100.0f * static_cast<float>(m_backflip_direction));
+    //rotate sprite during flip
+    m_sprite->set_angle(m_sprite->get_angle() + (m_dir == Direction::LEFT ? 1 : -1) * dt_sec * (360.0f / 0.5f));
+    if (m_player_status.has_hat_sprite() && !m_swimming && !m_water_jump)
+      m_powersprite->set_angle(m_sprite->get_angle());
+    if (m_player_status.bonus == EARTH_BONUS)
+      m_lightsprite->set_angle(m_sprite->get_angle());
   }
 
   if (on_ground()) {
@@ -1097,7 +1103,7 @@ Player::handle_input()
 
   if (!m_swimming)
   {
-    if (!m_water_jump) m_sprite->set_angle(0);
+    if (!m_water_jump && !m_backflipping) m_sprite->set_angle(0);
     if (!m_jump_early_apex) {
       m_physic.set_gravity_modifier(1.0f);
     }
