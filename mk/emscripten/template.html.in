@@ -145,13 +145,27 @@
       justify-content: center;
     }
 
+    .bottom_stuff {
+      text-align: center;
+      color: #fff7;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 15px;
+    }
+
+    .bottom_stuff a {
+      color: #8cf;
+      font-weight: bold;
+    }
+
     @keyframes movebkg {
       from {
         background-position: 0 0, 50% calc(50% - 100px);
       }
 
       to {
-        background-position: 256px 0, 50% calc(50% - 100px);
+        background-position: -256px 0, 50% calc(50% - 100px);
       }
     }
   </style>
@@ -165,6 +179,10 @@
       <br/>
       <div class="emscripten"><progress hidden id="progress" max="100" value="0"></progress></div>
     </center>
+    <div class="bottom_stuff">
+      <p>If the game is unplayably slow, try downloading the desktop version for your platform at <a href="https://www.supertux.org/download.html" target="_blank">supertux.org</a></p>
+      <p id="progress_desc"></p>
+    </div>
   </div>
   <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <p id="output"></p>
@@ -174,12 +192,28 @@
       document.getElementById("output").style.display = "none";
     }
 
-    alert("If the game is too slow to be playable, please download the native version for your platform at https://www.supertux.org/");
-
     var statusElement = document.getElementById("status"),
     progressElement = document.getElementById("progress"),
+    progressDescElement = document.getElementById("progress_desc"),
     overlayElement = document.getElementById("overlay"),
     spinnerElement = document.getElementById("spinner");
+
+    var lastUpdate = Date.now() / 1000;
+    var lastStep = 0;
+
+    function getExp(num) {
+      if (num > 1e12) {
+        return (num / 1e12).toFixed(3) + "T";
+      } else if (num > 1e9) {
+        return (num / 1e9).toFixed(3) + "G";
+      } else if (num > 1e6) {
+        return (num / 1e6).toFixed(3) + "M";
+      } else if (num > 1e3) {
+        return (num / 1e3).toFixed(3) + "K";
+      } else {
+        return num.toFixed();
+      }
+    }
 
     var Module = {
       preRun: [],
@@ -250,6 +284,14 @@
               progressElement.value = 100 * parseInt(t[2]);
               progressElement.max = 100 * parseInt(t[4]);
               progressElement.hidden = false;
+
+              var update = Date.now() / 1000
+              progressDescElement.innerText = e.match(/[Dd]ownload/)
+                ? getExp(parseInt(t[2])) + "b / " + getExp(parseInt(t[4])) + "b (" + getExp((parseInt(t[2]) - lastStep) / (update - lastUpdate)) + "b/s)"
+                : t[2] + " of " + t[4] + " assets loaded";
+              lastUpdate = Date.now() / 1000;
+              lastStep = parseInt(t[2]);
+
               spinnerElement.hidden = false;
             }
             else
@@ -257,6 +299,9 @@
               progressElement.value = null;
               progressElement.max = null;
               progressElement.hidden = true;
+
+              progressDescElement.innerText = "";
+
               if (!e)
                 spinnerElement.style.display = "none";
             }
