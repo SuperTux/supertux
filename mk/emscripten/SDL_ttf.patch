@@ -1,30 +1,38 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f4e6f41..b2efdf7 100644
+index f4e6f41..2dff726 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -3,20 +3,20 @@
+@@ -3,20 +3,28 @@
  cmake_minimum_required(VERSION 3.0)
  project(SDL2_TTF C)
  
 -find_path(SDL_INCLUDE_DIR SDL2/SDL.h)
 -find_library(SDL_LIBRARY NAMES SDL2d SDL2)
 -find_package(Freetype REQUIRED)
-+#find_path(SDL_INCLUDE_DIR SDL2/SDL.h)
-+#find_library(SDL_LIBRARY NAMES SDL2d SDL2)
-+#find_package(Freetype REQUIRED)
++if(NOT EMSCRIPTEN)
++    find_path(SDL_INCLUDE_DIR SDL2/SDL.h)
++    find_library(SDL_LIBRARY NAMES SDL2d SDL2)
++    find_package(Freetype REQUIRED)
++endif(NOT EMSCRIPTEN)
  
  add_library(SDL2_ttf SDL_ttf.c version.rc)
  
  set_target_properties(SDL2_ttf PROPERTIES DEFINE_SYMBOL SDL2_EXPORTS)
 -target_include_directories(SDL2_ttf PRIVATE ${SDL_INCLUDE_DIR}/SDL2 ${FREETYPE_INCLUDE_DIR_ft2build})
-+#target_include_directories(SDL2_ttf PRIVATE ${SDL_INCLUDE_DIR}/SDL2 ${FREETYPE_INCLUDE_DIR_ft2build})
++if(NOT EMSCRIPTEN)
++    target_include_directories(SDL2_ttf PRIVATE ${SDL_INCLUDE_DIR}/SDL2 ${FREETYPE_INCLUDE_DIR_ft2build})
++endif(NOT EMSCRIPTEN)
  if(WITH_RAQM)
      add_definitions(-DHAVE_RAQM=1)
      target_include_directories(SDL2_ttf PRIVATE ${RAQM_INCLUDE_DIR})
      target_link_libraries(SDL2_ttf PUBLIC ${RAQM_LIBRARIES})
  endif()
 -target_link_libraries(SDL2_ttf PRIVATE ${SDL_LIBRARY} ${FREETYPE_LIBRARY})
-+target_link_libraries(SDL2_ttf PUBLIC ${SDL2_LIBRARIES} ${FREETYPE_LIBRARY})
++if(EMSCRIPTEN)
++    target_link_libraries(SDL2_ttf PUBLIC ${SDL2_LIBRARIES} ${FREETYPE_LIBRARY})
++else(EMSCRIPTEN)
++    target_link_libraries(SDL2_ttf PRIVATE ${SDL_LIBRARY} ${FREETYPE_LIBRARY})
++endif(EMSCRIPTEN)
  
  install(TARGETS SDL2_ttf
      RUNTIME DESTINATION bin
