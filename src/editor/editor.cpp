@@ -100,7 +100,7 @@ Editor::Editor() :
   m_toolbox_widget(),
   m_layers_widget(),
   m_enabled(false),
-  m_bgr_surface(Surface::from_file("images/background/antarctic/arctis2.png")),
+  m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_undo_manager(new UndoManager),
   m_ignore_sector_change(false),
   m_level_first_loaded(false),
