@@ -16,6 +16,8 @@
 
 #include "supertux/game_session.hpp"
 
+#include <cfloat>
+
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
