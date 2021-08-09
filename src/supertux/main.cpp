@@ -294,15 +294,13 @@ if (FileSystem::is_directory(olduserdir)) {
   std::filesystem::path olduserpath(olduserdir);
   std::filesystem::path userpath(userdir);
 
-  std::filesystem::directory_iterator end_itr;
-
   bool success = true;
 
   // cycle through the directory
-  for (std::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
+  for (const auto& entry: std::filesystem::directory_iterator(olduserpath)) {
   try
   {
-    std::filesystem::rename(itr->path(), userpath / itr->path().filename());
+    std::filesystem::rename(entry.path(), userpath / entry.path().filename());
   }
   catch (const std::filesystem::filesystem_error& err)
   {
