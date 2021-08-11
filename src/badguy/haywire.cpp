@@ -126,7 +126,7 @@ Haywire::active_update(float dt_sec)
 
   if (is_exploding)
   {
-    if (on_ground() && std::abs(m_physic.get_velocity_x()) > 40.f)
+    if (on_ground() && std::abs(m_physic.get_velocity_x()) > 40.f && !Sector::get().get_player().is_dying())
     {
       //jump over 1-tall roadblocks
       Rectf jump_box = get_bbox();
