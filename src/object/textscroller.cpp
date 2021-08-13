@@ -136,9 +136,7 @@ TextScroller::parse_content(const ReaderCollection& collection)
       bool simple;
       std::string name, info, image_file;
 
-      if (!item.get_mapping().get("simple", simple)) {
-        simple = false;
-      }
+      item.get_mapping().get("simple", simple, false);
 
       if (simple) {
         if (!item.get_mapping().get("name", name) || !item.get_mapping().get("info", info)) {

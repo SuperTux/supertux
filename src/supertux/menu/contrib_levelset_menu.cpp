@@ -76,7 +76,6 @@ ContribLevelsetMenu::menu_action(MenuItem& item)
 
     std::string filename = m_levelset->get_level_filename(item.get_id());
     std::string full_filename = FileSystem::join(m_world->get_basedir(), filename);
-    std::string title = LevelParser::get_level_name(full_filename);
 
     // reload the World so that we have something that we can safely
     // std::move() around without wreaking the ContribMenu
