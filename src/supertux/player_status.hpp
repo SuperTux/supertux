@@ -41,7 +41,7 @@ public:
   PlayerStatus();
   void reset();
   void add_coins(int count, bool play_sound = true);
-  void take_checkpoint_coins() { coins -= std::max(coins / 10, 25); }
+  void take_checkpoint_coins();
 
   void write(Writer& writer);
   void read(const ReaderMapping& mapping);
