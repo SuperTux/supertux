@@ -9,6 +9,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)
@@ -17,6 +18,7 @@
       (image-bottom "images/background/arctis2.png")
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -27,6 +29,7 @@
       (z-pos 200)
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -82,6 +85,12 @@
       (direction "left")
       (x 4832)
       (y 928)
+    )
+    (gradient
+      (blend "none")
+      (top_color 0.3 0.4 0.75)
+      (bottom_color 1 1 0.6)
+      (z-pos -310)
     )
     (jumpy
       (direction "left")
@@ -352,6 +361,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
