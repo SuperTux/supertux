@@ -10,6 +10,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image "images/background/arctis2.png")
     )
@@ -48,6 +49,11 @@
     (firefly
       (x 4928)
       (y 768)
+    )
+    (gradient
+      (left_color 0.3 0.4 0.75)
+      (right_color 0.4 0.9 1 0.7)
+      (z-pos -310)
     )
     (jumpy
       (x 1735)
