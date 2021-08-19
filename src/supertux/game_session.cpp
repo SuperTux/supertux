@@ -590,7 +590,10 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   m_end_sequence = static_cast<EndSequence*>(&m_currentsector->add_object(std::move(end_sequence)));
   m_end_sequence->start();
 
-  SoundManager::current()->play_music("music/misc/leveldone.ogg", false);
+  if (seq == SEQ_FIREWORKS)
+    SoundManager::current()->play_music("music/misc/leveldone_boss.ogg", false);
+  else
+    SoundManager::current()->play_music("music/misc/leveldone.ogg", false);
   m_currentsector->get_player().set_winning();
 
   // Stop all clocks.
