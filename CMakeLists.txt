@@ -71,8 +71,10 @@ endif(NOT EMSCRIPTEN)
 ## Add definitions
 if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
   add_definitions(-DRELEASE)
+  add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 elseif(CMAKE_BUILD_TYPE MATCHES Debug)
   add_definitions(-DDEBUG)
+  add_definitions(-D GLM_ENABLE_EXPERIMENTAL)
 endif()
 
 if(EMSCRIPTEN)
