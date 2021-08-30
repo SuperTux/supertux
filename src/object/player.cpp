@@ -1698,8 +1698,20 @@ Player::draw(DrawingContext& context)
   if (m_player_status.has_hat_sprite())
   {
     m_powersprite->set_action(m_sprite->get_action());
+    if (m_powersprite->get_frames() == m_sprite->get_frames())
+    {
+      m_powersprite->set_frame(m_sprite->get_current_frame());
+      m_powersprite->set_frame_progress(m_sprite->get_current_frame_progress());
+    }
     if (m_player_status.bonus == EARTH_BONUS)
+    {
       m_lightsprite->set_action(m_sprite->get_action());
+      if (m_lightsprite->get_frames() == m_sprite->get_frames())
+      {
+        m_lightsprite->set_frame(m_sprite->get_current_frame());
+        m_lightsprite->set_frame_progress(m_sprite->get_current_frame_progress());
+      }
+    }
   }
 
   /*

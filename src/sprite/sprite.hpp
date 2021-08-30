@@ -43,6 +43,10 @@ public:
   /** Set number of animation cycles until animation stops */
   void set_animation_loops(int loops = -1) { m_animation_loops = loops; }
 
+  void set_frame_progress(float frame_progress) { m_frame = frame_progress; }
+
+  void set_frame(int frame) { m_frameidx = frame; }
+
   /* Stop animation */
   void stop_animation() { m_animation_loops = 0; }
 
@@ -54,6 +58,9 @@ public:
 
   /** Get currently drawn frame */
   int get_current_frame() const { return m_frameidx; }
+
+  /** Get current frame progress */
+  float get_current_frame_progress() const { return m_frame; }
 
   /** Get sprite's name */
   const std::string& get_name() const { return m_data.name; }
