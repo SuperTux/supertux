@@ -35,7 +35,6 @@ Snail::Snail(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"),
   state(STATE_NORMAL),
   kicked_delay_timer(),
-  danger_gone_timer(),
   squishcount(0)
 {
   walk_speed = 80;
@@ -94,19 +93,6 @@ Snail::be_kicked(bool upwards)
     kicked_delay_timer.start(0.05f);
 }
 
-void
-Snail::be_shielded()
-{
-  state = STATE_SHIELDED;
-
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
-
-  m_sprite->set_action(m_dir == Direction::LEFT ? "shielded-left" : "shielded-right");
-
-  danger_gone_timer.start(SHIELDED_TIME);
-}
-
 bool
 Snail::can_break() const {
   return state == STATE_KICKED;
@@ -136,11 +122,6 @@ Snail::active_update(float dt_sec)
     return;
   }
 
-  if(state == STATE_NORMAL && is_in_danger())
-  {
-    be_shielded();
-  }
-
   switch (state) {
 
     case STATE_NORMAL:
@@ -168,13 +149,6 @@ Snail::active_update(float dt_sec)
 
     case STATE_GRABBED:
       break;
-
-    case STATE_SHIELDED:
-      if (danger_gone_timer.check())
-      {
-        be_normal();
-      }
-      break;
   }
 
   BadGuy::active_update(dt_sec);
@@ -201,10 +175,6 @@ Snail::collision_solid(const CollisionHit& hit)
   switch (state)
   {
     case STATE_NORMAL:
-    case STATE_SHIELDED:
-      WalkingBadguy::collision_solid(hit);
-      return;
-
     case STATE_KICKED:
       if (hit.left || hit.right) {
         SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
@@ -240,8 +210,6 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 
   switch (state) {
     case STATE_NORMAL:
-    case STATE_SHIELDED:
-      return WalkingBadguy::collision_badguy(badguy, hit);
     case STATE_FLAT:
     case STATE_KICKED_DELAY:
       return FORCE_MOVE;
@@ -290,9 +258,8 @@ Snail::collision_squished(GameObject& object)
   }
 
   switch (state) {
-
-    case STATE_SHIELDED:
     case STATE_NORMAL:
+      BOOST_FALLTHROUGH;
     case STATE_KICKED:
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {
