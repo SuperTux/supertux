@@ -27,8 +27,6 @@ namespace {
 const float SNAIL_KICK_SPEED = 500;
 const int MAX_SNAIL_SQUISHES = 10;
 const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
-const float DANGER_SENSE_DIST = 25;
-const float SHIELDED_TIME = 1.5f;
 }
 
 Snail::Snail(const ReaderMapping& reader) :
@@ -96,18 +94,6 @@ Snail::be_kicked(bool upwards)
 bool
 Snail::can_break() const {
   return state == STATE_KICKED;
-}
-
-bool
-Snail::is_in_danger()
-{
-  Rectf sense_zone = get_bbox().moved(Vector(0, -DANGER_SENSE_DIST));
-  auto player = Sector::get().get_nearest_player(get_bbox());
-  if (player && sense_zone.contains(player->get_bbox()) && player->get_velocity().y > 0)
-  {
-    return true;
-  }
-  return false;
 }
 
 void

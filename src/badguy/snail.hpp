@@ -47,7 +47,6 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
-  bool is_in_danger();
 
   void be_normal(); /**< switch to state STATE_NORMAL */
   void be_flat(); /**< switch to state STATE_FLAT */
