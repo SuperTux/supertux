@@ -73,6 +73,7 @@ CirclePlatform::update(float dt_sec)
       Vector newpos(start_position.x + cosf(angle) * radius,
                     start_position.y + sinf(angle) * radius);
       m_col.set_movement(newpos - get_pos());
+      m_col.propagate_movement(newpos - get_pos());
     }
   }
 }
