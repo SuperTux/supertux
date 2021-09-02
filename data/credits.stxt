@@ -539,6 +539,10 @@
       (info (_ "Various Contributions"))
     )
 	(person
+      (name "mrkubax10")
+      (info (_ "Minor features and programming"))
+    )
+	(person
       (name "kernigh")
       (info (_ "Contributions"))
     )
