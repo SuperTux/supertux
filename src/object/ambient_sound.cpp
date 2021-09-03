@@ -142,7 +142,7 @@ AmbientSound::update(float dt_sec)
       if (sound_source==nullptr)
         start_playing();
       else if (m_effect_distance == -1)
-        sound_source->set_gain(0.9f);
+        sound_source->set_gain(targetvolume);
       else
         sound_source->set_gain((1.0f - (dist / m_effect_distance)) * targetvolume);   
     }
