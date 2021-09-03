@@ -137,14 +137,16 @@ AmbientSound::update(float dt_sec)
     float dist_top = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_TOP);
     float dist_bottom = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_BOTTOM);
     float dist = std::min({dist_left, dist_right, dist_top, dist_bottom});
-    if (dist < m_effect_distance)
+    if (dist < m_effect_distance || m_effect_distance == -1)
     {
       if (sound_source==nullptr)
         start_playing();
+      else if (m_effect_distance == -1)
+        sound_source->set_gain(0.9f);
       else
         sound_source->set_gain((1.0f - (dist / m_effect_distance)) * targetvolume);   
     }
-    if (dist >= m_effect_distance)
+    if (dist >= m_effect_distance && m_effect_distance != -1)
       stop_playing();
   }
 }
