@@ -16,6 +16,8 @@
 
 #include "gui/item_colorchannel.hpp"
 
+#include <vector>
+
 #include "math/util.hpp"
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
@@ -59,11 +61,11 @@ ItemColorChannelOKLab::draw(DrawingContext& context, const Vector& pos,
   float chroma_max_any_l = 1.0f;
   if (m_channel == ChannelType::CHANNEL_C)
     chroma_max_any_l = col_oklch.get_maximum_chroma_any_l();
-  constexpr int num_rects = 128;
-  std::array<Color, num_rects+1> colors;
-  for (int i = 0; i < num_rects+1; ++i) {
+  constexpr int NUM_RECTS = 128;
+  std::vector<Color> colors(NUM_RECTS+1);
+  for (int i = 0; i < NUM_RECTS+1; ++i) {
     ColorOKLCh col_oklch_current = col_oklch;
-    float x = static_cast<float>(i) / num_rects;
+    float x = static_cast<float>(i) / NUM_RECTS;
     if (m_channel == ChannelType::CHANNEL_L) {
       col_oklch_current.L = x;
     } else if (m_channel == ChannelType::CHANNEL_C) {
@@ -75,9 +77,9 @@ ItemColorChannelOKLab::draw(DrawingContext& context, const Vector& pos,
     }
     colors[i] = col_oklch_current.to_srgb();
   }
-  for (int i = 0; i < num_rects; ++i) {
-    float x1 = 16 + static_cast<float>(i) * lw / num_rects;
-    float x2 = x1 + lw / num_rects;
+  for (int i = 0; i < NUM_RECTS; ++i) {
+    float x1 = 16 + static_cast<float>(i) * lw / NUM_RECTS;
+    float x2 = x1 + lw / NUM_RECTS;
     context.color().draw_gradient(colors[i], colors[i+1], LAYER_GUI-1,
       GradientDirection::HORIZONTAL,
       Rectf(pos + Vector(x1, -10), pos + Vector(x2, 10)));
