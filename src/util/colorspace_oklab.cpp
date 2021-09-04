@@ -59,7 +59,7 @@ ColorRGB srgb_to_linear_srgb(Color& c)
     if (channel <= 0.04045f)
       return channel / 12.92f;
     else
-      return pow((channel + 0.055f) / (1.0f + 0.055f), 2.4f);
+      return powf((channel + 0.055f) / (1.0f + 0.055f), 2.4f);
   };
   return {to_linear(c.red), to_linear(c.green), to_linear(c.blue)};
 }
@@ -422,10 +422,10 @@ ColorOKLCh::clip_adaptive_L0_L_cusp(float alpha)
   float Ld = L - cusp.L;
   float k = 2.f * (Ld > 0 ? 1.f - cusp.L : cusp.L);
 
-  float e1 = 0.5f * k + fabs(Ld) + alpha * C / k;
+  float e1 = 0.5f * k + fabsf(Ld) + alpha * C / k;
   float sgn = Ld < 0.0f ? -1.0f : 1.0f;
   float L0 = cusp.L + 0.5f * (sgn * (e1 - sqrtf(
-    std::max<float>(e1 * e1 - 2.f * k * fabs(Ld), 0.0f))));
+    std::max<float>(e1 * e1 - 2.f * k * fabsf(Ld), 0.0f))));
 
   float t = find_gamut_intersection(a_, b_, L, C, L0);
   L = (1.0f - t) * L0 + t * L;
