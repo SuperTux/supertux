@@ -188,7 +188,7 @@ ItemColorChannelOKLab::event(const SDL_Event& ev)
   }
 
   // Ignore distant mouse presses
-  if (x < -0.5 || x > 1.5 || mouse_pos.y > pos.y + menu_height / 2.0f
+  if (x < -0.5f || x > 1.5f || mouse_pos.y > pos.y + menu_height / 2.0f
       || mouse_pos.y < pos.y - menu_height / 2.0f)
     return;
 
