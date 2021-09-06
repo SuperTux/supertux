@@ -171,6 +171,9 @@ void
 ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
   log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
+
+  if (has_pending_fadeout())
+    return;
   if (g_config->transitions_enabled)
   {
     m_screen_fade = std::move(screen_fade);
