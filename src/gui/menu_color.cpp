@@ -24,10 +24,13 @@ ColorMenu::ColorMenu(Color* color_) :
   add_label(_("Mix the colour"));
   add_hl();
 
-  add_color_channel( &(color->red), Color::RED);
-  add_color_channel( &(color->green), Color::GREEN);
-  add_color_channel( &(color->blue), Color::BLUE);
-  add_color_channel( &(color->alpha), Color::BLACK, -1, true);
+  add_color_channel_oklab(color, 1);
+  add_color_channel_oklab(color, 2);
+  add_color_channel_oklab(color, 3);
+  add_color_channel_rgba(&(color->red), Color::RED);
+  add_color_channel_rgba(&(color->green), Color::GREEN);
+  add_color_channel_rgba(&(color->blue), Color::BLUE);
+  add_color_channel_rgba(&(color->alpha), Color::BLACK, -1, true);
   add_color_display(color);
 
   add_hl();

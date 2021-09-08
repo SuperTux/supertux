@@ -46,10 +46,11 @@ std::string float_to_string(float v)
 
 } // namespace
 
-ItemColorChannel::ItemColorChannel(float* input, Color channel, int id,
+ItemColorChannelRGBA::ItemColorChannelRGBA(float* input, Color channel, int id,
     bool is_linear) :
   MenuItem(colour_value_to_string(*input, is_linear), id),
   m_number(input),
+  m_number_prev(*input),
   m_is_linear(is_linear),
   m_edit_mode(false),
   m_flickw(static_cast<int>(Resources::normal_font->get_text_width("_"))),
@@ -58,8 +59,14 @@ ItemColorChannel::ItemColorChannel(float* input, Color channel, int id,
 }
 
 void
-ItemColorChannel::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
+ItemColorChannelRGBA::draw(DrawingContext& context, const Vector& pos,
+  int menu_width, bool active)
 {
+  if (!m_edit_mode && *m_number != m_number_prev) {
+    set_text(colour_value_to_string(*m_number, m_is_linear));
+    m_number_prev = *m_number;
+  }
+
   MenuItem::draw(context, pos, menu_width, active);
   const float lw = float(menu_width - 32) * (*m_number);
   context.color().draw_filled_rect(Rectf(pos + Vector(16, -4),
@@ -68,13 +75,13 @@ ItemColorChannel::draw(DrawingContext& context, const Vector& pos, int menu_widt
 }
 
 int
-ItemColorChannel::get_width() const
+ItemColorChannelRGBA::get_width() const
 {
   return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + 16 + static_cast<float>(m_flickw));
 }
 
 void
-ItemColorChannel::enable_edit_mode()
+ItemColorChannelRGBA::enable_edit_mode()
 {
   if (m_edit_mode)
     // Do nothing if it is already enabled
@@ -85,7 +92,7 @@ ItemColorChannel::enable_edit_mode()
 
 
 void
-ItemColorChannel::event(const SDL_Event& ev)
+ItemColorChannelRGBA::event(const SDL_Event& ev)
 {
   if (ev.type == SDL_TEXTINPUT) {
     std::string txt = ev.text.text;
@@ -96,7 +103,7 @@ ItemColorChannel::event(const SDL_Event& ev)
 }
 
 void
-ItemColorChannel::add_char(char c)
+ItemColorChannelRGBA::add_char(char c)
 {
   enable_edit_mode();
   std::string text = get_text();
@@ -130,7 +137,7 @@ ItemColorChannel::add_char(char c)
 }
 
 void
-ItemColorChannel::remove_char()
+ItemColorChannelRGBA::remove_char()
 {
   enable_edit_mode();
   std::string text = get_text();
@@ -154,7 +161,7 @@ ItemColorChannel::remove_char()
 }
 
 void
-ItemColorChannel::process_action(const MenuAction& action)
+ItemColorChannelRGBA::process_action(const MenuAction& action)
 {
   switch (action)
   {
@@ -167,7 +174,6 @@ ItemColorChannel::process_action(const MenuAction& action)
       *m_number -= 0.1f;
       *m_number = math::clamp(*m_number, 0.0f, 1.0f);
       m_edit_mode = false;
-      set_text(colour_value_to_string(*m_number, m_is_linear));
       break;
 
     case MenuAction::RIGHT:
@@ -175,12 +181,10 @@ ItemColorChannel::process_action(const MenuAction& action)
       *m_number += 0.1f;
       *m_number = math::clamp(*m_number, 0.0f, 1.0f);
       m_edit_mode = false;
-      set_text(colour_value_to_string(*m_number, m_is_linear));
       break;
 
     case MenuAction::UNSELECT:
       m_edit_mode = false;
-      set_text(colour_value_to_string(*m_number, m_is_linear));
       break;
 
     default:
@@ -189,7 +193,7 @@ ItemColorChannel::process_action(const MenuAction& action)
 }
 
 Color
-ItemColorChannel::get_color() const
+ItemColorChannelRGBA::get_color() const
 {
   return m_channel;
 }
