@@ -185,6 +185,9 @@ GameSession::on_escape_press()
     return;
   }
 
+  if (m_level->m_suppress_pause_menu && ScreenManager::current()->has_pending_fadeout())
+    return;
+
   if (!m_level->m_suppress_pause_menu) {
     toggle_pause();
   } else {
