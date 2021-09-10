@@ -33,7 +33,6 @@
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
-#include <iostream>
 
 namespace {
 
