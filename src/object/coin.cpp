@@ -317,4 +317,22 @@ HeavyCoin::after_editor_set()
   MovingSprite::after_editor_set();
 }
 
+BEGIN_BACKUP(Coin, MovingSprite)
+  auto& walker = *get_walker();
+  SAVE_OBJECT(walker)
+END_BACKUP(Coin)
+
+BEGIN_RESTORE_WITH_SUBREADER(Coin, MovingSprite)
+  auto& walker = *get_walker();
+  LOAD_OBJECT(walker)
+END_RESTORE(Coin)
+
+BEGIN_BACKUP(HeavyCoin, Coin)
+  SAVE_OBJECT(m_physic)
+END_BACKUP(HeavyCoin)
+
+BEGIN_RESTORE_WITH_SUBREADER(HeavyCoin, Coin)
+  LOAD_OBJECT(m_physic)
+END_RESTORE(HeavyCoin)
+
 /* EOF */

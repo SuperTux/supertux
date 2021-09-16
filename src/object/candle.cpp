@@ -22,6 +22,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 Candle::Candle(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
@@ -140,5 +141,17 @@ Candle::set_burning(bool burning_)
   //puff smoke for flickering light sources only
   if (flicker) puff_smoke();
 }
+
+BEGIN_BACKUP(Candle, MovingSprite)
+  SAVE_PRIMITIVE(burning)
+  SAVE_PRIMITIVE(flicker)
+  SAVE_COLOR(lightcolor)
+END_BACKUP(Candle)
+
+BEGIN_RESTORE(Candle, MovingSprite)
+  LOAD_PRIMITIVE(burning)
+  LOAD_PRIMITIVE(flicker)
+  LOAD_COLOR(lightcolor, l)
+END_RESTORE(Candle)
 
 /* EOF */

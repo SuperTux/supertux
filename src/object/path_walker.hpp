@@ -50,6 +50,9 @@ public:
   /** returns true if PathWalker is currently moving */
   bool is_running() const { return m_running; }
 
+  void backup(Writer& writer) const;
+  void restore(const ReaderMapping& reader);
+
 private:
   void advance_node();
   void goback_node();

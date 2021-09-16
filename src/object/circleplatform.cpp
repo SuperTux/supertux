@@ -83,3 +83,21 @@ CirclePlatform::initialize()
 {
   timer.start(time);
 }
+
+BEGIN_BACKUP(CirclePlatform, MovingSprite)
+  SAVE_VECTOR(start_position)
+  SAVE_PRIMITIVE(angle)
+  SAVE_PRIMITIVE(radius)
+  SAVE_PRIMITIVE(speed)
+  SAVE_OBJECT(timer)
+  SAVE_PRIMITIVE(time)
+END_BACKUP(CirclePlatform)
+
+BEGIN_RESTORE_WITH_SUBREADER(CirclePlatform, MovingSprite)
+  LOAD_VECTOR(start_position)
+  LOAD_PRIMITIVE(angle)
+  LOAD_PRIMITIVE(radius)
+  LOAD_PRIMITIVE(speed)
+  LOAD_OBJECT(timer)
+  LOAD_PRIMITIVE(time)
+END_RESTORE(CirclePlatform)

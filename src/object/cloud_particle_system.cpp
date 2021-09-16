@@ -25,6 +25,8 @@
 #include "video/surface_batch.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),
@@ -263,5 +265,21 @@ void CloudParticleSystem::draw(DrawingContext& context)
 
   context.pop_transform();
 }
+
+BEGIN_BACKUP(CloudParticleSystem, ParticleSystem)
+  SAVE_PRIMITIVE(m_current_speed)
+  SAVE_PRIMITIVE(m_target_speed)
+  SAVE_PRIMITIVE(m_speed_fade_time_remaining)
+  SAVE_PRIMITIVE(m_current_amount)
+  SAVE_PRIMITIVE(m_current_real_amount)
+END_BACKUP(CloudParticleSystem)
+
+BEGIN_RESTORE(CloudParticleSystem, ParticleSystem)
+  LOAD_PRIMITIVE(m_current_speed)
+  LOAD_PRIMITIVE(m_target_speed)
+  LOAD_PRIMITIVE(m_speed_fade_time_remaining)
+  LOAD_PRIMITIVE(m_current_amount)
+  LOAD_PRIMITIVE(m_current_real_amount)
+END_RESTORE(CloudParticleSystem)
 
 /* EOF */

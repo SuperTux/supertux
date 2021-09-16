@@ -21,6 +21,8 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 static const float DROP_TIME = .1f; // time duration between "drops" of coin rain
 
@@ -78,5 +80,21 @@ CoinRain::draw(DrawingContext& context)
   }
   sprite->draw(context.color(), position, layer);
 }
+
+BEGIN_BACKUP(CoinRain, GameObject)
+  SAVE_VECTOR(position)
+  SAVE_PRIMITIVE(emerge_distance)
+  SAVE_OBJECT(timer)
+  SAVE_PRIMITIVE(counter)
+  SAVE_PRIMITIVE(drop)
+END_BACKUP(CoinRain)
+
+BEGIN_RESTORE_WITH_SUBREADER(CoinRain, GameObject)
+  LOAD_VECTOR(position)
+  LOAD_PRIMITIVE(emerge_distance)
+  LOAD_OBJECT(timer)
+  LOAD_PRIMITIVE(counter)
+  LOAD_PRIMITIVE(drop)
+END_RESTORE(CoinRain)
 
 /* EOF */

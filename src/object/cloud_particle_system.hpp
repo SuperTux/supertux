@@ -45,6 +45,9 @@ public:
     return "images/engine/editor/clouds.png";
   }
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   void fade_speed(float new_speed, float fade_time);
   void fade_amount(int new_amount, float fade_time, float time_between = 0.f);
 

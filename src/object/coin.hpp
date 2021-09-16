@@ -48,6 +48,9 @@ public:
 
   virtual void move_to(const Vector& pos) override;
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   void collect();
 
 private:
@@ -73,6 +76,9 @@ public:
 
   virtual std::string get_class() const override { return "heavycoin"; }
   virtual std::string get_display_name() const override { return _("Heavy Coin"); }
+
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

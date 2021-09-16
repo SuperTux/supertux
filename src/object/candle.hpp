@@ -35,6 +35,9 @@ public:
   virtual std::string get_class() const override { return "candle"; }
   virtual std::string get_display_name() const override { return _("Candle"); }
 
+  virtual void backup(Writer& writer) const override;
+  virtual void restore(const ReaderMapping& reader) override;
+
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
