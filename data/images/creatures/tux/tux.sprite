@@ -1041,110 +1041,120 @@
        (action
          (name "earth-walk-right-stone")
          (fps 15.0)
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-walk-left-stone")
          (fps 15.0)
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-walk-right-stone"))
 
        (action
          (name "earth-stand-right-stone")
          (fps 15.0)
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-stand-left-stone")
          (fps 15.0)
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-stand-right-stone"))
 
        (action
          (name "earth-jump-right-stone")
          (fps 15.0)
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-jump-left-stone")
          (fps 15.0)
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-jump-right-stone"))
 
        (action
          (name "earth-skid-right-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-skid-left-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-skid-right-stone"))
 
        (action
          (name "earth-kick-right-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-kick-left-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-kick-right-stone"))
 
        (action
          (name "earth-idle-right-stone")
          (fps 5.0)
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-idle-left-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-idle-right-stone"))
 
        (action
          (name "earth-climbing-right-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-climbing-left-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-climbing-right-stone"))
 
        (action
          (name "earth-duck-right-stone")
-         (hitbox 16 45 32 32)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-duck-left-stone")
-         (hitbox 16 45 32 32)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-duck-right-stone"))
 
        (action
          (name "earth-backflip-right-stone")
-         (hitbox 16 37 32 32)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-backflip-left-stone")
-         (hitbox 16 37 32 32)
+         (hitbox 16 14 32 32)
          (fps 18.0)
          (mirror-action "earth-backflip-right-stone"))
 
        (action
          (name "earth-buttjump-right-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (images "earth/statue.png"))
 
        (action
          (name "earth-buttjump-left-stone")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 32)
          (mirror-action "earth-buttjump-right-stone"))
+		 
+       (action
+         (name "earth-fall-right-stone")
+         (hitbox 16 14 32 32)
+         (images "earth/statue.png"))
+
+       (action
+         (name "earth-fall-left-stone")
+         (hitbox 16 14 32 32)
+         (images "earth/statue.png"))
 
 ; Air Tux
 

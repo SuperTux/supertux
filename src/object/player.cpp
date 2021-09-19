@@ -56,7 +56,6 @@ const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results 
 const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
 const float SHOOTING_TIME = .150f;
 const float GLIDE_TIME_PER_FLOWER = 0.5f;
-const float STONE_TIME_PER_FLOWER = 2.0f;
 
 /** number of idle stages, including standing */
 const unsigned int IDLE_STAGE_COUNT = 5;
@@ -131,6 +130,9 @@ const float DUCKED_TUX_HEIGHT = 31.8f;
 
 /** when Tux swims down and approaches the bottom of the screen, push him back up with that strength */
 const float WATER_FALLOUT_FORCEBACK_STRENGTH = 1024.f;
+
+/** Determines how strong friction is when Tux is rolling as a stone. Greater = less strong = faster Tux. Should be >= 1 at all times. */
+const float STONE_SPEED_DIVISOR = 512.f;
 
 bool no_water = true;
 
@@ -454,7 +456,12 @@ Player::update(float dt_sec)
   // Roll the sprite if Tux is rolling
   if (m_stone)
   {
-    m_sprite->set_angle(m_sprite->get_angle() + m_physic.get_movement(dt_sec).x);
+    float f = 1.f;
+
+    if (!std::isnan(m_floor_normal.x))
+      f = std::cos(m_floor_normal.x);
+
+    m_sprite->set_angle(m_sprite->get_angle() + m_physic.get_movement(dt_sec).x * 3.141592653898f / 2.f / f);
   }
 
     // extend/shrink tux collision rectangle so that we fall through/walk over 1
@@ -615,26 +622,41 @@ Player::handle_input_rolling()
     adjust_height(BIG_TUX_HEIGHT);
   }
 
+  m_physic.set_acceleration_x(0.f);
+
   if (m_controller->hold(Control::LEFT) && !m_controller->hold(Control::RIGHT))
   {
     //m_physic.set_velocity_x(std::max(m_physic.get_velocity_x(), 32.f));
-    m_physic.set_acceleration_x(-32.f);
+    m_physic.set_acceleration_x(-64.f);
   }
 
   if (m_controller->hold(Control::RIGHT) && !m_controller->hold(Control::LEFT))
   {
     //m_physic.set_velocity_x(std::min(m_physic.get_velocity_x(), -32.f));
-    m_physic.set_acceleration_x(32.f);
+    m_physic.set_acceleration_x(64.f);
   }
 
+  // Friction
+  m_physic.set_acceleration_x(m_physic.get_acceleration_x() / (std::abs(m_physic.get_velocity_x()) / STONE_SPEED_DIVISOR + 1.f));
+
+#if 0
   if (on_ground())
   {
     Vector direction;
     direction.x = m_floor_normal.y;
     direction.y = -m_floor_normal.x;
     direction = glm::normalize(direction);
-    m_physic.set_acceleration(m_physic.get_acceleration() + m_floor_normal);
+
+    if (m_floor_normal.x > 0)
+      direction.x = -direction.x;
+
+    if (!std::isnan(direction.x) && !std::isnan(direction.y))
+    {
+      m_physic.set_acceleration_x(m_physic.get_acceleration_x() * std::abs(direction.y) + direction.x * 64.f);
+      //m_physic.set_velocity_x(m_physic.get_velocity_x() * 0.99f + direction.x * 128.f * 0.01f * std::cos(direction.y));
+    }
   }
+#endif
 }
 
 void
@@ -1341,7 +1363,7 @@ Player::position_grabbed_object()
 void
 Player::try_grab()
 {
-  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck)
+  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck && !m_stone)
   {
 
     Vector pos(0.0f, 0.0f);
@@ -1739,15 +1761,6 @@ Player::draw(DrawingContext& context)
     {
       m_powersprite->set_frame(m_sprite->get_current_frame());
       m_powersprite->set_frame_progress(m_sprite->get_current_frame_progress());
-    }
-    if (m_player_status.bonus == EARTH_BONUS)
-    {
-      m_lightsprite->set_action(m_sprite->get_action());
-      if (m_lightsprite->get_frames() == m_sprite->get_frames())
-      {
-        m_lightsprite->set_frame(m_sprite->get_current_frame());
-        m_lightsprite->set_frame_progress(m_sprite->get_current_frame_progress());
-      }
     }
   }
 
