@@ -1,0 +1,54 @@
+(supertux-sprite
+  (action
+    (name "left")
+    (hitbox 5 8 32 32)
+    (fps 14)
+    (images "candy-snowball-0.png"
+            "candy-snowball-1.png"
+            "candy-snowball-2.png"
+            "candy-snowball-3.png"
+            "candy-snowball-4.png"
+            "candy-snowball-5.png"
+            "candy-snowball-6.png"
+            "candy-snowball-7.png")
+  )
+  (action
+    (name "right")
+    (hitbox 7 8 32 32)
+    (fps 14)
+    (mirror-action "left")
+  )
+  (action
+    (name "squished-left")
+    (hitbox 1 -19 31.8 31.8)
+    (images "candy-squished-left.png")
+  )
+  (action
+    (name "squished-right")
+    (hitbox 1 -19 31.8 31.8)
+    (mirror-action "squished-left")
+  )
+ (action
+  (name "melting-left")
+  (hitbox 3 4 32 32)
+  (images "candy-melting-0.png"
+          "candy-melting-1.png"
+          "candy-melting-2.png"
+          "candy-melting-3.png"))
+ (action
+  (name "melting-right")
+  (hitbox 3 4 32 32)
+  (mirror-action "melting-left"))
+ (action
+  (name "ground-melting-left")
+  (hitbox 19 4 32 32)
+  (images "candy-gmelting-0.png"
+          "candy-gmelting-1.png"
+          "candy-gmelting-2.png"
+          "candy-gmelting-3.png"
+          "candy-gmelting-4.png"))
+ (action
+  (name "ground-melting-right")
+  (hitbox 19 4 32 32)
+  (mirror-action "ground-melting-left"))
+)
