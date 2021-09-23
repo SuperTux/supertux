@@ -2206,6 +2206,7 @@ void
 Player::sideways_push(float delta)
 {
   m_boost = delta;
+  m_physic.set_velocity_x(delta > 0 ? MAX_RUN_XM : -MAX_RUN_XM);
 }
 
 void
