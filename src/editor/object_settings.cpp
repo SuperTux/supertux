@@ -269,7 +269,7 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
                           boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {}, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, flags);
 }
 
 void
