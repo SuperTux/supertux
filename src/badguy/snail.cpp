@@ -161,6 +161,8 @@ Snail::collision_solid(const CollisionHit& hit)
   switch (state)
   {
     case STATE_NORMAL:
+      WalkingBadguy::collision_solid(hit);
+      return;
     case STATE_KICKED:
       if (hit.left || hit.right) {
         SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
