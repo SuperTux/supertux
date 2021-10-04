@@ -37,6 +37,7 @@ public:
   virtual void ignite() override;
   virtual std::string get_class() const override { return "owl"; }
   virtual std::string get_display_name() const override { return _("Owl"); }
+  virtual std::string get_overlay_size() const override { return "2x2"; }
   virtual ObjectSettings get_settings() override;
 
 protected:

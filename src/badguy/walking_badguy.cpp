@@ -101,12 +101,9 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
   float current_x_velocity = m_physic.get_velocity_x ();
 
   if (m_frozen)
-  {
-    m_physic.set_velocity_x (0.0);
-    m_physic.set_acceleration_x (0.0);
-  }
+    return;
   /* We're very close to our target speed. Just set it to avoid oscillation */
-  else if ((current_x_velocity > (dest_x_velocity - 5.0f)) &&
+  if ((current_x_velocity > (dest_x_velocity - 5.0f)) &&
            (current_x_velocity < (dest_x_velocity + 5.0f)))
   {
     m_physic.set_velocity_x (dest_x_velocity);
@@ -163,6 +160,12 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 
   update_on_ground_flag(hit);
 
+  if (m_frozen)
+  {
+    BadGuy::collision_solid(hit);
+    return;
+  }
+
   if (hit.top) {
     if (m_physic.get_velocity_y() < 0) m_physic.set_velocity_y(0);
   }
@@ -177,11 +180,14 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
+WalkingBadguy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   if (hit.top) {
     return FORCE_MOVE;
   }
+
+  if (badguy.is_frozen())
+    collision_solid(hit);
 
   if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
     turn_around();
@@ -216,7 +222,6 @@ void
 WalkingBadguy::freeze()
 {
   BadGuy::freeze();
-  m_physic.set_velocity_x(0);
 }
 
 void

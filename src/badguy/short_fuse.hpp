@@ -30,8 +30,9 @@ public:
 
 protected:
   virtual HitResponse collision_player (Player& player, const CollisionHit& hit) override;
-  virtual HitResponse collision_bullet (Bullet& bullet, const CollisionHit& ) override;
   virtual bool collision_squished (GameObject& object) override;
+  virtual bool is_freezable() const override;
+  virtual void freeze() override;
   virtual void kill_fall() override;
   virtual void ignite() override;
 

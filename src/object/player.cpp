@@ -1601,7 +1601,7 @@ Player::set_bonus(BonusType type, bool animate)
     }
     if (!particle_name.empty() && animate) {
       Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite",
-                                             action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
+                                             action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1, true);
     }
 
     m_player_status.max_fire_bullets[get_id()] = 0;

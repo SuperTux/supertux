@@ -19,6 +19,7 @@
 
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
+#include "object/portable.hpp"
 #include "scripting/badguy.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "supertux/direction.hpp"
@@ -31,15 +32,19 @@ class Bullet;
 
 /** Base class for moving sprites that can hurt the Player. */
 class BadGuy : public MovingSprite,
-               public ExposedObject<BadGuy, scripting::BadGuy>
+               public ExposedObject<BadGuy, scripting::BadGuy>,
+               public Portable
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -51,6 +56,8 @@ public:
 
   virtual std::string get_class() const override { return "badguy"; }
   virtual std::string get_display_name() const override { return _("Badguy"); }
+
+  virtual std::string get_overlay_size() const { return "1x1"; }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -77,6 +84,10 @@ public:
 
   Vector get_start_position() const { return m_start_position; }
   void set_start_position(const Vector& vec) { m_start_position = vec; }
+
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual bool is_portable() const override;
 
   /** Called when hit by a fire bullet, and is_flammable() returns true */
   virtual void ignite();
@@ -257,6 +268,7 @@ protected:
 
   float m_melting_time;
 
+  SpritePtr m_freezesprite;
   SpritePtr m_lightsprite;
   bool m_glowing;
 

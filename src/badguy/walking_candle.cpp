@@ -59,6 +59,7 @@ WalkingCandle::freeze() {
 void
 WalkingCandle::unfreeze() {
   BadGuy::unfreeze();
+  initialize();
   m_glowing = true;
 }
 
@@ -72,6 +73,14 @@ WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
     return FORCE_MOVE;
   }
   return WalkingBadguy::collision(other, hit);
+}
+
+void
+WalkingCandle::kill_fall()
+{
+  if (!m_frozen)
+    return;
+  BadGuy::kill_fall();
 }
 
 ObjectSettings

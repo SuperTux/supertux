@@ -20,6 +20,7 @@
 #include "audio/sound_source.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -114,6 +115,12 @@ void
 Bomb::ignite()
 {
   explode();
+}
+
+bool
+Bomb::is_portable() const
+{
+  return true;
 }
 
 void

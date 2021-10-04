@@ -19,11 +19,12 @@
   )
   (action
     (name "iced-left")
-    (hitbox 4 18 36 18)
-    (images "frozen.png")
+    (hitbox -5 2 36 18)
+    (images "left-1.png")
   )
   (action
     (name "iced-right")
+    (hitbox 1 2 36 18)
     (mirror-action "iced-left")
   )
   (action

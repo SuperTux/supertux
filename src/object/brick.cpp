@@ -81,7 +81,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
     }
   }
   auto portable = dynamic_cast<Portable*> (&other);
-  if (portable) {
+  if (portable && !badguy) {
     auto moving = dynamic_cast<MovingObject*> (&other);
     if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_break(nullptr);

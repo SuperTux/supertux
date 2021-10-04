@@ -35,6 +35,7 @@ public:
   virtual bool is_flammable() const override;
   virtual std::string get_class() const override { return "jumpy"; }
   virtual std::string get_display_name() const override { return _("Jumpy"); }
+  virtual std::string get_overlay_size() const override { return "1x2"; }
 
 private:
   HitResponse hit(const CollisionHit& hit);

@@ -32,7 +32,7 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  virtual void kill_fall() override {}
+  virtual void kill_fall() override;
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

@@ -31,8 +31,6 @@ public:
   virtual void activate() override;
   virtual void active_update(float) override;
 
-  virtual bool is_freezable() const override;
-
   virtual void ignite() override;
 
   virtual std::string get_class() const override { return "mole"; }

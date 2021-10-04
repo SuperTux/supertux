@@ -18,13 +18,11 @@
 #define HEADER_SUPERTUX_BADGUY_SNAIL_HPP
 
 #include "badguy/walking_badguy.hpp"
-#include "object/portable.hpp"
 
 /** Badguy "Snail" - a snail-like creature that can be flipped and
     tossed around at an angle */
 class Snail final :
-  public WalkingBadguy,
-  public Portable
+  public WalkingBadguy
 {
 public:
   Snail(const ReaderMapping& reader);

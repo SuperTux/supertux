@@ -44,6 +44,8 @@ KamikazeSnowball::initialize()
 bool
 KamikazeSnowball::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return BadGuy::collision_squished(object);
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
@@ -52,12 +54,17 @@ KamikazeSnowball::collision_squished(GameObject& object)
 void
 KamikazeSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (hit.top || hit.bottom) {
-    m_physic.set_velocity_y(0);
+  if (!m_frozen)
+  {
+    if (hit.top || hit.bottom) {
+      m_physic.set_velocity_y(0);
+    }
+    if (hit.left || hit.right) {
+      kill_collision();
+    }
   }
-  if (hit.left || hit.right) {
-    kill_collision();
-  }
+  else
+    BadGuy::collision_solid(hit);
 }
 
 void
@@ -77,11 +84,18 @@ HitResponse
 KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 {
   //Hack to tell if we should die
-  HitResponse response = BadGuy::collision_player(player, hit);
-  if (response == FORCE_MOVE) {
-    kill_collision();
+  if (!m_frozen)
+  {
+    HitResponse response = BadGuy::collision_player(player, hit);
+    if (response == FORCE_MOVE) {
+      kill_collision();
+    }
   }
-
+  else
+  {
+    BadGuy::collision_player(player, hit);
+    return FORCE_MOVE;
+  }
   return ABORT_MOVE;
 }
 
@@ -106,9 +120,26 @@ LeafShot::is_freezable() const
   return true;
 }
 
+void
+LeafShot::freeze()
+{
+  BadGuy::freeze();
+  m_physic.enable_gravity(true);
+}
+
+void
+LeafShot::unfreeze()
+{
+  BadGuy::unfreeze();
+  m_physic.enable_gravity(false);
+  initialize();
+}
+
 bool
 LeafShot::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return BadGuy::collision_squished(object);
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   // Spawn death particles
   spawn_explosion_sprites(3, "images/particles/leafshot.sprite");

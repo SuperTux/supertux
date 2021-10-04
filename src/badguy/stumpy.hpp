@@ -33,7 +33,7 @@ public:
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "stumpy"; }
   virtual std::string get_display_name() const override { return _("Walking Stump"); }
-
+  virtual std::string get_overlay_size() const override { return "2x2"; }
 protected:
   enum MyState {
     STATE_INVINCIBLE, STATE_NORMAL

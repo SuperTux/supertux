@@ -1,0 +1,58 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (loops 1)
+    (fps 1)
+    (hitbox 0 2 45 43)
+    (images "iceoverlay1x1-4.png"))
+
+  (action
+    (name "1x1")
+    (loops 1)
+    (fps 30)
+    (hitbox 0 2 45 43)
+    (images "iceoverlay1x1-1.png"
+            "iceoverlay1x1-2.png"
+            "iceoverlay1x1-3.png"
+            "iceoverlay1x1-4.png"))
+
+  (action
+    (name "2x1")
+    (loops 1)
+    (fps 30)
+    (hitbox 0 2 64 43)
+    (images "iceoverlay2x1-1.png"
+            "iceoverlay2x1-2.png"
+            "iceoverlay2x1-3.png"
+            "iceoverlay2x1-4.png"))
+
+  (action
+    (name "1x2")
+    (loops 1)
+    (fps 30)
+    (hitbox 0 2 45 62)
+    (images "iceoverlay1x2-1.png"
+            "iceoverlay1x2-2.png"
+            "iceoverlay1x2-3.png"
+            "iceoverlay1x2-4.png"))
+
+  (action
+    (name "2x2")
+    (loops 1)
+    (fps 30)
+    (hitbox 0 2 64 62)
+    (images "iceoverlay2x2-1.png"
+            "iceoverlay2x2-2.png"
+            "iceoverlay2x2-3.png"
+            "iceoverlay2x2-4.png"))
+
+  (action
+    (name "3x3")
+    (loops 1)
+    (fps 30)
+    (hitbox 0 2 96 94)
+    (images "iceoverlay3x3-1.png"
+            "iceoverlay3x3-2.png"
+            "iceoverlay3x3-3.png"
+            "iceoverlay3x3-4.png"))
+)

@@ -39,6 +39,8 @@ void
 Jumpy::collision_solid(const CollisionHit& chit)
 {
   hit(chit);
+  if (m_frozen)
+    BadGuy::collision_solid(chit);
 }
 
 HitResponse

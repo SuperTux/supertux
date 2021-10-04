@@ -67,6 +67,9 @@ Haywire::Haywire(const ReaderMapping& reader) :
 bool
 Haywire::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(object);
+
   auto player = dynamic_cast<Player*>(&object);
   if (player && player->is_invincible()) {
     player->bounce (*this);
@@ -209,12 +212,16 @@ Haywire::kill_fall()
     grunting->stop();
   }
   if (is_valid()) {
-    remove_me();
-    Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
-      EXPLOSION_STRENGTH_DEFAULT);
+    if (m_frozen)
+      BadGuy::kill_fall();
+    else
+    {
+      remove_me();
+      Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+        EXPLOSION_STRENGTH_DEFAULT);
+      run_dead_script();
+    }
   }
-
-  run_dead_script();
 }
 
 bool
@@ -303,6 +310,8 @@ HitResponse Haywire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
     badguy.kill_fall();
     return FORCE_MOVE;
   }
+  if (m_frozen)
+    return FORCE_MOVE;
   else
   {
     WalkingBadguy::collision_badguy(badguy, hit);

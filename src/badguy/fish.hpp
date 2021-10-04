@@ -38,6 +38,7 @@ public:
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "fish"; }
   virtual std::string get_display_name() const override { return _("Fish"); }
+  virtual std::string get_overlay_size() const override { return "1x2"; }
 
 private:
   HitResponse hit(const CollisionHit& );
