@@ -588,9 +588,21 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else if (args.editor)
       {
-        if (PHYSFS_exists(start_level.c_str())) {
+        auto level_file = start_level;
+        auto fileExists = PHYSFS_exists(level_file.c_str());
+        if(!fileExists)
+        {
+          fileExists = FileSystem::exists(level_file);
+          if(fileExists)
+          {
+            auto dirname = FileSystem::dirname(level_file);
+            PHYSFS_mount(dirname.c_str(), nullptr, 0);
+            level_file = filename;
+          }
+        }
+        if (fileExists) {
           auto editor = std::make_unique<Editor>();
-          editor->set_level(start_level);
+          editor->set_level(level_file);
           editor->setup();
           editor->update(0, Controller());
           m_screen_manager->push_screen(std::move(editor));
