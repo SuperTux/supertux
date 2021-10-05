@@ -582,19 +582,19 @@ BadGuy::kill_fall()
   if (m_frozen) {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     Vector pr_pos(0.0f, 0.0f);
-    float cx = m_col.m_bbox.get_width() / 2;
-    float cy = m_col.m_bbox.get_height() / 2;
-    for (pr_pos.x = 0; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x +=  18) {
-      for (pr_pos.y = 0; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 18) {
-        Vector speed = Vector((pr_pos.x - cx) * 3, (pr_pos.y - cy) * 2);
+    float cx = m_col.m_bbox.get_width() / 2.f;
+    float cy = m_col.m_bbox.get_height() / 2.f;
+    for (pr_pos.x = 0.f; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x +=  18.f) {
+      for (pr_pos.y = 0.f; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 18.f) {
+        Vector speed = Vector((pr_pos.x - cx) * 3.f, (pr_pos.y - cy) * 2.f);
         Sector::get().add<SpriteParticle>(
             "images/particles/ice_piece"+std::to_string(graphicsRandom.rand(1, 3))+".sprite", "default",
             m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
             //SPEED: add current enemy speed but do not add downwards velocity because it looks bad
             Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
             //SPEED: add specified speed and randomization
-          + speed + Vector(graphicsRandom.rand(-30, 30), graphicsRandom.rand(-30, 30)),
-            Vector(0, Sector::get().get_gravity() * graphicsRandom.rand(100, 120)), LAYER_OBJECTS - 1, true);
+          + speed + Vector(graphicsRandom.randf(-30.f, 30.f), graphicsRandom.randf(-30.f, 30.f)),
+            Vector(0, Sector::get().get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS - 1, true);
       }
     }
     // start dead-script
@@ -787,13 +787,18 @@ BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;
   if (m_frozen)
+  {
     if (m_sprite->has_action("iced-left"))
+    {
       m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
-  // when the sprite doesn't have sepaigrate actions for left and right, it tries to use an universal one.
+      // when the sprite doesn't have sepaigrate actions for left and right, it tries to use an universal one.
+    }
     else
     {
       if (m_sprite->has_action("iced"))
+      {
         m_sprite->set_action("iced", 1);
+      }
       // when no iced action exists, default to shading badguy blue
       else
       {
@@ -801,6 +806,7 @@ BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
         m_sprite->stop_animation();
       }
     }
+  }
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
@@ -900,19 +906,18 @@ BadGuy::unfreeze()
 
   SoundManager::current()->play("sounds/splash.ogg", get_pos());
   Vector pr_pos(0.0f, 0.0f);
-  float cx = m_col.m_bbox.get_width() / 2;
-  float cy = m_col.m_bbox.get_height() / 2;
-  for (pr_pos.x = 0; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x += 16) {
-    for (pr_pos.y = 0; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 16) {
-      Vector speed = Vector((pr_pos.x - cx) * 2, 0);
+  float cx = m_col.m_bbox.get_width() / 2.f;
+  for (pr_pos.x = 0; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x += 16.f) {
+    for (pr_pos.y = 0; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 16.f) {
+      Vector speed = Vector((pr_pos.x - cx) * 2.f, 0.f);
       Sector::get().add<SpriteParticle>(
         "images/particles/water_piece" + std::to_string(graphicsRandom.rand(1, 3)) + ".sprite", "default",
         m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
         //SPEED: add current enemy speed but do not add downwards velocity because it looks bad
         Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
         //SPEED: add specified speed and randomization
-        + speed + Vector(graphicsRandom.rand(-30, 30), 0),
-        Vector(0, Sector::get().get_gravity() * graphicsRandom.rand(100, 120)), LAYER_OBJECTS + 1, true);
+        + speed + Vector(graphicsRandom.randf(-30.f, 30.f), 0.f),
+        Vector(0.f, Sector::get().get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS + 1, true);
     }
   }
 }

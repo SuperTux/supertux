@@ -268,8 +268,8 @@ protected:
 
   float m_melting_time;
 
-  SpritePtr m_freezesprite;
   SpritePtr m_lightsprite;
+  SpritePtr m_freezesprite;
   bool m_glowing;
 
   /** If this badguy was dispensed from a dispenser,
