@@ -51,7 +51,8 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
   acceleration(acceleration_),
   drawing_layer(drawing_layer_),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
-  glow(false)
+  glow(false),
+  no_time_out(false)
 {
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
