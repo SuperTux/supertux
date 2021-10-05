@@ -597,9 +597,9 @@ Main::launch_game(const CommandLineArguments& args)
           {
             auto dirname = FileSystem::dirname(level_file) + "/";
             auto filename = FileSystem::basename(level_file);
-            auto mountpoint = "level-editor-temp/";
-            PHYSFS_mount(dirname.c_str(), mountpoint, 0);
-            level_file = FileSystem::join(mountpoint, filename);
+            PHYSFS_mount(dirname.c_str(), "/", 0);
+            PHYSFS_setWriteDir(dirname.c_str());
+            level_file = filename;
           }
         }
         if (fileExists) {

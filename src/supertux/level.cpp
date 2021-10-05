@@ -119,6 +119,11 @@ Level::save(const std::string& filepath, bool retry)
   try {
     { // make sure the level directory exists
       std::string dirname = FileSystem::dirname(filepath);
+      if (dirname == "./")
+      {
+        dirname = "";
+      }
+
       if (!PHYSFS_exists(dirname.c_str()))
       {
         if (!PHYSFS_mkdir(dirname.c_str()))
@@ -152,6 +157,11 @@ Level::save(const std::string& filepath, bool retry)
       log_warning << "Failed to save the level, retrying..." << std::endl;
       { // create the level directory again
         std::string dirname = FileSystem::dirname(filepath);
+        if (dirname == "./")
+        {
+          dirname = "";
+        }
+        
         if (!PHYSFS_mkdir(dirname.c_str()))
         {
           std::ostringstream msg;
