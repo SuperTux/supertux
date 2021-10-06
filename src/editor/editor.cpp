@@ -170,7 +170,14 @@ Editor::update(float dt_sec, const Controller& controller)
       // if the user quits the editor without ever testing, it'll delete
       // the autosave file anyways
       m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-      m_level->save(m_autosave_levelfile);
+      try
+      {
+        m_level->save(m_autosave_levelfile);
+      }
+      catch(const std::exception& e)
+      {
+        log_warning << "Couldn't autosave: " << e.what() << '\n';
+      }
     }
   } else {
     m_time_since_last_save = 0.f;
