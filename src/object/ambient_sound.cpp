@@ -127,17 +127,42 @@ void
 AmbientSound::update(float dt_sec)
 {
   // check if player is within 100% volume area
-  if (m_col.get_bbox().contains(Sector::get().get_player().get_bbox()) && sound_source != nullptr)
+  if (m_col.get_bbox().contains(Sector::get().get_player().get_bbox()))
   {
+    if (sound_source == nullptr)
+      start_playing();
     sound_source->set_gain(targetvolume);
   }
   else
   {
-    float dist_left = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_LEFT);
-    float dist_right = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_RIGHT);
-    float dist_top = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_TOP);
-    float dist_bottom = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_BOTTOM);
-    float dist = std::min({dist_left, dist_right, dist_top, dist_bottom});
+    Vector player_pos = Sector::get().get_player().get_pos();
+    float dist = 0;
+    if (player_pos.y >= get_pos().y && player_pos.y <= get_pos().y + get_bbox().get_height()) // Player is either right or left to ambient sound
+    {
+      if (player_pos.x <= get_pos().x)
+        dist = get_pos().x - player_pos.x;
+      else
+        dist = player_pos.x - get_pos().x - get_bbox().get_width();
+    }
+    else if (player_pos.x >= get_pos().x && player_pos.x <= get_pos().x + get_bbox().get_width()) // Player is either above or under ambient sound
+    {
+      if (player_pos.y <= get_pos().y)
+        dist = get_pos().y - player_pos.y;
+      else
+        dist = player_pos.y - get_pos().y - get_bbox().get_height();
+    }
+    else // Player is in one of the corners
+    {
+      if (player_pos.x <= get_pos().x && player_pos.y <= get_pos().y)
+        dist = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_TOP_LEFT);
+      else if (player_pos.x >= get_pos().x + get_bbox().get_width() && player_pos.y <= get_pos().y)
+        dist = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_TOP_RIGHT);
+      else if (player_pos.x <= get_pos().x && player_pos.y >= get_pos().y + get_bbox().get_height())
+        dist = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_BOTTOM_LEFT);
+      else if (player_pos.x >= get_pos().x + get_bbox().get_width() && player_pos.y >= get_pos().y + get_bbox().get_height())
+        dist = Sector::get().get_player().get_bbox().distance(m_col.get_bbox(), AnchorPoint::ANCHOR_BOTTOM_RIGHT);
+    }
+    
     if (dist < m_effect_distance || m_effect_distance == -1)
     {
       if (sound_source==nullptr)
