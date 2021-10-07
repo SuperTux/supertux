@@ -96,10 +96,10 @@ jobs:
           submodules: true
       - name: Install clickable
         run: |
+          sudo apt-get install -y ca-certificates
           # For whatever reason, I have to manually install runc before docker.io or containerd, else it fails because of broken dependency
           # Using apt-get because apt complains it shouldn't be used in scripts
           sudo apt-get update
-          sudo apt-get install -y ca-certificates
           sudo apt-get install -y runc
           sudo apt-get install -y docker.io adb git python3 python3-pip
           pip3 install --user git+https://gitlab.com/clickable/clickable.git@debug
