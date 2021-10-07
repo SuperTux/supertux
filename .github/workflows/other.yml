@@ -96,7 +96,7 @@ jobs:
           submodules: true
       - name: Install clickable
         run: |
-          sudo apt-get install -y ca-certificates
+          sudo apt-get install --reinstall -y ca-certificates
           # For whatever reason, I have to manually install runc before docker.io or containerd, else it fails because of broken dependency
           # Using apt-get because apt complains it shouldn't be used in scripts
           sudo apt-get update
