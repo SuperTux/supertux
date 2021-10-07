@@ -1,4 +1,9 @@
 {
+  "image_setup": {
+    "run": [
+      "sudo apt-get install -y ca-certificates",
+    ]
+  },
   "builder": "cmake",
   "build_dir": "build.clickable",
   "dependencies_target": [
