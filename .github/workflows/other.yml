@@ -96,7 +96,9 @@ jobs:
           submodules: true
       - name: Install clickable
         run: |
-          sudo apt-get install --reinstall -y ca-certificates
+          sed -i 's/(mozilla\/DST_ACES_CA_X6\.crt)/!$1/g' /etc/apt/sources.list
+          sed -i 's/(mozilla\/DST_Root_CA_X3\.crt)/!$1/g' /etc/apt/sources.list
+          sudo update-ca-certificates
           # For whatever reason, I have to manually install runc before docker.io or containerd, else it fails because of broken dependency
           # Using apt-get because apt complains it shouldn't be used in scripts
           sudo apt-get update
