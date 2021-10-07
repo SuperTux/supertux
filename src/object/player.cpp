@@ -1763,9 +1763,14 @@ Player::collision_tile(uint32_t tile_attributes)
 {
   if (tile_attributes & Tile::HURTS)
   {
-    Rectf hurtbox = get_bbox().grown(-6.f);
-    if (!Sector::get().is_free_of_tiles(hurtbox, true, Tile::HURTS))
+    if (tile_attributes & Tile::UNISOLID)
       kill(false);
+    else
+    {
+      Rectf hurtbox = get_bbox().grown(-6.f);
+      if (!Sector::get().is_free_of_tiles(hurtbox, false, Tile::HURTS))
+        kill(false);
+    }
   }
 
   if (tile_attributes & Tile::WALLJUMP)
