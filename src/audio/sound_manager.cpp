@@ -180,6 +180,7 @@ SoundManager::SoundManager() :
   }),
   m_sound_enabled(true),
   m_music_enabled(true),
+  m_sources(),
   m_music_source(),
   m_current_music()
 {
@@ -191,6 +192,7 @@ SoundManager::play(const std::string& name, const Vector& pos, const float gain)
   auto source = m_sound_mgr.sound().play(name);
   source->set_position(pos.x, pos.y, 0.0f);
   source->set_gain(gain);
+  m_sources.emplace_back(std::move(source));
 }
 
 void
@@ -212,15 +214,13 @@ SoundManager::play_music(const std::string& filename, float fadetime)
   if (m_music_source != nullptr) {
     if (filename == m_current_music)
     { // current music is the same as new one
-      if (m_music_source->is_paused()) {
-        m_music_source->resume();
-      } else if (!m_music_source->is_playing()) {
-        m_music_source->play();
-      }
+      m_music_source->play();
       return;
     } else {
       // stop current song
-      m_music_source->stop(); /* FIXME: add fade-time */
+      // m_music_source->stop(); /* FIXME: add fade-time */
+      m_music_source->set_fading(wstsound::FadeDirection::Out, fadetime);
+      m_sound_mgr.manage(m_music_source);
     }
   }
 
@@ -284,6 +284,7 @@ SoundManager::stop_music(float fadetime)
     auto const& fade = m_music_source->get_fade();
     if (fade && fade->direction != wstsound::FadeDirection::Out) {
       m_music_source->set_fading(wstsound::FadeDirection::Out, fadetime);
+      m_sound_mgr.manage(m_music_source);
     }
   } else {
     m_music_source.reset();
@@ -312,7 +313,7 @@ SoundManager::resume_sounds()
 void
 SoundManager::stop_sounds()
 {
- m_sound_mgr.sound().stop();
+ m_sound_mgr.sound().finish();
 }
 
 void
@@ -333,6 +334,11 @@ SoundManager::update()
   }
 #endif
 
+  std::erase_if(m_sources,
+                [](wstsound::SoundSourcePtr& source) {
+                  return source->get_state() == wstsound::SourceState::Finished;
+                });
+
   m_sound_mgr.update(1.0f);
 }
 
@@ -347,7 +353,7 @@ SoundManager::create_sound_source(const std::string& filename)
 void
 SoundManager::set_listener_position(const Vector& position)
 {
-  m_sound_mgr.set_listener_position(position.x, position.y, -300);
+  m_sound_mgr.listener().set_position(position.x, position.y, -300);
 }
 
 void

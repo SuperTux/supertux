@@ -34,14 +34,14 @@ SoundSource::play()
 void
 SoundSource::stop()
 {
-  m_source->stop();
+  m_source->finish();
 }
 
 bool
 SoundSource::playing() const
 {
-  return m_source->is_playing();
- }
+  return m_source->get_state() == wstsound::SourceState::Playing;
+}
 
 void
 SoundSource::set_pitch(float pitch)

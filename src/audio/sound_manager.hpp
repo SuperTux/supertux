@@ -79,6 +79,7 @@ private:
   bool m_sound_enabled;
   bool m_music_enabled;
 
+  std::vector<wstsound::SoundSourcePtr> m_sources;
   wstsound::SoundSourcePtr m_music_source;
   std::string m_current_music;
 
