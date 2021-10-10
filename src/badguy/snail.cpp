@@ -198,6 +198,7 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 
   switch (state) {
     case STATE_NORMAL:
+      return WalkingBadguy::collision_badguy(badguy, hit);
     case STATE_FLAT:
     case STATE_KICKED_DELAY:
       return FORCE_MOVE;
