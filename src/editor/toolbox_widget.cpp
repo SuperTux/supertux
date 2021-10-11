@@ -568,6 +568,7 @@ EditorToolboxWidget::select_objectgroup(int id)
 {
   m_active_objectgroup = id;
   m_input_type = EditorToolboxWidget::InputType::OBJECT;
+  m_select_mode->set_mode(0);
   m_starting_tile = 0;
   update_mouse_icon();
 }

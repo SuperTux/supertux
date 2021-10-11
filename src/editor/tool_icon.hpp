@@ -34,6 +34,8 @@ public:
 
   int get_mode() const { return m_mode; }
 
+  void set_mode(int mode) { m_mode = mode; }
+
   void next_mode();
 
   void push_mode(const std::string& icon);
