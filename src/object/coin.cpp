@@ -185,8 +185,8 @@ Coin::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)
     return ABORT_MOVE;
-
-  collect();
+  if (m_col.get_bbox().contains(player->get_bbox().grown(-0.1f)))
+    collect();
   return ABORT_MOVE;
 }
 
