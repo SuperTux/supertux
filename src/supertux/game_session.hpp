@@ -91,7 +91,7 @@ public:
   void force_ghost_mode();
 
   Savegame& get_savegame() const { return m_savegame; }
-  
+
   void set_scheduler(SquirrelScheduler& new_scheduler);
 
 private:
@@ -100,7 +100,7 @@ private:
   void drawstatus(DrawingContext& context);
   void draw_pause(DrawingContext& context);
 
-  void on_escape_press();
+  void on_escape_press(const Controller& controller);
 
 private:
   std::unique_ptr<Level> m_level;
@@ -154,7 +154,7 @@ private:
   bool m_active; /** Game active? **/
 
   bool m_end_seq_started;
-  
+
   std::unique_ptr<GameObject> m_current_cutscene_text;
 
 private:
