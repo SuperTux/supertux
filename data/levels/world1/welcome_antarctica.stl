@@ -10,11 +10,13 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (speed 0.35)
       (image-top "images/background/arctis2.png")
       (image "images/background/arctis2.png")
       (image-bottom "images/background/arctis2.png")
+      (z-pos -200)
     )
     (camera
       (name "Camera")
@@ -63,6 +65,10 @@
       (direction "left")
       (x 7120)
       (y 512)
+    )
+    (gradient
+      (top_color 0.3 0.4 0.75)
+      (bottom_color 1 1 1)
     )
     (infoblock
       (message (_ "-Bonus Blocks

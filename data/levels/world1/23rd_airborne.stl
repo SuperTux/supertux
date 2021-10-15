@@ -10,10 +10,12 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.1)
-      (image-top "/images/background/bluemountain-top.png")
+      (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/bluemountain-middle.png")
       (image-bottom "/images/background/bluemountain-bottom.png")
+      (z-pos -200)
     )
     (bonusblock
       (count 5)
@@ -142,6 +144,10 @@
       (direction "left")
       (x 9568)
       (y 480)
+    )
+    (gradient
+      (top_color 0.3 0.4 0.75)
+      (bottom_color 1 1 1)
     )
     (jumpy
       (direction "left")
