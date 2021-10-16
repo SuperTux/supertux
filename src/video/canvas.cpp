@@ -32,6 +32,7 @@ Canvas::Canvas(DrawingContext& context, obstack& obst) :
   m_obst(obst),
   m_requests()
 {
+  m_requests.reserve(350);
 }
 
 Canvas::~Canvas()
