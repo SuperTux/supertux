@@ -100,7 +100,7 @@ private:
   void drawstatus(DrawingContext& context);
   void draw_pause(DrawingContext& context);
 
-  void on_escape_press(const Controller& controller);
+  void on_escape_press(bool force_quick_respawn);
 
 private:
   std::unique_ptr<Level> m_level;

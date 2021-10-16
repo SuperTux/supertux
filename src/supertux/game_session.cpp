@@ -167,10 +167,10 @@ GameSession::restart_level(bool after_death)
 }
 
 void
-GameSession::on_escape_press(const Controller& controller)
+GameSession::on_escape_press(bool force_quick_respawn)
 {
   if ((m_currentsector->get_player().is_dying() && (m_play_time > 2.0f
-      || controller.hold(Control::LEFT) || controller.hold(Control::RIGHT)))
+      || force_quick_respawn))
     || m_end_sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
@@ -333,7 +333,8 @@ GameSession::update(float dt_sec, const Controller& controller)
   if (controller.pressed(Control::ESCAPE) ||
       controller.pressed(Control::START))
   {
-    on_escape_press(controller);
+    on_escape_press(controller.hold(Control::LEFT)
+      || controller.hold(Control::RIGHT));
   }
 
   if (controller.pressed(Control::CHEAT_MENU) &&
