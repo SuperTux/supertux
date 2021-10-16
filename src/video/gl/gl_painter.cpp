@@ -77,6 +77,10 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   std::vector<float> vertices;
   std::vector<float> uvs;
+
+  vertices.reserve(request.srcrects.size() * 12);
+  uvs.reserve(request.srcrects.size() * 12);
+
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
     const float left = request.dstrects[i].get_left();
