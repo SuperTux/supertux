@@ -63,8 +63,6 @@ Canvas::render(Renderer& renderer, Filter filter)
 
   Painter& painter = renderer.get_painter();
 
-  log_warning << m_requests.size() << std::endl;
-
   for (const auto& i : m_requests) {
     const DrawingRequest& request = *i;
 
