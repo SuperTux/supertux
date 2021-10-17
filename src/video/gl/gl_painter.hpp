@@ -48,6 +48,10 @@ private:
   GLRenderer& m_renderer;
 
 private:
+  std::vector<float> vertices;
+  std::vector<float> uvs;
+
+private:
   GLPainter(const GLPainter&) = delete;
   GLPainter& operator=(const GLPainter&) = delete;
 };

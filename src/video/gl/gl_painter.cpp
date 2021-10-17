@@ -75,8 +75,8 @@ GLPainter::draw_texture(const TextureRequest& request)
   assert(request.srcrects.size() == request.dstrects.size());
   assert(request.srcrects.size() == request.angles.size());
 
-  std::vector<float> vertices;
-  std::vector<float> uvs;
+  vertices.clear();
+  uvs.clear();
 
   vertices.reserve(request.srcrects.size() * 12);
   uvs.reserve(request.srcrects.size() * 12);
