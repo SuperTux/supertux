@@ -61,7 +61,9 @@ inline GLenum dfactor(Blend blend)
 
 GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
   m_video_system(video_system),
-  m_renderer(renderer)
+  m_renderer(renderer),
+  m_vertices(),
+  m_uvs()
 {
 }
 
