@@ -28,11 +28,12 @@
   )
   (action
     (name "collision-left")
+	(hitbox 1 1 13 33)
     (images "collision-left.png")
   )
   (action
     (name "collision-right")
-    (hitbox -24 1 12.8 31.8)
+    (hitbox 1 1 13 33)
     (mirror-action "collision-left")
   )
  (action
