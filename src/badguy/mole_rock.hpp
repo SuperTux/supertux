@@ -38,6 +38,7 @@ public:
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
   virtual bool is_flammable() const override;
+  virtual bool is_hurtable() const override { return false; }
   virtual std::string get_class() const override { return "mole_rock"; }
   virtual std::string get_display_name() const override { return _("Mole's rock"); }
 
