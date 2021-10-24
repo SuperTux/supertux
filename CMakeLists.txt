@@ -79,13 +79,13 @@ if(EMSCRIPTEN)
   set(CMAKE_EXECUTABLE_SUFFIX .html)
   set(IS_EMSCRIPTEN_BUILD ON)
 
-  set(USE_FLAGS " -sUSE_SDL=2 -sFULL_ES2=1 -sUSE_SDL_IMAGE=2 -sUSE_FREETYPE=1 -sUSE_PTHREADS=1 -sDISABLE_EXCEPTION_CATCHING=0 --preload-file ${BUILD_CONFIG_DATA_DIR} -sTOTAL_MEMORY=67108864 -sALLOW_MEMORY_GROWTH=1 -sSDL2_IMAGE_FORMATS='[\"png\"]' --use-preload-plugins -Wno-pthreads-mem-growth")
+  set(USE_FLAGS " -sUSE_SDL=2 -sFULL_ES2=1 -sUSE_SDL_IMAGE=2 -sUSE_FREETYPE=2 -sUSE_PTHREADS=1 -sDISABLE_EXCEPTION_CATCHING=0 --preload-file ${BUILD_CONFIG_DATA_DIR} -sTOTAL_MEMORY=67108864 -sALLOW_MEMORY_GROWTH=1 -sSDL2_IMAGE_FORMATS='[\"png\"]' --use-preload-plugins -Wno-pthreads-mem-growth")
   if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(USE_FLAGS "${USE_FLAGS} -fsanitize=undefined -sSAFE_HEAP=1 -sASSERTIONS=1 -sDEMANGLE_SUPPORT=1")
   endif()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
-  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${USE_FLAGS} -sFULL_ES2=1")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS} -sERROR_ON_UNDEFINED_SYMBOLS=0")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS} -sERROR_ON_UNDEFINED_SYMBOLS=0")
+  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} ${USE_FLAGS} -sFULL_ES2=1 -sERROR_ON_UNDEFINED_SYMBOLS=0")
 endif()
 
 # TODO: Add " OR ANDROID OR IOS" to this
@@ -206,11 +206,6 @@ find_package(PNG REQUIRED)
 if(WIN32)
   if(VCPKG_BUILD)
     find_package(SDL2 CONFIG REQUIRED)
-    find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
-    find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
-    set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
-    set(SDL2IMAGE_INCLUDE_DIRS ${SDL2IMAGE_INCLUDE_DIRS}/SDL2)
-    find_library(SDL2_LIBRARIES SDL2)
     find_library(SDL2IMAGE_LIBRARIES SDL2_image)
     find_library(SDL2MAIN_LIBRARIES SDL2main)
     message(STATUS "SDL2_INCLUDE_DIR is ${SDL2_INCLUDE_DIRS}")
@@ -226,7 +221,17 @@ if(WIN32)
 else(WIN32)
 
   if (NOT EMSCRIPTEN)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+    if (VCPKG_BUILD)
+      find_package(SDL2 CONFIG REQUIRED)
+      find_package(sdl2-image CONFIG REQUIRED)
+      find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
+      find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
+      set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
+      set(SDL2IMAGE_INCLUDE_DIRS ${SDL2IMAGE_INCLUDE_DIRS}/SDL2)
+      find_library(SDL2_LIBRARIES SDL2)
+      find_library(SDL2IMAGE_LIBRARIES SDL2_image)
+      message(STATUS "SDL2_INCLUDE_DIR is ${SDL2_INCLUDE_DIRS}")
+    elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)
       # 32-bit
       find_library(SDL2_LIBRARIES SDL2)
       find_library(SDL2IMAGE_LIBRARIES SDL2_image)
@@ -534,10 +539,16 @@ else()
   set(TINYGETTEXT_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif()
 
+# CMake lists are just strings with ';' separators, thus passing lists
+# of lists is impossible. ExternalProject_Add provides LIST_SEPARATOR
+# to work around this limitations by using a different separator.
+string(REPLACE ";" "|" TINYGETTEXT_SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIRS}")
+
 set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
 ExternalProject_Add(tinygettext
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
   BUILD_BYPRODUCTS "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
+  LIST_SEPARATOR "|"
   CMAKE_ARGS
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
@@ -550,7 +561,7 @@ ExternalProject_Add(tinygettext
   -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
   -DSDL2_LIBRARIES=${SDL2_LIBRARIES}
-  -DSDL2_INCLUDE_DIRS=${SDL2_INCLUDE_DIRS}
+  -DSDL2_INCLUDE_DIRS=${TINYGETTEXT_SDL2_INCLUDE_DIRS}
   -DLIB_SUFFIX=${LIB_SUFFIX})
 
 add_library(tinygettext_lib STATIC IMPORTED)
@@ -561,9 +572,15 @@ include_directories(SYSTEM ${TINYGETTEXT_PREFIX}/include)
 
 ## external/SDL_ttf with patches
 if (NOT EMSCRIPTEN)
-  find_package(Freetype REQUIRED)
+  if (VCPKG_BUILD)
+    find_package(freetype CONFIG REQUIRED)
+  else()
+    find_package(Freetype REQUIRED)
+  endif()
 endif(NOT EMSCRIPTEN)
-find_package(RAQM)
+if (NOT VCPKG_BUILD)
+  find_package(RAQM)
+endif()
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
@@ -895,6 +912,10 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
 add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
+
+target_link_libraries(supertux2_lib PUBLIC glm::glm)
+target_compile_definitions(supertux2_lib PUBLIC -DGLM_ENABLE_EXPERIMENTAL)
+
 if(WIN32)
   add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   target_link_libraries(supertux2 ${SDL2MAIN_LIBRARIES})
@@ -902,7 +923,7 @@ else()
   add_executable(supertux2 src/main.cpp)
 endif(WIN32)
 target_link_libraries(supertux2 supertux2_lib Boost::filesystem Boost::locale)
-target_link_libraries(supertux2 glm::glm)
+
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 if(EMSCRIPTEN)
@@ -930,8 +951,8 @@ endif()
 if (NOT EMSCRIPTEN)
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
-  if(VCPKG_BUILD)
-    target_link_libraries(supertux2_lib PRIVATE SDL2::SDL2main SDL2::SDL2 SDL2_image)
+  if(VCPKG_BUILD AND NOT WIN32)
+    target_link_libraries(supertux2_lib PRIVATE SDL2::SDL2main SDL2::SDL2 SDL2::SDL2_image)
   else()
     target_link_libraries(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
     target_link_libraries(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
@@ -939,7 +960,11 @@ if (NOT EMSCRIPTEN)
 endif()
 target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL_TTF_PREFIX}/include/SDL2)
 target_link_libraries(supertux2_lib PUBLIC SDL_ttf_lib)
-target_link_libraries(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
+if(VCPKG_BUILD)
+  target_link_libraries(supertux2_lib PUBLIC freetype)
+else()
+  target_link_libraries(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
+endif()
 
 if(RAQM_FOUND)
   target_link_libraries(supertux2_lib PUBLIC ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
@@ -1066,8 +1091,8 @@ else(WIN32 AND NOT UNIX)
       set(LINUX_DESKTOP_ICON "assets/supertux-256x256.png")
       # FIXME: The "install" folder is a folder managed by Clickable and shouldn't be hardcoded here
       configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in "install/supertux2.desktop")
-      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/mk/ubports/supertux2.apparmor DESTINATION ".")
-      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/ubports/manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/install/manifest.json)
+      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/mk/clickable/supertux2.apparmor DESTINATION ".")
+      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/clickable/manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/install/manifest.json)
       set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/supertux2")
       install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-256x256.png DESTINATION "assets")
     else(UBUNTU_TOUCH)
@@ -1092,12 +1117,16 @@ endif(UBUNTU_TOUCH)
 if(WIN32)
   get_property(SQUIRREL_LIB_PATH TARGET squirrel_lib PROPERTY IMPORTED_LOCATION)
   get_property(SQSTDLIB_LIB_PATH TARGET sqstdlib_lib PROPERTY IMPORTED_LOCATION)
-  get_property(PHYSFS_LIB_PATH TARGET physfs_lib PROPERTY IMPORTED_LOCATION)
+  if(NOT USE_SYSTEM_PHYSFS)
+    get_property(PHYSFS_LIB_PATH TARGET physfs_lib PROPERTY IMPORTED_LOCATION)
+  endif()
   install(FILES ${SQUIRREL_LIB_PATH} ${SQSTDLIB_LIB_PATH} ${PHYSFS_LIB_PATH} DESTINATION ${INSTALL_SUBDIR_BIN})
 endif()
 
 if(EMSCRIPTEN)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/template.html.in ${CMAKE_CURRENT_BINARY_DIR}/template.html)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2.png COPYONLY)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2_bkg.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2_bkg.png COPYONLY)
 endif(EMSCRIPTEN)
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md DESTINATION ${INSTALL_SUBDIR_DOC})

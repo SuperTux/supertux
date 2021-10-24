@@ -185,8 +185,8 @@ Coin::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)
     return ABORT_MOVE;
-
-  collect();
+  if (m_col.get_bbox().contains(player->get_bbox().grown(-0.1f)))
+    collect();
   return ABORT_MOVE;
 }
 
@@ -274,6 +274,7 @@ Coin::get_settings()
 
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
+    result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
   }
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");

@@ -55,7 +55,7 @@ public:
   Size aspect_size;
 
 #ifdef __EMSCRIPTEN__
-  /** Whether to automatically resize the game when the browser is resized */
+  /** @deprecated Whether to automatically resize the game when the browser is resized */
   bool fit_window;
 #endif
 

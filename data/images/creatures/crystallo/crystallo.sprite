@@ -1,28 +1,45 @@
 (supertux-sprite
   (action
     (name "left")
-    (hitbox 0 7 35 20)
+    (fps 14)
+    (hitbox 8 9 32 20)
     (images "crystallo-left-0.png"
             "crystallo-left-1.png"
-            "crystallo-left-0.png"
-            "crystallo-left-2.png")
-  )
+            "crystallo-left-2.png"
+            "crystallo-left-3.png"
+            "crystallo-left-4.png"
+            "crystallo-left-5.png"
+            "crystallo-left-6.png"
+            "crystallo-left-7.png"))
+
   (action
-    (hitbox 0 7 35 20)
     (name "right")
-    (mirror-action "left")
-  )
+    (fps 14)
+    (hitbox 8 9 32 20)
+    (mirror-action "left"))
+
+  (action
+    (name "slowdown-left")
+    (fps 5)
+    (hitbox 8 9 32 20)
+    (clone-action "left"))
+
+  (action
+    (name "slowdown-right")
+    (fps 5)
+    (hitbox 8 9 32 20)
+    (clone-action "right"))
+
   (action
     (name "shattered-left")
-    (images "shattered-left.png")
-  )
+    (images "shattered-left.png"))
+
   (action
     (name "shattered-right")
-    (mirror-action "shattered-left")
-  )
+    (mirror-action "shattered-left"))
+
   (action
     (name "editor")
     (hitbox 100 7 135 20)
-    (images "crystallo-editor.png")
-   )
+    (images "crystallo-editor.png"))
 )

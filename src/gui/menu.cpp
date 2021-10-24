@@ -291,9 +291,17 @@ Menu::add_submenu(const std::string& text, int submenu, int id)
   return *item_ptr;
 }
 
-ItemColorChannel&
-Menu::add_color_channel(float* input, Color channel, int id, bool is_linear) {
-  auto item = std::make_unique<ItemColorChannel>(input, channel, id, is_linear);
+ItemColorChannelRGBA&
+Menu::add_color_channel_rgba(float* input, Color channel, int id, bool is_linear) {
+  auto item = std::make_unique<ItemColorChannelRGBA>(input, channel, id, is_linear);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
+ItemColorChannelOKLab&
+Menu::add_color_channel_oklab(Color* color, int channel) {
+  auto item = std::make_unique<ItemColorChannelOKLab>(color, channel, this);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

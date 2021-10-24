@@ -185,7 +185,7 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             *m_value = option.first;
 
             if (m_on_change)
-              (*m_on_change)();
+              m_on_change();
 
             break;
           }
@@ -254,7 +254,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
       *m_value = m_options.begin()->first;
 
     if (m_on_change)
-      (*m_on_change)();
+      m_on_change();
 
     return true;
   } else if (key.keysym.sym == SDLK_UP) {
@@ -280,7 +280,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
       *m_value = last_value;
 
     if (m_on_change)
-      (*m_on_change)();
+      m_on_change();
 
     return true;
   }

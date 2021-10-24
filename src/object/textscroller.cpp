@@ -136,9 +136,7 @@ TextScroller::parse_content(const ReaderCollection& collection)
       bool simple;
       std::string name, info, image_file;
 
-      if (!item.get_mapping().get("simple", simple)) {
-        simple = false;
-      }
+      item.get_mapping().get("simple", simple, false);
 
       if (simple) {
         if (!item.get_mapping().get("name", name) || !item.get_mapping().get("info", info)) {
@@ -256,8 +254,10 @@ TextScroller::update(float dt_sec)
     }
 
     // use start or escape keys to exit
-    if (controller->pressed(Control::START) ||
-        controller->pressed(Control::ESCAPE)) {
+    if ((controller->pressed(Control::START) ||
+        controller->pressed(Control::ESCAPE)) &&
+        !m_fading) {
+      m_fading = true;
       ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f));
       return;
     }

@@ -100,7 +100,7 @@ Editor::Editor() :
   m_toolbox_widget(),
   m_layers_widget(),
   m_enabled(false),
-  m_bgr_surface(Surface::from_file("images/background/antarctic/arctis2.png")),
+  m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_undo_manager(new UndoManager),
   m_ignore_sector_change(false),
   m_level_first_loaded(false),
@@ -170,7 +170,14 @@ Editor::update(float dt_sec, const Controller& controller)
       // if the user quits the editor without ever testing, it'll delete
       // the autosave file anyways
       m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-      m_level->save(m_autosave_levelfile);
+      try
+      {
+        m_level->save(m_autosave_levelfile);
+      }
+      catch(const std::exception& e)
+      {
+        log_warning << "Couldn't autosave: " << e.what() << '\n';
+      }
     }
   } else {
     m_time_since_last_save = 0.f;
@@ -535,7 +542,7 @@ Editor::quit_editor()
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
 #ifdef __EMSCRIPTEN__
-    Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nDownload the files if you want to keep them."));
+    Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
 #endif
   };
 

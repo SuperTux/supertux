@@ -59,7 +59,7 @@ public:
   const std::string& get_text() const { return m_text; }
   unsigned int get_flags() const { return m_flags; }
 
-private:
+protected:
   const std::string m_text;
   const std::string m_key;
   const unsigned int m_flags;
@@ -107,6 +107,21 @@ private:
 private:
   IntObjectOption(const IntObjectOption&) = delete;
   IntObjectOption& operator=(const IntObjectOption&) = delete;
+};
+
+class LabelObjectOption : public ObjectOption
+{
+public:
+  LabelObjectOption(const std::string& text,
+                  unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  LabelObjectOption(const LabelObjectOption&) = delete;
+  LabelObjectOption& operator=(const LabelObjectOption&) = delete;
 };
 
 class RectfObjectOption : public ObjectOption

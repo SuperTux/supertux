@@ -30,6 +30,7 @@
 #include "editor/worldmap_objects.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
+#include "math/bezier.hpp"
 #include "object/camera.hpp"
 #include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
@@ -56,6 +57,7 @@ bool EditorOverlayWidget::snap_to_grid = true;
 bool EditorOverlayWidget::autotile_mode = false;
 bool EditorOverlayWidget::autotile_help = true;
 bool EditorOverlayWidget::action_pressed = false;
+bool EditorOverlayWidget::alt_pressed = false;
 int EditorOverlayWidget::selected_snap_grid_size = 3;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
@@ -436,11 +438,22 @@ EditorOverlayWidget::fill()
 void
 EditorOverlayWidget::hover_object()
 {
+  BezierMarker* marker_hovered_without_ctrl = nullptr;
+
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     Rectf bbox = moving_object.get_bbox();
     if (bbox.contains(m_sector_pos)) {
       if (&moving_object != m_hovered_object) {
+
+        // Ignore BezierMarkers if ctrl isn't pressed... (1/2)
+        auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
+        if (!action_pressed && bezier_marker)
+        {
+          marker_hovered_without_ctrl = bezier_marker;
+          continue;
+        }
+
         m_hovered_object = &moving_object;
         if (moving_object.has_settings()) {
           m_object_tip = std::make_unique<Tip>(moving_object);
@@ -449,6 +462,16 @@ EditorOverlayWidget::hover_object()
       return;
     }
   }
+
+  // (2/2) ...but select them anyways if they weren't hovering a node marker
+  if (marker_hovered_without_ctrl)
+  {
+    m_hovered_object = marker_hovered_without_ctrl;
+    // TODO: Temporarily disabled during ongoing discussion
+    //m_object_tip = std::make_unique<Tip>(_("Press ALT to make Bezier handles continuous"));
+    return;
+  }
+
   m_object_tip = nullptr;
   m_hovered_object = nullptr;
 }
@@ -590,6 +613,21 @@ EditorOverlayWidget::move_object()
         new_pos -= pm->get_offset();
       }
     }
+
+    // TODO: Temporarily disabled during ongoing discussion
+    // Special case: Bezier markers should influence each other when holding shift
+    //if (alt_pressed) {
+    //  auto bm = dynamic_cast<BezierMarker*>(m_dragged_object);
+    //  if (bm) {
+    //    auto nm = bm->get_parent();
+    //    if (nm) {
+    //      nm->move_other_marker(bm->get_uid(), nm->get_pos() * 2.f - new_pos);
+    //    } else {
+    //      log_warning << "Moving bezier handles without parent NodeMarker" << std::endl;
+    //    }
+    //  }
+    //}
+
     m_dragged_object->move_to(new_pos);
   }
 }
@@ -640,13 +678,23 @@ EditorOverlayWidget::add_path_node()
 {
   Path::Node new_node;
   new_node.position = m_sector_pos;
+  new_node.bezier_before = new_node.position;
+  new_node.bezier_after = new_node.position;
   new_node.time = 1;
   m_edited_path->m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
-  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1);
+  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_before));
+  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_after));
+  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
+  bezier_before.set_parent(new_marker.get_uid());
+  bezier_after.set_parent(new_marker.get_uid());
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
   update_node_iterators();
   new_marker.update_node_times();
   m_editor.get_sector()->flush_game_objects();
+
+  // This will ensure that we will hover NodeMarkers in priority before BezierMarkers
+  hover_object();
+
   grab_object();
 }
 
@@ -696,6 +744,8 @@ EditorOverlayWidget::put_object()
 void
 EditorOverlayWidget::process_left_click()
 {
+  if (MenuManager::instance().has_dialog())
+    return;
   m_dragging = true;
   m_dragging_right = false;
   m_drag_start = m_sector_pos;
@@ -932,6 +982,11 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
   if (sym == SDLK_LCTRL || sym == SDLK_RCTRL) {
     autotile_mode = !autotile_mode;
     action_pressed = false;
+    // Hovered objects depend on which keys are pressed
+    hover_object();
+  }
+  if (sym == SDLK_LALT || sym == SDLK_RALT) {
+    alt_pressed = false;
   }
   return true;
 }
@@ -949,6 +1004,11 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed)) {
     autotile_mode = !autotile_mode;
     action_pressed = true;
+    // Hovered objects depend on which keys are pressed
+    hover_object();
+  }
+  if (sym == SDLK_LALT || sym == SDLK_RALT) {
+    alt_pressed = true;
   }
   return true;
 }
@@ -1148,15 +1208,37 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
         //loop to the first node
         node2 = &(*m_edited_path->m_nodes.begin());
       } else {
+        // Just draw the bezier lines
+        auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
+        context.color().draw_line(node1->position - cam_translation,
+                                  node1->bezier_before - cam_translation,
+                                  Color(0, 0, 1), LAYER_GUI - 21);
+        context.color().draw_line(node1->position - cam_translation,
+                                  node1->bezier_after - cam_translation,
+                                  Color(0, 0, 1), LAYER_GUI - 21);
         continue;
       }
     } else {
       node2 = &(*j);
     }
     auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
+    Bezier::draw_curve(context,
+                       node1->position - cam_translation,
+                       node1->bezier_after - cam_translation,
+                       node2->bezier_before - cam_translation,
+                       node2->position - cam_translation,
+                       100,
+                       Color::RED,
+                       LAYER_GUI - 21);
     context.color().draw_line(node1->position - cam_translation,
-                              node2->position - cam_translation,
-                              Color(1, 0, 0), LAYER_GUI - 21);
+                              node1->bezier_before - cam_translation,
+                              Color(0, 0, 1), LAYER_GUI - 21);
+    context.color().draw_line(node1->position - cam_translation,
+                              node1->bezier_after - cam_translation,
+                              Color(0, 0, 1), LAYER_GUI - 21);
+    //context.color().draw_line(node1->position - cam_translation,
+    //                          node2->position - cam_translation,
+    //                          Color(1, 0, 0), LAYER_GUI - 21);
   }
 }
 

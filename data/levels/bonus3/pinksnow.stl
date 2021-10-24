@@ -10,6 +10,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "images/background/arctis_top.jpg")
       (image "images/background/arctis2.png")
@@ -30,6 +31,11 @@
       (sprite "/images/decal/snow/exitfg.png")
       (x 8384)
       (y 192)
+    )
+    (gradient
+      (left_color 0.3 0.4 0.75)
+      (right_color 0.8 0.7 1)
+      (z-pos -310)
     )
     (music
       (file "music/antarctic/chipdisko.ogg")

@@ -30,8 +30,6 @@ public:
   InterfaceControl();
   ~InterfaceControl() override {}
 
-  virtual void update(float dt_sec) override { throw std::runtime_error("Cannot call generic update() on interface control"); }
-  virtual void update(float dt_sec, const Controller& controller) {}
   virtual void draw(DrawingContext& context) override { if (m_label) m_label->draw(context); }
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override { if (m_label) m_label->on_mouse_motion(motion); return false; }
 
@@ -45,16 +43,18 @@ public:
   /** Optional; a function that will be called each time the bound value
    *  is modified.
    */
-  std::function<void()> *m_on_change;
+  std::function<void()> m_on_change;
 
   /** Optional; the label associated with the control */
-  InterfaceLabel* m_label;
+  std::unique_ptr<InterfaceLabel> m_label;
 
 protected:
   /** Whether or not the user has this InterfaceControl as focused */
   bool m_has_focus;
   /** The rectangle where the InterfaceControl should be rendered */
   Rectf m_rect;
+  /** A pointer to the parent container, or null if not in any container. */
+  InterfaceControl* m_parent;
 
 private:
   InterfaceControl(const InterfaceControl&) = delete;

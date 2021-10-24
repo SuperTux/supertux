@@ -23,6 +23,7 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "editor/editor.hpp"
 
 static const int DISPLAYED_COINS_UNSET = -1;
 
@@ -70,23 +71,24 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-
-  if (coin_surface)
+  if (!Editor::is_active())
   {
-    context.color().draw_surface(coin_surface,
-                                 Vector(static_cast<float>(context.get_width()) - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
-                                        BORDER_Y + 1.0f + (Resources::fixed_font->get_text_height(coins_text) + 5) * static_cast<float>(player_id)),
-                                 LAYER_HUD);
+    if (coin_surface)
+    {
+      context.color().draw_surface(coin_surface,
+                                  Vector(static_cast<float>(context.get_width()) - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
+                                          BORDER_Y + 1.0f + (Resources::fixed_font->get_text_height(coins_text) + 5) * static_cast<float>(player_id)),
+                                  LAYER_HUD);
+    }
+
+    context.color().draw_text(Resources::fixed_font,
+                              coins_text,
+                              Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                                    BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5.0f) * static_cast<float>(player_id)),
+                              ALIGN_LEFT,
+                              LAYER_HUD,
+                              PlayerStatusHUD::text_color);
   }
-
-  context.color().draw_text(Resources::fixed_font,
-                            coins_text,
-                            Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                   BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5.0f) * static_cast<float>(player_id)),
-                            ALIGN_LEFT,
-                            LAYER_HUD,
-                            PlayerStatusHUD::text_color);
-
   std::string ammo_text;
 
   if (m_player_status.bonus == FIRE_BONUS) {

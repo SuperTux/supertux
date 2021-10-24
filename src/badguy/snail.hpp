@@ -47,13 +47,11 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
-  bool is_in_danger();
 
   void be_normal(); /**< switch to state STATE_NORMAL */
   void be_flat(); /**< switch to state STATE_FLAT */
   void be_kicked(bool upwards); /**< switch to state STATE_KICKED_DELAY */
   void be_grabbed();
-  void be_shielded();
 
 private:
   enum State {
@@ -62,13 +60,11 @@ private:
     STATE_KICKED_DELAY, /**< short delay before being launched */
     STATE_KICKED, /**< launched */
     STATE_GRABBED, /**< grabbed by tux */
-    STATE_SHIELDED /*< hidden into shell for protection */
   };
 
 private:
   State state;
   Timer kicked_delay_timer; /**< wait time until switching from STATE_KICKED_DELAY to STATE_KICKED */
-  Timer danger_gone_timer; /**< time after which snail turns back from STATE_SHELLED */ 
   int   squishcount;
 
 private:

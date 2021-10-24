@@ -33,13 +33,31 @@ Tip::Tip(GameObject& object) :
   {
     const auto& oo = *oo_ptr;
 
-    if (!(oo.get_flags() & OPTION_HIDDEN)) {
+    if (dynamic_cast<LabelObjectOption*>(oo_ptr.get()))
+    {
+      m_strings.push_back(oo.get_text());
+    }
+    if (!(oo.get_flags() & OPTION_HIDDEN))
+    {
       auto value = oo.to_string();
-      if (!value.empty()) {
+      if (!value.empty())
+      {
         m_strings.push_back(oo.get_text() + ": " + value);
       }
     }
   }
+}
+
+Tip::Tip(std::string text) :
+  m_strings(),
+  m_header(text)
+{
+}
+
+Tip::Tip(std::string header, std::vector<std::string> text) :
+  m_strings(text),
+  m_header(header)
+{
 }
 
 void

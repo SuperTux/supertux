@@ -162,7 +162,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
   auto player = dynamic_cast<Player*> (&object);
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
-  if (player->is_swimming() || player->is_water_jumping())
+  if (player != nullptr && (player->is_swimming() || player->is_water_jumping()))
   {
     float swimangle = player->get_swimming_angle();
     physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));

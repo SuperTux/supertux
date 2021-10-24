@@ -40,6 +40,7 @@ Level::Level(bool worldmap) :
   m_contact(),
   m_license(),
   m_filename(),
+  m_note(),
   m_sectors(),
   m_stats(),
   m_target_time(),
@@ -125,6 +126,9 @@ Level::save(Writer& writer)
   writer.write("version", 3);
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
+  if (!m_note.empty()) {
+    writer.write("note", m_note, false);
+  }
   if (!m_contact.empty()) {
     writer.write("contact", m_contact, false);
   }

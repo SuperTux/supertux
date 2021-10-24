@@ -31,7 +31,8 @@ class ItemAction;
 class ItemBack;
 class ItemBadguySelect;
 class ItemColor;
-class ItemColorChannel;
+class ItemColorChannelRGBA;
+class ItemColorChannelOKLab;
 class ItemColorDisplay;
 class ItemControlField;
 class ItemFile;
@@ -89,8 +90,9 @@ public:
 
   ItemColor& add_color(const std::string& text, Color* color, int id = -1);
   ItemColorDisplay& add_color_display(Color* color, int id = -1);
-  ItemColorChannel& add_color_channel(float* input, Color channel, int id = -1,
+  ItemColorChannelRGBA& add_color_channel_rgba(float* input, Color channel, int id = -1,
     bool is_linear = false);
+  ItemColorChannelOKLab& add_color_channel_oklab(Color* color, int channel);
 
   void process_input(const Controller& controller);
 

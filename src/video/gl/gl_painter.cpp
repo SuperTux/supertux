@@ -61,7 +61,9 @@ inline GLenum dfactor(Blend blend)
 
 GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
   m_video_system(video_system),
-  m_renderer(renderer)
+  m_renderer(renderer),
+  m_vertices(),
+  m_uvs()
 {
 }
 
@@ -75,8 +77,12 @@ GLPainter::draw_texture(const TextureRequest& request)
   assert(request.srcrects.size() == request.dstrects.size());
   assert(request.srcrects.size() == request.angles.size());
 
-  std::vector<float> vertices;
-  std::vector<float> uvs;
+  m_vertices.clear();
+  m_uvs.clear();
+
+  m_vertices.reserve(request.srcrects.size() * 12);
+  m_uvs.reserve(request.srcrects.size() * 12);
+
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
     const float left = request.dstrects[i].get_left();
@@ -106,7 +112,7 @@ GLPainter::draw_texture(const TextureRequest& request)
         left, top,
         right, bottom,
       };
-      vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+      m_vertices.insert(m_vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
 
       auto uvs_lst = {
         uv_left, uv_top,
@@ -117,7 +123,7 @@ GLPainter::draw_texture(const TextureRequest& request)
         uv_left, uv_top,
         uv_right, uv_bottom,
       };
-      uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+      m_uvs.insert(m_uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
     }
     else
     {
@@ -143,7 +149,7 @@ GLPainter::draw_texture(const TextureRequest& request)
         new_left*ca - new_top*sa + center_x, new_left*sa + new_top*ca + center_y,
         new_right*ca - new_bottom*sa + center_x, new_right*sa + new_bottom*ca + center_y,
       };
-      vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+      m_vertices.insert(m_vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
 
       const float uvs_lst[] = {
         uv_left, uv_top,
@@ -154,7 +160,7 @@ GLPainter::draw_texture(const TextureRequest& request)
         uv_left, uv_top,
         uv_right, uv_bottom,
       };
-      uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+      m_uvs.insert(m_uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
     }
   }
 
@@ -162,8 +168,8 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_texture(texture, request.displacement_texture);
-  context.set_texcoords(uvs.data(), sizeof(float) * uvs.size());
-  context.set_positions(vertices.data(), sizeof(float) * vertices.size());
+  context.set_texcoords(m_uvs.data(), sizeof(float) * m_uvs.size());
+  context.set_positions(m_vertices.data(), sizeof(float) * m_vertices.size());
   context.set_color(Color(request.color.red,
                           request.color.green,
                           request.color.blue,

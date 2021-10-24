@@ -76,7 +76,7 @@ jobs:
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
 
-  ubports:
+  clickable:
     strategy:
       fail-fast: false
       matrix:
@@ -101,7 +101,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y runc
           sudo apt-get install -y docker.io adb git python3 python3-pip
-          pip3 install --user git+https://gitlab.com/clickable/clickable.git@debug
+          pip3 install --user git+https://gitlab.com/clickable/clickable.git@master
           # Clickable requires a reboot/logout. This is a sneaky way to bypass that :^)
           sudo systemctl unmask docker.service
           sudo systemctl start docker.service
@@ -109,18 +109,18 @@ jobs:
         env:
           BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
-        run: ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config mk/ubports/clickable.json
+        run: ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH} --config mk/clickable/clickable.json
       - uses: actions/upload-artifact@v2
         with:
-          name: "ubports-${{ matrix.arch }}-${{ matrix.build_type }}-click"
-          path: build.ubports/*.click
+          name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-click"
+          path: build.clickable/*.click
           if-no-files-found: ignore
       - name: Publish to Open Store
         if: ${{ github.ref == 'refs/heads/master' && matrix.build_type == 'Release' }}
         env:
           ARCH: ${{ matrix.arch }}
           OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-        run: ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config mk/ubports/clickable.json --arch ${ARCH}
+        run: ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B | head -1)" --apikey ${OPENSTORE_KEY} --config mk/clickable/clickable.json --arch ${ARCH}
 
   wasm:
     strategy:
@@ -142,8 +142,8 @@ jobs:
           sudo apt-get install -y git cmake build-essential curl
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
-          ./emsdk install latest
-          ./emsdk activate latest
+          ./emsdk install 1.40.1
+          ./emsdk activate 1.40.1
           # Fixes a bug in emscripten - see https://github.com/emscripten-core/emscripten/issues/13590
           sed -i "s/\#define MALLOC_ALIGNMENT ((size_t)(2 \* sizeof(void \*)))/#define MALLOC_ALIGNMENT 16/g" upstream/emscripten/system/lib/dlmalloc.c
       - name: Install vcpkg and dependencies
@@ -180,7 +180,7 @@ jobs:
           emmake make -j$(nproc)
           rm supertux2.html && cp template.html supertux2.html
           mkdir upload/
-          mv supertux2.* upload/
+          mv supertux2* upload/
           # Now you can run a local server with: `emrun supertux2.html`
           # Or any traditional web server will do the job
           # Note: opening the html file manually (file:///) won't work

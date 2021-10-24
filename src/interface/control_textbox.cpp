@@ -27,17 +27,14 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-// Shamelessly snatched values from src/gui/menu.cpp
-static const float CONTROL_REPEAT_INITIAL = 0.4f;
-static const float CONTROL_REPEAT_RATE    = 0.05f;
-static const float CONTROL_CURSOR_TIMER   = 0.5f;
+// The time for the caret to change visibility (when it flashes)
+static const float CONTROL_CURSOR_TIMER = 0.5f;
 
 ControlTextbox::ControlTextbox() :
   m_validate_string(),
   m_charlist(),
   m_string(nullptr),
   m_internal_string_backup(""),
-  m_backspace_remaining(CONTROL_REPEAT_INITIAL),
   m_cursor_timer(CONTROL_CURSOR_TIMER),
   m_caret_pos(),
   m_secondary_caret_pos(),
@@ -49,22 +46,8 @@ ControlTextbox::ControlTextbox() :
 }
 
 void
-ControlTextbox::update(float dt_sec, const Controller& controller)
+ControlTextbox::update(float dt_sec)
 {
-  if (controller.pressed(Control::REMOVE)) {
-    on_backspace();
-  }
-
-  if (controller.hold(Control::REMOVE)) {
-    m_backspace_remaining -= dt_sec;
-    while (m_backspace_remaining < 0) {
-      on_backspace();
-      m_backspace_remaining += CONTROL_REPEAT_RATE;
-    }
-  } else {
-    m_backspace_remaining = CONTROL_REPEAT_INITIAL;
-  }
-
   m_cursor_timer -= dt_sec;
   if (m_cursor_timer < -CONTROL_CURSOR_TIMER) {
     m_cursor_timer = CONTROL_CURSOR_TIMER;
@@ -75,31 +58,16 @@ ControlTextbox::update(float dt_sec, const Controller& controller)
 }
 
 void
-ControlTextbox::on_backspace()
+ControlTextbox::delete_char_before_caret()
 {
   if (m_charlist.size()) {
-    if (m_caret_pos != m_secondary_caret_pos) {
+    m_caret_pos--;
+    m_secondary_caret_pos = m_caret_pos;
+    m_cursor_timer = CONTROL_CURSOR_TIMER;
 
-      m_cursor_timer = CONTROL_CURSOR_TIMER;
-
-      auto it = m_charlist.begin();
-      advance(it, std::min(m_caret_pos, m_secondary_caret_pos));
-      auto it2 = m_charlist.begin();
-      advance(it2, std::max(m_caret_pos, m_secondary_caret_pos));
-      m_charlist.erase(it, it2);
-
-      m_caret_pos = std::min(m_caret_pos, m_secondary_caret_pos);
-      m_secondary_caret_pos = m_caret_pos;
-
-    } else if (m_caret_pos > 0) {
-      m_caret_pos--;
-      m_secondary_caret_pos = m_caret_pos;
-      m_cursor_timer = CONTROL_CURSOR_TIMER;
-
-      auto it = m_charlist.begin();
-      advance(it, m_caret_pos);
-      m_charlist.erase(it);
-    }
+    auto it = m_charlist.begin();
+    advance(it, m_caret_pos);
+    m_charlist.erase(it);
 
     recenter_offset();
   }
@@ -229,12 +197,44 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
 
   if (key.keysym.sym == SDLK_LEFT && m_caret_pos > 0)
   {
-    m_caret_pos--;
-    m_cursor_timer = CONTROL_CURSOR_TIMER;
-    if (!m_shift_pressed)
-      m_secondary_caret_pos = m_caret_pos;
+    if (!m_shift_pressed && m_secondary_caret_pos != m_caret_pos)
+    {
+      m_secondary_caret_pos = m_caret_pos = std::min(m_secondary_caret_pos, m_caret_pos);
+    }
+    else
+    {
+      m_caret_pos--;
+      m_cursor_timer = CONTROL_CURSOR_TIMER;
+      if (!m_shift_pressed)
+        m_secondary_caret_pos = m_caret_pos;
+    }
 
     recenter_offset();
+    return true;
+  }
+  else if (key.keysym.sym == SDLK_RIGHT && m_caret_pos < int(m_charlist.size()))
+  {
+    if (!m_shift_pressed && m_secondary_caret_pos != m_caret_pos)
+    {
+      m_secondary_caret_pos = m_caret_pos = std::max(m_secondary_caret_pos, m_caret_pos);
+    }
+    else
+    {
+      m_caret_pos++;
+      m_cursor_timer = CONTROL_CURSOR_TIMER;
+      if (!m_shift_pressed)
+        m_secondary_caret_pos = m_caret_pos;
+    }
+
+    recenter_offset();
+    return true;
+  }
+  else if (key.keysym.sym == SDLK_BACKSPACE)
+  {
+    if (!erase_selected_text() && m_caret_pos > 0)
+    {
+      delete_char_before_caret();
+    }
     return true;
   }
   else if (key.keysym.sym == SDLK_DELETE)
@@ -242,18 +242,8 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     if (!erase_selected_text() && static_cast<int>(m_charlist.size()) > m_caret_pos)
     {
       m_caret_pos++;
-      on_backspace();
+      delete_char_before_caret();
     }
-    return true;
-  }
-  else if (key.keysym.sym == SDLK_RIGHT && m_caret_pos < int(m_charlist.size()))
-  {
-    m_caret_pos++;
-    m_cursor_timer = CONTROL_CURSOR_TIMER;
-    if (!m_shift_pressed)
-      m_secondary_caret_pos = m_caret_pos;
-
-    recenter_offset();
     return true;
   }
   else if (key.keysym.sym == SDLK_HOME)
@@ -342,7 +332,7 @@ ControlTextbox::parse_value(bool call_on_change /* = true  (see header)*/)
       *m_string = new_str;
 
     if (call_on_change && m_on_change)
-      (*m_on_change)();
+      m_on_change();
   }
 
   return true;

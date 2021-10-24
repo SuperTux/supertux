@@ -16,6 +16,8 @@
 
 #include "supertux/game_session.hpp"
 
+#include <cfloat>
+
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
@@ -182,6 +184,9 @@ GameSession::on_escape_press()
     m_level->m_skip_cutscene = true;
     return;
   }
+
+  if (m_level->m_suppress_pause_menu && ScreenManager::current()->has_pending_fadeout())
+    return;
 
   if (!m_level->m_suppress_pause_menu) {
     toggle_pause();

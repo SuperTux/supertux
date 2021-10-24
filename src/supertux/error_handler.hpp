@@ -24,10 +24,10 @@ class ErrorHandler final
 public:
   static void set_handlers();
 
+  static void print_stack_trace();
 private:
   [[ noreturn ]] static void handle_error(int sig);
 
-  static void print_stack_trace();
   [[ noreturn ]] static void close_program();
 
 private:

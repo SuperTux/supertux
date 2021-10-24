@@ -2,7 +2,7 @@
  (action
   (name "normal")
   (images "bell-m.png")
-  (hitbox 8 0 32 32)
+  (hitbox 8 5 32 32)
  )
  (action
   (name "ringing")
@@ -16,6 +16,6 @@
    "bell-r_0.png"
    "bell-m.png"
    )
-  (hitbox 8 0 32 32)
+  (hitbox 8 5 32 32)
  )
 )

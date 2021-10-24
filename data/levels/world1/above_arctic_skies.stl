@@ -10,13 +10,16 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (speed 0.25)
       (image-top "images/background/arcticskies1.png")
       (image "images/background/arcticskies1.png")
       (image-bottom "images/background/arcticskies1.png")
+      (z-pos -280)
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (speed 0.5)
       (image-top "images/background/arcticskies2.png")
@@ -25,6 +28,7 @@
       (z-pos -270)
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (speed 0.75)
       (image-top "images/background/arcticskies3.png")
@@ -33,6 +37,7 @@
       (z-pos -230)
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (speed 1.5)
       (image-top "images/background/arcticskies35.png")
@@ -41,6 +46,7 @@
       (z-pos 200)
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (speed 2)
       (image-top "images/background/arcticskies4.png")
@@ -147,6 +153,10 @@
       (direction "left")
       (x 13824)
       (y 864)
+    )
+    (gradient
+      (top_color 0.3 0.4 0.75)
+      (bottom_color 1 1 1)
     )
     (infoblock
       (message (_ "-Air Flower

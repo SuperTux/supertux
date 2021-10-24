@@ -96,6 +96,13 @@ ObjectSettings::add_int(const std::string& text, int* value_ptr,
 }
 
 void
+ObjectSettings::add_label(const std::string& text,
+                          unsigned int flags)
+{
+  add_option(std::make_unique<LabelObjectOption>(text, flags));
+}
+
+void
 ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
                           const std::string& key,
                           unsigned int flags)
@@ -269,7 +276,7 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
                           boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {}, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, flags);
 }
 
 void

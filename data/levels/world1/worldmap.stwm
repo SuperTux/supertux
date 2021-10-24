@@ -115,6 +115,11 @@
       (y 80)
     )
     (level
+      (level "end_of_tunnel.stl")
+      (x 67)
+      (y 82)
+    )
+    (level
       (level "path_in_the_clouds.stl")
       (x 68)
       (y 87)

@@ -21,6 +21,7 @@
 
 #include "editor/editor.hpp"
 #include "editor/object_option.hpp"
+#include "math/bezier.hpp"
 #include "math/random.hpp"
 #include "object/path_gameobject.hpp"
 #include "supertux/d_scope.hpp"
@@ -109,13 +110,20 @@ PathWalker::get_pos() const
   const Path::Node* current_node = &(path->m_nodes[m_current_node_nr]);
   const Path::Node* next_node = & (path->m_nodes[m_next_node_nr]);
   
-  easing easeFunc = getEasingByName(current_node->easing);
+  easing easeFunc = m_walking_speed > 0 ?
+                          getEasingByName(current_node->easing) :
+                          getEasingByName(get_reverse_easing(next_node->easing));
   
-  Vector new_pos = current_node->position +
-    (next_node->position - current_node->position) *
-    static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
+  float progress = static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
 
-  return new_pos;
+  Vector p1 = current_node->position,
+         p2 = m_walking_speed > 0 ? current_node->bezier_after : current_node->bezier_before,
+         p3 = m_walking_speed > 0 ? next_node->bezier_before : next_node->bezier_after,
+         p4 = next_node->position;
+
+  return path->m_adapt_speed ?
+                          Bezier::get_point(p1, p2, p3, p4, progress) :
+                          Bezier::get_point_by_length(p1, p2, p3, p4, progress);
 }
 
 void

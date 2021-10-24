@@ -72,8 +72,11 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
     float vy = player->get_physic().get_velocity_y();
     if (vy <= 0)
       return FORCE_MOVE;
-    //player->add_velocity(Vector(0, -150));
-    player->get_physic().set_velocity_y(-150);
+    if (hit.top)
+    {
+      player->get_physic().set_velocity_y(0);
+      player->set_on_ground(true);
+    }
 	}
 
   if (state != OFF || !hit.top)

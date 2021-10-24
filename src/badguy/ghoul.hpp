@@ -19,6 +19,8 @@
 #include "badguy/badguy.hpp"
 #include "object/path_object.hpp"
 
+// FIXME: Ghoul inherits PathObject, but does not override get_settings() to add
+//        the missing options.
 class Ghoul final : public BadGuy,
                     public PathObject
 {
