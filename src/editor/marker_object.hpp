@@ -34,6 +34,7 @@ public:
 
   virtual Vector get_point_vector() const = 0;
   virtual Vector get_offset() const = 0;
+  virtual bool hide_if_no_offset() const { return false; }
 
   virtual bool is_saveable() const override { return false; }
 

@@ -40,6 +40,8 @@ MarkerObject::draw(DrawingContext& context)
 {
   Vector dir = get_point_vector();
   if (dir.x == 0 && dir.y == 0) {
+    if (hide_if_no_offset())
+      return;
     context.color().draw_filled_rect(m_col.m_bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
   } else {
     // draw a triangle

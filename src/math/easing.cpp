@@ -15,10 +15,14 @@
 // modified for compatibility purposes.
 //     Edited by Semphris for SuperTux, Aug 14, 2020
 
+#include "easing.hpp"
+
+#include "util/string_util.hpp"
+
 #include <math.h>
+#include <stdexcept>
 #include <string>
 #include <string.h>
-#include "easing.hpp"
 
 // Modeled after the line y = x
 double LinearInterpolation(double p)
@@ -582,3 +586,37 @@ const char* getEasingName(const EasingMode& ease_type)
   }
 }
 
+EasingMode get_reverse_easing(const EasingMode& ease)
+{
+  return EasingMode_from_string(get_reverse_easing_str(getEasingName(ease)));
+}
+
+std::string get_reverse_easing_str(const std::string& ease_name)
+{
+  if (ease_name == "EaseNone")
+    return "EaseNone";
+
+  if (StringUtil::has_suffix(ease_name, "InOut"))
+    return ease_name;
+
+  if (StringUtil::has_suffix(ease_name, "In"))
+  {
+    std::string e = ease_name;
+    e.pop_back();
+    e.pop_back();
+    return e + "Out";
+  }
+
+  if (StringUtil::has_suffix(ease_name, "Out"))
+  {
+    std::string e = ease_name;
+    e.pop_back();
+    e.pop_back();
+    e.pop_back();
+    return e + "In";
+  }
+
+  throw std::runtime_error("Trying to find opposite easing of non-easing string");
+}
+
+/* EOF */

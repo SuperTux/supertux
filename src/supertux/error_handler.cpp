@@ -61,11 +61,11 @@ void
 ErrorHandler::print_stack_trace()
 {
 #ifdef __GLIBC__
-  void *array[10];
+  void *array[127];
   size_t size;
 
   // get void*'s for all entries on the stack
-  size = backtrace(array, 10);
+  size = backtrace(array, 127);
 
   // print out all the frames to stderr
   backtrace_symbols_fd(array, static_cast<int>(size), STDERR_FILENO);
