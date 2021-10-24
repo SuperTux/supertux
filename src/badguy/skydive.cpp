@@ -80,15 +80,22 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
     //handle non-swimming
     else
     {
+      //handle x-movement
+      if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
+        m_physic.set_velocity_x(0.f);
+      else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
+        || (player->m_dir == Direction::RIGHT && player->get_physic().get_velocity_x() >= 1.0f))
+        m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+          + (player->m_dir == Direction::LEFT ? -10.f : 10.f));
+      else
+        m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+          + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
       //handle y-movement
       m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
-          dir_ == Direction::DOWN ? 500.f :
-          player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
-      //handle x-movement
-      if (player && player->get_physic().get_velocity_x() != 0.f)
-      {
-        m_physic.set_velocity_x((player->m_dir == Direction::RIGHT ? 330.f : -330.f));
-      }
+        dir_ == Direction::DOWN ? 500.f :
+        player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
+      if (dir_ == Direction::DOWN)
+        Vector mov(0, 32);
     }
   }
   else

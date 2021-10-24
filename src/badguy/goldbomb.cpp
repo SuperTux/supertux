@@ -206,7 +206,7 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
 {
   auto player = dynamic_cast<Player*> (&object);
   //handle swimming
-  if (player->is_swimming() || player->is_water_jumping())
+  if (player && (player->is_swimming() || player->is_water_jumping()))
   {
     float swimangle = player->get_swimming_angle();
     m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
@@ -215,15 +215,24 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
   //handle non-swimming
   else
   {
-    //handle y-movement
     if (player)
+    {
+      //handle x-movement
+      if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
+        m_physic.set_velocity_x(0.f);
+      else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
+        || (player->m_dir == Direction::RIGHT && player->get_physic().get_velocity_x() >= 1.0f))
+        m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+          + (player->m_dir == Direction::LEFT ? -10.f : 10.f));
+      else
+        m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+          + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
+      //handle y-movement
       m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
         dir_ == Direction::DOWN ? 500.f :
         player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
-    //handle x-movement
-    if (player && player->get_physic().get_velocity_x() != 0.f)
-    {
-      m_physic.set_velocity_x((player->m_dir == Direction::RIGHT ? 330.f : -330.f));
+      if (dir_ == Direction::DOWN)
+        Vector mov(0, 32);
     }
   }
   set_colgroup_active(COLGROUP_MOVING);
