@@ -22,6 +22,7 @@
 #include "math/random.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
@@ -83,6 +84,9 @@ Explosion::explode()
     auto near_objects = Sector::get().get_nearby_objects (center, 128.0 * 32.0);
 
     for (auto& obj: near_objects) {
+      if(!Sector::current()->free_line_of_sight(center, obj->get_pos()))
+        continue;
+
       Vector obj_vector = obj->get_bbox ().get_middle ();
       Vector direction = obj_vector - center;
       float distance = glm::length(direction);
