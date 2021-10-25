@@ -158,8 +158,6 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
       m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
         dir_ == Direction::DOWN ? 500.f :
         player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
-      if (dir_ == Direction::DOWN)
-        Vector mov(0, 32);
     }
   }
   set_colgroup_active(COLGROUP_MOVING);
