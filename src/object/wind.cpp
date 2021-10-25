@@ -21,6 +21,7 @@
 #include "math/random.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "object/rock.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -37,6 +38,7 @@ Wind::Wind(const ReaderMapping& reader) :
   new_size(0.0f, 0.0f),
   dt_sec(0),
   affects_badguys(),
+  affects_objects(),
   affects_player(),
   fancy_wind()
 {
@@ -55,6 +57,7 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("acceleration", acceleration, 100.0f);
 
   reader.get("affects-badguys", affects_badguys, false);
+  reader.get("affects-objects", affects_objects, false);
   reader.get("affects-player", affects_player, true);
   
   reader.get("fancy-wind", fancy_wind, false);
@@ -77,10 +80,11 @@ Wind::get_settings()
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
   result.add_bool(_("Blowing"), &blowing, "blowing", true);
   result.add_bool(_("Affects Badguys"), &affects_badguys, "affects-badguys", false);
+  result.add_bool(_("Affects Objects"), &affects_objects, "affects-objects", false);
   result.add_bool(_("Affects Player"), &affects_player, "affects-player");
   result.add_bool(_("Fancy Particles"), &fancy_wind, "fancy-wind", false);
 
-  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-player", "fancy-wind", "region", "name", "x", "y"});
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "region", "name", "x", "y"});
 
   return result;
 }
@@ -125,10 +129,9 @@ HitResponse
 Wind::collision(GameObject& other, const CollisionHit& )
 {
   if (!blowing) return ABORT_MOVE;
-  if (!affects_player) return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*> (&other);
-  if (player)
+  if (player && affects_player)
   {
     if (!player->on_ground())
 	  {
@@ -147,10 +150,17 @@ Wind::collision(GameObject& other, const CollisionHit& )
 	    }
     }
   }
-  auto badguy = dynamic_cast<BadGuy*> (&other);
-  if (badguy && this->affects_badguys && badguy->can_be_affected_by_wind())
+
+  auto badguy = dynamic_cast<BadGuy*>(&other);
+  if (badguy && affects_badguys && badguy->can_be_affected_by_wind())
   {
     badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
+  }
+
+  auto rock = dynamic_cast<Rock*>(&other);
+  if (rock && affects_badguys)
+  {
+    rock->add_wind_velocity(speed * acceleration * dt_sec, speed);
   }
 
   return ABORT_MOVE;

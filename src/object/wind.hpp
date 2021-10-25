@@ -61,6 +61,7 @@ private:
   float dt_sec; /**< stores last dt_sec gotten at update() */
 
   bool affects_badguys; /**< whether the wind can affect badguys */
+  bool affects_objects; /**< whether the wind can affect objects */
   bool affects_player; /**< whether the wind can affect the player: useful for cinematic wind */
   bool fancy_wind;
 
