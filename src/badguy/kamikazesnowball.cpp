@@ -64,6 +64,7 @@ void
 KamikazeSnowball::kill_collision()
 {
   m_sprite->set_action(m_dir == Direction::LEFT ? "collision-left" : "collision-right");
+  spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
