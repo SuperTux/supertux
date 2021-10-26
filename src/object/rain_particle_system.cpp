@@ -196,13 +196,16 @@ void RainParticleSystem::update(float dt_sec)
     set_angle(m_current_angle);
   }
 
+  const auto& cam_translation = Sector::get().get_camera().get_translation();
+  float movement_multiplier = dt_sec * Sector::get().get_gravity() * m_current_speed * 1.41421353f;
+  float abs_x = cam_translation.x;
+  float abs_y = cam_translation.y;
+
   for (auto& it : particles) {
     auto particle = dynamic_cast<RainParticle*>(it.get());
     assert(particle);
 
-    float movement = particle->speed * dt_sec * Sector::get().get_gravity() * m_current_speed * 1.41421353f;
-    float abs_x = Sector::get().get_camera().get_translation().x;
-    float abs_y = Sector::get().get_camera().get_translation().y;
+    float movement = particle->speed * movement_multiplier;
     particle->pos.y += movement * cosf((particle->angle + 45.f) * 3.14159265f / 180.f);
     particle->pos.x -= movement * sinf((particle->angle + 45.f) * 3.14159265f / 180.f);
     int col = collision(particle, Vector(-movement, movement));
