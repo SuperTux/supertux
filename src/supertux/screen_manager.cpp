@@ -554,8 +554,8 @@ void ScreenManager::loop_iter()
   if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
     // Sleep a bit because not enough time has passed since the previous
     // logical game step
-    //SDL_Delay(ms_per_step - elapsed_ticks);
-    //return;
+    SDL_Delay(ms_per_step - elapsed_ticks);
+    return;
   }
 
   g_real_time = static_cast<float>(ticks) / 1000.0f;
