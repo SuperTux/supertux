@@ -296,7 +296,7 @@ jobs:
           cmake --build . --config $Env:BUILD_TYPE
       - name: Remove Chocolatey's CPack
         if: runner.os == 'Windows'
-        run: del /f /q %ChocolateyInstall%/bin/cpack.exe
+        run: del /f %ChocolateyInstall%/bin/cpack.exe
       - name: Package
         working-directory: build
         env:
