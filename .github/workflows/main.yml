@@ -149,7 +149,7 @@ jobs:
           # that we don't care about for now
           echo "CXX=clang++" >> $GITHUB_ENV
           echo "CC=clang" >> $GITHUB_ENV
-      - name: Configure bulid
+      - name: Configure build
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
@@ -294,6 +294,9 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
           cmake --build . --config $Env:BUILD_TYPE
+      - name: Remove Chocolatey's CPack
+        if: runner.os == 'Windows'
+        run: del /f /q %ChocolateyInstall%/bin/cpack.exe
       - name: Package
         working-directory: build
         env:
