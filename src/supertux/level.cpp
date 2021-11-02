@@ -47,7 +47,9 @@ Level::Level(bool worldmap) :
   m_tileset("images/tiles.strf"),
   m_suppress_pause_menu(),
   m_is_in_cutscene(false),
-  m_skip_cutscene(false)
+  m_skip_cutscene(false),
+  m_icon(),
+  m_siblings()
 {
   s_current = this;
 }
@@ -140,6 +142,13 @@ Level::save(Writer& writer)
   }
   if(m_suppress_pause_menu) {
     writer.write("suppress-pause-menu", m_suppress_pause_menu);
+  }
+
+  writer.write("icon", m_icon);
+
+  for (const auto& s : m_siblings)
+  {
+    writer.write("sibling-worldmap", s);
   }
 
   for (auto& sector : m_sectors) {

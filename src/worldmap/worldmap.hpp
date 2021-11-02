@@ -201,6 +201,10 @@ private:
 
   bool m_in_level;
 
+  /** Strings are filenames, relative to the data root */
+  std::vector<std::string> m_sibling_worldmaps;
+  bool m_in_world_select;
+
 private:
   WorldMap(const WorldMap&) = delete;
   WorldMap& operator=(const WorldMap&) = delete;

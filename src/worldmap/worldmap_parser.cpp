@@ -81,6 +81,17 @@ WorldMapParser::load_worldmap(const std::string& filename)
       m_worldmap.m_tileset = TileManager::current()->get_tileset("images/ice_world.strf");
     }
 
+    auto iter2 = level_.get_iter();
+    while (iter2.next())
+    {
+      if (iter2.get_key() == "sibling-worldmap")
+      {
+        std::string sbwm;
+        iter2.get(sbwm);
+        m_worldmap.m_sibling_worldmaps.push_back(sbwm);
+      }
+    }
+
     boost::optional<ReaderMapping> sector;
     if (!level_.get("sector", sector)) {
       throw std::runtime_error("No sector specified in worldmap file.");

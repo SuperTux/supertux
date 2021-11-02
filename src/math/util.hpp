@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_MATH_UTIL_HPP
 #define HEADER_SUPERTUX_MATH_UTIL_HPP
 
+#include <math.h>
+
 namespace math {
 
 template<class T>

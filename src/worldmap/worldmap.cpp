@@ -62,6 +62,7 @@
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
 #include "worldmap/tux.hpp"
+#include "worldmap/world_select.hpp"
 #include "worldmap/worldmap_parser.hpp"
 #include "worldmap/worldmap_screen.hpp"
 #include "worldmap/worldmap_state.hpp"
@@ -86,7 +87,9 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_main_is_default(true),
   m_initial_fade_tilemap(),
   m_fade_direction(),
-  m_in_level(false)
+  m_in_level(false),
+  m_sibling_worldmaps(),
+  m_in_world_select(false)
 {
   m_tux = &add<Tux>(this);
   add<PlayerStatusHUD>(m_savegame.get_player_status());
@@ -308,8 +311,15 @@ WorldMap::process_input(const Controller& controller)
 {
   m_enter_level = false;
 
-  if (controller.pressed(Control::ACTION) ||
-      controller.pressed(Control::JUMP) ||
+  if (controller.pressed(Control::ACTION) && !m_in_level)
+  {
+    ScreenManager::current()->push_screen(std::make_unique<WorldSelect>(m_sibling_worldmaps, m_map_filename),
+          std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, .25f));
+    m_in_world_select = true;
+    return;
+  }
+
+  if (controller.pressed(Control::JUMP) ||
       controller.pressed(Control::MENU_SELECT))
   {
     // some people define UP and JUMP on the same key...
@@ -340,6 +350,8 @@ WorldMap::process_input(const Controller& controller)
 void
 WorldMap::update(float dt_sec)
 {
+  if (m_in_world_select) return;
+
   BIND_WORLDMAP(*this);
 
   if (m_in_level) return;
@@ -645,6 +657,8 @@ WorldMap::setup()
     m_squirrel_environment->run_script(m_init_script, "WorldMap::init");
   }
   m_tux->process_special_tile( at_special_tile() );
+
+  m_in_world_select = false;
 }
 
 void
