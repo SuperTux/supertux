@@ -158,7 +158,7 @@ Wind::collision(GameObject& other, const CollisionHit& )
   }
 
   auto rock = dynamic_cast<Rock*>(&other);
-  if (rock && affects_badguys)
+  if (rock && affects_objects)
   {
     rock->add_wind_velocity(speed * acceleration * dt_sec, speed);
   }
