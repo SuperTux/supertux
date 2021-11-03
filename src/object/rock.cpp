@@ -200,5 +200,18 @@ Rock::get_settings()
   return result;
 }
 
+void
+Rock::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
+{
+  // only add velocity in the same direction as the wind
+  if (end_speed.x > 0 && physic.get_velocity_x() < end_speed.x)
+    physic.set_velocity_x(std::min(physic.get_velocity_x() + velocity.x, end_speed.x));
+  if (end_speed.x < 0 && physic.get_velocity_x() > end_speed.x)
+    physic.set_velocity_x(std::max(physic.get_velocity_x() + velocity.x, end_speed.x));
+  if (end_speed.y > 0 && physic.get_velocity_y() < end_speed.y)
+    physic.set_velocity_y(std::min(physic.get_velocity_y() + velocity.y, end_speed.y));
+  if (end_speed.y < 0 && physic.get_velocity_y() > end_speed.y)
+    physic.set_velocity_y(std::max(physic.get_velocity_y() + velocity.y, end_speed.y));
+}
 
 /* EOF */
