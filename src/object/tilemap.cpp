@@ -565,6 +565,13 @@ TileMap::get_tile_id(int x, int y) const
   return m_tiles[y*m_width + x];
 }
 
+bool
+TileMap::is_outside_bounds(const Vector& pos) const
+{
+  auto pos_ = (pos - m_offset) / 32.0f;
+  return pos_.x < 0 || pos_.x >= m_width || pos_.y < 0 || pos_.y >= m_height;
+}
+
 const Tile&
 TileMap::get_tile(int x, int y) const
 {

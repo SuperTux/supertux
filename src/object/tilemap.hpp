@@ -142,6 +142,7 @@ public:
       doing collision detection. */
   void set_solid(bool solid = true);
 
+  bool is_outside_bounds(const Vector& pos) const;
   const Tile& get_tile(int x, int y) const;
   const Tile& get_tile_at(const Vector& pos) const;
   uint32_t get_tile_id(int x, int y) const;
