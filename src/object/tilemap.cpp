@@ -569,8 +569,8 @@ bool
 TileMap::is_outside_bounds(const Vector& pos) const
 {
   auto pos_ = (pos - m_offset) / 32.0f;
-  float width = m_width * 1.0f;
-  float height = m_height * 1.0f;
+  float width = static_cast<float>(m_width);
+  float height = static_cast<float>(m_height);
   return pos_.x < 0 || pos_.x >= width || pos_.y < 0 || pos_.y >= height;
 }
 
