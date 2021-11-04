@@ -294,9 +294,6 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
           cmake --build . --config $Env:BUILD_TYPE
-      - name: Remove Chocolatey's CPack
-        if: runner.os == 'Windows'
-        run: rm $Env:ChocolateyInstall/bin/cpack.exe
       - name: Package
         working-directory: build
         env:
