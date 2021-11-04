@@ -139,7 +139,7 @@ jobs:
         run: |
           cd ~
           sudo apt-get update
-          sudo apt-get install -y git cmake build-essential curl
+          sudo apt-get install -y git cmake build-essential curl zip
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
           ./emsdk install 1.40.1
@@ -189,3 +189,12 @@ jobs:
           name: "wasm32-emscripten-${{ matrix.build_type }}-html"
           path: build/upload/*
           if-no-files-found: ignore
+      - name: Upload to server
+        if: ${{ github.ref == 'refs/heads/master' && matrix.build_type == 'Release' }}
+        env:
+          UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
+        run: |
+          cd build/upload/
+          mv supertux2.html index.html
+          zip supertux2.zip *
+          curl -F "archive=@$(pwd)/supertux2.zip" $UPLOAD_URL
