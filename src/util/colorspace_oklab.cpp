@@ -53,7 +53,7 @@ struct ColorOKLab {
   float L, a, b;
 };
 
-ColorRGB srgb_to_linear_srgb(Color& c)
+ColorRGB srgb_to_linear_srgb(const Color& c)
 {
   auto to_linear = [&](float channel) -> float {
     if (channel <= 0.04045f)
@@ -64,7 +64,7 @@ ColorRGB srgb_to_linear_srgb(Color& c)
   return {to_linear(c.red), to_linear(c.green), to_linear(c.blue)};
 }
 
-Color linear_srgb_to_srgb(ColorRGB& c)
+Color linear_srgb_to_srgb(const ColorRGB& c)
 {
   auto make_nonlinear = [&](float channel) -> float {
     if (channel <= 0.0031308f)
@@ -82,7 +82,7 @@ Color linear_srgb_to_srgb(ColorRGB& c)
     math::clamp(b, 0.0f, 1.0f));
 }
 
-ColorOKLab linear_srgb_to_oklab(ColorRGB& c)
+ColorOKLab linear_srgb_to_oklab(const ColorRGB& c)
 {
   float l = 0.4122214708f * c.r + 0.5363325363f * c.g + 0.0514459929f * c.b;
   float m = 0.2119034982f * c.r + 0.6806995451f * c.g + 0.1073969566f * c.b;
@@ -99,7 +99,7 @@ ColorOKLab linear_srgb_to_oklab(ColorRGB& c)
   };
 }
 
-ColorRGB oklab_to_linear_srgb(ColorOKLab& c)
+ColorRGB oklab_to_linear_srgb(const ColorOKLab& c)
 {
   float l_ = c.L + 0.3963377774f * c.a + 0.2158037573f * c.b;
   float m_ = c.L - 0.1055613458f * c.a - 0.0638541728f * c.b;
@@ -116,12 +116,12 @@ ColorRGB oklab_to_linear_srgb(ColorOKLab& c)
   };
 }
 
-ColorOKLCh lab_to_lch(ColorOKLab& c)
+ColorOKLCh lab_to_lch(const ColorOKLab& c)
 {
   return ColorOKLCh{c.L, sqrtf(c.a * c.a + c.b * c.b), atan2f(c.b, c.a)};
 }
 
-ColorOKLab lch_to_lab(ColorOKLCh& c)
+ColorOKLab lch_to_lab(const ColorOKLCh& c)
 {
   return {c.L, c.C * cosf(c.h), c.C * sinf(c.h)};
 }
