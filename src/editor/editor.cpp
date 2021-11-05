@@ -19,6 +19,11 @@
 #include <limits>
 #include <physfs.h>
 
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/button_widget.hpp"
@@ -542,7 +547,11 @@ Editor::quit_editor()
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
 #ifdef __EMSCRIPTEN__
-    Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
+    int persistent = EM_ASM_INT({
+      return supertux2_ispersistent();
+    });
+    if (!persistent)
+      Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
 #endif
   };
 

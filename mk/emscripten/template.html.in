@@ -192,11 +192,28 @@
       document.getElementById("output").style.display = "none";
     }
 
+    var data_persistent = false;
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().then((persists) => {
+        if (!persists) {
+          alert("Your browser denied persistent storage. That means your data could be cleared next time you open the game.\n\nIf you just received a prompt asking you if you want data to persist, you may ignore this message.\n\nChrome and Chromium-based browsers (Edge, Opera, Brave...) will not ask the user; instead, the browser will choose by itself based on if it considers the site important. It detemines which sites are important based on certain data, such as how often you visit the site, what you do, etc. If you want to choose whether or not to save your progress, you may use Firefox instead.\n\nYou can read more at https://web.dev/persistent-storage/#how-is-permission-granted\n\nIf you want to choose to save your data, please use Firefox.");
+        } else {
+          data_persistent = true;
+        }
+      });
+    } else {
+      alert("Your browser does not support persistent storage!\n\nYour browser may delete your progress anytime. Make sure to backup your important files!");
+    }
+
+    window.supertux2_ispersistent = function() {
+      return data_persistent ? 1 : 0;
+    }
+
     var statusElement = document.getElementById("status"),
-    progressElement = document.getElementById("progress"),
-    progressDescElement = document.getElementById("progress_desc"),
-    overlayElement = document.getElementById("overlay"),
-    spinnerElement = document.getElementById("spinner");
+        progressElement = document.getElementById("progress"),
+        progressDescElement = document.getElementById("progress_desc"),
+        overlayElement = document.getElementById("overlay"),
+        spinnerElement = document.getElementById("spinner");
 
     var lastUpdate = Date.now() / 1000;
     var lastStep = 0;
@@ -349,26 +366,33 @@
     const root = "/home/web_user/.local/share/supertux2/";
 
     window.supertux_loadFiles = function() {
+      // Loading the config file from localStorage is needed, even though the
+      // rest of the files are stored in IndexedDB, managed by Emscripten.
+      // Check the supertux_saveFiles function below for details.
       for (var key of Object.keys(localStorage)) {
-        if (key !== "config" && !key.match("^profile[0-9]+/"))
+        if (key !== "supertux2_config" /*&& !key.match("^profile[0-9]+/")*/)
           continue;
 
-        if (key.indexOf("/") !== -1) {
+        keyfilename = key.replace(/^supertux2_/, "");
+
+        if (keyfilename.indexOf("/") !== -1) {
           try {
-            FS.mkdir(root + key.substr(0, key.indexOf("/")));
+            FS.mkdir(root + keyfilename.substr(0, keyfilename.indexOf("/")));
           } catch {
             // Folder probably already exists
           }
         }
-        FS.writeFile(root + key, localStorage.getItem(key));
+        FS.writeFile(root + keyfilename, localStorage.getItem(key));
       }
     }
 
     window.supertux_saveFiles = function() {
 
+      FS.syncfs((err) => { console.log(err); });
+
       function save(file) {
         try {
-          localStorage.setItem(file, FS.readFile(root + file, { encoding: "utf8" }));
+          localStorage.setItem("supertux2_" + file, FS.readFile(root + file, { encoding: "utf8" }));
           return true;
         } catch(e) {
           console.error(e);
@@ -377,8 +401,13 @@
         }
       }
 
+      // IndexedDB can't save fast enough to be called when the window is closed,
+      // so save the config file in localStorage just in case it wasn't flushed
+      // to disk
       save("config");
 
+      // Other files use IndexedDB instead of localStorage
+      /*
       var data_folder = FS.lookupPath(root);
 
       for (var folder_name in data_folder.node.contents) {
@@ -389,7 +418,7 @@
           save(folder_name + "/" + file_name);
         }
       }
-
+      */
     }
 
     window.supertux_download = function(path) {
@@ -476,6 +505,18 @@
         fr.readAsArrayBuffer(file);
       }
     });
+
+    var saving = false;
+    window.supertux2_syncfs = function() {
+      if (saving) return;
+      saving = true;
+      FS.syncfs((err) => {
+        if (err)
+          console.log(err);
+
+        saving = false;
+      });
+    }
 
     window.onresize = tryResize;
     window.onunload = () => {
