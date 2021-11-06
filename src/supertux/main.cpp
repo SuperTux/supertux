@@ -301,11 +301,22 @@ if (FileSystem::is_directory(olduserdir)) {
 }
 #endif
 
+#ifdef EMSCRIPTEN
+  userdir = "/home/web_user/.local/share/supertux2/";
+#endif
+
   if (!FileSystem::is_directory(userdir))
   {
   FileSystem::mkdir(userdir);
   log_info << "Created SuperTux userdir: " << userdir << std::endl;
   }
+
+#ifdef EMSCRIPTEN
+  EM_ASM({
+    FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
+    FS.syncfs(true, (err) => { console.log(err); });
+  });
+#endif
 
   if (!PHYSFS_setWriteDir(userdir.c_str()))
   {

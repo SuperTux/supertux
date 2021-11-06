@@ -609,6 +609,12 @@ void ScreenManager::loop_iter()
   SoundManager::current()->update();
 
   handle_screen_switch();
+
+#ifdef EMSCRIPTEN
+  EM_ASM({
+    supertux2_syncfs();
+  });
+#endif
 }
 
 #ifdef __EMSCRIPTEN__
