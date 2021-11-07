@@ -73,6 +73,13 @@ Config::Config() :
   enable_discord(false),
 #endif
   hide_editor_levelnames(false),
+  editor_selected_snap_grid_size(3),
+  editor_render_grid(true),
+  editor_snap_to_grid(true),
+  editor_render_background(true),
+  editor_render_lighting(false),
+  editor_autotile_mode(false),
+  editor_autotile_help(true),
   editor_autosave_frequency(5),
   repository_url()
 {
@@ -113,9 +120,23 @@ Config::load()
 #endif
   }
 
+  // Compatibility; will be overwritten by the "editor" category
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
-  EditorOverlayWidget::autotile_help = !developer_mode;
+  editor_autotile_help = !developer_mode;
+
+  boost::optional<ReaderMapping> editor_mapping;
+  if (config_mapping.get("editor", editor_mapping))
+  {
+    editor_mapping->get("autosave_frequency", editor_autosave_frequency);
+    editor_mapping->get("autotile_help", editor_autotile_help);
+    editor_mapping->get("autotile_mode", editor_autotile_mode);
+    editor_mapping->get("render_background", editor_render_background);
+    editor_mapping->get("render_grid", editor_render_grid);
+    editor_mapping->get("render_lighting", editor_render_lighting);
+    editor_mapping->get("selected_snap_grid_size", editor_selected_snap_grid_size);
+    editor_mapping->get("snap_to_grid", editor_snap_to_grid);
+  } else { log_warning << "!!!!" << std::endl; }
 
   if (is_christmas()) {
     if (!config_mapping.get("christmas", christmas_mode))
@@ -245,8 +266,6 @@ Config::save()
   }
   writer.end_list("integrations");
 
-  writer.write("editor_autosave_frequency", editor_autosave_frequency);
-
   if (is_christmas()) {
     writer.write("christmas", christmas_mode);
   }
@@ -318,6 +337,19 @@ Config::save()
     writer.end_list("addon");
   }
   writer.end_list("addons");
+
+  writer.start_list("editor");
+  {
+    writer.write("autosave_frequency", editor_autosave_frequency);
+    writer.write("autotile_help", editor_autotile_help);
+    writer.write("autotile_mode", editor_autotile_mode);
+    writer.write("render_background", editor_render_background);
+    writer.write("render_grid", editor_render_grid);
+    writer.write("render_lighting", editor_render_lighting);
+    writer.write("selected_snap_grid_size", editor_selected_snap_grid_size);
+    writer.write("snap_to_grid", editor_snap_to_grid);
+  }
+  writer.end_list("editor");
 
   writer.end_list("supertux-config");
 }

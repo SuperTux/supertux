@@ -51,14 +51,8 @@ namespace {
 
 } // namespace
 
-bool EditorOverlayWidget::render_background = true;
-bool EditorOverlayWidget::render_grid = true;
-bool EditorOverlayWidget::snap_to_grid = true;
-bool EditorOverlayWidget::autotile_mode = false;
-bool EditorOverlayWidget::autotile_help = true;
 bool EditorOverlayWidget::action_pressed = false;
 bool EditorOverlayWidget::alt_pressed = false;
-int EditorOverlayWidget::selected_snap_grid_size = 3;
 
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_editor(editor),
@@ -257,7 +251,7 @@ EditorOverlayWidget::put_tile()
       uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
       auto tilemap = m_editor.get_selected_tilemap();
 
-      if (autotile_mode && ((tilemap && tilemap->get_autotileset(tile)) || tile == 0)) {
+      if (g_config->editor_autotile_mode && ((tilemap && tilemap->get_autotileset(tile)) || tile == 0)) {
         if (tile == 0) {
           tilemap->autotile_erase(m_hovered_tile + add_tile, m_hovered_corner + add_tile);
         } else if (tilemap->get_autotileset(tile)->is_corner()) {
@@ -310,7 +304,7 @@ EditorOverlayWidget::draw_rectangle()
   for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++) {
     int y_ = sgn_y ? 0 : static_cast<int>(-dr.get_height());
     for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++) {
-      if (autotile_mode) {
+      if (g_config->editor_autotile_mode) {
         input_autotile( Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_) );
       } else {
         input_tile( Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_) );
@@ -324,7 +318,7 @@ EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
                                           uint32_t target_tile,
                                           uint32_t third_tile) const
 {
-  if (autotile_mode) {
+  if (g_config->editor_autotile_mode) {
     return m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
         == m_editor.get_tileset()->get_autotileset_from_tile(target_tile)
       && m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
@@ -426,7 +420,7 @@ EditorOverlayWidget::fill()
     }
 
     // Autotile happens after directional detection (because of borders; see snow tileset)
-    if (autotile_mode) {
+    if (g_config->editor_autotile_mode) {
       input_autotile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
     }
 
@@ -604,8 +598,8 @@ EditorOverlayWidget::move_object()
       return;
     }
     Vector new_pos = m_sector_pos - m_obj_mouse_desync;
-    if (snap_to_grid) {
-      auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
+    if (g_config->editor_snap_to_grid) {
+      auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
       new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
 
       auto pm = dynamic_cast<MarkerObject*>(m_dragged_object);
@@ -713,9 +707,9 @@ EditorOverlayWidget::put_object()
   else
   {
     auto target_pos = m_sector_pos;
-    if (snap_to_grid)
+    if (g_config->editor_snap_to_grid)
     {
-      auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
+      auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
       target_pos = glm::floor(m_sector_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
     }
 
@@ -727,7 +721,7 @@ EditorOverlayWidget::put_object()
       if (!dynamic_cast<PathGameObject*>(object.get())) {
         m_editor.add_layer(object.get());
       }
-    } else if (!snap_to_grid) {
+    } else if (!g_config->editor_snap_to_grid) {
       auto bbox = mo->get_bbox();
       mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
     }
@@ -977,10 +971,10 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
   auto sym = key.keysym.sym;
   if (sym == SDLK_LSHIFT || sym == SDLK_RSHIFT)
   {
-    snap_to_grid = !snap_to_grid;
+    g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
   if (sym == SDLK_LCTRL || sym == SDLK_RCTRL) {
-    autotile_mode = !autotile_mode;
+    g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
     action_pressed = false;
     // Hovered objects depend on which keys are pressed
     hover_object();
@@ -996,13 +990,13 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
   if (sym == SDLK_F8) {
-    render_grid = !render_grid;
+    g_config->editor_render_grid = !g_config->editor_render_grid;
   }
   if (sym == SDLK_F7 || sym == SDLK_LSHIFT || sym == SDLK_RSHIFT) {
-    snap_to_grid = !snap_to_grid;
+    g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
   if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed)) {
-    autotile_mode = !autotile_mode;
+    g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
     action_pressed = true;
     // Hovered objects depend on which keys are pressed
     hover_object();
@@ -1249,10 +1243,10 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_rectangle_preview(context);
   draw_path(context);
 
-  if (render_grid) {
+  if (g_config->editor_render_grid) {
     draw_tile_grid(context, 32, true);
     draw_tilemap_border(context);
-    auto snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
+    auto snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
     if (snap_grid_size != 32) {
       draw_tile_grid(context, snap_grid_size, false);
     }
@@ -1296,15 +1290,15 @@ EditorOverlayWidget::draw(DrawingContext& context)
   }
 
 
-  if (autotile_help) {
+  if (g_config->editor_autotile_help) {
     if (m_editor.get_tileset()->get_autotileset_from_tile(m_editor.get_tiles()->pos(0, 0)) != nullptr)
     {
-      if (autotile_mode) {
+      if (g_config->editor_autotile_mode) {
         context.color().draw_text(Resources::normal_font, _("Autotile mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
       } else {
         context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
       }
-    } else if (autotile_mode) {
+    } else if (g_config->editor_autotile_mode) {
       if (m_editor.get_tiles()->pos(0, 0) == 0) {
         context.color().draw_text(Resources::normal_font, _("Autotile erasing mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
       } else {
