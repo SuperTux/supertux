@@ -27,6 +27,10 @@
 
 extern "C" {
 
+void set_resolution(int w, int h);
+void save_config();
+void init_emscripten();
+
 EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists
 void
 set_resolution(int w, int h)
@@ -47,10 +51,10 @@ save_config()
 void
 init_emscripten()
 {
-  EM_ASM(
+  EM_ASM({
     if (window.supertux_onready)
       window.supertux_onready();
-  );
+  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 }
 
 #endif

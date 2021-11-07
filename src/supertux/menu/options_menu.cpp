@@ -541,12 +541,18 @@ OptionsMenu::menu_action(MenuItem& item)
 #ifdef __EMSCRIPTEN__
     case MNID_FIT_WINDOW:
       {
+        // Emscripten's Clang detects the "$" in the macro as part of C++ code
+        // although it isn't even Javascript, it's Emscripten's way to pass
+        // arguments from C++ to Javascript
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdollar-in-identifier-extension"
         int resultds = EM_ASM_INT({
           if (window.supertux_setAutofit)
             window.supertux_setAutofit($0);
 
           return !!window.supertux_setAutofit;
         }, g_config->fit_window);
+#pragma GCC diagnostic pop
 
         if (!resultds)
         {

@@ -37,6 +37,9 @@ public:
 
   std::string get_object_class() const { return m_object_class; }
 
+  ObjectIcon(const ObjectIcon&) = default;
+  ObjectIcon& operator=(const ObjectIcon&) = default;
+
 private:
   void calculate_offset();
 

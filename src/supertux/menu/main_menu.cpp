@@ -122,7 +122,7 @@ MainMenu::menu_action(MenuItem& item)
 #ifdef __EMSCRIPTEN__
       EM_ASM({
         window.open("https://www.supertux.org/donate.html");
-      });
+      }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 #else
       FileSystem::open_path("https://www.supertux.org/donate.html");
 #endif

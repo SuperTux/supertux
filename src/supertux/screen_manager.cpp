@@ -613,7 +613,7 @@ void ScreenManager::loop_iter()
 #ifdef EMSCRIPTEN
   EM_ASM({
     supertux2_syncfs();
-  });
+  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 #endif
 }
 
