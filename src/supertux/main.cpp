@@ -315,7 +315,7 @@ if (FileSystem::is_directory(olduserdir)) {
   EM_ASM({
     FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
     FS.syncfs(true, (err) => { console.log(err); });
-  });
+  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 #endif
 
   if (!PHYSFS_setWriteDir(userdir.c_str()))

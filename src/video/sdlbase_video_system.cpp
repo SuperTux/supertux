@@ -125,7 +125,7 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
     EM_ASM({
       if (window.supertux_setAutofit)
         window.supertux_setAutofit(true);
-    });
+    }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
   }
 #endif
 }

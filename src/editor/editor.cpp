@@ -549,7 +549,7 @@ Editor::quit_editor()
 #ifdef __EMSCRIPTEN__
     int persistent = EM_ASM_INT({
       return supertux2_ispersistent();
-    });
+    }, 0); // EM_ASM_INT is a variadic macro and Clang requires at least 1 value for the variadic argument
     if (!persistent)
       Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
 #endif
