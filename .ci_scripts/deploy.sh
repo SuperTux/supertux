@@ -8,10 +8,11 @@ for file in upload/SuperTux*; do
     url="https://supertux-ci-downloads.s3-us-west-2.amazonaws.com/${PREFIX}/$file_base"
     size=$(($(wc -c < "$file")))
     if [ $IS_WINDOWS = true ] ; then
-        shasum=$(powershell -command Get-FileHash $file -Algorithm SHA256)
+        shasum=$(powershell -command "Get-FileHash \"$file\" -Algorithm SHA256")
     else
         shasum=$(shasum -a 256 "$file" | cut -d " " -f 1)
     fi
+    echo "Checksum: $shasum";
     curl --data "apikey=$DOWNLOAD_APIKEY" \
          --data "url=$url" \
          --data "size=$size" \
