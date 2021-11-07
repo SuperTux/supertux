@@ -434,6 +434,7 @@ Menu::process_input(const Controller& controller)
   }
 
   if (controller.pressed(Control::ACTION) ||
+     controller.pressed(Control::JUMP) ||
      controller.pressed(Control::MENU_SELECT) ||
      (!is_sensitive() && controller.pressed(Control::MENU_SELECT_SPACE))) {
     menuaction = MenuAction::HIT;
