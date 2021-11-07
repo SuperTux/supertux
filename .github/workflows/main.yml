@@ -326,6 +326,7 @@ jobs:
         env:
           PREFIX: "${{ github.sha }}/gh-actions/windows-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
+          IS_WINDOWS: true
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release == 'ON' && github.repository_owner == 'supertux'
         uses: softprops/action-gh-release@v1
