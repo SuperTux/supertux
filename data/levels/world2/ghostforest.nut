@@ -1,4 +1,6 @@
 
+import("/levels/preload_worldselect.nut");
+
 if("ambient_r" in state && "ambient_g" in state && "ambient_b" in state){
   worldmap.settings.fade_to_ambient_light(state.ambient_r,
                                           state.ambient_g,

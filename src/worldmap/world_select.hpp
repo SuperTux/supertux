@@ -41,6 +41,7 @@ private:
 
     std::string filename = "";
     std::string name = "";
+    bool unlocked = false;
     SurfacePtr icon = nullptr;
   };
 

@@ -16,6 +16,8 @@
 
 #include "worldmap/world_select.hpp"
 
+#include <algorithm>
+
 #include "control/controller.hpp"
 #include "math/util.hpp"
 #include "supertux/fadetoblack.hpp"
@@ -42,41 +44,71 @@ WorldSelect::WorldSelect(const std::vector<std::string>& world_filenames,
   m_selected_world(),
   m_angle()
 {
+  std::vector<std::string> worlds;
+
+  auto& vm = SquirrelVirtualMachine::current()->get_vm();
+  SQInteger oldtop = sq_gettop(vm.get_vm());
+
+  sq_pushroottable(vm.get_vm());
+  try {
+    vm.get_table_entry("state");
+    vm.get_table_entry("world_select");
+    worlds = vm.get_table_keys();
+  } catch(const std::exception&) {}
+
+  if (worlds.size() > 0)
+    std::reverse(worlds.begin(), worlds.end());
+
   int i = 0;
-  for (const auto& file : world_filenames) {
+  for (const auto& world : worlds) {
+    sq_pushroottable(vm.get_vm());
+    try {
+      vm.get_table_entry("state");
+      vm.get_table_entry("world_select");
+      vm.get_table_entry(world);
 
-    WMdata wm;
-    wm.filename = file;
+      bool unlocked = false;
+      vm.get_bool("unlocked", unlocked);
 
-    ReaderDocument doc = ReaderDocument::from_file(file);
-    if (!doc.get_root().get_mapping().get("name", wm.name))
-    {
-      log_warning << "No name for worldmap " << file << std::endl;
-      continue;
+      WMdata wm;
+      wm.filename = world;
+      wm.unlocked = unlocked;
+
+      ReaderDocument doc = ReaderDocument::from_file(world);
+      if (!doc.get_root().get_mapping().get("name", wm.name))
+      {
+        log_warning << "No name for worldmap " << world << std::endl;
+        continue;
+      }
+
+      std::string icon_path = "";
+      if (!doc.get_root().get_mapping().get(unlocked ? "icon" : "icon-locked", icon_path))
+      {
+        log_warning << "No icon (" << (unlocked ? "unlocked" : "locked") << ") for worldmap " << world << std::endl;
+        continue;
+      }
+
+      wm.icon = Surface::from_file(icon_path);
+      if (!wm.icon)
+      {
+        log_warning << "Icon not found for worldmap " << world << ": "
+                    << icon_path << std::endl;
+        continue;
+      }
+
+      m_worlds.push_back(wm);
+      if (current_world_filename == world)
+      {
+        m_current_world = i;
+      }
+      i++;
+
+    } catch(const std::exception& e) {
+      log_info << "Exception thrown while generating world state: " << e.what() << std::endl;
     }
-
-    std::string icon_path = "";
-    if (!doc.get_root().get_mapping().get("icon", icon_path))
-    {
-      log_warning << "No icon for worldmap " << file << std::endl;
-      continue;
-    }
-
-    wm.icon = Surface::from_file(icon_path);
-    if (!wm.icon)
-    {
-      log_warning << "Icon not found for worldmap " << file << ": "
-                  << icon_path << std::endl;
-      continue;
-    }
-
-    m_worlds.push_back(wm);
-    if (current_world_filename == file)
-    {
-      m_current_world = i;
-    }
-    i++;
   }
+
+  sq_settop(vm.get_vm(), oldtop);
 
   m_selected_world = m_current_world;
   m_angle = static_cast<float>(m_current_world) / static_cast<float>(i) * math::PI * 2;
@@ -136,7 +168,7 @@ WorldSelect::draw(Compositor& compositor)
     if (std::cos(angle) > distance)
     {
       distance = std::cos(angle);
-      name_to_display = world.name;
+      name_to_display = world.unlocked ? world.name : "???";
     }
 
     i++;
@@ -149,7 +181,7 @@ WorldSelect::draw(Compositor& compositor)
                                    static_cast<float>(context.get_height()) * 3.f / 4.f + pow(20.f - o * 20.f, 2.f)),
                             FontAlignment::ALIGN_CENTER,
                             10,
-                            Color(1.f, 1.f, 1.f, pow(o, 2.f) * 4.f));
+                            Color(1.f, 1.f, 1.f,static_cast<float>(pow(o, 2.f)) * 4.f));
 }
 
 void
@@ -190,7 +222,7 @@ WorldSelect::update(float dt_sec, const Controller& controller)
     m_selected_world %= static_cast<int>(m_worlds.size());
   }
 
-  if (controller.pressed(Control::JUMP)) {
+  if (controller.pressed(Control::JUMP) && m_worlds[m_selected_world].unlocked) {
     m_enabled = false;
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, 0.25f));
     worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "main");

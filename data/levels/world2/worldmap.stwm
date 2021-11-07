@@ -5,8 +5,7 @@
   (contact "https://supertux.org")
   (license "CC-BY-SA 4.0 International")
   (icon "/images/worlds/rootedforest.png")
-  (sibling-worldmap "/levels/world1/worldmap.stwm")
-  (sibling-worldmap "/levels/world2/worldmap.stwm")
+  (icon-locked "/images/worlds/locked/rootedforest.png")
   (sector
     (name "main")
     (init-script "import(\"levels/world2/ghostforest.nut\");")
