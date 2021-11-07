@@ -41,7 +41,8 @@ public:
   virtual void update(float dt_sec) override;
   virtual ObjectSettings get_settings() override;
   virtual std::string get_class() const override { return "textscroller"; }
-  virtual std::string get_display_name() const override { return _("TextScroller"); }
+  virtual std::string get_display_name() const override { return _("Text Scroller"); }
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/textscroller.png"; }
 
   void set_default_speed(float default_speed);
   void scroll(float offset);
@@ -57,11 +58,28 @@ private:
 
 private:
   std::string m_filename;
+  std::string m_finish_script;
   std::vector<std::unique_ptr<InfoBoxLine> > m_lines;
   float m_scroll;
   float m_default_speed;
+  float m_x_offset;
+  bool m_controllable;
   bool m_finished;
   bool m_fading;
+
+  enum XAnchor {
+    ANCHOR_LEFT,
+    ANCHOR_CENTER,
+    ANCHOR_RIGHT
+  };
+  enum TextAlign {
+    ALIGN_LEFT,
+    ALIGN_CENTER,
+    ALIGN_RIGHT
+  };
+
+  XAnchor m_x_anchor;
+  TextAlign m_text_align;
 
 private:
   TextScroller(const TextScroller&) = delete;
