@@ -169,6 +169,7 @@ Dialog::process_input(const Controller& controller)
   }
 
   if (controller.pressed(Control::ACTION) ||
+      controller.pressed(Control::JUMP) ||
       controller.pressed(Control::MENU_SELECT))
   {
     on_button_click(m_selected_button);
