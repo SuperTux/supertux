@@ -1,6 +1,6 @@
 (supertux-level-subset
-  (title (_ "Community Island 2020"))
-  (description (_ ""))
+  (title (_ "Community Island"))
+  (description (_ "Level pack consisting of level contest winners"))
   (levelset #f)
   (hide-from-contribs #f)
 )

@@ -34,6 +34,7 @@ private:
 public:
   std::string get_basedir() const { return m_basedir; }
   std::string get_title() const { return m_title; }
+  std::string get_description() const { return m_description; }
 
   bool hide_from_contribs() const { return m_hide_from_contribs; }
 

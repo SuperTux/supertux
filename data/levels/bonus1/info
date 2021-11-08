@@ -1,6 +1,6 @@
-;SuperTux-Level-Subset
 (supertux-level-subset
   (title (_ "Bonus Island I"))
-  (description "Levels from the Bonus World 1")
+  (description (_ "Compilation of early fan-submitted levels. Added in 0.1.2"))
   (levelset #f)
+  (hide-from-contribs #f)
 )
