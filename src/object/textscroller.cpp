@@ -54,8 +54,8 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
   m_controllable(true),
   m_finished(),
   m_fading(),
-  m_x_anchor(XAnchor::ANCHOR_CENTER),
-  m_text_align(TextAlign::ALIGN_CENTER)
+  m_x_anchor(XAnchor::SCROLLER_ANCHOR_CENTER),
+  m_text_align(TextAlign::SCROLLER_ALIGN_CENTER)
 {
   if (!mapping.get("file", m_filename))
   {
@@ -75,22 +75,22 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
   if (mapping.get("x-anchor", x_anchor_str))
   {
     if (x_anchor_str == "left")
-      m_x_anchor = XAnchor::ANCHOR_LEFT;
+      m_x_anchor = XAnchor::SCROLLER_ANCHOR_LEFT;
     else if (x_anchor_str == "right")
-      m_x_anchor = XAnchor::ANCHOR_RIGHT;
+      m_x_anchor = XAnchor::SCROLLER_ANCHOR_RIGHT;
     else
-      m_x_anchor = XAnchor::ANCHOR_CENTER;
+      m_x_anchor = XAnchor::SCROLLER_ANCHOR_CENTER;
   }
 
   std::string text_align_str;
   if (mapping.get("text-align", text_align_str))
   {
     if (text_align_str == "left")
-      m_text_align = TextAlign::ALIGN_LEFT;
+      m_text_align = TextAlign::SCROLLER_ALIGN_LEFT;
     else if (text_align_str == "right")
-      m_text_align = TextAlign::ALIGN_RIGHT;
+      m_text_align = TextAlign::SCROLLER_ALIGN_RIGHT;
     else
-      m_text_align = TextAlign::ALIGN_CENTER;
+      m_text_align = TextAlign::SCROLLER_ALIGN_CENTER;
   }
 
 }
@@ -106,8 +106,8 @@ TextScroller::TextScroller(const ReaderObject& root) :
   m_controllable(true),
   m_finished(),
   m_fading(),
-  m_x_anchor(XAnchor::ANCHOR_CENTER),
-  m_text_align(TextAlign::ALIGN_CENTER)
+  m_x_anchor(XAnchor::SCROLLER_ANCHOR_CENTER),
+  m_text_align(TextAlign::SCROLLER_ALIGN_CENTER)
 {
   parse_root(root);
 }
@@ -253,10 +253,10 @@ TextScroller::draw(DrawingContext& context)
     for (const auto& line : m_lines)
     {
       if (y + line->get_height() >= 0 && ctx_h - y >= 0) {
-        line->draw(context, Rectf(LEFT_BORDER, y, ctx_w * (m_x_anchor == XAnchor::ANCHOR_LEFT ? 0.f :
-           m_x_anchor == XAnchor::ANCHOR_RIGHT ? 2.f : 1.f) + m_x_offset, y), LAYER_GUI,
-          (m_text_align == TextAlign::ALIGN_LEFT ? line->LineAlignment::LEFT :
-           m_text_align == TextAlign::ALIGN_RIGHT ? line->LineAlignment::RIGHT :
+        line->draw(context, Rectf(LEFT_BORDER, y, ctx_w * (m_x_anchor == XAnchor::SCROLLER_ANCHOR_LEFT ? 0.f :
+           m_x_anchor == XAnchor::SCROLLER_ANCHOR_RIGHT ? 2.f : 1.f) + m_x_offset, y), LAYER_GUI,
+          (m_text_align == TextAlign::SCROLLER_ALIGN_LEFT ? line->LineAlignment::LEFT :
+           m_text_align == TextAlign::SCROLLER_ALIGN_RIGHT ? line->LineAlignment::RIGHT :
            line->LineAlignment::CENTER));
       }
 
@@ -353,11 +353,11 @@ TextScroller::get_settings()
   result.add_enum(_("Anchor"), reinterpret_cast<int*>(&m_x_anchor),
     { _("Left"), _("Center"), _("Right") },
     { "left", "center", "right" },
-    static_cast<int>(XAnchor::ANCHOR_CENTER), "x-anchor");
+    static_cast<int>(XAnchor::SCROLLER_ANCHOR_CENTER), "x-anchor");
   result.add_enum(_("Text Alignment"), reinterpret_cast<int*>(&m_text_align),
     { _("Left"), _("Center"), _("Right") },
     { "left", "center", "right" },
-    static_cast<int>(TextAlign::ALIGN_CENTER), "text-align");
+    static_cast<int>(TextAlign::SCROLLER_ALIGN_CENTER), "text-align");
   result.add_remove();
 
   return result;

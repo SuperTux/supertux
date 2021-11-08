@@ -68,14 +68,14 @@ private:
   bool m_fading;
 
   enum XAnchor {
-    ANCHOR_LEFT,
-    ANCHOR_CENTER,
-    ANCHOR_RIGHT
+    SCROLLER_ANCHOR_LEFT,
+    SCROLLER_ANCHOR_CENTER,
+    SCROLLER_ANCHOR_RIGHT
   };
   enum TextAlign {
-    ALIGN_LEFT,
-    ALIGN_CENTER,
-    ALIGN_RIGHT
+    SCROLLER_ALIGN_LEFT,
+    SCROLLER_ALIGN_CENTER,
+    SCROLLER_ALIGN_RIGHT
   };
 
   XAnchor m_x_anchor;
