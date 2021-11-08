@@ -9,6 +9,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "/images/background/icecliffs/icecliffs-top.png")
       (image "/images/background/icecliffs/icecliffs-middle.png")
@@ -560,8 +561,19 @@
       (color 0.5 0.5 0.5)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image "images/background/antarctic/arctis2.png")
+    )
+    (background
+      (color 1 1 1)
+      (x 1161.25)
+      (y 771.491)
+      (speed 0.5)
+      (image-top "/images/background/cloud_mountains/cloud-mountains-background.png")
+      (image "/images/background/cloud_mountains/cloud-mountains-background.png")
+      (image-bottom "/images/background/cloud_mountains/cloud-mountains-background.png")
+      (z-pos -310)
     )
     (bouncingsnowball
       (direction "left")

@@ -10,6 +10,7 @@
     )
     (background
       (name "normal")
+      (color 1 1 1)
       (speed 0.5)
       (image-top "/images/background/bluemountain-top.png")
       (image "/images/background/bluemountain-middle.png")
@@ -17,6 +18,7 @@
     )
     (background
       (name "frente 2")
+      (color 1 1 1)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -28,6 +30,7 @@
     )
     (background
       (name "frente 1")
+      (color 1 1 1)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -36,6 +39,16 @@
       (image "/images/background/arcticskies2.png")
       (image-bottom "images/background/transparent_up.png")
       (z-pos -250)
+    )
+    (background
+      (color 1 1 1)
+      (x 1328.9)
+      (y 117.562)
+      (speed 0.5)
+      (image-top "/images/background/bluemountain/bluemountain-top.png")
+      (image "/images/background/bluemountain/bluemountain-top.png")
+      (image-bottom "/images/background/bluemountain/bluemountain-top.png")
+      (z-pos -310)
     )
     (camera
       (name "Camera")

@@ -11,10 +11,21 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "/images/background/bluemountain-top.png")
       (image "/images/background/bluemountain-middle.png")
       (image-bottom "/images/background/bluemountain-bottom.png")
+    )
+    (background
+      (color 1 1 1)
+      (x 1084.25)
+      (y 200.925)
+      (speed 0.5)
+      (image-top "/images/background/bluemountain/bluemountain-top.png")
+      (image "/images/background/bluemountain/bluemountain-top.png")
+      (image-bottom "/images/background/bluemountain/bluemountain-top.png")
+      (z-pos -310)
     )
     (bouncingsnowball
       (direction "left")
