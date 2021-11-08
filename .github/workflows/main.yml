@@ -212,7 +212,7 @@ jobs:
           name: "${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-dmg"
           path: build/upload/*.dmg
           if-no-files-found: ignore
-      - uses: shallwefootball/s3-upload-action@master
+      - uses: anshulrgoyal/s3-upload-action@master
         # These all have repository_owner conditions because the secret isn't available to other owners
         if: matrix.release == 'ON' && env.CI_KEY != null
         env:
@@ -307,7 +307,7 @@ jobs:
           name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}-installer"
           path: build/upload/*.msi
           if-no-files-found: ignore
-      - uses: shallwefootball/s3-upload-action@master
+      - uses: anshulrgoyal/s3-upload-action@master
         # These all have repository_owner conditions because the secret isn't available to other owners
         if: matrix.release == 'ON' && env.CI_KEY != null
         env:
