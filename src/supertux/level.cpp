@@ -48,8 +48,7 @@ Level::Level(bool worldmap) :
   m_suppress_pause_menu(),
   m_is_in_cutscene(false),
   m_skip_cutscene(false),
-  m_icon(),
-  m_siblings()
+  m_icon()
 {
   s_current = this;
 }
@@ -145,11 +144,6 @@ Level::save(Writer& writer)
   }
 
   writer.write("icon", m_icon);
-
-  for (const auto& s : m_siblings)
-  {
-    writer.write("sibling-worldmap", s);
-  }
 
   for (auto& sector : m_sectors) {
     sector->save(writer);

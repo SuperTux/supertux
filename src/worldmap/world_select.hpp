@@ -46,7 +46,7 @@ private:
   };
 
 public:
-  WorldSelect(const std::vector<std::string>& world_filenames, const std::string& current_world_filename);
+  WorldSelect(const std::string& current_world_filename);
   ~WorldSelect() override;
 
   virtual void setup() override;

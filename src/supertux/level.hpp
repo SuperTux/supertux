@@ -85,7 +85,6 @@ public:
   bool m_is_in_cutscene;
   bool m_skip_cutscene;
   std::string m_icon;
-  std::vector<std::string> m_siblings;
 
 private:
   Level(const Level&) = delete;

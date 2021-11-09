@@ -36,8 +36,7 @@ namespace worldmap {
 
 const float WorldSelect::s_torque = 0.75f;
 
-WorldSelect::WorldSelect(const std::vector<std::string>& world_filenames,
-                         const std::string& current_world_filename) :
+WorldSelect::WorldSelect(const std::string& current_world_filename) :
   m_enabled(false),
   m_worlds(),
   m_current_world(),

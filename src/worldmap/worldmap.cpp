@@ -88,7 +88,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_initial_fade_tilemap(),
   m_fade_direction(),
   m_in_level(false),
-  m_sibling_worldmaps(),
   m_in_world_select(false)
 {
   m_tux = &add<Tux>(this);
@@ -313,7 +312,7 @@ WorldMap::process_input(const Controller& controller)
 
   if (controller.pressed(Control::ACTION) && !m_in_level)
   {
-    ScreenManager::current()->push_screen(std::make_unique<WorldSelect>(m_sibling_worldmaps, m_map_filename),
+    ScreenManager::current()->push_screen(std::make_unique<WorldSelect>(m_map_filename),
           std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, .25f));
     m_in_world_select = true;
     return;

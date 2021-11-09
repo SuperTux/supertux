@@ -178,12 +178,6 @@ LevelParser::load(const ReaderDocument& doc)
         auto sector = SectorParser::from_reader(m_level, iter.as_mapping(), m_editable);
         m_level.add_sector(std::move(sector));
       }
-      else if (iter.get_key() == "sibling-worldmap")
-      {
-        std::string sbwm;
-        iter.get(sbwm);
-        m_level.m_siblings.push_back(sbwm);
-      }
     }
 
     if (m_level.m_license.empty()) {
