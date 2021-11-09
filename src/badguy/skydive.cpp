@@ -16,6 +16,7 @@
 
 #include "badguy/skydive.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -26,6 +27,7 @@
 SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite")
 {
+  SoundManager::current()->preload("sounds/explosion.wav");
 }
 
 void

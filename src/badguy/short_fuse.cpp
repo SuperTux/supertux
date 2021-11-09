@@ -17,6 +17,7 @@
 
 #include "badguy/short_fuse.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
@@ -40,6 +41,8 @@ ShortFuse::ShortFuse(const ReaderMapping& reader) :
   }
   //Replace sprite
   m_sprite = SpriteManager::current()->create( m_sprite_name );
+
+  SoundManager::current()->preload("sounds/firecracker.ogg");
 }
 
 void
