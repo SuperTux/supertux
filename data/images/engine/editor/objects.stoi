@@ -362,6 +362,9 @@
   (object
     (class "thunderstorm")
     (icon "images/engine/editor/thunderstorm.png"))
+  (object
+    (class "textobject")
+    (icon "images/engine/editor/textarray.png"))
  )
 
  (objectgroup

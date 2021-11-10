@@ -23,6 +23,7 @@
 #include "control/keyboard_config.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
+#include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
 
 #include <boost/date_time/gregorian/gregorian.hpp>
@@ -112,6 +113,11 @@ public:
   bool enable_discord;
 #endif
   bool hide_editor_levelnames;
+  Color menubackcolor;
+  Color menufrontcolor;
+  Color hlcolor;
+  Color editorcolor;
+  float menuroundness;
 
   int editor_autosave_frequency;
 

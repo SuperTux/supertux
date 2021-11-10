@@ -26,6 +26,8 @@
 #include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/resources.hpp"
@@ -63,7 +65,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 
   context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)),
                                          Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
-                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     Color(g_config->editorcolor),
                                      0.0f,
                                      LAYER_GUI-10);
 
@@ -96,7 +98,8 @@ EditorLayersWidget::draw(DrawingContext& context)
 
   if (draw_rect)
   {
-    context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
+    context.color().draw_filled_rect(target_rect, Color(g_config->editorcolor.red + 0.4f, g_config->editorcolor.green + 0.4f,
+      g_config->editorcolor.blue + 0.4f, g_config->editorcolor.alpha - 0.2f), 0.0f,
                                        LAYER_GUI-5);
   }
 

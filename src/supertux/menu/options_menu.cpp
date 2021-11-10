@@ -438,6 +438,12 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
       .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));
 
+  if (g_config->developer_mode)
+  {
+    add_submenu(_("Menu Customization"), MenuStorage::CUSTOM_MENU_MENU)
+      .set_help(_("Customize the appearance of the menus"));
+  }
+
   add_hl();
   add_back(_("Back"));
 }

@@ -18,7 +18,7 @@
 #define HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
 
 #ifndef SCRIPTING_API
-#include <string>
+#include <memory>
 #include "scripting/game_object.hpp"
 
 class TextObject;
@@ -41,10 +41,15 @@ private:
 #endif
 
 public:
+  Text(const std::string& name);
+
+public:
   void set_text(const std::string& text);
   void set_font(const std::string& fontname);
   void fade_in(float fadetime);
   void fade_out(float fadetime);
+  void grow_in(float fadetime);
+  void grow_out(float fadetime);
   void set_visible(bool visible);
   void set_centered(bool centered);
   void set_pos(float x, float y);
@@ -52,6 +57,10 @@ public:
   float get_pos_y() const;
   void set_anchor_point(int anchor);
   int  get_anchor_point() const;
+  void set_front_fill_color(float red, float green, float blue, float alpha);
+  void set_back_fill_color(float red, float green, float blue, float alpha);
+  void set_text_color(float red, float green, float blue, float alpha);
+  void set_roundness(float roundness);
 };
 
 } // namespace scripting

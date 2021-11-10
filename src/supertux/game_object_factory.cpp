@@ -115,6 +115,7 @@
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
 #include "object/text_array_object.hpp"
+#include "object/text_object.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -252,6 +253,7 @@ GameObjectFactory::init_factories()
   add_factory<SkullTile>("skull_tile");
   add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
+  add_factory<TextObject>("textobject");
   add_factory<TextScroller>("textscroller");
   add_factory<TextArrayObject>("text-array");
   add_factory<Thunderstorm>("thunderstorm");

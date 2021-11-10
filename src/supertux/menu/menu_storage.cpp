@@ -22,6 +22,7 @@
 #include "supertux/menu/cheat_menu.hpp"
 #include "supertux/menu/debug_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
+#include "supertux/menu/custom_menu_menu.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_level_menu.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
@@ -194,6 +195,9 @@ MenuStorage::create(MenuId menu_id)
 
     case ASSET_MENU:
       return std::make_unique<WebAssetMenu>();
+
+    case CUSTOM_MENU_MENU:
+      return std::make_unique<CustomMenuMenu>();
 
     case NO_MENU:
       return std::unique_ptr<Menu>();

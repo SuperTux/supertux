@@ -88,7 +88,6 @@ Sector::Sector(Level& parent) :
   }
   add<Player>(player_status, "Tux");
   add<DisplayEffect>("Effect");
-  add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
 
   SoundManager::current()->preload("sounds/shoot.wav");
@@ -147,6 +146,11 @@ Sector::finish_construction(bool editable)
 
   if (!get_object_by_type<MusicObject>()) {
     add<MusicObject>();
+  }
+
+  if (!get_object_by_type<TextObject>())
+  {
+    add<TextObject>("Text");
   }
 
   if (!get_object_by_type<VerticalStripes>()) {

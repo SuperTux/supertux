@@ -73,6 +73,11 @@ Config::Config() :
   enable_discord(false),
 #endif
   hide_editor_levelnames(false),
+  menubackcolor(0.2f, 0.3f, 0.4f, 0.8f),
+  menufrontcolor(0.6f, 0.7f, 0.8f, 0.5f),
+  hlcolor(0.6f, 0.7f, 1.f, 1.f),
+  editorcolor(0.9f, 0.9f, 1.0f, 0.6f),
+  menuroundness(16.f),
   editor_autosave_frequency(5),
   repository_url()
 {
@@ -112,6 +117,37 @@ Config::load()
     config_integrations_mapping->get("enable_discord", enable_discord);
 #endif
   }
+
+  //menu colors
+  float menubackcolor_r, menubackcolor_g, menubackcolor_b, menubackcolor_a;
+  config_mapping.get("menubackcolor_r", menubackcolor_r, 0.2f);
+  config_mapping.get("menubackcolor_g", menubackcolor_g, 0.3f);
+  config_mapping.get("menubackcolor_b", menubackcolor_b, 0.4f);
+  config_mapping.get("menubackcolor_a", menubackcolor_a, 0.8f);
+  menubackcolor = Color(menubackcolor_r, menubackcolor_g, menubackcolor_b, menubackcolor_a);
+
+  float menufrontcolor_r, menufrontcolor_g, menufrontcolor_b, menufrontcolor_a;
+  config_mapping.get("menufrontcolor_r", menufrontcolor_r, 0.6f);
+  config_mapping.get("menufrontcolor_g", menufrontcolor_g, 0.7f);
+  config_mapping.get("menufrontcolor_b", menufrontcolor_b, 0.8f);
+  config_mapping.get("menufrontcolor_a", menufrontcolor_a, 0.5f);
+  menufrontcolor = Color(menufrontcolor_r, menufrontcolor_g, menufrontcolor_b, menufrontcolor_a);
+
+  float hlcolor_r, hlcolor_g, hlcolor_b, hlcolor_a;
+  config_mapping.get("hlcolor_r", hlcolor_r, 0.6f);
+  config_mapping.get("hlcolor_g", hlcolor_g, 0.7f);
+  config_mapping.get("hlcolor_b", hlcolor_b, 1.f);
+  config_mapping.get("hlcolor_a", hlcolor_a, 1.f);
+  hlcolor = Color(hlcolor_r, hlcolor_g, hlcolor_b, hlcolor_a);
+
+  float editorcolor_r, editorcolor_g, editorcolor_b, editorcolor_a;
+  config_mapping.get("editorcolor_r", editorcolor_r, 0.9f);
+  config_mapping.get("editorcolor_g", editorcolor_g, 0.9f);
+  config_mapping.get("editorcolor_b", editorcolor_b, 1.f);
+  config_mapping.get("editorcolor_a", editorcolor_a, 0.6f);
+  editorcolor = Color(editorcolor_r, editorcolor_g, editorcolor_b, editorcolor_a);
+
+  config_mapping.get("menuroundness", menuroundness, 16.f);
 
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
@@ -244,6 +280,24 @@ Config::save()
 #endif
   }
   writer.end_list("integrations");
+
+  writer.write("menubackcolor_r", menubackcolor.red);
+  writer.write("menubackcolor_g", menubackcolor.green);
+  writer.write("menubackcolor_b", menubackcolor.blue);
+  writer.write("menubackcolor_a", menubackcolor.alpha);
+  writer.write("menufrontcolor_r", menufrontcolor.red);
+  writer.write("menufrontcolor_g", menufrontcolor.green);
+  writer.write("menufrontcolor_b", menufrontcolor.blue);
+  writer.write("menufrontcolor_a", menufrontcolor.alpha);
+  writer.write("hlcolor_r", hlcolor.red);
+  writer.write("hlcolor_g", hlcolor.green);
+  writer.write("hlcolor_b", hlcolor.blue);
+  writer.write("hlcolor_a", hlcolor.alpha);
+  writer.write("editorcolor_r", editorcolor.red);
+  writer.write("editorcolor_g", editorcolor.green);
+  writer.write("editorcolor_b", editorcolor.blue);
+  writer.write("editorcolor_a", editorcolor.alpha);
+  writer.write("menuroundness", menuroundness);
 
   writer.write("editor_autosave_frequency", editor_autosave_frequency);
 
