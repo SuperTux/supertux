@@ -35,10 +35,11 @@ class InfoBoxLine final
 {
 public:
   enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE};
+  enum LineAlignment { LEFT, CENTER, RIGHT };
 
   InfoBoxLine(char format_char, const std::string& text);
 
-  void draw(DrawingContext& context, const Rectf& bbox, int layer);
+  void draw(DrawingContext& context, const Rectf& bbox, int layer, LineAlignment alignment = CENTER);
   float get_height() const;
 
   static std::vector<std::unique_ptr<InfoBoxLine> > split(const std::string& text, float width);
