@@ -16,8 +16,6 @@
 
 #include "scripting/text.hpp"
 
-#include <stdexcept>
-
 #include "object/text_object.hpp"
 #include "supertux/sector.hpp"
 #include "worldmap/worldmap.hpp"
