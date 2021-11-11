@@ -118,7 +118,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVEASLEVEL:
     {
-      editor->check_save_prerequisites([editor]() {
+      editor->check_save_prerequisites([] {
         MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(true));
       });
     }
@@ -126,7 +126,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SAVECOPYLEVEL:
     {
-      editor->check_save_prerequisites([editor]() {
+      editor->check_save_prerequisites([] {
         MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(false));
       });
     }
