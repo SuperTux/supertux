@@ -223,7 +223,8 @@ bool
 WillOWisp::collides(GameObject& other, const CollisionHit& ) const {
   auto lantern = dynamic_cast<Lantern*>(&other);
 
-  if (lantern && lantern->is_open())
+  //                                 vv  'xor'
+  if (lantern && (lantern->is_open() != (get_color().greyscale() == 0)))
     return true;
 
   if (dynamic_cast<Player*>(&other))

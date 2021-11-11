@@ -94,24 +94,26 @@ Lantern::draw(DrawingContext& context){
 }
 
 HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
-  if (is_open()) {
-    WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
-    if (wow) {
-      // collided with WillOWisp while grabbed and unlit
-      SoundManager::current()->play("sounds/willocatch.wav");
-      lightcolor = wow->get_color();
-      updateColor();
-      wow->vanish();
-    }
-    TreeWillOWisp* twow = dynamic_cast<TreeWillOWisp*>(&other);
-    if (twow) {
-      // collided with TreeWillOWisp while grabbed and unlit
-      SoundManager::current()->play("sounds/willocatch.wav");
-      lightcolor = twow->get_color();
-      updateColor();
-      twow->vanish();
-    }
+
+  WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
+
+  if (wow && (is_open() || wow->get_color().greyscale() == 0.f)) {
+    // collided with WillOWisp while grabbed and unlit
+    SoundManager::current()->play("sounds/willocatch.wav");
+    lightcolor = wow->get_color();
+    updateColor();
+    wow->vanish();
   }
+
+  TreeWillOWisp* twow = dynamic_cast<TreeWillOWisp*>(&other);
+  if (twow && (is_open() || twow->get_color().greyscale() == 0.f)) {
+    // collided with TreeWillOWisp while grabbed and unlit
+    SoundManager::current()->play("sounds/willocatch.wav");
+    lightcolor = twow->get_color();
+    updateColor();
+    twow->vanish();
+  }
+
   return Rock::collision(other, hit);
 }
 
