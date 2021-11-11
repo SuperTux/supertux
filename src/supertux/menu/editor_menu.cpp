@@ -23,6 +23,7 @@
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/menu/editor_save_as.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
@@ -41,8 +42,14 @@ EditorMenu::EditorMenu()
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to Editor"));
   add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
+  if (!worldmap)
+  {
+    add_entry(MNID_SAVEASLEVEL, _("Save Level as"));
+    add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
+  }
 
-  if (!worldmap) {
+  if (!worldmap)
+  {
     add_entry(MNID_TESTLEVEL, _("Test Level"));
   }
   else
@@ -54,7 +61,8 @@ EditorMenu::EditorMenu()
 
   add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
 
-  if (is_world) {
+  if (is_world)
+  {
     add_entry(MNID_LEVELSEL, _("Edit Another Level"));
   }
 
@@ -82,9 +90,10 @@ EditorMenu::EditorMenu()
 EditorMenu::~EditorMenu()
 {
   auto editor = Editor::current();
-  if (editor == nullptr) {
+
+  if (editor == nullptr)
     return;
-  }
+
   editor->m_reactivate_request = true;
 }
 
@@ -103,6 +112,22 @@ EditorMenu::menu_action(MenuItem& item)
       editor->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
         editor->m_save_request = true;
+      });
+    }
+      break;
+
+    case MNID_SAVEASLEVEL:
+    {
+      editor->check_save_prerequisites([] {
+        MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(true));
+      });
+    }
+      break;
+
+    case MNID_SAVECOPYLEVEL:
+    {
+      editor->check_save_prerequisites([] {
+        MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(false));
       });
     }
       break;

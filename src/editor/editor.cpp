@@ -91,6 +91,8 @@ Editor::Editor() :
   m_reactivate_request(false),
   m_deactivate_request(false),
   m_save_request(false),
+  m_save_request_filename(""),
+  m_save_request_switch(false),
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
@@ -207,9 +209,11 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   if (m_save_request) {
-    save_level();
+    save_level(m_save_request_filename, m_save_request_switch);
     m_enabled = true;
     m_save_request = false;
+    m_save_request_filename = "";
+    m_save_request_switch = false;
   }
 
   if (m_test_request) {
@@ -272,11 +276,15 @@ Editor::remove_autosave_file()
 }
 
 void
-Editor::save_level()
+Editor::save_level(const std::string& filename, bool switch_file)
 {
+  auto file = !filename.empty() ? filename : m_levelfile;
+
+  if (switch_file)
+    m_levelfile = filename;
+
   m_undo_manager->reset_index();
-  m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), m_levelfile) :
-              m_levelfile);
+  m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
   remove_autosave_file();
 }
