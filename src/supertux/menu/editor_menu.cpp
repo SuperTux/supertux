@@ -62,13 +62,13 @@ EditorMenu::EditorMenu()
   
   add_hl();
 
-  add_string_select(-1, _("Grid Size"), &EditorOverlayWidget::selected_snap_grid_size, snap_grid_sizes);
-  add_toggle(-1, _("Show Grid"), &EditorOverlayWidget::render_grid);
-  add_toggle(-1, _("Grid Snapping"), &EditorOverlayWidget::snap_to_grid);
-  add_toggle(-1, _("Render Background"), &EditorOverlayWidget::render_background);
-  add_toggle(-1, _("Render Light"), &Compositor::s_render_lighting);
-  add_toggle(-1, _("Autotile Mode"), &EditorOverlayWidget::autotile_mode);
-  add_toggle(-1, _("Enable Autotile Help"), &EditorOverlayWidget::autotile_help);
+  add_string_select(-1, _("Grid Size"), &(g_config->editor_selected_snap_grid_size), snap_grid_sizes);
+  add_toggle(-1, _("Show Grid"), &(g_config->editor_render_grid));
+  add_toggle(-1, _("Grid Snapping"), &(g_config->editor_snap_to_grid));
+  add_toggle(-1, _("Render Background"), &(g_config->editor_render_background));
+  add_toggle(-1, _("Render Light"), &(Compositor::s_render_lighting));
+  add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
+  add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),

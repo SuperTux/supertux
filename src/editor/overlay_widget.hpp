@@ -40,14 +40,6 @@ class Tip;
 class EditorOverlayWidget final : public Widget
 {
 public:
-  static bool render_background;
-  static bool render_grid;
-  static bool snap_to_grid;
-  static bool autotile_mode;
-  static bool autotile_help;
-  static bool alt_pressed;
-  static int selected_snap_grid_size;
-
   static Color text_autotile_available_color;
   static Color text_autotile_active_color;
   static Color text_autotile_error_color;
@@ -74,6 +66,7 @@ public:
 
 private:
   static bool action_pressed;
+  static bool alt_pressed;
 
 private:
   void input_tile(const Vector& pos, uint32_t tile);

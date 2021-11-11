@@ -20,6 +20,7 @@
 
 #include "editor/editor.hpp"
 #include "supertux/d_scope.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
@@ -372,7 +373,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 void
 Background::draw(DrawingContext& context)
 {
-  if (Editor::is_active() && !EditorOverlayWidget::render_background)
+  if (Editor::is_active() && !g_config->editor_render_background)
     return;
 
   if (m_image.get() == nullptr)

@@ -113,6 +113,13 @@ public:
 #endif
   bool hide_editor_levelnames;
 
+  int editor_selected_snap_grid_size;
+  bool editor_render_grid;
+  bool editor_snap_to_grid;
+  bool editor_render_background;
+  bool editor_render_lighting;
+  bool editor_autotile_mode;
+  bool editor_autotile_help;
   int editor_autosave_frequency;
 
   std::string repository_url;
