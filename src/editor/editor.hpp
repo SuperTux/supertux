@@ -152,7 +152,13 @@ private:
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
   void quit_editor();
-  void save_level();
+  /**
+   * @param filename    If non-empty, save to this file instead.
+   * @param switch_file If true, the level editor will bind itself to the new
+   *                    filename; subsequest saves will by default save to the
+   *                    new filename.
+   */
+  void save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
@@ -170,6 +176,8 @@ public:
   bool m_reactivate_request;
   bool m_deactivate_request;
   bool m_save_request;
+  std::string m_save_request_filename;
+  bool m_save_request_switch;
   bool m_test_request;
   bool m_particle_editor_request;
   boost::optional<std::pair<std::string, Vector>> m_test_pos;

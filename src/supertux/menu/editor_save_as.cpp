@@ -14,9 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/particle_editor_save_as.hpp"
+#include "supertux/menu/editor_save_as.hpp"
 
-#include "editor/particle_editor.hpp"
+#include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -26,11 +26,11 @@
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
 
-ParticleEditorSaveAs::ParticleEditorSaveAs(std::function<void(bool)> callback) :
-  m_filename("/particles/custom/"),
-  m_callback(std::move(callback))
+EditorSaveAs::EditorSaveAs(bool do_switch_file) :
+  m_filename(Editor::current()->get_levelfile()),
+  m_do_switch_file(do_switch_file)
 {
-  add_label(_("Save particle as"));
+  add_label(do_switch_file ? _("Save Level as") : _("Save Copy"));
 
   add_hl();
 
@@ -42,37 +42,30 @@ ParticleEditorSaveAs::ParticleEditorSaveAs(std::function<void(bool)> callback) :
   add_entry(MNID_CANCEL, _("Cancel"));
 }
 
-ParticleEditorSaveAs::~ParticleEditorSaveAs()
+EditorSaveAs::~EditorSaveAs()
 {
-  auto editor = ParticleEditor::current();
+  auto editor = Editor::current();
   if (editor == nullptr) {
     return;
   }
-  editor->reactivate();
+  editor->m_reactivate_request = true;
 }
 
 void
-ParticleEditorSaveAs::menu_action(MenuItem& item)
+EditorSaveAs::menu_action(MenuItem& item)
 {
+  auto editor = Editor::current();
+
   switch (item.get_id())
   {
     case MNID_SAVE:
-      ParticleEditor::current()->save(m_filename);
-      // In this very case, if you clear the dialog stack before calling the
-      // callback, the callback will lose its reference to the Particle Editor,
-      // which will cause a segfault. Somehow. Somebody explain me.  ~Semphris
-      // -----------------------------------------------------------------------
-      // EDIT: It's because the menu stack is a vector of *unique pointers*, so
-      // when the stack is cleared, so is the menu (`this`), and so is the
-      // callback; so the callback becomes a dangling pointer and calling it is
-      // undefined behavior. Leaving this here for maintainers.      ~Semphris
-
-      m_callback(true);
+      editor->m_save_request = true;
+      editor->m_save_request_filename = m_filename;
+      editor->m_save_request_switch = m_do_switch_file;
       MenuManager::instance().clear_menu_stack();
       break;
 
     case MNID_CANCEL:
-      m_callback(false);
       MenuManager::instance().clear_menu_stack();
       break;
 
