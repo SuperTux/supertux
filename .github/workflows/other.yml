@@ -175,7 +175,7 @@ jobs:
           mkdir build
           cd build
           # TODO: Add -DWARNINGS=ON -DWERROR=ON (when the warnings will be fixed)
-          emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON -DEMSCRIPTEN=1 ..
+          emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON -DEMSCRIPTEN=1 -DWARNINGS=ON -DWERROR=ON ..
           rsync -aP ../data/ data/
           emmake make -j$(nproc)
           rm supertux2.html && cp template.html supertux2.html
