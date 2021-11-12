@@ -80,6 +80,8 @@ private:
       the last round of collision detections */
   bool m_last_player_contact;
 
+  int m_starting_node;
+
 private:
   Platform(const Platform&) = delete;
   Platform& operator=(const Platform&) = delete;

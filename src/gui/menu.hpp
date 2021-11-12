@@ -36,18 +36,20 @@ class ItemColorChannelOKLab;
 class ItemColorDisplay;
 class ItemControlField;
 class ItemFile;
+class ItemFloatField;
 class ItemGoTo;
 class ItemHorizontalLine;
 class ItemInactive;
 class ItemIntField;
 class ItemLabel;
-class ItemFloatField;
+class ItemPaths;
 class ItemScript;
 class ItemScriptLine;
 class ItemStringSelect;
 class ItemTextField;
 class ItemToggle;
 class MenuItem;
+class PathObject;
 
 class Menu
 {
@@ -93,6 +95,7 @@ public:
   ItemColorChannelRGBA& add_color_channel_rgba(float* input, Color channel, int id = -1,
     bool is_linear = false);
   ItemColorChannelOKLab& add_color_channel_oklab(Color* color, int channel);
+  ItemPaths& add_path_settings(const std::string& text, PathObject& target, const std::string& path_ref);
 
   void process_input(const Controller& controller);
 

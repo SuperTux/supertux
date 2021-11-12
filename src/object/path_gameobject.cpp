@@ -187,4 +187,10 @@ PathGameObject::editor_deselect()
   log_fatal << "PathGameObject::deselected" << std::endl;
 }
 
+void 
+PathGameObject::copy_into(PathGameObject& other)
+{
+  other.get_path().m_nodes = get_path().m_nodes;
+}
+
 /* EOF */

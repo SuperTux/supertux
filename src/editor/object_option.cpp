@@ -522,10 +522,11 @@ PathObjectOption::add_to_menu(Menu& menu) const
 {
 }
 
-PathRefObjectOption::PathRefObjectOption(const std::string& text, const std::string& path_ref, const std::string& key,
-                                   unsigned int flags) :
+PathRefObjectOption::PathRefObjectOption(const std::string& text, PathObject& target, const std::string& path_ref,
+                                         const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
-  m_path_ref(path_ref)
+  m_path_ref(path_ref),
+  m_target(target)
 {
 }
 
@@ -546,6 +547,7 @@ PathRefObjectOption::to_string() const
 void
 PathRefObjectOption::add_to_menu(Menu& menu) const
 {
+  menu.add_path_settings(m_text, m_target, m_path_ref);
 }
 
 SExpObjectOption::SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value,

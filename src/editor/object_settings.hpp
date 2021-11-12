@@ -26,6 +26,7 @@
 
 class Color;
 enum class Direction;
+class PathObject;
 enum class WalkMode;
 namespace worldmap {
 enum class Direction;
@@ -126,8 +127,8 @@ public:
                  unsigned int flags = 0);
   void add_path(const std::string& text, Path* path, const std::string& key = {},
                  unsigned int flags = 0);
-  void add_path_ref(const std::string& text, const std::string& path_ref, const std::string& key = {},
-                    unsigned int flags = 0);
+  void add_path_ref(const std::string& text, PathObject& target, const std::string& path_ref,
+                    const std::string& key = {}, unsigned int flags = 0);
   void add_file(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
                 const boost::optional<std::string>& default_value = {},

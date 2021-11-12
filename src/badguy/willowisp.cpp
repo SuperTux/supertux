@@ -309,7 +309,7 @@ WillOWisp::get_settings()
   result.add_float(_("Track range"), &m_track_range, "track-range", TRACK_RANGE);
   result.add_float(_("Vanish range"), &m_vanish_range, "vanish-range", VANISH_RANGE);
   result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed", FLYSPEED);
-  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+  result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
   result.add_color(_("Color"), &m_color, "color");
   if (get_path())
   {
