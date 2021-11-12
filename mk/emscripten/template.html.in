@@ -347,13 +347,15 @@
     var setResolution = null;
 
     function tryResize() {
-      if (!autofit)
+      if (!autofit || !Module)
         return;
 
       if (!setResolution)
         setResolution = Module.cwrap('set_resolution', 'void', ['number']);
 
-      setResolution(window.innerWidth, window.innerHeight);
+      try {
+        setResolution(window.innerWidth, window.innerHeight);
+      } catch(err) {}
     }
 
     window.supertux_setAutofit = function(newAutofit) {
@@ -405,20 +407,6 @@
       // so save the config file in localStorage just in case it wasn't flushed
       // to disk
       save("config");
-
-      // Other files use IndexedDB instead of localStorage
-      /*
-      var data_folder = FS.lookupPath(root);
-
-      for (var folder_name in data_folder.node.contents) {
-        if (!folder_name.match("^profile[0-9]+$"))
-          continue;
-        
-        for (var file_name in data_folder.node.contents[folder_name].contents) {
-          save(folder_name + "/" + file_name);
-        }
-      }
-      */
     }
 
     window.supertux_download = function(path) {
@@ -518,12 +506,24 @@
       });
     }
 
-    window.onresize = tryResize;
-    window.onunload = () => {
+    window.addEventListener('resize', (e) => {
+      tryResize();
+    });
+    window.addEventListener('unload', (e) => {
       Module.ccall("save_config", "void", [], []);
       supertux_saveFiles();
-    };
-
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key == "F11" || (e.key == "Enter" && e.altKey)) {
+        try {
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          } else {
+            Module.canvas.requestFullscreen();
+          }
+        } catch(e) {}
+      }
+    });
   </script>
   <script async src="supertux2.js"></script>
 </body>
