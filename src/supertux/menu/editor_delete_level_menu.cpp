@@ -31,6 +31,7 @@ EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset
   m_levelset_select_menu(levelset_select_menu)
 {
   add_label(_("Delete level"));
+  add_hl();
   for (int i = 0; i < levelset->get_num_levels(); i++)
   {
     std::string filename = levelset->get_level_filename(i);
@@ -48,12 +49,12 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
   // Cast to avoid compilation warning
   if (id >= 0 && id < static_cast<int>(m_level_full_paths.size()))
   {
-    if (LevelParser::get_level_name(m_level_full_paths[id]) == Editor::current()->get_level()->m_name)
+    if (Editor::current()->is_level_loaded() && m_level_full_paths[id] == Editor::current()->get_level()->m_filename)
       Dialog::show_message(_("You cannot delete level that you are editing!"));
     else
     {
       PHYSFS_delete(m_level_full_paths[id].c_str());
-      delete_item(id + 1);
+      delete_item(id + 2);
       m_level_full_paths.erase(m_level_full_paths.begin() + id);
       m_level_select_menu->reload_menu();
       if (!Editor::current()->is_level_loaded())
