@@ -57,8 +57,8 @@ Platform::finish_construction()
     init_path_pos(m_col.m_bbox.p1(), false);
   }
 
-  if (m_starting_node >= get_path()->get_nodes().size())
-    m_starting_node = get_path()->get_nodes().size() - 1;
+  if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+    m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
   get_walker()->jump_to_node(m_starting_node);
 
@@ -139,8 +139,8 @@ Platform::editor_update()
   if (!get_path()) return;
   if (!get_path()->is_valid()) return;
 
-  if (m_starting_node >= get_path()->get_nodes().size())
-    m_starting_node = get_path()->get_nodes().size() - 1;
+  if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+    m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
   set_pos(get_path()->get_nodes()[m_starting_node].position);
 }

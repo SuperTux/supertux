@@ -26,11 +26,7 @@ class PathsMenu final : public Menu
 public:
   PathsMenu(PathObject& target, const std::string& path_ref);
 
-  void menu_action(MenuItem& item) override;
-
-private:
-  PathObject& m_target;
-  std::string m_path_ref;
+  void menu_action(MenuItem& item) override {}
 
 private:
   PathsMenu(const PathsMenu&) = delete;

@@ -27,7 +27,7 @@
 auto on_select = [](std::string path, PathObject& target, std::string path_ref) {
   return [path, &target, path_ref] {
     auto dialog = std::make_unique<Dialog>();
-    dialog->add_default_button(_("Clone"), [path, &target, path_ref] {
+    dialog->add_default_button(_("Clone"), [path, path_ref] {
       auto* from = Editor::current()->get_sector()->get_object_by_name<PathGameObject>(path);
       auto* into = Editor::current()->get_sector()->get_object_by_name<PathGameObject>(path_ref);
       if (from && into) {
@@ -47,9 +47,7 @@ auto on_select = [](std::string path, PathObject& target, std::string path_ref) 
   };
 };
 
-PathsMenu::PathsMenu(PathObject& target, const std::string& path_ref) :
-  m_target(target),
-  m_path_ref(path_ref)
+PathsMenu::PathsMenu(PathObject& target, const std::string& path_ref)
 {
   add_label(_("Path") + " " + path_ref);
   add_hl();
@@ -63,27 +61,6 @@ PathsMenu::PathsMenu(PathObject& target, const std::string& path_ref) :
 
   add_hl();
   add_back(_("Back"));
-}
-
-void
-PathsMenu::menu_action(MenuItem& item)
-{
-  /*
-  if (item.get_id() >= 0) {
-    remove_item = item.get_id();
-    auto self  = this;
-    // confirmation dialog
-    auto dialog = std::make_unique<Dialog>();
-    dialog->set_text(_("Do you want to delete this badguy from the list?"));
-    dialog->add_default_button(_("Yes"), [self] {
-      self->remove_badguy();
-    });
-    dialog->add_cancel_button(_("No"));
-    MenuManager::instance().set_dialog(std::move(dialog));
-  } else if (item.get_id() == -3) {
-    add_badguy();
-  }
-  */
 }
 
 /* EOF */
