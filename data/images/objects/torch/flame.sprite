@@ -9,4 +9,14 @@
             "flame4.png"
             )
   )
+  (action
+    (name "greyscale")
+    (fps 16)
+    (hitbox -2 30 14 128)
+    (images "greyscale/flame1.png"
+            "greyscale/flame2.png"
+            "greyscale/flame3.png"
+            "greyscale/flame4.png"
+            )
+  )
 )

@@ -51,6 +51,7 @@ public:
   /** @} */
 
 private:
+  Color m_light_color;
   SpritePtr m_torch;
   SpritePtr m_flame;
   SpritePtr m_flame_glow;
