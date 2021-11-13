@@ -171,7 +171,7 @@ Rock::ungrab(MovingObject& object, Direction dir)
     }
     else
     {
-      physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.0f ? 0.f :
+      physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.f ? 0.f :
         player->m_dir == Direction::LEFT ? -200.f : 200.f);
       physic.set_velocity_y((dir == Direction::UP) ? -500.f : (dir == Direction::DOWN) ? 500.f :
         (glm::length(last_movement) > 1) ? -200.f : 0.f);
