@@ -162,30 +162,24 @@ Rock::ungrab(MovingObject& object, Direction dir)
   auto player = dynamic_cast<Player*> (&object);
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
-  if (player != nullptr && (player->is_swimming() || player->is_water_jumping()))
+  if (player)
   {
-    float swimangle = player->get_swimming_angle();
-    physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
-  }
-  else
-  {
-    set_group(COLGROUP_MOVING_STATIC);
-    on_ground = false;
-    if (dir == Direction::UP) {
-      physic.set_velocity(0, -500);
+    if (player->is_swimming() || player->is_water_jumping())
+    {
+      float swimangle = player->get_swimming_angle();
+      physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
     }
-    else if (dir == Direction::DOWN) {
-      physic.set_velocity(0, 500);
-    }
-    else if (glm::length(last_movement) > 1) {
-      physic.set_velocity((dir == Direction::RIGHT) ? 200.0f : -200.0f, -200.0f);
-    }
-    else {
-      physic.set_velocity(0, 0);
+    else
+    {
+      physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.f ? 0.f :
+        player->m_dir == Direction::LEFT ? -200.f : 200.f);
+      physic.set_velocity_y((dir == Direction::UP) ? -500.f : (dir == Direction::DOWN) ? 500.f :
+        (glm::length(last_movement) > 1) ? -200.f : 0.f);
     }
   }
 
-  if (!on_ungrab_script.empty()) {
+  if (!on_ungrab_script.empty())
+  {
     Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
   }
   Portable::ungrab(object, dir);
