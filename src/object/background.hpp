@@ -98,9 +98,6 @@ private:
   SurfacePtr m_image; /**< image to draw, anchored at pos */
   SurfacePtr m_image_bottom; /**< image to draw below pos+screenheight */
 
-  bool m_has_pos_x;
-  bool m_has_pos_y;
-
   Blend m_blend;
   Color m_color;
   DrawingTarget m_target;
