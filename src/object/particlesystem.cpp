@@ -23,6 +23,7 @@
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "object/camera.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "video/surface_batch.hpp"
@@ -101,7 +102,7 @@ ParticleSystem::draw(DrawingContext& context)
     pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
     if (pos.y < 0) pos.y += virtual_height;
 
-    if(!region.contains(particle->pos))
+    if(!region.contains(pos + Sector::get().get_camera().get_translation()))
       continue;
 
     //if(pos.x > virtual_width) pos.x -= virtual_width;
