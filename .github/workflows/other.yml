@@ -69,7 +69,6 @@ jobs:
             pkg install -y freetype
             pkg install -y libraqm
             pkg install -y glm
-            pkg install -y zlib
           run: |
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
