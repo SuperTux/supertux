@@ -19,7 +19,6 @@
 #include <fstream>
 #include <sstream>
 #include <limits>
-#include <physfs.h>
 
 #ifdef EMSCRIPTEN
 #include <emscripten.h>
@@ -907,11 +906,13 @@ Editor::get_status() const
 }
 
 PHYSFS_EnumerateCallbackResult
-foreach_recurse(void *data, const char *origdir, const char *fname)
+Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
 {
   auto full_path = FileSystem::join(std::string(origdir), std::string(fname));
 
-  if (PHYSFS_isDirectory(full_path.c_str()))
+  PHYSFS_Stat ps;
+  PHYSFS_stat(full_path.c_str(), &ps);
+  if (ps.filetype == PHYSFS_FILETYPE_DIRECTORY)
   {
     PHYSFS_enumerate(full_path.c_str(), foreach_recurse, data);
   }
