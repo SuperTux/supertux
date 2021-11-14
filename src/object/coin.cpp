@@ -34,7 +34,8 @@ Coin::Coin(const Vector& pos) :
   m_from_tilemap(false),
   m_add_path(false),
   m_physic(),
-  m_collect_script()
+  m_collect_script(),
+  m_starting_node(0)
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
@@ -46,7 +47,8 @@ Coin::Coin(const ReaderMapping& reader) :
   m_from_tilemap(false),
   m_add_path(false),
   m_physic(),
-  m_collect_script()
+  m_collect_script(),
+  m_starting_node(0)
 {
   reader.get("starting-node", m_starting_node, 0.f);
 
