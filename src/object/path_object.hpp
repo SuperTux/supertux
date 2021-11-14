@@ -21,6 +21,7 @@
 #include <memory>
 
 #include "object/path.hpp"
+#include "object/path_gameobject.hpp"
 #include "object/path_walker.hpp"
 #include "util/uid.hpp"
 
@@ -36,6 +37,7 @@ public:
   void init_path(const ReaderMapping& mapping, bool running_default);
   void init_path_pos(const Vector& pos, bool running = false);
 
+  PathGameObject* get_path_gameobject() const;
   Path* get_path() const;
   PathWalker* get_walker() const { return m_walker.get(); }
 

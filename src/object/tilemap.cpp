@@ -350,6 +350,17 @@ TileMap::editor_update()
 }
 
 void
+TileMap::editor_delete()
+{
+  auto path_obj = get_path_gameobject();
+  if(path_obj != nullptr)
+  {
+    path_obj->editor_delete();
+  }
+  GameObject::editor_delete();
+}
+
+void
 TileMap::draw(DrawingContext& context)
 {
   // skip draw if current opacity is 0.0

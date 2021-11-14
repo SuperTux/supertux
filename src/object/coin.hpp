@@ -45,6 +45,7 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
   virtual void editor_update() override;
+  virtual void editor_delete() override;
 
   virtual void move_to(const Vector& pos) override;
 

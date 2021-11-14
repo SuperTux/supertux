@@ -45,6 +45,7 @@ public:
   virtual std::string get_display_name() const override { return _("Platform"); }
 
   virtual void editor_update() override;
+  virtual void editor_delete() override;
 
   const Vector& get_speed() const { return m_speed; }
 

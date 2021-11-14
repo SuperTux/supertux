@@ -34,6 +34,7 @@ public:
 
   virtual void finish_construction() override;
   virtual void after_editor_set() override;
+  virtual void editor_delete() override;
 
   virtual void activate() override;
   virtual void deactivate() override;

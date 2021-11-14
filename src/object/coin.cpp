@@ -106,6 +106,17 @@ Coin::editor_update()
 }
 
 void
+Coin::editor_delete()
+{
+  auto path_obj = get_path_gameobject();
+  if(path_obj != nullptr)
+  {
+    path_obj->editor_delete();
+  }
+  GameObject::editor_delete();
+}
+
+void
 Coin::collect()
 {
   static Timer sound_timer;

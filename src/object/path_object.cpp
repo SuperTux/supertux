@@ -67,30 +67,35 @@ PathObject::init_path_pos(const Vector& pos, bool running)
   m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
 }
 
-Path*
-PathObject::get_path() const
+PathGameObject*
+PathObject::get_path_gameobject() const
 {
   if(!d_gameobject_manager)
     return nullptr;
 
-  if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
-    return &path_gameobject->get_path();
-  } else {
+  return d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
+}
+
+Path*
+PathObject::get_path() const
+{
+  auto path_gameobject = get_path_gameobject();
+  if(!path_gameobject)
+  {
     return nullptr;
   }
+  return &path_gameobject->get_path();
 }
 
 std::string
 PathObject::get_path_ref() const
 {
-  if(!d_gameobject_manager)
-    return {};
-
-  if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
-    return path_gameobject->get_name();
-  } else {
+  auto path_gameobject = get_path_gameobject();
+  if(!path_gameobject)
+  {
     return {};
   }
+  return path_gameobject->get_name();
 }
 
 void
