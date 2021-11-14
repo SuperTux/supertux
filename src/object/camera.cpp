@@ -237,6 +237,11 @@ Camera::after_editor_set()
   if (get_walker() && get_path()->is_valid()) {
     if (m_defaultmode != Mode::AUTOSCROLL) {
       get_path()->m_nodes.clear();
+      auto path_obj = get_path_gameobject();
+      if(path_obj != nullptr)
+      {
+        path_obj->editor_delete();
+      }
     }
   } else {
     if (m_defaultmode == Mode::AUTOSCROLL) {
