@@ -20,6 +20,7 @@
 #include <emscripten.h>
 #include <emscripten/html5.h>
 
+#include "addon/addon_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -30,6 +31,10 @@ extern "C" {
 void set_resolution(int w, int h);
 void save_config();
 void init_emscripten();
+void onDownloadProgress(int id, int loaded, int total);
+void onDownloadFinished(int id);
+void onDownloadError(int id);
+void onDownloadAborted(int id);
 
 EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists
 void
@@ -44,6 +49,30 @@ void
 save_config()
 {
   g_config->save();
+}
+
+void
+onDownloadProgress(int id, int loaded, int total)
+{
+  AddonManager::current()->onDownloadProgress(id, loaded, total);
+}
+
+void
+onDownloadFinished(int id)
+{
+  AddonManager::current()->onDownloadFinished(id);
+}
+
+void
+onDownloadError(int id)
+{
+  AddonManager::current()->onDownloadError(id);
+}
+
+void
+onDownloadAborted(int id)
+{
+  AddonManager::current()->onDownloadAborted(id);
 }
 
 } // extern "C"

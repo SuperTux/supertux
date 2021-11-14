@@ -92,6 +92,13 @@ public:
   TransferStatusPtr request_download(const std::string& url, const std::string& filename);
   void abort(TransferId id);
 
+//#ifdef EMSCRIPTEN
+  void onDownloadProgress(int id, int loaded, int total);
+  void onDownloadFinished(int id);
+  void onDownloadError(int id);
+  void onDownloadAborted(int id);
+//#endif
+
 private:
   Downloader(const Downloader&) = delete;
   Downloader& operator=(const Downloader&) = delete;

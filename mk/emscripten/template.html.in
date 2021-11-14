@@ -506,6 +506,43 @@
       });
     }
 
+    var onDownloadProgress, onDownloadFinished, onDownloadError, onDownloadAborted;
+    window.supertux_xhr_download = function(id, url, file) {
+      console.log('id: ' + id);
+      console.log('url: ' + url);
+      console.log('file: ' + file);
+
+      if (!onDownloadProgress)
+        onDownloadProgress = Module.cwrap('onDownloadProgress', 'void', ['number', 'number', 'number']);
+
+      if (!onDownloadFinished)
+        onDownloadFinished = Module.cwrap('onDownloadFinished', 'void', ['number']);
+
+      if (!onDownloadError)
+        onDownloadError = Module.cwrap('onDownloadError', 'void', ['number']);
+
+      if (!onDownloadAborted)
+        onDownloadAborted = Module.cwrap('onDownloadAborted', 'void', ['number']);
+
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+          var data = new Uint8Array(xhr.response);
+          var stream = FS.open(file, 'w+');
+          FS.write(stream, data, 0, data.length, 0);
+          FS.close(stream);
+          onDownloadFinished(id);
+        }
+      };
+      xhr.responseType = "arraybuffer";
+      xhr.open("GET", url);
+      xhr.send();
+
+      xhr.addEventListener('progress', (e) => { onDownloadProgress(id, e.loaded, e.total); });
+      xhr.addEventListener('error', (e) => { onDownloadError(id); });
+      xhr.addEventListener('abort', (e) => { onDownloadAborted(id); })
+    }
+
     window.addEventListener('resize', (e) => {
       tryResize();
     });

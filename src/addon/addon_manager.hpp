@@ -84,6 +84,13 @@ public:
   void update();
   void check_for_langpack_updates();
 
+//#ifdef EMSCRIPTEN
+  void onDownloadProgress(int id, int loaded, int total);
+  void onDownloadFinished(int id);
+  void onDownloadError(int id);
+  void onDownloadAborted(int id);
+//#endif
+
 private:
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
