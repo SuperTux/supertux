@@ -143,10 +143,6 @@ public:
       curl_easy_setopt(m_handle, CURLOPT_PROGRESSFUNCTION, &Transfer::on_progress_wrap);
     }
 #else
-    /*EM_ASM({
-      supertux_xhr_download($0, $1, $2);
-    }, m_id, url.c_str(), FileSystem::join(std::string(PHYSFS_getWriteDir()), outfile).c_str());*/
-
     // Avoid code injection from funny callers
     auto url_clean = StringUtil::replace_all(StringUtil::replace_all(url, "\\", "\\\\"), "'", "\\'");
     auto path_clean = StringUtil::replace_all(StringUtil::replace_all(FileSystem::join(std::string(PHYSFS_getWriteDir()), outfile), "\\", "\\\\"), "'", "\\'");
