@@ -139,10 +139,7 @@ Config::load()
   } else { log_warning << "!!!!" << std::endl; }
 
   if (is_christmas()) {
-    if (!config_mapping.get("christmas", christmas_mode))
-    {
-      christmas_mode = true;
-    }
+    config_mapping.get("christmas", christmas_mode, true);
   }
   config_mapping.get("transitions_enabled", transitions_enabled);
   config_mapping.get("locale", locale);
