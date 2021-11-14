@@ -147,6 +147,8 @@ public:
   void undo();
   void redo();
 
+  void pack_addon();
+
 private:
   void set_sector(Sector* sector);
   void set_level(std::unique_ptr<Level> level, bool reset = true);
