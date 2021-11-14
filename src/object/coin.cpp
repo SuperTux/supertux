@@ -48,6 +48,8 @@ Coin::Coin(const ReaderMapping& reader) :
   m_physic(),
   m_collect_script()
 {
+  reader.get("starting-node", m_starting_node, 0.f);
+
   init_path(reader, true);
 
   reader.get("collect-script", m_collect_script, "");
@@ -275,6 +277,7 @@ Coin::get_settings()
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
+    result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
   }
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");

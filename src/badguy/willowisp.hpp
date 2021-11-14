@@ -97,6 +97,8 @@ private:
 
   Color m_color;
 
+  int m_starting_node;
+
 private:
   WillOWisp(const WillOWisp&) = delete;
   WillOWisp& operator=(const WillOWisp&) = delete;

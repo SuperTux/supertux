@@ -42,7 +42,7 @@ auto on_select = [](std::string path, PathObject& target, std::string path_ref) 
       target.editor_set_path_by_ref(path);
     });
     dialog->add_cancel_button(_("Cancel"));
-    dialog->set_text("Do you wish to clone the path to edit it separately,\nor do you want to bind both paths together\nos that any edit on one edits the other?");
+    dialog->set_text("Do you wish to clone the path to edit it separately,\nor do you want to bind both paths together\nso that any edit on one edits the other?");
     MenuManager::instance().set_dialog(std::move(dialog));
   };
 };
