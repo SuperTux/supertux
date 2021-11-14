@@ -221,10 +221,10 @@ ObjectSettings::add_path(const std::string& text, Path* path, const std::string&
 }
 
 void
-ObjectSettings::add_path_ref(const std::string& text, const std::string& path_ref, const std::string& key,
-                             unsigned int flags)
+ObjectSettings::add_path_ref(const std::string& text, PathObject& target, const std::string& path_ref,
+                             const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<PathRefObjectOption>(text, path_ref, key, flags));
+  add_option(std::make_unique<PathRefObjectOption>(text, target, path_ref, key, flags));
 
   if (!path_ref.empty()) {
     m_options.erase(std::remove_if(m_options.begin(), m_options.end(),

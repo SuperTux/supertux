@@ -54,6 +54,8 @@ public:
 
   Path& get_path() { return *m_path; }
 
+  void copy_into(PathGameObject& other);
+
 private:
   std::unique_ptr<Path> m_path;
   PathStyle m_style;

@@ -257,6 +257,8 @@ private:
   int m_new_offset_y;
   bool m_add_path;
 
+  int m_starting_node;
+
 private:
   TileMap(const TileMap&) = delete;
   TileMap& operator=(const TileMap&) = delete;

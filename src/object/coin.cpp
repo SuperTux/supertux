@@ -34,7 +34,8 @@ Coin::Coin(const Vector& pos) :
   m_from_tilemap(false),
   m_add_path(false),
   m_physic(),
-  m_collect_script()
+  m_collect_script(),
+  m_starting_node(0)
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
@@ -46,8 +47,11 @@ Coin::Coin(const ReaderMapping& reader) :
   m_from_tilemap(false),
   m_add_path(false),
   m_physic(),
-  m_collect_script()
+  m_collect_script(),
+  m_starting_node(0)
 {
+  reader.get("starting-node", m_starting_node, 0.f);
+
   init_path(reader, true);
 
   reader.get("collect-script", m_collect_script, "");
@@ -268,13 +272,14 @@ Coin::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+  result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
+    result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
   }
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");

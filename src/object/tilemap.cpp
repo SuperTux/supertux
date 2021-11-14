@@ -64,7 +64,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_new_size_y(0),
   m_new_offset_x(0),
   m_new_offset_y(0),
-  m_add_path(false)
+  m_add_path(false),
+  m_starting_node(0)
 {
 }
 
@@ -98,7 +99,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_new_size_y(0),
   m_new_offset_x(0),
   m_new_offset_y(0),
-  m_add_path(false)
+  m_add_path(false),
+  m_starting_node(0)
 {
   assert(m_tileset);
 
@@ -127,6 +129,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
       m_speed_y = 1;
     }
   }
+
+  reader.get("starting-node", m_starting_node, 0.f);
 
   init_path(reader, false);
 
@@ -236,7 +240,8 @@ TileMap::get_settings()
                   static_cast<int>(DrawingTarget::COLORMAP),
                   "draw-target");
 
-  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+  result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
+  result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
