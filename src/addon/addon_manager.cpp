@@ -785,6 +785,7 @@ AddonManager::check_for_langpack_updates()
   }
 }
 
+#ifdef EMSCRIPTEN
 void
 AddonManager::onDownloadProgress(int id, int loaded, int total)
 {
@@ -808,5 +809,6 @@ AddonManager::onDownloadAborted(int id)
 {
   m_downloader.onDownloadAborted(id);
 }
+#endif
 
 /* EOF */

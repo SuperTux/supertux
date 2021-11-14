@@ -37,6 +37,7 @@
 
 namespace {
 
+// This one is necessary for a download function
 size_t my_curl_string_append(void* ptr, size_t size, size_t nmemb, void* userdata)
 {
   std::string& s = *static_cast<std::string*>(userdata);
@@ -46,8 +47,6 @@ size_t my_curl_string_append(void* ptr, size_t size, size_t nmemb, void* userdat
   return size * nmemb;
 }
 
-// The function above isn't useful either for Emscripten, I just need to
-// disable this one to avoid warnings about unused functions
 #ifndef EMSCRIPTEN
 size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata)
 {
@@ -232,16 +231,20 @@ private:
 };
 
 Downloader::Downloader() :
+#ifndef EMSCRIPTEN
   m_multi_handle(),
+#endif
   m_transfers(),
   m_next_transfer_id(1)
 {
+#ifndef EMSCRIPTEN
   curl_global_init(CURL_GLOBAL_ALL);
   m_multi_handle = curl_multi_init();
   if (!m_multi_handle)
   {
     throw std::runtime_error("curl_multi_init() failed");
   }
+#endif
 }
 
 Downloader::~Downloader()
@@ -267,6 +270,7 @@ Downloader::download(const std::string& url,
 {
   log_info << "Downloading " << url << std::endl;
 
+#ifndef EMSCRIPTEN
   char error_buffer[CURL_ERROR_SIZE+1];
 
   CURL* curl_handle = curl_easy_init();
@@ -287,6 +291,13 @@ Downloader::download(const std::string& url,
     std::string why = error_buffer[0] ? error_buffer : "unhandled error";
     throw std::runtime_error(url + ": download failed: " + why);
   }
+#else
+  log_warning << "Direct download not yet implemented for Emscripten" << std::endl;
+  // FUTURE MAINTAINERS: If this needs to be implemented, take a look at
+  // emscripten_wget(), emscripten_async_wget(), emscripten_wget_data() and
+  // emscripten_async_wget_data():
+  // https://emscripten.org/docs/api_reference/emscripten.h.html#c.emscripten_wget
+#endif
 }
 
 std::string
@@ -438,6 +449,7 @@ Downloader::request_download(const std::string& url, const std::string& outfile)
   return m_transfers.back()->get_status();
 }
 
+#ifdef EMSCRIPTEN
 void
 Downloader::onDownloadProgress(int id, int loaded, int total)
 {
@@ -539,6 +551,6 @@ Downloader::onDownloadAborted(int id)
     }
   }
 }
-
+#endif
 
 /* EOF */

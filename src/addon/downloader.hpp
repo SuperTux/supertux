@@ -18,8 +18,10 @@
 #ifndef HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
 #define HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
 
+#ifndef EMSCRIPTEN
 #include <curl/curl.h>
 #include <curl/easy.h>
+#endif
 #include <functional>
 #include <memory>
 #include <string>
@@ -69,7 +71,9 @@ class Transfer;
 class Downloader final
 {
 private:
+#ifndef EMSCRIPTEN
   CURLM* m_multi_handle;
+#endif
   std::vector<std::unique_ptr<Transfer> > m_transfers;
   int m_next_transfer_id;
 
@@ -92,12 +96,12 @@ public:
   TransferStatusPtr request_download(const std::string& url, const std::string& filename);
   void abort(TransferId id);
 
-//#ifdef EMSCRIPTEN
+#ifdef EMSCRIPTEN
   void onDownloadProgress(int id, int loaded, int total);
   void onDownloadFinished(int id);
   void onDownloadError(int id);
   void onDownloadAborted(int id);
-//#endif
+#endif
 
 private:
   Downloader(const Downloader&) = delete;
