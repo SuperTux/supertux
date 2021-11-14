@@ -18,8 +18,6 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 
-#ifndef __EMSCRIPTEN__
-
 #include <memory>
 #include <string>
 #include <vector>
@@ -86,6 +84,13 @@ public:
   void update();
   void check_for_langpack_updates();
 
+#ifdef EMSCRIPTEN
+  void onDownloadProgress(int id, int loaded, int total);
+  void onDownloadFinished(int id);
+  void onDownloadError(int id);
+  void onDownloadAborted(int id);
+#endif
+
 private:
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
@@ -103,8 +108,6 @@ private:
   AddonManager(const AddonManager&) = delete;
   AddonManager& operator=(const AddonManager&) = delete;
 };
-
-#endif
 
 #endif
 

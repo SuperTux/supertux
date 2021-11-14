@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_MENU_HPP
 
-#ifndef __EMSCRIPTEN__
-
 #include "gui/menu.hpp"
 
 class Addon;
@@ -59,8 +57,6 @@ private:
   AddonMenu(const AddonMenu&) = delete;
   AddonMenu& operator=(const AddonMenu&) = delete;
 };
-
-#endif
 
 #endif
 

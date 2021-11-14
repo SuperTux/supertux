@@ -15,8 +15,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __EMSCRIPTEN__
-
 #include "addon/addon_manager.hpp"
 
 #include <physfs.h>
@@ -787,6 +785,30 @@ AddonManager::check_for_langpack_updates()
   }
 }
 
+#ifdef EMSCRIPTEN
+void
+AddonManager::onDownloadProgress(int id, int loaded, int total)
+{
+  m_downloader.onDownloadProgress(id, loaded, total);
+}
+
+void
+AddonManager::onDownloadFinished(int id)
+{
+  m_downloader.onDownloadFinished(id);
+}
+
+void
+AddonManager::onDownloadError(int id)
+{
+  m_downloader.onDownloadError(id);
+}
+
+void
+AddonManager::onDownloadAborted(int id)
+{
+  m_downloader.onDownloadAborted(id);
+}
 #endif
 
 /* EOF */
