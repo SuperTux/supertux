@@ -69,6 +69,7 @@ jobs:
             pkg install -y freetype
             pkg install -y libraqm
             pkg install -y glm
+            pkg install -y zlib
           run: |
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
@@ -164,6 +165,7 @@ jobs:
           ./vcpkg/vcpkg install libogg:wasm32-emscripten
           ./vcpkg/vcpkg install libvorbis:wasm32-emscripten
           ./vcpkg/vcpkg install glm:wasm32-emscripten
+          ./vcpkg/vcpkg install zlib:wasm32-emscripten
       - name: Patch SDL_ttf
         working-directory: external/SDL_ttf
         run: git apply ../../mk/emscripten/SDL_ttf.patch

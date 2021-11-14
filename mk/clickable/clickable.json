@@ -17,7 +17,8 @@
     "libglew-dev",
     "libharfbuzz-dev",
     "libfribidi-dev",
-    "libglm-dev"
+    "libglm-dev",
+    "zlib1g-dev"
   ],
   "install_lib": [
     "/usr/lib/${ARCH_TRIPLET}/libogg.so*",
@@ -39,7 +40,8 @@
     "/usr/lib/${ARCH_TRIPLET}/libharfbuzz.so*",
     "/usr/lib/${ARCH_TRIPLET}/libfribidi.so*",
     "/usr/lib/${ARCH_TRIPLET}/libasound.so*",
-    "/usr/lib/${ARCH_TRIPLET}/libsndio.so*"
+    "/usr/lib/${ARCH_TRIPLET}/libsndio.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libz*"
   ],
   "build_args": [
     "-DUBUNTU_TOUCH=ON",

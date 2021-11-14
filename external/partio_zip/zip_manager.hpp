@@ -1,3 +1,5 @@
+// SOURCE: https://github.com/wdas/partio/blob/main/src/lib/io/ZIP.h
+
 /*
 
 NOTE: This file was edited for purposes of compatibility with SuperTux.

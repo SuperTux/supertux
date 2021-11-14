@@ -1,3 +1,5 @@
+// SOURCE: https://github.com/wdas/partio/blob/main/src/lib/io/ZIP.cpp
+
 /*
 PARTIO SOFTWARE
 Copyright 2010 Disney Enterprises, Inc. All rights reserved

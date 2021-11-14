@@ -92,7 +92,8 @@ jobs:
             libraqm-dev \
             libglew-dev \
             libcurl4-openssl-dev \
-            libglm-dev
+            libglm-dev \
+            zlib1g-dev
       - name: Install 32-bit linux dependencies
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 }}
         run: |
@@ -120,7 +121,8 @@ jobs:
             libcurl4-openssl-dev:i386 \
             libharfbuzz-dev:i386 \
             libfribidi-dev:i386 \
-            libglm-dev
+            libglm-dev \
+            zlib1g-dev
           # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew-dev_1.13.0-2_i386.deb
@@ -128,7 +130,7 @@ jobs:
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           brew install boost cmake googletest bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
-                freetype harfbuzz fribidi glib gtk-doc glbinding libraqm glm
+                freetype harfbuzz fribidi glib gtk-doc glbinding libraqm glm zlib
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework /Library/Frameworks/Mono.framework-disabled
       - name: Set compiler (gcc)
@@ -279,6 +281,7 @@ jobs:
           vcpkg install sdl2:$Env:ARCH-windows
           vcpkg install sdl2-image[libjpeg-turbo]:$Env:ARCH-windows
           vcpkg install glm:$Env:ARCH-windows
+          vcpkg install zlib:$Env:ARCH-windows
       - name: Configure bulid
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
