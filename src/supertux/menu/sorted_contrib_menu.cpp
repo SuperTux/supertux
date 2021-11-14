@@ -25,6 +25,7 @@
 #include "supertux/menu/contrib_levelset_menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/item_action.hpp"
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, std::string contrib_type, std::string title, std::string empty_message) : 
   m_world_folders()
 { 
@@ -41,14 +42,18 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         m_world_folders.push_back(worlds[i]->get_basedir());
         std::ostringstream title_stream;
         title_stream << "[" << worlds[i]->get_title() << "]";
-        add_entry(world_id++, title_stream.str());
+        std::ostringstream desc;
+        desc << worlds[i]->get_description();
+        add_entry(world_id++, title_stream.str()).set_help(desc.str());
       }
       else if (worlds[i]->is_worldmap())
       {
         m_world_folders.push_back(worlds[i]->get_basedir());
         std::ostringstream title_stream;
         title_stream << worlds[i]->get_title();
-        add_entry(world_id++,title_stream.str());
+        std::ostringstream desc;
+        desc << worlds[i]->get_description();
+        add_entry(world_id++, title_stream.str()).set_help(desc.str());
       }
     }
   }
