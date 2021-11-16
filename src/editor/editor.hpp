@@ -21,6 +21,8 @@
 #include <vector>
 #include <string>
 
+#include <physfs.h>
+
 #include "editor/overlay_widget.hpp"
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
@@ -48,6 +50,10 @@ class Editor final : public Screen,
 {
 public:
   static bool is_active();
+
+  static PHYSFS_EnumerateCallbackResult foreach_recurse(void *data,
+                                                        const char *origdir,
+                                                        const char *fname);
 
 private:
   static bool is_autosave_file(const std::string& filename) {
@@ -146,6 +152,8 @@ public:
 
   void undo();
   void redo();
+
+  void pack_addon();
 
 private:
   void set_sector(Sector* sector);

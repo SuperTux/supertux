@@ -16,6 +16,8 @@
 
 #include "supertux/menu/editor_menu.hpp"
 
+#include <physfs.h>
+
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
@@ -56,8 +58,10 @@ EditorMenu::EditorMenu()
   {
     add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
   }
-  
+
   add_entry(MNID_SHARE, _("Share Level"));
+
+  add_entry(MNID_PACK, _("Package Add-On"));
 
   add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
 
@@ -67,7 +71,7 @@ EditorMenu::EditorMenu()
   }
 
   add_entry(MNID_LEVELSETSEL, _("Edit Another World"));
-  
+
   add_hl();
 
   add_string_select(-1, _("Grid Size"), &(g_config->editor_selected_snap_grid_size), snap_grid_sizes);
@@ -130,6 +134,13 @@ EditorMenu::menu_action(MenuItem& item)
         MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(false));
       });
     }
+      break;
+
+    case MNID_PACK:
+      Dialog::show_confirmation(_("Do you want to package this world as an add-on?"), [] {
+        Editor::current()->pack_addon();
+        FileSystem::open_path(FileSystem::join(PHYSFS_getWriteDir(), "addons"));
+      });
       break;
 
     case MNID_OPEN_DIR:

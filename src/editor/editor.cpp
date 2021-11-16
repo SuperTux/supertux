@@ -16,13 +16,16 @@
 
 #include "editor/editor.hpp"
 
+#include <fstream>
+#include <sstream>
 #include <limits>
-#include <physfs.h>
 
 #ifdef EMSCRIPTEN
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
+
+#include "zip_manager.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
@@ -60,6 +63,7 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
@@ -899,6 +903,77 @@ Editor::get_status() const
     }
   }
   return status;
+}
+
+PHYSFS_EnumerateCallbackResult
+Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
+{
+  auto full_path = FileSystem::join(std::string(origdir), std::string(fname));
+
+  PHYSFS_Stat ps;
+  PHYSFS_stat(full_path.c_str(), &ps);
+  if (ps.filetype == PHYSFS_FILETYPE_DIRECTORY)
+  {
+    PHYSFS_enumerate(full_path.c_str(), foreach_recurse, data);
+  }
+  else
+  {
+    auto* zip = static_cast<Partio::ZipFileWriter*>(data);
+    auto os = zip->Add_File(full_path);
+    auto filename = FileSystem::join(std::string(PHYSFS_getWriteDir()), full_path);
+    *os << std::ifstream(filename).rdbuf();
+  }
+
+  return PHYSFS_ENUM_OK;
+}
+
+void
+Editor::pack_addon()
+{
+  auto id = FileSystem::basename(get_world()->get_basedir());
+
+  int version = 0;
+  try
+  {
+    Partio::ZipFileReader zipold(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
+    auto info_file = zipold.Get_File(id + ".nfo");
+    if (info_file)
+    {
+      auto info_stream = ReaderDocument::from_stream(*info_file);
+      boost::optional<ReaderMapping> rm;
+      auto a = info_stream.get_root().get_mapping();
+      a.get("version", version);
+    }
+  }
+  catch(const std::exception& e)
+  {
+    log_warning << e.what() << std::endl;
+  }
+  version++;
+
+  Partio::ZipFileWriter zip(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
+  PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
+
+  std::stringstream ss;
+  Writer info(ss);
+
+  info.start_list("supertux-addoninfo");
+  {
+    info.write("id", id);
+    info.write("version", version);
+
+    if (get_world()->is_levelset())
+      info.write("type", "levelset");
+    else if (get_world()->is_worldmap())
+      info.write("type", "worldmap");
+
+    info.write("title", get_world()->get_title());
+    info.write("author", get_level()->get_author());
+    info.write("license", get_level()->get_license());
+  }
+  info.end_list("supertux-addoninfo");
+
+  *zip.Add_File(id + ".nfo") << ss.rdbuf();
 }
 
 /* EOF */

@@ -391,6 +391,8 @@ if (NOT EMSCRIPTEN)
   endif(CURL_FOUND)
 endif(NOT EMSCRIPTEN)
 
+find_package(ZLIB REQUIRED)
+
 #find_package(ICONV REQUIRED)
 #include_directories(SYSTEM ${ICONV_INCLUDE_DIR})
 #link_libraries(${ICONV_LIBRARY})
@@ -615,6 +617,7 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/include/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL_SavePNG/)
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/partio_zip/)
 
 # Discord SDK
 # Before removing messages, please check with the community if no one minds that the Discord SDK gets bundled with ST.
@@ -671,6 +674,10 @@ file(GLOB SAVEPNG_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/SDL_
 add_library(savepng STATIC ${SAVEPNG_SOURCES_CXX})
 target_include_directories(savepng SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS})
 target_link_libraries(savepng PUBLIC ${PNG_LIBRARIES})
+
+add_library(partio_zip_lib STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/partio_zip/zip_manager.cpp)
+target_include_directories(partio_zip_lib PUBLIC ${ZLIB_INCLUDE_DIRS})
+target_link_libraries(partio_zip_lib PUBLIC ${ZLIB_LIBRARIES})
 
 if(HAVE_OPENGL)
   file(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
@@ -946,6 +953,8 @@ if(VCPKG_BUILD AND NOT EMSCRIPTEN)
   target_include_directories(supertux2_lib PUBLIC ${CURL_INCLUDE_DIRS})
 endif()
 
+target_include_directories(partio_zip_lib PUBLIC external/partio_zip/)
+
 if (NOT EMSCRIPTEN)
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
@@ -973,6 +982,7 @@ target_link_libraries(supertux2_lib PUBLIC sqstdlib_lib)
 target_link_libraries(supertux2_lib PUBLIC tinygettext_lib)
 target_link_libraries(supertux2_lib PUBLIC sexp)
 target_link_libraries(supertux2_lib PUBLIC savepng)
+target_link_libraries(supertux2_lib PUBLIC partio_zip_lib)
 if(ENABLE_DISCORD)
 target_link_libraries(supertux2_lib PUBLIC discord-rpc)
 endif(ENABLE_DISCORD)
