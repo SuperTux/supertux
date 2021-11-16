@@ -41,7 +41,7 @@
     "/usr/lib/${ARCH_TRIPLET}/libfribidi.so*",
     "/usr/lib/${ARCH_TRIPLET}/libasound.so*",
     "/usr/lib/${ARCH_TRIPLET}/libsndio.so*",
-    "/usr/lib/${ARCH_TRIPLET}/libz*"
+    "/lib/${ARCH_TRIPLET}/libz.so*"
   ],
   "build_args": [
     "-DUBUNTU_TOUCH=ON",
