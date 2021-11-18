@@ -2,14 +2,11 @@
 #include "gui/menu_list.hpp"
 #include "gui/menu_manager.hpp"
 
-ListMenu::ListMenu(std::vector<std::string>* items_, int* selected_) : 
-  items(items_), 
-  selected(selected_)
+ListMenu::ListMenu(const std::vector<std::string>& items, int* selected) : 
+  m_selected(selected)
 {
-  int i = 0;
-  for(auto& item : *items) {
-    add_entry(i, item);
-    i++;
+  for(uint i = 0; i < items.size(); i++) {
+    add_entry(i, items[i]);
   }
   add_hl();
   add_back("OK");
@@ -17,7 +14,9 @@ ListMenu::ListMenu(std::vector<std::string>* items_, int* selected_) :
 
 void
 ListMenu::menu_action(MenuItem& item) {
-  *selected = item.get_id();
+  if(m_selected) {
+    *m_selected = item.get_id();
+  }
   MenuManager::instance().pop_menu();
 }
 

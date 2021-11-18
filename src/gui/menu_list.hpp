@@ -6,13 +6,12 @@
 class ListMenu final : public Menu 
 {
 public:
-    ListMenu(std::vector<std::string>* items_, int* selected_);
+  ListMenu(const std::vector<std::string>& items, int* selected_);
 
-    void menu_action(MenuItem& item);
+  void menu_action(MenuItem& item);
 
 private:
-    std::vector<std::string>* items;
-    int* selected;
+  int* m_selected;
 
 private:
   // non-copyable footer

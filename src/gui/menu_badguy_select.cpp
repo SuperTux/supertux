@@ -140,7 +140,7 @@ BadguySelectMenu::menu_action(MenuItem& item)
     dialog->add_cancel_button(_("No"));
     MenuManager::instance().set_dialog(std::move(dialog));
   } else if (item.get_id() == -2) {
-    MenuManager::instance().push_menu(std::make_unique<ListMenu>(&all_badguys, &selected));
+    MenuManager::instance().push_menu(std::make_unique<ListMenu>(all_badguys, &selected));
   } else if (item.get_id() == -3) {
     add_badguy();
   }
