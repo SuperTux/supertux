@@ -56,7 +56,7 @@ public:
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
-  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const CollisionObject* ignore_object) const;
+  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const CollisionObject* ignore_object, bool ignore_objects) const;
 
   std::vector<CollisionObject*> get_nearby_objects(const Vector& center, float max_distance) const;
 

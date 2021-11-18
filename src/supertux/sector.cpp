@@ -441,9 +441,9 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
-Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const
+Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object, bool ignore_objects) const
 {
-  return m_collision_system->free_line_of_sight(line_start, line_end,
+  return m_collision_system->free_line_of_sight(line_start, line_end, ignore_objects,
                                                 ignore_object ? ignore_object->get_collision_object() : nullptr);
 }
 

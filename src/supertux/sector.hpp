@@ -113,7 +113,7 @@ public:
       This includes badguys and players. */
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
 
-  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = nullptr) const;
+  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = nullptr, bool ignore_objects = false) const;
   bool can_see_player(const Vector& eye) const;
 
   Player* get_nearest_player (const Vector& pos) const;
