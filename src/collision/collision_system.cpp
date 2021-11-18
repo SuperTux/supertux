@@ -691,7 +691,7 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
 }
 
 bool
-CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, const CollisionObject* ignore_object, bool ignore_objects) const
+CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const
 {
   using namespace collision;
 
