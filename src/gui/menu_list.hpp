@@ -24,7 +24,7 @@ class ListMenu final : public Menu
 public:
   ListMenu(const std::vector<std::string>& items, int* selected);
 
-  void menu_action(MenuItem& item);
+  void menu_action(MenuItem& item) override;
 
 private:
   int* m_selected;

@@ -21,8 +21,8 @@
 ListMenu::ListMenu(const std::vector<std::string>& items, int* selected) : 
   m_selected(selected)
 {
-  for(uint i = 0; i < items.size(); i++) {
-    add_entry(i, items[i]);
+  for(size_t i = 0; i < items.size(); i++) {
+    add_entry(static_cast<int>(i), items[i]);
   }
   add_hl();
   add_back("OK");
