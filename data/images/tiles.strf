@@ -1691,13 +1691,6 @@
     (image "tiles/retro_snow/bkgd.png")
   )
   (tile
-    ; dupe of tile 93, this one will be removed.
-    (id 101)
-    (images
-      (region "tiles/background/bkgd.png" 0 0 32 32)
-    )
-  )
-  (tile
     (id 102)
     (images
       "objects/bonus_block/full-0.png"
