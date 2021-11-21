@@ -432,7 +432,7 @@ OptionsMenu::OptionsMenu(bool complete) :
 
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
   add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
-    .set_help("Automatically pause the game when the window loses focus");
+    .set_help(_("Automatically pause the game when the window loses focus"));
   add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
 
   add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
