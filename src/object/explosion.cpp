@@ -84,7 +84,7 @@ Explosion::explode()
     auto near_objects = Sector::get().get_nearby_objects (center, 128.0 * 32.0);
 
     for (auto& obj: near_objects) {
-      if(!Sector::current()->free_line_of_sight(center, obj->get_pos()))
+      if(!Sector::current()->free_line_of_sight(center, obj->get_pos(), true))
         continue;
 
       Vector obj_vector = obj->get_bbox ().get_middle ();
