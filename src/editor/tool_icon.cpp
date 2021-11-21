@@ -18,7 +18,6 @@
 
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
-#include "editor/editor.hpp"
 
 ToolIcon::ToolIcon(const std::string& icon) :
   m_pos(0, 0),
@@ -46,11 +45,6 @@ ToolIcon::draw(DrawingContext& context)
 void
 ToolIcon::next_mode()
 {
-  if (Editor::current()->get_tileselect_input_type() == EditorToolboxWidget::InputType::OBJECT)
-  {
-    m_mode = 0;
-    return;
-  }
   m_mode++;
   if (m_mode >= m_surf_count) {
     m_mode = 0;
