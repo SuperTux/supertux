@@ -50,7 +50,7 @@ EndSequence::start()
   isrunning = true;
   isdone = false;
 
-  Player& tux = Sector::get().get_player();
+  Player& tux = *(Sector::get().get_players()[0]); // FIXME: Do this with all players
   end_sequence_controller.reset(new CodeController());
   tux.set_controller(end_sequence_controller.get());
   tux.set_speedlimit(230); //MAX_WALK_XM

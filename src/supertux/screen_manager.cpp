@@ -249,13 +249,20 @@ ScreenManager::draw_player_pos(DrawingContext& context)
   if (auto session = GameSession::current())
   {
     Sector& sector = session->get_current_sector();
-    auto pos = sector.get_player().get_pos();
-    auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
 
-    context.color().draw_text(
-      Resources::small_font, pos_text,
-      Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
-             BORDER_Y + 60), ALIGN_LEFT, LAYER_HUD);
+    float height = 0;
+    for (const auto* p : sector.get_players())
+    {
+      auto pos = p->get_pos();
+      auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
+
+      context.color().draw_text(
+        Resources::small_font, pos_text,
+        Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
+              BORDER_Y + 60 + height), ALIGN_LEFT, LAYER_HUD);
+
+      height += 30;
+    }
   }
 }
 

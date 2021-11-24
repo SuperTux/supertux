@@ -133,7 +133,8 @@ GameSessionRecorder::reset_demo_controller()
 
   auto game_session = GameSession::current();
   assert(game_session != nullptr);
-  Player& player = game_session->get_current_sector().get_player();
+  // FIXME: How is this going to be handled?
+  Player& player = *(game_session->get_current_sector().get_players()[0]);
   player.set_controller(m_demo_controller.get());
 }
 

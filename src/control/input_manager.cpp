@@ -25,12 +25,13 @@
 
 InputManager::InputManager(KeyboardConfig& keyboard_config,
                            JoystickConfig& joystick_config) :
-  controller(new Controller),
+  m_controllers(),
   m_use_game_controller(joystick_config.m_use_game_controller),
   keyboard_manager(new KeyboardManager(this, keyboard_config)),
   joystick_manager(new JoystickManager(this, joystick_config)),
   game_controller_manager(new GameControllerManager(this))
 {
+  m_controllers.push_back(std::make_unique<Controller>());
 }
 
 InputManager::~InputManager()
@@ -38,15 +39,15 @@ InputManager::~InputManager()
 }
 
 const Controller&
-InputManager::get_controller() const
+InputManager::get_controller(int player_id) const
 {
-  return *controller;
+  return *m_controllers[player_id];
 }
 
 Controller&
-InputManager::get_controller()
+InputManager::get_controller(int player_id)
 {
-  return *controller;
+  return *m_controllers[player_id];
 }
 
 void
@@ -58,13 +59,15 @@ InputManager::use_game_controller(bool v)
 void
 InputManager::update()
 {
-  controller->update();
+  for (auto& controller : m_controllers)
+    controller->update();
 }
 
 void
 InputManager::reset()
 {
-  controller->reset();
+  for (auto& controller : m_controllers)
+    controller->reset();
 }
 
 void
@@ -132,4 +135,15 @@ InputManager::process_event(const SDL_Event& event)
   }
 }
 
+void
+InputManager::push_controller()
+{
+  m_controllers.push_back(std::make_unique<Controller>());
+}
+
+void
+InputManager::pop_controller()
+{
+  m_controllers.pop_back();
+}
 /* EOF */

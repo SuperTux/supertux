@@ -54,11 +54,16 @@ public:
   void use_game_controller(bool v);
   bool use_game_controller() const { return m_use_game_controller; }
 
-  const Controller& get_controller() const;
-  Controller& get_controller();
+  const Controller& get_controller(int player_id = 0) const;
+  Controller& get_controller(int player_id = 0);
+
+  int get_num_players() const { return static_cast<int>(m_controllers.size()); }
+
+  void push_controller();
+  void pop_controller();
 
 private:
-  std::unique_ptr<Controller> controller;
+  std::vector<std::unique_ptr<Controller>> m_controllers;
 
 public:
   bool& m_use_game_controller;

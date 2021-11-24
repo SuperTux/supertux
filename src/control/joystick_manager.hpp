@@ -20,6 +20,9 @@
 
 #include <SDL.h>
 #include <vector>
+#include <unordered_map>
+
+#include <iostream> // FIXME: Delete
 
 #include "control/controller.hpp"
 
@@ -40,12 +43,14 @@ public:
 
   void bind_next_event_to(Control id);
 
-  void set_joy_controls(Control id, bool value);
+  void set_joy_controls(SDL_JoystickID joystick, Control id, bool value);
 
   void on_joystick_added(int joystick_index);
   void on_joystick_removed(int instance_id);
 
   int get_num_joysticks() const { return static_cast<int>(joysticks.size()); }
+
+  std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
 
 private:
   InputManager* parent;
@@ -64,7 +69,7 @@ private:
 
   int wait_for_joystick;
 
-  std::vector<SDL_Joystick*> joysticks;
+  std::unordered_map<SDL_Joystick*, int> joysticks;
 
 private:
   JoystickManager(const JoystickManager&) = delete;

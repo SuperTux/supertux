@@ -23,9 +23,11 @@
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 
+// FIXME: Everything here affects only the first player
+
 CheatMenu::CheatMenu()
 {
-  auto& player = Sector::get().get_player();
+  auto& player = *(Sector::get().get_players()[0]);
 
   add_label(_("Cheats"));
   add_hl();
@@ -49,7 +51,7 @@ CheatMenu::menu_action(MenuItem& item)
 {
   if (!Sector::current()) return;
 
-  auto& player = Sector::get().get_player();
+  auto& player = *(Sector::get().get_players()[0]);
 
   switch (item.get_id())
   {

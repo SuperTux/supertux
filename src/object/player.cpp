@@ -133,10 +133,11 @@ bool no_water = true;
 
 } // namespace
 
-Player::Player(PlayerStatus& player_status, const std::string& name_) :
+Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
   ExposedObject<Player, scripting::Player>(this),
+  m_id(player_id),
   m_deactivated(false),
-  m_controller(&InputManager::current()->get_controller()),
+  m_controller(&InputManager::current()->get_controller(player_id)),
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_duck(false),

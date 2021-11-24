@@ -149,7 +149,7 @@ private:
   bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
 
   int m_coins_at_start; /** How many coins does the player have at the start */
-  BonusType m_bonus_at_start; /** What bonuses does the player have at the start */
+  std::unordered_map<int, BonusType> m_bonuses_at_start; /** What bonuses does the player have at the start */
   int m_max_fire_bullets_at_start; /** How many fire bullets does the player have */
   int m_max_ice_bullets_at_start; /** How many ice bullets does the player have */
 

@@ -48,7 +48,7 @@ void
 EndSequenceWalkLeft::running(float dt_sec)
 {
   EndSequence::running(dt_sec);
-  Player& tux = Sector::get().get_player();
+  Player& tux = *Sector::get().get_players()[0]; // FIXME: Do this with all players
 
   if (tux_may_walk) {
     end_sequence_controller->press(Control::LEFT);

@@ -86,7 +86,12 @@ Sector::Sector(Level& parent) :
   if (savegame && !m_level.m_suppress_pause_menu && !savegame->is_title_screen()) {
     add<PlayerStatusHUD>(player_status);
   }
-  add<Player>(player_status, "Tux");
+
+  for (int id = 0; id < InputManager::current()->get_num_players(); id++)
+  {
+    add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+  }
+
   add<DisplayEffect>("Effect");
   add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
@@ -239,7 +244,7 @@ Sector::activate(const Vector& player_pos)
   }
 
   { //FIXME: This is a really dirty workaround for this strange camera jump
-    Player& player = get_player();
+    Player& player = *(get_players()[0]);
     Camera& camera = get_camera();
     player.move(player.get_pos()+Vector(-32, 0));
     camera.reset(player.get_pos());
@@ -713,10 +718,21 @@ Sector::get_camera() const
   return get_singleton_by_type<Camera>();
 }
 
-Player&
-Sector::get_player() const
+std::vector<Player*>
+Sector::get_players() const
 {
-  return *static_cast<Player*>(get_objects_by_type_index(typeid(Player)).at(0));
+  auto players_raw = get_objects_by_type<Player>();
+
+  std::vector<Player*> players;
+
+  auto it = players_raw.begin();
+  while (it != players_raw.end())
+  {
+    players.push_back(&(*it));
+    it++;
+  }
+
+  return players;
 }
 
 DisplayEffect&

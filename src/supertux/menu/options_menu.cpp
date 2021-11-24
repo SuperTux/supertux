@@ -409,6 +409,9 @@ OptionsMenu::OptionsMenu(bool complete) :
 #ifndef UBUNTU_TOUCH
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
     .set_help(_("Configure joystick control-action mappings"));
+
+  add_submenu(_("Multiplayer settings"), MenuStorage::MULTIPLAYER_MENU)
+    .set_help(_("Configure settings specific to multiplayer"));
 #endif
 
   add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)

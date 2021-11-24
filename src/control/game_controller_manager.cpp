@@ -34,15 +34,26 @@ GameControllerManager::~GameControllerManager()
 {
   for (const auto& con : m_game_controllers)
   {
-    SDL_GameControllerClose(con);
+    SDL_GameControllerClose(con.first);
   }
 }
 
 void
 GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
 {
+  int player_id;
+
+  {
+    auto it = m_game_controllers.find(SDL_GameControllerFromInstanceID(ev.which));
+
+    if (it == m_game_controllers.end() || it->second < 0)
+      return;
+
+    player_id = it->second;
+  }
+
   //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.state) << std::endl;
-  Controller& controller = m_parent->get_controller();
+  Controller& controller = m_parent->get_controller(player_id);
   auto set_control = [this, &controller](Control control, Uint8 value)
   {
     m_button_state[static_cast<int>(control)] = (value != 0);
@@ -116,11 +127,22 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
 void
 GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
 {
+  int player_id;
+
+  {
+    auto it = m_game_controllers.find(SDL_GameControllerFromInstanceID(ev.which));
+
+    if (it == m_game_controllers.end() || it->second < 0)
+      return;
+
+    player_id = it->second;
+  }
+
   // FIXME: buttons and axis are fighting for control ownership, need
   // to OR the values together
 
   //log_info << "axis event: " << static_cast<int>(ev.axis) << " " << ev.value << std::endl;
-  Controller& controller = m_parent->get_controller();
+  Controller& controller = m_parent->get_controller(player_id);
   auto set_control = [this, &controller](Control control, bool value)
   {
     m_stick_state[static_cast<int>(control)] = value;
@@ -192,7 +214,7 @@ GameControllerManager::on_controller_added(int joystick_index)
     }
     else
     {
-      m_game_controllers.push_back(game_controller);
+      m_game_controllers[game_controller] = -1;
     }
   }
 }
@@ -200,19 +222,23 @@ GameControllerManager::on_controller_added(int joystick_index)
 void
 GameControllerManager::on_controller_removed(int instance_id)
 {
+  std::vector<SDL_GameController*> erase_us;
+
   for (auto& controller : m_game_controllers)
   {
-    auto joy = SDL_GameControllerGetJoystick(controller);
+    auto joy = SDL_GameControllerGetJoystick(controller.first);
     SDL_JoystickID id = SDL_JoystickInstanceID(joy);
     if (id == instance_id)
     {
-      SDL_GameControllerClose(controller);
-      controller = nullptr;
+      SDL_GameControllerClose(controller.first);
+      erase_us.push_back(controller.first);
     }
   }
 
-  m_game_controllers.erase(std::remove(m_game_controllers.begin(), m_game_controllers.end(), nullptr),
-                           m_game_controllers.end());
+  for (const auto& j : erase_us)
+  {
+    m_game_controllers.erase(j);
+  }
 }
 
 /* EOF */

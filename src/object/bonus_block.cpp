@@ -266,7 +266,7 @@ BonusBlock::try_open(Player* player)
     return;
 
   if (player == nullptr)
-    player = &Sector::get().get_player();
+    player = Sector::get().get_nearest_player(m_col.m_bbox);
 
   if (player == nullptr)
     return;
@@ -402,7 +402,7 @@ BonusBlock::try_drop(Player *player)
   }
 
   if (player == nullptr)
-    player = &Sector::get().get_player();
+    player = Sector::get().get_nearest_player(m_col.m_bbox);
 
   if (player == nullptr)
     return;

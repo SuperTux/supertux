@@ -17,8 +17,9 @@
 #ifndef HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
 #define HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
 
-#include <vector>
 #include <array>
+#include <vector>
+#include <unordered_map>
 
 #include "control/controller.hpp"
 
@@ -40,10 +41,12 @@ public:
   void on_controller_added(int joystick_index);
   void on_controller_removed(int instance_id);
 
+  std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
+
 private:
   InputManager* m_parent;
   int m_deadzone;
-  std::vector<SDL_GameController*> m_game_controllers;
+  std::unordered_map<SDL_GameController*, int> m_game_controllers;
   std::array<bool, static_cast<int>(Control::CONTROLCOUNT)> m_stick_state;
   std::array<bool, static_cast<int>(Control::CONTROLCOUNT)> m_button_state;
 

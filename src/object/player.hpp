@@ -64,7 +64,7 @@ private:
   };
 
 public:
-  Player(PlayerStatus& player_status, const std::string& name);
+  Player(PlayerStatus& player_status, const std::string& name, int player_id);
   ~Player() override;
 
   virtual void update(float dt_sec) override;
@@ -74,7 +74,9 @@ public:
   virtual void collision_tile(uint32_t tile_attributes) override;
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
-  virtual bool is_singleton() const override { return true; }
+  virtual bool is_singleton() const override { return false; }
+
+  int get_id() const { return m_id; }
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
@@ -252,6 +254,7 @@ private:
   void ungrab_object(GameObject* gameobject = nullptr);
 
 private:
+  int m_id;
   bool m_deactivated;
 
   const Controller* m_controller;

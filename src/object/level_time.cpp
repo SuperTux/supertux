@@ -74,14 +74,21 @@ LevelTime::update(float dt_sec)
     if (GameSession::current())
       GameSession::current()->set_reset_point("", Vector());
 
-    if (time_left <= -5 || !Sector::get().get_player().get_coins())
+    if (time_left <= -5 || !Sector::get().get_players()[0]->get_coins())
     {
-      Sector::get().get_player().kill(true);
+      for (auto& p : Sector::get().get_players())
+      {
+        p->kill(true);
+      }
       stop();
     }
+
     if (prev_time != static_cast<int>(floorf(time_left*5)))
     {
-      Sector::get().get_player().add_coins(-1);
+      for (auto& p : Sector::get().get_players())
+      {
+        p->add_coins(-1);
+      }
     }
   }
 }
