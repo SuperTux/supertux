@@ -23,8 +23,6 @@
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 
-// FIXME: Everything here affects only the first player
-
 CheatMenu::CheatMenu()
 {
   auto& player = *(Sector::get().get_players()[0]);
@@ -51,44 +49,66 @@ CheatMenu::menu_action(MenuItem& item)
 {
   if (!Sector::current()) return;
 
-  auto& player = *(Sector::get().get_players()[0]);
+  const auto& players = Sector::get().get_players();
 
   switch (item.get_id())
   {
     case MNID_GROW:
-      player.set_bonus(GROWUP_BONUS);
+      for (auto* player : players)
+        player->set_bonus(GROWUP_BONUS);
       break;
 
     case MNID_FIRE:
-      player.set_bonus(FIRE_BONUS);
-      player.get_status().max_fire_bullets = 64;
+      for (auto* player : players)
+      {
+        player->set_bonus(FIRE_BONUS);
+        player->get_status().max_fire_bullets[player->get_id()] = 64;
+      }
       break;
 
     case MNID_ICE:
-      player.set_bonus(ICE_BONUS);
-      player.get_status().max_ice_bullets = 64;
+      for (auto* player : players)
+      {
+        player->set_bonus(ICE_BONUS);
+        player->get_status().max_ice_bullets[player->get_id()] = 64;
+      }
       break;
 
     case MNID_AIR:
-      player.set_bonus(AIR_BONUS);
-      player.get_status().max_air_time = 64;
+      for (auto* player : players)
+      {
+        player->set_bonus(AIR_BONUS);
+        player->get_status().max_air_time[player->get_id()] = 64;
+      }
       break;
 
     case MNID_EARTH:
-      player.set_bonus(EARTH_BONUS);
-      player.get_status().max_earth_time = 64;
+      for (auto* player : players)
+      {
+        player->set_bonus(EARTH_BONUS);
+        player->get_status().max_earth_time[player->get_id()] = 64;
+      }
       break;
 
     case MNID_STAR:
-      player.make_invincible();
+      for (auto* player : players)
+      {
+        player->make_invincible();
+      }
       break;
 
     case MNID_SHRINK:
-      player.kill(false);
+      for (auto* player : players)
+      {
+        player->kill(false);
+      }
       break;
 
     case MNID_KILL:
-      player.kill(true);
+      for (auto* player : players)
+      {
+        player->kill(true);
+      }
       break;
 
     case MNID_FINISH:
@@ -101,13 +121,16 @@ CheatMenu::menu_action(MenuItem& item)
     case MNID_GHOST:
       if (GameSession::current())
       {
-        if (player.get_ghost_mode())
+        for (auto* player : players)
         {
-          scripting::mortal();
-        }
-        else
-        {
-          scripting::ghost();
+          if (player->get_ghost_mode())
+          {
+            scripting::mortal();
+          }
+          else
+          {
+            scripting::ghost();
+          }
         }
       }
       break;

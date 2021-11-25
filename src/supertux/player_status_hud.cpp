@@ -33,7 +33,8 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
   displayed_coins_frame(0),
   coin_surface(Surface::from_file("images/engine/hud/coins-0.png")),
   fire_surface(Surface::from_file("images/objects/bullets/fire-hud.png")),
-  ice_surface(Surface::from_file("images/objects/bullets/ice-hud.png"))
+  ice_surface(Surface::from_file("images/objects/bullets/ice-hud.png")),
+  m_target_player(0)
 {
 }
 
@@ -51,8 +52,6 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
-  int player_id = 0;
-
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
       (std::abs(displayed_coins - m_player_status.coins) > 100)) {
     displayed_coins = m_player_status.coins;
@@ -77,23 +76,25 @@ PlayerStatusHUD::draw(DrawingContext& context)
     {
       context.color().draw_surface(coin_surface,
                                   Vector(static_cast<float>(context.get_width()) - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
-                                          BORDER_Y + 1.0f + (Resources::fixed_font->get_text_height(coins_text) + 5) * static_cast<float>(player_id)),
+                                          BORDER_Y + 1.0f + (Resources::fixed_font->get_text_height(coins_text) + 5) * static_cast<float>(m_target_player)),
                                   LAYER_HUD);
     }
 
     context.color().draw_text(Resources::fixed_font,
                               coins_text,
                               Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                    BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5.0f) * static_cast<float>(player_id)),
+                                    BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5.0f) * static_cast<float>(m_target_player)),
                               ALIGN_LEFT,
                               LAYER_HUD,
                               PlayerStatusHUD::text_color);
   }
   std::string ammo_text;
 
-  if (m_player_status.bonus == FIRE_BONUS) {
+  // FIXME: Only shows the first player's stats
 
-    ammo_text = std::to_string(m_player_status.max_fire_bullets);
+  if (m_player_status.bonus[m_target_player] == FIRE_BONUS) {
+
+    ammo_text = std::to_string(m_player_status.max_fire_bullets[m_target_player]);
 
     if (fire_surface) {
       context.color().draw_surface(fire_surface,
@@ -105,7 +106,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                               + 1.0f
                                               + (Resources::fixed_font->get_text_height(coins_text) + 5)
                                               + (Resources::fixed_font->get_text_height(ammo_text) + 5)
-                                              * static_cast<float>(player_id)),
+                                              * static_cast<float>(m_target_player)),
                                    LAYER_HUD);
     }
 
@@ -117,15 +118,15 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                      BORDER_Y
                                          + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)
                                          + (Resources::fixed_font->get_text_height(ammo_text) + 5.0f)
-                                         * static_cast<float>(player_id)),
+                                         * static_cast<float>(m_target_player)),
                               ALIGN_LEFT,
                               LAYER_HUD,
                               PlayerStatusHUD::text_color);
   }
 
-  if (m_player_status.bonus == ICE_BONUS) {
+  if (m_player_status.bonus[m_target_player] == ICE_BONUS) {
 
-    ammo_text = std::to_string(m_player_status.max_ice_bullets);
+    ammo_text = std::to_string(m_player_status.max_ice_bullets[m_target_player]);
 
     if (ice_surface) {
       context.color().draw_surface(ice_surface,
@@ -137,7 +138,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                               + 1.0f
                                               + (Resources::fixed_font->get_text_height(coins_text) + 5)
                                               + (Resources::fixed_font->get_text_height(ammo_text) + 5)
-                                              * static_cast<float>(player_id)),
+                                              * static_cast<float>(m_target_player)),
                                    LAYER_HUD);
     }
 
@@ -149,7 +150,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                      BORDER_Y
                                          + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)
                                          + (Resources::fixed_font->get_text_height(ammo_text) + 5.0f)
-                                         * static_cast<float>(player_id)),
+                                         * static_cast<float>(m_target_player)),
                               ALIGN_LEFT,
                               LAYER_HUD,
                               PlayerStatusHUD::text_color);

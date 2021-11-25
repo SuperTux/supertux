@@ -25,7 +25,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_) :
+Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player) :
+  m_player(player),
   physic(),
   life_count(3),
   sprite(),

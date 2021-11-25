@@ -21,6 +21,8 @@
 #include "control/input_manager.hpp"
 #include "control/joystick_config.hpp"
 #include "gui/menu_manager.hpp"
+#include "object/player.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 
 JoystickManager::JoystickManager(InputManager* parent_,
@@ -58,19 +60,25 @@ JoystickManager::on_joystick_added(int joystick_index)
   else
   {
     joysticks[joystick] = -1;
+
+    if (min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
+      min_joybuttons = SDL_JoystickNumButtons(joystick);
+
+    if (SDL_JoystickNumButtons(joystick) > max_joybuttons)
+      max_joybuttons = SDL_JoystickNumButtons(joystick);
+
+    if (SDL_JoystickNumAxes(joystick) > max_joyaxis)
+      max_joyaxis = SDL_JoystickNumAxes(joystick);
+
+    if (SDL_JoystickNumHats(joystick) > max_joyhats)
+      max_joyhats = SDL_JoystickNumHats(joystick);
+
+    if (!parent->m_use_game_controller) // TODO: Boolean config for automatic player creation/removal?
+    {
+      parent->push_controller();
+      joysticks[joystick] = parent->get_num_players() - 1;
+    }
   }
-
-  if (min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
-    min_joybuttons = SDL_JoystickNumButtons(joystick);
-
-  if (SDL_JoystickNumButtons(joystick) > max_joybuttons)
-    max_joybuttons = SDL_JoystickNumButtons(joystick);
-
-  if (SDL_JoystickNumAxes(joystick) > max_joyaxis)
-    max_joyaxis = SDL_JoystickNumAxes(joystick);
-
-  if (SDL_JoystickNumHats(joystick) > max_joyhats)
-    max_joyhats = SDL_JoystickNumHats(joystick);
 }
 
 void
@@ -80,19 +88,43 @@ JoystickManager::on_joystick_removed(int instance_id)
 
   std::vector<SDL_Joystick*> erase_us;
 
-  for (auto& joy : joysticks)
+  auto it = std::find_if(joysticks.begin(), joysticks.end(), [instance_id] (decltype(joysticks)::const_reference pair) {
+    return SDL_JoystickInstanceID(pair.first) == instance_id;
+  });
+
+  if (it != joysticks.end())
   {
-    SDL_JoystickID id = SDL_JoystickInstanceID(joy.first);
-    if (id == instance_id)
+    SDL_JoystickClose(it->first);
+
+    auto deleted_player_id = it->second;
+
+    joysticks.erase(it);
+
+    if (!parent->m_use_game_controller && deleted_player_id != 0) // TODO: Boolean config for automatic player creation/removal?
     {
-      SDL_JoystickClose(joy.first);
-      erase_us.push_back(joy.first);
+      for (auto& joy : joysticks)
+        if (joy.second > deleted_player_id)
+          joy.second--;
+
+      auto players = Sector::current()->get_objects_by_type<Player>();
+      auto it_players = players.begin();
+
+      while (it_players != players.end())
+      {
+        if (it_players->get_id() > deleted_player_id)
+          it_players->set_id(it_players->get_id() - 1);
+
+        it_players++;
+      }
+
+      parent->pop_controller();
     }
   }
-
-  for (const auto& j : erase_us)
+  else
   {
-    joysticks.erase(j);
+    log_debug << "Joystick was unplugged but was not initially detected: "
+              << SDL_JoystickName(SDL_JoystickFromInstanceID(instance_id))
+              << std::endl;
   }
 }
 

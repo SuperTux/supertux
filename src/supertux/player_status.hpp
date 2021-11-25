@@ -18,9 +18,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_PLAYER_STATUS_HPP
 #define HEADER_SUPERTUX_SUPERTUX_PLAYER_STATUS_HPP
 
+#include <algorithm>
 #include <memory>
 #include <string>
-#include <algorithm>
+#include <vector>
 
 class DrawingContext;
 class ReaderMapping;
@@ -38,8 +39,8 @@ enum BonusType {
 class PlayerStatus final
 {
 public:
-  PlayerStatus();
-  void reset();
+  PlayerStatus(int num_players);
+  void reset(int num_players);
   void add_coins(int count, bool play_sound = true);
   void take_checkpoint_coins();
 
@@ -48,16 +49,21 @@ public:
 
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
-  std::string get_bonus_prefix() const;/**Returns the prefix of the animations that should be displayed*/
-  bool has_hat_sprite() const { return bonus > GROWUP_BONUS; }
+  std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
+  bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
+
+  void add_player();
+  void remove_player(int player_id);
 
 public:
-  int  coins;
-  BonusType bonus;
-  int max_fire_bullets; /**< maximum number of fire bullets in play */
-  int max_ice_bullets; /**< maximum number of ice bullets in play */
-  int max_air_time; /**<determines maximum number of seconds player can float in air */
-  int max_earth_time; /**< determines maximum number of seconds player can turn to stone */
+  int m_num_players;
+
+  int coins;
+  std::vector<BonusType> bonus;
+  std::vector<int> max_fire_bullets; /**< maximum number of fire bullets in play */
+  std::vector<int> max_ice_bullets; /**< maximum number of ice bullets in play */
+  std::vector<int> max_air_time; /**<determines maximum number of seconds player can float in air */
+  std::vector<int> max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */

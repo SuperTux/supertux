@@ -64,7 +64,7 @@ Sector* Sector::s_current = nullptr;
 
 namespace {
 
-PlayerStatus dummy_player_status;
+PlayerStatus dummy_player_status(1);
 
 } // namespace
 
@@ -89,6 +89,9 @@ Sector::Sector(Level& parent) :
 
   for (int id = 0; id < InputManager::current()->get_num_players(); id++)
   {
+    if (id > 0 && !savegame)
+      dummy_player_status.add_player();
+
     add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
   }
 
@@ -399,9 +402,62 @@ Sector::draw(DrawingContext& context)
 {
   BIND_SECTOR(*this);
 
-  Camera& camera = get_camera();
+#if 0
+  context.push_transform();
+
+  Rect original_clip = context.get_viewport();
+  context.push_transform();
+  {
+    Camera& camera = get_camera();
+    context.set_translation(camera.get_translation());
+    context.scale(camera.get_current_scale());
+
+    get_singleton_by_type<PlayerStatusHUD>().set_target_player(0);
+
+    Rect clip = original_clip;
+    clip.left = (clip.left + clip.right) / 2 + 16;
+    context.set_viewport(clip);
+
+    GameObjectManager::draw(context);
+
+    if (g_debug.show_collision_rects) {
+      m_collision_system->draw(context);
+    }
+  }
+  context.set_viewport(original_clip);
+  context.pop_transform();
 
   context.push_transform();
+  {
+    Camera& camera = get_camera();
+    context.set_translation(camera.get_translation());
+    context.scale(camera.get_current_scale());
+
+    get_singleton_by_type<PlayerStatusHUD>().set_target_player(1);
+
+    Rect clip = original_clip;
+    clip.right = (clip.left + clip.right) / 2 - 16;
+    context.set_viewport(clip);
+
+    GameObjectManager::draw(context);
+
+    if (g_debug.show_collision_rects) {
+      m_collision_system->draw(context);
+    }
+  }
+  context.set_viewport(original_clip);
+  context.pop_transform();
+
+  context.pop_transform();
+
+  Rect midline = original_clip;
+  midline.right = (original_clip.left + original_clip.right) / 2 - 16;
+  midline.left = (original_clip.left + original_clip.right) / 2 + 16;
+  context.color().draw_filled_rect(midline, Color::BLACK, 99999);
+#else
+  context.push_transform();
+
+  Camera& camera = get_camera();
   context.set_translation(camera.get_translation());
   context.scale(camera.get_current_scale());
 
@@ -412,6 +468,7 @@ Sector::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+#endif
 
   if (m_level.m_is_in_cutscene && !m_level.m_skip_cutscene)
   {

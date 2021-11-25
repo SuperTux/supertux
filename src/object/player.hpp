@@ -77,6 +77,7 @@ public:
   virtual bool is_singleton() const override { return false; }
 
   int get_id() const { return m_id; }
+  void set_id(int id) { m_id = id; }
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 

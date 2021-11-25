@@ -32,6 +32,7 @@
 
 #include <fmt/format.h>
 
+// TODO: Display all players on the intro scene
 LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status) :
   m_level(level),
   m_best_level_statistics(best_level_statistics),
@@ -43,14 +44,14 @@ LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statisti
   m_player_status(player_status)
 {
   //Show appropriate tux animation for player status.
-  if (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
+  if (m_player_status.bonus[0] == FIRE_BONUS && g_config->christmas_mode)
   {
     m_player_sprite->set_action("big-walk-right");
     m_power_sprite->set_action("santa-walk-right");
   }
   else
   {
-    m_player_sprite->set_action(m_player_status.get_bonus_prefix() + "-walk-right");
+    m_player_sprite->set_action(m_player_status.get_bonus_prefix(0) + "-walk-right");
   }
   m_player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
 
@@ -70,8 +71,8 @@ LevelIntro::setup()
 void
 LevelIntro::update(float dt_sec, const Controller& controller)
 {
-  auto bonus_prefix = m_player_status.get_bonus_prefix();
-  if (m_player_status.bonus == FIRE_BONUS && g_config->christmas_mode)
+  auto bonus_prefix = m_player_status.get_bonus_prefix(0);
+  if (m_player_status.bonus[0] == FIRE_BONUS && g_config->christmas_mode)
   {
     bonus_prefix = "big";
   }
@@ -144,7 +145,7 @@ LevelIntro::draw(Compositor& compositor)
     m_player_sprite->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite->get_current_hitbox_width()) / 2,
                                                 static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
 
-    if (m_player_status.bonus > GROWUP_BONUS) {
+    if (m_player_status.bonus[0] > GROWUP_BONUS) {
       m_power_sprite->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite->get_current_hitbox_width()) / 2,
                                                   static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
     }

@@ -42,6 +42,7 @@ public:
   virtual bool is_singleton() const override { return true; }
 
   void reset();
+  void set_target_player(int target_player) { m_target_player = target_player; }
 
 private:
   PlayerStatus& m_player_status;
@@ -50,6 +51,7 @@ private:
   SurfacePtr coin_surface;
   SurfacePtr fire_surface;
   SurfacePtr ice_surface;
+  int m_target_player;
 
 private:
   PlayerStatusHUD(const PlayerStatusHUD&) = delete;

@@ -67,29 +67,37 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_GROW:
-      status.bonus = GROWUP_BONUS;
+      for (auto& bonus : status.bonus)
+        bonus = GROWUP_BONUS;
       break;
 
     case MNID_FIRE:
-      status.bonus = FIRE_BONUS;
-      status.max_fire_bullets++;
+      for (auto& bonus : status.bonus)
+        bonus = FIRE_BONUS;
+      for (auto& max_fire_bullets : status.max_fire_bullets)
+        max_fire_bullets++;
       break;
 
     case MNID_ICE:
-      status.bonus = ICE_BONUS;
-      status.max_ice_bullets++;
+      for (auto& bonus : status.bonus)
+        bonus = ICE_BONUS;
+      for (auto& max_ice_bullets : status.max_ice_bullets)
+        max_ice_bullets++;
       break;
 
     case MNID_AIR:
-      status.bonus = AIR_BONUS;
+      for (auto& bonus : status.bonus)
+        bonus = AIR_BONUS;
       break;
 
     case MNID_EARTH:
-      status.bonus = EARTH_BONUS;
+      for (auto& bonus : status.bonus)
+        bonus = EARTH_BONUS;
       break;
 
     case MNID_SHRINK:
-      status.bonus = NO_BONUS;
+      for (auto& bonus : status.bonus)
+        bonus = NO_BONUS;
       break;
 
     case MNID_GHOST:

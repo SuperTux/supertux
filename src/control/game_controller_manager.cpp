@@ -19,6 +19,8 @@
 #include <algorithm>
 
 #include "control/input_manager.hpp"
+#include "object/player.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 
 GameControllerManager::GameControllerManager(InputManager* parent) :
@@ -215,6 +217,12 @@ GameControllerManager::on_controller_added(int joystick_index)
     else
     {
       m_game_controllers[game_controller] = -1;
+
+      if (m_parent->m_use_game_controller) // TODO: Boolean config for automatic player creation/removal?
+      {
+        m_parent->push_controller();
+        m_game_controllers[game_controller] = m_parent->get_num_players() - 1;
+      }
     }
   }
 }
@@ -224,20 +232,45 @@ GameControllerManager::on_controller_removed(int instance_id)
 {
   std::vector<SDL_GameController*> erase_us;
 
-  for (auto& controller : m_game_controllers)
+  auto it = std::find_if(m_game_controllers.begin(), m_game_controllers.end(), [instance_id] (decltype(m_game_controllers)::const_reference pair) {
+    return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(pair.first)) == instance_id;
+  });
+
+  if (it != m_game_controllers.end())
   {
-    auto joy = SDL_GameControllerGetJoystick(controller.first);
-    SDL_JoystickID id = SDL_JoystickInstanceID(joy);
-    if (id == instance_id)
+    SDL_GameControllerClose(it->first);
+
+    auto deleted_player_id = it->second;
+
+    m_game_controllers.erase(it);
+
+    if (m_parent->m_use_game_controller && deleted_player_id != 0) // TODO: Boolean config for automatic player creation/removal?
     {
-      SDL_GameControllerClose(controller.first);
-      erase_us.push_back(controller.first);
+      for (auto& controller : m_game_controllers)
+        if (controller.second > deleted_player_id)
+          controller.second--;
+
+      auto players = Sector::current()->get_objects_by_type<Player>();
+      auto it_players = players.begin();
+
+      while (it_players != players.end())
+      {
+        if (it_players->get_id() == deleted_player_id)
+          it_players->remove_me();
+        else if (it_players->get_id() > deleted_player_id)
+          it_players->set_id(it_players->get_id() - 1);
+
+        it_players++;
+      }
+
+      m_parent->pop_controller();
     }
   }
-
-  for (const auto& j : erase_us)
+  else
   {
-    m_game_controllers.erase(j);
+    log_debug << "Controller was unplugged but was not initially detected: "
+              << SDL_JoystickName(SDL_JoystickFromInstanceID(instance_id))
+              << std::endl;
   }
 }
 

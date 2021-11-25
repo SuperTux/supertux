@@ -476,9 +476,9 @@ Player::update(float dt_sec)
     if (m_backflip_timer.started()) m_physic.set_velocity_x(100.0f * static_cast<float>(m_backflip_direction));
     //rotate sprite during flip
     m_sprite->set_angle(m_sprite->get_angle() + (m_dir == Direction::LEFT ? 1 : -1) * dt_sec * (360.0f / 0.5f));
-    if (m_player_status.has_hat_sprite() && !m_swimming && !m_water_jump)
+    if (m_player_status.has_hat_sprite(get_id()) && !m_swimming && !m_water_jump)
       m_powersprite->set_angle(m_sprite->get_angle());
-    if (m_player_status.bonus == EARTH_BONUS)
+    if (m_player_status.bonus[get_id()] == EARTH_BONUS)
       m_lightsprite->set_angle(m_sprite->get_angle());
   }
 
@@ -514,8 +514,8 @@ Player::update(float dt_sec)
       if (m_deactivated)
         do_standup(false);
     }
-    if (m_player_status.bonus == AIR_BONUS)
-      m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
+    if (m_player_status.bonus[get_id()] == AIR_BONUS)
+      m_ability_time = static_cast<float>(m_player_status.max_air_time[get_id()]) * GLIDE_TIME_PER_FLOWER;
   }
 
   if (m_second_growup_sound_timer.check())
@@ -751,7 +751,7 @@ Player::set_on_ground(bool flag)
 bool
 Player::is_big() const
 {
-  if (m_player_status.bonus == NO_BONUS)
+  if (m_player_status.bonus[get_id()] == NO_BONUS)
     return false;
 
   return true;
@@ -817,9 +817,9 @@ Player::handle_horizontal_input()
       ax = dirsign * RUN_ACCELERATION_X;
     }
     // limit speed
-    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0)) {
+    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus[get_id()] == AIR_BONUS) ? 1 : 0)) {
       ax = std::min(ax, -OVERSPEED_DECELERATION);
-    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus == AIR_BONUS) ? 1 : 0)) {
+    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus[get_id()] == AIR_BONUS) ? 1 : 0)) {
       ax = std::max(ax, OVERSPEED_DECELERATION);
     }
   }
@@ -939,7 +939,7 @@ Player::do_backflip() {
 
   m_backflip_direction = (m_dir == Direction::LEFT)?(+1):(-1);
   m_backflipping = true;
-  do_jump((m_player_status.bonus == AIR_BONUS) ? -720.0f : -580.0f);
+  do_jump((m_player_status.bonus[get_id()] == AIR_BONUS) ? -720.0f : -580.0f);
   SoundManager::current()->play("sounds/flip.wav", get_pos());
   m_backflip_timer.start(TUX_BACKFLIP_TIME);
 }
@@ -1008,7 +1008,7 @@ Player::handle_vertical_input()
     } else {
       // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
-      if (m_player_status.bonus == AIR_BONUS)
+      if (m_player_status.bonus[get_id()] == AIR_BONUS)
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
       else
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
@@ -1016,7 +1016,7 @@ Player::handle_vertical_input()
     //Stop the coyote timer only after calling do_jump, because do_jump also checks for the timer
     m_coyote_timer.stop();
     // airflower glide only when holding jump key
-  } else  if (m_controller->hold(Control::JUMP) && m_player_status.bonus == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
+  } else  if (m_controller->hold(Control::JUMP) && m_player_status.bonus[get_id()] == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
       if (m_ability_time > 0 && !m_ability_timer.started())
         m_ability_timer.start(m_ability_time);
       else if (m_ability_timer.started()) {
@@ -1038,7 +1038,7 @@ Player::handle_vertical_input()
       m_jumping = false;
       early_jump_apex();
     }
-    if (m_player_status.bonus == AIR_BONUS && m_ability_timer.started()){
+    if (m_player_status.bonus[get_id()] == AIR_BONUS && m_ability_timer.started()){
       m_ability_time = m_ability_timer.get_timeleft();
       m_ability_timer.stop();
     }
@@ -1065,7 +1065,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
   {
     SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav", get_pos());
-    m_physic.set_velocity_x(m_player_status.bonus == AIR_BONUS ?
+    m_physic.set_velocity_x(m_player_status.bonus[get_id()] == AIR_BONUS ?
       m_on_left_wall ? 480.f : -480.f : m_on_left_wall ? 380.f : -380.f);
     do_jump(-520.f);
   }
@@ -1136,12 +1136,12 @@ Player::handle_input()
   bool just_grabbed = try_grab();
 
   /* Shoot! */
-  auto active_bullets = Sector::get().get_object_count<Bullet>();
-  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS) && !m_grabbed_object) {
-    if ((m_player_status.bonus == FIRE_BONUS &&
-      active_bullets < m_player_status.max_fire_bullets) ||
-      (m_player_status.bonus == ICE_BONUS &&
-      active_bullets < m_player_status.max_ice_bullets))
+  auto active_bullets = Sector::get().get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
+  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus[get_id()] == FIRE_BONUS || m_player_status.bonus[get_id()] == ICE_BONUS) && !just_grabbed) {
+    if ((m_player_status.bonus[get_id()] == FIRE_BONUS &&
+      active_bullets < m_player_status.max_fire_bullets[get_id()]) ||
+      (m_player_status.bonus[get_id()] == ICE_BONUS &&
+      active_bullets < m_player_status.max_ice_bullets[get_id()]))
     {
       Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
       Direction swim_dir;
@@ -1154,16 +1154,16 @@ Player::handle_input()
       Sector::get().add<Bullet>(pos, (m_swimming || m_water_jump) ?
         m_physic.get_velocity() + (Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) :
         Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f),
-        m_dir, m_player_status.bonus);
+        m_dir, m_player_status.bonus[get_id()], *this);
       SoundManager::current()->play("sounds/shoot.wav", get_pos());
       m_shooting_timer.start(SHOOTING_TIME);
     }
   }
 
   /* Turn to Stone */
-  if (m_controller->pressed(Control::DOWN) && m_player_status.bonus == EARTH_BONUS && !m_cooldown_timer.started() && on_ground() && !m_swimming) {
+  if (m_controller->pressed(Control::DOWN) && m_player_status.bonus[get_id()] == EARTH_BONUS && !m_cooldown_timer.started() && on_ground() && !m_swimming) {
     if (m_controller->hold(Control::ACTION) && !m_ability_timer.started()) {
-      m_ability_timer.start(static_cast<float>(m_player_status.max_earth_time) * STONE_TIME_PER_FLOWER);
+      m_ability_timer.start(static_cast<float>(m_player_status.max_earth_time[get_id()]) * STONE_TIME_PER_FLOWER);
       m_powersprite->stop_animation();
       m_stone = true;
       m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
@@ -1432,7 +1432,7 @@ Player::add_bonus(BonusType type, bool animate)
 
   // ignore GROWUP_BONUS if we're already big
   if (type == GROWUP_BONUS) {
-    if (m_player_status.bonus != NO_BONUS)
+    if (m_player_status.bonus[get_id()] != NO_BONUS)
       return true;
   }
 
@@ -1446,7 +1446,7 @@ Player::set_bonus(BonusType type, bool animate)
     return false;
   }
 
-  if ((m_player_status.bonus == NO_BONUS) && (type != NO_BONUS)) {
+  if ((m_player_status.bonus[get_id()] == NO_BONUS) && (type != NO_BONUS)) {
     if (!m_swimming)
     {
       if (!adjust_height(BIG_TUX_HEIGHT))
@@ -1480,7 +1480,7 @@ Player::set_bonus(BonusType type, bool animate)
     std::string action = (m_dir == Direction::LEFT) ? "left" : "right";
     std::string particle_name = "";
 
-    if ((m_player_status.bonus == FIRE_BONUS) && (animate)) {
+    if ((m_player_status.bonus[get_id()] == FIRE_BONUS) && (animate)) {
       // visually lose helmet
       if (g_config->christmas_mode) {
         particle_name = "santatux-hat";
@@ -1489,15 +1489,15 @@ Player::set_bonus(BonusType type, bool animate)
         particle_name = "firetux-helmet";
       }
     }
-    if ((m_player_status.bonus == ICE_BONUS) && (animate)) {
+    if ((m_player_status.bonus[get_id()] == ICE_BONUS) && (animate)) {
       // visually lose cap
       particle_name = "icetux-cap";
     }
-    if ((m_player_status.bonus == AIR_BONUS) && (animate)) {
+    if ((m_player_status.bonus[get_id()] == AIR_BONUS) && (animate)) {
       // visually lose hat
       particle_name = "airtux-hat";
     }
-    if ((m_player_status.bonus == EARTH_BONUS) && (animate)) {
+    if ((m_player_status.bonus[get_id()] == EARTH_BONUS) && (animate)) {
       // visually lose hard-hat
       particle_name = "earthtux-hardhat";
     }
@@ -1506,23 +1506,23 @@ Player::set_bonus(BonusType type, bool animate)
                                              action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
     }
 
-    m_player_status.max_fire_bullets = 0;
-    m_player_status.max_ice_bullets = 0;
-    m_player_status.max_air_time = 0;
-    m_player_status.max_earth_time = 0;
+    m_player_status.max_fire_bullets[get_id()] = 0;
+    m_player_status.max_ice_bullets[get_id()] = 0;
+    m_player_status.max_air_time[get_id()] = 0;
+    m_player_status.max_earth_time[get_id()] = 0;
   }
-  if (type == FIRE_BONUS) m_player_status.max_fire_bullets++;
-  if (type == ICE_BONUS) m_player_status.max_ice_bullets++;
-  if (type == AIR_BONUS) m_player_status.max_air_time++;
-  if (type == EARTH_BONUS) m_player_status.max_earth_time++;
+  if (type == FIRE_BONUS) m_player_status.max_fire_bullets[get_id()]++;
+  if (type == ICE_BONUS) m_player_status.max_ice_bullets[get_id()]++;
+  if (type == AIR_BONUS) m_player_status.max_air_time[get_id()]++;
+  if (type == EARTH_BONUS) m_player_status.max_earth_time[get_id()]++;
 
   if (!m_second_growup_sound_timer.started() &&
-     type > GROWUP_BONUS && type != m_player_status.bonus)
+     type > GROWUP_BONUS && type != m_player_status.bonus[get_id()])
   {
     m_second_growup_sound_timer.start(0.5);
   }
 
-  m_player_status.bonus = type;
+  m_player_status.bonus[get_id()] = type;
   return true;
 }
 
@@ -1565,18 +1565,18 @@ Player::draw(DrawingContext& context)
   std::string sa_prefix = "";
   std::string sa_postfix = "";
 
-  if (m_player_status.bonus == GROWUP_BONUS)
+  if (m_player_status.bonus[get_id()] == GROWUP_BONUS)
     sa_prefix = "big";
-  else if (m_player_status.bonus == FIRE_BONUS)
+  else if (m_player_status.bonus[get_id()] == FIRE_BONUS)
     if (g_config->christmas_mode)
       sa_prefix = "santa";
     else
       sa_prefix = "fire";
-  else if (m_player_status.bonus == ICE_BONUS)
+  else if (m_player_status.bonus[get_id()] == ICE_BONUS)
     sa_prefix = "ice";
-  else if (m_player_status.bonus == AIR_BONUS)
+  else if (m_player_status.bonus[get_id()] == AIR_BONUS)
     sa_prefix = "air";
-  else if (m_player_status.bonus == EARTH_BONUS)
+  else if (m_player_status.bonus[get_id()] == EARTH_BONUS)
     sa_prefix = "earth";
   else
     sa_prefix = "small";
@@ -1692,7 +1692,7 @@ Player::draw(DrawingContext& context)
   }
 
   /* Set Tux powerup sprite action */
-  if (m_player_status.has_hat_sprite())
+  if (m_player_status.has_hat_sprite(get_id()))
   {
     m_powersprite->set_action(m_sprite->get_action());
     if (m_powersprite->get_frames() == m_sprite->get_frames())
@@ -1700,7 +1700,7 @@ Player::draw(DrawingContext& context)
       m_powersprite->set_frame(m_sprite->get_current_frame());
       m_powersprite->set_frame_progress(m_sprite->get_current_frame_progress());
     }
-    if (m_player_status.bonus == EARTH_BONUS)
+    if (m_player_status.bonus[get_id()] == EARTH_BONUS)
     {
       m_lightsprite->set_action(m_sprite->get_action());
       if (m_lightsprite->get_frames() == m_sprite->get_frames())
@@ -1724,7 +1724,7 @@ Player::draw(DrawingContext& context)
   /* Draw Tux */
   if (m_safe_timer.started() && size_t(g_game_time*40)%2)
     ;  // don't draw Tux
-  else if (m_player_status.bonus == EARTH_BONUS){ // draw special effects with earthflower bonus
+  else if (m_player_status.bonus[get_id()] == EARTH_BONUS){ // draw special effects with earthflower bonus
     // shake at end of maximum stone duration
     Vector shake_delta = (m_stone && m_ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.randf(-3.0f, 3.0f) * 1.0f, 0) : Vector(0,0);
     m_sprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
@@ -1749,7 +1749,7 @@ Player::draw(DrawingContext& context)
     else
       m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
 
-    if (m_player_status.has_hat_sprite())
+    if (m_player_status.has_hat_sprite(get_id()))
       m_powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
   }
 
@@ -1909,13 +1909,13 @@ Player::kill(bool completely)
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
-    if (m_player_status.bonus == FIRE_BONUS
-      || m_player_status.bonus == ICE_BONUS
-      || m_player_status.bonus == AIR_BONUS
-      || m_player_status.bonus == EARTH_BONUS) {
+    if (m_player_status.bonus[get_id()] == FIRE_BONUS
+      || m_player_status.bonus[get_id()] == ICE_BONUS
+      || m_player_status.bonus[get_id()] == AIR_BONUS
+      || m_player_status.bonus[get_id()] == EARTH_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME);
       set_bonus(GROWUP_BONUS, true);
-    } else if (m_player_status.bonus == GROWUP_BONUS) {
+    } else if (m_player_status.bonus[get_id()] == GROWUP_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_duck = false;
       stop_backflipping();
@@ -1956,9 +1956,13 @@ Player::kill(bool completely)
     m_dying_timer.start(3.0);
     set_group(COLGROUP_DISABLED);
 
-    // TODO: need nice way to handle players dying in co-op mode
-    Sector::get().get_effect().fade_out(3.0);
-    SoundManager::current()->pause_music(3.0);
+    auto alive_players = Sector::get().get_object_count<Player>([](const Player& p){ return !p.is_dead() && !p.is_dying(); });
+
+    if (!alive_players)
+    {
+      Sector::get().get_effect().fade_out(3.0);
+      SoundManager::current()->pause_music(3.0);
+    }
   }
 }
 
@@ -2036,11 +2040,11 @@ Player::get_velocity() const
 void
 Player::bounce(BadGuy& )
 {
-  if (!(m_player_status.bonus == AIR_BONUS))
+  if (!(m_player_status.bonus[get_id()] == AIR_BONUS))
     m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -520.0f : -300.0f);
   else {
     m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -580.0f : -340.0f);
-    m_ability_time = static_cast<float>(m_player_status.max_air_time) * GLIDE_TIME_PER_FLOWER;
+    m_ability_time = static_cast<float>(m_player_status.max_air_time[get_id()]) * GLIDE_TIME_PER_FLOWER;
   }
 }
 
@@ -2139,7 +2143,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
   if (m_controller->hold(Control::JUMP)) {
     m_on_ground_flag = true;
     m_jump_early_apex = false;
-    do_jump(m_player_status.bonus == BonusType::AIR_BONUS ? -540.0f : -480.0f);
+    do_jump(m_player_status.bonus[get_id()] == BonusType::AIR_BONUS ? -540.0f : -480.0f);
   }
   else if (m_controller->hold(Control::UP)) {
     m_on_ground_flag = true;
