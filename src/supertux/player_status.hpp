@@ -54,6 +54,7 @@ public:
 
   void add_player();
   void remove_player(int player_id);
+  int get_num_players() const { return m_num_players; }
 
 public:
   int m_num_players;
