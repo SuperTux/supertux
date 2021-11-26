@@ -501,10 +501,17 @@ GameSession::update(float dt_sec, const Controller& controller)
   if (m_end_sequence)
     return;
 
-  // FIXME: Don't pick the song based only on the first player
-  if (m_currentsector->get_players()[0]->m_invincible_timer.started()) {
-    if (m_currentsector->get_players()[0]->m_invincible_timer.get_timeleft() <=
-       TUX_INVINCIBLE_TIME_WARNING) {
+  bool invincible_timer_started = false;
+  float max_invincible_timer_left = 0.f;
+
+  for (const auto* p : m_currentsector->get_players())
+  {
+    invincible_timer_started |= p->m_invincible_timer.started();
+    max_invincible_timer_left = std::max(max_invincible_timer_left, p->m_invincible_timer.get_timeleft());
+  }
+
+  if (invincible_timer_started) {
+    if (max_invincible_timer_left <= TUX_INVINCIBLE_TIME_WARNING) {
       m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_WARNING_MUSIC);
     } else {
       m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
