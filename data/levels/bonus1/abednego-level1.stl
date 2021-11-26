@@ -278,9 +278,14 @@
     (path
       (name "bf2c0c5f-69ab-48d6-b1d4-ecceaa87df43")
       (path
+        (adapt_speed #f)
         (node
           (x 4672)
           (y 32)
+          (bezier_before_x 4672)
+          (bezier_before_y 32)
+          (bezier_after_x 4672)
+          (bezier_after_y 32)
         )
       )
     )
@@ -288,9 +293,14 @@
       (name "gen1594905419267242648")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 16)
           (y 0)
+          (bezier_before_x 16)
+          (bezier_before_y 0)
+          (bezier_after_x 16)
+          (bezier_after_y 0)
         )
       )
     )

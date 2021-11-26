@@ -67,7 +67,7 @@
       (y 512)
     )
     (gradient
-      (top_color 0.3 0.4 0.75)
+      (top_color 0.4 0.6 1)
       (bottom_color 1 1 1)
     )
     (infoblock
@@ -141,9 +141,14 @@
     (path
       (name "gen15435273991679206239792")
       (path
+        (adapt_speed #f)
         (node
           (x 8544)
           (y 448)
+          (bezier_before_x 8544)
+          (bezier_before_y 448)
+          (bezier_after_x 8544)
+          (bezier_after_y 448)
         )
       )
     )
@@ -151,9 +156,14 @@
       (name "gen15435273991679206236912")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 7968)
           (y 416)
+          (bezier_before_x 7968)
+          (bezier_before_y 416)
+          (bezier_after_x 7968)
+          (bezier_after_y 416)
         )
       )
     )

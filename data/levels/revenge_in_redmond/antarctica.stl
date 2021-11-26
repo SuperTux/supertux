@@ -323,6 +323,18 @@
       (x 6448)
       (y 384)
     )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 5728)
+      (y 768)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 5376)
+      (y 768)
+    )
     (jumpy
       (sprite "/images/creatures/bag/bag.sprite")
       (x 512)

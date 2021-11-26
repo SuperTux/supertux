@@ -9,6 +9,7 @@
       (color 0.6941177 0.6392157 0.6392157)
     )
     (background
+      (color 1 1 1)
       (alignment "top")
       (speed 0.5)
       (image-top "images/background/bridgecloud-dark.png")
@@ -99,13 +100,22 @@
     (path
       (name "gen159125863793898816322656")
       (path
+        (adapt_speed #f)
         (node
           (x 5056)
           (y 704)
+          (bezier_before_x 5056)
+          (bezier_before_y 704)
+          (bezier_after_x 5056)
+          (bezier_after_y 704)
         )
         (node
           (x 5056)
           (y 544)
+          (bezier_before_x 5056)
+          (bezier_before_y 544)
+          (bezier_after_x 5056)
+          (bezier_after_y 544)
         )
       )
     )

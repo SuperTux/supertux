@@ -25,6 +25,18 @@
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)
     )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 12800)
+      (y 1120)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 15392)
+      (y 1120)
+    )
     (leveltime
       (time 300)
     )
@@ -164,36 +176,56 @@
     (path
       (name "b5dedcb2-9c6d-44b8-b8e7-1893bb0fa82c")
       (path
+        (adapt_speed #f)
         (node
           (x 0)
           (y 544)
+          (bezier_before_x 0)
+          (bezier_before_y 544)
+          (bezier_after_x 0)
+          (bezier_after_y 544)
         )
       )
     )
     (path
       (name "65024a0e-32cd-445e-abe6-a8391dc9f1b2")
       (path
+        (adapt_speed #f)
         (node
           (x 1696)
           (y 576)
+          (bezier_before_x 1696)
+          (bezier_before_y 576)
+          (bezier_after_x 1696)
+          (bezier_after_y 576)
         )
       )
     )
     (path
       (name "32ee6cb6-c39d-4495-8e5e-4d81f4abea72")
       (path
+        (adapt_speed #f)
         (node
           (x 3360)
           (y 608)
+          (bezier_before_x 3360)
+          (bezier_before_y 608)
+          (bezier_after_x 3360)
+          (bezier_after_y 608)
         )
       )
     )
     (path
       (name "c2906ef7-e6fd-43c7-a378-993fee29d8e6")
       (path
+        (adapt_speed #f)
         (node
           (x 12128)
           (y 608)
+          (bezier_before_x 12128)
+          (bezier_before_y 608)
+          (bezier_after_x 12128)
+          (bezier_after_y 608)
         )
       )
     )
@@ -694,6 +726,7 @@
     )
     (tilemap
       (solid #f)
+      (alpha 0)
       (z-pos 90)
       (name "swater")
       (width 500)

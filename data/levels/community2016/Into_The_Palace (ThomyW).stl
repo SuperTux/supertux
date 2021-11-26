@@ -83,6 +83,18 @@
       (x 2944.664)
       (y 484.6664)
     )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 3104)
+      (y 1568)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 4672)
+      (y 1568)
+    )
     (jumpy
       (direction "left")
       (x 566.6666)
@@ -212,7 +224,7 @@
       )
     )
     (tilemap
-      (solid #f)
+      (solid #t)
       (z-pos 100)
       (width 160)
       (height 50)
@@ -755,14 +767,23 @@
       (name "gen159125817293898826525872")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 2112)
           (y 511.3333)
+          (bezier_before_x 2112)
+          (bezier_before_y 511.3333)
+          (bezier_after_x 2112)
+          (bezier_after_y 511.3333)
           (time 5)
         )
         (node
           (x 2112)
           (y 1054.667)
+          (bezier_before_x 2112)
+          (bezier_before_y 1054.667)
+          (bezier_after_x 2112)
+          (bezier_after_y 1054.667)
           (time 5)
         )
       )
@@ -797,9 +818,8 @@
     )
     (smartball
       (direction "left")
-      (sprite "/images/creatures/snowball/snowball.sprite")
-      (x 3151.33)
-      (y 952.6669)
+      (x 3136)
+      (y 928)
     )
     (smartblock
       (direction "left")
