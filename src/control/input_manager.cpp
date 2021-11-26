@@ -153,12 +153,12 @@ InputManager::on_player_removed(int player_id)
   auto& map = joystick_manager->get_joystick_mapping();
   auto it = std::find_if(map.begin(), map.end(), [player_id](std::remove_reference<decltype(map)>::type::const_reference pair) { return pair.second == player_id; });
   if (it != map.end())
-    map.erase(it);
+    it->second = -1;
 
   auto& map2 = game_controller_manager->get_controller_mapping();
   auto it2 = std::find_if(map2.begin(), map2.end(), [player_id](std::remove_reference<decltype(map2)>::type::const_reference pair) { return pair.second == player_id; });
   if (it2 != map2.end())
-    map2.erase(it2);
+    it2->second = -1;
 }
 
 /* EOF */
