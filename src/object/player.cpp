@@ -133,9 +133,12 @@ bool no_water = true;
 
 } // namespace
 
+SurfacePtr Player::s_multiplayer_arrow;
+
 Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
   ExposedObject<Player, scripting::Player>(this),
   m_id(player_id),
+  m_target(nullptr),
   m_deactivated(false),
   m_controller(&InputManager::current()->get_controller(player_id)),
   m_scripting_controller(new CodeController()),
@@ -210,6 +213,9 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
+
+  if (!s_multiplayer_arrow)
+    s_multiplayer_arrow = Surface::from_file("images/engine/hud/arrowdown.png");
 
   SoundManager::current()->preload("sounds/bigjump.wav");
   SoundManager::current()->preload("sounds/jump.wav");
@@ -323,6 +329,35 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 void
 Player::update(float dt_sec)
 {
+  // Skip if in multiplayer respawn
+  if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
+  {
+    auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
+    if (!target || target->is_dying() || target->is_dead() || target->is_winning())
+    {
+      next_target();
+    }
+
+    // Respawn input is handled outside handle_input() because it happens while the player is dead
+    if (is_dead() && m_target)
+    {
+      if (m_controller->pressed(Control::ACTION))
+      {
+        multiplayer_respawn();
+      }
+      else if (m_controller->pressed(Control::LEFT))
+      {
+        prev_target();
+      }
+      else if (m_controller->pressed(Control::RIGHT))
+      {
+        next_target();
+      }
+    }
+
+    return;
+  }
+
   check_bounds();
 
   //handling of swimming
@@ -406,9 +441,18 @@ Player::update(float dt_sec)
   //end of swimming handling
 
   if (m_dying && m_dying_timer.check()) {
-    Sector::get().stop_looping_sounds();
+
     set_bonus(NO_BONUS, true);
     m_dead = true;
+
+    if (!Sector::get().get_object_count<Player>([](const Player& p){ return !p.is_dead() && !p.is_dying(); }))
+    {
+      Sector::get().stop_looping_sounds();
+    }
+    else
+    {
+      next_target();
+    }
     return;
   }
 
@@ -1554,6 +1598,18 @@ Player::draw(DrawingContext& context)
   if (!m_visible)
     return;
 
+  if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
+  {
+    auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
+    if (target)
+    {
+      Vector pos(target->get_bbox().get_middle().x - static_cast<float>(s_multiplayer_arrow->get_width() / 2),
+                 target->get_bbox().get_middle().y - static_cast<float>(s_multiplayer_arrow->get_height() * 2));
+      context.color().draw_surface(s_multiplayer_arrow, pos, LAYER_LIGHTMAP + 1);
+    }
+    return;
+  }
+
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
   if (m_col.m_bbox.get_bottom() - 16 < Sector::get().get_camera().get_translation().y) {
     float px = m_col.m_bbox.get_left() + (m_col.m_bbox.get_right() - m_col.m_bbox.get_left() - static_cast<float>(m_airarrow.get()->get_width())) / 2.0f;
@@ -2239,6 +2295,100 @@ Player::ungrab_object(GameObject* gameobject)
     go->del_remove_listener(m_grabbed_object_remove_listener.get());
 
   m_grabbed_object = nullptr;
+}
+
+void
+Player::next_target()
+{
+  const auto& players = Sector::get().get_players();
+
+  Player* first = nullptr;
+  bool is_next = false;
+  for (auto* player : players)
+  {
+    if (!player->is_dead() && !player->is_dying() && !player->is_winning())
+    {
+      if (!first)
+      {
+        first = player;
+      }
+
+      if (is_next)
+      {
+        m_target.reset(new UID());
+        *m_target = player->get_uid();
+        return;
+      }
+
+      if (m_target && player->get_uid() == *m_target)
+      {
+        is_next = true;
+      }
+    }
+  }
+
+  if (first)
+  {
+    m_target.reset(new UID());
+    *m_target = first->get_uid();
+  }
+  else
+  {
+    m_target.reset(nullptr);
+  }
+}
+
+void
+Player::prev_target()
+{
+  const auto& players = Sector::get().get_players();
+
+  Player* last = nullptr;
+  for (auto* player : players)
+  {
+    if (!player->is_dead() && !player->is_dying() && !player->is_winning())
+    {
+      if (m_target && player->get_uid() == *m_target && last)
+      {
+        *m_target = last->get_uid();
+        return;
+      }
+
+      last = player;
+    }
+  }
+
+  if (last)
+  {
+    m_target.reset(new UID());
+    *m_target = last->get_uid();
+  }
+  else
+  {
+    m_target.reset(nullptr);
+  }
+}
+
+void
+Player::multiplayer_respawn()
+{
+  if (!m_target)
+    log_warning << "Can't respawn multiplayer player, no target" << std::endl;
+
+  auto target = Sector::get().get_object_by_uid<Player>(*m_target);
+
+  if (!target)
+    log_warning << "Can't respawn multiplayer player, target missing" << std::endl;
+
+  m_dying = false;
+  m_dead = false;
+  m_deactivated = false;
+  m_ghost_mode = false;
+  set_group(COLGROUP_MOVING);
+  m_physic.reset();
+
+  move(target->get_pos());
+  m_target.reset();
 }
 
 /* EOF */

@@ -63,6 +63,9 @@ private:
     GrabListener& operator=(const GrabListener&) = delete;
   };
 
+private:
+  static SurfacePtr s_multiplayer_arrow;
+
 public:
   Player(PlayerStatus& player_status, const std::string& name, int player_id);
   ~Player() override;
@@ -254,8 +257,14 @@ private:
    */
   void ungrab_object(GameObject* gameobject = nullptr);
 
+  void next_target();
+  void prev_target();
+
+  void multiplayer_respawn();
+
 private:
   int m_id;
+  std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
   bool m_deactivated;
 
   const Controller* m_controller;
