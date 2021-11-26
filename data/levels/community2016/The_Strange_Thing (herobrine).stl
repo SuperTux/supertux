@@ -9,6 +9,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "/images/background/misty_snowhills_small.png")
       (image "/images/background/misty_snowhills_small.png")

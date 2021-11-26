@@ -6,7 +6,7 @@
   (sector
     (name "main")
     (init-script "
-logo <- FloatingImage(\"images/objects/logo/logo.sprite\");
+logo <- FloatingImage(\"images/objects/logo/@LOGO_FILE@\");
 if(is_christmas()) {
   christmas_hat <- FloatingImage(\"images/particles/santa-cap-big.sprite\");
   christmas_hat.set_anchor_point(ANCHOR_MIDDLE);
