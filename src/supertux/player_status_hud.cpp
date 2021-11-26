@@ -91,7 +91,12 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
   // FIXME: Only shows the first player's stats
 
-  for (int target = 0; target < m_player_status.get_num_players(); target++)
+  // Iterate over InputManager's player range because m_player_status' range will
+  // also include players that used to play but that aren't playing right now
+  // (PlayerStatus keeps hold of data for *all* players that ever played on that
+  // profile; it remembers progress for other players even if the first player
+  // goes back to solo play for a while)
+  for (int target = 0; target < InputManager::current()->get_num_players(); target++)
   {
     if (m_player_status.bonus[target] == FIRE_BONUS) {
 
