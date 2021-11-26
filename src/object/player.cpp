@@ -1935,6 +1935,13 @@ Player::on_flip(float height)
 }
 
 void
+Player::remove_me()
+{
+  InputManager::current()->on_player_removed(get_id());
+  MovingObject::remove_me();
+}
+
+void
 Player::make_invincible()
 {
   // No get_pos() here since the music affects the whole sector

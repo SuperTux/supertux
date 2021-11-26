@@ -62,6 +62,8 @@ public:
   void push_controller();
   void pop_controller();
 
+  void on_player_removed(int player_id);
+
 private:
   std::vector<std::unique_ptr<Controller>> m_controllers;
 
