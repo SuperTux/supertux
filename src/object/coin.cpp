@@ -101,6 +101,14 @@ Coin::editor_update()
       set_pos(m_offset + get_walker()->get_pos());
     } else {
       set_pos(get_walker()->get_pos());
+
+      if (!get_path()) return;
+      if (!get_path()->is_valid()) return;
+
+      if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+        m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+      set_pos(get_path()->get_nodes()[m_starting_node].position);
     }
   }
 }
@@ -108,11 +116,15 @@ Coin::editor_update()
 void
 Coin::editor_delete()
 {
+  // Removed since paths can be shared by multiple objects
+  // TODO: Handle reference counting for paths
+#if 0
   auto path_obj = get_path_gameobject();
   if(path_obj != nullptr)
   {
     path_obj->editor_delete();
   }
+#endif
   GameObject::editor_delete();
 }
 
