@@ -225,6 +225,9 @@ Sector::activate(const Vector& player_pos)
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
   m_squirrel_environment->expose("settings", std::make_unique<scripting::Sector>(this));
 
+  if (Editor::is_active())
+    return;
+
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
   for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {

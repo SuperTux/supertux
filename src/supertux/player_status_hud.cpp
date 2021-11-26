@@ -51,6 +51,9 @@ PlayerStatusHUD::update(float dt_sec)
 void
 PlayerStatusHUD::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+    return;
+
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
       (std::abs(displayed_coins - m_player_status.coins) > 100)) {
     displayed_coins = m_player_status.coins;
