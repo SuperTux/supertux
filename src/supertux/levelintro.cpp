@@ -18,6 +18,7 @@
 
 #include "control/input_manager.hpp"
 #include "math/random.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadetoblack.hpp"
@@ -28,35 +29,45 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/compositor.hpp"
 
 #include <fmt/format.h>
+
+// ----------------------------------------------------------------------------
+// NOTE: Throughout the code, the amount of players playing is calculated with:
+//
+//             InputManager::current()->get_num_players()
+//
+//   Two other options have been considered, but didn't do the job:
+//
+//         1.  Sector::get().get_object_count<Player>()
+//
+//   This one works, but won't update players if controllers are plugged or
+//   unplugged before the level starts.
+//
+//         1.  m_player_status.m_num_players
+//
+//   This one will show the pogress of all players that ever played, regardless
+//   of whether or not they are currently playing.
+// ----------------------------------------------------------------------------
+
 
 // TODO: Display all players on the intro scene
 LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status) :
   m_level(level),
   m_best_level_statistics(best_level_statistics),
-  m_player_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
-  m_power_sprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
-  m_player_sprite_py(0),
-  m_player_sprite_vy(0),
+  m_player_sprite(),
+  m_power_sprite(),
+  m_player_sprite_py(),
+  m_player_sprite_vy(),
   m_player_sprite_jump_timer(),
   m_player_status(player_status)
 {
-  //Show appropriate tux animation for player status.
-  if (m_player_status.bonus[0] == FIRE_BONUS && g_config->christmas_mode)
+  for (int i = 0; i < InputManager::current()->get_num_players(); i++)
   {
-    m_player_sprite->set_action("big-walk-right");
-    m_power_sprite->set_action("santa-walk-right");
+    push_player();
   }
-  else
-  {
-    m_player_sprite->set_action(m_player_status.get_bonus_prefix(0) + "-walk-right");
-  }
-  m_player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
-
-  /* Set Tux powerup sprite action */
-    m_power_sprite->set_action(m_player_sprite->get_action());
 }
 
 LevelIntro::~LevelIntro()
@@ -71,12 +82,6 @@ LevelIntro::setup()
 void
 LevelIntro::update(float dt_sec, const Controller& controller)
 {
-  auto bonus_prefix = m_player_status.get_bonus_prefix(0);
-  if (m_player_status.bonus[0] == FIRE_BONUS && g_config->christmas_mode)
-  {
-    bonus_prefix = "big";
-  }
-
   // Check if it's time to exit the screen
   if (controller.pressed(Control::JUMP) ||
      controller.pressed(Control::ACTION) ||
@@ -86,21 +91,36 @@ LevelIntro::update(float dt_sec, const Controller& controller)
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.1f));
   }
 
-  m_player_sprite_py += m_player_sprite_vy * dt_sec;
-  m_player_sprite_vy += 100 * dt_sec * Sector::get().get_gravity();
-  if (m_player_sprite_py >= 0) {
-    m_player_sprite_py = 0;
-    m_player_sprite_vy = 0;
-    m_player_sprite->set_action(bonus_prefix + "-walk-right");
-  } else {
+  // Check if players connected/disconnected
+  while(m_player_sprite.size() < static_cast<size_t>(InputManager::current()->get_num_players()))
+    push_player();
 
-    m_player_sprite->set_action(bonus_prefix + "-jump-right");
-  }
-  if (m_player_sprite_jump_timer.check()) {
-    m_player_sprite_vy = -300;
-    m_player_sprite_jump_timer.start(graphicsRandom.randf(2,3));
-  }
+  while(m_player_sprite.size() > static_cast<size_t>(InputManager::current()->get_num_players()))
+    pop_player();
 
+  for (int i = 0; i < InputManager::current()->get_num_players(); i++)
+  {
+    auto bonus_prefix = m_player_status.get_bonus_prefix(i);
+    if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
+    {
+      bonus_prefix = "big";
+    }
+
+    m_player_sprite_py[i] += m_player_sprite_vy[i] * dt_sec;
+    m_player_sprite_vy[i] += 100 * dt_sec * Sector::get().get_gravity();
+    if (m_player_sprite_py[i] >= 0) {
+      m_player_sprite_py[i] = 0;
+      m_player_sprite_vy[i] = 0;
+      m_player_sprite[i]->set_action(bonus_prefix + "-walk-right");
+    } else {
+
+      m_player_sprite[i]->set_action(bonus_prefix + "-jump-right");
+    }
+    if (m_player_sprite_jump_timer[i]->check()) {
+      m_player_sprite_vy[i] = -300;
+      m_player_sprite_jump_timer[i]->start(graphicsRandom.randf(2,3));
+    }
+  }
 }
 
 void LevelIntro::draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat, bool isPerfect)
@@ -141,17 +161,23 @@ LevelIntro::draw(Compositor& compositor)
 
   py += 32;
 
+  int max_height = 0;
+  for (int i = 0; i < static_cast<int>(m_player_sprite.size()); i++)
   {
-    m_player_sprite->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite->get_current_hitbox_width()) / 2,
-                                                static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
+    float offset = (static_cast<float>(i) - static_cast<float>(m_player_sprite.size()) / 2.f + 0.5f) * 64.f;
 
-    if (m_player_status.bonus[0] > GROWUP_BONUS) {
-      m_power_sprite->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite->get_current_hitbox_width()) / 2,
-                                                  static_cast<float>(py) + m_player_sprite_py), LAYER_FOREGROUND1);
+    m_player_sprite[i]->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
+                                                static_cast<float>(py) + m_player_sprite_py[i]), LAYER_FOREGROUND1);
+
+    if (m_player_status.bonus[i] > GROWUP_BONUS) {
+      m_power_sprite[i]->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
+                                                  static_cast<float>(py) + m_player_sprite_py[i]), LAYER_FOREGROUND1);
     }
 
-    py += static_cast<int>(m_player_sprite->get_current_hitbox_height());
+    max_height = std::max(max_height, static_cast<int>(m_player_sprite[i]->get_current_hitbox_height()));
   }
+
+  py += max_height;
 
   py += 32;
 
@@ -197,6 +223,55 @@ LevelIntro::get_status() const
   status.m_details.push_back("Watching a cutscene");
   status.m_details.push_back("In level: " + m_level.get_name());
   return status;
+}
+
+void
+LevelIntro::push_player()
+{
+  int i = static_cast<int>(m_player_sprite.size());
+
+  if (i > InputManager::current()->get_num_players())
+  {
+    log_warning << "Attempt to push more players in intro scene than connected" << std::endl;
+    return;
+  }
+
+  m_player_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/tux.sprite"));
+  m_power_sprite.push_back(SpriteManager::current()->create("images/creatures/tux/powerups.sprite"));
+  m_player_sprite_py.push_back(0);
+  m_player_sprite_vy.push_back(0);
+  m_player_sprite_jump_timer.push_back(std::make_unique<Timer>());
+
+  //Show appropriate tux animation for player status.
+  if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
+  {
+    m_player_sprite[i]->set_action("big-walk-right");
+    m_power_sprite[i]->set_action("santa-walk-right");
+  }
+  else
+  {
+    m_player_sprite[i]->set_action(m_player_status.get_bonus_prefix(i) + "-walk-right");
+  }
+  m_player_sprite_jump_timer[i]->start(graphicsRandom.randf(5,10));
+
+  /* Set Tux powerup sprite action */
+  m_power_sprite[i]->set_action(m_player_sprite[i]->get_action());
+}
+
+void
+LevelIntro::pop_player()
+{
+  if (m_player_sprite.size() <= 1)
+  {
+    log_warning << "Attempt to pop last player in intro scene" << std::endl;
+    return;
+  }
+
+  m_player_sprite.pop_back();
+  m_power_sprite.pop_back();
+  m_player_sprite_py.pop_back();
+  m_player_sprite_vy.pop_back();
+  m_player_sprite_jump_timer.pop_back();
 }
 
 /* EOF */
