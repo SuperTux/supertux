@@ -22,6 +22,8 @@
 #include "control/joystick_config.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/player.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 
@@ -77,6 +79,19 @@ JoystickManager::on_joystick_added(int joystick_index)
     {
       parent->push_controller();
       joysticks[joystick] = parent->get_num_players() - 1;
+
+      if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen())
+      {
+        auto& sector = GameSession::current()->get_current_sector();
+        auto& player_status = GameSession::current()->get_savegame().get_player_status();
+
+        player_status.add_player();
+
+        int id = joysticks[joystick];
+        auto& player = sector.add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+
+        player.multiplayer_prepare_spawn();
+      }
     }
   }
 }

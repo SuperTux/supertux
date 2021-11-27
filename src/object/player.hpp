@@ -228,6 +228,8 @@ public:
   /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
   void sideways_push(float delta);
 
+  void multiplayer_prepare_spawn();
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */

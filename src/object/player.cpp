@@ -2377,6 +2377,22 @@ Player::prev_target()
 }
 
 void
+Player::multiplayer_prepare_spawn()
+{
+  m_physic.enable_gravity(true);
+  m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
+  m_safe_timer.stop();
+  m_invincible_timer.stop();
+  m_physic.set_acceleration(0, -9999);
+  m_physic.set_velocity(0, -9999);
+  m_dying = true;
+  set_group(COLGROUP_DISABLED);
+  m_dead = true;
+
+  next_target();
+}
+
+void
 Player::multiplayer_respawn()
 {
   if (!m_target)

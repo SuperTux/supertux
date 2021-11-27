@@ -20,6 +20,8 @@
 
 #include "control/input_manager.hpp"
 #include "object/player.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 
@@ -222,6 +224,19 @@ GameControllerManager::on_controller_added(int joystick_index)
       {
         m_parent->push_controller();
         m_game_controllers[game_controller] = m_parent->get_num_players() - 1;
+
+        if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen())
+        {
+          auto& sector = GameSession::current()->get_current_sector();
+          auto& player_status = GameSession::current()->get_savegame().get_player_status();
+
+          player_status.add_player();
+
+          int id = m_game_controllers[game_controller];
+          auto& player = sector.add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+
+          player.multiplayer_prepare_spawn();
+        }
       }
     }
   }
