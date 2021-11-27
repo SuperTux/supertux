@@ -129,8 +129,6 @@ const float SMALL_TUX_HEIGHT = 30.8f;
 const float BIG_TUX_HEIGHT = 62.8f;
 const float DUCKED_TUX_HEIGHT = 31.8f;
 
-bool no_water = true;
-
 } // namespace
 
 SurfacePtr Player::s_multiplayer_arrow;
@@ -155,6 +153,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_stone(false),
   m_swimming(false),
   m_swimboosting(false),
+  m_no_water(true),
   m_on_left_wall(false),
   m_on_right_wall(false),
   m_in_walljump_tile(false),
@@ -365,7 +364,7 @@ Player::update(float dt_sec)
 #ifdef SWIMMING
   if (!m_ghost_mode)
   {
-    if (no_water)
+    if (m_no_water)
     {
       if (m_swimming)
       {
@@ -394,7 +393,7 @@ Player::update(float dt_sec)
       m_powersprite->set_angle(0.f);
       m_lightsprite->set_angle(0.f);
     }
-    no_water = true;
+    m_no_water = true;
 
     if ((m_swimming || m_water_jump) && is_big())
     {
@@ -410,7 +409,7 @@ Player::update(float dt_sec)
     {
       if (can_swim_here)
       {
-        no_water = false;
+        m_no_water = false;
       }
       else
       {
@@ -424,7 +423,7 @@ Player::update(float dt_sec)
     {
       if (can_swim_here && !m_stone && !m_climbing)
       {
-        no_water = false;
+        m_no_water = false;
         m_water_jump = false;
         m_swimming = true;
         m_swimming_angle = math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()));
