@@ -92,8 +92,6 @@ PlayerStatusHUD::draw(DrawingContext& context)
   }
   std::string ammo_text;
 
-  // FIXME: Only shows the first player's stats
-
   // Iterate over InputManager's player range because m_player_status' range will
   // also include players that used to play but that aren't playing right now
   // (PlayerStatus keeps hold of data for *all* players that ever played on that

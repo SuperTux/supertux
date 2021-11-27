@@ -22,8 +22,6 @@
 #include <vector>
 #include <unordered_map>
 
-#include <iostream> // FIXME: Delete
-
 #include "control/controller.hpp"
 
 class InputManager;
