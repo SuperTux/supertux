@@ -87,7 +87,7 @@ Sector::Sector(Level& parent) :
     add<PlayerStatusHUD>(player_status);
   }
 
-  for (int id = 0; id < InputManager::current()->get_num_players(); id++)
+  for (int id = 0; id < InputManager::current()->get_num_users(); id++)
   {
     if (id > 0 && !savegame)
       dummy_player_status.add_player();

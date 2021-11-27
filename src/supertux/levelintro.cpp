@@ -34,24 +34,6 @@
 
 #include <fmt/format.h>
 
-// ----------------------------------------------------------------------------
-// NOTE: Throughout the code, the amount of players playing is calculated with:
-//
-//             InputManager::current()->get_num_players()
-//
-//   Two other options have been considered, but didn't do the job:
-//
-//         1.  Sector::get().get_object_count<Player>()
-//
-//   This one works, but won't update players if controllers are plugged or
-//   unplugged before the level starts.
-//
-//         1.  m_player_status.m_num_players
-//
-//   This one will show the pogress of all players that ever played, regardless
-//   of whether or not they are currently playing.
-// ----------------------------------------------------------------------------
-
 
 // TODO: Display all players on the intro scene
 LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statistics, const PlayerStatus& player_status) :
@@ -64,7 +46,7 @@ LevelIntro::LevelIntro(const Level& level, const Statistics* best_level_statisti
   m_player_sprite_jump_timer(),
   m_player_status(player_status)
 {
-  for (int i = 0; i < InputManager::current()->get_num_players(); i++)
+  for (int i = 0; i < InputManager::current()->get_num_users(); i++)
   {
     push_player();
   }
@@ -92,13 +74,13 @@ LevelIntro::update(float dt_sec, const Controller& controller)
   }
 
   // Check if players connected/disconnected
-  while(m_player_sprite.size() < static_cast<size_t>(InputManager::current()->get_num_players()))
+  while(m_player_sprite.size() < static_cast<size_t>(InputManager::current()->get_num_users()))
     push_player();
 
-  while(m_player_sprite.size() > static_cast<size_t>(InputManager::current()->get_num_players()))
+  while(m_player_sprite.size() > static_cast<size_t>(InputManager::current()->get_num_users()))
     pop_player();
 
-  for (int i = 0; i < InputManager::current()->get_num_players(); i++)
+  for (int i = 0; i < InputManager::current()->get_num_users(); i++)
   {
     auto bonus_prefix = m_player_status.get_bonus_prefix(i);
     if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
@@ -230,7 +212,7 @@ LevelIntro::push_player()
 {
   int i = static_cast<int>(m_player_sprite.size());
 
-  if (i > InputManager::current()->get_num_players())
+  if (i > InputManager::current()->get_num_users())
   {
     log_warning << "Attempt to push more players in intro scene than connected" << std::endl;
     return;

@@ -82,9 +82,9 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_end_seq_started(false),
   m_current_cutscene_text()
 {
-  m_boni_at_start.resize(InputManager::current()->get_num_players(), NO_BONUS);
-  m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_players(), 0);
-  m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_players(), 0);
+  m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
+  m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
+  m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
 
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");

@@ -70,7 +70,7 @@ MultiplayerMenu::MultiplayerMenu()
   add_label(_("Multiplayer"));
   add_hl();
 
-  for (int i = 0; i < InputManager::current()->get_num_players(); i++)
+  for (int i = 0; i < InputManager::current()->get_num_users(); i++)
   {
     add_entry(_("Player") + " " + std::to_string(i + 1), [i] {
       MenuManager::instance().push_menu(std::make_unique<MultiplayerSelectMenu>(i));
@@ -84,15 +84,15 @@ MultiplayerMenu::MultiplayerMenu()
     MenuManager::instance().set_menu(std::make_unique<MultiplayerMenu>());
   });
 
-  if (InputManager::current()->get_num_players() > 1)
+  if (InputManager::current()->get_num_users() > 1)
   {
     add_entry(_("Remove Last Player"), [] {
-      if (Sector::current() && Sector::current()->get_object_count<Player>() >= InputManager::current()->get_num_players())
+      if (Sector::current() && Sector::current()->get_object_count<Player>() >= InputManager::current()->get_num_users())
       {
         Dialog::show_confirmation(_("Warning: The player you are trying to\nremove is currently in-game.\n\nDo you wish to remove them anyways?"), [] {
 
           // Remove the player before the controller, else it'll behave funny
-          auto num = InputManager::current()->get_num_players();
+          auto num = InputManager::current()->get_num_users();
           auto player = Sector::current()->get_object_by_name<Player>("Tux" + std::to_string(num));
 
           if (player)

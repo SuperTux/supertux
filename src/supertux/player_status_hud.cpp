@@ -97,7 +97,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
   // (PlayerStatus keeps hold of data for *all* players that ever played on that
   // profile; it remembers progress for other players even if the first player
   // goes back to solo play for a while)
-  for (int target = 0; target < InputManager::current()->get_num_players(); target++)
+  for (int target = 0; target < InputManager::current()->get_num_users(); target++)
   {
     if (m_player_status.bonus[target] == FIRE_BONUS) {
 

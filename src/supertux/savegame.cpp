@@ -119,7 +119,7 @@ Savegame::from_file(const std::string& filename)
 
 Savegame::Savegame(const std::string& filename) :
   m_filename(filename),
-  m_player_status(new PlayerStatus(InputManager::current()->get_num_players()))
+  m_player_status(new PlayerStatus(InputManager::current()->get_num_users()))
 {
 }
 

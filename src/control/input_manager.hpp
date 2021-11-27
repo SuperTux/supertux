@@ -57,7 +57,7 @@ public:
   const Controller& get_controller(int player_id = 0) const;
   Controller& get_controller(int player_id = 0);
 
-  int get_num_players() const { return static_cast<int>(m_controllers.size()); }
+  int get_num_users() const { return static_cast<int>(m_controllers.size()); }
 
   void push_controller();
   void pop_controller();

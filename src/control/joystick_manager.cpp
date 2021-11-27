@@ -78,7 +78,7 @@ JoystickManager::on_joystick_added(int joystick_index)
     if (!parent->m_use_game_controller) // TODO: Boolean config for automatic player creation/removal?
     {
       parent->push_controller();
-      joysticks[joystick] = parent->get_num_players() - 1;
+      joysticks[joystick] = parent->get_num_users() - 1;
 
       if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen())
       {
