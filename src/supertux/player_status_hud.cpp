@@ -78,25 +78,20 @@ PlayerStatusHUD::draw(DrawingContext& context)
     {
       context.color().draw_surface(coin_surface,
                                   Vector(static_cast<float>(context.get_width()) - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
-                                          BORDER_Y + 1.0f + (Resources::fixed_font->get_text_height(coins_text) + 5)),
+                                          BORDER_Y + 1.0f),
                                   LAYER_HUD);
     }
 
     context.color().draw_text(Resources::fixed_font,
                               coins_text,
                               Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                    BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)),
+                                    BORDER_Y),
                               ALIGN_LEFT,
                               LAYER_HUD,
                               PlayerStatusHUD::text_color);
   }
   std::string ammo_text;
 
-  // Iterate over InputManager's player range because m_player_status' range will
-  // also include players that used to play but that aren't playing right now
-  // (PlayerStatus keeps hold of data for *all* players that ever played on that
-  // profile; it remembers progress for other players even if the first player
-  // goes back to solo play for a while)
   for (int target = 0; target < InputManager::current()->get_num_users(); target++)
   {
     if (m_player_status.bonus[target] == FIRE_BONUS) {
@@ -113,7 +108,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                                 + 1.0f
                                                 + (Resources::fixed_font->get_text_height(coins_text) + 5)
                                                 + (Resources::fixed_font->get_text_height(ammo_text) + 5)
-                                                * static_cast<float>(target + 1)),
+                                                * static_cast<float>(target)),
                                     LAYER_HUD);
       }
 
@@ -125,7 +120,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                       BORDER_Y
                                           + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)
                                           + (Resources::fixed_font->get_text_height(ammo_text) + 5.0f)
-                                          * static_cast<float>(target + 1)),
+                                          * static_cast<float>(target)),
                                 ALIGN_LEFT,
                                 LAYER_HUD,
                                 PlayerStatusHUD::text_color);
@@ -145,7 +140,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                                 + 1.0f
                                                 + (Resources::fixed_font->get_text_height(coins_text) + 5)
                                                 + (Resources::fixed_font->get_text_height(ammo_text) + 5)
-                                                * static_cast<float>(target + 1)),
+                                                * static_cast<float>(target)),
                                     LAYER_HUD);
       }
 
@@ -157,7 +152,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                       BORDER_Y
                                           + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)
                                           + (Resources::fixed_font->get_text_height(ammo_text) + 5.0f)
-                                          * static_cast<float>(target + 1)),
+                                          * static_cast<float>(target)),
                                 ALIGN_LEFT,
                                 LAYER_HUD,
                                 PlayerStatusHUD::text_color);
