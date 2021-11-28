@@ -110,6 +110,7 @@ public:
 
 private:
   void update_scroll_normal(float dt_sec);
+  void update_scroll_normal_multiplayer(float dt_sec);
   void update_scroll_autoscroll(float dt_sec);
   void update_scroll_to(float dt_sec);
   void update_scale(float dt_sec);
