@@ -26,7 +26,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
-SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, std::string contrib_type, std::string title, std::string empty_message) : 
+SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message) :
   m_world_folders()
 { 
   add_label(title);
@@ -36,25 +36,15 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
   {
     if (worlds[i]->get_contrib_type() == contrib_type)
     {
-      auto savegame = Savegame::from_file(worlds[i]->get_savegame_filename());
+      m_world_folders.push_back(worlds[i]->get_basedir());
+      std::ostringstream title_stream;
       if (worlds[i]->is_levelset())
-      {
-        m_world_folders.push_back(worlds[i]->get_basedir());
-        std::ostringstream title_stream;
         title_stream << "[" << worlds[i]->get_title() << "]";
-        std::ostringstream desc;
-        desc << worlds[i]->get_description();
-        add_entry(world_id++, title_stream.str()).set_help(desc.str());
-      }
       else if (worlds[i]->is_worldmap())
-      {
-        m_world_folders.push_back(worlds[i]->get_basedir());
-        std::ostringstream title_stream;
         title_stream << worlds[i]->get_title();
-        std::ostringstream desc;
-        desc << worlds[i]->get_description();
-        add_entry(world_id++, title_stream.str()).set_help(desc.str());
-      }
+      std::ostringstream desc;
+      desc << worlds[i]->get_description();
+      add_entry(world_id++, title_stream.str()).set_help(desc.str());
     }
   }
   if (world_id == 0)

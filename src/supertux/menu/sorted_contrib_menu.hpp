@@ -21,7 +21,7 @@
 class SortedContribMenu : public Menu
 {
 public:
-  SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, std::string contrib_type, std::string title, std::string empty_message);
+  SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message);
   void menu_action(MenuItem& item) override;
 private:
   std::vector<std::string> m_world_folders;
