@@ -82,6 +82,9 @@ LevelIntro::update(float dt_sec, const Controller& controller)
 
   for (int i = 0; i < InputManager::current()->get_num_users(); i++)
   {
+    if (!InputManager::current()->has_corresponsing_controller(i))
+      continue;
+
     auto bonus_prefix = m_player_status.get_bonus_prefix(i);
     if (m_player_status.bonus[i] == FIRE_BONUS && g_config->christmas_mode)
     {
@@ -146,6 +149,9 @@ LevelIntro::draw(Compositor& compositor)
   int max_height = 0;
   for (int i = 0; i < static_cast<int>(m_player_sprite.size()); i++)
   {
+    if (!InputManager::current()->has_corresponsing_controller(i))
+      continue;
+
     float offset = (static_cast<float>(i) - static_cast<float>(m_player_sprite.size()) / 2.f + 0.5f) * 64.f;
 
     m_player_sprite[i]->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,

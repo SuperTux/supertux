@@ -81,7 +81,7 @@ public:
   virtual void remove_me() override;
 
   int get_id() const { return m_id; }
-  void set_id(int id) { m_id = id; }
+  void set_id(int id);
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 

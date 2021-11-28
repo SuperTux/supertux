@@ -136,13 +136,13 @@ InputManager::process_event(const SDL_Event& event)
 }
 
 void
-InputManager::push_controller()
+InputManager::push_user()
 {
   m_controllers.push_back(std::make_unique<Controller>());
 }
 
 void
-InputManager::pop_controller()
+InputManager::pop_user()
 {
   m_controllers.pop_back();
 }
@@ -159,6 +159,29 @@ InputManager::on_player_removed(int player_id)
   auto it2 = std::find_if(map2.begin(), map2.end(), [player_id](std::remove_reference<decltype(map2)>::type::const_reference pair) { return pair.second == player_id; });
   if (it2 != map2.end())
     it2->second = -1;
+}
+
+bool
+InputManager::has_corresponsing_controller(int player_id) const
+{
+  // Player 0 should always be considered to have a controller
+  if (!player_id)
+    return true;
+
+  if (m_use_game_controller)
+  {
+    auto& map = game_controller_manager->get_controller_mapping();
+    return std::find_if(map.begin(), map.end(), [player_id](std::remove_reference<decltype(map)>::type::const_reference pair) {
+      return pair.second == player_id;
+    }) != map.end();
+  }
+  else
+  {
+    auto& map = joystick_manager->get_joystick_mapping();
+    return std::find_if(map.begin(), map.end(), [player_id](std::remove_reference<decltype(map)>::type::const_reference pair) {
+      return pair.second == player_id;
+    }) != map.end();
+  }
 }
 
 /* EOF */

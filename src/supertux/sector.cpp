@@ -89,6 +89,9 @@ Sector::Sector(Level& parent) :
 
   for (int id = 0; id < InputManager::current()->get_num_users(); id++)
   {
+    if (!InputManager::current()->has_corresponsing_controller(id))
+      continue;
+
     if (id > 0 && !savegame)
       dummy_player_status.add_player();
 

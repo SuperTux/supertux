@@ -254,6 +254,13 @@ Player::set_speedlimit(float newlimit)
 }
 
 void
+Player::set_id(int id)
+{
+  m_id = id;
+  m_controller = &(InputManager::current()->get_controller(id));
+}
+
+void
 Player::set_controller(const Controller* controller_)
 {
   m_controller = controller_;

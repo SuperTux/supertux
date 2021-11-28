@@ -59,10 +59,12 @@ public:
 
   int get_num_users() const { return static_cast<int>(m_controllers.size()); }
 
-  void push_controller();
-  void pop_controller();
+  void push_user();
+  void pop_user();
 
   void on_player_removed(int player_id);
+
+  bool has_corresponsing_controller(int player_id) const;
 
 private:
   std::vector<std::unique_ptr<Controller>> m_controllers;

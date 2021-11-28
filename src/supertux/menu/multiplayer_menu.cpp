@@ -80,7 +80,7 @@ MultiplayerMenu::MultiplayerMenu()
   add_hl();
 
   add_entry(_("Add Player"), [] {
-    InputManager::current()->push_controller();
+    InputManager::current()->push_user();
     MenuManager::instance().set_menu(std::make_unique<MultiplayerMenu>());
   });
 
@@ -104,13 +104,13 @@ MultiplayerMenu::MultiplayerMenu()
             log_warning << "Cannot disconnect player #" << num << " in a sector with " << Sector::current()->get_object_count<Player>() << std::endl;
           }
 
-          InputManager::current()->pop_controller();
+          InputManager::current()->pop_user();
           MenuManager::instance().set_menu(std::make_unique<MultiplayerMenu>());
         });
       }
       else
       {
-        InputManager::current()->pop_controller();
+        InputManager::current()->pop_user();
         MenuManager::instance().set_menu(std::make_unique<MultiplayerMenu>());
       }
     });

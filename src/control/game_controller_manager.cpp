@@ -222,17 +222,29 @@ GameControllerManager::on_controller_added(int joystick_index)
 
       if (m_parent->m_use_game_controller) // TODO: Boolean config for automatic player creation/removal?
       {
-        m_parent->push_controller();
-        m_game_controllers[game_controller] = m_parent->get_num_users() - 1;
+        int id = m_parent->get_num_users();
+        for (int i = 0; i < m_parent->get_num_users(); i++)
+        {
+          if (!m_parent->has_corresponsing_controller(i))
+          {
+            id = i;
+            break;
+          }
+        }
+
+        if (id == m_parent->get_num_users())
+          m_parent->push_user();
+
+        m_game_controllers[game_controller] = id;
 
         if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen())
         {
           auto& sector = GameSession::current()->get_current_sector();
           auto& player_status = GameSession::current()->get_savegame().get_player_status();
 
-          player_status.add_player();
+          if (player_status.m_num_players <= id)
+            player_status.add_player();
 
-          int id = m_game_controllers[game_controller];
           auto& player = sector.add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
 
           player.multiplayer_prepare_spawn();
@@ -261,9 +273,11 @@ GameControllerManager::on_controller_removed(int instance_id)
 
     if (m_parent->m_use_game_controller && deleted_player_id != 0) // TODO: Boolean config for automatic player creation/removal?
     {
+#if 0
       for (auto& controller : m_game_controllers)
         if (controller.second > deleted_player_id)
           controller.second--;
+#endif
 
       auto players = Sector::current()->get_objects_by_type<Player>();
       auto it_players = players.begin();
@@ -272,13 +286,17 @@ GameControllerManager::on_controller_removed(int instance_id)
       {
         if (it_players->get_id() == deleted_player_id)
           it_players->remove_me();
+#if 0
         else if (it_players->get_id() > deleted_player_id)
           it_players->set_id(it_players->get_id() - 1);
+#endif
 
         it_players++;
       }
 
-      m_parent->pop_controller();
+#if 0
+      m_parent->pop_user();
+#endif
     }
   }
   else
