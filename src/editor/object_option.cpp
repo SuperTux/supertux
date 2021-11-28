@@ -644,5 +644,9 @@ ButtonOption::add_to_menu(Menu& menu) const
 {
   menu.add_entry(get_text(), m_callback);
 }
+StringArrayOption::StringArrayOption(std::vector<std::string>* items) :
+  m_items(items)
+{}
+
 
 /* EOF */

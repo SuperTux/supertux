@@ -115,6 +115,7 @@
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
 #include "object/text_array_object.hpp"
+#include "object/text_area.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -261,6 +262,7 @@ GameObjectFactory::init_factories()
   add_factory<UnstableTile>("unstable_tile");
   add_factory<WeakBlock>("weak_block");
   add_factory<Wind>("wind");
+  add_factory<TextArea>("text-area");
 
   // trigger
   add_factory<Climbable>("climbable");

@@ -443,6 +443,21 @@ private:
   ButtonOption& operator=(const ButtonOption&) = delete;
 };
 
+class StringArrayOption : public ObjectOption
+{
+public:
+  StringArrayOption(std::vector<std::string>* items);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override { return {}; }
+  virtual void add_to_menu(Menu& menu) const override;
+private:
+  std::vector<std::string>* m_items;
+private:
+  StringArrayOption(const StringArrayOption&) = delete;
+  StringArrayOption& operator=(const StringArrayOption&) = delete;
+};
+
 #endif
 
 /* EOF */
