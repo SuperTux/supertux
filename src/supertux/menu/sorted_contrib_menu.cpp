@@ -37,14 +37,12 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
     if (worlds[i]->get_contrib_type() == contrib_type)
     {
       m_world_folders.push_back(worlds[i]->get_basedir());
-      std::ostringstream title_stream;
+      std::string title_str;
       if (worlds[i]->is_levelset())
-        title_stream << "[" << worlds[i]->get_title() << "]";
+        title_str = "[" + worlds[i]->get_title() + "]";
       else
-        title_stream << worlds[i]->get_title();
-      std::ostringstream desc;
-      desc << worlds[i]->get_description();
-      add_entry(world_id++, title_stream.str()).set_help(desc.str());
+        title_str = worlds[i]->get_title();
+      add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
     }
   }
   if (world_id == 0)
