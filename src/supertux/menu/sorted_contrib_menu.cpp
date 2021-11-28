@@ -40,7 +40,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       std::ostringstream title_stream;
       if (worlds[i]->is_levelset())
         title_stream << "[" << worlds[i]->get_title() << "]";
-      else if (worlds[i]->is_worldmap())
+      else
         title_stream << worlds[i]->get_title();
       std::ostringstream desc;
       desc << worlds[i]->get_description();
