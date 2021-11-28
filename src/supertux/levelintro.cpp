@@ -144,28 +144,25 @@ LevelIntro::draw(Compositor& compositor)
     py += static_cast<int>(Resources::small_font->get_height());
   }
 
-  py += 32;
+  py += 96;
 
-  int max_height = 0;
   for (int i = 0; i < static_cast<int>(m_player_sprite.size()); i++)
   {
     if (!InputManager::current()->has_corresponsing_controller(i))
-      continue;
+      context.transform().alpha = 0.25f;
 
     float offset = (static_cast<float>(i) - static_cast<float>(m_player_sprite.size()) / 2.f + 0.5f) * 64.f;
 
     m_player_sprite[i]->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
-                                                static_cast<float>(py) + m_player_sprite_py[i]), LAYER_FOREGROUND1);
+                                                static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height()), LAYER_FOREGROUND1);
 
     if (m_player_status.bonus[i] > GROWUP_BONUS) {
       m_power_sprite[i]->draw(context.color(), Vector((static_cast<float>(context.get_width()) - m_player_sprite[i]->get_current_hitbox_width()) / 2 - offset,
-                                                  static_cast<float>(py) + m_player_sprite_py[i]), LAYER_FOREGROUND1);
+                                                  static_cast<float>(py) + m_player_sprite_py[i] - m_player_sprite[i]->get_current_hitbox_height()), LAYER_FOREGROUND1);
     }
 
-    max_height = std::max(max_height, static_cast<int>(m_player_sprite[i]->get_current_hitbox_height()));
+    context.transform().alpha = 1.f;
   }
-
-  py += max_height;
 
   py += 32;
 
