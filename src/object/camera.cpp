@@ -44,7 +44,7 @@ static const float HORIZONTAL_MARGIN = 196.f; // 6 tiles
 static const float VERTICAL_MARGIN = 196.f; // 6 tiles
 
 /* 0 = no movement, 1 = no smooth adaptation */
-static const float MULTIPLAYER_CAM_TORQUE = 0.02f;
+static const float MULTIPLAYER_CAM_TORQUE = 0.05f;
 
 class CameraConfig final
 {
