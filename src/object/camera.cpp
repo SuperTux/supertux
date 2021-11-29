@@ -33,7 +33,7 @@
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
    0 is never get there, 1 is instant */
-static const float PEEK_ARRIVE_RATIO = 0.01f;
+static const float PEEK_ARRIVE_RATIO = 0.03f;
 
 /**
  * For the multiplayer camera, the camera will ensure all players are visible.
@@ -714,10 +714,10 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
     y2 = std::max(y2, p->get_bbox().get_bottom() + VERTICAL_MARGIN);
   }
 
-  Rect cover(std::max(0.f, x1),
-             std::max(0.f, y1),
-             std::min(Sector::get().get_width(), x2),
-             std::min(Sector::get().get_height(), y2));
+  Rectf cover(std::max(0.f, x1),
+              std::max(0.f, y1),
+              std::min(Sector::get().get_width(), x2),
+              std::min(Sector::get().get_height(), y2));
 
   float scale = std::min(static_cast<float>(SCREEN_WIDTH) / static_cast<float>(cover.get_width()),
                          static_cast<float>(SCREEN_HEIGHT) / static_cast<float>(cover.get_height()));
@@ -726,9 +726,9 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
   scale = math::clamp(scale, max_scale, 1.f);
 
   // Can't use m_screen_size because it varies depending on the scale
-  auto rect = Rectf::from_center(Vector((cover.left + cover.right) / 2.f, (cover.top + cover.bottom) / 2.f),
+  auto rect = Rectf::from_center(Vector((cover.get_left() + cover.get_right()) / 2.f, (cover.get_top() + cover.get_bottom()) / 2.f),
                                 Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)));
-  auto true_rect = Rectf::from_center(Vector((cover.left + cover.right) / 2.f, (cover.top + cover.bottom) / 2.f),
+  auto true_rect = Rectf::from_center(Vector((cover.get_left() + cover.get_right()) / 2.f, (cover.get_top() + cover.get_bottom()) / 2.f),
                                       Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)) / scale);
 
   if (true_rect.get_left() < 0.f)
