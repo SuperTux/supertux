@@ -325,7 +325,7 @@ Camera::update(float dt_sec)
 {
   switch (m_mode) {
     case Mode::NORMAL:
-      if (Sector::current() && Sector::current()->get_object_count<Player>([](const Player& p){ return !p.is_dead(); }) > 1)
+      if (Sector::current() && Sector::current()->get_object_count<Player>([](const Player& p){ return !p.is_dead() && !p.is_dying(); }) > 1)
       {
         update_scroll_normal_multiplayer(dt_sec);
       }
@@ -708,6 +708,9 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 
   for (const auto* p : Sector::get().get_players())
   {
+    if (p->is_dead() || p->is_dying())
+      continue;
+
     x1 = std::min(x1, p->get_bbox().get_left() - HORIZONTAL_MARGIN);
     x2 = std::max(x2, p->get_bbox().get_right() + HORIZONTAL_MARGIN);
     y1 = std::min(y1, p->get_bbox().get_top() - VERTICAL_MARGIN);
