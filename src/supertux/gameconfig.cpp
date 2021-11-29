@@ -185,7 +185,7 @@ Config::load()
     editor_mapping->get("render_lighting", editor_render_lighting);
     editor_mapping->get("selected_snap_grid_size", editor_selected_snap_grid_size);
     editor_mapping->get("snap_to_grid", editor_snap_to_grid);
-  } else { log_warning << "!!!!" << std::endl; }
+  }
 
   if (is_christmas()) {
     config_mapping.get("christmas", christmas_mode, true);
