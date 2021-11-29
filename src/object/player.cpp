@@ -1999,21 +1999,6 @@ Player::kill(bool completely)
       return;
     }
 
-    if (m_player_status.can_reach_checkpoint())
-    {
-      for (int i = 0; i < 5; i++)
-      {
-        // the numbers: starting x, starting y, velocity y
-        Sector::get().add<FallingCoin>(get_pos() +
-                                                      Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
-                                                      graphicsRandom.randf(-100.0f, 100.0f));
-      }
-      m_player_status.take_checkpoint_coins();
-    }
-    else
-    {
-      GameSession::current()->set_reset_point("", Vector(0.0f, 0.0f));
-    }
     m_physic.enable_gravity(true);
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     m_safe_timer.stop();
@@ -2029,6 +2014,22 @@ Player::kill(bool completely)
 
     if (!alive_players)
     {
+      if (m_player_status.can_reach_checkpoint())
+      {
+        for (int i = 0; i < 5; i++)
+        {
+          // the numbers: starting x, starting y, velocity y
+          Sector::get().add<FallingCoin>(get_pos() +
+                                                        Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
+                                                        graphicsRandom.randf(-100.0f, 100.0f));
+        }
+        m_player_status.take_checkpoint_coins();
+      }
+      else
+      {
+        GameSession::current()->set_reset_point("", Vector(0.0f, 0.0f));
+      }
+
       Sector::get().get_effect().fade_out(3.0);
       SoundManager::current()->pause_music(3.0);
     }
