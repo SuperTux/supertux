@@ -130,7 +130,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     }
   }
 
-  reader.get("starting-node", m_starting_node, 0.f);
+  reader.get("starting-node", m_starting_node, 0);
 
   init_path(reader, false);
 
@@ -192,9 +192,12 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 void
 TileMap::finish_construction()
 {
-  if (get_path()) {
-    Vector v = get_path()->get_base();
-    set_offset(v);
+  if (get_path() && get_path()->get_nodes().size() > 0) {
+    if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+      m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+    set_offset(get_path()->get_nodes()[m_starting_node].position);
+    get_walker()->jump_to_node(m_starting_node);
   }
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
@@ -343,6 +346,15 @@ TileMap::editor_update()
     if (get_path() && get_path()->is_valid()) {
       m_movement = get_walker()->get_pos() - get_offset();
       set_offset(get_walker()->get_pos());
+
+      if (!get_path()) return;
+      if (!get_path()->is_valid()) return;
+
+      if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+        m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+      m_movement += get_path()->get_nodes()[m_starting_node].position - get_offset();
+      set_offset(get_path()->get_nodes()[m_starting_node].position);
     } else {
       set_offset(Vector(0, 0));
     }
@@ -352,11 +364,14 @@ TileMap::editor_update()
 void
 TileMap::editor_delete()
 {
+  // Paths may be used by multiple objects
+#if 0
   auto path_obj = get_path_gameobject();
   if(path_obj != nullptr)
   {
     path_obj->editor_delete();
   }
+#endif
   GameObject::editor_delete();
 }
 
