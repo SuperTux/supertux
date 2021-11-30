@@ -68,6 +68,7 @@ Coin::finish_construction()
       m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
     set_pos(get_path()->get_nodes()[m_starting_node].position);
+    get_walker()->jump_to_node(m_starting_node);
   }
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
