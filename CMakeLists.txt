@@ -437,7 +437,7 @@ if(${VERSION_LIST_SIZE} GREATER 0)
   configure_file("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
 endif()
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
-  message( SEND_ERROR "Cound not find GIT or valid version.cmake. Version information will be invalid." )
+  message( SEND_ERROR "Could not find GIT or valid version.cmake. Version information will be invalid." )
 endif(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
 include("${CMAKE_SOURCE_DIR}/version.cmake")
 
