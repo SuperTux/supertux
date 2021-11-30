@@ -329,7 +329,8 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 {
   if (m_climbing) stop_climbing(*m_climbing);
   stop_backflipping();
-  GameSession::current()->start_sequence(seq, data);
+
+  GameSession::current()->start_sequence(this, seq, data);
 }
 
 void

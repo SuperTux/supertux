@@ -28,6 +28,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
+#include "supertux/timer.hpp"
 #include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -35,6 +36,7 @@ class CodeController;
 class DrawingContext;
 class EndSequence;
 class Level;
+class Player;
 class Sector;
 class Statistics;
 class Savegame;
@@ -68,7 +70,7 @@ public:
   Sector& get_current_sector() const { return *m_currentsector; }
   Level& get_current_level() const { return *m_level; }
 
-  void start_sequence(Sequence seq, const SequenceData* data = nullptr);
+  void start_sequence(Player* caller, Sequence seq, const SequenceData* data = nullptr);
 
   /**
    * returns the "working directory" usually this is the directory where the
@@ -158,6 +160,8 @@ private:
   bool m_end_seq_started;
 
   std::unique_ptr<GameObject> m_current_cutscene_text;
+
+  Timer m_endsequence_timer;
 
 private:
   GameSession(const GameSession&) = delete;

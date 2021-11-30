@@ -80,7 +80,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_ice_bullets_at_start(),
   m_active(false),
   m_end_seq_started(false),
-  m_current_cutscene_text()
+  m_current_cutscene_text(),
+  m_endsequence_timer()
 {
   m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
   m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
@@ -146,6 +147,7 @@ GameSession::restart_level(bool after_death)
 
   m_game_pause   = false;
   m_end_sequence = nullptr;
+  m_endsequence_timer.stop();
 
   InputManager::current()->reset();
 
@@ -217,7 +219,16 @@ GameSession::on_escape_press(bool force_quick_respawn)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
     if (m_end_sequence)
-      m_end_sequence->stop();
+    {
+      if (m_end_sequence->is_running())
+      {
+        m_end_sequence->stop();
+      }
+      else
+      {
+        m_endsequence_timer.start(FLT_EPSILON);
+      }
+    }
 
     m_currentsector->get_players()[0]->m_dying_timer.start(FLT_EPSILON);
     return;   // don't let the player open the menu, when Tux is dying
@@ -284,7 +295,7 @@ GameSession::abort_level()
 bool
 GameSession::is_active() const
 {
-  return !m_game_pause && m_active && !m_end_sequence;
+  return !m_game_pause && m_active && !(m_end_sequence && m_end_sequence->is_running());
 }
 
 void
@@ -328,7 +339,12 @@ GameSession::check_end_conditions()
       break;
 
   /* End of level? */
-  if (m_end_sequence && m_end_sequence->is_done()) {
+  if (m_endsequence_timer.check()) {
+    m_endsequence_timer.stop();
+    for (auto* p : m_currentsector->get_players())
+      p->set_winning();
+    start_sequence(nullptr, Sequence::SEQ_ENDSEQUENCE);
+  } else if (m_end_sequence && m_end_sequence->is_done()) {
     finish(true);
   } else if (!m_end_sequence && all_dead) {
     restart_level(true);
@@ -475,7 +491,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   if (!m_game_pause) {
     assert(m_currentsector != nullptr);
     // Update the world
-    if (!m_end_sequence) {
+    if (!m_end_sequence || !m_end_sequence->is_running()) {
       if (!m_level->m_is_in_cutscene)
       {
         m_play_time += dt_sec;
@@ -506,7 +522,7 @@ GameSession::update(float dt_sec, const Controller& controller)
 
   for (const auto* p : m_currentsector->get_players())
   {
-    invincible_timer_started |= p->m_invincible_timer.started();
+    invincible_timer_started |= (p->m_invincible_timer.started() && !p->is_winning());
     max_invincible_timer_left = std::max(max_invincible_timer_left, p->m_invincible_timer.get_timeleft());
   }
 
@@ -615,7 +631,7 @@ GameSession::get_working_directory() const
 }
 
 void
-GameSession::start_sequence(Sequence seq, const SequenceData* data)
+GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* data)
 {
   // do not play sequences when in edit mode
   if (m_edit_mode) {
@@ -627,30 +643,59 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   if (seq == SEQ_STOPTUX) {
     if (!m_end_sequence) {
       log_warning << "Final target reached without an active end sequence" << std::endl;
-      start_sequence(SEQ_ENDSEQUENCE);
+      start_sequence(caller, SEQ_ENDSEQUENCE);
     }
     if (m_end_sequence) m_end_sequence->stop_tux();
     return;
   }
 
+  if (caller)
+    caller->set_winning();
+
+  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
+    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+  });
+
   // abort if a sequence is already playing
-  if (m_end_sequence)
+  if (m_end_sequence && m_end_sequence->is_running())
     return;
 
-  std::unique_ptr<EndSequence> end_sequence;
-  if (seq == SEQ_ENDSEQUENCE) {
-    // FIXME: Don't force all players to go in 1 direction when winning
-    if (m_currentsector->get_players()[0]->get_physic().get_velocity_x() < 0) {
-      end_sequence = std::make_unique<EndSequenceWalkLeft>();
+  // Set the sequence to prepare it
+  if (!m_end_sequence) {
+    std::unique_ptr<EndSequence> end_sequence;
+    if (seq == SEQ_ENDSEQUENCE) {
+      // FIXME: Don't force all players to go in 1 direction when winning
+      if ((caller ? caller : m_currentsector->get_players()[0])->get_physic().get_velocity_x() < 0) {
+        end_sequence = std::make_unique<EndSequenceWalkLeft>();
+      } else {
+        end_sequence = std::make_unique<EndSequenceWalkRight>();
+      }
+    } else if (seq == SEQ_FIREWORKS) {
+      end_sequence = std::make_unique<EndSequenceFireworks>();
     } else {
-      end_sequence = std::make_unique<EndSequenceWalkRight>();
+      log_warning << "Unknown sequence '" << static_cast<int>(seq) << "'. Ignoring." << std::endl;
+      return;
     }
-  } else if (seq == SEQ_FIREWORKS) {
-    end_sequence = std::make_unique<EndSequenceFireworks>();
-  } else {
-    log_warning << "Unknown sequence '" << static_cast<int>(seq) << "'. Ignoring." << std::endl;
+
+    m_end_sequence = static_cast<EndSequence*>(&m_currentsector->add_object(std::move(end_sequence)));
+  }
+
+  if (caller)
+  {
+    caller->set_controller(m_end_sequence->get_controller());
+    caller->set_speedlimit(230); // MAX_WALK_XM
+  }
+
+  // Don't play the prepared sequence if there are more players that are still playing
+  if (remaining_players > 0)
+  {
+    if (!m_endsequence_timer.started())
+      m_endsequence_timer.start(10.f);
+
     return;
   }
+
+  m_endsequence_timer.stop();
 
   if (const auto& worldmap = worldmap::WorldMap::current())
   {
@@ -670,12 +715,15 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   /* slow down the game for end-sequence */
   ScreenManager::current()->set_speed(0.5f);
 
-  m_end_sequence = static_cast<EndSequence*>(&m_currentsector->add_object(std::move(end_sequence)));
   m_end_sequence->start();
 
   SoundManager::current()->play_music("music/misc/leveldone.ogg", false);
   for (auto* p : m_currentsector->get_players())
+  {
     p->set_winning();
+    p->set_controller(m_end_sequence->get_controller());
+    p->set_speedlimit(230); // MAX_WALK_XM
+  }
 
   // Stop all clocks.
   for (const auto& obj : m_currentsector->get_objects())
@@ -691,7 +739,7 @@ void
 GameSession::drawstatus(DrawingContext& context)
 {
   // draw level stats while end_sequence is running
-  if (m_end_sequence) {
+  if (m_end_sequence && m_end_sequence->is_running()) {
     m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop, m_level->m_target_time);
   }
 

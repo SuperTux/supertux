@@ -23,7 +23,7 @@ EndSequence::EndSequence() :
   isrunning(false),
   isdone(false),
   tux_may_walk(true),
-  end_sequence_controller()
+  end_sequence_controller(new CodeController())
 {
 }
 
@@ -50,11 +50,6 @@ EndSequence::start()
   isrunning = true;
   isdone = false;
 
-  Player& tux = *(Sector::get().get_players()[0]); // FIXME: Do this with all players
-  end_sequence_controller.reset(new CodeController());
-  tux.set_controller(end_sequence_controller.get());
-  tux.set_speedlimit(230); //MAX_WALK_XM
-
   starting();
 }
 
@@ -71,6 +66,12 @@ EndSequence::stop()
   isrunning = false;
   isdone = true;
   stopping();
+}
+
+bool
+EndSequence::is_running() const
+{
+  return isrunning;
 }
 
 bool
@@ -99,6 +100,12 @@ EndSequence::running(float /*dt_sec*/)
 void
 EndSequence::stopping()
 {
+}
+
+const Controller*
+EndSequence::get_controller() const
+{
+  return end_sequence_controller.get();
 }
 
 /* EOF */
