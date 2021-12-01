@@ -29,9 +29,15 @@ void
 StringArrayMenu::menu_action(MenuItem& item)
 {
   int id = item.get_id();
-  if (id == -2 && m_text.length() > 0)
+  if (id >= 0)
+  {
+    m_items->erase(m_items->begin() + id);
+    reload();
+  }
+  else if (id == -2 && m_text.length() > 0)
   {
     m_items->push_back(m_text);
+    m_text = "";
     reload();
   }
 }
@@ -42,9 +48,9 @@ StringArrayMenu::reload()
   clear();
   add_label(_("Edit string array"));
   add_hl();
-  for (int i = 0; i < m_items->size(); i++)
+  for (unsigned int i = 0; i < m_items->size(); i++)
   {
-    add_label(m_items->at(i));
+    add_entry(i, m_items->at(i));
   }
   add_hl();
   add_textfield(_("Text"), &m_text);

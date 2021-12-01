@@ -37,6 +37,7 @@
 #include "gui/item_stringselect.hpp"
 #include "gui/item_textfield.hpp"
 #include "gui/item_toggle.hpp"
+#include "gui/item_string_array.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -335,6 +336,15 @@ Menu::add_color(const std::string& text, Color* color, int id) {
 ItemBadguySelect&
 Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id) {
   auto item = std::make_unique<ItemBadguySelect>(text, badguys, id);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
+ItemStringArray&
+Menu::add_string_array(const std::string& text, std::vector<std::string>* items, int id)
+{
+  auto item = std::make_unique<ItemStringArray>(text, items, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

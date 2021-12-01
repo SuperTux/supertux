@@ -293,6 +293,12 @@ ObjectSettings::add_sexp(const std::string& text, const std::string& key, sexp::
 }
 
 void
+ObjectSettings::add_string_array(const std::string& text, const std::string& key, std::vector<std::string>* items)
+{
+  add_option(std::make_unique<StringArrayOption>(text, key, items));
+}
+
+void
 ObjectSettings::add_test_from_here()
 {
   add_option(std::make_unique<TestFromHereOption>());

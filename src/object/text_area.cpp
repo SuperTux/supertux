@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "object/text_object.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -25,19 +26,41 @@
 
 TextArea::TextArea(const ReaderMapping& mapping) :
   MovingObject(mapping),
-  m_started(false)
+  m_started(false),
+  m_inside(false),
+  m_once(false),
+  m_finished(false),
+  m_items(),
+  m_delay(4.0f),
+  m_fade_delay(1.0f),
+  m_text_id(0),
+  m_update_timer(),
+  m_fade_timer()
 {
   float w, h;
   mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
   mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
   mapping.get("width", w, 32.0f);
   mapping.get("height", h, 32.0f);
+  mapping.get("strings", m_items);
+  mapping.get("delay", m_delay);
+  mapping.get("once", m_once);
+  mapping.get("fade-delay", m_fade_delay);
   m_col.m_bbox.set_size(w, h);
   m_col.m_group = COLGROUP_DISABLED;
 }
 
 TextArea::TextArea(const Vector& pos) :
-  m_started(false)
+  m_started(false),
+  m_inside(false),
+  m_once(false),
+  m_finished(false),
+  m_items(),
+  m_delay(4.0f),
+  m_fade_delay(1.0f),
+  m_text_id(0),
+  m_update_timer(),
+  m_fade_timer()
 {
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(32,32);
@@ -54,17 +77,46 @@ void
 TextArea::draw(DrawingContext& context)
 {
   if(Editor::is_active())
-  {
     context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 1.0f, 1.0f, 0.6f), LAYER_OBJECTS);
-  }
 }
 
 void
 TextArea::update(float dt_sec)
 {
-  if (m_col.m_bbox.contains(Sector::get().get_player().get_bbox()) && !m_started)
+  if (m_col.m_bbox.contains(Sector::get().get_player().get_bbox()))
   {
-
+    if (!m_started && m_items.size() > 0 && !m_inside && (!m_once || !m_finished))
+    {
+      m_update_timer.start(m_delay + m_fade_delay * 2, true);
+      m_started = true;
+      m_inside = true;
+      m_text_id = 0;
+    }
+  }
+  else if (!m_started)
+    m_inside = false;
+  if (m_started)
+  {
+    TextObject& text_object = Sector::get().get_singleton_by_type<TextObject>();
+    if (m_text_id < m_items.size() && (m_update_timer.check() || m_text_id == 0) && !m_fade_timer.started())
+    {
+      m_fade_timer.start(m_delay + m_fade_delay);
+      text_object.set_text(m_items[m_text_id]);
+      text_object.fade_in(m_fade_delay);
+      m_text_id++;
+    }
+    else if (m_text_id >= m_items.size())
+    {
+      m_started = false;
+      m_update_timer.stop();
+      m_fade_timer.start(m_delay + m_fade_delay);
+      m_finished = true;
+    }
+  }
+  if (m_fade_timer.check())
+  {
+    Sector::get().get_singleton_by_type<TextObject>().fade_out(m_fade_delay);
+    m_fade_timer.stop();
   }
 }
 
@@ -72,5 +124,9 @@ ObjectSettings
 TextArea::get_settings()
 {
   ObjectSettings settings = MovingObject::get_settings();
+  settings.add_bool(_("Once"), &m_once, "once");
+  settings.add_float(_("Text change time"), &m_delay, "delay");
+  settings.add_float(_("Fade time"), &m_fade_delay, "fade-delay");
+  settings.add_string_array(_("Texts"), "texts", &m_items);
   return settings;
 }

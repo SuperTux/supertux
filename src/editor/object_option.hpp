@@ -446,7 +446,7 @@ private:
 class StringArrayOption : public ObjectOption
 {
 public:
-  StringArrayOption(std::vector<std::string>* items);
+  StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>* items);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override { return {}; }
