@@ -44,7 +44,7 @@ static const float HORIZONTAL_MARGIN = 196.f; // 6 tiles
 static const float VERTICAL_MARGIN = 196.f; // 6 tiles
 
 /* 0 = no movement, 1 = no smooth adaptation */
-static const float MULTIPLAYER_CAM_TORQUE = 0.05f;
+static const float MULTIPLAYER_CAM_TORQUE = 0.1f;
 
 class CameraConfig final
 {
@@ -325,7 +325,7 @@ Camera::update(float dt_sec)
 {
   switch (m_mode) {
     case Mode::NORMAL:
-      if (Sector::current() && Sector::current()->get_object_count<Player>([](const Player& p){ return !p.is_dead() && !p.is_dying(); }) > 1)
+      if (Sector::current() && Sector::current()->get_object_count<Player>() > 1)
       {
         update_scroll_normal_multiplayer(dt_sec);
       }
