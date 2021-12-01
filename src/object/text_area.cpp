@@ -130,3 +130,4 @@ TextArea::get_settings()
   settings.add_string_array(_("Texts"), "texts", &m_items);
   return settings;
 }
+/* EOF */

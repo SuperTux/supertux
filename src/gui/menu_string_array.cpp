@@ -57,3 +57,4 @@ StringArrayMenu::reload()
   add_entry(-2, _("Add"));
   add_back(_("OK"));
 }
+/* EOF */
