@@ -28,7 +28,7 @@ public:
 
   virtual void menu_action(MenuItem& item) override;
 private:
-  std::vector<std::string>* m_items;
+  std::vector<std::string>* m_array_items;
   std::string m_text;
 
   void reload();
