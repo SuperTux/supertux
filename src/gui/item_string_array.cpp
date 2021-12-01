@@ -33,3 +33,4 @@ ItemStringArray::process_action(const MenuAction& action)
     MenuManager::instance().push_menu(std::make_unique<StringArrayMenu>(m_items));
   }
 }
+/* EOF */
