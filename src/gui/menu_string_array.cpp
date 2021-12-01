@@ -20,7 +20,8 @@
 #include "util/gettext.hpp"
 
 StringArrayMenu::StringArrayMenu(std::vector<std::string>* items) :
-  m_items(items)
+  m_items(items),
+  m_text()
 {
   reload();
 }
