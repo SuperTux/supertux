@@ -14,20 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_TEXT_AREA_HPP
-#define HEADER_SUPERTUX_OBJECT_TEXT_AREA_HPP
+#ifndef HEADER_SUPERTUX_TRIGGER_TEXT_AREA_HPP
+#define HEADER_SUPERTUX_TRIGGER_TEXT_AREA_HPP
 
-#include "supertux/moving_object.hpp"
+#include "trigger/trigger_base.hpp"
 #include "supertux/timer.hpp"
 
-class TextArea final : public MovingObject
+class TextArea final : public TriggerBase
 {
 public:
   TextArea(const ReaderMapping& mapping);
   TextArea(const Vector& pos);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
+  virtual void event(Player& player, EventType type) override;
   virtual void update(float dt_sec) override;
 
   virtual ObjectSettings get_settings() override;

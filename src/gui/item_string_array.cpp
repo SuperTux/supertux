@@ -19,7 +19,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/menu_string_array.hpp"
 
-ItemStringArray::ItemStringArray(const std::string& text, std::vector<std::string>* items, int id) :
+ItemStringArray::ItemStringArray(const std::string& text, std::vector<std::string>& items, int id) :
   MenuItem(text, id),
   m_items(items)
 {

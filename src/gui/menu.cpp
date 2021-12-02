@@ -342,7 +342,7 @@ Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badgu
 }
 
 ItemStringArray&
-Menu::add_string_array(const std::string& text, std::vector<std::string>* items, int id)
+Menu::add_string_array(const std::string& text, std::vector<std::string>& items, int id)
 {
   auto item = std::make_unique<ItemStringArray>(text, items, id);
   auto item_ptr = item.get();

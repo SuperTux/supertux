@@ -446,13 +446,13 @@ private:
 class StringArrayOption : public ObjectOption
 {
 public:
-  StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>* items);
+  StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items);
 
   virtual void save(Writer& write) const override;
-  virtual std::string to_string() const override { return {}; }
+  virtual std::string to_string() const override { return "text-area"; }
   virtual void add_to_menu(Menu& menu) const override;
 private:
-  std::vector<std::string>* m_items;
+  std::vector<std::string>& m_items;
 private:
   StringArrayOption(const StringArrayOption&) = delete;
   StringArrayOption& operator=(const StringArrayOption&) = delete;

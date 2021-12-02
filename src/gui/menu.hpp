@@ -97,7 +97,7 @@ public:
     bool is_linear = false);
   ItemColorChannelOKLab& add_color_channel_oklab(Color* color, int channel);
   ItemPaths& add_path_settings(const std::string& text, PathObject& target, const std::string& path_ref);
-  ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>* items, int id = -1);
+  ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>& items, int id = -1);
 
   void process_input(const Controller& controller);
 

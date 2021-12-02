@@ -115,7 +115,6 @@
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
 #include "object/text_array_object.hpp"
-#include "object/text_area.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -132,6 +131,7 @@
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "trigger/switch.hpp"
+#include "trigger/text_area.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 

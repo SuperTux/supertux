@@ -19,7 +19,7 @@
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 
-StringArrayMenu::StringArrayMenu(std::vector<std::string>* items) :
+StringArrayMenu::StringArrayMenu(std::vector<std::string>& items) :
   m_array_items(items),
   m_text()
 {
@@ -32,12 +32,12 @@ StringArrayMenu::menu_action(MenuItem& item)
   int id = item.get_id();
   if (id >= 0)
   {
-    m_array_items->erase(m_array_items->begin() + id);
+    m_array_items.erase(m_array_items.begin() + id);
     reload();
   }
   else if (id == -2 && m_text.length() > 0)
   {
-    m_array_items->push_back(m_text);
+    m_array_items.push_back(m_text);
     m_text = "";
     reload();
   }
@@ -49,9 +49,9 @@ StringArrayMenu::reload()
   clear();
   add_label(_("Edit string array"));
   add_hl();
-  for (unsigned int i = 0; i < m_array_items->size(); i++)
+  for (unsigned int i = 0; i < m_array_items.size(); i++)
   {
-    add_entry(i, m_array_items->at(i));
+    add_entry(i, m_array_items.at(i));
   }
   add_hl();
   add_textfield(_("Text"), &m_text);

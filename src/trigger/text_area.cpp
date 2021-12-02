@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/text_area.hpp"
+#include "trigger/text_area.hpp"
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
@@ -25,7 +25,7 @@
 #include "video/layer.hpp"
 
 TextArea::TextArea(const ReaderMapping& mapping) :
-  MovingObject(mapping),
+  TriggerBase(mapping),
   m_started(false),
   m_inside(false),
   m_once(false),
@@ -47,7 +47,6 @@ TextArea::TextArea(const ReaderMapping& mapping) :
   mapping.get("once", m_once);
   mapping.get("fade-delay", m_fade_delay);
   m_col.m_bbox.set_size(w, h);
-  m_col.m_group = COLGROUP_DISABLED;
 }
 
 TextArea::TextArea(const Vector& pos) :
@@ -64,13 +63,6 @@ TextArea::TextArea(const Vector& pos) :
 {
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(32,32);
-  m_col.m_group = COLGROUP_DISABLED;
-}
-
-HitResponse
-TextArea::collision(GameObject& other, const CollisionHit& hit)
-{
-  return FORCE_MOVE;
 }
 
 void
@@ -81,20 +73,31 @@ TextArea::draw(DrawingContext& context)
 }
 
 void
-TextArea::update(float dt_sec)
+TextArea::event(Player& player, EventType type)
 {
-  if (m_col.m_bbox.contains(Sector::get().get_player().get_bbox()))
+  switch (type)
   {
-    if (!m_started && m_items.size() > 0 && !m_inside && (!m_once || !m_finished))
+  case EVENT_TOUCH:
+    if (!m_started && !m_fade_timer.started() && m_items.size() > 0 && !m_inside && (!m_once || !m_finished))
     {
       m_update_timer.start(m_delay + m_fade_delay * 2, true);
       m_started = true;
-      m_inside = true;
       m_text_id = 0;
     }
-  }
-  else if (!m_started)
+    m_inside = true;
+    break;
+  case EVENT_LOSETOUCH:
     m_inside = false;
+    break;
+  default:
+    break;
+  }
+}
+
+void
+TextArea::update(float dt_sec)
+{
+  TriggerBase::update(dt_sec);
   if (m_started)
   {
     TextObject& text_object = Sector::get().get_singleton_by_type<TextObject>();
@@ -123,11 +126,11 @@ TextArea::update(float dt_sec)
 ObjectSettings
 TextArea::get_settings()
 {
-  ObjectSettings settings = MovingObject::get_settings();
+  ObjectSettings settings = TriggerBase::get_settings();
   settings.add_bool(_("Once"), &m_once, "once");
   settings.add_float(_("Text change time"), &m_delay, "delay");
   settings.add_float(_("Fade time"), &m_fade_delay, "fade-delay");
-  settings.add_string_array(_("Texts"), "texts", &m_items);
+  settings.add_string_array(_("Texts"), "texts", m_items);
   return settings;
 }
 /* EOF */

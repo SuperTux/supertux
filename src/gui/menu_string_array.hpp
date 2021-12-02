@@ -24,11 +24,11 @@
 class StringArrayMenu final : public Menu
 {
 public:
-  StringArrayMenu(std::vector<std::string>* items);
+  StringArrayMenu(std::vector<std::string>& items);
 
   virtual void menu_action(MenuItem& item) override;
 private:
-  std::vector<std::string>* m_array_items;
+  std::vector<std::string>& m_array_items;
   std::string m_text;
 
   void reload();
