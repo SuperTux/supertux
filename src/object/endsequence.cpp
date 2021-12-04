@@ -20,10 +20,10 @@
 #include "supertux/sector.hpp"
 
 EndSequence::EndSequence() :
-  isrunning(false),
-  isdone(false),
-  tux_may_walk(true),
-  end_sequence_controller(new CodeController())
+  m_is_running(false),
+  m_is_done(false),
+  m_tux_is_stopped(),
+  m_end_sequence_controllers()
 {
 }
 
@@ -34,7 +34,7 @@ EndSequence::~EndSequence()
 void
 EndSequence::update(float dt_sec)
 {
-  if (!isrunning) return;
+  if (!m_is_running) return;
   running(dt_sec);
 }
 
@@ -46,44 +46,44 @@ EndSequence::draw(DrawingContext& /*context*/)
 void
 EndSequence::start()
 {
-  if (isrunning) return;
-  isrunning = true;
-  isdone = false;
+  if (m_is_running) return;
+  m_is_running = true;
+  m_is_done = false;
 
   starting();
 }
 
 void
-EndSequence::stop_tux()
+EndSequence::stop_tux(int player)
 {
-  tux_may_walk = false;
+  m_tux_is_stopped[player] = true;
 }
 
 void
 EndSequence::stop()
 {
-  if (!isrunning) return;
-  isrunning = false;
-  isdone = true;
+  if (!m_is_running) return;
+  m_is_running = false;
+  m_is_done = true;
   stopping();
 }
 
 bool
 EndSequence::is_running() const
 {
-  return isrunning;
+  return m_is_running;
 }
 
 bool
-EndSequence::is_tux_stopped() const
+EndSequence::is_tux_stopped(int player)
 {
-  return !tux_may_walk;
+  return m_tux_is_stopped[player];
 }
 
 bool
 EndSequence::is_done() const
 {
-  return isdone;
+  return m_is_done;
 }
 
 void
@@ -94,7 +94,10 @@ EndSequence::starting()
 void
 EndSequence::running(float /*dt_sec*/)
 {
-  end_sequence_controller->update();
+  for (auto& ctrl : m_end_sequence_controllers)
+  {
+    ctrl.second->update();
+  }
 }
 
 void
@@ -103,9 +106,20 @@ EndSequence::stopping()
 }
 
 const Controller*
-EndSequence::get_controller() const
+EndSequence::get_controller(int player)
 {
-  return end_sequence_controller.get();
+  return get_code_controller(player);
+}
+
+CodeController*
+EndSequence::get_code_controller(int player)
+{
+  auto& ctrl = m_end_sequence_controllers[player];
+
+  if (!ctrl)
+    ctrl.reset(new CodeController());
+
+  return ctrl.get();
 }
 
 /* EOF */

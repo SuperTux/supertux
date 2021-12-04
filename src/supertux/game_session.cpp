@@ -25,8 +25,7 @@
 #include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
-#include "object/endsequence_walkleft.hpp"
-#include "object/endsequence_walkright.hpp"
+#include "object/endsequence_walk.hpp"
 #include "object/level_time.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
@@ -499,7 +498,19 @@ GameSession::update(float dt_sec, const Controller& controller)
       }
       m_currentsector->update(dt_sec);
     } else {
-      if (!m_end_sequence->is_tux_stopped()) {
+      bool are_all_stopped = true;
+
+      for (const auto& player : m_currentsector->get_players())
+      {
+        if (!(m_end_sequence->is_tux_stopped(player->get_id())
+            || player->get_ending_direction() == 0))
+        {
+          are_all_stopped = false;
+          break;
+        }
+      }
+
+      if (!are_all_stopped) {
         m_currentsector->update(dt_sec);
       } else {
         m_end_sequence->update(dt_sec);
@@ -645,7 +656,19 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
       log_warning << "Final target reached without an active end sequence" << std::endl;
       start_sequence(caller, SEQ_ENDSEQUENCE);
     }
-    if (m_end_sequence) m_end_sequence->stop_tux();
+
+    if (m_end_sequence)
+    {
+      if (caller)
+      {
+        m_end_sequence->stop_tux(caller->get_id());
+      }
+      else
+      {
+        for (const auto* player : Sector::get().get_players())
+          m_end_sequence->stop_tux(player->get_id());
+      }
+    }
     return;
   }
 
@@ -664,12 +687,7 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   if (!m_end_sequence) {
     std::unique_ptr<EndSequence> end_sequence;
     if (seq == SEQ_ENDSEQUENCE) {
-      // FIXME: Don't force all players to go in 1 direction when winning
-      if ((caller ? caller : m_currentsector->get_players()[0])->get_physic().get_velocity_x() < 0) {
-        end_sequence = std::make_unique<EndSequenceWalkLeft>();
-      } else {
-        end_sequence = std::make_unique<EndSequenceWalkRight>();
-      }
+      end_sequence = std::make_unique<EndSequenceWalk>();
     } else if (seq == SEQ_FIREWORKS) {
       end_sequence = std::make_unique<EndSequenceFireworks>();
     } else {
@@ -682,7 +700,8 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
 
   if (caller)
   {
-    caller->set_controller(m_end_sequence->get_controller());
+    caller->set_ending_direction((caller->get_physic().get_velocity_x() < 0) ? -1 : 1);
+    caller->set_controller(m_end_sequence->get_controller(caller->get_id()));
     caller->set_speedlimit(230); // MAX_WALK_XM
   }
 
@@ -721,7 +740,7 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   for (auto* p : m_currentsector->get_players())
   {
     p->set_winning();
-    p->set_controller(m_end_sequence->get_controller());
+    p->set_controller(m_end_sequence->get_controller(p->get_id()));
     p->set_speedlimit(230); // MAX_WALK_XM
   }
 

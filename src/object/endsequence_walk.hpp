@@ -14,17 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_WALKLEFT_HPP
-#define HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_WALKLEFT_HPP
+#ifndef HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_WALK_HPP
+#define HEADER_SUPERTUX_OBJECT_ENDSEQUENCE_WALK_HPP
 
 #include "object/endsequence.hpp"
 #include "supertux/timer.hpp"
 
-class EndSequenceWalkLeft final : public EndSequence
+class EndSequenceWalk final : public EndSequence
 {
 public:
-  EndSequenceWalkLeft();
-  ~EndSequenceWalkLeft() override;
+  EndSequenceWalk();
+  ~EndSequenceWalk() override;
   virtual void draw(DrawingContext& context) override;
 
 protected:

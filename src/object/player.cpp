@@ -208,7 +208,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_idle_timer(),
   m_idle_stage(0),
   m_climbing(nullptr),
-  m_climbing_remove_listener(nullptr)
+  m_climbing_remove_listener(nullptr),
+  m_ending_direction(0)
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);

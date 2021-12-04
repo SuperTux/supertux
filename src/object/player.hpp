@@ -230,6 +230,9 @@ public:
 
   void multiplayer_prepare_spawn();
 
+  void set_ending_direction(int direction) { m_ending_direction = direction; }
+  int get_ending_direction() const { return m_ending_direction; }
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -365,6 +368,8 @@ private:
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
   std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
+
+  int m_ending_direction;
 
 private:
   Player(const Player&) = delete;
