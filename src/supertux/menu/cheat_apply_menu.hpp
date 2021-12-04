@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,36 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_APPLY_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_APPLY_MENU_HPP
 
 #include "gui/menu.hpp"
 
-class CheatMenu final : public Menu
-{
-private:
-  enum MenuIDs {
-    MNID_GROW,
-    MNID_FIRE,
-    MNID_ICE,
-    MNID_AIR,
-    MNID_EARTH,
-    MNID_STAR,
-    MNID_SHRINK,
-    MNID_KILL,
-    MNID_FINISH,
-    MNID_GHOST,
-    MNID_UNGHOST,
-  };
+class Player;
 
+class CheatApplyMenu final : public Menu
+{
 public:
-  CheatMenu();
+  CheatApplyMenu(std::function<void(Player&)> callback);
+  /** Use this for cheats that need a stack count, e. g. giving fire flowers */
+  CheatApplyMenu(std::function<void(Player&, int)> callback);
 
   void menu_action(MenuItem& item) override;
 
 private:
-  CheatMenu(const CheatMenu&) = delete;
-  CheatMenu& operator=(const CheatMenu&) = delete;
+  std::function<void(Player&)> m_callback_1;
+  std::function<void(Player&, int)> m_callback_2;
+  int m_stack_count;
+
+private:
+  CheatApplyMenu(const CheatApplyMenu&) = delete;
+  CheatApplyMenu& operator=(const CheatApplyMenu&) = delete;
 };
 
 #endif
