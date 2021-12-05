@@ -1048,6 +1048,18 @@ if(BUILD_TESTS)
   add_test(NAME test_supertux2
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMAND test_supertux2)
+
+  # Prepare coverage with gcov/lcov
+  if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      target_compile_options(supertux2_lib PUBLIC -fprofile-arcs -ftest-coverage)
+      target_link_options(supertux2_lib PUBLIC -lgcov --coverage)
+    else(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      message(WARNING "Coverage for non-GNU compilers has yet to be implemented")
+    endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  else(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(WARNING "Building tests in a non-Debug build will NOT make files for coverage! Change CMAKE_BUILD_TYPE to Debug to prepare for coverage analysis.")
+  endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 ## Install stuff

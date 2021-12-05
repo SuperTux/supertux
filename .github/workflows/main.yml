@@ -54,6 +54,11 @@ jobs:
           - os: macos-latest
             build_type: Release
             release: 'ON'
+          - os: ubuntu-latest
+            build_type: Debug
+            compiler: gcc
+            arch: 64
+            coverage: 'ON'
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -93,7 +98,8 @@ jobs:
             libglew-dev \
             libcurl4-openssl-dev \
             libglm-dev \
-            zlib1g-dev
+            zlib1g-dev \
+            lcov
       - name: Install 32-bit linux dependencies
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 }}
         run: |
@@ -184,6 +190,14 @@ jobs:
       - name: Run tests
         working-directory: build
         run: ./test_supertux2
+      - name: Make coverage
+        if: ${{ matrix.coverage }}
+        working-directory: build
+        run: |
+          lcov --capture --directory . --exclude '/usr/*' --exclude '*/tests/*' --exclude '*/external/*' --output-file coverage.info
+          mkdir coverage
+          cd coverage
+          genhtml ../coverage.info
       - name: Package
         if: ${{ matrix.os != 'ubuntu-latest' || matrix.arch != '32' }}
         env:
@@ -228,6 +242,10 @@ jobs:
           name: "${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-dmg"
           path: build/upload/*.dmg
           if-no-files-found: ignore
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "coverage"
+          path: build/coverage/*
       - uses: anshulrgoyal/upload-s3-action@master
         # These all have repository_owner conditions because the secret isn't available to other owners
         if: matrix.release == 'ON' && env.CI_KEY != null
