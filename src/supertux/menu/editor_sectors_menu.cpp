@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
+#include "object/gradient.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
@@ -74,6 +75,12 @@ EditorSectorsMenu::create_sector()
     num++;
   } while ( level->get_sector(sector_name) );
   new_sector->set_name(sector_name);
+
+  // Add background gradient to sector:
+  std::unique_ptr<Gradient> gradient = std::make_unique<Gradient>();
+  gradient->set_gradient(Color(0.3f, 0.4f, 0.75f), Color::WHITE);
+  gradient->set_layer(-301);
+  new_sector->add_object(std::move(gradient));
 
   level->add_sector(std::move(new_sector));
   Editor::current()->load_sector(sector_name);
