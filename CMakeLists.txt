@@ -1035,7 +1035,7 @@ if(BUILD_TESTS)
   find_package(GTest REQUIRED)
 
   # build SuperTux tests
-  file(GLOB TEST_SUPERTUX_SOURCES tests/*.cpp)
+  file(GLOB_RECURSE TEST_SUPERTUX_SOURCES tests/*.cpp)
   add_executable(test_supertux2 ${TEST_SUPERTUX_SOURCES})
   target_compile_options(test_supertux2 PRIVATE ${WARNINGS_CXX_FLAGS})
   target_link_libraries(test_supertux2
@@ -1054,6 +1054,18 @@ if(BUILD_TESTS)
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
       target_compile_options(supertux2_lib PUBLIC -fprofile-arcs -ftest-coverage)
       target_link_options(supertux2_lib PUBLIC -lgcov --coverage)
+
+      add_custom_target(coverage_clear_unix
+        COMMAND find . -name "*.gcda" | xargs rm || true # FIXME: Make this platform-neutral
+        COMMAND ${CMAKE_COMMAND} -E remove ${CMAKE_CURRENT_BINARY_DIR}/coverage.info
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/coverage)
+
+      add_custom_target(coverage_unix
+        COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target coverage_clear_unix
+        COMMAND ${CMAKE_CTEST_COMMAND}
+        COMMAND lcov --capture --directory ${CMAKE_CURRENT_BINARY_DIR} --exclude '/usr/*' --exclude '*/tests/*' --exclude '*/external/*' --output-file ${CMAKE_CURRENT_BINARY_DIR}/coverage.info
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/coverage
+        COMMAND genhtml ${CMAKE_CURRENT_BINARY_DIR}/coverage.info -o ${CMAKE_CURRENT_BINARY_DIR}/coverage -t "${SUPERTUX_VERSION_STRING}")
     else(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
       message(WARNING "Coverage for non-GNU compilers has yet to be implemented")
     endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
