@@ -23,18 +23,21 @@
 TEST(ColorOKLCh, ctor)
 {
   ColorOKLCh color(.3f, .4f, .5f);
-  EXPECT_FLOAT_EQ(color.L, .3f);
-  EXPECT_FLOAT_EQ(color.C, .4f);
-  EXPECT_FLOAT_EQ(color.h, .5f);
+
+  // Can't use strict equality because of imprecision
+  // 1 / 256 = 0.00390625, so 0.001 should make no difference.
+  EXPECT_NEAR(color.L, .3f, 0.001f);
+  EXPECT_NEAR(color.C, .4f, 0.001f);
+  EXPECT_NEAR(color.h, .5f, 0.001f);
 }
 
 TEST(ColorOKLCh, ctor_Color)
 {
   Color col(.3f, .4f, .5f);
   ColorOKLCh color(col);
-  EXPECT_FLOAT_EQ(color.L, .50023675f);
-  EXPECT_FLOAT_EQ(color.C, .050982524f);
-  EXPECT_FLOAT_EQ(color.h, -1.9393998f);
+  EXPECT_NEAR(color.L, .50023675f, 0.001f);
+  EXPECT_NEAR(color.C, .050982524f, 0.001f);
+  EXPECT_NEAR(color.h, -1.9393998f, 0.001f);
 }
 
 TEST(ColorOKLCh, to_srgb)
@@ -44,8 +47,6 @@ TEST(ColorOKLCh, to_srgb)
 
   col = color.to_srgb();
 
-  // Can't use strict equality because of imprecision
-  // 1 / 256 = 0.00390625, so 0.001 should make no difference.
   EXPECT_NEAR(col.red, .1f, 0.001f);
   EXPECT_NEAR(col.green, 1.f, 0.001f);
   EXPECT_NEAR(col.blue, 0.f, 0.001f);
@@ -57,7 +58,7 @@ TEST(ColorOKLCh, get_maximum_chroma)
 
   float chroma = color.get_maximum_chroma();
 
-  EXPECT_FLOAT_EQ(chroma, .24032472f);
+  EXPECT_NEAR(chroma, .24032472f, 0.001f);
 }
 
 TEST(ColorOKLCh, get_maximum_chroma_any_l)
@@ -66,7 +67,7 @@ TEST(ColorOKLCh, get_maximum_chroma_any_l)
 
   float chroma = color.get_maximum_chroma_any_l();
 
-  EXPECT_FLOAT_EQ(chroma, .26009744f);
+  EXPECT_NEAR(chroma, .26009744f, 0.001f);
 }
 
 TEST(ColorOKLCh, clip_chroma)
@@ -75,9 +76,9 @@ TEST(ColorOKLCh, clip_chroma)
 
   color.clip_chroma();
 
-  EXPECT_FLOAT_EQ(color.L, .45f);
-  EXPECT_FLOAT_EQ(color.C, .1804768f);
-  EXPECT_FLOAT_EQ(color.h, .12f);
+  EXPECT_NEAR(color.L, .45f, 0.001f);
+  EXPECT_NEAR(color.C, .1804768f, 0.001f);
+  EXPECT_NEAR(color.h, .12f, 0.001f);
 }
 
 TEST(ColorOKLCh, clip_lightness)
@@ -86,9 +87,9 @@ TEST(ColorOKLCh, clip_lightness)
 
   color.clip_lightness();
 
-  EXPECT_FLOAT_EQ(color.L, .64147455f);
-  EXPECT_FLOAT_EQ(color.C, .2572695f);
-  EXPECT_FLOAT_EQ(color.h, .12f);
+  EXPECT_NEAR(color.L, .64147455f, 0.001f);
+  EXPECT_NEAR(color.C, .2572695f, 0.001f);
+  EXPECT_NEAR(color.h, .12f, 0.001f);
 }
 
 TEST(ColorOKLCh, clip_adaptive_L0_L_cusp)
@@ -97,9 +98,9 @@ TEST(ColorOKLCh, clip_adaptive_L0_L_cusp)
 
   color.clip_adaptive_L0_L_cusp(0.25f);
 
-  EXPECT_FLOAT_EQ(color.L, .83574224f);
-  EXPECT_FLOAT_EQ(color.C, .10836758f);
-  EXPECT_FLOAT_EQ(color.h, 1.f);
+  EXPECT_NEAR(color.L, .83574224f, 0.001f);
+  EXPECT_NEAR(color.C, .10836758f, 0.001f);
+  EXPECT_NEAR(color.h, 1.f, 0.001f);
 }
 
 /* EOF */
