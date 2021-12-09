@@ -394,6 +394,14 @@ BadGuy::collision_solid(const CollisionHit& hit)
   update_on_ground_flag(hit);
 }
 
+void
+BadGuy::on_flip(float height)
+{
+  Vector pos = get_start_position();
+  pos.y = height - pos.y;
+  set_start_position(pos);
+}
+
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {

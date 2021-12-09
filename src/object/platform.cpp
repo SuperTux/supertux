@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
@@ -143,6 +144,25 @@ Platform::editor_update()
     m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
   set_pos(get_path()->get_nodes()[m_starting_node].position);
+}
+
+void
+Platform::editor_delete()
+{
+  auto path_obj = get_path_gameobject();
+  if(path_obj != nullptr)
+  {
+    path_obj->editor_delete();
+  }
+  GameObject::editor_delete();
+}
+
+void
+Platform::on_flip(float height)
+{
+  if (Path* const path = get_path()) {
+    FlipLevelTransformer::transform_path(height, get_bbox().get_height(), *path);
+  }
 }
 
 void

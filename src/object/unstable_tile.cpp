@@ -68,7 +68,6 @@ void UnstableTile::shake()
 {
   if (state != STATE_NORMAL)
     return;
-
   if (m_sprite->has_action("shake"))
   {
     state = STATE_SHAKE;
@@ -111,6 +110,7 @@ void UnstableTile::slow_fall()
     set_action("fall-down", /* loops = */ 1);
     physic.set_gravity_modifier(.10f);
     physic.enable_gravity(true);
+    m_original_pos = m_col.get_pos();
     slowfall_timer = 0.5f; /* Fall slowly for half a second. */
   }
   else
@@ -219,6 +219,13 @@ UnstableTile::draw(DrawingContext& context)
   context.transform().alpha *= m_alpha;
   MovingSprite::draw(context);
   context.pop_transform();
+}
+
+void
+UnstableTile::on_flip(float height)
+{
+  MovingObject::on_flip(height);
+  m_original_pos.y = height - m_original_pos.y - get_bbox().get_height();
 }
 
 /* EOF */

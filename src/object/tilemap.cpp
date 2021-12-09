@@ -25,6 +25,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "collision/collision_object.hpp"
 #include "collision/collision_movement_manager.hpp"
 #include "util/reader.hpp"
@@ -359,6 +360,42 @@ TileMap::editor_update()
       set_offset(Vector(0, 0));
     }
   }
+}
+
+void
+TileMap::on_flip(float height)
+{
+  for (int x = 0; x < get_width(); ++x) {
+    for (int y = 0; y < get_height()/2; ++y) {
+      // swap tiles
+      int y2 = get_height()-1-y;
+      uint32_t t1 = get_tile_id(x, y);
+      uint32_t t2 = get_tile_id(x, y2);
+      change(x, y, t2);
+      change(x, y2, t1);
+    }
+  }
+  set_flip(FlipLevelTransformer::transform_flip(get_flip()));
+  Vector offset = get_offset();
+  offset.y = height - offset.y - get_bbox().get_height();
+  set_offset(offset);
+  if (Path* const path = get_path()) {
+    FlipLevelTransformer::transform_path(height, get_bbox().get_height(), *path);
+  }
+}
+
+void
+TileMap::editor_delete()
+{
+  // Paths may be used by multiple objects
+#if 0
+  auto path_obj = get_path_gameobject();
+  if(path_obj != nullptr)
+  {
+    path_obj->editor_delete();
+  }
+#endif
+  GameObject::editor_delete();
 }
 
 void

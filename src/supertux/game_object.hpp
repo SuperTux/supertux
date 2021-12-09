@@ -96,6 +96,8 @@ public:
 
   virtual void after_editor_set() {}
 
+  virtual void on_flip(float height) {}
+
   /** schedules this object to be removed at the end of the frame */
   virtual void remove_me() { m_scheduled_for_removal = true; }
 

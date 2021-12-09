@@ -45,6 +45,8 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
 
+  virtual void on_flip(float height) override;
+
   void fade_in(float fade_time);
   void fade_out(float fade_time);
   void fade_sprite(const std::string& new_sprite, float fade_time);
