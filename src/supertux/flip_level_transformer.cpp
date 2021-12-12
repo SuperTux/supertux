@@ -38,13 +38,13 @@ FlipLevelTransformer::transform_sector(Sector& sector)
   sector.get_camera().reset(sector.get_player().get_pos());
 }
 
-Flip
-FlipLevelTransformer::transform_flip(Flip flip)
+void
+FlipLevelTransformer::transform_flip(Flip& flip)
 {
   if (flip & VERTICAL_FLIP) {
-    return flip & ~VERTICAL_FLIP;
+    flip = flip & ~VERTICAL_FLIP;
   } else {
-    return flip | VERTICAL_FLIP;
+    flip = flip | VERTICAL_FLIP;
   }
 }
 

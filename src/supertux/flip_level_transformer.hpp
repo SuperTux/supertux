@@ -34,7 +34,7 @@ class Decal;
 class FlipLevelTransformer final : public LevelTransformer
 {
 public:
-  static Flip transform_flip(Flip flip);
+  static void transform_flip(Flip& flip);
   static void transform_path(float height, float obj_height, Path& path);
 public:
   virtual void transform_sector(Sector& sector) override;

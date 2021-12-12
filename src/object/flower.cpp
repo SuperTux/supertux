@@ -87,7 +87,7 @@ Flower::collision(GameObject& other, const CollisionHit& )
 void
 Flower::on_flip(float height)
 {
-  flip = FlipLevelTransformer::transform_flip(flip);
+  FlipLevelTransformer::transform_flip(flip);
 }
 
 /* EOF */

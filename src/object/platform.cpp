@@ -160,7 +160,7 @@ Platform::editor_delete()
 void
 Platform::on_flip(float height)
 {
-  if (Path* const path = get_path()) {
+  if (Path* path = get_path()) {
     FlipLevelTransformer::transform_path(height, get_bbox().get_height(), *path);
   }
 }

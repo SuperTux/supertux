@@ -375,11 +375,11 @@ TileMap::on_flip(float height)
       change(x, y2, t1);
     }
   }
-  set_flip(FlipLevelTransformer::transform_flip(get_flip()));
+  FlipLevelTransformer::transform_flip(m_flip);
   Vector offset = get_offset();
   offset.y = height - offset.y - get_bbox().get_height();
   set_offset(offset);
-  if (Path* const path = get_path()) {
+  if (Path* path = get_path()) {
     FlipLevelTransformer::transform_path(height, get_bbox().get_height(), *path);
   }
 }
