@@ -17,6 +17,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_list.hpp"
 #include "gui/menu_manager.hpp"
+#include "util/gettext.hpp"
 
 ListMenu::ListMenu(const std::vector<std::string>& items, int* selected, Menu* parent) : 
   m_selected(selected),
@@ -26,7 +27,7 @@ ListMenu::ListMenu(const std::vector<std::string>& items, int* selected, Menu* p
     add_entry(static_cast<int>(i), items[i]);
   }
   add_hl();
-  add_back("OK");
+  add_back(_("Cancel"));
 }
 
 void
