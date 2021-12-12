@@ -18,8 +18,9 @@
 #include "gui/menu_list.hpp"
 #include "gui/menu_manager.hpp"
 
-ListMenu::ListMenu(const std::vector<std::string>& items, int* selected) : 
-  m_selected(selected)
+ListMenu::ListMenu(const std::vector<std::string>& items, int* selected, Menu* parent) : 
+  m_selected(selected),
+  m_parent(parent)
 {
   for(size_t i = 0; i < items.size(); i++) {
     add_entry(static_cast<int>(i), items[i]);
@@ -33,6 +34,7 @@ ListMenu::menu_action(MenuItem& item) {
   if(m_selected) {
     *m_selected = item.get_id();
   }
+  m_parent->refresh();
   MenuManager::instance().pop_menu();
 }
 

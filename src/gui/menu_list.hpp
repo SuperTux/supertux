@@ -22,12 +22,13 @@
 class ListMenu final : public Menu 
 {
 public:
-  ListMenu(const std::vector<std::string>& items, int* selected);
+  ListMenu(const std::vector<std::string>& items, int* selected, Menu *parent);
 
   void menu_action(MenuItem& item) override;
 
 private:
   int* m_selected;
+  Menu* m_parent;
 
 private:
   // non-copyable footer
