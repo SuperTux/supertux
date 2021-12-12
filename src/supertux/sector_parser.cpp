@@ -328,10 +328,17 @@ SectorParser::create_sector()
     frgrd.set_layer(100);
     frgrd.set_solid(false);
   }
+  else
+  {
+    auto& water = m_sector.add<TileMap>(tileset);
+    water.resize(100, 35, 1);
+    water.set_layer(-100);
+    water.set_solid(false);
+  }
 
   auto& intact = m_sector.add<TileMap>(tileset);
   if (worldmap) {
-    intact.resize(100, 100, 1);
+    intact.resize(100, 100, 0);
   } else {
     intact.resize(100, 35, 0);
   }
