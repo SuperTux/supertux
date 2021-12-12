@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.5.1-1466-g10c6d0df7\n"
+"Project-Id-Version: SuperTux v0.6.2-963-gb4a1b149f\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,14 +164,14 @@ msgstr ""
 msgid "Bonus Island II"
 msgstr ""
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr ""
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr ""
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr ""

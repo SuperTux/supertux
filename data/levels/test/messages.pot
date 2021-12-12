@@ -17,10 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/misc/credits.stl:3
-msgid "Credits"
-msgstr ""
-
-#: data/levels/misc/menu.stl.in:3
-msgid "Menu Level"
+#: data/levels/test/swimming.stl:3
+msgid "Swimming Test"
 msgstr ""

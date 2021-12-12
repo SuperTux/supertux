@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.6.0-1010-gefc33a183\n"
+"Project-Id-Version: SuperTux v0.6.2-963-gb4a1b149f\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,18 @@ msgstr ""
 
 #: data/levels/community2016/Ancient_Ruins (RustyBox).stl:3
 msgid "The Ancient Ruins Of The Forest"
+msgstr ""
+
+#: data/levels/community2016/By_Arctic_Water (jojo141948).stl:3
+msgid "By Arctic Water"
+msgstr ""
+
+#: data/levels/community2016/Castle_Life (Serano).stl:3
+msgid "Castle Life"
+msgstr ""
+
+#: data/levels/community2016/Castle_Life (Serano).stl:170
+msgid "#It's possible, but not recommended to swim in hot lava."
 msgstr ""
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:3
@@ -45,12 +57,26 @@ msgstr ""
 msgid "HMS Snowball Ahoy!"
 msgstr ""
 
+#: data/levels/community2016/Ice_Under_Water (adharsh).stl:3
+msgid "Ice Under Water"
+msgstr ""
+
+#: data/levels/community2016/Ice_Under_Water (adharsh).stl:109
+msgid ""
+"For Tux to swim, just jump into the water and use the navigation keys. You "
+"can use the jump key to move faster."
+msgstr ""
+
 #: data/levels/community2016/Into_The_Palace (ThomyW).stl:3
 msgid "Into The Palace"
 msgstr ""
 
 #: data/levels/community2016/Is_The_Biggest_Fish (cookie monster).stl:3
 msgid "Is The Biggest Fish"
+msgstr ""
+
+#: data/levels/community2016/Is_The_Biggest_Fish (cookie monster).stl:129
+msgid "Area secreta"
 msgstr ""
 
 #: data/levels/community2016/Problem_With_Green (herobrine).stl:3
@@ -61,8 +87,16 @@ msgstr ""
 msgid "Sunny Hills"
 msgstr ""
 
+#: data/levels/community2016/The_Missing_Link (Serano).stl:3
+msgid "The Missing Link"
+msgstr ""
+
 #: data/levels/community2016/The_Mountains (gelada).stl:3
 msgid "The Mountains"
+msgstr ""
+
+#: data/levels/community2016/The_Mountains (gelada).stl:277
+msgid "area secreta"
 msgstr ""
 
 #: data/levels/community2016/The_Strange_Thing (herobrine).stl:3
@@ -71,6 +105,26 @@ msgstr ""
 
 #: data/levels/community2016/Uncontrolled_Lift (gelada).stl:3
 msgid "Uncontrolled Lift"
+msgstr ""
+
+#: data/levels/community2016/Uncontrolled_Lift (gelada).stl:186
+msgid ""
+"Espera uma bocadinho!\n"
+"Wait!"
+msgstr ""
+
+#: data/levels/community2016/Under_The_Water (davide).stl:3
+msgid "Under The Water"
+msgstr ""
+
+#: data/levels/community2016/Under_The_Water (davide).stl:350
+msgid ""
+"-Plants\n"
+"!images/creatures/plant/plant.png\n"
+"#The sleeping plants are like a sleeping spiky. The normal plants are like a "
+"simple snowball.\n"
+"!images/creatures/tumbleweed/tumbleweed0.png\n"
+"#This creature is like a bouncing snowball or a flying snowball."
 msgstr ""
 
 #: data/levels/community2016/Up_Or_Down (Serano).stl:3
@@ -82,5 +136,5 @@ msgid "Welcome To The Icy Island"
 msgstr ""
 
 #: data/levels/community2016/worldmap.stwm:3
-msgid "Community Island 2016"
+msgid "Community Island 2020"
 msgstr ""

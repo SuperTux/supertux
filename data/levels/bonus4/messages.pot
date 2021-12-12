@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.6.0-1010-gefc33a183\n"
+"Project-Id-Version: SuperTux v0.6.2-963-gb4a1b149f\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,12 +53,12 @@ msgstr ""
 msgid "Forest Mountains"
 msgstr ""
 
-#: data/levels/bonus4/Forest_Mountains.stl:140
+#: data/levels/bonus4/Forest_Mountains.stl:141
 msgid "#One Path contains enemies, the other treasure..."
 msgstr ""
 
-#: data/levels/bonus4/Forest_Mountains.stl:145
-#: data/levels/bonus4/Forest_Mountains.stl:150
+#: data/levels/bonus4/Forest_Mountains.stl:146
+#: data/levels/bonus4/Forest_Mountains.stl:151
 msgid "#You can use this door to try the other way..."
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr ""
 msgid "SnowMan's Land"
 msgstr ""
 
-#: data/levels/bonus4/SnowMansLand.stl:86
+#: data/levels/bonus4/SnowMansLand.stl:113
 msgid "#It sure is breezy today, huh?"
 msgstr ""
 
@@ -114,16 +114,16 @@ msgstr ""
 msgid "Some Icy Path"
 msgstr ""
 
-#: data/levels/bonus4/Some_Icy_Path.stl:115
+#: data/levels/bonus4/Some_Icy_Path.stl:128
 msgid ""
 "#You won't be able to pass, if you don't bring him something he wants..."
 msgstr ""
 
-#: data/levels/bonus4/Some_Icy_Path.stl:120
+#: data/levels/bonus4/Some_Icy_Path.stl:133
 msgid "#Maybe this crystal is the right thing for this snowman...?"
 msgstr ""
 
-#: data/levels/bonus4/Some_Icy_Path.stl:125
+#: data/levels/bonus4/Some_Icy_Path.stl:138
 msgid "#Great, now he's gone... I'll keep the crystal for myself."
 msgstr ""
 
@@ -155,28 +155,28 @@ msgstr ""
 msgid "Bonus Island IV"
 msgstr ""
 
-#: data/levels/bonus4/worldmap.stwm:210
+#: data/levels/bonus4/worldmap.stwm:246
 msgid "Enter Forest Sector"
 msgstr ""
 
-#: data/levels/bonus4/worldmap.stwm:217
+#: data/levels/bonus4/worldmap.stwm:253
 msgid "Enter Halloween Sector"
 msgstr ""
 
-#: data/levels/bonus4/worldmap.stwm:224
+#: data/levels/bonus4/worldmap.stwm:260
 msgid "Enter Arctic Sector"
 msgstr ""
 
-#: data/levels/bonus4/worldmap.stwm:231 data/levels/bonus4/worldmap.stwm:238
-#: data/levels/bonus4/worldmap.stwm:245 data/levels/bonus4/worldmap.stwm:252
-#: data/levels/bonus4/worldmap.stwm:259 data/levels/bonus4/worldmap.stwm:266
+#: data/levels/bonus4/worldmap.stwm:267 data/levels/bonus4/worldmap.stwm:274
+#: data/levels/bonus4/worldmap.stwm:281 data/levels/bonus4/worldmap.stwm:288
+#: data/levels/bonus4/worldmap.stwm:295 data/levels/bonus4/worldmap.stwm:302
 msgid "Go Home"
 msgstr ""
 
-#: data/levels/bonus4/worldmap.stwm:273
+#: data/levels/bonus4/worldmap.stwm:309
 msgid "Go Back"
 msgstr ""
 
-#: data/levels/bonus4/worldmap.stwm:280
+#: data/levels/bonus4/worldmap.stwm:316
 msgid "The next challenge awaits..."
 msgstr ""
