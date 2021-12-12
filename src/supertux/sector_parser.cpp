@@ -327,6 +327,11 @@ SectorParser::create_sector()
     frgrd.resize(100, 35);
     frgrd.set_layer(100);
     frgrd.set_solid(false);
+
+    // Add background gradient to sector:
+    auto& gradient = m_sector.add<Gradient>();
+    gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color::WHITE);
+    gradient.set_layer(-301);
   }
 
   auto& intact = m_sector.add<TileMap>(tileset);
