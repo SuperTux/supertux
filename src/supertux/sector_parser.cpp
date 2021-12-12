@@ -331,7 +331,7 @@ SectorParser::create_sector()
 
   auto& intact = m_sector.add<TileMap>(tileset);
   if (worldmap) {
-    intact.resize(100, 100, 9);
+    intact.resize(100, 100, 1);
   } else {
     intact.resize(100, 35, 0);
   }
