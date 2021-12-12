@@ -22,7 +22,7 @@
 class ListMenu final : public Menu 
 {
 public:
-  ListMenu(const std::vector<std::string>& items, int* selected, Menu *parent);
+  ListMenu(const std::vector<std::string>& items, int* selected, Menu* parent);
 
   void menu_action(MenuItem& item) override;
 
