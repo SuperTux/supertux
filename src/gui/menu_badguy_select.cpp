@@ -21,6 +21,8 @@
 #include "gui/menu_manager.hpp"
 #include "gui/menu_list.hpp"
 
+#include "boost/format.hpp"
+
 std::vector<std::string> BadguySelectMenu::all_badguys;
 
 BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
@@ -93,7 +95,7 @@ BadguySelectMenu::refresh()
 
   add_label(_("List of enemies"));
   add_hl();
-  add_entry(-2, _("Select enemy") + " (" + all_badguys[selected] + ")");
+  add_entry(-2, str(boost::format(_("Select enemy (%s)")) % all_badguys[selected]));
   add_entry(-3, _("Add"));
   add_hl();
 
