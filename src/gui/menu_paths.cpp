@@ -32,6 +32,7 @@ auto on_select = [](std::string path, PathObject& target, std::string path_ref) 
       auto* into = Editor::current()->get_sector()->get_object_by_name<PathGameObject>(path_ref);
       if (from && into) {
         from->copy_into(*into);
+        MenuManager::instance().pop_menu();
       } else {
         log_warning << "Could not copy path, misses " << (from ? "" : "'from'")
                     << (into ? "" : "'into'") << std::endl;
@@ -40,6 +41,7 @@ auto on_select = [](std::string path, PathObject& target, std::string path_ref) 
     });
     dialog->add_button(_("Bind"), [path, &target] {
       target.editor_set_path_by_ref(path);
+        MenuManager::instance().pop_menu();
     });
     dialog->add_cancel_button(_("Cancel"));
     dialog->set_text("Do you wish to clone the path to edit it separately,\nor do you want to bind both paths together\nso that any edit on one edits the other?");

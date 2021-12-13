@@ -76,17 +76,6 @@ Ghoul::finish_construction()
 }
 
 void
-Ghoul::editor_delete()
-{
-  auto path_obj = get_path_gameobject();
-  if(path_obj != nullptr)
-  {
-    path_obj->editor_delete();
-  }
-  GameObject::editor_delete();
-}
-
-void
 Ghoul::activate()
 {
   if (Editor::is_active())
