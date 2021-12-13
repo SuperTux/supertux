@@ -106,17 +106,6 @@ WillOWisp::after_editor_set()
 }
 
 void
-WillOWisp::editor_delete()
-{
-  auto path_obj = get_path_gameobject();
-  if(path_obj != nullptr)
-  {
-    path_obj->editor_delete();
-  }
-  GameObject::editor_delete();
-}
-
-void
 WillOWisp::active_update(float dt_sec)
 {
   if (Editor::is_active() && get_path() && get_path()->is_valid()) {

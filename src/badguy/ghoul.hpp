@@ -32,7 +32,6 @@ public:
   bool is_flammable() const override;
 
   void finish_construction() override;
-  void editor_delete() override; 
 
   void activate() override;
   void deactivate() override;

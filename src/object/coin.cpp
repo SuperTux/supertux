@@ -117,21 +117,6 @@ Coin::editor_update()
 }
 
 void
-Coin::editor_delete()
-{
-  // Removed since paths can be shared by multiple objects
-  // TODO: Handle reference counting for paths
-#if 0
-  auto path_obj = get_path_gameobject();
-  if(path_obj != nullptr)
-  {
-    path_obj->editor_delete();
-  }
-#endif
-  GameObject::editor_delete();
-}
-
-void
 Coin::collect()
 {
   static Timer sound_timer;
