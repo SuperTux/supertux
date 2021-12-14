@@ -291,6 +291,12 @@ state.ambient_b <- 1;")
       (x 55)
       (y 73)
     )
+    (special-tile
+      (invisible-tile #t)
+      (script "go_underground(false);")
+      (x 42)
+      (y 66)
+    )
     (sprite-change
       (stay-action "boat")
       (change-on-touch #t)
