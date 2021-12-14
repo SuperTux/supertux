@@ -488,6 +488,16 @@ EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object)
 }
 
 void
+EditorOverlayWidget::reset_action_press()
+{
+  if (action_pressed)
+  {
+    g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
+    action_pressed = false;
+  }
+}
+
+void
 EditorOverlayWidget::select_object()
 {
   delete_markers();
@@ -974,8 +984,11 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
   if (sym == SDLK_LCTRL || sym == SDLK_RCTRL) {
-    g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
-    action_pressed = false;
+    if (action_pressed)
+    {
+      g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
+      action_pressed = false;
+    }
     // Hovered objects depend on which keys are pressed
     hover_object();
   }

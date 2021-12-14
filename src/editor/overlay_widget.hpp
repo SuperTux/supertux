@@ -63,6 +63,7 @@ public:
   void on_level_change();
 
   void edit_path(Path* path, GameObject* new_marked_object = nullptr);
+  void reset_action_press();
 
 private:
   static bool action_pressed;
