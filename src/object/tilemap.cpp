@@ -642,7 +642,8 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
 void
 TileMap::autotile(int x, int y, uint32_t tile)
 {
-  assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
+  if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+    return;
 
   uint32_t current_tile = m_tiles[y*m_width + x];
   AutotileSet* curr_set;
@@ -689,8 +690,11 @@ TileMap::autotile(int x, int y, uint32_t tile)
 void
 TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op)
 {
-  assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
-  assert(m_tileset->get_autotileset_from_tile(tile)->is_corner());
+  if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+    return;
+
+  if (!m_tileset->get_autotileset_from_tile(tile)->is_corner())
+    return;
 
   AutotileSet* curr_set = m_tileset->get_autotileset_from_tile(tile);
 
@@ -745,10 +749,13 @@ TileMap::is_corner(uint32_t tile)
 void
 TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
 {
-  assert(pos.x >= 0.f && pos.x < static_cast<float>(m_width) &&
-         pos.y >= 0.f && pos.y < static_cast<float>(m_height));
-  assert(corner_pos.x >= 0.f && corner_pos.x < static_cast<float>(m_width) &&
-         corner_pos.y >= 0.f && corner_pos.y < static_cast<float>(m_height));
+  if (pos.x < 0.f || pos.x >= static_cast<float>(m_width) ||
+      pos.y < 0.f || pos.y >= static_cast<float>(m_height))
+    return;
+
+  if (corner_pos.x < 0.f || corner_pos.x >= static_cast<float>(m_width) ||
+      corner_pos.y < 0.f || corner_pos.y >= static_cast<float>(m_height))
+    return;
 
   uint32_t current_tile = m_tiles[static_cast<int>(pos.y)*m_width
                                   + static_cast<int>(pos.x)];
