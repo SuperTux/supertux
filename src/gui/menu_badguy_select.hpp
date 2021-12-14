@@ -30,7 +30,7 @@ public:
 
   void remove_badguy();
 
-  void refresh();
+  void refresh() override;
 
 private:
   std::vector<std::string>* badguys;
