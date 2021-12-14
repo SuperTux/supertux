@@ -265,6 +265,13 @@ state.ambient_b <- 0.6;")
       (x 96)
       (y 19)
     )
+    (special-tile
+      (invisible-tile #t)
+      (script "go_ghostforest(false);")
+      (apply-to-direction "south")
+      (x 36)
+      (y 28)
+    )
     (sprite-change
       (change-on-touch #t)
       (initial-stay-action #f)

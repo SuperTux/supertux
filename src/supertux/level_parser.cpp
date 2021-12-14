@@ -169,6 +169,8 @@ LevelParser::load(const ReaderDocument& doc)
     level.get("suppress-pause-menu", m_level.m_suppress_pause_menu);
     level.get("note", m_level.m_note);
     level.get("icon", m_level.m_icon);
+    level.get("icon-locked", m_level.m_icon_locked);
+    level.get("bkg", m_level.m_wmselect_bkg);
 
     auto iter = level.get_iter();
     while (iter.next())
