@@ -62,6 +62,7 @@ private:
   int m_current_world;
   int m_selected_world;
   float m_angle;
+  SurfacePtr m_bkg;
 
 private:
   WorldSelect(const WorldSelect&) = delete;

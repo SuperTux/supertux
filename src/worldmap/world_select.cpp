@@ -41,7 +41,8 @@ WorldSelect::WorldSelect(const std::string& current_world_filename) :
   m_worlds(),
   m_current_world(),
   m_selected_world(),
-  m_angle()
+  m_angle(),
+  m_bkg()
 {
   std::vector<std::string> worlds;
 
@@ -99,6 +100,16 @@ WorldSelect::WorldSelect(const std::string& current_world_filename) :
       if (current_world_filename == world)
       {
         m_current_world = i;
+
+        std::string bkg_path = "";
+        if (doc.get_root().get_mapping().get("bkg", bkg_path))
+        {
+          m_bkg = Surface::from_file(bkg_path);
+        }
+        else
+        {
+          m_bkg = Surface::from_file("/images/worlds/background/default.png");
+        }
       }
       i++;
 
@@ -142,6 +153,7 @@ WorldSelect::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
   context.color().draw_filled_rect(context.get_rect(), Color(), -1000);
+  context.color().draw_surface_scaled(m_bkg, context.get_viewport(), -999);
 
   std::string name_to_display;
   float distance = 0.f;

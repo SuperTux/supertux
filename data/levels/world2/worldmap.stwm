@@ -4,7 +4,7 @@
   (author "Carsten Wirtz")
   (contact "https://supertux.org")
   (license "CC-BY-SA 4.0 International")
-  (icon "/images/worlds/rootedforest.png")
+  (icon "/images/worlds/icon/rootedforest.png")
   (icon-locked "/images/worlds/locked/rootedforest.png")
   (sector
     (name "main")

@@ -4,6 +4,6 @@
   (author "Nobody!")
   (contact "https://supertux.org")
   (license "CC-BY-SA 4.0 International")
-  (icon "/images/worlds/tropicalparadise.png")
+  (icon "/images/worlds/icon/tropicalparadise.png")
   (icon-locked "/images/worlds/locked/tropicalparadise.png")
 )
