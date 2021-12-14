@@ -208,6 +208,17 @@ PathGameObject::remove_me()
       handle.remove_me(); // Removing a node handle also removes its bezier handles
   }
 
+  const auto& path_objects = Sector::get().get_objects_by_type<PathObject>();
+
+  for (const auto& path_obj : path_objects)
+  {
+    if (path_obj.get_path_gameobject() == this)
+    {
+      log_warning << "Attempt to delete path " << get_name() << " while bound to object" << std::endl;
+      return;
+    }
+  }
+
   GameObject::remove_me();
 }
 

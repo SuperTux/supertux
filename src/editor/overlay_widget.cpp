@@ -471,7 +471,7 @@ EditorOverlayWidget::hover_object()
 }
 
 void
-EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object)
+EditorOverlayWidget::edit_path(PathGameObject* path, GameObject* new_marked_object)
 {
   if (!path) return;
   delete_markers();
@@ -481,7 +481,7 @@ EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object)
     return;
   }
   m_edited_path = path;
-  m_edited_path->edit_path();
+  m_edited_path->get_path().edit_path();
   if (new_marked_object) {
     m_selected_object = new_marked_object;
   }
@@ -509,10 +509,10 @@ EditorOverlayWidget::select_object()
     return;
   }
 
-  auto path_obj = dynamic_cast<PathObject*>(m_dragged_object);
-  if (path_obj && path_obj->get_path())
+  auto path_obj = dynamic_cast<PathObject*>(m_dragged_object.get());
+  if (path_obj && path_obj->get_path_gameobject())
   {
-    edit_path(path_obj->get_path(), m_dragged_object);
+    edit_path(path_obj->get_path_gameobject(), m_dragged_object.get());
   }
 }
 
@@ -529,7 +529,7 @@ EditorOverlayWidget::grab_object()
       m_dragged_object = m_hovered_object;
       m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
 
-      auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object);
+      auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
       if (!pm) {
         select_object();
       }
@@ -560,7 +560,7 @@ EditorOverlayWidget::clone_object()
       return;
     }
 
-    auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object);
+    auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
     if (!pm)
     {
       m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
@@ -612,7 +612,7 @@ EditorOverlayWidget::move_object()
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
       new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
 
-      auto pm = dynamic_cast<MarkerObject*>(m_dragged_object);
+      auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
       if (pm) {
         new_pos -= pm->get_offset();
       }
@@ -685,10 +685,10 @@ EditorOverlayWidget::add_path_node()
   new_node.bezier_before = new_node.position;
   new_node.bezier_after = new_node.position;
   new_node.time = 1;
-  m_edited_path->m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
-  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_before));
-  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_after));
-  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
+  m_edited_path->get_path().m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
+  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_before));
+  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_after));
+  auto& new_marker = Sector::get().add<NodeMarker>(&(m_edited_path.get()->get_path()), m_edited_path->get_path().m_nodes.end() - 1, m_edited_path->get_path().m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
   bezier_before.set_parent(new_marker.get_uid());
   bezier_after.set_parent(new_marker.get_uid());
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
@@ -1206,14 +1206,14 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
   if (!m_selected_object->is_valid()) return;
   if (!m_edited_path->is_valid()) return;
 
-  for (auto i = m_edited_path->m_nodes.begin(); i != m_edited_path->m_nodes.end(); ++i) {
+  for (auto i = m_edited_path->get_path().m_nodes.begin(); i != m_edited_path->get_path().m_nodes.end(); ++i) {
     auto j = i+1;
     Path::Node* node1 = &(*i);
     Path::Node* node2;
-    if (j == m_edited_path->m_nodes.end()) {
-      if (m_edited_path->m_mode == WalkMode::CIRCULAR) {
+    if (j == m_edited_path->get_path().m_nodes.end()) {
+      if (m_edited_path->get_path().m_mode == WalkMode::CIRCULAR) {
         //loop to the first node
-        node2 = &(*m_edited_path->m_nodes.begin());
+        node2 = &(*m_edited_path->get_path().m_nodes.begin());
       } else {
         // Just draw the bezier lines
         auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
