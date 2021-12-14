@@ -64,7 +64,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_new_size_y(0),
   m_new_offset_x(0),
   m_new_offset_y(0),
-  m_add_path(false)
+  m_add_path(false),
+  m_starting_node(0)
 {
 }
 
@@ -98,7 +99,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_new_size_y(0),
   m_new_offset_x(0),
   m_new_offset_y(0),
-  m_add_path(false)
+  m_add_path(false),
+  m_starting_node(0)
 {
   assert(m_tileset);
 
@@ -127,6 +129,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
       m_speed_y = 1;
     }
   }
+
+  reader.get("starting-node", m_starting_node, 0);
 
   init_path(reader, false);
 
@@ -188,9 +192,12 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 void
 TileMap::finish_construction()
 {
-  if (get_path()) {
-    Vector v = get_path()->get_base();
-    set_offset(v);
+  if (get_path() && get_path()->get_nodes().size() > 0) {
+    if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+      m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+    set_offset(get_path()->get_nodes()[m_starting_node].position);
+    get_walker()->jump_to_node(m_starting_node);
   }
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
@@ -236,7 +243,8 @@ TileMap::get_settings()
                   static_cast<int>(DrawingTarget::COLORMAP),
                   "draw-target");
 
-  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+  result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
+  result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
@@ -338,6 +346,15 @@ TileMap::editor_update()
     if (get_path() && get_path()->is_valid()) {
       m_movement = get_walker()->get_pos() - get_offset();
       set_offset(get_walker()->get_pos());
+
+      if (!get_path()) return;
+      if (!get_path()->is_valid()) return;
+
+      if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+        m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+      m_movement += get_path()->get_nodes()[m_starting_node].position - get_offset();
+      set_offset(get_path()->get_nodes()[m_starting_node].position);
     } else {
       set_offset(Vector(0, 0));
     }

@@ -33,13 +33,10 @@ SkyDive::SkyDive(const ReaderMapping& reader) :
 void
 SkyDive::collision_solid(const CollisionHit& hit)
 {
-  if (hit.bottom) {
-    explode ();
-    return;
-  }
-
   if (hit.left || hit.right)
-    m_physic.set_velocity_x (0.0);
+    m_physic.set_velocity_x(0.0);
+  explode();
+  return;
 }
 
 HitResponse
@@ -72,9 +69,40 @@ void
 SkyDive::ungrab(MovingObject& object, Direction dir_)
 {
   m_sprite->set_action("falling", 1);
-
-  m_physic.set_velocity_y(0);
-  m_physic.set_acceleration_y(0);
+  auto player = dynamic_cast<Player*> (&object);
+  //handle swimming
+  if (player)
+  {
+    if (player->is_swimming() || player->is_water_jumping())
+    {
+      float swimangle = player->get_swimming_angle();
+      m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
+        player->get_physic().get_velocity());
+    }
+    //handle non-swimming
+    else
+    {
+      //handle x-movement
+      if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
+        m_physic.set_velocity_x(0.f);
+      else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
+        || (player->m_dir == Direction::RIGHT && player->get_physic().get_velocity_x() >= 1.0f))
+        m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+          + (player->m_dir == Direction::LEFT ? -10.f : 10.f));
+      else
+        m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+          + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
+      //handle y-movement
+      m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
+        dir_ == Direction::DOWN ? 500.f :
+        player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
+    }
+  }
+  else
+  {
+    m_physic.set_velocity_y(0);
+    m_physic.set_acceleration_y(0);
+  }
   m_physic.enable_gravity(true);
   set_colgroup_active(COLGROUP_MOVING);
   Portable::ungrab(object, dir_);

@@ -445,9 +445,9 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
-Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const
+Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const MovingObject* ignore_object) const
 {
-  return m_collision_system->free_line_of_sight(line_start, line_end,
+  return m_collision_system->free_line_of_sight(line_start, line_end, ignore_objects,
                                                 ignore_object ? ignore_object->get_collision_object() : nullptr);
 }
 
@@ -457,11 +457,11 @@ Sector::can_see_player(const Vector& eye) const
   for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
     Player& player = *static_cast<Player*>(player_ptr);
     // test for free line of sight to any of all four corners and the middle of the player's bounding box
-    if (free_line_of_sight(eye, player.get_bbox().p1(), &player)) return true;
-    if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), &player)) return true;
-    if (free_line_of_sight(eye, player.get_bbox().p2(), &player)) return true;
-    if (free_line_of_sight(eye, Vector(player.get_bbox().get_left(), player.get_bbox().get_bottom()), &player)) return true;
-    if (free_line_of_sight(eye, player.get_bbox().get_middle(), &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p1(), false, &player)) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().get_right(), player.get_bbox().get_top()), false, &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().p2(), false, &player)) return true;
+    if (free_line_of_sight(eye, Vector(player.get_bbox().get_left(), player.get_bbox().get_bottom()), false, &player)) return true;
+    if (free_line_of_sight(eye, player.get_bbox().get_middle(), false, &player)) return true;
   }
   return false;
 }

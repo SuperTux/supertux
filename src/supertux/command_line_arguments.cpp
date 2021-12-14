@@ -307,7 +307,6 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--developer")
     {
       developer_mode = true;
-      EditorOverlayWidget::autotile_help = !developer_mode;
     }
     else if (arg == "--christmas")
     {

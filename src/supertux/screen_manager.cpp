@@ -424,6 +424,7 @@ ScreenManager::process_events()
         {
           g_config->show_fps = !g_config->show_fps;
         }
+#ifndef EMSCRIPTEN // Emscripten builds manage this through JS code
         else if (event.key.keysym.sym == SDLK_F11 ||
                  ((event.key.keysym.mod & KMOD_LALT || event.key.keysym.mod & KMOD_RALT) &&
                  (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
@@ -432,6 +433,7 @@ ScreenManager::process_events()
           m_video_system.apply_config();
           m_menu_manager->on_window_resize();
         }
+#endif
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
@@ -442,15 +444,6 @@ ScreenManager::process_events()
         {
           g_config->developer_mode = !g_config->developer_mode;
           log_info << "developer mode: " << g_config->developer_mode << std::endl;
-          
-          // Keep that line disabled; changing dev mode during a session
-          // shouldn't change that setting.
-          // It should only take what value it had when the game was launched
-          // and keep it until the user changes it manually.
-          // If you uncomment, add this in the includes :
-          //     #include "editor/overlay_widget.hpp"
-          
-          // EditorOverlayWidget::autotile_help = !developer_mode;
         }
         break;
     }

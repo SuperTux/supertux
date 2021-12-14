@@ -365,6 +365,9 @@
   (object
     (class "textobject")
     (icon "images/engine/editor/textarray.png"))
+  (object
+    (class "textscroller")
+    (icon "images/engine/editor/textscroller.png"))
  )
 
  (objectgroup

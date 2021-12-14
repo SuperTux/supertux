@@ -62,9 +62,12 @@ ParticleSystem_Interactive::draw(DrawingContext& context)
     return;
 
   context.push_transform();
-
+  const auto& region = Sector::current()->get_active_region();
   std::unordered_map<SurfacePtr, SurfaceBatch> batches;
   for (const auto& particle : particles) {
+    if(!region.contains(particle->pos))
+      continue;
+
     auto it = batches.find(particle->texture);
     if (it == batches.end()) {
       const auto& batch_it = batches.emplace(particle->texture,

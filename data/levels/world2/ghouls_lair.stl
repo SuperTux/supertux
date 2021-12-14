@@ -9,6 +9,7 @@
       (color 0.6 0.6 0.6 0.6)
     )
     (background
+      (color 1 1 1)
       (scroll-speed-x 0.5)
       (speed 0.5)
       (speed-y 0)
@@ -17,6 +18,7 @@
       (image-bottom "/images/background/ghostforest_grave.png")
     )
     (background
+      (color 1 1 1)
       (x 4640)
       (y 512)
       (scroll-speed-x 0.5)
@@ -111,7 +113,7 @@
       (z-pos -50)
       (sprite "/images/decal/halloween/spookytree1.png")
       (x 4640)
-      (y 576)
+      (y 544)
     )
     (decal
       (z-pos -50)
@@ -1057,11 +1059,6 @@
     )
     (magicblock
       (color 0 0 1)
-      (x 5440)
-      (y 1408)
-    )
-    (magicblock
-      (color 0 0 1)
       (x 5504)
       (y 1408)
     )
@@ -1083,11 +1080,6 @@
     (magicblock
       (color 0 0 1)
       (x 5568)
-      (y 1408)
-    )
-    (magicblock
-      (color 0 0 1)
-      (x 5664)
       (y 1408)
     )
     (magicblock
@@ -1782,16 +1774,6 @@
     )
     (magicblock
       (color 1 0 0)
-      (x 11840)
-      (y 2144)
-    )
-    (magicblock
-      (color 1 0 0)
-      (x 11936)
-      (y 2144)
-    )
-    (magicblock
-      (color 1 0 0)
       (x 11872)
       (y 2144)
     )
@@ -2290,12 +2272,14 @@
       (color 0.6 0.6 0.6 0.6)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "/images/background/ghostforest.jpg")
       (image "/images/background/ghostforest.jpg")
       (image-bottom "/images/background/ghostforest.jpg")
     )
     (background
+      (color 1 1 1)
       (x 768)
       (y 608)
       (scroll-speed-x 0.5)
@@ -2625,13 +2609,22 @@
       (name "gen157140874123393456")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 7392)
           (y 576)
+          (bezier_before_x 7392)
+          (bezier_before_y 576)
+          (bezier_after_x 7392)
+          (bezier_after_y 576)
         )
         (node
           (x 7520)
           (y 576)
+          (bezier_before_x 7520)
+          (bezier_before_y 576)
+          (bezier_after_x 7520)
+          (bezier_after_y 576)
         )
       )
     )

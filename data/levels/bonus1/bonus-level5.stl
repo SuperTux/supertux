@@ -161,6 +161,48 @@
       (top_color 0 0 0)
       (bottom_color 0 0 0)
     )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 28320)
+      (y 1120)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 29920)
+      (y 1120)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 30592)
+      (y 1120)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 30976)
+      (y 1120)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 31584)
+      (y 1120)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 31840)
+      (y 1120)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 32640)
+      (y 1120)
+    )
     (leveltime
       (time 500)
     )
@@ -288,9 +330,14 @@
     (path
       (name "9773916f-c1b5-4d04-8396-4a563b26b3ce")
       (path
+        (adapt_speed #f)
         (node
           (x 26848)
           (y 480)
+          (bezier_before_x 26848)
+          (bezier_before_y 480)
+          (bezier_after_x 26848)
+          (bezier_after_y 480)
         )
       )
     )
@@ -615,7 +662,7 @@
     )
     (tilemap
       (solid #t)
-      (z-pos 90)
+      (z-pos -1)
       (name "solidwater")
       (width 1042)
       (height 36)

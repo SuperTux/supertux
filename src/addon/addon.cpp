@@ -15,8 +15,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __EMSCRIPTEN__
-
 #include "addon/addon.hpp"
 
 #include <sstream>
@@ -179,7 +177,5 @@ Addon::set_enabled(bool v)
 {
   m_enabled = v;
 }
-
-#endif
 
 /* EOF */

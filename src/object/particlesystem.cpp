@@ -19,9 +19,11 @@
 #include <math.h>
 
 #include "supertux/globals.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "object/camera.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "video/surface_batch.hpp"
@@ -81,6 +83,7 @@ ParticleSystem::draw(DrawingContext& context)
 
   float scrollx = context.get_translation().x;
   float scrolly = context.get_translation().y;
+  const auto& region = Sector::current()->get_active_region();
 
   context.push_transform();
   context.set_translation(Vector(max_particle_size,max_particle_size));
@@ -98,6 +101,9 @@ ParticleSystem::draw(DrawingContext& context)
 
     pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
     if (pos.y < 0) pos.y += virtual_height;
+
+    if(!region.contains(pos + Sector::get().get_camera().get_translation()))
+      continue;
 
     //if(pos.x > virtual_width) pos.x -= virtual_width;
     //if(pos.y > virtual_height) pos.y -= virtual_height;

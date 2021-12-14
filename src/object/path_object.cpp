@@ -18,6 +18,7 @@
 
 #include <boost/optional.hpp>
 
+#include "editor/editor.hpp"
 #include "object/path_gameobject.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/sector.hpp"
@@ -66,30 +67,42 @@ PathObject::init_path_pos(const Vector& pos, bool running)
   m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
 }
 
-Path*
-PathObject::get_path() const
+PathGameObject*
+PathObject::get_path_gameobject() const
 {
   if(!d_gameobject_manager)
     return nullptr;
 
-  if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
-    return &path_gameobject->get_path();
-  } else {
+  return d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
+}
+
+Path*
+PathObject::get_path() const
+{
+  auto path_gameobject = get_path_gameobject();
+  if(!path_gameobject)
+  {
     return nullptr;
   }
+  return &path_gameobject->get_path();
 }
 
 std::string
 PathObject::get_path_ref() const
 {
-  if(!d_gameobject_manager)
-    return nullptr;
-
-  if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
-    return path_gameobject->get_name();
-  } else {
+  auto path_gameobject = get_path_gameobject();
+  if(!path_gameobject)
+  {
     return {};
   }
+  return path_gameobject->get_name();
+}
+
+void
+PathObject::editor_set_path_by_ref(const std::string& new_ref)
+{
+  auto* path_obj = Editor::current()->get_sector()->get_object_by_name<PathGameObject>(new_ref);
+  m_path_uid = path_obj->get_uid();
 }
 
 /* EOF */

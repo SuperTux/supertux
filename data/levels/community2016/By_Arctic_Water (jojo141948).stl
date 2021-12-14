@@ -9,6 +9,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "/images/background/icecliffs/icecliffs-top.png")
       (image "/images/background/icecliffs/icecliffs-middle.png")
@@ -119,6 +120,42 @@
       (direction "left")
       (x 11404.1)
       (y 907.1)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 6912)
+      (y 1408)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 7072)
+      (y 1408)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 7104)
+      (y 1408)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 7584)
+      (y 1408)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 13216)
+      (y 1408)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 15456)
+      (y 1408)
     )
     (jumpy
       (direction "left")

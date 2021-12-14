@@ -14,6 +14,7 @@ RightWindow.goto_node(0)")
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
@@ -33,7 +34,7 @@ RightWindow.goto_node(0)")
       (sector "InsideCastle")
       (spawnpoint "main")
       (x 2410.944)
-      (y 166.1667)
+      (y 160.1667)
     )
     (mrtree
       (x 1440)
@@ -45,74 +46,124 @@ RightWindow.goto_node(0)")
     (path
       (name "041d4a7d-2e93-43ba-8ec0-ecc48547f815")
       (path
+        (adapt_speed #f)
         (node
           (x 2880)
           (y 320)
+          (bezier_before_x 2880)
+          (bezier_before_y 320)
+          (bezier_after_x 2880)
+          (bezier_after_y 320)
         )
       )
     )
     (path
       (name "dff5e27a-ca7a-4743-95d0-b5f6c39c10bb")
       (path
+        (adapt_speed #f)
         (node
           (x 2400)
           (y 352)
+          (bezier_before_x 2400)
+          (bezier_before_y 352)
+          (bezier_after_x 2400)
+          (bezier_after_y 352)
         )
         (node
           (x 2400)
           (y 256)
+          (bezier_before_x 2400)
+          (bezier_before_y 256)
+          (bezier_after_x 2400)
+          (bezier_after_y 256)
         )
       )
     )
     (path
       (name "ee9a3f01-905b-4dd6-b846-81bc2412c74f")
       (path
+        (adapt_speed #f)
         (node
           (x 2400)
           (y 160)
+          (bezier_before_x 2400)
+          (bezier_before_y 160)
+          (bezier_after_x 2400)
+          (bezier_after_y 160)
         )
         (node
           (x 2368)
           (y 160)
+          (bezier_before_x 2368)
+          (bezier_before_y 160)
+          (bezier_after_x 2368)
+          (bezier_after_y 160)
         )
       )
     )
     (path
       (name "72df4559-572c-4a31-a604-9c652ece5f61")
       (path
+        (adapt_speed #f)
         (node
           (x 2464)
           (y 160)
+          (bezier_before_x 2464)
+          (bezier_before_y 160)
+          (bezier_after_x 2464)
+          (bezier_after_y 160)
         )
         (node
           (x 2432)
           (y 160)
+          (bezier_before_x 2432)
+          (bezier_before_y 160)
+          (bezier_after_x 2432)
+          (bezier_after_y 160)
         )
       )
     )
     (path
       (name "df68f42f-9442-4127-825b-631d122de566")
       (path
+        (adapt_speed #f)
         (node
           (x 2368)
           (y 160)
+          (bezier_before_x 2368)
+          (bezier_before_y 160)
+          (bezier_after_x 2368)
+          (bezier_after_y 160)
         )
         (node
           (x 2400)
           (y 160)
+          (bezier_before_x 2400)
+          (bezier_before_y 160)
+          (bezier_after_x 2400)
+          (bezier_after_y 160)
         )
       )
     )
     (path
       (name "d56dbd7b-83a2-497a-b2fa-162990590b4b")
       (path
+        (adapt_speed #f)
         (node
           (x 2432)
           (y 160)
+          (bezier_before_x 2432)
+          (bezier_before_y 160)
+          (bezier_after_x 2432)
+          (bezier_after_y 160)
         )
         (node
           (x 2464)
           (y 160)
+          (bezier_before_x 2464)
+          (bezier_before_y 160)
+          (bezier_after_x 2464)
+          (bezier_after_y 160)
         )
       )
     )
@@ -293,7 +344,7 @@ Pole.goto_node(1)")
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1476 1477 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -321,6 +372,7 @@ DoorBlock.goto_node(1)")
       (color 0.4274205 0.4274205 0.4274205)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")
@@ -402,26 +454,44 @@ DoorBlock.goto_node(1)")
     (path
       (name "60c2d025-3750-4012-9a19-2bcb8fb4e024")
       (path
+        (adapt_speed #f)
         (node
           (x 3104)
           (y 512)
+          (bezier_before_x 3104)
+          (bezier_before_y 512)
+          (bezier_after_x 3104)
+          (bezier_after_y 512)
         )
         (node
           (x 3104)
           (y 256)
+          (bezier_before_x 3104)
+          (bezier_before_y 256)
+          (bezier_after_x 3104)
+          (bezier_after_y 256)
         )
       )
     )
     (path
       (name "eb19c96e-f18a-4ea6-a886-39486749b7ba")
       (path
+        (adapt_speed #f)
         (node
           (x 1920)
           (y -160)
+          (bezier_before_x 1920)
+          (bezier_before_y -160)
+          (bezier_after_x 1920)
+          (bezier_after_y -160)
         )
         (node
           (x 1920)
           (y 0)
+          (bezier_before_x 1920)
+          (bezier_before_y 0)
+          (bezier_after_x 1920)
+          (bezier_after_y 0)
         )
       )
     )
@@ -595,6 +665,7 @@ DoorBlock.goto_node(1)")
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "images/background/BlueRock_Forest/blue-top.jpg")
       (image "images/background/BlueRock_Forest/blue-middle.jpg")

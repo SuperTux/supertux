@@ -83,7 +83,7 @@ RCrystallo::active_update(float dt_sec)
       && player->get_bbox().get_left() < m_col.m_bbox.get_right() + 192.f
       && player->get_bbox().get_bottom() > m_col.m_bbox.get_top()
       && Sector::get().free_line_of_sight(m_col.m_bbox.get_middle() + Vector(0, 20),
-        player->get_bbox().get_middle() - Vector(0, 40), player))
+        player->get_bbox().get_middle() - Vector(0, 40), false, player))
     {
       //center enemy, begin falling
       m_col.m_bbox.move(Vector(3.f, 0.f));

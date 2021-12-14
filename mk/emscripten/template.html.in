@@ -347,13 +347,15 @@
     var setResolution = null;
 
     function tryResize() {
-      if (!autofit)
+      if (!autofit || !Module)
         return;
 
       if (!setResolution)
         setResolution = Module.cwrap('set_resolution', 'void', ['number']);
 
-      setResolution(window.innerWidth, window.innerHeight);
+      try {
+        setResolution(window.innerWidth, window.innerHeight);
+      } catch(err) {}
     }
 
     window.supertux_setAutofit = function(newAutofit) {
@@ -405,20 +407,6 @@
       // so save the config file in localStorage just in case it wasn't flushed
       // to disk
       save("config");
-
-      // Other files use IndexedDB instead of localStorage
-      /*
-      var data_folder = FS.lookupPath(root);
-
-      for (var folder_name in data_folder.node.contents) {
-        if (!folder_name.match("^profile[0-9]+$"))
-          continue;
-        
-        for (var file_name in data_folder.node.contents[folder_name].contents) {
-          save(folder_name + "/" + file_name);
-        }
-      }
-      */
     }
 
     window.supertux_download = function(path) {
@@ -518,12 +506,61 @@
       });
     }
 
-    window.onresize = tryResize;
-    window.onunload = () => {
+    var onDownloadProgress, onDownloadFinished, onDownloadError, onDownloadAborted;
+    window.supertux_xhr_download = function(id, url, file) {
+      console.log('id: ' + id);
+      console.log('url: ' + url);
+      console.log('file: ' + file);
+
+      if (!onDownloadProgress)
+        onDownloadProgress = Module.cwrap('onDownloadProgress', 'void', ['number', 'number', 'number']);
+
+      if (!onDownloadFinished)
+        onDownloadFinished = Module.cwrap('onDownloadFinished', 'void', ['number']);
+
+      if (!onDownloadError)
+        onDownloadError = Module.cwrap('onDownloadError', 'void', ['number']);
+
+      if (!onDownloadAborted)
+        onDownloadAborted = Module.cwrap('onDownloadAborted', 'void', ['number']);
+
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+          var data = new Uint8Array(xhr.response);
+          var stream = FS.open(file, 'w+');
+          FS.write(stream, data, 0, data.length, 0);
+          FS.close(stream);
+          onDownloadFinished(id);
+        }
+      };
+      xhr.responseType = "arraybuffer";
+      xhr.open("GET", url);
+      xhr.send();
+
+      xhr.addEventListener('progress', (e) => { onDownloadProgress(id, e.loaded, e.total); });
+      xhr.addEventListener('error', (e) => { onDownloadError(id); });
+      xhr.addEventListener('abort', (e) => { onDownloadAborted(id); })
+    }
+
+    window.addEventListener('resize', (e) => {
+      tryResize();
+    });
+    window.addEventListener('unload', (e) => {
       Module.ccall("save_config", "void", [], []);
       supertux_saveFiles();
-    };
-
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key == "F11" || (e.key == "Enter" && e.altKey)) {
+        try {
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          } else {
+            Module.canvas.requestFullscreen();
+          }
+        } catch(e) {}
+      }
+    });
   </script>
   <script async src="supertux2.js"></script>
 </body>

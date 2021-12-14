@@ -96,9 +96,20 @@ EditorToolboxWidget::draw(DrawingContext& context)
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   m_rubber->draw(context);
-  m_select_mode->draw(context);
-  m_move_mode->draw(context);
   m_undo_mode->draw(context);
+  switch (m_input_type)
+  {
+    case InputType::TILE:
+      m_select_mode->draw(context);
+      break;
+
+    case InputType::OBJECT:
+      m_move_mode->draw(context);
+      break;
+
+    default:
+      break;
+  }
 
   draw_tilegroup(context);
   draw_objectgroup(context);
@@ -349,12 +360,16 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
           case 1:
-            m_select_mode->next_mode();
+            if (m_input_type == InputType::TILE) {
+              m_select_mode->next_mode();
+            }
             update_mouse_icon();
             break;
 
           case 2:
-            m_move_mode->next_mode();
+            if (m_input_type == InputType::OBJECT) {
+              m_move_mode->next_mode();
+            }
             update_mouse_icon();
             break;
 			

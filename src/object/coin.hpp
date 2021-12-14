@@ -57,6 +57,8 @@ private:
   Physic m_physic;
   std::string m_collect_script;
 
+  int m_starting_node;
+
 private:
   Coin(const Coin&) = delete;
   Coin& operator=(const Coin&) = delete;

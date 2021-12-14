@@ -57,9 +57,8 @@ MainMenu::MainMenu()
   // TODO: Manage to build OpenSSL for Emscripten so we can build CURL so we can
   //       build the add-ons so we can re-enable them.
   //       Also see src/addon/downloader.*pp
-#ifndef __EMSCRIPTEN__
   add_entry(MNID_ADDONS, _("Add-ons"));
-#else
+#ifdef __EMSCRIPTEN__
   add_entry(MNID_MANAGEASSETS, _("Manage Assets"));
 #endif
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);

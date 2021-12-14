@@ -30,7 +30,7 @@ public:
   std::string get_display_name() const override { return _("Ghoul"); }
   bool is_freezable() const override;
   bool is_flammable() const override;
-  
+
   void finish_construction() override;
 
   void activate() override;

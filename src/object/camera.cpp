@@ -221,7 +221,7 @@ Camera::get_settings()
                   {"normal", "manual", "autoscroll"},
                   {}, "mode");
 
-  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+  result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
 
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
@@ -237,6 +237,11 @@ Camera::after_editor_set()
   if (get_walker() && get_path()->is_valid()) {
     if (m_defaultmode != Mode::AUTOSCROLL) {
       get_path()->m_nodes.clear();
+      auto path_obj = get_path_gameobject();
+      if(path_obj != nullptr)
+      {
+        path_obj->editor_delete();
+      }
     }
   } else {
     if (m_defaultmode == Mode::AUTOSCROLL) {

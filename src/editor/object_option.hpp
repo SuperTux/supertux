@@ -41,6 +41,7 @@ class Value;
 class Color;
 class Menu;
 class Path;
+class PathObject;
 class Rectf;
 class TileMap;
 class Writer;
@@ -350,8 +351,8 @@ private:
 class PathRefObjectOption : public ObjectOption
 {
 public:
-  PathRefObjectOption(const std::string& text, const std::string& path_ref, const std::string& key,
-                      unsigned int flags);
+  PathRefObjectOption(const std::string& text, PathObject& target, const std::string& path_ref,
+                      const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -359,6 +360,7 @@ public:
 
 private:
   std::string m_path_ref;
+  PathObject& m_target;
 
 private:
   PathRefObjectOption(const PathRefObjectOption&) = delete;

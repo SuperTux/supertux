@@ -41,6 +41,9 @@ public:
   /** advance until at given node, then stop */
   void goto_node(int node_no);
 
+  /** teleport instantly to given node */
+  void jump_to_node(int node_no);
+
   /** start advancing automatically */
   void start_moving();
 

@@ -234,10 +234,16 @@ void CloudParticleSystem::draw(DrawingContext& context)
   if (!enabled)
     return;
 
+  const auto& region = Sector::current()->get_active_region();
+
   context.push_transform();
 
   std::unordered_map<SurfacePtr, SurfaceBatch> batches;
   for (const auto& particle : particles) {
+
+    if(!region.contains(particle->pos))
+      continue;
+
     if (particle->alpha != 1.f) {
       const auto& batch_it = batches.emplace(
           particle->texture->clone(),

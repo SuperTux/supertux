@@ -138,6 +138,24 @@ PathWalker::goto_node(int node_no)
 }
 
 void
+PathWalker::jump_to_node(int node_no)
+{
+  Path* path = get_path();
+  if (!path) return;
+
+  if (node_no >= static_cast<int>(path->get_nodes().size())) return;
+  m_next_node_nr = static_cast<size_t>(node_no);
+  if (m_walking_speed > 0) {
+    advance_node();
+  } else if (m_walking_speed < 0) {
+    goback_node();
+  } else {
+    m_current_node_nr = m_next_node_nr;
+  }
+  m_node_time = 0.f;
+}
+
+void
 PathWalker::start_moving()
 {
   m_running = true;

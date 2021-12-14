@@ -25,12 +25,13 @@
 #include "gui/item_colordisplay.hpp"
 #include "gui/item_controlfield.hpp"
 #include "gui/item_file.hpp"
+#include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_hl.hpp"
 #include "gui/item_inactive.hpp"
 #include "gui/item_intfield.hpp"
 #include "gui/item_label.hpp"
-#include "gui/item_floatfield.hpp"
+#include "gui/item_paths.hpp"
 #include "gui/item_script.hpp"
 #include "gui/item_script_line.hpp"
 #include "gui/item_stringselect.hpp"
@@ -303,6 +304,14 @@ Menu::add_color_channel_rgba(float* input, Color channel, int id, bool is_linear
 ItemColorChannelOKLab&
 Menu::add_color_channel_oklab(Color* color, int channel) {
   auto item = std::make_unique<ItemColorChannelOKLab>(color, channel, this);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
+ItemPaths&
+Menu::add_path_settings(const std::string& text, PathObject& target, const std::string& path_ref) {
+  auto item = std::make_unique<ItemPaths>(text, target, path_ref);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

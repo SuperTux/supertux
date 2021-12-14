@@ -115,6 +115,24 @@
       (x 8999)
       (y 809)
     )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 6496)
+      (y 1408)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 6944)
+      (y 1408)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 11040)
+      (y 1312)
+    )
     (jumpy
       (direction "left")
       (x 1445.1)
