@@ -428,6 +428,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   s_timelog.log("commandline");
 
+#ifndef EMSCRIPTEN
   auto video = g_config->video;
   if (args.resave && *args.resave) {
     if (args.video) {
@@ -437,7 +438,12 @@ Main::launch_game(const CommandLineArguments& args)
     }
   }
   s_timelog.log("video");
+
   m_video_system = VideoSystem::create(video);
+#else
+  // Force SDL for WASM builds, as OpenGL is reportedly slow on some devices
+  m_video_system = VideoSystem::create(VideoSystem::VIDEO_SDL);
+#endif
   init_video();
 
   m_ttf_surface_manager.reset(new TTFSurfaceManager());
