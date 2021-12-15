@@ -147,17 +147,6 @@ Platform::editor_update()
 }
 
 void
-Platform::editor_delete()
-{
-  auto path_obj = get_path_gameobject();
-  if(path_obj != nullptr)
-  {
-    path_obj->editor_delete();
-  }
-  GameObject::editor_delete();
-}
-
-void
 Platform::on_flip(float height)
 {
   if (Path* path = get_path()) {

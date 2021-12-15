@@ -385,20 +385,6 @@ TileMap::on_flip(float height)
 }
 
 void
-TileMap::editor_delete()
-{
-  // Paths may be used by multiple objects
-#if 0
-  auto path_obj = get_path_gameobject();
-  if(path_obj != nullptr)
-  {
-    path_obj->editor_delete();
-  }
-#endif
-  GameObject::editor_delete();
-}
-
-void
 TileMap::draw(DrawingContext& context)
 {
   // skip draw if current opacity is 0.0
