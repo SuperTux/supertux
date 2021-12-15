@@ -2137,6 +2137,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
 
   if (m_controller->hold(Control::JUMP)) {
     m_on_ground_flag = true;
+    m_jump_early_apex = false;
     do_jump(m_player_status.bonus == BonusType::AIR_BONUS ? -540.0f : -480.0f);
   }
   else if (m_controller->hold(Control::UP)) {
