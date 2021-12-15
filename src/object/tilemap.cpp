@@ -485,6 +485,22 @@ void
 TileMap::resize(int new_width, int new_height, int fill_id,
                 int xoffset, int yoffset)
 {
+  //Apply offset
+  if (xoffset || yoffset) {
+    for (int y = 0; y < m_height; y++) {
+      int Y = (yoffset < 0) ? y : (m_height - y - 1);
+      for (int x = 0; x < m_width; x++) {
+        int X = (xoffset < 0) ? x : (m_width - x - 1);
+        if (Y - yoffset < 0 || Y - yoffset >= m_height ||
+            X - xoffset < 0 || X - xoffset >= m_width) {
+          m_tiles[Y * new_width + X] = fill_id;
+        } else {
+          m_tiles[Y * new_width + X] = m_tiles[(Y - yoffset) * m_width + X - xoffset];
+        }
+      }
+    }
+  }
+
   if (new_width < m_width) {
     // remap tiles for new width
     for (int y = 0; y < m_height && y < new_height; ++y) {
@@ -512,22 +528,6 @@ TileMap::resize(int new_width, int new_height, int fill_id,
 
   m_height = new_height;
   m_width = new_width;
-
-  //Apply offset
-  if (xoffset || yoffset) {
-    for (int y = 0; y < m_height; y++) {
-      int Y = (yoffset < 0) ? y : (m_height - y - 1);
-      for (int x = 0; x < m_width; x++) {
-        int X = (xoffset < 0) ? x : (m_width - x - 1);
-        if (Y - yoffset < 0 || Y - yoffset >= m_height ||
-            X - xoffset < 0 || X - xoffset >= m_width) {
-          m_tiles[Y * new_width + X] = fill_id;
-        } else {
-          m_tiles[Y * new_width + X] = m_tiles[(Y - yoffset) * m_width + X - xoffset];
-        }
-      }
-    }
-  }
 }
 
 void TileMap::resize(const Size& newsize, const Size& resize_offset) {
