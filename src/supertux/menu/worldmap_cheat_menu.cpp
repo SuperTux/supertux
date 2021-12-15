@@ -81,7 +81,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_AIR:
-      status.bonus = AIR_BONUS = 64;
+      status.bonus = AIR_BONUS;
       break;
 
     case MNID_EARTH:
