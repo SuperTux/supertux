@@ -1761,6 +1761,7 @@ Player::draw(DrawingContext& context)
 
 }
 
+
 void
 Player::collision_tile(uint32_t tile_attributes)
 {
@@ -1873,6 +1874,14 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
 
   return CONTINUE;
+}
+
+void
+Player::on_flip(float height)
+{
+  Vector pos = get_pos();
+  pos.y = height - pos.y - get_bbox().get_height();
+  move(pos);
 }
 
 void

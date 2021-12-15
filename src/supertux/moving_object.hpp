@@ -97,6 +97,8 @@ public:
 
   virtual void editor_select() override;
 
+  virtual void on_flip(float height) override;
+
 protected:
   void set_group(CollisionGroup group)
   {

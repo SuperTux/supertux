@@ -231,4 +231,10 @@ void Block::after_editor_set()
   m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
+void
+Block::on_flip(float height)
+{
+  if (m_original_y != -1) m_original_y = height - m_original_y - get_bbox().get_height();
+}
+
 /* EOF */
