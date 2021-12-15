@@ -28,6 +28,8 @@ namespace {
 const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 }
 
+static const float GROUND_FRICTION = 0.1f; // Amount of friction to apply while on ground.
+
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
   ExposedObject<Rock, scripting::Rock>(this),
@@ -98,6 +100,11 @@ Rock::collision_solid(const CollisionHit& hit)
     SoundManager::current()->play(ROCK_SOUND, get_pos());
     physic.set_velocity_x(0);
     on_ground = true;
+  }
+
+  if (on_ground) {
+    // Full friction!
+    physic.set_velocity_x(physic.get_velocity_x() * (1.f - GROUND_FRICTION));
   }
 }
 
