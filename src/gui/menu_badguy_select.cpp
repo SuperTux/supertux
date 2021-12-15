@@ -55,7 +55,6 @@ BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
     all_badguys.push_back("mole");
     all_badguys.push_back("mole_rock");
     all_badguys.push_back("mrbomb");
-    all_badguys.push_back("mrcandle");
     all_badguys.push_back("mriceblock");
     all_badguys.push_back("mrtree");
     all_badguys.push_back("owl");
@@ -76,6 +75,7 @@ BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
     all_badguys.push_back("stumpy");
     all_badguys.push_back("toad");
     all_badguys.push_back("totem");
+    all_badguys.push_back("walking_candle");
     all_badguys.push_back("walkingleaf");
     all_badguys.push_back("willowisp");
     all_badguys.push_back("yeti");
