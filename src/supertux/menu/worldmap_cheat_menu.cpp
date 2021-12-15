@@ -82,10 +82,12 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
     case MNID_AIR:
       status.bonus = AIR_BONUS;
+      status.max_air_time = 64;
       break;
 
     case MNID_EARTH:
       status.bonus = EARTH_BONUS;
+      status.max_earth_time = 64;
       break;
 
     case MNID_SHRINK:
