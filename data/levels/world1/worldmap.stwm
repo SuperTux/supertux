@@ -239,6 +239,18 @@ worldmap.settings.fade_to_ambient_light(1, 1, 1, 0.5);")
       (x 67)
       (y 83)
     )
+    (special-tile
+      (invisible-tile #t)
+      (script "state.fitr_up <- true; reset_forks();")
+      (x 56)
+      (y 66)
+    )
+    (special-tile
+      (invisible-tile #t)
+      (script "state.fitr_down <- true; reset_forks();")
+      (x 55)
+      (y 73)
+    )
     (sprite-change
       (stay-action "boat")
       (change-on-touch #t)

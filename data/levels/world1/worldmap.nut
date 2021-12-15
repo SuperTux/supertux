@@ -39,11 +39,14 @@ if(! ("fitr_up" in state)){
   print("[DEBUG] 'Fork in the Road' road fork (up) initialized\n");
 }
 
-fitr_down.set_solid(state.fitr_down);
-fitr_up.set_solid(state.fitr_up);
-fitr_down_boulder.set_alpha(state.fitr_down ? 0 : 1);
-fitr_up_boulder.set_alpha(state.fitr_up ? 0 : 1);
+function reset_forks(fade_time = 0.35) {
+  fitr_down.set_solid(state.fitr_down);
+  fitr_up.set_solid(state.fitr_up);
+  fitr_down_boulder.fade(state.fitr_down ? 0 : 1, fade_time);
+  fitr_up_boulder.fade(state.fitr_up ? 0 : 1, fade_time);
+}
 
+reset_forks(0.0);
 
 
 // ============================================================================
