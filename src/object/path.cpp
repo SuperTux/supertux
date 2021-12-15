@@ -36,7 +36,7 @@ string_to_walk_mode(const std::string& mode_string)
   else if (mode_string == "circular")
     return WalkMode::CIRCULAR;
   else {
-    log_warning << "Unknown path mode '" << mode_string << "'found. Using oneshot instead.";
+    log_warning << "Unknown path mode '" << mode_string << "'found. Using oneshot instead." << std::endl;
     return WalkMode::ONE_SHOT;
   }
 }
@@ -51,7 +51,7 @@ walk_mode_to_string(WalkMode walk_mode)
   else if (walk_mode == WalkMode::CIRCULAR)
     return "circular";
   else {
-    log_warning << "Unknown path mode found. Using oneshot instead.";
+    log_warning << "Unknown path mode found. Using oneshot instead." << std::endl;
     return "oneshot";
   }
 }
