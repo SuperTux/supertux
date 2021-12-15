@@ -34,10 +34,10 @@ WorldmapCheatMenu::WorldmapCheatMenu()
   add_label(_("Cheats"));
   add_hl();
   add_entry(MNID_GROW, _("Bonus: Grow"));
-  add_entry(MNID_FIRE, _("Bonus: Fire"));
-  add_entry(MNID_ICE, _("Bonus: Ice"));
-  add_entry(MNID_AIR, _("Bonus: Air"));
-  add_entry(MNID_EARTH, _("Bonus: Earth"));
+  add_entry(MNID_FIRE, _("Bonus: Fire x 64"));
+  add_entry(MNID_ICE, _("Bonus: Ice x 64"));
+  add_entry(MNID_AIR, _("Bonus: Air x 64"));
+  add_entry(MNID_EARTH, _("Bonus: Earth x 64"));
   add_entry(MNID_SHRINK, _("Bonus: None"));
   add_hl();
   add_entry(MNID_GHOST, (tux.get_ghost_mode() ?
@@ -72,20 +72,20 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
     case MNID_FIRE:
       status.bonus = FIRE_BONUS;
-      status.max_fire_bullets++;
+      status.max_fire_bullets = 64;
       break;
 
     case MNID_ICE:
       status.bonus = ICE_BONUS;
-      status.max_ice_bullets++;
+      status.max_ice_bullets = 64;
       break;
 
     case MNID_AIR:
-      status.bonus = AIR_BONUS;
+      status.bonus = AIR_BONUS = 64;
       break;
 
     case MNID_EARTH:
-      status.bonus = EARTH_BONUS;
+      status.bonus = EARTH_BONUS = 64;
       break;
 
     case MNID_SHRINK:
