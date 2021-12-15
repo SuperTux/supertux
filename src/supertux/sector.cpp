@@ -498,6 +498,8 @@ Sector::get_editor_size() const
 void
 Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset)
 {
+  BIND_SECTOR(*this);
+
   bool is_offset = resize_offset.width || resize_offset.height;
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
