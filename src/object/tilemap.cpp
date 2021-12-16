@@ -215,6 +215,40 @@ TileMap::float_channel(float target, float &current, float remaining_time, float
   if (amt < 0) current = std::max(current + amt, target);
 }
 
+void
+TileMap::apply_offset_x(int fill_id, int xoffset)
+{
+  if (!xoffset)
+    return;
+  for (int y = 0; y < m_height; y++) {
+    for (int x = 0; x < m_width; x++) {
+      int X = (xoffset < 0) ? x : (m_width - x - 1);
+      if (X - xoffset < 0 || X - xoffset >= m_width) {
+        m_tiles[y * m_width + X] = fill_id;
+      } else {
+        m_tiles[y * m_width + X] = m_tiles[y * m_width + X - xoffset];
+      }
+    }
+  }
+}
+
+void
+TileMap::apply_offset_y(int fill_id, int yoffset)
+{
+  if (!yoffset)
+    return;
+  for (int y = 0; y < m_height; y++) {
+    int Y = (yoffset < 0) ? y : (m_height - y - 1);
+    for (int x = 0; x < m_width; x++) {
+      if (Y - yoffset < 0 || Y - yoffset >= m_height) {
+        m_tiles[Y * m_width + x] = fill_id;
+      } else {
+        m_tiles[Y * m_width + x] = m_tiles[(Y - yoffset) * m_width + x];
+      }
+    }
+  }
+}
+
 ObjectSettings
 TileMap::get_settings()
 {
@@ -485,22 +519,18 @@ void
 TileMap::resize(int new_width, int new_height, int fill_id,
                 int xoffset, int yoffset)
 {
-  //Apply offset
-  if (xoffset || yoffset) {
-    for (int y = 0; y < m_height; y++) {
-      int Y = (yoffset < 0) ? y : (m_height - y - 1);
-      for (int x = 0; x < m_width; x++) {
-        int X = (xoffset < 0) ? x : (m_width - x - 1);
-        if (Y - yoffset < 0 || Y - yoffset >= m_height ||
-            X - xoffset < 0 || X - xoffset >= m_width) {
-          m_tiles[Y * new_width + X] = fill_id;
-        } else {
-          m_tiles[Y * new_width + X] = m_tiles[(Y - yoffset) * m_width + X - xoffset];
-        }
-      }
-    }
+  bool offset_finished_x = false;
+  bool offset_finished_y = false;
+  if (xoffset < 0 && new_width - m_width < 0)
+  {
+    apply_offset_x(fill_id, xoffset);
+    offset_finished_x = true;
   }
-
+  if (yoffset < 0 && new_height - m_height < 0)
+  {
+    apply_offset_y(fill_id, yoffset);
+    offset_finished_y = true;
+  }
   if (new_width < m_width) {
     // remap tiles for new width
     for (int y = 0; y < m_height && y < new_height; ++y) {
@@ -525,9 +555,12 @@ TileMap::resize(int new_width, int new_height, int fill_id,
       }
     }
   }
-
   m_height = new_height;
   m_width = new_width;
+  if (!offset_finished_x)
+    apply_offset_x(fill_id, xoffset);
+  if (!offset_finished_y)
+    apply_offset_y(fill_id, yoffset);
 }
 
 void TileMap::resize(const Size& newsize, const Size& resize_offset) {

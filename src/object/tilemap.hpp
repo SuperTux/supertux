@@ -208,6 +208,9 @@ private:
 
   bool is_corner(uint32_t tile);
 
+  void apply_offset_x(int fill_id, int xoffset);
+  void apply_offset_y(int fill_id, int yoffset);
+
 public:
   bool m_editor_active;
 
