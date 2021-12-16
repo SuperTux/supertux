@@ -96,6 +96,8 @@ Resources::get_font_for_locale(const std::string& locale)
     return "fonts/NotoSansCJKjp-Medium.otf";
   if(locale == "he")
     return "fonts/VarelaRound-Regular.ttf";
+  if(locale == "ko")
+    return "fonts/NanumBarunGothic.ttf";
   return "fonts/SuperTux-Medium.ttf";
 }
 
