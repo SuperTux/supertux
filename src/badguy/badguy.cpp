@@ -865,6 +865,8 @@ BadGuy::get_settings()
 void
 BadGuy::after_editor_set()
 {
+  MovingSprite::after_editor_set();
+
   if (m_dir == Direction::AUTO)
   {
     if (m_sprite->has_action("editor-left")) {

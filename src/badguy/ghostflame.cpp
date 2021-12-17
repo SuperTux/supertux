@@ -43,6 +43,11 @@ ObjectSettings
 Ghostflame::get_settings()
 {
   ObjectSettings result = Flame::get_settings();
+
+  // FIXME: What is the interest of having a badguy that is only a retexture of another badguy?
+  // This at least removes the option from the editor to avoid confusing behavior.
+  result.remove("sprite");
+
   return result;
 }
 

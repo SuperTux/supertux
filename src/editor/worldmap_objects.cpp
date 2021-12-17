@@ -135,11 +135,6 @@ LevelDot::get_settings()
   return result;
 }
 
-void
-LevelDot::after_editor_set()
-{
-}
-
 Teleporter::Teleporter (const ReaderMapping& mapping) :
   WorldmapObject(mapping, "images/worldmap/common/teleporterdot.sprite"),
   m_worldmap(),

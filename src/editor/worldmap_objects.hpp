@@ -55,7 +55,6 @@ public:
   virtual std::string get_class() const override { return "level"; }
   virtual std::string get_display_name() const override { return _("Level"); }
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
 private:
   std::string m_level_filename;

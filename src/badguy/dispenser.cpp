@@ -464,6 +464,8 @@ Dispenser::get_settings()
 void
 Dispenser::after_editor_set()
 {
+  BadGuy::after_editor_set();
+
   set_correct_action();
 }
 
