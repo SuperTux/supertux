@@ -88,7 +88,8 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 LeafShot::LeafShot(const ReaderMapping& reader) :
   KamikazeSnowball(reader)
 {
-  m_sprite = SpriteManager::current()->create("images/creatures/leafshot/leafshot.sprite");
+  m_sprite_name = "images/creatures/leafshot/leafshot.sprite";
+  m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
 void
