@@ -70,6 +70,7 @@ Switch::get_settings()
 void
 Switch::after_editor_set() {
   sprite = SpriteManager::current()->create(sprite_name);
+  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 void
