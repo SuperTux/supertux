@@ -16,15 +16,10 @@
 
 #include "badguy/ghostflame.hpp"
 
-#include "audio/sound_source.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-
 Ghostflame::Ghostflame(const ReaderMapping& reader) :
-  Flame(reader)
+  Flame(reader, "images/creatures/flame/ghostflame.sprite")
 {
   m_lightsprite->set_color(Color(0.21f, 0.00f, 0.21f));
-  m_sprite = SpriteManager::current()->create("images/creatures/flame/ghostflame.sprite");
 }
 
 bool
@@ -37,24 +32,6 @@ bool
 Ghostflame::is_freezable() const
 {
   return false;
-}
-
-ObjectSettings
-Ghostflame::get_settings()
-{
-  ObjectSettings result = Flame::get_settings();
-
-  // FIXME: What is the interest of having a badguy that is only a retexture of another badguy?
-  // This at least removes the option from the editor to avoid confusing behavior.
-  result.remove("sprite");
-
-  return result;
-}
-
-void
-Ghostflame::after_editor_set()
-{
-  m_sprite_name = "images/creatures/flame/ghostflame.sprite";
 }
 
 /* EOF */

@@ -17,18 +17,18 @@
 #include "badguy/flame.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "audio/sound_source.hpp"
 #include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
-Flame::Flame(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS,
+Flame::Flame(const ReaderMapping& reader, const std::string& sprite) :
+  BadGuy(reader, sprite, LAYER_FLOATINGOBJECTS,
          "images/objects/lightmap_light/lightmap_light-small.sprite"),
   angle(0),
   radius(),
@@ -43,6 +43,9 @@ Flame::Flame(const ReaderMapping& reader) :
   }
   m_countMe = false;
   SoundManager::current()->preload(FLAME_SOUND);
+
+  reader.get("sprite", m_sprite_name, m_sprite_name.c_str());
+  m_sprite = SpriteManager::current()->create(m_sprite_name);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
 

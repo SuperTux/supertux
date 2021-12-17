@@ -19,12 +19,13 @@
 
 #include "badguy/badguy.hpp"
 
-class SoundSource;
+#include "audio/sound_source.hpp"
 
 class Flame : public BadGuy
 {
 public:
-  Flame(const ReaderMapping& reader);
+  Flame(const ReaderMapping& reader,
+        const std::string& sprite = "images/creatures/flame/flame.sprite");
 
   virtual void activate() override;
   virtual void deactivate() override;
