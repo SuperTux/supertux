@@ -24,6 +24,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 
 Door::Door(const ReaderMapping& mapping) :
@@ -33,7 +34,8 @@ Door::Door(const ReaderMapping& mapping) :
   target_spawnpoint(),
   script(),
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
-  stay_open_timer()
+  stay_open_timer(),
+  m_flip(NO_FLIP)
 {
   mapping.get("x", m_col.m_bbox.get_left());
   mapping.get("y", m_col.m_bbox.get_top());
@@ -55,7 +57,8 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
   target_spawnpoint(spawnpoint),
   script(),
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
-  stay_open_timer()
+  stay_open_timer(),
+  m_flip(NO_FLIP)
 {
   m_col.m_bbox.set_pos(Vector(static_cast<float>(x), static_cast<float>(y)));
 
@@ -117,7 +120,7 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1);
+  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1, m_flip);
 }
 
 void
@@ -177,6 +180,13 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
   }
 
   return TriggerBase::collision(other, hit_);
+}
+
+void
+Door::on_flip(float height)
+{
+  MovingObject::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
