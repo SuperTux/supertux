@@ -234,10 +234,10 @@ Path::is_valid() const
 void
 Path::on_flip(float height)
 {
-  for (auto& nod : m_nodes) {
-    nod.position.y = height - nod.position.y;
-    nod.bezier_before.y = height - nod.bezier_before.y;
-    nod.bezier_after.y = height - nod.bezier_after.y;
+  for (auto& node : m_nodes) {
+    node.position.y = height - node.position.y;
+    node.bezier_before.y = height - node.bezier_before.y;
+    node.bezier_after.y = height - node.bezier_after.y;
   }
 }
 

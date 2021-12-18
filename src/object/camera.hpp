@@ -106,8 +106,6 @@ public:
 
   /** smoothly slide the scale of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease);
-
-  Path* get_path_if_exists() override { return get_path(); }
   /** @} */
 
 private:

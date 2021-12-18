@@ -35,7 +35,9 @@ FlipLevelTransformer::transform_sector(Sector& sector)
 
   for (auto& object : sector.get_objects()) {
     object->on_flip(height);
-    if (Path* path = object->get_path_if_exists()) {
+    PathObject* po = dynamic_cast<PathObject*>(object.get());
+    if (po == nullptr) continue;
+    if (Path* path = po->get_path()) {
       if (paths.find(path) == paths.end()) {
         paths.insert(path);
       }
