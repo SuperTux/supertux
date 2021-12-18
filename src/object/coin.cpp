@@ -67,7 +67,7 @@ Coin::finish_construction()
     if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
       m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
-    set_pos(get_path()->get_nodes()[m_starting_node].position);
+    set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
     get_walker()->jump_to_node(m_starting_node);
   }
 
@@ -82,12 +82,12 @@ Coin::update(float dt_sec)
     Vector v(0.0f, 0.0f);
     if (m_from_tilemap)
     {
-      v = m_offset + get_walker()->get_pos();
+      v = m_offset + get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle);
     }
     else
     {
       get_walker()->update(dt_sec);
-      v = get_walker()->get_pos();
+      v = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle);
     }
 
     if (get_path()->is_valid()) {
@@ -101,9 +101,9 @@ Coin::editor_update()
 {
   if (get_walker()) {
     if (m_from_tilemap) {
-      set_pos(m_offset + get_walker()->get_pos());
+      set_pos(m_offset + get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
     } else {
-      set_pos(get_walker()->get_pos());
+      set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
 
       if (!get_path()) return;
       if (!get_path()->is_valid()) return;
@@ -111,7 +111,7 @@ Coin::editor_update()
       if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
         m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
-      set_pos(get_path()->get_nodes()[m_starting_node].position);
+      set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
     }
   }
 }
@@ -291,6 +291,7 @@ Coin::get_settings()
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
+    result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");

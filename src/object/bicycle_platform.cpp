@@ -154,7 +154,7 @@ BicyclePlatform::update(float dt_sec)
   if (m_walker)
   {
     m_walker->update(std::max(0.0f, dt_sec * m_angular_speed * 0.1f));
-    m_center = m_walker->get_pos();
+    m_center = m_walker->get_pos(Sizef(), {});
   }
   else
   {

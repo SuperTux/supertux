@@ -304,6 +304,16 @@ ObjectSettings::add_particle_editor()
   add_option(std::make_unique<ParticleEditorOption>());
 }
 
+
+void
+ObjectSettings::add_path_handle(const std::string& text,
+                                PathWalker::Handle& handle,
+                                const std::string& key,
+                                unsigned int flags)
+{
+  add_option(std::make_unique<PathHandleOption>(text, handle, key, flags));
+}
+
 void
 ObjectSettings::add_button(const std::string& text, const std::function<void()>& callback)
 {

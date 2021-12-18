@@ -99,7 +99,7 @@ Ghoul::active_update(float dt_sec)
 {
   if (Editor::is_active() && get_path() && get_path()->is_valid()) {
     get_walker()->update(dt_sec);
-    set_pos(get_walker()->get_pos());
+    set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
     return;
   }
 
@@ -145,7 +145,7 @@ Ghoul::active_update(float dt_sec)
       if (get_walker() == nullptr)
         return;
       get_walker()->update(dt_sec);
-      m_col.set_movement(get_walker()->get_pos() - get_pos());
+      m_col.set_movement(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos());
       if (m_mystate == STATE_PATHMOVING_TRACK && glm::length(dist) <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }

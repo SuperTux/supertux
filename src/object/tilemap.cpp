@@ -197,7 +197,7 @@ TileMap::finish_construction()
     if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
       m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
-    set_offset(get_path()->get_nodes()[m_starting_node].position);
+    set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
     get_walker()->jump_to_node(m_starting_node);
   }
 
@@ -253,6 +253,7 @@ TileMap::get_settings()
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_bool(_("Running"), &get_walker()->m_running, "running", false);
+    result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
   result.add_tiles(_("Tiles"), this, "tiles");
@@ -322,7 +323,7 @@ TileMap::update(float dt_sec)
   // if we have a path to follow, follow it
   if (get_walker()) {
     get_walker()->update(dt_sec);
-    Vector v = get_walker()->get_pos();
+    Vector v = get_walker()->get_pos(get_size() * 32, m_path_handle);
     if (get_path() && get_path()->is_valid()) {
       m_movement = v - get_offset();
       set_offset(v);
@@ -333,7 +334,7 @@ TileMap::update(float dt_sec)
         }
       }
     } else {
-      set_offset(Vector(0, 0));
+      set_offset(m_path_handle.get_pos(get_size() * 32, Vector(0, 0)));
     }
   }
 
@@ -345,8 +346,8 @@ TileMap::editor_update()
 {
   if (get_walker()) {
     if (get_path() && get_path()->is_valid()) {
-      m_movement = get_walker()->get_pos() - get_offset();
-      set_offset(get_walker()->get_pos());
+      m_movement = get_walker()->get_pos(get_size() * 32, m_path_handle) - get_offset();
+      set_offset(get_walker()->get_pos(get_size() * 32, m_path_handle));
 
       if (!get_path()) return;
       if (!get_path()->is_valid()) return;
@@ -355,9 +356,9 @@ TileMap::editor_update()
         m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
       m_movement += get_path()->get_nodes()[m_starting_node].position - get_offset();
-      set_offset(get_path()->get_nodes()[m_starting_node].position);
+      set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
     } else {
-      set_offset(Vector(0, 0));
+      set_offset(m_path_handle.get_pos(get_size() * 32, Vector(0, 0)));
     }
   }
 }
