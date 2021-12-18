@@ -34,7 +34,7 @@ public:
   class Handle
   {
   public:
-    Handle() = default;
+    Handle() : m_scalar_pos(), m_pixel_offset() {}
     Vector get_pos(const Sizef& size, const Vector& pos) const;
 
   public:
