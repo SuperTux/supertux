@@ -68,6 +68,8 @@ public:
     ExposedObject<WillOWisp, scripting::WillOWisp>::unexpose(vm, table_idx);
   }
 
+  Path* get_path_if_exists() override { return get_path(); }
+
   /** make WillOWisp vanish */
   void vanish();
 
