@@ -21,6 +21,7 @@
 #include "object/camera.hpp"
 #include "object/decal.hpp"
 #include "object/flower.hpp"
+#include "object/path.hpp"
 #include "object/platform.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
@@ -30,9 +31,19 @@ void
 FlipLevelTransformer::transform_sector(Sector& sector)
 {
   float height = sector.get_height();
+  std::set<Path*> paths;
 
   for (auto& object : sector.get_objects()) {
     object->on_flip(height);
+    if (Path* path = object->get_path_if_exists()) {
+      if(paths.find(path) == paths.end()) {
+        paths.insert(path);
+      }
+    }
+  }
+
+  for (Path* path : paths) {
+    path->on_flip(height);
   }
 
   sector.get_camera().reset(sector.get_player().get_pos());
@@ -45,15 +56,6 @@ FlipLevelTransformer::transform_flip(Flip& flip)
     flip = flip & ~VERTICAL_FLIP;
   } else {
     flip = flip | VERTICAL_FLIP;
-  }
-}
-
-void
-FlipLevelTransformer::transform_path(float height, float obj_height, Path& path)
-{
-  for (auto& node : path.m_nodes) {
-    Vector& pos = node.position;
-    pos.y = height - pos.y - obj_height;
   }
 }
 

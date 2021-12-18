@@ -48,6 +48,10 @@ public:
 
   virtual void move_to(const Vector& pos) override;
 
+  Path* get_path_if_exists() override {
+    return get_path();
+  }
+
   void collect();
 
 private:

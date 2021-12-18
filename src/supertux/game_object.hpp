@@ -21,6 +21,7 @@
 #include <string>
 
 #include "editor/object_settings.hpp"
+#include "object/path.hpp"
 #include "supertux/game_object_component.hpp"
 #include "util/fade_helper.hpp"
 #include "util/gettext.hpp"
@@ -162,6 +163,10 @@ public:
   /** Called each frame in the editor, used to keep linked objects
       together (e.g. platform on a path) */
   virtual void editor_update() {}
+
+  virtual Path* get_path_if_exists() {
+    return nullptr;
+  }
 
 private:
   void set_uid(const UID& uid) { m_uid = uid; }

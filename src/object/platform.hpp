@@ -46,8 +46,6 @@ public:
 
   virtual void editor_update() override;
 
-  virtual void on_flip(float height) override;
-
   const Vector& get_speed() const { return m_speed; }
 
   /** @name Scriptable Methods
@@ -64,6 +62,10 @@ public:
 
   /** Updates the platform to the given action  */
   void set_action(const std::string& action, int repeat);
+
+  Path* get_path_if_exists() override {
+    return get_path();
+  }
 
   /** @} */
 

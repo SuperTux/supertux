@@ -203,7 +203,11 @@ public:
   void set_tileset(const TileSet* new_tileset);
 
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
-  
+
+  Path* get_path_if_exists() override {
+    return get_path();
+  }
+
 private:
   void update_effective_solid();
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
