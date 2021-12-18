@@ -19,6 +19,7 @@
 
 #include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
+#include "video/flip.hpp"
 
 class Player;
 class ReaderMapping;
@@ -39,6 +40,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void on_flip(float height) override;
 
 private:
   enum DoorState {
@@ -55,6 +57,7 @@ private:
   std::string script;
   SpritePtr sprite; /**< "door" sprite to render */
   Timer stay_open_timer; /**< time until door will close again */
+  Flip m_flip;
 
 private:
   Door(const Door&) = delete;

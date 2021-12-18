@@ -106,6 +106,7 @@ Decal::fade_sprite(const std::string& new_sprite, float fade_time)
 void
 Decal::on_flip(float height)
 {
+  MovingObject::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
 
