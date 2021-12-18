@@ -91,7 +91,7 @@
 #include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
 #include "object/hurting_platform.hpp"
-#include "object/icecrusher.hpp"
+#include "badguy/icecrusher.hpp"
 #include "object/infoblock.hpp"
 #include "object/invisible_block.hpp"
 #include "object/invisible_wall.hpp"

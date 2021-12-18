@@ -20,7 +20,7 @@
 #include "badguy/badguy.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/explosion.hpp"
-#include "object/icecrusher.hpp"
+#include "badguy/icecrusher.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
