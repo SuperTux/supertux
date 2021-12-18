@@ -36,6 +36,8 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void on_flip(float height) override;
 
+  virtual int get_layer() const override { return LAYER_OBJECTS; }
+
 private:
   BonusType type;
   SpritePtr sprite;

@@ -432,7 +432,13 @@ EditorOverlayWidget::fill()
 void
 EditorOverlayWidget::hover_object()
 {
+  m_object_tip = nullptr;
+  m_hovered_object = nullptr;
+
   BezierMarker* marker_hovered_without_ctrl = nullptr;
+
+  bool cache_is_marker = false;
+  int cache_layer = -2147483648;
 
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
@@ -442,32 +448,51 @@ EditorOverlayWidget::hover_object()
 
         // Ignore BezierMarkers if ctrl isn't pressed... (1/2)
         auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
-        if (!action_pressed && bezier_marker)
+        if (bezier_marker)
         {
-          marker_hovered_without_ctrl = bezier_marker;
-          continue;
+          if (!action_pressed)
+          {
+            marker_hovered_without_ctrl = bezier_marker;
+            continue;
+          }
+          else
+          {
+            cache_is_marker = true;
+            cache_layer = 2147483647;
+            m_hovered_object = &moving_object;
+          }
         }
 
-        m_hovered_object = &moving_object;
-        if (moving_object.has_settings()) {
-          m_object_tip = std::make_unique<Tip>(moving_object);
+        // Pick objects in this priority:
+        //   1. Markers
+        //   2. Objects with a higher layer ID
+        //   3. If many objects are on the highest layer, pick the last created one
+        //      (Which will be the one rendererd on top)
+
+        bool is_marker = static_cast<bool>(dynamic_cast<MarkerObject*>(&moving_object));
+        // The "=" part of ">=" ensures that for equal layer, the last object is picked; don't remove the "="!
+        if ((is_marker && !cache_is_marker) || moving_object.get_layer() >= cache_layer)
+        {
+          cache_is_marker = is_marker;
+          cache_layer = moving_object.get_layer();
+          m_hovered_object = &moving_object;
         }
       }
-      return;
     }
   }
 
+  if (m_hovered_object && m_hovered_object->has_settings()) {
+    m_object_tip = std::make_unique<Tip>(*m_hovered_object);
+  }
+
   // (2/2) ...but select them anyways if they weren't hovering a node marker
-  if (marker_hovered_without_ctrl)
+  if (marker_hovered_without_ctrl && !m_hovered_object)
   {
     m_hovered_object = marker_hovered_without_ctrl;
     // TODO: Temporarily disabled during ongoing discussion
     //m_object_tip = std::make_unique<Tip>(_("Press ALT to make Bezier handles continuous"));
     return;
   }
-
-  m_object_tip = nullptr;
-  m_hovered_object = nullptr;
 }
 
 void

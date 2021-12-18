@@ -16,7 +16,6 @@
 
 #include "editor/marker_object.hpp"
 
-#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"

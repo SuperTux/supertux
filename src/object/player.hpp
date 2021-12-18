@@ -27,6 +27,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
+#include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
 
 class BadGuy;
@@ -74,6 +75,8 @@ public:
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return true; }
+
+  virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
   void set_controller(const Controller* controller);
   /** Level solved. Don't kill Tux any more. */

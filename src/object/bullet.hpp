@@ -22,6 +22,7 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/player_status.hpp"
+#include "video/layer.hpp"
 
 class Bullet final : public MovingObject
 {
@@ -33,6 +34,8 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
+
+  virtual int get_layer() const override { return LAYER_OBJECTS; }
 
   /** Makes bullet bounce off an object (that got hit). To be called
       by the collision handler of that object. Note that the @c hit

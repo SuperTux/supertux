@@ -125,7 +125,7 @@ ParticleZone::draw(DrawingContext& context)
                           m_particle_name, 
                           m_col.m_bbox.p1(),
                           FontAlignment::ALIGN_LEFT,
-                          LAYER_GUI + 2,
+                          LAYER_OBJECTS,
                           Color::WHITE);
   }
 }
