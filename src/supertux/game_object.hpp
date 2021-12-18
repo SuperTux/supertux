@@ -164,9 +164,7 @@ public:
       together (e.g. platform on a path) */
   virtual void editor_update() {}
 
-  virtual Path* get_path_if_exists() {
-    return nullptr;
-  }
+  virtual Path* get_path_if_exists() { return nullptr; }
 
 private:
   void set_uid(const UID& uid) { m_uid = uid; }

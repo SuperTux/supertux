@@ -204,9 +204,7 @@ public:
 
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
 
-  Path* get_path_if_exists() override {
-    return get_path();
-  }
+  Path* get_path_if_exists() override { return get_path(); }
 
 private:
   void update_effective_solid();

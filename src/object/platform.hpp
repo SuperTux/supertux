@@ -63,9 +63,7 @@ public:
   /** Updates the platform to the given action  */
   void set_action(const std::string& action, int repeat);
 
-  Path* get_path_if_exists() override {
-    return get_path();
-  }
+  Path* get_path_if_exists() override { return get_path(); }
 
   /** @} */
 
