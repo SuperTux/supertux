@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 14:32+0000\n"
+"PO-Revision-Date: 2021-12-19 14:34+0000\n"
 "Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -1971,7 +1971,7 @@ msgstr "Integrationen"
 
 #: src/supertux/menu/integrations_menu.cpp:51
 msgid "Do not share level names when editing"
-msgstr "Levennamen bei Bearbeitung nicht teilen"
+msgstr "Levelnamen bei Bearbeitung nicht teilen"
 
 #: src/supertux/menu/integrations_menu.cpp:54
 msgid "Enable Discord integration"
