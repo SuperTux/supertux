@@ -303,7 +303,7 @@ as a web security requirement.
 
 ### Ubuntu Touch using Clickable
 
-To compile for Ubuntu Touch phones, you will need an Ubuntu destkop, as well as
+To compile for Ubuntu Touch phones, you will need an Ubuntu desktop, as well as
 [Clickable](https://clickable-ut.dev/en/latest/install.html). You will not
 need any other development library, as those are already managed by Clickable.
 
