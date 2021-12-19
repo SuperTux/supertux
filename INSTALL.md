@@ -233,7 +233,7 @@ SDK](https://github.com/emscripten-core/emsdk) and
 *General development tools*; you do not need any library, as those are managed
 with Vcpkg.
 
-Note that you must install and activate the veraion **1.40.1** of the Emscripten
+Note that you must install and activate the version **1.40.1** of the Emscripten
 toolchain; newer versions are known not to work properly.
 
 0. Make sure you have all the submodules if you are using Git:
@@ -328,4 +328,4 @@ Then:
   clickable build --config mk/clickable/clickable.json
   ```
   You may specify an architecture using the `--arch ARCH` flag. Clickable
-  curently supports `amd64`, `arm64` and `armhf`.
+  currently supports `amd64`, `arm64` and `armhf`.
