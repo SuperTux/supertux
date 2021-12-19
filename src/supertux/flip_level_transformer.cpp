@@ -31,20 +31,9 @@ void
 FlipLevelTransformer::transform_sector(Sector& sector)
 {
   float height = sector.get_height();
-  std::set<Path*> paths;
 
   for (auto& object : sector.get_objects()) {
     object->on_flip(height);
-    PathObject* po = dynamic_cast<PathObject*>(object.get());
-    if (po && po->get_path()) {
-      if (paths.find(po->get_path()) == paths.end()) {
-        paths.insert(po->get_path());
-      }
-    }
-  }
-
-  for (Path* path : paths) {
-    path->on_flip(height);
   }
 
   sector.get_camera().reset(sector.get_player().get_pos());

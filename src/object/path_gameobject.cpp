@@ -247,4 +247,10 @@ PathGameObject::check_references()
   remove_me();
 }
 
+void
+PathGameObject::on_flip(float height)
+{
+  m_path->on_flip(height);
+}
+
 /* EOF */
