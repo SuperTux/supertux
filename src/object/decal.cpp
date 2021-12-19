@@ -55,13 +55,6 @@ Decal::get_settings()
   return result;
 }
 
-void
-Decal::after_editor_set()
-{
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_sprite->set_action(m_default_action);
-}
-
 Decal::~Decal()
 {
 }

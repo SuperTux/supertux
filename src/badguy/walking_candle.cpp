@@ -89,6 +89,8 @@ WalkingCandle::get_settings()
 void
 WalkingCandle::after_editor_set()
 {
+  WalkingBadguy::after_editor_set();
+
   m_sprite->set_color(lightcolor);
   m_lightsprite->set_color(lightcolor);
 }

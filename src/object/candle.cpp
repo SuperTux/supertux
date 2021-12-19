@@ -61,6 +61,8 @@ Candle::Candle(const ReaderMapping& mapping) :
 void
 Candle::after_editor_set()
 {
+  MovingSprite::after_editor_set();
+
   candle_light_1->set_color(lightcolor);
   candle_light_2->set_color(lightcolor);
 

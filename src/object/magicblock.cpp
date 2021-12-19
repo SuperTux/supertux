@@ -101,6 +101,8 @@ MagicBlock::get_settings()
 void
 MagicBlock::after_editor_set()
 {
+  MovingSprite::after_editor_set();
+
   if (m_color.red == 0 && m_color.green == 0 && m_color.blue == 0) { //is it black?
     m_black = true;
     m_trigger_red = MIN_INTENSITY;

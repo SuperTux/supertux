@@ -33,7 +33,8 @@ Door::Door(const ReaderMapping& mapping) :
   target_sector(),
   target_spawnpoint(),
   script(),
-  sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
+  sprite_name("images/objects/door/door.sprite"),
+  sprite(SpriteManager::current()->create(sprite_name)),
   stay_open_timer(),
   m_flip(NO_FLIP)
 {
@@ -41,6 +42,7 @@ Door::Door(const ReaderMapping& mapping) :
   mapping.get("y", m_col.m_bbox.get_top());
   mapping.get("sector", target_sector);
   mapping.get("spawnpoint", target_spawnpoint);
+  mapping.get("sprite", sprite_name);
 
   mapping.get("script", script);
 
@@ -56,7 +58,8 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
   target_sector(sector),
   target_spawnpoint(spawnpoint),
   script(),
-  sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
+  sprite_name("images/objects/door/door.sprite"),
+  sprite(SpriteManager::current()->create(sprite_name)),
   stay_open_timer(),
   m_flip(NO_FLIP)
 {
@@ -73,6 +76,7 @@ Door::get_settings()
 {
   ObjectSettings result = TriggerBase::get_settings();
 
+  result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/door/door.sprite"));
   result.add_script(_("Script"), &script, "script");
   result.add_text(_("Sector"), &target_sector, "sector");
   result.add_text(_("Spawn point"), &target_spawnpoint, "spawnpoint");
@@ -80,6 +84,12 @@ Door::get_settings()
   result.reorder({"sector", "spawnpoint", "name", "x", "y"});
 
   return result;
+}
+
+void
+Door::after_editor_set() {
+  sprite = SpriteManager::current()->create(sprite_name);
+  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 Door::~Door()
