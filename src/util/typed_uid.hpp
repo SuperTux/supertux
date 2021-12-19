@@ -42,11 +42,13 @@ public:
 
     auto* object = Sector::get().get_object_by_uid<T>(*this);
 
+    // Would break const correctness
+#if 0
     if (!object)
     {
-      //*this = UID(); // Would break const correctness
-      throw std::runtime_error("Attempt to dereference invalid TypedUID");
+      *this = UID(); 
     }
+#endif
 
     return object;
   }
