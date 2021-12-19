@@ -21,7 +21,6 @@
 #include <string>
 
 #include "editor/object_settings.hpp"
-#include "object/path.hpp"
 #include "supertux/game_object_component.hpp"
 #include "util/fade_helper.hpp"
 #include "util/gettext.hpp"

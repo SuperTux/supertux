@@ -21,7 +21,6 @@
 #include "object/camera.hpp"
 #include "object/decal.hpp"
 #include "object/flower.hpp"
-#include "object/path.hpp"
 #include "object/platform.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
