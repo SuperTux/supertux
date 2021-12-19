@@ -4,17 +4,18 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Narre <nrrstttpt@gmail.com>, 2013-2015
-# Narre <nrrstttpt@gmail.com>, 2018
+# Jiří Paleček <narre@protonmail.com>, 2021
+# Jiří Paleček <narre@protonmail.com>, 2013-2015
+# Jiří Paleček <narre@protonmail.com>, 2018,2020
 # fri, 2013-2014
 # Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 00:51+0000\n"
-"Last-Translator: Tobias Markus <tobbi@supertuxproject.org>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 21:07+0000\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,8 +24,8 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89.2 degrees"
-msgstr "-89.2 stupňů"
+msgid "The Level Formely Known As \"-89,2 Degrees\""
+msgstr "Úroveň dříve známá jako \"-89,2 stupňů\""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
@@ -43,14 +44,14 @@ msgid "Another cold day"
 msgstr "Jiný studený den"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
-msgid "Antarctic rain"
-msgstr "Antarktický déšť"
+msgid "Forest Rain (aka \"Antarctic Rain\")"
+msgstr "Lesní déšť (dříve \"Antarktický déšť\")"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
 msgstr "...ale nikdo to nedokáže zastavit..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -131,6 +132,10 @@ msgstr "Dolů!"
 msgid "Entering the castle"
 msgstr "Vniknutí do hradu"
 
+#: data/levels/bonus3/entering_castle.stl:60
+msgid "#Sorry, nothing to see here! Use the rope to get out!"
+msgstr "#Promiň, ale tady není nic k vidění. Použij provaz, aby ses odsud dostal!"
+
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
 msgstr "Květinový bonus"
@@ -171,13 +176,13 @@ msgstr "Díry, den na ledě"
 msgid "The Toilette zone"
 msgstr "Toaletní zóna"
 
-#: data/levels/bonus3/niv-3.stl:29
+#: data/levels/bonus3/niv-3.stl:58
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
 msgstr "-Spláchnutí: \n#Stiskni tlačítko nahoru pro spláchnutí!"
 
-#: data/levels/bonus3/niv-3.stl:219
+#: data/levels/bonus3/niv-3.stl:380
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -223,15 +228,6 @@ msgstr "Pod ledem"
 msgid "Bonus Island III"
 msgstr "Bonusový ostrov III"
 
-#: data/levels/bonus3/worldmap.stwm:238
-msgid "You found a secret place!"
-msgstr "Našel jsi tajné místo!"
-
-#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
-#: data/levels/bonus3/worldmap.stwm:304
+#: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"
 msgstr "Jít domů"
-
-#: data/levels/bonus3/worldmap.stwm:290
-msgid "Enter Forest Section"
-msgstr ""

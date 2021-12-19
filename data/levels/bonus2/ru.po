@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2019
+# Andrei Stepanov <adem4ik@gmail.com>, 2019,2021
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2019-11-24 04:08+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-13 23:03+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -51,11 +51,11 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Поздравляем!\n\n#Вы успешно прошли\n#Призовой остров II\n\n\n\tуровни предоставлены:\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ещё раз, мы бы хотели поблагодарить\n#всех, кто помогал с этим релизом.\n#Надеемся, вы им довольны,\n#и это сделает ожидание\n#3 этапа проще. :)\n\n\n Конец ледникового периода уже близок..."
+msgstr "-Поздравляем!\n\n#Вы успешно прошли\n#Призовой остров II\n\n\n\tуровни предоставили:\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ещё раз, мы бы хотели поблагодарить\n#всех, кто помогал с этим релизом.\n#Надеемся, вы им довольны,\n#и это сделает ожидание\n#3 этапа проще. :)\n\n\n Конец ледникового периода уже близок…"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "С этим должен справиться Марио..."
+msgstr "С этим должен справиться Марио…"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -87,7 +87,7 @@ msgstr "Воздушный корабль"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...Где всё возможно"
+msgstr "…Где всё возможно"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
@@ -169,14 +169,14 @@ msgstr "Традиция"
 msgid "Bonus Island II"
 msgstr "Призовой остров II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
-msgstr "Ты нашёл тайник!"
+msgstr "Вы нашли тайник!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
-msgstr "Интересно, куда ведёт этот путь..."
+msgstr "Интересно, куда ведёт этот путь…"
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Перескочить домой"

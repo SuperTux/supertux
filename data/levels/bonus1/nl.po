@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Heimen Stoffels <vistausss@outlook.com>, 2015-2016,2019
+# Heimen Stoffels <vistausss@fastmail.com>, 2021
+# Heimen Stoffels <vistausss@fastmail.com>, 2015-2016,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2019-11-28 19:14+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-13 13:40+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/arctic-games/supertux/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,6 +102,12 @@ msgstr "Ben ik hier al eens geweest?"
 msgid "Bad Guys Stink!"
 msgstr "Slechteriken zuigen!"
 
+#: data/levels/bonus1/thompson-level2.stl:96
+msgid ""
+"#These levels were made Swimming-Ready by Serano and revamped by "
+"AllyTheOcelot"
+msgstr "#Deze levels zijn door Serano gemaakt om te zwemmen en opgepoetst door AllyTheOcelot"
+
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
 msgstr "Een goed begin"
@@ -109,9 +116,9 @@ msgstr "Een goed begin"
 msgid "Too easy"
 msgstr "Té makkelijk"
 
-#: data/levels/bonus1/torfi-level2.stl:42
-msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr "#Al deze levels zijn bijgewerkt naar het mijlpaal 2-ontwerp van Hume2."
+#: data/levels/bonus1/torfi-level2.stl:56
+msgid "#All these levels were upgraded for milestone 2 by Hume."
+msgstr "#Al deze levels zijn bijgewerkt naar het mijlpaal 2-ontwerp van Hume."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -141,62 +148,62 @@ msgstr "Het puntje van de ijsberg"
 msgid "Bonus Island I"
 msgstr "Bonuseiland I"
 
-#: data/levels/bonus1/worldmap.stwm:12
+#: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
 msgstr "Je hebt een geheime plek gevonden!"
 
-#: data/levels/bonus1/worldmap.stwm:20
+#: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."
 msgstr "Tip: gebruik iglo's om terug te keren naar hier."
 
-#: data/levels/bonus1/worldmap.stwm:29
+#: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
 msgstr "Teleporteren naar Matr1x-sector"
 
-#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
 msgstr "Teleporteren naar Thompson's domein"
 
-#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
 msgstr "Verlaat het SuperTux-teameiland"
 
-#: data/levels/bonus1/worldmap.stwm:50
+#: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
 msgstr "Teleporteren naar Abednego's gebied"
 
-#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
 msgstr "Verlaat Torti's territorium"
 
-#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:179 data/levels/bonus1/worldmap.stwm:207
 msgid "Leave Abednego's Area"
 msgstr "Verlaat Abednego's gebied"
 
-#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:186 data/levels/bonus1/worldmap.stwm:234
 msgid "Leave Thompson's Domain"
 msgstr "Verlaat Thompson's domein"
 
-#: data/levels/bonus1/worldmap.stwm:77
+#: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
 msgstr "Terug naar Matr1x-sector"
 
-#: data/levels/bonus1/worldmap.stwm:83
+#: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
 msgstr "Teleporteer naar huis"
 
-#: data/levels/bonus1/worldmap.stwm:97
+#: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
 msgstr "Teleporteer naar het SuperTux-teameiland"
 
-#: data/levels/bonus1/worldmap.stwm:123
+#: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
 msgstr "Verlaat de Matr1x-sector"
 
-#: data/levels/bonus1/worldmap.stwm:129
+#: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
 msgstr "Ga verder in de Matr1x-sector"
 
-#: data/levels/bonus1/worldmap.stwm:136
+#: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
 msgstr "Teleporteer naar Tofi's territorium"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-05-24 08:12+0200\n"
-"PO-Revision-Date: 2020-12-13 10:06+0000\n"
-"Last-Translator: Adithyan S S <AssG.Fight.Fairy@gmail.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 21:21+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Malayalam (http://www.transifex.com/arctic-games/supertux/language/ml/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,22 +23,22 @@ msgstr ""
 msgid "Ancient Ruins"
 msgstr "പുരാതന അവശിഷ്ടങ്ങൾ"
 
-#: data/levels/world2/ancient_ruins.stl:1416
-#: data/levels/world2/ancient_ruins.stl:1424
-#: data/levels/world2/bouncy_coils.stl:237
-#: data/levels/world2/bouncy_coils.stl:245
-#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
 #: data/levels/world2/crumbling_path.stl:278
 #: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:199
-#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
 #: data/levels/world2/mouldy_grotto.stl:559
 #: data/levels/world2/penguin_grow_trees.stl:459
 #: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:309
-#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:185
+#: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
 msgstr "നിങ്ങൾ ഒരു സ്വകാര്യ സ്ഥലം കണ്ടുപിടിച്ചിരിക്കുന്നു !"
 
@@ -66,7 +66,7 @@ msgstr "ഇരുട്ട് കാത്തിരിക്കുന്നു"
 msgid "Find the Bigger Fish!"
 msgstr "വലിയ മത്സത്തെ കണ്ടുപിടിക്കുക!"
 
-#: data/levels/world2/find_big_fish.stl:800
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
 msgstr "-ഒരു വലിയ മത്സ്യം... നിനക്കു വേണ്ടി"
 
@@ -90,7 +90,7 @@ msgstr "ഗോസ്റ്റ്ട്രീയുടെ വെല്ലുവ�
 msgid "Ghouls' Lair"
 msgstr "ഗൗളിന്റെ നുണയൻ"
 
-#: data/levels/world2/ghouls_lair.stl:847
+#: data/levels/world2/ghouls_lair.stl:849
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -122,7 +122,7 @@ msgstr "കാറ്റിലെ ഒരു ഇല പോലെ"
 msgid "Lost Village"
 msgstr "നഷ്ടപ്പെട്ട ഗ്രാമം"
 
-#: data/levels/world2/lost_village.stl:184
+#: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
 msgstr "#സ്വിച്ച് അമർത്താൻ മറക്കരുത് !"
 
@@ -174,7 +174,7 @@ msgstr "പ്രേതങ്ങളുടെ ഗോപുരം"
 msgid "Tux the Builder"
 msgstr "നിർമാതാവ് ടക്സ്"
 
-#: data/levels/world2/tux_builder.stl:80
+#: data/levels/world2/tux_builder.stl:77
 msgid ""
 "-Portable Objects:\n"
 "!images/objects/rock/rock.png\n"
@@ -188,9 +188,9 @@ msgstr "ടക്സിന്റെ സ്വന്തം പേടിപ്പ�
 
 #: data/levels/world2/tux_own_horror_show.stl:790
 msgid ""
-"#Willow-wisps are small, annoying ghosts, which transport you to different, "
-"often dangerous places."
-msgstr "#വില്ലോ-വിസ്പ്പുകൾ ചെറിയ, ശല്യക്കാരായ പ്രേതങ്ങളാണ്. ഇവ നിങ്ങളെ വ്യത്യസ്തമായ, മിക്കവാറും അപകടംപിടിച്ച സ്ഥലങ്ങളിൽ കൊണ്ടെത്തിക്കും."
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr ""
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -212,9 +212,9 @@ msgid "Wooden Roots"
 msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest Island"
-msgstr "വനദ്വീപ്"
+msgid "Rooted Forest"
+msgstr ""
 
-#: data/levels/world2/worldmap.stwm:199
+#: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."
 msgstr "തുടരും..."

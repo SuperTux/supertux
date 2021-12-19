@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2019-11-25 08:24+0000\n"
-"Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 20:16+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/arctic-games/supertux/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,6 +101,12 @@ msgstr "我以前來過這兒嗎？"
 msgid "Bad Guys Stink!"
 msgstr "壞傢伙！"
 
+#: data/levels/bonus1/thompson-level2.stl:96
+msgid ""
+"#These levels were made Swimming-Ready by Serano and revamped by "
+"AllyTheOcelot"
+msgstr ""
+
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
 msgstr "好的開始"
@@ -109,9 +115,9 @@ msgstr "好的開始"
 msgid "Too easy"
 msgstr "太簡單了"
 
-#: data/levels/bonus1/torfi-level2.stl:42
-msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr "#將這些所有的關卡升級到 Hume2 設計的里程碑 2"
+#: data/levels/bonus1/torfi-level2.stl:56
+msgid "#All these levels were upgraded for milestone 2 by Hume."
+msgstr ""
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -141,62 +147,62 @@ msgstr "冰堡提示"
 msgid "Bonus Island I"
 msgstr "紅利島 I"
 
-#: data/levels/bonus1/worldmap.stwm:12
+#: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
 msgstr "您發現了一處秘密的地方！ "
 
-#: data/levels/bonus1/worldmap.stwm:20
+#: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."
 msgstr "提示:利用圓頂小屋回來這裡"
 
-#: data/levels/bonus1/worldmap.stwm:29
+#: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
 msgstr "進入馬特洛克斯防區"
 
-#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
 msgstr "進入湯普生領土"
 
-#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
 msgstr "離開超級企鵝總部島"
 
-#: data/levels/bonus1/worldmap.stwm:50
+#: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
 msgstr "傳送到阿本里哥區域"
 
-#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
 msgstr "離開托法的領地"
 
-#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:179 data/levels/bonus1/worldmap.stwm:207
 msgid "Leave Abednego's Area"
 msgstr "離開阿本里哥區域"
 
-#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:186 data/levels/bonus1/worldmap.stwm:234
 msgid "Leave Thompson's Domain"
 msgstr "離開湯普生領土"
 
-#: data/levels/bonus1/worldmap.stwm:77
+#: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
 msgstr "回到馬特洛克斯防區"
 
-#: data/levels/bonus1/worldmap.stwm:83
+#: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
 msgstr "回家"
 
-#: data/levels/bonus1/worldmap.stwm:97
+#: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
 msgstr "進入超級企鵝總部島"
 
-#: data/levels/bonus1/worldmap.stwm:123
+#: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
 msgstr "離開馬特洛克斯防區"
 
-#: data/levels/bonus1/worldmap.stwm:129
+#: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
 msgstr "繼續往馬特洛克斯防區"
 
-#: data/levels/bonus1/worldmap.stwm:136
+#: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
 msgstr "進入托法的領土"

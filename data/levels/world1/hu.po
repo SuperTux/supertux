@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-04-26 16:43+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2020-05-14 20:48+0000\n"
 "Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -30,26 +30,26 @@ msgstr ""
 
 #: data/levels/world1/23rd_airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23. repülősszázad"
+msgstr "23. Repülős század"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
 msgid "You found a secret area!"
 msgstr "Megtaláltad a titkos helységet!"
 
 #: data/levels/world1/above_arctic_skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "A sarki ég fölött"
+msgstr "A Sarki Ég Fölött"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -60,7 +60,7 @@ msgstr "-Légvirág\n!images/powerups/airflower/air_flower-0.png\n#A Légvirág 
 msgid "Between Two Glaciers"
 msgstr "Két Gleccser Közt"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
@@ -74,27 +74,27 @@ msgstr "Üres Trónterem"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "Nolok vára"
+msgstr "Nolok Vára"
 
 #: data/levels/world1/crystal_mine.stl:3
 msgid "The Crystal Mine"
 msgstr "A Kristály Bánya"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Aktiválnod kell két kapcsolót, hogy kinyithasd ezt az ajtót."
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "Az alagút vége"
+msgstr "Az Alagút Vége"
 
 #: data/levels/world1/entrance_cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "Belépés a barlangba"
+msgstr "Belépés a Barlangba"
 
 #: data/levels/world1/fork_in_the_road.stl:3
 msgid "A Fork in the Road"
-msgstr "Egy elágazás az úton"
+msgstr "Egy Elágazás az Úton"
 
 #: data/levels/world1/fork_in_the_road.stl:84
 msgid ""
@@ -127,7 +127,7 @@ msgstr "-Titkos Kijáratok\n#Néhány pályának több kijárata is lehet. Több
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
-msgstr "Fagyott mezők"
+msgstr "Fagyott Mezők"
 
 #: data/levels/world1/frozen_bridge.stl:3
 msgid "Over the Frozen Bridge"
@@ -135,7 +135,7 @@ msgstr "A Fagyos Híd Fölött"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Jég a föld mélyén"
+msgstr "Jég a Föld Mélyén"
 
 #: data/levels/world1/icy_valley.stl:3
 msgid "Icy Valley"
@@ -143,7 +143,7 @@ msgstr "Jeges Völgy"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
-msgstr "A csillagokba"
+msgstr "A Csillagokba"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
@@ -151,15 +151,15 @@ msgstr "Piknik Pennyvel"
 
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
-msgstr "Az utazás elkezdődik"
+msgstr "Az Utazás Elkezdődik"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Élet a hűtőben"
+msgstr "Élet a Hűtőben"
 
 #: data/levels/world1/miyamoto_monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "Miyamoto emlékmű"
+msgstr "Miyamoto Emlékmű"
 
 #: data/levels/world1/more_snowballs.stl:3
 msgid "Oh No! More Snowballs!"
@@ -167,7 +167,7 @@ msgstr "Ó, Ne! Még Több Hógolyó!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
-msgstr "Fagyos éj"
+msgstr "Fagyos Éj"
 
 #: data/levels/world1/or_just_me.stl:3
 msgid "...Or Is It Just Me?"
@@ -175,7 +175,7 @@ msgstr "…Vagy Tévednék?"
 
 #: data/levels/world1/path_in_the_clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "Út a felhők között"
+msgstr "Út a Felhők Között"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
 msgid "Tux had reached the end of the castle."
@@ -264,19 +264,19 @@ msgstr "... titokban reménykedve abban, hogy hátha újra találkozik a jetivel
 
 #: data/levels/world1/shattered_bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "A roskatag híd"
+msgstr "A Roskatag Híd"
 
 #: data/levels/world1/somewhat_smaller_bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "A valamivel kisebb fürdő"
+msgstr "A Valamivel Kisebb Fürdő"
 
 #: data/levels/world1/stone_cold.stl:3
 msgid "Stone Cold"
-msgstr "Csontfagyasztó hideg"
+msgstr "Csontfagyasztó Hideg"
 
 #: data/levels/world1/under_the_ice.stl:3
 msgid "Under the Ice"
-msgstr "A jég alatt"
+msgstr "A Jég Alatt"
 
 #: data/levels/world1/via_nostalgica.stl:3
 msgid "Via Nostalgica"
@@ -286,7 +286,7 @@ msgstr "Via Nostalgica"
 msgid "Welcome to Antarctica"
 msgstr "Üdv az Antarktiszon"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -295,42 +295,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "- Bónuszdobozok\n!images/objects/bonus_block/full-0.png\n#A bónuszdobozokban érmék, teljesítménynövelők és egyéb különleges dolgok lehetnek segítségedre.\n#\n#Üsd meg őket alulról, hogy megkapd a tartalmukat."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Tojások\n!images/powerups/egg/egg-shade.png\n#A tojás segítségével Tux nagyobbra nőhet. Tux szét tudja törni a fa dobozokat a fejével."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "- Ellenőrzőpontok \n!images/objects/resetpoints/bell-m.png \n#Aktiváld az ellenőrzőpontot! Ha meghalsz, akkor innen kezdheted újra a pályát. Minden alkalmommal, amikor egy ellenőrzőponttól kezded újra a játékot, elveszíted az érméid 10 százalékát (de legalább 25 érmét)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Futás\n!images/tiles/signs/run.png\n#Az út le van zárva. Neki kell futnod, hogy át tudd ugrani."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "- Tűzvirág\n!images/powerups/fireflower/fire_flower-0.png\n#A tűzvirág felvétele után Tux képes lesz tűzgolyókat lőni."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "- Tux-baba\n!images/powerups/1up/1up.png\n#Ha elkapod, kapsz 100 érmét."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

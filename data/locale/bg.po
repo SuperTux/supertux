@@ -5,13 +5,14 @@
 # Translators:
 # Любомир Василев, 2015-2016
 # Tony Ivanov <duskull88@fastmail.fm>, 2014
-# Любомир Василев, 2016,2018-2019
+# Любомир Василев, 2016,2018-2020
+# Любомир Василев, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-12-12 22:49+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-15 07:36+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -24,8 +25,8 @@ msgstr ""
 msgid "You found a secret area!"
 msgstr "Ти откри тайно място!"
 
-#: src/trigger/secretarea_trigger.cpp:77 src/trigger/scripttrigger.cpp:75
-#: src/supertux/game_object.cpp:88 src/supertux/menu/editor_sector_menu.cpp:34
+#: src/trigger/secretarea_trigger.cpp:77 src/supertux/game_object.cpp:90
+#: src/supertux/menu/editor_sector_menu.cpp:34
 #: src/supertux/menu/editor_levelset_menu.cpp:58
 #: src/supertux/menu/editor_new_levelset_menu.cpp:34
 #: src/supertux/menu/editor_level_menu.cpp:33
@@ -37,54 +38,24 @@ msgid "Fade tilemap"
 msgstr "Избледняваща плочна карта"
 
 #: src/trigger/secretarea_trigger.cpp:79 src/trigger/climbable.cpp:81
-#: src/object/infoblock.cpp:57 src/editor/worldmap_objects.cpp:174
-#: src/editor/worldmap_objects.cpp:272
+#: src/object/infoblock.cpp:57 src/editor/worldmap_objects.cpp:172
+#: src/editor/worldmap_objects.cpp:270
 msgid "Message"
 msgstr "Съобщение"
 
-#: src/trigger/secretarea_trigger.cpp:80 src/trigger/scripttrigger.cpp:80
+#: src/trigger/secretarea_trigger.cpp:80 src/trigger/scripttrigger.cpp:75
 #: src/trigger/door.cpp:73 src/object/ispy.cpp:67
-#: src/object/bonus_block.cpp:201 src/object/bonus_block.cpp:205
-#: src/object/pushbutton.cpp:49 src/object/powerup.cpp:188
-#: src/editor/worldmap_objects.cpp:274
+#: src/object/bonus_block.cpp:207 src/object/bonus_block.cpp:211
+#: src/object/pushbutton.cpp:51 src/object/powerup.cpp:190
+#: src/editor/worldmap_objects.cpp:272
 msgid "Script"
 msgstr "Скрипт"
 
-#: src/trigger/scripttrigger.cpp:73
-msgid "Script Trigger"
-msgstr "Изпълнение на скрипт"
-
-#: src/trigger/scripttrigger.cpp:76 src/object/tilemap.cpp:219
-#: src/supertux/menu/editor_sector_menu.cpp:39
-#: src/editor/object_option.cpp:148
-msgid "Width"
-msgstr "Ширина"
-
-#: src/trigger/scripttrigger.cpp:77 src/object/tilemap.cpp:220
-#: src/supertux/menu/editor_sector_menu.cpp:40
-#: src/editor/object_option.cpp:149
-msgid "Height"
-msgstr "Височина"
-
-#: src/trigger/scripttrigger.cpp:78 src/object/bicycle_platform.cpp:187
-#: src/object/background.cpp:158 src/object/pneumatic_platform.cpp:145
-#: src/supertux/menu/joystick_menu.cpp:172 src/supertux/moving_object.cpp:47
-#: src/editor/worldmap_objects.cpp:73
-msgid "X"
-msgstr "X"
-
-#: src/trigger/scripttrigger.cpp:79 src/object/bicycle_platform.cpp:188
-#: src/object/background.cpp:159 src/object/pneumatic_platform.cpp:146
-#: src/supertux/menu/joystick_menu.cpp:174 src/supertux/moving_object.cpp:48
-#: src/editor/worldmap_objects.cpp:74
-msgid "Y"
-msgstr "Y"
-
-#: src/trigger/scripttrigger.cpp:81 src/object/pushbutton.hpp:31
+#: src/trigger/scripttrigger.cpp:76 src/object/pushbutton.hpp:31
 msgid "Button"
 msgstr "Бутон"
 
-#: src/trigger/scripttrigger.cpp:82
+#: src/trigger/scripttrigger.cpp:77
 msgid "Oneshot"
 msgstr "Еднократно"
 
@@ -92,10 +63,10 @@ msgstr "Еднократно"
 msgid "Sequence Trigger"
 msgstr "Изпълнение на последователност"
 
-#: src/trigger/door.cpp:74 src/badguy/willowisp.cpp:280
+#: src/trigger/door.cpp:74 src/badguy/willowisp.cpp:320
 #: src/supertux/menu/editor_sector_menu.cpp:32
-#: src/editor/layers_widget.cpp:275
-#: data//images/engine/editor/objects.stoi:297
+#: src/editor/layers_widget.cpp:342
+#: data//images/engine/editor/objects.stoi:321
 msgid "Sector"
 msgstr "Сектор"
 
@@ -103,8 +74,8 @@ msgstr "Сектор"
 msgid "Spawn point"
 msgstr "Точка на раждане"
 
-#: src/trigger/switch.cpp:61 src/object/block.cpp:212 src/object/torch.cpp:89
-#: src/object/moving_sprite.cpp:156 src/object/pneumatic_platform.cpp:144
+#: src/trigger/switch.cpp:61 src/object/block.cpp:224 src/object/torch.cpp:102
+#: src/object/moving_sprite.cpp:156 src/object/pneumatic_platform.cpp:146
 msgid "Sprite"
 msgstr "Изображение"
 
@@ -115,6 +86,10 @@ msgstr "Скрипт при включване"
 #: src/trigger/switch.cpp:63
 msgid "Turn off script"
 msgstr "Скрипт при изключване"
+
+#: src/trigger/scripttrigger.hpp:32
+msgid "Script Trigger"
+msgstr "Изпълнение на скрипт"
 
 #: src/trigger/sequence_trigger.cpp:75
 msgid "Sequence"
@@ -141,14 +116,17 @@ msgid "Worldmap fade tilemap"
 msgstr "Избледняваща плочна карта за световната карта"
 
 #: src/trigger/sequence_trigger.cpp:82
+#: src/object/custom_particle_system.cpp:430
+#: src/object/custom_particle_system.cpp:465
 msgid "Fade"
 msgstr "Преливане"
 
-#: src/trigger/sequence_trigger.cpp:83
+#: src/trigger/sequence_trigger.cpp:83 src/editor/particle_editor.cpp:161
 msgid "Fade in"
 msgstr "Избледняване"
 
-#: src/trigger/sequence_trigger.cpp:83
+#: src/trigger/sequence_trigger.cpp:83 src/editor/particle_editor.cpp:167
+#: src/editor/particle_editor.cpp:212
 msgid "Fade out"
 msgstr "Появяване"
 
@@ -172,36 +150,50 @@ msgstr "Тайно място"
 msgid "Thunderstorm"
 msgstr "Гръмотевична буря"
 
+#: src/object/cloud_particle_system.cpp:79
+#: src/object/rain_particle_system.cpp:100
+msgid "Intensity"
+msgstr "Сила"
+
+#: src/object/custom_particle_system.hpp:45
+msgid "Custom Particles"
+msgstr "Персонализирани частици"
+
 #: src/object/ispy.cpp:66
 msgid "Facing Down"
 msgstr "Поглед надолу"
 
-#: src/object/ispy.cpp:68 src/object/gradient.cpp:124
-#: src/badguy/willowisp.cpp:279 src/badguy/badguy.cpp:833
-#: src/editor/worldmap_objects.cpp:209 src/editor/worldmap_objects.cpp:276
+#: src/object/ispy.cpp:68 src/object/spotlight.cpp:103
+#: src/object/gradient.cpp:137 src/badguy/willowisp.cpp:319
+#: src/badguy/badguy.cpp:848 src/editor/worldmap_objects.cpp:207
+#: src/editor/worldmap_objects.cpp:274
 msgid "Direction"
 msgstr "Посока"
 
-#: src/object/path_gameobject.hpp:44 src/object/coin.cpp:262
-#: src/object/camera.cpp:212 src/object/platform.cpp:65
-#: src/object/path_gameobject.cpp:168 src/object/tilemap.cpp:233
-#: src/badguy/willowisp.cpp:286
+#: src/object/particle_zone.hpp:39
+msgid "Particle zone"
+msgstr "Зона с частици"
+
+#: src/object/path_gameobject.hpp:44 src/object/coin.cpp:301
+#: src/object/camera.cpp:224 src/object/platform.cpp:73
+#: src/object/path_gameobject.cpp:173 src/object/tilemap.cpp:246
+#: src/gui/menu_paths.cpp:52 src/badguy/willowisp.cpp:326
 msgid "Path"
 msgstr "Път"
 
-#: src/object/decal.cpp:41 src/object/scripted_object.cpp:67
-#: src/object/particlesystem.cpp:62 src/object/background.cpp:162
-#: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:226
-#: src/object/gradient.cpp:122
+#: src/object/decal.cpp:49 src/object/scripted_object.cpp:67
+#: src/object/particlesystem.cpp:65 src/object/background.cpp:183
+#: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:239
+#: src/object/gradient.cpp:135
 msgid "Z-pos"
 msgstr "Позиция по Z"
 
-#: src/object/decal.cpp:42 src/object/scripted_object.cpp:70
-#: src/object/tilemap.cpp:215
+#: src/object/decal.cpp:50 src/object/scripted_object.cpp:70
+#: src/object/tilemap.cpp:228
 msgid "Solid"
 msgstr "Плътен обект"
 
-#: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
+#: src/object/decal.cpp:51 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
 msgid "Action"
 msgstr "Действие"
@@ -210,13 +202,21 @@ msgstr "Действие"
 msgid "Weak Tile"
 msgstr "Слабо блокче"
 
+#: src/object/bumper.cpp:46
+msgid "Facing Left"
+msgstr "Обърнато наляво"
+
 #: src/object/gradient.hpp:42
 msgid "Gradient"
 msgstr "Преливка"
 
-#: src/object/tilemap.hpp:53
+#: src/object/tilemap.hpp:57
 msgid "Tilemap"
 msgstr "Плочна карта"
+
+#: src/object/circleplatform.hpp:32
+msgid "Circular Platform"
+msgstr "Кръгла платформа"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
@@ -226,24 +226,40 @@ msgstr "Може да се чупи"
 msgid "Portable"
 msgstr "Подвижен"
 
-#: src/object/spotlight.cpp:59
+#: src/object/spotlight.cpp:100 src/object/rain_particle_system.cpp:101
 msgid "Angle"
 msgstr "Ъгъл"
 
-#: src/object/spotlight.cpp:60 src/object/magicblock.cpp:94
-#: src/object/candle.cpp:76 src/object/lantern.cpp:62
-#: src/object/ambient_light.cpp:131 src/badguy/walking_candle.cpp:82
+#: src/object/spotlight.cpp:101 src/object/magicblock.cpp:94
+#: src/object/candle.cpp:77 src/object/torch.cpp:104
+#: src/object/rublight.cpp:54 src/object/lantern.cpp:62
+#: src/object/ambient_light.cpp:131 src/badguy/willowisp.cpp:328
+#: src/badguy/walking_candle.cpp:82
 msgid "Color"
 msgstr "Цвят"
 
-#: src/object/spotlight.cpp:61 src/object/textscroller.cpp:279
-#: src/badguy/flame.cpp:59
+#: src/object/spotlight.cpp:102 src/object/textscroller.cpp:350
+#: src/object/rain_particle_system.cpp:102 src/object/circleplatform.cpp:55
+#: src/badguy/flame.cpp:59 src/editor/node_marker.cpp:125
 msgid "Speed"
 msgstr "Скорост"
 
-#: src/object/spotlight.cpp:62
+#: src/object/spotlight.cpp:104
+msgid "Clockwise"
+msgstr "По часовниковата стрелка"
+
+#: src/object/spotlight.cpp:104
 msgid "Counter-clockwise"
 msgstr "Обратно на часовниковата стрелка"
+
+#: src/object/spotlight.cpp:104
+msgid "Stopped"
+msgstr "Спряно"
+
+#: src/object/spotlight.cpp:107 src/object/candle.cpp:78
+#: src/object/torch.cpp:103
+msgid "Layer"
+msgstr "Слой"
 
 #: src/object/scripted_object.cpp:71
 msgid "Physics enabled"
@@ -253,67 +269,77 @@ msgstr "Включена физика"
 msgid "Visible"
 msgstr "Видим"
 
-#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:282
+#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:322
 msgid "Hit script"
 msgstr "Скрипт за удряне"
 
-#: src/object/bonus_block.cpp:202
+#: src/object/custom_particle_system_file.cpp:50
+#: src/object/textscroller.cpp:348 src/object/music_object.cpp:109
+#: src/supertux/menu/particle_editor_open.cpp:38
+msgid "File"
+msgstr "Файл"
+
+#: src/object/bonus_block.cpp:208
 msgid "Count"
 msgstr "Брой удари"
 
-#: src/object/bonus_block.cpp:203
+#: src/object/bonus_block.cpp:209
 msgid "Content"
 msgstr "Съдържание"
 
-#: src/object/bonus_block.cpp:204 src/object/coin.hpp:43
+#: src/object/bonus_block.cpp:210 src/object/coin.hpp:43
 msgid "Coin"
 msgstr "Монета"
 
-#: src/object/bonus_block.cpp:204
+#: src/object/bonus_block.cpp:210
 msgid "Growth (fire flower)"
 msgstr "Растеж (огнено цвете)"
 
-#: src/object/bonus_block.cpp:204
+#: src/object/bonus_block.cpp:210
 msgid "Growth (ice flower)"
 msgstr "Растеж (ледено цвете)"
 
-#: src/object/bonus_block.cpp:204
+#: src/object/bonus_block.cpp:210
 msgid "Growth (air flower)"
 msgstr "Растеж (въздушно цвете)"
 
-#: src/object/bonus_block.cpp:205
+#: src/object/bonus_block.cpp:211
 msgid "Growth (earth flower)"
 msgstr "Растеж (земно цвете)"
 
-#: src/object/bonus_block.cpp:205
+#: src/object/bonus_block.cpp:211
 msgid "Star"
 msgstr "Звезда"
 
-#: src/object/bonus_block.cpp:205
+#: src/object/bonus_block.cpp:211
 msgid "Tux doll"
 msgstr "Кукла Тъкс"
 
-#: src/object/bonus_block.cpp:205
+#: src/object/bonus_block.cpp:211
 msgid "Custom"
 msgstr "Персонализирано"
 
-#: src/object/bonus_block.cpp:205
+#: src/object/bonus_block.cpp:211
 msgid "Light"
 msgstr "Светлина"
 
-#: src/object/bonus_block.cpp:206 src/object/trampoline.hpp:35
+#: src/object/bonus_block.cpp:211
+msgid "Light (On)"
+msgstr "Светлина (ВКЛ)"
+
+#: src/object/bonus_block.cpp:212 src/object/trampoline.hpp:35
 msgid "Trampoline"
 msgstr "Трамплин"
 
-#: src/object/bonus_block.cpp:206
+#: src/object/bonus_block.cpp:212
 msgid "Coin rain"
 msgstr "Дъжд от монети"
 
-#: src/object/bonus_block.cpp:206
+#: src/object/bonus_block.cpp:212
 msgid "Coin explosion"
 msgstr "Експлозия от монети"
 
-#: src/object/bonus_block.cpp:210
+#: src/object/bonus_block.cpp:216
 msgid "Custom Content"
 msgstr "Персонализирано съдържание"
 
@@ -321,16 +347,27 @@ msgstr "Персонализирано съдържание"
 msgid "Pneumatic Platform"
 msgstr "Пневматична платформа"
 
-#: src/object/coin.cpp:264 src/object/tilemap.cpp:235
+#: src/object/coin.cpp:303 src/object/tilemap.cpp:249
 msgid "Following path"
 msgstr "Следва път"
 
-#: src/object/coin.cpp:267 src/object/camera.cpp:215
-#: src/object/platform.cpp:66 src/object/tilemap.cpp:239
+#: src/object/coin.cpp:306 src/object/camera.cpp:227
+#: src/object/platform.cpp:74 src/object/tilemap.cpp:252
 msgid "Path Mode"
 msgstr "Режим на движение"
 
-#: src/object/coin.cpp:270 src/object/coin.cpp:298
+#: src/object/coin.cpp:307 src/object/camera.cpp:228
+#: src/object/platform.cpp:75 src/object/tilemap.cpp:253
+#: src/badguy/willowisp.cpp:331
+msgid "Adapt Speed"
+msgstr "Напасване на скоростта"
+
+#: src/object/coin.cpp:308 src/object/platform.cpp:77
+#: src/object/tilemap.cpp:247 src/badguy/willowisp.cpp:327
+msgid "Starting Node"
+msgstr "Начален възел"
+
+#: src/object/coin.cpp:311 src/object/coin.cpp:339
 msgid "Collect script"
 msgstr "Скрипт за вземане"
 
@@ -338,40 +375,73 @@ msgstr "Скрипт за вземане"
 msgid "Ghost Particles"
 msgstr "Призрачни частици"
 
-#: src/object/camera.cpp:207
+#: src/object/camera.cpp:219
 msgid "Mode"
 msgstr "Режим"
 
-#: src/object/camera.cpp:208
+#: src/object/camera.cpp:220
 msgid "normal"
 msgstr "нормален"
 
-#: src/object/camera.cpp:208
+#: src/object/camera.cpp:220
 msgid "manual"
 msgstr "ръчен"
 
-#: src/object/camera.cpp:208
+#: src/object/camera.cpp:220
 msgid "autoscroll"
 msgstr "авт. превъртане"
 
-#: src/object/textscroller.cpp:280 src/object/music_object.cpp:109
-msgid "File"
-msgstr "Файл"
+#: src/object/textscroller.cpp:349
+msgid "Finish Script"
+msgstr "Скрипт при завършване"
 
-#: src/object/spawnpoint.hpp:46 src/badguy/willowisp.cpp:281
-#: src/editor/worldmap_objects.cpp:173
+#: src/object/textscroller.cpp:351
+msgid "X-offset"
+msgstr "Отместване по X"
+
+#: src/object/textscroller.cpp:352
+msgid "Controllable"
+msgstr "Управляем"
+
+#: src/object/textscroller.cpp:353
+msgid "Anchor"
+msgstr "Котва"
+
+#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:71
+msgid "Left"
+msgstr "Наляво"
+
+#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+msgid "Center"
+msgstr "Центриране"
+
+#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:72
+msgid "Right"
+msgstr "Надясно"
+
+#: src/object/textscroller.cpp:357
+msgid "Text Alignment"
+msgstr "Подравняване на текста"
+
+#: src/object/spawnpoint.hpp:46 src/badguy/willowisp.cpp:321
+#: src/editor/worldmap_objects.cpp:171
 msgid "Spawnpoint"
 msgstr "Точка на раждане"
 
 #: src/object/rusty_trampoline.cpp:65
 msgid "Counter"
-msgstr ""
+msgstr "Брояч"
 
 #: src/object/candle.hpp:36
 msgid "Candle"
 msgstr "Свещ"
 
-#: src/object/particlesystem.cpp:61 src/badguy/darttrap.cpp:127
+#: src/object/particlesystem.cpp:64 src/object/particle_zone.cpp:79
+#: src/badguy/darttrap.cpp:127
 msgid "Enabled"
 msgstr "Включено"
 
@@ -387,12 +457,16 @@ msgstr "Показване на частици"
 msgid "Powerup"
 msgstr "Подсилка"
 
+#: src/object/fallblock.hpp:39
+msgid "Falling Platform"
+msgstr "Падаща платформа"
+
 #: src/object/level_time.hpp:55
 msgid "Time Limit"
 msgstr "Ограничение на времето"
 
-#: src/object/ambient_sound.cpp:119 src/supertux/menu/options_menu.cpp:365
-#: data//credits.stxt:335
+#: src/object/ambient_sound.cpp:119 src/supertux/menu/options_menu.cpp:391
+#: data//credits.stxt:352
 msgid "Sound"
 msgstr "Звук"
 
@@ -412,17 +486,21 @@ msgstr "Сила на звука"
 msgid "Torch"
 msgstr "Факла"
 
-#: src/object/icecrusher.hpp:48
+#: src/object/icecrusher.hpp:53
 msgid "Icecrusher"
+msgstr "Ледоразбивач"
+
+#: src/object/rublight.hpp:33
+msgid "Rublight"
 msgstr ""
 
-#: src/object/background.hpp:42
+#: src/object/background.hpp:43
 msgid "Background"
 msgstr "Фон"
 
 #: src/object/firefly.hpp:36
 msgid "Checkpoint"
-msgstr ""
+msgstr "Контролна точка"
 
 #: src/object/ambient_light.hpp:36
 msgid "Ambient Light"
@@ -436,20 +514,35 @@ msgstr "Фенер"
 msgid "Wind"
 msgstr "Вятър"
 
-#: src/object/bicycle_platform.cpp:190
+#: src/object/bicycle_platform.cpp:189 src/object/background.cpp:179
+#: src/object/pneumatic_platform.cpp:147
+#: src/supertux/menu/joystick_menu.cpp:170 src/supertux/moving_object.cpp:58
+#: src/editor/worldmap_objects.cpp:73
+msgid "X"
+msgstr "X"
+
+#: src/object/bicycle_platform.cpp:190 src/object/background.cpp:180
+#: src/object/pneumatic_platform.cpp:148
+#: src/supertux/menu/joystick_menu.cpp:172 src/supertux/moving_object.cpp:59
+#: src/editor/worldmap_objects.cpp:74
+msgid "Y"
+msgstr "Y"
+
+#: src/object/bicycle_platform.cpp:192
 msgid "Platforms"
 msgstr "Платформи"
 
-#: src/object/bicycle_platform.cpp:191 src/badguy/flame.cpp:58
-#: src/badguy/crystallo.cpp:36
+#: src/object/bicycle_platform.cpp:193 src/object/circleplatform.cpp:54
+#: src/badguy/flame.cpp:58 src/badguy/rcrystallo.cpp:50
+#: src/badguy/crystallo.cpp:35
 msgid "Radius"
 msgstr "Радиус"
 
-#: src/object/bicycle_platform.cpp:192
+#: src/object/bicycle_platform.cpp:194
 msgid "Momentum change rate"
 msgstr "Скорост на промяна на импулса"
 
-#: src/object/rain_particle_system.hpp:34
+#: src/object/rain_particle_system.hpp:40
 msgid "Rain Particles"
 msgstr "Частици дъжд"
 
@@ -461,8 +554,8 @@ msgstr "Платформа"
 msgid "Rock"
 msgstr "Камък"
 
-#: src/object/music_object.hpp:41 src/supertux/menu/options_menu.cpp:367
-#: data//credits.stxt:277
+#: src/object/music_object.hpp:41 src/supertux/menu/options_menu.cpp:393
+#: data//credits.stxt:294
 msgid "Music"
 msgstr "Музика"
 
@@ -474,11 +567,11 @@ msgstr "Ръждив трамплин"
 msgid "Particle system"
 msgstr "Система от частици"
 
-#: src/object/candle.cpp:74 src/object/torch.cpp:88
+#: src/object/candle.cpp:75 src/object/torch.cpp:101
 msgid "Burning"
 msgstr "Горяща"
 
-#: src/object/candle.cpp:75
+#: src/object/candle.cpp:76
 msgid "Flicker"
 msgstr "Мъждукаща"
 
@@ -490,7 +583,7 @@ msgstr "Текстов масив"
 msgid "Info Block"
 msgstr "Информационно блокче"
 
-#: src/object/powerup.cpp:189
+#: src/object/powerup.cpp:191
 msgid "Disable gravity"
 msgstr "Изключване на гравитацията"
 
@@ -498,8 +591,8 @@ msgstr "Изключване на гравитацията"
 msgid "Ambient Sound"
 msgstr "Околен звук"
 
-#: src/object/level_time.cpp:51 src/supertux/statistics.cpp:245
-#: src/editor/node_marker.cpp:80
+#: src/object/level_time.cpp:51 src/supertux/statistics.cpp:297
+#: src/editor/node_marker.cpp:124
 msgid "Time"
 msgstr "Време"
 
@@ -507,115 +600,151 @@ msgstr "Време"
 msgid "Hurting Platform"
 msgstr "Нараняваща платформа"
 
-#: src/object/background.cpp:161
+#: src/object/icecrusher.cpp:83
+msgid "Sideways"
+msgstr "Настрани"
+
+#: src/object/background.cpp:182
 msgid "Fill"
 msgstr "Запълване"
 
-#: src/object/background.cpp:163
+#: src/object/background.cpp:184
 msgid "Alignment"
 msgstr "Подравняване"
 
-#: src/object/background.cpp:164
+#: src/object/background.cpp:185
 msgid "none"
 msgstr "без"
 
-#: src/object/background.cpp:164 src/editor/object_settings.cpp:112
+#: src/object/background.cpp:185 src/editor/object_settings.cpp:119
 msgid "left"
 msgstr "наляво"
 
-#: src/object/background.cpp:164 src/editor/object_settings.cpp:112
+#: src/object/background.cpp:185 src/editor/object_settings.cpp:119
 msgid "right"
 msgstr "надясно"
 
-#: src/object/background.cpp:164
+#: src/object/background.cpp:185
 msgid "top"
 msgstr "горе"
 
-#: src/object/background.cpp:164
+#: src/object/background.cpp:185
 msgid "bottom"
 msgstr "долу"
 
-#: src/object/background.cpp:167
+#: src/object/background.cpp:188
 msgid "Scroll offset x"
 msgstr "Отместване за превъртането по X"
 
-#: src/object/background.cpp:168
+#: src/object/background.cpp:189
 msgid "Scroll offset y"
 msgstr "Отместване за превъртането по Y"
 
-#: src/object/background.cpp:169
+#: src/object/background.cpp:190
 msgid "Scroll speed x"
 msgstr "Скорост на превъртане по X"
 
-#: src/object/background.cpp:170
+#: src/object/background.cpp:191
 msgid "Scroll speed y"
 msgstr "Скорост на превъртане по Y"
 
-#: src/object/background.cpp:171
+#: src/object/background.cpp:192
 msgid "Parallax Speed x"
 msgstr "Скорост на превъртане по X"
 
-#: src/object/background.cpp:172
+#: src/object/background.cpp:193
 msgid "Parallax Speed y"
 msgstr "Скорост на превъртане по Y"
 
-#: src/object/background.cpp:173
+#: src/object/background.cpp:194
 msgid "Top image"
 msgstr "Горно изображение"
 
-#: src/object/background.cpp:174
+#: src/object/background.cpp:195
 msgid "Image"
 msgstr "Изображение"
 
-#: src/object/background.cpp:175
+#: src/object/background.cpp:196
 msgid "Bottom image"
 msgstr "Долно изображение"
 
-#: src/object/background.cpp:176 src/object/tilemap.cpp:227
-#: src/object/gradient.cpp:129
+#: src/object/background.cpp:197
+msgid "Colour"
+msgstr "Цвят"
+
+#: src/object/background.cpp:198 src/object/tilemap.cpp:240
+#: src/object/gradient.cpp:142
 msgid "Draw target"
 msgstr "Изчертаване на целта"
 
-#: src/object/background.cpp:177 src/object/tilemap.cpp:228
-#: src/object/gradient.cpp:130
+#: src/object/background.cpp:199 src/object/tilemap.cpp:241
+#: src/object/gradient.cpp:143
 msgid "Normal"
 msgstr "Нормално"
 
-#: src/object/background.cpp:177 src/object/tilemap.cpp:228
-#: src/object/gradient.cpp:130
+#: src/object/background.cpp:199 src/object/tilemap.cpp:241
+#: src/object/gradient.cpp:143
 msgid "Lightmap"
 msgstr "Светлина"
 
-#: src/object/wind.cpp:63
+#: src/object/shard.hpp:34
+msgid "Shard"
+msgstr ""
+
+#: src/object/rublight.cpp:55
+msgid "Fading Speed"
+msgstr "Скорост на избледняване"
+
+#: src/object/rublight.cpp:56
+msgid "Glowing Strength"
+msgstr "Сила на светене"
+
+#: src/object/wind.cpp:78 src/object/custom_particle_system.cpp:499
 msgid "Speed X"
 msgstr "Скорост по X"
 
-#: src/object/wind.cpp:64
+#: src/object/wind.cpp:79 src/object/custom_particle_system.cpp:500
 msgid "Speed Y"
 msgstr "Скорост по Y"
 
-#: src/object/wind.cpp:65
+#: src/object/wind.cpp:80
 msgid "Acceleration"
 msgstr "Ускорение"
 
-#: src/object/wind.cpp:66
+#: src/object/wind.cpp:81
 msgid "Blowing"
 msgstr "Духане"
+
+#: src/object/wind.cpp:82
+msgid "Affects Badguys"
+msgstr "Действа на лошите"
+
+#: src/object/wind.cpp:83
+msgid "Affects Objects"
+msgstr "Действа на обектите"
+
+#: src/object/wind.cpp:84
+msgid "Affects Player"
+msgstr "Действа на играча"
+
+#: src/object/wind.cpp:85
+msgid "Fancy Particles"
+msgstr "Частици във въздуха"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle Platform"
 msgstr "Въртяща се платформа"
 
-#: src/object/platform.cpp:67 src/object/thunderstorm.cpp:69
-#: src/object/tilemap.cpp:240
+#: src/object/platform.cpp:76 src/object/thunderstorm.cpp:69
+#: src/object/tilemap.cpp:254
 msgid "Running"
 msgstr "Работещо"
 
-#: src/object/rock.cpp:173
+#: src/object/rock.cpp:192
 msgid "On-grab script"
 msgstr "Скрипт при хващане"
 
-#: src/object/rock.cpp:174
+#: src/object/rock.cpp:193
 msgid "On-ungrab script"
 msgstr "Скрипт при пускане"
 
@@ -631,106 +760,505 @@ msgstr "Интервал"
 msgid "Strike Script"
 msgstr "Скрипт при удар"
 
-#: src/object/cloud_particle_system.hpp:36
+#: src/object/cloud_particle_system.hpp:41
 msgid "Cloud Particles"
 msgstr "Облачни частици"
+
+#: src/object/custom_particle_system.cpp:423
+msgid "Texture"
+msgstr "Текстура"
+
+#: src/object/custom_particle_system.cpp:425
+msgid "Amount"
+msgstr "Количество"
+
+#: src/object/custom_particle_system.cpp:426 src/object/circleplatform.cpp:56
+#: src/editor/particle_editor.cpp:141
+msgid "Delay"
+msgstr "Забавяне"
+
+#: src/object/custom_particle_system.cpp:427
+msgid "Lifetime"
+msgstr "Продължителност на живота"
+
+#: src/object/custom_particle_system.cpp:428
+msgid "Lifetime variation"
+msgstr "Вариация в продължителността на живота"
+
+#: src/object/custom_particle_system.cpp:429
+#: src/editor/particle_editor.cpp:164
+msgid "Birth mode"
+msgstr "Режим на създаване"
+
+#: src/object/custom_particle_system.cpp:430
+#: src/object/custom_particle_system.cpp:465 src/object/gradient.cpp:149
+#: src/supertux/menu/keyboard_menu.cpp:58
+#: src/supertux/menu/joystick_menu.cpp:106
+#: src/supertux/menu/joystick_menu.cpp:213 src/editor/object_settings.cpp:131
+#: src/editor/particle_editor.cpp:162 src/editor/particle_editor.cpp:168
+msgid "None"
+msgstr "Няма"
+
+#: src/object/custom_particle_system.cpp:430
+#: src/object/custom_particle_system.cpp:465
+#: src/editor/particle_editor.cpp:166
+msgid "Shrink"
+msgstr "Свиване"
+
+#: src/object/custom_particle_system.cpp:434
+#: src/editor/particle_editor.cpp:172
+msgid "Birth easing"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:436
+#: src/object/custom_particle_system.cpp:471 src/editor/node_marker.cpp:129
+msgid "No easing"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:437
+#: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
+msgid "Quad in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:437
+#: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
+msgid "Quad out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:437
+#: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
+msgid "Quad in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:438
+#: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
+msgid "Cubic in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:438
+#: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
+msgid "Cubic out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:438
+#: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
+msgid "Cubic in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:439
+#: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
+msgid "Quart in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:439
+#: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
+msgid "Quart out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:439
+#: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
+msgid "Quart in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:440
+#: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
+msgid "Quint in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:440
+#: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
+msgid "Quint out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:440
+#: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
+msgid "Quint in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:441
+#: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
+msgid "Sine in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:441
+#: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
+msgid "Sine out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:441
+#: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
+msgid "Sine in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:442
+#: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
+msgid "Circular in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:442
+#: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
+msgid "Circular out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:442
+#: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
+msgid "Circular in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:443
+#: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
+msgid "Exponential in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:443
+#: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
+msgid "Exponential out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:443
+#: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
+msgid "Exponential in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:444
+#: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
+msgid "Elastic in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:444
+#: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
+msgid "Elastic out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:444
+#: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
+msgid "Elastic in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:445
+#: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
+msgid "Back in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:445
+#: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
+msgid "Back out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:445
+#: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
+msgid "Back in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:446
+#: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
+msgid "Bounce in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:446
+#: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
+msgid "Bounce out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:446
+#: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
+msgid "Bounce in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:462
+msgid "Birth time"
+msgstr "Време на създаване"
+
+#: src/object/custom_particle_system.cpp:463
+msgid "Birth time variation"
+msgstr "Вариация във времето на създаване"
+
+#: src/object/custom_particle_system.cpp:464
+#: src/editor/particle_editor.cpp:170
+msgid "Death mode"
+msgstr "Режим на унищожаване"
+
+#: src/object/custom_particle_system.cpp:469
+#: src/editor/particle_editor.cpp:173
+msgid "Death easing"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:497
+msgid "Death time"
+msgstr "Време на унищожаване"
+
+#: src/object/custom_particle_system.cpp:498
+msgid "Death time variation"
+msgstr "Вариация във времето на унищожаване"
+
+#: src/object/custom_particle_system.cpp:501
+msgid "Speed X (variation)"
+msgstr "Скорост по X (вариация)"
+
+#: src/object/custom_particle_system.cpp:502
+msgid "Speed Y (variation)"
+msgstr "Скорост по Y (вариация)"
+
+#: src/object/custom_particle_system.cpp:503
+msgid "Acceleration X"
+msgstr "Ускорение по X"
+
+#: src/object/custom_particle_system.cpp:504
+msgid "Acceleration Y"
+msgstr "Ускорение по Y"
+
+#: src/object/custom_particle_system.cpp:505
+msgid "Friction X"
+msgstr "Триене по X"
+
+#: src/object/custom_particle_system.cpp:506
+msgid "Friction Y"
+msgstr "Триене по Y"
+
+#: src/object/custom_particle_system.cpp:507
+#: src/editor/particle_editor.cpp:189
+msgid "Feather factor"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:508
+msgid "Rotation"
+msgstr "Въртене"
+
+#: src/object/custom_particle_system.cpp:509
+msgid "Rotation (variation)"
+msgstr "Въртене (вариация)"
+
+#: src/object/custom_particle_system.cpp:510
+#: src/editor/particle_editor.cpp:195
+msgid "Rotation speed"
+msgstr "Скорост на въртене"
+
+#: src/object/custom_particle_system.cpp:511
+msgid "Rotation speed (variation)"
+msgstr "Скорост на въртене (вариация)"
+
+#: src/object/custom_particle_system.cpp:512
+#: src/editor/particle_editor.cpp:200
+msgid "Rotation acceleration"
+msgstr "Ускорение на въртенето"
+
+#: src/object/custom_particle_system.cpp:513
+msgid "Rotation friction"
+msgstr "Триене при въртене"
+
+#: src/object/custom_particle_system.cpp:514
+#: src/editor/particle_editor.cpp:208
+msgid "Rotation mode"
+msgstr "Режим на въртене"
+
+#: src/object/custom_particle_system.cpp:515
+#: src/editor/particle_editor.cpp:206
+msgid "Fixed"
+msgstr "Без въртене"
+
+#: src/object/custom_particle_system.cpp:515
+#: src/editor/particle_editor.cpp:205
+msgid "Facing"
+msgstr "По посока на движението"
+
+#: src/object/custom_particle_system.cpp:515
+#: src/editor/particle_editor.cpp:204
+msgid "Wiggling"
+msgstr "Клатушкане"
+
+#: src/object/custom_particle_system.cpp:519
+#: src/editor/particle_editor.cpp:219
+msgid "Collision mode"
+msgstr "Режим на колизиите"
+
+#: src/object/custom_particle_system.cpp:520
+msgid "None (pass through)"
+msgstr "Без (преминаване през всичко)"
+
+#: src/object/custom_particle_system.cpp:520
+msgid "Stick"
+msgstr "Прилепване"
+
+#: src/object/custom_particle_system.cpp:520
+msgid "Stick Forever"
+msgstr "Прилепване завинаги"
+
+#: src/object/custom_particle_system.cpp:520
+#: src/editor/particle_editor.cpp:214
+msgid "Bounce (heavy)"
+msgstr "Отскачане (силно)"
+
+#: src/object/custom_particle_system.cpp:520
+#: src/editor/particle_editor.cpp:213
+msgid "Bounce (light)"
+msgstr "Отскачане (леко)"
+
+#: src/object/custom_particle_system.cpp:520
+msgid "Kill particle"
+msgstr "Унищожаване на частицата"
+
+#: src/object/custom_particle_system.cpp:520
+msgid "Fade out particle"
+msgstr "Избледняване на частицата"
+
+#: src/object/custom_particle_system.cpp:524
+msgid "Delete if off-screen"
+msgstr "Изтриване при излизане извън екрана"
+
+#: src/object/custom_particle_system.cpp:525
+#: src/editor/particle_editor.cpp:224
+msgid "Never"
+msgstr "Никога"
+
+#: src/object/custom_particle_system.cpp:525
+#: src/editor/particle_editor.cpp:223
+msgid "Only on exit"
+msgstr "Само при изход"
+
+#: src/object/custom_particle_system.cpp:525
+msgid "Always"
+msgstr "Винаги"
+
+#: src/object/custom_particle_system.cpp:529
+msgid "Cover screen"
+msgstr "Покриване на екрана"
 
 #: src/object/ispy.hpp:33
 msgid "Ispy"
 msgstr "Шпионин"
 
+#: src/object/skull_tile.hpp:32
+msgid "Skull Tile"
+msgstr "Блокче с череп"
+
+#: src/object/particle_zone.cpp:80
+msgid "Particle Name"
+msgstr "Име на частицата"
+
+#: src/object/particle_zone.cpp:81
+msgid "Zone Type"
+msgstr "Вид на зоната"
+
+#: src/object/particle_zone.cpp:82
+msgid "Spawn"
+msgstr "Създаване"
+
+#: src/object/particle_zone.cpp:82
+msgid "Life zone"
+msgstr "Зона на живот"
+
+#: src/object/particle_zone.cpp:82
+msgid "Life zone (clear)"
+msgstr "Зона на живот (с изчистване)"
+
+#: src/object/particle_zone.cpp:82
+msgid "Kill particles"
+msgstr "Унищожаване на частиците"
+
+#: src/object/particle_zone.cpp:82
+msgid "Clear particles"
+msgstr "Изчистване на частиците"
+
 #: src/object/weak_block.cpp:211
 msgid "Linked"
 msgstr "Свързано"
 
-#: src/object/decal.hpp:34
+#: src/object/decal.hpp:40
 msgid "Decal"
 msgstr "Табела"
 
-#: src/object/tilemap.cpp:216
+#: src/object/tilemap.cpp:229
 msgid "Resize offset x"
 msgstr "Отместване за преоразмеряването по X"
 
-#: src/object/tilemap.cpp:217
+#: src/object/tilemap.cpp:230
 msgid "Resize offset y"
 msgstr "Отместване за преоразмеряването по Y"
 
-#: src/object/tilemap.cpp:222
+#: src/object/tilemap.cpp:232 src/supertux/menu/editor_sector_menu.cpp:39
+#: src/editor/object_option.cpp:173
+msgid "Width"
+msgstr "Ширина"
+
+#: src/object/tilemap.cpp:233 src/supertux/menu/editor_sector_menu.cpp:40
+#: src/editor/object_option.cpp:174
+msgid "Height"
+msgstr "Височина"
+
+#: src/object/tilemap.cpp:235
 msgid "Alpha"
 msgstr "Плътност"
 
-#: src/object/tilemap.cpp:223
+#: src/object/tilemap.cpp:236
 msgid "Speed x"
 msgstr "Скорост по x"
 
-#: src/object/tilemap.cpp:224
+#: src/object/tilemap.cpp:237
 msgid "Speed y"
 msgstr "Скорост по y"
 
-#: src/object/tilemap.cpp:225
+#: src/object/tilemap.cpp:238
 msgid "Tint"
 msgstr "Нюанс"
 
-#: src/object/tilemap.cpp:243 src/supertux/menu/editor_tilegroup_menu.cpp:26
-#: src/editor/toolbox_widget.cpp:89
+#: src/object/tilemap.cpp:257 src/supertux/menu/editor_tilegroup_menu.cpp:26
+#: src/editor/toolbox_widget.cpp:90
 msgid "Tiles"
 msgstr "Плочки"
 
-#: src/object/gradient.cpp:115
+#: src/object/gradient.cpp:128
 msgid "Left Colour"
 msgstr "Ляв цвят"
 
-#: src/object/gradient.cpp:116
+#: src/object/gradient.cpp:129
 msgid "Right Colour"
 msgstr "Десен цвят"
 
-#: src/object/gradient.cpp:118
+#: src/object/gradient.cpp:131
 msgid "Top Colour"
 msgstr "Горен цвят"
 
-#: src/object/gradient.cpp:119
+#: src/object/gradient.cpp:132
 msgid "Bottom Colour"
 msgstr "Долен цвят"
 
-#: src/object/gradient.cpp:125
+#: src/object/gradient.cpp:138
 msgid "Vertical"
 msgstr "Вертикална"
 
-#: src/object/gradient.cpp:125
+#: src/object/gradient.cpp:138
 msgid "Horizontal"
 msgstr "Хоризонтална"
 
-#: src/object/gradient.cpp:125
+#: src/object/gradient.cpp:138
 msgid "Vertical (whole sector)"
 msgstr "Вертикална (за целия сектор)"
 
-#: src/object/gradient.cpp:125
+#: src/object/gradient.cpp:138
 msgid "Horizontal (whole sector)"
 msgstr "Хоризонтална (за целия сектор)"
 
-#: src/object/gradient.cpp:135
+#: src/object/gradient.cpp:148
 msgid "Blend mode"
 msgstr "Режим на смесване"
 
-#: src/object/gradient.cpp:136
+#: src/object/gradient.cpp:149
 msgid "Blend"
 msgstr "Смесване"
 
-#: src/object/gradient.cpp:136
+#: src/object/gradient.cpp:149
 msgid "Additive"
 msgstr "Добавяне"
 
-#: src/object/gradient.cpp:136
+#: src/object/gradient.cpp:149
 msgid "Modulate"
 msgstr "Модулиране"
 
-#: src/object/gradient.cpp:136 src/supertux/menu/keyboard_menu.cpp:60
-#: src/supertux/menu/joystick_menu.cpp:108
-#: src/supertux/menu/joystick_menu.cpp:215 src/editor/object_settings.cpp:124
-msgid "None"
-msgstr "Няма"
+#: src/object/bumper.hpp:35
+msgid "Bumper"
+msgstr "Отблъскваща пружина"
 
-#: src/object/unstable_tile.hpp:34
+#: src/object/unstable_tile.hpp:37
 msgid "Unstable Tile"
 msgstr "Нестабилна плочка"
 
@@ -742,7 +1270,7 @@ msgstr "Тухла"
 msgid "Invisible Wall"
 msgstr "Невидима стена"
 
-#: src/object/spotlight.hpp:38
+#: src/object/spotlight.hpp:51
 msgid "Spotlight"
 msgstr "Прожектор"
 
@@ -750,11 +1278,15 @@ msgstr "Прожектор"
 msgid "Scripted Object"
 msgstr "Скриптиран обект"
 
-#: src/object/coin.hpp:75
+#: src/object/custom_particle_system_file.hpp:39
+msgid "Custom Particles from file"
+msgstr "Персонализирани частици от файл"
+
+#: src/object/coin.hpp:78
 msgid "Heavy Coin"
 msgstr "Тежка монета"
 
-#: src/object/bonus_block.hpp:55
+#: src/object/bonus_block.hpp:56
 msgid "Bonus Block"
 msgstr "Блокче с бонус"
 
@@ -767,42 +1299,45 @@ msgid "Camera"
 msgstr "Камера"
 
 #: src/object/textscroller.hpp:44
-msgid "TextScroller"
-msgstr ""
+msgid "Text Scroller"
+msgstr "Превъртащ се текст"
 
-#: src/gui/menu_badguy_select.cpp:93
+#: src/gui/menu_badguy_select.cpp:94
 msgid "List of enemies"
 msgstr "Списък от врагове"
 
-#: src/gui/menu_badguy_select.cpp:95
-msgid "Enemy"
-msgstr "Враг"
-
 #: src/gui/menu_badguy_select.cpp:96
+msgid "Select enemy"
+msgstr "Избиране на враг"
+
+#: src/gui/menu_badguy_select.cpp:97
 msgid "Add"
 msgstr "Добавяне"
 
-#: src/gui/menu_badguy_select.cpp:106 src/gui/menu_color.cpp:34
-#: src/gui/dialog.hpp:80 src/gui/menu_script.cpp:47
+#: src/gui/menu_badguy_select.cpp:107 src/gui/menu_color.cpp:37
+#: src/gui/dialog.hpp:81 src/gui/menu_script.cpp:47
 #: src/supertux/menu/editor_sector_menu.cpp:46
 #: src/supertux/menu/editor_levelset_menu.cpp:62
-#: src/supertux/menu/addon_menu.cpp:346
+#: src/supertux/menu/addon_menu.cpp:349
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
-#: src/supertux/menu/editor_level_menu.cpp:44 src/editor/object_menu.cpp:43
+#: src/supertux/menu/editor_level_menu.cpp:45 src/editor/object_menu.cpp:43
 msgid "OK"
 msgstr "Добре"
 
-#: src/gui/menu_badguy_select.cpp:135
+#: src/gui/menu_badguy_select.cpp:136
 msgid "Do you want to delete this badguy from the list?"
 msgstr "Искате ли да изтриете този лош от списъка?"
 
-#: src/gui/menu_badguy_select.cpp:136 src/gui/dialog.hpp:89
-#: src/supertux/menu/editor_menu.cpp:123 src/editor/editor.cpp:482
+#: src/gui/menu_badguy_select.cpp:137 src/gui/dialog.hpp:90
+#: src/supertux/menu/editor_level_select_menu.cpp:164
+#: src/supertux/menu/editor_menu.cpp:164 src/editor/editor.cpp:583
 msgid "Yes"
 msgstr "Да"
 
-#: src/gui/menu_badguy_select.cpp:139 src/gui/dialog.hpp:90
-#: src/supertux/menu/editor_menu.cpp:126 src/editor/editor.cpp:489
+#: src/gui/menu_badguy_select.cpp:140 src/gui/dialog.hpp:91
+#: src/supertux/menu/editor_level_select_menu.cpp:168
+#: src/supertux/menu/editor_menu.cpp:167 src/editor/particle_editor.cpp:780
+#: src/editor/editor.cpp:590
 msgid "No"
 msgstr "Не"
 
@@ -810,18 +1345,58 @@ msgstr "Не"
 msgid "Mix the colour"
 msgstr "Смесване на цвета"
 
-#: src/gui/menu_filesystem.cpp:111
+#: src/gui/menu_filesystem.cpp:112 src/gui/menu_paths.cpp:44
+#: src/supertux/menu/particle_editor_save_as.cpp:42
 #: src/supertux/menu/editor_sectors_menu.cpp:45
 #: src/supertux/menu/editor_sectors_menu.cpp:95
 #: src/supertux/menu/editor_sectors_menu.cpp:100
 #: src/supertux/menu/editor_objectgroup_menu.cpp:42
-#: src/supertux/menu/editor_tilegroup_menu.cpp:36 src/editor/editor.cpp:493
+#: src/supertux/menu/editor_tilegroup_menu.cpp:36
+#: src/supertux/menu/editor_level_select_menu.cpp:173
+#: src/supertux/menu/editor_save_as.cpp:42
+#: src/supertux/menu/particle_editor_open.cpp:43
+#: src/editor/particle_editor.cpp:784 src/editor/editor.cpp:594
 msgid "Cancel"
 msgstr "Отказ"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
 msgstr "Редактиране на скрипта"
+
+#: src/gui/menu_paths.cpp:30
+msgid "Clone"
+msgstr "Клониране"
+
+#: src/gui/menu_paths.cpp:38
+msgid ""
+"An error occured and the game could\n"
+"not clone the path. Please contact\n"
+"the developers for support."
+msgstr "Възникна грешка и играта не успя\nда клонира пътя. Моля, свържете се\nс разработчиците за поддръжка."
+
+#: src/gui/menu_paths.cpp:41
+msgid "Bind"
+msgstr "Свързване"
+
+#: src/gui/menu_paths.cpp:63 src/supertux/menu/integrations_menu.cpp:60
+#: src/supertux/menu/contrib_menu.cpp:161 src/supertux/menu/debug_menu.cpp:75
+#: src/supertux/menu/editor_level_select_menu.cpp:88
+#: src/supertux/menu/worldmap_cheat_menu.cpp:55
+#: src/supertux/menu/worldmap_cheat_menu.cpp:153
+#: src/supertux/menu/editor_levelset_select_menu.cpp:114
+#: src/supertux/menu/options_menu.cpp:442
+#: src/supertux/menu/profile_menu.cpp:54 src/supertux/menu/addon_menu.cpp:213
+#: src/supertux/menu/editor_new_levelset_menu.cpp:40
+#: src/supertux/menu/world_set_menu.cpp:33
+#: src/supertux/menu/web_asset_menu.cpp:48
+#: src/supertux/menu/keyboard_menu.cpp:49
+#: src/supertux/menu/language_menu.cpp:56
+#: src/supertux/menu/joystick_menu.cpp:97
+#: src/supertux/menu/contrib_levelset_menu.cpp:67
+#: src/supertux/menu/cheat_menu.cpp:44
+#: src/supertux/menu/editor_delete_level_menu.cpp:43
+msgid "Back"
+msgstr "Назад"
 
 #: src/badguy/toad.hpp:37
 msgid "Toad"
@@ -847,7 +1422,7 @@ msgstr "Тотем"
 msgid "Stalactite"
 msgstr "Сталактит"
 
-#: src/badguy/haywire.hpp:42
+#: src/badguy/haywire.hpp:45
 msgid "Haywire"
 msgstr "Сбъркана бомба"
 
@@ -867,6 +1442,14 @@ msgstr "Зиклинг"
 msgid "Iceblock"
 msgstr "Ледено блокче"
 
+#: src/badguy/scrystallo.cpp:52
+msgid "Walk Radius"
+msgstr "Радиус на обхождане"
+
+#: src/badguy/scrystallo.cpp:53
+msgid "Awakening Radius"
+msgstr "Радиус на пробуждане"
+
 #: src/badguy/jumpy.hpp:36
 msgid "Jumpy"
 msgstr "Скокльо"
@@ -879,15 +1462,15 @@ msgstr "Капитан Снежна топка"
 msgid "Ghost Tree"
 msgstr "Призрачно дърво"
 
-#: src/badguy/willowisp.cpp:283
+#: src/badguy/willowisp.cpp:323
 msgid "Track range"
 msgstr "Обхват на движение"
 
-#: src/badguy/willowisp.cpp:284
+#: src/badguy/willowisp.cpp:324
 msgid "Vanish range"
 msgstr "Обхват на изчезване"
 
-#: src/badguy/willowisp.cpp:285
+#: src/badguy/willowisp.cpp:325
 msgid "Fly speed"
 msgstr "Скорост на летене"
 
@@ -895,11 +1478,11 @@ msgstr "Скорост на летене"
 msgid "Kugelblitz"
 msgstr "Кугелблиц"
 
-#: src/badguy/mole_rock.hpp:42
+#: src/badguy/mole_rock.hpp:43
 msgid "Mole's rock"
 msgstr "Къртичи камък"
 
-#: src/badguy/badguy.cpp:834
+#: src/badguy/badguy.cpp:849
 msgid "Death script"
 msgstr "Скрипт за умиране"
 
@@ -915,11 +1498,11 @@ msgstr "Сталактит на йети"
 msgid "Walking Flame"
 msgstr "Ходещ пламък"
 
-#: src/badguy/livefire.hpp:67
+#: src/badguy/livefire.hpp:68
 msgid "Sleeping Flame"
 msgstr "Спящ пламък"
 
-#: src/badguy/livefire.hpp:83
+#: src/badguy/livefire.hpp:84
 msgid "Dormant Flame"
 msgstr "Заспал пламък"
 
@@ -973,31 +1556,39 @@ msgstr "Подскачащ череп"
 
 #: src/badguy/kamikazesnowball.hpp:32
 msgid "Snowshot"
-msgstr ""
+msgstr "Снежен снаряд"
 
 #: src/badguy/kamikazesnowball.hpp:52
 msgid "Leafshot"
-msgstr ""
+msgstr "Листен снаряд"
 
 #: src/badguy/flame.hpp:41
 msgid "Flame"
 msgstr "Пламък"
 
+#: src/badguy/scrystallo.hpp:30
+msgid "Sleeping Crystallo"
+msgstr "Спящ кристало"
+
 #: src/badguy/poisonivy.hpp:30
 msgid "Spring Leaf"
-msgstr ""
+msgstr "Пролетен лист"
 
-#: src/badguy/willowisp.hpp:55
+#: src/badguy/willowisp.hpp:57
 msgid "Will o' Wisp"
 msgstr "Светлинка"
 
-#: src/badguy/badguy.hpp:50
+#: src/badguy/badguy.hpp:53
 msgid "Badguy"
 msgstr "Лош"
 
 #: src/badguy/ghostflame.hpp:30
 msgid "Ghost Flame"
 msgstr "Призрачен пламък"
+
+#: src/badguy/rcrystallo.hpp:30
+msgid "Roof Crystallo"
+msgstr "Покривен кристало"
 
 #: src/badguy/spiky.hpp:30
 msgid "Spiky"
@@ -1009,15 +1600,15 @@ msgstr "Есенен лист"
 
 #: src/badguy/owl.cpp:227
 msgid "Carry"
-msgstr ""
+msgstr "Носене"
 
 #: src/badguy/darttrap.hpp:33
 msgid "Dart Trap"
 msgstr "Капан със стрелички"
 
-#: src/badguy/skydive.hpp:36
+#: src/badguy/skydive.hpp:38
 msgid "Skydive"
-msgstr ""
+msgstr "Небесно гмуркане"
 
 #: src/badguy/yeti.hpp:37
 msgid "Yeti"
@@ -1043,9 +1634,9 @@ msgstr "Ядосан камък"
 msgid "Spider"
 msgstr "Паяк"
 
-#: src/badguy/ghoul.hpp:28
+#: src/badguy/ghoul.hpp:30
 msgid "Ghoul"
-msgstr ""
+msgstr "Таласъм"
 
 #: src/badguy/snowman.hpp:28
 msgid "Snowman"
@@ -1053,49 +1644,53 @@ msgstr "Снежен човек"
 
 #: src/badguy/stumpy.hpp:35
 msgid "Walking Stump"
-msgstr ""
+msgstr "Ходещ пън"
 
 #: src/badguy/fish.hpp:40
 msgid "Fish"
 msgstr "Риба"
 
-#: src/badguy/dispenser.cpp:439
+#: src/badguy/dispenser.cpp:445
 msgid "Interval (seconds)"
 msgstr "Интервал (секунди)"
 
-#: src/badguy/dispenser.cpp:440
+#: src/badguy/dispenser.cpp:446
 msgid "Random"
 msgstr "Случаен"
 
-#: src/badguy/dispenser.cpp:441 data//images/engine/editor/objects.stoi:4
+#: src/badguy/dispenser.cpp:447 data//images/engine/editor/objects.stoi:4
 msgid "Enemies"
 msgstr "Врагове"
 
-#: src/badguy/dispenser.cpp:442
+#: src/badguy/dispenser.cpp:448
 msgid "Limit dispensed badguys"
 msgstr "Ограничаване на броя пуснати лоши"
 
-#: src/badguy/dispenser.cpp:444
+#: src/badguy/dispenser.cpp:450
+msgid "Obey Gravity"
+msgstr "Зачитане на гравитацията"
+
+#: src/badguy/dispenser.cpp:452
 msgid "Max concurrent badguys"
 msgstr "Макс. брой едновременно присъстващи лоши"
 
-#: src/badguy/dispenser.cpp:446 src/supertux/menu/editor_levelset_menu.cpp:60
+#: src/badguy/dispenser.cpp:454 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
 msgstr "Тип"
 
-#: src/badguy/dispenser.cpp:447
+#: src/badguy/dispenser.cpp:455
 msgid "dropper"
 msgstr "изпускател"
 
-#: src/badguy/dispenser.cpp:447
+#: src/badguy/dispenser.cpp:455
 msgid "rocket launcher"
 msgstr "ракетомет"
 
-#: src/badguy/dispenser.cpp:447
+#: src/badguy/dispenser.cpp:455
 msgid "cannon"
 msgstr "оръдие"
 
-#: src/badguy/dispenser.cpp:447
+#: src/badguy/dispenser.cpp:455
 msgid "invisible"
 msgstr "невидим"
 
@@ -1105,9 +1700,9 @@ msgstr "Охлюв"
 
 #: src/badguy/smartball.hpp:31
 msgid "Smartball"
-msgstr ""
+msgstr "Умна топка"
 
-#: src/badguy/bouncing_snowball.hpp:31
+#: src/badguy/bouncing_snowball.hpp:32
 msgid "Bouncing Snowball"
 msgstr "Поскачаща снежна топка"
 
@@ -1119,258 +1714,262 @@ msgstr "Леден пламък"
 msgid "Dart"
 msgstr "Стреличка"
 
-#: src/supertux/statistics.cpp:47
+#: src/supertux/statistics.cpp:54
 msgid "Max coins collected:"
 msgstr "Най-много събрани монети:"
 
-#: src/supertux/statistics.cpp:48
+#: src/supertux/statistics.cpp:55
 msgid "Max fragging:"
 msgstr "Най-много убийства:"
 
-#: src/supertux/statistics.cpp:49
+#: src/supertux/statistics.cpp:56
 msgid "Max secrets found:"
 msgstr "Най-много открити тайни:"
 
-#: src/supertux/statistics.cpp:50
+#: src/supertux/statistics.cpp:57
 msgid "Best time completed:"
 msgstr "Най-добро време:"
 
-#: src/supertux/statistics.cpp:51
+#: src/supertux/statistics.cpp:58
 msgid "Level target time:"
 msgstr "Целево време за нивото:"
 
-#: src/supertux/statistics.cpp:139 src/supertux/levelintro.cpp:159
+#: src/supertux/statistics.cpp:149 src/supertux/levelintro.cpp:160
 msgid "Best Level Statistics"
 msgstr "Най-добри постижения за нивото"
 
-#: src/supertux/statistics.cpp:216
+#: src/supertux/statistics.cpp:238
 msgid "You"
 msgstr "Ти"
 
-#: src/supertux/statistics.cpp:218
+#: src/supertux/statistics.cpp:240
 msgid "Best"
 msgstr "Най-добро"
 
-#: src/supertux/statistics.cpp:220 src/supertux/levelintro.cpp:165
+#: src/supertux/statistics.cpp:242 src/supertux/levelintro.cpp:166
 msgid "Coins"
 msgstr "Монети"
 
-#: src/supertux/statistics.cpp:229
+#: src/supertux/statistics.cpp:265
 msgid "Badguys"
-msgstr "Лошите"
+msgstr "Лоши"
 
-#: src/supertux/statistics.cpp:237 src/supertux/levelintro.cpp:169
+#: src/supertux/statistics.cpp:281 src/supertux/levelintro.cpp:172
 msgid "Secrets"
 msgstr "Тайни"
 
-#: src/supertux/game_object.hpp:77
+#: src/supertux/game_object.hpp:78
 msgid "Unknown object"
 msgstr "Неизвестен обект"
 
-#: src/supertux/command_line_arguments.cpp:74
+#: src/supertux/sector.cpp:414
+msgid "Press escape to skip"
+msgstr "Натисни ESC за пропускане"
+
+#: src/supertux/command_line_arguments.cpp:94
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
 msgstr "Употреба: %s [ОПЦИИ] [ФАЙЛ НА НИВОТО]"
 
-#: src/supertux/command_line_arguments.cpp:75
+#: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
 msgstr "Общи опции:"
 
-#: src/supertux/command_line_arguments.cpp:76
+#: src/supertux/command_line_arguments.cpp:96
 msgid "  -h, --help                   Show this help message and quit"
 msgstr "  -h, --help                   Показва това помощно съобщение"
 
-#: src/supertux/command_line_arguments.cpp:77
+#: src/supertux/command_line_arguments.cpp:97
 msgid "  -v, --version                Show SuperTux version and quit"
 msgstr "  -v, --version                Показва версията на Супер Тъкс"
 
-#: src/supertux/command_line_arguments.cpp:78
+#: src/supertux/command_line_arguments.cpp:98
 msgid "  --verbose                    Print verbose messages"
 msgstr "  --verbose                    Извежда повече съобщения за работата"
 
-#: src/supertux/command_line_arguments.cpp:79
+#: src/supertux/command_line_arguments.cpp:99
 msgid "  --debug                      Print extra verbose messages"
 msgstr "  --debug                      Извежда още повече съобщения за работата"
 
-#: src/supertux/command_line_arguments.cpp:80
+#: src/supertux/command_line_arguments.cpp:100
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
 msgstr "  --print-datadir              Показване на основната папка с данни на Супер Тъкс."
 
-#: src/supertux/command_line_arguments.cpp:82
+#: src/supertux/command_line_arguments.cpp:101
+msgid ""
+"  --acknowledgements           Print the licenses of libraries used by "
+"SuperTux."
+msgstr "  --acknowledgements           Показване на лицензите на библиотеките, използвани от Супер Тъкс."
+
+#: src/supertux/command_line_arguments.cpp:103
 msgid "Video Options:"
 msgstr "Видео настройки:"
 
-#: src/supertux/command_line_arguments.cpp:83
+#: src/supertux/command_line_arguments.cpp:104
 msgid "  -f, --fullscreen             Run in fullscreen mode"
 msgstr "  -f, --fullscreen             Пускане на цял екран"
 
-#: src/supertux/command_line_arguments.cpp:84
+#: src/supertux/command_line_arguments.cpp:105
 msgid "  -w, --window                 Run in window mode"
 msgstr "  -w, --window                 Пускане в прозорец"
 
-#: src/supertux/command_line_arguments.cpp:85
+#: src/supertux/command_line_arguments.cpp:106
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
 msgstr "  -g, --geometry ШИРИНАxВИСОЧИНА  Пускане на Супер Тъкс в посочената разделителна способност"
 
-#: src/supertux/command_line_arguments.cpp:86
+#: src/supertux/command_line_arguments.cpp:107
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
 msgstr "  -a, --aspect ШИРИНА:ВИСОЧИНА    Пускане на Супер Тъкс с посоченото съотношение на страните"
 
-#: src/supertux/command_line_arguments.cpp:87
+#: src/supertux/command_line_arguments.cpp:108
 msgid "  -d, --default                Reset video settings to default values"
 msgstr "  -d, --default                Връща стандартните настройките на видеото"
 
-#: src/supertux/command_line_arguments.cpp:88
+#: src/supertux/command_line_arguments.cpp:109
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
 msgstr "  --renderer ИЗЧЕРТАВАНЕ          Използване на sdl, opengl или auto за изчертаване"
 
-#: src/supertux/command_line_arguments.cpp:90
+#: src/supertux/command_line_arguments.cpp:111
 msgid "Audio Options:"
 msgstr "Звукови настройки:"
 
-#: src/supertux/command_line_arguments.cpp:91
+#: src/supertux/command_line_arguments.cpp:112
 msgid "  --disable-sound              Disable sound effects"
 msgstr "  --disable-sound              Изключване на звуковите ефекти"
 
-#: src/supertux/command_line_arguments.cpp:92
+#: src/supertux/command_line_arguments.cpp:113
 msgid "  --disable-music              Disable music"
 msgstr "  --disable-music              Изключване на музиката"
 
-#: src/supertux/command_line_arguments.cpp:94
+#: src/supertux/command_line_arguments.cpp:115
 msgid "Game Options:"
 msgstr "Игрални настройки:"
 
-#: src/supertux/command_line_arguments.cpp:95
+#: src/supertux/command_line_arguments.cpp:116
 msgid "  --edit-level                 Open given level in editor"
 msgstr "  --edit-level                 Отваряне на посоченото ниво в редактора"
 
-#: src/supertux/command_line_arguments.cpp:96
+#: src/supertux/command_line_arguments.cpp:117
 msgid "  --resave                     Loads given level and saves it"
-msgstr ""
+msgstr "  --resave                     Зарежда даденото ниво и го запазва"
 
-#: src/supertux/command_line_arguments.cpp:97
+#: src/supertux/command_line_arguments.cpp:118
 msgid "  --show-fps                   Display framerate in levels"
 msgstr "  --show-fps                   Показване на брояч за кадрите в секунда в нивата"
 
-#: src/supertux/command_line_arguments.cpp:98
+#: src/supertux/command_line_arguments.cpp:119
 msgid "  --no-show-fps                Do not display framerate in levels"
 msgstr "  --no-show-fps                Да не се показва брояч за кадрите в секунда в нивата"
 
-#: src/supertux/command_line_arguments.cpp:99
+#: src/supertux/command_line_arguments.cpp:120
 msgid "  --show-pos                   Display player's current position"
 msgstr "  --show-pos                   Показване на текущата позиция на играча"
 
-#: src/supertux/command_line_arguments.cpp:100
+#: src/supertux/command_line_arguments.cpp:121
 msgid "  --no-show-pos                Do not display player's position"
 msgstr "  --no-show-pos                да не се показва текущата позиция на играча"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:122
 msgid "  --developer                  Switch on developer feature"
 msgstr "  --developer                  Включване на функциите за разработчици"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:123
 msgid "  -s, --debug-scripts          Enable script debugger."
 msgstr "  -s, --debug-scripts          Включване на средствата за отстраняване на грешки в скриптовете."
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:124
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
 msgstr "  --spawn-pos X,Y              Къде в нивото да се появява Тъкс. Използва се, само ако е посочено и нивото."
 
-#: src/supertux/command_line_arguments.cpp:104
+#: src/supertux/command_line_arguments.cpp:125
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
 msgstr "  --sector СЕКТОР              Тъкс ще се роди в СЕКТОР\n"
 
-#: src/supertux/command_line_arguments.cpp:105
+#: src/supertux/command_line_arguments.cpp:126
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
 msgstr "  --spawnpoint ТОЧКА_НА_ПРЕРАЖДАНЕ      Тъкс ще се роди в ТОЧКА_НА_ПРЕРАЖДАНЕ\n"
 
-#: src/supertux/command_line_arguments.cpp:107
+#: src/supertux/command_line_arguments.cpp:128
 msgid "Demo Recording Options:"
 msgstr "Настройки за запис:"
 
-#: src/supertux/command_line_arguments.cpp:108
+#: src/supertux/command_line_arguments.cpp:129
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
 msgstr "  --record-demo ФАЙЛ НИВО     Запис във ФАЙЛ"
 
-#: src/supertux/command_line_arguments.cpp:109
+#: src/supertux/command_line_arguments.cpp:130
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
 msgstr "  --play-demo ФАЙЛ НИВО       Изпълнение на запис"
 
-#: src/supertux/command_line_arguments.cpp:111
+#: src/supertux/command_line_arguments.cpp:132
 msgid "Directory Options:"
 msgstr "Настройки на папките:"
 
-#: src/supertux/command_line_arguments.cpp:112
+#: src/supertux/command_line_arguments.cpp:133
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
 msgstr "  --datadir ПАПКА                Задаване на папката с файловете с данни на играта"
 
-#: src/supertux/command_line_arguments.cpp:113
+#: src/supertux/command_line_arguments.cpp:134
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
 msgstr "  --userdir ПАПКА                Задаване на папката за потребителските данни (запазени игри и т.н.)"
 
-#: src/supertux/command_line_arguments.cpp:115
+#: src/supertux/command_line_arguments.cpp:136
 msgid "Add-On Options:"
 msgstr "Настройки за добавките:"
 
-#: src/supertux/command_line_arguments.cpp:116
+#: src/supertux/command_line_arguments.cpp:137
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
 msgstr "  --repository-url URL         Задаване на адреса към хранилището с добавките"
 
-#: src/supertux/command_line_arguments.cpp:118
+#: src/supertux/command_line_arguments.cpp:139
 msgid "Environment variables:"
 msgstr "Променливи на средата:"
 
-#: src/supertux/command_line_arguments.cpp:119
+#: src/supertux/command_line_arguments.cpp:140
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
 msgstr "  SUPERTUX2_USER_DIR           Папка за потребителски данни (запазени игри и т.н.)"
 
-#: src/supertux/command_line_arguments.cpp:120
+#: src/supertux/command_line_arguments.cpp:141
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR            Папка с файловете с данни на играта"
 
-#: src/supertux/title_screen.cpp:43
+#: src/supertux/title_screen.cpp:44
 msgid "Copyright"
 msgstr "Авторско право"
 
-#: src/supertux/title_screen.cpp:44
+#: src/supertux/title_screen.cpp:45
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
 msgstr "Тази игра не дава НИКАКВИ ГАРАНЦИИ. Това е свободен софтуер и Вие можете да го\nразпространявате, спазвайки определени условия. Прегледайте файла с лиценза за подробности.\n"
 
-#: src/supertux/menu/contrib_menu.cpp:79
+#: src/supertux/menu/integrations_menu.cpp:49
+msgid "Integrations"
+msgstr "Интеграции"
+
+#: src/supertux/menu/integrations_menu.cpp:51
+msgid "Do not share level names when editing"
+msgstr "Имената на нивата да не се споделят по време на редактиране"
+
+#: src/supertux/menu/integrations_menu.cpp:54
+msgid "Enable Discord integration"
+msgstr "Включване на интеграцията на Discord"
+
+#: src/supertux/menu/integrations_menu.cpp:57
+msgid "Discord (disabled; not compiled)"
+msgstr "Discord (изключено, не е компилирано)"
+
+#: src/supertux/menu/contrib_menu.cpp:80
 #: src/supertux/menu/world_set_menu.cpp:31
 msgid "Contrib Levels"
 msgstr "Дарени нива"
-
-#: src/supertux/menu/contrib_menu.cpp:119
-#: src/supertux/menu/contrib_menu.cpp:150
-msgid "*NEW*"
-msgstr "*НОВО*"
-
-#: src/supertux/menu/contrib_menu.cpp:172 src/supertux/menu/debug_menu.cpp:75
-#: src/supertux/menu/editor_level_select_menu.cpp:84
-#: src/supertux/menu/worldmap_cheat_menu.cpp:55
-#: src/supertux/menu/worldmap_cheat_menu.cpp:153
-#: src/supertux/menu/editor_levelset_select_menu.cpp:96
-#: src/supertux/menu/options_menu.cpp:405
-#: src/supertux/menu/profile_menu.cpp:47 src/supertux/menu/addon_menu.cpp:210
-#: src/supertux/menu/editor_new_levelset_menu.cpp:40
-#: src/supertux/menu/world_set_menu.cpp:33
-#: src/supertux/menu/keyboard_menu.cpp:51
-#: src/supertux/menu/language_menu.cpp:56
-#: src/supertux/menu/joystick_menu.cpp:99
-#: src/supertux/menu/contrib_levelset_menu.cpp:67
-#: src/supertux/menu/cheat_menu.cpp:44
-msgid "Back"
-msgstr "Назад"
 
 #: src/supertux/menu/debug_menu.cpp:32
 msgid "Debug"
@@ -1394,7 +1993,7 @@ msgstr "Показване на пътя на световната карта"
 
 #: src/supertux/menu/debug_menu.cpp:65
 msgid "Show Controller"
-msgstr ""
+msgstr "Показване на контролера"
 
 #: src/supertux/menu/debug_menu.cpp:66
 msgid "Show Framerate"
@@ -1414,11 +2013,25 @@ msgstr "Използване на растерни шрифтове"
 
 #: src/supertux/menu/debug_menu.cpp:72
 msgid "Dump Texture Cache"
-msgstr ""
+msgstr "Извличане на кеша на текстурите"
+
+#: src/supertux/menu/particle_editor_save_as.cpp:33
+msgid "Save particle as"
+msgstr "Запазване на частиците като"
+
+#: src/supertux/menu/particle_editor_save_as.cpp:37
+#: src/supertux/menu/editor_save_as.cpp:37
+msgid "File name"
+msgstr "Име на файла"
+
+#: src/supertux/menu/particle_editor_save_as.cpp:38
+#: src/supertux/menu/editor_save_as.cpp:38 src/editor/particle_editor.cpp:766
+msgid "Save"
+msgstr "Запазване"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose Sector"
-msgstr ""
+msgstr "Избиране на сектор"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:41
 msgid "Sector Settings"
@@ -1445,32 +2058,37 @@ msgid "Delete sector"
 msgstr "Изтриване на сектора"
 
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
-#: src/editor/toolbox_widget.cpp:92
+#: src/editor/toolbox_widget.cpp:93
 msgid "Objects"
 msgstr "Обекти"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:58
+#: src/supertux/menu/editor_level_select_menu.cpp:62
 msgid "Empty World"
 msgstr "Празен свят"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:73
+#: src/supertux/menu/editor_level_select_menu.cpp:77
 msgid "Create Level"
 msgstr "Създаване на ниво"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:77
+#: src/supertux/menu/editor_level_select_menu.cpp:81
 msgid "Edit Worldmap"
 msgstr "Редактиране на световната карта"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:79
+#: src/supertux/menu/editor_level_select_menu.cpp:83
 msgid "Create Worldmap"
 msgstr "Създаване на световна карта"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:83
+#: src/supertux/menu/editor_level_select_menu.cpp:85
+#: src/supertux/menu/editor_delete_level_menu.cpp:33
+msgid "Delete level"
+msgstr "Изтриване на нивото"
+
+#: src/supertux/menu/editor_level_select_menu.cpp:87
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "World Settings"
 msgstr "Настройки на света"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:123
+#: src/supertux/menu/editor_level_select_menu.cpp:127
 msgid ""
 "Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
@@ -1478,13 +2096,23 @@ msgid ""
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
 msgstr "Сподели тази световна карта, задавайки ѝ международен лиценз CC-BY-SA 4.0 (препоръчително).\nТой позволява промяната и разпространението от трети страни.\nАко този лиценз не те устройва, може да го промениш в свойствата на световната карта.\nВНИМАНИЕ: Създателите на Супер Тъкс не носят отговорност за твоя избор на лиценз."
 
-#: src/supertux/menu/editor_level_select_menu.cpp:130
+#: src/supertux/menu/editor_level_select_menu.cpp:134
 msgid ""
 "Share this level under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
 msgstr "Сподели това ниво, задавайки му международен лиценз CC-BY-SA 4.0 (препоръчително).\nТой позволява промяната и разпространението от трети страни.\nАко този лиценз не те устройва, може да го промениш в свойствата на нивото.\nВНИМАНИЕ: Създателите на Супер Тъкс не носят отговорност за твоя избор на лиценз."
+
+#: src/supertux/menu/editor_level_select_menu.cpp:162
+msgid ""
+"An auto-save recovery file was found. Would you like to restore the recovery\n"
+"file and resume where you were before the editor crashed?"
+msgstr "Беше открит автоматично запазен файл за възстановяване. Искаш ли\nда го използваш и да продължиш от там, докъдето беше преди\nсрива на редактора?"
+
+#: src/supertux/menu/editor_level_select_menu.cpp:169
+msgid "This will delete the auto-save file. Are you sure?"
+msgstr "Това ще изтрие автоматично запазения файл. Наистина ли искаш това?"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -1497,22 +2125,18 @@ msgid "Bonus: Grow"
 msgstr "Бонус: Растеж"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
-#: src/supertux/menu/cheat_menu.cpp:33
 msgid "Bonus: Fire"
 msgstr "Бонус: Огън"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
-#: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Ice"
 msgstr "Бонус: Лед"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
-#: src/supertux/menu/cheat_menu.cpp:35
 msgid "Bonus: Air"
 msgstr "Бонус: Въздух"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
-#: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Earth"
 msgstr "Бонус: Земя"
 
@@ -1549,7 +2173,7 @@ msgstr "Нулиране на световната карта"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:52
 msgid "Go to level"
-msgstr ""
+msgstr "Към ниво"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:53
 msgid "Go to main spawnpoint"
@@ -1557,217 +2181,292 @@ msgstr "Към основната точка на прераждане"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:145
 msgid "Select level"
-msgstr ""
+msgstr "Избиране на ниво"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:54
+#: src/supertux/menu/editor_save_as.cpp:33
+#: src/supertux/menu/editor_menu.cpp:49
+msgid "Save Level as"
+msgstr "Запазване на нивото като"
+
+#: src/supertux/menu/editor_save_as.cpp:33
+#: src/supertux/menu/editor_menu.cpp:50
+msgid "Save Copy"
+msgstr "Запазване на копие"
+
+#: src/supertux/menu/editor_levelset_select_menu.cpp:72
 msgid "Choose World"
-msgstr ""
+msgstr "Избиране на свят"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:82
+#: src/supertux/menu/editor_levelset_select_menu.cpp:100
 #, c-format
 msgid "%d level"
 msgid_plural "%d levels"
 msgstr[0] "%d ниво"
 msgstr[1] "%d нива"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:95
+#: src/supertux/menu/editor_levelset_select_menu.cpp:113
 msgid "Create World"
 msgstr "Създаване на свят"
 
-#: src/supertux/menu/options_menu.cpp:85 src/supertux/menu/main_menu.cpp:53
+#: src/supertux/menu/options_menu.cpp:98 src/supertux/menu/main_menu.cpp:64
 #: src/supertux/menu/game_menu.cpp:61 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Options"
 msgstr "Настройки"
 
-#: src/supertux/menu/options_menu.cpp:91
-#: src/supertux/menu/options_menu.cpp:127
-#: src/supertux/menu/options_menu.cpp:418
-#: src/supertux/menu/options_menu.cpp:439 src/editor/object_settings.cpp:112
+#: src/supertux/menu/options_menu.cpp:104
+#: src/supertux/menu/options_menu.cpp:142
+#: src/supertux/menu/options_menu.cpp:455
+#: src/supertux/menu/options_menu.cpp:476 src/editor/object_settings.cpp:119
 msgid "auto"
 msgstr "авт."
 
-#: src/supertux/menu/options_menu.cpp:206
+#: src/supertux/menu/options_menu.cpp:221
 msgid "Desktop"
 msgstr "Работен плот"
 
-#: src/supertux/menu/options_menu.cpp:332
+#: src/supertux/menu/options_menu.cpp:251
+msgid "on"
+msgstr "ВКЛ"
+
+#: src/supertux/menu/options_menu.cpp:252
+msgid "off"
+msgstr "ИЗКЛ"
+
+#: src/supertux/menu/options_menu.cpp:253
+msgid "adaptive"
+msgstr "адаптивна"
+
+#: src/supertux/menu/options_menu.cpp:347
 msgid "Select Language"
 msgstr "Избор на език"
 
-#: src/supertux/menu/options_menu.cpp:333
+#: src/supertux/menu/options_menu.cpp:348
 msgid "Select a different language to display text in"
 msgstr "Избери друг език за текстовете"
 
-#: src/supertux/menu/options_menu.cpp:335
+#: src/supertux/menu/options_menu.cpp:350
 msgid "Language Packs"
 msgstr "Езикови пакети"
 
-#: src/supertux/menu/options_menu.cpp:336
+#: src/supertux/menu/options_menu.cpp:351
 msgid "Language packs contain up-to-date translations"
 msgstr "Езиковите пакети съдържат актуални преводи"
 
-#: src/supertux/menu/options_menu.cpp:338
-#: src/supertux/menu/profile_menu.cpp:30
+#: src/supertux/menu/options_menu.cpp:353
+#: src/supertux/menu/profile_menu.cpp:34
 msgid "Select Profile"
 msgstr "Избиране на профил"
 
-#: src/supertux/menu/options_menu.cpp:339
+#: src/supertux/menu/options_menu.cpp:354
 msgid "Select a profile to play with"
 msgstr "Избери профил за игра"
 
-#: src/supertux/menu/options_menu.cpp:342
+#: src/supertux/menu/options_menu.cpp:358
 msgid "Window Resizable"
 msgstr "Прозорецът може да се преоразмерява"
 
-#: src/supertux/menu/options_menu.cpp:343
+#: src/supertux/menu/options_menu.cpp:359
 msgid "Allow window resizing, might require a restart to take effect"
 msgstr "Позволяване на преоразмеряването на прозореца. Това може да изисква рестартиране, за да влезе в сила."
 
-#: src/supertux/menu/options_menu.cpp:345
+#: src/supertux/menu/options_menu.cpp:361
 msgid "Window Resolution"
 msgstr "Резолюция на прозореца"
 
-#: src/supertux/menu/options_menu.cpp:346
+#: src/supertux/menu/options_menu.cpp:362
 msgid "Resize the window to the given size"
 msgstr "Задаване на конкретен размер на прозореца"
 
-#: src/supertux/menu/options_menu.cpp:348
+#: src/supertux/menu/options_menu.cpp:364
 msgid "Fullscreen"
 msgstr "На цял екран"
 
-#: src/supertux/menu/options_menu.cpp:349
+#: src/supertux/menu/options_menu.cpp:365
 msgid "Fill the entire screen"
 msgstr "Играта запълва целия екран"
 
-#: src/supertux/menu/options_menu.cpp:351
+#: src/supertux/menu/options_menu.cpp:367
 msgid "Fullscreen Resolution"
 msgstr "Резолюция за цял екран"
 
-#: src/supertux/menu/options_menu.cpp:352
+#: src/supertux/menu/options_menu.cpp:368
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Задава резолюцията, която се използва в режим на цял екран (трябва да превключиш на цял екран, за да бъде завършена промяната)"
 
-#: src/supertux/menu/options_menu.cpp:354
+#: src/supertux/menu/options_menu.cpp:373
+msgid "Fit to browser"
+msgstr "Напасване към браузъра"
+
+#: src/supertux/menu/options_menu.cpp:374
+msgid "Fit the resolution to the size of your browser"
+msgstr "Напасване на резолюцията към размера на браузъра"
+
+#: src/supertux/menu/options_menu.cpp:378
 msgid "Magnification"
 msgstr "Увеличение"
 
-#: src/supertux/menu/options_menu.cpp:355
+#: src/supertux/menu/options_menu.cpp:379
 msgid "Change the magnification of the game area"
 msgstr "Задава увеличението на игралната област"
 
-#: src/supertux/menu/options_menu.cpp:357
+#: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
 msgstr "Вертикална синхронизация"
 
-#: src/supertux/menu/options_menu.cpp:358
+#: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
 msgstr "Задава режима на вертикална синхронизация"
 
-#: src/supertux/menu/options_menu.cpp:360
+#: src/supertux/menu/options_menu.cpp:385
 msgid "Aspect Ratio"
 msgstr "Съотношение"
 
-#: src/supertux/menu/options_menu.cpp:361
+#: src/supertux/menu/options_menu.cpp:386
 msgid "Adjust the aspect ratio"
 msgstr "Задава съотношението на страните"
 
-#: src/supertux/menu/options_menu.cpp:366
+#: src/supertux/menu/options_menu.cpp:392
 msgid "Disable all sound effects"
 msgstr "Включва/изключва всички звукови ефекти"
 
-#: src/supertux/menu/options_menu.cpp:368
+#: src/supertux/menu/options_menu.cpp:394
 msgid "Disable all music"
 msgstr "Включва/изключва цялата музика"
 
-#: src/supertux/menu/options_menu.cpp:370
+#: src/supertux/menu/options_menu.cpp:396
 msgid "Sound Volume"
 msgstr "Сила на звуците"
 
-#: src/supertux/menu/options_menu.cpp:371
+#: src/supertux/menu/options_menu.cpp:397
 msgid "Adjust sound volume"
 msgstr "Настройване на силата на звуците"
 
-#: src/supertux/menu/options_menu.cpp:373
+#: src/supertux/menu/options_menu.cpp:399
 msgid "Music Volume"
 msgstr "Сила на музиката"
 
-#: src/supertux/menu/options_menu.cpp:374
+#: src/supertux/menu/options_menu.cpp:400
 msgid "Adjust music volume"
 msgstr "Настройване на силата на музиката"
 
-#: src/supertux/menu/options_menu.cpp:378
+#: src/supertux/menu/options_menu.cpp:404
 msgid "Sound (disabled)"
 msgstr "Звук (изключен)"
 
-#: src/supertux/menu/options_menu.cpp:379
+#: src/supertux/menu/options_menu.cpp:405
 msgid "Music (disabled)"
 msgstr "Музика (изключена)"
 
-#: src/supertux/menu/options_menu.cpp:382
+#: src/supertux/menu/options_menu.cpp:408
 #: src/supertux/menu/keyboard_menu.cpp:30
 msgid "Setup Keyboard"
 msgstr "Клавиатурна настройка"
 
-#: src/supertux/menu/options_menu.cpp:383
+#: src/supertux/menu/options_menu.cpp:409
 msgid "Configure key-action mappings"
 msgstr "Настройка на действията с клавиатура"
 
-#: src/supertux/menu/options_menu.cpp:385
+#: src/supertux/menu/options_menu.cpp:412
 #: src/supertux/menu/joystick_menu.cpp:52
 msgid "Setup Joystick"
 msgstr "Настройване на контролер"
 
-#: src/supertux/menu/options_menu.cpp:386
+#: src/supertux/menu/options_menu.cpp:413
 msgid "Configure joystick control-action mappings"
 msgstr "Настройка на действията с контролер"
 
-#: src/supertux/menu/options_menu.cpp:388
+#: src/supertux/menu/options_menu.cpp:417
+msgid "On-screen controls"
+msgstr "Екранни бутони за управление"
+
+#: src/supertux/menu/options_menu.cpp:418
+msgid "Toggle on-screen controls for mobile devices"
+msgstr "Превключване на екранните бутони за управление, за мобилни устройства"
+
+#: src/supertux/menu/options_menu.cpp:420
 msgid "Enable transitions"
 msgstr "Включване на преходите"
 
-#: src/supertux/menu/options_menu.cpp:389
+#: src/supertux/menu/options_menu.cpp:421
 msgid "Enable screen transitions and smooth menu animation"
 msgstr "Включване на екранните преходи и гладките анимации в менютата"
 
-#: src/supertux/menu/options_menu.cpp:393
+#: src/supertux/menu/options_menu.cpp:425
 msgid "Developer Mode"
 msgstr "Режим за разработчици"
 
-#: src/supertux/menu/options_menu.cpp:398
+#: src/supertux/menu/options_menu.cpp:430
 msgid "Christmas Mode"
 msgstr "Коледен режим"
 
-#: src/supertux/menu/options_menu.cpp:401
+#: src/supertux/menu/options_menu.cpp:433
 msgid "Confirmation Dialog"
 msgstr "Прозорец за потвърждение"
 
-#: src/supertux/menu/options_menu.cpp:402
+#: src/supertux/menu/options_menu.cpp:433
+msgid "Confirm aborting level"
+msgstr "Потвърждаване на напускането на нивото"
+
+#: src/supertux/menu/options_menu.cpp:434
 msgid "Pause on focus loss"
 msgstr "Спиране на пауза при загуба на фокус"
 
-#: src/supertux/menu/main_menu.cpp:51 src/supertux/menu/world_set_menu.cpp:28
+#: src/supertux/menu/options_menu.cpp:435
+msgid "Automatically pause the game when the window loses focus"
+msgstr "Автоматично спиране на играта на пауза, когато прозорецът не е на фокус"
+
+#: src/supertux/menu/options_menu.cpp:436
+msgid "Use custom mouse cursor"
+msgstr "Персонализиран курсор"
+
+#: src/supertux/menu/options_menu.cpp:436
+msgid "Whether the game renders its own cursor or uses the system's cursor"
+msgstr "Дали играта да изчертава свой собствен курсор, или да използва системния"
+
+#: src/supertux/menu/options_menu.cpp:438
+msgid "Integrations and presence"
+msgstr "Интеграции и присъствие"
+
+#: src/supertux/menu/options_menu.cpp:439
+msgid ""
+"Manage whether SuperTux should display the levels you play on your social "
+"media profiles (Discord)"
+msgstr "Управление на това дали Супер Тъкс да показва нивата, които играеш, в профилите ти в социалните мрежи (Discord)"
+
+#: src/supertux/menu/options_menu.cpp:559
+msgid ""
+"The game couldn't detect your browser resolution.\n"
+"This most likely happens because it is not embedded\n"
+"in the SuperTux custom HTML template.\n"
+msgstr "Играта не успя да засече резолюцията на браузъра.\nПричината за това вероятно е, че той не е вграден\nв персонализирания шаблон за HTML на Супер Тъкс.\n"
+
+#: src/supertux/menu/main_menu.cpp:56 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
 msgstr "Начало"
 
-#: src/supertux/menu/main_menu.cpp:52 src/supertux/menu/addon_menu.cpp:119
+#: src/supertux/menu/main_menu.cpp:60 src/supertux/menu/addon_menu.cpp:122
 msgid "Add-ons"
 msgstr "Добавки"
 
-#: src/supertux/menu/main_menu.cpp:54 src/supertux/menu/editor_menu.cpp:39
+#: src/supertux/menu/main_menu.cpp:62 src/supertux/menu/web_asset_menu.cpp:38
+msgid "Manage Assets"
+msgstr "Управление на ресурсите"
+
+#: src/supertux/menu/main_menu.cpp:65 src/supertux/menu/editor_menu.cpp:43
 msgid "Level Editor"
 msgstr "Редактор на нива"
 
-#: src/supertux/menu/main_menu.cpp:55
+#: src/supertux/menu/main_menu.cpp:66
 msgid "Credits"
 msgstr "Заслуги"
 
-#: src/supertux/menu/main_menu.cpp:56
+#: src/supertux/menu/main_menu.cpp:67
 msgid "Donate"
 msgstr "Дарение"
 
-#: src/supertux/menu/main_menu.cpp:57
+#: src/supertux/menu/main_menu.cpp:69
 msgid "Quit"
 msgstr "Изход"
 
@@ -1791,15 +2490,31 @@ msgstr "Отместване за преоразмеряването по Y"
 msgid "Resize"
 msgstr "Преоразмеряване"
 
-#: src/supertux/menu/profile_menu.cpp:37
+#: src/supertux/menu/profile_menu.cpp:41
 #, c-format
 msgid "[Profile %s]"
 msgstr "[Профил %s]"
 
-#: src/supertux/menu/profile_menu.cpp:41
+#: src/supertux/menu/profile_menu.cpp:45
 #, c-format
 msgid "Profile %s"
 msgstr "Профил %s"
+
+#: src/supertux/menu/profile_menu.cpp:50
+msgid "Reset profile"
+msgstr "Нулиране на профила"
+
+#: src/supertux/menu/profile_menu.cpp:51
+msgid "Reset all profiles"
+msgstr "Нулиране на всички профили"
+
+#: src/supertux/menu/profile_menu.cpp:67
+msgid "Deleting your profile will reset your game progress. Are you sure?"
+msgstr "Ако изтриеш профила си, напредъкът ти в играта ще бъде заличен. Наистина ли искаш това?"
+
+#: src/supertux/menu/profile_menu.cpp:73
+msgid "This will reset your game progress on all profiles. Are you sure?"
+msgstr "Това ще изтрие напредъка ти във всички профили. Наистина ли искаш това?"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1808,7 +2523,7 @@ msgstr "Описание"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:48
-#: data//images/engine/editor/objects.stoi:329
+#: data//images/engine/editor/objects.stoi:371
 msgid "Worldmap"
 msgstr "Световна карта"
 
@@ -1821,55 +2536,59 @@ msgstr "Комплект нива"
 msgid "World"
 msgstr "Свят"
 
-#: src/supertux/menu/addon_menu.cpp:57
+#: src/supertux/menu/addon_menu.cpp:54
+msgid "Add-on"
+msgstr "Добавка"
+
+#: src/supertux/menu/addon_menu.cpp:60
 msgid "Unknown"
 msgstr "Непознато"
 
-#: src/supertux/menu/addon_menu.cpp:68
+#: src/supertux/menu/addon_menu.cpp:71
 #, c-format
 msgid "%s \"%s\" by \"%s\""
 msgstr "%s „%s“ от „%s“"
 
-#: src/supertux/menu/addon_menu.cpp:126
+#: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
 msgstr "Няма инсталирани добавки"
 
-#: src/supertux/menu/addon_menu.cpp:130
+#: src/supertux/menu/addon_menu.cpp:133
 msgid "No Add-ons found"
 msgstr "Не са открити добавки"
 
-#: src/supertux/menu/addon_menu.cpp:176
+#: src/supertux/menu/addon_menu.cpp:179
 #, c-format
 msgid "Install %s *NEW*"
 msgstr "Инсталиране на %s *НОВО*"
 
-#: src/supertux/menu/addon_menu.cpp:187
+#: src/supertux/menu/addon_menu.cpp:190
 #, c-format
 msgid "Install %s"
 msgstr "Инсталиране на %s"
 
-#: src/supertux/menu/addon_menu.cpp:196
+#: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
 msgstr "Не са открити нови добавки"
 
-#: src/supertux/menu/addon_menu.cpp:202
+#: src/supertux/menu/addon_menu.cpp:205
 msgid "Check Online (disabled)"
 msgstr "Проверка в Интернет (изключено)"
 
-#: src/supertux/menu/addon_menu.cpp:206
+#: src/supertux/menu/addon_menu.cpp:209
 msgid "Check Online"
 msgstr "Проверка в Интернет"
 
-#: src/supertux/menu/addon_menu.cpp:283
+#: src/supertux/menu/addon_menu.cpp:286
 msgid "Downloading Add-On Repository Index"
 msgstr "Сваляне на списъка с добавки"
 
-#: src/supertux/menu/addon_menu.cpp:298
+#: src/supertux/menu/addon_menu.cpp:301
 #, c-format
 msgid "Downloading %s"
 msgstr "Сваляне на %s"
 
-#: src/supertux/menu/addon_menu.cpp:345
+#: src/supertux/menu/addon_menu.cpp:348
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
@@ -1887,6 +2606,26 @@ msgstr "Моля, въведете име за това подмножество
 msgid "Story Mode"
 msgstr "Режим история"
 
+#: src/supertux/menu/web_asset_menu.cpp:42
+msgid "New files location"
+msgstr "Местоположение за новите файлове"
+
+#: src/supertux/menu/web_asset_menu.cpp:43
+msgid "Add Files"
+msgstr "Добавяне на файлове"
+
+#: src/supertux/menu/web_asset_menu.cpp:44
+msgid "Download Files"
+msgstr "Сваляне на файлове"
+
+#: src/supertux/menu/particle_editor_open.cpp:32
+msgid "Load particle file"
+msgstr "Зареждане на файл с частици"
+
+#: src/supertux/menu/particle_editor_open.cpp:39
+msgid "Open"
+msgstr "Отваряне"
+
 #: src/supertux/menu/game_menu.cpp:31
 msgid "Are you sure?"
 msgstr "Сигурен ли си?"
@@ -1901,7 +2640,7 @@ msgstr "Рестариране на нивото"
 
 #: src/supertux/menu/game_menu.cpp:58
 msgid "Restart from Checkpoint"
-msgstr ""
+msgstr "Рестартиране от контролна точка"
 
 #: src/supertux/menu/game_menu.cpp:63
 msgid "Abort Level"
@@ -1916,16 +2655,6 @@ msgstr "Нагоре"
 #: src/supertux/menu/joystick_menu.cpp:70
 msgid "Down"
 msgstr "Надолу"
-
-#: src/supertux/menu/keyboard_menu.cpp:34
-#: src/supertux/menu/joystick_menu.cpp:71
-msgid "Left"
-msgstr "Наляво"
-
-#: src/supertux/menu/keyboard_menu.cpp:35
-#: src/supertux/menu/joystick_menu.cpp:72
-msgid "Right"
-msgstr "Надясно"
 
 #: src/supertux/menu/keyboard_menu.cpp:36
 #: src/supertux/menu/joystick_menu.cpp:73
@@ -1957,78 +2686,78 @@ msgstr "Поглеждане надолу"
 msgid "Console"
 msgstr "Конзола"
 
-#: src/supertux/menu/keyboard_menu.cpp:46
-#: src/supertux/menu/joystick_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/joystick_menu.cpp:82
 msgid "Cheat Menu"
 msgstr "Меню с измами"
 
-#: src/supertux/menu/keyboard_menu.cpp:47
-#: src/supertux/menu/joystick_menu.cpp:85
+#: src/supertux/menu/keyboard_menu.cpp:45
+#: src/supertux/menu/joystick_menu.cpp:83
 msgid "Debug Menu"
 msgstr "Меню за дебъгване"
 
-#: src/supertux/menu/keyboard_menu.cpp:49
-#: src/supertux/menu/joystick_menu.cpp:87
+#: src/supertux/menu/keyboard_menu.cpp:47
+#: src/supertux/menu/joystick_menu.cpp:85
 msgid "Jump with Up"
 msgstr "Скачане с бутона за нагоре"
 
-#: src/supertux/menu/keyboard_menu.cpp:62
+#: src/supertux/menu/keyboard_menu.cpp:60
 msgid "Up cursor"
 msgstr "Стрелка нагоре"
 
-#: src/supertux/menu/keyboard_menu.cpp:64
+#: src/supertux/menu/keyboard_menu.cpp:62
 msgid "Down cursor"
 msgstr "Стрелка надолу"
 
-#: src/supertux/menu/keyboard_menu.cpp:66
+#: src/supertux/menu/keyboard_menu.cpp:64
 msgid "Left cursor"
 msgstr "Стрелка наляво"
 
-#: src/supertux/menu/keyboard_menu.cpp:68
+#: src/supertux/menu/keyboard_menu.cpp:66
 msgid "Right cursor"
 msgstr "Стрелка надясно"
 
-#: src/supertux/menu/keyboard_menu.cpp:70
+#: src/supertux/menu/keyboard_menu.cpp:68
 msgid "Return"
 msgstr "Ентер"
 
-#: src/supertux/menu/keyboard_menu.cpp:72
+#: src/supertux/menu/keyboard_menu.cpp:70
 msgid "Space"
 msgstr "Интервал"
 
-#: src/supertux/menu/keyboard_menu.cpp:74
+#: src/supertux/menu/keyboard_menu.cpp:72
 msgid "Right Shift"
 msgstr "Десен шифт"
 
-#: src/supertux/menu/keyboard_menu.cpp:76
+#: src/supertux/menu/keyboard_menu.cpp:74
 msgid "Left Shift"
 msgstr "Ляв шифт"
 
-#: src/supertux/menu/keyboard_menu.cpp:78
+#: src/supertux/menu/keyboard_menu.cpp:76
 msgid "Right Control"
 msgstr "Десен контрол"
 
-#: src/supertux/menu/keyboard_menu.cpp:80
+#: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Left Control"
 msgstr "Ляв контрол"
 
-#: src/supertux/menu/keyboard_menu.cpp:82
+#: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Right Alt"
 msgstr "Десен алт"
 
-#: src/supertux/menu/keyboard_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Left Alt"
 msgstr "Ляв алт"
 
-#: src/supertux/menu/keyboard_menu.cpp:86
+#: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Right Command"
 msgstr "Десен команд"
 
-#: src/supertux/menu/keyboard_menu.cpp:88
+#: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Left Command"
 msgstr "Ляв команд"
 
-#: src/supertux/menu/keyboard_menu.cpp:102
+#: src/supertux/menu/keyboard_menu.cpp:100
 msgid "Press Key"
 msgstr "Натисни клавиш"
 
@@ -2053,51 +2782,51 @@ msgstr "Извършване на ръчна настройка вместо а�
 msgid "Pause/Menu"
 msgstr "Пауза/Меню"
 
-#: src/supertux/menu/joystick_menu.cpp:93
+#: src/supertux/menu/joystick_menu.cpp:91
 msgid "No Joysticks found"
 msgstr "Не са открити контролери"
 
-#: src/supertux/menu/joystick_menu.cpp:94
+#: src/supertux/menu/joystick_menu.cpp:92
 msgid "Scan for Joysticks"
 msgstr "Търсене на контролери"
 
-#: src/supertux/menu/joystick_menu.cpp:127
+#: src/supertux/menu/joystick_menu.cpp:125
 msgid "Press Button"
 msgstr "Натисни бутон"
 
-#: src/supertux/menu/joystick_menu.cpp:164
+#: src/supertux/menu/joystick_menu.cpp:162
 msgid "Axis "
 msgstr "Ос"
 
-#: src/supertux/menu/joystick_menu.cpp:167
+#: src/supertux/menu/joystick_menu.cpp:165
 msgid "-"
 msgstr "-"
 
-#: src/supertux/menu/joystick_menu.cpp:169
+#: src/supertux/menu/joystick_menu.cpp:167
 msgid "+"
 msgstr "+"
 
-#: src/supertux/menu/joystick_menu.cpp:176
+#: src/supertux/menu/joystick_menu.cpp:174
 msgid "X2"
 msgstr "X2"
 
-#: src/supertux/menu/joystick_menu.cpp:178
+#: src/supertux/menu/joystick_menu.cpp:176
 msgid "Y2"
 msgstr "Y2"
 
-#: src/supertux/menu/joystick_menu.cpp:191
+#: src/supertux/menu/joystick_menu.cpp:189
 msgid "Hat Up"
 msgstr "Шапка нагоре"
 
-#: src/supertux/menu/joystick_menu.cpp:195
+#: src/supertux/menu/joystick_menu.cpp:193
 msgid "Hat Down"
 msgstr "Шапка надолу"
 
-#: src/supertux/menu/joystick_menu.cpp:199
+#: src/supertux/menu/joystick_menu.cpp:197
 msgid "Hat Left"
 msgstr "Шапка наляво"
 
-#: src/supertux/menu/joystick_menu.cpp:203
+#: src/supertux/menu/joystick_menu.cpp:201
 msgid "Hat Right"
 msgstr "Шапка надясно"
 
@@ -2121,6 +2850,22 @@ msgstr "Грешка:\n"
 msgid "Close"
 msgstr "Затваряне"
 
+#: src/supertux/menu/cheat_menu.cpp:33
+msgid "Bonus: Fire x 64"
+msgstr "Бонус: Огън x 64"
+
+#: src/supertux/menu/cheat_menu.cpp:34
+msgid "Bonus: Ice x 64"
+msgstr "Бонус: Лед x 64"
+
+#: src/supertux/menu/cheat_menu.cpp:35
+msgid "Bonus: Air x 64"
+msgstr "Бонус: Въздух x 64"
+
+#: src/supertux/menu/cheat_menu.cpp:36
+msgid "Bonus: Earth x 64"
+msgstr "Бонус: Земя x 64"
+
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Star"
 msgstr "Бонус: Звезда"
@@ -2133,13 +2878,68 @@ msgstr "Смаляване на Тъкс"
 msgid "Kill Tux"
 msgstr "Убиване на Тъкс"
 
+#: src/supertux/menu/particle_editor_menu.cpp:32
+msgid "Particle Editor"
+msgstr "Редактор на частици"
+
+#: src/supertux/menu/particle_editor_menu.cpp:36
+#: src/supertux/menu/editor_menu.cpp:45
+msgid "Return to Editor"
+msgstr "Обратно към редактора"
+
+#: src/supertux/menu/particle_editor_menu.cpp:37
+msgid "New Particle Config"
+msgstr "Нова конфигурация за частици"
+
+#: src/supertux/menu/particle_editor_menu.cpp:38
+msgid "Save Particle Config"
+msgstr "Запазване на конфигурацията за частици"
+
+#: src/supertux/menu/particle_editor_menu.cpp:39
+msgid "Save Particle Config as..."
+msgstr "Запазване на конфигурацията за частици като…"
+
+#: src/supertux/menu/particle_editor_menu.cpp:40
+msgid "Load Another Particle Config"
+msgstr "Зареждане на друга конфигурация за частици"
+
+#: src/supertux/menu/particle_editor_menu.cpp:44
+msgid "Open Particle Directory"
+msgstr "Отваряне на папката с частиците"
+
+#: src/supertux/menu/particle_editor_menu.cpp:45
+#: src/supertux/menu/editor_menu.cpp:88
+msgid "Keyboard Shortcuts"
+msgstr "Клавишни комбинации"
+
+#: src/supertux/menu/particle_editor_menu.cpp:49
+msgid "Exit Particle Editor"
+msgstr "Изход от редактора на частици"
+
+#: src/supertux/menu/particle_editor_menu.cpp:120
+msgid ""
+"Keyboard Shortcuts:\n"
+"---------------------\n"
+"Esc = Open Menu\n"
+"Ctrl+S = Save\n"
+"Ctrl+Shift+S = Save as\n"
+"Ctrl+O = Open\n"
+"Ctrl+Z = Undo\n"
+"Ctrl+Y = Redo"
+msgstr "Клавишни комбинации:\n---------------------\nEsc = Отваряне на менюто\nCtrl+S = Запазване\nCtrl+Shift+S = Запазване като\nCtrl+O = Отваряне\nCtrl+Z = Отмяна\nCtrl+Y = Повторение"
+
+#: src/supertux/menu/particle_editor_menu.cpp:121
+#: src/supertux/menu/editor_menu.cpp:176
+msgid "Got it!"
+msgstr "Разбрано!"
+
 #: src/supertux/menu/editor_level_menu.cpp:31
-#: src/supertux/menu/editor_menu.cpp:70
+#: src/supertux/menu/editor_menu.cpp:86
 msgid "Worldmap Settings"
 msgstr "Настройки на световната карта"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
-#: src/supertux/menu/editor_menu.cpp:70
+#: src/supertux/menu/editor_menu.cpp:86
 msgid "Level Settings"
 msgstr "Настройки на нивото"
 
@@ -2147,7 +2947,7 @@ msgstr "Настройки на нивото"
 msgid "Author"
 msgstr "Автор"
 
-#: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1113
+#: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1166
 msgid "Contact"
 msgstr "За връзка"
 
@@ -2156,114 +2956,130 @@ msgid "License"
 msgstr "Лиценз"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
+msgid "Level Note"
+msgstr "Бележка към нивото"
+
+#: src/supertux/menu/editor_level_menu.cpp:38
 msgid "Tileset"
 msgstr "Плочен набор"
 
-#: src/supertux/menu/editor_level_menu.cpp:40
+#: src/supertux/menu/editor_level_menu.cpp:41
 msgid "Target Time"
 msgstr "Целево време"
 
-#: src/supertux/menu/editor_level_menu.cpp:82
+#: src/supertux/menu/editor_level_menu.cpp:83
 msgid "Please enter a name for this level."
 msgstr "Моля, въведете име за това ниво."
 
-#: src/supertux/menu/editor_level_menu.cpp:86
+#: src/supertux/menu/editor_level_menu.cpp:87
 msgid "Please enter a level author for this level."
 msgstr "Моля, въведете автора на това ниво."
 
-#: src/supertux/menu/editor_level_menu.cpp:90
+#: src/supertux/menu/editor_level_menu.cpp:91
 msgid "Please enter a license for this level."
 msgstr "Моля, въведете лиценз за това ниво."
 
-#: src/supertux/menu/editor_menu.cpp:34
-msgid "1/8 tile (4px)"
-msgstr "1/8 плочка (4 пиксела)"
+#: src/supertux/menu/editor_menu.cpp:38
+msgid "tiny tile (4px)"
+msgstr "миниатюрна плочка (4 пиксела)"
 
-#: src/supertux/menu/editor_menu.cpp:35
-msgid "1/4 tile (8px)"
-msgstr "1/4 плочка (8 пиксела)"
+#: src/supertux/menu/editor_menu.cpp:39
+msgid "small tile (8px)"
+msgstr "малка плочка (8 пиксела)"
 
-#: src/supertux/menu/editor_menu.cpp:36
-msgid "1/2 tile (16px)"
-msgstr "1/2 плочка (16 пиксела)"
-
-#: src/supertux/menu/editor_menu.cpp:37
-msgid "1 tile (32px)"
-msgstr "1 плочка (32 пиксела)"
+#: src/supertux/menu/editor_menu.cpp:40
+msgid "medium tile (16px)"
+msgstr "средна плочка (16 пиксела)"
 
 #: src/supertux/menu/editor_menu.cpp:41
-msgid "Return to Editor"
-msgstr "Обратно към редактора"
+msgid "big tile (32px)"
+msgstr "голяма плочка (32 пиксела)"
 
-#: src/supertux/menu/editor_menu.cpp:42
+#: src/supertux/menu/editor_menu.cpp:46
 msgid "Save Worldmap"
 msgstr "Запазване на световната карта"
 
-#: src/supertux/menu/editor_menu.cpp:42
+#: src/supertux/menu/editor_menu.cpp:46
 msgid "Save Level"
 msgstr "Запазване на нивото"
 
-#: src/supertux/menu/editor_menu.cpp:45
+#: src/supertux/menu/editor_menu.cpp:55
 msgid "Test Level"
 msgstr "Изпробване на нивото"
 
-#: src/supertux/menu/editor_menu.cpp:49
+#: src/supertux/menu/editor_menu.cpp:59
 msgid "Test Worldmap"
 msgstr "Изпробване на световната карта"
 
-#: src/supertux/menu/editor_menu.cpp:52
+#: src/supertux/menu/editor_menu.cpp:62
 msgid "Share Level"
 msgstr "Споделяне на нивото"
 
-#: src/supertux/menu/editor_menu.cpp:54
+#: src/supertux/menu/editor_menu.cpp:64
+msgid "Package Add-On"
+msgstr "Пакетиране на добавка"
+
+#: src/supertux/menu/editor_menu.cpp:66
 msgid "Open Level Directory"
 msgstr "Отваряне на папката с нивата"
 
-#: src/supertux/menu/editor_menu.cpp:57
+#: src/supertux/menu/editor_menu.cpp:70
 msgid "Edit Another Level"
 msgstr "Редактиране на друго ниво"
 
-#: src/supertux/menu/editor_menu.cpp:60
+#: src/supertux/menu/editor_menu.cpp:73
 msgid "Edit Another World"
 msgstr "Редактиране на друг свят"
 
-#: src/supertux/menu/editor_menu.cpp:64
+#: src/supertux/menu/editor_menu.cpp:77
 msgid "Grid Size"
 msgstr "Размер на решетката"
 
-#: src/supertux/menu/editor_menu.cpp:65
+#: src/supertux/menu/editor_menu.cpp:78
 msgid "Show Grid"
 msgstr "Показване на решетката"
 
-#: src/supertux/menu/editor_menu.cpp:66
+#: src/supertux/menu/editor_menu.cpp:79
 msgid "Grid Snapping"
 msgstr "Прилепване към решетката"
 
-#: src/supertux/menu/editor_menu.cpp:67
+#: src/supertux/menu/editor_menu.cpp:80
 msgid "Render Background"
 msgstr "Изчертаване на фона"
 
-#: src/supertux/menu/editor_menu.cpp:68
+#: src/supertux/menu/editor_menu.cpp:81
 msgid "Render Light"
 msgstr "Изчертаване на светлината"
 
-#: src/supertux/menu/editor_menu.cpp:72
-msgid "Keyboard Shortcuts"
-msgstr "Клавишни комбинации"
+#: src/supertux/menu/editor_menu.cpp:82
+msgid "Autotile Mode"
+msgstr "Режим на авт. поставяне на плочки"
 
-#: src/supertux/menu/editor_menu.cpp:75
+#: src/supertux/menu/editor_menu.cpp:83
+msgid "Enable Autotile Help"
+msgstr "Включване на помощта за авт. поставяне на плочки"
+
+#: src/supertux/menu/editor_menu.cpp:84
+msgid "Autosave Frequency"
+msgstr "Честота на авт. запазване"
+
+#: src/supertux/menu/editor_menu.cpp:91
 msgid "Exit Level Editor"
 msgstr "Изход от редактора на нива"
 
-#: src/supertux/menu/editor_menu.cpp:122
+#: src/supertux/menu/editor_menu.cpp:140
+msgid "Do you want to package this world as an add-on?"
+msgstr "Искаш ли да пакетираш този свят като добавка?"
+
+#: src/supertux/menu/editor_menu.cpp:163
 msgid ""
 "We encourage you to share your levels in the SuperTux forum.\n"
 "To find your level, click the\n"
-"\"Open output directory\" menu item.\n"
+"\"Open Level directory\" menu item.\n"
 "Do you want to go to the forum now?"
-msgstr "Ще се радваме, ако споделяш нивата си във форума на Супер Тъкс.\nЗа да откриеш нивото си, натисни\n„Отваряне на изходящата папка“ в менюто.\nИскаш ли да посетиш форума сега?"
+msgstr "Ще се радваме, ако споделяш нивата си във форума на Супер Тъкс.\nЗа да откриеш нивото си, натисни\n„Отваряне на папката с нивата“ в менюто.\nИскаш ли да посетиш форума сега?"
 
-#: src/supertux/menu/editor_menu.cpp:134
+#: src/supertux/menu/editor_menu.cpp:175
 msgid ""
 "Keyboard Shortcuts:\n"
 "---------------------\n"
@@ -2275,36 +3091,44 @@ msgid ""
 "F6 = Render Light\n"
 "F7 = Grid Snapping\n"
 "F8 = Show Grid"
-msgstr "Клавиш и комбинации:\n---------------------\nEsc = Отваряне на менюто\nCtrl+S = Запазване\nCtrl+T = Изпробване\nCtrl+Z = Отмяна\nCtrl+Y = Повторение\nF6 = Изчертаване на светлината\nF7 = Прилепване към решетката\nF8 = Показване на решетката"
+msgstr "КлавишНи комбинации:\n---------------------\nEsc = Отваряне на менюто\nCtrl+S = Запазване\nCtrl+T = Изпробване\nCtrl+Z = Отмяна\nCtrl+Y = Повторение\nF6 = Изчертаване на светлината\nF7 = Прилепване към решетката\nF8 = Показване на решетката"
 
-#: src/supertux/menu/editor_menu.cpp:135
-msgid "Got it!"
-msgstr "Разбрано!"
+#: src/supertux/menu/editor_delete_level_menu.cpp:53
+msgid "You cannot delete level that you are editing!"
+msgstr "Не можеш да изтриеш нивото, което редактираш в момента!"
 
-#: src/supertux/levelintro.cpp:135
+#: src/supertux/levelintro.cpp:136
 #, c-format
 msgid "contributed by %s"
 msgstr "предоставено от %s"
 
-#: src/supertux/levelintro.cpp:167
+#: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"
 msgstr "Победени лоши"
 
-#: src/supertux/levelintro.cpp:171
+#: src/supertux/levelintro.cpp:177
 msgid "Best time"
 msgstr "Най-добро време"
 
-#: src/supertux/levelintro.cpp:175
+#: src/supertux/levelintro.cpp:181
 msgid "Level target time"
 msgstr "Целево време за нивото"
 
-#: src/supertux/tile_set.cpp:92
+#: src/supertux/tile_set.cpp:118
 msgid "Others"
 msgstr "Други"
 
-#: src/supertux/moving_object.cpp:44
+#: src/supertux/moving_object.cpp:55
 msgid "Region"
 msgstr "Регион"
+
+#: src/supertux/main.cpp:563
+msgid ""
+"The UBports version is under heavy development!\n"
+"If you encounter issues, PLEASE contact the maintainter\n"
+"at https://github.com/supertux/supertux/issues or on the\n"
+"Open Store's Telegram at https://open-store.io/telegram"
+msgstr "Версията за UBports е в процес на разработка!\nАко имате проблеми, МОЛЯ, свържете се с екипа \nна https://github.com/supertux/supertux/issues или в канала на\nOpen Store в Telegram на https://open-store.io/telegram"
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
@@ -2314,67 +3138,83 @@ msgstr "Бутони на контролера"
 msgid "<no title>"
 msgstr "<няма заглавие>"
 
-#: src/editor/node_marker.cpp:79
+#: src/editor/node_marker.cpp:122
 msgid "Path Node"
 msgstr "Възел за път"
 
-#: src/editor/object_settings.cpp:112
+#: src/editor/node_marker.cpp:123
+msgid "Press CTRL to move Bezier handles"
+msgstr "Задръж CTRL, за да местиш хватките на кривите на Безие"
+
+#: src/editor/node_marker.cpp:127
+msgid "Easing"
+msgstr ""
+
+#: src/editor/object_settings.cpp:119
 msgid "up"
 msgstr "нагоре"
 
-#: src/editor/object_settings.cpp:112
+#: src/editor/object_settings.cpp:119
 msgid "down"
 msgstr "надолу"
 
-#: src/editor/object_settings.cpp:124
+#: src/editor/object_settings.cpp:131
 msgid "West"
 msgstr "Запад"
 
-#: src/editor/object_settings.cpp:124
+#: src/editor/object_settings.cpp:131
 msgid "East"
 msgstr "Изток"
 
-#: src/editor/object_settings.cpp:124
+#: src/editor/object_settings.cpp:131
 msgid "North"
 msgstr "Север"
 
-#: src/editor/object_settings.cpp:124
+#: src/editor/object_settings.cpp:131
 msgid "South"
 msgstr "Юг"
 
-#: src/editor/object_settings.cpp:137
+#: src/editor/object_settings.cpp:144
 msgid "One shot"
 msgstr "Едно преминаване"
 
-#: src/editor/object_settings.cpp:137
+#: src/editor/object_settings.cpp:144
 msgid "Ping-pong"
 msgstr "Пинг-понг"
 
-#: src/editor/object_settings.cpp:137
+#: src/editor/object_settings.cpp:144
 msgid "Circular"
 msgstr "Кръгообразно"
 
-#: src/editor/object_settings.cpp:137
+#: src/editor/object_settings.cpp:144
 msgid "Unordered"
 msgstr "Разбъркано"
 
-#: src/editor/object_option.cpp:83
+#: src/editor/object_option.cpp:85
 msgid "true"
 msgstr "да"
 
-#: src/editor/object_option.cpp:83
+#: src/editor/object_option.cpp:85
 msgid "false"
 msgstr "не"
 
-#: src/editor/object_option.cpp:246 src/editor/object_option.cpp:295
+#: src/editor/object_option.cpp:271 src/editor/object_option.cpp:320
 msgid "invalid"
 msgstr "неправилно"
 
-#: src/editor/object_option.cpp:553
+#: src/editor/object_option.cpp:580
 msgid "Remove"
 msgstr "Премахване"
 
-#: src/editor/worldmap_objects.hpp:56 src/editor/worldmap_objects.cpp:129
+#: src/editor/object_option.cpp:597
+msgid "Test from here"
+msgstr "Изпробване от тук"
+
+#: src/editor/object_option.cpp:614
+msgid "Open Particle Editor"
+msgstr "Отваряне на редактора на частици"
+
+#: src/editor/worldmap_objects.hpp:56 src/editor/worldmap_objects.cpp:127
 msgid "Level"
 msgstr "Ниво"
 
@@ -2384,17 +3224,115 @@ msgstr "Телепортатор"
 
 #: src/editor/worldmap_objects.hpp:119
 msgid "Sprite Change"
-msgstr ""
+msgstr "Промяна на изображението"
 
 #: src/editor/worldmap_objects.hpp:140
 msgid "Special tile"
 msgstr "Специална плочка"
 
-#: src/editor/editor.cpp:481
+#: src/editor/particle_editor.cpp:126
+msgid "Max amount"
+msgstr "Максимален брой"
+
+#: src/editor/particle_editor.cpp:142
+msgid "Spawn anywhere"
+msgstr "Създаване навсякъде"
+
+#: src/editor/particle_editor.cpp:143
+msgid "Life duration"
+msgstr "Продължителност на живота"
+
+#: src/editor/particle_editor.cpp:148
+msgid "Birth duration"
+msgstr "Продължителност на създаването"
+
+#: src/editor/particle_editor.cpp:153
+msgid "Death duration"
+msgstr "Продължителност на унищожаването"
+
+#: src/editor/particle_editor.cpp:160
+msgid "Grow"
+msgstr "Уголемяване"
+
+#: src/editor/particle_editor.cpp:175
+msgid "Horizontal speed"
+msgstr "Хоризонтална скорост"
+
+#: src/editor/particle_editor.cpp:180
+msgid "Vertical speed"
+msgstr "Вертикална скорост"
+
+#: src/editor/particle_editor.cpp:185
+msgid "Horizontal acceleration"
+msgstr "Хоризонтално ускорение"
+
+#: src/editor/particle_editor.cpp:186
+msgid "Vertical acceleration"
+msgstr "Вертикално ускорение"
+
+#: src/editor/particle_editor.cpp:187
+msgid "Horizontal friction"
+msgstr "Хоризонтално триене"
+
+#: src/editor/particle_editor.cpp:188
+msgid "Vertical friction"
+msgstr "Вертикално триене"
+
+#: src/editor/particle_editor.cpp:190
+msgid "Initial rotation"
+msgstr "Начално завъртане"
+
+#: src/editor/particle_editor.cpp:201
+msgid "Rotation friction/decceleration"
+msgstr "Триене/забавяне при въртене"
+
+#: src/editor/particle_editor.cpp:211
+msgid "Destroy"
+msgstr "Унищожаване"
+
+#: src/editor/particle_editor.cpp:215
+msgid "Stick to surface"
+msgstr "Прилепване към повърхности"
+
+#: src/editor/particle_editor.cpp:216
+msgid "Stick and stay"
+msgstr "Прилепване и оставане на място"
+
+#: src/editor/particle_editor.cpp:217
+msgid "No collision"
+msgstr "Без колизии"
+
+#: src/editor/particle_editor.cpp:222
+msgid "Always destroy"
+msgstr "Винаги да се унищожава"
+
+#: src/editor/particle_editor.cpp:226
+msgid "Offscreen mode"
+msgstr "Режим извън екрана"
+
+#: src/editor/particle_editor.cpp:765
+msgid ""
+"This particle configuration contains unsaved changes,\n"
+"do you want to save?"
+msgstr "Има незапазени промени по тази конфигурация за частици.\nИскаш ли да я запазиш?"
+
+#: src/editor/particle_editor.cpp:773
+msgid "Save as"
+msgstr "Запазване като"
+
+#: src/editor/editor.cpp:566
+msgid ""
+"Don't forget that your levels and assets\n"
+"aren't saved between sessions!\n"
+"If you want to keep your levels, download them\n"
+"from the \"Manage Assets\" menu."
+msgstr "Не забравяй, че нивата и ресурсите\nне се запазват при излизане!\nАко искаш да запазиш нивата си, свали ги\nот менюто „Управление на ресурсите“."
+
+#: src/editor/editor.cpp:582
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "Има незапазени промени по нивото. Искаш ли да го запазиш?"
 
-#: src/editor/editor.cpp:521
+#: src/editor/editor.cpp:622
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -2402,75 +3340,95 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "Някои остарели добавки все още са в сила и може да не\nсработят добре със системата по подразбиране на Супер Тъкс.\nВъпреки това, може да ги включиш от менюто.\nИзключването им няма да изтрие напредъка ти."
 
-#: src/editor/editor.cpp:524
+#: src/editor/editor.cpp:625
 msgid "Disable add-ons"
 msgstr "Изключване на добавките"
 
-#: src/editor/editor.cpp:529
+#: src/editor/editor.cpp:630
 msgid "Ignore (not advised)"
 msgstr "Пренебрегване (не се препоръчва)"
 
-#: src/editor/editor.cpp:533
+#: src/editor/editor.cpp:634
 msgid "Leave editor"
 msgstr "Напускане на редактора"
 
-#: src/editor/editor.cpp:743
+#: src/editor/editor.cpp:853
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
 msgstr "Липсва основен сектор (с име „main“).\nМоля, промени името на сектора, където\nискаш да започва играчът, на „main“."
 
-#: src/editor/editor.cpp:747
+#: src/editor/editor.cpp:857
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
 msgstr "Липсва основна точка на прераждане (с име „main“).\nМоля, промени името на точката на прераждане,\nкъдето искаш да започва играчът, на „main“."
 
-#: src/editor/worldmap_objects.cpp:130
+#: src/editor/worldmap_objects.cpp:128
 msgid "Outro script"
 msgstr "Скрипт при излизане от нивото"
 
-#: src/editor/worldmap_objects.cpp:131
+#: src/editor/worldmap_objects.cpp:129
 msgid "Auto play"
 msgstr "Автоматично изпълнение"
 
-#: src/editor/worldmap_objects.cpp:133
+#: src/editor/worldmap_objects.cpp:131
 msgid "Title colour"
 msgstr "Цвят на заглавието"
 
-#: src/editor/worldmap_objects.cpp:175
+#: src/editor/worldmap_objects.cpp:173
 msgid "Automatic"
 msgstr "Автоматичен"
 
-#: src/editor/worldmap_objects.cpp:177
+#: src/editor/worldmap_objects.cpp:175
 msgid "Target worldmap"
 msgstr "Целева световна карта"
 
-#: src/editor/worldmap_objects.cpp:240
+#: src/editor/worldmap_objects.cpp:238
 msgid "Stay action"
 msgstr "Действие в покой"
 
-#: src/editor/worldmap_objects.cpp:241
+#: src/editor/worldmap_objects.cpp:239
 msgid "Initial stay action"
 msgstr "Начално действие в покой"
 
-#: src/editor/worldmap_objects.cpp:242
+#: src/editor/worldmap_objects.cpp:240
 msgid "Stay group"
 msgstr "Група за действия в покой"
 
-#: src/editor/worldmap_objects.cpp:243
+#: src/editor/worldmap_objects.cpp:241
 msgid "Change on touch"
 msgstr "Промяна при докосване"
 
-#: src/editor/worldmap_objects.cpp:273
+#: src/editor/worldmap_objects.cpp:271
 msgid "Show message"
 msgstr "Показване на съобщение"
 
-#: src/editor/worldmap_objects.cpp:275
+#: src/editor/worldmap_objects.cpp:273
 msgid "Invisible"
 msgstr "Невидима"
+
+#: src/editor/overlay_widget.cpp:1297
+msgid "Autotile mode is on"
+msgstr "Режимът на авт. поставяне на плочки е включен"
+
+#: src/editor/overlay_widget.cpp:1299
+msgid "Hold Ctrl to enable autotile"
+msgstr "Задръж CTRL за включване на авт. поставяне на плочки"
+
+#: src/editor/overlay_widget.cpp:1303
+msgid "Autotile erasing mode is on"
+msgstr "Режимът на авт. изтриване на плочки е включен"
+
+#: src/editor/overlay_widget.cpp:1305
+msgid "Selected tile isn't autotileable"
+msgstr "Избраната плочка не може да бъде поставяна автоматично"
+
+#: src/editor/overlay_widget.cpp:1308
+msgid "Hold Ctrl to enable autotile erasing"
+msgstr "Задръж CTRL за включване на авт. изтриване на плочки"
 
 #: data//credits.stxt:25
 msgid "Current SuperTux Team"
@@ -2485,349 +3443,378 @@ msgid "Graphics, Level Design, Story"
 msgstr "Графика, проектиране на нива, история"
 
 #: data//credits.stxt:40
-msgid "Graphics, Story, Optimisation"
-msgstr "Графика, история, оптимизиране"
+msgid "Level Design, Story, Optimisation, Coordination"
+msgstr "Дизайн на нивата, история, оптимизации, координиране"
 
-#: data//credits.stxt:45 data//credits.stxt:100 data//credits.stxt:186
-#: data//credits.stxt:498
+#: data//credits.stxt:45 data//credits.stxt:105 data//credits.stxt:191
+#: data//credits.stxt:519
 msgid "Graphics"
 msgstr "Графика"
 
-#: data//credits.stxt:50 data//credits.stxt:60 data//credits.stxt:82
-#: data//credits.stxt:88
+#: data//credits.stxt:50 data//credits.stxt:87 data//credits.stxt:93
 msgid "Graphics, Programming, Level Design"
 msgstr "Графика, програмиране, проектиране на нива"
 
 #: data//credits.stxt:55
+msgid "Features and Programming"
+msgstr "Функционалности и програмиране"
+
+#: data//credits.stxt:60
+msgid "Programming, Level Updates"
+msgstr "Програмиране, обновления по нивата"
+
+#: data//credits.stxt:65
 msgid "Graphics, Programming"
 msgstr "Графика, програмиране"
 
-#: data//credits.stxt:65 data//credits.stxt:130 data//credits.stxt:135
-#: data//credits.stxt:140 data//credits.stxt:145 data//credits.stxt:160
-#: data//credits.stxt:165 data//credits.stxt:494 data//credits.stxt:506
+#: data//credits.stxt:70 data//credits.stxt:135 data//credits.stxt:140
+#: data//credits.stxt:145 data//credits.stxt:150 data//credits.stxt:165
+#: data//credits.stxt:170 data//credits.stxt:515 data//credits.stxt:527
 msgid "Programming"
 msgstr "Програмиране"
 
-#: data//credits.stxt:71
+#: data//credits.stxt:76
 msgid "Original Developers"
 msgstr "Първоначални разработчици"
 
-#: data//credits.stxt:76
+#: data//credits.stxt:81
 msgid "Original Developer"
 msgstr "Първоначален разработчик"
 
-#: data//credits.stxt:94
+#: data//credits.stxt:99
 msgid "Music, Level Design"
 msgstr "Музика, проектиране на нива"
 
-#: data//credits.stxt:106
+#: data//credits.stxt:111
 msgid "Programming, Graphics, Level Design"
 msgstr "Програмиране, графика, проектиране на нива"
 
-#: data//credits.stxt:112
+#: data//credits.stxt:117
 msgid "Programming, Level Design"
 msgstr "Програмиране, проектиране на нива"
 
-#: data//credits.stxt:118
+#: data//credits.stxt:123
 msgid "Graphics, Story"
 msgstr "Графика, история"
 
-#: data//credits.stxt:124
+#: data//credits.stxt:129
 msgid "Programming, Documentation"
 msgstr "Програмиране, документация"
 
-#: data//credits.stxt:150
+#: data//credits.stxt:155
 msgid "Coordination"
 msgstr "Координация"
 
-#: data//credits.stxt:155
+#: data//credits.stxt:160
 msgid "Programming, \"Flexlay\" Level editor"
 msgstr "Програмиране, редактор на нива „Flexlay“"
 
-#: data//credits.stxt:170
+#: data//credits.stxt:175
 msgid "Windows build fixes"
 msgstr "Поправки за компилирането под Уиндоус"
 
-#: data//credits.stxt:175
+#: data//credits.stxt:180
 msgid "Packaging, Nightly builds"
 msgstr "Пакетиране, нощна компилация"
 
-#: data//credits.stxt:180
+#: data//credits.stxt:185
 msgid "Translation Guru (and many details anyone else could have done)"
 msgstr "Майстор на превода (и много други неща, които всеки би могъл да направи)"
 
-#: data//credits.stxt:240
+#: data//credits.stxt:251
 msgid "Level Design"
 msgstr "Проектиране на нива"
 
-#: data//credits.stxt:414
+#: data//credits.stxt:431
 msgid "Additional contributors"
 msgstr "Допълнителен принос"
 
-#: data//credits.stxt:419
+#: data//credits.stxt:436
 msgid "Bug fixes"
 msgstr "Поправки на грешки"
 
-#: data//credits.stxt:423
+#: data//credits.stxt:440
 msgid "Scripting functions, Level fixes"
 msgstr "Функции в скриптовете, поправки по нивата"
 
-#: data//credits.stxt:427
+#: data//credits.stxt:444
 msgid "Code quality fixes"
 msgstr "Поправки за качеството на кода"
 
-#: data//credits.stxt:431 data//credits.stxt:435 data//credits.stxt:439
-#: data//credits.stxt:466
+#: data//credits.stxt:448 data//credits.stxt:452 data//credits.stxt:456
+#: data//credits.stxt:483
 msgid "Various contributions"
 msgstr "Разнообразни приноси"
 
-#: data//credits.stxt:443
+#: data//credits.stxt:460
 msgid "Build issue fix"
 msgstr "Поправка на проблем с компилирането"
 
-#: data//credits.stxt:447 data//credits.stxt:451
+#: data//credits.stxt:464 data//credits.stxt:468
 msgid "Code contributions"
 msgstr "Приноси към кода"
 
-#: data//credits.stxt:454
+#: data//credits.stxt:471
 msgid "Code contribution, AppData file"
 msgstr "Принос към кода, файл „AppData“"
 
-#: data//credits.stxt:458
+#: data//credits.stxt:475
 msgid "Bug fix"
 msgstr "Поправка на грешка"
 
-#: data//credits.stxt:462
+#: data//credits.stxt:479
 msgid "Menu reorganization"
 msgstr "Преустройство на менюто"
 
-#: data//credits.stxt:470
+#: data//credits.stxt:487
 msgid "Fixing tile bugs"
 msgstr "Поправки на грешки в плочките"
 
-#: data//credits.stxt:474
+#: data//credits.stxt:491
 msgid "Build error fix"
 msgstr "Поправка на грешка в компилирането"
 
-#: data//credits.stxt:478
+#: data//credits.stxt:495
 msgid "Scripting function fix"
 msgstr "Поправка на функция в скрипта"
 
-#: data//credits.stxt:482
+#: data//credits.stxt:499
+msgid "New features and notable updates"
+msgstr "Нови функционалности и значими промени"
+
+#: data//credits.stxt:503
 msgid "Support for \"glbinding\" as optional OpenGL binding"
 msgstr "Поддръжка на „glbinding“ като друг начина за използване на OpenGL"
 
-#: data//credits.stxt:486
+#: data//credits.stxt:507
 msgid "New menu code"
 msgstr "Нов код за менюто"
 
-#: data//credits.stxt:490
+#: data//credits.stxt:511
 msgid "Big Tux Walking Sprites improvements"
 msgstr "Подобрения на изображенията с анимацията за ходене на големия Тъкс"
 
-#: data//credits.stxt:502 data//credits.stxt:510
+#: data//credits.stxt:523 data//credits.stxt:531
 msgid "Contrib Programming"
 msgstr "Принос към програмирането"
 
-#: data//credits.stxt:514
+#: data//credits.stxt:535
 msgid "Programming, Previous Maintainer"
 msgstr "Програмиране, предишен отговорник"
 
-#: data//credits.stxt:518
+#: data//credits.stxt:539
 msgid "Various Contributions"
 msgstr "Разнообразни приноси"
 
-#: data//credits.stxt:522 data//credits.stxt:526 data//credits.stxt:530
-#: data//credits.stxt:534 data//credits.stxt:538 data//credits.stxt:542
-#: data//credits.stxt:546 data//credits.stxt:550 data//credits.stxt:554
+#: data//credits.stxt:543
+msgid "Minor features and programming"
+msgstr "Малки функционалности и програмиране"
+
+#: data//credits.stxt:547 data//credits.stxt:551 data//credits.stxt:555
+#: data//credits.stxt:559 data//credits.stxt:563 data//credits.stxt:567
+#: data//credits.stxt:571 data//credits.stxt:575 data//credits.stxt:579
+#: data//credits.stxt:583 data//credits.stxt:587 data//credits.stxt:591
 msgid "Contributions"
 msgstr "Приноси"
 
-#: data//credits.stxt:560
+#: data//credits.stxt:597
 msgid "Localization"
 msgstr "Превод"
 
-#: data//credits.stxt:1091
+#: data//credits.stxt:1144
 msgid " Special Thanks to"
 msgstr "Специални благодарности на"
 
-#: data//credits.stxt:1096
+#: data//credits.stxt:1149
 msgid "Creator of Tux, the Linux penguin"
 msgstr "Създател на Тъкс, пингвина на Линукс"
 
-#: data//credits.stxt:1100
+#: data//credits.stxt:1153
 msgid "SDL, OpenAL and OpenGL"
 msgstr "SDL, OpenAL и OpenGL"
 
-#: data//credits.stxt:1101
+#: data//credits.stxt:1154
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
 msgstr "За това, че направиха възможно играенето\nна игри под Линукс"
 
-#: data//credits.stxt:1106
+#: data//credits.stxt:1159
 msgid "and you, the player"
 msgstr "и на теб, играчът"
 
-#: data//credits.stxt:1107
+#: data//credits.stxt:1160
 msgid "for giving this game a chance and playing it"
 msgstr "затова, че даде шанс на тази игра"
 
-#: data//credits.stxt:1118
+#: data//credits.stxt:1171
 msgid "Visit our webpage at"
 msgstr "Посети уеб сайта ни на"
 
-#: data//credits.stxt:1127
+#: data//credits.stxt:1180
 msgid "Or visit us directly at IRC:"
 msgstr "Или ни посети направо в IRC:"
 
-#: data//credits.stxt:1131
-msgid "#supertux at webchat.freenode.net"
-msgstr "#supertux в webchat.freenode.net"
+#: data//credits.stxt:1184
+msgid "#supertux at web.libera.chat"
+msgstr "#supertux в web.libera.chat"
 
-#: data//credits.stxt:1136
+#: data//credits.stxt:1189
 msgid "Or at our Forum:"
 msgstr "Или в нашия форум:"
 
-#: data//credits.stxt:1145
+#: data//credits.stxt:1198
 msgid "Comments, ideas and suggestions"
 msgstr "За коментари, идеи и предложения"
 
-#: data//credits.stxt:1149
+#: data//credits.stxt:1202
 msgid "go to our mailing list"
 msgstr "посети нашия пощенски списък"
 
 #. l10n: typo contact
-#: data//credits.stxt:1159
+#: data//credits.stxt:1212
 msgid "Typographical errors can be"
 msgstr "Можеш да докладваш за"
 
 #. l10n: typo contact
-#: data//credits.stxt:1164
+#: data//credits.stxt:1217
 msgid "reported to"
 msgstr "типографски грешки на"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
-#: data//credits.stxt:1169
+#: data//credits.stxt:1222
 msgid "supertux-devel@lists.lethargik.org"
 msgstr "supertux-devel@lists.lethargik.org"
 
-#: data//credits.stxt:1176
+#: data//credits.stxt:1229
 msgid "Want to help…"
 msgstr "Искаш да помогнеш…"
 
-#: data//credits.stxt:1181
+#: data//credits.stxt:1234
 msgid "…with localization?"
 msgstr "…с превода?"
 
-#: data//credits.stxt:1191
+#: data//credits.stxt:1244
 msgid "…with something else?"
 msgstr "…с нещо друго?"
 
-#: data//credits.stxt:1202
+#: data//credits.stxt:1255
 msgid "Thank you for"
 msgstr "Благодарим ти, че"
 
-#: data//credits.stxt:1206
+#: data//credits.stxt:1259
 msgid "playing"
 msgstr "изигра"
 
-#: data//credits.stxt:1216
+#: data//credits.stxt:1269
 msgid "Penny awaits you in warmer temperatures!"
 msgstr "Пени те очаква на по-топло място!"
 
-#: data//images/engine/editor/objects.stoi:156
+#: data//images/engine/editor/objects.stoi:162
 msgid "Bosses"
 msgstr "Главатари"
 
-#: data//images/engine/editor/objects.stoi:167
+#: data//images/engine/editor/objects.stoi:173
 msgid "Projectiles"
 msgstr "Снаряди"
 
-#: data//images/engine/editor/objects.stoi:181
+#: data//images/engine/editor/objects.stoi:187
 msgid "Environment"
-msgstr ""
+msgstr "Околна сред"
 
-#: data//images/ice_world.strf:6 data//images/tiles.strf:327
+#: data//images/ice_world.strf:10 data//images/tiles.strf:28
+#: data//images/worldmap.strf:41
+msgid "Snow"
+msgstr "Сняг"
+
+#: data//images/ice_world.strf:80
+msgid "Ice Cave & Crystal"
+msgstr "Ледена пещера и кристали"
+
+#: data//images/ice_world.strf:127
+msgid "Embellishments"
+msgstr "Разкрасяване"
+
+#: data//images/ice_world.strf:211 data//images/tiles.strf:386
 #: data//images/worldmap.strf:67
 msgid "Forest"
 msgstr "Гора"
 
-#: data//images/ice_world.strf:106
-msgid "Ice Cave & Crystal"
-msgstr "Ледена пещера и кристали"
+#: data//images/ice_world.strf:320
+msgid "Underground Forest"
+msgstr "Подземна гора"
 
-#: data//images/ice_world.strf:153
-msgid "Embellishments"
-msgstr "Разкрасяване"
+#: data//images/ice_world.strf:375
+msgid "Trees & Bushes"
+msgstr "Дървета и храсти"
 
-#: data//images/ice_world.strf:237
-msgid "Ice"
-msgstr "Лед"
+#: data//images/ice_world.strf:406
+msgid "Seasonal"
+msgstr "Сезонни"
 
-#: data//images/ice_world.strf:282 data//images/tiles.strf:693
-msgid "Castle"
-msgstr "Замък"
+#: data//images/ice_world.strf:496
+msgid "Structure"
+msgstr "Структура"
 
-#: data//images/ice_world.strf:328
+#: data//images/ice_world.strf:557
 msgid "Pathing"
 msgstr "Пътища"
 
-#: data//images/ice_world.strf:424
+#: data//images/ice_world.strf:718
 msgid "Water"
 msgstr "Вода"
 
-#: data//images/tiles.strf:19 data//images/worldmap.strf:41
-msgid "Snow"
-msgstr "Сняг"
-
-#: data//images/tiles.strf:124
+#: data//images/tiles.strf:176
 msgid "Snow Background"
 msgstr "Показване на фона"
 
-#: data//images/tiles.strf:162
+#: data//images/tiles.strf:231
 msgid "Snow Mountain"
 msgstr "Снежна планина"
 
-#: data//images/tiles.strf:236
+#: data//images/tiles.strf:305
 msgid "Crystal"
 msgstr "Кристал"
 
-#: data//images/tiles.strf:457
+#: data//images/tiles.strf:532
 msgid "Forest Background"
 msgstr "Горски фон"
 
-#: data//images/tiles.strf:572
+#: data//images/tiles.strf:663
 msgid "Block + Bonus"
 msgstr "Блокче + бонус"
 
-#: data//images/tiles.strf:618
+#: data//images/tiles.strf:715
 msgid "Pole + Signs"
-msgstr ""
+msgstr "Стълб + знаци"
 
-#: data//images/tiles.strf:661
+#: data//images/tiles.strf:760
 msgid "Liquid"
 msgstr "Течност"
 
-#: data//images/tiles.strf:819 data//images/worldmap.strf:199
+#: data//images/tiles.strf:793
+msgid "Castle"
+msgstr "Замък"
+
+#: data//images/tiles.strf:930 data//images/worldmap.strf:199
 msgid "Halloween"
 msgstr "Хелоуин"
 
-#: data//images/tiles.strf:847
+#: data//images/tiles.strf:958
 msgid "Industrial"
 msgstr "Индустриални"
 
-#: data//images/tiles.strf:862
+#: data//images/tiles.strf:973
 msgid "Unisolid + Lightmap"
-msgstr ""
+msgstr "Едностранно твърди + Определящи прозрачността"
 
-#: data//images/tiles.strf:879
+#: data//images/tiles.strf:1000
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Разни"
 
-#: data//images/tiles.strf:913
-msgid "Old/Unused"
-msgstr ""
+#: data//images/tiles.strf:1043
+msgid "Retro Snow"
+msgstr "Ретро-сняг"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"

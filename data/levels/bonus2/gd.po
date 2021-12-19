@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# GunChleoc, 2016
+# GunChleoc, 2016,2019
 # GunChleoc, 2016
 # GunChleoc, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-11-14 18:27+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2019-02-16 16:25+0000\n"
 "Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Meal do naidheachd!\n\n#Tha thu air siubhal tro\n#Eilean duaise II\n\n\n\ta’ gabhail a-steach leibheilean le\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#A-rithist, bu toigh leinn taing a thoirt dhan a h-uile duine\n#a chuidich leis an sgaoileadh seo. Tha sinn an dòchas gun do\n#chòrd e riut, agus gun dug e beagan faochaidh dhut a’ feitheamh\n#air an treas chlach-mhìle. :-)\n\n\n Tha deireadh an linn-deighe gu bhith tighinn oirnn…"
+msgstr "-Meal do naidheachd!\n\n#Tha thu air siubhal tro\n#Eilean duaise II\n\n\n\ta' gabhail a-steach leibheilean le\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#A-rithist, bu toigh leinn taing a thoirt dhan a h-uile duine\n#a chuidich leis an sgaoileadh seo. Tha sinn an dòchas gun do\n#chòrd e riut, agus gun dug e beagan faochaidh dhut a' feitheamh\n#air an treas chlach-mhìle. :-)\n\n\n Tha deireadh an linn-deighe gu bhith tighinn oirnn…"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -113,7 +113,7 @@ msgstr "Slighean uisge"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Chan eil gach rud gleansach ’na òr"
+msgstr "Chan eil gach rud gleansach 'na òr"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
@@ -167,14 +167,14 @@ msgstr "Dualchas"
 msgid "Bonus Island II"
 msgstr "Eilean duaise II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Lorg thu àite dìomhair!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Saoil cà dèid an t-slighe seo?"
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Siubhal dhachaigh…"
