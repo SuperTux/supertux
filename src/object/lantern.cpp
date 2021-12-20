@@ -69,6 +69,8 @@ Lantern::get_settings()
 void
 Lantern::after_editor_set()
 {
+  Rock::after_editor_set();
+
   updateColor();
 }
 

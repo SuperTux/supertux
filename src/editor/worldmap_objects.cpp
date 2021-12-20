@@ -135,11 +135,6 @@ LevelDot::get_settings()
   return result;
 }
 
-void
-LevelDot::after_editor_set()
-{
-}
-
 Teleporter::Teleporter (const ReaderMapping& mapping) :
   WorldmapObject(mapping, "images/worldmap/common/teleporterdot.sprite"),
   m_worldmap(),
@@ -205,6 +200,7 @@ WorldmapSpawnPoint::get_settings()
   ObjectSettings result = WorldmapObject::get_settings();
 
   result.add_worldmap_direction(_("Direction"), &m_dir, worldmap::Direction::NONE, "auto-dir");
+  result.remove("sprite");
 
   result.reorder({"auto-dir", "name", "x", "y"});
 

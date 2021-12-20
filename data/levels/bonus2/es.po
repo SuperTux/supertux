@@ -1,17 +1,18 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Germana <germanaoliveirab@gmail.com>, 2013
+# Swyter <Swyterzone@gmail.com>, 2021
 # William Beltrán <wbeltranc@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-02-08 03:32+0000\n"
-"Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-13 22:10+0000\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,19 +53,19 @@ msgstr "-¡Felicitaciones!\n\n#Has completado exitosamente\n#Isla Extra II\n\n\n
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Se Supone que Mario Puede Con Esto..."
+msgstr "Esto tendría que hacerlo Mario..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr "Tres antes del último"
+msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "La Cueva Larga"
+msgstr "La larga cueva"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Ciego Ante El Mundo"
+msgstr "Ciego ante el mundo"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -72,11 +73,11 @@ msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "De Nuevo En El Camino"
+msgstr "Otra vez en ruta"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Tunel Congelado"
+msgstr "El túnel congelado"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
@@ -84,23 +85,23 @@ msgstr "Aire-Dirigible"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...Donde Todo Es Posible"
+msgstr "...donde todo es posible"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Insertese El Título Original Aquí"
+msgstr "Insértese título súper original"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr "Final de la Era de hielo"
+msgstr "Adiós a la edad de hielo"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Piensa Rápido, o Muere"
+msgstr "O actúas rápido o la palmas"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr "Fortaleza Ventilador"
+msgstr "Fortaleza ventilador"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
@@ -112,11 +113,11 @@ msgstr "Caminos de agua"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "No Todo Lo Que Brilla Es Oro"
+msgstr "No es oro todo lo que reluce"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "Un Día Frio"
+msgstr "Un frío dia"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
@@ -166,14 +167,14 @@ msgstr "Tradición"
 msgid "Bonus Island II"
 msgstr "Isla de Bonificación II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "¡Encontraste una área secreta!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Me pregunto adonde llevará ese camino..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Transporte a casa..."

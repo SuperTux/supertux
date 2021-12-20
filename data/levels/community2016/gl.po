@@ -5,6 +5,7 @@
 # 
 # Translators:
 # Pablo Rodriguez <pablo@chantada.net>, 2019
+# xanvieiro <gallaecia6@gmail.com>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:59+0000\n"
-"Last-Translator: Pablo Rodriguez <pablo@chantada.net>, 2019\n"
+"Last-Translator: xanvieiro <gallaecia6@gmail.com>, 2020\n"
 "Language-Team: Galician (https://www.transifex.com/arctic-games/teams/95/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +24,15 @@ msgstr ""
 
 #: data/levels/community2016/Ancient_Ruins (RustyBox).stl:3
 msgid "The Ancient Ruins Of The Forest"
-msgstr "As ruínas antigas for bosque"
+msgstr "As ruínas antigas do bosque"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:3
 msgid "Double Problems"
-msgstr "Problemas dobles"
+msgstr "Problemas dobres"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:82
 msgid "-Concentrate! Tux! It's not Mario!"
-msgstr "- Concentrate, Tux! Isto non é Mario!"
+msgstr "- Concéntrate, Tux! Isto non é Mario!"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:142
 msgid "You found a secret area!"
@@ -47,7 +48,7 @@ msgstr "A entrada ao castelo de lava"
 
 #: data/levels/community2016/HMS_Snowballs_Ahoy (Vellidragon).stl:3
 msgid "HMS Snowball Ahoy!"
-msgstr "HMS Bola De Neve saúda!"
+msgstr "HMS Bóla De Neve saúda!"
 
 #: data/levels/community2016/Into_The_Palace (ThomyW).stl:3
 msgid "Into The Palace"
@@ -71,7 +72,7 @@ msgstr "As montañas"
 
 #: data/levels/community2016/The_Strange_Thing (herobrine).stl:3
 msgid "The Strange Thing"
-msgstr "A cousa extraña"
+msgstr "A cousa estraña"
 
 #: data/levels/community2016/Uncontrolled_Lift (gelada).stl:3
 msgid "Uncontrolled Lift"

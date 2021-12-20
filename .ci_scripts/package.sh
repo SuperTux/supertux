@@ -16,6 +16,12 @@ if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$PACKAGE" = "ON" ]; then
     ../.ci_scripts/build_appimage.sh
     # extract built appimages for uploading
     mv ~/out/* .
+
+    # CI expects all artifacts to start with "SuperTux-", AppImage generates "SuperTux_v2-...."
+    for filename in SuperTux_2-*.AppImage; do 
+        [ -f "$filename" ] || continue
+        mv "$filename" "${filename//_2/}"
+    done
 fi
 
 mkdir upload

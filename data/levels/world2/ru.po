@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2018-2019
+# Andrei Stepanov <adem4ik@gmail.com>, 2018-2021
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 15:37+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-13 17:35+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -26,28 +26,28 @@ msgstr ""
 
 #: data/levels/world2/ancient_ruins.stl:3
 msgid "Ancient Ruins"
-msgstr " Древние руины"
+msgstr "Древние руины"
 
-#: data/levels/world2/ancient_ruins.stl:1415
-#: data/levels/world2/ancient_ruins.stl:1423
-#: data/levels/world2/bouncy_coils.stl:237
-#: data/levels/world2/bouncy_coils.stl:245
-#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
 #: data/levels/world2/crumbling_path.stl:278
 #: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:199
-#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
 #: data/levels/world2/mouldy_grotto.stl:559
 #: data/levels/world2/penguin_grow_trees.stl:459
 #: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:309
-#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:185
+#: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
 msgstr "Вы нашли тайник!"
 
-#: data/levels/world2/besides_bushes.stl:3
+#: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
 msgstr "Помимо кустов"
 
@@ -71,9 +71,9 @@ msgstr "Тьма в ожидании"
 msgid "Find the Bigger Fish!"
 msgstr "Найди большую рыбу"
 
-#: data/levels/world2/find_big_fish.stl:800
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
-msgstr "-Большая рыба... для тебя."
+msgstr "-Большая рыба… для тебя."
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
@@ -95,7 +95,7 @@ msgstr "Трудности призрачного дерева"
 msgid "Ghouls' Lair"
 msgstr "Логово упырей"
 
-#: data/levels/world2/ghouls_lair.stl:421
+#: data/levels/world2/ghouls_lair.stl:849
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -109,13 +109,13 @@ msgstr "Спускаться в подземелье"
 msgid "I Spy With My Little Eye"
 msgstr "Я иду искать"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:173
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Айспай\n#Айспай активирует объекты, такие как платформы, всякий раз, когда Такс находится в их видимости."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:547
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
 msgid "Hint: Use snails to break blocks!"
 msgstr "Подсказка: используйте улиток, чтобы разбить блоки!"
 
@@ -127,7 +127,7 @@ msgstr "Как листок на ветру"
 msgid "Lost Village"
 msgstr "Затерянная деревня"
 
-#: data/levels/world2/lost_village.stl:142
+#: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
 msgstr "#Не забудьте ударить по переключателю!"
 
@@ -137,7 +137,7 @@ msgstr "Затхлый грот"
 
 #: data/levels/world2/owls_again.stl:3
 msgid "The Owls again..."
-msgstr "Опять совы"
+msgstr "Опять совы…"
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
@@ -146,10 +146,6 @@ msgstr "Совиный парашютный десант"
 #: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
 msgstr "Пингвины не растут на деревьях"
-
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr "---Заглушка для катсцены---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -183,22 +179,22 @@ msgstr "Башня призраков"
 msgid "Tux the Builder"
 msgstr "Строитель Такс"
 
-#: data/levels/world2/tux_builder.stl:80
+#: data/levels/world2/tux_builder.stl:77
 msgid ""
 "-Portable Objects:\n"
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Переносные обхекты:\n!images/objects/rock/rock.png\n#Такс может подбирать некоторые объекты и носить их с собой.\n#Нажмите кнопку ДЕЙСТВИЯ, чтобы поднять предмет и держать его пока зажата эта кнопка. Отожмите кнопку ДЕЙСТВИЯ, чтобы отпустить объект."
+msgstr "-Переносные объекты:\n!images/objects/rock/rock.png\n#Такс может подбирать некоторые объекты и носить их с собой.\n#Нажмите кнопку ДЕЙСТВИЯ, чтобы поднять предмет и держать его пока зажата эта кнопка. Отожмите кнопку ДЕЙСТВИЯ, чтобы отпустить объект."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
 msgstr "Авторское шоу ужасов Такса"
 
-#: data/levels/world2/tux_own_horror_show.stl:280
+#: data/levels/world2/tux_own_horror_show.stl:790
 msgid ""
-"#Willow-wisps are small, annoying ghosts, which transport you to different, "
-"often dangerous places."
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
 msgstr "#Блуждающие огоньки — это маленькие и назойливые призраки, которые перемещают вас в другие, часто опасные места."
 
 #: data/levels/world2/walking_leaves.stl:3
@@ -221,9 +217,9 @@ msgid "Wooden Roots"
 msgstr "Деревянные корни"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest Island"
-msgstr "Лесной остров"
+msgid "Rooted Forest"
+msgstr "Корневой лес"
 
-#: data/levels/world2/worldmap.stwm:199
+#: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."
-msgstr "Продолжение следует..."
+msgstr "Продолжение следует…"

@@ -149,6 +149,7 @@ Platform::editor_update()
 void
 Platform::on_flip(float height)
 {
+  MovingObject::on_flip(height);
   if (Path* path = get_path()) {
     FlipLevelTransformer::transform_path(height, get_bbox().get_height(), *path);
   }

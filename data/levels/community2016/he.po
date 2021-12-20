@@ -24,7 +24,7 @@ msgstr ""
 
 #: data/levels/community2016/Ancient_Ruins (RustyBox).stl:3
 msgid "The Ancient Ruins Of The Forest"
-msgstr ""
+msgstr "חורבות היער העתיקות"
 
 #: data/levels/community2016/Double_Problems (herobrine).stl:3
 msgid "Double Problems"
@@ -40,11 +40,11 @@ msgstr "מצאת אזור סודי!"
 
 #: data/levels/community2016/Entrance_To_Cave (gelada).stl:3
 msgid "The Entrance To The Cave"
-msgstr "הכניסה אל המערה"
+msgstr "הכניסה למערה"
 
 #: data/levels/community2016/Entrance_To_Lava_Castle (herobrine).stl:3
 msgid "The Entrance To The Lava Castle"
-msgstr ""
+msgstr "הכניסה לטירת הלבה"
 
 #: data/levels/community2016/HMS_Snowballs_Ahoy (Vellidragon).stl:3
 msgid "HMS Snowball Ahoy!"

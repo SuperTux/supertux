@@ -55,13 +55,6 @@ Decal::get_settings()
   return result;
 }
 
-void
-Decal::after_editor_set()
-{
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_sprite->set_action(m_default_action);
-}
-
 Decal::~Decal()
 {
 }
@@ -106,6 +99,7 @@ Decal::fade_sprite(const std::string& new_sprite, float fade_time)
 void
 Decal::on_flip(float height)
 {
+  MovingObject::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
 

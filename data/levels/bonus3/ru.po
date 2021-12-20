@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2018-2019
+# Andrei Stepanov <adem4ik@gmail.com>, 2018-2019,2021
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # melikamp <melikamp@melikamp.com>, 2014
 # se luxxy <70luxxy@gmail.com>, 2018
+# Translator TRA, 2021
 # Dmitry Anikonov <starwars32@yandex.ru>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 03:32+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-13 17:38+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -23,8 +24,8 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89.2 degrees"
-msgstr "-89,2 градуса"
+msgid "The Level Formely Known As \"-89,2 Degrees\""
+msgstr "Уровень ранее известен как «-89,2 градусов»"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
@@ -43,14 +44,14 @@ msgid "Another cold day"
 msgstr "Еще один холодный день"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
-msgid "Antarctic rain"
-msgstr "Антарктический дождь"
+msgid "Forest Rain (aka \"Antarctic Rain\")"
+msgstr "Лесной дождь (он же «Антарктический дождь»)"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr "...но никто не может остановить это..."
+msgstr "…но никто не может остановить это…"
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -58,7 +59,7 @@ msgstr "-Извини, эта парящая платформа ленива.\n-
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "Вы не можете подняться выше облаков..."
+msgstr "Вы не сможете забраться выше облаков…"
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -109,11 +110,11 @@ msgstr "Тёмная Крепость"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr "Глубоко, глубже..."
+msgstr "Глубоко, глубоко…"
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr "...глубже некуда!"
+msgstr "…глубже некуда!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
@@ -130,6 +131,10 @@ msgstr "Спускаясь вниз"
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
 msgstr "Войдя в замок"
+
+#: data/levels/bonus3/entering_castle.stl:60
+msgid "#Sorry, nothing to see here! Use the rope to get out!"
+msgstr "#Извините, здесь ничего нет! Используйте верёвку, чтобы выбраться!"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -157,7 +162,7 @@ msgstr "Это становится невыполнимым"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr "Немного свеа не помешает в темноте, спасибо!"
+msgstr "Немного света не помешает в темноте, спасибо!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
@@ -171,13 +176,13 @@ msgstr "Проруби, День на Льду"
 msgid "The Toilette zone"
 msgstr "Туалетная Зона"
 
-#: data/levels/bonus3/niv-3.stl:29
+#: data/levels/bonus3/niv-3.stl:58
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
 msgstr "- Смыв:\n#Нажми ВВЕРХ чтобы смыть!"
 
-#: data/levels/bonus3/niv-3.stl:219
+#: data/levels/bonus3/niv-3.stl:380
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -223,15 +228,6 @@ msgstr "Подо Льдом"
 msgid "Bonus Island III"
 msgstr "Призовой остров III"
 
-#: data/levels/bonus3/worldmap.stwm:238
-msgid "You found a secret place!"
-msgstr "Вы нашли тайник!"
-
-#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
-#: data/levels/bonus3/worldmap.stwm:304
+#: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"
 msgstr "Иди Домой"
-
-#: data/levels/bonus3/worldmap.stwm:290
-msgid "Enter Forest Section"
-msgstr "Вход в секцию леса"

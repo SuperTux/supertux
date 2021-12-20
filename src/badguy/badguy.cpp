@@ -397,6 +397,7 @@ BadGuy::collision_solid(const CollisionHit& hit)
 void
 BadGuy::on_flip(float height)
 {
+  MovingObject::on_flip(height);
   Vector pos = get_start_position();
   pos.y = height - pos.y;
   set_start_position(pos);
@@ -864,6 +865,8 @@ BadGuy::get_settings()
 void
 BadGuy::after_editor_set()
 {
+  MovingSprite::after_editor_set();
+
   if (m_dir == Direction::AUTO)
   {
     if (m_sprite->has_action("editor-left")) {

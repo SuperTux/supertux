@@ -234,6 +234,7 @@ void Block::after_editor_set()
 void
 Block::on_flip(float height)
 {
+  MovingObject::on_flip(height);
   if (m_original_y != -1) m_original_y = height - m_original_y - get_bbox().get_height();
 }
 

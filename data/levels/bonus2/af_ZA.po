@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2019-11-29 04:42+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2019-12-25 07:39+0000\n"
 "Last-Translator: Martin van Zijl <martin.vanzijl@gmail.com>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/arctic-games/supertux/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Baie geluk!\n\n#Jy het dit suksesvol deur\n#Bonus Eiland II gemaak\n\n\nmet levels bygedra deur\nKevin\nJason Kleinemas\nDenilson\nTobe Deprez\nBig C\nThomas Nilsen\nTorfi Gunnarsson\nDaniel Alston\nNilrok\nCorlin Heydman\n\n\n#Weereens wil ons almal\n#bedank wat aan hierdie vrylating\n#bygedra het. Ons hoop dat jy dit\n#geniet het, en dat dit die wag vir\n#Mylpaal 3 'n bietjie maklikker maak. :-)\n\n\nDie einde van die ystydperk is naby..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -55,7 +55,7 @@ msgstr "Mario Moet Hierdie Hanteer..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr ""
+msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
@@ -67,7 +67,7 @@ msgstr "Blind Tot Die Wêreld"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr ""
+msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
@@ -165,14 +165,14 @@ msgstr "Tradisie"
 msgid "Bonus Island II"
 msgstr "Bonus Eiland II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Jy het 'n geheime plek ontdek!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Ek wonder waar daai pad na gaan..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Gaan huis toe..."
