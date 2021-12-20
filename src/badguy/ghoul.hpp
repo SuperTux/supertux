@@ -43,7 +43,7 @@ public:
   void stop_moving();
 
   void move_to(const Vector& pos) override;
-  
+
 protected:
   bool collision_squished(GameObject& object) override;
   

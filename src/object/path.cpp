@@ -231,4 +231,14 @@ Path::is_valid() const
   return !m_nodes.empty();
 }
 
+void
+Path::on_flip(float height)
+{
+  for (auto& node : m_nodes) {
+    node.position.y = height - node.position.y;
+    node.bezier_before.y = height - node.bezier_before.y;
+    node.bezier_after.y = height - node.bezier_after.y;
+  }
+}
+
 /* EOF */

@@ -413,9 +413,6 @@ TileMap::on_flip(float height)
   Vector offset = get_offset();
   offset.y = height - offset.y - get_bbox().get_height();
   set_offset(offset);
-  if (Path* path = get_path()) {
-    FlipLevelTransformer::transform_path(height, get_bbox().get_height(), *path);
-  }
 }
 
 void
