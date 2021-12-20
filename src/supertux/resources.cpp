@@ -17,6 +17,9 @@
 
 #include "supertux/resources.hpp"
 
+extern "C" {
+#include <findlocale.h>
+}
 #include "gui/mousecursor.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -90,13 +93,24 @@ Resources::load()
 std::string
 Resources::get_font_for_locale(const std::string& locale)
 {
-  if(locale == "ne")
+  std::string _locale;
+
+  if (locale.empty()) {
+    FL_Locale *pLocale;
+    FL_FindLocale(&pLocale);
+    _locale = pLocale->lang;
+    FL_FreeLocale(&pLocale);
+  } else {
+    _locale = locale;
+  }
+
+  if(_locale == "ne")
     return "fonts/Dekko-Regular.ttf";
-  if(locale == "cmn" || locale == "ja" || locale == "zh_CN" || locale == "zh_TW")
+  if(_locale == "cmn" || _locale == "ja" || _locale == "zh_CN" || _locale == "zh_TW")
     return "fonts/NotoSansCJKjp-Medium.otf";
-  if(locale == "he")
+  if(_locale == "he")
     return "fonts/VarelaRound-Regular.ttf";
-  if(locale == "ko")
+  if(_locale == "ko")
     return "fonts/NanumBarunGothic.ttf";
   return "fonts/SuperTux-Medium.ttf";
 }
