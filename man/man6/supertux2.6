@@ -57,7 +57,7 @@ Reset video settings to default values (\-g 800x600 \-a auto \-w)
 .B \-\-renderer RENDERER
 Render the game using the specified video renderer. Valid values are sdl, opengl20, opengl33, and auto (the default). 
 .TP
-.B \-\-disable\-sound
+.B \-\-disable\-sound, \-\-disable\-sfx
 Disable sound effects
 .TP
 .B \-\-disable\-music
@@ -80,6 +80,12 @@ Display player's current position
 .TP
 .B \-\-no\-show\-pos
 Do not display player's position
+.TP
+.B \-\-christmas
+Enable Christmas mode outside Christmas times
+.TP
+.B \-\-no\-christmas
+Disable Christmas mode during Christmas times
 .TP
 .B \-\-developer
 Enable developer features
@@ -119,11 +125,10 @@ Directory for user data (savegames, etc.)
 Directory for the games datafiles
 .SH FILES
 .TP
-.B ~/.supertux2
+.B ~/.local/share/supertux2, ~/.supertux2
 Contains configuration and savegames.
 Also acts as an overlay of the SuperTux game data path: 
-Files placed here, as well as contents of Zip archives in this directory, 
-will override or supplement game data files.
+Files placed here will override or supplement game data files.
 .SH EXAMPLES
 To play level /tmp/mylevel.stl in a window of size 800x600, run 
 the program like this:
