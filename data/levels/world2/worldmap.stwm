@@ -170,7 +170,10 @@
     (special-tile
       (invisible-tile #t)
       (script "go_ghostforest(true);
-settings.fade_to_ambient_light(1,1,1,0.5);")
+settings.fade_to_ambient_light(1,1,1,0.5);
+state.ambient_r <- 1;
+state.ambient_g <- 1;
+state.ambient_b <- 1;")
       (apply-to-direction "north")
       (x 96)
       (y 20)
@@ -217,31 +220,46 @@ settings.fade_to_ambient_light(1,1,1,0.5);")
     )
     (special-tile
       (invisible-tile #t)
-      (script "settings.fade_to_ambient_light(1,1,1,0.5);")
+      (script "settings.fade_to_ambient_light(1,1,1,0.5);
+state.ambient_r <- 1;
+state.ambient_g <- 1;
+state.ambient_b <- 1;")
       (x 75)
       (y 15)
     )
     (special-tile
       (invisible-tile #t)
-      (script "settings.fade_to_ambient_light(0.8, 0.7, 0.6, 0.5);")
+      (script "settings.fade_to_ambient_light(0.8, 0.7, 0.6, 0.5);
+state.ambient_r <- 0.8;
+state.ambient_g <- 0.7;
+state.ambient_b <- 0.6;")
       (x 76)
       (y 15)
     )
     (special-tile
       (invisible-tile #t)
-      (script "settings.fade_to_ambient_light(0.8, 0.7, 0.6, 0.5);")
+      (script "settings.fade_to_ambient_light(0.8, 0.7, 0.6, 0.5);
+state.ambient_r <- 0.8;
+state.ambient_g <- 0.7;
+state.ambient_b <- 0.6;")
       (x 80)
       (y 14)
     )
     (special-tile
       (invisible-tile #t)
-      (script "settings.fade_to_ambient_light(0.4, 0.5, 0.6, 0.5);")
+      (script "settings.fade_to_ambient_light(0.4, 0.5, 0.6, 0.5);
+state.ambient_r <- 0.4;
+state.ambient_g <- 0.5;
+state.ambient_b <- 0.6;")
       (x 81)
       (y 14)
     )
     (special-tile
       (invisible-tile #t)
-      (script "settings.fade_to_ambient_light(0.4, 0.5, 0.6, 0.5);")
+      (script "settings.fade_to_ambient_light(0.4, 0.5, 0.6, 0.5);
+state.ambient_r <- 0.4;
+state.ambient_g <- 0.5;
+state.ambient_b <- 0.6;")
       (x 96)
       (y 19)
     )
