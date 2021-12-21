@@ -36,6 +36,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"
@@ -1611,9 +1612,11 @@ Player::draw(DrawingContext& context)
     auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
     if (target)
     {
-      Vector pos(target->get_bbox().get_middle().x - static_cast<float>(s_multiplayer_arrow->get_width() / 2),
-                 target->get_bbox().get_middle().y - static_cast<float>(s_multiplayer_arrow->get_height() * 2));
-      context.color().draw_surface(s_multiplayer_arrow, pos, LAYER_LIGHTMAP + 1);
+      Vector pos(target->get_bbox().get_middle().x, target->get_bbox().get_top() - static_cast<float>(s_multiplayer_arrow->get_height()) * 1.5f);
+      Vector pos_surf(pos - Vector(static_cast<float>(s_multiplayer_arrow->get_width()) / 2.f, 0.f));
+      context.color().draw_surface(s_multiplayer_arrow, pos_surf, LAYER_LIGHTMAP + 1);
+      context.color().draw_text(Resources::normal_font, std::to_string(get_id() + 1), pos,
+                                FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1);
     }
     return;
   }
