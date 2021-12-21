@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 #include "util/currenton.hpp"
 
@@ -74,6 +75,9 @@ public:
   std::unique_ptr<KeyboardManager> keyboard_manager;
   std::unique_ptr<JoystickManager> joystick_manager;
   std::unique_ptr<GameControllerManager> game_controller_manager;
+
+  /** True if the given player is on the keyboard and plays without a controller */
+  std::unordered_map<int, bool> m_uses_keyboard;
 
 private:
   InputManager(const InputManager&) = delete;

@@ -89,7 +89,8 @@ Sector::Sector(Level& parent) :
 
   for (int id = 0; id < InputManager::current()->get_num_users(); id++)
   {
-    if (!InputManager::current()->has_corresponsing_controller(id))
+    if (!InputManager::current()->has_corresponsing_controller(id)
+        && !InputManager::current()->m_uses_keyboard[id])
       continue;
 
     if (id > 0 && !savegame)

@@ -24,15 +24,16 @@ class InputManager;
 
 class KeyboardMenu final : public Menu
 {
-private:
-  InputManager& m_input_manager;
-
 public:
-  KeyboardMenu(InputManager& input_manager);
+  KeyboardMenu(InputManager& input_manager, int player_id = 0);
 
   void refresh() override;
   std::string get_key_name(SDL_Keycode key) const;
   void menu_action(MenuItem& item) override;
+
+private:
+  InputManager& m_input_manager;
+  int m_player_id;
 
 private:
   KeyboardMenu(const KeyboardMenu&) = delete;

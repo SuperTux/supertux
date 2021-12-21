@@ -20,50 +20,10 @@
 #include "control/input_manager.hpp"
 #include "control/joystick_manager.hpp"
 #include "gui/dialog.hpp"
+#include "supertux/menu/multiplayer_player_menu.hpp"
 #include "supertux/sector.hpp"
 #include "object/player.hpp"
 #include "util/gettext.hpp"
-
-MultiplayerMenu::MultiplayerSelectMenu::MultiplayerSelectMenu(int player_id)
-{
-  if (InputManager::current()->m_use_game_controller)
-  {
-    for (auto& pair : InputManager::current()->game_controller_manager->get_controller_mapping())
-    {
-      auto controller = pair.first;
-      add_entry(std::string(SDL_GameControllerName(pair.first)), [controller, player_id] {
-        InputManager::current()->game_controller_manager->get_controller_mapping()[controller] = player_id;
-
-        // Prevent multiple joysticks to be bound to the same player
-        for (auto& pair2 : InputManager::current()->game_controller_manager->get_controller_mapping())
-          if (pair2.second == player_id && pair2.first != controller)
-            pair2.second = -1;
-
-        MenuManager::instance().pop_menu();
-      });
-    }
-  }
-  else
-  {
-    for (auto& pair : InputManager::current()->joystick_manager->get_joystick_mapping())
-    {
-      auto joystick = pair.first;
-
-      add_entry(std::string(SDL_JoystickName(pair.first)), [joystick, player_id] {
-        InputManager::current()->joystick_manager->get_joystick_mapping()[joystick] = player_id;
-
-        // Prevent multiple joysticks to be bound to the same player
-        for (auto& pair2 : InputManager::current()->joystick_manager->get_joystick_mapping())
-          if (pair2.second == player_id && pair2.first != joystick)
-            pair2.second = -1;
-
-        MenuManager::instance().pop_menu();
-      });
-    }
-  }
-
-  add_back(_("Back"));
-}
 
 MultiplayerMenu::MultiplayerMenu()
 {
@@ -73,7 +33,7 @@ MultiplayerMenu::MultiplayerMenu()
   for (int i = 0; i < InputManager::current()->get_num_users(); i++)
   {
     add_entry(_("Player") + " " + std::to_string(i + 1), [i] {
-      MenuManager::instance().push_menu(std::make_unique<MultiplayerSelectMenu>(i));
+      MenuManager::instance().push_menu(std::make_unique<MultiplayerPlayerMenu>(i));
     });
   }
 

@@ -225,7 +225,7 @@ GameControllerManager::on_controller_added(int joystick_index)
         int id = m_parent->get_num_users();
         for (int i = 0; i < m_parent->get_num_users(); i++)
         {
-          if (!m_parent->has_corresponsing_controller(i))
+          if (!m_parent->has_corresponsing_controller(i) && !m_parent->m_uses_keyboard[i])
           {
             id = i;
             break;
@@ -271,14 +271,8 @@ GameControllerManager::on_controller_removed(int instance_id)
 
     m_game_controllers.erase(it);
 
-    if (m_parent->m_use_game_controller && deleted_player_id != 0) // TODO: Boolean config for automatic player creation/removal?
+    if (m_parent->m_use_game_controller && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id])
     {
-#if 0
-      for (auto& controller : m_game_controllers)
-        if (controller.second > deleted_player_id)
-          controller.second--;
-#endif
-
       // Sectors in worldmaps have no Player's of that class
       if (Sector::current() && Sector::current()->get_object_count<Player>() > 0)
       {
@@ -289,18 +283,10 @@ GameControllerManager::on_controller_removed(int instance_id)
         {
           if (it_players->get_id() == deleted_player_id)
             it_players->remove_me();
-#if 0
-          else if (it_players->get_id() > deleted_player_id)
-            it_players->set_id(it_players->get_id() - 1);
-#endif
 
           it_players++;
         }
       }
-
-#if 0
-      m_parent->pop_user();
-#endif
     }
   }
   else

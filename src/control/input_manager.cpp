@@ -29,7 +29,8 @@ InputManager::InputManager(KeyboardConfig& keyboard_config,
   m_use_game_controller(joystick_config.m_use_game_controller),
   keyboard_manager(new KeyboardManager(this, keyboard_config)),
   joystick_manager(new JoystickManager(this, joystick_config)),
-  game_controller_manager(new GameControllerManager(this))
+  game_controller_manager(new GameControllerManager(this)),
+  m_uses_keyboard()
 {
   m_controllers.push_back(std::make_unique<Controller>());
 }
