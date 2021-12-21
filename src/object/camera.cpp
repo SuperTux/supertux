@@ -392,7 +392,7 @@ void
 Camera::update_scroll_normal(float dt_sec)
 {
   const auto& config_ = *(m_config);
-  Player& player = *d_sector->get_players()[0]; // FIXME: Probably not a good idea
+  Player& player = *d_sector->get_players()[0];
   // TODO: co-op mode needs a good camera
   Vector player_pos(player.get_bbox().get_left(),
                                     player.get_bbox().get_bottom());
@@ -750,8 +750,7 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
 void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
-  Player& player = *d_sector->get_players()[0]; // FIXME: Probably not a good idea
-  if (player.is_dying())
+  if (!d_sector->get_object_count<Player>([](const Player& p) { return !p.is_dead() && !p.is_dying(); }))
     return;
 
   get_walker()->update(dt_sec);
