@@ -302,6 +302,12 @@ private:
   SpritePtr m_lightsprite;
   SpritePtr m_powersprite;
 
+  // Multiplayer tag stuff (number displayed over the players)
+  Timer m_tag_timer;
+  std::unique_ptr<FadeHelper> m_tag_fade;
+  float m_tag_alpha;
+  bool m_has_moved; // If the player sent input to move the player
+
 public:
   Direction m_dir;
 

@@ -167,6 +167,10 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_ice_this_frame(false),
   m_lightsprite(SpriteManager::current()->create("images/creatures/tux/light.sprite")),
   m_powersprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
+  m_tag_timer(),
+  m_tag_fade(nullptr),
+  m_tag_alpha(1.f),
+  m_has_moved(false),
   m_dir(Direction::RIGHT),
   m_old_dir(m_dir),
   m_last_ground_y(0),
@@ -338,6 +342,29 @@ Player::trigger_sequence(Sequence seq, const SequenceData* data)
 void
 Player::update(float dt_sec)
 {
+  if (is_dead() || Sector::get().get_object_count<Player>() == 1)
+  {
+    m_tag_timer.stop();
+    m_tag_fade = nullptr;
+    m_tag_alpha = 0.f;
+    m_has_moved = true;
+  }
+
+  if (m_tag_timer.check())
+  {
+    m_tag_timer.stop();
+    m_tag_fade = std::make_unique<FadeHelper>(1.f, 0.f, 1.f);
+  }
+
+  if (m_tag_fade)
+  {
+    m_tag_alpha = m_tag_fade->update(dt_sec);
+    if (m_tag_fade->completed())
+    {
+      m_tag_fade = nullptr;
+    }
+  }
+
   // Skip if in multiplayer respawn
   if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
   {
@@ -1129,6 +1156,17 @@ Player::handle_vertical_input()
 void
 Player::handle_input()
 {
+  // Display the player's ID on top of them at the beginning of the level/sector
+  // and persist the number until the player moves, because players will be
+  // stacked upon spawning.
+  // It is probably possible to displace the player without touching left or
+  // right, but for simplicity, only those can make the player number vanish.
+  if (!m_has_moved && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)))
+  {
+    m_has_moved = true;
+    m_tag_timer.start(1.f);
+  }
+
   if (m_ghost_mode) {
     handle_input_ghost();
     return;
@@ -1619,6 +1657,14 @@ Player::draw(DrawingContext& context)
                                 FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1);
     }
     return;
+  }
+
+  if (m_tag_alpha > 0.f)
+  {
+    context.color().draw_text(Resources::normal_font, std::to_string(get_id() + 1),
+                              m_col.m_bbox.get_middle() - Vector(0.f, Resources::normal_font->get_height() / 2.f),
+                              FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1,
+                              Color(1.f, 1.f, 1.f, m_tag_alpha));
   }
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
