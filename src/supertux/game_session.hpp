@@ -18,7 +18,9 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 
 #include <memory>
+#include <unordered_map>
 #include <vector>
+
 #include <squirrel.h>
 
 #include "math/vector.hpp"
@@ -58,7 +60,7 @@ public:
   /** ends the current level */
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname,
-               const bool invincibility = false, const int invincibilityperiod = 0);
+               bool retain_invincibility = false);
   void reset_level();
   void set_start_point(const std::string& sectorname,
                        const std::string& spawnpointname);
@@ -137,8 +139,7 @@ private:
   std::string m_newspawnpoint;
 
   // Whether the player had invincibility before spawning in a new sector
-  bool m_pastinvincibility;
-  int m_newinvincibilityperiod;
+  std::unordered_map<int, float> m_invincibilitytimeleft;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;

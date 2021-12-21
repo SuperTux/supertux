@@ -66,8 +66,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_reset_pos(0.0f, 0.0f),
   m_newsector(),
   m_newspawnpoint(),
-  m_pastinvincibility(false),
-  m_newinvincibilityperiod(0),
+  m_invincibilitytimeleft(),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
@@ -479,11 +478,11 @@ GameSession::update(float dt_sec, const Controller& controller)
         p->set_edit_mode(m_edit_mode);
     m_newsector = "";
     m_newspawnpoint = "";
+
     // retain invincibility if the player has it
-    if (m_pastinvincibility) {
-      // FIXME: D': (T_T) x.x
-      //m_currentsector->get_player().m_invincible_timer.start(static_cast<float>(m_newinvincibilityperiod));
-    }
+    auto players = m_currentsector->get_players();
+    for (const auto& player : players)
+      player->m_invincible_timer.start(m_invincibilitytimeleft[player->get_id()]);
   }
 
   // Update the world state and all objects in the world
@@ -602,12 +601,17 @@ GameSession::finish(bool win)
 
 void
 GameSession::respawn(const std::string& sector, const std::string& spawnpoint,
-                     const bool invincibility, const int invincibilityperiod)
+                     bool retain_invincibility)
 {
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
-  m_pastinvincibility = invincibility;
-  m_newinvincibilityperiod = invincibilityperiod;
+
+  m_invincibilitytimeleft.clear();
+
+  if (retain_invincibility)
+    for (const auto* player : Sector::get().get_players())
+      if (player->is_invincible())
+        m_invincibilitytimeleft[player->get_id()] = player->m_invincible_timer.get_timeleft();
 }
 
 void
