@@ -135,19 +135,23 @@ JoystickManager::on_joystick_removed(int instance_id)
           joy.second--;
 #endif
 
-      auto players = Sector::current()->get_objects_by_type<Player>();
-      auto it_players = players.begin();
-
-      while (it_players != players.end())
+      // Sectors in worldmaps have no Player's of that class
+      if (Sector::current() && Sector::current()->get_object_count<Player>() > 0)
       {
-        if (it_players->get_id() == deleted_player_id)
-          it_players->remove_me();
+        auto players = Sector::current()->get_objects_by_type<Player>();
+        auto it_players = players.begin();
+
+        while (it_players != players.end())
+        {
+          if (it_players->get_id() == deleted_player_id)
+            it_players->remove_me();
 #if 0
-        else if (it_players->get_id() > deleted_player_id)
-          it_players->set_id(it_players->get_id() - 1);
+          else if (it_players->get_id() > deleted_player_id)
+            it_players->set_id(it_players->get_id() - 1);
 #endif
 
-        it_players++;
+          it_players++;
+        }
       }
 
 #if 0
