@@ -642,6 +642,10 @@
       (name "bar (bruhmoent)")
       (info (_ "Contributions"))
     )
+  (person
+      (name "Jiří Paleček")
+      (info (_ "Contributions"))
+    )
     (blank)
     (blank)
     (text
