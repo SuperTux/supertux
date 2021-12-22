@@ -206,6 +206,13 @@ endif()
 
 find_package(PNG REQUIRED)
 
+option(USE_SYSTEM_FMT "Use preinstalled fmt, must be 8.0.0 or newer" OFF)
+if(USE_SYSTEM_FMT)
+  find_package(fmt 8.0.0 REQUIRED)
+else()
+  add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
+endif()
+
 if(WIN32)
   if(VCPKG_BUILD)
     find_package(SDL2 CONFIG REQUIRED)
@@ -1007,6 +1014,12 @@ else()
 endif()
 target_link_libraries(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
 target_link_libraries(supertux2_lib PUBLIC ${Boost_LIBRARIES})
+
+# Mark fmt includes as SYSTEM to avoid warnings
+get_target_property(FMT_INCLUDE_DIRS fmt::fmt INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories(supertux2_lib SYSTEM PUBLIC ${FMT_INCLUDE_DIRS})
+target_link_libraries(supertux2_lib PUBLIC fmt::fmt)
+
 if(USE_SYSTEM_PHYSFS)
   target_link_libraries(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
 else()

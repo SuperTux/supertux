@@ -101,6 +101,7 @@ EOF
 
               pkgs.boost
               pkgs.curl
+              pkgs.fmt
               pkgs.fribidi
               pkgs.harfbuzz
               pkgs.freetype
