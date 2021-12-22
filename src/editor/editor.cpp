@@ -406,25 +406,28 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (controller.pressed(Control::ESCAPE)) {
-    esc_press();
-    return;
-  }
+  
+  if (!MenuManager::instance().has_dialog())
+  {
+    if (controller.pressed(Control::ESCAPE)) {
+      esc_press();
+      return;
+    }
+    if (controller.hold(Control::LEFT)) {
+      scroll({ -m_scroll_speed, 0.0f });
+    }
 
-  if (controller.hold(Control::LEFT)) {
-    scroll({ -m_scroll_speed, 0.0f });
-  }
+    if (controller.hold(Control::RIGHT)) {
+      scroll({ m_scroll_speed, 0.0f });
+    }
 
-  if (controller.hold(Control::RIGHT)) {
-    scroll({ m_scroll_speed, 0.0f });
-  }
+    if (controller.hold(Control::UP)) {
+      scroll({ 0.0f, -m_scroll_speed });
+    }
 
-  if (controller.hold(Control::UP)) {
-    scroll({ 0.0f, -m_scroll_speed });
-  }
-
-  if (controller.hold(Control::DOWN)) {
-    scroll({ 0.0f, m_scroll_speed });
+    if (controller.hold(Control::DOWN)) {
+      scroll({ 0.0f, m_scroll_speed });
+    }
   }
 }
 
