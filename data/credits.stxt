@@ -494,7 +494,7 @@
       (name "José Rebelo")
       (info (_ "Scripting function fix"))
     )
-	(person
+    (person
       (name "Semphris")
       (info (_ "New features and notable updates"))
     )
@@ -588,6 +588,58 @@
     )
 	(person
       (name "comradekingu")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Clint Moyer")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Frost3424")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Vankata453")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Lennard Hofmann")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Linus Probert")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Namhyeon Go")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Maxim Bernard")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "RamiSlicer")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Raoul1808")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Omer I.S.")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Sean Yeh")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Reiner Herrmann")
+      (info (_ "Contributions"))
+    )
+  (person
+      (name "Wuzzy")
       (info (_ "Contributions"))
     )
     (blank)
