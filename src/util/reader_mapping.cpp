@@ -158,7 +158,7 @@ ReaderMapping::get(const char* key, std::string& value, const std::optional<cons
 
 bool
 ReaderMapping::get(const char* key, std::vector<bool>& value,
-                   const boost::optional<std::vector<bool>>& default_value) const
+                   const std::optional<std::vector<bool>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("bool", is_boolean, as_bool)
@@ -166,7 +166,7 @@ ReaderMapping::get(const char* key, std::vector<bool>& value,
 
 bool
 ReaderMapping::get(const char* key, std::vector<int>& value,
-                   const boost::optional<std::vector<int>>& default_value) const
+                   const std::optional<std::vector<int>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("int", is_integer, as_int)
@@ -175,7 +175,7 @@ ReaderMapping::get(const char* key, std::vector<int>& value,
 
 bool
 ReaderMapping::get(const char* key, std::vector<float>& value,
-                   const boost::optional<std::vector<float>>& default_value) const
+                   const std::optional<std::vector<float>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("float", is_real, as_float)
@@ -183,7 +183,7 @@ ReaderMapping::get(const char* key, std::vector<float>& value,
 
 bool
 ReaderMapping::get(const char* key, std::vector<std::string>& value,
-                   const boost::optional<std::vector<std::string>>& default_value) const
+                   const std::optional<std::vector<std::string>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("string", is_string, as_string)
@@ -191,7 +191,7 @@ ReaderMapping::get(const char* key, std::vector<std::string>& value,
 
 bool
 ReaderMapping::get(const char* key, std::vector<unsigned int>& value,
-                   const boost::optional<std::vector<unsigned int>>& default_value) const
+                   const std::optional<std::vector<unsigned int>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("unsigned int", is_integer, as_int)

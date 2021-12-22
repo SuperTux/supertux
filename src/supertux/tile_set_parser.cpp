@@ -364,7 +364,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max
         }
 
         std::vector<SurfacePtr> editor_surfaces;
-        boost::optional<ReaderMapping> editor_surfaces_mapping;
+        std::optional<ReaderMapping> editor_surfaces_mapping;
         if (reader.get("editor-images", editor_surfaces_mapping)) {
           editor_surfaces = parse_imagespecs(*editor_surfaces_mapping, Rect(x, y, Size(32, 32)));
         }

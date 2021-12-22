@@ -951,7 +951,6 @@ Editor::pack_addon()
     if (info_file)
     {
       auto info_stream = ReaderDocument::from_stream(*info_file);
-      boost::optional<ReaderMapping> rm;
       auto a = info_stream.get_root().get_mapping();
       a.get("version", version);
     }

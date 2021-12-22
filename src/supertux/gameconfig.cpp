@@ -154,7 +154,7 @@ Config::load()
   std::vector<float> menubackcolor_, menufrontcolor_, menuhelpbackcolor_, menuhelpfrontcolor_,
     labeltextcolor_, activetextcolor_, hlcolor_, editorcolor_, editorhovercolor_, editorgrabcolor_;
 
-  boost::optional<ReaderMapping> interface_colors_mapping;
+  std::optional<ReaderMapping> interface_colors_mapping;
   if (config_mapping.get("interface_colors", interface_colors_mapping))
   {
     interface_colors_mapping->get("menubackcolor", menubackcolor_, ColorScheme::Menu::back_color.toVector());
@@ -186,7 +186,7 @@ Config::load()
 
   editor_autotile_help = !developer_mode;
 
-  boost::optional<ReaderMapping> editor_mapping;
+  std::optional<ReaderMapping> editor_mapping;
   if (config_mapping.get("editor", editor_mapping))
   {
     editor_mapping->get("autosave_frequency", editor_autosave_frequency);
