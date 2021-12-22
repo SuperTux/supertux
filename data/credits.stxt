@@ -638,6 +638,10 @@
       (name "Wuzzy")
       (info (_ "Contributions"))
     )
+  (person
+      (name "bra (bruhmoent)")
+      (info (_ "Contributions"))
+    )
     (blank)
     (blank)
     (text
