@@ -43,6 +43,7 @@
 #include "supertux/moving_object.hpp"
 #include "scripting/ambient_sound.hpp"
 #include "squirrel/exposed_object.hpp"
+#include "video/layer.hpp"
 
 class GameObject;
 class ReaderMapping;
@@ -76,6 +77,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  virtual int get_layer() const override { return LAYER_OBJECTS; }
 
 protected:
   virtual void update(float dt_sec) override;

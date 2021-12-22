@@ -38,6 +38,8 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
+  virtual int get_layer() const override { return m_child ? m_child->get_layer() : -2147483648; }
+
 private:
   Vector m_start_pos; 
   float m_offset;
