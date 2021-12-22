@@ -8,7 +8,7 @@ if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-11" ]) && [ "$PACKAG
 fi
 
 # make only one source package
-if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$COMPILER_NAME" = "gcc" ] && [ "$BUILD_NAME" = "Debug" ] && [ "$ARCH" = "64" ] && [ "$PACKAGE" = "ON" ]; then
+if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$COMPILER_NAME" = "gcc" ] && [ "$BUILD_NAME" = "Release" ] && [ "$ARCH" = "64" ] && [ "$PACKAGE" = "ON" ]; then
     cpack --config CPackSourceConfig.cmake -G TGZ;
 fi
 
