@@ -79,6 +79,7 @@ jobs:
             automake \
             gtk-doc-tools \
             rpm \
+            rename \
             sshpass \
             clang-6.0 \
             g++-8 \
@@ -126,6 +127,7 @@ jobs:
             automake \
             gtk-doc-tools \
             rpm \
+            rename \
             sshpass \
             gcc-multilib \
             g++-multilib \
@@ -150,7 +152,7 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-10.15' ||  matrix.os == 'macos-11' }}
         run: |
-          brew install boost cmake googletest bash libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
+          brew install boost cmake googletest bash rename libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
                 freetype harfbuzz fribidi glib gtk-doc glbinding libraqm glm zlib
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework /Library/Frameworks/Mono.framework-disabled
@@ -253,6 +255,21 @@ jobs:
         env:
           PREFIX: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
+      - name: Prepare Release
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release == 'ON' && github.repository_owner == 'supertux'
+        env:
+          OS: ${{ matrix.os }}
+          ARCH: ${{ matrix.arch }}
+        run: |
+          if [ "$ARCH" = "32" ]; then
+            rename 's/.tar.gz/-32.tar.gz/' build/upload/SuperTux-*
+          fi
+          if [ "$OS" = "macos-10.15" ]; then
+            rename 's/.dmg/-10.15.dmg/' build/upload/SuperTux-*
+          fi
+          if [ "$OS" = "macos-11" ]; then
+            rename 's/.dmg/-11.dmg/' build/upload/SuperTux-*
+          fi
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/') && matrix.release == 'ON' && github.repository_owner == 'supertux'
         uses: softprops/action-gh-release@v1
