@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 23:14+0000\n"
+"PO-Revision-Date: 2021-12-20 14:05+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -84,11 +84,11 @@ msgstr "Спрайт"
 
 #: src/trigger/switch.cpp:62
 msgid "Turn on script"
-msgstr "Включить сценарий"
+msgstr "Cценарий включения"
 
 #: src/trigger/switch.cpp:63
 msgid "Turn off script"
-msgstr "Отключить сценарий"
+msgstr "Сценарий отключения"
 
 #: src/trigger/scripttrigger.hpp:32
 msgid "Script Trigger"
@@ -96,11 +96,11 @@ msgstr "Триггер сценария"
 
 #: src/trigger/sequence_trigger.cpp:75
 msgid "Sequence"
-msgstr "Ряд"
+msgstr "Последовательность"
 
 #: src/trigger/sequence_trigger.cpp:76
 msgid "end sequence"
-msgstr "конец ряда"
+msgstr "конец последовательности"
 
 #: src/trigger/sequence_trigger.cpp:76
 msgid "stop Tux"
@@ -400,7 +400,7 @@ msgstr "Сценарий финиша"
 
 #: src/object/textscroller.cpp:351
 msgid "X-offset"
-msgstr "X-смещение"
+msgstr "Смещение по X"
 
 #: src/object/textscroller.cpp:352
 msgid "Controllable"
@@ -418,7 +418,7 @@ msgstr "Влево"
 
 #: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
 msgid "Center"
-msgstr "Центр"
+msgstr "По центру"
 
 #: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
 #: src/supertux/menu/keyboard_menu.cpp:35
@@ -741,7 +741,7 @@ msgstr "Велосипедная платформа"
 #: src/object/platform.cpp:76 src/object/thunderstorm.cpp:69
 #: src/object/tilemap.cpp:254
 msgid "Running"
-msgstr "Бег"
+msgstr "Бегущий"
 
 #: src/object/rock.cpp:192
 msgid "On-grab script"
@@ -800,7 +800,7 @@ msgstr "Режим появления"
 #: src/supertux/menu/joystick_menu.cpp:213 src/editor/object_settings.cpp:131
 #: src/editor/particle_editor.cpp:162 src/editor/particle_editor.cpp:168
 msgid "None"
-msgstr "Не задано"
+msgstr "Нет"
 
 #: src/object/custom_particle_system.cpp:430
 #: src/object/custom_particle_system.cpp:465
@@ -1004,19 +1004,19 @@ msgstr "Скорость Y (отклонение)"
 
 #: src/object/custom_particle_system.cpp:503
 msgid "Acceleration X"
-msgstr "Ускорение X"
+msgstr "Ускорение по X"
 
 #: src/object/custom_particle_system.cpp:504
 msgid "Acceleration Y"
-msgstr "Ускорение Y"
+msgstr "Ускорение по Y"
 
 #: src/object/custom_particle_system.cpp:505
 msgid "Friction X"
-msgstr "Трение X"
+msgstr "Трение по X"
 
 #: src/object/custom_particle_system.cpp:506
 msgid "Friction Y"
-msgstr "Трение Y"
+msgstr "Трение по Y"
 
 #: src/object/custom_particle_system.cpp:507
 #: src/editor/particle_editor.cpp:189
@@ -1089,7 +1089,7 @@ msgstr "Всегда прилипать"
 #: src/object/custom_particle_system.cpp:520
 #: src/editor/particle_editor.cpp:214
 msgid "Bounce (heavy)"
-msgstr "Отскок (тяжёлый)"
+msgstr "Отскок (сильный)"
 
 #: src/object/custom_particle_system.cpp:520
 #: src/editor/particle_editor.cpp:213
@@ -1307,11 +1307,11 @@ msgstr "Прокрутка текста"
 
 #: src/gui/menu_badguy_select.cpp:94
 msgid "List of enemies"
-msgstr "Список врагов"
+msgstr "Список противников"
 
 #: src/gui/menu_badguy_select.cpp:96
 msgid "Select enemy"
-msgstr "Выберите врага"
+msgstr "Выберите противника"
 
 #: src/gui/menu_badguy_select.cpp:97
 msgid "Add"
@@ -1346,7 +1346,7 @@ msgstr "Нет"
 
 #: src/gui/menu_color.cpp:24
 msgid "Mix the colour"
-msgstr "Перемешать цвета"
+msgstr "Смешать цвета"
 
 #: src/gui/menu_filesystem.cpp:112 src/gui/menu_paths.cpp:44
 #: src/supertux/menu/particle_editor_save_as.cpp:42
@@ -1885,7 +1885,7 @@ msgstr "  -s, --debug-scripts          Включить отладчик сце�
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
-msgstr "  --spawn-pos X,Y              Место возрождения Такса на уровне. Используется только на определённых уровнях."
+msgstr "  --spawn-pos X,Y              Место возрождения Такса на уровне. Используется, только если уровень указан."
 
 #: src/supertux/command_line_arguments.cpp:125
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
@@ -2075,7 +2075,7 @@ msgstr "Создать уровень"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:81
 msgid "Edit Worldmap"
-msgstr "Редактировать карту мира"
+msgstr "Изменить карту мира"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:83
 msgid "Create Worldmap"
@@ -2097,7 +2097,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Поделитесь этой картой мира под лицензией CC-BY-SA 4.0 International (рекомендуется).\nОна позволяет третьими лицами вносить изменения и повторно распространять.\nЕсли вы не согласны с этой лицензией, смените её в свойствах карты мира.\nПРЕДУПРЕЖДЕНИЕ: авторы SuperTux не несут ответственности за ваш выбор лицензии."
+msgstr "Поделитесь этой картой мира под лицензией CC-BY-SA 4.0 International (рекомендуется).\nОна позволяет третьими лицами вносить изменения и повторно распространять.\nЕсли вы не согласны с этой лицензией, смените её в свойствах карты мира.\nОГОВОРКА: авторы SuperTux не несут ответственности за ваш выбор лицензии."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:134
 msgid ""
@@ -2105,7 +2105,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Поделитесь этой уровнем под лицензией CC-BY-SA 4.0 International (рекомендуется).\nОна позволяет третьими лицами вносить изменения и повторно распространять.\nЕсли вы не согласны с этой лицензией, смените её в свойствах уровня.\nПРЕДУПРЕЖДЕНИЕ: авторы SuperTux не несут ответственности за ваш выбор лицензии."
+msgstr "Поделитесь этим уровнем под лицензией CC-BY-SA 4.0 International (рекомендуется).\nОна позволяет третьими лицами вносить изменения и повторно распространять.\nЕсли вы не согласны с этой лицензией, смените её в свойствах уровня.\nОГОВОРКА: авторы SuperTux не несут ответственности за ваш выбор лицензии."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:162
 msgid ""
@@ -2272,7 +2272,7 @@ msgstr "Изменяемый размер окна"
 
 #: src/supertux/menu/options_menu.cpp:359
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "Разрешить изменение размера окна, может потребоваться перезагрузка для вступления в силу"
+msgstr "Разрешить изменение размера окна, может потребоваться перезагрузка для применения"
 
 #: src/supertux/menu/options_menu.cpp:361
 msgid "Window Resolution"
@@ -2298,7 +2298,7 @@ msgstr "Полноэкранное разрешение"
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr "Указать разрешение полноэкранного режима (необходимо включить «Полный экран» для применения)"
+msgstr "Разрешение полноэкранного режима (необходимо включить «Полный экран» для применения)"
 
 #: src/supertux/menu/options_menu.cpp:373
 msgid "Fit to browser"
@@ -2438,7 +2438,7 @@ msgstr "Интеграция и представление"
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
-msgstr "Управление отображением уровня SuperTux, на котором вы играете, в ваших социальных сетях (Discord)"
+msgstr "Отображение уровней SuperTux, на которых вы играете, в ваших социальных сетях (Discord)"
 
 #: src/supertux/menu/options_menu.cpp:559
 msgid ""
@@ -2954,7 +2954,7 @@ msgstr "Автор"
 
 #: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1166
 msgid "Contact"
-msgstr "Связь"
+msgstr "Контакты"
 
 #: src/supertux/menu/editor_level_menu.cpp:36
 msgid "License"
@@ -2962,7 +2962,7 @@ msgstr "Лицензия"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 msgid "Level Note"
-msgstr "Примечание к уровню"
+msgstr "Примечание уровня"
 
 #: src/supertux/menu/editor_level_menu.cpp:38
 msgid "Tileset"
@@ -2970,7 +2970,7 @@ msgstr "Набор плиток"
 
 #: src/supertux/menu/editor_level_menu.cpp:41
 msgid "Target Time"
-msgstr "Требуемое время"
+msgstr "Заданное время"
 
 #: src/supertux/menu/editor_level_menu.cpp:83
 msgid "Please enter a name for this level."
@@ -3030,11 +3030,11 @@ msgstr "Открыть папку уровня"
 
 #: src/supertux/menu/editor_menu.cpp:70
 msgid "Edit Another Level"
-msgstr "Править другой уровень"
+msgstr "Изменить другой уровень"
 
 #: src/supertux/menu/editor_menu.cpp:73
 msgid "Edit Another World"
-msgstr "Править другой мир"
+msgstr "Изменить другой мир"
 
 #: src/supertux/menu/editor_menu.cpp:77
 msgid "Grid Size"
@@ -3046,7 +3046,7 @@ msgstr "Показать сетку"
 
 #: src/supertux/menu/editor_menu.cpp:79
 msgid "Grid Snapping"
-msgstr "Привязка сетки"
+msgstr "Привязка к сетке"
 
 #: src/supertux/menu/editor_menu.cpp:80
 msgid "Render Background"
@@ -3096,7 +3096,7 @@ msgid ""
 "F6 = Render Light\n"
 "F7 = Grid Snapping\n"
 "F8 = Show Grid"
-msgstr "Горячие клавиши:\n---------------------\nEsc = Открыть меню\nCtrl+S = Сохранить\nCtrl+T = Тестировать\nCtrl+Z = Отмена\nCtrl+Y = Повтор\nF6 = Отрисовать свет\nF7 = Привязка сетки\nF8 = Показать сетку"
+msgstr "Горячие клавиши:\n---------------------\nEsc = Открыть меню\nCtrl+S = Сохранить\nCtrl+T = Тестировать\nCtrl+Z = Отмена\nCtrl+Y = Повтор\nF6 = Отрисовать свет\nF7 = Привязка к сетке\nF8 = Показать сетку"
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:53
 msgid "You cannot delete level that you are editing!"

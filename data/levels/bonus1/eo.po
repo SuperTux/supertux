@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# vpzomtrrfrt <colin@vpzom.click>, 2020
+# vpzomtrrfrt <colin@vpzom.click>, 2020-2021
 # Frist Lsat <egzofern@aol.com>, 2016
 # Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
 msgid ""
@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 20:16+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2021-12-20 07:51+0000\n"
+"Last-Translator: vpzomtrrfrt <colin@vpzom.click>\n"
 "Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr "Fluga Testo"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "Drakoj sed ne Galerioj"
+msgstr "Galerioj sed neniuj Drakoj"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
@@ -50,7 +50,7 @@ msgstr "Longa Vojo al Hejmo"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr "Bonifika Insulo Castelo"
+msgstr "Castelo de Bonifika Insulo"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
@@ -107,11 +107,11 @@ msgstr "Malbonuloj Stultas!"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr ""
+msgstr "#Ĉi tiujn nivelojn naĝpretigis Serano kaj redesegnis AllyTheOcelot"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr "Bona starto"
+msgstr "Bona komenco"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
@@ -119,7 +119,7 @@ msgstr "Tro facila"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr ""
+msgstr "#Ĉi tiujn nivelojn altgradigis Hume por mejloŝtono 2"
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -135,7 +135,7 @@ msgstr "Groto de Speguloj"
 
 #: data/levels/bonus1/wansti-level3.stl:3
 msgid "A Maze In The Sky"
-msgstr "Labirinto an la Ĉielo"
+msgstr "Labirinto en la Ĉielo"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
@@ -167,7 +167,7 @@ msgstr "Iru al la Variejo de THOMPSON"
 
 #: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
-msgstr "Deiru la SuperTux Teamo Insulo"
+msgstr "Deiru el la Insulo de la SuperTux Teamo"
 
 #: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
@@ -195,7 +195,7 @@ msgstr "Returnu al hejmo"
 
 #: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
-msgstr "Iru al la SuperTux Teamo Insulo"
+msgstr "Iru al la Insulo de la SuperTux Teamo"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"

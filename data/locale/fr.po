@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-17 18:06+0000\n"
+"PO-Revision-Date: 2021-12-19 20:00+0000\n"
 "Last-Translator: a a\n"
 "Language-Team: French (http://www.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2421,7 +2421,7 @@ msgstr "Mode Noël"
 
 #: src/supertux/menu/options_menu.cpp:433
 msgid "Confirmation Dialog"
-msgstr "Confirmation de dialogue"
+msgstr "Dialogue de confirmation"
 
 #: src/supertux/menu/options_menu.cpp:433
 msgid "Confirm aborting level"
@@ -2429,7 +2429,7 @@ msgstr "Confirmer l'abandon du niveau"
 
 #: src/supertux/menu/options_menu.cpp:434
 msgid "Pause on focus loss"
-msgstr "Pause sur la perte de focus"
+msgstr "Pause en cas de perte de focus"
 
 #: src/supertux/menu/options_menu.cpp:435
 msgid "Automatically pause the game when the window loses focus"
@@ -3035,7 +3035,7 @@ msgstr "Partager le niveau"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Package Add-On"
-msgstr "Convertie en extension"
+msgstr "Convertir en extension"
 
 #: src/supertux/menu/editor_menu.cpp:66
 msgid "Open Level Directory"
@@ -3083,7 +3083,7 @@ msgstr "Fréquence d'auto-sauvegarde"
 
 #: src/supertux/menu/editor_menu.cpp:91
 msgid "Exit Level Editor"
-msgstr "Sortir de l'éditeur de niveaux"
+msgstr "Quitter de l'éditeur de niveaux"
 
 #: src/supertux/menu/editor_menu.cpp:140
 msgid "Do you want to package this world as an add-on?"

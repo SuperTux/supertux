@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-19 14:34+0000\n"
-"Last-Translator: Zwatotem <zwatotem@gmail.com>\n"
+"PO-Revision-Date: 2021-12-21 07:51+0000\n"
+"Last-Translator: Rob PlayZ\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +47,7 @@ msgstr "Nazwa"
 
 #: src/trigger/secretarea_trigger.cpp:78
 msgid "Fade tilemap"
-msgstr "Zanikanie warstwy bloków"
+msgstr "Zanikaj warstwę bloków"
 
 #: src/trigger/secretarea_trigger.cpp:79 src/trigger/climbable.cpp:81
 #: src/object/infoblock.cpp:57 src/editor/worldmap_objects.cpp:172
@@ -113,7 +113,7 @@ msgstr "Końcowa sekwencja"
 
 #: src/trigger/sequence_trigger.cpp:76
 msgid "stop Tux"
-msgstr "Zatrzymaj Tux'a"
+msgstr "zatrzymaj Tuksa"
 
 #: src/trigger/sequence_trigger.cpp:76
 msgid "fireworks"
@@ -125,7 +125,7 @@ msgstr "Nowy punkt odrodzenia na mapie"
 
 #: src/trigger/sequence_trigger.cpp:81
 msgid "Worldmap fade tilemap"
-msgstr "Zanikanie warstwy bloków mapy świata"
+msgstr "Zanikaj warstwę bloków mapy świata"
 
 #: src/trigger/sequence_trigger.cpp:82
 #: src/object/custom_particle_system.cpp:430
@@ -198,7 +198,7 @@ msgstr "Ścieżka"
 #: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:239
 #: src/object/gradient.cpp:135
 msgid "Z-pos"
-msgstr "Pozycja w osi z"
+msgstr "Pozycja w osi Z"
 
 #: src/object/decal.cpp:50 src/object/scripted_object.cpp:70
 #: src/object/tilemap.cpp:228
@@ -232,7 +232,7 @@ msgstr "Platforma krążąca"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
-msgstr "Możliwy do zniszczenia"
+msgstr "Możliwe do zniszczenia"
 
 #: src/object/trampoline.cpp:136 src/object/rusty_trampoline.cpp:66
 msgid "Portable"
@@ -325,7 +325,7 @@ msgstr "Gwiazda"
 
 #: src/object/bonus_block.cpp:211
 msgid "Tux doll"
-msgstr "Avatar Tuxa"
+msgstr "Avatar Tuksa"
 
 #: src/object/bonus_block.cpp:211
 msgid "Custom"
@@ -409,7 +409,7 @@ msgstr "Skrypt końcowy"
 
 #: src/object/textscroller.cpp:351
 msgid "X-offset"
-msgstr "Przesunięcie w poziomie"
+msgstr "Przesunięcie w poziomie X"
 
 #: src/object/textscroller.cpp:352
 msgid "Controllable"
@@ -417,7 +417,7 @@ msgstr "Kontrolowalny"
 
 #: src/object/textscroller.cpp:353
 msgid "Anchor"
-msgstr "Kotwiczenie"
+msgstr "Zakotwiczenie"
 
 #: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
 #: src/supertux/menu/keyboard_menu.cpp:34
@@ -504,7 +504,7 @@ msgstr "Kruszek lodu"
 
 #: src/object/rublight.hpp:33
 msgid "Rublight"
-msgstr "Rublight"
+msgstr "Lampa uruchamiana dotykiem"
 
 #: src/object/background.hpp:43
 msgid "Background"
@@ -585,7 +585,7 @@ msgstr "Płonąca"
 
 #: src/object/candle.cpp:76
 msgid "Flicker"
-msgstr "Migocąca"
+msgstr "Migocząca"
 
 #: src/object/text_array_object.hpp:50
 msgid "Text array"
@@ -630,11 +630,11 @@ msgstr "Żadne"
 
 #: src/object/background.cpp:185 src/editor/object_settings.cpp:119
 msgid "left"
-msgstr "Lewo"
+msgstr "lewo"
 
 #: src/object/background.cpp:185 src/editor/object_settings.cpp:119
 msgid "right"
-msgstr "Prawo"
+msgstr "prawo"
 
 #: src/object/background.cpp:185
 msgid "top"
@@ -687,7 +687,7 @@ msgstr "Kolor"
 #: src/object/background.cpp:198 src/object/tilemap.cpp:240
 #: src/object/gradient.cpp:142
 msgid "Draw target"
-msgstr "Narysuj cel"
+msgstr "Cel rysowania"
 
 #: src/object/background.cpp:199 src/object/tilemap.cpp:241
 #: src/object/gradient.cpp:143
@@ -766,7 +766,7 @@ msgstr "Interaktywny system cząstek"
 
 #: src/object/thunderstorm.cpp:70
 msgid "Interval"
-msgstr "Interwał"
+msgstr "Odstęp"
 
 #: src/object/thunderstorm.cpp:71
 msgid "Strike Script"
@@ -1153,7 +1153,7 @@ msgstr "Typ strefy"
 
 #: src/object/particle_zone.cpp:82
 msgid "Spawn"
-msgstr "Spawn"
+msgstr "Wyświetl"
 
 #: src/object/particle_zone.cpp:82
 msgid "Life zone"
@@ -1165,11 +1165,11 @@ msgstr "Strefa życia (czysta)"
 
 #: src/object/particle_zone.cpp:82
 msgid "Kill particles"
-msgstr "Zabij cząstki"
+msgstr "Zabijaj cząstki"
 
 #: src/object/particle_zone.cpp:82
 msgid "Clear particles"
-msgstr "Wyczyść cząstki"
+msgstr "Wyczyszczaj cząstki"
 
 #: src/object/weak_block.cpp:211
 msgid "Linked"
@@ -1220,19 +1220,19 @@ msgstr "Płytki"
 
 #: src/object/gradient.cpp:128
 msgid "Left Colour"
-msgstr "Kolor Lewy"
+msgstr "Kolor lewy"
 
 #: src/object/gradient.cpp:129
 msgid "Right Colour"
-msgstr "Kolor Prawy"
+msgstr "Kolor prawy"
 
 #: src/object/gradient.cpp:131
 msgid "Top Colour"
-msgstr "Kolor Górny"
+msgstr "Kolor górny"
 
 #: src/object/gradient.cpp:132
 msgid "Bottom Colour"
-msgstr "Kolor Dolny"
+msgstr "Kolor dolny"
 
 #: src/object/gradient.cpp:138
 msgid "Vertical"
@@ -1548,7 +1548,7 @@ msgstr "Mądry blok"
 
 #: src/badguy/yeti.cpp:369
 msgid "Fixed position"
-msgstr "Ustalona pozycja"
+msgstr "Stała pozycja"
 
 #: src/badguy/yeti.cpp:370
 msgid "Lives"
@@ -1568,11 +1568,11 @@ msgstr "Skacząca czaszka"
 
 #: src/badguy/kamikazesnowball.hpp:32
 msgid "Snowshot"
-msgstr "Śnieżny strzał"
+msgstr "Wystrzelona kula śnieżna"
 
 #: src/badguy/kamikazesnowball.hpp:52
 msgid "Leafshot"
-msgstr "Listny strzał"
+msgstr "Wystrzelony liść"
 
 #: src/badguy/flame.hpp:41
 msgid "Flame"
@@ -1580,7 +1580,7 @@ msgstr "Płomień"
 
 #: src/badguy/scrystallo.hpp:30
 msgid "Sleeping Crystallo"
-msgstr "Śpiący Kryształ"
+msgstr "Śpiący kryształ"
 
 #: src/badguy/poisonivy.hpp:30
 msgid "Spring Leaf"
@@ -1600,7 +1600,7 @@ msgstr "Płomień-duch"
 
 #: src/badguy/rcrystallo.hpp:30
 msgid "Roof Crystallo"
-msgstr "Dachowy Krzyształ"
+msgstr "Dachowy krzyształ"
 
 #: src/badguy/spiky.hpp:30
 msgid "Spiky"
@@ -2389,7 +2389,7 @@ msgstr "Ustaw dżojstik"
 
 #: src/supertux/menu/options_menu.cpp:413
 msgid "Configure joystick control-action mappings"
-msgstr "Ustaw dżojstik"
+msgstr "Skonfiguruj mapowania sterowania-działania joysticka"
 
 #: src/supertux/menu/options_menu.cpp:417
 msgid "On-screen controls"
@@ -2425,7 +2425,7 @@ msgstr "Potwierdź opuszczenie poziomu"
 
 #: src/supertux/menu/options_menu.cpp:434
 msgid "Pause on focus loss"
-msgstr "Zapauzuj, gdy okno nieaktywne"
+msgstr "Zapauzuj, gdy okno jest nieaktywne"
 
 #: src/supertux/menu/options_menu.cpp:435
 msgid "Automatically pause the game when the window loses focus"
@@ -2907,7 +2907,7 @@ msgstr "Nowa konfiguracja cząstek"
 
 #: src/supertux/menu/particle_editor_menu.cpp:38
 msgid "Save Particle Config"
-msgstr "Zapisz konfigurację cząsteczek"
+msgstr "Zapisz konfigurację cząstek"
 
 #: src/supertux/menu/particle_editor_menu.cpp:39
 msgid "Save Particle Config as..."
@@ -2971,7 +2971,7 @@ msgstr "Licencja"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 msgid "Level Note"
-msgstr "Przypis dotyczący poziomu"
+msgstr "Adnotacja dotycząca poziomu"
 
 #: src/supertux/menu/editor_level_menu.cpp:38
 msgid "Tileset"
@@ -2995,19 +2995,19 @@ msgstr "Dodaj licencję dla tego poziomu."
 
 #: src/supertux/menu/editor_menu.cpp:38
 msgid "tiny tile (4px)"
-msgstr "mała płytka (4px)"
+msgstr "malutka siatka (4px)"
 
 #: src/supertux/menu/editor_menu.cpp:39
 msgid "small tile (8px)"
-msgstr "mała płytka (8px)"
+msgstr "mała siatka (8px)"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "medium tile (16px)"
-msgstr "średnia płytka (16px)"
+msgstr "średnia siatka (16px)"
 
 #: src/supertux/menu/editor_menu.cpp:41
 msgid "big tile (32px)"
-msgstr "duża płytka (32px)"
+msgstr "duża siatka (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:46
 msgid "Save Worldmap"
@@ -3031,7 +3031,7 @@ msgstr "Udostępnij poziom"
 
 #: src/supertux/menu/editor_menu.cpp:64
 msgid "Package Add-On"
-msgstr "Zapakuj dodatek"
+msgstr "Zapakuj jako dodatek"
 
 #: src/supertux/menu/editor_menu.cpp:66
 msgid "Open Level Directory"
@@ -3055,7 +3055,7 @@ msgstr "Pokaż siatkę"
 
 #: src/supertux/menu/editor_menu.cpp:79
 msgid "Grid Snapping"
-msgstr "Przyciąganie siatki"
+msgstr "Przyciąganie do siatki"
 
 #: src/supertux/menu/editor_menu.cpp:80
 msgid "Render Background"
@@ -3075,7 +3075,7 @@ msgstr "Włacz pomoc Autotile"
 
 #: src/supertux/menu/editor_menu.cpp:84
 msgid "Autosave Frequency"
-msgstr "Częstotliwość autosave-u"
+msgstr "Częstotliwość automatycznego zapisu"
 
 #: src/supertux/menu/editor_menu.cpp:91
 msgid "Exit Level Editor"
@@ -3166,11 +3166,11 @@ msgstr "Łagodzenie"
 
 #: src/editor/object_settings.cpp:119
 msgid "up"
-msgstr "Góra"
+msgstr "góra"
 
 #: src/editor/object_settings.cpp:119
 msgid "down"
-msgstr "Dół"
+msgstr "dół"
 
 #: src/editor/object_settings.cpp:131
 msgid "West"
@@ -3800,11 +3800,11 @@ msgstr "Blok + Bonus"
 
 #: data//images/tiles.strf:715
 msgid "Pole + Signs"
-msgstr "Słup + Znaki"
+msgstr "Słupy + Znaki"
 
 #: data//images/tiles.strf:760
 msgid "Liquid"
-msgstr "Płyn"
+msgstr "Płyny"
 
 #: data//images/tiles.strf:793
 msgid "Castle"
@@ -3824,7 +3824,7 @@ msgstr "Niejednolitość + Mapa świetlna"
 
 #: data//images/tiles.strf:1000
 msgid "Miscellaneous"
-msgstr "Inne"
+msgstr "Różne"
 
 #: data//images/tiles.strf:1043
 msgid "Retro Snow"

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 17:38+0000\n"
+"PO-Revision-Date: 2021-12-20 13:46+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
-msgstr "Уровень ранее известен как «-89,2 градусов»"
+msgstr "Уровень ранее был известен как «-89,2 градусов»"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"

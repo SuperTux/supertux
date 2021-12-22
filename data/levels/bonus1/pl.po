@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 19:24+0000\n"
+"PO-Revision-Date: 2021-12-19 16:33+0000\n"
 "Last-Translator: Rob PlayZ\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Pociąg odjeżdża za minutę"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr "Dodatkowe Dni!"
+msgstr "Bonusowy Dzień!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"

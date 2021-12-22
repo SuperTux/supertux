@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 21:07+0000\n"
+"PO-Revision-Date: 2021-12-20 15:53+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr "Globální oteplování"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr "Jedna noc na obloze"
+msgstr "Jedna noc v oblacích"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
@@ -41,7 +41,7 @@ msgstr "Opuštěný hrad"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
-msgstr "Jiný studený den"
+msgstr "Další studený den"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
@@ -55,11 +55,11 @@ msgstr "...ale nikdo to nedokáže zastavit..."
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr "-Promiňte, tato létající plošina je líná.\n-Vraťte se jindy."
+msgstr "-Promiň, tato létající plošina je líná.\n-Vrať se jindy."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "Nemůžete stoupat výš, než nad mraky..."
+msgstr "Nemůžeš stoupat výš, než nad mraky..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -67,7 +67,7 @@ msgstr "Hrad světla a temnoty"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr "Jeskynní běh"
+msgstr "Běh na dlouhou jeskyni"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
@@ -77,7 +77,7 @@ msgstr "Studená jeskyně"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#Dobrá práce! Podržel jste červenou lucernu! Nemusel jste, ale právě proto, že ano, máte 100 mincí!"
+msgstr "#Dobrá práce! Nechal sis červenou lucernu! Nemusel jsi, ale protože jsi jí dostal až sem, dostaneš 100 mincí!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
@@ -101,7 +101,7 @@ msgstr "Krystalová pohroma"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr "Pryč na krystalových polích"
+msgstr "Venku na krystalových polích"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
@@ -122,7 +122,7 @@ msgstr "Kruhy"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr "Nepropásni svou jízdu"
+msgstr "Ať ti to neujede"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
@@ -146,7 +146,7 @@ msgstr "Po ledovcích"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
-msgstr "Visící ze střechy"
+msgstr "Visící ze stropu"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
@@ -174,13 +174,13 @@ msgstr "Díry, den na ledě"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr "Toaletní zóna"
+msgstr "Záchodová zóna"
 
 #: data/levels/bonus3/niv-3.stl:58
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "-Spláchnutí: \n#Stiskni tlačítko nahoru pro spláchnutí!"
+msgstr "-Spláchnutí: \n#Stiskni tlačítko NAHORU pro spláchnutí!"
 
 #: data/levels/bonus3/niv-3.stl:380
 msgid ""
@@ -198,11 +198,11 @@ msgstr "Růžový Sníh"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr "Červený poplach! Les hoří!"
+msgstr "Poplach! Hoří les!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr "Útěk z kanálu"
+msgstr "Únik z kanálu"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"

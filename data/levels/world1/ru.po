@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 23:21+0000\n"
+"PO-Revision-Date: 2021-12-20 13:57+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgid ""
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-Кристаллы\n#На уровне лежат кристаллы. Сможете их найти?\n#\n#Примечание: на данный момент от этих кристаллов нет никакой пользы, но это может измениться в будущих версиях игры."
+msgstr "-Кристаллы\n#На уровне лежат кристаллы. Сможете их найти?\n#\n#Примечание: на данный момент от этих кристаллов нет никакой пользы, но это может поменяться в будущих версиях игры."
 
 #: data/levels/world1/castle_cutscene.stl:3
 msgid "Empty Throne Room"
@@ -289,21 +289,21 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Бонусные блоки\n!images/objects/bonus_block/full-0.png\n#Бонусные блоки могут содержать монеты, бонусы или другие вспомогательные предметы для выполнения квеста.\n#\n#Ударьте их снизу, чтобы достать содержимое."
+msgstr "-Бонусные блоки\n!images/objects/bonus_block/full-0.png\n#Бонусные блоки могут содержать монеты, бонусы или иные полезные предметы для выполнения квеста.\n#\n#Ударьте их снизу, чтобы достать содержимое."
 
 #: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Яйца\n!images/powerups/egg/egg-shade.png\n#Подобрав яйцо, Такс становится больше, что позволяет ему ломать деревянные блоки головой."
+msgstr "-Яйца\n!images/powerups/egg/egg-shade.png\n#При подборе яйца Такс становится больше, что позволяет ему ломать деревянные блоки головой."
 
 #: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Контрольные точки\n!images/objects/resetpoints/bell-m.png\n#Активируйте контрольную точку. Если вы умрёте, то сможете продолжить уровень отсюда. Каждый раз, когда вы начинаете с контрольной точки, вы теряете 10% своих монет (минимум 25 монет)."
+msgstr "-Контрольные точки\n!images/objects/resetpoints/bell-m.png\n#Активирована контрольная точка. Если вы умрёте, то сможете продолжить уровень отсюда. Каждый раз, когда вы начинаете с контрольной точки, вы теряете 10% своих монет (минимум 25 монет)."
 
 #: data/levels/world1/welcome_antarctica.stl:97
 msgid ""

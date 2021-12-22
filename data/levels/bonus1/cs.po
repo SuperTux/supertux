@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 21:04+0000\n"
+"PO-Revision-Date: 2021-12-20 15:52+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -82,7 +82,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Gratulujeme!\n\n#Úspěšně jsi dokončil/a\n#bonusový ostrov I\n\n\ts úrovněmi\n\tJasona W. Thompsona\n\tTorfiho Gunnarssona\n\tAbednega\n\tMatr1xe\n\n\n#Pokud jsi ještě nedokončil/a všechny\n#úrovně, vrať se domů a jdi jinou\n#cestou. Očekává tě pár dalších úkolů!\n\n#Potom je tu také schována tajná úrověň...\n\n#Velké \"Díky\" každému, kdo k této verzi\n#přispěl. Doufáme, že se ti líbila!"
+msgstr "-Gratulujeme!\n\n#Úspěšně jsi dokončil/a\n#Bonusový ostrov I\n\n\ts úrovněmi\n\tJasona W. Thompsona\n\tTorfiho Gunnarssona\n\tAbednega\n\ta Matr1xe\n\n\n#Pokud jsi ještě nedokončil/a všechny\n#úrovně, vrať se domů a jdi jinou\n#cestou. Očekává tě pár dalších úkolů!\n\n#Potom je tu také schována tajná úrověň...\n\n#Velké díky každému, kdo k této verzi\n#přispěl. Doufáme, že se Ti líbila!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -90,15 +90,15 @@ msgstr "Tamtou trubkou dolů"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr "Něco rybího"
+msgstr "Rybina"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
-msgstr "Oheň na obloze"
+msgstr "Oblaka k odpalu"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr "Byl jsem tu už před tím?"
+msgstr "Nebyl jsem tu už někdy předtím?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
@@ -144,7 +144,7 @@ msgstr "Brzy se zhroutí!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr "Špička ledovce"
+msgstr "Vrchol ledovce"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
@@ -168,7 +168,7 @@ msgstr "Přenést se do Thompsonovy domény"
 
 #: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
-msgstr "Opustit ostrov týmu SuperTux"
+msgstr "Opustit ostrov týmu SuperTuxe"
 
 #: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
@@ -196,7 +196,7 @@ msgstr "Přenést se domů"
 
 #: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
-msgstr "Přenést se na ostrov týmu SuperTux"
+msgstr "Přenést se na ostrov týmu SuperTuxe"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"

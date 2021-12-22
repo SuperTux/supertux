@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 22:06+0000\n"
+"PO-Revision-Date: 2021-12-21 18:14+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -113,7 +113,7 @@ msgstr "zastavit Tuxe"
 
 #: src/trigger/sequence_trigger.cpp:76
 msgid "fireworks"
-msgstr "ohňostroje"
+msgstr "ohňostroj"
 
 #: src/trigger/sequence_trigger.cpp:80
 msgid "New worldmap spawnpoint"
@@ -140,7 +140,7 @@ msgstr "Skrýt"
 
 #: src/trigger/climbable.hpp:37
 msgid "Climbable"
-msgstr "Žebřík"
+msgstr "Šplhací zóna"
 
 #: src/trigger/door.hpp:34
 msgid "Door"
@@ -194,7 +194,7 @@ msgstr "Cesta"
 #: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:239
 #: src/object/gradient.cpp:135
 msgid "Z-pos"
-msgstr "Z-ová souřadnice"
+msgstr "Vrstva"
 
 #: src/object/decal.cpp:50 src/object/scripted_object.cpp:70
 #: src/object/tilemap.cpp:228
@@ -224,15 +224,15 @@ msgstr "Mapa dlaždic"
 
 #: src/object/circleplatform.hpp:32
 msgid "Circular Platform"
-msgstr "Cirkulární plošina"
+msgstr "Kroužící plošina"
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
-msgstr "Zničitelná"
+msgstr "Rozbitná"
 
 #: src/object/trampoline.cpp:136 src/object/rusty_trampoline.cpp:66
 msgid "Portable"
-msgstr "Přenosný objekt"
+msgstr "Přenosná"
 
 #: src/object/spotlight.cpp:100 src/object/rain_particle_system.cpp:101
 msgid "Angle"
@@ -262,7 +262,7 @@ msgstr "Proti směru hodinových ručiček"
 
 #: src/object/spotlight.cpp:104
 msgid "Stopped"
-msgstr "Zastaven"
+msgstr "Zastavený"
 
 #: src/object/spotlight.cpp:107 src/object/candle.cpp:78
 #: src/object/torch.cpp:103
@@ -353,11 +353,11 @@ msgstr "Vlastní obsah"
 
 #: src/object/pneumatic_platform.hpp:62
 msgid "Pneumatic Platform"
-msgstr "Pneumatická platforma"
+msgstr "Pneumatická plošina"
 
 #: src/object/coin.cpp:303 src/object/tilemap.cpp:249
 msgid "Following path"
-msgstr "Sleduje cestu"
+msgstr "Následuje cestu"
 
 #: src/object/coin.cpp:306 src/object/camera.cpp:227
 #: src/object/platform.cpp:74 src/object/tilemap.cpp:252
@@ -368,12 +368,12 @@ msgstr "Režim cesty"
 #: src/object/platform.cpp:75 src/object/tilemap.cpp:253
 #: src/badguy/willowisp.cpp:331
 msgid "Adapt Speed"
-msgstr "Přizpůsobit světlo"
+msgstr "Přizpůsobit rychlost"
 
 #: src/object/coin.cpp:308 src/object/platform.cpp:77
 #: src/object/tilemap.cpp:247 src/badguy/willowisp.cpp:327
 msgid "Starting Node"
-msgstr "Startovní uzel"
+msgstr "Počáteční uzel"
 
 #: src/object/coin.cpp:311 src/object/coin.cpp:339
 msgid "Collect script"
@@ -393,11 +393,11 @@ msgstr "normální"
 
 #: src/object/camera.cpp:220
 msgid "manual"
-msgstr "ruční"
+msgstr "manuální"
 
 #: src/object/camera.cpp:220
 msgid "autoscroll"
-msgstr "automatický posuv"
+msgstr "automatický posun"
 
 #: src/object/textscroller.cpp:349
 msgid "Finish Script"
@@ -405,7 +405,7 @@ msgstr "Dokončovací skript"
 
 #: src/object/textscroller.cpp:351
 msgid "X-offset"
-msgstr "Posun X"
+msgstr "Vodorovný offset"
 
 #: src/object/textscroller.cpp:352
 msgid "Controllable"
@@ -423,7 +423,7 @@ msgstr "Vlevo"
 
 #: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
 msgid "Center"
-msgstr "Střed"
+msgstr "Na střed"
 
 #: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
 #: src/supertux/menu/keyboard_menu.cpp:35
@@ -451,7 +451,7 @@ msgstr "Svíčka"
 #: src/object/particlesystem.cpp:64 src/object/particle_zone.cpp:79
 #: src/badguy/darttrap.cpp:127
 msgid "Enabled"
-msgstr "Povoleno"
+msgstr "Zapnuto"
 
 #: src/object/invisible_block.hpp:31
 msgid "Invisible Block"
@@ -544,7 +544,7 @@ msgstr "Plošiny"
 #: src/badguy/flame.cpp:58 src/badguy/rcrystallo.cpp:50
 #: src/badguy/crystallo.cpp:35
 msgid "Radius"
-msgstr "Poloměr"
+msgstr "Rozsah"
 
 #: src/object/bicycle_platform.cpp:194
 msgid "Momentum change rate"
@@ -560,7 +560,7 @@ msgstr "Plošina"
 
 #: src/object/rock.hpp:42
 msgid "Rock"
-msgstr "Skála"
+msgstr "Přenosný blok"
 
 #: src/object/music_object.hpp:41 src/supertux/menu/options_menu.cpp:393
 #: data//credits.stxt:294
@@ -634,35 +634,35 @@ msgstr "vpravo"
 
 #: src/object/background.cpp:185
 msgid "top"
-msgstr "vršek"
+msgstr "nahoru"
 
 #: src/object/background.cpp:185
 msgid "bottom"
-msgstr "spodek"
+msgstr "dolů"
 
 #: src/object/background.cpp:188
 msgid "Scroll offset x"
-msgstr "Posun x"
+msgstr "Vodorovný offset posouvání"
 
 #: src/object/background.cpp:189
 msgid "Scroll offset y"
-msgstr "Posun y"
+msgstr "Svislý offset posouvání"
 
 #: src/object/background.cpp:190
 msgid "Scroll speed x"
-msgstr "Rychlost posouvání x"
+msgstr "Vodorovná rychlost posouvání"
 
 #: src/object/background.cpp:191
 msgid "Scroll speed y"
-msgstr "Rychlost posouvání y"
+msgstr "Svislá rychlost posouvání"
 
 #: src/object/background.cpp:192
 msgid "Parallax Speed x"
-msgstr "Paralaxní rychlost x"
+msgstr "Vodorovná paralaxní rychlost"
 
 #: src/object/background.cpp:193
 msgid "Parallax Speed y"
-msgstr "Paralaxní rychlost y"
+msgstr "Svislá paralaxní rychlost"
 
 #: src/object/background.cpp:194
 msgid "Top image"
@@ -693,7 +693,7 @@ msgstr "Normální"
 #: src/object/background.cpp:199 src/object/tilemap.cpp:241
 #: src/object/gradient.cpp:143
 msgid "Lightmap"
-msgstr "Světelné"
+msgstr "Mapa světla"
 
 #: src/object/shard.hpp:34
 msgid "Shard"
@@ -705,15 +705,15 @@ msgstr "Rychlost mizení"
 
 #: src/object/rublight.cpp:56
 msgid "Glowing Strength"
-msgstr "Síla záření"
+msgstr "Intenzita světla"
 
 #: src/object/wind.cpp:78 src/object/custom_particle_system.cpp:499
 msgid "Speed X"
-msgstr "Rychlost X"
+msgstr "Vodorovná rychlost"
 
 #: src/object/wind.cpp:79 src/object/custom_particle_system.cpp:500
 msgid "Speed Y"
-msgstr "Rychlost Y"
+msgstr "Svislá rychlost"
 
 #: src/object/wind.cpp:80
 msgid "Acceleration"
@@ -725,7 +725,7 @@ msgstr "Vanoucí"
 
 #: src/object/wind.cpp:82
 msgid "Affects Badguys"
-msgstr "Působí na nepřátele"
+msgstr "Působí na zlejšky"
 
 #: src/object/wind.cpp:83
 msgid "Affects Objects"
@@ -737,7 +737,7 @@ msgstr "Působí na hráče"
 
 #: src/object/wind.cpp:85
 msgid "Fancy Particles"
-msgstr "Pěkné částice"
+msgstr "Částicové efekty"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle Platform"
@@ -746,7 +746,7 @@ msgstr "Šlapací plošina"
 #: src/object/platform.cpp:76 src/object/thunderstorm.cpp:69
 #: src/object/tilemap.cpp:254
 msgid "Running"
-msgstr "Běžící"
+msgstr "Aktivní"
 
 #: src/object/rock.cpp:192
 msgid "On-grab script"
@@ -796,7 +796,7 @@ msgstr "Variace životnosti"
 #: src/object/custom_particle_system.cpp:429
 #: src/editor/particle_editor.cpp:164
 msgid "Birth mode"
-msgstr "Mód vzniku"
+msgstr "Režim vzniku"
 
 #: src/object/custom_particle_system.cpp:430
 #: src/object/custom_particle_system.cpp:465 src/object/gradient.cpp:149
@@ -805,13 +805,13 @@ msgstr "Mód vzniku"
 #: src/supertux/menu/joystick_menu.cpp:213 src/editor/object_settings.cpp:131
 #: src/editor/particle_editor.cpp:162 src/editor/particle_editor.cpp:168
 msgid "None"
-msgstr "-Nic-"
+msgstr "Žádný"
 
 #: src/object/custom_particle_system.cpp:430
 #: src/object/custom_particle_system.cpp:465
 #: src/editor/particle_editor.cpp:166
 msgid "Shrink"
-msgstr "Zmenšení"
+msgstr "Zmenšit"
 
 #: src/object/custom_particle_system.cpp:434
 #: src/editor/particle_editor.cpp:172
@@ -984,7 +984,7 @@ msgstr "Variace doby vzniku"
 #: src/object/custom_particle_system.cpp:464
 #: src/editor/particle_editor.cpp:170
 msgid "Death mode"
-msgstr "Mód zániku"
+msgstr "Režim zániku"
 
 #: src/object/custom_particle_system.cpp:469
 #: src/editor/particle_editor.cpp:173
@@ -1001,27 +1001,27 @@ msgstr "Variace doby zániku"
 
 #: src/object/custom_particle_system.cpp:501
 msgid "Speed X (variation)"
-msgstr "Rychlost X (variace)"
+msgstr "Variace vodorovné rychlosti"
 
 #: src/object/custom_particle_system.cpp:502
 msgid "Speed Y (variation)"
-msgstr "Rychlost Y (variace)"
+msgstr "Variace vertikální rychlosti"
 
 #: src/object/custom_particle_system.cpp:503
 msgid "Acceleration X"
-msgstr "Zrychlení X"
+msgstr "Vodorovné zrychlení"
 
 #: src/object/custom_particle_system.cpp:504
 msgid "Acceleration Y"
-msgstr "Zrychlení Y"
+msgstr "Svislé zrychlení"
 
 #: src/object/custom_particle_system.cpp:505
 msgid "Friction X"
-msgstr "Tření X"
+msgstr "Vodorovné tření"
 
 #: src/object/custom_particle_system.cpp:506
 msgid "Friction Y"
-msgstr "Tření Y"
+msgstr "Svislé tření"
 
 #: src/object/custom_particle_system.cpp:507
 #: src/editor/particle_editor.cpp:189
@@ -1034,7 +1034,7 @@ msgstr "Rotace"
 
 #: src/object/custom_particle_system.cpp:509
 msgid "Rotation (variation)"
-msgstr "Rotace (variace)"
+msgstr "Variace rotace"
 
 #: src/object/custom_particle_system.cpp:510
 #: src/editor/particle_editor.cpp:195
@@ -1043,7 +1043,7 @@ msgstr "Rychlost rotace"
 
 #: src/object/custom_particle_system.cpp:511
 msgid "Rotation speed (variation)"
-msgstr "Rychlost rotace (variace)"
+msgstr "Variace rychlosti rotace"
 
 #: src/object/custom_particle_system.cpp:512
 #: src/editor/particle_editor.cpp:200
@@ -1057,7 +1057,7 @@ msgstr "Tření při rotaci"
 #: src/object/custom_particle_system.cpp:514
 #: src/editor/particle_editor.cpp:208
 msgid "Rotation mode"
-msgstr "Mód rotace"
+msgstr "Režim rotace"
 
 #: src/object/custom_particle_system.cpp:515
 #: src/editor/particle_editor.cpp:206
@@ -1077,7 +1077,7 @@ msgstr "Pohupující"
 #: src/object/custom_particle_system.cpp:519
 #: src/editor/particle_editor.cpp:219
 msgid "Collision mode"
-msgstr "Mód kolize"
+msgstr "Režim kolize"
 
 #: src/object/custom_particle_system.cpp:520
 msgid "None (pass through)"
@@ -1129,11 +1129,11 @@ msgstr "Vždy"
 
 #: src/object/custom_particle_system.cpp:529
 msgid "Cover screen"
-msgstr "Překrýt obrazovku"
+msgstr "Zaplnit obrazovku"
 
 #: src/object/ispy.hpp:33
 msgid "Ispy"
-msgstr "Špeh"
+msgstr "Čidlo"
 
 #: src/object/skull_tile.hpp:32
 msgid "Skull Tile"
@@ -1153,11 +1153,11 @@ msgstr "Vznik"
 
 #: src/object/particle_zone.cpp:82
 msgid "Life zone"
-msgstr "Zóna existence"
+msgstr "Oblast existence"
 
 #: src/object/particle_zone.cpp:82
 msgid "Life zone (clear)"
-msgstr "Zóna existence (vyčistit)"
+msgstr "Oblast existence (vyčistit)"
 
 #: src/object/particle_zone.cpp:82
 msgid "Kill particles"
@@ -1169,7 +1169,7 @@ msgstr "Vyčistit částice"
 
 #: src/object/weak_block.cpp:211
 msgid "Linked"
-msgstr "Spojený"
+msgstr "Řetězový efekt"
 
 #: src/object/decal.hpp:40
 msgid "Decal"
@@ -1177,11 +1177,11 @@ msgstr "Obtisk"
 
 #: src/object/tilemap.cpp:229
 msgid "Resize offset x"
-msgstr "Offset změny velikosti x"
+msgstr "Offset změny šířky"
 
 #: src/object/tilemap.cpp:230
 msgid "Resize offset y"
-msgstr "Offset změny velikosti "
+msgstr "Offset změny výšky"
 
 #: src/object/tilemap.cpp:232 src/supertux/menu/editor_sector_menu.cpp:39
 #: src/editor/object_option.cpp:173
@@ -1195,15 +1195,15 @@ msgstr "Výška"
 
 #: src/object/tilemap.cpp:235
 msgid "Alpha"
-msgstr "Alfa"
+msgstr "Neprůhlednost"
 
 #: src/object/tilemap.cpp:236
 msgid "Speed x"
-msgstr "Rychlost x"
+msgstr "Vodorovná rychlost"
 
 #: src/object/tilemap.cpp:237
 msgid "Speed y"
-msgstr "Rychlost y"
+msgstr "Svislá rychlost"
 
 #: src/object/tilemap.cpp:238
 msgid "Tint"
@@ -1312,7 +1312,7 @@ msgstr "Běžící text"
 
 #: src/gui/menu_badguy_select.cpp:94
 msgid "List of enemies"
-msgstr "Seznam nepřátel"
+msgstr "Seznam zlejšků"
 
 #: src/gui/menu_badguy_select.cpp:96
 msgid "Select enemy"
@@ -1330,7 +1330,7 @@ msgstr "Přidat"
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
 #: src/supertux/menu/editor_level_menu.cpp:45 src/editor/object_menu.cpp:43
 msgid "OK"
-msgstr "OK"
+msgstr "Potvrdit"
 
 #: src/gui/menu_badguy_select.cpp:136
 msgid "Do you want to delete this badguy from the list?"
@@ -1373,18 +1373,18 @@ msgstr "Upravit skript"
 
 #: src/gui/menu_paths.cpp:30
 msgid "Clone"
-msgstr "Klonovat"
+msgstr "Vytvořit kopii"
 
 #: src/gui/menu_paths.cpp:38
 msgid ""
 "An error occured and the game could\n"
 "not clone the path. Please contact\n"
 "the developers for support."
-msgstr "Nastala chyba a SuperTux nemohl cestu naklonovat. Kontaktujte, prosím, vývojáře pro podporu."
+msgstr "Nastala chyba a SuperTux nemohl vytvořit kopii cesty. Kontaktujte, prosím, vývojáře pro podporu."
 
 #: src/gui/menu_paths.cpp:41
 msgid "Bind"
-msgstr "Slepý"
+msgstr "Propojit"
 
 #: src/gui/menu_paths.cpp:63 src/supertux/menu/integrations_menu.cpp:60
 #: src/supertux/menu/contrib_menu.cpp:161 src/supertux/menu/debug_menu.cpp:75
@@ -1512,7 +1512,7 @@ msgstr "Spící plamen"
 
 #: src/badguy/livefire.hpp:84
 msgid "Dormant Flame"
-msgstr "Plamen"
+msgstr "Nehybný plamen"
 
 #: src/badguy/owl.hpp:39
 msgid "Owl"
@@ -1548,7 +1548,7 @@ msgstr "Pevná pozice"
 
 #: src/badguy/yeti.cpp:370
 msgid "Lives"
-msgstr "Životy"
+msgstr "Počet životů"
 
 #: src/badguy/goldbomb.hpp:49
 msgid "Gold Bomb"
@@ -1572,7 +1572,7 @@ msgstr "Listová střela"
 
 #: src/badguy/flame.hpp:41
 msgid "Flame"
-msgstr "Plamen"
+msgstr "Světluška"
 
 #: src/badguy/scrystallo.hpp:30
 msgid "Sleeping Crystallo"
@@ -1592,7 +1592,7 @@ msgstr "Zlejšek"
 
 #: src/badguy/ghostflame.hpp:30
 msgid "Ghost Flame"
-msgstr "Duchová světluška"
+msgstr "Světluška duchů"
 
 #: src/badguy/rcrystallo.hpp:30
 msgid "Roof Crystallo"
@@ -1600,7 +1600,7 @@ msgstr "Stropní krystaloun"
 
 #: src/badguy/spiky.hpp:30
 msgid "Spiky"
-msgstr "Ježík"
+msgstr "Ježoun"
 
 #: src/badguy/walkingleaf.hpp:30
 msgid "Autumn Leaf"
@@ -1720,7 +1720,7 @@ msgstr "Ledová světluška"
 
 #: src/badguy/dart.hpp:43
 msgid "Dart"
-msgstr "Střela"
+msgstr "Šipka"
 
 #: src/supertux/statistics.cpp:54
 msgid "Max coins collected:"
@@ -1740,11 +1740,11 @@ msgstr "Nejlepší čas:"
 
 #: src/supertux/statistics.cpp:58
 msgid "Level target time:"
-msgstr "Čas:"
+msgstr "Časová výzva:"
 
 #: src/supertux/statistics.cpp:149 src/supertux/levelintro.cpp:160
 msgid "Best Level Statistics"
-msgstr "Statistika nejlepších v úrovni"
+msgstr "Statistika nejlepších výsledků"
 
 #: src/supertux/statistics.cpp:238
 msgid "You"
@@ -1772,7 +1772,7 @@ msgstr "Neznámý objekt"
 
 #: src/supertux/sector.cpp:414
 msgid "Press escape to skip"
-msgstr "Stiskní ESC pro přeskočení"
+msgstr "Přeskoč stiskem ESC"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
@@ -1820,7 +1820,7 @@ msgstr "  -f, --fullscreen Spustit v režimu celé obrazovky"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "  -w, --window                 Run in window mode"
-msgstr "  -w, --window Spustit v režimu okna"
+msgstr "  -w, --window Spustit v okně"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
@@ -1832,7 +1832,7 @@ msgstr "  -a, --aspect ŠÍŘKA:VÝŠKA Spustit SuperTux v daném poměru stran"
 
 #: src/supertux/command_line_arguments.cpp:108
 msgid "  -d, --default                Reset video settings to default values"
-msgstr "  -d, --default Navrátit nastavení videa k předurčeným hodnotám"
+msgstr "  -d, --default Navrátit nastavení videa k výchozím hodnotám"
 
 #: src/supertux/command_line_arguments.cpp:109
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
@@ -2089,7 +2089,7 @@ msgstr "Vytvořit mapu světa"
 #: src/supertux/menu/editor_level_select_menu.cpp:85
 #: src/supertux/menu/editor_delete_level_menu.cpp:33
 msgid "Delete level"
-msgstr "Smazat úroveň"
+msgstr "Odstranit úroveň"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:87
 #: src/supertux/menu/editor_levelset_menu.cpp:56
@@ -2116,11 +2116,11 @@ msgstr "Sdílejte tuto úroveň pod licencí CC-BY-SA 4.0 International (doporu�
 msgid ""
 "An auto-save recovery file was found. Would you like to restore the recovery\n"
 "file and resume where you were before the editor crashed?"
-msgstr "Byl nalezen automaticky uložený soubor pro zotavení. Chcete obnovit data z tohoto souboru a pokračovat tam, kde jste byl/a předtím, než editor spadl?"
+msgstr "Byl nalezen automaticky uložený soubor pro zotavení. Chceš obnovit data z tohoto souboru\na pokračovat tam, kde jsi byl/a předtím, než editor spadl?"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:169
 msgid "This will delete the auto-save file. Are you sure?"
-msgstr "Tato akce soubor pro zotavení smaže. Jste si jist/a?"
+msgstr "Tato akce soubor pro zotavení smaže. Jsi si jist/a?"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -2169,7 +2169,7 @@ msgstr "Dokončit úroveň"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:47
 msgid "Reset Level"
-msgstr "Restartovat úroveň"
+msgstr "Resetovat úroveň"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Finish Worldmap"
@@ -2212,7 +2212,7 @@ msgid_plural "%d levels"
 msgstr[0] "%d úroveň"
 msgstr[1] "%d úrovně"
 msgstr[2] "%d úrovní"
-msgstr[3] "%d úrovně"
+msgstr[3] "%d úrovní"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:113
 msgid "Create World"
@@ -2303,7 +2303,7 @@ msgstr "Rozlišení na celou obrazovku"
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr "Určit rozlišení použíté v režimu celé obrazovky (musíte přepnout zobrazení na celou obrazovku, aby se změna dokončila)"
+msgstr "Určit rozlišení použíté v režimu celé obrazovky (musíš přepnout zobrazení na celou obrazovku, aby se změna projevila)"
 
 #: src/supertux/menu/options_menu.cpp:373
 msgid "Fit to browser"
@@ -2311,7 +2311,7 @@ msgstr "Podle prohlížeče"
 
 #: src/supertux/menu/options_menu.cpp:374
 msgid "Fit the resolution to the size of your browser"
-msgstr "Upravit rozlišení podle velikosti okna Vašeho prohlížeče"
+msgstr "Upravit rozlišení podle velikosti okna Tvého prohlížeče"
 
 #: src/supertux/menu/options_menu.cpp:378
 msgid "Magnification"
@@ -2389,7 +2389,7 @@ msgstr "Nastavit přiřazení tlačítek joysticku"
 
 #: src/supertux/menu/options_menu.cpp:417
 msgid "On-screen controls"
-msgstr "Ovládání na obrazovce"
+msgstr "Ovládač na obrazovce"
 
 #: src/supertux/menu/options_menu.cpp:418
 msgid "Toggle on-screen controls for mobile devices"
@@ -2443,14 +2443,14 @@ msgstr "Integrace a prezence"
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
-msgstr "Nastavte, zda by měl SuperTux zobrazovat, jaké úrovně právě hrajete na Vašem profilu na Discordu"
+msgstr "Nastav, zda by měl SuperTux zobrazovat jaké úrovně právě hraješ na Tvém profilu na Discordu"
 
 #: src/supertux/menu/options_menu.cpp:559
 msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
 "in the SuperTux custom HTML template.\n"
-msgstr "SuperTux nemohl zjistit rozlišení Vašeho prohlížeče.\nTo je pravděpodobně způsobené tím, že okno není\nvnořené SuperTuxovské HTML šabloně.\n"
+msgstr "SuperTux nemohl zjistit rozlišení Tvého prohlížeče.\nTo je pravděpodobně způsobené tím, že okno není\nvnořené v SuperTuxovské HTML šabloně.\n"
 
 #: src/supertux/menu/main_menu.cpp:56 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
@@ -2490,11 +2490,11 @@ msgstr "Gravitace"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Resize offset X"
-msgstr "Offset změny velikosti X"
+msgstr "Offset změny šířky"
 
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Resize offset Y"
-msgstr "Offset změny velikosti Y"
+msgstr "Offset změny výšky"
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Resize"
@@ -2520,11 +2520,11 @@ msgstr "Resetovat všechny profily"
 
 #: src/supertux/menu/profile_menu.cpp:67
 msgid "Deleting your profile will reset your game progress. Are you sure?"
-msgstr "Smazáním Vašeho profilu resetujete Váš postup ve hře. Jste si jist/a?"
+msgstr "Smazáním svého profilu resetuješ svůj postup ve hře. Jsi si jist/a?"
 
 #: src/supertux/menu/profile_menu.cpp:73
 msgid "This will reset your game progress on all profiles. Are you sure?"
-msgstr "Tato akce smaže postup ve všech profilech. Jste si jist/a?"
+msgstr "Tato akce smaže postup ve všech profilech. Jsi si jist/a?"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -2602,7 +2602,7 @@ msgstr "Stahuji %s"
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "Prosím, restartujte SuperTux,\naby se tyto změny uplatnily."
+msgstr "Prosím, restartuj SuperTux,\naby se tyto změny uplatnily."
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New World"
@@ -2610,7 +2610,7 @@ msgstr "Nový svět"
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:51
 msgid "Please enter a name for this level subset."
-msgstr "Pojmenujte prosím sadu úrovní."
+msgstr "Pojmenuj, prosím, sadu úrovní."
 
 #: src/supertux/menu/world_set_menu.cpp:30
 msgid "Story Mode"
@@ -2638,7 +2638,7 @@ msgstr "Otevřít"
 
 #: src/supertux/menu/game_menu.cpp:31
 msgid "Are you sure?"
-msgstr "Jsi si jistý?"
+msgstr "Jsi si jist/a?"
 
 #: src/supertux/menu/game_menu.cpp:54 src/supertux/menu/worldmap_menu.cpp:30
 msgid "Continue"
@@ -2650,7 +2650,7 @@ msgstr "Restartovat úroveň"
 
 #: src/supertux/menu/game_menu.cpp:58
 msgid "Restart from Checkpoint"
-msgstr "Restartovat od uložováku"
+msgstr "Vrátit se na uložovák"
 
 #: src/supertux/menu/game_menu.cpp:63
 msgid "Abort Level"
@@ -2674,22 +2674,22 @@ msgstr "Skok"
 #: src/supertux/menu/keyboard_menu.cpp:38
 #: src/supertux/menu/joystick_menu.cpp:76
 msgid "Peek Left"
-msgstr "Podívat se doleva"
+msgstr "Nahlédnout doleva"
 
 #: src/supertux/menu/keyboard_menu.cpp:39
 #: src/supertux/menu/joystick_menu.cpp:77
 msgid "Peek Right"
-msgstr "Podívat se doprava"
+msgstr "Nahlédnout doprava"
 
 #: src/supertux/menu/keyboard_menu.cpp:40
 #: src/supertux/menu/joystick_menu.cpp:78
 msgid "Peek Up"
-msgstr "Podívat se nahoru"
+msgstr "Nahlédnout nahoru"
 
 #: src/supertux/menu/keyboard_menu.cpp:41
 #: src/supertux/menu/joystick_menu.cpp:79
 msgid "Peek Down"
-msgstr "Podívat se dolů"
+msgstr "Nahlédnout dolů"
 
 #: src/supertux/menu/keyboard_menu.cpp:43
 #: src/supertux/menu/joystick_menu.cpp:81
@@ -2761,11 +2761,11 @@ msgstr "Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Right Command"
-msgstr "Pravý příkaz"
+msgstr "Pravý Cmd"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Left Command"
-msgstr "Levý příkaz"
+msgstr "Levý Cmd"
 
 #: src/supertux/menu/keyboard_menu.cpp:100
 msgid "Press Key"
@@ -2826,19 +2826,19 @@ msgstr "Y2"
 
 #: src/supertux/menu/joystick_menu.cpp:189
 msgid "Hat Up"
-msgstr "Kloboukem nahoru"
+msgstr "Nahoru/joystick"
 
 #: src/supertux/menu/joystick_menu.cpp:193
 msgid "Hat Down"
-msgstr "Kloboukem dolů"
+msgstr "Dolů/joystick"
 
 #: src/supertux/menu/joystick_menu.cpp:197
 msgid "Hat Left"
-msgstr "Kloboukem vlevo"
+msgstr "Vlevo/joystick"
 
 #: src/supertux/menu/joystick_menu.cpp:201
 msgid "Hat Right"
-msgstr "Kloboukem vpravo"
+msgstr "Vpravo/joystick"
 
 #: src/supertux/menu/worldmap_menu.cpp:28
 msgid "Pause"
@@ -2941,7 +2941,7 @@ msgstr "Klávesové zkratky:\n---------------------\nESC = otevřít menu\nCtrl+
 #: src/supertux/menu/particle_editor_menu.cpp:121
 #: src/supertux/menu/editor_menu.cpp:176
 msgid "Got it!"
-msgstr "Chápu!"
+msgstr "Rozumím!"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:86
@@ -3071,7 +3071,7 @@ msgstr "Nápověda k automatickému vyhlazování"
 
 #: src/supertux/menu/editor_menu.cpp:84
 msgid "Autosave Frequency"
-msgstr "Četnost automatického uložení"
+msgstr "Frekvence automatického ukládání"
 
 #: src/supertux/menu/editor_menu.cpp:91
 msgid "Exit Level Editor"
@@ -3087,7 +3087,7 @@ msgid ""
 "To find your level, click the\n"
 "\"Open Level directory\" menu item.\n"
 "Do you want to go to the forum now?"
-msgstr "Doporučujeme vám sdílet vaše úrovně na fóru SuperTuxe.\nPro nalezení své úrovně klepněte\nna položku \"Otevřít výstupní adresář\".\nChcete navštívit fórum nyní? "
+msgstr "Doporučujeme sdílet Tvé úrovně na fóru SuperTuxe.\nPro nalezení své úrovně klepni\nna položku \"Otevřít adresář s úrovní\".\nChceš navštívit fórum nyní? "
 
 #: src/supertux/menu/editor_menu.cpp:175
 msgid ""
@@ -3110,7 +3110,7 @@ msgstr "Nemůžete odstranit úroveň, která je právě otevřena!"
 #: src/supertux/levelintro.cpp:136
 #, c-format
 msgid "contributed by %s"
-msgstr "příspěl %s"
+msgstr "příspěl/a %s"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"
@@ -3126,7 +3126,7 @@ msgstr "Čas"
 
 #: src/supertux/tile_set.cpp:118
 msgid "Others"
-msgstr "Ostatní"
+msgstr "Nezařazené"
 
 #: src/supertux/moving_object.cpp:55
 msgid "Region"
@@ -3138,7 +3138,7 @@ msgid ""
 "If you encounter issues, PLEASE contact the maintainter\n"
 "at https://github.com/supertux/supertux/issues or on the\n"
 "Open Store's Telegram at https://open-store.io/telegram"
-msgstr "Verze pro UBports je v aktivním vývoji!\nPokud narazíte na problémy, PROSÍM, kontaktujte\nvývojáře na https://github.com/supertux/supertux/issues\nnebo na telegramu Open Store: https://open-store.io/telegram"
+msgstr "Verze pro UBports je v aktivním vývoji!\nPokud narazíš na problémy, PROSÍM, kontaktuj\nvývojáře na https://github.com/supertux/supertux/issues\nnebo na telegramu Open Store: https://open-store.io/telegram"
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
@@ -3234,11 +3234,11 @@ msgstr "Teleport"
 
 #: src/editor/worldmap_objects.hpp:119
 msgid "Sprite Change"
-msgstr "Změna textury"
+msgstr "Změna vzhledu"
 
 #: src/editor/worldmap_objects.hpp:140
 msgid "Special tile"
-msgstr "Zvláštní prvek"
+msgstr "Speciální objekt"
 
 #: src/editor/particle_editor.cpp:126
 msgid "Max amount"
@@ -3250,15 +3250,15 @@ msgstr "Vytvářet kdekoliv"
 
 #: src/editor/particle_editor.cpp:143
 msgid "Life duration"
-msgstr "Délka existence"
+msgstr "Doba existence"
 
 #: src/editor/particle_editor.cpp:148
 msgid "Birth duration"
-msgstr "Délka vzniku"
+msgstr "Doba vzniku"
 
 #: src/editor/particle_editor.cpp:153
 msgid "Death duration"
-msgstr "Délka zániku"
+msgstr "Doba zániku"
 
 #: src/editor/particle_editor.cpp:160
 msgid "Grow"
@@ -3318,13 +3318,13 @@ msgstr "Vždy zničit"
 
 #: src/editor/particle_editor.cpp:226
 msgid "Offscreen mode"
-msgstr "Mód mimo obrazovku"
+msgstr "Mimo obrazovku"
 
 #: src/editor/particle_editor.cpp:765
 msgid ""
 "This particle configuration contains unsaved changes,\n"
 "do you want to save?"
-msgstr "Tato konfigurace částic obsahuje neuložené změny,\nchcete je uložit?"
+msgstr "Tato konfigurace částic obsahuje neuložené změny,\nchceš je uložit?"
 
 #: src/editor/particle_editor.cpp:773
 msgid "Save as"
@@ -3336,11 +3336,11 @@ msgid ""
 "aren't saved between sessions!\n"
 "If you want to keep your levels, download them\n"
 "from the \"Manage Assets\" menu."
-msgstr "Nezapomeňte, že Vaše úrovně a zdrojové soubory\nse automaticky mezi sezeními neuloží!\nPokud chcete uložit své úrovně, stáhněte si je\nz nabídky \"Správa zdrojových souborů\"."
+msgstr "Nezapomeň, že Tvoje úrovně a zdrojové soubory\nse automaticky mezi sezeními neuloží!\nPokud chceš uložit své úrovně, stáhni si je\nz nabídky \"Správa zdrojových souborů\"."
 
 #: src/editor/editor.cpp:582
 msgid "This level contains unsaved changes, do you want to save?"
-msgstr "Tato úroveň obsahuje neuložené změny, chcete je uložit?"
+msgstr "Tato úroveň obsahuje neuložené změny, chceš je uložit?"
 
 #: src/editor/editor.cpp:622
 msgid ""
@@ -3367,14 +3367,14 @@ msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
-msgstr "Nelze nalézt sektor \"main\".\nProsím, změňte jméno sektoru,\nkde se má začít, na \"main\""
+msgstr "Nelze nalézt sektor \"main\".\nProsím, změň jméno sektoru,\nkde se má začít, na \"main\""
 
 #: src/editor/editor.cpp:857
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
-msgstr "Nelze nalézt zrodiště \"main\".\nProsím, změňte jméno zrodiště,\nkde se má začít, na \"main\""
+msgstr "Nelze nalézt zrodiště \"main\".\nProsím, změň jméno zrodiště,\nkde se má začít, na \"main\""
 
 #: src/editor/worldmap_objects.cpp:128
 msgid "Outro script"
@@ -3426,7 +3426,7 @@ msgstr "Automaticé vyhlazování je zapnuté"
 
 #: src/editor/overlay_widget.cpp:1299
 msgid "Hold Ctrl to enable autotile"
-msgstr "Držte Ctrl pro použití automatického vyhlazování"
+msgstr "Podrž Ctrl pro použití automatického vyhlazování"
 
 #: src/editor/overlay_widget.cpp:1303
 msgid "Autotile erasing mode is on"
@@ -3438,7 +3438,7 @@ msgstr "Vybranou dlaždici nelze automaticky vyhlazovat"
 
 #: src/editor/overlay_widget.cpp:1308
 msgid "Hold Ctrl to enable autotile erasing"
-msgstr "Držte Ctrl pro použití automatického vyhlazování při mazání"
+msgstr "Podrž Ctrl pro použití automatického vyhlazování při mazání"
 
 #: data//credits.stxt:25
 msgid "Current SuperTux Team"
@@ -3446,7 +3446,7 @@ msgstr "Aktuální vývojový tým SuperTuxe"
 
 #: data//credits.stxt:30
 msgid "Programming, project lead ad interim"
-msgstr "programování, vůdce týmu"
+msgstr "Programování, vůdce týmu"
 
 #: data//credits.stxt:35
 msgid "Graphics, Level Design, Story"
@@ -3459,11 +3459,11 @@ msgstr "Tvorba úrovní, příběh, optimalizace, koordinace"
 #: data//credits.stxt:45 data//credits.stxt:105 data//credits.stxt:191
 #: data//credits.stxt:519
 msgid "Graphics"
-msgstr "grafika"
+msgstr "Grafika"
 
 #: data//credits.stxt:50 data//credits.stxt:87 data//credits.stxt:93
 msgid "Graphics, Programming, Level Design"
-msgstr "grafika, programování, tvorba úrovní"
+msgstr "Grafika, programování, tvorba úrovní"
 
 #: data//credits.stxt:55
 msgid "Features and Programming"
@@ -3481,7 +3481,7 @@ msgstr "Grafika, programování"
 #: data//credits.stxt:145 data//credits.stxt:150 data//credits.stxt:165
 #: data//credits.stxt:170 data//credits.stxt:515 data//credits.stxt:527
 msgid "Programming"
-msgstr "programování"
+msgstr "Programování"
 
 #: data//credits.stxt:76
 msgid "Original Developers"
@@ -3489,51 +3489,51 @@ msgstr "Původní vývojáři"
 
 #: data//credits.stxt:81
 msgid "Original Developer"
-msgstr "původní vývojář"
+msgstr "Původní vývojář"
 
 #: data//credits.stxt:99
 msgid "Music, Level Design"
-msgstr "hudba, tvorba úrovní"
+msgstr "Hudba, tvorba úrovní"
 
 #: data//credits.stxt:111
 msgid "Programming, Graphics, Level Design"
-msgstr "programování, grafika, tvorba úrovní"
+msgstr "Programování, grafika, tvorba úrovní"
 
 #: data//credits.stxt:117
 msgid "Programming, Level Design"
-msgstr "programování, tvorba úrovní"
+msgstr "Programování, tvorba úrovní"
 
 #: data//credits.stxt:123
 msgid "Graphics, Story"
-msgstr "grafika, příběh"
+msgstr "Grafika, příběh"
 
 #: data//credits.stxt:129
 msgid "Programming, Documentation"
-msgstr "programování, dokumentace"
+msgstr "Programování, dokumentace"
 
 #: data//credits.stxt:155
 msgid "Coordination"
-msgstr "koordinace"
+msgstr "Koordinace"
 
 #: data//credits.stxt:160
 msgid "Programming, \"Flexlay\" Level editor"
-msgstr "programování, editor úrovní \"Flexlay\""
+msgstr "Programování, editor úrovní \"Flexlay\""
 
 #: data//credits.stxt:175
 msgid "Windows build fixes"
-msgstr "oprava portu pro Windows"
+msgstr "Oprava portu pro Windows"
 
 #: data//credits.stxt:180
 msgid "Packaging, Nightly builds"
-msgstr "balíčkování, kompilace vývojových verzí"
+msgstr "Balíčkování, kompilace vývojových verzí"
 
 #: data//credits.stxt:185
 msgid "Translation Guru (and many details anyone else could have done)"
-msgstr "překladový vzor (a detaily, jež mohl udělat někdo jiný)"
+msgstr "Překladový vzor (a detaily, které mohl udělat kdokoliv jiný)"
 
 #: data//credits.stxt:251
 msgid "Level Design"
-msgstr "tvorba úrovní"
+msgstr "Tvorba úrovní"
 
 #: data//credits.stxt:431
 msgid "Additional contributors"
@@ -3545,48 +3545,48 @@ msgstr "Oprava chyb"
 
 #: data//credits.stxt:440
 msgid "Scripting functions, Level fixes"
-msgstr "funkce skriptů, oprava chyb v úrovních"
+msgstr "Funkce skriptů, oprava chyb v úrovních"
 
 #: data//credits.stxt:444
 msgid "Code quality fixes"
-msgstr "oprava kvality kódu"
+msgstr "Oprava kvality kódu"
 
 #: data//credits.stxt:448 data//credits.stxt:452 data//credits.stxt:456
 #: data//credits.stxt:483
 msgid "Various contributions"
-msgstr "mnohé příspěvky"
+msgstr "Mnohé příspěvky"
 
 #: data//credits.stxt:460
 msgid "Build issue fix"
-msgstr "oprava kompilačních chyb"
+msgstr "Oprava kompilačních chyb"
 
 #: data//credits.stxt:464 data//credits.stxt:468
 msgid "Code contributions"
-msgstr "příspěvky do kódu"
+msgstr "Příspěvky do kódu"
 
 #: data//credits.stxt:471
 msgid "Code contribution, AppData file"
-msgstr "příspěvky do kódu, soubor AppData"
+msgstr "Příspěvky do kódu, soubor AppData"
 
 #: data//credits.stxt:475
 msgid "Bug fix"
-msgstr "oprava chyb"
+msgstr "Oprava chyb"
 
 #: data//credits.stxt:479
 msgid "Menu reorganization"
-msgstr "přeuspořádání nabídky"
+msgstr "Přeuspořádání nabídky"
 
 #: data//credits.stxt:487
 msgid "Fixing tile bugs"
-msgstr "oprava chyb s prvky"
+msgstr "Oprava chyb s dlaždicemi"
 
 #: data//credits.stxt:491
 msgid "Build error fix"
-msgstr "oprava kompilačních chyb"
+msgstr "Oprava kompilačních chyb"
 
 #: data//credits.stxt:495
 msgid "Scripting function fix"
-msgstr "oprava chyb skriptů"
+msgstr "Oprava skriptovacích chyb"
 
 #: data//credits.stxt:499
 msgid "New features and notable updates"
@@ -3594,11 +3594,11 @@ msgstr "Nové fíčury a důležité novinky"
 
 #: data//credits.stxt:503
 msgid "Support for \"glbinding\" as optional OpenGL binding"
-msgstr "podpora pro \"glbinding\" jako volitelné rozšíření OpenGLu"
+msgstr "Podpora pro \"glbinding\" jako volitelné rozšíření OpenGLu"
 
 #: data//credits.stxt:507
 msgid "New menu code"
-msgstr "nový kód nabídky"
+msgstr "Nový kód nabídky"
 
 #: data//credits.stxt:511
 msgid "Big Tux Walking Sprites improvements"
@@ -3606,15 +3606,15 @@ msgstr "Velká zlepšení textur chodícího Tuxe"
 
 #: data//credits.stxt:523 data//credits.stxt:531
 msgid "Contrib Programming"
-msgstr "příspěvky do kódu"
+msgstr "Příspěvky do kódu"
 
 #: data//credits.stxt:535
 msgid "Programming, Previous Maintainer"
-msgstr "programování, předchozí údržbář"
+msgstr "Programování, předchozí údržbář"
 
 #: data//credits.stxt:539
 msgid "Various Contributions"
-msgstr "Různí přispěvatelé"
+msgstr "Mnohé příspěvky"
 
 #: data//credits.stxt:543
 msgid "Minor features and programming"
@@ -3633,11 +3633,11 @@ msgstr "Překlady"
 
 #: data//credits.stxt:1144
 msgid " Special Thanks to"
-msgstr "Speciální poděkování patří"
+msgstr "Speciální poděkování si zaslouží"
 
 #: data//credits.stxt:1149
 msgid "Creator of Tux, the Linux penguin"
-msgstr "tvůrce Tuxe, tučňáka systému Linux"
+msgstr "Tvůrce Tuxe, tučňáka systému Linux"
 
 #: data//credits.stxt:1153
 msgid "SDL, OpenAL and OpenGL"
@@ -3647,11 +3647,11 @@ msgstr "SDL, OpenAL a OpenGL"
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
-msgstr "za tvorbu skvělého herního prostředí\nna Linuxu"
+msgstr "Za tvorbu skvělého herního prostředí\nna Linuxu"
 
 #: data//credits.stxt:1159
 msgid "and you, the player"
-msgstr "a samozřejmě tobě hráči"
+msgstr "a samozřejmě tobě, hráči"
 
 #: data//credits.stxt:1160
 msgid "for giving this game a chance and playing it"
@@ -3659,11 +3659,11 @@ msgstr "že jsi této hře dal šanci a hrál ji"
 
 #: data//credits.stxt:1171
 msgid "Visit our webpage at"
-msgstr "navštivte náš web:"
+msgstr "Navštiv náš web:"
 
 #: data//credits.stxt:1180
 msgid "Or visit us directly at IRC:"
-msgstr "nebo si s námi promluvte na IRC:"
+msgstr "...nebo si s námi promluv na IRC:"
 
 #: data//credits.stxt:1184
 msgid "#supertux at web.libera.chat"
@@ -3671,25 +3671,25 @@ msgstr "#supertux na web.libera.chat"
 
 #: data//credits.stxt:1189
 msgid "Or at our Forum:"
-msgstr "nebo na našem fóru:"
+msgstr "...nebo na našem fóru:"
 
 #: data//credits.stxt:1198
 msgid "Comments, ideas and suggestions"
-msgstr "komentáře, nápady a připomínky"
+msgstr "Komentáře, nápady a připomínky"
 
 #: data//credits.stxt:1202
 msgid "go to our mailing list"
-msgstr "pište na náš e-mail:"
+msgstr "směřuj na náš e-mail:"
 
 #. l10n: typo contact
 #: data//credits.stxt:1212
 msgid "Typographical errors can be"
-msgstr "Překlepy mohou být"
+msgstr "Překlepy můžeš"
 
 #. l10n: typo contact
 #: data//credits.stxt:1217
 msgid "reported to"
-msgstr "oznámeno"
+msgstr "oznamovat na"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
 #: data//credits.stxt:1222
@@ -3698,7 +3698,7 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1229
 msgid "Want to help…"
-msgstr "Chcete pomoci..."
+msgstr "Chceš pomoci..."
 
 #: data//credits.stxt:1234
 msgid "…with localization?"
@@ -3710,7 +3710,7 @@ msgstr "...s něčím jiným?"
 
 #: data//credits.stxt:1255
 msgid "Thank you for"
-msgstr "Děkujeme ti za"
+msgstr "Děkujeme Ti za"
 
 #: data//credits.stxt:1259
 msgid "playing"
@@ -3780,11 +3780,11 @@ msgstr "Sněžné pozadí"
 
 #: data//images/tiles.strf:231
 msgid "Snow Mountain"
-msgstr "Sněhová hora"
+msgstr "Sněžná hora"
 
 #: data//images/tiles.strf:305
 msgid "Crystal"
-msgstr "Krystal"
+msgstr "Krystaly"
 
 #: data//images/tiles.strf:532
 msgid "Forest Background"
@@ -3800,11 +3800,11 @@ msgstr "Tyče a cedule"
 
 #: data//images/tiles.strf:760
 msgid "Liquid"
-msgstr "Tekutiny"
+msgstr "Kapaliny"
 
 #: data//images/tiles.strf:793
 msgid "Castle"
-msgstr "Hrad"
+msgstr "Hradní"
 
 #: data//images/tiles.strf:930 data//images/worldmap.strf:199
 msgid "Halloween"

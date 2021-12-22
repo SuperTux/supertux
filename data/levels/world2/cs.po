@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 22:07+0000\n"
+"PO-Revision-Date: 2021-12-21 16:41+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: data/levels/world2/ancient_ruins.stl:3
 msgid "Ancient Ruins"
-msgstr "Dávné ruiny"
+msgstr "Prastaré ruiny"
 
 #: data/levels/world2/ancient_ruins.stl:1463
 #: data/levels/world2/ancient_ruins.stl:1471
@@ -57,7 +57,7 @@ msgstr "Trampolíny"
 
 #: data/levels/world2/bye_bye_forest.stl:3
 msgid "Bye Bye Forest"
-msgstr "Sbohem lese"
+msgstr "Lesu na shledanou"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
@@ -81,11 +81,11 @@ msgstr "Nové místo"
 
 #: data/levels/world2/ghost_cutscene.stl:3
 msgid "What is Happening?"
-msgstr "Co se děje?"
+msgstr "Co se to děje?"
 
 #: data/levels/world2/ghostly_misery.stl:3
 msgid "Ghostly Misery"
-msgstr "Bída duchů"
+msgstr "Bída a duchové"
 
 #: data/levels/world2/ghosttrees_challenges.stl:3
 msgid "Ghosttree's Challenges"
@@ -99,7 +99,7 @@ msgstr "Doupě démonů"
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Lucerny dokáží zpevnit kouzelné bloky, takže se po nich dá jít."
+msgstr "#Lucerny dokáží zpevnit kouzelné bloky, aby se po nich dalo projít."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -107,13 +107,13 @@ msgstr "Jde se do podzemí"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:3
 msgid "I Spy With My Little Eye"
-msgstr "Koukám a vidím"
+msgstr "Před pikolou za pikolou"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:221
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Čidlo\n#Čidla aktivují věci (jako třeba platformy), kdykoliv spatří Tuxe."
+msgstr "-Čidlo\n#Čidla aktivují věci (jako třeba plošiny), kdykoliv spatří Tuxe."
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:595
 msgid "Hint: Use snails to break blocks!"
@@ -129,15 +129,15 @@ msgstr "Ztracená vesnice"
 
 #: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
-msgstr "#Nezapomeň zmáčknout páčku!"
+msgstr "#Nezapomeň zatáhnout za páčku!"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Prohnilá slůj"
+msgstr "Prohnilá sluj"
 
 #: data/levels/world2/owls_again.stl:3
 msgid "The Owls again..."
-msgstr "Znovu sovy..."
+msgstr "A zase sovy..."
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
@@ -149,11 +149,11 @@ msgstr "Tučňáci nerostou na stromech"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Šokování"
+msgstr "Blýskání"
 
 #: data/levels/world2/the_forest_is_rotting.stl:3
 msgid "The Forest Is Rotting"
-msgstr "Hnijící les"
+msgstr "Les hnije"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
@@ -165,11 +165,11 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-1.png\n"
 "#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
 "#This does not work while jumping or falling!"
-msgstr "-Zemní květina\n!images/powerups/earthflower/earth_flower-1.png\n#Zemní květina umožní Tuxovi zkamenět stisknutím kláves AKCE a DOLŮ současně.\n#To nefunguje při skoku nebo pádu!"
+msgstr "-Zemní květina\n!images/powerups/earthflower/earth_flower-1.png\n#Zemní květina umožní Tuxovi zkamenět stisknutím kláves AKCE a DOLŮ současně, pokud je zrovna na zemi."
 
 #: data/levels/world2/tower_cutscene.stl:3
 msgid "Tower Cutscene"
-msgstr "Věžní přechodová scéna"
+msgstr "Věžní předělová scéna"
 
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
@@ -199,11 +199,11 @@ msgstr "#Bludičky jsou malí, otravní duchové, kteří dokáží přenést Tu
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Chodící listy"
+msgstr "Chodící listí"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
-msgstr "Vítejte v lese"
+msgstr "Vítej v lese"
 
 #: data/levels/world2/welcome_forest.stl:50
 msgid ""
