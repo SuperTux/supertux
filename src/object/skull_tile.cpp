@@ -26,6 +26,7 @@ static const float CRACKTIME = 0.3f;
 static const float FALLTIME = 0.8f;
 static const float RESPAWNTIME = 5.f;
 static const float FADETIME = 0.5f;
+static const float DELAY_IF_TUX = 0.001f;
 
 SkullTile::SkullTile(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/skull_tile/skull_tile.sprite", LAYER_TILES, COLGROUP_STATIC),
@@ -71,14 +72,21 @@ SkullTile::update(float dt_sec)
   if (falling) {
     if (m_revive_timer.check())
     {
-      m_alpha = 0.f;
-      m_revive_timer.stop();
-      falling = false;
-      m_respawn.reset(new FadeHelper(&m_alpha, FADETIME, 1.f));
-      physic.enable_gravity(false);
-      m_col.set_pos(m_original_pos);
-      physic.set_velocity(Vector(0.0f, 0.0f));
-      m_col.set_movement(Vector(0.0f, 0.0f));
+      if (Sector::current() && Sector::get().is_free_of_movingstatics(m_col.m_bbox.grown(-1.f)))
+      {
+        m_alpha = 0.f;
+        m_revive_timer.stop();
+        falling = false;
+        m_respawn.reset(new FadeHelper(&m_alpha, FADETIME, 1.f));
+        physic.enable_gravity(false);
+        m_col.set_pos(m_original_pos);
+        physic.set_velocity(Vector(0.0f, 0.0f));
+        m_col.set_movement(Vector(0.0f, 0.0f));
+      }
+      else
+      {
+        m_revive_timer.start(DELAY_IF_TUX);
+      }
     }
     m_col.set_movement(physic.get_movement(dt_sec));
   } else if (hit) {

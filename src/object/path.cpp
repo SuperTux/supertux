@@ -140,10 +140,19 @@ Path::save(Writer& writer)
     writer.start_list("node");
     writer.write("x", nod.position.x);
     writer.write("y", nod.position.y);
-    writer.write("bezier_before_x", nod.bezier_before.x);
-    writer.write("bezier_before_y", nod.bezier_before.y);
-    writer.write("bezier_after_x", nod.bezier_after.x);
-    writer.write("bezier_after_y", nod.bezier_after.y);
+
+    if (nod.bezier_before.x != nod.position.x || nod.bezier_before.y != nod.position.y)
+    {
+      writer.write("bezier_before_x", nod.bezier_before.x);
+      writer.write("bezier_before_y", nod.bezier_before.y);
+    }
+
+    if (nod.bezier_after.x != nod.position.x || nod.bezier_after.y != nod.position.y)
+    {
+      writer.write("bezier_after_x", nod.bezier_after.x);
+      writer.write("bezier_after_y", nod.bezier_after.y);
+    }
+
     if (nod.time != 1.0f) {
       writer.write("time", nod.time);
     }
