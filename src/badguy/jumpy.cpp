@@ -84,7 +84,7 @@ Jumpy::active_update(float dt_sec)
 
   if (!groundhit_pos_set)
   {
-    m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
+    m_sprite->set_action(m_dir == Direction::LEFT ? "editor-left" : "editor-right");
     return;
   }
 
@@ -95,6 +95,13 @@ Jumpy::active_update(float dt_sec)
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
   else
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
+}
+
+void
+Jumpy::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  groundhit_pos_set = false;
 }
 
 void
