@@ -186,6 +186,12 @@ Block::start_bounce(GameObject* hitter)
   if (hitter_mo) {
     float center_of_hitter = hitter_mo->get_bbox().get_middle().x;
     float offset = (m_col.m_bbox.get_middle().x - center_of_hitter)*2 / m_col.m_bbox.get_width();
+
+    // Without this, hitting a multi-coin bonus block from the side (e. g. with
+    // an ice block or a snail) would turn the block 90 degrees.
+    if (offset > 2 || offset < -2)
+      offset = 0;
+
     m_sprite->set_angle(BUMP_ROTATION_ANGLE*offset);
   }
 }
