@@ -575,10 +575,6 @@
       (info (_ "Contributions"))
     )
 	(person
-      (name "mbernard2")
-      (info (_ "Contributions"))
-    )
-	(person
       (name "Erratic-C-Programmer")
       (info (_ "Contributions"))
     )
