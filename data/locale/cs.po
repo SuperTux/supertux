@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-21 18:14+0000\n"
+"PO-Revision-Date: 2021-12-22 20:55+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Tlačítko"
 
 #: src/trigger/scripttrigger.cpp:77
 msgid "Oneshot"
-msgstr "Jednosměrný"
+msgstr "Jednorázový"
 
 #: src/trigger/sequence_trigger.hpp:33
 msgid "Sequence Trigger"
@@ -442,7 +442,7 @@ msgstr "Zrodiště"
 
 #: src/object/rusty_trampoline.cpp:65
 msgid "Counter"
-msgstr "Čítač"
+msgstr "Výdrž"
 
 #: src/object/candle.hpp:36
 msgid "Candle"
@@ -1005,7 +1005,7 @@ msgstr "Variace vodorovné rychlosti"
 
 #: src/object/custom_particle_system.cpp:502
 msgid "Speed Y (variation)"
-msgstr "Variace vertikální rychlosti"
+msgstr "Variace svislé rychlosti"
 
 #: src/object/custom_particle_system.cpp:503
 msgid "Acceleration X"
@@ -1668,7 +1668,7 @@ msgstr "Náhodný"
 
 #: src/badguy/dispenser.cpp:447 data//images/engine/editor/objects.stoi:4
 msgid "Enemies"
-msgstr "Nepřátelé"
+msgstr "Zlejšci"
 
 #: src/badguy/dispenser.cpp:448
 msgid "Limit dispensed badguys"
@@ -1712,7 +1712,7 @@ msgstr "Chytrá sněhová koule"
 
 #: src/badguy/bouncing_snowball.hpp:32
 msgid "Bouncing Snowball"
-msgstr "Skákající koule"
+msgstr "Skákající sněhová koule"
 
 #: src/badguy/iceflame.hpp:33
 msgid "Ice Flame"

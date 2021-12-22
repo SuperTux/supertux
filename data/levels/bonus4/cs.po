@@ -48,7 +48,7 @@ msgstr "Hlouběji do hor"
 
 #: data/levels/bonus4/Feeling_The_Nature.stl:3
 msgid "Feeling The Nature"
-msgstr "Vcítění do přírody"
+msgstr "Vcítění se do přírody"
 
 #: data/levels/bonus4/Fog_And_Mist.stl:3
 msgid "Fog And Mist"

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-20 15:52+0000\n"
+"PO-Revision-Date: 2021-12-22 21:08+0000\n"
 "Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgstr "Oblaka k odpalu"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
-msgstr "Nebyl jsem tu už někdy předtím?"
+msgstr "Nebyl jsem tu už někdy náhodou?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
@@ -116,7 +116,7 @@ msgstr "Dobrý začátek"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
-msgstr "Moc jednoduché"
+msgstr "Příliš snadné"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
@@ -124,7 +124,7 @@ msgstr "#Všechny tyto úrovně upravil pro nové verze SuperTuxe Hume."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
-msgstr "Stále moc jedoduché"
+msgstr "Stále příliš snadné"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
