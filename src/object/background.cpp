@@ -43,8 +43,6 @@ Background::Background() :
   m_image_top(),
   m_image(),
   m_image_bottom(),
-  m_has_pos_x(false),
-  m_has_pos_y(false),
   m_blend(),
   m_color(1.f, 1.f, 1.f),
   m_target(DrawingTarget::COLORMAP),
@@ -70,8 +68,6 @@ Background::Background(const ReaderMapping& reader) :
   m_image_top(),
   m_image(),
   m_image_bottom(),
-  m_has_pos_x(false),
-  m_has_pos_y(false),
   m_blend(),
   m_color(),
   m_target(DrawingTarget::COLORMAP),
@@ -79,13 +75,6 @@ Background::Background(const ReaderMapping& reader) :
   m_src_color(),
   m_dst_color()
 {
-  // read position, defaults to (0,0)
-  float px = 0;
-  float py = 0;
-  m_has_pos_x = reader.get("x", px);
-  m_has_pos_y = reader.get("y", py);
-  m_pos = Vector(px,py);
-
   reader.get("fill", m_fill);
 
   std::string alignment_str;
@@ -120,6 +109,14 @@ Background::Background(const ReaderMapping& reader) :
 
   reader.get("scroll-offset-x", m_scroll_offset.x, 0.0f);
   reader.get("scroll-offset-y", m_scroll_offset.y, 0.0f);
+
+  // for backwards compatibility, add position to scroll offset
+  float px;
+  float py;
+  if (reader.get("x", px))
+    m_scroll_offset.x += px;
+  if (reader.get("y", py))
+    m_scroll_offset.y += py;
 
   reader.get("scroll-speed-x", m_scroll_speed.x, 0.0f);
   reader.get("scroll-speed-y", m_scroll_speed.y, 0.0f);
@@ -387,8 +384,8 @@ Background::draw(DrawingContext& context)
   Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
                        context.get_translation().y - translation_range.height / 2.0f);
 
-  Vector pos(m_has_pos_x ? m_pos.x : level_size.width / 2,
-             m_has_pos_y ? m_pos.y : level_size.height / 2);
+  Vector pos(level_size.width / 2,
+             level_size.height / 2);
   draw_image(context, pos + m_scroll_offset + Vector(center_offset.x * (1.0f - m_parallax_speed.x),
                                                      center_offset.y * (1.0f - m_parallax_speed.y)));
 }
