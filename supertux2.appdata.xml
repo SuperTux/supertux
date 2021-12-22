@@ -43,6 +43,7 @@
     <binary>supertux2</binary>
   </provides>
   <releases>
+    <release version="0.6.3" date="2021-12-22" />
     <release version="0.6.2" date="2020-05-14" />
     <release version="0.6.1.1" date="2019-12-19" />
     <release version="0.6.1" date="2019-12-15" />

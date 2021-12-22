@@ -1,6 +1,36 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.6.3 (2021-12-22)
+---------------------------
+The SuperTux team is excited to announce the release of SuperTux 0.6.3 after approximately 1.5 years of development.  This release introduces many new features; perhaps the most new features in a long time!
+
+Some of the most significant changes include:
+- WASM compilation! SuperTux nightlies can now be played directly in the browser (thanks to Semphris)
+- Added swimming (thanks to Daniel and Zwatotem)
+- Added walljumping (thanks to Daniel)
+- Autotiles (thanks to Semphris)
+- Updated animations (thanks to Alzter, Daniel and RustyBox)
+- Refreshed many contrib worldmaps (thanks to Servalot)
+- Many updates to paths, with easing, bezier curves, path sharing between objects, and more (thanks to Semphris)
+- Remade the crystal tileset (thanks to Alzter and RustyBox)
+- Many new snow tiles (thanks to Daniel)
+- Many new objects, like the sideways bumper and falling blocks (thanks to Daniel)
+- Custom particles (thanks to Semphris)
+- A new rublight object (thanks to HybridDog)
+- Official binaries for FreeBSD, Linux 32-bit and Ubuntu Touch (thanks to Semphris)
+- Added in-game progress statistics (thanks to Semphris)
+- New color picker based on OKLab (thanks to HybridDog)
+- Add-on creator, to easily create add-on packages with your world (thanks to Semphris)
+- Rework of the Revenge in Redmond worldmap (thanks to RustyBox)
+- Added timeshift ambience in the worldmap (thanks to Semphris)
+- Skippable cutscenes (thanks to Semphris)
+- Editor auto-saves at regular intervals (thanks to Semphris)
+- Optional integration with Discord (thanks to Semphris)
+- Updated translations, of course (thanks to translators)
+
+And these are just the most significant changes; there are plenty of other small features and bugfixes for you all to explore :)
+
 SuperTux 0.6.2 (2020-05-14)
 ---------------------------
 The SuperTux Team is excited to announce the availability of SuperTux 0.6.2. This release fixes a number of bugs that were reported after 0.6.1. It also features reworked graphics and levels. 
