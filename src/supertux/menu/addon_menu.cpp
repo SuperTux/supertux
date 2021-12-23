@@ -195,7 +195,7 @@ AddonMenu::rebuild_menu()
           if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
           {
             std::string text = generate_menu_item_text(addon);
-            add_entry(MAKE_REPOSITORY_MENU_ID(idx), fmt::format(fmt::runtime( _("Install {})), text));
+            add_entry(MAKE_REPOSITORY_MENU_ID(idx), fmt::format(fmt::runtime( _("Install {}")), text));
             have_new_stuff = true;
           }
         }
