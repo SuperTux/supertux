@@ -94,7 +94,7 @@ Resources::get_font_for_locale(const tinygettext::Language& locale)
 
   if(lang == "ne")
     return "fonts/Dekko-Regular.ttf";
-  if(lang == "cmn" || lang == "ja" || lang == "zh_CN" || lang == "zh_TW")
+  if(lang == "cmn" || lang == "ja" || lang == "zh")
     return "fonts/NotoSansCJKjp-Medium.otf";
   if(lang == "he")
     return "fonts/VarelaRound-Regular.ttf";
