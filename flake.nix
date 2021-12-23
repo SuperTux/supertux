@@ -126,7 +126,12 @@ EOF
               pkgs.openal
               pkgs.libvorbis
               pkgs.libogg
+
               pkgs.gtest
+
+              pkgs.opusfile
+              pkgs.mpg123
+              pkgs.libmodplug
             ];
           };
 
