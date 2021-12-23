@@ -664,7 +664,7 @@ Tux.walk(150);
 wait(4);
 Effect.fade_out(2);
 wait(2);
-Level.spawn(\"cutscene\", \"main\")")
+Level.spawn(\"cutscene\", \"main\");")
       (button #f)
       (x 17776)
       (y 64)
