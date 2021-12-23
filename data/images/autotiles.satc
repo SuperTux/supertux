@@ -1247,7 +1247,7 @@
     (autotile
       (id 1038)
       (solid #f)
-      (mask "***00010")
+      (mask "*****010")
     )
     (autotile
       (id 1044)
