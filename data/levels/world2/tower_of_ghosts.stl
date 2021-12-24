@@ -3607,7 +3607,7 @@ Tux.walk(100);
 wait(0.35);
 Tux.walk(0);
 wait(3);
-Text.set_text(_(\"It's from Penny, telling him that Nolok took her to a Tropical World and seemed very upset about it.\"));
+Text.set_text(_(\"It's from Penny, telling him that Nolok took her to a Tropical World, and that he seemed very upset about it.\"));
 Text.fade_in(1);
 wait(5);
 Text.fade_out(1);
