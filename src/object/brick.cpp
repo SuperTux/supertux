@@ -158,7 +158,12 @@ HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
 
   auto icecrusher = dynamic_cast<IceCrusher*> (&other);
   if (icecrusher)
-    ricochet(&other);
+  {
+    if (icecrusher->is_big())
+      try_break(nullptr);
+    else
+      ricochet(&other);
+  }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy && badguy->can_break() && (badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ))

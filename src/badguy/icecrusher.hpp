@@ -56,6 +56,8 @@ public:
   
   virtual ObjectSettings get_settings() override;
 
+  bool is_big() const { return ic_size == LARGE; }
+
 private:
   bool found_victim_down() const;
   bool found_victim_right() const;
