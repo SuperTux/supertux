@@ -41,6 +41,11 @@ TileSetParser::TileSetParser(TileSet& tileset, const std::string& filename) :
 void
 TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
 {
+  if (offset && (int)start + offset < 1) {
+    start = -offset + 1;
+    log_warning << "The defined offset would assign non-positive ids to tiles, tiles below " << -offset + 1 << " will be ignored" << std::endl;
+  }
+
   m_tiles_path = FileSystem::dirname(m_filename);
 
   auto doc = ReaderDocument::from_file(m_filename);
