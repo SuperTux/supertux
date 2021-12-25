@@ -43,7 +43,11 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
 {
   if (offset && (int)start + offset < 1) {
     start = -offset + 1;
-    log_warning << "The defined offset would assign non-positive ids to tiles, tiles below " << -offset + 1 << " will be ignored" << std::endl;
+    log_warning << "The defined offset would assign non-positive ids to tiles, tiles below " << -offset + 1 << " will be ignored." << std::endl;
+  }
+  if (end < start) {
+    log_warning << "The defined range has a negative size, no tiles will be imported." << std::endl;
+    return;
   }
 
   m_tiles_path = FileSystem::dirname(m_filename);
