@@ -95,14 +95,14 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
     {
       ReaderMapping reader = iter.as_mapping();
       std::string import_filename;
-      uint32_t start = 0, end = 0;
-      int32_t offset = 0;
+      uint32_t import_start = 0, import_end = 0;
+      int32_t import_offset = 0;
       reader.get("file", import_filename);
-      reader.get("start", start);
-      reader.get("end", end);
-      reader.get("offset", offset);
+      reader.get("start", import_start);
+      reader.get("end", import_end);
+      reader.get("offset", import_offset);
       TileSetParser import_parser(m_tileset, import_filename);
-      import_parser.parse(start, end, offset);
+      import_parser.parse(import_start, import_end, import_offset);
     }
     else
     {
