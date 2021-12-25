@@ -20,7 +20,7 @@
       (alignment "bottom")
       (speed 0)
       (image "images/background/halloween/vignette.png")
-      (z-pos 500)
+      (z-pos 200)
     )
     (background
       (color 1 1 1)
