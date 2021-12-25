@@ -1626,8 +1626,8 @@
       "tiles/blocks/brick3.png"
     )
     (solid #t)
-    (object-name "brick")
-    (object-data "(breakable #t) (sprite \"images/objects/bonus_block/heavy-brick.sprite\")")
+    (object-name "heavy-brick")
+    (object-data "(breakable #t)")
   )
   (tiles
     (width 1)
