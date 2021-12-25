@@ -61,7 +61,7 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
     else if (iter.get_key() == "tilegroup")
     {
       /* tilegroups are only interesting for the editor */
-      /* ignore tilegroups for imported tilesets */
+      /* ignore tilegroups for imported tilesets unless there's no limit and no offset*/
       if (end || offset) continue;
       ReaderMapping reader = iter.as_mapping();
       Tilegroup tilegroup;
@@ -76,7 +76,7 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
     }
     else if (iter.get_key() == "autotileset")
     {
-       /* ignore autotiles for imported tilesets */
+      /* ignore autotiles for imported tilesets unless there's no limit and no offset */
       if (end || offset) continue;
       ReaderMapping reader = iter.as_mapping();
       std::string autotile_filename;
