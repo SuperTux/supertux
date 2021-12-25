@@ -300,7 +300,9 @@ AutotileSet::get_mask_from_tile(uint32_t tile) const
 void
 AutotileSet::validate() const
 {
-  for (int mask = 0; mask <= (m_corner ? 15 : 255); mask++)
+  // Corner autotiles are always empty if all 4 corners are, but regular
+  // autotiles should have a valid tile ID that can be surrounded by emptiness
+  for (int mask = (m_corner ? 1 : 0); mask <= (m_corner ? 15 : 255); mask++)
   {
     uint8_t num_mask = static_cast<uint8_t>(mask);
     bool tile_exists = false;
