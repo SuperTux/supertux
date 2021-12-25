@@ -291,7 +291,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, uint32_t min, uint32_t m
 
       for (size_t i = 0; i < ids.size(); ++i)
       {
-        if(!ids[i] || (max && (ids[i] < min || ids[i] > max))) continue;
+        if (!ids[i] || (max && (ids[i] < min || ids[i] > max))) continue;
         ids[i] += offset;
 
         const int x = static_cast<int>(32 * (i % width));
@@ -324,7 +324,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, uint32_t min, uint32_t m
     {
       for (size_t i = 0; i < ids.size(); ++i)
       {
-        if(!ids[i] || (max && (ids[i] < min || ids[i] > max))) continue;
+        if (!ids[i] || (max && (ids[i] < min || ids[i] > max))) continue;
         ids[i] += offset;
 
         int x = static_cast<int>(32 * (i % width));
