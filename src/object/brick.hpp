@@ -19,11 +19,11 @@
 
 #include "object/block.hpp"
 
-class Brick final : public Block
+class Brick : public Block
 {
 public:
   Brick(const Vector& pos, int data, const std::string& spriteName);
-  Brick(const ReaderMapping& mapping);
+  Brick(const ReaderMapping& mapping, const std::string& spriteName = "images/objects/bonus_block/brick.sprite");
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual ObjectSettings get_settings() override;
@@ -42,6 +42,23 @@ private:
 private:
   Brick(const Brick&) = delete;
   Brick& operator=(const Brick&) = delete;
+};
+
+class HeavyBrick : public Brick
+{
+public:
+  HeavyBrick(const Vector& pos, int data, const std::string& spriteName);
+  HeavyBrick(const ReaderMapping& mapping);
+
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual std::string get_class() const override { return "heavy-brick"; }
+  virtual std::string get_display_name() const override { return _("Heavy Brick"); }
+
+private:
+  void ricochet(GameObject* collider);
+
+protected:
+  virtual void hit(Player& player) override;
 };
 
 #endif

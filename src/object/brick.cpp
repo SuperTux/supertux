@@ -42,8 +42,8 @@ Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
   }
 }
 
-Brick::Brick(const ReaderMapping& mapping) :
-  Block(mapping, "images/objects/bonus_block/brick.sprite"),
+Brick::Brick(const ReaderMapping& mapping, const std::string& spriteName) :
+  Block(mapping, spriteName),
   m_breakable(),
   m_coin_counter(0)
 {
@@ -63,7 +63,7 @@ Brick::hit(Player& player)
 }
 
 HitResponse
-Brick::collision(GameObject& other, const CollisionHit& hit_)
+Brick::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -77,24 +77,24 @@ Brick::collision(GameObject& other, const CollisionHit& hit_)
     // Badguy's bottom has to be below the top of the brick
     // SHIFT_DELTA is required to slide over one tile gaps.
     if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
-      try_break(player);
+      try_break(nullptr);
     }
   }
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable) {
     auto moving = dynamic_cast<MovingObject*> (&other);
     if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
-      try_break(player);
+      try_break(nullptr);
     }
   }
   auto explosion = dynamic_cast<Explosion*> (&other);
   if (explosion && explosion->hurts()) {
-    try_break(player);
+    try_break(nullptr);
   }
   auto icecrusher = dynamic_cast<IceCrusher*> (&other);
   if (icecrusher && m_coin_counter == 0)
-    try_break(player);
-  return Block::collision(other, hit_);
+    try_break(nullptr);
+  return Block::collision(other, hit);
 }
 
 void
@@ -132,6 +132,64 @@ Brick::get_settings()
   ObjectSettings result = Block::get_settings();
   result.add_bool(_("Breakable"), &m_breakable, "breakable");
   return result;
+}
+
+HeavyBrick::HeavyBrick(const Vector& pos, int data, const std::string& spriteName) :
+  Brick(pos, data, spriteName)
+{
+}
+
+HeavyBrick::HeavyBrick(const ReaderMapping& mapping) :
+  Brick(mapping, "images/objects/bonus_block/heavy-brick.sprite")
+{
+}
+
+HitResponse
+HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
+{
+  auto player = dynamic_cast<Player*>(&other);
+  if (player)
+  {
+    if (player->is_stone() && player->get_velocity().y >= 280)
+      try_break(player);
+    else if (player->m_does_buttjump)
+      ricochet(&other);
+  }
+
+  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
+  if (icecrusher)
+    ricochet(&other);
+
+  auto badguy = dynamic_cast<BadGuy*> (&other);
+  if (badguy && badguy->can_break() && (badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ))
+    ricochet(&other);
+
+  auto explosion = dynamic_cast<Explosion*> (&other);
+  if (explosion && explosion->hurts())
+    try_break(nullptr);
+
+  auto portable = dynamic_cast<Portable*> (&other);
+  if (portable)
+  {
+    auto moving = dynamic_cast<MovingObject*> (&other);
+    if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
+      ricochet(&other);
+  }
+
+  return Block::collision(other, hit);
+}
+
+void
+HeavyBrick::ricochet(GameObject* collider)
+{
+  SoundManager::current()->play("sounds/metal_hit.ogg");
+  start_bounce(collider);
+}
+
+void
+HeavyBrick::hit(Player& player)
+{
+  ricochet(&player);
 }
 
 /* EOF */

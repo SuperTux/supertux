@@ -199,6 +199,9 @@
     (class "brick")
     (icon "images/tiles/blocks/brick0.png"))
   (object
+    (class "heavy-brick")
+    (icon "images/tiles/blocks/brick3.png"))
+  (object
     (class "heavycoin")
     (icon "images/objects/coin/heavy_coin.png"))
   (object
