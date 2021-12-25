@@ -62,7 +62,7 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
     {
       /* tilegroups are only interesting for the editor */
       /* ignore tilegroups for imported tilesets */
-      if (end) continue;
+      if (end || offset) continue;
       ReaderMapping reader = iter.as_mapping();
       Tilegroup tilegroup;
       reader.get("name", tilegroup.name);
@@ -77,7 +77,7 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
     else if (iter.get_key() == "autotileset")
     {
        /* ignore autotiles for imported tilesets */
-      if (end) continue;
+      if (end || offset) continue;
       ReaderMapping reader = iter.as_mapping();
       std::string autotile_filename;
       if (!reader.get("source", autotile_filename))
@@ -324,7 +324,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, uint32_t min, uint32_t m
     {
       for (size_t i = 0; i < ids.size(); ++i)
       {
-        if (!ids[i] || (max && (ids[i] < min || ids[i] > max))) continue;
+        if(!ids[i] || (max && (ids[i] < min || ids[i] > max))) continue;
         ids[i] += offset;
 
         int x = static_cast<int>(32 * (i % width));
