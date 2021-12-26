@@ -961,7 +961,6 @@ EditorOverlayWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     case SDL_BUTTON_MIDDLE:
       process_middle_click();
       return true;
-      break;
 
     default:
       return false;
