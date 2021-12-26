@@ -13,30 +13,30 @@
  (action
   (name "piece1")
   (fps 1)
-  (images "../../tiles/blocks/brick_piece1.png"))
+  (images "../../tiles/blocks/brick_piece7.png"))
 
  (action
   (name "piece2")
   (fps 1)
-  (images "../../tiles/blocks/brick_piece2.png"))
+  (images "../../tiles/blocks/brick_piece8.png"))
 
  (action
   (name "piece3")
   (fps 1)
-  (images "../../tiles/blocks/brick_piece3.png"))
+  (images "../../tiles/blocks/brick_piece9.png"))
 
  (action
   (name "piece4")
   (fps 1)
-  (images "../../tiles/blocks/brick_piece4.png"))
+  (images "../../tiles/blocks/brick_piece10.png"))
 
  (action
   (name "piece5")
   (fps 1)
-  (images "../../tiles/blocks/brick_piece5.png"))
+  (images "../../tiles/blocks/brick_piece11.png"))
 
  (action
   (name "piece6")
   (fps 1)
-  (images "../../tiles/blocks/brick_piece6.png"))
+  (images "../../tiles/blocks/brick_piece12.png"))
  )
