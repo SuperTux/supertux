@@ -60,8 +60,10 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_hovered_corner(0, 0),
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
+  m_previous_mouse_pos(0, 0),
   m_dragging(false),
   m_dragging_right(false),
+  m_scrolling(false),
   m_drag_start(0, 0),
   m_dragged_object(nullptr),
   m_hovered_object(nullptr),
@@ -859,6 +861,13 @@ EditorOverlayWidget::process_right_click()
   }
 }
 
+void
+EditorOverlayWidget::process_middle_click()
+{
+  m_previous_mouse_pos = m_mouse_pos;
+  m_scrolling = true;
+}
+
 Rectf
 EditorOverlayWidget::tile_drag_rect() const
 {
@@ -926,6 +935,8 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
       }
     }
   }
+  else if (button.button == SDL_BUTTON_MIDDLE)
+    m_scrolling = false;
 
   m_dragging = false;
 
@@ -946,6 +957,11 @@ EditorOverlayWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     case SDL_BUTTON_RIGHT:
       process_right_click();
       return true;
+
+    case SDL_BUTTON_MIDDLE:
+      process_middle_click();
+      return true;
+      break;
 
     default:
       return false;
@@ -992,6 +1008,12 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       default:
         break;
     }
+    return true;
+  }
+  else if (m_scrolling)
+  {
+    m_editor.scroll(m_previous_mouse_pos - m_mouse_pos);
+    m_previous_mouse_pos = m_mouse_pos;
     return true;
   }
   else

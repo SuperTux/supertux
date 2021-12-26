@@ -102,6 +102,7 @@ private:
 
   void process_left_click();
   void process_right_click();
+  void process_middle_click();
 
   // sp is sector pos, tp is pos on tilemap.
   Vector tp_to_sp(const Vector& tp, int tile_size = 32) const;
@@ -121,9 +122,11 @@ private:
   Vector m_hovered_corner;
   Vector m_sector_pos;
   Vector m_mouse_pos;
+  Vector m_previous_mouse_pos;
 
   bool m_dragging;
   bool m_dragging_right;
+  bool m_scrolling;
   Vector m_drag_start;
   TypedUID<MovingObject> m_dragged_object;
 
