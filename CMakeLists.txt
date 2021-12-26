@@ -581,9 +581,7 @@ if (NOT EMSCRIPTEN)
     find_package(Freetype REQUIRED)
   endif()
 endif(NOT EMSCRIPTEN)
-if (NOT VCPKG_BUILD)
-  find_package(RAQM)
-endif()
+find_package(RAQM)
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
