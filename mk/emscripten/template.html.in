@@ -304,7 +304,7 @@
 
               var update = Date.now() / 1000
               progressDescElement.innerText = e.match(/[Dd]ownload/)
-                ? getExp(parseInt(t[2])) + "b / " + getExp(parseInt(t[4])) + "b (" + getExp((parseInt(t[2]) - lastStep) / (update - lastUpdate)) + "b/s)"
+                ? getExp(parseInt(t[2])) + "B / " + getExp(parseInt(t[4])) + "B (" + getExp((parseInt(t[2]) - lastStep) / (update - lastUpdate)) + "B/s)"
                 : t[2] + " of " + t[4] + " assets loaded";
               lastUpdate = Date.now() / 1000;
               lastStep = parseInt(t[2]);
