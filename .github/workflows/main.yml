@@ -33,6 +33,7 @@ jobs:
       matrix:
         arch: [32, 64]
         os: [ubuntu-latest, macos-10.15, macos-11]
+        deps: [native, vcpkg]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
         exclude:
@@ -69,8 +70,8 @@ jobs:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
           submodules: true
-      - name: Install 64-bit linux dependencies
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 64 }}
+      - name: Install 64-bit linux tools
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 64 && matrix.deps == 'native' }}
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -82,9 +83,31 @@ jobs:
             rename \
             sshpass \
             clang-6.0 \
-            g++-8 \
+            g++-8
+      - name: Install 32-bit linux tools
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 && matrix.deps == 'native' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            build-essential \
+            automake \
+            gtk-doc-tools \
+            rpm \
+            rename \
+            sshpass \
             gcc-multilib \
-            g++-multilib \
+            g++-multilib
+      - name: Install macos tools
+        if: ${{ (matrix.os == 'macos-10.15' ||  matrix.os == 'macos-11') && matrix.deps == 'native' }}
+        run: |
+          brew install boost cmake googletest bash rename
+          # Something funky happens with freetype if mono is left
+          sudo mv /Library/Frameworks/Mono.framework /Library/Frameworks/Mono.framework-disabled
+      - name: Install 64-bit linux dependencies
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 64 && matrix.deps == 'native' }}
+        run: |
+          sudo apt-get install -y \
             libgtest-dev \
             libc++-dev \
             libogg-dev \
@@ -103,7 +126,7 @@ jobs:
             libglm-dev \
             zlib1g-dev
       - name: Install 32-bit linux dependencies
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 && matrix.deps == 'native' }}
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
@@ -122,15 +145,6 @@ jobs:
             libpcre2-posix2:amd64=10.34-7
 
           sudo apt-get install -y \
-            cmake \
-            build-essential \
-            automake \
-            gtk-doc-tools \
-            rpm \
-            rename \
-            sshpass \
-            gcc-multilib \
-            g++-multilib \
             libgtest-dev:i386 \
             libogg-dev:i386 \
             libvorbis-dev:i386 \
@@ -145,17 +159,41 @@ jobs:
             libharfbuzz-dev:i386 \
             libfribidi-dev:i386 \
             libglm-dev \
-            zlib1g-dev
-          # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
-          wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
-          wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew-dev_1.13.0-2_i386.deb
+            zlib1g-dev:i386
+            # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
+            wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
+            wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew-dev_1.13.0-2_i386.deb
       - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-10.15' ||  matrix.os == 'macos-11' }}
+        if: ${{ (matrix.os == 'macos-10.15' ||  matrix.os == 'macos-11') && matrix.deps == 'native' }}
         run: |
-          brew install boost cmake googletest bash rename libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
+          brew install libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf \
                 freetype harfbuzz fribidi glib gtk-doc glbinding libraqm glm zlib
-          # Something funky happens with freetype if mono is left
-          sudo mv /Library/Frameworks/Mono.framework /Library/Frameworks/Mono.framework-disabled
+      - name: Install vcpkg dependencies
+        if: ${{ matrix.deps == 'vcpkg' }}
+        env:
+          OS: ${{ matrix.os == 'ubuntu-latest' && 'linux' || 'osx' }}
+          ARCH: ${{ matrix.arch == 32 && 'x86' || 'x64' }}
+        run: |
+          vcpkg integrate install
+          vcpkg install gtest:$ARCH-$OS
+          vcpkg install boost-date-time:$ARCH-$OS
+          vcpkg install boost-filesystem:$ARCH-$OS
+          vcpkg install boost-format:$ARCH-$OS
+          vcpkg install boost-iostreams:$ARCH-$OS
+          vcpkg install boost-locale:$ARCH-$OS
+          vcpkg install boost-optional:$ARCH-$OS
+          vcpkg install boost-system:$ARCH-$OS
+          vcpkg install curl:$ARCH-$OS
+          vcpkg install --recurse freetype:$ARCH-$OS
+          vcpkg install glew:$ARCH-$OS
+          vcpkg install libogg:$ARCH-$OS
+          vcpkg install libraqm:$ARCH-$OS
+          vcpkg install libvorbis:$ARCH-$OS
+          vcpkg install openal-soft:$ARCH-$OS
+          vcpkg install sdl2:$ARCH-$OS
+          vcpkg install sdl2-image[libjpeg-turbo]:$ARCH-$OS
+          vcpkg install glm:$ARCH-$OS
+          vcpkg install zlib:$ARCH-$OS
       - name: Set compiler (gcc)
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc' }}
         run: |
@@ -178,13 +216,14 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
+          VCPKG: ${{ matrix.deps == 'vcpkg' && format('-DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET={0}-{1}', matrix.arch == 32 && 'x86' || 'x64', matrix.os == 'ubuntu-latest' && 'linux' || 'osx') || '' }}
         run: |
           cmake --version
           $CXX --version
           mkdir "build"
           cd "build"
           # TODO add -DGLBINDING_ENABLED=$USE_GLBINDING
-          cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ${ARCH} -DENABLE_DISCORD=ON -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH $VCPKG -DENABLE_DISCORD=ON -DWARNINGS=ON -DWERROR=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
       - name: Build and install
         working-directory: build
         run: |
