@@ -37,32 +37,25 @@ EditorDeleteLevelsetMenu::refresh()
   add_label(_("Delete World"));
   add_hl();
   unsigned int i = 0;
-  for(std::string& level_world : m_editor_levelset_select_menu->m_contrib_worlds)
+  std::vector<std::string>& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
+  for(std::string& level_world : contrib_worlds)
   {
-    try
+    std::unique_ptr<World> world = World::from_directory(level_world);
+    if (world->hide_from_contribs())
     {
-      std::unique_ptr<World> world = World::from_directory(level_world);
-      if (world->hide_from_contribs())
-      {
-        continue;
-      }
-      if (!world->is_levelset() && !world->is_worldmap())
-      {
-        log_warning << level_world << ": unknown World type" << std::endl;
-        continue;
-      }
-      auto title = world->get_title();
-      if (title.empty())
-      {
-        continue;
-      }
-      add_entry(i++, title);
+      continue;
     }
-    catch(std::exception& e)
+    if (!world->is_levelset() && !world->is_worldmap())
     {
-      log_info << "Couldn't parse levelset info for '" << level_world << "': "
-               << e.what() << std::endl;
+      log_warning << level_world << ": unknown World type" << std::endl;
+      continue;
     }
+    auto title = world->get_title();
+    if (title.empty())
+    {
+      continue;
+    }
+    add_entry(i++, title);
   }
   add_hl();
   add_back(_("Back"));
@@ -74,11 +67,12 @@ EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
   int id = item.get_id();
   if (id >= 0)
   {
-    if (Editor::is_active() && Editor::current()->get_world()->get_basedir() == m_editor_levelset_select_menu->m_contrib_worlds[id])
+    std::vector<std::string>& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
+    if (Editor::is_active() && Editor::current()->get_world() && Editor::current()->get_world()->get_basedir() == contrib_worlds[id])
       Dialog::show_message(_("You cannot delete world that you are editing"));
     else
     {
-      physfsutil::remove_with_content(m_editor_levelset_select_menu->m_contrib_worlds[id]);
+      physfsutil::remove_with_content(contrib_worlds[id]);
       m_editor_levelset_select_menu->reload_menu();
       refresh();
     }

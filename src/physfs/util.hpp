@@ -32,7 +32,7 @@ bool is_directory(const std::string& path);
 bool remove(const std::string& filenam);
 
 /** Removes directory with content */
-void remove_with_content(std::string& filename);
+void remove_with_content(const std::string& filename);
 
 } // namespace physfsutil
 

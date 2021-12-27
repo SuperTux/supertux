@@ -61,7 +61,7 @@ bool remove(const std::string& filename)
 }
 
 void
-remove_with_content(std::string& filename)
+remove_with_content(const std::string& filename)
 {
   char** files = PHYSFS_enumerateFiles(filename.c_str());
   for (const char* const* file = files; *file != nullptr; file++)
@@ -71,8 +71,8 @@ remove_with_content(std::string& filename)
       remove_with_content(path);
     PHYSFS_delete(path.c_str());
   }
-  PHYSFS_freeList(files);
   PHYSFS_delete(filename.c_str());
+  PHYSFS_freeList(files);
 }
 
 } // namespace physfsutil
