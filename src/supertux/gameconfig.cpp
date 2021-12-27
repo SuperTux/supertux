@@ -209,7 +209,7 @@ Config::load()
     }
 
 #ifdef ENABLE_TOUCHSCREEN_SUPPORT
-#if SHOW_TOUCHSCREEN_CONTROLS
+#ifdef SHOW_TOUCHSCREEN_CONTROLS
     config_control_mapping->get("mobile_controls", mobile_controls, true);
 #else
     config_control_mapping->get("mobile_controls", mobile_controls, false);
