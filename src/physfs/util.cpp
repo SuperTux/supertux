@@ -60,6 +60,21 @@ bool remove(const std::string& filename)
   return PHYSFS_delete(filename.c_str()) == 0;
 }
 
+void
+remote_with_content(std::string& filename)
+{
+  char** files = PHYSFS_enumerateFiles(filename.c_str());
+  for (const char* const* file = files; *file != nullptr; file++)
+  {
+    std::string path = FileSystem::join(filename, *file);
+    if (is_directory(path))
+      remote_with_content(path);
+    PHYSFS_delete(path.c_str());
+  }
+  PHYSFS_freeList(files);
+  PHYSFS_delete(filename.c_str());
+}
+
 } // namespace physfsutil
 
 /* EOF */

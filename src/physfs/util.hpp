@@ -31,6 +31,9 @@ bool is_directory(const std::string& path);
 
 bool remove(const std::string& filenam);
 
+/** Removes directory with content */
+void remote_with_content(std::string& filename);
+
 } // namespace physfsutil
 
 #endif
