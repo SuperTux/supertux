@@ -38,7 +38,7 @@ private:
 public:
   TileSetParser(TileSet& tileset, const std::string& filename);
 
-  void parse(uint32_t start = 0, uint32_t end = 0, int32_t offset = 0);
+  void parse(uint32_t start = 0, uint32_t end = 0, int32_t offset = 0, bool imported = false);
 
 private:
   void parse_tile(const ReaderMapping& reader, uint32_t min, uint32_t max, int32_t offset);

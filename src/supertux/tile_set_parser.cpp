@@ -39,7 +39,7 @@ TileSetParser::TileSetParser(TileSet& tileset, const std::string& filename) :
 }
 
 void
-TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
+TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset, bool imported)
 {
   if (offset && static_cast<int32_t>(start) + offset < 1) {
     start = -offset + 1;
@@ -70,8 +70,8 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
     else if (iter.get_key() == "tilegroup")
     {
       /* tilegroups are only interesting for the editor */
-      /* ignore tilegroups for imported tilesets unless there's no limit and no offset*/
-      if (start || end || offset) continue;
+      /* ignore tilegroups for imported tilesets */
+      if (imported) continue;
       ReaderMapping reader = iter.as_mapping();
       Tilegroup tilegroup;
       reader.get("name", tilegroup.name);
@@ -85,8 +85,8 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
     }
     else if (iter.get_key() == "autotileset")
     {
-      /* ignore autotiles for imported tilesets unless there's no limit and no offset */
-      if (start || end || offset) continue;
+      /* ignore autotiles for imported tilesets */
+      if (imported) continue;
       ReaderMapping reader = iter.as_mapping();
       std::string autotile_filename;
       if (!reader.get("source", autotile_filename))
@@ -111,7 +111,7 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
       reader.get("end", import_end);
       reader.get("offset", import_offset);
       TileSetParser import_parser(m_tileset, import_filename);
-      import_parser.parse(import_start, import_end, import_offset);
+      import_parser.parse(import_start, import_end, import_offset, true);
     }
     else
     {
@@ -119,7 +119,7 @@ TileSetParser::parse(uint32_t start, uint32_t end, int32_t offset)
     }
   }
   /* only create the unassigned tilegroup from the parent strf */
-  if (g_config->developer_mode && !end)
+  if (g_config->developer_mode && !imported)
   {
     m_tileset.add_unassigned_tilegroup();
   }
