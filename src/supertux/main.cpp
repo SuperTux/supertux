@@ -565,13 +565,6 @@ Main::launch_game(const CommandLineArguments& args)
     }
   }
 
-#ifdef UBUNTU_TOUCH
-  Dialog::show_message(_("The UBports version is under heavy development!\n"
-                         "If you encounter issues, PLEASE contact the maintainter\n"
-                         "at https://github.com/supertux/supertux/issues or on the\n"
-                         "Open Store's Telegram at https://open-store.io/telegram"));
-#endif
-
   m_screen_manager->run();
 }
 

@@ -37,6 +37,8 @@
 
 #cmakedefine UBUNTU_TOUCH
 #cmakedefine ENABLE_TOUCHSCREEN_SUPPORT
+#cmakedefine SHOW_TOUCHSCREEN_CONTROLS
+#cmakedefine HIDE_NONMOBILE_OPTIONS
 
 #cmakedefine REMOVE_QUIT_BUTTON
 
