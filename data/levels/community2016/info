@@ -2,5 +2,6 @@
   (title (_ "Community Island"))
   (description (_ "Level pack consisting of level contest winners"))
   (levelset #f)
+  (contrib-type "official")
   (hide-from-contribs #f)
 )
