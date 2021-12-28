@@ -37,7 +37,8 @@ PlayerStatus::PlayerStatus() :
   max_air_time(0),
   max_earth_time(0),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
-  last_worldmap()
+  last_worldmap(),
+  last_worldmap_title()
 {
   reset();
 
@@ -128,6 +129,7 @@ PlayerStatus::write(Writer& writer)
 
   writer.write("worldmap-sprite", worldmap_sprite, false);
   writer.write("last-worldmap", last_worldmap, false);
+  writer.write("last-worldmap-title", last_worldmap_title, false);
 }
 
 void
@@ -163,6 +165,8 @@ PlayerStatus::read(const ReaderMapping& mapping)
 
   mapping.get("worldmap-sprite", worldmap_sprite);
   mapping.get("last-worldmap", last_worldmap);
+  if (!mapping.get("last-worldmap-title", last_worldmap_title))
+    last_worldmap_title = "";
 }
 
 std::string PlayerStatus::get_bonus_prefix() const

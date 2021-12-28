@@ -61,6 +61,7 @@ public:
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */
+  std::string last_worldmap_title; /**< the title of the last played worldmap */
 
 private:
   PlayerStatus(const PlayerStatus&) = delete;

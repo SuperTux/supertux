@@ -98,6 +98,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   // load worldmap objects
   WorldMapParser parser(*this);
   parser.load_worldmap(filename);
+
+  m_savegame.get_player_status().last_worldmap_title = m_name;
 }
 
 WorldMap::~WorldMap()
