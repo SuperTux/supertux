@@ -38,7 +38,8 @@ int main(int argc, char** argv)
   // destructors and thus would make the destruction crash.
   g_main.reset();
 #endif
-}
 
+  return ret;
+}
 
 /* EOF */
