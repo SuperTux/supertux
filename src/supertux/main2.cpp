@@ -144,9 +144,14 @@ const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     gui->add_button("A button", []() { std::cout << "Button pressed." << std::endl; })
        ->set_tooltip("Testing a much longer tooltip, that will wrap around to new lines multiple times.");;
 
-    screen->set_visible(true);
+    ref<Window> canvas_window = gui->add_window(Vector2i(250, 0), "Sector");
+    canvas_window->set_layout(new BoxLayout(Orientation::Horizontal));
+    Canvas *canvas = new Canvas(canvas_window);
+    canvas->set_position(Vector2i(0, 0));
+    canvas->set_width(mode->width - 250);
+    canvas->set_height(mode->height - 200);
     screen->perform_layout();
-    nanogui_window->center();
+    screen->set_visible(true);
     nanogui_window->set_focused(true);
 
     screen->clear();
