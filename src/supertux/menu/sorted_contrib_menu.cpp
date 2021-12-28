@@ -59,19 +59,22 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       }
       else {
         title_str = worlds[i]->get_title();
-          uint32_t island_level_count = 0, island_solved_count = 0,
-                   world_level_count = 0,  world_solved_count = 0;
-          const auto& state = savegame->get_worldmap_state(worlds[i]->get_worldmap_filename());
-          for (const auto& level_state : state.level_states) {
-            if (level_state.filename.empty()) continue;
-            if (level_state.solved) ++island_solved_count;
-            ++island_level_count;
-          }
-          if (!island_level_count)
-            title_str = str(boost::format(_("%s *NEW*")) % worlds[i]->get_title());
-          else
-            title_str = str(boost::format(_("%s (%u/%u; %u%%)")) % worlds[i]->get_title() %
-                            island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
+        uint32_t island_level_count = 0, island_solved_count = 0,
+                 world_level_count = 0,  world_solved_count = 0;
+        auto wm_filename = savegame->get_player_status().last_worldmap;
+        if (wm_filename == "")
+          wm_filename = "/" + worlds[i]->get_worldmap_filename();
+        const auto& state = savegame->get_worldmap_state(wm_filename);
+        for (const auto& level_state : state.level_states) {
+          if (level_state.filename.empty()) continue;
+          if (level_state.solved) ++island_solved_count;
+          ++island_level_count;
+        }
+        if (!island_level_count)
+          title_str = str(boost::format(_("%s *NEW*")) % worlds[i]->get_title());
+        else
+          title_str = str(boost::format(_("%s - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % wm_filename %
+                          island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
       }
       add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
     }
