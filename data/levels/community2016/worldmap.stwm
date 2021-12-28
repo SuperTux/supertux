@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Community Island 2020"))
+  (name (_ "Community Island"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
   (sector

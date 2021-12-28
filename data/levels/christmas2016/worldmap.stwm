@@ -1,6 +1,6 @@
 (supertux-level
   (version 3)
-  (name (_ "Christmas 2016"))
+  (name (_ "Christmas Special"))
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (sector
