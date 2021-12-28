@@ -27,7 +27,6 @@
 #include "supertux/game_manager.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
 #include "util/gettext.hpp"
-#include "worldmap/worldmap.hpp"
 
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message) :
   m_world_folders()
@@ -52,9 +51,9 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         }
         if (!level_count)
           title_str = str(boost::format(_("[%s] *NEW*")) % worlds[i]->get_title());
-        /* I am making this translatable since RTL languages may prefer to put the progress
-           info to the left of the title */
         else
+          /* I am making this translatable since RTL languages may prefer to put the progress
+             info to the left of the title */
           title_str = str(boost::format(_("[%s] (%u/%u; %u%%)")) % worlds[i]->get_title() %
                           solved_count % level_count % (100 * solved_count / level_count));
       }
@@ -71,15 +70,26 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
           if (level_state.solved) ++island_solved_count;
           ++island_level_count;
         }
-        if (!island_level_count)
+        auto levelset = std::unique_ptr<Levelset>(new Levelset(worlds[i]->get_basedir(), true));
+        world_level_count = levelset->get_num_levels();
+        const auto world_list = savegame->get_worldmaps();
+        for (const auto& world : world_list) {
+          const auto& world_state = savegame->get_worldmap_state(world);
+          for (const auto& level_state : world_state.level_states) {
+            if (level_state.filename.empty()) continue;
+            if (level_state.solved) ++world_solved_count;
+          }
+        }
+        if (!island_level_count && !world_solved_count)
           title_str = str(boost::format(_("%s *NEW*")) % worlds[i]->get_title());
         else {
           auto wm_title = savegame->get_player_status().last_worldmap_title;
-          if (worlds[i]->get_title() == wm_title || wm_title == "")
+          if (island_level_count == world_level_count && (worlds[i]->get_title() == wm_title || wm_title == ""))
             title_str = str(boost::format(_("%s (%u/%u; %u%%)")) % worlds[i]->get_title() %
                             island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
           else
-            title_str = str(boost::format(_("%s - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % wm_title %
+            title_str = str(boost::format(_("%s (%u/%u; %u%%) - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % 
+                            world_solved_count % world_level_count % (100 * world_solved_count / world_level_count) % wm_title %
                             island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
         }
       }
