@@ -18,7 +18,6 @@
 
 #include <boost/format.hpp>
 
-#include "util/log.hpp"
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 
