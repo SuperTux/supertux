@@ -75,8 +75,12 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
           title_str = str(boost::format(_("%s *NEW*")) % worlds[i]->get_title());
         else {
           auto worldmap = std::make_unique<worldmap::WorldMap>(wm_filename, *savegame);
-          title_str = str(boost::format(_("%s - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % worldmap->get_title() %
-                          island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
+          if (worlds[i]->get_title() == worldmap->get_title() || worldmap->get_title() == "")
+            title_str = str(boost::format(_("%s (%u/%u; %u%%)")) % worlds[i]->get_title() %
+                            island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
+          else
+            title_str = str(boost::format(_("%s - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % worldmap->get_title() %
+                            island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
         }
       }
       add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
