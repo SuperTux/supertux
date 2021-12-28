@@ -230,6 +230,7 @@ GameObjectFactory::init_factories()
   add_factory<Firefly>("firefly");
   add_factory<GhostParticleSystem>("particles-ghosts");
   add_factory<Gradient>("gradient");
+  add_factory<HeavyBrick>("heavy-brick");
   add_factory<HeavyCoin>("heavycoin");
   add_factory<HurtingPlatform>("hurting_platform");
   add_factory<IceCrusher>("icecrusher");
