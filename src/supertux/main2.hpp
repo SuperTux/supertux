@@ -17,8 +17,9 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN2_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN2_HPP
 
+#include "util/currenton.hpp"
 
-class Main2 final
+class Main2 final : public Currenton<Main2>
 {
 public:
   Main2();

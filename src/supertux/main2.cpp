@@ -74,8 +74,14 @@ Main2::run(int argc, char** argv)
     glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_EGL_CONTEXT_API);
 #elif defined(NANOGUI_USE_METAL)
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
-    metal_init();
+    try
+    {
+        metal_init();
+    }
+    catch(const std::exception&)
+    {
+        // Already initialized!
+    }
 #endif
 
     glfwWindowHint(GLFW_SAMPLES, 0);

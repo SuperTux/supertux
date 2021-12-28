@@ -116,7 +116,7 @@ MainMenu::menu_action(MenuItem& item)
         SoundManager::current()->stop_music(0.5);
         ScreenManager::current()->push_screen(move(screen),move(fade));
         */
-        Main2().run(g_argc, g_argv);
+        Main2::current()->run(g_argc, g_argv);
         //Editor::current()->setup();
       }
       break;
