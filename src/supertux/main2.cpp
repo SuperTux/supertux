@@ -84,17 +84,20 @@ Main2::run(int argc, char** argv)
     }
 #endif
 
+GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
     glfwWindowHint(GLFW_SAMPLES, 0);
-    glfwWindowHint(GLFW_RED_BITS, 8);
-    glfwWindowHint(GLFW_GREEN_BITS, 8);
-    glfwWindowHint(GLFW_BLUE_BITS, 8);
+    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
     glfwWindowHint(GLFW_ALPHA_BITS, 8);
     glfwWindowHint(GLFW_STENCIL_BITS, 8);
     glfwWindowHint(GLFW_DEPTH_BITS, 24);
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     // Create a GLFWwindow object
-    GLFWwindow* window = glfwCreateWindow(500, 700, "example3", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, "SuperTux Editor", nullptr, nullptr);
     if (window == nullptr) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -144,6 +147,8 @@ Main2::run(int argc, char** argv)
     screen->set_visible(true);
     screen->perform_layout();
     nanogui_window->center();
+    nanogui_window->set_focused(true);
+
     screen->clear();
     screen->draw_all();
 
