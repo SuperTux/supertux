@@ -21,6 +21,7 @@
 #include <memory>
 
 #include "editor/object_option.hpp"
+#include "object/path_walker.hpp"
 
 #include <algorithm>
 
@@ -139,6 +140,8 @@ public:
                 sexp::Value& value, unsigned int flags = 0);
   void add_test_from_here();
   void add_particle_editor();
+  void add_path_handle(const std::string& text, PathWalker::Handle& handle,
+                       const std::string& key = {}, unsigned int flags = 0);
 
   // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
   void add_button(const std::string& text, const std::function<void()>& callback);

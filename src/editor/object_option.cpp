@@ -576,6 +576,43 @@ SExpObjectOption::add_to_menu(Menu& menu) const
 {
 }
 
+PathHandleOption::PathHandleOption(const std::string& text, PathWalker::Handle& handle,
+                                         const std::string& key, unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_target(handle)
+{
+}
+
+void
+PathHandleOption::save(Writer& writer) const
+{
+  writer.start_list(get_key());
+  writer.write("scale_x", m_target.m_scalar_pos.x);
+  writer.write("scale_y", m_target.m_scalar_pos.y);
+  writer.write("offset_x", m_target.m_pixel_offset.x);
+  writer.write("offset_y", m_target.m_pixel_offset.y);
+  writer.end_list(get_key());
+}
+
+std::string
+PathHandleOption::to_string() const
+{
+  return "("
+        + std::to_string(m_target.m_scalar_pos.x) + ", " 
+        + std::to_string(m_target.m_scalar_pos.y) + "), ("
+        + std::to_string(m_target.m_pixel_offset.x) + ", "
+        + std::to_string(m_target.m_pixel_offset.y) + ")";
+}
+
+void
+PathHandleOption::add_to_menu(Menu& menu) const
+{
+  menu.add_floatfield(get_text() + " (" + _("Scale X") + ")", &m_target.m_scalar_pos.x);
+  menu.add_floatfield(get_text() + " (" + _("Scale Y") + ")", &m_target.m_scalar_pos.y);
+  menu.add_floatfield(get_text() + " (" + _("Offset X") + ")", &m_target.m_pixel_offset.x);
+  menu.add_floatfield(get_text() + " (" + _("Offset Y") + ")", &m_target.m_pixel_offset.y);
+}
+
 RemoveObjectOption::RemoveObjectOption() :
   ObjectOption(_("Remove"), "", 0)
 {
