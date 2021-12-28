@@ -168,10 +168,15 @@ LevelParser::load(const ReaderDocument& doc)
     level.get("target-time", m_level.m_target_time);
     level.get("suppress-pause-menu", m_level.m_suppress_pause_menu);
     level.get("note", m_level.m_note);
+    level.get("icon", m_level.m_icon);
+    level.get("icon-locked", m_level.m_icon_locked);
+    level.get("bkg", m_level.m_wmselect_bkg);
 
     auto iter = level.get_iter();
-    while (iter.next()) {
-      if (iter.get_key() == "sector") {
+    while (iter.next())
+    {
+      if (iter.get_key() == "sector")
+      {
         auto sector = SectorParser::from_reader(m_level, iter.as_mapping(), m_editable);
         m_level.add_sector(std::move(sector));
       }

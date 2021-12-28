@@ -47,7 +47,10 @@ Level::Level(bool worldmap) :
   m_tileset("images/tiles.strf"),
   m_suppress_pause_menu(),
   m_is_in_cutscene(false),
-  m_skip_cutscene(false)
+  m_skip_cutscene(false),
+  m_icon(),
+  m_icon_locked(),
+  m_wmselect_bkg()
 {
   s_current = this;
 }
@@ -141,6 +144,12 @@ Level::save(Writer& writer)
   if(m_suppress_pause_menu) {
     writer.write("suppress-pause-menu", m_suppress_pause_menu);
   }
+
+  writer.write("icon", m_icon);
+  writer.write("icon-locked", m_icon_locked);
+
+  if (!m_wmselect_bkg.empty())
+    writer.write("bkg", m_wmselect_bkg);
 
   for (auto& sector : m_sectors) {
     sector->save(writer);
