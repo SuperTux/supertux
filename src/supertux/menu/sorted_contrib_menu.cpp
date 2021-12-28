@@ -17,6 +17,7 @@
 #include "supertux/menu/sorted_contrib_menu.hpp"
 
 #include <sstream>
+#include "boost/format.hpp"
 #include "util/gettext.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/player_status.hpp"
@@ -26,6 +27,8 @@
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
+
+#include <cstdio>
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message) :
   m_world_folders()
 { 
@@ -38,8 +41,21 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
     {
       m_world_folders.push_back(worlds[i]->get_basedir());
       std::string title_str;
-      if (worlds[i]->is_levelset())
-        title_str = "[" + worlds[i]->get_title() + "]";
+      auto savegame = Savegame::from_file(worlds[i]->get_savegame_filename());
+      if (worlds[i]->is_levelset()) {
+        uint32_t level_count = 0, solved_count = 0;
+        const auto& state = savegame->get_levelset_state(worlds[i]->get_basedir());
+        for (const auto& level_state : state.level_states) {
+          if (level_state.filename.empty() || level_state.filename.back() == '~') continue;
+          printf("got level %s\n", level_state.filename.c_str());
+          if (level_state.solved) ++solved_count;
+          ++level_count;
+        }
+        /* I am making this translatable since RTL languages may prefer to put the progress
+           info to the left of the title */
+        title_str = str(boost::format(_("[%s] (%u/%u; %u%%)")) % worlds[i]->get_title() %
+                                        solved_count % level_count % (100 * solved_count / level_count));
+      }
       else
         title_str = worlds[i]->get_title();
       add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
