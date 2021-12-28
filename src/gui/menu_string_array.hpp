@@ -30,6 +30,7 @@ public:
 private:
   std::vector<std::string>& m_array_items;
   std::string m_text;
+  int m_selected_item;
 
   void reload();
 private:

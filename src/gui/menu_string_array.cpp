@@ -16,12 +16,16 @@
 
 #include "gui/menu_string_array.hpp"
 
+#include <boost/format.hpp>
+
+#include "util/log.hpp"
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 
 StringArrayMenu::StringArrayMenu(std::vector<std::string>& items) :
   m_array_items(items),
-  m_text()
+  m_text(),
+  m_selected_item(-1)
 {
   reload();
 }
@@ -32,13 +36,30 @@ StringArrayMenu::menu_action(MenuItem& item)
   int id = item.get_id();
   if (id >= 0)
   {
-    m_array_items.erase(m_array_items.begin() + id);
-    reload();
+    m_text = m_array_items[id];
+    m_selected_item = id;
+    get_item_by_id(-2).set_text(str(boost::format(_("Selected item: %s")) % (m_selected_item >= 0 ? m_array_items[m_selected_item] : _("None"))));
   }
-  else if (id == -2 && m_text.length() > 0)
+  else if (m_text.length() > 0 && id < -2)
   {
-    m_array_items.push_back(m_text);
+    if (id == -3)
+    {
+      m_array_items.push_back(m_text);
+    }
+    else if (id == -4 && m_selected_item >= 0)
+    {
+      m_array_items.insert(m_array_items.begin() + m_selected_item + 1, m_text);
+    }
+    else if (id == -5 && m_selected_item >= 0)
+    {
+      m_array_items[m_selected_item] = m_text;
+    }
+    else if (id == -6 && m_selected_item >= 0)
+    {
+      m_array_items.erase(m_array_items.begin() + m_selected_item);
+    }
     m_text = "";
+    m_selected_item = -1;
     reload();
   }
 }
@@ -55,7 +76,12 @@ StringArrayMenu::reload()
   }
   add_hl();
   add_textfield(_("Text"), &m_text);
-  add_entry(-2, _("Add"));
+  add_entry(-2, str(boost::format(_("Selected item: %s")) % (m_selected_item >= 0 ? m_array_items[m_selected_item] : _("None"))));
+  add_entry(-3, _("Add"));
+  add_entry(-4, _("Insert"));
+  add_entry(-5, _("Update"));
+  add_entry(-6, _("Delete"));
+  add_hl();
   add_back(_("OK"));
 }
 /* EOF */
