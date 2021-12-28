@@ -31,11 +31,28 @@ InfoBlock::InfoBlock(const ReaderMapping& mapping) :
   m_shown_pct(0),
   m_dest_pct(0),
   m_lines(),
-  m_lines_height(0)
+  m_lines_height(0),
+  m_frontcolor(0.6f, 0.7f, 0.8f, 0.5f),
+  m_backcolor(0.f, 0.f, 0.f, 0.f),
+  m_roundness(16.f),
+  m_fadetransition(true)
 {
-  if (!mapping.get("message", m_message) && !(Editor::is_active())) {
+  if (!mapping.get("message", m_message) && !(Editor::is_active()))
+  {
     log_warning << "No message in InfoBlock" << std::endl;
   }
+  std::vector<float> m_frontcolor_;
+  if (mapping.get("frontcolor", m_frontcolor_))
+  {
+    m_frontcolor = Color(m_frontcolor_);
+  }
+  std::vector<float> m_backcolor_;
+  if (mapping.get("backcolor", m_backcolor_))
+  {
+    m_backcolor = Color(m_backcolor_);
+  }
+  mapping.get("roundness", m_roundness, 0.f);
+  mapping.get("fadetransition", m_fadetransition, true);
   //stopped = false;
   //ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "sounds/phone.wav");
   //Sector::get().add_object(ringing);
@@ -56,7 +73,15 @@ InfoBlock::get_settings()
 
   result.add_translatable_text(_("Message"), &m_message, "message");
 
-  result.reorder({"message", "x", "y"});
+  result.add_color(_("Front Color"), &m_frontcolor, "frontcolor", Color(0.6f, 0.7f, 0.8f, 0.5f));
+
+  result.add_color(_("Back Color"), &m_backcolor, "backcolor", Color(0.f, 0.f, 0.f, 0.f));
+
+  result.add_float(_("Roundness"), &m_roundness, "roundness", 0.f);
+
+  result.add_bool(_("Fade Transition"), &m_fadetransition, "fadetransition", true);
+
+  result.reorder({ "message", "frontcolor", "backcolor", "roundness", "fadetransition", "x", "y" });
 
   return result;
 }
@@ -127,8 +152,9 @@ InfoBlock::update(float dt_sec)
 
   // handle soft fade-in and fade-out
   if (m_shown_pct != m_dest_pct) {
-    if (m_dest_pct > m_shown_pct) m_shown_pct = std::min(m_shown_pct + 2 * dt_sec, m_dest_pct);
-    if (m_dest_pct < m_shown_pct) m_shown_pct = std::max(m_shown_pct - 2 * dt_sec, m_dest_pct);
+    float transitionspeed = m_fadetransition ? 1.f : 2.5f;
+    if (m_dest_pct > m_shown_pct) m_shown_pct = std::min(m_shown_pct + 2 * dt_sec * transitionspeed, m_dest_pct);
+    if (m_dest_pct < m_shown_pct) m_shown_pct = std::max(m_shown_pct - 2 * dt_sec * transitionspeed, m_dest_pct);
   }
 }
 
@@ -141,7 +167,8 @@ InfoBlock::draw(DrawingContext& context)
 
   context.push_transform();
   //context.set_translation(Vector(0, 0));
-  context.set_alpha(m_shown_pct);
+  if (m_fadetransition)
+    context.set_alpha(m_shown_pct);
 
   //float x1 = SCREEN_WIDTH/2-200;
   //float y1 = SCREEN_HEIGHT/2-200;
@@ -150,7 +177,7 @@ InfoBlock::draw(DrawingContext& context)
   float height = m_lines_height; // this is the text height only
   float x1 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 - width/2;
   float x2 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 + width/2;
-  float y1 = m_original_y - height;
+  float y1 = m_original_y - height - 10.f;
 
   if (x1 < 0) {
     x1 = 0;
@@ -162,10 +189,19 @@ InfoBlock::draw(DrawingContext& context)
     x1 = x2 - width;
   }
 
+  float growposx = (x1 - border) + (((width + 2 * border) / 2) - (((width + 2 * border) / 2) * m_shown_pct));
+  float growposy = (y1 - border) + ((height + 2 * border - 4) / 2) - (((height + 2 * border - 4) / 2) * m_shown_pct);
+
   // lines_height includes one ITEMS_SPACE too much, so the bottom border is reduced by 4px
-  context.color().draw_filled_rect(Rectf(Vector(x1-border, y1-border),
-                                         Sizef(width+2*border, height+2*border-4)),
-                                   Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
+  context.color().draw_filled_rect(Rectf(Vector(m_fadetransition ? x1 - border : growposx,
+    m_fadetransition ? y1 - border : growposy),
+    Sizef(width + 2 * border, height + 2 * border - 4) * (m_fadetransition ? 1.f : m_shown_pct)),
+    m_frontcolor, m_roundness, LAYER_GUI - 50);
+
+  context.color().draw_filled_rect(Rectf(Vector((m_fadetransition ? x1 - border : growposx) - 4.f,
+    (m_fadetransition ? y1 - border : growposy) - 4.f),
+    Sizef(8.f, 8.f) + (Sizef((width + 2 * border), (height + 2 * border - 4)) * (m_fadetransition ? 1.f : m_shown_pct))),
+    m_backcolor, m_roundness + 4.f, LAYER_GUI - 51);
 
   float y = y1;
   for (size_t i = 0; i < m_lines.size(); ++i) {
@@ -176,8 +212,11 @@ InfoBlock::draw(DrawingContext& context)
       break;
     }
 
-    m_lines[i]->draw(context, Rectf(x1, y, x2, y), LAYER_GUI-50+1);
-    y += m_lines[i]->get_height();
+    if (m_fadetransition || m_shown_pct >= 1.f)
+    {
+      m_lines[i]->draw(context, Rectf(x1, y, x2, y), LAYER_GUI - 50 + 1);
+      y += m_lines[i]->get_height();
+    }
   }
 
   context.pop_transform();

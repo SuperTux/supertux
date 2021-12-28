@@ -22,6 +22,7 @@
 #include "gui/mousecursor.hpp"
 #include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
@@ -197,13 +198,15 @@ Dialog::draw(DrawingContext& context)
 
   // draw background rect
   context.color().draw_filled_rect(bg_rect.grown(12.0f),
-                                     Color(0.2f, 0.3f, 0.4f, m_passive ? 0.3f : 0.8f),
-                                     16.0f,
+                                     Color(g_config->menubackcolor.red, g_config->menubackcolor.green,
+                                       g_config->menubackcolor.blue, (g_config->menubackcolor.alpha - (m_passive ? 0.5f : 0.0f))),
+                                       g_config->menuroundness + 4.f,
                                      LAYER_GUI-10);
 
   context.color().draw_filled_rect(bg_rect.grown(8.0f),
-                                     Color(0.6f, 0.7f, 0.8f, m_passive ? 0.2f : 0.5f),
-                                     16.0f,
+                                     Color(g_config->menufrontcolor.red, g_config->menufrontcolor.green,
+                                       g_config->menufrontcolor.blue, (g_config->menufrontcolor.alpha - (m_passive ? 0.3f : 0.0f))),
+                                       g_config->menuroundness,
                                      LAYER_GUI-10);
 
   // draw text
@@ -217,7 +220,7 @@ Dialog::draw(DrawingContext& context)
   // draw HL line
   context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
                                          Sizef(bg_rect.get_width(), 4)),
-                                   Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
+                                   Color(g_config->hlcolor), LAYER_GUI);
   context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
                                          Sizef(bg_rect.get_width(), 2)),
                                    Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
@@ -237,12 +240,12 @@ Dialog::draw(DrawingContext& context)
       context.color().draw_filled_rect(Rectf(Vector(pos.x - button_width/2, pos.y - button_height/2),
                                                Vector(pos.x + button_width/2, pos.y + button_height/2)).grown(2.0f),
                                          Color(1.0f, 1.0f, 1.0f, blink),
-                                         14.0f,
+                                         g_config->menuroundness * 0.825f,
                                          LAYER_GUI-10);
       context.color().draw_filled_rect(Rectf(Vector(pos.x - button_width/2, pos.y - button_height/2),
                                                Vector(pos.x + button_width/2, pos.y + button_height/2)),
                                          Color(1.0f, 1.0f, 1.0f, 0.5f),
-                                         12.0f,
+                                         g_config->menuroundness * 0.75f,
                                          LAYER_GUI-10);
     }
 

@@ -16,12 +16,38 @@
 
 #include "object/text_object.hpp"
 
+#include "editor/editor.hpp"
+#include "supertux/sector.hpp"
+#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
-#include "video/viewport.hpp"
+
+TextObject::TextObject(const ReaderMapping& reader) :
+  GameObject(reader),
+  ExposedObject<TextObject, scripting::Text>(this),
+  m_font(Resources::normal_font),
+  m_text(),
+  m_wrapped_text(),
+  m_fade_progress(0),
+  m_fadetime(0),
+  m_visible(false),
+  m_centered(false),
+  m_anchor(ANCHOR_MIDDLE),
+  m_pos(0, 0),
+  m_front_fill_color(0.6f, 0.7f, 0.8f, 0.5f),
+  m_back_fill_color(0.2f, 0.3f, 0.4f, 0.8f),
+  m_text_color(1.f, 1.f, 1.f, 1.f),
+  m_roundness(16.f),
+  m_growing_in(),
+  m_growing_out(),
+  m_fading_in(),
+  m_fading_out(),
+  m_grower(),
+  m_fader()
+{
+}
 
 TextObject::TextObject(const std::string& name) :
   GameObject(name),
@@ -29,17 +55,39 @@ TextObject::TextObject(const std::string& name) :
   m_font(Resources::normal_font),
   m_text(),
   m_wrapped_text(),
-  m_fading(0),
+  m_fade_progress(0),
   m_fadetime(0),
   m_visible(false),
   m_centered(false),
   m_anchor(ANCHOR_MIDDLE),
-  m_pos(0, 0)
+  m_pos(0, 0),
+  m_front_fill_color(0.6f, 0.7f, 0.8f, 0.5f),
+  m_back_fill_color(0.2f, 0.3f, 0.4f, 0.8f),
+  m_text_color(1.f, 1.f, 1.f, 1.f),
+  m_roundness(16.f),
+  m_growing_in(),
+  m_growing_out(),
+  m_fading_in(),
+  m_fading_out(),
+  m_grower(),
+  m_fader()
 {
 }
 
 TextObject::~TextObject()
 {
+}
+
+ObjectSettings
+TextObject::get_settings()
+{
+  ObjectSettings result = GameObject::get_settings();
+
+  result.reorder({ "name" });
+
+  result.add_remove();
+
+  return result;
 }
 
 void
@@ -98,24 +146,46 @@ TextObject::set_text(const std::string& text_)
 }
 
 void
+TextObject::grow_in(float fadetime_)
+{
+  m_fadetime = fadetime_;
+  m_visible = true;
+  m_fade_progress = 0;
+  m_growing_in = true;
+  m_grower = true;
+}
+
+void
+TextObject::grow_out(float fadetime_)
+{
+  m_fadetime = fadetime_;
+  m_fade_progress = 1;
+  m_growing_out = true;
+}
+
+void
 TextObject::fade_in(float fadetime_)
 {
   m_fadetime = fadetime_;
-  m_fading = fadetime_;
+  m_visible = true;
+  m_fade_progress = 0;
+  m_fading_in = true;
+  m_fader = true;
 }
 
 void
 TextObject::fade_out(float fadetime_)
 {
   m_fadetime = fadetime_;
-  m_fading = -fadetime_;
+  m_fade_progress = 1;
+  m_fading_out = true;
 }
 
 void
 TextObject::set_visible(bool visible_)
 {
   m_visible = visible_;
-  m_fading = 0;
+  m_fade_progress = 1;
 }
 
 void
@@ -125,30 +195,66 @@ TextObject::set_centered(bool centered_)
 }
 
 void
+TextObject::set_front_fill_color(Color frontfill_)
+{
+  m_front_fill_color = frontfill_;
+}
+
+void
+TextObject::set_back_fill_color(Color backfill_)
+{
+  m_back_fill_color = backfill_;
+}
+
+void
+TextObject::set_text_color(Color textcolor_)
+{
+  m_text_color = textcolor_;
+}
+
+void
+TextObject::set_roundness(float roundness_)
+{
+  m_roundness = roundness_;
+}
+
+void
 TextObject::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  if (m_fading > 0) {
-    context.set_alpha((m_fadetime - m_fading) / m_fadetime);
-  } else if (m_fading < 0) {
-    context.set_alpha(-m_fading / m_fadetime);
-  } else if (!m_visible) {
+  if (m_fader)
+    context.set_alpha(m_fade_progress);
+
+  if (!m_visible)
+  {
     context.pop_transform();
     return;
   }
 
   float width  = m_font->get_text_width(m_wrapped_text) + 20.0f;
   float height = m_font->get_text_height(m_wrapped_text) + 20.0f;
-  Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height() + (m_anchor == ANCHOR_MIDDLE ? SCREEN_HEIGHT : 0)) - (m_anchor == ANCHOR_MIDDLE ? 340.0f : 0)),
+  Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
                                        width, height, m_anchor);
+  Vector sizepos = spos + (Vector(width / 2.f, height / 2.f)) - (Vector(width / 2.f, height / 2.f) * (m_fade_progress));
 
-  context.color().draw_filled_rect(Rectf(spos, Sizef(width, height)),
-                                   Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI+50);
-  if (m_centered) {
-    context.color().draw_center_text(m_font, m_wrapped_text, spos, LAYER_GUI+60, TextObject::default_color);
-  } else {
-    context.color().draw_text(m_font, m_wrapped_text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI+60, TextObject::default_color);
+  if (m_fade_progress > 0.f)
+  {
+    context.color().draw_filled_rect(Rectf((m_grower ? sizepos : spos) - Vector(4.f, 4.f), Sizef((width * (m_fader ? 1.f : m_fade_progress)) + 8.f, (height * (m_fader ? 1.f : m_fade_progress)) + 8.f)),
+      m_back_fill_color, m_roundness + 4.f, LAYER_GUI + 50);
+
+    context.color().draw_filled_rect(Rectf((m_grower ? sizepos : spos), Sizef(width, height) * (m_fader ? 1.f : m_fade_progress)),
+      m_front_fill_color, m_roundness, LAYER_GUI + 50);
+  }
+
+  if (m_fader || (m_grower && m_fade_progress >= 1.f))
+  {
+    if (m_centered) {
+      context.color().draw_center_text(m_font, m_wrapped_text, spos, LAYER_GUI + 60, m_text_color);
+    }
+    else {
+      context.color().draw_text(m_font, m_wrapped_text, spos + Vector(10.f, 10.f), ALIGN_LEFT, LAYER_GUI + 60, m_text_color);
+    }
   }
 
   context.pop_transform();
@@ -157,17 +263,28 @@ TextObject::draw(DrawingContext& context)
 void
 TextObject::update(float dt_sec)
 {
-  if (m_fading > 0) {
-    m_fading -= dt_sec;
-    if (m_fading <= 0) {
-      m_fading = 0;
+  if ((m_growing_in || m_fading_in) && m_fade_progress < 1.f)
+  {
+    m_fade_progress += dt_sec / m_fadetime;
+    if (m_fade_progress >= 1.f)
+    {
+      m_fade_progress = 1.f;
       m_visible = true;
+      m_growing_in = false;
+      m_fading_in = false;
     }
-  } else if (m_fading < 0) {
-    m_fading += dt_sec;
-    if (m_fading >= 0) {
-      m_fading = 0;
+  }
+  else if ((m_growing_out || m_fading_out) && m_fade_progress > 0.f)
+  {
+    m_fade_progress -= dt_sec / m_fadetime;
+    if (m_fade_progress <= 0.f)
+    {
+      m_fade_progress = 0.f;
       m_visible = false;
+      m_growing_out = false;
+      m_fading_out = false;
+      m_grower = false;
+      m_fader = false;
     }
   }
 }
