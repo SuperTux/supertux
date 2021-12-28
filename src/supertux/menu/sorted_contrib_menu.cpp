@@ -28,7 +28,6 @@
 #include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
 
-#include <cstdio>
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message) :
   m_world_folders()
 { 
@@ -47,7 +46,6 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         const auto& state = savegame->get_levelset_state(worlds[i]->get_basedir());
         for (const auto& level_state : state.level_states) {
           if (level_state.filename.empty() || level_state.filename.back() == '~') continue;
-          printf("got level %s\n", level_state.filename.c_str());
           if (level_state.solved) ++solved_count;
           ++level_count;
         }
