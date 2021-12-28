@@ -26,6 +26,7 @@
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
+#include "supertux/main2.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/game_manager.hpp"
@@ -108,11 +109,14 @@ MainMenu::menu_action(MenuItem& item)
 
     case MNID_LEVELEDITOR:
       {
+        /*
         MenuManager::instance().clear_menu_stack();
         std::unique_ptr<Screen> screen(new Editor());
         auto fade = std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f);
         SoundManager::current()->stop_music(0.5);
         ScreenManager::current()->push_screen(move(screen),move(fade));
+        */
+        Main2().run(g_argc, g_argv);
         //Editor::current()->setup();
       }
       break;

@@ -21,4 +21,7 @@ Config* g_config;
 float g_game_time = 0;
 float g_real_time = 0;
 
+int g_argc = 0;
+char** g_argv = nullptr;
+
 /* EOF */

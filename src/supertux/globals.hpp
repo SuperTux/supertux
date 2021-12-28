@@ -32,6 +32,9 @@ extern Config* g_config;
 extern float g_game_time;
 extern float g_real_time;
 
+extern int g_argc;
+extern char** g_argv;
+
 #endif
 
 /* EOF */
