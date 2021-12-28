@@ -349,11 +349,11 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
             Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                      pos_.y + static_cast<float>(y) * img_h - img_h_2);
 
-            if (m_image_top.get() != nullptr && (y < 0))
+            if (m_image_top && (y < 0))
             {
               canvas.draw_surface(m_image_top, p, 0.f, m_color, m_blend, m_layer);
             }
-            else if (m_image_bottom.get() != nullptr && (y > 0))
+            else if (m_image_bottom && (y > 0))
             {
               canvas.draw_surface(m_image_bottom, p, 0.f, m_color, m_blend, m_layer);
             }
@@ -373,7 +373,7 @@ Background::draw(DrawingContext& context)
   if (Editor::is_active() && !g_config->editor_render_background)
     return;
 
-  if (m_image.get() == nullptr)
+  if (!m_image)
     return;
 
   Sizef level_size(d_gameobject_manager->get_width(),
@@ -456,6 +456,9 @@ std::unordered_map<std::string, std::string> fallback_paths = {
 SurfacePtr
 Background::load_background(const std::string& image_path)
 {
+  if (image_path.empty())
+    return nullptr;
+
   if (PHYSFS_exists(image_path.c_str()))
     // No need to search fallback paths
     return Surface::from_file(image_path);
