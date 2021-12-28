@@ -22,6 +22,16 @@
 
 class TextArea final : public TriggerBase
 {
+private:
+  enum class Status
+  {
+    NOT_STARTED,
+    FADING_IN,
+    WAITING,
+    FADING_OUT,
+    FINISHED
+  };
+
 public:
   TextArea(const ReaderMapping& mapping);
   TextArea(const Vector& pos);
@@ -34,12 +44,16 @@ public:
   virtual std::string get_class() const override { return "text-area"; }
   virtual std::string get_display_name() const override { return _("Text Area"); }
   virtual bool has_variable_size() const override { return true; }
+
 private:
-  bool m_started, m_inside, m_once, m_finished;
+  bool m_once;
   std::vector<std::string> m_items;
-  float m_delay, m_fade_delay;
-  unsigned int m_text_id;
-  Timer m_update_timer, m_fade_timer;
+  float m_delay;
+  float m_fade_delay;
+  size_t m_current_text;
+  Status m_status;
+  Timer m_timer;
+
 private:
   TextArea(const TextArea&) = delete;
   TextArea& operator=(const TextArea&) = delete;
