@@ -45,6 +45,15 @@ jobs:
             compiler: gcc
           - os: macos-11
             arch: 32
+            # Disabled because vcpkg doesn't support x86-linux (yet)
+          - os: ubuntu-latest
+            deps: vcpkg
+            arch: 32
+            # Disabled because vcpkg can't currently build FriBiDi on macOS
+          - os: macos-10.15
+            deps: vcpkg
+          - os: macos-11
+            deps: vcpkg
         include:
           - os: ubuntu-latest
             build_type: Release
@@ -83,7 +92,8 @@ jobs:
             rename \
             sshpass \
             clang-6.0 \
-            g++-8
+            g++-8 \
+            libxmu-dev libxi-dev libgl-dev
       - name: Install 32-bit linux tools
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 && matrix.deps == 'native' }}
         run: |
@@ -97,7 +107,8 @@ jobs:
             rename \
             sshpass \
             gcc-multilib \
-            g++-multilib
+            g++-multilib \
+            libxmu-dev libxi-dev libgl-dev
       - name: Install macos tools
         if: ${{ (matrix.os == 'macos-10.15' ||  matrix.os == 'macos-11') && matrix.deps == 'native' }}
         run: |
