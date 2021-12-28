@@ -42,23 +42,30 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       m_world_folders.push_back(worlds[i]->get_basedir());
       std::string title_str;
       auto savegame = Savegame::from_file(worlds[i]->get_savegame_filename());
-      if (worlds[i]->is_levelset()) {
+      if (worlds[i]->is_levelset())
+      {
         uint32_t level_count = 0, solved_count = 0;
         const auto& state = savegame->get_levelset_state(worlds[i]->get_basedir());
-        for (const auto& level_state : state.level_states) {
+        for (const auto& level_state : state.level_states)
+        {
           if (level_state.filename.empty() || level_state.filename.back() == '~') continue;
           if (level_state.solved) ++solved_count;
           ++level_count;
         }
         if (!level_count)
+        {
           title_str = str(boost::format(_("[%s] *NEW*")) % worlds[i]->get_title());
+        }
         else
-          /* I am making this translatable since RTL languages may prefer to put the progress
+        {
+          /* This is translatable since RTL languages may prefer to put the progress
              info to the left of the title */
           title_str = str(boost::format(_("[%s] (%u/%u; %u%%)")) % worlds[i]->get_title() %
                           solved_count % level_count % (100 * solved_count / level_count));
+        }
       }
-      else {
+      else
+      {
         title_str = worlds[i]->get_title();
         uint32_t island_level_count = 0, island_solved_count = 0,
                  world_level_count = 0,  world_solved_count = 0;
@@ -66,7 +73,8 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         if (wm_filename == "")
           wm_filename = "/" + worlds[i]->get_worldmap_filename();
         const auto& state = savegame->get_worldmap_state(wm_filename);
-        for (const auto& level_state : state.level_states) {
+        for (const auto& level_state : state.level_states)
+        {
           if (level_state.filename.empty()) continue;
           if (level_state.solved) ++island_solved_count;
           ++island_level_count;
@@ -74,24 +82,35 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         auto levelset = std::unique_ptr<Levelset>(new Levelset(worlds[i]->get_basedir(), true));
         world_level_count = levelset->get_num_levels();
         const auto world_list = savegame->get_worldmaps();
-        for (const auto& world : world_list) {
+        for (const auto& world : world_list)
+        {
           const auto& world_state = savegame->get_worldmap_state(world);
-          for (const auto& level_state : world_state.level_states) {
+          for (const auto& level_state : world_state.level_states)
+          {
             if (level_state.filename.empty()) continue;
             if (level_state.solved) ++world_solved_count;
           }
         }
         if (!island_level_count && !world_solved_count)
           title_str = str(boost::format(_("%s *NEW*")) % worlds[i]->get_title());
-        else {
+        else
+        {
           auto wm_title = savegame->get_player_status().last_worldmap_title;
           if (island_level_count == world_level_count && (worlds[i]->get_title() == wm_title || wm_title == ""))
+          {
+            /* This is translatable since RTL languages may prefer to put the progress
+               info to the left of the title */
             title_str = str(boost::format(_("%s (%u/%u; %u%%)")) % worlds[i]->get_title() %
                             island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
+          }
           else
+          {
+            /* This is translatable since RTL languages may prefer to put the progress
+               info to the left of the title */
             title_str = str(boost::format(_("%s (%u/%u; %u%%) - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % 
                             world_solved_count % world_level_count % (100 * world_solved_count / world_level_count) % wm_title %
                             island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
+          }
         }
       }
       add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
