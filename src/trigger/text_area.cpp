@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
+//                2021 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
