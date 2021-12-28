@@ -70,7 +70,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         uint32_t island_level_count = 0, island_solved_count = 0,
                  world_level_count = 0,  world_solved_count = 0;
         auto wm_filename = savegame->get_player_status().last_worldmap;
-        if (wm_filename == "")
+        if (wm_filename.empty())
           wm_filename = "/" + worlds[i]->get_worldmap_filename();
         const auto& state = savegame->get_worldmap_state(wm_filename);
         for (const auto& level_state : state.level_states)
@@ -96,7 +96,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         else
         {
           auto wm_title = savegame->get_player_status().last_worldmap_title;
-          if (island_level_count == world_level_count && (worlds[i]->get_title() == wm_title || wm_title == ""))
+          if (island_level_count == world_level_count && (worlds[i]->get_title() == wm_title || wm_title.empty()))
           {
             /* This is translatable since RTL languages may prefer to put the progress
                info to the left of the title */
