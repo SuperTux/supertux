@@ -330,74 +330,77 @@ Player::update(float dt_sec)
   //handling of swimming
 
 #ifdef SWIMMING
-  if (no_water)
+  if (!m_ghost_mode)
   {
+    if (no_water)
+    {
+      if (m_swimming)
+      {
+        m_water_jump = true;
+        if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
+          m_physic.set_velocity_y(-350.f);
+      }
+      m_swimming = false;
+    }
+
+    if ((on_ground() || m_climbing || m_does_buttjump) && m_water_jump)
+    {
+      if (is_big() && !adjust_height(BIG_TUX_HEIGHT))
+      {
+        //Force Tux's box up a little in order to not phase into floor
+        adjust_height(BIG_TUX_HEIGHT, 10.f);
+        do_duck();
+      }
+      else if (!is_big())
+      {
+        adjust_height(SMALL_TUX_HEIGHT);
+      }
+      m_dir = (m_physic.get_velocity_x() >= 0.f) ? Direction::RIGHT : Direction::LEFT;
+      m_water_jump = false;
+      m_swimboosting = false;
+      m_powersprite->set_angle(0.f);
+      m_lightsprite->set_angle(0.f);
+    }
+    no_water = true;
+
+    if ((m_swimming || m_water_jump) && is_big())
+    {
+      m_col.set_size(TUX_WIDTH, TUX_WIDTH);
+      adjust_height(TUX_WIDTH);
+    }
+
+    Rectf swim_here_box = get_bbox();
+    swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
+    bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
+
     if (m_swimming)
     {
-      m_water_jump = true;
-      if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
-        m_physic.set_velocity_y(-350.f);
-    }
-    m_swimming = false;
-  }
-
-  if ((on_ground() || m_climbing || m_does_buttjump) && m_water_jump)
-  {
-    if (is_big() && !adjust_height(BIG_TUX_HEIGHT))
-    {
-      //Force Tux's box up a little in order to not phase into floor
-      adjust_height(BIG_TUX_HEIGHT, 10.f);
-      do_duck();
-    }
-    else if (!is_big())
-    {
-      adjust_height(SMALL_TUX_HEIGHT);
-    }
-    m_dir = (m_physic.get_velocity_x() >= 0.f) ? Direction::RIGHT : Direction::LEFT;
-    m_water_jump = false;
-    m_swimboosting = false;
-    m_powersprite->set_angle(0.f);
-    m_lightsprite->set_angle(0.f);
-  }
-  no_water = true;
-
-  if ((m_swimming || m_water_jump) && is_big())
-  {
-    m_col.set_size(TUX_WIDTH, TUX_WIDTH);
-    adjust_height(TUX_WIDTH);
-  }
-
-  Rectf swim_here_box = get_bbox();
-  swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
-  bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
-
-  if (m_swimming)
-  {
-    if (can_swim_here)
-    {
-      no_water = false;
+      if (can_swim_here)
+      {
+        no_water = false;
+      }
+      else
+      {
+        m_swimming = false;
+        m_water_jump = true;
+        if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
+          m_physic.set_velocity_y(-350.f);
+      }
     }
     else
     {
-      m_swimming = false;
-      m_water_jump = true;
-      if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
-        m_physic.set_velocity_y(-350.f);
-    }
-  }
-  else
-  {
-    if (can_swim_here && !m_stone && !m_climbing)
-    {
-      no_water = false;
-      m_water_jump = false;
-      m_swimming = true;
-      m_swimming_angle = math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()));
-      if (is_big())
-        adjust_height(TUX_WIDTH);
-      m_wants_buttjump = m_does_buttjump = m_backflipping = false;
-      m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
-      SoundManager::current()->play("sounds/splash.wav");
+      if (can_swim_here && !m_stone && !m_climbing)
+      {
+        no_water = false;
+        m_water_jump = false;
+        m_swimming = true;
+        m_swimming_angle = math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()));
+        if (is_big())
+          adjust_height(TUX_WIDTH);
+        m_wants_buttjump = m_does_buttjump = m_backflipping = false;
+        m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
+        SoundManager::current()->play("sounds/splash.wav");
+      }
     }
   }
 #endif
