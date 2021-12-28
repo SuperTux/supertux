@@ -18,15 +18,16 @@
 
 #include <sstream>
 #include "boost/format.hpp"
-#include "util/gettext.hpp"
+#include "gui/menu_manager.hpp"
+#include "gui/menu_item.hpp"
+#include "gui/item_action.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
-#include "gui/menu_manager.hpp"
-#include "gui/menu_item.hpp"
-#include "gui/item_action.hpp"
+#include "util/gettext.hpp"
+#include "worldmap/worldmap.hpp"
 
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type, const std::string& title, const std::string& empty_message) :
   m_world_folders()
@@ -72,9 +73,11 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         }
         if (!island_level_count)
           title_str = str(boost::format(_("%s *NEW*")) % worlds[i]->get_title());
-        else
-          title_str = str(boost::format(_("%s - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % wm_filename %
+        else {
+          auto worldmap = std::make_unique<worldmap::WorldMap>(wm_filename, *savegame);
+          title_str = str(boost::format(_("%s - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % worldmap->get_title() %
                           island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
+        }
       }
       add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
     }
