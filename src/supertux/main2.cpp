@@ -31,6 +31,7 @@
 #include <supertux/main2.hpp>
 #include <GLFW/glfw3.h>
 #include <nanogui/nanogui.h>
+#include <nanogui/icons.h>
 #include <iostream>
 
 using namespace nanogui;
@@ -126,6 +127,23 @@ const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     // Create nanogui gui
     bool enabled = true;
     FormHelper *gui = new FormHelper(screen);
+    //Label* l = new Label(screen, "Test");
+    Button* b = new Button(screen, "", FA_SAVE);
+    b->set_tooltip("Save");
+    screen->add_child(b);
+
+    Button* c = new Button(screen, "", FA_DOWNLOAD);
+    c->set_tooltip("Open");
+    c->set_position(Vector2i(35, 0));
+    screen->add_child(c);
+
+    ref<Window> canvas_window = gui->add_window(Vector2i(250, 0), "Sector");
+    canvas_window->set_layout(new BoxLayout(Orientation::Horizontal));
+    Canvas *canvas = new Canvas(canvas_window);
+    canvas->set_position(Vector2i(0, 0));
+    canvas->set_width(mode->width - 250);
+    canvas->set_height(mode->height - 200);
+
     ref<Window> nanogui_window = gui->add_window(Vector2i(10, 10), "Form helper example");
     gui->add_group("Basic types");
     gui->add_variable("bool", bvar)->set_tooltip("Test tooltip.");
@@ -144,12 +162,6 @@ const GLFWvidmode* mode = glfwGetVideoMode(monitor);
     gui->add_button("A button", []() { std::cout << "Button pressed." << std::endl; })
        ->set_tooltip("Testing a much longer tooltip, that will wrap around to new lines multiple times.");;
 
-    ref<Window> canvas_window = gui->add_window(Vector2i(250, 0), "Sector");
-    canvas_window->set_layout(new BoxLayout(Orientation::Horizontal));
-    Canvas *canvas = new Canvas(canvas_window);
-    canvas->set_position(Vector2i(0, 0));
-    canvas->set_width(mode->width - 250);
-    canvas->set_height(mode->height - 200);
     screen->perform_layout();
     screen->set_visible(true);
     nanogui_window->set_focused(true);
