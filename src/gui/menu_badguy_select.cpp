@@ -21,6 +21,8 @@
 #include "gui/menu_manager.hpp"
 #include "gui/menu_list.hpp"
 
+#include "boost/format.hpp"
+
 std::vector<std::string> BadguySelectMenu::all_badguys;
 
 BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
@@ -83,17 +85,17 @@ BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
     all_badguys.push_back("zeekling");
   }
 
-  refresh_menu();
+  refresh();
 }
 
 void
-BadguySelectMenu::refresh_menu()
+BadguySelectMenu::refresh()
 {
   m_items.clear();
 
   add_label(_("List of enemies"));
   add_hl();
-  add_entry(-2, _("Select enemy"));
+  add_entry(-2, str(boost::format(_("Select enemy (%s)")) % all_badguys[selected]));
   add_entry(-3, _("Add"));
   add_hl();
 
@@ -111,7 +113,7 @@ void
 BadguySelectMenu::remove_badguy()
 {
   badguys->erase(badguys->begin() + remove_item);
-  refresh_menu();
+  refresh();
   if (m_items[m_active_item]->skippable()) {
     //We are on the bottom headline.
     m_active_item++;
@@ -122,7 +124,7 @@ void
 BadguySelectMenu::add_badguy()
 {
   badguys->push_back(all_badguys[selected]);
-  refresh_menu();
+  refresh();
 }
 
 void
@@ -140,7 +142,7 @@ BadguySelectMenu::menu_action(MenuItem& item)
     dialog->add_cancel_button(_("No"));
     MenuManager::instance().set_dialog(std::move(dialog));
   } else if (item.get_id() == -2) {
-    MenuManager::instance().push_menu(std::make_unique<ListMenu>(all_badguys, &selected));
+    MenuManager::instance().push_menu(std::make_unique<ListMenu>(all_badguys, &selected, this));
   } else if (item.get_id() == -3) {
     add_badguy();
   }
