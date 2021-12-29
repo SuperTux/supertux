@@ -717,6 +717,10 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
     y2 = std::max(y2, p->get_bbox().get_bottom() + VERTICAL_MARGIN);
   }
 
+  // Might happens if all players are dead
+  if (x2 < x1 || y2 < y1)
+    return;
+
   Rectf cover(std::max(0.f, x1),
               std::max(0.f, y1),
               std::min(Sector::get().get_width(), x2),
