@@ -46,6 +46,8 @@ public:
 
   virtual void editor_update() override;
 
+  virtual void on_flip(float height) override;
+
   const Vector& get_speed() const { return m_speed; }
 
   /** @name Scriptable Methods

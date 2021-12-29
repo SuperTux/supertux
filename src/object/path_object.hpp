@@ -45,6 +45,8 @@ public:
   void editor_set_path_by_ref(const std::string& new_ref);
 
 protected:
+  void on_flip();
+
   PathWalker::Handle m_path_handle;
 
 private:

@@ -317,6 +317,13 @@ Coin::after_editor_set()
   }
 }
 
+void
+Coin::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  PathObject::on_flip();
+}
+
 ObjectSettings
 HeavyCoin::get_settings()
 {

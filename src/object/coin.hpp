@@ -48,6 +48,8 @@ public:
 
   virtual void move_to(const Vector& pos) override;
 
+  virtual void on_flip(float height) override;
+
   void collect();
 
 private:
