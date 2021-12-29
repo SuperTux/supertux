@@ -107,8 +107,9 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
             /* This is translatable since RTL languages may prefer to put the progress
                info to the left of the title */
             title_str = str(boost::format(_("%s (%u/%u; %u%%) - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % 
-                            world_solved_count % world_level_count % (100 * world_solved_count / world_level_count) % wm_title %
-                            island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
+                            world_solved_count % world_level_count % (100 * world_solved_count / world_level_count) %
+                            wm_title % island_solved_count % island_level_count %
+                            (island_level_count ? (100 * island_solved_count / island_level_count) : 100));
           }
         }
       }
