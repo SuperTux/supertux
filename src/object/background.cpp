@@ -491,7 +491,7 @@ Background::on_flip(float height)
 {
   GameObject::on_flip(height);
   std::swap(m_image_bottom, m_image_top);
-  m_pos.y = height - m_pos.y - m_image->get_height();
+  m_pos.y = height - m_pos.y - static_cast<float>(m_image->get_height());
   m_scroll_offset.y = -m_scroll_offset.y;
   FlipLevelTransformer::transform_flip(m_flip);
 }
