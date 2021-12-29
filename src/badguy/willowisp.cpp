@@ -356,7 +356,7 @@ void
 WillOWisp::on_flip(float height)
 {
   BadGuy::on_flip(height);
-  PathObject::on_flip(height);
+  PathObject::on_flip();
 }
 
 /* EOF */
