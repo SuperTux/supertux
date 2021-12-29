@@ -41,7 +41,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
     {
       m_world_folders.push_back(worlds[i]->get_basedir());
       std::string title_str;
-      auto savegame = Savegame::from_file(worlds[i]->get_savegame_filename());
+      const auto savegame = Savegame::from_file(worlds[i]->get_savegame_filename());
       if (worlds[i]->is_levelset())
       {
         uint32_t level_count = 0, solved_count = 0;
