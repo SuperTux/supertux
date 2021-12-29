@@ -135,9 +135,9 @@ const float DUCKED_TUX_HEIGHT = 31.8f;
 Color
 Player::get_player_color(int id)
 {
-  return Color(1.f - (id >> 2 & 1) * .4f,
-               1.f - (id >> 1 & 1) * .4f,
-               1.f - (id & 1) * .4f);
+  return Color(1.f - static_cast<float>(id >> 2 & 1) * .4f,
+               1.f - static_cast<float>(id >> 1 & 1) * .4f,
+               1.f - static_cast<float>(id & 1) * .4f);
 }
 
 SurfacePtr Player::s_multiplayer_arrow;
