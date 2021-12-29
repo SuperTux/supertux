@@ -44,7 +44,7 @@ static const float HORIZONTAL_MARGIN = 196.f; // 6 tiles
 static const float VERTICAL_MARGIN = 196.f; // 6 tiles
 
 /* 0 = no movement, 1 = no smooth adaptation */
-static const float MULTIPLAYER_CAM_TORQUE = 0.1f;
+static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
 
 class CameraConfig final
 {
@@ -743,8 +743,8 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
   if (true_rect.get_bottom() > Sector::get().get_height())
     rect.move(Vector(0.f, Sector::get().get_height() - true_rect.get_bottom()));
 
-  m_translation = m_translation * (1.f -MULTIPLAYER_CAM_TORQUE) + rect.p1() * MULTIPLAYER_CAM_TORQUE;
-  m_scale = m_scale * (1.f -MULTIPLAYER_CAM_TORQUE) + scale * MULTIPLAYER_CAM_TORQUE;
+  m_translation = m_translation * (1.f -MULTIPLAYER_CAM_WEIGHT) + rect.p1() * MULTIPLAYER_CAM_WEIGHT;
+  m_scale = m_scale * (1.f -MULTIPLAYER_CAM_WEIGHT) + scale * MULTIPLAYER_CAM_WEIGHT;
 }
 
 void
