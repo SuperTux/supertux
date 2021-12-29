@@ -66,7 +66,6 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       }
       else
       {
-        title_str = worlds[i]->get_title();
         uint32_t island_level_count = 0, island_solved_count = 0,
                  world_level_count = 0,  world_solved_count = 0;
         auto wm_filename = savegame->get_player_status().last_worldmap;
