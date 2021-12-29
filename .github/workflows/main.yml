@@ -93,7 +93,7 @@ jobs:
             sshpass \
             clang-6.0 \
             g++-8 \
-            libxmu-dev libxi-dev libgl-dev
+            libxmu-dev libxi-dev libgl-dev libgl1-mesa-dev
       - name: Install 32-bit linux tools
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.arch == 32 }}
         run: |
@@ -108,7 +108,7 @@ jobs:
             sshpass \
             gcc-multilib \
             g++-multilib \
-            libxmu-dev libxi-dev libgl-dev
+            libxmu-dev libxi-dev libgl-dev libgl1-mesa-dev
       - name: Install macos tools
         if: ${{ matrix.os == 'macos-10.15' ||  matrix.os == 'macos-11' }}
         run: |
