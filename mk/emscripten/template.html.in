@@ -159,6 +159,11 @@
       font-weight: bold;
     }
 
+    .bottom_stuff a.light {
+      color: #8cf7;
+      font-weight: normal;
+    }
+
     @keyframes movebkg {
       from {
         background-position: 0 0, 50% calc(50% - 100px);
@@ -181,6 +186,7 @@
     </center>
     <div class="bottom_stuff">
       <p>If the game is unplayably slow, try downloading the desktop version for your platform at <a href="https://www.supertux.org/download.html" target="_blank">supertux.org</a></p>
+      <p id="data_warning"></p>
       <p id="progress_desc"></p>
     </div>
   </div>
@@ -196,13 +202,14 @@
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist().then((persists) => {
         if (!persists) {
-          alert("Your browser denied persistent storage. That means your data could be cleared next time you open the game.\n\nIf you just received a prompt asking you if you want data to persist, you may ignore this message.\n\nChrome and Chromium-based browsers (Edge, Opera, Brave...) will not ask the user; instead, the browser will choose by itself based on if it considers the site important. It detemines which sites are important based on certain data, such as how often you visit the site, what you do, etc. If you want to choose whether or not to save your progress, you may use Firefox instead.\n\nYou can read more at https://web.dev/persistent-storage/#how-is-permission-granted\n\nIf you want to choose to save your data, please use Firefox.");
+          //alert("Your browser denied persistent storage. That means your data could be cleared next time you open the game.\n\nIf you just received a prompt asking you if you want data to persist, you may ignore this message.\n\nChrome and Chromium-based browsers (Edge, Opera, Brave...) will not ask the user; instead, the browser will choose by itself based on if it considers the site important. It detemines which sites are important based on certain data, such as how often you visit the site, what you do, etc. If you want to choose whether or not to save your progress, you may use Firefox instead.\n\nYou can read more at https://web.dev/persistent-storage/#how-is-permission-granted\n\nIf you want to choose to save your data, please use Firefox.");
+          document.getElementById("data_warning").innerHTML = 'Your browser denied persistent data. That means the browser can choose to delete your progress anytime. Chrome, Edge and Opera are known to <a class="light" href="https://web.dev/persistent-storage/#how-is-permission-granted">silently deny persistent data</a>; please try with Firefox if necessary.';
         } else {
           data_persistent = true;
         }
       });
     } else {
-      alert("Your browser does not support persistent storage!\n\nYour browser may delete your progress anytime. Make sure to backup your important files!");
+      document.getElementById("data_warning").innerHTML = 'Your browser does not support persistent data. That means the browser can choose to delete your progress anytime.';
     }
 
     window.supertux2_ispersistent = function() {
@@ -368,29 +375,31 @@
     const root = "/home/web_user/.local/share/supertux2/";
 
     window.supertux_loadFiles = function() {
-      // Loading the config file from localStorage is needed, even though the
-      // rest of the files are stored in IndexedDB, managed by Emscripten.
-      // Check the supertux_saveFiles function below for details.
-      for (var key of Object.keys(localStorage)) {
-        if (key !== "supertux2_config" /*&& !key.match("^profile[0-9]+/")*/)
-          continue;
+      try {
+        // Loading the config file from localStorage is needed, even though the
+        // rest of the files are stored in IndexedDB, managed by Emscripten.
+        // Check the supertux_saveFiles function below for details.
+        for (var key of Object.keys(localStorage)) {
+          if (key !== "supertux2_config" /*&& !key.match("^profile[0-9]+/")*/)
+            continue;
 
-        keyfilename = key.replace(/^supertux2_/, "");
+          keyfilename = key.replace(/^supertux2_/, "");
 
-        if (keyfilename.indexOf("/") !== -1) {
-          try {
-            FS.mkdir(root + keyfilename.substr(0, keyfilename.indexOf("/")));
-          } catch {
-            // Folder probably already exists
+          if (keyfilename.indexOf("/") !== -1) {
+            try {
+              FS.mkdir(root + keyfilename.substr(0, keyfilename.indexOf("/")));
+            } catch {
+              // Folder probably already exists
+            }
           }
+          FS.writeFile(root + keyfilename, localStorage.getItem(key));
         }
-        FS.writeFile(root + keyfilename, localStorage.getItem(key));
-      }
+      } catch(e){}
     }
 
     window.supertux_saveFiles = function() {
 
-      FS.syncfs((err) => { console.log(err); });
+      try { FS.syncfs((err) => { console.log(err); }); } catch(err) { console.log(err); }
 
       function save(file) {
         try {
@@ -498,12 +507,14 @@
     window.supertux2_syncfs = function() {
       if (saving) return;
       saving = true;
-      FS.syncfs((err) => {
-        if (err)
-          console.log(err);
+      try {
+        FS.syncfs((err) => {
+          if (err)
+            console.log(err);
 
-        saving = false;
-      });
+          saving = false;
+        });
+      } catch (err) {}
     }
 
     var onDownloadProgress, onDownloadFinished, onDownloadError, onDownloadAborted;
