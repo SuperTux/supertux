@@ -25,6 +25,9 @@ public:
   class Menu
   {
   public:
+    static Color back_color;
+    static Color front_color;
+    static Color hl_color;
     static Color default_color;
     static Color active_color;
     static Color inactive_color;
@@ -39,6 +42,12 @@ public:
     static Color heading_color;
     static Color reference_color;
     static Color normal_color;
+  };
+
+  class Editor
+  {
+  public:
+    static Color default_color;
   };
 };
 

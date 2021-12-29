@@ -19,6 +19,7 @@
 #include "config.h"
 
 #include "editor/overlay_widget.hpp"
+#include "supertux/colorscheme.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -73,10 +74,10 @@ Config::Config() :
   enable_discord(false),
 #endif
   hide_editor_levelnames(false),
-  menubackcolor(0.2f, 0.3f, 0.4f, 0.8f),
-  menufrontcolor(0.6f, 0.7f, 0.8f, 0.5f),
-  hlcolor(0.6f, 0.7f, 1.f, 1.f),
-  editorcolor(0.9f, 0.9f, 1.0f, 0.6f),
+  menubackcolor(ColorScheme::Menu::back_color),
+  menufrontcolor(ColorScheme::Menu::front_color),
+  hlcolor(ColorScheme::Menu::hl_color),
+  editorcolor(ColorScheme::Editor::default_color),
   menuroundness(16.f),
   editor_selected_snap_grid_size(3),
   editor_render_grid(true),

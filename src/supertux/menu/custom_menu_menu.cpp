@@ -23,12 +23,14 @@
 #include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 
 enum CustomMenuMenuIDs {
+  MNID_RESET,
   MNID_MENUBACKCOLOR,
   MNID_MENUFRONTCOLOR,
   MNID_HLCOLOR,
@@ -46,6 +48,7 @@ CustomMenuMenu::CustomMenuMenu()
   add_color(_("Editor Color Scheme"), &g_config->editorcolor, MNID_EDITORCOLOR);
   add_floatfield(_("Menu Roundness"), &g_config->menuroundness, MNID_MENUROUNDNESS);
   add_hl();
+  add_entry(MNID_RESET, _("Reset to defaults"));
   add_back(_("Back"));
 }
 
@@ -58,16 +61,14 @@ CustomMenuMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
-  case MNID_MENUBACKCOLOR:
+  case MNID_RESET:
+    g_config->menubackcolor = ColorScheme::Menu::back_color;
+    g_config->menufrontcolor = ColorScheme::Menu::front_color;
+    g_config->hlcolor = ColorScheme::Menu::hl_color;
+    g_config->editorcolor = ColorScheme::Editor::default_color;
+    g_config->menuroundness = 16.f;
     break;
-  case MNID_MENUFRONTCOLOR:
-    break;
-  case MNID_HLCOLOR:
-    break;
-  case MNID_EDITORCOLOR:
-    break;
-  case MNID_MENUROUNDNESS:
-    break;
+
   default:
     break;
   }
