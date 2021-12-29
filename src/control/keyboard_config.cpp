@@ -118,7 +118,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
       {
         player_id = std::stoi(control_text.substr(0, pos));
       }
-      catch (const std::exception& e)
+      catch (const std::exception&)
       {
         log_warning << "Could not parse player ID '" << control_text.substr(0, pos) << "' to number" << std::endl;
       }
