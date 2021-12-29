@@ -78,7 +78,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
           if (level_state.solved) ++island_solved_count;
           ++island_level_count;
         }
-        auto levelset = std::unique_ptr<Levelset>(new Levelset(worlds[i]->get_basedir(), true));
+        const auto levelset = std::unique_ptr<Levelset>(new Levelset(worlds[i]->get_basedir(), true));
         world_level_count = levelset->get_num_levels();
         const auto world_list = savegame->get_worldmaps();
         for (const auto& world : world_list)
@@ -94,7 +94,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
           title_str = str(boost::format(_("%s *NEW*")) % worlds[i]->get_title());
         else
         {
-          auto wm_title = savegame->get_player_status().last_worldmap_title;
+          const auto wm_title = savegame->get_player_status().last_worldmap_title;
           if (island_level_count == world_level_count && (worlds[i]->get_title() == wm_title || wm_title.empty()))
           {
             /* This is translatable since RTL languages may prefer to put the progress
