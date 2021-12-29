@@ -63,6 +63,9 @@ private:
     GrabListener& operator=(const GrabListener&) = delete;
   };
 
+public:
+  static Color get_player_color(int id);
+
 private:
   static SurfacePtr s_multiplayer_arrow;
 

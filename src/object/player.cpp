@@ -132,6 +132,14 @@ const float DUCKED_TUX_HEIGHT = 31.8f;
 
 } // namespace
 
+Color
+Player::get_player_color(int id)
+{
+  return Color(1.f - (id >> 2 & 1) * .4f,
+               1.f - (id >> 1 & 1) * .4f,
+               1.f - (id & 1) * .4f);
+}
+
 SurfacePtr Player::s_multiplayer_arrow;
 
 Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
@@ -237,6 +245,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_powersprite->set_angle(0.0f);
   m_lightsprite->set_angle(0.0f);
   m_lightsprite->set_blend(Blend::ADD);
+
+  m_sprite->set_color(get_player_color(player_id));
 
   m_physic.reset();
 }
