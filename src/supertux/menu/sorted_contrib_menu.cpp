@@ -95,7 +95,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         else
         {
           const auto wm_title = savegame->get_player_status().last_worldmap_title;
-          if (island_level_count == world_level_count && (worlds[i]->get_title() == wm_title || wm_title.empty()))
+          if (island_level_count == world_level_count)
           {
             /* This is translatable since RTL languages may prefer to put the progress
                info to the left of the title */
