@@ -28,7 +28,8 @@ CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
   radius(),
   speed(),
   timer(),
-  time(0.0)
+  time(0.0),
+  m_flip(NO_FLIP)
 {
   reader.get("radius", radius, 100.0f);
   reader.get("speed", speed, 2.0f);
@@ -80,10 +81,19 @@ CirclePlatform::update(float dt_sec)
 }
 
 void
+CirclePlatform::draw(DrawingContext& context)
+{
+  context.set_flip(context.get_flip() ^ m_flip);
+  MovingSprite::draw(context);
+  context.set_flip(context.get_flip() ^ m_flip);
+}
+
+void
 CirclePlatform::on_flip(float height)
 {
   MovingObject::on_flip(height);
   start_position.y = height - start_position.y - get_bbox().get_height();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 void

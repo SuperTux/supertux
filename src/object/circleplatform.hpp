@@ -18,6 +18,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/timer.hpp"
+#include "video/flip.hpp"
 
 class CirclePlatform : public MovingSprite
 {
@@ -27,11 +28,12 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual ObjectSettings get_settings() override;
   virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void on_flip(float height) override;
   
   virtual std::string get_class() const override { return "circleplatform"; }
   virtual std::string get_display_name() const override { return _("Circular Platform"); }
-  
+
 private:
   virtual void initialize();
 
@@ -43,7 +45,9 @@ protected:
   
   Timer timer;
   float time;
-  
+
+private:
+  Flip m_flip;
   
 private:
   CirclePlatform(const CirclePlatform&) = delete;
