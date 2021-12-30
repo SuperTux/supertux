@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -46,6 +47,14 @@ BicyclePlatformChild::update(float dt_sec)
   Vector movement = dest - get_pos();
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
+}
+
+void
+BicyclePlatformChild::draw(DrawingContext& context)
+{
+  context.set_flip(context.get_flip() ^ m_flip);
+  MovingSprite::draw(context);
+  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 HitResponse
@@ -79,6 +88,13 @@ void BicyclePlatformChild::editor_delete()
 {
   // removing a child removes the whole platform
   m_parent.editor_delete();
+}
+
+void
+BicyclePlatformChild::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :

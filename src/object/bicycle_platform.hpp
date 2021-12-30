@@ -19,6 +19,7 @@
 
 #include "object/path_walker.hpp"
 #include "object/moving_sprite.hpp"
+#include "video/flip.hpp"
 
 class BicyclePlatform;
 
@@ -30,8 +31,10 @@ public:
   BicyclePlatformChild(const ReaderMapping& reader, float angle_offset, BicyclePlatform& parent);
 
   virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
+  virtual void on_flip(float height) override;
 
   virtual void editor_delete() override;
 
@@ -40,6 +43,8 @@ private:
   float m_angle_offset;
   float m_momentum; /** angular momentum in rad per second per second*/
   std::set<GameObject*> m_contacts; /**< objects that are currently pushing on the platform */
+
+  Flip m_flip;
 
 private:
   BicyclePlatformChild(const BicyclePlatformChild&) = delete;
