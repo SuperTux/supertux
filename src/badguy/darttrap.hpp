@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_DARTTRAP_HPP
 
 #include "badguy/badguy.hpp"
+#include "video/flip.hpp"
 
 /** Badguy "DartTrap" - Shoots a Dart at regular intervals */
 class DartTrap final : public BadGuy
@@ -28,11 +29,16 @@ public:
   virtual void initialize() override;
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
+
+  virtual void draw(DrawingContext& context) override;
+
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual std::string get_class() const override { return "darttrap"; }
   virtual std::string get_display_name() const override { return _("Dart Trap"); }
 
   virtual ObjectSettings get_settings() override;
+
+  virtual void on_flip(float height) override;
 
 protected:
   enum State {
@@ -50,6 +56,8 @@ private:
 
   State state; /**< current state */
   Timer fire_timer; /**< time until new shot is fired */
+
+  Flip m_flip;
 
 private:
   DartTrap(const DartTrap&) = delete;
