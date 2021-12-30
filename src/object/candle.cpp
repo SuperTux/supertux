@@ -20,6 +20,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -30,7 +31,8 @@ Candle::Candle(const ReaderMapping& mapping) :
   flicker(true),
   lightcolor(1.0f, 1.0f, 1.0f),
   candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
-  candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
+  candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite")),
+  m_flip(NO_FLIP)
 {
   mapping.get("burning", burning, true);
   mapping.get("flicker", flicker, true);
@@ -88,7 +90,7 @@ void
 Candle::draw(DrawingContext& context)
 {
   // draw regular sprite
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   // draw on lightmap
   if (burning) {
@@ -141,6 +143,13 @@ Candle::set_burning(bool burning_)
   }
   //puff smoke for flickering light sources only
   if (flicker) puff_smoke();
+}
+
+void
+Candle::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

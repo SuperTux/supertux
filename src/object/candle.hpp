@@ -20,6 +20,7 @@
 #include "object/moving_sprite.hpp"
 #include "scripting/candle.hpp"
 #include "squirrel/exposed_object.hpp"
+#include "video/flip.hpp"
 
 /**
  * A burning candle: Simple, scriptable level decoration.
@@ -38,6 +39,8 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual void on_flip(float height) override;
+
   /** @name Scriptable Methods
       @{ */
   void puff_smoke(); /**< spawn a puff of smoke */
@@ -51,6 +54,8 @@ private:
   Color lightcolor; /**< determines color or light given off */
   SpritePtr candle_light_1; /**< drawn to lightmap */
   SpritePtr candle_light_2; /**< drawn to lightmap (alternative image) */
+
+  Flip m_flip;
 
 private:
   Candle(const Candle&) = delete;
