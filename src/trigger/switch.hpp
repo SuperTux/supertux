@@ -20,6 +20,7 @@
 #include <string>
 
 #include "trigger/trigger_base.hpp"
+#include "video/flip.hpp"
 
 class ReaderMapping;
 
@@ -39,6 +40,8 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
 
+  virtual void on_flip(float height) override;
+
 private:
   enum SwitchState {
     OFF,
@@ -54,6 +57,7 @@ private:
   std::string off_script;
   SwitchState state;
   bool bistable;
+  Flip m_flip;
 
 private:
   Switch(const Switch&) = delete;
