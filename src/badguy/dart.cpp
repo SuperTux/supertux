@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 
 namespace {
 const float DART_SPEED = 200;
@@ -29,7 +30,8 @@ static const std::string DART_SOUND = "sounds/flame.wav";
 Dart::Dart(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dart/dart.sprite"),
   parent(nullptr),
-  sound_source()
+  sound_source(),
+  m_flip(NO_FLIP)
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
@@ -41,7 +43,8 @@ Dart::Dart(const ReaderMapping& reader) :
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr) :
   BadGuy(pos, d, "images/creatures/dart/dart.sprite"),
   parent(parent_),
-  sound_source()
+  sound_source(),
+  m_flip(NO_FLIP)
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
@@ -93,6 +96,14 @@ Dart::active_update(float dt_sec)
 }
 
 void
+Dart::draw(DrawingContext& context)
+{
+  context.set_flip(context.get_flip() ^ m_flip);
+  BadGuy::draw(context);
+  context.set_flip(context.get_flip() ^ m_flip);
+}
+
+void
 Dart::collision_solid(const CollisionHit& )
 {
   SoundManager::current()->play("sounds/darthit.wav", get_pos());
@@ -126,18 +137,27 @@ Dart::is_flammable() const
   return false;
 }
 
-void Dart::stop_looping_sounds()
+void
+Dart::stop_looping_sounds()
 {
   if (sound_source) {
     sound_source->stop();
   }
 }
 
-void Dart::play_looping_sounds()
+void
+Dart::play_looping_sounds()
 {
   if (sound_source) {
     sound_source->play();
   }
+}
+
+void
+Dart::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
