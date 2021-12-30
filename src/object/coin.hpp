@@ -20,6 +20,7 @@
 #include "object/path_object.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "video/flip.hpp"
 
 class Path;
 class PathWalker;
@@ -39,6 +40,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual std::string get_class() const override { return "coin"; }
   virtual std::string get_display_name() const override { return _("Coin"); }
 
@@ -61,6 +63,8 @@ private:
 
   int m_starting_node;
 
+  Flip m_flip;
+
 private:
   Coin(const Coin&) = delete;
   Coin& operator=(const Coin&) = delete;
@@ -73,6 +77,7 @@ public:
   HeavyCoin(const ReaderMapping& reader);
 
   virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
   virtual std::string get_class() const override { return "heavycoin"; }

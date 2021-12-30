@@ -22,6 +22,7 @@
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -35,7 +36,8 @@ Coin::Coin(const Vector& pos) :
   m_add_path(false),
   m_physic(),
   m_collect_script(),
-  m_starting_node(0)
+  m_starting_node(0),
+  m_flip(NO_FLIP)
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
@@ -48,7 +50,8 @@ Coin::Coin(const ReaderMapping& reader) :
   m_add_path(false),
   m_physic(),
   m_collect_script(),
-  m_starting_node(0)
+  m_starting_node(0),
+  m_flip(NO_FLIP)
 {
   reader.get("starting-node", m_starting_node, 0);
 
@@ -94,6 +97,14 @@ Coin::update(float dt_sec)
       m_col.set_movement(v - get_pos());
     }
   }
+}
+
+void
+Coin::draw(DrawingContext& context)
+{
+  context.set_flip(context.get_flip() ^ m_flip);
+  MovingSprite::draw(context);
+  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 void
@@ -234,6 +245,14 @@ HeavyCoin::update(float dt_sec)
   m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
+/* draw is called from the grandparent class MovingSprite to prevent HeavyCoin from
+   flipping its sprite on levelflip (since it's a gravity-affected object) */
+void
+HeavyCoin::draw(DrawingContext& context)
+{
+  MovingSprite::draw(context);
+}
+
 void
 HeavyCoin::collision_solid(const CollisionHit& hit)
 {
@@ -322,6 +341,7 @@ Coin::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   PathObject::on_flip();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 ObjectSettings
