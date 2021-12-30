@@ -20,6 +20,7 @@
 #include "object/player.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -31,7 +32,8 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 PushButton::PushButton(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   script(),
-  state(OFF)
+  state(OFF),
+  m_flip(NO_FLIP)
 {
   SoundManager::current()->preload(BUTTON_SOUND);
   set_action("off", -1);
@@ -58,6 +60,12 @@ PushButton::get_settings()
 void
 PushButton::update(float /*dt_sec*/)
 {
+}
+
+void
+PushButton::draw(DrawingContext& context)
+{
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 HitResponse
@@ -96,6 +104,13 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   Sector::get().run_script(script, "PushButton");
 
   return FORCE_MOVE;
+}
+
+void
+PushButton::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
