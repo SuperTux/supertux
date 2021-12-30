@@ -19,6 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
+#include "video/flip.hpp"
 
 class PowerUp final : public MovingSprite
 {
@@ -29,6 +30,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void on_flip(float height) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual std::string get_class() const override { return "powerup"; }
@@ -45,6 +47,8 @@ private:
   std::string script;
   bool no_physics;
   SpritePtr lightsprite;
+
+  Flip m_flip;
 
 private:
   PowerUp(const PowerUp&) = delete;

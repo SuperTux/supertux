@@ -23,6 +23,7 @@
 #include "scripting/level.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -31,7 +32,8 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   physic(),
   script(),
   no_physics(),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  m_flip(NO_FLIP)
 {
   mapping.get("script", script, "");
   mapping.get("disable-physics", no_physics, false);
@@ -43,7 +45,8 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
   physic(),
   script(),
   no_physics(false),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  m_flip(NO_FLIP)
 {
   initialize();
 }
@@ -171,6 +174,9 @@ PowerUp::update(float dt_sec)
 void
 PowerUp::draw(DrawingContext& context)
 {
+  if (no_physics)
+    context.set_flip(context.get_flip() ^ m_flip);
+
   m_sprite->draw(context.color(), get_pos(), m_layer);
 
   // Stars are brighter
@@ -180,6 +186,9 @@ PowerUp::draw(DrawingContext& context)
   }
 
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+
+  if (no_physics)
+    context.set_flip(context.get_flip() ^ m_flip);
 }
 
 ObjectSettings
@@ -193,6 +202,14 @@ PowerUp::get_settings()
   result.reorder({"script", "disable-physics", "sprite", "x", "y"});
 
   return result;
+}
+
+void
+PowerUp::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  if (no_physics)
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
