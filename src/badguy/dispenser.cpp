@@ -333,6 +333,8 @@ Dispenser::launch_badguy()
             spawnpoint.x -= object_bbox.get_width() + 1;
           else
             spawnpoint.x += m_col.m_bbox.get_width() + 1;
+          if (m_flip != NO_FLIP)
+            spawnpoint.y += (m_col.m_bbox.get_height() - 32);
           break;
 
         case DispenserType::POINT:
