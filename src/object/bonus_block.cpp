@@ -33,6 +33,7 @@
 #include "object/trampoline.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
@@ -64,7 +65,8 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_flip(NO_FLIP)
 {
   m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
 
@@ -81,7 +83,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_flip(NO_FLIP)
 {
   m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
 
@@ -543,6 +546,8 @@ BonusBlock::drop_growup_bonus(Player* player, const std::string& bonus_sprite_na
 void
 BonusBlock::draw(DrawingContext& context)
 {
+  context.set_flip(context.get_flip() ^ m_flip);
+
   // do the regular drawing first
   Block::draw(context);
   // then Draw the light if on.
@@ -551,6 +556,8 @@ BonusBlock::draw(DrawingContext& context)
                                                                    static_cast<float>(m_lightsprite->get_height()))) / 2.0f;
     context.light().draw_surface(m_lightsprite, pos, 10);
   }
+
+  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 BonusBlock::Content
@@ -643,6 +650,13 @@ BonusBlock::preload_contents(int d)
     default:
       break;
   }
+}
+
+void
+BonusBlock::on_flip(float height)
+{
+  Block::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

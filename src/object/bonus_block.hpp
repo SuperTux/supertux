@@ -20,6 +20,7 @@
 #include "object/block.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/player_status.hpp"
+#include "video/flip.hpp"
 
 class Player;
 
@@ -59,6 +60,7 @@ public:
 
   Content get_contents() const { return m_contents; }
   int get_hit_counter() const { return m_hit_counter; }
+  virtual void on_flip(float height) override;
 
 private:
   void try_open(Player* player);
@@ -79,6 +81,7 @@ private:
   std::string m_script;
   SurfacePtr m_lightsprite;
   sexp::Value m_custom_sx;
+  Flip m_flip;
 
 private:
   BonusBlock(const BonusBlock&) = delete;
