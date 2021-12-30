@@ -26,6 +26,7 @@
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/video_system.hpp"
@@ -53,7 +54,8 @@ MagicBlock::MagicBlock(const ReaderMapping& mapping) :
   m_color(),
   m_light(std::make_shared<Color>(1.0f,1.0f,1.0f)),
   m_center(0.0f, 0.0f),
-  m_black()
+  m_black(),
+  m_flip(NO_FLIP)
 {
   set_group(COLGROUP_STATIC);
 
@@ -190,7 +192,7 @@ MagicBlock::draw(DrawingContext& context)
   // Ask for update about lightmap at center of this block
   context.light().get_pixel(m_center, m_light);
 
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
   context.color().draw_filled_rect(m_col.m_bbox, m_color, m_layer);
 }
 
@@ -204,6 +206,13 @@ HitResponse
 MagicBlock::collision(GameObject& /*other*/, const CollisionHit& /*hit*/)
 {
   return FORCE_MOVE;
+}
+
+void
+MagicBlock::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
