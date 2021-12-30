@@ -56,8 +56,6 @@ SkullTile::collision(GameObject& other, const CollisionHit& )
 void
 SkullTile::draw(DrawingContext& context)
 {
-  context.set_flip(context.get_flip() ^ m_flip);
-
   Vector pos = get_pos();
   if(!Editor::is_active())
   {
@@ -67,9 +65,7 @@ SkullTile::draw(DrawingContext& context)
     }
   }
   m_sprite->set_alpha(m_alpha);
-  m_sprite->draw(context.color(), pos, m_layer);
-
-  context.set_flip(context.get_flip() ^ m_flip);
+  m_sprite->draw(context.color(), pos, m_layer, m_flip);
 }
 
 void

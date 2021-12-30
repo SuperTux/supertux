@@ -136,7 +136,6 @@ FallBlock::collision_solid(const CollisionHit& hit)
 void
 FallBlock::draw(DrawingContext& context)
 {
-  context.set_flip(context.get_flip() ^ m_flip);
 
   Vector pos = get_pos();
   // shaking
@@ -145,9 +144,8 @@ FallBlock::draw(DrawingContext& context)
     pos.x += static_cast<float>(graphicsRandom.rand(-8, 8));
 	  pos.y += static_cast<float>(graphicsRandom.rand(-5, 5));
   }
-  m_sprite->draw(context.color(), pos, m_layer);
+  m_sprite->draw(context.color(), pos, m_layer, m_flip);
 
-  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 bool

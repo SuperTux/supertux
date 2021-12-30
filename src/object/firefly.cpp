@@ -76,9 +76,7 @@ Firefly::Firefly(const ReaderMapping& mapping) :
 void
 Firefly::draw(DrawingContext& context)
 {
-  context.set_flip(context.get_flip() ^ m_flip);
-  MovingSprite::draw(context);
-  context.set_flip(context.get_flip() ^ m_flip);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   if (m_sprite_name.find("torch", 0) != std::string::npos && (activated ||
         m_sprite->get_action() == "ringing")) {

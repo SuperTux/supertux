@@ -83,9 +83,7 @@ CirclePlatform::update(float dt_sec)
 void
 CirclePlatform::draw(DrawingContext& context)
 {
-  context.set_flip(context.get_flip() ^ m_flip);
-  MovingSprite::draw(context);
-  context.set_flip(context.get_flip() ^ m_flip);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void

@@ -165,17 +165,13 @@ WeakBlock::update(float )
 void
 WeakBlock::draw(DrawingContext& context)
 {
-  context.set_flip(context.get_flip() ^ m_flip);
-
   //Draw the Sprite just in front of other objects
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10);
+  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10, m_flip);
 
   if (linked && (state != STATE_NORMAL))
   {
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
   }
-
-  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 void

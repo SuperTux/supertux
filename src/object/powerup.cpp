@@ -174,21 +174,16 @@ PowerUp::update(float dt_sec)
 void
 PowerUp::draw(DrawingContext& context)
 {
-  if (no_physics)
-    context.set_flip(context.get_flip() ^ m_flip);
 
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   // Stars are brighter
   if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite")
   {
-    m_sprite->draw(context.color(), get_pos(), m_layer);
+    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
   }
 
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
-
-  if (no_physics)
-    context.set_flip(context.get_flip() ^ m_flip);
 }
 
 ObjectSettings

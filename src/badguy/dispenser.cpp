@@ -150,11 +150,7 @@ void
 Dispenser::draw(DrawingContext& context)
 {
   if (m_type != DispenserType::POINT || Editor::is_active()) {
-    if (!m_gravity)
-      context.set_flip(context.get_flip() ^ m_flip);
-    BadGuy::draw(context);
-    if (!m_gravity)
-      context.set_flip(context.get_flip() ^ m_flip);
+    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
   }
 }
 

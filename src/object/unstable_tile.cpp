@@ -230,12 +230,10 @@ UnstableTile::draw(DrawingContext& context)
 {
   // FIXME: This method is more future-proof, but more ugly than simply copying
   //        the draw() function from MovingSprite
-  context.set_flip(context.get_flip() ^ m_flip);
   context.push_transform();
   context.transform().alpha *= m_alpha;
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
   context.pop_transform();
-  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 void
