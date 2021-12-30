@@ -20,6 +20,7 @@
 #include <memory>
 
 #include "object/block.hpp"
+#include "video/flip.hpp"
 
 class InfoBoxLine;
 
@@ -36,6 +37,8 @@ public:
   virtual std::string get_display_name() const override { return _("Info Block"); }
 
   virtual ObjectSettings get_settings() override;
+
+  virtual void on_flip(float height) override;
 
   void show_message();
   void hide_message();
@@ -58,6 +61,7 @@ private:
   Color m_backcolor;
   float m_roundness;
   bool m_fadetransition;
+  Flip m_flip;
 
 private:
   InfoBlock(const InfoBlock&) = delete;
