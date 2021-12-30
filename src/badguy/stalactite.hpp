@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_STALACTITE_HPP
 
 #include "badguy/badguy.hpp"
+#include "video/flip.hpp"
 
 class Stalactite : public BadGuy
 {
@@ -37,6 +38,8 @@ public:
   virtual std::string get_class() const override { return "stalactite"; }
   virtual std::string get_display_name() const override { return _("Stalactite"); }
 
+  virtual void on_flip(float height) override;
+
   void squish();
 
 protected:
@@ -51,6 +54,9 @@ protected:
   Timer timer;
   StalactiteState state;
   Vector shake_delta;
+
+private:
+  Flip m_flip;
 
 private:
   Stalactite(const Stalactite&) = delete;

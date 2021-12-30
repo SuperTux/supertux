@@ -22,6 +22,7 @@
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
 static const int SHAKE_RANGE_X = 40;
@@ -32,7 +33,8 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
   timer(),
   state(STALACTITE_HANGING),
-  shake_delta(0.0f, 0.0f)
+  shake_delta(0.0f, 0.0f),
+  m_flip(NO_FLIP)
 {
   m_countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
@@ -157,9 +159,9 @@ Stalactite::draw(DrawingContext& context)
   if (state == STALACTITE_SQUISHED) {
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   } else if (state == STALACTITE_SHAKING) {
-    m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer);
+    m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer, m_flip);
   } else {
-    m_sprite->draw(context.color(), get_pos(), m_layer);
+    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
   }
 }
 
@@ -168,6 +170,13 @@ Stalactite::deactivate()
 {
   if (state != STALACTITE_HANGING)
     remove_me();
+}
+
+void
+Stalactite::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
