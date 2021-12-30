@@ -20,6 +20,7 @@
 #include "object/player.hpp"
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "math/random.hpp"
@@ -29,7 +30,8 @@ FallBlock::FallBlock(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/fallblock/cave-4x4.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   state(IDLE),
   physic(),
-  timer()
+  timer(),
+  m_flip(NO_FLIP)
 {
 	SoundManager::current()->preload("sounds/cracking.wav");
 	SoundManager::current()->preload("sounds/thud.ogg");
@@ -134,6 +136,8 @@ FallBlock::collision_solid(const CollisionHit& hit)
 void
 FallBlock::draw(DrawingContext& context)
 {
+  context.set_flip(context.get_flip() ^ m_flip);
+
   Vector pos = get_pos();
   // shaking
   if (state == SHAKE)
@@ -142,6 +146,8 @@ FallBlock::draw(DrawingContext& context)
 	  pos.y += static_cast<float>(graphicsRandom.rand(-5, 5));
   }
   m_sprite->draw(context.color(), pos, m_layer);
+
+  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 bool
@@ -162,3 +168,12 @@ FallBlock::found_victim_down() const
   }
   return false;
 }
+
+void
+FallBlock::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
+}
+
+/* EOF */
