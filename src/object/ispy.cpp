@@ -88,16 +88,16 @@ Ispy::collision(GameObject& , const CollisionHit& )
 }
 
 void
-Ispy::update(float )
+Ispy::update(float dt_sec)
 {
 
   if (state == ISPYSTATE_IDLE) {
     // check if a player has been spotted
     Vector eye = m_col.m_bbox.get_middle();
     if (dir == Direction::LEFT) eye = Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_middle().y);
-    if (dir == Direction::RIGHT) eye = Vector(m_col.m_bbox.get_right(), m_col.m_bbox.get_middle().y);
-    if (dir == Direction::UP) eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_top());
-    if (dir == Direction::DOWN) eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_bottom());
+    else if (dir == Direction::RIGHT) eye = Vector(m_col.m_bbox.get_right(), m_col.m_bbox.get_middle().y);
+    else if (dir == Direction::UP || (dir == Direction::DOWN && m_flip != NO_FLIP)) eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_top());
+    else if (dir == Direction::DOWN) eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_bottom());
 
     if (Sector::get().can_see_player(eye)) {
       m_sprite->set_action((dir == Direction::DOWN) ? "alert-down" : ((dir == Direction::LEFT) ? "alert-left" : "alert-right"), 1);
