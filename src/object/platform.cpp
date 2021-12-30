@@ -36,7 +36,8 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   m_automatic(false),
   m_player_contact(false),
   m_last_player_contact(false),
-  m_starting_node(0)
+  m_starting_node(0),
+  m_flip(NO_FLIP)
 {
   bool running = true;
   reader.get("running", running);
@@ -136,6 +137,14 @@ Platform::update(float dt_sec)
 }
 
 void
+Platform::draw(DrawingContext& context)
+{
+  context.set_flip(context.get_flip() ^ m_flip);
+  MovingSprite::draw(context);
+  context.set_flip(context.get_flip() ^ m_flip);
+}
+
+void
 Platform::editor_update()
 {
   if (!get_path()) return;
@@ -186,6 +195,7 @@ Platform::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   PathObject::on_flip();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

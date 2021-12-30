@@ -21,6 +21,7 @@
 #include "object/path_object.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "scripting/platform.hpp"
+#include "video/flip.hpp"
 
 /** This class is the base class for platforms that tux can stand
     on */
@@ -38,6 +39,7 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
 
   virtual void move_to(const Vector& pos) override;
 
@@ -82,6 +84,8 @@ private:
   bool m_last_player_contact;
 
   int m_starting_node;
+
+  Flip m_flip;
 
 private:
   Platform(const Platform&) = delete;
