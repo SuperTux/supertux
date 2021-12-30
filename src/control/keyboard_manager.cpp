@@ -74,6 +74,9 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     auto control = key_mapping->second;
     bool value = (event.type == SDL_KEYDOWN);
 
+    if (control.player >= m_parent->get_num_users())
+      return;
+
     m_parent->get_controller(control.player).set_control(control.control, value);
 
     if (m_keyboard_config.m_jump_with_up_kbd && control.control == Control::UP) {
