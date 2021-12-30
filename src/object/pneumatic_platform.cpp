@@ -18,6 +18,7 @@
 
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -25,7 +26,8 @@ PneumaticPlatformChild::PneumaticPlatformChild(const ReaderMapping& mapping, boo
   MovingSprite(mapping, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   m_parent(parent),
   m_left(left),
-  m_contacts()
+  m_contacts(),
+  m_flip(NO_FLIP)
 {
   if (!m_left) {
     set_pos(get_pos() + Vector(get_bbox().get_width(), 0));
@@ -43,6 +45,14 @@ PneumaticPlatformChild::update(float dt_sec)
   const Vector movement(0, (m_parent.m_start_y + offset_y) - get_pos().y);
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
+}
+
+void
+PneumaticPlatformChild::draw(DrawingContext& context)
+{
+  context.set_flip(context.get_flip() ^ m_flip);
+  MovingSprite::draw(context);
+  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 HitResponse
@@ -69,6 +79,13 @@ void PneumaticPlatformChild::editor_delete()
 {
   // removing a child removes the whole platform
   m_parent.editor_delete();
+}
+
+void
+PneumaticPlatformChild::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& mapping) :
