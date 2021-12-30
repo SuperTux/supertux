@@ -33,7 +33,8 @@ BicyclePlatformChild::BicyclePlatformChild(const ReaderMapping& reader, float an
   m_parent(parent),
   m_angle_offset(angle_offset),
   m_momentum(),
-  m_contacts()
+  m_contacts(),
+  m_flip(NO_FLIP)
 {
 }
 
