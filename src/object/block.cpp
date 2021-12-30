@@ -29,6 +29,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -45,7 +46,8 @@ Block::Block(SpritePtr newsprite) :
   m_breaking(false),
   m_bounce_dir(0),
   m_bounce_offset(0),
-  m_original_y(-1)
+  m_original_y(-1),
+  m_flip(NO_FLIP)
 {
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -61,7 +63,8 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
   m_breaking(false),
   m_bounce_dir(0),
   m_bounce_offset(0),
-  m_original_y(-1)
+  m_original_y(-1),
+  m_flip(NO_FLIP)
 {
   mapping.get("x", m_col.m_bbox.get_left());
   mapping.get("y", m_col.m_bbox.get_top());
@@ -169,7 +172,7 @@ Block::update(float dt_sec)
 void
 Block::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1);
+  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1, m_flip);
 }
 
 void
@@ -242,6 +245,7 @@ Block::on_flip(float height)
 {
   MovingObject::on_flip(height);
   if (m_original_y != -1) m_original_y = height - m_original_y - get_bbox().get_height();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

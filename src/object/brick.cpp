@@ -26,15 +26,13 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
-#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
 Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
   Block(SpriteManager::current()->create(spriteName)),
   m_breakable(false),
-  m_coin_counter(0),
-  m_flip(NO_FLIP)
+  m_coin_counter(0)
 {
   m_col.m_bbox.set_pos(pos);
   if (data == 1) {
@@ -47,8 +45,7 @@ Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
 Brick::Brick(const ReaderMapping& mapping, const std::string& spriteName) :
   Block(mapping, spriteName),
   m_breakable(),
-  m_coin_counter(0),
-  m_flip(NO_FLIP)
+  m_coin_counter(0)
 {
   mapping.get("breakable", m_breakable, true);
   if (!m_breakable) {
@@ -129,27 +126,12 @@ Brick::try_break(Player* player)
   }
 }
 
-void
-Brick::draw(DrawingContext& context)
-{
-  context.set_flip(context.get_flip() ^ m_flip);
-  Block::draw(context);
-  context.set_flip(context.get_flip() ^ m_flip);
-}
-
 ObjectSettings
 Brick::get_settings()
 {
   ObjectSettings result = Block::get_settings();
   result.add_bool(_("Breakable"), &m_breakable, "breakable");
   return result;
-}
-
-void
-Brick::on_flip(float height)
-{
-  Block::on_flip(height);
-  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 HeavyBrick::HeavyBrick(const Vector& pos, int data, const std::string& spriteName) :

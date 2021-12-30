@@ -20,7 +20,6 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "supertux/flip_level_transformer.hpp"
 #include "supertux/info_box_line.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -36,8 +35,7 @@ InfoBlock::InfoBlock(const ReaderMapping& mapping) :
   m_frontcolor(0.6f, 0.7f, 0.8f, 0.5f),
   m_backcolor(0.f, 0.f, 0.f, 0.f),
   m_roundness(16.f),
-  m_fadetransition(true),
-  m_flip(NO_FLIP)
+  m_fadetransition(true)
 {
   if (!mapping.get("message", m_message) && !(Editor::is_active()))
   {
@@ -163,11 +161,7 @@ InfoBlock::update(float dt_sec)
 void
 InfoBlock::draw(DrawingContext& context)
 {
-  context.set_flip(context.get_flip() ^ m_flip);
-
   Block::draw(context);
-
-  context.set_flip(context.get_flip() ^ m_flip);
 
   if (m_shown_pct <= 0) return;
 
@@ -238,13 +232,6 @@ void
 InfoBlock::hide_message()
 {
   m_dest_pct = 0;
-}
-
-void
-InfoBlock::on_flip(float height)
-{
-  Block::on_flip(height);
-  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
