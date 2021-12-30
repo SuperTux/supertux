@@ -19,6 +19,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/worldmap_cheat_apply_menu.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "util/log.hpp"
@@ -67,37 +68,43 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_GROW:
-      for (auto& bonus : status.bonus)
-        bonus = GROWUP_BONUS;
+      do_cheat(status, [&status](int player){
+        status.bonus[player] = GROWUP_BONUS;
+      });
       break;
 
     case MNID_FIRE:
-      for (auto& bonus : status.bonus)
-        bonus = FIRE_BONUS;
-      for (auto& max_fire_bullets : status.max_fire_bullets)
-        max_fire_bullets++;
+      do_cheat(status, [&status](int player, int count){
+        status.bonus[player] = FIRE_BONUS;
+        status.max_fire_bullets[player] = count;
+      });
       break;
 
     case MNID_ICE:
-      for (auto& bonus : status.bonus)
-        bonus = ICE_BONUS;
-      for (auto& max_ice_bullets : status.max_ice_bullets)
-        max_ice_bullets++;
+      do_cheat(status, [&status](int player, int count){
+        status.bonus[player] = ICE_BONUS;
+        status.max_ice_bullets[player] = count;
+      });
       break;
 
     case MNID_AIR:
-      for (auto& bonus : status.bonus)
-        bonus = AIR_BONUS;
+      do_cheat(status, [&status](int player, int count){
+        status.bonus[player] = AIR_BONUS;
+        status.max_air_time[player] = count;
+      });
       break;
 
     case MNID_EARTH:
-      for (auto& bonus : status.bonus)
-        bonus = EARTH_BONUS;
+      do_cheat(status, [&status](int player, int count){
+        status.bonus[player] = EARTH_BONUS;
+        status.max_earth_time[player] = count;
+      });
       break;
 
     case MNID_SHRINK:
-      for (auto& bonus : status.bonus)
-        bonus = NO_BONUS;
+      do_cheat(status, [&status](int player){
+        status.bonus[player] = NO_BONUS;
+      });
       break;
 
     case MNID_GHOST:
@@ -112,6 +119,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
           level_tile->set_solved(true);
           level_tile->set_perfect(false);
         }
+        MenuManager::instance().clear_menu_stack();
       }
       break;
 
@@ -123,15 +131,18 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
           level_tile->set_solved(false);
           level_tile->set_perfect(false);
         }
+        MenuManager::instance().clear_menu_stack();
       }
       break;
 
     case MNID_FINISH_WORLDMAP:
       worldmap->set_levels_solved(true, false);
+      MenuManager::instance().clear_menu_stack();
       break;
 
     case MNID_RESET_WORLDMAP:
       worldmap->set_levels_solved(false, false);
+      MenuManager::instance().clear_menu_stack();
       break;
 
     case MNID_MOVE_TO_LEVEL:
@@ -140,10 +151,31 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
     case MNID_MOVE_TO_MAIN:
       worldmap->move_to_spawnpoint("main");
+      MenuManager::instance().clear_menu_stack();
       break;
   }
+}
 
-  MenuManager::instance().clear_menu_stack();
+void
+WorldmapCheatMenu::do_cheat(PlayerStatus& status,
+                            std::function<void(int)> callback)
+{
+  if (status.m_num_players == 1)
+  {
+    callback(0);
+    MenuManager::instance().clear_menu_stack();
+  }
+  else
+  {
+    MenuManager::instance().push_menu(std::make_unique<WorldmapCheatApplyMenu>(status.m_num_players, callback));
+  }
+}
+
+void
+WorldmapCheatMenu::do_cheat(PlayerStatus& status,
+                            std::function<void(int, int)> callback)
+{
+  MenuManager::instance().push_menu(std::make_unique<WorldmapCheatApplyMenu>(status.m_num_players, callback));
 }
 
 WorldmapLevelSelectMenu::WorldmapLevelSelectMenu()

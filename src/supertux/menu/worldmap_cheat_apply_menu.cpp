@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/cheat_apply_menu.hpp"
+#include "supertux/menu/worldmap_cheat_apply_menu.hpp"
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -23,7 +23,9 @@
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 
-CheatApplyMenu::CheatApplyMenu(std::function<void(Player&)> callback) :
+WorldmapCheatApplyMenu::WorldmapCheatApplyMenu(int num_players,
+                                            std::function<void(int)> callback) :
+  m_num_players(num_players),
   m_callback_1(callback),
   m_callback_2(nullptr),
   m_stack_count(-1)
@@ -31,18 +33,16 @@ CheatApplyMenu::CheatApplyMenu(std::function<void(Player&)> callback) :
   add_label(_("Apply cheat to player"));
   add_hl();
 
-  add_entry(-1, _("All Players"));
-  for (const auto player : Sector::get().get_players())
-  {
-    add_entry(player->get_id(), _("Player") + " " +
-                                          std::to_string(player->get_id() + 1));
-  }
+  for (int i = 0; i < m_num_players; i++)
+    add_entry(i, _("Player") + " " + std::to_string(i + 1));
 
   add_hl();
   add_back(_("Back"));
 }
 
-CheatApplyMenu::CheatApplyMenu(std::function<void(Player&, int)> callback) :
+WorldmapCheatApplyMenu::WorldmapCheatApplyMenu(int num_players,
+                                       std::function<void(int, int)> callback) :
+  m_num_players(num_players),
   m_callback_1(nullptr),
   m_callback_2(callback),
   m_stack_count(1)
@@ -53,34 +53,40 @@ CheatApplyMenu::CheatApplyMenu(std::function<void(Player&, int)> callback) :
   add_intfield("Count", &m_stack_count, -2);
   add_hl();
   add_entry(-1, _("All Players"));
-  for (const auto player : Sector::get().get_players())
-  {
-    add_entry(player->get_id(), _("Player") + " " +
-                                          std::to_string(player->get_id() + 1));
-  }
+
+  for (int i = 0; i < m_num_players; i++)
+    add_entry(i, _("Player") + " " + std::to_string(i + 1));
 
   add_hl();
   add_back(_("Back"));
 }
 
 void
-CheatApplyMenu::menu_action(MenuItem& item)
+WorldmapCheatApplyMenu::menu_action(MenuItem& item)
 {
   int id = item.get_id();
 
   if (id < -1)
     return;
 
-  for (const auto& player : Sector::get().get_players())
+  if (id == -1)
   {
-    if (id == -1 || id == player->get_id())
+    for (int i = 0; i < m_num_players; i++)
     {
       if (m_callback_2)
-        m_callback_2(*player, m_stack_count);
+        m_callback_2(i, m_stack_count);
 
       if (m_callback_1)
-        m_callback_1(*player);
+        m_callback_1(i);
     }
+  }
+  else
+  {
+    if (m_callback_2)
+      m_callback_2(id, m_stack_count);
+
+    if (m_callback_1)
+      m_callback_1(id);
   }
 
   MenuManager::instance().clear_menu_stack();
