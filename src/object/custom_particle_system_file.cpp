@@ -16,6 +16,8 @@
 
 #include "object/custom_particle_system_file.hpp"
 
+#include <algorithm>
+
 #include "editor/editor.hpp"
 #include "gui/menu_manager.hpp"
 #include "util/reader.hpp"
@@ -33,6 +35,7 @@ CustomParticleSystemFile::CustomParticleSystemFile(const ReaderMapping& reader) 
   m_filename()
 {
   reader.get("file", m_filename, "default.stcp");
+  std::replace(m_filename.begin(), m_filename.end(), '\\', '/');
 
   update_data();
   reinit_textures();
