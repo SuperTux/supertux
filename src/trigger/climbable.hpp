@@ -17,8 +17,11 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 #define HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 
-#include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
+
+#include <vector>
+
+#include "supertux/timer.hpp"
 
 class Color;
 class DrawingContext;
@@ -48,7 +51,7 @@ public:
   bool may_climb(Player& player) const;
 
 protected:
-  Player* climbed_by; /**< set to player who's currently climbing us, null if nobody is */
+  std::vector<Player*> climbed_by; /**< set to player who's currently climbing us, null if nobody is */
   Timer activate_try_timer; /**< try to correct mis-alignment while this timer runs */
   std::string message;
 
