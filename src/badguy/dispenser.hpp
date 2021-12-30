@@ -20,6 +20,7 @@
 #include "badguy/badguy.hpp"
 #include "scripting/dispenser.hpp"
 #include "squirrel/exposed_object.hpp"
+#include "video/flip.hpp"
 
 class Dispenser final : public BadGuy,
                         public ExposedObject<Dispenser, scripting::Dispenser>
@@ -49,6 +50,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  virtual void on_flip(float height) override;
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
   {
@@ -96,6 +99,8 @@ private:
 
   /** Current amount of spawned badguys */
   int m_current_badguys;
+
+  Flip m_flip;
 
 private:
   Dispenser(const Dispenser&) = delete;

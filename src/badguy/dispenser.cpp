@@ -22,6 +22,7 @@
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -76,7 +77,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   m_type_str(),
   m_limit_dispensed_badguys(),
   m_max_concurrent_badguys(),
-  m_current_badguys()
+  m_current_badguys(),
+  m_flip(NO_FLIP)
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
@@ -148,7 +150,11 @@ void
 Dispenser::draw(DrawingContext& context)
 {
   if (m_type != DispenserType::POINT || Editor::is_active()) {
+    if (!m_gravity)
+      context.set_flip(context.get_flip() ^ m_flip);
     BadGuy::draw(context);
+    if (!m_gravity)
+      context.set_flip(context.get_flip() ^ m_flip);
   }
 }
 
@@ -313,8 +319,15 @@ Dispenser::launch_badguy()
       switch (m_type)
       {
         case DispenserType::DROPPER:
-          spawnpoint = get_anchor_pos (m_col.m_bbox, ANCHOR_BOTTOM);
-          spawnpoint.x -= 0.5f * object_bbox.get_width();
+          if (m_flip == NO_FLIP) {
+            spawnpoint = get_anchor_pos (m_col.m_bbox, ANCHOR_BOTTOM);
+            spawnpoint.x -= 0.5f * object_bbox.get_width();
+          }
+          else {
+            spawnpoint = get_anchor_pos (m_col.m_bbox, ANCHOR_TOP);
+            spawnpoint.y -= m_col.m_bbox.get_height();
+            spawnpoint.x -= 0.5f * object_bbox.get_width();
+          }
           break;
 
         case DispenserType::ROCKETLAUNCHER:
@@ -467,6 +480,14 @@ Dispenser::after_editor_set()
   BadGuy::after_editor_set();
 
   set_correct_action();
+}
+
+void
+Dispenser::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  if (!m_gravity)
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
