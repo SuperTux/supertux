@@ -25,6 +25,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -36,7 +37,8 @@ Firefly::Firefly(const ReaderMapping& mapping) :
    MovingSprite(mapping, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
    m_sprite_light(),
    activated(false),
-   initial_position(get_pos())
+   initial_position(get_pos()),
+   m_flip(NO_FLIP)
 {
   if (!mapping.get( "sprite", m_sprite_name)){
     reactivate();
@@ -74,11 +76,16 @@ Firefly::Firefly(const ReaderMapping& mapping) :
 void
 Firefly::draw(DrawingContext& context)
 {
+  context.set_flip(context.get_flip() ^ m_flip);
   MovingSprite::draw(context);
+  context.set_flip(context.get_flip() ^ m_flip);
 
   if (m_sprite_name.find("torch", 0) != std::string::npos && (activated ||
         m_sprite->get_action() == "ringing")) {
-    m_sprite_light->draw(context.light(), m_col.m_bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
+    if (m_flip == NO_FLIP)
+      m_sprite_light->draw(context.light(), m_col.m_bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
+    else
+      m_sprite_light->draw(context.light(), m_col.m_bbox.get_middle() + TORCH_LIGHT_OFFSET, 0);
   }
 }
 
@@ -146,6 +153,13 @@ Firefly::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
   result.add_test_from_here();
   return result;
+}
+
+void
+Firefly::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

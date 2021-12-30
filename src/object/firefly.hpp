@@ -19,6 +19,7 @@
 
 #include "object/moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
+#include "video/flip.hpp"
 
 /**
  * A Firefly: When tux touches it, it begins buzzing and you will respawn at this
@@ -36,10 +37,15 @@ public:
   virtual std::string get_display_name() const override { return _("Checkpoint"); }
   virtual ObjectSettings get_settings() override;
 
+  virtual void on_flip(float height) override;
+
 private:
   SpritePtr m_sprite_light;
   bool activated;
   Vector initial_position; /**< position as in level file. This is where Tux will have to respawn, as the level is reset every time */
+  Flip m_flip;
+
+private:
   void reactivate();
 };
 
