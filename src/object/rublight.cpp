@@ -21,6 +21,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "video/color.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -34,7 +35,8 @@ RubLight::RubLight(const ReaderMapping& mapping) :
     "images/objects/lightmap_light/lightmap_light.sprite")),
   color(1.0f, 0.5f, 0.3f),
   fading_speed(5.0f),
-  strength_multiplier(1.0f)
+  strength_multiplier(1.0f),
+  m_flip(NO_FLIP)
 {
   m_sprite->set_action("normal");
 
@@ -136,7 +138,14 @@ RubLight::draw(DrawingContext& context)
     light->draw(context.light(), get_pos(), m_layer);
   }
 
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+}
+
+void
+RubLight::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

@@ -19,6 +19,7 @@
 #include "object/moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "video/color.hpp"
+#include "video/flip.hpp"
 
 /** A triboluminescent (or something similar) block */
 class RubLight final : public MovingSprite
@@ -33,6 +34,8 @@ public:
   virtual std::string get_display_name() const override { return _("Rublight"); }
   virtual ObjectSettings get_settings() override;
 
+  virtual void on_flip(float height) override;
+
 private:
   enum State {
     STATE_DARK,
@@ -46,6 +49,8 @@ private:
   Color color;
   float fading_speed;
   float strength_multiplier;
+
+  Flip m_flip;
 
 private:
   void rub(float strength);
