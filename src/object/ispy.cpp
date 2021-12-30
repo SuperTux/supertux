@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -28,7 +29,8 @@ Ispy::Ispy(const ReaderMapping& reader) :
   state(ISPYSTATE_IDLE),
   script(),
   dir(Direction::AUTO),
-  m_facing_down(false)
+  m_facing_down(false),
+  m_flip(NO_FLIP)
 {
   // read script to execute
   reader.get("script", script);
@@ -122,6 +124,21 @@ Ispy::update(float )
       state = ISPYSTATE_IDLE;
     }
   }
+}
+
+void
+Ispy::draw(DrawingContext& context)
+{
+  context.set_flip(context.get_flip() ^ m_flip);
+  MovingSprite::draw(context);
+  context.set_flip(context.get_flip() ^ m_flip);
+}
+
+void
+Ispy::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
