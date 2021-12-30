@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_BRICK_HPP
 
 #include "object/block.hpp"
+#include "video/flip.hpp"
 
 class Brick : public Block
 {
@@ -30,6 +31,10 @@ public:
   virtual std::string get_class() const override { return "brick"; }
   virtual std::string get_display_name() const override { return _("Brick"); }
 
+  virtual void draw(DrawingContext& context) override;
+
+  virtual void on_flip(float height) override;
+
   void try_break(Player* player);
 
 protected:
@@ -38,6 +43,7 @@ protected:
 private:
   bool m_breakable;
   int m_coin_counter;
+  Flip m_flip;
 
 private:
   Brick(const Brick&) = delete;
