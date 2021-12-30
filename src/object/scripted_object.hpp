@@ -21,6 +21,7 @@
 #include "scripting/scripted_object.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "supertux/physic.hpp"
+#include "video/flip.hpp"
 
 class ScriptedObject final :
   public MovingSprite,
@@ -39,6 +40,8 @@ public:
   virtual std::string get_display_name() const override { return _("Scripted Object"); }
 
   virtual ObjectSettings get_settings() override;
+
+  virtual void on_flip(float height) override;
 
   // --- scripting Interface stuff ---
   void set_action(const std::string& animation);
@@ -66,6 +69,8 @@ private:
   bool new_vel_set;
   Vector new_vel;
   Vector new_size;
+
+  Flip m_flip;
 
 private:
   ScriptedObject(const ScriptedObject&) = delete;

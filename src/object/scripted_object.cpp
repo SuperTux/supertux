@@ -20,6 +20,7 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
@@ -34,7 +35,8 @@ ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   hit_script(),
   new_vel_set(false),
   new_vel(0.0f, 0.0f),
-  new_size(0.0f, 0.0f)
+  new_size(0.0f, 0.0f),
+  m_flip(NO_FLIP)
 {
   m_default_sprite_name = {};
 
@@ -186,7 +188,7 @@ ScriptedObject::draw(DrawingContext& context)
   if (!visible)
     return;
 
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void
@@ -216,6 +218,14 @@ ScriptedObject::collision(GameObject& other, const CollisionHit& )
   }
 
   return FORCE_MOVE;
+}
+
+void
+ScriptedObject::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  if(!physic_enabled)
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
