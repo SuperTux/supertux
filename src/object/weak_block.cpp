@@ -24,6 +24,7 @@
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
@@ -34,7 +35,8 @@
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
   linked(true),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  m_flip(NO_FLIP)
 {
   m_sprite->set_action("normal");
   //Check if this weakblock destroys adjacent weakblocks
@@ -163,6 +165,8 @@ WeakBlock::update(float )
 void
 WeakBlock::draw(DrawingContext& context)
 {
+  context.set_flip(context.get_flip() ^ m_flip);
+
   //Draw the Sprite just in front of other objects
   m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10);
 
@@ -170,6 +174,8 @@ WeakBlock::draw(DrawingContext& context)
   {
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
   }
+
+  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 void
@@ -201,6 +207,13 @@ WeakBlock::spreadHit()
       }
     }
   }
+}
+
+void
+WeakBlock::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 ObjectSettings

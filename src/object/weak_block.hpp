@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_OBJECT_WEAK_BLOCK_HPP
 
 #include "object/moving_sprite.hpp"
+#include "video/flip.hpp"
 
 class Bullet;
 
@@ -35,6 +36,8 @@ public:
   virtual std::string get_display_name() const override { return _("Weak Tile"); }
 
   virtual ObjectSettings get_settings() override;
+
+  virtual void on_flip(float height) override;
 
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
@@ -57,6 +60,8 @@ private:
   State state;
   bool linked;
   SpritePtr lightsprite;
+
+  Flip m_flip;
 
 private:
   WeakBlock(const WeakBlock&) = delete;
