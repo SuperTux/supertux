@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
 static const float RESPAWN_TIME = 5.f;
@@ -38,7 +39,8 @@ UnstableTile::UnstableTile(const ReaderMapping& mapping) :
   m_revive_timer(),
   m_respawn(),
   m_alpha(1.f),
-  m_original_pos(m_col.get_pos())
+  m_original_pos(m_col.get_pos()),
+  m_flip(NO_FLIP)
 {
   m_sprite->set_action("normal");
   physic.set_gravity_modifier(.98f);
@@ -228,10 +230,12 @@ UnstableTile::draw(DrawingContext& context)
 {
   // FIXME: This method is more future-proof, but more ugly than simply copying
   //        the draw() function from MovingSprite
+  context.set_flip(context.get_flip() ^ m_flip);
   context.push_transform();
   context.transform().alpha *= m_alpha;
   MovingSprite::draw(context);
   context.pop_transform();
+  context.set_flip(context.get_flip() ^ m_flip);
 }
 
 void
@@ -239,6 +243,7 @@ UnstableTile::on_flip(float height)
 {
   MovingObject::on_flip(height);
   m_original_pos.y = height - m_original_pos.y - get_bbox().get_height();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

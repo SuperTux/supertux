@@ -23,6 +23,7 @@
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 #include "util/fade_helper.hpp"
+#include "video/flip.hpp"
 
 /** A block that disintegrates when stood on */
 class UnstableTile final : public MovingSprite
@@ -62,6 +63,8 @@ private:
   std::unique_ptr<FadeHelper> m_respawn;
   float m_alpha;
   Vector m_original_pos;
+
+  Flip m_flip;
 
 private:
   UnstableTile(const UnstableTile&) = delete;
