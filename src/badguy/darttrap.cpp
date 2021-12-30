@@ -37,7 +37,8 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   fire_delay(),
   ammo(),
   state(IDLE),
-  fire_timer()
+  fire_timer(),
+  m_flip(NO_FLIP)
 {
   reader.get("enabled", enabled, true);
   reader.get("initial-delay", initial_delay, 0.0f);
