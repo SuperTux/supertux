@@ -64,7 +64,10 @@ MainMenu::MainMenu()
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
   add_entry(MNID_CREDITS, _("Credits"));
+#ifndef STEAM_BUILD
+  // Links to external purchases are not allowed on Steam, including donations
   add_entry(MNID_DONATE, _("Donate"));
+#endif
 #ifndef REMOVE_QUIT_BUTTON
   add_entry(MNID_QUITMAINMENU, _("Quit"));
 #endif

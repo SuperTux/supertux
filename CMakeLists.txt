@@ -96,6 +96,8 @@ else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
 endif()
 
+option(STEAM_BUILD "Prepare build for Steam" OFF)
+
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
 set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
 set(VCPKG_APPLOCAL_DEPS ${VCPKG_BUILD} BOOL)

@@ -34,6 +34,7 @@
 #define BUILD_CONFIG_DATA_DIR "${BUILD_CONFIG_DATA_DIR}"
 
 #cmakedefine ENABLE_DISCORD
+#cmakedefine STEAM_BUILD
 
 #cmakedefine UBUNTU_TOUCH
 #cmakedefine ENABLE_TOUCHSCREEN_SUPPORT
