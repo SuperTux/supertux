@@ -21,6 +21,7 @@
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 #include "util/fade_helper.hpp"
+#include "video/flip.hpp"
 
 /** A tile that starts falling down if tux stands to long on it */
 class SkullTile final : public MovingSprite
@@ -34,6 +35,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+  virtual void on_flip(float height) override;
 
 private:
   Physic physic;
@@ -45,6 +47,8 @@ private:
   std::unique_ptr<FadeHelper> m_respawn;
   float m_alpha;
   Vector m_original_pos;
+
+  Flip m_flip;
 };
 
 #endif
