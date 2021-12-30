@@ -64,6 +64,7 @@ void
 remove_with_content(const std::string& filename)
 {
   char** files = PHYSFS_enumerateFiles(filename.c_str());
+
   for (const char* const* file = files; *file != nullptr; file++)
   {
     std::string path = FileSystem::join(filename, *file);
@@ -71,6 +72,7 @@ remove_with_content(const std::string& filename)
       remove_with_content(path);
     PHYSFS_delete(path.c_str());
   }
+
   PHYSFS_delete(filename.c_str());
   PHYSFS_freeList(files);
 }

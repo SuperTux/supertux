@@ -34,8 +34,10 @@ void
 EditorDeleteLevelsetMenu::refresh()
 {
   clear();
+
   add_label(_("Delete World"));
   add_hl();
+
   unsigned int i = 0;
   std::vector<std::string>& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
   for(std::string& level_world : contrib_worlds)
@@ -57,7 +59,9 @@ EditorDeleteLevelsetMenu::refresh()
     }
     add_entry(i++, title);
   }
+
   add_hl();
+
   add_back(_("Back"));
 }
 
@@ -65,6 +69,7 @@ void
 EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
 {
   int id = item.get_id();
+
   if (id >= 0)
   {
     std::vector<std::string>& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();

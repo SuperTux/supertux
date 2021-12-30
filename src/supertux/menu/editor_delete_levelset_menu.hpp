@@ -26,10 +26,13 @@ class EditorDeleteLevelsetMenu final : public Menu
 {
 public:
   EditorDeleteLevelsetMenu(EditorLevelsetSelectMenu* editor_levelset_select_menu);
+
   virtual void refresh() override;
   virtual void menu_action(MenuItem& item) override;
+
 private:
   EditorLevelsetSelectMenu* m_editor_levelset_select_menu;
+
 private:
   EditorDeleteLevelsetMenu(const EditorDeleteLevelsetMenu&) = delete;
   EditorDeleteLevelsetMenu& operator=(const EditorDeleteLevelsetMenu&) = delete;
