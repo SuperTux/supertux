@@ -336,8 +336,13 @@ GameSession::check_end_conditions()
     if (!(all_dead &= p->is_dead()))
       break;
 
+  bool all_dead_or_winning = true;
+  for (const auto* p : m_currentsector->get_players())
+    if (!(all_dead_or_winning &= (p->is_dead() || p->is_dying() || p->is_winning())))
+      break;
+
   /* End of level? */
-  if (m_endsequence_timer.check()) {
+  if (m_endsequence_timer.check() || (all_dead_or_winning && m_end_sequence && !m_end_sequence->is_running())) {
     m_endsequence_timer.stop();
     for (auto* p : m_currentsector->get_players())
       p->set_winning();
