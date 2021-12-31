@@ -45,11 +45,11 @@ public:
   bool get(const char* key, float& value, const boost::optional<float>& default_value = boost::none) const;
   bool get(const char* key, std::string& value, const boost::optional<const char*>& default_value = boost::none) const;
 
-  bool get(const char* key, std::vector<bool>& value) const;
-  bool get(const char* key, std::vector<int>& value) const;
-  bool get(const char* key, std::vector<float>& value) const;
-  bool get(const char* key, std::vector<std::string>& value) const;
-  bool get(const char* key, std::vector<unsigned int>& value) const;
+  bool get(const char* key, std::vector<bool>& value, const boost::optional<std::vector<bool>>& default_value = boost::none) const;
+  bool get(const char* key, std::vector<int>& value, const boost::optional<std::vector<int>>& default_value = boost::none) const;
+  bool get(const char* key, std::vector<float>& value, const boost::optional<std::vector<float>>& default_value = boost::none) const;
+  bool get(const char* key, std::vector<std::string>& value, const boost::optional<std::vector<std::string>>& default_value = boost::none) const;
+  bool get(const char* key, std::vector<unsigned int>& value, const boost::optional<std::vector<unsigned int>>& default_value = boost::none) const;
 
   bool get(const char* key, boost::optional<ReaderMapping>&) const;
   bool get(const char* key, boost::optional<ReaderCollection>&) const;

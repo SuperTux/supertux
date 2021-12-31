@@ -142,11 +142,14 @@ ReaderMapping::get(const char* key, std::string& value, const boost::optional<co
 #define GET_VALUES_MACRO(type, checker, getter)                         \
   auto const sx = get_item(key);                                        \
   if (!sx) {                                                            \
+    if (default_value) {                                                \
+      value = *default_value;                                           \
+    }                                                                   \
     return false;                                                       \
   } else {                                                              \
     assert_is_array(m_doc, *sx);                                        \
     auto const& item = sx->as_array();                                  \
-    for (size_t i = 1; i < item.size(); ++i)                             \
+    for (size_t i = 1; i < item.size(); ++i)                            \
     {                                                                   \
       assert_##checker(m_doc, item[i]);                                 \
       value.emplace_back(item[i].getter());                             \
@@ -155,14 +158,16 @@ ReaderMapping::get(const char* key, std::string& value, const boost::optional<co
   }
 
 bool
-ReaderMapping::get(const char* key, std::vector<bool>& value) const
+ReaderMapping::get(const char* key, std::vector<bool>& value,
+                   const boost::optional<std::vector<bool>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("bool", is_boolean, as_bool)
 }
 
 bool
-ReaderMapping::get(const char* key, std::vector<int>& value) const
+ReaderMapping::get(const char* key, std::vector<int>& value,
+                   const boost::optional<std::vector<int>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("int", is_integer, as_int)
@@ -170,21 +175,24 @@ ReaderMapping::get(const char* key, std::vector<int>& value) const
 
 
 bool
-ReaderMapping::get(const char* key, std::vector<float>& value) const
+ReaderMapping::get(const char* key, std::vector<float>& value,
+                   const boost::optional<std::vector<float>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("float", is_real, as_float)
 }
 
 bool
-ReaderMapping::get(const char* key, std::vector<std::string>& value) const
+ReaderMapping::get(const char* key, std::vector<std::string>& value,
+                   const boost::optional<std::vector<std::string>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("string", is_string, as_string)
 }
 
 bool
-ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
+ReaderMapping::get(const char* key, std::vector<unsigned int>& value,
+                   const boost::optional<std::vector<unsigned int>>& default_value) const
 {
   value.clear();
   GET_VALUES_MACRO("unsigned int", is_integer, as_int)
