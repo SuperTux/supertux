@@ -549,12 +549,12 @@ Menu::draw_item(DrawingContext& context, int index)
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
                                            Vector(m_pos.x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
                                      Color(1.0f, 1.0f, 1.0f, blink),
-                                     g_config->menuroundness - 2.f,
+                                     std::max(0.f, g_config->menuroundness - 2.f),
                                      LAYER_GUI-10);
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10, y_pos - 12),
                                            Vector(m_pos.x + menu_width/2 - 10, y_pos + 12)),
                                      Color(1.0f, 1.0f, 1.0f, 0.5f),
-                                     g_config->menuroundness - 4.f,
+                                     std::max(0.f, g_config->menuroundness - 4.f),
                                      LAYER_GUI-10);
   }
 }
