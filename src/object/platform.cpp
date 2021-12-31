@@ -36,8 +36,7 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   m_automatic(false),
   m_player_contact(false),
   m_last_player_contact(false),
-  m_starting_node(0),
-  m_flip(NO_FLIP)
+  m_starting_node(0)
 {
   bool running = true;
   reader.get("running", running);
@@ -134,12 +133,6 @@ Platform::update(float dt_sec)
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
   m_speed = movement / dt_sec;
-}
-
-void
-Platform::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void

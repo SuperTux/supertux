@@ -36,8 +36,7 @@ Coin::Coin(const Vector& pos) :
   m_add_path(false),
   m_physic(),
   m_collect_script(),
-  m_starting_node(0),
-  m_flip(NO_FLIP)
+  m_starting_node(0)
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
@@ -50,8 +49,7 @@ Coin::Coin(const ReaderMapping& reader) :
   m_add_path(false),
   m_physic(),
   m_collect_script(),
-  m_starting_node(0),
-  m_flip(NO_FLIP)
+  m_starting_node(0)
 {
   reader.get("starting-node", m_starting_node, 0);
 
@@ -97,12 +95,6 @@ Coin::update(float dt_sec)
       m_col.set_movement(v - get_pos());
     }
   }
-}
-
-void
-Coin::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void
@@ -243,12 +235,10 @@ HeavyCoin::update(float dt_sec)
   m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
-/* draw is called from the grandparent class MovingSprite to prevent HeavyCoin from
-   flipping its sprite on levelflip (since it's a gravity-affected object) */
 void
 HeavyCoin::draw(DrawingContext& context)
 {
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), get_pos(), m_layer);
 }
 
 void

@@ -20,7 +20,6 @@
 #include "badguy/badguy.hpp"
 #include "scripting/dispenser.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "video/flip.hpp"
 
 class Dispenser final : public BadGuy,
                         public ExposedObject<Dispenser, scripting::Dispenser>
@@ -99,8 +98,6 @@ private:
 
   /** Current amount of spawned badguys */
   int m_current_badguys;
-
-  Flip m_flip;
 
 private:
   Dispenser(const Dispenser&) = delete;

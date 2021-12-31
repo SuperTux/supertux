@@ -22,6 +22,7 @@
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/drawing_context.hpp"
+#include "video/flip.hpp"
 
 class ReaderMapping;
 
@@ -81,6 +82,8 @@ protected:
   std::string m_default_sprite_name;
   SpritePtr m_sprite;
   int m_layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
+
+  Flip m_flip;
 
 private:
   MovingSprite(const MovingSprite&) = delete;

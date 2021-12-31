@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_PNEUMATIC_PLATFORM_HPP
 
 #include "object/moving_sprite.hpp"
-#include "video/flip.hpp"
 
 class PneumaticPlatform;
 
@@ -31,7 +30,6 @@ public:
   ~PneumaticPlatformChild() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
   virtual bool is_saveable() const override { return false; }
   virtual void on_flip(float height) override;
@@ -42,9 +40,6 @@ protected:
   PneumaticPlatform& m_parent;
   bool m_left;
   std::set<GameObject*> m_contacts; /**< objects that are currently pushing on the platform */
-
-private:
-  Flip m_flip;
 
 private:
   PneumaticPlatformChild(const PneumaticPlatformChild&) = delete;

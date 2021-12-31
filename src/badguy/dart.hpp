@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_BADGUY_DART_HPP
 
 #include "badguy/badguy.hpp"
-#include "video/flip.hpp"
 
 class SoundSource;
 
@@ -34,8 +33,6 @@ public:
   virtual void deactivate() override;
 
   virtual void active_update(float dt_sec) override;
-
-  virtual void draw(DrawingContext& context) override;
 
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
@@ -57,9 +54,6 @@ public:
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   std::unique_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
-
-private:
-  Flip m_flip;
 
 private:
   Dart(const Dart&) = delete;

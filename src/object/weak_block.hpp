@@ -19,7 +19,6 @@
 #define HEADER_SUPERTUX_OBJECT_WEAK_BLOCK_HPP
 
 #include "object/moving_sprite.hpp"
-#include "video/flip.hpp"
 
 class Bullet;
 
@@ -60,8 +59,6 @@ private:
   State state;
   bool linked;
   SpritePtr lightsprite;
-
-  Flip m_flip;
 
 private:
   WeakBlock(const WeakBlock&) = delete;

@@ -37,8 +37,7 @@ Firefly::Firefly(const ReaderMapping& mapping) :
    MovingSprite(mapping, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
    m_sprite_light(),
    activated(false),
-   initial_position(get_pos()),
-   m_flip(NO_FLIP)
+   initial_position(get_pos())
 {
   if (!mapping.get( "sprite", m_sprite_name)){
     reactivate();
@@ -76,7 +75,7 @@ Firefly::Firefly(const ReaderMapping& mapping) :
 void
 Firefly::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  MovingSprite::draw(context);
 
   if (m_sprite_name.find("torch", 0) != std::string::npos && (activated ||
         m_sprite->get_action() == "ringing")) {

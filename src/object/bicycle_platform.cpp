@@ -33,8 +33,7 @@ BicyclePlatformChild::BicyclePlatformChild(const ReaderMapping& reader, float an
   m_parent(parent),
   m_angle_offset(angle_offset),
   m_momentum(),
-  m_contacts(),
-  m_flip(NO_FLIP)
+  m_contacts()
 {
 }
 
@@ -48,12 +47,6 @@ BicyclePlatformChild::update(float dt_sec)
   Vector movement = dest - get_pos();
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
-}
-
-void
-BicyclePlatformChild::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 HitResponse

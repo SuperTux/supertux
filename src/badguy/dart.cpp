@@ -30,8 +30,7 @@ static const std::string DART_SOUND = "sounds/flame.wav";
 Dart::Dart(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dart/dart.sprite"),
   parent(nullptr),
-  sound_source(),
-  m_flip(NO_FLIP)
+  sound_source()
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
@@ -43,8 +42,7 @@ Dart::Dart(const ReaderMapping& reader) :
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr) :
   BadGuy(pos, d, "images/creatures/dart/dart.sprite"),
   parent(parent_),
-  sound_source(),
-  m_flip(NO_FLIP)
+  sound_source()
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
@@ -93,12 +91,6 @@ Dart::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
   sound_source->set_position(get_pos());
-}
-
-void
-Dart::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void

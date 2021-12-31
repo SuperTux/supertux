@@ -38,8 +38,7 @@ SkullTile::SkullTile(const ReaderMapping& mapping) :
   m_revive_timer(),
   m_respawn(),
   m_alpha(1.f),
-  m_original_pos(m_col.get_pos()),
-  m_flip(NO_FLIP)
+  m_original_pos(m_col.get_pos())
 {
 }
 

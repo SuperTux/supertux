@@ -19,7 +19,6 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
-#include "video/flip.hpp"
 
 class Player;
 
@@ -58,8 +57,6 @@ private:
   
   bool found_victim_down() const;
 
-  Flip m_flip;
-  
 private:
   FallBlock(const FallBlock&) = delete;
   FallBlock& operator=(const FallBlock&) = delete;

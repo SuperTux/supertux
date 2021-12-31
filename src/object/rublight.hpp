@@ -19,7 +19,6 @@
 #include "object/moving_sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "video/color.hpp"
-#include "video/flip.hpp"
 
 /** A triboluminescent (or something similar) block */
 class RubLight final : public MovingSprite
@@ -49,8 +48,6 @@ private:
   Color color;
   float fading_speed;
   float strength_multiplier;
-
-  Flip m_flip;
 
 private:
   void rub(float strength);

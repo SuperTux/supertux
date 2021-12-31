@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_BADGUY_STALACTITE_HPP
 
 #include "badguy/badguy.hpp"
-#include "video/flip.hpp"
 
 class Stalactite : public BadGuy
 {
@@ -54,9 +53,6 @@ protected:
   Timer timer;
   StalactiteState state;
   Vector shake_delta;
-
-private:
-  Flip m_flip;
 
 private:
   Stalactite(const Stalactite&) = delete;

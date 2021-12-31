@@ -25,7 +25,6 @@
 #define HEADER_SUPERTUX_OBJECT_MAGICBLOCK_HPP
 
 #include "object/moving_sprite.hpp"
-#include "video/flip.hpp"
 
 #include <memory>
 
@@ -58,7 +57,6 @@ private:
   std::shared_ptr<Color> m_light;
   Vector m_center;
   bool m_black;
-  Flip m_flip;
 
 private:
   MagicBlock(const MagicBlock&) = delete;

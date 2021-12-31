@@ -21,7 +21,6 @@
 #include "scripting/scripted_object.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "supertux/physic.hpp"
-#include "video/flip.hpp"
 
 class ScriptedObject final :
   public MovingSprite,
@@ -69,8 +68,6 @@ private:
   bool new_vel_set;
   Vector new_vel;
   Vector new_size;
-
-  Flip m_flip;
 
 private:
   ScriptedObject(const ScriptedObject&) = delete;

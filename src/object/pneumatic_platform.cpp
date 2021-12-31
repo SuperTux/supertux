@@ -26,8 +26,7 @@ PneumaticPlatformChild::PneumaticPlatformChild(const ReaderMapping& mapping, boo
   MovingSprite(mapping, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   m_parent(parent),
   m_left(left),
-  m_contacts(),
-  m_flip(NO_FLIP)
+  m_contacts()
 {
   if (!m_left) {
     set_pos(get_pos() + Vector(get_bbox().get_width(), 0));
@@ -45,12 +44,6 @@ PneumaticPlatformChild::update(float dt_sec)
   const Vector movement(0, (m_parent.m_start_y + offset_y) - get_pos().y);
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
-}
-
-void
-PneumaticPlatformChild::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 HitResponse

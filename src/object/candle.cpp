@@ -31,8 +31,7 @@ Candle::Candle(const ReaderMapping& mapping) :
   flicker(true),
   lightcolor(1.0f, 1.0f, 1.0f),
   candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
-  candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite")),
-  m_flip(NO_FLIP)
+  candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
   mapping.get("burning", burning, true);
   mapping.get("flicker", flicker, true);
@@ -90,7 +89,7 @@ void
 Candle::draw(DrawingContext& context)
 {
   // draw regular sprite
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  MovingSprite::draw(context);
 
   // draw on lightmap
   if (burning) {

@@ -130,7 +130,7 @@ BadGuy::draw(DrawingContext& context)
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
     if (Editor::is_active()) {
-      m_sprite->draw(context.color(), get_pos(), m_layer);
+      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
     }
   }
   else
@@ -138,10 +138,10 @@ BadGuy::draw(DrawingContext& context)
     if (m_state == STATE_FALLING) {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-      m_sprite->draw(context.color(), get_pos(), m_layer);
+      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
       context.pop_transform();
     } else {
-      m_sprite->draw(context.color(), get_pos(), m_layer);
+      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
     }
 
     if (m_glowing) {

@@ -29,8 +29,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   state(ISPYSTATE_IDLE),
   script(),
   dir(Direction::AUTO),
-  m_facing_down(false),
-  m_flip(NO_FLIP)
+  m_facing_down(false)
 {
   // read script to execute
   reader.get("script", script);
@@ -124,12 +123,6 @@ Ispy::update(float dt_sec)
       state = ISPYSTATE_IDLE;
     }
   }
-}
-
-void
-Ispy::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void

@@ -39,8 +39,7 @@ UnstableTile::UnstableTile(const ReaderMapping& mapping) :
   m_revive_timer(),
   m_respawn(),
   m_alpha(1.f),
-  m_original_pos(m_col.get_pos()),
-  m_flip(NO_FLIP)
+  m_original_pos(m_col.get_pos())
 {
   m_sprite->set_action("normal");
   physic.set_gravity_modifier(.98f);
@@ -232,7 +231,7 @@ UnstableTile::draw(DrawingContext& context)
   //        the draw() function from MovingSprite
   context.push_transform();
   context.transform().alpha *= m_alpha;
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  MovingSprite::draw(context);
   context.pop_transform();
 }
 

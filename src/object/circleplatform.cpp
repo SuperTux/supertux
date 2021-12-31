@@ -28,8 +28,7 @@ CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
   radius(),
   speed(),
   timer(),
-  time(0.0),
-  m_flip(NO_FLIP)
+  time(0.0)
 {
   reader.get("radius", radius, 100.0f);
   reader.get("speed", speed, 2.0f);
@@ -78,12 +77,6 @@ CirclePlatform::update(float dt_sec)
       m_col.propagate_movement(newpos - get_pos());
     }
   }
-}
-
-void
-CirclePlatform::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void

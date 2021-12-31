@@ -54,8 +54,7 @@ MagicBlock::MagicBlock(const ReaderMapping& mapping) :
   m_color(),
   m_light(std::make_shared<Color>(1.0f,1.0f,1.0f)),
   m_center(0.0f, 0.0f),
-  m_black(),
-  m_flip(NO_FLIP)
+  m_black()
 {
   set_group(COLGROUP_STATIC);
 
@@ -192,7 +191,7 @@ MagicBlock::draw(DrawingContext& context)
   // Ask for update about lightmap at center of this block
   context.light().get_pixel(m_center, m_light);
 
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  MovingSprite::draw(context);
   context.color().draw_filled_rect(m_col.m_bbox, m_color, m_layer);
 }
 

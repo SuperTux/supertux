@@ -77,8 +77,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   m_type_str(),
   m_limit_dispensed_badguys(),
   m_max_concurrent_badguys(),
-  m_current_badguys(),
-  m_flip(NO_FLIP)
+  m_current_badguys()
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
@@ -150,7 +149,7 @@ void
 Dispenser::draw(DrawingContext& context)
 {
   if (m_type != DispenserType::POINT || Editor::is_active()) {
-    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+    BadGuy::draw(context);
   }
 }
 

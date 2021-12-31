@@ -19,7 +19,6 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
-#include "video/flip.hpp"
 
 /** An Ispy: When it spots Tux, a script will run. */
 class Ispy final : public MovingSprite
@@ -30,7 +29,6 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
   virtual std::string get_class() const override { return "ispy"; }
   virtual std::string get_display_name() const override { return _("Ispy"); }
 
@@ -53,8 +51,6 @@ private:
   std::string script; /**< script to execute when Tux is spotted */
   Direction dir;
   bool m_facing_down;
-
-  Flip m_flip;
 
 private:
   Ispy(const Ispy&) = delete;

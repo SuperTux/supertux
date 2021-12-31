@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_PUSHBUTTON_HPP
 
 #include "object/moving_sprite.hpp"
-#include "video/flip.hpp"
 
 /** PushButton - jump on it to run a script */
 class PushButton final : public MovingSprite
@@ -28,7 +27,6 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
   virtual std::string get_class() const override { return "pushbutton"; }
   virtual std::string get_display_name() const override { return _("Button"); }
 
@@ -44,8 +42,6 @@ private:
 
   std::string script;
   PushButtonState state;
-
-  Flip m_flip;
 
 private:
   PushButton(const PushButton&) = delete;

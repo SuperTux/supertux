@@ -32,8 +32,7 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   physic(),
   script(),
   no_physics(),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
-  m_flip(NO_FLIP)
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   mapping.get("script", script, "");
   mapping.get("disable-physics", no_physics, false);
@@ -45,8 +44,7 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
   physic(),
   script(),
   no_physics(false),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
-  m_flip(NO_FLIP)
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   initialize();
 }

@@ -30,8 +30,7 @@ FallBlock::FallBlock(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/fallblock/cave-4x4.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   state(IDLE),
   physic(),
-  timer(),
-  m_flip(NO_FLIP)
+  timer()
 {
 	SoundManager::current()->preload("sounds/cracking.wav");
 	SoundManager::current()->preload("sounds/thud.ogg");
@@ -144,7 +143,7 @@ FallBlock::draw(DrawingContext& context)
     pos.x += static_cast<float>(graphicsRandom.rand(-8, 8));
 	  pos.y += static_cast<float>(graphicsRandom.rand(-5, 5));
   }
-  m_sprite->draw(context.color(), pos, m_layer, m_flip);
+  MovingSprite::draw(context);
 
 }
 

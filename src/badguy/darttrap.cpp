@@ -37,8 +37,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   fire_delay(),
   ammo(),
   state(IDLE),
-  fire_timer(),
-  m_flip(NO_FLIP)
+  fire_timer()
 {
   reader.get("enabled", enabled, true);
   reader.get("initial-delay", initial_delay, 0.0f);
@@ -136,12 +135,6 @@ DartTrap::get_settings()
   result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y"});
 
   return result;
-}
-
-void
-DartTrap::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void

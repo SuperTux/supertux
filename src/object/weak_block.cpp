@@ -35,8 +35,7 @@
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
   linked(true),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
-  m_flip(NO_FLIP)
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   m_sprite->set_action("normal");
   //Check if this weakblock destroys adjacent weakblocks

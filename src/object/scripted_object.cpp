@@ -35,8 +35,7 @@ ScriptedObject::ScriptedObject(const ReaderMapping& mapping) :
   hit_script(),
   new_vel_set(false),
   new_vel(0.0f, 0.0f),
-  new_size(0.0f, 0.0f),
-  m_flip(NO_FLIP)
+  new_size(0.0f, 0.0f)
 {
   m_default_sprite_name = {};
 
@@ -185,10 +184,8 @@ ScriptedObject::update(float dt_sec)
 void
 ScriptedObject::draw(DrawingContext& context)
 {
-  if (!visible)
-    return;
-
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  if (visible)
+    MovingSprite::draw(context);
 }
 
 void

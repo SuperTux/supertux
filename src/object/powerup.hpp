@@ -19,7 +19,6 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
-#include "video/flip.hpp"
 
 class PowerUp final : public MovingSprite
 {
@@ -47,8 +46,6 @@ private:
   std::string script;
   bool no_physics;
   SpritePtr lightsprite;
-
-  Flip m_flip;
 
 private:
   PowerUp(const PowerUp&) = delete;

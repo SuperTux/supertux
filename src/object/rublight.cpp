@@ -35,8 +35,7 @@ RubLight::RubLight(const ReaderMapping& mapping) :
     "images/objects/lightmap_light/lightmap_light.sprite")),
   color(1.0f, 0.5f, 0.3f),
   fading_speed(5.0f),
-  strength_multiplier(1.0f),
-  m_flip(NO_FLIP)
+  strength_multiplier(1.0f)
 {
   m_sprite->set_action("normal");
 

@@ -32,8 +32,7 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 PushButton::PushButton(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   script(),
-  state(OFF),
-  m_flip(NO_FLIP)
+  state(OFF)
 {
   SoundManager::current()->preload(BUTTON_SOUND);
   set_action("off", -1);
@@ -60,12 +59,6 @@ PushButton::get_settings()
 void
 PushButton::update(float /*dt_sec*/)
 {
-}
-
-void
-PushButton::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 HitResponse
