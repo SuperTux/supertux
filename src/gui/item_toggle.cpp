@@ -17,6 +17,8 @@
 #include "gui/item_toggle.hpp"
 
 #include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -43,7 +45,7 @@ ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, boo
 {
   context.color().draw_text(Resources::normal_font, get_text(),
                             Vector(pos.x + 16, pos.y - (Resources::normal_font->get_height()/2)),
-                            ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+                            ALIGN_LEFT, LAYER_GUI, active ? Color(g_config->activetextcolor) : get_color());
 
   if (m_get_func()) {
     context.color().draw_surface(Resources::checkbox_checked,

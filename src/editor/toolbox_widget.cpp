@@ -83,8 +83,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
   if (m_hovered_item != HoveredItem::NONE)
   {
     context.color().draw_filled_rect(get_item_rect(m_hovered_item),
-                                       Color(g_config->editorcolor.red + 0.4f, g_config->editorcolor.green + 0.4f,
-                                         g_config->editorcolor.blue + 0.4f, g_config->editorcolor.alpha - 0.2f),
+                                       Color(g_config->editorhovercolor),
                                        0.0f, LAYER_GUI - 5);
   }
 
