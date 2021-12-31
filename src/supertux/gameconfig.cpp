@@ -142,27 +142,26 @@ Config::load()
   boost::optional<ReaderMapping> interface_colors_mapping;
   if (config_mapping.get("interface_colors", interface_colors_mapping))
   {
-    menubackcolor = Color(interface_colors_mapping->get("menubackcolor", menubackcolor_) ?
-      menubackcolor_ : ColorScheme::Menu::back_color);
-    menufrontcolor = Color(interface_colors_mapping->get("menufrontcolor", menufrontcolor_) ?
-      menufrontcolor_ : ColorScheme::Menu::front_color);
-    menuhelpbackcolor = Color(interface_colors_mapping->get("menuhelpbackcolor", menuhelpbackcolor_) ?
-      menuhelpbackcolor_ : ColorScheme::Menu::help_back_color);
-    menuhelpfrontcolor = Color(interface_colors_mapping->get("menuhelpfrontcolor", menuhelpfrontcolor_) ?
-      menuhelpfrontcolor_ : ColorScheme::Menu::help_front_color);
-    labeltextcolor = Color(interface_colors_mapping->get("labeltextcolor", labeltextcolor_) ?
-      labeltextcolor_ : ColorScheme::Menu::label_color);
-    activetextcolor = Color(interface_colors_mapping->get("activetextcolor", activetextcolor_) ?
-      activetextcolor_ : ColorScheme::Menu::active_color);
-    hlcolor = Color(interface_colors_mapping->get("hlcolor", hlcolor_) ?
-      hlcolor_ : ColorScheme::Menu::hl_color);
-    editorcolor = Color(interface_colors_mapping->get("editorcolor", editorcolor_) ?
-      editorcolor_ : ColorScheme::Editor::default_color);
-    editorhovercolor = Color(interface_colors_mapping->get("editorhovercolor", editorhovercolor_) ?
-      editorhovercolor_ : ColorScheme::Editor::hover_color);
-    editorgrabcolor = Color(interface_colors_mapping->get("editorgrabcolor", editorgrabcolor_) ?
-      editorgrabcolor_ : ColorScheme::Editor::grab_color);
-
+    interface_colors_mapping->get("menubackcolor", menubackcolor_, ColorScheme::Menu::back_color.toVector());
+    interface_colors_mapping->get("menufrontcolor", menufrontcolor_, ColorScheme::Menu::front_color.toVector());
+    interface_colors_mapping->get("menuhelpbackcolor", menuhelpbackcolor_, ColorScheme::Menu::help_back_color.toVector());
+    interface_colors_mapping->get("menuhelpfrontcolor", menuhelpfrontcolor_, ColorScheme::Menu::help_back_color.toVector());
+    interface_colors_mapping->get("labeltextcolor", labeltextcolor_, ColorScheme::Menu::label_color.toVector());
+    interface_colors_mapping->get("activetextkcolor", activetextcolor_, ColorScheme::Menu::active_color.toVector());
+    interface_colors_mapping->get("hlcolor", hlcolor_, ColorScheme::Menu::hl_color.toVector());
+    interface_colors_mapping->get("editorcolor", editorcolor_, ColorScheme::Editor::default_color.toVector());
+    interface_colors_mapping->get("editorhovercolor", editorhovercolor_, ColorScheme::Editor::hover_color.toVector());
+    interface_colors_mapping->get("editorgrabcolor", editorgrabcolor_, ColorScheme::Editor::grab_color.toVector());
+    menubackcolor = Color(menubackcolor_);
+    menufrontcolor = Color(menufrontcolor_);
+    menuhelpbackcolor = Color(menuhelpbackcolor_);
+    menuhelpfrontcolor = Color(menuhelpfrontcolor_);
+    labeltextcolor = Color(labeltextcolor_);
+    activetextcolor = Color(activetextcolor_);
+    hlcolor = Color(hlcolor_);
+    editorcolor = Color(editorcolor_);
+    editorhovercolor = Color(editorhovercolor_);
+    editorgrabcolor = Color(editorgrabcolor_);
     interface_colors_mapping->get("menuroundness", menuroundness, 16.f);
   }
 
