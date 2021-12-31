@@ -115,8 +115,14 @@ public:
   bool hide_editor_levelnames;
   Color menubackcolor;
   Color menufrontcolor;
+  Color menuhelpbackcolor;
+  Color menuhelpfrontcolor;
+  Color labeltextcolor;
+  Color activetextcolor;
   Color hlcolor;
   Color editorcolor;
+  Color editorhovercolor;
+  Color editorgrabcolor;
   float menuroundness;
 
   int editor_selected_snap_grid_size;

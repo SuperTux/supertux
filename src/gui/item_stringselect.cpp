@@ -18,6 +18,8 @@
 
 #include "gui/menu_manager.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -38,7 +40,7 @@ ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_widt
   context.color().draw_text(Resources::normal_font, get_text(),
                               Vector(pos.x + 16.0f,
                                      pos.y - Resources::normal_font->get_height() / 2.0f),
-                              ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+                              ALIGN_LEFT, LAYER_GUI, active ? Color(g_config->activetextcolor) : get_color());
 
   // Draw right side
   context.color().draw_surface(Resources::arrow_left,
@@ -52,7 +54,7 @@ ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_widt
   context.color().draw_text(Resources::normal_font, list[*selected],
                             Vector(pos.x + static_cast<float>(menu_width) - roff - 8.0f,
                                    pos.y - Resources::normal_font->get_height() / 2.0f),
-                            ALIGN_RIGHT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+                            ALIGN_RIGHT, LAYER_GUI, active ? Color(g_config->activetextcolor) : get_color());
 }
 
 int

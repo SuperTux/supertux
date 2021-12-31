@@ -33,8 +33,14 @@ enum CustomMenuMenuIDs {
   MNID_RESET,
   MNID_MENUBACKCOLOR,
   MNID_MENUFRONTCOLOR,
+  MNID_MENUHELPBACKCOLOR,
+  MNID_MENUHELPFRONTCOLOR,
+  MNID_LABELTEXTCOLOR,
+  MNID_ACTIVETEXTCOLOR,
   MNID_HLCOLOR,
   MNID_EDITORCOLOR,
+  MNID_EDITORHOVERCOLOR,
+  MNID_EDITORGRABCOLOR,
   MNID_MENUROUNDNESS
 };
 
@@ -44,9 +50,16 @@ CustomMenuMenu::CustomMenuMenu()
   add_hl();
   add_color(_("Menu Back Color"), &g_config->menubackcolor, MNID_MENUBACKCOLOR);
   add_color(_("Menu Front Color"), &g_config->menufrontcolor, MNID_MENUFRONTCOLOR);
+  add_color(_("Menu Help Back Color"), &g_config->menuhelpbackcolor, MNID_MENUHELPBACKCOLOR);
+  add_color(_("Menu Help Front Color"), &g_config->menuhelpfrontcolor, MNID_MENUHELPFRONTCOLOR);
+  add_color(_("Label Text Color"), &g_config->labeltextcolor, MNID_LABELTEXTCOLOR);
+  add_color(_("Active Text Color"), &g_config->activetextcolor, MNID_ACTIVETEXTCOLOR);
   add_color(_("Divider Line Color"), &g_config->hlcolor, MNID_HLCOLOR);
-  add_color(_("Editor Color Scheme"), &g_config->editorcolor, MNID_EDITORCOLOR);
   add_floatfield(_("Menu Roundness"), &g_config->menuroundness, MNID_MENUROUNDNESS);
+  add_hl();
+  add_color(_("Editor Interface Color"), &g_config->editorcolor, MNID_EDITORCOLOR);
+  add_color(_("Editor Hover Color"), &g_config->editorhovercolor, MNID_EDITORHOVERCOLOR);
+  add_color(_("Editor Grab Color"), &g_config->editorgrabcolor, MNID_EDITORGRABCOLOR);
   add_hl();
   add_entry(MNID_RESET, _("Reset to defaults"));
   add_back(_("Back"));
@@ -64,8 +77,14 @@ CustomMenuMenu::menu_action(MenuItem& item)
   case MNID_RESET:
     g_config->menubackcolor = ColorScheme::Menu::back_color;
     g_config->menufrontcolor = ColorScheme::Menu::front_color;
+    g_config->menuhelpbackcolor = ColorScheme::Menu::help_back_color;
+    g_config->menuhelpfrontcolor = ColorScheme::Menu::help_front_color;
+    g_config->labeltextcolor = ColorScheme::Menu::label_color;
+    g_config->activetextcolor = ColorScheme::Menu::active_color;
     g_config->hlcolor = ColorScheme::Menu::hl_color;
     g_config->editorcolor = ColorScheme::Editor::default_color;
+    g_config->editorhovercolor = ColorScheme::Editor::hover_color;
+    g_config->editorgrabcolor = ColorScheme::Editor::grab_color;
     g_config->menuroundness = 16.f;
     break;
 

@@ -18,6 +18,8 @@
 #include "gui/menu_item.hpp"
 
 #include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
@@ -52,7 +54,7 @@ MenuItem::draw(DrawingContext& context, const Vector& pos, int menu_width, bool 
   context.color().draw_text(Resources::normal_font, m_text,
                             Vector( pos.x + static_cast<float>(menu_width) / 2.0f,
                                     pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.0f ),
-                            ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+                            ALIGN_CENTER, LAYER_GUI, active ? Color(g_config->activetextcolor) : get_color());
 }
 
 Color

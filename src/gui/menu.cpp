@@ -549,12 +549,12 @@ Menu::draw_item(DrawingContext& context, int index)
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
                                            Vector(m_pos.x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
                                      Color(1.0f, 1.0f, 1.0f, blink),
-                                     g_config->menuroundness - 2.f,
+                                     std::max(0.f, g_config->menuroundness - 2.f),
                                      LAYER_GUI-10);
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10, y_pos - 12),
                                            Vector(m_pos.x + menu_width/2 - 10, y_pos + 12)),
                                      Color(1.0f, 1.0f, 1.0f, 0.5f),
-                                     g_config->menuroundness - 4.f,
+                                     std::max(0.f, g_config->menuroundness - 4.f),
                                      LAYER_GUI-10);
   }
 }
@@ -613,18 +613,12 @@ Menu::draw(DrawingContext& context)
 
     context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
                                            text_rect.p2() + Vector(4,4)),
-                                     Color(g_config->menubackcolor.red + 0.3f,
-                                       g_config->menubackcolor.green + 0.3f,
-                                       g_config->menubackcolor.blue + 0.3f,
-                                       g_config->menubackcolor.alpha),
+                                     Color(g_config->menuhelpbackcolor),
                                      g_config->menuroundness + 4.f,
                                      LAYER_GUI);
 
     context.color().draw_filled_rect(text_rect,
-                                     Color(g_config->menufrontcolor.red + 0.2f,
-                                       g_config->menufrontcolor.green + 0.2f,
-                                       g_config->menufrontcolor.blue + 0.2f,
-                                       g_config->menufrontcolor.alpha),
+                                     Color(g_config->menuhelpfrontcolor),
                                      g_config->menuroundness,
                                      LAYER_GUI);
 

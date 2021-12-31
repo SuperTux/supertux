@@ -17,6 +17,8 @@
 #include "gui/item_label.hpp"
 
 #include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
@@ -35,7 +37,7 @@ ItemLabel::draw(DrawingContext& context, const Vector& pos, int menu_width, bool
 
 Color
 ItemLabel::get_color() const {
-  return ColorScheme::Menu::label_color;
+  return Color(g_config->labeltextcolor);
 }
 
 int
