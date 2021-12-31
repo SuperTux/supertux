@@ -67,7 +67,7 @@ Torch::draw(DrawingContext& context)
   if (m_burning)
   {
     Vector pos = get_pos();
-    if (m_flip != NO_FLIP) pos.y += m_col.m_bbox.get_height() + 16;
+    if (m_flip != NO_FLIP) pos.y -= 24.0f;
     m_flame->draw(context.color(), pos, m_layer - 1, m_flip);
     m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 

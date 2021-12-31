@@ -82,6 +82,8 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual void on_flip(float height) override;
+
 private:
   Physic m_physic;
   CollisionHit m_last_hit;

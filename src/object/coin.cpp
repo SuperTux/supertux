@@ -350,4 +350,12 @@ HeavyCoin::after_editor_set()
   MovingSprite::after_editor_set();
 }
 
+/* Call on_flip from grandparent class HeavyCoin to avoid flipping of
+   gravity-affected object HeavyCoin */
+void
+HeavyCoin::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+}
+
 /* EOF */

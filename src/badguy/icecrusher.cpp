@@ -161,10 +161,8 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
     player->kill(false);
     return FORCE_MOVE;
   }
-  if (player && hit.top && state == CRUSHING_UP) {
-    SoundManager::current()->play("sounds/brick.wav");
+  if (player && hit.top && state == CRUSHING_UP)
     return FORCE_MOVE;
-  }
   auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy) {
     badguy->kill_fall();
