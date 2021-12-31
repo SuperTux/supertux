@@ -341,8 +341,10 @@
     };
 
     Module.setStatus("Downloading...");
-    window.onerror = function (e) {
-      Module.setStatus("Oops!<br><br>An error occured and SuperTux crashed.<br><br><pre>" + e + "</pre>");
+    window.onerror = function (message, source, line, col, error) {
+      if (typeof error == "number")
+        message = Module.ccall('getExceptionMessage', 'string', ['number'], [error]);
+      Module.setStatus("Oops!<br><br>An error occured and SuperTux crashed.<br><br><pre>" + message + "</pre>");
       spinnerElement.style.display = "none";
       Module.setStatus = function (e) {
         if (e)
