@@ -1,12 +1,12 @@
 (supertux-sprite
  (action
   (name "dropper")
-  (hitbox 0 2 64 28)
+  (hitbox 0 0 64 24)
   (images "dropper.png"))
 
  (action
   (name "dropper-iced")
-  (hitbox 0 2 64 28)
+  (hitbox 0 0 64 24)
   (images "dropper-frozen.png"))
  
  (action
