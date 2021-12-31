@@ -29,11 +29,13 @@ private:
   enum IceCrusherState {
     IDLE,
     CRUSHING,
-	  CRUSHING_RIGHT,
-	  CRUSHING_LEFT,
+    CRUSHING_UP,
+    CRUSHING_RIGHT,
+    CRUSHING_LEFT,
     RECOVERING,
-	  RECOVERING_RIGHT,
-	  RECOVERING_LEFT
+    RECOVERING_UP,
+    RECOVERING_RIGHT,
+    RECOVERING_LEFT
   };
 
   enum IceCrusherSize {
@@ -56,10 +58,13 @@ public:
   
   virtual ObjectSettings get_settings() override;
 
+  virtual void on_flip(float height) override;
+
   bool is_big() const { return ic_size == LARGE; }
 
 private:
   bool found_victim_down() const;
+  bool found_victim_up() const;
   bool found_victim_right() const;
   bool found_victim_left() const;
   void set_state(IceCrusherState state, bool force = false);
