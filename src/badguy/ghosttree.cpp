@@ -27,6 +27,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
 static const size_t WILLOWISP_COUNT = 10;
@@ -34,6 +35,7 @@ static const float ROOT_TOP_OFFSET = 64;
 static const float WILLOWISP_TOP_OFFSET = -64;
 static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
 static const float SUCK_TARGET_SPREAD = 8;
+static const float ROOT_HEIGHT = 87;
 
 GhostTree::GhostTree(const ReaderMapping& mapping) :
   BadGuy(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10),
@@ -154,7 +156,10 @@ GhostTree::active_update(float /*dt_sec*/)
       /* TODO indicate root with an animation */
       auto player = get_nearest_player();
       if (player) {
-        Sector::get().add<Root>(Vector(player->get_bbox().get_left(), m_col.m_bbox.get_bottom()+ROOT_TOP_OFFSET));
+        if (m_flip == NO_FLIP)
+          Sector::get().add<Root>(Vector(player->get_bbox().get_left(), m_col.m_bbox.get_bottom()+ROOT_TOP_OFFSET), m_flip);
+        else
+          Sector::get().add<Root>(Vector(player->get_bbox().get_left(), m_col.m_bbox.get_top()-ROOT_TOP_OFFSET-ROOT_HEIGHT), m_flip);
       }
     }
   } else if (mystate == STATE_SWALLOWING) {
@@ -257,6 +262,13 @@ void
 GhostTree::spawn_lantern()
 {
   Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
+}
+
+void
+GhostTree::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

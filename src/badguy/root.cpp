@@ -23,7 +23,7 @@ static const float SPEED_GROW = 256;
 static const float SPEED_SHRINK = 128;
 static const float HATCH_TIME = 0.75;
 
-Root::Root(const Vector& pos) :
+Root::Root(const Vector& pos, Flip flip) :
   BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
   mystate(STATE_APPEARING),
   base_sprite(SpriteManager::current()->create("images/creatures/ghosttree/root-base.sprite")),
@@ -34,6 +34,7 @@ Root::Root(const Vector& pos) :
   base_sprite->set_animation_loops(1); // TODO: necessary because set_action ignores loops for default action
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
+  m_flip = flip;
 }
 
 Root::~Root()
@@ -65,7 +66,10 @@ Root::active_update(float dt_sec)
       offset_y = static_cast<float>(-m_sprite->get_height());
       mystate = STATE_SHRINKING;
     }
-    set_pos(m_start_position + Vector(0, offset_y));
+    if (m_flip == NO_FLIP)
+      set_pos(m_start_position + Vector(0, offset_y));
+    else
+      set_pos(m_start_position - Vector(0, offset_y));
   }
   else if (mystate == STATE_SHRINKING) {
     offset_y += dt_sec * SPEED_SHRINK;
@@ -75,7 +79,10 @@ Root::active_update(float dt_sec)
       base_sprite->set_action("vanishing", 2);
       base_sprite->set_animation_loops(2); // TODO: doesn't seem to work for loops=1
     }
-    set_pos(m_start_position + Vector(0, offset_y));
+    if (m_flip == NO_FLIP)
+      set_pos(m_start_position + Vector(0, offset_y));
+    else
+      set_pos(m_start_position - Vector(0, offset_y));
   }
   else if (mystate == STATE_VANISHING) {
     if (base_sprite->animation_done()) remove_me();
@@ -86,7 +93,7 @@ Root::active_update(float dt_sec)
 void
 Root::draw(DrawingContext& context)
 {
-  base_sprite->draw(context.color(), m_start_position, LAYER_TILES+1);
+  base_sprite->draw(context.color(), m_start_position, LAYER_TILES+1, m_flip);
   if ((mystate != STATE_APPEARING) && (mystate != STATE_VANISHING)) BadGuy::draw(context);
 }
 
