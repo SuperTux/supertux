@@ -26,7 +26,6 @@ Decal::Decal(const ReaderMapping& reader) :
   ExposedObject<Decal, scripting::Decal>(this),
   m_default_action("default"),
   m_solid(),
-  m_flip(NO_FLIP),
   m_fade_sprite(m_sprite.get()->clone()),
   m_fade_timer(),
   m_sprite_timer(),
