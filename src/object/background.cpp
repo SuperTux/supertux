@@ -493,6 +493,10 @@ Background::on_flip(float height)
   std::swap(m_image_bottom, m_image_top);
   m_pos.y = height - m_pos.y - static_cast<float>(m_image->get_height());
   m_scroll_offset.y = -m_scroll_offset.y;
+  if (m_alignment == BOTTOM_ALIGNMENT)
+    m_alignment = TOP_ALIGNMENT;
+  else if (m_alignment == TOP_ALIGNMENT)
+    m_alignment = BOTTOM_ALIGNMENT;
   FlipLevelTransformer::transform_flip(m_flip);
 }
 
