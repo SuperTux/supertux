@@ -228,7 +228,9 @@ GameSession::on_escape_press(bool force_quick_respawn)
       }
     }
 
-    m_currentsector->get_players()[0]->m_dying_timer.start(FLT_EPSILON);
+    for (auto* player : players)
+      player->m_dying_timer.start(FLT_EPSILON);
+
     return;   // don't let the player open the menu, when Tux is dying
   }
 
@@ -342,7 +344,7 @@ GameSession::check_end_conditions()
       break;
 
   /* End of level? */
-  if (m_endsequence_timer.check() || (all_dead_or_winning && m_end_sequence && !m_end_sequence->is_running())) {
+  if (m_endsequence_timer.check() || (all_dead_or_winning && m_end_sequence && m_endsequence_timer.get_period() > 0.f)) {
     m_endsequence_timer.stop();
     for (auto* p : m_currentsector->get_players())
       p->set_winning();
