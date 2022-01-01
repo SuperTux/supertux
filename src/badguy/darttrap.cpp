@@ -114,7 +114,7 @@ DartTrap::fire()
   if (m_flip == NO_FLIP)
     py += MUZZLE_Y;
   else
-    py += (m_col.m_bbox.get_height() - MUZZLE_Y);
+    py += (m_col.m_bbox.get_height() - MUZZLE_Y - 7.0f);
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   Sector::get().add<Dart>(Vector(px, py), m_dir, this);
