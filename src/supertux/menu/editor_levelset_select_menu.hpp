@@ -32,7 +32,7 @@ public:
   void initialize();
   void reload_menu();
 
-  const std::vector<std::string>& get_contrib_worlds() { return m_contrib_worlds; }
+  std::vector<std::string>& get_contrib_worlds() const { return m_contrib_worlds; }
 
 private:
   EditorLevelsetSelectMenu(const EditorLevelsetSelectMenu&) = delete;
