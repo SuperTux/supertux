@@ -42,6 +42,7 @@ struct DrawingRequest
   Flip flip;
   float alpha;
   Blend blend;
+  Rect viewport;
 
   DrawingRequest() = delete;
   DrawingRequest(RequestType type_) :
@@ -49,7 +50,11 @@ struct DrawingRequest
     layer(),
     flip(),
     alpha(),
-    blend()
+    blend(),
+    viewport(-std::numeric_limits<float>::infinity(),
+             -std::numeric_limits<float>::infinity(),
+             std::numeric_limits<float>::infinity(),
+             std::numeric_limits<float>::infinity())
   {}
   virtual ~DrawingRequest() {}
 };
