@@ -94,6 +94,8 @@ GL33CoreContext::bind()
   const float tx = -static_cast<float>(rect.left) / static_cast<float>(rect.get_width());
   const float ty = -static_cast<float>(rect.top) / static_cast<float>(rect.get_height());
 
+  const Vector scv = m_video_system.get_viewport().get_scale();
+
   const float matrix[3*3] = {
     sx, 0.0, 0,
     0.0, sy, 0,
@@ -102,6 +104,7 @@ GL33CoreContext::bind()
   glUniformMatrix3fv(m_program->get_uniform_location("fragcoord2uv"),
                      1, false, matrix);
 
+  glUniform2f(m_program->get_uniform_location("scale"), scv.x, scv.y);
   glUniform1i(m_program->get_uniform_location("diffuse_texture"), 0);
   glUniform1i(m_program->get_uniform_location("displacement_texture"), 1);
   glUniform1i(m_program->get_uniform_location("framebuffer_texture"), 2);

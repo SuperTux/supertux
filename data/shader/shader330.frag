@@ -6,6 +6,7 @@ uniform sampler2D framebuffer_texture;
 uniform mat3 fragcoord2uv;
 uniform float backbuffer;
 uniform float game_time;
+uniform vec2 scale;
 uniform vec2 animate;
 uniform vec2 displacement_animate;
 
@@ -24,7 +25,7 @@ void main(void)
   else if (true)
   {
     vec4 pixel = texture(displacement_texture, texcoord_var.st + (displacement_animate * game_time));
-    vec2 displacement = (pixel.rg - vec2(0.5, 0.5)) * 255;
+    vec2 displacement = (pixel.rg - vec2(0.5, 0.5)) * scale * 255;
     float alpha = pixel.a;
 
     vec2 uv = (fragcoord2uv * (gl_FragCoord.xyw + vec3(displacement.xy * alpha, 0))).xy;
