@@ -4,6 +4,8 @@
   (author "Kevin")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 350)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -18,8 +20,6 @@
     )
     (background
       (color 1 1 1)
-      (x 736)
-      (y 448)
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)
@@ -30,8 +30,6 @@
     )
     (background
       (color 1 1 1)
-      (x 832)
-      (y 416)
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)
@@ -80,6 +78,12 @@
       (name "Camera")
       (mode "autoscroll")
       (path-ref "4fecb608-cc73-4761-9b95-0f2ed114a61a")
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
     )
     (coin
       (x 2080)
@@ -642,19 +646,11 @@
         (node
           (x 0)
           (y 0)
-          (bezier_before_x 0)
-          (bezier_before_y 0)
-          (bezier_after_x 0)
-          (bezier_after_y 0)
           (time 250)
         )
         (node
           (x 22848)
           (y 0)
-          (bezier_before_x 22848)
-          (bezier_before_y 0)
-          (bezier_after_x 22848)
-          (bezier_after_y 0)
         )
       )
     )
@@ -897,6 +893,9 @@
     (stalactite
       (x 20994)
       (y 255)
+    )
+    (textobject
+      (name "Text")
     )
     (tilemap
       (solid #f)
