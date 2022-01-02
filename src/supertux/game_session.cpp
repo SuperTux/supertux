@@ -545,9 +545,11 @@ GameSession::update(float dt_sec, const Controller& controller)
 
   if (invincible_timer_started) {
     if (max_invincible_timer_left <= TUX_INVINCIBLE_TIME_WARNING) {
-      m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_WARNING_MUSIC);
+      if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != HERRING_WARNING_MUSIC)
+        m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_WARNING_MUSIC);
     } else {
-      m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
+      if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != HERRING_MUSIC)
+        m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
     }
   } else if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != LEVEL_MUSIC) {
     m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
