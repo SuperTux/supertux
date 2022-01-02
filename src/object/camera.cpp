@@ -269,6 +269,12 @@ Camera::get_translation() const
   return m_translation + ((screen_size * (m_scale - 1.f)) / 2.f);
 }
 
+Rectf
+Camera::get_rect() const
+{
+  return Rectf::from_center(get_center(), m_screen_size);
+}
+
 void
 Camera::reset(const Vector& tuxpos)
 {
