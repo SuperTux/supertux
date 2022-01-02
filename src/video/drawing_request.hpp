@@ -51,10 +51,7 @@ struct DrawingRequest
     flip(),
     alpha(),
     blend(),
-    viewport(-std::numeric_limits<float>::infinity(),
-             -std::numeric_limits<float>::infinity(),
-             std::numeric_limits<float>::infinity(),
-             std::numeric_limits<float>::infinity())
+    viewport(INT_MIN, INT_MIN, INT_MAX, INT_MAX)
   {}
   virtual ~DrawingRequest() {}
 };
