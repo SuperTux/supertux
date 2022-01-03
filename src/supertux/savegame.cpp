@@ -323,13 +323,6 @@ Savegame::get_worldmaps()
 WorldmapState
 Savegame::get_worldmap_state(const std::string& name)
 {
-  std::string path;
-  if (name[0] == '/') {
-    path = name;
-  }
-  else {
-    path = "/" + name;
-  }
   WorldmapState result;
 
   SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
@@ -342,14 +335,14 @@ Savegame::get_worldmap_state(const std::string& name)
     vm.get_or_create_table_entry("worlds");
 
     // if a non-canonical entry is present, replace them with a canonical one
-    if (path != "/levels/world2/worldmap.stwm") {
-      std::string old_map_filename = path.substr(1);
+    if (name != "/levels/world2/worldmap.stwm") {
+      std::string old_map_filename = name.substr(1);
       if (vm.has_property(old_map_filename.c_str())) {
-        vm.rename_table_entry(old_map_filename.c_str(), path.c_str());
+        vm.rename_table_entry(old_map_filename.c_str(), name.c_str());
       }
     }
 
-    vm.get_or_create_table_entry(path);
+    vm.get_or_create_table_entry(name);
     vm.get_or_create_table_entry("levels");
 
     result.level_states = get_level_states(vm);
