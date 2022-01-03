@@ -19,6 +19,7 @@
 # Simon Kornowski <kornowski.simon@gmail.com>, 2013
 # Simon Kornowski <kornowski.simon@gmail.com>, 2013
 # Zwatotem <zwatotem@gmail.com>, 2019-2021
+# Tomasz Dądela, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
@@ -113,7 +114,7 @@ msgstr "Końcowa sekwencja"
 
 #: src/trigger/sequence_trigger.cpp:76
 msgid "stop Tux"
-msgstr "zatrzymaj Tuksa"
+msgstr "zatrzymaj Tuxa"
 
 #: src/trigger/sequence_trigger.cpp:76
 msgid "fireworks"
@@ -135,7 +136,7 @@ msgstr "Przejście"
 
 #: src/trigger/sequence_trigger.cpp:83 src/editor/particle_editor.cpp:161
 msgid "Fade in"
-msgstr "Pojawniane się"
+msgstr "Pojawianie się"
 
 #: src/trigger/sequence_trigger.cpp:83 src/editor/particle_editor.cpp:167
 #: src/editor/particle_editor.cpp:212
@@ -325,7 +326,7 @@ msgstr "Gwiazda"
 
 #: src/object/bonus_block.cpp:211
 msgid "Tux doll"
-msgstr "Avatar Tuksa"
+msgstr "Awatar Tuxa"
 
 #: src/object/bonus_block.cpp:211
 msgid "Custom"
@@ -1005,11 +1006,11 @@ msgstr "Zmienność czasu wyjścia"
 
 #: src/object/custom_particle_system.cpp:501
 msgid "Speed X (variation)"
-msgstr "Prędkość X (odmiania)"
+msgstr "Prędkość X (wariacja)"
 
 #: src/object/custom_particle_system.cpp:502
 msgid "Speed Y (variation)"
-msgstr "Prędkość Y (odmiania)"
+msgstr "Prędkość Y (wariacja)"
 
 #: src/object/custom_particle_system.cpp:503
 msgid "Acceleration X"
@@ -1107,11 +1108,11 @@ msgstr "Odbij (lekko)"
 
 #: src/object/custom_particle_system.cpp:520
 msgid "Kill particle"
-msgstr "Zabij cząstke"
+msgstr "Zniszcz cząstkę"
 
 #: src/object/custom_particle_system.cpp:520
 msgid "Fade out particle"
-msgstr "Zanikaj cząstke"
+msgstr "Zanikaj cząstkę"
 
 #: src/object/custom_particle_system.cpp:524
 msgid "Delete if off-screen"
@@ -1600,7 +1601,7 @@ msgstr "Płomień-duch"
 
 #: src/badguy/rcrystallo.hpp:30
 msgid "Roof Crystallo"
-msgstr "Dachowy krzyształ"
+msgstr "Dachowy kryształ"
 
 #: src/badguy/spiky.hpp:30
 msgid "Spiky"
@@ -1772,7 +1773,7 @@ msgstr "Sekrety"
 
 #: src/supertux/game_object.hpp:78
 msgid "Unknown object"
-msgstr "Nieznany objekt"
+msgstr "Nieznany obiekt"
 
 #: src/supertux/sector.cpp:414
 msgid "Press escape to skip"
@@ -1968,7 +1969,7 @@ msgstr "Integracje"
 
 #: src/supertux/menu/integrations_menu.cpp:51
 msgid "Do not share level names when editing"
-msgstr "Nie udostepniaj nazw poziomów podczas edytowania"
+msgstr "Nie udostępniaj nazw poziomów podczas edytowania"
 
 #: src/supertux/menu/integrations_menu.cpp:54
 msgid "Enable Discord integration"
@@ -2029,7 +2030,7 @@ msgstr "Zrzut pamięci podręcznej tekstu"
 
 #: src/supertux/menu/particle_editor_save_as.cpp:33
 msgid "Save particle as"
-msgstr "Zapisz cząstke jako"
+msgstr "Zapisz cząstkę jako"
 
 #: src/supertux/menu/particle_editor_save_as.cpp:37
 #: src/supertux/menu/editor_save_as.cpp:37
@@ -2072,7 +2073,7 @@ msgstr "Usuń sektor"
 #: src/supertux/menu/editor_objectgroup_menu.cpp:30
 #: src/editor/toolbox_widget.cpp:93
 msgid "Objects"
-msgstr "Objekty"
+msgstr "Obiekty"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:62
 msgid "Empty World"
@@ -2281,11 +2282,11 @@ msgstr "Okno Skalowalne"
 
 #: src/supertux/menu/options_menu.cpp:359
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "Umożliwij zmianę rozmiaru okna, może wymagać restartu by zadziałać"
+msgstr "Umożliwiaj zmianę rozmiaru okna, może wymagać restartu by zadziałać"
 
 #: src/supertux/menu/options_menu.cpp:361
 msgid "Window Resolution"
-msgstr "Rozdzielczość w oknie"
+msgstr "Rozdzielczość okna"
 
 #: src/supertux/menu/options_menu.cpp:362
 msgid "Resize the window to the given size"
@@ -2454,7 +2455,7 @@ msgid ""
 "The game couldn't detect your browser resolution.\n"
 "This most likely happens because it is not embedded\n"
 "in the SuperTux custom HTML template.\n"
-msgstr "Gra nie mogła wykryć rozdzielczości twojej przeglądarki.\nNajprawodopniej sie to stało, przez to, że nie jest wbudowana\nw niestandarowowy szablon HTML SuperTux.\n"
+msgstr "Gra nie mogła wykryć rozdzielczości twojej przeglądarki.\nNajprawodopniej stało się to, ponieważ nie jest wbudowana\nw niestandardowy szablon HTML SuperTux.\n"
 
 #: src/supertux/menu/main_menu.cpp:56 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
@@ -2886,11 +2887,11 @@ msgstr "Bonus: Gwiazda"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Shrink Tux"
-msgstr "Zmniejsz Tuksa"
+msgstr "Zmniejsz Tuxa"
 
 #: src/supertux/menu/cheat_menu.cpp:39
 msgid "Kill Tux"
-msgstr "Zabij Tuksa"
+msgstr "Zabij Tuxa"
 
 #: src/supertux/menu/particle_editor_menu.cpp:32
 msgid "Particle Editor"
@@ -3071,7 +3072,7 @@ msgstr "Tryb Autotile"
 
 #: src/supertux/menu/editor_menu.cpp:83
 msgid "Enable Autotile Help"
-msgstr "Włacz pomoc Autotile"
+msgstr "Włącz pomoc Autotile"
 
 #: src/supertux/menu/editor_menu.cpp:84
 msgid "Autosave Frequency"
@@ -3142,7 +3143,7 @@ msgid ""
 "If you encounter issues, PLEASE contact the maintainter\n"
 "at https://github.com/supertux/supertux/issues or on the\n"
 "Open Store's Telegram at https://open-store.io/telegram"
-msgstr "Wersja UBports jest pod cięzkim rozwojem!\nJeżeli napotkasz problemy, PROSZĘ skontaktuj się z jej opiekunem\nna https://github.com/supertux/supertux/issues, albo na\nOtwórz Store's Telegram na https://open-store.io/telegram"
+msgstr "Wersja UBports jest intensywnie rozwijana!\nJeżeli napotkasz problemy, PROSZĘ skontaktuj się z jej opiekunem\nna https://github.com/supertux/supertux/issues, albo na\nTelegramie Open Store na https://open-store.io/telegram"
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
@@ -3234,7 +3235,7 @@ msgstr "Poziom"
 
 #: src/editor/worldmap_objects.hpp:79
 msgid "Teleporter"
-msgstr "Teleporter"
+msgstr "Teleport"
 
 #: src/editor/worldmap_objects.hpp:119
 msgid "Sprite Change"
@@ -3352,7 +3353,7 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "Niektóre przestarzałe dodatki są wciąż aktywne\ni mogą one kolidować z ogólną strukturą Super Tuksa.\nNadal możesz uruchomić te dodatki w menu.\nWyłączenie tych dodatków nie usunie twoich postępów w grze."
+msgstr "Niektóre przestarzałe dodatki są wciąż aktywne\ni mogą one kolidować z ogólną strukturą Super Tuxa.\nNadal możesz uruchomić te dodatki w menu.\nWyłączenie tych dodatków nie usunie twoich postępów w grze."
 
 #: src/editor/editor.cpp:625
 msgid "Disable add-ons"
@@ -3434,7 +3435,7 @@ msgstr "Przytrzymaj Ctrl, aby włączyć autotile"
 
 #: src/editor/overlay_widget.cpp:1303
 msgid "Autotile erasing mode is on"
-msgstr "Kasowanie Autotile jest włączone"
+msgstr "Kasowanie autotile jest włączone"
 
 #: src/editor/overlay_widget.cpp:1305
 msgid "Selected tile isn't autotileable"
@@ -3633,7 +3634,7 @@ msgstr "Wkład"
 
 #: data//credits.stxt:597
 msgid "Localization"
-msgstr "Lokalizacja"
+msgstr "Tłumaczenie"
 
 #: data//credits.stxt:1144
 msgid " Special Thanks to"
@@ -3702,15 +3703,15 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1229
 msgid "Want to help…"
-msgstr "Chcesz pomóc..."
+msgstr "Chcesz pomóc…"
 
 #: data//credits.stxt:1234
 msgid "…with localization?"
-msgstr "...z lokalizacją?"
+msgstr "…z tłumaczeniem?"
 
 #: data//credits.stxt:1244
 msgid "…with something else?"
-msgstr "...z czymś jeszcze innym?"
+msgstr "…z czymś jeszcze innym?"
 
 #: data//credits.stxt:1255
 msgid "Thank you for"
