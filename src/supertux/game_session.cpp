@@ -459,14 +459,17 @@ IntegrationStatus
 GameSession::get_status() const
 {
   IntegrationStatus status;
-  status.m_details.push_back("Playing");
-  if (get_current_level().is_worldmap())
+  status.m_details.push_back(Editor::current() ? "Testing" : "Playing");
+  if (!Editor::current() || g_config->hide_editor_levelnames)
   {
-    status.m_details.push_back("In worldmap: " + get_current_level().get_name());
-  }
-  else
-  {
-    status.m_details.push_back("In level: " + get_current_level().get_name());
+    if (get_current_level().is_worldmap())
+    {
+      status.m_details.push_back("In worldmap: " + get_current_level().get_name());
+    }
+    else
+    {
+      status.m_details.push_back("In level: " + get_current_level().get_name());
+    }
   }
   return status;
 }
