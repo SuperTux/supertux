@@ -43,12 +43,12 @@ ButtonWidget::draw(DrawingContext& context)
   }
 
   if (m_grab) {
-    context.color().draw_filled_rect(m_rect, Color(g_config->editorcolor.red + 0.4f, g_config->editorcolor.green + 0.4f,
-      g_config->editorcolor.blue + 0.4f, g_config->editorcolor.alpha + 0.1f), 4.0f,
+    context.color().draw_filled_rect(m_rect, Color(std::min(g_config->editorcolor.red + 0.4f, 1.f), std::min(g_config->editorcolor.green + 0.4f, 1.f),
+      std::min(g_config->editorcolor.blue + 0.4f, 1.f), std::min(g_config->editorcolor.alpha + 0.1f, 1.f)), 4.0f,
                                      LAYER_GUI-5);
   } else if (m_hover) {
-    context.color().draw_filled_rect(m_rect, Color(g_config->editorcolor.red + 0.4f, g_config->editorcolor.green + 0.4f,
-      g_config->editorcolor.blue + 0.4f, g_config->editorcolor.alpha - 0.2f), 4.0f,
+    context.color().draw_filled_rect(m_rect, Color(std::min(g_config->editorcolor.red + 0.4f, 1.f), std::min(g_config->editorcolor.green + 0.4f, 1.f),
+      std::min(g_config->editorcolor.blue + 0.4f, 1.f), std::max(g_config->editorcolor.alpha - 0.2f, 0.f)), 4.0f,
                                      LAYER_GUI-5);
   }
 }
