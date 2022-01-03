@@ -23,6 +23,7 @@ private:
   std::vector<std::string> m_level_full_paths;
   EditorLevelSelectMenu* m_level_select_menu;
   EditorLevelsetSelectMenu* m_levelset_select_menu;
+  int m_item_id;
 public:
   EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu);
   void menu_action(MenuItem& item) override;

@@ -28,7 +28,8 @@
 EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu) : 
   m_level_full_paths(),
   m_level_select_menu(level_select_menu),
-  m_levelset_select_menu(levelset_select_menu)
+  m_levelset_select_menu(levelset_select_menu),
+  m_item_id(-1)
 {
   add_label(_("Delete level"));
   add_hl();
@@ -45,20 +46,23 @@ EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset
 void
 EditorDeleteLevelMenu::menu_action(MenuItem& item)
 {
-  int id = item.get_id();
+  m_item_id = item.get_id();
   // Cast to avoid compilation warning
-  if (id >= 0 && id < static_cast<int>(m_level_full_paths.size()))
+  if (m_item_id >= 0 && m_item_id < static_cast<int>(m_level_full_paths.size()))
   {
-    if (Editor::current()->is_level_loaded() && m_level_full_paths[id] == Editor::current()->get_level()->m_filename)
+    if (Editor::current()->is_level_loaded() && m_level_full_paths[m_item_id] == Editor::current()->get_level()->m_filename)
       Dialog::show_message(_("You cannot delete level that you are editing!"));
     else
     {
-      PHYSFS_delete(m_level_full_paths[id].c_str());
-      delete_item(id + 2);
-      m_level_full_paths.erase(m_level_full_paths.begin() + id);
-      m_level_select_menu->reload_menu();
-      if (!Editor::current()->is_level_loaded())
-        m_levelset_select_menu->reload_menu();
+      Dialog::show_confirmation(_("Are you sure?"), [this]()
+      {
+        PHYSFS_delete(m_level_full_paths[m_item_id].c_str());
+        delete_item(m_item_id + 2);
+        m_level_full_paths.erase(m_level_full_paths.begin() + m_item_id);
+        m_level_select_menu->reload_menu();
+        if (!Editor::current()->is_level_loaded())
+          m_levelset_select_menu->reload_menu();
+      });
     }
   }
 }

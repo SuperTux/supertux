@@ -25,7 +25,8 @@
 #include "util/log.hpp"
 
 EditorDeleteLevelsetMenu::EditorDeleteLevelsetMenu(EditorLevelsetSelectMenu* editor_levelset_select_menu) :
-  m_editor_levelset_select_menu(editor_levelset_select_menu)
+  m_editor_levelset_select_menu(editor_levelset_select_menu),
+  m_item_id(-1)
 {
   refresh();
 }
@@ -68,18 +69,22 @@ EditorDeleteLevelsetMenu::refresh()
 void
 EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
 {
-  int id = item.get_id();
+  m_item_id = item.get_id();
 
-  if (id >= 0)
+  if (m_item_id >= 0)
   {
     std::vector<std::string>& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
-    if (Editor::is_active() && Editor::current()->get_world() && Editor::current()->get_world()->get_basedir() == contrib_worlds[id])
+    if (Editor::is_active() && Editor::current()->get_world() && Editor::current()->get_world()->get_basedir() == contrib_worlds[m_item_id])
       Dialog::show_message(_("You cannot delete the world that you are editing"));
     else
     {
-      physfsutil::remove_with_content(contrib_worlds[id]);
-      m_editor_levelset_select_menu->reload_menu();
-      refresh();
+      Dialog::show_confirmation(_("Are you sure?"), [this]()
+      {
+        std::vector<std::string>& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
+        physfsutil::remove_with_content(contrib_worlds[m_item_id]);
+        m_editor_levelset_select_menu->reload_menu();
+        refresh();
+      });
     }
   }
 }
