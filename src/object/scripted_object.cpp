@@ -184,8 +184,9 @@ ScriptedObject::update(float dt_sec)
 void
 ScriptedObject::draw(DrawingContext& context)
 {
-  if (visible)
-    MovingSprite::draw(context);
+  if (!visible) return;
+
+  MovingSprite::draw(context);
 }
 
 void
