@@ -73,8 +73,7 @@ EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
 
   if (m_item_id >= 0)
   {
-    std::vector<std::string>& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
-    if (Editor::is_active() && Editor::current()->get_world() && Editor::current()->get_world()->get_basedir() == contrib_worlds[m_item_id])
+    if (Editor::is_active() && Editor::current()->get_world() && Editor::current()->get_world()->get_basedir() == m_editor_levelset_select_menu->get_contrib_worlds().at(m_item_id))
       Dialog::show_message(_("You cannot delete the world that you are editing"));
     else
     {
