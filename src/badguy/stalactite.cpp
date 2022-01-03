@@ -29,7 +29,7 @@ static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
+  BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_OBJECTS),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
@@ -155,7 +155,7 @@ Stalactite::draw(DrawingContext& context)
     return;
 
   if (state == STALACTITE_SQUISHED) {
-    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
+    m_sprite->draw(context.color(), get_pos(), m_layer);
   } else if (state == STALACTITE_SHAKING) {
     m_sprite->draw(context.color(), get_pos() + shake_delta, m_layer);
   } else {
