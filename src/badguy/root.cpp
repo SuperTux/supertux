@@ -79,10 +79,7 @@ Root::active_update(float dt_sec)
       base_sprite->set_action("vanishing", 2);
       base_sprite->set_animation_loops(2); // TODO: doesn't seem to work for loops=1
     }
-    if (m_flip == NO_FLIP)
-      set_pos(m_start_position + Vector(0, offset_y));
-    else
-      set_pos(m_start_position - Vector(0, offset_y));
+    set_pos(m_start_position + Vector(0, (m_flip == NO_FLIP ? offset_y : -offset_y)));
   }
   else if (mystate == STATE_VANISHING) {
     if (base_sprite->animation_done()) remove_me();
