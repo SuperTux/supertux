@@ -73,7 +73,6 @@ public:
   HeavyCoin(const ReaderMapping& reader);
 
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
   virtual std::string get_class() const override { return "heavycoin"; }

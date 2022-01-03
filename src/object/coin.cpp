@@ -236,12 +236,6 @@ HeavyCoin::update(float dt_sec)
 }
 
 void
-HeavyCoin::draw(DrawingContext& context)
-{
-  m_sprite->draw(context.color(), get_pos(), m_layer);
-}
-
-void
 HeavyCoin::collision_solid(const CollisionHit& hit)
 {
   float clink_threshold = 100.0f; // sets the minimum speed needed to result in collision noise
