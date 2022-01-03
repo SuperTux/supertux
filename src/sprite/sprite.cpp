@@ -150,24 +150,12 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   context.set_flip(context.get_flip() ^ flip);
   context.set_alpha(context.get_alpha() * m_alpha);
 
-  if (flip == NO_FLIP)
-  {
-    canvas.draw_surface(m_action->surfaces[m_frameidx],
-                        pos - Vector(m_action->x_offset, m_action->y_offset),
-                        m_angle,
-                        m_color,
-                        m_blend,
-                        layer);
-  }
-  else
-  {
-    canvas.draw_surface(m_action->surfaces[m_frameidx],
-                        pos - Vector(m_action->x_offset, static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h),
-                        m_angle,
-                        m_color,
-                        m_blend,
-                        layer);
-  }
+  canvas.draw_surface(m_action->surfaces[m_frameidx],
+                    pos - Vector(m_action->x_offset, flip == NO_FLIP ? m_action->y_offset : (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h)),
+                    m_angle,
+                    m_color,
+                    m_blend,
+                    layer);
 
   context.pop_transform();
 }
