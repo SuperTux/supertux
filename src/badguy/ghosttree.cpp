@@ -118,11 +118,9 @@ GhostTree::active_update(float /*dt_sec*/)
 
     if (willowisp_timer.check()) {
       if (willowisps.size() < WILLOWISP_COUNT) {
-        Vector pos;
-        if (m_flip == NO_FLIP)
-          pos = Vector(m_col.m_bbox.get_width() / 2, m_col.m_bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
-        else
-          pos = Vector(m_col.m_bbox.get_width() / 2, m_col.m_bbox.get_height() / 2 - willo_spawn_y - WILLOWISP_TOP_OFFSET - 32.0f);
+        Vector pos(m_col.m_bbox.get_width() / 2,
+                   m_col.m_bbox.get_height() / 2 + (m_flip == NO_FLIP ? (willo_spawn_y + WILLOWISP_TOP_OFFSET) :
+                                                                       -(willo_spawn_y + WILLOWISP_TOP_OFFSET + 32.0f)));
         auto& willowisp = Sector::get().add<TreeWillOWisp>(this, pos, 200 + willo_radius, willo_speed);
         willowisps.push_back(&willowisp);
 
