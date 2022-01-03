@@ -112,13 +112,13 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
       break;
     case CRUSHING_RIGHT:
       set_group(COLGROUP_MOVING_STATIC);
-	    physic.reset ();
+      physic.reset ();
       physic.enable_gravity (false);
       m_sprite->set_action("idle");
-	    break;
-	  case CRUSHING_LEFT:
+      break;
+    case CRUSHING_LEFT:
       set_group(COLGROUP_MOVING_STATIC);
-	    physic.reset ();
+      physic.reset ();
       physic.enable_gravity (false);
       m_sprite->set_action("idle");
       break;
@@ -128,12 +128,12 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
       physic.enable_gravity (false);
       m_sprite->set_action("recovering");
       break;
-	  case RECOVERING_RIGHT:
+    case RECOVERING_RIGHT:
       set_group(COLGROUP_MOVING_STATIC);
       physic.enable_gravity (false);
       m_sprite->set_action("recovering");
       break;
-	  case RECOVERING_LEFT:
+    case RECOVERING_LEFT:
       set_group(COLGROUP_MOVING_STATIC);
       physic.enable_gravity (false);
       m_sprite->set_action("recovering");
@@ -164,7 +164,7 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
   if (player && hit.top && state == CRUSHING_UP)
     return FORCE_MOVE;
   auto badguy = dynamic_cast<BadGuy*>(&other);
-  if (badguy) {
+  if (badguy && (state == CRUSHING || state == CRUSHING_LEFT || state == CRUSHING_RIGHT)) {
     badguy->kill_fall();
   }
 
@@ -184,56 +184,8 @@ IceCrusher::collision_solid(const CollisionHit& hit)
     case IDLE:
       break;
     case CRUSHING:
-      if (hit.bottom) {
-        if (ic_size == LARGE) {
-          cooldown_timer = PAUSE_TIME_LARGE;
-          Sector::get().get_camera().shake (0.125f, 0.0f, 16.0f);
-          SoundManager::current()->play("sounds/brick.wav");
-          // throw some particles, bigger and more for large icecrusher
-          for (int j = 0; j < 9; j++)
-          {
-            Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f, m_col.m_bbox.get_bottom()),
-              0, 90-5*j, 140.0f, 380.0f, Vector(0.0f, 300.0f),
-              1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
-            Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f, m_col.m_bbox.get_bottom()),
-              270+5*j, 360, 140.0f, 380.0f, Vector(0.0f, 300.0f),
-              1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
-          }
-        }
-        else {
-          cooldown_timer = PAUSE_TIME_NORMAL;
-          Sector::get().get_camera().shake (0.1f, 0.0, 8.0);
-          if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
-              m_sprite_name.find("moss_crusher") != std::string::npos )
-          {
-            SoundManager::current()->play("sounds/thud.ogg");
-          }
-          else
-          {
-            SoundManager::current()->play("sounds/brick.wav");
-          }
-          // throw some particles
-          for (int j = 0; j < 5; j++)
-          {
-            Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f,
-                     m_col.m_bbox.get_bottom()),
-              0, 90+10*j, 140, 260, Vector(0, 300),
-              1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
-            Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f,
-                     m_col.m_bbox.get_bottom()),
-              270+10*j, 360, 140, 260, Vector(0, 300),
-              1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
-          }
-        }
-        set_state(RECOVERING);
-      }
-      break;
     case CRUSHING_UP:
-      if (hit.top) {
+      if ((state == CRUSHING && hit.bottom) || (state == CRUSHING_UP && hit.top)) {
         if (ic_size == LARGE) {
           cooldown_timer = PAUSE_TIME_LARGE;
           Sector::get().get_camera().shake (0.125f, 0.0f, 16.0f);
@@ -242,11 +194,13 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           for (int j = 0; j < 9; j++)
           {
             Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f, m_col.m_bbox.get_top()),
+              Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f,
+              (state == CRUSHING ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
               0, 90-5*j, 140.0f, 380.0f, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
             Sector::get().add<Particles>(
-              Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f, m_col.m_bbox.get_top()),
+              Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f,
+              (state == CRUSHING ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
               270+5*j, 360, 140.0f, 380.0f, Vector(0.0f, 300.0f),
               1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1);
           }
@@ -268,30 +222,30 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           {
             Sector::get().add<Particles>(
               Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f,
-                     m_col.m_bbox.get_top()),
+                     (state == CRUSHING ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
               0, 90+10*j, 140, 260, Vector(0, 300),
               1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
             Sector::get().add<Particles>(
               Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f,
-                     m_col.m_bbox.get_top()),
+                     m_col.m_bbox.get_bottom()),
               270+10*j, 360, 140, 260, Vector(0, 300),
               1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1);
           }
         }
-        set_state(RECOVERING_UP);
+        set_state(state == CRUSHING ? RECOVERING : RECOVERING_UP);
       }
       break;
-	  case CRUSHING_RIGHT:
-	    if (hit.right)
-    {
-		  if (ic_size == LARGE)
-    {
+    case CRUSHING_RIGHT:
+      if (hit.right)
+      {
+        if (ic_size == LARGE)
+        {
           cooldown_timer = PAUSE_TIME_LARGE;
           Sector::get().get_camera().shake (0.125f, 0.0f, 16.0f);
           SoundManager::current()->play("sounds/brick.wav");
         }
-		  else
-    {
+        else
+        {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::get().get_camera().shake (0.1f, 0.0, 8.0);
           if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
@@ -304,20 +258,20 @@ IceCrusher::collision_solid(const CollisionHit& hit)
             SoundManager::current()->play("sounds/brick.wav");
           }
         }
-		set_state(RECOVERING_RIGHT);
-	  }
-	    break;
-	  case CRUSHING_LEFT:
-	    if (hit.left)
-    {
-		  if (ic_size == LARGE)
-    {
+        set_state(RECOVERING_RIGHT);
+      }
+      break;
+    case CRUSHING_LEFT:
+      if (hit.left)
+      {
+        if (ic_size == LARGE)
+        {
           cooldown_timer = PAUSE_TIME_LARGE;
           Sector::get().get_camera().shake (0.125f, 0.0f, 16.0f);
           SoundManager::current()->play("sounds/brick.wav");
         }
-		  else
-    {
+        else
+        {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::get().get_camera().shake (0.1f, 0.0, 8.0);
           if ( m_sprite_name.find("rock_crusher") != std::string::npos ||
@@ -330,9 +284,9 @@ IceCrusher::collision_solid(const CollisionHit& hit)
             SoundManager::current()->play("sounds/brick.wav");
           }
         }
-		set_state(RECOVERING_LEFT);
-	  }
-	    break;
+        set_state(RECOVERING_LEFT);
+      }
+      break;
     default:
       log_debug << "IceCrusher in invalid state" << std::endl;
       break;
@@ -400,7 +354,8 @@ IceCrusher::update(float dt_sec)
       }
       break;
     case RECOVERING:
-      if (m_col.m_bbox.get_top() <= start_position.y+1) {
+      if (m_col.m_bbox.get_top() <= start_position.y+1)
+      {
         set_pos(start_position);
         m_col.set_movement(Vector (0, 0));
         if (ic_size == LARGE)
@@ -409,14 +364,16 @@ IceCrusher::update(float dt_sec)
           cooldown_timer = PAUSE_TIME_NORMAL;
         set_state(IDLE);
       }
-      else {
+      else
+      {
         Vector movement(0, (ic_size == LARGE ? RECOVER_SPEED_LARGE : RECOVER_SPEED_NORMAL));
         m_col.set_movement(movement);
         m_col.propagate_movement(movement);
       }
       break;
     case RECOVERING_UP:
-      if (m_col.m_bbox.get_top() >= start_position.y-1) {
+      if (m_col.m_bbox.get_top() >= start_position.y-1)
+      {
         set_pos(start_position);
         m_col.set_movement(Vector (0, 0));
         if (ic_size == LARGE)
@@ -425,14 +382,16 @@ IceCrusher::update(float dt_sec)
           cooldown_timer = PAUSE_TIME_NORMAL;
         set_state(IDLE);
       }
-      else {
+      else
+      {
         Vector movement(0, (ic_size == LARGE ? -RECOVER_SPEED_LARGE : -RECOVER_SPEED_NORMAL));
         m_col.set_movement(movement);
         m_col.propagate_movement(movement);
       }
       break;
-	  case RECOVERING_RIGHT:
-      if (m_col.m_bbox.get_left() <= start_position.x+1) {
+    case RECOVERING_RIGHT:
+      if (m_col.m_bbox.get_left() <= start_position.x+1)
+      {
         set_pos(start_position);
         m_col.set_movement(Vector (0, 0));
         if (ic_size == LARGE)
@@ -441,13 +400,15 @@ IceCrusher::update(float dt_sec)
           cooldown_timer = PAUSE_TIME_NORMAL;
         set_state(IDLE);
       }
-      else {
+      else
+      {
         m_col.set_movement(Vector(RECOVER_SPEED_LARGE, 0));
         m_col.propagate_movement(Vector(RECOVER_SPEED_LARGE, 0));
       }
       break;
-	  case RECOVERING_LEFT:
-      if (m_col.m_bbox.get_left() >= start_position.x-1) {
+    case RECOVERING_LEFT:
+      if (m_col.m_bbox.get_left() >= start_position.x-1)
+      {
         set_pos(start_position);
         m_col.set_movement(Vector (0, 0));
         if (ic_size == LARGE)
@@ -456,7 +417,8 @@ IceCrusher::update(float dt_sec)
           cooldown_timer = PAUSE_TIME_NORMAL;
         set_state(IDLE);
       }
-      else {
+      else
+      {
         m_col.set_movement(Vector(-RECOVER_SPEED_LARGE, 0));
         m_col.propagate_movement(Vector(-RECOVER_SPEED_LARGE, 0));
       }
@@ -532,12 +494,12 @@ IceCrusher::found_victim_right() const
   if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
   {
     const Rectf& player_bbox = player->get_bbox();
-	  Rectf crush_area_right = get_bbox();
-	  crush_area_right.set_right(player_bbox.get_left() - 1);
+    Rectf crush_area_right = get_bbox();
+    crush_area_right.set_right(player_bbox.get_left() - 1);
     if (((player_bbox.get_left() + 64) >= m_col.m_bbox.get_right())
         && (player_bbox.get_bottom() + 5 > (m_col.m_bbox.get_top() - DROP_ACTIVATION_DISTANCE))
         && (player_bbox.get_top() < (m_col.m_bbox.get_bottom() + DROP_ACTIVATION_DISTANCE))
-        && (Sector::get().is_free_of_statics(crush_area_right, this, false))		/* and area to player is free of objects */) {
+        && (Sector::get().is_free_of_statics(crush_area_right, this, false)) /* and area to player is free of objects */) {
       return true;
     }
   }
@@ -551,12 +513,12 @@ IceCrusher::found_victim_left() const
   if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
   {
     const Rectf& player_bbox = player->get_bbox();
-	  Rectf crush_area_left = get_bbox();
-	  crush_area_left.set_left(player_bbox.get_right() + 1);
+    Rectf crush_area_left = get_bbox();
+    crush_area_left.set_left(player_bbox.get_right() + 1);
     if (((player_bbox.get_right() - 64) <= m_col.m_bbox.get_left())
         && (player_bbox.get_bottom() + 5 > (m_col.m_bbox.get_top() - DROP_ACTIVATION_DISTANCE))
         && (player_bbox.get_top() < (m_col.m_bbox.get_bottom() + DROP_ACTIVATION_DISTANCE))
-        && (Sector::get().is_free_of_statics(crush_area_left, this, false))		/* and area to player is free of objects */) {
+        && (Sector::get().is_free_of_statics(crush_area_left, this, false)) /* and area to player is free of objects */) {
       return true;
     }
   }
