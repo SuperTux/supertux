@@ -66,10 +66,7 @@ Root::active_update(float dt_sec)
       offset_y = static_cast<float>(-m_sprite->get_height());
       mystate = STATE_SHRINKING;
     }
-    if (m_flip == NO_FLIP)
-      set_pos(m_start_position + Vector(0, offset_y));
-    else
-      set_pos(m_start_position - Vector(0, offset_y));
+    set_pos(m_start_position + Vector(0, (m_flip == NO_FLIP ? offset_y : -offset_y)));
   }
   else if (mystate == STATE_SHRINKING) {
     offset_y += dt_sec * SPEED_SHRINK;
