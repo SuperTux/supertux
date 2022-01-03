@@ -25,38 +25,31 @@
 #include "util/writer.hpp"
 
 Ispy::Ispy(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED),
-  state(ISPYSTATE_IDLE),
-  script(),
-  dir(Direction::AUTO),
+  MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES + 5, COLGROUP_DISABLED),
+  m_state(ISPYSTATE_IDLE),
+  m_script(),
+  m_dir(Direction::AUTO),
   m_facing_down(false)
 {
-  // read script to execute
-  reader.get("script", script);
+  reader.get("script", m_script);
 
-  // read direction to face in
   std::string dir_str;
-  if (reader.get("direction", dir_str)) {
-    dir = string_to_dir(dir_str);
-  } else {
-    if (!Editor::is_active()) {
-      dir = Direction::LEFT;
-    }
-  }
+  if (reader.get("direction", dir_str))
+    m_dir = string_to_dir(dir_str);
+  else if (!Editor::is_active())
+    m_dir = Direction::LEFT;
 
-  reader.get("facing-down", m_facing_down, false);
-  if (!Editor::is_active()) {
-    if (m_facing_down) {
-      dir = Direction::DOWN;
-    }
-  }
+  if (m_dir == Direction::AUTO)
+    log_warning << "Setting an Ispy's direction to AUTO is no good idea." << std::endl;
 
-  if (dir == Direction::AUTO) {
-    log_warning << "Setting an Ispy's direction to AUTO is no good idea" << std::endl;
+  switch (m_dir)
+  {
+    case Direction::DOWN:  m_sprite->set_action("idle-down");  break;
+    case Direction::UP:    m_sprite->set_action("idle-up");    break;
+    case Direction::LEFT:  m_sprite->set_action("idle-left");  break;
+    case Direction::RIGHT: m_sprite->set_action("idle-right"); break;
+    default: break;
   }
-
-  // set initial sprite action
-  m_sprite->set_action((dir == Direction::DOWN) ? "idle-down" : ((dir == Direction::LEFT) ? "idle-left" : "idle-right"));
 }
 
 ObjectSettings
@@ -64,9 +57,8 @@ Ispy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_bool(_("Facing Down"), &m_facing_down, "facing-down", false);
-  result.add_script(_("Script"), &script, "script");
-  result.add_direction(_("Direction"), &dir, Direction::AUTO, "direction");
+  result.add_script(_("Script"), &m_script, "script");
+  result.add_direction(_("Direction"), &m_dir, Direction::AUTO, "direction");
 
   result.reorder({"script", "facing-down", "direction", "x", "y"});
 
@@ -77,7 +69,14 @@ void
 Ispy::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  m_sprite->set_action((dir == Direction::DOWN) ? "idle-down" : ((dir == Direction::LEFT) ? "idle-left" : "idle-right"));
+  switch (m_dir)
+  {
+    case Direction::DOWN:  m_sprite->set_action("idle-down");  break;
+    case Direction::UP:    m_sprite->set_action("idle-up");    break;
+    case Direction::LEFT:  m_sprite->set_action("idle-left");  break;
+    case Direction::RIGHT: m_sprite->set_action("idle-right"); break;
+    default: break;
+  }
 }
 
 HitResponse
@@ -90,37 +89,78 @@ void
 Ispy::update(float dt_sec)
 {
 
-  if (state == ISPYSTATE_IDLE) {
-    // check if a player has been spotted
+  if (m_state == ISPYSTATE_IDLE)
+  {
+    //Check if a player has been spotted
     Vector eye = m_col.m_bbox.get_middle();
-    if (dir == Direction::LEFT) eye = Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_middle().y);
-    else if (dir == Direction::RIGHT) eye = Vector(m_col.m_bbox.get_right(), m_col.m_bbox.get_middle().y);
-    else if (dir == Direction::UP || (dir == Direction::DOWN && m_flip != NO_FLIP)) eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_top());
-    else if (dir == Direction::DOWN) eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_bottom());
 
-    if (Sector::get().can_see_player(eye)) {
-      m_sprite->set_action((dir == Direction::DOWN) ? "alert-down" : ((dir == Direction::LEFT) ? "alert-left" : "alert-right"), 1);
-      state = ISPYSTATE_ALERT;
+    switch (m_dir)
+    {
+      case Direction::DOWN:  eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_bottom());   break;
+      case Direction::UP:    eye = Vector(m_col.m_bbox.get_middle().x, m_col.m_bbox.get_top());      break;
+      case Direction::LEFT:  eye = Vector(m_col.m_bbox.get_left(),     m_col.m_bbox.get_middle().y); break;
+      case Direction::RIGHT: eye = Vector(m_col.m_bbox.get_right(),    m_col.m_bbox.get_middle().y); break;
+      default: break;
+    }
+
+    if (Sector::get().can_see_player(eye))
+    {
+      switch (m_dir)
+      {
+        case Direction::DOWN:  m_sprite->set_action("alert-down",  1); break;
+        case Direction::UP:    m_sprite->set_action("alert-up",    1); break;
+        case Direction::LEFT:  m_sprite->set_action("alert-left",  1); break;
+        case Direction::RIGHT: m_sprite->set_action("alert-right", 1); break;
+        default: break;
+      }
+      m_state = ISPYSTATE_ALERT;
     }
   }
-  if (state == ISPYSTATE_ALERT) {
-    if (m_sprite->animation_done()) {
-      m_sprite->set_action((dir == Direction::DOWN) ? "hiding-down" : ((dir == Direction::LEFT) ? "hiding-left" : "hiding-right"), 1);
-      state = ISPYSTATE_HIDING;
-	  
-	  Sector::get().run_script(script, "Ispy");
+  if (m_state == ISPYSTATE_ALERT)
+  {
+    if (m_sprite->animation_done())
+    {
+      switch (m_dir)
+      {
+        case Direction::DOWN:  m_sprite->set_action("hiding-down",  1); break;
+        case Direction::UP:    m_sprite->set_action("hiding-up",    1); break;
+        case Direction::LEFT:  m_sprite->set_action("hiding-left",  1); break;
+        case Direction::RIGHT: m_sprite->set_action("hiding-right", 1); break;
+        default: break;
+      }
+      m_state = ISPYSTATE_HIDING;
+
+      Sector::get().run_script(m_script, "Ispy");
     }
   }
-  if (state == ISPYSTATE_HIDING) {
-    if (m_sprite->animation_done()) {
-      m_sprite->set_action((dir == Direction::DOWN) ? "showing-down" : ((dir == Direction::LEFT) ? "showing-left" : "showing-right"), 1);
-      state = ISPYSTATE_SHOWING;
+  if (m_state == ISPYSTATE_HIDING)
+  {
+    if (m_sprite->animation_done())
+    {
+      switch (m_dir)
+      {
+        case Direction::DOWN:  m_sprite->set_action("showing-down",  1); break;
+        case Direction::UP:    m_sprite->set_action("showing-up",    1); break;
+        case Direction::LEFT:  m_sprite->set_action("showing-left",  1); break;
+        case Direction::RIGHT: m_sprite->set_action("showing-right", 1); break;
+        default: break;
+      }
+      m_state = ISPYSTATE_SHOWING;
     }
   }
-  if (state == ISPYSTATE_SHOWING) {
-    if (m_sprite->animation_done()) {
-      m_sprite->set_action((dir == Direction::DOWN) ? "idle-down" : ((dir == Direction::LEFT) ? "idle-left" : "idle-right"));
-      state = ISPYSTATE_IDLE;
+  if (m_state == ISPYSTATE_SHOWING)
+  {
+    if (m_sprite->animation_done())
+    {
+      switch (m_dir)
+      {
+        case Direction::DOWN:  m_sprite->set_action("idle-down");  break;
+        case Direction::UP:    m_sprite->set_action("idle-up");    break;
+        case Direction::LEFT:  m_sprite->set_action("idle-left");  break;
+        case Direction::RIGHT: m_sprite->set_action("idle-right"); break;
+        default: break;
+      }
+      m_state = ISPYSTATE_IDLE;
     }
   }
 }
@@ -129,7 +169,15 @@ void
 Ispy::on_flip(float height)
 {
   MovingSprite::on_flip(height);
-  FlipLevelTransformer::transform_flip(m_flip);
+  if (m_dir == Direction::UP)
+  {
+    m_dir = Direction::DOWN;
+    m_sprite->set_action("idle-down");
+  }
+  else if (m_dir == Direction::DOWN) {
+    m_dir = Direction::UP;
+    m_sprite->set_action("idle-up");
+  }
 }
 
 /* EOF */

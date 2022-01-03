@@ -46,10 +46,10 @@ private:
   };
 
 private:
-  IspyState state; /**< current state */
+  IspyState m_state; /**< current state */
 
-  std::string script; /**< script to execute when Tux is spotted */
-  Direction dir;
+  std::string m_script; /**< script to execute when Tux is spotted */
+  Direction m_dir;
   bool m_facing_down;
 
 private:

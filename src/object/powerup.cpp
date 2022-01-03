@@ -172,7 +172,6 @@ PowerUp::update(float dt_sec)
 void
 PowerUp::draw(DrawingContext& context)
 {
-
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   // Stars are brighter
