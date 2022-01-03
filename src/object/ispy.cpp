@@ -28,8 +28,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES + 5, COLGROUP_DISABLED),
   m_state(ISPYSTATE_IDLE),
   m_script(),
-  m_dir(Direction::AUTO),
-  m_facing_down(false)
+  m_dir(Direction::AUTO)
 {
   reader.get("script", m_script);
 
