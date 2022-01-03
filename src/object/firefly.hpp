@@ -39,12 +39,12 @@ public:
   virtual void on_flip(float height) override;
 
 private:
+  void reactivate();
+
+private:
   SpritePtr m_sprite_light;
   bool activated;
   Vector initial_position; /**< position as in level file. This is where Tux will have to respawn, as the level is reset every time */
-
-private:
-  void reactivate();
 };
 
 #endif
