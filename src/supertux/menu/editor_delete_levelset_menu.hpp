@@ -32,7 +32,6 @@ public:
 
 private:
   EditorLevelsetSelectMenu* m_editor_levelset_select_menu;
-  int m_item_id;
 
 private:
   EditorDeleteLevelsetMenu(const EditorDeleteLevelsetMenu&) = delete;
