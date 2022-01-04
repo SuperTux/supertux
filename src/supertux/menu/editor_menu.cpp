@@ -82,7 +82,7 @@ EditorMenu::EditorMenu()
   add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
-  
+
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
               MenuStorage::EDITOR_LEVEL_MENU);
   add_entry(MNID_HELP, _("Keyboard Shortcuts"));
