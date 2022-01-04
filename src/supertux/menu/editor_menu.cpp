@@ -30,6 +30,11 @@
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 EditorMenu::EditorMenu()
 {
   bool worldmap = Editor::current()->get_level()->is_worldmap();
