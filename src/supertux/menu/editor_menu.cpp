@@ -82,6 +82,7 @@ EditorMenu::EditorMenu()
   add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
+  add_entry(MNID_GUIDES, _("Editor Guides"));
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
               MenuStorage::EDITOR_LEVEL_MENU);
@@ -176,6 +177,16 @@ EditorMenu::menu_action(MenuItem& item)
       dialog->add_cancel_button(_("Got it!"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }
+    break;
+      
+  case MNID_GUIDES:
+#ifdef __EMSCRIPTEN__
+      EM_ASM({
+        window.open("https://github.com/SuperTux/supertux/wiki/Level-Editor");
+      }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
+#else
+      FileSystem::open_path("https://github.com/SuperTux/supertux/wiki/Level-Editor");
+#endif
     break;
 
     case MNID_LEVELSEL:
