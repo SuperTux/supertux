@@ -30,6 +30,11 @@
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 EditorMenu::EditorMenu()
 {
   bool worldmap = Editor::current()->get_level()->is_worldmap();
@@ -160,7 +165,13 @@ EditorMenu::menu_action(MenuItem& item)
     case MNID_SHARE:
     {
       Dialog::show_confirmation(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open Level directory\" menu item.\nDo you want to go to the forum now?"), [] {
-        FileSystem::open_path("https://forum.freegamedev.net/viewforum.php?f=69");
+        #ifdef __EMSCRIPTEN__
+          EM_ASM({
+            window.open("https://forum.freegamedev.net/viewforum.php?f=69");
+          }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
+        #else
+          FileSystem::open_path("https://forum.freegamedev.net/viewforum.php?f=69");
+        #endif
       });
     }
     break;
