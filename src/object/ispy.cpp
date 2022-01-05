@@ -1,5 +1,6 @@
 //  SuperTux - Ispy
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//                2022 Jiri Palecek <narre@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -41,14 +42,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   if (m_dir == Direction::AUTO)
     log_warning << "Setting an Ispy's direction to AUTO is no good idea." << std::endl;
 
-  switch (m_dir)
-  {
-    case Direction::DOWN:  m_sprite->set_action("idle-down");  break;
-    case Direction::UP:    m_sprite->set_action("idle-up");    break;
-    case Direction::LEFT:  m_sprite->set_action("idle-left");  break;
-    case Direction::RIGHT: m_sprite->set_action("idle-right"); break;
-    default: break;
-  }
+  set_sprite_action("idle");
 }
 
 ObjectSettings
@@ -68,14 +62,7 @@ void
 Ispy::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  switch (m_dir)
-  {
-    case Direction::DOWN:  m_sprite->set_action("idle-down");  break;
-    case Direction::UP:    m_sprite->set_action("idle-up");    break;
-    case Direction::LEFT:  m_sprite->set_action("idle-left");  break;
-    case Direction::RIGHT: m_sprite->set_action("idle-right"); break;
-    default: break;
-  }
+  set_sprite_action("idle");
 }
 
 HitResponse
@@ -104,14 +91,7 @@ Ispy::update(float dt_sec)
 
     if (Sector::get().can_see_player(eye))
     {
-      switch (m_dir)
-      {
-        case Direction::DOWN:  m_sprite->set_action("alert-down",  1); break;
-        case Direction::UP:    m_sprite->set_action("alert-up",    1); break;
-        case Direction::LEFT:  m_sprite->set_action("alert-left",  1); break;
-        case Direction::RIGHT: m_sprite->set_action("alert-right", 1); break;
-        default: break;
-      }
+      set_sprite_action("alert", 1);
       m_state = ISPYSTATE_ALERT;
     }
   }
@@ -119,14 +99,7 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      switch (m_dir)
-      {
-        case Direction::DOWN:  m_sprite->set_action("hiding-down",  1); break;
-        case Direction::UP:    m_sprite->set_action("hiding-up",    1); break;
-        case Direction::LEFT:  m_sprite->set_action("hiding-left",  1); break;
-        case Direction::RIGHT: m_sprite->set_action("hiding-right", 1); break;
-        default: break;
-      }
+      set_sprite_action("hiding", 1);
       m_state = ISPYSTATE_HIDING;
 
       Sector::get().run_script(m_script, "Ispy");
@@ -136,14 +109,7 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      switch (m_dir)
-      {
-        case Direction::DOWN:  m_sprite->set_action("showing-down",  1); break;
-        case Direction::UP:    m_sprite->set_action("showing-up",    1); break;
-        case Direction::LEFT:  m_sprite->set_action("showing-left",  1); break;
-        case Direction::RIGHT: m_sprite->set_action("showing-right", 1); break;
-        default: break;
-      }
+      set_sprite_action("showing", 1);
       m_state = ISPYSTATE_SHOWING;
     }
   }
@@ -151,16 +117,22 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      switch (m_dir)
-      {
-        case Direction::DOWN:  m_sprite->set_action("idle-down");  break;
-        case Direction::UP:    m_sprite->set_action("idle-up");    break;
-        case Direction::LEFT:  m_sprite->set_action("idle-left");  break;
-        case Direction::RIGHT: m_sprite->set_action("idle-right"); break;
-        default: break;
-      }
+      set_sprite_action("idle");
       m_state = ISPYSTATE_IDLE;
     }
+  }
+}
+
+void
+Ispy::set_sprite_action(std::string action, int loops)
+{
+  switch (m_dir)
+  {
+    case Direction::DOWN:  m_sprite->set_action(action + "-down",  loops); break;
+    case Direction::UP:    m_sprite->set_action(action + "-up",    loops); break;
+    case Direction::LEFT:  m_sprite->set_action(action + "-left",  loops); break;
+    case Direction::RIGHT: m_sprite->set_action(action + "-right", loops); break;
+    default: break;
   }
 }
 

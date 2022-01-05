@@ -83,7 +83,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/squish.wav");
   reader.get("cycle", m_cycle, 5.0f);
   if (reader.get("gravity", m_gravity)) m_physic.enable_gravity(true);
-  if ( !reader.get("badguy", m_badguys)) m_badguys.clear();
+  if (!reader.get("badguy", m_badguys)) m_badguys.clear();
   reader.get("random", m_random, false);
   std::string type_s = "dropper"; //default
   reader.get("type", type_s, "");
@@ -160,7 +160,8 @@ Dispenser::activate()
     return;
 
   if (m_autotarget && !m_swivel)
-  { // auto cannon sprite might be wrong
+  {
+    // auto cannon sprite might be wrong
     auto* player = get_nearest_player();
     if (player)
     {
@@ -206,7 +207,8 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player)
-  { // hit from above?
+  {
+    // hit from above?
     if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16))
     {
       collision_squished(*player);
@@ -237,7 +239,7 @@ Dispenser::active_update(float dt_sec)
     // auto always shoots in Tux's direction
     if (m_autotarget)
     {
-      if ( m_sprite->animation_done())
+      if (m_sprite->animation_done())
       {
         m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
         m_swivel = false;
@@ -247,13 +249,16 @@ Dispenser::active_update(float dt_sec)
       if (player && !m_swivel)
       {
         Direction targetdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
-        if ( m_dir != targetdir )
-        { // no target: swivel cannon
+        if (m_dir != targetdir)
+        {
+          // no target: swivel cannon
           m_swivel = true;
           m_dir = targetdir;
           m_sprite->set_action(m_dir == Direction::LEFT ? "swivel-left" : "swivel-right", 1);
-        } else
-        { // tux in sight: shoot
+        }
+        else
+        {
+          // tux in sight: shoot
           launch_badguy();
         }
       }
@@ -278,10 +283,10 @@ Dispenser::launch_badguy()
   if (!is_offscreen() && !Editor::is_active())
   {
     Direction launchdir = m_dir;
-    if ( !m_autotarget && m_start_dir == Direction::AUTO )
+    if (!m_autotarget && m_start_dir == Direction::AUTO)
     {
       Player* player = get_nearest_player();
-      if ( player )
+      if (player)
         launchdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
     }
 

@@ -1,5 +1,6 @@
 //  SuperTux - Ispy
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//                2022 Jiri Palecek <narre@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -36,6 +37,9 @@ public:
   virtual void after_editor_set() override;
 
   virtual void on_flip(float height) override;
+
+private:
+  void set_sprite_action(std::string action, int loops = -1);
 
 private:
   enum IspyState {
