@@ -124,7 +124,7 @@ Ispy::update(float dt_sec)
 }
 
 void
-Ispy::set_sprite_action(std::string action, int loops)
+Ispy::set_sprite_action(const std::string& action, int loops)
 {
   switch (m_dir)
   {
