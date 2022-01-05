@@ -451,8 +451,10 @@ public:
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override { return "text-area"; }
   virtual void add_to_menu(Menu& menu) const override;
+
 private:
   std::vector<std::string>& m_items;
+
 private:
   StringArrayOption(const StringArrayOption&) = delete;
   StringArrayOption& operator=(const StringArrayOption&) = delete;
