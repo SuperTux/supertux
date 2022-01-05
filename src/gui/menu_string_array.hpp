@@ -27,12 +27,15 @@ public:
   StringArrayMenu(std::vector<std::string>& items);
 
   virtual void menu_action(MenuItem& item) override;
+
+private:
+  void reload();
+
 private:
   std::vector<std::string>& m_array_items;
   std::string m_text;
   int m_selected_item;
 
-  void reload();
 private:
   StringArrayMenu(const StringArrayMenu&) = delete;
   StringArrayMenu& operator=(const StringArrayMenu&) = delete;
