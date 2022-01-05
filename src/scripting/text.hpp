@@ -41,9 +41,6 @@ private:
 #endif
 
 public:
-  Text(const std::string& name);
-
-public:
   void set_text(const std::string& text);
   void set_font(const std::string& fontname);
   void fade_in(float fadetime);
