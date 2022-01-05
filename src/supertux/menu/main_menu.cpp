@@ -127,6 +127,7 @@ MainMenu::menu_action(MenuItem& item)
           FileSystem::open_path("https://www.supertux.org/donate.html");
         #endif
       });
+      break;
 
     case MNID_QUITMAINMENU:
       MenuManager::instance().clear_menu_stack();
