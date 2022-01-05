@@ -26,8 +26,10 @@ public:
   ItemStringArray(const std::string& text, std::vector<std::string>& items, int id = -1);
 
   virtual void process_action(const MenuAction& action) override;
+
 private:
   std::vector<std::string>& m_items;
+
 private:
   ItemStringArray(const ItemStringArray&) = delete;
   ItemStringArray& operator=(const ItemStringArray&) = delete;
