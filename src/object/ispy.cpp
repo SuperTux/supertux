@@ -145,7 +145,8 @@ Ispy::on_flip(float height)
     m_dir = Direction::DOWN;
     m_sprite->set_action("idle-down");
   }
-  else if (m_dir == Direction::DOWN) {
+  else if (m_dir == Direction::DOWN)
+  {
     m_dir = Direction::UP;
     m_sprite->set_action("idle-up");
   }
