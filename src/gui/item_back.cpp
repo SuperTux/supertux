@@ -36,7 +36,7 @@ ItemBack::draw(DrawingContext& context, const Vector& pos, int menu_width, bool 
   context.color().draw_text(Resources::normal_font, get_text(),
                             Vector( pos.x + static_cast<float>(menu_width) / 2.0f,
                                     pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
-                            ALIGN_CENTER, LAYER_GUI, active ? Color(g_config->activetextcolor) : get_color());
+                            ALIGN_CENTER, LAYER_GUI, active ? g_config->activetextcolor : get_color());
   context.color().draw_surface(Resources::back,
                                Vector(pos.x + static_cast<float>(menu_width) / 2.0f + text_width / 2.0f  + 16.0f,
                                       pos.y - 8.0f),

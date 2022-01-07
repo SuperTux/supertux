@@ -45,7 +45,7 @@ ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, boo
 {
   context.color().draw_text(Resources::normal_font, get_text(),
                             Vector(pos.x + 16, pos.y - (Resources::normal_font->get_height()/2)),
-                            ALIGN_LEFT, LAYER_GUI, active ? Color(g_config->activetextcolor) : get_color());
+                            ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
 
   if (m_get_func()) {
     context.color().draw_surface(Resources::checkbox_checked,

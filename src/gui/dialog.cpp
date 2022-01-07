@@ -220,7 +220,7 @@ Dialog::draw(DrawingContext& context)
   // draw HL line
   context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
                                          Sizef(bg_rect.get_width(), 4)),
-                                   Color(g_config->hlcolor), LAYER_GUI);
+                                   g_config->hlcolor, LAYER_GUI);
   context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
                                          Sizef(bg_rect.get_width(), 2)),
                                    Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
@@ -252,7 +252,7 @@ Dialog::draw(DrawingContext& context)
     context.color().draw_text(Resources::normal_font, m_buttons[i].text,
                               Vector(pos.x, pos.y - static_cast<float>(int(Resources::normal_font->get_height() / 2))),
                               ALIGN_CENTER, LAYER_GUI,
-                              i == m_selected_button ? Color(g_config->activetextcolor) : ColorScheme::Menu::default_color);
+                              i == m_selected_button ? g_config->activetextcolor : ColorScheme::Menu::default_color);
   }
 }
 

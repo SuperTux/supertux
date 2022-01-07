@@ -68,7 +68,7 @@ Tip::draw(DrawingContext& context, const Vector& pos)
   auto position = pos;
   position.y += 35;
   context.color().draw_text(Resources::normal_font, m_header, position,
-                              ALIGN_LEFT, LAYER_GUI-11, Color(g_config->labeltextcolor));
+                              ALIGN_LEFT, LAYER_GUI-11, g_config->labeltextcolor);
 
   for (const auto& str : m_strings) {
     position.y += 22;

@@ -65,7 +65,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 
   context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)),
                                          Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
-                                     Color(g_config->editorcolor),
+                                     g_config->editorcolor,
                                      0.0f,
                                      LAYER_GUI-10);
 
@@ -98,7 +98,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 
   if (draw_rect)
   {
-    context.color().draw_filled_rect(target_rect, Color(g_config->editorhovercolor), 0.0f,
+    context.color().draw_filled_rect(target_rect, g_config->editorhovercolor, 0.0f,
                                        LAYER_GUI-5);
   }
 

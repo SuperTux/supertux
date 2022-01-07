@@ -37,7 +37,7 @@ ItemLabel::draw(DrawingContext& context, const Vector& pos, int menu_width, bool
 
 Color
 ItemLabel::get_color() const {
-  return Color(g_config->labeltextcolor);
+  return g_config->labeltextcolor;
 }
 
 int

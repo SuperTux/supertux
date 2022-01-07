@@ -43,7 +43,7 @@ ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, 
   context.color().draw_text(Resources::normal_font, get_text(),
                             Vector(pos.x + 16.0f,
                                    pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.0f),
-                            ALIGN_LEFT, LAYER_GUI, active ? Color(g_config->activetextcolor) : get_color());
+                            ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
 }
 
 int
