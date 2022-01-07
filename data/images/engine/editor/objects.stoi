@@ -77,7 +77,7 @@
     (icon "images/creatures/stalactite/falling.png"))
   (object
     (class "willowisp")
-    (icon "images/creatures/willowisp/idle-0.png"))
+    (icon "images/creatures/willowisp/editor.png"))
   (object
     (class "flame")
     (icon "images/creatures/flame/flame-0.png"))
