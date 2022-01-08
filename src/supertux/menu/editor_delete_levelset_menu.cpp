@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/menu/editor_delete_levelset_menu.hpp"
-
+#include <boost/format.hpp>
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "physfs/util.hpp"
@@ -76,7 +76,8 @@ EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
       Dialog::show_message(_("You cannot delete the world that you are editing"));
     else
     {
-      Dialog::show_confirmation(_("Are you sure?"), [this, id, &contrib_worlds]()
+      const std::string& world_name = get_item_by_id(id).get_text();
+      Dialog::show_confirmation(str(boost::format(_("You are about to delete world \"%s\". Are you sure?")) % world_name), [this, id, &contrib_worlds]()
       {
         physfsutil::remove_with_content(contrib_worlds[id]);
         m_editor_levelset_select_menu->reload_menu();
