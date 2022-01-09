@@ -25,7 +25,8 @@
 #include "util/log.hpp"
 
 EditorDeleteLevelsetMenu::EditorDeleteLevelsetMenu(EditorLevelsetSelectMenu* editor_levelset_select_menu) :
-  m_editor_levelset_select_menu(editor_levelset_select_menu)
+  m_editor_levelset_select_menu(editor_levelset_select_menu),
+  m_world_names()
 {
   refresh();
 }
@@ -57,6 +58,7 @@ EditorDeleteLevelsetMenu::refresh()
     {
       continue;
     }
+    m_world_names.push_back(title);
     add_entry(i++, title);
   }
 
@@ -76,8 +78,7 @@ EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
       Dialog::show_message(_("You cannot delete the world that you are editing"));
     else
     {
-      const std::string& world_name = get_item_by_id(id).get_text();
-      Dialog::show_confirmation(str(boost::format(_("You are about to delete world \"%s\". Are you sure?")) % world_name), [this, id, &contrib_worlds]()
+      Dialog::show_confirmation(str(boost::format(_("You are about to delete world \"%s\". Are you sure?")) % m_world_names[id]), [this, id, &contrib_worlds]()
       {
         physfsutil::remove_with_content(contrib_worlds[id]);
         m_editor_levelset_select_menu->reload_menu();

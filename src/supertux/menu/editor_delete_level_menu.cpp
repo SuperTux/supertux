@@ -28,6 +28,7 @@
 #include "gui/dialog.hpp"
 EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu) : 
   m_level_full_paths(),
+  m_level_names(),
   m_level_select_menu(level_select_menu),
   m_levelset_select_menu(levelset_select_menu)
 {
@@ -38,7 +39,9 @@ EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset
     std::string filename = levelset->get_level_filename(i);
     std::string fullpath = FileSystem::join(Editor::current()->get_world()->get_basedir(),filename);
     m_level_full_paths.push_back(fullpath);
-    add_entry(i, LevelParser::get_level_name(fullpath));
+    const std::string& level_name = LevelParser::get_level_name(fullpath);
+    m_level_names.push_back(level_name);
+    add_entry(i, level_name);
   }
   add_hl();
   add_back(_("Back"));
@@ -54,8 +57,7 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
       Dialog::show_message(_("You cannot delete level that you are editing!"));
     else
     {
-      const std::string& level_name = get_item_by_id(id).get_text();
-      Dialog::show_confirmation(str(boost::format(_("You are about to delete level \"%s\". Are you sure?")) % level_name), [this, id]()
+      Dialog::show_confirmation(str(boost::format(_("You are about to delete level \"%s\". Are you sure?")) % m_level_names[id]), [this, id]()
       {
         PHYSFS_delete(m_level_full_paths[id].c_str());
         delete_item(id + 2);

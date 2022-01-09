@@ -32,6 +32,7 @@ public:
 
 private:
   EditorLevelsetSelectMenu* m_editor_levelset_select_menu;
+  std::vector<std::string> m_world_names;
 
 private:
   EditorDeleteLevelsetMenu(const EditorDeleteLevelsetMenu&) = delete;
