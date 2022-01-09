@@ -104,6 +104,10 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
     size = g_config->window_size;
   }
 
+  SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight LandscapeLeft");
+  SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+  SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
+
   m_sdl_window.reset(SDL_CreateWindow("SuperTux",
                                       SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                       size.width, size.height,

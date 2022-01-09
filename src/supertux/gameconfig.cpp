@@ -44,7 +44,11 @@ Config::Config() :
   fit_window(true),
 #endif
   magnification(0.0f),
+#ifdef __ANDROID__
+  use_fullscreen(true),
+#else
   use_fullscreen(false),
+#endif
   video(VideoSystem::VIDEO_AUTO),
   try_vsync(true),
   show_fps(false),
