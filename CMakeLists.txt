@@ -443,7 +443,9 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
 endif(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
 include("${CMAKE_SOURCE_DIR}/version.cmake")
 
-
+if(STEAM_BUILD)
+  set(SUPERTUX_VERSION_STRING "v${SUPERTUX_VERSION_MAJOR}.${SUPERTUX_VERSION_MINOR}.${SUPERTUX_VERSION_PATCH}-steam")
+endif(STEAM_BUILD)
 set(SUPERTUX_VERSION ${SUPERTUX_VERSION_STRING})
 
 configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h )
@@ -1177,7 +1179,7 @@ install(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INS
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 ## Configure main menu logo
-if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE)
+if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
   set(LOGO_FILE "logo_final.sprite")
 else()
   set(LOGO_FILE "logo.sprite")
