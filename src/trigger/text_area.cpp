@@ -25,6 +25,11 @@
 #include "video/drawing_context.hpp"
 #include "video/layer.hpp"
 
+namespace
+{
+std::string anchor_points[] = { "middle", "topleft", "top", "topright", "left", "right", "bottomleft", "bottom", "bottomright" };
+}
+
 TextArea::TextArea(const ReaderMapping& mapping) :
   TriggerBase(mapping),
   m_once(false),
@@ -33,7 +38,8 @@ TextArea::TextArea(const ReaderMapping& mapping) :
   m_fade_delay(1.0f),
   m_current_text(0),
   m_status(Status::NOT_STARTED),
-  m_timer()
+  m_timer(),
+  m_anchor(0)
 {
   float w, h;
 
@@ -45,6 +51,7 @@ TextArea::TextArea(const ReaderMapping& mapping) :
   mapping.get("delay", m_delay);
   mapping.get("once", m_once);
   mapping.get("fade-delay", m_fade_delay);
+  mapping.get("anchor-point", m_anchor, 0);
 
   m_col.m_bbox.set_size(w, h);
 }
@@ -56,7 +63,8 @@ TextArea::TextArea(const Vector& pos) :
   m_fade_delay(1.0f),
   m_current_text(0),
   m_status(Status::NOT_STARTED),
-  m_timer()
+  m_timer(),
+  m_anchor(0)
 {
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(32, 32);
@@ -88,6 +96,7 @@ TextArea::event(Player& player, EventType type)
         m_current_text = 0;
         m_status = Status::FADING_IN;
         m_timer.start(m_fade_delay);
+        text_object.set_anchor_point(string_to_anchor_point(anchor_points[m_anchor]));
         text_object.set_text(m_items[m_current_text]);
         text_object.fade_in(m_fade_delay);
       }
@@ -130,6 +139,7 @@ TextArea::update(float dt_sec)
         {
           m_status = Status::FADING_IN;
           m_timer.start(m_fade_delay);
+          text_object.set_anchor_point(string_to_anchor_point(anchor_points[m_anchor]));
           text_object.set_text(m_items[m_current_text]);
           text_object.fade_in(m_fade_delay);
         }
@@ -149,6 +159,8 @@ TextArea::get_settings()
   settings.add_bool(_("Once"), &m_once, "once");
   settings.add_float(_("Text change time"), &m_delay, "delay");
   settings.add_float(_("Fade time"), &m_fade_delay, "fade-delay");
+  settings.add_string_select(_("Anchor"), &m_anchor,
+    { _("Middle"), _("Top-left"), _("Top"), _("Top-right"), _("Left"), _("Right"), _("Bottom-left"), _("Bottom"), _("Bottom-right") }, 0, "anchor-point");
   settings.add_string_array(_("Texts"), "texts", m_items);
 
   return settings;
