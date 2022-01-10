@@ -25,7 +25,7 @@ class Player;
 /** This class is the base class for icecrushers that tux can stand on */
 class IceCrusher final : public MovingSprite
 {
-private:
+public:
   enum IceCrusherState {
     IDLE,
     CRUSHING,
@@ -36,6 +36,7 @@ private:
 	  RECOVERING_LEFT
   };
 
+private:
   enum IceCrusherSize {
     NORMAL,
     LARGE
@@ -57,6 +58,7 @@ public:
   virtual ObjectSettings get_settings() override;
 
   bool is_big() const { return ic_size == LARGE; }
+  IceCrusherState get_state() const { return state; }
 
 private:
   bool found_victim_down() const;
