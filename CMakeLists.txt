@@ -152,10 +152,13 @@ endif(WIN32)
 option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
 
 # Mobile builds
+option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" ON)
 if (UBUNTU_TOUCH)
-  option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" ON)
+  option(SHOW_TOUCHSCREEN_CONTROLS "Show mobile controls by default" ON)
+  option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" ON)
 else()
-  option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" OFF)
+  option(SHOW_TOUCHSCREEN_CONTROLS "Show mobile controls by default" OFF)
+  option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
 ## Add lots of dependencies to compiler switches

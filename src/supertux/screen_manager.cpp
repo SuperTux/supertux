@@ -338,11 +338,13 @@ ScreenManager::process_events()
     {
       case SDL_FINGERDOWN:
       {
+        SDL_Event old_event = event;
+
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONDOWN;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
 
         event.type = SDL_MOUSEMOTION;
@@ -354,11 +356,13 @@ ScreenManager::process_events()
 
       case SDL_FINGERUP:
       {
+        SDL_Event old_event = event;
+
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONUP;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
 
         event.type = SDL_MOUSEMOTION;
@@ -369,11 +373,13 @@ ScreenManager::process_events()
       }
 
       case SDL_FINGERMOTION:
+        SDL_Event old_event = event;
+
         event.type = SDL_MOUSEMOTION;
-        event.motion.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event.motion.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
-        event.motion.xrel = Sint32(event.tfinger.dx * float(m_video_system.get_window_size().width));
-        event.motion.yrel = Sint32(event.tfinger.dy * float(m_video_system.get_window_size().height));
+        event.motion.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event.motion.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
+        event.motion.xrel = Sint32(old_event.tfinger.dx * float(m_video_system.get_window_size().width));
+        event.motion.yrel = Sint32(old_event.tfinger.dy * float(m_video_system.get_window_size().height));
         MouseCursor::current()->set_pos(event.motion.x, event.motion.y);
         break;
     }
