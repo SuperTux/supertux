@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/menu/editor_delete_levelset_menu.hpp"
-
+#include <boost/format.hpp>
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "physfs/util.hpp"
@@ -25,7 +25,8 @@
 #include "util/log.hpp"
 
 EditorDeleteLevelsetMenu::EditorDeleteLevelsetMenu(EditorLevelsetSelectMenu* editor_levelset_select_menu) :
-  m_editor_levelset_select_menu(editor_levelset_select_menu)
+  m_editor_levelset_select_menu(editor_levelset_select_menu),
+  m_world_names()
 {
   refresh();
 }
@@ -57,6 +58,7 @@ EditorDeleteLevelsetMenu::refresh()
     {
       continue;
     }
+    m_world_names.push_back(title);
     add_entry(i++, title);
   }
 
@@ -69,17 +71,19 @@ void
 EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
 {
   int id = item.get_id();
-
+  const auto& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
   if (id >= 0)
   {
-    std::vector<std::string>& contrib_worlds = m_editor_levelset_select_menu->get_contrib_worlds();
     if (Editor::is_active() && Editor::current()->get_world() && Editor::current()->get_world()->get_basedir() == contrib_worlds[id])
       Dialog::show_message(_("You cannot delete the world that you are editing"));
     else
     {
-      physfsutil::remove_with_content(contrib_worlds[id]);
-      m_editor_levelset_select_menu->reload_menu();
-      refresh();
+      Dialog::show_confirmation(str(boost::format(_("You are about to delete world \"%s\". Are you sure?")) % m_world_names[id]), [this, id, &contrib_worlds]()
+      {
+        physfsutil::remove_with_content(contrib_worlds[id]);
+        m_editor_levelset_select_menu->reload_menu();
+        refresh();
+      });
     }
   }
 }
