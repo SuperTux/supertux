@@ -25,6 +25,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -76,8 +78,14 @@ Config::Config() :
   hide_editor_levelnames(false),
   menubackcolor(ColorScheme::Menu::back_color),
   menufrontcolor(ColorScheme::Menu::front_color),
+  menuhelpbackcolor(ColorScheme::Menu::help_back_color),
+  menuhelpfrontcolor(ColorScheme::Menu::help_front_color),
+  labeltextcolor(ColorScheme::Menu::label_color),
+  activetextcolor(ColorScheme::Menu::active_color),
   hlcolor(ColorScheme::Menu::hl_color),
   editorcolor(ColorScheme::Editor::default_color),
+  editorhovercolor(ColorScheme::Editor::hover_color),
+  editorgrabcolor(ColorScheme::Editor::grab_color),
   menuroundness(16.f),
   editor_selected_snap_grid_size(3),
   editor_render_grid(true),
@@ -126,36 +134,36 @@ Config::load()
 #endif
   }
 
-  //menu colors
-  float menubackcolor_r, menubackcolor_g, menubackcolor_b, menubackcolor_a;
-  config_mapping.get("menubackcolor_r", menubackcolor_r, 0.2f);
-  config_mapping.get("menubackcolor_g", menubackcolor_g, 0.3f);
-  config_mapping.get("menubackcolor_b", menubackcolor_b, 0.4f);
-  config_mapping.get("menubackcolor_a", menubackcolor_a, 0.8f);
-  menubackcolor = Color(menubackcolor_r, menubackcolor_g, menubackcolor_b, menubackcolor_a);
+  // menu colors
 
-  float menufrontcolor_r, menufrontcolor_g, menufrontcolor_b, menufrontcolor_a;
-  config_mapping.get("menufrontcolor_r", menufrontcolor_r, 0.6f);
-  config_mapping.get("menufrontcolor_g", menufrontcolor_g, 0.7f);
-  config_mapping.get("menufrontcolor_b", menufrontcolor_b, 0.8f);
-  config_mapping.get("menufrontcolor_a", menufrontcolor_a, 0.5f);
-  menufrontcolor = Color(menufrontcolor_r, menufrontcolor_g, menufrontcolor_b, menufrontcolor_a);
+  std::vector<float> menubackcolor_, menufrontcolor_, menuhelpbackcolor_, menuhelpfrontcolor_,
+    labeltextcolor_, activetextcolor_, hlcolor_, editorcolor_, editorhovercolor_, editorgrabcolor_;
 
-  float hlcolor_r, hlcolor_g, hlcolor_b, hlcolor_a;
-  config_mapping.get("hlcolor_r", hlcolor_r, 0.6f);
-  config_mapping.get("hlcolor_g", hlcolor_g, 0.7f);
-  config_mapping.get("hlcolor_b", hlcolor_b, 1.f);
-  config_mapping.get("hlcolor_a", hlcolor_a, 1.f);
-  hlcolor = Color(hlcolor_r, hlcolor_g, hlcolor_b, hlcolor_a);
-
-  float editorcolor_r, editorcolor_g, editorcolor_b, editorcolor_a;
-  config_mapping.get("editorcolor_r", editorcolor_r, 0.9f);
-  config_mapping.get("editorcolor_g", editorcolor_g, 0.9f);
-  config_mapping.get("editorcolor_b", editorcolor_b, 1.f);
-  config_mapping.get("editorcolor_a", editorcolor_a, 0.6f);
-  editorcolor = Color(editorcolor_r, editorcolor_g, editorcolor_b, editorcolor_a);
-
-  config_mapping.get("menuroundness", menuroundness, 16.f);
+  boost::optional<ReaderMapping> interface_colors_mapping;
+  if (config_mapping.get("interface_colors", interface_colors_mapping))
+  {
+    interface_colors_mapping->get("menubackcolor", menubackcolor_, ColorScheme::Menu::back_color.toVector());
+    interface_colors_mapping->get("menufrontcolor", menufrontcolor_, ColorScheme::Menu::front_color.toVector());
+    interface_colors_mapping->get("menuhelpbackcolor", menuhelpbackcolor_, ColorScheme::Menu::help_back_color.toVector());
+    interface_colors_mapping->get("menuhelpfrontcolor", menuhelpfrontcolor_, ColorScheme::Menu::help_back_color.toVector());
+    interface_colors_mapping->get("labeltextcolor", labeltextcolor_, ColorScheme::Menu::label_color.toVector());
+    interface_colors_mapping->get("activetextkcolor", activetextcolor_, ColorScheme::Menu::active_color.toVector());
+    interface_colors_mapping->get("hlcolor", hlcolor_, ColorScheme::Menu::hl_color.toVector());
+    interface_colors_mapping->get("editorcolor", editorcolor_, ColorScheme::Editor::default_color.toVector());
+    interface_colors_mapping->get("editorhovercolor", editorhovercolor_, ColorScheme::Editor::hover_color.toVector());
+    interface_colors_mapping->get("editorgrabcolor", editorgrabcolor_, ColorScheme::Editor::grab_color.toVector());
+    menubackcolor = Color(menubackcolor_);
+    menufrontcolor = Color(menufrontcolor_);
+    menuhelpbackcolor = Color(menuhelpbackcolor_);
+    menuhelpfrontcolor = Color(menuhelpfrontcolor_);
+    labeltextcolor = Color(labeltextcolor_);
+    activetextcolor = Color(activetextcolor_);
+    hlcolor = Color(hlcolor_);
+    editorcolor = Color(editorcolor_);
+    editorhovercolor = Color(editorhovercolor_);
+    editorgrabcolor = Color(editorgrabcolor_);
+    interface_colors_mapping->get("menuroundness", menuroundness, 16.f);
+  }
 
   // Compatibility; will be overwritten by the "editor" category
   
@@ -301,24 +309,6 @@ Config::save()
   }
   writer.end_list("integrations");
 
-  writer.write("menubackcolor_r", menubackcolor.red);
-  writer.write("menubackcolor_g", menubackcolor.green);
-  writer.write("menubackcolor_b", menubackcolor.blue);
-  writer.write("menubackcolor_a", menubackcolor.alpha);
-  writer.write("menufrontcolor_r", menufrontcolor.red);
-  writer.write("menufrontcolor_g", menufrontcolor.green);
-  writer.write("menufrontcolor_b", menufrontcolor.blue);
-  writer.write("menufrontcolor_a", menufrontcolor.alpha);
-  writer.write("hlcolor_r", hlcolor.red);
-  writer.write("hlcolor_g", hlcolor.green);
-  writer.write("hlcolor_b", hlcolor.blue);
-  writer.write("hlcolor_a", hlcolor.alpha);
-  writer.write("editorcolor_r", editorcolor.red);
-  writer.write("editorcolor_g", editorcolor.green);
-  writer.write("editorcolor_b", editorcolor.blue);
-  writer.write("editorcolor_a", editorcolor.alpha);
-  writer.write("menuroundness", menuroundness);
-
   writer.write("editor_autosave_frequency", editor_autosave_frequency);
 
   if (is_christmas()) {
@@ -327,6 +317,20 @@ Config::save()
   writer.write("transitions_enabled", transitions_enabled);
   writer.write("locale", locale);
   writer.write("repository_url", repository_url);
+
+  writer.start_list("interface_colors");
+  writer.write("menubackcolor", menubackcolor.toVector());
+  writer.write("menufrontcolor", menufrontcolor.toVector());
+  writer.write("menuhelpbackcolor", menuhelpbackcolor.toVector());
+  writer.write("menuhelpfrontcolor", menuhelpfrontcolor.toVector());
+  writer.write("labeltextcolor", labeltextcolor.toVector());
+  writer.write("activetextcolor", activetextcolor.toVector());
+  writer.write("hlcolor", hlcolor.toVector());
+  writer.write("editorcolor", editorcolor.toVector());
+  writer.write("editorhovercolor", editorhovercolor.toVector());
+  writer.write("editorgrabcolor", editorgrabcolor.toVector());
+  writer.write("menuroundness", menuroundness);
+  writer.end_list("interface_colors");
 
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);
