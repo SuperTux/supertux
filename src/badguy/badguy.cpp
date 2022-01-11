@@ -173,8 +173,9 @@ BadGuy::update(float dt_sec)
       return;
     }
   }
-  if ((m_state != STATE_INACTIVE) && is_offscreen()) {
-    if (m_state == STATE_ACTIVE) deactivate();
+
+  if (m_is_active_flag && is_offscreen()) {
+    deactivate();
     set_state(STATE_INACTIVE);
   }
 
