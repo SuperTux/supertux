@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "boost/format.hpp"
+
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
