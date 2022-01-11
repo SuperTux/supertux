@@ -26,6 +26,7 @@
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/video_system.hpp"
@@ -204,6 +205,13 @@ HitResponse
 MagicBlock::collision(GameObject& /*other*/, const CollisionHit& /*hit*/)
 {
   return FORCE_MOVE;
+}
+
+void
+MagicBlock::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

@@ -36,6 +36,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  virtual void on_flip(float height) override;
+
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 

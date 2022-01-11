@@ -33,6 +33,8 @@ public:
   virtual std::string get_display_name() const override { return _("Rublight"); }
   virtual ObjectSettings get_settings() override;
 
+  virtual void on_flip(float height) override;
+
 private:
   enum State {
     STATE_DARK,

@@ -181,4 +181,12 @@ Platform::move_to(const Vector& pos)
   set_pos(pos);
 }
 
+void
+Platform::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  PathObject::on_flip();
+  FlipLevelTransformer::transform_flip(m_flip);
+}
+
 /* EOF */

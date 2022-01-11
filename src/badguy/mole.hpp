@@ -38,6 +38,8 @@ public:
   virtual std::string get_class() const override { return "mole"; }
   virtual std::string get_display_name() const override { return _("Mole"); }
 
+  virtual void on_flip(float height) override;
+
 private:
   enum MoleState {
     PRE_THROWING,

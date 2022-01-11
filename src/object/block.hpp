@@ -20,6 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
+#include "video/flip.hpp"
 
 class Player;
 class ReaderMapping;
@@ -61,6 +62,9 @@ protected:
   float m_bounce_dir;
   float m_bounce_offset;
   float m_original_y;
+
+private:
+  Flip m_flip;
 
 private:
   Block(const Block&) = delete;

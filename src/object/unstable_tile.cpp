@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
 static const float RESPAWN_TIME = 5.f;
@@ -239,6 +240,7 @@ UnstableTile::on_flip(float height)
 {
   MovingObject::on_flip(height);
   m_original_pos.y = height - m_original_pos.y - get_bbox().get_height();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

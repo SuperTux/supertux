@@ -34,6 +34,8 @@ public:
   virtual std::string get_class() const override { return "bumper"; }
   virtual std::string get_display_name() const override { return _("Bumper"); }
 
+  virtual void on_flip(float height) override;
+
   Physic physic;
 
 private:

@@ -37,6 +37,8 @@ public:
   
   virtual std::string get_class() const override { return "fallblock"; }
   virtual std::string get_display_name() const override { return _("Falling Platform"); }
+
+  virtual void on_flip(float height) override;
   
 protected:
   enum State
@@ -54,7 +56,7 @@ private:
   Timer timer;
   
   bool found_victim_down() const;
-  
+
 private:
   FallBlock(const FallBlock&) = delete;
   FallBlock& operator=(const FallBlock&) = delete;

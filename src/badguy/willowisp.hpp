@@ -58,6 +58,8 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
 
+  virtual void on_flip(float height) override;
+
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
   {
     ExposedObject<WillOWisp, scripting::WillOWisp>::expose(vm, table_idx);

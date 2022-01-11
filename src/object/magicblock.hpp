@@ -43,6 +43,8 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual void on_flip(float height) override;
+
 private:
   bool m_is_solid;
   float m_trigger_red;

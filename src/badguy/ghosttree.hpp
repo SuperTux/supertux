@@ -41,6 +41,8 @@ public:
   virtual std::string get_class() const override { return "ghosttree"; }
   virtual std::string get_display_name() const override { return _("Ghost Tree"); }
 
+  virtual void on_flip(float height) override;
+
   void willowisp_died(TreeWillOWisp* willowisp);
   void die();
 
