@@ -24,31 +24,6 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-TextObject::TextObject(const ReaderMapping& reader) :
-  GameObject(reader),
-  ExposedObject<TextObject, scripting::Text>(this),
-  m_font(Resources::normal_font),
-  m_text(),
-  m_wrapped_text(),
-  m_fade_progress(0),
-  m_fadetime(0),
-  m_visible(false),
-  m_centered(false),
-  m_anchor(ANCHOR_MIDDLE),
-  m_pos(0, 0),
-  m_front_fill_color(0.6f, 0.7f, 0.8f, 0.5f),
-  m_back_fill_color(0.2f, 0.3f, 0.4f, 0.8f),
-  m_text_color(1.f, 1.f, 1.f, 1.f),
-  m_roundness(16.f),
-  m_growing_in(),
-  m_growing_out(),
-  m_fading_in(),
-  m_fading_out(),
-  m_grower(),
-  m_fader()
-{
-}
-
 TextObject::TextObject(const std::string& name) :
   GameObject(name),
   ExposedObject<TextObject, scripting::Text>(this),
@@ -78,29 +53,17 @@ TextObject::~TextObject()
 {
 }
 
-ObjectSettings
-TextObject::get_settings()
-{
-  ObjectSettings result = GameObject::get_settings();
-
-  result.reorder({ "name" });
-
-  result.add_remove();
-
-  return result;
-}
-
 void
-TextObject::set_font(const std::string& name_)
+TextObject::set_font(const std::string& name)
 {
-  if (name_ == "normal") {
+  if (name == "normal") {
     m_font = Resources::normal_font;
-  } else if (name_ == "big") {
+  } else if (name == "big") {
     m_font = Resources::big_font;
-  } else if (name_ == "small") {
+  } else if (name == "small") {
     m_font = Resources::small_font;
   } else {
-    log_warning << "Unknown font '" << name_ << "'." << std::endl;
+    log_warning << "Unknown font '" << name << "'." << std::endl;
     m_font = Resources::normal_font;
   }
 
@@ -139,16 +102,16 @@ TextObject::wrap_text()
 }
 
 void
-TextObject::set_text(const std::string& text_)
+TextObject::set_text(const std::string& text)
 {
-  m_text = text_;
+  m_text = text;
   wrap_text();
 }
 
 void
-TextObject::grow_in(float fadetime_)
+TextObject::grow_in(float fadetime)
 {
-  m_fadetime = fadetime_;
+  m_fadetime = fadetime;
   m_visible = true;
   m_fade_progress = 0;
   m_growing_in = true;
@@ -156,17 +119,17 @@ TextObject::grow_in(float fadetime_)
 }
 
 void
-TextObject::grow_out(float fadetime_)
+TextObject::grow_out(float fadetime)
 {
-  m_fadetime = fadetime_;
+  m_fadetime = fadetime;
   m_fade_progress = 1;
   m_growing_out = true;
 }
 
 void
-TextObject::fade_in(float fadetime_)
+TextObject::fade_in(float fadetime)
 {
-  m_fadetime = fadetime_;
+  m_fadetime = fadetime;
   m_visible = true;
   m_fade_progress = 0;
   m_fading_in = true;
@@ -174,48 +137,48 @@ TextObject::fade_in(float fadetime_)
 }
 
 void
-TextObject::fade_out(float fadetime_)
+TextObject::fade_out(float fadetime)
 {
-  m_fadetime = fadetime_;
+  m_fadetime = fadetime;
   m_fade_progress = 1;
   m_fading_out = true;
 }
 
 void
-TextObject::set_visible(bool visible_)
+TextObject::set_visible(bool visible)
 {
-  m_visible = visible_;
+  m_visible = visible;
   m_fade_progress = 1;
 }
 
 void
-TextObject::set_centered(bool centered_)
+TextObject::set_centered(bool centered)
 {
-  m_centered = centered_;
+  m_centered = centered;
 }
 
 void
-TextObject::set_front_fill_color(Color frontfill_)
+TextObject::set_front_fill_color(Color frontfill)
 {
-  m_front_fill_color = frontfill_;
+  m_front_fill_color = frontfill;
 }
 
 void
-TextObject::set_back_fill_color(Color backfill_)
+TextObject::set_back_fill_color(Color backfill)
 {
-  m_back_fill_color = backfill_;
+  m_back_fill_color = backfill;
 }
 
 void
-TextObject::set_text_color(Color textcolor_)
+TextObject::set_text_color(Color textcolor)
 {
-  m_text_color = textcolor_;
+  m_text_color = textcolor;
 }
 
 void
-TextObject::set_roundness(float roundness_)
+TextObject::set_roundness(float roundness)
 {
-  m_roundness = roundness_;
+  m_roundness = roundness;
 }
 
 void

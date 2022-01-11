@@ -254,7 +254,6 @@ GameObjectFactory::init_factories()
   add_factory<SkullTile>("skull_tile");
   add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
-  add_factory<TextObject>("textobject");
   add_factory<TextScroller>("textscroller");
   add_factory<TextArrayObject>("text-array");
   add_factory<Thunderstorm>("thunderstorm");

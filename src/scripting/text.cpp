@@ -22,11 +22,6 @@
 
 namespace scripting {
 
-Text::Text(const std::string& name) :
-  GameObject(get_game_object_manager().add<::TextObject>(name).get_uid())
-{
-}
-
 void
 Text::set_text(const std::string& text)
 {

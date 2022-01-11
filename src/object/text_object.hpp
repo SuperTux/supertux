@@ -42,11 +42,13 @@ public:
   virtual std::string get_class() const override { return "textobject"; }
   virtual std::string get_display_name() const override { return _("Text"); }
 
-  virtual ObjectSettings get_settings() override;
   virtual const std::string get_icon_path() const override { return "images/engine/editor/textarray.png"; }
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
+  virtual bool is_singleton() const override { return true; }
+  virtual bool is_saveable() const override { return false; }
+
 
   void set_text(const std::string& text);
   void set_font(const std::string& name);
