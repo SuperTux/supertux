@@ -34,6 +34,8 @@
 #include <emscripten/html5.h>
 #endif
 
+#include <SDL.h>
+
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
@@ -226,7 +228,9 @@ bool remove(const std::string& path)
 
 void open_path(const std::string& path)
 {
-#if defined(_WIN32) || defined (_WIN64)
+#if SDL_VERSION_ATLEAST(2,0,14)
+  SDL_OpenURL(path.c_str());
+#elif defined(_WIN32) || defined (_WIN64)
   ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__EMSCRIPTEN__)
   emscripten_run_script(("window.supertux_download('" + path + "');").c_str());
