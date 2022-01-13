@@ -222,6 +222,10 @@ private:
   typedef std::vector<uint32_t> Tiles;
   Tiles m_tiles;
 
+  typedef std::vector<unsigned char> TilesDrawRects;
+  TilesDrawRects m_tiles_draw_rects; /**< Tiles draw cache, with adjacent tiles merged into big rectangles */
+  bool m_draw_rects_update;
+
   /* read solid: In *general*, is this a solid layer? effective solid:
      is the layer *currently* solid? A generally solid layer may be
      not solid when its alpha is low. See `is_solid' above. */
@@ -267,6 +271,9 @@ private:
 private:
   TileMap(const TileMap&) = delete;
   TileMap& operator=(const TileMap&) = delete;
+
+  void calculateDrawRects(bool useCache = false);
+  void calculateDrawRects(uint32_t oldtile, uint32_t newtile);
 };
 
 #endif

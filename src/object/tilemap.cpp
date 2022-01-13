@@ -16,6 +16,7 @@
 
 #include "object/tilemap.hpp"
 
+#include <physfs.h>
 #include <tuple>
 
 #include "editor/editor.hpp"
@@ -35,6 +36,10 @@
 #include "video/layer.hpp"
 #include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
+#include "math/find_rects.hpp"
+#include "supertux/screen_manager.hpp"
+#include "supertux/screen_fade.hpp"
+#include "addon/md5.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
   ExposedObject<TileMap, scripting::TileMap>(this),
@@ -42,6 +47,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_editor_active(true),
   m_tileset(new_tileset),
   m_tiles(),
+  m_tiles_draw_rects(),
+  m_draw_rects_update(true),
   m_real_solid(false),
   m_effective_solid(false),
   m_speed_x(1),
@@ -77,6 +84,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_editor_active(true),
   m_tileset(tileset_),
   m_tiles(),
+  m_tiles_draw_rects(),
+  m_draw_rects_update(true),
   m_real_solid(false),
   m_effective_solid(false),
   m_speed_x(1),
@@ -188,6 +197,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   {
     log_info << "Tilemap '" << get_name() << "', z-pos '" << m_z_pos << "' is empty." << std::endl;
   }
+
+  calculateDrawRects(true);
 }
 
 void
@@ -442,21 +453,32 @@ TileMap::draw(DrawingContext& context)
                                  trans_y * (normal_speed ? 1.0f : m_speed_y)));
 
   Rectf draw_rect = context.get_cliprect();
+  draw_rect.set_left(0.0f);
+  draw_rect.set_top(0.0f);
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
   Vector start = get_tile_position(t_draw_rect.left, t_draw_rect.top);
+
+  Rectf screen_edge_rect = context.get_cliprect();
+  Rect t_screen_edge_rect = get_tiles_overlapping(screen_edge_rect);
+  int screen_start_x = t_screen_edge_rect.left;
+  int screen_start_y = t_screen_edge_rect.top;
 
   Vector pos(0.0f, 0.0f);
   int tx, ty;
 
   std::unordered_map<SurfacePtr,
                      std::tuple<std::vector<Rectf>,
-                                std::vector<Rectf>>> batches;
+                                std::vector<Rectf>,
+                                std::vector<Size>>> batches;
 
   for (pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
     for (pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
       int index = ty*m_width + tx;
       assert (index >= 0);
       assert (index < (m_width * m_height));
+
+      if (m_tiles_draw_rects[index * 2] == 0) continue;
+      if (tx + m_tiles_draw_rects[index * 2] < screen_start_x || ty + m_tiles_draw_rects[index * 2 + 1] < screen_start_y) continue;
 
       if (m_tiles[index] == 0) continue;
       const Tile& tile = m_tileset->get(m_tiles[index]);
@@ -471,6 +493,7 @@ TileMap::draw(DrawingContext& context)
         std::get<1>(batches[surface]).emplace_back(pos,
                                                    Sizef(static_cast<float>(surface->get_width()),
                                                          static_cast<float>(surface->get_height())));
+        std::get<2>(batches[surface]).emplace_back(Size(m_tiles_draw_rects[index * 2], m_tiles_draw_rects[index * 2 + 1]));
       }
     }
   }
@@ -484,6 +507,7 @@ TileMap::draw(DrawingContext& context)
       canvas.draw_surface_batch(surface,
                                 std::move(std::get<0>(it.second)),
                                 std::move(std::get<1>(it.second)),
+                                std::move(std::get<2>(it.second)),
                                 m_current_tint, m_z_pos);
     }
   }
@@ -535,6 +559,8 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   // make sure all tiles are loaded
   for (const auto& tile : m_tiles)
     m_tileset->get(tile);
+
+  calculateDrawRects();
 }
 
 void
@@ -583,6 +609,8 @@ TileMap::resize(int new_width, int new_height, int fill_id,
     apply_offset_x(fill_id, xoffset);
   if (!offset_finished_y)
     apply_offset_y(fill_id, yoffset);
+
+  calculateDrawRects();
 }
 
 void TileMap::resize(const Size& newsize, const Size& resize_offset) {
@@ -671,7 +699,12 @@ void
 TileMap::change(int x, int y, uint32_t newtile)
 {
   assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
-  m_tiles[y*m_width + x] = newtile;
+  if (m_tiles[y*m_width + x] != newtile)
+  {
+    uint32_t oldtile = m_tiles[y*m_width + x];
+    m_tiles[y*m_width + x] = newtile;
+    calculateDrawRects(oldtile, newtile);
+  }
 }
 
 void
@@ -689,9 +722,11 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
       if (get_tile_id(x,y) != oldtile)
         continue;
 
-      change(x,y,newtile);
+      m_tiles[y*m_width + x] = newtile;
     }
   }
+
+  calculateDrawRects(oldtile, newtile);
 }
 
 void
@@ -948,6 +983,100 @@ void
 TileMap::set_tileset(const TileSet* new_tileset)
 {
   m_tileset = new_tileset;
+}
+
+void
+TileMap::calculateDrawRects(uint32_t oldtile, uint32_t newtile)
+{
+  if (!m_draw_rects_update)
+  {
+    return;
+  }
+  std::vector<unsigned char> inputRects(m_tiles.size(), 0);
+  for (Tiles::size_type i = 0; i < m_tiles.size(); ++i)
+  {
+    if (m_tiles[i] == newtile || m_tiles[i] == oldtile)
+    {
+      m_tiles_draw_rects[i * 2] = 0;
+      m_tiles_draw_rects[i * 2 + 1] = 0;
+    }
+    if (m_tiles[i] == newtile)
+    {
+      inputRects[i] = 1;
+    }
+  }
+  FindRects::findAll(inputRects.data(), m_width, m_height, 1, m_tiles_draw_rects.data());
+  for (Tiles::size_type i = 0; i < m_tiles.size(); ++i)
+  {
+    inputRects[i] = (m_tiles[i] == oldtile) ? 1 : 0;
+  }
+  FindRects::findAll(inputRects.data(), m_width, m_height, 1, m_tiles_draw_rects.data());
+}
+
+void
+TileMap::calculateDrawRects(bool useCache)
+{
+  if (!m_draw_rects_update)
+  {
+    return;
+  }
+  //log_warning << "TileMap::calculateDrawRects long" << std::endl;
+  fill(m_tiles_draw_rects.begin(), m_tiles_draw_rects.end(), 0);
+  m_tiles_draw_rects.resize(m_tiles.size() * 2, 0);
+
+  std::string fname;
+  if (useCache)
+  {
+    MD5 md5hash;
+    md5hash.update(reinterpret_cast<unsigned char *>(m_tiles.data()), static_cast<unsigned>(m_tiles.size() * sizeof(m_tiles[0])));
+    fname = "tilecache/" + md5hash.hex_digest();
+
+    PHYSFS_file* file = PHYSFS_openRead(fname.c_str());
+    if (file)
+    {
+      long long size = PHYSFS_readBytes(file, m_tiles_draw_rects.data(), m_tiles.size() * 2);
+      PHYSFS_close(file);
+      if (size == static_cast<long long>(m_tiles.size()) * 2)
+      {
+        return;
+      }
+    }
+    //ScreenManager::current()->draw_loading_screen();
+  }
+
+  std::vector<unsigned char> inputRects(m_tiles.size(), 0);
+  for (uint32_t tileid = 0; tileid < m_tileset->get_max_tileid(); tileid++)
+  {
+    bool skip = true;
+    std::vector<unsigned char>::iterator ir = inputRects.begin();
+    for (Tiles::const_iterator i = m_tiles.begin(); i != m_tiles.end(); ++i, ++ir)
+    {
+      if (*i == tileid)
+      {
+        skip = false;
+        *ir = 1;
+      }
+    }
+    if (!skip)
+    {
+      FindRects::findAll(inputRects.data(), m_width, m_height, 1, m_tiles_draw_rects.data());
+      fill(inputRects.begin(), inputRects.end(), 0);
+    }
+  }
+
+  if (useCache)
+  {
+    if (!PHYSFS_exists("tilecache"))
+    {
+      PHYSFS_mkdir("tilecache");
+    }
+    PHYSFS_file* file = PHYSFS_openWrite(fname.c_str());
+    if (file)
+    {
+      PHYSFS_writeBytes(file, m_tiles_draw_rects.data(), m_tiles.size() * 2);
+      PHYSFS_close(file);
+    }
+  }
 }
 
 /* EOF */

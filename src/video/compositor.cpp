@@ -127,6 +127,7 @@ Compositor::render()
                                       static_cast<float>(texture->get_image_height()));
         request.dstrects.emplace_back(Vector(0.0f, 0.0f), lightmap.get_logical_size());
         request.angles.emplace_back(0.0f);
+        request.repeats.emplace_back(Size(1, 1));
 
         request.texture = texture.get();
         request.color = Color::WHITE;

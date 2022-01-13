@@ -50,6 +50,7 @@ private:
 private:
   std::vector<float> m_vertices;
   std::vector<float> m_uvs;
+  std::vector<float> m_uvs_repeat;
 
 private:
   GLPainter(const GLPainter&) = delete;

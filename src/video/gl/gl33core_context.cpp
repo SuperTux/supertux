@@ -157,6 +157,12 @@ GL33CoreContext::set_texcoords(const float* data, size_t size)
 }
 
 void
+GL33CoreContext::set_texcoords_repeat(const float* data, size_t size)
+{
+  m_vertex_arrays->set_texcoords_repeat(data, size);
+}
+
+void
 GL33CoreContext::set_texcoord(float u, float v)
 {
   m_vertex_arrays->set_texcoord(u, v);

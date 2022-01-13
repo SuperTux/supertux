@@ -10,6 +10,7 @@ uniform vec2 animate;
 uniform vec2 displacement_animate;
 
 in vec4 diffuse_var;
+in vec4 texcoord_repeat_var;
 in vec2 texcoord_var;
 
 out vec4 fragColor;
@@ -18,12 +19,12 @@ void main(void)
 {
   if (backbuffer == 0.0)
   {
-    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st + (animate * game_time));
+    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_repeat_var.st + mod(texcoord_var.st, texcoord_repeat_var.pq) + (animate * game_time));
     fragColor = color;
   }
   else if (true)
   {
-    vec4 pixel = texture(displacement_texture, texcoord_var.st + (displacement_animate * game_time));
+    vec4 pixel = texture(displacement_texture, texcoord_repeat_var.st + mod(texcoord_var.st, texcoord_repeat_var.pq) + (displacement_animate * game_time));
     vec2 displacement = (pixel.rg - vec2(0.5, 0.5)) * 255;
     float alpha = pixel.a;
 
@@ -31,13 +32,13 @@ void main(void)
     uv = vec2(uv.x, 1.0 - uv.y);
     vec4 back_color = texture(framebuffer_texture, uv);
 
-    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st + (animate * game_time));
+    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_repeat_var.st + mod(texcoord_var.st, texcoord_repeat_var.pq) + (animate * game_time));
     fragColor = vec4(mix(color.rgb, back_color.rgb, alpha), color.a);
   }
   else
   {
     // water reflection
-    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_var.st);
+    vec4 color =  diffuse_var * texture(diffuse_texture, texcoord_repeat_var.st + mod(texcoord_var.st, texcoord_repeat_var.pq));
     vec2 uv = (fragcoord2uv * gl_FragCoord.xyw).xy + vec2(0, 0.05);
     uv.x = uv.x + 0.005 * sin(game_time + uv.y * 100);
     uv = vec2(uv.x, 1.0 - uv.y);
