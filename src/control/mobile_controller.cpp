@@ -212,6 +212,11 @@ MobileController::apply(Controller& controller) const
     controller.set_control(Control::DEBUG_MENU, m_debug);
   if (m_escape != m_old_escape)
     controller.set_control(Control::ESCAPE, m_escape);
+
+  if (m_up || m_down || m_left || m_right || m_jump || m_action || m_cheats || m_debug || m_escape)
+  {
+    controller.set_touchscreen(true);
+  }
 }
 
 bool

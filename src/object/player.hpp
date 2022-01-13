@@ -216,7 +216,7 @@ public:
   void stop_backflipping();
 
   void position_grabbed_object();
-  void try_grab();
+  bool try_grab();
 
   /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
   void sideways_push(float delta);
@@ -326,6 +326,7 @@ private:
 
   Portable* m_grabbed_object;
   std::unique_ptr<ObjectRemoveListener> m_grabbed_object_remove_listener;
+  bool m_released_object;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
 

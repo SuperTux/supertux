@@ -189,6 +189,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_visible(true),
   m_grabbed_object(nullptr),
   m_grabbed_object_remove_listener(new GrabListener(*this)),
+  m_released_object(false),
   // if/when we have complete penny gfx, we can
   // load those instead of Tux's sprite in the
   // constructor
@@ -1135,9 +1136,12 @@ Player::handle_input()
   /* Handle vertical movement: */
   if (!m_stone && !m_swimming) handle_vertical_input();
 
+  /* grabbing */
+  bool just_grabbed = try_grab();
+
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>();
-  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS)) {
+  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS) && !m_grabbed_object) {
     if ((m_player_status.bonus == FIRE_BONUS &&
       active_bullets < m_player_status.max_fire_bullets) ||
       (m_player_status.bonus == ICE_BONUS &&
@@ -1200,10 +1204,9 @@ Player::handle_input()
     do_standup(false);
   }
 
-  /* grabbing */
-  try_grab();
-
-  if (!m_controller->hold(Control::ACTION) && m_grabbed_object) {
+  /* Drop grabbed object when releasing the Action button on keyboard or gamepad, and on the second button press when using touchscreen */
+  if ((m_controller->is_touchscreen() ? m_controller->pressed(Control::ACTION) : !m_controller->hold(Control::ACTION)) &&
+      m_grabbed_object && !just_grabbed) {
     auto moving_object = dynamic_cast<MovingObject*> (m_grabbed_object);
     if (moving_object) {
       // move the grabbed object a bit away from tux
@@ -1256,10 +1259,15 @@ Player::handle_input()
         }
         moving_object->del_remove_listener(m_grabbed_object_remove_listener.get());
         m_grabbed_object = nullptr;
+        m_released_object = true;
       }
     } else {
       log_debug << "Non MovingObject grabbed?!?" << std::endl;
     }
+  }
+
+  if (!m_controller->hold(Control::ACTION) && m_released_object) {
+    m_released_object = false;
   }
 
   /* stop backflipping at will */
@@ -1293,10 +1301,10 @@ Player::position_grabbed_object()
   }
 }
 
-void
+bool
 Player::try_grab()
 {
-  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck)
+  if (m_controller->hold(Control::ACTION) && !m_grabbed_object && !m_duck && !m_released_object)
   {
 
     Vector pos(0.0f, 0.0f);
@@ -1335,11 +1343,12 @@ Player::try_grab()
           moving_object.add_remove_listener(m_grabbed_object_remove_listener.get());
 
           position_grabbed_object();
-          break;
+          return true;
         }
       }
     }
   }
+  return false;
 }
 
 void

@@ -66,7 +66,8 @@ boost::optional<Control> Control_from_string(const std::string& text)
   return boost::none;
 }
 
-Controller::Controller()
+Controller::Controller():
+  m_touchscreen(false)
 {
   reset();
 }
@@ -81,12 +82,19 @@ Controller::reset()
     m_controls[i] = false;
     m_old_controls[i] = false;
   }
+  m_touchscreen = false;
 }
 
 void
 Controller::set_control(Control control, bool value)
 {
   m_controls[static_cast<int>(control)] = value;
+}
+
+void
+Controller::set_touchscreen(bool value)
+{
+  m_touchscreen = value;
 }
 
 bool
@@ -105,6 +113,12 @@ bool
 Controller::released(Control control) const
 {
   return m_old_controls[static_cast<int>(control)] && !m_controls[static_cast<int>(control)];
+}
+
+bool
+Controller::is_touchscreen() const
+{
+  return m_touchscreen;
 }
 
 void
