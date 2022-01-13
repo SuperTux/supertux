@@ -239,6 +239,13 @@
       }
     }
 
+    // Functions to be loaded with cwrap
+    var setResolution = null;
+    var onDownloadProgress = null;
+    var onDownloadFinished = null;
+    var onDownloadError = null;
+    var onDownloadAborted = null;
+
     var Module = {
       preRun: [],
       postRun: [],
@@ -337,7 +344,14 @@
       monitorRunDependencies: function (e) {
         this.totalDependencies = Math.max(this.totalDependencies, e);
         Module.setStatus(e ? "Preparing... (" + (this.totalDependencies - e) + "/" + this.totalDependencies + ")" : "All downloads complete.")
-      }
+      },
+      onRuntimeInitialized: function() {
+        setResolution = Module.cwrap('set_resolution', 'void', ['number']);
+        onDownloadProgress = Module.cwrap('onDownloadProgress', 'void', ['number', 'number', 'number']);
+        onDownloadFinished = Module.cwrap('onDownloadFinished', 'void', ['number']);
+        onDownloadError = Module.cwrap('onDownloadError', 'void', ['number']);
+        onDownloadAborted = Module.cwrap('onDownloadAborted', 'void', ['number']);
+      },
     };
 
     Module.setStatus("Downloading...");
@@ -353,14 +367,13 @@
     }
 
     var autofit = true;
-    var setResolution = null;
 
     function tryResize() {
       if (!autofit || !Module)
         return;
 
       if (!setResolution)
-        setResolution = Module.cwrap('set_resolution', 'void', ['number']);
+        return;
 
       try {
         setResolution(window.innerWidth, window.innerHeight);
@@ -525,17 +538,8 @@
       console.log('url: ' + url);
       console.log('file: ' + file);
 
-      if (!onDownloadProgress)
-        onDownloadProgress = Module.cwrap('onDownloadProgress', 'void', ['number', 'number', 'number']);
-
-      if (!onDownloadFinished)
-        onDownloadFinished = Module.cwrap('onDownloadFinished', 'void', ['number']);
-
-      if (!onDownloadError)
-        onDownloadError = Module.cwrap('onDownloadError', 'void', ['number']);
-
-      if (!onDownloadAborted)
-        onDownloadAborted = Module.cwrap('onDownloadAborted', 'void', ['number']);
+      if (!onDownloadProgress || !onDownloadFinished || !onDownloadError || !onDownloadAborted)
+        return;
 
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
@@ -560,7 +564,9 @@
       tryResize();
     });
     window.addEventListener('unload', (e) => {
-      Module.ccall("save_config", "void", [], []);
+      try {
+        Module.ccall("save_config", "void", [], []);
+      } catch(e) {}
       supertux_saveFiles();
     });
     window.addEventListener('keydown', (e) => {
