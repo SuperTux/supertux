@@ -29,7 +29,7 @@ jobs:
     env:
       # Revision of https://github.com/pelya/commandergenius.git - SDL2 repo is a submodule
       # We check out a specific stable revision, so the build won't break if I modify my SDL repo
-      SDL_ANDROID_REV: ad753cbdd
+      SDL_ANDROID_REV: 532acc9192
       # It takes 35 minutes per one architecture to build SuperTux, of which 20 minutes are for building Boost and ICU libraries
       # Enable additional architectures when we have these libraries inside the cache, or create a separate Android script for each architecture
       # ARCH_LIST: armeabi-v7a arm64-v8a x86 x86_64
@@ -109,6 +109,8 @@ jobs:
           for Y in `seq 20`; do echo y; done | sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses --sdk_root=`pwd`
           mkdir -p $HOME/.android
           keytool -genkey -v -keystore $HOME/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Debug, OU=Debug, O=Debug, L=Debug, ST=Debug, C=Debug"
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+          echo "proguard.config=proguard.cfg;proguard-local.cfg" >> local.properties
 
       - name: Hyper turbo build script GOOOOOOOOOOOO
         working-directory: build-android
@@ -119,12 +121,16 @@ jobs:
       - name: Package
         working-directory: build-android
         run: |
-          cd project/jni/application/supertux
           export PATH=$ANDROID_NDK_LATEST_HOME:$ANDROID_SDK_ROOT/build-tools/31.0.0:$PATH
+          mkdir -p upload/
+          cd project
+          ./gradlew bundleReleaseWithDebugInfo
+          mv app/build/outputs/bundle/releaseWithDebugInfo/app-releaseWithDebugInfo.aab ../upload/SuperTux.aab
+          cd jni/application/supertux
           ./create-apk-with-data.sh
           cd ../../../..
-          mkdir -p upload/
           mv SuperTux*.apk upload/
+          cd ..
 
       # Github actions is dumb and won't let you download single files from artifacts, so break up the artifacts instead
       - uses: actions/upload-artifact@v2
