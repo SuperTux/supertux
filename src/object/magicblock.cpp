@@ -23,7 +23,9 @@
 #include "object/magicblock.hpp"
 
 #include "editor/editor.hpp"
+#include "object/ambient_light.hpp"
 #include "object/camera.hpp"
+#include "object/lantern.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -189,7 +191,24 @@ void
 MagicBlock::draw(DrawingContext& context)
 {
   // Ask for update about lightmap at center of this block
-  context.light().get_pixel(m_center, m_light);
+  //context.light().get_pixel(m_center, m_light);
+
+  // Reading a pixel from OpenGL context is SLOW, like, TERRIBLY SLOW
+  // Since magic blocks are designed to be used with lanterns,
+  // check the distance to all of the lantern objects on the level
+  // This will ignore Tux stone hat light, and other light sources
+  static const float LANTERN_LIGHT_RADIUS = 135.f; ///< Equals to half the hitbox size in lightmap_light.sprite plus a small margin
+
+  *m_light = Sector::current()->get_singleton_by_type<AmbientLight>().get_ambient_light();
+  auto objects = Sector::current()->get_nearby_objects(m_center, LANTERN_LIGHT_RADIUS);
+  for (auto &obj: objects) {
+    auto lantern = dynamic_cast<Lantern *> (obj);
+    if (lantern) {
+      *m_light = Color(std::min(1.f, m_light->red + lantern->get_color().red),
+                       std::min(1.f, m_light->green + lantern->get_color().green),
+                       std::min(1.f, m_light->blue + lantern->get_color().blue));
+    }
+  }
 
   MovingSprite::draw(context);
   context.color().draw_filled_rect(m_col.m_bbox, m_color, m_layer);
