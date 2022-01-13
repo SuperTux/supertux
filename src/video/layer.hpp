@@ -45,9 +45,6 @@ enum {
   LAYER_HUD = 500,
   // Menus, mouse, console etc.
   LAYER_GUI = 600,
-
-  //make sure all get_light requests are handled last.
-  LAYER_GETPIXEL = LAYER_GUI
 };
 
 #endif
