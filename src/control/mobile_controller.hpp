@@ -17,11 +17,15 @@
 #ifndef HEADER_SUPERTUX_CONTROL_MOBILE_CONTROLLER_HPP
 #define HEADER_SUPERTUX_CONTROL_MOBILE_CONTROLLER_HPP
 
+#include <SDL.h>
+#include <map>
+
 #include "config.h"
 
 #ifdef ENABLE_TOUCHSCREEN_SUPPORT
 
 #include "math/rectf.hpp"
+#include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 
 class Controller;
@@ -35,6 +39,13 @@ public:
   void apply(Controller& controller) const;
   void update();
 
+  /** returns true if the finger event was inside the screen button area */
+  bool process_finger_down_event(const SDL_TouchFingerEvent& event);
+  /** returns true if the finger event was inside the screen button area */
+  bool process_finger_up_event(const SDL_TouchFingerEvent& event);
+  /** returns true if the finger event was inside the screen button area */
+  bool process_finger_motion_event(const SDL_TouchFingerEvent& event);
+
 private:
   void activate_widget_at_pos(float x, float y);
 
@@ -42,8 +53,12 @@ private:
   bool m_up, m_down, m_left, m_right, m_jump, m_action, m_cheats, m_debug, m_escape;
   bool m_old_up, m_old_down, m_old_left, m_old_right, m_old_jump, m_old_action, m_old_cheats, m_old_debug, m_old_escape;
 
-  const Rectf m_rect_directions, m_rect_jump, m_rect_action, m_rect_cheats,
-              m_rect_debug, m_rect_escape;
+  std::map<SDL_FingerID, Vector> m_fingers;
+
+  Rectf m_rect_directions, m_rect_jump, m_rect_action, m_rect_cheats,
+        m_rect_debug, m_rect_escape;
+  Rectf m_draw_directions, m_draw_jump, m_draw_action, m_draw_cheats,
+        m_draw_debug, m_draw_escape;
   const SurfacePtr m_tex_dirs, m_tex_btn, m_tex_btn_press, m_tex_pause,
                    m_tex_up, m_tex_dwn, m_tex_lft, m_tex_rgt,
                    m_tex_jump, m_tex_action, m_tex_cheats, m_tex_debug;

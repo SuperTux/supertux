@@ -341,6 +341,10 @@ ScreenManager::process_events()
         SDL_Event old_event = event;
 
         SDL_Event event2;
+
+        if (m_mobile_controller.process_finger_down_event(event.tfinger))
+          break; // Event was processed by touch controls, do not generate mouse event
+
         event2.type = SDL_MOUSEBUTTONDOWN;
         event2.button.button = SDL_BUTTON_LEFT;
         event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
@@ -358,12 +362,17 @@ ScreenManager::process_events()
       {
         SDL_Event old_event = event;
 
+        // Always generate mouse up event, because the finger can generate mouse click
+        // and then move to the screen button, and the mouse button will stay pressed
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONUP;
         event2.button.button = SDL_BUTTON_LEFT;
         event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
         event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
+
+        if (m_mobile_controller.process_finger_up_event(event.tfinger))
+          break; // Event was processed by touch controls, do not generate mouse event
 
         event.type = SDL_MOUSEMOTION;
         event.motion.x = event2.button.x;
@@ -374,6 +383,9 @@ ScreenManager::process_events()
 
       case SDL_FINGERMOTION:
         SDL_Event old_event = event;
+
+        if (m_mobile_controller.process_finger_motion_event(event.tfinger))
+          break; // Event was processed by touch controls, do not generate mouse event
 
         event.type = SDL_MOUSEMOTION;
         event.motion.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
