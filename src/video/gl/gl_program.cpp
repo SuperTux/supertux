@@ -50,6 +50,31 @@ GLProgram::GLProgram() :
   }
 
   assert_gl();
+
+  int i;
+  for (i = 0; i < attrib_max; i++)
+  {
+    m_attribs[i] = -1;
+  }
+  for (i = 0; i < uniform_max; i++)
+  {
+    m_uniforms[i] = -1;
+  }
+
+  m_attribs[attrib_position] = get_attrib_location("position");
+  m_attribs[attrib_texcoord] = get_attrib_location("texcoord");
+  m_attribs[attrib_texcoord_repeat] = get_attrib_location("texcoord_repeat");
+  m_attribs[attrib_diffuse] = get_attrib_location("diffuse");
+
+  m_uniforms[uniform_backbuffer] = get_uniform_location("backbuffer");
+  m_uniforms[uniform_fragcoord2uv] = get_uniform_location("fragcoord2uv");
+  m_uniforms[uniform_diffuse_texture] = get_uniform_location("diffuse_texture");
+  m_uniforms[uniform_displacement_texture] = get_uniform_location("displacement_texture");
+  m_uniforms[uniform_framebuffer_texture] = get_uniform_location("framebuffer_texture");
+  m_uniforms[uniform_game_time] = get_uniform_location("game_time");
+  m_uniforms[uniform_modelviewprojection] = get_uniform_location("modelviewprojection");
+  m_uniforms[uniform_animate] = get_uniform_location("animate");
+  m_uniforms[uniform_displacement_animate] = get_uniform_location("displacement_animate");
 }
 
 GLProgram::~GLProgram()

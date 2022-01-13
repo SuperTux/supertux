@@ -34,10 +34,43 @@ public:
 
   GLuint get_handle() const { return m_program; }
 
+  enum GLAttribEnum
+  {
+    attrib_position,
+    attrib_texcoord,
+    attrib_texcoord_repeat,
+    attrib_diffuse,
+    attrib_max
+  };
+
+  enum GLUniformEnum
+  {
+    uniform_backbuffer,
+    uniform_fragcoord2uv,
+    uniform_diffuse_texture,
+    uniform_displacement_texture,
+    uniform_framebuffer_texture,
+    uniform_game_time,
+    uniform_modelviewprojection,
+    uniform_animate,
+    uniform_displacement_animate,
+    uniform_max
+  };
+
+  GLint get_attrib_location(GLAttribEnum name) const
+  {
+    return m_attribs[name];
+  }
+
+  GLint get_uniform_location(GLUniformEnum name) const
+  {
+    return m_uniforms[name];
+  }
+
+private:
   GLint get_attrib_location(const char* name) const;
   GLint get_uniform_location(const char* name) const;
 
-private:
   bool get_link_status() const;
   bool get_validate_status() const;
   std::string get_info_log() const;
@@ -47,6 +80,9 @@ private:
 
   std::unique_ptr<GLShader> m_frag_shader;
   std::unique_ptr<GLShader> m_vert_shader;
+  // std::map is too good for this kind of lookup
+  GLint m_attribs[attrib_max];
+  GLint m_uniforms[uniform_max];
 
 private:
   GLProgram(const GLProgram&) = delete;

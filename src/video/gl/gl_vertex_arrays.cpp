@@ -68,7 +68,7 @@ GLVertexArrays::set_positions(const float* data, size_t size)
   glBindBuffer(GL_ARRAY_BUFFER, m_positions_buffer);
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
-  int loc = m_context.get_program().get_attrib_location("position");
+  int loc = m_context.get_program().get_attrib_location(GLProgram::attrib_position);
   glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
 
@@ -83,7 +83,7 @@ GLVertexArrays::set_texcoords(const float* data, size_t size)
   glBindBuffer(GL_ARRAY_BUFFER, m_texcoords_buffer);
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
-  int loc = m_context.get_program().get_attrib_location("texcoord");
+  int loc = m_context.get_program().get_attrib_location(GLProgram::attrib_texcoord);
   glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
 
@@ -98,7 +98,7 @@ GLVertexArrays::set_texcoords_repeat(const float* data, size_t size)
   glBindBuffer(GL_ARRAY_BUFFER, m_texcoords_repeat_buffer);
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
-  int loc = m_context.get_program().get_attrib_location("texcoord_repeat");
+  int loc = m_context.get_program().get_attrib_location(GLProgram::attrib_texcoord_repeat);
   glVertexAttribPointer(loc, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
 
@@ -110,8 +110,12 @@ GLVertexArrays::set_texcoord(float u, float v)
 {
   assert_gl();
 
-  int loc = m_context.get_program().get_attrib_location("texcoord");
+  int loc = m_context.get_program().get_attrib_location(GLProgram::attrib_texcoord);
   glVertexAttrib2f(loc, u, v);
+  glDisableVertexAttribArray(loc);
+
+  loc = m_context.get_program().get_attrib_location(GLProgram::attrib_texcoord_repeat);
+  glVertexAttrib4f(loc, 0.0f, 0.0f, 1.0f, 1.0f);
   glDisableVertexAttribArray(loc);
 
   assert_gl();
@@ -125,7 +129,7 @@ GLVertexArrays::set_colors(const float* data, size_t size)
   glBindBuffer(GL_ARRAY_BUFFER, m_color_buffer);
   glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 
-  int loc = m_context.get_program().get_attrib_location("diffuse");
+  int loc = m_context.get_program().get_attrib_location(GLProgram::attrib_diffuse);
   glVertexAttribPointer(loc, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc);
 
@@ -137,7 +141,7 @@ GLVertexArrays::set_color(const Color& color)
 {
   assert_gl();
 
-  int loc = m_context.get_program().get_attrib_location("diffuse");
+  int loc = m_context.get_program().get_attrib_location(GLProgram::attrib_diffuse);
   glVertexAttrib4f(loc, color.red, color.green, color.blue, color.alpha);
   glDisableVertexAttribArray(loc);
 
