@@ -3,16 +3,15 @@
   (name (_ "Tip Of The Iceberg"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
-      (scroll-offset-y -100)
       (color 1 1 1)
-      (x 13024)
-      (y 800)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
