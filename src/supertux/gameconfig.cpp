@@ -68,7 +68,7 @@ Config::Config() :
   keyboard_config(),
   joystick_config(),
 #ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  mobile_controls(true),
+  mobile_controls(SDL_GetNumTouchDevices() > 0),
 #endif
   addons(),
   developer_mode(false),
@@ -263,7 +263,7 @@ Config::load()
 #ifdef SHOW_TOUCHSCREEN_CONTROLS
     config_control_mapping->get("mobile_controls", mobile_controls, true);
 #else
-    config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
+    config_control_mapping->get("mobile_controls", mobile_controls, false);
 #endif
 #endif
   }
