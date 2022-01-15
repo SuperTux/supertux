@@ -62,7 +62,7 @@ ConsoleBuffer::addLine(const std::string& s_)
   std::string s = s_;
 
   // output line to stderr
-  std::cerr << s << std::endl;
+  get_logging_instance(false) << s << std::endl;
 
   // wrap long lines
   std::string overflow;

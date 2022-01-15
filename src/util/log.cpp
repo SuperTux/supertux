@@ -99,14 +99,14 @@ static std::ostream android_logcat(new _android_debugbuf());
 
 LogLevel g_log_level = LOG_WARNING;
 
-static std::ostream& get_logging_instance (bool use_console_buffer = true)
+std::ostream& get_logging_instance(bool use_console_buffer)
 {
-#ifdef __ANDROID__
-  return android_logcat;
-#else
   if (ConsoleBuffer::current() && use_console_buffer)
     return (ConsoleBuffer::output);
   else
+#ifdef __ANDROID__
+    return android_logcat;
+#else
     return (std::cerr);
 #endif
 }
