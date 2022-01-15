@@ -413,6 +413,7 @@ ScreenManager::process_events()
             }
             break;
 
+          case SDL_WINDOWEVENT_HIDDEN:
           case SDL_WINDOWEVENT_FOCUS_LOST:
             if (g_config->pause_on_focusloss)
             {
