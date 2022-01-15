@@ -32,8 +32,7 @@ jobs:
       SDL_ANDROID_REV: 532acc9192
       # It takes 35 minutes per one architecture to build SuperTux, of which 20 minutes are for building Boost and ICU libraries
       # Enable additional architectures when we have these libraries inside the cache, or create a separate Android script for each architecture
-      # ARCH_LIST: armeabi-v7a arm64-v8a x86 x86_64
-      ARCH_LIST: arm64-v8a
+      ARCH_LIST: armeabi-v7a arm64-v8a x86 x86_64
 
     runs-on: ubuntu-latest
 
