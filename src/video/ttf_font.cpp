@@ -23,6 +23,7 @@
 
 #include "util/line_iterator.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "util/log.hpp"
 #include "video/canvas.hpp"
 #include "video/surface.hpp"
 #include "video/ttf_surface_manager.hpp"
@@ -72,7 +73,7 @@ TTFFont::get_text_width(const std::string& text) const
       int h = 0;
       int ret = TTF_SizeUTF8(m_font, line.c_str(), &w, &h);
       if (ret < 0) {
-        std::cerr << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
+        get_logging_instance(false) << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
       }
       line_width = w;
     }

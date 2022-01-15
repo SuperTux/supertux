@@ -24,6 +24,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/texture_manager.hpp"
 
 DebugMenu::DebugMenu() :
@@ -69,7 +70,7 @@ DebugMenu::DebugMenu() :
   add_toggle(-1, _("Use Bitmap Fonts"),
              []{ return g_debug.get_use_bitmap_fonts(); },
              [](bool value){ g_debug.set_use_bitmap_fonts(value); });
-  add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(std::cout); });
+  add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(get_logging_instance()); });
 
   add_hl();
   add_back(_("Back"));
