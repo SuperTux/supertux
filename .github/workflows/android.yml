@@ -103,9 +103,9 @@ jobs:
       - name: Set up Gradle and Android SDK licenses
         working-directory: build-android/project
         run: |
-          for Y in `seq 20`; do echo y; done | sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
+          yes | sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
           ./gradlew assembleRelease || true
-          for Y in `seq 20`; do echo y; done | sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses --sdk_root=`pwd`
+          yes | sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses --sdk_root=`pwd`
           mkdir -p $HOME/.android
           keytool -genkey -v -keystore $HOME/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Debug, OU=Debug, O=Debug, L=Debug, ST=Debug, C=Debug"
           echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
