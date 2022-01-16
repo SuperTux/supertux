@@ -29,7 +29,7 @@ ItemStringSelect::ItemStringSelect(const std::string& text, std::vector<std::str
   m_items(std::move(items)),
   m_selected(std::move(selected)),
   m_callback(),
-  m_max_width()
+  m_width(calculate_width())
 {
 }
 
@@ -62,16 +62,7 @@ ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_widt
 int
 ItemStringSelect::get_width() const
 {
-  if (!m_max_width) {
-    float max_item_width = 0;
-    for (auto const& item : m_items) {
-      max_item_width = std::max(Resources::normal_font->get_text_width(item),
-                                max_item_width);
-    }
-    m_max_width = Resources::normal_font->get_text_width(get_text()) + max_item_width + 64.0f;
-  }
-
-  return static_cast<int>(*m_max_width);
+  return static_cast<int>(m_width);
 }
 
 void
@@ -104,6 +95,17 @@ ItemStringSelect::process_action(const MenuAction& action)
     default:
       break;
   }
+}
+
+float
+ItemStringSelect::calculate_width() const
+{
+  float max_item_width = 0;
+  for (auto const& item : m_items) {
+    max_item_width = std::max(Resources::normal_font->get_text_width(item),
+                              max_item_width);
+  }
+  return Resources::normal_font->get_text_width(get_text()) + max_item_width + 64.0f;
 }
 
 /* EOF */
