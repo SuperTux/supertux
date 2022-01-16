@@ -24,18 +24,19 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-ItemStringSelect::ItemStringSelect(const std::string& text, const std::vector<std::string>& list_, int* selected_, int id) :
+ItemStringSelect::ItemStringSelect(const std::string& text, std::vector<std::string> items, int* selected, int id) :
   MenuItem(text, id),
-  list(list_),
-  selected(selected_),
+  m_items(std::move(items)),
+  m_selected(std::move(selected)),
   m_callback()
 {
 }
 
 void
-ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
+{
   float roff = static_cast<float>(Resources::arrow_left->get_width()) * 1.0f;
-  float sel_width = Resources::normal_font->get_text_width(list[*selected]);
+  float sel_width = Resources::normal_font->get_text_width(m_items[*m_selected]);
   // Draw left side
   context.color().draw_text(Resources::normal_font, get_text(),
                               Vector(pos.x + 16.0f,
@@ -51,7 +52,7 @@ ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_widt
                                Vector(pos.x + static_cast<float>(menu_width) - roff - 8.0f,
                                       pos.y - 8.0f),
                                LAYER_GUI);
-  context.color().draw_text(Resources::normal_font, list[*selected],
+  context.color().draw_text(Resources::normal_font, m_items[*m_selected],
                             Vector(pos.x + static_cast<float>(menu_width) - roff - 8.0f,
                                    pos.y - Resources::normal_font->get_height() / 2.0f),
                             ALIGN_RIGHT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
@@ -61,37 +62,38 @@ int
 ItemStringSelect::get_width() const
 {
   float max_width = 0;
-  for (auto const& item : list) {
-    float const width = Resources::normal_font->get_text_width(item) + 64;
-    max_width = std::max(width, max_width);
+  for (auto const& item : m_items) {
+    max_width = std::max(Resources::normal_font->get_text_width(item),
+                         max_width);
   }
-  return Resources::normal_font->get_text_width(get_text()) + max_width;
+  return Resources::normal_font->get_text_width(get_text()) + max_width + 64;
 }
 
 void
-ItemStringSelect::process_action(const MenuAction& action) {
+ItemStringSelect::process_action(const MenuAction& action)
+{
   switch (action) {
     case MenuAction::LEFT:
-      if ( (*selected) > 0) {
-        (*selected)--;
+      if ( (*m_selected) > 0) {
+        (*m_selected)--;
       } else {
-        (*selected) = static_cast<int>(list.size()) - 1;
+        (*m_selected) = static_cast<int>(m_items.size()) - 1;
       }
       MenuManager::instance().current_menu()->menu_action(*this);
       if (m_callback) {
-        m_callback(*selected);
+        m_callback(*m_selected);
       }
       break;
     case MenuAction::RIGHT:
     case MenuAction::HIT:
-      if ( (*selected)+1 < int(list.size())) {
-        (*selected)++;
+      if ( (*m_selected)+1 < int(m_items.size())) {
+        (*m_selected)++;
       } else {
-        (*selected) = 0;
+        (*m_selected) = 0;
       }
       MenuManager::instance().current_menu()->menu_action(*this);
       if (m_callback) {
-        m_callback(*selected);
+        m_callback(*m_selected);
       }
       break;
     default:
