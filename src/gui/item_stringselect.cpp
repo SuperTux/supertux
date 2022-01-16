@@ -58,8 +58,14 @@ ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_widt
 }
 
 int
-ItemStringSelect::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(list[*selected])) + 64;
+ItemStringSelect::get_width() const
+{
+  float max_width = 0;
+  for (auto const& item : list) {
+    float const width = Resources::normal_font->get_text_width(item) + 64;
+    max_width = std::max(width, max_width);
+  }
+  return Resources::normal_font->get_text_width(get_text()) + max_width;
 }
 
 void
