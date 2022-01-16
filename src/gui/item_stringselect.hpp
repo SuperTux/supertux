@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_GUI_ITEM_STRINGSELECT_HPP
 
 #include <functional>
+#include <boost/optional.hpp>
 
 #include "gui/menu_item.hpp"
 
@@ -36,7 +37,7 @@ public:
   virtual void process_action(const MenuAction& action) override;
 
   virtual bool changes_width() const override {
-    return true;
+    return false;
   }
 
   void set_callback(const std::function<void(int)>& callback) {
@@ -47,6 +48,7 @@ private:
   std::vector<std::string> m_items; // list of values for a STRINGSELECT item
   int* m_selected; // currently selected item
   std::function<void(int)> m_callback;
+  mutable boost::optional<float> m_max_width;
 
 private:
   ItemStringSelect(const ItemStringSelect&) = delete;
