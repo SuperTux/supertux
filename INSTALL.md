@@ -10,6 +10,7 @@ Quick links:
   - [Requirements](#requirements)
   - [Unix and Unix-like (Linux/MacOS/\*BSD)](#linuxunix-using-cmake)
   - [Windows](#windows-using-cmake-and-visual-studio)
+  - [Android](#android-using-sdl2)
   - [Browser (WASM)](#wasm-using-emscripten)
   - [Ubuntu Touch](#ubuntu-touch-using-clickable)
 
@@ -223,6 +224,170 @@ You may also run `cmake --build .` instead.
 
 7. Now you can run SuperTux using the run_supertux.bat file
 
+### Android using SDL2
+
+This port exists thanks to **[Pelya](https://github.com/pelya)**!
+
+You will need to install Android Studio with the command-line tools and with
+NDK **version 23** (other versions won't work). You will also need git.
+
+It is recommended to run these commands on Ubuntu 20.04.
+
+Note that the commands which require a certain wordking directory will have the
+assumed initial directory at the top of hte code block; if you follow these
+instructions step by step, you should have the assumed Current Working
+Directory at each step.
+
+1. Unpack the source archive or clone the repository recursively using git.
+
+```
+git clone --recursive https://github.com/supertux/supertux
+```
+
+2. Inside the repository, unpack
+[Pelya's cross-compilation suite](https://github.com/pelya/commandergenius) on
+commit `532acc9192`. Rename the folder "build.android" and place it at the root
+of the SuperTux repository.
+
+```
+# Assuming CWD = root of the SuperTux source folder
+# Use `cd supertux` if you ran the commands from the preceeding step verbatim
+
+git clone --depth=100 https://github.com/pelya/commandergenius.git build.android
+git -C build.android checkout 532acc9192
+
+# You can also download it from GitHub, but make sure you download it from
+# commit 532acc9192!
+```
+
+3. Clone the submodules that SuperTux needs: Boost, Iconv, SDL2, SDL2_image,
+SDL2_mixer and SDL2_ttf.
+
+```
+# Assuming CWD = root of the SuperTux source folder
+cd build.android
+
+git submodule update --init --recursive --depth=1 \
+          project/jni/boost/src project/jni/iconv/src \
+          project/jni/sdl2 project/jni/sdl2_image \
+          project/jni/sdl2_mixer project/jni/sdl2_ttf
+```
+
+4. Symlink the project inside the build directory.
+
+```
+# Assuming CWD = build.android
+cd ..
+
+rm -rf build.android/project/jni/application/supertux/supertux
+ln -s `pwd` build.android/project/jni/application/supertux/supertux
+ln -s supertux build.android/project/jni/application/src
+```
+
+5. Optionally, limit the build to a certain set of architectures.
+
+```
+# Assuming CWD = root of the SuperTux source folder
+
+# Possible options: armeabi-v7a arm64-v8a x86 x86_64
+# You may specify multiple; if so, separate each architecture with a space.
+sed -i "s/MultiABI=.*/MultiABI='armeabi-v7a arm64-v8a x86 x86_64'/g" \
+          build.android/project/jni/application/supertux/AndroidAppSettings.cfg
+
+# You can also edit that file manually using any text editor.
+```
+
+6. Add your $ANDROID_NDK_HOME to your PATH, then configure SuperTux.
+(Tip: Your NDK home is probably `$HOME/Android/Sdk/ndk/[version 23]`, if it is
+not already set.)
+
+```
+# Assuming CWD = root of the SuperTux source folder
+
+export PATH=$ANDROID_NDK_LATEST_HOME:$PATH
+cd build.android
+./changeAppSettings.sh
+```
+
+7. Accept the Android Studio Licenses. You may either open the
+`build.android/project` folder in Android Studio, although it might get laggy;
+you can also accept licenses from the CLI.
+
+```
+# It is recommended to read the licenses, but if you've already read them, you
+# can execute `sudo -v` to enable sudo priviledges and add `yes | ` in front of
+# the next line.
+sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
+```
+
+8. Assemble a release build. <sub>TODO: Check for debug builds</sub>
+
+```
+# Assuming CWD = build.android
+cd project
+
+./gradlew assembleRelease
+```
+
+9. Accept the licenses again, but this time by specifying the project as root.
+
+```
+# Similarly as step #7, you can prepend `yes | ` to accept all licenses
+sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses \
+          --sdk_root=`pwd`
+```
+
+10. Generate a debug key, if you don't have one already.
+
+```
+mkdir -p ~/.android
+keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android \
+          -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 \
+          -validity 10000 \
+          -dname "CN=Debug, OU=Debug, O=Debug, L=Debug, ST=Debug, C=Debug"
+```
+
+11. Setup the project properties. <sub>TODO: What do these do and what value can
+they take?</sub>
+
+```
+# Assuming CWD = build.android/project
+
+echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+echo "proguard.config=proguard.cfg;proguard-local.cfg" >> local.properties
+```
+
+12. Build SuperTux by running the `build.sh` script in the build.android folder.
+
+```
+# Assuming CWD = build.android/project
+cd ..
+
+export PATH=$ANDROID_NDK_HOME:$ANDROID_SDK_ROOT/build-tools/31.0.0:$PATH
+./build.sh
+```
+
+13. To generate a .aab, run `./gradlew bundleReleaseWithDebugInfo` from the
+project folder. The file will be located, from `build.android/project`, at
+`app/build/outputs/bundle/releaseWithDebugInfo/app-releaseWithDebugInfo.aab`.
+
+```
+# Assuming CWD = build.android
+
+cd project
+./gradlew bundleReleaseWithDebugInfo
+```
+
+14. To generate a .apk, run `./create-apk-with-data.sh` from the
+`build.android/project/jni/application/supertux` folder. The file will be
+located at `build.android/SuperTux-with-data.apk`.
+
+```
+# Assuming CWD = build.android/project
+
+cd jni/application/supertux
+./create-apk-with-data.sh
+```
 
 ### WASM using Emscripten
 
