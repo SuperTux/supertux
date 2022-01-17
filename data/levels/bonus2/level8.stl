@@ -4,6 +4,8 @@
   (author "Kevin")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 95)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -11,9 +13,10 @@
     )
     (background
       (color 1 1 1)
-      (alignment "right")
+      (alignment "top")
       (speed 0.5)
       (image "images/background/bridgecloud-dark.png")
+      (z-pos -290)
     )
     (background
       (color 1 1 1)
@@ -22,10 +25,7 @@
       (image "images/background/bridgeocean-nofade.png")
     )
     (background
-      (scroll-offset-y 390)
       (color 1 1 1)
-      (x 1952)
-      (y 288)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -286,10 +286,6 @@
         (node
           (x 3744)
           (y 480)
-          (bezier_before_x 3744)
-          (bezier_before_y 480)
-          (bezier_after_x 3744)
-          (bezier_after_y 480)
         )
       )
     )
@@ -549,6 +545,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 100)
       (name "secret")

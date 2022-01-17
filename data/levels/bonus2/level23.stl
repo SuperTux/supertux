@@ -4,16 +4,15 @@
   (author "Penguinmaster")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 30)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
-      (scroll-offset-y -250)
       (color 1 1 1)
-      (x 4992)
-      (y 864)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (speed 0.5)
