@@ -105,12 +105,13 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
   }
 
   SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight LandscapeLeft");
-#if SDL_VERSION_ATLEAST(2,0,4)
+#if SDL_VERSION_ATLEAST(2,0,10)
   SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
   SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
 #elif __ANDROID__
-#warning Android needs SDL_HINT_TOUCH_MOUSE_EVENTS to work properly, but the   \
-         SDL version is too old. Please use SDL >= 2.0.4 to compile for Android,
+#warning Android needs SDL_HINT_MOUSE_TOUCH_EVENTS to work properly, but the   \
+         SDL version is too old. Please use SDL >= 2.0.10 to compile for       \
+         Android,
 #endif
 
   m_sdl_window.reset(SDL_CreateWindow("SuperTux",
