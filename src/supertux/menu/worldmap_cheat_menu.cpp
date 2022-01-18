@@ -109,6 +109,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
     case MNID_GHOST:
       tux.set_ghost_mode(!tux.get_ghost_mode());
+      MenuManager::instance().clear_menu_stack();
       break;
 
     case MNID_FINISH_LEVEL:
