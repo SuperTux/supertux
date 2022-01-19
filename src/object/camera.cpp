@@ -154,7 +154,9 @@ Camera::Camera(const std::string& name) :
   m_scale_target(1.f),
   m_scale_time_total(0.f),
   m_scale_time_remaining(0.f),
-  m_scale_easing()
+  m_scale_easing(),
+  m_minimum_scale(1.f),
+  m_enfore_minimum_scale(false)
 {
   reload_config();
 }
@@ -185,7 +187,9 @@ Camera::Camera(const ReaderMapping& reader) :
   m_scale_target(1.f),
   m_scale_time_total(0.f),
   m_scale_time_remaining(0.f),
-  m_scale_easing()
+  m_scale_easing(),
+  m_minimum_scale(1.f),
+  m_enfore_minimum_scale(false)
 {
   std::string modename;
 
@@ -266,7 +270,7 @@ const Vector
 Camera::get_translation() const
 {
   Vector screen_size = Sizef(m_screen_size).as_vector();
-  return m_translation + ((screen_size * (m_scale - 1.f)) / 2.f);
+  return m_translation + ((screen_size * (get_current_scale() - 1.f)) / 2.f);
 }
 
 Rectf
@@ -329,6 +333,9 @@ Camera::draw(DrawingContext& context)
 void
 Camera::update(float dt_sec)
 {
+  // Minimum scale should be set during the update sequence; else, reset it
+  m_enfore_minimum_scale = false;
+
   switch (m_mode) {
     case Mode::NORMAL:
       if (Sector::current() && Sector::current()->get_object_count<Player>() > 1)
@@ -707,6 +714,8 @@ Camera::update_scroll_normal(float dt_sec)
 void
 Camera::update_scroll_normal_multiplayer(float dt_sec)
 {
+  m_enfore_minimum_scale = true;
+
   float x1 = Sector::get().get_width();
   float y1 = Sector::get().get_height();
   float x2 = 0.f;
@@ -736,7 +745,10 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
                          static_cast<float>(SCREEN_HEIGHT) / static_cast<float>(cover.get_height()));
   float max_scale = std::max(static_cast<float>(SCREEN_WIDTH) / Sector::get().get_width(),
                              static_cast<float>(SCREEN_HEIGHT) / Sector::get().get_height());
-  scale = math::clamp(scale, max_scale, 1.f);
+
+  // Capping at `m_scale` allows fixing a minor bug where the camera would
+  // sometimes be slightly off-sector if scaling goes faster than moving.
+  scale = math::clamp(scale, max_scale, m_scale);
 
   // Can't use m_screen_size because it varies depending on the scale
   auto rect = Rectf::from_center(Vector((cover.get_left() + cover.get_right()) / 2.f, (cover.get_top() + cover.get_bottom()) / 2.f),
@@ -753,8 +765,8 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
   if (true_rect.get_bottom() > Sector::get().get_height())
     rect.move(Vector(0.f, Sector::get().get_height() - true_rect.get_bottom()));
 
-  m_translation = m_translation * (1.f -MULTIPLAYER_CAM_WEIGHT) + rect.p1() * MULTIPLAYER_CAM_WEIGHT;
-  m_scale = m_scale * (1.f -MULTIPLAYER_CAM_WEIGHT) + scale * MULTIPLAYER_CAM_WEIGHT;
+  m_translation = m_translation * (1.f - MULTIPLAYER_CAM_WEIGHT) + rect.p1() * MULTIPLAYER_CAM_WEIGHT;
+  m_minimum_scale = m_minimum_scale * (1.f - MULTIPLAYER_CAM_WEIGHT) + scale * MULTIPLAYER_CAM_WEIGHT;
 }
 
 void
@@ -810,7 +822,7 @@ Camera::update_scale(float dt_sec)
   }
 
   Vector screen_size = Sizef(m_screen_size).as_vector();
-  m_translation += screen_size * (1.f - m_scale) / 2.f;
+  m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
 }
 
 void

@@ -101,7 +101,7 @@ public:
   void set_mode(Mode mode_) { m_mode = mode_; }
 
   /** get the exact scale at this exact moment */
-  float get_current_scale() const { return m_scale; }
+  float get_current_scale() const { return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale; }
 
   /** get the scale towards which the camera is moving */
   float get_target_scale() const { return m_scale_target; }
@@ -154,6 +154,11 @@ private:
         m_scale_time_total,
         m_scale_time_remaining;
   easing m_scale_easing;
+
+  // Minimum scale is used in certain circumstances where a fixed minimum scale
+  // should be used, regardless of the scriping-accessible `m_scale` property.
+  float m_minimum_scale;
+  bool m_enfore_minimum_scale;
 
 private:
   Camera(const Camera&) = delete;
