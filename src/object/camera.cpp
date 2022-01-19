@@ -345,20 +345,19 @@ Camera::update(float dt_sec)
       else
       {
         update_scroll_normal(dt_sec);
-        update_scale(dt_sec);
       }
       break;
     case Mode::AUTOSCROLL:
       update_scroll_autoscroll(dt_sec);
-      update_scale(dt_sec);
       break;
     case Mode::SCROLLTO:
       update_scroll_to(dt_sec);
-      update_scale(dt_sec);
       break;
     default:
       break;
   }
+
+  update_scale(dt_sec);
   shake();
 }
 
@@ -820,6 +819,10 @@ Camera::update_scale(float dt_sec)
     // Re-center camera when zooming
     m_lookahead_pos /= 1.01f;
   }
+
+  // FIXME: Poor design: This shouldn't pose a problem to multiplayer
+  if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
+    return;
 
   Vector screen_size = Sizef(m_screen_size).as_vector();
   m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
