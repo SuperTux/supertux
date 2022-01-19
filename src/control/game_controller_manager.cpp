@@ -239,7 +239,7 @@ GameControllerManager::on_controller_added(int joystick_index)
 
         m_game_controllers[game_controller] = id;
 
-        if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen())
+        if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
         {
           auto& sector = GameSession::current()->get_current_sector();
           auto& player_status = GameSession::current()->get_savegame().get_player_status();
@@ -247,7 +247,8 @@ GameControllerManager::on_controller_added(int joystick_index)
           if (player_status.m_num_players <= id)
             player_status.add_player();
 
-          auto& player = sector.add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+          // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
+          auto& player = sector.add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
 
           player.multiplayer_prepare_spawn();
         }

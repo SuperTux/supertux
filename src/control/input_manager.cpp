@@ -145,6 +145,9 @@ InputManager::push_user()
 void
 InputManager::pop_user()
 {
+  if (m_controllers.size() <= 1)
+    throw std::runtime_error("Attempt to pop the first player's controller");
+
   m_controllers.pop_back();
 }
 
@@ -165,10 +168,11 @@ InputManager::on_player_removed(int player_id)
 bool
 InputManager::has_corresponsing_controller(int player_id) const
 {
+/*
   // Player 0 should always be considered to have a controller
   if (!player_id)
     return true;
-
+*/
   if (m_use_game_controller)
   {
     auto& map = game_controller_manager->get_controller_mapping();

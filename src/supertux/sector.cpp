@@ -87,10 +87,12 @@ Sector::Sector(Level& parent) :
     add<PlayerStatusHUD>(player_status);
   }
 
-  for (int id = 0; id < InputManager::current()->get_num_users(); id++)
+  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
   {
     if (!InputManager::current()->has_corresponsing_controller(id)
-        && !InputManager::current()->m_uses_keyboard[id])
+        && !InputManager::current()->m_uses_keyboard[id]
+        && !savegame->is_title_screen()
+        && id != 0)
       continue;
 
     if (id > 0 && !savegame)
@@ -253,7 +255,9 @@ Sector::activate(const Vector& player_pos)
     }
   }
 
-  { //FIXME: This is a really dirty workaround for this strange camera jump
+  //FIXME: This is a really dirty workaround for this strange camera jump
+  if (get_players().size() > 0)
+  {
     Player& player = *(get_players()[0]);
     Camera& camera = get_camera();
     player.move(player.get_pos()+Vector(-32, 0));
