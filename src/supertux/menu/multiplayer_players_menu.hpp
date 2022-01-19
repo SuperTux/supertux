@@ -14,27 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/multiplayer_menu.hpp"
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MULTIPLAYER_PLAYERS_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_MULTIPLAYER_PLAYERS_MENU_HPP
 
-#include "gui/item_toggle.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "util/gettext.hpp"
+#include "gui/menu.hpp"
 
-MultiplayerMenu::MultiplayerMenu()
+class MultiplayerPlayersMenu final : public Menu
 {
-  add_label(_("Multiplayer"));
-  add_hl();
+public:
+  MultiplayerPlayersMenu();
 
-  auto& automanage_item = add_toggle(-1, _("Auto-manage Players"),
-                                    &g_config->multiplayer_auto_manage_players);
-  automanage_item.set_help(_("Automatically add and remove players when controllers are plugged or unplugged"));
+  void menu_action(MenuItem& item) override {}
+};
 
-  add_submenu(_("Manage Players"), MenuStorage::MULTIPLAYER_PLAYERS_MENU);
-
-  add_hl();
-  add_back(_("Back"));
-}
+#endif
 
 /* EOF */

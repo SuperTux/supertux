@@ -98,6 +98,7 @@ Config::Config() :
   editor_autotile_mode(false),
   editor_autotile_help(true),
   editor_autosave_frequency(5),
+  multiplayer_auto_manage_players(true),
   repository_url()
 {
 }
@@ -194,6 +195,8 @@ Config::load()
   config_mapping.get("locale", locale);
   config_mapping.get("random_seed", random_seed);
   config_mapping.get("repository_url", repository_url);
+
+  config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
 
   boost::optional<ReaderMapping> config_video_mapping;
   if (config_mapping.get("video", config_video_mapping))
@@ -318,6 +321,7 @@ Config::save()
   writer.write("transitions_enabled", transitions_enabled);
   writer.write("locale", locale);
   writer.write("repository_url", repository_url);
+  writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
 
   writer.start_list("interface_colors");
   writer.write("menubackcolor", menubackcolor.toVector());
