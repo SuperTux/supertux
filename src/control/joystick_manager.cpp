@@ -22,6 +22,8 @@
 #include "control/joystick_config.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/player.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
@@ -75,7 +77,7 @@ JoystickManager::on_joystick_added(int joystick_index)
     if (SDL_JoystickNumHats(joystick) > max_joyhats)
       max_joyhats = SDL_JoystickNumHats(joystick);
 
-    if (!parent->m_use_game_controller) // TODO: Boolean config for automatic player creation/removal?
+    if (!parent->m_use_game_controller && g_config->multiplayer_auto_manage_players)
     {
       int id = parent->get_num_users();
       for (int i = 0; i < parent->get_num_users(); i++)
@@ -127,7 +129,8 @@ JoystickManager::on_joystick_removed(int instance_id)
 
     joysticks.erase(it);
 
-    if (!parent->m_use_game_controller && deleted_player_id != 0 && !parent->m_uses_keyboard[deleted_player_id])
+    if (!parent->m_use_game_controller && g_config->multiplayer_auto_manage_players
+        && deleted_player_id != 0 && !parent->m_uses_keyboard[deleted_player_id])
     {
       // Sectors in worldmaps have no Player's of that class
       if (Sector::current() && Sector::current()->get_object_count<Player>() > 0)
