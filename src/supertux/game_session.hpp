@@ -83,6 +83,7 @@ public:
   void toggle_pause();
   void abort_level();
   bool is_active() const;
+  void perform_test(const std::string& filename);
 
   /** Enters or leaves level editor mode */
   void set_editmode(bool edit_mode = true);
@@ -152,6 +153,8 @@ private:
   int m_max_ice_bullets_at_start; /** How many ice bullets does the player have */
 
   bool m_active; /** Game active? **/
+
+  bool m_is_testing;
 
   bool m_end_seq_started;
 

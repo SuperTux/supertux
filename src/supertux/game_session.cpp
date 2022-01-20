@@ -79,6 +79,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_fire_bullets_at_start(),
   m_max_ice_bullets_at_start(),
   m_active(false),
+  m_is_testing(false),
   m_end_seq_started(false),
   m_current_cutscene_text()
 {
@@ -110,6 +111,11 @@ GameSession::restart_level(bool after_death)
   if (m_edit_mode) {
     force_ghost_mode();
     return (-1);
+  }
+
+  if(m_is_testing && after_death)
+  {
+    throw std::runtime_error("Performed test failed: Tux died!");
   }
 
   m_game_pause   = false;
@@ -232,6 +238,14 @@ bool
 GameSession::is_active() const
 {
   return !m_game_pause && m_active && !m_end_sequence;
+}
+
+void
+GameSession::perform_test(const std::string & filename)
+{
+  m_is_testing = true;
+  m_levelintro_shown = true;
+  play_demo(filename);
 }
 
 void

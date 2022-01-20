@@ -77,6 +77,9 @@ public:
   int random_seed;
 
   bool enable_script_debugger;
+
+  std::string test;
+
   std::string start_demo;
   std::string record_demo;
 

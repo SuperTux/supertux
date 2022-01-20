@@ -353,7 +353,7 @@ Sector::before_object_add(GameObject& object)
       return false;
     }
   }
-  
+
   if (auto* movingobject = dynamic_cast<MovingObject*>(&object))
   {
     m_collision_system->add(movingobject->get_collision_object());

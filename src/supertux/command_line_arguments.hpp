@@ -67,6 +67,7 @@ public:
 
   std::vector<std::string> filenames;
   boost::optional<bool> enable_script_debugger;
+  boost::optional<std::string> test;
   boost::optional<std::string> start_demo;
   boost::optional<std::string> record_demo;
   boost::optional<Vector> tux_spawn_pos;
