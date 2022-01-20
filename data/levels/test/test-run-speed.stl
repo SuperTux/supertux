@@ -1,0 +1,168 @@
+(supertux-level
+  (version 3)
+  (name (_ "Test run speed"))
+  (author "zwatotem")
+  (contact "zwatotem@gmail.com")
+  (license "CC-BY-SA 4.0 International")
+  (target-time 1)
+  (icon "")
+  (icon-locked "")
+  (sector
+    (name "main")
+    (ambient-light
+      (color 1 1 1)
+    )
+    (camera
+      (name "Camera")
+      (mode "normal")
+    )
+    (leveltime
+      (time 4.5)
+    )
+    (music
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 1;
+wait(0.11);
+if(backcheck==1) Tux.kill(true);")
+      (button #f)
+      (x 192)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 2;
+wait(0.11);
+if(backcheck==2) Tux.kill(true);")
+      (button #f)
+      (x 224)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 3;
+wait(0.11);
+if(backcheck==3) Tux.kill(true);")
+      (button #f)
+      (x 256)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 4;
+wait(0.11);
+if(backcheck==4) Tux.kill(true);")
+      (button #f)
+      (x 288)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 5;
+wait(0.11);
+if(backcheck==5) Tux.kill(true);")
+      (button #f)
+      (x 320)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 6;
+wait(0.11);
+if(backcheck==6) Tux.kill(true);")
+      (button #f)
+      (x 352)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 7;
+wait(0.11);
+if(backcheck==7) Tux.kill(true);")
+      (button #f)
+      (x 384)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 8;
+wait(0.11);
+if(backcheck==8) Tux.kill(true);")
+      (button #f)
+      (x 416)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 9;
+wait(0.11);
+if(backcheck==9) Tux.kill(true);")
+      (button #f)
+      (x 448)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 10;
+wait(0.11);
+if(backcheck==10) Tux.kill(true);")
+      (button #f)
+      (x 480)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 11;
+wait(0.11);
+if(backcheck==11) Tux.kill(true);")
+      (button #f)
+      (x 512)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "backcheck <- 12;
+wait(0.11);
+if(backcheck==12) Tux.kill(true);")
+      (button #f)
+      (x 544)
+      (y 256)
+    )
+    (spawnpoint
+      (name "main")
+      (x 64)
+      (y 256)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos 0)
+      (width 30)
+      (height 10)
+      (tiles
+      227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227
+      227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227
+      227 227 227 227 227 227 227 227 227 0 227 227 227 227 227 227 227 0 227 227 227 227 227 227 227 227 227 227 227 227
+      227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227
+      227 227 227 227 227 0 227 227 227 0 227 227 227 0 227 227 227 0 227 227 227 227 227 227 227 227 227 227 227 227
+      227 227 227 0 227 0 227 0 227 0 227 0 227 0 227 0 227 0 227 227 227 227 227 227 227 227 227 227 227 227
+      227 227 227 0 227 0 227 0 227 0 227 0 227 0 227 0 227 0 227 227 227 227 227 227 227 227 227 227 227 227
+      227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227 227
+      227 227 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 132 227 227 227 227 227 227 227 227 227 227 227
+      227 227 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 227 227 227 227 227 227 227 227 227 227 227
+      )
+    )
+  )
+)

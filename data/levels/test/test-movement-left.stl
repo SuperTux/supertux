@@ -1,0 +1,42 @@
+(supertux-level
+  (version 3)
+  (name (_ "Test movement left"))
+  (author "zwatotem")
+  (contact "zwatotem@gmail.com")
+  (license "CC-BY-SA 4.0 International")
+  (icon "")
+  (icon-locked "")
+  (sector
+    (name "main")
+    (ambient-light
+      (color 1 1 1)
+    )
+    (camera
+      (name "Camera")
+      (mode "normal")
+    )
+    (leveltime
+      (time 0.01)
+    )
+    (music
+    )
+    (spawnpoint
+      (name "main")
+      (x 65)
+      (y 64)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos 0)
+      (width 5)
+      (height 5)
+      (tiles
+      0 0 0 0 0
+      0 0 227 0 0
+      0 132 0 227 0
+      0 0 48 0 0
+      0 0 0 0 0
+      )
+    )
+  )
+)
