@@ -62,6 +62,8 @@ PlayerStatus::take_checkpoint_coins()
 void PlayerStatus::reset(int num_players)
 {
   coins = START_COINS;
+
+  // Keep in sync with a section in read()
   bonus.clear();
   bonus.resize(num_players, NO_BONUS);
   max_fire_bullets.clear();
@@ -161,7 +163,7 @@ PlayerStatus::write(Writer& writer)
 void
 PlayerStatus::read(const ReaderMapping& mapping)
 {
-  int num_players_in_file;
+  int num_players_in_file = 1;
   mapping.get("num_players", num_players_in_file);
 
   reset(std::max(m_num_players, num_players_in_file));
@@ -179,6 +181,22 @@ PlayerStatus::read(const ReaderMapping& mapping)
         if (id >= m_num_players)
         {
           log_warning << "ID larger than amount of players when reading player state: " << id << std::endl;
+
+          // Keep this in sync with reset()
+          if (bonus.size() < id)
+            bonus.resize(id, NO_BONUS);
+
+          if (max_fire_bullets.size() < id)
+            max_fire_bullets.resize(id, 0);
+
+          if (max_ice_bullets.size() < id)
+            max_ice_bullets.resize(id, 0);
+
+          if (max_air_time.size() < id)
+            max_air_time.resize(id, 0);
+
+          if (max_earth_time.size() < id)
+            max_earth_time.resize(id, 0);
         }
         else if (id == 0)
         {
