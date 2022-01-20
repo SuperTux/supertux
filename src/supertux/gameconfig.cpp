@@ -56,6 +56,7 @@ Config::Config() :
   music_volume(50),
   random_seed(0), // set by time(), by default (unless in config)
   enable_script_debugger(false),
+  test(),
   start_demo(),
   record_demo(),
   tux_spawn_pos(),
@@ -166,7 +167,7 @@ Config::load()
   }
 
   // Compatibility; will be overwritten by the "editor" category
-  
+
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
   editor_autotile_help = !developer_mode;
