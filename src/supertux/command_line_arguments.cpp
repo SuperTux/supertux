@@ -43,6 +43,7 @@ CommandLineArguments::CommandLineArguments() :
   music_enabled(),
   filenames(),
   enable_script_debugger(),
+  test(),
   start_demo(),
   record_demo(),
   tux_spawn_pos(),
