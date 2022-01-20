@@ -63,8 +63,6 @@ Canvas::render(Renderer& renderer, Filter filter)
 
   Painter& painter = renderer.get_painter();
 
-  //auto viewport_backup = m_context.get_viewport();
-
   for (const auto& i : m_requests) {
     const DrawingRequest& request = *i;
 
@@ -105,8 +103,6 @@ Canvas::render(Renderer& renderer, Filter filter)
         break;
     }
   }
-
-  //m_context.set_viewport(viewport_backup);
 }
 
 void
