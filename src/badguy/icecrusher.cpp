@@ -596,7 +596,7 @@ IceCrusher::eye_position(bool right) const
 {
   if (state == IDLE || state == CRUSHING_RIGHT || state == CRUSHING_LEFT)
   {
-    for (auto* player : Sector::get().get_players())
+    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
     {
       // Icecrusher focuses on approximate position of player's head
       const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
