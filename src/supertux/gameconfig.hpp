@@ -133,6 +133,7 @@ public:
   int editor_autosave_frequency;
 
   bool multiplayer_auto_manage_players;
+  bool multiplayer_buzz_controllers;
 
   std::string repository_url;
 
