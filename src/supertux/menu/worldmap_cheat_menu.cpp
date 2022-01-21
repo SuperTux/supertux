@@ -68,41 +68,41 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_GROW:
-      do_cheat(status, [&status](int player){
+      do_cheat(status, [&status](int player) {
         status.bonus[player] = GROWUP_BONUS;
       });
       break;
 
     case MNID_FIRE:
-      do_cheat(status, [&status](int player, int count){
+      do_cheat(status, [&status](int player, int count) {
         status.bonus[player] = FIRE_BONUS;
         status.max_fire_bullets[player] = count;
       });
       break;
 
     case MNID_ICE:
-      do_cheat(status, [&status](int player, int count){
+      do_cheat(status, [&status](int player, int count) {
         status.bonus[player] = ICE_BONUS;
         status.max_ice_bullets[player] = count;
       });
       break;
 
     case MNID_AIR:
-      do_cheat(status, [&status](int player, int count){
+      do_cheat(status, [&status](int player, int count) {
         status.bonus[player] = AIR_BONUS;
         status.max_air_time[player] = count;
       });
       break;
 
     case MNID_EARTH:
-      do_cheat(status, [&status](int player, int count){
+      do_cheat(status, [&status](int player, int count) {
         status.bonus[player] = EARTH_BONUS;
         status.max_earth_time[player] = count;
       });
       break;
 
     case MNID_SHRINK:
-      do_cheat(status, [&status](int player){
+      do_cheat(status, [&status](int player) {
         status.bonus[player] = NO_BONUS;
       });
       break;
