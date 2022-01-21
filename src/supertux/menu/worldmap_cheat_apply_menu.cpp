@@ -16,6 +16,8 @@
 
 #include "supertux/menu/worldmap_cheat_apply_menu.hpp"
 
+#include "boost/format.hpp"
+
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/player.hpp"
@@ -34,7 +36,7 @@ WorldmapCheatApplyMenu::WorldmapCheatApplyMenu(int num_players,
   add_hl();
 
   for (int i = 0; i < m_num_players; i++)
-    add_entry(i, _("Player") + " " + std::to_string(i + 1));
+    add_entry(i, (boost::format(_("Player %d")) % (i + 1)).str());
 
   add_hl();
   add_back(_("Back"));
@@ -55,7 +57,7 @@ WorldmapCheatApplyMenu::WorldmapCheatApplyMenu(int num_players,
   add_entry(-1, _("All Players"));
 
   for (int i = 0; i < m_num_players; i++)
-    add_entry(i, _("Player") + " " + std::to_string(i + 1));
+    add_entry(i, (boost::format(_("Player %d")) % (i + 1)).str());
 
   add_hl();
   add_back(_("Back"));
