@@ -27,8 +27,11 @@ MultiplayerMenu::MultiplayerMenu()
   add_label(_("Multiplayer"));
   add_hl();
 
-  auto& automanage_item = add_toggle(-1, _("Auto-manage Players"), &g_config->multiplayer_auto_manage_players);
-  automanage_item.set_help(_("Automatically add and remove players when controllers are plugged or unplugged"));
+  add_toggle(-1, _("Auto-manage Players"), &g_config->multiplayer_auto_manage_players)
+    .set_help(_("Automatically add and remove players when controllers are plugged or unplugged"));
+
+  add_toggle(-2, _("Allow Multibind"), &g_config->multiplayer_multibind)
+    .set_help(_("Allow binding multiple joysticks to a single player"));
 
   add_submenu(_("Manage Players"), MenuStorage::MULTIPLAYER_PLAYERS_MENU);
 
