@@ -61,6 +61,7 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
 
           // Remove the player before the controller, else it'll behave funny
           auto num = InputManager::current()->get_num_users();
+          // FIXME: Probably not a good idea to get a player by name
           auto player = Sector::current()->get_object_by_name<Player>("Tux" + std::to_string(num));
 
           if (player)
