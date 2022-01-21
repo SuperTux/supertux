@@ -30,11 +30,6 @@ MultiplayerMenu::MultiplayerMenu()
   auto& automanage_item = add_toggle(-1, _("Auto-manage Players"), &g_config->multiplayer_auto_manage_players);
   automanage_item.set_help(_("Automatically add and remove players when controllers are plugged or unplugged"));
 
-  auto& buzz_item = add_toggle(-1, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers);
-  buzz_item.set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the options menu."));
-  // ^ Separated both translation strings so the latter can be removed if it is
-  // no longer true, without requiring a new round of translating
-
   add_submenu(_("Manage Players"), MenuStorage::MULTIPLAYER_PLAYERS_MENU);
 
   add_hl();
