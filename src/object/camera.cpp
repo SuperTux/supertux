@@ -42,6 +42,8 @@ static const float PEEK_ARRIVE_RATIO = 0.03f;
  */
 static const float HORIZONTAL_MARGIN = 196.f; // 6 tiles
 static const float VERTICAL_MARGIN = 196.f; // 6 tiles
+static const float PEEK_ADD_HORIZONTAL_MARGIN = 320.f; // 10 tiles
+static const float PEEK_ADD_VERTICAL_MARGIN = 320.f; // 10 tiles
 
 /* 0 = no movement, 1 = no smooth adaptation */
 static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
@@ -725,10 +727,25 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
     if (p->is_dead() || p->is_dying())
       continue;
 
-    x1 = std::min(x1, p->get_bbox().get_left() - HORIZONTAL_MARGIN);
-    x2 = std::max(x2, p->get_bbox().get_right() + HORIZONTAL_MARGIN);
-    y1 = std::min(y1, p->get_bbox().get_top() - VERTICAL_MARGIN);
-    y2 = std::max(y2, p->get_bbox().get_bottom() + VERTICAL_MARGIN);
+    float lft = p->get_bbox().get_left() - HORIZONTAL_MARGIN;
+    float rgt = p->get_bbox().get_right() + HORIZONTAL_MARGIN;
+    float top = p->get_bbox().get_top() - VERTICAL_MARGIN;
+    float btm = p->get_bbox().get_bottom() + VERTICAL_MARGIN;
+
+    if (p->peeking_direction_x() == Direction::LEFT)
+      lft -= PEEK_ADD_HORIZONTAL_MARGIN;
+    else if (p->peeking_direction_x() == Direction::RIGHT)
+      rgt += PEEK_ADD_HORIZONTAL_MARGIN;
+
+    if (p->peeking_direction_y() == Direction::UP)
+      top -= PEEK_ADD_VERTICAL_MARGIN;
+    else if (p->peeking_direction_y() == Direction::DOWN)
+      btm += PEEK_ADD_VERTICAL_MARGIN;
+
+    x1 = std::min(x1, lft);
+    x2 = std::max(x2, rgt);
+    y1 = std::min(y1, top);
+    y2 = std::max(y2, btm);
   }
 
   // Might happens if all players are dead
