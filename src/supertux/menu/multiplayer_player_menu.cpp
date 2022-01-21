@@ -144,10 +144,10 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       add_entry(prefix + std::string(SDL_GameControllerName(pair.first)), [controller, player_id] {
         InputManager::current()->game_controller_manager->get_controller_mapping()[controller] = player_id;
 
-        // Prevent multiple joysticks to be bound to the same player
-        for (auto& pair2 : InputManager::current()->game_controller_manager->get_controller_mapping())
-          if (pair2.second == player_id && pair2.first != controller)
-            pair2.second = -1;
+        if (!g_config->multiplayer_multibind)
+          for (auto& pair2 : InputManager::current()->game_controller_manager->get_controller_mapping())
+            if (pair2.second == player_id && pair2.first != controller)
+              pair2.second = -1;
 
         MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayerMenu>(player_id));
 
@@ -187,10 +187,10 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       add_entry(prefix + std::string(SDL_JoystickName(pair.first)), [joystick, player_id] {
         InputManager::current()->joystick_manager->get_joystick_mapping()[joystick] = player_id;
 
-        // Prevent multiple joysticks to be bound to the same player
-        for (auto& pair2 : InputManager::current()->joystick_manager->get_joystick_mapping())
-          if (pair2.second == player_id && pair2.first != joystick)
-            pair2.second = -1;
+        if (!g_config->multiplayer_multibind)
+          for (auto& pair2 : InputManager::current()->joystick_manager->get_joystick_mapping())
+            if (pair2.second == player_id && pair2.first != joystick)
+              pair2.second = -1;
 
         MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayerMenu>(player_id));
 
