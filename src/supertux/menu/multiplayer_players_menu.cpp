@@ -20,7 +20,9 @@
 #include "control/input_manager.hpp"
 #include "control/joystick_manager.hpp"
 #include "gui/dialog.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/menu/multiplayer_player_menu.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
 #include "object/player.hpp"
 #include "util/gettext.hpp"
@@ -41,6 +43,12 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
 
   add_entry(_("Add Player"), [] {
     InputManager::current()->push_user();
+
+    if (GameSession::current() && GameSession::current()->get_savegame().get_player_status().m_num_players < InputManager::current()->get_num_users())
+    {
+      GameSession::current()->get_savegame().get_player_status().add_player();
+    }
+
     MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayersMenu>());
   });
 
