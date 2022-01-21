@@ -16,11 +16,15 @@
 
 #include "supertux/menu/multiplayer_player_menu.hpp"
 
+#include "SDL.h"
+
 #include "control/game_controller_manager.hpp"
 #include "control/input_manager.hpp"
 #include "control/joystick_manager.hpp"
 #include "gui/dialog.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
 #include "object/player.hpp"
@@ -146,6 +150,30 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
             pair2.second = -1;
 
         MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayerMenu>(player_id));
+
+#if SDL_VERSION_ATLEAST(2, 0, 9)
+        if (g_config->multiplayer_buzz_controllers)
+        {
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+          if (SDL_GameControllerHasRumble(controller))
+          {
+#endif
+            // TODO: Rumble intensity setting (like volume)
+            SDL_GameControllerRumble(controller, 0xFFFF, 0xFFFF, 300);
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+          }
+          else
+          {
+            Dialog::show_message(_("This controller does not support rumbling;\n"
+                                    "please check the controllers manually."));
+          }
+#endif
+        }
+#else
+        Dialog::show_message(_("This SuperTux build does not support rumbling\n"
+                                "controllers; please check the controllers manually.\n"
+                                "\nYou may disable this message in the Options menu."));
+#endif
       });
     }
   }
@@ -165,6 +193,30 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
             pair2.second = -1;
 
         MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayerMenu>(player_id));
+
+#if SDL_VERSION_ATLEAST(2, 0, 9)
+        if (g_config->multiplayer_buzz_controllers)
+        {
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+          if (SDL_JoystickHasRumbleTriggers(joystick))
+          {
+#endif
+            // TODO: Rumble intensity setting (like volume)
+            SDL_JoystickRumble(joystick, 0xFFFF, 0xFFFF, 300);
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+          }
+          else
+          {
+            Dialog::show_message(_("This joystick does not support rumbling;\n"
+                                    "please check the joysticks manually."));
+          }
+#endif
+        }
+#else
+        Dialog::show_message(_("This SuperTux build does not support rumbling\n"
+                                "joysticks; please check the joysticks manually.\n"
+                                "\nYou may disable this message in the Options menu."));
+#endif
       });
     }
   }
