@@ -99,6 +99,7 @@ Config::Config() :
   editor_autotile_help(true),
   editor_autosave_frequency(5),
   multiplayer_auto_manage_players(true),
+  multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
   multiplayer_buzz_controllers(true),
 #else
@@ -205,6 +206,7 @@ Config::load()
   config_mapping.get("repository_url", repository_url);
 
   config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
+  config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
 
   boost::optional<ReaderMapping> config_video_mapping;
@@ -331,6 +333,7 @@ Config::save()
   writer.write("locale", locale);
   writer.write("repository_url", repository_url);
   writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
+  writer.write("multiplayer_multibind", multiplayer_multibind);
   writer.write("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
 
   writer.start_list("interface_colors");
