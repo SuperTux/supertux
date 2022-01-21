@@ -180,7 +180,7 @@ if(backcheck==12) Tux.kill(true);")
     (spawnpoint
       (name "main")
       (x 64)
-      (y 64)
+      (y 96)
     )
     (tilemap
       (solid #t)

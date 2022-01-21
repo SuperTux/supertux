@@ -26,9 +26,9 @@
       (height 32)
       (script "backcheck <- 1;
       frontcheck <- 0;
-wait(0.11);
+wait(0.10);
 frontcheck <- 1;
-wait(0.05)
+wait(0.02)
 if(backcheck==1) Tux.kill(true);")
       (button #f)
       (x 192)
@@ -39,9 +39,9 @@ if(backcheck==1) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 2;
       if(frontcheck==2-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 2;
-wait(0.05)
+wait(0.02)
 if(backcheck==2) Tux.kill(true);")
       (button #f)
       (x 224)
@@ -52,9 +52,9 @@ if(backcheck==2) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 3;
       if(frontcheck==3-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 3;
-wait(0.05)
+wait(0.02)
 if(backcheck==3) Tux.kill(true);")
       (button #f)
       (x 256)
@@ -65,9 +65,9 @@ if(backcheck==3) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 4;
       if(frontcheck==4-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 4;
-wait(0.05)
+wait(0.02)
 if(backcheck==4) Tux.kill(true);")
       (button #f)
       (x 288)
@@ -78,9 +78,9 @@ if(backcheck==4) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 5;
       if(frontcheck==5-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 5;
-wait(0.05)
+wait(0.02)
 if(backcheck==5) Tux.kill(true);")
       (button #f)
       (x 320)
@@ -91,9 +91,9 @@ if(backcheck==5) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 6;
       if(frontcheck==6-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 6;
-wait(0.05)
+wait(0.02)
 if(backcheck==6) Tux.kill(true);")
       (button #f)
       (x 352)
@@ -104,9 +104,9 @@ if(backcheck==6) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 7;
       if(frontcheck==7-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 7;
-wait(0.05)
+wait(0.02)
 if(backcheck==7) Tux.kill(true);")
       (button #f)
       (x 384)
@@ -117,9 +117,9 @@ if(backcheck==7) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 8;
       if(frontcheck==8-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 8;
-wait(0.05)
+wait(0.02)
 if(backcheck==8) Tux.kill(true);")
       (button #f)
       (x 416)
@@ -130,9 +130,9 @@ if(backcheck==8) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 9;
       if(frontcheck==9-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 9;
-wait(0.05)
+wait(0.02)
 if(backcheck==9) Tux.kill(true);")
       (button #f)
       (x 448)
@@ -143,9 +143,9 @@ if(backcheck==9) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 10;
       if(frontcheck==10-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 10;
-wait(0.05)
+wait(0.02)
 if(backcheck==10) Tux.kill(true);")
       (button #f)
       (x 480)
@@ -156,9 +156,9 @@ if(backcheck==10) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 11;
       if(frontcheck==11-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 11;
-wait(0.05)
+wait(0.02)
 if(backcheck==11) Tux.kill(true);")
       (button #f)
       (x 512)
@@ -169,9 +169,9 @@ if(backcheck==11) Tux.kill(true);")
       (height 32)
       (script "backcheck <- 12;
       if(frontcheck==12-2) Tux.kill(true);
-wait(0.11);
+wait(0.10);
 frontcheck <- 12;
-wait(0.05)
+wait(0.02)
 if(backcheck==12) Tux.kill(true);")
       (button #f)
       (x 544)
@@ -180,7 +180,7 @@ if(backcheck==12) Tux.kill(true);")
     (spawnpoint
       (name "main")
       (x 64)
-      (y 64)
+      (y 96)
     )
     (tilemap
       (solid #t)
