@@ -16,8 +16,6 @@
 
 #include "control/keyboard_config.hpp"
 
-#include <regex>
-
 #include <boost/optional.hpp>
 
 #include "util/log.hpp"
