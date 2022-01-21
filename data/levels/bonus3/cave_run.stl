@@ -4,6 +4,8 @@
   (author "Stuart Rynn")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 70)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -11,7 +13,6 @@
     )
     (background
       (color 1 1 1)
-      (y 500)
       (speed 0.5)
       (image-top "images/background/nightsky_top.png")
       (image "images/background/nightsky_middle.png")
@@ -143,6 +144,7 @@
     (path
       (name "933df2b2-e4e4-42ae-9cd1-8ac321a52a43")
       (path
+        (adapt_speed #f)
         (node
           (x 6176)
           (y 448)
@@ -411,6 +413,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 60)
       (name "Secret1")
