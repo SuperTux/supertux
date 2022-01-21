@@ -183,19 +183,19 @@ PlayerStatus::read(const ReaderMapping& mapping)
           log_warning << "ID larger than amount of players when reading player state: " << id << std::endl;
 
           // Keep this in sync with reset()
-          if (bonus.size() < id)
+          if (bonus.size() < static_cast<size_t>(id))
             bonus.resize(id, NO_BONUS);
 
-          if (max_fire_bullets.size() < id)
+          if (max_fire_bullets.size() < static_cast<size_t>(id))
             max_fire_bullets.resize(id, 0);
 
-          if (max_ice_bullets.size() < id)
+          if (max_ice_bullets.size() < static_cast<size_t>(id))
             max_ice_bullets.resize(id, 0);
 
-          if (max_air_time.size() < id)
+          if (max_air_time.size() < static_cast<size_t>(id))
             max_air_time.resize(id, 0);
 
-          if (max_earth_time.size() < id)
+          if (max_earth_time.size() < static_cast<size_t>(id))
             max_earth_time.resize(id, 0);
         }
         else if (id == 0)
