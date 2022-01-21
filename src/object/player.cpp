@@ -2464,12 +2464,18 @@ void
 Player::multiplayer_respawn()
 {
   if (!m_target)
+  {
     log_warning << "Can't respawn multiplayer player, no target" << std::endl;
+    return;
+  }
 
   auto target = Sector::get().get_object_by_uid<Player>(*m_target);
 
   if (!target)
+  {
     log_warning << "Can't respawn multiplayer player, target missing" << std::endl;
+    return;
+  }
 
   m_dying = false;
   m_dead = false;
