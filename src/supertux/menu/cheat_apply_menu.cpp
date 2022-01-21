@@ -52,7 +52,7 @@ CheatApplyMenu::CheatApplyMenu(std::function<void(Player&, int)> callback) :
   add_label(_("Apply cheat to player"));
   add_hl();
 
-  add_intfield("Count", &m_stack_count, -2);
+  add_intfield(_("Count"), &m_stack_count, -2);
   add_hl();
   add_entry(-1, _("All Players"));
   for (const auto player : Sector::get().get_players())
