@@ -94,7 +94,7 @@ Block::collision(GameObject& other, const CollisionHit& )
     {
       hit(*player);
     }
-    else if (!player->is_swimboosting() && !player->is_water_jumping() && !player->is_swimming())
+    else if (!player->is_water_jumping() && !player->is_swimming())
     {
       bool x_coordinates_intersect =
         player->get_bbox().get_right() >= m_col.m_bbox.get_left() &&
@@ -102,10 +102,7 @@ Block::collision(GameObject& other, const CollisionHit& )
       if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA &&
           x_coordinates_intersect)
       {
-        if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
-        {
-          hit(*player);
-        }
+        hit(*player);
       }
     }
   }
