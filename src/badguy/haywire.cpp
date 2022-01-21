@@ -103,6 +103,8 @@ Haywire::collision_squished(GameObject& object)
 void
 Haywire::active_update(float dt_sec)
 {
+  auto* player = get_nearest_player();
+
   if (is_exploding) {
     ticking->set_position(get_pos());
     grunting->set_position(get_pos());
@@ -126,7 +128,6 @@ Haywire::active_update(float dt_sec)
 
   if (is_exploding)
   {
-    auto player = Sector::get().get_nearest_player(m_col.m_bbox);
     if (on_ground() && std::abs(m_physic.get_velocity_x()) > 40.f && player)
     {
       //jump over 1-tall roadblocks
@@ -154,7 +155,7 @@ Haywire::active_update(float dt_sec)
         gap_box.set_bottom(m_col.m_bbox.get_bottom() + 28.f);
 
         if (Sector::get().is_free_of_statics(gap_box)
-          && (get_nearest_player()->get_bbox().get_bottom() <= m_col.m_bbox.get_bottom()))
+          && (player->get_bbox().get_bottom() <= m_col.m_bbox.get_bottom()))
         {
           m_physic.set_velocity_y(-325.f);
         }
@@ -174,17 +175,16 @@ Haywire::active_update(float dt_sec)
 	      walk_right_action = "active-right";
     }
 
-    auto p = get_nearest_player ();
     float target_velocity = 0.f;
 
     if (stomped_timer.get_timeleft() >= 0.05f)
     {
       target_velocity = 0.f;
     }
-    else if (p && time_stunned == 0.0f)
+    else if (player && time_stunned == 0.0f)
     {
       /* Player is on the right or left*/
-      target_velocity = (p->get_pos().x > get_pos().x) ? walk_speed : (-1.f) * walk_speed;
+      target_velocity = (player->get_pos().x > get_pos().x) ? walk_speed : (-1.f) * walk_speed;
     }
 
     WalkingBadguy::active_update(dt_sec, target_velocity, 3.f);
