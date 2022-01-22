@@ -154,11 +154,7 @@ InputManager::pop_user()
 void
 InputManager::on_player_removed(int player_id)
 {
-  auto& map = joystick_manager->get_joystick_mapping();
-  auto it = std::find_if(map.begin(), map.end(), [player_id](std::remove_reference<decltype(map)>::type::const_reference pair) { return pair.second == player_id; });
-  if (it != map.end())
-    it->second = -1;
-
+  joystick_manager->on_player_removed(player_id);
   game_controller_manager->on_player_removed(player_id);
 }
 
@@ -171,10 +167,7 @@ InputManager::has_corresponsing_controller(int player_id) const
   }
   else
   {
-    auto& map = joystick_manager->get_joystick_mapping();
-    return std::find_if(map.begin(), map.end(), [player_id](std::remove_reference<decltype(map)>::type::const_reference pair) {
-      return pair.second == player_id;
-    }) != map.end();
+    return joystick_manager->has_corresponding_joystick(player_id);
   }
 }
 

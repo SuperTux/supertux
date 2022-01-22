@@ -303,4 +303,66 @@ JoystickManager::set_joy_controls(SDL_JoystickID joystick, Control id, bool valu
   parent->get_controller(it->second).set_control(id, value);
 }
 
+void
+JoystickManager::on_player_removed(int player_id)
+{
+  auto it2 = std::find_if(joysticks.begin(), joysticks.end(), [player_id](decltype(joysticks)::const_reference pair) {
+    return pair.second == player_id;
+  });
+  if (it2 != joysticks.end())
+  {
+    it2->second = -1;
+    // Try again, in case multiple controllers were bount to a player
+    // Recursive call shouldn't go too deep except in hardcore scenarios
+    on_player_removed(player_id);
+  }
+}
+
+bool
+JoystickManager::has_corresponding_joystick(int player_id) const
+{
+  return std::find_if(joysticks.begin(), joysticks.end(), [player_id](decltype(joysticks)::const_reference pair) {
+    return pair.second == player_id;
+  }) != joysticks.end();
+}
+
+int
+JoystickManager::rumble(SDL_Joystick* controller) const
+{
+#if SDL_VERSION_ATLEAST(2, 0, 9)
+  if (g_config->multiplayer_buzz_controllers)
+  {
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+    if (SDL_JoystickHasRumble(controller))
+    {
+#endif
+      // TODO: Rumble intensity setting (like volume)
+      SDL_JoystickRumble(controller, 0xFFFF, 0xFFFF, 300);
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+    }
+    else
+    {
+      return 1;
+    }
+#endif
+  }
+
+  return 0;
+#else
+  return 2;
+#endif
+}
+
+void
+JoystickManager::bind_joystick(SDL_Joystick* controller, int player_id)
+{
+  joysticks[controller] = player_id;
+
+  if (!g_config->multiplayer_multibind)
+    for (auto& pair2 : joysticks)
+      if (pair2.second == player_id && pair2.first != controller)
+        pair2.second = -1;
+}
+
+
 /* EOF */

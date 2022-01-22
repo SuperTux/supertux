@@ -54,6 +54,14 @@ public:
 
   int get_num_joysticks() const { return static_cast<int>(joysticks.size()); }
 
+  void on_player_removed(int player_id);
+  bool has_corresponding_joystick(int player_id) const;
+
+  /** @returns 0 if success, 1 if controller doesn't support rumbling, 2 if game doesn't support rumbling */
+  int rumble(SDL_Joystick* joystick) const;
+
+  void bind_joystick(SDL_Joystick* joystick, int player_id);
+
   std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
 
 private:

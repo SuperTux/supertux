@@ -175,38 +175,27 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       std::string prefix = (pair.second == -1) ? "" : (pair.second == player_id) ? "-> " : ("[" + std::to_string(pair.second + 1) + "] ");
 
       add_entry(prefix + std::string(SDL_JoystickName(pair.first)), [joystick, player_id] {
-        InputManager::current()->joystick_manager->get_joystick_mapping()[joystick] = player_id;
+        InputManager::current()->joystick_manager->bind_joystick(joystick, player_id);
 
-        if (!g_config->multiplayer_multibind)
-          for (auto& pair2 : InputManager::current()->joystick_manager->get_joystick_mapping())
-            if (pair2.second == player_id && pair2.first != joystick)
-              pair2.second = -1;
+        auto err = InputManager::current()->joystick_manager->rumble(joystick);
+        switch (err)
+        {
+          case 1:
+            Dialog::show_message(_("This joystick does not support rumbling;"
+                                   "\nplease check the joysticks manually."));
+            break;
+
+          case 2:
+            Dialog::show_message(_("This SuperTux build does not support "
+                                   "rumbling\njoysticks; please check the "
+                                   "joysticks manually."));
+            break;
+
+          default:
+            break;
+        }
 
         MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayerMenu>(player_id));
-
-#if SDL_VERSION_ATLEAST(2, 0, 9)
-        if (g_config->multiplayer_buzz_controllers)
-        {
-#if SDL_VERSION_ATLEAST(2, 0, 18)
-          if (SDL_JoystickHasRumbleTriggers(joystick))
-          {
-#endif
-            // TODO: Rumble intensity setting (like volume)
-            SDL_JoystickRumble(joystick, 0xFFFF, 0xFFFF, 300);
-#if SDL_VERSION_ATLEAST(2, 0, 18)
-          }
-          else
-          {
-            Dialog::show_message(_("This joystick does not support rumbling;\n"
-                                    "please check the joysticks manually."));
-          }
-#endif
-        }
-#else
-        Dialog::show_message(_("This SuperTux build does not support rumbling\n"
-                                "joysticks; please check the joysticks manually.\n"
-                                "\nYou may disable this message in the Options menu."));
-#endif
       });
     }
   }
