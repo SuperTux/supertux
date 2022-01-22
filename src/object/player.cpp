@@ -140,8 +140,6 @@ Player::get_player_color(int id)
                1.f - static_cast<float>(id & 1) * .4f);
 }
 
-SurfacePtr Player::s_multiplayer_arrow;
-
 Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
   ExposedObject<Player, scripting::Player>(this),
   m_id(player_id),
@@ -175,6 +173,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_ice_this_frame(false),
   m_lightsprite(SpriteManager::current()->create("images/creatures/tux/light.sprite")),
   m_powersprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
+  m_multiplayer_arrow(SpriteManager::current()->create("images/engine/hud/arrowdown.png")),
   m_tag_timer(),
   m_tag_fade(nullptr),
   m_tag_alpha(1.f),
@@ -226,9 +225,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
-
-  if (!s_multiplayer_arrow)
-    s_multiplayer_arrow = Surface::from_file("images/engine/hud/arrowdown.png");
 
   SoundManager::current()->preload("sounds/bigjump.wav");
   SoundManager::current()->preload("sounds/jump.wav");
@@ -1660,9 +1656,9 @@ Player::draw(DrawingContext& context)
     auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
     if (target)
     {
-      Vector pos(target->get_bbox().get_middle().x, target->get_bbox().get_top() - static_cast<float>(s_multiplayer_arrow->get_height()) * 1.5f);
-      Vector pos_surf(pos - Vector(static_cast<float>(s_multiplayer_arrow->get_width()) / 2.f, 0.f));
-      context.color().draw_surface(s_multiplayer_arrow, pos_surf, LAYER_LIGHTMAP + 1);
+      Vector pos(target->get_bbox().get_middle().x, target->get_bbox().get_top() - static_cast<float>(m_multiplayer_arrow->get_height()) * 1.5f);
+      Vector pos_surf(pos - Vector(static_cast<float>(m_multiplayer_arrow->get_width()) / 2.f, 0.f));
+      m_multiplayer_arrow->draw(context.color(), pos_surf, LAYER_LIGHTMAP + 1);
       context.color().draw_text(Resources::normal_font, std::to_string(get_id() + 1), pos,
                                 FontAlignment::ALIGN_CENTER, LAYER_LIGHTMAP + 1);
     }

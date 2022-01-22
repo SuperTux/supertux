@@ -66,9 +66,6 @@ private:
 public:
   static Color get_player_color(int id);
 
-private:
-  static SurfacePtr s_multiplayer_arrow;
-
 public:
   Player(PlayerStatus& player_status, const std::string& name, int player_id);
   ~Player() override;
@@ -304,6 +301,7 @@ private:
   bool m_ice_this_frame;
   SpritePtr m_lightsprite;
   SpritePtr m_powersprite;
+  SpritePtr m_multiplayer_arrow;
 
   // Multiplayer tag stuff (number displayed over the players)
   Timer m_tag_timer;
