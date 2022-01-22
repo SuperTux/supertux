@@ -143,38 +143,27 @@ MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
       std::string prefix = (pair.second == -1) ? "" : (pair.second == player_id) ? "-> " : ("[" + std::to_string(pair.second + 1) + "] ");
 
       add_entry(prefix + std::string(SDL_GameControllerName(pair.first)), [controller, player_id] {
-        InputManager::current()->game_controller_manager->get_controller_mapping()[controller] = player_id;
+        InputManager::current()->game_controller_manager->bind_controller(controller, player_id);
 
-        if (!g_config->multiplayer_multibind)
-          for (auto& pair2 : InputManager::current()->game_controller_manager->get_controller_mapping())
-            if (pair2.second == player_id && pair2.first != controller)
-              pair2.second = -1;
+        auto err = InputManager::current()->game_controller_manager->rumble(controller);
+        switch (err)
+        {
+          case 1:
+            Dialog::show_message(_("This controller does not support rumbling;"
+                                   "\nplease check the controllers manually."));
+            break;
+
+          case 2:
+            Dialog::show_message(_("This SuperTux build does not support "
+                                   "rumbling\ncontrollers; please check the "
+                                   "controllers manually."));
+            break;
+
+          default:
+            break;
+        }
 
         MenuManager::instance().set_menu(std::make_unique<MultiplayerPlayerMenu>(player_id));
-
-#if SDL_VERSION_ATLEAST(2, 0, 9)
-        if (g_config->multiplayer_buzz_controllers)
-        {
-#if SDL_VERSION_ATLEAST(2, 0, 18)
-          if (SDL_GameControllerHasRumble(controller))
-          {
-#endif
-            // TODO: Rumble intensity setting (like volume)
-            SDL_GameControllerRumble(controller, 0xFFFF, 0xFFFF, 300);
-#if SDL_VERSION_ATLEAST(2, 0, 18)
-          }
-          else
-          {
-            Dialog::show_message(_("This controller does not support rumbling;\n"
-                                    "please check the controllers manually."));
-          }
-#endif
-        }
-#else
-        Dialog::show_message(_("This SuperTux build does not support rumbling\n"
-                                "controllers; please check the controllers manually.\n"
-                                "\nYou may disable this message in the Options menu."));
-#endif
       });
     }
   }

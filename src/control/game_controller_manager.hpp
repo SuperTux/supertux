@@ -46,6 +46,14 @@ public:
   void on_controller_added(int joystick_index);
   void on_controller_removed(int instance_id);
 
+  void on_player_removed(int player_id);
+  bool has_corresponding_game_controller(int player_id) const;
+
+  /** @returns 0 if success, 1 if controller doesn't support rumbling, 2 if game doesn't support rumbling */
+  int rumble(SDL_GameController* controller) const;
+
+  void bind_controller(SDL_GameController* controller, int player_id);
+
   std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
 
 private:

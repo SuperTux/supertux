@@ -301,4 +301,65 @@ GameControllerManager::on_controller_removed(int instance_id)
   }
 }
 
+void
+GameControllerManager::on_player_removed(int player_id)
+{
+  auto it2 = std::find_if(m_game_controllers.begin(), m_game_controllers.end(), [player_id](decltype(m_game_controllers)::const_reference pair) {
+    return pair.second == player_id;
+  });
+  if (it2 != m_game_controllers.end())
+  {
+    it2->second = -1;
+    // Try again, in case multiple controllers were bount to a player
+    // Recursive call shouldn't go too deep except in hardcore scenarios
+    on_player_removed(player_id);
+  }
+}
+
+bool
+GameControllerManager::has_corresponding_game_controller(int player_id) const
+{
+  return std::find_if(m_game_controllers.begin(), m_game_controllers.end(), [player_id](decltype(m_game_controllers)::const_reference pair) {
+    return pair.second == player_id;
+  }) != m_game_controllers.end();
+}
+
+int
+GameControllerManager::rumble(SDL_GameController* controller) const
+{
+#if SDL_VERSION_ATLEAST(2, 0, 9)
+  if (g_config->multiplayer_buzz_controllers)
+  {
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+    if (SDL_GameControllerHasRumble(controller))
+    {
+#endif
+      // TODO: Rumble intensity setting (like volume)
+      SDL_GameControllerRumble(controller, 0xFFFF, 0xFFFF, 300);
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+    }
+    else
+    {
+      return 1;
+    }
+#endif
+  }
+
+  return 0;
+#else
+  return 2;
+#endif
+}
+
+void
+GameControllerManager::bind_controller(SDL_GameController* controller, int player_id)
+{
+  m_game_controllers[controller] = player_id;
+
+  if (!g_config->multiplayer_multibind)
+    for (auto& pair2 : m_game_controllers)
+      if (pair2.second == player_id && pair2.first != controller)
+        pair2.second = -1;
+}
+
 /* EOF */
