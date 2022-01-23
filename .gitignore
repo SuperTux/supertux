@@ -29,7 +29,8 @@ docs/doxygen/
 # Qt Creator project file
 CMakeLists.txt.user
 
-# Clangd 
+# Clangd
+.cache/
 compile_commands.json
 
 # Visual Studio Code project files
