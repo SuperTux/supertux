@@ -3,6 +3,8 @@
   (name (_ "Ice Under Water"))
   (author "Adharsh PS")
   (license "CC-BY-SA 4.0 International")
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -669,8 +671,6 @@
     )
     (background
       (color 1 1 1)
-      (x 1161.25)
-      (y 771.491)
       (speed 0.5)
       (image-top "/images/background/cloud_mountains/cloud-mountains-background.png")
       (image "/images/background/cloud_mountains/cloud-mountains-background.png")
