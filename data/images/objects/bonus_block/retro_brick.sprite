@@ -9,4 +9,34 @@
  (action
   (name "normal")
   (images "../../tiles/blocks/retro_brick.png"))
+
+ (action
+  (name "piece1")
+  (fps 1)
+  (images "../../tiles/blocks/rbrick_piece1.png"))
+
+ (action
+  (name "piece2")
+  (fps 1)
+  (images "../../tiles/blocks/rbrick_piece2.png"))
+
+ (action
+  (name "piece3")
+  (fps 1)
+  (images "../../tiles/blocks/rbrick_piece3.png"))
+
+ (action
+  (name "piece4")
+  (fps 1)
+  (images "../../tiles/blocks/rbrick_piece4.png"))
+
+ (action
+  (name "piece5")
+  (fps 1)
+  (images "../../tiles/blocks/rbrick_piece5.png"))
+
+ (action
+  (name "piece6")
+  (fps 1)
+  (images "../../tiles/blocks/rbrick_piece6.png"))
  )
