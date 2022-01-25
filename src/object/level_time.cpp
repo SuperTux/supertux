@@ -100,6 +100,7 @@ LevelTime::draw(DrawingContext& context)
     return;
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
 
   if ((time_left > TIME_WARNING) || (int(g_game_time * 2.5f) % 2)) {
     std::stringstream ss;

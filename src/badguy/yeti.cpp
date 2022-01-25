@@ -131,6 +131,7 @@ Yeti::draw_hit_points(DrawingContext& context)
   {
     context.push_transform();
     context.set_translation(Vector(0, 0));
+    context.transform().scale = 1.f;
 
     for (int i = 0; i < hit_points; ++i)
     {
