@@ -64,7 +64,8 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_force_content(false)
 {
   m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
 
@@ -81,7 +82,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_force_content(false)
 {
   m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
 
@@ -135,7 +137,12 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
       }
     } else if (token == "custom-contents") {
       // handled elsewhere
-    } else {
+    }
+    else if (token == "force-content")
+    {
+      mapping.get("force-content", m_force_content, false);
+    }
+    else {
       if (m_contents == Content::CUSTOM && !m_object) {
         // FIXME: This an ugly mess, could probably be removed as of
         // 16. Aug 2018 no level in either the supertux or the
@@ -214,8 +221,9 @@ BonusBlock::get_settings()
                    "1up", "custom", "script", "light", "light-on", "trampoline", "rain", "explode"},
                   static_cast<int>(Content::COIN), "contents");
   result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
+  result.add_bool(_("Force content"), &m_force_content, "force-content", false);
 
-  result.reorder({"script", "count", "contents", "sprite", "x", "y"});
+  result.reorder({"script", "count", "contents", "force-content", "sprite", "x", "y"});
 
   return result;
 }
@@ -512,7 +520,7 @@ void
 BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
 {
   std::unique_ptr<MovingObject> obj;
-  if (player->get_status().bonus == NO_BONUS)
+  if (player->get_status().bonus == NO_BONUS && !m_force_content)
   {
     obj = std::make_unique<GrowUp>(get_pos(), dir);
   }
@@ -528,7 +536,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
 void
 BonusBlock::drop_growup_bonus(Player* player, const std::string& bonus_sprite_name, const Direction& dir, bool& countdown)
 {
-  if (player->get_status().bonus == NO_BONUS)
+  if (player->get_status().bonus == NO_BONUS && !m_force_content)
   {
     Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir);
   }
