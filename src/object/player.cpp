@@ -395,7 +395,7 @@ Player::update(float dt_sec)
           adjust_height(TUX_WIDTH);
         m_wants_buttjump = m_does_buttjump = m_backflipping = false;
         m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
-        SoundManager::current()->play("sounds/splash.wav");
+        SoundManager::current()->play("sounds/splash.wav", get_pos());
       }
     }
   }
@@ -518,7 +518,7 @@ Player::update(float dt_sec)
 
   if (m_second_growup_sound_timer.check())
   {
-    SoundManager::current()->play("sounds/grow.wav");
+    SoundManager::current()->play("sounds/grow.wav", get_pos());
     m_second_growup_sound_timer.stop();
   }
 
@@ -839,7 +839,7 @@ Player::handle_horizontal_input()
       // let's skid!
       if (fabsf(vx)>SKID_XM && !m_skidding_timer.started()) {
         m_skidding_timer.start(SKID_TIME);
-        SoundManager::current()->play("sounds/skid.wav");
+        SoundManager::current()->play("sounds/skid.wav", get_pos());
         // dust some particles
         Sector::get().add<Particles>(
             Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
@@ -938,7 +938,7 @@ Player::do_backflip() {
   m_backflip_direction = (m_dir == Direction::LEFT)?(+1):(-1);
   m_backflipping = true;
   do_jump((m_player_status.bonus == AIR_BONUS) ? -720.0f : -580.0f);
-  SoundManager::current()->play("sounds/flip.wav");
+  SoundManager::current()->play("sounds/flip.wav", get_pos());
   m_backflip_timer.start(TUX_BACKFLIP_TIME);
 }
 
@@ -957,9 +957,9 @@ Player::do_jump(float yspeed) {
 
     // play sound
     if (is_big()) {
-      SoundManager::current()->play("sounds/bigjump.wav");
+      SoundManager::current()->play("sounds/bigjump.wav", get_pos());
     } else {
-      SoundManager::current()->play("sounds/jump.wav");
+      SoundManager::current()->play("sounds/jump.wav", get_pos());
     }
   }
 }
@@ -1062,7 +1062,7 @@ Player::handle_vertical_input()
   //The real walljumping magic
   if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
   {
-    SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav");
+    SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav", get_pos());
     m_physic.set_velocity_x(m_player_status.bonus == AIR_BONUS ?
       m_on_left_wall ? 480.f : -480.f : m_on_left_wall ? 380.f : -380.f);
     do_jump(-520.f);
@@ -1155,7 +1155,7 @@ Player::handle_input()
         m_physic.get_velocity() + (Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) :
         Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f),
         m_dir, m_player_status.bonus);
-      SoundManager::current()->play("sounds/shoot.wav");
+      SoundManager::current()->play("sounds/shoot.wav", get_pos());
       m_shooting_timer.start(SHOOTING_TIME);
     }
   }
@@ -1876,6 +1876,7 @@ Player::on_flip(float height)
 void
 Player::make_invincible()
 {
+  // No get_pos() here since the music affects the whole sector
   SoundManager::current()->play("sounds/invincible_start.ogg");
   m_invincible_timer.start(TUX_INVINCIBLE_TIME);
   Sector::get().get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
@@ -1901,7 +1902,7 @@ Player::kill(bool completely)
   m_lightsprite->set_angle(0.0f);
 
   if (!completely && is_big()) {
-    SoundManager::current()->play("sounds/hurt.wav");
+    SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
     if (m_player_status.bonus == FIRE_BONUS
       || m_player_status.bonus == ICE_BONUS
@@ -1916,7 +1917,7 @@ Player::kill(bool completely)
       set_bonus(NO_BONUS, true);
     }
   } else {
-    SoundManager::current()->play("sounds/kill.wav");
+    SoundManager::current()->play("sounds/kill.wav", get_pos());
 
     // do not die when in edit mode
     if (m_edit_mode) {
