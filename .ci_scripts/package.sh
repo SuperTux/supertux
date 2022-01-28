@@ -8,7 +8,7 @@ if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-11" ]) && [ "$PACKAG
 fi
 
 # make only one source package
-if [ "$SOURCE" = "ON" ] then
+if [ "$SOURCE" = "ON" ]; then
     cpack --config CPackSourceConfig.cmake -G TGZ;
 fi
 
