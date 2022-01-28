@@ -211,9 +211,12 @@ void
 GameSession::on_escape_press(bool force_quick_respawn)
 {
   auto players = m_currentsector->get_players();
-  if ((players.size() == 1 && players[0]->is_dying() && (m_play_time > 2.0f
-      || force_quick_respawn))
-    || m_end_sequence)
+
+  int alive = m_currentsector->get_object_count<Player>([](const Player& p) {
+    return !p.is_dead() && !p.is_dying();
+  });
+
+  if ((!alive && (m_play_time > 2.0f || force_quick_respawn)) || m_end_sequence)
   {
     // Let the timers run out, we fast-forward them to force past a sequence
     if (m_end_sequence)
