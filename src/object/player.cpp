@@ -2124,12 +2124,15 @@ Player::check_bounds()
   if (m_col.m_bbox.get_right() > Sector::get().get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(), m_col.m_bbox.get_top()));
+    set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(),
+                   m_col.m_bbox.get_top()));
   }
 
   // If Tux is swimming, don't allow him to go below the sector
-  if (m_swimming && !m_ghost_mode && m_col.m_bbox.get_bottom() > Sector::get().get_height()) {
-    set_pos(Vector(m_col.m_bbox.get_left(), Sector::get().get_height() - m_col.m_bbox.get_height()));
+  if (m_swimming && !m_ghost_mode && !is_dying() && !is_dead()
+      && m_col.m_bbox.get_bottom() > Sector::get().get_height()) {
+    set_pos(Vector(m_col.m_bbox.get_left(),
+                   Sector::get().get_height() - m_col.m_bbox.get_height()));
   }
 
   /* fallen out of the level? */
