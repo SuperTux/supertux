@@ -35,6 +35,10 @@ jobs:
         glbinding: [ON, OFF]
         include:
           - build_type: Release
+            arch: x64
+            release: 'ON'
+          - build_type: Release
+            arch: x86
             release: 'ON'
 
     runs-on: windows-latest
@@ -79,6 +83,7 @@ jobs:
           cmake --version
           mkdir build
           cd build
+          echo -DGLBINDING_ENABLED=$Env:GLBINDING
           cmake .. -G "Visual Studio 16 2019" -A $Env:ARCH.replace("x86", "Win32") -DGLBINDING_ENABLED=$Env:GLBINDING -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true -DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE -DBUILD_TESTS=ON
 
       - name: Build and install

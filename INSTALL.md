@@ -322,8 +322,6 @@ Then:
   build with one of the files located at `mk/clickable/build-with-*.json`:
   ```
   clickable --config mk/clickable/build-with-glew.json
-  # Or
-  clickable --config mk/clickable/build-with-glbinding.json
   ```
 
 - To run SuperTux directly on your computer:

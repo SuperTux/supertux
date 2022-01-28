@@ -31,7 +31,12 @@ jobs:
       matrix:
         build_type: [Debug, Release]
         arch: [amd64, arm64, armhf]
-        opengl: [glew, glbinding, sdl]
+        # glbinding is missing as it isn't available on Ubuntu 16.04
+        opengl: [glew, sdl]
+        exclude:
+            # FIXME: Debug builds don't work for arm64
+          - arch: arm64
+            build_type: Debug
 
     runs-on: ubuntu-20.04
     steps:

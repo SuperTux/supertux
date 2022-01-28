@@ -33,7 +33,8 @@ jobs:
         # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        glbinding: [ON, OFF]
+        glbinding: [OFF] # FreeBSD does not have glbinding
+        # glbinding: [ON, OFF]
 
     runs-on: macos-latest
     steps:
@@ -62,7 +63,7 @@ jobs:
             pkg install -y sdl2_image
             pkg install -y openal-soft
             pkg install -y glew
-            pkg install -y glbinding
+            # pkg install -y glbinding
             pkg install -y boost-all
             pkg install -y curl
             pkg install -y libogg

@@ -163,17 +163,19 @@ jobs:
           BUILD_TYPE: ${{ matrix.build_type }}
           ARCH: ${{ matrix.arch == 32 && '-DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32' || '' }}
           GLBINDING: ${{ matrix.glbinding }}
+          # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
+          # (also check the step that invokes the tests with ./test_supertux2)
+          TESTS: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           cmake --version
           $CXX --version
           mkdir "build"
           cd "build"
-          # TODO add -DGLBINDING_ENABLED=$USE_GLBINDING
-          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH -DBUILD_TESTS=ON       \
+          cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE $ARCH -DBUILD_TESTS=$TESTS   \
                    -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$GLBINDING    \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
-                   -DINSTALL_SUBDIR_SHARE=share/supertux2 -DBUILD_TESTS=ON
+                   -DINSTALL_SUBDIR_SHARE=share/supertux2
 
       - name: Build and install
         working-directory: build
@@ -182,6 +184,9 @@ jobs:
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
       - name: Run tests
+        # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
+        # (also check the step that invokes CMake with -DBUILD_TESTS)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         working-directory: build
         run: ./test_supertux2
 

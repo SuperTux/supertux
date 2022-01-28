@@ -1,3 +1,4 @@
+// This build won't work, as glbinding isn't available on Ubuntu 16.04.
 {
   "builder": "cmake",
   "build_dir": "build.clickable",
