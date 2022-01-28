@@ -8,11 +8,11 @@ if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-11" ]) && [ "$PACKAG
 fi
 
 # make only one source package
-if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$COMPILER_NAME" = "gcc" ] && [ "$BUILD_NAME" = "Release" ] && [ "$ARCH" = "64" ] && [ "$PACKAGE" = "ON" ]; then
+if [ "$SOURCE" = "ON" ] then
     cpack --config CPackSourceConfig.cmake -G TGZ;
 fi
 
-if [ "$OS_NAME" = "ubuntu-latest" ] && [ "$PACKAGE" = "ON" ]; then
+if ([ "$OS_NAME" = "ubuntu-latest" ] || [ "$OS_NAME" = "ubuntu-18.04" ]) && [ "$PACKAGE" = "ON" ]; then
     ../.ci_scripts/build_appimage.sh
     # extract built appimages for uploading
     mv ~/out/* .

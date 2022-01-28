@@ -33,7 +33,7 @@ jobs:
         # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
         vm_os: [freebsd]
         build_type: [Debug, Release]
-        glbinding: [OFF] # FreeBSD does not have glbinding
+        # FreeBSD does not have glbinding
         # glbinding: [ON, OFF]
 
     runs-on: macos-latest
@@ -48,10 +48,10 @@ jobs:
         if: ${{ matrix.vm_os == 'freebsd' }}
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          GLBINDING: ${{ matrix.glbinding }}
+          # GLBINDING: ${{ matrix.glbinding }} # TODO: Re-add if available
         uses: vmactions/freebsd-vm@v0.1.4
         with:
-          envs: 'BUILD_TYPE GLBINDING'
+          envs: 'BUILD_TYPE' # TODO: Add GLBINDING here if it comes to FreeBSD
           sync: rsync
           usesh: true
           prepare: |
@@ -63,7 +63,7 @@ jobs:
             pkg install -y sdl2_image
             pkg install -y openal-soft
             pkg install -y glew
-            # pkg install -y glbinding
+            # pkg install -y glbinding # TODO: Uncomment whenever possible
             pkg install -y boost-all
             pkg install -y curl
             pkg install -y libogg
@@ -76,7 +76,8 @@ jobs:
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
                      -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
-                     -DINSTALL_SUBDIR_BIN=bin -DGLBINDING_ENABLED=$GLBINDING
+                     -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
+                                            # TODO: Uncomment whenever possible
             make -j3 VERBOSE=1
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2

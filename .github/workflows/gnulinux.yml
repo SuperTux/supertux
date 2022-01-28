@@ -43,6 +43,7 @@ jobs:
             compiler: gcc
             arch: 64
             release: 'ON'
+            source: 'ON'
           - build_type: Debug
             compiler: gcc
             arch: 64
@@ -208,6 +209,7 @@ jobs:
           COMPILER_NAME: ${{ matrix.compiler }}
           BUILD_NAME: ${{ matrix.build_type }}
           PACKAGE: 'ON'
+          SOURCE: ${{ matrix.source }}
         working-directory: build
         run: ../.ci_scripts/package.sh
 
