@@ -83,12 +83,13 @@ std::string generate_menu_item_text(const Addon& addon)
 
 } // namespace
 
-AddonMenu::AddonMenu(bool auto_install_langpack) :
+AddonMenu::AddonMenu(bool auto_install_langpack, bool language_packs_only) :
   m_addon_manager(*AddonManager::current()),
   m_installed_addons(),
   m_repository_addons(),
   m_addons_enabled(),
-  m_auto_install_langpack(auto_install_langpack)
+  m_auto_install_langpack(auto_install_langpack),
+  m_langpacks_only(language_packs_only)
 {
   refresh();
   if (auto_install_langpack)
@@ -119,18 +120,18 @@ void
 AddonMenu::rebuild_menu()
 {
   clear();
-  add_label(_("Add-ons"));
+  add_label(m_langpacks_only?_("Language Packs") :_("Add-ons"));
   add_hl();
 
   if (m_installed_addons.empty())
   {
     if (!m_repository_addons.empty())
     {
-      add_inactive(_("No Add-ons installed"));
+      add_inactive(m_langpacks_only?_("No language packs installed") :_("No Add-ons installed"));
     }
     else
     {
-      add_inactive(_("No Add-ons found"));
+      add_inactive(m_langpacks_only?_("No language packs found") :_("No Add-ons found"));
     }
   }
   else
@@ -142,8 +143,11 @@ AddonMenu::rebuild_menu()
       m_addons_enabled[idx] = addon.is_enabled();
       if (addon_visible(addon))
       {
-        std::string text = generate_menu_item_text(addon);
-        add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, &m_addons_enabled[idx]);
+        if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
+        {
+          std::string text = generate_menu_item_text(addon);
+          add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, &m_addons_enabled[idx]);
+        }
       }
       idx += 1;
     }
@@ -175,9 +179,12 @@ AddonMenu::rebuild_menu()
                     << std::endl;
           if (addon_visible(addon))
           {
-            std::string text = generate_menu_item_text(addon);
-            add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
-            have_new_stuff = true;
+            if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
+            {
+              std::string text = generate_menu_item_text(addon);
+              add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
+              have_new_stuff = true;
+            }
           }
         }
       }
@@ -186,9 +193,12 @@ AddonMenu::rebuild_menu()
         // addon is not installed
         if (addon_visible(addon))
         {
-          std::string text = generate_menu_item_text(addon);
-          add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
-          have_new_stuff = true;
+          if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
+          {
+            std::string text = generate_menu_item_text(addon);
+            add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
+            have_new_stuff = true;
+          }
         }
       }
       idx += 1;
@@ -196,7 +206,7 @@ AddonMenu::rebuild_menu()
 
     if (!have_new_stuff && m_addon_manager.has_been_updated())
     {
-      add_inactive(_("No new Add-ons found"));
+      add_inactive(m_langpacks_only?_("No new language packs found") :_("No new Add-ons found"));
     }
   }
 
