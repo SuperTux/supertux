@@ -1,0 +1,52 @@
+{
+  "builder": "cmake",
+  "build_dir": "build.clickable",
+  "dependencies_target": [
+    "libogg-dev",
+    "libvorbis-dev",
+    "libopenal-dev",
+    "libboost-filesystem-dev",
+    "libboost-system-dev",
+    "libboost-date-time-dev",
+    "libboost-locale-dev",
+    "libboost-iostreams-dev",
+    "libsdl2-dev",
+    "libsdl2-image-dev",
+    "libfreetype6-dev",
+    "libcurl4-openssl-dev",
+    "libglbinding-dev",
+    "libharfbuzz-dev",
+    "libfribidi-dev",
+    "libglm-dev",
+    "zlib1g-dev"
+  ],
+  "install_lib": [
+    "/usr/lib/${ARCH_TRIPLET}/libogg.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libvorbis.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libvorbisfile.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libopenal.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libboost_filesystem.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libboost_system.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libboost_date_time.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libboost_locale.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libboost_iostreams.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libSDL2.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libSDL2-2.0.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libSDL2_image.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libSDL2_image-2.0.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libfreetype.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libcurl.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libglbinding.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libharfbuzz.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libfribidi.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libasound.so*",
+    "/usr/lib/${ARCH_TRIPLET}/libsndio.so*",
+    "/lib/${ARCH_TRIPLET}/libz.so*"
+  ],
+  "build_args": [
+    "-DUBUNTU_TOUCH=ON",
+    "-DGLBINDING_ENABLED=ON",
+    "-DWARNINGS=ON",
+    "-DWERROR=ON"
+  ]
+}

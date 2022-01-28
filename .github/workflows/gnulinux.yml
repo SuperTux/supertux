@@ -87,6 +87,7 @@ jobs:
             libglib2.0-dev \
             libraqm-dev \
             libglew-dev \
+            libglbinding-dev \
             libcurl4-openssl-dev \
             libglm-dev \
             zlib1g-dev \
@@ -94,22 +95,26 @@ jobs:
 
       - name: Install 32-bit dependencies
         if: ${{ matrix.arch == 32 }}
+        env:
+          DOWNGRADE_PCRE: ${{ matrix.os == 'ubuntu-latest' && '1' || '' }}
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
 
-          # Github is adding a lot of unnecessary deb.sury.org
-          # packages into ubuntu-latest, this causes
-          # libharfbuzz-dev:i386 to fail due to issues related to
-          # libpcre2-8-0 from deb.sury.org. Remove all that and
-          # downgrade to official versions.
-          sudo apt-get remove --yes php.* libzip4:amd64
-          sudo apt-get install --yes --allow-downgrades \
-            libpcre2-16-0:amd64=10.34-7 \
-            libpcre2-32-0:amd64=10.34-7 \
-            libpcre2-8-0:amd64=10.34-7 \
-            libpcre2-dev:amd64=10.34-7 \
-            libpcre2-posix2:amd64=10.34-7
+          if [ "$DOWNGRADE_PCRE" ]; then
+            # Github is adding a lot of unnecessary deb.sury.org
+            # packages into ubuntu-latest, this causes
+            # libharfbuzz-dev:i386 to fail due to issues related to
+            # libpcre2-8-0 from deb.sury.org. Remove all that and
+            # downgrade to official versions.
+            sudo apt-get remove --yes php.* libzip4:amd64
+            sudo apt-get install --yes --allow-downgrades \
+              libpcre2-16-0:amd64=10.34-7 \
+              libpcre2-32-0:amd64=10.34-7 \
+              libpcre2-8-0:amd64=10.34-7 \
+              libpcre2-dev:amd64=10.34-7 \
+              libpcre2-posix2:amd64=10.34-7
+          fi
 
           sudo apt-get install -y \
             cmake \
@@ -142,13 +147,13 @@ jobs:
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew-dev_1.13.0-2_i386.deb && sudo dpkg -i libglew-dev_1.13.0-2_i386.deb
 
       - name: Set compiler (gcc)
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc' }}
+        if: ${{ matrix.compiler == 'gcc' }}
         run: |
           echo "CXX=g++" >> $GITHUB_ENV
           echo "CC=gcc" >> $GITHUB_ENV
 
       - name: Set compiler (clang)
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.compiler == 'clang' }}
+        if: ${{ matrix.compiler == 'clang' }}
         run: |
           echo "CXX=clang++" >> $GITHUB_ENV
           echo "CC=clang" >> $GITHUB_ENV

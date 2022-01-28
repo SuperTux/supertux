@@ -92,11 +92,14 @@ jobs:
 
       - name: Sync data folder
         working-directory: build
-        run: rsync -aP ../data/ data/
+        run: |
+          rsync -aP ../data/ data/
 
       - name: Build
         working-directory: build
-        run: emmake make -j$(nproc)
+        run: |
+          source ~/emsdk/emsdk_env.sh
+          emmake make -j$(nproc)
 
         # Now you can run a local server with: `emrun supertux2.html`
         # Or any traditional web server will do the job
