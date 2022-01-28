@@ -92,6 +92,13 @@ jobs:
         run: |
           cmake --build . --config $Env:BUILD_TYPE
 
+      - name: Run Tests
+        working-directory: build
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: |
+          "./$Env:BUILD_TYPE/run_tests.exe"
+
       - name: Package
         working-directory: build
         env:
