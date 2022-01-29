@@ -58,6 +58,7 @@ private:
   Color m_backcolor;
   float m_roundness;
   bool m_fadetransition;
+  float m_initial_y;
 
 private:
   InfoBlock(const InfoBlock&) = delete;
