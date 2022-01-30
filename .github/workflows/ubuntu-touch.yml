@@ -88,7 +88,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-click"
+          name: "clickable-${{ matrix.arch }}-${{ matrix.build_type }}-${{ matrix.opengl }}-click"
           path: build.clickable/*.click
           if-no-files-found: ignore
 
