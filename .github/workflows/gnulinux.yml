@@ -39,15 +39,19 @@ jobs:
           - arch: 32
             glbinding: ON
         include:
-          - build_type: Release
+          - os: ubuntu-latest
+            build_type: Release
             compiler: gcc
             arch: 64
-            release: 'ON'
-            source: 'ON'
-          - build_type: Debug
+            glbinding: OFF
+            release: ON
+            source: ON
+          - os: ubuntu-latest
+            build_type: Debug
             compiler: gcc
             arch: 64
-            coverage: 'ON'
+            glbinding: OFF
+            coverage: ON
             # TODO: Working Linux 32-bit packaging
 
     runs-on: ${{ matrix.os }}
@@ -237,7 +241,7 @@ jobs:
           path: build/coverage/*
 
       - uses: anshulrgoyal/upload-s3-action@master
-        if: matrix.release == 'ON' && env.CI_KEY != null
+        if: matrix.release && env.CI_KEY != null
         env:
           CI_KEY: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
         with:
@@ -248,7 +252,7 @@ jobs:
           destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
 
       - name: Post uploaded file
-        if: matrix.release == 'ON' && env.DOWNLOAD_APIKEY != null
+        if: matrix.release && env.DOWNLOAD_APIKEY != null
         working-directory: build
         run: ../.ci_scripts/deploy.sh
         env:
@@ -256,7 +260,7 @@ jobs:
           DOWNLOAD_APIKEY: ${{ secrets.DOWNLOAD_APIKEY }}
 
       - name: Prepare Release
-        if: startsWith(github.ref, 'refs/tags/') && matrix.release == 'ON' && github.repository_owner == 'supertux'
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
         env:
           OS: ${{ matrix.os }}
           ARCH: ${{ matrix.arch }}
@@ -266,7 +270,7 @@ jobs:
           fi
 
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/') && matrix.release == 'ON' && github.repository_owner == 'supertux'
+        if: startsWith(github.ref, 'refs/tags/') && matrix.release && github.repository_owner == 'supertux'
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
