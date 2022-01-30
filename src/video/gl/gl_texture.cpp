@@ -125,7 +125,8 @@ GLTexture::GLTexture(const SDL_Surface& image, const Sampler& sampler) :
       const int bpp = convert->format->BytesPerPixel;
       const int x = m_image_width - 1;
       const int y = m_image_height - 1;
-      Uint32 color = *reinterpret_cast<Uint32*>(static_cast<uint32_t*>(convert->pixels) + y * convert->pitch + x * bpp);
+      Uint32 color = 0;
+      memcpy(&color, static_cast<uint8_t*>(convert->pixels) + y * convert->pitch + x * bpp, bpp);
       SDL_Rect dstrect{m_image_width, m_image_height, m_texture_width, m_texture_height};
       SDL_FillRect(convert.get(), &dstrect, color);
     }
