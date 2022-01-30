@@ -127,11 +127,11 @@ AddonMenu::rebuild_menu()
   {
     if (!m_repository_addons.empty())
     {
-      add_inactive(m_langpacks_only?_("No language packs installed") :_("No Add-ons installed"));
+      add_inactive(m_langpacks_only ? _("No language packs installed") : _("No Add-ons installed"));
     }
     else
     {
-      add_inactive(m_langpacks_only?_("No language packs found") :_("No Add-ons found"));
+      add_inactive(m_langpacks_only ? _("No language packs found") : _("No Add-ons found"));
     }
   }
   else
@@ -206,7 +206,7 @@ AddonMenu::rebuild_menu()
 
     if (!have_new_stuff && m_addon_manager.has_been_updated())
     {
-      add_inactive(m_langpacks_only?_("No new language packs found") :_("No new Add-ons found"));
+      add_inactive(m_langpacks_only ? _("No new language packs found") : _("No new Add-ons found"));
     }
   }
 
