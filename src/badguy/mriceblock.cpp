@@ -272,7 +272,7 @@ void
 MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 {
   auto player = dynamic_cast<Player*> (&object);
-  if (player->is_swimming() || player->is_water_jumping())
+  if (player && (player->is_swimming() || player->is_water_jumping()))
   {
     //move icecube a little bit away as to not insta-kill Tux
     float swimangle = player->get_swimming_angle();
