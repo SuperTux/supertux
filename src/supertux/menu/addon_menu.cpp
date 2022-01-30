@@ -120,7 +120,7 @@ void
 AddonMenu::rebuild_menu()
 {
   clear();
-  add_label(m_langpacks_only?_("Language Packs") :_("Add-ons"));
+  add_label(m_langpacks_only ? _("Language Packs") : _("Add-ons"));
   add_hl();
 
   if (m_installed_addons.empty())
