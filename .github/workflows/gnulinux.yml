@@ -219,7 +219,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == ON && '-glbinding' || '' }}-appimage"
+          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-appimage"
           path: build/upload/*.AppImage
           if-no-files-found: ignore
 
@@ -231,7 +231,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == ON && '-glbinding' || '' }}-tgz"
+          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-tgz"
           path: build/upload/*Linux.tar.gz
           if-no-files-found: ignore
 

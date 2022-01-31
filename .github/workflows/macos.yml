@@ -109,7 +109,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: "${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.glbinding == ON && '-glbinding' || '' }}-dmg"
+          name: "${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-dmg"
           path: build/upload/*.dmg
           if-no-files-found: ignore
 
