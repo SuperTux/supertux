@@ -112,7 +112,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding && '-glbinding' || '' }}-installer"
+          name: "windows-${{ matrix.arch }}-${{ matrix.build_type }}${{ matrix.glbinding == ON && '-glbinding' || '' }}-installer"
           path: build/upload/*.msi
           if-no-files-found: ignore
 

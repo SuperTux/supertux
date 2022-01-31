@@ -40,6 +40,7 @@ jobs:
             release: ON
           - os: macos-11
             build_type: Release
+            glbinding: OFF
             release: ON
 
     runs-on: ${{ matrix.os }}
@@ -108,7 +109,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: "${{ matrix.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding && '-glbinding' || '' }}-dmg"
+          name: "${{ matrix.os }}-${{ matrix.build_type }}${{ matrix.glbinding == ON && '-glbinding' || '' }}-dmg"
           path: build/upload/*.dmg
           if-no-files-found: ignore
 
