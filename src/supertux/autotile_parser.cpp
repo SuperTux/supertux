@@ -91,7 +91,7 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader, bool corner)
     if (iter.get_key() == "autotile")
     {
       ReaderMapping tile_mapping = iter.as_mapping();
-      autotiles.push_back(std::move(parse_autotile(tile_mapping, corner)));
+      autotiles.push_back(parse_autotile(tile_mapping, corner));
     }
     else if (iter.get_key() != "name" && iter.get_key() != "default")
     {
