@@ -52,7 +52,7 @@ TileSet::TileSet() :
   m_tilegroups()
 {
   m_tiles[0] = std::make_unique<Tile>();
-  m_autotilesets = new std::vector<AutotileSet*>();
+  m_autotilesets = new std::vector<std::unique_ptr<AutotileSet>>();
 }
 
 TileSet::~TileSet()
@@ -104,7 +104,7 @@ TileSet::get_autotileset_from_tile(uint32_t tile_id) const
   {
     if (ats->is_member(tile_id))
     {
-      return ats;
+      return ats.get();
     }
   }
   return nullptr;

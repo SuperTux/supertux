@@ -73,7 +73,7 @@ public:
   
 public:
   // Must be public because of tile_set_parser.cpp
-  std::vector<AutotileSet*>* m_autotilesets;
+  std::vector<std::unique_ptr<AutotileSet>>* m_autotilesets;
 
 private:
   std::vector<std::unique_ptr<Tile> > m_tiles;
