@@ -95,7 +95,7 @@ BadguySelectMenu::refresh()
 
   add_label(_("List of enemies"));
   add_hl();
-  add_entry(-2, fmt::format(_("Select enemy ({})"), all_badguys[selected]));
+  add_entry(-2, fmt::format(fmt::runtime(_("Select enemy ({})")), all_badguys[selected]));
   add_entry(-3, _("Add"));
   add_hl();
 

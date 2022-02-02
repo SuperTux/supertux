@@ -63,7 +63,7 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
       Dialog::show_message(_("You cannot delete level that you are editing!"));
     else
     {
-      Dialog::show_confirmation(fmt::format(_("You are about to delete level \"{}\". Are you sure?"), m_level_names[id]), [this, id]()
+      Dialog::show_confirmation(fmt::format(fmt::runtime(_("You are about to delete level \"{}\". Are you sure?")), m_level_names[id]), [this, id]()
       {
         PHYSFS_delete(m_level_full_paths[id].c_str());
         delete_item(id + 2);

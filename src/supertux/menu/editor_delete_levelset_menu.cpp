@@ -80,7 +80,7 @@ EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
       Dialog::show_message(_("You cannot delete the world that you are editing"));
     else
     {
-      Dialog::show_confirmation(fmt::format(_("You are about to delete world \"{}\". Are you sure?"), m_world_names[id]), [this, id, &contrib_worlds]()
+      Dialog::show_confirmation(fmt::format(fmt::runtime(_("You are about to delete world \"{}\". Are you sure?")), m_world_names[id]), [this, id, &contrib_worlds]()
       {
         physfsutil::remove_with_content(contrib_worlds[id]);
         m_editor_levelset_select_menu->reload_menu();
