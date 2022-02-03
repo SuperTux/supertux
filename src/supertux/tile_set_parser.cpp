@@ -102,9 +102,8 @@ TileSetParser::parse(int32_t start, int32_t end, int32_t offset, bool imported)
       }
       else
       {
-        AutotileParser* parser = new AutotileParser(m_tileset.m_autotilesets,
-            FileSystem::normalize(m_tiles_path + autotile_filename));
-        parser->parse();
+        AutotileParser parser(m_tileset.m_autotilesets, FileSystem::normalize(m_tiles_path + autotile_filename));
+        parser.parse();
       }
     }
     else if (iter.get_key() == "import-tileset")
