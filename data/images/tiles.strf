@@ -21,8 +21,8 @@
  
    ;; next-id: 4700
   
-  ;; free/skipped ids (please use before any other): 1357, 2045, 2046
-  ;; Tile ids: 1752 - 1761, 1668 - 1680, 1936 - 1955, 1998 - 2031, 3667 - 3686 are reserved!
+  ;; free/skipped ids (please use before any other): 126, 127, 1357, 2045, 2046
+  ;; Tile ids: 1752 - 1761, 1668 - 1680, 1998 - 2031, 3667 - 3686 are reserved!
  
   (tilegroup
     (name (_ "Snow"))
@@ -492,6 +492,11 @@
       1960 1961 1962 1963
       1964 1965 1966 1967
       1968 1969 1970 1971
+	  1936 1937 1938 1939
+      1940 1941 1942 1943
+      1944 1945 1946 1947
+      1948 1949 1950 1951
+      1952 1953 1954 1955
 	  
       301 302 303 347
       304 305 306 350
@@ -1054,7 +1059,7 @@
       1784 1795 1798    0
       1799 1797 1800    0
       1801 1781 1783 1780
-      1794 1787 1788    0
+      1794 1787 1788 1785
       1786 1791 1796    0
       1790 1792 1789 1793
       1804 1805 1806 1807
@@ -2025,24 +2030,7 @@
     )
     (image "tiles/darksnow/low.png")
   )
-  (tile
-    (id 126)
-    (deprecated #t)
-    (images
-      "tiles/goal/exitbg.png"
-    )
-    (object-name "decal")
-    (object-data "(sprite \"images/decal/snow/exitbg.png\") (z-pos -100)")
-  )
-  (tile
-    (id 127)
-    (deprecated #t)
-    (images
-      "tiles/goal/exitfg.png"
-    )
-    (object-name "decal")
-    (object-data "(sprite \"images/decal/snow/exitfg.png\") (z-pos 200)")
-  )
+  
   (tile
     (id 128)
     (images
@@ -4123,6 +4111,26 @@
 	  1 1 0
     )
     (images "tiles/forest/underground/variants.png")
+  )
+  
+  (tiles
+    (width 4)
+    (height 5)
+    (ids
+      1936 1937 1938 1939
+      1940 1941 1942 1943
+      1944 1945 1946 1947
+      1948 1949 1950 1951
+      1952 1953 1954 1955
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+    )
+    (image "tiles/forest/underground/roots.png")
   )
   
   (tiles
