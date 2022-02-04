@@ -311,8 +311,10 @@ if (FileSystem::is_directory(olduserdir)) {
 
 #ifdef EMSCRIPTEN
   EM_ASM({
-    FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
-    FS.syncfs(true, (err) => { console.log(err); });
+    try {
+      FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
+      FS.syncfs(true, (err) => { console.log(err); });
+    } catch(err) {}
   }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 #endif
 
@@ -564,13 +566,6 @@ Main::launch_game(const CommandLineArguments& args)
       m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame));
     }
   }
-
-#ifdef UBUNTU_TOUCH
-  Dialog::show_message(_("The UBports version is under heavy development!\n"
-                         "If you encounter issues, PLEASE contact the maintainter\n"
-                         "at https://github.com/supertux/supertux/issues or on the\n"
-                         "Open Store's Telegram at https://open-store.io/telegram"));
-#endif
 
   m_screen_manager->run();
 }

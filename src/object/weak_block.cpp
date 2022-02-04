@@ -24,6 +24,7 @@
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
@@ -164,7 +165,7 @@ void
 WeakBlock::draw(DrawingContext& context)
 {
   //Draw the Sprite just in front of other objects
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10);
+  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10, m_flip);
 
   if (linked && (state != STATE_NORMAL))
   {
@@ -201,6 +202,13 @@ WeakBlock::spreadHit()
       }
     }
   }
+}
+
+void
+WeakBlock::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 ObjectSettings

@@ -84,6 +84,7 @@ CirclePlatform::on_flip(float height)
 {
   MovingObject::on_flip(height);
   start_position.y = height - start_position.y - get_bbox().get_height();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 void

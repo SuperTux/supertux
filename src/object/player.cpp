@@ -129,9 +129,6 @@ const float SMALL_TUX_HEIGHT = 30.8f;
 const float BIG_TUX_HEIGHT = 62.8f;
 const float DUCKED_TUX_HEIGHT = 31.8f;
 
-/** when Tux swims down and approaches the bottom of the screen, push him back up with that strength */
-const float WATER_FALLOUT_FORCEBACK_STRENGTH = 1024.f;
-
 bool no_water = true;
 
 } // namespace
@@ -152,7 +149,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_peekingY(Direction::AUTO),
   m_ability_time(),
   m_stone(false),
-  m_falling_below_water(false),
   m_swimming(false),
   m_swimboosting(false),
   m_on_left_wall(false),
@@ -330,74 +326,77 @@ Player::update(float dt_sec)
   //handling of swimming
 
 #ifdef SWIMMING
-  if (no_water)
+  if (!m_ghost_mode)
   {
+    if (no_water)
+    {
+      if (m_swimming)
+      {
+        m_water_jump = true;
+        if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
+          m_physic.set_velocity_y(-350.f);
+      }
+      m_swimming = false;
+    }
+
+    if ((on_ground() || m_climbing || m_does_buttjump) && m_water_jump)
+    {
+      if (is_big() && !adjust_height(BIG_TUX_HEIGHT))
+      {
+        //Force Tux's box up a little in order to not phase into floor
+        adjust_height(BIG_TUX_HEIGHT, 10.f);
+        do_duck();
+      }
+      else if (!is_big())
+      {
+        adjust_height(SMALL_TUX_HEIGHT);
+      }
+      m_dir = (m_physic.get_velocity_x() >= 0.f) ? Direction::RIGHT : Direction::LEFT;
+      m_water_jump = false;
+      m_swimboosting = false;
+      m_powersprite->set_angle(0.f);
+      m_lightsprite->set_angle(0.f);
+    }
+    no_water = true;
+
+    if ((m_swimming || m_water_jump) && is_big())
+    {
+      m_col.set_size(TUX_WIDTH, TUX_WIDTH);
+      adjust_height(TUX_WIDTH);
+    }
+
+    Rectf swim_here_box = get_bbox();
+    swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
+    bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
+
     if (m_swimming)
     {
-      m_water_jump = true;
-      if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
-        m_physic.set_velocity_y(-350.f);
-    }
-    m_swimming = false;
-  }
-
-  if ((on_ground() || m_climbing || m_does_buttjump) && m_water_jump)
-  {
-    if (is_big() && !adjust_height(BIG_TUX_HEIGHT))
-    {
-      //Force Tux's box up a little in order to not phase into floor
-      adjust_height(BIG_TUX_HEIGHT, 10.f);
-      do_duck();
-    }
-    else if (!is_big())
-    {
-      adjust_height(SMALL_TUX_HEIGHT);
-    }
-    m_dir = (m_physic.get_velocity_x() >= 0.f) ? Direction::RIGHT : Direction::LEFT;
-    m_water_jump = false;
-    m_swimboosting = false;
-    m_powersprite->set_angle(0.f);
-    m_lightsprite->set_angle(0.f);
-  }
-  no_water = true;
-
-  if ((m_swimming || m_water_jump) && is_big())
-  {
-    m_col.set_size(TUX_WIDTH, TUX_WIDTH);
-    adjust_height(TUX_WIDTH);
-  }
-
-  Rectf swim_here_box = get_bbox();
-  swim_here_box.set_bottom(m_col.m_bbox.get_bottom() - 16.f);
-  bool can_swim_here = !Sector::get().is_free_of_tiles(swim_here_box, true, Tile::WATER);
-
-  if (m_swimming)
-  {
-    if (can_swim_here)
-    {
-      no_water = false;
+      if (can_swim_here)
+      {
+        no_water = false;
+      }
+      else
+      {
+        m_swimming = false;
+        m_water_jump = true;
+        if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
+          m_physic.set_velocity_y(-350.f);
+      }
     }
     else
     {
-      m_swimming = false;
-      m_water_jump = true;
-      if (m_physic.get_velocity_y() > -350.f && m_controller->hold(Control::UP))
-        m_physic.set_velocity_y(-350.f);
-    }
-  }
-  else
-  {
-    if (can_swim_here && !m_stone && !m_climbing)
-    {
-      no_water = false;
-      m_water_jump = false;
-      m_swimming = true;
-      m_swimming_angle = math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()));
-      if (is_big())
-        adjust_height(TUX_WIDTH);
-      m_wants_buttjump = m_does_buttjump = m_backflipping = false;
-      m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
-      SoundManager::current()->play("sounds/splash.wav");
+      if (can_swim_here && !m_stone && !m_climbing)
+      {
+        no_water = false;
+        m_water_jump = false;
+        m_swimming = true;
+        m_swimming_angle = math::angle(Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y()));
+        if (is_big())
+          adjust_height(TUX_WIDTH);
+        m_wants_buttjump = m_does_buttjump = m_backflipping = false;
+        m_dir = (m_physic.get_velocity_x() > 0) ? Direction::LEFT : Direction::RIGHT;
+        SoundManager::current()->play("sounds/splash.wav");
+      }
     }
   }
 #endif
@@ -521,16 +520,6 @@ Player::update(float dt_sec)
   {
     SoundManager::current()->play("sounds/grow.wav");
     m_second_growup_sound_timer.stop();
-  }
-
-  // Handle player approaching the bottom of the screen while swimming
-  if (m_falling_below_water) {
-    m_physic.set_velocity_y(std::min(m_physic.get_velocity_y(), 0.f));
-  }
-
-  if ((get_pos().y > Sector::get().get_height() - m_col.m_bbox.get_height()) && (!m_ghost_mode && m_swimming))
-  {
-    m_physic.set_acceleration_y(-WATER_FALLOUT_FORCEBACK_STRENGTH);
   }
 
   if (m_boost != 0.f)
@@ -2001,16 +1990,13 @@ Player::check_bounds()
     set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(), m_col.m_bbox.get_top()));
   }
 
-  m_falling_below_water = false;
+  // If Tux is swimming, don't allow him to go below the sector
+  if (m_swimming && !m_ghost_mode && m_col.m_bbox.get_bottom() > Sector::get().get_height()) {
+    set_pos(Vector(m_col.m_bbox.get_left(), Sector::get().get_height() - m_col.m_bbox.get_height()));
+  }
 
   /* fallen out of the level? */
-  if (m_swimming) {
-    // If swimming, don't kill; just prevent from falling below the ground
-    if ((get_pos().y > Sector::get().get_height() - 1) && (!m_ghost_mode)) {
-      set_pos(Vector(get_pos().x, Sector::get().get_height() - 1));
-      m_falling_below_water = true;
-    }
-  } else if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
+  if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
     kill(true);
     return;
   }

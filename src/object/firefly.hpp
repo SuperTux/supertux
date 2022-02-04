@@ -36,11 +36,19 @@ public:
   virtual std::string get_display_name() const override { return _("Checkpoint"); }
   virtual ObjectSettings get_settings() override;
 
+  virtual void on_flip(float height) override;
+
+private:
+  void reactivate();
+
 private:
   SpritePtr m_sprite_light;
   bool activated;
   Vector initial_position; /**< position as in level file. This is where Tux will have to respawn, as the level is reset every time */
-  void reactivate();
+
+private:
+  Firefly(const Firefly&) = delete;
+  Firefly& operator=(const Firefly&) = delete;
 };
 
 #endif

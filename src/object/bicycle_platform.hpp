@@ -32,6 +32,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual bool is_saveable() const override { return false; }
+  virtual void on_flip(float height) override;
 
   virtual void editor_delete() override;
 

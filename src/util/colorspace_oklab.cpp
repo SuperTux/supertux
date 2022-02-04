@@ -27,6 +27,7 @@
 
 #include "util/colorspace_oklab.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <cfloat>
 

@@ -18,6 +18,7 @@
 
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -69,6 +70,13 @@ void PneumaticPlatformChild::editor_delete()
 {
   // removing a child removes the whole platform
   m_parent.editor_delete();
+}
+
+void
+PneumaticPlatformChild::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& mapping) :
@@ -129,8 +137,8 @@ PneumaticPlatform::update(float dt_sec)
 void
 PneumaticPlatform::on_flip(float height)
 {
-  m_pos.y = height - m_pos.y;
-  m_start_y = height - m_start_y;
+  m_pos.y = height - m_pos.y - m_children[0]->m_col.m_bbox.get_height();
+  m_start_y = height - m_start_y - m_children[0]->m_col.m_bbox.get_height();
 }
 
 void

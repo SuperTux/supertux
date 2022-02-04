@@ -77,6 +77,8 @@ LevelTime::update(float dt_sec)
 void
 LevelTime::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+    return;
   context.push_transform();
   context.set_translation(Vector(0, 0));
 

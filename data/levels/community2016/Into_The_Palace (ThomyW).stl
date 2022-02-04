@@ -3,6 +3,8 @@
   (name (_ "Into The Palace"))
   (author "ThomyW")
   (license "CC-BY-SA 4.0 International")
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -19,8 +21,6 @@
     )
     (background
       (color 1 1 1)
-      (x 3235.95)
-      (y 315.539)
       (speed 0.5)
       (image-top "/images/background/bluemountain/bluemountain-top.png")
       (image "/images/background/bluemountain/bluemountain-top.png")
@@ -771,24 +771,22 @@
         (node
           (x 2112)
           (y 511.3333)
-          (bezier_before_x 2112)
-          (bezier_before_y 511.3333)
-          (bezier_after_x 2112)
-          (bezier_after_y 511.3333)
           (time 5)
         )
         (node
           (x 2112)
           (y 1054.667)
-          (bezier_before_x 2112)
-          (bezier_before_y 1054.667)
-          (bezier_after_x 2112)
-          (bezier_after_y 1054.667)
           (time 5)
         )
       )
     )
     (platform
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (running #f)
       (name "ball")
       (path-ref "gen159125817293898826525872")

@@ -1,55 +1,55 @@
 (supertux-sprite
   (action
     (name "idle-left")
-    (hitbox 8 12 18 28)
+    (hitbox 0 0 32 34)
     (images 
       "i-idle.png"
     )
   )
   (action
     (name "idle-right")
-    (hitbox 14 12 18 28)
+    (hitbox 0 0 32 34)
     (mirror-action "idle-left")
   )
   (action
     (name "alert-left")
-    (hitbox 8 12 18 28)
-	(fps 14)
+    (hitbox 0 0 32 34)
+    (fps 14)
     (images 
-	  "i-idle.png"
-	  "i-idle.png"
-	  "i-idle.png"
-	  "i-idle.png"
+      "i-idle.png"
+      "i-idle.png"
+      "i-idle.png"
+      "i-idle.png"
       "i-shaking.png"
       "i-shaking2.png"
-	  "i-shaking.png"
+      "i-shaking.png"
       "i-shaking2.png"
-	  "i-shaking.png"
+      "i-shaking.png"
       "i-shaking2.png"
-	  "i-shaking.png"
+      "i-shaking.png"
       "i-shaking2.png"
-	  "i-shaking3.png"
-	  "i-showing2.png"
-	  "i-showing1.png"
-	  "i-hiding.png"
+      "i-shaking3.png"
+      "i-showing2.png"
+      "i-showing1.png"
+      "i-hiding.png"
     )
   )
   (action
     (name "alert-right")
-    (hitbox 14 12 18 28)
-	(fps 14)
+    (hitbox 0 0 32 34)
+    (fps 14)
     (mirror-action "alert-left")
   )
   (action
     (name "hiding-left")
-    (hitbox 8 12 18 28)
+    (hitbox 0 0 32 34)
     (images 
       "i-hiding.png"
       "i-hiding.png"
       "i-hiding.png"
       "i-hiding.png"
       "i-hiding.png"
-	  "i-hiding.png"
+      "i-hiding.png"
       "i-hiding.png"
       "i-hiding.png"
       "i-hiding.png"
@@ -58,70 +58,70 @@
   )
   (action
     (name "hiding-right")
-    (hitbox 14 12 18 28)
+    (hitbox 0 0 32 34)
     (mirror-action "hiding-left")
   )
   (action
     (name "showing-left")
-    (hitbox 8 12 18 28)
-	(fps 14)
+    (hitbox 0 0 32 34)
+    (fps 14)
     (images 
       "i-hiding.png"
       "i-showing1.png"
       "i-showing2.png"
-	  "i-showing3.png"
+      "i-showing3.png"
       "i-idle.png"
       "i-idle.png"
     )
   )
   (action
     (name "showing-right")
-    (hitbox 14 12 18 28)
-	(fps 14)
+    (hitbox 0 0 32 34)
+    (fps 14)
     (mirror-action "showing-left")
   )
   (action
     (name "idle-down")
-    (hitbox 2 3 28 18)
-	(fps 14)
+    (hitbox 0 0 34 28)
+    (fps 14)
     (images 
       "i-idle-down.png"
     )
   )
   (action
     (name "alert-down")
-    (hitbox 2 3 28 18)
-	(fps 14)
+    (hitbox 0 0 34 28)
+    (fps 14)
     (images 
       "i-idle-down.png"
-	  "i-idle-down.png"
-	  "i-idle-down.png"
-	  "i-idle-down.png"
+      "i-idle-down.png"
+      "i-idle-down.png"
+      "i-idle-down.png"
       "i-shaking-down.png"
       "i-shaking2-down.png"
-	  "i-shaking-down.png"
+      "i-shaking-down.png"
       "i-shaking2-down.png"
-	  "i-shaking-down.png"
+      "i-shaking-down.png"
       "i-shaking2-down.png"
-	  "i-shaking-down.png"
+      "i-shaking-down.png"
       "i-shaking2-down.png"
-	  "i-shaking3-down.png"
-	  "i-showing2-down.png"
-	  "i-showing1-down.png"
-	  "i-hiding-down.png"
+      "i-shaking3-down.png"
+      "i-showing2-down.png"
+      "i-showing1-down.png"
+      "i-hiding-down.png"
     )
   )
   (action
     (name "hiding-down")
-    (hitbox 2 3 28 18)
-	(fps 14)
+    (hitbox 0 0 34 28)
+    (fps 14)
     (images 
       "i-hiding-down.png"
       "i-hiding-down.png"
       "i-hiding-down.png"
       "i-hiding-down.png"
       "i-hiding-down.png"
-	  "i-hiding-down.png"
+      "i-hiding-down.png"
       "i-hiding-down.png"
       "i-hiding-down.png"
       "i-hiding-down.png"
@@ -130,15 +130,76 @@
   )
   (action
     (name "showing-down")
-    (hitbox 2 3 28 18)
-	(fps 14)
+    (hitbox 0 0 34 28)
+    (fps 14)
     (images 
       "i-hiding-down.png"
       "i-showing1-down.png"
       "i-showing2-down.png"
-	  "i-showing3-down.png"
+      "i-showing3-down.png"
       "i-idle-down.png"
       "i-idle-down.png"
+    )
+  )
+  (action
+    (name "idle-up")
+    (hitbox 0 0 34 28)
+    (fps 14)
+    (images 
+      "i-idle-up.png"
+    )
+  )
+  (action
+    (name "alert-up")
+    (hitbox 0 0 34 28)
+    (fps 14)
+    (images 
+      "i-idle-up.png"
+      "i-idle-up.png"
+      "i-idle-up.png"
+      "i-idle-up.png"
+      "i-shaking-up.png"
+      "i-shaking2-up.png"
+      "i-shaking-up.png"
+      "i-shaking2-up.png"
+      "i-shaking-up.png"
+      "i-shaking2-up.png"
+      "i-shaking-up.png"
+      "i-shaking2-up.png"
+      "i-shaking3-up.png"
+      "i-showing2-up.png"
+      "i-showing1-up.png"
+      "i-hiding-up.png"
+    )
+  )
+  (action
+    (name "hiding-up")
+    (hitbox 0 0 34 28)
+    (fps 14)
+    (images 
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+      "i-hiding-up.png"
+    )
+  )
+  (action
+    (name "showing-up")
+    (hitbox 0 0 34 28)
+    (fps 14)
+    (images 
+      "i-hiding-up.png"
+      "i-showing1-up.png"
+      "i-showing2-up.png"
+      "i-showing3-up.png"
+      "i-idle-up.png"
+      "i-idle-up.png"
     )
   )
 )

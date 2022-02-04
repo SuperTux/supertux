@@ -152,10 +152,13 @@ endif(WIN32)
 option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
 
 # Mobile builds
+option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" ON)
 if (UBUNTU_TOUCH)
-  option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" ON)
+  option(SHOW_TOUCHSCREEN_CONTROLS "Show mobile controls by default" ON)
+  option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" ON)
 else()
-  option(ENABLE_TOUCHSCREEN_SUPPORT "Enable on-screen controls and event detection for touchscreen devices" OFF)
+  option(SHOW_TOUCHSCREEN_CONTROLS "Show mobile controls by default" OFF)
+  option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
 ## Add lots of dependencies to compiler switches
@@ -581,9 +584,7 @@ if (NOT EMSCRIPTEN)
     find_package(Freetype REQUIRED)
   endif()
 endif(NOT EMSCRIPTEN)
-if (NOT VCPKG_BUILD)
-  find_package(RAQM)
-endif()
+find_package(RAQM)
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
@@ -932,7 +933,7 @@ target_link_libraries(supertux2 supertux2_lib Boost::filesystem Boost::locale)
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 if(EMSCRIPTEN)
-  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'] PUBLIC -sEXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
+  target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'] PUBLIC -sEXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
 endif(EMSCRIPTEN)
 
 if(WIN32 AND NOT VCPKG_BUILD)
@@ -1035,7 +1036,7 @@ if(BUILD_TESTS)
   find_package(GTest REQUIRED)
 
   # build SuperTux tests
-  file(GLOB TEST_SUPERTUX_SOURCES tests/*.cpp)
+  file(GLOB_RECURSE TEST_SUPERTUX_SOURCES tests/*.cpp)
   add_executable(test_supertux2 ${TEST_SUPERTUX_SOURCES})
   target_compile_options(test_supertux2 PRIVATE ${WARNINGS_CXX_FLAGS})
   target_link_libraries(test_supertux2
@@ -1048,6 +1049,30 @@ if(BUILD_TESTS)
   add_test(NAME test_supertux2
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMAND test_supertux2)
+
+  # Prepare coverage with gcov/lcov
+  if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      target_compile_options(supertux2_lib PUBLIC -fprofile-arcs -ftest-coverage)
+      target_link_options(supertux2_lib PUBLIC -lgcov --coverage)
+
+      add_custom_target(coverage_clear_unix
+        COMMAND find . -name "*.gcda" | xargs rm || true # FIXME: Make this platform-neutral
+        COMMAND ${CMAKE_COMMAND} -E remove ${CMAKE_CURRENT_BINARY_DIR}/coverage.info
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_BINARY_DIR}/coverage)
+
+      add_custom_target(coverage_unix
+        COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target coverage_clear_unix
+        COMMAND ${CMAKE_CTEST_COMMAND}
+        COMMAND lcov --capture --directory ${CMAKE_CURRENT_BINARY_DIR} --exclude '/usr/*' --exclude '*/tests/*' --exclude '*/external/*' --output-file ${CMAKE_CURRENT_BINARY_DIR}/coverage.info
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/coverage
+        COMMAND genhtml ${CMAKE_CURRENT_BINARY_DIR}/coverage.info -o ${CMAKE_CURRENT_BINARY_DIR}/coverage -t "${SUPERTUX_VERSION_STRING}")
+    else(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+      message(WARNING "Coverage for non-GNU compilers has yet to be implemented")
+    endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  else(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(WARNING "Building tests in a non-Debug build will NOT make files for coverage! Change CMAKE_BUILD_TYPE to Debug to prepare for coverage analysis.")
+  endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 ## Install stuff
@@ -1191,13 +1216,13 @@ set(DIRS ${Boost_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${C
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
   set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
 
-  find_package(png)
+  find_package(PNG)
   foreach (_file ${PNG_LIBRARIES})
     get_filename_component(_resolvedFile "${_file}" REALPATH)
     get_filename_component(_name "${_file}" NAME)
     install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
   endforeach()
-  find_package(jpeg)
+  find_package(JPEG)
   foreach (_file ${JPEG_LIBRARIES})
     get_filename_component(_resolvedFile "${_file}" REALPATH)
     get_filename_component(_name "${_file}" NAME)

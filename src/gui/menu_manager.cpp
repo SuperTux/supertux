@@ -120,14 +120,14 @@ public:
     // draw menu background rectangles
     context.color().draw_filled_rect(Rectf(rect.get_left() - 4, rect.get_top() - 10-4,
                                              rect.get_right() + 4, rect.get_bottom() + 10 + 4),
-                                       Color(0.2f, 0.3f, 0.4f, 0.8f),
-                                       20.0f,
+                                       g_config->menubackcolor,
+                                       g_config->menuroundness + 4.f,
                                        LAYER_GUI-10);
 
     context.color().draw_filled_rect(Rectf(rect.get_left(), rect.get_top() - 10,
                                              rect.get_right(), rect.get_bottom() + 10),
-                                       Color(0.6f, 0.7f, 0.8f, 0.5f),
-                                       16.0f,
+                                       g_config->menufrontcolor,
+                                       g_config->menuroundness,
                                        LAYER_GUI-10);
   }
 

@@ -18,6 +18,8 @@
 
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
@@ -66,7 +68,7 @@ Tip::draw(DrawingContext& context, const Vector& pos)
   auto position = pos;
   position.y += 35;
   context.color().draw_text(Resources::normal_font, m_header, position,
-                              ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
+                              ALIGN_LEFT, LAYER_GUI-11, g_config->labeltextcolor);
 
   for (const auto& str : m_strings) {
     position.y += 22;

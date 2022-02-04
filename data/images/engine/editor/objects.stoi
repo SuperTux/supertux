@@ -77,7 +77,7 @@
     (icon "images/creatures/stalactite/falling.png"))
   (object
     (class "willowisp")
-    (icon "images/creatures/willowisp/idle-0.png"))
+    (icon "images/creatures/willowisp/editor.png"))
   (object
     (class "flame")
     (icon "images/creatures/flame/flame-0.png"))
@@ -198,6 +198,9 @@
   (object
     (class "brick")
     (icon "images/tiles/blocks/brick0.png"))
+  (object
+    (class "heavy-brick")
+    (icon "images/tiles/blocks/brick3.png"))
   (object
     (class "heavycoin")
     (icon "images/objects/coin/heavy_coin.png"))

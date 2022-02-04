@@ -118,13 +118,15 @@ MainMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_DONATE:
-#ifdef __EMSCRIPTEN__
-      EM_ASM({
-        window.open("https://www.supertux.org/donate.html");
-      }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
-#else
-      FileSystem::open_path("https://www.supertux.org/donate.html");
-#endif
+      Dialog::show_confirmation(_("This will take you to the SuperTux donation page. Are you sure you want to continue?"), [] {
+        #ifdef __EMSCRIPTEN__
+          EM_ASM({
+            window.open("https://www.supertux.org/donate.html");
+          }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
+        #else
+          FileSystem::open_path("https://www.supertux.org/donate.html");
+        #endif
+      });
       break;
 
     case MNID_QUITMAINMENU:

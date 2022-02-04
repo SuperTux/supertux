@@ -19,11 +19,14 @@
 #include "config.h"
 
 #include "editor/overlay_widget.hpp"
+#include "supertux/colorscheme.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -73,6 +76,17 @@ Config::Config() :
   enable_discord(false),
 #endif
   hide_editor_levelnames(false),
+  menubackcolor(ColorScheme::Menu::back_color),
+  menufrontcolor(ColorScheme::Menu::front_color),
+  menuhelpbackcolor(ColorScheme::Menu::help_back_color),
+  menuhelpfrontcolor(ColorScheme::Menu::help_front_color),
+  labeltextcolor(ColorScheme::Menu::label_color),
+  activetextcolor(ColorScheme::Menu::active_color),
+  hlcolor(ColorScheme::Menu::hl_color),
+  editorcolor(ColorScheme::Editor::default_color),
+  editorhovercolor(ColorScheme::Editor::hover_color),
+  editorgrabcolor(ColorScheme::Editor::grab_color),
+  menuroundness(16.f),
   editor_selected_snap_grid_size(3),
   editor_render_grid(true),
   editor_snap_to_grid(true),
@@ -120,7 +134,39 @@ Config::load()
 #endif
   }
 
+  // menu colors
+
+  std::vector<float> menubackcolor_, menufrontcolor_, menuhelpbackcolor_, menuhelpfrontcolor_,
+    labeltextcolor_, activetextcolor_, hlcolor_, editorcolor_, editorhovercolor_, editorgrabcolor_;
+
+  boost::optional<ReaderMapping> interface_colors_mapping;
+  if (config_mapping.get("interface_colors", interface_colors_mapping))
+  {
+    interface_colors_mapping->get("menubackcolor", menubackcolor_, ColorScheme::Menu::back_color.toVector());
+    interface_colors_mapping->get("menufrontcolor", menufrontcolor_, ColorScheme::Menu::front_color.toVector());
+    interface_colors_mapping->get("menuhelpbackcolor", menuhelpbackcolor_, ColorScheme::Menu::help_back_color.toVector());
+    interface_colors_mapping->get("menuhelpfrontcolor", menuhelpfrontcolor_, ColorScheme::Menu::help_back_color.toVector());
+    interface_colors_mapping->get("labeltextcolor", labeltextcolor_, ColorScheme::Menu::label_color.toVector());
+    interface_colors_mapping->get("activetextkcolor", activetextcolor_, ColorScheme::Menu::active_color.toVector());
+    interface_colors_mapping->get("hlcolor", hlcolor_, ColorScheme::Menu::hl_color.toVector());
+    interface_colors_mapping->get("editorcolor", editorcolor_, ColorScheme::Editor::default_color.toVector());
+    interface_colors_mapping->get("editorhovercolor", editorhovercolor_, ColorScheme::Editor::hover_color.toVector());
+    interface_colors_mapping->get("editorgrabcolor", editorgrabcolor_, ColorScheme::Editor::grab_color.toVector());
+    menubackcolor = Color(menubackcolor_);
+    menufrontcolor = Color(menufrontcolor_);
+    menuhelpbackcolor = Color(menuhelpbackcolor_);
+    menuhelpfrontcolor = Color(menuhelpfrontcolor_);
+    labeltextcolor = Color(labeltextcolor_);
+    activetextcolor = Color(activetextcolor_);
+    hlcolor = Color(hlcolor_);
+    editorcolor = Color(editorcolor_);
+    editorhovercolor = Color(editorhovercolor_);
+    editorgrabcolor = Color(editorgrabcolor_);
+    interface_colors_mapping->get("menuroundness", menuroundness, 16.f);
+  }
+
   // Compatibility; will be overwritten by the "editor" category
+  
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
   editor_autotile_help = !developer_mode;
@@ -209,7 +255,11 @@ Config::load()
     }
 
 #ifdef ENABLE_TOUCHSCREEN_SUPPORT
-    config_video_mapping->get("mobile_controls", mobile_controls);
+#ifdef SHOW_TOUCHSCREEN_CONTROLS
+    config_control_mapping->get("mobile_controls", mobile_controls, true);
+#else
+    config_control_mapping->get("mobile_controls", mobile_controls, false);
+#endif
 #endif
   }
 
@@ -263,12 +313,28 @@ Config::save()
   }
   writer.end_list("integrations");
 
+  writer.write("editor_autosave_frequency", editor_autosave_frequency);
+
   if (is_christmas()) {
     writer.write("christmas", christmas_mode);
   }
   writer.write("transitions_enabled", transitions_enabled);
   writer.write("locale", locale);
   writer.write("repository_url", repository_url);
+
+  writer.start_list("interface_colors");
+  writer.write("menubackcolor", menubackcolor.toVector());
+  writer.write("menufrontcolor", menufrontcolor.toVector());
+  writer.write("menuhelpbackcolor", menuhelpbackcolor.toVector());
+  writer.write("menuhelpfrontcolor", menuhelpfrontcolor.toVector());
+  writer.write("labeltextcolor", labeltextcolor.toVector());
+  writer.write("activetextcolor", activetextcolor.toVector());
+  writer.write("hlcolor", hlcolor.toVector());
+  writer.write("editorcolor", editorcolor.toVector());
+  writer.write("editorhovercolor", editorhovercolor.toVector());
+  writer.write("editorgrabcolor", editorgrabcolor.toVector());
+  writer.write("menuroundness", menuroundness);
+  writer.end_list("interface_colors");
 
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);

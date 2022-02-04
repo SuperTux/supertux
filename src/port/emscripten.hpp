@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Export functions for emscripten
+// If you add functions here, make sure to make CMakeLists.txt export them!
 #ifdef __EMSCRIPTEN__
 
 #include <emscripten.h>
@@ -35,6 +36,7 @@ void onDownloadProgress(int id, int loaded, int total);
 void onDownloadFinished(int id);
 void onDownloadError(int id);
 void onDownloadAborted(int id);
+const char* getExceptionMessage(intptr_t address);
 
 EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists
 void
@@ -73,6 +75,12 @@ void
 onDownloadAborted(int id)
 {
   AddonManager::current()->onDownloadAborted(id);
+}
+
+const char*
+getExceptionMessage(intptr_t address)
+{
+  return reinterpret_cast<std::exception*>(address)->what();
 }
 
 } // extern "C"

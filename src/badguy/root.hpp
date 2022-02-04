@@ -22,7 +22,7 @@
 class Root final : public BadGuy
 {
 public:
-  Root(const Vector& pos);
+  Root(const Vector& pos, Flip flip);
   ~Root() override;
 
   virtual void deactivate() override;

@@ -34,7 +34,7 @@ Door::Door(const ReaderMapping& mapping) :
   target_spawnpoint(),
   script(),
   sprite_name("images/objects/door/door.sprite"),
-  sprite(SpriteManager::current()->create(sprite_name)),
+  sprite(),
   stay_open_timer(),
   m_flip(NO_FLIP)
 {
@@ -46,6 +46,7 @@ Door::Door(const ReaderMapping& mapping) :
 
   mapping.get("script", script);
 
+  sprite = SpriteManager::current()->create(sprite_name);
   sprite->set_action("closed");
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 

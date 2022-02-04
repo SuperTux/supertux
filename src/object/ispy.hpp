@@ -1,5 +1,6 @@
 //  SuperTux - Ispy
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//                2022 Jiri Palecek <narre@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -35,6 +36,11 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual void on_flip(float height) override;
+
+private:
+  void set_sprite_action(const std::string& action, int loops = -1);
+
 private:
   enum IspyState {
     ISPYSTATE_IDLE,
@@ -44,11 +50,10 @@ private:
   };
 
 private:
-  IspyState state; /**< current state */
+  IspyState m_state; /**< current state */
 
-  std::string script; /**< script to execute when Tux is spotted */
-  Direction dir;
-  bool m_facing_down;
+  std::string m_script; /**< script to execute when Tux is spotted */
+  Direction m_dir;
 
 private:
   Ispy(const Ispy&) = delete;

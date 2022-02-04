@@ -31,7 +31,7 @@ public:
   
   virtual std::string get_class() const override { return "circleplatform"; }
   virtual std::string get_display_name() const override { return _("Circular Platform"); }
-  
+
 private:
   virtual void initialize();
 
@@ -43,8 +43,7 @@ protected:
   
   Timer timer;
   float time;
-  
-  
+
 private:
   CirclePlatform(const CirclePlatform&) = delete;
   CirclePlatform& operator=(const CirclePlatform&) = delete;

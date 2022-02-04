@@ -109,6 +109,8 @@ FileSystemMenu::refresh_items()
   }
 
   add_hl();
+  add_entry(-2, _("Open Directory"));
+  add_hl();
   add_back(_("Cancel"));
 
   m_active_item = 2;
@@ -161,6 +163,10 @@ FileSystemMenu::menu_action(MenuItem& item)
         log_warning << "Selected invalid file or directory" << std::endl;
       }
     }
+  }
+  else if (item.get_id() == -2)
+  {
+    FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
   }
 }
 

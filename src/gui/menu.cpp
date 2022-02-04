@@ -41,6 +41,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/util.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
@@ -548,12 +549,12 @@ Menu::draw_item(DrawingContext& context, int index)
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
                                            Vector(m_pos.x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
                                      Color(1.0f, 1.0f, 1.0f, blink),
-                                     14.0f,
+                                     std::max(0.f, g_config->menuroundness - 2.f),
                                      LAYER_GUI-10);
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10, y_pos - 12),
                                            Vector(m_pos.x + menu_width/2 - 10, y_pos + 12)),
                                      Color(1.0f, 1.0f, 1.0f, 0.5f),
-                                     12.0f,
+                                     std::max(0.f, g_config->menuroundness - 4.f),
                                      LAYER_GUI-10);
   }
 }
@@ -612,13 +613,13 @@ Menu::draw(DrawingContext& context)
 
     context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
                                            text_rect.p2() + Vector(4,4)),
-                                     Color(0.5f, 0.6f, 0.7f, 0.8f),
-                                     16.0f,
+                                     g_config->menuhelpbackcolor,
+                                     g_config->menuroundness + 4.f,
                                      LAYER_GUI);
 
     context.color().draw_filled_rect(text_rect,
-                                     Color(0.8f, 0.9f, 1.0f, 0.5f),
-                                     16.0f,
+                                     g_config->menuhelpfrontcolor,
+                                     g_config->menuroundness,
                                      LAYER_GUI);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),

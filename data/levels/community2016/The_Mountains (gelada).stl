@@ -3,6 +3,8 @@
   (name (_ "The Mountains"))
   (author "Cookie Monster")
   (license "CC-BY-SA 4.0 Intl")
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -42,8 +44,6 @@
     )
     (background
       (color 1 1 1)
-      (x 1328.9)
-      (y 117.562)
       (speed 0.5)
       (image-top "/images/background/bluemountain/bluemountain-top.png")
       (image "/images/background/bluemountain/bluemountain-top.png")

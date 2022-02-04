@@ -73,7 +73,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
   context.color().draw_filled_rect(Rectf(Vector(static_cast<float>(m_Xpos), 0),
                                          Vector(static_cast<float>(context.get_width()),
                                                 static_cast<float>(context.get_height()))),
-                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     g_config->editorcolor,
                                      0.0f, LAYER_GUI-10);
   if (m_dragging) {
     context.color().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
@@ -83,7 +83,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
   if (m_hovered_item != HoveredItem::NONE)
   {
     context.color().draw_filled_rect(get_item_rect(m_hovered_item),
-                                       Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                       g_config->editorhovercolor,
                                        0.0f, LAYER_GUI - 5);
   }
 

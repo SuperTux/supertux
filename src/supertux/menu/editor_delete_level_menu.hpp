@@ -21,6 +21,7 @@ class EditorDeleteLevelMenu final : public Menu
 {
 private:
   std::vector<std::string> m_level_full_paths;
+  std::vector<std::string> m_level_names;
   EditorLevelSelectMenu* m_level_select_menu;
   EditorLevelsetSelectMenu* m_levelset_select_menu;
 public:

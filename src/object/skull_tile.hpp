@@ -34,6 +34,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+  virtual void on_flip(float height) override;
 
 private:
   Physic physic;

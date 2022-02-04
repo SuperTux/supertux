@@ -30,12 +30,13 @@ public:
 
   void remove_badguy();
 
+  void refresh() override;
+
 private:
   std::vector<std::string>* badguys;
   int selected;
   int remove_item;
 
-  void refresh_menu();
   void add_badguy();
 
 private:

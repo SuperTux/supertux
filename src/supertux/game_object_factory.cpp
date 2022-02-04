@@ -115,6 +115,7 @@
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
 #include "object/text_array_object.hpp"
+#include "object/text_object.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -229,6 +230,7 @@ GameObjectFactory::init_factories()
   add_factory<Firefly>("firefly");
   add_factory<GhostParticleSystem>("particles-ghosts");
   add_factory<Gradient>("gradient");
+  add_factory<HeavyBrick>("heavy-brick");
   add_factory<HeavyCoin>("heavycoin");
   add_factory<HurtingPlatform>("hurting_platform");
   add_factory<IceCrusher>("icecrusher");

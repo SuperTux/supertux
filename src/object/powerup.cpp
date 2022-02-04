@@ -23,6 +23,7 @@
 #include "scripting/level.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -171,12 +172,12 @@ PowerUp::update(float dt_sec)
 void
 PowerUp::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
   // Stars are brighter
   if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite")
   {
-    m_sprite->draw(context.color(), get_pos(), m_layer);
+    m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
   }
 
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
@@ -193,6 +194,14 @@ PowerUp::get_settings()
   result.reorder({"script", "disable-physics", "sprite", "x", "y"});
 
   return result;
+}
+
+void
+PowerUp::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  if (no_physics)
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

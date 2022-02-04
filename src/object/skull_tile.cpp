@@ -20,6 +20,7 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
 static const float CRACKTIME = 0.3f;
@@ -63,7 +64,7 @@ SkullTile::draw(DrawingContext& context)
     }
   }
   m_sprite->set_alpha(m_alpha);
-  m_sprite->draw(context.color(), pos, m_layer);
+  m_sprite->draw(context.color(), pos, m_layer, m_flip);
 }
 
 void
@@ -107,6 +108,13 @@ SkullTile::update(float dt_sec)
 
   if (m_respawn && !m_respawn->completed())
     m_respawn->update(dt_sec);
+}
+
+void
+SkullTile::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

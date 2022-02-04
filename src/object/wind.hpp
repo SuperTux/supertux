@@ -45,6 +45,8 @@ public:
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }
 
+  virtual void on_flip(float height) override;
+
   /** @name Scriptable Methods
       @{ */
 

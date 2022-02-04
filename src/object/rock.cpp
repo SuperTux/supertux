@@ -17,6 +17,7 @@
 #include "object/rock.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/icecrusher.hpp"
 #include "object/explosion.hpp"
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
@@ -123,6 +124,15 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 
   if (is_grabbed()) {
     return ABORT_MOVE;
+  }
+
+  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
+  if (icecrusher) {
+    auto state = icecrusher->get_state();
+    if(state == IceCrusher::IceCrusherState::RECOVERING ||
+       state == IceCrusher::IceCrusherState::IDLE) {
+        return ABORT_MOVE;
+       }
   }
 
   // Don't fall further if we are on a rock which is on the ground.

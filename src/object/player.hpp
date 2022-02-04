@@ -267,7 +267,6 @@ private:
   Direction m_peekingY;
   float m_ability_time;
   bool m_stone;
-  bool m_falling_below_water;
   bool m_swimming;
   bool m_swimboosting;
   bool m_on_left_wall;
