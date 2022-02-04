@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-12-12 17:49+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-17 20:54+0000\n"
 "Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
@@ -20,8 +20,8 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89.2 degrees"
-msgstr "-89.2 puing"
+msgid "The Level Formely Known As \"-89,2 Degrees\""
+msgstr "An leibheil air an robh “-89.2 ceum” roimhe"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
@@ -40,14 +40,14 @@ msgid "Another cold day"
 msgstr "Latha fuar eile"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
-msgid "Antarctic rain"
-msgstr "Uisge Antartaigeach"
+msgid "Forest Rain (aka \"Antarctic Rain\")"
+msgstr "Uisge sa choille (no “Uisge Antartaigeach”)"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
 msgstr "...ach cha chuir ceann-fionn stad air..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -128,6 +128,10 @@ msgstr "A' dol sìos"
 msgid "Entering the castle"
 msgstr "A' tighinn dhan chaisteal"
 
+#: data/levels/bonus3/entering_castle.stl:60
+msgid "#Sorry, nothing to see here! Use the rope to get out!"
+msgstr "#Duilich ach chan eil dad ri fhaicinn an-seo! Cleachd an ròpa airson togail ort!"
+
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
 msgstr "Duais dhìtheanan"
@@ -168,13 +172,13 @@ msgstr "Tuill san deigh"
 msgid "The Toilette zone"
 msgstr "Taighean-beaga"
 
-#: data/levels/bonus3/niv-3.stl:29
+#: data/levels/bonus3/niv-3.stl:58
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
 msgstr "- Sruthladh: \n#Brùth air an iuchair suas gus a shruladh!"
 
-#: data/levels/bonus3/niv-3.stl:219
+#: data/levels/bonus3/niv-3.stl:380
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -220,15 +224,6 @@ msgstr "Fon deigh"
 msgid "Bonus Island III"
 msgstr "Eilean duaise III"
 
-#: data/levels/bonus3/worldmap.stwm:238
-msgid "You found a secret place!"
-msgstr "Lorg thu àite dìomhair!"
-
-#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
-#: data/levels/bonus3/worldmap.stwm:304
+#: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"
 msgstr "Till dhachaigh"
-
-#: data/levels/bonus3/worldmap.stwm:290
-msgid "Enter Forest Section"
-msgstr "Rach dha sgìre na coille"

@@ -127,6 +127,13 @@ PneumaticPlatform::update(float dt_sec)
 }
 
 void
+PneumaticPlatform::on_flip(float height)
+{
+  m_pos.y = height - m_pos.y;
+  m_start_y = height - m_start_y;
+}
+
+void
 PneumaticPlatform::editor_delete()
 {
   // remove children

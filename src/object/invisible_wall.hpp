@@ -19,6 +19,8 @@
 
 #include "supertux/moving_object.hpp"
 
+#include "video/layer.hpp"
+
 class ReaderMapping;
 
 /** A tile that starts falling down if tux stands to long on it */
@@ -37,6 +39,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  virtual int get_layer() const override { return LAYER_OBJECTS; }
 
 private:
   virtual void update(float dt_sec) override;

@@ -41,6 +41,10 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual void on_flip(float height) override;
+
+  virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
+
 protected:
   virtual void hit(Player& player) = 0;
 

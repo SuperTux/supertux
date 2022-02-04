@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 

@@ -43,6 +43,8 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual int get_layer() const override { return m_layer; }
+
   /** @name Scriptable Methods
       @{ */
   bool get_burning() const; /**< returns true if torch is lighted */

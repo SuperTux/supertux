@@ -409,8 +409,11 @@ GameSession::update(float dt_sec, const Controller& controller)
     assert(m_currentsector != nullptr);
     // Update the world
     if (!m_end_sequence) {
-      m_play_time += dt_sec; //TODO: make sure we don't count cutscene time
-      m_level->m_stats.finish(m_play_time);
+      if (!m_level->m_is_in_cutscene)
+      {
+        m_play_time += dt_sec;
+        m_level->m_stats.finish(m_play_time);
+      }
       m_currentsector->update(dt_sec);
     } else {
       if (!m_end_sequence->is_tux_stopped()) {

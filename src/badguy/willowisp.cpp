@@ -99,6 +99,8 @@ WillOWisp::finish_construction()
 void
 WillOWisp::after_editor_set()
 {
+  BadGuy::after_editor_set();
+
   m_lightsprite->set_color(Color(m_color.red * 0.2f,
                                  m_color.green * 0.2f,
                                  m_color.blue * 0.2f));

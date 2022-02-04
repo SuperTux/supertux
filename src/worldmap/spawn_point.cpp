@@ -18,6 +18,7 @@
 
 #include <stdexcept>
 
+#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace worldmap {
@@ -37,10 +38,16 @@ SpawnPoint::SpawnPoint(const ReaderMapping& mapping) :
   }
 
   if (m_name.empty())
-    throw std::runtime_error("No name specified for spawnpoint");
+  {
+    log_warning << "Spawn point at location '" << m_pos
+                << "' does not have a name" << std::endl;
+  }
 
   if (m_pos.x < 0 || m_pos.y < 0)
-    throw std::runtime_error("Invalid coordinates for spawnpoint");
+  {
+    log_warning << "Spawn point '" << m_name << "' has invalid coordinates: "
+                << m_pos << std::endl;
+  }
 }
 
 } // namespace worldmap

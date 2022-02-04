@@ -12,14 +12,15 @@
 # mkkot <marcin2006@gmail.com>, 2014-2015
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
-# Zwatotem <zwatotem@gmail.com>, 2019
+# Rob PlayZ, 2021
+# Zwatotem <zwatotem@gmail.com>, 2019-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 19:06+0000\n"
-"Last-Translator: Zwatotem <zwatotem@gmail.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-13 22:41+0000\n"
+"Last-Translator: Rob PlayZ\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,26 +32,26 @@ msgstr ""
 msgid "Ancient Ruins"
 msgstr "Starożytne ruiny"
 
-#: data/levels/world2/ancient_ruins.stl:1415
-#: data/levels/world2/ancient_ruins.stl:1423
-#: data/levels/world2/bouncy_coils.stl:237
-#: data/levels/world2/bouncy_coils.stl:245
-#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
 #: data/levels/world2/crumbling_path.stl:278
 #: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:199
-#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
 #: data/levels/world2/mouldy_grotto.stl:559
 #: data/levels/world2/penguin_grow_trees.stl:459
 #: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:309
-#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:185
+#: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
 msgstr "Znalazłeś sekretne miejsce!"
 
-#: data/levels/world2/besides_bushes.stl:3
+#: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
 msgstr "W zaroślach"
 
@@ -74,7 +75,7 @@ msgstr "Ciemność czeka"
 msgid "Find the Bigger Fish!"
 msgstr "Znajdź większą rybę!"
 
-#: data/levels/world2/find_big_fish.stl:800
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
 msgstr "-Duża ryba... dla ciebie."
 
@@ -98,7 +99,7 @@ msgstr "Wyzwania Drzewa Duchów"
 msgid "Ghouls' Lair"
 msgstr "Kłamca Ghoul"
 
-#: data/levels/world2/ghouls_lair.stl:421
+#: data/levels/world2/ghouls_lair.stl:849
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -112,13 +113,13 @@ msgstr "Zejście pod ziemię"
 msgid "I Spy With My Little Eye"
 msgstr "Podglądam swym małym okiem"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:173
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Podglądacz\n#Podglądacze będą aktrywować mechanizmy, na przykład platformy, kiedy Tux będzie w ich zasięgu wzroku."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:547
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
 msgid "Hint: Use snails to break blocks!"
 msgstr "Podpowiedź: Używaj ślimaków, żeby niszczyć klocki!"
 
@@ -130,7 +131,7 @@ msgstr "Jak liść na wietrze"
 msgid "Lost Village"
 msgstr "Zaginiona wioska"
 
-#: data/levels/world2/lost_village.stl:142
+#: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
 msgstr "#Nie zapomnij o przełączniku!"
 
@@ -150,10 +151,6 @@ msgstr "Sowi bombowiec"
 msgid "Penguins don't grow on Trees"
 msgstr "Pingwiny nie rosną na drzewach"
 
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr "---Tutaj wstaw przerywnik---"
-
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Szokujące"
@@ -172,7 +169,7 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-1.png\n"
 "#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
 "#This does not work while jumping or falling!"
-msgstr "-Kwiat ziemi\n!images/powerups/earthflower/earth_flower-0.png\n#Kwiat ziemi umożliwia Tuxowi zamiany w kamień przy jednoczesnym naciśnięciu klawiszy AKCJI oraz W DÓŁ.\n#Nie zadziała to podczas skoku lub spadania!"
+msgstr "-Kwiat ziemi\n!images/powerups/earthflower/earth_flower-1.png\n#Kwiat ziemi umożliwia Tuxowi zamiany w kamień przy jednoczesnym naciśnięciu klawiszy AKCJI oraz W DÓŁ.\n#Nie zadziała to podczas skoku lub spadania!"
 
 #: data/levels/world2/tower_cutscene.stl:3
 msgid "Tower Cutscene"
@@ -186,7 +183,7 @@ msgstr "Wieża duchów"
 msgid "Tux the Builder"
 msgstr "Tux Budowniczy"
 
-#: data/levels/world2/tux_builder.stl:80
+#: data/levels/world2/tux_builder.stl:77
 msgid ""
 "-Portable Objects:\n"
 "!images/objects/rock/rock.png\n"
@@ -198,11 +195,11 @@ msgstr "-Obiekty przenośne\n!images/objects/rock/rock.png\n#Tux może podnosić
 msgid "Tux' Own Horror Show"
 msgstr "Prywatne Show Horrorów Tuxa"
 
-#: data/levels/world2/tux_own_horror_show.stl:280
+#: data/levels/world2/tux_own_horror_show.stl:790
 msgid ""
-"#Willow-wisps are small, annoying ghosts, which transport you to different, "
-"often dangerous places."
-msgstr "#Błędne ogniki aś małymi denerwującymi duszkami, które przenoszą Tuxa w inne, często niebezpieczne miejsca."
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr "#Will o' Wisps to małe złośliwe duszki, które przenoszą w inne, często niebezpieczne miejsca."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -224,9 +221,9 @@ msgid "Wooden Roots"
 msgstr "Korzenie drzew"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest Island"
-msgstr "Las"
+msgid "Rooted Forest"
+msgstr "Korzenny las"
 
-#: data/levels/world2/worldmap.stwm:199
+#: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."
 msgstr "Ciąg dalszy nastąpi..."

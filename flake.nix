@@ -71,7 +71,7 @@
             # FIXME: Should use `git describe` to get the version
             # number or leave it to cmake, but the .git/ directory
             # isn't included in the Nix store.
-            version = "0.6.2-unknown-" + (if (self ? shortRev) then self.shortRev else "dirty");
+            version = "0.6.3-unknown-" + (if (self ? shortRev) then self.shortRev else "dirty");
             src = nixpkgs.lib.cleanSource ./.;
             postPatch = let
               ver = builtins.splitVersion version;

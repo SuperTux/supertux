@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Myeongjin <aranet100@gmail.com>, 2016
+# Myeongjin <aranet100@gmail.com>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-07 13:46+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2017-09-20 13:21+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -127,7 +127,7 @@ msgstr "불폭풍"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr "긴 여행"
+msgstr "긴 여정"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
@@ -151,7 +151,7 @@ msgstr "구름을 통한 길"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "플랑드르 아이스 필드에서"
+msgstr "플랜더스 아이스 들판에서"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
@@ -165,14 +165,14 @@ msgstr "전통"
 msgid "Bonus Island II"
 msgstr "보너스 섬 II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "숨겨진 장소를 찾았습니다!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "저 길이 어디로 이어지는지 궁금해..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "집으로 워프..."

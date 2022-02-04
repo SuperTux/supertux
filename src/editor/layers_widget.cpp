@@ -175,11 +175,11 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             }
             m_selected_tilemap = static_cast<TileMap*>(m_layer_icons[m_hovered_layer]->get_layer());
             m_selected_tilemap->m_editor_active = true;
-            m_editor.edit_path(m_selected_tilemap->get_path(), m_selected_tilemap);
+            m_editor.edit_path(m_selected_tilemap->get_path_gameobject(), m_selected_tilemap);
           } else {
             auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
             if (cam) {
-              m_editor.edit_path(cam->get_path(), cam);
+              m_editor.edit_path(cam->get_path_gameobject(), cam);
             }
           }
           return true;

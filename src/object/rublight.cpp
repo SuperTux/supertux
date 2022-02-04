@@ -48,7 +48,7 @@ RubLight::RubLight(const ReaderMapping& mapping) :
 ObjectSettings
 RubLight::get_settings()
 {
-  ObjectSettings result = MovingObject::get_settings();
+  ObjectSettings result = MovingSprite::get_settings();
 
   // The object settings and their default values shown in the Editor
   result.add_color(_("Color"), &color, "color", Color(1.0f, 0.5f, 0.3f));

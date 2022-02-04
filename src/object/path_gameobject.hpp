@@ -53,6 +53,8 @@ public:
 
   virtual void remove_me() override;
 
+  virtual void on_flip(float height) override;
+
   virtual ObjectSettings get_settings() override;
 
   Path& get_path() { return *m_path; }

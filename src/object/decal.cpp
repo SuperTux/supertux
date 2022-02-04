@@ -16,7 +16,7 @@
 
 #include "object/decal.hpp"
 #include "scripting/decal.hpp"
-
+#include "supertux/flip_level_transformer.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
@@ -53,13 +53,6 @@ Decal::get_settings()
   result.reorder({"z-pos", "sprite", "x", "y"});
 
   return result;
-}
-
-void
-Decal::after_editor_set()
-{
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_sprite->set_action(m_default_action);
 }
 
 Decal::~Decal()
@@ -101,6 +94,13 @@ Decal::fade_sprite(const std::string& new_sprite, float fade_time)
   // From now on flip_sprite == the old one
   m_sprite.get()->set_alpha(0);
   m_sprite_timer.start(fade_time);
+}
+
+void
+Decal::on_flip(float height)
+{
+  MovingObject::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 void

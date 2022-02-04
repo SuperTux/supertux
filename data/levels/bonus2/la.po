@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Alisa P <parashchenko.alisa@yandex.com>, 2016
+# Alisa P <parashchenko.alisa@yandex.com>, 2016,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-05-04 17:02+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2018-12-28 20:21+0000\n"
 "Last-Translator: Alisa P <parashchenko.alisa@yandex.com>\n"
 "Language-Team: Latin (http://www.transifex.com/arctic-games/supertux/language/la/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "-Insulam additionalem II finivisti!\\r\\n\n\\tLeveles mundi de eis sunt:
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Mario id facere debet..."
+msgstr "Mario id facere debeat..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -75,7 +75,7 @@ msgstr "Iterum imus"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Via glaciis"
+msgstr "Via-caverna glaciis"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
@@ -155,7 +155,7 @@ msgstr "In agris de glacie Flandris"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "Aedificium in caelo"
+msgstr "Castellum in caelo"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
@@ -165,14 +165,14 @@ msgstr "Mos"
 msgid "Bonus Island II"
 msgstr "Insula additionalis II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Agrum abditum invenisti!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Quo ea via adducit"
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Ad domo ire"

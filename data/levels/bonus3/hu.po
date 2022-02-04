@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2020-04-26 16:42+0000\n"
-"Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 19:20+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,16 +24,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89.2 degrees"
-msgstr "-89,2 fok"
+msgid "The Level Formely Known As \"-89,2 Degrees\""
+msgstr ""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr "Globális felmelegedés"
+msgstr "Globális Felmelegedés"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr "Egy éjszaka az égben"
+msgstr "Egy Éjszaka az Égben"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
@@ -44,14 +44,14 @@ msgid "Another cold day"
 msgstr "Még egy hűvös nap"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
-msgid "Antarctic rain"
-msgstr "Antarktiszi zápor"
+msgid "Forest Rain (aka \"Antarctic Rain\")"
+msgstr ""
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
 msgstr "...de senki sem tudja megállítani..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -63,15 +63,15 @@ msgstr "Nem tudsz a felhőknél magasabbra mászni..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
-msgstr "A fény és sötétség vára"
+msgstr "A Fény és Sötétség Vára"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr "Barlang futás"
+msgstr "Barlangi Futás"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
-msgstr "Hideg barlang"
+msgstr "Hideg Barlang"
 
 #: data/levels/bonus3/cavern_v2.stl:47
 msgid ""
@@ -81,27 +81,27 @@ msgstr "#Szép munka! Megtartottad a piros lámpást! Nem volt rá szükséged, 
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr "Kókuszdió erőd"
+msgstr "Kókuszdió Erőd"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
-msgstr "Kristályos napnyugta"
+msgstr "Kristályos Napnyugta"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
-msgstr "Kristály egek"
+msgstr "Kristály Egek"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr "Kristály szépség"
+msgstr "Kristály Szépség"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr "Kristály felfordulás"
+msgstr "Kristály Felfordulás"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr "Kint a kristály mezőkön"
+msgstr "Kint a Kristály Mezőkön"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
@@ -132,17 +132,21 @@ msgstr "Lefelémenet"
 msgid "Entering the castle"
 msgstr "Belépés a várba"
 
+#: data/levels/bonus3/entering_castle.stl:60
+msgid "#Sorry, nothing to see here! Use the rope to get out!"
+msgstr ""
+
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr "Virág bónusz"
+msgstr "Virág Bónusz"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr "A gleccserek után"
+msgstr "A Gleccserek Után"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
-msgstr "Lógás a tetőről"
+msgstr "Lógás a Tetőről"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
@@ -166,19 +170,19 @@ msgstr "Hóesés riadó"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr "Egy nap a lyukas jegen"
+msgstr "Egy Nap a Lyukas Jegen"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr "A toilett zóna"
+msgstr "A Toilett zóna"
 
-#: data/levels/bonus3/niv-3.stl:29
+#: data/levels/bonus3/niv-3.stl:58
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
 msgstr "- Öblítés: \n#Nyomd meg a fel billentyűt az öblítéshez! "
 
-#: data/levels/bonus3/niv-3.stl:219
+#: data/levels/bonus3/niv-3.stl:380
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -190,7 +194,7 @@ msgstr "Az én Penny-m az óceán fölött van."
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr "Rózsaszín hó"
+msgstr "Rózsaszín Hó"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
@@ -222,17 +226,8 @@ msgstr "A jég alatt"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr "Bónusz-sziget 3."
+msgstr "Bónusz-sziget III"
 
-#: data/levels/bonus3/worldmap.stwm:238
-msgid "You found a secret place!"
-msgstr "Találtál egy titkos helyet!"
-
-#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
-#: data/levels/bonus3/worldmap.stwm:304
+#: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"
 msgstr "Menj haza"
-
-#: data/levels/bonus3/worldmap.stwm:290
-msgid "Enter Forest Section"
-msgstr "Lépj be az erdő részlegbe"

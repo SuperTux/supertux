@@ -23,10 +23,12 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/sector.hpp"
 
 static const float RESPAWN_TIME = 5.f;
 static const float FADE_OUT_TIME = 1.f;
 static const float FADE_IN_TIME = .5f;
+static const float DELAY_IF_TUX = 0.001f;
 
 UnstableTile::UnstableTile(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/unstable_tile/snow.sprite", LAYER_TILES, COLGROUP_STATIC),
@@ -68,7 +70,6 @@ void UnstableTile::shake()
 {
   if (state != STATE_NORMAL)
     return;
-
   if (m_sprite->has_action("shake"))
   {
     state = STATE_SHAKE;
@@ -111,6 +112,7 @@ void UnstableTile::slow_fall()
     set_action("fall-down", /* loops = */ 1);
     physic.set_gravity_modifier(.10f);
     physic.enable_gravity(true);
+    m_original_pos = m_col.get_pos();
     slowfall_timer = 0.5f; /* Fall slowly for half a second. */
   }
   else
@@ -194,9 +196,20 @@ UnstableTile::update(float dt_sec)
       if (!m_revive_timer.started())
       {
         if (m_revive_timer.check())
-          revive();
+        {
+          if (Sector::current() && Sector::get().is_free_of_movingstatics(m_col.m_bbox.grown(-1.f)))
+          {
+            revive();
+          }
+          else
+          {
+            m_revive_timer.start(DELAY_IF_TUX);
+          }
+        }
         else
+        {
           m_revive_timer.start(RESPAWN_TIME);
+        }
       }
       else if (m_alpha > 0.f)
       {
@@ -219,6 +232,13 @@ UnstableTile::draw(DrawingContext& context)
   context.transform().alpha *= m_alpha;
   MovingSprite::draw(context);
   context.pop_transform();
+}
+
+void
+UnstableTile::on_flip(float height)
+{
+  MovingObject::on_flip(height);
+  m_original_pos.y = height - m_original_pos.y - get_bbox().get_height();
 }
 
 /* EOF */

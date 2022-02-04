@@ -3,9 +3,10 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Francisco B.G. <inactive+franchulo@transifex.com>, 2015
+# 69fe870410d3e630a708a509aed5c0f9_e3efcca <3d48305986fd1b36087a0ec11b9a769d_288033>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
-# Swyter <Swyterzone@gmail.com>, 2018
+# Kory Giles <korygiles65@gmail.com>, 2020
+# Swyter <Swyterzone@gmail.com>, 2018,2021
 # Tam Ezquerra <namarie.tam@gmail.com>, 2019
 # Tam Ezquerra <namarie.tam@gmail.com>, 2019
 # William Beltrán <wbeltranc@gmail.com>, 2016
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-25 15:32+0000\n"
-"Last-Translator: Tam Ezquerra <namarie.tam@gmail.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-13 23:07+0000\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,28 +29,28 @@ msgstr ""
 msgid "Ancient Ruins"
 msgstr "Ruinas Antiguas"
 
-#: data/levels/world2/ancient_ruins.stl:1415
-#: data/levels/world2/ancient_ruins.stl:1423
-#: data/levels/world2/bouncy_coils.stl:237
-#: data/levels/world2/bouncy_coils.stl:245
-#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
 #: data/levels/world2/crumbling_path.stl:278
 #: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:199
-#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
 #: data/levels/world2/mouldy_grotto.stl:559
 #: data/levels/world2/penguin_grow_trees.stl:459
 #: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:309
-#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:185
+#: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
 msgstr "¡Hallaste un área secreta!"
 
-#: data/levels/world2/besides_bushes.stl:3
+#: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
-msgstr "Detrás de los Arbustos"
+msgstr "Al lado de los Arbustos "
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
@@ -71,9 +72,9 @@ msgstr "La Oscuridad Espera"
 msgid "Find the Bigger Fish!"
 msgstr "¡Encuentra el pez más grande!"
 
-#: data/levels/world2/find_big_fish.stl:800
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
-msgstr "-Un pescado grande... para ti."
+msgstr "-Toma, te mereces un... gran pez."
 
 #: data/levels/world2/forest_intro.stl:3
 msgid "A New Location"
@@ -95,7 +96,7 @@ msgstr "Desafíos del Árbol Fantasma"
 msgid "Ghouls' Lair"
 msgstr "La Guarida del Demonio Necrófago"
 
-#: data/levels/world2/ghouls_lair.stl:421
+#: data/levels/world2/ghouls_lair.stl:849
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -109,13 +110,13 @@ msgstr "Yendo Bajo Tierra"
 msgid "I Spy With My Little Eye"
 msgstr "Veo, Veo"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:173
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Ispy\n#Los Ispys activarán objetos como plataformas cada vez que Tux está a la vista."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:547
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
 msgid "Hint: Use snails to break blocks!"
 msgstr "Pista: ¡Usa caracoles para romper bloques!"
 
@@ -127,7 +128,7 @@ msgstr "Como una hoja en el Viento"
 msgid "Lost Village"
 msgstr "Aldea perdida"
 
-#: data/levels/world2/lost_village.stl:142
+#: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
 msgstr "#¡No olvides tocar el interruptor!"
 
@@ -145,11 +146,7 @@ msgstr "El comando de la Caída Libre de las Lechuzas"
 
 #: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Los Pingüinos no crecen en los Árboles"
-
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr "---Inserta Secuencia Cinemática Aquí---"
+msgstr "Los pingüinos no crecen en los árboles"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -183,7 +180,7 @@ msgstr "Torre de Fantasmas"
 msgid "Tux the Builder"
 msgstr "Tux el Constructor"
 
-#: data/levels/world2/tux_builder.stl:80
+#: data/levels/world2/tux_builder.stl:77
 msgid ""
 "-Portable Objects:\n"
 "!images/objects/rock/rock.png\n"
@@ -195,19 +192,19 @@ msgstr "-Objetos portátiles\n!images/objects/rock/rock.png\n#Tux puede agarrar 
 msgid "Tux' Own Horror Show"
 msgstr "El Show del Horrow Propio de Tux"
 
-#: data/levels/world2/tux_own_horror_show.stl:280
+#: data/levels/world2/tux_own_horror_show.stl:790
 msgid ""
-"#Willow-wisps are small, annoying ghosts, which transport you to different, "
-"often dangerous places."
-msgstr "#Los Poltergeist son fantasmitas pequeños y molestos que te transportarán hacia lugares diferentes y, a menudo, peligrosos."
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr "#Los fuegos fatuos son pequeños pero molestos fantasmillas que te llevan a remotos (y a menudo peligrosos) lugares."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Hojas Vivientes"
+msgstr "Ahora las hojas caminan"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
-msgstr "Bienvenido al Bosque"
+msgstr "Bienvenidos al bosque"
 
 #: data/levels/world2/welcome_forest.stl:50
 msgid ""
@@ -221,9 +218,9 @@ msgid "Wooden Roots"
 msgstr "Raíces de Madera"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest Island"
-msgstr "Isla del Bosque"
+msgid "Rooted Forest"
+msgstr "El bosque enraizado"
 
-#: data/levels/world2/worldmap.stwm:199
+#: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."
 msgstr "Continuará..."

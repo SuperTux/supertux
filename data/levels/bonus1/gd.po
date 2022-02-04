@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# GunChleoc, 2016
-# GunChleoc, 2016
+# GunChleoc, 2016,2019
+# GunChleoc, 2016,2019
 # GunChleoc, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-11-14 18:27+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-17 20:56+0000\n"
 "Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/arctic-games/supertux/language/gd/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Gun dèid an latha leat!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr "Geata a’ chaisteil"
+msgstr "Geata a' chaisteil"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
@@ -81,7 +81,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Meal do naidheachd!\n\n#Chrìochnaich thu\n#Eilean duaise I\n\n\ta’ gabhail a-steach leibheilean le\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Mura rinn thu a’ chùis air gach leibheil fhathast,\n#till dhachaigh is gabh slighe eile.\n#Tha barrachd dhùbhlannan\n#romhad fhathast!\n\n#Agus tha leibheil dìomhair ri lorg ann cuideachd…\n\n#Mòran taing dhan a h-uile duine a chuidich\n#leis an sgaoileadh seo. Tha sinn an dòchas\n#gun do chòrd e riut!"
+msgstr "-Meal do naidheachd!\n\n#Chrìochnaich thu\n#Eilean duaise I\n\n\ta' gabhail a-steach leibheilean le\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Mura rinn thu a' chùis air gach leibheil fhathast,\n#till dhachaigh is gabh slighe eile.\n#Tha barrachd dhùbhlannan\n#romhad fhathast!\n\n#Agus tha leibheil dìomhair ri lorg ann cuideachd…\n\n#Mòran taing dhan a h-uile duine a chuidich\n#leis an sgaoileadh seo. Tha sinn an dòchas\n#gun do chòrd e riut!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -103,6 +103,12 @@ msgstr "Nach robh mi an-seo roimhe?"
 msgid "Bad Guys Stink!"
 msgstr "Tha dorch-fhàileadh air droch-chreutairean!"
 
+#: data/levels/bonus1/thompson-level2.stl:96
+msgid ""
+"#These levels were made Swimming-Ready by Serano and revamped by "
+"AllyTheOcelot"
+msgstr "#Dh’ullaich Serano na leibheilean seo airson snàmh agus thug AllyTheOcelot dreach ùr orra"
+
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
 msgstr "Toiseach math"
@@ -111,9 +117,9 @@ msgstr "Toiseach math"
 msgid "Too easy"
 msgstr "Ro fhurasta"
 
-#: data/levels/bonus1/torfi-level2.stl:42
-msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr "#Chaidh na leibheilean uile seo ùrachadh gu stoidhle na dàrna cloiche-mìle le Hume2."
+#: data/levels/bonus1/torfi-level2.stl:56
+msgid "#All these levels were upgraded for milestone 2 by Hume."
+msgstr "#Chaidh na leibheilean uile seo ùrachadh dhan dàrna chlach-mhìle le Hume."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -143,62 +149,62 @@ msgstr "Air barr na h-eigh-bheinne"
 msgid "Bonus Island I"
 msgstr "Eilean duaise I"
 
-#: data/levels/bonus1/worldmap.stwm:12
+#: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
 msgstr "Lorg thu àite dìomhair!"
 
-#: data/levels/bonus1/worldmap.stwm:20
+#: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."
 msgstr "Oidheam: Chleachd taighean-sneachda gus tilleadh an-seo."
 
-#: data/levels/bonus1/worldmap.stwm:29
+#: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
 msgstr "Siubhal gu machair Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
 msgstr "Siubhal gu talamh Thompson"
 
-#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
 msgstr "Fàg eilean an sgioba SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:50
+#: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
 msgstr "Siubhal gu àrainn Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
 msgstr "Fàg tìr Torfi"
 
-#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:179 data/levels/bonus1/worldmap.stwm:207
 msgid "Leave Abednego's Area"
 msgstr "Fàg àrainn Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:186 data/levels/bonus1/worldmap.stwm:234
 msgid "Leave Thompson's Domain"
 msgstr "Fàg talamh Thompson"
 
-#: data/levels/bonus1/worldmap.stwm:77
+#: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
 msgstr "Till gu machair Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:83
+#: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
 msgstr "Siubhal dhachaigh"
 
-#: data/levels/bonus1/worldmap.stwm:97
+#: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
 msgstr "Siubhal gu eilean an sgioba SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:123
+#: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
 msgstr "F?ag machair Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:129
+#: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
 msgstr "Lean air machair Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:136
+#: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
 msgstr "Siubhal gu tìr Torfi"

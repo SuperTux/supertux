@@ -74,4 +74,12 @@ MovingObject::editor_select()
   Sector::get().add<ResizeMarker>(&m_col.m_bbox, ResizeMarker::Side::RIGHT_DOWN, ResizeMarker::Side::RIGHT_DOWN);
 }
 
+void
+MovingObject::on_flip(float height)
+{
+  Vector pos = get_pos();
+  pos.y = height - pos.y - get_bbox().get_height();
+  set_pos(pos);
+}
+
 /* EOF */

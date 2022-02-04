@@ -202,7 +202,7 @@ GhostTree::willowisp_died(TreeWillOWisp* willowisp)
     mystate = STATE_IDLE;
   }
   willowisps.erase(std::find_if(willowisps.begin(), willowisps.end(),
-                                [willowisp](GameObject* lhs)
+                                [willowisp](const GameObject* lhs)
                                 {
                                   return lhs == willowisp;
                                 }));

@@ -146,7 +146,8 @@ FileSystemMenu::menu_action(MenuItem& item)
         std::string new_filename = FileSystem::join(m_directory, m_files[id]);
 
         if (!m_basedir.empty()) {
-          new_filename = FileSystem::relpath(new_filename, m_basedir);
+          std::string temp_path = FileSystem::relpath(new_filename, m_basedir);
+          new_filename = temp_path.find("..") ? temp_path : new_filename;
         }
 
         if (m_filename)

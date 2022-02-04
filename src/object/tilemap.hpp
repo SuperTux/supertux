@@ -64,6 +64,8 @@ public:
 
   virtual void editor_update() override;
 
+  virtual void on_flip(float height) override;
+
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
 
@@ -201,12 +203,15 @@ public:
   void set_tileset(const TileSet* new_tileset);
 
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
-  
+
 private:
   void update_effective_solid();
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
   bool is_corner(uint32_t tile);
+
+  void apply_offset_x(int fill_id, int xoffset);
+  void apply_offset_y(int fill_id, int yoffset);
 
 public:
   bool m_editor_active;

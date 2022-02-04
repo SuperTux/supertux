@@ -141,7 +141,7 @@ ObjectSettings::add_walk_mode(const std::string& text, WalkMode* value_ptr,
 {
   add_option(std::make_unique<StringSelectObjectOption>(
                text, reinterpret_cast<int*>(value_ptr),
-               std::vector<std::string>{_("One shot"), _("Ping-pong"), _("Circular"), _("Unordered")},
+               std::vector<std::string>{_("One shot"), _("Ping-pong"), _("Circular")},
                boost::none, key, flags));
 }
 

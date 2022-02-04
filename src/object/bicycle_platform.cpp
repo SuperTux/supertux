@@ -163,6 +163,12 @@ BicyclePlatform::update(float dt_sec)
 }
 
 void
+BicyclePlatform::on_flip(float height)
+{
+  m_center.y = height - m_center.y;
+}
+
+void
 BicyclePlatform::editor_delete()
 {
   // remove children
