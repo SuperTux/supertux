@@ -57,7 +57,7 @@ class Autotile final
 public:
   Autotile(uint32_t tile_id,
     std::vector<std::pair<uint32_t, float>> alt_tiles,
-    std::vector<std::shared_ptr<AutotileMask>> masks,
+    std::vector<AutotileMask*> masks,
     bool solid);
 
   bool matches(uint8_t mask, bool center) const;
@@ -83,7 +83,7 @@ public:
 private:
   uint32_t m_tile_id;
   std::vector<std::pair<uint32_t, float>> m_alt_tiles;
-  std::vector<std::shared_ptr<AutotileMask>> m_masks;
+  std::vector<AutotileMask*> m_masks;
   bool m_solid;
 
 private:
@@ -98,7 +98,7 @@ public:
   //static AutotileSet* get_tileset_from_tile(uint32_t tile_id);
 
 public:
-  AutotileSet(std::vector<std::shared_ptr<Autotile>> autotiles, uint32_t default_tile, std::string name, bool corner);
+  AutotileSet(std::vector<Autotile*> autotiles, uint32_t default_tile, std::string name, bool corner);
 
   /** Returns the ID of the tile to use, based on the surrounding tiles.
    *  If the autotileset is corner-based, the top, left, right, bottom and
@@ -133,10 +133,10 @@ public:
   void validate() const;
 
 public:
-  static std::vector<std::unique_ptr<AutotileSet>>* m_autotilesets;
+  static std::vector<AutotileSet*>* m_autotilesets;
 
 private:
-  std::vector<std::shared_ptr<Autotile>> m_autotiles;
+  std::vector<Autotile*> m_autotiles;
   uint32_t m_default;
   std::string m_name;
   bool m_corner;

@@ -29,7 +29,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"
 
-AutotileParser::AutotileParser(std::vector<std::unique_ptr<AutotileSet>>* autotilesets, const std::string& filename) :
+AutotileParser::AutotileParser(std::vector<AutotileSet*>* autotilesets, const std::string& filename) :
   m_autotilesets(autotilesets),
   m_filename(filename),
   m_tiles_path()
@@ -71,7 +71,7 @@ AutotileParser::parse()
 void
 AutotileParser::parse_autotileset(const ReaderMapping& reader, bool corner)
 {
-  std::vector<std::shared_ptr<Autotile>> autotiles;
+  std::vector<Autotile*>* autotiles = new std::vector<Autotile*>();
 
   std::string name = "[unnamed]";
   if (!reader.get("name", name))
@@ -91,7 +91,7 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader, bool corner)
     if (iter.get_key() == "autotile")
     {
       ReaderMapping tile_mapping = iter.as_mapping();
-      autotiles.push_back(parse_autotile(tile_mapping, corner));
+      autotiles->push_back(parse_autotile(tile_mapping, corner));
     }
     else if (iter.get_key() != "name" && iter.get_key() != "default")
     {
@@ -99,20 +99,20 @@ AutotileParser::parse_autotileset(const ReaderMapping& reader, bool corner)
     }
   }
 
-  std::unique_ptr<AutotileSet> autotileset = std::make_unique<AutotileSet>(autotiles, default_id, name, corner);
+  AutotileSet* autotileset = new AutotileSet(*autotiles, default_id, name, corner);
 
   if (g_config->developer_mode)
   {
     autotileset->validate();
   }
 
-  m_autotilesets->push_back(std::move(autotileset));
+  m_autotilesets->push_back(autotileset);
 }
 
-std::shared_ptr<Autotile>
+Autotile*
 AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
 {
-  std::vector<std::shared_ptr<AutotileMask>> autotile_masks;
+  std::vector<AutotileMask*> autotile_masks;
   std::vector<std::pair<uint32_t, float>> alt_ids;
 
   uint32_t tile_id;
@@ -177,11 +177,11 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
     }
   }
 
-  return std::make_shared<Autotile>(tile_id, alt_ids, autotile_masks, !!solid);
+  return new Autotile(tile_id, alt_ids, autotile_masks, !!solid);
 }
 
 void
-AutotileParser::parse_mask(std::string mask, std::vector<std::shared_ptr<AutotileMask>>* autotile_masks, bool solid)
+AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask*>* autotile_masks, bool solid)
 {
   if (mask.size() != 8)
   {
@@ -224,12 +224,12 @@ AutotileParser::parse_mask(std::string mask, std::vector<std::shared_ptr<Autotil
 
   for (uint8_t val : masks)
   {
-    autotile_masks->push_back(std::make_shared<AutotileMask>(val, solid));
+    autotile_masks->push_back(new AutotileMask(val, solid));
   }
 }
 
 void
-AutotileParser::parse_mask_corner(std::string mask, std::vector<std::shared_ptr<AutotileMask>>* autotile_masks)
+AutotileParser::parse_mask_corner(std::string mask, std::vector<AutotileMask*>* autotile_masks)
 {
   if (mask.size() != 4)
   {
@@ -272,7 +272,7 @@ AutotileParser::parse_mask_corner(std::string mask, std::vector<std::shared_ptr<
 
   for (uint8_t val : masks)
   {
-    autotile_masks->push_back(std::make_shared<AutotileMask>(val, true));
+    autotile_masks->push_back(new AutotileMask(val, true));
   }
 }
 

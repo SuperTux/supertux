@@ -29,20 +29,20 @@ class ReaderMapping;
 class AutotileParser final
 {
 private:
-  std::vector<std::unique_ptr<AutotileSet>>* m_autotilesets;
+  std::vector<AutotileSet*>* m_autotilesets;
   std::string m_filename;
   std::string m_tiles_path;
 
 public:
-  AutotileParser(std::vector<std::unique_ptr<AutotileSet>>* autotilesets, const std::string& filename);
+  AutotileParser(std::vector<AutotileSet*>* autotilesets, const std::string& filename);
 
   void parse();
 
 private:
   void parse_autotileset(const ReaderMapping& reader, bool corner);
-  std::shared_ptr<Autotile> parse_autotile(const ReaderMapping& reader, bool corner);
-  void parse_mask(std::string mask, std::vector<std::shared_ptr<AutotileMask>>* autotile_masks, bool solid);
-  void parse_mask_corner(std::string mask, std::vector<std::shared_ptr<AutotileMask>>* autotile_masks);
+  Autotile* parse_autotile(const ReaderMapping& reader, bool corner);
+  void parse_mask(std::string mask, std::vector<AutotileMask*>* autotile_masks, bool solid);
+  void parse_mask_corner(std::string mask, std::vector<AutotileMask*>* autotile_masks);
 
 private:
   AutotileParser(const AutotileParser&) = delete;
