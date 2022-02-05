@@ -62,6 +62,17 @@ Brick::hit(Player& player)
   try_break(&player);
 }
 
+void
+Brick::update(float dt_sec)
+{
+  for (auto& explosion : Sector::get().get_objects_by_type<Explosion>())
+  {
+    if (get_bbox().grown(8).contains(explosion.get_bbox()))
+      try_break(nullptr);
+  }
+  Block::update(dt_sec);
+}
+
 HitResponse
 Brick::collision(GameObject& other, const CollisionHit& hit)
 {
@@ -86,10 +97,6 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
     if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_break(nullptr);
     }
-  }
-  auto explosion = dynamic_cast<Explosion*> (&other);
-  if (explosion && explosion->hurts()) {
-    try_break(nullptr);
   }
   auto icecrusher = dynamic_cast<IceCrusher*> (&other);
   if (icecrusher && m_coin_counter == 0)

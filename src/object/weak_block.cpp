@@ -96,10 +96,6 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
         if (auto bullet = dynamic_cast<Bullet*> (&other)) {
           return collision_bullet(*bullet, hit);
         }
-        //Explosions destroy weakblocks as well
-        if (dynamic_cast<Explosion*> (&other)) {
-          startBurning();
-        }
         break;
 
       case STATE_BURNING:
@@ -127,6 +123,11 @@ WeakBlock::update(float )
   switch (state) {
 
       case STATE_NORMAL:
+        for (auto& explosion : Sector::get().get_objects_by_type<Explosion>())
+        {
+          if (get_bbox().grown(8).contains(explosion.get_bbox()))
+            startBurning();
+        }
         break;
 
       case STATE_BURNING:

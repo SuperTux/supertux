@@ -25,6 +25,7 @@ public:
   Brick(const Vector& pos, int data, const std::string& spriteName);
   Brick(const ReaderMapping& mapping, const std::string& spriteName = "images/objects/bonus_block/brick.sprite");
 
+  virtual void update(float dt_sec) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual ObjectSettings get_settings() override;
   virtual std::string get_class() const override { return "brick"; }
