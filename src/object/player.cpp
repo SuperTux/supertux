@@ -1802,6 +1802,7 @@ Player::collision_solid(const CollisionHit& hit)
         -70, -50, 260, 280, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
       Sector::get().get_camera().shake(.1f, 0, 5);
+      InputManager::current()->rumble_effect(RUMBLE_BUTTJUMP);
     }
 
   } else if (hit.top) {
@@ -1902,6 +1903,7 @@ Player::kill(bool completely)
 
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav");
+    InputManager::current()->rumble_effect(RUMBLE_HURT);
 
     if (m_player_status.bonus == FIRE_BONUS
       || m_player_status.bonus == ICE_BONUS
@@ -1917,6 +1919,7 @@ Player::kill(bool completely)
     }
   } else {
     SoundManager::current()->play("sounds/kill.wav");
+    InputManager::current()->rumble_effect(RUMBLE_KILL);
 
     // do not die when in edit mode
     if (m_edit_mode) {

@@ -35,6 +35,10 @@ class KeyboardMenu;
 class KeyboardConfig;
 class JoystickConfig;
 
+enum RumbleType {
+  RUMBLE_HURT, RUMBLE_KILL, RUMBLE_SQUISH, RUMBLE_SQUISH_INVINCIBLE, RUMBLE_BLOCK_HIT, RUMBLE_BUTTJUMP
+};
+
 class InputManager final : public Currenton<InputManager>
 {
 private:
@@ -56,6 +60,8 @@ public:
 
   const Controller& get_controller() const;
   Controller& get_controller();
+
+  void rumble_effect(int type);
 
 private:
   std::unique_ptr<Controller> controller;

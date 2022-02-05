@@ -132,4 +132,10 @@ InputManager::process_event(const SDL_Event& event)
   }
 }
 
+void
+InputManager::rumble_effect(int type)
+{
+  game_controller_manager->rumble_effect(type);
+}
+
 /* EOF */

@@ -176,6 +176,42 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
 }
 
 void
+GameControllerManager::rumble_effect(int type)
+{
+  for (const auto& con : m_game_controllers)
+  {
+    switch (type) {
+      case RUMBLE_HURT:
+        SDL_GameControllerRumble(con, 0x9FFF, 0xBFFF, 400);
+        break;
+
+      case RUMBLE_KILL:
+        SDL_GameControllerRumble(con, 0x9FFF, 0xBFFF, 750);
+	break;
+
+      case RUMBLE_SQUISH:
+        SDL_GameControllerRumble(con, 0x2FFF, 0xBFFF, 200);
+	break;
+
+      case RUMBLE_SQUISH_INVINCIBLE:
+        SDL_GameControllerRumble(con, 0x2FFF, 0xBFFF, 150);
+        break;
+
+      case RUMBLE_BLOCK_HIT:
+        SDL_GameControllerRumble(con, 0x4FFF, 0x9FFF, 200);
+	break;
+
+      case RUMBLE_BUTTJUMP:
+        SDL_GameControllerRumble(con, 0xDFFF, 0xBFFF, 300);
+	break;
+
+      default:
+        break;
+    }
+  }
+}
+
+void
 GameControllerManager::on_controller_added(int joystick_index)
 {
   if (!SDL_IsGameController(joystick_index))

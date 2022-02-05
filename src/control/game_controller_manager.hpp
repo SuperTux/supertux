@@ -37,6 +37,8 @@ public:
   void process_button_event(const SDL_ControllerButtonEvent& ev);
   void process_axis_event(const SDL_ControllerAxisEvent& ev);
 
+  void rumble_effect(int type);
+
   void on_controller_added(int joystick_index);
   void on_controller_removed(int instance_id);
 

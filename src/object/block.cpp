@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "badguy/bomb.hpp"
+#include "control/input_manager.hpp"
 #include "math/random.hpp"
 #include "object/coin.hpp"
 #include "object/growup.hpp"
@@ -102,6 +103,7 @@ Block::collision(GameObject& other, const CollisionHit& )
       if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA &&
           x_coordinates_intersect)
       {
+        InputManager::current()->rumble_effect(RUMBLE_BLOCK_HIT);
         hit(*player);
       }
     }

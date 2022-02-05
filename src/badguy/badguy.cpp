@@ -363,6 +363,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 
     // hit from above?
     if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16)) {
+      InputManager::current()->rumble_effect(RUMBLE_SQUISH);
       if (player->is_stone()) {
         kill_fall();
         return FORCE_MOVE;
@@ -408,6 +409,7 @@ HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {
   if (player.is_invincible()) {
+    InputManager::current()->rumble_effect(RUMBLE_SQUISH_INVINCIBLE);
     kill_fall();
     return ABORT_MOVE;
   }
