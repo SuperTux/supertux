@@ -1105,25 +1105,20 @@ Player::handle_input()
   }
 
   /* Peeking */
-  if ( m_controller->released( Control::PEEK_LEFT ) || m_controller->released( Control::PEEK_RIGHT ) ) {
+  if (m_controller->released( Control::PEEK_LEFT ) || m_controller->released( Control::PEEK_RIGHT))
     m_peekingX = Direction::AUTO;
-  }
-  if ( m_controller->released( Control::PEEK_UP ) || m_controller->released( Control::PEEK_DOWN ) ) {
+  else if (m_controller->released( Control::PEEK_UP ) || m_controller->released( Control::PEEK_DOWN))
     m_peekingY = Direction::AUTO;
-  }
-  if ( m_controller->pressed( Control::PEEK_LEFT ) ) {
+
+  if (m_controller->pressed(Control::PEEK_LEFT))
     m_peekingX = Direction::LEFT;
-  }
-  if ( m_controller->pressed( Control::PEEK_RIGHT ) ) {
+  else if (m_controller->pressed(Control::PEEK_RIGHT))
     m_peekingX = Direction::RIGHT;
-  }
-  if (!m_backflipping && !m_jumping && on_ground()) {
-    if ( m_controller->pressed( Control::PEEK_UP ) ) {
-      m_peekingY = Direction::UP;
-    } else if ( m_controller->pressed( Control::PEEK_DOWN ) ) {
-      m_peekingY = Direction::DOWN;
-    }
-  }
+
+  if (m_controller->pressed(Control::PEEK_UP))
+    m_peekingY = Direction::UP;
+  else if (m_controller->pressed(Control::PEEK_DOWN))
+    m_peekingY = Direction::DOWN;
 
   /* Handle horizontal movement: */
   if (!m_backflipping && !m_stone && !m_swimming) handle_horizontal_input();
