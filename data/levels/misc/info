@@ -1,6 +1,7 @@
 (supertux-world
   (title (_ "Misc"))
   (description (_ "How did you get here?"))
+  (contrib-type "official")
   (levelset #t)
   (hide-from-contribs #t)
 )
