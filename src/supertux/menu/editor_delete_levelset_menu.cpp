@@ -21,6 +21,8 @@
 #include "physfs/util.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/world.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
@@ -44,7 +46,7 @@ EditorDeleteLevelsetMenu::refresh()
   for(std::string& level_world : contrib_worlds)
   {
     std::unique_ptr<World> world = World::from_directory(level_world);
-    if (world->hide_from_contribs())
+    if (world->hide_from_contribs() && !g_config->developer_mode)
     {
       continue;
     }

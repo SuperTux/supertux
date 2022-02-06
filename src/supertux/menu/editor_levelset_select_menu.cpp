@@ -29,6 +29,8 @@
 #include "supertux/menu/editor_delete_levelset_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/world.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -80,7 +82,7 @@ EditorLevelsetSelectMenu::initialize()
     try
     {
       std::unique_ptr<World> world = World::from_directory(level_world);
-      if (world->hide_from_contribs())
+      if (world->hide_from_contribs() && !g_config->developer_mode)
       {
         continue;
       }

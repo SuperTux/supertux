@@ -30,6 +30,8 @@
 #include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/world.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -91,7 +93,7 @@ ContribMenu::ContribMenu() :
         continue;
 
       std::unique_ptr<World> world = World::from_directory(*it);
-      if (!world->hide_from_contribs())
+      if (!world->hide_from_contribs() || g_config->developer_mode)
       {
         if (world->is_levelset() || world->is_worldmap())
         {
