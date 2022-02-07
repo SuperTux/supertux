@@ -370,6 +370,19 @@ Savegame::get_worldmap_state(const std::string& name)
   return result;
 }
 
+std::pair<uint32_t, uint32_t>
+WorldmapState::get_level_count() const
+{
+  uint32_t solved = 0, total = 0;
+  for (const auto& level_state : level_states)
+  {
+    if (level_state.filename.empty()) continue;
+    if (level_state.solved) ++solved;
+    ++total;
+  }
+  return std::make_pair(solved, total);
+}
+
 std::vector<std::string>
 Savegame::get_levelsets()
 {

@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
-//                2021 Jiri Palecek <narre@protonmail.com>
+//                2022 Jiri Palecek <narre@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -61,8 +61,6 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       }
       else
       {
-        uint32_t island_level_count = 0, island_solved_count = 0,
-                 world_level_count = 0,  world_solved_count = 0;
         std::string wm_filename = savegame->get_player_status().last_worldmap;
 
         if (wm_filename.empty())
@@ -70,45 +68,33 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
 
         wm_filename = "/" + wm_filename;
 
-        const auto& state = savegame->get_worldmap_state(wm_filename);
-        for (const auto& level_state : state.level_states)
-        {
-          if (level_state.filename.empty()) continue;
-          if (level_state.solved) ++island_solved_count;
-          ++island_level_count;
-        }
-
+        auto world_level_count = std::make_pair(0u, 0u);
+        for (const auto& world : savegame->get_worldmaps())
+          world_level_count.first += savegame->get_worldmap_state(world).get_level_count().first;
         const auto levelset = std::unique_ptr<Levelset>(new Levelset(worlds[i]->get_basedir(), true));
-        world_level_count = levelset->get_num_levels();
-        const auto world_list = savegame->get_worldmaps();
+        world_level_count.second = levelset->get_num_levels();
 
-        for (const auto& world : world_list)
-        {
-          const auto& world_state = savegame->get_worldmap_state(world);
-          for (const auto& level_state : world_state.level_states)
-          {
-            if (level_state.filename.empty()) continue;
-            if (level_state.solved) ++world_solved_count;
-          }
-        }
+        const auto& island_level_count = savegame->get_worldmap_state(wm_filename).get_level_count();
 
-        if (!island_level_count && !world_solved_count)
+        if (!island_level_count.second && !world_level_count.first)
           title_str = str(boost::format(_("%s *NEW*")) % worlds[i]->get_title());
         else
         {
-          const auto wm_title = savegame->get_player_status().last_worldmap_title;
+          const std::string wm_title = savegame->get_player_status().last_worldmap_title;
 
-          if (island_level_count == world_level_count)
+          if (island_level_count.second == world_level_count.second)
           {
             title_str = str(boost::format(_("%s (%u/%u; %u%%)")) % worlds[i]->get_title() %
-                            island_solved_count % island_level_count % (100 * island_solved_count / island_level_count));
+                            island_level_count.first % island_level_count.second %
+                            (100 * island_level_count.first / island_level_count.second));
           }
           else
           {
             title_str = str(boost::format(_("%s (%u/%u; %u%%) - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % 
-                            world_solved_count % world_level_count % (100 * world_solved_count / world_level_count) %
-                            wm_title % island_solved_count % island_level_count %
-                            (island_level_count ? (100 * island_solved_count / island_level_count) : 100));
+                            world_level_count.first % world_level_count.second %
+                            (100 * world_level_count.first / world_level_count.second) %
+                            wm_title % island_level_count.first % island_level_count.second %
+                            (island_level_count.second ? (100 * island_level_count.first / island_level_count.second) : 100));
           }
         }
       }

@@ -63,6 +63,8 @@ public:
   {}
   std::string filename;
   std::vector<LevelState> level_states;
+
+  std::pair<uint32_t, uint32_t> get_level_count() const;
 };
 
 class Savegame final
