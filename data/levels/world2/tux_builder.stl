@@ -813,7 +813,7 @@
       (y 448)
     )
     (music
-      (file "/music/forest/forest2.music")
+      (file "music/forest/forest2.music")
     )
     (poisonivy
       (x 736)

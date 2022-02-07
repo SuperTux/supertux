@@ -378,6 +378,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   // respawning in new sector?
   if (!m_newsector.empty() && !m_newspawnpoint.empty()) {
     auto sector = m_level->get_sector(m_newsector);
+    std::string current_music = m_currentsector->get_singleton_by_type<MusicObject>().get_music();
     if (sector == nullptr) {
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
       sector = m_level->get_sector(m_start_sector);
@@ -385,7 +386,9 @@ GameSession::update(float dt_sec, const Controller& controller)
     assert(m_currentsector != nullptr);
     m_currentsector->stop_looping_sounds();
     sector->activate(m_newspawnpoint);
-    sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
+    // Start the new sector's music only if it's different from the current one
+    if (current_music != sector->get_singleton_by_type<MusicObject>().get_music())
+      sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
