@@ -60,6 +60,13 @@ LevelTime::update(float dt_sec)
 {
   if (!running) return;
 
+  int players_alive = Sector::current() ? Sector::current()->get_object_count<Player>([](const Player& p) {
+    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+  }) : 0;
+
+  if (!players_alive)
+    return;
+
   int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= dt_sec;
   if (time_left <= 0) {
