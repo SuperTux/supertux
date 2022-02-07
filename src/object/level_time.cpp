@@ -87,7 +87,13 @@ LevelTime::update(float dt_sec)
     {
       for (auto& p : Sector::get().get_players())
       {
+        if (p->is_dead() || p->is_dying() || p->is_winning())
+          continue;
+
         p->add_coins(-1);
+        // FIXME: Find a cleaner way to handle this
+        //        (Remove only one coin per second, not per player per second)
+        break;
       }
     }
   }
