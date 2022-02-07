@@ -47,24 +47,16 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
 
       if (worlds[i]->is_levelset())
       {
-        uint32_t level_count = 0, solved_count = 0;
-        const auto& state = savegame->get_levelset_state(worlds[i]->get_basedir());
+        const auto& level_count = savegame->get_levelset_state(worlds[i]->get_basedir()).get_level_count();
 
-        for (const auto& level_state : state.level_states)
-        {
-          if (level_state.filename.empty() || level_state.filename.back() == '~') continue;
-          if (level_state.solved) ++solved_count;
-          ++level_count;
-        }
-
-        if (!level_count)
+        if (!level_count.second)
         {
           title_str = str(boost::format(_("[%s] *NEW*")) % worlds[i]->get_title());
         }
         else
         {
           title_str = str(boost::format(_("[%s] (%u/%u; %u%%)")) % worlds[i]->get_title() %
-                          solved_count % level_count % (100 * solved_count / level_count));
+                          level_count.first % level_count.second % (100 * level_count.first / level_count.second));
         }
       }
       else

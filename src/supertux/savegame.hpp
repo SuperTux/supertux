@@ -50,6 +50,8 @@ public:
 
   LevelState get_level_state(const std::string& filename) const;
   void store_level_state(const LevelState& state);
+
+  std::pair<uint32_t, uint32_t> get_level_count() const;
 };
 
 struct WorldmapState

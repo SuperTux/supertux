@@ -108,6 +108,19 @@ LevelsetState::get_level_state(const std::string& filename) const
   }
 }
 
+std::pair<uint32_t, uint32_t>
+LevelsetState::get_level_count() const
+{
+  uint32_t solved = 0, total = 0;
+  for (const auto& level_state : level_states)
+  {
+    if (level_state.filename.empty() || level_state.filename.back() == '~') continue;
+    if (level_state.solved) ++solved;
+    ++total;
+  }
+  return std::make_pair(solved, total);
+}
+
 std::unique_ptr<Savegame>
 Savegame::from_file(const std::string& filename)
 {
