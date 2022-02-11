@@ -32,7 +32,7 @@ jobs:
       matrix:
         arch: [x64, x86]
         build_type: [Debug, Release]
-        glbinding: [ON, OFF]
+        glbinding: OFF # [ON, OFF] # FIXME: Fix Windows glbinding builds
         include:
           - build_type: Release
             arch: x64
