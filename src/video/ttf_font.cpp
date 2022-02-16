@@ -74,7 +74,8 @@ TTFFont::get_text_width(const std::string& text) const
       if (ret < 0) {
         std::cerr << "TTFFont::get_text_width(): " << TTF_GetError() << std::endl;
       }
-      line_width = w;
+      int const grow = std::max(get_border() * 2, get_shadow_size() * 2);
+      line_width = w + grow;
     }
     max_width = std::max(max_width, static_cast<float>(line_width));
   }
