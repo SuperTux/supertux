@@ -168,9 +168,43 @@ line. Some common command line switches are:
 - `-DCMAKE_BUILD_TYPE=RELEASE`
   : Enables release mode and compiles some sanity checks out of the build.
 
+- `-DCMAKE_C_COMPILER=cc`, `-DCMAKE_CXX_COMPILER=cpp`
+  : Changes which compiler to use. Options are also available for the linker,
+    but using this option is less common.
+
+- `-DENABLE_OPENGL=ON`, `-DENABLE_OPENGLES2=ON`
+  : The former controls whether to compile in OpenGL support (else the game
+  will use the SDL renderer), the latter controls supporting OpenGL ES 2.
+
+- `-DBUILD_TESTS=ON`
+  : Enables compiling the test suite. To run the test suite, run
+  "test_supertux2" after compiling SuperTux. Requires installing
+  [GoogleTest](https://github.com/google/googletest) as an additional
+  dependency.
+
+- `-DBUILD_DOCUMENTATION=ON`
+  : Enables building documentation. Requires downloading and installing
+  [Doxygen](https://www.doxygen.nl/index.html) as an additional dependency.
+  You may build documentation after building SuperTux by running
+  "doxygen docs/Doxyfile" from the build directory, and by opening
+  "docs/doxygen/html/index.html".
+
 - `-DENABLE_DISCORD=ON`
   : Enables compiling the Discord integration in SuperTux. You may re-disable
-  the integration later by replacing `ON` with `OFF`.
+  the integration later by replacing "ON" with "OFF".
+
+- `-DVCPKG_BUILD=ON`
+  : Used if using vcpkg for dependencies. If you are using this, don't forget
+  `-DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake` and
+  `-DVCPKG_TARGET_TRIPLET=your-triplet` if necessary.
+
+- `-DWARNINGS=ON`
+  : Enable all warnings. The CI enables this option, so it might be useful to
+  keep this option activated during development.
+
+- `-DWERROR=ON`
+  : Treat all warnings as errors. The CI enables this option, so it might be
+  useful to enable this option and to recompile before opening a pull request.
 
 
 #### Notes for GIT users
@@ -196,32 +230,51 @@ make -j $(nproc || sysctl -n hw.ncpu || echo 2)
 
 ### Windows using CMake and Visual Studio
 
-To build SuperTux on Windows with Visual Studio you need to have CMake and a
-recent version of Visual Studio installed. Visual Studio 2015 Community Edition
-is known to work fine.
+**Note: SuperTux is currently not compilable with MinGW.**
 
-Because it's difficult to build and download all the dependencies per hand on windows,
-SuperTux provides a [dependency package](https://download.supertux.org/builddep/)
-that should contain all headers and libraries needed to build SuperTux on Windows.
+To build SuperTux on Windows with Visual Studio, you will need:
+- An IDE of your choice (Optional, but Git will need you to select one when installing)
+- Visual Studio Community (or any edition). SuperTux is tested with Visual Studio 16 (2019).
+- [CMake](https://cmake.org/download/)
+- [vcpkg](https://github.com/Microsoft/vcpkg)
+- [Git](https://git-scm.com/)
+
+Once all of these are installed; you may install dependencies with vcpkg. In any CLI, from the vcpkg folder, run:
+```
+./bootstrap-vcpkg.bat -disableMetrics
+./vcpkg integrate install
+./vcpkg install --triplet=x86-windows gtest boost-date-time boost-filesystem boost-format boost-iostreams boost-locale boost-optional boost-system curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
+```
+
+**Note:** If you wish to produce 64-bit builds, replace `--triplet=x86-windows` with `--triplet=x64-windows`.
+
+Once dependencies are installed:
 
 1. Unpack the SuperTux source pack or get the source with git (`git clone --recursive https://github.com/SuperTux/supertux.git`).
 
-2. Extract the [dependency package](https://download.supertux.org/builddep/)
-into the source directory, so the `dependencies` folder is besides the `src` folder.
+2. Create a new, empty `build` folder.
 
-3. Create a new, empty `build` folder.
+3. Open a console window and navigate to the `build` directory.
 
-4. Open a console window and navigate to the `build` directory.
+5. Run `cmake .. -A Win32 -DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-windows`.
 
-5. Run `cmake ..` to create the VS solution that builds SuperTux with standard options.
-For more CMake options, look at end of the Linux/UNIX build section.
+    **Make sure to change the path to vcpkg to the actual path to vcpkg on your system!**
 
-5. Open the new Visual Studio solution `SUPERTUX.sln` in the `build` directory.
-You may also run `cmake --build .` instead.
+    Options:
+    - `-A Win32` tells CMake to produce 32-bit executables. To produce 64-bit executables, you may either replace `Win32` with `x64`, or omit this argument entirely (remove everything, including the `-A`).
+    - `-DCMAKE_BUILD_TYPE=Release` creates a Release build, which does not contain debug information and runs faster. You may also produce `Debug` builds, but these run significantly slower. Other options may be available, such as `RelWithDebInfo` and `MinSizeRel`, but they are not tested. [More info](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html)
+    - `-DVCPKG_BUILD=ON` tells SuperTux to use vcpkg to find dependencies.
+    - `-DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake` tells CMake to use the vcpkg toolchain to load dependencies. **Make sure to change the path to the actual path to vcpkg on your system!**
+    - `-DVCPKG_TARGET_TRIPLET=x86-windows` tells vcpkg to use 32-bit dependencies for Windows. If you are compiling 64-bit executables, replace "x86" with "x64".
+    - Optionally, you may add `-G "Visual Studio 16 2019"` to force a certain version of Visual Studio if multiple are installed on your system.
 
-6. Build the project.
+    For more CMake options, look at end of the Linux/UNIX build section.
 
-7. Now you can run SuperTux using the run_supertux.bat file
+5. You may now build SuperTux either by opening the new Visual Studio solution "SUPERTUX.sln" in the "build" directory, or by running `cmake --build . --config Release` instead. (If you prefer building a debug build, change "Release" to "Debug". Make sure you use the same option as when calling CMake!)
+
+6. Move the file "run_supertux.bat" from the "build" folder to the "build/Release" (or "build/Debug") folder.
+
+7. Now you can run SuperTux using the "run_supertux.bat" file. If you run this file from the command line, note that you need to `cd` in the Release/Debug folder beforehand.
 
 
 ### WASM using Emscripten
@@ -311,6 +364,8 @@ First, make sure you have all the submodules:
 ```
 git submodule update --init --recursive
 ```
+
+Then, enable developer mode on your phone, if it isn't enabled already.
 
 Then:
 - To install SuperTux on your phone, plug your phone to your computer and run:
