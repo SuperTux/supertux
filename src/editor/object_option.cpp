@@ -370,12 +370,14 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
                                    const std::string& key,
                                    std::vector<std::string> filter,
                                    const std::string& basedir,
+                                   bool m_path_relative_to_basedir,
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
   m_default_value(std::move(default_value)),
   m_filter(std::move(filter)),
-  m_basedir(basedir)
+  m_basedir(basedir),
+  m_path_relative_to_basedir(m_path_relative_to_basedir)
 {
 }
 
@@ -404,7 +406,7 @@ FileObjectOption::to_string() const
 void
 FileObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_file(get_text(), m_pointer, m_filter, m_basedir);
+  menu.add_file(get_text(), m_pointer, m_filter, m_basedir, m_path_relative_to_basedir);
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,

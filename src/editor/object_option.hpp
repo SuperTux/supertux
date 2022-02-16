@@ -257,6 +257,7 @@ public:
                    const std::string& key,
                    std::vector<std::string> filter,
                    const std::string& basedir,
+                   bool path_relative_to_basedir,
                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -268,6 +269,7 @@ private:
   boost::optional<std::string> m_default_value;
   const std::vector<std::string> m_filter;
   std::string m_basedir;
+  bool m_path_relative_to_basedir;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;

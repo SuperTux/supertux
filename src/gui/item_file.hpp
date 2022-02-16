@@ -25,6 +25,7 @@ public:
   ItemFile(const std::string& text, std::string* filename,
            const std::vector<std::string>& extensions,
            const std::string& basedir,
+           bool path_relative_to_basedir,
            int id = -1);
 
   /** Processes the menu action. */
@@ -34,6 +35,7 @@ private:
   std::string* m_filename;
   std::vector<std::string> m_extensions;
   std::string m_basedir;
+  bool m_path_relative_to_basedir;
 
 private:
   ItemFile(const ItemFile&) = delete;
