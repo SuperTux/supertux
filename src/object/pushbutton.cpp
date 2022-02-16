@@ -91,7 +91,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   set_pos(get_pos() + Vector(0, old_bbox_height - new_bbox_height));
 
   // play sound
-  SoundManager::current()->play(BUTTON_SOUND);
+  SoundManager::current()->play(BUTTON_SOUND, get_pos());
 
   // run script
   Sector::get().run_script(script, "PushButton");

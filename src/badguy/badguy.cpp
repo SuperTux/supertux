@@ -527,7 +527,7 @@ BadGuy::kill_fall()
   if (!is_active()) return;
 
   if (m_frozen) {
-    SoundManager::current()->play("sounds/brick.wav");
+    SoundManager::current()->play("sounds/brick.wav", get_pos());
     Vector pr_pos(0.0f, 0.0f);
     float cx = m_col.m_bbox.get_width() / 2;
     float cy = m_col.m_bbox.get_height() / 2;

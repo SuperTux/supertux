@@ -87,7 +87,7 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
           vy = VY_BOUNCE;
         }
         player->get_physic().set_velocity_y(vy);
-        SoundManager::current()->play(BOUNCE_SOUND);
+        SoundManager::current()->play(BOUNCE_SOUND, get_pos());
         counter--;
         if (counter > 0) {
           m_sprite->set_action("swinging", 1);
@@ -106,7 +106,7 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
       if (hit.top && vy >= 0) {
         vy = VY_BOUNCE;
         walking_badguy->set_velocity_y(vy);
-        SoundManager::current()->play(BOUNCE_SOUND);
+        SoundManager::current()->play(BOUNCE_SOUND, get_pos());
         counter--;
         if (counter > 0) {
           m_sprite->set_action("swinging", 1);

@@ -124,13 +124,13 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     }
 
     if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
-      SoundManager::current()->play("sounds/savebell_low.wav");
+      SoundManager::current()->play("sounds/savebell_low.wav", get_pos());
     }
     else if ( m_sprite_name.find("torch", 0) != std::string::npos) {
-      SoundManager::current()->play("sounds/fire.ogg");
+      SoundManager::current()->play("sounds/fire.ogg", get_pos());
     }
     else {
-      SoundManager::current()->play("sounds/savebell2.wav");
+      SoundManager::current()->play("sounds/savebell2.wav", get_pos());
     }
 
     m_sprite->set_action("ringing");

@@ -142,7 +142,7 @@ Door::event(Player& , EventType type)
       // if door was activated, start opening it
       if (type == EVENT_ACTIVATE) {
         state = OPENING;
-        SoundManager::current()->play("sounds/door.wav");
+        SoundManager::current()->play("sounds/door.wav", get_pos());
         sprite->set_action("opening", 1);
         ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 1.0f));
       }

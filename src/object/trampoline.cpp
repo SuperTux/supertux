@@ -93,7 +93,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
         else
           vy = player->get_controller().hold(Control::JUMP) ? VY_MIN - 300 : VY_INITIAL - 40;
         player->get_physic().set_velocity_y(vy);
-        SoundManager::current()->play(TRAMPOLINE_SOUND);
+        SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
         m_sprite->set_action("swinging", 1);
         return FORCE_MOVE;
       }
@@ -106,7 +106,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
       if (hit.top && vy >= 0) {
         vy = VY_INITIAL;
         walking_badguy->set_velocity_y(vy);
-        SoundManager::current()->play(TRAMPOLINE_SOUND);
+        SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
         m_sprite->set_action("swinging", 1);
         return FORCE_MOVE;
       }

@@ -179,10 +179,11 @@ WeakBlock::startBurning()
   if (state != STATE_NORMAL) return;
   state = STATE_BURNING;
   m_sprite->set_action("burning", 1);
+  // FIXME: Not hardcode these sounds?
   if (m_sprite_name == "images/objects/weak_block/meltbox.sprite") {
-    SoundManager::current()->play("sounds/sizzle.ogg");
+    SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   } else if (m_sprite_name == "images/objects/weak_block/strawbox.sprite") {
-    SoundManager::current()->play("sounds/fire.ogg");
+    SoundManager::current()->play("sounds/fire.ogg", get_pos());
   }
 }
 

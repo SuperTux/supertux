@@ -18,6 +18,7 @@
 
 #include <SDL.h>
 #include <assert.h>
+#include <iostream>
 #include <stdexcept>
 #include <sstream>
 #include <memory>
