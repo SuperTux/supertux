@@ -255,6 +255,13 @@ GLVideoSystem::apply_config()
 
   m_viewport = Viewport::from_size(target_size, m_desktop_size);
 
+#ifdef __ANDROID__
+  // SDL2 on Android reports display resolution size including the camera cutout,
+  // however it will not draw inside the cutout, so we must use the window size here
+  // instead of the display resolution, or the video will be rendered partly outside of the screen.
+  m_viewport = Viewport::from_size(g_config->window_size, g_config->window_size);
+#endif
+
   m_lightmap.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 5));
   if (m_use_opengl33core)
   {

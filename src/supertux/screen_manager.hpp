@@ -19,7 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
 
 #include <memory>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include "config.h"
 
