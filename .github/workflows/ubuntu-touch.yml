@@ -100,5 +100,4 @@ jobs:
         run: |
           ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B |         \
                                          head -1)" --apikey ${OPENSTORE_KEY}   \
-                                         --config mk/clickable/clickable.json  \
                                          --arch ${ARCH}
