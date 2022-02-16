@@ -1,6 +1,11 @@
 # SuperTux
 
-[![Build](https://github.com/SuperTux/supertux/workflows/main/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%3Amain)
+[![Build (Windows)](https://github.com/SuperTux/supertux/workflows/windows/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%3Awindows)
+[![Build (MacOS)](https://github.com/SuperTux/supertux/workflows/macos/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%3Amacos)
+[![Build (GNU/Linux)](https://github.com/SuperTux/supertux/workflows/gnulinux/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%3Agnulinux)
+[![Build (\*BSD)](https://github.com/SuperTux/supertux/workflows/bsd/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%bsd)
+[![Build (WebAssembly)](https://github.com/SuperTux/supertux/workflows/wasm/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%wasm)
+[![Build (Ubuntu Touch)](https://github.com/SuperTux/supertux/workflows/ubuntu-touch/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%ubuntu-touch)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 
 SuperTux is a jump'n'run game with strong inspiration from the

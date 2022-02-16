@@ -315,7 +315,13 @@ git submodule update --init --recursive
 Then:
 - To install SuperTux on your phone, plug your phone to your computer and run:
   ```
-  clickable --config mk/clickable/clickable.json
+  clickable
+  ```
+  This will by default build with the SDL renderer only; if you wish to use the
+  OpenGL renderer, you may specify a different build file with `--config` to
+  build with one of the files located at `mk/clickable/build-with-*.json`:
+  ```
+  clickable --config mk/clickable/build-with-glew.json
   ```
 
 - To run SuperTux directly on your computer:
