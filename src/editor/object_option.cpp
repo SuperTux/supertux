@@ -370,14 +370,14 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
                                    const std::string& key,
                                    std::vector<std::string> filter,
                                    const std::string& basedir,
-                                   bool m_path_relative_to_basedir,
+                                   bool path_relative_to_basedir,
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
   m_default_value(std::move(default_value)),
   m_filter(std::move(filter)),
   m_basedir(basedir),
-  m_path_relative_to_basedir(m_path_relative_to_basedir)
+  m_path_relative_to_basedir(path_relative_to_basedir)
 {
 }
 
