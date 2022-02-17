@@ -108,10 +108,10 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
 #if SDL_VERSION_ATLEAST(2,0,10)
   SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
   SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
-#elif __ANDROID__
+#elif defined(__ANDROID__)
 #warning Android needs SDL_HINT_MOUSE_TOUCH_EVENTS to work properly, but the   \
          SDL version is too old. Please use SDL >= 2.0.10 to compile for       \
-         Android,
+         Android.
 #endif
 
   m_sdl_window.reset(SDL_CreateWindow("SuperTux",
