@@ -67,9 +67,7 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   mobile_controls(SDL_GetNumTouchDevices() > 0),
-#endif
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -259,13 +257,7 @@ Config::load()
       joystick_config.read(*joystick_mapping);
     }
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-#ifdef SHOW_TOUCHSCREEN_CONTROLS
-    config_control_mapping->get("mobile_controls", mobile_controls, true);
-#else
-    config_control_mapping->get("mobile_controls", mobile_controls, false);
-#endif
-#endif
+    config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
   }
 
   boost::optional<ReaderCollection> config_addons_mapping;
@@ -390,9 +382,7 @@ Config::save()
     joystick_config.write(writer);
     writer.end_list("joystick");
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
     writer.write("mobile_controls", mobile_controls);
-#endif
   }
   writer.end_list("control");
 

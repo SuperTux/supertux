@@ -16,7 +16,6 @@
 
 #include "control/mobile_controller.hpp"
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
 
 #include <string>
 
@@ -247,6 +246,5 @@ MobileController::activate_widget_at_pos(float x, float y)
     m_right = true;
 }
 
-#endif
 
 /* EOF */
