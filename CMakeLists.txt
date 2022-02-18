@@ -152,7 +152,7 @@ endif(WIN32)
 option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
 
 # Mobile builds
-if (UBUNTU_TOUCH)
+if (UBUNTU_TOUCH OR ANDROID)
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" ON)
 else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
