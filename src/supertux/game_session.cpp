@@ -161,6 +161,15 @@ GameSession::restart_level(bool after_death)
     music_object.play_music(LEVEL_MUSIC);
   }
 
+  auto level_times = m_currentsector->get_objects_by_type<LevelTime>();
+  auto it = level_times.begin();
+
+  while (it != level_times.end())
+  {
+    it->set_time(it->get_time() - m_play_time);
+    it++;
+  }
+
   start_recording();
 
   return (0);
