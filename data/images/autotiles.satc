@@ -146,7 +146,19 @@
       (id 11)
       (alt-id
         (id 19)
-        (weight 0.02)
+        (weight 0.002)
+      )
+	  (alt-id
+        (id 26)
+        (weight 0.002)
+      )
+	  (alt-id
+        (id 2134)
+        (weight 0.4)
+      )
+	  (alt-id
+        (id 2135)
+        (weight 0.4)
       )
       (solid #t)
       (mask "11111***")
@@ -1086,6 +1098,103 @@
     )
   )
   (autotileset
+    (name "snow_unisolid2")
+    (default 2127)
+    (autotile
+      (id 2127)
+	  (alt-id
+        (id 11)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 2127)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 2121)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 2122)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 2123)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 2126)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 2128)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 2131)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 2132)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 2133)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 2124)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 2125)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 2129)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 2130)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
+    )
+	(autotile
+      (id 1517)
+	  (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 1518)
+	  (solid #f)
+      (mask "00100100")
+    )
+  )
+  (autotileset
     (name "forest_unisolid")
     (default 1024)
     (autotile
@@ -1287,6 +1396,107 @@
       (mask "00100100")
     )
   )
+  (autotileset
+    (name "ruin_backwall")
+    (default 1476)
+    (autotile
+      (id 1476)
+	  (alt-id
+        (id 2263)
+        (weight 0.2)
+      )
+	  (alt-id
+        (id 2264)
+        (weight 0.2)
+      )
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 1476)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 2257)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 1489)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 2255)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 1482)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 2254)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 2258)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 1496)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 2256)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 1478)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 1477)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 1503)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 1510)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
+    )
+	(autotile
+      (id 2261)
+	  (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 2262)
+	  (solid #f)
+      (mask "00100100")
+    )
+  )
   
   (autotileset
     (name "forest")
@@ -1450,7 +1660,7 @@
     (autotile
       (id 1038)
       (solid #f)
-      (mask "*****010")
+      (mask "***00010")
     )
     (autotile
       (id 1044)
