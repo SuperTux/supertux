@@ -201,9 +201,10 @@ ObjectSettings::add_file(const std::string& text, std::string* value_ptr,
                          const boost::optional<std::string>& default_value,
                          const std::vector<std::string>& filter,
                          const std::string& basedir,
+                         bool path_relative_to_basedir,
                          unsigned int flags)
 {
-  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, basedir, flags));
+  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, basedir, path_relative_to_basedir, flags));
 }
 
 void
@@ -276,7 +277,7 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
                           boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, false, flags);
 }
 
 void

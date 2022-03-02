@@ -376,6 +376,7 @@ ParticleEditor::reset_texture_ui()
       nullptr,
       filter,
       "/",
+      false,
       [this](const std::string& new_filename) {
         (m_particles->m_textures.begin() + m_texture_current)->texture = Surface::from_file(new_filename);
         m_particles->reinit_textures();

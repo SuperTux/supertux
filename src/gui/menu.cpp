@@ -267,9 +267,9 @@ Menu::add_string_select(int id, const std::string& text, int* selected, const st
 
 ItemFile&
 Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
-               const std::string& basedir, int id)
+               const std::string& basedir, bool path_relative_to_basedir, int id)
 {
-  auto item = std::make_unique<ItemFile>(text, input, extensions, basedir, id);
+  auto item = std::make_unique<ItemFile>(text, input, extensions, basedir, path_relative_to_basedir, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

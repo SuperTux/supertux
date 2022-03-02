@@ -135,6 +135,7 @@ public:
                 const boost::optional<std::string>& default_value = {},
                 const std::vector<std::string>& filter = {},
                 const std::string& basedir = {},
+                bool path_relative_to_basedir = true,
                 unsigned int flags = 0);
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
