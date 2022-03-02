@@ -38,9 +38,10 @@ private:
   std::vector<std::string> m_repository_addons;
   std::unique_ptr<bool[]> m_addons_enabled;
   bool m_auto_install_langpack;
+  bool m_langpacks_only;
 
 public:
-  AddonMenu(bool auto_install_langpack = false);
+  AddonMenu(bool auto_install_langpack = false, bool language_packs_only = false);
   ~AddonMenu() override;
 
   void refresh() override;
