@@ -437,6 +437,17 @@ ScreenManager::process_events()
           m_menu_manager->on_window_resize();
         }
 #endif
+#ifdef STEAM_BUILD
+        // Shift+Tab opens the overlay; pause the game
+        else if (event.key.keysym.sym == SDLK_TAB &&
+                 (event.key.keysym.mod & KMOD_LSHIFT || event.key.keysym.mod & KMOD_RSHIFT))
+        {
+          if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
+          {
+            session->toggle_pause();
+          }
+        }
+#endif
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
@@ -449,6 +460,15 @@ ScreenManager::process_events()
           log_info << "developer mode: " << g_config->developer_mode << std::endl;
         }
         break;
+
+      // NOTE: Steam recommends leaving this behavior in. If it turns out to bt
+      // impractical for users, please add `#ifdef STEAM_BUILD` code around it.
+      case SDL_JOYDEVICEREMOVED:
+      case SDL_CONTROLLERDEVICEREMOVED:
+        if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
+        {
+          session->toggle_pause();
+        }
     }
   }
 }
