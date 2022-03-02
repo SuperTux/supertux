@@ -189,7 +189,7 @@ WorldSelect::draw(Compositor& compositor)
   float o = distance * (.5f - std::cos(halfangle));
   context.color().draw_text(Resources::big_font, name_to_display,
                             Vector(static_cast<float>(context.get_width()) / 2.f,
-                                   static_cast<float>(context.get_height()) * 3.f / 4.f + pow(20.f - o * 20.f, 2.f)),
+                                   static_cast<float>(context.get_height()) * 3.f / 4.f + pow(10.f - o * 10.f, 2.f)),
                             FontAlignment::ALIGN_CENTER,
                             10,
                             Color(1.f, 1.f, 1.f,static_cast<float>(pow(o, 2.f)) * 4.f));
