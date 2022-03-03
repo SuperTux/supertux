@@ -85,7 +85,7 @@ jobs:
           cmake --version
           mkdir build
           cd build
-          cmake .. -G "Visual Studio 16 2019" -A $Env:ARCH.replace("x86", "Win32") "-DGLBINDING_ENABLED=$Env:GLBINDING" -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" -DBUILD_TESTS=ON
+          cmake .. -G "Visual Studio 17 2022" -A $Env:ARCH.replace("x86", "Win32") "-DGLBINDING_ENABLED=$Env:GLBINDING" -DENABLE_DISCORD=ON -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=c:/vcpkg/scripts/buildsystems/vcpkg.cmake -DHAVE_SDL=true -DPACKAGE_VCREDIST=true "-DCMAKE_BUILD_TYPE=$Env:BUILD_TYPE" -DBUILD_TESTS=ON
 
       - name: Build and install
         working-directory: build
