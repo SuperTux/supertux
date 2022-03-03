@@ -1584,12 +1584,7 @@
       124  210  125
       1345 1346 1344
     )
-    (attributes
-      3 3 3
-      0 1 0
-      0 0 0
-    )
-    (image "tiles/snow/background.png")
+    (image "tiles/snow/background2.png")
   )
   (tile
     (id 24)
@@ -1907,7 +1902,7 @@
       106 107 108
       109 110 111
     )
-    (image "tiles/background/background.png")
+    (image "tiles/snow/background.png")
   )
   (tile
     (id 112)
@@ -4286,7 +4281,7 @@
      2187 2188 2189 2190   2191 2192 2193 2194
      2195 2196 2197 2198   2199 2200 2201 2202)
 
-    (image "tiles/snow/background2.png"))
+    (image "tiles/snow/background3.png"))
 
   (tiles
     (width  3)
