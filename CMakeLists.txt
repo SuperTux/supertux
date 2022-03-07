@@ -509,93 +509,97 @@ endif()
 
 ## Also build external/squirrel
 
-if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
-  message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
+find_package(squirrel)
+if(NOT TARGET squirrel::squirrel)
+  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
+    message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
+  endif()
+
+  if(CMAKE_CROSSCOMPILING)
+    set(SQUIRREL_MULTIARCH_DIR "${CMAKE_LIBRARY_ARCHITECTURE}/")
+  else()
+    set(SQUIRREL_MULTIARCH_DIR "")
+  endif()
+
+  set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
+
+  ExternalProject_Add(squirrel
+    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
+    BUILD_BYPRODUCTS
+    "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    CMAKE_ARGS
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+    -DCMAKE_INSTALL_PREFIX=${SQUIRREL_PREFIX}
+    -DCMAKE_POSITION_INDEPENDENT_CODE=ON)
+
+  if(WIN32)
+    add_library(squirrel::squirrel SHARED IMPORTED)
+    set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}squirrel${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/squirrel${CMAKE_LINK_LIBRARY_SUFFIX}")
+    add_library(squirrel::sqstdlib SHARED IMPORTED)
+    set_target_properties(squirrel::sqstdlib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}sqstdlib${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    set_target_properties(squirrel::sqstdlib PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/sqstdlib${CMAKE_LINK_LIBRARY_SUFFIX}")
+
+    #For debug run purposes
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${CMAKE_CURRENT_BINARY_DIR}/run_supertux.bat")
+  else()
+    add_library(squirrel::squirrel STATIC IMPORTED)
+    set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
+    add_library(squirrel::sqstdlib STATIC IMPORTED)
+    set_target_properties(squirrel::sqstdlib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
+  endif()
 endif()
-
-if(CMAKE_CROSSCOMPILING)
-  set(SQUIRREL_MULTIARCH_DIR "${CMAKE_LIBRARY_ARCHITECTURE}/")
-else()
-  set(SQUIRREL_MULTIARCH_DIR "")
-endif()
-
-set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
-ExternalProject_Add(squirrel
-  SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
-  BUILD_BYPRODUCTS
-  "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
-  "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
-  CMAKE_ARGS
-  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-  -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-  -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-  -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-  -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-  -DCMAKE_INSTALL_PREFIX=${SQUIRREL_PREFIX}
-  -DCMAKE_POSITION_INDEPENDENT_CODE=ON)
-
-if(WIN32)
-  add_library(squirrel_lib SHARED IMPORTED)
-  set_target_properties(squirrel_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}squirrel${CMAKE_SHARED_LIBRARY_SUFFIX}")
-  set_target_properties(squirrel_lib PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/squirrel${CMAKE_LINK_LIBRARY_SUFFIX}")
-  add_library(sqstdlib_lib SHARED IMPORTED)
-  set_target_properties(sqstdlib_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}sqstdlib${CMAKE_SHARED_LIBRARY_SUFFIX}")
-  set_target_properties(sqstdlib_lib PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/sqstdlib${CMAKE_LINK_LIBRARY_SUFFIX}")
-
-  #For debug run purposes
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${CMAKE_CURRENT_BINARY_DIR}/run_supertux.bat")
-else()
-  add_library(squirrel_lib STATIC IMPORTED)
-  set_target_properties(squirrel_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
-  add_library(sqstdlib_lib STATIC IMPORTED)
-  set_target_properties(sqstdlib_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
-endif()
-
-include_directories(SYSTEM ${SQUIRREL_PREFIX}/include)
 
 ## Also build external/tinygettext
 
-if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
-  message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
+find_package(tinygettext)
+if(NOT TARGET tinygettext)
+  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
+    message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
+  endif()
+
+  # Include altivec wrapper on ppc
+  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
+    set(TINYGETTEXT_CXX_FLAGS "-isystem ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc ${CMAKE_CXX_FLAGS}")
+  else()
+    set(TINYGETTEXT_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  endif()
+
+  # CMake lists are just strings with ';' separators, thus passing lists
+  # of lists is impossible. ExternalProject_Add provides LIST_SEPARATOR
+  # to work around this limitations by using a different separator.
+  string(REPLACE ";" "|" TINYGETTEXT_SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIRS}")
+
+  set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
+  ExternalProject_Add(tinygettext
+    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
+    BUILD_BYPRODUCTS "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    LIST_SEPARATOR "|"
+    CMAKE_ARGS
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+    -DCMAKE_CXX_FLAGS=${TINYGETTEXT_CXX_FLAGS}
+    -DBUILD_SHARED_LIBS=OFF
+    -DHAVE_SDL=ON
+    -DVCPKG_BUILD=${VCPKG_BUILD}
+    -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    -DSDL2_LIBRARIES=${SDL2_LIBRARIES}
+    -DSDL2_INCLUDE_DIRS=${TINYGETTEXT_SDL2_INCLUDE_DIRS}
+    -DLIB_SUFFIX=${LIB_SUFFIX})
+
+  add_library(tinygettext STATIC IMPORTED)
+  set_target_properties(tinygettext PROPERTIES IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}")
+
+  include_directories(SYSTEM ${TINYGETTEXT_PREFIX}/include)
 endif()
-
-# Include altivec wrapper on ppc
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
-  set(TINYGETTEXT_CXX_FLAGS "-isystem ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc ${CMAKE_CXX_FLAGS}")
-else()
-  set(TINYGETTEXT_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-endif()
-
-# CMake lists are just strings with ';' separators, thus passing lists
-# of lists is impossible. ExternalProject_Add provides LIST_SEPARATOR
-# to work around this limitations by using a different separator.
-string(REPLACE ";" "|" TINYGETTEXT_SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIRS}")
-
-set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
-ExternalProject_Add(tinygettext
-  SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
-  BUILD_BYPRODUCTS "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
-  LIST_SEPARATOR "|"
-  CMAKE_ARGS
-  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-  -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-  -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-  -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-  -DCMAKE_CXX_FLAGS=${TINYGETTEXT_CXX_FLAGS}
-  -DBUILD_SHARED_LIBS=OFF
-  -DHAVE_SDL=ON
-  -DVCPKG_BUILD=${VCPKG_BUILD}
-  -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
-  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-  -DSDL2_LIBRARIES=${SDL2_LIBRARIES}
-  -DSDL2_INCLUDE_DIRS=${TINYGETTEXT_SDL2_INCLUDE_DIRS}
-  -DLIB_SUFFIX=${LIB_SUFFIX})
-
-add_library(tinygettext_lib STATIC IMPORTED)
-set_target_properties(tinygettext_lib PROPERTIES IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}")
-
-include_directories(SYSTEM ${TINYGETTEXT_PREFIX}/include)
-
 
 ## external/SDL_ttf with patches
 if (NOT EMSCRIPTEN)
@@ -605,30 +609,38 @@ if (NOT EMSCRIPTEN)
     find_package(Freetype REQUIRED)
   endif()
 endif(NOT EMSCRIPTEN)
+
 find_package(RAQM)
-set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
-ExternalProject_Add(SDL_ttf
-  SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
-  BUILD_BYPRODUCTS "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
-  CMAKE_ARGS
-  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-  -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-  -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-  -DCMAKE_INSTALL_PREFIX=${SDL_TTF_PREFIX}
-  -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-  -DWITH_RAQM=${RAQM_FOUND}
-  -DRAQM_LIBRARIES=${RAQM_LIBRARY}
-  -DRAQM_INCLUDE_DIR=${RAQM_INCLUDE_DIR}
-  -DBUILD_SHARED_LIBS=OFF
-  -DEMSCRIPTEN=${EMSCRIPTEN})
-add_library(SDL_ttf_lib STATIC IMPORTED)
-set_target_properties(SDL_ttf_lib PROPERTIES IMPORTED_LOCATION "${SDL_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
-link_directories(${SDL_TTF_PREFIX}/lib)
-include_directories(SYSTEM ${SDL_TTF_PREFIX}/include/SDL2)
-if(RAQM_FOUND)
-  find_package(FriBidi REQUIRED)
-  find_package(HarfBuzz REQUIRED)
-  set_target_properties(SDL_ttf_lib PROPERTIES INTERFACE_LINK_LIBRARIES "${RAQM_LIBRARIES}")
+
+find_package(SDL2_ttf)
+if(TARGET SDL2_ttf)
+  message(STATUS "Found package SDL2_ttf")
+else()
+  message(STATUS "Could not find SDL2_ttf")
+  set(SDL2_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL2_ttf/)
+  ExternalProject_Add(SDL2_ttf_project
+    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL2_ttf/"
+    BUILD_BYPRODUCTS "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    CMAKE_ARGS
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+    -DCMAKE_INSTALL_PREFIX=${SDL2_TTF_PREFIX}
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    -DWITH_RAQM=${RAQM_FOUND}
+    -DRAQM_LIBRARIES=${RAQM_LIBRARY}
+    -DRAQM_INCLUDE_DIR=${RAQM_INCLUDE_DIR}
+    -DBUILD_SHARED_LIBS=OFF
+    -DEMSCRIPTEN=${EMSCRIPTEN})
+  add_library(SDL2_ttf STATIC IMPORTED)
+  set_target_properties(SDL2_ttf PROPERTIES IMPORTED_LOCATION "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
+  link_directories(${SDL2_TTF_PREFIX}/lib)
+  include_directories(SYSTEM ${SDL2_TTF_PREFIX}/include/SDL2)
+  if(RAQM_FOUND)
+    find_package(FriBidi REQUIRED)
+    find_package(HarfBuzz REQUIRED)
+    set_target_properties(SDL2_ttf PROPERTIES INTERFACE_LINK_LIBRARIES "${RAQM_LIBRARIES}")
+  endif()
 endif()
 
 ## Some additional include paths
@@ -685,12 +697,15 @@ file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obsta
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
-if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
-  message(FATAL_ERROR "sexp-cpp submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt is missing")
+find_package(sexp)
+if(NOT TARGET sexp)
+  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
+    message(FATAL_ERROR "sexp-cpp submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt is missing")
+  endif()
+  file(GLOB SEXP_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/sexp-cpp/src/*.cpp)
+  add_library(sexp STATIC ${SEXP_SOURCES_CXX})
+  target_compile_definitions(sexp PRIVATE -DSEXP_USE_LOCALE)
 endif()
-file(GLOB SEXP_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/sexp-cpp/src/*.cpp)
-add_library(sexp STATIC ${SEXP_SOURCES_CXX})
-target_compile_definitions(sexp PRIVATE -DSEXP_USE_LOCALE)
 
 file(GLOB SAVEPNG_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/SDL_SavePNG/savepng.c)
 add_library(savepng STATIC ${SAVEPNG_SOURCES_CXX})
@@ -968,8 +983,8 @@ endif(WIN32 AND NOT VCPKG_BUILD)
 ## Link supertux binary with squirrel and other libraries
 
 add_dependencies(supertux2_lib tinygettext)
-add_dependencies(supertux2_lib squirrel)
-add_dependencies(supertux2_lib SDL_ttf)
+add_dependencies(supertux2_lib squirrel::squirrel)
+add_dependencies(supertux2_lib SDL2_ttf)
 
 if(VCPKG_BUILD AND NOT EMSCRIPTEN)
   target_include_directories(supertux2_lib PUBLIC ${CURL_INCLUDE_DIRS})
@@ -987,8 +1002,8 @@ if (NOT EMSCRIPTEN)
     target_link_libraries(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
   endif()
 endif()
-target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL_TTF_PREFIX}/include/SDL2)
-target_link_libraries(supertux2_lib PUBLIC SDL_ttf_lib)
+target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_TTF_PREFIX}/include/SDL2)
+target_link_libraries(supertux2_lib PUBLIC SDL2_ttf)
 if(VCPKG_BUILD)
   target_link_libraries(supertux2_lib PUBLIC freetype)
 else()
@@ -999,9 +1014,9 @@ if(RAQM_FOUND)
   target_link_libraries(supertux2_lib PUBLIC ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
 endif()
 
-target_link_libraries(supertux2_lib PUBLIC squirrel_lib)
-target_link_libraries(supertux2_lib PUBLIC sqstdlib_lib)
-target_link_libraries(supertux2_lib PUBLIC tinygettext_lib)
+target_link_libraries(supertux2_lib PUBLIC squirrel::squirrel)
+target_link_libraries(supertux2_lib PUBLIC squirrel::sqstdlib)
+target_link_libraries(supertux2_lib PUBLIC tinygettext)
 target_link_libraries(supertux2_lib PUBLIC sexp)
 target_link_libraries(supertux2_lib PUBLIC savepng)
 target_link_libraries(supertux2_lib PUBLIC partio_zip_lib)
@@ -1179,8 +1194,8 @@ else(UBUNTU_TOUCH)
 endif(UBUNTU_TOUCH)
 
 if(WIN32)
-  get_property(SQUIRREL_LIB_PATH TARGET squirrel_lib PROPERTY IMPORTED_LOCATION)
-  get_property(SQSTDLIB_LIB_PATH TARGET sqstdlib_lib PROPERTY IMPORTED_LOCATION)
+  get_property(SQUIRREL_LIB_PATH TARGET squirrel::squirrel PROPERTY IMPORTED_LOCATION)
+  get_property(SQSTDLIB_LIB_PATH TARGET squirrel::sqstdlib PROPERTY IMPORTED_LOCATION)
   if(NOT USE_SYSTEM_PHYSFS)
     get_property(PHYSFS_LIB_PATH TARGET physfs_lib PROPERTY IMPORTED_LOCATION)
   endif()
