@@ -54,12 +54,31 @@
         "type": "github"
       }
     },
+    "raqm_src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1632761857,
+        "narHash": "sha256-Zv6h5Z9X9H1gc/tDy0GPdOCWOaJwM7UbQOPQI2jRDOo=",
+        "owner": "HOST-Oman",
+        "repo": "libraqm",
+        "rev": "573820451937d7a7f33a1ec132bc1f1b12db917f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "HOST-Oman",
+        "ref": "v0.7.2",
+        "repo": "libraqm",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "SDL2_ttf": "SDL2_ttf",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
+        "raqm_src": "raqm_src",
         "sexpcpp": "sexpcpp",
+        "squirrel_src": "squirrel_src",
         "tinycmmc": "tinycmmc",
         "tinygettext": "tinygettext"
       }
@@ -88,6 +107,23 @@
         "owner": "lispparser",
         "repo": "sexp-cpp",
         "type": "gitlab"
+      }
+    },
+    "squirrel_src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1644511563,
+        "narHash": "sha256-vzAF0ooYoghw0yKKoS0Q6RnPPMhmP+05RoutVSZIGwk=",
+        "owner": "albertodemichelis",
+        "repo": "squirrel",
+        "rev": "f92bc298784ceea459b12e2de33bdff672bfeb83",
+        "type": "github"
+      },
+      "original": {
+        "owner": "albertodemichelis",
+        "ref": "v3.2",
+        "repo": "squirrel",
+        "type": "github"
       }
     },
     "tinycmmc": {

@@ -44,9 +44,17 @@
     SDL2_ttf.url = "github:SuperTux/SDL_ttf";
     SDL2_ttf.inputs.nixpkgs.follows = "nixpkgs";
     SDL2_ttf.inputs.flake-utils.follows = "flake-utils";
+
+    squirrel_src.url = "github:albertodemichelis/squirrel/v3.2";
+    squirrel_src.flake = false;
+
+    raqm_src.url = "github:HOST-Oman/libraqm/v0.7.2";
+    raqm_src.flake = false;
   };
 
-  outputs = { self, nixpkgs, flake-utils, tinycmmc, sexpcpp, tinygettext, SDL2_ttf }:
+  outputs = { self, nixpkgs, flake-utils,
+              tinycmmc, sexpcpp, tinygettext, SDL2_ttf,
+              squirrel_src, raqm_src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -55,11 +63,7 @@
           squirrel = pkgs.stdenv.mkDerivation {
             pname = "squirrel";
             version = "3.2";
-            src = pkgs.fetchgit {
-              url = "https://github.com/albertodemichelis/squirrel.git";
-              rev = "v3.2";
-              hash = "sha256-vzAF0ooYoghw0yKKoS0Q6RnPPMhmP+05RoutVSZIGwk=";
-            };
+            src = squirrel_src;
             nativeBuildInputs = [
               pkgs.cmake
             ];
@@ -68,10 +72,7 @@
           raqm = pkgs.stdenv.mkDerivation rec {
             pname = "libraqm";
             version = "0.7.2";
-            src = fetchTarball {
-              url = "https://github.com/HOST-Oman/libraqm/releases/download/v${version}/raqm-${version}.tar.xz";
-              sha256 = "1shcs5l27l7380dvacvhl8wrdq3lix0wnhzvfdh7vx2pkzjs3zk6";
-            };
+            src = raqm_src;
             nativeBuildInputs = [
               pkgs.meson
               pkgs.ninja
