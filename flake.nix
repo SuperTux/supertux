@@ -20,25 +20,51 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Due to the use of submodules this has to be build with:
-#
-#     nix build "git+file://$(pwd)?submodules=1"
-#
-# See: https://github.com/NixOS/nix/pull/5434
 {
   description = "A 2D platform game featuring Tux the penguin";
 
-  inputs = rec {
+  inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
     flake-utils.url = "github:numtide/flake-utils";
+
+    tinycmmc.url = "gitlab:grumbel/cmake-modules";
+    tinycmmc.inputs.nixpkgs.follows = "nixpkgs";
+    tinycmmc.inputs.flake-utils.follows = "flake-utils";
+
+    sexpcpp.url = "gitlab:lispparser/sexp-cpp";
+    sexpcpp.inputs.nixpkgs.follows = "nixpkgs";
+    sexpcpp.inputs.flake-utils.follows = "flake-utils";
+    sexpcpp.inputs.tinycmmc.follows = "tinycmmc";
+
+    tinygettext.url = "github:tinygettext/tinygettext";
+    tinygettext.inputs.nixpkgs.follows = "nixpkgs";
+    tinygettext.inputs.flake-utils.follows = "flake-utils";
+    tinygettext.inputs.tinycmmc.follows = "tinycmmc";
+
+    SDL2_ttf.url = "github:SuperTux/SDL_ttf";
+    SDL2_ttf.inputs.nixpkgs.follows = "nixpkgs";
+    SDL2_ttf.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, tinycmmc, sexpcpp, tinygettext, SDL2_ttf }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
       in rec {
         packages = flake-utils.lib.flattenTree rec {
+          squirrel = pkgs.stdenv.mkDerivation {
+            pname = "squirrel";
+            version = "3.2";
+            src = pkgs.fetchgit {
+              url = "https://github.com/albertodemichelis/squirrel.git";
+              rev = "v3.2";
+              hash = "sha256-vzAF0ooYoghw0yKKoS0Q6RnPPMhmP+05RoutVSZIGwk=";
+            };
+            nativeBuildInputs = [
+              pkgs.cmake
+            ];
+          };
+
           raqm = pkgs.stdenv.mkDerivation rec {
             pname = "libraqm";
             version = "0.7.2";
@@ -70,9 +96,13 @@
             # isn't included in the Nix store.
             version = "0.6.3-unknown-" + (if (self ? shortRev) then self.shortRev else "dirty");
             src = nixpkgs.lib.cleanSource ./.;
-            postPatch = let
+            patchPhase = let
               ver = builtins.splitVersion version;
-            in ''cat > version.cmake <<EOF
+            in ''
+              substituteInPlace config.h.cmake \
+                 --replace "#define _SQ64" ""
+
+               cat > version.cmake <<EOF
 SET(SUPERTUX_VERSION_MAJOR ${builtins.elemAt ver 0})
 SET(SUPERTUX_VERSION_MINOR ${builtins.elemAt ver 1})
 SET(SUPERTUX_VERSION_PATCH ${builtins.elemAt ver 2})
@@ -80,13 +110,11 @@ SET(SUPERTUX_VERSION_TWEAK )
 SET(SUPERTUX_VERSION_STRING "v${version}")
 SET(SUPERTUX_VERSION_BUILD "${builtins.elemAt ver 4}")
 EOF
-'';
+            '';
             cmakeFlags = [ "-DINSTALL_SUBDIR_BIN=bin" ];
             enableParallelBuilding = true;
             nativeBuildInputs = [
               pkgs.cmake
-              pkgs.ninja
-              pkgs.gcc
               pkgs.pkgconfig
               pkgs.makeWrapper
               pkgs.git
@@ -98,10 +126,17 @@ EOF
             '';
             buildInputs = [
               raqm
+              squirrel
+              sexpcpp.defaultPackage.${system}
+              tinygettext.defaultPackage.${system}
+              SDL2_ttf.defaultPackage.${system}
+
+              pkgs.physfs
+              pkgs.SDL_ttf
 
               pkgs.boost
               pkgs.curl
-              pkgs.fmt
+              pkgs.fmt_8
               pkgs.fribidi
               pkgs.harfbuzz
               pkgs.freetype

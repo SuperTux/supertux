@@ -1,5 +1,28 @@
 {
   "nodes": {
+    "SDL2_ttf": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1646666833,
+        "narHash": "sha256-+b/PPo24dehCmhJYTmyDoM31fVw9DGrjqKKEKamxS1U=",
+        "owner": "SuperTux",
+        "repo": "SDL_ttf",
+        "rev": "0a2305c2287ccec1115cd20aebf0d1948333e03f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SuperTux",
+        "repo": "SDL_ttf",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1644229661,
@@ -17,11 +40,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1646011258,
-        "narHash": "sha256-+aen4zu5uVp52arEcgL2maCS0zQDuG1t+Azwd/O1gN4=",
+        "lastModified": 1646406548,
+        "narHash": "sha256-xp+3f76ycZXNf9pG65Ef9KfDl1fas2UQu/cBe/pLd+c=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a25df4c2b79c4343bcc72ad671200e5a3e286c41",
+        "rev": "47cd6702934434dd02bc53a67dbce3e5493e33a2",
         "type": "github"
       },
       "original": {
@@ -33,8 +56,87 @@
     },
     "root": {
       "inputs": {
+        "SDL2_ttf": "SDL2_ttf",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "sexpcpp": "sexpcpp",
+        "tinycmmc": "tinycmmc",
+        "tinygettext": "tinygettext"
+      }
+    },
+    "sexpcpp": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "tinycmmc": [
+          "tinycmmc"
+        ]
+      },
+      "locked": {
+        "lastModified": 1646132293,
+        "narHash": "sha256-9s8K4dbm3QQyR86LZJzJFPTj6oenivny1tuRnqh4aQQ=",
+        "owner": "lispparser",
+        "repo": "sexp-cpp",
+        "rev": "b1ab912c0f50567c4f32c9d6ae07117de392df9c",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "lispparser",
+        "repo": "sexp-cpp",
+        "type": "gitlab"
+      }
+    },
+    "tinycmmc": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1645974294,
+        "narHash": "sha256-Comma4p9L263ZMfhBpKKTuBVCq4Yd+hQrN33sGjwPAk=",
+        "owner": "grumbel",
+        "repo": "cmake-modules",
+        "rev": "297d1433067637903334b4c194eef5958e3f546f",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "grumbel",
+        "repo": "cmake-modules",
+        "type": "gitlab"
+      }
+    },
+    "tinygettext": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "tinycmmc": [
+          "tinycmmc"
+        ]
+      },
+      "locked": {
+        "lastModified": 1646665610,
+        "narHash": "sha256-Uf6JBT8qko83lYofVRr4wD0YOSDuwDUY6sXOC20Jjwc=",
+        "owner": "tinygettext",
+        "repo": "tinygettext",
+        "rev": "6bb279242df7c162dd54db8d0003d5d5ed506fb5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinygettext",
+        "repo": "tinygettext",
+        "type": "github"
       }
     }
   },
