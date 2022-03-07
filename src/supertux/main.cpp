@@ -600,10 +600,10 @@ Main::launch_game(const CommandLineArguments& args)
           if(file_exists)
           {
             auto dirname = FileSystem::dirname(level_file) + "/";
-            auto filename = FileSystem::basename(level_file);
+            auto level_filename = FileSystem::basename(level_file);
             PHYSFS_mount(dirname.c_str(), "/", 0);
             PHYSFS_setWriteDir(dirname.c_str());
-            level_file = filename;
+            level_file = level_filename;
           }
         }
         if (file_exists)
