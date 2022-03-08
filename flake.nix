@@ -108,14 +108,10 @@ EOF
               SDL2_ttf.defaultPackage.${system}
 
               pkgs.physfs
-              pkgs.SDL_ttf
-
+              pkgs.libpng
               pkgs.boost
               pkgs.curl
               pkgs.fmt_8
-              pkgs.fribidi
-              pkgs.harfbuzz
-              pkgs.freetype
               pkgs.libGL
               pkgs.libGLU
               pkgs.glew
