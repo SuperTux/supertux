@@ -54,6 +54,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 include(ConfigureFiles)
 include(ExternalProject)
 include(CheckCXXCompilerFlag)
+include(CheckSymbolExists)
 
 ## For autopackage
 set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
@@ -97,14 +98,12 @@ else()
 endif()
 
 option(STEAM_BUILD "Prepare build for Steam" OFF)
+option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" OFF)
+option(BUILD_TESTS "Build test cases" OFF)
 
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
 set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
 set(VCPKG_APPLOCAL_DEPS ${VCPKG_BUILD} BOOL)
-
-if(WIN32)
-  include(SuperTux/Win32)
-endif(WIN32)
 
 # Detect mobile builds
 option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
@@ -116,38 +115,26 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
+if(WIN32)
+  include(SuperTux/Win32)
+endif(WIN32)
+
 ## Add lots of dependencies to compiler switches
-include(SuperTux/ProvideBoost)
-
-include(SuperTux/ProvideGlm)
-
 find_package(PNG REQUIRED)
-
+find_package(ZLIB REQUIRED)
+include(SuperTux/ProvideBoost)
+include(SuperTux/ProvideGlm)
 include(SuperTux/ProvideFmt)
 include(SuperTux/ProvideSDL2)
-
-option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" OFF)
-option(BUILD_TESTS "Build test cases" OFF)
-
 include(SuperTux/ProvideOpenAL)
 include(SuperTux/ProvideOggVorbis)
-
-include(CheckSymbolExists)
-
 include(SuperTux/ProvidePhysfs)
 include(SuperTux/ProvideCurl)
-
-find_package(ZLIB REQUIRED)
-
-#find_package(ICONV REQUIRED)
-#include_directories(SYSTEM ${ICONV_INCLUDE_DIR})
-#link_libraries(${ICONV_LIBRARY})
 
 include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
 
 ## Check platform-dependent build options
-
 include(ConfigureChecks)
 
 # Include altivec wrapper on ppc
