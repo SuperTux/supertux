@@ -62,9 +62,4 @@ else()
   add_dependencies(SDL2_ttf SDL2_ttf_project)
 endif()
 
-mark_as_advanced(
-  SDL2TTF_INCLUDE_DIRS
-  SDL2TTF_LIBRARIES
-  )
-
 # EOF #
