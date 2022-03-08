@@ -61,6 +61,11 @@
             pname = "squirrel";
             version = "3.2";
             src = squirrel_src;
+            patchPhase = ''
+              substituteInPlace CMakeLists.txt \
+                 --replace "project(squirrel VERSION 3.1 LANGUAGES C CXX)" \
+                           "project(squirrel VERSION 3.2 LANGUAGES C CXX)"
+            '';
             nativeBuildInputs = [
               pkgs.cmake
             ];
