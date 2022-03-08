@@ -1,0 +1,12 @@
+find_package(OggVorbis REQUIRED)
+include_directories(SYSTEM ${VORBIS_INCLUDE_DIR})
+
+mark_as_advanced(
+  OGG_LIBRARY
+  VORBISENC_LIBRARY
+  VORBISFILE_LIBRARY
+  VORBIS_INCLUDE_DIR
+  VORBIS_LIBRARY
+  )
+
+# EOF #

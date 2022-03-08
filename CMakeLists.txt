@@ -130,9 +130,7 @@ option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" OFF)
 option(BUILD_TESTS "Build test cases" OFF)
 
 include(BuildOpenAL)
-
-find_package(OggVorbis REQUIRED)
-include_directories(SYSTEM ${VORBIS_INCLUDE_DIR})
+include(BuildOggVorbis)
 
 include(CheckSymbolExists)
 
@@ -179,23 +177,7 @@ if(WIN32)
 endif(WIN32)
 
 ## Lint
-
-if(CMAKE_VERSION VERSION_GREATER 3.6)
-  if (USE_CLANG_TIDY)
-    find_program(
-      CLANG_TIDY_EXE
-      NAMES "clang-tidy"
-      DOC "Path to clang-tidy executable"
-      )
-
-    if(NOT CLANG_TIDY_EXE)
-      message(FATAL_ERROR "clang-tidy not found.")
-    else()
-      message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-      set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
-    endif()
-  endif()
-endif()
+include(BuildClangTidy)
 
 ## Build list of sources for supertux binary
 
@@ -204,34 +186,9 @@ file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obsta
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
-option(USE_SYSTEM_SEXPCPP "Use preinstalled sexp-cpp if available" ON)
-if(USE_SYSTEM_SEXPCPP)
-  find_package(sexp QUIET)
-endif()
-
-if(TARGET sexp)
-  message(STATUS "Found preinstalled sexp-cpp")
-else()
-  if(USE_SYSTEM_SEXPCPP)
-    message(STATUS "Could NOT find sexp-cpp, using external/sexp-cpp fallback")
-  endif()
-
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
-    message(FATAL_ERROR "sexp-cpp submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt is missing")
-  endif()
-  file(GLOB SEXP_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/sexp-cpp/src/*.cpp)
-  add_library(sexp STATIC ${SEXP_SOURCES_CXX})
-  target_compile_definitions(sexp PRIVATE -DSEXP_USE_LOCALE)
-endif()
-
-file(GLOB SAVEPNG_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/SDL_SavePNG/savepng.c)
-add_library(savepng STATIC ${SAVEPNG_SOURCES_CXX})
-target_include_directories(savepng SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS} ${PNG_INCLUDE_DIRS})
-target_link_libraries(savepng PUBLIC ${PNG_LIBRARIES})
-
-add_library(partio_zip_lib STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/partio_zip/zip_manager.cpp)
-target_include_directories(partio_zip_lib PUBLIC ${ZLIB_INCLUDE_DIRS})
-target_link_libraries(partio_zip_lib PUBLIC ${ZLIB_LIBRARIES})
+include(BuildSexpcpp)
+include(BuildSavePNG)
+include(BuildPartioZip)
 
 if(HAVE_OPENGL)
   file(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
@@ -265,161 +222,10 @@ else(COMPILE_AMALGATION)
 endif(COMPILE_AMALGATION)
 
 ## Debug options
-
-option(WERROR "Stop on first compiler warning" OFF)
-option(WARNINGS "Enable long list of warnings for compiler to check" OFF)
-option(USE_CLANG_TIDY "Run clang-tidy" OFF)
-
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
-  set(CMAKE_C_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
-  set(CMAKE_CXX_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
-  set(CMAKE_C_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
-  set(CMAKE_LD_FLAGS_PROFILE "-lgmon" CACHE STRING "Profile flags")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -funit-at-a-time")
-  if(WERROR)
-    add_definitions(-Werror)
-  else(WERROR)
-    remove_definitions(-Werror)
-  endif(WERROR)
-  if(WARNINGS)
-    # temporarily disabled:
-    #   -Wsign-conversion -Wfloat-equal -Wundef -Wswitch-default
-    #   -Wswitch-enum -Wsign-promo -Wcast-qual -Woverloaded-virtual -Wmissing-format-attribute
-    #   -Wpadded -Wabi -Winline -Wunsafe-loop-optimizations -Wstrict-overflow=5
-    # fails on MinGW:
-    #   -ansi
-    if(CMAKE_COMPILER_IS_GNUCXX)
-      string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-        "-fdiagnostics-show-option "
-        "-pedantic "
-        "-Wno-long-long "
-        "-Wcast-align "
-        "-Wdisabled-optimization "
-        "-Winit-self -Winvalid-pch "
-        "-Wmissing-include-dirs "
-        "-Wmissing-noreturn "
-        "-Wpacked -Wredundant-decls "
-        "-Wformat=2 "
-        "-Weffc++ "
-        "-Wctor-dtor-privacy "
-        "-Wno-unused-parameter "
-        "-Wshadow "
-        "-Wnon-virtual-dtor "
-        "-Wcast-qual "
-        "-Wold-style-cast "
-        "-Wzero-as-null-pointer-constant "
-        "-Wconversion "
-        "-Wlogical-op "
-        "-Wstrict-null-sentinel "
-        "-Wsuggest-override "
-        )
-      if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 8)
-        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-          "-Wint-in-bool-context "
-          )
-      endif()
-      if(Boost_VERSION LESS 106500)
-        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-          "-Wno-implicit-fallthrough ")
-      endif()
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-      string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-        "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-        "-Weverything "
-
-        # flags that we deliberately ignore
-        "-Wno-c++98-compat "
-        "-Wno-c++98-compat-pedantic "
-        "-Wno-float-equal "
-        "-Wno-padded "
-        "-Wno-weak-vtables "
-        "-Wno-disabled-macro-expansion "
-        "-Wno-documentation "
-        "-Wno-reserved-id-macro "
-        "-Wno-sign-conversion "
-
-        # warnings that should probably be fixed in code
-        "-Wno-documentation-unknown-command "
-        "-Wno-inconsistent-missing-destructor-override "
-        "-Wno-deprecated-dynamic-exception-spec "
-        "-Wno-deprecated "
-        "-Wno-switch-enum "
-        "-Wno-covered-switch-default "
-        "-Wno-exit-time-destructors "
-        "-Wno-global-constructors "
-        "-Wno-duplicate-enum "
-        "-Wno-unreachable-code "
-      )
-
-      # This snipped adapted from AOMediaCodec cmakefile
-      # The detection of cross compilation by -Wpoison-system-directories has false positives on macOS because
-      # --sysroot is implicitly added. Turn the warning off.
-      if(NOT DEFINED HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
-          check_cxx_compiler_flag(-Wpoison-system-directories HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
-      endif()
-      if(HAVE_POISON_SYSTEM_DIRECTORIES_WARNING)
-        string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
-          "${SUPERTUX2_EXTRA_WARNING_FLAGS} "
-          "-Wno-poison-system-directories ")
-      endif()
-    endif()
-  endif(WARNINGS)
-endif()
+include(BuildWarnings)
 
 ## If xgettext is available, generate messages.pot for sources
-
-option(GENERATE_MESSAGESPOT "Generate messages.pot files" OFF)
-if(GENERATE_MESSAGESPOT)
-  mark_as_advanced(
-    XGETTEXT_EXECUTABLE
-    )
-  find_program(XGETTEXT_EXECUTABLE xgettext)
-  if(NOT XGETTEXT_EXECUTABLE)
-    message(STATUS "Warning: xgettext not found - will not update messages.pot")
-  else(NOT XGETTEXT_EXECUTABLE)
-    message(STATUS "Found xgettext: ${XGETTEXT_EXECUTABLE}")
-
-    set(MESSAGES_POT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/data/locale/messages.pot)
-    add_custom_command(
-      OUTPUT ${MESSAGES_POT_FILE}
-      COMMAND ${XGETTEXT_EXECUTABLE}
-      ARGS --keyword=_ --language=C++ --output=${MESSAGES_POT_FILE} ${SUPERTUX_SOURCES_CXX}
-      DEPENDS ${SUPERTUX_SOURCES_CXX}
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-      COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
-      )
-    list(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
-
-    file(GLOB SUPERTUX_LEVEL_DIRS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} data/levels/*)
-    foreach(SUPERTUX_LEVEL_DIR ${SUPERTUX_LEVEL_DIRS})
-      file(GLOB SUPERTUX_LEVELS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SUPERTUX_LEVEL_DIR}/*.stl ${SUPERTUX_LEVEL_DIR}/*.stwm ${SUPERTUX_LEVEL_DIR}/*.txt)
-
-      ## Do not add target if SUPERTUX_LEVELS is empty. This is needed for cmake <=2.4
-      if(SUPERTUX_LEVELS)
-        set(MESSAGES_POT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${SUPERTUX_LEVEL_DIR}/messages.pot)
-        add_custom_command(
-          OUTPUT ${MESSAGES_POT_FILE}
-          COMMAND ${XGETTEXT_EXECUTABLE}
-          ARGS --keyword="_:1" --language=Lisp --force-po --sort-by-file "--output=${MESSAGES_POT_FILE}" ${SUPERTUX_LEVELS}
-          DEPENDS ${SUPERTUX_LEVELS}
-          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-          COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
-          )
-        list(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
-      endif(SUPERTUX_LEVELS)
-
-    endforeach(SUPERTUX_LEVEL_DIR)
-
-    add_custom_target(
-      supertux2-messages ALL
-      DEPENDS ${MESSAGES_POT_FILES}
-      )
-
-  endif(NOT XGETTEXT_EXECUTABLE)
-endif(GENERATE_MESSAGESPOT)
+include(BuildMessagePot)
 
 ## Some additional compiler switches
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -429,7 +235,6 @@ endif()
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   add_definitions(-DMACOSX)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-
 
 ## On Windows, add an icon
 
@@ -444,23 +249,7 @@ if(WIN32)
 endif(WIN32)
 
 ## Build miniswig and generate miniswig wrapper
-
-option(GENERATE_WRAPPER "Build miniswig and generate the wrapper" OFF)
-if(GENERATE_WRAPPER)
-  add_subdirectory(tools/miniswig)
-  add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp
-    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
-    ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${CMAKE_CURRENT_BINARY_DIR}/miniswig.tmp -I${CMAKE_CURRENT_SOURCE_DIR}/src
-    COMMAND tools/miniswig/miniswig
-    ARGS --input miniswig.tmp --output-cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace scripting
-    DEPENDS tools/miniswig/miniswig
-    IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
-    )
-  if(USE_CLANG_TIDY)
-    set_target_properties(miniswig PROPERTIES CXX_CLANG_TIDY "")
-  endif()
-endif(GENERATE_WRAPPER)
+include(BuildWrapper)
 
 ## Generate supertux executable in the right place
 
@@ -626,8 +415,6 @@ if(BUILD_TESTS)
 endif()
 
 ## Install stuff
-
-option(DISABLE_CPACK_BUNDLING "Build an .app bundle without CPack" OFF)
 if(WIN32 AND NOT UNIX)
 
   set(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
@@ -757,88 +544,8 @@ else()
 endif()
 configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
 
-
 ## CPack/Installation-specific stuff
-
-include(InstallRequiredSystemLibraries)
-set(DIRS ${Boost_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
-
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
-  set(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
-
-  find_package(PNG)
-  foreach (_file ${PNG_LIBRARIES})
-    get_filename_component(_resolvedFile "${_file}" REALPATH)
-    get_filename_component(_name "${_file}" NAME)
-    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  endforeach()
-  find_package(JPEG)
-  foreach (_file ${JPEG_LIBRARIES})
-    get_filename_component(_resolvedFile "${_file}" REALPATH)
-    get_filename_component(_name "${_file}" NAME)
-    install(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-  endforeach()
-
-  install(CODE "
-       if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
-       include(BundleUtilities)
-       fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
-       endif()
-       ")
-
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
-
-  set(CPACK_BUNDLE_NAME "SuperTux")
-  set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
-  set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns")
-  set(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/startup.sh")
-  set(CPACK_DMG_VOLUME_NAME "SuperTux ${SUPERTUX_VERSION_STRING}")
-  set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/dsstore_setup.scpt")
-  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/background.png")
-endif()
-
-
-set(CPACK_PACKAGE_NAME "SuperTux")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Jump'n'Run Game featuring Tux")
-set(CPACK_PACKAGE_VENDOR "SuperTux Devel Team")
-set(CPACK_PACKAGE_CONTACT "SuperTux Devel Team <supertux-devel@lists.lethargik.org>")
-set(CPACK_SOURCE_IGNORE_FILES "/\\\\.git/;${CMAKE_BINARY_DIR};/\\\\..*")
-set(CPACK_DEBIAN_PACKAGE_NAME "supertux2")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.5), libgcc1 (>= 1:4.1), libgl1-mesa-glx | libgl1, libogg0 (>= 1.1.3), libopenal0a, libphysfs-1.0-0, libsdl-image1.2 (>= 1.2.5), libsdl1.2debian (>= 1.2.10-1), libstdc++6 (>= 4.1.2), libvorbis0a (>= 1.1.2), libvorbisfile3 (>= 1.1.2), libcurl3 (>= 7.16)")
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a classic 2D jump 'n run sidescroller game in a similar\n style like the original SuperMario games. This release of SuperTux\n features 9 enemies, 26 playable levels, software and OpenGL rendering\n modes, configurable joystick and keyboard input, new music and\n completely redone graphics.\n .\n This is a development snapshot of SuperTux. It may suffer from\n critical bugs and has not been fully tested. \n .\n Homepage: http://supertux.lethargik.org/")
-set(CPACK_DEBIAN_PACKAGE_SECTION "games")
-set(CPACK_RPM_PACKAGE_NAME "supertux2")
-set(CPACK_RPM_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a classic 2D jump 'n run sidescroller game in a similar\n style like the original SuperMario games. This release of SuperTux\n features 9 enemies, 26 playable levels, software and OpenGL rendering\n modes, configurable joystick and keyboard input, new music and\n completely redone graphics.\n .\n This is a development snapshot of SuperTux. It may suffer from\n critical bugs and has not been fully tested. \n .\n Homepage: http://supertux.lethargik.org/")
-set(CPACK_RPM_PACKAGE_LICENSE "GNU General Public License (GPL)")
-set(CPACK_RPM_PACKAGE_GROUP "Amusements/Games/Action/Arcade")
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
-set(CPACK_PACKAGE_VERSION_MAJOR ${SUPERTUX_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${SUPERTUX_VERSION_MINOR})
-
-if(SUPERTUX_VERSION_TWEAK)
-  set(CPACK_PACKAGE_VERSION_PATCH "${SUPERTUX_VERSION_PATCH}.${SUPERTUX_VERSION_TWEAK}")
-else()
-  set(CPACK_PACKAGE_VERSION_PATCH ${SUPERTUX_VERSION_PATCH})
-endif(SUPERTUX_VERSION_TWEAK)
-set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${SUPERTUX_VERSION_STRING}-${SUPERTUX_SYSTEM_NAME}")
-set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${SUPERTUX_VERSION_STRING}-Source")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "SuperTux")
-set(CPACK_PACKAGE_EXECUTABLES "supertux2" "SuperTux")
-if(WIN32 AND NOT UNIX)
-  set(CPACK_NSIS_INSTALLED_ICON_NAME "supertux2")
-  set(CPACK_NSIS_DISPLAY_NAME "SuperTux")
-  set(CPACK_NSIS_COMPRESSOR "/SOLID lzma")
-  set(CPACK_WIX_PROGRAM_MENU_FOLDER "")
-  set(CPACK_WIX_UPGRADE_GUID "93E16F4E-0A68-422A-8ADC-47BE5B9433B2")
-  set(CPACK_WIX_PRODUCT_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico")
-
-  set(CPACK_WIX_UI_BANNER "${CMAKE_CURRENT_SOURCE_DIR}/mk/wix/banner.png")
-  set(CPACK_WIX_UI_DIALOG "${CMAKE_CURRENT_SOURCE_DIR}/mk/wix/dialog.png")
-  set(CPACK_GENERATOR WIX)
-else(WIN32 AND NOT UNIX)
-endif(WIN32 AND NOT UNIX)
-include(CPack)
+include(BuildCPack)
 
 # move some config clutter to the advanced section
 mark_as_advanced(
@@ -861,10 +568,4 @@ mark_as_advanced(
   APPDATADIR
   )
 
-mark_as_advanced(
-  OGG_LIBRARY
-  VORBISENC_LIBRARY
-  VORBISFILE_LIBRARY
-  VORBIS_INCLUDE_DIR
-  VORBIS_LIBRARY
-  )
+# EOF #
