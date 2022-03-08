@@ -11,7 +11,12 @@ else()
   set(USE_SYSTEM_PHYSFS OFF CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
 endif()
 
-if(NOT USE_SYSTEM_PHYSFS)
+if(USE_SYSTEM_PHYSFS)
+  add_library(physfs INTERFACE)
+  set_target_properties(physfs PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${PHYSFS_LIBRARY}"
+    INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_INCLUDE_DIR}")
+else()
   if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt)
     message(FATAL_ERROR "physfs submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt is missing")
   endif()
@@ -25,7 +30,7 @@ if(NOT USE_SYSTEM_PHYSFS)
   endif()
 
   set(PHYSFS_PREFIX ${CMAKE_BINARY_DIR}/physfs)
-  ExternalProject_Add(physfs
+  ExternalProject_Add(physfs_project
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/physfs/"
     BUILD_BYPRODUCTS
     "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}"
@@ -43,17 +48,25 @@ if(NOT USE_SYSTEM_PHYSFS)
     -DPHYSFS_BUILD_TEST=FALSE)
 
   if(WIN32)
-    add_library(physfs_lib SHARED IMPORTED)
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}")
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_IMPLIB "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}")
+    add_library(physfs SHARED IMPORTED)
+    set_target_properties(physfs PROPERTIES
+      IMPORTED_LOCATION "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}"
+      IMPORTED_IMPLIB "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}"
+      INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_PREFIX}/include/")
   else()
-    add_library(physfs_lib STATIC IMPORTED)
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}")
+    add_library(physfs STATIC IMPORTED)
+    set_target_properties(physfs PROPERTIES
+      IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}"
+      INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_PREFIX}/include/")
   endif()
-  set(PHYSFS_INCLUDE_DIR "${PHYSFS_PREFIX}/include/")
-endif()
 
-include_directories(BEFORE SYSTEM ${PHYSFS_INCLUDE_DIR})
+  if(APPLE)
+    set_target_properties(physfs PROPERTIES
+      INTERFACE_LINK_LIBRARIES "-framework CoreFoundation;-framework Foundation;-framework IOKit")
+  endif()
+
+  add_dependencies(physfs physfs_project)
+endif()
 
 mark_as_advanced(
   PHYSFS_INCLUDE_DIR
