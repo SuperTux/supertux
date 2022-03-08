@@ -19,6 +19,7 @@ else()
 
   add_library(sexp STATIC ${SEXP_SOURCES_CXX})
   target_compile_definitions(sexp PRIVATE -DSEXP_USE_LOCALE)
+  target_include_directories(sexp SYSTEM PUBLIC external/sexp-cpp/include/)
 endif()
 
 # EOF #

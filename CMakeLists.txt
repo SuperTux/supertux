@@ -155,15 +155,6 @@ include(SuperTux/ProvideSexpcpp)
 include(SuperTux/ProvideSavePNG)
 include(SuperTux/ProvidePartioZip)
 
-## Some additional include paths
-include_directories(${CMAKE_BINARY_DIR}/)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/)
-include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
-include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
-include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/include/)
-include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL_SavePNG/)
-include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/partio_zip/)
-
 ## Build stuff
 include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
@@ -212,6 +203,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
 add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
+target_include_directories(supertux2_lib PUBLIC ${CMAKE_BINARY_DIR} src/)
 
 target_link_libraries(supertux2_lib PUBLIC glm::glm)
 target_compile_definitions(supertux2_lib PUBLIC -DGLM_ENABLE_EXPERIMENTAL)
@@ -238,9 +230,13 @@ if(WIN32 AND NOT VCPKG_BUILD)
     $<TARGET_FILE_DIR:supertux2_lib>)
 endif()
 
-## Link supertux binary with squirrel and other libraries
-target_include_directories(partio_zip_lib PUBLIC external/partio_zip/)
+## Some additional include paths
+target_include_directories(supertux2_lib SYSTEM PUBLIC
+  external/findlocale/
+  external/obstack/
+  )
 
+## Link supertux binary with squirrel and other libraries
 if(NOT EMSCRIPTEN)
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
