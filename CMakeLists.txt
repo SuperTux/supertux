@@ -272,11 +272,6 @@ if(WIN32 AND NOT VCPKG_BUILD)
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-
-if(VCPKG_BUILD AND NOT EMSCRIPTEN)
-  target_include_directories(supertux2_lib PUBLIC ${CURL_INCLUDE_DIRS})
-endif()
-
 target_include_directories(partio_zip_lib PUBLIC external/partio_zip/)
 
 if(NOT EMSCRIPTEN)
@@ -334,13 +329,7 @@ if(HAVE_OPENGL)
 endif()
 
 if(NOT EMSCRIPTEN)
-  if(HAVE_LIBCURL)
-    if(VCPKG_BUILD)
-      target_link_libraries(supertux2_lib PUBLIC ${CURL_LIBRARIES})
-    else()
-      target_link_libraries(supertux2_lib PUBLIC ${CURL_LIBRARY})
-    endif()
-  endif()
+  target_link_libraries(supertux2_lib PUBLIC CURL::libcurl)
 endif()
 
 if(BUILD_TESTS)
