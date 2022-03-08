@@ -47,6 +47,9 @@ else()
     -DPHYSFS_BUILD_STATIC=${PHYSFS_BUILD_STATIC}
     -DPHYSFS_BUILD_TEST=FALSE)
 
+  # Pre-create directory so that cmake doesn't complain about its non-existance
+  file(MAKE_DIRECTORY "${PHYSFS_PREFIX}/include/")
+
   if(WIN32)
     add_library(physfs SHARED IMPORTED)
     set_target_properties(physfs PROPERTIES
