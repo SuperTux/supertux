@@ -208,13 +208,16 @@ find_package(PNG REQUIRED)
 
 option(USE_SYSTEM_FMT "Use preinstalled fmt if available, must be 8.0.0 or newer" ON)
 if(USE_SYSTEM_FMT)
-  find_package(fmt 8.0.0)
+  find_package(fmt 8.0.0 QUIET)
 endif()
 
 if(TARGET fmt::fmt)
   message(STATUS "Found fmt")
 else()
-  message(STATUS "Could NOT find fmt, using external/fmt fallback")
+  if(USE_SYSTEM_FMT)
+    message(STATUS "Could NOT find fmt, using external/fmt fallback")
+  endif()
+
   add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
 endif()
 
@@ -508,9 +511,18 @@ endif()
 
 
 ## Also build external/squirrel
+option(USE_SYSTEM_SQUIRREL "Use preinstalled squirrel if available" ON)
+if(USE_SYSTEM_SQUIRREL)
+  find_package(squirrel QUIET)
+endif()
 
-find_package(squirrel)
-if(NOT TARGET squirrel::squirrel)
+if(TARGET squirrel::squirrel)
+  message(STATUS "Found preinstalled squirrel")
+else()
+  if(USE_SYSTEM_SQUIRREL)
+    message(STATUS "Could NOT find squirrel, using external/squirrel fallback")
+  endif()
+
   if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
     message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
   endif()
@@ -523,7 +535,7 @@ if(NOT TARGET squirrel::squirrel)
 
   set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
 
-  ExternalProject_Add(squirrel
+  ExternalProject_Add(squirrel_project
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
     BUILD_BYPRODUCTS
     "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
@@ -539,6 +551,7 @@ if(NOT TARGET squirrel::squirrel)
 
   if(WIN32)
     add_library(squirrel::squirrel SHARED IMPORTED)
+    target_include_directories(squirrel::squirrel SYSTEM INTERFACE ${SQUIRREL_PREFIX}/include)
     set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}squirrel${CMAKE_SHARED_LIBRARY_SUFFIX}")
     set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/squirrel${CMAKE_LINK_LIBRARY_SUFFIX}")
     add_library(squirrel::sqstdlib SHARED IMPORTED)
@@ -549,6 +562,7 @@ if(NOT TARGET squirrel::squirrel)
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${CMAKE_CURRENT_BINARY_DIR}/run_supertux.bat")
   else()
     add_library(squirrel::squirrel STATIC IMPORTED)
+    target_include_directories(squirrel::squirrel SYSTEM INTERFACE ${SQUIRREL_PREFIX}/include)
     set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
     add_library(squirrel::sqstdlib STATIC IMPORTED)
     set_target_properties(squirrel::sqstdlib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
@@ -556,9 +570,18 @@ if(NOT TARGET squirrel::squirrel)
 endif()
 
 ## Also build external/tinygettext
+option(USE_SYSTEM_TINYGETTEXT "Use preinstalled tinygettext if available" ON)
+if(USE_SYSTEM_TINYGETTEXT)
+  find_package(tinygettext QUIET)
+endif()
 
-find_package(tinygettext)
-if(NOT TARGET tinygettext)
+if(TARGET tinygettext)
+  message(STATUS "Found preinstalled tinygettext")
+else()
+  if(USE_SYSTEM_TINYGETTEXT)
+    message(STATUS "Could NOT find tinygettext, using external/tinygettext fallback")
+  endif()
+
   if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
     message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
   endif()
@@ -576,7 +599,7 @@ if(NOT TARGET tinygettext)
   string(REPLACE ";" "|" TINYGETTEXT_SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIRS}")
 
   set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
-  ExternalProject_Add(tinygettext
+  ExternalProject_Add(tinygettext_project
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
     BUILD_BYPRODUCTS "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
     LIST_SEPARATOR "|"
@@ -610,16 +633,19 @@ if (NOT EMSCRIPTEN)
   endif()
 endif(NOT EMSCRIPTEN)
 
-find_package(RAQM)
+option(USE_SYSTEM_SDL2_TTF "Use preinstalled SDL2_ttf if available" ON)
+if(USE_SYSTEM_SDL2_TTF)
+  find_package(SDL2_ttf QUIET)
+endif()
 
-find_package(SDL2_ttf)
 if(TARGET SDL2_ttf)
-  message(STATUS "Found package SDL2_ttf")
+  message(STATUS "Found preinstalled SDL2_ttf")
 else()
-  message(STATUS "Could not find SDL2_ttf")
+  find_package(RAQM)
+
   set(SDL2_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL2_ttf/)
   ExternalProject_Add(SDL2_ttf_project
-    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL2_ttf/"
+    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
     BUILD_BYPRODUCTS "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
     CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -632,14 +658,16 @@ else()
     -DRAQM_INCLUDE_DIR=${RAQM_INCLUDE_DIR}
     -DBUILD_SHARED_LIBS=OFF
     -DEMSCRIPTEN=${EMSCRIPTEN})
+
   add_library(SDL2_ttf STATIC IMPORTED)
   set_target_properties(SDL2_ttf PROPERTIES IMPORTED_LOCATION "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
   link_directories(${SDL2_TTF_PREFIX}/lib)
   include_directories(SYSTEM ${SDL2_TTF_PREFIX}/include/SDL2)
+
   if(RAQM_FOUND)
     find_package(FriBidi REQUIRED)
     find_package(HarfBuzz REQUIRED)
-    set_target_properties(SDL2_ttf PROPERTIES INTERFACE_LINK_LIBRARIES "${RAQM_LIBRARIES}")
+    target_link_libraries(SDL2_ttf INTERFACE ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARIES})
   endif()
 endif()
 
@@ -697,8 +725,18 @@ file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obsta
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
-find_package(sexp)
-if(NOT TARGET sexp)
+option(USE_SYSTEM_SEXPCPP "Use preinstalled sexp-cpp if available" ON)
+if(USE_SYSTEM_SEXPCPP)
+  find_package(sexp QUIET)
+endif()
+
+if(TARGET sexp)
+  message(STATUS "Found preinstalled sexp-cpp")
+else()
+  if(USE_SYSTEM_SEXPCPP)
+    message(STATUS "Could NOT find sexp-cpp, using external/sexp-cpp fallback")
+  endif()
+
   if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
     message(FATAL_ERROR "sexp-cpp submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt is missing")
   endif()
@@ -1008,10 +1046,6 @@ if(VCPKG_BUILD)
   target_link_libraries(supertux2_lib PUBLIC freetype)
 else()
   target_link_libraries(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
-endif()
-
-if(RAQM_FOUND)
-  target_link_libraries(supertux2_lib PUBLIC ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
 endif()
 
 target_link_libraries(supertux2_lib PUBLIC squirrel::squirrel)
