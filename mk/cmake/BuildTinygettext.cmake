@@ -50,8 +50,10 @@ else()
   file(MAKE_DIRECTORY ${TINYGETTEXT_PREFIX}/include)
 
   add_library(tinygettext STATIC IMPORTED)
-  set_target_properties(tinygettext PROPERTIES IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}")
-  target_include_directories(tinygettext SYSTEM INTERFACE ${TINYGETTEXT_PREFIX}/include)
+  set_target_properties(tinygettext PROPERTIES
+    IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    INTERFACE_INCLUDE_DIRECTORIES "${TINYGETTEXT_PREFIX}/include")
+
   add_dependencies(tinygettext tinygettext_project)
 endif()
 
