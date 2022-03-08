@@ -38,25 +38,26 @@ else()
   # Pre-create directory so that cmake doesn't complain about its non-existance
   file(MAKE_DIRECTORY ${SDL2_TTF_PREFIX}/include/SDL2)
 
-  add_library(SDL2_ttf STATIC IMPORTED)
-  set_target_properties(SDL2_ttf PROPERTIES
-    IMPORTED_LOCATION "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    INTERFACE_INCLUDE_DIRECTORIES "${SDL2_TTF_PREFIX}/include/SDL2")
+  if(VCPKG_BUILD)
+    list(APPEND SDL2_TTF_LINK_LIBRARIES freetype)
+  else()
+    list(APPEND SDL2_TTF_LINK_LIBRARIES ${FREETYPE_LIBRARIES})
+  endif()
 
   if(RAQM_FOUND)
     find_package(FriBidi REQUIRED)
     find_package(HarfBuzz REQUIRED)
-    target_link_libraries(SDL2_ttf INTERFACE
+    list(APPEND SDL2_TTF_LINK_LIBRARIES
       ${HARFBUZZ_LIBRARY}
       ${FRIBIDI_LIBRARY}
       ${RAQM_LIBRARY})
   endif()
 
-  if(VCPKG_BUILD)
-    target_link_libraries(SDL2_ttf INTERFACE freetype)
-  else()
-    target_link_libraries(SDL2_ttf INTERFACE ${FREETYPE_LIBRARIES})
-  endif()
+  add_library(SDL2_ttf STATIC IMPORTED)
+  set_target_properties(SDL2_ttf PROPERTIES
+    IMPORTED_LOCATION "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    INTERFACE_INCLUDE_DIRECTORIES "${SDL2_TTF_PREFIX}/include/SDL2"
+    INTERFACE_LINK_LIBRARIES "${SDL2_TTF_LINK_LIBRARIES}")
 
   add_dependencies(SDL2_ttf SDL2_ttf_project)
 endif()
