@@ -315,9 +315,6 @@ endif()
 target_link_libraries(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
 target_link_libraries(supertux2_lib PUBLIC ${Boost_LIBRARIES})
 
-# Mark fmt includes as SYSTEM to avoid warnings
-get_target_property(FMT_INCLUDE_DIRS fmt::fmt INTERFACE_INCLUDE_DIRECTORIES)
-target_include_directories(supertux2_lib SYSTEM PUBLIC ${FMT_INCLUDE_DIRS})
 target_link_libraries(supertux2_lib PUBLIC fmt::fmt)
 
 if(USE_SYSTEM_PHYSFS)
