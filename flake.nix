@@ -47,14 +47,11 @@
 
     squirrel_src.url = "github:albertodemichelis/squirrel/v3.2";
     squirrel_src.flake = false;
-
-    raqm_src.url = "github:HOST-Oman/libraqm/v0.7.2";
-    raqm_src.flake = false;
   };
 
   outputs = { self, nixpkgs, flake-utils,
               tinycmmc, sexpcpp, tinygettext, SDL2_ttf,
-              squirrel_src, raqm_src }:
+              squirrel_src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -66,27 +63,6 @@
             src = squirrel_src;
             nativeBuildInputs = [
               pkgs.cmake
-            ];
-          };
-
-          raqm = pkgs.stdenv.mkDerivation rec {
-            pname = "libraqm";
-            version = "0.7.2";
-            src = raqm_src;
-            nativeBuildInputs = [
-              pkgs.meson
-              pkgs.ninja
-              pkgs.pkgconfig
-              pkgs.python3
-            ];
-            buildInputs = [
-              pkgs.freetype
-              pkgs.harfbuzz
-              pkgs.fribidi
-            ];
-            propagatedBuildInputs = [
-              pkgs.glib
-              pkgs.pcre
             ];
           };
 
@@ -126,7 +102,6 @@ EOF
                   --prefix LD_LIBRARY_PATH ":" "${pkgs.mesa.drivers}/lib"
             '';
             buildInputs = [
-              raqm
               squirrel
               sexpcpp.defaultPackage.${system}
               tinygettext.defaultPackage.${system}

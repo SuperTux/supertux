@@ -7,14 +7,15 @@
         ],
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "raqm_src": "raqm_src"
       },
       "locked": {
-        "lastModified": 1646666833,
-        "narHash": "sha256-+b/PPo24dehCmhJYTmyDoM31fVw9DGrjqKKEKamxS1U=",
+        "lastModified": 1646749209,
+        "narHash": "sha256-k6+yo0do+M1cs5tLo/Phslv6qIwk8rVsq/2mfJf1aco=",
         "owner": "SuperTux",
         "repo": "SDL_ttf",
-        "rev": "0a2305c2287ccec1115cd20aebf0d1948333e03f",
+        "rev": "210b56f25fbe8381cf81a15dd8a256d14a7045e3",
         "type": "github"
       },
       "original": {
@@ -40,11 +41,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1646406548,
-        "narHash": "sha256-xp+3f76ycZXNf9pG65Ef9KfDl1fas2UQu/cBe/pLd+c=",
+        "lastModified": 1646588256,
+        "narHash": "sha256-ZHljmNlt19nSm0Mz8fx6QEhddKUkU4hhwFmfNmGn+EY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "47cd6702934434dd02bc53a67dbce3e5493e33a2",
+        "rev": "2ebb6c1e5ae402ba35cca5eec58385e5f1adea04",
         "type": "github"
       },
       "original": {
@@ -76,7 +77,6 @@
         "SDL2_ttf": "SDL2_ttf",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
-        "raqm_src": "raqm_src",
         "sexpcpp": "sexpcpp",
         "squirrel_src": "squirrel_src",
         "tinycmmc": "tinycmmc",
