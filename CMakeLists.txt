@@ -103,7 +103,7 @@ set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not depend
 set(VCPKG_APPLOCAL_DEPS ${VCPKG_BUILD} BOOL)
 
 if(WIN32)
-  include(BuildWin32)
+  include(SuperTux/Win32)
 endif(WIN32)
 
 # Detect mobile builds
@@ -117,25 +117,25 @@ else()
 endif()
 
 ## Add lots of dependencies to compiler switches
-include(BuildBoost)
+include(SuperTux/ProvideBoost)
 
-include(BuildGlm)
+include(SuperTux/ProvideGlm)
 
 find_package(PNG REQUIRED)
 
-include(BuildFmt)
-include(BuildSDL2)
+include(SuperTux/ProvideFmt)
+include(SuperTux/ProvideSDL2)
 
 option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" OFF)
 option(BUILD_TESTS "Build test cases" OFF)
 
-include(BuildOpenAL)
-include(BuildOggVorbis)
+include(SuperTux/ProvideOpenAL)
+include(SuperTux/ProvideOggVorbis)
 
 include(CheckSymbolExists)
 
-include(BuildPhysfs)
-include(BuildCurl)
+include(SuperTux/ProvidePhysfs)
+include(SuperTux/ProvideCurl)
 
 find_package(ZLIB REQUIRED)
 
@@ -143,8 +143,8 @@ find_package(ZLIB REQUIRED)
 #include_directories(SYSTEM ${ICONV_INCLUDE_DIR})
 #link_libraries(${ICONV_LIBRARY})
 
-include(BuildVersion)
-include(BuildDoxygen)
+include(SuperTux/BuildVersion)
+include(SuperTux/BuildDocumentation)
 
 ## Check platform-dependent build options
 
@@ -155,9 +155,9 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
 
-include(BuildSquirrel)
-include(BuildTinygettext)
-include(BuildSDL2_ttf)
+include(SuperTux/ProvideSquirrel)
+include(SuperTux/ProvideTinygettext)
+include(SuperTux/ProvideSDL2_ttf)
 
 ## Some additional include paths
 
@@ -169,7 +169,7 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/include
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL_SavePNG/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/partio_zip/)
 
-include(BuildDiscord)
+include(SuperTux/ProvideDiscord)
 
 if(WIN32)
   add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
@@ -177,7 +177,7 @@ if(WIN32)
 endif(WIN32)
 
 ## Lint
-include(BuildClangTidy)
+include(SuperTux/ClangTidy)
 
 ## Build list of sources for supertux binary
 
@@ -186,9 +186,9 @@ file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obsta
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
-include(BuildSexpcpp)
-include(BuildSavePNG)
-include(BuildPartioZip)
+include(SuperTux/ProvideSexpcpp)
+include(SuperTux/ProvideSavePNG)
+include(SuperTux/ProvidePartioZip)
 
 if(HAVE_OPENGL)
   file(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
@@ -222,10 +222,10 @@ else(COMPILE_AMALGATION)
 endif(COMPILE_AMALGATION)
 
 ## Debug options
-include(BuildWarnings)
+include(SuperTux/WarningFlags)
 
 ## If xgettext is available, generate messages.pot for sources
-include(BuildMessagePot)
+include(SuperTux/BuildMessagePot)
 
 ## Some additional compiler switches
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -249,7 +249,7 @@ if(WIN32)
 endif(WIN32)
 
 ## Build miniswig and generate miniswig wrapper
-include(BuildWrapper)
+include(SuperTux/BuildMiniswigWrapper)
 
 ## Generate supertux executable in the right place
 
@@ -545,7 +545,7 @@ endif()
 configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
 
 ## CPack/Installation-specific stuff
-include(BuildCPack)
+include(SuperTux/BuildCPack)
 
 # move some config clutter to the advanced section
 mark_as_advanced(
