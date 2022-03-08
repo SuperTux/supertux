@@ -355,7 +355,7 @@ if(NOT USE_SYSTEM_PHYSFS)
     set(PHYSFS_BUILD_STATIC TRUE)
   endif()
 
-  set(PHYSFS_PREFIX ${CMAKE_BINARY_DIR}/physfs/)
+  set(PHYSFS_PREFIX ${CMAKE_BINARY_DIR}/physfs)
   ExternalProject_Add(physfs
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/physfs/"
     BUILD_BYPRODUCTS
@@ -534,7 +534,6 @@ else()
   endif()
 
   set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
-
   ExternalProject_Add(squirrel_project
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
     BUILD_BYPRODUCTS
@@ -566,6 +565,9 @@ else()
     add_library(squirrel::sqstdlib STATIC IMPORTED)
     set_target_properties(squirrel::sqstdlib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
   endif()
+
+  # Pre-create directory so that cmake doesn't complain about its non-existance
+  file(MAKE_DIRECTORY ${SQUIRREL_PREFIX}/include)
 
   target_include_directories(squirrel::squirrel SYSTEM INTERFACE ${SQUIRREL_PREFIX}/include)
   add_dependencies(squirrel::squirrel squirrel_project)
@@ -600,7 +602,7 @@ else()
   # to work around this limitations by using a different separator.
   string(REPLACE ";" "|" TINYGETTEXT_SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIRS}")
 
-  set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
+  set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext)
   ExternalProject_Add(tinygettext_project
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
     BUILD_BYPRODUCTS "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
@@ -619,6 +621,9 @@ else()
     -DSDL2_LIBRARIES=${SDL2_LIBRARIES}
     -DSDL2_INCLUDE_DIRS=${TINYGETTEXT_SDL2_INCLUDE_DIRS}
     -DLIB_SUFFIX=${LIB_SUFFIX})
+
+  # Pre-create directory so that cmake doesn't complain about its non-existance
+  file(MAKE_DIRECTORY ${TINYGETTEXT_PREFIX}/include)
 
   add_library(tinygettext STATIC IMPORTED)
   set_target_properties(tinygettext PROPERTIES IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}")
@@ -645,7 +650,7 @@ else()
 
   find_package(RAQM)
 
-  set(SDL2_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL2_ttf/)
+  set(SDL2_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL2_ttf)
   ExternalProject_Add(SDL2_ttf_project
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
     BUILD_BYPRODUCTS "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
@@ -661,11 +666,19 @@ else()
     -DBUILD_SHARED_LIBS=OFF
     -DEMSCRIPTEN=${EMSCRIPTEN})
 
+  # Pre-create directory so that cmake doesn't complain about its non-existance
+  file(MAKE_DIRECTORY ${SDL2_TTF_PREFIX}/include/SDL2)
+
   add_library(SDL2_ttf STATIC IMPORTED)
   set_target_properties(SDL2_ttf PROPERTIES IMPORTED_LOCATION "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
-  target_link_directories(SDL2_ttf INTERFACE ${SDL2_TTF_PREFIX}/lib)
+  # target_link_directories(SDL2_ttf INTERFACE ${SDL2_TTF_PREFIX}/lib)
+
   target_include_directories(SDL2_ttf SYSTEM INTERFACE ${SDL2_TTF_PREFIX}/include/SDL2)
-  add_dependencies(SDL2_ttf SDL2_ttf_project)
+
+#  set_target_properties(SDL2_ttf PROPERTIES
+#    INTERFACE_INCLUDE_DIRECTORIES ${SDL2_TTF_PREFIX}/include/SDL2)
+  #INTERFACE_LINK_LIBRARIES 
+#)
 
   if(RAQM_FOUND)
     find_package(FriBidi REQUIRED)
@@ -675,10 +688,12 @@ else()
   endif()
 
   if(VCPKG_BUILD)
-    target_link_libraries(supertux2_lib PUBLIC freetype)
+    target_link_libraries(SDL2_ttf INTERFACE freetype)
   else()
-    target_link_libraries(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
+    target_link_libraries(SDL2_ttf INTERFACE ${FREETYPE_LIBRARIES})
   endif()
+
+  add_dependencies(SDL2_ttf SDL2_ttf_project)
 endif()
 
 ## Some additional include paths
