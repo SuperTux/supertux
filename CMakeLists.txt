@@ -120,8 +120,6 @@ if(WIN32)
 endif(WIN32)
 
 ## Add lots of dependencies to compiler switches
-find_package(PNG REQUIRED)
-find_package(ZLIB REQUIRED)
 include(SuperTux/ProvideBoost)
 include(SuperTux/ProvideGlm)
 include(SuperTux/ProvideFmt)
