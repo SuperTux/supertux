@@ -101,53 +101,9 @@ option(STEAM_BUILD "Prepare build for Steam" OFF)
 set(SUPERTUX_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
 set(VCPKG_BUILD OFF CACHE BOOL "Use dependencies installed via vcpkg (not dependency package)")
 set(VCPKG_APPLOCAL_DEPS ${VCPKG_BUILD} BOOL)
-## These variables enable MSVC to find libraries located in "dependencies{32|64}"
+
 if(WIN32)
-  if(NOT VCPKG_BUILD)
-    ## Store path of dependecy folder
-    set(DEPENDENCY_FOLDER "${PROJECT_SOURCE_DIR}/dependencies")
-  endif()
-
-  ## To test if the host (not the build) is x64:
-  ## "$ENV{PROCESSOR_ARCHITEW6432}" STREQUAL "AMD64"
-  if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    set(WIN64 ON)
-    if(NOT VCPKG_BUILD)
-      set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}64")
-    endif()
-  else(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    set(WIN64 OFF)
-    if(NOT VCPKG_BUILD)
-      set(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}32")
-    endif()
-  endif(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-
-  if(WIN64)
-    set(SUPERTUX_SYSTEM_NAME win64)
-  else(WIN64)
-    set(SUPERTUX_SYSTEM_NAME win32)
-  endif(WIN64)
-
-  if(NOT VCPKG_BUILD)
-    set(ENV{PATH} "$ENV{PATH};${DEPENDENCY_FOLDER}/include")
-    set(ENV{LIB} "${DEPENDENCY_FOLDER}/lib")
-    set(ENV{OPENALDIR} "${DEPENDENCY_FOLDER}")
-  endif()
-
-  ## Enable multi-processor compilation (faster)
-  if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
-  endif(MSVC)
-
-  ## And shut up about unsafe stuff
-  add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-  ## Add an icon
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/icon_rc.template" "${PROJECT_BINARY_DIR}/tmp/icon.rc")
-
-  ## Find all used libraries
-  if(NOT VCPKG_BUILD)
-    file(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
-  endif()
+  include(BuildWin32)
 endif(WIN32)
 
 # Detect mobile builds
@@ -161,255 +117,27 @@ else()
 endif()
 
 ## Add lots of dependencies to compiler switches
+include(BuildBoost)
 
-set(Boost_ADDITIONAL_VERSIONS "1.41" "1.41.0")
-if(WIN32)
-  option(ENABLE_BOOST_STATIC_LIBS "Use boost static libraries" ON)
-else(WIN32)
-  option(ENABLE_BOOST_STATIC_LIBS "Use boost static libraries" OFF)
-endif(WIN32)
-if(ENABLE_BOOST_STATIC_LIBS)
-  set(Boost_USE_STATIC_LIBS TRUE)
-else(ENABLE_BOOST_STATIC_LIBS)
-  set(Boost_USE_STATIC_LIBS FALSE)
-endif(ENABLE_BOOST_STATIC_LIBS)
-find_package(Boost REQUIRED COMPONENTS filesystem system date_time locale)
-include_directories(SYSTEM ${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIRS})
-
-find_package(glm QUIET)
-if(glm_FOUND)
-  if(TARGET glm::glm)
-    message(STATUS "Found glm")
-  else()
-    # fallback for old glm version in EmuELEC and Nix
-    get_target_property(GLM_INCLUDE_DIR glm INTERFACE_INCLUDE_DIRECTORIES)
-    message(STATUS "Found glm: ${GLM_INCLUDE_DIR}")
-    add_library(glm::glm INTERFACE IMPORTED)
-    set_target_properties(glm::glm PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${GLM_INCLUDE_DIR})
-  endif()
-else()
-  # fallback for old glm version in UBPorts
-  find_path(GLM_INCLUDE_DIR
-    NAMES glm/glm.hpp
-    PATHS ${GLM_ROOT_DIR}/include)
-  if(NOT GLM_INCLUDE_DIR)
-    message(FATAL_ERROR "glm library missing")
-  endif()
-
-  message(STATUS "Found glm: ${GLM_INCLUDE_DIR}")
-  add_library(glm::glm INTERFACE IMPORTED)
-  set_target_properties(glm::glm PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES ${GLM_INCLUDE_DIR})
-endif()
+include(BuildGlm)
 
 find_package(PNG REQUIRED)
 
-option(USE_SYSTEM_FMT "Use preinstalled fmt if available, must be 8.0.0 or newer" ON)
-if(USE_SYSTEM_FMT)
-  find_package(fmt 8.0.0 QUIET)
-endif()
-
-if(TARGET fmt::fmt)
-  message(STATUS "Found fmt")
-else()
-  if(USE_SYSTEM_FMT)
-    message(STATUS "Could NOT find fmt, using external/fmt fallback")
-  endif()
-
-  add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
-endif()
-
-if(WIN32)
-  if(VCPKG_BUILD)
-    find_package(SDL2 CONFIG REQUIRED)
-    find_library(SDL2IMAGE_LIBRARIES SDL2_image)
-    find_library(SDL2MAIN_LIBRARIES SDL2main)
-    message(STATUS "SDL2_INCLUDE_DIR is ${SDL2_INCLUDE_DIRS}")
-  else(VCPKG_BUILD)
-    find_path(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2")
-    find_path(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
-    find_library(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
-    find_library(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
-    find_library(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
-    find_path(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
-  endif(VCPKG_BUILD)
-
-else(WIN32)
-
-  if (NOT EMSCRIPTEN)
-    if (VCPKG_BUILD)
-      find_package(SDL2 CONFIG REQUIRED)
-      find_package(sdl2-image CONFIG REQUIRED)
-      find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
-      find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
-      set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
-      set(SDL2IMAGE_INCLUDE_DIRS ${SDL2IMAGE_INCLUDE_DIRS}/SDL2)
-      find_library(SDL2_LIBRARIES SDL2)
-      find_library(SDL2IMAGE_LIBRARIES SDL2_image)
-      message(STATUS "SDL2_INCLUDE_DIR is ${SDL2_INCLUDE_DIRS}")
-    elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)
-      # 32-bit
-      find_library(SDL2_LIBRARIES SDL2)
-      find_library(SDL2IMAGE_LIBRARIES SDL2_image)
-      find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
-      find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
-      set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
-      set(SDL2IMAGE_INCLUDE_DIRS ${SDL2IMAGE_INCLUDE_DIRS}/SDL2)
-      message(STATUS "SDL LIBS: ${SDL2_LIBRARIES}")
-      message(STATUS "SDL INCL: ${SDL2_INCLUDE_DIRS}")
-    else()
-      # 64-bit
-      include(FindPkgConfig)
-      pkg_search_module(SDL2 REQUIRED sdl2>=2.0.1)
-      pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
-    endif()
-  endif(NOT EMSCRIPTEN)
-endif(WIN32)
-set(HAVE_SDL TRUE)
+include(BuildFmt)
+include(BuildSDL2)
 
 option(IS_SUPERTUX_RELEASE "Build as official SuperTux release" OFF)
 option(BUILD_TESTS "Build test cases" OFF)
-option(ENABLE_OPENGL "Enable OpenGL support" ON)
-option(ENABLE_OPENGLES2 "Enable OpenGLES2 support" OFF)
-option(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
-option(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called OpenGL function" OFF)
 
-if(ENABLE_OPENGL)
-  if(EMSCRIPTEN AND ENABLE_OPENGLES2)
-    set(HAVE_OPENGL TRUE)
-    add_definitions(-DUSE_OPENGLES2)
-  elseif(ENABLE_OPENGLES2 AND NOT EMSCRIPTEN)
-    pkg_check_modules(GLESV2 REQUIRED glesv2)
-    set(HAVE_OPENGL TRUE)
-    set(OPENGL_INCLUDE_DIR  ${GLESV2_INCLUDE_DIRS})
-    set(OPENGL_LIBRARY ${GLESV2_LIBRARIES})
-    add_definitions(-DUSE_OPENGLES2)
-  else(NOT EMSCRIPTEN)
-    set(OpenGL_GL_PREFERENCE "LEGACY")
-    find_package(OpenGL)
-    if(OPENGL_FOUND)
-      include_directories(SYSTEM ${OPENGL_INCLUDE_DIR})
-      set(HAVE_OPENGL TRUE)
-    endif(OPENGL_FOUND)
-
-    if(GLBINDING_ENABLED)
-      if(VCPKG_BUILD)
-        find_package(glbinding CONFIG REQUIRED)
-      else(VCPKG_BUILD)
-        find_package(GLBINDING REQUIRED)
-        include_directories(SYSTEM ${GLBINDING_INCLUDES})
-      endif(VCPKG_BUILD)
-
-      add_definitions(-DUSE_GLBINDING)
-      if(GLBINDING_DEBUG_OUTPUT)
-        add_definitions(-DUSE_GLBINDING_DEBUG_OUTPUT)
-      endif()
-    else()
-      find_package(GLEW REQUIRED)
-      if(GLEW_FOUND)
-        include_directories(SYSTEM ${GLEW_INCLUDE_DIR})
-      endif(GLEW_FOUND)
-    endif()
-  endif()
-endif(ENABLE_OPENGL)
-
-if(NOT EMSCRIPTEN)
-  if(VCPKG_BUILD)
-    find_package(OpenAL CONFIG REQUIRED)
-  else()
-    find_package(OpenAL REQUIRED)
-  endif()
-  include_directories(SYSTEM ${OPENAL_INCLUDE_DIR})
-else()
-  include_directories(${CMAKE_SOURCE_DIR}/mk/emscripten/AL)
-endif()
+include(BuildOpenAL)
 
 find_package(OggVorbis REQUIRED)
 include_directories(SYSTEM ${VORBIS_INCLUDE_DIR})
 
 include(CheckSymbolExists)
 
-find_package(PhysFS)
-if(PHYSFS_LIBRARY)
-  set(CMAKE_REQUIRED_LIBRARIES ${PHYSFS_LIBRARY})
-  check_symbol_exists("PHYSFS_getPrefDir" "${PHYSFS_INCLUDE_DIR}/physfs.h" HAVE_PHYSFS_GETPREFDIR)
-endif()
-if(HAVE_PHYSFS_GETPREFDIR)
-  set(USE_SYSTEM_PHYSFS ON CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
-else(HAVE_PHYSFS_GETPREFDIR)
-  set(USE_SYSTEM_PHYSFS OFF CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
-endif(HAVE_PHYSFS_GETPREFDIR)
-
-if(NOT USE_SYSTEM_PHYSFS)
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt)
-    message(FATAL_ERROR "physfs submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt is missing")
-  endif()
-
-  if(WIN32)
-    set(PHYSFS_BUILD_SHARED TRUE)
-    set(PHYSFS_BUILD_STATIC FALSE)
-  else(WIN32)
-    set(PHYSFS_BUILD_SHARED FALSE)
-    set(PHYSFS_BUILD_STATIC TRUE)
-  endif()
-
-  set(PHYSFS_PREFIX ${CMAKE_BINARY_DIR}/physfs)
-  ExternalProject_Add(physfs
-    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/physfs/"
-    BUILD_BYPRODUCTS
-    "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}"
-    "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}"
-    "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    CMAKE_ARGS
-    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-    -DCMAKE_INSTALL_PREFIX=${PHYSFS_PREFIX}
-    -DLIB_SUFFIX=${LIB_SUFFIX}
-    -DPHYSFS_BUILD_SHARED=${PHYSFS_BUILD_SHARED}
-    -DPHYSFS_BUILD_STATIC=${PHYSFS_BUILD_STATIC}
-    -DPHYSFS_BUILD_TEST=FALSE)
-
-  if(WIN32)
-    add_library(physfs_lib SHARED IMPORTED)
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}")
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_IMPLIB "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}")
-  else()
-    add_library(physfs_lib STATIC IMPORTED)
-    set_target_properties(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}")
-  endif()
-  set(PHYSFS_INCLUDE_DIR "${PHYSFS_PREFIX}/include/")
-endif()
-
-include_directories(BEFORE SYSTEM ${PHYSFS_INCLUDE_DIR})
-
-
-## The curl headers are in the standard include path in dependencies
-## so it's not required to add them here
-if (NOT EMSCRIPTEN)
-  find_package(CURL REQUIRED)
-  if(WIN32 AND VCPKG_BUILD)
-    list(LENGTH CURL_LIBRARY CURL_LIBRARY_LENGTH)
-    if (CURL_LIBRARY_LENGTH EQUAL 1)
-      set(CURL_LIBRARY_DEBUG_LIB   ${CURL_LIBRARY})
-        set(CURL_LIBRARY_RELEASE_LIB ${CURL_LIBRARY_DEBUG_LIB}/../../../lib/libcurl.lib)
-        get_filename_component(CURL_LIBRARY_RELEASE_LIB ${CURL_LIBRARY_RELEASE_LIB} REALPATH)
-        unset(CURL_LIBRARY CACHE)
-        unset(CURL_LIBRARY)
-        unset(CURL_LIBRARIES  CACHE)
-        unset(CURL_LIBRARIES)
-        set(CURL_LIBRARY "debug;${CURL_LIBRARY_DEBUG_LIB};optimized;${CURL_LIBRARY_RELEASE_LIB}")
-        set(CURL_LIBRARIES ${CURL_LIBRARY})
-    endif()
-  endif()
-  if(CURL_FOUND)
-    include_directories(SYSTEM ${CURL_INCLUDE_DIR})
-    set(HAVE_LIBCURL TRUE)
-  endif(CURL_FOUND)
-endif(NOT EMSCRIPTEN)
+include(BuildPhysfs)
+include(BuildCurl)
 
 find_package(ZLIB REQUIRED)
 
@@ -417,88 +145,8 @@ find_package(ZLIB REQUIRED)
 #include_directories(SYSTEM ${ICONV_INCLUDE_DIR})
 #link_libraries(${ICONV_LIBRARY})
 
-if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-  ## Find revision of WC
-  mark_as_advanced(GIT_EXECUTABLE)
-  find_program(GIT_EXECUTABLE git)
-  if(NOT GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
-    include(GetGitRevisionDescription)
-    git_describe(VERSION_STRING_GIT "--tags" "--match" "?[0-9]*.[0-9]*.[0-9]*")
-    string(REPLACE "v" "" VERSION_LIST ${VERSION_STRING_GIT})
-    string(REGEX REPLACE "[^\\-]+\\-([0-9]+)\\-.*" "\\1" VERSION_NUMBER_GIT "${VERSION_LIST}")
-    string(REGEX REPLACE "(-|_|\\.)" ";" VERSION_LIST ";${VERSION_LIST}")
-  endif()
-endif(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-
-get_filename_component(BASEDIR ${CMAKE_SOURCE_DIR} NAME)
-if("${VERSION_LIST}" STREQUAL "")
-  if(${BASEDIR} MATCHES "supertux2-[0-9\\.]*")
-    string(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
-  endif()
-endif()
-
-file(GLOB ORIG_TGZ ../*.orig.tar.gz)
-if("${VERSION_LIST}" STREQUAL "" AND (NOT "${ORIG_TGZ}" STREQUAL ""))
-  get_filename_component(BASEDIR ${ORIG_TGZ} NAME)
-  string(REGEX REPLACE "(\\.|_|-)" ";" VERSION_LIST ${BASEDIR})
-endif()
-
-list(LENGTH VERSION_LIST VERSION_LIST_SIZE)
-
-if(${VERSION_LIST_SIZE} GREATER 0)
-  list(GET VERSION_LIST 1 MAJOR_VERSION_GIT)
-  list(GET VERSION_LIST 2 MINOR_VERSION_GIT)
-  list(GET VERSION_LIST 3 PATCH_VERSION_GIT)
-
-  if("${VERSION_STRING_GIT}" STREQUAL "")
-    set(VERSION_STRING_GIT "${MAJOR_VERSION_GIT}.${MINOR_VERSION_GIT}.${PATCH_VERSION_GIT}")
-  endif()
-
-  configure_file("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
-endif()
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
-  message( SEND_ERROR "Could not find GIT or valid version.cmake. Version information will be invalid." )
-endif(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
-include("${CMAKE_SOURCE_DIR}/version.cmake")
-
-if(FORCE_VERSION_STRING)
-  set(SUPERTUX_VERSION_STRING "${FORCE_VERSION_STRING}")
-endif(FORCE_VERSION_STRING)
-set(SUPERTUX_VERSION ${SUPERTUX_VERSION_STRING})
-
-configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h )
-
-set_source_files_properties(${CMAKE_BINARY_DIR}/version.h
-  PROPERTIES GENERATED true)
-set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/main.cpp
-  PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
-set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/title_screen.cpp
-  PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
-set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.cpp
-  PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
-
-## Configure doxygen
-# Adapted from https://tty1.net/blog/2014/cmake-doxygen_en.html
-# add a target to generate API documentation with Doxygen
-find_package(Doxygen)
-option(BUILD_DOCUMENTATION "Build API documentation using Doxygen" ${DOXYGEN_FOUND})
-
-if(BUILD_DOCUMENTATION)
-  if(NOT DOXYGEN_FOUND)
-    message(FATAL_ERROR "Doxygen is needed to build the documentation.")
-  endif()
-
-  set(doxyfile_in ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-  set(doxyfile ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
-
-  configure_file(${doxyfile_in} ${doxyfile} @ONLY)
-
-  add_custom_target(doc
-    COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT "Generating API documentation with Doxygen"
-    VERBATIM)
-endif()
+include(BuildVersion)
+include(BuildDoxygen)
 
 ## Check platform-dependent build options
 
@@ -509,192 +157,9 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
 
-
-## Also build external/squirrel
-option(USE_SYSTEM_SQUIRREL "Use preinstalled squirrel if available" ON)
-if(USE_SYSTEM_SQUIRREL)
-  find_package(squirrel QUIET)
-endif()
-
-if(TARGET squirrel::squirrel)
-  message(STATUS "Found preinstalled squirrel")
-else()
-  if(USE_SYSTEM_SQUIRREL)
-    message(STATUS "Could NOT find squirrel, using external/squirrel fallback")
-  endif()
-
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
-    message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
-  endif()
-
-  if(CMAKE_CROSSCOMPILING)
-    set(SQUIRREL_MULTIARCH_DIR "${CMAKE_LIBRARY_ARCHITECTURE}/")
-  else()
-    set(SQUIRREL_MULTIARCH_DIR "")
-  endif()
-
-  set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
-  ExternalProject_Add(squirrel_project
-    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
-    BUILD_BYPRODUCTS
-    "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-    -DCMAKE_INSTALL_PREFIX=${SQUIRREL_PREFIX}
-    -DINSTALL_INC_DIR=include
-    -DCMAKE_POSITION_INDEPENDENT_CODE=ON)
-
-  if(WIN32)
-    add_library(squirrel::squirrel SHARED IMPORTED)
-    set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}squirrel${CMAKE_SHARED_LIBRARY_SUFFIX}")
-    set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/squirrel${CMAKE_LINK_LIBRARY_SUFFIX}")
-    add_library(squirrel::sqstdlib SHARED IMPORTED)
-    set_target_properties(squirrel::sqstdlib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}sqstdlib${CMAKE_SHARED_LIBRARY_SUFFIX}")
-    set_target_properties(squirrel::sqstdlib PROPERTIES IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/sqstdlib${CMAKE_LINK_LIBRARY_SUFFIX}")
-
-    #For debug run purposes
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${CMAKE_CURRENT_BINARY_DIR}/run_supertux.bat")
-  else()
-    add_library(squirrel::squirrel STATIC IMPORTED)
-    set_target_properties(squirrel::squirrel PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
-    add_library(squirrel::sqstdlib STATIC IMPORTED)
-    set_target_properties(squirrel::sqstdlib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}")
-  endif()
-
-  # Pre-create directory so that cmake doesn't complain about its non-existance
-  file(MAKE_DIRECTORY ${SQUIRREL_PREFIX}/include)
-
-  target_include_directories(squirrel::squirrel SYSTEM INTERFACE ${SQUIRREL_PREFIX}/include)
-  add_dependencies(squirrel::squirrel squirrel_project)
-endif()
-
-## Also build external/tinygettext
-option(USE_SYSTEM_TINYGETTEXT "Use preinstalled tinygettext if available" ON)
-if(USE_SYSTEM_TINYGETTEXT)
-  find_package(tinygettext QUIET)
-endif()
-
-if(TARGET tinygettext)
-  message(STATUS "Found preinstalled tinygettext")
-else()
-  if(USE_SYSTEM_TINYGETTEXT)
-    message(STATUS "Could NOT find tinygettext, using external/tinygettext fallback")
-  endif()
-
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
-    message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
-  endif()
-
-  # Include altivec wrapper on ppc
-  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
-    set(TINYGETTEXT_CXX_FLAGS "-isystem ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc ${CMAKE_CXX_FLAGS}")
-  else()
-    set(TINYGETTEXT_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-  endif()
-
-  # CMake lists are just strings with ';' separators, thus passing lists
-  # of lists is impossible. ExternalProject_Add provides LIST_SEPARATOR
-  # to work around this limitations by using a different separator.
-  string(REPLACE ";" "|" TINYGETTEXT_SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIRS}")
-
-  set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext)
-  ExternalProject_Add(tinygettext_project
-    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
-    BUILD_BYPRODUCTS "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    LIST_SEPARATOR "|"
-    CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-    -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-    -DCMAKE_CXX_FLAGS=${TINYGETTEXT_CXX_FLAGS}
-    -DBUILD_SHARED_LIBS=OFF
-    -DHAVE_SDL=ON
-    -DVCPKG_BUILD=${VCPKG_BUILD}
-    -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DSDL2_LIBRARIES=${SDL2_LIBRARIES}
-    -DSDL2_INCLUDE_DIRS=${TINYGETTEXT_SDL2_INCLUDE_DIRS}
-    -DLIB_SUFFIX=${LIB_SUFFIX})
-
-  # Pre-create directory so that cmake doesn't complain about its non-existance
-  file(MAKE_DIRECTORY ${TINYGETTEXT_PREFIX}/include)
-
-  add_library(tinygettext STATIC IMPORTED)
-  set_target_properties(tinygettext PROPERTIES IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}")
-  target_include_directories(tinygettext SYSTEM INTERFACE ${TINYGETTEXT_PREFIX}/include)
-  add_dependencies(tinygettext tinygettext_project)
-endif()
-
-option(USE_SYSTEM_SDL2_TTF "Use preinstalled SDL2_ttf if available" ON)
-if(USE_SYSTEM_SDL2_TTF)
-  find_package(SDL2_ttf QUIET)
-endif()
-
-if(TARGET SDL2_ttf)
-  message(STATUS "Found preinstalled SDL2_ttf")
-else()
-  ## external/SDL_ttf with patches
-  if (NOT EMSCRIPTEN)
-    if (VCPKG_BUILD)
-      find_package(freetype CONFIG REQUIRED)
-    else()
-      find_package(Freetype REQUIRED)
-    endif()
-  endif(NOT EMSCRIPTEN)
-
-  find_package(RAQM)
-
-  set(SDL2_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL2_ttf)
-  ExternalProject_Add(SDL2_ttf_project
-    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
-    BUILD_BYPRODUCTS "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-    -DCMAKE_INSTALL_PREFIX=${SDL2_TTF_PREFIX}
-    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    -DWITH_RAQM=${RAQM_FOUND}
-    -DRAQM_LIBRARIES=${RAQM_LIBRARY}
-    -DRAQM_INCLUDE_DIR=${RAQM_INCLUDE_DIR}
-    -DBUILD_SHARED_LIBS=OFF
-    -DEMSCRIPTEN=${EMSCRIPTEN})
-
-  # Pre-create directory so that cmake doesn't complain about its non-existance
-  file(MAKE_DIRECTORY ${SDL2_TTF_PREFIX}/include/SDL2)
-
-  add_library(SDL2_ttf STATIC IMPORTED)
-  set_target_properties(SDL2_ttf PROPERTIES IMPORTED_LOCATION "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}")
-  # target_link_directories(SDL2_ttf INTERFACE ${SDL2_TTF_PREFIX}/lib)
-
-  target_include_directories(SDL2_ttf SYSTEM INTERFACE ${SDL2_TTF_PREFIX}/include/SDL2)
-
-#  set_target_properties(SDL2_ttf PROPERTIES
-#    INTERFACE_INCLUDE_DIRECTORIES ${SDL2_TTF_PREFIX}/include/SDL2)
-  #INTERFACE_LINK_LIBRARIES 
-#)
-
-  if(RAQM_FOUND)
-    find_package(FriBidi REQUIRED)
-    find_package(HarfBuzz REQUIRED)
-    set_target_properties(SDL2_ttf PROPERTIES INTERFACE_LINK_LIBRARIES
-      ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
-  endif()
-
-  if(VCPKG_BUILD)
-    target_link_libraries(SDL2_ttf INTERFACE freetype)
-  else()
-    target_link_libraries(SDL2_ttf INTERFACE ${FREETYPE_LIBRARIES})
-  endif()
-
-  add_dependencies(SDL2_ttf SDL2_ttf_project)
-endif()
+include(BuildSquirrel)
+include(BuildTinygettext)
+include(BuildSDL2_ttf)
 
 ## Some additional include paths
 
@@ -706,18 +171,7 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/include
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL_SavePNG/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/partio_zip/)
 
-# Discord SDK
-# Before removing messages, please check with the community if no one minds that the Discord SDK gets bundled with ST.
-# Some privay-concerned users or free software package managers might need an option to compile ST without the Discord integration.
-option(ENABLE_DISCORD "Compile the Discord integration" OFF)
-if(ENABLE_DISCORD)
-  message(STATUS "Discord WILL be compiled. To disable Discord, pass -DENABLE_DISCORD=Off")
-  include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/discord-sdk/include)
-  set(BUILD_EXAMPLES OFF CACHE BOOL "Skip Discord's sample programs" FORCE)
-  add_subdirectory(external/discord-sdk)
-else(ENABLE_DISCORD)
-  message(STATUS "## WARNING : Discord integration will NOT be compiled. To enable Discord, pass -DENABLE_DISCORD=On")
-endif(ENABLE_DISCORD)
+include(BuildDiscord)
 
 if(WIN32)
   add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
@@ -1408,44 +862,9 @@ mark_as_advanced(
   )
 
 mark_as_advanced(
-  Boost_INCLUDE_DIR
-  Boost_LIBRARIES
-  )
-
-mark_as_advanced(
-  GLEW_INCLUDE_DIR
-  GLEW_LIBRARY
-  )
-
-mark_as_advanced(
-  SDL2_INCLUDE_DIRS
-  SDL2_LIBRARIES
-  )
-
-mark_as_advanced(
-  SDL2IMAGE_INCLUDE_DIRS
-  SDL2IMAGE_LIBRARIES
-  )
-
-mark_as_advanced(
-  OPENAL_INCLUDE_DIR
-  OPENAL_LIBRARY
-  )
-
-mark_as_advanced(
-  SDL2TTF_INCLUDE_DIRS
-  SDL2TTF_LIBRARIES
-  )
-
-mark_as_advanced(
   OGG_LIBRARY
   VORBISENC_LIBRARY
   VORBISFILE_LIBRARY
   VORBIS_INCLUDE_DIR
   VORBIS_LIBRARY
-  )
-
-mark_as_advanced(
-  PHYSFS_INCLUDE_DIR
-  PHYSFS_LIBRARY
   )

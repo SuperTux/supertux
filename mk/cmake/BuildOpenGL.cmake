@@ -1,0 +1,50 @@
+option(ENABLE_OPENGL "Enable OpenGL support" ON)
+option(ENABLE_OPENGLES2 "Enable OpenGLES2 support" OFF)
+option(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
+option(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called OpenGL function" OFF)
+
+if(ENABLE_OPENGL)
+  if(EMSCRIPTEN AND ENABLE_OPENGLES2)
+    set(HAVE_OPENGL TRUE)
+    add_definitions(-DUSE_OPENGLES2)
+  elseif(ENABLE_OPENGLES2 AND NOT EMSCRIPTEN)
+    pkg_check_modules(GLESV2 REQUIRED glesv2)
+    set(HAVE_OPENGL TRUE)
+    set(OPENGL_INCLUDE_DIR  ${GLESV2_INCLUDE_DIRS})
+    set(OPENGL_LIBRARY ${GLESV2_LIBRARIES})
+    add_definitions(-DUSE_OPENGLES2)
+  else(NOT EMSCRIPTEN)
+    set(OpenGL_GL_PREFERENCE "LEGACY")
+    find_package(OpenGL)
+    if(OPENGL_FOUND)
+      include_directories(SYSTEM ${OPENGL_INCLUDE_DIR})
+      set(HAVE_OPENGL TRUE)
+    endif(OPENGL_FOUND)
+
+    if(GLBINDING_ENABLED)
+      if(VCPKG_BUILD)
+        find_package(glbinding CONFIG REQUIRED)
+      else(VCPKG_BUILD)
+        find_package(GLBINDING REQUIRED)
+        include_directories(SYSTEM ${GLBINDING_INCLUDES})
+      endif(VCPKG_BUILD)
+
+      add_definitions(-DUSE_GLBINDING)
+      if(GLBINDING_DEBUG_OUTPUT)
+        add_definitions(-DUSE_GLBINDING_DEBUG_OUTPUT)
+      endif()
+    else()
+      find_package(GLEW REQUIRED)
+      if(GLEW_FOUND)
+        include_directories(SYSTEM ${GLEW_INCLUDE_DIR})
+      endif(GLEW_FOUND)
+    endif()
+  endif()
+endif(ENABLE_OPENGL)
+
+mark_as_advanced(
+  GLEW_INCLUDE_DIR
+  GLEW_LIBRARY
+  )
+
+# EOF #
