@@ -50,6 +50,7 @@ CommandLineArguments::CommandLineArguments() :
   christmas_mode(),
   repository_url(),
   editor(),
+  from_datadir(),
   resave()
 {
 }
