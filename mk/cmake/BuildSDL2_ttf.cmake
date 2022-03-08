@@ -6,6 +6,8 @@ endif()
 if(TARGET SDL2_ttf)
   message(STATUS "Found preinstalled SDL2_ttf")
 else()
+  message(STATUS "Could NOT find SDL2_ttf, using external/SDL_ttf fallback")
+
   ## external/SDL_ttf with patches
   if (NOT EMSCRIPTEN)
     if (VCPKG_BUILD)
@@ -42,16 +44,13 @@ else()
 
   target_include_directories(SDL2_ttf SYSTEM INTERFACE ${SDL2_TTF_PREFIX}/include/SDL2)
 
-#  set_target_properties(SDL2_ttf PROPERTIES
-#    INTERFACE_INCLUDE_DIRECTORIES ${SDL2_TTF_PREFIX}/include/SDL2)
-  #INTERFACE_LINK_LIBRARIES 
-#)
-
   if(RAQM_FOUND)
     find_package(FriBidi REQUIRED)
     find_package(HarfBuzz REQUIRED)
-    set_target_properties(SDL2_ttf PROPERTIES INTERFACE_LINK_LIBRARIES
-      ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
+    target_link_libraries(SDL2_ttf INTERFACE
+      ${HARFBUZZ_LIBRARY}
+      ${FRIBIDI_LIBRARY}
+      ${RAQM_LIBRARY})
   endif()
 
   if(VCPKG_BUILD)
