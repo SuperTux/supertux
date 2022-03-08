@@ -670,7 +670,8 @@ else()
   if(RAQM_FOUND)
     find_package(FriBidi REQUIRED)
     find_package(HarfBuzz REQUIRED)
-    target_link_libraries(SDL2_ttf INTERFACE ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARIES})
+    set_target_properties(SDL2_ttf PROPERTIES INTERFACE_LINK_LIBRARIES
+      ${HARFBUZZ_LIBRARY} ${FRIBIDI_LIBRARY} ${RAQM_LIBRARY})
   endif()
 endif()
 
