@@ -290,9 +290,7 @@ if(NOT EMSCRIPTEN)
   endif()
 endif()
 
-target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_TTF_PREFIX}/include/SDL2)
 target_link_libraries(supertux2_lib PUBLIC SDL2_ttf)
-
 target_link_libraries(supertux2_lib PUBLIC squirrel::squirrel)
 target_link_libraries(supertux2_lib PUBLIC squirrel::sqstdlib)
 target_link_libraries(supertux2_lib PUBLIC tinygettext)
