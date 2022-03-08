@@ -13,6 +13,6 @@ if(GENERATE_WRAPPER)
   if(USE_CLANG_TIDY)
     set_target_properties(miniswig PROPERTIES CXX_CLANG_TIDY "")
   endif()
-endif(GENERATE_WRAPPER)
+endif()
 
 # EOF #

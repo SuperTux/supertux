@@ -1,4 +1,5 @@
 option(USE_SYSTEM_SQUIRREL "Use preinstalled squirrel if available" ON)
+
 if(USE_SYSTEM_SQUIRREL)
   find_package(squirrel 3.2 QUIET)
 endif()

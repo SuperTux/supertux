@@ -44,7 +44,7 @@ if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
   cmake_policy(SET CMP0008 NEW)
   cmake_policy(SET CMP0023 NEW)
-endif(COMMAND cmake_policy)
+endif()
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -67,7 +67,7 @@ if(NOT EMSCRIPTEN)
   # FIXME: Any reason why we need this?
   include(TestBigEndian)
   test_big_endian(WORDS_BIGENDIAN)
-endif(NOT EMSCRIPTEN)
+endif()
 
 ## Add definitions
 if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
@@ -109,7 +109,7 @@ set(VCPKG_APPLOCAL_DEPS ${VCPKG_BUILD} BOOL)
 option(UBUNTU_TOUCH "Compile the project for an Ubuntu Touch target" OFF)
 
 # Mobile builds
-if (UBUNTU_TOUCH OR ANDROID)
+if(UBUNTU_TOUCH OR ANDROID)
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" ON)
 else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
@@ -117,7 +117,7 @@ endif()
 
 if(WIN32)
   include(SuperTux/Win32)
-endif(WIN32)
+endif()
 
 ## Add lots of dependencies to compiler switches
 include(SuperTux/ProvideBoost)
@@ -159,7 +159,7 @@ include(SuperTux/ProvideDiscord)
 if(WIN32)
   add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
   add_definitions(-DWIN32)
-endif(WIN32)
+endif()
 
 ## Lint
 include(SuperTux/ClangTidy)
@@ -178,7 +178,7 @@ include(SuperTux/ProvidePartioZip)
 if(HAVE_OPENGL)
   file(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
   set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_OPENGL_SOURCES})
-endif(HAVE_OPENGL)
+endif()
 
 ## Sort source lists to have deterministic linking order
 list(SORT SUPERTUX_SOURCES_C)
@@ -187,7 +187,7 @@ list(SORT SUPERTUX_RESOURCES)
 
 if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
   set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
-endif(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
+endif()
 
 ## Compile everything at once (roughly equivalent to cat *.cpp | gcc)
 
@@ -200,11 +200,11 @@ if(COMPILE_AMALGATION)
   endforeach(ST_FILE)
   ## Build instead of CXX sources
   set(SUPERTUX_SOURCES_CXX ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp)
-else(COMPILE_AMALGATION)
+else()
   if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp)
     file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp)
-  endif(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/amalgation.cpp)
-endif(COMPILE_AMALGATION)
+  endif()
+endif()
 
 ## Debug options
 include(SuperTux/WarningFlags)
@@ -219,7 +219,7 @@ endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   add_definitions(-DMACOSX)
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+endif()
 
 ## On Windows, add an icon
 
@@ -230,8 +230,8 @@ if(WIN32)
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
       COMMAND ${CMAKE_RC_COMPILER} -I${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons -i${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc -o ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
     set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
-  endif(MINGW)
-endif(WIN32)
+  endif()
+endif()
 
 ## Build miniswig and generate miniswig wrapper
 include(SuperTux/BuildMiniswigWrapper)
@@ -254,14 +254,14 @@ if(WIN32)
   target_link_libraries(supertux2 ${SDL2MAIN_LIBRARIES})
 else()
   add_executable(supertux2 src/main.cpp)
-endif(WIN32)
+endif()
 target_link_libraries(supertux2 supertux2_lib Boost::filesystem Boost::locale)
 
 set_target_properties(supertux2_lib PROPERTIES OUTPUT_NAME supertux2_lib)
 set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 if(EMSCRIPTEN)
   target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'] PUBLIC -sEXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
-endif(EMSCRIPTEN)
+endif()
 
 if(WIN32 AND NOT VCPKG_BUILD)
   ## Copy dlls on windows
@@ -269,7 +269,7 @@ if(WIN32 AND NOT VCPKG_BUILD)
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
-endif(WIN32 AND NOT VCPKG_BUILD)
+endif()
 
 ## Link supertux binary with squirrel and other libraries
 
@@ -279,7 +279,7 @@ endif()
 
 target_include_directories(partio_zip_lib PUBLIC external/partio_zip/)
 
-if (NOT EMSCRIPTEN)
+if(NOT EMSCRIPTEN)
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
   target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
   if(VCPKG_BUILD AND NOT WIN32)
@@ -289,6 +289,7 @@ if (NOT EMSCRIPTEN)
     target_link_libraries(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
   endif()
 endif()
+
 target_include_directories(supertux2_lib SYSTEM PUBLIC ${SDL2_TTF_PREFIX}/include/SDL2)
 target_link_libraries(supertux2_lib PUBLIC SDL2_ttf)
 
@@ -298,22 +299,14 @@ target_link_libraries(supertux2_lib PUBLIC tinygettext)
 target_link_libraries(supertux2_lib PUBLIC sexp)
 target_link_libraries(supertux2_lib PUBLIC savepng)
 target_link_libraries(supertux2_lib PUBLIC partio_zip_lib)
-if(ENABLE_DISCORD)
-target_link_libraries(supertux2_lib PUBLIC discord-rpc)
-endif(ENABLE_DISCORD)
-if(NOT EMSCRIPTEN)
-  if(VCPKG_BUILD)
-    target_link_libraries(supertux2_lib PUBLIC OpenAL::OpenAL)
-  else()
-    target_link_libraries(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
-  endif()
-else()
-  link_libraries(-lopenal)
-endif()
+target_link_libraries(supertux2_lib PUBLIC OpenAL)
 target_link_libraries(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
 target_link_libraries(supertux2_lib PUBLIC ${Boost_LIBRARIES})
-
 target_link_libraries(supertux2_lib PUBLIC fmt::fmt)
+
+if(ENABLE_DISCORD)
+  target_link_libraries(supertux2_lib PUBLIC discord-rpc)
+endif()
 
 if(USE_SYSTEM_PHYSFS)
   target_link_libraries(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
@@ -333,14 +326,14 @@ if(HAVE_OPENGL)
     if(GLBINDING_ENABLED)
       if(VCPKG_BUILD)
         target_link_libraries(supertux2_lib PUBLIC glbinding::glbinding glbinding::glbinding-aux)
-      else(VCPKG_BUILD)
+      else()
         target_link_libraries(supertux2_lib PUBLIC ${GLBINDING_LIBRARIES})
-      endif(VCPKG_BUILD)
+      endif()
     else()
       target_link_libraries(supertux2_lib PUBLIC GLEW::GLEW)
     endif()
   endif()
-endif(HAVE_OPENGL)
+endif()
 
 if(NOT EMSCRIPTEN)
   if(HAVE_LIBCURL)
@@ -349,8 +342,8 @@ if(NOT EMSCRIPTEN)
     else()
       target_link_libraries(supertux2_lib PUBLIC ${CURL_LIBRARY})
     endif()
-  endif(HAVE_LIBCURL)
-endif(NOT EMSCRIPTEN)
+  endif()
+endif()
 
 if(BUILD_TESTS)
   find_package(Threads REQUIRED)
@@ -388,12 +381,12 @@ if(BUILD_TESTS)
         COMMAND lcov --capture --directory ${CMAKE_CURRENT_BINARY_DIR} --exclude '/usr/*' --exclude '*/tests/*' --exclude '*/external/*' --output-file ${CMAKE_CURRENT_BINARY_DIR}/coverage.info
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/coverage
         COMMAND genhtml ${CMAKE_CURRENT_BINARY_DIR}/coverage.info -o ${CMAKE_CURRENT_BINARY_DIR}/coverage -t "${SUPERTUX_VERSION_STRING}")
-    else(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    else()
       message(WARNING "Coverage for non-GNU compilers has yet to be implemented")
-    endif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  else(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    endif()
+  else()
     message(WARNING "Building tests in a non-Debug build will NOT make files for coverage! Change CMAKE_BUILD_TYPE to Debug to prepare for coverage analysis.")
-  endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  endif()
 endif()
 
 ## Install stuff
@@ -418,7 +411,7 @@ if(WIN32 AND NOT UNIX)
     include(InstallRequiredSystemLibraries)
   endif()
 
-else(WIN32 AND NOT UNIX)
+else()
   if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 
     set(INFOPLIST_CFBUNDLEEXECUTABLE "supertux2")
@@ -433,7 +426,7 @@ else(WIN32 AND NOT UNIX)
 
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
 
-  else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
+  else()
 
     set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
     set(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
@@ -447,24 +440,24 @@ else(WIN32 AND NOT UNIX)
       configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/clickable/manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/install/manifest.json)
       set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/supertux2")
       install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-256x256.png DESTINATION "assets")
-    else(UBUNTU_TOUCH)
+    else()
       set(LINUX_DESKTOP_ICON "supertux2")
       configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in "supertux2.desktop")
       install(FILES ${CMAKE_BINARY_DIR}/supertux2.desktop DESTINATION "share/applications")
       set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
       install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
-    endif(UBUNTU_TOUCH)
+    endif()
 
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
 
-  endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
-endif(WIN32 AND NOT UNIX)
+  endif()
+endif()
 
 if(UBUNTU_TOUCH)
   install(TARGETS supertux2 DESTINATION ".")
-else(UBUNTU_TOUCH)
+else()
   install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
-endif(UBUNTU_TOUCH)
+endif()
 
 if(WIN32)
   get_property(SQUIRREL_LIB_PATH TARGET squirrel::squirrel PROPERTY IMPORTED_LOCATION)
@@ -479,7 +472,7 @@ if(EMSCRIPTEN)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/template.html.in ${CMAKE_CURRENT_BINARY_DIR}/template.html)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2.png COPYONLY)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2_bkg.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2_bkg.png COPYONLY)
-endif(EMSCRIPTEN)
+endif()
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md DESTINATION ${INSTALL_SUBDIR_DOC})
 

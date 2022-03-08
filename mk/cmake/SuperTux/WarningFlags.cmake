@@ -10,9 +10,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -funit-at-a-time")
   if(WERROR)
     add_definitions(-Werror)
-  else(WERROR)
+  else()
     remove_definitions(-Werror)
-  endif(WERROR)
+  endif()
   if(WARNINGS)
     # temporarily disabled:
     #   -Wsign-conversion -Wfloat-equal -Wundef -Wswitch-default
@@ -97,7 +97,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
           "-Wno-poison-system-directories ")
       endif()
     endif()
-  endif(WARNINGS)
+  endif()
 endif()
 
 # EOF #

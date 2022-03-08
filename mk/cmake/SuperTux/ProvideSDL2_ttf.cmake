@@ -9,13 +9,13 @@ else()
   message(STATUS "Could NOT find SDL2_ttf, using external/SDL_ttf fallback")
 
   ## external/SDL_ttf with patches
-  if (NOT EMSCRIPTEN)
-    if (VCPKG_BUILD)
+  if(NOT EMSCRIPTEN)
+    if(VCPKG_BUILD)
       find_package(freetype CONFIG REQUIRED)
     else()
       find_package(Freetype REQUIRED)
     endif()
-  endif(NOT EMSCRIPTEN)
+  endif()
 
   find_package(RAQM)
 

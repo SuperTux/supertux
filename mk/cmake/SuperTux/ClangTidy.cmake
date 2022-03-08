@@ -1,7 +1,7 @@
 option(USE_CLANG_TIDY "Run clang-tidy" OFF)
 
 if(CMAKE_VERSION VERSION_GREATER 3.6)
-  if (USE_CLANG_TIDY)
+  if(USE_CLANG_TIDY)
     find_program(
       CLANG_TIDY_EXE
       NAMES "clang-tidy"

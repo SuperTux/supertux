@@ -1,12 +1,11 @@
 option(GENERATE_MESSAGESPOT "Generate messages.pot files" OFF)
+
 if(GENERATE_MESSAGESPOT)
-  mark_as_advanced(
-    XGETTEXT_EXECUTABLE
-    )
   find_program(XGETTEXT_EXECUTABLE xgettext)
+
   if(NOT XGETTEXT_EXECUTABLE)
     message(STATUS "Warning: xgettext not found - will not update messages.pot")
-  else(NOT XGETTEXT_EXECUTABLE)
+  else()
     message(STATUS "Found xgettext: ${XGETTEXT_EXECUTABLE}")
 
     set(MESSAGES_POT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/data/locale/messages.pot)
@@ -36,7 +35,7 @@ if(GENERATE_MESSAGESPOT)
           COMMENT "Generating POT file ${MESSAGES_POT_FILE}"
           )
         list(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
-      endif(SUPERTUX_LEVELS)
+      endif()
 
     endforeach(SUPERTUX_LEVEL_DIR)
 
@@ -45,7 +44,11 @@ if(GENERATE_MESSAGESPOT)
       DEPENDS ${MESSAGES_POT_FILES}
       )
 
-  endif(NOT XGETTEXT_EXECUTABLE)
-endif(GENERATE_MESSAGESPOT)
+  endif()
+
+  mark_as_advanced(
+    XGETTEXT_EXECUTABLE
+    )
+endif()
 
 # EOF #
