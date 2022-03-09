@@ -9,10 +9,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(CMAKE_LD_FLAGS_PROFILE "-lgmon" CACHE STRING "Profile flags")
 
   if(WERROR)
-    add_definitions(-Werror)
-  else()
-    remove_definitions(-Werror)
+    string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS "-Werror ")
   endif()
+
   if(WARNINGS)
     # temporarily disabled:
     #   -Wsign-conversion -Wfloat-equal -Wundef -Wswitch-default
