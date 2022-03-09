@@ -13,9 +13,8 @@ else()
   add_subdirectory(external/fmt EXCLUDE_FROM_ALL)
 
   # Mark fmt includes as SYSTEM to avoid warnings
-  get_target_property(FMT_INCLUDE_DIRS fmt INTERFACE_INCLUDE_DIRECTORIES)
   set_target_properties(fmt PROPERTIES
-    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${FMT_INCLUDE_DIRS}")
+    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "$<TARGET_PROPERTY:fmt,INTERFACE_INCLUDE_DIRECTORIES>")
 endif()
 
 # EOF #
