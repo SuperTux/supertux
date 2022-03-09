@@ -7,7 +7,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(CMAKE_CXX_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
   set(CMAKE_C_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
   set(CMAKE_LD_FLAGS_PROFILE "-lgmon" CACHE STRING "Profile flags")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -funit-at-a-time")
+
   if(WERROR)
     add_definitions(-Werror)
   else()
@@ -22,6 +22,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     #   -ansi
     if(CMAKE_COMPILER_IS_GNUCXX)
       string(CONCAT SUPERTUX2_EXTRA_WARNING_FLAGS
+        "-Wall "
+        "-Wextra "
         "-fdiagnostics-show-option "
         "-pedantic "
         "-Wno-long-long "
@@ -62,6 +64,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Weverything "
 
         # flags that we deliberately ignore
+        "-Wno-unused-parameter "
         "-Wno-c++98-compat "
         "-Wno-c++98-compat-pedantic "
         "-Wno-float-equal "
