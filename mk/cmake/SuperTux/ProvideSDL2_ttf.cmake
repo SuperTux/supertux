@@ -1,4 +1,4 @@
-option(USE_SYSTEM_SDL2_TTF "Use preinstalled SDL2_ttf if available" ON)
+option(USE_SYSTEM_SDL2_TTF "Use preinstalled SDL2_ttf if available" OFF)
 if(USE_SYSTEM_SDL2_TTF)
   find_package(SDL2_ttf QUIET)
 endif()
