@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
-//                2022 Jiri Palecek <narre@protonmail.com>
+//                2021-2022 Jiri Palecek <narre@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
 
         wm_filename = "/" + wm_filename;
 
-        auto world_level_count = std::make_pair(0u, 0u);
+        std::pair<uint32_t, uint32_t> world_level_count;
         for (const auto& world : savegame->get_worldmaps())
           world_level_count.first += savegame->get_worldmap_state(world).get_level_count().first;
         const auto levelset = std::unique_ptr<Levelset>(new Levelset(worlds[i]->get_basedir(), true));
@@ -84,17 +84,18 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
 
           if (island_level_count.second == world_level_count.second)
           {
+            const uint32_t percentage = 100 * island_level_count.first / island_level_count.second;
             title_str = str(boost::format(_("%s (%u/%u; %u%%)")) % worlds[i]->get_title() %
-                            island_level_count.first % island_level_count.second %
-                            (100 * island_level_count.first / island_level_count.second));
+                            island_level_count.first % island_level_count.second % percentage);
           }
           else
           {
+            const uint32_t percentage = island_level_count.second ? (100 * island_level_count.first / island_level_count.second) : 100;
             title_str = str(boost::format(_("%s (%u/%u; %u%%) - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % 
                             world_level_count.first % world_level_count.second %
                             (100 * world_level_count.first / world_level_count.second) %
                             wm_title % island_level_count.first % island_level_count.second %
-                            (island_level_count.second ? (100 * island_level_count.first / island_level_count.second) : 100));
+                            percentage);
           }
         }
       }
