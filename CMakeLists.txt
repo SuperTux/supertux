@@ -159,7 +159,6 @@ include(SuperTux/ProvidePartioZip)
 include(SuperTux/BuildVersion)
 include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
-include(SuperTux/BuildTests)
 include(SuperTux/BuildMiniswigWrapper)
 
 ## Build list of sources for supertux binary
@@ -413,6 +412,9 @@ else()
   set(LOGO_FILE "logo.sprite")
 endif()
 configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
+
+## Build tests
+include(SuperTux/BuildTests)
 
 ## CPack/Installation-specific stuff
 include(SuperTux/BuildCPack)
