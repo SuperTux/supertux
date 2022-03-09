@@ -29,7 +29,7 @@ jobs:
     env:
       # Revision of https://github.com/pelya/commandergenius.git - SDL2 repo is a submodule
       # We check out a specific stable revision, so the build won't break if I modify my SDL repo
-      SDL_ANDROID_REV: d3d938c27d66fe568637a7fe0dc0112cf6e76217
+      SDL_ANDROID_REV: 798fd0f5e167aa6ecce33623dbf88ebc6cd647ea
       # It takes 35 minutes per one architecture to build SuperTux, of which 20 minutes are for building Boost and ICU libraries
       # Enable additional architectures when we have these libraries inside the cache, or create a separate Android script for each architecture
       ARCH_LIST: armeabi-v7a arm64-v8a x86 x86_64
@@ -66,9 +66,6 @@ jobs:
         working-directory: build.android
         run: |
           sed -i "s/MultiABI=.*/MultiABI='${ARCH_LIST}'/g" project/jni/application/supertux/AndroidAppSettings.cfg
-
-          # FIXME: Tweaks to get fmt compiled, should probably be upstreamed
-          rm -v ../external/fmt/src/fmt.cc ../external/fmt/src/os.cc
 
       - name: Copy precompiled libraries from cache
         uses: actions/cache@v2
