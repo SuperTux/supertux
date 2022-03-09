@@ -13,8 +13,14 @@ else()
 endif()
 
 find_package(Boost REQUIRED COMPONENTS filesystem system date_time locale)
-include_directories(SYSTEM ${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIRS})
+
+add_library(Boost INTERFACE)
+set_target_properties(Boost PROPERTIES
+  INTERFACE_LINK_LIBRARIES "${Boost_LIBRARIES}"
+  INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}"
+  INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}"
+  INTERFACE_LINK_DIRECTORIES "${Boost_LIBRARY_DIRS}"
+  )
 
 mark_as_advanced(
   Boost_INCLUDE_DIR
