@@ -15,11 +15,20 @@ endif()
 find_package(Boost REQUIRED COMPONENTS filesystem system date_time locale)
 
 add_library(Boost INTERFACE)
+
+if(WIN32)
+  # Boost_LIBRARIES may contain link-type keywords optimized,debug
+  # that aren't understood by INTERFACE_LINK_DIRECTORIES
+  target_link_libraries(Boost INTERFACE ${Boost_LIBRARIES})
+else()
+  set_target_properties(Boost PROPERTIES
+    INTERFACE_LINK_LIBRARIES "${Boost_LIBRARIES}")
+endif()
+
 set_target_properties(Boost PROPERTIES
-  INTERFACE_LINK_LIBRARIES "${Boost_LIBRARIES}"
+  INTERFACE_LINK_DIRECTORIES "${Boost_LIBRARY_DIRS}"
   INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}"
   INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}"
-  INTERFACE_LINK_DIRECTORIES "${Boost_LIBRARY_DIRS}"
   )
 
 mark_as_advanced(
