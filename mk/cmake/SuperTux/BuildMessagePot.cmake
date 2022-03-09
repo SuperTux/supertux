@@ -1,3 +1,4 @@
+## If xgettext is available, generate messages.pot for sources
 option(GENERATE_MESSAGESPOT "Generate messages.pot files" OFF)
 
 if(GENERATE_MESSAGESPOT)

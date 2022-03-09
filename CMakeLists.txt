@@ -118,6 +118,26 @@ if(WIN32)
   include(SuperTux/Win32)
 endif()
 
+## Check platform-dependent build options
+include(ConfigureChecks)
+
+# Include altivec wrapper on ppc
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
+endif()
+
+## Some additional compiler switches
+include(SuperTux/ClangTidy)
+include(SuperTux/WarningFlags)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")
+endif()
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  add_definitions(-DMACOSX)
+endif()
+
 ## Add lots of dependencies to compiler switches
 include(SuperTux/ProvideBoost)
 include(SuperTux/ProvideGlm)
@@ -127,24 +147,15 @@ include(SuperTux/ProvideOpenAL)
 include(SuperTux/ProvideOggVorbis)
 include(SuperTux/ProvidePhysfs)
 include(SuperTux/ProvideCurl)
-
-include(SuperTux/BuildVersion)
-include(SuperTux/BuildDocumentation)
-
-## Check platform-dependent build options
-include(ConfigureChecks)
-
-# Include altivec wrapper on ppc
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
-endif()
-
 include(SuperTux/ProvideSquirrel)
 include(SuperTux/ProvideTinygettext)
 include(SuperTux/ProvideSDL2_ttf)
+include(SuperTux/ProvideDiscord)
+include(SuperTux/ProvideSexpcpp)
+include(SuperTux/ProvideSavePNG)
+include(SuperTux/ProvidePartioZip)
 
 ## Some additional include paths
-
 include_directories(${CMAKE_BINARY_DIR}/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
@@ -153,27 +164,18 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/include
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/SDL_SavePNG/)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/external/partio_zip/)
 
-include(SuperTux/ProvideDiscord)
-
-if(WIN32)
-  add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
-  add_definitions(-DWIN32)
-endif()
-
-## Lint
-include(SuperTux/ClangTidy)
+## Build stuff
+include(SuperTux/BuildVersion)
+include(SuperTux/BuildDocumentation)
+include(SuperTux/BuildMessagePot)
 include(SuperTux/BuildTests)
+include(SuperTux/BuildMiniswigWrapper)
 
 ## Build list of sources for supertux binary
-
 file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
-
-include(SuperTux/ProvideSexpcpp)
-include(SuperTux/ProvideSavePNG)
-include(SuperTux/ProvidePartioZip)
 
 if(HAVE_OPENGL)
   file(GLOB SUPERTUX_OPENGL_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/video/gl/*.cpp)
@@ -189,26 +191,8 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
   set(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
 endif()
 
-
-## Debug options
-include(SuperTux/WarningFlags)
-
-## If xgettext is available, generate messages.pot for sources
-include(SuperTux/BuildMessagePot)
-
-## Some additional compiler switches
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")
-endif()
-
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  add_definitions(-DMACOSX)
-endif()
-
 ## On Windows, add an icon
-
 if(WIN32)
-  #  set(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   if(MINGW)
     add_custom_command(
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o
@@ -217,8 +201,7 @@ if(WIN32)
   endif()
 endif()
 
-## Build miniswig and generate miniswig wrapper
-include(SuperTux/BuildMiniswigWrapper)
+include(SuperTux/CompileAmalgation)
 
 ## Generate supertux executable in the right place
 

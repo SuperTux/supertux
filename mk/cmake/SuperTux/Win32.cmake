@@ -46,4 +46,7 @@ if(NOT VCPKG_BUILD)
   file(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
 endif()
 
+add_definitions(-D_USE_MATH_DEFINES -DNOMINMAX)
+add_definitions(-DWIN32)
+
 # EOF #
