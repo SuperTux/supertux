@@ -121,11 +121,6 @@ endif()
 ## Check platform-dependent build options
 include(ConfigureChecks)
 
-# Include altivec wrapper on ppc
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
-endif()
-
 ## Some additional compiler switches
 include(SuperTux/ClangTidy)
 include(SuperTux/WarningFlags)
@@ -234,6 +229,11 @@ target_include_directories(supertux2_lib SYSTEM PUBLIC
   external/findlocale/
   external/obstack/
   )
+
+# Include altivec wrapper on ppc
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
+  target_include_directories(supertux2_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
+endif()
 
 ## Link supertux binary with squirrel and other libraries
 if(NOT EMSCRIPTEN)
