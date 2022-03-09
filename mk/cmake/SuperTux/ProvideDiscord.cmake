@@ -10,15 +10,7 @@ else()
 
   set(BUILD_EXAMPLES OFF CACHE BOOL "Skip Discord's sample programs" FORCE)
 
-  # isolate variable changes to function scope
-  function(build_discord)
-    # Workaround for error in rapidjson-1.1.0/
-    if(CMAKE_COMPILER_IS_GNUCXX)
-      string(APPEND CMAKE_CXX_FLAGS " -Wno-error=class-memaccess ")
-    endif()
-    add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
-  endfunction()
-  build_discord()
+  add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
 
   # Add missing include directories to discord-rpc
   set_target_properties(discord-rpc PROPERTIES
