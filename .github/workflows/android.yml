@@ -62,10 +62,14 @@ jobs:
           ln -s `pwd` build.android/project/jni/application/supertux/supertux
           ln -s supertux build.android/project/jni/application/src
 
-      - name: Set architectures list
+      - name: Set architectures list and version
         working-directory: build.android
         run: |
+          VERSION_STR="$(git describe --tags | cut -f 1,2 -d "-" | sed 's/[^0-9\\.\\-]//g' | sed 's/-/./g')"
+          VERSION_CODE="$(printf "%02d%02d%02d%04d\n" "$(echo $VERSION_STR | cut -d . -f 1)" "$(echo $VERSION_STR | cut -d . -f 2)" "$(echo $VERSION_STR | cut -d . -f 3)" "$(echo $VERSION_STR | cut -d . -f 4)")"
           sed -i "s/MultiABI=.*/MultiABI='${ARCH_LIST}'/g" project/jni/application/supertux/AndroidAppSettings.cfg
+          sed -i "s/AppVersionName.*/AppVersionName="$VERSION_STR"/g" project/jni/application/supertux/AndroidAppSettings.cfg
+          sed -i "s/AppVersionCode.*/AppVersionCode=$VERSION_CODE/g" project/jni/application/supertux/AndroidAppSettings.cfg
 
       - name: Copy precompiled libraries from cache
         uses: actions/cache@v2
