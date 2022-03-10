@@ -5,6 +5,8 @@ option(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called Ope
 
 if(ENABLE_OPENGL)
   if(ENABLE_OPENGLES2)
+    message(STATUS "Checking for OpenGLES2")
+
     set(HAVE_OPENGL TRUE)
     list(APPEND OPENGL_COMPILE_DEFINITIONS "USE_OPENGLES2")
 
@@ -14,6 +16,8 @@ if(ENABLE_OPENGL)
       list(APPEND OPENGL_LINK_LIBRARIES "${GLESV2_LIBRARIES}")
     endif()
   else()
+    message(STATUS "Checking for OpenGL")
+
     set(OpenGL_GL_PREFERENCE "LEGACY")
     find_package(OpenGL)
     if(OPENGL_FOUND)
@@ -44,13 +48,19 @@ if(ENABLE_OPENGL)
     endif()
   endif()
 
-  if(HAVE_OPENGL)
+  if(NOT HAVE_OPENGL)
+    message(STATUS "  OpenGL not found")
+  else()
     add_library(OpenGL INTERFACE)
     set_target_properties(OpenGL PROPERTIES
       INTERFACE_LINK_LIBRARIES "${OPENGL_LINK_LIBRARIES}"
       INTERFACE_INCLUDE_DIRECTORIES "${OPENGL_INCLUDE_DIRECTORIES}"
       INTERFACE_COMPILE_DEFINITIONS "${OPENGL_COMPILE_DEFINITIONS}"
       )
+
+    message(STATUS "  OPENGL_LINK_LIBRARIES: ${OPENGL_LINK_LIBRARIES}")
+    message(STATUS "  OPENGL_INCLUDE_DIRECTORIES: ${OPENGL_INCLUDE_DIRECTORIES}")
+    message(STATUS "  OPENGL_COMPILE_DEFINITIONS: ${OPENGL_COMPILE_DEFINITIONS}")
   endif()
 endif()
 
