@@ -1,9 +1,8 @@
 find_package(OggVorbis REQUIRED)
 
-add_library(OggVorbis INTERFACE)
-set_target_properties(OggVorbis PROPERTIES
+add_library(LibOggVorbis INTERFACE IMPORTED)
+set_target_properties(LibOggVorbis PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${VORBIS_INCLUDE_DIR}"
-  INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${VORBIS_INCLUDE_DIR}"
   INTERFACE_LINK_LIBRARIES "${OGGVORBIS_LIBRARIES}"
   )
 

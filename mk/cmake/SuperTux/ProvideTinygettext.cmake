@@ -5,6 +5,8 @@ endif()
 
 if(TARGET tinygettext)
   message(STATUS "Found preinstalled tinygettext")
+
+  add_library(LibTinygettext ALIAS tinygettext)
 else()
   if(USE_SYSTEM_TINYGETTEXT)
     message(STATUS "Could NOT find tinygettext, using external/tinygettext fallback")
@@ -49,12 +51,12 @@ else()
   # Pre-create directory so that cmake doesn't complain about its non-existance
   file(MAKE_DIRECTORY ${TINYGETTEXT_PREFIX}/include)
 
-  add_library(tinygettext STATIC IMPORTED)
-  set_target_properties(tinygettext PROPERTIES
+  add_library(LibTinygettext STATIC IMPORTED)
+  set_target_properties(LibTinygettext PROPERTIES
     IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
     INTERFACE_INCLUDE_DIRECTORIES "${TINYGETTEXT_PREFIX}/include")
 
-  add_dependencies(tinygettext tinygettext_project)
+  add_dependencies(LibTinygettext tinygettext_project)
 endif()
 
 # EOF #

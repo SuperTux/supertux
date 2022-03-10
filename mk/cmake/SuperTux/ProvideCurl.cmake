@@ -19,10 +19,12 @@ if(NOT EMSCRIPTEN)
     endif()
   endif()
 
-  if(NOT TARGET CURL::libcurl)
-    add_library(CURL::libcurl UNKNOWN IMPORTED)
-    set_target_properties(CURL::libcurl PROPERTIES
-      IMPORTED_LOCATION "${CURL_LIBRARY}"
+  if(TARGET CURL::libcurl)
+    add_library(LibCurl ALIAS CURL::libcurl)
+  else()
+    add_library(LibCurl INTERFACE IMPORTED)
+    set_target_properties(LibCurl PROPERTIES
+      INTERFACE_LINK_LIBRARIES "${CURL_LIBRARY}"
       INTERFACE_INCLUDE_DIRECTORIES "${CURL_INCLUDE_DIRS}")
   endif()
 

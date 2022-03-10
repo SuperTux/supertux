@@ -12,8 +12,8 @@ else()
 endif()
 
 if(USE_SYSTEM_PHYSFS)
-  add_library(physfs INTERFACE)
-  set_target_properties(physfs PROPERTIES
+  add_library(LibPhysfs INTERFACE)
+  set_target_properties(LibPhysfs PROPERTIES
     INTERFACE_LINK_LIBRARIES "${PHYSFS_LIBRARY}"
     INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_INCLUDE_DIR}")
 else()
@@ -51,24 +51,24 @@ else()
   file(MAKE_DIRECTORY "${PHYSFS_PREFIX}/include/")
 
   if(WIN32)
-    add_library(physfs SHARED IMPORTED)
-    set_target_properties(physfs PROPERTIES
+    add_library(LibPhysfs SHARED IMPORTED)
+    set_target_properties(LibPhysfs PROPERTIES
       IMPORTED_LOCATION "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}"
       IMPORTED_IMPLIB "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}"
       INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_PREFIX}/include/")
   else()
-    add_library(physfs STATIC IMPORTED)
-    set_target_properties(physfs PROPERTIES
+    add_library(LibPhysfs STATIC IMPORTED)
+    set_target_properties(LibPhysfs PROPERTIES
       IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}"
       INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_PREFIX}/include/")
   endif()
 
   if(APPLE)
-    set_target_properties(physfs PROPERTIES
+    set_target_properties(LibPhysfs PROPERTIES
       INTERFACE_LINK_LIBRARIES "-framework CoreFoundation;-framework Foundation;-framework IOKit")
   endif()
 
-  add_dependencies(physfs physfs_project)
+  add_dependencies(LibPhysfs physfs_project)
 endif()
 
 mark_as_advanced(

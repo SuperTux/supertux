@@ -12,10 +12,11 @@ else()
 
   add_subdirectory(external/discord-sdk EXCLUDE_FROM_ALL)
 
-  # Add missing include directories to discord-rpc
-  set_target_properties(discord-rpc PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/external/discord-sdk/include"
-    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/external/discord-sdk/include")
+  add_library(LibDiscord INTERFACE IMPORTED)
+  set_target_properties(LibDiscord PROPERTIES
+    INTERFACE_LINK_LIBRARIES "discord-rpc"
+    # discord-rpc doesn't provide includes itself
+    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/external/discord-sdk/include")
 endif()
 
 # EOF #

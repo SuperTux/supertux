@@ -5,6 +5,8 @@ endif()
 
 if(TARGET SDL2_ttf)
   message(STATUS "Found preinstalled SDL2_ttf")
+
+  add_library(LibSDL2_ttf ALIAS SDL2_ttf)
 else()
   message(STATUS "Could NOT find SDL2_ttf, using external/SDL_ttf fallback")
 
@@ -53,14 +55,13 @@ else()
       ${RAQM_LIBRARY})
   endif()
 
-  add_library(SDL2_ttf STATIC IMPORTED)
-  set_target_properties(SDL2_ttf PROPERTIES
+  add_library(LibSDL2_ttf STATIC IMPORTED)
+  set_target_properties(LibSDL2_ttf PROPERTIES
     IMPORTED_LOCATION "${SDL2_TTF_PREFIX}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}SDL2_ttf${CMAKE_STATIC_LIBRARY_SUFFIX}"
     INTERFACE_INCLUDE_DIRECTORIES "${SDL2_TTF_PREFIX}/include/SDL2"
-    INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${SDL2_TTF_PREFIX}/include/SDL2"
     INTERFACE_LINK_LIBRARIES "${SDL2_TTF_LINK_LIBRARIES}")
 
-  add_dependencies(SDL2_ttf SDL2_ttf_project)
+  add_dependencies(LibSDL2_ttf SDL2_ttf_project)
 endif()
 
 # EOF #

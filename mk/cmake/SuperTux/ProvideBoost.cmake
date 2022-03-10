@@ -14,21 +14,22 @@ endif()
 
 find_package(Boost REQUIRED COMPONENTS filesystem system date_time locale)
 
-add_library(Boost INTERFACE)
+add_library(LibBoost INTERFACE IMPORTED)
 
 if(WIN32)
-  # Boost_LIBRARIES may contain link-type keywords optimized,debug
-  # that aren't understood by INTERFACE_LINK_DIRECTORIES
-  target_link_libraries(Boost INTERFACE ${Boost_LIBRARIES})
+  # Boost_LIBRARIES may contain link-type keywords "optimized,debug"
+  # that aren't understood by INTERFACE_LINK_DIRECTORIES directly,
+  # meanwhile older cmake on other OSs don't support
+  # target_link_libraries(INTERFACE).
+  target_link_libraries(LibBoost INTERFACE ${Boost_LIBRARIES})
 else()
-  set_target_properties(Boost PROPERTIES
+  set_target_properties(LibBoost PROPERTIES
     INTERFACE_LINK_LIBRARIES "${Boost_LIBRARIES}")
 endif()
 
-set_target_properties(Boost PROPERTIES
+set_target_properties(LibBoost PROPERTIES
   INTERFACE_LINK_DIRECTORIES "${Boost_LIBRARY_DIRS}"
   INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}"
-  INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}"
   )
 
 mark_as_advanced(

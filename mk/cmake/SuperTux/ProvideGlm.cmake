@@ -1,12 +1,14 @@
 find_package(glm QUIET)
+
 if(glm_FOUND)
   if(TARGET glm::glm)
     message(STATUS "Found glm")
+    add_library(LibGlm ALIAS glm::glm)
   else()
     # fallback for old glm version in EmuELEC and Nix
     message(STATUS "Found glm: ${GLM_INCLUDE_DIR}")
-    add_library(glm::glm INTERFACE IMPORTED)
-    set_target_properties(glm::glm PROPERTIES
+    add_library(LibGlm INTERFACE IMPORTED)
+    set_target_properties(LibGlm PROPERTIES
       INTERFACE_INCLUDE_DIRECTORIES "$<TARGET_PROPERTY:glm,INTERFACE_INCLUDE_DIRECTORIES>")
   endif()
 else()
@@ -19,8 +21,8 @@ else()
   endif()
 
   message(STATUS "Found glm: ${GLM_INCLUDE_DIR}")
-  add_library(glm::glm INTERFACE IMPORTED)
-  set_target_properties(glm::glm PROPERTIES
+  add_library(LibGlm INTERFACE IMPORTED)
+  set_target_properties(LibGlm PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES ${GLM_INCLUDE_DIR})
 endif()
 

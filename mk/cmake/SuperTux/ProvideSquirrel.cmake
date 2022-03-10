@@ -6,6 +6,9 @@ endif()
 
 if(TARGET squirrel::squirrel)
   message(STATUS "Found preinstalled squirrel")
+
+  add_library(LibSquirrel ALIAS squirrel::squirrel)
+  add_library(LibSqstdlib ALIAS squirrel::sqstdlib)
 else()
   if(USE_SYSTEM_SQUIRREL)
     message(STATUS "Could NOT find squirrel, using external/squirrel fallback")
@@ -38,14 +41,14 @@ else()
     -DCMAKE_POSITION_INDEPENDENT_CODE=ON)
 
   if(WIN32)
-    add_library(squirrel::squirrel SHARED IMPORTED)
-    set_target_properties(squirrel::squirrel PROPERTIES
+    add_library(LibSquirrel SHARED IMPORTED)
+    set_target_properties(LibSquirrel PROPERTIES
       IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}squirrel${CMAKE_SHARED_LIBRARY_SUFFIX}"
       IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/squirrel${CMAKE_LINK_LIBRARY_SUFFIX}"
       INTERFACE_INCLUDE_DIRECTORIES "${SQUIRREL_PREFIX}/include")
 
-    add_library(squirrel::sqstdlib SHARED IMPORTED)
-    set_target_properties(squirrel::sqstdlib PROPERTIES
+    add_library(LibSqstdlib SHARED IMPORTED)
+    set_target_properties(LibSqstdlib PROPERTIES
       IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}sqstdlib${CMAKE_SHARED_LIBRARY_SUFFIX}"
       IMPORTED_IMPLIB "${SQUIRREL_PREFIX}/lib/sqstdlib${CMAKE_LINK_LIBRARY_SUFFIX}"
       INTERFACE_INCLUDE_DIRECTORIES "${SQUIRREL_PREFIX}/include")
@@ -53,13 +56,13 @@ else()
     #For debug run purposes
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/run_supertux.bat.in" "${CMAKE_CURRENT_BINARY_DIR}/run_supertux.bat")
   else()
-    add_library(squirrel::squirrel STATIC IMPORTED)
-    set_target_properties(squirrel::squirrel PROPERTIES
+    add_library(LibSquirrel STATIC IMPORTED)
+    set_target_properties(LibSquirrel PROPERTIES
       IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
       INTERFACE_INCLUDE_DIRECTORIES "${SQUIRREL_PREFIX}/include")
 
-    add_library(squirrel::sqstdlib STATIC IMPORTED)
-    set_target_properties(squirrel::sqstdlib PROPERTIES
+    add_library(LibSqstdlib STATIC IMPORTED)
+    set_target_properties(LibSqstdlib PROPERTIES
       IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
       INTERFACE_INCLUDE_DIRECTORIES "${SQUIRREL_PREFIX}/include")
   endif()
@@ -67,7 +70,8 @@ else()
   # Pre-create directory so that cmake doesn't complain about its non-existance
   file(MAKE_DIRECTORY ${SQUIRREL_PREFIX}/include)
 
-  add_dependencies(squirrel::squirrel squirrel_project)
+  add_dependencies(LibSquirrel squirrel_project)
+  add_dependencies(LibSqstdlib squirrel_project)
 endif()
 
 # EOF #

@@ -20,6 +20,7 @@ if(ENABLE_OPENGL)
 
     set(OpenGL_GL_PREFERENCE "LEGACY")
     find_package(OpenGL)
+
     if(OPENGL_FOUND)
       set(HAVE_OPENGL TRUE)
 
@@ -51,8 +52,8 @@ if(ENABLE_OPENGL)
   if(NOT HAVE_OPENGL)
     message(STATUS "  OpenGL not found")
   else()
-    add_library(OpenGL INTERFACE)
-    set_target_properties(OpenGL PROPERTIES
+    add_library(LibOpenGL INTERFACE)
+    set_target_properties(LibOpenGL PROPERTIES
       INTERFACE_LINK_LIBRARIES "${OPENGL_LINK_LIBRARIES}"
       INTERFACE_INCLUDE_DIRECTORIES "${OPENGL_INCLUDE_DIRECTORIES}"
       INTERFACE_COMPILE_DEFINITIONS "${OPENGL_COMPILE_DEFINITIONS}"
