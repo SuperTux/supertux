@@ -10,11 +10,8 @@ if(WIN32)
     find_library(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
     find_library(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
     find_library(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
-    find_path(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
   endif()
-
 else()
-
   if(NOT EMSCRIPTEN)
     if(VCPKG_BUILD)
       find_package(SDL2 CONFIG REQUIRED)
