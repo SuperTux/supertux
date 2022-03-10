@@ -65,10 +65,12 @@ jobs:
       - name: Set architectures list and version
         working-directory: build.android
         run: |
-          VERSION_STR="$(git describe --tags | cut -f 1,2 -d "-" | sed 's/[^0-9\\.\\-]//g' | sed 's/-/./g')"
-          VERSION_CODE="$(printf "%02d%02d%02d%04d\n" "$(echo $VERSION_STR | cut -d . -f 1)" "$(echo $VERSION_STR | cut -d . -f 2)" "$(echo $VERSION_STR | cut -d . -f 3)" "$(echo $VERSION_STR | cut -d . -f 4)")"
+          VERSION_NAME="$(git -C .. describe --tags | cut -f 1,2 -d "-" | sed 's/[^0-9\\.\\-]//g' | sed 's/-/./g')"
+          VERSION_CODE="$(printf "%02d%02d%02d%04d\n" "$(echo $VERSION_NAME | cut -d . -f 1)" "$(echo $VERSION_NAME | cut -d . -f 2)" "$(echo $VERSION_NAME | cut -d . -f 3)" "$(echo $VERSION_NAME | cut -d . -f 4)")"
+          echo "Version name: $VERSION_NAME"
+          echo "Version code: $VERSION_CODE"
           sed -i "s/MultiABI=.*/MultiABI='${ARCH_LIST}'/g" project/jni/application/supertux/AndroidAppSettings.cfg
-          sed -i "s/AppVersionName.*/AppVersionName="$VERSION_STR"/g" project/jni/application/supertux/AndroidAppSettings.cfg
+          sed -i "s/AppVersionName.*/AppVersionName="$VERSION_NAME"/g" project/jni/application/supertux/AndroidAppSettings.cfg
           sed -i "s/AppVersionCode.*/AppVersionCode=$VERSION_CODE/g" project/jni/application/supertux/AndroidAppSettings.cfg
 
       - name: Copy precompiled libraries from cache
