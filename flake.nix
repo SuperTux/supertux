@@ -93,7 +93,10 @@ SET(SUPERTUX_VERSION_STRING "v${version}")
 SET(SUPERTUX_VERSION_BUILD "${builtins.elemAt ver 4}")
 EOF
             '';
-            cmakeFlags = [ "-DINSTALL_SUBDIR_BIN=bin" ];
+            cmakeFlags = [
+              "-DINSTALL_SUBDIR_BIN=bin"
+              "-DUSE_SYSTEM_SDL2_TTF=ON"
+            ];
             enableParallelBuilding = true;
             nativeBuildInputs = [
               pkgs.cmake
