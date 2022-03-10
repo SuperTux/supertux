@@ -112,16 +112,15 @@
     "squirrel_src": {
       "flake": false,
       "locked": {
-        "lastModified": 1644511563,
-        "narHash": "sha256-vzAF0ooYoghw0yKKoS0Q6RnPPMhmP+05RoutVSZIGwk=",
+        "lastModified": 1646847068,
+        "narHash": "sha256-kLe06FlBe6QnuyP8n+CUx88gpda7B++s1waXgKQojY4=",
         "owner": "albertodemichelis",
         "repo": "squirrel",
-        "rev": "f92bc298784ceea459b12e2de33bdff672bfeb83",
+        "rev": "d5239c70c96f29825be03f55406a641ce7a31534",
         "type": "github"
       },
       "original": {
         "owner": "albertodemichelis",
-        "ref": "v3.2",
         "repo": "squirrel",
         "type": "github"
       }

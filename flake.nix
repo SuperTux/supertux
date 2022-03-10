@@ -45,7 +45,7 @@
     SDL2_ttf.inputs.nixpkgs.follows = "nixpkgs";
     SDL2_ttf.inputs.flake-utils.follows = "flake-utils";
 
-    squirrel_src.url = "github:albertodemichelis/squirrel/v3.2";
+    squirrel_src.url = "github:albertodemichelis/squirrel";
     squirrel_src.flake = false;
   };
 
@@ -61,11 +61,6 @@
             pname = "squirrel";
             version = "3.2";
             src = squirrel_src;
-            patchPhase = ''
-              substituteInPlace CMakeLists.txt \
-                 --replace "project(squirrel VERSION 3.1 LANGUAGES C CXX)" \
-                           "project(squirrel VERSION 3.2 LANGUAGES C CXX)"
-            '';
             nativeBuildInputs = [
               pkgs.cmake
             ];
