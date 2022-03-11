@@ -61,8 +61,8 @@ set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
 set(BUILD_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data")
 set(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
-## Check endianess
 
+## Check endianess
 if(NOT EMSCRIPTEN)
   # FIXME: Any reason why we need this?
   include(TestBigEndian)
@@ -74,6 +74,23 @@ if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
   add_definitions(-DRELEASE)
 elseif(CMAKE_BUILD_TYPE MATCHES Debug)
   add_definitions(-DDEBUG)
+endif()
+
+# Options for install
+if(WIN32 AND NOT UNIX)
+  set(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
+  set(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
+  set(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
+else()
+  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
+    set(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
+    set(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
+    set(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
+  else()
+    set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
+    set(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
+    set(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
+  endif()
 endif()
 
 if(EMSCRIPTEN)
@@ -265,116 +282,9 @@ if(NOT EMSCRIPTEN)
 endif()
 
 ## Install stuff
-if(WIN32 AND NOT UNIX)
-
-  set(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
-  set(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
-  set(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
-
-  if(VCPKG_BUILD)
-    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}/" DESTINATION ${INSTALL_SUBDIR_BIN} FILES_MATCHING PATTERN "*.dll")
-  else()
-    install(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
-  endif()
-
-  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
-
-  option(PACKAGE_VCREDIST "Package the VCREDIST libraries with the program" OFF)
-
-  if(PACKAGE_VCREDIST)
-    set(CMAKE_INSTALL_UCRT_LIBRARIES true)
-    include(InstallRequiredSystemLibraries)
-  endif()
-
-else()
-  if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
-
-    set(INFOPLIST_CFBUNDLEEXECUTABLE "supertux2")
-
-    set(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
-    set(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
-    set(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
-
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in ${CMAKE_BINARY_DIR}/tools/darwin/info.plist)
-    install(FILES ${CMAKE_BINARY_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/receipt DESTINATION "SuperTux.app/Contents/_MASReceipt/")
-
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
-
-  else()
-
-    set(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
-    set(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
-    set(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
-
-    if(UBUNTU_TOUCH)
-      set(LINUX_DESKTOP_ICON "assets/supertux-256x256.png")
-      # FIXME: The "install" folder is a folder managed by Clickable and shouldn't be hardcoded here
-      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in "install/supertux2.desktop")
-      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/mk/clickable/supertux2.apparmor DESTINATION ".")
-      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/clickable/manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/install/manifest.json)
-      set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/supertux2")
-      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux-256x256.png DESTINATION "assets")
-    else()
-      set(LINUX_DESKTOP_ICON "supertux2")
-      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop.in "supertux2.desktop")
-      install(FILES ${CMAKE_BINARY_DIR}/supertux2.desktop DESTINATION "share/applications")
-      set(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
-      install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
-    endif()
-
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.svg DESTINATION "share/icons/hicolor/scalable/apps")
-
-  endif()
-endif()
-
-if(UBUNTU_TOUCH)
-  install(TARGETS supertux2 DESTINATION ".")
-else()
-  install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
-endif()
-
-if(EMSCRIPTEN)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/template.html.in ${CMAKE_CURRENT_BINARY_DIR}/template.html)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2.png COPYONLY)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2_bkg.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2_bkg.png COPYONLY)
-endif()
-
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md DESTINATION ${INSTALL_SUBDIR_DOC})
-
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.stxt DESTINATION ${INSTALL_SUBDIR_SHARE})
-
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.appdata.xml DESTINATION "share/metainfo" )
-
-install(DIRECTORY
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/images
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/music
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/particles
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/shader
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/speech
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/sounds
-  ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
-  DESTINATION ${INSTALL_SUBDIR_SHARE})
-
-if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-    DESTINATION ${INSTALL_SUBDIR_SHARE}
-    PATTERN "data/levels/test" EXCLUDE
-    PATTERN "data/levels/test_old" EXCLUDE
-    PATTERN "data/levels/incubator" EXCLUDE
-    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
-else()
-  install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-    DESTINATION ${INSTALL_SUBDIR_SHARE}
-    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
-endif()
-
-install(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INSTALL_SUBDIR_SHARE}/levels/misc")
+include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
-
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 ## Configure main menu logo
