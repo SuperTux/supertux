@@ -334,15 +334,6 @@ else()
   install(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
 endif()
 
-if(WIN32)
-  get_property(SQUIRREL_LIB_PATH TARGET squirrel::squirrel PROPERTY IMPORTED_LOCATION)
-  get_property(SQSTDLIB_LIB_PATH TARGET squirrel::sqstdlib PROPERTY IMPORTED_LOCATION)
-  install(FILES ${SQUIRREL_LIB_PATH} ${SQSTDLIB_LIB_PATH} DESTINATION ${INSTALL_SUBDIR_BIN})
-
-  get_property(PHYSFS_LIB_PATH TARGET physfs PROPERTY IMPORTED_LOCATION)
-  install(FILES ${PHYSFS_LIB_PATH} DESTINATION ${INSTALL_SUBDIR_BIN})
-endif()
-
 if(EMSCRIPTEN)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/template.html.in ${CMAKE_CURRENT_BINARY_DIR}/template.html)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/supertux2.png ${CMAKE_CURRENT_BINARY_DIR}/supertux2.png COPYONLY)

@@ -72,6 +72,12 @@ else()
 
   add_dependencies(LibSquirrel squirrel_project)
   add_dependencies(LibSqstdlib squirrel_project)
+
+  if(WIN32)
+    get_property(SQUIRREL_LIB_PATH TARGET LibSquirrel PROPERTY IMPORTED_LOCATION)
+    get_property(SQSTDLIB_LIB_PATH TARGET LibSqstdlib PROPERTY IMPORTED_LOCATION)
+    install(FILES ${SQUIRREL_LIB_PATH} ${SQSTDLIB_LIB_PATH} DESTINATION "${INSTALL_SUBDIR_BIN}")
+  endif()
 endif()
 
 # EOF #

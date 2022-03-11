@@ -69,6 +69,11 @@ else()
   endif()
 
   add_dependencies(LibPhysfs physfs_project)
+
+  if(WIN32)
+    get_property(PHYSFS_LIB_PATH TARGET LibPhysfs PROPERTY IMPORTED_LOCATION)
+    install(FILES ${PHYSFS_LIB_PATH} DESTINATION "${INSTALL_SUBDIR_BIN}")
+  endif()
 endif()
 
 mark_as_advanced(
