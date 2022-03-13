@@ -71,7 +71,7 @@
             # FIXME: Should use `git describe` to get the version
             # number or leave it to cmake, but the .git/ directory
             # isn't included in the Nix store.
-            version = "0.6.3-unknown-" + (if (self ? shortRev) then self.shortRev else "dirty");
+            version = "0.6.3-${nixpkgs.lib.substring 0 8 self.lastModifiedDate}-${self.shortRev or "dirty"}";
             src = nixpkgs.lib.cleanSource ./.;
             patchPhase = let
               ver = builtins.splitVersion version;
@@ -83,7 +83,7 @@
 SET(SUPERTUX_VERSION_MAJOR ${builtins.elemAt ver 0})
 SET(SUPERTUX_VERSION_MINOR ${builtins.elemAt ver 1})
 SET(SUPERTUX_VERSION_PATCH ${builtins.elemAt ver 2})
-SET(SUPERTUX_VERSION_TWEAK )
+SET(SUPERTUX_VERSION_TWEAK ${builtins.elemAt ver 3})
 SET(SUPERTUX_VERSION_STRING "v${version}")
 SET(SUPERTUX_VERSION_BUILD "${builtins.elemAt ver 4}")
 EOF
