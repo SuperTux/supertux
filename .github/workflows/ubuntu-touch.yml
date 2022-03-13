@@ -26,6 +26,7 @@ on:
 
 jobs:
   clickable:
+    if: false  # FIXME: waiting for UBPorts moving to Ubuntu 20.04
     strategy:
       fail-fast: false
       matrix:
