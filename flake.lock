@@ -1,5 +1,29 @@
 {
   "nodes": {
+    "SDL2_ttf": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "raqm_src": "raqm_src"
+      },
+      "locked": {
+        "lastModified": 1646749209,
+        "narHash": "sha256-k6+yo0do+M1cs5tLo/Phslv6qIwk8rVsq/2mfJf1aco=",
+        "owner": "SuperTux",
+        "repo": "SDL_ttf",
+        "rev": "210b56f25fbe8381cf81a15dd8a256d14a7045e3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "SuperTux",
+        "repo": "SDL_ttf",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1644229661,
@@ -17,11 +41,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1646011258,
-        "narHash": "sha256-+aen4zu5uVp52arEcgL2maCS0zQDuG1t+Azwd/O1gN4=",
+        "lastModified": 1646588256,
+        "narHash": "sha256-ZHljmNlt19nSm0Mz8fx6QEhddKUkU4hhwFmfNmGn+EY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a25df4c2b79c4343bcc72ad671200e5a3e286c41",
+        "rev": "2ebb6c1e5ae402ba35cca5eec58385e5f1adea04",
         "type": "github"
       },
       "original": {
@@ -31,10 +55,123 @@
         "type": "github"
       }
     },
+    "raqm_src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1632761857,
+        "narHash": "sha256-Zv6h5Z9X9H1gc/tDy0GPdOCWOaJwM7UbQOPQI2jRDOo=",
+        "owner": "HOST-Oman",
+        "repo": "libraqm",
+        "rev": "573820451937d7a7f33a1ec132bc1f1b12db917f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "HOST-Oman",
+        "ref": "v0.7.2",
+        "repo": "libraqm",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
+        "SDL2_ttf": "SDL2_ttf",
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "sexpcpp": "sexpcpp",
+        "squirrel_src": "squirrel_src",
+        "tinycmmc": "tinycmmc",
+        "tinygettext": "tinygettext"
+      }
+    },
+    "sexpcpp": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "tinycmmc": [
+          "tinycmmc"
+        ]
+      },
+      "locked": {
+        "lastModified": 1646132293,
+        "narHash": "sha256-9s8K4dbm3QQyR86LZJzJFPTj6oenivny1tuRnqh4aQQ=",
+        "owner": "lispparser",
+        "repo": "sexp-cpp",
+        "rev": "b1ab912c0f50567c4f32c9d6ae07117de392df9c",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "lispparser",
+        "repo": "sexp-cpp",
+        "type": "gitlab"
+      }
+    },
+    "squirrel_src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1646847068,
+        "narHash": "sha256-kLe06FlBe6QnuyP8n+CUx88gpda7B++s1waXgKQojY4=",
+        "owner": "albertodemichelis",
+        "repo": "squirrel",
+        "rev": "d5239c70c96f29825be03f55406a641ce7a31534",
+        "type": "github"
+      },
+      "original": {
+        "owner": "albertodemichelis",
+        "repo": "squirrel",
+        "type": "github"
+      }
+    },
+    "tinycmmc": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1645974294,
+        "narHash": "sha256-Comma4p9L263ZMfhBpKKTuBVCq4Yd+hQrN33sGjwPAk=",
+        "owner": "grumbel",
+        "repo": "cmake-modules",
+        "rev": "297d1433067637903334b4c194eef5958e3f546f",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "grumbel",
+        "repo": "cmake-modules",
+        "type": "gitlab"
+      }
+    },
+    "tinygettext": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "tinycmmc": [
+          "tinycmmc"
+        ]
+      },
+      "locked": {
+        "lastModified": 1646665610,
+        "narHash": "sha256-Uf6JBT8qko83lYofVRr4wD0YOSDuwDUY6sXOC20Jjwc=",
+        "owner": "tinygettext",
+        "repo": "tinygettext",
+        "rev": "6bb279242df7c162dd54db8d0003d5d5ed506fb5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinygettext",
+        "repo": "tinygettext",
+        "type": "github"
       }
     }
   },
