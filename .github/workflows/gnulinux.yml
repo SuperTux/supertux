@@ -75,8 +75,8 @@ jobs:
             rpm \
             rename \
             sshpass \
-            clang-6.0 \
-            g++-8 \
+            clang \
+            g++-10 \
             gcc-multilib \
             g++-multilib \
             libgtest-dev \
@@ -98,6 +98,8 @@ jobs:
             zlib1g-dev \
             lcov \
             doxygen
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
 
       - name: Install 32-bit dependencies
         if: ${{ matrix.arch == 32 }}
