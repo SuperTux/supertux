@@ -73,6 +73,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         "-Wno-documentation "
         "-Wno-reserved-id-macro "
         "-Wno-sign-conversion "
+        "-Wno-return-std-move-in-c++11 "
 
         # warnings that should probably be fixed in code
         "-Wno-documentation-unknown-command "
