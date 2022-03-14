@@ -77,6 +77,7 @@ jobs:
           sed -i "s/-std=c++14/-std=c++20/g" project/jni/application/supertux/AndroidAppSettings.cfg
           sed -i "s#-Ijni/boost/include##g" project/jni/application/supertux/AndroidAppSettings.cfg
           sed -i "s#boost_[a-z_]*##g" project/jni/application/supertux/AndroidAppSettings.cfg
+          sed -i "s/icuuc icudata//g" project/jni/application/supertux/AndroidAppSettings.cfg
 
       - name: Copy precompiled libraries from cache
         uses: actions/cache@v2
@@ -87,8 +88,6 @@ jobs:
           path: |
             build.android/project/jni/iconv/include
             build.android/project/jni/iconv/lib
-            build.android/project/jni/icuuc/include
-            build.android/project/jni/icuuc/lib
             build.android/project/jni/openssl/include
             build.android/project/jni/openssl/lib
 
@@ -98,7 +97,6 @@ jobs:
         run: >
           touch
           project/jni/iconv/lib/*/*
-          project/jni/icuuc/lib/*/*
           project/jni/openssl/lib/*/*
           || true
 
