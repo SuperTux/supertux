@@ -33,6 +33,8 @@ public:
   static std::string replace_all(const std::string& haystack,
                                  const std::string& needle,
                                  const std::string& replacement);
+
+  static bool ends_with(std::string_view text, std::string_view suffix);
 };
 
 #endif

@@ -105,4 +105,13 @@ StringUtil::replace_all(const std::string& haystack, const std::string& needle,
   }
   return ret;
 }
+
+bool
+StringUtil::ends_with(std::string_view text, std::string_view suffix)
+{
+  return
+    text.size() >= suffix.size() &&
+    text.compare(text.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
 /* EOF */

@@ -24,6 +24,7 @@
 #include "trigger/secretarea_trigger.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/string_util.hpp"
 #include "util/writer.hpp"
 
 #include <physfs.h>
@@ -93,8 +94,8 @@ Level::save(const std::string& filepath, bool retry)
 
     Writer writer(filepath);
     save(writer);
-    log_info << "Level saved as " << filepath << "." 
-             << (filepath.ends_with("~") ? " [Autosave]" : "")
+    log_info << "Level saved as " << filepath << "."
+             << (StringUtil::ends_with(filepath, "~") ? " [Autosave]" : "")
              << std::endl;
   } catch(std::exception& e) {
     if (retry) {

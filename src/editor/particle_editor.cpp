@@ -35,6 +35,7 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/string_util.hpp"
 #include "video/compositor.hpp"
 
 
@@ -564,7 +565,7 @@ void
 ParticleEditor::save(const std::string& filepath_, bool retry)
 {
   std::string filepath = filepath_;
-  if (!filepath.ends_with(".stcp"))
+  if (!StringUtil::ends_with(filepath, ".stcp"))
     filepath += ".stcp";
 
   // FIXME: It tests for directory in supertux/data, but saves into .supertux2.
