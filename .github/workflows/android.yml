@@ -76,7 +76,7 @@ jobs:
           # C++20 changes
           sed -i "s/-std=c++14/-std=c++20/g" project/jni/application/supertux/AndroidAppSettings.cfg
           sed -i "s#-Ijni/boost/include##g" project/jni/application/supertux/AndroidAppSettings.cfg
-          sed -i "s#boost_[a-z_]*/include##g" project/jni/application/supertux/AndroidAppSettings.cfg
+          sed -i "s#boost_[a-z_]*##g" project/jni/application/supertux/AndroidAppSettings.cfg
 
       - name: Copy precompiled libraries from cache
         uses: actions/cache@v2
