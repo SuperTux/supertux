@@ -52,7 +52,7 @@ jobs:
         working-directory: build.android
         run: >
           git submodule update --init --recursive --depth=1
-          project/jni/boost/src project/jni/iconv/src
+          project/jni/iconv/src
           project/jni/sdl2 project/jni/sdl2_image
           project/jni/sdl2_mixer project/jni/sdl2_ttf
 
@@ -73,6 +73,11 @@ jobs:
           sed -i "s/AppVersionName.*/AppVersionName="$VERSION_NAME"/g" project/jni/application/supertux/AndroidAppSettings.cfg
           sed -i "s/AppVersionCode.*/AppVersionCode=$VERSION_CODE/g" project/jni/application/supertux/AndroidAppSettings.cfg
 
+          # C++20 changes
+          sed -i "s/-std=c++14/-std=c++20/g" project/jni/application/supertux/AndroidAppSettings.cfg
+          sed -i "s#-Ijni/boost/include##g" project/jni/application/supertux/AndroidAppSettings.cfg
+          sed -i "s#boost_[a-z_]*/include##g" project/jni/application/supertux/AndroidAppSettings.cfg
+
       - name: Copy precompiled libraries from cache
         uses: actions/cache@v2
         id: cache
@@ -80,8 +85,6 @@ jobs:
           # The same SDL revision will produce the same libraries
           key: ${{env.SDL_ANDROID_REV}}
           path: |
-            build.android/project/jni/boost/include
-            build.android/project/jni/boost/lib
             build.android/project/jni/iconv/include
             build.android/project/jni/iconv/lib
             build.android/project/jni/icuuc/include
@@ -94,7 +97,6 @@ jobs:
         working-directory: build.android
         run: >
           touch
-          project/jni/boost/lib/*/*
           project/jni/iconv/lib/*/*
           project/jni/icuuc/lib/*/*
           project/jni/openssl/lib/*/*
