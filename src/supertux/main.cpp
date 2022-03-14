@@ -33,6 +33,10 @@ extern "C" {
 #include <codecvt>
 #endif
 
+#ifdef __ANDROID__
+#  include <unistd.h>
+#endif
+
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
