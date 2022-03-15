@@ -38,6 +38,12 @@ public:
     RECOVERING_LEFT
   };
 
+  enum class Direction {
+    DOWN,
+    LEFT,
+    RIGHT
+  };
+
 private:
   enum IceCrusherSize {
     NORMAL,
@@ -65,6 +71,8 @@ public:
   IceCrusherState get_state() const { return state; }
 
 private:
+  void spawn_roots(Direction direction);
+
   bool found_victim_down() const;
   bool found_victim_up() const;
   bool found_victim_right() const;
@@ -91,6 +99,28 @@ private:
 private:
   IceCrusher(const IceCrusher&) = delete;
   IceCrusher& operator=(const IceCrusher&) = delete;
+};
+
+class CrusherRoot : public MovingSprite
+{
+public:
+  CrusherRoot(Vector position, IceCrusher::Direction direction, float delay, int layer);
+
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float dt_sec) override;
+
+private:
+  void start_animation();
+  bool delay_gone() { return m_delay_remaining <= 0.f; }
+
+private:
+  Vector m_original_pos;
+  IceCrusher::Direction m_direction;
+  float m_delay_remaining;
+
+private:
+  CrusherRoot(const CrusherRoot&) = delete;
+  CrusherRoot& operator=(const CrusherRoot&) = delete;
 };
 
 #endif

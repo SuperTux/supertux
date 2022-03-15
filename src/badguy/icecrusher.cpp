@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <string>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
@@ -27,8 +28,10 @@
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {
@@ -233,6 +236,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           }
         }
         set_state(state == CRUSHING ? RECOVERING : RECOVERING_UP);
+        spawn_roots(Direction::DOWN);
       }
       break;
     case CRUSHING_RIGHT:
@@ -258,6 +262,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
             SoundManager::current()->play("sounds/brick.wav", get_pos());
           }
         }
+        spawn_roots(Direction::RIGHT);
         set_state(RECOVERING_RIGHT);
       }
       break;
@@ -285,6 +290,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           }
         }
         set_state(RECOVERING_LEFT);
+        spawn_roots(Direction::LEFT);
       }
       break;
     default:
@@ -426,6 +432,65 @@ IceCrusher::update(float dt_sec)
     default:
       log_debug << "IceCrusher in invalid state" << std::endl;
       break;
+  }
+}
+
+void
+IceCrusher::spawn_roots(Direction direction)
+{
+  if (m_sprite_name.find("root_crusher") == std::string::npos)
+    return;
+
+  Vector origin;
+  Rectf test_solid_offset_1, test_solid_offset_2, test_empty_offset;
+  bool vertical = false;
+
+  switch(direction)
+  {
+    case Direction::DOWN:
+      vertical = true;
+      origin.x = m_col.m_bbox.get_middle().x - 16.f;
+      origin.y = m_col.m_bbox.get_bottom();
+      test_empty_offset = Rectf(Vector(4, -4), Size(16, 1));
+      test_solid_offset_1 = Rectf(Vector(6, 8), Size(1, 1));
+      test_solid_offset_2 = Rectf(Vector(16, 8), Size(1, 1));
+      break;
+
+    case Direction::LEFT:
+      origin.x = m_col.m_bbox.get_left() - 6.f;
+      origin.y = m_col.m_bbox.get_middle().y - 16.f;
+      test_empty_offset = Rectf(Vector(8, 0), Size(1, 16));
+      test_solid_offset_1 = Rectf(Vector(0, 4), Size(1, 1));
+      test_solid_offset_2 = Rectf(Vector(0, 12), Size(1, 1));
+      break;
+
+    case Direction::RIGHT:
+      origin.x = m_col.m_bbox.get_right() + 12.f;
+      origin.y = m_col.m_bbox.get_middle().y - 16.f;
+      test_empty_offset = Rectf(Vector(-16, 0), Size(1, 16));
+      test_solid_offset_1 = Rectf(Vector(0, 4), Size(1, 1));
+      test_solid_offset_2 = Rectf(Vector(0, 12), Size(1, 1));
+      break;
+  }
+
+  for (float dir = -1.f; dir <= 1.f; dir += 2.f)
+  {
+    for (float step = 0.f; step < 3.f; step++)
+    {
+      Vector pos = origin;
+      float dist = 32.f * step - 15.f;
+      (vertical ? pos.x : pos.y) += dir * (dist + (vertical ? m_col.m_bbox.get_width() : m_col.m_bbox.get_height()));
+
+      bool solid_1 = Sector::current()->is_free_of_tiles(test_solid_offset_1.moved(pos));
+      bool solid_2 = Sector::current()->is_free_of_tiles(test_solid_offset_2.moved(pos));
+      bool empty = Sector::current()->is_free_of_tiles(test_empty_offset.moved(pos));
+
+      printf("Empty %d, solid1 %d, solid2 %d\n", empty, solid_1, solid_2);
+      if (!empty || solid_1 || solid_2)
+        break;
+
+      Sector::current()->add<CrusherRoot>(pos, direction, step * .1f, m_layer);
+    }
   }
 }
 
@@ -600,6 +665,106 @@ IceCrusher::on_flip(float height)
   MovingSprite::on_flip(height);
   start_position.y = height - m_col.m_bbox.get_height() - start_position.y;
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+CrusherRoot::CrusherRoot(Vector position, IceCrusher::Direction direction, float delay, int layer) :
+  MovingSprite(position, direction == IceCrusher::Direction::DOWN ?
+                  "images/creatures/icecrusher/roots/crusher_root.sprite" :
+                  "images/creatures/icecrusher/roots/crusher_root_side.sprite"),
+  m_original_pos(position),
+  m_direction(direction),
+  m_delay_remaining(delay)
+{
+  m_layer = layer;
+
+  if (delay_gone())
+  {
+    start_animation();
+  }
+  else
+  {
+    m_col.m_group = COLGROUP_DISABLED;
+  }
+}
+
+HitResponse
+CrusherRoot::collision(GameObject& other, const CollisionHit& hit)
+{
+  if (delay_gone())
+  {
+    auto player = dynamic_cast<Player*>(&other);
+
+    if (player)
+      player->kill(false);
+  }
+
+  return ABORT_MOVE;
+}
+
+void
+CrusherRoot::update(float dt_sec)
+{
+  if (m_delay_remaining > 0.f)
+  {
+    m_delay_remaining -= dt_sec;
+
+    if (delay_gone())
+    {
+      start_animation();
+    }
+    else
+    {
+      return;
+    }
+  }
+  else if (m_sprite->animation_done())
+  {
+    remove_me();
+    return;
+  }
+
+  switch(m_direction)
+  {
+    case IceCrusher::Direction::DOWN:
+      m_col.move_to(m_original_pos + Vector(0, -m_sprite->get_current_hitbox_height()));
+      break;
+
+    case IceCrusher::Direction::LEFT:
+      m_col.move_to(m_original_pos);
+      break;
+
+    case IceCrusher::Direction::RIGHT:
+      m_col.move_to(m_original_pos + Vector(-m_sprite->get_current_hitbox_width(), 0));
+      break;
+  }
+}
+
+void
+CrusherRoot::start_animation()
+{
+  m_col.m_group = COLGROUP_TOUCHABLE;
+
+  // TODO: Use Sprite::get_current_hitbox_height() each frame
+  switch(m_direction)
+  {
+    case IceCrusher::Direction::DOWN:
+      //m_col.m_bbox.move(Vector(0, -m_sprite->get_height()));
+      m_sprite->set_action("downwards");
+      m_sprite->set_animation_loops(1);
+      break;
+
+    case IceCrusher::Direction::LEFT:
+      //m_col.m_bbox.move(Vector(m_sprite->get_width(), 0));
+      m_sprite->set_action("sideways-left");
+      m_sprite->set_animation_loops(1);
+      break;
+
+    case IceCrusher::Direction::RIGHT:
+      //m_col.m_bbox.move(Vector(-m_sprite->get_width(), 0));
+      m_sprite->set_action("sideways-right");
+      m_sprite->set_animation_loops(1);
+      break;
+  }
 }
 
 /* EOF */
