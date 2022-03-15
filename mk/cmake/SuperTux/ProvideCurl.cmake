@@ -21,8 +21,13 @@ if(NOT EMSCRIPTEN)
 
   add_library(LibCurl INTERFACE IMPORTED)
   set_target_properties(LibCurl PROPERTIES
-    INTERFACE_LINK_LIBRARIES "${CURL_LIBRARY}"
     INTERFACE_INCLUDE_DIRECTORIES "${CURL_INCLUDE_DIRS}")
+  if(WIN32)
+    target_link_libraries(LibCurl INTERFACE ${CURL_LIBRARY})
+  else()
+    set_target_properties(LibCurl PROPERTIES
+      INTERFACE_LINK_LIBRARIES "${CURL_LIBRARY}")
+  endif()
 
   set(HAVE_LIBCURL TRUE)
 endif()
