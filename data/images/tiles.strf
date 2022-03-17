@@ -1015,7 +1015,7 @@
       3285 3286 3446 3447
       3287 3288 3448 3449
       3289 3290 3458 3459
-      0    0    3460 3461
+      4333 4332 3460 3461
 
       217  218  219  220
       221  222  224  225
@@ -5824,5 +5824,41 @@
       1 1 1 1
     )
     (image "tiles/forest/foresttiles-13.png")
+  )
+  (tile
+    (id 4332)
+    (images
+      "tiles/goal/secretgoal1-1.png"
+      "tiles/goal/secretgoal1-2.png"
+      "tiles/goal/secretgoal1-2.png"
+      "tiles/goal/secretgoal1-3.png"
+      "tiles/goal/secretgoal1-4.png"
+      "tiles/goal/secretgoal1-5.png"
+      "tiles/goal/secretgoal1-4.png"
+      "tiles/goal/secretgoal1-3.png"
+      "tiles/goal/secretgoal1-2.png"
+      "tiles/goal/secretgoal1-2.png"
+      "tiles/goal/secretgoal1-1.png"
+      "tiles/goal/secretgoal1-1.png"
+    )
+    (fps 10)
+  )
+  (tile
+    (id 4333)
+    (images
+      "tiles/goal/secretgoal2-1.png"
+      "tiles/goal/secretgoal2-2.png"
+      "tiles/goal/secretgoal2-2.png"
+      "tiles/goal/secretgoal2-3.png"
+      "tiles/goal/secretgoal2-4.png"
+      "tiles/goal/secretgoal2-5.png"
+      "tiles/goal/secretgoal2-4.png"
+      "tiles/goal/secretgoal2-3.png"
+      "tiles/goal/secretgoal2-2.png"
+      "tiles/goal/secretgoal2-2.png"
+      "tiles/goal/secretgoal2-1.png"
+      "tiles/goal/secretgoal2-1.png"
+    )
+    (fps 10)
   )
 )
