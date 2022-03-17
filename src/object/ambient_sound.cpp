@@ -149,7 +149,7 @@ AmbientSound::start_playing()
 
     sound_source->set_gain(0);
     sound_source->set_looping(true);
-    sound_source->set_relative(true);
+    sound_source->set_position(m_col.m_bbox.get_middle());
     currentvolume=targetvolume=1e-20f;
     sound_source->play();
   } catch(std::exception& e) {
