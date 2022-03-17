@@ -686,13 +686,13 @@ Sector::convert_tiles2gameobject()
                   && (tm.get_tile(x, y-1).get_attributes() != attributes || y%3 == 0)) {
                 float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
                 add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f,
-                                  Color(1.0f, 0.3f, 0.0f, 1.0f));
+                                  (Color(1.0f, 0.3f, 0.0f, 1.0f) * tm.get_current_tint()).validate());
               }
             } else {
               // torch
               float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
               add<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f,
-                                Color(1.0f, 1.0f, 0.6f, 1.0f));
+                                (Color(1.0f, 1.0f, 0.6f, 1.0f) * tm.get_current_tint()).validate());
             }
           }
         }
