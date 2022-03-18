@@ -192,6 +192,8 @@ public:
       Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
   void tint_fade(const Color& new_tint, float seconds = 0);
 
+  Color get_current_tint() const { return m_current_tint; }
+
   /** Instantly switch tilemap's opacity to @c alpha. Also influences solidity. */
   void set_alpha(float alpha);
 
