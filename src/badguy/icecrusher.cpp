@@ -744,23 +744,19 @@ CrusherRoot::start_animation()
 {
   m_col.m_group = COLGROUP_TOUCHABLE;
 
-  // TODO: Use Sprite::get_current_hitbox_height() each frame
   switch(m_direction)
   {
     case IceCrusher::Direction::DOWN:
-      //m_col.m_bbox.move(Vector(0, -m_sprite->get_height()));
       m_sprite->set_action("downwards");
       m_sprite->set_animation_loops(1);
       break;
 
     case IceCrusher::Direction::LEFT:
-      //m_col.m_bbox.move(Vector(m_sprite->get_width(), 0));
       m_sprite->set_action("sideways-left");
       m_sprite->set_animation_loops(1);
       break;
 
     case IceCrusher::Direction::RIGHT:
-      //m_col.m_bbox.move(Vector(-m_sprite->get_width(), 0));
       m_sprite->set_action("sideways-right");
       m_sprite->set_animation_loops(1);
       break;
