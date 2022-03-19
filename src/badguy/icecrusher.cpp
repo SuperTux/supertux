@@ -518,7 +518,7 @@ IceCrusher::after_editor_set() {
 bool
 IceCrusher::found_victim_down() const
 {
-  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  for (auto* player : Sector::get().get_players())
   {
     const Rectf& player_bbox = player->get_bbox();
     Rectf crush_area_down = Rectf(m_col.m_bbox.get_left()+1, m_col.m_bbox.get_bottom(),
@@ -537,7 +537,7 @@ IceCrusher::found_victim_down() const
 bool
 IceCrusher::found_victim_up() const
 {
-  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  for (auto* player : Sector::get().get_players())
   {
     const Rectf& player_bbox = player->get_bbox();
     Rectf crush_area_up = Rectf(m_col.m_bbox.get_left()+1, m_col.m_bbox.get_top(),
@@ -556,7 +556,7 @@ IceCrusher::found_victim_up() const
 bool
 IceCrusher::found_victim_right() const
 {
-  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  for (auto* player : Sector::get().get_players())
   {
     const Rectf& player_bbox = player->get_bbox();
     Rectf crush_area_right = get_bbox();
@@ -575,7 +575,7 @@ IceCrusher::found_victim_right() const
 bool
 IceCrusher::found_victim_left() const
 {
-  if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+  for (auto* player : Sector::get().get_players())
   {
     const Rectf& player_bbox = player->get_bbox();
     Rectf crush_area_left = get_bbox();
@@ -596,7 +596,7 @@ IceCrusher::eye_position(bool right) const
 {
   if (state == IDLE || state == CRUSHING_RIGHT || state == CRUSHING_LEFT)
   {
-    if (auto* player = Sector::get().get_nearest_player (m_col.m_bbox))
+    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
     {
       // Icecrusher focuses on approximate position of player's head
       const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;

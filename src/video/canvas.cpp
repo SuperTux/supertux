@@ -71,6 +71,8 @@ Canvas::render(Renderer& renderer, Filter filter)
     else if (filter == ABOVE_LIGHTMAP && request.layer <= LAYER_LIGHTMAP)
       continue;
 
+    painter.set_clip_rect(request.viewport);
+
     switch (request.type) {
       case TEXTURE:
         painter.draw_texture(static_cast<const TextureRequest&>(request));
@@ -126,6 +128,7 @@ Canvas::draw_surface(const SurfacePtr& surface,
   request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha;
   request->blend = blend;
+  request->viewport = m_context.get_viewport();
 
   request->srcrects.emplace_back(Rectf(surface->get_region()));
   request->dstrects.emplace_back(Rectf(apply_translate(position) * scale(),
@@ -166,6 +169,7 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
   request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha * style.get_alpha();
   request->blend = style.get_blend();
+  request->viewport = m_context.get_viewport();
 
   request->srcrects.emplace_back(srcrect);
   request->dstrects.emplace_back(apply_translate(dstrect.p1())*scale(), dstrect.get_size()*scale());
@@ -209,6 +213,7 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
   request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha;
   request->color = color;
+  request->viewport = m_context.get_viewport();
 
   request->srcrects = std::move(srcrects);
   request->dstrects = std::move(dstrects);
@@ -229,6 +234,7 @@ void
 Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
+  // FOXME: Font viewport
   font->draw_text(*this, text, pos, alignment, layer, color);
 }
 
@@ -253,6 +259,7 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
   request->blend = blend;
+  request->viewport = m_context.get_viewport();
 
   request->top = top;
   request->bottom = bottom;
@@ -280,6 +287,7 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
 
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
+  request->viewport = m_context.get_viewport();
 
   request->rect = Rectf(apply_translate(rect.p1())*scale(),
                         rect.get_size()*scale());
@@ -300,6 +308,7 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
 
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
+  request->viewport = m_context.get_viewport();
 
   request->pos          = apply_translate(pos)*scale();
   request->color        = color;
@@ -319,6 +328,7 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
 
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
+  request->viewport = m_context.get_viewport();
 
   request->pos          = apply_translate(pos1)*scale();
   request->color        = color;
@@ -338,6 +348,7 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 
   request->flip = m_context.transform().flip;
   request->alpha = m_context.transform().alpha;
+  request->viewport = m_context.get_viewport();
 
   request->pos1 = apply_translate(pos1)*scale();
   request->pos2 = apply_translate(pos2)*scale();

@@ -21,6 +21,12 @@
 #include "control/input_manager.hpp"
 #include "control/joystick_config.hpp"
 #include "gui/menu_manager.hpp"
+#include "object/player.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/savegame.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 
 JoystickManager::JoystickManager(InputManager* parent_,
@@ -41,7 +47,7 @@ JoystickManager::~JoystickManager()
 {
   for (auto& joy : joysticks)
   {
-    SDL_JoystickClose(joy);
+    SDL_JoystickClose(joy.first);
   }
 }
 
@@ -57,38 +63,98 @@ JoystickManager::on_joystick_added(int joystick_index)
   }
   else
   {
-    joysticks.push_back(joystick);
+    joysticks[joystick] = -1;
+
+    if (min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
+      min_joybuttons = SDL_JoystickNumButtons(joystick);
+
+    if (SDL_JoystickNumButtons(joystick) > max_joybuttons)
+      max_joybuttons = SDL_JoystickNumButtons(joystick);
+
+    if (SDL_JoystickNumAxes(joystick) > max_joyaxis)
+      max_joyaxis = SDL_JoystickNumAxes(joystick);
+
+    if (SDL_JoystickNumHats(joystick) > max_joyhats)
+      max_joyhats = SDL_JoystickNumHats(joystick);
+
+    if (!parent->m_use_game_controller && g_config->multiplayer_auto_manage_players)
+    {
+      int id = parent->get_num_users();
+      for (int i = 0; i < parent->get_num_users(); i++)
+      {
+        if (!parent->has_corresponsing_controller(i) && !parent->m_uses_keyboard[i])
+        {
+          id = i;
+          break;
+        }
+      }
+
+      if (id == parent->get_num_users())
+        parent->push_user();
+
+      joysticks[joystick] = id;
+
+      if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
+      {
+        auto& sector = GameSession::current()->get_current_sector();
+        auto& player_status = GameSession::current()->get_savegame().get_player_status();
+
+        if (player_status.m_num_players <= id)
+          player_status.add_player();
+
+        // ID = 0 is impossible, so no need to write `(id == 0) ? "" : ...`
+        auto& player = sector.add<Player>(player_status, "Tux" + std::to_string(id + 1), id);
+
+        player.multiplayer_prepare_spawn();
+      }
+    }
   }
-
-  if (min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
-    min_joybuttons = SDL_JoystickNumButtons(joystick);
-
-  if (SDL_JoystickNumButtons(joystick) > max_joybuttons)
-    max_joybuttons = SDL_JoystickNumButtons(joystick);
-
-  if (SDL_JoystickNumAxes(joystick) > max_joyaxis)
-    max_joyaxis = SDL_JoystickNumAxes(joystick);
-
-  if (SDL_JoystickNumHats(joystick) > max_joyhats)
-    max_joyhats = SDL_JoystickNumHats(joystick);
 }
 
 void
 JoystickManager::on_joystick_removed(int instance_id)
 {
   log_debug << "on_joystick_removed: " << static_cast<int>(instance_id) << std::endl;
-  for (auto& joy : joysticks)
+
+  std::vector<SDL_Joystick*> erase_us;
+
+  auto it = std::find_if(joysticks.begin(), joysticks.end(), [instance_id] (decltype(joysticks)::const_reference pair) {
+    return SDL_JoystickInstanceID(pair.first) == instance_id;
+  });
+
+  if (it != joysticks.end())
   {
-    SDL_JoystickID id = SDL_JoystickInstanceID(joy);
-    if (id == instance_id)
+    SDL_JoystickClose(it->first);
+
+    auto deleted_player_id = it->second;
+
+    joysticks.erase(it);
+
+    if (!parent->m_use_game_controller && g_config->multiplayer_auto_manage_players
+        && deleted_player_id != 0 && !parent->m_uses_keyboard[deleted_player_id])
     {
-      SDL_JoystickClose(joy);
-      joy = nullptr;
+      // Sectors in worldmaps have no Player's of that class
+      if (Sector::current() && Sector::current()->get_object_count<Player>() > 0)
+      {
+        auto players = Sector::current()->get_objects_by_type<Player>();
+        auto it_players = players.begin();
+
+        while (it_players != players.end())
+        {
+          if (it_players->get_id() == deleted_player_id)
+            it_players->remove_me();
+
+          it_players++;
+        }
+      }
     }
   }
-
-  joysticks.erase(std::remove(joysticks.begin(), joysticks.end(), nullptr),
-                  joysticks.end());
+  else
+  {
+    log_debug << "Joystick was unplugged but was not initially detected: "
+              << SDL_JoystickName(SDL_JoystickFromInstanceID(instance_id))
+              << std::endl;
+  }
 }
 
 void
@@ -119,28 +185,28 @@ JoystickManager::process_hat_event(const SDL_JoyHatEvent& jhat)
     {
       auto it = m_joystick_config.m_joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_UP));
       if (it != m_joystick_config.m_joy_hat_map.end())
-        set_joy_controls(it->second, (jhat.value & SDL_HAT_UP) != 0);
+        set_joy_controls(jhat.which, it->second, (jhat.value & SDL_HAT_UP) != 0);
     }
 
     if (changed & SDL_HAT_DOWN)
     {
       auto it = m_joystick_config.m_joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_DOWN));
       if (it != m_joystick_config.m_joy_hat_map.end())
-        set_joy_controls(it->second, (jhat.value & SDL_HAT_DOWN) != 0);
+        set_joy_controls(jhat.which, it->second, (jhat.value & SDL_HAT_DOWN) != 0);
     }
 
     if (changed & SDL_HAT_LEFT)
     {
       auto it = m_joystick_config.m_joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_LEFT));
       if (it != m_joystick_config.m_joy_hat_map.end())
-        set_joy_controls(it->second, (jhat.value & SDL_HAT_LEFT) != 0);
+        set_joy_controls(jhat.which, it->second, (jhat.value & SDL_HAT_LEFT) != 0);
     }
 
     if (changed & SDL_HAT_RIGHT)
     {
       auto it = m_joystick_config.m_joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_RIGHT));
       if (it != m_joystick_config.m_joy_hat_map.end())
-        set_joy_controls(it->second, (jhat.value & SDL_HAT_RIGHT) != 0);
+        set_joy_controls(jhat.which, it->second, (jhat.value & SDL_HAT_RIGHT) != 0);
     }
   }
 
@@ -175,18 +241,18 @@ JoystickManager::process_axis_event(const SDL_JoyAxisEvent& jaxis)
       // std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
     } else {
       if (jaxis.value < -m_joystick_config.m_dead_zone)
-        set_joy_controls(left->second,  true);
+        set_joy_controls(jaxis.which, left->second,  true);
       else
-        set_joy_controls(left->second, false);
+        set_joy_controls(jaxis.which, left->second, false);
     }
 
     if (right == m_joystick_config.m_joy_axis_map.end()) {
       // std::cout << "Unmapped joyaxis " << (int)jaxis.axis << " moved" << std::endl;
     } else {
       if (jaxis.value > m_joystick_config.m_dead_zone)
-        set_joy_controls(right->second, true);
+        set_joy_controls(jaxis.which, right->second, true);
       else
-        set_joy_controls(right->second, false);
+        set_joy_controls(jaxis.which, right->second, false);
     }
   }
 }
@@ -210,7 +276,7 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
     if (i == m_joystick_config.m_joy_button_map.end()) {
       log_debug << "Unmapped joybutton " << static_cast<int>(jbutton.button) << " pressed" << std::endl;
     } else {
-      set_joy_controls(i->second, (jbutton.state == SDL_PRESSED));
+      set_joy_controls(jbutton.which, i->second, (jbutton.state == SDL_PRESSED));
     }
   }
 }
@@ -222,15 +288,81 @@ JoystickManager::bind_next_event_to(Control id)
 }
 
 void
-JoystickManager::set_joy_controls(Control id, bool value)
+JoystickManager::set_joy_controls(SDL_JoystickID joystick, Control id, bool value)
 {
+  auto it = joysticks.find(SDL_JoystickFromInstanceID(joystick));
+  if (it == joysticks.end() || it->second < 0)
+    return;
+
   if (m_joystick_config.m_jump_with_up_joy &&
       id == Control::UP)
   {
-    parent->get_controller().set_control(Control::JUMP, value);
+    parent->get_controller(it->second).set_control(Control::JUMP, value);
   }
 
-  parent->get_controller().set_control(id, value);
+  parent->get_controller(it->second).set_control(id, value);
 }
+
+void
+JoystickManager::on_player_removed(int player_id)
+{
+  auto it2 = std::find_if(joysticks.begin(), joysticks.end(), [player_id](decltype(joysticks)::const_reference pair) {
+    return pair.second == player_id;
+  });
+  if (it2 != joysticks.end())
+  {
+    it2->second = -1;
+    // Try again, in case multiple controllers were bount to a player
+    // Recursive call shouldn't go too deep except in hardcore scenarios
+    on_player_removed(player_id);
+  }
+}
+
+bool
+JoystickManager::has_corresponding_joystick(int player_id) const
+{
+  return std::find_if(joysticks.begin(), joysticks.end(), [player_id](decltype(joysticks)::const_reference pair) {
+    return pair.second == player_id;
+  }) != joysticks.end();
+}
+
+int
+JoystickManager::rumble(SDL_Joystick* controller) const
+{
+#if SDL_VERSION_ATLEAST(2, 0, 9)
+  if (g_config->multiplayer_buzz_controllers)
+  {
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+    if (SDL_JoystickHasRumble(controller))
+    {
+#endif
+      // TODO: Rumble intensity setting (like volume)
+      SDL_JoystickRumble(controller, 0xFFFF, 0xFFFF, 300);
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+    }
+    else
+    {
+      return 1;
+    }
+#endif
+  }
+
+  return 0;
+#else
+  return 2;
+#endif
+}
+
+void
+JoystickManager::bind_joystick(SDL_Joystick* controller, int player_id)
+{
+  joysticks[controller] = player_id;
+
+  if (!g_config->multiplayer_multibind)
+    for (auto& pair2 : joysticks)
+      if (pair2.second == player_id && pair2.first != controller)
+        pair2.second = -1;
+}
+
 
 /* EOF */

@@ -72,6 +72,8 @@ public:
   virtual const std::string get_icon_path() const override { return "images/engine/editor/camera.png"; }
   /** @} */
 
+  Rectf get_rect() const;
+
   /** \addtogroup CameraAPI
       @{ */
 
@@ -99,7 +101,7 @@ public:
   void set_mode(Mode mode_) { m_mode = mode_; }
 
   /** get the exact scale at this exact moment */
-  float get_current_scale() const { return m_scale; }
+  float get_current_scale() const { return m_enfore_minimum_scale ? std::min(m_minimum_scale, m_scale) : m_scale; }
 
   /** get the scale towards which the camera is moving */
   float get_target_scale() const { return m_scale_target; }
@@ -110,6 +112,7 @@ public:
 
 private:
   void update_scroll_normal(float dt_sec);
+  void update_scroll_normal_multiplayer(float dt_sec);
   void update_scroll_autoscroll(float dt_sec);
   void update_scroll_to(float dt_sec);
   void update_scale(float dt_sec);
@@ -151,6 +154,11 @@ private:
         m_scale_time_total,
         m_scale_time_remaining;
   easing m_scale_easing;
+
+  // Minimum scale is used in certain circumstances where a fixed minimum scale
+  // should be used, regardless of the scriping-accessible `m_scale` property.
+  float m_minimum_scale;
+  bool m_enfore_minimum_scale;
 
 private:
   Camera(const Camera&) = delete;

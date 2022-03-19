@@ -102,6 +102,9 @@ void CloudParticleSystem::update(float dt_sec)
   }
 
   auto& cam = Sector::get().get_singleton_by_type<Camera>();
+  auto scale = cam.get_current_scale();
+  auto screen_width = static_cast<float>(SCREEN_WIDTH) / scale;
+  auto screen_height = static_cast<float>(SCREEN_HEIGHT) / scale;
 
   for (auto& particle : particles) {
     auto cloudParticle = dynamic_cast<CloudParticle*>(particle.get());
@@ -109,13 +112,13 @@ void CloudParticleSystem::update(float dt_sec)
       continue;
     cloudParticle->pos.x += cloudParticle->speed * dt_sec * m_current_speed;
     while (cloudParticle->pos.x < cam.get_translation().x - static_cast<float>(cloudParticle->texture->get_width()))
-      cloudParticle->pos.x += virtual_width;
-    while (cloudParticle->pos.x > cam.get_translation().x + static_cast<float>(SCREEN_WIDTH))
-      cloudParticle->pos.x -= virtual_width;
+      cloudParticle->pos.x += screen_width + static_cast<float>(cloudParticle->texture->get_width()) * 2.f;
+    while (cloudParticle->pos.x > cam.get_translation().x + screen_width)
+      cloudParticle->pos.x -= screen_width + static_cast<float>(cloudParticle->texture->get_width()) * 2.f;
     while (cloudParticle->pos.y < cam.get_translation().y - static_cast<float>(cloudParticle->texture->get_height()))
-      cloudParticle->pos.y += virtual_height;
-    while (cloudParticle->pos.y > cam.get_translation().y + static_cast<float>(SCREEN_HEIGHT))
-      cloudParticle->pos.y -= virtual_height;
+      cloudParticle->pos.y += screen_height + static_cast<float>(cloudParticle->texture->get_height()) * 2.f;
+    while (cloudParticle->pos.y > cam.get_translation().y + screen_height)
+      cloudParticle->pos.y -= screen_height + static_cast<float>(cloudParticle->texture->get_height()) * 2.f;
 
     // Update alpha
     if (cloudParticle->target_time_remaining > 0.f) {

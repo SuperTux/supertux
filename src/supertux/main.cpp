@@ -576,7 +576,8 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (g_config->tux_spawn_pos)
         {
-          session->get_current_sector().get_player().set_pos(*g_config->tux_spawn_pos);
+          // FIXME: Specify start pos for multiple players
+          session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
 
         if (!g_config->start_demo.empty())

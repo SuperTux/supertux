@@ -64,7 +64,7 @@ Sector* Sector::s_current = nullptr;
 
 namespace {
 
-PlayerStatus dummy_player_status;
+PlayerStatus dummy_player_status(1);
 
 } // namespace
 
@@ -86,7 +86,21 @@ Sector::Sector(Level& parent) :
   if (savegame && !m_level.m_suppress_pause_menu && !savegame->is_title_screen()) {
     add<PlayerStatusHUD>(player_status);
   }
-  add<Player>(player_status, "Tux");
+
+  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
+  {
+    if (!InputManager::current()->has_corresponsing_controller(id)
+        && !InputManager::current()->m_uses_keyboard[id]
+        && !savegame->is_title_screen()
+        && id != 0)
+      continue;
+
+    if (id > 0 && !savegame)
+      dummy_player_status.add_player();
+
+    add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+  }
+
   add<DisplayEffect>("Effect");
   add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
@@ -217,6 +231,9 @@ Sector::activate(const Vector& player_pos)
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
   m_squirrel_environment->expose("settings", std::make_unique<scripting::Sector>(this));
 
+  if (Editor::is_active())
+    return;
+
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
   for (auto player_ptr : get_objects_by_type_index(typeid(Player))) {
@@ -238,8 +255,10 @@ Sector::activate(const Vector& player_pos)
     }
   }
 
-  { //FIXME: This is a really dirty workaround for this strange camera jump
-    Player& player = get_player();
+  //FIXME: This is a really dirty workaround for this strange camera jump
+  if (get_players().size() > 0)
+  {
+    Player& player = *(get_players()[0]);
     Camera& camera = get_camera();
     player.move(player.get_pos()+Vector(-32, 0));
     camera.reset(player.get_pos());
@@ -394,9 +413,62 @@ Sector::draw(DrawingContext& context)
 {
   BIND_SECTOR(*this);
 
-  Camera& camera = get_camera();
+#if 0
+  context.push_transform();
+
+  Rect original_clip = context.get_viewport();
+  context.push_transform();
+  {
+    Camera& camera = get_camera();
+    context.set_translation(camera.get_translation());
+    context.scale(camera.get_current_scale());
+
+    get_singleton_by_type<PlayerStatusHUD>().set_target_player(0);
+
+    Rect clip = original_clip;
+    clip.left = (clip.left + clip.right) / 2 + 16;
+    context.set_viewport(clip);
+
+    GameObjectManager::draw(context);
+
+    if (g_debug.show_collision_rects) {
+      m_collision_system->draw(context);
+    }
+  }
+  context.set_viewport(original_clip);
+  context.pop_transform();
 
   context.push_transform();
+  {
+    Camera& camera = get_camera();
+    context.set_translation(camera.get_translation());
+    context.scale(camera.get_current_scale());
+
+    get_singleton_by_type<PlayerStatusHUD>().set_target_player(1);
+
+    Rect clip = original_clip;
+    clip.right = (clip.left + clip.right) / 2 - 16;
+    context.set_viewport(clip);
+
+    GameObjectManager::draw(context);
+
+    if (g_debug.show_collision_rects) {
+      m_collision_system->draw(context);
+    }
+  }
+  context.set_viewport(original_clip);
+  context.pop_transform();
+
+  context.pop_transform();
+
+  Rect midline = original_clip;
+  midline.right = (original_clip.left + original_clip.right) / 2 - 16;
+  midline.left = (original_clip.left + original_clip.right) / 2 + 16;
+  context.color().draw_filled_rect(midline, Color::BLACK, 99999);
+#else
+  context.push_transform();
+
+  Camera& camera = get_camera();
   context.set_translation(camera.get_translation());
   context.scale(camera.get_current_scale());
 
@@ -407,6 +479,7 @@ Sector::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+#endif
 
   if (m_level.m_is_in_cutscene && !m_level.m_skip_cutscene)
   {
@@ -713,10 +786,21 @@ Sector::get_camera() const
   return get_singleton_by_type<Camera>();
 }
 
-Player&
-Sector::get_player() const
+std::vector<Player*>
+Sector::get_players() const
 {
-  return *static_cast<Player*>(get_objects_by_type_index(typeid(Player)).at(0));
+  auto players_raw = get_objects_by_type<Player>();
+
+  std::vector<Player*> players;
+
+  auto it = players_raw.begin();
+  while (it != players_raw.end())
+  {
+    players.push_back(&(*it));
+    it++;
+  }
+
+  return players;
 }
 
 DisplayEffect&

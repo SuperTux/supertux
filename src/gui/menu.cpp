@@ -53,6 +53,8 @@
 static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
 
+#include "supertux/error_handler.hpp"
+
 Menu::Menu() :
   m_pos(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
                static_cast<float>(SCREEN_HEIGHT) / 2.0f)),
@@ -532,6 +534,10 @@ Menu::process_action(const MenuAction& menuaction)
   bool last_action = m_items[m_active_item]->no_other_action();
   m_items[m_active_item]->process_action(menuaction);
   if (last_action)
+    return;
+
+  // In case pop_menu() was called in the callback
+  if (MenuManager::instance().current_menu() != this)
     return;
 
   if (m_items[m_active_item]->changes_width())

@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 #include "util/currenton.hpp"
 
@@ -54,17 +55,29 @@ public:
   void use_game_controller(bool v);
   bool use_game_controller() const { return m_use_game_controller; }
 
-  const Controller& get_controller() const;
-  Controller& get_controller();
+  const Controller& get_controller(int player_id = 0) const;
+  Controller& get_controller(int player_id = 0);
+
+  int get_num_users() const { return static_cast<int>(m_controllers.size()); }
+
+  void push_user();
+  void pop_user();
+
+  void on_player_removed(int player_id);
+
+  bool has_corresponsing_controller(int player_id) const;
 
 private:
-  std::unique_ptr<Controller> controller;
+  std::vector<std::unique_ptr<Controller>> m_controllers;
 
 public:
   bool& m_use_game_controller;
   std::unique_ptr<KeyboardManager> keyboard_manager;
   std::unique_ptr<JoystickManager> joystick_manager;
   std::unique_ptr<GameControllerManager> game_controller_manager;
+
+  /** True if the given player is on the keyboard and plays without a controller */
+  std::unordered_map<int, bool> m_uses_keyboard;
 
 private:
   InputManager(const InputManager&) = delete;

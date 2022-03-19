@@ -25,7 +25,8 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_) :
+Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type_, Player& player) :
+  m_player(player),
   physic(),
   life_count(3),
   sprite(),
@@ -34,17 +35,23 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
 {
   physic.set_velocity(xm);
 
-  if (type == FIRE_BONUS) {
-    sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
-    lightsprite->set_blend(Blend::ADD);
-    lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
- } else if (type == ICE_BONUS) {
-    life_count = 10;
-    sprite = SpriteManager::current()->create("images/objects/bullets/icebullet.sprite");
-  } else {
-    log_warning << "Bullet::Bullet called with unknown BonusType" << std::endl;
-    life_count = 10;
-    sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
+  switch (type) {
+    case FIRE_BONUS:
+      sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
+      lightsprite->set_blend(Blend::ADD);
+      lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
+      break;
+
+    case ICE_BONUS:
+      life_count = 10;
+      sprite = SpriteManager::current()->create("images/objects/bullets/icebullet.sprite");
+      break;
+
+    default:
+      log_warning << "Bullet::Bullet called with unknown BonusType" << std::endl;
+      life_count = 10;
+      sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
+      break;
   }
 
   m_col.m_bbox.set_pos(pos);
@@ -61,16 +68,20 @@ Bullet::update(float dt_sec)
                                  gameRandom.randf(10.0f) / 100.0f));
   } else
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
-  // remove bullet when it's offscreen
-  float scroll_x =
-    Sector::get().get_camera().get_translation().x;
-  float scroll_y =
-    Sector::get().get_camera().get_translation().y;
+
+  if (life_count <= 0)
+  {
+    remove_me();
+    return;
+  }
+
+  float scroll_x = Sector::get().get_camera().get_translation().x;
+  float scroll_y = Sector::get().get_camera().get_translation().y;
+  float scale = Sector::get().get_camera().get_current_scale();
   if (get_pos().x < scroll_x ||
-      get_pos().x > scroll_x + static_cast<float>(SCREEN_WIDTH) ||
+      get_pos().x > scroll_x + static_cast<float>(SCREEN_WIDTH) / scale ||
       //     get_pos().y < scroll_y ||
-      get_pos().y > scroll_y + static_cast<float>(SCREEN_HEIGHT) ||
-      life_count <= 0) {
+      get_pos().y > scroll_y + static_cast<float>(SCREEN_HEIGHT) / scale) {
     remove_me();
     return;
   }

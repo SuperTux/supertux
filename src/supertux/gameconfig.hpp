@@ -132,6 +132,10 @@ public:
   bool editor_autotile_help;
   int editor_autosave_frequency;
 
+  bool multiplayer_auto_manage_players;
+  bool multiplayer_multibind;
+  bool multiplayer_buzz_controllers;
+
   std::string repository_url;
 
   bool is_christmas() const {

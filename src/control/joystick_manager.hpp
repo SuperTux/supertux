@@ -20,12 +20,19 @@
 
 #include <SDL.h>
 #include <vector>
+#include <unordered_map>
 
 #include "control/controller.hpp"
 
 class InputManager;
 class JoystickConfig;
 
+
+/**
+ * Manages Joysticks.
+ * 
+ * WARNING: Any edit done to this class should also be done to GameControllerManager!
+ */
 class JoystickManager final
 {
   friend class KeyboardManager;
@@ -40,12 +47,22 @@ public:
 
   void bind_next_event_to(Control id);
 
-  void set_joy_controls(Control id, bool value);
+  void set_joy_controls(SDL_JoystickID joystick, Control id, bool value);
 
   void on_joystick_added(int joystick_index);
   void on_joystick_removed(int instance_id);
 
   int get_num_joysticks() const { return static_cast<int>(joysticks.size()); }
+
+  void on_player_removed(int player_id);
+  bool has_corresponding_joystick(int player_id) const;
+
+  /** @returns 0 if success, 1 if controller doesn't support rumbling, 2 if game doesn't support rumbling */
+  int rumble(SDL_Joystick* joystick) const;
+
+  void bind_joystick(SDL_Joystick* joystick, int player_id);
+
+  std::unordered_map<SDL_Joystick*, int>& get_joystick_mapping() { return joysticks; }
 
 private:
   InputManager* parent;
@@ -64,7 +81,7 @@ private:
 
   int wait_for_joystick;
 
-  std::vector<SDL_Joystick*> joysticks;
+  std::unordered_map<SDL_Joystick*, int> joysticks;
 
 private:
   JoystickManager(const JoystickManager&) = delete;

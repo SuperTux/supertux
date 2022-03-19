@@ -59,8 +59,7 @@ public:
 
 private:
   SpritePtr m_sprite;
-  bool m_lasthit;
-  bool m_hit;
+  std::vector<Player*> m_hit;
 
   /** Players that will be informed when we lose touch with them */
   std::vector<Player*> m_losetouch_listeners;

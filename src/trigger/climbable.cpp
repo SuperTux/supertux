@@ -34,7 +34,7 @@ const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when 
 }
 
 Climbable::Climbable(const ReaderMapping& reader) :
-  climbed_by(nullptr),
+  climbed_by(),
   activate_try_timer(),
   message(),
   new_size(0.0f, 0.0f)
@@ -51,7 +51,7 @@ Climbable::Climbable(const ReaderMapping& reader) :
 }
 
 Climbable::Climbable(const Rectf& area) :
-  climbed_by(nullptr),
+  climbed_by(),
   activate_try_timer(),
   message(),
   new_size(0.0f, 0.0f)
@@ -61,10 +61,10 @@ Climbable::Climbable(const Rectf& area) :
 
 Climbable::~Climbable()
 {
-  if (climbed_by) {
-    climbed_by->stop_climbing(*this);
-    climbed_by = nullptr;
-  }
+  for (auto* player : climbed_by)
+    player->stop_climbing(*this);
+
+  climbed_by.clear();
 }
 
 ObjectSettings
@@ -93,20 +93,18 @@ Climbable::after_editor_set() {
 void
 Climbable::update(float /*dt_sec*/)
 {
-  if (!climbed_by) return;
-
-  if (!may_climb(*climbed_by)) {
-    climbed_by->stop_climbing(*this);
-    climbed_by = nullptr;
-  }
+  for (auto* player : climbed_by)
+    if (!may_climb(*player))
+      player->stop_climbing(*this);
 }
 
 void
 Climbable::draw(DrawingContext& context)
 {
-  if (climbed_by && !message.empty()) {
+  if (!climbed_by.empty() && !message.empty()) {
     context.push_transform();
     context.set_translation(Vector(0, 0));
+    context.transform().scale = 1.f;
     Vector pos = Vector(0, static_cast<float>(SCREEN_HEIGHT) / 2.0f - Resources::normal_font->get_height() / 2.0f);
     context.color().draw_center_text(Resources::normal_font, _(message), pos, LAYER_HUD, Climbable::text_color);
     context.pop_transform();
@@ -123,7 +121,7 @@ Climbable::event(Player& player, EventType type)
   if ((type == EVENT_ACTIVATE) || (activate_try_timer.started())) {
     if (player.get_grabbed_object() == nullptr){
       if (may_climb(player)) {
-        climbed_by = &player;
+        climbed_by.push_back(&player);
         player.start_climbing(*this);
         activate_try_timer.stop();
       } else {
@@ -136,9 +134,17 @@ Climbable::event(Player& player, EventType type)
       }
     }
   }
+
   if (type == EVENT_LOSETOUCH) {
     player.stop_climbing(*this);
-    climbed_by = nullptr;
+    auto it = climbed_by.begin();
+    while (it != climbed_by.end())
+    {
+      if (*it == &player)
+        it = climbed_by.erase(it);
+      else
+        it++;
+    }
   }
 }
 

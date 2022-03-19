@@ -2691,7 +2691,7 @@
       (height 288)
       (script "Level.spawn(\"forest\",\"main\");")
       (button #f)
-      (x 9024)
+      (x 9056)
       (y 672)
     )
     (secretarea
@@ -4275,7 +4275,7 @@
     )
     (spawnpoint
       (name "main")
-      (x 32)
+      (x 96)
       (y 800)
     )
     (tilemap

@@ -266,7 +266,7 @@ BonusBlock::try_open(Player* player)
     return;
 
   if (player == nullptr)
-    player = &Sector::get().get_player();
+    player = Sector::get().get_nearest_player(m_col.m_bbox);
 
   if (player == nullptr)
     return;
@@ -402,7 +402,7 @@ BonusBlock::try_drop(Player *player)
   }
 
   if (player == nullptr)
-    player = &Sector::get().get_player();
+    player = Sector::get().get_nearest_player(m_col.m_bbox);
 
   if (player == nullptr)
     return;
@@ -513,7 +513,7 @@ void
 BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
 {
   std::unique_ptr<MovingObject> obj;
-  if (player->get_status().bonus == NO_BONUS)
+  if (player->get_status().bonus[player->get_id()] == NO_BONUS)
   {
     obj = std::make_unique<GrowUp>(get_pos(), dir);
   }
@@ -529,7 +529,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
 void
 BonusBlock::drop_growup_bonus(Player* player, const std::string& bonus_sprite_name, const Direction& dir, bool& countdown)
 {
-  if (player->get_status().bonus == NO_BONUS)
+  if (player->get_status().bonus[player->get_id()] == NO_BONUS)
   {
     Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir);
   }

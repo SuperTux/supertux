@@ -21,9 +21,9 @@
 #include <boost/optional.hpp>
 
 #include "control/controller.hpp"
+#include "control/keyboard_config.hpp"
 
 class InputManager;
-class KeyboardConfig;
 struct SDL_KeyboardEvent;
 struct SDL_TextInputEvent;
 
@@ -37,12 +37,12 @@ public:
   void process_console_key_event(const SDL_KeyboardEvent& event);
   void process_menu_key_event(const SDL_KeyboardEvent& event);
 
-  void bind_next_event_to(Control id);
+  void bind_next_event_to(int player_id, Control id);
 
 private:
   InputManager* m_parent;
   KeyboardConfig& m_keyboard_config;
-  boost::optional<Control> m_wait_for_key;
+  boost::optional<KeyboardConfig::PlayerControl> m_wait_for_key;
   bool m_lock_text_input;
 
 private:

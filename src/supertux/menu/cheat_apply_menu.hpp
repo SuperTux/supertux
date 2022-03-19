@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>,
-//                2007 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,29 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_APPLY_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_APPLY_MENU_HPP
 
-#include "gui/menu_item.hpp"
+#include "gui/menu.hpp"
 
-class InputManager;
+class Player;
 
-class KeyboardMenu final : public Menu
+class CheatApplyMenu final : public Menu
 {
 public:
-  KeyboardMenu(InputManager& input_manager, int player_id = 0);
+  CheatApplyMenu(std::function<void(Player&)> callback);
+  /** Use this for cheats that need a stack count, e. g. giving fire flowers */
+  CheatApplyMenu(std::function<void(Player&, int)> callback);
 
-  void refresh() override;
-  std::string get_key_name(SDL_Keycode key) const;
   void menu_action(MenuItem& item) override;
 
 private:
-  InputManager& m_input_manager;
-  int m_player_id;
+  std::function<void(Player&)> m_callback_1;
+  std::function<void(Player&, int)> m_callback_2;
+  int m_stack_count;
 
 private:
-  KeyboardMenu(const KeyboardMenu&) = delete;
-  KeyboardMenu& operator=(const KeyboardMenu&) = delete;
+  CheatApplyMenu(const CheatApplyMenu&) = delete;
+  CheatApplyMenu& operator=(const CheatApplyMenu&) = delete;
 };
 
 #endif

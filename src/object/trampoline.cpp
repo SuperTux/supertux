@@ -90,7 +90,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
       float vy = player->get_physic().get_velocity_y();
       //player is falling down on trampoline
       if (hit.top && vy >= 0) {
-        if (!(player->get_status().bonus == AIR_BONUS))
+        if (!(player->get_status().bonus[player->get_id()] == AIR_BONUS))
         {
           if (player->get_controller().hold(Control::JUMP))
             vy = VY_MIN;

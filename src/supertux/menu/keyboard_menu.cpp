@@ -20,12 +20,14 @@
 #include "control/input_manager.hpp"
 #include "control/keyboard_manager.hpp"
 #include "gui/item_controlfield.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
 
-KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
-  m_input_manager(input_manager)
+KeyboardMenu::KeyboardMenu(InputManager& input_manager, int player_id) :
+  m_input_manager(input_manager),
+  m_player_id(player_id)
 {
   add_label(_("Setup Keyboard"));
   add_hl();
@@ -35,17 +37,34 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
   add_controlfield(static_cast<int>(Control::RIGHT),      _("Right"));
   add_controlfield(static_cast<int>(Control::JUMP),       _("Jump"));
   add_controlfield(static_cast<int>(Control::ACTION),     _("Action"));
+
   add_controlfield(static_cast<int>(Control::PEEK_LEFT),  _("Peek Left"));
   add_controlfield(static_cast<int>(Control::PEEK_RIGHT), _("Peek Right"));
   add_controlfield(static_cast<int>(Control::PEEK_UP),    _("Peek Up"));
   add_controlfield(static_cast<int>(Control::PEEK_DOWN),  _("Peek Down"));
-  if (g_config->developer_mode) {
-    add_controlfield(static_cast<int>(Control::CONSOLE), _("Console"));
-    add_controlfield(static_cast<int>(Control::CHEAT_MENU), _("Cheat Menu"));
-    add_controlfield(static_cast<int>(Control::DEBUG_MENU), _("Debug Menu"));
+
+  if (m_player_id == 0)
+  {
+    if (g_config->developer_mode) {
+      add_controlfield(static_cast<int>(Control::CONSOLE), _("Console"));
+      add_controlfield(static_cast<int>(Control::CHEAT_MENU), _("Cheat Menu"));
+      add_controlfield(static_cast<int>(Control::DEBUG_MENU), _("Debug Menu"));
+    }
   }
   add_toggle(static_cast<int>(Control::CONTROLCOUNT), _("Jump with Up"), &g_config->keyboard_config.m_jump_with_up_kbd);
   add_hl();
+
+  if (m_player_id == 0)
+  {
+    for (int id = 1; id < m_input_manager.get_num_users(); id++)
+    {
+      add_entry(_("Player") + " " + std::to_string(id + 1), [&input_manager, id] {
+        MenuManager::instance().push_menu(std::make_unique<KeyboardMenu>(input_manager, id));
+      });
+    }
+    add_hl();
+  }
+
   add_back(_("Back"));
   refresh();
 }
@@ -98,7 +117,7 @@ KeyboardMenu::menu_action(MenuItem& item)
       return;
     }
     itemcf->change_input(_("Press Key"));
-    m_input_manager.keyboard_manager->bind_next_event_to(static_cast<Control>(item.get_id()));
+    m_input_manager.keyboard_manager->bind_next_event_to(m_player_id, static_cast<Control>(item.get_id()));
   }
 }
 
@@ -109,37 +128,39 @@ KeyboardMenu::refresh()
   ItemControlField* micf;
 
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::UP)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::UP)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::UP)));
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::DOWN)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::DOWN)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::DOWN)));
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::LEFT)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::LEFT)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::LEFT)));
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::RIGHT)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::RIGHT)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::RIGHT)));
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::JUMP)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::JUMP)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::JUMP)));
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::ACTION)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::ACTION)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::ACTION)));
+
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::PEEK_LEFT)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::PEEK_LEFT)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::PEEK_LEFT)));
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::PEEK_RIGHT)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::PEEK_RIGHT)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::PEEK_RIGHT)));
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::PEEK_UP)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::PEEK_UP)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::PEEK_UP)));
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::PEEK_DOWN)));
-  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::PEEK_DOWN)));
+  if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::PEEK_DOWN)));
 
-  if (g_config->developer_mode) {
-    micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::CHEAT_MENU)));
-    if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::CHEAT_MENU)));
+  if (m_player_id == 0)
+  {
+    if (g_config->developer_mode) {
+      micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::CHEAT_MENU)));
+      if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::CHEAT_MENU)));
 
-    micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::DEBUG_MENU)));
-    if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::DEBUG_MENU)));
-  }
+      micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::DEBUG_MENU)));
+      if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::DEBUG_MENU)));
 
-  if (g_config->developer_mode) {
-    micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::CONSOLE)));
-    if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(Control::CONSOLE)));
+      micf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(Control::CONSOLE)));
+      if (micf) micf->change_input(get_key_name(kbd_cfg.reversemap_key(m_player_id, Control::CONSOLE)));
+    }
   }
 }
 

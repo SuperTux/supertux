@@ -24,10 +24,12 @@
 #include "supertux/player_status.hpp"
 #include "video/layer.hpp"
 
+class Player;
+
 class Bullet final : public MovingObject
 {
 public:
-  Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type);
+  Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType type, Player& player);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -45,7 +47,10 @@ public:
 
   BonusType get_type() const { return type; }
 
+  Player& get_player() const { return m_player; }
+
 private:
+  Player& m_player;
   Physic physic;
   int life_count;
   SpritePtr sprite;

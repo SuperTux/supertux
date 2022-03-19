@@ -68,6 +68,7 @@ enum OptionsMenuIDs {
   MNID_MUSIC,
   MNID_SOUND_VOLUME,
   MNID_MUSIC_VOLUME,
+  MNID_RUMBLING,
   MNID_DEVELOPER_MODE,
   MNID_CHRISTMAS_MODE,
   MNID_TRANSITIONS,
@@ -403,12 +404,20 @@ OptionsMenu::OptionsMenu(bool complete) :
     add_inactive( _("Music (disabled)"));
   }
 
+  // Separated both translation strings so the latter can be removed if it is
+  // no longer true, without requiring a new round of translating
+  add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
+    .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
+
   add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
     .set_help(_("Configure key-action mappings"));
 
 #ifndef UBUNTU_TOUCH
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
     .set_help(_("Configure joystick control-action mappings"));
+
+  add_submenu(_("Multiplayer settings"), MenuStorage::MULTIPLAYER_MENU)
+    .set_help(_("Configure settings specific to multiplayer"));
 #endif
 
   add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)

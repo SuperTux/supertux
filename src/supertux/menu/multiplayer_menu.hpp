@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>,
-//                2007 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,29 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MULTIPLAYER_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_MULTIPLAYER_MENU_HPP
 
-#include "gui/menu_item.hpp"
+#include "gui/menu.hpp"
 
-class InputManager;
-
-class KeyboardMenu final : public Menu
+class MultiplayerMenu final : public Menu
 {
 public:
-  KeyboardMenu(InputManager& input_manager, int player_id = 0);
+  MultiplayerMenu();
 
-  void refresh() override;
-  std::string get_key_name(SDL_Keycode key) const;
-  void menu_action(MenuItem& item) override;
-
-private:
-  InputManager& m_input_manager;
-  int m_player_id;
-
-private:
-  KeyboardMenu(const KeyboardMenu&) = delete;
-  KeyboardMenu& operator=(const KeyboardMenu&) = delete;
+  void menu_action(MenuItem& item) override {}
 };
 
 #endif

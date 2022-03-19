@@ -14,30 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/endsequence_walkleft.hpp"
+#include "object/endsequence_walk.hpp"
 
 #include "object/player.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 
-EndSequenceWalkLeft::EndSequenceWalkLeft() :
+EndSequenceWalk::EndSequenceWalk() :
   EndSequence(),
   last_x_pos(),
   endsequence_timer()
 {
 }
 
-EndSequenceWalkLeft::~EndSequenceWalkLeft()
+EndSequenceWalk::~EndSequenceWalk()
 {
 }
 
 void
-EndSequenceWalkLeft::draw(DrawingContext& /*context*/)
+EndSequenceWalk::draw(DrawingContext& /*context*/)
 {
 }
 
 void
-EndSequenceWalkLeft::starting()
+EndSequenceWalk::starting()
 {
   EndSequence::starting();
   last_x_pos = -1;
@@ -45,25 +45,27 @@ EndSequenceWalkLeft::starting()
 }
 
 void
-EndSequenceWalkLeft::running(float dt_sec)
+EndSequenceWalk::running(float dt_sec)
 {
   EndSequence::running(dt_sec);
-  Player& tux = Sector::get().get_player();
 
-  if (tux_may_walk) {
-    end_sequence_controller->press(Control::LEFT);
-    if (int(last_x_pos) == int(tux.get_pos().x)) {
-      end_sequence_controller->press(Control::JUMP);
+  for (auto* player : Sector::get().get_players())
+  {
+    int dir = player->get_ending_direction();
+    if (dir && !m_tux_is_stopped[player->get_id()]) {
+      get_code_controller(player->get_id())->press(dir > 0 ? Control::RIGHT : Control::LEFT);
+      if (int(last_x_pos) == int(player->get_pos().x)) {
+        get_code_controller(player->get_id())->press(Control::JUMP);
+      }
+      last_x_pos = player->get_pos().x;
     }
   }
 
-  last_x_pos = tux.get_pos().x;
-
-  if (endsequence_timer.check()) isdone = true;
+  if (endsequence_timer.check()) m_is_done = true;
 }
 
 void
-EndSequenceWalkLeft::stopping()
+EndSequenceWalk::stopping()
 {
   EndSequence::stopping();
 }

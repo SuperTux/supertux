@@ -64,7 +64,10 @@ private:
   };
 
 public:
-  Player(PlayerStatus& player_status, const std::string& name);
+  static Color get_player_color(int id);
+
+public:
+  Player(PlayerStatus& player_status, const std::string& name, int player_id);
   ~Player() override;
 
   virtual void update(float dt_sec) override;
@@ -74,7 +77,11 @@ public:
   virtual void collision_tile(uint32_t tile_attributes) override;
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
-  virtual bool is_singleton() const override { return true; }
+  virtual bool is_singleton() const override { return false; }
+  virtual void remove_me() override;
+
+  int get_id() const { return m_id; }
+  void set_id(int id);
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
@@ -221,6 +228,11 @@ public:
   /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
   void sideways_push(float delta);
 
+  void multiplayer_prepare_spawn();
+
+  void set_ending_direction(int direction) { m_ending_direction = direction; }
+  int get_ending_direction() const { return m_ending_direction; }
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -251,7 +263,14 @@ private:
    */
   void ungrab_object(GameObject* gameobject = nullptr);
 
+  void next_target();
+  void prev_target();
+
+  void multiplayer_respawn();
+
 private:
+  int m_id;
+  std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
   bool m_deactivated;
 
   const Controller* m_controller;
@@ -269,6 +288,7 @@ private:
   bool m_stone;
   bool m_swimming;
   bool m_swimboosting;
+  bool m_no_water;
   bool m_on_left_wall;
   bool m_on_right_wall;
   bool m_in_walljump_tile;
@@ -281,6 +301,13 @@ private:
   bool m_ice_this_frame;
   SpritePtr m_lightsprite;
   SpritePtr m_powersprite;
+  SpritePtr m_multiplayer_arrow;
+
+  // Multiplayer tag stuff (number displayed over the players)
+  Timer m_tag_timer;
+  std::unique_ptr<FadeHelper> m_tag_fade;
+  float m_tag_alpha;
+  bool m_has_moved; // If the player sent input to move the player
 
 public:
   Direction m_dir;
@@ -348,6 +375,8 @@ private:
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
   std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
+
+  int m_ending_direction;
 
 private:
   Player(const Player&) = delete;

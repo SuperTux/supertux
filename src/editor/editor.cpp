@@ -148,11 +148,15 @@ Editor::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   if (m_levelloaded) {
-  for(const auto& widget : m_widgets) {
-    widget->draw(context);
-  }
+    for(const auto& widget : m_widgets) {
+      widget->draw(context);
+    }
 
-    m_sector->draw(context);
+    // Don't draw the sector if we're about to test - there's a dangling pointer
+    // with the PlayerStatus and I'm not experienced enough to fix it
+    if (!m_leveltested)
+      m_sector->draw(context);
+
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
@@ -655,7 +659,7 @@ Editor::setup()
     m_leveltested = false;
     Tile::draw_editor_images = true;
     m_level->reactivate();
-    m_sector->activate(m_sector->get_player().get_pos());
+    m_sector->activate(m_sector->get_players()[0]->get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
     m_deactivate_request = false;

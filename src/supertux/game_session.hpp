@@ -18,7 +18,9 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 
 #include <memory>
+#include <unordered_map>
 #include <vector>
+
 #include <squirrel.h>
 
 #include "math/vector.hpp"
@@ -28,6 +30,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
+#include "supertux/timer.hpp"
 #include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -35,6 +38,7 @@ class CodeController;
 class DrawingContext;
 class EndSequence;
 class Level;
+class Player;
 class Sector;
 class Statistics;
 class Savegame;
@@ -56,7 +60,7 @@ public:
   /** ends the current level */
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname,
-               const bool invincibility = false, const int invincibilityperiod = 0);
+               bool retain_invincibility = false);
   void reset_level();
   void set_start_point(const std::string& sectorname,
                        const std::string& spawnpointname);
@@ -68,7 +72,7 @@ public:
   Sector& get_current_sector() const { return *m_currentsector; }
   Level& get_current_level() const { return *m_level; }
 
-  void start_sequence(Sequence seq, const SequenceData* data = nullptr);
+  void start_sequence(Player* caller, Sequence seq, const SequenceData* data = nullptr);
 
   /**
    * returns the "working directory" usually this is the directory where the
@@ -135,8 +139,7 @@ private:
   std::string m_newspawnpoint;
 
   // Whether the player had invincibility before spawning in a new sector
-  bool m_pastinvincibility;
-  int m_newinvincibilityperiod;
+  std::unordered_map<int, float> m_invincibilitytimeleft;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;
@@ -149,15 +152,17 @@ private:
   bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
 
   int m_coins_at_start; /** How many coins does the player have at the start */
-  BonusType m_bonus_at_start; /** What bonuses does the player have at the start */
-  int m_max_fire_bullets_at_start; /** How many fire bullets does the player have */
-  int m_max_ice_bullets_at_start; /** How many ice bullets does the player have */
+  std::vector<BonusType> m_boni_at_start; /** What boni does the player have at the start */
+  std::vector<int> m_max_fire_bullets_at_start; /** How many fire bullets does the player have */
+  std::vector<int> m_max_ice_bullets_at_start; /** How many ice bullets does the player have */
 
   bool m_active; /** Game active? **/
 
   bool m_end_seq_started;
 
   std::unique_ptr<GameObject> m_current_cutscene_text;
+
+  Timer m_endsequence_timer;
 
 private:
   GameSession(const GameSession&) = delete;
