@@ -54,7 +54,7 @@ private:
   size_t m_current_text;
   Status m_status;
   Timer m_timer;
-  int m_anchor;
+  AnchorPoint m_anchor;
 
 private:
   TextArea(const TextArea&) = delete;

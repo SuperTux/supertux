@@ -11092,6 +11092,66 @@ static SQInteger WorldMap_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
+static SQInteger WorldMap_get_tux_x_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_tux_x' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_tux_x();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_tux_x'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger WorldMap_get_tux_y_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+    sq_throwerror(vm, _SC("'get_tux_y' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_tux_y();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_tux_y'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return scripting::display(vm);
@@ -12980,56 +13040,56 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 {
   using namespace wrapper;
 
-  sq_pushstring(v, "ANCHOR_TOP", -1);
-  sq_pushinteger(v, 16);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP'");
-  }
-
-  sq_pushstring(v, "ANCHOR_BOTTOM", -1);
-  sq_pushinteger(v, 32);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM'");
-  }
-
-  sq_pushstring(v, "ANCHOR_LEFT", -1);
-  sq_pushinteger(v, 1);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_LEFT'");
-  }
-
-  sq_pushstring(v, "ANCHOR_RIGHT", -1);
-  sq_pushinteger(v, 2);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_RIGHT'");
-  }
-
-  sq_pushstring(v, "ANCHOR_MIDDLE", -1);
-  sq_pushinteger(v, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_MIDDLE'");
-  }
-
   sq_pushstring(v, "ANCHOR_TOP_LEFT", -1);
-  sq_pushinteger(v, 17);
+  sq_pushinteger(v, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP_LEFT'");
   }
 
+  sq_pushstring(v, "ANCHOR_TOP", -1);
+  sq_pushinteger(v, 1);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP'");
+  }
+
   sq_pushstring(v, "ANCHOR_TOP_RIGHT", -1);
-  sq_pushinteger(v, 18);
+  sq_pushinteger(v, 2);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP_RIGHT'");
   }
 
+  sq_pushstring(v, "ANCHOR_LEFT", -1);
+  sq_pushinteger(v, 3);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_LEFT'");
+  }
+
+  sq_pushstring(v, "ANCHOR_MIDDLE", -1);
+  sq_pushinteger(v, 4);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_MIDDLE'");
+  }
+
+  sq_pushstring(v, "ANCHOR_RIGHT", -1);
+  sq_pushinteger(v, 5);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_RIGHT'");
+  }
+
   sq_pushstring(v, "ANCHOR_BOTTOM_LEFT", -1);
-  sq_pushinteger(v, 33);
+  sq_pushinteger(v, 6);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM_LEFT'");
   }
 
+  sq_pushstring(v, "ANCHOR_BOTTOM", -1);
+  sq_pushinteger(v, 7);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM'");
+  }
+
   sq_pushstring(v, "ANCHOR_BOTTOM_RIGHT", -1);
-  sq_pushinteger(v, 34);
+  sq_pushinteger(v, 8);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM_RIGHT'");
   }
@@ -14792,6 +14852,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'WorldMap'";
     throw SquirrelError(v, msg.str());
   }
+  sq_pushstring(v, "get_tux_x", -1);
+  sq_newclosure(v, &WorldMap_get_tux_x_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_tux_x'");
+  }
+
+  sq_pushstring(v, "get_tux_y", -1);
+  sq_newclosure(v, &WorldMap_get_tux_y_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_tux_y'");
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'WorldMap'");
   }
