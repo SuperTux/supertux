@@ -132,6 +132,7 @@
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "trigger/switch.hpp"
+#include "trigger/text_area.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -263,6 +264,7 @@ GameObjectFactory::init_factories()
   add_factory<UnstableTile>("unstable_tile");
   add_factory<WeakBlock>("weak_block");
   add_factory<Wind>("wind");
+  add_factory<TextArea>("text-area");
 
   // trigger
   add_factory<Climbable>("climbable");

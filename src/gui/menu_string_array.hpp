@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,24 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_ANCHOR_POINTS_HPP
-#define HEADER_SUPERTUX_SCRIPTING_ANCHOR_POINTS_HPP
+#ifndef HEADER_SUPERTUX_GUI_MENU_STRING_ARRAY_HPP
+#define HEADER_SUPERTUX_GUI_MENU_STRING_ARRAY_HPP
 
-namespace scripting {
+#include "gui/menu.hpp"
 
-// TODO get these from the definitions in anchor.h (needs miniswig update)
-static const int ANCHOR_TOP_LEFT     = 0;
-static const int ANCHOR_TOP          = 1;
-static const int ANCHOR_TOP_RIGHT    = 2;
-static const int ANCHOR_LEFT         = 3;
-static const int ANCHOR_MIDDLE       = 4;
-static const int ANCHOR_RIGHT        = 5;
-static const int ANCHOR_BOTTOM_LEFT  = 6;
-static const int ANCHOR_BOTTOM       = 7;
-static const int ANCHOR_BOTTOM_RIGHT = 8;
+#include <vector>
 
-} // namespace scripting
+class StringArrayMenu final : public Menu
+{
+public:
+  StringArrayMenu(std::vector<std::string>& items);
+
+  virtual void menu_action(MenuItem& item) override;
+
+private:
+  void reload();
+
+private:
+  std::vector<std::string>& m_array_items;
+  std::string m_text;
+  int m_selected_item;
+
+private:
+  StringArrayMenu(const StringArrayMenu&) = delete;
+  StringArrayMenu& operator=(const StringArrayMenu&) = delete;
+};
 
 #endif
-
 /* EOF */

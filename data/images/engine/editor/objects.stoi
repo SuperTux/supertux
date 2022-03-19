@@ -318,6 +318,9 @@
   (object
     (class "skull_tile")
     (icon "images/objects/skull_tile/skull.png"))
+  (object
+    (class "text-area")
+    (icon "images/engine/editor/textarray.png"))
  )
 
  (objectgroup

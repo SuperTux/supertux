@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,24 +14,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_ANCHOR_POINTS_HPP
-#define HEADER_SUPERTUX_SCRIPTING_ANCHOR_POINTS_HPP
+#include "gui/item_string_array.hpp"
 
-namespace scripting {
+#include "gui/menu_manager.hpp"
+#include "gui/menu_string_array.hpp"
 
-// TODO get these from the definitions in anchor.h (needs miniswig update)
-static const int ANCHOR_TOP_LEFT     = 0;
-static const int ANCHOR_TOP          = 1;
-static const int ANCHOR_TOP_RIGHT    = 2;
-static const int ANCHOR_LEFT         = 3;
-static const int ANCHOR_MIDDLE       = 4;
-static const int ANCHOR_RIGHT        = 5;
-static const int ANCHOR_BOTTOM_LEFT  = 6;
-static const int ANCHOR_BOTTOM       = 7;
-static const int ANCHOR_BOTTOM_RIGHT = 8;
+ItemStringArray::ItemStringArray(const std::string& text, std::vector<std::string>& items, int id) :
+  MenuItem(text, id),
+  m_items(items)
+{
+}
 
-} // namespace scripting
-
-#endif
-
+void
+ItemStringArray::process_action(const MenuAction& action)
+{
+  if (action == MenuAction::HIT)
+  {
+    MenuManager::instance().push_menu(std::make_unique<StringArrayMenu>(m_items));
+  }
+}
 /* EOF */

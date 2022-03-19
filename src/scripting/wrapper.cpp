@@ -13289,56 +13289,56 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 {
   using namespace wrapper;
 
-  sq_pushstring(v, "ANCHOR_TOP", -1);
-  sq_pushinteger(v, 16);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP'");
-  }
-
-  sq_pushstring(v, "ANCHOR_BOTTOM", -1);
-  sq_pushinteger(v, 32);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM'");
-  }
-
-  sq_pushstring(v, "ANCHOR_LEFT", -1);
-  sq_pushinteger(v, 1);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_LEFT'");
-  }
-
-  sq_pushstring(v, "ANCHOR_RIGHT", -1);
-  sq_pushinteger(v, 2);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_RIGHT'");
-  }
-
-  sq_pushstring(v, "ANCHOR_MIDDLE", -1);
-  sq_pushinteger(v, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_MIDDLE'");
-  }
-
   sq_pushstring(v, "ANCHOR_TOP_LEFT", -1);
-  sq_pushinteger(v, 17);
+  sq_pushinteger(v, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP_LEFT'");
   }
 
+  sq_pushstring(v, "ANCHOR_TOP", -1);
+  sq_pushinteger(v, 1);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP'");
+  }
+
   sq_pushstring(v, "ANCHOR_TOP_RIGHT", -1);
-  sq_pushinteger(v, 18);
+  sq_pushinteger(v, 2);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP_RIGHT'");
   }
 
+  sq_pushstring(v, "ANCHOR_LEFT", -1);
+  sq_pushinteger(v, 3);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_LEFT'");
+  }
+
+  sq_pushstring(v, "ANCHOR_MIDDLE", -1);
+  sq_pushinteger(v, 4);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_MIDDLE'");
+  }
+
+  sq_pushstring(v, "ANCHOR_RIGHT", -1);
+  sq_pushinteger(v, 5);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_RIGHT'");
+  }
+
   sq_pushstring(v, "ANCHOR_BOTTOM_LEFT", -1);
-  sq_pushinteger(v, 33);
+  sq_pushinteger(v, 6);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM_LEFT'");
   }
 
+  sq_pushstring(v, "ANCHOR_BOTTOM", -1);
+  sq_pushinteger(v, 7);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM'");
+  }
+
   sq_pushstring(v, "ANCHOR_BOTTOM_RIGHT", -1);
-  sq_pushinteger(v, 34);
+  sq_pushinteger(v, 8);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM_RIGHT'");
   }

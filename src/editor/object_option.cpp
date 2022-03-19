@@ -684,4 +684,20 @@ ButtonOption::add_to_menu(Menu& menu) const
   menu.add_entry(get_text(), m_callback);
 }
 
+StringArrayOption::StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items) :
+  ObjectOption(text, key, 0),
+  m_items(items)
+{}
+
+void
+StringArrayOption::save(Writer& write) const
+{
+  write.write("strings", m_items);
+}
+
+void
+StringArrayOption::add_to_menu(Menu& menu) const
+{
+  menu.add_string_array(get_text(), m_items);
+}
 /* EOF */
