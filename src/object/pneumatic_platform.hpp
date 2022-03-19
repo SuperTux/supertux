@@ -32,6 +32,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual bool is_saveable() const override { return false; }
+  virtual void on_flip(float height) override;
 
   virtual void editor_delete() override;
 
@@ -57,6 +58,7 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
+  virtual void on_flip(float height) override;
 
   virtual std::string get_class() const override { return "pneumatic-platform"; }
   virtual std::string get_display_name() const override { return _("Pneumatic Platform"); }

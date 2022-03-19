@@ -25,6 +25,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "collision/collision_object.hpp"
 #include "collision/collision_movement_manager.hpp"
 #include "util/reader.hpp"
@@ -130,7 +131,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     }
   }
 
-  reader.get("starting-node", m_starting_node, 0.f);
+  reader.get("starting-node", m_starting_node, 0);
 
   init_path(reader, false);
 
@@ -192,9 +193,12 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 void
 TileMap::finish_construction()
 {
-  if (get_path()) {
-    Vector v = get_path()->get_base();
-    set_offset(v);
+  if (get_path() && get_path()->get_nodes().size() > 0) {
+    if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+      m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+    set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
+    get_walker()->jump_to_node(m_starting_node);
   }
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
@@ -210,6 +214,40 @@ TileMap::float_channel(float target, float &current, float remaining_time, float
   float amt = (target - current) / (remaining_time / dt_sec);
   if (amt > 0) current = std::min(current + amt, target);
   if (amt < 0) current = std::max(current + amt, target);
+}
+
+void
+TileMap::apply_offset_x(int fill_id, int xoffset)
+{
+  if (!xoffset)
+    return;
+  for (int y = 0; y < m_height; y++) {
+    for (int x = 0; x < m_width; x++) {
+      int X = (xoffset < 0) ? x : (m_width - x - 1);
+      if (X - xoffset < 0 || X - xoffset >= m_width) {
+        m_tiles[y * m_width + X] = fill_id;
+      } else {
+        m_tiles[y * m_width + X] = m_tiles[y * m_width + X - xoffset];
+      }
+    }
+  }
+}
+
+void
+TileMap::apply_offset_y(int fill_id, int yoffset)
+{
+  if (!yoffset)
+    return;
+  for (int y = 0; y < m_height; y++) {
+    int Y = (yoffset < 0) ? y : (m_height - y - 1);
+    for (int x = 0; x < m_width; x++) {
+      if (Y - yoffset < 0 || Y - yoffset >= m_height) {
+        m_tiles[Y * m_width + x] = fill_id;
+      } else {
+        m_tiles[Y * m_width + x] = m_tiles[(Y - yoffset) * m_width + x];
+      }
+    }
+  }
 }
 
 ObjectSettings
@@ -249,6 +287,7 @@ TileMap::get_settings()
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
     result.add_bool(_("Running"), &get_walker()->m_running, "running", false);
+    result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
   result.add_tiles(_("Tiles"), this, "tiles");
@@ -318,7 +357,7 @@ TileMap::update(float dt_sec)
   // if we have a path to follow, follow it
   if (get_walker()) {
     get_walker()->update(dt_sec);
-    Vector v = get_walker()->get_pos();
+    Vector v = get_walker()->get_pos(get_size() * 32, m_path_handle);
     if (get_path() && get_path()->is_valid()) {
       m_movement = v - get_offset();
       set_offset(v);
@@ -329,7 +368,7 @@ TileMap::update(float dt_sec)
         }
       }
     } else {
-      set_offset(Vector(0, 0));
+      set_offset(m_path_handle.get_pos(get_size() * 32, Vector(0, 0)));
     }
   }
 
@@ -341,23 +380,41 @@ TileMap::editor_update()
 {
   if (get_walker()) {
     if (get_path() && get_path()->is_valid()) {
-      m_movement = get_walker()->get_pos() - get_offset();
-      set_offset(get_walker()->get_pos());
+      m_movement = get_walker()->get_pos(get_size() * 32, m_path_handle) - get_offset();
+      set_offset(get_walker()->get_pos(get_size() * 32, m_path_handle));
+
+      if (!get_path()) return;
+      if (!get_path()->is_valid()) return;
+
+      if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+        m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+      m_movement += get_path()->get_nodes()[m_starting_node].position - get_offset();
+      set_offset(m_path_handle.get_pos(get_size() * 32, get_path()->get_nodes()[m_starting_node].position));
     } else {
-      set_offset(Vector(0, 0));
+      set_offset(m_path_handle.get_pos(get_size() * 32, Vector(0, 0)));
     }
   }
 }
 
 void
-TileMap::editor_delete()
+TileMap::on_flip(float height)
 {
-  auto path_obj = get_path_gameobject();
-  if(path_obj != nullptr)
-  {
-    path_obj->editor_delete();
+  for (int x = 0; x < get_width(); ++x) {
+    for (int y = 0; y < get_height()/2; ++y) {
+      // swap tiles
+      int y2 = get_height()-1-y;
+      uint32_t t1 = get_tile_id(x, y);
+      uint32_t t2 = get_tile_id(x, y2);
+      change(x, y, t2);
+      change(x, y2, t1);
+    }
   }
-  GameObject::editor_delete();
+  FlipLevelTransformer::transform_flip(m_flip);
+  Vector offset = get_offset();
+  offset.y = height - offset.y - get_bbox().get_height();
+  set_offset(offset);
+  PathObject::on_flip();
 }
 
 void
@@ -484,6 +541,18 @@ void
 TileMap::resize(int new_width, int new_height, int fill_id,
                 int xoffset, int yoffset)
 {
+  bool offset_finished_x = false;
+  bool offset_finished_y = false;
+  if (xoffset < 0 && new_width - m_width < 0)
+  {
+    apply_offset_x(fill_id, xoffset);
+    offset_finished_x = true;
+  }
+  if (yoffset < 0 && new_height - m_height < 0)
+  {
+    apply_offset_y(fill_id, yoffset);
+    offset_finished_y = true;
+  }
   if (new_width < m_width) {
     // remap tiles for new width
     for (int y = 0; y < m_height && y < new_height; ++y) {
@@ -508,25 +577,12 @@ TileMap::resize(int new_width, int new_height, int fill_id,
       }
     }
   }
-
   m_height = new_height;
   m_width = new_width;
-
-  //Apply offset
-  if (xoffset || yoffset) {
-    for (int y = 0; y < m_height; y++) {
-      int Y = (yoffset < 0) ? y : (m_height - y - 1);
-      for (int x = 0; x < m_width; x++) {
-        int X = (xoffset < 0) ? x : (m_width - x - 1);
-        if (Y - yoffset < 0 || Y - yoffset >= m_height ||
-            X - xoffset < 0 || X - xoffset >= m_width) {
-          m_tiles[Y * new_width + X] = fill_id;
-        } else {
-          m_tiles[Y * new_width + X] = m_tiles[(Y - yoffset) * m_width + X - xoffset];
-        }
-      }
-    }
-  }
+  if (!offset_finished_x)
+    apply_offset_x(fill_id, xoffset);
+  if (!offset_finished_y)
+    apply_offset_y(fill_id, yoffset);
 }
 
 void TileMap::resize(const Size& newsize, const Size& resize_offset) {
@@ -641,7 +697,8 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
 void
 TileMap::autotile(int x, int y, uint32_t tile)
 {
-  assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
+  if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+    return;
 
   uint32_t current_tile = m_tiles[y*m_width + x];
   AutotileSet* curr_set;
@@ -688,8 +745,11 @@ TileMap::autotile(int x, int y, uint32_t tile)
 void
 TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op)
 {
-  assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
-  assert(m_tileset->get_autotileset_from_tile(tile)->is_corner());
+  if (x < 0 || x >= m_width || y < 0 || y >= m_height)
+    return;
+
+  if (!m_tileset->get_autotileset_from_tile(tile)->is_corner())
+    return;
 
   AutotileSet* curr_set = m_tileset->get_autotileset_from_tile(tile);
 
@@ -744,10 +804,13 @@ TileMap::is_corner(uint32_t tile)
 void
 TileMap::autotile_erase(const Vector& pos, const Vector& corner_pos)
 {
-  assert(pos.x >= 0.f && pos.x < static_cast<float>(m_width) &&
-         pos.y >= 0.f && pos.y < static_cast<float>(m_height));
-  assert(corner_pos.x >= 0.f && corner_pos.x < static_cast<float>(m_width) &&
-         corner_pos.y >= 0.f && corner_pos.y < static_cast<float>(m_height));
+  if (pos.x < 0.f || pos.x >= static_cast<float>(m_width) ||
+      pos.y < 0.f || pos.y >= static_cast<float>(m_height))
+    return;
+
+  if (corner_pos.x < 0.f || corner_pos.x >= static_cast<float>(m_width) ||
+      corner_pos.y < 0.f || corner_pos.y >= static_cast<float>(m_height))
+    return;
 
   uint32_t current_tile = m_tiles[static_cast<int>(pos.y)*m_width
                                   + static_cast<int>(pos.x)];

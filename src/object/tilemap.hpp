@@ -58,12 +58,13 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
-  virtual void editor_delete() override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
   virtual void editor_update() override;
+
+  virtual void on_flip(float height) override;
 
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
@@ -191,6 +192,8 @@ public:
       Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
   void tint_fade(const Color& new_tint, float seconds = 0);
 
+  Color get_current_tint() const { return m_current_tint; }
+
   /** Instantly switch tilemap's opacity to @c alpha. Also influences solidity. */
   void set_alpha(float alpha);
 
@@ -202,12 +205,15 @@ public:
   void set_tileset(const TileSet* new_tileset);
 
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
-  
+
 private:
   void update_effective_solid();
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
   bool is_corner(uint32_t tile);
+
+  void apply_offset_x(int fill_id, int xoffset);
+  void apply_offset_y(int fill_id, int yoffset);
 
 public:
   bool m_editor_active;

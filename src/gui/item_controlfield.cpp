@@ -17,6 +17,8 @@
 #include "gui/item_controlfield.hpp"
 
 #include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
@@ -36,7 +38,7 @@ ItemControlField::draw(DrawingContext& context, const Vector& pos, int menu_widt
   context.color().draw_text(Resources::normal_font, get_text(),
                               Vector(pos.x + 16.0f,
                                      pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
-                              ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+                              ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
 }
 
 int

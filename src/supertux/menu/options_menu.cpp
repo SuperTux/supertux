@@ -73,10 +73,8 @@ enum OptionsMenuIDs {
   MNID_TRANSITIONS,
   MNID_CONFIRMATION_DIALOG,
   MNID_PAUSE_ON_FOCUSLOSS,
-  MNID_CUSTOM_CURSOR
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  , MNID_MOBILE_CONTROLS
-#endif
+  MNID_CUSTOM_CURSOR,
+  MNID_MOBILE_CONTROLS
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -102,7 +100,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   // These values go from screen:640/projection:1600 to
   // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
   magnifications.push_back(_("auto"));
-#ifndef ENABLE_TOUCHSCREEN_SUPPORT
+#ifndef HIDE_NONMOBILE_OPTIONS
   magnifications.push_back("40%");
   magnifications.push_back("50%");
   magnifications.push_back("62.5%");
@@ -354,7 +352,7 @@ OptionsMenu::OptionsMenu(bool complete) :
       .set_help(_("Select a profile to play with"));
   }
 
-#if !defined(ENABLE_TOUCHSCREEN_SUPPORT) && !defined(__EMSCRIPTEN__)
+#if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
   add_toggle(MNID_FULLSCREEN,_("Window Resizable"), &g_config->window_resizable)
     .set_help(_("Allow window resizing, might require a restart to take effect"));
 
@@ -381,7 +379,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
   vsync.set_help(_("Set the VSync mode"));
 
-#if !defined(ENABLE_TOUCHSCREEN_SUPPORT) && !defined(__EMSCRIPTEN__)
+#if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
   MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect.set_help(_("Adjust the aspect ratio"));
 #endif
@@ -413,17 +411,20 @@ OptionsMenu::OptionsMenu(bool complete) :
     .set_help(_("Configure joystick control-action mappings"));
 #endif
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)
       .set_help(_("Toggle on-screen controls for mobile devices"));
-#endif
+
   MenuItem& enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
   enable_transitions.set_help(_("Enable screen transitions and smooth menu animation"));
 
+#ifndef HIDE_NONMOBILE_OPTIONS
   if (g_config->developer_mode)
   {
     add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
   }
+#else
+  add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
+#endif
 
   if (g_config->is_christmas() || g_config->christmas_mode)
   {
@@ -437,6 +438,12 @@ OptionsMenu::OptionsMenu(bool complete) :
 
   add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
       .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));
+
+  if (g_config->developer_mode)
+  {
+    add_submenu(_("Menu Customization"), MenuStorage::CUSTOM_MENU_MENU)
+      .set_help(_("Customize the appearance of the menus"));
+  }
 
   add_hl();
   add_back(_("Back"));

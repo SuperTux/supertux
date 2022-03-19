@@ -23,8 +23,9 @@
 
 #include <sexp/value.hpp>
 
-#include "video/color.hpp"
 #include "gui/menu_action.hpp"
+#include "object/path_walker.hpp"
+#include "video/color.hpp"
 
 enum ObjectOptionFlag {
   /** Set if the value is a hidden implementation detail that
@@ -256,6 +257,7 @@ public:
                    const std::string& key,
                    std::vector<std::string> filter,
                    const std::string& basedir,
+                   bool path_relative_to_basedir,
                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -267,6 +269,7 @@ private:
   boost::optional<std::string> m_default_value;
   const std::vector<std::string> m_filter;
   std::string m_basedir;
+  bool m_path_relative_to_basedir;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;
@@ -382,6 +385,24 @@ private:
 private:
   SExpObjectOption(const SExpObjectOption&) = delete;
   SExpObjectOption& operator=(const SExpObjectOption&) = delete;
+};
+
+class PathHandleOption : public ObjectOption
+{
+public:
+  PathHandleOption(const std::string& text, PathWalker::Handle& handle,
+                   const std::string& key, unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  PathWalker::Handle& m_target;
+
+private:
+  PathHandleOption(const PathHandleOption&) = delete;
+  PathHandleOption& operator=(const PathHandleOption&) = delete;
 };
 
 class RemoveObjectOption : public ObjectOption

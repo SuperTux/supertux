@@ -315,6 +315,7 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos)
 {
+  m_overlay_widget->reset_action_press();
 
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
@@ -405,25 +406,28 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (controller.pressed(Control::ESCAPE)) {
-    esc_press();
-    return;
-  }
+  
+  if (!MenuManager::instance().has_dialog())
+  {
+    if (controller.pressed(Control::ESCAPE)) {
+      esc_press();
+      return;
+    }
+    if (controller.hold(Control::LEFT)) {
+      scroll({ -m_scroll_speed, 0.0f });
+    }
 
-  if (controller.hold(Control::LEFT)) {
-    scroll({ -m_scroll_speed, 0.0f });
-  }
+    if (controller.hold(Control::RIGHT)) {
+      scroll({ m_scroll_speed, 0.0f });
+    }
 
-  if (controller.hold(Control::RIGHT)) {
-    scroll({ m_scroll_speed, 0.0f });
-  }
+    if (controller.hold(Control::UP)) {
+      scroll({ 0.0f, -m_scroll_speed });
+    }
 
-  if (controller.hold(Control::UP)) {
-    scroll({ 0.0f, -m_scroll_speed });
-  }
-
-  if (controller.hold(Control::DOWN)) {
-    scroll({ 0.0f, m_scroll_speed });
+    if (controller.hold(Control::DOWN)) {
+      scroll({ 0.0f, m_scroll_speed });
+    }
   }
 }
 

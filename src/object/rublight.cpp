@@ -21,6 +21,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "video/color.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -48,7 +49,7 @@ RubLight::RubLight(const ReaderMapping& mapping) :
 ObjectSettings
 RubLight::get_settings()
 {
-  ObjectSettings result = MovingObject::get_settings();
+  ObjectSettings result = MovingSprite::get_settings();
 
   // The object settings and their default values shown in the Editor
   result.add_color(_("Color"), &color, "color", Color(1.0f, 0.5f, 0.3f));
@@ -136,7 +137,14 @@ RubLight::draw(DrawingContext& context)
     light->draw(context.light(), get_pos(), m_layer);
   }
 
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+}
+
+void
+RubLight::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

@@ -3,6 +3,8 @@
   (name (_ "Castle Life"))
   (author "alex")
   (license "CC-BY-SA 4.0 International")
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -20,8 +22,6 @@
     )
     (background
       (color 1 1 1)
-      (x 896)
-      (y 128)
       (speed 0)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/misc/transparent_up.png")
@@ -29,8 +29,6 @@
     )
     (background
       (color 1 1 1)
-      (x 1824)
-      (y 768)
       (speed 0.5)
       (image-top "/images/background/cloud_mountains/cloud-mountains-background.png")
       (image "/images/background/cloud_mountains/cloud-mountains-background.png")
@@ -227,23 +225,12 @@
         (node
           (x 7584)
           (y 192)
-          (bezier_before_x 7584)
-          (bezier_before_y 192)
-          (bezier_after_x 7584)
-          (bezier_after_y 192)
         )
         (node
           (x 7584)
           (y 480)
-          (bezier_before_x 7584)
-          (bezier_before_y 480)
-          (bezier_after_x 7584)
-          (bezier_after_y 480)
         )
       )
-    )
-    (path
-      (name "gen160320402694213182297328")
     )
     (path
       (name "gen160320412694213258893008")
@@ -253,10 +240,6 @@
         (node
           (x 9216)
           (y 1056)
-          (bezier_before_x 9216)
-          (bezier_before_y 1056)
-          (bezier_after_x 9216)
-          (bezier_after_y 1056)
         )
       )
     )
@@ -824,6 +807,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #t)
       (z-pos 0)
       (name "chain")
@@ -854,6 +843,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 100)
       (name "secret")

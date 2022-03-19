@@ -24,6 +24,7 @@
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
@@ -164,7 +165,7 @@ void
 WeakBlock::draw(DrawingContext& context)
 {
   //Draw the Sprite just in front of other objects
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10);
+  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10, m_flip);
 
   if (linked && (state != STATE_NORMAL))
   {
@@ -178,10 +179,11 @@ WeakBlock::startBurning()
   if (state != STATE_NORMAL) return;
   state = STATE_BURNING;
   m_sprite->set_action("burning", 1);
+  // FIXME: Not hardcode these sounds?
   if (m_sprite_name == "images/objects/weak_block/meltbox.sprite") {
-    SoundManager::current()->play("sounds/sizzle.ogg");
+    SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   } else if (m_sprite_name == "images/objects/weak_block/strawbox.sprite") {
-    SoundManager::current()->play("sounds/fire.ogg");
+    SoundManager::current()->play("sounds/fire.ogg", get_pos());
   }
 }
 
@@ -201,6 +203,13 @@ WeakBlock::spreadHit()
       }
     }
   }
+}
+
+void
+WeakBlock::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 ObjectSettings

@@ -4,17 +4,19 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Narre <narre@protonmail.com>, 2013,2015
-# Narre <narre@protonmail.com>, 2018,2020
+# Jiří Paleček <narre@protonmail.com>, 2021
+# Jiří Paleček <narre@protonmail.com>, 2013,2015
+# Jiří Paleček <narre@protonmail.com>, 2020
+# Jiří Paleček <narre@protonmail.com>, 2018,2020
 # fri, 2013
 # Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2020-04-13 22:50+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-21 16:41+0000\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,30 +26,30 @@ msgstr ""
 
 #: data/levels/world2/ancient_ruins.stl:3
 msgid "Ancient Ruins"
-msgstr "Dávné ruiny"
+msgstr "Prastaré ruiny"
 
-#: data/levels/world2/ancient_ruins.stl:1416
-#: data/levels/world2/ancient_ruins.stl:1424
-#: data/levels/world2/bouncy_coils.stl:237
-#: data/levels/world2/bouncy_coils.stl:245
-#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
 #: data/levels/world2/crumbling_path.stl:278
 #: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:199
-#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
 #: data/levels/world2/mouldy_grotto.stl:559
 #: data/levels/world2/penguin_grow_trees.stl:459
 #: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:309
-#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:185
+#: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
 msgstr "Našel jsi tajnou skrýš!"
 
-#: data/levels/world2/besides_bushes.stl:3
+#: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
-msgstr "Mezi křovinami"
+msgstr "Mezi keři"
 
 #: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
@@ -55,7 +57,7 @@ msgstr "Trampolíny"
 
 #: data/levels/world2/bye_bye_forest.stl:3
 msgid "Bye Bye Forest"
-msgstr "Sbohem lese"
+msgstr "Lesu na shledanou"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
@@ -69,7 +71,7 @@ msgstr "Temnota čeká"
 msgid "Find the Bigger Fish!"
 msgstr "Najdi větší rybu!"
 
-#: data/levels/world2/find_big_fish.stl:800
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
 msgstr "-Velká ryba... pro tebe."
 
@@ -79,11 +81,11 @@ msgstr "Nové místo"
 
 #: data/levels/world2/ghost_cutscene.stl:3
 msgid "What is Happening?"
-msgstr "Co se děje?"
+msgstr "Co se to děje?"
 
 #: data/levels/world2/ghostly_misery.stl:3
 msgid "Ghostly Misery"
-msgstr "Bída duchů"
+msgstr "Bída a duchové"
 
 #: data/levels/world2/ghosttrees_challenges.stl:3
 msgid "Ghosttree's Challenges"
@@ -93,11 +95,11 @@ msgstr "Výzvy stromu duchů"
 msgid "Ghouls' Lair"
 msgstr "Doupě démonů"
 
-#: data/levels/world2/ghouls_lair.stl:847
+#: data/levels/world2/ghouls_lair.stl:849
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Lucerny dokáží zpevnit kouzelné bloky, takže se po nich dá jít."
+msgstr "#Lucerny dokáží zpevnit kouzelné bloky, aby se po nich dalo projít."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -105,13 +107,13 @@ msgstr "Jde se do podzemí"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:3
 msgid "I Spy With My Little Eye"
-msgstr "Koukám a vidím"
+msgstr "Před pikolou za pikolou"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:221
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Čidlo\n#Čidla aktivují věci (jako třeba platformy), kdykoliv spatří Tuxe."
+msgstr "-Čidlo\n#Čidla aktivují věci (jako třeba plošiny), kdykoliv spatří Tuxe."
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:595
 msgid "Hint: Use snails to break blocks!"
@@ -125,17 +127,17 @@ msgstr "Jako list ve větru"
 msgid "Lost Village"
 msgstr "Ztracená vesnice"
 
-#: data/levels/world2/lost_village.stl:184
+#: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
-msgstr "#Nezapomeň zmáčknout páčku!"
+msgstr "#Nezapomeň zatáhnout za páčku!"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Prohnilá slůj"
+msgstr "Prohnilá sluj"
 
 #: data/levels/world2/owls_again.stl:3
 msgid "The Owls again..."
-msgstr "Znovu sovy..."
+msgstr "A zase sovy..."
 
 #: data/levels/world2/owls_skydive_commando.stl:3
 msgid "Owls' Skydive Commando"
@@ -147,11 +149,11 @@ msgstr "Tučňáci nerostou na stromech"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Šokování"
+msgstr "Blýskání"
 
 #: data/levels/world2/the_forest_is_rotting.stl:3
 msgid "The Forest Is Rotting"
-msgstr "Hnijící les"
+msgstr "Les hnije"
 
 #: data/levels/world2/through_dark.stl:3
 msgid "Through the Dark"
@@ -163,11 +165,11 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-1.png\n"
 "#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
 "#This does not work while jumping or falling!"
-msgstr "-Zemní květina\n!images/powerups/earthflower/earth_flower-1.png\n#Zemní květina umožní Tuxovi zkamenět stisknutím kláves AKCE a DOLŮ současně.\n#To nefunguje při skoku nebo pádu!"
+msgstr "-Zemní květina\n!images/powerups/earthflower/earth_flower-1.png\n#Zemní květina umožní Tuxovi zkamenět stisknutím kláves AKCE a DOLŮ současně, pokud je zrovna na zemi."
 
 #: data/levels/world2/tower_cutscene.stl:3
 msgid "Tower Cutscene"
-msgstr "Věžní přechodová scéna"
+msgstr "Věžní předělová scéna"
 
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
@@ -177,7 +179,7 @@ msgstr "Věž duchů"
 msgid "Tux the Builder"
 msgstr "Tux stavitel"
 
-#: data/levels/world2/tux_builder.stl:80
+#: data/levels/world2/tux_builder.stl:77
 msgid ""
 "-Portable Objects:\n"
 "!images/objects/rock/rock.png\n"
@@ -191,17 +193,17 @@ msgstr "Tuxova vlastní hororová show"
 
 #: data/levels/world2/tux_own_horror_show.stl:790
 msgid ""
-"#Willow-wisps are small, annoying ghosts, which transport you to different, "
-"often dangerous places."
-msgstr "#Bludičky jsou malí, otravní duchové, kteří vás přenesou na jiné, často nebezpečné, místo."
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr "#Bludičky jsou malí, otravní duchové, kteří dokáží přenést Tuxe do jiných, často nebezpečných míst."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Chodící listy"
+msgstr "Chodící listí"
 
 #: data/levels/world2/welcome_forest.stl:3
 msgid "Welcome to the Forest"
-msgstr "Vítejte v lese"
+msgstr "Vítej v lese"
 
 #: data/levels/world2/welcome_forest.stl:50
 msgid ""
@@ -215,9 +217,9 @@ msgid "Wooden Roots"
 msgstr "Dřevěné kořeny"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest Island"
-msgstr "Lesní ostrov"
+msgid "Rooted Forest"
+msgstr "Vzrostlý les"
 
-#: data/levels/world2/worldmap.stwm:199
+#: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."
 msgstr "Pokračování příště..."

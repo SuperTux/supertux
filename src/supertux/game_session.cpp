@@ -161,6 +161,15 @@ GameSession::restart_level(bool after_death)
     music_object.play_music(LEVEL_MUSIC);
   }
 
+  auto level_times = m_currentsector->get_objects_by_type<LevelTime>();
+  auto it = level_times.begin();
+
+  while (it != level_times.end())
+  {
+    it->set_time(it->get_time() - m_play_time);
+    it++;
+  }
+
   start_recording();
 
   return (0);
@@ -378,6 +387,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   // respawning in new sector?
   if (!m_newsector.empty() && !m_newspawnpoint.empty()) {
     auto sector = m_level->get_sector(m_newsector);
+    std::string current_music = m_currentsector->get_singleton_by_type<MusicObject>().get_music();
     if (sector == nullptr) {
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
       sector = m_level->get_sector(m_start_sector);
@@ -385,7 +395,9 @@ GameSession::update(float dt_sec, const Controller& controller)
     assert(m_currentsector != nullptr);
     m_currentsector->stop_looping_sounds();
     sector->activate(m_newspawnpoint);
-    sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
+    // Start the new sector's music only if it's different from the current one
+    if (current_music != sector->get_singleton_by_type<MusicObject>().get_music())
+      sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
@@ -409,8 +421,11 @@ GameSession::update(float dt_sec, const Controller& controller)
     assert(m_currentsector != nullptr);
     // Update the world
     if (!m_end_sequence) {
-      m_play_time += dt_sec; //TODO: make sure we don't count cutscene time
-      m_level->m_stats.finish(m_play_time);
+      if (!m_level->m_is_in_cutscene)
+      {
+        m_play_time += dt_sec;
+        m_level->m_stats.finish(m_play_time);
+      }
       m_currentsector->update(dt_sec);
     } else {
       if (!m_end_sequence->is_tux_stopped()) {
@@ -456,14 +471,11 @@ IntegrationStatus
 GameSession::get_status() const
 {
   IntegrationStatus status;
-  status.m_details.push_back("Playing");
-  if (get_current_level().is_worldmap())
+  status.m_details.push_back(Editor::current() ? "Testing" : "Playing");
+  if (!Editor::current() || !g_config->hide_editor_levelnames)
   {
-    status.m_details.push_back("In worldmap: " + get_current_level().get_name());
-  }
-  else
-  {
-    status.m_details.push_back("In level: " + get_current_level().get_name());
+    const std::string label = get_current_level().is_worldmap() ? "In worldmap: " : "In level: ";
+    status.m_details.push_back(label + get_current_level().get_name());
   }
   return status;
 }

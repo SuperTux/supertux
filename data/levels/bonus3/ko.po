@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2021-03-07 06:56+0000\n"
-"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 19:20+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89.2 degrees"
-msgstr "-89.2도"
+msgid "The Level Formely Known As \"-89,2 Degrees\""
+msgstr ""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
@@ -39,14 +39,14 @@ msgid "Another cold day"
 msgstr "또 다른 추운 날"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
-msgid "Antarctic rain"
-msgstr "남극 비"
+msgid "Forest Rain (aka \"Antarctic Rain\")"
+msgstr ""
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
 msgstr "...하지만 아무도 그걸 멈출 수 없어..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -127,6 +127,10 @@ msgstr "아래로 가는 중"
 msgid "Entering the castle"
 msgstr "성에 들어가는 중"
 
+#: data/levels/bonus3/entering_castle.stl:60
+msgid "#Sorry, nothing to see here! Use the rope to get out!"
+msgstr ""
+
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
 msgstr "꽃 보너스"
@@ -167,13 +171,13 @@ msgstr "구멍, 얼음의 날"
 msgid "The Toilette zone"
 msgstr "화장실 구역"
 
-#: data/levels/bonus3/niv-3.stl:29
+#: data/levels/bonus3/niv-3.stl:58
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
 msgstr "- 물 내리기: \n#물 내리려면 위 키를 누르세요!"
 
-#: data/levels/bonus3/niv-3.stl:219
+#: data/levels/bonus3/niv-3.stl:380
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -219,15 +223,6 @@ msgstr "얼음 밑으로"
 msgid "Bonus Island III"
 msgstr "보너스 섬 III"
 
-#: data/levels/bonus3/worldmap.stwm:238
-msgid "You found a secret place!"
-msgstr "숨겨진 장소를 찾았습니다!"
-
-#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
-#: data/levels/bonus3/worldmap.stwm:304
+#: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"
 msgstr "집으로 가기"
-
-#: data/levels/bonus3/worldmap.stwm:290
-msgid "Enter Forest Section"
-msgstr "숲 부분 입장"

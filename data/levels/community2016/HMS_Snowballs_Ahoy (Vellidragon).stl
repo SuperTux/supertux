@@ -5,6 +5,8 @@
   (contact "tammy@lanschilandia.com")
   (license "CC-BY-SA 4.0 International")
   (target-time 100)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -19,8 +21,6 @@
     )
     (background
       (color 1 1 1)
-      (x 1084.25)
-      (y 200.925)
       (speed 0.5)
       (image-top "/images/background/bluemountain/bluemountain-top.png")
       (image "/images/background/bluemountain/bluemountain-top.png")

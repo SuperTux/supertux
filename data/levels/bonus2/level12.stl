@@ -25,14 +25,6 @@
       (x 7200)
       (y 448)
     )
-    (flyingsnowball
-      (x 2410)
-      (y -8629)
-    )
-    (flyingsnowball
-      (x 2482)
-      (y -8628)
-    )
     (gradient
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)

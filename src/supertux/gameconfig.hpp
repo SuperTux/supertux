@@ -23,6 +23,7 @@
 #include "control/keyboard_config.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
+#include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
 
 #include <boost/date_time/gregorian/gregorian.hpp>
@@ -90,9 +91,7 @@ public:
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   bool mobile_controls;
-#endif
 
   struct Addon
   {
@@ -112,6 +111,17 @@ public:
   bool enable_discord;
 #endif
   bool hide_editor_levelnames;
+  Color menubackcolor;
+  Color menufrontcolor;
+  Color menuhelpbackcolor;
+  Color menuhelpfrontcolor;
+  Color labeltextcolor;
+  Color activetextcolor;
+  Color hlcolor;
+  Color editorcolor;
+  Color editorhovercolor;
+  Color editorgrabcolor;
+  float menuroundness;
 
   int editor_selected_snap_grid_size;
   bool editor_render_grid;

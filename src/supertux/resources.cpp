@@ -66,7 +66,7 @@ Resources::load()
   {
     console_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 12, 1.25f, 0, 1));
 
-    auto font = get_font_for_locale(g_config->locale);
+    auto font = get_font_for_locale(g_dictionary_manager->get_language());
     if(font != current_font)
     {
       current_font = font;
@@ -88,14 +88,19 @@ Resources::load()
 }
 
 std::string
-Resources::get_font_for_locale(const std::string& locale)
+Resources::get_font_for_locale(const tinygettext::Language& locale)
 {
-  if(locale == "ne")
+  auto lang = locale.get_language();
+
+  if(lang == "ne")
     return "fonts/Dekko-Regular.ttf";
-  if(locale == "cmn" || locale == "ja" || locale == "zh_CN" || locale == "zh_TW")
+  if(lang == "cmn" || lang == "ja" || lang == "zh")
     return "fonts/NotoSansCJKjp-Medium.otf";
-  if(locale == "he")
+  if(lang == "he")
     return "fonts/VarelaRound-Regular.ttf";
+  if(lang == "ko")
+    return "fonts/NanumBarunGothic.ttf";
+
   return "fonts/SuperTux-Medium.ttf";
 }
 

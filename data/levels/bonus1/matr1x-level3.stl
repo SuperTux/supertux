@@ -4,6 +4,8 @@
   (author "Matr1x")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 65)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -11,8 +13,7 @@
     )
     (background
       (color 1 1 1)
-      (x 12896)
-      (y 512)
+      (alignment "bottom")
       (scroll-speed-x 0.5)
       (speed 0.5)
       (speed-y 0)
@@ -21,10 +22,9 @@
       (image-bottom "/images/background/arcticskies/arcticskies1.png")
     )
     (background
-      (scroll-offset-y 55)
+      (scroll-offset-x 5056)
+      (scroll-offset-y 567)
       (color 1 1 1)
-      (x 5056)
-      (y 512)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -229,6 +229,7 @@
       (name "gen1594995100252581744")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 16)
           (y 0)
@@ -532,6 +533,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos -5)
       (name "snowbgdisplacement")

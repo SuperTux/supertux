@@ -27,6 +27,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
+#include "video/layer.hpp"
 #include "video/surface_ptr.hpp"
 
 class BadGuy;
@@ -71,8 +72,11 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void collision_tile(uint32_t tile_attributes) override;
+  virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return true; }
+
+  virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
   void set_controller(const Controller* controller);
   /** Level solved. Don't kill Tux any more. */
@@ -263,7 +267,6 @@ private:
   Direction m_peekingY;
   float m_ability_time;
   bool m_stone;
-  bool m_falling_below_water;
   bool m_swimming;
   bool m_swimboosting;
   bool m_on_left_wall;

@@ -136,9 +136,7 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager()),
   m_controller_hud(new ControllerHUD),
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   m_mobile_controller(),
-#endif
   last_ticks(0),
   elapsed_ticks(0),
   ms_per_step(static_cast<Uint32>(1000.0f / LOGICAL_FPS)),
@@ -279,9 +277,8 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 
   Console::current()->draw(context);
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  m_mobile_controller.draw(context);
-#endif
+  if (g_config->mobile_controls)
+    m_mobile_controller.draw(context);
 
   if (g_config->show_fps)
     draw_fps(context, fps_statistics);
@@ -303,10 +300,11 @@ ScreenManager::update_gamelogic(float dt_sec)
 {
   Controller& controller = m_input_manager.get_controller();
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  m_mobile_controller.update();
-  m_mobile_controller.apply(controller);
-#endif
+  if (g_config->mobile_controls)
+  {
+    m_mobile_controller.update();
+    m_mobile_controller.apply(controller);
+  }
 
   SquirrelVirtualMachine::current()->update(g_game_time);
 
@@ -333,16 +331,17 @@ ScreenManager::process_events()
   auto session = GameSession::current();
   while (SDL_PollEvent(&event))
   {
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
     switch (event.type)
     {
       case SDL_FINGERDOWN:
       {
+        SDL_Event old_event = event;
+
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONDOWN;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
 
         event.type = SDL_MOUSEMOTION;
@@ -354,11 +353,13 @@ ScreenManager::process_events()
 
       case SDL_FINGERUP:
       {
+        SDL_Event old_event = event;
+
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONUP;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
 
         event.type = SDL_MOUSEMOTION;
@@ -369,15 +370,16 @@ ScreenManager::process_events()
       }
 
       case SDL_FINGERMOTION:
+        SDL_Event old_event = event;
+
         event.type = SDL_MOUSEMOTION;
-        event.motion.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event.motion.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
-        event.motion.xrel = Sint32(event.tfinger.dx * float(m_video_system.get_window_size().width));
-        event.motion.yrel = Sint32(event.tfinger.dy * float(m_video_system.get_window_size().height));
+        event.motion.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event.motion.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
+        event.motion.xrel = Sint32(old_event.tfinger.dx * float(m_video_system.get_window_size().width));
+        event.motion.yrel = Sint32(old_event.tfinger.dy * float(m_video_system.get_window_size().height));
         MouseCursor::current()->set_pos(event.motion.x, event.motion.y);
         break;
     }
-#endif
     m_input_manager.process_event(event);
 
     m_menu_manager->event(event);
@@ -407,6 +409,7 @@ ScreenManager::process_events()
             }
             break;
 
+          case SDL_WINDOWEVENT_HIDDEN:
           case SDL_WINDOWEVENT_FOCUS_LOST:
             if (g_config->pause_on_focusloss)
             {
@@ -434,6 +437,17 @@ ScreenManager::process_events()
           m_menu_manager->on_window_resize();
         }
 #endif
+#ifdef STEAM_BUILD
+        // Shift+Tab opens the overlay; pause the game
+        else if (event.key.keysym.sym == SDLK_TAB &&
+                 (event.key.keysym.mod & KMOD_LSHIFT || event.key.keysym.mod & KMOD_RSHIFT))
+        {
+          if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
+          {
+            session->toggle_pause();
+          }
+        }
+#endif
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
@@ -446,6 +460,15 @@ ScreenManager::process_events()
           log_info << "developer mode: " << g_config->developer_mode << std::endl;
         }
         break;
+
+      // NOTE: Steam recommends leaving this behavior in. If it turns out to bt
+      // impractical for users, please add `#ifdef STEAM_BUILD` code around it.
+      case SDL_JOYDEVICEREMOVED:
+      case SDL_CONTROLLERDEVICEREMOVED:
+        if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
+        {
+          session->toggle_pause();
+        }
     }
   }
 }

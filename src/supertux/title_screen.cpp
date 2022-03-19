@@ -41,7 +41,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
   m_controller(new CodeController()),
   m_titlesession(new GameSession("levels/misc/menu.stl", savegame)),
   m_copyright_text("SuperTux " PACKAGE_VERSION "\n" +
-    _("Copyright") + " (c) 2003-2021 SuperTux Devel Team\n" +
+    _("Copyright") + " (c) 2003-2022 SuperTux Devel Team\n" +
     _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
       "redistribute it under certain conditions; see the license file for details.\n"
       )),
@@ -55,7 +55,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
 void
 TitleScreen::make_tux_jump()
 {
-  static bool jumpWasReleased = true;
+  static bool jumpWasReleased = false;
   Sector& sector  = m_titlesession->get_current_sector();
   Player& tux = sector.get_player();
 
@@ -92,7 +92,9 @@ TitleScreen::setup()
   if (Sector::current() != &sector) {
     auto& music = sector.get_singleton_by_type<MusicObject>();
     music.play_music(LEVEL_MUSIC);
-    sector.activate(sector.get_player().get_pos());
+    // sector.activate(Vector) expects position calculated for big tux, but tux
+    // might be small on the title screen
+    sector.activate(sector.get_player().get_pos() - Vector(0.f, sector.get_player().is_big() ? 0.f : 32.f));
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);

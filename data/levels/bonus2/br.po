@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Irriep Nala Novram <allannkorh@yahoo.fr>, 2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 08:35+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2018-08-07 23:16+0000\n"
+"Last-Translator: Irriep Nala Novram <allannkorh@yahoo.fr>\n"
 "Language-Team: Breton (http://www.transifex.com/arctic-games/supertux/language/br/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: br\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -46,132 +47,132 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Gourc'hemmenoù!\n\n#Deuet oc'h a-benn da echuiñ\n#Enezenn Bonus II\n\n\n\tal liveoù bet degaset gant\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ur wech c'hoazh, trugarekaat a reomp\n#kement hin en deus kemeret-perzh e-barzh an\n#embannadur-mañ. Emichañs en deus plijet deoc'h,\n#hag en deus lakaet ac'hanoc'h da c'hortoz war-lerc'h\n#Milestone 3 en un doare aesoc'h. :-)\n\n\nOadvezh ar skorn a zo tostik echu..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr ""
+msgstr "Mario a rankfe bezañ nec'het gant an dra-mañ..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr ""
+msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr ""
+msgstr "Ar c'hav hir"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr ""
+msgstr "Dal d'ar bed"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr ""
+msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr ""
+msgstr "War an hent adarre"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr ""
+msgstr "Riboul skornet"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr ""
+msgstr "Aervag Luft"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr ""
+msgstr "...Lec'h ma teu pep-tra da vezañ posupl"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr ""
+msgstr "Ebarzhit an titl orin amañ"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr ""
+msgstr "Fin oadvezh ar skorn"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr ""
+msgstr "Soñjit trumm pe marvit"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr ""
+msgstr "Kreñvlec'h an avelerezh"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr ""
+msgstr "Fest Nolok"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr ""
+msgstr "An hentoù-dour"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr ""
+msgstr "Kement-tra a lufr n'eo ket kufr"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr ""
+msgstr "Un devezh yen"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr ""
+msgstr "Gravitadur uhel"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr ""
+msgstr "Tan-gorventenn"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr ""
+msgstr "Ur veaj hir"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr ""
+msgstr "Ezhomm buhez"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr ""
+msgstr "Lamm dreist d'an tornaod"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr ""
+msgstr "Er mougev"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr ""
+msgstr "1 vunutenn ho peus"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr ""
+msgstr "Ur wenodennig a-dreuz ar c'houmoul"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr ""
+msgstr "Parkeier skornet bro ar Flandrez"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr ""
+msgstr "Ur c'hastell en oabl"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
-msgstr ""
+msgstr "Hengoun"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr ""
+msgstr "Bonus an Enezenn II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
-msgstr ""
+msgstr "Kavet ho peus ul lec'h kuzh!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
-msgstr ""
+msgstr "En em c'houlenn a ran da belec'h e kas an hent-mañ..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
-msgstr ""
+msgstr "Mont d'an degemer..."

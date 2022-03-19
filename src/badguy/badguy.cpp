@@ -130,7 +130,7 @@ BadGuy::draw(DrawingContext& context)
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
     if (Editor::is_active()) {
-      m_sprite->draw(context.color(), get_pos(), m_layer);
+      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
     }
   }
   else
@@ -138,10 +138,10 @@ BadGuy::draw(DrawingContext& context)
     if (m_state == STATE_FALLING) {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-      m_sprite->draw(context.color(), get_pos(), m_layer);
+      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
       context.pop_transform();
     } else {
-      m_sprite->draw(context.color(), get_pos(), m_layer);
+      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
     }
 
     if (m_glowing) {
@@ -173,8 +173,9 @@ BadGuy::update(float dt_sec)
       return;
     }
   }
-  if ((m_state != STATE_INACTIVE) && is_offscreen()) {
-    if (m_state == STATE_ACTIVE) deactivate();
+
+  if (m_is_active_flag && is_offscreen()) {
+    deactivate();
     set_state(STATE_INACTIVE);
   }
 
@@ -394,6 +395,15 @@ BadGuy::collision_solid(const CollisionHit& hit)
   update_on_ground_flag(hit);
 }
 
+void
+BadGuy::on_flip(float height)
+{
+  MovingObject::on_flip(height);
+  Vector pos = get_start_position();
+  pos.y = height - pos.y;
+  set_start_position(pos);
+}
+
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& )
 {
@@ -517,7 +527,7 @@ BadGuy::kill_fall()
   if (!is_active()) return;
 
   if (m_frozen) {
-    SoundManager::current()->play("sounds/brick.wav");
+    SoundManager::current()->play("sounds/brick.wav", get_pos());
     Vector pr_pos(0.0f, 0.0f);
     float cx = m_col.m_bbox.get_width() / 2;
     float cy = m_col.m_bbox.get_height() / 2;
@@ -856,6 +866,8 @@ BadGuy::get_settings()
 void
 BadGuy::after_editor_set()
 {
+  MovingSprite::after_editor_set();
+
   if (m_dir == Direction::AUTO)
   {
     if (m_sprite->has_action("editor-left")) {

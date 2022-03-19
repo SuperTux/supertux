@@ -45,7 +45,8 @@ public:
   virtual std::string get_display_name() const override { return _("Platform"); }
 
   virtual void editor_update() override;
-  virtual void editor_delete() override;
+
+  virtual void on_flip(float height) override;
 
   const Vector& get_speed() const { return m_speed; }
 
@@ -63,7 +64,6 @@ public:
 
   /** Updates the platform to the given action  */
   void set_action(const std::string& action, int repeat);
-
   /** @} */
 
 private:

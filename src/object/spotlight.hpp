@@ -52,6 +52,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  virtual int get_layer() const override { return m_layer; }
+
   void set_angle(float angle_) { angle = angle_; }
   void set_speed(float speed_) { speed = speed_; }
   void set_color(Color color_) { color = color_; }

@@ -19,10 +19,10 @@
     (source "autotiles.satc")
   )
  
-   ;; next-id: 4327
+   ;; next-id: 4435
   
   ;; free/skipped ids (please use before any other): 101
-  ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
+  ;; 4327 - 4434 are reserved for upcoming forest tileset update!
  
   (tilegroup
     (name (_ "Snow"))
@@ -671,7 +671,7 @@
 	  102  140  3161 3162
 	  104  105  3160  112
 	  3037 2943 2944 2945
-	  2946 1311 2153 0
+	  2946 1311 2153 4434
      
       57   58   2841 2842
       59   60   2843 2844
@@ -1619,6 +1619,15 @@
     (solid #t)
     (object-name "brick")
     (object-data "(breakable #t) (sprite \"images/objects/bonus_block/brickWeb.sprite\")")
+  )
+  (tile
+    (id 4434)
+    (images
+      "tiles/blocks/brick3.png"
+    )
+    (solid #t)
+    (object-name "heavy-brick")
+    (object-data "(breakable #t)")
   )
   (tiles
     (width 1)
@@ -5774,6 +5783,17 @@
       4279 4280 4281 4282 4283 4284 4285 4286 0    0
       4287 0    0    4288 4289 4290 4291 4292 0    0
     )
+    (attributes
+      1 1 1 1 0 0 1 0 0 0
+      1 1 1 1 1 1 1 1 1 1
+      1 1 1 1 0 0 1 1 1 1
+      1 1 1 0 0 0 0 1 1 1
+      1 0 0 1 0 0 1 0 0 0
+      1 1 1 1 1 1 1 0 0 0
+      1 1 1 0 1 1 0 0 0 0
+      1 0 0 1 1 1 1 1 0 0
+      1 0 0 1 1 1 1 1 0 0
+    )
     (image "tiles/crystalcave/ground_extra.png")
   )
   (tiles
@@ -5790,6 +5810,18 @@
       4321 4322 4323 4324
       4325 4326 4327 0
       4328 4329 4330 4331
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 1
+      1 1 1 0
+      1 1 1 1
     )
     (image "tiles/forest/foresttiles-13.png")
   )

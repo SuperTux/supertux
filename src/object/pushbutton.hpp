@@ -32,6 +32,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  virtual void on_flip(float height) override;
+
 private:
   enum PushButtonState {
     OFF,

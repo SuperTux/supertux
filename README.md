@@ -1,6 +1,12 @@
 # SuperTux
 
-[![Build](https://github.com/SuperTux/supertux/workflows/main/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions?query=workflow%3Amain)
+[![Windows](https://github.com/SuperTux/supertux/actions/workflows/windows.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/windows.yml?branch=master)
+[![MacOS](https://github.com/SuperTux/supertux/actions/workflows/macos.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/macos.yml?branch=master)
+[![GNU/Linux](https://github.com/SuperTux/supertux/actions/workflows/gnulinux.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/gnulinux.yml?branch=master)
+[![Android](https://github.com/SuperTux/supertux/actions/workflows/android.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/android.yml?branch=master)
+[![BSD](https://github.com/SuperTux/supertux/actions/workflows/bsd.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/bsd.yml?branch=master)
+[![WebAssembly](https://github.com/SuperTux/supertux/actions/workflows/wasm.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/wasm.yml?branch=master)
+[![Ubuntu Touch](https://github.com/SuperTux/supertux/actions/workflows/ubuntu-touch.yml/badge.svg?branch=master)](https://github.com/SuperTux/supertux/actions/workflows/ubuntu-touch.yml?branch=master)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 
 SuperTux is a jump'n'run game with strong inspiration from the
@@ -94,14 +100,14 @@ In case you need help, feel free to reach out using the following means:
   add-ons are published there first, so this is worth checking.
 * **Mailing Lists:** The
   [supertux-devel](http://lists.lethargik.org/listinfo.cgi/supertux-devel-lethargik.org)
-  mailing list is dead with no backups, unfortunately. If you have archived (most of) the list please upload it somewhere and send us a link.
+  mailing list is dead. Here is the [archive](https://github.com/supertux-community/supertux-devel-maillist).
 * **Social Media:** Mostly on [Twitter](https://twitter.com/supertux_team) at
   the moment.
 * **Discord:** Also, you can join our [Discord server](https://discord.com/invite/AcvtHWz) to get in touch with us.
 
 ## Development status
 
-As of now, with the release of SuperTux 0.6.2 (May 2020), the Forest World is almost
+As of now, with the release of SuperTux 0.6.3 (December 2021), the Forest World is almost
 finished, since the ghost forest section has been included. However, some levels, especially
 the Ghostree Level, are considered to be placeholders, because for the next version (0.7.0) a
 great overhaul is planned with new features like reworked boss fights, graphics, and worlds.

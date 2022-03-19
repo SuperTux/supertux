@@ -60,8 +60,10 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_hovered_corner(0, 0),
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
+  m_previous_mouse_pos(0, 0),
   m_dragging(false),
   m_dragging_right(false),
+  m_scrolling(false),
   m_drag_start(0, 0),
   m_dragged_object(nullptr),
   m_hovered_object(nullptr),
@@ -432,7 +434,13 @@ EditorOverlayWidget::fill()
 void
 EditorOverlayWidget::hover_object()
 {
+  m_object_tip = nullptr;
+  m_hovered_object = nullptr;
+
   BezierMarker* marker_hovered_without_ctrl = nullptr;
+
+  bool cache_is_marker = false;
+  int cache_layer = -2147483648;
 
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
@@ -442,36 +450,55 @@ EditorOverlayWidget::hover_object()
 
         // Ignore BezierMarkers if ctrl isn't pressed... (1/2)
         auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
-        if (!action_pressed && bezier_marker)
+        if (bezier_marker)
         {
-          marker_hovered_without_ctrl = bezier_marker;
-          continue;
+          if (!action_pressed)
+          {
+            marker_hovered_without_ctrl = bezier_marker;
+            continue;
+          }
+          else
+          {
+            cache_is_marker = true;
+            cache_layer = 2147483647;
+            m_hovered_object = &moving_object;
+          }
         }
 
-        m_hovered_object = &moving_object;
-        if (moving_object.has_settings()) {
-          m_object_tip = std::make_unique<Tip>(moving_object);
+        // Pick objects in this priority:
+        //   1. Markers
+        //   2. Objects with a higher layer ID
+        //   3. If many objects are on the highest layer, pick the last created one
+        //      (Which will be the one rendererd on top)
+
+        bool is_marker = static_cast<bool>(dynamic_cast<MarkerObject*>(&moving_object));
+        // The "=" part of ">=" ensures that for equal layer, the last object is picked; don't remove the "="!
+        if ((is_marker && !cache_is_marker) || moving_object.get_layer() >= cache_layer)
+        {
+          cache_is_marker = is_marker;
+          cache_layer = moving_object.get_layer();
+          m_hovered_object = &moving_object;
         }
       }
-      return;
     }
   }
 
+  if (m_hovered_object && m_hovered_object->has_settings()) {
+    m_object_tip = std::make_unique<Tip>(*m_hovered_object);
+  }
+
   // (2/2) ...but select them anyways if they weren't hovering a node marker
-  if (marker_hovered_without_ctrl)
+  if (marker_hovered_without_ctrl && !m_hovered_object)
   {
     m_hovered_object = marker_hovered_without_ctrl;
     // TODO: Temporarily disabled during ongoing discussion
     //m_object_tip = std::make_unique<Tip>(_("Press ALT to make Bezier handles continuous"));
     return;
   }
-
-  m_object_tip = nullptr;
-  m_hovered_object = nullptr;
 }
 
 void
-EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object)
+EditorOverlayWidget::edit_path(PathGameObject* path, GameObject* new_marked_object)
 {
   if (!path) return;
   delete_markers();
@@ -481,9 +508,19 @@ EditorOverlayWidget::edit_path(Path* path, GameObject* new_marked_object)
     return;
   }
   m_edited_path = path;
-  m_edited_path->edit_path();
+  m_edited_path->get_path().edit_path();
   if (new_marked_object) {
     m_selected_object = new_marked_object;
+  }
+}
+
+void
+EditorOverlayWidget::reset_action_press()
+{
+  if (action_pressed)
+  {
+    g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
+    action_pressed = false;
   }
 }
 
@@ -499,10 +536,10 @@ EditorOverlayWidget::select_object()
     return;
   }
 
-  auto path_obj = dynamic_cast<PathObject*>(m_dragged_object);
-  if (path_obj && path_obj->get_path())
+  auto path_obj = dynamic_cast<PathObject*>(m_dragged_object.get());
+  if (path_obj && path_obj->get_path_gameobject())
   {
-    edit_path(path_obj->get_path(), m_dragged_object);
+    edit_path(path_obj->get_path_gameobject(), m_dragged_object.get());
   }
 }
 
@@ -519,7 +556,7 @@ EditorOverlayWidget::grab_object()
       m_dragged_object = m_hovered_object;
       m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
 
-      auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object);
+      auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
       if (!pm) {
         select_object();
       }
@@ -550,7 +587,7 @@ EditorOverlayWidget::clone_object()
       return;
     }
 
-    auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object);
+    auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
     if (!pm)
     {
       m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
@@ -602,7 +639,7 @@ EditorOverlayWidget::move_object()
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
       new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
 
-      auto pm = dynamic_cast<MarkerObject*>(m_dragged_object);
+      auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
       if (pm) {
         new_pos -= pm->get_offset();
       }
@@ -675,10 +712,10 @@ EditorOverlayWidget::add_path_node()
   new_node.bezier_before = new_node.position;
   new_node.bezier_after = new_node.position;
   new_node.time = 1;
-  m_edited_path->m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
-  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_before));
-  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->m_nodes.end() - 1)), &((m_edited_path->m_nodes.end() - 1)->bezier_after));
-  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path, m_edited_path->m_nodes.end() - 1, m_edited_path->m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
+  m_edited_path->get_path().m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
+  auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_before));
+  auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_after));
+  auto& new_marker = Sector::get().add<NodeMarker>(&(m_edited_path.get()->get_path()), m_edited_path->get_path().m_nodes.end() - 1, m_edited_path->get_path().m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
   bezier_before.set_parent(new_marker.get_uid());
   bezier_after.set_parent(new_marker.get_uid());
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
@@ -824,6 +861,13 @@ EditorOverlayWidget::process_right_click()
   }
 }
 
+void
+EditorOverlayWidget::process_middle_click()
+{
+  m_previous_mouse_pos = m_mouse_pos;
+  m_scrolling = true;
+}
+
 Rectf
 EditorOverlayWidget::tile_drag_rect() const
 {
@@ -891,6 +935,8 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
       }
     }
   }
+  else if (button.button == SDL_BUTTON_MIDDLE)
+    m_scrolling = false;
 
   m_dragging = false;
 
@@ -910,6 +956,10 @@ EditorOverlayWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 
     case SDL_BUTTON_RIGHT:
       process_right_click();
+      return true;
+
+    case SDL_BUTTON_MIDDLE:
+      process_middle_click();
       return true;
 
     default:
@@ -959,6 +1009,12 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     }
     return true;
   }
+  else if (m_scrolling)
+  {
+    m_editor.scroll(m_previous_mouse_pos - m_mouse_pos);
+    m_previous_mouse_pos = m_mouse_pos;
+    return true;
+  }
   else
   {
     return false;
@@ -974,8 +1030,11 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
   if (sym == SDLK_LCTRL || sym == SDLK_RCTRL) {
-    g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
-    action_pressed = false;
+    if (action_pressed)
+    {
+      g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
+      action_pressed = false;
+    }
     // Hovered objects depend on which keys are pressed
     hover_object();
   }
@@ -1193,14 +1252,14 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
   if (!m_selected_object->is_valid()) return;
   if (!m_edited_path->is_valid()) return;
 
-  for (auto i = m_edited_path->m_nodes.begin(); i != m_edited_path->m_nodes.end(); ++i) {
+  for (auto i = m_edited_path->get_path().m_nodes.begin(); i != m_edited_path->get_path().m_nodes.end(); ++i) {
     auto j = i+1;
     Path::Node* node1 = &(*i);
     Path::Node* node2;
-    if (j == m_edited_path->m_nodes.end()) {
-      if (m_edited_path->m_mode == WalkMode::CIRCULAR) {
+    if (j == m_edited_path->get_path().m_nodes.end()) {
+      if (m_edited_path->get_path().m_mode == WalkMode::CIRCULAR) {
         //loop to the first node
-        node2 = &(*m_edited_path->m_nodes.begin());
+        node2 = &(*m_edited_path->get_path().m_nodes.begin());
       } else {
         // Just draw the bezier lines
         auto cam_translation = m_editor.get_sector()->get_camera().get_translation();

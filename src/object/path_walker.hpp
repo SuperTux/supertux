@@ -20,6 +20,7 @@
 #include <string.h>
 #include <memory>
 
+#include "math/sizef.hpp"
 #include "object/path.hpp"
 #include "util/uid.hpp"
 
@@ -29,6 +30,19 @@ class ObjectOption;
 class PathWalker final
 {
 public:
+  /** Helper class that allows to displace a handle on an object */
+  class Handle
+  {
+  public:
+    Handle() : m_scalar_pos(), m_pixel_offset() {}
+    Vector get_pos(const Sizef& size, const Vector& pos) const;
+
+  public:
+    Vector m_scalar_pos; /**< The scale of the object the handle should be displaced to ((0,0) = top left, (1,1) = bottom right) */
+    Vector m_pixel_offset; /**< The secondary displacement, in absolute size (pixels) */
+  };
+
+public:
   PathWalker(UID path_uid, bool running = true);
   ~PathWalker();
 
@@ -36,7 +50,7 @@ public:
   void update(float dt_sec);
 
   /** current position of path walker */
-  Vector get_pos() const;
+  Vector get_pos(const Sizef& object_size, const Handle& handle) const;
 
   /** advance until at given node, then stop */
   void goto_node(int node_no);

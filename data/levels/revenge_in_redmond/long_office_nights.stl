@@ -571,6 +571,18 @@
       (x 2080)
       (y 544)
     )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 7456)
+      (y 1408)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 7168)
+      (y 1408)
+    )
     (jumpy
       (direction "left")
       (sprite "/images/creatures/bag/bag.sprite")
@@ -635,9 +647,14 @@
       (name "gen16115148101462853279168")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 2304)
           (y 480)
+          (bezier_before_x 2304)
+          (bezier_before_y 480)
+          (bezier_after_x 2304)
+          (bezier_after_y 480)
         )
       )
     )
@@ -645,9 +662,14 @@
       (name "gen16115154891462853169584")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 2400)
           (y 480)
+          (bezier_before_x 2400)
+          (bezier_before_y 480)
+          (bezier_after_x 2400)
+          (bezier_after_y 480)
         )
       )
     )

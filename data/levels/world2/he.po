@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020-2021
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2021
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-05-24 08:12+0200\n"
-"PO-Revision-Date: 2021-04-11 15:58+0000\n"
-"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 21:21+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hebrew (http://www.transifex.com/arctic-games/supertux/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,22 +24,22 @@ msgstr ""
 msgid "Ancient Ruins"
 msgstr "חורבות עתיקות"
 
-#: data/levels/world2/ancient_ruins.stl:1416
-#: data/levels/world2/ancient_ruins.stl:1424
-#: data/levels/world2/bouncy_coils.stl:237
-#: data/levels/world2/bouncy_coils.stl:245
-#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
 #: data/levels/world2/crumbling_path.stl:278
 #: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:199
-#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
 #: data/levels/world2/mouldy_grotto.stl:559
 #: data/levels/world2/penguin_grow_trees.stl:459
 #: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:309
-#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:185
+#: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
 msgstr "מצאת אזור סודי!"
 
@@ -57,7 +57,7 @@ msgstr "להתראות יער"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
-msgstr ""
+msgstr "הנתיב המתפורר"
 
 #: data/levels/world2/darkness_awaits.stl:3
 msgid "Darkness Awaits"
@@ -67,7 +67,7 @@ msgstr "החשכה ממתינה"
 msgid "Find the Bigger Fish!"
 msgstr "מוצאים את הדג הגדול!"
 
-#: data/levels/world2/find_big_fish.stl:800
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
 msgstr "-דג גדול... בשבילך."
 
@@ -81,7 +81,7 @@ msgstr "מה קרה?"
 
 #: data/levels/world2/ghostly_misery.stl:3
 msgid "Ghostly Misery"
-msgstr ""
+msgstr "רוחות הרפאים המיוסרו"
 
 #: data/levels/world2/ghosttrees_challenges.stl:3
 msgid "Ghosttree's Challenges"
@@ -89,13 +89,13 @@ msgstr "אתגר עץ הרוחות"
 
 #: data/levels/world2/ghouls_lair.stl:3
 msgid "Ghouls' Lair"
-msgstr ""
+msgstr "מאורת השדים"
 
-#: data/levels/world2/ghouls_lair.stl:847
+#: data/levels/world2/ghouls_lair.stl:849
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#הפנסים משמשים ליצירת גושים קסומים מוצקים, שאפשר ללכת עליהם."
+msgstr "#העששיות משמשות להפיכת תיבות קסומות למוצקות, כדי שיהיה אפשר ללכת עליהן."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -103,17 +103,17 @@ msgstr "יורדים למטה"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:3
 msgid "I Spy With My Little Eye"
-msgstr "עין מצדדת היא הנאה מתמדת"
+msgstr "אני רואה עם עיני הקטנה"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:221
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-עַיִנְצַדֶּדֶת\n#עֵיִנְצַדֶּדוֹת יפעילו דברים כמו פלטפורמות כאשר טַקס יהיה בטווח ראייתן."
+msgstr "-עין קטנה\n#העיניים הקטנות יפעילו דברים כמו פלטפורמות כאשר טַקס יהיה בטווח ראייתן."
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:595
 msgid "Hint: Use snails to break blocks!"
-msgstr "רמז: השתמשו בשבלולים כדי לשבור בלוקים!"
+msgstr "רמז: אפשר להשתמש בשבלולים כדי לשבור תיבות!"
 
 #: data/levels/world2/leaf_wind.stl:3
 msgid "Like a leaf in the Wind"
@@ -123,13 +123,13 @@ msgstr "כמו עלה ברוח"
 msgid "Lost Village"
 msgstr "הכפר האבוד"
 
-#: data/levels/world2/lost_village.stl:184
+#: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
 msgstr "#לא לשכוח להפעיל את המתג!"
 
 #: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "המערה המעופשת"
 
 #: data/levels/world2/owls_again.stl:3
 msgid "The Owls again..."
@@ -175,7 +175,7 @@ msgstr "מגדל הרוחות"
 msgid "Tux the Builder"
 msgstr "טַקס הבנאי"
 
-#: data/levels/world2/tux_builder.stl:80
+#: data/levels/world2/tux_builder.stl:77
 msgid ""
 "-Portable Objects:\n"
 "!images/objects/rock/rock.png\n"
@@ -189,9 +189,9 @@ msgstr "מופע האימה של טַקס"
 
 #: data/levels/world2/tux_own_horror_show.stl:790
 msgid ""
-"#Willow-wisps are small, annoying ghosts, which transport you to different, "
-"often dangerous places."
-msgstr "#ערבות חוכמה הן רוחות קטנות ומעצבנות, שמשגרות אותך למקומות אחרים, לרוב מסוכנים."
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr ""
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -213,9 +213,9 @@ msgid "Wooden Roots"
 msgstr "שורשי עץ"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest Island"
-msgstr "אי יער"
+msgid "Rooted Forest"
+msgstr ""
 
-#: data/levels/world2/worldmap.stwm:199
+#: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."
 msgstr "ההמשך יבוא..."

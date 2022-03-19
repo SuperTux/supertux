@@ -20,6 +20,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 
 Torch::Torch(const ReaderMapping& reader) :
@@ -32,7 +33,8 @@ Torch::Torch(const ReaderMapping& reader) :
   m_flame_light(SpriteManager::current()->create("images/objects/torch/flame_light.sprite")),
   m_burning(true),
   sprite_name("images/objects/torch/torch1.sprite"),
-  m_layer(0)
+  m_layer(0),
+  m_flip(NO_FLIP)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
@@ -64,17 +66,19 @@ Torch::draw(DrawingContext& context)
 {
   if (m_burning)
   {
-    m_flame->draw(context.color(), get_pos(), m_layer - 1);
+    Vector pos = get_pos();
+    if (m_flip != NO_FLIP) pos.y -= 24.0f;
+    m_flame->draw(context.color(), pos, m_layer - 1, m_flip);
     m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 
-    m_flame_light->draw(context.light(), get_pos(), m_layer);
+    m_flame_light->draw(context.light(), pos, m_layer);
     m_flame_light->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 
-    m_flame_glow->draw(context.color(), get_pos(), m_layer - 1);
+    m_flame_glow->draw(context.color(), pos, m_layer - 1, m_flip);
     m_flame_glow->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
   }
 
-  m_torch->draw(context.color(), get_pos(), m_layer - 1);
+  m_torch->draw(context.color(), get_pos(), m_layer - 1, m_flip);
 }
 
 void
@@ -126,6 +130,13 @@ void
 Torch::set_burning(bool burning_)
 {
   m_burning = burning_;
+}
+
+void
+Torch::on_flip(float height)
+{
+  MovingObject::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

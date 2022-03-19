@@ -32,7 +32,6 @@ public:
   bool is_flammable() const override;
 
   void finish_construction() override;
-  void editor_delete() override; 
 
   void activate() override;
   void deactivate() override;
@@ -44,7 +43,7 @@ public:
   void stop_moving();
 
   void move_to(const Vector& pos) override;
-  
+
 protected:
   bool collision_squished(GameObject& object) override;
   

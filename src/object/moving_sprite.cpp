@@ -33,7 +33,8 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(SpriteManager::current()->create(m_sprite_name)),
-  m_layer(layer_)
+  m_layer(layer_),
+  m_flip(NO_FLIP)
 {
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
@@ -45,7 +46,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int l
   m_sprite_name(),
   m_default_sprite_name(),
   m_sprite(),
-  m_layer(layer_)
+  m_layer(layer_),
+  m_flip(NO_FLIP)
 {
   m_col.m_bbox.set_pos(pos);
   if (!reader.get("sprite", m_sprite_name))
@@ -62,7 +64,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(),
-  m_layer(layer_)
+  m_layer(layer_),
+  m_flip(NO_FLIP)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
@@ -84,7 +87,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite_name(),
   m_default_sprite_name(),
   m_sprite(),
-  m_layer(layer_)
+  m_layer(layer_),
+  m_flip(NO_FLIP)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
@@ -100,7 +104,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
 void
 MovingSprite::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void
@@ -166,6 +170,8 @@ MovingSprite::after_editor_set()
   std::string current_action = m_sprite->get_action();
   m_sprite = SpriteManager::current()->create(m_sprite_name);
   m_sprite->set_action(current_action);
+
+  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 }
 
 void

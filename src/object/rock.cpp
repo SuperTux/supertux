@@ -17,6 +17,7 @@
 #include "object/rock.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/icecrusher.hpp"
 #include "object/explosion.hpp"
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
@@ -27,6 +28,8 @@
 namespace {
 const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 }
+
+static const float GROUND_FRICTION = 0.1f; // Amount of friction to apply while on ground.
 
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
@@ -99,6 +102,11 @@ Rock::collision_solid(const CollisionHit& hit)
     physic.set_velocity_x(0);
     on_ground = true;
   }
+
+  if (on_ground) {
+    // Full friction!
+    physic.set_velocity_x(physic.get_velocity_x() * (1.f - GROUND_FRICTION));
+  }
 }
 
 HitResponse
@@ -116,6 +124,15 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 
   if (is_grabbed()) {
     return ABORT_MOVE;
+  }
+
+  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
+  if (icecrusher) {
+    auto state = icecrusher->get_state();
+    if(state == IceCrusher::IceCrusherState::RECOVERING ||
+       state == IceCrusher::IceCrusherState::IDLE) {
+        return ABORT_MOVE;
+       }
   }
 
   // Don't fall further if we are on a rock which is on the ground.

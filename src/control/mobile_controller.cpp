@@ -16,7 +16,6 @@
 
 #include "control/mobile_controller.hpp"
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
 
 #include <string>
 
@@ -50,18 +49,23 @@ MobileController::MobileController() :
   m_right(false),
   m_jump(false),
   m_action(false),
+  m_cheats(false),
+  m_debug(false),
   m_escape(false),
-  m_bak_escape(false),
   m_old_up(false),
   m_old_down(false),
   m_old_left(false),
   m_old_right(false),
   m_old_jump(false),
   m_old_action(false),
+  m_old_cheats(false),
+  m_old_debug(false),
   m_old_escape(false),
   m_rect_directions(16.f, -144.f, 144.f, -16.f),
   m_rect_jump(-160.f, -80.f, -96.f, -16.f),
   m_rect_action(-80.f, -80.f, -16.f, -16.f),
+  m_rect_cheats(-160.f, 16.f, -96.f, 80.f),
+  m_rect_debug(-80.f, 16.f, -16.f, 80.f),
   m_rect_escape(16.f, 16.f, 64.f, 64.f),
   m_tex_dirs(Surface::from_file("/images/engine/mobile/direction.png")),
   m_tex_btn(Surface::from_file("/images/engine/mobile/button.png")),
@@ -73,6 +77,8 @@ MobileController::MobileController() :
   m_tex_rgt(Surface::from_file("/images/engine/mobile/direction_hightlight_right.png")),
   m_tex_jump(Surface::from_file("/images/engine/mobile/jump.png")),
   m_tex_action(Surface::from_file("/images/engine/mobile/action.png")),
+  m_tex_cheats(Surface::from_file("/images/engine/mobile/cheats.png")),
+  m_tex_debug(Surface::from_file("/images/engine/mobile/debug.png")),
   m_screen_width(),
   m_screen_height()
 {
@@ -87,25 +93,34 @@ MobileController::draw(DrawingContext& context)
   m_screen_width = context.get_width();
   m_screen_height = context.get_height();
 
-  context.color().draw_surface_scaled(m_tex_dirs, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1650);
+  context.color().draw_surface_scaled(m_tex_dirs, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
 
   if (m_up)
-    context.color().draw_surface_scaled(m_tex_up, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1651);
+    context.color().draw_surface_scaled(m_tex_up, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
   if (m_down)
-    context.color().draw_surface_scaled(m_tex_dwn, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1651);
+    context.color().draw_surface_scaled(m_tex_dwn, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
   if (m_left)
-    context.color().draw_surface_scaled(m_tex_lft, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1651);
+    context.color().draw_surface_scaled(m_tex_lft, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
   if (m_right)
-    context.color().draw_surface_scaled(m_tex_rgt, apply_corner(m_rect_directions, m_screen_width, m_screen_height), 1651);
+    context.color().draw_surface_scaled(m_tex_rgt, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
 
-  context.color().draw_surface_scaled(m_action ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_action, m_screen_width, m_screen_height), 1650);
-  context.color().draw_surface_scaled(m_tex_action, apply_corner(m_rect_action, m_screen_width, m_screen_height), 1651);
+  context.color().draw_surface_scaled(m_action ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_action, m_screen_width, m_screen_height), LAYER_GUI + 99);
+  context.color().draw_surface_scaled(m_tex_action, apply_corner(m_rect_action, m_screen_width, m_screen_height), LAYER_GUI + 99);
 
-  context.color().draw_surface_scaled(m_jump ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_jump, m_screen_width, m_screen_height), 1650);
-  context.color().draw_surface_scaled(m_tex_jump, apply_corner(m_rect_jump, m_screen_width, m_screen_height), 1651);
+  context.color().draw_surface_scaled(m_jump ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_jump, m_screen_width, m_screen_height), LAYER_GUI + 99);
+  context.color().draw_surface_scaled(m_tex_jump, apply_corner(m_rect_jump, m_screen_width, m_screen_height), LAYER_GUI + 99);
 
-  context.color().draw_surface_scaled(m_bak_escape ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_escape, m_screen_width, m_screen_height), 1650);
-  context.color().draw_surface_scaled(m_tex_pause, apply_corner(m_rect_escape, m_screen_width, m_screen_height).grown(-8.f), 1650);
+  context.color().draw_surface_scaled(m_escape ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_escape, m_screen_width, m_screen_height), LAYER_GUI + 99);
+  context.color().draw_surface_scaled(m_tex_pause, apply_corner(m_rect_escape, m_screen_width, m_screen_height).grown(-8.f), LAYER_GUI + 99);
+
+  if (g_config->developer_mode)
+  {
+    context.color().draw_surface_scaled(m_cheats ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_cheats, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    context.color().draw_surface_scaled(m_tex_cheats, apply_corner(m_rect_cheats, m_screen_width, m_screen_height), LAYER_GUI + 99);
+
+    context.color().draw_surface_scaled(m_debug ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_debug, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    context.color().draw_surface_scaled(m_tex_debug, apply_corner(m_rect_debug, m_screen_width, m_screen_height), LAYER_GUI + 99);
+  }
 }
 
 void
@@ -120,9 +135,19 @@ MobileController::update()
   m_old_right = m_right;
   m_old_jump = m_jump;
   m_old_action = m_action;
+  m_old_cheats = m_cheats;
+  m_old_debug = m_debug;
   m_old_escape = m_escape;
 
-  m_up = m_down = m_left = m_right = m_jump = m_action = m_escape = false;
+  m_up = m_down = m_left = m_right = m_jump = m_action = m_cheats = m_debug = m_escape = false;
+
+  // Allow using on-screen controls with the mouse
+  int x, y;
+  auto buttons = SDL_GetMouseState(&x, &y);
+  if ((buttons & SDL_BUTTON_LMASK) != 0)
+  {
+    activate_widget_at_pos(static_cast<float>(x), static_cast<float>(y));
+  }
 
   // FIXME: This assumes that 1) there is only one touchscreen and 2) SuperTux
   // fills the whole screen
@@ -135,12 +160,6 @@ MobileController::update()
     throw new std::runtime_error("Error getting touchscreen info: " + std::string(SDL_GetError()));
 
   int num_touches = SDL_GetNumTouchFingers(device);
-
-  // FIXME: There's some weird problem with the escape button specifically, which
-  // I had to patch a weird way. If someone in the future finds a fix to handle
-  // escaping on mobile properly, don't forget to remove those lines.
-  if (num_touches == 0)
-    m_bak_escape = false;
 
   for (int i = 0; i < num_touches; i++)
   {
@@ -159,13 +178,24 @@ MobileController::apply(Controller& controller) const
   if (!g_config->mobile_controls)
     return;
 
-  controller.set_control(Control::UP,     m_up     || (!m_old_up     && controller.hold(Control::UP)));
-  controller.set_control(Control::DOWN,   m_down   || (!m_old_down   && controller.hold(Control::DOWN)));
-  controller.set_control(Control::LEFT,   m_left   || (!m_old_left   && controller.hold(Control::LEFT)));
-  controller.set_control(Control::RIGHT,  m_right  || (!m_old_right  && controller.hold(Control::RIGHT)));
-  controller.set_control(Control::JUMP,   m_jump   || (!m_old_jump   && controller.hold(Control::JUMP)));
-  controller.set_control(Control::ACTION, m_action || (!m_old_action && controller.hold(Control::ACTION)));
-  controller.set_control(Control::ESCAPE, m_escape || (!m_old_escape && controller.hold(Control::ESCAPE)));
+  if (m_up != m_old_up)
+    controller.set_control(Control::UP, m_up);
+  if (m_down != m_old_down)
+    controller.set_control(Control::DOWN, m_down);
+  if (m_left != m_old_left)
+    controller.set_control(Control::LEFT, m_left);
+  if (m_right != m_old_right)
+    controller.set_control(Control::RIGHT, m_right);
+  if (m_jump != m_old_jump)
+    controller.set_control(Control::JUMP, m_jump);
+  if (m_action != m_old_action)
+    controller.set_control(Control::ACTION, m_action);
+  if (m_cheats != m_old_cheats)
+    controller.set_control(Control::CHEAT_MENU, m_cheats);
+  if (m_debug != m_old_debug)
+    controller.set_control(Control::DEBUG_MENU, m_debug);
+  if (m_escape != m_old_escape)
+    controller.set_control(Control::ESCAPE, m_escape);
 }
 
 void
@@ -182,19 +212,17 @@ MobileController::activate_widget_at_pos(float x, float y)
   if (apply_corner(m_rect_action, m_screen_width, m_screen_height).contains(pos))
     m_action = true;
 
-  // FIXME: Why do I need an extra variable (m_bak_escape) just for this one?
-  // Without it, pressing escape will toggle pressed() (not hold(), pressed())
-  // every single frame, apparently
+  if (g_config->developer_mode)
+  {
+    if (apply_corner(m_rect_cheats, m_screen_width, m_screen_height).contains(pos))
+      m_cheats = true;
+
+    if (apply_corner(m_rect_debug, m_screen_width, m_screen_height).contains(pos))
+      m_debug = true;
+  }
+
   if (apply_corner(m_rect_escape, m_screen_width, m_screen_height).contains(pos))
-  {
-    if (!m_bak_escape)
-      m_escape = true;
-    m_bak_escape = true;
-  }
-  else
-  {
-    m_bak_escape = false;
-  }
+    m_escape = true;
 
   Rectf applied = apply_corner(m_rect_directions, m_screen_width, m_screen_height);
   Rectf up = applied;
@@ -218,6 +246,5 @@ MobileController::activate_widget_at_pos(float x, float y)
     m_right = true;
 }
 
-#endif
 
 /* EOF */

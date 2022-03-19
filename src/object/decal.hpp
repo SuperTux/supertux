@@ -40,10 +40,11 @@ public:
   virtual std::string get_display_name() const override { return _("Decal"); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
+
+  virtual void on_flip(float height) override;
 
   void fade_in(float fade_time);
   void fade_out(float fade_time);
@@ -55,7 +56,6 @@ public:
 private:
   std::string m_default_action;
   bool m_solid;
-  Flip m_flip;
   SpritePtr m_fade_sprite;
   Timer m_fade_timer;
   Timer m_sprite_timer;

@@ -28,8 +28,6 @@
 #include "object/player.hpp"
 #include "util/gettext.hpp"
 
-static const std::string CONFIRMATION_PROMPT = _("Are you sure?");
-
 GameMenu::GameMenu() :
   reset_callback ( [] {
     MenuManager::instance().clear_menu_stack();
@@ -76,7 +74,7 @@ GameMenu::menu_action(MenuItem& item)
     case MNID_RESETLEVEL:
       if (g_config->confirmation_dialog)
       {
-        Dialog::show_confirmation(CONFIRMATION_PROMPT, reset_callback);
+        Dialog::show_confirmation(_("Are you sure?"), reset_callback);
       }
       else
       {
@@ -87,7 +85,7 @@ GameMenu::menu_action(MenuItem& item)
     case MNID_RESETLEVELCHECKPOINT:
       if (g_config->confirmation_dialog)
       {
-        Dialog::show_confirmation(CONFIRMATION_PROMPT,
+        Dialog::show_confirmation(_("Are you sure?"),
                                   reset_checkpoint_callback);
       }
       else
@@ -99,7 +97,7 @@ GameMenu::menu_action(MenuItem& item)
     case MNID_ABORTLEVEL:
       if (g_config->confirmation_dialog)
       {
-        Dialog::show_confirmation(CONFIRMATION_PROMPT, abort_callback);
+        Dialog::show_confirmation(_("Are you sure?"), abort_callback);
       }
       else
       {

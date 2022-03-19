@@ -327,11 +327,23 @@ SectorParser::create_sector()
     frgrd.resize(100, 35);
     frgrd.set_layer(100);
     frgrd.set_solid(false);
+
+    // Add background gradient to sector:
+    auto& gradient = m_sector.add<Gradient>();
+    gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color::WHITE);
+    gradient.set_layer(-301);
+  }
+  else
+  {
+    auto& water = m_sector.add<TileMap>(tileset);
+    water.resize(100, 35, 1);
+    water.set_layer(-100);
+    water.set_solid(false);
   }
 
   auto& intact = m_sector.add<TileMap>(tileset);
   if (worldmap) {
-    intact.resize(100, 100, 9);
+    intact.resize(100, 100, 0);
   } else {
     intact.resize(100, 35, 0);
   }

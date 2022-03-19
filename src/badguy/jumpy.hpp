@@ -28,6 +28,7 @@ public:
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
 
   virtual void active_update(float) override;
+  virtual void on_flip(float height) override;
 
   virtual void freeze() override;
   virtual bool is_freezable() const override;

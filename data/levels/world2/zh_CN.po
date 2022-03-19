@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-05-24 08:12+0200\n"
-"PO-Revision-Date: 2020-12-27 12:55+0000\n"
-"Last-Translator: a73a47e368cc011d8f94528bd9d5d3f1_91fccdf <1b07f49e2a323989c85dd26d526f7bb9_871526>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 21:21+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,22 +24,22 @@ msgstr ""
 msgid "Ancient Ruins"
 msgstr "上古遗迹"
 
-#: data/levels/world2/ancient_ruins.stl:1416
-#: data/levels/world2/ancient_ruins.stl:1424
-#: data/levels/world2/bouncy_coils.stl:237
-#: data/levels/world2/bouncy_coils.stl:245
-#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
 #: data/levels/world2/crumbling_path.stl:278
 #: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:199
-#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
 #: data/levels/world2/mouldy_grotto.stl:559
 #: data/levels/world2/penguin_grow_trees.stl:459
 #: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:309
-#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:185
+#: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
 msgstr "你找到了一个秘密区域!"
 
@@ -67,7 +67,7 @@ msgstr "有约不来过夜半"
 msgid "Find the Bigger Fish!"
 msgstr "寻找大鱼!"
 
-#: data/levels/world2/find_big_fish.stl:800
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
 msgstr "-这条大鱼……属于你！"
 
@@ -91,7 +91,7 @@ msgstr "大战鬼树"
 msgid "Ghouls' Lair"
 msgstr "鬼巢"
 
-#: data/levels/world2/ghouls_lair.stl:847
+#: data/levels/world2/ghouls_lair.stl:849
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -123,7 +123,7 @@ msgstr "孤蓬万里征"
 msgid "Lost Village"
 msgstr "遗忘村庄"
 
-#: data/levels/world2/lost_village.stl:184
+#: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
 msgstr "#不要忘了打开开关！"
 
@@ -175,7 +175,7 @@ msgstr "鬼魂宝塔"
 msgid "Tux the Builder"
 msgstr "建筑师 Tux"
 
-#: data/levels/world2/tux_builder.stl:80
+#: data/levels/world2/tux_builder.stl:77
 msgid ""
 "-Portable Objects:\n"
 "!images/objects/rock/rock.png\n"
@@ -189,8 +189,8 @@ msgstr "疑神疑鬼"
 
 #: data/levels/world2/tux_own_horror_show.stl:790
 msgid ""
-"#Willow-wisps are small, annoying ghosts, which transport you to different, "
-"often dangerous places."
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
 msgstr ""
 
 #: data/levels/world2/walking_leaves.stl:3
@@ -213,9 +213,9 @@ msgid "Wooden Roots"
 msgstr "树根"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest Island"
-msgstr "茂林岛"
+msgid "Rooted Forest"
+msgstr ""
 
-#: data/levels/world2/worldmap.stwm:199
+#: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."
 msgstr "续"

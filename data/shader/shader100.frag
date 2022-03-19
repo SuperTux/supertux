@@ -24,7 +24,7 @@ void main(void)
   else
   {
     vec4 pixel = texture2D(displacement_texture, texcoord_var.st + (displacement_animate * game_time));
-    vec2 displacement = (pixel.rg - vec2(0.5f, 0.5f)) * 255.0f;
+    vec2 displacement = (pixel.rg - vec2(0.5, 0.5)) * 255.0;
     float alpha = pixel.a;
 
     vec2 uv = (fragcoord2uv * (gl_FragCoord.xyw + vec3(displacement.xy * alpha, 0))).xy;

@@ -20,6 +20,7 @@
 #include "squirrel/exposed_object.hpp"
 // TODO: #include "scripting/wind.hpp"
 #include "supertux/moving_object.hpp"
+#include "video/layer.hpp"
 
 class ReaderMapping;
 
@@ -40,6 +41,8 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual ObjectSettings get_settings() override;
+
+  virtual int get_layer() const override { return LAYER_OBJECTS; }
 
   Rectf get_rect() {return m_col.m_bbox;}
 

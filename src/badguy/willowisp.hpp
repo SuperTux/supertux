@@ -34,7 +34,6 @@ public:
 
   virtual void finish_construction() override;
   virtual void after_editor_set() override;
-  virtual void editor_delete() override;
 
   virtual void activate() override;
   virtual void deactivate() override;
@@ -58,6 +57,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
+
+  virtual void on_flip(float height) override;
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
   {

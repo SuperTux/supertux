@@ -19,12 +19,13 @@
 
 #include "badguy/badguy.hpp"
 
-class SoundSource;
+#include "audio/sound_source.hpp"
 
 class Flame : public BadGuy
 {
 public:
-  Flame(const ReaderMapping& reader);
+  Flame(const ReaderMapping& reader,
+        const std::string& sprite = "images/creatures/flame/flame.sprite");
 
   virtual void activate() override;
   virtual void deactivate() override;
@@ -42,6 +43,8 @@ public:
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
+
+  virtual void on_flip(float height) override;
 
 protected:
   float angle;

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2021-02-16 01:11+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-06-27 17:45+0000\n"
 "Last-Translator: tellovishous <skyguy@readytek.net>\n"
 "Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -28,24 +28,24 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "La 23-a Aera Forto"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
 msgid "You found a secret area!"
 msgstr "Vi trovis sekretejon!"
 
 #: data/levels/world1/above_arctic_skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Sur la arktaj ĉieloj"
+msgstr "Sur la Arktaj Ĉieloj"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -56,7 +56,7 @@ msgstr "-Aerfloro\n!images/powerups/airflower/air_flower-0.png\n#La Aerfloro don
 msgid "Between Two Glaciers"
 msgstr "Inter Du Glaĉeroj"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
@@ -70,23 +70,23 @@ msgstr "Malplena Tronĉambro"
 
 #: data/levels/world1/castle_of_nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr "La kastelo de Nolok"
+msgstr "La Kastelo de Nolok"
 
 #: data/levels/world1/crystal_mine.stl:3
 msgid "The Crystal Mine"
 msgstr "La Kristala Minejo"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Vi devas aktivigi du ŝaltilojn por malfermi ĉi tiun pordon"
 
 #: data/levels/world1/end_of_tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "La fino de la tunelo"
+msgstr "Fino de la Tunelo"
 
 #: data/levels/world1/entrance_cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "La enirejo al groto"
+msgstr "Enirejo al la Groto"
 
 #: data/levels/world1/fork_in_the_road.stl:3
 msgid "A Fork in the Road"
@@ -123,7 +123,7 @@ msgstr "-Sekreta Elejoj\n#Iuj niveloj havas plurajn elejojn. Ili estas plejparte
 
 #: data/levels/world1/frosted_fields.stl:3
 msgid "The Frosted Fields"
-msgstr "La prujnuma Kampo"
+msgstr "La Prujnaj Kampoj"
 
 #: data/levels/world1/frozen_bridge.stl:3
 msgid "Over the Frozen Bridge"
@@ -131,7 +131,7 @@ msgstr "Super la Frostigita Ponto"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Glacio en la truo"
+msgstr "Glacio en la Truo"
 
 #: data/levels/world1/icy_valley.stl:3
 msgid "Icy Valley"
@@ -139,15 +139,15 @@ msgstr "Glacia Valo"
 
 #: data/levels/world1/into_stars.stl:3
 msgid "Into the Stars"
-msgstr "En la verdajn Stelojn"
+msgstr "En la Verdajn Stelojn"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "Pikniko kun Penny"
+msgstr "Pikniko Kun Penny"
 
 #: data/levels/world1/journey_begins.stl:3
 msgid "The Journey Begins"
-msgstr "La vojaĝo komencas"
+msgstr "La Vojaĝo Komencas"
 
 #: data/levels/world1/living_inside_fridge.stl:3
 msgid "Living in a Fridge"
@@ -163,7 +163,7 @@ msgstr "Ho Ne! Pli da Neĝbuloj!"
 
 #: data/levels/world1/night_chill.stl:3
 msgid "Night Chill"
-msgstr "Vespera Malvarmo"
+msgstr "Nokta Malvarmo"
 
 #: data/levels/world1/or_just_me.stl:3
 msgid "...Or Is It Just Me?"
@@ -171,7 +171,7 @@ msgstr "...Aŭ Ĉu Nur Mi?"
 
 #: data/levels/world1/path_in_the_clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "Vojo en la nuboj"
+msgstr "Vojo en la Nuboj"
 
 #: data/levels/world1/scripts_castle_cutscene.txt:2
 msgid "Tux had reached the end of the castle."
@@ -220,7 +220,7 @@ msgstr "\"Tux, mi kaptis vian koran Penny kaj forprenis ŝin al mia fortikaĵo.\
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "\"The path to my fortress is littered with my minions.\""
-msgstr "\"La vojo al mia fortokaĵo estas plenigita per miaj lakeoj.\""
+msgstr "\"La vojo al mia fortikaĵo estas plenigita per miaj lakeoj.\""
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "\"You don't have a chance of saving her! Signed, Nolok.\""
@@ -282,7 +282,7 @@ msgstr "Nostalgia Vojo"
 msgid "Welcome to Antarctica"
 msgstr "Bonvenon en Antarkto"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -291,42 +291,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "-Bonifika Blokoj\n!images/objects/bonus_block/full-0.png\n#Bonifika blokoj enhavas monerojn, bonaĵojn, aŭ specialajn elementojn por helpi vi.\n#\n#Batu tiun sube akiri sin."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Ovoj\n!images/powerups/egg/egg-shade.png\n#La ovo grandigas Tux. Tux tiam povas disbati lignajn blokojn per sia kapo."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Restartpunktoj\n!images/objects/resetpoints/bell-m.png\n#Ŝaltu la restartpunkton. Se vi mortas, vi povas reprovi la nivelon el ĉi tie. Pro ĉiu klopodo de vi el restartpunkto, vi perdas 10 procenton de viaj moneroj (malpleje 25 monerojn)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Kurado\n!images/tiles/signs/run.png\n#La vojo antaŭ vi estas baranta. Akiradu rapideco antaŭ vi saltas, transsalti blokojn."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Fajra Floro\n!images/powerups/fireflower/fire_flower-0.png\n#La fajra floro donis al Tux la ebleco pafi fajrobulojn."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Pupo de Tux\n!images/powerups/1up/1up.png\n#La pupo de Tux donas 100 monerojn al Tux."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

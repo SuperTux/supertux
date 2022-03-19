@@ -23,6 +23,7 @@
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
 static const float MOLE_WAIT_TIME = 0.2f; /**< time to wait before and after throwing */
@@ -78,7 +79,9 @@ Mole::collision_squished(GameObject& )
 void
 Mole::throw_rock()
 {
-  float angle = math::radians(gameRandom.randf(90.0f - 15.0f, 90.0f + 15.0f));
+  float angle;
+  float base_angle = (m_flip == NO_FLIP ? 90.0f : 270.0f);
+  angle = math::radians(gameRandom.randf(base_angle - 15.0f, base_angle + 15.0f));
   float vx = cosf(angle) * THROW_VELOCITY;
   float vy = -sinf(angle) * THROW_VELOCITY;
 
@@ -181,6 +184,13 @@ Mole::ignite() {
   set_state(BURNING);
   run_dead_script();
   SoundManager::current()->play("sounds/fire.ogg", get_pos());
+}
+
+void
+Mole::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

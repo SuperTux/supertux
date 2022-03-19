@@ -21,6 +21,8 @@
 #include "scripting/wind.hpp"
 #include "supertux/moving_object.hpp"
 
+#include "video/layer.hpp"
+
 class ReaderMapping;
 
 /** Defines an area that will gently push Players in one direction */
@@ -40,6 +42,10 @@ public:
   virtual std::string get_display_name() const override { return _("Wind");}
 
   virtual ObjectSettings get_settings() override;
+
+  virtual int get_layer() const override { return LAYER_OBJECTS; }
+
+  virtual void on_flip(float height) override;
 
   /** @name Scriptable Methods
       @{ */

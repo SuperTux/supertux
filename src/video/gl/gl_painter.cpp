@@ -251,11 +251,12 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
                                   std::min(request.rect.get_width() / 2.0f,
                                            request.rect.get_height() / 2.0f));
 
-    // inner rectangle
-    const Rectf irect(request.rect.get_left() + radius,
-                      request.rect.get_top() + radius,
-                      request.rect.get_right() - radius,
-                      request.rect.get_bottom() - radius);
+    // Not using Rectf here as the resulting Rectf might be invalid
+    // and assert() due to float imprecision
+    const float inner_rect_left = request.rect.get_left() + radius;
+    const float inner_rect_top = request.rect.get_top() + radius;
+    const float inner_rect_right = request.rect.get_right() - radius;
+    const float inner_rect_bottom = request.rect.get_bottom() - radius;
 
     const int n = 8;
     size_t p = 0;
@@ -266,11 +267,11 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
       const float x = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
       const float y = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
 
-      vertices[p++] = irect.get_left() - x;
-      vertices[p++] = irect.get_top()  - y;
+      vertices[p++] = inner_rect_left - x;
+      vertices[p++] = inner_rect_top  - y;
 
-      vertices[p++] = irect.get_right() + x;
-      vertices[p++] = irect.get_top()   - y;
+      vertices[p++] = inner_rect_right + x;
+      vertices[p++] = inner_rect_top   - y;
     }
 
     for (int i = 0; i <= n; ++i)
@@ -278,11 +279,11 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
       const float x = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
       const float y = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
 
-      vertices[p++] = irect.get_left()   - x;
-      vertices[p++] = irect.get_bottom() + y;
+      vertices[p++] = inner_rect_left   - x;
+      vertices[p++] = inner_rect_bottom + y;
 
-      vertices[p++] = irect.get_right()  + x;
-      vertices[p++] = irect.get_bottom() + y;
+      vertices[p++] = inner_rect_right  + x;
+      vertices[p++] = inner_rect_bottom + y;
     }
 
     context.set_positions(vertices.data(), sizeof(float) * vertices.size());

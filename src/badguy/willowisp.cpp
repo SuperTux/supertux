@@ -99,6 +99,8 @@ WillOWisp::finish_construction()
 void
 WillOWisp::after_editor_set()
 {
+  BadGuy::after_editor_set();
+
   m_lightsprite->set_color(Color(m_color.red * 0.2f,
                                  m_color.green * 0.2f,
                                  m_color.blue * 0.2f));
@@ -106,22 +108,11 @@ WillOWisp::after_editor_set()
 }
 
 void
-WillOWisp::editor_delete()
-{
-  auto path_obj = get_path_gameobject();
-  if(path_obj != nullptr)
-  {
-    path_obj->editor_delete();
-  }
-  GameObject::editor_delete();
-}
-
-void
 WillOWisp::active_update(float dt_sec)
 {
   if (Editor::is_active() && get_path() && get_path()->is_valid()) {
     get_walker()->update(dt_sec);
-    set_pos(get_walker()->get_pos());
+    set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
     return;
   }
 
@@ -174,7 +165,7 @@ WillOWisp::active_update(float dt_sec)
       if (get_walker() == nullptr)
         return;
       get_walker()->update(dt_sec);
-      m_col.set_movement(get_walker()->get_pos() - get_pos());
+      m_col.set_movement(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos());
       if (m_mystate == STATE_PATHMOVING_TRACK && glm::length(dist) <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }
@@ -263,7 +254,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
   } else {
     GameSession::current()->respawn(m_target_sector, m_target_spawnpoint);
   }
-  SoundManager::current()->play("sounds/warp.wav");
+  SoundManager::current()->play("sounds/warp.wav", get_pos());
 
   return CONTINUE;
 }
@@ -329,6 +320,7 @@ WillOWisp::get_settings()
   if (get_path())
   {
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
+    result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
   result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "region", "x", "y"});
@@ -358,6 +350,13 @@ WillOWisp::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+void
+WillOWisp::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  PathObject::on_flip();
 }
 
 /* EOF */

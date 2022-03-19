@@ -13,13 +13,13 @@
 # Timothy Goya <tuxdev103@gmail.com>, 2013
 # Ubuntu Jackson <santenichiyonitchigo@gmail.com>, 2020
 # Ubuntu Jackson <santenichiyonitchigo@gmail.com>, 2020
-# 堀 風羽 <Riie-ivt@outlook.com>, 2019
+# 0ea743a388003249c3a27027490eb004_eb62725 <93be5fa112647d5d896be9f7b3c2eda8_426397>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2020-04-13 17:25+0200\n"
-"PO-Revision-Date: 2021-02-19 06:52+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-13 23:53+0000\n"
 "Last-Translator: Ryo Nakano\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -32,8 +32,8 @@ msgstr ""
 msgid "You found a secret area!"
 msgstr "秘密の場所を見つけました！"
 
-#: src/trigger/secretarea_trigger.cpp:77 src/trigger/scripttrigger.cpp:75
-#: src/supertux/game_object.cpp:88 src/supertux/menu/editor_sector_menu.cpp:34
+#: src/trigger/secretarea_trigger.cpp:77 src/supertux/game_object.cpp:90
+#: src/supertux/menu/editor_sector_menu.cpp:34
 #: src/supertux/menu/editor_levelset_menu.cpp:58
 #: src/supertux/menu/editor_new_levelset_menu.cpp:34
 #: src/supertux/menu/editor_level_menu.cpp:33
@@ -45,54 +45,24 @@ msgid "Fade tilemap"
 msgstr "タイルマップをフェード"
 
 #: src/trigger/secretarea_trigger.cpp:79 src/trigger/climbable.cpp:81
-#: src/object/infoblock.cpp:57 src/editor/worldmap_objects.cpp:174
-#: src/editor/worldmap_objects.cpp:272
+#: src/object/infoblock.cpp:57 src/editor/worldmap_objects.cpp:172
+#: src/editor/worldmap_objects.cpp:270
 msgid "Message"
 msgstr "メッセージ"
 
-#: src/trigger/secretarea_trigger.cpp:80 src/trigger/scripttrigger.cpp:80
+#: src/trigger/secretarea_trigger.cpp:80 src/trigger/scripttrigger.cpp:75
 #: src/trigger/door.cpp:73 src/object/ispy.cpp:67
-#: src/object/bonus_block.cpp:203 src/object/bonus_block.cpp:207
-#: src/object/pushbutton.cpp:49 src/object/powerup.cpp:190
-#: src/editor/worldmap_objects.cpp:274
+#: src/object/bonus_block.cpp:207 src/object/bonus_block.cpp:211
+#: src/object/pushbutton.cpp:51 src/object/powerup.cpp:190
+#: src/editor/worldmap_objects.cpp:272
 msgid "Script"
 msgstr "スクリプト"
 
-#: src/trigger/scripttrigger.cpp:73
-msgid "Script Trigger"
-msgstr "スクリプトトリガー"
-
-#: src/trigger/scripttrigger.cpp:76 src/object/tilemap.cpp:220
-#: src/supertux/menu/editor_sector_menu.cpp:39
-#: src/editor/object_option.cpp:148
-msgid "Width"
-msgstr "幅"
-
-#: src/trigger/scripttrigger.cpp:77 src/object/tilemap.cpp:221
-#: src/supertux/menu/editor_sector_menu.cpp:40
-#: src/editor/object_option.cpp:149
-msgid "Height"
-msgstr "高さ"
-
-#: src/trigger/scripttrigger.cpp:78 src/object/bicycle_platform.cpp:187
-#: src/object/background.cpp:160 src/object/pneumatic_platform.cpp:145
-#: src/supertux/menu/joystick_menu.cpp:170 src/supertux/moving_object.cpp:47
-#: src/editor/worldmap_objects.cpp:73
-msgid "X"
-msgstr "X"
-
-#: src/trigger/scripttrigger.cpp:79 src/object/bicycle_platform.cpp:188
-#: src/object/background.cpp:161 src/object/pneumatic_platform.cpp:146
-#: src/supertux/menu/joystick_menu.cpp:172 src/supertux/moving_object.cpp:48
-#: src/editor/worldmap_objects.cpp:74
-msgid "Y"
-msgstr "Y"
-
-#: src/trigger/scripttrigger.cpp:81 src/object/pushbutton.hpp:31
+#: src/trigger/scripttrigger.cpp:76 src/object/pushbutton.hpp:31
 msgid "Button"
 msgstr "ボタン"
 
-#: src/trigger/scripttrigger.cpp:82
+#: src/trigger/scripttrigger.cpp:77
 msgid "Oneshot"
 msgstr "一度のみ"
 
@@ -100,10 +70,10 @@ msgstr "一度のみ"
 msgid "Sequence Trigger"
 msgstr "シーケンストリガー"
 
-#: src/trigger/door.cpp:74 src/badguy/willowisp.cpp:280
+#: src/trigger/door.cpp:74 src/badguy/willowisp.cpp:320
 #: src/supertux/menu/editor_sector_menu.cpp:32
-#: src/editor/layers_widget.cpp:274
-#: data//images/engine/editor/objects.stoi:300
+#: src/editor/layers_widget.cpp:342
+#: data//images/engine/editor/objects.stoi:321
 msgid "Sector"
 msgstr "セクター"
 
@@ -111,8 +81,8 @@ msgstr "セクター"
 msgid "Spawn point"
 msgstr "スタート地点"
 
-#: src/trigger/switch.cpp:61 src/object/block.cpp:212 src/object/torch.cpp:91
-#: src/object/moving_sprite.cpp:156 src/object/pneumatic_platform.cpp:144
+#: src/trigger/switch.cpp:61 src/object/block.cpp:224 src/object/torch.cpp:102
+#: src/object/moving_sprite.cpp:156 src/object/pneumatic_platform.cpp:146
 msgid "Sprite"
 msgstr "スプライト"
 
@@ -123,6 +93,10 @@ msgstr "スプリクト効果を出す"
 #: src/trigger/switch.cpp:63
 msgid "Turn off script"
 msgstr "スプリクト効果を止める"
+
+#: src/trigger/scripttrigger.hpp:32
+msgid "Script Trigger"
+msgstr "スクリプトトリガー"
 
 #: src/trigger/sequence_trigger.cpp:75
 msgid "Sequence"
@@ -149,14 +123,17 @@ msgid "Worldmap fade tilemap"
 msgstr "ワールドマップフェードタイルマップ"
 
 #: src/trigger/sequence_trigger.cpp:82
+#: src/object/custom_particle_system.cpp:430
+#: src/object/custom_particle_system.cpp:465
 msgid "Fade"
 msgstr "フェード"
 
-#: src/trigger/sequence_trigger.cpp:83
+#: src/trigger/sequence_trigger.cpp:83 src/editor/particle_editor.cpp:161
 msgid "Fade in"
 msgstr "フェードイン"
 
-#: src/trigger/sequence_trigger.cpp:83
+#: src/trigger/sequence_trigger.cpp:83 src/editor/particle_editor.cpp:167
+#: src/editor/particle_editor.cpp:212
 msgid "Fade out"
 msgstr "フェードアウト"
 
@@ -180,36 +157,50 @@ msgstr "秘密の場所"
 msgid "Thunderstorm"
 msgstr "雷雨"
 
+#: src/object/cloud_particle_system.cpp:79
+#: src/object/rain_particle_system.cpp:100
+msgid "Intensity"
+msgstr ""
+
+#: src/object/custom_particle_system.hpp:45
+msgid "Custom Particles"
+msgstr ""
+
 #: src/object/ispy.cpp:66
 msgid "Facing Down"
 msgstr "下向き"
 
-#: src/object/ispy.cpp:68 src/object/gradient.cpp:124
-#: src/badguy/willowisp.cpp:279 src/badguy/badguy.cpp:840
-#: src/editor/worldmap_objects.cpp:209 src/editor/worldmap_objects.cpp:276
+#: src/object/ispy.cpp:68 src/object/spotlight.cpp:103
+#: src/object/gradient.cpp:137 src/badguy/willowisp.cpp:319
+#: src/badguy/badguy.cpp:848 src/editor/worldmap_objects.cpp:207
+#: src/editor/worldmap_objects.cpp:274
 msgid "Direction"
 msgstr "向き"
 
-#: src/object/path_gameobject.hpp:44 src/object/coin.cpp:262
-#: src/object/camera.cpp:212 src/object/platform.cpp:65
-#: src/object/path_gameobject.cpp:168 src/object/tilemap.cpp:234
-#: src/badguy/willowisp.cpp:286
+#: src/object/particle_zone.hpp:39
+msgid "Particle zone"
+msgstr ""
+
+#: src/object/path_gameobject.hpp:44 src/object/coin.cpp:301
+#: src/object/camera.cpp:224 src/object/platform.cpp:73
+#: src/object/path_gameobject.cpp:173 src/object/tilemap.cpp:246
+#: src/gui/menu_paths.cpp:52 src/badguy/willowisp.cpp:326
 msgid "Path"
 msgstr "道"
 
-#: src/object/decal.cpp:41 src/object/scripted_object.cpp:67
-#: src/object/particlesystem.cpp:62 src/object/background.cpp:164
-#: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:227
-#: src/object/gradient.cpp:122
+#: src/object/decal.cpp:49 src/object/scripted_object.cpp:67
+#: src/object/particlesystem.cpp:65 src/object/background.cpp:183
+#: src/object/thunderstorm.cpp:68 src/object/tilemap.cpp:239
+#: src/object/gradient.cpp:135
 msgid "Z-pos"
 msgstr "z軸のポジション"
 
-#: src/object/decal.cpp:42 src/object/scripted_object.cpp:70
-#: src/object/tilemap.cpp:216
+#: src/object/decal.cpp:50 src/object/scripted_object.cpp:70
+#: src/object/tilemap.cpp:228
 msgid "Solid"
 msgstr "固定"
 
-#: src/object/decal.cpp:43 src/supertux/menu/keyboard_menu.cpp:37
+#: src/object/decal.cpp:51 src/supertux/menu/keyboard_menu.cpp:37
 #: src/supertux/menu/joystick_menu.cpp:74
 msgid "Action"
 msgstr "アクション"
@@ -218,13 +209,21 @@ msgstr "アクション"
 msgid "Weak Tile"
 msgstr "壊れやすい足場"
 
+#: src/object/bumper.cpp:46
+msgid "Facing Left"
+msgstr ""
+
 #: src/object/gradient.hpp:42
 msgid "Gradient"
 msgstr "グラデーション"
 
-#: src/object/tilemap.hpp:53
+#: src/object/tilemap.hpp:57
 msgid "Tilemap"
 msgstr "タイルマップ"
+
+#: src/object/circleplatform.hpp:32
+msgid "Circular Platform"
+msgstr ""
 
 #: src/object/brick.cpp:133
 msgid "Breakable"
@@ -234,27 +233,38 @@ msgstr "破壊可能"
 msgid "Portable"
 msgstr "持ち運び可能"
 
-#: src/object/spotlight.cpp:62
+#: src/object/spotlight.cpp:100 src/object/rain_particle_system.cpp:101
 msgid "Angle"
 msgstr "角度"
 
-#: src/object/spotlight.cpp:63 src/object/magicblock.cpp:94
-#: src/object/candle.cpp:77 src/object/lantern.cpp:62
-#: src/object/ambient_light.cpp:131 src/badguy/walking_candle.cpp:82
+#: src/object/spotlight.cpp:101 src/object/magicblock.cpp:94
+#: src/object/candle.cpp:77 src/object/torch.cpp:104
+#: src/object/rublight.cpp:54 src/object/lantern.cpp:62
+#: src/object/ambient_light.cpp:131 src/badguy/willowisp.cpp:328
+#: src/badguy/walking_candle.cpp:82
 msgid "Color"
 msgstr "色"
 
-#: src/object/spotlight.cpp:64 src/object/textscroller.cpp:279
-#: src/badguy/flame.cpp:59
+#: src/object/spotlight.cpp:102 src/object/textscroller.cpp:350
+#: src/object/rain_particle_system.cpp:102 src/object/circleplatform.cpp:55
+#: src/badguy/flame.cpp:59 src/editor/node_marker.cpp:125
 msgid "Speed"
 msgstr "速度"
 
-#: src/object/spotlight.cpp:65
+#: src/object/spotlight.cpp:104
+msgid "Clockwise"
+msgstr ""
+
+#: src/object/spotlight.cpp:104
 msgid "Counter-clockwise"
 msgstr "左回り"
 
-#: src/object/spotlight.cpp:66 src/object/candle.cpp:78
-#: src/object/torch.cpp:92
+#: src/object/spotlight.cpp:104
+msgid "Stopped"
+msgstr ""
+
+#: src/object/spotlight.cpp:107 src/object/candle.cpp:78
+#: src/object/torch.cpp:103
 msgid "Layer"
 msgstr "レイヤー"
 
@@ -266,67 +276,77 @@ msgstr "物理エンジンが有効"
 msgid "Visible"
 msgstr "可視"
 
-#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:282
+#: src/object/scripted_object.cpp:73 src/badguy/willowisp.cpp:322
 msgid "Hit script"
 msgstr "スクリプトを打つ"
 
-#: src/object/bonus_block.cpp:204
+#: src/object/custom_particle_system_file.cpp:50
+#: src/object/textscroller.cpp:348 src/object/music_object.cpp:109
+#: src/supertux/menu/particle_editor_open.cpp:38
+msgid "File"
+msgstr "ファイル"
+
+#: src/object/bonus_block.cpp:208
 msgid "Count"
 msgstr "カウント"
 
-#: src/object/bonus_block.cpp:205
+#: src/object/bonus_block.cpp:209
 msgid "Content"
 msgstr "内容"
 
-#: src/object/bonus_block.cpp:206 src/object/coin.hpp:43
+#: src/object/bonus_block.cpp:210 src/object/coin.hpp:43
 msgid "Coin"
 msgstr "コイン"
 
-#: src/object/bonus_block.cpp:206
+#: src/object/bonus_block.cpp:210
 msgid "Growth (fire flower)"
 msgstr "進化 (ファイアーフラワー)"
 
-#: src/object/bonus_block.cpp:206
+#: src/object/bonus_block.cpp:210
 msgid "Growth (ice flower)"
 msgstr "進化 (アイス フラワー)"
 
-#: src/object/bonus_block.cpp:206
+#: src/object/bonus_block.cpp:210
 msgid "Growth (air flower)"
 msgstr "進化 (エアー フラワー)"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:211
 msgid "Growth (earth flower)"
 msgstr "進化 (アース フラワー)"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:211
 msgid "Star"
 msgstr "スター"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:211
 msgid "Tux doll"
 msgstr "Tuxの人形"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:211
 msgid "Custom"
 msgstr "カスタム"
 
-#: src/object/bonus_block.cpp:207
+#: src/object/bonus_block.cpp:211
 msgid "Light"
 msgstr "光"
 
-#: src/object/bonus_block.cpp:208 src/object/trampoline.hpp:35
+#: src/object/bonus_block.cpp:211
+msgid "Light (On)"
+msgstr ""
+
+#: src/object/bonus_block.cpp:212 src/object/trampoline.hpp:35
 msgid "Trampoline"
 msgstr "トランポリン"
 
-#: src/object/bonus_block.cpp:208
+#: src/object/bonus_block.cpp:212
 msgid "Coin rain"
 msgstr "コインの雨"
 
-#: src/object/bonus_block.cpp:208
+#: src/object/bonus_block.cpp:212
 msgid "Coin explosion"
 msgstr "コインの爆発"
 
-#: src/object/bonus_block.cpp:212
+#: src/object/bonus_block.cpp:216
 msgid "Custom Content"
 msgstr "カスタムコンテンツ"
 
@@ -334,16 +354,27 @@ msgstr "カスタムコンテンツ"
 msgid "Pneumatic Platform"
 msgstr "空気圧で動く足場"
 
-#: src/object/coin.cpp:264 src/object/tilemap.cpp:236
+#: src/object/coin.cpp:303 src/object/tilemap.cpp:249
 msgid "Following path"
 msgstr "道に従う"
 
-#: src/object/coin.cpp:267 src/object/camera.cpp:215
-#: src/object/platform.cpp:66 src/object/tilemap.cpp:240
+#: src/object/coin.cpp:306 src/object/camera.cpp:227
+#: src/object/platform.cpp:74 src/object/tilemap.cpp:252
 msgid "Path Mode"
 msgstr "パスモード"
 
-#: src/object/coin.cpp:270 src/object/coin.cpp:298
+#: src/object/coin.cpp:307 src/object/camera.cpp:228
+#: src/object/platform.cpp:75 src/object/tilemap.cpp:253
+#: src/badguy/willowisp.cpp:331
+msgid "Adapt Speed"
+msgstr ""
+
+#: src/object/coin.cpp:308 src/object/platform.cpp:77
+#: src/object/tilemap.cpp:247 src/badguy/willowisp.cpp:327
+msgid "Starting Node"
+msgstr ""
+
+#: src/object/coin.cpp:311 src/object/coin.cpp:339
 msgid "Collect script"
 msgstr "スクリプトを記録する"
 
@@ -351,28 +382,60 @@ msgstr "スクリプトを記録する"
 msgid "Ghost Particles"
 msgstr "幽霊の粒子"
 
-#: src/object/camera.cpp:207
+#: src/object/camera.cpp:219
 msgid "Mode"
 msgstr "モード"
 
-#: src/object/camera.cpp:208
+#: src/object/camera.cpp:220
 msgid "normal"
 msgstr "通常"
 
-#: src/object/camera.cpp:208
+#: src/object/camera.cpp:220
 msgid "manual"
 msgstr "手動"
 
-#: src/object/camera.cpp:208
+#: src/object/camera.cpp:220
 msgid "autoscroll"
 msgstr "自動スクロール"
 
-#: src/object/textscroller.cpp:280 src/object/music_object.cpp:109
-msgid "File"
-msgstr "ファイル"
+#: src/object/textscroller.cpp:349
+msgid "Finish Script"
+msgstr ""
 
-#: src/object/spawnpoint.hpp:46 src/badguy/willowisp.cpp:281
-#: src/editor/worldmap_objects.cpp:173
+#: src/object/textscroller.cpp:351
+msgid "X-offset"
+msgstr ""
+
+#: src/object/textscroller.cpp:352
+msgid "Controllable"
+msgstr ""
+
+#: src/object/textscroller.cpp:353
+msgid "Anchor"
+msgstr ""
+
+#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:71
+msgid "Left"
+msgstr "左"
+
+#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+msgid "Center"
+msgstr ""
+
+#: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
+#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:72
+msgid "Right"
+msgstr "右"
+
+#: src/object/textscroller.cpp:357
+msgid "Text Alignment"
+msgstr ""
+
+#: src/object/spawnpoint.hpp:46 src/badguy/willowisp.cpp:321
+#: src/editor/worldmap_objects.cpp:171
 msgid "Spawnpoint"
 msgstr "ゲームのスタート地点"
 
@@ -384,7 +447,8 @@ msgstr "カウンター"
 msgid "Candle"
 msgstr "ロウソク"
 
-#: src/object/particlesystem.cpp:61 src/badguy/darttrap.cpp:127
+#: src/object/particlesystem.cpp:64 src/object/particle_zone.cpp:79
+#: src/badguy/darttrap.cpp:127
 msgid "Enabled"
 msgstr "有効"
 
@@ -400,12 +464,16 @@ msgstr "雪"
 msgid "Powerup"
 msgstr "パワーアップ"
 
+#: src/object/fallblock.hpp:39
+msgid "Falling Platform"
+msgstr ""
+
 #: src/object/level_time.hpp:55
 msgid "Time Limit"
 msgstr "時間制限"
 
-#: src/object/ambient_sound.cpp:119 src/supertux/menu/options_menu.cpp:365
-#: data//credits.stxt:335
+#: src/object/ambient_sound.cpp:119 src/supertux/menu/options_menu.cpp:391
+#: data//credits.stxt:352
 msgid "Sound"
 msgstr "効果音"
 
@@ -425,11 +493,15 @@ msgstr "音量"
 msgid "Torch"
 msgstr "たいまつ"
 
-#: src/object/icecrusher.hpp:48
+#: src/object/icecrusher.hpp:53
 msgid "Icecrusher"
 msgstr "砕氷機"
 
-#: src/object/background.hpp:42
+#: src/object/rublight.hpp:33
+msgid "Rublight"
+msgstr ""
+
+#: src/object/background.hpp:43
 msgid "Background"
 msgstr "背景"
 
@@ -449,20 +521,35 @@ msgstr "ランタン"
 msgid "Wind"
 msgstr "風"
 
-#: src/object/bicycle_platform.cpp:190
+#: src/object/bicycle_platform.cpp:189 src/object/background.cpp:179
+#: src/object/pneumatic_platform.cpp:147
+#: src/supertux/menu/joystick_menu.cpp:170 src/supertux/moving_object.cpp:58
+#: src/editor/worldmap_objects.cpp:73
+msgid "X"
+msgstr "X"
+
+#: src/object/bicycle_platform.cpp:190 src/object/background.cpp:180
+#: src/object/pneumatic_platform.cpp:148
+#: src/supertux/menu/joystick_menu.cpp:172 src/supertux/moving_object.cpp:59
+#: src/editor/worldmap_objects.cpp:74
+msgid "Y"
+msgstr "Y"
+
+#: src/object/bicycle_platform.cpp:192
 msgid "Platforms"
 msgstr "動く足場"
 
-#: src/object/bicycle_platform.cpp:191 src/badguy/flame.cpp:58
-#: src/badguy/crystallo.cpp:36
+#: src/object/bicycle_platform.cpp:193 src/object/circleplatform.cpp:54
+#: src/badguy/flame.cpp:58 src/badguy/rcrystallo.cpp:50
+#: src/badguy/crystallo.cpp:35
 msgid "Radius"
 msgstr "半径"
 
-#: src/object/bicycle_platform.cpp:192
+#: src/object/bicycle_platform.cpp:194
 msgid "Momentum change rate"
 msgstr "推進力変化率"
 
-#: src/object/rain_particle_system.hpp:34
+#: src/object/rain_particle_system.hpp:40
 msgid "Rain Particles"
 msgstr "雨粒"
 
@@ -474,8 +561,8 @@ msgstr "動く足場"
 msgid "Rock"
 msgstr "岩"
 
-#: src/object/music_object.hpp:41 src/supertux/menu/options_menu.cpp:367
-#: data//credits.stxt:277
+#: src/object/music_object.hpp:41 src/supertux/menu/options_menu.cpp:393
+#: data//credits.stxt:294
 msgid "Music"
 msgstr "音楽"
 
@@ -487,7 +574,7 @@ msgstr "錆びたトランポリン"
 msgid "Particle system"
 msgstr "粒子の組織"
 
-#: src/object/candle.cpp:75 src/object/torch.cpp:90
+#: src/object/candle.cpp:75 src/object/torch.cpp:101
 msgid "Burning"
 msgstr "燃えている"
 
@@ -511,8 +598,8 @@ msgstr "重力を無効にする"
 msgid "Ambient Sound"
 msgstr "環境音"
 
-#: src/object/level_time.cpp:51 src/supertux/statistics.cpp:288
-#: src/editor/node_marker.cpp:80
+#: src/object/level_time.cpp:51 src/supertux/statistics.cpp:297
+#: src/editor/node_marker.cpp:124
 msgid "Time"
 msgstr "時間"
 
@@ -520,115 +607,151 @@ msgstr "時間"
 msgid "Hurting Platform"
 msgstr "壊れた動く足場"
 
-#: src/object/background.cpp:163
+#: src/object/icecrusher.cpp:83
+msgid "Sideways"
+msgstr ""
+
+#: src/object/background.cpp:182
 msgid "Fill"
 msgstr "敷き詰め"
 
-#: src/object/background.cpp:165
+#: src/object/background.cpp:184
 msgid "Alignment"
 msgstr "照準"
 
-#: src/object/background.cpp:166
+#: src/object/background.cpp:185
 msgid "none"
 msgstr "なし"
 
-#: src/object/background.cpp:166 src/editor/object_settings.cpp:112
+#: src/object/background.cpp:185 src/editor/object_settings.cpp:119
 msgid "left"
 msgstr "左"
 
-#: src/object/background.cpp:166 src/editor/object_settings.cpp:112
+#: src/object/background.cpp:185 src/editor/object_settings.cpp:119
 msgid "right"
 msgstr "右"
 
-#: src/object/background.cpp:166
+#: src/object/background.cpp:185
 msgid "top"
 msgstr "上"
 
-#: src/object/background.cpp:166
+#: src/object/background.cpp:185
 msgid "bottom"
 msgstr "下"
 
-#: src/object/background.cpp:169
+#: src/object/background.cpp:188
 msgid "Scroll offset x"
 msgstr "x軸のスクロール オフセット"
 
-#: src/object/background.cpp:170
+#: src/object/background.cpp:189
 msgid "Scroll offset y"
 msgstr "y軸のスクロール オフセット"
 
-#: src/object/background.cpp:171
+#: src/object/background.cpp:190
 msgid "Scroll speed x"
 msgstr "x軸のスクロール スピード"
 
-#: src/object/background.cpp:172
+#: src/object/background.cpp:191
 msgid "Scroll speed y"
 msgstr "y軸のスクロール スピード"
 
-#: src/object/background.cpp:173
+#: src/object/background.cpp:192
 msgid "Parallax Speed x"
 msgstr "x軸の視差速度"
 
-#: src/object/background.cpp:174
+#: src/object/background.cpp:193
 msgid "Parallax Speed y"
 msgstr "y軸の視差速度"
 
-#: src/object/background.cpp:175
+#: src/object/background.cpp:194
 msgid "Top image"
 msgstr "上部の画像"
 
-#: src/object/background.cpp:176
+#: src/object/background.cpp:195
 msgid "Image"
 msgstr "画像"
 
-#: src/object/background.cpp:177
+#: src/object/background.cpp:196
 msgid "Bottom image"
 msgstr "下部の画像"
 
-#: src/object/background.cpp:178 src/object/tilemap.cpp:228
-#: src/object/gradient.cpp:129
+#: src/object/background.cpp:197
+msgid "Colour"
+msgstr "色"
+
+#: src/object/background.cpp:198 src/object/tilemap.cpp:240
+#: src/object/gradient.cpp:142
 msgid "Draw target"
 msgstr "ターゲットを表示"
 
-#: src/object/background.cpp:179 src/object/tilemap.cpp:229
-#: src/object/gradient.cpp:130
+#: src/object/background.cpp:199 src/object/tilemap.cpp:241
+#: src/object/gradient.cpp:143
 msgid "Normal"
 msgstr "標準"
 
-#: src/object/background.cpp:179 src/object/tilemap.cpp:229
-#: src/object/gradient.cpp:130
+#: src/object/background.cpp:199 src/object/tilemap.cpp:241
+#: src/object/gradient.cpp:143
 msgid "Lightmap"
 msgstr "ライトマップ"
 
-#: src/object/wind.cpp:63
+#: src/object/shard.hpp:34
+msgid "Shard"
+msgstr ""
+
+#: src/object/rublight.cpp:55
+msgid "Fading Speed"
+msgstr ""
+
+#: src/object/rublight.cpp:56
+msgid "Glowing Strength"
+msgstr ""
+
+#: src/object/wind.cpp:78 src/object/custom_particle_system.cpp:499
 msgid "Speed X"
 msgstr "x軸の速さ"
 
-#: src/object/wind.cpp:64
+#: src/object/wind.cpp:79 src/object/custom_particle_system.cpp:500
 msgid "Speed Y"
 msgstr "y軸の速さ"
 
-#: src/object/wind.cpp:65
+#: src/object/wind.cpp:80
 msgid "Acceleration"
 msgstr "アクセラレーション"
 
-#: src/object/wind.cpp:66
+#: src/object/wind.cpp:81
 msgid "Blowing"
 msgstr "吹かせる"
+
+#: src/object/wind.cpp:82
+msgid "Affects Badguys"
+msgstr ""
+
+#: src/object/wind.cpp:83
+msgid "Affects Objects"
+msgstr ""
+
+#: src/object/wind.cpp:84
+msgid "Affects Player"
+msgstr ""
+
+#: src/object/wind.cpp:85
+msgid "Fancy Particles"
+msgstr ""
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle Platform"
 msgstr "自動で動く足場"
 
-#: src/object/platform.cpp:67 src/object/thunderstorm.cpp:69
-#: src/object/tilemap.cpp:241
+#: src/object/platform.cpp:76 src/object/thunderstorm.cpp:69
+#: src/object/tilemap.cpp:254
 msgid "Running"
 msgstr "動作中"
 
-#: src/object/rock.cpp:182
+#: src/object/rock.cpp:192
 msgid "On-grab script"
 msgstr "つかんだ際のスクリプト"
 
-#: src/object/rock.cpp:183
+#: src/object/rock.cpp:193
 msgid "On-ungrab script"
 msgstr "離した際のスクリプトクリプト"
 
@@ -644,110 +767,505 @@ msgstr "間隔"
 msgid "Strike Script"
 msgstr "当たった際のスクリプト"
 
-#: src/object/cloud_particle_system.hpp:36
+#: src/object/cloud_particle_system.hpp:41
 msgid "Cloud Particles"
 msgstr "雲粒"
+
+#: src/object/custom_particle_system.cpp:423
+msgid "Texture"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:425
+msgid "Amount"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:426 src/object/circleplatform.cpp:56
+#: src/editor/particle_editor.cpp:141
+msgid "Delay"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:427
+msgid "Lifetime"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:428
+msgid "Lifetime variation"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:429
+#: src/editor/particle_editor.cpp:164
+msgid "Birth mode"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:430
+#: src/object/custom_particle_system.cpp:465 src/object/gradient.cpp:149
+#: src/supertux/menu/keyboard_menu.cpp:58
+#: src/supertux/menu/joystick_menu.cpp:106
+#: src/supertux/menu/joystick_menu.cpp:213 src/editor/object_settings.cpp:131
+#: src/editor/particle_editor.cpp:162 src/editor/particle_editor.cpp:168
+msgid "None"
+msgstr "なし"
+
+#: src/object/custom_particle_system.cpp:430
+#: src/object/custom_particle_system.cpp:465
+#: src/editor/particle_editor.cpp:166
+msgid "Shrink"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:434
+#: src/editor/particle_editor.cpp:172
+msgid "Birth easing"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:436
+#: src/object/custom_particle_system.cpp:471 src/editor/node_marker.cpp:129
+msgid "No easing"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:437
+#: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
+msgid "Quad in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:437
+#: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
+msgid "Quad out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:437
+#: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
+msgid "Quad in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:438
+#: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
+msgid "Cubic in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:438
+#: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
+msgid "Cubic out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:438
+#: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
+msgid "Cubic in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:439
+#: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
+msgid "Quart in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:439
+#: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
+msgid "Quart out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:439
+#: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
+msgid "Quart in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:440
+#: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
+msgid "Quint in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:440
+#: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
+msgid "Quint out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:440
+#: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
+msgid "Quint in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:441
+#: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
+msgid "Sine in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:441
+#: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
+msgid "Sine out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:441
+#: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
+msgid "Sine in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:442
+#: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
+msgid "Circular in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:442
+#: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
+msgid "Circular out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:442
+#: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
+msgid "Circular in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:443
+#: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
+msgid "Exponential in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:443
+#: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
+msgid "Exponential out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:443
+#: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
+msgid "Exponential in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:444
+#: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
+msgid "Elastic in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:444
+#: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
+msgid "Elastic out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:444
+#: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
+msgid "Elastic in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:445
+#: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
+msgid "Back in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:445
+#: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
+msgid "Back out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:445
+#: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
+msgid "Back in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:446
+#: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
+msgid "Bounce in"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:446
+#: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
+msgid "Bounce out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:446
+#: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
+msgid "Bounce in/out"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:462
+msgid "Birth time"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:463
+msgid "Birth time variation"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:464
+#: src/editor/particle_editor.cpp:170
+msgid "Death mode"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:469
+#: src/editor/particle_editor.cpp:173
+msgid "Death easing"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:497
+msgid "Death time"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:498
+msgid "Death time variation"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:501
+msgid "Speed X (variation)"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:502
+msgid "Speed Y (variation)"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:503
+msgid "Acceleration X"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:504
+msgid "Acceleration Y"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:505
+msgid "Friction X"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:506
+msgid "Friction Y"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:507
+#: src/editor/particle_editor.cpp:189
+msgid "Feather factor"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:508
+msgid "Rotation"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:509
+msgid "Rotation (variation)"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:510
+#: src/editor/particle_editor.cpp:195
+msgid "Rotation speed"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:511
+msgid "Rotation speed (variation)"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:512
+#: src/editor/particle_editor.cpp:200
+msgid "Rotation acceleration"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:513
+msgid "Rotation friction"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:514
+#: src/editor/particle_editor.cpp:208
+msgid "Rotation mode"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:515
+#: src/editor/particle_editor.cpp:206
+msgid "Fixed"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:515
+#: src/editor/particle_editor.cpp:205
+msgid "Facing"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:515
+#: src/editor/particle_editor.cpp:204
+msgid "Wiggling"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:519
+#: src/editor/particle_editor.cpp:219
+msgid "Collision mode"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:520
+msgid "None (pass through)"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:520
+msgid "Stick"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:520
+msgid "Stick Forever"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:520
+#: src/editor/particle_editor.cpp:214
+msgid "Bounce (heavy)"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:520
+#: src/editor/particle_editor.cpp:213
+msgid "Bounce (light)"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:520
+msgid "Kill particle"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:520
+msgid "Fade out particle"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:524
+msgid "Delete if off-screen"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:525
+#: src/editor/particle_editor.cpp:224
+msgid "Never"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:525
+#: src/editor/particle_editor.cpp:223
+msgid "Only on exit"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:525
+msgid "Always"
+msgstr ""
+
+#: src/object/custom_particle_system.cpp:529
+msgid "Cover screen"
+msgstr ""
 
 #: src/object/ispy.hpp:33
 msgid "Ispy"
 msgstr "これは何？"
 
-#: src/object/skull_tile.hpp:31
+#: src/object/skull_tile.hpp:32
 msgid "Skull Tile"
 msgstr "頭蓋骨の足場"
+
+#: src/object/particle_zone.cpp:80
+msgid "Particle Name"
+msgstr ""
+
+#: src/object/particle_zone.cpp:81
+msgid "Zone Type"
+msgstr ""
+
+#: src/object/particle_zone.cpp:82
+msgid "Spawn"
+msgstr ""
+
+#: src/object/particle_zone.cpp:82
+msgid "Life zone"
+msgstr ""
+
+#: src/object/particle_zone.cpp:82
+msgid "Life zone (clear)"
+msgstr ""
+
+#: src/object/particle_zone.cpp:82
+msgid "Kill particles"
+msgstr ""
+
+#: src/object/particle_zone.cpp:82
+msgid "Clear particles"
+msgstr ""
 
 #: src/object/weak_block.cpp:211
 msgid "Linked"
 msgstr "関連付け"
 
-#: src/object/decal.hpp:34
+#: src/object/decal.hpp:40
 msgid "Decal"
 msgstr "デカール"
 
-#: src/object/tilemap.cpp:217
+#: src/object/tilemap.cpp:229
 msgid "Resize offset x"
 msgstr "オフセットのx座標をサイズ変更"
 
-#: src/object/tilemap.cpp:218
+#: src/object/tilemap.cpp:230
 msgid "Resize offset y"
 msgstr "オフセットのy座標をサイズ変更"
 
-#: src/object/tilemap.cpp:223
+#: src/object/tilemap.cpp:232 src/supertux/menu/editor_sector_menu.cpp:39
+#: src/editor/object_option.cpp:173
+msgid "Width"
+msgstr "幅"
+
+#: src/object/tilemap.cpp:233 src/supertux/menu/editor_sector_menu.cpp:40
+#: src/editor/object_option.cpp:174
+msgid "Height"
+msgstr "高さ"
+
+#: src/object/tilemap.cpp:235
 msgid "Alpha"
 msgstr "アルファ値"
 
-#: src/object/tilemap.cpp:224
+#: src/object/tilemap.cpp:236
 msgid "Speed x"
 msgstr "x軸のスピード"
 
-#: src/object/tilemap.cpp:225
+#: src/object/tilemap.cpp:237
 msgid "Speed y"
 msgstr "y軸のスピード"
 
-#: src/object/tilemap.cpp:226
+#: src/object/tilemap.cpp:238
 msgid "Tint"
 msgstr "色合い"
 
-#: src/object/tilemap.cpp:244 src/supertux/menu/editor_tilegroup_menu.cpp:26
+#: src/object/tilemap.cpp:257 src/supertux/menu/editor_tilegroup_menu.cpp:26
 #: src/editor/toolbox_widget.cpp:90
 msgid "Tiles"
 msgstr "タイル"
 
-#: src/object/gradient.cpp:115
+#: src/object/gradient.cpp:128
 msgid "Left Colour"
 msgstr "左の色"
 
-#: src/object/gradient.cpp:116
+#: src/object/gradient.cpp:129
 msgid "Right Colour"
 msgstr "右の色"
 
-#: src/object/gradient.cpp:118
+#: src/object/gradient.cpp:131
 msgid "Top Colour"
 msgstr "上部の色"
 
-#: src/object/gradient.cpp:119
+#: src/object/gradient.cpp:132
 msgid "Bottom Colour"
 msgstr "下部の色"
 
-#: src/object/gradient.cpp:125
+#: src/object/gradient.cpp:138
 msgid "Vertical"
 msgstr "縦"
 
-#: src/object/gradient.cpp:125
+#: src/object/gradient.cpp:138
 msgid "Horizontal"
 msgstr "横"
 
-#: src/object/gradient.cpp:125
+#: src/object/gradient.cpp:138
 msgid "Vertical (whole sector)"
 msgstr "縦 (セクター全体)"
 
-#: src/object/gradient.cpp:125
+#: src/object/gradient.cpp:138
 msgid "Horizontal (whole sector)"
 msgstr "横 (セクター全体)"
 
-#: src/object/gradient.cpp:135
+#: src/object/gradient.cpp:148
 msgid "Blend mode"
 msgstr "混色モード"
 
-#: src/object/gradient.cpp:136
+#: src/object/gradient.cpp:149
 msgid "Blend"
 msgstr "混色"
 
-#: src/object/gradient.cpp:136
+#: src/object/gradient.cpp:149
 msgid "Additive"
 msgstr "加算"
 
-#: src/object/gradient.cpp:136
+#: src/object/gradient.cpp:149
 msgid "Modulate"
 msgstr "乗算"
 
-#: src/object/gradient.cpp:136 src/supertux/menu/keyboard_menu.cpp:60
-#: src/supertux/menu/joystick_menu.cpp:106
-#: src/supertux/menu/joystick_menu.cpp:213 src/editor/object_settings.cpp:124
-msgid "None"
-msgstr "なし"
+#: src/object/bumper.hpp:35
+msgid "Bumper"
+msgstr ""
 
-#: src/object/unstable_tile.hpp:34
+#: src/object/unstable_tile.hpp:37
 msgid "Unstable Tile"
 msgstr "不安定なタイル"
 
@@ -759,7 +1277,7 @@ msgstr "レンガ"
 msgid "Invisible Wall"
 msgstr "見えない壁"
 
-#: src/object/spotlight.hpp:38
+#: src/object/spotlight.hpp:51
 msgid "Spotlight"
 msgstr "スポットライト"
 
@@ -767,11 +1285,15 @@ msgstr "スポットライト"
 msgid "Scripted Object"
 msgstr "スクリプトがあるオブジェクト"
 
-#: src/object/coin.hpp:75
+#: src/object/custom_particle_system_file.hpp:39
+msgid "Custom Particles from file"
+msgstr ""
+
+#: src/object/coin.hpp:78
 msgid "Heavy Coin"
 msgstr "重いコイン"
 
-#: src/object/bonus_block.hpp:55
+#: src/object/bonus_block.hpp:56
 msgid "Bonus Block"
 msgstr "ボーナスブロック"
 
@@ -784,42 +1306,45 @@ msgid "Camera"
 msgstr "カメラ"
 
 #: src/object/textscroller.hpp:44
-msgid "TextScroller"
-msgstr "テキストスクローラー"
+msgid "Text Scroller"
+msgstr ""
 
-#: src/gui/menu_badguy_select.cpp:93
+#: src/gui/menu_badguy_select.cpp:94
 msgid "List of enemies"
 msgstr "敵のリスト"
 
-#: src/gui/menu_badguy_select.cpp:95
-msgid "Enemy"
-msgstr "敵"
-
 #: src/gui/menu_badguy_select.cpp:96
+msgid "Select enemy"
+msgstr ""
+
+#: src/gui/menu_badguy_select.cpp:97
 msgid "Add"
 msgstr "追加"
 
-#: src/gui/menu_badguy_select.cpp:106 src/gui/menu_color.cpp:34
-#: src/gui/dialog.hpp:80 src/gui/menu_script.cpp:47
+#: src/gui/menu_badguy_select.cpp:107 src/gui/menu_color.cpp:37
+#: src/gui/dialog.hpp:81 src/gui/menu_script.cpp:47
 #: src/supertux/menu/editor_sector_menu.cpp:46
 #: src/supertux/menu/editor_levelset_menu.cpp:62
 #: src/supertux/menu/addon_menu.cpp:349
 #: src/supertux/menu/editor_new_levelset_menu.cpp:37
-#: src/supertux/menu/editor_level_menu.cpp:44 src/editor/object_menu.cpp:43
+#: src/supertux/menu/editor_level_menu.cpp:45 src/editor/object_menu.cpp:43
 msgid "OK"
 msgstr "OK"
 
-#: src/gui/menu_badguy_select.cpp:135
+#: src/gui/menu_badguy_select.cpp:136
 msgid "Do you want to delete this badguy from the list?"
 msgstr "リストから敵を削除しますか？"
 
-#: src/gui/menu_badguy_select.cpp:136 src/gui/dialog.hpp:89
-#: src/supertux/menu/editor_menu.cpp:123 src/editor/editor.cpp:478
+#: src/gui/menu_badguy_select.cpp:137 src/gui/dialog.hpp:90
+#: src/supertux/menu/editor_level_select_menu.cpp:164
+#: src/supertux/menu/editor_menu.cpp:164 src/editor/editor.cpp:583
 msgid "Yes"
 msgstr "はい"
 
-#: src/gui/menu_badguy_select.cpp:139 src/gui/dialog.hpp:90
-#: src/supertux/menu/editor_menu.cpp:126 src/editor/editor.cpp:485
+#: src/gui/menu_badguy_select.cpp:140 src/gui/dialog.hpp:91
+#: src/supertux/menu/editor_level_select_menu.cpp:168
+#: src/supertux/menu/editor_menu.cpp:167 src/editor/particle_editor.cpp:780
+#: src/editor/editor.cpp:590
 msgid "No"
 msgstr "いいえ"
 
@@ -827,18 +1352,58 @@ msgstr "いいえ"
 msgid "Mix the colour"
 msgstr "混色"
 
-#: src/gui/menu_filesystem.cpp:111
+#: src/gui/menu_filesystem.cpp:112 src/gui/menu_paths.cpp:44
+#: src/supertux/menu/particle_editor_save_as.cpp:42
 #: src/supertux/menu/editor_sectors_menu.cpp:45
 #: src/supertux/menu/editor_sectors_menu.cpp:95
 #: src/supertux/menu/editor_sectors_menu.cpp:100
 #: src/supertux/menu/editor_objectgroup_menu.cpp:42
-#: src/supertux/menu/editor_tilegroup_menu.cpp:36 src/editor/editor.cpp:489
+#: src/supertux/menu/editor_tilegroup_menu.cpp:36
+#: src/supertux/menu/editor_level_select_menu.cpp:173
+#: src/supertux/menu/editor_save_as.cpp:42
+#: src/supertux/menu/particle_editor_open.cpp:43
+#: src/editor/particle_editor.cpp:784 src/editor/editor.cpp:594
 msgid "Cancel"
 msgstr "キャンセル"
 
 #: src/gui/menu_script.cpp:28
 msgid "Edit script"
 msgstr "スクリプトを編集"
+
+#: src/gui/menu_paths.cpp:30
+msgid "Clone"
+msgstr ""
+
+#: src/gui/menu_paths.cpp:38
+msgid ""
+"An error occured and the game could\n"
+"not clone the path. Please contact\n"
+"the developers for support."
+msgstr ""
+
+#: src/gui/menu_paths.cpp:41
+msgid "Bind"
+msgstr ""
+
+#: src/gui/menu_paths.cpp:63 src/supertux/menu/integrations_menu.cpp:60
+#: src/supertux/menu/contrib_menu.cpp:161 src/supertux/menu/debug_menu.cpp:75
+#: src/supertux/menu/editor_level_select_menu.cpp:88
+#: src/supertux/menu/worldmap_cheat_menu.cpp:55
+#: src/supertux/menu/worldmap_cheat_menu.cpp:153
+#: src/supertux/menu/editor_levelset_select_menu.cpp:114
+#: src/supertux/menu/options_menu.cpp:442
+#: src/supertux/menu/profile_menu.cpp:54 src/supertux/menu/addon_menu.cpp:213
+#: src/supertux/menu/editor_new_levelset_menu.cpp:40
+#: src/supertux/menu/world_set_menu.cpp:33
+#: src/supertux/menu/web_asset_menu.cpp:48
+#: src/supertux/menu/keyboard_menu.cpp:49
+#: src/supertux/menu/language_menu.cpp:56
+#: src/supertux/menu/joystick_menu.cpp:97
+#: src/supertux/menu/contrib_levelset_menu.cpp:67
+#: src/supertux/menu/cheat_menu.cpp:44
+#: src/supertux/menu/editor_delete_level_menu.cpp:43
+msgid "Back"
+msgstr "戻る"
 
 #: src/badguy/toad.hpp:37
 msgid "Toad"
@@ -864,7 +1429,7 @@ msgstr "トーテム"
 msgid "Stalactite"
 msgstr "鍾乳石"
 
-#: src/badguy/haywire.hpp:42
+#: src/badguy/haywire.hpp:45
 msgid "Haywire"
 msgstr "ヘイワイヤー"
 
@@ -884,6 +1449,14 @@ msgstr "ドラゴン"
 msgid "Iceblock"
 msgstr "氷のブロック"
 
+#: src/badguy/scrystallo.cpp:52
+msgid "Walk Radius"
+msgstr ""
+
+#: src/badguy/scrystallo.cpp:53
+msgid "Awakening Radius"
+msgstr ""
+
 #: src/badguy/jumpy.hpp:36
 msgid "Jumpy"
 msgstr "ジャンピー"
@@ -896,15 +1469,15 @@ msgstr "キャプテンスノーボール"
 msgid "Ghost Tree"
 msgstr "幽霊の木"
 
-#: src/badguy/willowisp.cpp:283
+#: src/badguy/willowisp.cpp:323
 msgid "Track range"
 msgstr "トラックの範囲"
 
-#: src/badguy/willowisp.cpp:284
+#: src/badguy/willowisp.cpp:324
 msgid "Vanish range"
 msgstr "消える範囲"
 
-#: src/badguy/willowisp.cpp:285
+#: src/badguy/willowisp.cpp:325
 msgid "Fly speed"
 msgstr "飛行スピード"
 
@@ -912,11 +1485,11 @@ msgstr "飛行スピード"
 msgid "Kugelblitz"
 msgstr "クーゲルブリッツ"
 
-#: src/badguy/mole_rock.hpp:42
+#: src/badguy/mole_rock.hpp:43
 msgid "Mole's rock"
 msgstr "モグラの岩"
 
-#: src/badguy/badguy.cpp:841
+#: src/badguy/badguy.cpp:849
 msgid "Death script"
 msgstr "デス スクリプト"
 
@@ -932,11 +1505,11 @@ msgstr "Yetiの鍾乳石"
 msgid "Walking Flame"
 msgstr "歩く炎"
 
-#: src/badguy/livefire.hpp:67
+#: src/badguy/livefire.hpp:68
 msgid "Sleeping Flame"
 msgstr "眠っている炎"
 
-#: src/badguy/livefire.hpp:83
+#: src/badguy/livefire.hpp:84
 msgid "Dormant Flame"
 msgstr "休眠中の火"
 
@@ -1000,11 +1573,15 @@ msgstr ""
 msgid "Flame"
 msgstr "玉"
 
+#: src/badguy/scrystallo.hpp:30
+msgid "Sleeping Crystallo"
+msgstr ""
+
 #: src/badguy/poisonivy.hpp:30
 msgid "Spring Leaf"
 msgstr ""
 
-#: src/badguy/willowisp.hpp:55
+#: src/badguy/willowisp.hpp:57
 msgid "Will o' Wisp"
 msgstr "ウィルオーウィスプ"
 
@@ -1015,6 +1592,10 @@ msgstr "敵"
 #: src/badguy/ghostflame.hpp:30
 msgid "Ghost Flame"
 msgstr "幽霊玉"
+
+#: src/badguy/rcrystallo.hpp:30
+msgid "Roof Crystallo"
+msgstr ""
 
 #: src/badguy/spiky.hpp:30
 msgid "Spiky"
@@ -1060,7 +1641,7 @@ msgstr "怒ってる石"
 msgid "Spider"
 msgstr "蜘蛛"
 
-#: src/badguy/ghoul.hpp:28
+#: src/badguy/ghoul.hpp:30
 msgid "Ghoul"
 msgstr "グール"
 
@@ -1076,43 +1657,47 @@ msgstr "歩く切り株"
 msgid "Fish"
 msgstr "魚"
 
-#: src/badguy/dispenser.cpp:439
+#: src/badguy/dispenser.cpp:445
 msgid "Interval (seconds)"
 msgstr "間隔 (秒)"
 
-#: src/badguy/dispenser.cpp:440
+#: src/badguy/dispenser.cpp:446
 msgid "Random"
 msgstr "ランダム"
 
-#: src/badguy/dispenser.cpp:441 data//images/engine/editor/objects.stoi:4
+#: src/badguy/dispenser.cpp:447 data//images/engine/editor/objects.stoi:4
 msgid "Enemies"
 msgstr "敵"
 
-#: src/badguy/dispenser.cpp:442
+#: src/badguy/dispenser.cpp:448
 msgid "Limit dispensed badguys"
 msgstr "分配される敵を制限"
 
-#: src/badguy/dispenser.cpp:444
+#: src/badguy/dispenser.cpp:450
+msgid "Obey Gravity"
+msgstr ""
+
+#: src/badguy/dispenser.cpp:452
 msgid "Max concurrent badguys"
 msgstr "同時に出てくる敵の最大数"
 
-#: src/badguy/dispenser.cpp:446 src/supertux/menu/editor_levelset_menu.cpp:60
+#: src/badguy/dispenser.cpp:454 src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Type"
 msgstr "種類"
 
-#: src/badguy/dispenser.cpp:447
+#: src/badguy/dispenser.cpp:455
 msgid "dropper"
 msgstr "スポイト"
 
-#: src/badguy/dispenser.cpp:447
+#: src/badguy/dispenser.cpp:455
 msgid "rocket launcher"
 msgstr "ロケットランチャー"
 
-#: src/badguy/dispenser.cpp:447
+#: src/badguy/dispenser.cpp:455
 msgid "cannon"
 msgstr "大砲"
 
-#: src/badguy/dispenser.cpp:447
+#: src/badguy/dispenser.cpp:455
 msgid "invisible"
 msgstr "非表示"
 
@@ -1124,7 +1709,7 @@ msgstr "カタツムリ"
 msgid "Smartball"
 msgstr "賢い玉"
 
-#: src/badguy/bouncing_snowball.hpp:31
+#: src/badguy/bouncing_snowball.hpp:32
 msgid "Bouncing Snowball"
 msgstr "ボーナス スノーボール"
 
@@ -1136,258 +1721,262 @@ msgstr "氷の炎"
 msgid "Dart"
 msgstr "ダーツ"
 
-#: src/supertux/statistics.cpp:47
+#: src/supertux/statistics.cpp:54
 msgid "Max coins collected:"
 msgstr "最も多く集めたコインの数:"
 
-#: src/supertux/statistics.cpp:48
+#: src/supertux/statistics.cpp:55
 msgid "Max fragging:"
 msgstr "最も多く倒した敵の数:"
 
-#: src/supertux/statistics.cpp:49
+#: src/supertux/statistics.cpp:56
 msgid "Max secrets found:"
 msgstr "最も多く見つけた秘密の場所の数:"
 
-#: src/supertux/statistics.cpp:50
+#: src/supertux/statistics.cpp:57
 msgid "Best time completed:"
 msgstr "ゴールまでの最短時間:"
 
-#: src/supertux/statistics.cpp:51
+#: src/supertux/statistics.cpp:58
 msgid "Level target time:"
 msgstr "レベルの目標時間:"
 
-#: src/supertux/statistics.cpp:139 src/supertux/levelintro.cpp:160
+#: src/supertux/statistics.cpp:149 src/supertux/levelintro.cpp:160
 msgid "Best Level Statistics"
 msgstr "レベルの記録"
 
-#: src/supertux/statistics.cpp:228
+#: src/supertux/statistics.cpp:238
 msgid "You"
 msgstr "今回"
 
-#: src/supertux/statistics.cpp:230
+#: src/supertux/statistics.cpp:240
 msgid "Best"
 msgstr "ベスト"
 
-#: src/supertux/statistics.cpp:232 src/supertux/levelintro.cpp:166
+#: src/supertux/statistics.cpp:242 src/supertux/levelintro.cpp:166
 msgid "Coins"
 msgstr "集めたコインの数"
 
-#: src/supertux/statistics.cpp:255
+#: src/supertux/statistics.cpp:265
 msgid "Badguys"
 msgstr "たおした敵の数"
 
-#: src/supertux/statistics.cpp:271 src/supertux/levelintro.cpp:172
+#: src/supertux/statistics.cpp:281 src/supertux/levelintro.cpp:172
 msgid "Secrets"
 msgstr "見つけた秘密の場所の数"
 
-#: src/supertux/game_object.hpp:77
+#: src/supertux/game_object.hpp:78
 msgid "Unknown object"
 msgstr "不明なオブジェクト"
 
-#: src/supertux/command_line_arguments.cpp:74
+#: src/supertux/sector.cpp:414
+msgid "Press escape to skip"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:94
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
 msgstr "使用法: %s [OPTIONS] [LEVELFILE]"
 
-#: src/supertux/command_line_arguments.cpp:75
+#: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
 msgstr "全般的なオプション:"
 
-#: src/supertux/command_line_arguments.cpp:76
+#: src/supertux/command_line_arguments.cpp:96
 msgid "  -h, --help                   Show this help message and quit"
 msgstr "  -h, --help                   このヘルプメッセージを表示して終了します"
 
-#: src/supertux/command_line_arguments.cpp:77
+#: src/supertux/command_line_arguments.cpp:97
 msgid "  -v, --version                Show SuperTux version and quit"
 msgstr "  -v, --version                SuperTuxのバージョンを表示して終了します"
 
-#: src/supertux/command_line_arguments.cpp:78
+#: src/supertux/command_line_arguments.cpp:98
 msgid "  --verbose                    Print verbose messages"
 msgstr "  --verbose                    詳細なメッセージを出力します"
 
-#: src/supertux/command_line_arguments.cpp:79
+#: src/supertux/command_line_arguments.cpp:99
 msgid "  --debug                      Print extra verbose messages"
 msgstr "  --debug                      追加の詳細メッセージを出力します"
 
-#: src/supertux/command_line_arguments.cpp:80
+#: src/supertux/command_line_arguments.cpp:100
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
 msgstr "  --print-datadir              SuperTux の現在のデータディレクトリを出力します。"
 
-#: src/supertux/command_line_arguments.cpp:82
+#: src/supertux/command_line_arguments.cpp:101
+msgid ""
+"  --acknowledgements           Print the licenses of libraries used by "
+"SuperTux."
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:103
 msgid "Video Options:"
 msgstr "ビデオのオプション:"
 
-#: src/supertux/command_line_arguments.cpp:83
+#: src/supertux/command_line_arguments.cpp:104
 msgid "  -f, --fullscreen             Run in fullscreen mode"
 msgstr "  -f, --fullscreen             全画面モードで実行します"
 
-#: src/supertux/command_line_arguments.cpp:84
+#: src/supertux/command_line_arguments.cpp:105
 msgid "  -w, --window                 Run in window mode"
 msgstr "  -w, --window                 ウィンドウモードで実行します"
 
-#: src/supertux/command_line_arguments.cpp:85
+#: src/supertux/command_line_arguments.cpp:106
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
 msgstr "  -g, --geometry 幅x高さ  指定された解像度でSuperTuxを実行します"
 
-#: src/supertux/command_line_arguments.cpp:86
+#: src/supertux/command_line_arguments.cpp:107
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
 msgstr "  -a, --aspect 幅:高さ    指定されたアスペクト比でSuperTuxを実行します"
 
-#: src/supertux/command_line_arguments.cpp:87
+#: src/supertux/command_line_arguments.cpp:108
 msgid "  -d, --default                Reset video settings to default values"
 msgstr "  -d, --default                ビデオ設定をデフォルト値に戻します"
 
-#: src/supertux/command_line_arguments.cpp:88
+#: src/supertux/command_line_arguments.cpp:109
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
 msgstr "  --renderer レンダラー          SDLまたは、OpenGLを使用するか、自動的にレンダリングします"
 
-#: src/supertux/command_line_arguments.cpp:90
+#: src/supertux/command_line_arguments.cpp:111
 msgid "Audio Options:"
 msgstr "オーディオのオプション:"
 
-#: src/supertux/command_line_arguments.cpp:91
+#: src/supertux/command_line_arguments.cpp:112
 msgid "  --disable-sound              Disable sound effects"
 msgstr "  --disable-sound              効果音を無効にします"
 
-#: src/supertux/command_line_arguments.cpp:92
+#: src/supertux/command_line_arguments.cpp:113
 msgid "  --disable-music              Disable music"
 msgstr "  --disable-music              BGMを無効にします"
 
-#: src/supertux/command_line_arguments.cpp:94
+#: src/supertux/command_line_arguments.cpp:115
 msgid "Game Options:"
 msgstr "ゲームのオプション:"
 
-#: src/supertux/command_line_arguments.cpp:95
+#: src/supertux/command_line_arguments.cpp:116
 msgid "  --edit-level                 Open given level in editor"
 msgstr "  --edit-level                 指定されたレベルをエディターで開きます"
 
-#: src/supertux/command_line_arguments.cpp:96
+#: src/supertux/command_line_arguments.cpp:117
 msgid "  --resave                     Loads given level and saves it"
 msgstr "  --再保存                     指定されたレベルを読み込んで保存します"
 
-#: src/supertux/command_line_arguments.cpp:97
+#: src/supertux/command_line_arguments.cpp:118
 msgid "  --show-fps                   Display framerate in levels"
 msgstr "  --show-fps                   レベルにフレームレートを表示します"
 
-#: src/supertux/command_line_arguments.cpp:98
+#: src/supertux/command_line_arguments.cpp:119
 msgid "  --no-show-fps                Do not display framerate in levels"
 msgstr "  --no-show-fps                レベルにフレームレートを表示しません"
 
-#: src/supertux/command_line_arguments.cpp:99
+#: src/supertux/command_line_arguments.cpp:120
 msgid "  --show-pos                   Display player's current position"
 msgstr "  --show-pos                   プレイヤーの現在の位置を表示します"
 
-#: src/supertux/command_line_arguments.cpp:100
+#: src/supertux/command_line_arguments.cpp:121
 msgid "  --no-show-pos                Do not display player's position"
 msgstr "  --no-show-pos                プレイヤーの位置を表示しません"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:122
 msgid "  --developer                  Switch on developer feature"
 msgstr "  --developer                  開発者向け機能を有効にします"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:123
 msgid "  -s, --debug-scripts          Enable script debugger."
 msgstr "  -s, --debug-scripts          スクリプトデバッガーを有効にします"
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:124
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
 msgstr "  --spawn-pos X,Y              Tux をレベルのどこからスタートさせるか指定します。レベルが指定されている場合のみに使われます。"
 
-#: src/supertux/command_line_arguments.cpp:104
+#: src/supertux/command_line_arguments.cpp:125
 msgid "  --sector SECTOR              Spawn Tux in SECTOR\n"
 msgstr "  --sector セクター              Tuxを指定されたセクターからスタートさせます\n"
 
-#: src/supertux/command_line_arguments.cpp:105
+#: src/supertux/command_line_arguments.cpp:126
 msgid "  --spawnpoint SPAWNPOINT      Spawn Tux at SPAWNPOINT\n"
 msgstr "  --spawnpoint 開始地点      Tuxを指定された開始地点からスタートさせます\n"
 
-#: src/supertux/command_line_arguments.cpp:107
+#: src/supertux/command_line_arguments.cpp:128
 msgid "Demo Recording Options:"
 msgstr "デモの録音オプション:"
 
-#: src/supertux/command_line_arguments.cpp:108
+#: src/supertux/command_line_arguments.cpp:129
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
 msgstr "  --record-demo ファイル レベル     ファイルにデモを記録します"
 
-#: src/supertux/command_line_arguments.cpp:109
+#: src/supertux/command_line_arguments.cpp:130
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
 msgstr "  --play-demo ファイル レベル       記録したデモを再生します"
 
-#: src/supertux/command_line_arguments.cpp:111
+#: src/supertux/command_line_arguments.cpp:132
 msgid "Directory Options:"
 msgstr "ディレクトリのオプション:"
 
-#: src/supertux/command_line_arguments.cpp:112
+#: src/supertux/command_line_arguments.cpp:133
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
 msgstr "  --datadir ディレクトリ                ゲームのデータファイルを保存するディレクトリを設定します"
 
-#: src/supertux/command_line_arguments.cpp:113
+#: src/supertux/command_line_arguments.cpp:134
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
 msgstr "  --userdir ディレクトリ                ユーザーデータ (セーブデータなど) を保存するディレクトリを設定します"
 
-#: src/supertux/command_line_arguments.cpp:115
+#: src/supertux/command_line_arguments.cpp:136
 msgid "Add-On Options:"
 msgstr "アドオンのオプション:"
 
-#: src/supertux/command_line_arguments.cpp:116
+#: src/supertux/command_line_arguments.cpp:137
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
 msgstr "  --repository-url URL         URLをアドオンのレポジトリに設定します"
 
-#: src/supertux/command_line_arguments.cpp:118
+#: src/supertux/command_line_arguments.cpp:139
 msgid "Environment variables:"
 msgstr "環境変数:"
 
-#: src/supertux/command_line_arguments.cpp:119
+#: src/supertux/command_line_arguments.cpp:140
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
 msgstr "  SUPERTUX2_USER_DIR           ユーザーデータ (セーブデータなど) を保存するディレクトリ"
 
-#: src/supertux/command_line_arguments.cpp:120
+#: src/supertux/command_line_arguments.cpp:141
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR           ゲームのデータファイルを保存するディレクトリ"
 
-#: src/supertux/title_screen.cpp:43
+#: src/supertux/title_screen.cpp:44
 msgid "Copyright"
 msgstr "作成者"
 
-#: src/supertux/title_screen.cpp:44
+#: src/supertux/title_screen.cpp:45
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
 msgstr "このゲームは絶対無保証です。このゲームはフリーソフトであり、一定の条件の元で再配布することができます。\n詳細はライセンスファイルをご覧ください。\n"
 
-#: src/supertux/menu/contrib_menu.cpp:79
+#: src/supertux/menu/integrations_menu.cpp:49
+msgid "Integrations"
+msgstr "統合"
+
+#: src/supertux/menu/integrations_menu.cpp:51
+msgid "Do not share level names when editing"
+msgstr "編集中はレベル名を共有しない"
+
+#: src/supertux/menu/integrations_menu.cpp:54
+msgid "Enable Discord integration"
+msgstr "Discord 統合を有効にする"
+
+#: src/supertux/menu/integrations_menu.cpp:57
+msgid "Discord (disabled; not compiled)"
+msgstr "Discord (無効; コンパイルされていません)"
+
+#: src/supertux/menu/contrib_menu.cpp:80
 #: src/supertux/menu/world_set_menu.cpp:31
 msgid "Contrib Levels"
 msgstr "コミュニティー作品"
-
-#: src/supertux/menu/contrib_menu.cpp:119
-#: src/supertux/menu/contrib_menu.cpp:150
-msgid "*NEW*"
-msgstr "\"新規\""
-
-#: src/supertux/menu/contrib_menu.cpp:172 src/supertux/menu/debug_menu.cpp:75
-#: src/supertux/menu/editor_level_select_menu.cpp:84
-#: src/supertux/menu/worldmap_cheat_menu.cpp:55
-#: src/supertux/menu/worldmap_cheat_menu.cpp:153
-#: src/supertux/menu/editor_levelset_select_menu.cpp:96
-#: src/supertux/menu/options_menu.cpp:405
-#: src/supertux/menu/profile_menu.cpp:47 src/supertux/menu/addon_menu.cpp:213
-#: src/supertux/menu/editor_new_levelset_menu.cpp:40
-#: src/supertux/menu/world_set_menu.cpp:33
-#: src/supertux/menu/keyboard_menu.cpp:51
-#: src/supertux/menu/language_menu.cpp:56
-#: src/supertux/menu/joystick_menu.cpp:97
-#: src/supertux/menu/contrib_levelset_menu.cpp:67
-#: src/supertux/menu/cheat_menu.cpp:44
-msgid "Back"
-msgstr "戻る"
 
 #: src/supertux/menu/debug_menu.cpp:32
 msgid "Debug"
@@ -1433,6 +2022,20 @@ msgstr "ビットマップフォントを使う"
 msgid "Dump Texture Cache"
 msgstr "テクスチャーのキャッシュを消去"
 
+#: src/supertux/menu/particle_editor_save_as.cpp:33
+msgid "Save particle as"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_save_as.cpp:37
+#: src/supertux/menu/editor_save_as.cpp:37
+msgid "File name"
+msgstr "ファイル名"
+
+#: src/supertux/menu/particle_editor_save_as.cpp:38
+#: src/supertux/menu/editor_save_as.cpp:38 src/editor/particle_editor.cpp:766
+msgid "Save"
+msgstr "保存"
+
 #: src/supertux/menu/editor_sectors_menu.cpp:31
 msgid "Choose Sector"
 msgstr "セクターを選ぶ"
@@ -1466,28 +2069,33 @@ msgstr "セクターを削除"
 msgid "Objects"
 msgstr "オブジェクト"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:58
+#: src/supertux/menu/editor_level_select_menu.cpp:62
 msgid "Empty World"
 msgstr "レベルがありません"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:73
+#: src/supertux/menu/editor_level_select_menu.cpp:77
 msgid "Create Level"
 msgstr "レベルを作る"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:77
+#: src/supertux/menu/editor_level_select_menu.cpp:81
 msgid "Edit Worldmap"
 msgstr "ワールドマップを編集"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:79
+#: src/supertux/menu/editor_level_select_menu.cpp:83
 msgid "Create Worldmap"
 msgstr "ワールドマップを作る"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:83
+#: src/supertux/menu/editor_level_select_menu.cpp:85
+#: src/supertux/menu/editor_delete_level_menu.cpp:33
+msgid "Delete level"
+msgstr "レベルを削除"
+
+#: src/supertux/menu/editor_level_select_menu.cpp:87
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "World Settings"
 msgstr "ワールドの設定"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:123
+#: src/supertux/menu/editor_level_select_menu.cpp:127
 msgid ""
 "Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
@@ -1495,13 +2103,23 @@ msgid ""
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
 msgstr "クリエイティブ・コモンズ - 表示 - 継承 4.0 国際ライセンスに基づいてこのワールドマップを共有します (推奨)。\nこれは、サードパーティの修正および再頒布を可能にします。\nこのライセンスに同意できない場合、ワールドマップのプロパティでこれを変更してください。\n免責事項: SuperTuxの作成者は、ライセンスの選択について責任を負いません。"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:130
+#: src/supertux/menu/editor_level_select_menu.cpp:134
 msgid ""
 "Share this level under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
 msgstr "クリエイティブ・コモンズ - 表示 - 継承 4.0 国際ライセンスに基づいてこのレベルを共有します (推奨)。\nこれは、サードパーティの修正および再頒布を可能にします。\nこのライセンスに同意できない場合、レベルのプロパティでこれを変更してください。\n免責事項: SuperTuxの作成者は、ライセンスの選択について責任を負いません。"
+
+#: src/supertux/menu/editor_level_select_menu.cpp:162
+msgid ""
+"An auto-save recovery file was found. Would you like to restore the recovery\n"
+"file and resume where you were before the editor crashed?"
+msgstr "自動保存された回復ファイルが見つかりました。回復ファイルを復元して、\nエディターがクラッシュ前の状態を復元しますか？"
+
+#: src/supertux/menu/editor_level_select_menu.cpp:169
+msgid "This will delete the auto-save file. Are you sure?"
+msgstr "これは自動保存されたファイルを削除します。よろしいですか？"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 #: src/supertux/menu/cheat_menu.cpp:30
@@ -1514,22 +2132,18 @@ msgid "Bonus: Grow"
 msgstr "ボーナス: 大きめ"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
-#: src/supertux/menu/cheat_menu.cpp:33
 msgid "Bonus: Fire"
 msgstr "ボーナス: ファイア"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
-#: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Ice"
 msgstr "ボーナス: アイス"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
-#: src/supertux/menu/cheat_menu.cpp:35
 msgid "Bonus: Air"
 msgstr "ボーナス: エアー"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
-#: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Earth"
 msgstr "ボーナス: アース"
 
@@ -1576,218 +2190,289 @@ msgstr "スタート地点に移動"
 msgid "Select level"
 msgstr "レベルを選ぶ"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:54
+#: src/supertux/menu/editor_save_as.cpp:33
+#: src/supertux/menu/editor_menu.cpp:49
+msgid "Save Level as"
+msgstr "レベルに名前をつけて保存"
+
+#: src/supertux/menu/editor_save_as.cpp:33
+#: src/supertux/menu/editor_menu.cpp:50
+msgid "Save Copy"
+msgstr "コピーを保存"
+
+#: src/supertux/menu/editor_levelset_select_menu.cpp:72
 msgid "Choose World"
 msgstr "ワールドを選ぶ"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:82
+#: src/supertux/menu/editor_levelset_select_menu.cpp:100
 #, c-format
 msgid "%d level"
 msgid_plural "%d levels"
 msgstr[0] "%d レベル"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:95
+#: src/supertux/menu/editor_levelset_select_menu.cpp:113
 msgid "Create World"
 msgstr "ワールドを作る"
 
-#: src/supertux/menu/options_menu.cpp:85 src/supertux/menu/main_menu.cpp:53
+#: src/supertux/menu/options_menu.cpp:98 src/supertux/menu/main_menu.cpp:64
 #: src/supertux/menu/game_menu.cpp:61 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Options"
 msgstr "オプション"
 
-#: src/supertux/menu/options_menu.cpp:91
-#: src/supertux/menu/options_menu.cpp:127
-#: src/supertux/menu/options_menu.cpp:418
-#: src/supertux/menu/options_menu.cpp:439 src/editor/object_settings.cpp:112
+#: src/supertux/menu/options_menu.cpp:104
+#: src/supertux/menu/options_menu.cpp:142
+#: src/supertux/menu/options_menu.cpp:455
+#: src/supertux/menu/options_menu.cpp:476 src/editor/object_settings.cpp:119
 msgid "auto"
 msgstr "自動"
 
-#: src/supertux/menu/options_menu.cpp:206
+#: src/supertux/menu/options_menu.cpp:221
 msgid "Desktop"
 msgstr "デスクトップ"
 
-#: src/supertux/menu/options_menu.cpp:332
+#: src/supertux/menu/options_menu.cpp:251
+msgid "on"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:252
+msgid "off"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:253
+msgid "adaptive"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:347
 msgid "Select Language"
 msgstr "言語を選択"
 
-#: src/supertux/menu/options_menu.cpp:333
+#: src/supertux/menu/options_menu.cpp:348
 msgid "Select a different language to display text in"
 msgstr "テキストを表示するための言語を選択します"
 
-#: src/supertux/menu/options_menu.cpp:335
+#: src/supertux/menu/options_menu.cpp:350
 msgid "Language Packs"
 msgstr "言語パック"
 
-#: src/supertux/menu/options_menu.cpp:336
+#: src/supertux/menu/options_menu.cpp:351
 msgid "Language packs contain up-to-date translations"
 msgstr "言語パックには、最新の翻訳データが含まれています"
 
-#: src/supertux/menu/options_menu.cpp:338
-#: src/supertux/menu/profile_menu.cpp:30
+#: src/supertux/menu/options_menu.cpp:353
+#: src/supertux/menu/profile_menu.cpp:34
 msgid "Select Profile"
 msgstr "プロファイルを選択"
 
-#: src/supertux/menu/options_menu.cpp:339
+#: src/supertux/menu/options_menu.cpp:354
 msgid "Select a profile to play with"
 msgstr "プレイに使用するプロファイルを選択します"
 
-#: src/supertux/menu/options_menu.cpp:342
+#: src/supertux/menu/options_menu.cpp:358
 msgid "Window Resizable"
 msgstr "ウィンドウをサイズ変更可能にする"
 
-#: src/supertux/menu/options_menu.cpp:343
+#: src/supertux/menu/options_menu.cpp:359
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "ウィンドウのサイズ変更を許可します。反映するには再起動する必要がある可能性があります"
+msgstr "ウィンドウのサイズ変更を許可します。設定の反映には再起動が必要になることがあります"
 
-#: src/supertux/menu/options_menu.cpp:345
+#: src/supertux/menu/options_menu.cpp:361
 msgid "Window Resolution"
 msgstr "ウィンドウ解像度"
 
-#: src/supertux/menu/options_menu.cpp:346
+#: src/supertux/menu/options_menu.cpp:362
 msgid "Resize the window to the given size"
 msgstr "指定されたサイズにウィンドウをサイズ変更します"
 
-#: src/supertux/menu/options_menu.cpp:348
+#: src/supertux/menu/options_menu.cpp:364
 msgid "Fullscreen"
 msgstr "全画面"
 
-#: src/supertux/menu/options_menu.cpp:349
+#: src/supertux/menu/options_menu.cpp:365
 msgid "Fill the entire screen"
 msgstr "画面全体にゲームを映します"
 
-#: src/supertux/menu/options_menu.cpp:351
+#: src/supertux/menu/options_menu.cpp:367
 msgid "Fullscreen Resolution"
 msgstr "全画面解像度"
 
-#: src/supertux/menu/options_menu.cpp:352
+#: src/supertux/menu/options_menu.cpp:368
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "全画面モードで使用する解像度を決めます (全画面モードに切り替える必要があります)"
 
-#: src/supertux/menu/options_menu.cpp:354
+#: src/supertux/menu/options_menu.cpp:373
+msgid "Fit to browser"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:374
+msgid "Fit the resolution to the size of your browser"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:378
 msgid "Magnification"
 msgstr "拡大率"
 
-#: src/supertux/menu/options_menu.cpp:355
+#: src/supertux/menu/options_menu.cpp:379
 msgid "Change the magnification of the game area"
 msgstr "ゲームエリアの拡大率を設定します"
 
-#: src/supertux/menu/options_menu.cpp:357
+#: src/supertux/menu/options_menu.cpp:381
 msgid "VSync"
 msgstr "垂直同期"
 
-#: src/supertux/menu/options_menu.cpp:358
+#: src/supertux/menu/options_menu.cpp:382
 msgid "Set the VSync mode"
 msgstr "垂直同期モードを設定します"
 
-#: src/supertux/menu/options_menu.cpp:360
+#: src/supertux/menu/options_menu.cpp:385
 msgid "Aspect Ratio"
 msgstr "アスペクト比"
 
-#: src/supertux/menu/options_menu.cpp:361
+#: src/supertux/menu/options_menu.cpp:386
 msgid "Adjust the aspect ratio"
 msgstr "アスペクト比を調整します"
 
-#: src/supertux/menu/options_menu.cpp:366
+#: src/supertux/menu/options_menu.cpp:392
 msgid "Disable all sound effects"
 msgstr "すべての効果音を無効にします"
 
-#: src/supertux/menu/options_menu.cpp:368
+#: src/supertux/menu/options_menu.cpp:394
 msgid "Disable all music"
 msgstr "すべての音楽を無効にします"
 
-#: src/supertux/menu/options_menu.cpp:370
+#: src/supertux/menu/options_menu.cpp:396
 msgid "Sound Volume"
 msgstr "効果音の音量"
 
-#: src/supertux/menu/options_menu.cpp:371
+#: src/supertux/menu/options_menu.cpp:397
 msgid "Adjust sound volume"
 msgstr "効果音の音量を調整します"
 
-#: src/supertux/menu/options_menu.cpp:373
+#: src/supertux/menu/options_menu.cpp:399
 msgid "Music Volume"
 msgstr "音楽の音量"
 
-#: src/supertux/menu/options_menu.cpp:374
+#: src/supertux/menu/options_menu.cpp:400
 msgid "Adjust music volume"
 msgstr "音楽の音量を調整します"
 
-#: src/supertux/menu/options_menu.cpp:378
+#: src/supertux/menu/options_menu.cpp:404
 msgid "Sound (disabled)"
 msgstr "効果音 (無効)"
 
-#: src/supertux/menu/options_menu.cpp:379
+#: src/supertux/menu/options_menu.cpp:405
 msgid "Music (disabled)"
 msgstr "音楽 (無効)"
 
-#: src/supertux/menu/options_menu.cpp:382
+#: src/supertux/menu/options_menu.cpp:408
 #: src/supertux/menu/keyboard_menu.cpp:30
 msgid "Setup Keyboard"
 msgstr "キーボードをセットアップ"
 
-#: src/supertux/menu/options_menu.cpp:383
+#: src/supertux/menu/options_menu.cpp:409
 msgid "Configure key-action mappings"
 msgstr "キーアクションの割り当てを設定します"
 
-#: src/supertux/menu/options_menu.cpp:385
+#: src/supertux/menu/options_menu.cpp:412
 #: src/supertux/menu/joystick_menu.cpp:52
 msgid "Setup Joystick"
 msgstr "ジョイスティックをセットアップ"
 
-#: src/supertux/menu/options_menu.cpp:386
+#: src/supertux/menu/options_menu.cpp:413
 msgid "Configure joystick control-action mappings"
 msgstr "ジョイスティックのコントロールボタン・アクションボタンの割り当てを設定します"
 
-#: src/supertux/menu/options_menu.cpp:388
+#: src/supertux/menu/options_menu.cpp:417
+msgid "On-screen controls"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:418
+msgid "Toggle on-screen controls for mobile devices"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:420
 msgid "Enable transitions"
 msgstr "トランジションを有効にする"
 
-#: src/supertux/menu/options_menu.cpp:389
+#: src/supertux/menu/options_menu.cpp:421
 msgid "Enable screen transitions and smooth menu animation"
 msgstr "画面遷移と滑らかなメニューアニメーションを有効にします"
 
-#: src/supertux/menu/options_menu.cpp:393
+#: src/supertux/menu/options_menu.cpp:425
 msgid "Developer Mode"
 msgstr "開発者モード"
 
-#: src/supertux/menu/options_menu.cpp:398
+#: src/supertux/menu/options_menu.cpp:430
 msgid "Christmas Mode"
 msgstr "クリスマスモード"
 
-#: src/supertux/menu/options_menu.cpp:401
+#: src/supertux/menu/options_menu.cpp:433
 msgid "Confirmation Dialog"
 msgstr "確認ダイアログ"
 
-#: src/supertux/menu/options_menu.cpp:401
+#: src/supertux/menu/options_menu.cpp:433
 msgid "Confirm aborting level"
-msgstr "レベルをやめるかどうか確認する"
+msgstr "レベルをやめるかどうかを確認します"
 
-#: src/supertux/menu/options_menu.cpp:402
+#: src/supertux/menu/options_menu.cpp:434
 msgid "Pause on focus loss"
 msgstr "ウィンドウがフォーカスされていないときに一時停止"
 
-#: src/supertux/menu/main_menu.cpp:51 src/supertux/menu/world_set_menu.cpp:28
+#: src/supertux/menu/options_menu.cpp:435
+msgid "Automatically pause the game when the window loses focus"
+msgstr ""
+
+#: src/supertux/menu/options_menu.cpp:436
+msgid "Use custom mouse cursor"
+msgstr "ペンギン型のマウスカーソルを使う"
+
+#: src/supertux/menu/options_menu.cpp:436
+msgid "Whether the game renders its own cursor or uses the system's cursor"
+msgstr "ゲーム独自のカーソルを描画するか、システムのカーソルを使うかを設定します"
+
+#: src/supertux/menu/options_menu.cpp:438
+msgid "Integrations and presence"
+msgstr "統合と表示"
+
+#: src/supertux/menu/options_menu.cpp:439
+msgid ""
+"Manage whether SuperTux should display the levels you play on your social "
+"media profiles (Discord)"
+msgstr "ソーシャルメディア (Discord) のプロフィールに、SuperTuxでプレイしたレベルを表示するかどうかを設定します"
+
+#: src/supertux/menu/options_menu.cpp:559
+msgid ""
+"The game couldn't detect your browser resolution.\n"
+"This most likely happens because it is not embedded\n"
+"in the SuperTux custom HTML template.\n"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:56 src/supertux/menu/world_set_menu.cpp:28
 msgid "Start Game"
 msgstr "ゲームを始める"
 
-#: src/supertux/menu/main_menu.cpp:52 src/supertux/menu/addon_menu.cpp:122
+#: src/supertux/menu/main_menu.cpp:60 src/supertux/menu/addon_menu.cpp:122
 msgid "Add-ons"
 msgstr "アドオン"
 
-#: src/supertux/menu/main_menu.cpp:54 src/supertux/menu/editor_menu.cpp:39
+#: src/supertux/menu/main_menu.cpp:62 src/supertux/menu/web_asset_menu.cpp:38
+msgid "Manage Assets"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:65 src/supertux/menu/editor_menu.cpp:43
 msgid "Level Editor"
 msgstr "レベルエディター"
 
-#: src/supertux/menu/main_menu.cpp:55
+#: src/supertux/menu/main_menu.cpp:66
 msgid "Credits"
 msgstr "クレジット"
 
-#: src/supertux/menu/main_menu.cpp:56
+#: src/supertux/menu/main_menu.cpp:67
 msgid "Donate"
 msgstr "寄付"
 
-#: src/supertux/menu/main_menu.cpp:57
+#: src/supertux/menu/main_menu.cpp:69
 msgid "Quit"
 msgstr "終了"
 
@@ -1811,15 +2496,31 @@ msgstr "オフセットのY座標をサイズ変更"
 msgid "Resize"
 msgstr "サイズ変更"
 
-#: src/supertux/menu/profile_menu.cpp:37
+#: src/supertux/menu/profile_menu.cpp:41
 #, c-format
 msgid "[Profile %s]"
 msgstr "[プロファイル %s]"
 
-#: src/supertux/menu/profile_menu.cpp:41
+#: src/supertux/menu/profile_menu.cpp:45
 #, c-format
 msgid "Profile %s"
 msgstr "プロファイル %s"
+
+#: src/supertux/menu/profile_menu.cpp:50
+msgid "Reset profile"
+msgstr "プロファイルをリセット"
+
+#: src/supertux/menu/profile_menu.cpp:51
+msgid "Reset all profiles"
+msgstr "すべてのプロファイルをリセット"
+
+#: src/supertux/menu/profile_menu.cpp:67
+msgid "Deleting your profile will reset your game progress. Are you sure?"
+msgstr "プロファイルを削除すると、セーブデータがリセットされます。よろしいですか？"
+
+#: src/supertux/menu/profile_menu.cpp:73
+msgid "This will reset your game progress on all profiles. Are you sure?"
+msgstr "すべてのプロファイルのセーブデータがリセットされます。よろしいですか？"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1828,7 +2529,7 @@ msgstr "説明"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:48
-#: data//images/engine/editor/objects.stoi:332
+#: data//images/engine/editor/objects.stoi:371
 msgid "Worldmap"
 msgstr "ワールドマップ"
 
@@ -1911,6 +2612,26 @@ msgstr "このレベルのサブセットの名前を入力してください。
 msgid "Story Mode"
 msgstr "ストーリーモード"
 
+#: src/supertux/menu/web_asset_menu.cpp:42
+msgid "New files location"
+msgstr ""
+
+#: src/supertux/menu/web_asset_menu.cpp:43
+msgid "Add Files"
+msgstr ""
+
+#: src/supertux/menu/web_asset_menu.cpp:44
+msgid "Download Files"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_open.cpp:32
+msgid "Load particle file"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_open.cpp:39
+msgid "Open"
+msgstr ""
+
 #: src/supertux/menu/game_menu.cpp:31
 msgid "Are you sure?"
 msgstr "よろしいですか？"
@@ -1940,16 +2661,6 @@ msgstr "上"
 #: src/supertux/menu/joystick_menu.cpp:70
 msgid "Down"
 msgstr "下"
-
-#: src/supertux/menu/keyboard_menu.cpp:34
-#: src/supertux/menu/joystick_menu.cpp:71
-msgid "Left"
-msgstr "左"
-
-#: src/supertux/menu/keyboard_menu.cpp:35
-#: src/supertux/menu/joystick_menu.cpp:72
-msgid "Right"
-msgstr "右"
 
 #: src/supertux/menu/keyboard_menu.cpp:36
 #: src/supertux/menu/joystick_menu.cpp:73
@@ -1981,78 +2692,78 @@ msgstr "下を見る"
 msgid "Console"
 msgstr "コンソール"
 
-#: src/supertux/menu/keyboard_menu.cpp:46
+#: src/supertux/menu/keyboard_menu.cpp:44
 #: src/supertux/menu/joystick_menu.cpp:82
 msgid "Cheat Menu"
 msgstr "攻略メニュー"
 
-#: src/supertux/menu/keyboard_menu.cpp:47
+#: src/supertux/menu/keyboard_menu.cpp:45
 #: src/supertux/menu/joystick_menu.cpp:83
 msgid "Debug Menu"
 msgstr "デバッグメニュー"
 
-#: src/supertux/menu/keyboard_menu.cpp:49
+#: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
 msgid "Jump with Up"
 msgstr "上キーでジャンプ"
 
-#: src/supertux/menu/keyboard_menu.cpp:62
+#: src/supertux/menu/keyboard_menu.cpp:60
 msgid "Up cursor"
 msgstr "上キー"
 
-#: src/supertux/menu/keyboard_menu.cpp:64
+#: src/supertux/menu/keyboard_menu.cpp:62
 msgid "Down cursor"
 msgstr "下キー"
 
-#: src/supertux/menu/keyboard_menu.cpp:66
+#: src/supertux/menu/keyboard_menu.cpp:64
 msgid "Left cursor"
 msgstr "左キー"
 
-#: src/supertux/menu/keyboard_menu.cpp:68
+#: src/supertux/menu/keyboard_menu.cpp:66
 msgid "Right cursor"
 msgstr "右キー"
 
-#: src/supertux/menu/keyboard_menu.cpp:70
+#: src/supertux/menu/keyboard_menu.cpp:68
 msgid "Return"
 msgstr "Returnキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:72
+#: src/supertux/menu/keyboard_menu.cpp:70
 msgid "Space"
 msgstr "スペースキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:74
+#: src/supertux/menu/keyboard_menu.cpp:72
 msgid "Right Shift"
 msgstr "右Shiftキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:76
+#: src/supertux/menu/keyboard_menu.cpp:74
 msgid "Left Shift"
 msgstr "左Shiftキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:78
+#: src/supertux/menu/keyboard_menu.cpp:76
 msgid "Right Control"
 msgstr "右Controlキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:80
+#: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Left Control"
 msgstr "左Controlキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:82
+#: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Right Alt"
 msgstr "右Altキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Left Alt"
 msgstr "左Altキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:86
+#: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Right Command"
 msgstr "右のコマンドキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:88
+#: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Left Command"
 msgstr "左のコマンドキー"
 
-#: src/supertux/menu/keyboard_menu.cpp:102
+#: src/supertux/menu/keyboard_menu.cpp:100
 msgid "Press Key"
 msgstr "キーを押してください"
 
@@ -2145,6 +2856,22 @@ msgstr "エラー:\n"
 msgid "Close"
 msgstr "閉じる"
 
+#: src/supertux/menu/cheat_menu.cpp:33
+msgid "Bonus: Fire x 64"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:34
+msgid "Bonus: Ice x 64"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:35
+msgid "Bonus: Air x 64"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:36
+msgid "Bonus: Earth x 64"
+msgstr ""
+
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Star"
 msgstr "ボーナス: スター"
@@ -2157,13 +2884,68 @@ msgstr "Tuxを小さくする"
 msgid "Kill Tux"
 msgstr "Tuxを殺す"
 
+#: src/supertux/menu/particle_editor_menu.cpp:32
+msgid "Particle Editor"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_menu.cpp:36
+#: src/supertux/menu/editor_menu.cpp:45
+msgid "Return to Editor"
+msgstr "エディターに戻る"
+
+#: src/supertux/menu/particle_editor_menu.cpp:37
+msgid "New Particle Config"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_menu.cpp:38
+msgid "Save Particle Config"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_menu.cpp:39
+msgid "Save Particle Config as..."
+msgstr ""
+
+#: src/supertux/menu/particle_editor_menu.cpp:40
+msgid "Load Another Particle Config"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_menu.cpp:44
+msgid "Open Particle Directory"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_menu.cpp:45
+#: src/supertux/menu/editor_menu.cpp:88
+msgid "Keyboard Shortcuts"
+msgstr "キーボードショートカット"
+
+#: src/supertux/menu/particle_editor_menu.cpp:49
+msgid "Exit Particle Editor"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_menu.cpp:120
+msgid ""
+"Keyboard Shortcuts:\n"
+"---------------------\n"
+"Esc = Open Menu\n"
+"Ctrl+S = Save\n"
+"Ctrl+Shift+S = Save as\n"
+"Ctrl+O = Open\n"
+"Ctrl+Z = Undo\n"
+"Ctrl+Y = Redo"
+msgstr ""
+
+#: src/supertux/menu/particle_editor_menu.cpp:121
+#: src/supertux/menu/editor_menu.cpp:176
+msgid "Got it!"
+msgstr "了解"
+
 #: src/supertux/menu/editor_level_menu.cpp:31
-#: src/supertux/menu/editor_menu.cpp:70
+#: src/supertux/menu/editor_menu.cpp:86
 msgid "Worldmap Settings"
 msgstr "ワールドマップの設定"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
-#: src/supertux/menu/editor_menu.cpp:70
+#: src/supertux/menu/editor_menu.cpp:86
 msgid "Level Settings"
 msgstr "レベルの設定"
 
@@ -2171,7 +2953,7 @@ msgstr "レベルの設定"
 msgid "Author"
 msgstr "作成者"
 
-#: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1129
+#: src/supertux/menu/editor_level_menu.cpp:35 data//credits.stxt:1166
 msgid "Contact"
 msgstr "連絡先"
 
@@ -2180,106 +2962,122 @@ msgid "License"
 msgstr "ライセンス"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
+msgid "Level Note"
+msgstr ""
+
+#: src/supertux/menu/editor_level_menu.cpp:38
 msgid "Tileset"
 msgstr "タイルセット"
 
-#: src/supertux/menu/editor_level_menu.cpp:40
+#: src/supertux/menu/editor_level_menu.cpp:41
 msgid "Target Time"
 msgstr "目標時間"
 
-#: src/supertux/menu/editor_level_menu.cpp:82
+#: src/supertux/menu/editor_level_menu.cpp:83
 msgid "Please enter a name for this level."
 msgstr "このレベルの名前を入力してください。"
 
-#: src/supertux/menu/editor_level_menu.cpp:86
+#: src/supertux/menu/editor_level_menu.cpp:87
 msgid "Please enter a level author for this level."
 msgstr "このレベルの作成者を入力してください。"
 
-#: src/supertux/menu/editor_level_menu.cpp:90
+#: src/supertux/menu/editor_level_menu.cpp:91
 msgid "Please enter a license for this level."
 msgstr "このレベルのライセンスを入力してください。"
 
-#: src/supertux/menu/editor_menu.cpp:34
-msgid "1/8 tile (4px)"
-msgstr "1/8 タイル (4px)"
+#: src/supertux/menu/editor_menu.cpp:38
+msgid "tiny tile (4px)"
+msgstr ""
 
-#: src/supertux/menu/editor_menu.cpp:35
-msgid "1/4 tile (8px)"
-msgstr "1/4 タイル (8px)"
+#: src/supertux/menu/editor_menu.cpp:39
+msgid "small tile (8px)"
+msgstr ""
 
-#: src/supertux/menu/editor_menu.cpp:36
-msgid "1/2 tile (16px)"
-msgstr "1/2 タイル (16px)"
-
-#: src/supertux/menu/editor_menu.cpp:37
-msgid "1 tile (32px)"
-msgstr "1 タイル (32px)"
+#: src/supertux/menu/editor_menu.cpp:40
+msgid "medium tile (16px)"
+msgstr ""
 
 #: src/supertux/menu/editor_menu.cpp:41
-msgid "Return to Editor"
-msgstr "エディターに戻る"
+msgid "big tile (32px)"
+msgstr ""
 
-#: src/supertux/menu/editor_menu.cpp:42
+#: src/supertux/menu/editor_menu.cpp:46
 msgid "Save Worldmap"
 msgstr "ワールドマップを保存"
 
-#: src/supertux/menu/editor_menu.cpp:42
+#: src/supertux/menu/editor_menu.cpp:46
 msgid "Save Level"
 msgstr "レベルを保存"
 
-#: src/supertux/menu/editor_menu.cpp:45
+#: src/supertux/menu/editor_menu.cpp:55
 msgid "Test Level"
 msgstr "レベルをテスト"
 
-#: src/supertux/menu/editor_menu.cpp:49
+#: src/supertux/menu/editor_menu.cpp:59
 msgid "Test Worldmap"
 msgstr "ワールドマップをテスト"
 
-#: src/supertux/menu/editor_menu.cpp:52
+#: src/supertux/menu/editor_menu.cpp:62
 msgid "Share Level"
 msgstr "レベルを共有"
 
-#: src/supertux/menu/editor_menu.cpp:54
+#: src/supertux/menu/editor_menu.cpp:64
+msgid "Package Add-On"
+msgstr ""
+
+#: src/supertux/menu/editor_menu.cpp:66
 msgid "Open Level Directory"
 msgstr "レベルのディレクトリを開く"
 
-#: src/supertux/menu/editor_menu.cpp:57
+#: src/supertux/menu/editor_menu.cpp:70
 msgid "Edit Another Level"
 msgstr "別のレベルを編集"
 
-#: src/supertux/menu/editor_menu.cpp:60
+#: src/supertux/menu/editor_menu.cpp:73
 msgid "Edit Another World"
 msgstr "別のワールドを編集"
 
-#: src/supertux/menu/editor_menu.cpp:64
+#: src/supertux/menu/editor_menu.cpp:77
 msgid "Grid Size"
 msgstr "グリッドサイズ"
 
-#: src/supertux/menu/editor_menu.cpp:65
+#: src/supertux/menu/editor_menu.cpp:78
 msgid "Show Grid"
 msgstr "グリッドを表示"
 
-#: src/supertux/menu/editor_menu.cpp:66
+#: src/supertux/menu/editor_menu.cpp:79
 msgid "Grid Snapping"
 msgstr "グリッドにスナップ"
 
-#: src/supertux/menu/editor_menu.cpp:67
+#: src/supertux/menu/editor_menu.cpp:80
 msgid "Render Background"
 msgstr "背景を表示"
 
-#: src/supertux/menu/editor_menu.cpp:68
+#: src/supertux/menu/editor_menu.cpp:81
 msgid "Render Light"
 msgstr "光を表示"
 
-#: src/supertux/menu/editor_menu.cpp:72
-msgid "Keyboard Shortcuts"
-msgstr "キーボードショートカット"
+#: src/supertux/menu/editor_menu.cpp:82
+msgid "Autotile Mode"
+msgstr ""
 
-#: src/supertux/menu/editor_menu.cpp:75
+#: src/supertux/menu/editor_menu.cpp:83
+msgid "Enable Autotile Help"
+msgstr ""
+
+#: src/supertux/menu/editor_menu.cpp:84
+msgid "Autosave Frequency"
+msgstr ""
+
+#: src/supertux/menu/editor_menu.cpp:91
 msgid "Exit Level Editor"
 msgstr "レベルエディターを終了"
 
-#: src/supertux/menu/editor_menu.cpp:122
+#: src/supertux/menu/editor_menu.cpp:140
+msgid "Do you want to package this world as an add-on?"
+msgstr ""
+
+#: src/supertux/menu/editor_menu.cpp:163
 msgid ""
 "We encourage you to share your levels in the SuperTux forum.\n"
 "To find your level, click the\n"
@@ -2287,7 +3085,7 @@ msgid ""
 "Do you want to go to the forum now?"
 msgstr "SuperTuxフォーラムで自作のレベルを共有することをおすすめします。\n自作のレベルを見つけるには、メニュー項目の\n\"レベルディレクトリを開く\"をクリックしてください。\n今すぐフォーラムに移動しますか？"
 
-#: src/supertux/menu/editor_menu.cpp:134
+#: src/supertux/menu/editor_menu.cpp:175
 msgid ""
 "Keyboard Shortcuts:\n"
 "---------------------\n"
@@ -2301,9 +3099,9 @@ msgid ""
 "F8 = Show Grid"
 msgstr "キーボード・ショートカット:\n---------------------\nEsc = メニューを開く\nCtrl+S = 保存\nCtrl+T = テスト\nCtrl+Z = 元に戻す\nCtrl+Y = やり直し\nF6 = 光を表示\nF7 = グリッドにスナップ\nF8 = グリッドを表示"
 
-#: src/supertux/menu/editor_menu.cpp:135
-msgid "Got it!"
-msgstr "了解"
+#: src/supertux/menu/editor_delete_level_menu.cpp:53
+msgid "You cannot delete level that you are editing!"
+msgstr ""
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
@@ -2322,13 +3120,21 @@ msgstr "最短時間"
 msgid "Level target time"
 msgstr "レベルの目標時間"
 
-#: src/supertux/tile_set.cpp:92
+#: src/supertux/tile_set.cpp:118
 msgid "Others"
 msgstr "その他"
 
-#: src/supertux/moving_object.cpp:44
+#: src/supertux/moving_object.cpp:55
 msgid "Region"
 msgstr "地域"
+
+#: src/supertux/main.cpp:563
+msgid ""
+"The UBports version is under heavy development!\n"
+"If you encounter issues, PLEASE contact the maintainter\n"
+"at https://github.com/supertux/supertux/issues or on the\n"
+"Open Store's Telegram at https://open-store.io/telegram"
+msgstr ""
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
@@ -2338,67 +3144,83 @@ msgstr "ジョイスティックのマッピング"
 msgid "<no title>"
 msgstr "<no title>"
 
-#: src/editor/node_marker.cpp:79
+#: src/editor/node_marker.cpp:122
 msgid "Path Node"
 msgstr "パスの接点"
 
-#: src/editor/object_settings.cpp:112
+#: src/editor/node_marker.cpp:123
+msgid "Press CTRL to move Bezier handles"
+msgstr ""
+
+#: src/editor/node_marker.cpp:127
+msgid "Easing"
+msgstr ""
+
+#: src/editor/object_settings.cpp:119
 msgid "up"
 msgstr "上へ"
 
-#: src/editor/object_settings.cpp:112
+#: src/editor/object_settings.cpp:119
 msgid "down"
 msgstr "下へ"
 
-#: src/editor/object_settings.cpp:124
+#: src/editor/object_settings.cpp:131
 msgid "West"
 msgstr "西"
 
-#: src/editor/object_settings.cpp:124
+#: src/editor/object_settings.cpp:131
 msgid "East"
 msgstr "東"
 
-#: src/editor/object_settings.cpp:124
+#: src/editor/object_settings.cpp:131
 msgid "North"
 msgstr "北"
 
-#: src/editor/object_settings.cpp:124
+#: src/editor/object_settings.cpp:131
 msgid "South"
 msgstr "南"
 
-#: src/editor/object_settings.cpp:137
+#: src/editor/object_settings.cpp:144
 msgid "One shot"
 msgstr "一度"
 
-#: src/editor/object_settings.cpp:137
+#: src/editor/object_settings.cpp:144
 msgid "Ping-pong"
 msgstr "往復"
 
-#: src/editor/object_settings.cpp:137
+#: src/editor/object_settings.cpp:144
 msgid "Circular"
 msgstr "円形"
 
-#: src/editor/object_settings.cpp:137
+#: src/editor/object_settings.cpp:144
 msgid "Unordered"
 msgstr "順不同"
 
-#: src/editor/object_option.cpp:83
+#: src/editor/object_option.cpp:85
 msgid "true"
 msgstr "はい"
 
-#: src/editor/object_option.cpp:83
+#: src/editor/object_option.cpp:85
 msgid "false"
 msgstr "いいえ"
 
-#: src/editor/object_option.cpp:246 src/editor/object_option.cpp:295
+#: src/editor/object_option.cpp:271 src/editor/object_option.cpp:320
 msgid "invalid"
 msgstr "無効"
 
-#: src/editor/object_option.cpp:553
+#: src/editor/object_option.cpp:580
 msgid "Remove"
 msgstr "削除"
 
-#: src/editor/worldmap_objects.hpp:56 src/editor/worldmap_objects.cpp:129
+#: src/editor/object_option.cpp:597
+msgid "Test from here"
+msgstr ""
+
+#: src/editor/object_option.cpp:614
+msgid "Open Particle Editor"
+msgstr ""
+
+#: src/editor/worldmap_objects.hpp:56 src/editor/worldmap_objects.cpp:127
 msgid "Level"
 msgstr "レベル"
 
@@ -2414,11 +3236,109 @@ msgstr "スプライトの変更"
 msgid "Special tile"
 msgstr "スペシャルタイル"
 
-#: src/editor/editor.cpp:477
+#: src/editor/particle_editor.cpp:126
+msgid "Max amount"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:142
+msgid "Spawn anywhere"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:143
+msgid "Life duration"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:148
+msgid "Birth duration"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:153
+msgid "Death duration"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:160
+msgid "Grow"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:175
+msgid "Horizontal speed"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:180
+msgid "Vertical speed"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:185
+msgid "Horizontal acceleration"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:186
+msgid "Vertical acceleration"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:187
+msgid "Horizontal friction"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:188
+msgid "Vertical friction"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:190
+msgid "Initial rotation"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:201
+msgid "Rotation friction/decceleration"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:211
+msgid "Destroy"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:215
+msgid "Stick to surface"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:216
+msgid "Stick and stay"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:217
+msgid "No collision"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:222
+msgid "Always destroy"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:226
+msgid "Offscreen mode"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:765
+msgid ""
+"This particle configuration contains unsaved changes,\n"
+"do you want to save?"
+msgstr ""
+
+#: src/editor/particle_editor.cpp:773
+msgid "Save as"
+msgstr ""
+
+#: src/editor/editor.cpp:566
+msgid ""
+"Don't forget that your levels and assets\n"
+"aren't saved between sessions!\n"
+"If you want to keep your levels, download them\n"
+"from the \"Manage Assets\" menu."
+msgstr ""
+
+#: src/editor/editor.cpp:582
 msgid "This level contains unsaved changes, do you want to save?"
 msgstr "このレベルには未保存の変更があります。保存しますか？"
 
-#: src/editor/editor.cpp:517
+#: src/editor/editor.cpp:622
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -2426,75 +3346,95 @@ msgid ""
 "Disabling these add-ons will not delete your game progress."
 msgstr "不要なアドオンの一部が有効なままであり、\nデフォルトのSuperTuxのストラクチャーとの競合を起こしている可能性があります。\nこれらのアドオンをメニューで有効にすることができます。\nこれらのアドオンを無効にしても、ゲームの状態は削除されません。"
 
-#: src/editor/editor.cpp:520
+#: src/editor/editor.cpp:625
 msgid "Disable add-ons"
 msgstr "アドオンを無効にする"
 
-#: src/editor/editor.cpp:525
+#: src/editor/editor.cpp:630
 msgid "Ignore (not advised)"
 msgstr "無視 (非推奨)"
 
-#: src/editor/editor.cpp:529
+#: src/editor/editor.cpp:634
 msgid "Leave editor"
 msgstr "エディターを終了"
 
-#: src/editor/editor.cpp:740
+#: src/editor/editor.cpp:853
 msgid ""
 "Couldn't find a \"main\" sector.\n"
 "Please change the name of the sector where\n"
 "you'd like the player to start to \"main\""
 msgstr "\"main\" セクターを見つけられませんでした。\nプレイヤーが開始するセクターの名前を\n\"main\" に変更してください。"
 
-#: src/editor/editor.cpp:744
+#: src/editor/editor.cpp:857
 msgid ""
 "Couldn't find a \"main\" spawnpoint.\n"
 " Please change the name of the spawnpoint where\n"
 "you'd like the player to start to \"main\""
 msgstr "スタート地点 \"main\" を見つけられませんでした。\nプレイヤーのスタート地点の名前を\n\"main\" に変更してください。"
 
-#: src/editor/worldmap_objects.cpp:130
+#: src/editor/worldmap_objects.cpp:128
 msgid "Outro script"
 msgstr "終了時のスクリプト"
 
-#: src/editor/worldmap_objects.cpp:131
+#: src/editor/worldmap_objects.cpp:129
 msgid "Auto play"
 msgstr "自動的に開始"
 
-#: src/editor/worldmap_objects.cpp:133
+#: src/editor/worldmap_objects.cpp:131
 msgid "Title colour"
 msgstr "タイトルの色"
 
-#: src/editor/worldmap_objects.cpp:175
+#: src/editor/worldmap_objects.cpp:173
 msgid "Automatic"
 msgstr "自動"
 
-#: src/editor/worldmap_objects.cpp:177
+#: src/editor/worldmap_objects.cpp:175
 msgid "Target worldmap"
 msgstr "ターゲットのワールドマップ"
 
-#: src/editor/worldmap_objects.cpp:240
+#: src/editor/worldmap_objects.cpp:238
 msgid "Stay action"
 msgstr "滞在行動"
 
-#: src/editor/worldmap_objects.cpp:241
+#: src/editor/worldmap_objects.cpp:239
 msgid "Initial stay action"
 msgstr "初期滞在行動"
 
-#: src/editor/worldmap_objects.cpp:242
+#: src/editor/worldmap_objects.cpp:240
 msgid "Stay group"
 msgstr "グループにとどまる"
 
-#: src/editor/worldmap_objects.cpp:243
+#: src/editor/worldmap_objects.cpp:241
 msgid "Change on touch"
 msgstr "タッチに変更"
 
-#: src/editor/worldmap_objects.cpp:273
+#: src/editor/worldmap_objects.cpp:271
 msgid "Show message"
 msgstr "メッセージを表示"
 
-#: src/editor/worldmap_objects.cpp:275
+#: src/editor/worldmap_objects.cpp:273
 msgid "Invisible"
 msgstr "非表示"
+
+#: src/editor/overlay_widget.cpp:1297
+msgid "Autotile mode is on"
+msgstr ""
+
+#: src/editor/overlay_widget.cpp:1299
+msgid "Hold Ctrl to enable autotile"
+msgstr ""
+
+#: src/editor/overlay_widget.cpp:1303
+msgid "Autotile erasing mode is on"
+msgstr ""
+
+#: src/editor/overlay_widget.cpp:1305
+msgid "Selected tile isn't autotileable"
+msgstr ""
+
+#: src/editor/overlay_widget.cpp:1308
+msgid "Hold Ctrl to enable autotile erasing"
+msgstr ""
 
 #: data//credits.stxt:25
 msgid "Current SuperTux Team"
@@ -2509,349 +3449,378 @@ msgid "Graphics, Level Design, Story"
 msgstr "グラフィックス、レベルデザイン、ストーリー"
 
 #: data//credits.stxt:40
-msgid "Graphics, Story, Optimisation"
-msgstr "グラフィックス、ストーリー、最適化"
+msgid "Level Design, Story, Optimisation, Coordination"
+msgstr ""
 
-#: data//credits.stxt:45 data//credits.stxt:100 data//credits.stxt:186
-#: data//credits.stxt:498
+#: data//credits.stxt:45 data//credits.stxt:105 data//credits.stxt:191
+#: data//credits.stxt:519
 msgid "Graphics"
 msgstr "グラフィックス"
 
-#: data//credits.stxt:50 data//credits.stxt:60 data//credits.stxt:82
-#: data//credits.stxt:88
+#: data//credits.stxt:50 data//credits.stxt:87 data//credits.stxt:93
 msgid "Graphics, Programming, Level Design"
 msgstr "グラフィックス、プログラミング、レベルデザイン"
 
 #: data//credits.stxt:55
+msgid "Features and Programming"
+msgstr ""
+
+#: data//credits.stxt:60
+msgid "Programming, Level Updates"
+msgstr ""
+
+#: data//credits.stxt:65
 msgid "Graphics, Programming"
 msgstr "グラフィックス、プログラミング"
 
-#: data//credits.stxt:65 data//credits.stxt:130 data//credits.stxt:135
-#: data//credits.stxt:140 data//credits.stxt:145 data//credits.stxt:160
-#: data//credits.stxt:165 data//credits.stxt:494 data//credits.stxt:506
+#: data//credits.stxt:70 data//credits.stxt:135 data//credits.stxt:140
+#: data//credits.stxt:145 data//credits.stxt:150 data//credits.stxt:165
+#: data//credits.stxt:170 data//credits.stxt:515 data//credits.stxt:527
 msgid "Programming"
 msgstr "プログラミング"
 
-#: data//credits.stxt:71
+#: data//credits.stxt:76
 msgid "Original Developers"
 msgstr "オリジナルの開発者"
 
-#: data//credits.stxt:76
+#: data//credits.stxt:81
 msgid "Original Developer"
 msgstr "オリジナルの開発者"
 
-#: data//credits.stxt:94
+#: data//credits.stxt:99
 msgid "Music, Level Design"
 msgstr "音楽、レベルデザイン"
 
-#: data//credits.stxt:106
+#: data//credits.stxt:111
 msgid "Programming, Graphics, Level Design"
 msgstr "プログラミング、グラフィックス、レベルデザイン"
 
-#: data//credits.stxt:112
+#: data//credits.stxt:117
 msgid "Programming, Level Design"
 msgstr "プログラミング、レベルザイン"
 
-#: data//credits.stxt:118
+#: data//credits.stxt:123
 msgid "Graphics, Story"
 msgstr "グラフィックス、ストーリー"
 
-#: data//credits.stxt:124
+#: data//credits.stxt:129
 msgid "Programming, Documentation"
 msgstr "プログラミング、ドキュメント作成"
 
-#: data//credits.stxt:150
+#: data//credits.stxt:155
 msgid "Coordination"
 msgstr "調整"
 
-#: data//credits.stxt:155
+#: data//credits.stxt:160
 msgid "Programming, \"Flexlay\" Level editor"
 msgstr "プログラミング、 Flexlay レベルエディター"
 
-#: data//credits.stxt:170
+#: data//credits.stxt:175
 msgid "Windows build fixes"
 msgstr "Windows ビルドの修正"
 
-#: data//credits.stxt:175
+#: data//credits.stxt:180
 msgid "Packaging, Nightly builds"
 msgstr "パッケージ化、アルファ版ビルド"
 
-#: data//credits.stxt:180
+#: data//credits.stxt:185
 msgid "Translation Guru (and many details anyone else could have done)"
 msgstr "尊敬すべき翻訳者 (その他、たくさんの協力者の方々)"
 
-#: data//credits.stxt:240
+#: data//credits.stxt:251
 msgid "Level Design"
 msgstr "レベルデザイン"
 
-#: data//credits.stxt:414
+#: data//credits.stxt:431
 msgid "Additional contributors"
 msgstr "貢献者"
 
-#: data//credits.stxt:419
+#: data//credits.stxt:436
 msgid "Bug fixes"
 msgstr "バグ修正"
 
-#: data//credits.stxt:423
+#: data//credits.stxt:440
 msgid "Scripting functions, Level fixes"
 msgstr "スクリプト機能、レベル修正"
 
-#: data//credits.stxt:427
+#: data//credits.stxt:444
 msgid "Code quality fixes"
 msgstr "コードリファクタリング"
 
-#: data//credits.stxt:431 data//credits.stxt:435 data//credits.stxt:439
-#: data//credits.stxt:466
+#: data//credits.stxt:448 data//credits.stxt:452 data//credits.stxt:456
+#: data//credits.stxt:483
 msgid "Various contributions"
 msgstr "様々な協力"
 
-#: data//credits.stxt:443
+#: data//credits.stxt:460
 msgid "Build issue fix"
 msgstr "ビルドの問題修正"
 
-#: data//credits.stxt:447 data//credits.stxt:451
+#: data//credits.stxt:464 data//credits.stxt:468
 msgid "Code contributions"
 msgstr "プログラミングの協力"
 
-#: data//credits.stxt:454
+#: data//credits.stxt:471
 msgid "Code contribution, AppData file"
 msgstr "プログラミングの協力、アプリデータファイル"
 
-#: data//credits.stxt:458
+#: data//credits.stxt:475
 msgid "Bug fix"
 msgstr "バグ修正"
 
-#: data//credits.stxt:462
+#: data//credits.stxt:479
 msgid "Menu reorganization"
 msgstr "メニューの整理"
 
-#: data//credits.stxt:470
+#: data//credits.stxt:487
 msgid "Fixing tile bugs"
 msgstr "バグ修正"
 
-#: data//credits.stxt:474
+#: data//credits.stxt:491
 msgid "Build error fix"
 msgstr "ビルドエラー修正"
 
-#: data//credits.stxt:478
+#: data//credits.stxt:495
 msgid "Scripting function fix"
 msgstr "スクリプト機能の修正"
 
-#: data//credits.stxt:482
+#: data//credits.stxt:499
+msgid "New features and notable updates"
+msgstr ""
+
+#: data//credits.stxt:503
 msgid "Support for \"glbinding\" as optional OpenGL binding"
 msgstr "オプションでの glbinding による OpenGL バインディング対応"
 
-#: data//credits.stxt:486
+#: data//credits.stxt:507
 msgid "New menu code"
 msgstr "新メニューコード"
 
-#: data//credits.stxt:490
+#: data//credits.stxt:511
 msgid "Big Tux Walking Sprites improvements"
 msgstr ""
 
-#: data//credits.stxt:502 data//credits.stxt:510
+#: data//credits.stxt:523 data//credits.stxt:531
 msgid "Contrib Programming"
 msgstr "プログラムの協力"
 
-#: data//credits.stxt:514
+#: data//credits.stxt:535
 msgid "Programming, Previous Maintainer"
 msgstr "プログラミング、以前のメンテナー"
 
-#: data//credits.stxt:518
+#: data//credits.stxt:539
 msgid "Various Contributions"
 msgstr "さまざまな貢献"
 
-#: data//credits.stxt:522 data//credits.stxt:526 data//credits.stxt:530
-#: data//credits.stxt:534 data//credits.stxt:538 data//credits.stxt:542
-#: data//credits.stxt:546 data//credits.stxt:550 data//credits.stxt:554
+#: data//credits.stxt:543
+msgid "Minor features and programming"
+msgstr ""
+
+#: data//credits.stxt:547 data//credits.stxt:551 data//credits.stxt:555
+#: data//credits.stxt:559 data//credits.stxt:563 data//credits.stxt:567
+#: data//credits.stxt:571 data//credits.stxt:575 data//credits.stxt:579
+#: data//credits.stxt:583 data//credits.stxt:587 data//credits.stxt:591
 msgid "Contributions"
 msgstr "貢献"
 
-#: data//credits.stxt:560
+#: data//credits.stxt:597
 msgid "Localization"
 msgstr "多言語対応"
 
-#: data//credits.stxt:1107
+#: data//credits.stxt:1144
 msgid " Special Thanks to"
 msgstr " Special Thanks"
 
-#: data//credits.stxt:1112
+#: data//credits.stxt:1149
 msgid "Creator of Tux, the Linux penguin"
 msgstr "Linux のペンギンである Tux の作者"
 
-#: data//credits.stxt:1116
+#: data//credits.stxt:1153
 msgid "SDL, OpenAL and OpenGL"
 msgstr "SDL、OpenAL、OpenGL"
 
-#: data//credits.stxt:1117
+#: data//credits.stxt:1154
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
 msgstr "Linux 上でこのような素晴らしいゲーム体験を\n作り出せることに"
 
-#: data//credits.stxt:1122
+#: data//credits.stxt:1159
 msgid "and you, the player"
 msgstr "そして、プレーヤーであるあなた"
 
-#: data//credits.stxt:1123
+#: data//credits.stxt:1160
 msgid "for giving this game a chance and playing it"
 msgstr "プレイしてくださりありがとうございます"
 
-#: data//credits.stxt:1134
+#: data//credits.stxt:1171
 msgid "Visit our webpage at"
 msgstr "以下で私たちの Web ページを参照してください"
 
-#: data//credits.stxt:1143
+#: data//credits.stxt:1180
 msgid "Or visit us directly at IRC:"
 msgstr "または、IRC で直接連絡してください:"
 
-#: data//credits.stxt:1147
-msgid "#supertux at webchat.freenode.net"
-msgstr "#supertux at webchat.freenode.net"
+#: data//credits.stxt:1184
+msgid "#supertux at web.libera.chat"
+msgstr ""
 
-#: data//credits.stxt:1152
+#: data//credits.stxt:1189
 msgid "Or at our Forum:"
 msgstr "フォーラムもご利用いただけます:"
 
-#: data//credits.stxt:1161
+#: data//credits.stxt:1198
 msgid "Comments, ideas and suggestions"
 msgstr "コメント、アイデア、提案"
 
-#: data//credits.stxt:1165
+#: data//credits.stxt:1202
 msgid "go to our mailing list"
 msgstr "メーリングリストに移動"
 
 #. l10n: typo contact
-#: data//credits.stxt:1175
+#: data//credits.stxt:1212
 msgid "Typographical errors can be"
 msgstr "誤字の訂正は"
 
 #. l10n: typo contact
-#: data//credits.stxt:1180
+#: data//credits.stxt:1217
 msgid "reported to"
 msgstr "以下で報告できます"
 
 #. l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
-#: data//credits.stxt:1185
+#: data//credits.stxt:1222
 msgid "supertux-devel@lists.lethargik.org"
 msgstr "supertux-devel@lists.lethargik.org"
 
-#: data//credits.stxt:1192
+#: data//credits.stxt:1229
 msgid "Want to help…"
 msgstr "ヘルプが必要ですか？"
 
-#: data//credits.stxt:1197
+#: data//credits.stxt:1234
 msgid "…with localization?"
 msgstr "翻訳について"
 
-#: data//credits.stxt:1207
+#: data//credits.stxt:1244
 msgid "…with something else?"
 msgstr "その他について"
 
-#: data//credits.stxt:1218
+#: data//credits.stxt:1255
 msgid "Thank you for"
 msgstr "プレイしてくださって"
 
-#: data//credits.stxt:1222
+#: data//credits.stxt:1259
 msgid "playing"
 msgstr "ありがとうございます。"
 
-#: data//credits.stxt:1232
+#: data//credits.stxt:1269
 msgid "Penny awaits you in warmer temperatures!"
 msgstr "Penny は温かい土地であなたを待っていますよ！"
 
-#: data//images/engine/editor/objects.stoi:156
+#: data//images/engine/editor/objects.stoi:162
 msgid "Bosses"
 msgstr "ボス"
 
-#: data//images/engine/editor/objects.stoi:167
+#: data//images/engine/editor/objects.stoi:173
 msgid "Projectiles"
 msgstr "発射物"
 
-#: data//images/engine/editor/objects.stoi:181
+#: data//images/engine/editor/objects.stoi:187
 msgid "Environment"
 msgstr "環境"
 
-#: data//images/ice_world.strf:6 data//images/tiles.strf:327
+#: data//images/ice_world.strf:10 data//images/tiles.strf:28
+#: data//images/worldmap.strf:41
+msgid "Snow"
+msgstr "雪"
+
+#: data//images/ice_world.strf:80
+msgid "Ice Cave & Crystal"
+msgstr "氷洞窟と結晶"
+
+#: data//images/ice_world.strf:127
+msgid "Embellishments"
+msgstr "装飾"
+
+#: data//images/ice_world.strf:211 data//images/tiles.strf:386
 #: data//images/worldmap.strf:67
 msgid "Forest"
 msgstr "森"
 
-#: data//images/ice_world.strf:106
-msgid "Ice Cave & Crystal"
-msgstr "氷洞窟と結晶"
+#: data//images/ice_world.strf:320
+msgid "Underground Forest"
+msgstr ""
 
-#: data//images/ice_world.strf:153
-msgid "Embellishments"
-msgstr "装飾"
+#: data//images/ice_world.strf:375
+msgid "Trees & Bushes"
+msgstr ""
 
-#: data//images/ice_world.strf:237
-msgid "Ice"
-msgstr "氷"
+#: data//images/ice_world.strf:406
+msgid "Seasonal"
+msgstr ""
 
-#: data//images/ice_world.strf:282 data//images/tiles.strf:693
-msgid "Castle"
-msgstr "城"
+#: data//images/ice_world.strf:496
+msgid "Structure"
+msgstr ""
 
-#: data//images/ice_world.strf:328
+#: data//images/ice_world.strf:557
 msgid "Pathing"
 msgstr "道"
 
-#: data//images/ice_world.strf:424
+#: data//images/ice_world.strf:718
 msgid "Water"
 msgstr "水"
 
-#: data//images/tiles.strf:19 data//images/worldmap.strf:41
-msgid "Snow"
-msgstr "雪"
-
-#: data//images/tiles.strf:124
+#: data//images/tiles.strf:176
 msgid "Snow Background"
 msgstr "雪の背景"
 
-#: data//images/tiles.strf:162
+#: data//images/tiles.strf:231
 msgid "Snow Mountain"
 msgstr "雪山"
 
-#: data//images/tiles.strf:236
+#: data//images/tiles.strf:305
 msgid "Crystal"
 msgstr "クリスタル"
 
-#: data//images/tiles.strf:457
+#: data//images/tiles.strf:532
 msgid "Forest Background"
 msgstr "森の背景"
 
-#: data//images/tiles.strf:572
+#: data//images/tiles.strf:663
 msgid "Block + Bonus"
 msgstr "ブロックとボーナス"
 
-#: data//images/tiles.strf:618
+#: data//images/tiles.strf:715
 msgid "Pole + Signs"
 msgstr "柱と看板"
 
-#: data//images/tiles.strf:661
+#: data//images/tiles.strf:760
 msgid "Liquid"
 msgstr "液体"
 
-#: data//images/tiles.strf:833 data//images/worldmap.strf:199
+#: data//images/tiles.strf:793
+msgid "Castle"
+msgstr "城"
+
+#: data//images/tiles.strf:930 data//images/worldmap.strf:199
 msgid "Halloween"
 msgstr "ハロウィン"
 
-#: data//images/tiles.strf:861
+#: data//images/tiles.strf:958
 msgid "Industrial"
 msgstr "工場"
 
-#: data//images/tiles.strf:876
+#: data//images/tiles.strf:973
 msgid "Unisolid + Lightmap"
 msgstr ""
 
-#: data//images/tiles.strf:893
+#: data//images/tiles.strf:1000
 msgid "Miscellaneous"
 msgstr "その他"
 
-#: data//images/tiles.strf:927
-msgid "Old/Unused"
-msgstr "古いまたは未使用のもの"
+#: data//images/tiles.strf:1043
+msgid "Retro Snow"
+msgstr ""
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"

@@ -188,6 +188,30 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
 void PhysfsSubsystem::find_datadir() const
 {
 #ifndef __EMSCRIPTEN__
+  if (const char* assetpack = getenv("ANDROID_ASSET_PACK_PATH"))
+  {
+    // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
+    if (!PHYSFS_mount(boost::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
+    {
+      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+      return;
+    }
+
+    PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
+    if (!data)
+    {
+      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getLastErrorCode() << std::endl;
+      return;
+    }
+
+    if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
+    {
+      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    }
+
+    return;
+  }
+
   std::string datadir;
   if (m_forced_datadir)
   {
@@ -196,6 +220,10 @@ void PhysfsSubsystem::find_datadir() const
   else if (const char* env_datadir = getenv("SUPERTUX2_DATA_DIR"))
   {
     datadir = env_datadir;
+  }
+  else if (const char* env_datadir3 = getenv("ANDROID_MY_OWN_APP_FILE"))
+  {
+    datadir = env_datadir3;
   }
   else
   {
@@ -311,8 +339,10 @@ if (FileSystem::is_directory(olduserdir)) {
 
 #ifdef EMSCRIPTEN
   EM_ASM({
-    FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
-    FS.syncfs(true, (err) => { console.log(err); });
+    try {
+      FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
+      FS.syncfs(true, (err) => { console.log(err); });
+    } catch(err) {}
   }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 #endif
 
@@ -422,12 +452,18 @@ Main::launch_game(const CommandLineArguments& args)
 {
   m_sdl_subsystem.reset(new SDLSubsystem());
   m_console_buffer.reset(new ConsoleBuffer());
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  if (getenv("ANDROID_TV")) {
+    g_config->mobile_controls = false;
+  }
+#endif
 
   s_timelog.log("controller");
   m_input_manager.reset(new InputManager(g_config->keyboard_config, g_config->joystick_config));
 
   s_timelog.log("commandline");
 
+#ifndef EMSCRIPTEN
   auto video = g_config->video;
   if (args.resave && *args.resave) {
     if (args.video) {
@@ -437,7 +473,12 @@ Main::launch_game(const CommandLineArguments& args)
     }
   }
   s_timelog.log("video");
+
   m_video_system = VideoSystem::create(video);
+#else
+  // Force SDL for WASM builds, as OpenGL is reportedly slow on some devices
+  m_video_system = VideoSystem::create(VideoSystem::VIDEO_SDL);
+#endif
   init_video();
 
   m_ttf_surface_manager.reset(new TTFSurfaceManager());
@@ -559,13 +600,6 @@ Main::launch_game(const CommandLineArguments& args)
     }
   }
 
-#ifdef UBUNTU_TOUCH
-  Dialog::show_message(_("The UBports version is under heavy development!\n"
-                         "If you encounter issues, PLEASE contact the maintainter\n"
-                         "at https://github.com/supertux/supertux/issues or on the\n"
-                         "Open Store's Telegram at https://open-store.io/telegram"));
-#endif
-
   m_screen_manager->run();
 }
 
@@ -673,6 +707,13 @@ Main::run(int argc, char** argv)
   }
 
   g_dictionary_manager.reset();
+
+#ifdef __ANDROID__
+  // SDL2 keeps shared libraries loaded after the app is closed,
+  // when we launch the app again the static initializers will run twice and crash the app.
+  // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
+  _exit(result);
+#endif
 
   return result;
 }

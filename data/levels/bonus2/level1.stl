@@ -3,12 +3,15 @@
   (name (_ "Mario's Supposed to Deal With This..."))
   (author "Kevin")
   (target-time 300)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (alignment "bottom")
       (speed 0.5)
       (image-top "/images/background/antarctic/SnowMountains.png")
@@ -17,8 +20,8 @@
       (z-pos -150)
     )
     (background
-      (x 672)
-      (y 224)
+      (color 1 1 1)
+      (alignment "top")
       (scroll-speed-x 0.5)
       (speed 0.5)
       (image-top "/images/background/antarctic/SnowMountainsSky.png")
@@ -62,6 +65,12 @@
       (name "Camera")
       (mode "autoscroll")
       (path-ref "2445fc9c-b11c-402a-899c-331028794af2")
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
     )
     (dispenser
       (sprite "/images/creatures/dispenser/invisible.png")
@@ -225,6 +234,7 @@
     (path
       (name "2445fc9c-b11c-402a-899c-331028794af2")
       (path
+        (adapt_speed #f)
         (node
           (x 0)
           (y 352)
@@ -239,6 +249,7 @@
     (path
       (name "f274bc7a-de97-4a1f-9b96-a58283ddad08")
       (path
+        (adapt_speed #f)
         (node
           (x 4352)
           (y 512)
@@ -439,6 +450,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 100)
       (name "s1")

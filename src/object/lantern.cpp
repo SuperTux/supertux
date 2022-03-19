@@ -69,6 +69,8 @@ Lantern::get_settings()
 void
 Lantern::after_editor_set()
 {
+  Rock::after_editor_set();
+
   updateColor();
 }
 
@@ -99,7 +101,7 @@ HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
 
   if (wow && (is_open() || wow->get_color().greyscale() == 0.f)) {
     // collided with WillOWisp while grabbed and unlit
-    SoundManager::current()->play("sounds/willocatch.wav");
+    SoundManager::current()->play("sounds/willocatch.wav", get_pos());
     lightcolor = wow->get_color();
     updateColor();
     wow->vanish();
@@ -108,7 +110,7 @@ HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
   TreeWillOWisp* twow = dynamic_cast<TreeWillOWisp*>(&other);
   if (twow && (is_open() || twow->get_color().greyscale() == 0.f)) {
     // collided with TreeWillOWisp while grabbed and unlit
-    SoundManager::current()->play("sounds/willocatch.wav");
+    SoundManager::current()->play("sounds/willocatch.wav", get_pos());
     lightcolor = twow->get_color();
     updateColor();
     twow->vanish();

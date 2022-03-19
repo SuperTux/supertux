@@ -28,7 +28,7 @@
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, std::function<void(std::string)> callback) :
+                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
@@ -37,6 +37,7 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_basedir(basedir),
   m_directories(),
   m_files(),
+  m_path_relative_to_basedir(path_relative_to_basedir),
   m_callback(std::move(callback))
 {
   AddonManager::current()->unmount_old_addons();
@@ -109,6 +110,8 @@ FileSystemMenu::refresh_items()
   }
 
   add_hl();
+  add_entry(-2, _("Open Directory"));
+  add_hl();
   add_back(_("Cancel"));
 
   m_active_item = 2;
@@ -145,7 +148,7 @@ FileSystemMenu::menu_action(MenuItem& item)
       if (id < m_files.size()) {
         std::string new_filename = FileSystem::join(m_directory, m_files[id]);
 
-        if (!m_basedir.empty()) {
+        if (!m_basedir.empty() && m_path_relative_to_basedir) {
           new_filename = FileSystem::relpath(new_filename, m_basedir);
         }
 
@@ -160,6 +163,10 @@ FileSystemMenu::menu_action(MenuItem& item)
         log_warning << "Selected invalid file or directory" << std::endl;
       }
     }
+  }
+  else if (item.get_id() == -2)
+  {
+    FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
   }
 }
 

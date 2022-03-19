@@ -4,15 +4,15 @@
   (author "Tobe Deprez")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 80)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
-      (scroll-offset-y 100)
-      (x 13056)
-      (y 512)
+      (color 1 1 1)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -245,6 +245,7 @@
     (path
       (name "83cb73f9-d5ab-46ec-944d-1148dd7cb4f2")
       (path
+        (adapt_speed #f)
         (node
           (x 11648)
           (y 704)
@@ -452,6 +453,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 100)
       (name "secret")

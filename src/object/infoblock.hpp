@@ -54,6 +54,11 @@ private:
   float m_dest_pct; /**< With each call to update(), shown_pct will slowly transition to this value */
   std::vector<std::unique_ptr<InfoBoxLine> > m_lines; /**< lines of text (or images) to display */
   float m_lines_height;
+  Color m_frontcolor;
+  Color m_backcolor;
+  float m_roundness;
+  bool m_fadetransition;
+  float m_initial_y;
 
 private:
   InfoBlock(const InfoBlock&) = delete;

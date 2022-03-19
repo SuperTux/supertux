@@ -1,3 +1,15 @@
+
+import("/levels/preload_worldselect.nut");
+
+state.world_select["/levels/world2/worldmap.stwm"].unlocked <- true;
+
+if("ambient_r" in state && "ambient_g" in state && "ambient_b" in state){
+  worldmap.settings.fade_to_ambient_light(state.ambient_r,
+                                          state.ambient_g,
+                                          state.ambient_b,
+                                          0);
+}
+
 if(! ("ghostforest" in state)){
 	state.ghostforest <- false;
   print("[DEBUG] Ghost Forest state initialized\n");

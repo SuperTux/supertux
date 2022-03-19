@@ -5,12 +5,13 @@
 # Translators:
 # Любомир Василев, 2015-2016
 # Любомир Василев, 2016,2018-2019
+# Любомир Василев, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 22:17+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-10-09 12:45+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -23,16 +24,16 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "„Въздушна“ №23"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
 msgid "You found a secret area!"
 msgstr "Ти откри тайно място!"
 
@@ -40,7 +41,7 @@ msgstr "Ти откри тайно място!"
 msgid "Above the Arctic Skies"
 msgstr "В арктическите небеса"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -51,7 +52,7 @@ msgstr "-Въздушно цвете\n!images/powerups/airflower/air_flower-0.pn
 msgid "Between Two Glaciers"
 msgstr "Между два ледника"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
@@ -71,7 +72,7 @@ msgstr "Замъкът на Нолок"
 msgid "The Crystal Mine"
 msgstr "Кристалната мина"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Трябва да включиш два превключвателя, за да отвориш тази врата."
 
@@ -224,7 +225,7 @@ msgstr "„Нямаш шанс да я спасиш! Подпис: Нолок.�
 #: data/levels/world1/scripts_intro.txt:9
 msgid ""
 "Realizing the trouble Penny could be in, Tux became determined to save her."
-msgstr "Осъзнавайки в каква беда може да се намира е Пени, Тъкс се зарече да я спаси."
+msgstr "Осъзнавайки в каква беда може да се намира Пени, Тъкс се зарече да я спаси."
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
@@ -277,7 +278,7 @@ msgstr "Пътят на носталгията"
 msgid "Welcome to Antarctica"
 msgstr "Добре дошли в Антарктида"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
@@ -286,42 +287,42 @@ msgid ""
 "#Hit them from below to get at their contents."
 msgstr "-Блокчета с награди\n!images/objects/bonus_block/full-0.png\n#Блокчетата с награди може да съдържат монети, придобивки или специални предмети, които да ти помогнат в мисията ти.\n#\n#Удари ги отдолу, за да вземеш това, което е вътре."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Яйца\n!images/powerups/egg/egg-shade.png\n#Яйцето прави Тъкс по-голям. Когато Тъкс е голям, той може да разбива дървените блокчета с глава."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Контролни точки\n!images/objects/resetpoints/bell-m.png\n#Активирай контролната точка. Ако умреш, можеш да започнеш пак от тук. Всеки пък, когато се връщаш към контролна точка, ще губиш 10% от монетите си (но задължително поне 25 монети)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Тичане\n!images/tiles/signs/run.png\n#Пътят пред теб е препречен. Засили се, преди да скочиш, за да преминеш над блокчетата."
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Огнено цвете\n!images/powerups/fireflower/fire_flower-0.png\n#Огненото цвете дава на Тъкс способността да изстрелва огнени топки."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Кукла Тъкс\n!images/powerups/1up/1up.png\n#Куклата Тъкс дава 100 монети."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

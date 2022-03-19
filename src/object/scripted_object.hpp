@@ -40,6 +40,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+  virtual void on_flip(float height) override;
+
   // --- scripting Interface stuff ---
   void set_action(const std::string& animation);
   std::string get_action() const;

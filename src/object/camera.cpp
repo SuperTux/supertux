@@ -226,6 +226,7 @@ Camera::get_settings()
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
     result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
+    result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
   return result;
@@ -685,7 +686,8 @@ Camera::update_scroll_autoscroll(float dt_sec)
     return;
 
   get_walker()->update(dt_sec);
-  m_translation = get_walker()->get_pos();
+  // TODO: Get the camera size?
+  m_translation = get_walker()->get_pos(Sizef(), m_path_handle);
 
   keep_in_bounds(m_translation);
 }

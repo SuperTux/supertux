@@ -78,7 +78,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
     }
     /* load default tileset */
     if (m_worldmap.m_tileset == nullptr) {
-      m_worldmap.m_tileset = TileManager::current()->get_tileset("images/worldmap.strf");
+      m_worldmap.m_tileset = TileManager::current()->get_tileset("images/ice_world.strf");
     }
 
     boost::optional<ReaderMapping> sector;

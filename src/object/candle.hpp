@@ -38,6 +38,8 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  virtual void on_flip(float height) override;
+
   /** @name Scriptable Methods
       @{ */
   void puff_smoke(); /**< spawn a puff of smoke */

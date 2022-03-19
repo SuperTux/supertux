@@ -102,6 +102,8 @@ public:
                           cancelling the code that forces traveling bezier
                           curves at constant speed */
 
+  void on_flip(float height);
+
 private:
   Path(const Path&) = delete;
   Path& operator=(const Path&) = delete;

@@ -1,17 +1,18 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Anders Jonsson <transifex@norsjovallen.se>, 2017
 # Arvid Norlander <anmaster@berlios.de>, 2006-2008,2010
-# sebras <sebras@gmail.com>, 2015-2016
+# Sebastian Rasmussen <sebras@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-13 00:29+0000\n"
-"Last-Translator: sebras <sebras@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2017-09-23 11:06+0000\n"
+"Last-Translator: Anders Jonsson <transifex@norsjovallen.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +49,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Gratulerar!\n\n#Du har slutfört\n#Bonusö II\n\n\n\tmed nivåer bidragna av\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ännu en gång vill vi tacka alla som\n#bidragit till denna version. Vi\n#hoppas att du har uppskattade den,\n#och att det gjorde det lite lättare att\n#vänta på Milstople 3. :-)\n\n\n Slutet på istiden närmar sig…"
+msgstr "-Gratulerar!\n\n#Du har slutfört\n#Bonusö II\n\n\n\tmed nivåer bidragna av\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ännu en gång vill vi tacka alla som\n#bidragit till denna version. Vi\n#hoppas att du har uppskattade den,\n#och att det gjorde det lite lättare att\n#vänta på Milstolpe 3. :-)\n\n\n Slutet på istiden närmar sig…"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -166,14 +167,14 @@ msgstr "Tradition"
 msgid "Bonus Island II"
 msgstr "Bonus-ö II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Du har hittat en hemlig plats!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Jag undrar vart den vägen leder…"
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Teleportera hem…"

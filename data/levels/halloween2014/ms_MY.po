@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# abuyop <abuyop@gmail.com>, 2018
+# abuyop <abuyop@gmail.com>, 2018,2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-12-20 11:36+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-06-15 04:36+0000\n"
 "Last-Translator: abuyop <abuyop@gmail.com>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/arctic-games/supertux/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr "Kawasan Perkuburan"
 
 #: data/levels/halloween2014/intro.stl:3
 msgid "The Abandoned House"
-msgstr "Rumah Tinggal"
+msgstr "Rumah Terbiar"
 
 #: data/levels/halloween2014/mound.stl:3
 msgid "Mound of the Dead"
-msgstr "Timbunan Mati"
+msgstr "Timbunan si Mati"
 
 #: data/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
@@ -44,7 +44,7 @@ msgstr "Pesta Halloween?"
 
 #: data/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
-msgstr "Kolam Busuk"
+msgstr "Kolam Berbau Busuk"
 
 #: data/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"

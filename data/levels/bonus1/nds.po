@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2018-11-10 13:07+0000\n"
-"Last-Translator: Benedikt Straub <benedikt-straub@web.de>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 20:16+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Low German (http://www.transifex.com/arctic-games/supertux/language/nds/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,6 +101,12 @@ msgstr "Bün ick hier nich al wesen?"
 msgid "Bad Guys Stink!"
 msgstr "Verflöökte Wrockers!"
 
+#: data/levels/bonus1/thompson-level2.stl:96
+msgid ""
+"#These levels were made Swimming-Ready by Serano and revamped by "
+"AllyTheOcelot"
+msgstr ""
+
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
 msgstr "Dat gaht man good to"
@@ -109,8 +115,8 @@ msgstr "Dat gaht man good to"
 msgid "Too easy"
 msgstr "To licht"
 
-#: data/levels/bonus1/torfi-level2.stl:42
-msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+#: data/levels/bonus1/torfi-level2.stl:56
+msgid "#All these levels were upgraded for milestone 2 by Hume."
 msgstr ""
 
 #: data/levels/bonus1/torfi-level3.stl:3
@@ -141,62 +147,62 @@ msgstr "Topp vum Iesbarg"
 msgid "Bonus Island I"
 msgstr "Feine Insel I"
 
-#: data/levels/bonus1/worldmap.stwm:12
+#: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
 msgstr "Du hest een Versteek funnen!"
 
-#: data/levels/bonus1/worldmap.stwm:20
+#: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."
 msgstr "Tipp: Dör Ieshöhlen kummst du na hier torügg."
 
-#: data/levels/bonus1/worldmap.stwm:29
+#: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
 msgstr "To Matr1xens Zoon gahn"
 
-#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
 msgstr "To Thompsons Riek gahn"
 
-#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
 msgstr "De Insel vun de SuperTux-Klottje verlaten"
 
-#: data/levels/bonus1/worldmap.stwm:50
+#: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
 msgstr "To Abednegos Kuntrei gahn"
 
-#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
 msgstr "Torfis Rebeet verlaten"
 
-#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:179 data/levels/bonus1/worldmap.stwm:207
 msgid "Leave Abednego's Area"
 msgstr "Abednegos Kuntrei verlaten"
 
-#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:186 data/levels/bonus1/worldmap.stwm:234
 msgid "Leave Thompson's Domain"
 msgstr "Thompsons Riek verlaten"
 
-#: data/levels/bonus1/worldmap.stwm:77
+#: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
 msgstr "Torügg to Matr1xens Zoon"
 
-#: data/levels/bonus1/worldmap.stwm:83
+#: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
 msgstr "Na Huus gahn"
 
-#: data/levels/bonus1/worldmap.stwm:97
+#: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
 msgstr "Tur Insel vun de SuperTux-Klottje gahn"
 
-#: data/levels/bonus1/worldmap.stwm:123
+#: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
 msgstr "Matr1xens Zoon verlaten"
 
-#: data/levels/bonus1/worldmap.stwm:129
+#: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
 msgstr "Mit Matr1xens Zoon wiedermaken"
 
-#: data/levels/bonus1/worldmap.stwm:136
+#: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
 msgstr "To Torfis Rebeet gahn"

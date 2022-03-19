@@ -3,13 +3,14 @@
   (name (_ "In the Spring"))
   (author "Anja")
   (target-time 40)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
-      (scroll-offset-y -150)
       (color 1 1 1)
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -21,8 +22,6 @@
     )
     (background
       (color 1 1 1)
-      (x 936)
-      (y 81.7778)
       (alignment "top")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -30,13 +29,10 @@
       (image-top "/images/background/cloud-mountains-forground.png")
       (image "/images/background/cloud-mountains-forground.png")
       (image-bottom "/images/background/cloud-mountains-forground.png")
-      (z-pos 100)
+      (z-pos 120)
     )
     (background
-      (scroll-offset-y 400)
       (color 1 1 1)
-      (x 832)
-      (y 128)
       (speed 0.5)
       (image-top "/images/background/misc/transparent_up.png")
       (image "/images/background/forest/forest_para2.png")

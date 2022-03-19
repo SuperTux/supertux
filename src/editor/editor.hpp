@@ -140,7 +140,7 @@ public:
 
   bool is_level_loaded() const { return m_levelloaded; }
 
-  void edit_path(Path* path, GameObject* new_marked_object) {
+  void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
   }
 

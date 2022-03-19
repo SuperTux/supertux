@@ -20,6 +20,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -59,9 +60,20 @@ LevelTime::update(float dt_sec)
 {
   if (!running) return;
 
+  int players_alive = Sector::current() ? Sector::current()->get_object_count<Player>([](const Player& p) {
+    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+  }) : 0;
+
+  if (!players_alive)
+    return;
+
   int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= dt_sec;
   if (time_left <= 0) {
+    // Needed to avoid charging a player coins if they had a checkpoint
+    if (GameSession::current())
+      GameSession::current()->set_reset_point("", Vector());
+
     if (time_left <= -5 || !Sector::get().get_player().get_coins())
     {
       Sector::get().get_player().kill(true);
@@ -77,6 +89,8 @@ LevelTime::update(float dt_sec)
 void
 LevelTime::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+    return;
   context.push_transform();
   context.set_translation(Vector(0, 0));
 

@@ -32,6 +32,7 @@
 #include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
 #include "badguy/haywire.hpp"
+#include "badguy/icecrusher.hpp"
 #include "badguy/iceflame.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
@@ -91,7 +92,6 @@
 #include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
 #include "object/hurting_platform.hpp"
-#include "object/icecrusher.hpp"
 #include "object/infoblock.hpp"
 #include "object/invisible_block.hpp"
 #include "object/invisible_wall.hpp"
@@ -115,6 +115,7 @@
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
 #include "object/text_array_object.hpp"
+#include "object/text_object.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -230,6 +231,7 @@ GameObjectFactory::init_factories()
   add_factory<Firefly>("firefly");
   add_factory<GhostParticleSystem>("particles-ghosts");
   add_factory<Gradient>("gradient");
+  add_factory<HeavyBrick>("heavy-brick");
   add_factory<HeavyCoin>("heavycoin");
   add_factory<HurtingPlatform>("hurting_platform");
   add_factory<IceCrusher>("icecrusher");
