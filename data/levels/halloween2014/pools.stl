@@ -1360,7 +1360,7 @@
     )
     (tilemap
       (solid #t)
-      (tint 0 0.6 0)
+      (tint 0 1.0 0)
       (z-pos 0)
       (name "Pools")
       (width 700)
