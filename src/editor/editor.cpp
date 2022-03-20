@@ -80,7 +80,7 @@ Editor::is_active()
     return true;
   } else {
     auto* self = Editor::current();
-    return self && !self->m_leveltested;
+    return self && !self->m_leveltested && self->m_after_setup;
   }
 }
 
@@ -105,6 +105,7 @@ Editor::Editor() :
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
+  m_after_setup(false),
   m_tileset(nullptr),
   m_widgets(),
   m_overlay_widget(),
@@ -615,6 +616,7 @@ Editor::leave()
 {
   MouseCursor::current()->set_icon(nullptr);
   Compositor::s_render_lighting = true;
+  m_after_setup = false;
 }
 
 void
@@ -622,6 +624,7 @@ Editor::setup()
 {
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
+  m_after_setup = true;
   if (!m_levelloaded) {
 
 #if 0
