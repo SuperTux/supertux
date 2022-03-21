@@ -40,7 +40,7 @@
 #  include <glbinding/callbacks.h>
 #endif
 
-GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
+GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
   m_use_opengl33core(use_opengl33core),
   m_texture_manager(),
   m_renderer(),
@@ -55,12 +55,26 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   assert_gl();
 
 #if defined(USE_OPENGLES2)
-  m_context.reset(new GL33CoreContext(*this));
   m_use_opengl33core = true;
 #elif defined(USE_OPENGLES1)
-  m_context.reset(new GL20Context);
   m_use_opengl33core = false;
 #else
+  if (auto_opengl_version)
+  {
+    // Get OpenGL version reported by OS
+    const char* version_string = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+    int major = 0;
+    int minor = 0;
+    sscanf(version_string, "%d.%d", &major, &minor);
+    if (major >= 3)
+      m_use_opengl33core = true;
+    else
+      m_use_opengl33core = false;
+  }
+  else
+    m_use_opengl33core = use_opengl33core;
+#endif
+  // Create context
   if (use_opengl33core)
   {
     m_context.reset(new GL33CoreContext(*this));
@@ -69,7 +83,6 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   {
     m_context.reset(new GL20Context);
   }
-#endif
 
   assert_gl();
 
