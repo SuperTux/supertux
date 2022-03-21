@@ -64,12 +64,17 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
     // Get OpenGL version reported by OS
     const char* version_string = reinterpret_cast<const char*>(glGetString(GL_VERSION));
     int major = 0;
-    int minor = 0;
-    sscanf(version_string, "%d.%d", &major, &minor);
+    sscanf(version_string, "%d", &major);
+
     if (major >= 3)
       m_use_opengl33core = true;
-    else
+    else if (major == 2)
       m_use_opengl33core = false;
+    else
+    {
+      // OpenGL 2.0 or higher is unsupported, throw exception so SDL renderer will be used instead
+      throw std::exception();
+    }
   }
   else
     m_use_opengl33core = use_opengl33core;
