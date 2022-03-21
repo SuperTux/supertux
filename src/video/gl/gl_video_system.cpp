@@ -55,8 +55,10 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
   assert_gl();
 
 #if defined(USE_OPENGLES2)
+  m_context.reset(new GL33CoreContext(*this));
   m_use_opengl33core = true;
 #elif defined(USE_OPENGLES1)
+  m_context.reset(new GL20Context);
   m_use_opengl33core = false;
 #else
   if (auto_opengl_version)
@@ -78,9 +80,8 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
   }
   else
     m_use_opengl33core = use_opengl33core;
-#endif
   // Create context
-  if (use_opengl33core)
+  if (m_use_opengl33core)
   {
     m_context.reset(new GL33CoreContext(*this));
   }
@@ -88,6 +89,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
   {
     m_context.reset(new GL20Context);
   }
+#endif
 
   assert_gl();
 
