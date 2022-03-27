@@ -75,7 +75,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
     else
     {
       // OpenGL 2.0 or higher is unsupported, throw exception so SDL renderer will be used instead
-      throw std::exception();
+      throw std::runtime_error("OpenGL 2.0 or higher is unsupported");
     }
   }
   else
