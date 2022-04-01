@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2022 mrkubax10 <mrkubax10@onet.pl>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,34 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_BADGUY_SELECT_HPP
-#define HEADER_SUPERTUX_GUI_MENU_BADGUY_SELECT_HPP
+#include "gui/item_list.hpp"
 
-#include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
+#include "gui/menu_list.hpp"
 
-class BadguySelectMenu final : public Menu
+ItemList::ItemList(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id) :
+  MenuItem(text, id),
+  m_items(items),
+  m_value_ptr(value_ptr)
+{}
+
+void
+ItemList::process_action(const MenuAction& action)
 {
-public:
-  BadguySelectMenu(std::vector<std::string>* badguys_);
-
-  void menu_action(MenuItem& item) override;
-
-  void remove_badguy();
-
-  void refresh() override;
-
-private:
-  std::vector<std::string>* badguys;
-  std::string selected;
-  int remove_item;
-
-  void add_badguy();
-
-private:
-  BadguySelectMenu(const BadguySelectMenu&) = delete;
-  BadguySelectMenu& operator=(const BadguySelectMenu&) = delete;
-};
-
-#endif
+  if (action == MenuAction::HIT)
+    MenuManager::instance().push_menu(std::make_unique<ListMenu>(m_items, m_value_ptr, nullptr));
+}
 
 /* EOF */

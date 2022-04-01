@@ -501,6 +501,24 @@ private:
   StringArrayOption& operator=(const StringArrayOption&) = delete;
 };
 
+class ListOption : public ObjectOption
+{
+public:
+  ListOption(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override { return *m_value_ptr; }
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  const std::vector<std::string>& m_items;
+  std::string* m_value_ptr;
+
+private:
+  ListOption(const ListOption&) = delete;
+  ListOption& operator=(const ListOption&) = delete;
+};
+
 #endif
 
 /* EOF */

@@ -23,7 +23,10 @@
 
 ObjectFactory::ObjectFactory() :
   factories(),
-  name_factories()
+  name_factories(),
+  m_badguys_names(),
+  m_badguys_params(),
+  m_adding_badguys(false)
 {
 }
 
@@ -59,6 +62,30 @@ ObjectFactory::get_factory_display_name(const std::string& name) const
   {
     return it->second();
   }
+}
+
+std::vector<std::string>
+ObjectFactory::get_registered_badguys(uint8_t params)
+{
+  std::vector<std::string> out;
+  for (unsigned int i = 0; i < m_badguys_names.size(); i++)
+  {
+    if (m_badguys_params[i] & params)
+      out.push_back(m_badguys_names[i]);
+  }
+  return out;
+}
+
+std::vector<std::string>
+ObjectFactory::get_registered_objects(uint8_t params)
+{
+  std::vector<std::string> out;
+  for (unsigned int i = 0; i < m_objects_names.size(); i++)
+  {
+    if (m_objects_params[i] & params)
+      out.push_back(m_objects_names[i]);
+  }
+  return out;
 }
 
 /* EOF */

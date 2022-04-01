@@ -152,6 +152,7 @@ public:
   void add_particle_editor();
   void add_path_handle(const std::string& text, PathWalker::Handle& handle,
                        const std::string& key = {}, unsigned int flags = 0);
+  void add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
 
   // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
   void add_button(const std::string& text, const std::function<void()>& callback);

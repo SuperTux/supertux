@@ -636,7 +636,7 @@ std::string
 PathHandleOption::to_string() const
 {
   return "("
-        + std::to_string(m_target.m_scalar_pos.x) + ", " 
+        + std::to_string(m_target.m_scalar_pos.x) + ", "
         + std::to_string(m_target.m_scalar_pos.y) + "), ("
         + std::to_string(m_target.m_pixel_offset.x) + ", "
         + std::to_string(m_target.m_pixel_offset.y) + ")";
@@ -735,5 +735,23 @@ void
 StringArrayOption::add_to_menu(Menu& menu) const
 {
   menu.add_string_array(get_text(), m_items);
+}
+
+ListOption::ListOption(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr) :
+  ObjectOption(text, key, 0),
+  m_items(items),
+  m_value_ptr(value_ptr)
+{}
+
+void
+ListOption::save(Writer& writer) const
+{
+  writer.write(get_key(), *m_value_ptr);
+}
+
+void
+ListOption::add_to_menu(Menu& menu) const
+{
+  menu.add_list(get_text(), m_items, m_value_ptr);
 }
 /* EOF */
