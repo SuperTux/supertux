@@ -279,6 +279,19 @@ MenuManager::pop_menu()
 }
 
 void
+MenuManager::pop_stack()
+{
+	if (m_menu_stack.empty())
+  {
+    log_warning << "trying to pop on an empty menu_stack" << std::endl;
+  }
+	else
+	{
+    m_menu_stack.pop_back();
+	}
+}
+
+void
 MenuManager::set_menu(std::unique_ptr<Menu> menu)
 {
   if (menu)

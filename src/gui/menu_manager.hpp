@@ -59,6 +59,7 @@ public:
   void push_menu(int id);
   void push_menu(std::unique_ptr<Menu> menu);
   void pop_menu();
+  void pop_stack();
   void clear_menu_stack();
 
   void on_window_resize();

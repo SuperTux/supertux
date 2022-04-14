@@ -23,6 +23,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/menu/addon_preview_menu.hpp"
 #include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
 
@@ -49,12 +50,12 @@ std::string addon_type_to_translated_string(Addon::Type type)
 
     case Addon::WORLD:
       return _("World");
-	  
-	case Addon::ADDON:
+
+    case Addon::ADDON:
       return _("Add-on");
 
     case Addon::LANGUAGEPACK:
-      return "";
+      return _("Language Pack");
 
     default:
       return _("Unknown");
@@ -181,7 +182,7 @@ AddonMenu::rebuild_menu()
             if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
             {
               std::string text = generate_menu_item_text(addon);
-              add_entry(MAKE_REPOSITORY_MENU_ID(idx), fmt::format(fmt::runtime(_("Install {} *NEW*")), text));
+              add_entry(MAKE_REPOSITORY_MENU_ID(idx), fmt::format(fmt::runtime(_("{} *NEW*")), text));
               have_new_stuff = true;
             }
           }
@@ -195,7 +196,7 @@ AddonMenu::rebuild_menu()
           if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
           {
             std::string text = generate_menu_item_text(addon);
-            add_entry(MAKE_REPOSITORY_MENU_ID(idx), fmt::format(fmt::runtime( _("Install {}")), text));
+            add_entry(MAKE_REPOSITORY_MENU_ID(idx), text);
             have_new_stuff = true;
           }
         }
@@ -246,7 +247,8 @@ AddonMenu::menu_action(MenuItem& item)
       if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
-        install_addon(addon);
+        const std::string addon_type = addon_type_to_translated_string(addon.get_type());
+        MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon, addon_type, generate_menu_item_text(addon), false));
       }
     }
   }
@@ -275,7 +277,9 @@ AddonMenu::check_online()
         if (m_auto_install_langpack)
         {
           const std::string& langpack_id = "language-pack";
-          install_addon(m_addon_manager.get_repository_addon(langpack_id));
+          const Addon& langpack_addon = m_addon_manager.get_repository_addon(langpack_id);
+          const std::string langpack_addon_type = addon_type_to_translated_string(langpack_addon.get_type());
+          MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(langpack_addon, langpack_addon_type, generate_menu_item_text(langpack_addon), true));
         }
         else
         {
@@ -299,45 +303,6 @@ AddonMenu::check_online()
   {
     log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
   }
-}
-
-void
-AddonMenu::install_addon(const Addon& addon)
-{
-  auto addon_id = addon.get_id();
-  TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
-  auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install_langpack);
-  dialog->set_title(fmt::format(fmt::runtime(_("Downloading {}")), generate_menu_item_text(addon)));
-  status->then([this, addon_id](bool success)
-  {
-    if (success)
-    {
-      try
-      {
-        m_addon_manager.enable_addon(addon_id);
-        if (m_auto_install_langpack)
-        {
-          MenuManager::instance().set_dialog({});
-          MenuManager::instance().clear_menu_stack();
-          return;
-        }
-      }
-      catch(const std::exception& err)
-      {
-        log_warning << "Enabling add-on failed: " << err.what() << std::endl;
-      }
-      refresh();
-    }
-    else
-    {
-      if (m_auto_install_langpack)
-      {
-        MenuManager::instance().set_dialog({});
-        MenuManager::instance().clear_menu_stack();
-      }
-    }
-  });
-  MenuManager::instance().set_dialog(std::move(dialog));
 }
 
 void

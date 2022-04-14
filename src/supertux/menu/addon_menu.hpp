@@ -47,7 +47,6 @@ public:
   void refresh() override;
   void menu_action(MenuItem& item) override;
   void check_online();
-  void install_addon(const Addon& addon);
   void toggle_addon(const Addon& addon);
 
 private:

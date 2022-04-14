@@ -47,6 +47,7 @@ private:
   int m_format;
 
   // additional fields provided for addons from an addon repository
+  std::string m_description;
   std::string m_url;
   std::string m_md5;
 
@@ -66,6 +67,7 @@ public:
   std::string get_title() const { return m_title; }
   std::string get_author() const { return m_author; }
   std::string get_license() const { return m_license; }
+  std::string get_description() const { return m_description; }
 
   std::string get_url() const { return m_url; }
   std::string get_md5() const { return m_md5; }

@@ -88,6 +88,7 @@ Addon::parse(const ReaderMapping& mapping)
     mapping.get("title", addon->m_title);
     mapping.get("author", addon->m_author);
     mapping.get("license", addon->m_license);
+    mapping.get("description", addon->m_description);
     mapping.get("url", addon->m_url);
     mapping.get("md5", addon->m_md5);
     mapping.get("format", addon->m_format);
@@ -134,6 +135,7 @@ Addon::Addon() :
   m_title(),
   m_author(),
   m_license(),
+  m_description(),
   m_format(0),
   m_url(),
   m_md5(),
