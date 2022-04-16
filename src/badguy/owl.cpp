@@ -39,7 +39,15 @@ Owl::Owl(const ReaderMapping& reader) :
   carried_obj_name(),
   carried_object(nullptr)
 {
-  reader.get("carry", carried_obj_name, "skydive");
+  if (reader.get("carry", carried_obj_name, "skydive"))
+  {
+    log_warning << "Owls no longer support the 'carry' property" << std::endl;
+
+    // Override the name, so that levels which have a different object as carry
+    // save this field as "skydive" rather than whatever object it used to be,
+    // to avoid sudden object changes if this feature gets fixed and re-enabled.
+    carried_obj_name = "skydive";
+  }
   set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
 }
 
@@ -224,9 +232,9 @@ Owl::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_text(_("Carry"), &carried_obj_name, "carry"); //, std::string("skydive"));
+  //result.add_text(_("Carry"), &carried_obj_name, "carry"); //, std::string("skydive"));
 
-  result.reorder({"carry", "direction", "sprite", "x", "y"});
+  result.reorder({/* "carry", */ "direction", "sprite", "x", "y"});
 
   return result;
 }
