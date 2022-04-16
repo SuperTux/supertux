@@ -2248,6 +2248,7 @@ Player::start_climbing(Climbable& climbable)
 
   m_climbing = &climbable;
   m_sprite->set_angle(0.0f);
+  m_boost = 0.f;
   m_physic.enable_gravity(false);
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
