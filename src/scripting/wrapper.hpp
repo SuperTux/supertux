@@ -40,6 +40,8 @@ class Gradient;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Gradient* object, bool setup_releasehook = false);
 class LevelTime;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::LevelTime* object, bool setup_releasehook = false);
+class LitObject;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::LitObject* object, bool setup_releasehook = false);
 class ParticleSystem;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::ParticleSystem* object, bool setup_releasehook = false);
 class Platform;
