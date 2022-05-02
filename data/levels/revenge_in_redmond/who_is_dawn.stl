@@ -12,9 +12,17 @@
     (background
       (color 0.75 0.75 0.75)
       (speed 0.5)
-      (image-top "/images/background/ice_cave/cave2.jpg")
-      (image "/images/background/ice_cave/cave2.jpg")
-      (image-bottom "/images/background/ice_cave/cave2.jpg")
+      (image-top "/images/background/retro/cave2.png")
+      (image "/images/background/retro/cave2.png")
+      (image-bottom "/images/background/retro/cave2.png")
+    )
+    (background
+      (color 1 1 1)
+      (speed 0.5)
+      (image-top "/images/background/retro/cave2_front.png")
+      (image "/images/background/retro/cave2_front.png")
+      (image-bottom "/images/background/retro/cave2_front.png")
+      (z-pos -200)
     )
     (bonusblock
       (sprite "/images/objects/bonus_block/retroblock.sprite")
