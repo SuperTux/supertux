@@ -424,7 +424,7 @@
     )
     (decal
       (z-pos -110)
-      (sprite "/images/decal/retro/title_old.png")
+      (sprite "/images/decal/retro/title_old.sprite")
       (x 10672)
       (y 16)
     )
