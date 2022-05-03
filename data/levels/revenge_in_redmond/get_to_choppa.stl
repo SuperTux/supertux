@@ -770,7 +770,7 @@
     )
     (decal
       (z-pos 10)
-      (sprite "/images/decal/retro/copter1.png")
+      (sprite "/images/decal/retro/copter.png")
       (x 4416)
       (y 1696)
     )
