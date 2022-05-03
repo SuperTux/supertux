@@ -437,7 +437,7 @@
       (y 480)
     )
     (decal
-      (sprite "/images/decal/retro/golden-herring.png")
+      (sprite "/images/decal/retro/golden_herring_frozen.png")
       (x 10368)
       (y 384)
     )
