@@ -37,20 +37,20 @@
   (action
     (name "waking-left")
     ; (fps 6.0)
-    (hitbox 10 28 32 32)
-    (images "laptop-falling-left.png"
-      "laptop-left-0.png"
-      "laptop-left-1.png"
-      "laptop-left-0.png"
-      "laptop-falling-left.png"
-      "laptop-left-0.png"
-      "laptop-left-1.png"
-      "laptop-left-0.png"
-      "laptop-falling-left.png"
-      "laptop-left-0.png"
-      "laptop-left-1.png"))
+    (hitbox 6 26 32 16)
+    (images "waking-0.png"
+      "waking-1.png"
+      "waking-2.png"
+      "waking-3.png"
+      "waking-4.png"
+      "waking-5.png"
+      "waking-6.png"
+      "waking-7.png"
+      "waking-8.png"
+      "waking-9.png"
+      "waking-10.png"))
 
   (action
     (name "waking-right")
-    (hitbox 10 28 32 32)
+    (hitbox 6 26 32 16)
     (mirror-action "waking-left")))
