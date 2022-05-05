@@ -57,6 +57,8 @@ private:
   Vector m_light_offset;
   std::string m_sprite_name;
   std::string m_light_sprite_name;
+  std::string m_sprite_action;
+  std::string m_light_sprite_action;
   SpritePtr m_sprite;
   SpritePtr m_light_sprite;
   int m_layer;
