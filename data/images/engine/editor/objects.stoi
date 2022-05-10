@@ -321,6 +321,9 @@
   (object
     (class "text-area")
     (icon "images/engine/editor/textarray.png"))
+  (object
+    (class "lit-object")
+    (icon "images/objects/lightflower/lightflower1-0.png"))
  )
 
  (objectgroup
