@@ -4,6 +4,8 @@
   (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (target-time 43)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -432,13 +434,13 @@
       (z-pos 10)
       (sprite "/images/decal/retro/penny_old.png")
       (x 11168)
-      (y 432)
+      (y 416)
     )
     (decal
       (z-pos 10)
       (sprite "/images/decal/retro/tux_old.png")
       (x 11040)
-      (y 432)
+      (y 416)
     )
     (firefly
       (x 5312)
@@ -537,16 +539,6 @@
     )
     (music
       (file "/music/retro/cave_old.music")
-    )
-    (path
-      (name "gen16112173702203621456160")
-      (path
-        (mode "oneshot")
-        (node
-          (x 9728)
-          (y 0)
-        )
-      )
     )
     (secretarea
       (width 704)
