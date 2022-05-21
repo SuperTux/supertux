@@ -241,7 +241,7 @@ ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const
                           const std::string& basedir,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {}, {".stl"}, basedir, flags);
+  add_file(text, value_ptr, key, {}, {".stl"}, basedir, true, flags);
 }
 
 void
