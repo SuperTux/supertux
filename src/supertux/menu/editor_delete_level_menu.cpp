@@ -36,6 +36,9 @@ EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset
 {
   add_label(_("Delete level"));
   add_hl();
+  if (levelset->get_num_levels() == 0) {
+    add_inactive(_("No levels available"));
+  }
   for (int i = 0; i < levelset->get_num_levels(); i++)
   {
     std::string filename = levelset->get_level_filename(i);
