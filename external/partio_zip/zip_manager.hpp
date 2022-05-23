@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 #ifndef __ZIP__
 #define __ZIP__
 
+#include <memory>
 #include <fstream>
 #include <iostream>
 #include <map>
