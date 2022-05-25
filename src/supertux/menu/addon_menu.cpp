@@ -136,6 +136,7 @@ AddonMenu::rebuild_menu()
   }
   else
   {
+    bool langpacks_installed = false;
     int idx = 0;
     for (const auto& addon_id : m_installed_addons)
     {
@@ -143,14 +144,17 @@ AddonMenu::rebuild_menu()
       m_addons_enabled[idx] = addon.is_enabled();
       if (addon_visible(addon))
       {
-        if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
+        const Addon::Type addon_type = addon.get_type();
+        if ((m_langpacks_only && addon_type == Addon::LANGUAGEPACK) || !m_langpacks_only)
         {
+          if (addon_type == Addon::LANGUAGEPACK) langpacks_installed = true;
           std::string text = generate_menu_item_text(addon);
           add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, &m_addons_enabled[idx]);
         }
       }
       idx += 1;
     }
+    if (!langpacks_installed && m_langpacks_only) add_inactive(_("No language packs installed"));
   }
 
   add_hl();
