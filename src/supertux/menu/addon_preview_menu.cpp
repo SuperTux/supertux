@@ -45,7 +45,7 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const std::string addon_t
   else
   {
     std::string desc_curr_line = "";
-    for (int i = 0; i <= desc.size(); i++)
+    for (size_t i = 0; i <= desc.size(); i++)
     {
       if (desc[i] != '\n' && i != desc.size())
       {
