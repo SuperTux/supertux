@@ -77,6 +77,7 @@ public:
 
   bool is_installed() const;
   bool is_enabled() const;
+  bool is_visible() const;
 
   void set_install_filename(const std::string& absolute_filename, const std::string& md5);
   void set_enabled(bool v);
@@ -84,6 +85,12 @@ public:
 private:
   Addon(const Addon&) = delete;
   Addon& operator=(const Addon&) = delete;
+};
+
+namespace addon_string_util {
+  Addon::Type addon_type_from_string(const std::string& type);
+  std::string addon_type_to_translated_string(Addon::Type type);
+  std::string generate_menu_item_text(const Addon& addon);
 };
 
 #endif

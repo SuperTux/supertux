@@ -26,15 +26,12 @@
 #include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
 
-AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const std::string addon_type, const std::string addon_string_data, const bool auto_install) :
+AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install) :
   m_addon(addon),
-  m_addon_type(addon_type),
-  m_addon_string_data(addon_string_data),
   m_auto_install(auto_install),
   m_addon_manager(*AddonManager::current())
 {
-    
-  add_label(addon_string_data);
+  add_label(addon_string_util::generate_menu_item_text(m_addon));
   add_hl();
   const std::string desc = m_addon.get_description();
   const std::string license = m_addon.get_license();
@@ -59,7 +56,7 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const std::string addon_t
     }
   }
   add_inactive("");
-  add_inactive(fmt::format(fmt::runtime(_("Type: {}")), m_addon_type));
+  add_inactive(fmt::format(fmt::runtime(_("Type: {}")), addon_string_util::addon_type_to_translated_string(m_addon.get_type())));
   if (license == "")
   {
     add_inactive(_("License: No license specified."));
@@ -91,7 +88,7 @@ AddonPreviewMenu::install_addon(const Addon& addon)
   auto addon_id = addon.get_id();
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
   auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install);
-  dialog->set_title(fmt::format(fmt::runtime(_("Downloading {}")), m_addon_string_data));
+  dialog->set_title(fmt::format(fmt::runtime(_("Downloading {}")), addon_string_util::generate_menu_item_text(m_addon)));
   status->then([this, addon_id](bool success)
   {
     if (success)
@@ -110,6 +107,7 @@ AddonPreviewMenu::install_addon(const Addon& addon)
       {
         log_warning << "Enabling add-on failed: " << err.what() << std::endl;
       }
+      MenuManager::instance().pop_stack();
       MenuManager::instance().pop_stack();
       MenuManager::instance().current_menu() -> refresh();
     }

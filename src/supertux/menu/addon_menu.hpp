@@ -26,32 +26,28 @@ class AddonMenu final : public Menu
 {
 private:
   enum {
-    MNID_CHECK_ONLINE,
+    MNID_BROWSE = 1,
     MNID_NOTHING_NEW,
     MNID_LANGPACK_MODE,
-    MNID_ADDON_LIST_START = 10
+    MNID_ADDON_LIST_START = 2
   };
 
 private:
   AddonManager& m_addon_manager;
   std::vector<std::string> m_installed_addons;
-  std::vector<std::string> m_repository_addons;
   std::unique_ptr<bool[]> m_addons_enabled;
-  bool m_auto_install_langpack;
-  bool m_langpacks_only;
+  const bool m_langpacks_only;
 
 public:
-  AddonMenu(bool auto_install_langpack = false, bool language_packs_only = false);
+  AddonMenu(const bool language_packs_only = false);
   ~AddonMenu() override;
 
   void refresh() override;
   void menu_action(MenuItem& item) override;
-  void check_online();
   void toggle_addon(const Addon& addon);
 
 private:
   void rebuild_menu();
-  bool addon_visible(const Addon& addon) const;
 
 private:
   AddonMenu(const AddonMenu&) = delete;
