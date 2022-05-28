@@ -31,10 +31,19 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install) 
   m_auto_install(auto_install),
   m_addon_manager(*AddonManager::current())
 {
-  add_label(addon_string_util::generate_menu_item_text(m_addon));
-  add_hl();
+  const std::string type = addon_string_util::addon_type_to_translated_string(m_addon.get_type());
   const std::string desc = m_addon.get_description();
   const std::string license = m_addon.get_license();
+
+  add_label(fmt::format(fmt::runtime(_("{} \"{}\"")), type, m_addon.get_title()));
+  add_hl();
+
+  add_inactive(fmt::format(fmt::runtime(_("Author: {}")), m_addon.get_author()));
+  add_inactive(fmt::format(fmt::runtime(_("Type: {}")), type));
+  add_inactive(fmt::format(fmt::runtime(_("License: {}")), license == "" ? "No license available." : license));
+  add_inactive("");
+
+  add_inactive("Description:");
   if (desc == "")
   {
     add_inactive(_("No description available."));
@@ -50,21 +59,12 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install) 
       }
       else
       {
-        add_inactive(_(desc_curr_line));
+        add_inactive(_(desc_curr_line), true);
         desc_curr_line = "";
       }
     }
   }
-  add_inactive("");
-  add_inactive(fmt::format(fmt::runtime(_("Type: {}")), addon_string_util::addon_type_to_translated_string(m_addon.get_type())));
-  if (license == "")
-  {
-    add_inactive(_("License: No license specified."));
-  }
-  else
-  {
-    add_inactive(fmt::format(fmt::runtime(_("License: {}")), license));
-  }
+
   add_hl();
   add_entry(1, _("Download"));
   add_back(_("Back"));

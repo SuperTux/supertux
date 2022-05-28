@@ -235,9 +235,9 @@ Menu::add_entry(const std::string& text, const std::function<void()>& callback)
 }
 
 ItemInactive&
-Menu::add_inactive(const std::string& text)
+Menu::add_inactive(const std::string& text, const bool white_color)
 {
-  auto item = std::make_unique<ItemInactive>(text);
+  auto item = std::make_unique<ItemInactive>(text, white_color);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

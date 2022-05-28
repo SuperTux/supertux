@@ -23,8 +23,11 @@ class Color;
 
 class ItemInactive final : public MenuItem
 {
+private:
+  const bool m_white_color;
+
 public:
-  ItemInactive(const std::string& text_);
+  ItemInactive(const std::string& text_, const bool white_color);
 
   /** Returns true when the menu item has no action and therefore can be skipped.
       Useful for labels and horizontal lines.*/
