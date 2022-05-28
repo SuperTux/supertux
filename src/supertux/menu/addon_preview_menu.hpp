@@ -24,11 +24,11 @@ class AddonManager;
 
 class AddonPreviewMenu final : public Menu
 {
+
 private:
   const Addon& m_addon;
   const bool m_auto_install;
   AddonManager& m_addon_manager;
-
 
 public:
   AddonPreviewMenu(const Addon& addon, const bool auto_install);

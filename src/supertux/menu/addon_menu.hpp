@@ -29,7 +29,7 @@ private:
     MNID_BROWSE = 1,
     MNID_NOTHING_NEW,
     MNID_LANGPACK_MODE,
-    MNID_ADDON_LIST_START = 2
+    MNID_ADDON_LIST_START = 3
   };
 
 private:

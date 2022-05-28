@@ -95,18 +95,18 @@ AddonMenu::rebuild_menu()
 
   add_hl();
   add_entry(MNID_BROWSE, m_langpacks_only ? _("Browse language packs") : _("Browse Add-ons"));
-	add_hl();
-	add_back(_("Back"));
+  add_hl();
+  add_back(_("Back"));
 }
 
 void
 AddonMenu::menu_action(MenuItem& item)
 {
-	int index = item.get_id();
+  int index = item.get_id();
   if (index == MNID_BROWSE) {
     MenuManager::instance().push_menu(std::make_unique<AddonBrowseMenu>(m_langpacks_only, false));
   }
-  else if (MNID_ADDON_LIST_START <= index)
+  else if (IS_INSTALLED_MENU_ID(index))
   {
     int idx = UNPACK_INSTALLED_MENU_ID(index);
     if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))

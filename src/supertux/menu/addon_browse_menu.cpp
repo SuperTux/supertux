@@ -130,21 +130,21 @@ AddonBrowseMenu::rebuild_menu()
 
   if (addons_count > 0)
   {
-    last_browse_page = std::ceil((double) m_browse_page / addons_count);
+    last_browse_page = static_cast<int>(std::ceil(static_cast<double>(addons_count) / static_cast<double>(m_max_addons_on_page)));
 
     add_inactive(fmt::format(fmt::runtime(_("Page {}/{}")), m_browse_page, last_browse_page));
     add_hl();
   }
 
-  for (const auto& idx : new_addons_to_list)
+  for (const auto& index : new_addons_to_list)
   {
-    std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[idx]));
-    add_entry(MAKE_REPOSITORY_MENU_ID(idx), fmt::format(fmt::runtime(_("{} *NEW*")), text));
+    std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[index]));
+    add_entry(MAKE_REPOSITORY_MENU_ID(index), fmt::format(fmt::runtime(_("{} *NEW*")), text));
   }
-  for (const auto& idx : addons_to_list)
+  for (const auto& index : addons_to_list)
   {
-    std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[idx]));
-    add_entry(MAKE_REPOSITORY_MENU_ID(idx), text);
+    std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[index]));
+    add_entry(MAKE_REPOSITORY_MENU_ID(index), text);
   }
 
   if (addons_count <= 0 && m_addon_manager.has_been_updated())
