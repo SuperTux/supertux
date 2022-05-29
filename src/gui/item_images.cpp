@@ -41,7 +41,9 @@ ItemImages::ItemImages(const std::vector<std::string>& image_paths, int max_imag
   m_gallery_mode(image_paths.size() > 1),
   m_selected_image(0),
   m_max_image_width(max_image_width),
-  m_max_image_height(max_image_height)
+  m_max_image_height(max_image_height),
+  m_item_width(0),
+  m_item_height(0)
 {
   int max_width = 0;
   int max_height = 0;
@@ -65,7 +67,7 @@ ItemImages::draw(DrawingContext& drawing_context, const Vector& pos, int menu_wi
   SurfacePtr surface = m_images[m_selected_image];
   if (m_max_image_width > 0 && m_max_image_height > 0 && (surface->get_width() > m_max_image_width || surface->get_height() > m_max_image_height))
     drawing_context.color().draw_surface_scaled(surface, Rectf(pos + Vector((menu_width - m_max_image_width)/2 - 2, -m_max_image_height/2),
-                                                               Sizef(m_max_image_width, m_max_image_height)), LAYER_GUI);
+                                                               Sizef(static_cast<float>(m_max_image_width), static_cast<float>(m_max_image_height))), LAYER_GUI);
   else
     drawing_context.color().draw_surface(surface, pos + Vector((menu_width - surface->get_width())/2 - 2, -surface->get_height()/2), LAYER_GUI);
   if (m_gallery_mode)
@@ -85,11 +87,13 @@ ItemImages::process_action(const MenuAction& action)
   {
   case MenuAction::LEFT:
     m_selected_image--;
-    m_selected_image = (m_selected_image < 0 ? m_images.size() - 1 : m_selected_image);
+    m_selected_image = (m_selected_image < 0 ? static_cast<int>(m_images.size()) - 1 : m_selected_image);
     break;
   case MenuAction::RIGHT:
     m_selected_image++;
-    m_selected_image = (m_selected_image >= m_images.size() ? 0 : m_selected_image);
+    m_selected_image = (m_selected_image >= static_cast<int>(m_images.size()) ? 0 : m_selected_image);
+    break;
+  default:
     break;
   }
 }
