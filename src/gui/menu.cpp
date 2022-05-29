@@ -38,6 +38,7 @@
 #include "gui/item_textfield.hpp"
 #include "gui/item_toggle.hpp"
 #include "gui/item_string_array.hpp"
+#include "gui/item_images.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -97,6 +98,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
   }
 
   calculate_width();
+  calculate_height();
 
   return item;
 }
@@ -116,6 +118,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
   }
 
   calculate_width();
+  calculate_height();
 
   return item;
 }
@@ -353,6 +356,24 @@ Menu::add_string_array(const std::string& text, std::vector<std::string>& items,
   return *item_ptr;
 }
 
+ItemImages&
+Menu::add_images(const std::string& image_path, int max_image_width, int max_image_height, int id)
+{
+  auto item = std::make_unique<ItemImages>(image_path, max_image_width, max_image_height, id);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
+ItemImages&
+Menu::add_images(const std::vector<std::string>& image_paths, int max_image_width, int max_image_height, int id)
+{
+  auto item = std::make_unique<ItemImages>(image_paths, max_image_width, max_image_height, id);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
 void
 Menu::clear()
 {
@@ -547,28 +568,26 @@ Menu::process_action(const MenuAction& menuaction)
 }
 
 void
-Menu::draw_item(DrawingContext& context, int index)
+Menu::draw_item(DrawingContext& context, int index, float y_pos)
 {
-  const float menu_height = get_height();
   const float menu_width = get_width();
 
   MenuItem* pitem = m_items[index].get();
 
   const float x_pos = m_pos.x - menu_width / 2.0f;
-  const float y_pos = m_pos.y + 24.0f * static_cast<float>(index) - menu_height / 2.0f + 12.0f;
 
   pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width), m_active_item == index);
 
   if (m_active_item == index)
   {
     float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
-                                           Vector(m_pos.x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
+    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - pitem->get_height()/2 - 2),
+                                           Vector(m_pos.x + menu_width/2 - 10 + 2, y_pos + pitem->get_height()/2 + 2)),
                                      Color(1.0f, 1.0f, 1.0f, blink),
                                      std::max(0.f, g_config->menuroundness - 2.f),
                                      LAYER_GUI-10);
-    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10, y_pos - 12),
-                                           Vector(m_pos.x + menu_width/2 - 10, y_pos + 12)),
+    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10, y_pos - pitem->get_height()/2),
+                                           Vector(m_pos.x + menu_width/2 - 10, y_pos + pitem->get_height()/2)),
                                      Color(1.0f, 1.0f, 1.0f, 0.5f),
                                      std::max(0.f, g_config->menuroundness - 4.f),
                                      LAYER_GUI-10);
@@ -590,6 +609,17 @@ Menu::calculate_width()
   m_menu_width = max_width;
 }
 
+void
+Menu::calculate_height()
+{
+  float height = 0;
+  for (unsigned i = 0; i < m_items.size(); i++)
+  {
+    height += static_cast<float>(m_items[i]->get_height());
+  }
+  m_menu_height = height;
+}
+
 float
 Menu::get_width() const
 {
@@ -599,7 +629,7 @@ Menu::get_width() const
 float
 Menu::get_height() const
 {
-  return static_cast<float>(m_items.size() * 24);
+  return m_menu_height;
 }
 
 void
@@ -612,9 +642,12 @@ Menu::on_window_resize()
 void
 Menu::draw(DrawingContext& context)
 {
+  const float menu_height = get_height();
+  float y_pos = m_pos.y - menu_height / 2.0f;
   for (unsigned int i = 0; i < m_items.size(); ++i)
   {
-    draw_item(context, i);
+    draw_item(context, i, y_pos + m_items[i]->get_height()/2);
+    y_pos += m_items[i]->get_height();
   }
 
   if (!m_items[m_active_item]->get_help().empty())
@@ -719,8 +752,19 @@ Menu::event(const SDL_Event& ev)
          y > m_pos.y - get_height()/2 &&
          y < m_pos.y + get_height()/2)
       {
-        int new_active_item
-          = static_cast<int> ((y - (m_pos.y - get_height()/2)) / 24);
+        int new_active_item = 0;
+        // This is probably not the most efficient way of finding active item
+        // but I can't think of something better right now ~ mrkubax10
+        float current_item_y = m_pos.y - get_height()/2;
+        for (unsigned i = 0; i < m_items.size(); i++)
+        {
+          if (y >= current_item_y && y <= current_item_y + m_items[i]->get_height())
+          {
+            new_active_item = i;
+            break;
+          }
+          current_item_y += m_items[i]->get_height();
+        }
 
         /* only change the mouse focus to a selectable item */
         if (!m_items[new_active_item]->skippable() &&
