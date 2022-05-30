@@ -72,9 +72,11 @@ ItemImages::draw(DrawingContext& drawing_context, const Vector& pos, int menu_wi
     drawing_context.color().draw_surface(surface, pos + Vector((menu_width - surface->get_width())/2 - 2, -surface->get_height()/2), LAYER_GUI);
   if (m_gallery_mode)
   {
+    float left_arrow_width = Resources::big_font->get_text_width("<");
+    float right_arrow_width  = Resources::big_font->get_text_width(">");
     float arrow_height = Resources::big_font->get_text_height("<");
-    drawing_context.color().draw_text(Resources::big_font, "<", pos + Vector(0, -arrow_height/2), FontAlignment::ALIGN_LEFT, LAYER_GUI);
-    drawing_context.color().draw_text(Resources::big_font, ">", pos + Vector(menu_width, -arrow_height/2), FontAlignment::ALIGN_RIGHT, LAYER_GUI);
+    drawing_context.color().draw_text(Resources::big_font, "<", pos + Vector(left_arrow_width/2 + 2, -arrow_height/2), FontAlignment::ALIGN_LEFT, LAYER_GUI);
+    drawing_context.color().draw_text(Resources::big_font, ">", pos + Vector(static_cast<float>(menu_width) - right_arrow_width*1.5f, -arrow_height/2), FontAlignment::ALIGN_LEFT, LAYER_GUI);
   }
 }
 
