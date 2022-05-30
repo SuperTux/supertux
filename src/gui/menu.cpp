@@ -63,6 +63,7 @@ Menu::Menu() :
   m_mn_input_char('\0'),
   m_menu_repeat_time(),
   m_menu_width(),
+  m_menu_height(),
   m_items(),
   m_arrange_left(0),
   m_active_item(-1)
@@ -581,13 +582,13 @@ Menu::draw_item(DrawingContext& context, int index, float y_pos)
   if (m_active_item == index)
   {
     float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - pitem->get_height()/2 - 2),
-                                           Vector(m_pos.x + menu_width/2 - 10 + 2, y_pos + pitem->get_height()/2 + 2)),
+    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - static_cast<float>(pitem->get_height())/2 - 2),
+                                           Vector(m_pos.x + menu_width/2 - 10 + 2, y_pos + static_cast<float>(pitem->get_height())/2 + 2)),
                                      Color(1.0f, 1.0f, 1.0f, blink),
                                      std::max(0.f, g_config->menuroundness - 2.f),
                                      LAYER_GUI-10);
-    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10, y_pos - pitem->get_height()/2),
-                                           Vector(m_pos.x + menu_width/2 - 10, y_pos + pitem->get_height()/2)),
+    context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10, y_pos - static_cast<float>(pitem->get_height())/2),
+                                           Vector(m_pos.x + menu_width/2 - 10, y_pos + static_cast<float>(pitem->get_height())/2)),
                                      Color(1.0f, 1.0f, 1.0f, 0.5f),
                                      std::max(0.f, g_config->menuroundness - 4.f),
                                      LAYER_GUI-10);
@@ -646,8 +647,8 @@ Menu::draw(DrawingContext& context)
   float y_pos = m_pos.y - menu_height / 2.0f;
   for (unsigned int i = 0; i < m_items.size(); ++i)
   {
-    draw_item(context, i, y_pos + m_items[i]->get_height()/2);
-    y_pos += m_items[i]->get_height();
+    draw_item(context, i, y_pos + static_cast<float>(m_items[i]->get_height())/2);
+    y_pos += static_cast<float>(m_items[i]->get_height());
   }
 
   if (!m_items[m_active_item]->get_help().empty())
@@ -755,15 +756,15 @@ Menu::event(const SDL_Event& ev)
         int new_active_item = 0;
         // This is probably not the most efficient way of finding active item
         // but I can't think of something better right now ~ mrkubax10
-        float current_item_y = m_pos.y - get_height()/2;
+        float item_y = m_pos.y - get_height()/2;
         for (unsigned i = 0; i < m_items.size(); i++)
         {
-          if (y >= current_item_y && y <= current_item_y + m_items[i]->get_height())
+          if (y >= item_y && y <= item_y + static_cast<float>(m_items[i]->get_height()))
           {
             new_active_item = i;
             break;
           }
-          current_item_y += m_items[i]->get_height();
+          item_y += static_cast<float>(m_items[i]->get_height());
         }
 
         /* only change the mouse focus to a selectable item */
