@@ -319,7 +319,7 @@ Player::adjust_height(float new_height, float bottom_offset)
   if (new_height > m_col.m_bbox.get_height()) {
     //Rectf additional_space = bbox2;
     //additional_space.set_height(new_height - m_col.m_bbox.get_height());
-    if (!Sector::get().is_free_of_statics(bbox2, this, true) || !Sector::get().is_free_of_movingstatics(bbox2, this))
+    if (!Sector::get().is_free_of_statics(bbox2, this, true))
       return false;
   }
 
@@ -993,6 +993,13 @@ Player::do_duck() {
 void
 Player::do_standup(bool force_standup) {
   if (!m_duck || !is_big() || m_backflipping || m_stone)
+    return;
+
+  Rectf new_bbox = m_col.m_bbox;
+  float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
+  new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
+  new_bbox.set_height(new_height);
+  if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
     return;
 
   if (m_swimming ? adjust_height(TUX_WIDTH) : adjust_height(BIG_TUX_HEIGHT)) {
