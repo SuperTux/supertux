@@ -2,28 +2,32 @@
   (action
     (name "normal")
     (images 
-      "meltbox.png"
+      "meltbox-0.png"
     )
   )
   (action
     (name "burning")
+	(fps 16)
+	(loops 1)
     (images 
-      "melt_01.png"
-			"melt_02.png"
-			"melt_03.png"
-			"melt_04.png"
-			"melt_05.png"
+      "meltbox-1.png"
+	  "meltbox-2.png"
+	  "meltbox-3.png"
+	  "meltbox-4.png"
+	  "meltbox-5.png"
     )
   )
   (action
     (name "disintegrating")
+	(fps 16)
+	(loops 1)
     (images 
-      "melt_06.png"
-      "melt_07.png"
-      "melt_08.png"
-      "melt_09.png"
-      "melt_10.png"
-      "melt_11.png"
+      "meltbox-6.png"
+      "meltbox-7.png"
+      "meltbox-8.png"
+      "meltbox-9.png"
+      "meltbox-10.png"
+      "meltbox-11.png"
     )
   )
 )

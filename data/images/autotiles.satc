@@ -1195,6 +1195,27 @@
     )
   )
   (autotileset
+    (name "crystal_solid")
+    (default 2451)
+    (autotile
+      (id 2451)
+	  (alt-id
+        (id 2452)
+        (weight 0.2)
+      )
+	  (alt-id
+        (id 2465)
+        (weight 0.2)
+      )
+	  (alt-id
+        (id 2466)
+        (weight 0.2)
+      )
+      (solid #t)
+      (mask "********")
+    )
+  )
+  (autotileset
     (name "forest_unisolid")
     (default 1024)
     (autotile
@@ -4708,6 +4729,90 @@
       (id 4723)
       (solid #t)
       (mask "*0*1001*")
+    )
+  )
+  (autotileset
+    (name "rope")
+    (default 3459)
+    (autotile
+      (id 3452)
+	  (solid #t)
+      (mask "*0*01*1*")
+    )
+    (autotile
+      (id 3453)
+	  (solid #t)
+      (mask "*0*10*1*")
+    )
+    (autotile
+      (id 3064)
+	  (solid #t)
+      (mask "*1*01*1*")
+    )
+    (autotile
+      (id 3065)
+	  (solid #t)
+      (mask "*0*11*1*")
+    )
+    (autotile
+      (id 3460)
+	  (solid #t)
+      (mask "*1*01*0*")
+    )
+    (autotile
+      (id 3461)
+	  (solid #t)
+      (mask "*1*10*0*")
+    )
+    (autotile
+      (id 3067)
+	  (solid #t)
+      (mask "*1*11*0*")
+    )
+    (autotile
+      (id 3066)
+	  (solid #t)
+      (mask "*1*10*1*")
+    )
+    (autotile
+      (id 3450)
+	  (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 3458)
+	  (solid #t)
+      (mask "*0*00*1*")
+    )
+    (autotile
+      (id 3062)
+	  (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 3060)
+	  (solid #t)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 3061)
+	  (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 3451)
+	  (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 3063)
+	  (solid #t)
+      (mask "*1*11*1*")
+    )
+    (autotile
+      (id 3459)
+	  (solid #t)
+      (mask "*0*00*0*")
     )
   )
 )

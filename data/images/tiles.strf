@@ -19,10 +19,10 @@
     (source "autotiles.satc")
   )
  
-   ;; next-id: 4724
+   ;; next-id: 4750
   
-  ;; free/skipped ids (please use before any other): 63, 126, 131, 134, 135, 160, 227, 1357, 1539, 2153, 2459
-  ;; Tile ids: 70 - 74, 217 - 240
+  ;; free/skipped ids (please use before any other): 2469, 2472, 2583, 2586
+  ;; Tile ids: 275 - 294, 483 - 490, 3454 - 3457, 4225(4241) - 4292 (!reserved for crystal cave!)
  
   (tilegroup
     (name (_ "Snow"))
@@ -226,16 +226,6 @@
       4141 4142 4143 4144
       4145 4146 4147 4148
       4149 4150 4151 4152
-      
-      149  150  151  245
-      152  153  154  244
-      155  156  157  0
-      243  242  255  254
-      158  159  170  171
-      161  162  163  257
-      164  165  166  256
-      167  168  169  1343
-      0    0    0    1342
     )
   )
   
@@ -316,81 +306,65 @@
   (tilegroup
    (name (_ "Crystal"))
    (tiles
-	  2407 2408 2411 2412
-      2421 2422 2425 2426
-      2435 2436 2439 2440
-      2449 2450 2453 2454
-      2463 2464 2467 2468
-      2477 2478 2481 2482
-      2491 2492 2495 2496
-      2505 2506 2509 2510
+	  2437 2409 2410 2442
+	  2438 2423 2424 2443
+	  2449 2451 2452 2454
+	  2463 2465 2466 2468
+	  2445 2493 2494 2450
+	  2446 2507 2508 2453
 	  
-	  2409 2410 2417 2418
-	  2423 2424 2431 2432
-	  2437 2438 2445 2446
-	  2451 2452 2419 2420
-	  2465 2466 2433 2434
-	  2479 2480 2447 2448
-	  2493 2494 2461 2462
-	  2507 2508    0    0
-	  
-	  2413 2414 2415 2416
-	  2427 2428 2429 2430
-	  2441 2442 2443 2444
-	  2455 2456 2457 2458
-	  2469    0    0 2472
-	  2483 2484 2485 2486
-	  2497 2498 2499 2500
-	  2511 2512 2513 2514
-	  
-	  2519 2520 2521 2522
-	  2535 2536 2537 2538
-	  2551 2552 2553 2554
-	  2567 2568 2569 2570
-	  0 2584 2585    0
 	  2473 2474 2475 2476
 	  2487 2488 2489 2490
-	  2501 2502 2503 2504
-	  2583    0    0 2586
 	  2599 2600 2601 2602
 	  2615 2616 2617 2618
-	  0 2632 2633    0
+	  0    2632 2633 0
+	  2419 2420 2417 2418
+	  2433 2434 2431 2432
+	  2447 2448 2535 2538
+	  2536 2537 2551 2554
+	  2552 2553 2567 2570
+	  2568 2569 2486 2483
+	  2584 2585 2444 2441
 	  
-      2647 2648 2649 2650
-      2651 2652 2653 2654
-      2655 2656 2657 2658
-      2659 2660 2661 2662
-
-      2663 2664 2665 2675
-      2666 2667 2668 2676
-      2669 2670 2671 2677
-      2672 2673 2674 2678
-      3531 3532    0    0
-      3536 3537    0    0
-      3533 3534 3535    0
-      3538 3539 3540    0
-
-      4225 4226 4227 4259
-      4233 4234 4235 4267
-      4243 4244 4245 4274
-      4251 4252 4253 4279
-      4230 4231 4232 4287
-      4240 4241 4242 0
-      4248 4249 4250 0
-      4256 4257 4258 0
-      4264 4265 4266 0
-      4228 0    0    4229
-      4236 4237 4238 4239
-      4246 4260 4261 4247
-      0    4268 4269 0
-      4254 4275 4276 4255
-      4262 4280 4281 4263
-      4270 4271 4272 4273
-      0    4277 4278 0
-      4282 4283 4284 4285
-      4288 4289 4290 4291
-      4286 0    0    0
-      4292 0    0    0
+	  2407 2408 2411 2412
+	  2421 2422 2425 2426
+	  2435 2436 2439 2440
+	  2477 2478 2481 2482
+	  2491 2492 2495 2496
+	  2505 2506 2509 2510
+	  2413 2414 2415 2416
+	  2427 2428 2429 2430
+	  2497 2498 2499 2500
+	  2511 2512 2513 2514
+	  2455 2456 2461 2462
+	  2457 2458 2464 2467
+	  
+	  2479 2480 2519 2520
+	  2501 2502 2521 2522
+	  2484 2485 4231 4232
+	  2503 2504 4233 4234
+	  4225 4226 4235 4236
+	  4227 4228 4237 4238
+	  4229 4230 4239 4240
+	  
+      2647 2648 2649 2665
+	  2650 2651 2652 2666
+	  2653 2654 2655 2663
+	  2656 2657 2658 2664
+	  2659 2660 0    0
+	  2661 2662 0    0
+	  
+	  0    2667 0    0
+	  2668 2669 2670 2671
+	  2672 2673 2674 2675
+	  2676 2677 2678 3531
+	  3532 3533 3534 0
+	  3535 3536 3537 0
+	  4724 4725 4726 0
+	  4727 4728 4729 0
+	  4730 4731 0    0
+	  3538 3539 0    0
+	  0    3540 0    0
     )
    )
 
@@ -919,7 +893,7 @@
 	  102  140  3161 3162
 	  104  105  3160  112
 	  3037 2943 2944 2945
-	  2946 1312 2153 4434
+	  2946 1312 4434 0
      
       57   58   2841 2842
       59   60   2843 2844
@@ -934,12 +908,7 @@
       2869 2870 2871 2872
 
       2905 2906 2907 2908
-     
-      1551 1540 1541 1545
-      1549 1543 1544 1542
-      0    1547 1548 1546
-      0    0    0    1550
-
+	  
       2085 2086 2873 2874
       2087 2088 2875 2876
       2089 2090 2877 2878
@@ -952,15 +921,41 @@
       2897 2898 2899 2900
       2901 2902 2903 2904
 	  
-	 3915 3916 3917 3918
-     3919 3920 3921 3922
-	 3110 3111 3112 3113
-	 4005 4006 4007 4008
-	 3433 3434 4117 4118
-	 2166 2170 0    0
-     2167 2171 0    0
-	 2168 2172 0    0
-	 2169 2173 0    0
+	  1540 1541 1542 0
+	  1543 1544 1545 0
+	  1546 1547 1548 0
+	  1421 1700 2153 2459
+	  1422 1701 1711 1712
+	  0    0    1713 1714
+	  1705 1706 1707 0
+	  1708 1709 1710 0
+	  1549 1550 1551 1357
+	  1702 1703 1704 1539
+	  1715 1716 3448 3449
+	  3446 3447 1342 1343
+	  
+	  217 218 219 0
+	  220 221 222 0
+	  223 224 225 0
+	  226 227 230 231
+	  228 229 63  81
+	  0   0   76  126
+	  70  71  72  0
+	  73  74  75  0
+	  232 233 234 235
+	  236 237 238 239
+	  173 174 134 135
+	  200 201 160 240
+	  
+	  3915 3916 3917 3918
+	  3919 3920 3921 3922
+	  3110 3111 3112 3113
+	  4005 4006 4007 4008
+	  3433 3434 4117 4118
+	  2166 2170 0    0
+	  2167 2171 0    0
+	  2168 2172 0    0
+	  2169 2173 0    0
     )
   )
   
@@ -1006,8 +1001,6 @@
       3027 3028 3029 3030
       3031 3032 3033 3034
       3035 3036 0    0
-      483  484  485  486
-      487  488  489  490
     )
   )
 
@@ -1216,18 +1209,20 @@
   (tilegroup
     (name (_ "Miscellaneous"))
     (tiles
-      130  129  127  81
+      130  129  127  0
+	  133  132  131  0
       3285 3286 2047 3927
       3287 3288 2048 3928
       3289 3290 2049 3929
+	  
       1988 1989 3060 3064
       1990 1991 3061 3065
       1992 1993 3062 3066
       1994 1995 3063 3067
-      3438 3439 0    0
-      3440 3441 0    0
-      3442 3443 0    0
-      3444 3445 0    0
+      3438 3439 3450 3451
+      3440 3441 3458 3459
+      3442 3443 3452 3453
+      3444 3445 3460 3461
       
       2203 2204 2205 0
       2206 2207 2208 0
@@ -1249,13 +1244,17 @@
       4161 4162 4163 4164
 	  4103 4165 4166 4167
 	  4168 4169 4181 4182
-	  
 	  4170 4171 4172 4190
       4173 4175 4185 4191
       4174 4176 4186 4192
       4177 4178 4187 4193
       4179 4183 4188 4194
 	  4180 4184 4189 0
+	  4738 4739 4740 4741
+	  4742 4743 4744 4745
+	  4746 4747 4748 4749
+	  4732 4733 4734 4735
+	  4736 4737
 	  
       93   94   95   96
       97   98   99   100
@@ -1683,6 +1682,45 @@
     )
     (images "tiles/blocks/bigblock.png")
   )
+  (tiles
+    (width 9)
+    (height 5)
+    (ids
+      217 218 219 226 227 232 233 234 235
+	  220 221 222 228 229 236 237 238 239
+	  223 224 225 230 231 0   0   0   0
+	  70  71  72  63  81  173 174 134 135
+	  73  74  75  76  126 200 201 160 240
+    )
+    (attributes
+      1 1 1 1 1 0 0 0 0
+	  1 1 1 1 1 0 0 0 0
+	  1 1 1 1 1 0 0 0 0
+	  0 0 0 1 1 1 1 1 1
+	  0 0 0 1 1 1 1 0 0
+    )
+    (images "tiles/blocks/bridge_brown.png")
+  )
+  (tiles
+    (width 9)
+    (height 5)
+    (ids
+      1540 1541 1542 1421 1700 1549 1550 1551 1357
+	  1543 1544 1545 1422 1701 1702 1703 1704 1539
+	  1546 1547 1548 2153 2459 0    0    0    0
+	  1705 1706 1707 1711 1712 1715 1716 3448 3449
+	  1708 1709 1710 1713 1714 3446 3447 1342 1343
+    )
+    (attributes
+      1 1 1 1 1 0 0 0 0
+	  1 1 1 1 1 0 0 0 0
+	  1 1 1 1 1 0 0 0 0
+	  0 0 0 1 1 1 1 1 1
+	  0 0 0 1 1 1 1 0 0
+    )
+    (images "tiles/blocks/bridge_ice.png")
+  )
+
   (tile
     (id 61)
     (images
@@ -1711,23 +1749,6 @@
       1 1 1 1 0 0
     )
     (images "tiles/castle/grey_brick.png")
-  )
-  (tile
-    (id 75)
-    (images
-      "tiles/water/water.png"
-    )
-    (water #t)
-  )
-  (tile
-    (id 76)
-    (images
-      "tiles/water/waves-0.png"
-      "tiles/water/waves-1.png"
-      "tiles/water/waves-2.png"
-    )
-    (water #t)
-    (fps 10)
   )
   (tile
     (id 77)
@@ -1766,24 +1787,16 @@
     (object-data "(breakable #t)")
   )
   (tiles
-    (width 1)
+    (width 6)
     (height 5)
     (ids
-      80
-      1349
-      79
-      1348
-      1347
+      80   1717 1718 1719 1720 1721
+      1349 2001 2002 2149 2150 0
+      79   2003 2004 2151 2152 0
+      1348 1722 0    0    0    0
+      1347 0    0    0    0    0
     )
-    (images "tiles/pole/vert.png")
-  )
-  (tile
-    (id 81)
-    (images
-      "tiles/doodads/flag-0.png"
-      "tiles/doodads/flag-1.png"
-    )
-    (fps 10)
+    (images "tiles/pole/pole.png")
   )
   (tile
     ; dupe of tile 26, this one will be kept.
@@ -2013,19 +2026,58 @@
     (fps 10)
   )
   (tile
+    (id 131)
+    (images
+      "tiles/goal/goal3-1_secret.png"
+      "tiles/goal/goal3-2_secret.png"
+      "tiles/goal/goal3-2_secret.png"
+      "tiles/goal/goal3-3_secret.png"
+      "tiles/goal/goal3-4_secret.png"
+      "tiles/goal/goal3-5_secret.png"
+      "tiles/goal/goal3-4_secret.png"
+      "tiles/goal/goal3-3_secret.png"
+      "tiles/goal/goal3-2_secret.png"
+      "tiles/goal/goal3-2_secret.png"
+      "tiles/goal/goal3-1_secret.png"
+      "tiles/goal/goal3-1_secret.png"
+    )
+    (fps 10)
+  )
+  (tile
     (id 132)
-    (object-name "sequencetrigger")
-    (object-data "(width 32) (height 32) (sequence \"stoptux\")")
-    (editor-images "tiles/auxiliary/finalgoal.png")
-    (data 1)
-	(deprecated #t)
+    (images
+      "tiles/goal/goal2-1_secret.png"
+      "tiles/goal/goal2-2_secret.png"
+      "tiles/goal/goal2-2_secret.png"
+      "tiles/goal/goal2-3_secret.png"
+      "tiles/goal/goal2-4_secret.png"
+      "tiles/goal/goal2-5_secret.png"
+      "tiles/goal/goal2-4_secret.png"
+      "tiles/goal/goal2-3_secret.png"
+      "tiles/goal/goal2-2_secret.png"
+      "tiles/goal/goal2-2_secret.png"
+      "tiles/goal/goal2-1_secret.png"
+      "tiles/goal/goal2-1_secret.png"
+    )
+    (fps 10)
   )
   (tile
     (id 133)
-    (object-name "sequencetrigger")
-    (object-data "(width 32) (height 32) (sequence \"endsequence\")")
-    (editor-images "tiles/auxiliary/endseq.png")
-	(deprecated #t)
+    (images
+      "tiles/goal/goal1-1_secret.png"
+      "tiles/goal/goal1-2_secret.png"
+      "tiles/goal/goal1-2_secret.png"
+      "tiles/goal/goal1-3_secret.png"
+      "tiles/goal/goal1-4_secret.png"
+      "tiles/goal/goal1-5_secret.png"
+      "tiles/goal/goal1-4_secret.png"
+      "tiles/goal/goal1-3_secret.png"
+      "tiles/goal/goal1-2_secret.png"
+      "tiles/goal/goal1-2_secret.png"
+      "tiles/goal/goal1-1_secret.png"
+      "tiles/goal/goal1-1_secret.png"
+    )
+    (fps 10)
   )
 
   (tiles
@@ -2091,32 +2143,7 @@
     )
     (images "tiles/background/snow-para-2.png")
   )
-  (tile
-    (id 173)
-    (images
-      "tiles/lava/lava1-1.png"
-      "tiles/lava/lava1-2.png"
-      "tiles/lava/lava1-3.png"
-      "tiles/lava/lava1-4.png"
-    )
-    (water #t)
-    (hurts #t)
-    (fire #t)
-    (fps 10)
-  )
-  (tile
-    (id 174)
-    (images
-      "tiles/lava/lava2-1.png"
-      "tiles/lava/lava2-2.png"
-      "tiles/lava/lava2-3.png"
-      "tiles/lava/lava2-4.png"
-    )
-    (water #t)
-    (hurts #t)
-    (fire #t)
-    (fps 10)
-  )
+  
   (tiles
     (width 4)
     (height 5)
@@ -2135,85 +2162,33 @@
       512 512 512 512
     )
     (images
-      "tiles/waterfall/trans-1.png"
-      "tiles/waterfall/trans-2.png"
-      "tiles/waterfall/trans-3.png"
-      "tiles/waterfall/trans-4.png"
+      "tiles/water/waterfall0-0.png"
+      "tiles/water/waterfall0-1.png"
+      "tiles/water/waterfall0-2.png"
+      "tiles/water/waterfall0-3.png"
     )
     (fps 10)
   )
-  (tile
-    (id 195)
-    (images
-      "tiles/waterfall/waterfall1-0-1.png"
-      "tiles/waterfall/waterfall1-0-2.png"
-      "tiles/waterfall/waterfall1-0-3.png"
-      "tiles/waterfall/waterfall1-0-4.png"
+  (tiles
+    (width 3)
+    (height 2)
+    (ids
+      195 0   196
+	  197 198 199
     )
-    (water #t)
+	(attributes
+      512 0   512
+      512 512 512
+    )
+    (images
+      "tiles/water/waterfall1-0.png"
+      "tiles/water/waterfall1-1.png"
+      "tiles/water/waterfall1-2.png"
+      "tiles/water/waterfall1-3.png"
+    )
     (fps 10)
   )
-  (tile
-    (id 196)
-    (images
-      "tiles/waterfall/waterfall1-5-1.png"
-      "tiles/waterfall/waterfall1-5-2.png"
-      "tiles/waterfall/waterfall1-5-3.png"
-      "tiles/waterfall/waterfall1-5-4.png"
-    )
-    (water #t)
-    (fps 10)
-  )
-  (tile
-    (id 197)
-    (images
-      "tiles/waterfall/waterfall0-0-1.png"
-      "tiles/waterfall/waterfall0-0-2.png"
-      "tiles/waterfall/waterfall0-0-3.png"
-      "tiles/waterfall/waterfall0-0-4.png"
-    )
-    (water #t)
-    (fps 10)
-  )
-  (tile
-    (id 198)
-    (images
-      "tiles/waterfall/waterfall0-1-1.png"
-      "tiles/waterfall/waterfall0-1-2.png"
-      "tiles/waterfall/waterfall0-1-3.png"
-      "tiles/waterfall/waterfall0-1-4.png"
-    )
-    (water #t)
-    (fps 10)
-  )
-  (tile
-    (id 199)
-    (images
-      "tiles/waterfall/waterfall0-2-1.png"
-      "tiles/waterfall/waterfall0-2-2.png"
-      "tiles/waterfall/waterfall0-2-3.png"
-      "tiles/waterfall/waterfall0-2-4.png"
-    )
-    (water #t)
-    (fps 10)
-  )
-  (tile
-    (id 200)
-    (images
-      "tiles/water/water-trans.png"
-    )
-    (water #t)
-  )
-  (tile
-    (id 201)
-    (images
-      "tiles/water/waves-trans-0.png"
-      "tiles/water/waves-trans-1.png"
-      "tiles/water/waves-trans-2.png"
-    )
-    (water #t)
-    (fps 10)
-  )
+
   (tiles
     (width 1)
     (height 3)
@@ -2237,31 +2212,6 @@
       247 248
     )
     (images "tiles/signs/platform.png")
-  )
-  (tiles
-    (width 4)
-    (height 5)
-    (ids
-      291 292 293 294
-      287 288 289 290
-      283 284 285 286
-      279 280 281 282
-      275 276 277 278
-    )
-    (attributes
-      512 512 512 512
-      512 512 512 512
-      512 512 512 512
-      512 512 512 512
-      512 512 512 512
-    )
-    (images
-      "tiles/waterfall/waterfall-1.png"
-      "tiles/waterfall/waterfall-2.png"
-      "tiles/waterfall/waterfall-3.png"
-      "tiles/waterfall/waterfall-4.png"
-    )
-    (fps 10)
   )
 
   (tiles
@@ -2429,15 +2379,6 @@
       481 482
     )
     (images "tiles/signs/platform_wood.png")
-  )
-  (tiles
-    (width 4)
-    (height 2)
-    (ids
-      483 484 485 486
-      487 488 489 490
-    )
-    (images "tiles/pole/misc.png")
   )
   (tiles
     (width 14)
@@ -2760,21 +2701,7 @@
     )
     (images "tiles/snow/iceshrub.png")
   )
-  (tile
-    (id 1342)
-    (images
-      "tiles/doodads/blueice.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1343)
-    (images
-      "tiles/doodads/blueicetop.png"
-    )
-  )
-
-
+  
   (tiles
     (width 11)
     (height 5)
@@ -2855,26 +2782,6 @@
       1
     )
     (images "tiles/castle/window.png")
-  )
-  (tile
-    (id 1421)
-    (images
-      "tiles/water/electrified-0.png"
-      "tiles/water/electrified-1.png"
-    )
-    (fps 10)
-    (hurts #t)
-    (water #t)
-  )
-  (tile
-    (id 1422)
-    (images
-      "tiles/water/electrified_waves-0.png"
-      "tiles/water/electrified_waves-1.png"
-    )
-    (fps 10)
-    (hurts #t)
-    (water #t)
   )
   (tiles
     (width 14)
@@ -3292,21 +3199,6 @@
     )
     (images "tiles/forest/fishbone.png")
   )
-  (tiles
-    (width 4)
-    (height 3)
-    (ids
-      1551 1540 1541 1542
-      1543 1544 1545 1546
-      1547 1548 1549 1550
-    )
-    (attributes
-      1 1 1 1
-      1 1 1 1
-      1 1 1 1
-    )
-    (images "tiles/blocks/icebridge.png")
-  )
   (tile
     (id 1568)
     (images
@@ -3409,253 +3301,6 @@
       1630 1631
     )
     (images "tiles/signs/danger.png")
-  )
-
-  (tile
-    (id 1700)
-    (images
-      "tiles/lava/zone/body-1-1.png"
-      "tiles/lava/zone/body-1-2.png"
-      "tiles/lava/zone/body-1-3.png"
-      "tiles/lava/zone/body-1-4.png")
-    (water #t)
-    (hurts #t)
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1701)
-    (images
-      "tiles/lava/zone/edge-1-1.png"
-      "tiles/lava/zone/edge-1-2.png"
-      "tiles/lava/zone/edge-1-3.png"
-      "tiles/lava/zone/edge-1-4.png")
-    (water #t)
-    (hurts #t)
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1702)
-    (images
-      "tiles/lava/zone/bubble-1-1.png"
-      "tiles/lava/zone/bubble-1-2.png"
-      "tiles/lava/zone/bubble-1-3.png"
-      "tiles/lava/zone/bubble-1-4.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png")
-    (hurts #t)
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1703)
-    (images
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/bubble-in-1-1.png"
-      "tiles/lava/zone/bubble-in-1-2.png"
-      "tiles/lava/zone/bubble-in-1-3.png"
-      "tiles/lava/zone/bubble-in-1-4.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1704)
-    (images
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/bubble-out-1-1.png"
-      "tiles/lava/zone/bubble-out-1-2.png"
-      "tiles/lava/zone/bubble-out-1-3.png"
-      "tiles/lava/zone/bubble-out-1-4.png"
-    )
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1705)
-    (images
-      "tiles/lava/zone/body-2-1.png"
-      "tiles/lava/zone/body-2-2.png"
-      "tiles/lava/zone/body-2-3.png"
-      "tiles/lava/zone/body-2-4.png")
-    (water #t)
-    (hurts #t)
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1706)
-    (images
-      "tiles/lava/zone/body-bottom-1-1.png"
-      "tiles/lava/zone/body-bottom-1-2.png"
-      "tiles/lava/zone/body-bottom-1-3.png"
-      "tiles/lava/zone/body-bottom-1-4.png")
-    (water #t)
-    (hurts #t)
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1707)
-    (images
-      "tiles/lava/zone/edge-right-1-1.png"
-      "tiles/lava/zone/edge-right-1-2.png"
-      "tiles/lava/zone/edge-right-1-3.png"
-      "tiles/lava/zone/edge-right-1-4.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1708)
-    (images
-      "tiles/lava/zone/surface-1-1.png"
-      "tiles/lava/zone/surface-1-2.png"
-      "tiles/lava/zone/surface-1-3.png"
-      "tiles/lava/zone/surface-1-4.png")
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1709)
-    (images
-      "tiles/lava/zone/edge-left-1-1.png"
-      "tiles/lava/zone/edge-left-1-2.png"
-      "tiles/lava/zone/edge-left-1-3.png"
-      "tiles/lava/zone/edge-left-1-4.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1710)
-    (images
-      "tiles/lava/zone/edge-right-1-4.png"
-      "tiles/lava/zone/edge-right-1-3.png"
-      "tiles/lava/zone/edge-right-1-2.png"
-      "tiles/lava/zone/edge-right-1-1.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1711)
-    (images
-      "tiles/lava/zone/edge-left-1-4.png"
-      "tiles/lava/zone/edge-left-1-3.png"
-      "tiles/lava/zone/edge-left-1-3.png"
-      "tiles/lava/zone/edge-left-1-4.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1712)
-    (images
-      "tiles/lava/zone/edge-flip-1-1.png"
-      "tiles/lava/zone/edge-flip-1-2.png"
-      "tiles/lava/zone/edge-flip-1-3.png"
-      "tiles/lava/zone/edge-flip-1-4.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1713)
-    (images
-      "tiles/lava/zone/bubble-bottom-1-1.png"
-      "tiles/lava/zone/bubble-bottom-1-2.png"
-      "tiles/lava/zone/bubble-bottom-1-3.png"
-      "tiles/lava/zone/bubble-bottom-1-4.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1714)
-    (images
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/bubble-out-1-1.png"
-      "tiles/lava/zone/bubble-out-1-2.png"
-      "tiles/lava/zone/bubble-out-1-3.png"
-      "tiles/lava/zone/bubble-out-1-4.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tile
-    (id 1715)
-    (images
-      "tiles/lava/zone/bubble-2-1.png"
-      "tiles/lava/zone/bubble-2-2.png"
-      "tiles/lava/zone/bubble-2-3.png"
-      "tiles/lava/zone/bubble-2-4.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png")
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-
-  (tile
-    (id 1716)
-    (images
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/bubble-in-1-1.png"
-      "tiles/lava/zone/bubble-in-1-2.png"
-      "tiles/lava/zone/bubble-in-1-3.png"
-      "tiles/lava/zone/bubble-in-1-4.png"
-    )
-    (fire #t)
-    (solid #f)
-    (fps 8)
-  )
-  (tiles
-    (width 5)
-    (height 1)
-    (ids
-      1717 1718 1719 1720 1721
-    )
-    (images "tiles/pole/horz.png")
-  )
-  (tile
-    (id 1722)
-    (images
-      "tiles/pole/cross.png"
-    )
-    (solid #f)
-  )
-  (tiles
-    (width 2)
-    (height 2)
-    (ids
-      2001 2002
-      2003 2004
-    )
-    (images "tiles/pole/t-cross.png")
   )
   
   (tiles
@@ -4196,16 +3841,6 @@
   )
 
   (tiles
-    (width 2)
-    (height 2)
-    (ids
-      2149 2150
-      2151 2152
-    )
-    (images "tiles/pole/bend.png")
-  )
-
-  (tiles
     (width  6)
     (height 2)
     (ids
@@ -4289,69 +3924,95 @@
     (images "tiles/signs/trampoline.png")
   )
 
-  (tile
-    (id 2406)
-    (ice #t)
-    (solid #t)
-    (images
-      "objects/icecube/icecube.png"))
-
   (tiles
-    (width 18)
-    (height 8)
+    (width 13)
+    (height 7)
     (ids
-     2407 2408 2409 2410 2411 2412 2413 2414 2415 2416 2417 2418 2419 2420 2519 2520 2521 2522
-     2421 2422 2423 2424 2425 2426 2427 2428 2429 2430 2431 2432 2433 2434 2535 2536 2537 2538
-     2435 2436 2437 2438 2439 2440 2441 2442 2443 2444 2445 2446 2447 2448 2551 2552 2553 2554
-     2449 2450 2451 2452 2453 2454 2455 2456 2457 2458    0    0 2461 2462 2567 2568 2569 2570
-     2463 2464 2465 2466 2467 2468 2469    0    0 2472 2473 2474 2475 2476 2583 2584 2585 2586
-     2477 2478 2479 2480 2481 2482 2483 2484 2485 2486 2487 2488 2489 2490 2599 2600 2601 2602
-     2491 2492 2493 2494 2495 2496 2497 2498 2499 2500 2501 2502 2503 2504 2615 2616 2617 2618
-     2505 2506 2507 2508 2509 2510 2511 2512 2513 2514    0    0    0    0    0 2632 2633    0
+     2437 2409 2410 2442 2441 2473 2474 2475 2476 2419 2420 2417 2418
+	 2438 2423 2424 2443 2483 2487 2488 2489 2490 2433 2434 2431 2432
+	 2449 2451 2452 2454 2444 2599 2600 2601 2602 2447 2448 2535 2538
+	 2463 2465 2466 2468 2486 2615 2616 2617 2618 2536 2537 2551 2554
+	 2445 2493 2494 2450 0    0    2632 2633 0    2552 2553 2567 2570
+	 2446 2507 2508 2453 0    0    0    0    0    2568 2569 0    0
+	 0    0    0    0    0    0    0    0    0    2584 2585 0    0
     )
     (attributes
-     0 0 0 0 0 0 1 1 1 1 17 17 17 17  1  1  1  1
-     1 1 1 1 1 1 1 1 1 1  1  1 17 17  1  1  1  1
-     1 1 1 1 1 1 1 1 1 1  1  1  1  1 17 17 17 17
-     1 1 1 1 1 1 1 1 1 1  0  0  1  1  0 17 17  0
-     1 1 1 1 1 1 1 0 0 1 17 17 17 17  1  0  0  1
-     1 1 1 1 1 1 1 1 1 1  1  1  1  1  1  1  1  1
-     1 1 1 1 1 1 1 1 1 1  1  0  0  1 17 17 17 17
-     0 0 0 0 0 0 1 1 1 1  0  0  0  0  0  0  0  0
+     0  0  0  0  1  17 17 17 17 17 17 17 17
+     1  1  1  1  1  1  1  1  1  17 17 1  1
+     1  1  1  1  1  1  1  1  1  1  1  1  1
+     1  1  1  1  1  17 17 17 17 1  1  17 17
+     1  1  1  1  0  0  0  0  0  17 17 0  0
+	 0  0  0  0  0  0  0  0  0  17 17 0  0
+	 0  0  0  0  0  0  0  0  0  0  0  0  0
      )
     (datas
-     0 0 0 0 0 0 0 0 0 0  2  0 66 48  0  0  0  0
-     0 0 0 0 0 0 0 0 0 0  0  0 50 64  0  0  0  0
-     0 0 0 0 0 0 0 0 0 0  0  0  0  0  1 49 67  3
-     0 0 0 0 0 0 0 0 0 0  0  0  0  0  0 65 51  0
-     0 0 0 0 0 0 0 0 0 0 18 34 32 16  0  0  0  0
-     0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0
-     0 0 0 0 0 0 0 0 0 0  0  0  0  0 33 17 19 35
-     0 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0
+     0  0  0  0  0  18 34 32 16 66 48 2  0
+     0  0  0  0  0  0  0  0  0  50 64 0  0
+     0  0  0  0  0  0  0  0  0  0  0  0  0
+     0  0  0  0  0  33 17 19 35 0  0  1  3
+     0  0  0  0  0  0  0  0  0  49 67 0  0
+     0  0  0  0  0  0  0  0  0  65 51 0  0
+     0  0  0  0  0  0  0  0  0  0  0  0  0
     )
-    (images "tiles/crystalcave/ground.png")
+    (images "tiles/crystalcave/crystal_1x1.png")
   )
-
   (tiles
-   (width 8)
-   (height 6)
+    (width 10)
+    (height 8)
+    (ids
+     2407 2408 2411 2412 2413 2414 2415 2416 4225 4226
+     2421 2422 2425 2426 2427 2428 2429 2430 4227 4228
+     2435 2436 2439 2440 2497 2498 2499 2500 4229 4230
+     2477 2478 2481 2482 2511 2512 2513 2514 4231 4232
+     2491 2492 2495 2496 2455 2456 2461 2462 4233 4234
+     2505 2506 2509 2510 2457 2458 2464 2467 4235 4236
+	 2479 2480 2484 2485 2519 2520 0    0    4237 4238
+	 2501 2502 2503 2504 2521 2522 0    0    4239 4240
+    )
+    (attributes
+     0 0 0 0 1 1 1 1 0 0
+	 1 1 1 1 1 1 1 1 1 1
+	 1 1 1 1 1 1 1 1 1 1
+	 1 1 1 1 1 1 1 1 1 1
+	 1 1 1 1 1 1 1 1 1 1
+	 0 0 0 0 1 1 1 1 1 1
+	 1 1 1 1 1 1 0 0 1 1
+	 1 1 1 1 1 1 0 0 0 0
+     )
+    (images "tiles/crystalcave/crystal_2x2.png")
+  )
+  (tiles
+   (width 6)
+   (height 4)
    (ids
-    2647 2648 2649 2650 2663 2664 2665 2675
-    2651 2652 2653 2654 2666 2667 2668 2676
-    2655 2656 2657 2658 2669 2670 2671 2677
-    2659 2660 2661 2662 2672 2673 2674 2678
-    3531 3532    0    0 3533 3534 3535    0
-    3536 3537    0    0 3538 3539 3540    0
+    2647 2648 2649 2653 2654 2655
+	2650 2651 2652 2656 2657 2658
+	2659 2660 2663 2665 0    0
+	2661 2662 2664 2666 0    0
     )
-   (attributes
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
-    0 0 0 0 0 0 0 0
+   (images "tiles/crystalcave/crystal_bg.png")
+  )
+  (tiles
+   (width 7)
+   (height 4)
+   (ids
+    0    2667 0    0    0    0    0
+	2668 2669 2670 2671 0    0    0
+	2672 2673 2674 2675 3532 3533 3534
+	2676 2677 2678 3531 3535 3536 3537
     )
-   (images "tiles/crystalcave/background.png"))
+   (images "tiles/crystalcave/crystals1.png")
+  )
+  (tiles
+   (width 5)
+   (height 3)
+   (ids
+    4724 4725 4726 0    0
+	4727 4728 4729 3538 3539
+	4730 4731 0    0    3540
+    )
+   (images "tiles/crystalcave/crystals2.png")
+  )
 
   (tiles
    (width 16)
@@ -4629,12 +4290,12 @@
     (images "tiles/pole/diagonals.png")
   )
   (tiles
-    (width 3)(height 1)
-    (ids 3041 3042 3043)
-    (attributes 257 257 257)
+    (width 4)(height 1)
+    (ids 3041 3042 3043 2406)
+    (attributes 257 257 257 257)
     (images
-     (surface (diffuse-texture (file "objects/icecube/iceslick.png"))
-              (displacement-texture (file "objects/icecube/iceslick-displacement.png")))))
+     (surface (diffuse-texture (file "tiles/snow/iceslick.png"))
+              (displacement-texture (file "tiles/snow/iceslick-displacement.png")))))
   (tiles
     (width 4)(height 4)
     (ids
@@ -4653,10 +4314,12 @@
   )
 
   (tiles
-    (width 4)(height 2)
+    (width 4)(height 4)
     (ids
       3060 3062 3064 3066
       3061 3063 3065 3067
+	  3450 3451 3452 3453
+	  3458 3459 3460 3461
     )
     (images "tiles/background/rope.png")
   )
@@ -4957,66 +4620,6 @@
     )
     (images "tiles/forest/statue2.png")
   )
-
-  (tile
-    (id 3446)
-    (images "creatures/spike/spikeup.png")
-    (hurts #t)
-  )
-  (tile
-    (id 3447)
-    (images "creatures/spike/spikedown.png")
-    (hurts #t)
-  )
-  (tile
-    (id 3448)
-    (images "creatures/spike/spikeleft.png")
-    (hurts #t)
-  )
-  (tile
-    (id 3449)
-    (images "creatures/spike/spikeright.png")
-    (hurts #t)
-  )
-
-  (tiles
-    (width 2)
-    (height 4)
-    (ids
-      3450 3451
-      3452 3453
-      3454 3455
-      3456 3457
-    )
-    (attributes
-      1 1
-      1 1
-      1 1
-      1 1
-    )
-    (images "tiles/forest/nolok_statue.png")
-  )
-
-  (tile
-    (id 3458)
-    (images "creatures/spike/spikeup2.png")
-    (hurts #t)
-  )
-  (tile
-    (id 3459)
-    (images "creatures/spike/spikedown2.png")
-    (hurts #t)
-  )
-  (tile
-    (id 3460)
-    (images "creatures/spike/spikeleft2.png")
-    (hurts #t)
-  )
-  (tile
-    (id 3461)
-    (images "creatures/spike/spikeright2.png")
-    (hurts #t)
-  )
   (tiles
     (width 4)
     (height 2)
@@ -5267,27 +4870,27 @@
   )
 
    (tiles
-    (width 8)
+    (width 10)
     (height 7)
     (images "tiles/retro_snow/retro_snow.png")
     (ids
-     4000 4001 4002 4003 4170 4171 4172 4190
-     4078 4079 4080 4081 4173 4175 4185 4191
-     4100 4101 4102 4194 4174 4176 4186 4192
-     4157 4158 4159 4160 4177 4178 4187 4193
-     4161 4162 4163 4164 4179 4183 4188 0
-	 4103 4165 4166 4167 4180 4184 4189 0
-	 4168 4169 4181 4182 0    0    0    0
-     )
-       (attributes
-     1 1 1 1 1 1 1 1
-     1 1 1 1 1 1 0 1
-     0 0 0 1 1 1 1 1
-     1 1 1 1 1 1 1 1
-     1 1 1 1 1 1 1 0
-	 1 1 1 1 1 1 1 0
-	 1 1 1 1 0 0 0 0
-     )
+     4000 4001 4002 4003 4170 4171 4172 4190 4738 4739
+     4078 4079 4080 4081 4173 4175 4185 4191 4740 4741
+     4100 4101 4102 4194 4174 4176 4186 4192 4742 4743
+     4157 4158 4159 4160 4177 4178 4187 4193 4744 4745
+     4161 4162 4163 4164 4179 4183 4188 4737 4746 4747
+	 4103 4165 4166 4167 4180 4184 4189 4736 4748 4749
+	 4168 4169 4181 4182 4732 4733 4734 4735 0    0
+    )
+    (attributes
+     1 1 1 1 1 1 1 1 1 1
+     1 1 1 1 1 1 0 1 1 1
+     0 0 0 1 1 1 1 1 1 1
+     1 1 1 1 1 1 1 1 1 1
+     1 1 1 1 1 1 1 1 1 1
+	 1 1 1 1 1 1 1 1 1 1
+	 1 1 1 1 1 1 1 1 0 0
+    )
   )
   
    (tiles
@@ -5507,22 +5110,6 @@
      4149 4150 4151 4152)
     (images "tiles/snow/rocks-snow.png"))
 
-  (tiles
-    (width 10)
-    (height 9)
-    (ids
-      4225 4226 4227 4228 0    0    4229 4230 4231 4232
-      4233 4234 4235 4236 4237 4238 4239 4240 4241 4242
-      4243 4244 4245 4246 0    0    4247 4248 4249 4250
-      4251 4252 4253 4254 0    0    4255 4256 4257 4258
-      4259 4260 4261 4262 0    0    4263 4264 4265 4266
-      4267 4268 4269 4270 4271 4272 4273 0    0    0
-      4274 4275 4276 0    4277 4278 0    0    0    0
-      4279 4280 4281 4282 4283 4284 4285 4286 0    0
-      4287 0    0    4288 4289 4290 4291 4292 0    0
-    )
-    (images "tiles/crystalcave/ground_extra.png")
-  )
   (tiles
     (width 4)
     (height 13)
