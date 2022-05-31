@@ -69,6 +69,11 @@ void mkdir(const std::string& directory)
   }
 }
 
+void copy(const std::string& source_path, const std::string& target_path)
+{
+  fs::copy_file(source_path, target_path, boost::filesystem::copy_option::overwrite_if_exists);
+}
+
 std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
