@@ -26,12 +26,13 @@ class AddonPreviewMenu final : public Menu
 {
 
 private:
+  AddonManager& m_addon_manager;
   const Addon& m_addon;
   const bool m_auto_install;
-  AddonManager& m_addon_manager;
+  const bool m_update;
 
 public:
-  AddonPreviewMenu(const Addon& addon, const bool auto_install);
+  AddonPreviewMenu(const Addon& addon, const bool auto_install = false, const bool update = false);
   ~AddonPreviewMenu() override;
 
   void menu_action(MenuItem& item) override;

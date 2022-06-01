@@ -26,7 +26,8 @@ class AddonMenu final : public Menu
 {
 private:
   enum {
-    MNID_BROWSE = 1,
+    MNID_CHECK_ONLINE = 1,
+    MNID_BROWSE = 2,
     MNID_NOTHING_NEW,
     MNID_LANGPACK_MODE,
     MNID_ADDON_LIST_START = 3

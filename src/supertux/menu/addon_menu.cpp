@@ -24,15 +24,20 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/addon_browse_menu.hpp"
+#include "supertux/menu/addon_preview_menu.hpp"
+#include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
 
 namespace {
 
 #define IS_INSTALLED_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 1)
+#define IS_UPDATE_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 0)
 
 #define MAKE_INSTALLED_MENU_ID(idx) (MNID_ADDON_LIST_START + 2 * (idx) + 1)
+#define MAKE_UPDATE_MENU_ID(idx) (MNID_ADDON_LIST_START + 2 * (idx) + 0)
 
 #define UNPACK_INSTALLED_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 1) / 2)
+#define UNPACK_UPDATE_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 0) / 2)
 
 } // namespace
 
@@ -66,13 +71,14 @@ AddonMenu::rebuild_menu()
   add_label(m_langpacks_only ? _("Installed Language Packs") : _("Installed Add-ons"));
   add_hl();
 
+  std::vector<int> addon_updates_to_list;
+  bool langpacks_installed = false;
   if (m_installed_addons.empty())
   {
     add_inactive(m_langpacks_only ? _("No language packs installed") : _("No Add-ons installed"));
   }
   else
   {
-    bool langpacks_installed = false;
     int idx = 0;
     for (const auto& addon_id : m_installed_addons)
     {
@@ -80,6 +86,28 @@ AddonMenu::rebuild_menu()
       m_addons_enabled[idx] = addon.is_enabled();
       if (addon.is_visible())
       {
+        try
+        {
+          // Detect if the addon has an update
+          const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
+          if (addon.get_md5() != repository_addon.get_md5() &&
+            addon.get_version() < repository_addon.get_version())
+          {
+            log_debug << addon.get_id() << " is installed, but updated: '"
+                      << addon.get_md5() << "' vs '" << repository_addon.get_md5() << "'  '"
+                      << addon.get_version() << "' vs '" << repository_addon.get_version() << "'"
+                      << std::endl;
+            if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
+            {
+              addon_updates_to_list.push_back(idx);
+            }
+          }
+        }
+        catch (std::exception& e)
+        {
+          log_warning << "Installed addon not available in repository: " << e.what() << std::endl;
+        }
+        // Print the current installed addon
         const Addon::Type addon_type = addon.get_type();
         if ((m_langpacks_only && addon_type == Addon::LANGUAGEPACK) || !m_langpacks_only)
         {
@@ -94,6 +122,22 @@ AddonMenu::rebuild_menu()
   }
 
   add_hl();
+
+  for (const auto& index : addon_updates_to_list)
+  {
+    std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_installed_addon(m_installed_addons[index]));
+    add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(fmt::runtime(_("{} *UPDATE*")), text));
+  }
+  if ((m_langpacks_only && langpacks_installed) || (!m_langpacks_only && m_installed_addons.size() > 0))
+  {
+    if (addon_updates_to_list.size() <= 0)
+    {
+      add_inactive(_("No updates available."));
+    }
+    add_entry(MNID_CHECK_ONLINE, _("Check for updates"));
+    add_hl();
+  }
+
   add_entry(MNID_BROWSE, m_langpacks_only ? _("Browse language packs") : _("Browse Add-ons"));
   add_hl();
   add_back(_("Back"));
@@ -103,7 +147,27 @@ void
 AddonMenu::menu_action(MenuItem& item)
 {
   int index = item.get_id();
-  if (index == MNID_BROWSE) {
+  if (index == MNID_CHECK_ONLINE)
+  {
+    try
+    {
+      TransferStatusPtr status = m_addon_manager.request_check_online();
+      status->then([this](bool success)
+      {
+        if (success) refresh();
+        set_active_item(MNID_CHECK_ONLINE);
+      });
+      auto dialog = std::make_unique<DownloadDialog>(status, false);
+      dialog->set_title(_("Checking for updates"));
+      MenuManager::instance().set_dialog(std::move(dialog));
+    }
+    catch (std::exception& e)
+    {
+      log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
+    }
+  }
+  else if (index == MNID_BROWSE)
+  {
     MenuManager::instance().push_menu(std::make_unique<AddonBrowseMenu>(m_langpacks_only, false));
   }
   else if (IS_INSTALLED_MENU_ID(index))
@@ -113,6 +177,15 @@ AddonMenu::menu_action(MenuItem& item)
     {
       const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
       toggle_addon(addon);
+    }
+  }
+  else if (IS_UPDATE_MENU_ID(index))
+  {
+    int idx = UNPACK_UPDATE_MENU_ID(index);
+    if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
+    {
+      const Addon& addon = m_addon_manager.get_repository_addon(m_installed_addons[idx]);
+      MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon, false, true));
     }
   }
   else

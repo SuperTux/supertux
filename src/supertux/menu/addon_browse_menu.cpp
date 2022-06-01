@@ -77,10 +77,8 @@ AddonBrowseMenu::rebuild_menu()
   int idx = 0;
   int addons_count = 0;
   std::vector<int> addons_to_list;
-  std::vector<int> new_addons_to_list;
   for (const auto& addon_id : m_repository_addons)
   {
-
     const Addon& addon = m_addon_manager.get_repository_addon(addon_id);
     try
     {
@@ -90,23 +88,6 @@ AddonBrowseMenu::rebuild_menu()
           installed_addon.get_version() > addon.get_version())
       {
         log_debug << "ignoring already installed add-on " << installed_addon.get_id() << std::endl;
-      }
-      else
-      {
-        log_debug << installed_addon.get_id() << " is installed, but updated: '"
-                  << installed_addon.get_md5() << "' vs '" << addon.get_md5() << "'  '"
-                  << installed_addon.get_version() << "' vs '" << addon.get_version() << "'"
-                  << std::endl;
-        if (addon.is_visible())
-        {
-          if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
-          {
-            if (addons_count >= m_max_addons_on_page * (m_browse_page - 1) && addons_count < m_max_addons_on_page * m_browse_page) {
-              new_addons_to_list.push_back(idx);
-            }
-            addons_count++;
-          }
-        }
       }
     }
     catch(const std::exception&)
@@ -136,11 +117,6 @@ AddonBrowseMenu::rebuild_menu()
     add_hl();
   }
 
-  for (const auto& index : new_addons_to_list)
-  {
-    std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[index]));
-    add_entry(MAKE_REPOSITORY_MENU_ID(index), fmt::format(fmt::runtime(_("{} *NEW*")), text));
-  }
   for (const auto& index : addons_to_list)
   {
     std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[index]));
@@ -239,7 +215,7 @@ AddonBrowseMenu::menu_action(MenuItem& item)
   }
   else if (index == MNID_PREV_PAGE || index == MNID_NEXT_PAGE) {
     index == MNID_PREV_PAGE ? m_browse_page-- : m_browse_page++;
-    refresh();
+    rebuild_menu();
     set_active_item(index);
     if (get_active_item_id() != index) // Check if the item wasn't set as active, because it's disabled
     {
@@ -252,7 +228,7 @@ AddonBrowseMenu::menu_action(MenuItem& item)
     if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
     {
       const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
-      MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon, false));
+      MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon));
     }
   }
   else

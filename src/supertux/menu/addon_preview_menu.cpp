@@ -26,11 +26,13 @@
 #include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
 
-AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install) :
+AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, const bool update) :
+  m_addon_manager(*AddonManager::current()),
   m_addon(addon),
   m_auto_install(auto_install),
-  m_addon_manager(*AddonManager::current())
+  m_update(update)
 {
+  const std::string author = m_addon.get_author();
   const std::string type = addon_string_util::addon_type_to_translated_string(m_addon.get_type());
   const std::string desc = m_addon.get_description();
   const std::string license = m_addon.get_license();
@@ -38,13 +40,13 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install) 
   add_label(fmt::format(fmt::runtime(_("{} \"{}\"")), type, m_addon.get_title()));
   add_hl();
 
-  add_inactive(fmt::format(fmt::runtime(_("Author: {}")), m_addon.get_author()));
-  add_inactive(fmt::format(fmt::runtime(_("Type: {}")), type));
-  add_inactive(fmt::format(fmt::runtime(_("License: {}")), license == "" ? "No license available." : license));
+  add_inactive(author.empty() ? _("No author specified.") : fmt::format(fmt::runtime(_("Author: {}")), author), !author.empty());
+  add_inactive(fmt::format(fmt::runtime(_("Type: {}")), type), true);
+  add_inactive(license.empty() ? _("No license specified.") : fmt::format(fmt::runtime(_("License: {}")), license), !license.empty());
   add_inactive("");
 
-  add_inactive("Description:");
-  if (desc == "")
+  add_inactive(_("Description:"), true);
+  if (desc.empty())
   {
     add_inactive(_("No description available."));
   }
@@ -66,7 +68,7 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install) 
   }
 
   add_hl();
-  add_entry(1, _("Download"));
+  add_entry(1, m_update ? _("Update") : _("Download"));
   add_back(_("Back"));
 
   if (m_auto_install) install_addon(m_addon);
@@ -88,7 +90,8 @@ AddonPreviewMenu::install_addon(const Addon& addon)
   auto addon_id = addon.get_id();
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
   auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install);
-  dialog->set_title(fmt::format(fmt::runtime(_("Downloading {}")), addon_string_util::generate_menu_item_text(m_addon)));
+  const std::string action = m_update ? "Updating" : "Downloading";
+  dialog->set_title(fmt::format(fmt::runtime(_("{} {}")), action, addon_string_util::generate_menu_item_text(m_addon)));
   status->then([this, addon_id](bool success)
   {
     if (success)
