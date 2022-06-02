@@ -35,7 +35,7 @@ const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when 
 
 Climbable::Climbable(const ReaderMapping& reader) :
   climbed_by(),
-  activate_try_timer(),
+  trying_to_climb(),
   message(),
   new_size(0.0f, 0.0f)
 {
@@ -52,7 +52,7 @@ Climbable::Climbable(const ReaderMapping& reader) :
 
 Climbable::Climbable(const Rectf& area) :
   climbed_by(),
-  activate_try_timer(),
+  trying_to_climb(),
   message(),
   new_size(0.0f, 0.0f)
 {
@@ -65,6 +65,7 @@ Climbable::~Climbable()
     player->stop_climbing(*this);
 
   climbed_by.clear();
+  trying_to_climb.clear();
 }
 
 ObjectSettings
@@ -91,11 +92,40 @@ Climbable::after_editor_set() {
 }
 
 void
-Climbable::update(float /*dt_sec*/)
+Climbable::update(float dt_sec)
 {
-  for (auto* player : climbed_by)
-    if (!may_climb(*player))
-      player->stop_climbing(*this);
+  TriggerBase::update(dt_sec);
+  auto it = climbed_by.begin();
+  while (it != climbed_by.end())
+  {
+    if (!may_climb(**it))
+    {
+      (*it)->stop_climbing(*this);
+      it = climbed_by.erase(it);
+      continue;
+    }
+    it++;
+  }
+  auto it2 = trying_to_climb.begin();
+  while (it2 != trying_to_climb.end())
+  {
+    if (it2->m_activate_try_timer->started())
+    {
+      // the "-20" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments
+      if (it2->m_player->get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) it2->m_player->add_velocity(Vector(POSITION_FIX_AX,-20));
+      if (it2->m_player->get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) it2->m_player->add_velocity(Vector(-POSITION_FIX_AX,-20));
+      if (it2->m_player->get_bbox().get_top() < m_col.m_bbox.get_top() - GRACE_DY) it2->m_player->add_velocity(Vector(0,POSITION_FIX_AY));
+      if (it2->m_player->get_bbox().get_bottom() > m_col.m_bbox.get_bottom() + GRACE_DY) it2->m_player->add_velocity(Vector(0,-POSITION_FIX_AY));
+    }
+    if (may_climb(*(it2->m_player)))
+    {
+      climbed_by.push_back(it2->m_player);
+      it2->m_player->start_climbing(*this);
+      it2 = trying_to_climb.erase(it2);
+      continue;
+    }
+    it2++;
+  }
 }
 
 void
@@ -118,20 +148,19 @@ Climbable::draw(DrawingContext& context)
 void
 Climbable::event(Player& player, EventType type)
 {
-  if ((type == EVENT_ACTIVATE) || (activate_try_timer.started())) {
+  if (type == EVENT_ACTIVATE) {
     if (player.get_grabbed_object() == nullptr){
-      if (may_climb(player)) {
-        climbed_by.push_back(&player);
-        player.start_climbing(*this);
-        activate_try_timer.stop();
-      } else {
-        if (type == EVENT_ACTIVATE) activate_try_timer.start(ACTIVATE_TRY_FOR);
-        // the "-13" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments
-        if (player.get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) player.add_velocity(Vector(POSITION_FIX_AX,-13));
-        if (player.get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) player.add_velocity(Vector(-POSITION_FIX_AX,-13));
-        if (player.get_bbox().get_top() < m_col.m_bbox.get_top() - GRACE_DY) player.add_velocity(Vector(0,POSITION_FIX_AY));
-        if (player.get_bbox().get_bottom() > m_col.m_bbox.get_bottom() + GRACE_DY) player.add_velocity(Vector(0,-POSITION_FIX_AY));
+      auto it = std::find_if(trying_to_climb.begin(), trying_to_climb.end(),
+        [&player](ClimbPlayer& element)
+        {
+          return element.m_player == &player;
+        });
+      if (it == trying_to_climb.end()) {
+        trying_to_climb.push_back(ClimbPlayer{&player, std::make_unique<Timer>()});
+        it = trying_to_climb.begin() + (trying_to_climb.size() - 1);
       }
+      if (!may_climb(player))
+        it->m_activate_try_timer->start(ACTIVATE_TRY_FOR);
     }
   }
 
@@ -144,6 +173,14 @@ Climbable::event(Player& player, EventType type)
         it = climbed_by.erase(it);
       else
         it++;
+    }
+    auto it2 = trying_to_climb.begin();
+    while (it2 != trying_to_climb.end())
+    {
+      if (it2->m_player == &player)
+        it2 = trying_to_climb.erase(it2);
+      else
+        it2++;
     }
   }
 }

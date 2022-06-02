@@ -48,13 +48,14 @@ TriggerBase::~TriggerBase()
 void
 TriggerBase::update(float )
 {
-  for (auto it = m_losetouch_listeners.end(); it != m_losetouch_listeners.end(); it++)
+  for (unsigned i = 0; i < m_losetouch_listeners.size(); i++)
   {
-    if (std::find(m_hit.begin(), m_hit.end(), *it) == m_hit.end())
+    if (std::find(m_hit.begin(), m_hit.end(), m_losetouch_listeners[i]) == m_hit.end())
     {
-      event(**it, EVENT_LOSETOUCH);
-      (*it)->del_remove_listener(this);
-      it = m_losetouch_listeners.erase(it);
+      event(*m_losetouch_listeners[i], EVENT_LOSETOUCH);
+      m_losetouch_listeners[i]->del_remove_listener(this);
+      m_losetouch_listeners.erase(m_losetouch_listeners.begin() + i);
+      i--;
     }
   }
 
