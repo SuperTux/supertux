@@ -56,6 +56,7 @@ public:
 
   bool get(const char* key, sexp::Value& value) const;
 
+  bool has_item(const char* key) const;
   /** Read a custom data format, such an as enum. The data is stored
       as string and converted to the custom type using the supplied
       `from_string` convert function. Example:

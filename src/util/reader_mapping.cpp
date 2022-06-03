@@ -237,4 +237,10 @@ ReaderMapping::get(const char* key, sexp::Value& value) const
   }
 }
 
+bool
+ReaderMapping::has_item(const char* key) const
+{
+  return get_item(key) != nullptr;
+}
+
 /* EOF */
