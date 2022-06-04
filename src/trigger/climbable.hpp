@@ -30,7 +30,16 @@ class ReaderMapping;
 
 class Climbable final : public TriggerBase
 {
+private:
+  struct ClimbPlayer
+  {
+    Player* m_player;
+    std::unique_ptr<Timer> m_activate_try_timer;
+  };
+
+private:
   static Color text_color;
+
 public:
   Climbable(const ReaderMapping& reader);
   Climbable(const Rectf& area);
@@ -51,8 +60,8 @@ public:
   bool may_climb(Player& player) const;
 
 protected:
-  std::vector<Player*> climbed_by; /**< set to player who's currently climbing us, null if nobody is */
-  Timer activate_try_timer; /**< try to correct mis-alignment while this timer runs */
+  std::vector<Player*> climbed_by; /** contains players who's currently climbing us, empty if nobody is. */
+  std::vector<ClimbPlayer> trying_to_climb; /** Contains players that are trying to climb */
   std::string message;
 
 private:
