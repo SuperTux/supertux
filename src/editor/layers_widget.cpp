@@ -312,6 +312,7 @@ EditorLayersWidget::refresh()
   m_layer_icons.clear();
 
   bool tsel = false;
+  TileMap* first_tm = nullptr;
   for (auto& i : m_editor.get_sector()->get_objects())
   {
     auto* go = i.get();
@@ -323,6 +324,8 @@ EditorLayersWidget::refresh()
 
       auto tm = dynamic_cast<TileMap*>(go);
       if (tm) {
+        if (first_tm == nullptr)
+          first_tm = tm;
         if ( !tm->is_solid() || tsel ) {
           tm->m_editor_active = false;
         } else {
@@ -332,6 +335,11 @@ EditorLayersWidget::refresh()
         }
       }
     }
+  }
+  if (!tsel && first_tm != nullptr)
+  {
+    first_tm->m_editor_active = true;
+    m_selected_tilemap = first_tm;
   }
 
   sort_layers();
