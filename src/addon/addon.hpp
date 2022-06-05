@@ -91,7 +91,7 @@ namespace addon_string_util {
   Addon::Type addon_type_from_string(const std::string& type);
   std::string addon_type_to_translated_string(Addon::Type type);
   std::string generate_menu_item_text(const Addon& addon);
-};
+}
 
 #endif
 

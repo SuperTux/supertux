@@ -24,10 +24,16 @@ class AddonManager;
 
 class AddonPreviewMenu final : public Menu
 {
+  enum {
+    MNID_INSTALL,
+    MNID_UNINSTALL,
+    MNID_TOGGLE
+  };
 
 private:
   AddonManager& m_addon_manager;
   const Addon& m_addon;
+  bool m_addon_enabled;
   const bool m_auto_install;
   const bool m_update;
 
@@ -36,7 +42,9 @@ public:
   ~AddonPreviewMenu() override;
 
   void menu_action(MenuItem& item) override;
-  void install_addon(const Addon& addon);
+  void install_addon();
+  void uninstall_addon();
+  void toggle_addon();
 
 private:
   AddonPreviewMenu(const AddonPreviewMenu&) = delete;

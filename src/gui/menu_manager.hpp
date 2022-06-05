@@ -73,6 +73,7 @@ public:
     return m_dialog || m_has_next_dialog;
   }
   Menu* current_menu() const;
+  Menu* previous_menu() const;
 
 private:
   void transition(Menu* from, Menu* to);

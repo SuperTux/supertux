@@ -342,6 +342,19 @@ MenuManager::current_menu() const
   }
 }
 
+Menu*
+MenuManager::previous_menu() const
+{
+  if (m_menu_stack.empty() || m_menu_stack.size() < 2)
+  {
+    return nullptr;
+  }
+  else
+  {
+    return m_menu_stack.end()[-2].get();
+  }
+}
+
 void
 MenuManager::transition(Menu* from, Menu* to)
 {

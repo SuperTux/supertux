@@ -28,8 +28,6 @@ private:
   enum {
     MNID_CHECK_ONLINE = 1,
     MNID_BROWSE = 2,
-    MNID_NOTHING_NEW,
-    MNID_LANGPACK_MODE,
     MNID_ADDON_LIST_START = 3
   };
 
@@ -45,7 +43,6 @@ public:
 
   void refresh() override;
   void menu_action(MenuItem& item) override;
-  void toggle_addon(const Addon& addon);
 
 private:
   void rebuild_menu();

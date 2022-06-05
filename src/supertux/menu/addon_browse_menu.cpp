@@ -119,7 +119,7 @@ AddonBrowseMenu::rebuild_menu()
 
   for (const auto& index : addons_to_list)
   {
-    std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[index]));
+    const std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_repository_addon(m_repository_addons[index]));
     add_entry(MAKE_REPOSITORY_MENU_ID(index), text);
   }
 

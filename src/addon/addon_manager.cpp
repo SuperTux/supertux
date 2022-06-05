@@ -412,13 +412,20 @@ AddonManager::uninstall_addon(const AddonId& addon_id)
     disable_addon(addon_id);
   }
   log_debug << "deleting file \"" << addon.get_install_filename() << "\"" << std::endl;
-  PHYSFS_delete(addon.get_install_filename().c_str());
-  m_installed_addons.erase(std::remove_if(m_installed_addons.begin(), m_installed_addons.end(),
+  const auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
                                           [&addon](const std::unique_ptr<Addon>& rhs)
                                           {
                                             return addon.get_id() == rhs->get_id();
-                                          }),
-                           m_installed_addons.end());
+                                          });
+  if (it != m_installed_addons.end())
+  {
+    if (PHYSFS_delete(FileSystem::join(m_addon_directory, addon.get_filename()).c_str()) == 0)
+    {
+      log_warning << "Error deleting addon .zip file: PHYSFS_delete failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      throw std::runtime_error("\nAn error occured while deleting addon.");
+    }
+    m_installed_addons.erase(it);
+  }
 }
 
 void

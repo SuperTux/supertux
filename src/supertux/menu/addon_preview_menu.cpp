@@ -29,15 +29,18 @@
 AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, const bool update) :
   m_addon_manager(*AddonManager::current()),
   m_addon(addon),
+  m_addon_enabled(addon.is_enabled()),
   m_auto_install(auto_install),
   m_update(update)
 {
-  const std::string author = m_addon.get_author();
-  const std::string type = addon_string_util::addon_type_to_translated_string(m_addon.get_type());
-  const std::string desc = m_addon.get_description();
-  const std::string license = m_addon.get_license();
+  const Addon& repository_addon = m_addon_manager.get_repository_addon(m_addon.get_id());
 
-  add_label(fmt::format(fmt::runtime(_("{} \"{}\"")), type, m_addon.get_title()));
+  const std::string author = repository_addon.get_author();
+  const std::string type = addon_string_util::addon_type_to_translated_string(repository_addon.get_type());
+  const std::string desc = repository_addon.get_description();
+  const std::string license = repository_addon.get_license();
+
+  add_label(fmt::format(fmt::runtime(_("{} \"{}\"")), type, repository_addon.get_title()));
   add_hl();
 
   add_inactive(author.empty() ? _("No author specified.") : fmt::format(fmt::runtime(_("Author: {}")), author), !author.empty());
@@ -68,10 +71,18 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, 
   }
 
   add_hl();
-  add_entry(1, m_update ? _("Update") : _("Download"));
+
+  bool addon_installed = m_addon.is_installed();
+  if (!addon_installed || m_update) add_entry(MNID_INSTALL, m_update ? _("Update") : _("Download"));
+  if (addon_installed)
+  {
+    add_entry(MNID_UNINSTALL, _("Uninstall"));
+    add_toggle(MNID_TOGGLE, _("Enabled"), &m_addon_enabled, true);
+  }
+
   add_back(_("Back"));
 
-  if (m_auto_install) install_addon(m_addon);
+  if (m_auto_install) install_addon();
 }
 
 AddonPreviewMenu::~AddonPreviewMenu()
@@ -81,13 +92,25 @@ AddonPreviewMenu::~AddonPreviewMenu()
 void
 AddonPreviewMenu::menu_action(MenuItem& item)
 {
-  if (item.get_id() == 1) install_addon(m_addon);
+  const int index = item.get_id();
+  if (index == MNID_INSTALL)
+  {
+    install_addon();
+  }
+  else if (index == MNID_UNINSTALL)
+  {
+    uninstall_addon();
+  }
+  else if (index == MNID_TOGGLE)
+  {
+    toggle_addon();
+  }
 }
 
 void
-AddonPreviewMenu::install_addon(const Addon& addon)
+AddonPreviewMenu::install_addon()
 {
-  auto addon_id = addon.get_id();
+  auto addon_id = m_addon.get_id();
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
   auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install);
   const std::string action = m_update ? "Updating" : "Downloading";
@@ -111,7 +134,7 @@ AddonPreviewMenu::install_addon(const Addon& addon)
         log_warning << "Enabling add-on failed: " << err.what() << std::endl;
       }
       MenuManager::instance().pop_stack();
-      MenuManager::instance().pop_stack();
+      if (!m_update) MenuManager::instance().pop_stack();
       MenuManager::instance().current_menu() -> refresh();
     }
     else
@@ -124,6 +147,53 @@ AddonPreviewMenu::install_addon(const Addon& addon)
     }
   });
   MenuManager::instance().set_dialog(std::move(dialog));
+}
+
+void
+AddonPreviewMenu::uninstall_addon()
+{
+  const AddonId& addon_id = m_addon.get_id();
+  auto dialog = std::make_unique<Dialog>();
+  dialog->set_text(_("Uninstalling addon, please wait..."));
+  MenuManager::instance().set_dialog(std::move(dialog));
+  try
+  {
+    m_addon_manager.uninstall_addon(addon_id);
+    auto success_dialog = std::make_unique<Dialog>();
+    success_dialog->set_text(_("Addon uninstalled successfully."));
+    success_dialog->add_cancel_button(_("OK"));
+    MenuManager::instance().set_dialog(std::move(success_dialog));
+    MenuManager::instance().pop_stack();
+    MenuManager::instance().current_menu() -> refresh();
+  }
+  catch (std::exception& err)
+  {
+    auto failure_dialog = std::make_unique<Dialog>();
+    failure_dialog->set_text(std::string("Error uninstalling addon: ") + err.what());
+    failure_dialog->add_cancel_button(_("OK"));
+    MenuManager::instance().set_dialog(std::move(failure_dialog));
+    MenuManager::instance().pop_stack();
+    MenuManager::instance().current_menu() -> refresh();
+  }
+}
+
+void
+AddonPreviewMenu::toggle_addon()
+{
+  const AddonId& addon_id = m_addon.get_id();
+  if (m_addon.is_enabled())
+  {
+    m_addon_manager.disable_addon(addon_id);
+  }
+  else
+  {
+    m_addon_manager.enable_addon(addon_id);
+  }
+  if (m_addon.get_type() == Addon::LANGUAGEPACK)
+  {
+    Dialog::show_message(_("Please restart SuperTux\nfor these changes to take effect."));
+  }
+  MenuManager::instance().previous_menu() -> refresh();
 }
 
 /* EOF */

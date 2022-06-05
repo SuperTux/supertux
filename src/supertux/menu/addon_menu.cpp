@@ -30,14 +30,14 @@
 
 namespace {
 
-#define IS_INSTALLED_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 1)
 #define IS_UPDATE_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 0)
+#define IS_INSTALLED_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 1)
 
-#define MAKE_INSTALLED_MENU_ID(idx) (MNID_ADDON_LIST_START + 2 * (idx) + 1)
 #define MAKE_UPDATE_MENU_ID(idx) (MNID_ADDON_LIST_START + 2 * (idx) + 0)
+#define MAKE_INSTALLED_MENU_ID(idx) (MNID_ADDON_LIST_START + 2 * (idx) + 1)
 
-#define UNPACK_INSTALLED_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 1) / 2)
 #define UNPACK_UPDATE_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 0) / 2)
+#define UNPACK_INSTALLED_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 1) / 2)
 
 } // namespace
 
@@ -72,6 +72,7 @@ AddonMenu::rebuild_menu()
   add_hl();
 
   std::vector<int> addon_updates_to_list;
+  std::vector<int> addons_to_list;
   bool langpacks_installed = false;
   if (m_installed_addons.empty())
   {
@@ -86,6 +87,7 @@ AddonMenu::rebuild_menu()
       m_addons_enabled[idx] = addon.is_enabled();
       if (addon.is_visible())
       {
+        bool addon_update = false;
         try
         {
           // Detect if the addon has an update
@@ -97,6 +99,7 @@ AddonMenu::rebuild_menu()
                       << addon.get_md5() << "' vs '" << repository_addon.get_md5() << "'  '"
                       << addon.get_version() << "' vs '" << repository_addon.get_version() << "'"
                       << std::endl;
+            addon_update = true;
             if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
             {
               addon_updates_to_list.push_back(idx);
@@ -107,13 +110,15 @@ AddonMenu::rebuild_menu()
         {
           log_warning << "Installed addon not available in repository: " << e.what() << std::endl;
         }
-        // Print the current installed addon
-        const Addon::Type addon_type = addon.get_type();
-        if ((m_langpacks_only && addon_type == Addon::LANGUAGEPACK) || !m_langpacks_only)
+        if (!addon_update)
         {
-          if (addon_type == Addon::LANGUAGEPACK) langpacks_installed = true;
-          std::string text = addon_string_util::generate_menu_item_text(addon);
-          add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, &m_addons_enabled[idx]);
+          // Save the current installed addon for printing
+          const Addon::Type addon_type = addon.get_type();
+          if ((m_langpacks_only && addon_type == Addon::LANGUAGEPACK) || !m_langpacks_only)
+          {
+            if (addon_type == Addon::LANGUAGEPACK) langpacks_installed = true;
+            addons_to_list.push_back(idx);
+          }
         }
       }
       idx += 1;
@@ -121,18 +126,31 @@ AddonMenu::rebuild_menu()
     if (!langpacks_installed && m_langpacks_only) add_inactive(_("No language packs installed"));
   }
 
-  add_hl();
-
   for (const auto& index : addon_updates_to_list)
   {
-    std::string text = addon_string_util::generate_menu_item_text(m_addon_manager.get_installed_addon(m_installed_addons[index]));
-    add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(fmt::runtime(_("{} *UPDATE*")), text));
+    const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[index]);
+    const std::string text = addon_string_util::generate_menu_item_text(addon);
+    add_entry(MAKE_UPDATE_MENU_ID(index), fmt::format(fmt::runtime(_("{} {}*UPDATE*")), text, !addon.is_enabled() ? "[DISABLED] " : ""));
   }
+  for (const auto& index : addons_to_list)
+  {
+    const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[index]);
+    const std::string text = addon_string_util::generate_menu_item_text(addon);
+    add_entry(MAKE_INSTALLED_MENU_ID(index), fmt::format(fmt::runtime(_("{}{}")), text, !addon.is_enabled() ? " [DISABLED]" : ""));
+  }
+
+  add_hl();
+
   if ((m_langpacks_only && langpacks_installed) || (!m_langpacks_only && m_installed_addons.size() > 0))
   {
-    if (addon_updates_to_list.size() <= 0)
+    const auto& addon_updates_count = addon_updates_to_list.size();
+    if (addon_updates_count <= 0)
     {
       add_inactive(_("No updates available."));
+    }
+    else
+    { 
+      add_inactive(fmt::format(fmt::runtime(_("{} {} available")), addon_updates_count, addon_updates_count == 1 ? "update" : "updates"));
     }
     add_entry(MNID_CHECK_ONLINE, _("Check for updates"));
     add_hl();
@@ -170,47 +188,27 @@ AddonMenu::menu_action(MenuItem& item)
   {
     MenuManager::instance().push_menu(std::make_unique<AddonBrowseMenu>(m_langpacks_only, false));
   }
+  else if (IS_UPDATE_MENU_ID(index))
+  {
+    int idx = UNPACK_UPDATE_MENU_ID(index);
+    if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
+    {
+      const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
+      MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon, false, true));
+    }
+  }
   else if (IS_INSTALLED_MENU_ID(index))
   {
     int idx = UNPACK_INSTALLED_MENU_ID(index);
     if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
     {
       const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
-      toggle_addon(addon);
-    }
-  }
-  else if (IS_UPDATE_MENU_ID(index))
-  {
-    int idx = UNPACK_UPDATE_MENU_ID(index);
-    if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
-    {
-      const Addon& addon = m_addon_manager.get_repository_addon(m_installed_addons[idx]);
-      MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon, false, true));
+      MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(addon));
     }
   }
   else
   {
     log_warning << "Unknown menu item clicked: " << index << std::endl;
-  }
-}
-
-void
-AddonMenu::toggle_addon(const Addon& addon)
-{
-  if (addon.is_enabled())
-  {
-    m_addon_manager.disable_addon(addon.get_id());
-  }
-  else
-  {
-    m_addon_manager.enable_addon(addon.get_id());
-  }
-  if (addon.get_type() == Addon::LANGUAGEPACK)
-  {
-    auto dialog = std::make_unique<Dialog>();
-    dialog->set_text(_("Please restart SuperTux\nfor these changes to take effect."));
-    dialog->add_cancel_button(_("OK"));
-    MenuManager::instance().set_dialog(std::move(dialog));
   }
 }
 
