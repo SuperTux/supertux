@@ -85,7 +85,7 @@ AddonMenu::rebuild_menu()
     {
       const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
       m_addons_enabled[idx] = addon.is_enabled();
-      if (addon.is_visible())
+      if (addon.is_visible() && ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only))
       {
         bool addon_update = false;
         try
@@ -100,10 +100,8 @@ AddonMenu::rebuild_menu()
                       << addon.get_version() << "' vs '" << repository_addon.get_version() << "'"
                       << std::endl;
             addon_update = true;
-            if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
-            {
-              addon_updates_to_list.push_back(idx);
-            }
+            if (addon.get_type() == Addon::LANGUAGEPACK) langpacks_installed = true;
+            addon_updates_to_list.push_back(idx);
           }
         }
         catch (std::exception& e)
@@ -113,12 +111,8 @@ AddonMenu::rebuild_menu()
         if (!addon_update)
         {
           // Save the current installed addon for printing
-          const Addon::Type addon_type = addon.get_type();
-          if ((m_langpacks_only && addon_type == Addon::LANGUAGEPACK) || !m_langpacks_only)
-          {
-            if (addon_type == Addon::LANGUAGEPACK) langpacks_installed = true;
-            addons_to_list.push_back(idx);
-          }
+          if (addon.get_type() == Addon::LANGUAGEPACK) langpacks_installed = true;
+          addons_to_list.push_back(idx);
         }
       }
       idx += 1;
@@ -167,22 +161,7 @@ AddonMenu::menu_action(MenuItem& item)
   int index = item.get_id();
   if (index == MNID_CHECK_ONLINE)
   {
-    try
-    {
-      TransferStatusPtr status = m_addon_manager.request_check_online();
-      status->then([this](bool success)
-      {
-        if (success) refresh();
-        set_active_item(MNID_CHECK_ONLINE);
-      });
-      auto dialog = std::make_unique<DownloadDialog>(status, false);
-      dialog->set_title(_("Checking for updates"));
-      MenuManager::instance().set_dialog(std::move(dialog));
-    }
-    catch (std::exception& e)
-    {
-      log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
-    }
+    check_for_updates();
   }
   else if (index == MNID_BROWSE)
   {
@@ -209,6 +188,27 @@ AddonMenu::menu_action(MenuItem& item)
   else
   {
     log_warning << "Unknown menu item clicked: " << index << std::endl;
+  }
+}
+
+void
+AddonMenu::check_for_updates()
+{
+  try
+  {
+    TransferStatusPtr status = m_addon_manager.request_check_online();
+    status->then([this](bool success)
+    {
+      if (success) refresh();
+      set_active_item(MNID_CHECK_ONLINE);
+    });
+    auto dialog = std::make_unique<DownloadDialog>(status, false);
+    dialog->set_title(_("Checking for updates..."));
+    MenuManager::instance().set_dialog(std::move(dialog));
+  }
+  catch (std::exception& e)
+  {
+    log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
   }
 }
 

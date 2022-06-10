@@ -43,6 +43,7 @@ public:
 
   void refresh() override;
   void menu_action(MenuItem& item) override;
+  void check_for_updates();
 
 private:
   void rebuild_menu();

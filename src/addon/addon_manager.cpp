@@ -97,13 +97,20 @@ static Addon& get_addon(const AddonManager::AddonList& list, const AddonId& id,
 
 static std::vector<AddonId> get_addons(const AddonManager::AddonList& list)
 {
-  std::vector<AddonId> results;
-  results.reserve(list.size());
-  std::transform(list.begin(), list.end(),
-                 std::back_inserter(results),
-                 [](const std::unique_ptr<Addon>& addon)
+  // Use a map for storing sorted addon titles with their respective IDs.
+  std::map<std::string, AddonId> sorted_titles;
+  std::for_each(list.begin(), list.end(),
+                 [&](const std::unique_ptr<Addon>& addon)
                  {
-                   return addon->get_id();
+                   sorted_titles.insert({addon->get_title(), addon->get_id()});
+                 });
+  std::vector<AddonId> results;
+  results.reserve(sorted_titles.size());
+  std::transform(sorted_titles.begin(), sorted_titles.end(),
+                 std::back_inserter(results),
+                 [](const auto& title_and_id)
+                 {
+                   return title_and_id.second;
                  });
   return results;
 }
@@ -422,9 +429,14 @@ AddonManager::uninstall_addon(const AddonId& addon_id)
     if (PHYSFS_delete(FileSystem::join(m_addon_directory, addon.get_filename()).c_str()) == 0)
     {
       log_warning << "Error deleting addon .zip file: PHYSFS_delete failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
-      throw std::runtime_error("\nAn error occured while deleting addon.");
+      throw std::runtime_error("An error occured while deleting addon.");
     }
     m_installed_addons.erase(it);
+  }
+  else
+  {
+    log_warning << "Error uninstalling addon: Addon with id " << addon_id << " not found." << std::endl;
+    throw std::runtime_error("Addon " + addon_id + " not found.");
   }
 }
 

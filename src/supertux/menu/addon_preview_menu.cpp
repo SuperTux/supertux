@@ -33,15 +33,37 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, 
   m_auto_install(auto_install),
   m_update(update)
 {
-  const Addon& repository_addon = m_addon_manager.get_repository_addon(m_addon.get_id());
+  std::string author;
+  std::string type;
+  std::string desc;
+  std::string license;
+  bool info_unavailable = false;
+  try
+  {
+    const Addon& repository_addon = m_addon_manager.get_repository_addon(m_addon.get_id());
+    author = repository_addon.get_author();
+    type = addon_string_util::addon_type_to_translated_string(repository_addon.get_type());
+    desc = repository_addon.get_description();
+    license = repository_addon.get_license();
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Installed addon not available in repository: " << err.what() << std::endl;
+    author = m_addon.get_author();
+    type = addon_string_util::addon_type_to_translated_string(m_addon.get_type());
+    license = m_addon.get_license();
+    info_unavailable = true;
+  }
 
-  const std::string author = repository_addon.get_author();
-  const std::string type = addon_string_util::addon_type_to_translated_string(repository_addon.get_type());
-  const std::string desc = repository_addon.get_description();
-  const std::string license = repository_addon.get_license();
-
-  add_label(fmt::format(fmt::runtime(_("{} \"{}\"")), type, repository_addon.get_title()));
+  add_label(fmt::format(fmt::runtime(_("{} \"{}\"")), type, m_addon.get_title()));
   add_hl();
+
+  if (info_unavailable)
+  {
+    add_inactive(_("Some information about this add-on is not available."));
+    add_inactive(_("Perform a \"Check Online\" to try retrieving it."));
+    add_hl();
+  }
 
   add_inactive(author.empty() ? _("No author specified.") : fmt::format(fmt::runtime(_("Author: {}")), author), !author.empty());
   add_inactive(fmt::format(fmt::runtime(_("Type: {}")), type), true);
@@ -56,7 +78,7 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, 
   else
   {
     std::string desc_curr_line = "";
-    for (size_t i = 0; i <= desc.size(); i++)
+    for (std::size_t i = 0; i <= desc.size(); i++)
     {
       if (desc[i] != '\n' && i != desc.size())
       {
@@ -64,7 +86,7 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, 
       }
       else
       {
-        add_inactive(_(desc_curr_line), true);
+        add_inactive(desc_curr_line, true);
         desc_curr_line = "";
       }
     }
@@ -73,7 +95,18 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, 
   add_hl();
 
   bool addon_installed = m_addon.is_installed();
-  if (!addon_installed || m_update) add_entry(MNID_INSTALL, m_update ? _("Update") : _("Download"));
+  if (!addon_installed || m_update)
+  {
+    const std::string action = m_update ? _("Update") : _("Download");
+    if (m_auto_install)
+    {
+      add_inactive(action);
+    }
+    else
+    {
+      add_entry(MNID_INSTALL, action);
+    }
+  }
   if (addon_installed)
   {
     add_entry(MNID_UNINSTALL, _("Uninstall"));
@@ -113,7 +146,7 @@ AddonPreviewMenu::install_addon()
   auto addon_id = m_addon.get_id();
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
   auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install);
-  const std::string action = m_update ? "Updating" : "Downloading";
+  const std::string action = m_update ? _("Updating") : _("Downloading");
   dialog->set_title(fmt::format(fmt::runtime(_("{} {}")), action, addon_string_util::generate_menu_item_text(m_addon)));
   status->then([this, addon_id](bool success)
   {
@@ -159,19 +192,13 @@ AddonPreviewMenu::uninstall_addon()
   try
   {
     m_addon_manager.uninstall_addon(addon_id);
-    auto success_dialog = std::make_unique<Dialog>();
-    success_dialog->set_text(_("Addon uninstalled successfully."));
-    success_dialog->add_cancel_button(_("OK"));
-    MenuManager::instance().set_dialog(std::move(success_dialog));
+    Dialog::show_message(_("Addon uninstalled successfully."));
     MenuManager::instance().pop_stack();
     MenuManager::instance().current_menu() -> refresh();
   }
   catch (std::exception& err)
   {
-    auto failure_dialog = std::make_unique<Dialog>();
-    failure_dialog->set_text(std::string("Error uninstalling addon: ") + err.what());
-    failure_dialog->add_cancel_button(_("OK"));
-    MenuManager::instance().set_dialog(std::move(failure_dialog));
+    Dialog::show_message(fmt::format(fmt::runtime(_("Error uninstalling addon:\n{}")), err.what()));
     MenuManager::instance().pop_stack();
     MenuManager::instance().current_menu() -> refresh();
   }
