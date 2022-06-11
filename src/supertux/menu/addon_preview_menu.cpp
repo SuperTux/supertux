@@ -95,7 +95,7 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, 
   add_hl();
 
   bool addon_installed = m_addon.is_installed();
-  if (!addon_installed || m_update)
+  if ((!addon_installed || m_update) && !info_unavailable)
   {
     const std::string action = m_update ? _("Update") : _("Download");
     if (m_auto_install)
@@ -109,8 +109,8 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, 
   }
   if (addon_installed)
   {
-    add_entry(MNID_UNINSTALL, _("Uninstall"));
     add_toggle(MNID_TOGGLE, _("Enabled"), &m_addon_enabled, true);
+    add_entry(MNID_UNINSTALL, _("Uninstall"));
   }
 
   add_back(_("Back"));
@@ -147,7 +147,8 @@ AddonPreviewMenu::install_addon()
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
   auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install);
   const std::string action = m_update ? _("Updating") : _("Downloading");
-  dialog->set_title(fmt::format(fmt::runtime(_("{} {}")), action, addon_string_util::generate_menu_item_text(m_addon)));
+  const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
+  dialog->set_title(fmt::format(fmt::runtime(_("{} {}")), action, addon_string_util::generate_menu_item_text(repository_addon)));
   status->then([this, addon_id](bool success)
   {
     if (success)
