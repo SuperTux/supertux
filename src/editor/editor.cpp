@@ -842,13 +842,10 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
     if (sector->get_name() == "main")
     {
       sector_valid = true;
-      for (const auto& spawnpoint : sector->get_objects_by_type<SpawnPointMarker>())
-      {
-        if (spawnpoint.get_name() == "main")
-        {
-          spawnpoint_valid = true;
-        }
-      }
+      const auto& spawnpoints = sector->get_objects_by_type<SpawnPointMarker>();
+      spawnpoint_valid = std::any_of(spawnpoints.begin(), spawnpoints.end(), [](const auto& spawnpoint) {
+        return spawnpoint.get_name() == "main";
+      });
     }
   }
 

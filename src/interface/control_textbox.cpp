@@ -17,6 +17,7 @@
 #include "interface/control_textbox.hpp"
 
 #include <math.h>
+#include <numeric>
 
 #include <SDL.h>
 
@@ -363,13 +364,8 @@ ControlTextbox::get_string() const
 std::string
 ControlTextbox::get_contents() const
 {
-  std::string temp;
 
-  for (char c : m_charlist) {
-    temp += c;
-  }
-
-  return temp;
+  return std::accumulate(m_charlist.begin(), m_charlist.end(), "");
 }
 
 std::string

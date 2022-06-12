@@ -73,9 +73,9 @@ void
 CommandLineArguments::print_acknowledgements() const
 {
   IFileStream in("ACKNOWLEDGEMENTS.txt");
-  std::string line;
   if (in.good())
   {
+    std::string line;
     while (std::getline(in, line))
     {
       std::cout << line << std::endl;
