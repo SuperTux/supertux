@@ -31,9 +31,10 @@ ScriptMenu::ScriptMenu(std::string* script_) :
   // Split the script to the lines.
   std::string script = *base_script;
   std::string line_break = "\n";
+  std::string new_line;
   size_t endl_pos = script.find(line_break);
   while (endl_pos != std::string::npos) {
-    const auto& new_line = script.substr(0, endl_pos);
+    new_line = script.substr(0, endl_pos);
     script = script.substr(endl_pos + line_break.length());
     push_string(new_line);
     endl_pos = script.find(line_break);
