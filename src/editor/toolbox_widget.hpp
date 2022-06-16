@@ -24,6 +24,7 @@
 #include "math/vector.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/tile_set.hpp"
+#include "util/log.hpp"
 
 class Editor;
 class ObjectInfo;
