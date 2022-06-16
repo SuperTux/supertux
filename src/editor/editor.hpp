@@ -97,6 +97,8 @@ public:
 
   EditorToolboxWidget::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_input_type(); }
 
+  bool has_active_toolbox_tip() const { return m_toolbox_widget->has_active_object_tip(); }
+
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
 

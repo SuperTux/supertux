@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "editor/object_info.hpp"
 #include "editor/tile_selection.hpp"
+#include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
 #include "editor/util.hpp"
 #include "gui/menu_manager.hpp"
@@ -26,6 +27,7 @@
 #include "supertux/colorscheme.hpp"
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -40,6 +42,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
   m_tiles(new TileSelection()),
   m_object(),
+  m_object_tip(),
   m_input_type(InputType::NONE),
   m_active_tilegroup(),
   m_active_objectgroup(-1),
@@ -57,6 +60,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_dragging(false),
   m_drag_start(0, 0),
   m_Xpos(512),
+  m_mouse_pos(0, 0),
   m_has_mouse_focus(false)
 {
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
@@ -82,6 +86,10 @@ EditorToolboxWidget::draw(DrawingContext& context)
 
   if (m_hovered_item != HoveredItem::NONE)
   {
+    if (m_object_tip) {
+      m_object_tip->draw(context, Vector(m_mouse_pos.x + 25, m_mouse_pos.y), true);
+    }
+
     context.color().draw_filled_rect(get_item_rect(m_hovered_item),
                                        g_config->editorhovercolor,
                                        0.0f, LAYER_GUI - 5);
@@ -398,14 +406,15 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
-  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
-  float x = mouse_pos.x - static_cast<float>(m_Xpos);
-  float y = mouse_pos.y - static_cast<float>(m_Ypos);
+  m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
+  float x = m_mouse_pos.x - static_cast<float>(m_Xpos);
+  float y = m_mouse_pos.y - static_cast<float>(m_Ypos);
 
   if (x < 0) {
     m_hovered_item = HoveredItem::NONE;
     m_tile_scrolling = TileScrolling::NONE;
     m_has_mouse_focus = false;
+    m_object_tip = nullptr;
     return false;
   }
 
@@ -419,15 +428,28 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       m_hovered_item = HoveredItem::OBJECTS;
     } else {
       m_hovered_item = HoveredItem::TOOL;
-      m_hovered_tile = get_tool_pos(mouse_pos);
+      m_hovered_tile = get_tool_pos(m_mouse_pos);
     }
     m_tile_scrolling = TileScrolling::NONE;
+    m_object_tip = nullptr;
     return false;
   } else {
+    const int prev_hovered_tile = std::move(m_hovered_tile);
     m_hovered_item = HoveredItem::TILE;
-    m_hovered_tile = get_tile_pos(mouse_pos);
+    m_hovered_tile = get_tile_pos(m_mouse_pos);
     if (m_dragging && m_input_type == InputType::TILE) {
       update_selection();
+    }
+    else if (m_input_type == InputType::OBJECT && m_hovered_tile != prev_hovered_tile) {
+      const auto& icons = m_object_info->m_groups[m_active_objectgroup].get_icons();
+      if (m_hovered_tile + m_starting_tile < static_cast<int>(icons.size())) {
+        const std::string obj_class = icons[m_hovered_tile + m_starting_tile].get_object_class();
+        const std::string obj_name = GameObjectFactory::instance().create(obj_class, Vector(0, 0))->get_display_name();
+        m_object_tip = std::make_unique<Tip>(obj_name);
+      }
+      else {
+        m_object_tip = nullptr;
+      }
     }
   }
 

@@ -63,25 +63,25 @@ Tip::Tip(std::string header, std::vector<std::string> text) :
 }
 
 void
-Tip::draw(DrawingContext& context, const Vector& pos)
+Tip::draw(DrawingContext& context, const Vector& pos, const bool align_right)
 {
   auto position = pos;
   position.y += 35;
   context.color().draw_text(Resources::normal_font, m_header, position,
-                              ALIGN_LEFT, LAYER_GUI-11, g_config->labeltextcolor);
+                              align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, g_config->labeltextcolor);
 
   for (const auto& str : m_strings) {
     position.y += 22;
     context.color().draw_text(Resources::normal_font, str, position,
-                                ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
+                                align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, ColorScheme::Menu::default_color);
   }
 }
 
 void
-Tip::draw_up(DrawingContext& context, const Vector& pos)
+Tip::draw_up(DrawingContext& context, const Vector& pos, const bool align_right)
 {
   auto position = Vector(pos.x, pos.y - (static_cast<float>(m_strings.size()) + 1.0f) * 22.0f - 35.0f);
-  draw(context, position);
+  draw(context, position, align_right);
 }
 
 /* EOF */

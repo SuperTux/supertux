@@ -483,7 +483,7 @@ EditorOverlayWidget::hover_object()
     }
   }
 
-  if (m_hovered_object && m_hovered_object->has_settings()) {
+  if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip()) {
     m_object_tip = std::make_unique<Tip>(*m_hovered_object);
   }
 

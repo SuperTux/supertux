@@ -30,6 +30,7 @@ class ObjectInfo;
 class Rectf;
 class TileSelection;
 class ToolIcon;
+class Tip;
 
 /** The toolbox is on the right side of the screen and allows
     selection of the current tool and contains the object or tile
@@ -79,6 +80,7 @@ public:
   TileSelection* get_tiles() const { return m_tiles.get(); }
 
   bool has_mouse_focus() const;
+  bool has_active_object_tip() const { return m_object_tip != nullptr; }
 
 private:
   Vector get_tile_coords(const int pos) const;
@@ -101,6 +103,7 @@ private:
   std::unique_ptr<TileSelection> m_tiles;
 
   std::string m_object;
+  std::unique_ptr<Tip> m_object_tip;
   InputType m_input_type;
 
   std::unique_ptr<Tilegroup> m_active_tilegroup;
@@ -124,6 +127,7 @@ private:
   int m_Xpos;
   const int m_Ypos = 96;
 
+  Vector m_mouse_pos;
   bool m_has_mouse_focus;
 
 private:
