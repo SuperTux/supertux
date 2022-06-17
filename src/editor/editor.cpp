@@ -943,7 +943,7 @@ Editor::pack_addon()
 {
   auto id = FileSystem::basename(get_world()->get_basedir());
 
-  get_world()->save(false, true); //Save with "contrib-type" set to "community".
+  get_world()->save(false, true); //Replace the levelset info file with a new one, made for an addon.
 
   int version = 0;
   try
@@ -988,7 +988,7 @@ Editor::pack_addon()
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
 
-  get_world()->save(); //Revert saving with "contrib-type" set to "community".
+  get_world()->save(); //Revert back to a regular levelset info file.
 }
 
 /* EOF */
