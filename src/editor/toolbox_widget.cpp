@@ -446,7 +446,7 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         const std::string obj_class = icons[m_hovered_tile + m_starting_tile].get_object_class();
         std::string obj_name;
         try {
-          obj_name = GameObjectFactory::instance().create(obj_class, Vector(0, 0))->get_display_name();
+          obj_name = GameObjectFactory::instance().get_display_name(obj_class);
         }
         catch (std::exception& err) {
           log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;

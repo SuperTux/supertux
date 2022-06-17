@@ -40,8 +40,10 @@ public:
 
   virtual void ignite() override;
 
-  virtual std::string get_class() const override { return "mriceblock"; }
-  virtual std::string get_display_name() const override { return _("Iceblock"); }
+  static std::string class_name() { return "mriceblock"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Iceblock"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   bool can_break();
 

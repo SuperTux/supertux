@@ -36,8 +36,10 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "thunderstorm"; }
-  virtual std::string get_display_name() const override { return _("Thunderstorm"); }
+  static std::string class_name() { return "thunderstorm"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Thunderstorm"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 

@@ -39,8 +39,10 @@ public:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  virtual std::string get_class() const override { return "dart"; }
-  virtual std::string get_display_name() const override { return _("Dart"); }
+  static std::string class_name() { return "dart"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Dart"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual bool is_flammable() const override;
 

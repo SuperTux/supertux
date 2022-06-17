@@ -33,12 +33,16 @@ class ObjectFactory
 {
 private:
   typedef std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> FactoryFunction;
+  typedef std::function<std::string ()> NameFactoryFunction;
   typedef std::map<std::string, FactoryFunction> Factories;
+  typedef std::map<std::string, NameFactoryFunction> NameFactories;
   Factories factories;
+  NameFactories name_factories;
 
 public:
   /** Will throw in case of creation failure, will never return nullptr */
   std::unique_ptr<GameObject> create(const std::string& name, const ReaderMapping& reader) const;
+  std::string get_factory_display_name(const std::string& name) const;
 
 protected:
   ObjectFactory();
@@ -49,11 +53,27 @@ protected:
     factories[name] = func;
   }
 
-  template<class C>
-  void add_factory(const char* name)
+  void add_name_factory(const char* class_name, const NameFactoryFunction& func)
   {
-    add_factory(name, [](const ReaderMapping& reader) {
+    assert(name_factories.find(class_name) == name_factories.end());
+    name_factories[class_name] = func;
+  }
+
+  void add_custom_name_factory(const char* class_name, const char* display_name)
+  {
+    add_name_factory(class_name, [display_name]() {
+        return display_name;
+      });
+  }
+
+  template<class C>
+  void add_factory(const char* class_name)
+  {
+    add_factory(class_name, [](const ReaderMapping& reader) {
         return std::make_unique<C>(reader);
+      });
+    add_name_factory(class_name, []() {
+        return C::display_name();
       });
   }
 };

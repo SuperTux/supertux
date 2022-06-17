@@ -48,7 +48,8 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
-  virtual std::string get_class() const override { return "moving-sprite"; }
+  static std::string class_name() { return "moving-sprite"; }
+  virtual std::string get_class_name() const override { return class_name(); }
   virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
 
   virtual ObjectSettings get_settings() override;

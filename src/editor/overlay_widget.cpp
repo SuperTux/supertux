@@ -596,9 +596,9 @@ EditorOverlayWidget::clone_object()
       auto game_object_uptr = [this]{
         std::stringstream stream;
         Writer writer(stream);
-        writer.start_list(m_hovered_object->get_class());
+        writer.start_list(m_hovered_object->get_class_name());
         m_hovered_object->save(writer);
-        writer.end_list(m_hovered_object->get_class());
+        writer.end_list(m_hovered_object->get_class_name());
 
         auto doc = ReaderDocument::from_stream(stream);
         auto object_sx = doc.get_root();

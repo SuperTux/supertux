@@ -92,7 +92,8 @@ public:
     return &m_col;
   }
 
-  virtual std::string get_class() const override { return "moving-object"; }
+  static std::string class_name() { return "moving-object"; }
+  virtual std::string get_class_name() const override { return class_name(); }
   virtual ObjectSettings get_settings() override;
 
   virtual void editor_select() override;

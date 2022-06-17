@@ -250,6 +250,7 @@ GameObjectFactory::init_factories()
   add_factory<LevelTime>("leveltime");
   add_factory<LitObject>("lit-object");
   add_factory<MagicBlock>("magicblock");
+  add_custom_name_factory("#node", "Path Node");
   add_factory<ParticleZone>("particle-zone");
   add_factory<Platform>("platform");
   add_factory<PneumaticPlatform>("pneumatic-platform");
@@ -313,6 +314,12 @@ GameObjectFactory::create(const std::string& name, const Vector& pos, const Dire
 
   auto doc = ReaderDocument::from_stream(lisptext);
   return create(name, doc.get_root().get_mapping());
+}
+
+std::string
+GameObjectFactory::get_display_name(const std::string& name) const
+{
+  return get_factory_display_name(name);
 }
 
 /* EOF */

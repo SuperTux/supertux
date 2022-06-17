@@ -52,9 +52,11 @@ public:
 
   virtual void finish_construction() override;
 
-  virtual std::string get_class() const override { return "tilemap"; }
+  static std::string class_name() { return "tilemap"; }
+  virtual std::string get_class_name() const override { return class_name(); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
-  virtual std::string get_display_name() const override { return _("Tilemap"); }
+  static std::string display_name() { return _("Tilemap"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

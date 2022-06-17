@@ -36,8 +36,10 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "snail"; }
-  virtual std::string get_display_name() const override { return _("Snail"); }
+  static std::string class_name() { return "snail"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Snail"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual bool is_portable() const override;
   virtual void ungrab(MovingObject& , Direction dir_) override;

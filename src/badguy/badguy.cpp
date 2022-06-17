@@ -1082,7 +1082,7 @@ BadGuy::after_editor_set()
     } else if (m_sprite->has_action("standing-left")) {
       m_sprite->set_action("standing-left");
     } else {
-      log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class() << std::endl;
+      log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class_name() << std::endl;
     }
   }
   else
@@ -1111,7 +1111,7 @@ BadGuy::after_editor_set()
       m_sprite->set_action("flying");
     } else {
       log_warning << "couldn't find editor sprite for badguy direction='" << action_str << "': "
-                  << get_class() << std::endl;
+                  << get_class_name() << std::endl;
     }
   }
 }

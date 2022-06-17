@@ -35,8 +35,10 @@ public:
   virtual bool is_portable() const override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "mrbomb"; }
-  virtual std::string get_display_name() const override { return _("Bomb"); }
+  static std::string class_name() { return "mrbomb"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Bomb"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

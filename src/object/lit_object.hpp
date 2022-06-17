@@ -38,8 +38,10 @@ public:
   virtual HitResponse collision(GameObject&, const CollisionHit&) override
     { return ABORT_MOVE; }
 
-  virtual std::string get_class() const override { return "lit-object"; }
-  virtual std::string get_display_name() const override { return _("Lit object"); }
+  static std::string class_name() { return "lit-object"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Lit object"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

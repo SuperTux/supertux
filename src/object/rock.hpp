@@ -38,8 +38,10 @@ public:
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
-  virtual std::string get_class() const override { return "rock"; }
-  virtual std::string get_display_name() const override { return _("Rock"); }
+  static std::string class_name() { return "rock"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Rock"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
 
   /** Adds velocity from wind */
