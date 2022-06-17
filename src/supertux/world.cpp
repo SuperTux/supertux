@@ -109,7 +109,7 @@ World::World(const std::string& directory) :
 }
 
 void
-World::save(bool retry)
+World::save(bool retry, const bool addon)
 {
   std::string filepath = FileSystem::join(m_basedir, "/info");
 
@@ -142,20 +142,20 @@ World::save(bool retry)
     writer.write("title", m_title, true);
     writer.write("description", m_description, true);
     writer.write("levelset", m_is_levelset);
-    writer.write("contrib-type", "user");
+    writer.write("contrib-type", addon ? "community" : "user");
     writer.write("hide-from-contribs", m_hide_from_contribs);
 
     writer.end_list("supertux-level-subset");
-    log_warning << "Levelset info saved as " << filepath << "." << std::endl;
+    log_warning << "Levelset" << (addon ? " addon " : " ") << "info saved as " << filepath << "." << std::endl;
   }
   catch(std::exception& e)
   {
     if (retry) {
       std::stringstream msg;
-      msg << "Problem when saving levelset info '" << filepath << "': " << e.what();
+      msg << "Problem when saving" << (addon ? " addon " : " ") << "levelset info '" << filepath << "': " << e.what();
       throw std::runtime_error(msg.str());
     } else {
-      log_warning << "Failed to save the levelset info, retrying..." << std::endl;
+      log_warning << "Failed to save the" << (addon ? " addon " : " ") << "levelset info, retrying..." << std::endl;
       { // create the levelset directory again
         std::string dirname = FileSystem::dirname(filepath);
         if (!PHYSFS_mkdir(dirname.c_str()))

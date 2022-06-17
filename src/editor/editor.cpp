@@ -943,6 +943,8 @@ Editor::pack_addon()
 {
   auto id = FileSystem::basename(get_world()->get_basedir());
 
+  get_world()->save(false, true); //Save with "contrib-type" set to "community".
+
   int version = 0;
   try
   {
@@ -985,6 +987,8 @@ Editor::pack_addon()
   info.end_list("supertux-addoninfo");
 
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
+
+  get_world()->save(); //Revert saving with "contrib-type" set to "community".
 }
 
 /* EOF */

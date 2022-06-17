@@ -46,7 +46,7 @@ public:
   std::string get_worldmap_filename() const;
   std::string get_savegame_filename() const;
 
-  void save(bool retry = false);
+  void save(bool retry = false, const bool addon = false);
 
 public:
   std::string m_title;
