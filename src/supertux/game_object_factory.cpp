@@ -139,6 +139,7 @@
 #include "trigger/text_area.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/gettext.hpp"
 
 GameObjectFactory&
 GameObjectFactory::instance()
@@ -250,7 +251,7 @@ GameObjectFactory::init_factories()
   add_factory<LevelTime>("leveltime");
   add_factory<LitObject>("lit-object");
   add_factory<MagicBlock>("magicblock");
-  add_custom_name_factory("#node", "Path Node");
+  add_custom_name_factory("#node", _("Path Node"));
   add_factory<ParticleZone>("particle-zone");
   add_factory<Platform>("platform");
   add_factory<PneumaticPlatform>("pneumatic-platform");
@@ -297,6 +298,7 @@ GameObjectFactory::init_factories()
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
       return std::make_unique<TileMap>(tileset, reader);
     });
+  add_custom_name_factory("tilemap", TileMap::display_name());
 }
 
 std::unique_ptr<GameObject>

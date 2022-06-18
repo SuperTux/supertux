@@ -59,7 +59,7 @@ protected:
     name_factories[class_name] = func;
   }
 
-  void add_custom_name_factory(const char* class_name, const char* display_name)
+  void add_custom_name_factory(const char* class_name, const std::string display_name)
   {
     add_name_factory(class_name, [display_name]() {
         return display_name;
