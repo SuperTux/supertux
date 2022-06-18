@@ -24,12 +24,12 @@
 class ItemToggle final : public MenuItem
 {
 public:
-  ItemToggle(const std::string& text, bool* toggled, int id = -1, const bool center_text = false);
+  ItemToggle(const std::string& text, bool* toggled, int id = -1, bool center_text = false);
   ItemToggle(const std::string& text,
              std::function<bool()> get_func,
              std::function<void(bool)> set_func,
              int id = -1,
-             const bool center_text = false);
+             bool center_text = false);
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;

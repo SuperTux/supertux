@@ -38,7 +38,7 @@ private:
   const bool m_update;
 
 public:
-  AddonPreviewMenu(const Addon& addon, const bool auto_install = false, const bool update = false);
+  AddonPreviewMenu(const Addon& addon, bool auto_install = false, bool update = false);
   ~AddonPreviewMenu() override;
 
   void menu_action(MenuItem& item) override;

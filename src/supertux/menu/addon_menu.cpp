@@ -28,8 +28,6 @@
 #include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
 
-namespace {
-
 #define IS_UPDATE_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 0)
 #define IS_INSTALLED_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 1)
 
@@ -38,8 +36,6 @@ namespace {
 
 #define UNPACK_UPDATE_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 0) / 2)
 #define UNPACK_INSTALLED_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 1) / 2)
-
-} // namespace
 
 AddonMenu::AddonMenu(const bool language_packs_only) :
   m_addon_manager(*AddonManager::current()),

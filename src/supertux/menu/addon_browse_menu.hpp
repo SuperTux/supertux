@@ -41,7 +41,7 @@ private:
   const int m_max_addons_on_page;
 
 public:
-  AddonBrowseMenu(const bool langpacks_only, const bool auto_install_langpack);
+  AddonBrowseMenu(bool langpacks_only, bool auto_install_langpack);
   ~AddonBrowseMenu() override;
 
   void refresh() override;

@@ -26,7 +26,7 @@
 #include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
 
-AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, const bool auto_install, const bool update) :
+AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool update) :
   m_addon_manager(*AddonManager::current()),
   m_addon(addon),
   m_addon_enabled(addon.is_enabled()),
@@ -167,8 +167,8 @@ AddonPreviewMenu::install_addon()
       {
         log_warning << "Enabling add-on failed: " << err.what() << std::endl;
       }
-      MenuManager::instance().pop_stack();
-      if (!m_update) MenuManager::instance().pop_stack();
+      MenuManager::instance().pop_menu(true);
+      if (!m_update) MenuManager::instance().pop_menu(true);
       MenuManager::instance().current_menu() -> refresh();
     }
     else
@@ -194,13 +194,13 @@ AddonPreviewMenu::uninstall_addon()
   {
     m_addon_manager.uninstall_addon(addon_id);
     Dialog::show_message(_("Addon uninstalled successfully."));
-    MenuManager::instance().pop_stack();
+    MenuManager::instance().pop_menu(true);
     MenuManager::instance().current_menu() -> refresh();
   }
   catch (std::exception& err)
   {
     Dialog::show_message(fmt::format(fmt::runtime(_("Error uninstalling addon:\n{}")), err.what()));
-    MenuManager::instance().pop_stack();
+    MenuManager::instance().pop_menu(true);
     MenuManager::instance().current_menu() -> refresh();
   }
 }

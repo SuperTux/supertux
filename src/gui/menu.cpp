@@ -235,16 +235,16 @@ Menu::add_entry(const std::string& text, const std::function<void()>& callback)
 }
 
 ItemInactive&
-Menu::add_inactive(const std::string& text, const bool white_color)
+Menu::add_inactive(const std::string& text, bool default_color)
 {
-  auto item = std::make_unique<ItemInactive>(text, white_color);
+  auto item = std::make_unique<ItemInactive>(text, default_color);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;
 }
 
 ItemToggle&
-Menu::add_toggle(int id, const std::string& text, bool* toggled, const bool center_text)
+Menu::add_toggle(int id, const std::string& text, bool* toggled, bool center_text)
 {
   auto item = std::make_unique<ItemToggle>(text, toggled, id, center_text);
   auto item_ptr = item.get();
@@ -256,7 +256,7 @@ ItemToggle&
 Menu::add_toggle(int id, const std::string& text,
                  const std::function<bool()>& get_func,
                  const std::function<void(bool)>& set_func,
-                 const bool center_text)
+                 bool center_text)
 {
   auto item = std::make_unique<ItemToggle>(text, get_func, set_func, id, center_text);
   auto item_ptr = item.get();

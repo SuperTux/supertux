@@ -27,17 +27,13 @@
 #include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
 
-namespace {
-
 #define IS_REPOSITORY_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 0)
 
 #define MAKE_REPOSITORY_MENU_ID(idx) (MNID_ADDON_LIST_START + 2 * (idx) + 0)
 
 #define UNPACK_REPOSITORY_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 0) / 2)
 
-} // namespace
-
-AddonBrowseMenu::AddonBrowseMenu(const bool langpacks_only, const bool auto_install_langpack) :
+AddonBrowseMenu::AddonBrowseMenu(bool langpacks_only, bool auto_install_langpack) :
   m_addon_manager(*AddonManager::current()),
   m_repository_addons(),
   m_langpacks_only(langpacks_only),

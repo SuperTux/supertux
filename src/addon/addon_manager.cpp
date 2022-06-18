@@ -428,15 +428,13 @@ AddonManager::uninstall_addon(const AddonId& addon_id)
   {
     if (PHYSFS_delete(FileSystem::join(m_addon_directory, addon.get_filename()).c_str()) == 0)
     {
-      log_warning << "Error deleting addon .zip file: PHYSFS_delete failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
-      throw std::runtime_error("An error occured while deleting addon.");
+      throw std::runtime_error(_("Error deleting addon .zip file: \"PHYSFS_delete\" failed: ") + PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
     }
     m_installed_addons.erase(it);
   }
   else
   {
-    log_warning << "Error uninstalling addon: Addon with id " << addon_id << " not found." << std::endl;
-    throw std::runtime_error("Addon " + addon_id + " not found.");
+    throw std::runtime_error(_("Error uninstalling addon: Addon with id ") + addon_id + _(" not found."));
   }
 }
 
@@ -582,7 +580,8 @@ AddonManager::is_from_old_addon(const std::string& filename) const
 bool
 AddonManager::is_addon_installed(const std::string& id) const
 {
-  return std::any_of(get_installed_addons().begin(), get_installed_addons().end(),
+  const auto installed_addons = get_installed_addons();
+  return std::any_of(installed_addons.begin(), installed_addons.end(),
     [id] (const auto& installed_addon) {
       return installed_addon == id;
     });

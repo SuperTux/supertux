@@ -19,15 +19,15 @@
 #include "supertux/colorscheme.hpp"
 #include "video/color.hpp"
 
-ItemInactive::ItemInactive(const std::string& text_, const bool white_color) :
+ItemInactive::ItemInactive(const std::string& text_, bool default_color) :
   MenuItem(text_),
-  m_white_color(white_color)
+  m_default_color(default_color)
 {
 }
 
 Color
 ItemInactive::get_color() const {
-  return m_white_color ? ColorScheme::Menu::default_color : ColorScheme::Menu::inactive_color;
+  return m_default_color ? ColorScheme::Menu::default_color : ColorScheme::Menu::inactive_color;
 }
 
 /* EOF */

@@ -56,10 +56,9 @@ public:
 
   void set_menu(int id);
   void set_menu(std::unique_ptr<Menu> menu);
-  void push_menu(int id);
-  void push_menu(std::unique_ptr<Menu> menu);
-  void pop_menu();
-  void pop_stack();
+  void push_menu(int id, bool skip_transition = false);
+  void push_menu(std::unique_ptr<Menu> menu, bool skip_transition = false);
+  void pop_menu(bool skip_transition = false);
   void clear_menu_stack();
 
   void on_window_resize();

@@ -23,7 +23,7 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-ItemToggle::ItemToggle(const std::string& text_, bool* toggled, int id_, const bool center_text) :
+ItemToggle::ItemToggle(const std::string& text_, bool* toggled, int id_, bool center_text) :
   MenuItem(text_, id_),
   m_center_text(center_text),
   m_get_func([toggled]{ return *toggled; }),
@@ -35,7 +35,7 @@ ItemToggle::ItemToggle(const std::string& text_,
                        std::function<bool()> get_func,
                        std::function<void(bool)> set_func,
                        int id_,
-                       const bool center_text) :
+                       bool center_text) :
   MenuItem(text_, id_),
   m_center_text(center_text),
   m_get_func(std::move(get_func)),
