@@ -142,6 +142,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
                            std::vector<Config::Addon>& addon_config) :
   m_downloader(),
   m_addon_directory(addon_directory),
+  m_cache_directory(FileSystem::join(addon_directory, "cache")),
   m_repository_url("https://raw.githubusercontent.com/SuperTux/addons/master/index-0_6.nfo"),
   m_addon_config(addon_config),
   m_installed_addons(),
@@ -179,11 +180,11 @@ AddonManager::AddonManager(const std::string& addon_directory,
   {
     try
     {
-        m_repository_addons = parse_addon_infos(ADDON_INFO_PATH);
+      m_repository_addons = parse_addon_infos(ADDON_INFO_PATH);
     }
     catch(const std::exception& err)
     {
-        log_warning << "parsing repository.nfo failed: " << err.what() << std::endl;
+      log_warning << "parsing repository.nfo failed: " << err.what() << std::endl;
     }
   }
   else
@@ -196,6 +197,12 @@ AddonManager::AddonManager(const std::string& addon_directory,
   {
     m_repository_url = g_config->repository_url;
   }
+
+  // Create the addon cache directory if it doesn't exist.
+  if (!PHYSFS_exists(m_cache_directory.c_str()))
+  {
+    PHYSFS_mkdir(m_cache_directory.c_str());
+  }
 }
 
 AddonManager::~AddonManager()
@@ -205,6 +212,22 @@ AddonManager::~AddonManager()
   for (const auto& addon : m_installed_addons)
   {
     m_addon_config.push_back({addon->get_id(), addon->is_enabled()});
+  }
+  // Delete the addon cache directory.
+  if (PHYSFS_exists(m_cache_directory.c_str()))
+  {
+    std::unique_ptr<char*, decltype(&PHYSFS_freeList)> rc(PHYSFS_enumerateFiles(m_cache_directory.c_str()), PHYSFS_freeList);
+    for (char** i = rc.get(); *i != nullptr; ++i)
+    {
+      if (!PHYSFS_delete(FileSystem::join(m_cache_directory, *i).c_str()))
+      {
+        log_warning << "Error deleting addon cache file: PHYSFS_delete failed: " << PHYSFS_getLastErrorCode() << std::endl;
+      }
+    }
+    if (!PHYSFS_delete(m_cache_directory.c_str()))
+    {
+      log_warning << "Error deleting addon cache directory: PHYSFS_delete failed: " << PHYSFS_getLastErrorCode() << std::endl;
+    }
   }
 }
 
@@ -601,8 +624,8 @@ AddonManager::scan_for_archives() const
     const std::string fullpath = FileSystem::join(m_addon_directory, *i);
     if (physfsutil::is_directory(fullpath))
     {
-      // ignore dot files (e.g. '.git/')
-      if ((*i)[0] != '.') {
+      // ignore dot files (e.g. '.git/'), as well as the addon cache directory
+      if ((*i)[0] != '.' && fullpath != m_cache_directory) {
         archives.push_back(fullpath);
       }
     }
@@ -828,5 +851,96 @@ AddonManager::onDownloadAborted(int id)
   m_downloader.onDownloadAborted(id);
 }
 #endif
+
+AddonScreenshotManager::AddonScreenshotManager(const AddonId& addon_id) :
+  m_addon_manager(*AddonManager::current()),
+  m_downloader(),
+  m_cache_directory(),
+  m_addon_id(addon_id),
+  m_screenshot_urls(),
+  m_local_screenshot_urls(),
+  m_transfer_status(nullptr),
+  m_callback([](ScreenshotList){})
+{
+  m_cache_directory = m_addon_manager.get_cache_directory();
+  m_screenshot_urls = m_addon_manager.get_repository_addon(m_addon_id).get_screenshots();
+}
+
+AddonScreenshotManager::~AddonScreenshotManager()
+{
+}
+
+void
+AddonScreenshotManager::update()
+{
+  m_downloader.update();
+}
+
+void
+AddonScreenshotManager::request_download_all(const std::function<void (ScreenshotList)>& callback)
+{
+  m_local_screenshot_urls.clear();
+  m_callback = callback;
+  request_download(0, true);
+}
+
+void
+AddonScreenshotManager::request_download(const int id, bool recursive)
+{
+  if (id > static_cast<int>(m_screenshot_urls.size()) - 1) return; //If the given screenshot ID doesn't exist, do not start the download process.
+
+  const std::string file_name = m_addon_id + "_" + std::to_string(id + 1) + FileSystem::extension(m_screenshot_urls[id]);
+  const std::string install_path = FileSystem::join(m_cache_directory, file_name);
+
+  const bool is_last_screenshot = id == static_cast<int>(m_screenshot_urls.size()) - 1;
+
+  if (PHYSFS_exists(install_path.c_str()))
+  {
+    m_local_screenshot_urls.push_back(install_path);
+    if (recursive)
+    {
+      if (!is_last_screenshot)
+      {
+        request_download(id + 1, true);
+      }
+      else
+      {
+        m_callback(m_local_screenshot_urls);
+        m_callback = nullptr;
+      }
+    }
+  }
+  else
+  {
+    m_transfer_status = m_downloader.request_download(m_screenshot_urls[id], install_path);
+    m_transfer_status->then([this, id, recursive, is_last_screenshot, install_path](bool success)
+    {
+      if (!success)
+      {
+        log_warning << "Downloading screenshot " << (id + 1) << " for addon \"" << m_addon_id << "\" failed: " << m_transfer_status->error_msg << std::endl;
+        if (!PHYSFS_delete(install_path.c_str()))
+        {
+          log_warning << "Error deleting screenshot file, which failed to download: PHYSFS_delete failed: " << PHYSFS_getLastErrorCode() << std::endl;
+        }
+      }
+      else
+      {
+        m_local_screenshot_urls.push_back(install_path);
+      }
+      if (recursive)
+      {
+        if (!is_last_screenshot)
+        {
+          request_download(id + 1, true);
+        }
+        else
+        {
+          m_callback(m_local_screenshot_urls);
+          m_callback = nullptr;
+        }
+      }
+    });
+  }
+}
 
 /* EOF */

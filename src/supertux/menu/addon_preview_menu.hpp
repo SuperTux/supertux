@@ -17,6 +17,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_PREVIEW_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_PREVIEW_MENU_HPP
 
+#include <vector>
+
+#include "addon/addon_manager.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 
 class Addon;
@@ -25,6 +29,7 @@ class AddonManager;
 class AddonPreviewMenu final : public Menu
 {
   enum {
+    MNID_SHOW_SCREENSHOTS,
     MNID_INSTALL,
     MNID_UNINSTALL,
     MNID_TOGGLE
@@ -32,16 +37,21 @@ class AddonPreviewMenu final : public Menu
 
 private:
   AddonManager& m_addon_manager;
+  AddonScreenshotManager m_screenshot_manager;
   const Addon& m_addon;
   bool m_addon_enabled;
   const bool m_auto_install;
   const bool m_update;
+  std::vector<std::string> m_screenshots;
+  bool m_show_screenshots;
 
 public:
   AddonPreviewMenu(const Addon& addon, bool auto_install = false, bool update = false);
   ~AddonPreviewMenu() override;
 
+  void rebuild_menu();
   void menu_action(MenuItem& item) override;
+
   void install_addon();
   void uninstall_addon();
   void toggle_addon();
@@ -49,6 +59,22 @@ public:
 private:
   AddonPreviewMenu(const AddonPreviewMenu&) = delete;
   AddonPreviewMenu& operator=(const AddonPreviewMenu&) = delete;
+};
+
+class ScreenshotDownloadDialog final : public Dialog
+{
+private:
+  AddonScreenshotManager& m_screenshot_manager;
+
+public:
+  ScreenshotDownloadDialog(AddonScreenshotManager& screenshot_manager, bool passive = false);
+  ~ScreenshotDownloadDialog();
+
+  void update() override;
+
+private:
+  ScreenshotDownloadDialog(const ScreenshotDownloadDialog&) = delete;
+  ScreenshotDownloadDialog& operator=(const ScreenshotDownloadDialog&) = delete;
 };
 
 #endif

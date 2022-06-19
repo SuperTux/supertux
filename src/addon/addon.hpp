@@ -19,6 +19,7 @@
 #define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
 #include <memory>
+#include <vector>
 #include <string>
 
 class ReaderMapping;
@@ -50,6 +51,7 @@ private:
   std::string m_description;
   std::string m_url;
   std::string m_md5;
+  std::vector<std::string> m_screenshots;
 
   // fields filled by the AddonManager
   std::string m_install_filename;
@@ -67,10 +69,11 @@ public:
   std::string get_title() const { return m_title; }
   std::string get_author() const { return m_author; }
   std::string get_license() const { return m_license; }
-  std::string get_description() const { return m_description; }
 
+  std::string get_description() const { return m_description; }
   std::string get_url() const { return m_url; }
   std::string get_md5() const { return m_md5; }
+  std::vector<std::string> get_screenshots() const { return m_screenshots; }
 
   std::string get_filename() const;
   std::string get_install_filename() const;

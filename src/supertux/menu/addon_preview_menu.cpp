@@ -19,8 +19,6 @@
 #include <fmt/format.h>
 
 #include "addon/addon.hpp"
-#include "addon/addon_manager.hpp"
-#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/download_dialog.hpp"
@@ -28,15 +26,29 @@
 
 AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool update) :
   m_addon_manager(*AddonManager::current()),
+  m_screenshot_manager(addon.get_id()),
   m_addon(addon),
   m_addon_enabled(addon.is_enabled()),
   m_auto_install(auto_install),
-  m_update(update)
+  m_update(update),
+  m_screenshots(),
+  m_show_screenshots(false)
+{
+  rebuild_menu();
+}
+
+AddonPreviewMenu::~AddonPreviewMenu()
+{
+}
+
+void
+AddonPreviewMenu::rebuild_menu()
 {
   std::string author;
   std::string type;
   std::string desc;
   std::string license;
+  bool screenshots_available = false;
   bool info_unavailable = false;
   try
   {
@@ -45,6 +57,7 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool u
     type = addon_string_util::addon_type_to_translated_string(repository_addon.get_type());
     desc = repository_addon.get_description();
     license = repository_addon.get_license();
+    screenshots_available = repository_addon.get_screenshots().size() > 0;
   }
   catch (std::exception& err)
   {
@@ -54,6 +67,8 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool u
     license = m_addon.get_license();
     info_unavailable = true;
   }
+
+  clear();
 
   add_label(fmt::format(fmt::runtime(_("{} \"{}\"")), type, m_addon.get_title()));
   add_hl();
@@ -91,6 +106,34 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool u
       }
     }
   }
+  add_inactive("");
+
+  if (m_screenshots.size() > 0 || screenshots_available)
+  {
+    if (m_show_screenshots)
+    {
+      for (std::string path : m_screenshots)
+      {
+        add_inactive(path); // For testing purposes.
+      }
+    }
+    else
+    {
+      const std::string show_screenshots_text = _("Show screenshots");
+      if (m_auto_install)
+      {
+        add_inactive(show_screenshots_text);
+      }
+      else
+      {
+        add_entry(MNID_SHOW_SCREENSHOTS, show_screenshots_text);
+      }
+    }
+  }
+  else
+  {
+    add_inactive(_("No screenshot previews available."));
+  }
 
   add_hl();
 
@@ -118,15 +161,25 @@ AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool u
   if (m_auto_install) install_addon();
 }
 
-AddonPreviewMenu::~AddonPreviewMenu()
-{
-}
-
 void
 AddonPreviewMenu::menu_action(MenuItem& item)
 {
   const int index = item.get_id();
-  if (index == MNID_INSTALL)
+  if (index == MNID_SHOW_SCREENSHOTS)
+  {
+    m_show_screenshots = true;
+    auto dialog = std::make_unique<ScreenshotDownloadDialog>(m_screenshot_manager, true);
+    dialog->set_text(_("Fetching screenshot previews..."));
+    MenuManager::instance().set_dialog(std::move(dialog));
+    m_screenshot_manager.request_download_all([this](std::vector<std::string> local_screenshot_urls)
+    {
+      log_warning << "Fetching screenshots for add-on \"" << m_addon.get_id() << "\" finished." << std::endl;
+      m_screenshots = local_screenshot_urls;
+      MenuManager::instance().set_dialog({});
+      rebuild_menu();
+    });
+  }
+  else if (index == MNID_INSTALL)
   {
     install_addon();
   }
@@ -138,6 +191,10 @@ AddonPreviewMenu::menu_action(MenuItem& item)
   {
     toggle_addon();
   }
+  else
+  {
+    log_warning << "Unknown menu item clicked: " << index << std::endl;
+  }
 }
 
 void
@@ -148,7 +205,7 @@ AddonPreviewMenu::install_addon()
   auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install);
   const std::string action = m_update ? _("Updating") : _("Downloading");
   const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
-  dialog->set_title(fmt::format(fmt::runtime(_("{} {}")), action, addon_string_util::generate_menu_item_text(repository_addon)));
+  dialog->set_title(fmt::format(fmt::runtime("{} {}"), action, addon_string_util::generate_menu_item_text(repository_addon)));
   status->then([this, addon_id](bool success)
   {
     if (success)
@@ -169,7 +226,7 @@ AddonPreviewMenu::install_addon()
       }
       MenuManager::instance().pop_menu(true);
       if (!m_update) MenuManager::instance().pop_menu(true);
-      MenuManager::instance().current_menu() -> refresh();
+      MenuManager::instance().current_menu()->refresh();
     }
     else
     {
@@ -195,13 +252,13 @@ AddonPreviewMenu::uninstall_addon()
     m_addon_manager.uninstall_addon(addon_id);
     Dialog::show_message(_("Addon uninstalled successfully."));
     MenuManager::instance().pop_menu(true);
-    MenuManager::instance().current_menu() -> refresh();
+    MenuManager::instance().current_menu()->refresh();
   }
   catch (std::exception& err)
   {
     Dialog::show_message(fmt::format(fmt::runtime(_("Error uninstalling addon:\n{}")), err.what()));
     MenuManager::instance().pop_menu(true);
-    MenuManager::instance().current_menu() -> refresh();
+    MenuManager::instance().current_menu()->refresh();
   }
 }
 
@@ -221,7 +278,23 @@ AddonPreviewMenu::toggle_addon()
   {
     Dialog::show_message(_("Please restart SuperTux\nfor these changes to take effect."));
   }
-  MenuManager::instance().previous_menu() -> refresh();
+  MenuManager::instance().previous_menu()->refresh();
+}
+
+ScreenshotDownloadDialog::ScreenshotDownloadDialog(AddonScreenshotManager& screenshot_manager, bool passive) :
+  Dialog(passive),
+  m_screenshot_manager(screenshot_manager)
+{
+}
+
+ScreenshotDownloadDialog::~ScreenshotDownloadDialog()
+{
+}
+
+void
+ScreenshotDownloadDialog::update()
+{
+  m_screenshot_manager.update();
 }
 
 /* EOF */

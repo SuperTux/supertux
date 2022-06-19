@@ -17,19 +17,17 @@
 
 #include "addon/addon.hpp"
 
+#include <boost/optional.hpp>
 #include <fmt/format.h>
 #include <sstream>
 
 #include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
+#include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
 
-namespace {
-
 static const char* s_allowed_characters = "-_0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-} // namespace
 
 namespace addon_string_util {
 
@@ -141,6 +139,17 @@ Addon::parse(const ReaderMapping& mapping)
     mapping.get("url", addon->m_url);
     mapping.get("md5", addon->m_md5);
     mapping.get("format", addon->m_format);
+    boost::optional<ReaderCollection> reader;
+    if (mapping.get("screenshots", reader))
+    {
+      for (auto& obj : reader->get_objects())
+      {
+        std::string url;
+        auto data = obj.get_mapping();
+        data.get("url",url);
+        addon->m_screenshots.push_back(url);
+      }
+    }
 
     return addon;
   }
@@ -188,6 +197,7 @@ Addon::Addon() :
   m_description(),
   m_url(),
   m_md5(),
+  m_screenshots(),
   m_install_filename(),
   m_enabled(false)
 {}

@@ -37,7 +37,7 @@
 #define UNPACK_UPDATE_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 0) / 2)
 #define UNPACK_INSTALLED_MENU_ID(idx) ((((idx) - MNID_ADDON_LIST_START) - 1) / 2)
 
-AddonMenu::AddonMenu(const bool language_packs_only) :
+AddonMenu::AddonMenu(bool language_packs_only) :
   m_addon_manager(*AddonManager::current()),
   m_installed_addons(),
   m_addons_enabled(),
@@ -48,6 +48,7 @@ AddonMenu::AddonMenu(const bool language_packs_only) :
 
 AddonMenu::~AddonMenu()
 {
+  MenuManager::instance().set_dialog({});
 }
 
 void

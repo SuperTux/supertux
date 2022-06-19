@@ -38,7 +38,7 @@ private:
   const bool m_langpacks_only;
 
 public:
-  AddonMenu(const bool language_packs_only = false);
+  AddonMenu(bool language_packs_only = false);
   ~AddonMenu() override;
 
   void refresh() override;
