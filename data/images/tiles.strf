@@ -21,7 +21,7 @@
  
    ;; next-id: 4750
   
-  ;; free/skipped ids (please use before any other): 2469, 2472, 2583, 2586
+  ;; free/skipped ids (please use before any other): 2472, 2583, 2586
   ;; Tile ids: 275 - 294, 483 - 490, 3454 - 3457, 4225(4241) - 4292 (!reserved for crystal cave!)
  
   (tilegroup
@@ -37,7 +37,7 @@
       20   23   207  208
       3044 3045 3046 3047
       3048 3049 3050 3051
-      3052 3053 3055 0
+      3052 3053 3055 26
       3056 3057 3059 0
       4009 4010 4011 4012
       4013 4014 4015 4016
@@ -49,7 +49,7 @@
       3261 3262 115  116
       3265 3266 117  118
       
-      2121 2122 2123 26
+      2121 2122 2123 2469
       2126 2127 2128 1517
       2131 2132 2133 1518
       2124 2125 3263 3264
@@ -1888,7 +1888,7 @@
     (solid #t)
     (object-name "bonusblock")
     (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 3)")
-    (editor-images "objects/bonus_block/bonus-herring.png")
+    (editor-images "objects/bonus_block/bonus-star.png")
     (data 3)
     (fps 2)
   )
@@ -3799,11 +3799,11 @@
     )
 
   (tiles
-    (width  5)
+    (width  6)
     (height 3)
-    (ids 2121 2122 2123 2124 2125
-         2126 2127 2128 2129 2130
-         2131 2132 2133 1517 1518
+    (ids 2121 2122 2123 2124 2125 2469
+         2126 2127 2128 2129 2130 0
+         2131 2132 2133 1517 1518 0
     )
     (images "tiles/snow/unisolid2.png")
   )

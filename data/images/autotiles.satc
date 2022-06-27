@@ -1103,7 +1103,7 @@
     (autotile
       (id 2127)
 	  (alt-id
-        (id 11)
+        (id 2469)
         (weight 0.5)
       )
       (solid #t)
