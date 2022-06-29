@@ -123,11 +123,14 @@ AddonPreviewMenu::rebuild_menu()
   {
     if (m_show_screenshots)
     {
-      for (std::string path : m_screenshots)
+      if (m_screenshots.size() > 0)
       {
-        add_inactive(path); // For testing purposes.
+        add_images(m_screenshots, 426, 240);
       }
-      if (m_screenshots.size() <= 0) add_inactive(_("Failed to load all available screenshot previews."));
+      else
+      {
+        add_inactive(_("Failed to load all available screenshot previews."));
+      }
     }
     else
     {
