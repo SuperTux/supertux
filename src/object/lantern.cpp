@@ -36,7 +36,7 @@ Lantern::Lantern(const ReaderMapping& reader) :
     lightcolor = Color(vColor);
   } else {
     if (!Editor::is_active()) {
-      lightcolor = Color(0, 0, 0);
+      lightcolor = Color(1, 1, 1);
     }
   }
   lightsprite->set_blend(Blend::ADD);
