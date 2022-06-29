@@ -538,8 +538,8 @@ Sector::can_see_player(const Vector& eye) const
 bool
 Sector::inside(const Rectf& rect) const
 {
-  for (const auto& solids : get_solid_tilemaps()) {
-    Rectf bbox = solids->get_bbox();
+  for (const auto& tilemap : get_all_tilemaps()) {
+    Rectf bbox = tilemap->get_bbox();
 
     // the top of the sector extends to infinity
     if (bbox.get_left() <= rect.get_left() &&
@@ -554,14 +554,14 @@ Sector::inside(const Rectf& rect) const
 Size
 Sector::get_editor_size() const
 {
-  // Find the solid tilemap with the greatest surface
+  // Find the tilemap with the greatest surface
   size_t max_surface = 0;
   Size size;
-  for (const auto& solids: get_solid_tilemaps()) {
-    size_t surface = solids->get_width() * solids->get_height();
+  for (const auto& tilemap : get_all_tilemaps()) {
+    size_t surface = tilemap->get_width() * tilemap->get_height();
     if (surface > max_surface) {
       max_surface = surface;
-      size = solids->get_size();
+      size = tilemap->get_size();
     }
   }
 
