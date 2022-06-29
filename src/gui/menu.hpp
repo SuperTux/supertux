@@ -49,6 +49,7 @@ class ItemStringSelect;
 class ItemTextField;
 class ItemToggle;
 class ItemStringArray;
+class ItemImages;
 class MenuItem;
 class PathObject;
 
@@ -98,6 +99,8 @@ public:
   ItemColorChannelOKLab& add_color_channel_oklab(Color* color, int channel);
   ItemPaths& add_path_settings(const std::string& text, PathObject& target, const std::string& path_ref);
   ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>& items, int id = -1);
+  ItemImages& add_images(const std::string& image_path, int max_image_width = 0, int max_image_height = 0, int id = -1);
+  ItemImages& add_images(const std::vector<std::string>& image_paths, int max_image_width = 0, int max_image_height = 0, int id = -1);
 
   void process_input(const Controller& controller);
 
@@ -132,9 +135,11 @@ protected:
 private:
   void process_action(const MenuAction& menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
-  void draw_item(DrawingContext& context, int index);
+  void draw_item(DrawingContext& context, int index, float y_pos);
   /** Recalculates the width for this menu */
   void calculate_width();
+  /** Recalculates the height for this menu */
+  void calculate_height();
 
 private:
   /** position of the menu (ie. center of the menu, not top/left) */
@@ -145,6 +150,7 @@ private:
   char m_mn_input_char;
   float m_menu_repeat_time;
   float m_menu_width;
+  float m_menu_height;
 
 public:
   std::vector<std::unique_ptr<MenuItem> > m_items;
