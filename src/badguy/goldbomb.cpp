@@ -185,6 +185,8 @@ GoldBomb::kill_fall()
 void
 GoldBomb::ignite()
 {
+  if (m_frozen)
+    unfreeze();
   kill_fall();
 }
 

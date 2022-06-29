@@ -179,9 +179,9 @@ Owl::freeze()
 }
 
 void
-Owl::unfreeze()
+Owl::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
   m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");

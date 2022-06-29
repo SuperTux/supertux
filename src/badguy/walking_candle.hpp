@@ -28,7 +28,7 @@ public:
   virtual bool is_flammable() const override;
 
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 

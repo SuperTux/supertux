@@ -105,7 +105,7 @@ public:
   virtual void freeze();
 
   /** Called to unfreeze the badguy. */
-  virtual void unfreeze();
+  virtual void unfreeze(bool melt = true);
 
   virtual bool is_freezable() const;
 
@@ -284,6 +284,8 @@ private:
   bool m_is_active_flag;
 
   Timer m_state_timer;
+
+  Timer m_unfreeze_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */

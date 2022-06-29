@@ -32,7 +32,7 @@ public:
   virtual void kill_fall() override;
 
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual void ignite() override;
   virtual std::string get_class() const override { return "owl"; }

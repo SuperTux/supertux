@@ -49,7 +49,7 @@ public:
   virtual void initialize() override;
   virtual bool is_freezable() const override;
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
   virtual void kill_collision() override;
   virtual std::string get_class() const override { return "leafshot"; }
   virtual std::string get_display_name() const override { return _("Leafshot"); }

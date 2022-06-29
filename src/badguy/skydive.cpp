@@ -83,7 +83,6 @@ SkyDive::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 SkyDive::ungrab(MovingObject& object, Direction dir_)
 {
-  m_sprite->set_action("falling", 1);
   auto player = dynamic_cast<Player*> (&object);
   //handle swimming
   if (player)

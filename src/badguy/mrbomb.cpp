@@ -124,6 +124,8 @@ MrBomb::kill_fall()
 void
 MrBomb::ignite()
 {
+  if (m_frozen)
+    unfreeze();
   kill_fall();
 }
 
@@ -136,14 +138,6 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_dir = dir_;
   m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
-}
-
-void
-MrBomb::ungrab(MovingObject& object, Direction dir_)
-{
-  m_dir = dir_;
-  set_colgroup_active(COLGROUP_MOVING);
-  BadGuy::ungrab(object, dir_);
 }
 
 bool

@@ -30,7 +30,7 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "zeekling"; }
   virtual std::string get_display_name() const override { return _("Zeekling"); }

@@ -180,20 +180,28 @@ Haywire::active_update(float dt_sec)
 
     float target_velocity = 0.f;
 
-    if (stomped_timer.get_timeleft() >= 0.05f)
+    if (!m_frozen)
+    {
+      if (stomped_timer.get_timeleft() >= 0.05f)
+      {
+        target_velocity = 0.f;
+      }
+      else if (player && time_stunned == 0.0f)
+      {
+        /* Player is on the right or left*/
+        target_velocity = (player->get_pos().x > get_pos().x) ? walk_speed : (-1.f) * walk_speed;
+      }
+    }
+    else
     {
       target_velocity = 0.f;
     }
-    else if (player && time_stunned == 0.0f)
-    {
-      /* Player is on the right or left*/
-      target_velocity = (player->get_pos().x > get_pos().x) ? walk_speed : (-1.f) * walk_speed;
-    }
-
     WalkingBadguy::active_update(dt_sec, target_velocity, 3.f);
   }
   else
+  {
     WalkingBadguy::active_update(dt_sec);
+  }
 }
 
 void
@@ -233,6 +241,8 @@ Haywire::is_freezable() const
 void
 Haywire::ignite()
 {
+  if (m_frozen)
+    unfreeze();
   kill_fall();
 }
 

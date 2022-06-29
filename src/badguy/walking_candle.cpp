@@ -57,8 +57,8 @@ WalkingCandle::freeze() {
 }
 
 void
-WalkingCandle::unfreeze() {
-  BadGuy::unfreeze();
+WalkingCandle::unfreeze(bool melt) {
+  BadGuy::unfreeze(melt);
   initialize();
   m_glowing = true;
 }
@@ -80,7 +80,7 @@ WalkingCandle::kill_fall()
 {
   if (!m_frozen)
     return;
-  BadGuy::kill_fall();
+  unfreeze(false);
 }
 
 ObjectSettings

@@ -209,9 +209,9 @@ Zeekling::freeze()
 }
 
 void
-Zeekling::unfreeze()
+Zeekling::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   m_physic.enable_gravity(false);
   state = FLYING;
   initialize();

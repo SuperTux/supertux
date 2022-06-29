@@ -225,9 +225,9 @@ WalkingBadguy::freeze()
 }
 
 void
-WalkingBadguy::unfreeze()
+WalkingBadguy::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   WalkingBadguy::initialize();
 }
 

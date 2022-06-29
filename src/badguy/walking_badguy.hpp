@@ -49,7 +49,7 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
 
   void active_update(float dt_sec, float target_velocity, float modifier = 1.f);
 

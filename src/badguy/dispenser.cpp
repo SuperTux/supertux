@@ -420,13 +420,13 @@ Dispenser::freeze()
 }
 
 void
-Dispenser::unfreeze()
+Dispenser::unfreeze(bool melt)
 {
   /*set_group(colgroup_active);
   frozen = false;
 
   sprite->set_color(Color(1.00, 1.00, 1.00f));*/
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
 
   set_colgroup_active(m_type == DispenserType::ROCKETLAUNCHER ? COLGROUP_MOVING :
                       m_type == DispenserType::POINT ? COLGROUP_DISABLED :

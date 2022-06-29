@@ -128,9 +128,9 @@ LeafShot::freeze()
 }
 
 void
-LeafShot::unfreeze()
+LeafShot::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   m_physic.enable_gravity(false);
   initialize();
 }

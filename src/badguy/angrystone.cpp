@@ -180,9 +180,9 @@ AngryStone::freeze()
 }
 
 void
-AngryStone::unfreeze()
+AngryStone::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
 }
 
 bool

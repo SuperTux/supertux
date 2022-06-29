@@ -69,12 +69,14 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
+  m_unfreeze_timer(),
   m_on_ground_flag(false),
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/splash.ogg");
   SoundManager::current()->preload("sounds/fire.ogg");
 
@@ -104,6 +106,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
+  m_unfreeze_timer(),
   m_on_ground_flag(false),
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
@@ -117,6 +120,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/splash.ogg");
   SoundManager::current()->preload("sounds/fire.ogg");
 
@@ -137,20 +141,32 @@ BadGuy::draw(DrawingContext& context)
   }
   else
   {
-    if (m_state == STATE_FALLING) {
+    if (m_state == STATE_FALLING)
+    {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
       m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
       context.pop_transform();
-    } else {
-      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
     }
-    if (m_frozen && is_portable())
+    else
     {
-      m_freezesprite->draw(context.color(), get_pos(), m_layer);
-    }
-    if (m_glowing) {
-      m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+      if (m_unfreeze_timer.started() && m_unfreeze_timer.get_timeleft() <= 1.f)
+      {
+        m_sprite->draw(context.color(), get_pos() + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer-1, m_flip);
+        if (is_portable())
+          m_freezesprite->draw(context.color(), get_pos() + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer);
+      }
+      else
+      {
+        if (m_frozen && is_portable())
+          m_freezesprite->draw(context.color(), get_pos(), m_layer);
+        m_sprite->draw(context.color(), get_pos(), m_layer - (m_frozen ? 1 : 0), m_flip);
+      }
+
+      if (m_glowing)
+      {
+        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+      }
     }
   }
 }
@@ -159,8 +175,12 @@ void
 BadGuy::update(float dt_sec)
 {
   if (m_frozen && !is_grabbed())
+  {
     set_colgroup_active(std::abs(m_physic.get_velocity_y()) < 0.2f && std::abs(m_physic.get_velocity_x()) < 0.2f
-    ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
+      ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
+    if (m_unfreeze_timer.check())
+      unfreeze(false);
+  }
   if (!Sector::get().inside(m_col.m_bbox)) {
     auto this_portable = dynamic_cast<Portable*> (this);
     if (!this_portable || !this_portable->is_grabbed())
@@ -788,6 +808,7 @@ BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_dir = dir_;
   if (m_frozen)
   {
+    m_unfreeze_timer.stop();
     if (m_sprite->has_action("iced-left"))
     {
       m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
@@ -817,6 +838,7 @@ BadGuy::ungrab(MovingObject& object, Direction dir_)
   set_colgroup_active(m_frozen ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
   if (m_frozen)
   {
+    m_unfreeze_timer.start(8.f);
     if (player->is_swimming() || player->is_water_jumping())
     {
       float swimangle = player->get_swimming_angle();
@@ -857,8 +879,10 @@ BadGuy::is_portable() const
 void
 BadGuy::freeze()
 {
-  set_colgroup_active(COLGROUP_MOVING_STATIC);
   m_frozen = true;
+  m_unfreeze_timer.start(8.f);
+  set_colgroup_active(COLGROUP_MOVING_STATIC);
+  SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
 
   float freezesize_x =
     get_overlay_size() == "3x3" ? 96.f :
@@ -892,7 +916,7 @@ BadGuy::freeze()
 }
 
 void
-BadGuy::unfreeze()
+BadGuy::unfreeze(bool melt)
 {
   if (!m_ignited)
   {
@@ -902,16 +926,18 @@ BadGuy::unfreeze()
     m_sprite->set_animation_loops();
   }
   m_frozen = false;
+  m_unfreeze_timer.stop();
   m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
-  SoundManager::current()->play("sounds/splash.ogg", get_pos());
+  SoundManager::current()->play(melt ? "sounds/splash.ogg" : "sounds/brick.wav", get_pos());
   Vector pr_pos(0.0f, 0.0f);
   float cx = m_col.m_bbox.get_width() / 2.f;
+  std::string particle_sprite_name = melt ? "images/particles/water_piece" : "images/particles/ice_piece";
   for (pr_pos.x = 0; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x += 16.f) {
     for (pr_pos.y = 0; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 16.f) {
       Vector speed = Vector((pr_pos.x - cx) * 2.f, 0.f);
       Sector::get().add<SpriteParticle>(
-        "images/particles/water_piece" + std::to_string(graphicsRandom.rand(1, 3)) + ".sprite", "default",
+        particle_sprite_name + std::to_string(graphicsRandom.rand(1, 3)) + ".sprite", "default",
         m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
         //SPEED: add current enemy speed but do not add downwards velocity because it looks bad
         Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())

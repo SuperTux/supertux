@@ -109,6 +109,8 @@ ShortFuse::kill_fall()
 void
 ShortFuse::ignite()
 {
+  if (m_frozen)
+    unfreeze();
   kill_fall();
 }
 

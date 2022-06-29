@@ -95,9 +95,9 @@ SpiderMite::freeze()
 }
 
 void
-SpiderMite::unfreeze()
+SpiderMite::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   m_physic.enable_gravity(false);
   initialize();
 }

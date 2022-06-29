@@ -158,9 +158,9 @@ Toad::active_update(float dt_sec)
 }
 
 void
-Toad::unfreeze()
+Toad::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   initialize();
 }
 
