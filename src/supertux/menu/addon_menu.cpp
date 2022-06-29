@@ -48,7 +48,6 @@ AddonMenu::AddonMenu(bool language_packs_only) :
 
 AddonMenu::~AddonMenu()
 {
-  MenuManager::instance().set_dialog({});
 }
 
 void

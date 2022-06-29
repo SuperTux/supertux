@@ -73,9 +73,9 @@ public:
     return m_passive;
   }
 
-  static void show_message(const std::string& text, const bool passive = false)
+  static void show_message(const std::string& text)
   {
-    auto dialog = std::make_unique<Dialog>(passive);
+    auto dialog = std::make_unique<Dialog>();
     dialog->set_text(text);
     dialog->clear_buttons();
     dialog->add_button(_("OK"), [] {});

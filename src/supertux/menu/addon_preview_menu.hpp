@@ -49,6 +49,8 @@ public:
   AddonPreviewMenu(const Addon& addon, bool auto_install = false, bool update = false);
   ~AddonPreviewMenu() override;
 
+  bool on_back_action() override;
+
   void rebuild_menu();
   void menu_action(MenuItem& item) override;
 
@@ -68,7 +70,7 @@ private:
 
 public:
   ScreenshotDownloadDialog(AddonScreenshotManager& screenshot_manager, bool passive = false);
-  ~ScreenshotDownloadDialog();
+  ~ScreenshotDownloadDialog() override;
 
   void update() override;
 

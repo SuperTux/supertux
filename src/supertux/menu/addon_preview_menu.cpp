@@ -41,6 +41,17 @@ AddonPreviewMenu::~AddonPreviewMenu()
 {
 }
 
+bool
+AddonPreviewMenu::on_back_action()
+{
+  if (MenuManager::instance().has_dialog()) //If an addon screenshot download was likely interrupted.
+  {
+    m_addon_manager.empty_cache_directory();
+    MenuManager::instance().set_dialog({});
+  }
+  return true;
+}
+
 void
 AddonPreviewMenu::rebuild_menu()
 {
@@ -116,6 +127,7 @@ AddonPreviewMenu::rebuild_menu()
       {
         add_inactive(path); // For testing purposes.
       }
+      if (m_screenshots.size() <= 0) add_inactive(_("Failed to load all available screenshot previews."));
     }
     else
     {
@@ -140,7 +152,7 @@ AddonPreviewMenu::rebuild_menu()
   bool addon_installed = m_addon.is_installed();
   if ((!addon_installed || m_update) && !info_unavailable)
   {
-    const std::string action = m_update ? _("Update") : _("Download");
+    const std::string action = m_update ? _("Update") : _("Install");
     if (m_auto_install)
     {
       add_inactive(action);
@@ -173,7 +185,7 @@ AddonPreviewMenu::menu_action(MenuItem& item)
     MenuManager::instance().set_dialog(std::move(dialog));
     m_screenshot_manager.request_download_all([this](std::vector<std::string> local_screenshot_urls)
     {
-      log_warning << "Fetching screenshots for add-on \"" << m_addon.get_id() << "\" finished." << std::endl;
+      log_info << "Fetching screenshots for add-on \"" << m_addon.get_id() << "\" finished." << std::endl;
       m_screenshots = local_screenshot_urls;
       MenuManager::instance().set_dialog({});
       rebuild_menu();

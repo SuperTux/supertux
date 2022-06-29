@@ -146,7 +146,7 @@ Addon::parse(const ReaderMapping& mapping)
       {
         std::string url;
         auto data = obj.get_mapping();
-        data.get("url",url);
+        data.get("url", url);
         addon->m_screenshots.push_back(url);
       }
     }

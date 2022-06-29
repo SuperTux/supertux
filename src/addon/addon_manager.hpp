@@ -62,6 +62,7 @@ public:
   TransferStatusPtr request_check_online();
 
   std::string get_cache_directory() const { return m_cache_directory; }
+  void empty_cache_directory();
 
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
@@ -112,7 +113,7 @@ private:
   AddonManager& operator=(const AddonManager&) = delete;
 };
 
-/** Manages screenshots, included in a given Add-on */
+/** Manages screenshot previews, specified for a given Add-on */
 class AddonScreenshotManager final
 {
 public:
