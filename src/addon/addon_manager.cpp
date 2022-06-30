@@ -923,7 +923,7 @@ AddonScreenshotManager::request_download(const int id, bool recursive)
       else
       {
         m_callback(m_local_screenshot_urls);
-        m_callback = nullptr;
+        m_callback = [](ScreenshotList){};
       }
     }
   }
@@ -953,7 +953,7 @@ AddonScreenshotManager::request_download(const int id, bool recursive)
         else
         {
           m_callback(m_local_screenshot_urls);
-          m_callback = nullptr;
+          m_callback = [](ScreenshotList){};
         }
       }
     });

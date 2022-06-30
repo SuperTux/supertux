@@ -73,18 +73,18 @@ public:
     return m_passive;
   }
 
-  static void show_message(const std::string& text)
+  static void show_message(const std::string& text, bool passive = false, bool no_auto_clear = false)
   {
-    auto dialog = std::make_unique<Dialog>();
+    auto dialog = std::make_unique<Dialog>(passive, !no_auto_clear);
     dialog->set_text(text);
     dialog->clear_buttons();
     dialog->add_button(_("OK"), [] {});
     MenuManager::instance().set_dialog(std::move(dialog));
   }
 
-  static void show_confirmation(const std::string& text, const std::function<void ()>& callback)
+  static void show_confirmation(const std::string& text, const std::function<void ()>& callback, bool no_auto_clear = false)
   {
-    auto dialog = std::make_unique<Dialog>();
+    auto dialog = std::make_unique<Dialog>(false, !no_auto_clear);
     dialog->set_text(text);
     dialog->clear_buttons();
     dialog->add_default_button(_("Yes"), callback);

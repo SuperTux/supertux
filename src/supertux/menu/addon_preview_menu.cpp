@@ -44,7 +44,7 @@ AddonPreviewMenu::~AddonPreviewMenu()
 bool
 AddonPreviewMenu::on_back_action()
 {
-  if (MenuManager::instance().has_dialog()) //If an addon screenshot download was likely interrupted.
+  if (MenuManager::instance().has_dialog()) //If an addon screenshot download is likely being interrupted.
   {
     m_addon_manager.empty_cache_directory();
     MenuManager::instance().set_dialog({});
@@ -119,7 +119,7 @@ AddonPreviewMenu::rebuild_menu()
   }
   add_inactive("");
 
-  if (m_screenshots.size() > 0 || screenshots_available)
+  if ((m_screenshots.size() > 0 || screenshots_available) && !m_auto_install)
   {
     if (m_show_screenshots)
     {
@@ -144,6 +144,10 @@ AddonPreviewMenu::rebuild_menu()
         add_entry(MNID_SHOW_SCREENSHOTS, show_screenshots_text);
       }
     }
+  }
+  else if (m_auto_install)
+  {
+    add_inactive(_("Screenshot previews are disabled for automatic installs."));
   }
   else
   {
@@ -200,7 +204,11 @@ AddonPreviewMenu::menu_action(MenuItem& item)
   }
   else if (index == MNID_UNINSTALL)
   {
-    uninstall_addon();
+    Dialog::show_confirmation(fmt::format(fmt::runtime(_("Are you sure you want to uninstall \"{}\"?\nYour progress won't be lost.")),
+      m_addon.get_title()), [this]()
+    {
+      uninstall_addon();
+    }, true);
   }
   else if (index == MNID_TOGGLE)
   {
@@ -259,22 +267,18 @@ void
 AddonPreviewMenu::uninstall_addon()
 {
   const AddonId& addon_id = m_addon.get_id();
-  auto dialog = std::make_unique<Dialog>();
-  dialog->set_text(_("Uninstalling addon, please wait..."));
-  MenuManager::instance().set_dialog(std::move(dialog));
   try
   {
     m_addon_manager.uninstall_addon(addon_id);
-    Dialog::show_message(_("Addon uninstalled successfully."));
-    MenuManager::instance().pop_menu(true);
-    MenuManager::instance().current_menu()->refresh();
+    Dialog::show_message(_("Add-on uninstalled successfully."));
   }
   catch (std::exception& err)
   {
-    Dialog::show_message(fmt::format(fmt::runtime(_("Error uninstalling addon:\n{}")), err.what()));
-    MenuManager::instance().pop_menu(true);
-    MenuManager::instance().current_menu()->refresh();
+    log_warning << "Error uninstalling add-on: " << err.what() << std::endl;
+    Dialog::show_message(fmt::format(fmt::runtime(_("Error uninstalling add-on:\n{}")), err.what()));
   }
+  MenuManager::instance().pop_menu(true);
+  MenuManager::instance().current_menu()->refresh();
 }
 
 void
