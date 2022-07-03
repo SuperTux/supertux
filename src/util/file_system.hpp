@@ -40,6 +40,9 @@ std::string basename(const std::string& filename);
     reldir("/levels/juser/level1.stl", "/levels") -> "juser/level1.stl" */
 std::string relpath(const std::string& filename, const std::string& basedir);
 
+/** Return the extension of a file */
+std::string extension(const std::string& filename);
+
 /** remove everything starting from and including the last dot */
 std::string strip_extension(const std::string& filename);
 

@@ -132,6 +132,15 @@ std::string relpath(const std::string& filename, const std::string& basedir)
 #endif
 }
 
+std::string extension(const std::string& filename)
+{
+  std::string::size_type p = filename.find_last_of('.');
+  if (p == std::string::npos)
+    return "";
+
+  return filename.substr(p);
+}
+
 std::string strip_extension(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('.');

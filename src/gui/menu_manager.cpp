@@ -240,9 +240,9 @@ MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
 }
 
 void
-MenuManager::push_menu(int id)
+MenuManager::push_menu(int id, bool skip_transition)
 {
-  push_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
+  push_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)), skip_transition);
 }
 
 void
@@ -252,16 +252,16 @@ MenuManager::set_menu(int id)
 }
 
 void
-MenuManager::push_menu(std::unique_ptr<Menu> menu)
+MenuManager::push_menu(std::unique_ptr<Menu> menu, bool skip_transition)
 {
   assert(menu);
-  transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
-             menu.get());
+  if (!skip_transition) transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
+                         menu.get());
   m_menu_stack.push_back(std::move(menu));
 }
 
 void
-MenuManager::pop_menu()
+MenuManager::pop_menu(bool skip_transition)
 {
   if (m_menu_stack.empty())
   {
@@ -269,10 +269,10 @@ MenuManager::pop_menu()
   }
   else
   {
-    transition(m_menu_stack.back().get(),
-               (m_menu_stack.size() >= 2)
-               ? m_menu_stack[m_menu_stack.size() - 2].get()
-               : nullptr);
+    if (!skip_transition) transition(m_menu_stack.back().get(),
+                           (m_menu_stack.size() >= 2)
+                           ? m_menu_stack[m_menu_stack.size() - 2].get()
+                           : nullptr);
 
     m_menu_stack.pop_back();
   }
@@ -326,6 +326,19 @@ MenuManager::current_menu() const
   else
   {
     return m_menu_stack.back().get();
+  }
+}
+
+Menu*
+MenuManager::previous_menu() const
+{
+  if (m_menu_stack.size() < 2)
+  {
+    return nullptr;
+  }
+  else
+  {
+    return m_menu_stack.end()[-2].get();
   }
 }
 
