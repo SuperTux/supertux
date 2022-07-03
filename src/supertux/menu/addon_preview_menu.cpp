@@ -186,6 +186,11 @@ AddonPreviewMenu::menu_action(MenuItem& item)
   const int index = item.get_id();
   if (index == MNID_SHOW_SCREENSHOTS)
   {
+    if (MenuManager::instance().has_dialog()) //If an addon screenshot download is likely currently running.
+    {
+      log_warning << "A screenshot download is currently active. Ignoring screenshot download request." << std::endl;
+      return;
+    }
     m_show_screenshots = true;
     auto dialog = std::make_unique<ScreenshotDownloadDialog>(m_screenshot_manager, true);
     dialog->set_text(_("Fetching screenshot previews..."));
@@ -204,8 +209,10 @@ AddonPreviewMenu::menu_action(MenuItem& item)
   }
   else if (index == MNID_UNINSTALL)
   {
-    Dialog::show_confirmation(fmt::format(fmt::runtime(_("Are you sure you want to uninstall \"{}\"?\nYour progress won't be lost.")),
-      m_addon.get_title()), [this]()
+    std::string message = fmt::format(fmt::runtime(_("Are you sure you want to uninstall \"{}\"?")), m_addon.get_title());
+    if (m_addon.get_type() != Addon::LANGUAGEPACK) message += _("\nYour progress won't be lost.");
+
+    Dialog::show_confirmation(message, [this]()
     {
       uninstall_addon();
     }, true);
@@ -225,7 +232,7 @@ AddonPreviewMenu::install_addon()
 {
   auto addon_id = m_addon.get_id();
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
-  auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install);
+  auto dialog = std::make_unique<DownloadDialog>(status, false);
   const std::string action = m_update ? _("Updating") : _("Downloading");
   const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
   dialog->set_title(fmt::format(fmt::runtime("{} {}"), action, addon_string_util::generate_menu_item_text(repository_addon)));

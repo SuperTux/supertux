@@ -175,7 +175,7 @@ AddonBrowseMenu::check_online()
         if (m_auto_install_langpack)
         {
           const std::string& langpack_id = "language-pack";
-          MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(m_addon_manager.get_repository_addon(langpack_id), true));
+          MenuManager::instance().push_menu(std::make_unique<AddonPreviewMenu>(m_addon_manager.get_repository_addon(langpack_id), true), true);
         }
         else
         {
@@ -191,7 +191,7 @@ AddonBrowseMenu::check_online()
         }
       }
     });
-    auto dialog = std::make_unique<DownloadDialog>(status, false, m_auto_install_langpack);
+    auto dialog = std::make_unique<DownloadDialog>(status, false);
     dialog->set_title(_("Downloading Add-On Repository Index"));
     MenuManager::instance().set_dialog(std::move(dialog));
   }

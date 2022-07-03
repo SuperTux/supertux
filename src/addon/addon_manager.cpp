@@ -203,6 +203,10 @@ AddonManager::AddonManager(const std::string& addon_directory,
   {
     PHYSFS_mkdir(m_cache_directory.c_str());
   }
+  else
+  {
+    empty_cache_directory();
+  }
 }
 
 AddonManager::~AddonManager()
@@ -270,6 +274,7 @@ AddonManager::request_check_online()
   }
   else
   {
+    empty_cache_directory();
     m_transfer_status = m_downloader.request_download(m_repository_url, ADDON_INFO_PATH);
 
     m_transfer_status->then(
@@ -291,6 +296,7 @@ AddonManager::request_check_online()
 void
 AddonManager::check_online()
 {
+  empty_cache_directory();
   m_downloader.download(m_repository_url, ADDON_INFO_PATH);
   m_repository_addons = parse_addon_infos(ADDON_INFO_PATH);
   m_has_been_updated = true;
@@ -911,7 +917,7 @@ AddonScreenshotManager::request_download(const int id, bool recursive)
 
   const bool is_last_screenshot = id == static_cast<int>(m_screenshot_urls.size()) - 1;
 
-  if (PHYSFS_exists(install_path.c_str()) && !m_addon_manager.has_been_updated())
+  if (PHYSFS_exists(install_path.c_str()))
   {
     m_local_screenshot_urls.push_back(install_path);
     if (recursive)
