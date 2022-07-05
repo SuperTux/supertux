@@ -53,7 +53,6 @@ public:
 
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
-  virtual void kill_collision() override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
   static std::string class_name() { return "leafshot"; }
