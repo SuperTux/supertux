@@ -40,6 +40,13 @@ public:
 
   int profile;
 
+  struct Profile
+  {
+    int id;
+    std::string name;
+  };
+  std::vector<Profile> profiles;
+
   /** the width/height to be used to display the game in fullscreen */
   Size fullscreen_size;
 
