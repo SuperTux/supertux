@@ -138,12 +138,12 @@ Config::load()
     {
       if (profile_node.get_name() == "profile")
       {
-        auto profile = profile_node.get_mapping();
+        auto current_profile = profile_node.get_mapping();
 
         int id;
         std::string name;
-        if (profile.get("id", id) &&
-            profile.get("name", name))
+        if (current_profile.get("id", id) &&
+            current_profile.get("name", name))
         {
           profiles.push_back({id, name});
         }
@@ -333,11 +333,11 @@ Config::save()
   writer.write("profile", profile);
 
   writer.start_list("profiles");
-  for (const auto& profile : profiles)
+  for (const auto& current_profile : profiles)
   {
     writer.start_list("profile");
-    writer.write("id", profile.id);
-    writer.write("name", profile.name);
+    writer.write("id", current_profile.id);
+    writer.write("name", current_profile.name);
     writer.end_list("profile");
   }
   writer.end_list("profiles");
