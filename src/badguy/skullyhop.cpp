@@ -142,9 +142,9 @@ SkullyHop::active_update(float dt_sec)
 }
 
 void
-SkullyHop::unfreeze()
+SkullyHop::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   initialize();
 }
 

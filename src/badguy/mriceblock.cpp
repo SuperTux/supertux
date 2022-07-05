@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -53,7 +54,7 @@ MrIceBlock::initialize()
 void
 MrIceBlock::active_update(float dt_sec)
 {
-  if (ice_state == ICESTATE_GRABBED)
+  if (ice_state == ICESTATE_GRABBED || is_grabbed())
     return;
 
   if (ice_state == ICESTATE_FLAT && flat_timer.check()) {
@@ -300,7 +301,7 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 bool
 MrIceBlock::is_portable() const
 {
-  return ice_state == ICESTATE_FLAT;
+  return (m_frozen || ice_state == ICESTATE_FLAT);
 }
 
 void

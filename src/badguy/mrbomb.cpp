@@ -21,6 +21,7 @@
 #include "badguy/bomb.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
@@ -66,7 +67,14 @@ MrBomb::collision_player(Player& player, const CollisionHit& hit)
 bool
 MrBomb::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(object);
+
   auto player = dynamic_cast<Player*>(&object);
+  if (player && !player->m_does_buttjump && m_frozen)
+  {
+    return false;
+  }
   if (player && player->is_invincible()) {
     player->bounce(*this);
     kill_fall();
@@ -101,17 +109,23 @@ void
 MrBomb::kill_fall()
 {
   if (is_valid()) {
-    remove_me();
-    Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
-      EXPLOSION_STRENGTH_DEFAULT);
+    if (m_frozen)
+      BadGuy::kill_fall();
+    else
+    {
+      remove_me();
+      Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+        EXPLOSION_STRENGTH_DEFAULT);
+      run_dead_script();
+    }
   }
-
-  run_dead_script();
 }
 
 void
 MrBomb::ignite()
 {
+  if (m_frozen)
+    unfreeze();
   kill_fall();
 }
 
@@ -124,14 +138,6 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_dir = dir_;
   m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
-}
-
-void
-MrBomb::ungrab(MovingObject& object, Direction dir_)
-{
-  m_dir = dir_;
-  set_colgroup_active(COLGROUP_MOVING);
-  Portable::ungrab(object, dir_);
 }
 
 bool

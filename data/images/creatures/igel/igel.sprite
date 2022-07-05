@@ -10,8 +10,8 @@
   )
   (action
     (name "iced-left")
-    (hitbox 2.1 6.1 45.8 25.8)
-    (images "frozen.png")
+    (hitbox -7 -8 45.8 25.8)
+    (images "walk-0.png")
   )
   (action
     (name "walking-right")
@@ -20,7 +20,7 @@
   )
   (action
     (name "iced-right")
-    (hitbox 2.1 6.1 45.8 25.8)
+    (hitbox -7 -9 45.8 25.8)
     (mirror-action "iced-left")
   )
   (action

@@ -18,11 +18,11 @@
   (mirror-action "left"))
  (action
   (name "iced-left")
-  (hitbox 6 10 31.8 31.8)
-  (images "iced-left.png"))
+  (hitbox -1 2 31.8 31.8)
+  (images "spikywalk3.png"))
  (action
   (name "iced-right")
-  (hitbox 6 10 31.8 31.8)
+  (hitbox 1 2 31.8 31.8)
   (mirror-action "iced-left")
  )
  (action

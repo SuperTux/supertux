@@ -28,6 +28,7 @@ public:
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "poisonivy"; }
   virtual std::string get_display_name() const override { return _("Spring Leaf"); }
+  virtual std::string get_overlay_size() const override { return "2x1"; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

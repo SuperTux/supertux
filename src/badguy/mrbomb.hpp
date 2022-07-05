@@ -18,10 +18,8 @@
 #define HEADER_SUPERTUX_BADGUY_MRBOMB_HPP
 
 #include "badguy/walking_badguy.hpp"
-#include "object/portable.hpp"
 
-class MrBomb final : public WalkingBadguy,
-               public Portable
+class MrBomb final : public WalkingBadguy
 {
 public:
   MrBomb(const ReaderMapping& reader);
@@ -34,7 +32,6 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
-  virtual void ungrab(MovingObject& object, Direction dir) override;
   virtual bool is_portable() const override;
 
   virtual bool is_freezable() const override;

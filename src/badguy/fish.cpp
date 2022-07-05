@@ -34,6 +34,8 @@ void
 Fish::collision_solid(const CollisionHit& chit)
 {
   hit(chit);
+  if (m_frozen)
+    BadGuy::collision_solid(chit);
 }
 
 HitResponse
@@ -134,9 +136,9 @@ Fish::freeze()
 }
 
 void
-Fish::unfreeze()
+Fish::unfreeze(bool melt)
 { // does this happen at all? (or do fishes die when they fall frozen?)
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   start_waiting();
 }
 

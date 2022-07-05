@@ -29,11 +29,11 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
 
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual std::string get_class() const override { return "spidermite"; }
   virtual std::string get_display_name() const override { return _("Spider"); }
-
+  virtual std::string get_overlay_size() const override { return "2x2"; }
 protected:
   enum SpiderMiteMode {
     FLY_UP,

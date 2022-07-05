@@ -33,13 +33,13 @@
 
  (action
   (name "iced")
-  (hitbox 7 21 31.8 31.8)
-  (images "iced-left.png"))
+  (hitbox 4 10 31.8 31.8)
+  (images "f1.png"))
 
  (action
   (name "iced-down")
-  (hitbox 7 29 31.8 31.8)
-  (images "iced-down.png"))
+  (hitbox 4 10 31.8 31.8)
+  (images "f8.png"))
 
  (action
   (name "burning-left")
