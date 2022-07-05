@@ -170,7 +170,7 @@ ProfileMenu::menu_action(MenuItem& item)
       fmt::runtime(_("This will reset all game progress on the profile \"{}\".\nAre you sure?")),
       m_profile_names[g_config->profile - 1]);
 
-    Dialog::show_confirmation(message, [this]() {
+    Dialog::show_confirmation(message, []() {
       savegames_util::delete_savegames(g_config->profile, true);
     });
   }
