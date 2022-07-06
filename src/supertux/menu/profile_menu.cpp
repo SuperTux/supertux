@@ -235,7 +235,7 @@ namespace savegames_util {
 
   void delete_savegames(int idx, bool reset)
   {
-    const auto& profile_path = "profiles/profile" + std::to_string(idx);
+    const auto& profile_path = "profile" + std::to_string(idx);
     std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
     files(PHYSFS_enumerateFiles(profile_path.c_str()),
         PHYSFS_freeList);
