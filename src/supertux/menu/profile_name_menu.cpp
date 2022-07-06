@@ -20,13 +20,13 @@
 #include <physfs.h>
 
 #include "gui/dialog.hpp"
+#include "gui/item_textfield.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/profile_menu.hpp"
 #include "util/gettext.hpp"
-#include "util/file_system.hpp"
 #include "util/log.hpp"
 
 ProfileNameMenu::ProfileNameMenu(bool rename, int id, std::string name) :
@@ -38,7 +38,8 @@ ProfileNameMenu::ProfileNameMenu(bool rename, int id, std::string name) :
   add_label(m_rename ? fmt::format(fmt::runtime(_("Rename \"{}\"")), m_current_profile_name) : _("Add profile"));
   add_hl();
 
-  add_textfield(_("Name"), &m_profile_name);
+  add_textfield(_("Name"), &m_profile_name)
+    .set_help(_("Profile names must have a maximum of 20 characters."));
 
   add_entry(1, m_rename ? _("Rename") : _("Create"));
 
@@ -65,10 +66,10 @@ ProfileNameMenu::menu_action(MenuItem& item)
     int id = 1;
     if (!savegames.empty()) id = savegames.back() + 1;
 
-    const std::string profile_path = FileSystem::join("profiles", "profile" + std::to_string(id));
+    const std::string profile_path = "profile" + std::to_string(id);
     if (!PHYSFS_mkdir(profile_path.c_str()))
     {
-      log_warning << "Error creating folder for profile " << id << "." << std::endl;
+      log_warning << "Error creating folder for profile " << id << std::endl;
       Dialog::show_message(_("An error occured while creating the profile."));
       return;
     }

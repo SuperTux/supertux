@@ -224,7 +224,7 @@ namespace savegames_util {
   std::vector<int> get_savegames()
   {
     std::vector<int> savegames;
-    char **rc = PHYSFS_enumerateFiles("profiles");
+    char **rc = PHYSFS_enumerateFiles("/");
     char **i;
     for (i = rc; *i != nullptr; i++)
     if (std::string(*i).substr(0, 7) == "profile") savegames.push_back(std::stoi(std::string(*i).substr(7)));
