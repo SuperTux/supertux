@@ -32,7 +32,8 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 PushButton::PushButton(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   script(),
-  state(OFF)
+  state(OFF),
+  m_upside_down(false)
 {
   SoundManager::current()->preload(BUTTON_SOUND);
   set_action("off", -1);
@@ -71,16 +72,29 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
 	if (player)
   {
     float vy = player->get_physic().get_velocity_y();
-    if (vy <= 0)
-      return FORCE_MOVE;
-    if (hit.top)
+
+    if (m_upside_down)
     {
-      player->get_physic().set_velocity_y(0);
-      player->set_on_ground(true);
+      if (vy >= 0)
+        return FORCE_MOVE;
+
+      if (hit.bottom)
+        player->get_physic().set_velocity_y(0);
+    }
+    else
+    {
+      if (vy <= 0)
+        return FORCE_MOVE;
+
+      if (hit.top)
+      {
+        player->get_physic().set_velocity_y(0);
+        player->set_on_ground(true);
+      }
     }
 	}
 
-  if (state != OFF || !hit.top)
+  if (state != OFF || !(m_upside_down ? hit.bottom : hit.top))
     return FORCE_MOVE;
 
   // change appearance
@@ -88,7 +102,8 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   float old_bbox_height = m_col.m_bbox.get_height();
   set_action("on", -1);
   float new_bbox_height = m_col.m_bbox.get_height();
-  set_pos(get_pos() + Vector(0, old_bbox_height - new_bbox_height));
+  Vector delta(0, old_bbox_height - new_bbox_height);
+  set_pos(get_pos() + delta * (m_upside_down ? -1.f : 1.f));
 
   // play sound
   SoundManager::current()->play(BUTTON_SOUND, get_pos());
@@ -104,6 +119,7 @@ PushButton::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+  m_upside_down = !m_upside_down;
 }
 
 /* EOF */
