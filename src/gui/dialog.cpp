@@ -37,7 +37,8 @@ Dialog::Dialog(bool passive, bool auto_clear_dialogs) :
   m_cancel_button(-1),
   m_passive(passive),
   m_clear_diags(auto_clear_dialogs),
-  m_text_size()
+  m_text_size(),
+  m_size()
 {
 }
 
@@ -52,7 +53,8 @@ Dialog::set_text(const std::string& text)
 
   m_text_size = Sizef(Resources::normal_font->get_text_width(m_text),
                       Resources::normal_font->get_text_height(m_text));
-
+  m_size = Sizef(m_text_size.width,
+                m_text_size.height + 44);
 }
 
 void
@@ -88,8 +90,7 @@ Dialog::get_button_at(const Vector& mouse_pos) const
 {
   Rectf bg_rect(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f - m_text_size.width / 2.0f,
                        static_cast<float>(SCREEN_HEIGHT) / 2.0f - m_text_size.height / 2.0f),
-                Sizef(m_text_size.width,
-                      m_text_size.height + 44));
+                m_size);
 
   for (int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
@@ -254,6 +255,13 @@ Dialog::draw(DrawingContext& context)
                               ALIGN_CENTER, LAYER_GUI,
                               i == m_selected_button ? g_config->activetextcolor : ColorScheme::Menu::default_color);
   }
+}
+
+Vector
+Dialog::get_center_pos() const
+{
+  return Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
+               static_cast<float>(SCREEN_HEIGHT) / 2.0f + m_text_size.height / 2.0f);
 }
 
 void

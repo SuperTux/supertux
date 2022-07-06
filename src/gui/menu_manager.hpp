@@ -75,7 +75,10 @@ public:
   Menu* previous_menu() const;
 
 private:
-  void transition(Menu* from, Menu* to);
+  void transition(Menu* from, Menu* to, bool call_this = false);
+  void transition(Menu* from, Dialog* to);
+  void transition(Dialog* from, Menu* to);
+  void transition(Dialog* from, Dialog* to);
 
 private:
   MenuManager(const MenuManager&) = delete;

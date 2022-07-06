@@ -46,6 +46,7 @@ private:
   bool m_clear_diags;
 
   Sizef m_text_size;
+  Sizef m_size;
 
 public:
   Dialog(bool passive = false, bool auto_clear_dialogs = true);
@@ -72,6 +73,11 @@ public:
   {
     return m_passive;
   }
+
+  Vector get_center_pos() const;
+
+  float get_width() const { return m_size.width; };
+  float get_height() const { return m_size.height; };
 
   static void show_message(const std::string& text, bool passive = false, bool no_auto_clear = false)
   {
