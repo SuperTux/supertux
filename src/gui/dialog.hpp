@@ -76,8 +76,8 @@ public:
 
   Vector get_center_pos() const;
 
-  float get_width() const { return m_size.width; };
-  float get_height() const { return m_size.height; };
+  float get_width() const { return m_size.width; }
+  float get_height() const { return m_size.height; }
 
   static void show_message(const std::string& text, bool passive = false, bool no_auto_clear = false)
   {
