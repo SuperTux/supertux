@@ -152,6 +152,7 @@ private:
   float m_menu_repeat_time;
   float m_menu_width;
   float m_menu_height;
+  float m_menu_help_height;
 
 public:
   std::vector<std::unique_ptr<MenuItem> > m_items;
