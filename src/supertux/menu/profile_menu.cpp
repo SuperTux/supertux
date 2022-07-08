@@ -162,7 +162,7 @@ ProfileMenu::menu_action(MenuItem& item)
   else if (id == -2)
   {
     MenuManager::instance().push_menu(std::make_unique<ProfileNameMenu>(true,
-    g_config->profile, m_profile_names[g_config->profile - 1]));
+      g_config->profile, m_profile_names[g_config->profile - 1]));
   }
   else if (id == -3)
   {
@@ -227,7 +227,9 @@ namespace savegames_util {
     char **rc = PHYSFS_enumerateFiles("/");
     char **i;
     for (i = rc; *i != nullptr; i++)
-    if (std::string(*i).substr(0, 7) == "profile") savegames.push_back(std::stoi(std::string(*i).substr(7)));
+    {
+      if (std::string(*i).substr(0, 7) == "profile") savegames.push_back(std::stoi(std::string(*i).substr(7)));
+    }
     PHYSFS_freeList(rc);
     std::sort(savegames.begin(), savegames.end());
     return savegames;
