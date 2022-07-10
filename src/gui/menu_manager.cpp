@@ -375,7 +375,7 @@ MenuManager::previous_menu() const
 }
 
 void
-MenuManager::transition(Menu* from, Menu* to, bool call_this)
+MenuManager::transition(Menu* from, Menu* to, bool call_this) // "call_this" -> calls this specific overload to prevent ambiguous calls
 {
   if (!from && !to)
   {

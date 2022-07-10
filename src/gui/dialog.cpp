@@ -194,8 +194,7 @@ Dialog::draw(DrawingContext& context)
                        static_cast<float>(m_passive ?
                                           (static_cast<float>(context.get_height()) - m_text_size.height - 65.0f) :
                                           (static_cast<float>(context.get_height()) / 2.0f - m_text_size.height / 2.0f))),
-                Sizef(m_text_size.width,
-                      m_text_size.height + 44));
+                m_size);
 
   // draw background rect
   context.color().draw_filled_rect(bg_rect.grown(12.0f),

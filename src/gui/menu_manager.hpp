@@ -75,7 +75,7 @@ public:
   Menu* previous_menu() const;
 
 private:
-  void transition(Menu* from, Menu* to, bool call_this = false);
+  void transition(Menu* from, Menu* to, bool call_this = false); // "call_this" -> calls this specific overload to prevent ambiguous calls
   void transition(Menu* from, Dialog* to);
   void transition(Dialog* from, Menu* to);
   void transition(Dialog* from, Dialog* to);
