@@ -50,7 +50,9 @@ public:
   }
 
 protected:
-  int flickw;
+  char m_cursor_char;
+  int m_cursor_char_width;
+  int m_cursor_left_offset;
 
 private:
   ItemTextField(const ItemTextField&) = delete;

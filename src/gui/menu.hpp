@@ -125,6 +125,11 @@ public:
   float get_width() const;
   float get_height() const;
 
+  /** Recalculates the width for this menu */
+  void calculate_width();
+  /** Recalculates the height for this menu */
+  void calculate_height();
+
 protected:
   /** returns true when the text is more important than action */
   virtual bool is_sensitive() const;
@@ -137,10 +142,6 @@ private:
   void process_action(const MenuAction& menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index, float y_pos);
-  /** Recalculates the width for this menu */
-  void calculate_width();
-  /** Recalculates the height for this menu */
-  void calculate_height();
 
 private:
   /** position of the menu (ie. center of the menu, not top/left) */

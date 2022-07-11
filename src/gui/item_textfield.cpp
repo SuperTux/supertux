@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,19 +26,23 @@
 ItemTextField::ItemTextField(const std::string& text_, std::string* input_, int id_) :
   MenuItem(text_, id_),
   input(input_),
-  flickw(static_cast<int>(Resources::normal_font->get_text_width("_")))
+  m_cursor_char('_'),
+  m_cursor_char_width(static_cast<int>(Resources::normal_font->get_text_width(std::to_string(m_cursor_char)))),
+  m_cursor_left_offset(0)
 {
 }
 
 void
-ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
+{
   std::string r_input = *input;
-  bool fl = active && (int(g_real_time*2)%2);
-  if ( fl ) {
-    r_input += "_";
+  if (active)
+  {
+    r_input = r_input.substr(0, r_input.size() - m_cursor_left_offset) + m_cursor_char +
+      r_input.substr(r_input.size() - m_cursor_left_offset);
   }
   context.color().draw_text(Resources::normal_font, r_input,
-                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(fl ? 0 : flickw),
+                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(active ? 0 : m_cursor_char_width),
                                    pos.y - Resources::normal_font->get_height() / 2.0f),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
   context.color().draw_text(Resources::normal_font, get_text(),
@@ -47,14 +52,18 @@ ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, 
 }
 
 int
-ItemTextField::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(*input) + 16.0f + static_cast<float>(flickw));
+ItemTextField::get_width() const
+{
+  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(*input) + 16.0f + static_cast<float>(m_cursor_char_width));
 }
 
 void
-ItemTextField::event(const SDL_Event& ev) {
-  if (ev.type == SDL_TEXTINPUT) {
-    *input += ev.text.text;
+ItemTextField::event(const SDL_Event& ev)
+{
+  if (ev.type == SDL_TEXTINPUT)
+  {
+    *input = input->substr(0, input->size() - m_cursor_left_offset) + ev.text.text +
+      input->substr(input->size() - m_cursor_left_offset);
   }
 }
 
@@ -62,18 +71,27 @@ void
 ItemTextField::process_action(const MenuAction& action)
 {
   if (action == MenuAction::REMOVE) {
-    if (input->length()) {
-      unsigned char last_char;
-      do {
-        last_char = *(--input->end());
-        input->resize(input->length() - 1);
-        if (input->length() == 0) {
-          break;
-        }
-      } while ( (last_char & 128) && !(last_char & 64) );
-    } else {
+    if (!input->empty() && m_cursor_left_offset < input->size())
+    {
+      *input = input->substr(0, input->size() - m_cursor_left_offset - 1) +
+        input->substr(input->size() - m_cursor_left_offset);
+    }
+    else
+    {
       invalid_remove();
     }
+  }
+  else if (action == MenuAction::LEFT)
+  {
+    if (m_cursor_left_offset >= input->size())
+      return;
+    m_cursor_left_offset++;
+  }
+  else if (action == MenuAction::RIGHT)
+  {
+    if (m_cursor_left_offset <= 0)
+      return;
+    m_cursor_left_offset--;
   }
 }
 

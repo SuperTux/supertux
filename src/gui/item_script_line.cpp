@@ -31,11 +31,13 @@ ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
 }
 
 void
-ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
+{
   std::string r_input = *input;
-  bool fl = active && (int(g_real_time*2)%2);
-  if ( fl ) {
-    r_input += "_";
+  if (active)
+  {
+    r_input = r_input.substr(0, r_input.size() - m_cursor_left_offset) + m_cursor_char +
+      r_input.substr(r_input.size() - m_cursor_left_offset);
   }
   context.color().draw_text(Resources::console_font, r_input,
                             Vector(pos.x + 16.0f,
@@ -44,29 +46,29 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
 }
 
 int
-ItemScriptLine::get_width() const {
-  return static_cast<int>(Resources::console_font->get_text_width(*input)) + 16 + flickw;
+ItemScriptLine::get_width() const
+{
+  return static_cast<int>(Resources::console_font->get_text_width(*input)) + 16 + m_cursor_char_width;
 }
 
 void
-ItemScriptLine::process_action(const MenuAction& action) {
+ItemScriptLine::process_action(const MenuAction& action)
+{
   ItemTextField::process_action(action);
   const Controller& controller = InputManager::current()->get_controller();
-  if (action == MenuAction::HIT && controller.pressed(Control::MENU_SELECT)) {
+  if (action == MenuAction::HIT && controller.pressed(Control::MENU_SELECT))
+  {
     auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-    if (!menu) {
-      return;
-    }
+    if (!menu) return;
     menu->add_line();
   }
 }
 
 void
-ItemScriptLine::invalid_remove() {
+ItemScriptLine::invalid_remove()
+{
   auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-  if (!menu) {
-    return;
-  }
+  if (!menu) return;
   menu->remove_line();
 }
 

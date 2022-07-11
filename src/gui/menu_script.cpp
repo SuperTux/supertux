@@ -71,6 +71,7 @@ ScriptMenu::remove_line() {
 
   script_strings.erase(script_strings.begin() + (m_active_item - 2));
   delete_item(m_active_item);
+  calculate_height();
 }
 
 void
