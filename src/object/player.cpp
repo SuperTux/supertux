@@ -2035,18 +2035,43 @@ Player::kill(bool completely)
 
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
+    m_safe_timer.start(TUX_SAFE_TIME);
 
-    if (m_player_status.bonus[get_id()] == FIRE_BONUS
-      || m_player_status.bonus[get_id()] == ICE_BONUS
-      || m_player_status.bonus[get_id()] == AIR_BONUS
-      || m_player_status.bonus[get_id()] == EARTH_BONUS) {
-      m_safe_timer.start(TUX_SAFE_TIME);
-      set_bonus(GROWUP_BONUS, true);
-    } else if (m_player_status.bonus[get_id()] == GROWUP_BONUS) {
-      m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      m_duck = false;
-      stop_backflipping();
-      set_bonus(NO_BONUS, true);
+    switch (m_player_status.bonus[get_id()]) {
+      case FIRE_BONUS:
+        if (m_player_status.max_fire_bullets[get_id()] <= 1) {
+          set_bonus(GROWUP_BONUS, true);
+        } else {
+          m_player_status.max_fire_bullets[get_id()]--;
+        }
+        break;
+      case ICE_BONUS:
+        if (m_player_status.max_ice_bullets[get_id()] <= 1) {
+          set_bonus(GROWUP_BONUS, true);
+        } else {
+          m_player_status.max_ice_bullets[get_id()]--;
+        }
+        break;
+      case AIR_BONUS:
+        if (m_player_status.max_air_time[get_id()] <= 1) {
+          set_bonus(GROWUP_BONUS, true);
+        } else {
+          m_player_status.max_air_time[get_id()]--;
+        }
+        break;
+      case EARTH_BONUS:
+        if (m_player_status.max_earth_time[get_id()] <= 1) {
+          set_bonus(GROWUP_BONUS, true);
+        } else {
+          m_player_status.max_earth_time[get_id()]--;
+        }
+        break;
+      case GROWUP_BONUS:
+        m_safe_timer.start(TUX_SAFE_TIME);
+        m_duck = false;
+        stop_backflipping();
+        set_bonus(NO_BONUS, true);
+        break;
     }
   } else {
     SoundManager::current()->play("sounds/kill.wav", get_pos());
