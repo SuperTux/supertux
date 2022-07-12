@@ -33,6 +33,9 @@ public:
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;
 
+  /** Processes the given custom event cases. */
+  virtual bool custom_event(const SDL_Event& ev) override;
+
   /** Calls when the user wants to remove an invalid char. */
   virtual void invalid_remove() override;
 

@@ -17,17 +17,23 @@
 
 #include "gui/item_textfield.hpp"
 
+#include <boost/algorithm/string/replace.hpp>
+
 #include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
 ItemTextField::ItemTextField(const std::string& text_, std::string* input_, int id_) :
   MenuItem(text_, id_),
   input(input_),
-  m_cursor_char('_'),
-  m_cursor_char_width(static_cast<int>(Resources::normal_font->get_text_width(std::to_string(m_cursor_char)))),
+  m_input_undo(""),
+  m_input_redo(""),
+  m_cursor_char('|'),
+  m_cursor_char_str(std::string(1, m_cursor_char)),
+  m_cursor_char_width(static_cast<int>(Resources::normal_font->get_text_width(m_cursor_char_str))),
   m_cursor_left_offset(0)
 {
 }
@@ -35,20 +41,31 @@ ItemTextField::ItemTextField(const std::string& text_, std::string* input_, int 
 void
 ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  std::string r_input = *input;
-  if (active)
-  {
-    r_input = r_input.substr(0, r_input.size() - m_cursor_left_offset) + m_cursor_char +
-      r_input.substr(r_input.size() - m_cursor_left_offset);
-  }
-  context.color().draw_text(Resources::normal_font, r_input,
-                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(active ? 0 : m_cursor_char_width),
+  context.color().draw_text(Resources::normal_font, *input,
+                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f,
                                    pos.y - Resources::normal_font->get_height() / 2.0f),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
+  if (active && (int(g_real_time * 2) % 2))
+  {
+    // Draw text cursor.
+    context.color().draw_text(Resources::normal_font, m_cursor_char_str,
+                              Vector(pos.x + static_cast<float>(menu_width) - 18.0f -
+                                       Resources::normal_font->get_text_width(input->substr(input->size() - m_cursor_left_offset)),
+                                     pos.y - Resources::normal_font->get_height() / 2.0f),
+                              ALIGN_LEFT, LAYER_GUI, Color::CYAN);
+  }
   context.color().draw_text(Resources::normal_font, get_text(),
                             Vector(pos.x + 16.0f,
                                    pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.0f),
                             ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
+}
+
+void
+ItemTextField::set_input_text(const std::string& text)
+{
+  *input = text;
+  m_input_undo.clear();
+  m_input_redo.clear();
 }
 
 int
@@ -60,21 +77,80 @@ ItemTextField::get_width() const
 void
 ItemTextField::event(const SDL_Event& ev)
 {
-  if (ev.type == SDL_TEXTINPUT)
+  if (!custom_event(ev)) return; // If a given custom event function returns "false", do not execute the other base events.
+
+  if (ev.type == SDL_TEXTINPUT) // Text input
   {
+    m_input_undo = *input;
+    m_input_redo.clear();
     *input = input->substr(0, input->size() - m_cursor_left_offset) + ev.text.text +
       input->substr(input->size() - m_cursor_left_offset);
+  }
+  else if (ev.type == SDL_KEYDOWN)
+  {
+    if (ev.key.keysym.sym == SDLK_DELETE) // Delete back
+    {
+      if (!input->empty() && m_cursor_left_offset > 0)
+      {
+        m_input_undo = *input;
+        m_input_redo.clear();
+        unsigned char next_char;
+        do
+        {
+          next_char = m_cursor_left_offset == 1 ? next_char : input->at(input->size() - m_cursor_left_offset + 1);
+          *input = input->substr(0, input->size() - m_cursor_left_offset) +
+            input->substr(input->size() - m_cursor_left_offset + 1);
+          m_cursor_left_offset--;
+          if (input->empty() || m_cursor_left_offset <= 0) break;
+        } while ((next_char & 128) && !(next_char & 64));
+      }
+      else
+      {
+        invalid_remove();
+      }
+    }
+    else if (ev.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL) // Paste
+    {
+      m_input_undo = *input;
+      m_input_redo.clear();
+      std::string clipboard_text = SDL_GetClipboardText();
+      boost::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
+      *input = input->substr(0, input->size() - m_cursor_left_offset) + clipboard_text +
+        input->substr(input->size() - m_cursor_left_offset);
+    }
+    else if (ev.key.keysym.sym == SDLK_z && SDL_GetModState() & KMOD_CTRL) // Undo
+    {
+      if (m_input_undo.empty()) return;
+      m_input_redo = *input;
+      *input = m_input_undo;
+      m_input_undo.clear();
+    }
+    else if (ev.key.keysym.sym == SDLK_y && SDL_GetModState() & KMOD_CTRL) // Redo
+    {
+      if (m_input_redo.empty()) return;
+      m_input_undo = *input;
+      *input = m_input_redo;
+      m_input_redo.clear();
+    }
   }
 }
 
 void
 ItemTextField::process_action(const MenuAction& action)
 {
-  if (action == MenuAction::REMOVE) {
-    if (!input->empty() && m_cursor_left_offset < input->size())
+  if (action == MenuAction::REMOVE)
+  {
+    if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))
     {
-      *input = input->substr(0, input->size() - m_cursor_left_offset - 1) +
-        input->substr(input->size() - m_cursor_left_offset);
+      unsigned char last_char;
+      do
+      {
+        const int index = input->size() - m_cursor_left_offset - 1;
+        last_char = input->at(index);
+        *input = input->substr(0, index) +
+          input->substr(input->size() - m_cursor_left_offset);
+        if (input->empty() || m_cursor_left_offset >= static_cast<int>(input->size())) break;
+      } while ((last_char & 128) && !(last_char & 64));
     }
     else
     {
@@ -83,15 +159,29 @@ ItemTextField::process_action(const MenuAction& action)
   }
   else if (action == MenuAction::LEFT)
   {
-    if (m_cursor_left_offset >= input->size())
+    if (m_cursor_left_offset >= static_cast<int>(input->size()))
       return;
-    m_cursor_left_offset++;
+
+    unsigned char last_char;
+    do
+    {
+      last_char = input->at(input->size() - m_cursor_left_offset - 1);
+      m_cursor_left_offset++;
+      if (m_cursor_left_offset >= static_cast<int>(input->size())) break;
+    } while ((last_char & 128) && !(last_char & 64));
   }
   else if (action == MenuAction::RIGHT)
   {
     if (m_cursor_left_offset <= 0)
       return;
-    m_cursor_left_offset--;
+
+    unsigned char next_char;
+    do
+    {
+      next_char = m_cursor_left_offset == 1 ? next_char : input->at(input->size() - m_cursor_left_offset + 1);
+      m_cursor_left_offset--;
+      if (m_cursor_left_offset <= 0) break;
+    } while ((next_char & 128) && !(next_char & 64));
   }
 }
 

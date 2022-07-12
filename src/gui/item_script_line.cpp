@@ -33,22 +33,41 @@ ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
 void
 ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  std::string r_input = *input;
-  if (active)
-  {
-    r_input = r_input.substr(0, r_input.size() - m_cursor_left_offset) + m_cursor_char +
-      r_input.substr(r_input.size() - m_cursor_left_offset);
-  }
-  context.color().draw_text(Resources::console_font, r_input,
+  context.color().draw_text(Resources::console_font, *input,
                             Vector(pos.x + 16.0f,
                                    pos.y - Resources::console_font->get_height() / 2.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
+  if (active && (int(g_real_time * 2) % 2))
+  {
+    // Draw text cursor.
+    context.color().draw_text(Resources::console_font, m_cursor_char_str,
+                              Vector(pos.x + 13.5f +
+                                       Resources::console_font->get_text_width(input->substr(m_cursor_left_offset)),
+                                     pos.y - Resources::console_font->get_height() / 2.0f),
+                              ALIGN_LEFT, LAYER_GUI, Color::CYAN);
+  }
 }
 
 int
 ItemScriptLine::get_width() const
 {
   return static_cast<int>(Resources::console_font->get_text_width(*input)) + 16 + m_cursor_char_width;
+}
+
+bool
+ItemScriptLine::custom_event(const SDL_Event& ev)
+{
+  if (ev.type == SDL_KEYDOWN)
+  {
+    if (ev.key.keysym.sym == SDLK_d && SDL_GetModState() & KMOD_CTRL) // Duplicate line
+    {
+      auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
+      if (!menu) return true;
+      menu->add_line()->set_input_text(*input);
+      return false;
+    }
+  }
+  return true;
 }
 
 void

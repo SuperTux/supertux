@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -27,6 +28,9 @@ public:
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
+  /** Set the text of the item to the given string. */
+  void set_input_text(const std::string& text);
+
   /** Returns the minimum width of the menu item. */
   virtual int get_width() const override;
 
@@ -45,13 +49,21 @@ public:
   /** Processes the given event. */
   virtual void event(const SDL_Event& ev) override;
 
+  /** Processes the given custom event cases. Check for the other base events of TextField, based on return value. */
+  virtual bool custom_event(const SDL_Event& ev) { return true; }
+
+  /** Indicates that this item changes its width. */
   virtual bool changes_width() const override {
     return true;
   }
 
 protected:
-  char m_cursor_char;
-  int m_cursor_char_width;
+  std::string m_input_undo;
+  std::string m_input_redo;
+
+  const char m_cursor_char;
+  const std::string m_cursor_char_str;
+  const int m_cursor_char_width;
   int m_cursor_left_offset;
 
 private:

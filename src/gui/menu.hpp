@@ -125,11 +125,6 @@ public:
   float get_width() const;
   float get_height() const;
 
-  /** Recalculates the width for this menu */
-  void calculate_width();
-  /** Recalculates the height for this menu */
-  void calculate_height();
-
 protected:
   /** returns true when the text is more important than action */
   virtual bool is_sensitive() const;
@@ -137,6 +132,11 @@ protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
   void delete_item(int pos_);
+
+  /** Recalculates the width for this menu */
+  void calculate_width();
+  /** Recalculates the height for this menu */
+  void calculate_height();
 
 private:
   void process_action(const MenuAction& menuaction);
