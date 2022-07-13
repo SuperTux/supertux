@@ -17,7 +17,7 @@
 
 #include "gui/item_textfield.hpp"
 
-#include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
@@ -94,7 +94,7 @@ ItemTextField::event(const SDL_Event& ev)
       {
         m_input_undo = *input;
         m_input_redo.clear();
-        unsigned char next_char;
+        unsigned char next_char = '\0';
         do
         {
           next_char = m_cursor_left_offset == 1 ? next_char : input->at(input->size() - m_cursor_left_offset + 1);
@@ -109,28 +109,41 @@ ItemTextField::event(const SDL_Event& ev)
         invalid_remove();
       }
     }
-    else if (ev.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL) // Paste
+    else if (ev.key.keysym.sym == SDLK_HOME) // Home: go to beginning of text
     {
-      m_input_undo = *input;
-      m_input_redo.clear();
-      std::string clipboard_text = SDL_GetClipboardText();
-      boost::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
-      *input = input->substr(0, input->size() - m_cursor_left_offset) + clipboard_text +
-        input->substr(input->size() - m_cursor_left_offset);
+      m_cursor_left_offset = input->size();
     }
-    else if (ev.key.keysym.sym == SDLK_z && SDL_GetModState() & KMOD_CTRL) // Undo
+    else if (ev.key.keysym.sym == SDLK_END) // End: go to end of text
     {
-      if (m_input_undo.empty()) return;
-      m_input_redo = *input;
-      *input = m_input_undo;
-      m_input_undo.clear();
+      m_cursor_left_offset = 0;
     }
-    else if (ev.key.keysym.sym == SDLK_y && SDL_GetModState() & KMOD_CTRL) // Redo
+    else if (SDL_GetModState() & KMOD_CTRL) //Commands which require CTRL
     {
-      if (m_input_redo.empty()) return;
-      m_input_undo = *input;
-      *input = m_input_redo;
-      m_input_redo.clear();
+      if (ev.key.keysym.sym == SDLK_v) // Paste
+      {
+        m_input_undo = *input;
+        m_input_redo.clear();
+
+        std::string clipboard_text = SDL_GetClipboardText();
+        boost::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
+        if (clipboard_text.empty()) return;
+        *input = input->substr(0, input->size() - m_cursor_left_offset) + clipboard_text +
+          input->substr(input->size() - m_cursor_left_offset);
+      }
+      else if (ev.key.keysym.sym == SDLK_z) // Undo
+      {
+        if (m_input_undo.empty()) return;
+        m_input_redo = *input;
+        *input = m_input_undo;
+        m_input_undo.clear();
+      }
+      else if (ev.key.keysym.sym == SDLK_y) // Redo
+      {
+        if (m_input_redo.empty()) return;
+        m_input_undo = *input;
+        *input = m_input_redo;
+        m_input_redo.clear();
+      }
     }
   }
 }
@@ -175,7 +188,7 @@ ItemTextField::process_action(const MenuAction& action)
     if (m_cursor_left_offset <= 0)
       return;
 
-    unsigned char next_char;
+    unsigned char next_char = '\0';
     do
     {
       next_char = m_cursor_left_offset == 1 ? next_char : input->at(input->size() - m_cursor_left_offset + 1);

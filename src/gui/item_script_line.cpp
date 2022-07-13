@@ -16,6 +16,8 @@
 
 #include "gui/item_script_line.hpp"
 
+#include <boost/algorithm/string.hpp>
+
 #include "control/input_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_script.hpp"
@@ -59,12 +61,33 @@ ItemScriptLine::custom_event(const SDL_Event& ev)
 {
   if (ev.type == SDL_KEYDOWN)
   {
-    if (ev.key.keysym.sym == SDLK_d && SDL_GetModState() & KMOD_CTRL) // Duplicate line
+    if (SDL_GetModState() & KMOD_CTRL) // Commands which require CTRL
     {
-      auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-      if (!menu) return true;
-      menu->add_line()->set_input_text(*input);
-      return false;
+      if (ev.key.keysym.sym == SDLK_v) // Paste (multi-line support)
+      {
+        m_input_undo = *input;
+        m_input_redo.clear();
+
+        std::vector<std::string> paste_lines;
+        boost::split(paste_lines, SDL_GetClipboardText(), boost::is_any_of("\n")); // Split any newlines for use on seperate lines.
+        if (paste_lines.empty()) return true;
+        *input = input->substr(0, input->size() - m_cursor_left_offset) + paste_lines[0] +
+          input->substr(input->size() - m_cursor_left_offset);
+        for (std::size_t i = 1; i < paste_lines.size(); i++)
+        {
+          auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
+          if (!menu) break;
+          menu->add_line()->set_input_text(paste_lines[i]);
+        }
+        return false;
+      }
+      else if (ev.key.keysym.sym == SDLK_d) // Duplicate line
+      {
+        auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
+        if (!menu) return true;
+        menu->add_line()->set_input_text(*input);
+        return false;
+      }
     }
   }
   return true;
