@@ -124,8 +124,11 @@ ItemTextField::event(const SDL_Event& ev)
         m_input_undo = *input;
         m_input_redo.clear();
 
-        std::string clipboard_text = SDL_GetClipboardText();
+        char* clipboard_content = SDL_GetClipboardText();
+        std::string clipboard_text = std::string(clipboard_content);
+        SDL_free(clipboard_content);
         boost::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
+
         if (clipboard_text.empty()) return;
         *input = input->substr(0, input->size() - m_cursor_left_offset) + clipboard_text +
           input->substr(input->size() - m_cursor_left_offset);

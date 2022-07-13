@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -69,7 +70,10 @@ ItemScriptLine::custom_event(const SDL_Event& ev)
         m_input_redo.clear();
 
         std::vector<std::string> paste_lines;
-        boost::split(paste_lines, SDL_GetClipboardText(), boost::is_any_of("\n")); // Split any newlines for use on seperate lines.
+        char* clipboard_content = SDL_GetClipboardText();
+        boost::split(paste_lines, std::string(clipboard_content), boost::is_any_of("\n")); // Split any newlines for use on seperate lines.
+        SDL_free(clipboard_content);
+
         if (paste_lines.empty()) return true;
         *input = input->substr(0, input->size() - m_cursor_left_offset) + paste_lines[0] +
           input->substr(input->size() - m_cursor_left_offset);
