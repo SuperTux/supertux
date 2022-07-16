@@ -1205,9 +1205,9 @@ Player::handle_input()
   }
 
   /* Peeking */
-  if (m_controller->released( Control::PEEK_LEFT ) || m_controller->released( Control::PEEK_RIGHT))
+  if (!m_controller->hold( Control::PEEK_LEFT ) && !m_controller->hold( Control::PEEK_RIGHT))
     m_peekingX = Direction::AUTO;
-  else if (m_controller->released( Control::PEEK_UP ) || m_controller->released( Control::PEEK_DOWN))
+  if (!m_controller->hold( Control::PEEK_UP ) && !m_controller->hold( Control::PEEK_DOWN))
     m_peekingY = Direction::AUTO;
 
   if (m_controller->pressed(Control::PEEK_LEFT))
