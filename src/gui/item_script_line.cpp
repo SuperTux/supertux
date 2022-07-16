@@ -40,7 +40,7 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
                             Vector(pos.x + 16.0f,
                                    pos.y - Resources::console_font->get_height() / 2.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
-  if (active && (int(g_real_time * 2) % 2))
+  if (active && ((int(g_real_time * 2) % 2) || (m_cursor_left_offset != 0 && m_cursor_left_offset != static_cast<int>(input->size()))))
   {
     // Draw text cursor.
     context.color().draw_text(Resources::console_font, m_cursor_char_str,
@@ -71,7 +71,8 @@ ItemScriptLine::custom_event(const SDL_Event& ev)
 
         std::vector<std::string> paste_lines;
         char* clipboard_content = SDL_GetClipboardText();
-        boost::split(paste_lines, std::string(clipboard_content), boost::is_any_of("\n")); // Split any newlines for use on seperate lines.
+        std::string clipboard_content_str(clipboard_content);
+        boost::split(paste_lines, clipboard_content_str, boost::is_any_of("\n"));
         SDL_free(clipboard_content);
 
         if (paste_lines.empty()) return true;

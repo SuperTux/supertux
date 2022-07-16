@@ -45,7 +45,7 @@ ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, 
                             Vector(pos.x + static_cast<float>(menu_width) - 16.0f,
                                    pos.y - Resources::normal_font->get_height() / 2.0f),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-  if (active && (int(g_real_time * 2) % 2))
+  if (active && ((int(g_real_time * 2) % 2) || (m_cursor_left_offset != 0 && m_cursor_left_offset != static_cast<int>(input->size()))))
   {
     // Draw text cursor.
     context.color().draw_text(Resources::normal_font, m_cursor_char_str,
@@ -111,7 +111,7 @@ ItemTextField::event(const SDL_Event& ev)
     }
     else if (ev.key.keysym.sym == SDLK_HOME) // Home: go to beginning of text
     {
-      m_cursor_left_offset = input->size();
+      m_cursor_left_offset = static_cast<int>(input->size());
     }
     else if (ev.key.keysym.sym == SDLK_END) // End: go to end of text
     {
@@ -161,7 +161,7 @@ ItemTextField::process_action(const MenuAction& action)
       unsigned char last_char;
       do
       {
-        const int index = input->size() - m_cursor_left_offset - 1;
+        const int index = static_cast<int>(input->size()) - m_cursor_left_offset - 1;
         last_char = input->at(index);
         *input = input->substr(0, index) +
           input->substr(input->size() - m_cursor_left_offset);
