@@ -1,6 +1,6 @@
-# Security Policy
+# Up to date Versions
 
-## Supported Versions
+## Latest Versions
 
 Use this section to tell people about which versions of your project are
 currently being supported with security updates.
