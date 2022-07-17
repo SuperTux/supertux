@@ -9,7 +9,7 @@ currently being supported by supertux
 | ------- | ------------------ |
 |   Nightlys.x   | :white_check_mark: |
 | 0.6 3.x   | :white_check_mark: |
-| < 0.10 below   | :x:                |
+| < 0.6 3 below   | :x:                |
 
 ## Reporting a Vulnerability
 
