@@ -36,7 +36,11 @@ ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
 void
 ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  context.color().draw_text(Resources::console_font, *input,
+  const int index = active ? static_cast<int>(input->size()) - m_cursor_left_offset : -1;
+  const std::string input_part_1 = active ? input->substr(0, index) : *input;
+  const std::string input_part_2 = active ? input->substr(index) : "";
+  const float input_part_1_width = Resources::console_font->get_text_width(input_part_1);
+  context.color().draw_text(Resources::console_font, input_part_1,
                             Vector(pos.x + 16.0f,
                                    pos.y - Resources::console_font->get_height() / 2.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
@@ -44,17 +48,20 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
   {
     // Draw text cursor.
     context.color().draw_text(Resources::console_font, m_cursor_char_str,
-                              Vector(pos.x + 13.5f +
-                                       Resources::console_font->get_text_width(input->substr(m_cursor_left_offset)),
+                              Vector(pos.x + 15.0f + input_part_1_width,
                                      pos.y - Resources::console_font->get_height() / 2.0f),
                               ALIGN_LEFT, LAYER_GUI, Color::CYAN);
   }
+  context.color().draw_text(Resources::console_font, input_part_2,
+                            Vector(pos.x + 9.5f + input_part_1_width + m_cursor_char_width,
+                                   pos.y - Resources::console_font->get_height() / 2.0f),
+                            ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
 }
 
 int
 ItemScriptLine::get_width() const
 {
-  return static_cast<int>(Resources::console_font->get_text_width(*input)) + 16 + m_cursor_char_width;
+  return static_cast<int>(Resources::console_font->get_text_width(*input)) + 16.0f + static_cast<float>(m_cursor_char_width);
 }
 
 bool

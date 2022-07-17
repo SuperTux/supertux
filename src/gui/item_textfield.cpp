@@ -29,11 +29,11 @@
 ItemTextField::ItemTextField(const std::string& text_, std::string* input_, int id_) :
   MenuItem(text_, id_),
   input(input_),
-  m_input_undo(""),
-  m_input_redo(""),
+  m_input_undo(),
+  m_input_redo(),
   m_cursor_char('|'),
   m_cursor_char_str(std::string(1, m_cursor_char)),
-  m_cursor_char_width(static_cast<int>(Resources::normal_font->get_text_width(m_cursor_char_str))),
+  m_cursor_char_width(Resources::normal_font->get_text_width(m_cursor_char_str)),
   m_cursor_left_offset(0)
 {
 }
@@ -41,19 +41,26 @@ ItemTextField::ItemTextField(const std::string& text_, std::string* input_, int 
 void
 ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  context.color().draw_text(Resources::normal_font, *input,
-                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f,
+  const int index = active ? static_cast<int>(input->size()) - m_cursor_left_offset : -1;
+  const std::string input_part_1 = active ? input->substr(0, index) : *input;
+  const std::string input_part_2 = active ? input->substr(index) : "";
+  const float input_part_2_width = Resources::normal_font->get_text_width(input_part_2);
+  context.color().draw_text(Resources::normal_font, input_part_1,
+                            Vector(pos.x + static_cast<float>(menu_width) - 9.0f - input_part_2_width - m_cursor_char_width,
                                    pos.y - Resources::normal_font->get_height() / 2.0f),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
   if (active && ((int(g_real_time * 2) % 2) || (m_cursor_left_offset != 0 && m_cursor_left_offset != static_cast<int>(input->size()))))
   {
     // Draw text cursor.
     context.color().draw_text(Resources::normal_font, m_cursor_char_str,
-                              Vector(pos.x + static_cast<float>(menu_width) - 18.0f -
-                                       Resources::normal_font->get_text_width(input->substr(input->size() - m_cursor_left_offset)),
+                              Vector(pos.x + static_cast<float>(menu_width) - 12.0f - input_part_2_width,
                                      pos.y - Resources::normal_font->get_height() / 2.0f),
-                              ALIGN_LEFT, LAYER_GUI, Color::CYAN);
+                              ALIGN_RIGHT, LAYER_GUI, Color::CYAN);
   }
+  context.color().draw_text(Resources::normal_font, input_part_2,
+                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f,
+                                   pos.y - Resources::normal_font->get_height() / 2.0f),
+                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
   context.color().draw_text(Resources::normal_font, get_text(),
                             Vector(pos.x + 16.0f,
                                    pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.0f),
@@ -77,7 +84,7 @@ ItemTextField::get_width() const
 void
 ItemTextField::event(const SDL_Event& ev)
 {
-  if (!custom_event(ev)) return; // If a given custom event function returns "false", do not execute the other base events.
+  if (!custom_event(ev)) return; // If a given custom event function returns "false", do not check for the other base events.
 
   if (ev.type == SDL_TEXTINPUT) // Text input
   {
@@ -119,7 +126,16 @@ ItemTextField::event(const SDL_Event& ev)
     }
     else if (SDL_GetModState() & KMOD_CTRL) //Commands which require CTRL
     {
-      if (ev.key.keysym.sym == SDLK_v) // Paste
+      if (ev.key.keysym.sym == SDLK_x) // Cut (whole line)
+      {
+        SDL_SetClipboardText(input->c_str());
+        input->clear();
+      }
+      else if (ev.key.keysym.sym == SDLK_c) // Copy (whole line)
+      {
+        SDL_SetClipboardText(input->c_str());
+      }
+      else if (ev.key.keysym.sym == SDLK_v) // Paste
       {
         m_input_undo = *input;
         m_input_redo.clear();
