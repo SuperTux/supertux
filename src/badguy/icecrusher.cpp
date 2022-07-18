@@ -557,8 +557,8 @@ IceCrusher::eye_position(bool right) const
       int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
       int weight_y = m_sprite->get_width() / 64 * 2;
 
-      return Vector(m_sideways ? weight_x * (m_side_dir == Direction::LEFT ? -1 : 1.f) : 0.f,
-        m_sideways ? -weight_y : 0.f);
+      return Vector(m_sideways ? static_cast<float>(weight_x) * (m_side_dir == Direction::LEFT ? -1 : 1.f) : 0.f,
+        m_sideways ? -static_cast<float>(weight_y) : 0.f);
     }
     break;
   case RECOVERING:
