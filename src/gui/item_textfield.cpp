@@ -78,7 +78,7 @@ ItemTextField::set_input_text(const std::string& text)
 int
 ItemTextField::get_width() const
 {
-  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(*input) + 16.0f + static_cast<float>(m_cursor_char_width));
+  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(*input) + 16.0f + m_cursor_char_width);
 }
 
 void

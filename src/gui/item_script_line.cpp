@@ -61,7 +61,7 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
 int
 ItemScriptLine::get_width() const
 {
-  return static_cast<int>(Resources::console_font->get_text_width(*input)) + 16.0f + static_cast<float>(m_cursor_char_width);
+  return static_cast<int>(Resources::console_font->get_text_width(*input) + 16.0f + m_cursor_char_width);
 }
 
 bool
