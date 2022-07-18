@@ -529,6 +529,7 @@ Player::update(float dt_sec)
     {
       adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
       m_water_jump = false;
+      m_swimboosting = false;
     }
     m_powersprite->set_angle(0.f);
     m_lightsprite->set_angle(0.f);
