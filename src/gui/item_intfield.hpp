@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,39 +18,24 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_INTFIELD_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_INTFIELD_HPP
 
-#include "gui/menu_item.hpp"
+#include "gui/item_textfield.hpp"
 
-class ItemIntField final : public MenuItem
+class ItemIntField final : public ItemTextField
 {
 public:
   ItemIntField(const std::string& text_, int* input_, int id_ = -1);
+  ~ItemIntField() override;
 
-  /** Draws the menu item. */
-  virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
+  int* number;
 
-  /** Returns the minimum width of the menu item. */
-  virtual int get_width() const override;
+  /** Processes the given custom event cases. */
+  virtual bool custom_event(const SDL_Event& ev) override;
 
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;
 
-  int* number;
-
-  void change_input(const std::string& input_) {
-    input = input_;
-  }
-
-  /** Processes the given event. */
-  virtual void event(const SDL_Event& ev) override;
-
-  virtual bool changes_width() const override {
-    return true;
-  }
-
 private:
-
-  std::string input;
-  int flickw;
+  std::string m_input;
 
   void add_char(char c);
 

@@ -28,9 +28,6 @@ public:
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
 
-  /** Set the text of the item to the given string. */
-  void set_input_text(const std::string& text);
-
   /** Returns the minimum width of the menu item. */
   virtual int get_width() const override;
 
@@ -41,6 +38,8 @@ public:
 
   void change_input(const std::string& input_) {
     *input = input_;
+    m_input_undo.clear();
+    m_input_redo.clear();
   }
 
   /** Calls when the user wants to remove an invalid char. */

@@ -67,14 +67,6 @@ ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, 
                             ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
 }
 
-void
-ItemTextField::set_input_text(const std::string& text)
-{
-  *input = text;
-  m_input_undo.clear();
-  m_input_redo.clear();
-}
-
 int
 ItemTextField::get_width() const
 {
@@ -170,10 +162,12 @@ ItemTextField::event(const SDL_Event& ev)
 void
 ItemTextField::process_action(const MenuAction& action)
 {
-  if (action == MenuAction::REMOVE)
+  if (action == MenuAction::REMOVE) // Delete front (backspace)
   {
     if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))
     {
+      m_input_undo = *input;
+      m_input_redo.clear();
       unsigned char last_char;
       do
       {
@@ -189,7 +183,7 @@ ItemTextField::process_action(const MenuAction& action)
       invalid_remove();
     }
   }
-  else if (action == MenuAction::LEFT)
+  else if (action == MenuAction::LEFT) // Left
   {
     if (m_cursor_left_offset >= static_cast<int>(input->size()))
       return;
@@ -202,7 +196,7 @@ ItemTextField::process_action(const MenuAction& action)
       if (m_cursor_left_offset >= static_cast<int>(input->size())) break;
     } while ((last_char & 128) && !(last_char & 64));
   }
-  else if (action == MenuAction::RIGHT)
+  else if (action == MenuAction::RIGHT) // Right
   {
     if (m_cursor_left_offset <= 0)
       return;

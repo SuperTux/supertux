@@ -89,7 +89,7 @@ ItemScriptLine::custom_event(const SDL_Event& ev)
         {
           auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
           if (!menu) break;
-          menu->add_line()->set_input_text(paste_lines[i]);
+          menu->add_line()->change_input(paste_lines[i]);
         }
         return false;
       }
@@ -97,7 +97,7 @@ ItemScriptLine::custom_event(const SDL_Event& ev)
       {
         auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
         if (!menu) return true;
-        menu->add_line()->set_input_text(*input);
+        menu->add_line()->change_input(*input);
         return false;
       }
     }
