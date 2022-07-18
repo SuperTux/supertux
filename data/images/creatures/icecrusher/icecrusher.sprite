@@ -6,18 +6,6 @@
   )
  )
  (action
-  (name "crushing")
-  (hitbox 11 8 64 64)
-  (images "iceblock.png"
-  )
- )
- (action
-  (name "recovering")
-  (hitbox 11 8 64 64)
-  (images "iceblock_main.png"
-  )
- )
- (action
   (name "whites")
   (hitbox 11 8 64 64)
   (images "iceblock_whites.png")
