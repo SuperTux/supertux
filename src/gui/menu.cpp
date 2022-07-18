@@ -64,6 +64,7 @@ Menu::Menu() :
   m_menu_repeat_time(),
   m_menu_width(),
   m_menu_height(),
+  m_menu_help_height(0.0f),
   m_items(),
   m_arrange_left(0),
   m_active_item(-1)
@@ -387,18 +388,6 @@ void
 Menu::process_input(const Controller& controller)
 {
   { // Scrolling
-
-    // If a help text is present, make some space at the bottom of the
-    // menu so that the last few items don't overlap with the help
-    // text.
-    float help_height = 0.0f;
-    for (auto& item : m_items) {
-      if (!item->get_help().empty()) {
-        help_height = 96.0f;
-        break;
-      }
-    }
-
     // Find the first and last selectable item in the current menu, so
     // that the top most selected item gives a scroll_pos of -1.0f and
     // the bottom most gives 1.0f, as otherwise the non-selectable
@@ -415,7 +404,7 @@ Menu::process_input(const Controller& controller)
     }
 
     const float screen_height = static_cast<float>(SCREEN_HEIGHT);
-    const float menu_area = screen_height - help_height;
+    const float menu_area = screen_height - m_menu_help_height;
     // get_height() doesn't include the border, so we manually add some
     const float menu_height = get_height() + 32.0f;
     const float center_y = menu_area / 2.0f;
@@ -426,12 +415,6 @@ Menu::process_input(const Controller& controller)
                                  / static_cast<float>(last_idx - first_idx)) - 0.5f) * 2.0f;
 
       m_pos.y = floorf(center_y - scroll_range * scroll_pos);
-    }
-    else
-    {
-      if (help_height != 0.0f) {
-        m_pos.y = floorf(center_y);
-      }
     }
   }
 
@@ -618,7 +601,12 @@ Menu::calculate_height()
   for (unsigned i = 0; i < m_items.size(); i++)
   {
     height += static_cast<float>(m_items[i]->get_height());
+    // If a help text is present, make some space at the bottom of the
+    // menu so that the last few items don't overlap with the help
+    // text.
+    if (!m_items[i]->get_help().empty()) m_menu_help_height = 96.0f;
   }
+  if (m_menu_help_height != 0.0f) m_pos.y = floorf((static_cast<float>(SCREEN_HEIGHT) - m_menu_help_height) / 2);
   m_menu_height = height;
 }
 
