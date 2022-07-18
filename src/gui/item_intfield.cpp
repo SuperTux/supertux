@@ -19,8 +19,8 @@
 
 ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_) :
   ItemTextField(text_, new std::string, id_),
-  m_input(std::to_string(*input_)),
-  number(input_)
+  number(input_),
+  m_input(std::to_string(*input_))
 {
   change_input(m_input);
 }

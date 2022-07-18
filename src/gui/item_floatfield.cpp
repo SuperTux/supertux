@@ -19,8 +19,8 @@
 
 ItemFloatField::ItemFloatField(const std::string& text_, float* input_, int id_) :
   ItemTextField(text_, new std::string, id_),
-  m_input(std::to_string(*input_)),
   number(input_),
+  m_input(std::to_string(*input_)),
   m_has_comma(true)
 {
   change_input(m_input);
