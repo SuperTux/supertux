@@ -574,8 +574,6 @@ IceCrusher::eye_position(bool right) const
         (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f) * //Phase factor due to cooldown timer
       static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size
       static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible
-    //no break because compiler throws errors if it does
-    //break;
   default:
     log_debug << "IceCrusher in invalid state" << std::endl;
     break;
