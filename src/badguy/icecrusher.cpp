@@ -575,9 +575,6 @@ IceCrusher::eye_position(bool right) const
       static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size
       static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible
     break;
-  default:
-    log_debug << "IceCrusher in invalid state" << std::endl;
-    break;
   }
   return Vector(0, 0);
 }
