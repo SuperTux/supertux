@@ -31,6 +31,7 @@
 ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
   ItemTextField("", input_, id_)
 {
+  m_cursor_char_width = Resources::console_font->get_text_width(m_cursor_char_str);
 }
 
 void
@@ -53,7 +54,7 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
                               ALIGN_LEFT, LAYER_GUI, Color::CYAN);
   }
   context.color().draw_text(Resources::console_font, input_part_2,
-                            Vector(pos.x + 9.5f + input_part_1_width + m_cursor_char_width,
+                            Vector(pos.x + 14.0f + input_part_1_width + m_cursor_char_width,
                                    pos.y - Resources::console_font->get_height() / 2.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
 }

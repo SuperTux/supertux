@@ -62,7 +62,7 @@ protected:
 
   const char m_cursor_char;
   const std::string m_cursor_char_str;
-  const float m_cursor_char_width;
+  float m_cursor_char_width;
   int m_cursor_left_offset;
 
 private:
