@@ -28,16 +28,18 @@ public:
 
   int* number;
 
-  /** Processes the given custom event cases. */
-  virtual bool custom_event(const SDL_Event& ev) override;
+  // Text manipulation and navigation functions
 
-  /** Processes the menu action. */
-  virtual void process_action(const MenuAction& action) override;
+  virtual void insert_at(const std::string& text, const int index) override;
+  virtual void delete_front() override;
+  virtual void delete_back() override;
+  virtual void undo() override;
+  virtual void redo() override;
 
 private:
   std::string m_input;
 
-  void add_char(char c);
+  void add_char(char c, const int index);
 
 private:
   ItemIntField(const ItemIntField&) = delete;

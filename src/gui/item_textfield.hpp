@@ -48,13 +48,30 @@ public:
   /** Processes the given event. */
   virtual void event(const SDL_Event& ev) override;
 
-  /** Processes the given custom event cases. Check for the other base events of TextField, based on return value. */
-  virtual bool custom_event(const SDL_Event& ev) { return true; }
+  /** Processes the given custom event cases. */
+  virtual void custom_event(const SDL_Event& ev) {}
 
   /** Indicates that this item changes its width. */
   virtual bool changes_width() const override {
     return true;
   }
+
+  void update_undo();
+
+  // Text manipulation and navigation functions
+
+  virtual void insert_at(const std::string& text, const int index);
+  virtual void go_left();
+  virtual void go_right();
+  virtual void go_to_beginning();
+  virtual void go_to_end();
+  virtual void delete_front();
+  virtual void delete_back();
+  virtual void cut();
+  virtual void copy();
+  virtual void paste();
+  virtual void undo();
+  virtual void redo();
 
 protected:
   std::string m_input_undo;

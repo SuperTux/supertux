@@ -76,84 +76,47 @@ ItemTextField::get_width() const
 void
 ItemTextField::event(const SDL_Event& ev)
 {
-  if (!custom_event(ev)) return; // If a given custom event function returns "false", do not check for the other base events.
+  custom_event(ev); // Execute any available custom events.
 
   if (ev.type == SDL_TEXTINPUT) // Text input
   {
-    m_input_undo = *input;
-    m_input_redo.clear();
-    *input = input->substr(0, input->size() - m_cursor_left_offset) + ev.text.text +
-      input->substr(input->size() - m_cursor_left_offset);
+    insert_at(ev.text.text, m_cursor_left_offset);
   }
   else if (ev.type == SDL_KEYDOWN)
   {
     if (ev.key.keysym.sym == SDLK_DELETE) // Delete back
     {
-      if (!input->empty() && m_cursor_left_offset > 0)
-      {
-        m_input_undo = *input;
-        m_input_redo.clear();
-        unsigned char next_char = '\0';
-        do
-        {
-          next_char = m_cursor_left_offset == 1 ? next_char : input->at(input->size() - m_cursor_left_offset + 1);
-          *input = input->substr(0, input->size() - m_cursor_left_offset) +
-            input->substr(input->size() - m_cursor_left_offset + 1);
-          m_cursor_left_offset--;
-          if (input->empty() || m_cursor_left_offset <= 0) break;
-        } while ((next_char & 128) && !(next_char & 64));
-      }
-      else
-      {
-        invalid_remove();
-      }
+      delete_back();
     }
     else if (ev.key.keysym.sym == SDLK_HOME) // Home: go to beginning of text
     {
-      m_cursor_left_offset = static_cast<int>(input->size());
+      go_to_beginning();
     }
     else if (ev.key.keysym.sym == SDLK_END) // End: go to end of text
     {
-      m_cursor_left_offset = 0;
+      go_to_end();
     }
     else if (SDL_GetModState() & KMOD_CTRL) //Commands which require CTRL
     {
       if (ev.key.keysym.sym == SDLK_x) // Cut (whole line)
       {
-        SDL_SetClipboardText(input->c_str());
-        input->clear();
+        cut();
       }
       else if (ev.key.keysym.sym == SDLK_c) // Copy (whole line)
       {
-        SDL_SetClipboardText(input->c_str());
+        copy();
       }
       else if (ev.key.keysym.sym == SDLK_v) // Paste
       {
-        m_input_undo = *input;
-        m_input_redo.clear();
-
-        char* clipboard_content = SDL_GetClipboardText();
-        std::string clipboard_text = std::string(clipboard_content);
-        SDL_free(clipboard_content);
-        boost::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
-
-        if (clipboard_text.empty()) return;
-        *input = input->substr(0, input->size() - m_cursor_left_offset) + clipboard_text +
-          input->substr(input->size() - m_cursor_left_offset);
+        paste();
       }
       else if (ev.key.keysym.sym == SDLK_z) // Undo
       {
-        if (m_input_undo.empty()) return;
-        m_input_redo = *input;
-        *input = m_input_undo;
-        m_input_undo.clear();
+        undo();
       }
       else if (ev.key.keysym.sym == SDLK_y) // Redo
       {
-        if (m_input_redo.empty()) return;
-        m_input_undo = *input;
-        *input = m_input_redo;
-        m_input_redo.clear();
+        redo();
       }
     }
   }
@@ -164,51 +127,165 @@ ItemTextField::process_action(const MenuAction& action)
 {
   if (action == MenuAction::REMOVE) // Delete front (backspace)
   {
-    if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))
-    {
-      m_input_undo = *input;
-      m_input_redo.clear();
-      unsigned char last_char;
-      do
-      {
-        const int index = static_cast<int>(input->size()) - m_cursor_left_offset - 1;
-        last_char = input->at(index);
-        *input = input->substr(0, index) +
-          input->substr(input->size() - m_cursor_left_offset);
-        if (input->empty() || m_cursor_left_offset >= static_cast<int>(input->size())) break;
-      } while ((last_char & 128) && !(last_char & 64));
-    }
-    else
-    {
-      invalid_remove();
-    }
+    delete_front();
   }
   else if (action == MenuAction::LEFT) // Left
   {
-    if (m_cursor_left_offset >= static_cast<int>(input->size()))
-      return;
-
-    unsigned char last_char;
-    do
-    {
-      last_char = input->at(input->size() - m_cursor_left_offset - 1);
-      m_cursor_left_offset++;
-      if (m_cursor_left_offset >= static_cast<int>(input->size())) break;
-    } while ((last_char & 128) && !(last_char & 64));
+    go_left();
   }
   else if (action == MenuAction::RIGHT) // Right
   {
-    if (m_cursor_left_offset <= 0)
-      return;
+    go_right();
+  }
+}
 
+void
+ItemTextField::update_undo()
+{
+  m_input_undo = *input;
+  m_input_redo.clear();
+}
+
+// Text manipulation and navigation functions
+
+void
+ItemTextField::insert_at(const std::string& text, const int index)
+{
+  update_undo();
+  *input = input->substr(0, input->size() - index) + text +
+    input->substr(input->size() - index);
+}
+
+void
+ItemTextField::go_left()
+{
+  if (m_cursor_left_offset >= static_cast<int>(input->size()))
+    return;
+
+  unsigned char last_char;
+  do
+  {
+    last_char = input->at(input->size() - m_cursor_left_offset - 1);
+    m_cursor_left_offset++;
+    if (m_cursor_left_offset >= static_cast<int>(input->size())) break;
+  } while ((last_char & 128) && !(last_char & 64));
+}
+
+void
+ItemTextField::go_right()
+{
+  if (m_cursor_left_offset <= 0)
+    return;
+
+  unsigned char next_char = '\0';
+  do
+  {
+    next_char = m_cursor_left_offset == 1 ? next_char : input->at(input->size() - m_cursor_left_offset + 1);
+    m_cursor_left_offset--;
+    if (m_cursor_left_offset <= 0) break;
+  } while ((next_char & 128) && !(next_char & 64));
+}
+
+void
+ItemTextField::go_to_beginning()
+{
+  m_cursor_left_offset = static_cast<int>(input->size());
+}
+
+void
+ItemTextField::go_to_end()
+{
+  m_cursor_left_offset = 0;
+}
+
+void
+ItemTextField::delete_front()
+{
+  if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))
+  {
+    update_undo();
+    unsigned char last_char;
+    do
+    {
+      const int index = static_cast<int>(input->size()) - m_cursor_left_offset - 1;
+      last_char = input->at(index);
+      *input = input->substr(0, index) +
+        input->substr(input->size() - m_cursor_left_offset);
+      if (input->empty() || m_cursor_left_offset >= static_cast<int>(input->size())) break;
+    } while ((last_char & 128) && !(last_char & 64));
+  }
+  else
+  {
+    invalid_remove();
+  }
+}
+
+void
+ItemTextField::delete_back()
+{
+  if (!input->empty() && m_cursor_left_offset > 0)
+  {
+    update_undo();
     unsigned char next_char = '\0';
     do
     {
       next_char = m_cursor_left_offset == 1 ? next_char : input->at(input->size() - m_cursor_left_offset + 1);
+      *input = input->substr(0, input->size() - m_cursor_left_offset) +
+        input->substr(input->size() - m_cursor_left_offset + 1);
       m_cursor_left_offset--;
-      if (m_cursor_left_offset <= 0) break;
+      if (input->empty() || m_cursor_left_offset <= 0) break;
     } while ((next_char & 128) && !(next_char & 64));
   }
+  else
+  {
+    invalid_remove();
+  }
+}
+
+void
+ItemTextField::cut()
+{
+  update_undo();
+  SDL_SetClipboardText(input->c_str());
+  input->clear();
+}
+
+void
+ItemTextField::copy()
+{
+  SDL_SetClipboardText(input->c_str());
+}
+
+void
+ItemTextField::paste()
+{
+  update_undo();
+
+  char* clipboard_content = SDL_GetClipboardText();
+  std::string clipboard_text = std::string(clipboard_content);
+  SDL_free(clipboard_content);
+  boost::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
+
+  if (clipboard_text.empty()) return;
+  insert_at(clipboard_text, m_cursor_left_offset);
+}
+
+void
+ItemTextField::undo()
+{
+  if (m_input_undo.empty()) return;
+  m_input_redo = *input;
+  *input = m_input_undo;
+  m_input_undo.clear();
+}
+
+void
+ItemTextField::redo()
+{
+  if (m_input_redo.empty()) return;
+  m_input_undo = *input;
+  *input = m_input_redo;
+  m_input_redo.clear();
 }
 
 /* EOF */

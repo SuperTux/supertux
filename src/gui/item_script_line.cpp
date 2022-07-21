@@ -65,45 +65,19 @@ ItemScriptLine::get_width() const
   return static_cast<int>(Resources::console_font->get_text_width(*input) + 16.0f + m_cursor_char_width);
 }
 
-bool
+void
 ItemScriptLine::custom_event(const SDL_Event& ev)
 {
   if (ev.type == SDL_KEYDOWN)
   {
     if (SDL_GetModState() & KMOD_CTRL) // Commands which require CTRL
     {
-      if (ev.key.keysym.sym == SDLK_v) // Paste (multi-line support)
+      if (ev.key.keysym.sym == SDLK_d) // Duplicate line
       {
-        m_input_undo = *input;
-        m_input_redo.clear();
-
-        std::vector<std::string> paste_lines;
-        char* clipboard_content = SDL_GetClipboardText();
-        std::string clipboard_content_str(clipboard_content);
-        boost::split(paste_lines, clipboard_content_str, boost::is_any_of("\n"));
-        SDL_free(clipboard_content);
-
-        if (paste_lines.empty()) return true;
-        *input = input->substr(0, input->size() - m_cursor_left_offset) + paste_lines[0] +
-          input->substr(input->size() - m_cursor_left_offset);
-        for (std::size_t i = 1; i < paste_lines.size(); i++)
-        {
-          auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-          if (!menu) break;
-          menu->add_line()->change_input(paste_lines[i]);
-        }
-        return false;
-      }
-      else if (ev.key.keysym.sym == SDLK_d) // Duplicate line
-      {
-        auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-        if (!menu) return true;
-        menu->add_line()->change_input(*input);
-        return false;
+        duplicate_line();
       }
     }
   }
-  return true;
 }
 
 void
@@ -113,9 +87,7 @@ ItemScriptLine::process_action(const MenuAction& action)
   const Controller& controller = InputManager::current()->get_controller();
   if (action == MenuAction::HIT && controller.pressed(Control::MENU_SELECT))
   {
-    auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
-    if (!menu) return;
-    menu->add_line();
+    new_line();
   }
 }
 
@@ -125,6 +97,46 @@ ItemScriptLine::invalid_remove()
   auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
   if (!menu) return;
   menu->remove_line();
+}
+
+// Text manipulation and navigation functions
+
+void
+ItemScriptLine::paste() // Paste with mutli-line support
+{
+  update_undo();
+
+  std::vector<std::string> paste_lines;
+  char* clipboard_content = SDL_GetClipboardText();
+  std::string clipboard_content_str(clipboard_content);
+  boost::split(paste_lines, clipboard_content_str, boost::is_any_of("\n"));
+  SDL_free(clipboard_content);
+
+  if (paste_lines.empty()) return;
+  *input = input->substr(0, input->size() - m_cursor_left_offset) + paste_lines[0] +
+    input->substr(input->size() - m_cursor_left_offset);
+  for (std::size_t i = 1; i < paste_lines.size(); i++)
+  {
+    auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
+    if (!menu) break;
+    menu->add_line()->change_input(paste_lines[i]);
+  }
+}
+
+void
+ItemScriptLine::new_line()
+{
+  auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
+  if (!menu) return;
+  menu->add_line();
+}
+
+void
+ItemScriptLine::duplicate_line()
+{
+  auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
+  if (!menu) return;
+  menu->add_line()->change_input(*input);
 }
 
 /* EOF */

@@ -35,10 +35,16 @@ public:
   virtual void process_action(const MenuAction& action) override;
 
   /** Processes the given custom event cases. */
-  virtual bool custom_event(const SDL_Event& ev) override;
+  virtual void custom_event(const SDL_Event& ev) override;
 
   /** Calls when the user wants to remove an invalid char. */
   virtual void invalid_remove() override;
+
+  // Text manipulation and navigation functions
+
+  virtual void paste() override;
+  virtual void new_line();
+  virtual void duplicate_line();
 
 private:
   ItemScriptLine(const ItemScriptLine&) = delete;

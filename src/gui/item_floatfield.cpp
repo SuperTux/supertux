@@ -43,101 +43,8 @@ ItemFloatField::~ItemFloatField()
   delete input;
 }
 
-bool
-ItemFloatField::custom_event(const SDL_Event& ev)
-{
-  if (ev.type == SDL_TEXTINPUT)
-  {
-    std::string txt = ev.text.text;
-    for (auto& c : txt)
-    {
-      add_char(c);
-    }
-  }
-  else if (ev.type == SDL_KEYDOWN)
-  {
-    if (ev.key.keysym.sym == SDLK_DELETE) // Delete back
-    {
-      if (!input->empty() && m_cursor_left_offset > 0)
-      {
-        if (input->at(input->size() - m_cursor_left_offset) == '.') m_has_comma = false;
-
-        *input = input->substr(0, input->size() - m_cursor_left_offset) +
-          input->substr(input->size() - m_cursor_left_offset + 1);
-        m_cursor_left_offset--;
-
-        if (!input->empty() && *input != "-")
-        {
-          try
-          {
-            *number = std::stof(*input);
-          }
-          catch(...)
-          {
-            *input = std::to_string(*number);
-          }
-        }
-        else
-        {
-          *number = 0;
-        }
-      }
-      else
-      {
-        invalid_remove();
-      }
-    }
-  }
-  return false;
-}
-
 void
-ItemFloatField::process_action(const MenuAction& action)
-{
-  if (action == MenuAction::REMOVE) // Delete front (backspace)
-  {
-    if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))
-    {
-      if (input->at(input->size() - m_cursor_left_offset - 1) == '.') m_has_comma = false;
-
-      *input = input->substr(0, input->size() - m_cursor_left_offset - 1) +
-        input->substr(input->size() - m_cursor_left_offset);
-
-      if (!input->empty() && *input != "-")
-      {
-        try
-        {
-          *number = std::stof(*input);
-        }
-        catch (...)
-        {
-          *input = std::to_string(*number);
-        }
-      }
-      else
-      {
-        *number = 0;
-      }
-    }
-  }
-  else if (action == MenuAction::LEFT) // Left
-  {
-    if (m_cursor_left_offset >= static_cast<int>(input->size()))
-      return;
-
-    m_cursor_left_offset++;
-  }
-  else if (action == MenuAction::RIGHT) // Right
-  {
-    if (m_cursor_left_offset <= 0)
-      return;
-
-    m_cursor_left_offset--;
-  }
-}
-
-void
-ItemFloatField::add_char(char c)
+ItemFloatField::add_char(char c, const int index)
 {
   if (c == '-')
   {
@@ -146,41 +53,163 @@ ItemFloatField::add_char(char c)
       *number *= -1;
       if (*input->begin() == '-')
       {
+        update_undo();
         input->erase(input->begin());
       }
       else
       {
+        update_undo();
         input->insert(input->begin(), '-');
       }
     }
     else
     {
+      update_undo();
       *input = "-";
     }
   }
   else if (!m_has_comma && (c == '.' || c == ','))
   {
-    if (m_cursor_left_offset == static_cast<int>(input->size()))
+    if (index == static_cast<int>(input->size()))
     {
+      update_undo();
       *input = "0." + *input;
     }
     else
     {
-      *input = input->substr(0, input->size() - m_cursor_left_offset) + '.' +
-        input->substr(input->size() - m_cursor_left_offset);
+      update_undo();
+      *input = input->substr(0, input->size() - index) + '.' +
+        input->substr(input->size() - index);
     }
     m_has_comma = true;
   }
 
   if (c >= '0' && c <= '9')
   {
-    *input = input->substr(0, input->size() - m_cursor_left_offset) + c +
-      input->substr(input->size() - m_cursor_left_offset);
+    update_undo();
+    *input = input->substr(0, input->size() - index) + c +
+      input->substr(input->size() - index);
   }
   try
   {
     float new_number = std::stof(*input);
     *number = new_number;
+  }
+  catch (...)
+  {
+    *input = std::to_string(*number);
+  }
+}
+
+// Text manipulation and navigation functions
+
+void
+ItemFloatField::insert_at(const std::string& text, const int index)
+{
+  for (auto& c : text)
+  {
+    add_char(c, index);
+  }
+}
+
+void
+ItemFloatField::delete_front()
+{
+  if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))
+  {
+    update_undo();
+
+    if (input->at(input->size() - m_cursor_left_offset - 1) == '.') m_has_comma = false;
+
+    *input = input->substr(0, input->size() - m_cursor_left_offset - 1) +
+      input->substr(input->size() - m_cursor_left_offset);
+
+    if (!input->empty() && *input != "-")
+    {
+      try
+      {
+        *number = std::stof(*input);
+      }
+      catch (...)
+      {
+        *input = std::to_string(*number);
+      }
+    }
+    else
+    {
+      *number = 0;
+    }
+  }
+  else
+  {
+    invalid_remove();
+  }
+}
+
+void
+ItemFloatField::delete_back()
+{
+  if (!input->empty() && m_cursor_left_offset > 0)
+  {
+    update_undo();
+
+    if (input->at(input->size() - m_cursor_left_offset) == '.') m_has_comma = false;
+
+    *input = input->substr(0, input->size() - m_cursor_left_offset) +
+      input->substr(input->size() - m_cursor_left_offset + 1);
+    m_cursor_left_offset--;
+
+    if (!input->empty() && *input != "-")
+    {
+      try
+      {
+        *number = std::stof(*input);
+      }
+      catch (...)
+      {
+        *input = std::to_string(*number);
+      }
+    }
+    else
+    {
+      *number = 0;
+    }
+  }
+  else
+  {
+    invalid_remove();
+  }
+}
+
+void
+ItemFloatField::undo()
+{
+  if (m_input_undo.empty()) return;
+  m_input_redo = *input;
+  *input = m_input_undo;
+  m_input_undo.clear();
+
+  try
+  {
+    *number = std::stof(*input);
+  }
+  catch (...)
+  {
+    *input = std::to_string(*number);
+  }
+}
+
+void
+ItemFloatField::redo()
+{
+  if (m_input_redo.empty()) return;
+  m_input_undo = *input;
+  *input = m_input_redo;
+  m_input_redo.clear();
+
+  try
+  {
+    *number = std::stof(*input);
   }
   catch (...)
   {
