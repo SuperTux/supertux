@@ -35,11 +35,19 @@ ItemIntField::add_char(char c, const int index)
 {
   if (c == '-')
   {
+    update_undo();
     if (!input->empty() && *input != "0")
     {
-      update_undo();
       *number *= -1;
-      *input = std::to_string(*number);
+      if (*input->begin() == '-')
+      {
+        if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
+        input->erase(input->begin());
+      }
+      else
+      {
+        input->insert(input->begin(), '-');
+      }
     }
     else
     {
@@ -53,6 +61,18 @@ ItemIntField::add_char(char c, const int index)
   update_undo();
   *input = input->substr(0, input->size() - index) + c +
     input->substr(input->size() - index);
+  on_input_update();
+}
+
+void
+ItemIntField::on_input_update()
+{
+  if (input->empty())
+  {
+    *number = 0;
+    return;
+  }
+
   try
   {
     int new_number = std::stoi(*input);
@@ -72,116 +92,6 @@ ItemIntField::insert_at(const std::string& text, const int index)
   for (auto& c : text)
   {
     add_char(c, index);
-  }
-}
-
-void
-ItemIntField::clear()
-{
-  input->clear();
-  *number = 0;
-}
-
-void
-ItemIntField::delete_front()
-{
-  if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))
-  {
-    update_undo();
-    *input = input->substr(0, static_cast<int>(input->size()) - m_cursor_left_offset - 1) +
-      input->substr(input->size() - m_cursor_left_offset);
-
-    if (!input->empty())
-    {
-      try
-      {
-        int new_number = std::stoi(*input);
-        *number = new_number;
-      }
-      catch (...)
-      {
-        *input = std::to_string(*number);
-      }
-    }
-    else
-    {
-      *number = 0;
-    }
-  }
-  else
-  {
-    invalid_remove();
-  }
-}
-
-void
-ItemIntField::delete_back()
-{
-  if (!input->empty() && m_cursor_left_offset > 0)
-  {
-    update_undo();
-    *input = input->substr(0, input->size() - m_cursor_left_offset) +
-      input->substr(input->size() - m_cursor_left_offset + 1);
-    m_cursor_left_offset--;
-
-    if (!input->empty())
-    {
-      try
-      {
-        int new_number = std::stoi(*input);
-        *number = new_number;
-      }
-      catch (...)
-      {
-        *input = std::to_string(*number);
-      }
-    }
-    else
-    {
-      *number = 0;
-    }
-  }
-  else
-  {
-    invalid_remove();
-  }
-}
-
-void
-ItemIntField::undo()
-{
-  if (m_input_undo.empty()) return;
-  m_input_redo = *input;
-  *input = m_input_undo;
-  m_input_undo.clear();
-
-  try
-  {
-    int new_number = std::stoi(*input);
-    *number = new_number;
-  }
-  catch (...)
-  {
-    *input = std::to_string(*number);
-  }
-}
-
-void
-ItemIntField::redo()
-{
-  if (m_input_redo.empty()) return;
-  m_input_undo = *input;
-  *input = m_input_redo;
-  m_input_redo.clear();
-
-  try
-  {
-    int new_number = std::stoi(*input);
-    *number = new_number;
-  }
-  catch (...)
-  {
-    *input = std::to_string(*number);
   }
 }
 

@@ -28,14 +28,12 @@ public:
 
   float* number;
 
+  /** Calls when the input gets updated. */
+  virtual void on_input_update() override;
+
   // Text manipulation and navigation functions
 
   virtual void insert_at(const std::string& text, const int index) override;
-  virtual void clear() override;
-  virtual void delete_front() override;
-  virtual void delete_back() override;
-  virtual void undo() override;
-  virtual void redo() override;
 
 private:
   std::string m_input;

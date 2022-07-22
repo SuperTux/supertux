@@ -48,36 +48,34 @@ ItemFloatField::add_char(char c, const int index)
 {
   if (c == '-')
   {
+    update_undo();
     if (!input->empty() && *input != "0")
     {
       *number *= -1;
       if (*input->begin() == '-')
       {
-        update_undo();
+        if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
         input->erase(input->begin());
       }
       else
       {
-        update_undo();
         input->insert(input->begin(), '-');
       }
     }
     else
     {
-      update_undo();
       *input = "-";
     }
   }
   else if (!m_has_comma && (c == '.' || c == ','))
   {
+    update_undo();
     if (index == static_cast<int>(input->size()))
     {
-      update_undo();
       *input = "0." + *input;
     }
     else
     {
-      update_undo();
       *input = input->substr(0, input->size() - index) + '.' +
         input->substr(input->size() - index);
     }
@@ -90,10 +88,24 @@ ItemFloatField::add_char(char c, const int index)
     *input = input->substr(0, input->size() - index) + c +
       input->substr(input->size() - index);
   }
+  on_input_update();
+}
+
+void
+ItemFloatField::on_input_update()
+{
+  if (input->empty() || *input == "-")
+  {
+    m_has_comma = false;
+    *number = 0;
+    return;
+  }
+
+  m_has_comma = input->find(".") != std::string::npos || input->find(",") != std::string::npos;
+
   try
   {
-    float new_number = std::stof(*input);
-    *number = new_number;
+    *number = std::stof(*input);
   }
   catch (...)
   {
@@ -109,118 +121,6 @@ ItemFloatField::insert_at(const std::string& text, const int index)
   for (auto& c : text)
   {
     add_char(c, index);
-  }
-}
-
-void
-ItemFloatField::clear()
-{
-  input->clear();
-  *number = 0;
-}
-
-void
-ItemFloatField::delete_front()
-{
-  if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))
-  {
-    update_undo();
-
-    if (input->at(input->size() - m_cursor_left_offset - 1) == '.') m_has_comma = false;
-
-    *input = input->substr(0, input->size() - m_cursor_left_offset - 1) +
-      input->substr(input->size() - m_cursor_left_offset);
-
-    if (!input->empty() && *input != "-")
-    {
-      try
-      {
-        *number = std::stof(*input);
-      }
-      catch (...)
-      {
-        *input = std::to_string(*number);
-      }
-    }
-    else
-    {
-      *number = 0;
-    }
-  }
-  else
-  {
-    invalid_remove();
-  }
-}
-
-void
-ItemFloatField::delete_back()
-{
-  if (!input->empty() && m_cursor_left_offset > 0)
-  {
-    update_undo();
-
-    if (input->at(input->size() - m_cursor_left_offset) == '.') m_has_comma = false;
-
-    *input = input->substr(0, input->size() - m_cursor_left_offset) +
-      input->substr(input->size() - m_cursor_left_offset + 1);
-    m_cursor_left_offset--;
-
-    if (!input->empty() && *input != "-")
-    {
-      try
-      {
-        *number = std::stof(*input);
-      }
-      catch (...)
-      {
-        *input = std::to_string(*number);
-      }
-    }
-    else
-    {
-      *number = 0;
-    }
-  }
-  else
-  {
-    invalid_remove();
-  }
-}
-
-void
-ItemFloatField::undo()
-{
-  if (m_input_undo.empty()) return;
-  m_input_redo = *input;
-  *input = m_input_undo;
-  m_input_undo.clear();
-
-  try
-  {
-    *number = std::stof(*input);
-  }
-  catch (...)
-  {
-    *input = std::to_string(*number);
-  }
-}
-
-void
-ItemFloatField::redo()
-{
-  if (m_input_redo.empty()) return;
-  m_input_undo = *input;
-  *input = m_input_redo;
-  m_input_redo.clear();
-
-  try
-  {
-    *number = std::stof(*input);
-  }
-  catch (...)
-  {
-    *input = std::to_string(*number);
   }
 }
 

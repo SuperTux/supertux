@@ -48,15 +48,16 @@ public:
   /** Processes the given event. */
   virtual void event(const SDL_Event& ev) override;
 
-  /** Processes the given custom event cases. */
-  virtual void custom_event(const SDL_Event& ev) {}
-
   /** Indicates that this item changes its width. */
   virtual bool changes_width() const override {
     return true;
   }
 
+  /** Updates undo and redo status. */
   virtual void update_undo();
+
+  /** Calls when the input gets updated. */
+  virtual void on_input_update() {};
 
   // Text manipulation and navigation functions
 

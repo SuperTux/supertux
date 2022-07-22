@@ -66,7 +66,7 @@ ItemScriptLine::get_width() const
 }
 
 void
-ItemScriptLine::custom_event(const SDL_Event& ev)
+ItemScriptLine::event(const SDL_Event& ev)
 {
   if (ev.type == SDL_KEYDOWN)
   {
@@ -78,6 +78,8 @@ ItemScriptLine::custom_event(const SDL_Event& ev)
       }
     }
   }
+
+  ItemTextField::event(ev);
 }
 
 void
@@ -121,6 +123,8 @@ ItemScriptLine::paste() // Paste with mutli-line support
     if (!menu) break;
     menu->add_line()->change_input(paste_lines[i]);
   }
+
+  on_input_update();
 }
 
 void

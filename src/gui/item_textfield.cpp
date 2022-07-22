@@ -76,8 +76,6 @@ ItemTextField::get_width() const
 void
 ItemTextField::event(const SDL_Event& ev)
 {
-  custom_event(ev); // Execute any available custom events.
-
   if (ev.type == SDL_TEXTINPUT) // Text input
   {
     insert_at(ev.text.text, m_cursor_left_offset);
@@ -154,12 +152,15 @@ ItemTextField::insert_at(const std::string& text, const int index)
   update_undo();
   *input = input->substr(0, input->size() - index) + text +
     input->substr(input->size() - index);
+  on_input_update();
 }
 
 void
 ItemTextField::clear()
 {
+  m_cursor_left_offset = 0;
   input->clear();
+  on_input_update();
 }
 
 void
@@ -219,6 +220,7 @@ ItemTextField::delete_front()
         input->substr(input->size() - m_cursor_left_offset);
       if (input->empty() || m_cursor_left_offset >= static_cast<int>(input->size())) break;
     } while ((last_char & 128) && !(last_char & 64));
+    on_input_update();
   }
   else
   {
@@ -241,6 +243,7 @@ ItemTextField::delete_back()
       m_cursor_left_offset--;
       if (input->empty() || m_cursor_left_offset <= 0) break;
     } while ((next_char & 128) && !(next_char & 64));
+    on_input_update();
   }
   else
   {
@@ -274,6 +277,8 @@ ItemTextField::paste()
 
   if (clipboard_text.empty()) return;
   insert_at(clipboard_text, m_cursor_left_offset);
+
+  on_input_update();
 }
 
 void
@@ -283,6 +288,8 @@ ItemTextField::undo()
   m_input_redo = *input;
   *input = m_input_undo;
   m_input_undo.clear();
+
+  on_input_update();
 }
 
 void
@@ -292,6 +299,8 @@ ItemTextField::redo()
   m_input_undo = *input;
   *input = m_input_redo;
   m_input_redo.clear();
+
+  on_input_update();
 }
 
 /* EOF */
