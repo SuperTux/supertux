@@ -113,6 +113,13 @@ ItemFloatField::insert_at(const std::string& text, const int index)
 }
 
 void
+ItemFloatField::clear()
+{
+  input->clear();
+  *number = 0;
+}
+
+void
 ItemFloatField::delete_front()
 {
   if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))

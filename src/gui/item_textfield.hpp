@@ -56,11 +56,12 @@ public:
     return true;
   }
 
-  void update_undo();
+  virtual void update_undo();
 
   // Text manipulation and navigation functions
 
   virtual void insert_at(const std::string& text, const int index);
+  virtual void clear();
   virtual void go_left();
   virtual void go_right();
   virtual void go_to_beginning();

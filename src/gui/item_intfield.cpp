@@ -76,6 +76,13 @@ ItemIntField::insert_at(const std::string& text, const int index)
 }
 
 void
+ItemIntField::clear()
+{
+  input->clear();
+  *number = 0;
+}
+
+void
 ItemIntField::delete_front()
 {
   if (!input->empty() && m_cursor_left_offset < static_cast<int>(input->size()))

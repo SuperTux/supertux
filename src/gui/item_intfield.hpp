@@ -31,6 +31,7 @@ public:
   // Text manipulation and navigation functions
 
   virtual void insert_at(const std::string& text, const int index) override;
+  virtual void clear() override;
   virtual void delete_front() override;
   virtual void delete_back() override;
   virtual void undo() override;

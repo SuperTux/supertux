@@ -157,6 +157,12 @@ ItemTextField::insert_at(const std::string& text, const int index)
 }
 
 void
+ItemTextField::clear()
+{
+  input->clear();
+}
+
+void
 ItemTextField::go_left()
 {
   if (m_cursor_left_offset >= static_cast<int>(input->size()))
@@ -247,7 +253,7 @@ ItemTextField::cut()
 {
   update_undo();
   SDL_SetClipboardText(input->c_str());
-  input->clear();
+  clear();
 }
 
 void
