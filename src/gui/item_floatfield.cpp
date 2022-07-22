@@ -101,7 +101,7 @@ ItemFloatField::on_input_update()
     return;
   }
 
-  m_has_comma = input->find(".") != std::string::npos || input->find(",") != std::string::npos;
+  m_has_comma = input->find(".") != std::string::npos;
 
   try
   {
