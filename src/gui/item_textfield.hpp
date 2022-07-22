@@ -57,7 +57,7 @@ public:
   virtual void update_undo();
 
   /** Calls when the input gets updated. */
-  virtual void on_input_update() {};
+  virtual void on_input_update() {}
 
   // Text manipulation and navigation functions
 
