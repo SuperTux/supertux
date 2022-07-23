@@ -115,8 +115,7 @@ ItemScriptLine::paste() // Paste with mutli-line support
   SDL_free(clipboard_content);
 
   if (paste_lines.empty()) return;
-  *input = input->substr(0, input->size() - m_cursor_left_offset) + paste_lines[0] +
-    input->substr(input->size() - m_cursor_left_offset);
+  insert_at(paste_lines[0], m_cursor_left_offset);
   for (std::size_t i = 1; i < paste_lines.size(); i++)
   {
     auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
