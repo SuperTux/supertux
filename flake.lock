@@ -80,7 +80,8 @@
         "sexpcpp": "sexpcpp",
         "squirrel_src": "squirrel_src",
         "tinycmmc": "tinycmmc",
-        "tinygettext": "tinygettext"
+        "tinygettext": "tinygettext",
+        "wstsound": "wstsound"
       }
     },
     "sexpcpp": {
@@ -171,6 +172,32 @@
       "original": {
         "owner": "tinygettext",
         "repo": "tinygettext",
+        "type": "github"
+      }
+    },
+    "wstsound": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "tinycmmc": [
+          "tinycmmc"
+        ]
+      },
+      "locked": {
+        "lastModified": 1658513510,
+        "narHash": "sha256-Spq7drfTcyBRkLjdM0c7q8alPD+eFtcQzcklIrsWOT4=",
+        "owner": "WindstilleTeam",
+        "repo": "wstsound",
+        "rev": "9e692e7a40e6d6d0409007085e8f6fd22438f447",
+        "type": "github"
+      },
+      "original": {
+        "owner": "WindstilleTeam",
+        "repo": "wstsound",
         "type": "github"
       }
     }

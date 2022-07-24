@@ -44,6 +44,13 @@ endif()
 ## Project name to use as command prefix.
 project(SUPERTUX VERSION 0.6.2)
 
+# FIXME: This is for FindOpusfile and some other stuff, could just
+# copy them over or integrate better into wstsound
+set(TINYCMMC_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/external/tinycmmc/modules/")
+find_package(tinycmmc CONFIG)
+message(STATUS "tinycmmc module path: ${TINYCMMC_MODULE_PATH}")
+list(APPEND CMAKE_MODULE_PATH ${TINYCMMC_MODULE_PATH})
+
 # Using C++20 here, C++17 would almost be enough, but is lacking filesystem on some platforms
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -145,22 +152,19 @@ endif()
 # Build dependencies
 function(build_dependencies)
   set(BUILD_TESTS OFF)
-  add_subdirectory(external/wstsound/ EXCLUDE_FROM_ALL)
+
+  find_package(wstsound)
+  if(NOT TARGET wstsound::wstsound)
+    add_subdirectory(external/wstsound/ EXCLUDE_FROM_ALL)
+  endif()
 endfunction()
 build_dependencies()
-
-## Also build external/squirrel
-
-if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
-  message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
-endif()
 
 ## Add lots of dependencies to compiler switches
 include(SuperTux/ProvideGlm)
 include(SuperTux/ProvideFmt)
 include(SuperTux/ProvideSDL2)
-include(SuperTux/ProvideOpenAL)
-# include(SuperTux/ProvideOggVorbis)
+# include(SuperTux/ProvideOpenAL)
 include(SuperTux/ProvidePhysfs)
 include(SuperTux/ProvideCurl)
 include(SuperTux/ProvideSquirrel)
@@ -266,11 +270,10 @@ target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
 target_link_libraries(supertux2_lib PUBLIC LibSexp)
 target_link_libraries(supertux2_lib PUBLIC LibSavePNG)
 target_link_libraries(supertux2_lib PUBLIC LibPartioZip)
-target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
-target_link_libraries(supertux2_lib PUBLIC wstsound)
+target_link_libraries(supertux2_lib PUBLIC wstsound::wstsound)
 
 if(HAVE_OPENGL)
   target_link_libraries(supertux2_lib PUBLIC LibOpenGL)

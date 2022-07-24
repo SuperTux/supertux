@@ -45,12 +45,17 @@
     SDL2_ttf.inputs.nixpkgs.follows = "nixpkgs";
     SDL2_ttf.inputs.flake-utils.follows = "flake-utils";
 
+    wstsound.url = "github:WindstilleTeam/wstsound";
+    wstsound.inputs.nixpkgs.follows = "nixpkgs";
+    wstsound.inputs.flake-utils.follows = "flake-utils";
+    wstsound.inputs.tinycmmc.follows = "tinycmmc";
+
     squirrel_src.url = "github:albertodemichelis/squirrel";
     squirrel_src.flake = false;
   };
 
   outputs = { self, nixpkgs, flake-utils,
-              tinycmmc, sexpcpp, tinygettext, SDL2_ttf,
+              tinycmmc, sexpcpp, tinygettext, SDL2_ttf, wstsound,
               squirrel_src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
@@ -109,6 +114,8 @@ EOF
               sexpcpp.packages.${system}.default
               tinygettext.packages.${system}.default
               SDL2_ttf.packages.${system}.default
+              wstsound.packages.${system}.default
+              tinycmmc.packages.${system}.default
 
               pkgs.physfs
               pkgs.libpng
@@ -123,12 +130,12 @@ EOF
               pkgs.SDL2
               pkgs.SDL2_image
 
+              pkgs.gtest
+
+              # wstsound dependencies
               pkgs.openal
               pkgs.libvorbis
               pkgs.libogg
-
-              pkgs.gtest
-
               pkgs.opusfile
               pkgs.mpg123
               pkgs.libmodplug
