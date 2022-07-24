@@ -17,9 +17,10 @@
 
 #include "addon/addon.hpp"
 
-#include <boost/optional.hpp>
-#include <fmt/format.h>
+#include <optional>
 #include <sstream>
+
+#include <fmt/format.h>
 
 #include "util/gettext.hpp"
 #include "util/reader.hpp"
@@ -139,7 +140,7 @@ Addon::parse(const ReaderMapping& mapping)
     mapping.get("url", addon->m_url);
     mapping.get("md5", addon->m_md5);
     mapping.get("format", addon->m_format);
-    boost::optional<ReaderCollection> reader;
+    std::optional<ReaderCollection> reader;
     if (mapping.get("screenshots", reader))
     {
       for (auto& obj : reader->get_objects())

@@ -16,7 +16,7 @@
 
 #include "supertux/menu/multiplayer_player_menu.hpp"
 
-#include "boost/format.hpp"
+#include <fmt/format.h>
 #include "SDL.h"
 
 #include "control/game_controller_manager.hpp"
@@ -34,7 +34,7 @@
 
 MultiplayerPlayerMenu::MultiplayerPlayerMenu(int player_id)
 {
-  add_label((boost::format(_("Player %d")) % (player_id + 1)).str());
+  add_label(fmt::format(fmt::runtime(_("Player %d")), player_id + 1));
   add_hl();
 
   add_toggle(-1, _("Play with the keyboard"), &InputManager::current()->m_uses_keyboard[player_id]);
