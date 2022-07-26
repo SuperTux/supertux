@@ -49,7 +49,7 @@ Notification::Notification(std::string id, bool no_auto_hide, bool no_auto_disab
 {
   if (is_disabled(id)) // The notification exists in the config as disabled.
   {
-    log_warning << "Requested launch of disabled dialog with ID \"" << m_id << "\". Closing." << std::endl;
+    log_warning << "Requested launch of disabled notification with ID \"" << m_id << "\". Closing." << std::endl;
     m_quit = true;
     return;
   }
@@ -125,7 +125,7 @@ Notification::draw(DrawingContext& context)
                                      bg_rect.get_top() + (bg_rect.get_height() / 2 + bg_rect.get_height() / 8)),
                               ALIGN_CENTER, LAYER_GUI);
 
-  // Draw "do not show again" symbol ("!") and "close" ("X"), if the mouse is hovering over the notification.
+  // Draw "Do not show again" and "Close" symbols, if the mouse is hovering over the notification.
   if (!m_mouse_over) return;
   const std::string sym1 = "-";
   const std::string sym2 = "X";
@@ -183,7 +183,7 @@ Notification::event(const SDL_Event& ev)
         {
           close();
         }
-        else // Dialog clicked (execute callback)
+        else // Notification clicked (execute callback)
         {
           m_callback();
           if (m_auto_disable) disable();
