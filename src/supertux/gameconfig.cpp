@@ -164,7 +164,7 @@ Config::load()
         auto notification = notification_node.get_mapping();
 
         std::string id;
-        bool disabled;
+        bool disabled = false;
         if (notification.get("id", id) &&
             notification.get("disabled", disabled))
         {
