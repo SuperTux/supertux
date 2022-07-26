@@ -25,6 +25,7 @@ class Dialog;
 class DrawingContext;
 class Menu;
 class MenuTransition;
+class Notification;
 union SDL_Event;
 
 class MenuManager final
@@ -38,6 +39,10 @@ private:
   std::unique_ptr<Dialog> m_dialog;
   bool m_has_next_dialog;
   std::unique_ptr<Dialog> m_next_dialog;
+
+  std::unique_ptr<Notification> m_notification;
+  bool m_has_next_notification;
+  std::unique_ptr<Notification> m_next_notification;
 
   std::vector<std::unique_ptr<Menu> > m_menu_stack;
   std::unique_ptr<MenuTransition> m_transition;
@@ -53,6 +58,7 @@ public:
   void draw(DrawingContext& context);
 
   void set_dialog(std::unique_ptr<Dialog> dialog);
+  void set_notification(std::unique_ptr<Notification> notification);
 
   void set_menu(int id);
   void set_menu(std::unique_ptr<Menu> menu);

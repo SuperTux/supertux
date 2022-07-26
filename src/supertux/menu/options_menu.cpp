@@ -75,6 +75,9 @@ enum OptionsMenuIDs {
   MNID_CONFIRMATION_DIALOG,
   MNID_PAUSE_ON_FOCUSLOSS,
   MNID_CUSTOM_CURSOR,
+#ifndef __EMSCRIPTEN__
+  MNID_RELEASE_CHECK,
+#endif
   MNID_MOBILE_CONTROLS
 };
 
@@ -444,6 +447,10 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
     .set_help(_("Automatically pause the game when the window loses focus"));
   add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
+#ifndef __EMSCRIPTEN__
+  add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
+    .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
+#endif
 
   add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
       .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));

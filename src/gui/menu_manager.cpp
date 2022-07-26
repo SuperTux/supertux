@@ -20,6 +20,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
+#include "gui/notification.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -141,6 +142,9 @@ MenuManager::MenuManager() :
   m_dialog(),
   m_has_next_dialog(false),
   m_next_dialog(),
+  m_notification(),
+  m_has_next_notification(false),
+  m_next_notification(),
   m_menu_stack(),
   m_transition(new MenuTransition)
 {
@@ -189,6 +193,11 @@ MenuManager::event(const SDL_Event& ev)
       // transition animation
       current_menu()->event(ev);
     }
+
+    if (m_notification)
+    {
+      m_notification->event(ev);
+    }
   }
 }
 
@@ -199,6 +208,12 @@ MenuManager::draw(DrawingContext& context)
   {
     m_dialog = std::move(m_next_dialog);
     m_has_next_dialog = false;
+  }
+
+  if (m_has_next_notification)
+  {
+    m_notification = std::move(m_next_notification);
+    m_has_next_notification = false;
   }
 
   if (m_transition->is_active())
@@ -224,6 +239,11 @@ MenuManager::draw(DrawingContext& context)
     }
   }
 
+  if (m_notification)
+  {
+    m_notification->draw(context);
+  }
+
   if ((m_dialog || current_menu()) && MouseCursor::current())
   {
     MouseCursor::current()->draw(context);
@@ -237,6 +257,15 @@ MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
   // can't unset itself without ending up with "delete this" problems
   m_next_dialog = std::move(dialog);
   m_has_next_dialog = true;
+}
+
+void
+MenuManager::set_notification(std::unique_ptr<Notification> notification)
+{
+  // delay reseting m_notification to a later point, as otherwise the Notification
+  // can't unset itself without ending up with "delete this" problems
+  m_next_notification = std::move(notification);
+  m_has_next_notification = true;
 }
 
 void

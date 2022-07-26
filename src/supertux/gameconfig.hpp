@@ -106,11 +106,20 @@ public:
   bool confirmation_dialog;
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
+  bool do_release_check;
 
 #ifdef ENABLE_DISCORD
   bool enable_discord;
 #endif
   bool hide_editor_levelnames;
+
+  struct Notification
+  {
+    std::string id;
+    bool disabled;
+  };
+  std::vector<Notification> notifications;
+
   Color menubackcolor;
   Color menufrontcolor;
   Color menuhelpbackcolor;
