@@ -750,7 +750,7 @@ Main::release_check()
     }
     auto mapping = root.get_mapping();
     std::string latest_ver;
-    if (root.get_mapping().get("latest", latest_ver))
+    if (mapping.get("latest", latest_ver))
     {
       const std::string version_full = std::string(PACKAGE_VERSION);
       const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);

@@ -84,8 +84,8 @@ Notification::set_mini_text(const std::string& text)
 void
 Notification::calculate_size()
 {
-  m_size = Sizef(std::max(m_text_size.width, m_mini_text_size.width) + 60,
-                 m_text_size.height + m_mini_text_size.height + 40);
+  m_size = Sizef(std::max(m_text_size.width, m_mini_text_size.width) + 60.0f,
+                 m_text_size.height + m_mini_text_size.height + 40.0f);
 }
 
 void
@@ -127,8 +127,8 @@ Notification::draw(DrawingContext& context)
 
   // Draw "do not show again" symbol ("!") and "close" ("X"), if the mouse is hovering over the notification.
   if (!m_mouse_over) return;
-  std::string sym1 = "-";
-  std::string sym2 = "X";
+  const std::string sym1 = "-";
+  const std::string sym2 = "X";
   Vector sym1_pos = Vector(bg_rect.get_left() + 5.0f, bg_rect.get_top());
   Vector sym2_pos = Vector(bg_rect.get_right() - 15.0f, bg_rect.get_top());
 
