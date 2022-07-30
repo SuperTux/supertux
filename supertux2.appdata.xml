@@ -25,6 +25,8 @@
   <developer_name>The SuperTux Team</developer_name>
   <url type="homepage">https://www.supertux.org</url>
   <url type="bugtracker">https://github.com/SuperTux/supertux/issues</url>
+  <url type="donation">https://www.supertux.org/donate.html</url>
+  <url type="vcs-browser">https://github.com/SuperTux/supertux</url>
   <categories>
     <category>Game</category>
     <category>ActionGame</category>
