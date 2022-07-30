@@ -263,7 +263,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
     bool currently_on_first = true;
     T last_value = *m_value; // must assign a value else clang will complain
 
-    // Hacky way to get the preceeding one in the list
+    // Hacky way to get the preceding one in the list
     for (const auto& option : m_options) {
       if (option.first == *m_value) {
         if (currently_on_first) {

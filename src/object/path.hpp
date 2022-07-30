@@ -50,7 +50,7 @@ public:
   {
   public:
     Vector position; /**< the position of this node */
-    Vector bezier_before; /**< the position of the bezier handle towards the preceeding node */
+    Vector bezier_before; /**< the position of the bezier handle towards the preceding node */
     Vector bezier_after; /**< the position of the bezier handle towards the following node */
     float time; /**< time (in seconds) to get from this node to next node */
     float speed; /**< speed (in px/seconds); editor use only */
