@@ -24,7 +24,7 @@
   </description>
   <developer_name>The SuperTux Team</developer_name>
   <update_contact>supertux-devel@lists.lethargik.org</update_contact>
-  <url type="homepage">http://supertux.lethargik.org/</url>
+  <url type="homepage">https://www.supertux.org</url>
   <url type="bugtracker">https://github.com/SuperTux/supertux/issues</url>
   <categories>
     <category>Game</category>
