@@ -66,6 +66,7 @@ enum OptionsMenuIDs {
   MNID_VSYNC,
   MNID_SOUND,
   MNID_MUSIC,
+  MNID_SOUND_POSITIONING,
   MNID_SOUND_VOLUME,
   MNID_MUSIC_VOLUME,
   MNID_RUMBLING,
@@ -397,6 +398,9 @@ OptionsMenu::OptionsMenu(bool complete) :
 
     MenuItem& music_volume_select = add_string_select(MNID_MUSIC_VOLUME, _("Music Volume"), &next_music_volume, music_volumes);
     music_volume_select.set_help(_("Adjust music volume"));
+
+    add_toggle(MNID_SOUND_POSITIONING, _("Disable sound positioning"), &g_config->disable_sound_positioning)
+      .set_help(_("Play all sounds as if they come from the middle of the screen"));
   }
   else
   {

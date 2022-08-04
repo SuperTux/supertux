@@ -138,6 +138,8 @@ public:
 
   std::string repository_url;
 
+  bool disable_sound_positioning;
+
   bool is_christmas() const {
     try
     {
