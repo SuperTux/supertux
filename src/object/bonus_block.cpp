@@ -351,14 +351,12 @@ BonusBlock::try_open(Player* player)
     }
     case Content::RAIN:
     {
-      m_hit_counter = 1; // multiple hits of coin rain is not allowed
       Sector::get().add<CoinRain>(get_pos(), true);
       play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
-      m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
       play_upgrade_sound = true;
       break;
@@ -485,7 +483,6 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::EXPLODE:
     {
-      m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40));
       play_upgrade_sound = true;
       countdown = true;

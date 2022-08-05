@@ -218,7 +218,7 @@ Level::get_total_coins() const
         } else if (block->get_contents() == BonusBlock::Content::RAIN ||
                    block->get_contents() == BonusBlock::Content::EXPLODE)
         {
-          total_coins += 10;
+          total_coins += 10 * block->get_hit_counter();
           continue;
         }
       }
