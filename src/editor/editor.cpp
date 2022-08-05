@@ -714,7 +714,7 @@ Editor::event(const SDL_Event& ev)
 
   if (ev.type == SDL_KEYDOWN)
   {
-    if (ev.key.keysym.mod & KMOD_SHIFT)
+    if (ev.key.keysym.mod & KMOD_RSHIFT)
     {
       m_scroll_speed = 96.0f;
     }

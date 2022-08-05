@@ -1025,7 +1025,7 @@ bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
-  if (sym == SDLK_LSHIFT || sym == SDLK_RSHIFT)
+  if (sym == SDLK_LSHIFT)
   {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
@@ -1051,7 +1051,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   if (sym == SDLK_F8) {
     g_config->editor_render_grid = !g_config->editor_render_grid;
   }
-  if (sym == SDLK_F7 || sym == SDLK_LSHIFT || sym == SDLK_RSHIFT) {
+  if (sym == SDLK_F7 || sym == SDLK_LSHIFT) {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
   if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed)) {
