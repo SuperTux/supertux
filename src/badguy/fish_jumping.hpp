@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_FISH_HPP
-#define HEADER_SUPERTUX_BADGUY_FISH_HPP
+#ifndef HEADER_SUPERTUX_BADGUY_FISH_JUMPING_HPP
+#define HEADER_SUPERTUX_BADGUY_FISH_JUMPING_HPP
 
 #include "badguy/badguy.hpp"
 
-class Fish final : public BadGuy
+class FishJumping final : public BadGuy
 {
 public:
-  Fish(const ReaderMapping& );
+  FishJumping(const ReaderMapping& );
 
   virtual void draw(DrawingContext& context) override;
 
@@ -36,8 +36,8 @@ public:
   virtual void unfreeze(bool melt = true) override;
   virtual void kill_fall() override;
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "fish"; }
-  virtual std::string get_display_name() const override { return _("Fish"); }
+  virtual std::string get_class() const override { return "fish-jumping"; }
+  virtual std::string get_display_name() const override { return _("Jumping Fish"); }
   virtual std::string get_overlay_size() const override { return "1x2"; }
 
 private:
@@ -45,8 +45,14 @@ private:
   void start_waiting();
   void jump();
 
-  Timer waiting;
-  float stop_y; /**< y-coordinate to stop at */
+  Timer m_wait_timer;
+  Timer m_beached_timer;
+  float m_stop_y; /**< y-coordinate to stop at */
+  bool m_in_water;
+
+private:
+  FishJumping(const FishJumping&) = delete;
+  FishJumping& operator=(const FishJumping&) = delete;
 };
 
 #endif
