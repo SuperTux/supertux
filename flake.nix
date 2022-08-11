@@ -106,9 +106,9 @@ EOF
             '';
             buildInputs = [
               squirrel
-              sexpcpp.defaultPackage.${system}
-              tinygettext.defaultPackage.${system}
-              SDL2_ttf.defaultPackage.${system}
+              sexpcpp.packages.${system}.default
+              tinygettext.packages.${system}.default
+              SDL2_ttf.packages.${system}.default
 
               pkgs.physfs
               pkgs.libpng
@@ -129,9 +129,10 @@ EOF
               pkgs.libogg
               pkgs.gtest
             ];
-           };
+          };
+
+          default = supertux2;
         };
-        defaultPackage = packages.supertux2;
       }
     );
 }

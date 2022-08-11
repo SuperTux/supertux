@@ -60,8 +60,9 @@ public:
   Content get_contents() const { return m_contents; }
   int get_hit_counter() const { return m_hit_counter; }
 
-private:
   void try_open(Player* player);
+
+private:
   void try_drop(Player* player);
 
   void preload_contents(int d);

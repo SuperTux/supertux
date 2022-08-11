@@ -20,8 +20,11 @@
 #include "badguy/badguy.hpp"
 #include "badguy/walking_badguy.hpp"
 #include "math/random.hpp"
+#include "object/bonus_block.hpp"
+#include "object/brick.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "object/weak_block.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -106,14 +109,36 @@ Explosion::explode()
 
       Vector add_speed = glm::normalize(direction) * force;
 
-      auto player = dynamic_cast<Player *> (obj);
+      auto player = dynamic_cast<Player*>(obj);
       if (player) {
-        player->add_velocity (add_speed);
+        player->add_velocity(add_speed);
       }
 
-      auto badguy = dynamic_cast<WalkingBadguy *> (obj);
+      auto badguy = dynamic_cast<WalkingBadguy*>(obj);
       if (badguy && badguy->is_active()) {
-        badguy->add_velocity (add_speed);
+        badguy->add_velocity(add_speed);
+      }
+
+      bool in_break_range = distance <= 60.f;
+      bool in_shake_range = distance <= 100.f;
+
+      auto bonusblock = dynamic_cast<BonusBlock*>(obj);
+      if (bonusblock && in_shake_range && hurts()) {
+        bonusblock->start_bounce(this);
+        if (in_break_range)
+          bonusblock->try_open(player);
+      }
+
+      auto brick = dynamic_cast<Brick*>(obj);
+      if (brick && in_shake_range && hurts()) {
+        brick->start_bounce(this);
+        if (in_break_range)
+          brick->try_break(nullptr);
+      }
+
+      auto weakblock = dynamic_cast<WeakBlock*>(obj);
+      if (weakblock && in_break_range) {
+        weakblock->startBurning();
       }
     }
   }

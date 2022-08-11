@@ -529,6 +529,7 @@ Player::update(float dt_sec)
     {
       adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
       m_water_jump = false;
+      m_swimboosting = false;
     }
     m_powersprite->set_angle(0.f);
     m_lightsprite->set_angle(0.f);
@@ -1205,9 +1206,9 @@ Player::handle_input()
   }
 
   /* Peeking */
-  if (m_controller->released( Control::PEEK_LEFT ) || m_controller->released( Control::PEEK_RIGHT))
+  if (!m_controller->hold( Control::PEEK_LEFT ) && !m_controller->hold( Control::PEEK_RIGHT))
     m_peekingX = Direction::AUTO;
-  else if (m_controller->released( Control::PEEK_UP ) || m_controller->released( Control::PEEK_DOWN))
+  if (!m_controller->hold( Control::PEEK_UP ) && !m_controller->hold( Control::PEEK_DOWN))
     m_peekingY = Direction::AUTO;
 
   if (m_controller->pressed(Control::PEEK_LEFT))

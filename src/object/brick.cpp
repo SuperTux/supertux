@@ -88,10 +88,16 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
       try_break(nullptr);
     }
   }
+
   auto explosion = dynamic_cast<Explosion*> (&other);
   if (explosion && explosion->hurts()) {
     try_break(nullptr);
   }
+
+  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
+  if (icecrusher && m_coin_counter == 0)
+    try_break(nullptr);
+
   return Block::collision(other, hit);
 }
 
@@ -176,10 +182,6 @@ HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy && badguy->can_break() && (badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ))
     ricochet(&other);
-
-  auto explosion = dynamic_cast<Explosion*> (&other);
-  if (explosion && explosion->hurts())
-    try_break(nullptr);
 
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable)

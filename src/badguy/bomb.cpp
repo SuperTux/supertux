@@ -48,7 +48,7 @@ Bomb::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom)
     m_physic.set_velocity_y(0);
   if (hit.left || hit.right)
-    m_physic.set_velocity_x(-m_physic.get_velocity_x());
+    m_physic.set_velocity_x(-m_physic.get_velocity_x() * 0.5f);
   if (hit.crush)
     m_physic.set_velocity(0, 0);
 

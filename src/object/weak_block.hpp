@@ -38,12 +38,13 @@ public:
 
   virtual void on_flip(float height) override;
 
+  void startBurning();
+
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
 private:
   /** called by self when hit by a bullet */
-  void startBurning();
 
   /** pass hit to nearby WeakBlock objects */
   void spreadHit();
