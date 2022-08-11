@@ -20,6 +20,8 @@
 #include "badguy/badguy.hpp"
 #include "badguy/icecrusher.hpp"
 #include "object/bouncy_coin.hpp"
+#include "object/camera.hpp"
+#include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
@@ -87,9 +89,15 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
     }
   }
 
+  auto explosion = dynamic_cast<Explosion*> (&other);
+  if (explosion && explosion->hurts()) {
+    try_break(nullptr);
+  }
+
   auto icecrusher = dynamic_cast<IceCrusher*> (&other);
   if (icecrusher && m_coin_counter == 0)
     try_break(nullptr);
+
   return Block::collision(other, hit);
 }
 
@@ -120,6 +128,16 @@ Brick::try_break(Player* player)
     }
     break_me();
   }
+}
+
+void
+Brick::break_for_crusher(IceCrusher* icecrusher)
+{
+  float shake_vel_x = icecrusher->is_sideways() ? icecrusher->get_physic().get_velocity_x() >= 0.f ? 6.f : -6.f : 0.f;
+  float shake_vel_y = icecrusher->is_sideways() ? 0.f : 6.f;
+  Sector::get().get_camera().shake(0.1f, shake_vel_x, shake_vel_y);
+  try_break(nullptr);
+  start_break(icecrusher);
 }
 
 ObjectSettings

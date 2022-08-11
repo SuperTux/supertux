@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "badguy/icecrusher.hpp"
 #include "editor/editor.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"
@@ -248,6 +249,13 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
       try_open(player);
     }
   }
+
+  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
+  if (icecrusher)
+  {
+    try_open(player);
+  }
+
   auto portable = dynamic_cast<Portable*> (&other);
   if (portable && !badguy) {
     auto moving = dynamic_cast<MovingObject*> (&other);

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_ICECRUSHER_HPP
 
 #include "object/moving_sprite.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
 class Player;
@@ -26,26 +27,23 @@ class Player;
 class IceCrusher final : public MovingSprite
 {
 public:
-  enum IceCrusherState {
+  enum IceCrusherState
+  {
     IDLE,
     CRUSHING,
-    CRUSHING_UP,
-    CRUSHING_RIGHT,
-    CRUSHING_LEFT,
-    RECOVERING,
-    RECOVERING_UP,
-    RECOVERING_RIGHT,
-    RECOVERING_LEFT
+    RECOVERING
   };
 
-  enum class Direction {
+  enum class Direction
+  {
     DOWN,
     LEFT,
     RIGHT
   };
 
 private:
-  enum IceCrusherSize {
+  enum IceCrusherSize
+  {
     NORMAL,
     LARGE
   };
@@ -57,44 +55,39 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-  virtual bool is_sideways() const;
+  virtual void after_editor_set() override;
+  virtual bool is_sideways() const { return m_sideways; }
   virtual std::string get_class() const override { return "icecrusher"; }
   virtual std::string get_display_name() const override { return _("Icecrusher"); }
-
-  virtual void after_editor_set() override;
-  
   virtual ObjectSettings get_settings() override;
 
   virtual void on_flip(float height) override;
 
-  bool is_big() const { return ic_size == LARGE; }
-  IceCrusherState get_state() const { return state; }
+  Physic& get_physic() { return m_physic; }
+  bool is_big() const { return m_ic_size == LARGE; }
+  IceCrusherState get_state() const { return m_state; }
 
 private:
   void spawn_roots(Direction direction);
 
-  bool found_victim_down() const;
-  bool found_victim_up() const;
-  bool found_victim_right() const;
-  bool found_victim_left() const;
+  bool found_victim() const;
+  bool not_ice() const;
   void set_state(IceCrusherState state, bool force = false);
+  void after_sprite_set();
   Vector eye_position(bool right) const;
 
-  void after_sprite_set();
-
 private:
-  IceCrusherState state;
-  Vector start_position;
-  Physic physic;
-  float cooldown_timer;
+  IceCrusherState m_state;
+  IceCrusherSize m_ic_size;
+  Vector m_start_position;
+  Physic m_physic;
+  float m_cooldown_timer;
+  bool m_sideways;
+  Direction m_side_dir;
 
-  SpritePtr lefteye;
-  SpritePtr righteye;
-  SpritePtr whites;
-
-  IceCrusherSize ic_size;
-  
-  bool sideways;
+  SpritePtr m_lefteye;
+  SpritePtr m_righteye;
+  SpritePtr m_whites;
 
 private:
   IceCrusher(const IceCrusher&) = delete;
