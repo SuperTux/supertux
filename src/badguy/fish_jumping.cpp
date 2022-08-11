@@ -29,8 +29,7 @@ FishJumping::FishJumping(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/fish/forest/jumpfish.sprite"),
   m_wait_timer(),
   m_beached_timer(),
-  m_stop_y(0),
-  m_in_water()
+  m_stop_y(0)
 {
   m_physic.enable_gravity(true);
 }

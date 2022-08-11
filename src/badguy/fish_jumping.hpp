@@ -48,7 +48,6 @@ private:
   Timer m_wait_timer;
   Timer m_beached_timer;
   float m_stop_y; /**< y-coordinate to stop at */
-  bool m_in_water;
 
 private:
   FishJumping(const FishJumping&) = delete;

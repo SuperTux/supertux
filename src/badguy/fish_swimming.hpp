@@ -50,7 +50,6 @@ protected:
   FishYState m_state;
   Timer m_beached_timer;
   Timer m_float_timer;
-  bool m_in_water;
   float m_radius;
 
 private:

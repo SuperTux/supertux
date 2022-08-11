@@ -30,7 +30,6 @@ FishSwimming::FishSwimming(const ReaderMapping& reader) :
   m_state(FishYState::BALANCED),
   m_beached_timer(),
   m_float_timer(),
-  m_in_water(),
   m_radius()
 {
   reader.get("radius", m_radius, 100.0f);
@@ -41,7 +40,6 @@ FishSwimming::FishSwimming(const ReaderMapping& reader, const std::string& sprit
   m_state(FishYState::BALANCED),
   m_beached_timer(),
   m_float_timer(),
-  m_in_water(),
   m_radius()
 {
   reader.get("radius", m_radius, 100.0f);
