@@ -27,7 +27,7 @@ static const float CHASE_SPEED = 300.0f;
 static const float REALIZATION_TIME = 0.7f;
 
 FishChasing::FishChasing(const ReaderMapping& reader) :
-	FishSwimming(reader, "images/creatures/fish/ice/dopefish.sprite"),
+  FishSwimming(reader, "images/creatures/fish/ice/dopefish.sprite"),
   m_chase_state(ChaseState::NORMAL),
   m_realization_timer(),
   m_track_distance(),

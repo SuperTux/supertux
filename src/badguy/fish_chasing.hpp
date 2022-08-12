@@ -23,12 +23,12 @@
 class FishChasing final : public FishSwimming
 {
 public:
-	FishChasing(const ReaderMapping& reader);
+  FishChasing(const ReaderMapping& reader);
 
   virtual void active_update(float dt_sec) override;
 
-	virtual std::string get_class() const override { return "fish-chasing"; }
-	virtual std::string get_display_name() const override { return _("Chasing Fish"); }
+  virtual std::string get_class() const override { return "fish-chasing"; }
+  virtual std::string get_display_name() const override { return _("Chasing Fish"); }
   virtual std::string get_overlay_size() const override { return "2x2"; }
   virtual ObjectSettings get_settings() override;
 
@@ -47,8 +47,8 @@ private:
   float m_chase_speed;
 
 private:
-	FishChasing(const FishChasing&) = delete;
-	FishChasing& operator=(const FishChasing&) = delete;
+  FishChasing(const FishChasing&) = delete;
+  FishChasing& operator=(const FishChasing&) = delete;
 };
 
 #endif

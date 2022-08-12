@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
+//  Copyright (C) 2022 Daniel Ward <weluvgoatz@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
