@@ -57,15 +57,6 @@ FishJumping::collision_badguy(BadGuy& , const CollisionHit& chit)
   return hit(chit);
 }
 
-void
-FishJumping::draw(DrawingContext& context)
-{
-  if (m_wait_timer.started())
-    return;
-
-  BadGuy::draw(context);
-}
-
 HitResponse
 FishJumping::hit(const CollisionHit& hit_)
 {
@@ -85,7 +76,7 @@ FishJumping::collision_tile(uint32_t tile_attributes)
     if (m_stop_y == 0) m_stop_y = get_pos().y + m_col.m_bbox.get_height();
 
     // stop when we have reached the stop position
-    if (get_pos().y >= m_stop_y) {
+    if (get_pos().y >= m_stop_y && m_physic.get_velocity_y() > 0.f) {
       if (!m_frozen)
         start_waiting();
       m_col.set_movement(Vector(0, 0));
@@ -116,7 +107,8 @@ FishJumping::active_update(float dt_sec)
 
   // set sprite
   if (!m_frozen && !is_ignited())
-    m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "normal" : "down");
+    m_sprite->set_action((m_physic.get_velocity_y() == 0.f && m_in_water) ? "wait" :
+      m_physic.get_velocity_y() < 0.f ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8f) < 0) // too high, let us fall
@@ -133,7 +125,6 @@ void
 FishJumping::start_waiting()
 {
   m_wait_timer.start(FISH_WAIT_TIME);
-  set_colgroup_active(COLGROUP_DISABLED);
   m_physic.enable_gravity(false);
   m_physic.set_velocity_y(0);
 }
@@ -143,13 +134,13 @@ FishJumping::jump()
 {
   m_physic.set_velocity_y(FISH_JUMP_POWER);
   m_physic.enable_gravity(true);
-  set_colgroup_active(COLGROUP_MOVING);
 }
 
 void
 FishJumping::freeze()
 {
   BadGuy::freeze();
+  m_physic.enable_gravity(true);
   m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
   m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   m_wait_timer.stop();

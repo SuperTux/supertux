@@ -24,8 +24,6 @@ class FishJumping final : public BadGuy
 public:
   FishJumping(const ReaderMapping& );
 
-  virtual void draw(DrawingContext& context) override;
-
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& , const CollisionHit& ) override;
   virtual void collision_tile(uint32_t tile_attributes) override;

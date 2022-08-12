@@ -16,21 +16,18 @@
 
 #include "badguy/fish_harmless.hpp"
 
-#include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 
 FishHarmless::FishHarmless(const ReaderMapping& reader) :
   FishSwimming(reader, "images/creatures/fish/ice/goldfish.sprite")
 {
-  SoundManager::current()->preload("sounds/trampoline.wav");
 }
 
 HitResponse
 FishHarmless::collision_player(Player& player, const CollisionHit& hit)
 {
-  player.get_physic().set_velocity_x(hit.left ? -300.f : hit.right ? 300.f : player.get_physic().get_velocity_x());
-  player.get_physic().set_velocity_y(hit.top ? -300.f : hit.bottom ? 300.f : player.get_physic().get_velocity_y());
-  SoundManager::current()->play("sounds/trampoline.wav", get_pos());
+  player.get_physic().set_velocity_x(hit.left ? -200.f : hit.right ? 200.f : player.get_physic().get_velocity_x());
+  player.get_physic().set_velocity_y(hit.top ? -200.f : hit.bottom ? 200.f : player.get_physic().get_velocity_y());
 
   return FORCE_MOVE;
 }

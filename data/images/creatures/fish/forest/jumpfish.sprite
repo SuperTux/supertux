@@ -1,20 +1,10 @@
 (supertux-sprite
   (action
     (name "normal")
-    (fps 10)
+    (fps 12)
     (loops 1)
     (hitbox 9 21 31.8 31.8)
     (images "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
-            "jump-0.png"
             "jump-0.png"
             "jump-0.png"
             "jump-1.png"
@@ -30,6 +20,17 @@
             "jump-5.png"
             "jump-6.png"
             "jump-7.png"))
+
+  (action
+    (name "wait")
+    (fps 12)
+    (hitbox 19 9 31.8 31.8)
+    (images "wait-0.png"
+            "wait-1.png"
+            "wait-2.png"
+            "wait-3.png"
+            "wait-4.png"
+            "wait-5.png"))
 
   (action
     (name "iced")
