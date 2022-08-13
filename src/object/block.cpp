@@ -90,7 +90,7 @@ Block::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-    if(player->is_swimboosting())
+    if(player->is_swimboosting() || (player->is_sliding() && glm::length(player->get_velocity()) > 320.f))
     {
       hit(*player);
     }

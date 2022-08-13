@@ -44,6 +44,7 @@ public:
   virtual bool is_portable() const override;
   virtual void ungrab(MovingObject& , Direction dir_) override;
   virtual void grab(MovingObject&, const Vector& pos, Direction dir_) override;
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
