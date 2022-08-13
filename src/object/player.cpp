@@ -736,7 +736,7 @@ Player::slide()
   Rectf pre_slide_box = get_bbox();
   float fast_fall_speed = m_physic.get_velocity_y() <= 400.f ? 0.f : m_physic.get_velocity_y()*0.03f;
   pre_slide_box.set_bottom(m_col.m_bbox.get_bottom() + fast_fall_speed + 16.f);
-  bool pre_slide = !Sector::get().is_free_of_statics(pre_slide_box, false);
+  bool pre_slide = !Sector::get().is_free_of_statics(pre_slide_box);
 
   if (std::abs(m_physic.get_velocity_x()) > MAX_SLIDE_SPEED) {
     m_physic.set_acceleration_x(-m_physic.get_velocity_x());
