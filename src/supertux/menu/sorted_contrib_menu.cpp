@@ -90,12 +90,11 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
           }
           else
           {
-            const uint32_t percentage = island_level_count.second ? (100 * island_level_count.first / island_level_count.second) : 100;
+            const uint32_t island_percentage = island_level_count.second ? (100 * island_level_count.first / island_level_count.second) : 100;
+            const uint32_t world_percentage = world_level_count.second ? (100 * world_level_count.first / world_level_count.second) : 100;
             title_str = str(boost::format(_("%s (%u/%u; %u%%) - %s (%u/%u; %u%%)")) % worlds[i]->get_title() % 
-                            world_level_count.first % world_level_count.second %
-                            (100 * world_level_count.first / world_level_count.second) %
-                            wm_title % island_level_count.first % island_level_count.second %
-                            percentage);
+                            world_level_count.first % world_level_count.second % world_percentage %
+                            wm_title % island_level_count.first % island_level_count.second % island_percentage);
           }
         }
       }
