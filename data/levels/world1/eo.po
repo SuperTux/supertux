@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the SuperTux package.
-# 
+#
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 # vpzomtrrfrt <colin@vpzom.click>, 2020
@@ -50,7 +50,7 @@ msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
 "#The Air Flower gives Tux the ability to glide in the air for a few seconds, while holding the JUMP Key."
-msgstr "-Aerfloro\n!images/powerups/airflower/air_flower-0.png\n#La Aerfloro donas al Tux la ebleco glisi en la aero dum kelkaj sekundoj, dum premi la SALTO klavo"
+msgstr "-Aerfloro\n!images/powerups/airflower/air_flower-0.png\n#La Aerfloro donas al Tux la eblecon glisi en la aero dum kelkaj sekundoj, premante la SALTO-klavon"
 
 #: data/levels/world1/between_glaciers.stl:3
 msgid "Between Two Glaciers"
