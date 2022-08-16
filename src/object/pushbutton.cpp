@@ -43,6 +43,10 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   {
     log_warning << "No script set for pushbutton." << std::endl;
   }
+
+  mapping.get("upside-down", m_upside_down);
+  if (m_upside_down)
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 ObjectSettings
@@ -51,8 +55,12 @@ PushButton::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_script(_("Script"), &script, "script");
+  result.add_bool(_("Upside down"), &m_upside_down, "upside-down");
 
-  result.reorder({"script", "x", "y"});
+  result.reorder({"script", "upside-down", "x", "y"});
+
+  if (m_upside_down && m_flip == NO_FLIP)
+    FlipLevelTransformer::transform_flip(m_flip);
 
   return result;
 }
