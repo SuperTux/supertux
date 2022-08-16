@@ -103,7 +103,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   set_action("on", -1);
   float new_bbox_height = m_col.m_bbox.get_height();
   Vector delta(0, old_bbox_height - new_bbox_height);
-  set_pos(get_pos() + delta * (m_upside_down ? -1.f : 1.f));
+  set_pos(get_pos() + delta * (m_upside_down ? 0 : 1.f));
 
   // play sound
   SoundManager::current()->play(BUTTON_SOUND, get_pos());
