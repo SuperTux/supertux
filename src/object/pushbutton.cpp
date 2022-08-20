@@ -59,10 +59,15 @@ PushButton::get_settings()
 
   result.reorder({"script", "upside-down", "x", "y"});
 
-  if (m_upside_down && m_flip == NO_FLIP)
-    FlipLevelTransformer::transform_flip(m_flip);
-
   return result;
+}
+
+void
+PushButton::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+  if ((m_upside_down && m_flip == NO_FLIP) || (!m_upside_down && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 void
