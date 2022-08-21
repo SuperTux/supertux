@@ -147,8 +147,14 @@ TextObject::fade_out(float fadetime)
 void
 TextObject::set_visible(bool visible)
 {
-  m_visible = visible;
-  m_fade_progress = 1;
+  if (visible)
+  {
+    fade_in(0);
+  }
+  else
+  {
+    fade_out(0);
+  }
 }
 
 void
