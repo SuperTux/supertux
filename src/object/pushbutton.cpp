@@ -43,6 +43,10 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   {
     log_warning << "No script set for pushbutton." << std::endl;
   }
+
+  mapping.get("upside-down", m_upside_down);
+  if (m_upside_down)
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 ObjectSettings
@@ -51,10 +55,19 @@ PushButton::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_script(_("Script"), &script, "script");
+  result.add_bool(_("Upside down"), &m_upside_down, "upside-down");
 
-  result.reorder({"script", "x", "y"});
+  result.reorder({"script", "upside-down", "x", "y"});
 
   return result;
+}
+
+void
+PushButton::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+  if ((m_upside_down && m_flip == NO_FLIP) || (!m_upside_down && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 void
@@ -103,7 +116,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   set_action("on", -1);
   float new_bbox_height = m_col.m_bbox.get_height();
   Vector delta(0, old_bbox_height - new_bbox_height);
-  set_pos(get_pos() + delta * (m_upside_down ? -1.f : 1.f));
+  set_pos(get_pos() + delta * (m_upside_down ? 0 : 1.f));
 
   // play sound
   SoundManager::current()->play(BUTTON_SOUND, get_pos());
