@@ -14,70 +14,73 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/fish.hpp"
+#include "badguy/fish_jumping.hpp"
 
+#include "object/explosion.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 
-static const float FISH_JUMP_POWER = -600;
-static const float FISH_WAIT_TIME = 1;
+static const float FISH_JUMP_POWER = -600.f;
+static const float FISH_WAIT_TIME = 1.f;
+static const float FISH_BEACH_TIME = 5.f;
 
-Fish::Fish(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1),
-  waiting(),
-  stop_y(0)
+FishJumping::FishJumping(const ReaderMapping& reader) :
+  BadGuy(reader, "images/creatures/fish/forest/jumpfish.sprite"),
+  m_wait_timer(),
+  m_beached_timer(),
+  m_stop_y(0)
 {
   m_physic.enable_gravity(true);
 }
 
 void
-Fish::collision_solid(const CollisionHit& chit)
+FishJumping::collision_solid(const CollisionHit& chit)
 {
   hit(chit);
+  if (!m_in_water && chit.bottom && !m_frozen)
+  {
+    m_physic.set_velocity_y(-300.f);
+    if (!m_beached_timer.started())
+      m_beached_timer.start(FISH_BEACH_TIME);
+  }
   if (m_frozen)
     BadGuy::collision_solid(chit);
 }
 
 HitResponse
-Fish::collision_badguy(BadGuy& , const CollisionHit& chit)
+FishJumping::collision_badguy(BadGuy& , const CollisionHit& chit)
 {
+  if (m_beached_timer.started())
+    collision_solid(chit);
+
   return hit(chit);
 }
 
-void
-Fish::draw(DrawingContext& context)
-{
-  if (waiting.started())
-    return;
-
-  BadGuy::draw(context);
-}
-
 HitResponse
-Fish::hit(const CollisionHit& hit_)
+FishJumping::hit(const CollisionHit& hit_)
 {
-  if (hit_.top) {
+  if (hit_.top)
     m_physic.set_velocity_y(0);
-  }
 
   return CONTINUE;
 }
 
 void
-Fish::collision_tile(uint32_t tile_attributes)
+FishJumping::collision_tile(uint32_t tile_attributes)
 {
   if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0)) {
-
+    if (m_beached_timer.started())
+      m_beached_timer.stop();
     // initialize stop position if uninitialized
-    if (stop_y == 0) stop_y = get_pos().y + m_col.m_bbox.get_height();
+    if (m_stop_y == 0) m_stop_y = get_pos().y + m_col.m_bbox.get_height();
 
     // stop when we have reached the stop position
-    if (get_pos().y >= stop_y) {
+    if (get_pos().y >= m_stop_y && m_physic.get_velocity_y() > 0.f) {
       if (!m_frozen)
         start_waiting();
       m_col.set_movement(Vector(0, 0));
     }
-
   }
   if ((!(tile_attributes & Tile::WATER) || m_frozen) && (tile_attributes & Tile::HURTS)) {
     kill_fall();
@@ -85,18 +88,27 @@ Fish::collision_tile(uint32_t tile_attributes)
 }
 
 void
-Fish::active_update(float dt_sec)
+FishJumping::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
+  m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
 
-  // waited long enough?
-  if (waiting.check()) {
-    jump();
+  if (m_beached_timer.check())
+  {
+    ignite();
+    m_physic.reset();
+    m_physic.enable_gravity(false);
+    m_beached_timer.stop();
   }
 
+  // waited long enough?
+  if (m_wait_timer.check())
+    jump();
+
   // set sprite
-  if (!m_frozen)
-    m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "normal" : "down");
+  if (!m_frozen && !is_ignited())
+    m_sprite->set_action((m_physic.get_velocity_y() == 0.f && m_in_water) ? "wait" :
+      m_physic.get_velocity_y() < 0.f ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8f) < 0) // too high, let us fall
@@ -105,52 +117,54 @@ Fish::active_update(float dt_sec)
     m_physic.enable_gravity(true);
   }
 
-  if (m_ignited)
+  if (m_ignited && m_in_water)
     remove_me();
 }
 
 void
-Fish::start_waiting()
+FishJumping::start_waiting()
 {
-  waiting.start(FISH_WAIT_TIME);
-  set_colgroup_active(COLGROUP_DISABLED);
+  m_wait_timer.start(FISH_WAIT_TIME);
   m_physic.enable_gravity(false);
   m_physic.set_velocity_y(0);
 }
 
 void
-Fish::jump()
+FishJumping::jump()
 {
   m_physic.set_velocity_y(FISH_JUMP_POWER);
   m_physic.enable_gravity(true);
-  set_colgroup_active(COLGROUP_MOVING);
 }
 
 void
-Fish::freeze()
+FishJumping::freeze()
 {
   BadGuy::freeze();
+  m_physic.enable_gravity(true);
   m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
   m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
-  waiting.stop();
+  m_wait_timer.stop();
+  if (m_beached_timer.started())
+    m_beached_timer.stop();
 }
 
 void
-Fish::unfreeze(bool melt)
-{ // does this happen at all? (or do fishes die when they fall frozen?)
-  BadGuy::unfreeze(melt);
-  start_waiting();
-}
-
-void
-Fish::kill_fall()
+FishJumping::unfreeze(bool melt)
 {
-  m_sprite->set_action("normal");
+  m_dir = Direction::LEFT;
+  BadGuy::unfreeze(melt);
+}
+
+void
+FishJumping::kill_fall()
+{
+  if (!is_ignited())
+    m_sprite->set_action("normal");
   BadGuy::kill_fall();
 }
 
 bool
-Fish::is_freezable() const
+FishJumping::is_freezable() const
 {
   return true;
 }

@@ -24,7 +24,10 @@
 #include "badguy/dart.hpp"
 #include "badguy/darttrap.hpp"
 #include "badguy/dispenser.hpp"
-#include "badguy/fish.hpp"
+#include "badguy/fish_chasing.hpp"
+#include "badguy/fish_harmless.hpp"
+#include "badguy/fish_jumping.hpp"
+#include "badguy/fish_swimming.hpp"
 #include "badguy/flame.hpp"
 #include "badguy/flyingsnowball.hpp"
 #include "badguy/ghostflame.hpp"
@@ -160,7 +163,10 @@ GameObjectFactory::init_factories()
   add_factory<Dart>("dart");
   add_factory<DartTrap>("darttrap");
   add_factory<Dispenser>("dispenser");
-  add_factory<Fish>("fish");
+  add_factory<FishChasing>("fish-chasing");
+  add_factory<FishHarmless>("fish-harmless");
+  add_factory<FishJumping>("fish-jumping");
+  add_factory<FishSwimming>("fish-swimming");
   add_factory<Flame>("flame");
   add_factory<FlyingSnowBall>("flyingsnowball");
   add_factory<Ghostflame>("ghostflame");
