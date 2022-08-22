@@ -38,11 +38,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1661166163,
-        "narHash": "sha256-a1Z4HcQzCAHbp1BYptr54nUNe1ONyeLnsl5/qw8n4Is=",
+        "lastModified": 1661178748,
+        "narHash": "sha256-aAzYHxFH5Kmb+6yMMJIiHhJS9wY5qhIH3Y1kPKcD2q4=",
         "owner": "grumnix",
         "repo": "SDL_image-win32",
-        "rev": "7c57a170da46556cff574eb985285e74fa5dd7b4",
+        "rev": "cb795f67c040f9d02f75de781e8605c48c755b88",
         "type": "github"
       },
       "original": {

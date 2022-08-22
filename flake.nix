@@ -79,11 +79,6 @@
                    ln -sfv ${SDL-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
                    ln -sfv ${SDL_image-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
                    ln -sfv ${SDL_mixer-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-
-                   # FIXME: These should be handled in their respective libraries
-                   ln -sfv ${pkgs.libpng}/bin/*.dll $out/bin/
-                   ln -sfv ${(pkgs.libjpeg_original.overrideAttrs (oldAttrs: { meta = {}; }))}/bin/*.dll $out/bin/
-                   ln -sfv ${pkgs.zlib}/bin/*.dll $out/bin/
                  '');
 
             buildInputs =
