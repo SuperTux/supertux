@@ -21,3 +21,5 @@
 /src/Makefile.in
 /src/supertux-milestone1
 /result
+/result-[0-9]
+
