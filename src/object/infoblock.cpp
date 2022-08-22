@@ -73,7 +73,7 @@ InfoBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
 
-  result.add_translatable_text(_("Message"), &m_message, "message");
+  result.add_multiline_translatable_text(_("Message"), &m_message, "message");
 
   result.add_color(_("Front Color"), &m_frontcolor, "frontcolor", Color(0.6f, 0.7f, 0.8f, 0.5f));
 

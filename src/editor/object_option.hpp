@@ -186,6 +186,26 @@ private:
   StringObjectOption& operator=(const StringObjectOption&) = delete;
 };
 
+class StringMultilineObjectOption : public ObjectOption
+{
+public:
+  StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                     boost::optional<std::string> default_value,
+                     unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::string* const m_pointer;
+  boost::optional<std::string> m_default_value;
+
+private:
+  StringMultilineObjectOption(const StringMultilineObjectOption&) = delete;
+  StringMultilineObjectOption& operator=(const StringMultilineObjectOption&) = delete;
+};
+
 class StringSelectObjectOption : public ObjectOption
 {
 public:
