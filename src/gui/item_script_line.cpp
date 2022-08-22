@@ -31,7 +31,7 @@
 ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
   ItemTextField("", input_, id_)
 {
-  m_cursor_char_width = Resources::console_font->get_text_width(m_cursor_char_str);
+  m_cursor_width = Resources::console_font->get_text_width(m_cursor);
 }
 
 void
@@ -48,13 +48,13 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
   if (active && ((int(g_real_time * 2) % 2) || (m_cursor_left_offset != 0 && m_cursor_left_offset != static_cast<int>(input->size()))))
   {
     // Draw text cursor.
-    context.color().draw_text(Resources::console_font, m_cursor_char_str,
+    context.color().draw_text(Resources::console_font, m_cursor,
                               Vector(pos.x + 15.0f + input_part_1_width,
                                      pos.y - Resources::console_font->get_height() / 2.0f),
                               ALIGN_LEFT, LAYER_GUI, Color::CYAN);
   }
   context.color().draw_text(Resources::console_font, input_part_2,
-                            Vector(pos.x + 14.0f + input_part_1_width + m_cursor_char_width,
+                            Vector(pos.x + 14.0f + input_part_1_width + m_cursor_width,
                                    pos.y - Resources::console_font->get_height() / 2.0f),
                             ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
 }
@@ -62,7 +62,7 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
 int
 ItemScriptLine::get_width() const
 {
-  return static_cast<int>(Resources::console_font->get_text_width(*input) + 16.0f + m_cursor_char_width);
+  return static_cast<int>(Resources::console_font->get_text_width(*input) + 16.0f + m_cursor_width);
 }
 
 void
@@ -115,7 +115,7 @@ ItemScriptLine::paste() // Paste with mutli-line support
   SDL_free(clipboard_content);
 
   if (paste_lines.empty()) return;
-  insert_at(paste_lines[0], m_cursor_left_offset);
+  insert_text(paste_lines[0], m_cursor_left_offset);
   for (std::size_t i = 1; i < paste_lines.size(); i++)
   {
     auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());

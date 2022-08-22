@@ -31,9 +31,8 @@ ItemTextField::ItemTextField(const std::string& text_, std::string* input_, int 
   input(input_),
   m_input_undo(),
   m_input_redo(),
-  m_cursor_char('|'),
-  m_cursor_char_str(std::string(1, m_cursor_char)),
-  m_cursor_char_width(Resources::normal_font->get_text_width(m_cursor_char_str)),
+  m_cursor("|"),
+  m_cursor_width(Resources::normal_font->get_text_width(m_cursor)),
   m_cursor_left_offset(0)
 {
 }
@@ -46,13 +45,13 @@ ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, 
   const std::string input_part_2 = active ? input->substr(index) : "";
   const float input_part_2_width = Resources::normal_font->get_text_width(input_part_2);
   context.color().draw_text(Resources::normal_font, input_part_1,
-                            Vector(pos.x + static_cast<float>(menu_width) - 9.0f - input_part_2_width - m_cursor_char_width,
+                            Vector(pos.x + static_cast<float>(menu_width) - 9.0f - input_part_2_width - m_cursor_width,
                                    pos.y - Resources::normal_font->get_height() / 2.0f),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
   if (active && ((int(g_real_time * 2) % 2) || (m_cursor_left_offset != 0 && m_cursor_left_offset != static_cast<int>(input->size()))))
   {
     // Draw text cursor.
-    context.color().draw_text(Resources::normal_font, m_cursor_char_str,
+    context.color().draw_text(Resources::normal_font, m_cursor,
                               Vector(pos.x + static_cast<float>(menu_width) - 12.0f - input_part_2_width,
                                      pos.y - Resources::normal_font->get_height() / 2.0f),
                               ALIGN_RIGHT, LAYER_GUI, Color::CYAN);
@@ -70,7 +69,7 @@ ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, 
 int
 ItemTextField::get_width() const
 {
-  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(*input) + 16.0f + m_cursor_char_width);
+  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(*input) + 16.0f + m_cursor_width);
 }
 
 void
@@ -78,7 +77,7 @@ ItemTextField::event(const SDL_Event& ev)
 {
   if (ev.type == SDL_TEXTINPUT) // Text input
   {
-    insert_at(ev.text.text, m_cursor_left_offset);
+    insert_text(ev.text.text, m_cursor_left_offset);
   }
   else if (ev.type == SDL_KEYDOWN)
   {
@@ -147,11 +146,11 @@ ItemTextField::update_undo()
 // Text manipulation and navigation functions
 
 void
-ItemTextField::insert_at(const std::string& text, const int index)
+ItemTextField::insert_text(const std::string& text, const int left_offset_pos)
 {
   update_undo();
-  *input = input->substr(0, input->size() - index) + text +
-    input->substr(input->size() - index);
+  *input = input->substr(0, input->size() - left_offset_pos) + text +
+    input->substr(input->size() - left_offset_pos);
   on_input_update();
 }
 
@@ -276,7 +275,7 @@ ItemTextField::paste()
   boost::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
 
   if (clipboard_text.empty()) return;
-  insert_at(clipboard_text, m_cursor_left_offset);
+  insert_text(clipboard_text, m_cursor_left_offset);
 
   on_input_update();
 }

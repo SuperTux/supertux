@@ -17,11 +17,12 @@
 
 #include "gui/item_floatfield.hpp"
 
-ItemFloatField::ItemFloatField(const std::string& text_, float* input_, int id_) :
+ItemFloatField::ItemFloatField(const std::string& text_, float* input_, int id_, bool positive) :
   ItemTextField(text_, new std::string, id_),
   number(input_),
   m_input(std::to_string(*input_)),
-  m_has_comma(true)
+  m_has_comma(true),
+  m_positive(positive) // Forces an always positive number
 {
   change_input(m_input);
 
@@ -36,6 +37,14 @@ ItemFloatField::ItemFloatField(const std::string& text_, float* input_, int id_)
     if (c != '0') break;
     input->resize(input->size() - 1);
   }
+
+  // Remove minus, if the number has one, but it's only allowed to be positive.
+  if (*input->begin() == '-' && m_positive)
+  {
+    if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
+    input->erase(input->begin());
+    *number *= -1;
+  }
 }
 
 ItemFloatField::~ItemFloatField()
@@ -44,11 +53,10 @@ ItemFloatField::~ItemFloatField()
 }
 
 void
-ItemFloatField::add_char(char c, const int index)
+ItemFloatField::add_char(char c, const int left_offset_pos)
 {
-  if (c == '-')
+  if (c == '-' && !m_positive)
   {
-    update_undo();
     if (!input->empty() && *input != "0")
     {
       *number *= -1;
@@ -69,26 +77,22 @@ ItemFloatField::add_char(char c, const int index)
   }
   else if (!m_has_comma && (c == '.' || c == ','))
   {
-    update_undo();
-    if (index == static_cast<int>(input->size()))
+    if (left_offset_pos == static_cast<int>(input->size()))
     {
       *input = "0." + *input;
     }
     else
     {
-      *input = input->substr(0, input->size() - index) + '.' +
-        input->substr(input->size() - index);
+      *input = input->substr(0, input->size() - left_offset_pos) + '.' +
+        input->substr(input->size() - left_offset_pos);
     }
-    m_has_comma = true;
   }
 
   if (c >= '0' && c <= '9')
   {
-    update_undo();
-    *input = input->substr(0, input->size() - index) + c +
-      input->substr(input->size() - index);
+    *input = input->substr(0, input->size() - left_offset_pos) + c +
+      input->substr(input->size() - left_offset_pos);
   }
-  on_input_update();
 }
 
 void
@@ -116,12 +120,14 @@ ItemFloatField::on_input_update()
 // Text manipulation and navigation functions
 
 void
-ItemFloatField::insert_at(const std::string& text, const int index)
+ItemFloatField::insert_text(const std::string& text, const int left_offset_pos)
 {
+  update_undo();
   for (auto& c : text)
   {
-    add_char(c, index);
+    add_char(c, left_offset_pos);
   }
+  on_input_update();
 }
 
 /* EOF */

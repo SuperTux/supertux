@@ -61,7 +61,7 @@ public:
 
   // Text manipulation and navigation functions
 
-  virtual void insert_at(const std::string& text, const int index);
+  virtual void insert_text(const std::string& text, const int left_offset_pos);
   virtual void clear();
   virtual void go_left();
   virtual void go_right();
@@ -79,9 +79,8 @@ protected:
   std::string m_input_undo;
   std::string m_input_redo;
 
-  const char m_cursor_char;
-  const std::string m_cursor_char_str;
-  float m_cursor_char_width;
+  const std::string m_cursor;
+  float m_cursor_width;
   int m_cursor_left_offset;
 
 private:

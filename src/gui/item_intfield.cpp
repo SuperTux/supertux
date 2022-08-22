@@ -17,12 +17,21 @@
 
 #include "gui/item_intfield.hpp"
 
-ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_) :
+ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_, bool positive) :
   ItemTextField(text_, new std::string, id_),
   number(input_),
-  m_input(std::to_string(*input_))
+  m_input(std::to_string(*input_)),
+  m_positive(positive)
 {
   change_input(m_input);
+
+  // Remove minus, if the number has one, but it's only allowed to be positive.
+  if (*input->begin() == '-' && m_positive)
+  {
+    if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
+    input->erase(input->begin());
+    *number *= -1;
+  }
 }
 
 ItemIntField::~ItemIntField()
@@ -31,11 +40,10 @@ ItemIntField::~ItemIntField()
 }
 
 void
-ItemIntField::add_char(char c, const int index)
+ItemIntField::add_char(char c, const int left_offset_pos)
 {
-  if (c == '-')
+  if (c == '-' && !m_positive)
   {
-    update_undo();
     if (!input->empty() && *input != "0")
     {
       *number *= -1;
@@ -58,10 +66,8 @@ ItemIntField::add_char(char c, const int index)
   if (c < '0' || c > '9')
     return;
 
-  update_undo();
-  *input = input->substr(0, input->size() - index) + c +
-    input->substr(input->size() - index);
-  on_input_update();
+  *input = input->substr(0, input->size() - left_offset_pos) + c +
+    input->substr(input->size() - left_offset_pos);
 }
 
 void
@@ -87,12 +93,14 @@ ItemIntField::on_input_update()
 // Text manipulation and navigation functions
 
 void
-ItemIntField::insert_at(const std::string& text, const int index)
+ItemIntField::insert_text(const std::string& text, const int left_offset_pos)
 {
+  update_undo();
   for (auto& c : text)
   {
-    add_char(c, index);
+    add_char(c, left_offset_pos);
   }
+  on_input_update();
 }
 
 /* EOF */
