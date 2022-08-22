@@ -36,9 +36,9 @@ public:
   virtual bool is_freezable() const override;
 
   virtual std::string get_overlay_size() const override { return "1x2"; }
-  static std::string class_name() { return "fish"; }
+  static std::string class_name() { return "fish-jumping"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Fish"); }
+  static std::string display_name() { return _("Jumping Fish"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
 private:

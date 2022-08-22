@@ -204,7 +204,7 @@ IceCrusher::update(float dt_sec)
 
     if (brickbox.contains(brick.get_bbox()))
     {
-      if (brick.get_class() != "heavy-brick")
+      if (brick.get_class_name() != "heavy-brick")
       {
         brick.break_for_crusher(this);
       }
