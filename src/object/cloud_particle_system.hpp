@@ -37,8 +37,10 @@ public:
 
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "particles-clouds"; }
-  virtual std::string get_display_name() const override { return _("Cloud Particles"); }
+  static std::string class_name() { return "particles-clouds"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Cloud Particles"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {

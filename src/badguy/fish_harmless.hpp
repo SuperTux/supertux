@@ -27,8 +27,10 @@ public:
 
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
-  virtual std::string get_class() const override { return "fish-harmless"; }
-  virtual std::string get_display_name() const override { return _("Harmless Fish"); }
+  static std::string class_name() { return "fish-harmless"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Harmless Fish"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual std::string get_overlay_size() const override { return "1x1"; }
 
 private:

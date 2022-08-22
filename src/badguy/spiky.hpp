@@ -26,8 +26,10 @@ public:
 
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override { return "spiky"; }
-  virtual std::string get_display_name() const override { return _("Spiky"); }
+  static std::string class_name() { return "spiky"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Spiky"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 private:
   Spiky(const Spiky&) = delete;

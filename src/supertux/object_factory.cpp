@@ -22,7 +22,8 @@
 #include "supertux/game_object.hpp"
 
 ObjectFactory::ObjectFactory() :
-  factories()
+  factories(),
+  name_factories()
 {
 }
 
@@ -40,6 +41,23 @@ ObjectFactory::create(const std::string& name, const ReaderMapping& reader) cons
   else
   {
     return it->second(reader);
+  }
+}
+
+std::string
+ObjectFactory::get_factory_display_name(const std::string& name) const
+{
+  auto it = name_factories.find(name);
+
+  if (it == name_factories.end())
+  {
+    std::stringstream msg;
+    msg << "No name factory for object '" << name << "' found.";
+    throw std::runtime_error(msg.str());
+  }
+  else
+  {
+    return it->second();
   }
 }
 

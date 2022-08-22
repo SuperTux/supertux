@@ -25,8 +25,10 @@ class ShortFuse final : public WalkingBadguy
 public:
   ShortFuse(const ReaderMapping& reader);
 
-  virtual std::string get_class() const override { return "short_fuse"; }
-  virtual std::string get_display_name() const override { return _("Short Fuse"); }
+  static std::string class_name() { return "short_fuse"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Short Fuse"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
   virtual HitResponse collision_player (Player& player, const CollisionHit& hit) override;

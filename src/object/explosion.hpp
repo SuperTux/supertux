@@ -30,6 +30,9 @@ public:
   Explosion(const Vector& pos, float push_strength, int num_particles=100);
   Explosion(const ReaderMapping& reader);
 
+  static std::string display_name() { return _("Explosion"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;

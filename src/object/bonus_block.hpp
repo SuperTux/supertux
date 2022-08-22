@@ -52,8 +52,10 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "bonusblock"; }
-  virtual std::string get_display_name() const override { return _("Bonus Block"); }
+  static std::string class_name() { return "bonusblock"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Bonus Block"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 

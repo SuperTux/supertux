@@ -483,7 +483,7 @@ EditorOverlayWidget::hover_object()
     }
   }
 
-  if (m_hovered_object && m_hovered_object->has_settings()) {
+  if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip()) {
     m_object_tip = std::make_unique<Tip>(*m_hovered_object);
   }
 
@@ -596,9 +596,9 @@ EditorOverlayWidget::clone_object()
       auto game_object_uptr = [this]{
         std::stringstream stream;
         Writer writer(stream);
-        writer.start_list(m_hovered_object->get_class());
+        writer.start_list(m_hovered_object->get_class_name());
         m_hovered_object->save(writer);
-        writer.end_list(m_hovered_object->get_class());
+        writer.end_list(m_hovered_object->get_class_name());
 
         auto doc = ReaderDocument::from_stream(stream);
         auto object_sx = doc.get_root();

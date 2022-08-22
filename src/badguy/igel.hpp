@@ -30,9 +30,12 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "igel"; }
-  virtual std::string get_display_name() const override { return _("Igel"); }
+
   virtual std::string get_overlay_size() const override { return "2x1"; }
+  static std::string class_name() { return "igel"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Igel"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
   //  virtual bool collision_squished(GameObject& object) override;

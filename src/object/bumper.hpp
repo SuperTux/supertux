@@ -31,8 +31,10 @@ public:
   virtual void update(float dt_sec) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   
-  virtual std::string get_class() const override { return "bumper"; }
-  virtual std::string get_display_name() const override { return _("Bumper"); }
+  static std::string class_name() { return "bumper"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Bumper"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void on_flip(float height) override;
 

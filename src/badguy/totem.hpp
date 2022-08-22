@@ -32,8 +32,10 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  virtual std::string get_class() const override { return "totem"; }
-  virtual std::string get_display_name() const override { return _("Totem"); }
+  static std::string class_name() { return "totem"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Totem"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

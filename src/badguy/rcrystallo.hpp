@@ -26,8 +26,10 @@ public:
 
   virtual void initialize() override;
   virtual ObjectSettings get_settings() override;
-  virtual std::string get_class() const override { return "rcrystallo"; }
-  virtual std::string get_display_name() const override { return _("Roof Crystallo"); }
+  static std::string class_name() { return "rcrystallo"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Roof Crystallo"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void active_update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;

@@ -697,14 +697,14 @@ Sector::save(Writer &writer)
 
   std::stable_sort(objects.begin(), objects.end(),
                    [](const GameObject* lhs, GameObject* rhs) {
-                     return lhs->get_class() < rhs->get_class();
+                     return lhs->get_class_name() < rhs->get_class_name();
                    });
 
   for (auto& obj : objects) {
     if (obj->is_saveable()) {
-      writer.start_list(obj->get_class());
+      writer.start_list(obj->get_class_name());
       obj->save(writer);
-      writer.end_list(obj->get_class());
+      writer.end_list(obj->get_class_name());
     }
   }
 
