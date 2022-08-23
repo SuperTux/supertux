@@ -28,7 +28,7 @@ public:
   void menu_action(MenuItem& item) override;
 
   void remove_line();
-  void add_line();
+  ItemScriptLine* add_line();
 
 protected:
   bool is_sensitive() const override;

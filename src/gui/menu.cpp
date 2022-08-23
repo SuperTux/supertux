@@ -200,18 +200,18 @@ Menu::add_script_line(std::string* input, int id)
 }
 
 ItemIntField&
-Menu::add_intfield(const std::string& text, int* input, int id)
+Menu::add_intfield(const std::string& text, int* input, int id, bool positive)
 {
-  auto item = std::make_unique<ItemIntField>(text, input, id);
+  auto item = std::make_unique<ItemIntField>(text, input, id, positive);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;
 }
 
 ItemFloatField&
-Menu::add_floatfield(const std::string& text, float* input, int id)
+Menu::add_floatfield(const std::string& text, float* input, int id, bool positive)
 {
-  auto item = std::make_unique<ItemFloatField>(text, input, id);
+  auto item = std::make_unique<ItemFloatField>(text, input, id, positive);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

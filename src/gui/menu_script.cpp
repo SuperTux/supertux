@@ -71,9 +71,10 @@ ScriptMenu::remove_line() {
 
   script_strings.erase(script_strings.begin() + (m_active_item - 2));
   delete_item(m_active_item);
+  calculate_height();
 }
 
-void
+ItemScriptLine*
 ScriptMenu::add_line() {
   auto new_line = std::make_unique<std::string>();
   script_strings.insert(script_strings.begin() + (m_active_item - 1), move(new_line));
@@ -82,12 +83,13 @@ ScriptMenu::add_line() {
         new ItemScriptLine( (script_strings.begin()+(m_active_item-1))->get() ));
   add_item(std::move(line_item), m_active_item+1);
   m_active_item++;
+
+  return dynamic_cast<ItemScriptLine*>(m_items[m_active_item].get());
 }
 
 void
 ScriptMenu::menu_action(MenuItem& item)
 {
-
 }
 
 bool

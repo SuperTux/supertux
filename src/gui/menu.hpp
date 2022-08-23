@@ -87,8 +87,8 @@ public:
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
   ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
   ItemScriptLine& add_script_line(std::string* input, int id = -1);
-  ItemIntField& add_intfield(const std::string& text, int* input, int id = -1);
-  ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1);
+  ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
+  ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemBadguySelect& add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
   ItemFile& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                      const std::string& basedir, bool path_relative_to_basedir, int id = -1);
@@ -133,14 +133,15 @@ protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
   void delete_item(int pos_);
 
-private:
-  void process_action(const MenuAction& menuaction);
-  void check_controlfield_change_event(const SDL_Event& event);
-  void draw_item(DrawingContext& context, int index, float y_pos);
   /** Recalculates the width for this menu */
   void calculate_width();
   /** Recalculates the height for this menu */
   void calculate_height();
+
+private:
+  void process_action(const MenuAction& menuaction);
+  void check_controlfield_change_event(const SDL_Event& event);
+  void draw_item(DrawingContext& context, int index, float y_pos);
 
 private:
   /** position of the menu (ie. center of the menu, not top/left) */
