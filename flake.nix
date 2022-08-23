@@ -95,107 +95,42 @@
         packages = rec {
           default = supertux2;
 
-          supertux2 = pkgs.stdenv.mkDerivation rec {
-            pname = "supertux2";
-            # FIXME: Should use `git describe` to get the version
-            # number or leave it to cmake, but the .git/ directory
-            # isn't included in the Nix store.
-            version = "0.6.3-${nixpkgs.lib.substring 0 8 self.lastModifiedDate}-${self.shortRev or "dirty"}";
+          supertux2 = pkgs.callPackage ./supertux2.nix {
+            inherit self;
 
-            src = nixpkgs.lib.cleanSource ./.;
+            SDL2_ttf = if pkgs.targetPlatform.isWindows
+                       then SDL2_ttf-win32.packages.${pkgs.system}.default
+                       else SDL2_ttf.packages.${pkgs.system}.default;
 
-            patchPhase = let
-              ver = builtins.splitVersion version;
-            in ''
-              substituteInPlace config.h.cmake \
-                 --replace "#define _SQ64" ""
+            sexpcpp = sexpcpp.packages.${pkgs.system}.default;
+            squirrel = squirrel.packages.${pkgs.system}.default;
+            tinycmmc = tinycmmc.packages.${pkgs.system}.default;
+            tinygettext = tinygettext.packages.${pkgs.system}.default;
+            wstsound = wstsound.packages.${pkgs.system}.default;
 
-               cat > version.cmake <<EOF
-SET(SUPERTUX_VERSION_MAJOR ${builtins.elemAt ver 0})
-SET(SUPERTUX_VERSION_MINOR ${builtins.elemAt ver 1})
-SET(SUPERTUX_VERSION_PATCH ${builtins.elemAt ver 2})
-SET(SUPERTUX_VERSION_TWEAK ${builtins.elemAt ver 3})
-SET(SUPERTUX_VERSION_STRING "v${version}")
-SET(SUPERTUX_VERSION_BUILD "${builtins.elemAt ver 4}")
-EOF
-            '';
+            physfs = if pkgs.targetPlatform.isWindows
+                     then physfs-win32.packages.${pkgs.system}.default
+                     else pkgs.physfs;
 
-            cmakeFlags = [
-              "-DINSTALL_SUBDIR_BIN=bin"
-              "-DUSE_SYSTEM_SDL2_TTF=ON"
-            ];
+            curl = if pkgs.targetPlatform.isWindows
+                   then curl-win32.packages.${pkgs.system}.default
+                   else pkgs.curl;
 
-            postFixup =
-              (nixpkgs.lib.optionalString pkgs.targetPlatform.isLinux ''
-                wrapProgram $out/bin/supertux2 \
-                  --prefix LIBGL_DRIVERS_PATH ":" "${pkgs.mesa.drivers}/lib/dri" \
-                  --prefix LD_LIBRARY_PATH ":" "${pkgs.mesa.drivers}/lib"
-              '')
-            + (nixpkgs.lib.optionalString pkgs.stdenv.targetPlatform.isWindows ''
-                 mkdir -p $out/bin/
-                 find ${pkgs.windows.mcfgthreads} -iname "*.dll" -exec ln -sfv {} $out/bin/ \;
-                 find ${pkgs.stdenv.cc.cc} -iname "*.dll" -exec ln -sfv {} $out/bin/ \;
-                 ln -sfv ${SDL2-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-                 ln -sfv ${SDL2_image-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-                 ln -sfv ${SDL2_ttf-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-                 ln -sfv ${pkgs.fmt_8}/bin/*.dll $out/bin/
+            glew = if pkgs.targetPlatform.isWindows
+                   then glew-win32.packages.${pkgs.system}.default
+                   else pkgs.glew;
 
-                 ln -sfv ${wstsound.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-                 ln -sfv ${squirrel.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-                 ln -sfv ${physfs-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-                 ln -sfv ${curl-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-                 ln -sfv ${tinygettext.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-                 ln -sfv ${glew-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
-              '');
+            glm = (pkgs.glm.overrideAttrs (oldAttrs: { meta = {}; }));
 
-            nativeBuildInputs = [
-              pkgs.buildPackages.cmake
-              pkgs.buildPackages.pkgconfig
-            ]
-            ++ (nixpkgs.lib.optional pkgs.targetPlatform.isLinux
-                 pkgs.buildPackages.makeWrapper);
+            SDL2 = if pkgs.targetPlatform.isWindows
+                   then SDL2-win32.packages.${pkgs.system}.default
+                   else pkgs.SDL2;
 
-            buildInputs = [
-              (if pkgs.targetPlatform.isWindows
-               then SDL2_ttf-win32.packages.${pkgs.system}.default
-               else SDL2_ttf.packages.${pkgs.system}.default)
+            SDL2_image = if pkgs.targetPlatform.isWindows
+                         then SDL2_image-win32.packages.${pkgs.system}.default
+                         else pkgs.SDL2_image;
 
-              sexpcpp.packages.${pkgs.system}.default
-              squirrel.packages.${pkgs.system}.default
-              tinycmmc.packages.${pkgs.system}.default
-              tinygettext.packages.${pkgs.system}.default
-              wstsound.packages.${pkgs.system}.default
-
-              (if pkgs.targetPlatform.isWindows
-               then physfs-win32.packages.${pkgs.system}.default
-               else pkgs.physfs)
-
-              pkgs.libpng
-
-              (if pkgs.targetPlatform.isWindows
-               then curl-win32.packages.${pkgs.system}.default
-               else pkgs.curl)
-
-              pkgs.fmt_8
-
-              (if pkgs.targetPlatform.isWindows
-               then glew-win32.packages.${pkgs.system}.default
-               else pkgs.glew)
-
-              (pkgs.glm.overrideAttrs (oldAttrs: { meta = {}; }))
-
-              (if pkgs.targetPlatform.isWindows
-               then SDL2-win32.packages.${pkgs.system}.default
-               else pkgs.SDL2)
-
-              (if pkgs.targetPlatform.isWindows
-               then SDL2_image-win32.packages.${pkgs.system}.default
-               else pkgs.SDL2_image)
-
-              # pkgs.gtest
-            ]
-            ++ (nixpkgs.lib.optional pkgs.targetPlatform.isWindows
-              freetype-win32.packages.${pkgs.system}.default);
+            mcfgthreads = pkgs.windows.mcfgthreads;
           };
 
           supertux2-win32 = pkgs.runCommand "supertux2-win32" {} ''
