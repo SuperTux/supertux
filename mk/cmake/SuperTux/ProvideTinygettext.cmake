@@ -3,10 +3,10 @@ if(USE_SYSTEM_TINYGETTEXT)
   find_package(tinygettext QUIET)
 endif()
 
-if(TARGET tinygettext)
+if(TARGET tinygettext::tinygettext)
   message(STATUS "Found preinstalled tinygettext")
 
-  add_library(LibTinygettext ALIAS tinygettext)
+  add_library(LibTinygettext ALIAS tinygettext::tinygettext)
 else()
   if(USE_SYSTEM_TINYGETTEXT)
     message(STATUS "Could NOT find tinygettext, using external/tinygettext fallback")

@@ -3,7 +3,11 @@ if(USE_SYSTEM_SDL2_TTF)
   find_package(SDL2_ttf QUIET)
 endif()
 
-if(TARGET SDL2_ttf)
+if(TARGET SDL2_ttf::SDL2_ttf)
+  message(STATUS "Found preinstalled SDL2_ttf")
+
+  add_library(LibSDL2_ttf ALIAS SDL2_ttf::SDL2_ttf)
+elseif(TARGET SDL2_ttf)
   message(STATUS "Found preinstalled SDL2_ttf")
 
   add_library(LibSDL2_ttf ALIAS SDL2_ttf)

@@ -41,35 +41,59 @@
     tinygettext.inputs.flake-utils.follows = "flake-utils";
     tinygettext.inputs.tinycmmc.follows = "tinycmmc";
 
+    curl-win32.url = "github:grumnix/curl-win32";
+    curl-win32.inputs.nixpkgs.follows = "nixpkgs";
+    curl-win32.inputs.tinycmmc.follows = "tinycmmc";
+
+    physfs-win32.url = "github:grumnix/physfs-win32";
+    physfs-win32.inputs.nixpkgs.follows = "nixpkgs";
+    physfs-win32.inputs.tinycmmc.follows = "tinycmmc";
+
+    SDL2-win32.url = "github:grumnix/SDL2-win32";
+    SDL2-win32.inputs.nixpkgs.follows = "nixpkgs";
+    SDL2-win32.inputs.tinycmmc.follows = "tinycmmc";
+
+    SDL2_image-win32.url = "github:grumnix/SDL2_image-win32";
+    SDL2_image-win32.inputs.nixpkgs.follows = "nixpkgs";
+    SDL2_image-win32.inputs.tinycmmc.follows = "tinycmmc";
+
+    freetype-win32.url = "github:grumnix/freetype-win32";
+    freetype-win32.inputs.nixpkgs.follows = "nixpkgs";
+    freetype-win32.inputs.flake-utils.follows = "flake-utils";
+
     SDL2_ttf.url = "github:SuperTux/SDL_ttf";
     SDL2_ttf.inputs.nixpkgs.follows = "nixpkgs";
     SDL2_ttf.inputs.flake-utils.follows = "flake-utils";
+
+    SDL2_ttf-win32.url = "github:grumnix/SDL2_ttf-win32";
+    SDL2_ttf-win32.inputs.nixpkgs.follows = "nixpkgs";
+    SDL2_ttf-win32.inputs.flake-utils.follows = "flake-utils";
+    SDL2_ttf-win32.inputs.tinycmmc.follows = "tinycmmc";
 
     wstsound.url = "github:WindstilleTeam/wstsound";
     wstsound.inputs.nixpkgs.follows = "nixpkgs";
     wstsound.inputs.flake-utils.follows = "flake-utils";
     wstsound.inputs.tinycmmc.follows = "tinycmmc";
 
-    squirrel_src.url = "github:albertodemichelis/squirrel";
-    squirrel_src.flake = false;
+    squirrel.url = "github:grumnix/squirrel";
+    squirrel.inputs.nixpkgs.follows = "nixpkgs";
+    squirrel.inputs.tinycmmc.follows = "tinycmmc";
+
+    glew-win32.url = "github:grumnix/glew-win32";
+    glew-win32.inputs.nixpkgs.follows = "nixpkgs";
+    glew-win32.inputs.tinycmmc.follows = "tinycmmc";
   };
 
   outputs = { self, nixpkgs, flake-utils,
-              tinycmmc, sexpcpp, tinygettext, SDL2_ttf, wstsound,
-              squirrel_src }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in rec {
-        packages = flake-utils.lib.flattenTree rec {
-          squirrel = pkgs.stdenv.mkDerivation {
-            pname = "squirrel";
-            version = "3.2";
-            src = squirrel_src;
-            nativeBuildInputs = [
-              pkgs.cmake
-            ];
-          };
+              tinycmmc, sexpcpp, tinygettext,
+              curl-win32,
+              SDL2-win32, SDL2_image-win32, freetype-win32, physfs-win32, SDL2_ttf, SDL2_ttf-win32,
+              wstsound, squirrel, glew-win32 }:
+
+    tinycmmc.lib.eachSystemWithPkgs (pkgs:
+      {
+        packages = rec {
+          default = supertux2;
 
           supertux2 = pkgs.stdenv.mkDerivation rec {
             pname = "supertux2";
@@ -77,7 +101,9 @@
             # number or leave it to cmake, but the .git/ directory
             # isn't included in the Nix store.
             version = "0.6.3-${nixpkgs.lib.substring 0 8 self.lastModifiedDate}-${self.shortRev or "dirty"}";
+
             src = nixpkgs.lib.cleanSource ./.;
+
             patchPhase = let
               ver = builtins.splitVersion version;
             in ''
@@ -93,56 +119,107 @@ SET(SUPERTUX_VERSION_STRING "v${version}")
 SET(SUPERTUX_VERSION_BUILD "${builtins.elemAt ver 4}")
 EOF
             '';
+
             cmakeFlags = [
               "-DINSTALL_SUBDIR_BIN=bin"
               "-DUSE_SYSTEM_SDL2_TTF=ON"
             ];
-            enableParallelBuilding = true;
-            nativeBuildInputs = [
-              pkgs.cmake
-              pkgs.pkgconfig
-              pkgs.makeWrapper
-              pkgs.git
-            ];
-            postFixup = ''
+
+            postFixup =
+              (nixpkgs.lib.optionalString pkgs.targetPlatform.isLinux ''
                 wrapProgram $out/bin/supertux2 \
                   --prefix LIBGL_DRIVERS_PATH ":" "${pkgs.mesa.drivers}/lib/dri" \
                   --prefix LD_LIBRARY_PATH ":" "${pkgs.mesa.drivers}/lib"
-            '';
+              '')
+            + (nixpkgs.lib.optionalString pkgs.stdenv.targetPlatform.isWindows ''
+                 mkdir -p $out/bin/
+                 find ${pkgs.windows.mcfgthreads} -iname "*.dll" -exec ln -sfv {} $out/bin/ \;
+                 find ${pkgs.stdenv.cc.cc} -iname "*.dll" -exec ln -sfv {} $out/bin/ \;
+                 ln -sfv ${SDL2-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+                 ln -sfv ${SDL2_image-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+                 ln -sfv ${SDL2_ttf-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+                 ln -sfv ${pkgs.fmt_8}/bin/*.dll $out/bin/
+
+                 ln -sfv ${wstsound.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+                 ln -sfv ${squirrel.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+                 ln -sfv ${physfs-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+                 ln -sfv ${curl-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+                 ln -sfv ${tinygettext.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+                 ln -sfv ${glew-win32.packages.${pkgs.system}.default}/bin/*.dll $out/bin/
+              '');
+
+            nativeBuildInputs = [
+              pkgs.buildPackages.cmake
+              pkgs.buildPackages.pkgconfig
+            ]
+            ++ (nixpkgs.lib.optional pkgs.targetPlatform.isLinux
+                 pkgs.buildPackages.makeWrapper);
+
             buildInputs = [
-              squirrel
-              sexpcpp.packages.${system}.default
-              tinygettext.packages.${system}.default
-              SDL2_ttf.packages.${system}.default
-              wstsound.packages.${system}.default
-              tinycmmc.packages.${system}.default
+              (if pkgs.targetPlatform.isWindows
+               then SDL2_ttf-win32.packages.${pkgs.system}.default
+               else SDL2_ttf.packages.${pkgs.system}.default)
 
-              pkgs.physfs
+              sexpcpp.packages.${pkgs.system}.default
+              squirrel.packages.${pkgs.system}.default
+              tinycmmc.packages.${pkgs.system}.default
+              tinygettext.packages.${pkgs.system}.default
+              wstsound.packages.${pkgs.system}.default
+
+              (if pkgs.targetPlatform.isWindows
+               then physfs-win32.packages.${pkgs.system}.default
+               else pkgs.physfs)
+
               pkgs.libpng
-              pkgs.curl
+
+              (if pkgs.targetPlatform.isWindows
+               then curl-win32.packages.${pkgs.system}.default
+               else pkgs.curl)
+
               pkgs.fmt_8
-              pkgs.libGL
-              pkgs.libGLU
-              pkgs.glew
-              pkgs.gtest
 
-              pkgs.glm
-              pkgs.SDL2
-              pkgs.SDL2_image
+              (if pkgs.targetPlatform.isWindows
+               then glew-win32.packages.${pkgs.system}.default
+               else pkgs.glew)
 
-              pkgs.gtest
+              (pkgs.glm.overrideAttrs (oldAttrs: { meta = {}; }))
 
-              # wstsound dependencies
-              pkgs.openal
-              pkgs.libvorbis
-              pkgs.libogg
-              pkgs.opusfile
-              pkgs.mpg123
-              pkgs.libmodplug
-            ];
+              (if pkgs.targetPlatform.isWindows
+               then SDL2-win32.packages.${pkgs.system}.default
+               else pkgs.SDL2)
+
+              (if pkgs.targetPlatform.isWindows
+               then SDL2_image-win32.packages.${pkgs.system}.default
+               else pkgs.SDL2_image)
+
+              # pkgs.gtest
+            ]
+            ++ (nixpkgs.lib.optional pkgs.targetPlatform.isWindows
+              freetype-win32.packages.${pkgs.system}.default);
           };
 
-          default = supertux2;
+          supertux2-win32 = pkgs.runCommand "supertux2-win32" {} ''
+            mkdir -p $out
+            mkdir -p $out/data/
+
+            cp --verbose --recursive ${supertux2}/bin/supertux2.exe $out/
+            cp --verbose --recursive --dereference --no-preserve=all ${supertux2}/bin/*.dll $out/
+            cp --verbose --recursive ${supertux2}/data/. $out/data/
+          '';
+
+          supertux2-win32-zip = pkgs.runCommand "supertux2-win32-zip" {} ''
+            mkdir -p $out
+            WORKDIR=$(mktemp -d)
+
+            cp --no-preserve mode,ownership --verbose --recursive \
+              ${supertux2-win32}/. "$WORKDIR"
+
+            cd "$WORKDIR"
+            ${nixpkgs.legacyPackages.x86_64-linux.zip}/bin/zip \
+              -r \
+              $out/SuperTux-${supertux2.version}-${pkgs.system}.zip \
+              .
+          '';
         };
       }
     );
