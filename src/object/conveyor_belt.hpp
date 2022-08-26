@@ -17,11 +17,17 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CONVEYOR_BELT_HPP
 #define HEADER_SUPERTUX_OBJECT_CONVEYOR_BELT_HPP
 
+#include "scripting/conveyor_belt.hpp"
+#include "squirrel/exposed_object.hpp"
+#include "supertux/moving_object.hpp"
+#include "supertux/timer.hpp"
+#include "video/layer.hpp"
 
-#include "object/moving_sprite.hpp"
+class Sprite;
 
 /** This class represents a platform that moves entities riding it */
-class ConveyorBelt final : public MovingObject
+class ConveyorBelt final : public MovingObject,
+                           public ExposedObject<ConveyorBelt, scripting::ConveyorBelt>
 {
 public:
     ConveyorBelt(const ReaderMapping& reader);
@@ -40,15 +46,33 @@ public:
 
     virtual int get_layer() const override { return LAYER_TILES; }
 
+    /** @name Scriptable Methods */
+
+    /** Starts the conveyor belt */
+    void start();
+
+    /** Stops the conveyor belt */
+    void stop();
+
+    /** Makes the conveyor shift objects to the left */
+    void move_left();
+
+    /** Makes the conveyor shift objects to the right */
+    void move_right();
+
+    /** Change the shifting speed of the conveyor */
+    void set_speed(float target_speed);
+
 private:
-    Direction m_direction;
     bool m_running;
+    Direction m_direction;
     int m_length;
+    float m_speed;
+
+    const float SPEED_CHANGE = 2.0f / 60.0f; // 2 per second
+    const float MAX_SPEED = 32.0f;
 
     std::unique_ptr<Sprite> m_sprite;
-
-    /** true if the conveyor is fast, false if the conveyor is slow */
-    bool m_conveyor_fast;
 
 
 
@@ -58,4 +82,6 @@ private:
 };
 
 
-#endif //SUPERTUX_CONVEYOR_BELT_HPP
+#endif
+
+/* EOF */

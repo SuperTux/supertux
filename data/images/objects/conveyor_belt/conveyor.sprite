@@ -1,0 +1,38 @@
+(supertux-sprite
+  (action
+    (fps 15)
+    (name "left")
+    (images "conveyor_left_0.png"
+            "conveyor_left_1.png"
+            "conveyor_left_2.png"
+            "conveyor_left_3.png"
+            "conveyor_left_4.png"
+            "conveyor_left_5.png"
+            "conveyor_left_6.png"
+            "conveyor_left_7.png"
+            "conveyor_left_8.png"
+            "conveyor_left_9.png"
+    )
+  )
+  (action
+    (fps 15)
+    (name "right")
+    (images "conveyor_right_0.png"
+            "conveyor_right_1.png"
+            "conveyor_right_2.png"
+            "conveyor_right_3.png"
+            "conveyor_right_4.png"
+            "conveyor_right_5.png"
+            "conveyor_right_6.png"
+            "conveyor_right_7.png"
+            "conveyor_right_8.png"
+            "conveyor_right_9.png"
+    )
+  )
+  (action
+    (fps 15)
+    (name "stopped")
+    (images "conveyor_stopped.png")
+  )
+)
+

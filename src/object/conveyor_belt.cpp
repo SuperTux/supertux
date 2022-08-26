@@ -16,18 +16,21 @@
 
 #include "object/conveyor_belt.hpp"
 
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/direction.hpp"
 #include "util/log.hpp"
+#include "math/util.hpp"
 #include "util/reader_mapping.hpp"
 
 ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
     MovingObject(reader), // TODO: sprite
-    m_conveyor_fast(false),
+    ExposedObject<ConveyorBelt, scripting::ConveyorBelt>(this),
     m_direction(Direction::LEFT),
     m_running(true),
-    m_sprite(SpriteManager::current()->create("images/objects/conveyor_belt/conveyor_belt.sprite")),
-    m_length(1)
+    m_sprite(SpriteManager::current()->create("images/objects/conveyor_belt/conveyor.sprite")),
+    m_length(1),
+    m_speed(1.0f)
 {
     set_group(COLGROUP_STATIC);
     reader.get("running", m_running);
@@ -35,14 +38,19 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
     if (reader.get("direction", dir_str))
         m_direction = string_to_dir(dir_str);
 
-    reader.get("fast", m_conveyor_fast);
+    reader.get("speed", m_speed);
+    m_speed = math::clamp(m_speed, 0.0f, MAX_SPEED);
+
     reader.get("length", m_length, 1);
     if (m_length <= 0)
         m_length = 1;
 
     m_col.m_bbox.set_size(32.0f * m_length, 32.0f);
 
-    log_info << "Conveyor Length is " << m_length << std::endl;
+    if (!m_running)
+        m_sprite->set_action("stopped");
+    else
+        m_sprite->set_action((m_direction == Direction::LEFT ? "left" : "right"));
 }
 
 ObjectSettings
@@ -51,11 +59,11 @@ ConveyorBelt::get_settings()
     ObjectSettings result = MovingObject::get_settings();
 
     result.add_direction(_("Direction"), &m_direction, Direction::LEFT, "direction");
-    result.add_bool(_("Faster Conveyor"), &m_conveyor_fast, "fast", false);
+    result.add_float(_("Speed"), &m_speed, "speed", 1.0f);
     result.add_bool(_("Running"), &m_running, "running", true);
     result.add_int(_("Length"), &m_length, "length", 3);
 
-    result.reorder({"running", "name", "direction", "fast", "sprite", "x", "y"});
+    result.reorder({"running", "name", "direction", "fast", "length", "sprite", "x", "y"});
 
     return result;
 }
@@ -66,7 +74,8 @@ ConveyorBelt::collision(GameObject &other, const CollisionHit &hit)
     auto mo = dynamic_cast<MovingObject*>(&other);
     if (!mo || !m_running) return FORCE_MOVE;
     auto pos = mo->get_pos();
-    pos.x += (m_conveyor_fast ? 4.0f : 2.0f) * (m_direction == Direction::LEFT ? -1.0f : 1.0f);
+    // FAST: 4.0f, SLOW: 2.0f
+    pos.x += m_speed * (m_direction == Direction::LEFT ? -1.0f : 1.0f);
     mo->set_pos(pos);
     return FORCE_MOVE;
 }
@@ -86,3 +95,42 @@ ConveyorBelt::draw(DrawingContext &context)
         m_sprite->draw(context.color(), pos, get_layer());
     }
 }
+
+void
+ConveyorBelt::start()
+{
+    m_running = true;
+    m_sprite->set_action((m_direction == Direction::LEFT ? "left" : "right"));
+}
+
+void
+ConveyorBelt::stop()
+{
+    m_running = false;
+    m_sprite->set_action("stopped");
+}
+
+void
+ConveyorBelt::move_left()
+{
+    m_direction = Direction::LEFT;
+    if (m_running)
+        m_sprite->set_action("left");
+}
+
+void
+ConveyorBelt::move_right()
+{
+    m_direction = Direction::RIGHT;
+    if (m_running)
+        m_sprite->set_action("right");
+}
+
+void
+ConveyorBelt::set_speed(float target_speed)
+{
+    target_speed = math::clamp(target_speed, 0.0f, MAX_SPEED);
+    m_speed = target_speed;
+}
+
+/* EOF */
