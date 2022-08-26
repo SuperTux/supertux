@@ -1,0 +1,14 @@
+(supertux-sprite
+  (action
+    (name "left")
+    (images
+      "conveyor_left.png"
+    )
+  )
+  (action
+    (name "right")
+    (images
+      "conveyor_right.png"
+    )
+  )
+)

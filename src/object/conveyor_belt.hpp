@@ -21,7 +21,7 @@
 #include "object/moving_sprite.hpp"
 
 /** This class represents a platform that moves entities riding it */
-class ConveyorBelt : public MovingSprite
+class ConveyorBelt final : public MovingObject
 {
 public:
     ConveyorBelt(const ReaderMapping& reader);
@@ -35,9 +35,17 @@ public:
     static std::string display_name() { return _("Conveyor Belt"); }
     virtual std::string get_display_name() const override { return display_name(); }
 
+    virtual void update(float dt_sec) override;
+    virtual void draw(DrawingContext& context) override;
+
+    virtual int get_layer() const override { return LAYER_TILES; }
+
 private:
     Direction m_direction;
     bool m_running;
+    int m_length;
+
+    std::unique_ptr<Sprite> m_sprite;
 
     /** true if the conveyor is fast, false if the conveyor is slow */
     bool m_conveyor_fast;
