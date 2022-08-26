@@ -30,7 +30,8 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
     m_running(true),
     m_sprite(SpriteManager::current()->create("images/objects/conveyor_belt/conveyor.sprite")),
     m_length(1),
-    m_speed(1.0f)
+    m_speed(1.0f),
+    m_entities_to_move()
 {
     set_group(COLGROUP_STATIC);
     reader.get("running", m_running);
@@ -73,23 +74,46 @@ ConveyorBelt::collision(GameObject &other, const CollisionHit &hit)
 {
     auto mo = dynamic_cast<MovingObject*>(&other);
     if (!mo || !m_running) return FORCE_MOVE;
-    auto pos = mo->get_pos();
-    // FAST: 4.0f, SLOW: 2.0f
-    pos.x += m_speed * (m_direction == Direction::LEFT ? -1.0f : 1.0f);
-    mo->set_pos(pos);
+
+    m_entities_to_move.push_back(mo);
     return FORCE_MOVE;
 }
 
 void
 ConveyorBelt::update(float dt_sec)
 {
+    for (auto mo : m_entities_to_move)
+    {
+        auto pos = mo->get_pos();
+        pos.x += m_speed * (m_direction == Direction::LEFT ? -1.0f : 1.0f) * 32.0f * dt_sec; // m_speed is measured in blocks per second
+        mo->set_pos(pos);
+    }
+    m_entities_to_move.clear();
+
+    if (m_running)
+    {
+        m_frame += (m_speed * m_sprite->get_frames()) * dt_sec;
+
+        while (m_frame >= 1.0f)
+        {
+            m_frame -= 1.0f;
+            m_frame_index++;
+        }
+
+        while (m_frame_index >= m_sprite->get_frames())
+        {
+            m_frame_index -= m_sprite->get_frames();
+        }
+    }
 }
 
 void
 ConveyorBelt::draw(DrawingContext &context)
 {
+    int frame_index = m_running ? m_frame_index : 0;
     for (int i = 0; i < m_length; i++)
     {
+        m_sprite->set_frame(frame_index);
         Vector pos = get_pos();
         pos.x += i * 32.0f;
         m_sprite->draw(context.color(), pos, get_layer());

@@ -69,7 +69,10 @@ private:
     int m_length;
     float m_speed;
 
-    const float SPEED_CHANGE = 2.0f / 60.0f; // 2 per second
+    std::vector<MovingObject*> m_entities_to_move;
+    float m_frame;
+    int m_frame_index;
+
     const float MAX_SPEED = 32.0f;
 
     std::unique_ptr<Sprite> m_sprite;

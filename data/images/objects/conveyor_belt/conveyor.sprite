@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (fps 15)
+    (fps 0)
     (name "left")
     (images "conveyor_left_0.png"
             "conveyor_left_1.png"
@@ -15,7 +15,7 @@
     )
   )
   (action
-    (fps 15)
+    (fps 0)
     (name "right")
     (images "conveyor_right_0.png"
             "conveyor_right_1.png"
@@ -30,7 +30,6 @@
     )
   )
   (action
-    (fps 15)
     (name "stopped")
     (images "conveyor_stopped.png")
   )
