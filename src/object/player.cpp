@@ -123,10 +123,10 @@ const float JUMP_EARLY_APEX_FACTOR = 3.0;
 const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
 const float COYOTE_TIME = 0.1f; /**< time between the moment leaving a platform without jumping and being able to jump anyways despite being in the air */
 
-const float MAX_SLIDE_SPEED = 650.f; /**< Max speed for sliding */
+const float MAX_SLIDE_SPEED = 700.f; /**< Max speed for sliding */
 const float MAX_FALL_SLIDE_SPEED = 475.f; /**< Max slide speed that Tux can get from falling */
 const float DOWN_SLIDE_ACCEL = 1000.f; /** < Acceleration for sliding DOWN slopes */
-const float UP_SLIDE_ACCEL = 1200.f; /**< Acceleration for sliding UP slopes */
+const float UP_SLIDE_ACCEL = 1100.f; /**< Acceleration for sliding UP slopes */
 
 /* Tux's collision rectangle */
 const float TUX_WIDTH = 31.8f;
@@ -540,6 +540,12 @@ Player::update(float dt_sec)
       m_water_jump = false;
       m_swimboosting = false;
     }
+    if (m_sliding)
+    {
+      adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
+      m_sliding = false;
+      m_slidejumping = false;
+    }
     m_powersprite->set_angle(0.f);
     m_lightsprite->set_angle(0.f);
   }
@@ -689,9 +695,9 @@ Player::update(float dt_sec)
 
   if (m_sliding)
   {
-    //if you jump or stop holding down when sliding, then it stops.
+    //if you stop holding down when sliding, then it stops.
     //or, stop sliding if you come to a stop and are not on a slope.
-    if (!m_controller->hold(Control::DOWN) || m_jumping ||
+    if (!m_controller->hold(Control::DOWN) ||
       (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f))
     {
       if (!adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT)) {
@@ -715,7 +721,7 @@ Player::update(float dt_sec)
     m_physic.set_velocity_y(-glm::length(m_physic.get_velocity())*std::abs(m_floor_normal.x));
   }
 
-  if (on_ground()) {
+  if (m_sliding && on_ground()) {
     m_slidejumping = false;
   }
 }
@@ -723,7 +729,7 @@ Player::update(float dt_sec)
 void
 Player::slide()
 {
-  if (m_swimming || m_water_jump || m_jumping) return;
+  if (m_swimming || m_water_jump) return;
   m_sliding = true;
   if (m_physic.get_velocity_x() > 0.f) {
     m_dir = Direction::RIGHT;
@@ -748,8 +754,13 @@ Player::slide()
     }
     else
     {
-      sideways_push(m_dir == Direction::LEFT ? -100.f : 100.f);
-
+      //sideways_push(m_dir == Direction::LEFT ? -100.f : 100.f);
+      if (on_ground())
+      {
+        m_sprite->set_angle(0.0f);
+        m_powersprite->set_angle(0.0f);
+        m_lightsprite->set_angle(0.0f);
+      }
       //handle adding acceleration from falling down
       if (m_sliding && !on_ground() && m_floor_normal.x*m_physic.get_velocity_x() <= 0.f && m_physic.get_velocity_y() > 0.f)
       {
@@ -765,7 +776,7 @@ Player::slide()
       //handle adding acceleration from sliding down, removing it from reaching floor or an incline
       if (m_floor_normal.y == 0.f && m_can_jump)
       {
-        if (!m_slidejumping) {
+        if (!m_slidejumping && !m_jumping) {
           apply_friction();
         }
       }
@@ -963,7 +974,7 @@ Player::apply_friction()
     //we need this or else sliding on ice will cause Tux to go on for a very long time
     friction *= (ICE_FRICTION_MULTIPLIER*(m_sliding ? 4.f : 1.f));
   else
-    friction *= NORMAL_FRICTION_MULTIPLIER;
+    friction *= (NORMAL_FRICTION_MULTIPLIER*(m_sliding ? 0.8f : 1.f));
   if (velx < 0) {
     m_physic.set_acceleration_x(friction);
   } else if (velx > 0) {
@@ -1147,20 +1158,20 @@ Player::do_jump(float yspeed) {
 
   // jump only if it would make Tux go faster upwards
   if (m_physic.get_velocity_y() > yspeed) {
-    m_physic.set_velocity_y(yspeed);
+    m_physic.set_velocity_y(yspeed * (m_sliding ? 0.75f : 1.f));
     //bbox.move(Vector(0, -1));
     m_jumping = true;
     m_on_ground_flag = false;
     m_can_jump = false;
 
-    if (m_sliding)
+    /*if (m_sliding)
     {
       if (!adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT)) {
         m_duck = true;
       }
       m_sliding = false;
       m_slidejumping = false;
-    }
+    }*/
 
     // play sound
     if (is_big()) {
@@ -1313,7 +1324,12 @@ Player::handle_input()
 
   if (!m_swimming)
   {
-    if (!m_water_jump && !m_backflipping) m_sprite->set_angle(0);
+    if (!m_water_jump && !m_backflipping && !m_sliding)
+    {
+      m_sprite->set_angle(0);
+      m_powersprite->set_angle(0);
+      m_lightsprite->set_angle(0);
+    }
     if (!m_jump_early_apex) {
       m_physic.set_gravity_modifier(1.0f);
     }
@@ -1488,16 +1504,16 @@ Player::handle_input()
     stop_backflipping();
   }
 
-  if (m_sliding && !m_jumping)
+  if (m_sliding)
   {
     adjust_height(DUCKED_TUX_HEIGHT);
     slide();
   }
-
-  if ((m_coyote_timer.started()) && !m_jumping && !m_skidding_timer.started() &&
+  else if (!m_sliding && (m_coyote_timer.started()) && !m_skidding_timer.started() &&
     (m_floor_normal.y != 0 || (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)))
     && m_controller->pressed(Control::DOWN) && std::abs(m_physic.get_velocity_x()) > 1.f)
   {
+    sideways_push(m_dir == Direction::LEFT ? -100.f : 100.f);
     adjust_height(DUCKED_TUX_HEIGHT);
     slide();
   }

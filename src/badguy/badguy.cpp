@@ -475,7 +475,7 @@ HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& hit)
 {
   if (player.is_invincible() ||
-    (is_snipable() && ((player.is_sliding() && glm::length(player.get_velocity()) > 320.f) || player.is_swimboosting()))) {
+    (is_snipable() && player.is_sliding())) {
     kill_fall();
     return ABORT_MOVE;
   }
