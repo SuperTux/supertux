@@ -24,6 +24,7 @@
 #include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "math/random.hpp"
+#include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -154,6 +155,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_duck(false),
+  m_crawl(false),
   m_dead(false),
   m_dying(false),
   m_winning(false),
@@ -706,6 +708,31 @@ Player::update(float dt_sec)
       m_sliding = false;
       m_slidejumping = false;
     }
+
+    if (m_jumping) {
+      m_sprite->set_angle(m_sprite->get_angle() + (m_dir == Direction::LEFT ? -1.f : 1.f) * dt_sec * (360.0f / 0.5f));
+    }
+    else {
+      m_sprite->set_angle(0.f);
+    }
+
+    if (m_player_status.has_hat_sprite(get_id()) && !m_swimming && !m_water_jump) {
+      m_powersprite->set_angle(m_sprite->get_angle());
+    }
+    if (m_player_status.bonus[get_id()] == EARTH_BONUS) {
+      m_lightsprite->set_angle(m_sprite->get_angle());
+    }
+
+    Rectf brickbox = get_bbox().grown(-1.f);
+    brickbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -12.f : 1.f));
+    brickbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 12.f : -1.f));
+
+    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+      if (brickbox.contains(brick.get_bbox()) && brick.get_class_name() != "heavy-brick" &&
+        std::abs(m_physic.get_velocity_x()) >= 150.f) {
+        brick.try_break(this, is_big());
+      }
+    }
   }
 
   //launch from slopes
@@ -754,13 +781,6 @@ Player::slide()
     }
     else
     {
-      //sideways_push(m_dir == Direction::LEFT ? -100.f : 100.f);
-      if (on_ground())
-      {
-        m_sprite->set_angle(0.0f);
-        m_powersprite->set_angle(0.0f);
-        m_lightsprite->set_angle(0.0f);
-      }
       //handle adding acceleration from falling down
       if (m_sliding && !on_ground() && m_floor_normal.x*m_physic.get_velocity_x() <= 0.f && m_physic.get_velocity_y() > 0.f)
       {
@@ -1004,6 +1024,23 @@ Player::handle_horizontal_input()
     }
   }
 
+  if (m_crawl)
+  {
+    if (m_controller->hold(Control::LEFT) && !m_controller->hold(Control::RIGHT))
+    {
+      vx = -WALK_SPEED;
+      m_dir = Direction::LEFT;
+    }
+    else if (m_controller->hold(Control::RIGHT) && !m_controller->hold(Control::LEFT))
+    {
+      vx = WALK_SPEED;
+      m_dir = Direction::RIGHT;
+    }
+    else {
+      vx = 0.f;
+    }
+  }
+
   // do not run if we're holding something which slows us down
   if ( m_grabbed_object && m_grabbed_object->is_hampering() ) {
     ax = dirsign * WALK_ACCELERATION_X;
@@ -1120,10 +1157,14 @@ Player::do_standup(bool force_standup) {
   new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
   new_bbox.set_height(new_height);
   if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
+  {
+    m_crawl = true;
     return;
+  }
 
   if (m_swimming ? adjust_height(TUX_WIDTH) : adjust_height(BIG_TUX_HEIGHT)) {
     m_duck = false;
+    m_crawl = false;
     m_unduck_hurt_timer.stop();
   } else if (force_standup) {
     // if timer is not already running, start it.
@@ -1140,6 +1181,8 @@ Player::do_standup(bool force_standup) {
 void
 Player::do_backflip() {
   if (!m_duck)
+    return;
+  if (m_crawl)
     return;
   if (!on_ground())
     return;
@@ -1882,18 +1925,29 @@ Player::draw(DrawingContext& context)
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
       m_sprite->stop_animation();
   }
-  else if (m_backflipping) {
+  else if (m_backflipping || (m_sliding && m_jumping)) {
     m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
   }
   else if (m_sliding) {
     //note: this is a placeholder action. Replace with a proper slide action when available!
     m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
   }
-  else if (m_duck && is_big() && !m_swimming) {
+  else if (m_duck && is_big() && !m_swimming && !m_crawl) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
   }
   else if (m_skidding_timer.started() && !m_skidding_timer.check() && !m_swimming) {
     m_sprite->set_action(sa_prefix+"-skid"+sa_postfix);
+  }
+  else if (m_crawl)
+  {
+    if (m_physic.get_velocity_x() != 0.f) {
+      //placeholder action
+      m_sprite->set_action(sa_prefix + "-swimming" + sa_postfix);
+    }
+    else {
+      //placeholder action
+      m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+    }
   }
   else if (m_kick_timer.started() && !m_kick_timer.check() && !m_swimming && !m_water_jump) {
     m_sprite->set_action(sa_prefix+"-kick"+sa_postfix);

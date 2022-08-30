@@ -277,6 +277,7 @@ private:
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
   bool m_duck;
+  bool m_crawl;
   bool m_dead;
   bool m_dying;
   bool m_winning;
