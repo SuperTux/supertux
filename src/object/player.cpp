@@ -1150,7 +1150,10 @@ Player::do_duck() {
 void
 Player::do_standup(bool force_standup) {
   if (!m_duck || !is_big() || m_backflipping || m_stone)
+  {
+    m_crawl = false;
     return;
+  }
 
   Rectf new_bbox = m_col.m_bbox;
   float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
