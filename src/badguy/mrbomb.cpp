@@ -71,10 +71,6 @@ MrBomb::collision_squished(GameObject& object)
     return WalkingBadguy::collision_squished(object);
 
   auto player = dynamic_cast<Player*>(&object);
-  if (player && !player->m_does_buttjump && m_frozen)
-  {
-    return false;
-  }
   if (player && player->is_invincible()) {
     player->bounce(*this);
     kill_fall();

@@ -139,7 +139,7 @@ void RainParticleSystem::set_amount(float amount)
 
 void RainParticleSystem::set_angle(float angle)
 {
-  for (auto& particle : particles)
+  for (const auto& particle : particles)
     particle->angle = angle;
 }
 

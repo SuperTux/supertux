@@ -887,8 +887,7 @@ BadGuy::freeze()
   float freezesize_x =
     get_overlay_size() == "3x3" ? 96.f :
     get_overlay_size() == "2x2" ? 64.f :
-    get_overlay_size() == "2x1" ? 64.f :
-    get_overlay_size() == "1x2" ? 45.f : 45.f;
+    get_overlay_size() == "2x1" ? 64.f : 45.f;
 
   float freezesize_y =
     get_overlay_size() == "3x3" ? 94.f :

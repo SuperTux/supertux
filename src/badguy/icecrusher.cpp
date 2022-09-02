@@ -551,7 +551,7 @@ IceCrusher::eye_position(bool right) const
     }
     break;
   case CRUSHING:
-    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+    if (Sector::get().get_nearest_player(m_col.m_bbox))
     {
       const float displacement_x = m_side_dir == Direction::LEFT ? -1.f : 1.f;
       int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
