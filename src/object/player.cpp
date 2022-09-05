@@ -709,7 +709,7 @@ Player::update(float dt_sec)
       m_slidejumping = false;
     }
 
-    if (m_jumping) {
+    if (m_jumping && !m_dying) {
       m_sprite->set_angle(m_sprite->get_angle() + (m_dir == Direction::LEFT ? -1.f : 1.f) * dt_sec * (360.0f / 0.5f));
     }
     else {
