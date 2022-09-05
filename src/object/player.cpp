@@ -693,6 +693,12 @@ Player::update(float dt_sec)
     }
   }
 
+  if (m_floor_normal.y != 0.f && m_crawl)
+  {
+    m_crawl = false;
+    m_sliding = true;
+  }
+
   //sliding
 
   if (m_sliding)
@@ -1024,7 +1030,11 @@ Player::handle_horizontal_input()
     }
   }
 
-  if (m_crawl)
+  if (m_duck && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT))) {
+    m_crawl = true;
+  }
+
+  if (m_crawl && on_ground() && std::abs(m_physic.get_velocity_x()) < WALK_SPEED)
   {
     if (m_controller->hold(Control::LEFT) && !m_controller->hold(Control::RIGHT))
     {
