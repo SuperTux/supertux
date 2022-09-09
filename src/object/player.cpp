@@ -708,7 +708,11 @@ Player::update(float dt_sec)
     if (!m_controller->hold(Control::DOWN) ||
       (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f))
     {
-      if (!adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT)) {
+      if (is_big())
+      {
+        if (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) {
+          m_crawl = true;
+        }
         m_duck = true;
       }
       m_sliding = false;
@@ -1953,13 +1957,19 @@ Player::draw(DrawingContext& context)
   }
   else if (m_crawl)
   {
-    if (m_physic.get_velocity_x() != 0.f) {
-      //placeholder action
-      m_sprite->set_action(sa_prefix + "-swimming" + sa_postfix);
+    if (on_ground())
+    {
+      if (m_physic.get_velocity_x() != 0.f) {
+        //placeholder action
+        m_sprite->set_action(sa_prefix + "-swimming" + sa_postfix);
+      }
+      else {
+        //placeholder action
+        m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+      }
     }
     else {
-      //placeholder action
-      m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+      m_sprite->set_action(sa_prefix + "-duck" + sa_postfix);
     }
   }
   else if (m_kick_timer.started() && !m_kick_timer.check() && !m_swimming && !m_water_jump) {
