@@ -69,7 +69,6 @@ private:
     int m_length;
     float m_speed;
 
-    std::vector<MovingObject*> m_entities_to_move;
     float m_frame;
     int m_frame_index;
 
