@@ -212,7 +212,6 @@ private:
   {
     return static_cast<Transfer*>(userdata)->on_data(ptr, size, nmemb);
   }
-#endif
 
   static int on_progress_wrap(void* userdata,
                               double dltotal, double dlnow,
@@ -220,6 +219,7 @@ private:
   {
     return static_cast<Transfer*>(userdata)->on_progress(dltotal, dlnow, ultotal, ulnow);
   }
+#endif
 
 private:
   Transfer(const Transfer&) = delete;

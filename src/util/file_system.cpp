@@ -159,7 +159,6 @@ std::string normalize(const std::string& filename)
   while (true) {
     while (*p == '/' || *p == '\\') {
       p++;
-      continue;
     }
 
     const char* pstart = p;

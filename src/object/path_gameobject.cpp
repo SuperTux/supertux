@@ -116,10 +116,6 @@ PathGameObject::draw(DrawingContext& context)
   {
     boost::optional<Vector> previous_node;
 
-    // FIXME: temporary workaround for compiler warning
-    previous_node = Vector();
-    previous_node = boost::none;
-
     for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)
@@ -222,7 +218,7 @@ PathGameObject::remove_me()
   GameObject::remove_me();
 }
 
-void 
+void
 PathGameObject::copy_into(PathGameObject& other)
 {
   other.get_path().m_nodes = get_path().m_nodes;

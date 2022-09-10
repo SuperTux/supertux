@@ -37,7 +37,7 @@ private:
   static Level* s_current;
 
 public:
-  Level(bool m_is_worldmap);
+  explicit Level(bool m_is_worldmap);
   ~Level();
 
   // saves to a levelfile
