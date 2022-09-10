@@ -26,12 +26,14 @@
 ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
     MovingObject(reader), // TODO: sprite
     ExposedObject<ConveyorBelt, scripting::ConveyorBelt>(this),
-    m_direction(Direction::LEFT),
     m_running(true),
-    m_sprite(SpriteManager::current()->create("images/objects/conveyor_belt/conveyor.sprite")),
+    m_direction(Direction::LEFT),
     m_length(1),
     m_speed(1.0f),
-    m_entities_to_move()
+    m_entities_to_move(),
+    m_frame(0.0f),
+    m_frame_index(0),
+    m_sprite(SpriteManager::current()->create("images/objects/conveyor_belt/conveyor.sprite"))
 {
     set_group(COLGROUP_STATIC);
     reader.get("running", m_running);
@@ -46,7 +48,7 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
     if (m_length <= 0)
         m_length = 1;
 
-    m_col.m_bbox.set_size(32.0f * m_length, 32.0f);
+    m_col.m_bbox.set_size(32.0f * static_cast<float>(m_length), 32.0f);
 
     if (!m_running)
         m_sprite->set_action("stopped");
@@ -92,7 +94,7 @@ ConveyorBelt::update(float dt_sec)
 
     if (m_running)
     {
-        m_frame += (m_speed * m_sprite->get_frames()) * dt_sec;
+        m_frame += (m_speed * static_cast<float>(m_sprite->get_frames())) * dt_sec;
 
         while (m_frame >= 1.0f)
         {
@@ -115,7 +117,7 @@ ConveyorBelt::draw(DrawingContext &context)
     {
         m_sprite->set_frame(frame_index);
         Vector pos = get_pos();
-        pos.x += i * 32.0f;
+        pos.x += static_cast<float>(i) * 32.0f;
         m_sprite->draw(context.color(), pos, get_layer());
     }
 }
