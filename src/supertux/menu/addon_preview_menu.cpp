@@ -106,7 +106,7 @@ AddonPreviewMenu::rebuild_menu()
     std::string desc_curr_line = "";
     for (std::size_t i = 0; i <= desc.size(); i++)
     {
-      if (desc[i] != '\n' && i != desc.size())
+      if (i != desc.size() && desc[i] != '\n')
       {
         desc_curr_line += desc[i];
       }
