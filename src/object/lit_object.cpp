@@ -47,12 +47,6 @@ LitObject::LitObject(const ReaderMapping& reader) :
   reader.get("action", m_sprite_action);
   reader.get("light-action", m_light_sprite_action);
 
-  std::vector<float> vColor;
-  if (!reader.get("color", vColor)) vColor = { 1.f, 1.f, 1.f };
-
-  std::vector<float> vColorLight;
-  if (!reader.get("light-color", vColorLight)) vColorLight = { 1.f, 1.f, 1.f };
-
   m_sprite = SpriteManager::current()->create(m_sprite_name);
   m_light_sprite = SpriteManager::current()->create(m_light_sprite_name);
   m_light_sprite->set_blend(Blend::ADD);
