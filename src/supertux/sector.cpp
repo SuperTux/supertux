@@ -223,7 +223,7 @@ Sector::activate(const Vector& player_pos)
 
     m_squirrel_environment->expose_self();
 
-    for (auto& object : get_objects()) {
+    for (const auto& object : get_objects()) {
       m_squirrel_environment->try_expose(*object);
     }
   }
@@ -372,7 +372,7 @@ Sector::before_object_add(GameObject& object)
       return false;
     }
   }
-  
+
   if (auto* movingobject = dynamic_cast<MovingObject*>(&object))
   {
     m_collision_system->add(movingobject->get_collision_object());

@@ -151,7 +151,7 @@ Climbable::event(Player& player, EventType type)
   if (type == EVENT_ACTIVATE) {
     if (player.get_grabbed_object() == nullptr){
       auto it = std::find_if(trying_to_climb.begin(), trying_to_climb.end(),
-        [&player](ClimbPlayer& element)
+        [&player](const ClimbPlayer& element)
         {
           return element.m_player == &player;
         });

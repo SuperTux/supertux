@@ -24,7 +24,7 @@
 class GLRenderer : public Renderer
 {
 public:
-  GLRenderer(GLVideoSystem& video_system);
+  explicit GLRenderer(GLVideoSystem& video_system);
 
   virtual GLPainter& get_painter() override { return m_painter; }
 

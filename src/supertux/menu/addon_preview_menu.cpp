@@ -195,7 +195,7 @@ AddonPreviewMenu::menu_action(MenuItem& item)
     auto dialog = std::make_unique<ScreenshotDownloadDialog>(m_screenshot_manager, true);
     dialog->set_text(_("Fetching screenshot previews..."));
     MenuManager::instance().set_dialog(std::move(dialog));
-    m_screenshot_manager.request_download_all([this](std::vector<std::string> local_screenshot_urls)
+    m_screenshot_manager.request_download_all([this](const std::vector<std::string>& local_screenshot_urls)
     {
       log_info << "Fetching screenshots for add-on \"" << m_addon.get_id() << "\" finished." << std::endl;
       m_screenshots = local_screenshot_urls;

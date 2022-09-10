@@ -190,7 +190,7 @@ TextScroller::parse_content(const ReaderCollection& collection)
           m_lines.emplace_back(new InfoBoxLine('\t', name));
         }
 
-        if (item.get_mapping().get("image", image_file) && !simple) {
+        if (item.get_mapping().get("image", image_file)) {
           m_lines.emplace_back(new InfoBoxLine('!', image_file));
         }
 

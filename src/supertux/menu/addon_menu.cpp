@@ -133,13 +133,13 @@ AddonMenu::rebuild_menu()
 
   if ((m_langpacks_only && langpacks_installed) || (!m_langpacks_only && m_installed_addons.size() > 0))
   {
-    const auto& addon_updates_count = addon_updates_to_list.size();
-    if (addon_updates_count <= 0)
+    const auto addon_updates_count = addon_updates_to_list.size();
+    if (addon_updates_count == 0)
     {
       add_inactive(_("No updates available."));
     }
     else
-    { 
+    {
       add_inactive(fmt::format(fmt::runtime(_("{} {} available")), addon_updates_count, addon_updates_count == 1 ? _("update") : _("updates")));
     }
     add_entry(MNID_CHECK_ONLINE, _("Check for updates"));
