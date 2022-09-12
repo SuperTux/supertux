@@ -118,8 +118,17 @@
     (class "mole")
     (icon "images/creatures/mole/m5.png"))
   (object
-    (class "fish")
-    (icon "images/creatures/fish/f8.png"))
+    (class "fish-jumping")
+    (icon "images/creatures/fish/forest/jump-1.png"))
+  (object
+    (class "fish-chasing")
+    (icon "images/creatures/fish/ice/swim_green-0.png"))
+  (object
+    (class "fish-swimming")
+    (icon "images/creatures/fish/ice/swim_blue-0.png"))
+  (object
+    (class "fish-harmless")
+    (icon "images/creatures/fish/ice/swim_orange-0.png"))
   (object
     (class "skullyhop")
     (icon "images/creatures/skullyhop/s-jump.png"))

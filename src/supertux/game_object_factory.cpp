@@ -24,7 +24,10 @@
 #include "badguy/dart.hpp"
 #include "badguy/darttrap.hpp"
 #include "badguy/dispenser.hpp"
-#include "badguy/fish.hpp"
+#include "badguy/fish_chasing.hpp"
+#include "badguy/fish_harmless.hpp"
+#include "badguy/fish_jumping.hpp"
+#include "badguy/fish_swimming.hpp"
 #include "badguy/flame.hpp"
 #include "badguy/flyingsnowball.hpp"
 #include "badguy/ghostflame.hpp"
@@ -136,6 +139,7 @@
 #include "trigger/text_area.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/gettext.hpp"
 
 GameObjectFactory&
 GameObjectFactory::instance()
@@ -160,7 +164,10 @@ GameObjectFactory::init_factories()
   add_factory<Dart>("dart");
   add_factory<DartTrap>("darttrap");
   add_factory<Dispenser>("dispenser");
-  add_factory<Fish>("fish");
+  add_factory<FishChasing>("fish-chasing");
+  add_factory<FishHarmless>("fish-harmless");
+  add_factory<FishJumping>("fish-jumping");
+  add_factory<FishSwimming>("fish-swimming");
   add_factory<Flame>("flame");
   add_factory<FlyingSnowBall>("flyingsnowball");
   add_factory<Ghostflame>("ghostflame");
@@ -244,6 +251,7 @@ GameObjectFactory::init_factories()
   add_factory<LevelTime>("leveltime");
   add_factory<LitObject>("lit-object");
   add_factory<MagicBlock>("magicblock");
+  add_custom_name_factory("#node", _("Path Node"));
   add_factory<ParticleZone>("particle-zone");
   add_factory<Platform>("platform");
   add_factory<PneumaticPlatform>("pneumatic-platform");
@@ -290,6 +298,7 @@ GameObjectFactory::init_factories()
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
       return std::make_unique<TileMap>(tileset, reader);
     });
+  add_custom_name_factory("tilemap", TileMap::display_name());
 }
 
 std::unique_ptr<GameObject>
@@ -307,6 +316,12 @@ GameObjectFactory::create(const std::string& name, const Vector& pos, const Dire
 
   auto doc = ReaderDocument::from_stream(lisptext);
   return create(name, doc.get_root().get_mapping());
+}
+
+std::string
+GameObjectFactory::get_display_name(const std::string& name) const
+{
+  return get_factory_display_name(name);
 }
 
 /* EOF */

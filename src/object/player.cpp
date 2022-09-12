@@ -529,6 +529,7 @@ Player::update(float dt_sec)
     {
       adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
       m_water_jump = false;
+      m_swimboosting = false;
     }
     m_powersprite->set_angle(0.f);
     m_lightsprite->set_angle(0.f);
@@ -992,13 +993,14 @@ Player::do_duck() {
 
 void
 Player::do_standup(bool force_standup) {
-  if (!m_duck)
+  if (!m_duck || !is_big() || m_backflipping || m_stone)
     return;
-  if (!is_big())
-    return;
-  if (m_backflipping)
-    return;
-  if (m_stone)
+
+  Rectf new_bbox = m_col.m_bbox;
+  float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
+  new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
+  new_bbox.set_height(new_height);
+  if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
     return;
 
   if (m_swimming ? adjust_height(TUX_WIDTH) : adjust_height(BIG_TUX_HEIGHT)) {
@@ -1204,9 +1206,9 @@ Player::handle_input()
   }
 
   /* Peeking */
-  if (m_controller->released( Control::PEEK_LEFT ) || m_controller->released( Control::PEEK_RIGHT))
+  if (!m_controller->hold( Control::PEEK_LEFT ) && !m_controller->hold( Control::PEEK_RIGHT))
     m_peekingX = Direction::AUTO;
-  else if (m_controller->released( Control::PEEK_UP ) || m_controller->released( Control::PEEK_DOWN))
+  if (!m_controller->hold( Control::PEEK_UP ) && !m_controller->hold( Control::PEEK_DOWN))
     m_peekingY = Direction::AUTO;
 
   if (m_controller->pressed(Control::PEEK_LEFT))
@@ -1600,7 +1602,7 @@ Player::set_bonus(BonusType type, bool animate)
     }
     if (!particle_name.empty() && animate) {
       Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite",
-                                             action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
+                                             action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1, true);
     }
 
     m_player_status.max_fire_bullets[get_id()] = 0;

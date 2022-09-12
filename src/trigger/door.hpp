@@ -31,8 +31,10 @@ public:
   Door(int x, int y, const std::string& sector, const std::string& spawnpoint);
   ~Door() override;
 
-  virtual std::string get_class() const override { return "door"; }
-  virtual std::string get_display_name() const override { return _("Door"); }
+  static std::string class_name() { return "door"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Door"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

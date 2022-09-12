@@ -18,12 +18,10 @@
 #define HEADER_SUPERTUX_BADGUY_BOMB_HPP
 
 #include "badguy/badguy.hpp"
-#include "object/portable.hpp"
 
 class SoundSource;
 
-class Bomb final : public BadGuy,
-                   public Portable
+class Bomb final : public BadGuy
 {
 public:
   Bomb(const Vector& pos, Direction dir, const std::string& custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
@@ -40,6 +38,7 @@ public:
   virtual void ignite() override;
   void explode();
 
+  virtual bool is_portable() const override;
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
 

@@ -178,6 +178,25 @@ ObjectSettings::add_translatable_text(const std::string& text, std::string* valu
 }
 
 void
+ObjectSettings::add_multiline_text(const std::string& text, std::string* value_ptr,
+                         const std::string& key,
+                         const boost::optional<std::string>& default_value,
+                         unsigned int flags)
+{
+  add_option(std::make_unique<StringMultilineObjectOption>(text, value_ptr, key, default_value, flags));
+}
+
+void
+ObjectSettings::add_multiline_translatable_text(const std::string& text, std::string* value_ptr,
+                                      const std::string& key,
+                                      const boost::optional<std::string>& default_value,
+                                      unsigned int flags)
+{
+  add_option(std::make_unique<StringMultilineObjectOption>(text, value_ptr, key, default_value,
+                                                  flags | OPTION_TRANSLATABLE));
+}
+
+void
 ObjectSettings::add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
                                   const boost::optional<int>& default_value,
                                   const std::string& key, unsigned int flags)
@@ -241,7 +260,7 @@ ObjectSettings::add_level(const std::string& text, std::string* value_ptr, const
                           const std::string& basedir,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, {}, {".stl"}, basedir, flags);
+  add_file(text, value_ptr, key, {}, {".stl"}, basedir, true, flags);
 }
 
 void
@@ -250,7 +269,7 @@ ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr,
                            boost::optional<std::string> default_value,
                            unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".jpg", ".png", ".sprite"}, {}, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".jpg", ".png", ".sprite"}, {}, true, flags);
 }
 
 void
@@ -259,7 +278,7 @@ ObjectSettings::add_surface(const std::string& text, std::string* value_ptr,
                             boost::optional<std::string> default_value,
                             unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".jpg", ".png", ".surface"}, {}, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".jpg", ".png", ".surface"}, {}, true, flags);
 }
 
 void
@@ -268,7 +287,7 @@ ObjectSettings::add_sound(const std::string& text, std::string* value_ptr,
                           boost::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".wav", ".ogg"}, {}, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".wav", ".ogg"}, {}, true, flags);
 }
 
 void
@@ -284,7 +303,7 @@ void
 ObjectSettings::add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key,
                              unsigned int flags)
 {
-  add_file(text, value_ptr, key, {}, {".stwm"}, {}, flags);
+  add_file(text, value_ptr, key, {}, {".stwm"}, {}, true, flags);
 }
 
 void

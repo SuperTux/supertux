@@ -87,7 +87,7 @@ SpriteChange::clear_stay_action(bool propagate)
 
   // if we are in a stay_group, also clear all stay actions in this group
   if (!m_stay_group.empty() && propagate) {
-    for (auto& sc : s_all_sprite_changes) {
+    for (const auto& sc : s_all_sprite_changes) {
       if (sc->m_stay_group != m_stay_group) continue;
       sc->m_in_stay_action = false;
     }

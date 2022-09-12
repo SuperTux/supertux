@@ -23,7 +23,6 @@
 #include "badguy/badguy.hpp"
 #include "math/random.hpp"
 #include "object/bullet.hpp"
-#include "object/explosion.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
@@ -95,10 +94,6 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
       case STATE_NORMAL:
         if (auto bullet = dynamic_cast<Bullet*> (&other)) {
           return collision_bullet(*bullet, hit);
-        }
-        //Explosions destroy weakblocks as well
-        if (dynamic_cast<Explosion*> (&other)) {
-          startBurning();
         }
         break;
 

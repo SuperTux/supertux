@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,93 +17,90 @@
 
 #include "gui/item_intfield.hpp"
 
-#include "supertux/colorscheme.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
-#include "video/drawing_context.hpp"
-
-ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_) :
-  MenuItem(text_, id_),
+ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_, bool positive) :
+  ItemTextField(text_, new std::string, id_),
   number(input_),
-  input(std::to_string(*input_)),
-  flickw(static_cast<int>(Resources::normal_font->get_text_width("_")))
+  m_input(std::to_string(*input_)),
+  m_positive(positive)
 {
-}
+  change_input(m_input);
 
-void
-ItemIntField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  std::string r_input = input;
-  bool fl = active && (int(g_real_time*2)%2);
-  if ( fl ) {
-    r_input += "_";
-  }
-  context.color().draw_text(Resources::normal_font, r_input,
-                            Vector(pos.x + static_cast<float>(menu_width) - 16 - static_cast<float>(fl ? 0 : flickw),
-                                   pos.y - Resources::normal_font->get_height() / 2.0f),
-                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-  context.color().draw_text(Resources::normal_font, get_text(),
-                            Vector(pos.x + 16.0f,
-                                   pos.y - Resources::normal_font->get_height() / 2.0f),
-                            ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
-}
-
-int
-ItemIntField::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(input)) + 16 + flickw;
-}
-
-void
-ItemIntField::event(const SDL_Event& ev) {
-  if (ev.type == SDL_TEXTINPUT) {
-    std::string txt = ev.text.text;
-    for (auto& c : txt) {
-      add_char(c);
-    }
+  // Remove minus, if the number has one, but it's only allowed to be positive.
+  if (*input->begin() == '-' && m_positive)
+  {
+    if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
+    input->erase(input->begin());
+    *number *= -1;
   }
 }
 
+ItemIntField::~ItemIntField()
+{
+  delete input;
+}
+
 void
-ItemIntField::add_char(char c) {
-  if (c == '-') {
-    if (input.length() && input != "0") {
+ItemIntField::add_char(char c, const int left_offset_pos)
+{
+  if (c == '-' && !m_positive)
+  {
+    if (!input->empty() && *input != "0")
+    {
       *number *= -1;
-      input = std::to_string(*number);
-    } else {
-      input = "-";
+      if (*input->begin() == '-')
+      {
+        if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
+        input->erase(input->begin());
+      }
+      else
+      {
+        input->insert(input->begin(), '-');
+      }
+    }
+    else
+    {
+      *input = "-";
     }
   }
 
-  if (c < '0' || c > '9') {
+  if (c < '0' || c > '9')
+    return;
+
+  *input = input->substr(0, input->size() - left_offset_pos) + c +
+    input->substr(input->size() - left_offset_pos);
+}
+
+void
+ItemIntField::on_input_update()
+{
+  if (input->empty())
+  {
+    *number = 0;
     return;
   }
 
-  input.push_back(c);
-  try {
-    int new_number = std::stoi(input);
+  try
+  {
+    int new_number = std::stoi(*input);
     *number = new_number;
-  } catch (...) {
-    input = std::to_string(*number);
+  }
+  catch (...)
+  {
+    *input = std::to_string(*number);
   }
 }
 
+// Text manipulation and navigation functions
+
 void
-ItemIntField::process_action(const MenuAction& action) {
-  if (action == MenuAction::REMOVE && input.length()) {
-    unsigned char last_char;
-    do {
-      last_char = *(--input.end());
-      input.resize(input.length() - 1);
-      if (input.length() == 0) {
-        break;
-      }
-    } while ( (last_char & 128) && !(last_char & 64) );
-    if (input.length() && input != "-") {
-      *number = std::stoi(input);
-    } else {
-      *number = 0;
-    }
+ItemIntField::insert_text(const std::string& text, const int left_offset_pos)
+{
+  update_undo();
+  for (auto& c : text)
+  {
+    add_char(c, left_offset_pos);
   }
+  on_input_update();
 }
 
 /* EOF */

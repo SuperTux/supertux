@@ -46,6 +46,9 @@ public:
   /** Returns the minimum width of the menu item. */
   virtual int get_width() const;
 
+  /** Returns height of menu item. */
+  virtual int get_height() const { return 24; }
+
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) { }
 

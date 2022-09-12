@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -99,7 +100,7 @@ Snail::can_break() const {
 void
 Snail::active_update(float dt_sec)
 {
-  if (state == STATE_GRABBED)
+  if (state == STATE_GRABBED || is_grabbed())
     return;
   
   if (m_frozen)
@@ -216,7 +217,7 @@ HitResponse
 Snail::collision_player(Player& player, const CollisionHit& hit)
 {
   if (m_frozen)
-    return WalkingBadguy::collision_player(player, hit);
+    return BadGuy::collision_player(player, hit);
 
   // handle kicks from left or right side
   if (state == STATE_FLAT && (hit.left || hit.right)) {
@@ -285,30 +286,41 @@ void
 Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
+  if (m_frozen)
+    BadGuy::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;
-  set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
-  be_grabbed();
+  if (!m_frozen)
+  {
+    set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+    be_grabbed();
+  }
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
 void
 Snail::ungrab(MovingObject& object, Direction dir_)
 {
-  if (dir_ == Direction::UP) {
-    be_flat();
-  } else {
-    m_dir = dir_;
-    be_kicked(true);
+  if (!m_frozen)
+  {
+    if (dir_ == Direction::UP) {
+      be_flat();
+    }
+    else {
+      m_dir = dir_;
+      be_kicked(true);
+    }
   }
-  set_colgroup_active(COLGROUP_MOVING);
+  else
+    BadGuy::ungrab(object, dir_);
+  set_colgroup_active(m_frozen ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
   Portable::ungrab(object, dir_);
 }
 
 bool
 Snail::is_portable() const
 {
-  return state == STATE_FLAT && !m_ignited;
+  return (state == STATE_FLAT || m_frozen) && !m_ignited;
 }
 
 /* EOF */

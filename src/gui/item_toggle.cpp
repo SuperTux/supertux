@@ -23,8 +23,9 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-ItemToggle::ItemToggle(const std::string& text_, bool* toggled, int id_) :
+ItemToggle::ItemToggle(const std::string& text_, bool* toggled, int id_, bool center_text) :
   MenuItem(text_, id_),
+  m_center_text(center_text),
   m_get_func([toggled]{ return *toggled; }),
   m_set_func([toggled](bool value){ *toggled = value; })
 {
@@ -33,8 +34,10 @@ ItemToggle::ItemToggle(const std::string& text_, bool* toggled, int id_) :
 ItemToggle::ItemToggle(const std::string& text_,
                        std::function<bool()> get_func,
                        std::function<void(bool)> set_func,
-                       int id_) :
+                       int id_,
+                       bool center_text) :
   MenuItem(text_, id_),
+  m_center_text(center_text),
   m_get_func(std::move(get_func)),
   m_set_func(std::move(set_func))
 {
@@ -44,8 +47,9 @@ void
 ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
   context.color().draw_text(Resources::normal_font, get_text(),
-                            Vector(pos.x + 16, pos.y - (Resources::normal_font->get_height()/2)),
-                            ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
+                            Vector(pos.x + (m_center_text ? static_cast<float>(menu_width) / 2.0f : 16),
+                            pos.y - (Resources::normal_font->get_height() / 2)),
+                            m_center_text ? ALIGN_CENTER : ALIGN_LEFT, LAYER_GUI, active ? g_config->activetextcolor : get_color());
 
   if (m_get_func()) {
     context.color().draw_surface(Resources::checkbox_checked,

@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2008 Ingo Ruhnke <grumbel@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,12 +22,23 @@
 
 class ProfileMenu final : public Menu
 {
+private:
+  std::vector<int> m_profiles;
+  std::vector<std::string> m_profile_names;
+
 public:
   ProfileMenu();
 
+  void refresh() override;
+  void rebuild_menu();
   void menu_action(MenuItem& item) override;
-  void delete_savegames(int idx) const;
 };
+
+namespace savegames_util
+{
+  std::vector<int> get_savegames();
+  void delete_savegames(int idx, bool reset = false);
+}
 
 #endif
 

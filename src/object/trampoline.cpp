@@ -41,7 +41,7 @@ Trampoline::Trampoline(const ReaderMapping& mapping) :
 
   //Check if this trampoline is not portable
   if (mapping.get("portable", portable)) {
-    if (!portable) {
+    if (!portable && !mapping.get("sprite", m_sprite_name)) {
       //we need another sprite
       m_sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
       m_default_sprite_name = m_sprite_name;

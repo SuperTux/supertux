@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,42 +18,29 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_FLOATFIELD_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_FLOATFIELD_HPP
 
-#include "gui/menu_item.hpp"
+#include "gui/item_textfield.hpp"
 
-class ItemFloatField final : public MenuItem
+class ItemFloatField final : public ItemTextField
 {
 public:
-  ItemFloatField(const std::string& text_, float* input_, int id_ = -1);
-
-  /** Draws the menu item. */
-  virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
-
-  /** Returns the minimum width of the menu item. */
-  virtual int get_width() const override;
-
-  /** Processes the menu action. */
-  virtual void process_action(const MenuAction& action) override;
+  ItemFloatField(const std::string& text_, float* input_, int id_ = -1, bool positive = false);
+  ~ItemFloatField() override;
 
   float* number;
 
-  void change_input(const std::string& input_) {
-    input = input_;
-  }
+  /** Calls when the input gets updated. */
+  virtual void on_input_update() override;
 
-  /** Processes the given event. */
-  virtual void event(const SDL_Event& ev) override;
+  // Text manipulation and navigation functions
 
-  virtual bool changes_width() const override {
-    return true;
-  }
+  virtual void insert_text(const std::string& text, const int left_offset_pos) override;
 
 private:
+  std::string m_input;
+  bool m_has_comma;
+  const bool m_positive;
 
-  std::string input;
-  int flickw;
-  bool has_comma;
-
-  void add_char(char c);
+  void add_char(char c, const int left_offset_pos);
 
 private:
   ItemFloatField(const ItemFloatField&) = delete;

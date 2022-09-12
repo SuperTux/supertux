@@ -37,6 +37,7 @@ public:
 
   void on_window_resize() override;
   void menu_action(MenuItem& item) override;
+  bool on_back_action() override { return false; }
 
 private:
   MainMenu(const MainMenu&) = delete;

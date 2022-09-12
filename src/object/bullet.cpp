@@ -43,7 +43,6 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
       break;
 
     case ICE_BONUS:
-      life_count = 10;
       sprite = SpriteManager::current()->create("images/objects/bullets/icebullet.sprite");
       break;
 

@@ -31,6 +31,16 @@
           "burning-8.png"
           "burning-9.png"))
 
+ 	(action
+	  (name "iced-left")
+	  (hitbox 1 0 35 45)
+	  (images "left-0.png"))
+
+	(action
+	  (name "iced-right")
+	  (hitbox -1 0 35 45)
+	  (mirror-action "iced-left"))
+
  (action
   (name "burning-right")
   (fps 15.0)

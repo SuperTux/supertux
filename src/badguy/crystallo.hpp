@@ -26,8 +26,10 @@ public:
   Crystallo(const ReaderMapping& reader);
 
   virtual ObjectSettings get_settings() override;
-  virtual std::string get_class() const override { return "crystallo"; }
-  virtual std::string get_display_name() const override { return _("Crystallo"); }
+  static std::string class_name() { return "crystallo"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Crystallo"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void active_update(float dt_sec) override;
   virtual bool is_flammable() const override;

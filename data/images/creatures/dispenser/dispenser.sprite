@@ -11,12 +11,12 @@
  
  (action
   (name "working")
-  (hitbox 3 5 32 60)
+  (hitbox 3 5 32 58)
   (images "canon.png"))
 
  (action
   (name "iced")
-  (hitbox 3 5 32 60)
+  (hitbox 3 5 32 58)
   (images "canon-frozen.png"))
  
  (action

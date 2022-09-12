@@ -31,8 +31,12 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "stumpy"; }
-  virtual std::string get_display_name() const override { return _("Walking Stump"); }
+
+  virtual std::string get_overlay_size() const override { return "2x2"; }
+  static std::string class_name() { return "stumpy"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Walking Stump"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
   enum MyState {

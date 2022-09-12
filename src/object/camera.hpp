@@ -63,8 +63,10 @@ public:
   virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override;
 
-  virtual std::string get_class() const override { return "camera"; }
-  virtual std::string get_display_name() const override { return _("Camera"); }
+  static std::string class_name() { return "camera"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Camera"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

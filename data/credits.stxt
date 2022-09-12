@@ -56,6 +56,11 @@
     )
     (blank)
     (person
+      (name "mrkubax10")
+      (info (_ "Minor features and programming"))
+    )
+    (blank)
+    (person
       (name "Zwatotem")
       (info (_ "Programming, Level Updates"))
     )
@@ -537,10 +542,6 @@
 	(person
       (name "martinvanzijl")
       (info (_ "Various Contributions"))
-    )
-	(person
-      (name "mrkubax10")
-      (info (_ "Minor features and programming"))
     )
 	(person
       (name "kernigh")

@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "badguy/icecrusher.hpp"
 #include "editor/editor.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"
@@ -248,8 +249,15 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
       try_open(player);
     }
   }
+
+  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
+  if (icecrusher)
+  {
+    try_open(player);
+  }
+
   auto portable = dynamic_cast<Portable*> (&other);
-  if (portable) {
+  if (portable && !badguy) {
     auto moving = dynamic_cast<MovingObject*> (&other);
     if (moving->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA) {
       try_open(player);
@@ -351,14 +359,12 @@ BonusBlock::try_open(Player* player)
     }
     case Content::RAIN:
     {
-      m_hit_counter = 1; // multiple hits of coin rain is not allowed
       Sector::get().add<CoinRain>(get_pos(), true);
       play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
-      m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
       play_upgrade_sound = true;
       break;
@@ -485,7 +491,6 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::EXPLODE:
     {
-      m_hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40));
       play_upgrade_sound = true;
       countdown = true;

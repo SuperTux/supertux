@@ -188,8 +188,7 @@ Dispenser::collision_squished(GameObject& object)
   if (m_broken || m_type != DispenserType::ROCKETLAUNCHER)
     return false;
 
-  if (m_frozen)
-    unfreeze();
+  if (m_frozen) return false;
 
   m_sprite->set_action(m_dir == Direction::LEFT ? "broken-left" : "broken-right");
   m_dispense_timer.start(0);
@@ -214,9 +213,6 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
       collision_squished(*player);
       return FORCE_MOVE;
     }
-    if (m_frozen && m_type != DispenserType::CANNON)
-      unfreeze();
-
     return FORCE_MOVE;
   }
 
@@ -388,7 +384,7 @@ Dispenser::launch_badguy()
 void
 Dispenser::freeze()
 {
-  if (m_broken) {
+  if (m_broken || m_type == DispenserType::POINT) {
     return;
   }
 
@@ -424,14 +420,17 @@ Dispenser::freeze()
 }
 
 void
-Dispenser::unfreeze()
+Dispenser::unfreeze(bool melt)
 {
   /*set_group(colgroup_active);
   frozen = false;
 
   sprite->set_color(Color(1.00, 1.00, 1.00f));*/
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
 
+  set_colgroup_active(m_type == DispenserType::ROCKETLAUNCHER ? COLGROUP_MOVING :
+                      m_type == DispenserType::POINT ? COLGROUP_DISABLED :
+                      COLGROUP_MOVING_STATIC);
   set_correct_action();
   activate();
 }
@@ -444,6 +443,12 @@ Dispenser::is_freezable() const
 
 bool
 Dispenser::is_flammable() const
+{
+  return false;
+}
+
+bool
+Dispenser::is_portable() const
 {
   return false;
 }

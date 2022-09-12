@@ -38,8 +38,10 @@ public:
 
   virtual bool is_saveable() const override;
 
-  virtual std::string get_class() const override { return "gradient"; }
-  virtual std::string get_display_name() const override { return _("Gradient"); }
+  static std::string class_name() { return "gradient"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Gradient"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/gradient.png";

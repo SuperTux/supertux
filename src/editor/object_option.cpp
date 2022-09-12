@@ -240,6 +240,42 @@ StringObjectOption::add_to_menu(Menu& menu) const
   menu.add_textfield(get_text(), m_pointer);
 }
 
+StringMultilineObjectOption::StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                                       boost::optional<std::string> default_value,
+                                       unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_pointer(pointer),
+  m_default_value(std::move(default_value))
+{
+}
+
+void
+StringMultilineObjectOption::save(Writer& writer) const
+{
+  if (!get_key().empty()) {
+    if ((m_default_value && *m_default_value == *m_pointer) || m_pointer->empty()) {
+      // skip
+    } else {
+      writer.write(get_key(), *m_pointer, (get_flags() & OPTION_TRANSLATABLE));
+    }
+  }
+}
+
+std::string
+StringMultilineObjectOption::to_string() const
+{
+  if (!m_pointer->empty()) {
+    return "...";
+  }
+  return "";
+}
+
+void
+StringMultilineObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_script(get_text(), m_pointer);
+}
+
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
                                                    const std::vector<std::string>& select,
                                                    boost::optional<int> default_value,

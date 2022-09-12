@@ -49,6 +49,7 @@ class ItemStringSelect;
 class ItemTextField;
 class ItemToggle;
 class ItemStringArray;
+class ItemImages;
 class MenuItem;
 class PathObject;
 
@@ -73,11 +74,12 @@ public:
   ItemLabel& add_label(const std::string& text);
   ItemAction& add_entry(int id, const std::string& text);
   ItemAction& add_entry(const std::string& text, const std::function<void()>& callback);
-  ItemToggle& add_toggle(int id, const std::string& text, bool* toggled);
+  ItemToggle& add_toggle(int id, const std::string& text, bool* toggled, bool center_text = false);
   ItemToggle& add_toggle(int id, const std::string& text,
                          const std::function<bool()>& get_func,
-                         const std::function<void(bool)>& set_func);
-  ItemInactive& add_inactive(const std::string& text);
+                         const std::function<void(bool)>& set_func,
+                         bool center_text = false);
+  ItemInactive& add_inactive(const std::string& text, bool default_color = false);
   ItemBack& add_back(const std::string& text, int id = -1);
   ItemGoTo& add_submenu(const std::string& text, int submenu, int id = -1);
   ItemControlField& add_controlfield(int id, const std::string& text, const std::string& mapping = "");
@@ -85,8 +87,8 @@ public:
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
   ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
   ItemScriptLine& add_script_line(std::string* input, int id = -1);
-  ItemIntField& add_intfield(const std::string& text, int* input, int id = -1);
-  ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1);
+  ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
+  ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemBadguySelect& add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
   ItemFile& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                      const std::string& basedir, bool path_relative_to_basedir, int id = -1);
@@ -98,6 +100,8 @@ public:
   ItemColorChannelOKLab& add_color_channel_oklab(Color* color, int channel);
   ItemPaths& add_path_settings(const std::string& text, PathObject& target, const std::string& path_ref);
   ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>& items, int id = -1);
+  ItemImages& add_images(const std::string& image_path, int max_image_width = 0, int max_image_height = 0, int id = -1);
+  ItemImages& add_images(const std::vector<std::string>& image_paths, int max_image_width = 0, int max_image_height = 0, int id = -1);
 
   void process_input(const Controller& controller);
 
@@ -129,12 +133,15 @@ protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
   void delete_item(int pos_);
 
+  /** Recalculates the width for this menu */
+  void calculate_width();
+  /** Recalculates the height for this menu */
+  void calculate_height();
+
 private:
   void process_action(const MenuAction& menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
-  void draw_item(DrawingContext& context, int index);
-  /** Recalculates the width for this menu */
-  void calculate_width();
+  void draw_item(DrawingContext& context, int index, float y_pos);
 
 private:
   /** position of the menu (ie. center of the menu, not top/left) */
@@ -145,6 +152,8 @@ private:
   char m_mn_input_char;
   float m_menu_repeat_time;
   float m_menu_width;
+  float m_menu_height;
+  float m_menu_help_height;
 
 public:
   std::vector<std::unique_ptr<MenuItem> > m_items;

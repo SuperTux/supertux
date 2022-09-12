@@ -91,7 +91,7 @@ void start_cutscene()
 
   if (session->get_current_level().m_is_in_cutscene)
   {
-    log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceeding cutscene (use end_cutscene() in scripts!)" << std::endl;
+    log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceding cutscene (use end_cutscene() in scripts!)" << std::endl;
 
     // Remove all sounds that started playing while skipping
     if (session->get_current_level().m_skip_cutscene)
