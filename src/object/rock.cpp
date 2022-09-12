@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/icecrusher.hpp"
 #include "badguy/badguy.hpp"
-#include "object/explosion.hpp"
 #include "object/coin.hpp"
 #include "object/explosion.hpp"
 #include "object/lit_object.hpp"
