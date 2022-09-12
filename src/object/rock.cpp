@@ -19,8 +19,10 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/icecrusher.hpp"
 #include "badguy/badguy.hpp"
-#include "object/explosion.hpp"
 #include "object/coin.hpp"
+#include "object/explosion.hpp"
+#include "object/lit_object.hpp"
+#include "object/pushbutton.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "object/player.hpp"
@@ -120,6 +122,18 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 
   auto explosion = dynamic_cast<Explosion*> (&other);
   if (explosion) {
+    return ABORT_MOVE;
+  }
+
+  // Why is it necessary to list exceptions here? Why doesn't the rock just not
+  // affect object that have ABORT_MOVE on all collisions?
+  auto litobject = dynamic_cast<LitObject*> (&other);
+  if (litobject) {
+    return ABORT_MOVE;
+  }
+
+  auto pushbutton = dynamic_cast<PushButton*> (&other);
+  if (pushbutton) {
     return ABORT_MOVE;
   }
 
