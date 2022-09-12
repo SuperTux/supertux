@@ -24,6 +24,7 @@
 #include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "math/random.hpp"
+#include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -123,6 +124,11 @@ const float JUMP_EARLY_APEX_FACTOR = 3.0;
 const float JUMP_GRACE_TIME = 0.25f; /**< time before hitting the ground that the jump button may be pressed (and still trigger a jump) */
 const float COYOTE_TIME = 0.1f; /**< time between the moment leaving a platform without jumping and being able to jump anyways despite being in the air */
 
+const float MAX_SLIDE_SPEED = 700.f; /**< Max speed for sliding */
+const float MAX_FALL_SLIDE_SPEED = 475.f; /**< Max slide speed that Tux can get from falling */
+const float DOWN_SLIDE_ACCEL = 1000.f; /** < Acceleration for sliding DOWN slopes */
+const float UP_SLIDE_ACCEL = 1100.f; /**< Acceleration for sliding UP slopes */
+
 /* Tux's collision rectangle */
 const float TUX_WIDTH = 31.8f;
 const float RUNNING_TUX_WIDTH = 34;
@@ -149,6 +155,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_duck(false),
+  m_crawl(false),
   m_dead(false),
   m_dying(false),
   m_winning(false),
@@ -158,6 +165,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_peekingY(Direction::AUTO),
   m_ability_time(),
   m_stone(false),
+  m_sliding(false),
+  m_slidejumping(false),
   m_swimming(false),
   m_swimboosting(false),
   m_no_water(true),
@@ -466,6 +475,8 @@ Player::update(float dt_sec)
     {
       if (can_swim_here && !m_stone && !m_climbing)
       {
+        m_sliding = false;
+        m_slidejumping = false;
         m_no_water = false;
         m_water_jump = false;
         m_swimming = true;
@@ -531,6 +542,12 @@ Player::update(float dt_sec)
       m_water_jump = false;
       m_swimboosting = false;
     }
+    if (m_sliding)
+    {
+      adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
+      m_sliding = false;
+      m_slidejumping = false;
+    }
     m_powersprite->set_angle(0.f);
     m_lightsprite->set_angle(0.f);
   }
@@ -551,7 +568,7 @@ Player::update(float dt_sec)
   if (on_ground() && !m_swimming && !m_dying) {
     if (m_floor_normal.y != 0) {
       if ((m_floor_normal.x * m_physic.get_velocity_x()) >= 0) {
-        m_physic.set_velocity_y(250);
+        m_physic.set_velocity_y((std::abs(m_physic.get_velocity_x())*std::abs(m_floor_normal.x)) + 100.f);
       }
     }
   }
@@ -570,7 +587,7 @@ Player::update(float dt_sec)
   }
 
   if (on_ground()) {
-    m_coyote_timer.start(COYOTE_TIME);
+    m_coyote_timer.start(COYOTE_TIME * (m_sliding ? 2.f : 1.f));
   }
 
   // set fall mode...
@@ -676,6 +693,134 @@ Player::update(float dt_sec)
     }
   }
 
+  if (m_floor_normal.y != 0.f && m_crawl)
+  {
+    m_crawl = false;
+    m_sliding = true;
+  }
+
+  //sliding
+
+  if (m_sliding)
+  {
+    //if you stop holding down when sliding, then it stops.
+    //or, stop sliding if you come to a stop and are not on a slope.
+    if (!m_controller->hold(Control::DOWN) ||
+      (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f))
+    {
+      if (is_big())
+      {
+        if (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) {
+          m_crawl = true;
+        }
+        m_duck = true;
+      }
+      m_sliding = false;
+      m_slidejumping = false;
+    }
+
+    if (m_jumping && !m_dying) {
+      m_sprite->set_angle(m_sprite->get_angle() + (m_dir == Direction::LEFT ? -1.f : 1.f) * dt_sec * (360.0f / 0.5f));
+    }
+    else {
+      m_sprite->set_angle(0.f);
+    }
+
+    if (m_player_status.has_hat_sprite(get_id()) && !m_swimming && !m_water_jump) {
+      m_powersprite->set_angle(m_sprite->get_angle());
+    }
+    if (m_player_status.bonus[get_id()] == EARTH_BONUS) {
+      m_lightsprite->set_angle(m_sprite->get_angle());
+    }
+
+    Rectf brickbox = get_bbox().grown(-1.f);
+    brickbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -12.f : 1.f));
+    brickbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 12.f : -1.f));
+
+    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+      if (brickbox.contains(brick.get_bbox()) && brick.get_class_name() != "heavy-brick" &&
+        std::abs(m_physic.get_velocity_x()) >= 150.f) {
+        brick.try_break(this, is_big());
+      }
+    }
+  }
+
+  //launch from slopes
+
+  Rectf launchbox = get_bbox();
+  launchbox.set_bottom(get_bbox().get_bottom() - 8.f);
+  launchbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -32.f : 33.f));
+  launchbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 32.f : -33.f));
+  if (m_sliding && !on_ground() && m_floor_normal.y != 0 && m_floor_normal.x*m_physic.get_velocity_x() < 0.f &&
+    Sector::get().is_free_of_statics(launchbox) && !m_slidejumping)
+  {
+    m_slidejumping = true;
+    m_physic.set_velocity_y(-glm::length(m_physic.get_velocity())*std::abs(m_floor_normal.x));
+  }
+
+  if (m_sliding && on_ground()) {
+    m_slidejumping = false;
+  }
+}
+
+void
+Player::slide()
+{
+  if (m_swimming || m_water_jump) return;
+  m_sliding = true;
+  if (m_physic.get_velocity_x() > 0.f) {
+    m_dir = Direction::RIGHT;
+  }
+  else if (m_physic.get_velocity_x() < 0.f) {
+    m_dir = Direction::LEFT;
+  }
+
+  //pre_slide helps us detect the ground where Tux is about to slide on because sometimes on_ground() doesn't work or isn't relevant
+  Rectf pre_slide_box = get_bbox();
+  float fast_fall_speed = m_physic.get_velocity_y() <= 400.f ? 0.f : m_physic.get_velocity_y()*0.03f;
+  pre_slide_box.set_bottom(m_col.m_bbox.get_bottom() + fast_fall_speed + 16.f);
+  bool pre_slide = !Sector::get().is_free_of_statics(pre_slide_box);
+
+  if (std::abs(m_physic.get_velocity_x()) > MAX_SLIDE_SPEED) {
+    m_physic.set_acceleration_x(-m_physic.get_velocity_x());
+  }
+  else
+  {
+    if (!pre_slide) {
+      m_physic.set_acceleration_x(0.f);
+    }
+    else
+    {
+      //handle adding acceleration from falling down
+      if (m_sliding && !on_ground() && m_floor_normal.x*m_physic.get_velocity_x() <= 0.f && m_physic.get_velocity_y() > 0.f)
+      {
+        //less max momentum when getting it on flat surfaces
+        if (std::abs(m_physic.get_velocity_x()) + (std::abs(m_physic.get_velocity_y())*0.2f) <= MAX_FALL_SLIDE_SPEED) {
+          m_physic.set_velocity_x(m_physic.get_velocity_x() + (std::abs(m_physic.get_velocity_y())*(m_dir == Direction::LEFT ? -0.125f : 0.125f)));
+        }
+        else {
+          m_physic.set_velocity_x(MAX_FALL_SLIDE_SPEED * (m_dir == Direction::LEFT ? -1.f : 1.f));
+        }
+      }
+
+      //handle adding acceleration from sliding down, removing it from reaching floor or an incline
+      if (m_floor_normal.y == 0.f && m_can_jump)
+      {
+        if (!m_slidejumping && !m_jumping) {
+          apply_friction();
+        }
+      }
+      else
+      {
+        if (m_floor_normal.x > 0.f) {
+          m_physic.set_acceleration_x((m_dir == Direction::LEFT ? UP_SLIDE_ACCEL : DOWN_SLIDE_ACCEL)*std::abs(m_floor_normal.x));
+        }
+        if (m_floor_normal.x < 0.f) {
+          m_physic.set_acceleration_x((m_dir == Direction::RIGHT ? -UP_SLIDE_ACCEL : -DOWN_SLIDE_ACCEL)*std::abs(m_floor_normal.x));
+        }
+      }
+    }
+  }
 }
 
 void
@@ -856,9 +1001,10 @@ Player::apply_friction()
   }
   float friction = WALK_ACCELERATION_X;
   if (m_on_ice && is_on_ground)
-    friction *= ICE_FRICTION_MULTIPLIER;
+    //we need this or else sliding on ice will cause Tux to go on for a very long time
+    friction *= (ICE_FRICTION_MULTIPLIER*(m_sliding ? 4.f : 1.f));
   else
-    friction *= NORMAL_FRICTION_MULTIPLIER;
+    friction *= (NORMAL_FRICTION_MULTIPLIER*(m_sliding ? 0.8f : 1.f));
   if (velx < 0) {
     m_physic.set_acceleration_x(friction);
   } else if (velx > 0) {
@@ -885,6 +1031,27 @@ Player::handle_horizontal_input()
       m_old_dir = m_dir;
       if (!m_water_jump) m_dir = Direction::RIGHT;
       dirsign = 1;
+    }
+  }
+
+  if (m_duck && (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT))) {
+    m_crawl = true;
+  }
+
+  if (m_crawl && on_ground() && std::abs(m_physic.get_velocity_x()) < WALK_SPEED)
+  {
+    if (m_controller->hold(Control::LEFT) && !m_controller->hold(Control::RIGHT))
+    {
+      vx = -WALK_SPEED;
+      m_dir = Direction::LEFT;
+    }
+    else if (m_controller->hold(Control::RIGHT) && !m_controller->hold(Control::LEFT))
+    {
+      vx = WALK_SPEED;
+      m_dir = Direction::RIGHT;
+    }
+    else {
+      vx = 0.f;
     }
   }
 
@@ -974,6 +1141,9 @@ Player::do_duck() {
     return;
   if (!is_big())
     return;
+  if (m_sliding && Sector::get().is_free_of_statics(Rectf(get_bbox().get_left(), get_bbox().get_top() - 32.f,
+    get_bbox().get_right(), get_bbox().get_bottom())))
+    return;
 
   if (!m_swimming && !m_water_jump && m_physic.get_velocity_y() != 0)
     return;
@@ -994,17 +1164,24 @@ Player::do_duck() {
 void
 Player::do_standup(bool force_standup) {
   if (!m_duck || !is_big() || m_backflipping || m_stone)
+  {
+    m_crawl = false;
     return;
+  }
 
   Rectf new_bbox = m_col.m_bbox;
   float new_height = m_swimming ? TUX_WIDTH : BIG_TUX_HEIGHT;
   new_bbox.move(Vector(0, m_col.m_bbox.get_height() - new_height));
   new_bbox.set_height(new_height);
   if (!Sector::get().is_free_of_movingstatics(new_bbox, this) && !force_standup)
+  {
+    m_crawl = true;
     return;
+  }
 
   if (m_swimming ? adjust_height(TUX_WIDTH) : adjust_height(BIG_TUX_HEIGHT)) {
     m_duck = false;
+    m_crawl = false;
     m_unduck_hurt_timer.stop();
   } else if (force_standup) {
     // if timer is not already running, start it.
@@ -1021,6 +1198,8 @@ Player::do_standup(bool force_standup) {
 void
 Player::do_backflip() {
   if (!m_duck)
+    return;
+  if (m_crawl)
     return;
   if (!on_ground())
     return;
@@ -1039,11 +1218,20 @@ Player::do_jump(float yspeed) {
 
   // jump only if it would make Tux go faster upwards
   if (m_physic.get_velocity_y() > yspeed) {
-    m_physic.set_velocity_y(yspeed);
+    m_physic.set_velocity_y(yspeed * (m_sliding ? 0.75f : 1.f));
     //bbox.move(Vector(0, -1));
     m_jumping = true;
     m_on_ground_flag = false;
     m_can_jump = false;
+
+    /*if (m_sliding)
+    {
+      if (!adjust_height(is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT)) {
+        m_duck = true;
+      }
+      m_sliding = false;
+      m_slidejumping = false;
+    }*/
 
     // play sound
     if (is_big()) {
@@ -1138,7 +1326,7 @@ Player::handle_vertical_input()
 
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
-  if (m_controller->hold(Control::DOWN) && !m_duck && is_big() && !on_ground()) {
+  if (m_controller->hold(Control::DOWN) && !m_duck && is_big() && !on_ground() && !m_sliding) {
     m_wants_buttjump = true;
     if (m_physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y) m_does_buttjump = true;
   }
@@ -1196,7 +1384,12 @@ Player::handle_input()
 
   if (!m_swimming)
   {
-    if (!m_water_jump && !m_backflipping) m_sprite->set_angle(0);
+    if (!m_water_jump && !m_backflipping && !m_sliding)
+    {
+      m_sprite->set_angle(0);
+      m_powersprite->set_angle(0);
+      m_lightsprite->set_angle(0);
+    }
     if (!m_jump_early_apex) {
       m_physic.set_gravity_modifier(1.0f);
     }
@@ -1222,7 +1415,7 @@ Player::handle_input()
     m_peekingY = Direction::DOWN;
 
   /* Handle horizontal movement: */
-  if (!m_backflipping && !m_stone && !m_swimming) handle_horizontal_input();
+  if (!m_backflipping && !m_stone && !m_swimming && !m_sliding) handle_horizontal_input();
 
   /* Jump/jumping? */
   if (on_ground())
@@ -1293,7 +1486,8 @@ Player::handle_input()
   }
 
   /* Duck or Standup! */
-  if (m_controller->hold(Control::DOWN) && !m_stone && !m_swimming) {
+  if ((m_controller->pressed(Control::DOWN) || ((m_duck || m_wants_buttjump) && m_controller->hold(Control::DOWN)))
+    && !m_stone && !m_swimming && !m_sliding) {
     do_duck();
   } else {
     do_standup(false);
@@ -1368,6 +1562,20 @@ Player::handle_input()
   /* stop backflipping at will */
   if ( m_backflipping && ( !m_controller->hold(Control::JUMP) && !m_backflip_timer.started()) ){
     stop_backflipping();
+  }
+
+  if (m_sliding)
+  {
+    adjust_height(DUCKED_TUX_HEIGHT);
+    slide();
+  }
+  else if (!m_sliding && (m_coyote_timer.started()) && !m_skidding_timer.started() &&
+    (m_floor_normal.y != 0 || (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)))
+    && m_controller->pressed(Control::DOWN) && std::abs(m_physic.get_velocity_x()) > 1.f)
+  {
+    sideways_push(m_dir == Direction::LEFT ? -100.f : 100.f);
+    adjust_height(DUCKED_TUX_HEIGHT);
+    slide();
   }
 }
 
@@ -1734,14 +1942,35 @@ Player::draw(DrawingContext& context)
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
       m_sprite->stop_animation();
   }
-  else if (m_backflipping) {
+  else if (m_backflipping || (m_sliding && m_jumping)) {
     m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
   }
-  else if (m_duck && is_big() && !m_swimming) {
+  else if (m_sliding) {
+    //note: this is a placeholder action. Replace with a proper slide action when available!
+    m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+  }
+  else if (m_duck && is_big() && !m_swimming && !m_crawl) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
   }
   else if (m_skidding_timer.started() && !m_skidding_timer.check() && !m_swimming) {
     m_sprite->set_action(sa_prefix+"-skid"+sa_postfix);
+  }
+  else if (m_crawl)
+  {
+    if (on_ground())
+    {
+      if (m_physic.get_velocity_x() != 0.f) {
+        //placeholder action
+        m_sprite->set_action(sa_prefix + "-swimming" + sa_postfix);
+      }
+      else {
+        //placeholder action
+        m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+      }
+    }
+    else {
+      m_sprite->set_action(sa_prefix + "-duck" + sa_postfix);
+    }
   }
   else if (m_kick_timer.started() && !m_kick_timer.check() && !m_swimming && !m_water_jump) {
     m_sprite->set_action(sa_prefix+"-kick"+sa_postfix);
@@ -1950,6 +2179,8 @@ Player::collision_solid(const CollisionHit& hit)
 
   if ((hit.left && m_boost < 0.f) || (hit.right && m_boost > 0.f))
     m_boost = 0.f;
+
+  m_slidejumping = false;
 }
 
 HitResponse

@@ -41,6 +41,7 @@ public:
   virtual bool is_portable() const override;
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual bool is_snipable() const override { return true; }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;

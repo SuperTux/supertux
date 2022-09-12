@@ -163,6 +163,7 @@ public:
   bool is_dead() const { return m_dead; }
   bool is_big() const;
   bool is_stone() const { return m_stone; }
+  bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }
   bool is_swimboosting() const { return m_swimboosting; }
   bool is_water_jumping() const { return m_water_jump; }
@@ -246,6 +247,7 @@ private:
   void do_jump_apex();
   void early_jump_apex();
 
+  void slide();
   void swim(float pointx, float pointy, bool boost);
 
   BonusType string_to_bonus(const std::string& bonus) const;
@@ -275,6 +277,7 @@ private:
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
   bool m_duck;
+  bool m_crawl;
   bool m_dead;
   bool m_dying;
   bool m_winning;
@@ -284,6 +287,8 @@ private:
   Direction m_peekingY;
   float m_ability_time;
   bool m_stone;
+  bool m_sliding;
+  bool m_slidejumping;
   bool m_swimming;
   bool m_swimboosting;
   bool m_no_water;

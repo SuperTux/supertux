@@ -395,7 +395,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     /* Badguys don't let badguys squish other badguys. It's bad. */
 #if 0
     // hit from above?
-    if (badguy->get_bbox().get_bottom() < (bbox.get_top() + 16)) {
+    if (badguy->get_bbox().get_bottom() < (bbox.get_top() + (player->is_sliding() ? 8.f : 16.f))) {
       if (collision_squished(*badguy)) {
         return ABORT_MOVE;
       }
@@ -474,7 +474,8 @@ BadGuy::on_flip(float height)
 HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& hit)
 {
-  if (player.is_invincible()) {
+  if (player.is_invincible() ||
+    (is_snipable() && player.is_sliding())) {
     kill_fall();
     return ABORT_MOVE;
   }

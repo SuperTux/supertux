@@ -36,6 +36,7 @@ public:
 
   virtual void active_update(float dt_sec) override;
   virtual bool is_flammable() const override;
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
