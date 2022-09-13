@@ -91,6 +91,7 @@ Sector::Sector(Level& parent) :
   {
     if (!InputManager::current()->has_corresponsing_controller(id)
         && !InputManager::current()->m_uses_keyboard[id]
+        && savegame
         && !savegame->is_title_screen()
         && id != 0)
       continue;
@@ -372,7 +373,7 @@ Sector::before_object_add(GameObject& object)
       return false;
     }
   }
-  
+
   if (auto* movingobject = dynamic_cast<MovingObject*>(&object))
   {
     m_collision_system->add(movingobject->get_collision_object());

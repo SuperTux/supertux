@@ -177,9 +177,8 @@ ProfileMenu::menu_action(MenuItem& item)
   else if (id == -4)
   {
     Dialog::show_confirmation(_("This will reset your game progress on all profiles. Are you sure?"), [this]() {
-      for (std::size_t i = 0; i <= m_profiles.size(); i++)
-      {
-        savegames_util::delete_savegames(m_profiles[i], true);
+      for (const int profile : m_profiles) {
+        savegames_util::delete_savegames(profile, true);
       }
     });
   }
@@ -205,9 +204,8 @@ ProfileMenu::menu_action(MenuItem& item)
   else if (id == -6)
   {
     Dialog::show_confirmation(_("This will delete all profiles, including all game progress on them.\nAre you sure?"), [this]() {
-      for (std::size_t i = 0; i <= m_profiles.size(); i++)
-      {
-        savegames_util::delete_savegames(m_profiles[i]);
+      for (const int profile : m_profiles) {
+        savegames_util::delete_savegames(profile);
       }
       g_config->profiles.clear();
       g_config->profile = 1;
