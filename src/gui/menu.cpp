@@ -360,7 +360,6 @@ Menu::add_string_array(const std::string& text, std::vector<std::string>& items,
   return *item_ptr;
 }
 
-<<<<<<< HEAD
 ItemImages&
 Menu::add_images(const std::string& image_path, int max_image_width, int max_image_height, int id)
 {
