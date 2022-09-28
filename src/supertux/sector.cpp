@@ -91,6 +91,7 @@ Sector::Sector(Level& parent) :
   {
     if (!InputManager::current()->has_corresponsing_controller(id)
         && !InputManager::current()->m_uses_keyboard[id]
+        && savegame
         && !savegame->is_title_screen()
         && id != 0)
       continue;
