@@ -172,7 +172,7 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   if (!PHYSFS_init(argv0))
   {
     std::stringstream msg;
-    msg << "Couldn't initialize physfs: " << PHYSFS_getLastErrorCode();
+    msg << "Couldn't initialize physfs: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
   else
@@ -193,20 +193,20 @@ void PhysfsSubsystem::find_datadir() const
     // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
     if (!PHYSFS_mount(boost::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
     {
-      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       return;
     }
 
     PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
     if (!data)
     {
-      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getLastErrorCode() << std::endl;
+      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       return;
     }
 
     if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
     {
-      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     }
 
     return;
@@ -249,12 +249,12 @@ void PhysfsSubsystem::find_datadir() const
 
   if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
   {
-    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
 #else
   if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
 #endif
 }
@@ -350,7 +350,7 @@ if (FileSystem::is_directory(olduserdir)) {
   {
     std::ostringstream msg;
     msg << "Failed to use userdir directory '"
-        <<  userdir << "': errorcode: " << PHYSFS_getLastErrorCode();
+        <<  userdir << "': errorcode: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
 

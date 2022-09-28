@@ -80,7 +80,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -111,7 +111,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
