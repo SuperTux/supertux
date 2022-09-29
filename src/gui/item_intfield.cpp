@@ -46,7 +46,6 @@ ItemIntField::add_char(char c, const int left_offset_pos)
   {
     if (!input->empty() && *input != "0")
     {
-      *number *= -1;
       if (*input->begin() == '-')
       {
         if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
@@ -73,7 +72,7 @@ ItemIntField::add_char(char c, const int left_offset_pos)
 void
 ItemIntField::on_input_update()
 {
-  if (input->empty())
+  if (input->empty() || *input == "-")
   {
     *number = 0;
     return;

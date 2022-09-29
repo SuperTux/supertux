@@ -59,7 +59,6 @@ ItemFloatField::add_char(char c, const int left_offset_pos)
   {
     if (!input->empty() && *input != "0")
     {
-      *number *= -1;
       if (*input->begin() == '-')
       {
         if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
