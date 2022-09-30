@@ -1,6 +1,7 @@
 (supertux-sprite
     (action
       (name "default")
-      (images "../../tiles/doodads/platter.png")
+	  (hitbox 3 5 55 32)
+      (images "platter.png")
     )
 )

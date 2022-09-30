@@ -1,22 +1,23 @@
 (supertux-sprite
       (action
         (name "normal")
-        (hitbox 16 8 34 41)
+        (hitbox 8 10 34 39)
+		(fps 16)
         (images
-           "lantern-1.png"
            "lantern-2.png"
            "lantern-3.png"
            "lantern-4.png"
+           "lantern-5.png"
         )
       )
       (action
         (name "off")
-        (hitbox 16 8 34 41)
-        (images "lantern-off.png")
+        (hitbox 8 10 34 39)
+        (images "lantern-0.png")
       )
       (action
         (name "off-open")
-        (hitbox 16 8 34 41)
-        (images "lantern-off-open.png")
+        (hitbox 8 28 34 39)
+        (images "lantern-1.png")
       )
 )
