@@ -49,18 +49,11 @@ EditorMenu::EditorMenu()
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to Editor"));
   add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
-  if (!worldmap)
-  {
+  if (!worldmap) {
     add_entry(MNID_SAVEASLEVEL, _("Save Level as"));
     add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
-  }
-
-  if (!worldmap)
-  {
     add_entry(MNID_TESTLEVEL, _("Test Level"));
-  }
-  else
-  {
+  } else {
     add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
   }
 
@@ -71,9 +64,7 @@ EditorMenu::EditorMenu()
   add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
 
   if (is_world)
-  {
     add_entry(MNID_LEVELSEL, _("Edit Another Level"));
-  }
 
   add_entry(MNID_LEVELSETSEL, _("Edit Another World"));
 
@@ -165,21 +156,15 @@ EditorMenu::menu_action(MenuItem& item)
     case MNID_SHARE:
     {
       Dialog::show_confirmation(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open Level directory\" menu item.\nDo you want to go to the forum now?"), [] {
-        #ifdef __EMSCRIPTEN__
-          EM_ASM({
-            window.open("https://forum.freegamedev.net/viewforum.php?f=69");
-          }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
-        #else
-          FileSystem::open_path("https://forum.freegamedev.net/viewforum.php?f=69");
-        #endif
+        FileSystem::open_url("https://forum.freegamedev.net/viewforum.php?f=69");
       });
     }
     break;
-	
+
 	case MNID_HELP:
     {
       auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("Keyboard Shortcuts:\n---------------------\nEsc = Open Menu\nCtrl+S = Save\nCtrl+T = Test\nCtrl+Z = Undo\nCtrl+Y = Redo\nF6 = Render Light\nF7 = Grid Snapping\nF8 = Show Grid"));
+      dialog->set_text(_("Keyboard Shortcuts:\n---------------------\nEsc = Open Menu\nCtrl+S = Save\nCtrl+T = Test\nCtrl+Z = Undo\nCtrl+Y = Redo\nF6 = Render Light\nF7 = Grid Snapping\nF8 = Show Grid\n \nScripting Shortcuts:\n    -------------    \nHome = Go to beginning of line\nEnd = Go to end of line\nLeft arrow = Go back in text\nRight arrow = Go forward in text\nBackspace = Delete in front of text cursor\nDelete = Delete behind text cursor\nCtrl+X = Cut whole line\nCtrl+C = Copy whole line\nCtrl+V = Paste\nCtrl+D = Duplicate line\nCtrl+Z = Undo\nCtrl+Y = Redo"));
       dialog->add_cancel_button(_("Got it!"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }

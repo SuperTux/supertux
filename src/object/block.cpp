@@ -90,7 +90,12 @@ Block::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-    if(player->is_swimboosting())
+    bool in_line_with_player = ((player->get_physic().get_velocity_x() > 0.f &&
+      player->get_bbox().get_right() < get_bbox().get_left()) ||
+      (player->get_physic().get_velocity_x() < 0.f &&
+      player->get_bbox().get_left() > get_bbox().get_right()));
+
+    if(player->is_swimboosting() || (player->is_sliding() && in_line_with_player))
     {
       hit(*player);
     }
@@ -216,7 +221,7 @@ Block::break_me()
     Sector::get().add<SpriteParticle>(m_sprite->clone(), action,
                                 pos, ANCHOR_MIDDLE,
                                 velocity, Vector(0, gravity),
-                                LAYER_OBJECTS + 1);
+                                LAYER_OBJECTS + 3);
   }
 
   remove_me();

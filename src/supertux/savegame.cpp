@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <physfs.h>
 
+#include "control/input_manager.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
@@ -118,7 +119,7 @@ Savegame::from_file(const std::string& filename)
 
 Savegame::Savegame(const std::string& filename) :
   m_filename(filename),
-  m_player_status(new PlayerStatus)
+  m_player_status(new PlayerStatus(InputManager::current()->get_num_users()))
 {
 }
 
@@ -240,7 +241,7 @@ Savegame::save()
       {
         std::ostringstream msg;
         msg << "Couldn't create directory for savegames '"
-            << dirname << "': " <<PHYSFS_getLastErrorCode();
+            << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
         throw std::runtime_error(msg.str());
       }
     }

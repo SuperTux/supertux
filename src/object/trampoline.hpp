@@ -31,8 +31,10 @@ public:
 
   virtual void grab(MovingObject&, const Vector& pos, Direction) override;
   virtual bool is_portable() const override;
-  virtual std::string get_class() const override { return "trampoline"; }
-  virtual std::string get_display_name() const override { return _("Trampoline"); }
+  static std::string class_name() { return "trampoline"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Trampoline"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 

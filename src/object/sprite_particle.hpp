@@ -31,11 +31,11 @@ public:
   SpriteParticle(SpritePtr sprite, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1);
+                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false);
   SpriteParticle(const std::string& sprite_name, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1);
+                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false);
   ~SpriteParticle() override;
 
 protected:
@@ -53,6 +53,7 @@ private:
   int drawing_layer;
   SpritePtr lightsprite;
   bool glow;
+  bool no_time_out;
 
 private:
   SpriteParticle(const SpriteParticle&) = delete;

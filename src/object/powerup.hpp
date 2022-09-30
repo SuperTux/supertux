@@ -32,8 +32,10 @@ public:
   virtual void on_flip(float height) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  virtual std::string get_class() const override { return "powerup"; }
-  virtual std::string get_display_name() const override { return _("Powerup"); }
+  static std::string class_name() { return "powerup"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Powerup"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 

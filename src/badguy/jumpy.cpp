@@ -39,6 +39,8 @@ void
 Jumpy::collision_solid(const CollisionHit& chit)
 {
   hit(chit);
+  if (m_frozen)
+    BadGuy::collision_solid(chit);
 }
 
 HitResponse
@@ -59,7 +61,7 @@ Jumpy::hit(const CollisionHit& chit)
 
     m_physic.set_velocity_y((m_frozen || get_state() != STATE_ACTIVE) ? 0 : JUMPYSPEED);
     // TODO create a nice sound for this...
-    //SoundManager::current()->play("sounds/skid.wav");
+    //SoundManager::current()->play("sounds/skid.wav", get_pos());
     update_on_ground_flag(chit);
   } else if (chit.top) {
     m_physic.set_velocity_y(0);

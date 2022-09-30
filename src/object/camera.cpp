@@ -33,7 +33,20 @@
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
    0 is never get there, 1 is instant */
-static const float PEEK_ARRIVE_RATIO = 0.1f;
+static const float PEEK_ARRIVE_RATIO = 0.03f;
+
+/**
+ * For the multiplayer camera, the camera will ensure all players are visible.
+ * These variables allow establishing a minimum zone around them that will also
+ * be always visible.
+ */
+static const float HORIZONTAL_MARGIN = 196.f; // 6 tiles
+static const float VERTICAL_MARGIN = 196.f; // 6 tiles
+static const float PEEK_ADD_HORIZONTAL_MARGIN = 320.f; // 10 tiles
+static const float PEEK_ADD_VERTICAL_MARGIN = 320.f; // 10 tiles
+
+/* 0 = no movement, 1 = no smooth adaptation */
+static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
 
 class CameraConfig final
 {
@@ -143,7 +156,9 @@ Camera::Camera(const std::string& name) :
   m_scale_target(1.f),
   m_scale_time_total(0.f),
   m_scale_time_remaining(0.f),
-  m_scale_easing()
+  m_scale_easing(),
+  m_minimum_scale(1.f),
+  m_enfore_minimum_scale(false)
 {
   reload_config();
 }
@@ -174,7 +189,9 @@ Camera::Camera(const ReaderMapping& reader) :
   m_scale_target(1.f),
   m_scale_time_total(0.f),
   m_scale_time_remaining(0.f),
-  m_scale_easing()
+  m_scale_easing(),
+  m_minimum_scale(1.f),
+  m_enfore_minimum_scale(false)
 {
   std::string modename;
 
@@ -255,7 +272,13 @@ const Vector
 Camera::get_translation() const
 {
   Vector screen_size = Sizef(m_screen_size).as_vector();
-  return m_translation + ((screen_size * (m_scale - 1.f)) / 2.f);
+  return m_translation + ((screen_size * (get_current_scale() - 1.f)) / 2.f);
+}
+
+Rectf
+Camera::get_rect() const
+{
+  return Rectf::from_center(get_center(), m_screen_size);
 }
 
 void
@@ -312,9 +335,19 @@ Camera::draw(DrawingContext& context)
 void
 Camera::update(float dt_sec)
 {
+  // Minimum scale should be set during the update sequence; else, reset it
+  m_enfore_minimum_scale = false;
+
   switch (m_mode) {
     case Mode::NORMAL:
-      update_scroll_normal(dt_sec);
+      if (Sector::current() && Sector::current()->get_object_count<Player>() > 1)
+      {
+        update_scroll_normal_multiplayer(dt_sec);
+      }
+      else
+      {
+        update_scroll_normal(dt_sec);
+      }
       break;
     case Mode::AUTOSCROLL:
       update_scroll_autoscroll(dt_sec);
@@ -325,6 +358,7 @@ Camera::update(float dt_sec)
     default:
       break;
   }
+
   update_scale(dt_sec);
   shake();
 }
@@ -372,7 +406,7 @@ void
 Camera::update_scroll_normal(float dt_sec)
 {
   const auto& config_ = *(m_config);
-  Player& player = d_sector->get_player();
+  Player& player = *d_sector->get_players()[0];
   // TODO: co-op mode needs a good camera
   Vector player_pos(player.get_bbox().get_left(),
                                     player.get_bbox().get_bottom());
@@ -679,10 +713,82 @@ Camera::update_scroll_normal(float dt_sec)
 }
 
 void
+Camera::update_scroll_normal_multiplayer(float dt_sec)
+{
+  m_enfore_minimum_scale = true;
+
+  float x1 = Sector::get().get_width();
+  float y1 = Sector::get().get_height();
+  float x2 = 0.f;
+  float y2 = 0.f;
+
+  for (const auto* p : Sector::get().get_players())
+  {
+    if (p->is_dead() || p->is_dying())
+      continue;
+
+    float lft = p->get_bbox().get_left() - HORIZONTAL_MARGIN;
+    float rgt = p->get_bbox().get_right() + HORIZONTAL_MARGIN;
+    float top = p->get_bbox().get_top() - VERTICAL_MARGIN;
+    float btm = p->get_bbox().get_bottom() + VERTICAL_MARGIN;
+
+    if (p->peeking_direction_x() == Direction::LEFT)
+      lft -= PEEK_ADD_HORIZONTAL_MARGIN;
+    else if (p->peeking_direction_x() == Direction::RIGHT)
+      rgt += PEEK_ADD_HORIZONTAL_MARGIN;
+
+    if (p->peeking_direction_y() == Direction::UP)
+      top -= PEEK_ADD_VERTICAL_MARGIN;
+    else if (p->peeking_direction_y() == Direction::DOWN)
+      btm += PEEK_ADD_VERTICAL_MARGIN;
+
+    x1 = std::min(x1, lft);
+    x2 = std::max(x2, rgt);
+    y1 = std::min(y1, top);
+    y2 = std::max(y2, btm);
+  }
+
+  // Might happens if all players are dead
+  if (x2 < x1 || y2 < y1)
+    return;
+
+  Rectf cover(std::max(0.f, x1),
+              std::max(0.f, y1),
+              std::min(Sector::get().get_width(), x2),
+              std::min(Sector::get().get_height(), y2));
+
+  float scale = std::min(static_cast<float>(SCREEN_WIDTH) / static_cast<float>(cover.get_width()),
+                         static_cast<float>(SCREEN_HEIGHT) / static_cast<float>(cover.get_height()));
+  float max_scale = std::max(static_cast<float>(SCREEN_WIDTH) / Sector::get().get_width(),
+                             static_cast<float>(SCREEN_HEIGHT) / Sector::get().get_height());
+
+  // Capping at `m_scale` allows fixing a minor bug where the camera would
+  // sometimes be slightly off-sector if scaling goes faster than moving.
+  scale = math::clamp(scale, max_scale, m_scale);
+
+  // Can't use m_screen_size because it varies depending on the scale
+  auto rect = Rectf::from_center(Vector((cover.get_left() + cover.get_right()) / 2.f, (cover.get_top() + cover.get_bottom()) / 2.f),
+                                Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)));
+  auto true_rect = Rectf::from_center(Vector((cover.get_left() + cover.get_right()) / 2.f, (cover.get_top() + cover.get_bottom()) / 2.f),
+                                      Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT)) / scale);
+
+  if (true_rect.get_left() < 0.f)
+    rect.move(Vector(-true_rect.get_left(), 0.f));
+  if (true_rect.get_top() < 0.f)
+    rect.move(Vector(0.f, -true_rect.get_top()));
+  if (true_rect.get_right() > Sector::get().get_width())
+    rect.move(Vector(Sector::get().get_width() - true_rect.get_right(), 0.f));
+  if (true_rect.get_bottom() > Sector::get().get_height())
+    rect.move(Vector(0.f, Sector::get().get_height() - true_rect.get_bottom()));
+
+  m_translation = m_translation * (1.f - MULTIPLAYER_CAM_WEIGHT) + rect.p1() * MULTIPLAYER_CAM_WEIGHT;
+  m_minimum_scale = m_minimum_scale * (1.f - MULTIPLAYER_CAM_WEIGHT) + scale * MULTIPLAYER_CAM_WEIGHT;
+}
+
+void
 Camera::update_scroll_autoscroll(float dt_sec)
 {
-  Player& player = d_sector->get_player();
-  if (player.is_dying())
+  if (!d_sector->get_object_count<Player>([](const Player& p) { return !p.is_dead() && !p.is_dying(); }))
     return;
 
   get_walker()->update(dt_sec);
@@ -731,8 +837,12 @@ Camera::update_scale(float dt_sec)
     m_lookahead_pos /= 1.01f;
   }
 
+  // FIXME: Poor design: This shouldn't pose a problem to multiplayer
+  if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
+    return;
+
   Vector screen_size = Sizef(m_screen_size).as_vector();
-  m_translation += screen_size * (1.f - m_scale) / 2.f;
+  m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
 }
 
 void

@@ -19,6 +19,7 @@
 
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
+#include "object/portable.hpp"
 #include "scripting/badguy.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "supertux/direction.hpp"
@@ -31,15 +32,19 @@ class Bullet;
 
 /** Base class for moving sprites that can hurt the Player. */
 class BadGuy : public MovingSprite,
-               public ExposedObject<BadGuy, scripting::BadGuy>
+               public ExposedObject<BadGuy, scripting::BadGuy>,
+               public Portable
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -49,8 +54,12 @@ public:
       state and calls active_update and inactive_update */
   virtual void update(float dt_sec) override;
 
-  virtual std::string get_class() const override { return "badguy"; }
-  virtual std::string get_display_name() const override { return _("Badguy"); }
+  static std::string class_name() { return "badguy"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Badguy"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+
+  virtual std::string get_overlay_size() const { return "1x1"; }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -78,6 +87,10 @@ public:
   Vector get_start_position() const { return m_start_position; }
   void set_start_position(const Vector& vec) { m_start_position = vec; }
 
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual bool is_portable() const override;
+
   /** Called when hit by a fire bullet, and is_flammable() returns true */
   virtual void ignite();
 
@@ -94,13 +107,17 @@ public:
   virtual void freeze();
 
   /** Called to unfreeze the badguy. */
-  virtual void unfreeze();
+  virtual void unfreeze(bool melt = true);
 
   virtual bool is_freezable() const;
 
   /** Return true if this badguy can be hurt by tiles
       with the attribute "hurts" */
   virtual bool is_hurtable() const { return true; }
+
+  /** Can enemy be sniped by sliding or swimboosting Tux?
+    Returns false if enemy is spiky or too large */
+  virtual bool is_snipable() const { return false; }
 
   bool is_frozen() const;
 
@@ -258,6 +275,7 @@ protected:
   float m_melting_time;
 
   SpritePtr m_lightsprite;
+  SpritePtr m_freezesprite;
   bool m_glowing;
 
   /** If this badguy was dispensed from a dispenser,
@@ -272,6 +290,8 @@ private:
   bool m_is_active_flag;
 
   Timer m_state_timer;
+
+  Timer m_unfreeze_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */

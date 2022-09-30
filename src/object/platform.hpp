@@ -41,8 +41,10 @@ public:
 
   virtual void move_to(const Vector& pos) override;
 
-  virtual std::string get_class() const override { return "platform"; }
-  virtual std::string get_display_name() const override { return _("Platform"); }
+  static std::string class_name() { return "platform"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Platform"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void editor_update() override;
 

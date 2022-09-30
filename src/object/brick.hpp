@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BRICK_HPP
 #define HEADER_SUPERTUX_OBJECT_BRICK_HPP
 
+#include "badguy/icecrusher.hpp"
 #include "object/block.hpp"
 
 class Brick : public Block
@@ -27,10 +28,13 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual ObjectSettings get_settings() override;
-  virtual std::string get_class() const override { return "brick"; }
-  virtual std::string get_display_name() const override { return _("Brick"); }
+  static std::string class_name() { return "brick"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Brick"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
-  void try_break(Player* player);
+  void try_break(Player* player, bool slider = false);
+  void break_for_crusher(IceCrusher* icecrusher);
 
 protected:
   virtual void hit(Player& player) override;
@@ -51,8 +55,10 @@ public:
   HeavyBrick(const ReaderMapping& mapping);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual std::string get_class() const override { return "heavy-brick"; }
-  virtual std::string get_display_name() const override { return _("Heavy Brick"); }
+  static std::string class_name() { return "heavy-brick"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Heavy Brick"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 private:
   void ricochet(GameObject* collider);

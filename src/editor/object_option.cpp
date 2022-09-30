@@ -240,6 +240,42 @@ StringObjectOption::add_to_menu(Menu& menu) const
   menu.add_textfield(get_text(), m_pointer);
 }
 
+StringMultilineObjectOption::StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                                       boost::optional<std::string> default_value,
+                                       unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_pointer(pointer),
+  m_default_value(std::move(default_value))
+{
+}
+
+void
+StringMultilineObjectOption::save(Writer& writer) const
+{
+  if (!get_key().empty()) {
+    if ((m_default_value && *m_default_value == *m_pointer) || m_pointer->empty()) {
+      // skip
+    } else {
+      writer.write(get_key(), *m_pointer, (get_flags() & OPTION_TRANSLATABLE));
+    }
+  }
+}
+
+std::string
+StringMultilineObjectOption::to_string() const
+{
+  if (!m_pointer->empty()) {
+    return "...";
+  }
+  return "";
+}
+
+void
+StringMultilineObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_script(get_text(), m_pointer);
+}
+
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
                                                    const std::vector<std::string>& select,
                                                    boost::optional<int> default_value,
@@ -370,12 +406,14 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
                                    const std::string& key,
                                    std::vector<std::string> filter,
                                    const std::string& basedir,
+                                   bool path_relative_to_basedir,
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
   m_default_value(std::move(default_value)),
   m_filter(std::move(filter)),
-  m_basedir(basedir)
+  m_basedir(basedir),
+  m_path_relative_to_basedir(path_relative_to_basedir)
 {
 }
 
@@ -404,7 +442,7 @@ FileObjectOption::to_string() const
 void
 FileObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_file(get_text(), m_pointer, m_filter, m_basedir);
+  menu.add_file(get_text(), m_pointer, m_filter, m_basedir, m_path_relative_to_basedir);
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
@@ -682,4 +720,20 @@ ButtonOption::add_to_menu(Menu& menu) const
   menu.add_entry(get_text(), m_callback);
 }
 
+StringArrayOption::StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items) :
+  ObjectOption(text, key, 0),
+  m_items(items)
+{}
+
+void
+StringArrayOption::save(Writer& write) const
+{
+  write.write("strings", m_items);
+}
+
+void
+StringArrayOption::add_to_menu(Menu& menu) const
+{
+  menu.add_string_array(get_text(), m_items);
+}
 /* EOF */

@@ -66,10 +66,6 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 bool
 Mole::collision_squished(GameObject& )
 {
-  if (m_frozen) {
-    unfreeze();
-  }
-
   set_state(DEAD);
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   run_dead_script();
@@ -93,9 +89,6 @@ void
 Mole::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
-
-  if (m_frozen)
-    return;
 
   switch (state) {
     case PRE_THROWING:
@@ -133,18 +126,9 @@ Mole::active_update(float dt_sec)
 
 }
 
-bool
-Mole::is_freezable() const
-{
-  return true;
-}
-
 void
 Mole::set_state(MoleState new_state)
 {
-  if (m_frozen)
-    return;
-
   switch (new_state) {
     case PRE_THROWING:
       m_sprite->set_action("idle");

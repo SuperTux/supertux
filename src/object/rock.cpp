@@ -18,8 +18,11 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/icecrusher.hpp"
-#include "object/explosion.hpp"
+#include "badguy/badguy.hpp"
 #include "object/coin.hpp"
+#include "object/explosion.hpp"
+#include "object/lit_object.hpp"
+#include "object/pushbutton.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "object/player.hpp"
@@ -122,6 +125,18 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
+  // Why is it necessary to list exceptions here? Why doesn't the rock just not
+  // affect object that have ABORT_MOVE on all collisions?
+  auto litobject = dynamic_cast<LitObject*> (&other);
+  if (litobject) {
+    return ABORT_MOVE;
+  }
+
+  auto pushbutton = dynamic_cast<PushButton*> (&other);
+  if (pushbutton) {
+    return ABORT_MOVE;
+  }
+
   if (is_grabbed()) {
     return ABORT_MOVE;
   }
@@ -145,10 +160,16 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 
   if (!on_ground) {
     if (hit.bottom && physic.get_velocity_y() > 200) {
-      auto moving_object = dynamic_cast<MovingObject*> (&other);
-      if (moving_object && moving_object->get_group() != COLGROUP_TOUCHABLE) {
+      auto badguy = dynamic_cast<BadGuy*> (&other);
+      auto player = dynamic_cast<Player*> (&other);
+      if (badguy && badguy->get_group() != COLGROUP_TOUCHABLE) {
         //Getting a rock on the head hurts. A lot.
-        moving_object->collision_tile(Tile::HURTS);
+        badguy->kill_fall();
+        physic.set_velocity_y(0);
+      }
+      else if(player)
+      {
+        player->kill(false);
         physic.set_velocity_y(0);
       }
     }

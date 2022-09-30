@@ -32,12 +32,12 @@
  
  (action
   (name "iced-left")
-  (hitbox 9 8 32 45)
-  (images "wooden-iced.png"))
+  (hitbox 0 0 32 45)
+  (images "wooden-down.png"))
  
  (action
   (name "iced-right")
-  (hitbox 3 8 32 45)
+  (hitbox -1 0 32 45)
   (mirror-action "iced-left"))
 
  (action

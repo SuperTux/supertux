@@ -483,7 +483,7 @@ EditorOverlayWidget::hover_object()
     }
   }
 
-  if (m_hovered_object && m_hovered_object->has_settings()) {
+  if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip()) {
     m_object_tip = std::make_unique<Tip>(*m_hovered_object);
   }
 
@@ -596,9 +596,9 @@ EditorOverlayWidget::clone_object()
       auto game_object_uptr = [this]{
         std::stringstream stream;
         Writer writer(stream);
-        writer.start_list(m_hovered_object->get_class());
+        writer.start_list(m_hovered_object->get_class_name());
         m_hovered_object->save(writer);
-        writer.end_list(m_hovered_object->get_class());
+        writer.end_list(m_hovered_object->get_class_name());
 
         auto doc = ReaderDocument::from_stream(stream);
         auto object_sx = doc.get_root();
@@ -1025,7 +1025,7 @@ bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
-  if (sym == SDLK_LSHIFT || sym == SDLK_RSHIFT)
+  if (sym == SDLK_LSHIFT)
   {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
@@ -1051,7 +1051,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
   if (sym == SDLK_F8) {
     g_config->editor_render_grid = !g_config->editor_render_grid;
   }
-  if (sym == SDLK_F7 || sym == SDLK_LSHIFT || sym == SDLK_RSHIFT) {
+  if (sym == SDLK_F7 || sym == SDLK_LSHIFT) {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
   if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed)) {

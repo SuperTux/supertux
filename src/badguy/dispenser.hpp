@@ -41,11 +41,15 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override { return "dispenser"; }
-  virtual std::string get_display_name() const override { return _("Dispenser"); }
+  virtual bool is_portable() const override;
+
+  static std::string class_name() { return "dispenser"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Dispenser"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

@@ -41,8 +41,10 @@ public:
   void reinit_textures();
   virtual void update(float dt_sec) override;
 
-  virtual std::string get_class() const override { return "particles-custom"; }
-  virtual std::string get_display_name() const override { return _("Custom Particles"); }
+  static std::string class_name() { return "particles-custom"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Custom Particles"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
 

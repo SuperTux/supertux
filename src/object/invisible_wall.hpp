@@ -32,8 +32,10 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "invisible_wall"; }
-  virtual std::string get_display_name() const override { return _("Invisible Wall"); }
+  static std::string class_name() { return "invisible_wall"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Invisible Wall"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual bool has_variable_size() const override { return true; }
 

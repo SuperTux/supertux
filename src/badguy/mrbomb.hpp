@@ -18,10 +18,8 @@
 #define HEADER_SUPERTUX_BADGUY_MRBOMB_HPP
 
 #include "badguy/walking_badguy.hpp"
-#include "object/portable.hpp"
 
-class MrBomb final : public WalkingBadguy,
-               public Portable
+class MrBomb final : public WalkingBadguy
 {
 public:
   MrBomb(const ReaderMapping& reader);
@@ -34,12 +32,14 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
-  virtual void ungrab(MovingObject& object, Direction dir) override;
   virtual bool is_portable() const override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "mrbomb"; }
-  virtual std::string get_display_name() const override { return _("Bomb"); }
+  static std::string class_name() { return "mrbomb"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Bomb"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

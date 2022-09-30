@@ -17,8 +17,11 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 #define HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 
-#include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
+
+#include <vector>
+
+#include "supertux/timer.hpp"
 
 class Color;
 class DrawingContext;
@@ -27,14 +30,25 @@ class ReaderMapping;
 
 class Climbable final : public TriggerBase
 {
+private:
+  struct ClimbPlayer
+  {
+    Player* m_player;
+    std::unique_ptr<Timer> m_activate_try_timer;
+  };
+
+private:
   static Color text_color;
+
 public:
   Climbable(const ReaderMapping& reader);
   Climbable(const Rectf& area);
   ~Climbable() override;
 
-  virtual std::string get_class() const override { return "climbable"; }
-  virtual std::string get_display_name() const override { return _("Climbable"); }
+  static std::string class_name() { return "climbable"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Climbable"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
@@ -48,8 +62,8 @@ public:
   bool may_climb(Player& player) const;
 
 protected:
-  Player* climbed_by; /**< set to player who's currently climbing us, null if nobody is */
-  Timer activate_try_timer; /**< try to correct mis-alignment while this timer runs */
+  std::vector<Player*> climbed_by; /** contains players who's currently climbing us, empty if nobody is. */
+  std::vector<ClimbPlayer> trying_to_climb; /** Contains players that are trying to climb */
   std::string message;
 
 private:

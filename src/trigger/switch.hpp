@@ -30,8 +30,10 @@ public:
   Switch(const ReaderMapping& reader);
   ~Switch() override;
 
-  virtual std::string get_class() const override { return "switch"; }
-  virtual std::string get_display_name() const override { return _("Switch"); }
+  static std::string class_name() { return "switch"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Switch"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

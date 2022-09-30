@@ -16,3 +16,6 @@
 [submodule "discord-sdk"]
 	path = external/discord-sdk
 	url = https://github.com/discord/discord-rpc
+[submodule "external/fmt"]
+	path = external/fmt
+	url = https://github.com/fmtlib/fmt.git

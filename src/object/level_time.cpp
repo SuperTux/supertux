@@ -20,6 +20,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -59,17 +60,41 @@ LevelTime::update(float dt_sec)
 {
   if (!running) return;
 
+  int players_alive = Sector::current() ? Sector::current()->get_object_count<Player>([](const Player& p) {
+    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+  }) : 0;
+
+  if (!players_alive)
+    return;
+
   int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= dt_sec;
   if (time_left <= 0) {
-    if (time_left <= -5 || !Sector::get().get_player().get_coins())
+    // Needed to avoid charging a player coins if they had a checkpoint
+    if (GameSession::current())
+      GameSession::current()->set_reset_point("", Vector());
+
+    if (time_left <= -5 || !Sector::get().get_players()[0]->get_coins())
     {
-      Sector::get().get_player().kill(true);
+      for (auto& p : Sector::get().get_players())
+      {
+        p->kill(true);
+      }
       stop();
     }
+
     if (prev_time != static_cast<int>(floorf(time_left*5)))
     {
-      Sector::get().get_player().add_coins(-1);
+      for (auto& p : Sector::get().get_players())
+      {
+        if (p->is_dead() || p->is_dying() || p->is_winning())
+          continue;
+
+        p->add_coins(-1);
+        // FIXME: Find a cleaner way to handle this
+        //        (Remove only one coin per second, not per player per second)
+        break;
+      }
     }
   }
 }
@@ -81,6 +106,7 @@ LevelTime::draw(DrawingContext& context)
     return;
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
 
   if ((time_left > TIME_WARNING) || (int(g_game_time * 2.5f) % 2)) {
     std::stringstream ss;

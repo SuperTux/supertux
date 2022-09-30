@@ -142,7 +142,7 @@ void
 BicyclePlatform::update(float dt_sec)
 {
   float total_angular_momentum = 0.0f;
-  for (auto& child : m_children)
+  for (const auto& child : m_children)
   {
     const float child_angle = m_angle + child->m_angle_offset;
     const float angular_momentum = cosf(child_angle) * child->m_momentum;

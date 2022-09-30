@@ -74,13 +74,11 @@ ContribLevelsetMenu::menu_action(MenuItem& item)
   {
     SoundManager::current()->stop_music();
 
-    std::string filename = m_levelset->get_level_filename(item.get_id());
-    std::string full_filename = FileSystem::join(m_world->get_basedir(), filename);
-
     // reload the World so that we have something that we can safely
     // std::move() around without wreaking the ContribMenu
     std::unique_ptr<World> world = World::from_directory(m_world->get_basedir());
-    GameManager::current()->start_level(*world, m_levelset->get_level_filename(item.get_id()));
+    std::string filename = m_levelset->get_level_filename(item.get_id());
+    GameManager::current()->start_level(*world, filename);
   }
 }
 

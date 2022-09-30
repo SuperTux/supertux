@@ -86,6 +86,8 @@ Stumpy::active_update(float dt_sec)
 bool
 Stumpy::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(object);
 
   // if we're still invincible, we ignore the hit
   if (mystate == STATE_INVINCIBLE) {

@@ -123,7 +123,7 @@ World::save(bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -162,7 +162,7 @@ World::save(bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }

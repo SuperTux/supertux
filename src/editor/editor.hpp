@@ -97,6 +97,8 @@ public:
 
   EditorToolboxWidget::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_input_type(); }
 
+  bool has_active_toolbox_tip() const { return m_toolbox_widget->has_active_object_tip(); }
+
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
 
@@ -198,6 +200,7 @@ private:
 
   bool m_levelloaded;
   bool m_leveltested;
+  bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
   TileSet* m_tileset;
 

@@ -19,7 +19,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_MANAGER_HPP
 
 #include <memory>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include "config.h"
 
@@ -74,9 +74,7 @@ private:
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
   std::unique_ptr<ControllerHUD> m_controller_hud;
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   MobileController m_mobile_controller;
-#endif
 
   Uint32 last_ticks;
   Uint32 elapsed_ticks;

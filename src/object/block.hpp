@@ -46,10 +46,11 @@ public:
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
+  void start_bounce(GameObject* hitter);
+
 protected:
   virtual void hit(Player& player) = 0;
 
-  void start_bounce(GameObject* hitter);
   void start_break(GameObject* hitter);
   void break_me();
 

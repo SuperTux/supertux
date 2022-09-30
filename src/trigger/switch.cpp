@@ -126,7 +126,7 @@ Switch::event(Player& , EventType type)
   switch (state) {
     case OFF:
       sprite->set_action("turnon", 1);
-      SoundManager::current()->play( SWITCH_SOUND );
+      SoundManager::current()->play(SWITCH_SOUND, get_pos());
       state = TURN_ON;
       break;
     case TURN_ON:
@@ -134,7 +134,7 @@ Switch::event(Player& , EventType type)
     case ON:
       if (bistable) {
         sprite->set_action("turnoff", 1);
-        SoundManager::current()->play( SWITCH_SOUND );
+        SoundManager::current()->play(SWITCH_SOUND, get_pos());
         state = TURN_OFF;
       }
       break;

@@ -54,7 +54,7 @@ Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
       break;
   }
   if (res == 0) {
-    log_warning << "Error seeking in file: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Error seeking in file: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     return -1;
   }
   int i = static_cast<int>(PHYSFS_tell(file));
@@ -117,7 +117,7 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
   if (!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "': "
-        << PHYSFS_getLastErrorCode();
+        << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
 
@@ -145,7 +145,7 @@ SDL_RWops* get_writable_physfs_SDLRWops(const std::string& filename)
   if (!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "' for writing: "
-        << PHYSFS_getLastErrorCode();
+        << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
 

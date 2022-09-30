@@ -16,12 +16,12 @@
 
 #include "gui/menu_badguy_select.hpp"
 
+#include <fmt/format.h>
+
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_list.hpp"
-
-#include "boost/format.hpp"
 
 std::vector<std::string> BadguySelectMenu::all_badguys;
 
@@ -39,7 +39,10 @@ BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
     all_badguys.push_back("dart");
     all_badguys.push_back("darttrap");
     all_badguys.push_back("dispenser");
-    all_badguys.push_back("fish");
+    all_badguys.push_back("fish-chasing");
+    all_badguys.push_back("fish-harmless");
+    all_badguys.push_back("fish-jumping");
+    all_badguys.push_back("fish-swimming");
     all_badguys.push_back("flame");
     all_badguys.push_back("flyingsnowball");
     all_badguys.push_back("ghostflame");
@@ -95,7 +98,7 @@ BadguySelectMenu::refresh()
 
   add_label(_("List of enemies"));
   add_hl();
-  add_entry(-2, str(boost::format(_("Select enemy (%s)")) % all_badguys[selected]));
+  add_entry(-2, fmt::format(_("Select enemy ({})"), all_badguys[selected]));
   add_entry(-3, _("Add"));
   add_hl();
 

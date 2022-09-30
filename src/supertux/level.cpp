@@ -80,7 +80,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -111,7 +111,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -218,7 +218,7 @@ Level::get_total_coins() const
         } else if (block->get_contents() == BonusBlock::Content::RAIN ||
                    block->get_contents() == BonusBlock::Content::EXPLODE)
         {
-          total_coins += 10;
+          total_coins += 10 * block->get_hit_counter();
           continue;
         }
       }

@@ -131,6 +131,7 @@ Yeti::draw_hit_points(DrawingContext& context)
   {
     context.push_transform();
     context.set_translation(Vector(0, 0));
+    context.transform().scale = 1.f;
 
     for (int i = 0; i < hit_points; ++i)
     {
@@ -160,14 +161,14 @@ Yeti::active_update(float dt_sec)
       if (state_timer.check() && on_ground()) {
         m_physic.set_velocity_y(STOMP_VY);
         m_sprite->set_action((m_dir==Direction::RIGHT)?"stomp-right":"stomp-left");
-        SoundManager::current()->play("sounds/yeti_gna.wav");
+        SoundManager::current()->play("sounds/yeti_gna.wav", get_pos());
       }
       break;
     case SQUISHED:
       {
         Direction newdir = (int(state_timer.get_timeleft() * SNOW_EXPLOSIONS_FREQUENCY) % 2) ? Direction::LEFT : Direction::RIGHT;
         if (m_dir != newdir && m_dir == Direction::RIGHT) {
-          SoundManager::current()->play("sounds/stomp.wav");
+          SoundManager::current()->play("sounds/stomp.wav", get_pos());
           add_snow_explosions();
           Sector::get().get_camera().shake(.05f, 0, 5);
         }
@@ -255,7 +256,7 @@ void Yeti::take_hit(Player& )
   if (safe_timer.started())
     return;
 
-  SoundManager::current()->play("sounds/yeti_roar.wav");
+  SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
   hit_points--;
 
   if (hit_points <= 0) {

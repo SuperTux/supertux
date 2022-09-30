@@ -19,6 +19,10 @@
 
 #include "gui/menu.hpp"
 
+#include <functional>
+
+class PlayerStatus;
+
 class WorldmapCheatMenu final : public Menu
 {
 private:
@@ -42,6 +46,10 @@ public:
   WorldmapCheatMenu();
 
   void menu_action(MenuItem& item) override;
+
+private:
+  void do_cheat(PlayerStatus& status, std::function<void(int)> callback);
+  void do_cheat(PlayerStatus& status, std::function<void(int, int)> callback);
 
 private:
   WorldmapCheatMenu(const WorldmapCheatMenu&) = delete;

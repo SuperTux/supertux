@@ -31,12 +31,12 @@ public:
   virtual void activate() override;
   virtual void active_update(float) override;
 
-  virtual bool is_freezable() const override;
-
   virtual void ignite() override;
 
-  virtual std::string get_class() const override { return "mole"; }
-  virtual std::string get_display_name() const override { return _("Mole"); }
+  static std::string class_name() { return "mole"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Mole"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void on_flip(float height) override;
 

@@ -35,7 +35,7 @@
       (speed 0)
       (fill #t)
       (image "images/background/halloween/vignette.png")
-      (z-pos 500)
+      (z-pos 200)
     )
     (bouncingsnowball
       (sprite "images/creatures/fatbat/fatbat.sprite")

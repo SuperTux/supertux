@@ -77,7 +77,7 @@ TextObject::wrap_text()
 
   // strip all newlines except double ones (markdown'ish)
   char prev_c = ' ';
-  for(char& c : m_text) {
+  for (const char& c : m_text) {
     if (c == '\n') {
       if (prev_c == '\n') {
         rest += '\n';
@@ -87,6 +87,7 @@ TextObject::wrap_text()
     } else {
       rest += c;
     }
+    prev_c = c;
   }
 
   m_wrapped_text.clear();
@@ -147,8 +148,14 @@ TextObject::fade_out(float fadetime)
 void
 TextObject::set_visible(bool visible)
 {
-  m_visible = visible;
-  m_fade_progress = 1;
+  if (visible)
+  {
+    fade_in(0);
+  }
+  else
+  {
+    fade_out(0);
+  }
 }
 
 void
@@ -186,6 +193,7 @@ TextObject::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
   if (m_fader)
     context.set_alpha(m_fade_progress);
 

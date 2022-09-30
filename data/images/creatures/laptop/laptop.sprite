@@ -1,51 +1,56 @@
 (supertux-sprite
 	(action
 	  (name "left")
-	  (hitbox 6 8 32 32)
-	  (fps 10)
-	  (images "laptop-left-0.png"
-			"laptop-left-1.png"
-			"laptop-left-2.png"))
+	  (hitbox 6 10 32 32)
+	  (fps 12)
+	  (images "laptop-0.png"
+			"laptop-1.png"
+			"laptop-2.png"
+			"laptop-3.png"
+			"laptop-4.png"
+			"laptop-5.png"
+			"laptop-6.png"
+			"laptop-7.png"))
 
 	(action
 	  (name "right")
-	  (hitbox 6 8 32 32)
-	  (fps 10)
+	  (hitbox 6 10 32 32)
+	  (fps 12)
 	  (mirror-action "left"))
 
 	(action (name "falling-left")
-	  (hitbox 7 8 10 10)
-	  (images "laptop-flat-left.png"))
+	  (hitbox 6 26 32 16)
+	  (images "laptop_flat.png"))
 
 	(action (name "falling-right")
-	  (hitbox 7 8 10 10)
+	  (hitbox 6 26 32 16)
 	  (mirror-action "falling-left"))
 
 	(action (name "flat-left")
-	  (hitbox 7 8 10 10)
-	  (images "laptop-flat-left.png"))
+	  (hitbox 6 26 32 16)
+	  (images "laptop_flat.png"))
 
 	(action (name "flat-right")
-	  (hitbox 7 8 10 10)
+	  (hitbox 6 26 32 16)
 	  (mirror-action "flat-left"))
 
   (action
     (name "waking-left")
-    ; (fps 4.0)
-    (hitbox 10 28 32 32)
-    (images "laptop-falling-left.png"
-      "laptop-left-0.png"
-      "laptop-left-1.png"
-      "laptop-left-0.png"
-      "laptop-falling-left.png"
-      "laptop-left-0.png"
-      "laptop-left-1.png"
-      "laptop-left-0.png"
-      "laptop-falling-left.png"
-      "laptop-left-0.png"
-      "laptop-left-1.png"))
+    ; (fps 6.0)
+    (hitbox 6 26 32 16)
+    (images "waking-0.png"
+      "waking-1.png"
+      "waking-2.png"
+      "waking-3.png"
+      "waking-4.png"
+      "waking-5.png"
+      "waking-6.png"
+      "waking-7.png"
+      "waking-8.png"
+      "waking-9.png"
+      "waking-10.png"))
 
   (action
     (name "waking-right")
-    (hitbox 10 28 32 32)
+    (hitbox 6 26 32 16)
     (mirror-action "waking-left")))

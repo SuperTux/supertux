@@ -42,6 +42,9 @@ SpiderMite::initialize()
 bool
 SpiderMite::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return BadGuy::collision_squished(object);
+
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
@@ -53,6 +56,8 @@ SpiderMite::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom) { // hit floor or roof?
     m_physic.set_velocity_y(0);
   }
+  if (m_frozen)
+    BadGuy::collision_solid(hit);
 }
 
 void
@@ -90,9 +95,9 @@ SpiderMite::freeze()
 }
 
 void
-SpiderMite::unfreeze()
+SpiderMite::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   m_physic.enable_gravity(false);
   initialize();
 }

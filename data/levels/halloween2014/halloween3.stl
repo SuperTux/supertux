@@ -13,7 +13,7 @@
       (speed 0)
       (fill #t)
       (image "images/background/halloween/vignette.png")
-      (z-pos 500)
+      (z-pos 200)
     )
     (background
       (speed 0)
@@ -29,7 +29,7 @@
       (alignment "bottom")
       (speed 1.5)
       (image "images/background/halloween/fog.png")
-      (z-pos 500)
+      (z-pos 200)
     )
     (bouncingsnowball
       (sprite "images/creatures/fatbat/fatbat.sprite")

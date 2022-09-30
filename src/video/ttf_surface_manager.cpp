@@ -59,7 +59,7 @@ TTFSurfaceManager::create_surface(const TTFFont& font, const std::string& text)
     // log_* functions, as those are mirrored on the console which
     // in turn will lead to the creation of more TTFSurface's and
     // screw up the results.
-    print_debug_info(std::cerr);
+    print_debug_info(get_logging_instance(false));
 #endif
 
     cache_cleanup_step();

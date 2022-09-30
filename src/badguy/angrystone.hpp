@@ -28,10 +28,16 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void active_update(float dt_sec) override;
   virtual void kill_fall() override;
+  virtual void freeze() override;
+  virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override { return "angrystone"; }
-  virtual std::string get_display_name() const override { return _("Angry Stone"); }
+
+  virtual std::string get_overlay_size() const override { return "3x3"; }
+  static std::string class_name() { return "angrystone"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Angry Stone"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
   enum AngryStoneState {

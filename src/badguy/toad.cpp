@@ -74,6 +74,8 @@ Toad::set_state(ToadState newState)
 bool
 Toad::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return BadGuy::collision_squished(object);
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
@@ -156,9 +158,9 @@ Toad::active_update(float dt_sec)
 }
 
 void
-Toad::unfreeze()
+Toad::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   initialize();
 }
 

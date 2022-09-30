@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -37,6 +38,8 @@ public:
 
   void change_input(const std::string& input_) {
     *input = input_;
+    m_input_undo.clear();
+    m_input_redo.clear();
   }
 
   /** Calls when the user wants to remove an invalid char. */
@@ -45,12 +48,40 @@ public:
   /** Processes the given event. */
   virtual void event(const SDL_Event& ev) override;
 
+  /** Indicates that this item changes its width. */
   virtual bool changes_width() const override {
     return true;
   }
 
+  /** Updates undo and redo status. */
+  virtual void update_undo();
+
+  /** Calls when the input gets updated. */
+  virtual void on_input_update() {}
+
+  // Text manipulation and navigation functions
+
+  virtual void insert_text(const std::string& text, const int left_offset_pos);
+  virtual void clear();
+  virtual void go_left();
+  virtual void go_right();
+  virtual void go_to_beginning();
+  virtual void go_to_end();
+  virtual void delete_front();
+  virtual void delete_back();
+  virtual void cut();
+  virtual void copy();
+  virtual void paste();
+  virtual void undo();
+  virtual void redo();
+
 protected:
-  int flickw;
+  std::string m_input_undo;
+  std::string m_input_redo;
+
+  const std::string m_cursor;
+  float m_cursor_width;
+  int m_cursor_left_offset;
 
 private:
   ItemTextField(const ItemTextField&) = delete;

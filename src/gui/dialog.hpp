@@ -46,6 +46,7 @@ private:
   bool m_clear_diags;
 
   Sizef m_text_size;
+  Sizef m_size;
 
 public:
   Dialog(bool passive = false, bool auto_clear_dialogs = true);
@@ -73,18 +74,23 @@ public:
     return m_passive;
   }
 
-  static void show_message(const std::string& text)
+  Vector get_center_pos() const;
+
+  float get_width() const { return m_size.width; }
+  float get_height() const { return m_size.height; }
+
+  static void show_message(const std::string& text, bool passive = false, bool no_auto_clear = false)
   {
-    auto dialog = std::make_unique<Dialog>();
+    auto dialog = std::make_unique<Dialog>(passive, !no_auto_clear);
     dialog->set_text(text);
     dialog->clear_buttons();
     dialog->add_button(_("OK"), [] {});
     MenuManager::instance().set_dialog(std::move(dialog));
   }
 
-  static void show_confirmation(const std::string& text, const std::function<void ()>& callback)
+  static void show_confirmation(const std::string& text, const std::function<void ()>& callback, bool no_auto_clear = false)
   {
-    auto dialog = std::make_unique<Dialog>();
+    auto dialog = std::make_unique<Dialog>(false, !no_auto_clear);
     dialog->set_text(text);
     dialog->clear_buttons();
     dialog->add_default_button(_("Yes"), callback);

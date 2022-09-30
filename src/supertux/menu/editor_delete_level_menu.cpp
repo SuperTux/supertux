@@ -15,8 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/menu/editor_delete_level_menu.hpp"
+
 #include <physfs.h>
-#include <boost/format.hpp>
+#include <fmt/format.h>
+
 #include "supertux/levelset.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/level.hpp"
@@ -34,6 +36,10 @@ EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset
 {
   add_label(_("Delete level"));
   add_hl();
+  if (levelset->get_num_levels() == 0)
+  {
+    add_inactive(_("No levels available"));
+  }
   for (int i = 0; i < levelset->get_num_levels(); i++)
   {
     std::string filename = levelset->get_level_filename(i);
@@ -57,7 +63,7 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
       Dialog::show_message(_("You cannot delete level that you are editing!"));
     else
     {
-      Dialog::show_confirmation(str(boost::format(_("You are about to delete level \"%s\". Are you sure?")) % m_level_names[id]), [this, id]()
+      Dialog::show_confirmation(fmt::format(_("You are about to delete level \"{}\". Are you sure?"), m_level_names[id]), [this, id]()
       {
         PHYSFS_delete(m_level_full_paths[id].c_str());
         delete_item(id + 2);

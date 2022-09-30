@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -33,8 +34,17 @@ public:
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;
 
+  /** Processes the given event. */
+  virtual void event(const SDL_Event& ev) override;
+
   /** Calls when the user wants to remove an invalid char. */
   virtual void invalid_remove() override;
+
+  // Text manipulation and navigation functions
+
+  virtual void paste() override;
+  virtual void new_line();
+  virtual void duplicate_line();
 
 private:
   ItemScriptLine(const ItemScriptLine&) = delete;

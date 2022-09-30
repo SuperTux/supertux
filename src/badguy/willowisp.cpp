@@ -254,7 +254,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
   } else {
     GameSession::current()->respawn(m_target_sector, m_target_spawnpoint);
   }
-  SoundManager::current()->play("sounds/warp.wav");
+  SoundManager::current()->play("sounds/warp.wav", get_pos());
 
   return CONTINUE;
 }

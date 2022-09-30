@@ -142,7 +142,7 @@ Door::event(Player& , EventType type)
       // if door was activated, start opening it
       if (type == EVENT_ACTIVATE) {
         state = OPENING;
-        SoundManager::current()->play("sounds/door.wav");
+        SoundManager::current()->play("sounds/door.wav", get_pos());
         sprite->set_action("opening", 1);
         ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 1.0f));
       }
@@ -170,8 +170,6 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
       Player* player = dynamic_cast<Player*> (&other);
 
       if (player) {
-        bool invincible = player->is_invincible();
-        int invincibilityperiod = static_cast<int>(player->m_invincible_timer.get_timeleft());
         state = CLOSING;
         sprite->set_action("closing", 1);
         if (!script.empty()) {
@@ -179,8 +177,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         }
 
         if (!target_sector.empty()) {
-          GameSession::current()->respawn(target_sector, target_spawnpoint,
-                                          invincible, invincibilityperiod);
+          GameSession::current()->respawn(target_sector, target_spawnpoint, true);
           ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
         }
       }

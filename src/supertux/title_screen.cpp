@@ -47,7 +47,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
       )),
   m_videosystem_name(VideoSystem::current()->get_name())
 {
-  Player& player = m_titlesession->get_current_sector().get_player();
+  Player& player = *(m_titlesession->get_current_sector().get_players()[0]);
   player.set_controller(m_controller.get());
   player.set_speedlimit(230); //MAX_WALK_XM
 }
@@ -57,7 +57,7 @@ TitleScreen::make_tux_jump()
 {
   static bool jumpWasReleased = false;
   Sector& sector  = m_titlesession->get_current_sector();
-  Player& tux = sector.get_player();
+  Player& tux = *(sector.get_players()[0]);
 
   m_controller->update();
   m_controller->press(Control::RIGHT);
@@ -94,7 +94,7 @@ TitleScreen::setup()
     music.play_music(LEVEL_MUSIC);
     // sector.activate(Vector) expects position calculated for big tux, but tux
     // might be small on the title screen
-    sector.activate(sector.get_player().get_pos() - Vector(0.f, sector.get_player().is_big() ? 0.f : 32.f));
+    sector.activate(sector.get_players()[0]->get_pos() - Vector(0.f, sector.get_players()[0]->is_big() ? 0.f : 32.f));
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);

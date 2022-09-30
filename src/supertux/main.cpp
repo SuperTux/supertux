@@ -172,7 +172,7 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   if (!PHYSFS_init(argv0))
   {
     std::stringstream msg;
-    msg << "Couldn't initialize physfs: " << PHYSFS_getLastErrorCode();
+    msg << "Couldn't initialize physfs: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
   else
@@ -188,6 +188,30 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
 void PhysfsSubsystem::find_datadir() const
 {
 #ifndef __EMSCRIPTEN__
+  if (const char* assetpack = getenv("ANDROID_ASSET_PACK_PATH"))
+  {
+    // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
+    if (!PHYSFS_mount(boost::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
+    {
+      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      return;
+    }
+
+    PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
+    if (!data)
+    {
+      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      return;
+    }
+
+    if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
+    {
+      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    }
+
+    return;
+  }
+
   std::string datadir;
   if (m_forced_datadir)
   {
@@ -196,6 +220,10 @@ void PhysfsSubsystem::find_datadir() const
   else if (const char* env_datadir = getenv("SUPERTUX2_DATA_DIR"))
   {
     datadir = env_datadir;
+  }
+  else if (const char* env_datadir3 = getenv("ANDROID_MY_OWN_APP_FILE"))
+  {
+    datadir = env_datadir3;
   }
   else
   {
@@ -221,12 +249,12 @@ void PhysfsSubsystem::find_datadir() const
 
   if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
   {
-    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
 #else
   if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
 #endif
 }
@@ -322,7 +350,7 @@ if (FileSystem::is_directory(olduserdir)) {
   {
     std::ostringstream msg;
     msg << "Failed to use userdir directory '"
-        <<  userdir << "': errorcode: " << PHYSFS_getLastErrorCode();
+        <<  userdir << "': errorcode: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
 
@@ -424,6 +452,11 @@ Main::launch_game(const CommandLineArguments& args)
 {
   m_sdl_subsystem.reset(new SDLSubsystem());
   m_console_buffer.reset(new ConsoleBuffer());
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  if (getenv("ANDROID_TV")) {
+    g_config->mobile_controls = false;
+  }
+#endif
 
   s_timelog.log("controller");
   m_input_manager.reset(new InputManager(g_config->keyboard_config, g_config->joystick_config));
@@ -543,7 +576,8 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (g_config->tux_spawn_pos)
         {
-          session->get_current_sector().get_player().set_pos(*g_config->tux_spawn_pos);
+          // FIXME: Specify start pos for multiple players
+          session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
 
         if (!g_config->start_demo.empty())
@@ -674,6 +708,13 @@ Main::run(int argc, char** argv)
   }
 
   g_dictionary_manager.reset();
+
+#ifdef __ANDROID__
+  // SDL2 keeps shared libraries loaded after the app is closed,
+  // when we launch the app again the static initializers will run twice and crash the app.
+  // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
+  _exit(result);
+#endif
 
   return result;
 }

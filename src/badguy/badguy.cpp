@@ -42,13 +42,13 @@ static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
-               const std::string& light_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   BadGuy(pos, Direction::LEFT, sprite_name_, layer_, light_sprite_name)
 {
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
-               const std::string& light_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
@@ -63,17 +63,20 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
+  m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
   m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
+  m_unfreeze_timer(),
   m_on_ground_flag(false),
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/splash.ogg");
   SoundManager::current()->preload("sounds/fire.ogg");
 
@@ -82,7 +85,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
-               const std::string& light_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
   MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
@@ -97,11 +100,13 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_dead_script(),
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
+  m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
   m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
+  m_unfreeze_timer(),
   m_on_ground_flag(false),
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
@@ -115,6 +120,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/splash.ogg");
   SoundManager::current()->preload("sounds/fire.ogg");
 
@@ -135,17 +141,32 @@ BadGuy::draw(DrawingContext& context)
   }
   else
   {
-    if (m_state == STATE_FALLING) {
+    if (m_state == STATE_FALLING)
+    {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
       m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
       context.pop_transform();
-    } else {
-      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
     }
+    else
+    {
+      if (m_unfreeze_timer.started() && m_unfreeze_timer.get_timeleft() <= 1.f)
+      {
+        m_sprite->draw(context.color(), get_pos() + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer-1, m_flip);
+        if (is_portable())
+          m_freezesprite->draw(context.color(), get_pos() + Vector(graphicsRandom.randf(-3, 3), 0.f), m_layer);
+      }
+      else
+      {
+        if (m_frozen && is_portable())
+          m_freezesprite->draw(context.color(), get_pos(), m_layer);
+        m_sprite->draw(context.color(), get_pos(), m_layer - (m_frozen ? 1 : 0), m_flip);
+      }
 
-    if (m_glowing) {
-      m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+      if (m_glowing)
+      {
+        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+      }
     }
   }
 }
@@ -153,6 +174,13 @@ BadGuy::draw(DrawingContext& context)
 void
 BadGuy::update(float dt_sec)
 {
+  if (m_frozen && !is_grabbed())
+  {
+    set_colgroup_active(std::abs(m_physic.get_velocity_y()) < 0.2f && std::abs(m_physic.get_velocity_x()) < 0.2f
+      ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
+    if (m_unfreeze_timer.check())
+      unfreeze(false);
+  }
   if (!Sector::get().inside(m_col.m_bbox)) {
     auto this_portable = dynamic_cast<Portable*> (this);
     if (!this_portable || !this_portable->is_grabbed())
@@ -185,6 +213,12 @@ BadGuy::update(float dt_sec)
       if (Editor::is_active()) {
         break;
       }
+      //won't work if defined anywhere else for some reason
+      if (m_frozen && is_portable())
+        m_freezesprite->set_action(get_overlay_size(), 1);
+      else
+        m_freezesprite->set_action("default", 1);
+        
       active_update(dt_sec);
       break;
 
@@ -290,7 +324,8 @@ BadGuy::deactivate()
 void
 BadGuy::active_update(float dt_sec)
 {
-  m_col.set_movement(m_physic.get_movement(dt_sec));
+  if (!is_grabbed())
+    m_col.set_movement(m_physic.get_movement(dt_sec));
   if (m_frozen)
     m_sprite->stop_animation();
 }
@@ -342,13 +377,25 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 {
   if (!is_active()) return ABORT_MOVE;
 
+  if (is_grabbed())
+    return FORCE_MOVE;
+
   auto badguy = dynamic_cast<BadGuy*> (&other);
+  if (badguy && hit.bottom && m_frozen && badguy->get_group() != COLGROUP_TOUCHABLE)
+  {
+    m_physic.set_velocity_y(badguy->m_physic.get_velocity_y());
+    if (!badguy->is_frozen())
+    {
+      badguy->kill_fall();
+    }
+    return FORCE_MOVE;
+  }
   if (badguy && badguy->is_active() && badguy->m_col.get_group() == COLGROUP_MOVING) {
 
     /* Badguys don't let badguys squish other badguys. It's bad. */
 #if 0
     // hit from above?
-    if (badguy->get_bbox().get_bottom() < (bbox.get_top() + 16)) {
+    if (badguy->get_bbox().get_bottom() < (bbox.get_top() + (player->is_sliding() ? 8.f : 16.f))) {
       if (collision_squished(*badguy)) {
         return ABORT_MOVE;
       }
@@ -390,8 +437,28 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 void
 BadGuy::collision_solid(const CollisionHit& hit)
 {
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  if (m_frozen)
+  {
+    if (hit.top || hit.bottom)
+      m_physic.set_velocity_y(0);
+    if (hit.left || hit.right)
+      m_physic.set_velocity_x(0);
+    if ((m_physic.get_velocity_x() > -5.0f) &&
+      (m_physic.get_velocity_x() < 5.0f))
+    {
+      m_physic.set_velocity_x(0);
+      m_physic.set_acceleration_x(0.0);
+    }
+    else
+    {
+      m_physic.set_velocity_x(m_physic.get_velocity_x() - (m_physic.get_velocity_x() > 0.f ? 5.f : -5.f));
+    }
+  }
+  else
+  {
+    m_physic.set_velocity_x(0);
+    m_physic.set_velocity_y(0);
+  }
   update_on_ground_flag(hit);
 }
 
@@ -405,13 +472,18 @@ BadGuy::on_flip(float height)
 }
 
 HitResponse
-BadGuy::collision_player(Player& player, const CollisionHit& )
+BadGuy::collision_player(Player& player, const CollisionHit& hit)
 {
-  if (player.is_invincible()) {
+  if (player.is_invincible() ||
+    (is_snipable() && player.is_sliding())) {
     kill_fall();
     return ABORT_MOVE;
   }
-  if(player.get_grabbed_object() != nullptr)
+
+  if (is_grabbed())
+    return FORCE_MOVE;
+
+  if(player.get_grabbed_object() != nullptr && !m_frozen)
   {
       auto badguy = dynamic_cast<BadGuy*>(player.get_grabbed_object());
       if(badguy != nullptr)
@@ -423,19 +495,21 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
         return ABORT_MOVE;
       }
   }
-
   //TODO: unfreeze timer
   if (m_frozen)
-    //unfreeze();
-    return FORCE_MOVE;
-
-  player.kill(false);
+  {
+    player.collision_solid(hit);
+  }
+  else
+    player.kill(false);
   return FORCE_MOVE;
 }
 
 HitResponse
-BadGuy::collision_badguy(BadGuy& , const CollisionHit& )
+BadGuy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
+  if (badguy.is_frozen())
+    collision_solid(hit);
   return FORCE_MOVE;
 }
 
@@ -527,18 +601,21 @@ BadGuy::kill_fall()
   if (!is_active()) return;
 
   if (m_frozen) {
-    SoundManager::current()->play("sounds/brick.wav");
+    SoundManager::current()->play("sounds/brick.wav", get_pos());
     Vector pr_pos(0.0f, 0.0f);
-    float cx = m_col.m_bbox.get_width() / 2;
-    float cy = m_col.m_bbox.get_height() / 2;
-    for (pr_pos.x = 0; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x += 16) {
-      for (pr_pos.y = 0; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 16) {
-        Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
+    float cx = m_col.m_bbox.get_width() / 2.f;
+    float cy = m_col.m_bbox.get_height() / 2.f;
+    for (pr_pos.x = 0.f; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x +=  18.f) {
+      for (pr_pos.y = 0.f; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 18.f) {
+        Vector speed = Vector((pr_pos.x - cx) * 3.f, (pr_pos.y - cy) * 2.f);
         Sector::get().add<SpriteParticle>(
-            "images/particles/ice_piece1.sprite", "default",
+            "images/particles/ice_piece"+std::to_string(graphicsRandom.rand(1, 3))+".sprite", "default",
             m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
-            speed,
-            Vector(0, Sector::get().get_gravity() * 100.0f));
+            //SPEED: add current enemy speed but do not add downwards velocity because it looks bad
+            Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
+            //SPEED: add specified speed and randomization
+          + speed + Vector(graphicsRandom.randf(-30.f, 30.f), graphicsRandom.randf(-30.f, 30.f)),
+            Vector(0, Sector::get().get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS - 1, true);
       }
     }
     // start dead-script
@@ -725,10 +802,102 @@ BadGuy::get_floor_normal() const
 }
 
 void
+BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
+{
+  Portable::grab(object, pos, dir_);
+  m_col.set_movement(pos - get_pos());
+  m_dir = dir_;
+  if (m_frozen)
+  {
+    m_unfreeze_timer.stop();
+    if (m_sprite->has_action("iced-left"))
+    {
+      m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
+      // when the sprite doesn't have sepaigrate actions for left and right, it tries to use an universal one.
+    }
+    else
+    {
+      if (m_sprite->has_action("iced"))
+      {
+        m_sprite->set_action("iced", 1);
+      }
+      // when no iced action exists, default to shading badguy blue
+      else
+      {
+        m_sprite->set_color(Color(0.60f, 0.72f, 0.88f));
+        m_sprite->stop_animation();
+      }
+    }
+  }
+  set_colgroup_active(COLGROUP_DISABLED);
+}
+
+void
+BadGuy::ungrab(MovingObject& object, Direction dir_)
+{
+  auto player = dynamic_cast<Player*> (&object);
+  set_colgroup_active(m_frozen ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
+  if (m_frozen)
+  {
+    m_unfreeze_timer.start(8.f);
+    if (player->is_swimming() || player->is_water_jumping())
+    {
+      float swimangle = player->get_swimming_angle();
+      m_physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
+    }
+    else
+    {
+      m_physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.0f ? 0.f :
+        player->m_dir == Direction::LEFT ? -200.f : 200.f);
+      if (dir_ == Direction::UP)
+      {
+        m_physic.set_velocity_y(-500.f);
+      }
+      else if (dir_ == Direction::DOWN)
+      {
+        Vector mov(0, 32);
+        if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this))
+        {
+          // There is free space, so throw it down
+          m_physic.set_velocity_y(500.f);
+        }
+      }
+      else if (fabsf(player->get_physic().get_velocity_x()) > 1.0f)
+        m_physic.set_velocity_y(-200);
+      else
+        m_physic.set_velocity_y(0.f);
+    }
+  }
+  Portable::ungrab(object, dir_);
+}
+
+bool
+BadGuy::is_portable() const
+{
+  return m_frozen;
+}
+
+void
 BadGuy::freeze()
 {
-  set_group(COLGROUP_MOVING_STATIC);
   m_frozen = true;
+  m_unfreeze_timer.start(8.f);
+  set_colgroup_active(COLGROUP_MOVING_STATIC);
+  SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
+
+  float freezesize_x =
+    get_overlay_size() == "3x3" ? 96.f :
+    get_overlay_size() == "2x2" ? 64.f :
+    get_overlay_size() == "2x1" ? 64.f : 45.f;
+
+  float freezesize_y =
+    get_overlay_size() == "3x3" ? 94.f :
+    get_overlay_size() == "2x2" ? 62.f :
+    get_overlay_size() == "2x1" ? 43.f :
+    get_overlay_size() == "1x2" ? 62.f : 43.f;
+
+  m_col.set_size(freezesize_x, freezesize_y);
+  set_pos(Vector(get_bbox().get_left(), get_bbox().get_bottom() - freezesize_y));
 
   if (m_sprite->has_action("iced-left"))
     m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
@@ -737,7 +906,7 @@ BadGuy::freeze()
   {
     if (m_sprite->has_action("iced"))
       m_sprite->set_action("iced", 1);
-      // when no iced action exists, default to shading badguy blue
+    // when no iced action exists, default to shading badguy blue
     else
     {
       m_sprite->set_color(Color(0.60f, 0.72f, 0.88f));
@@ -747,16 +916,35 @@ BadGuy::freeze()
 }
 
 void
-BadGuy::unfreeze()
+BadGuy::unfreeze(bool melt)
 {
-  set_group(m_colgroup_active);
-  m_frozen = false;
-
-  // restore original color if needed
-  if ((!m_sprite->has_action("iced-left")) && (!m_sprite->has_action("iced")) )
+  if (!m_ignited)
   {
+    set_colgroup_active(COLGROUP_MOVING);
+
     m_sprite->set_color(Color(1.f, 1.f, 1.f));
     m_sprite->set_animation_loops();
+  }
+  m_frozen = false;
+  m_unfreeze_timer.stop();
+  m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+
+  SoundManager::current()->play(melt ? "sounds/splash.ogg" : "sounds/brick.wav", get_pos());
+  Vector pr_pos(0.0f, 0.0f);
+  float cx = m_col.m_bbox.get_width() / 2.f;
+  std::string particle_sprite_name = melt ? "images/particles/water_piece" : "images/particles/ice_piece";
+  for (pr_pos.x = 0; pr_pos.x < m_col.m_bbox.get_width(); pr_pos.x += 16.f) {
+    for (pr_pos.y = 0; pr_pos.y < m_col.m_bbox.get_height(); pr_pos.y += 16.f) {
+      Vector speed = Vector((pr_pos.x - cx) * 2.f, 0.f);
+      Sector::get().add<SpriteParticle>(
+        particle_sprite_name + std::to_string(graphicsRandom.rand(1, 3)) + ".sprite", "default",
+        m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
+        //SPEED: add current enemy speed but do not add downwards velocity because it looks bad
+        Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
+        //SPEED: add specified speed and randomization
+        + speed + Vector(graphicsRandom.randf(-30.f, 30.f), 0.f),
+        Vector(0.f, Sector::get().get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS + 1, true);
+    }
   }
 }
 
@@ -784,6 +972,9 @@ BadGuy::ignite()
   if (!is_flammable() || m_ignited) {
     return;
   }
+
+  if (is_frozen())
+    unfreeze();
 
   m_physic.enable_gravity(true);
   m_physic.set_velocity_x(0);
@@ -891,7 +1082,7 @@ BadGuy::after_editor_set()
     } else if (m_sprite->has_action("standing-left")) {
       m_sprite->set_action("standing-left");
     } else {
-      log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class() << std::endl;
+      log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class_name() << std::endl;
     }
   }
   else
@@ -920,7 +1111,7 @@ BadGuy::after_editor_set()
       m_sprite->set_action("flying");
     } else {
       log_warning << "couldn't find editor sprite for badguy direction='" << action_str << "': "
-                  << get_class() << std::endl;
+                  << get_class_name() << std::endl;
     }
   }
 }
