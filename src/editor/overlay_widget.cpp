@@ -864,36 +864,41 @@ EditorOverlayWidget::process_right_click()
 void
 EditorOverlayWidget::process_middle_click()
 {
-  m_previous_mouse_pos = m_mouse_pos;
-  m_scrolling = true;
-
-  switch (m_editor.get_tileselect_input_type())
+  if (!action_pressed)
   {
-    case EditorToolboxWidget::InputType::TILE:
-      {
-        auto tilemap = m_editor.get_selected_tilemap();
-        if (!tilemap) {
-          return;
-        }
-
-        auto tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x),
-                                         static_cast<int>(m_hovered_tile.y));
-        m_editor.show_tile_in_toolbox(tile);
-      }
-      break;
-
-    case EditorToolboxWidget::InputType::NONE:
-    case EditorToolboxWidget::InputType::OBJECT:
-      {
-        if (m_hovered_object && m_hovered_object->is_valid())
+    m_previous_mouse_pos = m_mouse_pos;
+    m_scrolling = true;
+  }
+  else
+  {
+    switch (m_editor.get_tileselect_input_type())
+    {
+      case EditorToolboxWidget::InputType::TILE:
         {
-          m_editor.show_object_in_toolbox(m_hovered_object->get_class_name());
-        }
-      }
-      break;
+          auto tilemap = m_editor.get_selected_tilemap();
+          if (!tilemap) {
+            return;
+          }
 
-    default:
-      break;
+          auto tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x),
+                                          static_cast<int>(m_hovered_tile.y));
+          m_editor.show_tile_in_toolbox(tile);
+        }
+        break;
+
+      case EditorToolboxWidget::InputType::NONE:
+      case EditorToolboxWidget::InputType::OBJECT:
+        {
+          if (m_hovered_object && m_hovered_object->is_valid())
+          {
+            m_editor.show_object_in_toolbox(m_hovered_object->get_class_name());
+          }
+        }
+        break;
+
+      default:
+        break;
+    }
   }
 }
 
