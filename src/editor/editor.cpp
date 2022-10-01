@@ -987,4 +987,16 @@ Editor::pack_addon()
   *zip.Add_File(id + ".nfo") << ss.rdbuf();
 }
 
+void
+Editor::show_tile_in_toolbox(uint32_t tile)
+{
+  m_toolbox_widget->show_tile_in_toolbox(tile);
+}
+
+void
+Editor::show_object_in_toolbox(const std::string& classname)
+{
+  m_toolbox_widget->show_object_in_toolbox(classname);
+}
+
 /* EOF */

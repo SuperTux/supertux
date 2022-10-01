@@ -157,6 +157,9 @@ public:
 
   void pack_addon();
 
+  void show_tile_in_toolbox(uint32_t tile);
+  void show_object_in_toolbox(const std::string& classname);
+
 private:
   void set_sector(Sector* sector);
   void set_level(std::unique_ptr<Level> level, bool reset = true);

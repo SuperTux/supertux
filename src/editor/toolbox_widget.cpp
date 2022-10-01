@@ -622,4 +622,49 @@ EditorToolboxWidget::has_mouse_focus() const
   return m_has_mouse_focus;
 }
 
+void
+EditorToolboxWidget::show_tile_in_toolbox(uint32_t tile)
+{
+  for (const auto& tilegroup : m_editor.get_tileset()->get_tilegroups())
+  {
+    const auto& tiles = tilegroup.tiles;
+
+    for (int id = 0; id < tiles.size(); id++)
+    {
+      if (tiles[id] == tile)
+      {
+        m_active_tilegroup.reset(new Tilegroup(tilegroup));
+        m_input_type = EditorToolboxWidget::InputType::TILE;
+        m_starting_tile = (id / 4) * 4;
+        return;
+      }
+    }
+  }
+}
+
+void
+EditorToolboxWidget::show_object_in_toolbox(const std::string& classname)
+{
+  m_active_objectgroup = 0;
+  m_input_type = EditorToolboxWidget::InputType::OBJECT;
+
+  for (int i = 0; i < m_object_info->m_groups.size(); i++)
+  {
+    const auto& objs = m_object_info->m_groups.at(i).get_icons();
+
+    for (int id = 0; id < objs.size(); id++)
+    {
+      const auto& obj = objs[id];
+
+      if (obj.get_object_class() == classname)
+      {
+        m_active_objectgroup = i;
+        m_input_type = EditorToolboxWidget::InputType::OBJECT;
+        m_starting_tile = (id / 4) * 4;
+        return;
+      }
+    }
+  }
+}
+
 /* EOF */

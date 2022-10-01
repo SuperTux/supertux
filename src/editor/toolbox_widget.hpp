@@ -83,6 +83,9 @@ public:
   bool has_mouse_focus() const;
   bool has_active_object_tip() const { return m_object_tip != nullptr; }
 
+  void show_tile_in_toolbox(uint32_t tile);
+  void show_object_in_toolbox(const std::string& classname);
+
 private:
   Vector get_tile_coords(const int pos) const;
   int get_tile_pos(const Vector& coords) const;
