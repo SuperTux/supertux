@@ -26,7 +26,7 @@ class Dispenser final : public BadGuy,
 {
 private:
   enum class DispenserType {
-    DROPPER, ROCKETLAUNCHER, CANNON, POINT
+    DROPPER, CANNON, POINT, ROCKETLAUNCHER
   };
 
   static DispenserType DispenserType_from_string(const std::string& type_string);

@@ -32,9 +32,7 @@ Dispenser::DispenserType_from_string(const std::string& type_string)
 {
   if (type_string == "dropper") {
     return DispenserType::DROPPER;
-  } else if (type_string == "rocketlauncher") {
-    return DispenserType::ROCKETLAUNCHER;
-  } else if (type_string == "cannon") {
+  } else if (type_string == "cannon" || type_string == "rocketlauncher") { // Retro-compatibility with "rocketlauncher"
     return DispenserType::CANNON;
   } else if (type_string == "point") {
     return DispenserType::POINT;
@@ -50,8 +48,7 @@ Dispenser::DispenserType_to_string(DispenserType type)
   {
     case DispenserType::DROPPER:
       return "dropper";
-    case DispenserType::ROCKETLAUNCHER:
-      return "rocketlauncher";
+    case DispenserType::ROCKETLAUNCHER: // Retro-compatibility with "rocketlauncher"
     case DispenserType::CANNON:
       return "cannon";
     case DispenserType::POINT:
@@ -62,7 +59,7 @@ Dispenser::DispenserType_to_string(DispenserType type)
 }
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
+  BadGuy(reader, "images/creatures/dispenser/dropper.sprite"),
   ExposedObject<Dispenser, scripting::Dispenser>(this),
   m_cycle(),
   m_badguys(),
@@ -118,23 +115,14 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   switch (m_type)
   {
     case DispenserType::DROPPER:
-      m_sprite->set_action("dropper");
-      break;
-
-    case DispenserType::ROCKETLAUNCHER:
-      m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
-      set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
-
-      if (m_start_dir == Direction::AUTO)
-        m_autotarget = true;
       break;
 
     case DispenserType::CANNON:
-      m_sprite->set_action("working");
+      change_sprite("images/creatures/dispenser/canon.sprite");
       break;
 
     case DispenserType::POINT:
-      m_sprite->set_action("invisible");
+      change_sprite("images/creatures/dispenser/invisible.sprite");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
 
@@ -459,16 +447,13 @@ Dispenser::set_correct_action()
   switch (m_type)
   {
     case DispenserType::DROPPER:
-      m_sprite->set_action("dropper");
-      break;
-    case DispenserType::ROCKETLAUNCHER:
-      m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
+      change_sprite("images/creatures/dispenser/dropper.sprite");
       break;
     case DispenserType::CANNON:
-      m_sprite->set_action("working");
+      change_sprite("images/creatures/dispenser/canon.sprite");
       break;
     case DispenserType::POINT:
-      m_sprite->set_action("invisible");
+      change_sprite("images/creatures/dispenser/invisible.sprite");
       break;
     default:
       break;
@@ -490,8 +475,8 @@ Dispenser::get_settings()
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
                  "max-concurrent-badguys", 0);
   result.add_enum(_("Type"), reinterpret_cast<int*>(&m_type),
-                  {_("dropper"), _("rocket launcher"), _("cannon"), _("invisible")},
-                  {"dropper", "rocketlauncher", "cannon", "point"},
+                  {_("dropper"), _("cannon"), _("invisible")},
+                  {"dropper", "cannon", "point"},
                   static_cast<int>(DispenserType::DROPPER), "type");
 
   result.reorder({"cycle", "random", "type", "badguy", "direction", "gravity", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
