@@ -732,8 +732,8 @@ Main::release_check()
 {
   // Detect a potential new release of SuperTux. If a release, other than
   // the current one is indicated on the given web file, show a notification on the main menu screen.
-  const std::string target_file = "verinfo.nfo";
-  TransferStatusPtr status = m_downloader.request_download("https://raw.githubusercontent.com/SuperTux/supertux/master/verinfo.nfo", target_file);
+  const std::string target_file = "ver_info.nfo";
+  TransferStatusPtr status = m_downloader.request_download("https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo", target_file);
   status->then([target_file, status](bool success)
   {
     if (!success)
