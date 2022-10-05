@@ -58,6 +58,20 @@ Dispenser::DispenserType_to_string(DispenserType type)
   }
 }
 
+std::string
+Dispenser::CannonDirection_to_string(Direction direction)
+{
+  switch (direction)
+  {
+    case Direction::LEFT:
+      return "left";
+    case Direction::RIGHT:
+      return "right";
+    default:
+      return "center";
+  }
+}
+
 Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dropper.sprite"),
   ExposedObject<Dispenser, scripting::Dispenser>(this),
@@ -112,6 +126,11 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
+  // Set direction exactly as specified in object data.
+  std::string dir_str = "auto";
+  reader.get("direction", dir_str);
+  m_dir = str2dir(dir_str);
+
   switch (m_type)
   {
     case DispenserType::DROPPER:
@@ -119,6 +138,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 
     case DispenserType::CANNON:
       change_sprite("images/creatures/dispenser/canon.sprite");
+      m_sprite->set_action(CannonDirection_to_string(m_dir));
       break;
 
     case DispenserType::POINT:
@@ -147,16 +167,6 @@ Dispenser::activate()
   if (m_broken)
     return;
 
-  if (m_autotarget && !m_swivel)
-  {
-    // auto cannon sprite might be wrong
-    auto* player = get_nearest_player();
-    if (player)
-    {
-      m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
-      m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
-    }
-  }
   m_dispense_timer.start(m_cycle, true);
   launch_badguy();
 }
@@ -223,34 +233,18 @@ Dispenser::active_update(float dt_sec)
     // auto always shoots in Tux's direction
     if (m_autotarget)
     {
-      if (m_sprite->animation_done())
-      {
-        m_sprite->set_action(m_dir == Direction::LEFT ? "working-left" : "working-right");
-        m_swivel = false;
-      }
-
       auto player = get_nearest_player();
       if (player && !m_swivel)
       {
         Direction targetdir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
         if (m_dir != targetdir)
         {
-          // no target: swivel cannon
-          m_swivel = true;
           m_dir = targetdir;
-          m_sprite->set_action(m_dir == Direction::LEFT ? "swivel-left" : "swivel-right", 1);
-        }
-        else
-        {
-          // tux in sight: shoot
-          launch_badguy();
+          return;
         }
       }
     }
-    else
-    {
-      launch_badguy();
-    }
+    launch_badguy();
   }
 }
 
@@ -379,16 +373,18 @@ Dispenser::freeze()
   set_group(COLGROUP_MOVING_STATIC);
   m_frozen = true;
 
-    if (m_type == DispenserType::ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
+  if (m_type == DispenserType::ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
+  {
     // Only swivel dispensers can use their left/right iced actions.
     m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
     // when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
     // it tries to use an universal one.
+  }
   else
   {
     if (m_type == DispenserType::CANNON && m_sprite->has_action("iced"))
-      m_sprite->set_action("iced", 1);
-      // When is the dispenser a cannon, it uses the "iced" action.
+      m_sprite->set_action("iced-" + CannonDirection_to_string(m_dir), 1);
+      // When the dispenser is a cannon, it uses the respective "iced" action, based on the current direction.
     else
     {
       if (m_sprite->has_action("dropper-iced"))
@@ -451,6 +447,7 @@ Dispenser::set_correct_action()
       break;
     case DispenserType::CANNON:
       change_sprite("images/creatures/dispenser/canon.sprite");
+      m_sprite->set_action(CannonDirection_to_string(m_dir));
       break;
     case DispenserType::POINT:
       change_sprite("images/creatures/dispenser/invisible.sprite");

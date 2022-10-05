@@ -31,6 +31,7 @@ private:
 
   static DispenserType DispenserType_from_string(const std::string& type_string);
   static std::string DispenserType_to_string(DispenserType type);
+  static std::string CannonDirection_to_string(Direction direction);
 
 public:
   Dispenser(const ReaderMapping& reader);
