@@ -3115,9 +3115,9 @@
       1572 1574
     )
 	(atrributes
-	  1024 0
 	  1024 1024
-	  0    1024
+	  1024 1024
+	  1024 1024
 	)
     (images "tiles/forest/pogonia.png")
   )
