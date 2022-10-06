@@ -347,6 +347,12 @@ ObjectSettings::add_button(const std::string& text, const std::function<void()>&
 }
 
 void
+ObjectSettings::add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr)
+{
+  add_option(std::make_unique<ListOption>(text, key, items, value_ptr));
+}
+
+void
 ObjectSettings::reorder(const std::vector<std::string>& order)
 {
   std::vector<std::unique_ptr<ObjectOption> > new_options;

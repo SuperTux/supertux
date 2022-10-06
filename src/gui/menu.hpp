@@ -45,6 +45,7 @@ class ItemLabel;
 class ItemPaths;
 class ItemScript;
 class ItemScriptLine;
+class ItemList;
 class ItemStringSelect;
 class ItemTextField;
 class ItemToggle;
@@ -102,6 +103,7 @@ public:
   ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>& items, int id = -1);
   ItemImages& add_images(const std::string& image_path, int max_image_width = 0, int max_image_height = 0, int id = -1);
   ItemImages& add_images(const std::vector<std::string>& image_paths, int max_image_width = 0, int max_image_height = 0, int id = -1);
+  ItemList& add_list(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id = -1);
 
   void process_input(const Controller& controller);
 

@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "badguy/owl.hpp"
 #include "object/coin_explode.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
@@ -195,20 +196,19 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object,pos,dir_);
   if (tstate == STATE_TICKING){
-    m_col.set_movement(pos - get_pos());
-    m_dir = dir_;
-
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux
     m_sprite->set_action_continued(m_dir == Direction::LEFT ? "ticking-right" : "ticking-left");
     set_colgroup_active(COLGROUP_DISABLED);
   }
   else if (m_frozen){
-    m_col.set_movement(pos - get_pos());
-    m_dir = dir_;
     m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
-    set_colgroup_active(COLGROUP_DISABLED);
   }
+  else if (dynamic_cast<Owl*>(&object))
+    m_sprite->set_action(dir_ == Direction::LEFT ? "left" : "right");
+  m_col.set_movement(pos - get_pos());
+  m_dir = dir_;
+  set_colgroup_active(COLGROUP_DISABLED);
 }
 
 void

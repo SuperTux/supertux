@@ -157,6 +157,7 @@ void
 GameObjectFactory::init_factories()
 {
   // badguys
+  m_adding_badguys = true;
   add_factory<AngryStone>("angrystone");
   add_factory<BouncingSnowball>("bouncingsnowball");
   add_factory<CaptainSnowball>("captainsnowball");
@@ -173,7 +174,7 @@ GameObjectFactory::init_factories()
   add_factory<Ghostflame>("ghostflame");
   add_factory<GhostTree>("ghosttree");
   add_factory<Ghoul>("ghoul");
-  add_factory<GoldBomb>("goldbomb");
+  add_factory<GoldBomb>("goldbomb", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<Haywire>("haywire");
   add_factory<Iceflame>("iceflame");
   add_factory<Igel>("igel");
@@ -186,8 +187,8 @@ GameObjectFactory::init_factories()
   add_factory<LiveFireDormant>("livefire_dormant");
   add_factory<Mole>("mole");
   add_factory<MoleRock>("mole_rock");
-  add_factory<MrBomb>("mrbomb");
-  add_factory<MrIceBlock>("mriceblock");
+  add_factory<MrBomb>("mrbomb", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
+  add_factory<MrIceBlock>("mriceblock", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<MrTree>("mrtree");
   add_factory<Owl>("owl");
   add_factory<Plant>("plant");
@@ -196,11 +197,11 @@ GameObjectFactory::init_factories()
   add_factory<SCrystallo>("scrystallo");
   add_factory<ShortFuse>("short_fuse");
   add_factory<SSpiky>("sspiky");
-  add_factory<SkyDive>("skydive");
+  add_factory<SkyDive>("skydive", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<SkullyHop>("skullyhop");
   add_factory<SmartBall>("smartball");
-  add_factory<SmartBlock>("smartblock");
-  add_factory<Snail>("snail");
+  add_factory<SmartBlock>("smartblock", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
+  add_factory<Snail>("snail", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<SnowBall>("snowball");
   add_factory<Snowman>("snowman");
   add_factory<SpiderMite>("spidermite");
@@ -215,6 +216,7 @@ GameObjectFactory::init_factories()
   add_factory<Yeti>("yeti");
   add_factory<YetiStalactite>("yeti_stalactite");
   add_factory<Zeekling>("zeekling");
+  m_adding_badguys = false;
 
   // other objects
   add_factory<AmbientLight>("ambient-light");
@@ -247,7 +249,7 @@ GameObjectFactory::init_factories()
   add_factory<InvisibleBlock>("invisible_block");
   add_factory<InvisibleWall>("invisible_wall");
   add_factory<Ispy>("ispy");
-  add_factory<Lantern>("lantern");
+  add_factory<Lantern>("lantern", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<LevelTime>("leveltime");
   add_factory<LitObject>("lit-object");
   add_factory<MagicBlock>("magicblock");
@@ -258,7 +260,7 @@ GameObjectFactory::init_factories()
   add_factory<PowerUp>("powerup");
   add_factory<PushButton>("pushbutton");
   add_factory<RainParticleSystem>("particles-rain");
-  add_factory<Rock>("rock");
+  add_factory<Rock>("rock", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<RubLight>("rublight");
   add_factory<ScriptedObject>("scriptedobject");
   add_factory<Shard>("shard");
@@ -269,8 +271,8 @@ GameObjectFactory::init_factories()
   add_factory<TextArrayObject>("text-array");
   add_factory<Thunderstorm>("thunderstorm");
   add_factory<Torch>("torch");
-  add_factory<Trampoline>("trampoline");
-  add_factory<RustyTrampoline>("rustytrampoline");
+  add_factory<Trampoline>("trampoline", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
+  add_factory<RustyTrampoline>("rustytrampoline", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<UnstableTile>("unstable_tile");
   add_factory<WeakBlock>("weak_block");
   add_factory<Wind>("wind");

@@ -19,6 +19,7 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "badguy/owl.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
@@ -308,7 +309,7 @@ Snail::ungrab(MovingObject& object, Direction dir_)
     }
     else {
       m_dir = dir_;
-      be_kicked(true);
+      be_kicked(dynamic_cast<Owl*>(&object) ? false : true);
     }
   }
   else

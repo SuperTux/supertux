@@ -24,6 +24,9 @@ class Portable;
 
 class Owl final : public BadGuy
 {
+private:
+  static std::vector<std::string> s_portable_objects;
+
 public:
   Owl(const ReaderMapping& reader);
 

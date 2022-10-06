@@ -36,6 +36,7 @@
 #include "gui/item_script_line.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_textfield.hpp"
+#include "gui/item_list.hpp"
 #include "gui/item_toggle.hpp"
 #include "gui/item_string_array.hpp"
 #include "gui/item_images.hpp"
@@ -372,6 +373,15 @@ ItemImages&
 Menu::add_images(const std::vector<std::string>& image_paths, int max_image_width, int max_image_height, int id)
 {
   auto item = std::make_unique<ItemImages>(image_paths, max_image_width, max_image_height, id);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+  
+ItemList&
+Menu::add_list(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id)
+{
+  auto item = std::make_unique<ItemList>(text, items, value_ptr, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;
