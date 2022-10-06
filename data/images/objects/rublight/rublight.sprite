@@ -1,8 +1,22 @@
 (supertux-sprite
   (action
-    (name "normal")
-    (images
-      "rublight.png"
-    )
+    (name "default")
+	(fps 8)
+	(images "rublight-0.png"
+			"rublight-1.png"
+			"rublight-2.png"
+			"rublight-3.png"
+			"rublight-4.png"
+			"rublight-5.png"
+			"rublight-6.png"
+			"rublight-7.png"
+			"rublight-8.png"
+			"rublight-9.png"
+			"rublight-10.png"
+			"rublight-0.png"
+			"rublight-0.png"
+			"rublight-0.png"
+			"rublight-0.png"
+			"rublight-0.png")
   )
 )

@@ -1,23 +1,35 @@
 (supertux-sprite
  (action
   (name "dropper")
-  (hitbox 0 0 64 24)
+  (hitbox 2 3 64 32)
   (images "dropper.png"))
 
  (action
   (name "dropper-iced")
-  (hitbox 0 0 64 24)
-  (images "dropper-frozen.png"))
+  (loops 1)
+  (fps 24)
+  (hitbox 2 3 64 32)
+  (images "dropper_frozen-0.png"
+		  "dropper_frozen-1.png"
+		  "dropper_frozen-2.png"
+		  "dropper_frozen-3.png"
+		  "dropper_frozen-4.png"))
  
  (action
   (name "working")
-  (hitbox 3 5 32 58)
+  (hitbox 4 4 32 64)
   (images "canon.png"))
 
  (action
   (name "iced")
-  (hitbox 3 5 32 58)
-  (images "canon-frozen.png"))
+  (loops 1)
+  (fps 24)
+  (hitbox 4 4 32 64)
+  (images "canon_frozen0-0.png"
+		  "canon_frozen0-1.png"
+		  "canon_frozen0-2.png"
+		  "canon_frozen0-3.png"
+		  "canon_frozen0-4.png"))
  
  (action
   (name "working-left")
