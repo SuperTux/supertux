@@ -26,16 +26,18 @@ class Dispenser final : public BadGuy,
 {
 private:
   enum class DispenserType {
-    DROPPER, ROCKETLAUNCHER, CANNON, POINT
+    CANNON, DROPPER, POINT
   };
 
   static DispenserType DispenserType_from_string(const std::string& type_string);
   static std::string DispenserType_to_string(DispenserType type);
+  static std::string Cannon_Direction_to_string(Direction direction);
 
 public:
   Dispenser(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
+  virtual void initialize() override;
   virtual void activate() override;
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;
@@ -73,7 +75,6 @@ public:
   }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   void launch_badguy();
 
@@ -86,8 +87,6 @@ private:
   unsigned int m_next_badguy;
   Timer m_dispense_timer;
   bool m_autotarget;
-  bool m_swivel;
-  bool m_broken;
   bool m_random;
   bool m_gravity;
 
