@@ -294,16 +294,7 @@ BadGuy::update(float dt_sec)
 Direction
 BadGuy::str2dir(const std::string& dir_str) const
 {
-  if ( dir_str == "auto" )
-    return Direction::AUTO;
-  if ( dir_str == "left" )
-    return Direction::LEFT;
-  if ( dir_str == "right" )
-    return Direction::RIGHT;
-
-  //default to "auto"
-  log_warning << "Badguy::str2dir: unknown direction \"" << dir_str << "\"" << std::endl;
-  return Direction::AUTO;
+  return string_to_dir(dir_str);
 }
 
 void

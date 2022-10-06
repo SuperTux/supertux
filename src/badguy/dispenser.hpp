@@ -26,7 +26,7 @@ class Dispenser final : public BadGuy,
 {
 private:
   enum class DispenserType {
-    DROPPER, CANNON, POINT, ROCKETLAUNCHER
+    CANNON, DROPPER, POINT, ROCKETLAUNCHER
   };
 
   static DispenserType DispenserType_from_string(const std::string& type_string);
@@ -37,6 +37,7 @@ public:
   Dispenser(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
+  virtual void initialize() override;
   virtual void activate() override;
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;

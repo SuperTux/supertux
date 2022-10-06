@@ -68,6 +68,8 @@ Dispenser::CannonDirection_to_string(Direction direction)
     case Direction::RIGHT:
       return "right";
     default:
+      if (direction != Direction::AUTO)
+        log_warning << "Direction \"" << direction << "\" not valid for cannon. Switching to \"auto\"." << std::endl;
       return "center";
   }
 }
@@ -96,7 +98,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   if (reader.get("gravity", m_gravity)) m_physic.enable_gravity(true);
   if (!reader.get("badguy", m_badguys)) m_badguys.clear();
   reader.get("random", m_random, false);
-  std::string type_s = "dropper"; //default
+  std::string type_s = "cannon"; //default
   reader.get("type", type_s, "");
   try
   {
@@ -108,17 +110,18 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     {
       if (type_s.empty())
       {
-        log_warning << "No dispenser type set, setting to dropper." << std::endl;
+        log_warning << "No dispenser type set, setting to cannon." << std::endl;
       }
       else
       {
-        log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
+        log_warning << "Unknown type of dispenser:" << type_s << ", setting to cannon." << std::endl;
       }
     }
-    m_type = DispenserType::DROPPER;
+    m_type = DispenserType::CANNON;
   }
 
   m_type_str = DispenserType_to_string(m_type);
+  m_dir = m_start_dir; // Reset direction to default.
 
   reader.get("limit-dispensed-badguys", m_limit_dispensed_badguys, false);
   reader.get("max-concurrent-badguys", m_max_concurrent_badguys, 0);
@@ -126,29 +129,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
-  // Set direction exactly as specified in object data.
-  std::string dir_str = "auto";
-  reader.get("direction", dir_str);
-  m_dir = str2dir(dir_str);
-
-  switch (m_type)
-  {
-    case DispenserType::DROPPER:
-      break;
-
-    case DispenserType::CANNON:
-      change_sprite("images/creatures/dispenser/canon.sprite");
-      m_sprite->set_action(CannonDirection_to_string(m_dir));
-      break;
-
-    case DispenserType::POINT:
-      change_sprite("images/creatures/dispenser/invisible.sprite");
-      set_colgroup_active(COLGROUP_DISABLED);
-      break;
-
-    default:
-      break;
-  }
+  set_correct_action();
 
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   m_countMe = false;
@@ -159,6 +140,12 @@ Dispenser::draw(DrawingContext& context)
 {
   if (m_type != DispenserType::POINT || Editor::is_active())
     BadGuy::draw(context);
+}
+
+void
+Dispenser::initialize()
+{
+  m_dir = m_start_dir; // Reset direction to default.
 }
 
 void
@@ -371,6 +358,7 @@ Dispenser::freeze()
   }
 
   set_group(COLGROUP_MOVING_STATIC);
+  SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   m_frozen = true;
 
   if (m_type == DispenserType::ROCKETLAUNCHER && m_sprite->has_action("iced-left"))
@@ -382,21 +370,24 @@ Dispenser::freeze()
   }
   else
   {
-    if (m_type == DispenserType::CANNON && m_sprite->has_action("iced"))
-      m_sprite->set_action("iced-" + CannonDirection_to_string(m_dir), 1);
+    const std::string cannon_iced = "iced-" + CannonDirection_to_string(m_dir);
+    if (m_type == DispenserType::CANNON && m_sprite->has_action(cannon_iced))
+    {
+      m_sprite->set_action(cannon_iced, 1);
       // When the dispenser is a cannon, it uses the respective "iced" action, based on the current direction.
+    }
     else
     {
-      if (m_sprite->has_action("dropper-iced"))
+      if (m_type == DispenserType::DROPPER && m_sprite->has_action("dropper-iced"))
       {
         m_sprite->set_action("dropper-iced", 1);
-        // When is the dispenser a dropper, it uses the "dropper-iced".
+        // When the dispenser is a dropper, it uses the "dropper-iced".
       }
       else
       {
         m_sprite->set_color(Color(0.6f, 0.72f, 0.88f));
         m_sprite->stop_animation();
-        // When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
+        // When the dispenser is something else (unprobable), or has no matching iced sprite, it shades to blue.
       }
     }
   }
@@ -445,13 +436,17 @@ Dispenser::set_correct_action()
     case DispenserType::DROPPER:
       change_sprite("images/creatures/dispenser/dropper.sprite");
       break;
+
     case DispenserType::CANNON:
       change_sprite("images/creatures/dispenser/canon.sprite");
       m_sprite->set_action(CannonDirection_to_string(m_dir));
       break;
+
     case DispenserType::POINT:
       change_sprite("images/creatures/dispenser/invisible.sprite");
+      set_colgroup_active(COLGROUP_DISABLED);
       break;
+
     default:
       break;
   }
@@ -472,9 +467,9 @@ Dispenser::get_settings()
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
                  "max-concurrent-badguys", 0);
   result.add_enum(_("Type"), reinterpret_cast<int*>(&m_type),
-                  {_("dropper"), _("cannon"), _("invisible")},
-                  {"dropper", "cannon", "point"},
-                  static_cast<int>(DispenserType::DROPPER), "type");
+                  {_("cannon"), _("dropper"), _("invisible")},
+                  {"cannon", "dropper", "point"},
+                  static_cast<int>(DispenserType::CANNON), "type");
 
   result.reorder({"cycle", "random", "type", "badguy", "direction", "gravity", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
 
