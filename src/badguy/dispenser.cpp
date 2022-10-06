@@ -388,7 +388,7 @@ Dispenser::set_correct_action()
       break;
 
     case DispenserType::CANNON:
-      change_sprite("images/creatures/dispenser/canon.sprite");
+      change_sprite("images/creatures/dispenser/cannon.sprite");
       m_sprite->set_action(Cannon_Direction_to_string(m_dir));
       break;
 
