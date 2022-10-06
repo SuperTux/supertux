@@ -257,7 +257,7 @@
     (icon "images/objects/rock/rock.png"))
   (object
     (class "rublight")
-    (icon "images/objects/rublight/rublight.png"))
+    (icon "images/objects/rublight/rublight-0.png"))
   (object
     (class "rustytrampoline")
     (icon "images/objects/rusty-trampoline/rustytrampoline-editor.png"))
