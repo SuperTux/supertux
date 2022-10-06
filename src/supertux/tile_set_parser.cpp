@@ -130,6 +130,37 @@ TileSetParser::parse(int32_t start, int32_t end, int32_t offset, bool imported)
       TileSetParser import_parser(m_tileset, import_filename);
       import_parser.parse(import_start, import_end, import_offset, true);
     }
+    else if (iter.get_key() == "additional")
+    {
+      ReaderMapping reader = iter.as_mapping();
+      auto additional_iter = reader.get_iter();
+      while (additional_iter.next())
+      {
+        if (additional_iter.get_key() == "thunderstorm") // Additional attributes for thunderstorms.
+        {
+          auto info_mapping = additional_iter.as_mapping();
+          // Additional attributes for changing tiles for thunderstorms.
+          std::vector<uint32_t> tiles;
+          if (info_mapping.get("changing-tiles", tiles))
+          {
+            if (tiles.size() < 2)
+            {
+              log_warning << "Less than 2 tile IDs given for thunderstorm changing tiles." << std::endl;
+              continue;
+            }
+            if (tiles.size() % 2 != 0) tiles.pop_back(); // If the number of tiles isn't even, remove last tile.
+            for (int i = 0; i < static_cast<int>(tiles.size()); i += 2)
+            {
+              m_tileset.m_thunderstorm_tiles.insert({tiles[i], tiles[i + 1]});
+            }
+          }
+        }
+        else
+        {
+          log_warning << "Unknown symbol '" << additional_iter.get_key() << "' in \"additional\" section of tileset file" << std::endl;
+        }
+      }
+    }
     else
     {
       log_warning << "Unknown symbol '" << iter.get_key() << "' in tileset file" << std::endl;
