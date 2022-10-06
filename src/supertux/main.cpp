@@ -26,6 +26,7 @@
 #include <boost/locale.hpp>
 #include <physfs.h>
 #include <tinygettext/log.hpp>
+#include <fmt/format.h>
 extern "C" {
 #include <findlocale.h>
 }
@@ -35,6 +36,7 @@ extern "C" {
 #endif
 
 #include "addon/addon_manager.hpp"
+#include "addon/downloader.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
@@ -44,6 +46,7 @@ extern "C" {
 #include "editor/tool_icon.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/notification.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
@@ -72,8 +75,11 @@ extern "C" {
 #include "supertux/tile_manager.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
+#include "supertux/menu/download_dialog.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
 #include "util/timelog.hpp"
 #include "util/string_util.hpp"
@@ -133,7 +139,8 @@ Main::Main() :
   m_console(),
   m_game_manager(),
   m_screen_manager(),
-  m_savegame()
+  m_savegame(),
+  m_downloader() // Used for getting the version of the latest SuperTux release.
 {
 }
 
@@ -598,6 +605,7 @@ Main::launch_game(const CommandLineArguments& args)
     else
     {
       m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame));
+      if (g_config->do_release_check) release_check();
     }
   }
 
@@ -717,6 +725,54 @@ Main::run(int argc, char** argv)
 #endif
 
   return result;
+}
+
+void
+Main::release_check()
+{
+  // Detect a potential new release of SuperTux. If a release, other than
+  // the current one is indicated on the given web file, show a notification on the main menu screen.
+  const std::string target_file = "ver_info.nfo";
+  TransferStatusPtr status = m_downloader.request_download("https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo", target_file);
+  status->then([target_file, status](bool success)
+  {
+    if (!success)
+    {
+      log_warning << "Error performing new release check: Failed to download \"supertux-versioninfo\" file: " << status->error_msg << std::endl;
+      return;
+    }
+    auto doc = ReaderDocument::from_file(target_file);
+    auto root = doc.get_root();
+    if (root.get_name() != "supertux-versioninfo")
+    {
+      log_warning << "File is not a \"supertux-versioninfo\" file." << std::endl;
+      return;
+    }
+    auto mapping = root.get_mapping();
+    std::string latest_ver;
+    if (mapping.get("latest", latest_ver))
+    {
+      const std::string version_full = std::string(PACKAGE_VERSION);
+      const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);
+      if (version != latest_ver)
+      {
+        auto notif = std::make_unique<Notification>("new_release_" + latest_ver);
+        notif->set_text("New release: SuperTux v" + latest_ver + "!");
+        notif->on_press([latest_ver]()
+                       {
+                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n \nDo you want to visit the website now?")), latest_ver), []()
+                                                   {
+                                                     FileSystem::open_url("https://supertux.org");
+                                                   });
+                       });
+        MenuManager::instance().set_notification(std::move(notif));
+      }
+    }
+  });
+  // Set up a download dialog to update the transfer status.
+  auto dialog = std::make_unique<DownloadDialog>(status, true, true, true);
+  dialog->set_title(_("Checking for new releases..."));
+  MenuManager::instance().set_dialog(std::move(dialog));
 }
 
 /* EOF */
