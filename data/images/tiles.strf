@@ -5052,4 +5052,26 @@
     )
     (images "tiles/forest/special2.png")
   )
+
+  ;; Additional attributes
+  (additional
+    (thunderstorm
+      ;; Attributes for thunderstorm changing tiles
+      (changing-tiles
+        2019 3873
+        2140 3874
+        2141 3875
+        2142 3876
+        2020 3877
+        3419 3523
+        3420 3524
+        3421 3525
+        3422 3526
+        3423 3527
+        3424 3528
+        3425 3529
+        3426 3530
+      )
+    )
+  )
 )
