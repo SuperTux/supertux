@@ -158,7 +158,7 @@
     (icon "images/creatures/darttrap/d1.png"))
   (object
     (class "dispenser")
-    (icon "images/creatures/dispenser/canon.png"))
+    (icon "images/creatures/dispenser/canon_left.png"))
   (object
     (class "ispy")
     (icon "images/objects/ispy/i-idle.png"))
