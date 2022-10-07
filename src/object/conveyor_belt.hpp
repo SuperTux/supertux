@@ -46,6 +46,8 @@ public:
 
     virtual int get_layer() const override { return LAYER_TILES; }
 
+    virtual void after_editor_set() override;
+
     /** @name Scriptable Methods */
 
     /** Starts the conveyor belt */

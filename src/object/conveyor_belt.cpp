@@ -113,6 +113,14 @@ ConveyorBelt::draw(DrawingContext &context)
 }
 
 void
+ConveyorBelt::after_editor_set()
+{
+    if (m_length <= 0)
+        m_length = 1;
+    m_col.m_bbox.set_size(32.0f * static_cast<float>(m_length), 32.0f);
+}
+
+void
 ConveyorBelt::start()
 {
     m_running = true;
