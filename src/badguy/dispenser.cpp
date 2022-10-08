@@ -25,7 +25,10 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
+
+const std::vector<std::string> Dispenser::s_sprites = { "cannon.sprite", "dropper.sprite", "invisible.sprite" };
 
 Dispenser::DispenserType
 Dispenser::DispenserType_from_string(const std::string& type_string)
@@ -87,7 +90,6 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   m_random(),
   m_gravity(),
   m_type(),
-  m_type_str(),
   m_limit_dispensed_badguys(),
   m_max_concurrent_badguys(),
   m_current_badguys()
@@ -120,7 +122,6 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     m_type = DispenserType::CANNON;
   }
 
-  m_type_str = DispenserType_to_string(m_type);
   m_dir = m_start_dir; // Reset direction to default.
 
   reader.get("limit-dispensed-badguys", m_limit_dispensed_badguys, false);
@@ -381,19 +382,16 @@ Dispenser::is_portable() const
 void
 Dispenser::set_correct_action()
 {
+  if (std::find(s_sprites.begin(), s_sprites.end(), FileSystem::basename(m_sprite_name)) != s_sprites.end())
+    change_sprite("images/creatures/dispenser/" + s_sprites[static_cast<int>(m_type)]);
+
   switch (m_type)
   {
-    case DispenserType::DROPPER:
-      change_sprite("images/creatures/dispenser/dropper.sprite");
-      break;
-
     case DispenserType::CANNON:
-      change_sprite("images/creatures/dispenser/cannon.sprite");
       m_sprite->set_action(Cannon_Direction_to_string(m_dir));
       break;
 
     case DispenserType::POINT:
-      change_sprite("images/creatures/dispenser/invisible.sprite");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
 
