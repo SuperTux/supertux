@@ -432,7 +432,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   for (unsigned i = 50; i <= 300; i+=25)
   {
     m_mobile_controls_scales.push_back(std::to_string(i) + "%");
-    if (i == g_config->m_mobile_controls_scale * 100)
+    if (i == static_cast<unsigned>(g_config->m_mobile_controls_scale * 100))
       m_next_mobile_controls_scale = (i - 50) / 25;
   }
   add_string_select(MNID_MOBILE_CONTROLS_SCALE, _("On-screen controls scale"), &m_next_mobile_controls_scale, m_mobile_controls_scales);
