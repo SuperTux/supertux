@@ -125,7 +125,7 @@ Sprite::update()
 
   while (m_frameidx >= get_frames() && !animation_done()) {
     // Loop animation.
-    m_frameidx -= get_frames() - (m_action->loop_frame > 1 ? m_action->loop_frame - 1 : 0);
+    m_frameidx -= get_frames() - (m_action->loop_frame - 1);
     m_animation_loops--;
   }
 
