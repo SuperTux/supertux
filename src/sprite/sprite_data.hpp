@@ -61,6 +61,9 @@ private:
     /** Loops (-1 = looping endlessly) */
     int loops;
 
+    /** Starting frame for animation loops */
+    int loop_frame;
+
     /** Flag that gets set to true if the action
         has custom loops defined */
     bool has_custom_loops;
