@@ -212,6 +212,7 @@ MagicBlock::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+  m_center = m_col.m_bbox.get_middle();
 }
 
 /* EOF */
