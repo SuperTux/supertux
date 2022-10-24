@@ -75,6 +75,21 @@
       (info (_ "Programming"))
     )
   (blank)
+  (person
+      (name "Alasdair \"Servalot\"")
+      (info (_ "Level Design"))
+    )
+  (blank)
+  (person
+      (name "Alasdair \"Servalot\"")
+      (info (_ "Level Design"))
+    )
+	(blank)
+	(person
+      (name "Vankata453")
+      (info (_ "Programming"))
+    )
+  (blank)
 	(blank)
     (text
       (type "heading")
