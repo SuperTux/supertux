@@ -63,6 +63,7 @@ private:
                    m_tex_jump, m_tex_action, m_tex_cheats, m_tex_debug;
 
   int m_screen_width, m_screen_height;
+  float m_mobile_controls_scale;
 
 private:
   MobileController(const MobileController&) = delete;
