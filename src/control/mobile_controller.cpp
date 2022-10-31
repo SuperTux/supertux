@@ -73,7 +73,8 @@ MobileController::MobileController() :
   m_tex_cheats(Surface::from_file("/images/engine/mobile/cheats.png")),
   m_tex_debug(Surface::from_file("/images/engine/mobile/debug.png")),
   m_screen_width(),
-  m_screen_height()
+  m_screen_height(),
+  m_mobile_controls_scale()
 {
 }
 
@@ -83,18 +84,19 @@ MobileController::draw(DrawingContext& context)
   if (!g_config->mobile_controls)
     return;
 
-  if (m_screen_width != context.get_width() || m_screen_height != context.get_height())
+  if (m_screen_width != context.get_width() || m_screen_height != context.get_height() || m_mobile_controls_scale != g_config->m_mobile_controls_scale)
   {
     m_screen_width = context.get_width();
     m_screen_height = context.get_height();
     float width = static_cast<float>(m_screen_width);
     float height = static_cast<float>(m_screen_height);
+    m_mobile_controls_scale = g_config->m_mobile_controls_scale;
     // Buttons on Android are bigger, and direction buttons are extra wide
     // Use screen height to calculate button size, because 20:9 screen ratios are common
 #ifdef __ANDROID__
-    constexpr float BUTTON_SCALE = 0.4f;
+    const float BUTTON_SCALE = 0.4f * g_config->m_mobile_controls_scale;
 #else
-    constexpr float BUTTON_SCALE = 0.2f;
+    const float BUTTON_SCALE = 0.2f * g_config->m_mobile_controls_scale;
 #endif
     m_rect_directions.set_size(height * BUTTON_SCALE * 4 / 3, height * BUTTON_SCALE);
     m_rect_directions.set_pos(Vector(0, height - height * BUTTON_SCALE));
