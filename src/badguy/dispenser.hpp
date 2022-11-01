@@ -29,6 +29,8 @@ private:
     CANNON, DROPPER, POINT
   };
 
+  static const std::vector<std::string> s_sprites;
+
   static DispenserType DispenserType_from_string(const std::string& type_string);
   static std::string DispenserType_to_string(DispenserType type);
   static std::string Cannon_Direction_to_string(Direction direction);
@@ -91,7 +93,6 @@ private:
   bool m_gravity;
 
   DispenserType m_type;
-  std::string m_type_str;
 
   /** Do we need to limit the number of dispensed badguys? */
   bool m_limit_dispensed_badguys;

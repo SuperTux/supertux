@@ -69,6 +69,7 @@ Config::Config() :
   keyboard_config(),
   joystick_config(),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
+  m_mobile_controls_scale(1),
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -327,6 +328,7 @@ Config::load()
     }
 
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
+    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
   }
 
   boost::optional<ReaderCollection> config_addons_mapping;
@@ -477,6 +479,7 @@ Config::save()
     writer.end_list("joystick");
 
     writer.write("mobile_controls", mobile_controls);
+    writer.write("mobile_controls_scale", m_mobile_controls_scale);
   }
   writer.end_list("control");
 

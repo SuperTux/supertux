@@ -99,6 +99,7 @@ public:
   JoystickConfig joystick_config;
 
   bool mobile_controls;
+  float m_mobile_controls_scale;
 
   struct Addon
   {
