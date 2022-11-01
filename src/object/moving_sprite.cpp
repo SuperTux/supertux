@@ -72,10 +72,14 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid
-  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str())) {
-    m_sprite = SpriteManager::current()->create(m_default_sprite_name);
-  } else {
+  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str()))
+  {
     m_sprite = SpriteManager::current()->create(m_sprite_name);
+  }
+  else
+  {
+    if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
+      m_sprite = SpriteManager::current()->create(m_sprite_name);
   }
 
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
@@ -145,11 +149,23 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
   set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
 }
 
-void
+bool
 MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
+  SpritePtr new_sprite;
+  try
+  {
+    new_sprite = SpriteManager::current()->create(m_sprite_name);
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Sprite change failed: Sprite '" << new_sprite_name << "' cannot be loaded: " << err.what() << std::endl;
+    return false;
+  }
+
+  m_sprite = std::move(new_sprite);
   m_sprite_name = new_sprite_name;
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
+  return true;
 }
 
 ObjectSettings
