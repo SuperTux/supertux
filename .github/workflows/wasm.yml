@@ -46,13 +46,13 @@ jobs:
           sudo apt-get install -y git cmake build-essential curl zip
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
-          ./emsdk install 1.40.1
-          ./emsdk activate 1.40.1
+          ./emsdk install latest
+          ./emsdk activate latest
           # Fixes a bug in emscripten - see https://github.com/emscripten-core/emscripten/issues/13590
-          sed -i "s/\#define MALLOC_ALIGNMENT ((size_t)(2 \* sizeof(void \*)))/#define MALLOC_ALIGNMENT 16/g" upstream/emscripten/system/lib/dlmalloc.c
+          # sed -i "s/\#define MALLOC_ALIGNMENT ((size_t)(2 \* sizeof(void \*)))/#define MALLOC_ALIGNMENT 16/g" upstream/emscripten/system/lib/dlmalloc.c
           # Fixes a bug with the libjpeg port - see https://github.com/emscripten-core/emscripten/pull/13878
-          sed -i 's/2b581c60ae401a79bbbe748ff2deeda5acd50bfd2ea22e5926e36d34b9ebcffb6580b0ff48e972c1441583e30e21e1ea821ca0423f9c67ce08a31dffabdbe6b7/b2affe9a1688bd49fc033f4682c4a242d4ee612f1affaef532f5adcb4602efc4433c4a52a4b3d69e7440ff1f6413b1b041b419bc90efd6d697999961a9a6afb7/g' upstream/emscripten/tools/ports/libjpeg.py
-          sed -i 's/https:\/\/dl.bintray.com\/homebrew\/mirror\/jpeg-9c.tar.gz/https:\/\/storage.googleapis.com\/webassembly\/emscripten-ports\/jpegsrc.v9c.tar.gz/g' upstream/emscripten/tools/ports/libjpeg.py
+          # sed -i 's/2b581c60ae401a79bbbe748ff2deeda5acd50bfd2ea22e5926e36d34b9ebcffb6580b0ff48e972c1441583e30e21e1ea821ca0423f9c67ce08a31dffabdbe6b7/b2affe9a1688bd49fc033f4682c4a242d4ee612f1affaef532f5adcb4602efc4433c4a52a4b3d69e7440ff1f6413b1b041b419bc90efd6d697999961a9a6afb7/g' upstream/emscripten/tools/ports/libjpeg.py
+          # sed -i 's/https:\/\/dl.bintray.com\/homebrew\/mirror\/jpeg-9c.tar.gz/https:\/\/storage.googleapis.com\/webassembly\/emscripten-ports\/jpegsrc.v9c.tar.gz/g' upstream/emscripten/tools/ports/libjpeg.py
 
       - name: Install vcpkg and dependencies
         run: |
