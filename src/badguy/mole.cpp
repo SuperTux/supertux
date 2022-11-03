@@ -151,7 +151,7 @@ Mole::set_state(MoleState new_state)
       set_colgroup_active(COLGROUP_STATIC);
       break;
     case DEAD:
-      m_sprite->set_action("idle");
+      m_sprite->set_action("squished");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
     case BURNING:
