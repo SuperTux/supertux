@@ -32,8 +32,8 @@
 				"rotate-6.png"
 				"rotate-7.png")
 	)
-	(action (name "flat-right")
-		(loops 1)
+	(action
+    (name "flat-right")
 		(fps 40.0)
 		(hitbox 4 7 32 28)
 		(mirror-action "flat-left")
