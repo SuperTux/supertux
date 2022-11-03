@@ -22,7 +22,7 @@
 class Stalactite : public BadGuy
 {
 public:
-  Stalactite(const ReaderMapping& reader);
+  Stalactite(const ReaderMapping& reader, const std::string& sprite = "stalactite.sprite");
 
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;

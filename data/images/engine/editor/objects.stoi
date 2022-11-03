@@ -76,6 +76,9 @@
     (class "stalactite")
     (icon "images/creatures/stalactite/falling.png"))
   (object
+    (class "rock_stalactite")
+    (icon "images/creatures/stalactite/rock_falling.png"))
+  (object
     (class "willowisp")
     (icon "images/creatures/willowisp/editor.png"))
   (object

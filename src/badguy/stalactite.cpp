@@ -29,8 +29,8 @@ static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
-Stalactite::Stalactite(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
+Stalactite::Stalactite(const ReaderMapping& mapping, const std::string& sprite) :
+  BadGuy(mapping, "images/creatures/stalactite/" + sprite, LAYER_TILES - 1),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)

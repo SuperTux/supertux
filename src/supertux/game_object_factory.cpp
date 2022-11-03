@@ -50,6 +50,7 @@
 #include "badguy/plant.hpp"
 #include "badguy/poisonivy.hpp"
 #include "badguy/rcrystallo.hpp"
+#include "badguy/rock_stalactite.hpp"
 #include "badguy/short_fuse.hpp"
 #include "badguy/skullyhop.hpp"
 #include "badguy/skydive.hpp"
@@ -193,6 +194,7 @@ GameObjectFactory::init_factories()
   add_factory<Owl>("owl");
   add_factory<Plant>("plant");
   add_factory<PoisonIvy>("poisonivy");
+  add_factory<RockStalactite>("rock_stalactite");
   add_factory<RCrystallo>("rcrystallo");
   add_factory<SCrystallo>("scrystallo");
   add_factory<ShortFuse>("short_fuse");
