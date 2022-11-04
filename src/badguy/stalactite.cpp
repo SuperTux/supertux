@@ -155,7 +155,7 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 
   if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
 
-  if (other.is_freezable()) {
+  if (other.is_freezable() && m_type != StalactiteType::ROCK) {
     other.freeze();
   } else {
     other.kill_fall();
