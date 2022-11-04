@@ -24,17 +24,57 @@
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
-Stalactite::Stalactite(const ReaderMapping& mapping, const std::string& sprite) :
-  BadGuy(mapping, "images/creatures/stalactite/" + sprite, LAYER_TILES - 1),
+const std::vector<std::string> Stalactite::s_sprites = { "stalactite.sprite", "rock_stalactite.sprite" };
+
+Stalactite::StalactiteType
+Stalactite::StalactiteType_from_string(const std::string& type_string)
+{
+  if (type_string == "ice")
+    return StalactiteType::ICE;
+  else if (type_string == "rock")
+    return StalactiteType::ROCK;
+  else
+    throw std::exception();
+}
+
+Stalactite::Stalactite(const ReaderMapping& mapping) :
+  BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
+  m_type(),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
 {
+  std::string type;
+  mapping.get("type", type, "");
+  try
+  {
+    m_type = StalactiteType_from_string(type);
+  }
+  catch (std::exception&)
+  {
+    if (!Editor::is_active())
+    {
+      if (type.empty())
+      {
+        log_warning << "No stalactite type set, setting to ice." << std::endl;
+      }
+      else
+      {
+        log_warning << "Unknown type of stalactite:" << type << ", setting to ice." << std::endl;
+      }
+    }
+    m_type = StalactiteType::ICE;
+  }
+
+  if (m_type != StalactiteType::ICE)
+    after_editor_set();
+
   m_countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/cracking.wav");
@@ -125,9 +165,14 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 }
 
 HitResponse
-Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
+Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
-  if (state == STALACTITE_HANGING) {
+  if (m_type == StalactiteType::ROCK)
+  {
+    bullet.ricochet(*this, hit);
+  }
+  else if (state == STALACTITE_HANGING)
+  {
     timer.start(SHAKE_TIME);
     state = STALACTITE_SHAKING;
     bullet.remove_me();
@@ -137,6 +182,28 @@ Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
   }
 
   return FORCE_MOVE;
+}
+
+ObjectSettings
+Stalactite::get_settings()
+{
+  ObjectSettings result = BadGuy::get_settings();
+
+  result.add_enum(_("Type"), reinterpret_cast<int*>(&m_type),
+                  {_("ice"), _("rock")},
+                  {"ice", "rock"},
+                  static_cast<int>(StalactiteType::ICE), "type");
+
+  return result;
+}
+
+void
+Stalactite::after_editor_set()
+{
+  BadGuy::after_editor_set();
+
+  if (std::find(s_sprites.begin(), s_sprites.end(), FileSystem::basename(m_sprite_name)) != s_sprites.end())
+    change_sprite("images/creatures/stalactite/" + s_sprites[static_cast<int>(m_type)]);
 }
 
 void
