@@ -1,5 +1,7 @@
 MapoBackpacking.ttf is licensed under the KOGL Type 1
 
+(c) Mapo-gu (Mapo district office, Govt.), Seoul, Republic of Korea
+
 License documentation original link: https://www.kogl.or.kr/info/license.do
 
 Use Terms Guide for Korea Open Government License (KOGL)
