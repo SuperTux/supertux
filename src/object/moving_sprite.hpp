@@ -58,7 +58,7 @@ public:
   virtual int get_layer() const override { return m_layer; }
 
   std::string get_sprite_name() const;
-  void change_sprite(const std::string& new_sprite_name);
+  bool change_sprite(const std::string& new_sprite_name);
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
 protected:
