@@ -58,7 +58,10 @@ jobs:
         run: |
           source ~/emsdk/emsdk_env.sh
           cd ~
-          git clone https://github.com/tobbi/vcpkg --branch diagnose_wasm_issues
+          git clone https://github.com/tobbi/vcpkg 
+          cd vcpkg
+          git checkout diagnose_wasm_issues
+          cd ..
           ./vcpkg/bootstrap-vcpkg.sh
           ./vcpkg/vcpkg integrate install
           ./vcpkg/vcpkg install boost-date-time:wasm32-emscripten
