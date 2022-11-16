@@ -63,7 +63,7 @@ jobs:
           git checkout diagnose_wasm_issues
           cd ~
           ./vcpkg/bootstrap-vcpkg.sh
-          ./vcpkg/vcpkg integrate install
+          # ./vcpkg/vcpkg integrate install
           ./vcpkg/vcpkg install boost-date-time:wasm32-emscripten
           ./vcpkg/vcpkg install boost-filesystem:wasm32-emscripten
           ./vcpkg/vcpkg install boost-format:wasm32-emscripten
