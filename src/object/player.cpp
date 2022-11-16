@@ -60,21 +60,14 @@ const float SHOOTING_TIME = .150f;
 const float GLIDE_TIME_PER_FLOWER = 0.5f;
 const float STONE_TIME_PER_FLOWER = 2.0f;
 
-/** number of idle stages, including standing */
-const unsigned int IDLE_STAGE_COUNT = 5;
-/**
- * how long to play each idle animation in milliseconds
- * '0' means the sprite action is played once before moving onto the next
- * animation
- */
-const int IDLE_TIME[] = { 5000, 0, 2500, 0, 2500 };
+const int TIME_UNTIL_IDLE = 5000;
 /** idle stages */
-const std::string IDLE_STAGES[] =
-{ "stand",
-  "idle",
+const std::vector<std::string> IDLE_STAGES
+({
   "stand",
-  "idle",
-  "stand" };
+  "scratch",
+  "idle"
+});
 
 /** acceleration in horizontal direction when walking
  * (all accelerations are in  pixel/s^2) */
@@ -198,6 +191,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_coyote_timer(),
   m_wants_buttjump(false),
   m_does_buttjump(false),
+  m_buttjump_stomp(false),
   m_invincible_timer(),
   m_skidding_timer(),
   m_safe_timer(),
@@ -233,7 +227,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_ending_direction(0)
 {
   m_name = name_;
-  m_idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
+  m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
 
   SoundManager::current()->preload("sounds/bigjump.wav");
   SoundManager::current()->preload("sounds/jump.wav");
@@ -686,7 +680,7 @@ Player::update(float dt_sec)
       m_sprite->stop_animation();
       m_powersprite->stop_animation();
     }
-    else
+    else if (!m_growing)
     {
       m_sprite->set_animation_loops(-1);
       m_powersprite->set_animation_loops(-1);
@@ -1335,6 +1329,7 @@ Player::handle_vertical_input()
   if (!m_controller->hold(Control::DOWN)) {
     m_wants_buttjump = false;
     m_does_buttjump = false;
+    m_buttjump_stomp = false;
   }
 
   //The real walljumping magic
@@ -1765,11 +1760,14 @@ Player::set_bonus(BonusType type, bool animate)
     if (animate) {
       m_growing = true;
       if (m_climbing)
-        m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-ladder-left" : "grow-ladder-right", 1);
+        m_sprite->set_action((m_dir == Direction::LEFT) ? "climbgrow-left" : "climbgrow-right", 1);
+      else if (m_swimming)
+        m_sprite->set_action((m_dir == Direction::LEFT) ? "swimgrow-left" : "swimgrow-right", 1);
+      else if (m_sliding)
+        m_sprite->set_action((m_dir == Direction::LEFT) ? "slidegrow-left" : "slidegrow-right", 1);
       else
         m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-left" : "grow-right", 1);
     }
-    if (m_climbing) stop_climbing(*m_climbing);
   }
 
   if (type == NO_BONUS) {
@@ -1926,28 +1924,41 @@ Player::draw(DrawingContext& context)
   }
   else if (m_growing)
   {
-    m_sprite->set_action_continued(m_swimming || m_water_jump ?
-      "swimgrow"+sa_postfix : "grow"+sa_postfix);
     // while growing, do not change action
     // do_duck() will take care of cancelling growing manually
     // update() will take care of cancelling when growing completed
+    std::string action = "grow";
+    if (m_swimming || m_water_jump) {
+      action = "swimgrow";
+    }
+    else if (m_sliding) {
+      action = "slidegrow";
+    }
+    else if (m_climbing) {
+      action = "climbgrow";
+    }
+    m_sprite->set_action_continued(action + sa_postfix);
   }
   else if (m_stone) {
     m_sprite->set_action(m_sprite->get_action()+"-stone");
   }
   else if (m_climbing) {
-    m_sprite->set_action(sa_prefix+"-climbing"+sa_postfix);
+    m_sprite->set_action(sa_prefix+"-climb"+sa_postfix);
 
     // Avoid flickering briefly after growing on ladder
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
       m_sprite->stop_animation();
   }
-  else if (m_backflipping || (m_sliding && m_jumping)) {
+  else if (m_backflipping) {
     m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
   }
   else if (m_sliding) {
-    //note: this is a placeholder action. Replace with a proper slide action when available!
-    m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+    if (m_jumping) {
+      m_sprite->set_action(sa_prefix +"-slidejump"+ sa_postfix);
+    }
+    else {
+      m_sprite->set_action(sa_prefix + "-slide" + sa_postfix);
+    }
   }
   else if (m_duck && is_big() && !m_swimming && !m_crawl) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
@@ -1960,23 +1971,26 @@ Player::draw(DrawingContext& context)
     if (on_ground())
     {
       if (m_physic.get_velocity_x() != 0.f) {
-        //placeholder action
-        m_sprite->set_action(sa_prefix + "-swimming" + sa_postfix);
+        m_sprite->set_action(sa_prefix + "-crawl" + sa_postfix);
       }
       else {
-        //placeholder action
-        m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+        m_sprite->set_action(sa_prefix + "-duck" + sa_postfix);
       }
     }
     else {
-      m_sprite->set_action(sa_prefix + "-duck" + sa_postfix);
+      m_sprite->set_action(sa_prefix + "-slidejump" + sa_postfix);
     }
   }
   else if (m_kick_timer.started() && !m_kick_timer.check() && !m_swimming && !m_water_jump) {
     m_sprite->set_action(sa_prefix+"-kick"+sa_postfix);
   }
   else if ((m_wants_buttjump || m_does_buttjump) && is_big() && !m_water_jump) {
-    m_sprite->set_action(sa_prefix+"-buttjump"+sa_postfix, 1);
+    if (m_buttjump_stomp) {
+      m_sprite->set_action(sa_prefix + "-stomp" + sa_postfix, 1);
+    }
+    else {
+      m_sprite->set_action(sa_prefix + "-buttjump" + sa_postfix, 1);
+    }
   }
   else if ((m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)) && m_can_walljump)
   {
@@ -1991,11 +2005,13 @@ Player::draw(DrawingContext& context)
         if (m_water_jump && m_dir != m_old_dir)
           log_debug << "Obracanko (:" << std::endl;
         if (glm::length(m_physic.get_velocity()) < 50.f)
-          m_sprite->set_action(sa_prefix + "-floating" + sa_postfix);
+          m_sprite->set_action(sa_prefix + "-float" + sa_postfix);
         else if (m_water_jump)
           m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
+        else if (m_swimboosting)
+          m_sprite->set_action(sa_prefix + "-boost" + sa_postfix);
         else
-          m_sprite->set_action(sa_prefix + "-swimming" + sa_postfix);
+          m_sprite->set_action(sa_prefix + "-swim" + sa_postfix);
       }
       else
       {
@@ -2009,24 +2025,26 @@ Player::draw(DrawingContext& context)
   else
   {
     if (fabsf(m_physic.get_velocity_x()) < 1.0f) {
-      // Determine which idle stage we're at
-      if (m_sprite->get_action().find("-stand-") == std::string::npos && m_sprite->get_action().find("-idle-") == std::string::npos) {
+      if (std::all_of(IDLE_STAGES.begin(), IDLE_STAGES.end(),
+            [this](const std::string& stage) { return m_sprite->get_action().find("-" + stage + "-") == std::string::npos; }))
+      {
         m_idle_stage = 0;
-        m_idle_timer.start(static_cast<float>(IDLE_TIME[m_idle_stage]) / 1000.0f);
+        m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
 
         m_sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
       }
-      else if (m_idle_timer.check() || (IDLE_TIME[m_idle_stage] == 0 && m_sprite->animation_done())) {
+      else if (m_idle_timer.check() || m_sprite->animation_done()) {
         m_idle_stage++;
-        if (m_idle_stage >= IDLE_STAGE_COUNT)
-          m_idle_stage = 1;
-
-        m_idle_timer.start(static_cast<float>(IDLE_TIME[m_idle_stage]) / 1000.0f);
-
-        if (IDLE_TIME[m_idle_stage] == 0)
-          m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, 1);
-        else
+        if (m_idle_stage >= static_cast<int>(IDLE_STAGES.size()))
+        {
+          m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
           m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
+          m_sprite->set_animation_loops(-1);
+        }
+        else
+        {
+          m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, 1);
+        }
       }
       else {
         m_sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
@@ -2146,6 +2164,7 @@ Player::collision_solid(const CollisionHit& hit)
     // Butt Jump landed
     if (m_does_buttjump) {
       m_does_buttjump = false;
+      m_buttjump_stomp = true;
       m_physic.set_velocity_y(-300);
       m_on_ground_flag = false;
       Sector::get().add<Particles>(
