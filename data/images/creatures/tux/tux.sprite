@@ -437,6 +437,25 @@
          (hitbox 16 48 32 64)
          (mirror-action "climbgrow-right"))
 
+       (action
+         (name "slidegrow-right")
+		 (fps 16.0)
+		 (loops 1)
+         (hitbox 32 46 64 32)
+         (images "small/grow_slide-0.png"
+				 "small/grow_slide-1.png"
+				 "small/grow_slide-2.png"
+				 "small/grow_slide-3.png"
+				 "small/grow_slide-4.png"
+				 "small/grow_slide-5.png"))
+
+       (action
+         (name "slidegrow-left")
+		 (fps 16.0)
+		 (loops 1)
+         (hitbox 32 46 64 32)
+         (mirror-action "slidegrow-right"))
+
 
 ; Big Tux
 
