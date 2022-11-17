@@ -28,11 +28,11 @@
 namespace {
 
 const float TIME_EXPLOSION = 5.0f;
-const float STOMPED_TIME = 1.0f;
+const float STOMPED_TIME = 0.8f;
 const float TIME_STUNNED = 0.5f;
 
 const float NORMAL_WALK_SPEED = 80.0f;
-const float EXPLODING_WALK_SPEED = 200.0f;
+const float EXPLODING_WALK_SPEED = 250.0f;
 
 } // namespace
 
