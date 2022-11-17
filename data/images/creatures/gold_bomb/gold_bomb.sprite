@@ -1,72 +1,112 @@
 (supertux-sprite
  (action
   (name "left")
-  (fps 14.0)
-  (hitbox 5 11 32 32)
-  (images "gb1.png"
-          "gb2.png"
-          "gb3.png"
-          "gb4.png"
-		  "gb5.png"
-		  "gb6.png"
-		  "gb7.png"
-		  "gb8.png"))
+  (fps 12.0)
+  (hitbox 14 19 32 32)
+  (images "left-0.png"
+          "left-1.png"
+          "left-2.png"
+          "left-3.png"
+		  "left-4.png"
+		  "left-5.png"
+		  "left-6.png"
+		  "left-7.png"))
 
  (action
   (name "right")
-  (fps 14.0)
-  (hitbox 5 11 32 32)
+  (fps 12.0)
+  (hitbox 14 19 32 32)
   (mirror-action "left"))
  
  (action
   (name "iced-left")
-  (hitbox 0 0 31.8 31.8)
-  (images "gb1.png"))
+  (hitbox 5 8 32 32)
+  (images "iced-left.png"))
  
  (action
   (name "iced-right")
-  (hitbox -1 0 31.8 31.8)
+  (hitbox 5 8 32 32)
   (mirror-action "iced-left"))
 
  (action
   (name "ticking-left")
-  (fps 10.0)
-  (hitbox 5 8 32 32)
-  (images "exploding-left-0.png"
-          "exploding-left-1.png"
-          "exploding-left-2.png"
-          "exploding-left-3.png"
-          "exploding-left-4.png"
-          "exploding-left-3.png"
-          "exploding-left-2.png"
-          "exploding-left-1.png"
-          "exploding-left-0.png"
-          "exploding-left-1.png"
-          "exploding-left-2.png"
-          "exploding-left-3.png"
-          "exploding-left-4.png"
-          "exploding-left-3.png"
-          "exploding-left-2.png"
-          "exploding-left-1.png"
-          "exploding-left-0.png"
-          "exploding-left-2.png"
-          "exploding-left-4.png"
-          "exploding-left-2.png"
-          "exploding-left-0.png"
-          "exploding-left-2.png"
-          "exploding-left-4.png"
-          "exploding-left-2.png"
-          "exploding-left-0.png"
-          "exploding-left-4.png"
-          "exploding-left-0.png"
-          "exploding-left-4.png"
+  (fps 15.0)
+  (loops 1)
+  (hitbox 14 19 32 32)
+  (images "ticking-0.png"
+          "ticking-1.png"
+          "ticking-2.png"
+          "ticking-3.png"
+          "ticking-4.png"
+          "ticking-3.png"
+          "ticking-2.png"
+          "ticking-1.png"
+          "ticking-0.png"
+          "ticking-1.png"
+          "ticking-2.png"
+          "ticking-3.png"
+          "ticking-4.png"
+          "ticking-3.png"
+          "ticking-2.png"
+          "ticking-1.png"
+          "ticking-0.png"
+		  "ticking-1.png"
+          "ticking-2.png"
+          "ticking-3.png"
+          "ticking-4.png"
+          "ticking-3.png"
+          "ticking-2.png"
+          "ticking-1.png"
+          "ticking-0.png"
+          "ticking-1.png"
+          "ticking-2.png"
+          "ticking-3.png"
+          "ticking-4.png"
+          "ticking-3.png"
+          "ticking-2.png"
+          "ticking-1.png"
+          "ticking-0.png"
+          "ticking-1.png"
+          "ticking-2.png"
+          "ticking-3.png"
+          "ticking-4.png"
+          "ticking-3.png"
+          "ticking-2.png"
+          "ticking-1.png"
+		  "ticking-0.png"
+          "ticking-1.png"
+          "ticking-2.png"
+          "ticking-3.png"
+          "ticking-4.png"
+          "ticking-3.png"
+          "ticking-2.png"
+          "ticking-1.png"
+          "ticking-0.png"
+          "ticking-4.png"
+          "ticking-0.png"
+          "ticking-4.png"
+		  "ticking-0.png"
+          "ticking-4.png"
+          "ticking-0.png"
+          "ticking-4.png"
+		  "ticking-0.png"
+          "ticking-4.png"
+		  "ticking-0.png"
+          "ticking-4.png"
+		  "ticking-0.png"
+          "ticking-4.png"
+		  "ticking-0.png"
+          "ticking-4.png"
+		  "ticking-0.png"
+          "ticking-4.png"
           ))
 
  
  (action
   (name "ticking-right")
-  (fps 10.0)
-  (hitbox 5 8 32 32)
+  (fps 15.0)
+  (loops 1)
+  (hitbox 14 19 32 32)
   (mirror-action "ticking-left"))
  
 )
