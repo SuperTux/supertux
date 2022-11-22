@@ -190,8 +190,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_jump_button_timer(),
   m_coyote_timer(),
   m_wants_buttjump(false),
-  m_does_buttjump(false),
   m_buttjump_stomp(false),
+  m_does_buttjump(false),
   m_invincible_timer(),
   m_skidding_timer(),
   m_safe_timer(),
@@ -2029,7 +2029,7 @@ Player::draw(DrawingContext& context)
       }
       else if (m_idle_timer.check() || m_sprite->animation_done()) {
         m_idle_stage++;
-        if (m_idle_stage >= static_cast<int>(IDLE_STAGES.size()))
+        if (m_idle_stage >= static_cast<unsigned int>(IDLE_STAGES.size()))
         {
           m_idle_stage = static_cast<int>(IDLE_STAGES.size()) - 1;
           m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
