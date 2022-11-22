@@ -16,6 +16,7 @@
 
 #include "object/conveyor_belt.hpp"
 
+#include "badguy/walking_badguy.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/direction.hpp"
@@ -73,7 +74,10 @@ ConveyorBelt::get_settings()
 HitResponse
 ConveyorBelt::collision(GameObject &other, const CollisionHit &hit)
 {
-    return FORCE_MOVE;
+  WalkingBadguy* walking_badguy = dynamic_cast<WalkingBadguy*>(&other);
+  if(walking_badguy)
+    walking_badguy->override_stay_on_platform();
+  return FORCE_MOVE;
 }
 
 void
