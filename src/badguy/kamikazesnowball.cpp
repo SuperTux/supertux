@@ -38,7 +38,7 @@ KamikazeSnowball::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KAMIKAZE_SPEED : KAMIKAZE_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir);
 }
 
 bool
@@ -46,7 +46,7 @@ KamikazeSnowball::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }
@@ -70,7 +70,7 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 void
 KamikazeSnowball::kill_collision()
 {
-  m_sprite->set_action(m_dir == Direction::LEFT ? "collision-left" : "collision-right");
+  m_sprite->set_action("collision", m_dir);
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
@@ -111,7 +111,7 @@ LeafShot::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -LEAFSHOT_SPEED : LEAFSHOT_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir);
 }
 
 bool
@@ -140,7 +140,7 @@ LeafShot::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action("squished", m_dir);
   // Spawn death particles
   spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
   kill_squished(object);

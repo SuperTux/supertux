@@ -202,10 +202,10 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
     set_colgroup_active(COLGROUP_DISABLED);
   }
   else if (m_frozen){
-    m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
+    m_sprite->set_action("iced", dir_);
   }
   else if (dynamic_cast<Owl*>(&object))
-    m_sprite->set_action(dir_ == Direction::LEFT ? "left" : "right");
+    m_sprite->set_action(dir_);
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;
   set_colgroup_active(COLGROUP_DISABLED);

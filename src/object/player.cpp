@@ -1765,9 +1765,9 @@ Player::set_bonus(BonusType type, bool animate)
     if (animate) {
       m_growing = true;
       if (m_climbing)
-        m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-ladder-left" : "grow-ladder-right", 1);
+        m_sprite->set_action("grow-ladder", m_dir, 1);
       else
-        m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-left" : "grow-right", 1);
+        m_sprite->set_action("grow", m_dir , 1);
     }
     if (m_climbing) stop_climbing(*m_climbing);
   }
