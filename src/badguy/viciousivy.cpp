@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/poisonivy.hpp"
+#include "badguy/viciousivy.hpp"
 
 #include <math.h>
 
@@ -24,33 +24,51 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-PoisonIvy::PoisonIvy(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
+ViciousIvy::ViciousIvy(const ReaderMapping& reader)
+  : WalkingBadguy(reader, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right")
 {
   walk_speed = 80;
 }
 
-PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
+ViciousIvy::ViciousIvy(const Vector& pos, Direction d)
+  : WalkingBadguy(pos, d, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right")
 {
   walk_speed = 80;
 }
 
 bool
-PoisonIvy::is_freezable() const
+ViciousIvy::is_freezable() const
 {
   return true;
 }
 
+void
+ViciousIvy::active_update(float dt_sec)
+{
+  if (!m_frozen && !m_ignited)
+  {
+    if (on_ground()) {
+      m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+    } else {
+      m_sprite->set_action(m_dir == Direction::LEFT ? "float-left" : "float-right");
+      if (m_physic.get_velocity_y() >= 20.f) {
+        m_physic.set_velocity_y(20.f);
+      }
+    }
+  }
+
+  WalkingBadguy::active_update(dt_sec);
+}
+
 bool
-PoisonIvy::collision_squished(GameObject& object)
+ViciousIvy::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
 
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   // Spawn death particles
-  spawn_explosion_sprites(3, "images/particles/poisonivy.sprite");
+  spawn_explosion_sprites(3, "images/particles/viciousivy.sprite");
   kill_squished(object);
   return true;
 }

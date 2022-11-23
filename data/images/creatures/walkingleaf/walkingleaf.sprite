@@ -44,7 +44,7 @@
  (action
   (name "iced-left")
   (hitbox 2 4 32 32)
-  (images "frozen.png")
+  (images "left-0.png")
  )
  
  (action

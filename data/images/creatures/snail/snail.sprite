@@ -22,7 +22,7 @@
 	(action
 		(name "flat-left")
 		(fps 40.0)
-		(hitbox 4 7 32 28)
+		(hitbox 4 4 32 28)
 		(images "rotate-0.png"
 				"rotate-1.png"
 				"rotate-2.png"
@@ -35,7 +35,7 @@
 	(action
     (name "flat-right")
 		(fps 40.0)
-		(hitbox 4 7 32 28)
+		(hitbox 4 4 32 28)
 		(mirror-action "flat-left")
 	)
 	
@@ -72,7 +72,7 @@
 	(action
 	  (name "waking-left")
       (fps 40.0)
-      (hitbox 4 7 32 28)
+      (hitbox 4 4 32 28)
       (images "rotate-0.png"
 			  "rotate-0.png"
 			  "rotate-1.png"
@@ -121,7 +121,7 @@
 	(action
       (name "waking-right")
 	  (fps 40.0)
-      (hitbox 4 7 32 28)
+      (hitbox 4 4 32 28)
       (mirror-action "waking-left")
 	)
 )

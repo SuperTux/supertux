@@ -88,8 +88,8 @@
     (class "iceflame")
     (icon "images/creatures/flame/iceflame.png"))
   (object
-    (class "poisonivy")
-    (icon "images/creatures/poison_ivy/left-0.png"))
+    (class "viciousivy")
+    (icon "images/creatures/vicious_ivy/left-0.png"))
   (object
     (class "walkingleaf")
     (icon "images/creatures/walkingleaf/left-0.png"))
