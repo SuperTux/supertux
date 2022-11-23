@@ -49,8 +49,11 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
 
 private:
+  Direction get_player_direction(const Player* player) const;
+
   void start_exploding();
   void stop_exploding();
 
@@ -59,6 +62,10 @@ private:
   float time_until_explosion;
   bool is_stunned;
   float time_stunned;
+
+  bool m_jumping;
+  Timer m_skid_timer;
+  Direction m_last_player_direction;
 
   std::unique_ptr<SoundSource> ticking;
   std::unique_ptr<SoundSource> grunting;
