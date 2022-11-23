@@ -88,17 +88,17 @@
     (class "iceflame")
     (icon "images/creatures/flame/iceflame.png"))
   (object
-    (class "poisonivy")
-    (icon "images/creatures/poison_ivy/left-0.png"))
+    (class "viciousivy")
+    (icon "images/creatures/vicious_ivy/left-0.png"))
   (object
     (class "walkingleaf")
     (icon "images/creatures/walkingleaf/left-0.png"))
   (object
     (class "leafshot")
-    (icon "images/creatures/leafshot/left-1.png"))
+    (icon "images/creatures/leafshot/leafshot-1.png"))
   (object
     (class "snail")
-    (icon "images/creatures/snail/snowsnail.png"))
+    (icon "images/creatures/snail/left-0.png"))
   (object
     (class "mrtree")
     (icon "images/creatures/mr_tree/walk-left-1.png"))
@@ -116,7 +116,7 @@
     (icon "images/creatures/igel/walk-0.png"))
   (object
     (class "mole")
-    (icon "images/creatures/mole/m5.png"))
+    (icon "images/creatures/mole/center.png"))
   (object
     (class "fish-jumping")
     (icon "images/creatures/fish/forest/jump-1.png"))
