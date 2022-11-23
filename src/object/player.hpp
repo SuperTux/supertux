@@ -302,8 +302,7 @@ private:
   bool m_jump_early_apex;
   bool m_on_ice;
   bool m_ice_this_frame;
-  SpritePtr m_lightsprite;
-  SpritePtr m_powersprite;
+  //SpritePtr m_santahatsprite;
   SpritePtr m_multiplayer_arrow;
 
   // Multiplayer tag stuff (number displayed over the players)
