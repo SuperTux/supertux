@@ -28,7 +28,10 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
-  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& ) override;
+  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
+
+  virtual ObjectSettings get_settings() override;
+  void after_editor_set() override;
 
   virtual void kill_fall() override;
   virtual void draw(DrawingContext& context) override;
@@ -44,6 +47,10 @@ public:
   void squish();
 
 protected:
+  enum StalactiteType {
+    ICE,
+    ROCK
+  };
   enum StalactiteState {
     STALACTITE_HANGING,
     STALACTITE_SHAKING,
@@ -51,7 +58,12 @@ protected:
     STALACTITE_SQUISHED
   };
 
+  static const std::vector<std::string> s_sprites;
+
+  static StalactiteType StalactiteType_from_string(const std::string& type_string);
+
 protected:
+  StalactiteType m_type;
   Timer timer;
   StalactiteState state;
   Vector shake_delta;
