@@ -32,7 +32,7 @@ WalkingLeaf::active_update(float dt_sec)
   if (!m_frozen && !m_ignited)
   {
     Rectf floatbox = get_bbox();
-    floatbox.set_bottom(get_bbox().get_bottom() + 32.f);
+    floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
     bool float_here = (Sector::get().is_free_of_statics(floatbox));
 
     if (!float_here) {
@@ -40,8 +40,8 @@ WalkingLeaf::active_update(float dt_sec)
     }
     else {
       m_sprite->set_action(m_dir == Direction::LEFT ? "float-left" : "float-right");
-      if (m_physic.get_velocity_y() >= 20.f) {
-        m_physic.set_velocity_y(20.f);
+      if (m_physic.get_velocity_y() >= 35.f) {
+        m_physic.set_velocity_y(35.f);
       }
     }
   }

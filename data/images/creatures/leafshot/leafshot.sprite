@@ -28,7 +28,7 @@
   (action
     (name "squished-left")
 	(hitbox 1 -21 32 32)
-    (images "../poison_ivy/squished.png")
+    (images "../vicious_ivy/squished.png")
   )
   (action
     (name "squished-right")
