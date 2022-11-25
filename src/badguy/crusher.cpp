@@ -1,4 +1,4 @@
-//  IceCrusher - A block to stand on, which can drop down to crush the player
+//  Crusher - A block to stand on, which can drop down to crush the player
 //  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
 //  Copyright (C) 2010 Florian Forster <supertux at octo.it>
 //
@@ -15,7 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/icecrusher.hpp"
+#include "badguy/crusher.hpp"
 
 #include <algorithm>
 #include <math.h>
@@ -44,8 +44,8 @@ namespace {
   const float PAUSE_TIME_LARGE = 1.0f;
 }
 
-IceCrusher::IceCrusher(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
+Crusher::Crusher(const ReaderMapping& reader) :
+  MovingSprite(reader, "images/creatures/crusher/krush_ice.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   m_state(IDLE),
   m_ic_size(NORMAL),
   m_start_position(get_bbox().p1()),
@@ -58,7 +58,7 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
   m_whites()
 {
   reader.get("sideways", m_sideways);
-  // TODO: icecrusher hitting deserves its own sounds-
+  // TODO: crusher hitting deserves its own sounds-
   // one for hitting the ground, one for hitting Tux
   SoundManager::current()->preload(not_ice() ? "sounds/thud.ogg" : "sounds/brick.wav");
   set_state(m_state, true);
@@ -66,12 +66,12 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
 }
 
 HitResponse
-IceCrusher::collision(GameObject& other, const CollisionHit& hit)
+Crusher::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
 
   // If the other object is the player, and the collision is at the
-  // bottom of the ice crusher, hurt the player.
+  // bottom of the crusher, hurt the player.
   if (player && hit.bottom && player->on_ground() && m_state == CRUSHING) {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     set_state(RECOVERING);
@@ -95,7 +95,7 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-IceCrusher::collision_solid(const CollisionHit& hit)
+Crusher::collision_solid(const CollisionHit& hit)
 {
   if (hit.left || hit.right)
     m_physic.set_velocity_x(0.f);
@@ -166,13 +166,13 @@ IceCrusher::collision_solid(const CollisionHit& hit)
       spawn_roots(Direction::RIGHT);
     break;
   default:
-    log_debug << "IceCrusher in invalid state" << std::endl;
+    log_debug << "Crusher in invalid state" << std::endl;
     break;
   }
 }
 
 void
-IceCrusher::update(float dt_sec)
+Crusher::update(float dt_sec)
 {
   Vector movement = m_physic.get_movement(dt_sec);
   m_col.set_movement(movement);
@@ -320,13 +320,13 @@ IceCrusher::update(float dt_sec)
     }
     break;
   default:
-    log_debug << "IceCrusher in invalid state" << std::endl;
+    log_debug << "Crusher in invalid state" << std::endl;
     break;
   }
 }
 
 void
-IceCrusher::spawn_roots(Direction direction)
+Crusher::spawn_roots(Direction direction)
 {
   if (m_sprite_name.find("root_crusher") == std::string::npos)
     return;
@@ -385,28 +385,28 @@ IceCrusher::spawn_roots(Direction direction)
 }
 
 void
-IceCrusher::draw(DrawingContext& context)
+Crusher::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer + 2, m_flip);
   if (m_sprite->has_action("whites"))
   {
-    // draw icecrusher's eyes slightly behind
+    // draw crusher's eyes slightly behind
     m_lefteye->draw(context.color(), get_pos() + eye_position(false), m_layer + 1, m_flip);
     m_righteye->draw(context.color(), get_pos() + eye_position(true), m_layer + 1, m_flip);
-    // draw the whites of icecrusher's eyes even further behind
+    // draw the whites of crusher's eyes even further behind
     m_whites->draw(context.color(), get_pos(), m_layer, m_flip);
   }
 }
 
 void
-IceCrusher::after_editor_set()
+Crusher::after_editor_set()
 {
   MovingSprite::after_editor_set();
   after_sprite_set();
 }
 
 ObjectSettings
-IceCrusher::get_settings()
+Crusher::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
   result.add_bool(_("Sideways"), &m_sideways, "sideways", false);
@@ -416,7 +416,7 @@ IceCrusher::get_settings()
 }
 
 bool
-IceCrusher::found_victim() const
+Crusher::found_victim() const
 {
   for (auto* player : Sector::get().get_players())
   {
@@ -467,7 +467,7 @@ IceCrusher::found_victim() const
 }
 
 bool
-IceCrusher::not_ice() const
+Crusher::not_ice() const
 {
   return (m_sprite_name.find("rock_crusher") != std::string::npos ||
     m_sprite_name.find("moss_crusher") != std::string::npos ||
@@ -475,7 +475,7 @@ IceCrusher::not_ice() const
 }
 
 void
-IceCrusher::set_state(IceCrusherState state_, bool force)
+Crusher::set_state(CrusherState state_, bool force)
 {
   if ((m_state == state_) && (!force)) return;
   switch (state_)
@@ -493,7 +493,7 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
       m_sprite->set_action("recovering");
     break;
   default:
-    log_debug << "IceCrusher in invalid state" << std::endl;
+    log_debug << "Crusher in invalid state" << std::endl;
     break;
   }
   m_physic.enable_gravity(false);
@@ -501,7 +501,7 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
 }
 
 void
-IceCrusher::after_sprite_set()
+Crusher::after_sprite_set()
 {
   float sprite_width = static_cast<float>(m_sprite->get_width());
   float sprite_height = static_cast<float>(m_sprite->get_height());
@@ -525,24 +525,24 @@ IceCrusher::after_sprite_set()
 }
 
 Vector
-IceCrusher::eye_position(bool right) const
+Crusher::eye_position(bool right) const
 {
   switch (m_state)
   {
   case IDLE:
     if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
     {
-      // Icecrusher focuses on approximate position of player's head
+      // Crusher focuses on approximate position of player's head
       const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
       const float player_focus_y = player->get_bbox().get_bottom() * 0.25f + player->get_bbox().get_top() * 0.75f;
-      // Icecrusher's approximate origin of line-of-sight
+      // Crusher's approximate origin of line-of-sight
       const float crusher_origin_x = get_bbox().get_middle().x;
       const float crusher_origin_y = get_bbox().get_middle().y;
-      // Line-of-sight displacement from icecrusher to player
+      // Line-of-sight displacement from crusher to player
       const float displacement_x = player_focus_x - crusher_origin_x;
       const float displacement_y = player_focus_y - crusher_origin_y;
       const float displacement_mag = powf(powf(displacement_x, 2.0f) + powf(displacement_y, 2.0f), 0.5f);
-      // Determine weighting for eye displacement along x given icecrusher eye shape
+      // Determine weighting for eye displacement along x given crusher eye shape
       int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
       int weight_y = m_sprite->get_width() / 64 * 2;
 
@@ -562,7 +562,7 @@ IceCrusher::eye_position(bool right) const
     }
     break;
   case RECOVERING:
-    // Eyes spin while icecrusher is recovering, giving a dazed impression
+    // Eyes spin while crusher is recovering, giving a dazed impression
     return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other
       ((!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position
       (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer
@@ -575,24 +575,24 @@ IceCrusher::eye_position(bool right) const
       static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size
       static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible
   default:
-    log_debug << "IceCrusher in invalid state" << std::endl;
+    log_debug << "Crusher in invalid state" << std::endl;
     break;
   }
   return Vector(0, 0);
 }
 
 void
-IceCrusher::on_flip(float height)
+Crusher::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   m_start_position.y = height - m_col.m_bbox.get_height() - m_start_position.y;
   FlipLevelTransformer::transform_flip(m_flip);
 }
 
-CrusherRoot::CrusherRoot(Vector position, IceCrusher::Direction direction, float delay, int layer) :
-  MovingSprite(position, direction == IceCrusher::Direction::DOWN ?
-    "images/creatures/icecrusher/roots/crusher_root.sprite" :
-    "images/creatures/icecrusher/roots/crusher_root_side.sprite"),
+CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer) :
+  MovingSprite(position, direction == Crusher::Direction::DOWN ?
+    "images/creatures/crusher/roots/crusher_root.sprite" :
+    "images/creatures/crusher/roots/crusher_root_side.sprite"),
   m_original_pos(position),
   m_direction(direction),
   m_delay_remaining(delay)
@@ -647,15 +647,15 @@ CrusherRoot::update(float dt_sec)
 
   switch (m_direction)
   {
-  case IceCrusher::Direction::DOWN:
+  case Crusher::Direction::DOWN:
     m_col.move_to(m_original_pos + Vector(0, -m_sprite->get_current_hitbox_height()));
     break;
 
-  case IceCrusher::Direction::LEFT:
+  case Crusher::Direction::LEFT:
     m_col.move_to(m_original_pos);
     break;
 
-  case IceCrusher::Direction::RIGHT:
+  case Crusher::Direction::RIGHT:
     m_col.move_to(m_original_pos + Vector(-m_sprite->get_current_hitbox_width(), 0));
     break;
   }
@@ -668,17 +668,17 @@ CrusherRoot::start_animation()
 
   switch (m_direction)
   {
-  case IceCrusher::Direction::DOWN:
+  case Crusher::Direction::DOWN:
     m_sprite->set_action("downwards");
     m_sprite->set_animation_loops(1);
     break;
 
-  case IceCrusher::Direction::LEFT:
+  case Crusher::Direction::LEFT:
     m_sprite->set_action("sideways-left");
     m_sprite->set_animation_loops(1);
     break;
 
-  case IceCrusher::Direction::RIGHT:
+  case Crusher::Direction::RIGHT:
     m_sprite->set_action("sideways-right");
     m_sprite->set_animation_loops(1);
     break;

@@ -1,4 +1,4 @@
-//  IceCrusher - A block to stand on, which can drop down to crush the player
+//  Crusher - A block to stand on, which can drop down to crush the player
 //  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_OBJECT_ICECRUSHER_HPP
-#define HEADER_SUPERTUX_OBJECT_ICECRUSHER_HPP
+#ifndef HEADER_SUPERTUX_OBJECT_CRUSHER_HPP
+#define HEADER_SUPERTUX_OBJECT_CRUSHER_HPP
 
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
@@ -23,11 +23,11 @@
 
 class Player;
 
-/** This class is the base class for icecrushers that tux can stand on */
-class IceCrusher final : public MovingSprite
+/** This class is the base class for crushers that tux can stand on */
+class Crusher final : public MovingSprite
 {
 public:
-  enum IceCrusherState
+  enum CrusherState
   {
     IDLE,
     CRUSHING,
@@ -42,14 +42,14 @@ public:
   };
 
 private:
-  enum IceCrusherSize
+  enum CrusherSize
   {
     NORMAL,
     LARGE
   };
 
 public:
-  IceCrusher(const ReaderMapping& reader);
+  Crusher(const ReaderMapping& reader);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void collision_solid(const CollisionHit& hit) override;
@@ -59,9 +59,9 @@ public:
   virtual void after_editor_set() override;
   virtual bool is_sideways() const { return m_sideways; }
 
-  static std::string class_name() { return "icecrusher"; }
+  static std::string class_name() { return "crusher"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Icecrusher"); }
+  static std::string display_name() { return _("Crusher"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
@@ -70,20 +70,20 @@ public:
 
   Physic& get_physic() { return m_physic; }
   bool is_big() const { return m_ic_size == LARGE; }
-  IceCrusherState get_state() const { return m_state; }
+  CrusherState get_state() const { return m_state; }
 
 private:
   void spawn_roots(Direction direction);
 
   bool found_victim() const;
   bool not_ice() const;
-  void set_state(IceCrusherState state, bool force = false);
+  void set_state(CrusherState state, bool force = false);
   void after_sprite_set();
   Vector eye_position(bool right) const;
 
 private:
-  IceCrusherState m_state;
-  IceCrusherSize m_ic_size;
+  CrusherState m_state;
+  CrusherSize m_ic_size;
   Vector m_start_position;
   Physic m_physic;
   float m_cooldown_timer;
@@ -95,14 +95,14 @@ private:
   SpritePtr m_whites;
 
 private:
-  IceCrusher(const IceCrusher&) = delete;
-  IceCrusher& operator=(const IceCrusher&) = delete;
+  Crusher(const Crusher&) = delete;
+  Crusher& operator=(const Crusher&) = delete;
 };
 
 class CrusherRoot : public MovingSprite
 {
 public:
-  CrusherRoot(Vector position, IceCrusher::Direction direction, float delay, int layer);
+  CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
@@ -113,7 +113,7 @@ private:
 
 private:
   Vector m_original_pos;
-  IceCrusher::Direction m_direction;
+  Crusher::Direction m_direction;
   float m_delay_remaining;
 
 private:
