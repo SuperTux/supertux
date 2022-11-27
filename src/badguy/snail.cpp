@@ -65,7 +65,7 @@ void
 Snail::be_flat()
 {
   state = STATE_FLAT;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  m_sprite->set_action("flat", m_dir, /* loops = */ -1);
 
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
@@ -77,7 +77,7 @@ void
 Snail::be_grabbed()
 {
   state = STATE_GRABBED;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  m_sprite->set_action("flat", m_dir, /* loops = */ -1);
 }
 
 void
@@ -87,7 +87,7 @@ Snail::be_kicked(bool upwards)
     state = STATE_KICKED_DELAY;
   else
     state = STATE_KICKED;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  m_sprite->set_action("flat", m_dir, /* loops = */ -1);
 
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
   m_physic.set_velocity_y(0);
@@ -186,7 +186,7 @@ Snail::collision_solid(const CollisionHit& hit)
 
         if ( ( m_dir == Direction::LEFT && hit.left ) || ( m_dir == Direction::RIGHT && hit.right) ){
           m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
-          m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+          m_sprite->set_action("flat", m_dir, /* loops = */ -1);
 
           m_physic.set_velocity_x(-m_physic.get_velocity_x());
         }
