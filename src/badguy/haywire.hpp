@@ -32,6 +32,7 @@ public:
 
   virtual void active_update(float dt_sec) override;
   virtual void deactivate() override;
+  virtual void draw(DrawingContext& context) override;
 
   virtual bool is_freezable() const override;
   virtual void freeze() override;
@@ -62,6 +63,7 @@ private:
   float time_until_explosion;
   bool is_stunned;
   float time_stunned;
+  SpritePtr m_exploding_sprite;
 
   bool m_jumping;
   Timer m_skid_timer;

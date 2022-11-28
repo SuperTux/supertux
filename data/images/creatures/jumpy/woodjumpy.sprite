@@ -42,12 +42,12 @@
 
 (action
   (name "iced-left")
-  (hitbox 9 8 32 45)
-  (images "wooden-iced.png"))
+  (hitbox 2 6 32 45)
+  (images "wood_up-1.png"))
  
  (action
   (name "iced-right")
-  (hitbox 3 8 32 45)
+  (hitbox 3 6 32 45)
   (mirror-action "iced-left"))
 
  (action

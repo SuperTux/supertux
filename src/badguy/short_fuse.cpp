@@ -56,7 +56,7 @@ ShortFuse::explode()
   else
   {
     auto& explosion = Sector::get().add<Explosion>(get_bbox().get_middle(),
-      EXPLOSION_STRENGTH_NEAR, 8);
+      EXPLOSION_STRENGTH_NEAR, 8, true);
     explosion.hurts(false);
 
     run_dead_script();

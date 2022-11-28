@@ -35,7 +35,7 @@
     (icon "images/creatures/haywire/left-0.png"))
   (object
     (class "short_fuse")
-    (icon "images/creatures/short_fuse/shortf_use-0.png"))
+    (icon "images/creatures/short_fuse/short_fuse-0.png"))
   (object
     (class "mriceblock")
     (icon "images/creatures/mr_iceblock/iceblock-1.png"))
