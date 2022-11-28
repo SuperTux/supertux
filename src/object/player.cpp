@@ -2513,8 +2513,10 @@ Player::handle_input_rolling()
   }
   else
   {
+    // these variables are apparently used differently and must be initialized differently to avoid errors
     float ax;
-    float sx;
+    float sx = 0.f;
+
     // slope velocity
     if (m_floor_normal.y != 0)
     {
