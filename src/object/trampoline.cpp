@@ -102,9 +102,9 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
         else
         {
           if (player->get_controller().hold(Control::JUMP))
-            vy = VY_MIN - 300;
+            vy = VY_MIN - 80;
           else if (player->get_controller().hold(Control::DOWN))
-            vy = VY_MIN - 200;
+            vy = VY_MIN - 70;
           else
             vy = VY_INITIAL - 40;
         }

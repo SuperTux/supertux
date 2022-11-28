@@ -238,6 +238,7 @@ private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
+  void handle_input_rolling();
 
   void handle_input_swimming();
 
@@ -285,7 +286,6 @@ private:
   int  m_backflip_direction;
   Direction m_peekingX;
   Direction m_peekingY;
-  float m_ability_time;
   bool m_stone;
   bool m_sliding;
   bool m_slidejumping;
@@ -338,9 +338,6 @@ private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
   Timer m_kick_timer;
-  Timer m_shooting_timer;   // used to show the arm when Tux is shooting
-  Timer m_ability_timer;  // maximum lengh of time that special abilities can last
-  Timer m_cooldown_timer; // minimum time period between successive uses of a special ability
 
 public:
   Timer m_dying_timer;
