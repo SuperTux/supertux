@@ -126,6 +126,12 @@ const float SMALL_TUX_HEIGHT = 30.8f;
 const float BIG_TUX_HEIGHT = 62.8f;
 const float DUCKED_TUX_HEIGHT = 31.8f;
 
+/* Stone Tux variables */
+const float MAX_STONE_SPEED = 550.f;
+const float STONE_KEY_ACCELERATION = 200.f;
+const float STONE_DOWN_ACCELERATION = 300.f;
+const float STONE_UP_ACCELERATION = 400.f;
+
 } // namespace
 
 Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
@@ -1407,7 +1413,7 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->hold(Control::DOWN) && !m_swimming && m_player_status.bonus[get_id()] == EARTH_BONUS) {
+  if (m_controller->hold(Control::DOWN) && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 100.f) && m_player_status.bonus[get_id()] == EARTH_BONUS) {
     m_powersprite->stop_animation();
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     adjust_height(TUX_WIDTH);
@@ -2484,7 +2490,7 @@ Player::handle_input_rolling()
   if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && (m_can_jump || m_coyote_timer.started()))
   {
     m_jump_button_timer.stop();
-    do_jump(-600.f);
+    do_jump(-450.f);
     m_coyote_timer.stop();
   }
 
@@ -2502,22 +2508,21 @@ Player::handle_input_rolling()
 
   // handle x-movement
 
-  float ax = 0.f;
-  float sx = 0.f;
-
-  if (std::abs(m_physic.get_velocity_x()) > 550.f) {
+  if (std::abs(m_physic.get_velocity_x()) > MAX_STONE_SPEED) {
     m_physic.set_acceleration_x(-m_physic.get_velocity_x());
   }
   else
   {
+    float ax;
+    float sx;
     // slope velocity
     if (m_floor_normal.y != 0)
     {
       if (m_floor_normal.x > 0.f) {
-        sx = ((m_dir == Direction::LEFT ? 400.f : 300.f)*std::abs(m_floor_normal.x));
+        sx = ((m_dir == Direction::LEFT ? STONE_UP_ACCELERATION : STONE_DOWN_ACCELERATION)*std::abs(m_floor_normal.x));
       }
       if (m_floor_normal.x < 0.f) {
-        sx = ((m_dir == Direction::RIGHT ? -400.f : -300.f)*std::abs(m_floor_normal.x));
+        sx = ((m_dir == Direction::RIGHT ? -STONE_UP_ACCELERATION : -STONE_DOWN_ACCELERATION)*std::abs(m_floor_normal.x));
       }
     }
     else
@@ -2528,12 +2533,12 @@ Player::handle_input_rolling()
     // key velocity
     if (m_controller->hold(Control::LEFT) && !m_controller->hold(Control::RIGHT))
     {
-      ax = -250.f;
+      ax = -STONE_KEY_ACCELERATION;
       m_dir = Direction::LEFT;
     }
     else if (m_controller->hold(Control::RIGHT) && !m_controller->hold(Control::LEFT))
     {
-      ax = 250.f;
+      ax = STONE_KEY_ACCELERATION;
       m_dir = Direction::RIGHT;
     }
     else {

@@ -2815,7 +2815,7 @@
 
        (action
          (name "earth-stone")
-         (hitbox 16 14 32 32)
+         (hitbox 10 13 32 32)
          (images "earth/statue.png"))
 
        (action
