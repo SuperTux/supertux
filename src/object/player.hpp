@@ -159,6 +159,7 @@ public:
   Vector get_velocity() const;
 
   void bounce(BadGuy& badguy);
+  void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
   bool is_big() const;
@@ -269,7 +270,7 @@ private:
 
   void multiplayer_respawn();
 
-  void stop_rolling();
+  void stop_rolling(bool violent = true);
 
 private:
   int m_id;
@@ -300,6 +301,7 @@ private:
   bool m_can_walljump;
   float m_boost;
   float m_speedlimit;
+  bool m_velocity_override;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
   bool m_on_ice;

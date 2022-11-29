@@ -132,6 +132,9 @@ const float STONE_KEY_ACCELERATION = 200.f;
 const float STONE_DOWN_ACCELERATION = 300.f;
 const float STONE_UP_ACCELERATION = 400.f;
 
+const float SWIM_SPEED = 300.f;
+const float SWIM_BOOST_SPEED = 600.f;
+
 } // namespace
 
 Player::Player(PlayerStatus& player_status, const std::string& name_, int player_id) :
@@ -163,6 +166,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_can_walljump(false),
   m_boost(0.f),
   m_speedlimit(0), //no special limit
+  m_velocity_override(),
   m_scripting_controller_old(nullptr),
   m_jump_early_apex(false),
   m_on_ice(false),
@@ -220,6 +224,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
 
   SoundManager::current()->preload("sounds/bigjump.wav");
+  SoundManager::current()->preload("sounds/brick.wav");
   SoundManager::current()->preload("sounds/jump.wav");
   SoundManager::current()->preload("sounds/hurt.wav");
   SoundManager::current()->preload("sounds/kill.wav");
@@ -398,6 +403,10 @@ Player::update(float dt_sec)
   {
     //Force Tux's box up a little in order to not phase into floor
     adjust_height(BIG_TUX_HEIGHT, 10.f);
+  }
+
+  if (m_velocity_override && glm::length(m_physic.get_velocity()) < SWIM_BOOST_SPEED) {
+    m_velocity_override = false;
   }
 
   //handling of swimming
@@ -862,8 +871,7 @@ Player::swim(float pointx, float pointy, bool boost)
       m_physic.set_acceleration_y((swimming_direction.y - 1.0f * vy) * 2.f);
 
       // Limit speed, if you go above this speed your acceleration is set to opposite (?)
-      float limit = 300.f;
-      if (glm::length(m_physic.get_velocity()) > limit)
+      if (glm::length(m_physic.get_velocity()) > SWIM_SPEED)
       {
         m_physic.set_acceleration(-vx,-vy);   // Was too lazy to set it properly ~~zwatotem
       }
@@ -875,7 +883,7 @@ Player::swim(float pointx, float pointy, bool boost)
       }
 
       //not boosting? let's slow this penguin down!!!
-      if (!boost && is_ang_defined && glm::length(m_physic.get_velocity()) > 310.f)
+      if (!boost && is_ang_defined && glm::length(m_physic.get_velocity()) > (SWIM_SPEED + 10.f))
       {
         m_physic.set_acceleration(-5.f*vx, -5.f*vy);
       }
@@ -891,7 +899,7 @@ Player::swim(float pointx, float pointy, bool boost)
       float minboostspeed = 100.f;
       if (boost && glm::length(m_physic.get_velocity()) > minboostspeed)
       {
-        if (glm::length(m_physic.get_velocity()) < 600.f)
+        if (glm::length(m_physic.get_velocity()) < SWIM_BOOST_SPEED)
         {
           m_swimboosting = true;
           if (is_ang_defined)
@@ -909,7 +917,7 @@ Player::swim(float pointx, float pointy, bool boost)
       }
       else
       {
-          if (glm::length(m_physic.get_velocity()) < 310.f)
+          if (glm::length(m_physic.get_velocity()) < (SWIM_SPEED + 10.f))
         {
           m_swimboosting = false;
         }
@@ -936,8 +944,8 @@ Player::swim(float pointx, float pointy, bool boost)
     m_sprite->set_angle(angle);
     //m_santahatsprite->set_angle(angle);
 
-    //Force the speed to point in the direction Tux is going
-    if (m_swimming && !m_water_jump && boost)
+    //Force the speed to point in the direction Tux is going unless Tux is being pushed by something else
+    if (m_swimming && !m_water_jump && boost && m_boost == 0.f && !m_velocity_override)
     {
       m_physic.set_velocity(math::at_angle(m_physic.get_velocity(), m_swimming_angle));
     }
@@ -1423,7 +1431,7 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 100.f) && m_player_status.bonus[get_id()] == EARTH_BONUS) {
+  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && m_player_status.bonus[get_id()] == EARTH_BONUS) {
     m_powersprite->stop_animation();
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     adjust_height(TUX_WIDTH);
@@ -2086,12 +2094,13 @@ Player::collision_solid(const CollisionHit& hit)
       m_physic.set_velocity_y(.2f);
   }
 
-  /*if (m_stone && m_floor_normal.y == 0 && (((m_physic.get_velocity_x() < -MAX_RUN_XM) && hit.left) ||
+  if (m_stone && m_floor_normal.y == 0 && (((m_physic.get_velocity_x() < -MAX_RUN_XM) && hit.left) ||
     ((m_physic.get_velocity_x() > MAX_RUN_XM) && hit.right)))
   {
+    m_physic.set_acceleration_x(0);
     m_physic.set_velocity_x(0);
     stop_rolling();
-  }*/
+  }
 
   if ((hit.left || hit.right) && hit.slope_normal.x == 0) {
     m_physic.set_velocity_x(0);
@@ -2189,6 +2198,7 @@ Player::kill(bool completely)
   if (m_climbing) stop_climbing(*m_climbing);
 
   m_physic.set_velocity_x(0);
+  m_boost = 0.f;
 
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
@@ -2487,9 +2497,14 @@ void
 Player::handle_input_rolling()
 {
   // handle exiting
-  if (m_stone && (!m_controller->hold(Control::DOWN) || m_player_status.bonus[get_id()] != EARTH_BONUS))
+  if (m_stone)
   {
-    stop_rolling();
+    if (!m_controller->hold(Control::DOWN)) {
+      stop_rolling(false);
+    }
+    else if (m_player_status.bonus[get_id()] != EARTH_BONUS) {
+      stop_rolling();
+    }
   }
 
   // handle jumping
@@ -2728,7 +2743,7 @@ Player::multiplayer_respawn()
 }
 
 void
-Player::stop_rolling()
+Player::stop_rolling(bool violent)
 {
   m_sprite->set_angle(0.0f);
   m_powersprite->set_angle(0.0f);
@@ -2739,6 +2754,11 @@ Player::stop_rolling()
       adjust_height(BIG_TUX_HEIGHT, 10.f);
       do_duck();
     }
+  }
+  if (violent)
+  {
+    //TODO: Add particles
+    SoundManager::current()->play("sounds/brick.wav", get_pos());
   }
   m_stone = false;
 }
