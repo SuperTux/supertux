@@ -269,6 +269,8 @@ private:
 
   void multiplayer_respawn();
 
+  void stop_rolling();
+
 private:
   int m_id;
   std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */

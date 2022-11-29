@@ -127,7 +127,7 @@ const float BIG_TUX_HEIGHT = 62.8f;
 const float DUCKED_TUX_HEIGHT = 31.8f;
 
 /* Stone Tux variables */
-const float MAX_STONE_SPEED = 550.f;
+const float MAX_STONE_SPEED = 500.f;
 const float STONE_KEY_ACCELERATION = 200.f;
 const float STONE_DOWN_ACCELERATION = 300.f;
 const float STONE_UP_ACCELERATION = 400.f;
@@ -391,6 +391,15 @@ Player::update(float dt_sec)
 
   check_bounds();
 
+  //catch-all for other circumstances in which Tux's hitbox can't be properly adjusted
+  if (is_big() &&
+    !m_duck && !m_swimming && !m_water_jump && !m_backflipping && !m_sliding && !m_stone &&
+    !adjust_height(BIG_TUX_HEIGHT))
+  {
+    //Force Tux's box up a little in order to not phase into floor
+    adjust_height(BIG_TUX_HEIGHT, 10.f);
+  }
+
   //handling of swimming
 
 #ifdef SWIMMING
@@ -452,8 +461,10 @@ Player::update(float dt_sec)
     }
     else
     {
-      if (can_swim_here && !m_stone && !m_climbing)
+      if (can_swim_here && !m_climbing)
       {
+        if (m_stone)
+          stop_rolling();
         m_sliding = false;
         m_slidejumping = false;
         m_no_water = false;
@@ -1282,8 +1293,7 @@ Player::handle_vertical_input()
 
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
-  if (m_controller->hold(Control::DOWN) && !m_duck && is_big() && !on_ground() && !m_sliding &&
-    m_player_status.bonus[get_id()] != EARTH_BONUS) {
+  if (m_controller->hold(Control::DOWN) && !m_duck && is_big() && !on_ground() && !m_sliding && !m_stone) {
     m_wants_buttjump = true;
     if (m_physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y) m_does_buttjump = true;
   }
@@ -1413,7 +1423,7 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->hold(Control::DOWN) && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 100.f) && m_player_status.bonus[get_id()] == EARTH_BONUS) {
+  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 100.f) && m_player_status.bonus[get_id()] == EARTH_BONUS) {
     m_powersprite->stop_animation();
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     adjust_height(TUX_WIDTH);
@@ -1877,9 +1887,6 @@ Player::draw(DrawingContext& context)
   else if (m_duck && is_big() && !m_swimming && !m_crawl) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
   }
-  else if (m_skidding_timer.started() && !m_skidding_timer.check() && !m_swimming) {
-    m_sprite->set_action(sa_prefix+"-skid"+sa_postfix);
-  }
   else if (m_crawl)
   {
     if (on_ground())
@@ -1894,6 +1901,9 @@ Player::draw(DrawingContext& context)
     else {
       m_sprite->set_action(sa_prefix + "-slidejump" + sa_postfix);
     }
+  }
+  else if (m_skidding_timer.started() && !m_skidding_timer.check() && !m_swimming) {
+    m_sprite->set_action(sa_prefix + "-skid" + sa_postfix);
   }
   else if (m_kick_timer.started() && !m_kick_timer.check() && !m_swimming && !m_water_jump) {
     m_sprite->set_action(sa_prefix+"-kick"+sa_postfix);
@@ -2075,6 +2085,13 @@ Player::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() < 0)
       m_physic.set_velocity_y(.2f);
   }
+
+  /*if (m_stone && m_floor_normal.y == 0 && (((m_physic.get_velocity_x() < -MAX_RUN_XM) && hit.left) ||
+    ((m_physic.get_velocity_x() > MAX_RUN_XM) && hit.right)))
+  {
+    m_physic.set_velocity_x(0);
+    stop_rolling();
+  }*/
 
   if ((hit.left || hit.right) && hit.slope_normal.x == 0) {
     m_physic.set_velocity_x(0);
@@ -2472,17 +2489,7 @@ Player::handle_input_rolling()
   // handle exiting
   if (m_stone && (!m_controller->hold(Control::DOWN) || m_player_status.bonus[get_id()] != EARTH_BONUS))
   {
-    m_sprite->set_angle(0.0f);
-    m_powersprite->set_angle(0.0f);
-    if (!m_swimming && !m_water_jump && !m_sliding && !m_duck)
-    {
-      if (!adjust_height(BIG_TUX_HEIGHT))
-      {
-        adjust_height(BIG_TUX_HEIGHT, 10.f);
-        do_duck();
-      }
-    }
-    m_stone = false;
+    stop_rolling();
   }
 
   // handle jumping
@@ -2718,6 +2725,22 @@ Player::multiplayer_respawn()
 
   move(target->get_pos());
   m_target.reset();
+}
+
+void
+Player::stop_rolling()
+{
+  m_sprite->set_angle(0.0f);
+  m_powersprite->set_angle(0.0f);
+  if (!m_swimming && !m_water_jump && !m_sliding && !m_duck)
+  {
+    if (!adjust_height(BIG_TUX_HEIGHT))
+    {
+      adjust_height(BIG_TUX_HEIGHT, 10.f);
+      do_duck();
+    }
+  }
+  m_stone = false;
 }
 
 /* EOF */
