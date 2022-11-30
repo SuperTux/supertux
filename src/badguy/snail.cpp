@@ -245,7 +245,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
       m_dir = Direction::LEFT;
     }
     player.kick();
-    be_kicked(false);
+    be_kicked(true);
     return FORCE_MOVE;
   }
 
@@ -323,7 +323,7 @@ Snail::ungrab(MovingObject& object, Direction dir_)
 {
   if (!m_frozen)
   {
-    if (dir_ == Direction::UP) {
+    if (dir_ == Direction::UP || dir_ == Direction::DOWN) {
       be_flat();
     }
     else {

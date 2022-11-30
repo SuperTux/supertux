@@ -56,6 +56,16 @@ BouncingSnowball::active_update(float dt_sec)
   {
     m_sprite->set_action(m_dir);
   }
+
+  Rectf lookside = get_bbox().grown(-1.f);
+  lookside.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -1.f : 1.f));
+  lookside.set_right(get_bbox().get_right() + (m_dir == Direction::LEFT ? -1.f : 1.f));
+  if (!Sector::get().is_free_of_statics(lookside))
+  {
+    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
+    m_sprite->set_action(m_dir);
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
+  }
 }
 
 bool
@@ -84,14 +94,6 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     }
   } else if (hit.top) {
     m_physic.set_velocity_y(0);
-  }
-
-  // left or right collision
-  // The direction must correspond, else we got fake bounces on slopes.
-  if ((hit.left && m_dir == Direction::LEFT) || (hit.right && m_dir == Direction::RIGHT)) {
-    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-    m_sprite->set_action(m_dir);
-    m_physic.set_velocity_x(-m_physic.get_velocity_x());
   }
 
 }
