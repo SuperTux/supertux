@@ -73,7 +73,12 @@
   (mirror-action "melting-left"))
 
  (action
-  (name "squished")
+  (name "squished-left")
   (hitbox 1 -19 31.8 31.8)
   (images "../snowball/squished-left.png"))
+
+ (action
+  (name "squished-right")
+  (hitbox 1 -19 31.8 31.8)
+  (mirror-action "squished-left"))
 )

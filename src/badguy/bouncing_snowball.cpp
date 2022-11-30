@@ -71,7 +71,7 @@ BouncingSnowball::active_update(float dt_sec)
 bool
 BouncingSnowball::collision_squished(GameObject& object)
 {
-  m_sprite->set_action("squished");
+  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }

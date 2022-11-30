@@ -33,7 +33,7 @@
   )
   (action
     (name "collision-right")
-    (hitbox 1 1 13 33)
+    (hitbox -24 1 13 33)
     (mirror-action "collision-left")
   )
  (action

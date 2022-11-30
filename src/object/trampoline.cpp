@@ -17,7 +17,7 @@
 #include "object/trampoline.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "badguy/walking_badguy.hpp"
+#include "badguy/badguy.hpp"
 #include "control/controller.hpp"
 #include "object/player.hpp"
 #include "object/coin.hpp"
@@ -114,14 +114,14 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
         return FORCE_MOVE;
       }
     }
-    auto walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
+    auto badguy = dynamic_cast<BadGuy*> (&other);
     //Trampoline also works for WalkingBadguy
-    if (walking_badguy) {
-      float vy = walking_badguy->get_velocity_y();
+    if (badguy) {
+      float vy = badguy->get_physic().get_velocity_y();
       //walking_badguy is falling down on trampoline
       if (hit.top && vy >= 0) {
         vy = VY_INITIAL;
-        walking_badguy->set_velocity_y(vy);
+        badguy->get_physic().set_velocity_y(vy);
         SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
         m_sprite->set_action("swinging", 1);
         return FORCE_MOVE;

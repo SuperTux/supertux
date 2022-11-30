@@ -27,12 +27,12 @@
   )
   (action
     (name "squished-left")
-	(hitbox 1 -21 32 32)
+	(hitbox 1 -15 32 32)
     (images "../vicious_ivy/squished.png")
   )
   (action
     (name "squished-right")
-	(hitbox -1 -21 32 32)
+	(hitbox -1 -15 32 32)
     (mirror-action "squished-left")
   )
   (action
@@ -42,7 +42,7 @@
   )
   (action
     (name "collision-right")
-    (hitbox 2 1 21 25)
+    (hitbox -20 1 21 25)
     (mirror-action "collision-left")
   )
   (action
