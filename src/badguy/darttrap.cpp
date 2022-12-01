@@ -21,6 +21,7 @@
 #include "badguy/dart.hpp"
 #include "editor/editor.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -56,7 +57,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 void
 DartTrap::initialize()
 {
-  m_sprite->set_action(m_dir == Direction::LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action("idle", m_dir);
 }
 
 void
@@ -101,7 +102,7 @@ void
 DartTrap::load()
 {
   state = LOADING;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "loading-left" : "loading-right", 1);
+  m_sprite->set_action("loading", m_dir, 1);
 }
 
 void
@@ -110,12 +111,15 @@ DartTrap::fire()
   float px = get_pos().x;
   if (m_dir == Direction::RIGHT) px += 5;
   float py = get_pos().y;
-  py += MUZZLE_Y;
+  if (m_flip == NO_FLIP)
+    py += MUZZLE_Y;
+  else
+    py += (m_col.m_bbox.get_height() - MUZZLE_Y - 7.0f);
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   Sector::get().add<Dart>(Vector(px, py), m_dir, this);
   state = IDLE;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "idle-left" : "idle-right");
+  m_sprite->set_action("idle", m_dir);
 }
 
 ObjectSettings
@@ -131,6 +135,13 @@ DartTrap::get_settings()
   result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y"});
 
   return result;
+}
+
+void
+DartTrap::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

@@ -64,7 +64,10 @@ private:
   };
 
 public:
-  Player(PlayerStatus& player_status, const std::string& name);
+  static Color get_player_color(int id);
+
+public:
+  Player(PlayerStatus& player_status, const std::string& name, int player_id);
   ~Player() override;
 
   virtual void update(float dt_sec) override;
@@ -74,7 +77,11 @@ public:
   virtual void collision_tile(uint32_t tile_attributes) override;
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
-  virtual bool is_singleton() const override { return true; }
+  virtual bool is_singleton() const override { return false; }
+  virtual void remove_me() override;
+
+  int get_id() const { return m_id; }
+  void set_id(int id);
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
@@ -156,6 +163,7 @@ public:
   bool is_dead() const { return m_dead; }
   bool is_big() const;
   bool is_stone() const { return m_stone; }
+  bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }
   bool is_swimboosting() const { return m_swimboosting; }
   bool is_water_jumping() const { return m_water_jump; }
@@ -216,10 +224,15 @@ public:
   void stop_backflipping();
 
   void position_grabbed_object();
-  void try_grab();
+  bool try_grab();
 
   /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
   void sideways_push(float delta);
+
+  void multiplayer_prepare_spawn();
+
+  void set_ending_direction(int direction) { m_ending_direction = direction; }
+  int get_ending_direction() const { return m_ending_direction; }
 
 private:
   void handle_input();
@@ -234,9 +247,8 @@ private:
   void do_jump_apex();
   void early_jump_apex();
 
+  void slide();
   void swim(float pointx, float pointy, bool boost);
-
-  bool slightly_above_ground() const;
 
   BonusType string_to_bonus(const std::string& bonus) const;
 
@@ -251,13 +263,21 @@ private:
    */
   void ungrab_object(GameObject* gameobject = nullptr);
 
+  void next_target();
+  void prev_target();
+
+  void multiplayer_respawn();
+
 private:
+  int m_id;
+  std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
   bool m_deactivated;
 
   const Controller* m_controller;
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
   bool m_duck;
+  bool m_crawl;
   bool m_dead;
   bool m_dying;
   bool m_winning;
@@ -267,9 +287,11 @@ private:
   Direction m_peekingY;
   float m_ability_time;
   bool m_stone;
-  bool m_falling_below_water;
+  bool m_sliding;
+  bool m_slidejumping;
   bool m_swimming;
   bool m_swimboosting;
+  bool m_no_water;
   bool m_on_left_wall;
   bool m_on_right_wall;
   bool m_in_walljump_tile;
@@ -282,6 +304,13 @@ private:
   bool m_ice_this_frame;
   SpritePtr m_lightsprite;
   SpritePtr m_powersprite;
+  SpritePtr m_multiplayer_arrow;
+
+  // Multiplayer tag stuff (number displayed over the players)
+  Timer m_tag_timer;
+  std::unique_ptr<FadeHelper> m_tag_fade;
+  float m_tag_alpha;
+  bool m_has_moved; // If the player sent input to move the player
 
 public:
   Direction m_dir;
@@ -327,6 +356,7 @@ private:
 
   Portable* m_grabbed_object;
   std::unique_ptr<ObjectRemoveListener> m_grabbed_object_remove_listener;
+  bool m_released_object;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
 
@@ -348,6 +378,8 @@ private:
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
   std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
+
+  int m_ending_direction;
 
 private:
   Player(const Player&) = delete;

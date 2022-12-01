@@ -68,15 +68,18 @@ enum OptionsMenuIDs {
   MNID_MUSIC,
   MNID_SOUND_VOLUME,
   MNID_MUSIC_VOLUME,
+  MNID_RUMBLING,
   MNID_DEVELOPER_MODE,
   MNID_CHRISTMAS_MODE,
   MNID_TRANSITIONS,
   MNID_CONFIRMATION_DIALOG,
   MNID_PAUSE_ON_FOCUSLOSS,
-  MNID_CUSTOM_CURSOR
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  , MNID_MOBILE_CONTROLS
+  MNID_CUSTOM_CURSOR,
+#ifndef __EMSCRIPTEN__
+  MNID_RELEASE_CHECK,
 #endif
+  MNID_MOBILE_CONTROLS,
+  MNID_MOBILE_CONTROLS_SCALE
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -87,13 +90,15 @@ OptionsMenu::OptionsMenu(bool complete) :
   next_vsync(0),
   next_sound_volume(0),
   next_music_volume(0),
+  m_next_mobile_controls_scale(0),
   magnifications(),
   aspect_ratios(),
   window_resolutions(),
   resolutions(),
   vsyncs(),
   sound_volumes(),
-  music_volumes()
+  music_volumes(),
+  m_mobile_controls_scales()
 {
   add_label(_("Options"));
   add_hl();
@@ -102,7 +107,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   // These values go from screen:640/projection:1600 to
   // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
   magnifications.push_back(_("auto"));
-#ifndef ENABLE_TOUCHSCREEN_SUPPORT
+#ifndef HIDE_NONMOBILE_OPTIONS
   magnifications.push_back("40%");
   magnifications.push_back("50%");
   magnifications.push_back("62.5%");
@@ -354,7 +359,7 @@ OptionsMenu::OptionsMenu(bool complete) :
       .set_help(_("Select a profile to play with"));
   }
 
-#if !defined(ENABLE_TOUCHSCREEN_SUPPORT) && !defined(__EMSCRIPTEN__)
+#if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
   add_toggle(MNID_FULLSCREEN,_("Window Resizable"), &g_config->window_resizable)
     .set_help(_("Allow window resizing, might require a restart to take effect"));
 
@@ -381,7 +386,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
   vsync.set_help(_("Set the VSync mode"));
 
-#if !defined(ENABLE_TOUCHSCREEN_SUPPORT) && !defined(__EMSCRIPTEN__)
+#if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
   MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect.set_help(_("Adjust the aspect ratio"));
 #endif
@@ -405,25 +410,44 @@ OptionsMenu::OptionsMenu(bool complete) :
     add_inactive( _("Music (disabled)"));
   }
 
+  // Separated both translation strings so the latter can be removed if it is
+  // no longer true, without requiring a new round of translating
+  add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
+    .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
+
   add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
     .set_help(_("Configure key-action mappings"));
 
 #ifndef UBUNTU_TOUCH
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
     .set_help(_("Configure joystick control-action mappings"));
+
+  add_submenu(_("Multiplayer settings"), MenuStorage::MULTIPLAYER_MENU)
+    .set_help(_("Configure settings specific to multiplayer"));
 #endif
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)
       .set_help(_("Toggle on-screen controls for mobile devices"));
-#endif
+  m_mobile_controls_scales.clear();
+  for (unsigned i = 50; i <= 300; i+=25)
+  {
+    m_mobile_controls_scales.push_back(std::to_string(i) + "%");
+    if (i == static_cast<unsigned>(g_config->m_mobile_controls_scale * 100))
+      m_next_mobile_controls_scale = (i - 50) / 25;
+  }
+  add_string_select(MNID_MOBILE_CONTROLS_SCALE, _("On-screen controls scale"), &m_next_mobile_controls_scale, m_mobile_controls_scales);
+
   MenuItem& enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
   enable_transitions.set_help(_("Enable screen transitions and smooth menu animation"));
 
+#ifndef HIDE_NONMOBILE_OPTIONS
   if (g_config->developer_mode)
   {
     add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
   }
+#else
+  add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
+#endif
 
   if (g_config->is_christmas() || g_config->christmas_mode)
   {
@@ -434,9 +458,19 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
     .set_help(_("Automatically pause the game when the window loses focus"));
   add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
+#ifndef __EMSCRIPTEN__
+  add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
+    .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
+#endif
 
   add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
       .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));
+
+  if (g_config->developer_mode)
+  {
+    add_submenu(_("Menu Customization"), MenuStorage::CUSTOM_MENU_MENU)
+      .set_help(_("Customize the appearance of the menus"));
+  }
 
   add_hl();
   add_back(_("Back"));
@@ -623,6 +657,13 @@ OptionsMenu::menu_action(MenuItem& item)
 
     case MNID_CUSTOM_CURSOR:
       SDL_ShowCursor(g_config->custom_mouse_cursor ? 0 : 1);
+      break;
+
+    case MNID_MOBILE_CONTROLS_SCALE:
+      if (sscanf(m_mobile_controls_scales[m_next_mobile_controls_scale].c_str(), "%f", &g_config->m_mobile_controls_scale) == EOF)
+        g_config->m_mobile_controls_scale = 1; // if sscanf fails revert to default scale
+      else
+        g_config->m_mobile_controls_scale /= 100.0f;
       break;
 
     default:

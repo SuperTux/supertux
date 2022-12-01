@@ -147,7 +147,7 @@ public:
   void run_script(const std::string& script, const std::string& sourcename);
 
   Camera& get_camera() const;
-  Player& get_player() const;
+  std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
 
 private:

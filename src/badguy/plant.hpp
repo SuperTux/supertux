@@ -29,8 +29,10 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void active_update(float dt_sec) override;
   virtual void ignite() override;
-  virtual std::string get_class() const override { return "plant"; }
-  virtual std::string get_display_name() const override { return _("Plant"); }
+  static std::string class_name() { return "plant"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Plant"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
   enum PlantState {

@@ -20,6 +20,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -88,7 +89,7 @@ void
 Candle::draw(DrawingContext& context)
 {
   // draw regular sprite
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  MovingSprite::draw(context);
 
   // draw on lightmap
   if (burning) {
@@ -141,6 +142,13 @@ Candle::set_burning(bool burning_)
   }
   //puff smoke for flickering light sources only
   if (flicker) puff_smoke();
+}
+
+void
+Candle::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

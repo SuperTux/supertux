@@ -20,6 +20,7 @@
 #include <string>
 
 #include "trigger/trigger_base.hpp"
+#include "video/flip.hpp"
 
 class ReaderMapping;
 
@@ -29,8 +30,10 @@ public:
   Switch(const ReaderMapping& reader);
   ~Switch() override;
 
-  virtual std::string get_class() const override { return "switch"; }
-  virtual std::string get_display_name() const override { return _("Switch"); }
+  static std::string class_name() { return "switch"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Switch"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -38,6 +41,8 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
+
+  virtual void on_flip(float height) override;
 
 private:
   enum SwitchState {
@@ -54,6 +59,7 @@ private:
   std::string off_script;
   SwitchState state;
   bool bistable;
+  Flip m_flip;
 
 private:
   Switch(const Switch&) = delete;

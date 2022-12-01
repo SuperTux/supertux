@@ -20,6 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
+#include "video/flip.hpp"
 
 class Player;
 class ReaderMapping;
@@ -45,10 +46,11 @@ public:
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
+  void start_bounce(GameObject* hitter);
+
 protected:
   virtual void hit(Player& player) = 0;
 
-  void start_bounce(GameObject* hitter);
   void start_break(GameObject* hitter);
   void break_me();
 
@@ -61,6 +63,9 @@ protected:
   float m_bounce_dir;
   float m_bounce_offset;
   float m_original_y;
+
+private:
+  Flip m_flip;
 
 private:
   Block(const Block&) = delete;

@@ -24,6 +24,7 @@
 #include "supertux/timer.hpp"
 #include "video/blend.hpp"
 #include "video/drawing_context.hpp"
+#include "video/flip.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
@@ -39,8 +40,10 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "background"; }
-  virtual std::string get_display_name() const override { return _("Background"); }
+  static std::string class_name() { return "background"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Background"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/background.png";
@@ -48,6 +51,8 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  virtual void on_flip(float height) override;
 
   void set_image(const std::string& name);
   void set_images(const std::string& name_top, const std::string& name_middle, const std::string& name_bottom);
@@ -104,6 +109,8 @@ private:
 
   Timer m_timer_color;
   Color m_src_color, m_dst_color;
+
+  Flip m_flip;
 
 private:
   Background(const Background&) = delete;

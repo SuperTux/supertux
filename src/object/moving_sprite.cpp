@@ -33,7 +33,8 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(SpriteManager::current()->create(m_sprite_name)),
-  m_layer(layer_)
+  m_layer(layer_),
+  m_flip(NO_FLIP)
 {
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
@@ -45,7 +46,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int l
   m_sprite_name(),
   m_default_sprite_name(),
   m_sprite(),
-  m_layer(layer_)
+  m_layer(layer_),
+  m_flip(NO_FLIP)
 {
   m_col.m_bbox.set_pos(pos);
   if (!reader.get("sprite", m_sprite_name))
@@ -62,17 +64,22 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(),
-  m_layer(layer_)
+  m_layer(layer_),
+  m_flip(NO_FLIP)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
   reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid
-  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str())) {
+  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str()))
+  {
     m_sprite = SpriteManager::current()->create(m_default_sprite_name);
-  } else {
-    m_sprite = SpriteManager::current()->create(m_sprite_name);
+  }
+  else
+  {
+    if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
+      m_sprite = SpriteManager::current()->create(m_default_sprite_name);
   }
 
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
@@ -84,7 +91,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite_name(),
   m_default_sprite_name(),
   m_sprite(),
-  m_layer(layer_)
+  m_layer(layer_),
+  m_flip(NO_FLIP)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
@@ -100,7 +108,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
 void
 MovingSprite::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), m_layer);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 }
 
 void
@@ -141,11 +149,23 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
   set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
 }
 
-void
+bool
 MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
+  SpritePtr new_sprite;
+  try
+  {
+    new_sprite = SpriteManager::current()->create(m_sprite_name);
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Sprite change failed: Sprite '" << new_sprite_name << "' cannot be loaded: " << err.what() << std::endl;
+    return false;
+  }
+
+  m_sprite = std::move(new_sprite);
   m_sprite_name = new_sprite_name;
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
+  return true;
 }
 
 ObjectSettings

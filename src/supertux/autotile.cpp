@@ -87,7 +87,7 @@ Autotile::pick_tile(int x, int y) const
     ) % 256
   ) / 256.0f;
 
-  for (auto& pair : m_alt_tiles)
+  for (const auto& pair : m_alt_tiles)
   {
     rnd_val -= pair.second;
     if (rnd_val <= 0)
@@ -105,7 +105,7 @@ Autotile::is_amongst(uint32_t tile) const
   if (tile == m_tile_id)
     return true;
 
-  for (auto& pair : m_alt_tiles)
+  for (const auto& pair : m_alt_tiles)
     if (pair.first == tile)
       return true;
 
@@ -240,7 +240,7 @@ AutotileSet::is_member(uint32_t tile_id) const
     }
     else
     {
-      for (auto& pair : tile->get_all_tile_ids())
+      for (const auto& pair : tile->get_all_tile_ids())
       {
         if (pair.first == tile_id)
         {
@@ -268,7 +268,7 @@ AutotileSet::is_solid(uint32_t tile_id) const
     }
     else
     {
-      for (auto& pair : tile->get_all_tile_ids())
+      for (const auto& pair : tile->get_all_tile_ids())
       {
         if (pair.first == tile_id)
         {
@@ -300,10 +300,13 @@ AutotileSet::get_mask_from_tile(uint32_t tile) const
 void
 AutotileSet::validate() const
 {
-  for (int mask = 0; mask <= (m_corner ? 15 : 255); mask++)
+  // Corner autotiles are always empty if all 4 corners are, but regular
+  // autotiles should have a valid tile ID that can be surrounded by emptiness
+  for (int mask = (m_corner ? 1 : 0); mask <= (m_corner ? 15 : 255); mask++)
   {
     uint8_t num_mask = static_cast<uint8_t>(mask);
     bool tile_exists = false;
+    uint32_t tile_nonsolid = 0; // Relevant only for non-corner autotiles
     uint32_t tile_with_that_mask = 0; // Used to help users debug
 
     for (auto& autotile : m_autotiles)
@@ -318,6 +321,18 @@ AutotileSet::validate() const
         {
           tile_exists = true;
           tile_with_that_mask = autotile->get_tile_id();
+        }
+      }
+
+      if (autotile->matches(num_mask, false))
+      {
+        if (tile_nonsolid)
+        {
+          log_warning << "Autotileset '" << m_name << "': non-solid mask " << (m_corner ? std::bitset<4>(mask).to_string() : std::bitset<8>(mask).to_string()) << " corresponds both to tile " << tile_with_that_mask << " and " << autotile->get_tile_id() << std::endl;
+        }
+        else
+        {
+          tile_nonsolid = autotile->get_tile_id();
         }
       }
     }

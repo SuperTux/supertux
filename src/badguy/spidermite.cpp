@@ -33,7 +33,7 @@ SpiderMite::SpiderMite(const ReaderMapping& reader) :
 void
 SpiderMite::initialize()
 {
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  m_sprite->set_action(m_dir);
   mode = FLY_UP;
   m_physic.set_velocity_y(MOVE_SPEED);
   timer.start(FLYTIME/2);
@@ -42,7 +42,10 @@ SpiderMite::initialize()
 bool
 SpiderMite::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  if (m_frozen)
+    return BadGuy::collision_squished(object);
+
+  m_sprite->set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }
@@ -53,6 +56,8 @@ SpiderMite::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom) { // hit floor or roof?
     m_physic.set_velocity_y(0);
   }
+  if (m_frozen)
+    BadGuy::collision_solid(hit);
 }
 
 void
@@ -78,7 +83,7 @@ SpiderMite::active_update(float dt_sec)
   auto player = get_nearest_player();
   if (player) {
     m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
-    m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+    m_sprite->set_action(m_dir);
   }
 }
 
@@ -90,9 +95,9 @@ SpiderMite::freeze()
 }
 
 void
-SpiderMite::unfreeze()
+SpiderMite::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   m_physic.enable_gravity(false);
   initialize();
 }

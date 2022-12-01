@@ -29,6 +29,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -45,7 +46,8 @@ Block::Block(SpritePtr newsprite) :
   m_breaking(false),
   m_bounce_dir(0),
   m_bounce_offset(0),
-  m_original_y(-1)
+  m_original_y(-1),
+  m_flip(NO_FLIP)
 {
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -61,7 +63,8 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
   m_breaking(false),
   m_bounce_dir(0),
   m_bounce_offset(0),
-  m_original_y(-1)
+  m_original_y(-1),
+  m_flip(NO_FLIP)
 {
   mapping.get("x", m_col.m_bbox.get_left());
   mapping.get("y", m_col.m_bbox.get_top());
@@ -87,11 +90,16 @@ Block::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-    if(player->is_swimboosting())
+    bool in_line_with_player = ((player->get_physic().get_velocity_x() > 0.f &&
+      player->get_bbox().get_right() < get_bbox().get_left()) ||
+      (player->get_physic().get_velocity_x() < 0.f &&
+      player->get_bbox().get_left() > get_bbox().get_right()));
+
+    if(player->is_swimboosting() || (player->is_sliding() && in_line_with_player))
     {
       hit(*player);
     }
-    else if (!player->is_swimboosting() && !player->is_water_jumping() && !player->is_swimming())
+    else if (!player->is_water_jumping() && !player->is_swimming())
     {
       bool x_coordinates_intersect =
         player->get_bbox().get_right() >= m_col.m_bbox.get_left() &&
@@ -99,10 +107,7 @@ Block::collision(GameObject& other, const CollisionHit& )
       if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA &&
           x_coordinates_intersect)
       {
-        if (player->get_bbox().get_top() > m_col.m_bbox.get_bottom() - SHIFT_DELTA)
-        {
-          hit(*player);
-        }
+        hit(*player);
       }
     }
   }
@@ -169,7 +174,7 @@ Block::update(float dt_sec)
 void
 Block::draw(DrawingContext& context)
 {
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1);
+  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1, m_flip);
 }
 
 void
@@ -216,7 +221,7 @@ Block::break_me()
     Sector::get().add<SpriteParticle>(m_sprite->clone(), action,
                                 pos, ANCHOR_MIDDLE,
                                 velocity, Vector(0, gravity),
-                                LAYER_OBJECTS + 1);
+                                LAYER_OBJECTS + 3);
   }
 
   remove_me();
@@ -242,6 +247,7 @@ Block::on_flip(float height)
 {
   MovingObject::on_flip(height);
   if (m_original_y != -1) m_original_y = height - m_original_y - get_bbox().get_height();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

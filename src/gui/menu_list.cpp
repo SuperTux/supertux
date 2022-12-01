@@ -17,22 +17,26 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_list.hpp"
 #include "gui/menu_manager.hpp"
+#include "util/gettext.hpp"
 
-ListMenu::ListMenu(const std::vector<std::string>& items, int* selected) : 
-  m_selected(selected)
+ListMenu::ListMenu(const std::vector<std::string>& items, std::string* selected, Menu* parent) :
+  m_selected(selected),
+  m_parent(parent)
 {
   for(size_t i = 0; i < items.size(); i++) {
     add_entry(static_cast<int>(i), items[i]);
   }
   add_hl();
-  add_back("OK");
+  add_back(_("Cancel"));
 }
 
 void
 ListMenu::menu_action(MenuItem& item) {
   if(m_selected) {
-    *m_selected = item.get_id();
+    *m_selected = item.get_text();
   }
+  if (m_parent)
+    m_parent->refresh();
   MenuManager::instance().pop_menu();
 }
 

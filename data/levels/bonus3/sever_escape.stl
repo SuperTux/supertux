@@ -4,6 +4,8 @@
   (author "Hume")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 70)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -67,10 +69,6 @@
         (node
           (x 1152)
           (y 1120)
-          (bezier_before_x 1152)
-          (bezier_before_y 1120)
-          (bezier_after_x 1152)
-          (bezier_after_y 1120)
         )
       )
     )
@@ -480,6 +478,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 97)
       (name "secret")
@@ -828,10 +832,7 @@
       (color 0.9 0.9 0.9)
     )
     (background
-      (scroll-offset-y 320)
       (color 1 1 1)
-      (x 800)
-      (y 416)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)

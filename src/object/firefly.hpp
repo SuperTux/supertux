@@ -32,15 +32,25 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual std::string get_class() const override { return "firefly"; }
-  virtual std::string get_display_name() const override { return _("Checkpoint"); }
+  static std::string class_name() { return "firefly"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Checkpoint"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
+
+  virtual void on_flip(float height) override;
+
+private:
+  void reactivate();
 
 private:
   SpritePtr m_sprite_light;
   bool activated;
   Vector initial_position; /**< position as in level file. This is where Tux will have to respawn, as the level is reset every time */
-  void reactivate();
+
+private:
+  Firefly(const Firefly&) = delete;
+  Firefly& operator=(const Firefly&) = delete;
 };
 
 #endif

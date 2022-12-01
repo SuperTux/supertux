@@ -32,6 +32,8 @@ public:
   void initialize();
   void reload_menu();
 
+  std::vector<std::string>& get_contrib_worlds() { return m_contrib_worlds; }
+
 private:
   EditorLevelsetSelectMenu(const EditorLevelsetSelectMenu&) = delete;
   EditorLevelsetSelectMenu& operator=(const EditorLevelsetSelectMenu&) = delete;

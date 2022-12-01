@@ -40,8 +40,10 @@ AngryStone::AngryStone(const ReaderMapping& reader) :
 }
 
 void
-AngryStone::collision_solid(const CollisionHit& /*hit*/)
+AngryStone::collision_solid(const CollisionHit& hit)
 {
+  if (m_frozen)
+    BadGuy::collision_solid(hit);
   // TODO
 #if 0
   if ((state == ATTACKING) &&
@@ -60,6 +62,9 @@ AngryStone::collision_solid(const CollisionHit& /*hit*/)
 void
 AngryStone::kill_fall()
 {
+  if (!m_frozen)
+    return;
+  BadGuy::kill_fall();
   //prevents AngryStone from getting killed by other enemies or the player
 }
 
@@ -78,9 +83,8 @@ void
 AngryStone::active_update(float dt_sec) {
   BadGuy::active_update(dt_sec);
 
-  if (m_frozen) {
+  if (m_frozen)
     return;
-  }
 
   switch (state) {
 
@@ -167,10 +171,24 @@ AngryStone::active_update(float dt_sec) {
 
 }
 
+void
+AngryStone::freeze()
+{
+  BadGuy::freeze();
+  state = IDLE;
+  m_physic.enable_gravity(true);
+}
+
+void
+AngryStone::unfreeze(bool melt)
+{
+  BadGuy::unfreeze(melt);
+}
+
 bool
 AngryStone::is_freezable() const
 {
-  return state != ATTACKING;
+  return true;
 }
 
 bool

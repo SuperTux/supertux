@@ -22,6 +22,7 @@
 #include <map>
 #include <memory>
 #include <functional>
+#include <vector>
 
 #include "math/fwd.hpp"
 #include "supertux/direction.hpp"
@@ -33,27 +34,72 @@ class ObjectFactory
 {
 private:
   typedef std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> FactoryFunction;
+  typedef std::function<std::string ()> NameFactoryFunction;
   typedef std::map<std::string, FactoryFunction> Factories;
+  typedef std::map<std::string, NameFactoryFunction> NameFactories;
   Factories factories;
+  NameFactories name_factories;
+  std::vector<std::string> m_badguys_names;
+  std::vector<uint8_t> m_badguys_params;
+  std::vector<std::string> m_objects_names;
+  std::vector<uint8_t> m_objects_params;
+
+protected:
+  bool m_adding_badguys;
+
+public:
+  enum RegisteredObjectParam
+  {
+    OBJ_PARAM_NONE=0, OBJ_PARAM_PORTABLE=0b10000000
+  };
 
 public:
   /** Will throw in case of creation failure, will never return nullptr */
   std::unique_ptr<GameObject> create(const std::string& name, const ReaderMapping& reader) const;
+  std::string get_factory_display_name(const std::string& name) const;
+
+  std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
+  std::vector<std::string> get_registered_badguys(uint8_t params);
+  std::vector<std::string>& get_registered_objects() { return m_objects_names; }
+  std::vector<std::string> get_registered_objects(uint8_t params);
 
 protected:
   ObjectFactory();
 
-  void add_factory(const char* name, const FactoryFunction& func)
+  void add_name_factory(const char* class_name, const NameFactoryFunction& func)
+  {
+    assert(name_factories.find(class_name) == name_factories.end());
+    name_factories[class_name] = func;
+  }
+  
+  void add_custom_name_factory(const char* class_name, const std::string display_name)
+  {
+    add_name_factory(class_name, [display_name]() {
+        return display_name;
+      });
+  }
+
+  void add_factory(const char* name, const FactoryFunction& func, uint8_t obj_params = 0)
   {
     assert(factories.find(name) == factories.end());
+    if (m_adding_badguys)
+    {
+      m_badguys_names.push_back(name);
+      m_badguys_params.push_back(obj_params);
+    }
+    m_objects_names.push_back(name);
+    m_objects_params.push_back(obj_params);
     factories[name] = func;
   }
 
   template<class C>
-  void add_factory(const char* name)
+  void add_factory(const char* class_name, uint8_t obj_params = 0)
   {
-    add_factory(name, [](const ReaderMapping& reader) {
+    add_factory(class_name, [](const ReaderMapping& reader) {
         return std::make_unique<C>(reader);
+      }, obj_params);
+    add_name_factory(class_name, []() {
+        return C::display_name();
       });
   }
 };

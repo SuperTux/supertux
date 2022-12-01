@@ -7,7 +7,8 @@
   )
   (action
     (name "dissolve")
-    (fps 8)
+    (fps 10)
+	(loops 1)
     (images 
       "snow-0.png"
       "snow-1.png"
@@ -20,13 +21,13 @@
       "snow-8.png"
       "snow-9.png"
       "snow-10.png"
+	  "snow-11.png"
     )
   )
 ;  (action
 ;    (name "fall-down")
-;    (fps 1)
 ;    (images 
-;      "snow-9.png"
+;      "snow-11.png"
 ;    )
 ;  )
 )

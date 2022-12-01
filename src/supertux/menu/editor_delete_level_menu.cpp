@@ -15,7 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/menu/editor_delete_level_menu.hpp"
+
 #include <physfs.h>
+#include <fmt/format.h>
+
 #include "supertux/levelset.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/level.hpp"
@@ -27,17 +30,24 @@
 #include "gui/dialog.hpp"
 EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu) : 
   m_level_full_paths(),
+  m_level_names(),
   m_level_select_menu(level_select_menu),
   m_levelset_select_menu(levelset_select_menu)
 {
   add_label(_("Delete level"));
   add_hl();
+  if (levelset->get_num_levels() == 0)
+  {
+    add_inactive(_("No levels available"));
+  }
   for (int i = 0; i < levelset->get_num_levels(); i++)
   {
     std::string filename = levelset->get_level_filename(i);
     std::string fullpath = FileSystem::join(Editor::current()->get_world()->get_basedir(),filename);
     m_level_full_paths.push_back(fullpath);
-    add_entry(i, LevelParser::get_level_name(fullpath));
+    const std::string& level_name = LevelParser::get_level_name(fullpath);
+    m_level_names.push_back(level_name);
+    add_entry(i, level_name);
   }
   add_hl();
   add_back(_("Back"));
@@ -53,12 +63,15 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
       Dialog::show_message(_("You cannot delete level that you are editing!"));
     else
     {
-      PHYSFS_delete(m_level_full_paths[id].c_str());
-      delete_item(id + 2);
-      m_level_full_paths.erase(m_level_full_paths.begin() + id);
-      m_level_select_menu->reload_menu();
-      if (!Editor::current()->is_level_loaded())
-        m_levelset_select_menu->reload_menu();
+      Dialog::show_confirmation(fmt::format(_("You are about to delete level \"{}\". Are you sure?"), m_level_names[id]), [this, id]()
+      {
+        PHYSFS_delete(m_level_full_paths[id].c_str());
+        delete_item(id + 2);
+        m_level_full_paths.erase(m_level_full_paths.begin() + id);
+        m_level_select_menu->reload_menu();
+        if (!Editor::current()->is_level_loaded())
+          m_levelset_select_menu->reload_menu();
+      });
     }
   }
 }

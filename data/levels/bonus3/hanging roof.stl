@@ -4,6 +4,8 @@
   (author "CT. da'Bomb")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 50)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -16,8 +18,6 @@
     )
     (background
       (color 1 1 1)
-      (x 7317.16)
-      (y 753.322)
       (speed 0.5)
       (image-top "/images/background/bluemountain/bluemountain-top.png")
       (image "/images/background/bluemountain/bluemountain-top.png")

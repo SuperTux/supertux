@@ -26,7 +26,7 @@ static SQInteger AmbientSound_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger AmbientSound_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
@@ -65,7 +65,7 @@ static SQInteger AmbientSound_set_pos_wrapper(HSQUIRRELVM vm)
 static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
@@ -95,7 +95,7 @@ static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
 static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
@@ -132,7 +132,7 @@ static SQInteger Background_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Background_set_image_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_image' called without instance"));
     return SQ_ERROR;
   }
@@ -166,7 +166,7 @@ static SQInteger Background_set_image_wrapper(HSQUIRRELVM vm)
 static SQInteger Background_set_images_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_images' called without instance"));
     return SQ_ERROR;
   }
@@ -210,7 +210,7 @@ static SQInteger Background_set_images_wrapper(HSQUIRRELVM vm)
 static SQInteger Background_set_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -244,7 +244,7 @@ static SQInteger Background_set_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger Background_get_color_red_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_color_red' called without instance"));
     return SQ_ERROR;
   }
@@ -274,7 +274,7 @@ static SQInteger Background_get_color_red_wrapper(HSQUIRRELVM vm)
 static SQInteger Background_get_color_green_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_color_green' called without instance"));
     return SQ_ERROR;
   }
@@ -304,7 +304,7 @@ static SQInteger Background_get_color_green_wrapper(HSQUIRRELVM vm)
 static SQInteger Background_get_color_blue_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_color_blue' called without instance"));
     return SQ_ERROR;
   }
@@ -334,7 +334,7 @@ static SQInteger Background_get_color_blue_wrapper(HSQUIRRELVM vm)
 static SQInteger Background_get_color_alpha_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_color_alpha' called without instance"));
     return SQ_ERROR;
   }
@@ -364,7 +364,7 @@ static SQInteger Background_get_color_alpha_wrapper(HSQUIRRELVM vm)
 static SQInteger Background_set_color_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_color' called without instance"));
     return SQ_ERROR;
   }
@@ -413,7 +413,7 @@ static SQInteger Background_set_color_wrapper(HSQUIRRELVM vm)
 static SQInteger Background_fade_color_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_color' called without instance"));
     return SQ_ERROR;
   }
@@ -474,7 +474,7 @@ static SQInteger BadGuy_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger BadGuy_kill_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'kill' called without instance"));
     return SQ_ERROR;
   }
@@ -503,7 +503,7 @@ static SQInteger BadGuy_kill_wrapper(HSQUIRRELVM vm)
 static SQInteger BadGuy_ignite_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ignite' called without instance"));
     return SQ_ERROR;
   }
@@ -532,7 +532,7 @@ static SQInteger BadGuy_ignite_wrapper(HSQUIRRELVM vm)
 static SQInteger BadGuy_set_action_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_action' called without instance"));
     return SQ_ERROR;
   }
@@ -571,7 +571,7 @@ static SQInteger BadGuy_set_action_wrapper(HSQUIRRELVM vm)
 static SQInteger BadGuy_set_sprite_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_sprite' called without instance"));
     return SQ_ERROR;
   }
@@ -612,7 +612,7 @@ static SQInteger Camera_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Camera_reload_config_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'reload_config' called without instance"));
     return SQ_ERROR;
   }
@@ -641,7 +641,7 @@ static SQInteger Camera_reload_config_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'shake' called without instance"));
     return SQ_ERROR;
   }
@@ -685,7 +685,7 @@ static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
@@ -724,7 +724,7 @@ static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -758,7 +758,7 @@ static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'scroll_to' called without instance"));
     return SQ_ERROR;
   }
@@ -802,7 +802,7 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_get_current_scale_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_current_scale' called without instance"));
     return SQ_ERROR;
   }
@@ -832,7 +832,7 @@ static SQInteger Camera_get_current_scale_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_get_target_scale_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_target_scale' called without instance"));
     return SQ_ERROR;
   }
@@ -862,7 +862,7 @@ static SQInteger Camera_get_target_scale_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_set_scale_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_scale' called without instance"));
     return SQ_ERROR;
   }
@@ -896,7 +896,7 @@ static SQInteger Camera_set_scale_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'scale' called without instance"));
     return SQ_ERROR;
   }
@@ -935,7 +935,7 @@ static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
 static SQInteger Camera_ease_scale_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_scale' called without instance"));
     return SQ_ERROR;
   }
@@ -986,7 +986,7 @@ static SQInteger Candle_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Candle_get_burning_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_burning' called without instance"));
     return SQ_ERROR;
   }
@@ -1016,7 +1016,7 @@ static SQInteger Candle_get_burning_wrapper(HSQUIRRELVM vm)
 static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_burning' called without instance"));
     return SQ_ERROR;
   }
@@ -1057,7 +1057,7 @@ static SQInteger Clouds_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Clouds_set_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -1091,7 +1091,7 @@ static SQInteger Clouds_set_enabled_wrapper(HSQUIRRELVM vm)
 static SQInteger Clouds_get_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -1121,7 +1121,7 @@ static SQInteger Clouds_get_enabled_wrapper(HSQUIRRELVM vm)
 static SQInteger Clouds_fade_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -1160,7 +1160,7 @@ static SQInteger Clouds_fade_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger Clouds_fade_amount_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_amount' called without instance"));
     return SQ_ERROR;
   }
@@ -1204,7 +1204,7 @@ static SQInteger Clouds_fade_amount_wrapper(HSQUIRRELVM vm)
 static SQInteger Clouds_set_amount_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_amount' called without instance"));
     return SQ_ERROR;
   }
@@ -1250,7 +1250,7 @@ static SQInteger CustomParticles_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger CustomParticles_set_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -1284,7 +1284,7 @@ static SQInteger CustomParticles_set_enabled_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -1314,7 +1314,7 @@ static SQInteger CustomParticles_get_enabled_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_clear_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'clear' called without instance"));
     return SQ_ERROR;
   }
@@ -1343,7 +1343,7 @@ static SQInteger CustomParticles_clear_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_spawn_particles_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'spawn_particles' called without instance"));
     return SQ_ERROR;
   }
@@ -1382,7 +1382,7 @@ static SQInteger CustomParticles_spawn_particles_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_max_amount_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_max_amount' called without instance"));
     return SQ_ERROR;
   }
@@ -1412,7 +1412,7 @@ static SQInteger CustomParticles_get_max_amount_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_max_amount_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_max_amount' called without instance"));
     return SQ_ERROR;
   }
@@ -1446,7 +1446,7 @@ static SQInteger CustomParticles_set_max_amount_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_birth_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_birth_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1477,7 +1477,7 @@ static SQInteger CustomParticles_get_birth_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_birth_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_birth_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1511,7 +1511,7 @@ static SQInteger CustomParticles_set_birth_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_death_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_death_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1542,7 +1542,7 @@ static SQInteger CustomParticles_get_death_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_death_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_death_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1576,7 +1576,7 @@ static SQInteger CustomParticles_set_death_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_rotation_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_rotation_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1607,7 +1607,7 @@ static SQInteger CustomParticles_get_rotation_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_rotation_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_rotation_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1641,7 +1641,7 @@ static SQInteger CustomParticles_set_rotation_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_collision_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_collision_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1672,7 +1672,7 @@ static SQInteger CustomParticles_get_collision_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_collision_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_collision_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1706,7 +1706,7 @@ static SQInteger CustomParticles_set_collision_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_offscreen_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_offscreen_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1737,7 +1737,7 @@ static SQInteger CustomParticles_get_offscreen_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_offscreen_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_offscreen_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -1771,7 +1771,7 @@ static SQInteger CustomParticles_set_offscreen_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_cover_screen_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_cover_screen' called without instance"));
     return SQ_ERROR;
   }
@@ -1801,7 +1801,7 @@ static SQInteger CustomParticles_get_cover_screen_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_cover_screen_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_cover_screen' called without instance"));
     return SQ_ERROR;
   }
@@ -1835,7 +1835,7 @@ static SQInteger CustomParticles_set_cover_screen_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_delay_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_delay' called without instance"));
     return SQ_ERROR;
   }
@@ -1865,7 +1865,7 @@ static SQInteger CustomParticles_get_delay_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_delay_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_delay' called without instance"));
     return SQ_ERROR;
   }
@@ -1899,7 +1899,7 @@ static SQInteger CustomParticles_set_delay_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_delay_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_delay' called without instance"));
     return SQ_ERROR;
   }
@@ -1938,7 +1938,7 @@ static SQInteger CustomParticles_fade_delay_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_delay_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_delay' called without instance"));
     return SQ_ERROR;
   }
@@ -1982,7 +1982,7 @@ static SQInteger CustomParticles_ease_delay_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_lifetime_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_lifetime' called without instance"));
     return SQ_ERROR;
   }
@@ -2012,7 +2012,7 @@ static SQInteger CustomParticles_get_lifetime_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_lifetime_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_lifetime' called without instance"));
     return SQ_ERROR;
   }
@@ -2046,7 +2046,7 @@ static SQInteger CustomParticles_set_lifetime_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_lifetime_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_lifetime' called without instance"));
     return SQ_ERROR;
   }
@@ -2085,7 +2085,7 @@ static SQInteger CustomParticles_fade_lifetime_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_lifetime_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_lifetime' called without instance"));
     return SQ_ERROR;
   }
@@ -2129,7 +2129,7 @@ static SQInteger CustomParticles_ease_lifetime_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_lifetime_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_lifetime_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2159,7 +2159,7 @@ static SQInteger CustomParticles_get_lifetime_variation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_lifetime_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_lifetime_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2193,7 +2193,7 @@ static SQInteger CustomParticles_set_lifetime_variation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_lifetime_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_lifetime_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2232,7 +2232,7 @@ static SQInteger CustomParticles_fade_lifetime_variation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_lifetime_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_lifetime_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2276,7 +2276,7 @@ static SQInteger CustomParticles_ease_lifetime_variation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_birth_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_birth_time' called without instance"));
     return SQ_ERROR;
   }
@@ -2306,7 +2306,7 @@ static SQInteger CustomParticles_get_birth_time_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_birth_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_birth_time' called without instance"));
     return SQ_ERROR;
   }
@@ -2340,7 +2340,7 @@ static SQInteger CustomParticles_set_birth_time_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_birth_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_birth_time' called without instance"));
     return SQ_ERROR;
   }
@@ -2379,7 +2379,7 @@ static SQInteger CustomParticles_fade_birth_time_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_birth_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_birth_time' called without instance"));
     return SQ_ERROR;
   }
@@ -2423,7 +2423,7 @@ static SQInteger CustomParticles_ease_birth_time_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_birth_time_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_birth_time_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2453,7 +2453,7 @@ static SQInteger CustomParticles_get_birth_time_variation_wrapper(HSQUIRRELVM vm
 static SQInteger CustomParticles_set_birth_time_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_birth_time_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2487,7 +2487,7 @@ static SQInteger CustomParticles_set_birth_time_variation_wrapper(HSQUIRRELVM vm
 static SQInteger CustomParticles_fade_birth_time_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_birth_time_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2526,7 +2526,7 @@ static SQInteger CustomParticles_fade_birth_time_variation_wrapper(HSQUIRRELVM v
 static SQInteger CustomParticles_ease_birth_time_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_birth_time_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2570,7 +2570,7 @@ static SQInteger CustomParticles_ease_birth_time_variation_wrapper(HSQUIRRELVM v
 static SQInteger CustomParticles_get_death_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_death_time' called without instance"));
     return SQ_ERROR;
   }
@@ -2600,7 +2600,7 @@ static SQInteger CustomParticles_get_death_time_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_death_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_death_time' called without instance"));
     return SQ_ERROR;
   }
@@ -2634,7 +2634,7 @@ static SQInteger CustomParticles_set_death_time_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_death_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_death_time' called without instance"));
     return SQ_ERROR;
   }
@@ -2673,7 +2673,7 @@ static SQInteger CustomParticles_fade_death_time_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_death_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_death_time' called without instance"));
     return SQ_ERROR;
   }
@@ -2717,7 +2717,7 @@ static SQInteger CustomParticles_ease_death_time_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_death_time_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_death_time_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2747,7 +2747,7 @@ static SQInteger CustomParticles_get_death_time_variation_wrapper(HSQUIRRELVM vm
 static SQInteger CustomParticles_set_death_time_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_death_time_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2781,7 +2781,7 @@ static SQInteger CustomParticles_set_death_time_variation_wrapper(HSQUIRRELVM vm
 static SQInteger CustomParticles_fade_death_time_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_death_time_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2820,7 +2820,7 @@ static SQInteger CustomParticles_fade_death_time_variation_wrapper(HSQUIRRELVM v
 static SQInteger CustomParticles_ease_death_time_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_death_time_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -2864,7 +2864,7 @@ static SQInteger CustomParticles_ease_death_time_variation_wrapper(HSQUIRRELVM v
 static SQInteger CustomParticles_get_speed_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_speed_x' called without instance"));
     return SQ_ERROR;
   }
@@ -2894,7 +2894,7 @@ static SQInteger CustomParticles_get_speed_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_speed_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_speed_x' called without instance"));
     return SQ_ERROR;
   }
@@ -2928,7 +2928,7 @@ static SQInteger CustomParticles_set_speed_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_speed_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_speed_x' called without instance"));
     return SQ_ERROR;
   }
@@ -2967,7 +2967,7 @@ static SQInteger CustomParticles_fade_speed_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_speed_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_speed_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3011,7 +3011,7 @@ static SQInteger CustomParticles_ease_speed_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_speed_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_speed_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3041,7 +3041,7 @@ static SQInteger CustomParticles_get_speed_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_speed_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_speed_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3075,7 +3075,7 @@ static SQInteger CustomParticles_set_speed_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_speed_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_speed_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3114,7 +3114,7 @@ static SQInteger CustomParticles_fade_speed_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_speed_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_speed_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3158,7 +3158,7 @@ static SQInteger CustomParticles_ease_speed_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_speed_variation_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_speed_variation_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3188,7 +3188,7 @@ static SQInteger CustomParticles_get_speed_variation_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_speed_variation_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_speed_variation_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3222,7 +3222,7 @@ static SQInteger CustomParticles_set_speed_variation_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_speed_variation_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_speed_variation_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3261,7 +3261,7 @@ static SQInteger CustomParticles_fade_speed_variation_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_speed_variation_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_speed_variation_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3305,7 +3305,7 @@ static SQInteger CustomParticles_ease_speed_variation_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_speed_variation_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_speed_variation_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3335,7 +3335,7 @@ static SQInteger CustomParticles_get_speed_variation_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_speed_variation_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_speed_variation_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3369,7 +3369,7 @@ static SQInteger CustomParticles_set_speed_variation_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_speed_variation_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_speed_variation_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3408,7 +3408,7 @@ static SQInteger CustomParticles_fade_speed_variation_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_speed_variation_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_speed_variation_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3452,7 +3452,7 @@ static SQInteger CustomParticles_ease_speed_variation_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_acceleration_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_acceleration_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3482,7 +3482,7 @@ static SQInteger CustomParticles_get_acceleration_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_acceleration_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_acceleration_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3516,7 +3516,7 @@ static SQInteger CustomParticles_set_acceleration_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_acceleration_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_acceleration_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3555,7 +3555,7 @@ static SQInteger CustomParticles_fade_acceleration_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_acceleration_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_acceleration_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3599,7 +3599,7 @@ static SQInteger CustomParticles_ease_acceleration_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_acceleration_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_acceleration_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3629,7 +3629,7 @@ static SQInteger CustomParticles_get_acceleration_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_acceleration_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_acceleration_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3663,7 +3663,7 @@ static SQInteger CustomParticles_set_acceleration_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_acceleration_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_acceleration_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3702,7 +3702,7 @@ static SQInteger CustomParticles_fade_acceleration_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_acceleration_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_acceleration_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3746,7 +3746,7 @@ static SQInteger CustomParticles_ease_acceleration_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_friction_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_friction_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3776,7 +3776,7 @@ static SQInteger CustomParticles_get_friction_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_friction_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_friction_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3810,7 +3810,7 @@ static SQInteger CustomParticles_set_friction_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_friction_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_friction_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3849,7 +3849,7 @@ static SQInteger CustomParticles_fade_friction_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_friction_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_friction_x' called without instance"));
     return SQ_ERROR;
   }
@@ -3893,7 +3893,7 @@ static SQInteger CustomParticles_ease_friction_x_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_friction_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_friction_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3923,7 +3923,7 @@ static SQInteger CustomParticles_get_friction_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_friction_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_friction_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3957,7 +3957,7 @@ static SQInteger CustomParticles_set_friction_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_friction_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_friction_y' called without instance"));
     return SQ_ERROR;
   }
@@ -3996,7 +3996,7 @@ static SQInteger CustomParticles_fade_friction_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_friction_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_friction_y' called without instance"));
     return SQ_ERROR;
   }
@@ -4040,7 +4040,7 @@ static SQInteger CustomParticles_ease_friction_y_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_feather_factor_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_feather_factor' called without instance"));
     return SQ_ERROR;
   }
@@ -4070,7 +4070,7 @@ static SQInteger CustomParticles_get_feather_factor_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_feather_factor_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_feather_factor' called without instance"));
     return SQ_ERROR;
   }
@@ -4104,7 +4104,7 @@ static SQInteger CustomParticles_set_feather_factor_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_feather_factor_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_feather_factor' called without instance"));
     return SQ_ERROR;
   }
@@ -4143,7 +4143,7 @@ static SQInteger CustomParticles_fade_feather_factor_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_feather_factor_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_feather_factor' called without instance"));
     return SQ_ERROR;
   }
@@ -4187,7 +4187,7 @@ static SQInteger CustomParticles_ease_feather_factor_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_rotation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_rotation' called without instance"));
     return SQ_ERROR;
   }
@@ -4217,7 +4217,7 @@ static SQInteger CustomParticles_get_rotation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_rotation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_rotation' called without instance"));
     return SQ_ERROR;
   }
@@ -4251,7 +4251,7 @@ static SQInteger CustomParticles_set_rotation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_rotation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_rotation' called without instance"));
     return SQ_ERROR;
   }
@@ -4290,7 +4290,7 @@ static SQInteger CustomParticles_fade_rotation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_rotation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_rotation' called without instance"));
     return SQ_ERROR;
   }
@@ -4334,7 +4334,7 @@ static SQInteger CustomParticles_ease_rotation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_rotation_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_rotation_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -4364,7 +4364,7 @@ static SQInteger CustomParticles_get_rotation_variation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_rotation_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_rotation_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -4398,7 +4398,7 @@ static SQInteger CustomParticles_set_rotation_variation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_rotation_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_rotation_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -4437,7 +4437,7 @@ static SQInteger CustomParticles_fade_rotation_variation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_rotation_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_rotation_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -4481,7 +4481,7 @@ static SQInteger CustomParticles_ease_rotation_variation_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_rotation_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_rotation_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -4511,7 +4511,7 @@ static SQInteger CustomParticles_get_rotation_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_set_rotation_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_rotation_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -4545,7 +4545,7 @@ static SQInteger CustomParticles_set_rotation_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_fade_rotation_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_rotation_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -4584,7 +4584,7 @@ static SQInteger CustomParticles_fade_rotation_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_ease_rotation_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_rotation_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -4628,7 +4628,7 @@ static SQInteger CustomParticles_ease_rotation_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger CustomParticles_get_rotation_speed_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_rotation_speed_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -4658,7 +4658,7 @@ static SQInteger CustomParticles_get_rotation_speed_variation_wrapper(HSQUIRRELV
 static SQInteger CustomParticles_set_rotation_speed_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_rotation_speed_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -4692,7 +4692,7 @@ static SQInteger CustomParticles_set_rotation_speed_variation_wrapper(HSQUIRRELV
 static SQInteger CustomParticles_fade_rotation_speed_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_rotation_speed_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -4731,7 +4731,7 @@ static SQInteger CustomParticles_fade_rotation_speed_variation_wrapper(HSQUIRREL
 static SQInteger CustomParticles_ease_rotation_speed_variation_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_rotation_speed_variation' called without instance"));
     return SQ_ERROR;
   }
@@ -4775,7 +4775,7 @@ static SQInteger CustomParticles_ease_rotation_speed_variation_wrapper(HSQUIRREL
 static SQInteger CustomParticles_get_rotation_acceleration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_rotation_acceleration' called without instance"));
     return SQ_ERROR;
   }
@@ -4805,7 +4805,7 @@ static SQInteger CustomParticles_get_rotation_acceleration_wrapper(HSQUIRRELVM v
 static SQInteger CustomParticles_set_rotation_acceleration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_rotation_acceleration' called without instance"));
     return SQ_ERROR;
   }
@@ -4839,7 +4839,7 @@ static SQInteger CustomParticles_set_rotation_acceleration_wrapper(HSQUIRRELVM v
 static SQInteger CustomParticles_fade_rotation_acceleration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_rotation_acceleration' called without instance"));
     return SQ_ERROR;
   }
@@ -4878,7 +4878,7 @@ static SQInteger CustomParticles_fade_rotation_acceleration_wrapper(HSQUIRRELVM 
 static SQInteger CustomParticles_ease_rotation_acceleration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_rotation_acceleration' called without instance"));
     return SQ_ERROR;
   }
@@ -4922,7 +4922,7 @@ static SQInteger CustomParticles_ease_rotation_acceleration_wrapper(HSQUIRRELVM 
 static SQInteger CustomParticles_get_rotation_decceleration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_rotation_decceleration' called without instance"));
     return SQ_ERROR;
   }
@@ -4952,7 +4952,7 @@ static SQInteger CustomParticles_get_rotation_decceleration_wrapper(HSQUIRRELVM 
 static SQInteger CustomParticles_set_rotation_decceleration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_rotation_decceleration' called without instance"));
     return SQ_ERROR;
   }
@@ -4986,7 +4986,7 @@ static SQInteger CustomParticles_set_rotation_decceleration_wrapper(HSQUIRRELVM 
 static SQInteger CustomParticles_fade_rotation_decceleration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_rotation_decceleration' called without instance"));
     return SQ_ERROR;
   }
@@ -5025,7 +5025,7 @@ static SQInteger CustomParticles_fade_rotation_decceleration_wrapper(HSQUIRRELVM
 static SQInteger CustomParticles_ease_rotation_decceleration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_rotation_decceleration' called without instance"));
     return SQ_ERROR;
   }
@@ -5076,7 +5076,7 @@ static SQInteger Decal_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Decal_fade_sprite_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_sprite' called without instance"));
     return SQ_ERROR;
   }
@@ -5115,7 +5115,7 @@ static SQInteger Decal_fade_sprite_wrapper(HSQUIRRELVM vm)
 static SQInteger Decal_change_sprite_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'change_sprite' called without instance"));
     return SQ_ERROR;
   }
@@ -5149,7 +5149,7 @@ static SQInteger Decal_change_sprite_wrapper(HSQUIRRELVM vm)
 static SQInteger Decal_fade_in_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
@@ -5183,7 +5183,7 @@ static SQInteger Decal_fade_in_wrapper(HSQUIRRELVM vm)
 static SQInteger Decal_fade_out_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_out' called without instance"));
     return SQ_ERROR;
   }
@@ -5224,7 +5224,7 @@ static SQInteger Dispenser_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Dispenser_activate_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'activate' called without instance"));
     return SQ_ERROR;
   }
@@ -5253,7 +5253,7 @@ static SQInteger Dispenser_activate_wrapper(HSQUIRRELVM vm)
 static SQInteger Dispenser_deactivate_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'deactivate' called without instance"));
     return SQ_ERROR;
   }
@@ -5289,7 +5289,7 @@ static SQInteger DisplayEffect_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger DisplayEffect_fade_out_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_out' called without instance"));
     return SQ_ERROR;
   }
@@ -5323,7 +5323,7 @@ static SQInteger DisplayEffect_fade_out_wrapper(HSQUIRRELVM vm)
 static SQInteger DisplayEffect_fade_in_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
@@ -5357,7 +5357,7 @@ static SQInteger DisplayEffect_fade_in_wrapper(HSQUIRRELVM vm)
 static SQInteger DisplayEffect_set_black_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_black' called without instance"));
     return SQ_ERROR;
   }
@@ -5391,7 +5391,7 @@ static SQInteger DisplayEffect_set_black_wrapper(HSQUIRRELVM vm)
 static SQInteger DisplayEffect_is_black_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'is_black' called without instance"));
     return SQ_ERROR;
   }
@@ -5421,7 +5421,7 @@ static SQInteger DisplayEffect_is_black_wrapper(HSQUIRRELVM vm)
 static SQInteger DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'sixteen_to_nine' called without instance"));
     return SQ_ERROR;
   }
@@ -5455,7 +5455,7 @@ static SQInteger DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM vm)
 static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'four_to_three' called without instance"));
     return SQ_ERROR;
   }
@@ -5524,7 +5524,7 @@ static SQInteger FloatingImage_constructor_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_layer' called without instance"));
     return SQ_ERROR;
   }
@@ -5558,7 +5558,7 @@ static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_get_layer_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_layer' called without instance"));
     return SQ_ERROR;
   }
@@ -5588,7 +5588,7 @@ static SQInteger FloatingImage_get_layer_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
@@ -5627,7 +5627,7 @@ static SQInteger FloatingImage_set_pos_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_get_pos_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
@@ -5657,7 +5657,7 @@ static SQInteger FloatingImage_get_pos_x_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_get_pos_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
@@ -5687,7 +5687,7 @@ static SQInteger FloatingImage_get_pos_y_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_anchor_point' called without instance"));
     return SQ_ERROR;
   }
@@ -5721,7 +5721,7 @@ static SQInteger FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_anchor_point' called without instance"));
     return SQ_ERROR;
   }
@@ -5751,7 +5751,7 @@ static SQInteger FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_set_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -5785,7 +5785,7 @@ static SQInteger FloatingImage_set_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -5815,7 +5815,7 @@ static SQInteger FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_action' called without instance"));
     return SQ_ERROR;
   }
@@ -5849,7 +5849,7 @@ static SQInteger FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_action' called without instance"));
     return SQ_ERROR;
   }
@@ -5880,7 +5880,7 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
@@ -5914,7 +5914,7 @@ static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
 static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_out' called without instance"));
     return SQ_ERROR;
   }
@@ -5955,7 +5955,7 @@ static SQInteger GameObjectManager_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger GameObjectManager_set_ambient_light_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_ambient_light' called without instance"));
     return SQ_ERROR;
   }
@@ -5999,7 +5999,7 @@ static SQInteger GameObjectManager_set_ambient_light_wrapper(HSQUIRRELVM vm)
 static SQInteger GameObjectManager_fade_to_ambient_light_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_to_ambient_light' called without instance"));
     return SQ_ERROR;
   }
@@ -6048,7 +6048,7 @@ static SQInteger GameObjectManager_fade_to_ambient_light_wrapper(HSQUIRRELVM vm)
 static SQInteger GameObjectManager_get_ambient_red_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_ambient_red' called without instance"));
     return SQ_ERROR;
   }
@@ -6078,7 +6078,7 @@ static SQInteger GameObjectManager_get_ambient_red_wrapper(HSQUIRRELVM vm)
 static SQInteger GameObjectManager_get_ambient_green_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_ambient_green' called without instance"));
     return SQ_ERROR;
   }
@@ -6108,7 +6108,7 @@ static SQInteger GameObjectManager_get_ambient_green_wrapper(HSQUIRRELVM vm)
 static SQInteger GameObjectManager_get_ambient_blue_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_ambient_blue' called without instance"));
     return SQ_ERROR;
   }
@@ -6138,7 +6138,7 @@ static SQInteger GameObjectManager_get_ambient_blue_wrapper(HSQUIRRELVM vm)
 static SQInteger GameObjectManager_set_music_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_music' called without instance"));
     return SQ_ERROR;
   }
@@ -6179,7 +6179,7 @@ static SQInteger Gradient_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Gradient_set_direction_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_direction' called without instance"));
     return SQ_ERROR;
   }
@@ -6213,7 +6213,7 @@ static SQInteger Gradient_set_direction_wrapper(HSQUIRRELVM vm)
 static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_direction' called without instance"));
     return SQ_ERROR;
   }
@@ -6244,7 +6244,7 @@ static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
 static SQInteger Gradient_set_color1_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_color1' called without instance"));
     return SQ_ERROR;
   }
@@ -6288,7 +6288,7 @@ static SQInteger Gradient_set_color1_wrapper(HSQUIRRELVM vm)
 static SQInteger Gradient_set_color2_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_color2' called without instance"));
     return SQ_ERROR;
   }
@@ -6332,7 +6332,7 @@ static SQInteger Gradient_set_color2_wrapper(HSQUIRRELVM vm)
 static SQInteger Gradient_set_colors_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_colors' called without instance"));
     return SQ_ERROR;
   }
@@ -6391,7 +6391,7 @@ static SQInteger Gradient_set_colors_wrapper(HSQUIRRELVM vm)
 static SQInteger Gradient_fade_color1_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_color1' called without instance"));
     return SQ_ERROR;
   }
@@ -6440,7 +6440,7 @@ static SQInteger Gradient_fade_color1_wrapper(HSQUIRRELVM vm)
 static SQInteger Gradient_fade_color2_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_color2' called without instance"));
     return SQ_ERROR;
   }
@@ -6489,7 +6489,7 @@ static SQInteger Gradient_fade_color2_wrapper(HSQUIRRELVM vm)
 static SQInteger Gradient_fade_colors_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_colors' called without instance"));
     return SQ_ERROR;
   }
@@ -6553,7 +6553,7 @@ static SQInteger Gradient_fade_colors_wrapper(HSQUIRRELVM vm)
 static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'swap_colors' called without instance"));
     return SQ_ERROR;
   }
@@ -6589,7 +6589,7 @@ static SQInteger LevelTime_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger LevelTime_start_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'start' called without instance"));
     return SQ_ERROR;
   }
@@ -6618,7 +6618,7 @@ static SQInteger LevelTime_start_wrapper(HSQUIRRELVM vm)
 static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'stop' called without instance"));
     return SQ_ERROR;
   }
@@ -6647,7 +6647,7 @@ static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
 static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_time' called without instance"));
     return SQ_ERROR;
   }
@@ -6677,7 +6677,7 @@ static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
 static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_time' called without instance"));
     return SQ_ERROR;
   }
@@ -6708,6 +6708,143 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger LitObject_release_hook(SQUserPointer ptr, SQInteger )
+{
+  auto _this = reinterpret_cast<scripting::LitObject*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger LitObject_get_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_action' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::LitObject*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    std::string return_value = _this->get_action();
+
+    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger LitObject_set_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_action' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::LitObject*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_action(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger LitObject_get_light_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_light_action' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::LitObject*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    std::string return_value = _this->get_light_action();
+
+    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_light_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger LitObject_set_light_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_light_action' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::LitObject*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_light_action(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_light_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger ParticleSystem_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::ParticleSystem*> (ptr);
@@ -6718,7 +6855,7 @@ static SQInteger ParticleSystem_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger ParticleSystem_set_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -6752,7 +6889,7 @@ static SQInteger ParticleSystem_set_enabled_wrapper(HSQUIRRELVM vm)
 static SQInteger ParticleSystem_get_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -6789,7 +6926,7 @@ static SQInteger Platform_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Platform_goto_node_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'goto_node' called without instance"));
     return SQ_ERROR;
   }
@@ -6823,7 +6960,7 @@ static SQInteger Platform_goto_node_wrapper(HSQUIRRELVM vm)
 static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'start_moving' called without instance"));
     return SQ_ERROR;
   }
@@ -6852,7 +6989,7 @@ static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
 static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'stop_moving' called without instance"));
     return SQ_ERROR;
   }
@@ -6881,7 +7018,7 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
 static SQInteger Platform_set_action_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_action' called without instance"));
     return SQ_ERROR;
   }
@@ -6927,7 +7064,7 @@ static SQInteger Player_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'add_bonus' called without instance"));
     return SQ_ERROR;
   }
@@ -6962,7 +7099,7 @@ static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_set_bonus_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_bonus' called without instance"));
     return SQ_ERROR;
   }
@@ -6997,7 +7134,7 @@ static SQInteger Player_set_bonus_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'add_coins' called without instance"));
     return SQ_ERROR;
   }
@@ -7031,7 +7168,7 @@ static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_get_coins_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_coins' called without instance"));
     return SQ_ERROR;
   }
@@ -7061,7 +7198,7 @@ static SQInteger Player_get_coins_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'make_invincible' called without instance"));
     return SQ_ERROR;
   }
@@ -7090,7 +7227,7 @@ static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_deactivate_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'deactivate' called without instance"));
     return SQ_ERROR;
   }
@@ -7119,7 +7256,7 @@ static SQInteger Player_deactivate_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_activate_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'activate' called without instance"));
     return SQ_ERROR;
   }
@@ -7148,7 +7285,7 @@ static SQInteger Player_activate_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'walk' called without instance"));
     return SQ_ERROR;
   }
@@ -7182,7 +7319,7 @@ static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_set_dir_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_dir' called without instance"));
     return SQ_ERROR;
   }
@@ -7216,7 +7353,7 @@ static SQInteger Player_set_dir_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -7250,7 +7387,7 @@ static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_get_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -7280,7 +7417,7 @@ static SQInteger Player_get_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'kill' called without instance"));
     return SQ_ERROR;
   }
@@ -7314,7 +7451,7 @@ static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_ghost_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -7348,7 +7485,7 @@ static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_ghost_mode' called without instance"));
     return SQ_ERROR;
   }
@@ -7378,7 +7515,7 @@ static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_kick_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'kick' called without instance"));
     return SQ_ERROR;
   }
@@ -7407,7 +7544,7 @@ static SQInteger Player_kick_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'do_cheer' called without instance"));
     return SQ_ERROR;
   }
@@ -7436,7 +7573,7 @@ static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'do_duck' called without instance"));
     return SQ_ERROR;
   }
@@ -7465,7 +7602,7 @@ static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'do_standup' called without instance"));
     return SQ_ERROR;
   }
@@ -7494,7 +7631,7 @@ static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'do_backflip' called without instance"));
     return SQ_ERROR;
   }
@@ -7523,7 +7660,7 @@ static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'do_jump' called without instance"));
     return SQ_ERROR;
   }
@@ -7557,7 +7694,7 @@ static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'trigger_sequence' called without instance"));
     return SQ_ERROR;
   }
@@ -7591,7 +7728,7 @@ static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_use_scripting_controller_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'use_scripting_controller' called without instance"));
     return SQ_ERROR;
   }
@@ -7625,7 +7762,7 @@ static SQInteger Player_use_scripting_controller_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_has_grabbed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'has_grabbed' called without instance"));
     return SQ_ERROR;
   }
@@ -7660,7 +7797,7 @@ static SQInteger Player_has_grabbed_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'do_scripting_controller' called without instance"));
     return SQ_ERROR;
   }
@@ -7699,7 +7836,7 @@ static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_get_velocity_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_velocity_x' called without instance"));
     return SQ_ERROR;
   }
@@ -7729,7 +7866,7 @@ static SQInteger Player_get_velocity_x_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_velocity_y' called without instance"));
     return SQ_ERROR;
   }
@@ -7759,7 +7896,7 @@ static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_get_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_x' called without instance"));
     return SQ_ERROR;
   }
@@ -7789,7 +7926,7 @@ static SQInteger Player_get_x_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_get_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_y' called without instance"));
     return SQ_ERROR;
   }
@@ -7819,7 +7956,7 @@ static SQInteger Player_get_y_wrapper(HSQUIRRELVM vm)
 static SQInteger Player_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
@@ -7865,7 +8002,7 @@ static SQInteger Rain_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Rain_set_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -7899,7 +8036,7 @@ static SQInteger Rain_set_enabled_wrapper(HSQUIRRELVM vm)
 static SQInteger Rain_get_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -7929,7 +8066,7 @@ static SQInteger Rain_get_enabled_wrapper(HSQUIRRELVM vm)
 static SQInteger Rain_fade_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -7968,7 +8105,7 @@ static SQInteger Rain_fade_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger Rain_fade_amount_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_amount' called without instance"));
     return SQ_ERROR;
   }
@@ -8007,7 +8144,7 @@ static SQInteger Rain_fade_amount_wrapper(HSQUIRRELVM vm)
 static SQInteger Rain_fade_angle_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_angle' called without instance"));
     return SQ_ERROR;
   }
@@ -8065,7 +8202,7 @@ static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger ScriptedObject_set_action_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_action' called without instance"));
     return SQ_ERROR;
   }
@@ -8099,7 +8236,7 @@ static SQInteger ScriptedObject_set_action_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_action' called without instance"));
     return SQ_ERROR;
   }
@@ -8130,7 +8267,7 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'move' called without instance"));
     return SQ_ERROR;
   }
@@ -8169,7 +8306,7 @@ static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
@@ -8208,7 +8345,7 @@ static SQInteger ScriptedObject_set_pos_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
@@ -8238,7 +8375,7 @@ static SQInteger ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
@@ -8268,7 +8405,7 @@ static SQInteger ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_set_velocity_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_velocity' called without instance"));
     return SQ_ERROR;
   }
@@ -8307,7 +8444,7 @@ static SQInteger ScriptedObject_set_velocity_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_velocity_x' called without instance"));
     return SQ_ERROR;
   }
@@ -8337,7 +8474,7 @@ static SQInteger ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_velocity_y' called without instance"));
     return SQ_ERROR;
   }
@@ -8367,7 +8504,7 @@ static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_enable_gravity_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'enable_gravity' called without instance"));
     return SQ_ERROR;
   }
@@ -8401,7 +8538,7 @@ static SQInteger ScriptedObject_enable_gravity_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_gravity_enabled_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'gravity_enabled' called without instance"));
     return SQ_ERROR;
   }
@@ -8431,7 +8568,7 @@ static SQInteger ScriptedObject_gravity_enabled_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -8465,7 +8602,7 @@ static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'is_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -8495,7 +8632,7 @@ static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_solid' called without instance"));
     return SQ_ERROR;
   }
@@ -8529,7 +8666,7 @@ static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'is_solid' called without instance"));
     return SQ_ERROR;
   }
@@ -8559,7 +8696,7 @@ static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
 static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_name' called without instance"));
     return SQ_ERROR;
   }
@@ -8597,7 +8734,7 @@ static SQInteger Sector_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_gravity' called without instance"));
     return SQ_ERROR;
   }
@@ -8638,7 +8775,7 @@ static SQInteger Spotlight_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Spotlight_set_direction_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_direction' called without instance"));
     return SQ_ERROR;
   }
@@ -8672,7 +8809,7 @@ static SQInteger Spotlight_set_direction_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_set_angle_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_angle' called without instance"));
     return SQ_ERROR;
   }
@@ -8706,7 +8843,7 @@ static SQInteger Spotlight_set_angle_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_fade_angle_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_angle' called without instance"));
     return SQ_ERROR;
   }
@@ -8745,7 +8882,7 @@ static SQInteger Spotlight_fade_angle_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_ease_angle_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_angle' called without instance"));
     return SQ_ERROR;
   }
@@ -8789,7 +8926,7 @@ static SQInteger Spotlight_ease_angle_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_set_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -8823,7 +8960,7 @@ static SQInteger Spotlight_set_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_fade_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -8862,7 +8999,7 @@ static SQInteger Spotlight_fade_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_ease_speed_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_speed' called without instance"));
     return SQ_ERROR;
   }
@@ -8906,7 +9043,7 @@ static SQInteger Spotlight_ease_speed_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_set_color_rgba_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_color_rgba' called without instance"));
     return SQ_ERROR;
   }
@@ -8955,7 +9092,7 @@ static SQInteger Spotlight_set_color_rgba_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_fade_color_rgba_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_color_rgba' called without instance"));
     return SQ_ERROR;
   }
@@ -9009,7 +9146,7 @@ static SQInteger Spotlight_fade_color_rgba_wrapper(HSQUIRRELVM vm)
 static SQInteger Spotlight_ease_color_rgba_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'ease_color_rgba' called without instance"));
     return SQ_ERROR;
   }
@@ -9075,7 +9212,7 @@ static SQInteger Text_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Text_set_text_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_text' called without instance"));
     return SQ_ERROR;
   }
@@ -9109,7 +9246,7 @@ static SQInteger Text_set_text_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_set_font_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_font' called without instance"));
     return SQ_ERROR;
   }
@@ -9143,7 +9280,7 @@ static SQInteger Text_set_font_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_fade_in_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
@@ -9177,7 +9314,7 @@ static SQInteger Text_fade_in_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_fade_out_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_out' called without instance"));
     return SQ_ERROR;
   }
@@ -9208,10 +9345,78 @@ static SQInteger Text_fade_out_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Text_grow_in_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'grow_in' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Text*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->grow_in(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'grow_in'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Text_grow_out_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'grow_out' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Text*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->grow_out(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'grow_out'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Text_set_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -9245,7 +9450,7 @@ static SQInteger Text_set_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_centered' called without instance"));
     return SQ_ERROR;
   }
@@ -9279,7 +9484,7 @@ static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
@@ -9318,7 +9523,7 @@ static SQInteger Text_set_pos_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_get_pos_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
@@ -9348,7 +9553,7 @@ static SQInteger Text_get_pos_x_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_get_pos_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
@@ -9378,7 +9583,7 @@ static SQInteger Text_get_pos_y_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_set_anchor_point_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_anchor_point' called without instance"));
     return SQ_ERROR;
   }
@@ -9412,7 +9617,7 @@ static SQInteger Text_set_anchor_point_wrapper(HSQUIRRELVM vm)
 static SQInteger Text_get_anchor_point_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_anchor_point' called without instance"));
     return SQ_ERROR;
   }
@@ -9439,6 +9644,187 @@ static SQInteger Text_get_anchor_point_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Text_set_front_fill_color_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_front_fill_color' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Text*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_front_fill_color(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_front_fill_color'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Text_set_back_fill_color_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_back_fill_color' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Text*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_back_fill_color(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_back_fill_color'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Text_set_text_color_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_text_color' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Text*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_text_color(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_text_color'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Text_set_roundness_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_roundness' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Text*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_roundness(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_roundness'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger TextArray_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::TextArray*> (ptr);
@@ -9449,7 +9835,7 @@ static SQInteger TextArray_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger TextArray_clear_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'clear' called without instance"));
     return SQ_ERROR;
   }
@@ -9478,7 +9864,7 @@ static SQInteger TextArray_clear_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_add_text_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'add_text' called without instance"));
     return SQ_ERROR;
   }
@@ -9512,7 +9898,7 @@ static SQInteger TextArray_add_text_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_add_text_duration_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'add_text_duration' called without instance"));
     return SQ_ERROR;
   }
@@ -9551,7 +9937,7 @@ static SQInteger TextArray_add_text_duration_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_text_index_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_text_index' called without instance"));
     return SQ_ERROR;
   }
@@ -9585,7 +9971,7 @@ static SQInteger TextArray_set_text_index_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_keep_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_keep_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -9619,7 +10005,7 @@ static SQInteger TextArray_set_keep_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_fade_transition_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_fade_transition' called without instance"));
     return SQ_ERROR;
   }
@@ -9653,7 +10039,7 @@ static SQInteger TextArray_set_fade_transition_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_fade_time_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_fade_time' called without instance"));
     return SQ_ERROR;
   }
@@ -9687,7 +10073,7 @@ static SQInteger TextArray_set_fade_time_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_done_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_done' called without instance"));
     return SQ_ERROR;
   }
@@ -9721,7 +10107,7 @@ static SQInteger TextArray_set_done_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_auto_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_auto' called without instance"));
     return SQ_ERROR;
   }
@@ -9755,7 +10141,7 @@ static SQInteger TextArray_set_auto_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_next_text_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'next_text' called without instance"));
     return SQ_ERROR;
   }
@@ -9784,7 +10170,7 @@ static SQInteger TextArray_next_text_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_prev_text_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'prev_text' called without instance"));
     return SQ_ERROR;
   }
@@ -9813,7 +10199,7 @@ static SQInteger TextArray_prev_text_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_text_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_text' called without instance"));
     return SQ_ERROR;
   }
@@ -9847,7 +10233,7 @@ static SQInteger TextArray_set_text_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_font_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_font' called without instance"));
     return SQ_ERROR;
   }
@@ -9881,7 +10267,7 @@ static SQInteger TextArray_set_font_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_fade_in_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
@@ -9915,7 +10301,7 @@ static SQInteger TextArray_fade_in_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_fade_out_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade_out' called without instance"));
     return SQ_ERROR;
   }
@@ -9949,7 +10335,7 @@ static SQInteger TextArray_fade_out_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_visible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
@@ -9983,7 +10369,7 @@ static SQInteger TextArray_set_visible_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_centered_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_centered' called without instance"));
     return SQ_ERROR;
   }
@@ -10017,7 +10403,7 @@ static SQInteger TextArray_set_centered_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
@@ -10056,7 +10442,7 @@ static SQInteger TextArray_set_pos_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_get_pos_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
@@ -10086,7 +10472,7 @@ static SQInteger TextArray_get_pos_x_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_get_pos_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
@@ -10116,7 +10502,7 @@ static SQInteger TextArray_get_pos_y_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_set_anchor_point_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_anchor_point' called without instance"));
     return SQ_ERROR;
   }
@@ -10150,7 +10536,7 @@ static SQInteger TextArray_set_anchor_point_wrapper(HSQUIRRELVM vm)
 static SQInteger TextArray_get_anchor_point_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_anchor_point' called without instance"));
     return SQ_ERROR;
   }
@@ -10177,6 +10563,187 @@ static SQInteger TextArray_get_anchor_point_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger TextArray_set_front_fill_color_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_front_fill_color' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::TextArray*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_front_fill_color(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_front_fill_color'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger TextArray_set_back_fill_color_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_back_fill_color' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::TextArray*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_back_fill_color(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_back_fill_color'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger TextArray_set_text_color_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_text_color' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::TextArray*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_text_color(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_text_color'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger TextArray_set_roundness_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_roundness' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::TextArray*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_roundness(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_roundness'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Thunderstorm_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (ptr);
@@ -10187,7 +10754,7 @@ static SQInteger Thunderstorm_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Thunderstorm_start_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'start' called without instance"));
     return SQ_ERROR;
   }
@@ -10216,7 +10783,7 @@ static SQInteger Thunderstorm_start_wrapper(HSQUIRRELVM vm)
 static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'stop' called without instance"));
     return SQ_ERROR;
   }
@@ -10245,7 +10812,7 @@ static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
 static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'thunder' called without instance"));
     return SQ_ERROR;
   }
@@ -10274,7 +10841,7 @@ static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
 static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'lightning' called without instance"));
     return SQ_ERROR;
   }
@@ -10303,7 +10870,7 @@ static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
 static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'flash' called without instance"));
     return SQ_ERROR;
   }
@@ -10332,7 +10899,7 @@ static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
 static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'electrify' called without instance"));
     return SQ_ERROR;
   }
@@ -10368,7 +10935,7 @@ static SQInteger TileMap_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger TileMap_goto_node_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'goto_node' called without instance"));
     return SQ_ERROR;
   }
@@ -10402,7 +10969,7 @@ static SQInteger TileMap_goto_node_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_start_moving_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'start_moving' called without instance"));
     return SQ_ERROR;
   }
@@ -10431,7 +10998,7 @@ static SQInteger TileMap_start_moving_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'stop_moving' called without instance"));
     return SQ_ERROR;
   }
@@ -10460,7 +11027,7 @@ static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_get_tile_id_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_tile_id' called without instance"));
     return SQ_ERROR;
   }
@@ -10500,7 +11067,7 @@ static SQInteger TileMap_get_tile_id_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_get_tile_id_at_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_tile_id_at' called without instance"));
     return SQ_ERROR;
   }
@@ -10540,7 +11107,7 @@ static SQInteger TileMap_get_tile_id_at_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_change_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'change' called without instance"));
     return SQ_ERROR;
   }
@@ -10584,7 +11151,7 @@ static SQInteger TileMap_change_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_change_at_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'change_at' called without instance"));
     return SQ_ERROR;
   }
@@ -10628,7 +11195,7 @@ static SQInteger TileMap_change_at_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_fade_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'fade' called without instance"));
     return SQ_ERROR;
   }
@@ -10667,7 +11234,7 @@ static SQInteger TileMap_fade_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_tint_fade_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'tint_fade' called without instance"));
     return SQ_ERROR;
   }
@@ -10721,7 +11288,7 @@ static SQInteger TileMap_tint_fade_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_set_alpha_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_alpha' called without instance"));
     return SQ_ERROR;
   }
@@ -10755,7 +11322,7 @@ static SQInteger TileMap_set_alpha_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_get_alpha_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_alpha' called without instance"));
     return SQ_ERROR;
   }
@@ -10785,7 +11352,7 @@ static SQInteger TileMap_get_alpha_wrapper(HSQUIRRELVM vm)
 static SQInteger TileMap_set_solid_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_solid' called without instance"));
     return SQ_ERROR;
   }
@@ -10826,7 +11393,7 @@ static SQInteger Torch_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Torch_get_burning_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_burning' called without instance"));
     return SQ_ERROR;
   }
@@ -10856,7 +11423,7 @@ static SQInteger Torch_get_burning_wrapper(HSQUIRRELVM vm)
 static SQInteger Torch_set_burning_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_burning' called without instance"));
     return SQ_ERROR;
   }
@@ -10897,7 +11464,7 @@ static SQInteger WillOWisp_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger WillOWisp_goto_node_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'goto_node' called without instance"));
     return SQ_ERROR;
   }
@@ -10931,7 +11498,7 @@ static SQInteger WillOWisp_goto_node_wrapper(HSQUIRRELVM vm)
 static SQInteger WillOWisp_set_state_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'set_state' called without instance"));
     return SQ_ERROR;
   }
@@ -10965,7 +11532,7 @@ static SQInteger WillOWisp_set_state_wrapper(HSQUIRRELVM vm)
 static SQInteger WillOWisp_start_moving_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'start_moving' called without instance"));
     return SQ_ERROR;
   }
@@ -10994,7 +11561,7 @@ static SQInteger WillOWisp_start_moving_wrapper(HSQUIRRELVM vm)
 static SQInteger WillOWisp_stop_moving_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'stop_moving' called without instance"));
     return SQ_ERROR;
   }
@@ -11030,7 +11597,7 @@ static SQInteger Wind_release_hook(SQUserPointer ptr, SQInteger )
 static SQInteger Wind_start_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'start' called without instance"));
     return SQ_ERROR;
   }
@@ -11059,7 +11626,7 @@ static SQInteger Wind_start_wrapper(HSQUIRRELVM vm)
 static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr)) || !data) {
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'stop' called without instance"));
     return SQ_ERROR;
   }
@@ -11090,6 +11657,66 @@ static SQInteger WorldMap_release_hook(SQUserPointer ptr, SQInteger )
   auto _this = reinterpret_cast<scripting::WorldMap*> (ptr);
   delete _this;
   return 0;
+}
+
+static SQInteger WorldMap_get_tux_x_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_tux_x' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_tux_x();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_tux_x'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger WorldMap_get_tux_y_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_tux_y' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_tux_y();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_tux_y'"));
+    return SQ_ERROR;
+  }
+
 }
 
 static SQInteger display_wrapper(HSQUIRRELVM vm)
@@ -12560,6 +13187,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::LevelTime* object, bool 
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::LitObject* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "LitObject", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'LitObject'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'LitObject'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, LitObject_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::ParticleSystem* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -12980,56 +13633,56 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 {
   using namespace wrapper;
 
-  sq_pushstring(v, "ANCHOR_TOP", -1);
-  sq_pushinteger(v, 16);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP'");
-  }
-
-  sq_pushstring(v, "ANCHOR_BOTTOM", -1);
-  sq_pushinteger(v, 32);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM'");
-  }
-
-  sq_pushstring(v, "ANCHOR_LEFT", -1);
-  sq_pushinteger(v, 1);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_LEFT'");
-  }
-
-  sq_pushstring(v, "ANCHOR_RIGHT", -1);
-  sq_pushinteger(v, 2);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_RIGHT'");
-  }
-
-  sq_pushstring(v, "ANCHOR_MIDDLE", -1);
-  sq_pushinteger(v, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_MIDDLE'");
-  }
-
   sq_pushstring(v, "ANCHOR_TOP_LEFT", -1);
-  sq_pushinteger(v, 17);
+  sq_pushinteger(v, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP_LEFT'");
   }
 
+  sq_pushstring(v, "ANCHOR_TOP", -1);
+  sq_pushinteger(v, 1);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP'");
+  }
+
   sq_pushstring(v, "ANCHOR_TOP_RIGHT", -1);
-  sq_pushinteger(v, 18);
+  sq_pushinteger(v, 2);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_TOP_RIGHT'");
   }
 
+  sq_pushstring(v, "ANCHOR_LEFT", -1);
+  sq_pushinteger(v, 3);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_LEFT'");
+  }
+
+  sq_pushstring(v, "ANCHOR_MIDDLE", -1);
+  sq_pushinteger(v, 4);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_MIDDLE'");
+  }
+
+  sq_pushstring(v, "ANCHOR_RIGHT", -1);
+  sq_pushinteger(v, 5);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_RIGHT'");
+  }
+
   sq_pushstring(v, "ANCHOR_BOTTOM_LEFT", -1);
-  sq_pushinteger(v, 33);
+  sq_pushinteger(v, 6);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM_LEFT'");
   }
 
+  sq_pushstring(v, "ANCHOR_BOTTOM", -1);
+  sq_pushinteger(v, 7);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM'");
+  }
+
   sq_pushstring(v, "ANCHOR_BOTTOM_RIGHT", -1);
-  sq_pushinteger(v, 34);
+  sq_pushinteger(v, 8);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register constant 'ANCHOR_BOTTOM_RIGHT'");
   }
@@ -14792,6 +15445,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'WorldMap'";
     throw SquirrelError(v, msg.str());
   }
+  sq_pushstring(v, "get_tux_x", -1);
+  sq_newclosure(v, &WorldMap_get_tux_x_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_tux_x'");
+  }
+
+  sq_pushstring(v, "get_tux_y", -1);
+  sq_newclosure(v, &WorldMap_get_tux_y_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_tux_y'");
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'WorldMap'");
   }
@@ -14907,6 +15574,45 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'LevelTime'");
+  }
+
+  // Register class LitObject
+  sq_pushstring(v, "LitObject", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'LitObject'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "get_action", -1);
+  sq_newclosure(v, &LitObject_get_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_action'");
+  }
+
+  sq_pushstring(v, "set_action", -1);
+  sq_newclosure(v, &LitObject_set_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_action'");
+  }
+
+  sq_pushstring(v, "get_light_action", -1);
+  sq_newclosure(v, &LitObject_get_light_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_light_action'");
+  }
+
+  sq_pushstring(v, "set_light_action", -1);
+  sq_newclosure(v, &LitObject_set_light_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_light_action'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'LitObject'");
   }
 
   // Register class ParticleSystem
@@ -15483,6 +16189,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'fade_out'");
   }
 
+  sq_pushstring(v, "grow_in", -1);
+  sq_newclosure(v, &Text_grow_in_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'grow_in'");
+  }
+
+  sq_pushstring(v, "grow_out", -1);
+  sq_newclosure(v, &Text_grow_out_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'grow_out'");
+  }
+
   sq_pushstring(v, "set_visible", -1);
   sq_newclosure(v, &Text_set_visible_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
@@ -15530,6 +16250,34 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_anchor_point'");
+  }
+
+  sq_pushstring(v, "set_front_fill_color", -1);
+  sq_newclosure(v, &Text_set_front_fill_color_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_front_fill_color'");
+  }
+
+  sq_pushstring(v, "set_back_fill_color", -1);
+  sq_newclosure(v, &Text_set_back_fill_color_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_back_fill_color'");
+  }
+
+  sq_pushstring(v, "set_text_color", -1);
+  sq_newclosure(v, &Text_set_text_color_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_text_color'");
+  }
+
+  sq_pushstring(v, "set_roundness", -1);
+  sq_newclosure(v, &Text_set_roundness_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_roundness'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -15695,6 +16443,34 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_anchor_point'");
+  }
+
+  sq_pushstring(v, "set_front_fill_color", -1);
+  sq_newclosure(v, &TextArray_set_front_fill_color_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_front_fill_color'");
+  }
+
+  sq_pushstring(v, "set_back_fill_color", -1);
+  sq_newclosure(v, &TextArray_set_back_fill_color_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_back_fill_color'");
+  }
+
+  sq_pushstring(v, "set_text_color", -1);
+  sq_newclosure(v, &TextArray_set_text_color_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_text_color'");
+  }
+
+  sq_pushstring(v, "set_roundness", -1);
+  sq_newclosure(v, &TextArray_set_roundness_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_roundness'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

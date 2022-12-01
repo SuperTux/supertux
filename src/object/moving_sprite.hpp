@@ -22,6 +22,7 @@
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/drawing_context.hpp"
+#include "video/flip.hpp"
 
 class ReaderMapping;
 
@@ -47,7 +48,8 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
-  virtual std::string get_class() const override { return "moving-sprite"; }
+  static std::string class_name() { return "moving-sprite"; }
+  virtual std::string get_class_name() const override { return class_name(); }
   virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
 
   virtual ObjectSettings get_settings() override;
@@ -56,7 +58,7 @@ public:
   virtual int get_layer() const override { return m_layer; }
 
   std::string get_sprite_name() const;
-  void change_sprite(const std::string& new_sprite_name);
+  bool change_sprite(const std::string& new_sprite_name);
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
 protected:
@@ -81,6 +83,8 @@ protected:
   std::string m_default_sprite_name;
   SpritePtr m_sprite;
   int m_layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
+
+  Flip m_flip;
 
 private:
   MovingSprite(const MovingSprite&) = delete;

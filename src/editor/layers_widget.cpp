@@ -26,6 +26,8 @@
 #include "object/path_gameobject.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/resources.hpp"
@@ -63,7 +65,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 
   context.color().draw_filled_rect(Rectf(Vector(0, static_cast<float>(m_Ypos)),
                                          Vector(static_cast<float>(m_Width), static_cast<float>(SCREEN_HEIGHT))),
-                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     g_config->editorcolor,
                                      0.0f,
                                      LAYER_GUI-10);
 
@@ -96,7 +98,7 @@ EditorLayersWidget::draw(DrawingContext& context)
 
   if (draw_rect)
   {
-    context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
+    context.color().draw_filled_rect(target_rect, g_config->editorhovercolor, 0.0f,
                                        LAYER_GUI-5);
   }
 
@@ -310,6 +312,7 @@ EditorLayersWidget::refresh()
   m_layer_icons.clear();
 
   bool tsel = false;
+  TileMap* first_tm = nullptr;
   for (auto& i : m_editor.get_sector()->get_objects())
   {
     auto* go = i.get();
@@ -321,6 +324,8 @@ EditorLayersWidget::refresh()
 
       auto tm = dynamic_cast<TileMap*>(go);
       if (tm) {
+        if (first_tm == nullptr)
+          first_tm = tm;
         if ( !tm->is_solid() || tsel ) {
           tm->m_editor_active = false;
         } else {
@@ -330,6 +335,11 @@ EditorLayersWidget::refresh()
         }
       }
     }
+  }
+  if (!tsel && first_tm != nullptr)
+  {
+    first_tm->m_editor_active = true;
+    m_selected_tilemap = first_tm;
   }
 
   sort_layers();

@@ -28,11 +28,13 @@ jobs:
         with:
           repository: 'SuperTux/supertux.wiki'
           fetch-depth: 100
+
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.wiki_repo_key }}
           known_hosts: ${{ secrets.wiki_repo_hosts }}
+
       - name: Update the wiki
         run: |
           git --version

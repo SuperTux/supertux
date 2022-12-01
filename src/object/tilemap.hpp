@@ -52,9 +52,11 @@ public:
 
   virtual void finish_construction() override;
 
-  virtual std::string get_class() const override { return "tilemap"; }
+  static std::string class_name() { return "tilemap"; }
+  virtual std::string get_class_name() const override { return class_name(); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
-  virtual std::string get_display_name() const override { return _("Tilemap"); }
+  static std::string display_name() { return _("Tilemap"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -191,6 +193,8 @@ public:
   /** Start fading the tilemap to tint given by RGBA.
       Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
   void tint_fade(const Color& new_tint, float seconds = 0);
+
+  Color get_current_tint() const { return m_current_tint; }
 
   /** Instantly switch tilemap's opacity to @c alpha. Also influences solidity. */
   void set_alpha(float alpha);

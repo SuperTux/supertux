@@ -32,8 +32,10 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "infoblock"; }
-  virtual std::string get_display_name() const override { return _("Info Block"); }
+  static std::string class_name() { return "infoblock"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Info Block"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 
@@ -54,6 +56,11 @@ private:
   float m_dest_pct; /**< With each call to update(), shown_pct will slowly transition to this value */
   std::vector<std::unique_ptr<InfoBoxLine> > m_lines; /**< lines of text (or images) to display */
   float m_lines_height;
+  Color m_frontcolor;
+  Color m_backcolor;
+  float m_roundness;
+  bool m_fadetransition;
+  float m_initial_y;
 
 private:
   InfoBlock(const InfoBlock&) = delete;

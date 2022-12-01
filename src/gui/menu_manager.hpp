@@ -25,6 +25,7 @@ class Dialog;
 class DrawingContext;
 class Menu;
 class MenuTransition;
+class Notification;
 union SDL_Event;
 
 class MenuManager final
@@ -38,6 +39,10 @@ private:
   std::unique_ptr<Dialog> m_dialog;
   bool m_has_next_dialog;
   std::unique_ptr<Dialog> m_next_dialog;
+
+  std::unique_ptr<Notification> m_notification;
+  bool m_has_next_notification;
+  std::unique_ptr<Notification> m_next_notification;
 
   std::vector<std::unique_ptr<Menu> > m_menu_stack;
   std::unique_ptr<MenuTransition> m_transition;
@@ -53,12 +58,13 @@ public:
   void draw(DrawingContext& context);
 
   void set_dialog(std::unique_ptr<Dialog> dialog);
+  void set_notification(std::unique_ptr<Notification> notification);
 
   void set_menu(int id);
   void set_menu(std::unique_ptr<Menu> menu);
-  void push_menu(int id);
-  void push_menu(std::unique_ptr<Menu> menu);
-  void pop_menu();
+  void push_menu(int id, bool skip_transition = false);
+  void push_menu(std::unique_ptr<Menu> menu, bool skip_transition = false);
+  void pop_menu(bool skip_transition = false);
   void clear_menu_stack();
 
   void on_window_resize();
@@ -72,9 +78,13 @@ public:
     return m_dialog || m_has_next_dialog;
   }
   Menu* current_menu() const;
+  Menu* previous_menu() const;
 
 private:
-  void transition(Menu* from, Menu* to);
+  void transition(Menu* from, Menu* to, bool call_this = false); // "call_this" -> calls this specific overload to prevent ambiguous calls
+  void transition(Menu* from, Dialog* to);
+  void transition(Dialog* from, Menu* to);
+  void transition(Dialog* from, Dialog* to);
 
 private:
   MenuManager(const MenuManager&) = delete;

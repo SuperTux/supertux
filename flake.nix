@@ -20,49 +20,49 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Due to the use of submodules this has to be build with:
-#
-#     nix build "git+file://$(pwd)?submodules=1"
-#
-# See: https://github.com/NixOS/nix/pull/5434
 {
   description = "A 2D platform game featuring Tux the penguin";
 
-  inputs = rec {
-    nixpkgs.url = "github:nixos/nixpkgs";
-    nix.inputs.nixpkgs.follows = "nixpkgs";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
     flake-utils.url = "github:numtide/flake-utils";
+
+    tinycmmc.url = "github:grumbel/tinycmmc";
+    tinycmmc.inputs.nixpkgs.follows = "nixpkgs";
+    tinycmmc.inputs.flake-utils.follows = "flake-utils";
+
+    sexpcpp.url = "github:lispparser/sexp-cpp";
+    sexpcpp.inputs.nixpkgs.follows = "nixpkgs";
+    sexpcpp.inputs.flake-utils.follows = "flake-utils";
+    sexpcpp.inputs.tinycmmc.follows = "tinycmmc";
+
+    tinygettext.url = "github:tinygettext/tinygettext";
+    tinygettext.inputs.nixpkgs.follows = "nixpkgs";
+    tinygettext.inputs.flake-utils.follows = "flake-utils";
+    tinygettext.inputs.tinycmmc.follows = "tinycmmc";
+
+    SDL2_ttf.url = "github:SuperTux/SDL_ttf";
+    SDL2_ttf.inputs.nixpkgs.follows = "nixpkgs";
+    SDL2_ttf.inputs.flake-utils.follows = "flake-utils";
+
+    squirrel_src.url = "github:albertodemichelis/squirrel";
+    squirrel_src.flake = false;
   };
 
-  outputs = { self, nix, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils,
+              tinycmmc, sexpcpp, tinygettext, SDL2_ttf,
+              squirrel_src }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
       in rec {
         packages = flake-utils.lib.flattenTree rec {
-          raqm = pkgs.stdenv.mkDerivation rec {
-            pname = "libraqm";
-            version = "0.7.2";
-            src = fetchTarball {
-              url = "https://github.com/HOST-Oman/libraqm/releases/download/v${version}/raqm-${version}.tar.xz";
-              sha256 = "1shcs5l27l7380dvacvhl8wrdq3lix0wnhzvfdh7vx2pkzjs3zk6";
-            };
+          squirrel = pkgs.stdenv.mkDerivation {
+            pname = "squirrel";
+            version = "3.2";
+            src = squirrel_src;
             nativeBuildInputs = [
-              pkgs.meson
               pkgs.cmake
-              pkgs.ninja
-              pkgs.gcc
-              pkgs.pkgconfig
-              pkgs.python3
-            ];
-            buildInputs = [
-              pkgs.freetype
-              pkgs.harfbuzz
-              pkgs.fribidi
-            ];
-            propagatedBuildInputs = [
-              pkgs.glib
-              pkgs.pcre
             ];
           };
 
@@ -71,25 +71,30 @@
             # FIXME: Should use `git describe` to get the version
             # number or leave it to cmake, but the .git/ directory
             # isn't included in the Nix store.
-            version = "0.6.3-unknown-" + (if (self ? shortRev) then self.shortRev else "dirty");
+            version = "0.6.3-${nixpkgs.lib.substring 0 8 self.lastModifiedDate}-${self.shortRev or "dirty"}";
             src = nixpkgs.lib.cleanSource ./.;
-            postPatch = let
+            patchPhase = let
               ver = builtins.splitVersion version;
-            in ''cat > version.cmake <<EOF
+            in ''
+              substituteInPlace config.h.cmake \
+                 --replace "#define _SQ64" ""
+
+               cat > version.cmake <<EOF
 SET(SUPERTUX_VERSION_MAJOR ${builtins.elemAt ver 0})
 SET(SUPERTUX_VERSION_MINOR ${builtins.elemAt ver 1})
 SET(SUPERTUX_VERSION_PATCH ${builtins.elemAt ver 2})
-SET(SUPERTUX_VERSION_TWEAK )
+SET(SUPERTUX_VERSION_TWEAK ${builtins.elemAt ver 3})
 SET(SUPERTUX_VERSION_STRING "v${version}")
 SET(SUPERTUX_VERSION_BUILD "${builtins.elemAt ver 4}")
 EOF
-'';
-            cmakeFlags = [ "-DINSTALL_SUBDIR_BIN=bin" ];
+            '';
+            cmakeFlags = [
+              "-DINSTALL_SUBDIR_BIN=bin"
+              "-DUSE_SYSTEM_SDL2_TTF=ON"
+            ];
             enableParallelBuilding = true;
             nativeBuildInputs = [
               pkgs.cmake
-              pkgs.ninja
-              pkgs.gcc
               pkgs.pkgconfig
               pkgs.makeWrapper
               pkgs.git
@@ -100,13 +105,16 @@ EOF
                   --prefix LD_LIBRARY_PATH ":" "${pkgs.mesa.drivers}/lib"
             '';
             buildInputs = [
-              raqm
+              squirrel
+              sexpcpp.packages.${system}.default
+              tinygettext.packages.${system}.default
+              SDL2_ttf.packages.${system}.default
 
+              pkgs.physfs
+              pkgs.libpng
               pkgs.boost
               pkgs.curl
-              pkgs.fribidi
-              pkgs.harfbuzz
-              pkgs.freetype
+              pkgs.fmt_8
               pkgs.libGL
               pkgs.libGLU
               pkgs.glew
@@ -121,9 +129,10 @@ EOF
               pkgs.libogg
               pkgs.gtest
             ];
-           };
+          };
+
+          default = supertux2;
         };
-        defaultPackage = packages.supertux2;
       }
     );
 }

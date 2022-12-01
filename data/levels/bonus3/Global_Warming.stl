@@ -5,16 +5,15 @@
   (contact "DevynCJohnson@Gmail.com")
   (license "GPLv3")
   (target-time 20)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
-      (scroll-offset-y 400)
       (color 1 1 1)
-      (x 2880)
-      (y 160)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)

@@ -4,6 +4,8 @@
   (author "Carsten Wirtz")
   (contact "https://supertux.org")
   (license "CC-BY-SA 4.0 International")
+  (icon "/images/worlds/icon/rootedforest.png")
+  (icon-locked "/images/worlds/locked/rootedforest.png")
   (sector
     (name "main")
     (init-script "import(\"levels/world2/ghostforest.nut\");")
@@ -170,7 +172,7 @@
     (special-tile
       (invisible-tile #t)
       (script "go_ghostforest(true);
-settings.fade_to_ambient_light(1,1,1,0.5);
+settings.fade_to_ambient_light(1, 1, 1, 0.5);
 state.ambient_r <- 1;
 state.ambient_g <- 1;
 state.ambient_b <- 1;")
@@ -220,7 +222,7 @@ state.ambient_b <- 1;")
     )
     (special-tile
       (invisible-tile #t)
-      (script "settings.fade_to_ambient_light(1,1,1,0.5);
+      (script "settings.fade_to_ambient_light(1, 1, 1, 0.5);
 state.ambient_r <- 1;
 state.ambient_g <- 1;
 state.ambient_b <- 1;")
@@ -263,6 +265,17 @@ state.ambient_b <- 0.6;")
       (x 96)
       (y 19)
     )
+    (special-tile
+      (invisible-tile #t)
+      (script "go_ghostforest(false);
+settings.fade_to_ambient_light(1, 1, 1, 0);
+state.ambient_r <- 1;
+state.ambient_g <- 1;
+state.ambient_b <- 1;")
+      (apply-to-direction "south")
+      (x 36)
+      (y 28)
+    )
     (sprite-change
       (change-on-touch #t)
       (initial-stay-action #f)
@@ -271,7 +284,7 @@ state.ambient_b <- 0.6;")
       (y 30)
     )
     (sprite-change
-      (stay-action "boat")
+      (stay-action "empty")
       (change-on-touch #t)
       (initial-stay-action #t)
       (stay-group "boat")
@@ -280,7 +293,7 @@ state.ambient_b <- 0.6;")
       (y 31)
     )
     (sprite-change
-      (stay-action "boat")
+      (stay-action "empty")
       (change-on-touch #t)
       (initial-stay-action #f)
       (stay-group "boat")

@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
+#include <map>
 #include <memory>
 #include <stdint.h>
 #include <string>
@@ -74,6 +75,11 @@ public:
 public:
   // Must be public because of tile_set_parser.cpp
   std::vector<AutotileSet*>* m_autotilesets;
+
+  // Additional attributes
+
+  // Must be public because of tile_set_parser.cpp and thunderstorm.cpp
+  std::map<uint32_t, uint32_t> m_thunderstorm_tiles;
 
 private:
   std::vector<std::unique_ptr<Tile> > m_tiles;

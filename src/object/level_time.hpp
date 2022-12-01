@@ -51,8 +51,10 @@ public:
   void set_time(float time_left);
 
   /** @} */
-  virtual std::string get_class() const override { return "leveltime"; }
-  virtual std::string get_display_name() const override { return _("Time Limit"); }
+  static std::string class_name() { return "leveltime"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Time Limit"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 

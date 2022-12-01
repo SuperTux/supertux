@@ -190,7 +190,7 @@ TextScroller::parse_content(const ReaderCollection& collection)
           m_lines.emplace_back(new InfoBoxLine('\t', name));
         }
 
-        if (item.get_mapping().get("image", image_file) && !simple) {
+        if (item.get_mapping().get("image", image_file)) {
           m_lines.emplace_back(new InfoBoxLine('!', image_file));
         }
 
@@ -243,6 +243,7 @@ TextScroller::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
 
   const float ctx_w = static_cast<float>(context.get_width());
   const float ctx_h = static_cast<float>(context.get_height());

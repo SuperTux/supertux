@@ -23,6 +23,7 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -81,6 +82,13 @@ void BicyclePlatformChild::editor_delete()
   m_parent.editor_delete();
 }
 
+void
+BicyclePlatformChild::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
+}
+
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   GameObject(reader),
   m_center(0.0f, 0.0f),
@@ -134,7 +142,7 @@ void
 BicyclePlatform::update(float dt_sec)
 {
   float total_angular_momentum = 0.0f;
-  for (auto& child : m_children)
+  for (const auto& child : m_children)
   {
     const float child_angle = m_angle + child->m_angle_offset;
     const float angular_momentum = cosf(child_angle) * child->m_momentum;
@@ -154,7 +162,7 @@ BicyclePlatform::update(float dt_sec)
   if (m_walker)
   {
     m_walker->update(std::max(0.0f, dt_sec * m_angular_speed * 0.1f));
-    m_center = m_walker->get_pos();
+    m_center = m_walker->get_pos(Sizef(), {});
   }
   else
   {

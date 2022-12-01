@@ -26,6 +26,7 @@
 #include <boost/locale.hpp>
 #include <physfs.h>
 #include <tinygettext/log.hpp>
+#include <fmt/format.h>
 extern "C" {
 #include <findlocale.h>
 }
@@ -35,6 +36,7 @@ extern "C" {
 #endif
 
 #include "addon/addon_manager.hpp"
+#include "addon/downloader.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
@@ -44,6 +46,7 @@ extern "C" {
 #include "editor/tool_icon.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/notification.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
@@ -72,8 +75,11 @@ extern "C" {
 #include "supertux/tile_manager.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
+#include "supertux/menu/download_dialog.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
 #include "util/timelog.hpp"
 #include "util/string_util.hpp"
@@ -133,7 +139,8 @@ Main::Main() :
   m_console(),
   m_game_manager(),
   m_screen_manager(),
-  m_savegame()
+  m_savegame(),
+  m_downloader() // Used for getting the version of the latest SuperTux release.
 {
 }
 
@@ -172,7 +179,7 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
   if (!PHYSFS_init(argv0))
   {
     std::stringstream msg;
-    msg << "Couldn't initialize physfs: " << PHYSFS_getLastErrorCode();
+    msg << "Couldn't initialize physfs: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
   else
@@ -188,6 +195,30 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
 void PhysfsSubsystem::find_datadir() const
 {
 #ifndef __EMSCRIPTEN__
+  if (const char* assetpack = getenv("ANDROID_ASSET_PACK_PATH"))
+  {
+    // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
+    if (!PHYSFS_mount(boost::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
+    {
+      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      return;
+    }
+
+    PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
+    if (!data)
+    {
+      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      return;
+    }
+
+    if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
+    {
+      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+    }
+
+    return;
+  }
+
   std::string datadir;
   if (m_forced_datadir)
   {
@@ -196,6 +227,10 @@ void PhysfsSubsystem::find_datadir() const
   else if (const char* env_datadir = getenv("SUPERTUX2_DATA_DIR"))
   {
     datadir = env_datadir;
+  }
+  else if (const char* env_datadir3 = getenv("ANDROID_MY_OWN_APP_FILE"))
+  {
+    datadir = env_datadir3;
   }
   else
   {
@@ -221,12 +256,12 @@ void PhysfsSubsystem::find_datadir() const
 
   if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
   {
-    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
 #else
   if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
 #endif
 }
@@ -311,8 +346,10 @@ if (FileSystem::is_directory(olduserdir)) {
 
 #ifdef EMSCRIPTEN
   EM_ASM({
-    FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
-    FS.syncfs(true, (err) => { console.log(err); });
+    try {
+      FS.mount(IDBFS, {}, "/home/web_user/.local/share/supertux2/");
+      FS.syncfs(true, (err) => { console.log(err); });
+    } catch(err) {}
   }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 #endif
 
@@ -320,7 +357,7 @@ if (FileSystem::is_directory(olduserdir)) {
   {
     std::ostringstream msg;
     msg << "Failed to use userdir directory '"
-        <<  userdir << "': errorcode: " << PHYSFS_getLastErrorCode();
+        <<  userdir << "': errorcode: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
 
@@ -422,6 +459,11 @@ Main::launch_game(const CommandLineArguments& args)
 {
   m_sdl_subsystem.reset(new SDLSubsystem());
   m_console_buffer.reset(new ConsoleBuffer());
+#ifdef ENABLE_TOUCHSCREEN_SUPPORT
+  if (getenv("ANDROID_TV")) {
+    g_config->mobile_controls = false;
+  }
+#endif
 
   s_timelog.log("controller");
   m_input_manager.reset(new InputManager(g_config->keyboard_config, g_config->joystick_config));
@@ -541,7 +583,8 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (g_config->tux_spawn_pos)
         {
-          session->get_current_sector().get_player().set_pos(*g_config->tux_spawn_pos);
+          // FIXME: Specify start pos for multiple players
+          session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
 
         if (!g_config->start_demo.empty())
@@ -562,15 +605,9 @@ Main::launch_game(const CommandLineArguments& args)
     else
     {
       m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame));
+      if (g_config->do_release_check) release_check();
     }
   }
-
-#ifdef UBUNTU_TOUCH
-  Dialog::show_message(_("The UBports version is under heavy development!\n"
-                         "If you encounter issues, PLEASE contact the maintainter\n"
-                         "at https://github.com/supertux/supertux/issues or on the\n"
-                         "Open Store's Telegram at https://open-store.io/telegram"));
-#endif
 
   m_screen_manager->run();
 }
@@ -680,7 +717,62 @@ Main::run(int argc, char** argv)
 
   g_dictionary_manager.reset();
 
+#ifdef __ANDROID__
+  // SDL2 keeps shared libraries loaded after the app is closed,
+  // when we launch the app again the static initializers will run twice and crash the app.
+  // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
+  _exit(result);
+#endif
+
   return result;
+}
+
+void
+Main::release_check()
+{
+  // Detect a potential new release of SuperTux. If a release, other than
+  // the current one is indicated on the given web file, show a notification on the main menu screen.
+  const std::string target_file = "ver_info.nfo";
+  TransferStatusPtr status = m_downloader.request_download("https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo", target_file);
+  status->then([target_file, status](bool success)
+  {
+    if (!success)
+    {
+      log_warning << "Error performing new release check: Failed to download \"supertux-versioninfo\" file: " << status->error_msg << std::endl;
+      return;
+    }
+    auto doc = ReaderDocument::from_file(target_file);
+    auto root = doc.get_root();
+    if (root.get_name() != "supertux-versioninfo")
+    {
+      log_warning << "File is not a \"supertux-versioninfo\" file." << std::endl;
+      return;
+    }
+    auto mapping = root.get_mapping();
+    std::string latest_ver;
+    if (mapping.get("latest", latest_ver))
+    {
+      const std::string version_full = std::string(PACKAGE_VERSION);
+      const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);
+      if (version != latest_ver)
+      {
+        auto notif = std::make_unique<Notification>("new_release_" + latest_ver);
+        notif->set_text("New release: SuperTux v" + latest_ver + "!");
+        notif->on_press([latest_ver]()
+                       {
+                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n \nDo you want to visit the website now?")), latest_ver), []()
+                                                   {
+                                                     FileSystem::open_url("https://supertux.org");
+                                                   });
+                       });
+        MenuManager::instance().set_notification(std::move(notif));
+      }
+    }
+  });
+  // Set up a download dialog to update the transfer status.
+  auto dialog = std::make_unique<DownloadDialog>(status, true, true, true);
+  dialog->set_title(_("Checking for new releases..."));
+  MenuManager::instance().set_dialog(std::move(dialog));
 }
 
 /* EOF */

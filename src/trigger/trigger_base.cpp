@@ -22,8 +22,7 @@
 TriggerBase::TriggerBase(const ReaderMapping& mapping) :
   MovingObject(mapping),
   m_sprite(),
-  m_lasthit(false),
-  m_hit(false),
+  m_hit(),
   m_losetouch_listeners()
 {
   set_group(COLGROUP_TOUCHABLE);
@@ -31,8 +30,7 @@ TriggerBase::TriggerBase(const ReaderMapping& mapping) :
 
 TriggerBase::TriggerBase() :
   m_sprite(),
-  m_lasthit(false),
-  m_hit(false),
+  m_hit(),
   m_losetouch_listeners()
 {
   set_group(COLGROUP_TOUCHABLE);
@@ -50,15 +48,18 @@ TriggerBase::~TriggerBase()
 void
 TriggerBase::update(float )
 {
-  if (m_lasthit && !m_hit) {
-    for (auto& p : m_losetouch_listeners) {
-      event(*p, EVENT_LOSETOUCH);
-      p->del_remove_listener(this);
+  for (unsigned i = 0; i < m_losetouch_listeners.size(); i++)
+  {
+    if (std::find(m_hit.begin(), m_hit.end(), m_losetouch_listeners[i]) == m_hit.end())
+    {
+      event(*m_losetouch_listeners[i], EVENT_LOSETOUCH);
+      m_losetouch_listeners[i]->del_remove_listener(this);
+      m_losetouch_listeners.erase(m_losetouch_listeners.begin() + i);
+      i--;
     }
-    m_losetouch_listeners.clear();
   }
-  m_lasthit = m_hit;
-  m_hit = false;
+
+  m_hit.clear();
 }
 
 void
@@ -75,8 +76,8 @@ TriggerBase::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
-    m_hit = true;
-    if (!m_lasthit) {
+    m_hit.push_back(player);
+    if (std::find(m_losetouch_listeners.begin(), m_losetouch_listeners.end(), player) == m_losetouch_listeners.end()) {
       m_losetouch_listeners.push_back(player);
       player->add_remove_listener(this);
       event(*player, EVENT_TOUCH);

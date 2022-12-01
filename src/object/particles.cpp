@@ -105,7 +105,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 void
 Particles::update(float dt_sec)
 {
-  Vector camera = Sector::get().get_camera().get_translation();
+  Camera& camera = Sector::get().get_camera();
 
   // update particles
   for (auto i = particles.begin(); i != particles.end(); ) {
@@ -115,8 +115,7 @@ Particles::update(float dt_sec)
     (*i)->vel.x += accel.x * dt_sec;
     (*i)->vel.y += accel.y * dt_sec;
 
-    if ((*i)->pos.x < camera.x || (*i)->pos.x > static_cast<float>(SCREEN_WIDTH) + camera.x ||
-       (*i)->pos.y < camera.y || (*i)->pos.y > static_cast<float>(SCREEN_HEIGHT) + camera.y) {
+    if (!camera.get_rect().contains((*i)->pos)) {
       i = particles.erase(i);
     } else {
       ++i;

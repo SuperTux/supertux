@@ -31,6 +31,7 @@ public:
   std::unique_ptr<GameObject> create(const std::string& name,
                                      const Vector& pos, const Direction& dir = Direction::AUTO,
                                      const std::string& data = {}) const;
+  std::string get_display_name(const std::string& name) const;
 
 private:
   GameObjectFactory();

@@ -37,11 +37,11 @@
 	  (mirror-action "jumping-left"))
     (action
 	  (name "iced-left")
-	  (hitbox 19 14 33.8 30)
-	  (images "s-ice.png"))
+	  (hitbox 14 15 33.8 43.8)
+	  (images "s-idle.png"))
 	(action
 	  (name "iced-right")
-	  (hitbox 19 14 33.8 30)
+	  (hitbox 12 15 33.8 43.8)
 	  (mirror-action "iced-left"))
 	(action
 	  (name "squished-left")

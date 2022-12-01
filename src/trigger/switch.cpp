@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -35,7 +36,8 @@ Switch::Switch(const ReaderMapping& reader) :
   script(),
   off_script(),
   state(OFF),
-  bistable()
+  bistable(),
+  m_flip(NO_FLIP)
 {
   if (!reader.get("x", m_col.m_bbox.get_left())) throw std::runtime_error("no x position set");
   if (!reader.get("y", m_col.m_bbox.get_top())) throw std::runtime_error("no y position set");
@@ -113,7 +115,7 @@ Switch::update(float )
 void
 Switch::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_TILES);
+  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_TILES, m_flip);
 }
 
 void
@@ -124,7 +126,7 @@ Switch::event(Player& , EventType type)
   switch (state) {
     case OFF:
       sprite->set_action("turnon", 1);
-      SoundManager::current()->play( SWITCH_SOUND );
+      SoundManager::current()->play(SWITCH_SOUND, get_pos());
       state = TURN_ON;
       break;
     case TURN_ON:
@@ -132,13 +134,20 @@ Switch::event(Player& , EventType type)
     case ON:
       if (bistable) {
         sprite->set_action("turnoff", 1);
-        SoundManager::current()->play( SWITCH_SOUND );
+        SoundManager::current()->play(SWITCH_SOUND, get_pos());
         state = TURN_OFF;
       }
       break;
     case TURN_OFF:
       break;
   }
+}
+
+void
+Switch::on_flip(float height)
+{
+  TriggerBase::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

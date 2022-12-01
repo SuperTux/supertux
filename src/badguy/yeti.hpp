@@ -33,8 +33,10 @@ public:
   virtual void kill_fall() override;
 
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override { return "yeti"; }
-  virtual std::string get_display_name() const override { return _("Yeti"); }
+  static std::string class_name() { return "yeti"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Yeti"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 

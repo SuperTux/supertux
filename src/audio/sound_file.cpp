@@ -79,7 +79,7 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename_original)
     auto file = PHYSFS_openRead(raw_music_file.c_str());
     if (!file) {
       std::stringstream msg;
-      msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getLastErrorCode();
+      msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
       throw SoundError(msg.str());
     }
     auto format = SoundFile::get_file_format(file, raw_music_file);
@@ -108,7 +108,7 @@ std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
     if (!file) {
       std::stringstream msg;
       msg << "Couldn't open '" << filename << "': " <<
-        PHYSFS_getLastErrorCode() << ", using dummy sound file.";
+        PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << ", using dummy sound file.";
       throw SoundError(msg.str());
     }
   }
@@ -133,7 +133,7 @@ SoundFile::get_file_format(PHYSFS_File* file, const std::string& filename)
       throw SoundError("Couldn't read magic, file too short");
     if (PHYSFS_seek(file, 0) == 0) {
       std::stringstream msg;
-      msg << "Couldn't seek through sound file: " << PHYSFS_getLastErrorCode();
+      msg << "Couldn't seek through sound file: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
       throw SoundError(msg.str());
     }
 

@@ -23,8 +23,9 @@
 
 #include <sexp/value.hpp>
 
-#include "video/color.hpp"
 #include "gui/menu_action.hpp"
+#include "object/path_walker.hpp"
+#include "video/color.hpp"
 
 enum ObjectOptionFlag {
   /** Set if the value is a hidden implementation detail that
@@ -185,6 +186,26 @@ private:
   StringObjectOption& operator=(const StringObjectOption&) = delete;
 };
 
+class StringMultilineObjectOption : public ObjectOption
+{
+public:
+  StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                     boost::optional<std::string> default_value,
+                     unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::string* const m_pointer;
+  boost::optional<std::string> m_default_value;
+
+private:
+  StringMultilineObjectOption(const StringMultilineObjectOption&) = delete;
+  StringMultilineObjectOption& operator=(const StringMultilineObjectOption&) = delete;
+};
+
 class StringSelectObjectOption : public ObjectOption
 {
 public:
@@ -256,6 +277,7 @@ public:
                    const std::string& key,
                    std::vector<std::string> filter,
                    const std::string& basedir,
+                   bool path_relative_to_basedir,
                    unsigned int flags);
 
   virtual void save(Writer& write) const override;
@@ -267,6 +289,7 @@ private:
   boost::optional<std::string> m_default_value;
   const std::vector<std::string> m_filter;
   std::string m_basedir;
+  bool m_path_relative_to_basedir;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;
@@ -384,6 +407,24 @@ private:
   SExpObjectOption& operator=(const SExpObjectOption&) = delete;
 };
 
+class PathHandleOption : public ObjectOption
+{
+public:
+  PathHandleOption(const std::string& text, PathWalker::Handle& handle,
+                   const std::string& key, unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  PathWalker::Handle& m_target;
+
+private:
+  PathHandleOption(const PathHandleOption&) = delete;
+  PathHandleOption& operator=(const PathHandleOption&) = delete;
+};
+
 class RemoveObjectOption : public ObjectOption
 {
 public:
@@ -441,6 +482,41 @@ private:
 private:
   ButtonOption(const ButtonOption&) = delete;
   ButtonOption& operator=(const ButtonOption&) = delete;
+};
+
+class StringArrayOption : public ObjectOption
+{
+public:
+  StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override { return "text-area"; }
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  std::vector<std::string>& m_items;
+
+private:
+  StringArrayOption(const StringArrayOption&) = delete;
+  StringArrayOption& operator=(const StringArrayOption&) = delete;
+};
+
+class ListOption : public ObjectOption
+{
+public:
+  ListOption(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override { return *m_value_ptr; }
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  const std::vector<std::string>& m_items;
+  std::string* m_value_ptr;
+
+private:
+  ListOption(const ListOption&) = delete;
+  ListOption& operator=(const ListOption&) = delete;
 };
 
 #endif

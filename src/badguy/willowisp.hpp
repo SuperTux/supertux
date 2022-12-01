@@ -52,11 +52,15 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-  virtual std::string get_class() const override { return "willowisp"; }
-  virtual std::string get_display_name() const override { return _("Will o' Wisp"); }
+  static std::string class_name() { return "willowisp"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Will o' Wisp"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
+
+  virtual void on_flip(float height) override;
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
   {

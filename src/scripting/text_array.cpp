@@ -108,6 +108,9 @@ TextArray::set_text(const std::string& text)
   if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.set_text(text);
   }
+  else {
+    object.add_text(text);
+  }
 }
 
 void
@@ -215,6 +218,42 @@ TextArray::get_anchor_point() const
     return textItem->text_object.get_anchor_point();
   } else {
     return -1;
+  }
+}
+
+void
+TextArray::set_front_fill_color(float red, float green, float blue, float alpha)
+{
+  SCRIPT_GUARD_VOID;
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.set_front_fill_color(Color(red, green, blue, alpha));
+  }
+}
+
+void
+TextArray::set_back_fill_color(float red, float green, float blue, float alpha)
+{
+  SCRIPT_GUARD_VOID;
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.set_back_fill_color(Color(red, green, blue, alpha));
+  }
+}
+
+void
+TextArray::set_text_color(float red, float green, float blue, float alpha)
+{
+  SCRIPT_GUARD_VOID;
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.set_text_color(Color(red, green, blue, alpha));
+  }
+}
+
+void
+TextArray::set_roundness(float roundness)
+{
+  SCRIPT_GUARD_VOID;
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.set_roundness(roundness);
   }
 }
 

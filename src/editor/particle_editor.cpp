@@ -111,7 +111,7 @@ ParticleEditor::reset_main_ui()
 
   // TODO: Use the addButton() command
   // Texture button start
-  auto texture_btn = std::make_unique<ControlButton>("Change texture...  ->");
+  auto texture_btn = std::make_unique<ControlButton>(_("Change texture...  ->"));
   texture_btn.get()->m_on_change = std::function<void()>([this](){
     m_in_texture_tab = true;
   });
@@ -226,7 +226,7 @@ ParticleEditor::reset_main_ui()
   addControl(_("Offscreen mode"), std::move(offscreen_mode));
 
   // TODO: add some ParticleEditor::addButton() function so that I don't have to put all that in here
-  auto clear_btn = std::make_unique<ControlButton>("Clear");
+  auto clear_btn = std::make_unique<ControlButton>(_("Clear"));
   clear_btn.get()->m_on_change = std::function<void()>([this](){ m_particles->clear(); });
   float height = 0.f;
   for (const auto& control : m_controls) {
@@ -242,7 +242,7 @@ ParticleEditor::reset_texture_ui()
   m_controls_textures.clear();
   m_texture_rebinds.clear();
 
-  auto return_btn = std::make_unique<ControlButton>("<- General settings");
+  auto return_btn = std::make_unique<ControlButton>(_("<- General settings"));
   return_btn.get()->m_on_change = std::function<void()>([this](){
     m_in_texture_tab = false;
   });
@@ -252,7 +252,7 @@ ParticleEditor::reset_texture_ui()
   auto likeliness_control = std::make_unique<ControlTextboxFloat>();
   likeliness_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->likeliness));
   likeliness_control.get()->set_rect(Rectf(150.f, 50.f, 350.f, 70.f));
-  likeliness_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 50.f, 135.f, 70.f), "Likeliness");
+  likeliness_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 50.f, 135.f, 70.f), _("Likeliness"));
   likeliness_control.get()->m_on_change = std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
   auto likeliness_control_ptr = likeliness_control.get();
   m_texture_rebinds.push_back( [this, likeliness_control_ptr]{
@@ -263,7 +263,7 @@ ParticleEditor::reset_texture_ui()
   auto color_r_control = std::make_unique<ControlTextboxFloat>();
   color_r_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->color.red));
   color_r_control.get()->set_rect(Rectf(150.f, 80.f, 192.f, 100.f));
-  color_r_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 80.f, 140.f, 100.f), "Color (RGBA)");
+  color_r_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 80.f, 140.f, 100.f), _("Color (RGBA)"));
   color_r_control.get()->m_on_change = std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
   color_r_control.get()->m_validate_float = m_clamp_0_1;
   auto color_r_control_ptr = color_r_control.get();
@@ -308,7 +308,7 @@ ParticleEditor::reset_texture_ui()
   auto scale_x_control = std::make_unique<ControlTextboxFloat>();
   scale_x_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->scale.x));
   scale_x_control.get()->set_rect(Rectf(150.f, 110.f, 240.f, 130.f));
-  scale_x_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 110.f, 150.f, 130.f), "Scale (x, y)");
+  scale_x_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 110.f, 150.f, 130.f), _("Scale (x, y)"));
   scale_x_control.get()->m_on_change = std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
   auto scale_x_control_ptr = scale_x_control.get();
   m_texture_rebinds.push_back( [this, scale_x_control_ptr]{
@@ -329,7 +329,7 @@ ParticleEditor::reset_texture_ui()
   auto hb_scale_x_control = std::make_unique<ControlTextboxFloat>();
   hb_scale_x_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_scale.x));
   hb_scale_x_control.get()->set_rect(Rectf(150.f, 140.f, 240.f, 160.f));
-  hb_scale_x_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 140.f, 150.f, 160.f), "Hitbox scale (x, y)");
+  hb_scale_x_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 140.f, 150.f, 160.f), _("Hitbox scale (x, y)"));
   hb_scale_x_control.get()->m_on_change = std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
   auto hb_scale_x_control_ptr = hb_scale_x_control.get();
   m_texture_rebinds.push_back( [this, hb_scale_x_control_ptr]{
@@ -350,7 +350,7 @@ ParticleEditor::reset_texture_ui()
   auto hb_offset_x_control = std::make_unique<ControlTextboxFloat>();
   hb_offset_x_control.get()->bind_value(&((m_particles->m_textures.begin() + m_texture_current)->hb_offset.x));
   hb_offset_x_control.get()->set_rect(Rectf(150.f, 170.f, 240.f, 190.f));
-  hb_offset_x_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 170.f, 150.f, 190.f), "Hitbox offset relative to scale");
+  hb_offset_x_control.get()->m_label = std::make_unique<InterfaceLabel>(Rectf(5.f, 170.f, 150.f, 190.f), _("Hitbox offset relative to scale"));
   hb_offset_x_control.get()->m_on_change = std::function<void()>([this](){ m_particles->reinit_textures(); this->push_version(); });
   auto hb_offset_x_control_ptr = hb_offset_x_control.get();
   m_texture_rebinds.push_back( [this, hb_offset_x_control_ptr]{
@@ -369,13 +369,14 @@ ParticleEditor::reset_texture_ui()
   m_controls_textures.push_back(std::move(hb_offset_y_control));
 
   // Texture button start
-  auto chg_texture_btn = std::make_unique<ControlButton>("Change texture...");
+  auto chg_texture_btn = std::make_unique<ControlButton>(_("Change texture..."));
   chg_texture_btn.get()->m_on_change = std::function<void()>([this](){
     const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
     MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
       nullptr,
       filter,
       "/",
+      false,
       [this](const std::string& new_filename) {
         (m_particles->m_textures.begin() + m_texture_current)->texture = Surface::from_file(new_filename);
         m_particles->reinit_textures();
@@ -578,7 +579,7 @@ ParticleEditor::save(const std::string& filepath_, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for particle config '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -609,7 +610,7 @@ ParticleEditor::save(const std::string& filepath_, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for particle config '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }

@@ -63,7 +63,7 @@ Platform::finish_construction()
 
   get_walker()->jump_to_node(m_starting_node);
 
-  m_col.m_bbox.set_pos(get_path()->get_nodes()[m_starting_node].position);
+  m_col.m_bbox.set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
 }
 
 ObjectSettings
@@ -76,6 +76,7 @@ Platform::get_settings()
   result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
   result.add_bool(_("Running"), &get_walker()->m_running, "running", true, 0);
   result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
+  result.add_path_handle(_("Handle"), m_path_handle, "handle");
 
   result.reorder({"running", "name", "path-ref", "starting-node", "sprite", "x", "y"});
 
@@ -128,7 +129,7 @@ Platform::update(float dt_sec)
   }
 
   get_walker()->update(dt_sec);
-  Vector movement = get_walker()->get_pos() - get_pos();
+  Vector movement = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos();
   m_col.set_movement(movement);
   m_col.propagate_movement(movement);
   m_speed = movement / dt_sec;
@@ -143,7 +144,7 @@ Platform::editor_update()
   if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
     m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
 
-  set_pos(get_path()->get_nodes()[m_starting_node].position);
+  set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
 }
 
 void
@@ -178,6 +179,14 @@ Platform::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+void
+Platform::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  PathObject::on_flip();
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

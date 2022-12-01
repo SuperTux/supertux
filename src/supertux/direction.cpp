@@ -20,6 +20,7 @@
 
 #include "editor/object_option.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 std::ostream& operator<<(std::ostream& o, const Direction& dir)
 {
@@ -39,8 +40,12 @@ dir_to_string(const Direction& dir)
       return "up";
     case Direction::DOWN:
       return "down";
-    case Direction::AUTO:
     default:
+      if (dir != Direction::AUTO)
+      {
+        // Display a warning when an invalid direction has been provided.
+        log_warning << "Unknown direction \"" << dir << "\". Switching to \"auto\"." << std::endl;
+      }
       return "auto";
   }
 }
@@ -57,7 +62,14 @@ string_to_dir(const std::string& dir_str)
   else if (dir_str == "down")
     return Direction::DOWN;
   else
+  {
+    if (dir_str != "auto")
+    {
+      // Display a warning when an invalid direction has been provided.
+      log_warning << "Unknown direction \"" << dir_str << "\". Switching to \"auto\"." << std::endl;
+    }
     return Direction::AUTO;
+  }
 }
 
 /* EOF */

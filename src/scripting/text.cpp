@@ -17,6 +17,8 @@
 #include "scripting/text.hpp"
 
 #include "object/text_object.hpp"
+#include "supertux/sector.hpp"
+#include "worldmap/worldmap.hpp"
 
 namespace scripting {
 
@@ -46,6 +48,20 @@ Text::fade_out(float fadetime)
 {
   SCRIPT_GUARD_VOID;
   object.fade_out(fadetime);
+}
+
+void
+Text::grow_in(float fadetime)
+{
+  SCRIPT_GUARD_VOID;
+  object.grow_in(fadetime);
+}
+
+void
+Text::grow_out(float fadetime)
+{
+  SCRIPT_GUARD_VOID;
+  object.grow_out(fadetime);
 }
 
 void
@@ -95,6 +111,34 @@ Text::get_anchor_point() const
 {
   SCRIPT_GUARD_DEFAULT;
   return static_cast<int>(object.get_anchor_point());
+}
+
+void
+Text::set_front_fill_color(float red, float green, float blue, float alpha)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_front_fill_color(Color(red, green, blue, alpha));
+}
+
+void
+Text::set_back_fill_color(float red, float green, float blue, float alpha)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_back_fill_color(Color(red, green, blue, alpha));
+}
+
+void
+Text::set_text_color(float red, float green, float blue, float alpha)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_text_color(Color(red, green, blue, alpha));
+}
+
+void
+Text::set_roundness(float roundness)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_roundness(roundness);
 }
 
 } // namespace scripting

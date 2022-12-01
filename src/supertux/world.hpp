@@ -40,6 +40,8 @@ public:
 
   bool is_levelset() const { return m_is_levelset; }
   bool is_worldmap() const { return !m_is_levelset; }
+  
+  std::string get_contrib_type() const { return m_contrib_type; }
 
   std::string get_worldmap_filename() const;
   std::string get_savegame_filename() const;
@@ -54,6 +56,7 @@ public:
 private:
   std::string m_basedir;
   bool m_hide_from_contribs;
+  std::string m_contrib_type; // Type of world if it is contrib: official, community, user
 
 private:
   World(const World&) = delete;

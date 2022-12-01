@@ -18,10 +18,8 @@
 #define HEADER_SUPERTUX_BADGUY_MRICEBLOCK_HPP
 
 #include "badguy/walking_badguy.hpp"
-#include "object/portable.hpp"
 
-class MrIceBlock : public WalkingBadguy,
-                   public Portable
+class MrIceBlock : public WalkingBadguy
 {
 public:
   MrIceBlock(const ReaderMapping& reader);
@@ -42,8 +40,11 @@ public:
 
   virtual void ignite() override;
 
-  virtual std::string get_class() const override { return "mriceblock"; }
-  virtual std::string get_display_name() const override { return _("Iceblock"); }
+  static std::string class_name() { return "mriceblock"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Iceblock"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return ice_state != ICESTATE_KICKED; }
 
   bool can_break();
 

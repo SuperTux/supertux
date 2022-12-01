@@ -17,15 +17,19 @@
 
 #include "addon/addon.hpp"
 
+#include <boost/optional.hpp>
+#include <fmt/format.h>
 #include <sstream>
 
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
+#include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
 
-namespace {
-
 static const char* s_allowed_characters = "-_0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+namespace addon_string_util {
 
 Addon::Type addon_type_from_string(const std::string& type)
 {
@@ -55,7 +59,50 @@ Addon::Type addon_type_from_string(const std::string& type)
   }
 }
 
-} // namespace
+std::string addon_type_to_translated_string(Addon::Type type)
+{
+  switch (type)
+  {
+    case Addon::LEVELSET:
+      return _("Levelset");
+
+    case Addon::WORLDMAP:
+      return _("Worldmap");
+
+    case Addon::WORLD:
+      return _("World");
+
+    case Addon::ADDON:
+      return _("Add-on");
+
+    case Addon::LANGUAGEPACK:
+      return _("Language Pack");
+
+    default:
+      return _("Unknown");
+  }
+}
+
+std::string generate_menu_item_text(const Addon& addon)
+{
+  std::string text;
+  std::string type = addon_type_to_translated_string(addon.get_type());
+
+  if (!addon.get_author().empty())
+  {
+    text = fmt::format(fmt::runtime(_("{} \"{}\" by \"{}\"")),
+                       type, addon.get_title(), addon.get_author());
+  }
+  else
+  {
+    // Only addon type and name, no need for translation.
+    text = fmt::format("{} \"{}\"", type, addon.get_title());
+  }
+
+  return text;
+}
+
+} // namespace addon_string_util
 
 std::unique_ptr<Addon>
 Addon::parse(const ReaderMapping& mapping)
@@ -83,14 +130,26 @@ Addon::parse(const ReaderMapping& mapping)
 
     std::string type;
     mapping.get("type", type);
-    addon->m_type = addon_type_from_string(type);
+    addon->m_type = addon_string_util::addon_type_from_string(type);
 
     mapping.get("title", addon->m_title);
     mapping.get("author", addon->m_author);
     mapping.get("license", addon->m_license);
+    mapping.get("description", addon->m_description);
     mapping.get("url", addon->m_url);
     mapping.get("md5", addon->m_md5);
     mapping.get("format", addon->m_format);
+    boost::optional<ReaderCollection> reader;
+    if (mapping.get("screenshots", reader))
+    {
+      for (auto& obj : reader->get_objects())
+      {
+        std::string url;
+        auto data = obj.get_mapping();
+        data.get("url", url);
+        addon->m_screenshots.push_back(url);
+      }
+    }
 
     return addon;
   }
@@ -135,8 +194,10 @@ Addon::Addon() :
   m_author(),
   m_license(),
   m_format(0),
+  m_description(),
   m_url(),
   m_md5(),
+  m_screenshots(),
   m_install_filename(),
   m_enabled(false)
 {}
@@ -163,6 +224,12 @@ bool
 Addon::is_enabled() const
 {
   return m_enabled;
+}
+
+bool
+Addon::is_visible() const
+{
+  return true;
 }
 
 void

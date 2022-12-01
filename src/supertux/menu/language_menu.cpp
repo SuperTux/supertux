@@ -101,7 +101,7 @@ LanguageMenu::menu_action(MenuItem& item)
   if (g_dictionary_manager->get_language().get_language() != "en" &&
       !AddonManager::current()->is_addon_installed("language-pack"))
   {
-    MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
+    MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU, true);
   }
   else
   {

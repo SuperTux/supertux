@@ -158,7 +158,7 @@ Foo::create()`)
 
 Capture pointers as `auto*`, not just `auto`.
 
-Ues `const auto&` for loops to avoid copies.
+Use `const auto&` for loops to avoid copies.
 
 ## Namespaces
 

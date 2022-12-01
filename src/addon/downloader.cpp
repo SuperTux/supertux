@@ -116,7 +116,7 @@ public:
     if (!m_fout)
     {
       std::ostringstream out;
-      out << "PHYSFS_openRead() failed: " << PHYSFS_getLastErrorCode();
+      out << "PHYSFS_openRead() failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
       throw std::runtime_error(out.str());
     }
 
@@ -212,7 +212,6 @@ private:
   {
     return static_cast<Transfer*>(userdata)->on_data(ptr, size, nmemb);
   }
-#endif
 
   static int on_progress_wrap(void* userdata,
                               double dltotal, double dlnow,
@@ -220,6 +219,7 @@ private:
   {
     return static_cast<Transfer*>(userdata)->on_progress(dltotal, dlnow, ultotal, ulnow);
   }
+#endif
 
 private:
   Transfer(const Transfer&) = delete;
@@ -342,7 +342,7 @@ Downloader::abort(TransferId id)
 #endif
     m_transfers.erase(it);
 
-    for (auto& callback : status->callbacks)
+    for (const auto& callback : status->callbacks)
     {
       try
       {
@@ -393,7 +393,7 @@ Downloader::update()
           if (resultfromcurl == CURLE_OK)
           {
             bool success = true;
-            for (auto& callback : status->callbacks)
+            for (const auto& callback : status->callbacks)
             {
               try
               {
@@ -410,7 +410,7 @@ Downloader::update()
           else
           {
             log_warning << "Error: " << curl_easy_strerror(resultfromcurl) << std::endl;
-            for (auto& callback : status->callbacks)
+            for (const auto& callback : status->callbacks)
             {
               try
               {
@@ -478,7 +478,7 @@ Downloader::onDownloadFinished(int id)
   }
   else
   {
-    for (auto& callback : (*it)->get_status()->callbacks)
+    for (const auto& callback : (*it)->get_status()->callbacks)
     {
       try
       {
@@ -506,7 +506,7 @@ Downloader::onDownloadError(int id)
   }
   else
   {
-    for (auto& callback : (*it)->get_status()->callbacks)
+    for (const auto& callback : (*it)->get_status()->callbacks)
     {
       try
       {
@@ -534,7 +534,7 @@ Downloader::onDownloadAborted(int id)
   }
   else
   {
-    for (auto& callback : (*it)->get_status()->callbacks)
+    for (const auto& callback : (*it)->get_status()->callbacks)
     {
       try
       {

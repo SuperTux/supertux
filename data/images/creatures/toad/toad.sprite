@@ -15,13 +15,13 @@
   )
   (action
     (name "iced-left")
-    (hitbox 1 1 40 24)
+    (hitbox -1 -12 40 24)
     (fps 5.0)
-    (images "toad-frozen.png")
+    (images "toad-idle-0.png")
   )
   (action
     (name "iced-right")
-    (hitbox 1 1 40 24)
+    (hitbox 3 -12 40 24)
     (mirror-action "iced-left")
   )
   (action

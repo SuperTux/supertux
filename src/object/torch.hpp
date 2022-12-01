@@ -22,6 +22,7 @@
 #include "scripting/torch.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
+#include "video/flip.hpp"
 
 class ReaderMapping;
 
@@ -37,13 +38,17 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& ) override;
 
-  virtual std::string get_class() const override { return "torch"; }
-  virtual std::string get_display_name() const override { return _("Torch"); }
+  static std::string class_name() { return "torch"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Torch"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
   virtual int get_layer() const override { return m_layer; }
+
+  virtual void on_flip(float height) override;
 
   /** @name Scriptable Methods
       @{ */
@@ -61,6 +66,7 @@ private:
   bool m_burning;
   std::string sprite_name;
   int m_layer; /**< The layer (z-pos) of the torch */
+  Flip m_flip;
 
 private:
   Torch(const Torch&) = delete;

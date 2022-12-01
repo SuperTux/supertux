@@ -53,7 +53,7 @@ World::from_directory(const std::string& directory)
     info.get("description", world->m_description);
     info.get("levelset", world->m_is_levelset, true);
     info.get("hide-from-contribs", world->m_hide_from_contribs, false);
-
+    info.get("contrib-type", world->m_contrib_type, "user");
     return world;
   }
   catch (const std::exception& err)
@@ -103,7 +103,8 @@ World::World(const std::string& directory) :
   m_description(),
   m_is_levelset(true),
   m_basedir(directory),
-  m_hide_from_contribs(false)
+  m_hide_from_contribs(false),
+  m_contrib_type()
 {
 }
 
@@ -122,7 +123,7 @@ World::save(bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -141,6 +142,7 @@ World::save(bool retry)
     writer.write("title", m_title, true);
     writer.write("description", m_description, true);
     writer.write("levelset", m_is_levelset);
+    writer.write("contrib-type", "user");
     writer.write("hide-from-contribs", m_hide_from_contribs);
 
     writer.end_list("supertux-level-subset");
@@ -160,7 +162,7 @@ World::save(bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for levelset '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }

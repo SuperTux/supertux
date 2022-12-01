@@ -47,7 +47,10 @@ Level::Level(bool worldmap) :
   m_tileset("images/tiles.strf"),
   m_suppress_pause_menu(),
   m_is_in_cutscene(false),
-  m_skip_cutscene(false)
+  m_skip_cutscene(false),
+  m_icon(),
+  m_icon_locked(),
+  m_wmselect_bkg()
 {
   s_current = this;
 }
@@ -77,7 +80,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -92,9 +95,9 @@ Level::save(const std::string& filepath, bool retry)
 
     Writer writer(filepath);
     save(writer);
-    log_warning << "Level saved as " << filepath << "." 
-                << (boost::algorithm::ends_with(filepath, "~") ? " [Autosave]" : "")
-                << std::endl;
+    log_info << "Level saved as " << filepath << "." 
+             << (boost::algorithm::ends_with(filepath, "~") ? " [Autosave]" : "")
+             << std::endl;
   } catch(std::exception& e) {
     if (retry) {
       std::stringstream msg;
@@ -108,7 +111,7 @@ Level::save(const std::string& filepath, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -141,6 +144,12 @@ Level::save(Writer& writer)
   if(m_suppress_pause_menu) {
     writer.write("suppress-pause-menu", m_suppress_pause_menu);
   }
+
+  writer.write("icon", m_icon);
+  writer.write("icon-locked", m_icon_locked);
+
+  if (!m_wmselect_bkg.empty())
+    writer.write("bkg", m_wmselect_bkg);
 
   for (auto& sector : m_sectors) {
     sector->save(writer);
@@ -209,7 +218,7 @@ Level::get_total_coins() const
         } else if (block->get_contents() == BonusBlock::Content::RAIN ||
                    block->get_contents() == BonusBlock::Content::EXPLODE)
         {
-          total_coins += 10;
+          total_coins += 10 * block->get_hit_counter();
           continue;
         }
       }

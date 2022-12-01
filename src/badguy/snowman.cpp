@@ -63,6 +63,7 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 
     /* Create a new snowball where the snowman's head was */
     Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
+    m_countMe = false;
 
     SoundManager::current()->play("sounds/pop.ogg", get_pos()); // this could be a different sound
     bullet.remove_me();

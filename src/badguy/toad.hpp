@@ -31,10 +31,13 @@ public:
   virtual bool collision_squished(GameObject& object) override;
   virtual void active_update(float dt_sec) override;
 
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "toad"; }
-  virtual std::string get_display_name() const override { return _("Toad"); }
+  static std::string class_name() { return "toad"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Toad"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   enum ToadState {
