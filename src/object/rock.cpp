@@ -23,6 +23,7 @@
 #include "object/explosion.hpp"
 #include "object/lit_object.hpp"
 #include "object/pushbutton.hpp"
+#include "object/trampoline.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "object/player.hpp"
@@ -39,6 +40,7 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
+  on_ice(false),
   last_movement(0.0f, 0.0f),
   on_grab_script(),
   on_ungrab_script()
@@ -52,6 +54,7 @@ Rock::Rock(const ReaderMapping& reader) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
+  on_ice(false),
   last_movement(0.0f, 0.0f),
   on_grab_script(),
   on_ungrab_script()
@@ -67,6 +70,7 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
+  on_ice(false),
   last_movement(0.0f, 0.0f),
   on_grab_script(),
   on_ungrab_script()
@@ -80,8 +84,27 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 void
 Rock::update(float dt_sec)
 {
-  if (!is_grabbed())
+  if (!is_grabbed()) {
+
+    Rectf icebox = get_bbox().grown(-1.f);
+    icebox.set_bottom(get_bbox().get_bottom() + 8.f);
+    on_ice = !Sector::get().is_free_of_tiles(icebox, true, Tile::ICE);
+
+    bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+    physic.set_gravity_modifier(in_water ? 0.2f : 1.f);
+
+    Rectf trampolinebox = get_bbox().grown(-1.f);
+    trampolinebox.set_bottom(get_bbox().get_bottom() + 8.f);
+
+    for (auto& trampoline : Sector::get().get_objects_by_type<Trampoline>()) {
+      if (trampolinebox.contains(trampoline.get_bbox()) && !trampoline.is_grabbed() &&
+        (glm::length((get_bbox().get_middle() - trampoline.get_bbox().get_middle())) >= 10.f)) {
+        trampoline.bounce();
+        physic.set_velocity_y(-500.f);
+      }
+    }
     m_col.set_movement(physic.get_movement(dt_sec));
+  }
 }
 
 void
@@ -100,15 +123,15 @@ Rock::collision_solid(const CollisionHit& hit)
   if (hit.crush)
     physic.set_velocity(0, 0);
 
-  if (hit.bottom  && !on_ground && !is_grabbed()) {
+  if (hit.bottom  && !on_ground && !is_grabbed() && !on_ice) {
     SoundManager::current()->play(ROCK_SOUND, get_pos());
     physic.set_velocity_x(0);
     on_ground = true;
   }
 
-  if (on_ground) {
+  if (on_ground || (hit.bottom && on_ice)) {
     // Full friction!
-    physic.set_velocity_x(physic.get_velocity_x() * (1.f - GROUND_FRICTION));
+    physic.set_velocity_x(physic.get_velocity_x() * (1.f - (GROUND_FRICTION * (on_ice ? 0.5f : 1.f))));
   }
 }
 

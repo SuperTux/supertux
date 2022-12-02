@@ -38,6 +38,9 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
+public:
+  void bounce();
+
 private:
   bool portable;
 

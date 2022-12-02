@@ -17,6 +17,9 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "audio/sound_manager.hpp"
+#include "object/player.hpp"
+#include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -57,6 +60,16 @@ Bumper::update(float dt_sec)
   if (m_sprite->animation_done())
   {
     m_sprite->set_action(left ? "left-normal" : "right-normal");
+  }
+  Rectf rockbox = get_bbox().grown(1.f);
+  for (auto& rock : Sector::get().get_objects_by_type<Rock>()) {
+    if (rockbox.contains(rock.get_bbox()))
+    {
+      float BOUNCE_DIR = left ? -BOUNCE_X : BOUNCE_X;
+      rock.get_physic().set_velocity(BOUNCE_DIR * 0.7f, BOUNCE_Y * 0.6f);
+      SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+      m_sprite->set_action((left ? "left-swinging" : "right-swinging"), 1);
+    }
   }
   m_col.set_movement(physic.get_movement (dt_sec));
 }
