@@ -31,7 +31,7 @@ public:
 
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
-  virtual bool is_freezable() const override;
+  virtual bool is_freezable() const override { return true; }
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
   static std::string class_name() { return "zeekling"; }
@@ -44,8 +44,6 @@ private:
   virtual bool collision_squished(GameObject& object) override;
 
   bool should_we_dive();
-  void onBumpHorizontal();
-  void onBumpVertical();
 
 private:
   enum ZeeklingState {
@@ -55,12 +53,10 @@ private:
   };
 
 private:
-  float speed;
-  Timer diveRecoverTimer;
-  ZeeklingState state;
-  const MovingObject* last_player; /**< last player we tracked */
-  Vector last_player_pos; /**< position we last spotted the player at */
-  Vector last_self_pos; /**< position we last were at */
+  ZeeklingState m_state;
+  const MovingObject* m_last_player; /**< last player we tracked */
+  Vector m_last_player_pos; /**< position we last spotted the player at */
+  Vector m_last_self_pos; /**< position we last were at */
 
 private:
   Zeekling(const Zeekling&) = delete;

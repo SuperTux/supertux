@@ -18,8 +18,8 @@
   )
   (action
     (name "iced-left")
-    (hitbox 4 18 36 18)
-    (images "frozen.png")
+    (hitbox 4 12 36 18)
+    (images "leafshot-0.png")
   )
   (action
     (name "iced-right")

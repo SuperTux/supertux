@@ -45,6 +45,7 @@ private:
   float m_speed;
   float m_track_range;
   float m_speed_modifier;
+  Vector m_chase_dir;
 
 private:
   enum SpriteState {

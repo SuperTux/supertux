@@ -27,7 +27,8 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   m_speed(),
   m_track_range(),
   m_speed_modifier(),
-  m_sprite_state(SpriteState::NORMAL)
+  m_sprite_state(SpriteState::NORMAL),
+  m_chase_dir()
 {
   reader.get("speed", m_speed, DEFAULT_SPEED);
   reader.get("track-range", m_track_range, DEFAULT_TRACK_RANGE);
@@ -58,6 +59,7 @@ Ghoul::active_update(float dt_sec)
     m_speed_modifier = std::max(0.f, m_speed_modifier - (dt_sec*2.f));
     m_sprite->set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "normal-left" : "normal-right", 1);
     if (m_sprite->animation_done()) {
+      m_chase_dir = glm::normalize(dist);
       m_sprite_state = SpriteState::FAST;
     }
     break;
@@ -72,8 +74,7 @@ Ghoul::active_update(float dt_sec)
 
   if (glm::length(dist) >= 1 && glm::length(dist) < m_track_range)
   {
-    Vector dir = glm::normalize(dist);
-    m_physic.set_velocity(dir * m_speed * m_speed_modifier);
+    m_physic.set_velocity(m_chase_dir * m_speed * m_speed_modifier);
   }
   else
   {
