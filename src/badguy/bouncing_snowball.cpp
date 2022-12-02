@@ -16,6 +16,7 @@
 
 #include "badguy/bouncing_snowball.hpp"
 
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -71,6 +72,9 @@ BouncingSnowball::active_update(float dt_sec)
 bool
 BouncingSnowball::collision_squished(GameObject& object)
 {
+  if (m_sprite_name.find("bouncing_snowball") != std::string::npos) {
+    spawn_squish_particles();
+  }
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;

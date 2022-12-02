@@ -16,7 +16,9 @@
 
 #include "badguy/snowball.hpp"
 
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 SnowBall::SnowBall(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
@@ -34,6 +36,10 @@ SnowBall::SnowBall(const Vector& pos, Direction d, const std::string& script)
 bool
 SnowBall::collision_squished(GameObject& object)
 {
+  std::string squish_sprite = m_sprite_name.find("bsod") != std::string::npos ? "metal_piece" :
+    m_sprite_name.find("bumpkin") != std::string::npos ? "bumpkin_piece" :
+    "snow_piece";
+  spawn_squish_particles(squish_sprite);
   m_sprite->set_action("squished", m_dir);
   kill_squished(object);
   return true;
