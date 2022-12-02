@@ -27,8 +27,8 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   m_speed(),
   m_track_range(),
   m_speed_modifier(),
-  m_sprite_state(SpriteState::NORMAL),
-  m_chase_dir()
+  m_chase_dir(),
+  m_sprite_state(SpriteState::NORMAL)
 {
   reader.get("speed", m_speed, DEFAULT_SPEED);
   reader.get("track-range", m_track_range, DEFAULT_TRACK_RANGE);
