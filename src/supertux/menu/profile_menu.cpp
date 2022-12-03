@@ -24,6 +24,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
+#include "supertux/achievement_system.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/profile_name_menu.hpp"
@@ -33,9 +34,19 @@
 
 ProfileMenu::ProfileMenu() :
   m_profiles(),
-  m_profile_names()
+  m_profile_names(),
+  m_initial_profile(g_config->profile)
 {
   refresh();
+}
+
+ProfileMenu::~ProfileMenu()
+{
+  if (g_config->profile != m_initial_profile)
+  {
+    // Perform actions on profile change.
+    AchievementSystem::current()->reload(m_initial_profile);
+  }
 }
 
 void

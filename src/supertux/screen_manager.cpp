@@ -27,6 +27,7 @@
 #include "object/player.hpp"
 #include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
+#include "supertux/achievement_system.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/controller_hud.hpp"
@@ -477,6 +478,12 @@ ScreenManager::process_events()
         {
           g_config->developer_mode = !g_config->developer_mode;
           log_info << "developer mode: " << g_config->developer_mode << std::endl;
+        }
+        else if (event.key.keysym.sym == SDLK_F6 &&
+                (!GameSession::current() || !GameSession::current()->is_active()) &&
+                !Editor::is_active())
+        {
+          AchievementSystem::current()->show_achievements();
         }
         break;
 

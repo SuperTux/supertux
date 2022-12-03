@@ -26,6 +26,7 @@
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
+#include "supertux/achievement_system.hpp"
 #include "supertux/command_line_arguments.hpp"
 #include "supertux/console.hpp"
 #include "supertux/game_manager.hpp"
@@ -107,6 +108,7 @@ private:
   std::unique_ptr<GameManager> m_game_manager;
   std::unique_ptr<ScreenManager> m_screen_manager;
   std::unique_ptr<Savegame> m_savegame;
+  std::unique_ptr<AchievementSystem> m_achievement_system;
 
   Downloader m_downloader; // Used for getting the version of the latest SuperTux release.
 

@@ -23,6 +23,7 @@
 class Controller;
 class Dialog;
 class DrawingContext;
+class HorizontalMenu;
 class Menu;
 class MenuTransition;
 class Notification;
@@ -44,6 +45,10 @@ private:
   bool m_has_next_notification;
   std::unique_ptr<Notification> m_next_notification;
 
+  std::unique_ptr<HorizontalMenu> m_horizontal_menu;
+  bool m_has_next_horizontal_menu;
+  std::unique_ptr<HorizontalMenu> m_next_horizontal_menu;
+
   std::vector<std::unique_ptr<Menu> > m_menu_stack;
   std::unique_ptr<MenuTransition> m_transition;
 
@@ -59,6 +64,7 @@ public:
 
   void set_dialog(std::unique_ptr<Dialog> dialog);
   void set_notification(std::unique_ptr<Notification> notification);
+  void set_horizontal_menu(std::unique_ptr<HorizontalMenu> horizontal_menu);
 
   void set_menu(int id);
   void set_menu(std::unique_ptr<Menu> menu);
@@ -70,7 +76,7 @@ public:
   void on_window_resize();
   bool is_active() const
   {
-    return !m_menu_stack.empty();
+    return !m_menu_stack.empty() || m_horizontal_menu;
   }
 
   bool has_dialog() const

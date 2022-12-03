@@ -30,6 +30,7 @@
 #include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "sdk/integration.hpp"
+#include "supertux/achievement_system.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -148,6 +149,7 @@ GameSession::restart_level(bool after_death)
   m_endsequence_timer.stop();
 
   InputManager::current()->reset();
+  AchievementSystem::current()->clear_level_progress();
 
   m_currentsector = nullptr;
 
@@ -287,6 +289,8 @@ GameSession::abort_level()
     {
     }
   }
+
+  AchievementSystem::current()->clear_level_progress();
 
   PlayerStatus& currentStatus = m_savegame.get_player_status();
   currentStatus.coins = m_coins_at_start;
@@ -759,6 +763,8 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
     p->set_controller(m_end_sequence->get_controller(p->get_id()));
     p->set_speedlimit(230); // MAX_WALK_XM
   }
+
+  AchievementSystem::current()->merge_progress();
 
   // Stop all clocks.
   for (const auto& obj : m_currentsector->get_objects())

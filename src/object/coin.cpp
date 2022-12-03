@@ -22,6 +22,7 @@
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/achievement_system.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
@@ -189,6 +190,9 @@ Coin::collect()
   Sector::get().add<BouncyCoin>(get_pos(), false, get_sprite_name());
   Sector::get().get_level().m_stats.increment_coins();
   remove_me();
+
+  AchievementSystem::current()->update("10coins", 1);
+  AchievementSystem::current()->update("20coins", 1);
 
   if (!m_collect_script.empty()) {
     Sector::get().run_script(m_collect_script, "collect-script");
