@@ -17,7 +17,7 @@
 #include "object/rock.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "badguy/icecrusher.hpp"
+#include "badguy/crusher.hpp"
 #include "badguy/badguy.hpp"
 #include "object/coin.hpp"
 #include "object/explosion.hpp"
@@ -141,11 +141,11 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
-  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
-  if (icecrusher) {
-    auto state = icecrusher->get_state();
-    if(state == IceCrusher::IceCrusherState::RECOVERING ||
-       state == IceCrusher::IceCrusherState::IDLE) {
+  auto crusher = dynamic_cast<Crusher*> (&other);
+  if (crusher) {
+    auto state = crusher->get_state();
+    if(state == Crusher::CrusherState::RECOVERING ||
+       state == Crusher::CrusherState::IDLE) {
         return ABORT_MOVE;
        }
   }
