@@ -70,8 +70,8 @@
     (class "rcrystallo")
     (icon "images/creatures/crystallo/rcrystallo-editor.png"))
   (object
-    (class "icecrusher")
-    (icon "images/creatures/icecrusher/iceblock.png"))
+    (class "crusher")
+    (icon "images/creatures/crusher/krush_ice_hit.png"))
   (object
     (class "stalactite")
     (icon "images/creatures/stalactite/falling.png"))

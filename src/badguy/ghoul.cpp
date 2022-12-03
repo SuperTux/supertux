@@ -41,7 +41,7 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
 
   init_path(reader, running);
   
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+  m_sprite->set_action(m_dir);
 }
 
 bool
