@@ -46,7 +46,7 @@ KamikazeSnowball::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
-  spawn_squish_particles();
+  spawn_squish_particles("snow_piece");
   m_sprite->set_action("squished", m_dir);
   kill_squished(object);
   return true;
@@ -71,6 +71,7 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 void
 KamikazeSnowball::kill_collision()
 {
+  spawn_squish_particles("snow_piece");
   m_sprite->set_action("collision", m_dir);
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
   m_physic.set_velocity_x(0);
@@ -143,7 +144,7 @@ LeafShot::collision_squished(GameObject& object)
     return BadGuy::collision_squished(object);
   m_sprite->set_action("squished", m_dir);
   // Spawn death particles
-  spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
+  spawn_squish_particles();
   kill_squished(object);
   return true;
 }
@@ -152,7 +153,7 @@ void
 LeafShot::kill_collision()
 {
   KamikazeSnowball::kill_collision();
-  spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
+  spawn_squish_particles();
 }
 
 /* EOF */

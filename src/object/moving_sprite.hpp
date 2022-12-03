@@ -59,7 +59,6 @@ public:
 
   std::string get_sprite_name() const;
   bool change_sprite(const std::string& new_sprite_name);
-  void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
 protected:
   /** set new action for sprite and resize bounding box.  use with

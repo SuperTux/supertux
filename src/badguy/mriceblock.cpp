@@ -165,8 +165,12 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 bool
 MrIceBlock::collision_squished(GameObject& object)
 {
+  std::string squish_sprite = m_sprite_name.find("laptop") != std::string::npos ? "metal_piece" :
+    m_sprite_name.find("smart_block") != std::string::npos ? "iceblock_piece_alt" :
+    "iceblock_piece";
   Player* player = dynamic_cast<Player*>(&object);
   if (player && (player->m_does_buttjump || player->is_invincible())) {
+    spawn_squish_particles(squish_sprite);
     player->bounce(*this);
     kill_fall();
     return true;
@@ -187,7 +191,9 @@ MrIceBlock::collision_squished(GameObject& object)
     case ICESTATE_NORMAL:
       {
         squishcount++;
-        if (squishcount >= MAXSQUISHES) {
+        if (squishcount >= MAXSQUISHES)
+        {
+          spawn_squish_particles(squish_sprite);
           kill_fall();
           return true;
         }

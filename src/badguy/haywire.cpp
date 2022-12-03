@@ -83,14 +83,12 @@ Haywire::collision_squished(GameObject& object)
     return true;
   }
 
-  if (WalkingBadguy::is_frozen()) {
-    WalkingBadguy::unfreeze();
-  }
-
   if (!is_exploding) {
     start_exploding();
 	stomped_timer.start(STOMPED_TIME);
   }
+
+  spawn_squish_particles();
 
   time_stunned = TIME_STUNNED;
   is_stunned = true;

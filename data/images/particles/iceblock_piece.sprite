@@ -1,0 +1,46 @@
+(supertux-sprite
+  (action
+    (name "piece-0")
+    (fps 1.3)
+    (hitbox 0 0 12 12)
+    (images 
+      "iceblock_piece-0.png"
+    )
+  )
+  
+  (action
+    (name "piece-1")
+    (fps 1.3)
+    (hitbox 0 0 12 12)
+    (images 
+      "iceblock_piece-1.png"
+    )
+  )
+
+  (action
+    (name "piece-2")
+    (fps 1.3)
+    (hitbox 0 0 18 16)
+    (images 
+      "iceblock_piece-2.png"
+    )
+  )
+
+  (action
+    (name "piece-3")
+    (fps 1.3)
+    (hitbox 0 0 14 14)
+    (images 
+      "iceblock_piece-3.png"
+    )
+  )
+
+  (action
+    (name "piece-4")
+    (fps 1.3)
+    (hitbox 0 0 12 12)
+    (images 
+      "iceblock_piece-4.png"
+    )
+  )
+)

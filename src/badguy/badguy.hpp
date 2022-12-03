@@ -146,7 +146,7 @@ public:
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
-  void spawn_squish_particles(std::string particle_name = "snow_piece");
+  void spawn_squish_particles(std::string particle_name = "generic_piece");
 
   Physic& get_physic() { return m_physic; }
 

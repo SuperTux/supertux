@@ -73,7 +73,7 @@ bool
 BouncingSnowball::collision_squished(GameObject& object)
 {
   if (m_sprite_name.find("bouncing_snowball") != std::string::npos) {
-    spawn_squish_particles();
+    spawn_squish_particles("snow_piece");
   }
   m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
   kill_squished(object);

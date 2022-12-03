@@ -52,7 +52,7 @@ FlyingSnowBall::activate()
 bool
 FlyingSnowBall::collision_squished(GameObject& object)
 {
-  spawn_squish_particles();
+  spawn_squish_particles("snow_piece");
   m_sprite->set_action("squished", m_dir);
   m_physic.enable_gravity(true);
   m_physic.set_acceleration_y(0);

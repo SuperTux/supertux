@@ -1139,13 +1139,13 @@ BadGuy::spawn_squish_particles(std::string particle_name)
 {
   for (int i = 0; i < 5; i++)
   {
-    float pspeedx = 50.f * (static_cast<float>(i) - 2);
-    float pspeedy = (i == 2) ? -275.f : -5.f * (std::abs(50.f / (static_cast<float>(i) - 2)));
+    float pspeedx = 80.f * (static_cast<float>(i) - 2);
+    float pspeedy = (i == 2) ? -250.f : -5.f * (std::abs(40.f / (static_cast<float>(i) - 2)));
 
     Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite",
       "piece-" + std::to_string(i),
-      get_bbox().get_middle(),
-      ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, 1000.f), LAYER_OBJECTS + 6, true);
+      Vector(get_bbox().get_middle().x, get_bbox().get_top()),
+      ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, 1000.f), LAYER_OBJECTS + 6);
   }
 }
 

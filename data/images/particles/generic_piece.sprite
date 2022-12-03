@@ -1,0 +1,16 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (images 
+      "sparkle-0.png"
+      "sparkle-1.png"
+      "sparkle-0.png"
+      "sparkle-0.png"
+      "sparkle-1.png"
+      "sparkle-0.png"
+      "sparkle-0.png"
+      "sparkle-1.png"
+      "sparkle-0.png"
+    )
+  )
+)

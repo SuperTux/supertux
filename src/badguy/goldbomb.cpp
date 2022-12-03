@@ -131,6 +131,9 @@ GoldBomb::collision_squished(GameObject& object)
     ticking->set_reference_distance(32);
     ticking->play();
   }
+
+  spawn_squish_particles();
+
   return true;
 }
 

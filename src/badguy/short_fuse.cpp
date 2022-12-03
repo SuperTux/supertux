@@ -73,6 +73,8 @@ ShortFuse::collision_squished(GameObject& obj)
   if (!is_valid ())
     return true;
 
+  spawn_squish_particles();
+
   auto player = dynamic_cast<Player*>(&obj);
   if (player)
     player->bounce(*this);

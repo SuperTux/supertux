@@ -256,6 +256,7 @@ void Yeti::take_hit(Player& )
   if (safe_timer.started())
     return;
 
+  spawn_squish_particles();
   SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
   hit_points--;
 
