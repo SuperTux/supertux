@@ -256,6 +256,9 @@ namespace savegames_util {
       PHYSFS_delete(filepath.c_str());
     }
     if (!reset) PHYSFS_delete(profile_path.c_str());
+
+    // Perform actions on profile reset or deletion.
+    AchievementSystem::current()->reset_progress();
   }
 } // namespace savegames_util
 

@@ -45,6 +45,12 @@ AchievementSystem::reload(int profile)
   AchievementData::load(m_achievements); // Load achievement progress from current profile.
 }
 
+void
+AchievementSystem::reset_progress()
+{
+  AchievementData::clear(m_achievements);
+}
+
 
 void
 AchievementSystem::show_achievements()

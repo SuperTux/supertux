@@ -38,6 +38,7 @@ public:
   ~AchievementSystem();
 
   void reload(int profile = -1);
+  void reset_progress();
 
   void show_achievements();
 

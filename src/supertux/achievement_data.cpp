@@ -110,7 +110,8 @@ void
 AchievementData::save(const std::vector<Achievement>& data, int profile)
 {
   // Save to file according to profile.
-  const std::string file = FileSystem::join("profile" + std::to_string(profile < 0 ? g_config->profile : profile), "achievements.stad");
+  profile = profile < 0 ? g_config->profile : profile;
+  const std::string file = FileSystem::join("profile" + std::to_string(profile), "achievements.stad");
 
   log_debug << "Saving achievement data to " << file << std::endl;
 
@@ -118,13 +119,8 @@ AchievementData::save(const std::vector<Achievement>& data, int profile)
   std::string directory = FileSystem::dirname(file);
   if (!PHYSFS_exists(directory.c_str()))
   {
-    if (!PHYSFS_mkdir(directory.c_str()))
-    {
-      std::ostringstream msg;
-      msg << "Couldn't create directory for achievement data '"
-          << directory << "': " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
-      throw std::runtime_error(msg.str());
-    }
+    log_warning << "Directory for profile " << profile << " doesn't exist, skipping achievement data save." << std::endl;
+    return;
   }
   if (!physfsutil::is_directory(directory))
   {
