@@ -65,7 +65,7 @@ public:
   void push_menu(int id, bool skip_transition = false);
   void push_menu(std::unique_ptr<Menu> menu, bool skip_transition = false);
   void pop_menu(bool skip_transition = false);
-  void clear_menu_stack();
+  void clear_menu_stack(bool skip_transition = false);
 
   void on_window_resize();
   bool is_active() const

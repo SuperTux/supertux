@@ -361,10 +361,11 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu)
 }
 
 void
-MenuManager::clear_menu_stack()
+MenuManager::clear_menu_stack(bool skip_transition)
 {
-  transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
-             nullptr, true);
+  if (!skip_transition)
+    transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
+               nullptr, true);
   m_menu_stack.clear();
 }
 

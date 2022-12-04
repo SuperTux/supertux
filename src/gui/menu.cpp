@@ -675,6 +675,8 @@ Menu::draw(DrawingContext& context)
                               Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }
+
+  draw_additional(context);
 }
 
 MenuItem&

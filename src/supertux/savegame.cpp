@@ -117,8 +117,17 @@ Savegame::from_file(const std::string& filename)
   return savegame;
 }
 
+Savegame::Progress
+Savegame::progress_from_file(const std::string& filename)
+{
+  std::unique_ptr<Savegame> savegame(new Savegame(filename));
+  savegame->load(true);
+  return savegame->get_progress();
+}
+
 Savegame::Savegame(const std::string& filename) :
   m_filename(filename),
+  m_progress({ -1, -1 }),
   m_player_status(new PlayerStatus(InputManager::current()->get_num_users()))
 {
 }
@@ -131,7 +140,7 @@ Savegame::is_title_screen() const
 }
 
 void
-Savegame::load()
+Savegame::load(bool progress_only)
 {
   if (m_filename.empty())
   {
@@ -177,6 +186,11 @@ Savegame::load()
         }
         else
         {
+          mapping.get("progress", m_progress.progress);
+          mapping.get("total", m_progress.total);
+
+          if (progress_only) return; // If only set to read progress, don't continue.
+
           boost::optional<ReaderMapping> tux;
           if (!mapping.get("tux", tux))
           {
@@ -264,11 +278,9 @@ Savegame::save()
   using namespace worldmap;
   if (WorldMap::current() != nullptr)
   {
-    std::ostringstream title;
-    title << WorldMap::current()->get_title();
-    title << " (" << WorldMap::current()->solved_level_count()
-          << "/" << WorldMap::current()->level_count() << ")";
-    writer.write("title", title.str());
+    writer.write("title", WorldMap::current()->get_title());
+    writer.write("progress", static_cast<int>(WorldMap::current()->solved_level_count()));
+    writer.write("total", static_cast<int>(WorldMap::current()->level_count()));
   }
 
   writer.start_list("tux");

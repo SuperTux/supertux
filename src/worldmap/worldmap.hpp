@@ -122,6 +122,9 @@ public:
 
   const std::string& get_title() const { return m_name; }
 
+  /** Request to quit worldmap. */
+  void quit();
+
   /** switch to another worldmap.
       filename is relative to data root path */
   void change(const std::string& filename, const std::string& force_spawnpoint="");
@@ -169,6 +172,7 @@ private:
 
   void load(const std::string& filename);
   void on_escape_press();
+  void take_preview_screenshot();
 
 private:
   std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
@@ -202,6 +206,8 @@ private:
   bool m_in_level;
 
   bool m_in_world_select;
+
+  Timer m_quit_timer;
 
 private:
   WorldMap(const WorldMap&) = delete;

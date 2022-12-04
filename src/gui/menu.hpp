@@ -144,6 +144,7 @@ private:
   void process_action(const MenuAction& menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index, float y_pos);
+  virtual void draw_additional(DrawingContext& context) {}
 
 private:
   /** position of the menu (ie. center of the menu, not top/left) */

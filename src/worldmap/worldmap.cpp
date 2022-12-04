@@ -52,7 +52,8 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
-#include "video/video_system.hpp"
+#include "video/sdl_surface.hpp"
+#include "video/sdl_surface_ptr.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 #include "worldmap/camera.hpp"
@@ -88,7 +89,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_initial_fade_tilemap(),
   m_fade_direction(),
   m_in_level(false),
-  m_in_world_select(false)
+  m_in_world_select(false),
+  m_quit_timer()
 {
   m_tux = &add<Tux>(this);
   add<PlayerStatusHUD>(m_savegame.get_player_status());
@@ -169,14 +171,54 @@ WorldMap::change(const std::string& filename, const std::string& force_spawnpoin
 }
 
 void
+WorldMap::quit()
+{
+  m_quit_timer.start(0.05f);
+}
+
+void
 WorldMap::on_escape_press()
 {
   // Show or hide the menu
-  if (!MenuManager::instance().is_active()) {
+  if (!MenuManager::instance().is_active())
+  {
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_MENU);
     m_tux->set_direction(Direction::NONE);  // stop tux movement when menu is called
-  } else {
+  }
+  else
+  {
     MenuManager::instance().clear_menu_stack();
+  }
+}
+
+void
+WorldMap::take_preview_screenshot()
+{
+  SDLSurfacePtr screenshot = VideoSystem::current()->make_screenshot();
+  if (!screenshot)
+  {
+    log_warning << "Error taking worldmap preview screenshot." << std::endl;
+    return;
+  }
+
+  const std::string directory = FileSystem::join("profile" + std::to_string(g_config->profile), "previews");
+  if (!PHYSFS_exists(directory.c_str()) && !PHYSFS_mkdir(directory.c_str()))
+  {
+    log_warning << "Cannot create directory '" << directory << "' for worldmap previews." << std::endl;
+    return;
+  }
+
+  const std::string file = FileSystem::strip_extension(FileSystem::basename(m_savegame.get_filename())) + ".png";
+  const std::string path = FileSystem::join(directory, file);
+  if (PHYSFS_exists(path.c_str()) && !PHYSFS_delete(path.c_str()))
+  {
+    log_warning << "Error deleting existing worldmap screenshot preview '" << path << "'." << std::endl;
+    return;
+  }
+
+  if (!SDLSurface::save_png(*screenshot, path))
+  {
+    log_warning << "Cannot save worldmap screenshot preview '" << path << "'." << std::endl;
   }
 }
 
@@ -310,6 +352,8 @@ WorldMap::process_input(const Controller& controller)
 {
   m_enter_level = false;
 
+  if (m_quit_timer.started()) return;
+
   if (controller.pressed(Control::ACTION) && !m_in_level)
   {
     ScreenManager::current()->push_screen(std::make_unique<WorldSelect>(m_map_filename),
@@ -355,6 +399,14 @@ WorldMap::update(float dt_sec)
 
   if (m_in_level) return;
   if (MenuManager::instance().is_active()) return;
+
+  if (m_quit_timer.check())
+  {
+    // If worldmap is ready to be exited, take a preview screenshot and exit it.
+    take_preview_screenshot();
+    ScreenManager::current()->pop_screen();
+    return;
+  }
 
   GameObjectManager::update(dt_sec);
 
@@ -528,7 +580,10 @@ WorldMap::draw(DrawingContext& context)
     }
   }
 
-  draw_status(context);
+  if (!m_quit_timer.started())
+  {
+    draw_status(context);
+  }
   context.pop_transform();
 }
 

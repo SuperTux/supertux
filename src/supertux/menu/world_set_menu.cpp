@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Matthew <thebatmankiller3@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,35 +19,37 @@
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/game_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
-WorldSetMenu::WorldSetMenu()
+WorldSetMenu::WorldSetMenu() :
+  WorldPreviewMenu(2.5f, 2)
 {
-   add_label(_("Start Game"));
-   add_hl();
-   add_entry(WORLDSET_STORY, _("Story Mode"));
-   add_entry(WORLDSET_CONTRIB, _("Contrib Levels"));
-   add_hl();
-   add_back(_("Back"));
+  add_label(_("Start Game"));
+  add_hl();
+  add_entry(0, _("Story Mode"));
+  add_entry(1, _("Contrib Levels"));
+  add_hl();
+  add_back(_("Back"));
+
+  // Add Story Mode entry.
+  const std::string preview_file = "previews/world1.png";
+  const std::string basedir = "levels/world1";
+  m_world_entries.push_back({ true, "levels/world1", find_preview(preview_file, basedir), { -2, -2 } });
 }
 
-void WorldSetMenu::menu_action(MenuItem& item)
+void
+WorldSetMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
-    case WORLDSET_STORY:
-    {
-      std::unique_ptr<World> world = World::from_directory("levels/world1");
-      GameManager::current()->start_worldmap(*world);
-      break;
-    }
-
-    case WORLDSET_CONTRIB:
+    case 1:
 	    MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);
 	    break;
+
+    default:
+      WorldPreviewMenu::menu_action(item);
+      break;
   }
 }
 
