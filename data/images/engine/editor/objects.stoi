@@ -26,16 +26,16 @@
     (icon "images/creatures/snowball/kamikaze-snowball-editor.png"))
   (object
     (class "mrbomb")
-    (icon "images/creatures/mr_bomb/bomb1.png"))
+    (icon "images/creatures/mr_bomb/left-0.png"))
   (object
     (class "goldbomb")
-    (icon "images/creatures/gold_bomb/gb1.png"))
+    (icon "images/creatures/gold_bomb/left-0.png"))
   (object
     (class "haywire")
-    (icon "images/creatures/haywire/hw1.png"))
+    (icon "images/creatures/haywire/left-0.png"))
   (object
     (class "short_fuse")
-    (icon "images/creatures/short_fuse/shortfuse-editor.png"))
+    (icon "images/creatures/short_fuse/short_fuse-0.png"))
   (object
     (class "mriceblock")
     (icon "images/creatures/mr_iceblock/iceblock-1.png"))
