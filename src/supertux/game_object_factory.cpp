@@ -20,6 +20,7 @@
 #include "badguy/angrystone.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/captainsnowball.hpp"
+#include "badguy/crusher.hpp"
 #include "badguy/crystallo.hpp"
 #include "badguy/dart.hpp"
 #include "badguy/darttrap.hpp"
@@ -35,7 +36,6 @@
 #include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
 #include "badguy/haywire.hpp"
-#include "badguy/icecrusher.hpp"
 #include "badguy/iceflame.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
@@ -193,8 +193,6 @@ GameObjectFactory::init_factories()
   add_factory<MrTree>("mrtree");
   add_factory<Owl>("owl");
   add_factory<Plant>("plant");
-  add_factory<ViciousIvy>("poisonivy"); // backward compatibility
-  add_factory<ViciousIvy>("viciousivy");
   add_factory<RCrystallo>("rcrystallo");
   add_factory<SCrystallo>("scrystallo");
   add_factory<ShortFuse>("short_fuse");
@@ -212,6 +210,8 @@ GameObjectFactory::init_factories()
   add_factory<Stumpy>("stumpy");
   add_factory<Toad>("toad");
   add_factory<Totem>("totem");
+  add_factory<ViciousIvy>("poisonivy"); // backward compatibility
+  add_factory<ViciousIvy>("viciousivy");
   add_factory<WalkingCandle>("walking_candle");
   add_factory<WalkingLeaf>("walkingleaf");
   add_factory<WillOWisp>("willowisp");
@@ -234,6 +234,8 @@ GameObjectFactory::init_factories()
   add_factory<Candle>("candle");
   add_factory<CirclePlatform>("circleplatform");
   add_factory<CloudParticleSystem>("particles-clouds");
+  add_factory<Crusher>("icecrusher"); // backward compatibility
+  add_factory<Crusher>("crusher");
   add_factory<CustomParticleSystem>("particles-custom");
   add_factory<CustomParticleSystemFile>("particles-custom-file");
   add_factory<Coin>("coin");
@@ -246,7 +248,6 @@ GameObjectFactory::init_factories()
   add_factory<HeavyBrick>("heavy-brick");
   add_factory<HeavyCoin>("heavycoin");
   add_factory<HurtingPlatform>("hurting_platform");
-  add_factory<IceCrusher>("icecrusher");
   add_factory<InfoBlock>("infoblock");
   add_factory<InvisibleBlock>("invisible_block");
   add_factory<InvisibleWall>("invisible_wall");

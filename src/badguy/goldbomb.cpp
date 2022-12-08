@@ -32,7 +32,8 @@
 GoldBomb::GoldBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/gold_bomb/gold_bomb.sprite", "left", "right"),
   tstate(STATE_NORMAL),
-  ticking()
+  ticking(),
+  m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -50,6 +51,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   }
   //Replace sprite
   m_sprite = SpriteManager::current()->create( m_sprite_name );
+  m_exploding_sprite->set_action("default", 1);
 }
 
 void
@@ -141,6 +143,7 @@ void
 GoldBomb::active_update(float dt_sec)
 {
   if (tstate == STATE_TICKING) {
+    m_exploding_sprite->set_action("exploding", 1);
     if (on_ground()) m_physic.set_velocity_x(0);
     ticking->set_position(get_pos());
     if (m_sprite->animation_done()) {
@@ -154,6 +157,19 @@ GoldBomb::active_update(float dt_sec)
   if (is_grabbed())
     return;
   WalkingBadguy::active_update(dt_sec);
+}
+
+void
+GoldBomb::draw(DrawingContext& context)
+{
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  if (tstate == STATE_TICKING)
+  {
+    m_exploding_sprite->set_blend(Blend::ADD);
+    m_exploding_sprite->draw(context.light(),
+      get_pos() + Vector(get_bbox().get_width() / 2, get_bbox().get_height() / 2), m_layer, m_flip);
+  }
+  WalkingBadguy::draw(context);
 }
 
 void
