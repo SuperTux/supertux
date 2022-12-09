@@ -60,6 +60,9 @@ Door::Door(const ReaderMapping& mapping) :
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   SoundManager::current()->preload("sounds/door.wav");
+  // TODO: Add proper sounds
+  SoundManager::current()->preload("sounds/locked.ogg");
+  SoundManager::current()->preload("sounds/turnkey.ogg");
 }
 
 Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoint) :
@@ -83,6 +86,9 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   SoundManager::current()->preload("sounds/door.wav");
+  // TODO: Add proper sounds
+  SoundManager::current()->preload("sounds/locked.ogg");
+  SoundManager::current()->preload("sounds/turnkey.ogg");
 }
 
 ObjectSettings
@@ -190,6 +196,7 @@ Door::event(Player& , EventType type)
     case CLOSING:
       break;
     case LOCKED:
+      SoundManager::current()->play("sounds/locked.ogg", get_pos());
       lock_warn_timer.start(0.5f);
       break;
     case UNLOCKING:
@@ -245,6 +252,7 @@ void
 Door::unlock()
 {
   m_locked = false;
+  SoundManager::current()->play("sounds/turnkey.ogg", get_pos());
   unlocking_timer.start(1.f);
   state = DoorState::UNLOCKING;
 }

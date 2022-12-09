@@ -16,6 +16,7 @@
 
 #include "object/key.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/door.hpp"
@@ -30,7 +31,8 @@ Key::Key(const ReaderMapping& mapping) :
   m_unlock_timer(),
   m_chain_pos(1),
   m_my_door_pos(0.f, 0.f),
-  m_color(Color::WHITE)
+  m_color(Color::WHITE),
+  m_owner()
 {
   std::vector<float> vColor;
   if (mapping.get("color", vColor)) {
@@ -41,6 +43,8 @@ Key::Key(const ReaderMapping& mapping) :
       m_color = Color::WHITE;
   }
 
+  // TODO: Add proper sound
+  SoundManager::current()->preload("sounds/metal_hit.ogg");
   m_sprite->set_color(m_color);
   m_physic.enable_gravity(false);
 }
@@ -48,34 +52,33 @@ Key::Key(const ReaderMapping& mapping) :
 void
 Key::update(float dt_sec)
 {
-  auto player = Sector::get().get_nearest_player(get_pos());
-  if (!player)
+  if (!m_owner)
     return;
 
-  float distance = glm::length(get_pos() - player->get_pos());
-  Vector chase_dir = glm::normalize(player->get_pos() - get_pos());
+  float distance = glm::length(get_pos() - m_owner->get_pos());
+  Vector chase_dir = glm::normalize(m_owner->get_pos() - get_pos());
 
   if (m_state != KeyState::NORMAL)
   {
-    m_pos_list.push_front((player->get_bbox().get_middle())-
+    m_pos_list.push_front((m_owner->get_bbox().get_middle())-
       Vector(get_bbox().get_width()/2.f, get_bbox().get_height()/2.f));
   }
   Vector m_goal_pos = m_pos_list.back();
 
-  while (m_pos_list.size() > unsigned(40 * m_chain_pos))
+  while (m_pos_list.size() > unsigned(20 * m_chain_pos))
     m_pos_list.pop_back();
 
   // use
   for (auto& door : Sector::get().get_objects_by_type<Door>()) {
     if (door.is_locked() && glm::length(get_pos() - door.get_pos()) < 100.f) {
-      player->add_collected_keys(-1);
+      m_owner->add_collected_keys(-1);
       for (auto& key : Sector::get().get_objects_by_type<Key>()) {
         key.m_chain_pos -= 1;
       }
       door.unlock();
       m_my_door_pos = door.get_bbox().get_middle();
       m_unlock_timer.start(1.f);
-      if (m_state != KeyState::FOUND) m_state = KeyState::FOUND;
+      m_state = KeyState::FOUND;
     }
   }
 
@@ -121,10 +124,12 @@ Key::collision(GameObject& other, const CollisionHit& hit_)
   auto player = dynamic_cast<Player*> (&other);
   if (player && m_state == KeyState::NORMAL)
   {
+    SoundManager::current()->play("sounds/metal_hit.ogg", get_pos());
     m_chain_pos = player->get_collected_keys() + 1;
     player->add_collected_keys(1);
     m_collected = true;
     m_wait_timer.start(0.5f);
+    m_owner = player;
     m_state = KeyState::COLLECT;
   }
   return FORCE_MOVE;

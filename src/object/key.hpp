@@ -18,8 +18,11 @@
 #define HEADER_SUPERTUX_OBJECT_KEY_HPP
 
 #include "object/moving_sprite.hpp"
+#include "object/player.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
+
+class Player;
 
 class Key final : public MovingSprite
 {
@@ -55,6 +58,7 @@ private:
   int m_chain_pos;
   Vector m_my_door_pos;
   Color m_color;
+  Player* m_owner;
 
 private:
   Key(const Key&) = delete;
