@@ -61,7 +61,6 @@ Key::update(float dt_sec)
     return;
 
   float distance = glm::length(get_pos() - m_owner->get_pos());
-  Vector chase_dir = glm::normalize(m_owner->get_pos() - get_pos());
 
   if (m_state != KeyState::NORMAL)
   {
