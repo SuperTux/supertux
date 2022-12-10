@@ -46,6 +46,7 @@ public:
   virtual void on_flip(float height) override;
   virtual bool is_locked() const { return m_locked; }
   virtual void unlock();
+  Color get_lock_color() const { return lock_color; }
 
 private:
   enum DoorState {
@@ -70,6 +71,7 @@ private:
   Timer lock_warn_timer;
   Flip m_flip;
   bool m_locked;
+  Color lock_color;
 
 private:
   Door(const Door&) = delete;

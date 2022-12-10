@@ -42,7 +42,8 @@ Door::Door(const ReaderMapping& mapping) :
   unlocking_timer(),
   lock_warn_timer(),
   m_flip(NO_FLIP),
-  m_locked()
+  m_locked(),
+  lock_color(Color::WHITE)
 {
   mapping.get("x", m_col.m_bbox.get_left());
   mapping.get("y", m_col.m_bbox.get_top());
@@ -58,6 +59,16 @@ Door::Door(const ReaderMapping& mapping) :
   sprite = SpriteManager::current()->create(sprite_name);
   sprite->set_action("closed");
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+
+  std::vector<float> vColor;
+  if (mapping.get("lock-color", vColor)) {
+    lock_color = Color(vColor);
+  }
+  else
+  {
+    lock_color = Color::WHITE;
+  }
+  lock_sprite->set_color(lock_color);
 
   SoundManager::current()->preload("sounds/door.wav");
   // TODO: Add proper sounds
@@ -77,13 +88,16 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
   stay_open_timer(),
   unlocking_timer(),
   lock_warn_timer(),
-  m_flip(NO_FLIP)
+  m_flip(NO_FLIP),
+  lock_color()
 {
   state = m_locked ? DoorState::LOCKED : DoorState::CLOSED;
   m_col.m_bbox.set_pos(Vector(static_cast<float>(x), static_cast<float>(y)));
 
   sprite->set_action("closed");
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+
+  lock_sprite->set_color(lock_color);
 
   SoundManager::current()->preload("sounds/door.wav");
   // TODO: Add proper sounds
@@ -101,8 +115,9 @@ Door::get_settings()
   result.add_text(_("Sector"), &target_sector, "sector");
   result.add_text(_("Spawn point"), &target_spawnpoint, "spawnpoint");
   result.add_bool(_("Locked?"), &m_locked, "locked");
+  result.add_color(_("Lock Color"), &lock_color, "lock-color", Color::WHITE);
 
-  result.reorder({"sector", "spawnpoint", "name", "x", "y"});
+  result.reorder({"sector", "lock-color", "locked", "spawnpoint", "name", "x", "y"});
 
   return result;
 }
@@ -111,6 +126,8 @@ void
 Door::after_editor_set() {
   sprite = SpriteManager::current()->create(sprite_name);
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+
+  lock_sprite->set_color(lock_color);
 }
 
 Door::~Door()
@@ -154,7 +171,7 @@ Door::update(float )
       if (unlocking_timer.check())
       {
         Sector::get().add<SpriteParticle>("images/objects/door/door_lock.sprite",
-          "default", get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true);
+          "default", get_bbox().get_middle(), ANCHOR_MIDDLE, Vector(0.f, -300.f), Vector(0.f, 1000.f), LAYER_OBJECTS - 2, true, lock_color);
         unlocking_timer.stop();
         state = DoorState::CLOSED;
       }

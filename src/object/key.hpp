@@ -22,16 +22,16 @@
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
-class Player;
+#include <list>
 
 class Key final : public MovingSprite
 {
 public:
-  Key(const ReaderMapping& mapping);
+  Key(const ReaderMapping& reader);
 
   virtual void update(float dt_sec) override;
-
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
+  virtual void draw(DrawingContext& context) override;
 
   static std::string class_name() { return "key"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -39,6 +39,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 private:
   enum KeyState {
@@ -59,11 +60,11 @@ private:
   Vector m_my_door_pos;
   Color m_color;
   Player* m_owner;
+  SpritePtr m_lightsprite;
 
 private:
   Key(const Key&) = delete;
   Key& operator=(const Key&) = delete;
-
 };
 
 #endif

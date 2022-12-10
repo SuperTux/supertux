@@ -18,12 +18,14 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/door.hpp"
 #include "util/reader_mapping.hpp"
 
-Key::Key(const ReaderMapping& mapping) :
-  MovingSprite(mapping, "images/objects/keys/key.sprite", LAYER_OBJECTS, COLGROUP_TOUCHABLE),
+Key::Key(const ReaderMapping& reader) :
+  MovingSprite(reader, "images/objects/keys/key.sprite", LAYER_OBJECTS, COLGROUP_TOUCHABLE),
   m_pos_list(),
   m_collected(),
   m_state(KeyState::NORMAL),
@@ -32,16 +34,19 @@ Key::Key(const ReaderMapping& mapping) :
   m_chain_pos(1),
   m_my_door_pos(0.f, 0.f),
   m_color(Color::WHITE),
-  m_owner()
+  m_owner(),
+  m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   std::vector<float> vColor;
-  if (mapping.get("color", vColor)) {
+  if (reader.get("color", vColor)) {
     m_color = Color(vColor);
   }
   else
   {
       m_color = Color::WHITE;
   }
+  m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(m_color);
 
   // TODO: Add proper sound
   SoundManager::current()->preload("sounds/metal_hit.ogg");
@@ -70,10 +75,15 @@ Key::update(float dt_sec)
 
   // use
   for (auto& door : Sector::get().get_objects_by_type<Door>()) {
-    if (door.is_locked() && glm::length(get_pos() - door.get_pos()) < 100.f) {
+    if (door.is_locked() && glm::length(get_pos() - door.get_pos()) < 100.f &&
+      // color matches
+      std::abs(door.get_lock_color().red - m_color.red) <= 0.1f &&
+      std::abs(door.get_lock_color().green - m_color.green) <= 0.1f &&
+      std::abs(door.get_lock_color().blue - m_color.blue) <= 0.1f) {
       m_owner->add_collected_keys(-1);
       for (auto& key : Sector::get().get_objects_by_type<Key>()) {
-        key.m_chain_pos -= 1;
+        if (key.m_chain_pos > m_chain_pos)
+          key.m_chain_pos -= 1;
       }
       door.unlock();
       m_my_door_pos = door.get_bbox().get_middle();
@@ -135,6 +145,13 @@ Key::collision(GameObject& other, const CollisionHit& hit_)
   return FORCE_MOVE;
 }
 
+void
+Key::draw(DrawingContext& context)
+{
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer+1);
+}
+
 ObjectSettings
 Key::get_settings()
 {
@@ -145,6 +162,16 @@ Key::get_settings()
   result.reorder({ "color", "name", "x", "y" });
 
   return result;
+}
+
+void
+Key::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+
+  m_lightsprite->set_blend(Blend::ADD);
+  m_lightsprite->set_color(m_color);
+  m_sprite->set_color(m_color);
 }
 
 /* EOF */
