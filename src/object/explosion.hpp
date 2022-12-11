@@ -20,14 +20,14 @@
 #include "object/moving_sprite.hpp"
 
 #define EXPLOSION_STRENGTH_DEFAULT (1464.8f * 32.0f * 32.0f)
-#define EXPLOSION_STRENGTH_NEAR (150.0f * 32.0f * 32.0f)
+#define EXPLOSION_STRENGTH_NEAR (1000.f * 32.0f * 32.0f)
 
 /** Just your average explosion - goes boom, hurts Tux */
 class Explosion final : public MovingSprite
 {
 public:
   /** Create new Explosion centered(!) at @c pos */
-  Explosion(const Vector& pos, float push_strength, int num_particles=100);
+  Explosion(const Vector& pos, float push_strength, int num_particles=100, bool short_fuse = false);
   Explosion(const ReaderMapping& reader);
 
   static std::string display_name() { return _("Explosion"); }
@@ -57,6 +57,7 @@ private:
   int num_particles;
   State state;
   SpritePtr lightsprite;
+  bool short_fuse;
 
 private:
   Explosion(const Explosion&) = delete;

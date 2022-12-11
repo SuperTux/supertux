@@ -78,7 +78,7 @@ LiveFire::active_update(float dt_sec) {
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
-        m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right", 1);
+        m_sprite->set_action("waking", m_dir, 1);
         state = STATE_WAKING;
       }
     }
@@ -127,7 +127,7 @@ LiveFire::kill_fall()
                                          pspeed, paccel,
                                          LAYER_BACKGROUNDTILES+2);
   // extinguish the flame
-  m_sprite->set_action(m_dir == Direction::LEFT ? "extinguish-left" : "extinguish-right", 1);
+  m_sprite->set_action("extinguish", m_dir, 1);
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(false);
@@ -152,7 +152,7 @@ void
 LiveFireAsleep::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
+    m_sprite->set_action("sleeping", m_dir);
     BadGuy::draw(context);
   } else {
     LiveFire::draw(context);
@@ -163,7 +163,7 @@ void
 LiveFireAsleep::initialize()
 {
   m_physic.set_velocity_x(0);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
+  m_sprite->set_action("sleeping", m_dir);
 }
 
 /* The following defines a dormant version that never wakes */
@@ -178,7 +178,7 @@ void
 LiveFireDormant::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
+    m_sprite->set_action("sleeping", m_dir);
     BadGuy::draw(context);
   } else {
     LiveFire::draw(context);
@@ -189,7 +189,7 @@ void
 LiveFireDormant::initialize()
 {
   m_physic.set_velocity_x(0);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
+  m_sprite->set_action("sleeping", m_dir);
 }
 
 /* EOF */

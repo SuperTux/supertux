@@ -53,11 +53,13 @@ protected:
   void be_flat(); /**< switch to state STATE_FLAT */
   void be_kicked(bool upwards); /**< switch to state STATE_KICKED_DELAY */
   void be_grabbed();
+  void wake_up();
 
 private:
   enum State {
     STATE_NORMAL, /**< walking around */
     STATE_FLAT, /**< flipped upside-down */
+    STATE_WAKING, /**< is waking up */
     STATE_KICKED_DELAY, /**< short delay before being launched */
     STATE_KICKED, /**< launched */
     STATE_GRABBED, /**< grabbed by tux */
@@ -66,6 +68,7 @@ private:
 private:
   State state;
   Timer kicked_delay_timer; /**< wait time until switching from STATE_KICKED_DELAY to STATE_KICKED */
+  Timer flat_timer;
   int   squishcount;
 
 private:

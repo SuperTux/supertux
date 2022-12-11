@@ -269,7 +269,7 @@ BadGuy::update(float dt_sec)
       m_is_active_flag = false;
       m_col.set_movement(m_physic.get_movement(dt_sec));
       if ( on_ground() && m_sprite->animation_done() ) {
-        m_sprite->set_action(m_dir == Direction::LEFT ? "gear-left" : "gear-right", 1);
+        m_sprite->set_action("gear", m_dir, 1);
         set_state(STATE_GEAR);
       }
       int pa = graphicsRandom.rand(0,3);
@@ -803,7 +803,7 @@ BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
     m_unfreeze_timer.stop();
     if (m_sprite->has_action("iced-left"))
     {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
+      m_sprite->set_action("iced", m_dir, 1);
       // when the sprite doesn't have sepaigrate actions for left and right, it tries to use an universal one.
     }
     else
@@ -891,7 +891,7 @@ BadGuy::freeze()
   set_pos(Vector(get_bbox().get_left(), get_bbox().get_bottom() - freezesize_y));
 
   if (m_sprite->has_action("iced-left"))
-    m_sprite->set_action(m_dir == Direction::LEFT ? "iced-left" : "iced-right", 1);
+    m_sprite->set_action("iced", m_dir, 1);
   // when the sprite doesn't have separate actions for left and right, it tries to use an universal one.
   else
   {
@@ -978,11 +978,11 @@ BadGuy::ignite()
 
     // melt it!
     if (m_sprite->has_action("ground-melting-left") && on_ground()) {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "ground-melting-left" : "ground-melting-right", 1);
+      m_sprite->set_action("ground-melting", m_dir, 1);
       SoundManager::current()->play("sounds/splash.ogg", get_pos());
       set_state(STATE_GROUND_MELTING);
     } else {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "melting-left" : "melting-right", 1);
+      m_sprite->set_action("melting", m_dir, 1);
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
       set_state(STATE_MELTING);
     }
@@ -993,13 +993,13 @@ BadGuy::ignite()
     // burn it!
     m_glowing = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
-    m_sprite->set_action(m_dir == Direction::LEFT ? "burning-left" : "burning-right", 1);
+    m_sprite->set_action("burning", m_dir, 1);
     set_state(STATE_BURNING);
     run_dead_script();
   } else if (m_sprite->has_action("inside-melting-left")) {
     // melt it inside!
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-    m_sprite->set_action(m_dir == Direction::LEFT ? "inside-melting-left" : "inside-melting-right", 1);
+    m_sprite->set_action("inside-melting", m_dir, 1);
     set_state(STATE_INSIDE_MELTING);
     run_dead_script();
   } else {

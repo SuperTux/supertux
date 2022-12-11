@@ -1714,13 +1714,13 @@ Player::set_bonus(BonusType type, bool animate)
     if (animate) {
       m_growing = true;
       if (m_climbing)
-        m_sprite->set_action((m_dir == Direction::LEFT) ? "climbgrow-left" : "climbgrow-right", 1);
+        m_sprite->set_action("climbgrow", m_dir, 1);
       else if (m_swimming)
-        m_sprite->set_action((m_dir == Direction::LEFT) ? "swimgrow-left" : "swimgrow-right", 1);
+        m_sprite->set_action("swimgrow", m_dir, 1);
       else if (m_sliding)
-        m_sprite->set_action((m_dir == Direction::LEFT) ? "slidegrow-left" : "slidegrow-right", 1);
+        m_sprite->set_action("slidegrow", m_dir, 1);
       else
-        m_sprite->set_action((m_dir == Direction::LEFT) ? "grow-left" : "grow-right", 1);
+        m_sprite->set_action("grow", m_dir , 1);
     }
   }
 

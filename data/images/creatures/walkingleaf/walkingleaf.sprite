@@ -1,33 +1,71 @@
 (supertux-sprite
  (action
   (name "left")
-  (hitbox 2 4 31.8 31.8)
+  (hitbox 7 10 32 32)
+  (fps 15)
   (images "left-0.png"
-   "left-1.png"
-   "left-2.png"))
-
+		  "left-1.png"
+		  "left-2.png"
+		  "left-3.png"
+		  "left-4.png"
+		  "left-5.png"
+		  "left-6.png"
+		  "left-7.png")
+  )
+ 
  (action
   (name "right")
-  (hitbox 2 4 31.8 31.8)
-  (mirror-action "left"))
+  (hitbox 19 10 32 32)
+  (fps 15)
+  (mirror-action "left")
+ )
+ 
+ (action
+  (name "float-left")
+  (hitbox 13 12 32 32)
+  (fps 15)
+  (images "float-0.png"
+		  "float-1.png"
+		  "float-2.png"
+		  "float-3.png"
+		  "float-4.png"
+		  "float-5.png"
+		  "float-6.png"
+		  "float-7.png")
+  )
+ 
+ (action
+  (name "float-right")
+  (hitbox 19 12 32 32)
+  (fps 15)
+  (mirror-action "float-left")
+ )
+ 
  (action
   (name "iced-left")
-  (hitbox -6 -3 31.8 31.8)
-  (images "left-0.png"))
+  (hitbox 2 4 32 32)
+  (images "left-0.png")
+ )
+ 
  (action
   (name "iced-right")
-  (hitbox -7 -3 31.8 31.8)
-  (mirror-action "iced-left"))
+  (hitbox 2 4 31.8 31.8)
+  (mirror-action "iced-left")
+ )
+ 
  (action
   (name "squished-left")
-  (hitbox 0 3 31.8 31.8)
-  (images "squished.png"))
+  (hitbox 1 -21 32 32)
+  (images "squished.png")
+ )
 
+ 
  (action
   (name "squished-right")
-  (hitbox 0 3 31.8 31.8)
+  (hitbox -1 -21 32 32)
   (mirror-action "squished-left")
  )
+
  (action
   (name "burning-left")
   (hitbox 2 36 31.8 31.8)
@@ -45,6 +83,6 @@
  (action
   (name "burning-right")
   (hitbox 2 36 31.8 31.8)
-  (fps 15)
-  (mirror-action "burning-left"))
+  (mirror-action "burning-left")
+ )
 )

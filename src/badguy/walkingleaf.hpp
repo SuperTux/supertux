@@ -30,8 +30,10 @@ public:
   virtual std::string get_overlay_size() const override { return "2x1"; }
   static std::string class_name() { return "walkingleaf"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Autumn Leaf"); }
+  static std::string display_name() { return _("Walking Leaf"); }
   virtual std::string get_display_name() const override { return display_name(); }
+
+  virtual void active_update(float dt_sec) override;
   virtual bool is_snipable() const override { return true; }
 
 protected:
