@@ -34,10 +34,15 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
   if (sprite_name == "images/particles/sparkle.sprite")
   {
     glow = true;
+    lightsprite->set_blend(Blend::ADD);
     if (action=="dark") {
-      lightsprite->set_blend(Blend::ADD);
       lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
     }
+    else
+    {
+      lightsprite->set_color(color_);
+    }
+
   }
   no_time_out = notimeout;
   sprite->set_color(color_);

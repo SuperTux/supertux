@@ -62,12 +62,11 @@ Key::Key(const ReaderMapping& reader) :
 void
 Key::update(float dt_sec)
 {
+  m_target_speed = 12.f * std::cos(m_total_time_elapsed * 2.f);
   if (m_state == KeyState::NORMAL)
   {
     m_total_time_elapsed += dt_sec;
-    m_target_speed = 8.f * std::sin(m_total_time_elapsed * 2.f);
-    m_physic.set_velocity_y(m_target_speed);
-    m_col.set_movement(m_physic.get_movement(dt_sec));
+    m_col.set_movement(Vector(0.f, m_target_speed*dt_sec));
   }
 
     float px = graphicsRandom.randf(get_bbox().get_left(), get_bbox().get_right());
@@ -128,18 +127,23 @@ Key::update(float dt_sec)
     }
     break;
   case FOLLOW:
-    m_col.set_movement((m_goal_pos - get_pos()) * (std::max(0.f, distance-(50.f*float(m_chain_pos)))/300.f));
+    m_total_time_elapsed += dt_sec;
+    m_col.set_movement(((m_goal_pos - get_pos()) * (std::max(0.f, distance-(50.f*float(m_chain_pos)))/300.f))+
+      Vector(0.f, m_target_speed * dt_sec));
+    if (m_owner->is_dying())
+      m_state = KeyState::FOUND;
     break;
   case FOUND:
     m_col.set_movement((m_my_door_pos - Vector(get_bbox().get_width() / 2.f, get_bbox().get_height() / 2.f) -
       (get_pos()))
       *glm::length((m_my_door_pos - get_bbox().get_middle())*0.003f));
-    if (m_unlock_timer.check())
+    if (m_unlock_timer.check() || m_owner->is_dying())
     {
       m_unlock_timer.stop();
       m_physic.enable_gravity(true);
       m_physic.set_velocity_y(-300.f);
       m_physic.set_acceleration_y(500.f);
+      spawn_use_particles();
       m_state = KeyState::USE;
     }
     break;
@@ -159,15 +163,8 @@ Key::collision(GameObject& other, const CollisionHit& hit_)
   auto player = dynamic_cast<Player*> (&other);
   if (player && m_state == KeyState::NORMAL)
   {
-    for (int i = 0; i < 5; i++)
-    {
-      float pspeedx = 80.f * (static_cast<float>(i) - 2);
-      float pspeedy = (i == 2) ? -250.f : -5.f * (std::abs(40.f / (static_cast<float>(i) - 2)));
-
-      Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small",
-        get_bbox().get_middle(),
-        ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, 1000.f), LAYER_OBJECTS + 6, true, m_color);
-    }
+    spawn_use_particles();
+    m_total_time_elapsed = 0.f;
     SoundManager::current()->play("sounds/metal_hit.ogg", get_pos());
     m_chain_pos = player->get_collected_keys() + 1;
     player->add_collected_keys(1);
@@ -206,6 +203,18 @@ Key::after_editor_set()
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(m_color);
   m_sprite->set_color(m_color);
+}
+
+void
+Key::spawn_use_particles()
+{
+  for (int i = 1; i < 9; i++)
+  {
+    Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
+    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small",
+      get_bbox().get_middle(),
+      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 3.5f, LAYER_OBJECTS + 6, false, m_color);
+  }
 }
 
 /* EOF */

@@ -65,6 +65,9 @@ private:
   float m_target_speed;
 
 private:
+  void spawn_use_particles();
+
+private:
   Key(const Key&) = delete;
   Key& operator=(const Key&) = delete;
 };
