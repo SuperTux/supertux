@@ -89,7 +89,8 @@ Key::update(float dt_sec)
   if (m_state != KeyState::NORMAL)
   {
     m_pos_list.push_front((m_owner->get_bbox().get_middle())-
-      Vector(get_bbox().get_width()/2.f, get_bbox().get_height()/2.f));
+      Vector(get_bbox().get_width()/2.f, get_bbox().get_height()/2.f)-
+      Vector(0.f, 10.f));
   }
   Vector m_goal_pos = m_pos_list.back();
 
