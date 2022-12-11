@@ -17,7 +17,10 @@
 #include "object/key.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
@@ -35,7 +38,9 @@ Key::Key(const ReaderMapping& reader) :
   m_my_door_pos(0.f, 0.f),
   m_color(Color::WHITE),
   m_owner(),
-  m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  m_total_time_elapsed(),
+  m_target_speed()
 {
   std::vector<float> vColor;
   if (reader.get("color", vColor)) {
@@ -57,6 +62,26 @@ Key::Key(const ReaderMapping& reader) :
 void
 Key::update(float dt_sec)
 {
+  if (m_state == KeyState::NORMAL)
+  {
+    m_total_time_elapsed += dt_sec;
+    m_target_speed = 8.f * std::sin(m_total_time_elapsed * 2.f);
+    m_physic.set_velocity_y(m_target_speed);
+    m_col.set_movement(m_physic.get_movement(dt_sec));
+  }
+
+    float px = graphicsRandom.randf(get_bbox().get_left(), get_bbox().get_right());
+    float py = graphicsRandom.randf(get_bbox().get_top(), get_bbox().get_bottom());
+    Vector ppos = Vector(px, py);
+    int upper_limit = m_state == KeyState::NORMAL ? 20 : 50;
+    bool spawn_particle_now = (graphicsRandom.rand(0, upper_limit) == 5);
+    if (spawn_particle_now)
+    {
+      Sector::get().add<SpriteParticle>(
+        "images/particles/sparkle.sprite", "small",
+        ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS + 6, false, m_color);
+    }
+
   if (!m_owner)
     return;
 
@@ -74,7 +99,7 @@ Key::update(float dt_sec)
 
   // use
   for (auto& door : Sector::get().get_objects_by_type<Door>()) {
-    if (door.is_locked() && glm::length(get_pos() - door.get_pos()) < 100.f &&
+    if (m_state == KeyState::FOLLOW && door.is_locked() && glm::length(get_pos() - door.get_pos()) < 100.f &&
       // color matches
       std::abs(door.get_lock_color().red - m_color.red) <= 0.1f &&
       std::abs(door.get_lock_color().green - m_color.green) <= 0.1f &&
@@ -95,6 +120,7 @@ Key::update(float dt_sec)
   case NORMAL:
     break;
   case COLLECT:
+    m_col.set_movement(Vector(0, 0));
     if (m_wait_timer.check())
     {
       m_wait_timer.stop();
@@ -102,7 +128,7 @@ Key::update(float dt_sec)
     }
     break;
   case FOLLOW:
-    m_col.set_movement((m_goal_pos - get_pos()) * (std::max(0.f, distance-(50.f*float(m_chain_pos)))/450.f));
+    m_col.set_movement((m_goal_pos - get_pos()) * (std::max(0.f, distance-(50.f*float(m_chain_pos)))/300.f));
     break;
   case FOUND:
     m_col.set_movement((m_my_door_pos - Vector(get_bbox().get_width() / 2.f, get_bbox().get_height() / 2.f) -
@@ -133,6 +159,15 @@ Key::collision(GameObject& other, const CollisionHit& hit_)
   auto player = dynamic_cast<Player*> (&other);
   if (player && m_state == KeyState::NORMAL)
   {
+    for (int i = 0; i < 5; i++)
+    {
+      float pspeedx = 80.f * (static_cast<float>(i) - 2);
+      float pspeedy = (i == 2) ? -250.f : -5.f * (std::abs(40.f / (static_cast<float>(i) - 2)));
+
+      Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small",
+        get_bbox().get_middle(),
+        ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, 1000.f), LAYER_OBJECTS + 6, true, m_color);
+    }
     SoundManager::current()->play("sounds/metal_hit.ogg", get_pos());
     m_chain_pos = player->get_collected_keys() + 1;
     player->add_collected_keys(1);

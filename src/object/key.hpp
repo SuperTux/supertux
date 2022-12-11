@@ -61,6 +61,8 @@ private:
   Color m_color;
   Player* m_owner;
   SpritePtr m_lightsprite;
+  float m_total_time_elapsed;
+  float m_target_speed;
 
 private:
   Key(const Key&) = delete;
