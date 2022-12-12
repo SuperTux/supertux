@@ -22,13 +22,15 @@
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 //static const float FLICK_CURSOR_TIME = 0.5f;
 
 MenuItem::MenuItem(const std::string& text, int id) :
   m_id(id),
   m_text(text),
-  m_help()
+  m_help(),
+  m_preview()
 {
 }
 
@@ -46,6 +48,12 @@ MenuItem::set_help(const std::string& help_text)
     m_help += "\n";
     m_help += Resources::normal_font->wrap_to_width(overflow, 600, &overflow);
   }
+}
+
+void
+MenuItem::set_preview(const std::string& preview_file)
+{
+  m_preview = Surface::from_file(preview_file);
 }
 
 void

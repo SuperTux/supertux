@@ -26,6 +26,10 @@ public:
   WorldSetMenu();
 
   void menu_action(MenuItem& item) override;
+
+private:
+  WorldSetMenu(const WorldSetMenu&) = delete;
+  WorldSetMenu& operator=(const WorldSetMenu&) = delete;
 };
 
 #endif

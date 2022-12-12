@@ -20,6 +20,8 @@
 
 #include "gui/menu.hpp"
 
+#include "video/surface_ptr.hpp"
+
 class MenuItem
 {
 public:
@@ -33,6 +35,10 @@ public:
 
   void set_text(const std::string& text) { m_text = text; }
   const std::string& get_text() const { return m_text; }
+
+  void set_preview(const std::string& preview_file);
+  void set_preview(SurfacePtr preview) { m_preview = preview; }
+  SurfacePtr get_preview() const { return m_preview; }
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
@@ -72,6 +78,7 @@ private:
   int m_id;
   std::string m_text;
   std::string m_help;
+  SurfacePtr m_preview;
 
 private:
   MenuItem(const MenuItem&) = delete;

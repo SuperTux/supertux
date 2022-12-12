@@ -21,8 +21,6 @@
 #include "supertux/levelset.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
-#include "video/video_system.hpp"
-#include "video/viewport.hpp"
 
 SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds, const std::string& contrib_type,
                                      const std::string& title, const std::string& empty_message)
@@ -30,43 +28,37 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
   add_label(title);
   add_hl();
 
-  bool has_worldmap = false;
-  int world_id = 0;
-  for (unsigned int i = 0; i < worlds.size(); i++)
+  bool has_worlds = false;
+  for (auto& world : worlds)
   {
-    if (worlds[i]->get_contrib_type() == contrib_type)
+    if (world->get_contrib_type() == contrib_type)
     {
-      std::string title_str;
-      if (worlds[i]->is_levelset())
+      has_worlds = true;
+
+      ItemAction* item;
+      if (world->is_levelset())
       {
-        title_str = "[" + worlds[i]->get_title() + "]";
-        m_world_entries.push_back({ false, worlds[i]->get_basedir(), nullptr, { -1, -1 } });
+        item = add_world("[" + world->get_title() + "]", world->get_basedir());
       }
       else
       {
-        title_str = worlds[i]->get_title();
-        has_worldmap = true;
+        const std::string preview_file = FileSystem::join("previews", FileSystem::strip_extension(FileSystem::basename(world->get_savegame_filename())) + ".png");
+        SurfacePtr preview = find_preview(preview_file, world->get_basedir());
 
-        const std::string preview_file = FileSystem::join("previews", FileSystem::strip_extension(FileSystem::basename(worlds[i]->get_savegame_filename())) + ".png");
-        SurfacePtr preview = find_preview(preview_file, worlds[i]->get_basedir());
-
-        m_world_entries.push_back({ true, worlds[i]->get_basedir(), preview, Savegame::progress_from_file(worlds[i]->get_savegame_filename()) });
+        item = add_world(world->get_title(), world->get_basedir(),
+                         preview, Savegame::progress_from_file(world->get_savegame_filename()));
       }
-
-      add_entry(world_id++, title_str).set_help(worlds[i]->get_description());
+      item->set_help(world->get_description());
     }
   }
-  if (world_id == 0)
+  if (!has_worlds)
   {
     add_inactive(empty_message);
   }
   add_hl();
   add_back(_("Back"));
 
-  // Adjust center position to give space for displaying previews.
-  if (has_worldmap)
-    set_center_pos(static_cast<float>(SCREEN_WIDTH) / 3,
-                   static_cast<float>(SCREEN_HEIGHT) / 2);
+  align_for_previews();
 }
 
 /* EOF */

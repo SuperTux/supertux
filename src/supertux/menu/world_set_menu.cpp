@@ -23,19 +23,21 @@
 #include "util/gettext.hpp"
 
 WorldSetMenu::WorldSetMenu() :
-  WorldPreviewMenu(2.5f, 2)
+  WorldPreviewMenu()
 {
   add_label(_("Start Game"));
   add_hl();
-  add_entry(0, _("Story Mode"));
+
+  // Add Story Mode entry.
+  const std::string basedir = "levels/world1";
+  const std::string preview_file = "previews/world1.png";
+  add_world(_("Story Mode"), basedir, find_preview(preview_file, basedir));
+
   add_entry(1, _("Contrib Levels"));
   add_hl();
   add_back(_("Back"));
 
-  // Add Story Mode entry.
-  const std::string preview_file = "previews/world1.png";
-  const std::string basedir = "levels/world1";
-  m_world_entries.push_back({ true, "levels/world1", find_preview(preview_file, basedir), { -2, -2 } });
+  align_for_previews(0.5f);
 }
 
 void

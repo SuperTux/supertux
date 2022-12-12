@@ -19,47 +19,34 @@
 
 #include "gui/menu.hpp"
 
-#include "math/sizef.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/timer.hpp"
 #include "supertux/world.hpp"
 #include "video/surface_ptr.hpp"
 
 /* Represents a menu that should show world preview screenshots and progress. */
 class WorldPreviewMenu : public Menu
 {
-protected:
-  static const Sizef s_preview_size;
-  static const float s_preview_fade_time;
-
 public:
-  WorldPreviewMenu(float center_x_offset = 1, float center_y_offset = 1);
+  WorldPreviewMenu();
 
   void menu_action(MenuItem& item) override;
 
 protected:
+  ItemAction* add_world(std::string title, std::string folder,
+                        SurfacePtr preview = nullptr, Savegame::Progress progress = { -1, -1 });
+
   SurfacePtr find_preview(const std::string& preview_file, const std::string& basedir);
+  void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, const float& alpha) override;
 
-  void draw_additional(DrawingContext& context) override;
-
-  bool is_valid_index() const;
-
-protected:
+private:
   struct WorldEntry
   {
-    const bool is_worldmap;
     const std::string folder;
-    const SurfacePtr preview;
     const Savegame::Progress progress;
   };
 
-protected:
+private:
   std::vector<WorldEntry> m_world_entries;
-
-  int m_last_world_index;
-  Timer m_preview_fade_timer;
-  bool m_preview_fade_active;
-  bool m_preview_fading_out;
 
 private:
   WorldPreviewMenu(const WorldPreviewMenu&) = delete;

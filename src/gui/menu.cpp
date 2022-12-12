@@ -55,6 +55,9 @@
 static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
 
+const Sizef Menu::s_preview_size(426.f, 240.f);
+const float Menu::s_preview_fade_time = 0.1f;
+
 #include "supertux/error_handler.hpp"
 
 Menu::Menu() :
@@ -68,8 +71,14 @@ Menu::Menu() :
   m_menu_help_height(0.0f),
   m_items(),
   m_arrange_left(0),
-  m_active_item(-1)
+  m_active_item(-1),
+  m_has_previews(false),
+  m_last_preview_item(-1),
+  m_preview_fade_timer(),
+  m_preview_fade_active(false),
+  m_preview_fading_out(false)
 {
+  m_preview_fade_timer.start(s_preview_fade_time);
 }
 
 Menu::~Menu()
@@ -81,6 +90,23 @@ Menu::set_center_pos(float x, float y)
 {
   m_pos.x = x;
   m_pos.y = y;
+}
+
+void
+Menu::align_for_previews(float x_offset)
+{
+  for (const auto& item : m_items)
+  {
+    if (item->get_preview())
+    {
+      // Adjust center position to give space for displaying previews.
+      set_center_pos(static_cast<float>(SCREEN_WIDTH) / (2 + x_offset),
+                     static_cast<float>(SCREEN_HEIGHT) / 2);
+      m_has_previews = true;
+      return;
+    }
+  }
+  m_has_previews = false;
 }
 
 /* Add an item to a menu */
@@ -676,7 +702,66 @@ Menu::draw(DrawingContext& context)
                               ALIGN_CENTER, LAYER_GUI);
   }
 
-  draw_additional(context);
+  if (m_has_previews) draw_preview(context);
+}
+
+void
+Menu::draw_preview(DrawingContext& context)
+{
+  bool valid_last_index = last_preview_index_valid();
+
+  // Update fade.
+  if (m_active_item != m_last_preview_item && !m_preview_fade_active) // Index has changed, there is no current fade.
+  {
+    if (valid_last_index) // Fade out only if the last index is valid.
+      m_preview_fade_timer.start(s_preview_fade_time);
+    m_preview_fading_out = true;
+    m_preview_fade_active = true;
+  }
+  float timeleft = m_preview_fade_timer.get_timeleft();
+  if (timeleft < 0 && m_preview_fade_active) // Current fade is over.
+  {
+    m_last_preview_item = m_active_item;
+    valid_last_index = last_preview_index_valid(); // Repeat valid last index check
+    if (m_preview_fading_out) // After a fade-out, a fade-in should follow up.
+    {
+      m_preview_fade_timer.start(s_preview_fade_time);
+      timeleft = m_preview_fade_timer.get_timeleft();
+      m_preview_fading_out = false;
+    }
+    else
+    {
+      m_preview_fade_active = false;
+    }
+  }
+
+  // Set alpha according to fade.
+  float alpha = 1.f;
+  if (timeleft > 0)
+  {
+    const float alpha_val = timeleft * (1.f / s_preview_fade_time);
+    alpha = m_preview_fading_out ? alpha_val : 1.f - alpha_val;
+  }
+
+  // Perform actions only if current index is a valid world index.
+  if (valid_last_index)
+  {
+    // Draw progress preview of current world.
+    Rectf preview_rect(Vector(context.get_width() * 0.73f - s_preview_size.width / 2,
+                            context.get_height() / 2 - s_preview_size.height / 2), s_preview_size);
+    PaintStyle style;
+    style.set_alpha(alpha);
+    context.color().draw_surface_scaled(m_items[m_last_preview_item]->get_preview(), preview_rect, LAYER_GUI, style);
+
+    // Draw any other preview data, if available.
+    draw_preview_data(context, preview_rect, alpha);
+  }
+}
+
+bool
+Menu::last_preview_index_valid() const
+{
+  return m_last_preview_item > -1 && m_items[m_last_preview_item]->get_preview();
 }
 
 MenuItem&
