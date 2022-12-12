@@ -71,6 +71,7 @@ enum OptionsMenuIDs {
   MNID_RUMBLING,
   MNID_DEVELOPER_MODE,
   MNID_CHRISTMAS_MODE,
+  MNID_CRISP_GRAPHICS,
   MNID_TRANSITIONS,
   MNID_CONFIRMATION_DIALOG,
   MNID_PAUSE_ON_FOCUSLOSS,
@@ -454,6 +455,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
   }
 
+  add_toggle(MNID_CRISP_GRAPHICS, _("Crisp Graphics"), &g_config->crisp_graphics).set_help(_("Render graphics at nearest pixel. Restart to take effect"));
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
   add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
     .set_help(_("Automatically pause the game when the window loses focus"));

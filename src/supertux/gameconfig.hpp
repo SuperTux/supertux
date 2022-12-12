@@ -110,6 +110,7 @@ public:
 
   bool developer_mode;
   bool christmas_mode;
+  bool crisp_graphics;
   bool transitions_enabled;
   bool confirmation_dialog;
   bool pause_on_focusloss;

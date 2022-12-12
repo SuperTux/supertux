@@ -73,6 +73,7 @@ Config::Config() :
   addons(),
   developer_mode(false),
   christmas_mode(false),
+  crisp_graphics(true),
   transitions_enabled(true),
   confirmation_dialog(false),
   pause_on_focusloss(true),
@@ -165,6 +166,7 @@ Config::load()
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
   config_mapping.get("developer", developer_mode);
+  config_mapping.get("crisp_graphics", crisp_graphics);
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
@@ -408,6 +410,7 @@ Config::save()
   if (is_christmas()) {
     writer.write("christmas", christmas_mode);
   }
+  writer.write("crisp_graphics", crisp_graphics);
   writer.write("transitions_enabled", transitions_enabled);
   writer.write("locale", locale);
   writer.write("repository_url", repository_url);
