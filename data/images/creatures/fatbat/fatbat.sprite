@@ -24,24 +24,13 @@
   (action
     (name "burning-left")
     (fps 15)
-    (hitbox 6 39 32 32)
-    (images "burn-0.png"
-            "burn-1.png"
-            "burn-2.png"
-            "burn-3.png"
-            "burn-4.png"
-            "burn-5.png"
-            "burn-6.png"
-            "burn-7.png"
-            "burn-8.png"
-            "burn-9.png"
-            "burn-10.png"
-   )
-  )
+    (hitbox 10 4 32 32)
+    (images "fly-0.png"))
+
   (action
     (name "burning-right")
     (fps 15)
-    (hitbox 6 39 32 32)
+    (hitbox 10 4 32 32)
     (mirror-action "burning-left")
   )
 )

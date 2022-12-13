@@ -37,6 +37,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Mole"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual std::string get_overlay_size() const override { return "0x0"; }
 
   virtual void on_flip(float height) override;
 
@@ -58,6 +59,7 @@ private:
   MoleState state;
   Timer timer;
   Timer throw_timer;
+  int cycle_num;
 
 private:
   Mole(const Mole&) = delete;

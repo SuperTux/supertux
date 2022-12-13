@@ -42,13 +42,14 @@ static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  BadGuy(pos, Direction::LEFT, sprite_name_, layer_, light_sprite_name)
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+  const std::string& fire_sprite_name) :
+  BadGuy(pos, Direction::LEFT, sprite_name_, layer_, light_sprite_name, ice_sprite_name, fire_sprite_name)
 {
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name, const std::string& fire_sprite_name) :
   MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
@@ -64,12 +65,14 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
+  m_flamesprite(SpriteManager::current()->create(fire_sprite_name)),
   m_glowing(false),
   m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
   m_unfreeze_timer(),
+  m_flame_timer(),
   m_on_ground_flag(false),
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
@@ -85,7 +88,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 }
 
 BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
-               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+               const std::string& light_sprite_name, const std::string& ice_sprite_name,
+  const std::string& fire_sprite_name) :
   MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
@@ -101,12 +105,14 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_melting_time(0),
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
+  m_flamesprite(SpriteManager::current()->create(fire_sprite_name)),
   m_glowing(false),
   m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
   m_unfreeze_timer(),
+  m_flame_timer(),
   m_on_ground_flag(false),
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
@@ -133,13 +139,18 @@ BadGuy::draw(DrawingContext& context)
 {
   if (!m_sprite.get()) return;
 
+  if (m_glowing)
+  {
+    m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  }
+
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
     if (Editor::is_active()) {
       m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
     }
   }
-  else
+  else if (m_state != STATE_BURNING)
   {
     if (m_state == STATE_FALLING)
     {
@@ -162,11 +173,15 @@ BadGuy::draw(DrawingContext& context)
           m_freezesprite->draw(context.color(), get_pos(), m_layer);
         m_sprite->draw(context.color(), get_pos(), m_layer - (m_frozen ? 1 : 0), m_flip);
       }
+    }
+  }
+  else {
+    if (m_flame_timer.started() && m_flame_timer.get_timegone() <= m_flame_timer.get_timeleft()) {
+      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+    }
 
-      if (m_glowing)
-      {
-        m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
-      }
+    if (get_overlay_size() != "0x0") {
+      m_flamesprite->draw(context.color(), get_pos(), m_layer + 1, m_flip);
     }
   }
 }
@@ -224,6 +239,8 @@ BadGuy::update(float dt_sec)
         m_freezesprite->set_action(get_overlay_size(), 1);
       else
         m_freezesprite->set_action("default", 1);
+
+      m_flamesprite->set_action("default", 1);
         
       active_update(dt_sec);
       break;
@@ -238,7 +255,7 @@ BadGuy::update(float dt_sec)
     case STATE_BURNING: {
       m_is_active_flag = false;
       m_col.set_movement(m_physic.get_movement(dt_sec));
-      if ( m_sprite->animation_done() ) {
+      if (m_flame_timer.check()) {
         remove_me();
       }
     } break;
@@ -882,20 +899,7 @@ BadGuy::freeze()
   m_unfreeze_timer.start(8.f);
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
-
-  float freezesize_x =
-    get_overlay_size() == "3x3" ? 96.f :
-    get_overlay_size() == "2x2" ? 64.f :
-    get_overlay_size() == "2x1" ? 64.f : 45.f;
-
-  float freezesize_y =
-    get_overlay_size() == "3x3" ? 94.f :
-    get_overlay_size() == "2x2" ? 62.f :
-    get_overlay_size() == "2x1" ? 43.f :
-    get_overlay_size() == "1x2" ? 62.f : 43.f;
-
-  m_col.set_size(freezesize_x, freezesize_y);
-  set_pos(Vector(get_bbox().get_left(), get_bbox().get_bottom() - freezesize_y));
+  adjust_for_overlay();
 
   if (m_sprite->has_action("iced-left"))
     m_sprite->set_action("iced", m_dir, 1);
@@ -926,6 +930,7 @@ BadGuy::unfreeze(bool melt)
   m_frozen = false;
   m_unfreeze_timer.stop();
   m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.set_pos(Vector(get_pos().x + (0.5f*(m_freezesprite->get_width() - m_sprite->get_width())), get_pos().y));
 
   SoundManager::current()->play(melt ? "sounds/splash.ogg" : "sounds/brick.wav", get_pos());
   Vector pr_pos(0.0f, 0.0f);
@@ -996,18 +1001,23 @@ BadGuy::ignite()
 
     run_dead_script();
 
-  } else if (m_sprite->has_action("burning-left")) {
-    // burn it!
-    m_glowing = true;
-    SoundManager::current()->play("sounds/fire.ogg", get_pos());
-    m_sprite->set_action("burning", m_dir, 1);
-    set_state(STATE_BURNING);
-    run_dead_script();
-  } else if (m_sprite->has_action("inside-melting-left")) {
+  }
+  else if (m_sprite->has_action("inside-melting-left")) {
     // melt it inside!
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
     m_sprite->set_action("inside-melting", m_dir, 1);
     set_state(STATE_INSIDE_MELTING);
+    run_dead_script();
+  }
+  else if (m_sprite->has_action("burning-left")) {
+    adjust_for_overlay();
+    // burn it!
+    m_glowing = true;
+    SoundManager::current()->play("sounds/fire.ogg", get_pos());
+    m_sprite->set_action("burning", m_dir, 1);
+    m_flamesprite->set_action(get_overlay_size(), 1);
+    m_flame_timer.start(1.f);
+    set_state(STATE_BURNING);
     run_dead_script();
   } else {
     // Let it fall off the screen then.
@@ -1147,6 +1157,24 @@ BadGuy::spawn_squish_particles(std::string particle_name)
       Vector(get_bbox().get_middle().x, get_bbox().get_top()),
       ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, 1000.f), LAYER_OBJECTS + 6);
   }
+}
+
+void
+BadGuy::adjust_for_overlay()
+{
+  float adjust_size_x =
+    get_overlay_size() == "3x3" ? 96.f :
+    get_overlay_size() == "2x2" ? 64.f :
+    get_overlay_size() == "2x1" ? 64.f : 45.f;
+
+  float adjust_size_y =
+    get_overlay_size() == "3x3" ? 94.f :
+    get_overlay_size() == "2x2" ? 62.f :
+    get_overlay_size() == "2x1" ? 43.f :
+    get_overlay_size() == "1x2" ? 62.f : 43.f;
+
+  set_pos(Vector(get_bbox().get_middle().x - (adjust_size_x / 2.f), get_bbox().get_bottom() - adjust_size_y));
+  m_col.set_size(adjust_size_x, adjust_size_y);
 }
 
 /* EOF */

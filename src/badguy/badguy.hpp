@@ -38,13 +38,16 @@ class BadGuy : public MovingSprite,
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite",
+         const std::string& fire_sprite_name = "images/creatures/overlays/fireoverlay/fireoverlay.sprite");
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite",
+         const std::string& fire_sprite_name = "images/creatures/overlays/fireoverlay/fireoverlay.sprite");
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
-         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite",
+         const std::string& fire_sprite_name = "images/creatures/overlays/fireoverlay/fireoverlay.sprite");
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -147,6 +150,8 @@ public:
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
   void spawn_squish_particles(std::string particle_name = "generic_piece");
+
+  void adjust_for_overlay();
 
   Physic& get_physic() { return m_physic; }
 
@@ -280,6 +285,7 @@ protected:
 
   SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
+  SpritePtr m_flamesprite;
   bool m_glowing;
 
   /** If this badguy was dispensed from a dispenser,
@@ -296,6 +302,8 @@ private:
   Timer m_state_timer;
 
   Timer m_unfreeze_timer;
+
+  Timer m_flame_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */

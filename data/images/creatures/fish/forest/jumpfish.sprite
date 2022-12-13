@@ -45,15 +45,6 @@
   (action
     (name "burning-left")
     (fps 15)
-    (hitbox 4 29 31.8 31.8)
-    (images "burning-0.png"
-            "burning-1.png"
-            "burning-2.png"
-            "burning-3.png"
-            "burning-4.png"
-            "burning-5.png"
-            "burning-6.png"
-            "burning-7.png"
-            "burning-8.png"
-            "burning-9.png"))
+    (hitbox 4 10 31.8 31.8)
+    (images "jump-0.png"))
 )

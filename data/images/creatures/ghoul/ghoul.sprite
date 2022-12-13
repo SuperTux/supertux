@@ -68,4 +68,14 @@
     (hitbox 5 -5 45 45)
     (mirror-action "iced-left"))
 
+  (action
+    (name "burning-left")
+    (hitbox -5 -5 45 45)
+    (images "g1.png"))
+
+  (action
+    (name "burning-right")
+    (hitbox 5 -5 45 45)
+    (mirror-action "burning-left"))
+
 )

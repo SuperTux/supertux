@@ -53,22 +53,12 @@
  (action
   (name "burning-left")
   (fps 15)
-  (hitbox 9 38 32 45)
-  (images "wooden-burning-0.png"
-          "wooden-burning-1.png"
-          "wooden-burning-2.png"
-          "wooden-burning-3.png"
-          "wooden-burning-4.png"
-          "wooden-burning-5.png"
-          "wooden-burning-6.png"
-          "wooden-burning-7.png"
-          "wooden-burning-8.png"
-          "wooden-burning-9.png"
-          "wooden-burning-10.png"))
+  (hitbox 2 6 32 45)
+  (images "wood_up-1.png"))
 
  (action
   (name "burning-right")
-  (hitbox 3 38 32 45)
+  (hitbox 3 6 32 45)
   (mirror-action "burning-left"))
 
  (action

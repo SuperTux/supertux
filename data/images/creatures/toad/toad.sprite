@@ -47,23 +47,4 @@
     (hitbox 1 1 40 24)
     (mirror-action "squished-left")
   )
-  (action
-    (name "burning-left")
-    (hitbox 1 33 40 24)
-    (fps 15.0)
-    (images
-      "burning-0.png"
-      "burning-1.png"
-      "burning-2.png"
-      "burning-3.png"
-      "burning-4.png"
-      "burning-5.png"
-      "burning-6.png"
-    )
-  )
-  (action
-    (name "burning-right")
-    (hitbox 1 33 40 24)
-    (mirror-action "burning-left")
-  )
 )

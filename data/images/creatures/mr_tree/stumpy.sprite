@@ -17,25 +17,15 @@
     (mirror-action "left")
   )
   (action
-    (hitbox 20 23 42 62)
+    (hitbox 18 20 42 62)
     (fps 15)
     (name "burning-left")
     (images 
-      "small-burning-0.png"
-      "small-burning-1.png"
-      "small-burning-2.png"
-      "small-burning-3.png"
-      "small-burning-4.png"
-      "small-burning-5.png"
-      "small-burning-6.png"
-      "small-burning-7.png"
-      "small-burning-8.png"
-      "small-burning-9.png"
-      "small-burning-10.png"
+      "small-left-0.png"
     )
   )
   (action
-    (hitbox 20 23 42 62)
+    (hitbox 18 20 42 62)
     (name "burning-right")
     (fps 15)
     (mirror-action "burning-left")

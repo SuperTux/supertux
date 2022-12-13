@@ -18,25 +18,27 @@
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
-static const float FLYTIME = 1.2f;
-static const float MOVE_SPEED = -100.0f;
+static const float DEFAULT_BOUNCE_DISTANCE = 100.f;
 
 SpiderMite::SpiderMite(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
-  mode(),
-  timer()
+  mode(SpiderMiteMode::HIDING),
+  bounce_distance(DEFAULT_BOUNCE_DISTANCE)
 {
-  m_physic.enable_gravity(false);
+  reader.get("bounce-distance", bounce_distance, 100.0f);
+  initialize();
 }
 
 void
 SpiderMite::initialize()
 {
+  set_start_position(get_pos());
   m_sprite->set_action(m_dir);
-  mode = FLY_UP;
-  m_physic.set_velocity_y(MOVE_SPEED);
-  timer.start(FLYTIME/2);
+  m_physic.enable_gravity(false);
+  mode = SpiderMiteMode::HIDING;
 }
 
 bool
@@ -54,8 +56,11 @@ SpiderMite::collision_squished(GameObject& object)
 void
 SpiderMite::collision_solid(const CollisionHit& hit)
 {
-  if (hit.top || hit.bottom) { // hit floor or roof?
+  if (hit.top) { // hit floor or roof?
     m_physic.set_velocity_y(0);
+  }
+  else if (hit.bottom && is_active()) {
+    mode = SpiderMiteMode::BOUNCING_UP;
   }
   if (m_frozen)
     BadGuy::collision_solid(hit);
@@ -69,23 +74,51 @@ SpiderMite::active_update(float dt_sec)
     BadGuy::active_update(dt_sec);
     return;
   }
-  if (timer.check()) {
-    if (mode == FLY_UP) {
-      mode = FLY_DOWN;
-      m_physic.set_velocity_y(-MOVE_SPEED);
-    } else if (mode == FLY_DOWN) {
-      mode = FLY_UP;
-      m_physic.set_velocity_y(MOVE_SPEED);
+
+  float dist = glm::length(m_start_position - get_pos());
+  switch (mode) {
+  case HIDING:
+    m_physic.enable_gravity(false);
+    m_col.set_movement(Vector(0.f, 0.f));
+    break;
+  case BOUNCING_DOWN:
+    if ((get_pos().y - m_start_position.y) >= bounce_distance)
+      mode = SpiderMiteMode::BOUNCING_UP;
+    m_col.set_movement(Vector(0.f, 2.f * std::min((dt_sec + (dist * dt_sec * 4.f)), 300.f * dt_sec)));
+    break;
+  case BOUNCING_UP:
+    m_col.set_movement(Vector(0.f, 2.f * std::max((dt_sec - (dist * dt_sec * 4.f)), -300.f * dt_sec)));
+
+    if (dist <= 2.f)
+    {
+      mode = SpiderMiteMode::BOUNCING_DOWN;
     }
-    timer.start(FLYTIME);
+    break;
   }
-  m_col.set_movement(m_physic.get_movement(dt_sec));
 
   auto player = get_nearest_player();
-  if (player) {
-    m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
-    m_sprite->set_action(m_dir);
+  if (!player)
+    return;
+  if (player->get_bbox().get_left() <= get_bbox().get_right() + 16.f &&
+    player->get_bbox().get_right() >= get_bbox().get_left() - 16.f &&
+    mode == SpiderMiteMode::HIDING)
+  {
+    m_physic.enable_gravity(true);
+    m_physic.reset();
+    mode = SpiderMiteMode::BOUNCING_DOWN;
   }
+}
+
+ObjectSettings
+SpiderMite::get_settings()
+{
+  ObjectSettings result = BadGuy::get_settings();
+
+  result.add_float(_("Bounce Distance"), &bounce_distance, "bounce-distance", 100.0f);
+
+  result.reorder({ "bounce-distance", "direction", "x", "y" });
+
+  return result;
 }
 
 void

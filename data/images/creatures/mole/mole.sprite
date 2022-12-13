@@ -46,13 +46,11 @@
   (action
     (name "burning")
     (hitbox 17 15 30 44)
-    (fps 15)
+    (loops 1)
+    (fps 1)
     (images 
-      "fire1.png"
-	  "fire2.png"
-	  "fire3.png"
-	  "fire4.png"
-	  "fire5.png"
+      "burn.png"
+      "mole_hill.png"
     )
   )
   (action

@@ -1,0 +1,49 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (loops 1)
+    (fps 1)
+    (hitbox 6 9 45 45)
+    (images "fireoverlay-1x1.png"
+    "fireoverlay-1x1.png"))
+
+  (action
+    (name "1x1")
+    (loops 1)
+    (fps 1)
+    (hitbox 6 9 45 45)
+    (images "fireoverlay-1x1.png"
+    "fireoverlay-1x1.png"))
+
+  (action
+    (name "2x1")
+    (loops 1)
+    (fps 1)
+    (hitbox 6 9 64 45)
+    (images "fireoverlay-2x1.png"
+    "fireoverlay-2x1.png"))
+
+  (action
+    (name "1x2")
+    (loops 1)
+    (fps 1)
+    (hitbox 6 9 45 64)
+    (images "fireoverlay-1x2.png"
+    "fireoverlay-1x2.png"))
+
+  (action
+    (name "2x2")
+    (loops 1)
+    (fps 1)
+    (hitbox 6 9 64 64)
+    (images "fireoverlay-2x2.png"
+    "fireoverlay-2x2.png"))
+
+  (action
+    (name "3x3")
+    (loops 1)
+    (fps 1)
+    (hitbox 4 8 96 96)
+    (images "fireoverlay-3x3.png"
+    "fireoverlay-3x3.png"))
+)

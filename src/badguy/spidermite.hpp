@@ -27,6 +27,7 @@ public:
   virtual void initialize() override;
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
+  virtual ObjectSettings get_settings() override;
 
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
@@ -41,8 +42,9 @@ public:
 
 protected:
   enum SpiderMiteMode {
-    FLY_UP,
-    FLY_DOWN
+    HIDING,
+    BOUNCING_DOWN,
+    BOUNCING_UP
   };
 
 protected:
@@ -50,7 +52,7 @@ protected:
 
 private:
   SpiderMiteMode mode;
-  Timer timer;
+  float bounce_distance;
 
 private:
   SpiderMite(const SpiderMite&) = delete;

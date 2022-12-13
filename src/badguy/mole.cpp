@@ -22,6 +22,7 @@
 #include "badguy/mole_rock.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
@@ -35,7 +36,8 @@ Mole::Mole(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1),
   state(PRE_THROWING),
   timer(),
-  throw_timer()
+  throw_timer(),
+  cycle_num(0)
 {
   m_physic.enable_gravity(false);
   SoundManager::current()->preload("sounds/fall.wav");
@@ -66,7 +68,11 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 bool
 Mole::collision_squished(GameObject& )
 {
+  auto player = Sector::get().get_nearest_player(m_col.m_bbox);
+  if (player)
+    player->bounce(*this);
   set_state(DEAD);
+  m_sprite->set_action("squished");
   spawn_squish_particles();
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   run_dead_script();
@@ -76,14 +82,13 @@ Mole::collision_squished(GameObject& )
 void
 Mole::throw_rock()
 {
-  float angle;
-  float base_angle = (m_flip == NO_FLIP ? 90.0f : 270.0f);
-  angle = math::radians(gameRandom.randf(base_angle - 15.0f, base_angle + 15.0f));
-  float vx = cosf(angle) * THROW_VELOCITY;
-  float vy = -sinf(angle) * THROW_VELOCITY;
+  float angle = math::radians(135.f - (float(cycle_num)*30.f));
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::get().add<MoleRock>(m_col.m_bbox.get_middle(), Vector(vx, vy), this);
+  Sector::get().add<MoleRock>(m_col.m_bbox.get_middle(),
+    THROW_VELOCITY * ((cycle_num == 0 || cycle_num == 3) ? 0.8f : 1.f) *
+    Vector(cosf(angle), sin(angle) * (m_flip == NO_FLIP ? -1.f : 1.f)), this);
+  cycle_num += 1;
 }
 
 void
@@ -143,6 +148,7 @@ Mole::set_state(MoleState new_state)
       throw_timer.start(THROW_INTERVAL);
       break;
     case POST_THROWING:
+      cycle_num = 0;
       m_sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
@@ -152,7 +158,6 @@ Mole::set_state(MoleState new_state)
       set_colgroup_active(COLGROUP_STATIC);
       break;
     case DEAD:
-      m_sprite->set_action("squished");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
     case BURNING:

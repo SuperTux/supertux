@@ -9,14 +9,14 @@
     )
   )
   (action
-    (name "iced-left")
-    (hitbox -7 -8 45.8 25.8)
-    (images "walk-0.png")
-  )
-  (action
     (name "walking-right")
     (hitbox 2.1 6.1 45.8 25.8)
     (mirror-action "walking-left")
+  )
+  (action
+    (name "iced-left")
+    (hitbox -7 -8 45.8 25.8)
+    (images "walk-0.png")
   )
   (action
     (name "iced-right")
@@ -25,25 +25,13 @@
   )
   (action
     (name "burning-left")
-    (hitbox 2.1 38.1 45.8 25.8)
-    (fps 15)
-    (images 
-      "burning-0.png"
-      "burning-1.png"
-      "burning-2.png"
-      "burning-3.png"
-      "burning-4.png"
-      "burning-5.png"
-      "burning-6.png"
-      "burning-7.png"
-      "burning-8.png"
-      "burning-9.png"
-    )
+    (hitbox -7 -8 45.8 25.8)
+    (images "walk-0.png")
   )
   (action
     (name "burning-right")
     (fps 15)
-    (hitbox 2.1 38.1 45.8 25.8)
-    (mirror-action "burning-left")
+    (hitbox -7 -9 45.8 25.8)
+    (mirror-action "iced-left")
   )
 )

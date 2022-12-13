@@ -33,18 +33,11 @@
 	  (mirror-action "iced-left"))
 	(action
 	  (name "burning-left")
-	  (hitbox 14 14 37 43)
+	  (hitbox 0 -1 37 43)
 	  (fps 15)
-	  (images "burning-0.png"
-		  "burning-1.png"
-		  "burning-2.png"
-		  "burning-3.png"
-		  "burning-4.png"
-		  "burning-5.png"
-		  "burning-6.png"
-		  "burning-7.png"))
+	  (images "spidermite1.png"))
 	(action
 	  (name "burning-right")
-	  (hitbox 14 14 37 43)
+	  (hitbox 5 -1 37 43)
 	  (fps 15)
 	  (clone-action "burning-left")))
