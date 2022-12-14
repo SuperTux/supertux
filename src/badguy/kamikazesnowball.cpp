@@ -46,7 +46,9 @@ KamikazeSnowball::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
-  spawn_squish_particles("snow_piece");
+  std::string squish_sprite = m_sprite_name.find("kamikaze-snowball") != std::string::npos ?
+    "snow_piece" : "generic_piece";
+  spawn_squish_particles(squish_sprite);
   m_sprite->set_action("squished", m_dir);
   kill_squished(object);
   return true;
@@ -71,7 +73,9 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 void
 KamikazeSnowball::kill_collision()
 {
-  spawn_squish_particles("snow_piece");
+  std::string squish_sprite = m_sprite_name.find("kamikaze-snowball") != std::string::npos ?
+    "snow_piece" : "generic_piece";
+  spawn_squish_particles(squish_sprite);
   m_sprite->set_action("collision", m_dir);
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
   m_physic.set_velocity_x(0);

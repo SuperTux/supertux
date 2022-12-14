@@ -177,6 +177,10 @@ MrIceBlock::collision_squished(GameObject& object)
     return true;
   }
 
+  if (squishcount < MAXSQUISHES) {
+    spawn_squish_particles("generic_piece_small");
+  }
+
   switch (ice_state)
   {
   case ICESTATE_KICKED:

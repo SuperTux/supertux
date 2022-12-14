@@ -57,7 +57,7 @@ Crystallo::active_update(float dt_sec)
 bool
 Crystallo::collision_squished(GameObject& object)
 {
-  spawn_squish_particles();
+  spawn_squish_particles("iceblock_piece");
   set_action(m_dir == Direction::LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
   m_physic.set_gravity_modifier(1.f);

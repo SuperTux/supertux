@@ -159,6 +159,7 @@ Mole::set_state(MoleState new_state)
       break;
     case DEAD:
       set_colgroup_active(COLGROUP_DISABLED);
+      m_glowing = false;
       break;
     case BURNING:
       m_sprite->set_action("burning", 1);
@@ -171,9 +172,11 @@ Mole::set_state(MoleState new_state)
 
 void
 Mole::ignite() {
+  spawn_kill_particles();
   set_state(BURNING);
   run_dead_script();
   SoundManager::current()->play("sounds/fire.ogg", get_pos());
+  m_glowing = true;
 }
 
 void

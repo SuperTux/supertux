@@ -20,12 +20,13 @@
 #include "badguy/badguy.hpp"
 #include "badguy/walking_badguy.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/bonus_block.hpp"
 #include "object/brick.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "object/weak_block.hpp"
-#include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
@@ -79,11 +80,24 @@ Explosion::explode()
   bool does_push = push_strength > 0;
 
   // spawn some particles
-  Vector accel = Vector(0, Sector::get().get_gravity()*100);
-  Sector::get().add<Particles>(
-    m_col.m_bbox.get_middle(), -360, 360, 450.0f, 900.0f, accel, num_particles,
-    Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1);
+  Vector accel = Vector(0, Sector::get().get_gravity()*200);
+  for (int i = 0; i < num_particles; i++) {
+    float pangle = graphicsRandom.randf(-360.f, 360.f);
+    Vector pspeed = Vector(std::cos(math::radians(pangle)), std::sin(math::radians(pangle)));
 
+    Sector::get().add<SpriteParticle>("images/particles/generic_piece_small.sprite", "default", get_bbox().get_middle(),
+      ANCHOR_MIDDLE, graphicsRandom.randf(450.f, 900.f)*Vector(pspeed), accel, LAYER_OBJECTS-1);
+  }
+
+  // spawn death sparkles
+  for (int i = 1; i < 9; i++)
+  {
+    Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
+    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-noglow",
+      get_bbox().get_middle(),
+      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 3.5f, LAYER_OBJECTS + 6, false);
+  }
+  
   if (does_push) {
     Vector center = m_col.m_bbox.get_middle ();
     auto near_objects = Sector::get().get_nearby_objects (center, 128.0 * 32.0);

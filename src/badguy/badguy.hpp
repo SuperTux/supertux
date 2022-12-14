@@ -151,6 +151,8 @@ public:
 
   void spawn_squish_particles(std::string particle_name = "generic_piece");
 
+  void spawn_kill_particles();
+
   void adjust_for_overlay();
 
   Physic& get_physic() { return m_physic; }

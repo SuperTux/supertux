@@ -20,6 +20,7 @@
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -235,8 +236,11 @@ BadGuy::update(float dt_sec)
         break;
       }
       //won't work if defined anywhere else for some reason
-      if (m_frozen && is_portable())
+      m_freezesprite->set_animation_loops(1);
+      m_flamesprite->set_animation_loops(1);
+      if (m_frozen && is_portable()) {
         m_freezesprite->set_action(get_overlay_size(), 1);
+      }
       else
         m_freezesprite->set_action("default", 1);
 
@@ -615,6 +619,8 @@ BadGuy::kill_fall()
 {
   if (!is_active()) return;
 
+  spawn_kill_particles();
+
   if (m_frozen) {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     Vector pr_pos(0.0f, 0.0f);
@@ -986,6 +992,8 @@ BadGuy::ignite()
   m_sprite->stop_animation();
   m_ignited = true;
 
+  spawn_kill_particles();
+
   if (m_sprite->has_action("melting-left")) {
 
     // melt it!
@@ -1156,6 +1164,18 @@ BadGuy::spawn_squish_particles(std::string particle_name)
       "piece-" + std::to_string(i),
       Vector(get_bbox().get_middle().x, get_bbox().get_top()),
       ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, 1000.f), LAYER_OBJECTS + 6);
+  }
+}
+
+void
+BadGuy::spawn_kill_particles()
+{
+  for (int i = 1; i < 9; i++)
+  {
+    Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
+    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-noglow",
+      get_bbox().get_middle(),
+      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 3.5f, LAYER_OBJECTS + 6, false);
   }
 }
 

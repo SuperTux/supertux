@@ -23,11 +23,14 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/brick.hpp"
 #include "object/coin.hpp"
 #include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -130,31 +133,39 @@ Crusher::collision_solid(const CollisionHit& hit)
       // throw some particles
       for (int j = 0; j < 5; j++)
       {
+        Vector accel = Vector(0.f, 500.f);
+        std::string current_sprite = graphicsRandom.rand(0, 2) == 0 ?
+          "images/particles/generic_piece_small.sprite" : "images/particles/generic_piece.sprite";
+        float downangle1 = graphicsRandom.randf(-45.f, -90.f);
+        float downangle2 = graphicsRandom.randf(-90.f, -135.f);
+        Vector downspeed1 = Vector(std::cos(math::radians(downangle1)), std::sin(math::radians(downangle1)));
+        Vector downspeed2 = Vector(std::cos(math::radians(downangle2)), std::sin(math::radians(downangle2)));
+
+        float angle = graphicsRandom.randf(m_side_dir == Direction::LEFT ? -90.f : 90.f,
+          m_side_dir == Direction::LEFT ? 90.f : 270.f);
+        Vector speed = Vector(std::cos(math::radians(angle)), std::sin(math::radians(angle)));
+
         if (!m_sideways)
         {
-          Sector::get().add<Particles>(
+          Sector::get().add<SpriteParticle>(current_sprite, "default",
             Vector(m_col.m_bbox.get_right() - static_cast<float>(j) * 8.0f - 4.0f,
-            (m_flip == NO_FLIP ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
-            0, 90 + 10 * j, 140, 260, Vector(0, 500),
-            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
-          Sector::get().add<Particles>(
+              (m_flip == NO_FLIP ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
+            ANCHOR_MIDDLE, graphicsRandom.randf(180.f, 280.f) * Vector(downspeed1), accel, LAYER_OBJECTS + 6);
+          Sector::get().add<SpriteParticle>(current_sprite, "default",
             Vector(m_col.m_bbox.get_left() + static_cast<float>(j) * 8.0f + 4.0f,
-            (m_flip == NO_FLIP ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
-            270 + 10 * j, 360, 140, 260, Vector(0, 500),
-            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
+              (m_flip == NO_FLIP ? m_col.m_bbox.get_bottom() : m_col.m_bbox.get_top())),
+            ANCHOR_MIDDLE, graphicsRandom.randf(180.f, 280.f) * Vector(downspeed2), accel, LAYER_OBJECTS + 6);
         }
         else
         {
-          int min_angle = m_side_dir == Direction::LEFT ? 0 : 270 + 10 * j;
-          int max_angle = m_side_dir == Direction::LEFT ? 90 + 10 * j : 360;
-          Sector::get().add<Particles>(
+          Sector::get().add<SpriteParticle>(current_sprite, "default",
             Vector((m_side_dir == Direction::RIGHT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left()),
-            (m_col.m_bbox.get_top())), min_angle, max_angle, 140, 260, Vector(0, 500),
-            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
-          Sector::get().add<Particles>(
+              (m_col.m_bbox.get_top())),
+            ANCHOR_MIDDLE, graphicsRandom.randf(180.f, 280.f) * Vector(speed), accel, LAYER_OBJECTS + 6);
+          Sector::get().add<SpriteParticle>(current_sprite, "default",
             Vector((m_side_dir == Direction::RIGHT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left()),
-            (m_col.m_bbox.get_bottom())), min_angle, max_angle, 140, 260, Vector(0, 500),
-            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS + 1);
+              (m_col.m_bbox.get_bottom())),
+            ANCHOR_MIDDLE, graphicsRandom.randf(180.f, 280.f) * Vector(speed), accel, LAYER_OBJECTS + 6);
         }
       }
     }

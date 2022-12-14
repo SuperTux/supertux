@@ -266,6 +266,10 @@ Snail::collision_squished(GameObject& object)
     return true;
   }
 
+  if (squishcount < MAX_SNAIL_SQUISHES) {
+    spawn_squish_particles("generic_piece_small");
+  }
+
   switch (state) {
     case STATE_NORMAL:
       BOOST_FALLTHROUGH;
