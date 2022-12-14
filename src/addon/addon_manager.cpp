@@ -485,7 +485,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
   else
   {
     log_debug << "Adding archive \"" << addon.get_install_filename() << "\" to search path" << std::endl;
-    //int PHYSFS_mount(addon.installed_install_filename.c_str(), "addons/", 0)
+    //int PHYSFS_mount(addon.installed_install_filename.c_str(), "addons/", !addon.overrides_data())
 
     std::string mountpoint;
     switch (addon.get_format()) {
@@ -497,7 +497,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
         break;
     }
 
-    if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
+    if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), !addon.overrides_data()) == 0)
     {
       log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
                   << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
@@ -576,7 +576,7 @@ AddonManager::mount_old_addons()
   std::string mountpoint;
   for (auto& addon : m_installed_addons) {
     if (is_old_enabled_addon(addon)) {
-      if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 1) == 0)
+      if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), !addon->overrides_data()) == 0)
       {
         log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
                     << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
@@ -620,6 +620,19 @@ AddonManager::is_addon_installed(const std::string& id) const
     [id] (const auto& installed_addon) {
       return installed_addon == id;
     });
+}
+
+std::vector<AddonId>
+AddonManager::get_depending_addons(const std::string& id) const
+{
+  std::vector<AddonId> addons;
+  for (auto& addon : m_installed_addons)
+  {
+    const auto& dependencies = addon->get_dependencies();
+    if (std::find(dependencies.begin(), dependencies.end(), id) != dependencies.end())
+      addons.push_back(addon->get_id());
+  }
+  return addons;
 }
 
 std::vector<std::string>
@@ -864,6 +877,7 @@ AddonManager::onDownloadAborted(int id)
 }
 #endif
 
+
 AddonScreenshotManager::AddonScreenshotManager(const AddonId& addon_id) :
   m_addon_manager(*AddonManager::current()),
   m_downloader(),
@@ -881,7 +895,7 @@ AddonScreenshotManager::AddonScreenshotManager(const AddonId& addon_id) :
   }
   catch (...)
   {
-    log_warning << "Screenshots of addon \"" << m_addon_id << "\" couldn't be loaded, because it was not available in repository." << std::endl;
+    log_warning << "Screenshots for addon \"" << m_addon_id << "\" couldn't be loaded, because it isn't available in repository." << std::endl;
   }
 }
 
@@ -964,6 +978,89 @@ AddonScreenshotManager::request_download(const int id, bool recursive)
       }
     });
   }
+}
+
+
+AddonDependencyManager::AddonDependencyManager(const AddonId& addon_id) :
+  m_addon_id(addon_id),
+  m_dependencies(),
+  m_transfer_status(),
+  m_callback([](){})
+{
+}
+
+AddonDependencyManager::~AddonDependencyManager()
+{
+}
+
+void
+AddonDependencyManager::update()
+{
+  if (m_transfer_status)
+    m_transfer_status->update();
+}
+
+void
+AddonDependencyManager::request_download_all(const std::function<void ()>& callback)
+{
+  m_dependencies.clear();
+
+  std::vector<std::string> dependencies;
+  try
+  {
+    dependencies = AddonManager::current()->get_repository_addon(m_addon_id).get_dependencies();
+  }
+  catch (...)
+  {
+    log_warning << "Cannot download dependencies for add-on \"" << m_addon_id << "\", because it isn't available in repository." << std::endl;
+    return;
+  }
+
+  if (dependencies.empty()) return;
+  for (const std::string& id : dependencies)
+  {
+    if (AddonManager::current()->is_addon_installed(id))
+      continue; // Don't attempt to install add-ons that are already installed.
+
+    try
+    {
+      AddonManager::current()->get_repository_addon(id);
+    }
+    catch (...)
+    {
+      continue; // Don't attempt to install add-ons that are not available.
+    }
+    m_dependencies.push_back(id);
+  }
+
+  m_callback = callback;
+  request_download();
+}
+
+void
+AddonDependencyManager::request_download()
+{
+  if (m_dependencies.empty())
+  {
+    m_callback();
+    return;
+  }
+
+  m_transfer_status = AddonManager::current()->request_install_addon(m_dependencies.at(0));
+  m_transfer_status->then([this](bool success)
+  {
+    try
+    {
+      AddonManager::current()->enable_addon(m_dependencies.at(0));
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Enabling dependency add-on failed: " << err.what() << std::endl;
+    }
+
+    m_dependencies.erase(m_dependencies.begin());
+    request_download();
+  });
 }
 
 /* EOF */

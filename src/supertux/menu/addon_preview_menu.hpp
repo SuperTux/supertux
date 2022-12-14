@@ -17,14 +17,12 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_PREVIEW_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_PREVIEW_MENU_HPP
 
-#include <vector>
-
-#include "addon/addon_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 
-class Addon;
-class AddonManager;
+#include <vector>
+
+#include "addon/addon_manager.hpp"
 
 class AddonPreviewMenu final : public Menu
 {
@@ -38,6 +36,7 @@ class AddonPreviewMenu final : public Menu
 private:
   AddonManager& m_addon_manager;
   AddonScreenshotManager m_screenshot_manager;
+  AddonDependencyManager m_dependency_manager;
   const Addon& m_addon;
   bool m_addon_enabled;
   const bool m_auto_install;
@@ -63,20 +62,21 @@ private:
   AddonPreviewMenu& operator=(const AddonPreviewMenu&) = delete;
 };
 
-class ScreenshotDownloadDialog final : public Dialog
+
+class AddonComponentDownloadDialog final : public Dialog
 {
 private:
-  AddonScreenshotManager& m_screenshot_manager;
+  AddonComponentManager& m_component_manager;
 
 public:
-  ScreenshotDownloadDialog(AddonScreenshotManager& screenshot_manager, bool passive = false);
-  ~ScreenshotDownloadDialog() override;
+  AddonComponentDownloadDialog(AddonComponentManager& component_manager);
+  ~AddonComponentDownloadDialog() override;
 
   void update() override;
 
 private:
-  ScreenshotDownloadDialog(const ScreenshotDownloadDialog&) = delete;
-  ScreenshotDownloadDialog& operator=(const ScreenshotDownloadDialog&) = delete;
+  AddonComponentDownloadDialog(const AddonComponentDownloadDialog&) = delete;
+  AddonComponentDownloadDialog& operator=(const AddonComponentDownloadDialog&) = delete;
 };
 
 #endif

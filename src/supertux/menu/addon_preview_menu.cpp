@@ -27,6 +27,7 @@
 AddonPreviewMenu::AddonPreviewMenu(const Addon& addon, bool auto_install, bool update) :
   m_addon_manager(*AddonManager::current()),
   m_screenshot_manager(addon.get_id()),
+  m_dependency_manager(addon.get_id()),
   m_addon(addon),
   m_addon_enabled(addon.is_enabled()),
   m_auto_install(auto_install),
@@ -44,7 +45,7 @@ AddonPreviewMenu::~AddonPreviewMenu()
 bool
 AddonPreviewMenu::on_back_action()
 {
-  if (MenuManager::instance().has_dialog()) //If an addon screenshot download is likely being interrupted.
+  if (MenuManager::instance().has_dialog()) // If an addon component download is likely being interrupted.
   {
     m_addon_manager.empty_cache_directory();
     MenuManager::instance().set_dialog({});
@@ -95,6 +96,29 @@ AddonPreviewMenu::rebuild_menu()
   add_inactive(fmt::format(fmt::runtime(_("Type: {}")), type), true);
   add_inactive(license.empty() ? _("No license specified.") : fmt::format(fmt::runtime(_("License: {}")), license), !license.empty());
   add_inactive("");
+
+  if (!m_addon.get_dependencies().empty())
+  {
+    add_inactive(_("Dependencies:"), true);
+    for (const std::string& id : m_addon.get_dependencies())
+    {
+      std::string text;
+      try
+      {
+        const Addon& dependency = m_addon_manager.get_repository_addon(id);
+        text = fmt::format(fmt::runtime("\"{}\" ({}): {}"), dependency.get_title(),
+                            addon_string_util::addon_type_to_translated_string(dependency.get_type()),
+                            m_addon_manager.is_addon_installed(id) ? _("Installed") : _("Not installed"));
+      }
+      catch (std::exception& err)
+      {
+        log_warning << "Dependency not available in repository: " << err.what() << std::endl;
+        text = fmt::format(fmt::runtime("\"{}\": {}"), id, _("Not available!"));
+      }
+      add_inactive(text, true);
+    }
+    add_inactive("");
+  }
 
   add_inactive(_("Description:"), true);
   if (desc.empty())
@@ -186,13 +210,13 @@ AddonPreviewMenu::menu_action(MenuItem& item)
   const int index = item.get_id();
   if (index == MNID_SHOW_SCREENSHOTS)
   {
-    if (MenuManager::instance().has_dialog()) //If an addon screenshot download is likely currently running.
+    if (MenuManager::instance().has_dialog()) // If an addon screenshot download is likely currently running.
     {
       log_warning << "A screenshot download is currently active. Ignoring screenshot download request." << std::endl;
       return;
     }
     m_show_screenshots = true;
-    auto dialog = std::make_unique<ScreenshotDownloadDialog>(m_screenshot_manager, true);
+    auto dialog = std::make_unique<AddonComponentDownloadDialog>(m_screenshot_manager);
     dialog->set_text(_("Fetching screenshot previews..."));
     MenuManager::instance().set_dialog(std::move(dialog));
     m_screenshot_manager.request_download_all([this](const std::vector<std::string>& local_screenshot_urls)
@@ -210,11 +234,25 @@ AddonPreviewMenu::menu_action(MenuItem& item)
   else if (index == MNID_UNINSTALL)
   {
     std::string message = fmt::format(fmt::runtime(_("Are you sure you want to uninstall \"{}\"?")), m_addon.get_title());
-    if (m_addon.get_type() != Addon::LANGUAGEPACK) message += _("\nYour progress won't be lost.");
+    if (!m_addon.requires_restart()) message += _("\nYour progress won't be lost.");
 
     Dialog::show_confirmation(message, [this]()
     {
-      uninstall_addon();
+      const std::vector<std::string> depending_addons = m_addon_manager.get_depending_addons(m_addon.get_id());
+      if (depending_addons.empty())
+      {
+        uninstall_addon();
+      }
+      else
+      {
+        // Other add-ons depend on the add-on that's being uninstalled.
+        const std::string message = fmt::format(fmt::runtime(_("NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\nAre you sure you wish to uninstall?")),
+            m_addon.get_title(), depending_addons.size(), static_cast<int>(depending_addons.size()) <= 1 ? _("add-on") : _("add-ons"));
+        Dialog::show_confirmation(message, [this]()
+        {
+          uninstall_addon();
+        }, true);
+      }
     }, true);
   }
   else if (index == MNID_TOGGLE)
@@ -254,9 +292,27 @@ AddonPreviewMenu::install_addon()
       {
         log_warning << "Enabling add-on failed: " << err.what() << std::endl;
       }
-      MenuManager::instance().pop_menu(true);
-      if (!m_update) MenuManager::instance().pop_menu(true);
-      MenuManager::instance().current_menu()->refresh();
+
+      // Install add-on dependencies, if any.
+      if (!m_addon.get_dependencies().empty())
+      {
+        auto dialog = std::make_unique<AddonComponentDownloadDialog>(m_dependency_manager);
+        dialog->set_text(_("Downloading add-on dependencies..."));
+        MenuManager::instance().set_dialog(std::move(dialog));
+        m_dependency_manager.request_download_all([this]()
+        {
+          MenuManager::instance().set_dialog({});
+          MenuManager::instance().pop_menu();
+          if (!m_update) MenuManager::instance().pop_menu();
+          MenuManager::instance().current_menu()->refresh();
+        });
+      }
+      else
+      {
+        MenuManager::instance().pop_menu(true);
+        if (!m_update) MenuManager::instance().pop_menu(true);
+        MenuManager::instance().current_menu()->refresh();
+      }
     }
     else
     {
@@ -300,27 +356,28 @@ AddonPreviewMenu::toggle_addon()
   {
     m_addon_manager.enable_addon(addon_id);
   }
-  if (m_addon.get_type() == Addon::LANGUAGEPACK)
+  if (m_addon.requires_restart())
   {
     Dialog::show_message(_("Please restart SuperTux\nfor these changes to take effect."));
   }
   MenuManager::instance().previous_menu()->refresh();
 }
 
-ScreenshotDownloadDialog::ScreenshotDownloadDialog(AddonScreenshotManager& screenshot_manager, bool passive) :
-  Dialog(passive),
-  m_screenshot_manager(screenshot_manager)
+
+AddonComponentDownloadDialog::AddonComponentDownloadDialog(AddonComponentManager& component_manager) :
+  Dialog(true),
+  m_component_manager(component_manager)
 {
 }
 
-ScreenshotDownloadDialog::~ScreenshotDownloadDialog()
+AddonComponentDownloadDialog::~AddonComponentDownloadDialog()
 {
 }
 
 void
-ScreenshotDownloadDialog::update()
+AddonComponentDownloadDialog::update()
 {
-  m_screenshot_manager.update();
+  m_component_manager.update();
 }
 
 /* EOF */

@@ -85,6 +85,8 @@ public:
   bool is_from_old_addon(const std::string& filename) const;
   bool is_addon_installed(const std::string& id) const;
 
+  std::vector<AddonId> get_depending_addons(const std::string& id) const;
+
   void update();
   void check_for_langpack_updates();
 
@@ -113,8 +115,23 @@ private:
   AddonManager& operator=(const AddonManager&) = delete;
 };
 
+
+/** Represents a class, which helps manage additional Add-on components */
+class AddonComponentManager
+{
+public:
+  AddonComponentManager() {}
+  ~AddonComponentManager() {}
+
+  virtual void update() = 0;
+
+private:
+  AddonComponentManager(const AddonComponentManager&) = delete;
+  AddonComponentManager& operator=(const AddonComponentManager&) = delete;
+};
+
 /** Manages screenshot previews, specified for a given Add-on */
-class AddonScreenshotManager final
+class AddonScreenshotManager final : public AddonComponentManager
 {
 public:
   using ScreenshotList = std::vector<std::string>;
@@ -133,7 +150,7 @@ public:
   AddonScreenshotManager(const AddonId& addon_id);
   ~AddonScreenshotManager();
 
-  void update();
+  void update() override;
 
   void request_download_all(const std::function<void (ScreenshotList)>& callback = {});
   void request_download(const int id, bool recursive = false);
@@ -141,6 +158,31 @@ public:
 private:
   AddonScreenshotManager(const AddonScreenshotManager&) = delete;
   AddonScreenshotManager& operator=(const AddonScreenshotManager&) = delete;
+};
+
+/** Manages the download process of Add-on dependencies */
+class AddonDependencyManager final : public AddonComponentManager
+{
+private:
+  const AddonId m_addon_id;
+  std::vector<std::string> m_dependencies;
+  TransferStatusPtr m_transfer_status;
+  std::function<void ()> m_callback;
+
+public:
+  AddonDependencyManager(const AddonId& addon_id);
+  ~AddonDependencyManager();
+
+  void update() override;
+
+  void request_download_all(const std::function<void ()>& callback = {});
+
+private:
+  void request_download();
+
+private:
+  AddonDependencyManager(const AddonDependencyManager&) = delete;
+  AddonDependencyManager& operator=(const AddonDependencyManager&) = delete;
 };
 
 #endif
