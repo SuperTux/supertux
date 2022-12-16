@@ -1,5 +1,6 @@
 //  SuperTux - Badguy "Igel"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2022 Daniel Ward <weluvgoatz@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,17 +20,15 @@
 
 #include "badguy/walking_badguy.hpp"
 
-/** Badguy "Igel" - a hedgehog that can absorb bullets */
+/** Badguy "Igel" - a hedgehog that rolls around ;) */
 class Igel final : public WalkingBadguy
 {
 public:
   Igel(const ReaderMapping& reader);
 
-  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
-
   virtual void active_update(float dt_sec) override;
 
-  virtual bool is_freezable() const override;
+  virtual bool is_freezable() const override { return true; }
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
   static std::string class_name() { return "igel"; }
@@ -37,16 +36,17 @@ public:
   static std::string display_name() { return _("Igel"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
-protected:
-  //  virtual bool collision_squished(GameObject& object) override;
-  // Enable this and the igel will no longer be butt-jumpable when frozen.
-  // Remember to enable it in .cpp too!
-  void be_normal(); /**< switch to state STATE_NORMAL */
-  void turn_around(); /**< reverse direction, assumes we are in STATE_NORMAL */
-  bool can_see(const MovingObject& o) const; /**< check if we can see o */
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
 
 private:
-  Timer turn_recover_timer; /**< wait time until we will turn around again when shot at */
+  enum IgelState {
+    WALKING,
+    FOUND,
+    ROLLING
+  };
+  IgelState m_state;
+  Timer m_found_timer;
 
 private:
   Igel(const Igel&) = delete;

@@ -19,8 +19,11 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -95,6 +98,14 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     break;
   case ICESTATE_KICKED: {
     if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT)) {
+      for (int i = 0; i < 5; i++) {
+        float angle = graphicsRandom.randf(hit.left ? -90.f : 90.f, hit.left ? 90.f : 270.f);
+        Vector speed = graphicsRandom.randf(50.f, 200.f) * Vector(std::cos(math::radians(angle)), std::sin(math::radians(angle)));
+        Vector accel = Vector(0.f, 800.f);
+        Sector::get().add<SpriteParticle>("images/particles/generic_piece_small.sprite", "default",
+          Vector(hit.left ? get_bbox().get_left() : get_bbox().get_right(), get_bbox().get_middle().y), ANCHOR_MIDDLE,
+          speed, accel, LAYER_OBJECTS + 6);
+      }
       m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
       SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
       m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);

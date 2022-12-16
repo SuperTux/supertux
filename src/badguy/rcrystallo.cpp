@@ -93,11 +93,11 @@ RCrystallo::active_update(float dt_sec)
     WalkingBadguy::active_update(dt_sec, targetwalk, 2.f);
     break;
   case RCRYSTALLO_DETECT:
+    m_physic.set_gravity_modifier(-1.f);
     m_physic.set_velocity_x(0.f);
     m_physic.set_acceleration_x(0.f);
     if (m_sprite->animation_done())
     {
-
       m_physic.set_gravity_modifier(1.f);
       set_action(m_dir == Direction::LEFT ? "fall-left" : "fall-right", 1, ANCHOR_TOP);
       state = RCRYSTALLO_FALLING;
@@ -161,6 +161,7 @@ RCrystallo::kill_fall()
     SoundManager::current()->play("sounds/crystallo-shatter.ogg", get_pos());
     if (is_valid())
     {
+      spawn_kill_particles();
       remove_me();
       //create 4 shards that the enemy splits into, which serve as an additional threat
       Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(100.f, -500.f));

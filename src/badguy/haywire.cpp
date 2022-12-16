@@ -19,8 +19,11 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -362,6 +365,18 @@ void
 Haywire::collision_solid(const CollisionHit& hit)
 {
   WalkingBadguy::collision_solid(hit);
+
+  if (is_exploding && (hit.left || hit.right))
+  {
+    for (int i = 0; i < 5; i++) {
+      float angle = graphicsRandom.randf(hit.left ? -90.f : 90.f, hit.left ? 90.f : 270.f);
+      Vector speed = graphicsRandom.randf(50.f, 200.f) * Vector(std::cos(math::radians(angle)), std::sin(math::radians(angle)));
+      Vector accel = Vector(0.f, 800.f);
+      Sector::get().add<SpriteParticle>("images/particles/generic_piece_small.sprite", "default",
+        Vector(hit.left ? get_bbox().get_left() : get_bbox().get_right(), get_bbox().get_middle().y), ANCHOR_MIDDLE,
+        speed, accel, LAYER_OBJECTS + 6);
+    }
+  }
 
   m_jumping = false;
 }

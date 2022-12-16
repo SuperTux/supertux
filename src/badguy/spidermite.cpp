@@ -28,6 +28,7 @@ SpiderMite::SpiderMite(const ReaderMapping& reader) :
   mode(SpiderMiteMode::HIDING),
   bounce_distance(DEFAULT_BOUNCE_DISTANCE)
 {
+  m_sprite->set_action("wait", m_dir, -1);
   reader.get("bounce-distance", bounce_distance, 100.0f);
   initialize();
 }
@@ -99,10 +100,11 @@ SpiderMite::active_update(float dt_sec)
   auto player = get_nearest_player();
   if (!player)
     return;
-  if (player->get_bbox().get_left() <= get_bbox().get_right() + 16.f &&
-    player->get_bbox().get_right() >= get_bbox().get_left() - 16.f &&
+  if (player->get_bbox().get_left() <= get_bbox().get_right() + 48.f &&
+    player->get_bbox().get_right() >= get_bbox().get_left() - 48.f &&
     mode == SpiderMiteMode::HIDING)
   {
+    m_sprite->set_action("bounce", m_dir, -1);
     m_physic.enable_gravity(true);
     m_physic.reset();
     mode = SpiderMiteMode::BOUNCING_DOWN;

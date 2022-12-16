@@ -133,7 +133,7 @@ Crusher::collision_solid(const CollisionHit& hit)
       // throw some particles
       for (int j = 0; j < 5; j++)
       {
-        Vector accel = Vector(0.f, 500.f);
+        Vector accel = Vector(0.f, 800.f);
         std::string current_sprite = graphicsRandom.rand(0, 2) == 0 ?
           "images/particles/generic_piece_small.sprite" : "images/particles/generic_piece.sprite";
         float downangle1 = graphicsRandom.randf(-45.f, -90.f);

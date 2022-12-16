@@ -2,11 +2,9 @@
   (action
     (name "walking-left")
     (hitbox 2.1 6.1 45.8 25.8)
-    (images 
-      "walk-0.png"
-"walk-1.png"
-"walk-2.png"
-    )
+    (images  "walk-0.png"
+             "walk-1.png"
+             "walk-2.png")
   )
   (action
     (name "walking-right")
@@ -14,13 +12,37 @@
     (mirror-action "walking-left")
   )
   (action
+    (name "found-left")
+    (fps 2)
+    (hitbox 2.1 6.1 45.8 25.8)
+    (images  "walk-0.png")
+  )
+  (action
+    (name "found-right")
+    (hitbox 2.1 6.1 45.8 25.8)
+    (mirror-action "found-left")
+  )
+  (action
+    (name "rolling-left")
+    (fps 30)
+    (hitbox 2.1 6.1 45.8 25.8)
+    (images  "walk-0.png"
+             "walk-1.png"
+             "walk-2.png")
+  )
+  (action
+    (name "rolling-right")
+    (hitbox 2.1 6.1 45.8 25.8)
+    (clone-action "rolling-left")
+  )
+  (action
     (name "iced-left")
-    (hitbox -7 -8 45.8 25.8)
+    (hitbox -5 0 45.8 25.8)
     (images "walk-0.png")
   )
   (action
     (name "iced-right")
-    (hitbox -7 -9 45.8 25.8)
+    (hitbox -5 0 45.8 25.8)
     (mirror-action "iced-left")
   )
   (action
