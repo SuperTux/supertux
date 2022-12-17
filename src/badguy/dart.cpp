@@ -20,6 +20,7 @@
 #include "audio/sound_source.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
 const float DART_SPEED = 200;
@@ -89,6 +90,11 @@ Dart::deactivate()
 void
 Dart::active_update(float dt_sec)
 {
+  Rectf removebox = get_bbox().grown(1.f);
+  if (!Sector::get().is_free_of_statics(removebox)) {
+    SoundManager::current()->play("sounds/darthit.wav", get_pos());
+    remove_me();
+  }
   BadGuy::active_update(dt_sec);
   sound_source->set_position(get_pos());
 }

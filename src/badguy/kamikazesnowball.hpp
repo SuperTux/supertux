@@ -33,7 +33,6 @@ public:
   static std::string display_name() { return _("Snowshot"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
-  virtual bool can_break() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
