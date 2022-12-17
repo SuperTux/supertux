@@ -78,9 +78,11 @@ void
 DartTrap::active_update(float dt_sec)
 {
   // movement
-  Rectf largebox = get_bbox().grown(10.f);
+  Rectf largebox = get_bbox().grown(8.f);
+
   for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
-    if (largebox.contains(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec))
+    if (largebox.contains(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec)
+      && !Sector::get().is_free_of_statics(largebox))
     {
       m_col.set_movement(tm.get_movement(true));
     }

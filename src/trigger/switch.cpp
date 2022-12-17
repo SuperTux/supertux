@@ -19,6 +19,9 @@
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
+#include "object/fallblock.hpp"
+#include "object/platform.hpp"
+#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -76,8 +79,33 @@ Switch::after_editor_set() {
 }
 
 void
-Switch::update(float )
+Switch::update(float dt_sec)
 {
+  // movement
+  Rectf largebox = get_bbox().grown(8.f);
+
+  for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
+    if (largebox.contains(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec)
+      && !Sector::get().is_free_of_statics(largebox))
+    {
+      m_col.set_movement(tm.get_movement(true));
+    }
+  }
+
+  for (auto& platform : Sector::get().get_objects_by_type<Platform>()) {
+    if (largebox.contains(platform.get_bbox()))
+    {
+      m_col.set_movement(platform.get_movement());
+    }
+  }
+
+  for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>()) {
+    if (largebox.contains(fallblock.get_bbox()))
+    {
+      m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+    }
+  }
+
   switch (state) {
     case OFF:
       break;
