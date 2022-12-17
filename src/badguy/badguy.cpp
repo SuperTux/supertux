@@ -474,7 +474,7 @@ HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& hit)
 {
   if (player.is_invincible() ||
-    (is_snipable() && player.is_sliding())) {
+    (is_snipable() && (player.m_does_buttjump || player.is_sliding()))) {
     kill_fall();
     return ABORT_MOVE;
   }

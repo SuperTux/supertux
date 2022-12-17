@@ -342,6 +342,7 @@ private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
   Timer m_kick_timer;
+  Timer m_buttjump_timer;
 
 public:
   Timer m_dying_timer;

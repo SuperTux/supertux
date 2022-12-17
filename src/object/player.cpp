@@ -55,8 +55,6 @@ const float TUX_SAFE_TIME = 1.8f;
 const float TUX_INVINCIBLE_TIME = 14.0f;
 const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
 
-const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
-
 const int TIME_UNTIL_IDLE = 5000;
 /** idle stages */
 const std::vector<std::string> IDLE_STAGES
@@ -132,8 +130,14 @@ const float STONE_KEY_ACCELERATION = 200.f;
 const float STONE_DOWN_ACCELERATION = 300.f;
 const float STONE_UP_ACCELERATION = 400.f;
 
+/* Swim variables */
 const float SWIM_SPEED = 300.f;
 const float SWIM_BOOST_SPEED = 600.f;
+
+/* Buttjump variables */
+
+const float BUTTJUMP_WAIT_TIME = 0.35f;
+const float BUTTJUMP_SPEED = 800.f;
 
 } // namespace
 
@@ -193,6 +197,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_skidding_timer(),
   m_safe_timer(),
   m_kick_timer(),
+  m_buttjump_timer(),
   m_dying_timer(),
   m_second_growup_sound_timer(),
   m_growing(false),
@@ -722,14 +727,30 @@ Player::update(float dt_sec)
 
   if (m_sliding || m_stone)
   {
-    Rectf brickbox = get_bbox().grown(-1.f);
-    brickbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -12.f : 1.f));
-    brickbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 12.f : -1.f));
+    Rectf sidebrickbox = get_bbox().grown(-1.f);
+    sidebrickbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -12.f : 1.f));
+    sidebrickbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 12.f : -1.f));
 
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (brickbox.contains(brick.get_bbox()) && (m_stone || (m_sliding && brick.get_class_name() != "heavy-brick")) &&
+      if (sidebrickbox.contains(brick.get_bbox()) && (m_stone || (m_sliding && brick.get_class_name() != "heavy-brick")) &&
         std::abs(m_physic.get_velocity_x()) >= 150.f) {
         brick.try_break(this, is_big());
+      }
+    }
+  }
+
+  if (m_does_buttjump)
+  {
+    Rectf downbox = get_bbox().grown(-1.f);
+    downbox.set_bottom(get_bbox().get_bottom() + 16.f);
+    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+      if (downbox.contains(brick.get_bbox()) && brick.get_class_name() != "heavy-brick") {
+        brick.try_break(this, is_big());
+      }
+    }
+    for (auto& badguy : Sector::get().get_objects_by_type<BadGuy>()) {
+      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable()) {
+        badguy.kill_fall();
       }
     }
   }
@@ -1302,8 +1323,18 @@ Player::handle_vertical_input()
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
   if (m_controller->hold(Control::DOWN) && !m_duck && is_big() && !on_ground() && !m_sliding && !m_stone) {
+    if (!m_wants_buttjump && !m_does_buttjump) {
+      m_buttjump_timer.start(BUTTJUMP_WAIT_TIME);
+    }
     m_wants_buttjump = true;
-    if (m_physic.get_velocity_y() >= BUTTJUMP_MIN_VELOCITY_Y) m_does_buttjump = true;
+    if (m_buttjump_timer.check())
+    {
+      m_buttjump_timer.stop();
+      m_does_buttjump = true;
+    }
+    if (m_does_buttjump) {
+      m_physic.set_velocity_y(BUTTJUMP_SPEED);
+    }
   }
 
   /* When Down is not held anymore, disable butt jump */
