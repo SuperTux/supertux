@@ -84,6 +84,7 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 void
 Rock::update(float dt_sec)
 {
+  // a lot of this content shall be deprecated once physics are fixed.
   if (!is_grabbed()) {
 
     Rectf icebox = get_bbox().grown(-1.f);
@@ -103,6 +104,18 @@ Rock::update(float dt_sec)
         physic.set_velocity_y(-500.f);
       }
     }
+
+    Rectf crusherbox = get_bbox().grown(-1.f);
+    crusherbox.set_bottom(get_bbox().get_bottom() + 2.f);
+    for (auto& crusher : Sector::get().get_objects_by_type<IceCrusher>()) {
+      if (crusherbox.contains(crusher.get_bbox()) && (crusher.is_sideways() ||
+        (!crusher.is_sideways() && crusher.get_state() != IceCrusher::IceCrusherState::CRUSHING))) {
+        on_ground = true;
+        m_col.set_movement(crusher.get_physic().get_movement(dt_sec));
+        return;
+      }
+    }
+
     m_col.set_movement(physic.get_movement(dt_sec));
   }
 }
