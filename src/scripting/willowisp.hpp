@@ -19,8 +19,8 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+
 #include "scripting/badguy.hpp"
-#include "scripting/game_object.hpp"
 
 class WillOWisp;
 #endif
@@ -34,7 +34,11 @@ class WillOWisp final : public scripting::BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  using BadGuy::BadGuy;
+  WillOWisp(UID uid) :
+    BadGuy(uid),
+    GameObject<::BadGuy>(uid),
+    GameObject<::WillOWisp>(uid)
+  {}
 
 private:
   WillOWisp(const WillOWisp&) = delete;
