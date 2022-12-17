@@ -41,8 +41,10 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void on_flip(float height) override;
-  
-protected:
+
+  Physic& get_physic() { return physic; }
+
+public:
   enum State
   {
     IDLE,
@@ -50,10 +52,11 @@ protected:
     FALL,
     LAND
   };
+
+  State state;
+  State get_state() const { return state; }
   
 private:
-  State state;
-    
   Physic physic;
   Timer timer;
   

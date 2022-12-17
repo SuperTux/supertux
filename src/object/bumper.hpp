@@ -38,9 +38,8 @@ public:
 
   virtual void on_flip(float height) override;
 
-  Physic physic;
-
 private:
+  Physic physic;
   bool left;
 	
 private:

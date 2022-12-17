@@ -18,6 +18,7 @@
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "audio/sound_manager.hpp"
+#include "object/fallblock.hpp"
 #include "object/player.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
@@ -69,6 +70,15 @@ Bumper::update(float dt_sec)
       rock.get_physic().set_velocity(BOUNCE_DIR * 0.7f, BOUNCE_Y * 0.6f);
       SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
       m_sprite->set_action((left ? "left-swinging" : "right-swinging"), 1);
+    }
+  }
+
+  Rectf fallbox = get_bbox().grown(1.f);
+  for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>()) {
+    if (fallbox.contains(fallblock.get_bbox()))
+    {
+      m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+      return;
     }
   }
   m_col.set_movement(physic.get_movement (dt_sec));
