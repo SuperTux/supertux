@@ -52,6 +52,8 @@ public:
 
   const Vector& get_speed() const { return m_speed; }
 
+  Vector get_movement() const { return m_movement; }
+
   /** @name Scriptable Methods
       @{ */
 
@@ -70,6 +72,7 @@ public:
 
 private:
   Vector m_speed;
+  Vector m_movement;
 
   /** true if Platform will automatically pick a destination based on
       collisions and current Player position */

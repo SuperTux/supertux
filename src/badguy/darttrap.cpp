@@ -20,6 +20,8 @@
 #include "audio/sound_source.hpp"
 #include "badguy/dart.hpp"
 #include "editor/editor.hpp"
+#include "object/fallblock.hpp"
+#include "object/platform.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
@@ -73,8 +75,31 @@ DartTrap::collision_player(Player& , const CollisionHit& )
 }
 
 void
-DartTrap::active_update(float )
+DartTrap::active_update(float dt_sec)
 {
+  // movement
+  Rectf largebox = get_bbox().grown(10.f);
+  for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
+    if (largebox.contains(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec))
+    {
+      m_col.set_movement(tm.get_movement(true));
+    }
+  }
+
+  for (auto& platform : Sector::get().get_objects_by_type<Platform>()) {
+    if (largebox.contains(platform.get_bbox()))
+    {
+      m_col.set_movement(platform.get_movement());
+    }
+  }
+
+  for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>()) {
+    if (largebox.contains(fallblock.get_bbox()))
+    {
+      m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+    }
+  }
+
   if (!enabled) {
     return;
   }
@@ -109,7 +134,7 @@ void
 DartTrap::fire()
 {
   float px = get_pos().x;
-  if (m_dir == Direction::RIGHT) px += 5;
+  px += (m_dir == Direction::RIGHT) ? 8.f : -8.f;
   float py = get_pos().y;
   if (m_flip == NO_FLIP)
     py += MUZZLE_Y;

@@ -20,7 +20,9 @@
 #include "audio/sound_manager.hpp"
 #include "object/fallblock.hpp"
 #include "object/player.hpp"
+#include "object/platform.hpp"
 #include "object/rock.hpp"
+#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -62,9 +64,11 @@ Bumper::update(float dt_sec)
   {
     m_sprite->set_action(left ? "left-normal" : "right-normal");
   }
-  Rectf rockbox = get_bbox().grown(1.f);
+  Rectf smallbox = get_bbox().grown(1.f);
+  Rectf largebox = get_bbox().grown(8.f);
+
   for (auto& rock : Sector::get().get_objects_by_type<Rock>()) {
-    if (rockbox.contains(rock.get_bbox()))
+    if (smallbox.contains(rock.get_bbox()))
     {
       float BOUNCE_DIR = left ? -BOUNCE_X : BOUNCE_X;
       rock.get_physic().set_velocity(BOUNCE_DIR * 0.7f, BOUNCE_Y * 0.6f);
@@ -73,9 +77,24 @@ Bumper::update(float dt_sec)
     }
   }
 
-  Rectf fallbox = get_bbox().grown(1.f);
+  for (auto& tm : Sector::get().get_objects_by_type<TileMap>()) {
+    if (largebox.contains(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f*dt_sec))
+    {
+      m_col.set_movement(tm.get_movement(true));
+      return;
+    }
+  }
+
+  for (auto& platform : Sector::get().get_objects_by_type<Platform>()) {
+    if (largebox.contains(platform.get_bbox()))
+    {
+      m_col.set_movement(platform.get_movement());
+      return;
+    }
+  }
+
   for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>()) {
-    if (fallbox.contains(fallblock.get_bbox()))
+    if (smallbox.contains(fallblock.get_bbox()))
     {
       m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
       return;
