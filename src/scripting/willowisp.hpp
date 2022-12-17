@@ -35,8 +35,8 @@ class WillOWisp final : public scripting::BadGuy
 #ifndef SCRIPTING_API
 public:
   WillOWisp(UID uid) :
-    BadGuy(uid),
     GameObject<::BadGuy>(uid),
+    BadGuy(uid),
     GameObject<::WillOWisp>(uid)
   {}
 
