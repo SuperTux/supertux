@@ -115,7 +115,7 @@ Switch::update(float )
 void
 Switch::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_TILES, m_flip);
+  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_TILES-2, m_flip);
 }
 
 void

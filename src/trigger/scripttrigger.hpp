@@ -40,14 +40,14 @@ public:
   virtual void event(Player& player, EventType type) override;
   virtual void draw(DrawingContext& context) override;
 
-  void write(Writer& writer);
-
 private:
   EventType triggerevent;
   std::string script;
+  std::string exit_script;
   Vector new_size;
   bool must_activate;
   bool oneshot;
+  bool has_exit_script;
   int runcount;
 };
 

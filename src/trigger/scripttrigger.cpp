@@ -27,9 +27,11 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   TriggerBase(reader),
   triggerevent(),
   script(),
+  exit_script(),
   new_size(0.0f, 0.0f),
   must_activate(false),
   oneshot(false),
+  has_exit_script(false),
   runcount(0)
 {
   if (m_col.m_bbox.get_width() == 0.f)
@@ -39,8 +41,10 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
     m_col.m_bbox.set_height(32.f);
 
   reader.get("script", script);
+  reader.get("exit-script", exit_script);
   reader.get("button", must_activate);
   reader.get("oneshot", oneshot);
+  reader.get("has-exit-script", has_exit_script);
   if (script.empty()) {
     log_warning << "No script set in script trigger" << std::endl;
   }
@@ -55,9 +59,11 @@ ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
   TriggerBase(),
   triggerevent(EVENT_TOUCH),
   script(script_),
+  exit_script(),
   new_size(0.0f, 0.0f),
   must_activate(),
   oneshot(false),
+  has_exit_script(false),
   runcount(0)
 {
   m_col.m_bbox.set_pos(pos);
@@ -73,10 +79,12 @@ ScriptTrigger::get_settings()
   ObjectSettings result = TriggerBase::get_settings();
 
   result.add_script(_("Script"), &script, "script");
+  result.add_script(_("Exit Script"), &exit_script, "exit-script");
   result.add_bool(_("Button"), &must_activate, "button");
   result.add_bool(_("Oneshot"), &oneshot, "oneshot", false);
+  result.add_bool(_("Has Exit Script"), &has_exit_script, "has-exit-script", false);
 
-  result.reorder({"script", "button", "width", "height", "x", "y"});
+  result.reorder({"script", "exit-script", "has-exit-script", "button", "width", "height", "x", "y"});
 
   return result;
 }
@@ -94,14 +102,16 @@ ScriptTrigger::after_editor_set() {
 void
 ScriptTrigger::event(Player& , EventType type)
 {
-  if (type != triggerevent)
-    return;
-
   if (oneshot && runcount >= 1) {
     return;
   }
 
-  Sector::get().run_script(script, "ScriptTrigger");
+  if (!has_exit_script) {
+    if (type != triggerevent)
+      return;
+  }
+
+  Sector::get().run_script(type == EVENT_LOSETOUCH ? exit_script : script, "ScriptTrigger");
   runcount++;
 }
 
