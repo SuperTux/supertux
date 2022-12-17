@@ -76,7 +76,7 @@ Igel::active_update(float dt_sec)
     break;
   case ROLLING:
     m_sprite->set_angle(m_sprite->get_angle() + m_physic.get_movement(dt_sec).x * 3.141592653898f);
-    WalkingBadguy::active_update(dt_sec, MAX_ROLL_SPEED * player_dir, 1.5f);
+    WalkingBadguy::active_update(dt_sec, MAX_ROLL_SPEED * player_dir, 1.f);
 
     if (glm::length(pb.get_middle() - get_bbox().get_middle()) > LOST_DISTANCE || m_frozen)
     {
