@@ -35,8 +35,8 @@ class Dispenser final : public scripting::BadGuy
 public:
   Dispenser(UID uid) :
     GameObject<::BadGuy>(uid),
-    BadGuy(uid),
-    GameObject<::Dispenser>(uid)
+    GameObject<::Dispenser>(uid),
+    BadGuy(uid)
   {}
 
 private:

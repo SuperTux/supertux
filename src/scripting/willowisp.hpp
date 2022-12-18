@@ -36,8 +36,8 @@ class WillOWisp final : public scripting::BadGuy
 public:
   WillOWisp(UID uid) :
     GameObject<::BadGuy>(uid),
-    BadGuy(uid),
-    GameObject<::WillOWisp>(uid)
+    GameObject<::WillOWisp>(uid),
+    BadGuy(uid)
   {}
 
 private:
