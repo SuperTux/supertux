@@ -116,6 +116,14 @@ Rock::update(float dt_sec)
       }
     }
 
+    Rectf playerbox = get_bbox().grown(-2.f);
+    playerbox.set_bottom(get_bbox().get_bottom() + 7.f);
+    for (auto& player : Sector::get().get_objects_by_type<Player>()) {
+      if (playerbox.contains(player.get_bbox()) && physic.get_velocity_y() > 0.f) {
+        physic.set_velocity_y(std::min(-250.f, -physic.get_velocity_y()*0.5f));
+      }
+    }
+
     m_col.set_movement(physic.get_movement(dt_sec));
   }
 }
@@ -197,15 +205,9 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
   if (!on_ground) {
     if (hit.bottom && physic.get_velocity_y() > 200) {
       auto badguy = dynamic_cast<BadGuy*> (&other);
-      auto player = dynamic_cast<Player*> (&other);
       if (badguy && badguy->get_group() != COLGROUP_TOUCHABLE) {
         //Getting a rock on the head hurts. A lot.
         badguy->kill_fall();
-        physic.set_velocity_y(0);
-      }
-      else if(player)
-      {
-        player->kill(false);
         physic.set_velocity_y(0);
       }
     }
