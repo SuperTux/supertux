@@ -18,8 +18,8 @@
 #define HEADER_SUPERTUX_SCRIPTING_DISPENSER_HPP
 
 #ifndef SCRIPTING_API
+
 #include "scripting/badguy.hpp"
-#include "scripting/game_object.hpp"
 
 class Dispenser;
 #endif
@@ -33,7 +33,11 @@ class Dispenser final : public scripting::BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  using BadGuy::BadGuy;
+  Dispenser(UID uid) :
+    GameObject<::BadGuy>(uid),
+    GameObject<::Dispenser>(uid),
+    BadGuy(uid)
+  {}
 
 private:
   Dispenser(const Dispenser&) = delete;

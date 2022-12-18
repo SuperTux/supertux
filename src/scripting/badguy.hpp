@@ -34,7 +34,9 @@ class BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  using GameObject::GameObject;
+  BadGuy(UID uid) :
+    GameObject<::BadGuy>(uid)
+  {}
 
 private:
   BadGuy(const BadGuy&) = delete;
