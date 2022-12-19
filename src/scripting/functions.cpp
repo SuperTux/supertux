@@ -353,6 +353,11 @@ void play_sound(const std::string& filename)
   SoundManager::current()->play(filename);
 }
 
+void stop_sound()
+{
+  SoundManager::current()->stop_sounds();
+}
+
 void grease()
 {
   if (!validate_sector_player()) return;

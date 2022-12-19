@@ -115,6 +115,8 @@ void pause_music(float fadetime);
 /** Plays a soundfile */
 void play_sound(const std::string& soundfile);
 
+void stop_sound();
+
 /**  Set the game_speed */
 void set_game_speed(float speed);
 

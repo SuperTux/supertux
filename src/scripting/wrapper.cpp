@@ -12400,6 +12400,27 @@ static SQInteger play_sound_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger stop_sound_wrapper(HSQUIRRELVM vm)
+{
+  (void)vm;
+
+  try {
+    scripting::stop_sound();
+
+    return 0;
+
+  }
+  catch (std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  }
+  catch (...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_sound'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger set_game_speed_wrapper(HSQUIRRELVM vm)
 {
   SQFloat arg0;
@@ -13902,6 +13923,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'play_sound'");
+  }
+
+  sq_pushstring(v, "stop_sound", -1);
+  sq_newclosure(v, &stop_sound_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if (SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop_sound'");
   }
 
   sq_pushstring(v, "set_game_speed", -1);

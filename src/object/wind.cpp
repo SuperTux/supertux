@@ -41,7 +41,8 @@ Wind::Wind(const ReaderMapping& reader) :
   affects_badguys(),
   affects_objects(),
   affects_player(),
-  fancy_wind()
+  fancy_wind(),
+  particle_amount_scale()
 {
   float w,h;
   reader.get("x", m_col.m_bbox.get_left(), 0.0f);
@@ -62,6 +63,8 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("affects-player", affects_player, true);
   
   reader.get("fancy-wind", fancy_wind, false);
+
+  reader.get("particle-amount-scale", particle_amount_scale, 50.f);
 
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -84,8 +87,9 @@ Wind::get_settings()
   result.add_bool(_("Affects Objects"), &affects_objects, "affects-objects", false);
   result.add_bool(_("Affects Player"), &affects_player, "affects-player");
   result.add_bool(_("Fancy Particles"), &fancy_wind, "fancy-wind", false);
+  result.add_float(_("Particle Amount Scale"), &particle_amount_scale, "particle-amount-scale", 50.f);
 
-  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "region", "name", "x", "y"});
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "particle-amount-scale", "region", "name", "x", "y"});
 
   return result;
 }
@@ -103,20 +107,18 @@ Wind::update(float dt_sec_)
   Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left()+8, m_col.m_bbox.get_right()-8), graphicsRandom.randf(m_col.m_bbox.get_top()+8, m_col.m_bbox.get_bottom()-8));
   Vector pspeed = Vector(graphicsRandom.randf(speed.x-20, speed.x+20), graphicsRandom.randf(speed.y-20, speed.y+20));
 
-  // TODO: Rotate sprite rather than just use 2 different actions
-  // Approx. 1 particle per tile
-  if (graphicsRandom.randf(0.f, 100.f) < (m_col.m_bbox.get_width() / 32.f) * (m_col.m_bbox.get_height() / 32.f))
+  if (graphicsRandom.randf(0.f, 100.f) < particle_amount_scale)
   {
     // emit a particle
 	  if (fancy_wind)
     {
 	    auto& windparticle = Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default",
-        ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1);
+        ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), get_layer());
       windparticle.get_sprite()->set_angle(math::degrees(partangle));
 	  }
 	  else
     {
-	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, LAYER_BACKGROUNDTILES + 1);
+	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, get_layer());
 	  }
   }
 }
@@ -126,7 +128,7 @@ Wind::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
     context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+                             0.0f, get_layer());
   }
 }
 
