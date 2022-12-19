@@ -107,9 +107,9 @@ Rock::update(float dt_sec)
 
     Rectf crusherbox = get_bbox().grown(-1.f);
     crusherbox.set_bottom(get_bbox().get_bottom() + 2.f);
-    for (auto& crusher : Sector::get().get_objects_by_type<IceCrusher>()) {
+    for (auto& crusher : Sector::get().get_objects_by_type<Crusher>()) {
       if (crusherbox.contains(crusher.get_bbox()) && (crusher.is_sideways() ||
-        (!crusher.is_sideways() && crusher.get_state() != IceCrusher::IceCrusherState::CRUSHING))) {
+        (!crusher.is_sideways() && crusher.get_state() != Crusher::CrusherState::CRUSHING))) {
         on_ground = true;
         m_col.set_movement(crusher.get_physic().get_movement(dt_sec));
         return;
