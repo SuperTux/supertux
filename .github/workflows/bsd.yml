@@ -49,7 +49,7 @@ jobs:
           OS: ${{ matrix.vm_os }}
           BUILD_TYPE: ${{ matrix.build_type }}
           # GLBINDING: ${{ matrix.glbinding }}
-        uses: vmactions/${{ matrix.vm_os }}-vm@v0
+        uses: ${{ join("vmactions/{0}-vm@v0", matrix.vm_os) }}
         with:
           envs: 'BUILD_TYPE OS' # 'BUILD_TYPE OS GLBINDING'
           sync: rsync
