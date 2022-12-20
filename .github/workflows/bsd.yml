@@ -25,16 +25,11 @@ on:
   pull_request: {}
 
 jobs:
-  bsd:
-
+  freebsd:
     strategy:
       fail-fast: false
       matrix:
-        # TODO: Add the NetBSD, DragonflyBSD and Solaris VM
-        vm_os: [freebsd, openbsd]
         build_type: [Debug, Release]
-        # Many BSDs do not have glbinding
-        # glbinding: [ON, OFF]
 
     runs-on: macos-12
     steps:
@@ -44,49 +39,76 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-      - name: Build in *BSD
+      - name: Build in FreeBSD
         env:
-          OS: ${{ matrix.vm_os }}
           BUILD_TYPE: ${{ matrix.build_type }}
-          # GLBINDING: ${{ matrix.glbinding }}
-        uses: ${{ format('vmactions/{0}-vm@v0', env.OS) }}
+        uses: vmactions/freebsd-vm@v0
         with:
-          envs: 'BUILD_TYPE OS' # 'BUILD_TYPE OS GLBINDING'
+          envs: BUILD_TYPE
           sync: rsync
           usesh: true
           prepare: |
-            if [ "$OS" = "freebsd" ]; then
-              pkg install -y pkgconf
-              pkg install -y git
-              pkg install -y cmake
-              pkg install -y googletest
-              pkg install -y sdl2
-              pkg install -y sdl2_image
-              pkg install -y openal-soft
-              pkg install -y glew
-              # pkg install -y glbinding
-              pkg install -y boost-all
-              pkg install -y curl
-              pkg install -y libogg
-              pkg install -y libvorbis
-              pkg install -y freetype
-              pkg install -y libraqm
-              pkg install -y glm
-            elif [ "$OS" = "openbsd" ]; then
-              pkg_add git
-              pkg_add cmake
-              pkg_add gtest
-              pkg_add sdl2
-              pkg_add sdl2-image
-              pkg_add openal
-              pkg_add glew
-              pkg_add boost
-              pkg_add curl
-              pkg_add libogg
-              pkg_add libvorbis
-              pkg_add freetype
-              pkg_add glm
-            fi
+            pkg install -y pkgconf
+            pkg install -y git
+            pkg install -y cmake
+            pkg install -y googletest
+            pkg install -y sdl2
+            pkg install -y sdl2_image
+            pkg install -y openal-soft
+            pkg install -y glew
+            pkg install -y boost-all
+            pkg install -y curl
+            pkg install -y libogg
+            pkg install -y libvorbis
+            pkg install -y freetype
+            pkg install -y libraqm
+            pkg install -y glm
+          run: |
+            mkdir build && cd build
+            cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
+                     -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
+                     -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
+                     -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
+            make -j3 VERBOSE=1
+            make install DESTDIR="/tmp/supertux" VERBOSE=1
+            ./test_supertux2
+
+  openbsd:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Fetch the whole tree so git describe works
+          fetch-depth: 0
+          submodules: true
+
+      - name: Build in OpenBSD
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        uses: vmactions/openbsd-vm@v0
+        with:
+          envs: BUILD_TYPE
+          sync: rsync
+          usesh: true
+          prepare: |
+            pkg_add git
+            pkg_add cmake
+            pkg_add gtest
+            pkg_add sdl2
+            pkg_add sdl2-image
+            pkg_add openal
+            pkg_add glew
+            pkg_add boost
+            pkg_add curl
+            pkg_add libogg
+            pkg_add libvorbis
+            pkg_add freetype
+            pkg_add glm
           run: |
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
