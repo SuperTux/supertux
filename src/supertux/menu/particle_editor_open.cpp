@@ -35,7 +35,7 @@ ParticleEditorOpen::ParticleEditorOpen() :
 
   std::vector<std::string> extensions;
   extensions.push_back("stcp");
-  add_file(_("File"), &m_filename, extensions, "/particles/");
+  add_file(_("File"), &m_filename, extensions, "/particles/", true);
   add_entry(MNID_OPEN, _("Open"));
 
   add_hl();
@@ -58,6 +58,7 @@ ParticleEditorOpen::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_OPEN:
+      std::replace(m_filename.begin(), m_filename.end(), '\\', '/');
       ParticleEditor::current()->open("/particles/" + m_filename);
       MenuManager::instance().clear_menu_stack();
       break;

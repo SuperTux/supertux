@@ -19,16 +19,21 @@
 #include "badguy/badguy.hpp"
 #include "object/path_object.hpp"
 
+// FIXME: Ghoul inherits PathObject, but does not override get_settings() to add
+//        the missing options.
 class Ghoul final : public BadGuy,
                     public PathObject
 {
 public:
   Ghoul(const ReaderMapping& reader);
-  std::string get_class() const override { return "ghoul"; }
-  std::string get_display_name() const override { return _("Ghoul"); }
+  static std::string class_name() { return "ghoul"; }
+  static std::string display_name() { return _("Ghoul"); }
+  std::string get_class_name() const override { return class_name(); }
+  std::string get_display_name() const override { return display_name(); }
   bool is_freezable() const override;
   bool is_flammable() const override;
-  
+  virtual bool is_snipable() const override { return true; }
+
   void finish_construction() override;
 
   void activate() override;
@@ -41,7 +46,7 @@ public:
   void stop_moving();
 
   void move_to(const Vector& pos) override;
-  
+
 protected:
   bool collision_squished(GameObject& object) override;
   

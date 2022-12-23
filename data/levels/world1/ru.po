@@ -3,18 +3,19 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2018-2019
+# Andrei Stepanov <adem4ik@gmail.com>, 2018-2019,2021
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013,2015
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
 # Savsish <alex.ahmetshins@mail.ru>, 2016
+# Translator TRA, 2021
 # Dmitry Anikonov <starwars32@yandex.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 15:05+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-20 13:57+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -27,16 +28,16 @@ msgstr ""
 msgid "23rd Airborne"
 msgstr "23-й воздушно-десантный"
 
-#: data/levels/world1/23rd_airborne.stl:355
-#: data/levels/world1/between_glaciers.stl:615
-#: data/levels/world1/between_glaciers.stl:623
-#: data/levels/world1/crystal_mine.stl:1150
-#: data/levels/world1/crystal_mine.stl:1158
+#: data/levels/world1/23rd_airborne.stl:598
+#: data/levels/world1/between_glaciers.stl:855
+#: data/levels/world1/between_glaciers.stl:863
+#: data/levels/world1/crystal_mine.stl:1535
+#: data/levels/world1/crystal_mine.stl:1543
 #: data/levels/world1/frosted_fields.stl:188
 #: data/levels/world1/path_in_the_clouds.stl:348
 #: data/levels/world1/path_in_the_clouds.stl:1126
-#: data/levels/world1/shattered_bridge.stl:269
-#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:200
+#: data/levels/world1/shattered_bridge.stl:628
+#: data/levels/world1/stone_cold.stl:397 data/levels/world1/worldmap.stwm:188
 msgid "You found a secret area!"
 msgstr "Вы нашли тайник!"
 
@@ -44,7 +45,7 @@ msgstr "Вы нашли тайник!"
 msgid "Above the Arctic Skies"
 msgstr "Над арктическими небесами"
 
-#: data/levels/world1/above_arctic_skies.stl:152
+#: data/levels/world1/above_arctic_skies.stl:162
 msgid ""
 "-Air Flower\n"
 "!images/powerups/airflower/air_flower-0.png\n"
@@ -55,13 +56,13 @@ msgstr "-Воздушный цветок\n!images/powerups/airflower/air_flower-
 msgid "Between Two Glaciers"
 msgstr "Между двумя ледниками"
 
-#: data/levels/world1/between_glaciers.stl:104
+#: data/levels/world1/between_glaciers.stl:108
 msgid ""
 "-Crystals\n"
 "#This level contains four coloured crystals. Can you find them?\n"
 "#\n"
 "#Note: These crystals do not serve any purpose at the moment but they might will in a future release of the game."
-msgstr "-Кристаллы\n#На уровне лежат кристаллы. Сможете их найти?\n#\n#Примечание: на данный момент от этих кристаллов нет никакой пользы, но это может измениться в будущих версиях игры."
+msgstr "-Кристаллы\n#На уровне лежат кристаллы. Сможете их найти?\n#\n#Примечание: на данный момент от этих кристаллов нет никакой пользы, но это может поменяться в будущих версиях игры."
 
 #: data/levels/world1/castle_cutscene.stl:3
 msgid "Empty Throne Room"
@@ -73,9 +74,9 @@ msgstr "Замок Нолока"
 
 #: data/levels/world1/crystal_mine.stl:3
 msgid "The Crystal Mine"
-msgstr "Кристалльная шахта"
+msgstr "Кристальная шахта"
 
-#: data/levels/world1/crystal_mine.stl:608
+#: data/levels/world1/crystal_mine.stl:686
 msgid "#You have to activate two switches to open this door."
 msgstr "#Вы должны активировать два переключателя, чтобы открыть эту дверь."
 
@@ -166,7 +167,7 @@ msgstr "Ночная прохлада"
 
 #: data/levels/world1/or_just_me.stl:3
 msgid "...Or Is It Just Me?"
-msgstr "...Или это просто я?"
+msgstr "…Или это просто я?"
 
 #: data/levels/world1/path_in_the_clouds.stl:3
 msgid "A Path in the Clouds"
@@ -193,11 +194,11 @@ msgstr "Терзаемый сомнениями, что Нолок может с
 
 #: data/levels/world1/scripts_castle_cutscene.txt:6
 msgid "Until suddenly..."
-msgstr "Пока вдруг..."
+msgstr "До тех пор пока…"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid "Somewhere at the shores of Antarctica..."
-msgstr "Где-то у берегов Антарктиды..."
+msgstr "Где-то у берегов Антарктиды…"
 
 #: data/levels/world1/scripts_intro.txt:3
 msgid "Tux the penguin was going to meet his friend, Penny, for a picnic."
@@ -233,11 +234,11 @@ msgstr "Осознавая в какую беду попала Пенни, Та�
 #: data/levels/world1/scripts_intro.txt:10
 msgid ""
 "Then, Tux saw Nolok's castle in the distance and set off to rescue Penny!"
-msgstr "Затем Такс увидел вдалеке замок Нолока и отправился вызволять Пенни!"
+msgstr "Затем, Такс увидел вдалеке замок Нолока и отправился освобождать Пенни!"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:2
 msgid "Exhausted from his long walk, Tux decided to take a little break."
-msgstr "Утомлённый долгой прогулкой Такс решил сделать небольшой перерыв."
+msgstr "Утомлённый долгой прогулкой, Такс решил сделать небольшой перерыв."
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:3
 msgid "But then, all of a sudden he heard a loud roar from a distance."
@@ -251,7 +252,7 @@ msgstr "Йети, кажется, наблюдал за ним издалека.
 msgid ""
 "Concerned by the yeti's sudden retreat, Tux decided to continue his journey,"
 " ..."
-msgstr "Обеспокоенный внезапным отступлением йети, Такс решил продолжить свой путь..."
+msgstr "Обеспокоенный внезапным отступлением йети, Такс решил продолжить свой путь…"
 
 #: data/levels/world1/scripts_yeti_cutscene.txt:6
 msgid "...while secretly hoping not to run into the yeti again, by any means."
@@ -281,51 +282,51 @@ msgstr "Через ностальгию"
 msgid "Welcome to Antarctica"
 msgstr "Добро пожаловать в Антарктику"
 
-#: data/levels/world1/welcome_antarctica.stl:68
+#: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
 "-Bonus Blocks\n"
 "!images/objects/bonus_block/full-0.png\n"
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Бонусные блоки\n!images/objects/bonus_block/full-0.png\n#Бонусные блоки могут содержать монеты, бонусы или другие вспомогательные предметы для выполнения квеста.\n#\n#Ударьте их снизу, чтобы достать содержимое."
+msgstr "-Бонусные блоки\n!images/objects/bonus_block/full-0.png\n#Бонусные блоки могут содержать монеты, бонусы или иные полезные предметы для выполнения квеста.\n#\n#Ударьте их снизу, чтобы достать содержимое."
 
-#: data/levels/world1/welcome_antarctica.stl:77
+#: data/levels/world1/welcome_antarctica.stl:83
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Яйца\n!images/powerups/egg/egg-shade.png\n#Подобрав яйцо, Такса становится больше, что позволяет ему ломать деревянные блоки головой."
+msgstr "-Яйца\n!images/powerups/egg/egg-shade.png\n#При подборе яйца Такс становится больше, что позволяет ему ломать деревянные блоки головой."
 
-#: data/levels/world1/welcome_antarctica.stl:84
+#: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Контрольные точки\n!images/objects/resetpoints/bell-m.png\n#Активируй контрольную точку. Если ты умрёшь, то сможешь продолжить уровень отсюда. Каждый раз, когда ты начинаешь с контрольной точки, ты теряешь 10% своих монет (как минимум, 25 монет)."
+msgstr "-Контрольные точки\n!images/objects/resetpoints/bell-m.png\n#Активирована контрольная точка. Если вы умрёте, то сможете продолжить уровень отсюда. Каждый раз, когда вы начинаете с контрольной точки, вы теряете 10% своих монет (минимум 25 монет)."
 
-#: data/levels/world1/welcome_antarctica.stl:91
+#: data/levels/world1/welcome_antarctica.stl:97
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Беги\n!images/tiles/signs/run.png\n#Путь впереди заблокирован. Разбегись прежде чем перепрыгивать через блоки"
 
-#: data/levels/world1/welcome_antarctica.stl:98
+#: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Огненный цветок\n!images/powerups/fireflower/fire_flower-0.png\n#Огненный цветок даёт Таксу возможность стрелять огоньками."
 
-#: data/levels/world1/welcome_antarctica.stl:105
+#: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Кукольный Такс\n!images/powerups/1up/1up.png\n#Даёт Таксу 100 монет."
 
-#: data/levels/world1/welcome_antarctica.stl:112
+#: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."

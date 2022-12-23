@@ -23,14 +23,12 @@
 #include "math/util.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
 Iceflame::Iceflame(const ReaderMapping& reader) :
-  Flame(reader)
+  Flame(reader, "images/creatures/flame/iceflame.sprite")
 {
   m_lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
-  m_sprite = SpriteManager::current()->create("images/creatures/flame/iceflame.sprite");
 }
 
 void

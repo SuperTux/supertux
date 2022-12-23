@@ -7,7 +7,7 @@
 # Enrico B. <enricobe@hotmail.com>, 2015
 # Gianfranco Del Borrello <jeffry84@hotmail.it>, 2016
 # Ioma Taani, 2019
-# Marcello Bolognesi, 2013
+# 17c2573a89e395c6dd973e5d003db498_36e4c1e, 2013
 # Ioma Taani, 2018
 # Riccardo Di Maio <riccardodimaio11@gmail.com>, 2015
 # William Beltrán <wbeltranc@gmail.com>, 2016
@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-30 13:06+0000\n"
-"Last-Translator: Ioma Taani\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 19:20+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,8 +26,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
-msgid "-89.2 degrees"
-msgstr "-89.2 gradi"
+msgid "The Level Formely Known As \"-89,2 Degrees\""
+msgstr ""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
@@ -46,14 +46,14 @@ msgid "Another cold day"
 msgstr "Un altro freddo giorno"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
-msgid "Antarctic rain"
-msgstr "Pioggia antartica"
+msgid "Forest Rain (aka \"Antarctic Rain\")"
+msgstr ""
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
 msgstr "...ma nessuno può fermarlo..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:392
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:428
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -134,6 +134,10 @@ msgstr "Scendendo"
 msgid "Entering the castle"
 msgstr "Entrando nel castello"
 
+#: data/levels/bonus3/entering_castle.stl:60
+msgid "#Sorry, nothing to see here! Use the rope to get out!"
+msgstr ""
+
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
 msgstr "Bonus Floreale"
@@ -174,13 +178,13 @@ msgstr "Buchi, un giorno sul ghiaccio"
 msgid "The Toilette zone"
 msgstr "La zona del bagno"
 
-#: data/levels/bonus3/niv-3.stl:29
+#: data/levels/bonus3/niv-3.stl:58
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
 msgstr "- Sciacquone: \n#Premi il tasto su per tirarlo! "
 
-#: data/levels/bonus3/niv-3.stl:219
+#: data/levels/bonus3/niv-3.stl:380
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
@@ -226,15 +230,6 @@ msgstr "Sotto il ghiaccio"
 msgid "Bonus Island III"
 msgstr "Isola bonus III"
 
-#: data/levels/bonus3/worldmap.stwm:238
-msgid "You found a secret place!"
-msgstr "Hai trovato un luogo segreto!"
-
-#: data/levels/bonus3/worldmap.stwm:282 data/levels/bonus3/worldmap.stwm:297
-#: data/levels/bonus3/worldmap.stwm:304
+#: data/levels/bonus3/worldmap.stwm:273
 msgid "Go Home"
 msgstr "Vai a casa"
-
-#: data/levels/bonus3/worldmap.stwm:290
-msgid "Enter Forest Section"
-msgstr "Entra nel settore Foresta"

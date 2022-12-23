@@ -4,17 +4,16 @@
   (author "Marek Moeckel")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 55)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
-      (scroll-offset-y 345)
       (color 1 1 1)
-      (x 11776)
-      (y 832)
-      (alignment "top")
+      (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)
@@ -24,10 +23,8 @@
       (z-pos -290)
     )
     (background
-      (scroll-offset-y -250)
+      (scroll-offset-y -10)
       (color 1 1 1)
-      (x 12288)
-      (y 800)
       (alignment "top")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -208,6 +205,7 @@
     (path
       (name "c1c8f4db-1cbf-46bf-b0b1-96a47db6910c")
       (path
+        (adapt_speed #f)
         (node
           (x 2272)
           (y 512)
@@ -217,6 +215,7 @@
     (path
       (name "2a08bac6-b9f3-478c-ba9f-ff946cd7235b")
       (path
+        (adapt_speed #f)
         (node
           (x 4704)
           (y 608)
@@ -226,6 +225,7 @@
     (path
       (name "736a59ab-bd63-4bec-b6fd-6c0beddf20db")
       (path
+        (adapt_speed #f)
         (node
           (x 10688)
           (y 544)
@@ -235,6 +235,7 @@
     (path
       (name "d895a7d0-d5b3-46d8-980f-46d22e280c6d")
       (path
+        (adapt_speed #f)
         (node
           (x 12544)
           (y 448)
@@ -377,6 +378,9 @@
       (x 10030)
       (y 425)
     )
+    (textobject
+      (name "Text")
+    )
     (tilemap
       (solid #f)
       (z-pos -100)
@@ -466,6 +470,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 100)
       (name "s1")
@@ -481,6 +491,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 100)
       (name "s2")
@@ -496,6 +512,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 100)
       (name "s3")
@@ -513,6 +535,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 0)
       (name "frgrd")

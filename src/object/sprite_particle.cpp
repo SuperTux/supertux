@@ -26,7 +26,7 @@
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_) :
+                               int drawing_layer_, bool notimeout) :
   SpriteParticle(SpriteManager::current()->create(sprite_name), action,
                  position_, anchor, velocity_, acceleration_,
                  drawing_layer_)
@@ -39,23 +39,26 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
       lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
     }
   }
+  no_time_out = notimeout;
 }
 
 SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_) :
+                               int drawing_layer_, bool notimeout) :
   sprite(std::move(sprite_)),
   position(position_),
   velocity(velocity_),
   acceleration(acceleration_),
   drawing_layer(drawing_layer_),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
-  glow(false)
+  glow(false),
+  no_time_out(false)
 {
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
+  no_time_out = notimeout;
 }
 
 SpriteParticle::~SpriteParticle()
@@ -67,7 +70,7 @@ void
 SpriteParticle::update(float dt_sec)
 {
   // die when animation is complete
-  if (sprite->animation_done()) {
+  if (sprite->animation_done() && !no_time_out) {
     remove_me();
     return;
   }
@@ -79,9 +82,8 @@ SpriteParticle::update(float dt_sec)
   velocity.y += acceleration.y * dt_sec;
 
   // die when too far offscreen
-  Vector camera = Sector::get().get_camera().get_translation();
-  if ((position.x < camera.x - 128.0f) || (position.x > static_cast<float>(SCREEN_WIDTH) + camera.x + 128.0f) ||
-      (position.y < camera.y - 128.0f) || (position.y > static_cast<float>(SCREEN_HEIGHT) + camera.y + 128.0f)) {
+  Camera& camera = Sector::get().get_camera();
+  if (!camera.get_rect().contains(position)) {
     remove_me();
     return;
   }

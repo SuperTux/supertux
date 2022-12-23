@@ -20,6 +20,7 @@
 #include <physfs.h>
 #include <sexp/value.hpp>
 
+#include "badguy/fish_jumping.hpp"
 #include "badguy/jumpy.hpp"
 #include "editor/editor.hpp"
 #include "editor/worldmap_objects.hpp"
@@ -85,6 +86,8 @@ SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader
 {
   if (name_ == "money") { // for compatibility with old maps
     return std::make_unique<Jumpy>(reader);
+  } else if (name_ == "fish") { //because the "fish" was renamed to "fish-jumping"
+    return std::make_unique<FishJumping>(reader);
   } else {
     try {
       return GameObjectFactory::instance().create(name_, reader);
@@ -327,11 +330,23 @@ SectorParser::create_sector()
     frgrd.resize(100, 35);
     frgrd.set_layer(100);
     frgrd.set_solid(false);
+
+    // Add background gradient to sector:
+    auto& gradient = m_sector.add<Gradient>();
+    gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color::WHITE);
+    gradient.set_layer(-301);
+  }
+  else
+  {
+    auto& water = m_sector.add<TileMap>(tileset);
+    water.resize(100, 35, 1);
+    water.set_layer(-100);
+    water.set_solid(false);
   }
 
   auto& intact = m_sector.add<TileMap>(tileset);
   if (worldmap) {
-    intact.resize(100, 100, 9);
+    intact.resize(100, 100, 0);
   } else {
     intact.resize(100, 35, 0);
   }

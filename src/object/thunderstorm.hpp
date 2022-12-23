@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 #define HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 
+#include <map>
+
 #include "squirrel/exposed_object.hpp"
 #include "scripting/thunderstorm.hpp"
 #include "supertux/game_object.hpp"
@@ -36,8 +38,10 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "thunderstorm"; }
-  virtual std::string get_display_name() const override { return _("Thunderstorm"); }
+  static std::string class_name() { return "thunderstorm"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Thunderstorm"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 
@@ -76,6 +80,8 @@ private:
   Timer time_to_thunder; /**< counts down until next thunder */
   Timer time_to_lightning; /**< counts down until next lightning */
   Timer flash_display_timer; /**< counts down while flash is displayed */
+
+  std::map<uint32_t, uint32_t> changing_tiles; /**< preserves the tiles which an electrocution should change */
 
 private:
   Thunderstorm(const Thunderstorm&) = delete;

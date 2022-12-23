@@ -131,6 +131,7 @@ Yeti::draw_hit_points(DrawingContext& context)
   {
     context.push_transform();
     context.set_translation(Vector(0, 0));
+    context.transform().scale = 1.f;
 
     for (int i = 0; i < hit_points; ++i)
     {
@@ -159,20 +160,20 @@ Yeti::active_update(float dt_sec)
     case BE_ANGRY:
       if (state_timer.check() && on_ground()) {
         m_physic.set_velocity_y(STOMP_VY);
-        m_sprite->set_action((m_dir==Direction::RIGHT)?"stomp-right":"stomp-left");
-        SoundManager::current()->play("sounds/yeti_gna.wav");
+        m_sprite->set_action("stomp", m_dir);
+        SoundManager::current()->play("sounds/yeti_gna.wav", get_pos());
       }
       break;
     case SQUISHED:
       {
         Direction newdir = (int(state_timer.get_timeleft() * SNOW_EXPLOSIONS_FREQUENCY) % 2) ? Direction::LEFT : Direction::RIGHT;
         if (m_dir != newdir && m_dir == Direction::RIGHT) {
-          SoundManager::current()->play("sounds/stomp.wav");
+          SoundManager::current()->play("sounds/stomp.wav", get_pos());
           add_snow_explosions();
           Sector::get().get_camera().shake(.05f, 0, 5);
         }
         m_dir = newdir;
-        m_sprite->set_action((m_dir==Direction::RIGHT)?"jump-right":"jump-left");
+        m_sprite->set_action("jump", m_dir);
       }
       if (state_timer.check()) {
         BadGuy::kill_fall();
@@ -195,7 +196,7 @@ Yeti::active_update(float dt_sec)
 void
 Yeti::jump_down()
 {
-  m_sprite->set_action((m_dir==Direction::RIGHT)?"jump-right":"jump-left");
+  m_sprite->set_action("jump", m_dir);
   m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+JUMP_DOWN_VX):(-JUMP_DOWN_VX));
   m_physic.set_velocity_y(JUMP_DOWN_VY);
   state = JUMP_DOWN;
@@ -204,7 +205,7 @@ Yeti::jump_down()
 void
 Yeti::run()
 {
-  m_sprite->set_action((m_dir==Direction::RIGHT)?"walking-right":"walking-left");
+  m_sprite->set_action("walking", m_dir);
   m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+RUN_VX):(-RUN_VX));
   m_physic.set_velocity_y(0);
   state = RUN;
@@ -213,7 +214,7 @@ Yeti::run()
 void
 Yeti::jump_up()
 {
-  m_sprite->set_action((m_dir==Direction::RIGHT)?"jump-right":"jump-left");
+  m_sprite->set_action("jump", m_dir);
   m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+JUMP_UP_VX):(-JUMP_UP_VX));
   m_physic.set_velocity_y(JUMP_UP_VY);
   state = JUMP_UP;
@@ -225,7 +226,7 @@ Yeti::be_angry()
   //turn around
   m_dir = (m_dir==Direction::RIGHT) ? Direction::LEFT : Direction::RIGHT;
 
-  m_sprite->set_action((m_dir==Direction::RIGHT) ? "stand-right" : "stand-left");
+  m_sprite->set_action("stand", m_dir);
   m_physic.set_velocity_x(0);
   stomp_count = 0;
   state = BE_ANGRY;
@@ -255,7 +256,7 @@ void Yeti::take_hit(Player& )
   if (safe_timer.started())
     return;
 
-  SoundManager::current()->play("sounds/yeti_roar.wav");
+  SoundManager::current()->play("sounds/yeti_roar.wav", get_pos());
   hit_points--;
 
   if (hit_points <= 0) {

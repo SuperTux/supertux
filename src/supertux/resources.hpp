@@ -21,6 +21,7 @@
 #include <memory>
 #include <string>
 
+#include "util/gettext.hpp"
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -63,7 +64,7 @@ public:
 
 private:
   static std::string current_font;
-  static std::string get_font_for_locale(const std::string& locale);
+  static std::string get_font_for_locale(const tinygettext::Language& locale);
 
 public:
   Resources();

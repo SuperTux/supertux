@@ -73,7 +73,7 @@ public:
 
   inline Magic get_magic() const { return static_cast<Magic>((m_value & 0xffff0000u) >> 16); }
 
-private:
+protected:
   uint32_t m_value;
 };
 

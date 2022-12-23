@@ -16,6 +16,8 @@
 
 #include "editor/button_widget.hpp"
 
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "video/viewport.hpp"
 #include "video/video_system.hpp"
 
@@ -41,10 +43,10 @@ ButtonWidget::draw(DrawingContext& context)
   }
 
   if (m_grab) {
-    context.color().draw_filled_rect(m_rect, Color(0.9f, 0.9f, 1.0f, 0.9f), 4.0f,
+    context.color().draw_filled_rect(m_rect, g_config->editorgrabcolor, 4.0f,
                                      LAYER_GUI-5);
   } else if (m_hover) {
-    context.color().draw_filled_rect(m_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 4.0f,
+    context.color().draw_filled_rect(m_rect, g_config->editorhovercolor, 4.0f,
                                      LAYER_GUI-5);
   }
 }

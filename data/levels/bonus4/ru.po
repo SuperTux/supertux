@@ -6,7 +6,7 @@
 # Translators:
 # Dmitry <dmitrymq@gmail.com>, 2019
 # Dmitry Anikonov <starwars32@yandex.ru>, 2019
-# Andrei Stepanov <adem4ik@gmail.com>, 2019
+# Andrei Stepanov <adem4ik@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:58+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>, 2019\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>, 2021\n"
 "Language-Team: Russian (https://www.transifex.com/arctic-games/teams/95/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,12 +61,12 @@ msgstr "Лесистые горы"
 
 #: data/levels/bonus4/Forest_Mountains.stl:140
 msgid "#One Path contains enemies, the other treasure..."
-msgstr "#На одном пути враги, на другом сокровища..."
+msgstr "#На одном пути враги, на другом сокровища…"
 
 #: data/levels/bonus4/Forest_Mountains.stl:145
 #: data/levels/bonus4/Forest_Mountains.stl:150
 msgid "#You can use this door to try the other way..."
-msgstr "#Вы можете использовать эту дверь, чтобы пройти другой дорогой..."
+msgstr "#Вы можете использовать эту дверь, чтобы пройти другой дорогой…"
 
 #: data/levels/bonus4/Generic_Snow_Level.stl:3
 msgid "Generic Snow Level"
@@ -123,15 +123,15 @@ msgstr "Некий ледяной путь"
 #: data/levels/bonus4/Some_Icy_Path.stl:115
 msgid ""
 "#You won't be able to pass, if you don't bring him something he wants..."
-msgstr "#Вы не сможете пройти, если не принесёте ему то, что он хочет..."
+msgstr "#Вы не сможете пройти, если не принесёте ему то, что он хочет…"
 
 #: data/levels/bonus4/Some_Icy_Path.stl:120
 msgid "#Maybe this crystal is the right thing for this snowman...?"
-msgstr "#Может быть снеговику нужен этот кристалл...?"
+msgstr "#Может быть снеговику нужен этот кристалл…?"
 
 #: data/levels/bonus4/Some_Icy_Path.stl:125
 msgid "#Great, now he's gone... I'll keep the crystal for myself."
-msgstr "#Отлично, теперь он пропал... Я оставлю кристалл себе."
+msgstr "#Отлично, теперь он пропал… Я оставлю кристалл себе."
 
 #: data/levels/bonus4/Spooky_Mansion.stl:3
 msgid "Spooky Mansion"
@@ -185,4 +185,4 @@ msgstr "Назад"
 
 #: data/levels/bonus4/worldmap.stwm:280
 msgid "The next challenge awaits..."
-msgstr "Новое испытание ожидает..."
+msgstr "Новое испытание ожидает…"

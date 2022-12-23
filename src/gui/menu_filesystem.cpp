@@ -28,7 +28,7 @@
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, std::function<void(std::string)> callback) :
+                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
@@ -37,11 +37,10 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_basedir(basedir),
   m_directories(),
   m_files(),
+  m_path_relative_to_basedir(path_relative_to_basedir),
   m_callback(std::move(callback))
 {
-#ifndef __EMSCRIPTEN__
   AddonManager::current()->unmount_old_addons();
-#endif
 
   if (!PHYSFS_exists(m_directory.c_str())) {
     m_directory = "/"; //The filename is probably included in an old add-on.
@@ -52,9 +51,7 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
 
 FileSystemMenu::~FileSystemMenu()
 {
-#ifndef __EMSCRIPTEN__
   AddonManager::current()->mount_old_addons();
-#endif
 }
 
 void
@@ -87,11 +84,9 @@ FileSystemMenu::refresh_items()
       }
       else
       {
-#ifndef __EMSCRIPTEN__
         if (AddonManager::current()->is_from_old_addon(filepath)) {
           continue;
         }
-#endif
 
         if (has_right_suffix(*file))
         {
@@ -114,6 +109,8 @@ FileSystemMenu::refresh_items()
     item_id++;
   }
 
+  add_hl();
+  add_entry(-2, _("Open Directory"));
   add_hl();
   add_back(_("Cancel"));
 
@@ -151,7 +148,7 @@ FileSystemMenu::menu_action(MenuItem& item)
       if (id < m_files.size()) {
         std::string new_filename = FileSystem::join(m_directory, m_files[id]);
 
-        if (!m_basedir.empty()) {
+        if (!m_basedir.empty() && m_path_relative_to_basedir) {
           new_filename = FileSystem::relpath(new_filename, m_basedir);
         }
 
@@ -166,6 +163,10 @@ FileSystemMenu::menu_action(MenuItem& item)
         log_warning << "Selected invalid file or directory" << std::endl;
       }
     }
+  }
+  else if (item.get_id() == -2)
+  {
+    FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
   }
 }
 

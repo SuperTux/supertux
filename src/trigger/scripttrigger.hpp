@@ -28,8 +28,10 @@ public:
   ScriptTrigger(const ReaderMapping& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
 
-  virtual std::string get_class() const override { return "scripttrigger"; }
-  std::string get_display_name() const override { return _("Script Trigger"); }
+  static std::string class_name() { return "scripttrigger"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Script Trigger"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;

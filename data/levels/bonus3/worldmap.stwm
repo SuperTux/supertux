@@ -277,6 +277,7 @@
     )
     (teleporter
       (spawnpoint "forest")
+      (sprite "/images/worldmap/common/teleporterdot.sprite")
       (x 31)
       (y 10)
     )

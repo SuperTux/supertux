@@ -98,19 +98,15 @@ LanguageMenu::menu_action(MenuItem& item)
   // Reload font files
   Resources::load();
 
-#ifndef __EMSCRIPTEN__
   if (g_dictionary_manager->get_language().get_language() != "en" &&
       !AddonManager::current()->is_addon_installed("language-pack"))
   {
-    MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
+    MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU, true);
   }
   else
   {
     MenuManager::instance().clear_menu_stack();
   }
-#else
-  MenuManager::instance().clear_menu_stack();
-#endif
 }
 
 /* EOF */

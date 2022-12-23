@@ -40,7 +40,7 @@
 #  include <glbinding/callbacks.h>
 #endif
 
-GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
+GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
   m_use_opengl33core(use_opengl33core),
   m_texture_manager(),
   m_renderer(),
@@ -61,7 +61,27 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core) :
   m_context.reset(new GL20Context);
   m_use_opengl33core = false;
 #else
-  if (use_opengl33core)
+  if (auto_opengl_version)
+  {
+    // Get OpenGL version reported by OS
+    const char* version_string = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+    int major = 0;
+    sscanf(version_string, "%d", &major);
+
+    if (major >= 3)
+      m_use_opengl33core = true;
+    else if (major == 2)
+      m_use_opengl33core = false;
+    else
+    {
+      // OpenGL 2.0 or higher is unsupported, throw exception so SDL renderer will be used instead
+      throw std::runtime_error("OpenGL 2.0 or higher is unsupported");
+    }
+  }
+  else
+    m_use_opengl33core = use_opengl33core;
+  // Create context
+  if (m_use_opengl33core)
   {
     m_context.reset(new GL33CoreContext(*this));
   }
@@ -254,6 +274,13 @@ GLVideoSystem::apply_config()
     g_config->window_size;
 
   m_viewport = Viewport::from_size(target_size, m_desktop_size);
+
+#ifdef __ANDROID__
+  // SDL2 on Android reports display resolution size including the camera cutout,
+  // however it will not draw inside the cutout, so we must use the window size here
+  // instead of the display resolution, or the video will be rendered partly outside of the screen.
+  m_viewport = Viewport::from_size(g_config->window_size, g_config->window_size);
+#endif
 
   m_lightmap.reset(new GLTextureRenderer(*this, m_viewport.get_screen_size(), 5));
   if (m_use_opengl33core)

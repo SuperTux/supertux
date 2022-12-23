@@ -23,6 +23,7 @@
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
 static const float MOLE_WAIT_TIME = 0.2f; /**< time to wait before and after throwing */
@@ -65,10 +66,6 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 bool
 Mole::collision_squished(GameObject& )
 {
-  if (m_frozen) {
-    unfreeze();
-  }
-
   set_state(DEAD);
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   run_dead_script();
@@ -78,7 +75,9 @@ Mole::collision_squished(GameObject& )
 void
 Mole::throw_rock()
 {
-  float angle = math::radians(gameRandom.randf(90.0f - 15.0f, 90.0f + 15.0f));
+  float angle;
+  float base_angle = (m_flip == NO_FLIP ? 90.0f : 270.0f);
+  angle = math::radians(gameRandom.randf(base_angle - 15.0f, base_angle + 15.0f));
   float vx = cosf(angle) * THROW_VELOCITY;
   float vy = -sinf(angle) * THROW_VELOCITY;
 
@@ -90,9 +89,6 @@ void
 Mole::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
-
-  if (m_frozen)
-    return;
 
   switch (state) {
     case PRE_THROWING:
@@ -130,18 +126,9 @@ Mole::active_update(float dt_sec)
 
 }
 
-bool
-Mole::is_freezable() const
-{
-  return true;
-}
-
 void
 Mole::set_state(MoleState new_state)
 {
-  if (m_frozen)
-    return;
-
   switch (new_state) {
     case PRE_THROWING:
       m_sprite->set_action("idle");
@@ -164,7 +151,7 @@ Mole::set_state(MoleState new_state)
       set_colgroup_active(COLGROUP_STATIC);
       break;
     case DEAD:
-      m_sprite->set_action("idle");
+      m_sprite->set_action("squished");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
     case BURNING:
@@ -181,6 +168,13 @@ Mole::ignite() {
   set_state(BURNING);
   run_dead_script();
   SoundManager::current()->play("sounds/fire.ogg", get_pos());
+}
+
+void
+Mole::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

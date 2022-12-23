@@ -29,6 +29,10 @@ public:
   ~EditorLevelsetSelectMenu() override;
 
   void menu_action(MenuItem& item) override;
+  void initialize();
+  void reload_menu();
+
+  std::vector<std::string>& get_contrib_worlds() { return m_contrib_worlds; }
 
 private:
   EditorLevelsetSelectMenu(const EditorLevelsetSelectMenu&) = delete;

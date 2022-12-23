@@ -17,10 +17,14 @@
 #include "editor/node_marker.hpp"
 
 #include "editor/editor.hpp"
+#include "math/bezier.hpp"
 #include "math/easing.hpp"
+#include "supertux/sector.hpp"
 
-NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
+NodeMarker::NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_, UID before, UID after) :
   m_path(path_),
+  m_bezier_before(before),
+  m_bezier_after(after),
   m_node(node_iterator),
   m_id(id_)
 {
@@ -34,7 +38,29 @@ NodeMarker::update_iterator()
     remove_me();
   } else {
     m_node = m_path->m_nodes.begin() + m_id;
+
+    BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
+    BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+
+    if (before)
+      before->update_iterator(&(*m_node), &(m_node->bezier_before));
+    if (after)
+      after->update_iterator(&(*m_node), &(m_node->bezier_after));
   }
+}
+
+void
+NodeMarker::remove_me()
+{
+  BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
+  BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+
+  if (before)
+    before->remove_me();
+  if (after)
+    after->remove_me();
+  
+  MarkerObject::remove_me();
 }
 
 Vector
@@ -44,7 +70,13 @@ NodeMarker::get_point_vector() const
   if (next == m_path->m_nodes.end()) {
     return Vector(0,0);
   } else {
-    return next->position - m_node->position;
+    Vector p = Bezier::get_point(m_node->position,
+                                 m_node->bezier_after,
+                                 next->bezier_before,
+                                 next->position,
+                                 .01f);
+
+    return p - m_node->position;
   }
 }
 
@@ -57,6 +89,14 @@ NodeMarker::get_offset() const
 void
 NodeMarker::move_to(const Vector& pos)
 {
+  BezierMarker* before = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_before);
+  BezierMarker* after = Sector::current()->get_object_by_uid<BezierMarker>(m_bezier_after);
+
+  if (before)
+    before->move_to(pos + (before->get_pos() - get_pos()));
+  if (after)
+    after->move_to(pos + (after->get_pos() - get_pos()));
+
   MovingObject::move_to(pos);
   m_node->position = m_col.m_bbox.get_middle();
   update_node_times();
@@ -80,6 +120,7 @@ ObjectSettings
 NodeMarker::get_settings()
 {
   ObjectSettings result(_("Path Node"));
+  result.add_label(_("Press CTRL to move Bezier handles"));
   result.add_float(_("Time"), &(m_node->time));
   result.add_float(_("Speed"), &(m_node->speed));
   
@@ -154,11 +195,26 @@ void NodeMarker::update_node_time(std::vector<Path::Node>::iterator current, std
     return;  // Nothing to do.
   }
   if (current->speed > 0) {
-    float delta = glm::distance(next->position, current->position);
+    float delta = Bezier::get_length(current->position,
+                                     current->bezier_after,
+                                     next->bezier_before,
+                                     next->position);
     if (delta > 0) {
       current->time = delta / current->speed;
     }
   }
+}
+
+void
+NodeMarker::move_other_marker(UID marker, Vector position)
+{
+  assert(marker == m_bezier_before || marker == m_bezier_after);
+
+  auto bm = Sector::current()->get_object_by_uid<BezierMarker>(
+                (marker == m_bezier_before) ? m_bezier_after : m_bezier_before);
+
+  if (bm)
+    bm->move_to(position);
 }
 
 /* EOF */

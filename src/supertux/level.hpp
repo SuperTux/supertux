@@ -37,7 +37,7 @@ private:
   static Level* s_current;
 
 public:
-  Level(bool m_is_worldmap);
+  explicit Level(bool m_is_worldmap);
   ~Level();
 
   // saves to a levelfile
@@ -63,6 +63,8 @@ public:
 
   bool is_worldmap() const { return m_is_worldmap; }
 
+  std::string get_license() const { return m_license; }
+
 private:
   void save(Writer& writer);
   void load_old_format(const ReaderMapping& reader);
@@ -82,6 +84,9 @@ public:
   bool m_suppress_pause_menu;
   bool m_is_in_cutscene;
   bool m_skip_cutscene;
+  std::string m_icon;
+  std::string m_icon_locked;
+  std::string m_wmselect_bkg;
 
 private:
   Level(const Level&) = delete;

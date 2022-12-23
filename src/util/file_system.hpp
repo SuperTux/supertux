@@ -40,6 +40,9 @@ std::string basename(const std::string& filename);
     reldir("/levels/juser/level1.stl", "/levels") -> "juser/level1.stl" */
 std::string relpath(const std::string& filename, const std::string& basedir);
 
+/** Return the extension of a file */
+std::string extension(const std::string& filename);
+
 /** remove everything starting from and including the last dot */
 std::string strip_extension(const std::string& filename);
 
@@ -54,10 +57,15 @@ std::string join(const std::string& lhs, const std::string& rhs);
     @return true when successfully removed, false otherwise */
  bool remove(const std::string& path);
 
-/** Opens a file path or an address outside of SuperTux
- * @param path path or URL to open
+/** Opens a file path with the user's preferred app for that file.
+ * @param path path to open
  */
  void open_path(const std::string& path);
+
+/** Opens an URL in the user's preferred browser.
+ * @param url URL to open
+ */
+ void open_url(const std::string& url);
 
 } // namespace FileSystem
 

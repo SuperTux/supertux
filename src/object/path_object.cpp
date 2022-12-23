@@ -18,6 +18,7 @@
 
 #include <boost/optional.hpp>
 
+#include "editor/editor.hpp"
 #include "object/path_gameobject.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/sector.hpp"
@@ -26,6 +27,7 @@
 #include "util/writer.hpp"
 
 PathObject::PathObject() :
+  m_path_handle(),
   m_path_uid(),
   m_walker()
 {
@@ -40,6 +42,15 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
 {
   bool running = running_default;
   mapping.get("running", running);
+
+  boost::optional<ReaderMapping> handle_map;
+  if (mapping.get("handle", handle_map))
+  {
+    handle_map->get("scale_x", m_path_handle.m_scalar_pos.x);
+    handle_map->get("scale_y", m_path_handle.m_scalar_pos.y);
+    handle_map->get("offset_x", m_path_handle.m_pixel_offset.x);
+    handle_map->get("offset_y", m_path_handle.m_pixel_offset.y);
+  }
 
   std::string path_ref;
   boost::optional<ReaderMapping> path_mapping;
@@ -66,30 +77,49 @@ PathObject::init_path_pos(const Vector& pos, bool running)
   m_walker.reset(new PathWalker(path_gameobject.get_uid(), running));
 }
 
-Path*
-PathObject::get_path() const
+PathGameObject*
+PathObject::get_path_gameobject() const
 {
   if(!d_gameobject_manager)
     return nullptr;
 
-  if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
-    return &path_gameobject->get_path();
-  } else {
+  return d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid);
+}
+
+Path*
+PathObject::get_path() const
+{
+  auto path_gameobject = get_path_gameobject();
+  if(!path_gameobject)
+  {
     return nullptr;
   }
+  return &path_gameobject->get_path();
 }
 
 std::string
 PathObject::get_path_ref() const
 {
-  if(!d_gameobject_manager)
-    return nullptr;
-
-  if (auto* path_gameobject = d_gameobject_manager->get_object_by_uid<PathGameObject>(m_path_uid)) {
-    return path_gameobject->get_name();
-  } else {
+  auto path_gameobject = get_path_gameobject();
+  if(!path_gameobject)
+  {
     return {};
   }
+  return path_gameobject->get_name();
+}
+
+void
+PathObject::editor_set_path_by_ref(const std::string& new_ref)
+{
+  auto* path_obj = Editor::current()->get_sector()->get_object_by_name<PathGameObject>(new_ref);
+  m_path_uid = path_obj->get_uid();
+}
+
+void
+PathObject::on_flip()
+{
+  m_path_handle.m_scalar_pos.y = 1 - m_path_handle.m_scalar_pos.y;
+  m_path_handle.m_pixel_offset.y = -m_path_handle.m_pixel_offset.y;
 }
 
 /* EOF */

@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Jesusaves <cpntb1@ymail.com>, 2014
+# Jesusaves <jesusalva@themanaworld.org>, 2014
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
 # Herval Ribeiro <heraze@gmail.com>, 2006
-# Jesusaves <cpntb1@ymail.com>, 2015
+# Jesusaves <jesusalva@themanaworld.org>, 2015
 # Rui <xymarior@yandex.com>, 2016
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-19 02:12+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2017-09-19 19:01+0000\n"
 "Last-Translator: Rui <xymarior@yandex.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -171,14 +171,14 @@ msgstr "Tradição"
 msgid "Bonus Island II"
 msgstr "Ilha Bônus II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Você encontrou um local secreto!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Imagino para onde vai este caminho..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
 msgstr "Voltar para casa..."

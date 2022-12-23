@@ -15,17 +15,28 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Export functions for emscripten
+// If you add functions here, make sure to make CMakeLists.txt export them!
 #ifdef __EMSCRIPTEN__
 
 #include <emscripten.h>
 #include <emscripten/html5.h>
 
+#include "addon/addon_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "video/video_system.hpp"
 
 extern "C" {
+
+void set_resolution(int w, int h);
+void save_config();
+void init_emscripten();
+void onDownloadProgress(int id, int loaded, int total);
+void onDownloadFinished(int id);
+void onDownloadError(int id);
+void onDownloadAborted(int id);
+const char* getExceptionMessage(intptr_t address);
 
 EMSCRIPTEN_KEEPALIVE // This is probably not useful, I just want ppl to know it exists
 void
@@ -42,15 +53,45 @@ save_config()
   g_config->save();
 }
 
+void
+onDownloadProgress(int id, int loaded, int total)
+{
+  AddonManager::current()->onDownloadProgress(id, loaded, total);
+}
+
+void
+onDownloadFinished(int id)
+{
+  AddonManager::current()->onDownloadFinished(id);
+}
+
+void
+onDownloadError(int id)
+{
+  AddonManager::current()->onDownloadError(id);
+}
+
+void
+onDownloadAborted(int id)
+{
+  AddonManager::current()->onDownloadAborted(id);
+}
+
+const char*
+getExceptionMessage(intptr_t address)
+{
+  return reinterpret_cast<std::exception*>(address)->what();
+}
+
 } // extern "C"
 
 void
 init_emscripten()
 {
-  EM_ASM(
+  EM_ASM({
     if (window.supertux_onready)
       window.supertux_onready();
-  );
+  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 }
 
 #endif

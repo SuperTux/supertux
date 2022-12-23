@@ -39,6 +39,8 @@ void
 Jumpy::collision_solid(const CollisionHit& chit)
 {
   hit(chit);
+  if (m_frozen)
+    BadGuy::collision_solid(chit);
 }
 
 HitResponse
@@ -59,7 +61,7 @@ Jumpy::hit(const CollisionHit& chit)
 
     m_physic.set_velocity_y((m_frozen || get_state() != STATE_ACTIVE) ? 0 : JUMPYSPEED);
     // TODO create a nice sound for this...
-    //SoundManager::current()->play("sounds/skid.wav");
+    //SoundManager::current()->play("sounds/skid.wav", get_pos());
     update_on_ground_flag(chit);
   } else if (chit.top) {
     m_physic.set_velocity_y(0);
@@ -84,7 +86,7 @@ Jumpy::active_update(float dt_sec)
 
   if (!groundhit_pos_set)
   {
-    m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
+    m_sprite->set_action("editor", m_dir);
     return;
   }
 
@@ -95,6 +97,13 @@ Jumpy::active_update(float dt_sec)
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
   else
     m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
+}
+
+void
+Jumpy::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  groundhit_pos_set = false;
 }
 
 void

@@ -178,11 +178,13 @@ public:
   }
 
   const std::vector<TileMap*>& get_solid_tilemaps() const { return m_solid_tilemaps; }
+  const std::vector<TileMap*>& get_all_tilemaps() const { return m_all_tilemaps; }
   
-  void update_solids();
   void update_solid(TileMap* solid);
 
 protected:
+  void update_tilemaps();
+
   void process_resolve_requests();
 
   /** Same as process_resolve_requests(), but those it can't find will be kept in the buffer */
@@ -213,6 +215,9 @@ private:
 
   /** Fast access to solid tilemaps */
   std::vector<TileMap*> m_solid_tilemaps;
+
+  /** Fast access to all tilemaps */
+  std::vector<TileMap*> m_all_tilemaps;
 
   std::unordered_map<std::string, GameObject*> m_objects_by_name;
   std::unordered_map<UID, GameObject*> m_objects_by_uid;

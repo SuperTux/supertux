@@ -1,6 +1,0 @@
-(supertux-level-subset
-  (title (_ "Community Island 2020"))
-  (description (_ ""))
-  (levelset #f)
-  (hide-from-contribs #f)
-)

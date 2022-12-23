@@ -16,7 +16,7 @@
 
 #include "supertux/command_line_arguments.hpp"
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
 #include <config.h>
 #include <physfs.h>
 
@@ -73,9 +73,9 @@ void
 CommandLineArguments::print_acknowledgements() const
 {
   IFileStream in("ACKNOWLEDGEMENTS.txt");
-  std::string line;
   if (in.good())
   {
+    std::string line;
     while (std::getline(in, line))
     {
       std::cout << line << std::endl;
@@ -91,7 +91,7 @@ void
 CommandLineArguments::print_help(const char* arg0) const
 {
   std::cerr
-    << boost::format(_("Usage: %s [OPTIONS] [LEVELFILE]")) % arg0 << "\n" << "\n"
+    << fmt::format(fmt::runtime(_("Usage: {} [OPTIONS] [LEVELFILE]")), arg0) << "\n" << "\n"
     << _("General Options:") << "\n"
     << _("  -h, --help                   Show this help message and quit") << "\n"
     << _("  -v, --version                Show SuperTux version and quit") << "\n"
@@ -252,16 +252,11 @@ CommandLineArguments::parse_args(int argc, char** argv)
       {
         throw std::runtime_error("Need to specify a ratio (WIDTH:HEIGHT) for aspect ratio");
       }
-      else
+      else if (strcmp(argv[i], "auto") != 0)
       {
         int aspect_width  = 0;
         int aspect_height = 0;
-        if (strcmp(argv[i], "auto") == 0)
-        {
-          aspect_width  = 0;
-          aspect_height = 0;
-        }
-        else if (sscanf(argv[i], "%9d:%9d", &aspect_width, &aspect_height) != 2)
+        if (sscanf(argv[i], "%9d:%9d", &aspect_width, &aspect_height) != 2)
         {
           throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT or auto");
         }
@@ -307,7 +302,6 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--developer")
     {
       developer_mode = true;
-      EditorOverlayWidget::autotile_help = !developer_mode;
     }
     else if (arg == "--christmas")
     {
@@ -407,7 +401,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else
     {
-      throw std::runtime_error((boost::format("Unknown option '%1%''. Use --help to see a list of options") % arg).str());
+      throw std::runtime_error(fmt::format("Unknown option '{}''. Use --help to see a list of options", arg));
     }
   }
 

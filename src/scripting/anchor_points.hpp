@@ -20,15 +20,15 @@
 namespace scripting {
 
 // TODO get these from the definitions in anchor.h (needs miniswig update)
-static const int ANCHOR_TOP         = 0x0010;
-static const int ANCHOR_BOTTOM      = 0x0020;
-static const int ANCHOR_LEFT        = 0x0001;
-static const int ANCHOR_RIGHT       = 0x0002;
-static const int ANCHOR_MIDDLE      = 0x0000;
-static const int ANCHOR_TOP_LEFT    = 0x0011;
-static const int ANCHOR_TOP_RIGHT   = 0x0012;
-static const int ANCHOR_BOTTOM_LEFT = 0x0021;
-static const int ANCHOR_BOTTOM_RIGHT = 0x0022;
+static const int ANCHOR_TOP_LEFT     = 0;
+static const int ANCHOR_TOP          = 1;
+static const int ANCHOR_TOP_RIGHT    = 2;
+static const int ANCHOR_LEFT         = 3;
+static const int ANCHOR_MIDDLE       = 4;
+static const int ANCHOR_RIGHT        = 5;
+static const int ANCHOR_BOTTOM_LEFT  = 6;
+static const int ANCHOR_BOTTOM       = 7;
+static const int ANCHOR_BOTTOM_RIGHT = 8;
 
 } // namespace scripting
 

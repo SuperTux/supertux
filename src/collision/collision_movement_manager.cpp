@@ -40,11 +40,10 @@ CollisionGroundMovementManager::apply_all_ground_movement()
 {
   for (auto movements_for_target : m_movements_per_target)
   {
-    CollisionObject& target = *movements_for_target.first;
     TargetMovementData& movements = movements_for_target.second;
 
-    auto& objects_map = movements.get_objects_map();
-    auto& tilemaps_map = movements.get_tilemaps_map();
+    const auto& objects_map = movements.get_objects_map();
+    const auto& tilemaps_map = movements.get_tilemaps_map();
 
     // Find the lowest "y" position (i.e. the highest point since
     // (0,0) is the top-left corner) and the associated object
@@ -67,6 +66,7 @@ CollisionGroundMovementManager::apply_all_ground_movement()
 
     if (!first_to_do) {
       // Move the object to the highest possible point.
+      CollisionObject& target = *movements_for_target.first;
       target.set_movement(target.get_movement() + lowest_y_vector);
     }
   }

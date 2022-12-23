@@ -36,6 +36,7 @@ private:
   int next_vsync;
   int next_sound_volume;
   int next_music_volume;
+  int m_next_mobile_controls_scale;
 
   std::vector<std::string> magnifications;
   std::vector<std::string> aspect_ratios;
@@ -44,6 +45,7 @@ private:
   std::vector<std::string> vsyncs;
   std::vector<std::string> sound_volumes;
   std::vector<std::string> music_volumes;
+  std::vector<std::string> m_mobile_controls_scales;
 
 private:
   OptionsMenu(const OptionsMenu&) = delete;

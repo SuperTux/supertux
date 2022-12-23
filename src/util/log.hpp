@@ -39,6 +39,8 @@ void log_info_callback(const std::string& str);
 void log_error_callback(const std::string& str);
 void log_warning_callback(const std::string& str);
 
+std::ostream& get_logging_instance(bool use_console_buffer = true);
+
 #endif
 
 /* EOF */

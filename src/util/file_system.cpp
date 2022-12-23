@@ -34,6 +34,8 @@
 #include <emscripten/html5.h>
 #endif
 
+#include <SDL.h>
+
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
@@ -130,6 +132,15 @@ std::string relpath(const std::string& filename, const std::string& basedir)
 #endif
 }
 
+std::string extension(const std::string& filename)
+{
+  std::string::size_type p = filename.find_last_of('.');
+  if (p == std::string::npos)
+    return "";
+
+  return filename.substr(p);
+}
+
 std::string strip_extension(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('.');
@@ -148,7 +159,6 @@ std::string normalize(const std::string& filename)
   while (true) {
     while (*p == '/' || *p == '\\') {
       p++;
-      continue;
     }
 
     const char* pstart = p;
@@ -226,7 +236,10 @@ bool remove(const std::string& path)
 
 void open_path(const std::string& path)
 {
-#if defined(_WIN32) || defined (_WIN64)
+#ifdef __ANDROID__
+  // SDL >= 2.0.14 is strictly required for Android
+  SDL_OpenURL(("file://" + path).c_str());
+#elif defined(_WIN32) || defined (_WIN64)
   ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__EMSCRIPTEN__)
   emscripten_run_script(("window.supertux_download('" + path + "');").c_str());
@@ -246,6 +259,17 @@ void open_path(const std::string& path)
   {
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
+#endif
+}
+
+void open_url(const std::string& url)
+{
+#if SDL_VERSION_ATLEAST(2,0,14)
+  SDL_OpenURL(url.c_str());
+#elif defined(__EMSCRIPTEN__)
+  emscripten_run_script(("window.open('" + url + "');").c_str());
+#else
+  open_path(url);
 #endif
 }
 

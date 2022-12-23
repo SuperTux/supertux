@@ -18,9 +18,8 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
-#ifndef __EMSCRIPTEN__
-
 #include <memory>
+#include <vector>
 #include <string>
 
 class ReaderMapping;
@@ -49,8 +48,10 @@ private:
   int m_format;
 
   // additional fields provided for addons from an addon repository
+  std::string m_description;
   std::string m_url;
   std::string m_md5;
+  std::vector<std::string> m_screenshots;
 
   // fields filled by the AddonManager
   std::string m_install_filename;
@@ -69,14 +70,17 @@ public:
   std::string get_author() const { return m_author; }
   std::string get_license() const { return m_license; }
 
+  std::string get_description() const { return m_description; }
   std::string get_url() const { return m_url; }
   std::string get_md5() const { return m_md5; }
+  std::vector<std::string> get_screenshots() const { return m_screenshots; }
 
   std::string get_filename() const;
   std::string get_install_filename() const;
 
   bool is_installed() const;
   bool is_enabled() const;
+  bool is_visible() const;
 
   void set_install_filename(const std::string& absolute_filename, const std::string& md5);
   void set_enabled(bool v);
@@ -86,7 +90,11 @@ private:
   Addon& operator=(const Addon&) = delete;
 };
 
-#endif
+namespace addon_string_util {
+  Addon::Type addon_type_from_string(const std::string& type);
+  std::string addon_type_to_translated_string(Addon::Type type);
+  std::string generate_menu_item_text(const Addon& addon);
+}
 
 #endif
 

@@ -156,18 +156,21 @@ InfoBoxLine::split(const std::string& text, float width)
 }
 
 void
-InfoBoxLine::draw(DrawingContext& context, const Rectf& bbox, int layer)
+InfoBoxLine::draw(DrawingContext& context, const Rectf& bbox, int layer, LineAlignment alignment)
 {
   Vector position = bbox.p1();
   switch (lineType) {
     case IMAGE:
-      context.color().draw_surface(image, Vector( (bbox.get_left() + bbox.get_right() - static_cast<float>(image->get_width())) / 2.0f, position.y), layer);
+      context.color().draw_surface(image, Vector(((bbox.get_left() + bbox.get_right() - static_cast<float>(image->get_width())) * 0.5f)
+        + (static_cast<float>(image->get_width()) * (alignment == LineAlignment::LEFT ? 0.5f : alignment == LineAlignment::RIGHT ? -0.5f : 0.f)), position.y), layer);
       break;
     case NORMAL_LEFT:
       context.color().draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, color);
       break;
     default:
-      context.color().draw_text(font, text, Vector((bbox.get_left() + bbox.get_right()) / 2, position.y), ALIGN_CENTER, layer, color);
+      context.color().draw_text(font, text, Vector((bbox.get_left() + bbox.get_right()) / 2.f, position.y),
+        alignment == LineAlignment::LEFT ? ALIGN_LEFT :
+        alignment == LineAlignment::RIGHT ? ALIGN_RIGHT : ALIGN_CENTER, layer, color);
       break;
   }
 }

@@ -47,10 +47,14 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
 
-  virtual std::string get_class() const override { return "spotlight"; }
-  virtual std::string get_display_name() const override { return _("Spotlight"); }
+  static std::string class_name() { return "spotlight"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Spotlight"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+
+  virtual int get_layer() const override { return m_layer; }
 
   void set_angle(float angle_) { angle = angle_; }
   void set_speed(float speed_) { speed = speed_; }

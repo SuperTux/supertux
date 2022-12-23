@@ -17,6 +17,7 @@
 
 #include "badguy/short_fuse.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
@@ -28,7 +29,7 @@ ShortFuse::ShortFuse(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/short_fuse/short_fuse.sprite", "left", "right")
 {
   walk_speed = 100;
-  max_drop_height = -1;
+  max_drop_height = 16;
 
   //Check if we need another sprite
   if ( !reader.get( "sprite", m_sprite_name ) ){
@@ -40,6 +41,8 @@ ShortFuse::ShortFuse(const ReaderMapping& reader) :
   }
   //Replace sprite
   m_sprite = SpriteManager::current()->create( m_sprite_name );
+
+  SoundManager::current()->preload("sounds/firecracker.ogg");
 }
 
 void
@@ -48,17 +51,25 @@ ShortFuse::explode()
   if (!is_valid())
     return;
 
-  auto& explosion = Sector::get().add<Explosion>(get_bbox().get_middle(),
-    EXPLOSION_STRENGTH_NEAR, 8);
-  explosion.hurts(false);
+  if (m_frozen)
+    BadGuy::kill_fall();
+  else
+  {
+    auto& explosion = Sector::get().add<Explosion>(get_bbox().get_middle(),
+      EXPLOSION_STRENGTH_NEAR, 8, true);
+    explosion.hurts(false);
 
-  run_dead_script();
-  remove_me();
+    run_dead_script();
+    remove_me();
+  }
 }
 
 bool
 ShortFuse::collision_squished(GameObject& obj)
 {
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(obj);
+
   if (!is_valid ())
     return true;
 
@@ -74,30 +85,39 @@ ShortFuse::collision_squished(GameObject& obj)
 HitResponse
 ShortFuse::collision_player (Player& player, const CollisionHit&)
 {
-  player.bounce (*this);
-  explode ();
-  return ABORT_MOVE;
+  if (!m_frozen)
+  {
+    player.bounce(*this);
+    explode();
+  }
+  return FORCE_MOVE;
 }
 
-HitResponse
-ShortFuse::collision_bullet (Bullet& bullet, const CollisionHit& )
+void
+ShortFuse::freeze()
 {
-  // All bullets cause the unstable short fuse to explode
-  bullet.remove_me();
-  explode();
-  return ABORT_MOVE;
+  m_col.m_bbox.move(Vector(0.f, -100.f));
+  BadGuy::freeze();
 }
 
 void
 ShortFuse::kill_fall()
 {
-  explode ();
+  explode();
 }
 
 void
 ShortFuse::ignite()
 {
+  if (m_frozen)
+    unfreeze();
   kill_fall();
+}
+
+bool
+ShortFuse::is_freezable() const
+{
+  return true;
 }
 
 /* EOF */

@@ -20,6 +20,7 @@
 #include "supertux/moving_object.hpp"
 
 #include "video/surface_ptr.hpp"
+#include "video/layer.hpp"
 
 class ReaderMapping;
 class DrawingContext;
@@ -42,9 +43,13 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
 
-  virtual std::string get_class() const override { return "spawnpoint"; }
-  virtual std::string get_display_name() const override { return _("Spawnpoint"); }
+  static std::string class_name() { return "spawnpoint"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Spawnpoint"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
+
+  virtual int get_layer() const override { return LAYER_FOREGROUND1; }
 
 private:
   SurfacePtr m_surface;

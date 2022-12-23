@@ -96,7 +96,7 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
   sq_pushnull(vm);
   while (SQ_SUCCEEDED(sq_next(vm, table_idx))) {
     if (sq_gettype(vm, -2) != OT_STRING) {
-      std::cerr << "Table contains non-string key\n";
+      get_logging_instance(false) << "Table contains non-string key\n";
       continue;
     }
     const SQChar* key;
@@ -138,7 +138,8 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
       case OT_NATIVECLOSURE:
         break;
       default:
-        std::cerr << "Can't serialize key '" << key << "' in table.\n";
+        get_logging_instance(false) << "Can't serialize key '" << key
+                                    << "' in table.\n";
         break;
     }
     sq_pop(vm, 2);

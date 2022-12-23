@@ -16,83 +16,30 @@
 
 #include "gui/menu_badguy_select.hpp"
 
+#include <fmt/format.h>
+
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-
-std::vector<std::string> BadguySelectMenu::all_badguys;
-
+#include "gui/menu_list.hpp"
+#include "supertux/game_object_factory.hpp"
+#include "editor/editor.hpp"
 BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
   badguys(badguys_),
   selected(),
   remove_item()
 {
-  //initialize badguy list
-  if (all_badguys.empty()) {
-    all_badguys.push_back("angrystone");
-    all_badguys.push_back("bouncingsnowball");
-    all_badguys.push_back("captainsnowball");
-    all_badguys.push_back("crystallo");
-    all_badguys.push_back("dart");
-    all_badguys.push_back("darttrap");
-    all_badguys.push_back("dispenser");
-    all_badguys.push_back("fish");
-    all_badguys.push_back("flame");
-    all_badguys.push_back("flyingsnowball");
-    all_badguys.push_back("ghostflame");
-    all_badguys.push_back("ghosttree");
-    all_badguys.push_back("haywire");
-    all_badguys.push_back("iceflame");
-    all_badguys.push_back("igel");
-    all_badguys.push_back("jumpy");
-    all_badguys.push_back("kamikazesnowball");
-    all_badguys.push_back("kugelblitz");
-    all_badguys.push_back("leafshot");
-    all_badguys.push_back("livefire");
-    all_badguys.push_back("livefire_asleep");
-    all_badguys.push_back("livefire_dormant");
-    all_badguys.push_back("mole");
-    all_badguys.push_back("mole_rock");
-    all_badguys.push_back("mrbomb");
-    all_badguys.push_back("mrcandle");
-    all_badguys.push_back("mriceblock");
-    all_badguys.push_back("mrtree");
-    all_badguys.push_back("owl");
-    all_badguys.push_back("plant");
-    all_badguys.push_back("poisonivy");
-    all_badguys.push_back("short_fuse");
-    all_badguys.push_back("sspiky");
-    all_badguys.push_back("skydive");
-    all_badguys.push_back("skullyhop");
-    all_badguys.push_back("smartball");
-    all_badguys.push_back("smartblock");
-    all_badguys.push_back("snail");
-    all_badguys.push_back("snowball");
-    all_badguys.push_back("snowman");
-    all_badguys.push_back("spidermite");
-    all_badguys.push_back("spiky");
-    all_badguys.push_back("stalactite");
-    all_badguys.push_back("stumpy");
-    all_badguys.push_back("toad");
-    all_badguys.push_back("totem");
-    all_badguys.push_back("walkingleaf");
-    all_badguys.push_back("willowisp");
-    all_badguys.push_back("yeti");
-    all_badguys.push_back("yeti_stalactite");
-    all_badguys.push_back("zeekling");
-  }
-
-  refresh_menu();
+  refresh();
 }
 
 void
-BadguySelectMenu::refresh_menu()
+BadguySelectMenu::refresh()
 {
   m_items.clear();
 
   add_label(_("List of enemies"));
   add_hl();
-  add_string_select(-2, _("Enemy"), &selected, all_badguys);
+  add_entry(-2, fmt::format(_("Select enemy ({})"), selected));
   add_entry(-3, _("Add"));
   add_hl();
 
@@ -110,7 +57,7 @@ void
 BadguySelectMenu::remove_badguy()
 {
   badguys->erase(badguys->begin() + remove_item);
-  refresh_menu();
+  refresh();
   if (m_items[m_active_item]->skippable()) {
     //We are on the bottom headline.
     m_active_item++;
@@ -120,8 +67,14 @@ BadguySelectMenu::remove_badguy()
 void
 BadguySelectMenu::add_badguy()
 {
-  badguys->push_back(all_badguys[selected]);
-  refresh_menu();
+  if (selected == "")
+  {
+    log_warning << "Cannot add an empty enemy." << std::endl;
+    return;
+  }
+    badguys->push_back(selected);
+    refresh();
+  
 }
 
 void
@@ -138,6 +91,8 @@ BadguySelectMenu::menu_action(MenuItem& item)
     });
     dialog->add_cancel_button(_("No"));
     MenuManager::instance().set_dialog(std::move(dialog));
+  } else if (item.get_id() == -2) {
+    MenuManager::instance().push_menu(std::make_unique<ListMenu>(GameObjectFactory::instance().get_registered_badguys(), &selected, this));
   } else if (item.get_id() == -3) {
     add_badguy();
   }

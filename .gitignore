@@ -16,6 +16,9 @@ Debug/
 Release/
 tools/innosetup/Output
 
+# Nix flake build files
+/result
+
 # Version file
 version.cmake
 
@@ -25,6 +28,10 @@ docs/doxygen/
 
 # Qt Creator project file
 CMakeLists.txt.user
+
+# Clangd
+.cache/
+compile_commands.json
 
 # Visual Studio Code project files
 .vscode/

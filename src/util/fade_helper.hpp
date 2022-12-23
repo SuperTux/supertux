@@ -42,8 +42,11 @@ public:
   /** @returns true if the FadeHelper has completed fading. */
   bool completed() const;
 
+  float get_value() const;
+
 private:
   float* m_value;
+  float m_progress;
   float m_start, m_target,
         m_time, m_total_time;
   easing m_ease;

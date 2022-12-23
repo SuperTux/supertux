@@ -46,7 +46,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_flyspeed(),
   m_track_range(),
   m_vanish_range(),
-  m_color(0, 1, 0)
+  m_color(0, 1, 0),
+  m_starting_node(0)
 {
   if (Editor::is_active()) {
     reader.get("sector", m_target_sector);
@@ -69,6 +70,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   {
     m_color = Color(color);
   }
+
+  reader.get("starting-node", m_starting_node, 0.f);
 
   init_path(reader, running);
 
@@ -96,6 +99,8 @@ WillOWisp::finish_construction()
 void
 WillOWisp::after_editor_set()
 {
+  BadGuy::after_editor_set();
+
   m_lightsprite->set_color(Color(m_color.red * 0.2f,
                                  m_color.green * 0.2f,
                                  m_color.blue * 0.2f));
@@ -107,7 +112,7 @@ WillOWisp::active_update(float dt_sec)
 {
   if (Editor::is_active() && get_path() && get_path()->is_valid()) {
     get_walker()->update(dt_sec);
-    set_pos(get_walker()->get_pos());
+    set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
     return;
   }
 
@@ -160,7 +165,7 @@ WillOWisp::active_update(float dt_sec)
       if (get_walker() == nullptr)
         return;
       get_walker()->update(dt_sec);
-      m_col.set_movement(get_walker()->get_pos() - get_pos());
+      m_col.set_movement(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos());
       if (m_mystate == STATE_PATHMOVING_TRACK && glm::length(dist) <= m_track_range) {
         m_mystate = STATE_TRACKING;
       }
@@ -223,7 +228,8 @@ bool
 WillOWisp::collides(GameObject& other, const CollisionHit& ) const {
   auto lantern = dynamic_cast<Lantern*>(&other);
 
-  if (lantern && lantern->is_open())
+  //                                 vv  'xor'
+  if (lantern && (lantern->is_open() != (get_color().greyscale() == 0)))
     return true;
 
   if (dynamic_cast<Player*>(&other))
@@ -248,7 +254,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
   } else {
     GameSession::current()->respawn(m_target_sector, m_target_spawnpoint);
   }
-  SoundManager::current()->play("sounds/warp.wav");
+  SoundManager::current()->play("sounds/warp.wav", get_pos());
 
   return CONTINUE;
 }
@@ -308,8 +314,14 @@ WillOWisp::get_settings()
   result.add_float(_("Track range"), &m_track_range, "track-range", TRACK_RANGE);
   result.add_float(_("Vanish range"), &m_vanish_range, "vanish-range", VANISH_RANGE);
   result.add_float(_("Fly speed"), &m_flyspeed, "flyspeed", FLYSPEED);
-  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+  result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
+  result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
   result.add_color(_("Color"), &m_color, "color");
+  if (get_path())
+  {
+    result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
+    result.add_path_handle(_("Handle"), m_path_handle, "handle");
+  }
 
   result.reorder({"sector", "spawnpoint", "flyspeed", "track-range", "hit-script", "vanish-range", "name", "path-ref", "region", "x", "y"});
 
@@ -338,6 +350,13 @@ WillOWisp::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+void
+WillOWisp::on_flip(float height)
+{
+  BadGuy::on_flip(height);
+  PathObject::on_flip();
 }
 
 /* EOF */

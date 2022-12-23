@@ -22,7 +22,7 @@
 
     canvas.emscripten {
       border: 0 none;
-      background-color: #000;
+      background-color: #0000;
     }
 
     .spinner {
@@ -118,7 +118,7 @@
       padding-left: 0;
       padding-right: 0;
       display: block;
-      background-color: #000;
+      background-color: #0000;
       color: #fff;
       font-family: 'Lucida Console', Monaco, monospace;
       outline: 0;
@@ -133,12 +133,45 @@
       width: 100%;
       background-color: #000d;
       z-index: 10;
+      background-image: linear-gradient(to bottom, #000a, #000a), url('supertux2.png'), url('supertux2_bkg.png');
+      background-position: 0 0, 50% calc(50% - 100px);
+      background-repeat: repeat, no-repeat;
+      animation: movebkg 10s linear infinite;
     }
 
     .center_stuff {
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .bottom_stuff {
+      text-align: center;
+      color: #fff7;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 15px;
+    }
+
+    .bottom_stuff a {
+      color: #8cf;
+      font-weight: bold;
+    }
+
+    .bottom_stuff a.light {
+      color: #8cf7;
+      font-weight: normal;
+    }
+
+    @keyframes movebkg {
+      from {
+        background-position: 0 0, 50% calc(50% - 100px);
+      }
+
+      to {
+        background-position: -256px 0, 50% calc(50% - 100px);
+      }
     }
   </style>
 </head>
@@ -151,8 +184,13 @@
       <br/>
       <div class="emscripten"><progress hidden id="progress" max="100" value="0"></progress></div>
     </center>
+    <div class="bottom_stuff">
+      <p>If the game is unplayably slow, try downloading the desktop version for your platform at <a href="https://www.supertux.org/download.html" target="_blank">supertux.org</a></p>
+      <p id="data_warning"></p>
+      <p id="progress_desc"></p>
+    </div>
   </div>
-  <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+  <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
   <p id="output"></p>
   <input type="file" id="file_upload" multiple="multiple" style="display:none">
   <script>
@@ -160,12 +198,53 @@
       document.getElementById("output").style.display = "none";
     }
 
-    alert("The Web version of SuperTux is still a work in progress... and it's very slow!\n\nIf the game is too slow to be playable, please download the native version for your platform.");
+    var data_persistent = false;
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().then((persists) => {
+        if (!persists) {
+          //alert("Your browser denied persistent storage. That means your data could be cleared next time you open the game.\n\nIf you just received a prompt asking you if you want data to persist, you may ignore this message.\n\nChrome and Chromium-based browsers (Edge, Opera, Brave...) will not ask the user; instead, the browser will choose by itself based on if it considers the site important. It detemines which sites are important based on certain data, such as how often you visit the site, what you do, etc. If you want to choose whether or not to save your progress, you may use Firefox instead.\n\nYou can read more at https://web.dev/persistent-storage/#how-is-permission-granted\n\nIf you want to choose to save your data, please use Firefox.");
+          document.getElementById("data_warning").innerHTML = 'Your browser denied persistent data. That means the browser can choose to delete your progress anytime. Chrome, Edge and Opera are known to <a class="light" href="https://web.dev/persistent-storage/#how-is-permission-granted">silently deny persistent data</a>; please try with Firefox if necessary.';
+        } else {
+          data_persistent = true;
+        }
+      });
+    } else {
+      document.getElementById("data_warning").innerHTML = 'Your browser does not support persistent data. That means the browser can choose to delete your progress anytime.';
+    }
+
+    window.supertux2_ispersistent = function() {
+      return data_persistent ? 1 : 0;
+    }
 
     var statusElement = document.getElementById("status"),
-    progressElement = document.getElementById("progress"),
-    overlayElement = document.getElementById("overlay"),
-    spinnerElement = document.getElementById("spinner");
+        progressElement = document.getElementById("progress"),
+        progressDescElement = document.getElementById("progress_desc"),
+        overlayElement = document.getElementById("overlay"),
+        spinnerElement = document.getElementById("spinner");
+
+    var lastUpdate = Date.now() / 1000;
+    var lastStep = 0;
+
+    function getExp(num) {
+      if (num > 1e12) {
+        return (num / 1e12).toFixed(3) + "T";
+      } else if (num > 1e9) {
+        return (num / 1e9).toFixed(3) + "G";
+      } else if (num > 1e6) {
+        return (num / 1e6).toFixed(3) + "M";
+      } else if (num > 1e3) {
+        return (num / 1e3).toFixed(3) + "K";
+      } else {
+        return num.toFixed();
+      }
+    }
+
+    // Functions to be loaded with cwrap
+    var setResolution = null;
+    var onDownloadProgress = null;
+    var onDownloadFinished = null;
+    var onDownloadError = null;
+    var onDownloadAborted = null;
 
     var Module = {
       preRun: [],
@@ -200,12 +279,24 @@
         }
       }(),
       canvas: function () {
-        var e = document.getElementById("canvas");
-        e.addEventListener("webglcontextlost", (function (e) {
+        var c = document.getElementById("canvas");
+        c.addEventListener("webglcontextlost", (function (e) {
           alert("WebGL context lost. You will need to reload the page.");
           e.preventDefault();
         }), !1);
-        return e;
+        // Fixed a bug where an iframe containing SuperTUx (e. g. Newgrounds)
+        // would lose focus if the user clicks outside of the iframe and cannot
+        // get focus back when user clicks inside the iframe, thus preventing
+        // any keyboard input from being received by SuperTux.
+        // If you want to try: Disable the three lines below, compile, upload on
+        // Newgrounds, wait for the game to load, click outside the game, click
+        // back inside the game, then try to press buttons (e. g. arrows), it'll
+        // behave as if focus was outside the iframe (e. g. pressing down will scroll
+        // the page instead of navigating the menus/worldmap/ducking/whatever)
+        c.addEventListener("click", function(e) {
+          c.focus();
+        });
+        return c;
       }(),
       setStatus: function (e) {
         overlayElement.style.display = e ? "flex" : "none";
@@ -224,6 +315,14 @@
               progressElement.value = 100 * parseInt(t[2]);
               progressElement.max = 100 * parseInt(t[4]);
               progressElement.hidden = false;
+
+              var update = Date.now() / 1000
+              progressDescElement.innerText = e.match(/[Dd]ownload/)
+                ? getExp(parseInt(t[2])) + "B / " + getExp(parseInt(t[4])) + "B (" + getExp((parseInt(t[2]) - lastStep) / (update - lastUpdate)) + "B/s)"
+                : t[2] + " of " + t[4] + " assets loaded";
+              lastUpdate = Date.now() / 1000;
+              lastStep = parseInt(t[2]);
+
               spinnerElement.hidden = false;
             }
             else
@@ -231,6 +330,9 @@
               progressElement.value = null;
               progressElement.max = null;
               progressElement.hidden = true;
+
+              progressDescElement.innerText = "";
+
               if (!e)
                 spinnerElement.style.display = "none";
             }
@@ -242,12 +344,21 @@
       monitorRunDependencies: function (e) {
         this.totalDependencies = Math.max(this.totalDependencies, e);
         Module.setStatus(e ? "Preparing... (" + (this.totalDependencies - e) + "/" + this.totalDependencies + ")" : "All downloads complete.")
-      }
+      },
+      onRuntimeInitialized: function() {
+        setResolution = Module.cwrap('set_resolution', 'void', ['number']);
+        onDownloadProgress = Module.cwrap('onDownloadProgress', 'void', ['number', 'number', 'number']);
+        onDownloadFinished = Module.cwrap('onDownloadFinished', 'void', ['number']);
+        onDownloadError = Module.cwrap('onDownloadError', 'void', ['number']);
+        onDownloadAborted = Module.cwrap('onDownloadAborted', 'void', ['number']);
+      },
     };
 
     Module.setStatus("Downloading...");
-    window.onerror = function (e) {
-      Module.setStatus("Oops!<br><br>An error occured and SuperTux crashed.<br><br><pre>" + e + "</pre>");
+    window.onerror = function (message, source, line, col, error) {
+      if (typeof error == "number")
+        message = Module.ccall('getExceptionMessage', 'string', ['number'], [error]);
+      Module.setStatus("Oops!<br><br>An error occured and SuperTux crashed.<br><br><pre>" + message + "</pre>");
       spinnerElement.style.display = "none";
       Module.setStatus = function (e) {
         if (e)
@@ -255,17 +366,18 @@
       }
     }
 
-    var autofit = false;
-    var setResolution = null;
+    var autofit = true;
 
     function tryResize() {
-      if (!autofit)
+      if (!autofit || !Module)
         return;
 
       if (!setResolution)
-        setResolution = Module.cwrap('set_resolution', 'void', ['number']);
+        return;
 
-      setResolution(window.innerWidth, window.innerHeight);
+      try {
+        setResolution(window.innerWidth, window.innerHeight);
+      } catch(err) {}
     }
 
     window.supertux_setAutofit = function(newAutofit) {
@@ -278,26 +390,35 @@
     const root = "/home/web_user/.local/share/supertux2/";
 
     window.supertux_loadFiles = function() {
-      for (var key of Object.keys(localStorage)) {
-        if (key !== "config" && !key.match("^profile[0-9]+/"))
-          continue;
+      try {
+        // Loading the config file from localStorage is needed, even though the
+        // rest of the files are stored in IndexedDB, managed by Emscripten.
+        // Check the supertux_saveFiles function below for details.
+        for (var key of Object.keys(localStorage)) {
+          if (key !== "supertux2_config" /*&& !key.match("^profile[0-9]+/")*/)
+            continue;
 
-        if (key.indexOf("/") !== -1) {
-          try {
-            FS.mkdir(root + key.substr(0, key.indexOf("/")));
-          } catch {
-            // Folder probably already exists
+          keyfilename = key.replace(/^supertux2_/, "");
+
+          if (keyfilename.indexOf("/") !== -1) {
+            try {
+              FS.mkdir(root + keyfilename.substr(0, keyfilename.indexOf("/")));
+            } catch {
+              // Folder probably already exists
+            }
           }
+          FS.writeFile(root + keyfilename, localStorage.getItem(key));
         }
-        FS.writeFile(root + key, localStorage.getItem(key));
-      }
+      } catch(e){}
     }
 
     window.supertux_saveFiles = function() {
 
+      try { FS.syncfs((err) => { console.log(err); }); } catch(err) { console.log(err); }
+
       function save(file) {
         try {
-          localStorage.setItem(file, FS.readFile(root + file, { encoding: "utf8" }));
+          localStorage.setItem("supertux2_" + file, FS.readFile(root + file, { encoding: "utf8" }));
           return true;
         } catch(e) {
           console.error(e);
@@ -306,19 +427,10 @@
         }
       }
 
+      // IndexedDB can't save fast enough to be called when the window is closed,
+      // so save the config file in localStorage just in case it wasn't flushed
+      // to disk
       save("config");
-
-      var data_folder = FS.lookupPath(root);
-
-      for (var folder_name in data_folder.node.contents) {
-        if (!folder_name.match("^profile[0-9]+$"))
-          continue;
-        
-        for (var file_name in data_folder.node.contents[folder_name].contents) {
-          save(folder_name + "/" + file_name);
-        }
-      }
-
     }
 
     window.supertux_download = function(path) {
@@ -406,12 +518,68 @@
       }
     });
 
-    window.onresize = tryResize;
-    window.onunload = () => {
-      Module.ccall("save_config", "void", [], []);
-      supertux_saveFiles();
-    };
+    var saving = false;
+    window.supertux2_syncfs = function() {
+      if (saving) return;
+      saving = true;
+      try {
+        FS.syncfs((err) => {
+          if (err)
+            console.log(err);
 
+          saving = false;
+        });
+      } catch (err) {}
+    }
+
+    var onDownloadProgress, onDownloadFinished, onDownloadError, onDownloadAborted;
+    window.supertux_xhr_download = function(id, url, file) {
+      console.log('id: ' + id);
+      console.log('url: ' + url);
+      console.log('file: ' + file);
+
+      if (!onDownloadProgress || !onDownloadFinished || !onDownloadError || !onDownloadAborted)
+        return;
+
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+          var data = new Uint8Array(xhr.response);
+          var stream = FS.open(file, 'w+');
+          FS.write(stream, data, 0, data.length, 0);
+          FS.close(stream);
+          onDownloadFinished(id);
+        }
+      };
+      xhr.responseType = "arraybuffer";
+      xhr.open("GET", url);
+      xhr.send();
+
+      xhr.addEventListener('progress', (e) => { onDownloadProgress(id, e.loaded, e.total); });
+      xhr.addEventListener('error', (e) => { onDownloadError(id); });
+      xhr.addEventListener('abort', (e) => { onDownloadAborted(id); })
+    }
+
+    window.addEventListener('resize', (e) => {
+      tryResize();
+    });
+    window.addEventListener('unload', (e) => {
+      try {
+        Module.ccall("save_config", "void", [], []);
+      } catch(e) {}
+      supertux_saveFiles();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key == "F11" || (e.key == "Enter" && e.altKey)) {
+        try {
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          } else {
+            Module.canvas.requestFullscreen();
+          }
+        } catch(e) {}
+      }
+    });
   </script>
   <script async src="supertux2.js"></script>
 </body>

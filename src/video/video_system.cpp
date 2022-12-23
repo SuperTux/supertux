@@ -45,7 +45,7 @@ VideoSystem::create(VideoSystem::Enum video_system)
       try
       {
         log_warning << "WebGL detected, using GLVideoSystem-20" << std::endl;
-        return std::make_unique<GLVideoSystem>(false);
+        return std::make_unique<GLVideoSystem>(false, false);
       }
       catch(std::exception& err2)
       {
@@ -55,20 +55,12 @@ VideoSystem::create(VideoSystem::Enum video_system)
   #else
       try
       {
-        return std::make_unique<GLVideoSystem>(true);
+        return std::make_unique<GLVideoSystem>(true, true);
       }
-      catch(std::exception& err)
+      catch(std::exception& err2)
       {
-        try
-        {
-          log_warning << "Error creating GLVideoSystem-330core, using GLVideoSystem-20 fallback: "  << err.what() << std::endl;
-          return std::make_unique<GLVideoSystem>(false);
-        }
-        catch(std::exception& err2)
-        {
-          log_warning << "Error creating GLVideoSystem-20, using SDL fallback: "  << err2.what() << std::endl;
-          return std::make_unique<SDLVideoSystem>();
-        }
+        log_warning << "Error creating GLVideoSystem, using SDL fallback: "  << err2.what() << std::endl;
+        return std::make_unique<SDLVideoSystem>();
       }
   #endif
 #else
@@ -78,10 +70,10 @@ VideoSystem::create(VideoSystem::Enum video_system)
 
 #ifdef HAVE_OPENGL
     case VIDEO_OPENGL33CORE:
-      return std::make_unique<GLVideoSystem>(true);
+      return std::make_unique<GLVideoSystem>(true, false);
 
     case VIDEO_OPENGL20:
-      return std::make_unique<GLVideoSystem>(false);
+      return std::make_unique<GLVideoSystem>(false, false);
 #else
     case VIDEO_OPENGL33CORE:
     case VIDEO_OPENGL20:

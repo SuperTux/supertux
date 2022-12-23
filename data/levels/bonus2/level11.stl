@@ -4,12 +4,15 @@
   (author "Torfi Gunnarsson")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 105)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)
@@ -18,8 +21,7 @@
       (image-bottom "/images/background/ice_cave/darkcave-top_and_bottom.png")
     )
     (background
-      (x 448)
-      (y 512)
+      (color 1 1 1)
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)
@@ -29,8 +31,9 @@
       (z-pos -290)
     )
     (background
-      (x 576)
-      (y 960)
+      (scroll-offset-x 576)
+      (scroll-offset-y 960)
+      (color 1 1 1)
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
       (speed 0.5)

@@ -91,7 +91,11 @@ void start_cutscene()
 
   if (session->get_current_level().m_is_in_cutscene)
   {
-    log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceeding cutscene (use end_cutscene() in scripts!)" << std::endl;
+    log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceding cutscene (use end_cutscene() in scripts!)" << std::endl;
+
+    // Remove all sounds that started playing while skipping
+    if (session->get_current_level().m_skip_cutscene)
+      SoundManager::current()->stop_sounds();
   }
 
   session->get_current_level().m_is_in_cutscene = true;
@@ -111,6 +115,10 @@ void end_cutscene()
   {
     log_warning << "end_cutscene(): no cutscene to end, resetting status anyways" << std::endl;
   }
+
+  // Remove all sounds that started playing while skipping
+  if (session->get_current_level().m_skip_cutscene)
+    SoundManager::current()->stop_sounds();
 
   session->get_current_level().m_is_in_cutscene = false;
   session->get_current_level().m_skip_cutscene = false;
@@ -348,28 +356,32 @@ void play_sound(const std::string& filename)
 void grease()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player(); // scripting::Player != ::Player
+  // FIXME: This only has effect on the first player
+  ::Player& tux = *(::Sector::get().get_players()[0]); // scripting::Player != ::Player
   tux.get_physic().set_velocity_x(tux.get_physic().get_velocity_x()*3);
 }
 
 void invincible()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.m_invincible_timer.start(10000);
 }
 
 void ghost()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.set_ghost_mode(true);
 }
 
 void mortal()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.m_invincible_timer.stop();
   tux.set_ghost_mode(false);
 }
@@ -388,14 +400,16 @@ void restart()
 void whereami()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   log_info << "You are at x " << (static_cast<int>(tux.get_pos().x)) << ", y " << (static_cast<int>(tux.get_pos().y)) << std::endl;
 }
 
 void gotoend()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.move(Vector(
               (::Sector::get().get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
   ::Sector::get().get_camera().reset(
@@ -405,7 +419,8 @@ void gotoend()
 void warp(float offset_x, float offset_y)
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.move(Vector(
               tux.get_pos().x + (offset_x*32), tux.get_pos().y - (offset_y*32)));
   ::Sector::get().get_camera().reset(

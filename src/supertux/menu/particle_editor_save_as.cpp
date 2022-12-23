@@ -61,6 +61,12 @@ ParticleEditorSaveAs::menu_action(MenuItem& item)
       // In this very case, if you clear the dialog stack before calling the
       // callback, the callback will lose its reference to the Particle Editor,
       // which will cause a segfault. Somehow. Somebody explain me.  ~Semphris
+      // -----------------------------------------------------------------------
+      // EDIT: It's because the menu stack is a vector of *unique pointers*, so
+      // when the stack is cleared, so is the menu (`this`), and so is the
+      // callback; so the callback becomes a dangling pointer and calling it is
+      // undefined behavior. Leaving this here for maintainers.      ~Semphris
+
       m_callback(true);
       MenuManager::instance().clear_menu_stack();
       break;

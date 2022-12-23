@@ -74,7 +74,7 @@ public:
 
   /** This function saves the object. Editor will use that. */
   virtual void save(Writer& writer);
-  virtual std::string get_class() const { return "game-object"; }
+  virtual std::string get_class_name() const { return "game-object"; }
   virtual std::string get_display_name() const { return _("Unknown object"); }
 
   /** If true only a single object of this type is allowed in a
@@ -96,11 +96,14 @@ public:
 
   virtual void after_editor_set() {}
 
-  /** returns true if the object is not scheduled to be removed yet */
-  bool is_valid() const { return !m_scheduled_for_removal; }
+  /** When level is flipped vertically */
+  virtual void on_flip(float height) {}
 
   /** schedules this object to be removed at the end of the frame */
-  void remove_me() { m_scheduled_for_removal = true; }
+  virtual void remove_me() { m_scheduled_for_removal = true; }
+
+  /** returns true if the object is not scheduled to be removed yet */
+  bool is_valid() const { return !m_scheduled_for_removal; }
 
   /** registers a remove listener which will be called if the object
       gets removed/destroyed */

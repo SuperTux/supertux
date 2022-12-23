@@ -21,6 +21,8 @@
 #include <vector>
 #include <string>
 
+#include <physfs.h>
+
 #include "editor/overlay_widget.hpp"
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
@@ -48,6 +50,10 @@ class Editor final : public Screen,
 {
 public:
   static bool is_active();
+
+  static PHYSFS_EnumerateCallbackResult foreach_recurse(void *data,
+                                                        const char *origdir,
+                                                        const char *fname);
 
 private:
   static bool is_autosave_file(const std::string& filename) {
@@ -90,6 +96,8 @@ public:
   std::string get_tileselect_object() const { return m_toolbox_widget->get_object(); }
 
   EditorToolboxWidget::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_input_type(); }
+
+  bool has_active_toolbox_tip() const { return m_toolbox_widget->has_active_object_tip(); }
 
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
@@ -134,7 +142,7 @@ public:
 
   bool is_level_loaded() const { return m_levelloaded; }
 
-  void edit_path(Path* path, GameObject* new_marked_object) {
+  void edit_path(PathGameObject* path, GameObject* new_marked_object) {
     m_overlay_widget->edit_path(path, new_marked_object);
   }
 
@@ -147,12 +155,20 @@ public:
   void undo();
   void redo();
 
+  void pack_addon();
+
 private:
   void set_sector(Sector* sector);
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
   void quit_editor();
-  void save_level();
+  /**
+   * @param filename    If non-empty, save to this file instead.
+   * @param switch_file If true, the level editor will bind itself to the new
+   *                    filename; subsequest saves will by default save to the
+   *                    new filename.
+   */
+  void save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
@@ -170,6 +186,8 @@ public:
   bool m_reactivate_request;
   bool m_deactivate_request;
   bool m_save_request;
+  std::string m_save_request_filename;
+  bool m_save_request_switch;
   bool m_test_request;
   bool m_particle_editor_request;
   boost::optional<std::pair<std::string, Vector>> m_test_pos;
@@ -182,6 +200,7 @@ private:
 
   bool m_levelloaded;
   bool m_leveltested;
+  bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
   TileSet* m_tileset;
 

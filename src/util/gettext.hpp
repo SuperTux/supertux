@@ -24,23 +24,24 @@ extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
 
 /*
  * If you need to do a nontrivial substitution of values into a pattern, use
- * boost::format rather than an ad-hoc concatenation.  That way, translators can
+ * fmt::format rather than an ad-hoc concatenation.  That way, translators can
  * translate the format string as a whole (and even rearrange the values if
  * necessary with "%1$s"-style codes) instead of multiple pieces.  Patterns like
- * "Label: %s" with only one string piece are a borderline case where
- * boost::format is not really necessary.
+ * "Label: {}" with only one string piece are a borderline case where
+ * fmt::format is not really necessary.
  *
  * http://www.mihai-nita.net/article.php?artID=20060430a
+ * https://fmt.dev/latest/syntax.html
  *
  * Bad:
  *     std::string greeting = _("Hello ") + name + _("!");
  *     std::cout << _("Hello ") << name << _("!");
  * Good:
- *     #include <boost/format.hpp>
- *     std::string greeting = str(boost::format(_("Hello %s!")) % name);
- *     std::cout << boost::format(_("Hello %s!")) % name;
+ *     #include <fmt/format.h>
+ *     std::string greeting = fmt::format(fmt::runtime(_("Hello {}!")), name);
+ *     std::cout << fmt::format(fmt::runtime(_("Hello {}!")), name);
  *
- * If you need singular and plural forms use __ instead of _ and boost::format
+ * If you need singular and plural forms use __ instead of _ and fmt::format
  * if necessary.
  *
  * https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html
@@ -48,9 +49,10 @@ extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
  * Bad:
  *     std::cout << _("You collected ") << num << _(" coins");
  * Good:
- *     #include <boost/format.hpp>
- *     std::cout << boost::format(__("You collected %d coin",
- *                                   "You collected %d coins", num)) % num;
+ *     #include <fmt/format.h>
+ *     std::cout << fmt::format(fmt::runtime(__("You collected {} coin",
+ *                                              "You collected {} coins", num)),
+ *                              num));
  */
 
 static inline std::string _(const std::string& message)

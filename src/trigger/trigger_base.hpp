@@ -19,9 +19,11 @@
 
 #include <list>
 
-#include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
+
+#include "sprite/sprite_ptr.hpp"
+#include "video/layer.hpp"
 
 class Player;
 
@@ -53,10 +55,11 @@ public:
   /** Called by GameObject destructor of an object in losetouch_listeners */
   virtual void object_removed(GameObject* object) override;
 
+  virtual int get_layer() const override { return LAYER_TILES + 1; }
+
 private:
   SpritePtr m_sprite;
-  bool m_lasthit;
-  bool m_hit;
+  std::vector<Player*> m_hit;
 
   /** Players that will be informed when we lose touch with them */
   std::vector<Player*> m_losetouch_listeners;

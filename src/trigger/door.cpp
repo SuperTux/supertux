@@ -24,6 +24,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 
 Door::Door(const ReaderMapping& mapping) :
@@ -32,16 +33,20 @@ Door::Door(const ReaderMapping& mapping) :
   target_sector(),
   target_spawnpoint(),
   script(),
-  sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
-  stay_open_timer()
+  sprite_name("images/objects/door/door.sprite"),
+  sprite(),
+  stay_open_timer(),
+  m_flip(NO_FLIP)
 {
   mapping.get("x", m_col.m_bbox.get_left());
   mapping.get("y", m_col.m_bbox.get_top());
   mapping.get("sector", target_sector);
   mapping.get("spawnpoint", target_spawnpoint);
+  mapping.get("sprite", sprite_name);
 
   mapping.get("script", script);
 
+  sprite = SpriteManager::current()->create(sprite_name);
   sprite->set_action("closed");
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
@@ -54,8 +59,10 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
   target_sector(sector),
   target_spawnpoint(spawnpoint),
   script(),
-  sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
-  stay_open_timer()
+  sprite_name("images/objects/door/door.sprite"),
+  sprite(SpriteManager::current()->create(sprite_name)),
+  stay_open_timer(),
+  m_flip(NO_FLIP)
 {
   m_col.m_bbox.set_pos(Vector(static_cast<float>(x), static_cast<float>(y)));
 
@@ -70,6 +77,7 @@ Door::get_settings()
 {
   ObjectSettings result = TriggerBase::get_settings();
 
+  result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/door/door.sprite"));
   result.add_script(_("Script"), &script, "script");
   result.add_text(_("Sector"), &target_sector, "sector");
   result.add_text(_("Spawn point"), &target_spawnpoint, "spawnpoint");
@@ -77,6 +85,12 @@ Door::get_settings()
   result.reorder({"sector", "spawnpoint", "name", "x", "y"});
 
   return result;
+}
+
+void
+Door::after_editor_set() {
+  sprite = SpriteManager::current()->create(sprite_name);
+  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
 Door::~Door()
@@ -117,7 +131,7 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1);
+  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1, m_flip);
 }
 
 void
@@ -128,7 +142,7 @@ Door::event(Player& , EventType type)
       // if door was activated, start opening it
       if (type == EVENT_ACTIVATE) {
         state = OPENING;
-        SoundManager::current()->play("sounds/door.wav");
+        SoundManager::current()->play("sounds/door.wav", get_pos());
         sprite->set_action("opening", 1);
         ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 1.0f));
       }
@@ -156,8 +170,6 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
       Player* player = dynamic_cast<Player*> (&other);
 
       if (player) {
-        bool invincible = player->is_invincible();
-        int invincibilityperiod = static_cast<int>(player->m_invincible_timer.get_timeleft());
         state = CLOSING;
         sprite->set_action("closing", 1);
         if (!script.empty()) {
@@ -165,8 +177,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         }
 
         if (!target_sector.empty()) {
-          GameSession::current()->respawn(target_sector, target_spawnpoint,
-                                          invincible, invincibilityperiod);
+          GameSession::current()->respawn(target_sector, target_spawnpoint, true);
           ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
         }
       }
@@ -177,6 +188,13 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
   }
 
   return TriggerBase::collision(other, hit_);
+}
+
+void
+Door::on_flip(float height)
+{
+  MovingObject::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

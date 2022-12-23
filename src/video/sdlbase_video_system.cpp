@@ -104,6 +104,16 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
     size = g_config->window_size;
   }
 
+  SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight LandscapeLeft");
+#if SDL_VERSION_ATLEAST(2,0,10)
+  SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+  SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
+#elif defined(__ANDROID__)
+#warning Android needs SDL_HINT_MOUSE_TOUCH_EVENTS to work properly, but the   \
+         SDL version is too old. Please use SDL >= 2.0.10 to compile for       \
+         Android.
+#endif
+
   m_sdl_window.reset(SDL_CreateWindow("SuperTux",
                                       SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                       size.width, size.height,
@@ -116,12 +126,16 @@ SDLBaseVideoSystem::create_sdl_window(Uint32 flags)
   }
 
 #ifdef __EMSCRIPTEN__
+  // Forcibly set autofit to true
+  // TODO: Remove the autofit parameter entirely - it should always be true
+  g_config->fit_window = true;
+
   if (g_config->fit_window)
   {
     EM_ASM({
       if (window.supertux_setAutofit)
         window.supertux_setAutofit(true);
-    });
+    }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
   }
 #endif
 }

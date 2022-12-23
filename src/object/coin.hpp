@@ -39,14 +39,18 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
-  virtual std::string get_class() const override { return "coin"; }
-  virtual std::string get_display_name() const override { return _("Coin"); }
+  static std::string class_name() { return "coin"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Coin"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
   virtual void editor_update() override;
 
   virtual void move_to(const Vector& pos) override;
+
+  virtual void on_flip(float height) override;
 
   void collect();
 
@@ -56,6 +60,8 @@ private:
   bool m_add_path;
   Physic m_physic;
   std::string m_collect_script;
+
+  int m_starting_node;
 
 private:
   Coin(const Coin&) = delete;
@@ -71,11 +77,15 @@ public:
   virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
-  virtual std::string get_class() const override { return "heavycoin"; }
-  virtual std::string get_display_name() const override { return _("Heavy Coin"); }
+  static std::string class_name() { return "heavycoin"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Heavy Coin"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  virtual void on_flip(float height) override;
 
 private:
   Physic m_physic;

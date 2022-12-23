@@ -16,8 +16,16 @@
 
 #include "editor/editor.hpp"
 
+#include <fstream>
+#include <sstream>
 #include <limits>
-#include <physfs.h>
+
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
+#include "zip_manager.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
@@ -55,6 +63,7 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
@@ -71,7 +80,7 @@ Editor::is_active()
     return true;
   } else {
     auto* self = Editor::current();
-    return self && !self->m_leveltested;
+    return self && !self->m_leveltested && self->m_after_setup;
   }
 }
 
@@ -86,6 +95,8 @@ Editor::Editor() :
   m_reactivate_request(false),
   m_deactivate_request(false),
   m_save_request(false),
+  m_save_request_filename(""),
+  m_save_request_switch(false),
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
@@ -94,13 +105,14 @@ Editor::Editor() :
   m_sector(),
   m_levelloaded(false),
   m_leveltested(false),
+  m_after_setup(false),
   m_tileset(nullptr),
   m_widgets(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
   m_enabled(false),
-  m_bgr_surface(Surface::from_file("images/background/antarctic/arctis2.png")),
+  m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_undo_manager(new UndoManager),
   m_ignore_sector_change(false),
   m_level_first_loaded(false),
@@ -137,11 +149,15 @@ Editor::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   if (m_levelloaded) {
-  for(const auto& widget : m_widgets) {
-    widget->draw(context);
-  }
+    for(const auto& widget : m_widgets) {
+      widget->draw(context);
+    }
 
-    m_sector->draw(context);
+    // Don't draw the sector if we're about to test - there's a dangling pointer
+    // with the PlayerStatus and I'm not experienced enough to fix it
+    if (!m_leveltested)
+      m_sector->draw(context);
+
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
@@ -170,7 +186,14 @@ Editor::update(float dt_sec, const Controller& controller)
       // if the user quits the editor without ever testing, it'll delete
       // the autosave file anyways
       m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-      m_level->save(m_autosave_levelfile);
+      try
+      {
+        m_level->save(m_autosave_levelfile);
+      }
+      catch(const std::exception& e)
+      {
+        log_warning << "Couldn't autosave: " << e.what() << '\n';
+      }
     }
   } else {
     m_time_since_last_save = 0.f;
@@ -195,9 +218,11 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   if (m_save_request) {
-    save_level();
+    save_level(m_save_request_filename, m_save_request_switch);
     m_enabled = true;
     m_save_request = false;
+    m_save_request_filename = "";
+    m_save_request_switch = false;
   }
 
   if (m_test_request) {
@@ -260,11 +285,15 @@ Editor::remove_autosave_file()
 }
 
 void
-Editor::save_level()
+Editor::save_level(const std::string& filename, bool switch_file)
 {
+  auto file = !filename.empty() ? filename : m_levelfile;
+
+  if (switch_file)
+    m_levelfile = filename;
+
   m_undo_manager->reset_index();
-  m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), m_levelfile) :
-              m_levelfile);
+  m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
   remove_autosave_file();
 }
@@ -291,6 +320,7 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos)
 {
+  m_overlay_widget->reset_action_press();
 
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
@@ -381,25 +411,28 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  if (controller.pressed(Control::ESCAPE)) {
-    esc_press();
-    return;
-  }
+  
+  if (!MenuManager::instance().has_dialog())
+  {
+    if (controller.pressed(Control::ESCAPE)) {
+      esc_press();
+      return;
+    }
+    if (controller.hold(Control::LEFT)) {
+      scroll({ -m_scroll_speed, 0.0f });
+    }
 
-  if (controller.hold(Control::LEFT)) {
-    scroll({ -m_scroll_speed, 0.0f });
-  }
+    if (controller.hold(Control::RIGHT)) {
+      scroll({ m_scroll_speed, 0.0f });
+    }
 
-  if (controller.hold(Control::RIGHT)) {
-    scroll({ m_scroll_speed, 0.0f });
-  }
+    if (controller.hold(Control::UP)) {
+      scroll({ 0.0f, -m_scroll_speed });
+    }
 
-  if (controller.hold(Control::UP)) {
-    scroll({ 0.0f, -m_scroll_speed });
-  }
-
-  if (controller.hold(Control::DOWN)) {
-    scroll({ 0.0f, m_scroll_speed });
+    if (controller.hold(Control::DOWN)) {
+      scroll({ 0.0f, m_scroll_speed });
+    }
   }
 }
 
@@ -535,7 +568,11 @@ Editor::quit_editor()
     Tile::draw_editor_images = false;
     ScreenManager::current()->pop_screen();
 #ifdef __EMSCRIPTEN__
-    Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nDownload the files if you want to keep them."));
+    int persistent = EM_ASM_INT({
+      return supertux2_ispersistent();
+    }, 0); // EM_ASM_INT is a variadic macro and Clang requires at least 1 value for the variadic argument
+    if (!persistent)
+      Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
 #endif
   };
 
@@ -579,6 +616,7 @@ Editor::leave()
 {
   MouseCursor::current()->set_icon(nullptr);
   Compositor::s_render_lighting = true;
+  m_after_setup = false;
 }
 
 void
@@ -586,6 +624,7 @@ Editor::setup()
 {
   Tile::draw_editor_images = true;
   Sector::s_draw_solids_only = false;
+  m_after_setup = true;
   if (!m_levelloaded) {
 
 #if 0
@@ -623,7 +662,7 @@ Editor::setup()
     m_leveltested = false;
     Tile::draw_editor_images = true;
     m_level->reactivate();
-    m_sector->activate(m_sector->get_player().get_pos());
+    m_sector->activate(m_sector->get_players()[0]->get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
     m_deactivate_request = false;
@@ -675,7 +714,7 @@ Editor::event(const SDL_Event& ev)
 
   if (ev.type == SDL_KEYDOWN)
   {
-    if (ev.key.keysym.mod & KMOD_SHIFT)
+    if (ev.key.keysym.mod & KMOD_RSHIFT)
     {
       m_scroll_speed = 96.0f;
     }
@@ -875,6 +914,77 @@ Editor::get_status() const
     }
   }
   return status;
+}
+
+PHYSFS_EnumerateCallbackResult
+Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
+{
+  auto full_path = FileSystem::join(std::string(origdir), std::string(fname));
+
+  PHYSFS_Stat ps;
+  PHYSFS_stat(full_path.c_str(), &ps);
+  if (ps.filetype == PHYSFS_FILETYPE_DIRECTORY)
+  {
+    PHYSFS_enumerate(full_path.c_str(), foreach_recurse, data);
+  }
+  else
+  {
+    auto* zip = static_cast<Partio::ZipFileWriter*>(data);
+    auto os = zip->Add_File(full_path);
+    auto filename = FileSystem::join(std::string(PHYSFS_getWriteDir()), full_path);
+    *os << std::ifstream(filename).rdbuf();
+  }
+
+  return PHYSFS_ENUM_OK;
+}
+
+void
+Editor::pack_addon()
+{
+  auto id = FileSystem::basename(get_world()->get_basedir());
+
+  int version = 0;
+  try
+  {
+    Partio::ZipFileReader zipold(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
+    auto info_file = zipold.Get_File(id + ".nfo");
+    if (info_file)
+    {
+      auto info_stream = ReaderDocument::from_stream(*info_file);
+      boost::optional<ReaderMapping> rm;
+      auto a = info_stream.get_root().get_mapping();
+      a.get("version", version);
+    }
+  }
+  catch(const std::exception& e)
+  {
+    log_warning << e.what() << std::endl;
+  }
+  version++;
+
+  Partio::ZipFileWriter zip(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
+  PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
+
+  std::stringstream ss;
+  Writer info(ss);
+
+  info.start_list("supertux-addoninfo");
+  {
+    info.write("id", id);
+    info.write("version", version);
+
+    if (get_world()->is_levelset())
+      info.write("type", "levelset");
+    else if (get_world()->is_worldmap())
+      info.write("type", "worldmap");
+
+    info.write("title", get_world()->get_title());
+    info.write("author", get_level()->get_author());
+    info.write("license", get_level()->get_license());
+  }
+  info.end_list("supertux-addoninfo");
+
+  *zip.Add_File(id + ".nfo") << ss.rdbuf();
 }
 
 /* EOF */

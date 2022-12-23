@@ -14,10 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <utility>
+
 #include "object/gradient.hpp"
 
 #include "editor/editor.hpp"
 #include "object/camera.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
@@ -236,7 +239,7 @@ Gradient::set_direction(const GradientDirection& direction)
 void
 Gradient::draw(DrawingContext& context)
 {
-  if (Editor::is_active() && !EditorOverlayWidget::render_background)
+  if (Editor::is_active() && !g_config->editor_render_background)
     return;
 
   Rectf gradient_region;
@@ -266,6 +269,14 @@ Gradient::is_saveable() const
 {
   return !(Level::current() &&
            Level::current()->is_worldmap());
+}
+
+void
+Gradient::on_flip(float height)
+{
+  GameObject::on_flip(height);
+  if (m_gradient_direction == VERTICAL || m_gradient_direction == VERTICAL_SECTOR)
+    std::swap(m_gradient_top, m_gradient_bottom);
 }
 
 /* EOF */

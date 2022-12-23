@@ -1,16 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Ryo Nakano, 2019
+# Sanshiro sumita, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2015-10-26 05:34+0000\n"
-"Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2019-01-01 10:22+0000\n"
+"Last-Translator: Ryo Nakano\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "死者の墓"
 
 #: data/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
-msgstr "ハローウィンパーティ?"
+msgstr "ハロウィンパーティ？"
 
 #: data/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
@@ -48,4 +49,4 @@ msgstr "朽ちゆくプール"
 
 #: data/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"
-msgstr "2014年ハローウィン"
+msgstr "2014年ハロウィン"

@@ -26,6 +26,7 @@
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/video_system.hpp"
@@ -101,6 +102,8 @@ MagicBlock::get_settings()
 void
 MagicBlock::after_editor_set()
 {
+  MovingSprite::after_editor_set();
+
   if (m_color.red == 0 && m_color.green == 0 && m_color.blue == 0) { //is it black?
     m_black = true;
     m_trigger_red = MIN_INTENSITY;
@@ -202,6 +205,14 @@ HitResponse
 MagicBlock::collision(GameObject& /*other*/, const CollisionHit& /*hit*/)
 {
   return FORCE_MOVE;
+}
+
+void
+MagicBlock::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
+  m_center = m_col.m_bbox.get_middle();
 }
 
 /* EOF */

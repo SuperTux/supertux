@@ -18,8 +18,6 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 
-#ifndef __EMSCRIPTEN__
-
 #include <memory>
 #include <string>
 #include <vector>
@@ -42,6 +40,7 @@ public:
 private:
   Downloader m_downloader;
   std::string m_addon_directory;
+  std::string m_cache_directory;
   std::string m_repository_url;
   std::vector<Config::Addon>& m_addon_config;
 
@@ -61,6 +60,9 @@ public:
   bool has_been_updated() const;
   void check_online();
   TransferStatusPtr request_check_online();
+
+  std::string get_cache_directory() const { return m_cache_directory; }
+  void empty_cache_directory();
 
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
@@ -86,6 +88,13 @@ public:
   void update();
   void check_for_langpack_updates();
 
+#ifdef EMSCRIPTEN
+  void onDownloadProgress(int id, int loaded, int total);
+  void onDownloadFinished(int id);
+  void onDownloadError(int id);
+  void onDownloadAborted(int id);
+#endif
+
 private:
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
@@ -104,7 +113,35 @@ private:
   AddonManager& operator=(const AddonManager&) = delete;
 };
 
-#endif
+/** Manages screenshot previews, specified for a given Add-on */
+class AddonScreenshotManager final
+{
+public:
+  using ScreenshotList = std::vector<std::string>;
+
+private:
+  AddonManager& m_addon_manager;
+  Downloader m_downloader;
+  std::string m_cache_directory;
+  const AddonId m_addon_id;
+  ScreenshotList m_screenshot_urls;
+  ScreenshotList m_local_screenshot_urls;
+  TransferStatusPtr m_transfer_status;
+  std::function<void (ScreenshotList)> m_callback;
+
+public:
+  AddonScreenshotManager(const AddonId& addon_id);
+  ~AddonScreenshotManager();
+
+  void update();
+
+  void request_download_all(const std::function<void (ScreenshotList)>& callback = {});
+  void request_download(const int id, bool recursive = false);
+
+private:
+  AddonScreenshotManager(const AddonScreenshotManager&) = delete;
+  AddonScreenshotManager& operator=(const AddonScreenshotManager&) = delete;
+};
 
 #endif
 

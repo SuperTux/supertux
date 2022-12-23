@@ -20,13 +20,17 @@
 #include "audio/sound_source.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
   BadGuy( pos, dir_, custom_sprite ),
-  ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))
+  ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav")),
+  m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
+  SoundManager::current()->preload("sounds/explosion.wav");
   set_action(dir_ == Direction::LEFT ? "ticking-left" : "ticking-right", 1);
   m_countMe = false;
 
@@ -46,7 +50,7 @@ Bomb::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom)
     m_physic.set_velocity_y(0);
   if (hit.left || hit.right)
-    m_physic.set_velocity_x(-m_physic.get_velocity_x());
+    m_physic.set_velocity_x(-m_physic.get_velocity_x() * 0.5f);
   if (hit.crush)
     m_physic.set_velocity(0, 0);
 
@@ -77,6 +81,17 @@ Bomb::active_update(float dt_sec)
   else if (!is_grabbed()) {
     m_col.set_movement(m_physic.get_movement(dt_sec));
   }
+}
+
+void
+Bomb::draw(DrawingContext& context)
+{
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  m_exploding_sprite->set_action("exploding");
+  m_exploding_sprite->set_blend(Blend::ADD);
+  m_exploding_sprite->draw(context.light(),
+    get_pos() + Vector(get_bbox().get_width() / 2, get_bbox().get_height() / 2), m_layer, m_flip);
+  BadGuy::draw(context);
 }
 
 void
@@ -115,6 +130,12 @@ Bomb::ignite()
   explode();
 }
 
+bool
+Bomb::is_portable() const
+{
+  return true;
+}
+
 void
 Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
@@ -131,28 +152,35 @@ Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 Bomb::ungrab(MovingObject& object, Direction dir_)
 {
-  m_dir = dir_;
-  // This object is now thrown.
-  int toss_velocity_x = 0;
-  int toss_velocity_y = 0;
   auto player = dynamic_cast<Player*> (&object);
-
-  // toss upwards
-  if (dir_ == Direction::UP)
-    toss_velocity_y += -500;
-
-  // toss to the side when moving sideways
-  if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 1) {
-    toss_velocity_x += (dir_ == Direction::LEFT) ? -200 : 200;
-    toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
-    // toss farther when running
-    if (player && player->get_physic().get_velocity_x()*(dir_ == Direction::LEFT ? -1 : 1) > 200)
-      toss_velocity_x += static_cast<int>(player->get_physic().get_velocity_x() - (190.0f * (dir_ == Direction::LEFT ? -1.0f : 1.0f)));
+  //handle swimming
+  if (player && (player->is_swimming() || player->is_water_jumping()))
+  {
+    float swimangle = player->get_swimming_angle();
+    m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
+      player->get_physic().get_velocity());
   }
-
-  m_physic.set_velocity(static_cast<float>(toss_velocity_x),
-                      static_cast<float>(toss_velocity_y));
-
+  //handle non-swimming
+  else
+  {
+    if (player)
+    {
+      //handle x-movement
+      if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
+        m_physic.set_velocity_x(0.f);
+      else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
+        || (player->m_dir == Direction::RIGHT && player->get_physic().get_velocity_x() >= 1.0f))
+        m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+          + (player->m_dir == Direction::LEFT ? -10.f : 10.f));
+      else
+        m_physic.set_velocity_x(player->get_physic().get_velocity_x()
+          + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
+      //handle y-movement
+      m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
+        dir_ == Direction::DOWN ? 500.f :
+        player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
+    }
+  }
   set_colgroup_active(COLGROUP_MOVING);
   Portable::ungrab(object, dir_);
 }

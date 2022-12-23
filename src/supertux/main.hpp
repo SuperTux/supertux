@@ -86,6 +86,7 @@ private:
 
   void launch_game(const CommandLineArguments& args);
   void resave(const std::string& input_filename, const std::string& output_filename);
+  void release_check();
 
 private:
   // Using pointers allows us to initialize them whenever we want
@@ -101,13 +102,13 @@ private:
   std::unique_ptr<TileManager> m_tile_manager;
   std::unique_ptr<SpriteManager> m_sprite_manager;
   std::unique_ptr<Resources> m_resources;
-#ifndef __EMSCRIPTEN__
   std::unique_ptr<AddonManager> m_addon_manager;
-#endif
   std::unique_ptr<Console> m_console;
   std::unique_ptr<GameManager> m_game_manager;
   std::unique_ptr<ScreenManager> m_screen_manager;
   std::unique_ptr<Savegame> m_savegame;
+
+  Downloader m_downloader; // Used for getting the version of the latest SuperTux release.
 
 private:
   Main(const Main&) = delete;

@@ -1,22 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Andrius Štikonas <andrius@stikonas.eu>, 2006
+# Tom Urisk, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 08:35+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-11-05 23:07+0000\n"
+"Last-Translator: Tom Urisk\n"
 "Language-Team: Lithuanian (http://www.transifex.com/arctic-games/supertux/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -47,15 +48,15 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Sveikinimai!\n\n#Tu sėkimngai perėjai\n#Papildomą salą II\n\n\n\tnaudojant šių autorių lygius:\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Dar kartą norėtume padėkoti\n#visiems, kas prisidėjo prie šio\n#leidimo. Mes tikimės, jog patiko\n#ir trečio etapo laukimas nuo\n#to lengvesnis. :-)\n\n\nLedynmečio pabaiga artėja..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr ""
+msgstr "Mario turi su tuo susidoroti..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr ""
+msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
@@ -67,7 +68,7 @@ msgstr "Aklas pasauliui"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr ""
+msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
@@ -79,7 +80,7 @@ msgstr "Užšalęs tunelis"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr ""
+msgstr "Dirižablis"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
@@ -87,7 +88,7 @@ msgstr "...Kur viskas įmanoma"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr ""
+msgstr "Įvesk originalų pavadinimą čia"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
@@ -103,7 +104,7 @@ msgstr "Fanų tvirtovė"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr ""
+msgstr "Noloko šventės duobė"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
@@ -151,7 +152,7 @@ msgstr "Kelias per debesis"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr ""
+msgstr "Flandrijos ledo lauke"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
@@ -165,14 +166,14 @@ msgstr "Tradicija"
 msgid "Bonus Island II"
 msgstr "Premijinė sala II"
 
-#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+#: data/levels/bonus2/worldmap.stwm:157 data/levels/bonus2/worldmap.stwm:165
 msgid "You found a secret place!"
 msgstr "Radai slaptą vietą!"
 
-#: data/levels/bonus2/worldmap.stwm:29
+#: data/levels/bonus2/worldmap.stwm:174
 msgid "I wonder where that path leads to..."
 msgstr "Idomu, kur veda šis kelias..."
 
-#: data/levels/bonus2/worldmap.stwm:36
+#: data/levels/bonus2/worldmap.stwm:181
 msgid "Warp home..."
-msgstr ""
+msgstr "Vykti namo..."

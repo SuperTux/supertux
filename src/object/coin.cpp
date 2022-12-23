@@ -22,6 +22,7 @@
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -34,7 +35,8 @@ Coin::Coin(const Vector& pos) :
   m_from_tilemap(false),
   m_add_path(false),
   m_physic(),
-  m_collect_script()
+  m_collect_script(),
+  m_starting_node(0)
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
@@ -46,8 +48,11 @@ Coin::Coin(const ReaderMapping& reader) :
   m_from_tilemap(false),
   m_add_path(false),
   m_physic(),
-  m_collect_script()
+  m_collect_script(),
+  m_starting_node(0)
 {
+  reader.get("starting-node", m_starting_node, 0);
+
   init_path(reader, true);
 
   reader.get("collect-script", m_collect_script, "");
@@ -60,8 +65,11 @@ Coin::finish_construction()
 {
   if (get_path())
   {
-    Vector v = get_path()->get_base();
-    set_pos(v);
+    if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+      m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+    set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
+    get_walker()->jump_to_node(m_starting_node);
   }
 
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
@@ -75,12 +83,12 @@ Coin::update(float dt_sec)
     Vector v(0.0f, 0.0f);
     if (m_from_tilemap)
     {
-      v = m_offset + get_walker()->get_pos();
+      v = m_offset + get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle);
     }
     else
     {
       get_walker()->update(dt_sec);
-      v = get_walker()->get_pos();
+      v = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle);
     }
 
     if (get_path()->is_valid()) {
@@ -94,9 +102,17 @@ Coin::editor_update()
 {
   if (get_walker()) {
     if (m_from_tilemap) {
-      set_pos(m_offset + get_walker()->get_pos());
+      set_pos(m_offset + get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
     } else {
-      set_pos(get_walker()->get_pos());
+      set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
+
+      if (!get_path()) return;
+      if (!get_path()->is_valid()) return;
+
+      if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
+        m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
+
+      set_pos(m_path_handle.get_pos(m_col.m_bbox.get_size(), get_path()->get_nodes()[m_starting_node].position));
     }
   }
 }
@@ -169,7 +185,7 @@ Coin::collect()
   soundSource->play();
   SoundManager::current()->manage_source(std::move(soundSource));
 
-  Sector::get().get_player().get_status().add_coins(1, false);
+  Sector::get().get_players()[0]->get_status().add_coins(1, false);
   Sector::get().add<BouncyCoin>(get_pos(), false, get_sprite_name());
   Sector::get().get_level().m_stats.increment_coins();
   remove_me();
@@ -185,8 +201,8 @@ Coin::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*>(&other);
   if (player == nullptr)
     return ABORT_MOVE;
-
-  collect();
+  if (m_col.get_bbox().contains(player->get_bbox().grown(-0.1f)))
+    collect();
   return ABORT_MOVE;
 }
 
@@ -227,7 +243,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
 
   if (hit.bottom) {
     if (m_physic.get_velocity_y() > clink_threshold && !m_last_hit.bottom)
-        SoundManager::current()->play("sounds/coin2.ogg");
+        SoundManager::current()->play("sounds/coin2.ogg", get_pos());
     if (m_physic.get_velocity_y() > 200) {// lets some coins bounce
       m_physic.set_velocity_y(-99);
     } else {
@@ -239,12 +255,12 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
     if ((m_physic.get_velocity_x() > clink_threshold ||
          m_physic.get_velocity_x()< -clink_threshold) &&
          hit.right != m_last_hit.right && hit.left != m_last_hit.left)
-      SoundManager::current()->play("sounds/coin2.ogg");
+      SoundManager::current()->play("sounds/coin2.ogg", get_pos());
     m_physic.set_velocity_x(-m_physic.get_velocity_x());
   }
   if (hit.top) {
     if (m_physic.get_velocity_y() < -clink_threshold && !m_last_hit.top)
-      SoundManager::current()->play("sounds/coin2.ogg");
+      SoundManager::current()->play("sounds/coin2.ogg", get_pos());
     m_physic.set_velocity_y(-m_physic.get_velocity_y());
   }
 
@@ -268,12 +284,15 @@ Coin::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_path_ref(_("Path"), get_path_ref(), "path-ref");
+  result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
   m_add_path = get_walker() && get_path() && get_path()->is_valid();
   result.add_bool(_("Following path"), &m_add_path);
 
   if (get_walker() && get_path()->is_valid()) {
     result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
+    result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
+    result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
+    result.add_path_handle(_("Handle"), m_path_handle, "handle");
   }
 
   result.add_script(_("Collect script"), &m_collect_script, "collect-script");
@@ -299,6 +318,14 @@ Coin::after_editor_set()
   }
 }
 
+void
+Coin::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  PathObject::on_flip();
+  FlipLevelTransformer::transform_flip(m_flip);
+}
+
 ObjectSettings
 HeavyCoin::get_settings()
 {
@@ -315,6 +342,14 @@ void
 HeavyCoin::after_editor_set()
 {
   MovingSprite::after_editor_set();
+}
+
+void
+HeavyCoin::on_flip(float height)
+{
+  // Call on_flip from grandparent class MovingSprite to
+  // avoid flipping of gravity-affected object HeavyCoin
+  MovingSprite::on_flip(height);
 }
 
 /* EOF */

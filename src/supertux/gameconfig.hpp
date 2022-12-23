@@ -23,6 +23,7 @@
 #include "control/keyboard_config.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
+#include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
 
 #include <boost/date_time/gregorian/gregorian.hpp>
@@ -38,6 +39,13 @@ public:
   void save();
 
   int profile;
+
+  struct Profile
+  {
+    int id;
+    std::string name;
+  };
+  std::vector<Profile> profiles;
 
   /** the width/height to be used to display the game in fullscreen */
   Size fullscreen_size;
@@ -55,7 +63,7 @@ public:
   Size aspect_size;
 
 #ifdef __EMSCRIPTEN__
-  /** Whether to automatically resize the game when the browser is resized */
+  /** @deprecated Whether to automatically resize the game when the browser is resized */
   bool fit_window;
 #endif
 
@@ -90,9 +98,8 @@ public:
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   bool mobile_controls;
-#endif
+  float m_mobile_controls_scale;
 
   struct Addon
   {
@@ -107,13 +114,44 @@ public:
   bool confirmation_dialog;
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
+  bool do_release_check;
 
 #ifdef ENABLE_DISCORD
   bool enable_discord;
 #endif
   bool hide_editor_levelnames;
 
+  struct Notification
+  {
+    std::string id;
+    bool disabled;
+  };
+  std::vector<Notification> notifications;
+
+  Color menubackcolor;
+  Color menufrontcolor;
+  Color menuhelpbackcolor;
+  Color menuhelpfrontcolor;
+  Color labeltextcolor;
+  Color activetextcolor;
+  Color hlcolor;
+  Color editorcolor;
+  Color editorhovercolor;
+  Color editorgrabcolor;
+  float menuroundness;
+
+  int editor_selected_snap_grid_size;
+  bool editor_render_grid;
+  bool editor_snap_to_grid;
+  bool editor_render_background;
+  bool editor_render_lighting;
+  bool editor_autotile_mode;
+  bool editor_autotile_help;
   int editor_autosave_frequency;
+
+  bool multiplayer_auto_manage_players;
+  bool multiplayer_multibind;
+  bool multiplayer_buzz_controllers;
 
   std::string repository_url;
 

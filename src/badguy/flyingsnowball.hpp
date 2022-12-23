@@ -28,8 +28,11 @@ public:
   virtual void activate() override;
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
-  virtual std::string get_class() const override { return "flyingsnowball"; }
-  virtual std::string get_display_name() const override { return _("Flying Snowball"); }
+  static std::string class_name() { return "flyingsnowball"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Flying Snowball"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

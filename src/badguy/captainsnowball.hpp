@@ -27,8 +27,11 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
-  virtual std::string get_class() const override { return "captainsnowball"; }
-  virtual std::string get_display_name() const override { return _("Captain Snowball"); }
+  static std::string class_name() { return "captainsnowball"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Captain Snowball"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
   bool might_climb(int width, int height) const;
 

@@ -5,16 +5,27 @@
   (contact " ")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 60)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
       (image "images/background/bluemountain-middle.png")
       (image-bottom "images/background/bluemountain-bottom.png")
+    )
+    (background
+      (color 1 1 1)
+      (speed 0.5)
+      (image-top "/images/background/bluemountain/bluemountain-top.png")
+      (image "/images/background/bluemountain/bluemountain-top.png")
+      (image-bottom "/images/background/bluemountain/bluemountain-top.png")
+      (z-pos -310)
     )
     (camera
       (name "Camera")
@@ -565,6 +576,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "images/background/snowcastle.png")
       (image "images/background/snowcastle.png")

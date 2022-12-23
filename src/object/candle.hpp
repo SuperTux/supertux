@@ -32,11 +32,15 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual std::string get_class() const override { return "candle"; }
-  virtual std::string get_display_name() const override { return _("Candle"); }
+  static std::string class_name() { return "candle"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Candle"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+
+  virtual void on_flip(float height) override;
 
   /** @name Scriptable Methods
       @{ */

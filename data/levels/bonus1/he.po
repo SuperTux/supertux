@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Evgeny Satanovsky <jenka1980@gmail.com>, 2019
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020-2021
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2021
 # Omer I.S. <omeritzicschwartz@gmail.com>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2018-11-05 23:45+0100\n"
-"PO-Revision-Date: 2021-03-22 13:17+0000\n"
-"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-12 20:16+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Hebrew (http://www.transifex.com/arctic-games/supertux/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,11 +82,11 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-כל הכבוד!\n\t\n#סיימת בהצלחה את\n# אי הבונוס א׳\n\tשלבים אלו נבנו נתרמו על ידי\n\t‎Jason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n#אם טרם סיימת את כל השלבים,\n#ניתן למצוא את דרכך בחזרה הביתה\n#ולבחור נתיב אחר. עדיין ישנם עוד\n#אתגרים שמחכים לך!\n\n#וגם ישנו שלב סודי שייתכן.\n#שיימצא בעתיד...\n\n#תודה ענקית הולכת לכל אלו שתרמו\n#לשחרור גרסה זו. אנחנו מקווים שנהניתם!."
+msgstr "-כל הכבוד!\n\t\n#סיימת בהצלחה את\n# אי הבונוס א׳\n\tשלבים אלו נוצרו על ידי\n\t‎ג׳ייסון ו׳ תומפסון\n\tטורפי גונארסון\n\tAbednego\n\tMatr1x\n\n#אם טרם סיימת את כל השלבים,\n#ניתן למצוא את דרכך בחזרה הביתה\n#ולבחור נתיב אחר. עדיין ישנם עוד\n#אתגרים שמחכים לך!\n\n#וגם ישנו שלב סודי שייתכן.\n#שיימצא בעתיד...\n\n#תודה ענקית לכל האנשים שתרמו\n#לשחרור גרסה זו. אנחנו מקווים שנהניתם!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr "צינור שם למטה"
+msgstr "הצנרת"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
@@ -104,6 +104,12 @@ msgstr "הייתי שם קודם?"
 msgid "Bad Guys Stink!"
 msgstr "הרעים מסריחים!"
 
+#: data/levels/bonus1/thompson-level2.stl:96
+msgid ""
+"#These levels were made Swimming-Ready by Serano and revamped by "
+"AllyTheOcelot"
+msgstr ""
+
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
 msgstr "התחלה טובה"
@@ -112,9 +118,9 @@ msgstr "התחלה טובה"
 msgid "Too easy"
 msgstr "קל מדיי"
 
-#: data/levels/bonus1/torfi-level2.stl:42
-msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr "#כל השלבים הללו שודרגו לעיצוב אבן הדרך ה־2 על ידי Hume2."
+#: data/levels/bonus1/torfi-level2.stl:56
+msgid "#All these levels were upgraded for milestone 2 by Hume."
+msgstr ""
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -144,62 +150,62 @@ msgstr "קצה הקרחון"
 msgid "Bonus Island I"
 msgstr "אי הבונוס א׳"
 
-#: data/levels/bonus1/worldmap.stwm:12
+#: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
 msgstr "מצאת מקום סודי!"
 
-#: data/levels/bonus1/worldmap.stwm:20
+#: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."
 msgstr "עצה: יש להשתמש באיגלואים כדי לחזור לכאן."
 
-#: data/levels/bonus1/worldmap.stwm:29
+#: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
 msgstr "מעבר למקטע של Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
+#: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
 msgstr "מעבר למתחם של תומפסון"
 
-#: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
+#: data/levels/bonus1/worldmap.stwm:158 data/levels/bonus1/worldmap.stwm:221
 msgid "Leave the SuperTux Team Island"
 msgstr "עזיבת אי קבוצת SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:50
+#: data/levels/bonus1/worldmap.stwm:165
 msgid "Warp to Abednego's Area"
 msgstr "מעבר לאזור של Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
+#: data/levels/bonus1/worldmap.stwm:172 data/levels/bonus1/worldmap.stwm:262
 msgid "Leave Torfi's Territory"
 msgstr "עזיבת השטח של Torfi"
 
-#: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
+#: data/levels/bonus1/worldmap.stwm:179 data/levels/bonus1/worldmap.stwm:207
 msgid "Leave Abednego's Area"
 msgstr "עזיבת האזור של Abednego"
 
-#: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
+#: data/levels/bonus1/worldmap.stwm:186 data/levels/bonus1/worldmap.stwm:234
 msgid "Leave Thompson's Domain"
 msgstr "עזיבת המתחם של תומפסון"
 
-#: data/levels/bonus1/worldmap.stwm:77
+#: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
 msgstr "חזרה למקטע של Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:83
+#: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
 msgstr "מעבר לבית"
 
-#: data/levels/bonus1/worldmap.stwm:97
+#: data/levels/bonus1/worldmap.stwm:214
 msgid "Warp to the SuperTux Team Island"
 msgstr "מעבר לאי קבוצת SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:123
+#: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
 msgstr "עזיבת המקטע של Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:129
+#: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
 msgstr "המשך המקטע של Matr1x"
 
-#: data/levels/bonus1/worldmap.stwm:136
+#: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"
 msgstr "מעבר לשטח של Torfi"

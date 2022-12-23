@@ -19,12 +19,14 @@
 #include <physfs.h>
 #include <sstream>
 
+#include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
+#include "supertux/menu/sorted_contrib_menu.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/world.hpp"
@@ -79,7 +81,6 @@ ContribMenu::ContribMenu() :
   add_label(_("Contrib Levels"));
   add_hl();
 
-  int i = 0;
   for (std::vector<std::string>::const_iterator it = level_worlds.begin(); it != level_worlds.end(); ++it)
   {
     try
@@ -92,52 +93,8 @@ ContribMenu::ContribMenu() :
       std::unique_ptr<World> world = World::from_directory(*it);
       if (!world->hide_from_contribs())
       {
-        auto savegame = Savegame::from_file(world->get_savegame_filename());
-
-        if (world->is_levelset())
+        if (world->is_levelset() || world->is_worldmap())
         {
-          int level_count = 0;
-          int solved_count = 0;
-
-          const auto& state = savegame->get_levelset_state(world->get_basedir());
-          for (const auto& level_state : state.level_states)
-          {
-            if (level_state.filename.empty())
-              continue;
-
-            if (level_state.solved)
-            {
-              solved_count += 1;
-            }
-            level_count += 1;
-          }
-
-          std::ostringstream title;
-          title << "[" << world->get_title() << "]";
-          add_entry(i++, title.str());
-          m_contrib_worlds.push_back(std::move(world));
-        }
-        else if (world->is_worldmap())
-        {
-          int level_count = 0;
-          int solved_count = 0;
-
-          const auto& state = savegame->get_worldmap_state(world->get_worldmap_filename());
-          for (const auto& level_state : state.level_states)
-          {
-            if (level_state.filename.empty())
-              continue;
-
-            if (level_state.solved)
-            {
-              solved_count += 1;
-            }
-            level_count += 1;
-          }
-
-          std::ostringstream title;
-          title << world->get_title();
-          add_entry(i++, title.str());
           m_contrib_worlds.push_back(std::move(world));
         }
         else
@@ -151,7 +108,9 @@ ContribMenu::ContribMenu() :
       log_info << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
     }
   }
-
+  add_entry(0,_("Official Contrib Levels"));
+  add_entry(1,_("Community Contrib Levels"));
+  add_entry(2,_("User Contrib Levels"));
   add_hl();
   add_back(_("Back"));
 }
@@ -160,19 +119,26 @@ void
 ContribMenu::menu_action(MenuItem& item)
 {
   int index = item.get_id();
-  if (index != -1)
+  switch (index)
   {
-    // reload the World so that we have something that we can safely
-    // std::move() around without wreaking the ContribMenu
-    std::unique_ptr<World> world = World::from_directory(m_contrib_worlds[index]->get_basedir());
-    if (!world->is_levelset())
-    {
-      GameManager::current()->start_worldmap(*world);
-    }
-    else
-    {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribLevelsetMenu(std::move(world))));
-    }
+  case 0: {
+    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "official", _("Official Contrib Levels"),
+      _("How is this possible? There are no Official Contrib Levels!"));
+    MenuManager::instance().push_menu(std::move(contrib_menu));
+    break;
+  }
+  case 1: {
+    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "community", _("Community Contrib Levels"),
+      _("No Community Contrib Levels yet. Download them from the Add-ons Menu."));
+    MenuManager::instance().push_menu(std::move(contrib_menu));
+    break;
+  }
+  case 2: {
+    auto contrib_menu = std::make_unique<SortedContribMenu>(m_contrib_worlds, "user", _("User Contrib Levels"),
+      _("No User Contrib Levels yet. Create some with the Level Editor."));
+    MenuManager::instance().push_menu(std::move(contrib_menu));
+    break;
+  }
   }
 }
 

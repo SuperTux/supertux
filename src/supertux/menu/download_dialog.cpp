@@ -14,17 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef __EMSCRIPTEN__
-
 #include "supertux/menu/download_dialog.hpp"
 
 #include "addon/addon_manager.hpp"
 
-DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool passive) :
+DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool passive, bool no_error_msg) :
   Dialog(passive),
   m_status(std::move(status)),
   m_title(),
-  m_auto_close(auto_close)
+  m_auto_close(auto_close),
+  m_error_msg(!no_error_msg)
 {
   add_default_button(_("Abort Download"), [this]{
       on_abort();
@@ -41,7 +40,14 @@ DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool p
       }
       else
       {
-        Dialog::show_message(_("Error:\n") + m_status->error_msg);
+        if (m_error_msg)
+        {
+          Dialog::show_message(_("Error:\n") + m_status->error_msg);
+        }
+        else
+        {
+          MenuManager::instance().set_dialog({});
+        }
       }
     });
 }
@@ -99,7 +105,5 @@ DownloadDialog::on_download_complete()
       MenuManager::instance().set_dialog({});
     });
 }
-
-#endif
 
 /* EOF */

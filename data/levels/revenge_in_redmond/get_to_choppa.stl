@@ -13,9 +13,7 @@
       (color 1 1 1)
       (alignment "bottom")
       (speed 0.5)
-      (image-top "/images/background/block_snow/block-snow-midground.png")
-      (image "/images/background/block_snow/block-snow-midground.png")
-      (image-bottom "/images/background/block_snow/block-snow-midground.png")
+      (image "/images/background/retro/block-snow-midground.png")
       (z-pos -200)
     )
     (background
@@ -772,7 +770,7 @@
     )
     (decal
       (z-pos 10)
-      (sprite "/images/decal/retro/copter1.png")
+      (sprite "/images/decal/retro/copter.png")
       (x 4416)
       (y 1696)
     )

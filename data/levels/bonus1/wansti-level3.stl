@@ -10,10 +10,7 @@
       (color 1 1 1)
     )
     (background
-      (scroll-offset-y -150)
       (color 1 1 1)
-      (x 672)
-      (y 736)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -156,6 +153,7 @@
       (name "9075113d-d3c9-4597-8f29-4d852d4ee253")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 0)
           (y 352)

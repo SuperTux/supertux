@@ -36,8 +36,10 @@ public:
   void init();
   virtual void update(float dt_sec) override;
 
-  virtual std::string get_class() const override { return "particles-rain"; }
-  virtual std::string get_display_name() const override { return _("Rain Particles"); }
+  static std::string class_name() { return "particles-rain"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Rain Particles"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
 
   void fade_speed(float new_speed, float fade_time);

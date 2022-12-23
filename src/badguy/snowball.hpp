@@ -25,8 +25,11 @@ public:
   SnowBall(const ReaderMapping& reader);
   SnowBall(const Vector& pos, Direction d, const std::string& script);
 
-  virtual std::string get_class() const override { return "snowball"; }
-  virtual std::string get_display_name() const override { return _("Snowball"); }
+  static std::string class_name() { return "snowball"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Snowball"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

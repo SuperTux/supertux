@@ -20,6 +20,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
+#include "gui/notification.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -43,6 +44,14 @@ Rectf menu2rect(const Menu& menu)
                menu.get_center_pos().y - menu.get_height() / 2,
                menu.get_center_pos().x + menu.get_width() / 2,
                menu.get_center_pos().y + menu.get_height() / 2);
+}
+
+Rectf dialog2rect(const Dialog& dialog)
+{
+  return Rectf(dialog.get_center_pos().x - dialog.get_width() / 2,
+               dialog.get_center_pos().y - dialog.get_height() / 2,
+               dialog.get_center_pos().x + dialog.get_width() / 2,
+               dialog.get_center_pos().y + dialog.get_height() / 2);
 }
 
 } // namespace
@@ -120,14 +129,14 @@ public:
     // draw menu background rectangles
     context.color().draw_filled_rect(Rectf(rect.get_left() - 4, rect.get_top() - 10-4,
                                              rect.get_right() + 4, rect.get_bottom() + 10 + 4),
-                                       Color(0.2f, 0.3f, 0.4f, 0.8f),
-                                       20.0f,
+                                       g_config->menubackcolor,
+                                       g_config->menuroundness + 4.f,
                                        LAYER_GUI-10);
 
     context.color().draw_filled_rect(Rectf(rect.get_left(), rect.get_top() - 10,
                                              rect.get_right(), rect.get_bottom() + 10),
-                                       Color(0.6f, 0.7f, 0.8f, 0.5f),
-                                       16.0f,
+                                       g_config->menufrontcolor,
+                                       g_config->menuroundness,
                                        LAYER_GUI-10);
   }
 
@@ -141,6 +150,9 @@ MenuManager::MenuManager() :
   m_dialog(),
   m_has_next_dialog(false),
   m_next_dialog(),
+  m_notification(),
+  m_has_next_notification(false),
+  m_next_notification(),
   m_menu_stack(),
   m_transition(new MenuTransition)
 {
@@ -189,6 +201,11 @@ MenuManager::event(const SDL_Event& ev)
       // transition animation
       current_menu()->event(ev);
     }
+
+    if (m_notification)
+    {
+      m_notification->event(ev);
+    }
   }
 }
 
@@ -197,8 +214,38 @@ MenuManager::draw(DrawingContext& context)
 {
   if (m_has_next_dialog)
   {
+    if (m_next_dialog != nullptr) m_next_dialog->update();
+    if (m_dialog != nullptr && m_next_dialog != nullptr)
+    {
+      if (!m_dialog->is_passive() && !m_next_dialog->is_passive())
+      {
+        transition(m_dialog.get(), m_next_dialog.get());
+      }
+      else if (!m_next_dialog->is_passive())
+      {
+        transition(current_menu(), m_next_dialog.get());
+      }
+      else if (!m_dialog->is_passive())
+      {
+        transition(m_dialog.get(), current_menu());
+      }
+    }
+    else if (m_dialog != nullptr)
+    {
+      if (!m_dialog->is_passive()) transition(m_dialog.get(), current_menu());
+    }
+    else if (m_next_dialog != nullptr)
+    {
+      if (!m_next_dialog->is_passive()) transition(current_menu(), m_next_dialog.get());
+    }
     m_dialog = std::move(m_next_dialog);
     m_has_next_dialog = false;
+  }
+
+  if (m_has_next_notification)
+  {
+    m_notification = std::move(m_next_notification);
+    m_has_next_notification = false;
   }
 
   if (m_transition->is_active())
@@ -224,6 +271,11 @@ MenuManager::draw(DrawingContext& context)
     }
   }
 
+  if (m_notification)
+  {
+    m_notification->draw(context);
+  }
+
   if ((m_dialog || current_menu()) && MouseCursor::current())
   {
     MouseCursor::current()->draw(context);
@@ -240,9 +292,18 @@ MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
 }
 
 void
-MenuManager::push_menu(int id)
+MenuManager::set_notification(std::unique_ptr<Notification> notification)
 {
-  push_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
+  // delay reseting m_notification to a later point, as otherwise the Notification
+  // can't unset itself without ending up with "delete this" problems
+  m_next_notification = std::move(notification);
+  m_has_next_notification = true;
+}
+
+void
+MenuManager::push_menu(int id, bool skip_transition)
+{
+  push_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)), skip_transition);
 }
 
 void
@@ -252,16 +313,16 @@ MenuManager::set_menu(int id)
 }
 
 void
-MenuManager::push_menu(std::unique_ptr<Menu> menu)
+MenuManager::push_menu(std::unique_ptr<Menu> menu, bool skip_transition)
 {
   assert(menu);
-  transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
-             menu.get());
+  if (!skip_transition) transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
+                         menu.get());
   m_menu_stack.push_back(std::move(menu));
 }
 
 void
-MenuManager::pop_menu()
+MenuManager::pop_menu(bool skip_transition)
 {
   if (m_menu_stack.empty())
   {
@@ -269,10 +330,10 @@ MenuManager::pop_menu()
   }
   else
   {
-    transition(m_menu_stack.back().get(),
-               (m_menu_stack.size() >= 2)
-               ? m_menu_stack[m_menu_stack.size() - 2].get()
-               : nullptr);
+    if (!skip_transition) transition(m_menu_stack.back().get(),
+                           (m_menu_stack.size() >= 2)
+                           ? m_menu_stack[m_menu_stack.size() - 2].get()
+                           : nullptr);
 
     m_menu_stack.pop_back();
   }
@@ -291,7 +352,7 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu)
   else
   {
     transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
-               nullptr);
+               nullptr, true);
     m_menu_stack.clear();
   }
 
@@ -303,7 +364,7 @@ void
 MenuManager::clear_menu_stack()
 {
   transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
-             nullptr);
+             nullptr, true);
   m_menu_stack.clear();
 }
 
@@ -329,8 +390,21 @@ MenuManager::current_menu() const
   }
 }
 
+Menu*
+MenuManager::previous_menu() const
+{
+  if (m_menu_stack.size() < 2)
+  {
+    return nullptr;
+  }
+  else
+  {
+    return m_menu_stack.end()[-2].get();
+  }
+}
+
 void
-MenuManager::transition(Menu* from, Menu* to)
+MenuManager::transition(Menu* from, Menu* to, bool call_this) // "call_this" -> calls this specific overload to prevent ambiguous calls
 {
   if (!from && !to)
   {
@@ -352,6 +426,105 @@ MenuManager::transition(Menu* from, Menu* to)
     if (to)
     {
       to_rect = menu2rect(*to);
+    }
+    else
+    {
+      to_rect = Rectf(from->get_center_pos(), Sizef(0, 0));
+    }
+
+    m_transition->start(from_rect, to_rect);
+  }
+}
+
+void
+MenuManager::transition(Menu* from, Dialog* to)
+{
+  if (!from && !to)
+  {
+    return;
+  }
+  else
+  {
+    Rectf from_rect;
+    if (from)
+    {
+      from_rect = menu2rect(*from);
+    }
+    else
+    {
+      from_rect = Rectf(to->get_center_pos(), Sizef(0, 0));
+    }
+
+    Rectf to_rect;
+    if (to)
+    {
+      to_rect = dialog2rect(*to);
+    }
+    else
+    {
+      to_rect = Rectf(from->get_center_pos(), Sizef(0, 0));
+    }
+
+    m_transition->start(from_rect, to_rect);
+  }
+}
+
+void
+MenuManager::transition(Dialog* from, Menu* to)
+{
+  if (!from && !to)
+  {
+    return;
+  }
+  else
+  {
+    Rectf from_rect;
+    if (from)
+    {
+      from_rect = dialog2rect(*from);
+    }
+    else
+    {
+      from_rect = Rectf(to->get_center_pos(), Sizef(0, 0));
+    }
+
+    Rectf to_rect;
+    if (to)
+    {
+      to_rect = menu2rect(*to);
+    }
+    else
+    {
+      to_rect = Rectf(from->get_center_pos(), Sizef(0, 0));
+    }
+
+    m_transition->start(from_rect, to_rect);
+  }
+}
+
+void
+MenuManager::transition(Dialog* from, Dialog* to)
+{
+  if (!from && !to)
+  {
+    return;
+  }
+  else
+  {
+    Rectf from_rect;
+    if (from)
+    {
+      from_rect = dialog2rect(*from);
+    }
+    else
+    {
+      from_rect = Rectf(to->get_center_pos(), Sizef(0, 0));
+    }
+
+    Rectf to_rect;
+    if (to)
+    {
+      to_rect = dialog2rect(*to);
     }
     else
     {

@@ -17,8 +17,12 @@
 #include "object/rock.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "object/explosion.hpp"
+#include "badguy/crusher.hpp"
+#include "badguy/badguy.hpp"
 #include "object/coin.hpp"
+#include "object/explosion.hpp"
+#include "object/lit_object.hpp"
+#include "object/pushbutton.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "object/player.hpp"
@@ -27,6 +31,8 @@
 namespace {
 const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 }
+
+static const float GROUND_FRICTION = 0.1f; // Amount of friction to apply while on ground.
 
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
@@ -99,6 +105,11 @@ Rock::collision_solid(const CollisionHit& hit)
     physic.set_velocity_x(0);
     on_ground = true;
   }
+
+  if (on_ground) {
+    // Full friction!
+    physic.set_velocity_x(physic.get_velocity_x() * (1.f - GROUND_FRICTION));
+  }
 }
 
 HitResponse
@@ -114,8 +125,29 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
+  // Why is it necessary to list exceptions here? Why doesn't the rock just not
+  // affect object that have ABORT_MOVE on all collisions?
+  auto litobject = dynamic_cast<LitObject*> (&other);
+  if (litobject) {
+    return ABORT_MOVE;
+  }
+
+  auto pushbutton = dynamic_cast<PushButton*> (&other);
+  if (pushbutton) {
+    return ABORT_MOVE;
+  }
+
   if (is_grabbed()) {
     return ABORT_MOVE;
+  }
+
+  auto crusher = dynamic_cast<Crusher*> (&other);
+  if (crusher) {
+    auto state = crusher->get_state();
+    if(state == Crusher::CrusherState::RECOVERING ||
+       state == Crusher::CrusherState::IDLE) {
+        return ABORT_MOVE;
+       }
   }
 
   // Don't fall further if we are on a rock which is on the ground.
@@ -128,10 +160,16 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 
   if (!on_ground) {
     if (hit.bottom && physic.get_velocity_y() > 200) {
-      auto moving_object = dynamic_cast<MovingObject*> (&other);
-      if (moving_object && moving_object->get_group() != COLGROUP_TOUCHABLE) {
+      auto badguy = dynamic_cast<BadGuy*> (&other);
+      auto player = dynamic_cast<Player*> (&other);
+      if (badguy && badguy->get_group() != COLGROUP_TOUCHABLE) {
         //Getting a rock on the head hurts. A lot.
-        moving_object->collision_tile(Tile::HURTS);
+        badguy->kill_fall();
+        physic.set_velocity_y(0);
+      }
+      else if(player)
+      {
+        player->kill(false);
         physic.set_velocity_y(0);
       }
     }
@@ -162,30 +200,24 @@ Rock::ungrab(MovingObject& object, Direction dir)
   auto player = dynamic_cast<Player*> (&object);
   set_group(COLGROUP_MOVING_STATIC);
   on_ground = false;
-  if (player->is_swimming() || player->is_water_jumping())
+  if (player)
   {
-    float swimangle = player->get_swimming_angle();
-    physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
-  }
-  else
-  {
-    set_group(COLGROUP_MOVING_STATIC);
-    on_ground = false;
-    if (dir == Direction::UP) {
-      physic.set_velocity(0, -500);
+    if (player->is_swimming() || player->is_water_jumping())
+    {
+      float swimangle = player->get_swimming_angle();
+      physic.set_velocity(player->get_velocity() + Vector(std::cos(swimangle), std::sin(swimangle)));
     }
-    else if (dir == Direction::DOWN) {
-      physic.set_velocity(0, 500);
-    }
-    else if (glm::length(last_movement) > 1) {
-      physic.set_velocity((dir == Direction::RIGHT) ? 200.0f : -200.0f, -200.0f);
-    }
-    else {
-      physic.set_velocity(0, 0);
+    else
+    {
+      physic.set_velocity_x(fabsf(player->get_physic().get_velocity_x()) < 1.f ? 0.f :
+        player->m_dir == Direction::LEFT ? -200.f : 200.f);
+      physic.set_velocity_y((dir == Direction::UP) ? -500.f : (dir == Direction::DOWN) ? 500.f :
+        (glm::length(last_movement) > 1) ? -200.f : 0.f);
     }
   }
 
-  if (!on_ungrab_script.empty()) {
+  if (!on_ungrab_script.empty())
+  {
     Sector::get().run_script(on_ungrab_script, "Rock::on_ungrab");
   }
   Portable::ungrab(object, dir);
@@ -200,5 +232,18 @@ Rock::get_settings()
   return result;
 }
 
+void
+Rock::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
+{
+  // only add velocity in the same direction as the wind
+  if (end_speed.x > 0 && physic.get_velocity_x() < end_speed.x)
+    physic.set_velocity_x(std::min(physic.get_velocity_x() + velocity.x, end_speed.x));
+  if (end_speed.x < 0 && physic.get_velocity_x() > end_speed.x)
+    physic.set_velocity_x(std::max(physic.get_velocity_x() + velocity.x, end_speed.x));
+  if (end_speed.y > 0 && physic.get_velocity_y() < end_speed.y)
+    physic.set_velocity_y(std::min(physic.get_velocity_y() + velocity.y, end_speed.y));
+  if (end_speed.y < 0 && physic.get_velocity_y() > end_speed.y)
+    physic.set_velocity_y(std::max(physic.get_velocity_y() + velocity.y, end_speed.y));
+}
 
 /* EOF */

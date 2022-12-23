@@ -29,6 +29,10 @@ public:
   static bool numeric_less(const std::string& lhs, const std::string& rhs);
 
   static std::string tolower(const std::string& text);
+
+  static std::string replace_all(const std::string& haystack,
+                                 const std::string& needle,
+                                 const std::string& replacement);
 };
 
 #endif

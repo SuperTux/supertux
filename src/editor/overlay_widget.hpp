@@ -24,6 +24,7 @@
 #include "editor/widget.hpp"
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
+#include "util/typed_uid.hpp"
 
 class Color;
 class DrawingContext;
@@ -40,13 +41,6 @@ class Tip;
 class EditorOverlayWidget final : public Widget
 {
 public:
-  static bool render_background;
-  static bool render_grid;
-  static bool snap_to_grid;
-  static bool autotile_mode;
-  static bool autotile_help;
-  static int selected_snap_grid_size;
-
   static Color text_autotile_available_color;
   static Color text_autotile_active_color;
   static Color text_autotile_error_color;
@@ -69,10 +63,12 @@ public:
   void update_node_iterators();
   void on_level_change();
 
-  void edit_path(Path* path, GameObject* new_marked_object = nullptr);
+  void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
+  void reset_action_press();
 
 private:
   static bool action_pressed;
+  static bool alt_pressed;
 
 private:
   void input_tile(const Vector& pos, uint32_t tile);
@@ -106,6 +102,7 @@ private:
 
   void process_left_click();
   void process_right_click();
+  void process_middle_click();
 
   // sp is sector pos, tp is pos on tilemap.
   Vector tp_to_sp(const Vector& tp, int tile_size = 32) const;
@@ -125,16 +122,18 @@ private:
   Vector m_hovered_corner;
   Vector m_sector_pos;
   Vector m_mouse_pos;
+  Vector m_previous_mouse_pos;
 
   bool m_dragging;
   bool m_dragging_right;
+  bool m_scrolling;
   Vector m_drag_start;
-  MovingObject* m_dragged_object;
+  TypedUID<MovingObject> m_dragged_object;
 
-  MovingObject* m_hovered_object;
-  GameObject* m_selected_object;
-  Path* m_edited_path;
-  NodeMarker* m_last_node_marker;
+  TypedUID<MovingObject> m_hovered_object;
+  TypedUID<GameObject> m_selected_object;
+  TypedUID<PathGameObject> m_edited_path;
+  TypedUID<NodeMarker> m_last_node_marker;
 
   std::unique_ptr<Tip> m_object_tip;
   Vector m_obj_mouse_desync;

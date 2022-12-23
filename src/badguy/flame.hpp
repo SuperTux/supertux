@@ -19,12 +19,13 @@
 
 #include "badguy/badguy.hpp"
 
-class SoundSource;
+#include "audio/sound_source.hpp"
 
 class Flame : public BadGuy
 {
 public:
-  Flame(const ReaderMapping& reader);
+  Flame(const ReaderMapping& reader,
+        const std::string& sprite = "images/creatures/flame/flame.sprite");
 
   virtual void activate() override;
   virtual void deactivate() override;
@@ -37,11 +38,15 @@ public:
   virtual bool is_flammable() const override;
 
   virtual ObjectSettings get_settings() override;
-  virtual std::string get_class() const override { return "flame"; }
-  virtual std::string get_display_name() const override { return _("Flame"); }
+  static std::string class_name() { return "flame"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Flame"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
+
+  virtual void on_flip(float height) override;
 
 protected:
   float angle;

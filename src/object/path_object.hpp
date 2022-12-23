@@ -21,6 +21,7 @@
 #include <memory>
 
 #include "object/path.hpp"
+#include "object/path_gameobject.hpp"
 #include "object/path_walker.hpp"
 #include "util/uid.hpp"
 
@@ -36,10 +37,17 @@ public:
   void init_path(const ReaderMapping& mapping, bool running_default);
   void init_path_pos(const Vector& pos, bool running = false);
 
+  PathGameObject* get_path_gameobject() const;
   Path* get_path() const;
   PathWalker* get_walker() const { return m_walker.get(); }
 
   std::string get_path_ref() const;
+  void editor_set_path_by_ref(const std::string& new_ref);
+
+protected:
+  void on_flip();
+
+  PathWalker::Handle m_path_handle;
 
 private:
   UID m_path_uid;

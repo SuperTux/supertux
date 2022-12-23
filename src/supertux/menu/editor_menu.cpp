@@ -16,6 +16,8 @@
 
 #include "supertux/menu/editor_menu.hpp"
 
+#include <physfs.h>
+
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
@@ -23,9 +25,15 @@
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/menu/editor_save_as.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
 
 EditorMenu::EditorMenu()
 {
@@ -41,34 +49,34 @@ EditorMenu::EditorMenu()
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to Editor"));
   add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
-
   if (!worldmap) {
+    add_entry(MNID_SAVEASLEVEL, _("Save Level as"));
+    add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
     add_entry(MNID_TESTLEVEL, _("Test Level"));
-  }
-  else
-  {
+  } else {
     add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
   }
-  
+
   add_entry(MNID_SHARE, _("Share Level"));
+
+  add_entry(MNID_PACK, _("Package Add-On"));
 
   add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
 
-  if (is_world) {
+  if (is_world)
     add_entry(MNID_LEVELSEL, _("Edit Another Level"));
-  }
 
   add_entry(MNID_LEVELSETSEL, _("Edit Another World"));
-  
+
   add_hl();
 
-  add_string_select(-1, _("Grid Size"), &EditorOverlayWidget::selected_snap_grid_size, snap_grid_sizes);
-  add_toggle(-1, _("Show Grid"), &EditorOverlayWidget::render_grid);
-  add_toggle(-1, _("Grid Snapping"), &EditorOverlayWidget::snap_to_grid);
-  add_toggle(-1, _("Render Background"), &EditorOverlayWidget::render_background);
-  add_toggle(-1, _("Render Light"), &Compositor::s_render_lighting);
-  add_toggle(-1, _("Autotile Mode"), &EditorOverlayWidget::autotile_mode);
-  add_toggle(-1, _("Enable Autotile Help"), &EditorOverlayWidget::autotile_help);
+  add_string_select(-1, _("Grid Size"), &(g_config->editor_selected_snap_grid_size), snap_grid_sizes);
+  add_toggle(-1, _("Show Grid"), &(g_config->editor_render_grid));
+  add_toggle(-1, _("Grid Snapping"), &(g_config->editor_snap_to_grid));
+  add_toggle(-1, _("Render Background"), &(g_config->editor_render_background));
+  add_toggle(-1, _("Render Light"), &(Compositor::s_render_lighting));
+  add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
+  add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
@@ -82,9 +90,10 @@ EditorMenu::EditorMenu()
 EditorMenu::~EditorMenu()
 {
   auto editor = Editor::current();
-  if (editor == nullptr) {
+
+  if (editor == nullptr)
     return;
-  }
+
   editor->m_reactivate_request = true;
 }
 
@@ -107,6 +116,29 @@ EditorMenu::menu_action(MenuItem& item)
     }
       break;
 
+    case MNID_SAVEASLEVEL:
+    {
+      editor->check_save_prerequisites([] {
+        MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(true));
+      });
+    }
+      break;
+
+    case MNID_SAVECOPYLEVEL:
+    {
+      editor->check_save_prerequisites([] {
+        MenuManager::instance().set_menu(std::make_unique<EditorSaveAs>(false));
+      });
+    }
+      break;
+
+    case MNID_PACK:
+      Dialog::show_confirmation(_("Do you want to package this world as an add-on?"), [] {
+        Editor::current()->pack_addon();
+        FileSystem::open_path(FileSystem::join(PHYSFS_getWriteDir(), "addons"));
+      });
+      break;
+
     case MNID_OPEN_DIR:
       Editor::current()->open_level_directory();
       break;
@@ -123,20 +155,16 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_SHARE:
     {
-      auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open Level directory\" menu item.\nDo you want to go to the forum now?"));
-      dialog->add_default_button(_("Yes"), [] {
-        FileSystem::open_path("https://forum.freegamedev.net/viewforum.php?f=69");
+      Dialog::show_confirmation(_("We encourage you to share your levels in the SuperTux forum.\nTo find your level, click the\n\"Open Level directory\" menu item.\nDo you want to go to the forum now?"), [] {
+        FileSystem::open_url("https://forum.freegamedev.net/viewforum.php?f=69");
       });
-      dialog->add_cancel_button(_("No"));
-      MenuManager::instance().set_dialog(std::move(dialog));
     }
     break;
-	
+
 	case MNID_HELP:
     {
       auto dialog = std::make_unique<Dialog>();
-      dialog->set_text(_("Keyboard Shortcuts:\n---------------------\nEsc = Open Menu\nCtrl+S = Save\nCtrl+T = Test\nCtrl+Z = Undo\nCtrl+Y = Redo\nF6 = Render Light\nF7 = Grid Snapping\nF8 = Show Grid"));
+      dialog->set_text(_("Keyboard Shortcuts:\n---------------------\nEsc = Open Menu\nCtrl+S = Save\nCtrl+T = Test\nCtrl+Z = Undo\nCtrl+Y = Redo\nF6 = Render Light\nF7 = Grid Snapping\nF8 = Show Grid\n \nScripting Shortcuts:\n    -------------    \nHome = Go to beginning of line\nEnd = Go to end of line\nLeft arrow = Go back in text\nRight arrow = Go forward in text\nBackspace = Delete in front of text cursor\nDelete = Delete behind text cursor\nCtrl+X = Cut whole line\nCtrl+C = Copy whole line\nCtrl+V = Paste\nCtrl+D = Duplicate line\nCtrl+Z = Undo\nCtrl+Y = Redo"));
       dialog->add_cancel_button(_("Got it!"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }

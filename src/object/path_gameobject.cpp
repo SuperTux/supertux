@@ -18,10 +18,14 @@
 
 #include <boost/optional.hpp>
 
+#include "editor/node_marker.hpp"
+#include "gui/menu_manager.hpp"
 #include "object/path.hpp"
+#include "object/path_object.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/unique_name.hpp"
@@ -102,7 +106,7 @@ PathGameObject::~PathGameObject()
 void
 PathGameObject::update(float dt_sec)
 {
-  // nothing to do
+  check_references();
 }
 
 void
@@ -111,10 +115,6 @@ PathGameObject::draw(DrawingContext& context)
   if (m_style == PathStyle::SOLID)
   {
     boost::optional<Vector> previous_node;
-
-    // FIXME: temporary workaround for compiler warning
-    previous_node = Vector();
-    previous_node = boost::none;
 
     for (const auto& node : m_path->get_nodes())
     {
@@ -176,6 +176,12 @@ PathGameObject::get_settings()
 }
 
 void
+PathGameObject::editor_update()
+{
+  check_references();
+}
+
+void
 PathGameObject::editor_select()
 {
   log_fatal << "PathGameObject::selected" << std::endl;
@@ -185,6 +191,62 @@ void
 PathGameObject::editor_deselect()
 {
   log_fatal << "PathGameObject::deselected" << std::endl;
+}
+
+void
+PathGameObject::remove_me()
+{
+  if (Sector::current())
+  {
+    auto handles = Sector::get().get_objects_by_type<NodeMarker>();
+
+    for (auto& handle : handles)
+      handle.remove_me(); // Removing a node handle also removes its bezier handles
+  }
+
+  const auto& path_objects = Sector::get().get_objects_by_type<PathObject>();
+
+  for (const auto& path_obj : path_objects)
+  {
+    if (path_obj.get_path_gameobject() == this)
+    {
+      log_warning << "Attempt to delete path " << get_name() << " while bound to object" << std::endl;
+      return;
+    }
+  }
+
+  GameObject::remove_me();
+}
+
+void
+PathGameObject::copy_into(PathGameObject& other)
+{
+  other.get_path().m_nodes = get_path().m_nodes;
+}
+
+void
+PathGameObject::check_references()
+{
+  if (!Sector::current())
+    return;
+
+  // Object settings menu might hold references to paths
+  if (MenuManager::instance().is_active())
+    return;
+
+  const auto& path_objects = Sector::get().get_objects_by_type<PathObject>();
+
+  for (const auto& path_obj : path_objects)
+    if (path_obj.get_path_gameobject() == this)
+      return;
+
+  remove_me();
+}
+
+void
+PathGameObject::on_flip(float height)
+{
+  m_path->on_flip(height);
 }
 
 /* EOF */

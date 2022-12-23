@@ -237,26 +237,26 @@
       (y 820)
     )
     (scripttrigger
-      (script "Level.spawn(\"clouds\", \"main\");")
-      (button #f)
       (width 476)
       (height 32)
+      (script "Level.spawn(\"clouds\", \"main\");")
+      (button #f)
       (x 9440)
       (y -128)
     )
     (scripttrigger
-      (script "state.fitr_up = true;")
-      (button #f)
       (width 32)
       (height 448)
+      (script "state.fitr_up = true;")
+      (button #f)
       (x 15104)
       (y 0)
     )
     (scripttrigger
-      (script "state.fitr_down = true;")
-      (button #f)
       (width 32)
       (height 448)
+      (script "state.fitr_down = true;")
+      (button #f)
       (x 15104)
       (y 544)
     )
@@ -739,14 +739,6 @@
       (y 672)
     )
     (unstable_tile
-      (x 7296)
-      (y 672)
-    )
-    (unstable_tile
-      (x 7424)
-      (y 672)
-    )
-    (unstable_tile
       (x 7456)
       (y 672)
     )
@@ -793,38 +785,6 @@
     (unstable_tile
       (x 14688)
       (y 864)
-    )
-    (unstable_tile
-      (x 11936)
-      (y 832)
-    )
-    (unstable_tile
-      (x 11968)
-      (y 832)
-    )
-    (unstable_tile
-      (x 12000)
-      (y 832)
-    )
-    (unstable_tile
-      (x 12032)
-      (y 832)
-    )
-    (unstable_tile
-      (x 12128)
-      (y 832)
-    )
-    (unstable_tile
-      (x 12160)
-      (y 832)
-    )
-    (unstable_tile
-      (x 12192)
-      (y 832)
-    )
-    (unstable_tile
-      (x 12224)
-      (y 832)
     )
     (unstable_tile
       (x 13312)
@@ -1184,10 +1144,10 @@ backclouds2.start_moving();")
       )
     )
     (scripttrigger
-      (script "Level.spawn(\"main\",\"clouds\");")
-      (button #f)
       (width 1600)
       (height 32)
+      (script "Level.spawn(\"main\",\"clouds\");")
+      (button #f)
       (x 0)
       (y 1120)
     )

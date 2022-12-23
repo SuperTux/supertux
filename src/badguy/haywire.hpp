@@ -32,6 +32,7 @@ public:
 
   virtual void active_update(float dt_sec) override;
   virtual void deactivate() override;
+  virtual void draw(DrawingContext& context) override;
 
   virtual bool is_freezable() const override;
   virtual void freeze() override;
@@ -39,13 +40,21 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-  virtual std::string get_class() const override { return "haywire"; }
-  virtual std::string get_display_name() const override { return _("Haywire"); }
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+
+  static std::string class_name() { return "haywire"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Haywire"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
 
 private:
+  Direction get_player_direction(const Player* player) const;
+
   void start_exploding();
   void stop_exploding();
 
@@ -54,6 +63,11 @@ private:
   float time_until_explosion;
   bool is_stunned;
   float time_stunned;
+  SpritePtr m_exploding_sprite;
+
+  bool m_jumping;
+  Timer m_skid_timer;
+  Direction m_last_player_direction;
 
   std::unique_ptr<SoundSource> ticking;
   std::unique_ptr<SoundSource> grunting;

@@ -19,11 +19,14 @@
 #include "config.h"
 
 #include "editor/overlay_widget.hpp"
+#include "supertux/colorscheme.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -32,6 +35,7 @@
 
 Config::Config() :
   profile(1),
+  profiles(),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
   window_size(1280, 800),
@@ -41,7 +45,12 @@ Config::Config() :
   fit_window(true),
 #endif
   magnification(0.0f),
+  // Ubuntu Touch supports windowed apps
+#ifdef __ANDROID__
+  use_fullscreen(true),
+#else
   use_fullscreen(false),
+#endif
   video(VideoSystem::VIDEO_AUTO),
   try_vsync(true),
   show_fps(false),
@@ -59,9 +68,8 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  mobile_controls(true),
-#endif
+  mobile_controls(SDL_GetNumTouchDevices() > 0),
+  m_mobile_controls_scale(1),
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -69,11 +77,45 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
+#ifdef __EMSCRIPTEN__
+  do_release_check(false),
+#else
+  do_release_check(true),
+#endif
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
   hide_editor_levelnames(false),
+  notifications(),
+  menubackcolor(ColorScheme::Menu::back_color),
+  menufrontcolor(ColorScheme::Menu::front_color),
+  menuhelpbackcolor(ColorScheme::Menu::help_back_color),
+  menuhelpfrontcolor(ColorScheme::Menu::help_front_color),
+  labeltextcolor(ColorScheme::Menu::label_color),
+  activetextcolor(ColorScheme::Menu::active_color),
+  hlcolor(ColorScheme::Menu::hl_color),
+  editorcolor(ColorScheme::Editor::default_color),
+  editorhovercolor(ColorScheme::Editor::hover_color),
+  editorgrabcolor(ColorScheme::Editor::grab_color),
+  menuroundness(16.f),
+  editor_selected_snap_grid_size(3),
+  editor_render_grid(true),
+  editor_snap_to_grid(true),
+  editor_render_background(true),
+  editor_render_lighting(false),
+  editor_autotile_mode(false),
+  editor_autotile_help(true),
   editor_autosave_frequency(5),
+  multiplayer_auto_manage_players(true),
+  multiplayer_multibind(false),
+#if SDL_VERSION_ATLEAST(2, 0, 9)
+  multiplayer_buzz_controllers(true),
+#else
+  // Will be loaded and saved anyways, to retain the setting. This is helpful
+  // for users who frequently switch between versions compiled with a newer SDL
+  // and those with an older SDL; they won't have to check the setting each time
+  multiplayer_buzz_controllers(false),
+#endif
   repository_url()
 {
 }
@@ -82,9 +124,9 @@ void
 Config::load()
 {
 #ifdef __EMSCRIPTEN__
-  EM_ASM(
+  EM_ASM({
     supertux_loadFiles();
-  );
+  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
 #endif
 
   auto doc = ReaderDocument::from_file("config");
@@ -96,6 +138,29 @@ Config::load()
 
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
+  boost::optional<ReaderCollection> config_profiles_mapping;
+  if (config_mapping.get("profiles", config_profiles_mapping))
+  {
+    for (auto const& profile_node : config_profiles_mapping->get_objects())
+    {
+      if (profile_node.get_name() == "profile")
+      {
+        auto current_profile = profile_node.get_mapping();
+
+        int id;
+        std::string name;
+        if (current_profile.get("id", id) &&
+            current_profile.get("name", name))
+        {
+          profiles.push_back({id, name});
+        }
+      }
+      else
+      {
+        log_warning << "Unknown token in config file: " << profile_node.get_name() << std::endl;
+      }
+    }
+  }
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
@@ -103,6 +168,7 @@ Config::load()
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
+  config_mapping.get("do_release_check", do_release_check);
 
   boost::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
@@ -113,20 +179,91 @@ Config::load()
 #endif
   }
 
+  boost::optional<ReaderCollection> config_notifications_mapping;
+  if (config_mapping.get("notifications", config_notifications_mapping))
+  {
+    for (auto const& notification_node : config_notifications_mapping->get_objects())
+    {
+      if (notification_node.get_name() == "notification")
+      {
+        auto notification = notification_node.get_mapping();
+
+        std::string id;
+        bool disabled = false;
+        if (notification.get("id", id) &&
+            notification.get("disabled", disabled))
+        {
+          notifications.push_back({id, disabled});
+        }
+      }
+      else
+      {
+        log_warning << "Unknown token in config file: " << notification_node.get_name() << std::endl;
+      }
+    }
+  }
+
+  // menu colors
+
+  std::vector<float> menubackcolor_, menufrontcolor_, menuhelpbackcolor_, menuhelpfrontcolor_,
+    labeltextcolor_, activetextcolor_, hlcolor_, editorcolor_, editorhovercolor_, editorgrabcolor_;
+
+  boost::optional<ReaderMapping> interface_colors_mapping;
+  if (config_mapping.get("interface_colors", interface_colors_mapping))
+  {
+    interface_colors_mapping->get("menubackcolor", menubackcolor_, ColorScheme::Menu::back_color.toVector());
+    interface_colors_mapping->get("menufrontcolor", menufrontcolor_, ColorScheme::Menu::front_color.toVector());
+    interface_colors_mapping->get("menuhelpbackcolor", menuhelpbackcolor_, ColorScheme::Menu::help_back_color.toVector());
+    interface_colors_mapping->get("menuhelpfrontcolor", menuhelpfrontcolor_, ColorScheme::Menu::help_back_color.toVector());
+    interface_colors_mapping->get("labeltextcolor", labeltextcolor_, ColorScheme::Menu::label_color.toVector());
+    interface_colors_mapping->get("activetextkcolor", activetextcolor_, ColorScheme::Menu::active_color.toVector());
+    interface_colors_mapping->get("hlcolor", hlcolor_, ColorScheme::Menu::hl_color.toVector());
+    interface_colors_mapping->get("editorcolor", editorcolor_, ColorScheme::Editor::default_color.toVector());
+    interface_colors_mapping->get("editorhovercolor", editorhovercolor_, ColorScheme::Editor::hover_color.toVector());
+    interface_colors_mapping->get("editorgrabcolor", editorgrabcolor_, ColorScheme::Editor::grab_color.toVector());
+    menubackcolor = Color(menubackcolor_);
+    menufrontcolor = Color(menufrontcolor_);
+    menuhelpbackcolor = Color(menuhelpbackcolor_);
+    menuhelpfrontcolor = Color(menuhelpfrontcolor_);
+    labeltextcolor = Color(labeltextcolor_);
+    activetextcolor = Color(activetextcolor_);
+    hlcolor = Color(hlcolor_);
+    editorcolor = Color(editorcolor_);
+    editorhovercolor = Color(editorhovercolor_);
+    editorgrabcolor = Color(editorgrabcolor_);
+    interface_colors_mapping->get("menuroundness", menuroundness, 16.f);
+  }
+
+  // Compatibility; will be overwritten by the "editor" category
+  
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
-  EditorOverlayWidget::autotile_help = !developer_mode;
+  editor_autotile_help = !developer_mode;
+
+  boost::optional<ReaderMapping> editor_mapping;
+  if (config_mapping.get("editor", editor_mapping))
+  {
+    editor_mapping->get("autosave_frequency", editor_autosave_frequency);
+    editor_mapping->get("autotile_help", editor_autotile_help);
+    editor_mapping->get("autotile_mode", editor_autotile_mode);
+    editor_mapping->get("render_background", editor_render_background);
+    editor_mapping->get("render_grid", editor_render_grid);
+    editor_mapping->get("render_lighting", editor_render_lighting);
+    editor_mapping->get("selected_snap_grid_size", editor_selected_snap_grid_size);
+    editor_mapping->get("snap_to_grid", editor_snap_to_grid);
+  }
 
   if (is_christmas()) {
-    if (!config_mapping.get("christmas", christmas_mode))
-    {
-      christmas_mode = true;
-    }
+    config_mapping.get("christmas", christmas_mode, true);
   }
   config_mapping.get("transitions_enabled", transitions_enabled);
   config_mapping.get("locale", locale);
   config_mapping.get("random_seed", random_seed);
   config_mapping.get("repository_url", repository_url);
+
+  config_mapping.get("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
+  config_mapping.get("multiplayer_multibind", multiplayer_multibind);
+  config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
 
   boost::optional<ReaderMapping> config_video_mapping;
   if (config_mapping.get("video", config_video_mapping))
@@ -158,7 +295,11 @@ Config::load()
     config_video_mapping->get("magnification", magnification);
 
 #ifdef __EMSCRIPTEN__
-    config_video_mapping->get("fit_window", fit_window);
+    // Forcibly set autofit to true
+    // TODO: Remove the autofit parameter entirely - it should always be true
+
+    //config_video_mapping->get("fit_window", fit_window);
+    fit_window = true;
 #endif
   }
 
@@ -186,9 +327,8 @@ Config::load()
       joystick_config.read(*joystick_mapping);
     }
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-    config_video_mapping->get("mobile_controls", mobile_controls);
-#endif
+    config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
+    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
   }
 
   boost::optional<ReaderCollection> config_addons_mapping;
@@ -224,6 +364,17 @@ Config::save()
   writer.start_list("supertux-config");
 
   writer.write("profile", profile);
+
+  writer.start_list("profiles");
+  for (const auto& current_profile : profiles)
+  {
+    writer.start_list("profile");
+    writer.write("id", current_profile.id);
+    writer.write("name", current_profile.name);
+    writer.end_list("profile");
+  }
+  writer.end_list("profiles");
+
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
@@ -231,6 +382,7 @@ Config::save()
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
+  writer.write("do_release_check", do_release_check);
 
   writer.start_list("integrations");
   {
@@ -241,6 +393,16 @@ Config::save()
   }
   writer.end_list("integrations");
 
+  writer.start_list("notifications");
+  for (const auto& notification : notifications)
+  {
+    writer.start_list("notification");
+    writer.write("id", notification.id);
+    writer.write("disabled", notification.disabled);
+    writer.end_list("notification");
+  }
+  writer.end_list("notifications");
+
   writer.write("editor_autosave_frequency", editor_autosave_frequency);
 
   if (is_christmas()) {
@@ -249,6 +411,23 @@ Config::save()
   writer.write("transitions_enabled", transitions_enabled);
   writer.write("locale", locale);
   writer.write("repository_url", repository_url);
+  writer.write("multiplayer_auto_manage_players", multiplayer_auto_manage_players);
+  writer.write("multiplayer_multibind", multiplayer_multibind);
+  writer.write("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
+
+  writer.start_list("interface_colors");
+  writer.write("menubackcolor", menubackcolor.toVector());
+  writer.write("menufrontcolor", menufrontcolor.toVector());
+  writer.write("menuhelpbackcolor", menuhelpbackcolor.toVector());
+  writer.write("menuhelpfrontcolor", menuhelpfrontcolor.toVector());
+  writer.write("labeltextcolor", labeltextcolor.toVector());
+  writer.write("activetextcolor", activetextcolor.toVector());
+  writer.write("hlcolor", hlcolor.toVector());
+  writer.write("editorcolor", editorcolor.toVector());
+  writer.write("editorhovercolor", editorhovercolor.toVector());
+  writer.write("editorgrabcolor", editorgrabcolor.toVector());
+  writer.write("menuroundness", menuroundness);
+  writer.end_list("interface_colors");
 
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);
@@ -273,7 +452,9 @@ Config::save()
   writer.write("aspect_height", aspect_size.height);
 
 #ifdef __EMSCRIPTEN__
-  writer.write("fit_window", fit_window);
+  // Forcibly set autofit to true
+  // TODO: Remove the autofit parameter entirely - it should always be true
+  writer.write("fit_window", true /* fit_window */);
 #endif
 
   writer.write("magnification", magnification);
@@ -297,9 +478,8 @@ Config::save()
     joystick_config.write(writer);
     writer.end_list("joystick");
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
     writer.write("mobile_controls", mobile_controls);
-#endif
+    writer.write("mobile_controls_scale", m_mobile_controls_scale);
   }
   writer.end_list("control");
 
@@ -312,6 +492,19 @@ Config::save()
     writer.end_list("addon");
   }
   writer.end_list("addons");
+
+  writer.start_list("editor");
+  {
+    writer.write("autosave_frequency", editor_autosave_frequency);
+    writer.write("autotile_help", editor_autotile_help);
+    writer.write("autotile_mode", editor_autotile_mode);
+    writer.write("render_background", editor_render_background);
+    writer.write("render_grid", editor_render_grid);
+    writer.write("render_lighting", editor_render_lighting);
+    writer.write("selected_snap_grid_size", editor_selected_snap_grid_size);
+    writer.write("snap_to_grid", editor_snap_to_grid);
+  }
+  writer.end_list("editor");
 
   writer.end_list("supertux-config");
 }

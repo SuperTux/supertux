@@ -18,6 +18,7 @@
 
 #include <SDL.h>
 #include <assert.h>
+#include <iostream>
 #include <stdexcept>
 #include <sstream>
 #include <memory>
@@ -399,8 +400,10 @@ SoundManager::resume_music(float fadetime)
 
   if (fadetime > 0) {
     if (m_music_source
-       && m_music_source->get_fade_state() != StreamSoundSource::FadingResume)
+       && m_music_source->get_fade_state() != StreamSoundSource::FadingResume) {
       m_music_source->set_fading(StreamSoundSource::FadingResume, fadetime);
+      m_music_source->resume();
+    }
   } else {
     m_music_source->resume();
   }

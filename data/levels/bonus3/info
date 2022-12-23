@@ -1,5 +1,7 @@
 (supertux-level-subset
   (title (_ "Bonus Island III"))
-  (description "Collection of the multitudes of levels submitted to the bugtracker prior to development moving over to Git.")
+  (description (_ "Collection of the multitudes of levels submitted to the old bugtracker. Added in 0.3.5"))
   (levelset #f)
+  (hide-from-contribs #f)
+  (contrib-type "official")
 )

@@ -19,7 +19,7 @@
       (color 1 1 1)
       (alignment "bottom")
       (speed 0.5)
-      (image "/images/background/block_snow/block-snow-midground.png")
+      (image "/images/background/retro/block-snow-midground.png")
       (z-pos -200)
     )
     (bonusblock
@@ -322,6 +322,18 @@
     (firefly
       (x 6448)
       (y 384)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 5728)
+      (y 768)
+    )
+    (invisible_wall
+      (width 32)
+      (height 64)
+      (x 5376)
+      (y 768)
     )
     (jumpy
       (sprite "/images/creatures/bag/bag.sprite")

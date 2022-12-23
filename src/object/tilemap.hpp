@@ -52,9 +52,11 @@ public:
 
   virtual void finish_construction() override;
 
-  virtual std::string get_class() const override { return "tilemap"; }
+  static std::string class_name() { return "tilemap"; }
+  virtual std::string get_class_name() const override { return class_name(); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
-  virtual std::string get_display_name() const override { return _("Tilemap"); }
+  static std::string display_name() { return _("Tilemap"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -63,6 +65,8 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual void editor_update() override;
+
+  virtual void on_flip(float height) override;
 
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
@@ -142,6 +146,7 @@ public:
       doing collision detection. */
   void set_solid(bool solid = true);
 
+  bool is_outside_bounds(const Vector& pos) const;
   const Tile& get_tile(int x, int y) const;
   const Tile& get_tile_at(const Vector& pos) const;
   uint32_t get_tile_id(int x, int y) const;
@@ -189,6 +194,8 @@ public:
       Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
   void tint_fade(const Color& new_tint, float seconds = 0);
 
+  Color get_current_tint() const { return m_current_tint; }
+
   /** Instantly switch tilemap's opacity to @c alpha. Also influences solidity. */
   void set_alpha(float alpha);
 
@@ -200,12 +207,15 @@ public:
   void set_tileset(const TileSet* new_tileset);
 
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
-  
+
 private:
   void update_effective_solid();
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
   bool is_corner(uint32_t tile);
+
+  void apply_offset_x(int fill_id, int xoffset);
+  void apply_offset_y(int fill_id, int yoffset);
 
 public:
   bool m_editor_active;
@@ -255,6 +265,8 @@ private:
   int m_new_offset_x;
   int m_new_offset_y;
   bool m_add_path;
+
+  int m_starting_node;
 
 private:
   TileMap(const TileMap&) = delete;

@@ -21,6 +21,8 @@
 #include "scripting/wind.hpp"
 #include "supertux/moving_object.hpp"
 
+#include "video/layer.hpp"
+
 class ReaderMapping;
 
 /** Defines an area that will gently push Players in one direction */
@@ -36,10 +38,16 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual bool has_variable_size() const override { return true; }
-  virtual std::string get_class() const override { return "wind"; }
-  virtual std::string get_display_name() const override { return _("Wind");}
+  static std::string class_name() { return "wind"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Wind"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+
+  virtual int get_layer() const override { return LAYER_OBJECTS; }
+
+  virtual void on_flip(float height) override;
 
   /** @name Scriptable Methods
       @{ */
@@ -61,6 +69,7 @@ private:
   float dt_sec; /**< stores last dt_sec gotten at update() */
 
   bool affects_badguys; /**< whether the wind can affect badguys */
+  bool affects_objects; /**< whether the wind can affect objects */
   bool affects_player; /**< whether the wind can affect the player: useful for cinematic wind */
   bool fancy_wind;
 

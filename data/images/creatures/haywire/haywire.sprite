@@ -2,71 +2,108 @@
  (action
   (name "left")
   (fps 12.0)
-  (hitbox 5 11 32 32)
-  (images "hw1.png"
-          "hw2.png"
-		  "hw3.png"
-		  "hw4.png"
-		  "hw5.png"
-		  "hw6.png"
-		  "hw7.png"
-		  "hw8.png"))
+  (hitbox 14 19 32 32)
+  (images "left-0.png"
+          "left-1.png"
+		  "left-2.png"
+		  "left-3.png"
+		  "left-4.png"
+		  "left-5.png"
+		  "left-6.png"
+		  "left-7.png"))
 
  (action
   (name "right")
   (fps 12.0)
-  (hitbox 5 11 32 32)
+  (hitbox 14 19 32 32)
   (mirror-action "left"))
- 
+
  (action
   (name "iced-left")
-  (hitbox 5 8 31.8 31.8)
-  (images "iced-left.png"))
- 
+  (hitbox 5 8 32 32)
+  (images "left-0.png"))
+
  (action
   (name "iced-right")
-  (hitbox 5 8 31.8 31.8)
+  (hitbox 5 8 32 32)
   (mirror-action "iced-left"))
 
  (action
   (name "ticking-left")
-  (fps 10.0)
-  (hitbox 5 11 32 32)
-  (images "hwtick1.png"
-          "hwtick2.png"
-		  "hwtick3.png"
-		  "hwtick4.png"
-		  "hwtick5.png"
-		  "hwtick6.png"))
-
+  (fps 20.0)
+  (hitbox 14 19 32 32)
+  (images "chase-0.png"
+          "chase-1.png"
+		  "chase-2.png"
+		  "chase-3.png"
+		  "chase-4.png"
+		  "chase-5.png"
+		  "chase-6.png"
+		  "chase-7.png"))
  (action
   (name "ticking-right")
-  (fps 10.0)
-  (hitbox 5 11 32 32)
+  (fps 20.0)
+  (hitbox 14 19 32 32)
   (mirror-action "ticking-left"))
-  
-  (action
+
+ (action
   (name "active-left")
   (loops 1)
-  (fps 12.0)
-  (hitbox 5 11 32 32)
-  (images "hwtrigger1.png"
-		  "hwtrigger1.png"
-		  "hwtrigger1.png"
-		  "hwtrigger1.png"
-		  "hwtrigger2.png"
-          "hwtrigger3.png"
-		  "hwtrigger4.png"
-		  "hwtrigger4.png"
-		  "hwtrigger4.png"
-		  "hwtrigger4.png"
-		  "hwtrigger4.png"
-		  "hwtrigger4.png"))
+  (fps 20.0)
+  (hitbox 14 19 32 32)
+  (images "triggered-0.png"
+		  "triggered-0.png"
+		  "triggered-0.png"
+		  "triggered-0.png"
+		  "triggered-1.png"
+		  "triggered-2.png"
+		  "triggered-3.png"
+		  "triggered-4.png"
+		  "triggered-5.png"
+		  "triggered-6.png"
+		  "triggered-7.png"
+		  "triggered-6.png"
+		  "triggered-7.png"
+		  "triggered-8.png"))
 
  (action
   (name "active-right")
   (loops 1)
-  (fps 12.0)
-  (hitbox 5 11 32 32)
+  (fps 20.0)
+  (hitbox 14 19 32 32)
   (mirror-action "active-left"))
+
+ (action
+  (name "skid-left")
+  (loops 1)
+  (fps 20.0)
+  (hitbox 14 19 32 32)
+  (images "skid-0.png"
+		  "skid-1.png"
+		  "skid-2.png"
+		  "skid-3.png"))
+
+ (action
+  (name "skid-right")
+  (loops 1)
+  (fps 20.0)
+  (hitbox 14 19 32 32)
+  (mirror-action "skid-left"))
+
+ (action
+  (name "jump-left")
+  (loops 1)
+  (fps 20.0)
+  (hitbox 14 19 32 32)
+  (images "jump-0.png"
+		  "jump-1.png"
+		  "jump-2.png"
+		  "jump-3.png"))
+
+ (action
+  (name "jump-right")
+  (loops 1)
+  (fps 20.0)
+  (hitbox 14 19 32 32)
+  (mirror-action "jump-left"))
 )

@@ -4,13 +4,15 @@
 # 
 # Translators:
 # Любомир Василев, 2015-2016
+# Vankata 453, 2021
 # Любомир Василев, 2016,2018-2019
+# Любомир Василев, 2020-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2019-11-24 01:44+0100\n"
-"PO-Revision-Date: 2019-11-24 22:22+0000\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2021-12-18 19:43+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -23,26 +25,26 @@ msgstr ""
 msgid "Ancient Ruins"
 msgstr "Древни останки"
 
-#: data/levels/world2/ancient_ruins.stl:1415
-#: data/levels/world2/ancient_ruins.stl:1423
-#: data/levels/world2/bouncy_coils.stl:237
-#: data/levels/world2/bouncy_coils.stl:245
-#: data/levels/world2/bye_bye_forest.stl:977
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
 #: data/levels/world2/crumbling_path.stl:278
 #: data/levels/world2/crumbling_path.stl:1651
-#: data/levels/world2/going_underground.stl:199
-#: data/levels/world2/going_underground.stl:1199
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
 #: data/levels/world2/mouldy_grotto.stl:559
 #: data/levels/world2/penguin_grow_trees.stl:459
 #: data/levels/world2/penguin_grow_trees.stl:467
-#: data/levels/world2/through_dark.stl:309
-#: data/levels/world2/tux_builder.stl:283
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
 #: data/levels/world2/wooden_roots.stl:279
-#: data/levels/world2/worldmap.stwm:185
+#: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
 msgstr "Ти откри тайно място!"
 
-#: data/levels/world2/besides_bushes.stl:3
+#: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
 msgstr "Около храстите"
 
@@ -66,7 +68,7 @@ msgstr "Тъмнината чака"
 msgid "Find the Bigger Fish!"
 msgstr "Намери по-голямата риба!"
 
-#: data/levels/world2/find_big_fish.stl:800
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
 msgstr "-Голяма риба… за теб."
 
@@ -90,7 +92,7 @@ msgstr "Предизвикателствата на призрачното дъ�
 msgid "Ghouls' Lair"
 msgstr "Леговището на таласъма"
 
-#: data/levels/world2/ghouls_lair.stl:421
+#: data/levels/world2/ghouls_lair.stl:849
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -104,13 +106,13 @@ msgstr "Слизане под земята"
 msgid "I Spy With My Little Eye"
 msgstr "Виждам всичко"
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:173
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr "-Шпионче\n#Шпиончетата активират различни неща, като например платформи, когато Тъкс влезе в полезрението им."
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:547
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
 msgid "Hint: Use snails to break blocks!"
 msgstr "Съвет: Използвай охлюви, за да чупиш блокчета!"
 
@@ -122,7 +124,7 @@ msgstr "Като лист на вятъра"
 msgid "Lost Village"
 msgstr "Изгубеното село"
 
-#: data/levels/world2/lost_village.stl:142
+#: data/levels/world2/lost_village.stl:187
 msgid "#Don't forget to hit the switch!"
 msgstr "#Не забравяй да натиснеш превключвателя!"
 
@@ -141,10 +143,6 @@ msgstr "Гмуркащ се във въздуха бухал-командос"
 #: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
 msgstr "Пингвините на растат по дърветата"
-
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr "---Да се добави филмче тук---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -178,7 +176,7 @@ msgstr "Кулата на духовете"
 msgid "Tux the Builder"
 msgstr "Строителят Тъкс"
 
-#: data/levels/world2/tux_builder.stl:80
+#: data/levels/world2/tux_builder.stl:77
 msgid ""
 "-Portable Objects:\n"
 "!images/objects/rock/rock.png\n"
@@ -190,11 +188,11 @@ msgstr "-Подвижни предмети:\n!images/objects/rock/rock.png\n#Т�
 msgid "Tux' Own Horror Show"
 msgstr "Шоуто на ужасите на Тъкс"
 
-#: data/levels/world2/tux_own_horror_show.stl:280
+#: data/levels/world2/tux_own_horror_show.stl:790
 msgid ""
-"#Willow-wisps are small, annoying ghosts, which transport you to different, "
-"often dangerous places."
-msgstr "#Светлинките са малки дразнещи духчета, които те пренасят на различни, и обикновено опасни, места."
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr "#Светлинките са малки, дразнещи духчета, които те пренасят на различни, обикновено опасни места."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -216,9 +214,9 @@ msgid "Wooden Roots"
 msgstr "Дървесни корени"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest Island"
-msgstr "Гористият остров"
+msgid "Rooted Forest"
+msgstr "Вкоренената гора"
 
-#: data/levels/world2/worldmap.stwm:199
+#: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."
 msgstr "Следва продължение…"

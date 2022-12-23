@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
 #define HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
 
+#include <editor/bezier_marker.hpp>
 #include "editor/marker_object.hpp"
 #include "object/path.hpp"
 
 class NodeMarker : public MarkerObject
 {
 public:
-  NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);
+  NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_, UID before, UID after);
 
   virtual void move_to(const Vector& pos) override;
   virtual void editor_delete() override;
@@ -32,15 +33,23 @@ public:
   virtual bool has_settings() const override { return true; }
   virtual ObjectSettings get_settings() override;
   virtual void editor_update() override;
+  virtual void remove_me() override;
 
   void update_iterator();
   void update_node_times();
+
+  /** Moves the bezier marker that ISN'T @c marker to the given position. */
+  /** Can't make the by reference because of overlay_widget.cpp */
+  void move_other_marker(UID marker, Vector position);
 
 private:
   Path* m_path;
   std::vector<Path::Node>::iterator prev_node();
   std::vector<Path::Node>::const_iterator next_node() const;
   void update_node_time(std::vector<Path::Node>::iterator current, std::vector<Path::Node>::const_iterator next);
+
+  UID m_bezier_before;
+  UID m_bezier_after;
 
 public:
   std::vector<Path::Node>::iterator m_node;

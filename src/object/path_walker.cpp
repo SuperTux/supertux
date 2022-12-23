@@ -21,12 +21,19 @@
 
 #include "editor/editor.hpp"
 #include "editor/object_option.hpp"
+#include "math/bezier.hpp"
 #include "math/random.hpp"
 #include "object/path_gameobject.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 #include "math/easing.hpp"
+
+Vector
+PathWalker::Handle::get_pos(const Sizef& size, const Vector& pos) const
+{
+  return pos - Vector(size.width * m_scalar_pos.x, size.height * m_scalar_pos.y) - m_pixel_offset;
+}
 
 PathWalker::PathWalker(UID path_uid, bool running_) :
   m_path_uid(path_uid),
@@ -99,7 +106,7 @@ PathWalker::update(float dt_sec)
 }
 
 Vector
-PathWalker::get_pos() const
+PathWalker::get_pos(const Sizef& object_size, const Handle& handle) const
 {
   Path* path = get_path();
   if (!path) return Vector(0, 0);
@@ -109,13 +116,22 @@ PathWalker::get_pos() const
   const Path::Node* current_node = &(path->m_nodes[m_current_node_nr]);
   const Path::Node* next_node = & (path->m_nodes[m_next_node_nr]);
   
-  easing easeFunc = getEasingByName(current_node->easing);
+  easing easeFunc = m_walking_speed > 0 ?
+                          getEasingByName(current_node->easing) :
+                          getEasingByName(get_reverse_easing(next_node->easing));
   
-  Vector new_pos = current_node->position +
-    (next_node->position - current_node->position) *
-    static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
+  float progress = static_cast<float>(easeFunc(static_cast<double>(m_node_time)));
 
-  return new_pos;
+  Vector p1 = current_node->position,
+         p2 = m_walking_speed > 0 ? current_node->bezier_after : current_node->bezier_before,
+         p3 = m_walking_speed > 0 ? next_node->bezier_before : next_node->bezier_after,
+         p4 = next_node->position;
+
+  Vector position = path->m_adapt_speed ?
+                          Bezier::get_point(p1, p2, p3, p4, progress) :
+                          Bezier::get_point_by_length(p1, p2, p3, p4, progress);
+
+  return handle.get_pos(object_size, position);
 }
 
 void
@@ -127,6 +143,24 @@ PathWalker::goto_node(int node_no)
   if (node_no == m_stop_at_node_nr) return;
   m_running = true;
   m_stop_at_node_nr = node_no;
+}
+
+void
+PathWalker::jump_to_node(int node_no)
+{
+  Path* path = get_path();
+  if (!path) return;
+
+  if (node_no >= static_cast<int>(path->get_nodes().size())) return;
+  m_next_node_nr = static_cast<size_t>(node_no);
+  if (m_walking_speed > 0) {
+    advance_node();
+  } else if (m_walking_speed < 0) {
+    goback_node();
+  } else {
+    m_current_node_nr = m_next_node_nr;
+  }
+  m_node_time = 0.f;
 }
 
 void

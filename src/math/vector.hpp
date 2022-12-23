@@ -16,16 +16,12 @@
 
 #ifndef HEADER_SUPERTUX_MATH_VECTOR_HPP
 #define HEADER_SUPERTUX_MATH_VECTOR_HPP
-#if defined(__arm__) && !defined(__ANDROID__)
-#define GLM_ENABLE_EXPERIMENTAL
-#endif
 
 #include <math.h>
 #include <iosfwd>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <glm/gtx/io.hpp>
-
 
 using Vector = glm::vec2;
 

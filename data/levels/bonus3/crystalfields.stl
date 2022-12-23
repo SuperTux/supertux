@@ -4,16 +4,27 @@
   (author "CT. da'Bomb")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 30)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.5)
       (image-top "images/background/bluemountain-top.png")
       (image "images/background/bluemountain-middle.png")
       (image-bottom "images/background/bluemountain-bottom.png")
+    )
+    (background
+      (color 1 1 1)
+      (speed 0.5)
+      (image-top "/images/background/bluemountain/bluemountain-top.png")
+      (image "/images/background/bluemountain/bluemountain-top.png")
+      (image-bottom "/images/background/bluemountain/bluemountain-top.png")
+      (z-pos -310)
     )
     (bouncingsnowball
       (x 1409)
@@ -89,6 +100,7 @@
     (path
       (name "88974276-8394-4376-a21c-c502ff9b306e")
       (path
+        (adapt_speed #f)
         (node
           (x 2752)
           (y 1280)
@@ -650,6 +662,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 190)
       (name "secret")

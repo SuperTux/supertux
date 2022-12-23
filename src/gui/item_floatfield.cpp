@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//                2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,124 +17,116 @@
 
 #include "gui/item_floatfield.hpp"
 
-#include "supertux/colorscheme.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
-#include "video/drawing_context.hpp"
-
-ItemFloatField::ItemFloatField(const std::string& text_, float* input_, int id_) :
-  MenuItem(text_, id_),
+ItemFloatField::ItemFloatField(const std::string& text_, float* input_, int id_, bool positive) :
+  ItemTextField(text_, new std::string, id_),
   number(input_),
-  input(std::to_string(*input_)),
-  flickw(static_cast<int>(Resources::normal_font->get_text_width("_"))),
-  has_comma(true)
+  m_input(std::to_string(*input_)),
+  m_has_comma(true),
+  m_positive(positive) // Forces an always positive number
 {
-  // removing all redundant zeros at the end
-  for (auto i = input.end() - 1; i != input.begin(); --i) {
+  change_input(m_input);
+
+  // Removing all redundant zeros at the end.
+  for (auto i = input->end() - 1; i != input->begin(); --i) {
     char c = *i;
-    if (c == '.') {
-      input.resize(input.length() - 1);
-      has_comma = false;
+    if (c == '.')
+    {
+      input->resize(input->size() - 1);
+      m_has_comma = false;
     }
-    if (c != '0') {
-      break;
-    }
-    input.resize(input.length() - 1);
+    if (c != '0') break;
+    input->resize(input->size() - 1);
+  }
+
+  // Remove minus, if the number has one, but it's only allowed to be positive.
+  if (*input->begin() == '-' && m_positive)
+  {
+    if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
+    input->erase(input->begin());
+    *number *= -1;
   }
 }
 
-void
-ItemFloatField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  std::string r_input = input;
-  bool fl = active && (int(g_real_time*2)%2);
-  if ( fl ) {
-    r_input += "_";
-  }
-  context.color().draw_text(Resources::normal_font, r_input,
-                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(fl ? 0 : flickw),
-                                   pos.y - Resources::normal_font->get_height() / 2.0f),
-                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-  context.color().draw_text(Resources::normal_font, get_text(),
-                            Vector(pos.x + 16.0f,
-                                   pos.y - Resources::normal_font->get_height() / 2.0f),
-                            ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
-}
-
-int
-ItemFloatField::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(get_text()) + Resources::normal_font->get_text_width(input)) + 16 + flickw;
+ItemFloatField::~ItemFloatField()
+{
+  delete input;
 }
 
 void
-ItemFloatField::event(const SDL_Event& ev) {
-  if (ev.type == SDL_TEXTINPUT) {
-    std::string txt = ev.text.text;
-    for (auto i = txt.begin(); i != txt.end(); ++i) {
-      add_char(*i);
-    }
-  }
-}
-
-void
-ItemFloatField::add_char(char c) {
-  if (c == '-') {
-    if (input.length() && input != "0") {
-      *number *= -1;
-      if (*input.begin() == '-') {
-        input.erase(input.begin());
-      } else {
-        input.insert(input.begin(),'-');
+ItemFloatField::add_char(char c, const int left_offset_pos)
+{
+  if (c == '-' && !m_positive)
+  {
+    if (!input->empty() && *input != "0")
+    {
+      if (*input->begin() == '-')
+      {
+        if (m_cursor_left_offset == static_cast<int>(input->size())) m_cursor_left_offset--;
+        input->erase(input->begin());
       }
-    } else {
-      input = "-";
+      else
+      {
+        input->insert(input->begin(), '-');
+      }
     }
-  } else if (!has_comma && (c == '.' || c == ',')) {
-    if (!input.length()) {
-      input = "0.";
-    } else {
-      input.push_back('.');
+    else
+    {
+      *input = "-";
     }
-    has_comma = true;
+  }
+  else if (!m_has_comma && (c == '.' || c == ','))
+  {
+    if (left_offset_pos == static_cast<int>(input->size()))
+    {
+      *input = "0." + *input;
+    }
+    else
+    {
+      *input = input->substr(0, input->size() - left_offset_pos) + '.' +
+        input->substr(input->size() - left_offset_pos);
+    }
   }
 
-  if (c < '0' || c > '9') {
+  if (c >= '0' && c <= '9')
+  {
+    *input = input->substr(0, input->size() - left_offset_pos) + c +
+      input->substr(input->size() - left_offset_pos);
+  }
+}
+
+void
+ItemFloatField::on_input_update()
+{
+  if (input->empty() || *input == "-")
+  {
+    m_has_comma = false;
+    *number = 0;
     return;
   }
 
-  input.push_back(c);
-  try {
-    float new_number = std::stof(input);
-    *number = new_number;
-  } catch (...) {
-    input = std::to_string(*number);
+  m_has_comma = input->find(".") != std::string::npos;
+
+  try
+  {
+    *number = std::stof(*input);
+  }
+  catch (...)
+  {
+    *input = std::to_string(*number);
   }
 }
 
+// Text manipulation and navigation functions
+
 void
-ItemFloatField::process_action(const MenuAction& action) {
-  if (action == MenuAction::REMOVE && input.length()) {
-    unsigned char last_char;
-    do {
-      last_char = *(--input.end());
-      input.resize(input.length() - 1);
-      if (input.length() == 0) {
-        break;
-      }
-      if (last_char == '.') {
-        has_comma = false;
-      }
-    } while ( (last_char & 128) && !(last_char & 64) );
-    if (input.length() && input != "-") {
-      try {
-        *number = std::stof(input);
-      }
-      catch(...) {
-        input = std::to_string(*number);
-      }
-    } else {
-      *number = 0;
-    }
+ItemFloatField::insert_text(const std::string& text, const int left_offset_pos)
+{
+  update_undo();
+  for (auto& c : text)
+  {
+    add_char(c, left_offset_pos);
   }
+  on_input_update();
 }
 
 /* EOF */

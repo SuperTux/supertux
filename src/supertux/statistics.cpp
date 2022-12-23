@@ -293,8 +293,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
   tcolor = Statistics::text_color;
   if (target_time == 0.0f || (m_time != 0.0f && m_time < target_time))
     tcolor = Statistics::perfect_color;
-  else
-    tcolor = Statistics::text_color;
+
   context.color().draw_text(Resources::normal_font, _("Time"), Vector(col2_x - 16, row2_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
   context.color().draw_text(Resources::normal_font, time_to_string(m_time), Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_HUD, tcolor);
   if (best_stats) {

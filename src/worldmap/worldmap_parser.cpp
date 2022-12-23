@@ -78,7 +78,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
     }
     /* load default tileset */
     if (m_worldmap.m_tileset == nullptr) {
-      m_worldmap.m_tileset = TileManager::current()->get_tileset("images/worldmap.strf");
+      m_worldmap.m_tileset = TileManager::current()->get_tileset("images/ice_world.strf");
     }
 
     boost::optional<ReaderMapping> sector;
@@ -146,7 +146,7 @@ WorldMapParser::load_worldmap(const std::string& filename)
     m_worldmap.flush_game_objects();
 
     if (m_worldmap.get_solid_tilemaps().empty())
-      throw std::runtime_error("No solid tilemap specified");
+      log_warning << "No solid tilemap specified" << std::endl;
 
     m_worldmap.move_to_spawnpoint("main");
 

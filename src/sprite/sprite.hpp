@@ -19,6 +19,7 @@
 
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_ptr.hpp"
+#include "supertux/direction.hpp"
 #include "video/canvas.hpp"
 #include "video/drawing_context.hpp"
 
@@ -37,11 +38,25 @@ public:
   /** Set action (or state) */
   void set_action(const std::string& name, int loops = -1);
 
+  /** Composes action (or state) string from an action name and a particular direction
+   * in the form of "name-direction", eg. "walk-left" 
+   */
+  void set_action(const std::string& name, const Direction& dir, int loops = -1);
+
+  /** Composes action (or state) string from a particular direction
+   * in the form of "direction", e.g. "left"
+   */
+  void set_action(const Direction& dir, int loops = -1);
+
   /** Set action (or state), but keep current frame number, loop counter, etc. */
   void set_action_continued(const std::string& name);
 
   /** Set number of animation cycles until animation stops */
   void set_animation_loops(int loops = -1) { m_animation_loops = loops; }
+
+  void set_frame_progress(float frame_progress) { m_frame = frame_progress; }
+
+  void set_frame(int frame) { m_frameidx = frame; }
 
   /* Stop animation */
   void stop_animation() { m_animation_loops = 0; }
@@ -54,6 +69,9 @@ public:
 
   /** Get currently drawn frame */
   int get_current_frame() const { return m_frameidx; }
+
+  /** Get current frame progress */
+  float get_current_frame_progress() const { return m_frame; }
 
   /** Get sprite's name */
   const std::string& get_name() const { return m_data.name; }

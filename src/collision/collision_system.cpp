@@ -691,7 +691,7 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
 }
 
 bool
-CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, const CollisionObject* ignore_object) const
+CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const
 {
   using namespace collision;
 
@@ -704,12 +704,21 @@ CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line
   for (float test_x = lsx; test_x <= lex; test_x += 16) { // NOLINT
     for (float test_y = lsy; test_y <= ley; test_y += 16) { // NOLINT
       for (const auto& solids : m_sector.get_solid_tilemaps()) {
-        const Tile& tile = solids->get_tile_at(Vector(test_x, test_y));
+        const auto& test_vector = Vector(test_x, test_y);
+        if(solids->is_outside_bounds(test_vector))
+        {
+          continue;
+        }
+        
+        const Tile& tile = solids->get_tile_at(test_vector);
         // FIXME: check collision with slope tiles
         if ((tile.get_attributes() & Tile::SOLID)) return false;
       }
     }
   }
+
+  if (ignore_objects)
+    return true;
 
   // check if no object is in the way
   for (const auto& object : m_objects) {

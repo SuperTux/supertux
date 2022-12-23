@@ -21,11 +21,13 @@
 #include <memory>
 
 #include "editor/object_option.hpp"
+#include "object/path_walker.hpp"
 
 #include <algorithm>
 
 class Color;
 enum class Direction;
+class PathObject;
 enum class WalkMode;
 namespace worldmap {
 enum class Direction;
@@ -54,6 +56,7 @@ public:
                const std::string& key = {},
                const boost::optional<int>& default_value = {},
                unsigned int flags = 0);
+  void add_label(const std::string& text, unsigned int flags = 0);
   void add_rectf(const std::string& text, Rectf* value_ptr,
                  const std::string& key = {},
                  unsigned int flags = 0);
@@ -91,6 +94,14 @@ public:
                              const std::string& key = {},
                              const boost::optional<std::string>& default_value = {},
                              unsigned int flags = 0);
+  void add_multiline_text(const std::string& text, std::string* value_ptr,
+                          const std::string& key = {},
+                          const boost::optional<std::string>& default_value = {},
+                          unsigned int flags = 0);
+  void add_multiline_translatable_text(const std::string& text, std::string* value_ptr,
+                                       const std::string& key = {},
+                                       const boost::optional<std::string>& default_value = {},
+                                       unsigned int flags = 0);
   void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
                          const boost::optional<int>& default_value = {},
                          const std::string& key = {}, unsigned int flags = 0);
@@ -125,18 +136,23 @@ public:
                  unsigned int flags = 0);
   void add_path(const std::string& text, Path* path, const std::string& key = {},
                  unsigned int flags = 0);
-  void add_path_ref(const std::string& text, const std::string& path_ref, const std::string& key = {},
-                    unsigned int flags = 0);
+  void add_path_ref(const std::string& text, PathObject& target, const std::string& path_ref,
+                    const std::string& key = {}, unsigned int flags = 0);
   void add_file(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
                 const boost::optional<std::string>& default_value = {},
                 const std::vector<std::string>& filter = {},
                 const std::string& basedir = {},
+                bool path_relative_to_basedir = true,
                 unsigned int flags = 0);
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
+  void add_string_array(const std::string& text, const std::string& key, std::vector<std::string>& items);
   void add_test_from_here();
   void add_particle_editor();
+  void add_path_handle(const std::string& text, PathWalker::Handle& handle,
+                       const std::string& key = {}, unsigned int flags = 0);
+  void add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
 
   // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
   void add_button(const std::string& text, const std::function<void()>& callback);

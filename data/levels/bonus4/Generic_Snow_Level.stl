@@ -10,6 +10,7 @@
       (color 1 1 1)
     )
     (background
+      (color 1 1 1)
       (speed 0.2)
       (image "images/background/arctis2.png")
     )
@@ -53,6 +54,11 @@
       (direction "left")
       (x 7616)
       (y 896)
+    )
+    (gradient
+      (top_color 0.3 0.4 0.75)
+      (bottom_color 1 0.8 1)
+      (z-pos -310)
     )
     (jumpy
       (direction "left")

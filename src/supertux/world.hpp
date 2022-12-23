@@ -34,11 +34,14 @@ private:
 public:
   std::string get_basedir() const { return m_basedir; }
   std::string get_title() const { return m_title; }
+  std::string get_description() const { return m_description; }
 
   bool hide_from_contribs() const { return m_hide_from_contribs; }
 
   bool is_levelset() const { return m_is_levelset; }
   bool is_worldmap() const { return !m_is_levelset; }
+  
+  std::string get_contrib_type() const { return m_contrib_type; }
 
   std::string get_worldmap_filename() const;
   std::string get_savegame_filename() const;
@@ -53,6 +56,7 @@ public:
 private:
   std::string m_basedir;
   bool m_hide_from_contribs;
+  std::string m_contrib_type; // Type of world if it is contrib: official, community, user
 
 private:
   World(const World&) = delete;

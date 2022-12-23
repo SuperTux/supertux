@@ -118,6 +118,29 @@ IntObjectOption::add_to_menu(Menu& menu) const
   menu.add_intfield(get_text(), m_pointer);
 }
 
+LabelObjectOption::LabelObjectOption(const std::string& text,
+                                 unsigned int flags) :
+  ObjectOption(text, "", flags)
+{
+}
+
+void
+LabelObjectOption::save(Writer& writer) const
+{
+}
+
+std::string
+LabelObjectOption::to_string() const
+{
+  return "";
+}
+
+void
+LabelObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_label(m_text);
+}
+
 RectfObjectOption::RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
@@ -215,6 +238,42 @@ void
 StringObjectOption::add_to_menu(Menu& menu) const
 {
   menu.add_textfield(get_text(), m_pointer);
+}
+
+StringMultilineObjectOption::StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
+                                       boost::optional<std::string> default_value,
+                                       unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_pointer(pointer),
+  m_default_value(std::move(default_value))
+{
+}
+
+void
+StringMultilineObjectOption::save(Writer& writer) const
+{
+  if (!get_key().empty()) {
+    if ((m_default_value && *m_default_value == *m_pointer) || m_pointer->empty()) {
+      // skip
+    } else {
+      writer.write(get_key(), *m_pointer, (get_flags() & OPTION_TRANSLATABLE));
+    }
+  }
+}
+
+std::string
+StringMultilineObjectOption::to_string() const
+{
+  if (!m_pointer->empty()) {
+    return "...";
+  }
+  return "";
+}
+
+void
+StringMultilineObjectOption::add_to_menu(Menu& menu) const
+{
+  menu.add_script(get_text(), m_pointer);
 }
 
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
@@ -347,12 +406,14 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
                                    const std::string& key,
                                    std::vector<std::string> filter,
                                    const std::string& basedir,
+                                   bool path_relative_to_basedir,
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
   m_default_value(std::move(default_value)),
   m_filter(std::move(filter)),
-  m_basedir(basedir)
+  m_basedir(basedir),
+  m_path_relative_to_basedir(path_relative_to_basedir)
 {
 }
 
@@ -381,7 +442,7 @@ FileObjectOption::to_string() const
 void
 FileObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_file(get_text(), m_pointer, m_filter, m_basedir);
+  menu.add_file(get_text(), m_pointer, m_filter, m_basedir, m_path_relative_to_basedir);
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
@@ -499,10 +560,11 @@ PathObjectOption::add_to_menu(Menu& menu) const
 {
 }
 
-PathRefObjectOption::PathRefObjectOption(const std::string& text, const std::string& path_ref, const std::string& key,
-                                   unsigned int flags) :
+PathRefObjectOption::PathRefObjectOption(const std::string& text, PathObject& target, const std::string& path_ref,
+                                         const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
-  m_path_ref(path_ref)
+  m_path_ref(path_ref),
+  m_target(target)
 {
 }
 
@@ -523,6 +585,7 @@ PathRefObjectOption::to_string() const
 void
 PathRefObjectOption::add_to_menu(Menu& menu) const
 {
+  menu.add_path_settings(m_text, m_target, m_path_ref);
 }
 
 SExpObjectOption::SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value,
@@ -549,6 +612,43 @@ SExpObjectOption::to_string() const
 void
 SExpObjectOption::add_to_menu(Menu& menu) const
 {
+}
+
+PathHandleOption::PathHandleOption(const std::string& text, PathWalker::Handle& handle,
+                                         const std::string& key, unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_target(handle)
+{
+}
+
+void
+PathHandleOption::save(Writer& writer) const
+{
+  writer.start_list(get_key());
+  writer.write("scale_x", m_target.m_scalar_pos.x);
+  writer.write("scale_y", m_target.m_scalar_pos.y);
+  writer.write("offset_x", m_target.m_pixel_offset.x);
+  writer.write("offset_y", m_target.m_pixel_offset.y);
+  writer.end_list(get_key());
+}
+
+std::string
+PathHandleOption::to_string() const
+{
+  return "("
+        + std::to_string(m_target.m_scalar_pos.x) + ", "
+        + std::to_string(m_target.m_scalar_pos.y) + "), ("
+        + std::to_string(m_target.m_pixel_offset.x) + ", "
+        + std::to_string(m_target.m_pixel_offset.y) + ")";
+}
+
+void
+PathHandleOption::add_to_menu(Menu& menu) const
+{
+  menu.add_floatfield(get_text() + " (" + _("Scale X") + ")", &m_target.m_scalar_pos.x);
+  menu.add_floatfield(get_text() + " (" + _("Scale Y") + ")", &m_target.m_scalar_pos.y);
+  menu.add_floatfield(get_text() + " (" + _("Offset X") + ")", &m_target.m_pixel_offset.x);
+  menu.add_floatfield(get_text() + " (" + _("Offset Y") + ")", &m_target.m_pixel_offset.y);
 }
 
 RemoveObjectOption::RemoveObjectOption() :
@@ -620,4 +720,38 @@ ButtonOption::add_to_menu(Menu& menu) const
   menu.add_entry(get_text(), m_callback);
 }
 
+StringArrayOption::StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items) :
+  ObjectOption(text, key, 0),
+  m_items(items)
+{}
+
+void
+StringArrayOption::save(Writer& write) const
+{
+  write.write("strings", m_items);
+}
+
+void
+StringArrayOption::add_to_menu(Menu& menu) const
+{
+  menu.add_string_array(get_text(), m_items);
+}
+
+ListOption::ListOption(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr) :
+  ObjectOption(text, key, 0),
+  m_items(items),
+  m_value_ptr(value_ptr)
+{}
+
+void
+ListOption::save(Writer& writer) const
+{
+  writer.write(get_key(), *m_value_ptr);
+}
+
+void
+ListOption::add_to_menu(Menu& menu) const
+{
+  menu.add_list(get_text(), m_items, m_value_ptr);
+}
 /* EOF */

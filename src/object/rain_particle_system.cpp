@@ -109,13 +109,14 @@ RainParticleSystem::get_settings()
 void RainParticleSystem::set_amount(float amount)
 {
   // Don't spawn too many particles to avoid destroying the player's computer
-  float real_amount = (amount < min_amount) ? min_amount : amount;
-        real_amount = (amount > max_amount) ? max_amount : amount;
+  float real_amount = amount < min_amount ? min_amount
+    : amount > max_amount ? max_amount
+    : amount;
 
   int old_raindropcount = static_cast<int>(virtual_width*m_current_real_amount/6.0f);
   int new_raindropcount = static_cast<int>(virtual_width*real_amount/6.0f);
   int delta = new_raindropcount - old_raindropcount;
-  
+
   if (delta > 0) {
     for (int i=0; i<delta; ++i) {
       auto particle = std::make_unique<RainParticle>();
@@ -139,7 +140,7 @@ void RainParticleSystem::set_amount(float amount)
 
 void RainParticleSystem::set_angle(float angle)
 {
-  for (auto& particle : particles)
+  for (const auto& particle : particles)
     particle->angle = angle;
 }
 
@@ -196,13 +197,16 @@ void RainParticleSystem::update(float dt_sec)
     set_angle(m_current_angle);
   }
 
+  const auto& cam_translation = Sector::get().get_camera().get_translation();
+  float movement_multiplier = dt_sec * Sector::get().get_gravity() * m_current_speed * 1.41421353f;
+  float abs_x = cam_translation.x;
+  float abs_y = cam_translation.y;
+
   for (auto& it : particles) {
     auto particle = dynamic_cast<RainParticle*>(it.get());
     assert(particle);
 
-    float movement = particle->speed * dt_sec * Sector::get().get_gravity() * m_current_speed * 1.41421353f;
-    float abs_x = Sector::get().get_camera().get_translation().x;
-    float abs_y = Sector::get().get_camera().get_translation().y;
+    float movement = particle->speed * movement_multiplier;
     particle->pos.y += movement * cosf((particle->angle + 45.f) * 3.14159265f / 180.f);
     particle->pos.x -= movement * sinf((particle->angle + 45.f) * 3.14159265f / 180.f);
     int col = collision(particle, Vector(-movement, movement));
@@ -243,7 +247,7 @@ void RainParticleSystem::fade_speed(float new_speed, float fade_time)
   {
     m_current_speed = new_speed;
   }
-  
+
   m_target_speed = new_speed;
   m_speed_fade_time_remaining = fade_time;
 }
@@ -257,7 +261,7 @@ void RainParticleSystem::fade_angle(float new_angle, float fade_time, easing eas
   {
     m_current_angle = new_angle - 45.f;
   }
-  
+
   m_begin_angle = m_current_angle;
   m_target_angle = new_angle - 45.f;
   m_angle_fade_time_total = fade_time;
@@ -274,7 +278,7 @@ void RainParticleSystem::fade_amount(float new_amount, float fade_time)
   {
     m_current_amount = new_amount;
   }
-  
+
   m_target_amount = new_amount;
   m_amount_fade_time_remaining = fade_time;
 }
@@ -282,7 +286,7 @@ void RainParticleSystem::fade_amount(float new_amount, float fade_time)
 void RainParticleSystem::draw(DrawingContext& context)
 {
   ParticleSystem_Interactive::draw(context);
-  
+
   if (!enabled)
     return;
 

@@ -136,9 +136,7 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager()),
   m_controller_hud(new ControllerHUD),
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   m_mobile_controller(),
-#endif
   last_ticks(0),
   elapsed_ticks(0),
   ms_per_step(static_cast<Uint32>(1000.0f / LOGICAL_FPS)),
@@ -251,13 +249,20 @@ ScreenManager::draw_player_pos(DrawingContext& context)
   if (auto session = GameSession::current())
   {
     Sector& sector = session->get_current_sector();
-    auto pos = sector.get_player().get_pos();
-    auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
 
-    context.color().draw_text(
-      Resources::small_font, pos_text,
-      Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
-             BORDER_Y + 60), ALIGN_LEFT, LAYER_HUD);
+    float height = 0;
+    for (const auto* p : sector.get_players())
+    {
+      auto pos = p->get_pos();
+      auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
+
+      context.color().draw_text(
+        Resources::small_font, pos_text,
+        Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
+              BORDER_Y + 60 + height), ALIGN_LEFT, LAYER_HUD);
+
+      height += 30;
+    }
   }
 }
 
@@ -279,9 +284,8 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 
   Console::current()->draw(context);
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  m_mobile_controller.draw(context);
-#endif
+  if (g_config->mobile_controls)
+    m_mobile_controller.draw(context);
 
   if (g_config->show_fps)
     draw_fps(context, fps_statistics);
@@ -303,10 +307,11 @@ ScreenManager::update_gamelogic(float dt_sec)
 {
   Controller& controller = m_input_manager.get_controller();
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  m_mobile_controller.update();
-  m_mobile_controller.apply(controller);
-#endif
+  if (g_config->mobile_controls)
+  {
+    m_mobile_controller.update();
+    m_mobile_controller.apply(controller);
+  }
 
   SquirrelVirtualMachine::current()->update(g_game_time);
 
@@ -333,16 +338,21 @@ ScreenManager::process_events()
   auto session = GameSession::current();
   while (SDL_PollEvent(&event))
   {
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
     switch (event.type)
     {
       case SDL_FINGERDOWN:
       {
+        SDL_Event old_event = event;
+
         SDL_Event event2;
+
+        if (m_mobile_controller.process_finger_down_event(event.tfinger))
+          break; // Event was processed by touch controls, do not generate mouse event
+
         event2.type = SDL_MOUSEBUTTONDOWN;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
 
         event.type = SDL_MOUSEMOTION;
@@ -354,12 +364,19 @@ ScreenManager::process_events()
 
       case SDL_FINGERUP:
       {
+        SDL_Event old_event = event;
+
+        // Always generate mouse up event, because the finger can generate mouse click
+        // and then move to the screen button, and the mouse button will stay pressed
         SDL_Event event2;
         event2.type = SDL_MOUSEBUTTONUP;
         event2.button.button = SDL_BUTTON_LEFT;
-        event2.button.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event2.button.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
+        event2.button.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event2.button.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
         SDL_PushEvent(&event2);
+
+        if (m_mobile_controller.process_finger_up_event(event.tfinger))
+          break; // Event was processed by touch controls, do not generate mouse event
 
         event.type = SDL_MOUSEMOTION;
         event.motion.x = event2.button.x;
@@ -369,15 +386,19 @@ ScreenManager::process_events()
       }
 
       case SDL_FINGERMOTION:
+        SDL_Event old_event = event;
+
+        if (m_mobile_controller.process_finger_motion_event(event.tfinger))
+          break; // Event was processed by touch controls, do not generate mouse event
+
         event.type = SDL_MOUSEMOTION;
-        event.motion.x = Sint32(event.tfinger.x * float(m_video_system.get_window_size().width));
-        event.motion.y = Sint32(event.tfinger.y * float(m_video_system.get_window_size().height));
-        event.motion.xrel = Sint32(event.tfinger.dx * float(m_video_system.get_window_size().width));
-        event.motion.yrel = Sint32(event.tfinger.dy * float(m_video_system.get_window_size().height));
+        event.motion.x = Sint32(old_event.tfinger.x * float(m_video_system.get_window_size().width));
+        event.motion.y = Sint32(old_event.tfinger.y * float(m_video_system.get_window_size().height));
+        event.motion.xrel = Sint32(old_event.tfinger.dx * float(m_video_system.get_window_size().width));
+        event.motion.yrel = Sint32(old_event.tfinger.dy * float(m_video_system.get_window_size().height));
         MouseCursor::current()->set_pos(event.motion.x, event.motion.y);
         break;
     }
-#endif
     m_input_manager.process_event(event);
 
     m_menu_manager->event(event);
@@ -407,6 +428,7 @@ ScreenManager::process_events()
             }
             break;
 
+          case SDL_WINDOWEVENT_HIDDEN:
           case SDL_WINDOWEVENT_FOCUS_LOST:
             if (g_config->pause_on_focusloss)
             {
@@ -424,6 +446,7 @@ ScreenManager::process_events()
         {
           g_config->show_fps = !g_config->show_fps;
         }
+#ifndef EMSCRIPTEN // Emscripten builds manage this through JS code
         else if (event.key.keysym.sym == SDLK_F11 ||
                  ((event.key.keysym.mod & KMOD_LALT || event.key.keysym.mod & KMOD_RALT) &&
                  (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
@@ -432,6 +455,18 @@ ScreenManager::process_events()
           m_video_system.apply_config();
           m_menu_manager->on_window_resize();
         }
+#endif
+#ifdef STEAM_BUILD
+        // Shift+Tab opens the overlay; pause the game
+        else if (event.key.keysym.sym == SDLK_TAB &&
+                 (event.key.keysym.mod & KMOD_LSHIFT || event.key.keysym.mod & KMOD_RSHIFT))
+        {
+          if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
+          {
+            session->toggle_pause();
+          }
+        }
+#endif
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
@@ -442,17 +477,17 @@ ScreenManager::process_events()
         {
           g_config->developer_mode = !g_config->developer_mode;
           log_info << "developer mode: " << g_config->developer_mode << std::endl;
-          
-          // Keep that line disabled; changing dev mode during a session
-          // shouldn't change that setting.
-          // It should only take what value it had when the game was launched
-          // and keep it until the user changes it manually.
-          // If you uncomment, add this in the includes :
-          //     #include "editor/overlay_widget.hpp"
-          
-          // EditorOverlayWidget::autotile_help = !developer_mode;
         }
         break;
+
+      // NOTE: Steam recommends leaving this behavior in. If it turns out to bt
+      // impractical for users, please add `#ifdef STEAM_BUILD` code around it.
+      case SDL_JOYDEVICEREMOVED:
+      case SDL_CONTROLLERDEVICEREMOVED:
+        if (session != nullptr && session->is_active() && !Level::current()->m_suppress_pause_menu)
+        {
+          session->toggle_pause();
+        }
     }
   }
 }
@@ -554,8 +589,8 @@ void ScreenManager::loop_iter()
   if (elapsed_ticks < ms_per_step && !g_debug.draw_redundant_frames) {
     // Sleep a bit because not enough time has passed since the previous
     // logical game step
-    //SDL_Delay(ms_per_step - elapsed_ticks);
-    //return;
+    SDL_Delay(ms_per_step - elapsed_ticks);
+    return;
   }
 
   g_real_time = static_cast<float>(ticks) / 1000.0f;
@@ -609,6 +644,12 @@ void ScreenManager::loop_iter()
   SoundManager::current()->update();
 
   handle_screen_switch();
+
+#ifdef EMSCRIPTEN
+  EM_ASM({
+    supertux2_syncfs();
+  }, 0); // EM_ASM is a variadic macro and Clang requires at least 1 value for the variadic argument
+#endif
 }
 
 #ifdef __EMSCRIPTEN__

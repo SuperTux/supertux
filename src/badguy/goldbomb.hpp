@@ -20,11 +20,10 @@
 #define HEADER_SUPERTUX_BADGUY_GOLDBOMB_HPP
 
 #include "badguy/walking_badguy.hpp"
-#include "object/portable.hpp"
 
 class SoundSource;
 
-class GoldBomb final : public WalkingBadguy, public Portable
+class GoldBomb final : public WalkingBadguy
 {
 public:
   GoldBomb(const ReaderMapping& reader);
@@ -35,6 +34,7 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
@@ -45,8 +45,11 @@ public:
 
   virtual void kill_fall() override;
   virtual void ignite() override;
-  virtual std::string get_class() const override { return "goldbomb"; }
-  virtual std::string get_display_name() const override { return _("Gold Bomb"); }
+  static std::string class_name() { return "goldbomb"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Gold Bomb"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
@@ -64,6 +67,7 @@ private:
   Ticking_State tstate;
 
   std::unique_ptr<SoundSource> ticking;
+  SpritePtr m_exploding_sprite;
 
 private:
   GoldBomb(const GoldBomb&) = delete;

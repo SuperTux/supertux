@@ -41,10 +41,14 @@ public:
 
   virtual void move_to(const Vector& pos) override;
 
-  virtual std::string get_class() const override { return "platform"; }
-  virtual std::string get_display_name() const override { return _("Platform"); }
+  static std::string class_name() { return "platform"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Platform"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void editor_update() override;
+
+  virtual void on_flip(float height) override;
 
   const Vector& get_speed() const { return m_speed; }
 
@@ -62,7 +66,6 @@ public:
 
   /** Updates the platform to the given action  */
   void set_action(const std::string& action, int repeat);
-
   /** @} */
 
 private:
@@ -79,6 +82,8 @@ private:
   /** true if a Player touched the Platform during the round before
       the last round of collision detections */
   bool m_last_player_contact;
+
+  int m_starting_node;
 
 private:
   Platform(const Platform&) = delete;

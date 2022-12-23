@@ -20,12 +20,12 @@
   )
   (action
     (name "iced-left")
-    (hitbox 43 43 15 34)
+    (hitbox 27 35 15 34)
     (images "c-ice.png")
   )
   (action
     (name "iced-right")
-    (hitbox 43 43 15 34)
+    (hitbox 26 35 15 34)
     (mirror-action "iced-left")
   )  
 )

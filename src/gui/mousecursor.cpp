@@ -33,11 +33,9 @@ MouseCursor::MouseCursor(SpritePtr sprite) :
   m_state(MouseCursorState::NORMAL),
   m_applied_state(MouseCursorState::HIDE),
   m_sprite(std::move(sprite)),
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   m_x(),
   m_y(),
   m_mobile_mode(false),
-#endif
   m_icon()
 {
 }
@@ -90,13 +88,11 @@ MouseCursor::draw(DrawingContext& context)
     int x, y;
     Uint32 ispressed = SDL_GetMouseState(&x, &y);
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
     if (m_mobile_mode)
     {
       x = m_x;
       y = m_y;
     }
-#endif
 
     if (ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2))
     {

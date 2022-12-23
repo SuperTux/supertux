@@ -29,8 +29,10 @@ public:
   virtual void ignite() override;
   virtual bool is_flammable() const override;
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "iceflame"; }
-  virtual std::string get_display_name() const override { return _("Ice Flame"); }
+  static std::string class_name() { return "iceflame"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Ice Flame"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 private:
   Iceflame(const Iceflame&) = delete;

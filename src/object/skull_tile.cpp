@@ -20,12 +20,14 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
 static const float CRACKTIME = 0.3f;
 static const float FALLTIME = 0.8f;
 static const float RESPAWNTIME = 5.f;
 static const float FADETIME = 0.5f;
+static const float DELAY_IF_TUX = 0.001f;
 
 SkullTile::SkullTile(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/skull_tile/skull_tile.sprite", LAYER_TILES, COLGROUP_STATIC),
@@ -62,7 +64,7 @@ SkullTile::draw(DrawingContext& context)
     }
   }
   m_sprite->set_alpha(m_alpha);
-  m_sprite->draw(context.color(), pos, m_layer);
+  m_sprite->draw(context.color(), pos, m_layer, m_flip);
 }
 
 void
@@ -71,14 +73,21 @@ SkullTile::update(float dt_sec)
   if (falling) {
     if (m_revive_timer.check())
     {
-      m_alpha = 0.f;
-      m_revive_timer.stop();
-      falling = false;
-      m_respawn.reset(new FadeHelper(&m_alpha, FADETIME, 1.f));
-      physic.enable_gravity(false);
-      m_col.set_pos(m_original_pos);
-      physic.set_velocity(Vector(0.0f, 0.0f));
-      m_col.set_movement(Vector(0.0f, 0.0f));
+      if (Sector::current() && Sector::get().is_free_of_movingstatics(m_col.m_bbox.grown(-1.f)))
+      {
+        m_alpha = 0.f;
+        m_revive_timer.stop();
+        falling = false;
+        m_respawn.reset(new FadeHelper(&m_alpha, FADETIME, 1.f));
+        physic.enable_gravity(false);
+        m_col.set_pos(m_original_pos);
+        physic.set_velocity(Vector(0.0f, 0.0f));
+        m_col.set_movement(Vector(0.0f, 0.0f));
+      }
+      else
+      {
+        m_revive_timer.start(DELAY_IF_TUX);
+      }
     }
     m_col.set_movement(physic.get_movement(dt_sec));
   } else if (hit) {
@@ -99,6 +108,13 @@ SkullTile::update(float dt_sec)
 
   if (m_respawn && !m_respawn->completed())
     m_respawn->update(dt_sec);
+}
+
+void
+SkullTile::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

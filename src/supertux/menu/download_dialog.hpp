@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
 
-#ifndef __EMSCRIPTEN__
-
 #include "gui/dialog.hpp"
 
 class TransferStatus;
@@ -30,9 +28,10 @@ private:
   TransferStatusPtr m_status;
   std::string m_title;
   bool m_auto_close;
+  bool m_error_msg;
 
 public:
-  DownloadDialog(TransferStatusPtr status, bool auto_close = false, bool passive = false);
+  DownloadDialog(TransferStatusPtr status, bool auto_close = false, bool passive = false, bool no_error_msg = false);
 
   void set_title(const std::string& title);
   void update() override;
@@ -47,8 +46,6 @@ private:
   DownloadDialog(const DownloadDialog&) = delete;
   DownloadDialog& operator=(const DownloadDialog&) = delete;
 };
-
-#endif
 
 #endif
 

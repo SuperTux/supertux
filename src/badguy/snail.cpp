@@ -19,7 +19,9 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "badguy/owl.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -27,15 +29,13 @@ namespace {
 const float SNAIL_KICK_SPEED = 500;
 const int MAX_SNAIL_SQUISHES = 10;
 const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
-const float DANGER_SENSE_DIST = 25;
-const float SHIELDED_TIME = 1.5f;
 }
 
 Snail::Snail(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"),
   state(STATE_NORMAL),
   kicked_delay_timer(),
-  danger_gone_timer(),
+  flat_timer(),
   squishcount(0)
 {
   walk_speed = 80;
@@ -65,16 +65,19 @@ void
 Snail::be_flat()
 {
   state = STATE_FLAT;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", 1);
+  m_sprite->set_action("flat", m_dir, /* loops = */ -1);
 
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
+
+  flat_timer.start(4);
 }
 
-void Snail::be_grabbed()
+void
+Snail::be_grabbed()
 {
   state = STATE_GRABBED;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", 1);
+  m_sprite->set_action("flat", m_dir, /* loops = */ -1);
 }
 
 void
@@ -84,7 +87,7 @@ Snail::be_kicked(bool upwards)
     state = STATE_KICKED_DELAY;
   else
     state = STATE_KICKED;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", 1);
+  m_sprite->set_action("flat", m_dir, /* loops = */ -1);
 
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
   m_physic.set_velocity_y(0);
@@ -95,16 +98,10 @@ Snail::be_kicked(bool upwards)
 }
 
 void
-Snail::be_shielded()
+Snail::wake_up()
 {
-  state = STATE_SHIELDED;
-
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
-
-  m_sprite->set_action(m_dir == Direction::LEFT ? "shielded-left" : "shielded-right");
-
-  danger_gone_timer.start(SHIELDED_TIME);
+  state = STATE_WAKING;
+  m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right", /* loops = */ 1);
 }
 
 bool
@@ -112,33 +109,16 @@ Snail::can_break() const {
   return state == STATE_KICKED;
 }
 
-bool
-Snail::is_in_danger()
-{
-  Rectf sense_zone = get_bbox().moved(Vector(0, -DANGER_SENSE_DIST));
-  auto player = Sector::get().get_nearest_player(get_bbox());
-  if (player && sense_zone.contains(player->get_bbox()) && player->get_velocity().y > 0)
-  {
-    return true;
-  }
-  return false;
-}
-
 void
 Snail::active_update(float dt_sec)
 {
-  if (state == STATE_GRABBED)
+  if (state == STATE_GRABBED || is_grabbed())
     return;
   
   if (m_frozen)
   {
     BadGuy::active_update(dt_sec);
     return;
-  }
-
-  if(state == STATE_NORMAL && is_in_danger())
-  {
-    be_shielded();
   }
 
   switch (state) {
@@ -148,9 +128,13 @@ Snail::active_update(float dt_sec)
       return;
 
     case STATE_FLAT:
-      if (m_sprite->animation_done()) {
+      if (flat_timer.check())
+        wake_up();
+      break;
+
+    case STATE_WAKING:
+      if (m_sprite->animation_done())
         be_normal();
-      }
       break;
 
     case STATE_KICKED_DELAY:
@@ -163,17 +147,10 @@ Snail::active_update(float dt_sec)
 
     case STATE_KICKED:
       m_physic.set_velocity_x(m_physic.get_velocity_x() * powf(0.99f, dt_sec/0.02f));
-      if (m_sprite->animation_done() || (fabsf(m_physic.get_velocity_x()) < walk_speed)) be_normal();
+      if (fabsf(m_physic.get_velocity_x()) < walk_speed) be_normal();
       break;
 
     case STATE_GRABBED:
-      break;
-
-    case STATE_SHIELDED:
-      if (danger_gone_timer.check())
-      {
-        be_normal();
-      }
       break;
   }
 
@@ -201,17 +178,15 @@ Snail::collision_solid(const CollisionHit& hit)
   switch (state)
   {
     case STATE_NORMAL:
-    case STATE_SHIELDED:
       WalkingBadguy::collision_solid(hit);
       return;
-
     case STATE_KICKED:
       if (hit.left || hit.right) {
         SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
 
         if ( ( m_dir == Direction::LEFT && hit.left ) || ( m_dir == Direction::RIGHT && hit.right) ){
           m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
-          m_sprite->set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right");
+          m_sprite->set_action("flat", m_dir, /* loops = */ -1);
 
           m_physic.set_velocity_x(-m_physic.get_velocity_x());
         }
@@ -219,6 +194,7 @@ Snail::collision_solid(const CollisionHit& hit)
       BOOST_FALLTHROUGH;
     case STATE_FLAT:
     case STATE_KICKED_DELAY:
+    case STATE_WAKING:
       if (hit.top || hit.bottom) {
         m_physic.set_velocity_y(0);
       }
@@ -240,10 +216,10 @@ Snail::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 
   switch (state) {
     case STATE_NORMAL:
-    case STATE_SHIELDED:
       return WalkingBadguy::collision_badguy(badguy, hit);
     case STATE_FLAT:
     case STATE_KICKED_DELAY:
+    case STATE_WAKING:
       return FORCE_MOVE;
     case STATE_KICKED:
       badguy.kill_fall();
@@ -259,10 +235,10 @@ HitResponse
 Snail::collision_player(Player& player, const CollisionHit& hit)
 {
   if (m_frozen)
-    return WalkingBadguy::collision_player(player, hit);
+    return BadGuy::collision_player(player, hit);
 
   // handle kicks from left or right side
-  if (state == STATE_FLAT && (hit.left || hit.right)) {
+  if ((state == STATE_WAKING || state == STATE_FLAT) && (hit.left || hit.right)) {
     if (hit.left) {
       m_dir = Direction::RIGHT;
     } else if (hit.right) {
@@ -283,21 +259,14 @@ Snail::collision_squished(GameObject& object)
     return WalkingBadguy::collision_squished(object);
 
   Player* player = dynamic_cast<Player*>(&object);
-  if (player && player->is_invincible()) {
+  if (player && (player->is_invincible() || player->m_does_buttjump)) {
     kill_fall();
     player->bounce(*this);
     return true;
   }
 
   switch (state) {
-
-    case STATE_SHIELDED:
     case STATE_NORMAL:
-      if(player && !player->m_does_buttjump)
-      {
-        player->bounce(*this);
-        break;
-      }
       BOOST_FALLTHROUGH;
     case STATE_KICKED:
       squishcount++;
@@ -310,6 +279,7 @@ Snail::collision_squished(GameObject& object)
       break;
 
     case STATE_FLAT:
+    case STATE_WAKING:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
       {
         MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
@@ -335,30 +305,42 @@ void
 Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
+  if (m_frozen)
+    BadGuy::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;
-  set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
-  be_grabbed();
+  if (!m_frozen)
+  {
+    set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+    be_grabbed();
+    flat_timer.stop();
+  }
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
 void
 Snail::ungrab(MovingObject& object, Direction dir_)
 {
-  if (dir_ == Direction::UP) {
-    be_flat();
-  } else {
-    m_dir = dir_;
-    be_kicked(true);
+  if (!m_frozen)
+  {
+    if (dir_ == Direction::UP) {
+      be_flat();
+    }
+    else {
+      m_dir = dir_;
+      be_kicked(dynamic_cast<Owl*>(&object) ? false : true);
+    }
   }
-  set_colgroup_active(COLGROUP_MOVING);
+  else
+    BadGuy::ungrab(object, dir_);
+  set_colgroup_active(m_frozen ? COLGROUP_MOVING_STATIC : COLGROUP_MOVING);
   Portable::ungrab(object, dir_);
 }
 
 bool
 Snail::is_portable() const
 {
-  return state == STATE_FLAT && !m_ignited;
+  return (state == STATE_FLAT || m_frozen) && !m_ignited;
 }
 
 /* EOF */

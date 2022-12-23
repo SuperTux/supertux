@@ -42,11 +42,11 @@ OpenALSoundSource::~OpenALSoundSource()
 void
 OpenALSoundSource::stop()
 {
-#ifndef __EMSCRIPTEN__
-  // FIXME: Emscripten's OpenAL port crashes when calling this, see:
-  //        https://github.com/emscripten-core/emscripten/issues/13797
-  // The sounds stop anyways, but the code is probably unclean as a result.
+#ifdef WIN32
+  // See commit 417a8e7a8c599bfc2dceaec7b6f64ac865318ef1
   alSourceRewindv(1, &m_source); // Stops the source
+#else
+  alSourceStop(m_source);
 #endif
   alSourcei(m_source, AL_BUFFER, AL_NONE);
   try

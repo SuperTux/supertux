@@ -20,6 +20,7 @@
 #include "object/player.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -31,7 +32,8 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 PushButton::PushButton(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   script(),
-  state(OFF)
+  state(OFF),
+  m_upside_down(false)
 {
   SoundManager::current()->preload(BUTTON_SOUND);
   set_action("off", -1);
@@ -41,6 +43,10 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   {
     log_warning << "No script set for pushbutton." << std::endl;
   }
+
+  mapping.get("upside-down", m_upside_down);
+  if (m_upside_down)
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 ObjectSettings
@@ -49,10 +55,19 @@ PushButton::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_script(_("Script"), &script, "script");
+  result.add_bool(_("Upside down"), &m_upside_down, "upside-down");
 
-  result.reorder({"script", "x", "y"});
+  result.reorder({"script", "upside-down", "x", "y"});
 
   return result;
+}
+
+void
+PushButton::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+  if ((m_upside_down && m_flip == NO_FLIP) || (!m_upside_down && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 void
@@ -70,13 +85,29 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
 	if (player)
   {
     float vy = player->get_physic().get_velocity_y();
-    if (vy <= 0)
-      return FORCE_MOVE;
-    //player->add_velocity(Vector(0, -150));
-    player->get_physic().set_velocity_y(-150);
+
+    if (m_upside_down)
+    {
+      if (vy >= 0)
+        return FORCE_MOVE;
+
+      if (hit.bottom)
+        player->get_physic().set_velocity_y(0);
+    }
+    else
+    {
+      if (vy <= 0)
+        return FORCE_MOVE;
+
+      if (hit.top)
+      {
+        player->get_physic().set_velocity_y(0);
+        player->set_on_ground(true);
+      }
+    }
 	}
 
-  if (state != OFF || !hit.top)
+  if (state != OFF || !(m_upside_down ? hit.bottom : hit.top))
     return FORCE_MOVE;
 
   // change appearance
@@ -84,15 +115,24 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   float old_bbox_height = m_col.m_bbox.get_height();
   set_action("on", -1);
   float new_bbox_height = m_col.m_bbox.get_height();
-  set_pos(get_pos() + Vector(0, old_bbox_height - new_bbox_height));
+  Vector delta(0, old_bbox_height - new_bbox_height);
+  set_pos(get_pos() + delta * (m_upside_down ? 0 : 1.f));
 
   // play sound
-  SoundManager::current()->play(BUTTON_SOUND);
+  SoundManager::current()->play(BUTTON_SOUND, get_pos());
 
   // run script
   Sector::get().run_script(script, "PushButton");
 
   return FORCE_MOVE;
+}
+
+void
+PushButton::on_flip(float height)
+{
+  MovingSprite::on_flip(height);
+  FlipLevelTransformer::transform_flip(m_flip);
+  m_upside_down = !m_upside_down;
 }
 
 /* EOF */

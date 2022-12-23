@@ -36,14 +36,17 @@ public:
 
   virtual HitResponse collision(GameObject& , const CollisionHit& ) override { return FORCE_MOVE; }
 
-  virtual std::string get_class() const override { return "decal"; }
-  virtual std::string get_display_name() const override { return _("Decal"); }
+  static std::string class_name() { return "decal"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Decal"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
+
+  virtual void on_flip(float height) override;
 
   void fade_in(float fade_time);
   void fade_out(float fade_time);
@@ -55,7 +58,6 @@ public:
 private:
   std::string m_default_action;
   bool m_solid;
-  Flip m_flip;
   SpritePtr m_fade_sprite;
   Timer m_fade_timer;
   Timer m_sprite_timer;

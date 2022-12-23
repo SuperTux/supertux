@@ -18,6 +18,8 @@
 
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
@@ -33,35 +35,53 @@ Tip::Tip(GameObject& object) :
   {
     const auto& oo = *oo_ptr;
 
-    if (!(oo.get_flags() & OPTION_HIDDEN)) {
+    if (dynamic_cast<LabelObjectOption*>(oo_ptr.get()))
+    {
+      m_strings.push_back(oo.get_text());
+    }
+    if (!(oo.get_flags() & OPTION_HIDDEN))
+    {
       auto value = oo.to_string();
-      if (!value.empty()) {
+      if (!value.empty())
+      {
         m_strings.push_back(oo.get_text() + ": " + value);
       }
     }
   }
 }
 
+Tip::Tip(std::string text) :
+  m_strings(),
+  m_header(text)
+{
+}
+
+Tip::Tip(std::string header, std::vector<std::string> text) :
+  m_strings(text),
+  m_header(header)
+{
+}
+
 void
-Tip::draw(DrawingContext& context, const Vector& pos)
+Tip::draw(DrawingContext& context, const Vector& pos, const bool align_right)
 {
   auto position = pos;
   position.y += 35;
   context.color().draw_text(Resources::normal_font, m_header, position,
-                              ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
+                              align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, g_config->labeltextcolor);
 
   for (const auto& str : m_strings) {
     position.y += 22;
     context.color().draw_text(Resources::normal_font, str, position,
-                                ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
+                                align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, ColorScheme::Menu::default_color);
   }
 }
 
 void
-Tip::draw_up(DrawingContext& context, const Vector& pos)
+Tip::draw_up(DrawingContext& context, const Vector& pos, const bool align_right)
 {
   auto position = Vector(pos.x, pos.y - (static_cast<float>(m_strings.size()) + 1.0f) * 22.0f - 35.0f);
-  draw(context, position);
+  draw(context, position, align_right);
 }
 
 /* EOF */

@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
 # Jaakoppi Horila <supermariojaska5@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-02-07 10:31+0000\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2017-09-22 16:39+0000\n"
 "Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
