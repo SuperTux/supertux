@@ -302,8 +302,7 @@ private:
   bool m_jump_early_apex;
   bool m_on_ice;
   bool m_ice_this_frame;
-  SpritePtr m_lightsprite;
-  SpritePtr m_powersprite;
+  //SpritePtr m_santahatsprite;
   SpritePtr m_multiplayer_arrow;
 
   // Multiplayer tag stuff (number displayed over the players)
@@ -329,6 +328,7 @@ private:
   Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
   Timer m_coyote_timer; /**< started when Tux falls off a ledge; runs until Tux jumps or COYOTE_TIME runs out */
   bool m_wants_buttjump;
+  bool m_buttjump_stomp;
 
 public:
   bool m_does_buttjump;
