@@ -603,7 +603,8 @@ Player::update(float dt_sec)
   if (on_ground()) {
     m_fall_mode = ON_GROUND;
     m_last_ground_y = get_pos().y;
-  } else {
+  }
+  else {
     if (get_pos().y > m_last_ground_y)
       m_fall_mode = FALLING;
     else if (m_fall_mode == ON_GROUND)
@@ -664,8 +665,8 @@ Player::update(float dt_sec)
   {
     if (graphicsRandom.rand(0, 2) == 0)
     {
-      float px = graphicsRandom.randf(m_col.m_bbox.get_left()+0, m_col.m_bbox.get_right()-0);
-      float py = graphicsRandom.randf(m_col.m_bbox.get_top()+0, m_col.m_bbox.get_bottom()-0);
+      float px = graphicsRandom.randf(m_col.m_bbox.get_left() + 0, m_col.m_bbox.get_right() - 0);
+      float py = graphicsRandom.randf(m_col.m_bbox.get_top() + 0, m_col.m_bbox.get_bottom() - 0);
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
@@ -675,7 +676,7 @@ Player::update(float dt_sec)
         // dark sparkle when invincibility is about to end
         (m_invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
         // make every other a longer sparkle to make trail a bit fuzzy
-        (size_t(g_game_time*20)%2) ? "small" : "medium"
+        (size_t(g_game_time * 20) % 2) ? "small" : "medium"
         :
         "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS + 1 + 5);
     }
@@ -686,7 +687,7 @@ Player::update(float dt_sec)
   }
 
   // when climbing animate only while moving
-  if (m_climbing){
+  if (m_climbing) {
     if ((m_physic.get_velocity_x() == 0) && (m_physic.get_velocity_y() == 0))
     {
       m_sprite->stop_animation();
@@ -724,6 +725,7 @@ Player::update(float dt_sec)
       m_sliding = false;
       m_slidejumping = false;
     }
+  }
 
   if (m_sliding || m_stone)
   {
@@ -761,11 +763,11 @@ Player::update(float dt_sec)
   launchbox.set_bottom(get_bbox().get_bottom() - 8.f);
   launchbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -32.f : 33.f));
   launchbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 32.f : -33.f));
-  if (m_sliding && !on_ground() && m_floor_normal.y != 0 && m_floor_normal.x*m_physic.get_velocity_x() < 0.f &&
+  if (m_sliding && !on_ground() && m_floor_normal.y != 0 && m_floor_normal.x * m_physic.get_velocity_x() < 0.f &&
     Sector::get().is_free_of_statics(launchbox) && !m_slidejumping)
   {
     m_slidejumping = true;
-    m_physic.set_velocity_y(-glm::length(m_physic.get_velocity())*std::abs(m_floor_normal.x));
+    m_physic.set_velocity_y(-glm::length(m_physic.get_velocity()) * std::abs(m_floor_normal.x));
   }
 
   if (m_sliding && on_ground()) {
@@ -1463,7 +1465,6 @@ Player::handle_input()
 
   /* Turn to Stone */
   if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && m_player_status.bonus[get_id()] == EARTH_BONUS) {
-    m_powersprite->stop_animation();
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     adjust_height(TUX_WIDTH);
     m_stone = true;
@@ -2061,7 +2062,7 @@ Player::draw(DrawingContext& context)
     m_player_status.bonus[get_id()] == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
     Color(1.f, 1.f, 1.f));
 
-  m_sprite->set_color(power_color);
+  m_sprite->set_color(m_stone ? Color(1.f, 1.f, 1.f) : power_color);
 
 }
 
@@ -2777,7 +2778,6 @@ void
 Player::stop_rolling(bool violent)
 {
   m_sprite->set_angle(0.0f);
-  m_powersprite->set_angle(0.0f);
   if (!m_swimming && !m_water_jump && !m_sliding && !m_duck)
   {
     if (!adjust_height(BIG_TUX_HEIGHT))
