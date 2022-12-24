@@ -420,7 +420,7 @@
          (name "climbgrow-right")
          (fps 16.0)
 		 (loops 1)
-         (hitbox 16 48 32 64)
+         (hitbox 16 14 32 64)
          (images "small/grow_climb-0.png"
                  "small/grow_climb-1.png"
                  "small/grow_climb-2.png"
@@ -434,7 +434,7 @@
          (name "climbgrow-left")
 		 (fps 16.0)
 		 (loops 1)
-         (hitbox 16 48 32 64)
+         (hitbox 16 14 32 64)
          (mirror-action "climbgrow-right"))
 
        (action
