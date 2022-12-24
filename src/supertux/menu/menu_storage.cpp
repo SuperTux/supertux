@@ -37,6 +37,7 @@
 #include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/integrations_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
+#include "supertux/menu/video_system_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
 #include "supertux/menu/main_menu.hpp"
@@ -98,6 +99,9 @@ MenuStorage::create(MenuId menu_id)
 
     case JOYSTICK_MENU:
       return std::unique_ptr<Menu>(new JoystickMenu(*InputManager::current()));
+
+    case VIDEO_SYSTEM_MENU:
+      return std::make_unique<VideoSystemMenu>();
 
     case WORLDMAP_MENU:
       return std::make_unique<WorldmapMenu>();
