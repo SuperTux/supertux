@@ -39,7 +39,6 @@ Mole::Mole(const ReaderMapping& reader) :
   throw_timer(),
   cycle_num(0)
 {
-  m_physic.enable_gravity(false);
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/dartfire.wav");
@@ -95,6 +94,18 @@ void
 Mole::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
+
+  if (!Sector::get().is_free_of_statics(get_bbox().grown(1.f)))
+  {
+    m_physic.enable_gravity(false);
+    m_col.set_movement(Vector(0.f, 0.f));
+  }
+  else
+  {
+    m_physic.enable_gravity(true);
+    m_col.set_movement(m_physic.get_movement(dt_sec));
+  }
+
 
   switch (state) {
     case PRE_THROWING:

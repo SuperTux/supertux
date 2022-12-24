@@ -47,6 +47,7 @@ private:
   };
   IgelState m_state;
   Timer m_found_timer;
+  Timer m_chase_timer;
 
 private:
   Igel(const Igel&) = delete;

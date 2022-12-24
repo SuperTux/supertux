@@ -34,9 +34,7 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   reader.get("track-range", m_track_range, DEFAULT_TRACK_RANGE);
   
   m_sprite->set_action(m_dir);
-  m_physic.enable_gravity(false);
-  m_lightsprite->set_color(Color(0.6f, 0.f, 1.f));
-  m_glowing = true;
+  m_physic.set_gravity_modifier(0.2f);
 }
 
 void
@@ -78,6 +76,7 @@ Ghoul::active_update(float dt_sec)
   }
   else
   {
+    m_physic.enable_gravity(false);
     m_physic.set_velocity(0.f, 0.f);
   }
 }
@@ -113,17 +112,13 @@ Ghoul::get_settings()
 void
 Ghoul::freeze()
 {
-  m_physic.enable_gravity(true);
-  m_glowing = false;
   BadGuy::freeze();
 }
 
 void
 Ghoul::unfreeze(bool melt)
 {
-  m_physic.enable_gravity(false);
   initialize();
-  m_glowing = true;
   BadGuy::unfreeze(melt);
 }
 
@@ -139,7 +134,7 @@ Ghoul::collision_squished(GameObject& object)
     player->bounce(*this);
   m_physic.set_velocity_x(0.f);
   m_sprite->set_action("squished", 1);
-  kill_fall();
+  kill_squished(object);
   return true;
 }
 

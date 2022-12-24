@@ -134,7 +134,7 @@ GoldBomb::collision_squished(GameObject& object)
     ticking->play();
   }
 
-  spawn_squish_particles();
+  spawn_squish_particles("generic_piece_small");
 
   return true;
 }

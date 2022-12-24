@@ -182,7 +182,6 @@ MrIceBlock::collision_squished(GameObject& object)
     "iceblock_piece";
   Player* player = dynamic_cast<Player*>(&object);
   if (player && (player->m_does_buttjump || player->is_invincible())) {
-    spawn_squish_particles(squish_sprite);
     player->bounce(*this);
     kill_fall();
     return true;

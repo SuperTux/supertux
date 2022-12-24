@@ -103,7 +103,7 @@ Haywire::collision_squished(GameObject& object)
     stomped_timer.start(STOMPED_TIME);
   }
 
-  spawn_squish_particles();
+  spawn_squish_particles("generic_piece_small");
 
   time_stunned = TIME_STUNNED;
   is_stunned = true;

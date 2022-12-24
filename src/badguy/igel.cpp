@@ -26,12 +26,13 @@
 static const float FOUND_DISTANCE = 256.0f;
 static const float FOUND_TIME = 0.6f;
 static const float MAX_ROLL_SPEED = 250.f;
-static const float LOST_DISTANCE = 400.0f;
+static const float CHASE_TIME = 3.f;
 
 Igel::Igel(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"),
   m_state(IgelState::WALKING),
-  m_found_timer()
+  m_found_timer(),
+  m_chase_timer()
 {
   walk_speed = 80.f;
   max_drop_height = 16;
@@ -78,8 +79,14 @@ Igel::active_update(float dt_sec)
     m_sprite->set_angle(m_sprite->get_angle() + m_physic.get_movement(dt_sec).x * 3.141592653898f);
     WalkingBadguy::active_update(dt_sec, MAX_ROLL_SPEED * player_dir, 1.f);
 
-    if (glm::length(pb.get_middle() - get_bbox().get_middle()) > LOST_DISTANCE || m_frozen)
+    if (inReach_top && inReach_bottom && inReach_left && inReach_right)
     {
+      m_chase_timer.start(CHASE_TIME);
+    }
+
+    if (m_chase_timer.check() || m_frozen)
+    {
+      m_chase_timer.stop();
       max_drop_height = 16;
       m_sprite->set_action(m_frozen ? "iced" : "walking", m_dir, -1);
       m_sprite->set_angle(0.f);
