@@ -2087,7 +2087,7 @@ Player::collision_solid(const CollisionHit& hit)
         Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
         -70, -50, 260, 280, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().get_camera().shake(.1f, 0, 5);
+      Sector::get().get_camera().shake(.1f, 0.f, 10.f);
     }
 
   } else if (hit.top) {

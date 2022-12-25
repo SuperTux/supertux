@@ -22,6 +22,7 @@
 #include "math/random.hpp"
 #include "object/bonus_block.hpp"
 #include "object/brick.hpp"
+#include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "object/weak_block.hpp"
@@ -68,6 +69,8 @@ Explosion::explode()
   if (state != STATE_WAITING)
     return;
   state = STATE_EXPLODING;
+
+  Sector::get().get_camera().shake(.1f, 0.f, 10.f);
 
   set_action(hurt ? "default" : "pop", 1);
   m_sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
