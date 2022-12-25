@@ -2195,8 +2195,6 @@ Player::kill(bool completely)
   m_sprite->set_angle(0.0f);
   //m_santahatsprite->set_angle(0.0f);
 
-  Sector::get().get_camera().shake(0.1f, completely ? 32.f : 0.f, completely ? 32.f : 16.f);
-
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
@@ -2256,6 +2254,8 @@ Player::kill(bool completely)
       SoundManager::current()->pause_music(3.0);
     }
   }
+
+  Sector::get().get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
 }
 
 void
