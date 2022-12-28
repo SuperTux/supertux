@@ -49,7 +49,7 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
           # GLBINDING: ${{ matrix.glbinding }} # TODO: Re-add if available
-        uses: vmactions/freebsd-vm@v0.1.4
+        uses: vmactions/freebsd-vm@v0.3.0
         with:
           envs: 'BUILD_TYPE' # TODO: Add GLBINDING here if it comes to FreeBSD
           sync: rsync
