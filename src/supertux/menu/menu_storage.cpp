@@ -47,6 +47,7 @@
 #include "supertux/menu/particle_editor_save_as.hpp"
 #include "supertux/menu/particle_editor_open.hpp"
 #include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/video_system_menu.hpp"
 #include "supertux/menu/web_asset_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/menu/worldmap_cheat_menu.hpp"
@@ -98,6 +99,9 @@ MenuStorage::create(MenuId menu_id)
 
     case JOYSTICK_MENU:
       return std::unique_ptr<Menu>(new JoystickMenu(*InputManager::current()));
+
+    case VIDEO_SYSTEM_MENU:
+      return std::make_unique<VideoSystemMenu>();
 
     case WORLDMAP_MENU:
       return std::make_unique<WorldmapMenu>();

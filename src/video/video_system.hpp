@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
 
 #include <string>
+#include <vector>
 #include <SDL.h>
 
 #include "math/size.hpp"
@@ -48,6 +49,7 @@ public:
 
   static Enum get_video_system(const std::string &video);
   static std::string get_video_string(Enum video);
+  static std::vector<std::string> get_available_video_systems();
 
 public:
   VideoSystem() {}

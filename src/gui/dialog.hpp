@@ -79,12 +79,12 @@ public:
   float get_width() const { return m_size.width; }
   float get_height() const { return m_size.height; }
 
-  static void show_message(const std::string& text, bool passive = false, bool no_auto_clear = false)
+  static void show_message(const std::string& text, bool passive = false, bool no_auto_clear = false, const std::function<void ()>& ok_callback = {})
   {
     auto dialog = std::make_unique<Dialog>(passive, !no_auto_clear);
     dialog->set_text(text);
     dialog->clear_buttons();
-    dialog->add_button(_("OK"), [] {});
+    dialog->add_button(_("OK"), ok_callback);
     MenuManager::instance().set_dialog(std::move(dialog));
   }
 
