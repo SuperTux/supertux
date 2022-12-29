@@ -17,9 +17,9 @@
 
 #include "addon/addon_manager.hpp"
 
-#include "boost/format.hpp"
 #include <boost/algorithm/string/predicate.hpp>
 #include <physfs.h>
+#include <fmt/format.h>
 
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"
@@ -741,18 +741,21 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
           get_installed_addon(addon_id);
           if(user_install)
           {
-            Dialog::show_message(str(boost::format(_("Add-on %s by %s is already installed.")) %
-                          addon->get_title() % addon->get_author()));
+            Dialog::show_message(fmt::format(_("Add-on {} by {} is already installed."),
+                                             addon->get_title(), addon->get_author()));
           }
         }
         catch(...)
         {
+          // save addon title and author on stack before std::move
+          const std::string addon_title = addon->get_title();
+          const std::string addon_author = addon->get_author();
           m_installed_addons.push_back(std::move(addon));
           if(user_install)
           {
             enable_addon(addon_id);
-            Dialog::show_message(str(boost::format(_("Add-on %s by %s successfully installed.")) %
-                          addon->get_title() % addon->get_author()));
+            Dialog::show_message(fmt::format(_("Add-on {} by {} successfully installed."),
+                                             addon_title, addon_author));
           }
         }
       }
