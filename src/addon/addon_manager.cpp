@@ -26,6 +26,7 @@
 #include "gui/dialog.hpp"
 #include "physfs/util.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
@@ -756,6 +757,10 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
             enable_addon(addon_id);
             Dialog::show_message(fmt::format(_("Add-on {} by {} successfully installed."),
                                              addon_title, addon_author));
+            // if currently opened menu is addons menu refresh it
+            AddonMenu* addon_menu = dynamic_cast<AddonMenu*>(MenuManager::instance().current_menu());
+            if (addon_menu)
+              addon_menu->refresh();
           }
         }
       }
