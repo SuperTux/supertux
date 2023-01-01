@@ -771,7 +771,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
       }
     }
 
-    if(!user_install || (user_install && has_error))
+    if(!user_install || has_error)
     {
       PHYSFS_unmount(os_path.c_str());
     }
