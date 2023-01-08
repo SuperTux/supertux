@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
-//  Copyright (C) 2022 Vankata453
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ namespace scripting {
   if (::Sector::current())
     return ::Sector::get();
 
-  throw std::runtime_error("Unable to perform scripting GameObject action: Neither level sector, nor worldmap active.");
+  throw std::runtime_error("Unable to perform scripting GameObject action: Neither sector, nor worldmap active.");
 }
 
 } // namespace scripting
