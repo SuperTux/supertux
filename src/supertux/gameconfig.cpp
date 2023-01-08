@@ -77,11 +77,7 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
-#ifdef __EMSCRIPTEN__
   do_release_check(false),
-#else
-  do_release_check(true),
-#endif
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
