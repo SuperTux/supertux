@@ -193,14 +193,14 @@ AddonMenu::check_for_updates()
   try
   {
     TransferStatusPtr status = m_addon_manager.request_check_online();
+    auto dialog = std::make_unique<DownloadDialog>(status, false);
+    dialog->set_title(_("Checking for updates..."));
+    MenuManager::instance().set_dialog(std::move(dialog));
     status->then([this](bool success)
     {
       if (success) refresh();
       set_active_item(MNID_CHECK_ONLINE);
     });
-    auto dialog = std::make_unique<DownloadDialog>(status, false);
-    dialog->set_title(_("Checking for updates..."));
-    MenuManager::instance().set_dialog(std::move(dialog));
   }
   catch (std::exception& e)
   {

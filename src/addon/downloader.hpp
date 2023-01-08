@@ -36,6 +36,7 @@ public:
   Downloader& m_downloader;
   TransferId id;
   std::vector<std::function<void (bool)> > callbacks;
+  bool prevented; // Set to true if networking was disabled
 
   int dltotal;
   int dlnow;
@@ -48,6 +49,7 @@ public:
     m_downloader(downloader),
     id(id_),
     callbacks(),
+    prevented(false),
     dltotal(0),
     dlnow(0),
     ultotal(0),
@@ -60,7 +62,14 @@ public:
 
   void then(const std::function<void (bool)>& callback)
   {
-    callbacks.push_back(callback);
+    if (prevented)
+    {
+      callback(false);
+    }
+    else
+    {
+      callbacks.push_back(callback);
+    }
   }
 };
 

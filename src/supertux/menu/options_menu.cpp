@@ -75,6 +75,7 @@ enum OptionsMenuIDs {
   MNID_CONFIRMATION_DIALOG,
   MNID_PAUSE_ON_FOCUSLOSS,
   MNID_CUSTOM_CURSOR,
+  MNID_DISABLE_NETWORK,
 #ifndef __EMSCRIPTEN__
   MNID_RELEASE_CHECK,
 #endif
@@ -465,6 +466,9 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
     .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
 #endif
+
+  add_toggle(MNID_DISABLE_NETWORK, _("Disable network"), &g_config->disable_network)
+    .set_help(_("Prevents the game from connecting online"));
 
   add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
       .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));

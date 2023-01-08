@@ -78,6 +78,7 @@ Config::Config() :
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
   do_release_check(false),
+  disable_network(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -165,6 +166,7 @@ Config::load()
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
+  config_mapping.get("disable_network", disable_network);
 
   boost::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
@@ -379,6 +381,7 @@ Config::save()
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
   writer.write("do_release_check", do_release_check);
+  writer.write("disable_network", disable_network);
 
   writer.start_list("integrations");
   {
