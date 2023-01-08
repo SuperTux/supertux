@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -27,7 +28,7 @@
   auto object_ptr = get_object_ptr();                                   \
   if (object_ptr == nullptr) {                                          \
     log_fatal << "error: script is accessing a dead object: "           \
-              << m_uid << std::endl;                                    \
+              << std::endl;                                             \
     return;                                                             \
   }                                                                     \
   auto& object = *object_ptr
@@ -36,7 +37,7 @@
   auto object_ptr = get_object_ptr();                                   \
   if (object_ptr == nullptr) {                                          \
     log_fatal << "error: script is accessing a dead object: "           \
-              << m_uid << std::endl;                                    \
+              << std::endl;                                             \
     return {};                                                          \
   }                                                                     \
   auto& object = *object_ptr
@@ -45,7 +46,7 @@
   auto object_ptr = get_object_ptr();                                   \
   if (object_ptr == nullptr) {                                          \
     log_fatal << "error: script is accessing a dead object: "           \
-              << m_uid << std::endl;                                    \
+              << std::endl;                                             \
     return x;                                                           \
   }                                                                     \
   auto& object = *object_ptr
@@ -54,7 +55,7 @@
   auto object_ptr = GameObject<::OBJECT>::get_object_ptr();             \
   if (object_ptr == nullptr) {                                          \
     log_fatal << "error: script is accessing a dead object: "           \
-              << GameObject<::OBJECT>::m_uid << std::endl;              \
+              << std::endl;                                             \
     return;                                                             \
   }                                                                     \
   auto& object = *object_ptr
@@ -63,7 +64,7 @@
   auto object_ptr = GameObject<::OBJECT>::get_object_ptr();             \
   if (object_ptr == nullptr) {                                          \
     log_fatal << "error: script is accessing a dead object: "           \
-              << GameObject<::OBJECT>::m_uid << std::endl;              \
+              << std::endl;                                             \
     return {};                                                          \
   }                                                                     \
   auto& object = *object_ptr
@@ -72,12 +73,11 @@
   auto object_ptr = GameObject<::OBJECT>::get_object_ptr();             \
   if (object_ptr == nullptr) {                                          \
     log_fatal << "error: script is accessing a dead object: "           \
-              << GameObject<::OBJECT>::m_uid << std::endl;              \
+              << std::endl;                                             \
     return x;                                                           \
   }                                                                     \
   auto& object = *object_ptr
 
-class GameObjectManager;
 
 namespace scripting {
 
@@ -87,17 +87,17 @@ template<class T>
 class GameObject
 {
 public:
-  GameObject(UID uid) :
-    m_uid(uid)
+  GameObject(::GameObject* object) :
+    m_object(object)
   {}
 
   T* get_object_ptr() const
   {
-    return get_game_object_manager().get_object_by_uid<T>(m_uid);
+    return dynamic_cast<T*>(m_object);
   }
 
 protected:
-  UID m_uid;
+  ::GameObject* m_object; /* The exposed parent GameObject. */
 };
 
 } // namespace scripting

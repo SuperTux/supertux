@@ -24,7 +24,7 @@
 namespace scripting {
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
-  GameObject(get_game_object_manager().add<::FloatingImage>(spritefile).get_uid())
+  GameObject(&get_game_object_manager().add<::FloatingImage>(spritefile))
 {
 }
 
