@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,26 +25,29 @@ class Level;
 class ReaderDocument;
 class ReaderMapping;
 
-class LevelParser final
+class LevelParser
 {
 public:
   static std::unique_ptr<Level> from_stream(std::istream& stream, const std::string& context, bool worldmap, bool editable);
-  static std::unique_ptr<Level> from_file(const std::string& filename, bool worldmap, bool editable);
+  static std::unique_ptr<Level> from_file(const std::string& filename, bool worldmap, bool editable, bool info_only = false, bool temporary = false);
   static std::unique_ptr<Level> from_nothing(const std::string& basedir);
   static std::unique_ptr<Level> from_nothing_worldmap(const std::string& basedir, const std::string& name);
 
   static std::string get_level_name(const std::string& filename);
 
-private:
+protected:
   LevelParser(Level& level, bool worldmap, bool editable);
 
-  void load(const ReaderDocument& doc);
+  void load(const ReaderDocument& doc, bool info_only = false);
   void load(std::istream& stream, const std::string& context);
-  void load(const std::string& filepath);
+  void load(const std::string& filepath, bool info_only = false);
   void load_old_format(const ReaderMapping& reader);
   void create(const std::string& filepath, const std::string& levelname);
 
-private:
+  /** Virtual functions. **/
+  virtual void add_sector(const ReaderMapping& reader);
+
+protected:
   Level& m_level;
   bool m_worldmap;
   bool m_editable;

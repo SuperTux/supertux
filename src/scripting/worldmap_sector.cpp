@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,28 +15,48 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/worldmap.hpp"
+#include "scripting/worldmap_sector.hpp"
 
 #include "worldmap/worldmap.hpp"
 
 namespace scripting {
 
-WorldMap::WorldMap(::worldmap::WorldMap* parent) :
+WorldMapSector::WorldMapSector(::worldmap::WorldMapSector* parent) :
   GameObjectManager(parent),
   m_parent(parent)
 {
 }
 
 float
-WorldMap::get_tux_x()
+WorldMapSector::get_tux_x()
 {
   return m_parent->get_tux_pos().x;
 }
 
 float
-WorldMap::get_tux_y()
+WorldMapSector::get_tux_y()
 {
   return m_parent->get_tux_pos().y;
+}
+
+void
+WorldMapSector::set_sector(const std::string& sector)
+{
+  SCRIPT_GUARD_WORLDMAP;
+  worldmap.set_sector(sector);
+}
+
+void
+WorldMapSector::spawn(const std::string& sector, const std::string& spawnpoint)
+{
+  SCRIPT_GUARD_WORLDMAP;
+  worldmap.set_sector(sector, spawnpoint);
+}
+
+void
+WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint)
+{
+  m_parent->move_to_spawnpoint(spawnpoint);
 }
 
 } // namespace scripting

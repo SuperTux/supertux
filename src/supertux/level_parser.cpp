@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -63,11 +64,11 @@ LevelParser::from_stream(std::istream& stream, const std::string& context, bool 
 }
 
 std::unique_ptr<Level>
-LevelParser::from_file(const std::string& filename, bool worldmap, bool editable)
+LevelParser::from_file(const std::string& filename, bool worldmap, bool editable, bool info_only, bool temporary)
 {
-  auto level = std::make_unique<Level>(worldmap);
+  auto level = std::make_unique<Level>(worldmap, temporary);
   LevelParser parser(*level, worldmap, editable);
-  parser.load(filename);
+  parser.load(filename, info_only);
   return level;
 }
 
@@ -129,13 +130,13 @@ LevelParser::load(std::istream& stream, const std::string& context)
 }
 
 void
-LevelParser::load(const std::string& filepath)
+LevelParser::load(const std::string& filepath, bool info_only)
 {
   m_level.m_filename = filepath;
   register_translation_directory(filepath);
   try {
     auto doc = ReaderDocument::from_file(filepath);
-    load(doc);
+    load(doc, info_only);
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Problem when reading level '" << filepath << "': " << e.what();
@@ -144,7 +145,7 @@ LevelParser::load(const std::string& filepath)
 }
 
 void
-LevelParser::load(const ReaderDocument& doc)
+LevelParser::load(const ReaderDocument& doc, bool info_only)
 {
   auto root = doc.get_root();
 
@@ -172,13 +173,14 @@ LevelParser::load(const ReaderDocument& doc)
     level.get("icon-locked", m_level.m_icon_locked);
     level.get("bkg", m_level.m_wmselect_bkg);
 
+    if (info_only) return; // Read only the general information about the level.
+
     auto iter = level.get_iter();
     while (iter.next())
     {
       if (iter.get_key() == "sector")
       {
-        auto sector = SectorParser::from_reader(m_level, iter.as_mapping(), m_editable);
-        m_level.add_sector(std::move(sector));
+        add_sector(iter.as_mapping());
       }
     }
 
@@ -216,6 +218,13 @@ LevelParser::create(const std::string& filepath, const std::string& levelname)
   auto sector = SectorParser::from_nothing(m_level);
   sector->set_name("main");
   m_level.add_sector(std::move(sector));
+}
+
+
+void
+LevelParser::add_sector(const ReaderMapping& reader)
+{
+  m_level.add_sector(SectorParser::from_reader(m_level, reader, m_editable));
 }
 
 /* EOF */

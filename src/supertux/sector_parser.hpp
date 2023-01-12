@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,24 +25,30 @@ class GameObject;
 class Level;
 class ReaderMapping;
 class Sector;
+class SectorBase;
 
-class SectorParser final
+class SectorParser
 {
 public:
   static std::unique_ptr<Sector> from_reader(Level& level, const ReaderMapping& sector, bool editable);
   static std::unique_ptr<Sector> from_reader_old_format(Level& level, const ReaderMapping& sector, bool editable);
   static std::unique_ptr<Sector> from_nothing(Level& level);
 
-private:
-  SectorParser(Sector& sector, bool editable);
+protected:
+  SectorParser(SectorBase& sector, bool editable);
 
   void parse_old_format(const ReaderMapping& reader);
   void parse(const ReaderMapping& sector);
   void create_sector();
-  std::unique_ptr<GameObject> parse_object(const std::string& name_, const ReaderMapping& reader);
 
-private:
-  Sector& m_sector;
+  std::unique_ptr<GameObject> parse_object(const std::string& name, const ReaderMapping& reader);
+
+  /** Allows setting additional rules for parsing objects.
+      Return value indicates whether the regular object parsing process should be skipped. **/
+  virtual bool parse_object_additional(const std::string& name, const ReaderMapping& reader);
+
+protected:
+  SectorBase& m_sector;
   bool m_editable;
 
 private:

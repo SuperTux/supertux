@@ -41,7 +41,7 @@ LevelTile::LevelTile(const std::string& basedir, const ReaderMapping& mapping) :
   m_perfect(false),
   m_statistics(),
   m_sprite(),
-  m_title_color(WorldMap::level_title_color)
+  m_title_color(WorldMap::s_level_title_color)
 {
   if (!mapping.get("level", m_level_filename)) {
     // Hack for backward compatibility with 0.5.x level

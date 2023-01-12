@@ -11652,21 +11652,21 @@ static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger WorldMap_release_hook(SQUserPointer ptr, SQInteger )
+static SQInteger WorldMapSector_release_hook(SQUserPointer ptr, SQInteger )
 {
-  auto _this = reinterpret_cast<scripting::WorldMap*> (ptr);
+  auto _this = reinterpret_cast<scripting::WorldMapSector*> (ptr);
   delete _this;
   return 0;
 }
 
-static SQInteger WorldMap_get_tux_x_wrapper(HSQUIRRELVM vm)
+static SQInteger WorldMapSector_get_tux_x_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
   if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_tux_x' called without instance"));
     return SQ_ERROR;
   }
-  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
+  auto _this = reinterpret_cast<scripting::WorldMapSector*> (data);
 
   if (_this == nullptr) {
     return SQ_ERROR;
@@ -11689,14 +11689,14 @@ static SQInteger WorldMap_get_tux_x_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger WorldMap_get_tux_y_wrapper(HSQUIRRELVM vm)
+static SQInteger WorldMapSector_get_tux_y_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
   if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
     sq_throwerror(vm, _SC("'get_tux_y' called without instance"));
     return SQ_ERROR;
   }
-  auto _this = reinterpret_cast<scripting::WorldMap*> (data);
+  auto _this = reinterpret_cast<scripting::WorldMapSector*> (data);
 
   if (_this == nullptr) {
     return SQ_ERROR;
@@ -11714,6 +11714,113 @@ static SQInteger WorldMap_get_tux_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_tux_y'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger WorldMapSector_set_sector_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_sector' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMapSector*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_sector(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_sector'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger WorldMapSector_spawn_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'spawn' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMapSector*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->spawn(arg0, arg1);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'spawn'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger WorldMapSector_move_to_spawnpoint_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'move_to_spawnpoint' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::WorldMapSector*> (data);
+
+  if (_this == nullptr) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->move_to_spawnpoint(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'move_to_spawnpoint'"));
     return SQ_ERROR;
   }
 
@@ -13603,27 +13710,27 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::Wind* object, bool setup
   sq_remove(v, -2); // remove root table
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, scripting::WorldMap* object, bool setup_releasehook)
+void create_squirrel_instance(HSQUIRRELVM v, scripting::WorldMapSector* object, bool setup_releasehook)
 {
   using namespace wrapper;
 
   sq_pushroottable(v);
-  sq_pushstring(v, "WorldMap", -1);
+  sq_pushstring(v, "WorldMapSector", -1);
   if(SQ_FAILED(sq_get(v, -2))) {
     std::ostringstream msg;
-    msg << "Couldn't resolved squirrel type 'WorldMap'";
+    msg << "Couldn't resolved squirrel type 'WorldMapSector'";
     throw SquirrelError(v, msg.str());
   }
 
   if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
     std::ostringstream msg;
-    msg << "Couldn't setup squirrel instance for object of type 'WorldMap'";
+    msg << "Couldn't setup squirrel instance for object of type 'WorldMapSector'";
     throw SquirrelError(v, msg.str());
   }
   sq_remove(v, -2); // remove object name
 
   if(setup_releasehook) {
-    sq_setreleasehook(v, -1, WorldMap_release_hook);
+    sq_setreleasehook(v, -1, WorldMapSector_release_hook);
   }
 
   sq_remove(v, -2); // remove root table
@@ -15436,31 +15543,52 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register class 'Sector'");
   }
 
-  // Register class WorldMap
-  sq_pushstring(v, "WorldMap", -1);
+  // Register class WorldMapSector
+  sq_pushstring(v, "WorldMapSector", -1);
   sq_pushstring(v, "GameObjectManager", -1);
   sq_get(v, -3);
   if(sq_newclass(v, SQTrue) < 0) {
     std::ostringstream msg;
-    msg << "Couldn't create new class 'WorldMap'";
+    msg << "Couldn't create new class 'WorldMapSector'";
     throw SquirrelError(v, msg.str());
   }
   sq_pushstring(v, "get_tux_x", -1);
-  sq_newclosure(v, &WorldMap_get_tux_x_wrapper, 0);
+  sq_newclosure(v, &WorldMapSector_get_tux_x_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_tux_x'");
   }
 
   sq_pushstring(v, "get_tux_y", -1);
-  sq_newclosure(v, &WorldMap_get_tux_y_wrapper, 0);
+  sq_newclosure(v, &WorldMapSector_get_tux_y_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_tux_y'");
   }
 
+  sq_pushstring(v, "set_sector", -1);
+  sq_newclosure(v, &WorldMapSector_set_sector_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register class 'WorldMap'");
+    throw SquirrelError(v, "Couldn't register function 'set_sector'");
+  }
+
+  sq_pushstring(v, "spawn", -1);
+  sq_newclosure(v, &WorldMapSector_spawn_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'spawn'");
+  }
+
+  sq_pushstring(v, "move_to_spawnpoint", -1);
+  sq_newclosure(v, &WorldMapSector_move_to_spawnpoint_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'move_to_spawnpoint'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'WorldMapSector'");
   }
 
   // Register class Gradient

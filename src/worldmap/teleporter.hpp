@@ -20,6 +20,7 @@
 #include <string>
 
 #include "math/vector.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 
@@ -36,10 +37,11 @@ public:
   virtual void update(float dt_sec) override;
 
   Vector get_pos() const { return m_pos; }
-  std::string get_worldmap() const { return m_worldmap; }
-  std::string get_spawnpoint() const { return m_spawnpoint; }
+  const std::string& get_worldmap() const { return m_worldmap; }
+  const std::string& get_sector() const { return m_sector; }
+  const std::string& get_spawnpoint() const { return m_spawnpoint; }
   bool is_automatic() const { return m_automatic; }
-  std::string get_message() const { return m_message; }
+  const std::string& get_message() const { return m_message; }
 
 private:
   /** Position (in tiles, not pixels) */
@@ -50,6 +52,9 @@ private:
 
   /** Worldmap filename (relative to data root) to teleport to. Leave empty to use current word */
   std::string m_worldmap;
+
+  /** Sector to teleport to. Leave empty to stay at the current sector **/
+  std::string m_sector;
 
   /** Spawnpoint to teleport to. Leave empty to use "main" or last one */
   std::string m_spawnpoint;

@@ -138,12 +138,14 @@ LevelDot::get_settings()
 Teleporter::Teleporter (const ReaderMapping& mapping) :
   WorldmapObject(mapping, "images/worldmap/common/teleporterdot.sprite"),
   m_worldmap(),
+  m_sector(),
   m_spawnpoint(),
   m_message(),
   m_automatic(),
   m_change_worldmap()
 {
   mapping.get("worldmap", m_worldmap);
+  mapping.get("sector", m_sector);
   mapping.get("spawnpoint", m_spawnpoint);
   mapping.get("message", m_message);
 
@@ -163,6 +165,7 @@ Teleporter::get_settings()
 {
   ObjectSettings result = WorldmapObject::get_settings();
 
+  result.add_text(_("Sector"), &m_sector, "sector");
   result.add_text(_("Spawnpoint"), &m_spawnpoint, "spawnpoint");
   result.add_translatable_text(_("Message"), &m_message, "message");
   result.add_bool(_("Automatic"), &m_automatic, "automatic", false);
@@ -170,7 +173,7 @@ Teleporter::get_settings()
   result.add_worldmap(_("Target worldmap"), &m_worldmap, "worldmap");
   //result.add_sprite(_("Sprite"), &m_sprite_name, "sprite");
 
-  result.reorder({"spawnpoint", "automatic", "message", "sprite", "x", "y"});
+  result.reorder({"sector", "spawnpoint", "automatic", "message", "sprite", "x", "y"});
 
   return result;
 }

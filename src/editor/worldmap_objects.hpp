@@ -85,6 +85,7 @@ public:
 
 private:
   std::string m_worldmap;
+  std::string m_sector;
   std::string m_spawnpoint;
   std::string m_message;
   bool m_automatic;

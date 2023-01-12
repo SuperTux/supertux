@@ -1,5 +1,6 @@
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -47,9 +48,50 @@ class Size;
 class TileMap;
 class Writer;
 
+/** A base for the sector class. Contains main properties and functions. */
+class SectorBase : public GameObjectManager
+{
+public:
+  SectorBase(Level& parent, const std::string& type);
+  virtual ~SectorBase() {}
+
+  /** Needs to be called after parsing to finish the construction of
+      the Sector before using it. */
+  virtual void finish_construction(bool editable) {}
+
+  virtual void draw(DrawingContext& context) = 0;
+  virtual void update(float dt_sec) = 0;
+
+  Level& get_level() const;
+
+  void set_name(const std::string& name_) { m_name = name_; }
+  const std::string& get_name() const { return m_name; }
+
+  /** set gravity throughout sector */
+  void set_gravity(float gravity);
+  float get_gravity() const;
+
+  void set_init_script(const std::string& init_script) { m_init_script = init_script; }
+  void run_script(const std::string& script, const std::string& sourcename);
+
+protected:
+  Level& m_level; // Parent level
+
+  std::string m_name;
+  std::string m_init_script;
+  float m_gravity;
+
+  std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
+
+private:
+  SectorBase(const SectorBase&) = delete;
+  SectorBase& operator=(const SectorBase&) = delete;
+};
+
+
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */
-class Sector final : public GameObjectManager
+class Sector final : public SectorBase
 {
 public:
   friend class CollisionSystem;
@@ -67,20 +109,15 @@ public:
   Sector(Level& parent);
   ~Sector() override;
 
-  /** Needs to be called after parsing to finish the construction of
-      the Sector before using it. */
-  void finish_construction(bool editable);
-
-  Level& get_level() const;
+  void finish_construction(bool editable) override;
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
   void activate(const Vector& player_pos);
   void deactivate();
 
-  void update(float dt_sec);
-
-  void draw(DrawingContext& context);
+  void draw(DrawingContext& context) override;
+  void update(float dt_sec) override;
 
   void save(Writer &writer);
 
@@ -89,9 +126,6 @@ public:
 
   /** continues the looping sounds in whole sector. */
   void play_looping_sounds();
-
-  void set_name(const std::string& name_) { m_name = name_; }
-  const std::string& get_name() const { return m_name; }
 
   /** tests if a given rectangle is inside the sector
       (a rectangle that is on top of the sector is considered inside) */
@@ -136,16 +170,6 @@ public:
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
-  /** set gravity throughout sector */
-  void set_gravity(float gravity);
-  float get_gravity() const;
-
-  void set_init_script(const std::string& init_script) {
-    m_init_script = init_script;
-  }
-
-  void run_script(const std::string& script, const std::string& sourcename);
-
   Camera& get_camera() const;
   std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
@@ -163,21 +187,10 @@ private:
   void convert_tiles2gameobject();
 
 private:
-  /** Parent level containing this sector */
-  Level& m_level;
-
-  std::string m_name;
-
   bool m_fully_constructed;
-
-  std::string m_init_script;
-
   int m_foremost_layer;
 
-  std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
   std::unique_ptr<CollisionSystem> m_collision_system;
-
-  float m_gravity;
 
 private:
   Sector(const Sector&) = delete;

@@ -1,5 +1,6 @@
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -68,15 +69,53 @@ PlayerStatus dummy_player_status(1);
 
 } // namespace
 
-Sector::Sector(Level& parent) :
+
+/* Initialize the sector base. */
+SectorBase::SectorBase(Level& parent, const std::string& type) :
   m_level(parent),
   m_name(),
-  m_fully_constructed(false),
   m_init_script(),
+  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type)),
+  m_gravity(10.0f)
+{
+}
+
+Level&
+SectorBase::get_level() const
+{
+  return m_level;
+}
+
+void
+SectorBase::set_gravity(float gravity)
+{
+  if (gravity != 10.0f)
+  {
+    log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects: " << gravity << std::endl;
+  }
+
+  m_gravity = gravity;
+}
+
+float
+SectorBase::get_gravity() const
+{
+  return m_gravity;
+}
+
+void
+SectorBase::run_script(const std::string& script, const std::string& sourcename)
+{
+  m_squirrel_environment->run_script(script, sourcename);
+}
+
+
+/* Initialize the sector. */
+Sector::Sector(Level& parent) :
+  SectorBase(parent, "sector"),
+  m_fully_constructed(false),
   m_foremost_layer(),
-  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "sector")),
-  m_collision_system(new CollisionSystem(*this)),
-  m_gravity(10.0)
+  m_collision_system(new CollisionSystem(*this))
 {
   Savegame* savegame = (Editor::current() && Editor::is_active()) ?
     Editor::current()->m_savegame.get() :
@@ -181,12 +220,6 @@ Sector::finish_construction(bool editable)
   flush_game_objects();
 
   m_fully_constructed = true;
-}
-
-Level&
-Sector::get_level() const
-{
-  return m_level;
 }
 
 void
@@ -602,23 +635,6 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
   }
 }
 
-void
-Sector::set_gravity(float gravity)
-{
-  if (gravity != 10.0f)
-  {
-    log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects: " << gravity << std::endl;
-  }
-
-  m_gravity = gravity;
-}
-
-float
-Sector::get_gravity() const
-{
-  return m_gravity;
-}
-
 Player*
 Sector::get_nearest_player (const Vector& pos) const
 {
@@ -773,12 +789,6 @@ Sector::convert_tiles2gameobject()
       }
     }
   }
-}
-
-void
-Sector::run_script(const std::string& script, const std::string& sourcename)
-{
-  m_squirrel_environment->run_script(script, sourcename);
 }
 
 Camera&

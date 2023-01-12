@@ -33,7 +33,7 @@
 
 Level* Level::s_current = nullptr;
 
-Level::Level(bool worldmap) :
+Level::Level(bool worldmap, bool temporary) :
   m_is_worldmap(worldmap),
   m_name("noname"),
   m_author("SuperTux Player"),
@@ -52,7 +52,7 @@ Level::Level(bool worldmap) :
   m_icon_locked(),
   m_wmselect_bkg()
 {
-  s_current = this;
+  if (!temporary) s_current = this;
 }
 
 Level::~Level()

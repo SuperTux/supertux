@@ -29,7 +29,7 @@ namespace worldmap {
 
 class LevelTile final : public GameObject
 {
-  friend class WorldMapParser;
+  friend class WorldMapSectorParser;
 
 public:
   LevelTile(const std::string& basedir, const ReaderMapping& mapping);

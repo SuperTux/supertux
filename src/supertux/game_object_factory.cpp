@@ -180,6 +180,7 @@ GameObjectFactory::init_factories()
   add_factory<Iceflame>("iceflame");
   add_factory<Igel>("igel");
   add_factory<Jumpy>("jumpy");
+  add_factory<Jumpy>("money"); // backward compatibility
   add_factory<KamikazeSnowball>("kamikazesnowball");
   add_factory<Kugelblitz>("kugelblitz");
   add_factory<LeafShot>("leafshot");

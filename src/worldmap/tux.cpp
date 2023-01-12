@@ -27,9 +27,11 @@
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
 #include "worldmap/camera.hpp"
+#include "worldmap/direction.hpp"
 #include "worldmap/level_tile.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
+#include "worldmap/worldmap.hpp"
 
 namespace worldmap {
 
@@ -53,7 +55,7 @@ Tux::Tux(WorldMap* worldmap) :
 void
 Tux::draw(DrawingContext& context)
 {
-  if (m_worldmap->get_camera().is_panning()) return;
+  if (m_worldmap->get_sector().get_camera().is_panning()) return;
 
   std::string action = get_action_prefix_for_bonus(m_worldmap->get_savegame().get_player_status().bonus[0]);
   if (!action.empty())
@@ -196,13 +198,13 @@ Tux::try_start_walking()
   if (m_input_direction == Direction::NONE)
     return;
 
-  auto level = m_worldmap->at_level();
+  auto level = m_worldmap->get_sector().at_level();
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile(0.0f, 0.0f);
   if ((!level || level->is_solved() || level->is_perfect()
       || (Editor::current() && Editor::current()->is_testing_level()))
-      && m_worldmap->path_ok(m_input_direction, m_tile_pos, &next_tile)) {
+      && m_worldmap->get_sector().path_ok(m_input_direction, m_tile_pos, &next_tile)) {
     m_tile_pos = next_tile;
     m_moving = true;
     m_direction = m_input_direction;
@@ -210,7 +212,7 @@ Tux::try_start_walking()
   } else if (m_ghost_mode || (m_input_direction == m_back_direction)) {
     m_moving = true;
     m_direction = m_input_direction;
-    m_tile_pos = m_worldmap->get_next_tile(m_tile_pos, m_direction);
+    m_tile_pos = m_worldmap->get_sector().get_next_tile(m_tile_pos, m_direction);
     m_back_direction = reverse_dir(m_direction);
   }
 }
@@ -251,11 +253,13 @@ Tux::try_continue_walking(float dt_sec)
 
   m_offset -= 32;
 
-  auto sprite_change = m_worldmap->at_sprite_change(m_tile_pos);
+  auto worldmap_sector = &m_worldmap->get_sector();
+
+  auto sprite_change = worldmap_sector->at_sprite_change(m_tile_pos);
   change_sprite(sprite_change);
 
   // if this is a special_tile with passive_message, display it
-  auto special_tile = m_worldmap->at_special_tile();
+  auto special_tile = worldmap_sector->at_special_tile();
   if (special_tile)
   {
     // direction and the apply_action_ are opposites, since they "see"
@@ -270,24 +274,24 @@ Tux::try_continue_walking(float dt_sec)
   }
 
   // check if we are at a Teleporter
-  auto teleporter = m_worldmap->at_teleporter(m_tile_pos);
+  auto teleporter = worldmap_sector->at_teleporter(m_tile_pos);
 
   // stop if we reached a level, a WORLDMAP_STOP tile, a teleporter or a special tile without a passive_message
-  if ((m_worldmap->at_level()) ||
-      (m_worldmap->tile_data_at(m_tile_pos) & Tile::WORLDMAP_STOP) ||
+  if ((worldmap_sector->at_level()) ||
+      (worldmap_sector->tile_data_at(m_tile_pos) & Tile::WORLDMAP_STOP) ||
       (special_tile && !special_tile->is_passive_message() && special_tile->get_script().empty()) ||
       (teleporter) ||
       m_ghost_mode)
   {
     if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message()) {
-      m_worldmap->set_passive_message({}, 0.0f);
+      worldmap_sector->set_passive_message({}, 0.0f);
     }
     stop();
     return;
   }
 
   // if user wants to change direction, try changing, else guess the direction in which to walk next
-  const int tile_data = m_worldmap->tile_data_at(m_tile_pos);
+  const int tile_data = worldmap_sector->tile_data_at(m_tile_pos);
   if ((m_direction != m_input_direction) && can_walk(tile_data, m_input_direction)) {
     m_direction = m_input_direction;
     m_back_direction = reverse_dir(m_direction);
@@ -319,13 +323,13 @@ Tux::try_continue_walking(float dt_sec)
     return;
 
   Vector next_tile(0.0f, 0.0f);
-  if (!m_ghost_mode && !m_worldmap->path_ok(m_direction, m_tile_pos, &next_tile)) {
+  if (!m_ghost_mode && !worldmap_sector->path_ok(m_direction, m_tile_pos, &next_tile)) {
     log_debug << "Tilemap data is buggy" << std::endl;
     stop();
     return;
   }
 
-  auto next_sprite = m_worldmap->at_sprite_change(next_tile);
+  auto next_sprite = worldmap_sector->at_sprite_change(next_tile);
   if (next_sprite != nullptr && next_sprite->m_change_on_touch) {
     change_sprite(next_sprite);
   }
@@ -354,7 +358,7 @@ Tux::update_input_direction()
 void
 Tux::update(float dt_sec)
 {
-  if (m_worldmap->get_camera().is_panning()) return;
+  if (m_worldmap->get_sector().get_camera().is_panning()) return;
 
   update_input_direction();
   if (m_moving)
@@ -367,7 +371,7 @@ void
 Tux::setup()
 {
   // check if we already touch a SpriteChange object
-  auto sprite_change = m_worldmap->at_sprite_change(m_tile_pos);
+  auto sprite_change = m_worldmap->get_sector().at_sprite_change(m_tile_pos);
   change_sprite(sprite_change);
 }
 
@@ -379,10 +383,10 @@ Tux::process_special_tile(SpecialTile* special_tile)
   }
 
   if (special_tile->is_passive_message()) {
-    m_worldmap->set_passive_message(special_tile->get_map_message(), map_message_TIME);
+    m_worldmap->get_sector().set_passive_message(special_tile->get_map_message(), map_message_TIME);
   } else if (!special_tile->get_script().empty()) {
     try {
-      m_worldmap->run_script(special_tile->get_script(), "specialtile");
+      m_worldmap->get_sector().run_script(special_tile->get_script(), "specialtile");
     } catch(std::exception& e) {
       log_warning << "Couldn't execute special tile script: " << e.what()
                   << std::endl;

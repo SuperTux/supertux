@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -75,27 +76,33 @@ SectorParser::from_nothing(Level& level)
   return sector;
 }
 
-SectorParser::SectorParser(Sector& sector, bool editable) :
+SectorParser::SectorParser(SectorBase& sector, bool editable) :
   m_sector(sector),
   m_editable(editable)
 {
 }
 
 std::unique_ptr<GameObject>
-SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader)
+SectorParser::parse_object(const std::string& name, const ReaderMapping& reader)
 {
-  if (name_ == "money") { // for compatibility with old maps
-    return std::make_unique<Jumpy>(reader);
-  } else if (name_ == "fish") { //because the "fish" was renamed to "fish-jumping"
-    return std::make_unique<FishJumping>(reader);
-  } else {
-    try {
-      return GameObjectFactory::instance().create(name_, reader);
-    } catch(std::exception& e) {
-      log_warning << e.what() << "" << std::endl;
-      return {};
-    }
+  if (parse_object_additional(name, reader))
+    return {}; // Object was parsed by additional rules, so cancel regular object parsing.
+
+  try
+  {
+    return GameObjectFactory::instance().create(name, reader);
   }
+  catch (std::exception& err)
+  {
+    log_warning << err.what() << std::endl;
+    return {};
+  }
+}
+
+bool
+SectorParser::parse_object_additional(const std::string& name, const ReaderMapping& reader)
+{
+  return false; // No additional object parsing rules, so continue with regular object parsing.
 }
 
 void

@@ -17,7 +17,7 @@
 #include "supertux/d_scope.hpp"
 
 DynamicScopedRef<Sector> d_sector;
-DynamicScopedRef<worldmap::WorldMap> d_worldmap;
+DynamicScopedRef<worldmap::WorldMapSector> d_worldmap_sector;
 DynamicScopedRef<GameObjectManager> d_gameobject_manager;
 
 /* EOF */

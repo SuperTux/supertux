@@ -16,7 +16,6 @@
 
 #include "worldmap/teleporter.hpp"
 
-#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -26,6 +25,7 @@ Teleporter::Teleporter(const ReaderMapping& mapping) :
   m_pos(0.0f, 0.0f),
   m_sprite(),
   m_worldmap(),
+  m_sector(),
   m_spawnpoint(),
   m_automatic(false),
   m_message()
@@ -38,18 +38,11 @@ Teleporter::Teleporter(const ReaderMapping& mapping) :
     m_sprite = SpriteManager::current()->create(spritefile);
   }
 
-  if (!mapping.get("worldmap", m_worldmap)) {
-    // worldmap parameter doesn't need to be set. Ignore.
-  }
-  if (!mapping.get("spawnpoint", m_spawnpoint)) {
-    // not set, use "main" spawnpoint.
-  }
-  if (!mapping.get("automatic", m_automatic)) {
-    // doesn't need to be set. Don't teleport automatically.
-  }
-  if (!mapping.get("message", m_message)) {
-    // Optional message not set. Ignore!
-  }
+  mapping.get("worldmap", m_worldmap);
+  mapping.get("sector", m_sector);
+  mapping.get("spawnpoint", m_spawnpoint);
+  mapping.get("automatic", m_automatic);
+  mapping.get("message", m_message);
 }
 
 void
