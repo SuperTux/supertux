@@ -19,6 +19,7 @@
 #include <fmt/format.h>
 
 #include "addon/addon.hpp"
+#include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/download_dialog.hpp"
@@ -149,7 +150,7 @@ AddonPreviewMenu::rebuild_menu()
     {
       if (m_screenshots.size() > 0)
       {
-        add_images(m_screenshots, 426, 240);
+        add_images(m_screenshots, 426, 240, MNID_SCREENSHOTS);
       }
       else
       {
@@ -208,6 +209,10 @@ void
 AddonPreviewMenu::menu_action(MenuItem& item)
 {
   const int index = item.get_id();
+
+  if (index == MNID_SCREENSHOTS) // Non-interactive items.
+    return;
+
   if (index == MNID_SHOW_SCREENSHOTS)
   {
     if (MenuManager::instance().has_dialog()) // If an addon screenshot download is likely currently running.

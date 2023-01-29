@@ -22,11 +22,16 @@
 
 #include <vector>
 
-#include "addon/addon_manager.hpp"
+#include "addon/addon_dependency_manager.hpp"
+#include "addon/addon_screenshot_manager.hpp"
+
+class Addon;
+class AddonManager;
 
 class AddonPreviewMenu final : public Menu
 {
   enum {
+    MNID_SCREENSHOTS,
     MNID_SHOW_SCREENSHOTS,
     MNID_INSTALL,
     MNID_UNINSTALL,
