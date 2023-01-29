@@ -252,6 +252,13 @@ Addon::is_visible() const
 }
 
 bool
+Addon::is_levelset() const
+{
+  // Determines if the add-on is a levelset.
+  return m_type == WORLD || m_type == WORLDMAP || m_type == LEVELSET;
+}
+
+bool
 Addon::overrides_data() const
 {
   // Determines if the add-on should override game data.

@@ -221,9 +221,9 @@ AddonPreviewMenu::menu_action(MenuItem& item)
       return;
     }
     m_show_screenshots = true;
-    auto dialog = std::make_unique<AddonComponentDownloadDialog>(m_screenshot_manager);
-    dialog->set_text(_("Fetching screenshot previews..."));
-    MenuManager::instance().set_dialog(std::move(dialog));
+    auto component_dialog = std::make_unique<AddonComponentDownloadDialog>(m_screenshot_manager);
+    component_dialog->set_text(_("Fetching screenshot previews..."));
+    MenuManager::instance().set_dialog(std::move(component_dialog));
     m_screenshot_manager.request_download_all([this](const std::vector<std::string>& local_screenshot_urls)
     {
       log_info << "Fetching screenshots for add-on \"" << m_addon.get_id() << "\" finished." << std::endl;
@@ -238,10 +238,10 @@ AddonPreviewMenu::menu_action(MenuItem& item)
   }
   else if (index == MNID_UNINSTALL)
   {
-    std::string message = fmt::format(fmt::runtime(_("Are you sure you want to uninstall \"{}\"?")), m_addon.get_title());
-    if (!m_addon.requires_restart()) message += _("\nYour progress won't be lost.");
+    std::string confirmation_message = fmt::format(fmt::runtime(_("Are you sure you want to uninstall \"{}\"?")), m_addon.get_title());
+    if (m_addon.is_levelset()) confirmation_message += _("\nYour progress won't be lost.");
 
-    Dialog::show_confirmation(message, [this]()
+    Dialog::show_confirmation(confirmation_message, [this]()
     {
       const std::vector<std::string> depending_addons = m_addon_manager.get_depending_addons(m_addon.get_id());
       if (depending_addons.empty())
@@ -251,9 +251,9 @@ AddonPreviewMenu::menu_action(MenuItem& item)
       else
       {
         // Other add-ons depend on the add-on that's being uninstalled.
-        const std::string message = fmt::format(fmt::runtime(_("NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\nAre you sure you wish to uninstall?")),
+        const std::string dependency_message = fmt::format(fmt::runtime(_("NOTE: The add-on \"{}\" is a dependency of {} other installed {}.\nAre you sure you wish to uninstall?")),
             m_addon.get_title(), depending_addons.size(), static_cast<int>(depending_addons.size()) <= 1 ? _("add-on") : _("add-ons"));
-        Dialog::show_confirmation(message, [this]()
+        Dialog::show_confirmation(dependency_message, [this]()
         {
           uninstall_addon();
         }, true);
@@ -301,9 +301,9 @@ AddonPreviewMenu::install_addon()
       // Install add-on dependencies, if any.
       if (!m_addon.get_dependencies().empty())
       {
-        auto dialog = std::make_unique<AddonComponentDownloadDialog>(m_dependency_manager);
-        dialog->set_text(_("Downloading add-on dependencies..."));
-        MenuManager::instance().set_dialog(std::move(dialog));
+        auto component_dialog = std::make_unique<AddonComponentDownloadDialog>(m_dependency_manager);
+        component_dialog->set_text(_("Downloading add-on dependencies..."));
+        MenuManager::instance().set_dialog(std::move(component_dialog));
         m_dependency_manager.request_download_all([this]()
         {
           MenuManager::instance().set_dialog({});

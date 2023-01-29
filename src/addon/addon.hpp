@@ -84,6 +84,7 @@ public:
   bool is_enabled() const;
   bool is_visible() const;
 
+  bool is_levelset() const;
   bool overrides_data() const;
   bool requires_restart() const;
 
