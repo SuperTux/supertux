@@ -161,7 +161,7 @@ GameSession::restart_level(bool after_death)
     m_level = LevelParser::from_file(m_levelfile, false, false);
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
-    const GameSession::SpawnPoint* spawnpoint;
+    const GameSession::SpawnPoint* spawnpoint = nullptr;
     if (m_checkpoint_activated && reset_checkpoint_button) // Checkpoint is activated and respawn from it is requested.
     {
       reset_checkpoint_button = false;
@@ -174,7 +174,7 @@ GameSession::restart_level(bool after_death)
           spawnpoint = &m_spawn_points.at(i);
 
           // Remove any spawnpoints after the checkpoint one.
-          if (i < m_spawn_points.size() - 1)
+          if (i < static_cast<int>(m_spawn_points.size()) - 1)
             m_spawn_points.erase(m_spawn_points.begin() + i + 1, m_spawn_points.end());
 
           break;
