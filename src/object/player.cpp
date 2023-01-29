@@ -2234,7 +2234,7 @@ Player::kill(bool completely)
 
     if (!alive_players)
     {
-      if (m_player_status.can_reach_checkpoint())
+      if (m_player_status.respawns_at_checkpoint())
       {
         for (int i = 0; i < 5; i++)
         {
@@ -2244,10 +2244,6 @@ Player::kill(bool completely)
                                                         graphicsRandom.randf(-100.0f, 100.0f));
         }
         m_player_status.take_checkpoint_coins();
-      }
-      else
-      {
-        GameSession::current()->set_reset_point("", Vector(0.0f, 0.0f));
       }
 
       Sector::get().get_effect().fade_out(3.0);
