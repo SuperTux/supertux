@@ -480,7 +480,7 @@ ScreenManager::process_events()
         }
         break;
 
-      // NOTE: Steam recommends leaving this behavior in. If it turns out to bt
+      // NOTE: Steam recommends leaving this behavior in. If it turns out to be
       // impractical for users, please add `#ifdef STEAM_BUILD` code around it.
       case SDL_JOYDEVICEREMOVED:
       case SDL_CONTROLLERDEVICEREMOVED:
