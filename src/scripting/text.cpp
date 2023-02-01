@@ -114,6 +114,13 @@ Text::get_anchor_point() const
 }
 
 void
+Text::set_anchor_offset(float x, float y)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_anchor_offset(x, y);
+}
+
+void
 Text::set_front_fill_color(float red, float green, float blue, float alpha)
 {
   SCRIPT_GUARD_VOID;
