@@ -68,7 +68,6 @@ public:
 
   void set_anchor_point(AnchorPoint anchor) { m_anchor = anchor; }
   AnchorPoint get_anchor_point() const { return m_anchor; }
-  void set_anchor_offset(float x, float y) { m_anchor_offset = Vector(x, y); }
   void set_anchor_offset(const Vector& offset) { m_anchor_offset = offset; }
 
   void set_pos(const Vector& pos) { m_pos = pos; }

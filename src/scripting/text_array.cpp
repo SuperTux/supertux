@@ -227,7 +227,7 @@ TextArray::set_anchor_offset(float x, float y)
   SCRIPT_GUARD_VOID;
 
   if (auto* textItem = object.get_current_text_item()) {
-    textItem->text_object.set_anchor_offset(x, y);
+    textItem->text_object.set_anchor_offset(Vector(x, y));
   }
 }
 

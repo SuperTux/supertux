@@ -117,7 +117,7 @@ void
 Text::set_anchor_offset(float x, float y)
 {
   SCRIPT_GUARD_VOID;
-  object.set_anchor_offset(x, y);
+  object.set_anchor_offset(Vector(x, y));
 }
 
 void
