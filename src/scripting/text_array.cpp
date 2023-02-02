@@ -222,6 +222,16 @@ TextArray::get_anchor_point() const
 }
 
 void
+TextArray::set_anchor_offset(float x, float y)
+{
+  SCRIPT_GUARD_VOID;
+
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.set_anchor_offset(Vector(x, y));
+  }
+}
+
+void
 TextArray::set_front_fill_color(float red, float green, float blue, float alpha)
 {
   SCRIPT_GUARD_VOID;
