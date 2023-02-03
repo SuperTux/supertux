@@ -40,6 +40,9 @@ language.settings.xml
 # Visual Studio project files
 *.vs/
 
+# JetBrains IDE project files
+.idea/
+
 # Windows build dependencies
 dependencies*/
 
