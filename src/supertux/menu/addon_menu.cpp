@@ -24,9 +24,9 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/addon_browse_menu.hpp"
+#include "supertux/menu/addon_file_install_menu.hpp"
 #include "supertux/menu/addon_preview_menu.hpp"
 #include "supertux/menu/download_dialog.hpp"
-#include "supertux/menu/addon_file_install_menu.hpp"
 #include "util/log.hpp"
 
 #define IS_UPDATE_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 0)
