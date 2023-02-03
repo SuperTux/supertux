@@ -490,12 +490,6 @@ ScreenManager::process_events()
           session->toggle_pause();
         }
         break;
-
-      case SDL_DROPFILE:
-        char* filename = event.drop.file;
-        AddonManager::current()->install_addon_from_local_file(std::string(filename));
-        SDL_free(filename);
-        break;
     }
   }
 }

@@ -71,6 +71,8 @@ public:
 
   virtual void on_window_resize();
 
+  virtual void event(const SDL_Event& event);
+
   ItemHorizontalLine& add_hl();
   ItemLabel& add_label(const std::string& text);
   ItemAction& add_entry(int id, const std::string& text);
@@ -121,8 +123,6 @@ public:
   void draw(DrawingContext& context);
   Vector get_center_pos() const { return m_pos; }
   void set_center_pos(float x, float y);
-
-  void event(const SDL_Event& event);
 
   float get_width() const;
   float get_height() const;
