@@ -29,9 +29,9 @@ AddonFileInstallMenu::AddonFileInstallMenu(AddonMenu* addon_menu) :
 void
 AddonFileInstallMenu::refresh()
 {
-  add_label(_("Install from file"));
+  add_label(_("Install Add-on from file"));
   add_hl();
-  add_inactive(_("Drag and drop addon ZIP archive"));
+  add_inactive(_("Drag and drop add-on ZIP archive"));
   add_hl();
   add_back(_("Back"));
 }
