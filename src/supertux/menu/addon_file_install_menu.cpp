@@ -14,30 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/install_addon_from_file_menu.hpp"
+#include "supertux/menu/addon_file_install_menu.hpp"
 
 #include "addon/addon_manager.hpp"
 #include "supertux/menu/addon_menu.hpp"
 #include "util/gettext.hpp"
 
-InstallAddonFromFileMenu::InstallAddonFromFileMenu(AddonMenu* addon_menu) :
+AddonFileInstallMenu::AddonFileInstallMenu(AddonMenu* addon_menu) :
   m_addon_menu(addon_menu)
 {
   refresh();
 }
 
 void
-InstallAddonFromFileMenu::refresh()
+AddonFileInstallMenu::refresh()
 {
   add_label(_("Install from file"));
   add_hl();
-  add_inactive(_("Drag and drop addon zip archive"));
+  add_inactive(_("Drag and drop addon ZIP archive"));
   add_hl();
   add_back(_("Back"));
 }
 
 void
-InstallAddonFromFileMenu::event(const SDL_Event& event)
+AddonFileInstallMenu::event(const SDL_Event& event)
 {
   if (event.type == SDL_DROPFILE)
   {

@@ -26,7 +26,7 @@
 #include "supertux/menu/addon_browse_menu.hpp"
 #include "supertux/menu/addon_preview_menu.hpp"
 #include "supertux/menu/download_dialog.hpp"
-#include "supertux/menu/install_addon_from_file_menu.hpp"
+#include "supertux/menu/addon_file_install_menu.hpp"
 #include "util/log.hpp"
 
 #define IS_UPDATE_MENU_ID(idx) (((idx) - MNID_ADDON_LIST_START) % 2 == 0)
@@ -166,7 +166,9 @@ AddonMenu::menu_action(MenuItem& item)
     MenuManager::instance().push_menu(std::make_unique<AddonBrowseMenu>(m_langpacks_only, false));
   }
   else if (index == MNID_INSTALL_FROM_FILE)
-    MenuManager::instance().push_menu(std::make_unique<InstallAddonFromFileMenu>(this));
+  { 
+    MenuManager::instance().push_menu(std::make_unique<AddonFileInstallMenu>(this));
+  }
   else if (IS_UPDATE_MENU_ID(index))
   {
     int idx = UNPACK_UPDATE_MENU_ID(index);

@@ -14,17 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_INSTALL_ADDON_FROM_FILE_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_INSTALL_ADDON_FROM_FILE_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_FILE_INSTALL_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_FILE_INSTALL_MENU_HPP
 
 #include "gui/menu.hpp"
 
 class AddonMenu;
 
-class InstallAddonFromFileMenu final : public Menu
+class AddonFileInstallMenu final : public Menu
 {
 public:
-  InstallAddonFromFileMenu(AddonMenu* addon_menu);
+  AddonFileInstallMenu(AddonMenu* addon_menu);
 
   virtual void refresh() override;
   virtual void menu_action(MenuItem& item) override {}
@@ -35,8 +35,8 @@ private:
   AddonMenu* m_addon_menu;
 
 private:
-  InstallAddonFromFileMenu(const InstallAddonFromFileMenu&) = delete;
-  InstallAddonFromFileMenu& operator=(const InstallAddonFromFileMenu&) = delete;
+  AddonFileInstallMenu(const AddonFileInstallMenu&) = delete;
+  AddonFileInstallMenu& operator=(const AddonFileInstallMenu&) = delete;
 };
 
 #endif
