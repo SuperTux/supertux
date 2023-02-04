@@ -18,6 +18,7 @@
 
 #include "supertux/screen_manager.hpp"
 
+#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/particle_editor.hpp"
@@ -488,6 +489,7 @@ ScreenManager::process_events()
         {
           session->toggle_pause();
         }
+        break;
     }
   }
 }
