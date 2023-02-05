@@ -52,4 +52,4 @@ jobs:
           ./danmar-cppcheck-*/cppcheck \
             --quiet --inline-suppr --language=c++ --error-exitcode=10 \
             -j"$(nproc)" --std=c++14 --enable=warning,style \
-            --suppress=useStlAlgorithm  src/ -isrc/scripting/wrapper.hpp -isrc/scripting/wrapper.cpp
+            --suppress=useStlAlgorithm  src/
