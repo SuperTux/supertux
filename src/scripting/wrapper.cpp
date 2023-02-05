@@ -32,10 +32,6 @@ static SQInteger AmbientSound_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -71,10 +67,6 @@ static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_x();
@@ -100,10 +92,6 @@ static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -138,10 +126,6 @@ static SQInteger Background_set_image_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -171,10 +155,6 @@ static SQInteger Background_set_images_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -216,10 +196,6 @@ static SQInteger Background_set_speed_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -250,10 +226,6 @@ static SQInteger Background_get_color_red_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_color_red();
@@ -279,10 +251,6 @@ static SQInteger Background_get_color_green_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -310,10 +278,6 @@ static SQInteger Background_get_color_blue_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_color_blue();
@@ -340,10 +304,6 @@ static SQInteger Background_get_color_alpha_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_color_alpha();
@@ -369,10 +329,6 @@ static SQInteger Background_set_color_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -418,10 +374,6 @@ static SQInteger Background_fade_color_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Background*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -480,10 +432,6 @@ static SQInteger BadGuy_kill_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::BadGuy*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->kill();
@@ -509,10 +457,6 @@ static SQInteger BadGuy_ignite_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::BadGuy*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->ignite();
@@ -537,10 +481,6 @@ static SQInteger BadGuy_set_action_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::BadGuy*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -576,10 +516,6 @@ static SQInteger BadGuy_set_sprite_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::BadGuy*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -618,10 +554,6 @@ static SQInteger Camera_reload_config_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->reload_config();
@@ -646,10 +578,6 @@ static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -691,10 +619,6 @@ static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -730,10 +654,6 @@ static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -763,10 +683,6 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -808,10 +724,6 @@ static SQInteger Camera_get_current_scale_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_current_scale();
@@ -838,10 +750,6 @@ static SQInteger Camera_get_target_scale_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_target_scale();
@@ -867,10 +775,6 @@ static SQInteger Camera_set_scale_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -901,10 +805,6 @@ static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -940,10 +840,6 @@ static SQInteger Camera_ease_scale_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Camera*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -992,10 +888,6 @@ static SQInteger Candle_get_burning_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Candle*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_burning();
@@ -1021,10 +913,6 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Candle*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -1063,10 +951,6 @@ static SQInteger Clouds_set_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Clouds*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -1097,10 +981,6 @@ static SQInteger Clouds_get_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Clouds*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_enabled();
@@ -1126,10 +1006,6 @@ static SQInteger Clouds_fade_speed_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Clouds*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -1165,10 +1041,6 @@ static SQInteger Clouds_fade_amount_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Clouds*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -1209,10 +1081,6 @@ static SQInteger Clouds_set_amount_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Clouds*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -1256,10 +1124,6 @@ static SQInteger CustomParticles_set_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -1290,10 +1154,6 @@ static SQInteger CustomParticles_get_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_enabled();
@@ -1320,10 +1180,6 @@ static SQInteger CustomParticles_clear_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->clear();
@@ -1348,10 +1204,6 @@ static SQInteger CustomParticles_spawn_particles_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -1388,10 +1240,6 @@ static SQInteger CustomParticles_get_max_amount_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     int return_value = _this->get_max_amount();
@@ -1417,10 +1265,6 @@ static SQInteger CustomParticles_set_max_amount_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -1452,10 +1296,6 @@ static SQInteger CustomParticles_get_birth_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_birth_mode();
@@ -1482,10 +1322,6 @@ static SQInteger CustomParticles_set_birth_mode_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -1517,10 +1353,6 @@ static SQInteger CustomParticles_get_death_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_death_mode();
@@ -1547,10 +1379,6 @@ static SQInteger CustomParticles_set_death_mode_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -1582,10 +1410,6 @@ static SQInteger CustomParticles_get_rotation_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_rotation_mode();
@@ -1612,10 +1436,6 @@ static SQInteger CustomParticles_set_rotation_mode_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -1647,10 +1467,6 @@ static SQInteger CustomParticles_get_collision_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_collision_mode();
@@ -1677,10 +1493,6 @@ static SQInteger CustomParticles_set_collision_mode_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -1712,10 +1524,6 @@ static SQInteger CustomParticles_get_offscreen_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_offscreen_mode();
@@ -1742,10 +1550,6 @@ static SQInteger CustomParticles_set_offscreen_mode_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -1777,10 +1581,6 @@ static SQInteger CustomParticles_get_cover_screen_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_cover_screen();
@@ -1806,10 +1606,6 @@ static SQInteger CustomParticles_set_cover_screen_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -1841,10 +1637,6 @@ static SQInteger CustomParticles_get_delay_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_delay();
@@ -1870,10 +1662,6 @@ static SQInteger CustomParticles_set_delay_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -1904,10 +1692,6 @@ static SQInteger CustomParticles_fade_delay_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -1943,10 +1727,6 @@ static SQInteger CustomParticles_ease_delay_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -1988,10 +1768,6 @@ static SQInteger CustomParticles_get_lifetime_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_lifetime();
@@ -2017,10 +1793,6 @@ static SQInteger CustomParticles_set_lifetime_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2051,10 +1823,6 @@ static SQInteger CustomParticles_fade_lifetime_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2090,10 +1858,6 @@ static SQInteger CustomParticles_ease_lifetime_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2135,10 +1899,6 @@ static SQInteger CustomParticles_get_lifetime_variation_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_lifetime_variation();
@@ -2164,10 +1924,6 @@ static SQInteger CustomParticles_set_lifetime_variation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2198,10 +1954,6 @@ static SQInteger CustomParticles_fade_lifetime_variation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2237,10 +1989,6 @@ static SQInteger CustomParticles_ease_lifetime_variation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2282,10 +2030,6 @@ static SQInteger CustomParticles_get_birth_time_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_birth_time();
@@ -2311,10 +2055,6 @@ static SQInteger CustomParticles_set_birth_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2345,10 +2085,6 @@ static SQInteger CustomParticles_fade_birth_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2384,10 +2120,6 @@ static SQInteger CustomParticles_ease_birth_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2429,10 +2161,6 @@ static SQInteger CustomParticles_get_birth_time_variation_wrapper(HSQUIRRELVM vm
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_birth_time_variation();
@@ -2458,10 +2186,6 @@ static SQInteger CustomParticles_set_birth_time_variation_wrapper(HSQUIRRELVM vm
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2492,10 +2216,6 @@ static SQInteger CustomParticles_fade_birth_time_variation_wrapper(HSQUIRRELVM v
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2531,10 +2251,6 @@ static SQInteger CustomParticles_ease_birth_time_variation_wrapper(HSQUIRRELVM v
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2576,10 +2292,6 @@ static SQInteger CustomParticles_get_death_time_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_death_time();
@@ -2605,10 +2317,6 @@ static SQInteger CustomParticles_set_death_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2639,10 +2347,6 @@ static SQInteger CustomParticles_fade_death_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2678,10 +2382,6 @@ static SQInteger CustomParticles_ease_death_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2723,10 +2423,6 @@ static SQInteger CustomParticles_get_death_time_variation_wrapper(HSQUIRRELVM vm
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_death_time_variation();
@@ -2752,10 +2448,6 @@ static SQInteger CustomParticles_set_death_time_variation_wrapper(HSQUIRRELVM vm
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2786,10 +2478,6 @@ static SQInteger CustomParticles_fade_death_time_variation_wrapper(HSQUIRRELVM v
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2825,10 +2513,6 @@ static SQInteger CustomParticles_ease_death_time_variation_wrapper(HSQUIRRELVM v
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2870,10 +2554,6 @@ static SQInteger CustomParticles_get_speed_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_speed_x();
@@ -2899,10 +2579,6 @@ static SQInteger CustomParticles_set_speed_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2933,10 +2609,6 @@ static SQInteger CustomParticles_fade_speed_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -2972,10 +2644,6 @@ static SQInteger CustomParticles_ease_speed_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3017,10 +2685,6 @@ static SQInteger CustomParticles_get_speed_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_speed_y();
@@ -3046,10 +2710,6 @@ static SQInteger CustomParticles_set_speed_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3080,10 +2740,6 @@ static SQInteger CustomParticles_fade_speed_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3119,10 +2775,6 @@ static SQInteger CustomParticles_ease_speed_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3164,10 +2816,6 @@ static SQInteger CustomParticles_get_speed_variation_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_speed_variation_x();
@@ -3193,10 +2841,6 @@ static SQInteger CustomParticles_set_speed_variation_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3227,10 +2871,6 @@ static SQInteger CustomParticles_fade_speed_variation_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3266,10 +2906,6 @@ static SQInteger CustomParticles_ease_speed_variation_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3311,10 +2947,6 @@ static SQInteger CustomParticles_get_speed_variation_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_speed_variation_y();
@@ -3340,10 +2972,6 @@ static SQInteger CustomParticles_set_speed_variation_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3374,10 +3002,6 @@ static SQInteger CustomParticles_fade_speed_variation_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3413,10 +3037,6 @@ static SQInteger CustomParticles_ease_speed_variation_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3458,10 +3078,6 @@ static SQInteger CustomParticles_get_acceleration_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_acceleration_x();
@@ -3487,10 +3103,6 @@ static SQInteger CustomParticles_set_acceleration_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3521,10 +3133,6 @@ static SQInteger CustomParticles_fade_acceleration_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3560,10 +3168,6 @@ static SQInteger CustomParticles_ease_acceleration_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3605,10 +3209,6 @@ static SQInteger CustomParticles_get_acceleration_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_acceleration_y();
@@ -3634,10 +3234,6 @@ static SQInteger CustomParticles_set_acceleration_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3668,10 +3264,6 @@ static SQInteger CustomParticles_fade_acceleration_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3707,10 +3299,6 @@ static SQInteger CustomParticles_ease_acceleration_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3752,10 +3340,6 @@ static SQInteger CustomParticles_get_friction_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_friction_x();
@@ -3781,10 +3365,6 @@ static SQInteger CustomParticles_set_friction_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3815,10 +3395,6 @@ static SQInteger CustomParticles_fade_friction_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3854,10 +3430,6 @@ static SQInteger CustomParticles_ease_friction_x_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3899,10 +3471,6 @@ static SQInteger CustomParticles_get_friction_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_friction_y();
@@ -3928,10 +3496,6 @@ static SQInteger CustomParticles_set_friction_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -3962,10 +3526,6 @@ static SQInteger CustomParticles_fade_friction_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4001,10 +3561,6 @@ static SQInteger CustomParticles_ease_friction_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4046,10 +3602,6 @@ static SQInteger CustomParticles_get_feather_factor_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_feather_factor();
@@ -4075,10 +3627,6 @@ static SQInteger CustomParticles_set_feather_factor_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4109,10 +3657,6 @@ static SQInteger CustomParticles_fade_feather_factor_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4148,10 +3692,6 @@ static SQInteger CustomParticles_ease_feather_factor_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4193,10 +3733,6 @@ static SQInteger CustomParticles_get_rotation_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_rotation();
@@ -4222,10 +3758,6 @@ static SQInteger CustomParticles_set_rotation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4256,10 +3788,6 @@ static SQInteger CustomParticles_fade_rotation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4295,10 +3823,6 @@ static SQInteger CustomParticles_ease_rotation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4340,10 +3864,6 @@ static SQInteger CustomParticles_get_rotation_variation_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_rotation_variation();
@@ -4369,10 +3889,6 @@ static SQInteger CustomParticles_set_rotation_variation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4403,10 +3919,6 @@ static SQInteger CustomParticles_fade_rotation_variation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4442,10 +3954,6 @@ static SQInteger CustomParticles_ease_rotation_variation_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4487,10 +3995,6 @@ static SQInteger CustomParticles_get_rotation_speed_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_rotation_speed();
@@ -4516,10 +4020,6 @@ static SQInteger CustomParticles_set_rotation_speed_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4550,10 +4050,6 @@ static SQInteger CustomParticles_fade_rotation_speed_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4589,10 +4085,6 @@ static SQInteger CustomParticles_ease_rotation_speed_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4634,10 +4126,6 @@ static SQInteger CustomParticles_get_rotation_speed_variation_wrapper(HSQUIRRELV
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_rotation_speed_variation();
@@ -4663,10 +4151,6 @@ static SQInteger CustomParticles_set_rotation_speed_variation_wrapper(HSQUIRRELV
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4697,10 +4181,6 @@ static SQInteger CustomParticles_fade_rotation_speed_variation_wrapper(HSQUIRREL
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4736,10 +4216,6 @@ static SQInteger CustomParticles_ease_rotation_speed_variation_wrapper(HSQUIRREL
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4781,10 +4257,6 @@ static SQInteger CustomParticles_get_rotation_acceleration_wrapper(HSQUIRRELVM v
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_rotation_acceleration();
@@ -4810,10 +4282,6 @@ static SQInteger CustomParticles_set_rotation_acceleration_wrapper(HSQUIRRELVM v
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4844,10 +4312,6 @@ static SQInteger CustomParticles_fade_rotation_acceleration_wrapper(HSQUIRRELVM 
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4883,10 +4347,6 @@ static SQInteger CustomParticles_ease_rotation_acceleration_wrapper(HSQUIRRELVM 
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4928,10 +4388,6 @@ static SQInteger CustomParticles_get_rotation_decceleration_wrapper(HSQUIRRELVM 
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_rotation_decceleration();
@@ -4957,10 +4413,6 @@ static SQInteger CustomParticles_set_rotation_decceleration_wrapper(HSQUIRRELVM 
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -4991,10 +4443,6 @@ static SQInteger CustomParticles_fade_rotation_decceleration_wrapper(HSQUIRRELVM
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5030,10 +4478,6 @@ static SQInteger CustomParticles_ease_rotation_decceleration_wrapper(HSQUIRRELVM
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::CustomParticles*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5082,10 +4526,6 @@ static SQInteger Decal_fade_sprite_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Decal*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -5121,10 +4561,6 @@ static SQInteger Decal_change_sprite_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Decal*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -5155,10 +4591,6 @@ static SQInteger Decal_fade_in_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Decal*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -5188,10 +4620,6 @@ static SQInteger Decal_fade_out_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Decal*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5230,10 +4658,6 @@ static SQInteger Dispenser_activate_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Dispenser*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->activate();
@@ -5258,10 +4682,6 @@ static SQInteger Dispenser_deactivate_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Dispenser*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -5295,10 +4715,6 @@ static SQInteger DisplayEffect_fade_out_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -5328,10 +4744,6 @@ static SQInteger DisplayEffect_fade_in_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5363,10 +4775,6 @@ static SQInteger DisplayEffect_set_black_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -5397,10 +4805,6 @@ static SQInteger DisplayEffect_is_black_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->is_black();
@@ -5426,10 +4830,6 @@ static SQInteger DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5460,10 +4860,6 @@ static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5530,10 +4926,6 @@ static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
@@ -5564,10 +4956,6 @@ static SQInteger FloatingImage_get_layer_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     int return_value = _this->get_layer();
@@ -5593,10 +4981,6 @@ static SQInteger FloatingImage_set_pos_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5633,10 +5017,6 @@ static SQInteger FloatingImage_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_x();
@@ -5663,10 +5043,6 @@ static SQInteger FloatingImage_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_y();
@@ -5692,10 +5068,6 @@ static SQInteger FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -5727,10 +5099,6 @@ static SQInteger FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     int return_value = _this->get_anchor_point();
@@ -5756,10 +5124,6 @@ static SQInteger FloatingImage_set_visible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -5791,10 +5155,6 @@ static SQInteger FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_visible();
@@ -5820,10 +5180,6 @@ static SQInteger FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -5855,10 +5211,6 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_action();
@@ -5885,10 +5237,6 @@ static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5919,10 +5267,6 @@ static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -5960,10 +5304,6 @@ static SQInteger GameObjectManager_set_ambient_light_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -6004,10 +5344,6 @@ static SQInteger GameObjectManager_fade_to_ambient_light_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -6054,10 +5390,6 @@ static SQInteger GameObjectManager_get_ambient_red_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_ambient_red();
@@ -6083,10 +5415,6 @@ static SQInteger GameObjectManager_get_ambient_green_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -6114,10 +5442,6 @@ static SQInteger GameObjectManager_get_ambient_blue_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_ambient_blue();
@@ -6143,10 +5467,6 @@ static SQInteger GameObjectManager_set_music_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::GameObjectManager*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -6185,10 +5505,6 @@ static SQInteger Gradient_set_direction_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -6219,10 +5535,6 @@ static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_direction();
@@ -6249,10 +5561,6 @@ static SQInteger Gradient_set_color1_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -6294,10 +5602,6 @@ static SQInteger Gradient_set_color2_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -6337,10 +5641,6 @@ static SQInteger Gradient_set_colors_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -6397,10 +5697,6 @@ static SQInteger Gradient_fade_color1_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -6446,10 +5742,6 @@ static SQInteger Gradient_fade_color2_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -6494,10 +5786,6 @@ static SQInteger Gradient_fade_colors_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -6559,10 +5847,6 @@ static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->swap_colors();
@@ -6595,10 +5879,6 @@ static SQInteger LevelTime_start_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->start();
@@ -6623,10 +5903,6 @@ static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::LevelTime*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -6653,10 +5929,6 @@ static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_time();
@@ -6682,10 +5954,6 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::LevelTime*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -6724,10 +5992,6 @@ static SQInteger LitObject_get_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::LitObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_action();
@@ -6754,10 +6018,6 @@ static SQInteger LitObject_set_action_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::LitObject*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -6789,10 +6049,6 @@ static SQInteger LitObject_get_light_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::LitObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_light_action();
@@ -6819,10 +6075,6 @@ static SQInteger LitObject_set_light_action_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::LitObject*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -6861,10 +6113,6 @@ static SQInteger ParticleSystem_set_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ParticleSystem*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -6894,10 +6142,6 @@ static SQInteger ParticleSystem_get_enabled_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::ParticleSystem*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -6932,10 +6176,6 @@ static SQInteger Platform_goto_node_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Platform*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
@@ -6966,10 +6206,6 @@ static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Platform*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->start_moving();
@@ -6995,10 +6231,6 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Platform*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->stop_moving();
@@ -7023,10 +6255,6 @@ static SQInteger Platform_set_action_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Platform*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -7070,10 +6298,6 @@ static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -7104,10 +6328,6 @@ static SQInteger Player_set_bonus_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -7140,10 +6360,6 @@ static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
@@ -7174,10 +6390,6 @@ static SQInteger Player_get_coins_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     int return_value = _this->get_coins();
@@ -7204,10 +6416,6 @@ static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->make_invincible();
@@ -7232,10 +6440,6 @@ static SQInteger Player_deactivate_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -7262,10 +6466,6 @@ static SQInteger Player_activate_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->activate();
@@ -7290,10 +6490,6 @@ static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -7325,10 +6521,6 @@ static SQInteger Player_set_dir_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -7358,10 +6550,6 @@ static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -7393,10 +6581,6 @@ static SQInteger Player_get_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_visible();
@@ -7422,10 +6606,6 @@ static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -7457,10 +6637,6 @@ static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -7491,10 +6667,6 @@ static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_ghost_mode();
@@ -7521,10 +6693,6 @@ static SQInteger Player_kick_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->kick();
@@ -7549,10 +6717,6 @@ static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -7579,10 +6743,6 @@ static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->do_duck();
@@ -7607,10 +6767,6 @@ static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -7637,10 +6793,6 @@ static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->do_backflip();
@@ -7665,10 +6817,6 @@ static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -7700,10 +6848,6 @@ static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -7733,10 +6877,6 @@ static SQInteger Player_use_scripting_controller_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -7768,10 +6908,6 @@ static SQInteger Player_has_grabbed_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -7802,10 +6938,6 @@ static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -7842,10 +6974,6 @@ static SQInteger Player_get_velocity_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_velocity_x();
@@ -7871,10 +6999,6 @@ static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -7902,10 +7026,6 @@ static SQInteger Player_get_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_x();
@@ -7932,10 +7052,6 @@ static SQInteger Player_get_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_y();
@@ -7961,10 +7077,6 @@ static SQInteger Player_set_pos_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -8008,10 +7120,6 @@ static SQInteger Rain_set_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Rain*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -8042,10 +7150,6 @@ static SQInteger Rain_get_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Rain*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_enabled();
@@ -8071,10 +7175,6 @@ static SQInteger Rain_fade_speed_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Rain*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -8111,10 +7211,6 @@ static SQInteger Rain_fade_amount_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Rain*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -8149,10 +7245,6 @@ static SQInteger Rain_fade_angle_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Rain*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -8208,10 +7300,6 @@ static SQInteger ScriptedObject_set_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -8242,10 +7330,6 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     std::string return_value = _this->get_action();
@@ -8272,10 +7356,6 @@ static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -8312,10 +7392,6 @@ static SQInteger ScriptedObject_set_pos_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -8351,10 +7427,6 @@ static SQInteger ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_x();
@@ -8381,10 +7453,6 @@ static SQInteger ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_y();
@@ -8410,10 +7478,6 @@ static SQInteger ScriptedObject_set_velocity_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -8450,10 +7514,6 @@ static SQInteger ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_velocity_x();
@@ -8480,10 +7540,6 @@ static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_velocity_y();
@@ -8509,10 +7565,6 @@ static SQInteger ScriptedObject_enable_gravity_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -8544,10 +7596,6 @@ static SQInteger ScriptedObject_gravity_enabled_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->gravity_enabled();
@@ -8573,10 +7621,6 @@ static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -8608,10 +7652,6 @@ static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->is_visible();
@@ -8637,10 +7677,6 @@ static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -8672,10 +7708,6 @@ static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->is_solid();
@@ -8701,10 +7733,6 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -8739,10 +7767,6 @@ static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Sector*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -8781,10 +7805,6 @@ static SQInteger Spotlight_set_direction_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -8815,10 +7835,6 @@ static SQInteger Spotlight_set_angle_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -8848,10 +7864,6 @@ static SQInteger Spotlight_fade_angle_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -8887,10 +7899,6 @@ static SQInteger Spotlight_ease_angle_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -8932,10 +7940,6 @@ static SQInteger Spotlight_set_speed_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -8965,10 +7969,6 @@ static SQInteger Spotlight_fade_speed_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9004,10 +8004,6 @@ static SQInteger Spotlight_ease_speed_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9048,10 +8044,6 @@ static SQInteger Spotlight_set_color_rgba_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9097,10 +8089,6 @@ static SQInteger Spotlight_fade_color_rgba_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9151,10 +8139,6 @@ static SQInteger Spotlight_ease_color_rgba_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Spotlight*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9218,10 +8202,6 @@ static SQInteger Text_set_text_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -9251,10 +8231,6 @@ static SQInteger Text_set_font_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -9286,10 +8262,6 @@ static SQInteger Text_fade_in_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -9319,10 +8291,6 @@ static SQInteger Text_fade_out_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9354,10 +8322,6 @@ static SQInteger Text_grow_in_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -9387,10 +8351,6 @@ static SQInteger Text_grow_out_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9422,10 +8382,6 @@ static SQInteger Text_set_visible_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -9456,10 +8412,6 @@ static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -9489,10 +8441,6 @@ static SQInteger Text_set_pos_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9529,10 +8477,6 @@ static SQInteger Text_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_x();
@@ -9559,10 +8503,6 @@ static SQInteger Text_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_y();
@@ -9588,10 +8528,6 @@ static SQInteger Text_set_anchor_point_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -9623,10 +8559,6 @@ static SQInteger Text_get_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     int return_value = _this->get_anchor_point();
@@ -9652,10 +8584,6 @@ static SQInteger Text_set_anchor_offset_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9691,10 +8619,6 @@ static SQInteger Text_set_front_fill_color_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9741,10 +8665,6 @@ static SQInteger Text_set_back_fill_color_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -9789,10 +8709,6 @@ static SQInteger Text_set_text_color_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -9839,10 +8755,6 @@ static SQInteger Text_set_roundness_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Text*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -9880,10 +8792,6 @@ static SQInteger TextArray_clear_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->clear();
@@ -9908,10 +8816,6 @@ static SQInteger TextArray_add_text_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -9942,10 +8846,6 @@ static SQInteger TextArray_add_text_duration_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -9982,10 +8882,6 @@ static SQInteger TextArray_set_text_index_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
@@ -10015,10 +8911,6 @@ static SQInteger TextArray_set_keep_visible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -10050,10 +8942,6 @@ static SQInteger TextArray_set_fade_transition_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -10083,10 +8971,6 @@ static SQInteger TextArray_set_fade_time_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -10118,10 +9002,6 @@ static SQInteger TextArray_set_done_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -10151,10 +9031,6 @@ static SQInteger TextArray_set_auto_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -10186,10 +9062,6 @@ static SQInteger TextArray_next_text_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->next_text();
@@ -10215,10 +9087,6 @@ static SQInteger TextArray_prev_text_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->prev_text();
@@ -10243,10 +9111,6 @@ static SQInteger TextArray_set_text_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -10278,10 +9142,6 @@ static SQInteger TextArray_set_font_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a string"));
@@ -10311,10 +9171,6 @@ static SQInteger TextArray_fade_in_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -10346,10 +9202,6 @@ static SQInteger TextArray_fade_out_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -10379,10 +9231,6 @@ static SQInteger TextArray_set_visible_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -10414,10 +9262,6 @@ static SQInteger TextArray_set_centered_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a bool"));
@@ -10447,10 +9291,6 @@ static SQInteger TextArray_set_pos_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -10487,10 +9327,6 @@ static SQInteger TextArray_get_pos_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_x();
@@ -10517,10 +9353,6 @@ static SQInteger TextArray_get_pos_y_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_pos_y();
@@ -10546,10 +9378,6 @@ static SQInteger TextArray_set_anchor_point_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -10581,10 +9409,6 @@ static SQInteger TextArray_get_anchor_point_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     int return_value = _this->get_anchor_point();
@@ -10610,10 +9434,6 @@ static SQInteger TextArray_set_anchor_offset_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -10649,10 +9469,6 @@ static SQInteger TextArray_set_front_fill_color_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -10699,10 +9515,6 @@ static SQInteger TextArray_set_back_fill_color_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -10747,10 +9559,6 @@ static SQInteger TextArray_set_text_color_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -10797,10 +9605,6 @@ static SQInteger TextArray_set_roundness_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TextArray*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -10838,10 +9642,6 @@ static SQInteger Thunderstorm_start_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->start();
@@ -10866,10 +9666,6 @@ static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -10896,10 +9692,6 @@ static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->thunder();
@@ -10924,10 +9716,6 @@ static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -10954,10 +9742,6 @@ static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->flash();
@@ -10982,10 +9766,6 @@ static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -11019,10 +9799,6 @@ static SQInteger TileMap_goto_node_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
@@ -11053,10 +9829,6 @@ static SQInteger TileMap_start_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->start_moving();
@@ -11082,10 +9854,6 @@ static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->stop_moving();
@@ -11110,10 +9878,6 @@ static SQInteger TileMap_get_tile_id_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -11151,10 +9915,6 @@ static SQInteger TileMap_get_tile_id_at_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -11190,10 +9950,6 @@ static SQInteger TileMap_change_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
@@ -11235,10 +9991,6 @@ static SQInteger TileMap_change_at_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -11279,10 +10031,6 @@ static SQInteger TileMap_fade_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -11317,10 +10065,6 @@ static SQInteger TileMap_tint_fade_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -11372,10 +10116,6 @@ static SQInteger TileMap_set_alpha_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -11406,10 +10146,6 @@ static SQInteger TileMap_get_alpha_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_alpha();
@@ -11435,10 +10171,6 @@ static SQInteger TileMap_set_solid_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::TileMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -11477,10 +10209,6 @@ static SQInteger Torch_get_burning_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Torch*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     bool return_value = _this->get_burning();
@@ -11506,10 +10234,6 @@ static SQInteger Torch_set_burning_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Torch*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   SQBool arg0;
   if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
@@ -11548,10 +10272,6 @@ static SQInteger WillOWisp_goto_node_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
   SQInteger arg0;
   if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not an integer"));
@@ -11581,10 +10301,6 @@ static SQInteger WillOWisp_set_state_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
   const SQChar* arg0;
   if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
@@ -11616,10 +10332,6 @@ static SQInteger WillOWisp_start_moving_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->start_moving();
@@ -11644,10 +10356,6 @@ static SQInteger WillOWisp_stop_moving_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -11681,10 +10389,6 @@ static SQInteger Wind_start_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::Wind*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     _this->start();
@@ -11709,10 +10413,6 @@ static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::Wind*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {
@@ -11746,10 +10446,6 @@ static SQInteger WorldMap_get_tux_x_wrapper(HSQUIRRELVM vm)
   }
   auto _this = reinterpret_cast<scripting::WorldMap*> (data);
 
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
-
 
   try {
     float return_value = _this->get_tux_x();
@@ -11775,10 +10471,6 @@ static SQInteger WorldMap_get_tux_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
   auto _this = reinterpret_cast<scripting::WorldMap*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
 
 
   try {

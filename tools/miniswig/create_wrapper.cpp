@@ -301,10 +301,6 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
         out << ind << "}\n";
         out << ind << "auto _this = reinterpret_cast<" << ns_prefix << _class->name << "*> (data);\n";
         out << "\n";
-        out << ind << "if (_this == nullptr) {\n";
-        out << ind << ind << "return SQ_ERROR;\n";
-        out << ind << "}\n";
-        out << "\n";
     }
 
     // custom function?
