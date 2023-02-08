@@ -48,22 +48,13 @@ jobs:
           cd emsdk
           ./emsdk install latest
           ./emsdk activate latest
-          # Fixes a bug in emscripten - see https://github.com/emscripten-core/emscripten/issues/13590
-          # sed -i "s/\#define MALLOC_ALIGNMENT ((size_t)(2 \* sizeof(void \*)))/#define MALLOC_ALIGNMENT 16/g" upstream/emscripten/system/lib/dlmalloc.c
-          # Fixes a bug with the libjpeg port - see https://github.com/emscripten-core/emscripten/pull/13878
-          # sed -i 's/2b581c60ae401a79bbbe748ff2deeda5acd50bfd2ea22e5926e36d34b9ebcffb6580b0ff48e972c1441583e30e21e1ea821ca0423f9c67ce08a31dffabdbe6b7/b2affe9a1688bd49fc033f4682c4a242d4ee612f1affaef532f5adcb4602efc4433c4a52a4b3d69e7440ff1f6413b1b041b419bc90efd6d697999961a9a6afb7/g' upstream/emscripten/tools/ports/libjpeg.py
-          # sed -i 's/https:\/\/dl.bintray.com\/homebrew\/mirror\/jpeg-9c.tar.gz/https:\/\/storage.googleapis.com\/webassembly\/emscripten-ports\/jpegsrc.v9c.tar.gz/g' upstream/emscripten/tools/ports/libjpeg.py
-
       - name: Install vcpkg and dependencies
         run: |
           source ~/emsdk/emsdk_env.sh
           cd ~
-          git clone https://github.com/tobbi/vcpkg 
-          cd ~/vcpkg
-          git checkout diagnose_wasm_issues
-          cd ~
+          git clone https://github.com/microsoft/vcpkg
           ./vcpkg/bootstrap-vcpkg.sh
-          # ./vcpkg/vcpkg integrate install
+          ./vcpkg/vcpkg integrate install
           ./vcpkg/vcpkg install boost-date-time:wasm32-emscripten
           ./vcpkg/vcpkg install boost-filesystem:wasm32-emscripten
           ./vcpkg/vcpkg install boost-format:wasm32-emscripten
@@ -76,12 +67,6 @@ jobs:
           ./vcpkg/vcpkg install libvorbis:wasm32-emscripten
           ./vcpkg/vcpkg install glm:wasm32-emscripten
           ./vcpkg/vcpkg install zlib:wasm32-emscripten
-
-      - name: Step To run on failure
-        if: ${{ failure() }}
-        run: | 
-          cat /home/runner/vcpkg/installed/vcpkg/issue_body.md
-          cat /home/runner/vcpkg/buildtrees/boost-regex/install-wasm32-emscripten-dbg-out.log
 
       - name: Patch SDL_ttf
         working-directory: external/SDL_ttf
