@@ -52,7 +52,7 @@ jobs:
         run: |
           source ~/emsdk/emsdk_env.sh
           cd ~
-          git clone https://github.com/Pospelove/vcpkg --branch b2-wasm-fix
+          git clone https://github.com/microsoft/vcpkg
           mkdir ~/.vcpkg
           touch ~/.vcpkg/vcpkg.path.txt
           ./vcpkg/bootstrap-vcpkg.sh
