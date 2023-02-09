@@ -94,8 +94,6 @@ else()
 endif()
 
 if(EMSCRIPTEN)
-  set(CMAKE_C_COMPILER "emcc")
-  set(CMAKE_CXX_COMPILER "em++")
   set(CMAKE_EXECUTABLE_SUFFIX .html)
   set(IS_EMSCRIPTEN_BUILD ON)
 

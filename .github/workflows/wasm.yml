@@ -89,6 +89,8 @@ jobs:
           cd build
           emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON \
                 -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake\
+                -DCMAKE_C_COMPILER="~/emsdk/upstream/emscripten/emcc"\
+                -DCMAKE_CXX_COMPILER="~/emsdk/upstream/emscripten/em++"\
                 -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON\
                 -DEMSCRIPTEN=1 -DWARNINGS=ON -DWERROR=ON ..
 
