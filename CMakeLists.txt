@@ -100,7 +100,7 @@ if(EMSCRIPTEN)
   # https://github.com/emscripten-core/emscripten/issues/18077
   set(USE_FLAGS " -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_FREETYPE=1 -sDISABLE_EXCEPTION_CATCHING=0 --preload-file ${BUILD_CONFIG_DATA_DIR} -sSDL2_IMAGE_FORMATS='[\"png\",\"jpg\"]' --use-preload-plugins")
   if(CMAKE_BUILD_TYPE MATCHES Debug)
-    set(USE_FLAGS "${USE_FLAGS} -fsanitize=undefined -sASSERTIONS=1 -sDEMANGLE_SUPPORT=1")
+    set(USE_FLAGS "${USE_FLAGS} -fsanitize=undefined -sDEMANGLE_SUPPORT=1")
   endif()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS} -sERROR_ON_UNDEFINED_SYMBOLS=0")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS} -sERROR_ON_UNDEFINED_SYMBOLS=0")
