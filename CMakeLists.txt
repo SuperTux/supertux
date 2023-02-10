@@ -98,7 +98,7 @@ if(EMSCRIPTEN)
   set(IS_EMSCRIPTEN_BUILD ON)
   # Do not build with -sUSE_PTHREADS
   # https://github.com/emscripten-core/emscripten/issues/18077
-  set(USE_FLAGS " -sUSE_SDL=2 -sFULL_ES2=1 -sUSE_SDL_IMAGE=2 -sUSE_FREETYPE=1 -sDISABLE_EXCEPTION_CATCHING=0 --preload-file ${BUILD_CONFIG_DATA_DIR} -sTOTAL_MEMORY=67108864 -sALLOW_MEMORY_GROWTH=1 -sSDL2_IMAGE_FORMATS='[\"png\",\"jpg\"]' --use-preload-plugins")
+  set(USE_FLAGS " -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_FREETYPE=1 -sDISABLE_EXCEPTION_CATCHING=0 --preload-file ${BUILD_CONFIG_DATA_DIR} -sALLOW_MEMORY_GROWTH=1 -sSDL2_IMAGE_FORMATS='[\"png\",\"jpg\"]' --use-preload-plugins")
   if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(USE_FLAGS "${USE_FLAGS} -fsanitize=undefined -sSAFE_HEAP=1 -sASSERTIONS=1 -sDEMANGLE_SUPPORT=1")
   endif()
