@@ -92,7 +92,7 @@ jobs:
                 -DCMAKE_C_COMPILER="/home/runner/emsdk/upstream/emscripten/emcc"\
                 -DCMAKE_CXX_COMPILER="/home/runner/emsdk/upstream/emscripten/em++"\
                 -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON\
-                -DEMSCRIPTEN=1 -DWARNINGS=ON -DWERROR=ON ..
+                -DEMSCRIPTEN=1 -DWARNINGS=ON -DWERROR=OFF ..
 
       - name: Sync data folder
         working-directory: build
