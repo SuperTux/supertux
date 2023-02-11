@@ -87,11 +87,11 @@ jobs:
           source ~/emsdk/emsdk_env.sh
           mkdir build
           cd build
-          emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON \
+          emcmake cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON \
                 -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=/home/runner/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
                 -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake\
                 -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON\
-                -DWARNINGS=ON -DWERROR=OFF ..
+                -DWARNINGS=ON -DWERROR=OFF
 
       - name: Sync data folder
         working-directory: build
