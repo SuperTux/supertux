@@ -87,7 +87,7 @@ jobs:
           source ~/emsdk/emsdk_env.sh
           mkdir build
           cd build
-          emcmake cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON \
+          cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON \
                 -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=/home/runner/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake
                 -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake\
                 -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON\
@@ -101,8 +101,7 @@ jobs:
       - name: Build
         working-directory: build
         run: |
-          source ~/emsdk/emsdk_env.sh
-          emmake make -j$(nproc)
+          cmake --build .
 
         # Now you can run a local server with: `emrun supertux2.html`
         # Or any traditional web server will do the job
