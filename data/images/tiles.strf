@@ -1649,24 +1649,13 @@
   (tile
     (id 2943)
     (images
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-4.png"
-      "objects/bonus_block/full-3.png"
-      "objects/bonus_block/full-2.png"
-      "objects/bonus_block/full-1.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
-      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/lightblock_off.png"
     )
     (solid #t)
     (object-name "bonusblock")
     (object-data "(sprite \"images/objects/bonus_block/bonusblock.sprite\") (data 6)")
-    (editor-images "objects/bonus_block/off.png")
+    (editor-images "objects/bonus_block/lightblock_off.png")
     (data 6)
-    (fps 15)
   )
   
   (tile
