@@ -64,6 +64,21 @@ AddonScreenshotManager::request_download_all(const std::function<void (Screensho
 void
 AddonScreenshotManager::request_download(const int id, bool recursive)
 {
+  auto screenshot_exists = [this](int id){ return id == static_cast<int>(m_screenshot_urls.size()); };
+  auto try_recurse = [this, screenshot_exists, recursive](int next_id) {
+    if (recursive)
+    {
+      if (!screenshot_exists(next_id))
+      {
+        request_download(next_id, true);
+      }
+      else
+      {
+        m_callback(m_local_screenshot_urls);
+        m_callback = [](ScreenshotList){};
+      }
+    }
+  };
   if (id > static_cast<int>(m_screenshot_urls.size()) - 1) //If the given screenshot ID doesn't exist, do not start the download process.
   {
     log_warning << "No screenshots available for addon \"" << m_addon_id << "\"." << std::endl;
@@ -73,55 +88,31 @@ AddonScreenshotManager::request_download(const int id, bool recursive)
   const std::string file_name = m_addon_id + "_" + std::to_string(id + 1) + FileSystem::extension(m_screenshot_urls[id]);
   const std::string install_path = FileSystem::join(m_cache_directory, file_name);
 
-  const bool is_last_screenshot = id == static_cast<int>(m_screenshot_urls.size()) - 1;
 
   if (PHYSFS_exists(install_path.c_str()))
   {
     m_local_screenshot_urls.push_back(install_path);
-    if (recursive)
+    try_recurse(id + 1);
+    return;
+  }
+
+  m_transfer_status = m_downloader.request_download(m_screenshot_urls[id], install_path);
+  m_transfer_status->then([this, id, try_recurse, install_path](bool success)
+  {
+    if (!success)
     {
-      if (!is_last_screenshot)
+      log_warning << "Downloading screenshot " << (id + 1) << " of addon \"" << m_addon_id << "\" failed: " << m_transfer_status->error_msg << std::endl;
+      if (!PHYSFS_delete(install_path.c_str()))
       {
-        request_download(id + 1, true);
-      }
-      else
-      {
-        m_callback(m_local_screenshot_urls);
-        m_callback = [](ScreenshotList){};
+        log_warning << "Error deleting screenshot file, which failed to download: PHYSFS_delete failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       }
     }
-  }
-  else
-  {
-    m_transfer_status = m_downloader.request_download(m_screenshot_urls[id], install_path);
-    m_transfer_status->then([this, id, recursive, is_last_screenshot, install_path](bool success)
+    else
     {
-      if (!success)
-      {
-        log_warning << "Downloading screenshot " << (id + 1) << " of addon \"" << m_addon_id << "\" failed: " << m_transfer_status->error_msg << std::endl;
-        if (!PHYSFS_delete(install_path.c_str()))
-        {
-          log_warning << "Error deleting screenshot file, which failed to download: PHYSFS_delete failed: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
-        }
-      }
-      else
-      {
-        m_local_screenshot_urls.push_back(install_path);
-      }
-      if (recursive)
-      {
-        if (!is_last_screenshot)
-        {
-          request_download(id + 1, true);
-        }
-        else
-        {
-          m_callback(m_local_screenshot_urls);
-          m_callback = [](ScreenshotList){};
-        }
-      }
-    });
-  }
+      m_local_screenshot_urls.push_back(install_path);
+    }
+    try_recurse(id + 1);
+  });
 }
 
 /* EOF */
