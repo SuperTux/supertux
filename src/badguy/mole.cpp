@@ -77,7 +77,7 @@ Mole::throw_rock()
 {
   float angle;
   float base_angle = (m_flip == NO_FLIP ? 90.0f : 270.0f);
-  angle = math::radians(gameRandom.randf(base_angle - 15.0f, base_angle + 15.0f));
+  angle = math::radians(graphicsRandom.randf(base_angle - 15.0f, base_angle + 15.0f));
   float vx = cosf(angle) * THROW_VELOCITY;
   float vy = -sinf(angle) * THROW_VELOCITY;
 
