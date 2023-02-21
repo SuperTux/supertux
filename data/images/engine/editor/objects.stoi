@@ -200,7 +200,7 @@
     (icon "images/objects/bonus_block/full-0.png"))
   (object
     (class "infoblock")
-    (icon "images/objects/bonus_block/infoblock.png"))
+    (icon "images/objects/bonus_block/infoblock-0.png"))
   (object
     (class "invisible_block")
     (icon "images/objects/bonus_block/bonus-invisible.png"))
