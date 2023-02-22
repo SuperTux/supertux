@@ -133,10 +133,13 @@ const float STONE_UP_ACCELERATION = 400.f;
 /* Swim variables */
 const float SWIM_SPEED = 300.f;
 const float SWIM_BOOST_SPEED = 600.f;
+const float SWIM_TO_BOOST_ACCEL = 15.f;
+const float TURN_MAGNITUDE = 0.15f;
+const float TURN_MAGNITUDE_BOOST = 0.2f;
 
 /* Buttjump variables */
 
-const float BUTTJUMP_WAIT_TIME = 0.35f;
+const float BUTTJUMP_WAIT_TIME = 0.2f; // the length of time that the buttjump action is being played
 const float BUTTJUMP_SPEED = 800.f;
 
 } // namespace
@@ -868,7 +871,7 @@ Player::swim(float pointx, float pointy, bool boost)
       if(std::abs(delta) > math::PI)
         delta += delta > 0 ? -math::TAU : math::TAU;
 
-      float epsilon = (boost ? .3f : .15f) * delta;
+      float epsilon = (boost ? TURN_MAGNITUDE : TURN_MAGNITUDE_BOOST) * delta;
       m_swimming_angle += epsilon;
 
       if (m_swimming_angle > math::PI)
@@ -927,8 +930,8 @@ Player::swim(float pointx, float pointy, bool boost)
           m_swimboosting = true;
           if (is_ang_defined)
           {
-            vx += 30.f * pointx;
-            vy += 30.f * pointy;
+            vx += SWIM_TO_BOOST_ACCEL * pointx;
+            vy += SWIM_TO_BOOST_ACCEL * pointy;
           }
         }
         else
