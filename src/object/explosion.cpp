@@ -113,7 +113,7 @@ Explosion::explode()
       Vector add_speed = glm::normalize(direction) * force;
 
       auto player = dynamic_cast<Player*>(obj);
-      if (player) {
+      if (player && !player->is_stone()) {
         player->add_velocity(add_speed);
       }
 
@@ -176,7 +176,7 @@ Explosion::collision(GameObject& other, const CollisionHit& )
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*>(&other);
-  if (player != nullptr) {
+  if (player != nullptr && !player->is_stone()) {
     player->kill(false);
   }
 
