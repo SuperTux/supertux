@@ -25,7 +25,7 @@ namespace{
 }
 
 CaptainSnowball::CaptainSnowball(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
+  : WalkingBadguy(reader, "images/creatures/snowball/captain-snowball.sprite", "left", "right")
 {
   walk_speed = BOARDING_SPEED;
   max_drop_height = -1;

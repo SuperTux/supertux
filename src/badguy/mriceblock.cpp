@@ -31,7 +31,7 @@ namespace {
 }
 
 MrIceBlock::MrIceBlock(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"),
+  WalkingBadguy(reader, "images/creatures/iceblock/iceblock.sprite", "left", "right"),
   ice_state(ICESTATE_NORMAL),
   nokick_timer(),
   flat_timer(),

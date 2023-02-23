@@ -1,60 +1,75 @@
 (supertux-sprite
 	(action
 	  (name "standing-left")
-	  (hitbox 19 13 33.8 43.8)
+	  (hitbox 9 8 32 38)
 	  (loops 1)
-	  (images "s-land.png"
-	          "s-idle.png"))
+	  (fps 20)
+	  (images "jump-1.png"
+			  "land-0.png"
+			  "land-1.png"
+			  "stand-0.png"))
+	
 	(action
 	  (name "standing-right")
-	  (hitbox 19 13 33.8 43.8)
+	  (hitbox 9 8 32 38)
+	  (loops 1)
+	  (fps 20)
 	  (mirror-action "standing-left"))
+	
 	(action
 	  (name "charging-left")
-	  (hitbox 19 13 33.8 43.8)
-	  (fps 20.0)
-	  (images "s-land1.png"
-		  "s-land2.png"
-		  "s-land2.png"
-		  "s-land2.png"))
+	  (hitbox 9 8 32 38)
+	  (loops 1)
+	  (fps 20)
+	  (images "stand-0.png"
+			  "jump-0.png"))
+
 	(action
 	  (name "charging-right")
-	  (fps 20.0)
-	  (hitbox 19 13 33.8 43.8)
+	  (hitbox 9 8 32 38)
+	  (loops 1)
+	  (fps 20)
 	  (mirror-action "charging-left"))
+	
 	(action
 	  (name "jumping-left")
+	  (hitbox 9 8 32 38)
 	  (loops 1)
-	  (fps 14.0)
-	  (hitbox 19 14 33.8 43.8)
-	  (images "s-jump1.png"
-	          "s-jump.png"))
+	  (fps 20)
+	  (images "jump-1.png"
+	          "jump-2.png"))
+	
 	(action
 	  (name "jumping-right")
+	  (hitbox 9 8 32 38)
 	  (loops 1)
-	  (fps 14.0)
-	  (hitbox 19 14 33.8 43.8)
+	  (fps 20)
 	  (mirror-action "jumping-left"))
+	
     (action
 	  (name "iced-left")
-	  (hitbox 14 15 33.8 43.8)
+	  (hitbox 9 8 32 38)
 	  (images "s-idle.png"))
+	
 	(action
 	  (name "iced-right")
-	  (hitbox 12 15 33.8 43.8)
+	  (hitbox 9 8 32 38)
 	  (mirror-action "iced-left"))
+	
 	(action
 	  (name "squished-left")
-	  (hitbox 19 -1 33.8 43.8)
+	  (hitbox 9 8 32 38)
 	  (images "s-squish.png"))
+	
 	(action
 	  (name "squished-right")
-	  (hitbox 19 -1 33.8 43.8)
+	  (hitbox 9 8 32 38)
 	  (mirror-action "squished-left"))
+	
 	(action
 	  (name "burning-left")
 	  (fps 20)
-	  (hitbox 0 32 33.8 43.8)
+	  (hitbox 9 8 32 38)
 	  (images "burning-0.png"
 		  "burning-1.png"
 		  "burning-2.png"
@@ -68,5 +83,5 @@
 	(action
 	  (name "burning-right")
 	  (fps 20)
-	  (hitbox 0 32 33.8 43.8)
+	  (hitbox 9 8 32 38)
 	  (mirror-action "burning-left")))

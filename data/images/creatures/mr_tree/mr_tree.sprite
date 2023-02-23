@@ -1,14 +1,19 @@
 (supertux-sprite
   (action
-    (hitbox 0 -2 84.8 84.8)
+    (hitbox 14 10 62 78)
     (name "left")
+	(fps 15)
     (images 
-      "walk-left-1.png"
-      "walk-left-2.png"
-      "walk-left-3.png"
-      "walk-left-4.png"
-      "walk-left-5.png"
-      "walk-left-6.png"
+      "mr_tree-0.png"
+	  "mr_tree-1.png"
+	  "mr_tree-2.png"
+	  "mr_tree-3.png"
+	  "mr_tree-4.png"
+	  "mr_tree-5.png"
+	  "mr_tree-6.png"
+	  "mr_tree-7.png"
+	  "mr_tree-8.png"
+	  "mr_tree-9.png"
     )
   )
   (action
@@ -35,8 +40,9 @@
     (images "walk-left-1.png")
   )
   (action
-    (hitbox 0 -2 84.8 84.8)
+    (hitbox 14 10 62 78)
     (name "right")
+	(fps 15)
     (mirror-action "left")
   )
   (action
