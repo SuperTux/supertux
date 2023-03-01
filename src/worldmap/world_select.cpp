@@ -59,6 +59,18 @@ WorldSelect::WorldSelect(const std::string& current_world_filename) :
   if (worlds.size() > 0)
     std::reverse(worlds.begin(), worlds.end());
 
+  // Only worlds with a set prefix, which also are numbered starting with 1, will be ordered properly.
+  // This is a probably a poor solution, but I can't think of any other. - Daniel
+  std::string prefix = "";
+  vm.get_string("prefix", prefix);
+  if (!prefix.empty())
+  {
+    for (int i = 0; unsigned(i) < worlds.size(); i++)
+    {
+      worlds[i] = prefix + std::to_string(i+1) + "/worldmap.stwm";
+    }
+  }
+
   int i = 0;
   for (const auto& world : worlds) {
     sq_pushroottable(vm.get_vm());
