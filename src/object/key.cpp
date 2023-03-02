@@ -212,9 +212,9 @@ Key::spawn_use_particles()
   for (int i = 1; i < 9; i++)
   {
     Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
-    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small",
+    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-key-collect",
       get_bbox().get_middle(),
-      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 3.5f, LAYER_OBJECTS + 6, false, m_color);
+      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false, m_color);
   }
 }
 
