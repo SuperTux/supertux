@@ -1175,7 +1175,7 @@ BadGuy::spawn_kill_particles()
     Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
     Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-noglow",
       get_bbox().get_middle(),
-      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 3.5f, LAYER_OBJECTS + 6, false);
+      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false);
   }
 }
 
