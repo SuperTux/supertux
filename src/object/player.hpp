@@ -129,6 +129,9 @@ public:
   /** set kick animation */
   void kick();
 
+  /** gets the players action */
+  std::string get_action() const;
+
   /** play cheer animation.
       This might need some space and behave in an unpredictable way.
       Best to use this at level end. */

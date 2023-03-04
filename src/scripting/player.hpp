@@ -182,6 +182,11 @@ public:
    * Sets the position of the player to a programmable/variable position.
    */
   void set_pos(float x, float y);
+
+  /**
+   * Gets the player's current action/animation.
+   */
+  std::string get_action() const;
 };
 
 } // namespace scripting

@@ -224,6 +224,13 @@ Player::set_pos(float x, float y)
   object.set_pos(Vector(x, y));
 }
 
+std::string
+Player::get_action() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_action();
+}
+
 } // namespace scripting
 
 /* EOF */
