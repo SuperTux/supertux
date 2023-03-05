@@ -71,7 +71,7 @@ void mkdir(const std::string& directory)
 
 void copy(const std::string& source_path, const std::string& target_path)
 {
-  fs::copy_file(source_path, target_path, boost::filesystem::copy_option::overwrite_if_exists);
+  fs::copy_file(source_path, target_path, boost::filesystem::copy_options::overwrite_existing);
 }
 
 std::string dirname(const std::string& filename)
