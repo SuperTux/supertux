@@ -1819,6 +1819,12 @@ Player::kick()
   m_kick_timer.start(KICK_TIME);
 }
 
+std::string
+Player::get_action() const
+{
+  return m_sprite->get_action();
+}
+
 void
 Player::draw(DrawingContext& context)
 {
