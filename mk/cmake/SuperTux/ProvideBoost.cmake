@@ -14,7 +14,11 @@ endif()
 
 find_package(Boost REQUIRED COMPONENTS filesystem system date_time locale)
 
-add_library(LibBoost INTERFACE IMPORTED)
+if(EMSCRIPTEN)
+  add_library(LibBoost ALIAS Boost::boost)
+else()
+  add_library(LibBoost INTERFACE IMPORTED)
+endif()
 
 if(WIN32)
   # Boost_LIBRARIES may contain link-type keywords "optimized,debug"
