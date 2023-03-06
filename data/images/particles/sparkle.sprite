@@ -8,6 +8,15 @@
     )
   )
   (action
+    (name "small-key-collect")
+    (images 
+      "sparkle-0.png"
+      "sparkle-1.png"
+      "sparkle-0.png"
+      "sparkle-2.png"
+    )
+  )
+  (action
     (name "dark")
     (images 
       "sparkle-dark-0.png"

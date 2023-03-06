@@ -238,6 +238,9 @@ public:
   void set_ending_direction(int direction) { m_ending_direction = direction; }
   int get_ending_direction() const { return m_ending_direction; }
 
+  int get_collected_keys() { return m_collected_keys; }
+  void add_collected_keys(int keynum) { m_collected_keys += keynum; }
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -385,6 +388,7 @@ private:
   std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
 
   int m_ending_direction;
+  int m_collected_keys;
 
 private:
   Player(const Player&) = delete;
