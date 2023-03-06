@@ -52,6 +52,11 @@ public:
    * This can be "grow", "fireflower" or "iceflower" at the moment
    */
   bool set_bonus(const std::string& bonus);
+
+  std::string get_bonus() const;
+
+  int get_bonus_id() const;
+
   /**
    * Give tux more coins
    *

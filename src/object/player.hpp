@@ -124,6 +124,10 @@ public:
   /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
 
+  std::string get_bonus() const;
+
+  int get_bonus_id() const;
+
   PlayerStatus& get_status() const { return m_player_status; }
 
   /** set kick animation */

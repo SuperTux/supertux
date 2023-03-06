@@ -1802,6 +1802,32 @@ Player::set_bonus(BonusType type, bool animate)
   return true;
 }
 
+std::string
+Player::get_bonus() const
+{
+  switch(m_player_status.bonus[get_id()])
+  {
+    case GROWUP_BONUS:
+      return "big";
+    case FIRE_BONUS:
+      return "fire";
+    case ICE_BONUS:
+      return "ice";
+    case AIR_BONUS:
+      return "air";
+    case EARTH_BONUS:
+      return "earth";
+    default:
+      return "small";
+  }
+}
+
+int
+Player::get_bonus_id() const
+{
+    return m_player_status.bonus[get_id()];
+}
+
 void
 Player::set_visible(bool visible_)
 {
