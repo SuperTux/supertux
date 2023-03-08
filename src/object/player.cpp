@@ -1825,7 +1825,7 @@ Player::get_bonus() const
 int
 Player::get_bonus_id() const
 {
-    return m_player_status.bonus[get_id()];
+  return m_player_status.bonus[get_id()];
 }
 
 void
