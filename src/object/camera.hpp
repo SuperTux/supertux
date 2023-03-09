@@ -100,6 +100,13 @@ public:
       camera */
   Vector get_center() const;
 
+  /** get the coordinates of the point directly in the top left of this
+      camera */
+  Vector get_position() const;
+
+  /** get the width and height of the screen*/
+  Size get_screen_size() const;
+
   void set_mode(Mode mode_) { m_mode = mode_; }
 
   /** get the exact scale at this exact moment */

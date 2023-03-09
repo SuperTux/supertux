@@ -106,6 +106,37 @@ Camera::ease_scale(float scale, float time, const std::string& ease)
   object.ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)));
 }
 
+float
+Camera::get_screen_width()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_screen_size().width;
+}
+
+float
+Camera::get_screen_height()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_screen_size().height;
+}
+
+float
+Camera::get_x()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_position().x;
+}
+
+float
+Camera::get_y()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_position().y;
+}
 } // namespace scripting
 
 /* EOF */
