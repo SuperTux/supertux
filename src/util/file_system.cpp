@@ -71,7 +71,11 @@ void mkdir(const std::string& directory)
 
 void copy(const std::string& source_path, const std::string& target_path)
 {
+#if BOOST_VERSION >= 107400
+  fs::copy_file(source_path, target_path, boost::filesystem::copy_option::overwrite_if_exists);
+#else
   fs::copy_file(source_path, target_path, boost::filesystem::copy_options::overwrite_existing);
+#endif
 }
 
 std::string dirname(const std::string& filename)
