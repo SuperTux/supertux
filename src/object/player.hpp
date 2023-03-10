@@ -126,8 +126,6 @@ public:
 
   std::string get_bonus() const;
 
-  int get_bonus_id() const;
-
   PlayerStatus& get_status() const { return m_player_status; }
 
   /** set kick animation */

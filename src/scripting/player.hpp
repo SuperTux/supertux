@@ -55,8 +55,6 @@ public:
 
   std::string get_bonus() const;
 
-  int get_bonus_id() const;
-
   /**
    * Give tux more coins
    *

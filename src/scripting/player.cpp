@@ -40,13 +40,6 @@ Player::get_bonus() const {
   return object.get_bonus();
 }
 
-int
-Player::get_bonus_id() const
-{
-  SCRIPT_GUARD_DEFAULT;
-  return object.get_bonus_id();
-}
-
 void
 Player::add_coins(int count)
 {
