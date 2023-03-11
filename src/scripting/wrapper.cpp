@@ -6351,6 +6351,33 @@ static SQInteger Player_set_bonus_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Player_get_bonus_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_bonus' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Player*> (data);
+
+
+  try {
+    std::string return_value = _this->get_bonus();
+
+    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_bonus'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -14495,6 +14522,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_bonus'");
+  }
+
+  sq_pushstring(v, "get_bonus", -1);
+  sq_newclosure(v, &Player_get_bonus_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_bonus'");
   }
 
   sq_pushstring(v, "add_coins", -1);
