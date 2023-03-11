@@ -48,11 +48,13 @@ public:
    */
   bool add_bonus(const std::string& bonus);
   /**
-   * Replaces the Tux's bonus with another bonus.
+   * Replaces Tux's bonus with another bonus.
    * This can be "grow", "fireflower" or "iceflower" at the moment
    */
   bool set_bonus(const std::string& bonus);
-
+  /**
+   * Gets Tux's current bonus.
+   */
   std::string get_bonus() const;
 
   /**
