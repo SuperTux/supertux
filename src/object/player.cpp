@@ -1715,6 +1715,26 @@ Player::string_to_bonus(const std::string& bonus) const {
   return type;
 }
 
+std::string
+Player::bonus_to_string() const
+{
+  switch(m_player_status.bonus[get_id()])
+  {
+    case GROWUP_BONUS:
+      return "grow";
+    case FIRE_BONUS:
+      return "fireflower";
+    case ICE_BONUS:
+      return "iceflower";
+    case AIR_BONUS:
+      return "airflower";
+    case EARTH_BONUS:
+      return "earthflower";
+    default:
+      return "none";
+  }
+}
+
 bool
 Player::add_bonus(const std::string& bonustype)
 {
@@ -1800,26 +1820,6 @@ Player::set_bonus(BonusType type, bool animate)
 
   m_player_status.bonus[get_id()] = type;
   return true;
-}
-
-std::string
-Player::get_bonus() const
-{
-  switch(m_player_status.bonus[get_id()])
-  {
-    case GROWUP_BONUS:
-      return "big";
-    case FIRE_BONUS:
-      return "fire";
-    case ICE_BONUS:
-      return "ice";
-    case AIR_BONUS:
-      return "air";
-    case EARTH_BONUS:
-      return "earth";
-    default:
-      return "small";
-  }
 }
 
 void

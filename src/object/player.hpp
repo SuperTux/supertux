@@ -124,7 +124,7 @@ public:
   /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
 
-  std::string get_bonus() const;
+  std::string bonus_to_string() const;
 
   PlayerStatus& get_status() const { return m_player_status; }
 

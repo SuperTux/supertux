@@ -37,7 +37,7 @@ Player::set_bonus(const std::string& bonus)
 std::string
 Player::get_bonus() const {
   SCRIPT_GUARD_DEFAULT;
-  return object.get_bonus();
+  return object.bonus_to_string();
 }
 
 void
