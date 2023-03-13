@@ -109,6 +109,11 @@ std::string generate_menu_item_text(const Addon& addon)
   return text;
 }
 
+std::string get_addon_plural_form(size_t count)
+{
+  return (count == 1 ? _("add-on") : _("add-ons"));
+}
+
 } // namespace addon_string_util
 
 std::unique_ptr<Addon>
