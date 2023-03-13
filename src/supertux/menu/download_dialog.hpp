@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//                2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,28 +20,35 @@
 
 #include "gui/dialog.hpp"
 
-class TransferStatus;
-using TransferStatusPtr = std::shared_ptr<TransferStatus>;
+#include "addon/downloader.hpp"
 
 class DownloadDialog final : public Dialog
 {
 private:
-  TransferStatusPtr m_status;
+  TransferStatusListPtr m_status;
   std::string m_title;
   bool m_auto_close;
   bool m_error_msg;
 
+  int m_download_total;
+  bool m_complete;
+
 public:
-  DownloadDialog(TransferStatusPtr status, bool auto_close = false, bool passive = false, bool no_error_msg = false);
+  DownloadDialog(TransferStatusPtr status, bool auto_close = false,
+                 bool passive = false, bool no_error_msg = false);
+  DownloadDialog(TransferStatusListPtr statuses, bool auto_close = false,
+                 bool passive = false, bool no_error_msg = false);
 
   void set_title(const std::string& title);
   void update() override;
 
 private:
-  void on_abort();
-  void on_download_complete();
+  void finish_construction();
 
   void update_text();
+
+  void on_abort();
+  void on_download_complete();
 
 private:
   DownloadDialog(const DownloadDialog&) = delete;

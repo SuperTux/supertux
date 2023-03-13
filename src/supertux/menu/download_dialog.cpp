@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//                2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,18 +17,38 @@
 
 #include "supertux/menu/download_dialog.hpp"
 
-#include "addon/addon_manager.hpp"
-
-DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool passive, bool no_error_msg) :
+DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close,
+                               bool passive, bool no_error_msg) :
   Dialog(passive),
-  m_status(std::move(status)),
+  m_status(new TransferStatusList({ status })),
   m_title(),
   m_auto_close(auto_close),
-  m_error_msg(!no_error_msg)
+  m_error_msg(!no_error_msg),
+  m_download_total(0),
+  m_complete(false)
 {
-  add_default_button(_("Abort Download"), [this]{
-      on_abort();
-    });
+  finish_construction();
+}
+
+DownloadDialog::DownloadDialog(TransferStatusListPtr statuses, bool auto_close,
+                               bool passive, bool no_error_msg) :
+  Dialog(passive),
+  m_status(statuses),
+  m_title(),
+  m_auto_close(auto_close),
+  m_error_msg(!no_error_msg),
+  m_download_total(0),
+  m_complete(false)
+{
+  finish_construction();
+}
+
+void
+DownloadDialog::finish_construction()
+{
+  add_default_button(_("Abort Download"), [this]() {
+    on_abort();
+  });
 
   update_text();
 
@@ -42,7 +63,7 @@ DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool p
       {
         if (m_error_msg)
         {
-          Dialog::show_message(_("Error:\n") + m_status->error_msg);
+          Dialog::show_message(_("Error:\n") + m_status->get_error());
         }
         else
         {
@@ -72,14 +93,17 @@ DownloadDialog::update_text()
   std::ostringstream out;
   out << m_title << "\n";
 
-  if (m_status->dltotal == 0)
+  int dltotal = m_complete ? m_download_total : m_status->get_download_total();
+  if (dltotal == 0)
   {
     out << "---\n---";
   }
   else
   {
-    int percent = 100 * m_status->dlnow / m_status->dltotal;
-    out << m_status->dlnow/1000 << "/" << m_status->dltotal/1000 << " kB\n" << percent << "%";
+    int dlnow = m_complete ? m_download_total : m_status->get_download_now();
+    int percent = 100 * dlnow / dltotal;
+    out << dlnow / 1000 << "/"
+        << dltotal / 1000 << " kB\n" << percent << "%";
   }
 
   set_text(out.str());
@@ -100,10 +124,13 @@ DownloadDialog::on_download_complete()
     return;
   }
 
+  m_download_total = m_status->get_download_total();
+  m_complete = true;
+
   clear_buttons();
-  add_button(_("Close"), [] {
-      MenuManager::instance().set_dialog({});
-    });
+  add_button(_("Close"), []() {
+    MenuManager::instance().set_dialog({});
+  });
 }
 
 /* EOF */

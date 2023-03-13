@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2022 Vankata453
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,23 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_ADDON_ADDON_COMPONENT_MANAGER_HPP
-#define HEADER_SUPERTUX_ADDON_ADDON_COMPONENT_MANAGER_HPP
+#include <memory>
 
-/** Represents a class, which helps manage additional Add-on components */
-class AddonComponentManager
-{
-public:
-  AddonComponentManager() {}
-  virtual ~AddonComponentManager() {}
+class Downloader;
 
-  virtual void update() = 0;
+class TransferStatus;
+using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
-private:
-  AddonComponentManager(const AddonComponentManager&) = delete;
-  AddonComponentManager& operator=(const AddonComponentManager&) = delete;
-};
-
-#endif
-
-/* EOF */
+class TransferStatusList;
+using TransferStatusListPtr = std::shared_ptr<TransferStatusList>;

@@ -27,7 +27,7 @@
 #include "util/currenton.hpp"
 
 class Addon;
-using TransferStatusPtr = std::shared_ptr<TransferStatus>;
+class AddonDependencyManager;
 
 typedef std::string AddonId;
 
@@ -39,8 +39,9 @@ public:
 
 private:
   Downloader m_downloader;
-  std::string m_addon_directory;
-  std::string m_cache_directory;
+  const std::string m_addon_directory;
+  const std::string m_cache_directory;
+  const std::string m_screenshots_cache_directory;
   std::string m_repository_url;
   std::vector<Config::Addon>& m_addon_config;
 
@@ -49,20 +50,19 @@ private:
 
   bool m_has_been_updated;
 
-  TransferStatusPtr m_transfer_status;
+  TransferStatusListPtr m_transfer_statuses;
 
 public:
   AddonManager(const std::string& addon_directory,
                std::vector<Config::Addon>& addon_config);
   ~AddonManager() override;
 
+  void empty_cache_directory();
+
   bool has_online_support() const;
   bool has_been_updated() const;
   void check_online();
   TransferStatusPtr request_check_online();
-
-  std::string get_cache_directory() const { return m_cache_directory; }
-  void empty_cache_directory();
 
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
@@ -70,9 +70,13 @@ public:
   Addon& get_repository_addon(const AddonId& addon) const;
   Addon& get_installed_addon(const AddonId& addon) const;
 
-  TransferStatusPtr request_install_addon(const AddonId& addon_id);
+  TransferStatusListPtr request_install_addon(const AddonId& addon_id);
+  TransferStatusListPtr request_install_addon_dependencies(const AddonId& addon_id);
   void install_addon(const AddonId& addon_id);
   void uninstall_addon(const AddonId& addon_id);
+
+  TransferStatusListPtr request_download_addon_screenshots(const AddonId& addon_id);
+  std::vector<std::string> get_local_addon_screenshots(const AddonId& addon_id);
 
   void enable_addon(const AddonId& addon_id);
   void disable_addon(const AddonId& addon_id);
@@ -98,6 +102,8 @@ public:
 #endif
 
 private:
+  TransferStatusListPtr request_install_addon_dependencies(const Addon& addon);
+
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
   AddonList parse_addon_infos(const std::string& filename) const;
