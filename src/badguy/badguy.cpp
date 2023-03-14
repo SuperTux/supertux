@@ -411,8 +411,16 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     }
 
     if (player->is_stone()) {
-      collision_solid(hit);
-      return FORCE_MOVE;
+      if (glm::length(player->get_physic().get_movement(.1f)) > 16.f)
+      {
+        kill_fall();
+        return ABORT_MOVE;
+      }
+      else
+      {
+        collision_solid(hit);
+        return FORCE_MOVE;
+      }
     }
 
     return collision_player(*player, hit);
@@ -466,7 +474,7 @@ HitResponse
 BadGuy::collision_player(Player& player, const CollisionHit& hit)
 {
   if (player.is_invincible() ||
-    (is_snipable() && player.is_sliding())) {
+    (is_snipable() && (player.m_does_buttjump || player.is_sliding()))) {
     kill_fall();
     return ABORT_MOVE;
   }

@@ -50,7 +50,16 @@ jobs:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
           submodules: true
+
+      - name: Use cached dependencies
+        id: cache-dependencies
+        uses: actions/cache@v3
+        with:
+          path: C:/vcpkg/installed
+          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/windows.yml') }}
+
       - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         env:
           ARCH: ${{ matrix.arch }}
         run: |

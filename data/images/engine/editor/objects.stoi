@@ -200,7 +200,7 @@
     (icon "images/objects/bonus_block/full-0.png"))
   (object
     (class "infoblock")
-    (icon "images/objects/bonus_block/infoblock.png"))
+    (icon "images/objects/bonus_block/infoblock-0.png"))
   (object
     (class "invisible_block")
     (icon "images/objects/bonus_block/bonus-invisible.png"))
@@ -333,6 +333,9 @@
   (object
     (class "lit-object")
     (icon "images/objects/lightflower/lightflower1-0.png"))
+  (object
+    (class "key")
+    (icon "images/objects/keys/key_silver.png"))
  )
 
  (objectgroup

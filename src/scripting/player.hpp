@@ -48,10 +48,15 @@ public:
    */
   bool add_bonus(const std::string& bonus);
   /**
-   * Replaces the Tux's bonus with another bonus.
+   * Replaces Tux's bonus with another bonus.
    * This can be "grow", "fireflower" or "iceflower" at the moment
    */
   bool set_bonus(const std::string& bonus);
+  /**
+   * Gets Tux's current bonus.
+   */
+  std::string get_bonus() const;
+
   /**
    * Give tux more coins
    *
@@ -182,6 +187,11 @@ public:
    * Sets the position of the player to a programmable/variable position.
    */
   void set_pos(float x, float y);
+
+  /**
+   * Gets the player's current action/animation.
+   */
+  std::string get_action() const;
 };
 
 } // namespace scripting
