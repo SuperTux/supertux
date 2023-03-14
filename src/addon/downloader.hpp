@@ -101,7 +101,7 @@ public:
 
 private:
   // Called when one of the transfers completes.
-  void on_transfer_complete(TransferStatusPtr this_status, bool success);
+  void on_transfer_complete(TransferStatusPtr this_status, bool this_success);
 
   void reset();
 };
