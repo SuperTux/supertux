@@ -28,11 +28,12 @@
 namespace {
 
 const float TIME_EXPLOSION = 5.0f;
-const float STOMPED_TIME = 1.0f;
+const float STOMPED_TIME = 0.8f;
 const float TIME_STUNNED = 0.5f;
 
 const float NORMAL_WALK_SPEED = 80.0f;
-const float EXPLODING_WALK_SPEED = 200.0f;
+const float EXPLODING_WALK_SPEED = 250.0f;
+const float SKID_TIME = 0.3f;
 
 } // namespace
 
@@ -42,6 +43,10 @@ Haywire::Haywire(const ReaderMapping& reader) :
   time_until_explosion(0.0f),
   is_stunned(false),
   time_stunned(0.0f),
+  m_exploding_sprite(SpriteManager::current()->create("images/creatures/haywire/ticking_glow/ticking_glow.sprite")),
+  m_jumping(false),
+  m_skid_timer(),
+  m_last_player_direction(Direction::LEFT),
   ticking(),
   grunting(),
   stomped_timer()
@@ -62,6 +67,12 @@ Haywire::Haywire(const ReaderMapping& reader) :
   }
   //Replace sprite
   m_sprite = SpriteManager::current()->create( m_sprite_name );
+}
+
+Direction
+Haywire::get_player_direction(const Player* player) const
+{
+  return (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
 }
 
 bool
@@ -88,8 +99,9 @@ Haywire::collision_squished(GameObject& object)
   }
 
   if (!is_exploding) {
+    m_last_player_direction = m_dir;
     start_exploding();
-	stomped_timer.start(STOMPED_TIME);
+    stomped_timer.start(STOMPED_TIME);
   }
 
   time_stunned = TIME_STUNNED;
@@ -147,6 +159,7 @@ Haywire::active_update(float dt_sec)
       if (!Sector::get().is_free_of_statics(jump_box) && Sector::get().is_free_of_statics(exception_box))
       {
         m_physic.set_velocity_y(-325.f);
+        m_jumping = true;
       }
       else
       {
@@ -161,6 +174,7 @@ Haywire::active_update(float dt_sec)
           && (player->get_bbox().get_bottom() <= m_col.m_bbox.get_bottom()))
         {
           m_physic.set_velocity_y(-325.f);
+          m_jumping = true;
         }
       }
     }
@@ -168,14 +182,28 @@ Haywire::active_update(float dt_sec)
     //end of pathfinding
 
 	  if (stomped_timer.get_timeleft() < 0.05f) {
-        set_action ((m_dir == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
-        walk_left_action = "ticking-left";
-        walk_right_action = "ticking-right";
+      if (m_jumping)
+      {
+        set_action((m_dir == Direction::LEFT) ? "jump-left" : "jump-right", /* loops = */ 1);
+        m_exploding_sprite->set_action("jump", /* loops = */ 1);
+      }
+      else if (!m_skid_timer.check() && m_skid_timer.started())
+      {
+        set_action((m_last_player_direction == Direction::LEFT) ? "skid-right" : "skid-left", /* loops = */ 1);
+        m_exploding_sprite->set_action("skid", /* loops = */ 1);
+      }
+      else
+      {
+        set_action((m_last_player_direction == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
+        m_exploding_sprite->set_action("run", /* loops = */ -1);
+      }
+      walk_left_action = "ticking-left";
+      walk_right_action = "ticking-right";
     }
     else {
-        set_action ((m_dir == Direction::LEFT) ? "active-left" : "active-right", /* loops = */ 1);
-        walk_left_action = "active-left";
-	      walk_right_action = "active-right";
+      set_action((m_dir == Direction::LEFT) ? "active-left" : "active-right", /* loops = */ 1);
+      walk_left_action = "active-left";
+      walk_right_action = "active-right";
     }
 
     float target_velocity = 0.f;
@@ -189,7 +217,13 @@ Haywire::active_update(float dt_sec)
       else if (player && time_stunned == 0.0f)
       {
         /* Player is on the right or left*/
-        target_velocity = (player->get_pos().x > get_pos().x) ? walk_speed : (-1.f) * walk_speed;
+        Direction player_dir = get_player_direction(player);
+        if (player_dir != m_last_player_direction)
+        {
+          m_skid_timer.start(SKID_TIME);
+          m_last_player_direction = player_dir;
+        }
+        target_velocity = (player_dir == Direction::RIGHT) ? walk_speed : (-1.f) * walk_speed;
       }
     }
     else
@@ -210,6 +244,19 @@ Haywire::deactivate()
   // stop ticking/grunting sounds, in case we are deactivated before actually
   // exploding (see https://github.com/SuperTux/supertux/issues/1260)
   stop_looping_sounds();
+}
+
+void
+Haywire::draw(DrawingContext& context)
+{
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  if (stomped_timer.get_timeleft() < 0.05f && is_exploding)
+  {
+    m_exploding_sprite->set_blend(Blend::ADD);
+    m_exploding_sprite->draw(context.light(),
+      get_pos()+Vector(get_bbox().get_width()/2, get_bbox().get_height()/2), m_layer, m_flip);
+  }
+  WalkingBadguy::draw(context);
 }
 
 void
@@ -311,6 +358,14 @@ void Haywire::play_looping_sounds()
       grunting->play();
     }
   }
+}
+
+void
+Haywire::collision_solid(const CollisionHit& hit)
+{
+  WalkingBadguy::collision_solid(hit);
+
+  m_jumping = false;
 }
 
 HitResponse Haywire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)

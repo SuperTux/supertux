@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BRICK_HPP
 #define HEADER_SUPERTUX_OBJECT_BRICK_HPP
 
-#include "badguy/icecrusher.hpp"
+#include "badguy/crusher.hpp"
 #include "object/block.hpp"
 
 class Brick : public Block
@@ -34,7 +34,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   void try_break(Player* player, bool slider = false);
-  void break_for_crusher(IceCrusher* icecrusher);
+  void break_for_crusher(Crusher* crusher);
 
 protected:
   virtual void hit(Player& player) override;

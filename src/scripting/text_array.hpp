@@ -77,6 +77,7 @@ public:
   float get_pos_y() const;
   void set_anchor_point(int anchor);
   int get_anchor_point() const;
+  void set_anchor_offset(float x, float y);
   void set_front_fill_color(float red, float green, float blue, float alpha);
   void set_back_fill_color(float red, float green, float blue, float alpha);
   void set_text_color(float red, float green, float blue, float alpha);

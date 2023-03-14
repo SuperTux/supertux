@@ -23,7 +23,7 @@
 #include "gui/menu_manager.hpp"
 #include "gui/menu_list.hpp"
 #include "supertux/game_object_factory.hpp"
-
+#include "editor/editor.hpp"
 BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
   badguys(badguys_),
   selected(),
@@ -67,8 +67,14 @@ BadguySelectMenu::remove_badguy()
 void
 BadguySelectMenu::add_badguy()
 {
-  badguys->push_back(selected);
-  refresh();
+  if (selected == "")
+  {
+    log_warning << "Cannot add an empty enemy." << std::endl;
+    return;
+  }
+    badguys->push_back(selected);
+    refresh();
+  
 }
 
 void

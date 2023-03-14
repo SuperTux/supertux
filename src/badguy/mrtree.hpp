@@ -29,7 +29,7 @@ public:
   virtual std::string get_overlay_size() const override { return "3x3"; }
   static std::string class_name() { return "mrtree"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Walking Tree"); }
+  static std::string display_name() { return _("Mr. Tree"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
