@@ -20,7 +20,7 @@
 
 #include "gui/dialog.hpp"
 
-#include "addon/downloader.hpp"
+#include "addon/downloader_defines.hpp"
 
 class DownloadDialog final : public Dialog
 {

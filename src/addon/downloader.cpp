@@ -186,7 +186,7 @@ TransferStatusList::on_transfer_complete(TransferStatusPtr this_status, bool suc
     log_warning << "Exception in Downloader: TransferStatusList: " << m_error_msg << std::endl;
 
     // Execute all callbacks.
-    for (auto& callback : m_callbacks)
+    for (const auto& callback : m_callbacks)
     {
       callback(false);
     }

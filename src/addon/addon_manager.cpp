@@ -376,12 +376,12 @@ AddonManager::request_install_addon_dependencies(const Addon& addon)
 {
   for (const std::string& id : addon.get_dependencies())
   {
-    if (AddonManager::current()->is_addon_installed(id))
+    if (is_addon_installed(id))
       continue; // Don't attempt to install add-ons that are already installed.
 
     try
     {
-      AddonManager::current()->get_repository_addon(id);
+      get_repository_addon(id);
     }
     catch (...)
     {
