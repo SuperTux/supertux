@@ -106,7 +106,7 @@ Camera::ease_scale(float scale, float time, const std::string& ease)
   object.ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)));
 }
 
-float
+int
 Camera::get_screen_width()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -114,7 +114,7 @@ Camera::get_screen_width()
   return object.get_screen_size().width;
 }
 
-float
+int
 Camera::get_screen_height()
 {
   SCRIPT_GUARD_DEFAULT;

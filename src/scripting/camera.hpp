@@ -62,9 +62,9 @@ public:
   /** Fade the scale factor over time with easing (smooth movement) */
   void ease_scale(float scale, float time, const std::string& ease);
   /** Gets the current width of the screen */
-  float get_screen_width();
+  int get_screen_width();
   /** Gets the current height of the screen */
-  float get_screen_height();
+  int get_screen_height();
   /** Gets the x cooridnate of the top left corner of the screen */
   float get_x();
   /** Gets the y cooridnate of the top left corner of the screen */

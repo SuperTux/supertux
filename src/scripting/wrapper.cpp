@@ -883,9 +883,9 @@ static SQInteger Camera_get_screen_width_wrapper(HSQUIRRELVM vm)
 
 
   try {
-    float return_value = _this->get_screen_width();
+    int return_value = _this->get_screen_width();
 
-    sq_pushfloat(vm, return_value);
+    sq_pushinteger(vm, return_value);
     return 1;
 
   } catch(std::exception& e) {
@@ -909,9 +909,9 @@ static SQInteger Camera_get_screen_height_wrapper(HSQUIRRELVM vm)
 
 
   try {
-    float return_value = _this->get_screen_height();
+    int return_value = _this->get_screen_height();
 
-    sq_pushfloat(vm, return_value);
+    sq_pushinteger(vm, return_value);
     return 1;
 
   } catch(std::exception& e) {
