@@ -152,9 +152,9 @@ TransferStatusList::push(TransferStatusListPtr statuses)
 
 // Called when one of the transfers completes.
 void
-TransferStatusList::on_transfer_complete(TransferStatusPtr this_status, bool this_success)
+TransferStatusList::on_transfer_complete(TransferStatusPtr this_status, bool successful)
 {
-  if (this_success)
+  if (successful)
   {
     m_successful_count++;
     if (m_successful_count == static_cast<int>(m_transfer_statuses.size()))
