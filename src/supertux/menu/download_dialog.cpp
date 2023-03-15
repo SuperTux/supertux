@@ -21,15 +21,9 @@
 
 DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close,
                                bool passive, bool no_error_msg) :
-  Dialog(passive),
-  m_status(new TransferStatusList({ status })),
-  m_title(),
-  m_auto_close(auto_close),
-  m_error_msg(!no_error_msg),
-  m_download_total(0),
-  m_complete(false)
+  DownloadDialog(new TransferStatusList({ status }), auto_close,
+                 passive, no_error_msg)
 {
-  finish_construction();
 }
 
 DownloadDialog::DownloadDialog(TransferStatusListPtr statuses, bool auto_close,
@@ -41,12 +35,6 @@ DownloadDialog::DownloadDialog(TransferStatusListPtr statuses, bool auto_close,
   m_error_msg(!no_error_msg),
   m_download_total(0),
   m_complete(false)
-{
-  finish_construction();
-}
-
-void
-DownloadDialog::finish_construction()
 {
   add_default_button(_("Abort Download"), [this]() {
     on_abort();

@@ -43,8 +43,6 @@ public:
   void update() override;
 
 private:
-  void finish_construction();
-
   void update_text();
 
   void on_abort();
