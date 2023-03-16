@@ -21,8 +21,8 @@
 
 DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close,
                                bool passive, bool no_error_msg) :
-  DownloadDialog(new TransferStatusList({ status }), auto_close,
-                 passive, no_error_msg)
+  DownloadDialog(TransferStatusListPtr(new TransferStatusList({ status })),
+                 auto_close, passive, no_error_msg)
 {
 }
 
