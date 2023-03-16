@@ -217,14 +217,14 @@ AddonManager::AddonManager(const std::string& addon_directory,
 
 AddonManager::~AddonManager()
 {
-  // sync enabled/disabled addons into the config for saving
+  // sync enabled/disabled add-ons into the config for saving
   m_addon_config.clear();
   for (const auto& addon : m_installed_addons)
   {
     m_addon_config.push_back({addon->get_id(), addon->is_enabled()});
   }
 
-  // Delete the addon cache directory, if it exists.
+  // Delete the add-on cache directory, if it exists.
   physfsutil::remove_with_content(m_cache_directory);
 }
 
