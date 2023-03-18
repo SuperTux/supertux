@@ -31,13 +31,14 @@
 #include "supertux/sector.hpp"
 
 Explosion::Explosion(const Vector& pos, float p_push_strength,
-    int p_num_particles) :
+    int p_num_particles, bool p_short_fuse) :
   MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
   hurt(true),
   push_strength(p_push_strength),
   num_particles(p_num_particles),
   state(STATE_WAITING),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
+  short_fuse(p_short_fuse)
 {
   SoundManager::current()->preload("sounds/explosion.wav");
   SoundManager::current()->preload("sounds/firecracker.ogg");
@@ -52,7 +53,8 @@ Explosion::Explosion(const ReaderMapping& reader) :
   push_strength(-1),
   num_particles(100),
   state(STATE_WAITING),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
+  short_fuse(false)
 {
   SoundManager::current()->preload("sounds/explosion.wav");
   SoundManager::current()->preload("sounds/firecracker.ogg");
@@ -102,15 +104,16 @@ Explosion::explode()
       /* The force decreases with the distance squared. In the distance of one
        * tile (32 pixels) you will have a speed increase of 150 pixels/s. */
       float force = push_strength / (distance * distance);
-      // If we somehow get a force of over 200, keep it at 200 because
+      float force_limit = short_fuse ? 400.f : 200.f;
+      // If we somehow get a force of over the limit, keep it at the limit because
       // unexpected behaviour could result otherwise.
-      if (force > 200.0f)
-        force = 200.0;
+      if (force > force_limit)
+        force = force_limit;
 
       Vector add_speed = glm::normalize(direction) * force;
 
       auto player = dynamic_cast<Player*>(obj);
-      if (player) {
+      if (player && !player->is_stone()) {
         player->add_velocity(add_speed);
       }
 
@@ -173,7 +176,7 @@ Explosion::collision(GameObject& other, const CollisionHit& )
     return ABORT_MOVE;
 
   auto player = dynamic_cast<Player*>(&other);
-  if (player != nullptr) {
+  if (player != nullptr && !player->is_stone()) {
     player->kill(false);
   }
 

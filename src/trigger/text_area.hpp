@@ -57,6 +57,7 @@ private:
   Status m_status;
   Timer m_timer;
   AnchorPoint m_anchor;
+  Vector m_anchor_offset;
 
 private:
   TextArea(const TextArea&) = delete;

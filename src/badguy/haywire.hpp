@@ -32,6 +32,7 @@ public:
 
   virtual void active_update(float dt_sec) override;
   virtual void deactivate() override;
+  virtual void draw(DrawingContext& context) override;
 
   virtual bool is_freezable() const override;
   virtual void freeze() override;
@@ -49,8 +50,11 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
 
 private:
+  Direction get_player_direction(const Player* player) const;
+
   void start_exploding();
   void stop_exploding();
 
@@ -59,6 +63,11 @@ private:
   float time_until_explosion;
   bool is_stunned;
   float time_stunned;
+  SpritePtr m_exploding_sprite;
+
+  bool m_jumping;
+  Timer m_skid_timer;
+  Direction m_last_player_direction;
 
   std::unique_ptr<SoundSource> ticking;
   std::unique_ptr<SoundSource> grunting;

@@ -40,7 +40,7 @@ Toad::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
+  m_sprite->set_action("jumping", m_dir);
 }
 
 void
@@ -50,12 +50,12 @@ Toad::set_state(ToadState newState)
     m_physic.set_velocity_x(0);
     m_physic.set_velocity_y(0);
     if (!m_frozen)
-      m_sprite->set_action(m_dir == Direction::LEFT ? "idle-left" : "idle-right");
+      m_sprite->set_action("idle", m_dir);
 
     recover_timer.start(TOAD_RECOVER_TIME);
   } else
     if (newState == JUMPING) {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
+      m_sprite->set_action("jumping", m_dir);
       m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
       m_physic.set_velocity_y(VERTICAL_SPEED);
       SoundManager::current()->play( HOP_SOUND, get_pos());
@@ -65,7 +65,7 @@ Toad::set_state(ToadState newState)
         // face player
         if (player && (player->get_bbox().get_right() < m_col.m_bbox.get_left()) && (m_dir == Direction::RIGHT)) m_dir = Direction::LEFT;
         if (player && (player->get_bbox().get_left() > m_col.m_bbox.get_right()) && (m_dir == Direction::LEFT)) m_dir = Direction::RIGHT;
-        m_sprite->set_action(m_dir == Direction::LEFT ? "idle-left" : "idle-right");
+        m_sprite->set_action("idle", m_dir);
       }
 
   state = newState;
@@ -76,7 +76,7 @@ Toad::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }

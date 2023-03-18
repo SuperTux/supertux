@@ -18,6 +18,7 @@
 
 #include "supertux/screen_manager.hpp"
 
+#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/particle_editor.hpp"
@@ -480,7 +481,7 @@ ScreenManager::process_events()
         }
         break;
 
-      // NOTE: Steam recommends leaving this behavior in. If it turns out to bt
+      // NOTE: Steam recommends leaving this behavior in. If it turns out to be
       // impractical for users, please add `#ifdef STEAM_BUILD` code around it.
       case SDL_JOYDEVICEREMOVED:
       case SDL_CONTROLLERDEVICEREMOVED:
@@ -488,6 +489,7 @@ ScreenManager::process_events()
         {
           session->toggle_pause();
         }
+        break;
     }
   }
 }

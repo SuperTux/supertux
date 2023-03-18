@@ -17,6 +17,7 @@
 #include "badguy/walkingleaf.hpp"
 
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
@@ -25,13 +26,36 @@ WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
   max_drop_height = 16;
 }
 
+void
+WalkingLeaf::active_update(float dt_sec)
+{
+  if (!m_frozen && !m_ignited)
+  {
+    Rectf floatbox = get_bbox();
+    floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
+    bool float_here = (Sector::get().is_free_of_statics(floatbox));
+
+    if (!float_here) {
+      m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+    }
+    else {
+      m_sprite->set_action(m_dir == Direction::LEFT ? "float-left" : "float-right");
+      if (m_physic.get_velocity_y() >= 35.f) {
+        m_physic.set_velocity_y(35.f);
+      }
+    }
+  }
+
+  WalkingBadguy::active_update(dt_sec);
+}
+
 bool
 WalkingLeaf::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
 
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  m_sprite->set_action("squished", m_dir);
   // Spawn death particles
   spawn_explosion_sprites(3, "images/particles/walkingleaf.sprite");
   kill_squished(object);

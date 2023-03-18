@@ -64,6 +64,18 @@ Sprite::clone() const
 }
 
 void
+Sprite::set_action(const std::string& name, const Direction& dir, int loops)
+{
+  set_action(name + "-" + dir_to_string(dir), loops);
+}
+
+void
+Sprite::set_action(const Direction& dir, int loops)
+{
+  set_action(dir_to_string(dir), loops);
+}
+
+void
 Sprite::set_action(const std::string& name, int loops)
 {
   if (m_action && m_action->name == name)

@@ -86,7 +86,7 @@ Jumpy::active_update(float dt_sec)
 
   if (!groundhit_pos_set)
   {
-    m_sprite->set_action(m_dir == Direction::LEFT ? "editor-left" : "editor-right");
+    m_sprite->set_action("editor", m_dir);
     return;
   }
 

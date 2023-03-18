@@ -26,16 +26,16 @@
     (icon "images/creatures/snowball/kamikaze-snowball-editor.png"))
   (object
     (class "mrbomb")
-    (icon "images/creatures/mr_bomb/bomb1.png"))
+    (icon "images/creatures/mr_bomb/left-0.png"))
   (object
     (class "goldbomb")
-    (icon "images/creatures/gold_bomb/gb1.png"))
+    (icon "images/creatures/gold_bomb/left-0.png"))
   (object
     (class "haywire")
-    (icon "images/creatures/haywire/hw1.png"))
+    (icon "images/creatures/haywire/left-0.png"))
   (object
     (class "short_fuse")
-    (icon "images/creatures/short_fuse/shortfuse-editor.png"))
+    (icon "images/creatures/short_fuse/short_fuse-0.png"))
   (object
     (class "mriceblock")
     (icon "images/creatures/mr_iceblock/iceblock-1.png"))
@@ -70,8 +70,8 @@
     (class "rcrystallo")
     (icon "images/creatures/crystallo/rcrystallo-editor.png"))
   (object
-    (class "icecrusher")
-    (icon "images/creatures/icecrusher/iceblock.png"))
+    (class "crusher")
+    (icon "images/creatures/crusher/krush_ice_hit.png"))
   (object
     (class "stalactite")
     (icon "images/creatures/stalactite/falling.png"))
@@ -88,17 +88,17 @@
     (class "iceflame")
     (icon "images/creatures/flame/iceflame.png"))
   (object
-    (class "poisonivy")
-    (icon "images/creatures/poison_ivy/left-0.png"))
+    (class "viciousivy")
+    (icon "images/creatures/vicious_ivy/left-0.png"))
   (object
     (class "walkingleaf")
     (icon "images/creatures/walkingleaf/left-0.png"))
   (object
     (class "leafshot")
-    (icon "images/creatures/leafshot/left-1.png"))
+    (icon "images/creatures/leafshot/leafshot-1.png"))
   (object
     (class "snail")
-    (icon "images/creatures/snail/snowsnail.png"))
+    (icon "images/creatures/snail/left-0.png"))
   (object
     (class "mrtree")
     (icon "images/creatures/mr_tree/walk-left-1.png"))
@@ -116,7 +116,7 @@
     (icon "images/creatures/igel/walk-0.png"))
   (object
     (class "mole")
-    (icon "images/creatures/mole/m5.png"))
+    (icon "images/creatures/mole/center.png"))
   (object
     (class "fish-jumping")
     (icon "images/creatures/fish/forest/jump-1.png"))
@@ -200,7 +200,7 @@
     (icon "images/objects/bonus_block/full-0.png"))
   (object
     (class "infoblock")
-    (icon "images/objects/bonus_block/infoblock.png"))
+    (icon "images/objects/bonus_block/infoblock-0.png"))
   (object
     (class "invisible_block")
     (icon "images/objects/bonus_block/bonus-invisible.png"))

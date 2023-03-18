@@ -391,6 +391,9 @@ OptionsMenu::OptionsMenu(bool complete) :
   aspect.set_help(_("Adjust the aspect ratio"));
 #endif
 
+  MenuItem& video_system_menu = add_submenu(_("Change Video System"), MenuStorage::MenuId::VIDEO_SYSTEM_MENU);
+  video_system_menu.set_help(_("Change video system used to render graphics"));
+
   if (SoundManager::current()->is_audio_enabled())
   {
     add_toggle(MNID_SOUND, _("Sound"), &g_config->sound_enabled)
