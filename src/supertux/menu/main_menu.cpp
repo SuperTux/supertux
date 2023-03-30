@@ -115,7 +115,7 @@ MainMenu::menu_action(MenuItem& item)
         std::unique_ptr<Screen> screen(new Editor());
         auto fade = std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f);
         SoundManager::current()->stop_music(0.5);
-        ScreenManager::current()->push_screen(move(screen),move(fade));
+        ScreenManager::current()->push_screen(std::move(screen), std::move(fade));
         //Editor::current()->setup();
       }
       break;
