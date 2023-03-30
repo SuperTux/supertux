@@ -231,7 +231,7 @@ if(EMSCRIPTEN)
   target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'] PUBLIC -sEXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
 endif()
 
-if(WIN32 AND NOT VCPKG_BUILD)
+if(MSVC AND NOT VCPKG_BUILD)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
