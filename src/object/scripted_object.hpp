@@ -44,10 +44,6 @@ public:
 
   virtual void on_flip(float height) override;
 
-  // --- scripting Interface stuff ---
-  void set_action(const std::string& animation);
-  std::string get_action() const;
-
   void move(float x, float y);
   float get_pos_x() const;
   float get_pos_y() const;
