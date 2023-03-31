@@ -231,7 +231,7 @@ if(EMSCRIPTEN)
   target_link_options(supertux2 PUBLIC -sEXPORTED_FUNCTIONS=['_main','_set_resolution','_save_config','_onDownloadProgress','_onDownloadFinished','_onDownloadError','_onDownloadAborted','_getExceptionMessage'] PUBLIC -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap'] PUBLIC -sEXTRA_EXPORTED_RUNTIME_METHODS=['ccall','cwrap'])
 endif()
 
-if(WIN32 AND NOT VCPKG_BUILD)
+if(MSVC AND NOT VCPKG_BUILD)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -250,17 +250,18 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   target_include_directories(supertux2_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
 
+target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
+target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
+target_link_libraries(supertux2_lib PUBLIC LibSavePNG)
+
 ## Link supertux binary with squirrel and other libraries
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
 endif()
 
-target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
 target_link_libraries(supertux2_lib PUBLIC LibSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibSqstdlib)
-target_link_libraries(supertux2_lib PUBLIC LibTinygettext)
 target_link_libraries(supertux2_lib PUBLIC LibSexp)
-target_link_libraries(supertux2_lib PUBLIC LibSavePNG)
 target_link_libraries(supertux2_lib PUBLIC LibPartioZip)
 target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
 target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)

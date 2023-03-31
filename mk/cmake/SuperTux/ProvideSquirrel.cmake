@@ -41,7 +41,7 @@ else()
     -DINSTALL_INC_DIR=include
     -DCMAKE_POSITION_INDEPENDENT_CODE=ON)
 
-  if(WIN32)
+  if(MSVC)
     add_library(LibSquirrel SHARED IMPORTED)
     set_target_properties(LibSquirrel PROPERTIES
       IMPORTED_LOCATION "${SQUIRREL_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}squirrel${CMAKE_SHARED_LIBRARY_SUFFIX}"
