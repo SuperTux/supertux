@@ -47,6 +47,8 @@ public:
   void shake(float speed, float x, float y);
   /** Set camera to a specific coordinate */
   void set_pos(float x, float y);
+  /** Move the camera x to the left and y down */
+  void move(float x, float y);
   /** Set camera to a specific mode, can be "normal", "manual" */
   void set_mode(const std::string& mode);
   /** Scroll camera to position x,y in scrolltime seconds */

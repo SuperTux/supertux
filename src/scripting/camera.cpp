@@ -48,6 +48,14 @@ Camera::set_pos(float x, float y)
 }
 
 void
+Camera::move(float x, float y)
+{
+  SCRIPT_GUARD_VOID;
+  BIND_SECTOR(::Sector::get());
+  object.scroll_to(Vector(object.get_position().x + x,object.get_position().y + y), 0.0f);
+}
+
+void
 Camera::set_mode(const std::string& mode)
 {
   SCRIPT_GUARD_VOID;
