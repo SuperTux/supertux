@@ -95,7 +95,7 @@ FlyingSnowBall::active_update(float dt_sec)
   // spawn smoke puffs
   if (puff_timer.check()) {
     Vector ppos = m_col.m_bbox.get_middle();
-    Vector pspeed = Vector(gameRandom.randf(-10, 10), 150);
+    Vector pspeed = Vector(graphicsRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);
     Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
                                            "default",
