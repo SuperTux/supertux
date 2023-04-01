@@ -61,17 +61,20 @@ public:
   bool change_sprite(const std::string& new_sprite_name);
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
-protected:
-  /** set new action for sprite and resize bounding box.  use with
-      care as you can easily get stuck when resizing the bounding box. */
-  void set_action(const std::string& action, int loops);
+  /** Get various sprite properties. **/
+  Sprite* get_sprite() const { return m_sprite.get(); }
+  const std::string& get_action() const { return m_sprite->get_action(); }
 
-  /** set new action for sprite and re-center bounding box.  use with
+  /** Set new action for sprite and resize bounding box.  use with
+      care as you can easily get stuck when resizing the bounding box. */
+  void set_action(const std::string& action, int loops = -1);
+
+  /** Set new action for sprite and re-center bounding box.  use with
       care as you can easily get stuck when resizing the bounding
       box. */
-  void set_action_centered(const std::string& action, int loops);
+  void set_action_centered(const std::string& action, int loops = -1);
 
-  /** set new action for sprite and align bounding boxes at
+  /** Set new action for sprite and align bounding boxes at
       anchorPoint.  use with care as you can easily get stuck when
       resizing the bounding box. */
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
