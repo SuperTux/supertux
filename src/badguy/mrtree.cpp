@@ -29,8 +29,6 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-static const float TREE_SPEED = 100;
-
 static const float VICIOUSIVY_WIDTH = 32;
 static const float VICIOUSIVY_HEIGHT = 32;
 static const float VICIOUSIVY_Y_OFFSET = 24;
@@ -40,8 +38,8 @@ MrTree::MrTree(const ReaderMapping& reader) :
                 "images/objects/lightmap_light/lightmap_light-large.sprite")
 {
   parse_type(reader);
+  on_type_change(-1);
 
-  walk_speed = TREE_SPEED;
   max_drop_height = 16;
   SoundManager::current()->preload("sounds/mr_tree.ogg");
 }
@@ -58,7 +56,18 @@ MrTree::get_types() const
 void
 MrTree::on_type_change(int old_type)
 {
-  change_sprite("images/creatures/mr_tree/" + std::string(m_type == Type::CORRUPTED ? "corrupted/haunted_tree" : "mr_tree") + ".sprite");
+  change_sprite("images/creatures/mr_tree/" + std::string(m_type == CORRUPTED ? "corrupted/haunted_tree" : "mr_tree") + ".sprite");
+
+  switch (m_type)
+  {
+    case NORMAL:
+      walk_speed = 80.f;
+      break;
+    case CORRUPTED:
+      walk_speed = 60.f;
+    default:
+      break;
+  }
 }
 
 bool
@@ -70,7 +79,7 @@ MrTree::is_freezable() const
 bool
 MrTree::collision_squished(GameObject& object)
 {
-  if (m_frozen)
+  if (m_type == CORRUPTED || m_frozen)
     return WalkingBadguy::collision_squished(object);
 
   auto player = dynamic_cast<Player*>(&object);

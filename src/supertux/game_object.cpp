@@ -27,8 +27,8 @@
 GameObject::GameObject() :
   m_name(),
   m_type(0),
-  m_previous_type(-1),
   m_fade_helpers(),
+  m_previous_type(-1),
   m_uid(),
   m_scheduled_for_removal(false),
   m_components(),
@@ -39,8 +39,8 @@ GameObject::GameObject() :
 GameObject::GameObject(const std::string& name) :
   m_name(name),
   m_type(0),
-  m_previous_type(-1),
   m_fade_helpers(),
+  m_previous_type(-1),
   m_uid(),
   m_scheduled_for_removal(false),
   m_components(),

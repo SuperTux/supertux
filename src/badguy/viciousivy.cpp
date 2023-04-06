@@ -24,18 +24,19 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-ViciousIvy::ViciousIvy(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right")
+ViciousIvy::ViciousIvy(const ReaderMapping& reader) :
+  WalkingBadguy(reader, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right"),
+  m_fall_speed()
 {
   parse_type(reader);
-
-  walk_speed = 80;
+  on_type_change(-1);
 }
 
-ViciousIvy::ViciousIvy(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right")
+ViciousIvy::ViciousIvy(const Vector& pos, Direction d) :
+  WalkingBadguy(pos, d, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right"),
+  m_fall_speed()
 {
-  walk_speed = 80;
+  on_type_change(-1);
 }
 
 GameObjectTypes
@@ -50,7 +51,20 @@ ViciousIvy::get_types() const
 void
 ViciousIvy::on_type_change(int old_type)
 {
-  change_sprite("images/creatures/vicious_ivy/" + std::string(m_type == Type::CORRUPTED ? "corrupted/rotten_ivy" : "vicious_ivy") + ".sprite");
+  change_sprite("images/creatures/vicious_ivy/" + std::string(m_type == CORRUPTED ? "corrupted/rotten_ivy" : "vicious_ivy") + ".sprite");
+
+  switch (m_type)
+  {
+    case NORMAL:
+      walk_speed = 80.f;
+      m_fall_speed = 35.f;
+      break;
+    case CORRUPTED:
+      walk_speed = 60.f;
+      m_fall_speed = 50.f;
+    default:
+      break;
+  }
 }
 
 bool
@@ -72,8 +86,8 @@ ViciousIvy::active_update(float dt_sec)
       m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
     } else {
       m_sprite->set_action(m_dir == Direction::LEFT ? "float-left" : "float-right");
-      if (m_physic.get_velocity_y() >= 35.f) {
-        m_physic.set_velocity_y(35.f);
+      if (m_physic.get_velocity_y() >= m_fall_speed) {
+        m_physic.set_velocity_y(m_fall_speed);
       }
     }
   }

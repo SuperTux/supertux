@@ -50,6 +50,9 @@ protected:
   };
 
 private:
+  float m_fall_speed;
+
+private:
   ViciousIvy(const ViciousIvy&) = delete;
   ViciousIvy& operator=(const ViciousIvy&) = delete;
 };

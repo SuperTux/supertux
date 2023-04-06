@@ -50,6 +50,9 @@ protected:
   };
 
 private:
+  float m_fall_speed;
+
+private:
   WalkingLeaf(const WalkingLeaf&) = delete;
   WalkingLeaf& operator=(const WalkingLeaf&) = delete;
 };

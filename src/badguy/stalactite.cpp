@@ -162,10 +162,7 @@ Stalactite::get_types() const
 void
 Stalactite::on_type_change(int old_type)
 {
-  std::stringstream filename;
-  filename << "images/creatures/stalactite/" << (m_type == StalactiteType::ROCK ? "rock_" : "")
-           << "stalactite.sprite";
-  change_sprite(filename.str());
+  change_sprite("images/creatures/stalactite/" + std::string(m_type == StalactiteType::ROCK ? "rock_" : "") + "stalactite.sprite");
 }
 
 void
