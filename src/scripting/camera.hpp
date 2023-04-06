@@ -47,6 +47,8 @@ public:
   void shake(float speed, float x, float y);
   /** Set camera to a specific coordinate */
   void set_pos(float x, float y);
+  /** Move the camera x to the left and y down */
+  void move(float x, float y);
   /** Set camera to a specific mode, can be "normal", "manual" */
   void set_mode(const std::string& mode);
   /** Scroll camera to position x,y in scrolltime seconds */
@@ -61,6 +63,15 @@ public:
   void scale(float scale, float time);
   /** Fade the scale factor over time with easing (smooth movement) */
   void ease_scale(float scale, float time, const std::string& ease);
+  /** Gets the current width of the screen */
+  int get_screen_width();
+  /** Gets the current height of the screen */
+  int get_screen_height();
+  /** Gets the x cooridnate of the top left corner of the screen */
+  float get_x();
+  /** Gets the y cooridnate of the top left corner of the screen */
+  float get_y();
+  
 };
 
 } // namespace scripting
