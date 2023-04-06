@@ -35,13 +35,30 @@ static const float VICIOUSIVY_WIDTH = 32;
 static const float VICIOUSIVY_HEIGHT = 32;
 static const float VICIOUSIVY_Y_OFFSET = 24;
 
-MrTree::MrTree(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right", LAYER_OBJECTS,
-                  "images/objects/lightmap_light/lightmap_light-large.sprite")
+MrTree::MrTree(const ReaderMapping& reader) :
+  WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right", LAYER_OBJECTS,
+                "images/objects/lightmap_light/lightmap_light-large.sprite")
 {
+  parse_type(reader);
+
   walk_speed = TREE_SPEED;
   max_drop_height = 16;
   SoundManager::current()->preload("sounds/mr_tree.ogg");
+}
+
+GameObjectTypes
+MrTree::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
+
+void
+MrTree::on_type_change(int old_type)
+{
+  change_sprite("images/creatures/mr_tree/" + std::string(m_type == Type::CORRUPTED ? "corrupted/haunted_tree" : "mr_tree") + ".sprite");
 }
 
 bool

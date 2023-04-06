@@ -27,6 +27,8 @@
 ViciousIvy::ViciousIvy(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 80;
 }
 
@@ -34,6 +36,21 @@ ViciousIvy::ViciousIvy(const Vector& pos, Direction d)
   : WalkingBadguy(pos, d, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right")
 {
   walk_speed = 80;
+}
+
+GameObjectTypes
+ViciousIvy::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
+
+void
+ViciousIvy::on_type_change(int old_type)
+{
+  change_sprite("images/creatures/vicious_ivy/" + std::string(m_type == Type::CORRUPTED ? "corrupted/rotten_ivy" : "vicious_ivy") + ".sprite");
 }
 
 bool

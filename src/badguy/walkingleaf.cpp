@@ -22,8 +22,25 @@
 WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 60;
   max_drop_height = 16;
+}
+
+GameObjectTypes
+WalkingLeaf::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
+
+void
+WalkingLeaf::on_type_change(int old_type)
+{
+  change_sprite("images/creatures/walkingleaf/" + std::string(m_type == Type::CORRUPTED ? "corrupted/rotten_leaf" : "walkingleaf") + ".sprite");
 }
 
 void
