@@ -48,6 +48,7 @@ Crusher::Crusher(const ReaderMapping& reader) :
   MovingSprite(reader, "images/creatures/crusher/krush_ice.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   m_state(IDLE),
   m_ic_size(NORMAL),
+  m_ic_type(ICE),
   m_start_position(get_bbox().p1()),
   m_physic(),
   m_cooldown_timer(0.0),
@@ -57,12 +58,36 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_righteye(),
   m_whites()
 {
+  parse_type(reader);
+  on_type_change(-1);
+
   reader.get("sideways", m_sideways);
   // TODO: crusher hitting deserves its own sounds-
   // one for hitting the ground, one for hitting Tux
   SoundManager::current()->preload(not_ice() ? "sounds/thud.ogg" : "sounds/brick.wav");
   set_state(m_state, true);
   after_sprite_set();
+}
+
+GameObjectTypes
+Crusher::get_types() const
+{
+  return {
+    { "ice-krush", _("Ice (normal)") },
+    { "ice-krosh", _("Ice (big)") },
+    { "corrupted-krush", _("Corrupted (normal)") },
+    { "corrupted-krosh", _("Corrupted (big)") }
+  };
+}
+
+void
+Crusher::on_type_change(int old_type)
+{
+  m_ic_size = (m_type == 0 || m_type == 2 ? NORMAL : LARGE);
+  m_ic_type = (m_type == 0 || m_type == 1 ? ICE : CORRUPTED);
+
+  const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
+  change_sprite("images/creatures/crusher/" + (m_ic_type == CORRUPTED ? "corrupted/" + size_prefix + "_corrupt" : size_prefix + "_ice") + ".sprite");
 }
 
 HitResponse
@@ -328,7 +353,7 @@ Crusher::update(float dt_sec)
 void
 Crusher::spawn_roots(Direction direction)
 {
-  if (m_sprite_name.find("root_crusher") == std::string::npos)
+  if (m_ic_type != CORRUPTED)
     return;
 
   Vector origin;
@@ -469,9 +494,7 @@ Crusher::found_victim() const
 bool
 Crusher::not_ice() const
 {
-  return (m_sprite_name.find("rock_crusher") != std::string::npos ||
-    m_sprite_name.find("moss_crusher") != std::string::npos ||
-    m_sprite_name.find("root_crusher") != std::string::npos);
+  return m_ic_type != ICE;
 }
 
 void
@@ -503,10 +526,6 @@ Crusher::set_state(CrusherState state_, bool force)
 void
 Crusher::after_sprite_set()
 {
-  float sprite_width = static_cast<float>(m_sprite->get_width());
-  float sprite_height = static_cast<float>(m_sprite->get_height());
-  m_ic_size = (sprite_width*sprite_height >= 10000.f) ? LARGE : NORMAL;
-
   if (!m_sprite->has_action("whites"))
   {
     m_lefteye.reset();
