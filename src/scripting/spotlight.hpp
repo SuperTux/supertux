@@ -42,6 +42,9 @@ private:
 #endif
 
 public:
+  void set_enabled(bool enabled);
+  bool is_enabled();
+
   void set_direction(std::string direction);
 
   void set_angle(float angle);

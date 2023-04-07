@@ -7850,6 +7850,62 @@ static SQInteger Spotlight_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
+static SQInteger Spotlight_set_enabled_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_enabled' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Spotlight*> (data);
+
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_enabled(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_enabled'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Spotlight_is_enabled_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'is_enabled' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Spotlight*> (data);
+
+
+  try {
+    bool return_value = _this->is_enabled();
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_enabled'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Spotlight_set_direction_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -14918,6 +14974,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'Spotlight'";
     throw SquirrelError(v, msg.str());
   }
+  sq_pushstring(v, "set_enabled", -1);
+  sq_newclosure(v, &Spotlight_set_enabled_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_enabled'");
+  }
+
+  sq_pushstring(v, "is_enabled", -1);
+  sq_newclosure(v, &Spotlight_is_enabled_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'is_enabled'");
+  }
+
   sq_pushstring(v, "set_direction", -1);
   sq_newclosure(v, &Spotlight_set_direction_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
