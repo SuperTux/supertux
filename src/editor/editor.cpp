@@ -237,7 +237,7 @@ Editor::update(float dt_sec, const Controller& controller)
     std::unique_ptr<Screen> screen(new ParticleEditor());
     if (m_particle_editor_filename)
       static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
-    ScreenManager::current()->push_screen(move(screen));
+    ScreenManager::current()->push_screen(std::move(screen));
     return;
   }
 
