@@ -56,7 +56,7 @@ public:
 
   virtual int get_layer() const override { return m_layer; }
 
-  void set_enabled(bool enabled) { m_enabled = enabled; };
+  void set_enabled(bool enabled) { m_enabled = enabled; }
   bool is_enabled() const { return m_enabled; }
 
   void set_angle(float angle_) { angle = angle_; }
