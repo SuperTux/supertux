@@ -25,6 +25,11 @@ class Thunderstorm;
 
 namespace scripting {
 
+/**
+ * @summary A ""Thunderstorm"" that was given a name can be controlled by scripts.
+ * @instances A ""Thunderstorm"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Thunderstorm final
 #ifndef SCRIPTING_API
   : public GameObject<::Thunderstorm>
@@ -40,32 +45,32 @@ private:
 
 public:
   /**
-   * Start playing thunder and lightning at configured interval
+   * Starts playing thunder and lightning at a configured interval.
    */
   void start();
 
   /**
-   * Stop playing thunder and lightning at configured interval
+   * Stops playing thunder and lightning at a configured interval.
    */
   void stop();
 
   /**
-   * Play thunder
+   * Plays thunder.
    */
   void thunder();
 
   /**
-   * Play lightning, i.e. call flash() and electrify()
+   * Plays lightning, i.e. calls ""flash()"" and ""electrify()"".
    */
   void lightning();
 
   /**
-   * Display a nice flash
+   * Displays a flash.
    */
   void flash();
 
   /**
-   * Electrify water throughout the whole sector for a short time
+   * Electrifies water throughout the whole sector for a short time.
    */
   void electrify();
 };

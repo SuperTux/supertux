@@ -176,10 +176,10 @@ Player::trigger_sequence(const std::string& sequence_name)
 }
 
 void
-Player::use_scripting_controller(bool use_or_release)
+Player::use_scripting_controller(bool enable)
 {
   SCRIPT_GUARD_VOID;
-  object.use_scripting_controller(use_or_release);
+  object.use_scripting_controller(enable);
 }
 
 void

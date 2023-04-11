@@ -1,5 +1,5 @@
-//  SuperTux
-//  Copyright (C) 2020 Grzegorz Przybylski <zwatotem@gmail.com>
+//  SuperTux - Scripting reference generator
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,39 +14,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/decal.hpp"
-#include "scripting/decal.hpp"
+#ifndef WRITER_HEADER
+#define WRITER_HEADER
 
-namespace scripting {
+#include <string>
+#include <vector>
 
-void
-Decal::change_sprite(const std::string& sprite)
+#include "class.hpp"
+
+namespace Writer
 {
-  SCRIPT_GUARD_VOID;
-  object.change_sprite(sprite);
-}
+  std::string write_file_notice(const std::string& template_file);
 
-void
-Decal::fade_sprite(const std::string& sprite, float time)
-{
-  SCRIPT_GUARD_VOID;
-  object.fade_sprite(sprite, time);
-}
+  std::string write_constants_table(const std::vector<Constant>& constants);
+  std::string write_function_table(const std::vector<Function>& functions);
+  std::string write_class_list(const std::vector<Class>& classes);
 
-void
-Decal::fade_in(float time)
-{
-  SCRIPT_GUARD_VOID;
-  object.fade_in(time);
-}
+  std::string write_class_ref(const std::string& name);
+} // namespace Writer
 
-void
-Decal::fade_out(float time)
-{
-  SCRIPT_GUARD_VOID;
-  object.fade_out(time);
-}
-
-} // namespace scripting
-
-/* EOF */
+#endif

@@ -27,6 +27,11 @@ class Spotlight;
 
 namespace scripting {
 
+/**
+ * @summary A ""Spotlight"" that was given a name can be controlled by scripts.
+ * @instances A ""Spotlight"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Spotlight final
 #ifndef SCRIPTING_API
   : public GameObject<::Spotlight>
@@ -42,18 +47,76 @@ private:
 #endif
 
 public:
-  void set_direction(std::string direction);
+  /**
+   * Sets the direction of the spotlight.
+   * @param string $direction
+   */
+  void set_direction(const std::string& direction);
 
+  /**
+   * Sets the angle of the spotlight.
+   * @param float $angle
+   */
   void set_angle(float angle);
+  /**
+   * Fades the angle of the spotlight in ""time"" seconds.
+   * @param float $angle
+   * @param float $time
+   */
   void fade_angle(float angle, float time);
-  void ease_angle(float angle, float time, std::string easing);
+  /**
+   * Fades the angle of the spotlight in ""time"" seconds, with easing.
+   * @param float $angle
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_angle(float angle, float time, const std::string& easing);
 
+  /**
+   * Sets the speed of the spotlight.
+   * @param float $speed
+   */
   void set_speed(float speed);
+  /**
+   * Fades the speed of the spotlight in ""time"" seconds.
+   * @param float $speed
+   * @param float $time
+   */
   void fade_speed(float speed, float time);
-  void ease_speed(float speed, float time, std::string easing);
+  /**
+   * Fades the speed of the spotlight in ""time"" seconds, with easing.
+   * @param float $speed
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed(float speed, float time, const std::string& easing);
 
+  /**
+   * Sets the RGBA color of the spotlight.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   */
   void set_color_rgba(float r, float g, float b, float a);
+  /**
+   * Fades the spotlight to a new RGBA color in ""time"" seconds.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   * @param float $time
+   */
   void fade_color_rgba(float r, float g, float b, float a, float time);
+  /**
+   * Fades the spotlight to a new RGBA color in ""time"" seconds, with easing.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   * @param float $time
+   * @param string $easing
+   */
   void ease_color_rgba(float r, float g, float b, float a, float time, std::string easing);
 };
 
