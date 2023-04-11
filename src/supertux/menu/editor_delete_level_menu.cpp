@@ -60,7 +60,7 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
   if (id >= 0 && id < static_cast<int>(m_level_full_paths.size()))
   {
     if (Editor::current()->is_level_loaded() && m_level_full_paths[id] == Editor::current()->get_level()->m_filename)
-      Dialog::show_message(_("You cannot delete level that you are editing!"));
+      Dialog::show_message(_("You cannot delete the level that you are editing!"));
     else
     {
       Dialog::show_confirmation(fmt::format(_("You are about to delete level \"{}\". Are you sure?"), m_level_names[id]), [this, id]()
