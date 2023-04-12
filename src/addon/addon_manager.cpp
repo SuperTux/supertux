@@ -516,10 +516,7 @@ AddonManager::request_download_addon_screenshots(const AddonId& addon_id)
   const auto& screenshots = get_repository_addon(addon_id).get_screenshots();
   for (size_t i = 0; i < screenshots.size(); i++)
   {
-    std::stringstream filename_stream;
-    filename_stream << addon_id << "_" << (i + 1) << FileSystem::extension(screenshots[i]);
-    const std::string filename = filename_stream.str();
-
+    const std::string filename = addon_id + "_" + std::to_string(i + 1) + FileSystem::extension(screenshots[i]);
     const std::string filepath = FileSystem::join(m_screenshots_cache_directory, filename);
     if (PHYSFS_exists(filepath.c_str())) continue; // Do not re-download existing screenshots.
 
