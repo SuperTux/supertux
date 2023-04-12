@@ -65,6 +65,12 @@ public:
    */
   void set_pos(float x, float y);
   /**
+   * Moves the camera ""x"" to the left and ""y"" down.
+   * @param float $x
+   * @param float $y
+   */
+  void move(float x, float y);
+  /**
    * Sets the camera mode.
    * @param string $mode The mode can be "normal" or "manual".
    */
