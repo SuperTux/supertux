@@ -866,6 +866,19 @@ Camera::get_center() const
                               static_cast<float>(m_screen_size.height) / 2.0f);
 }
 
+const Vector&
+Camera::get_position() const
+{
+  return m_translation;
+}
+
+const Size&
+Camera::get_screen_size() const
+{
+  return m_screen_size;
+}
+
+
 void
 Camera::move(const int dx, const int dy)
 {

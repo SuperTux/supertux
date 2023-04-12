@@ -102,6 +102,22 @@ public:
    * @param string $ease
    */
   void ease_scale(float scale, float time, const std::string& ease);
+  /**
+   * Gets the current width of the screen.
+   */
+  int get_screen_width();
+  /**
+   * Gets the current height of the screen.
+   */
+  int get_screen_height();
+  /**
+   * Gets the X coordinate of the top-left corner of the screen.
+   */
+  float get_x();
+  /**
+   * Gets the Y coordinate of the top-left corner of the screen.
+   */
+  float get_y();
 };
 
 } // namespace scripting
