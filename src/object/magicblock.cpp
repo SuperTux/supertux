@@ -23,7 +23,10 @@
 #include "object/magicblock.hpp"
 
 #include "editor/editor.hpp"
+#include "object/ambient_light.hpp"
 #include "object/camera.hpp"
+#include "object/lantern.hpp"
+#include "object/spotlight.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -31,6 +34,8 @@
 #include "util/reader_mapping.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+
+#include <glm/gtx/rotate_vector.hpp>
 
 namespace {
 
@@ -133,6 +138,37 @@ MagicBlock::update(float dt_sec)
     return;
   }
 
+  // Reading a pixel from OpenGL context is SLOW, like, TERRIBLY SLOW
+  // Since magic blocks are designed to be used with lanterns,
+  // check the distance to all of the lantern objects on the level
+  // This will ignore Tux stone hat light, and other light sources
+  static const float SPOTLIGHT_RADIUS = 440.f; ///< Equals to half of the lightcone.png diagonal size, lightcone hitbox size is wrong
+  static const float LANTERN_LIGHT_RADIUS = 135.f; ///< Equals to half of the hitbox size in lightmap_light.sprite plus a small margin
+
+  *m_light = Sector::current()->get_singleton_by_type<AmbientLight>().get_ambient_light();
+  auto objects = Sector::current()->get_nearby_objects(m_center, SPOTLIGHT_RADIUS);
+  for (auto &obj: objects) {
+    auto lantern = dynamic_cast<Lantern *> (obj);
+    if (lantern && m_col.m_bbox.distance(lantern->get_bbox().get_middle()) < LANTERN_LIGHT_RADIUS) {
+      *m_light = Color(std::min(1.f, m_light->red + lantern->get_color().red),
+                       std::min(1.f, m_light->green + lantern->get_color().green),
+                       std::min(1.f, m_light->blue + lantern->get_color().blue));
+    }
+    auto spotlight = dynamic_cast<Spotlight *> (obj);
+    if (spotlight) {
+      Vector rotated = glm::rotate(get_pos() - spotlight->get_pos(), -spotlight->get_lightcone().get_angle() * static_cast<float>(M_PI / 180.0));
+      float w = static_cast<float>(spotlight->get_lightcone().get_width());
+      float h = static_cast<float>(spotlight->get_lightcone().get_height());
+      // Light cone is more narrow than lightcone.png size, decrease the area height a bit
+      Rectf light_area(-w * 0.5f, -h * 0.3f, w * 0.5f, h * 0.3f);
+      if (light_area.contains(rotated)) {
+        *m_light = Color(std::min(1.f, m_light->red + spotlight->get_color().red),
+                         std::min(1.f, m_light->green + spotlight->get_color().green),
+                         std::min(1.f, m_light->blue + spotlight->get_color().blue));
+      }
+    }
+  }
+
   bool lighting_ok;
   if (m_black) {
     lighting_ok = (m_light->red >= m_trigger_red ||
@@ -189,7 +225,7 @@ void
 MagicBlock::draw(DrawingContext& context)
 {
   // Ask for update about lightmap at center of this block
-  context.light().get_pixel(m_center, m_light);
+  //context.light().get_pixel(m_center, m_light);
 
   MovingSprite::draw(context);
   context.color().draw_filled_rect(m_col.m_bbox, m_color, m_layer);

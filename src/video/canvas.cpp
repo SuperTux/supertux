@@ -97,10 +97,6 @@ Canvas::render(Renderer& renderer, Filter filter)
       case TRIANGLE:
         painter.draw_triangle(static_cast<const TriangleRequest&>(request));
         break;
-
-      case GETPIXEL:
-        painter.get_pixel(static_cast<const GetPixelRequest&>(request));
-        break;
     }
   }
 }
@@ -355,32 +351,6 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   request->pos3 = apply_translate(pos3)*scale();
   request->color = color;
   request->color.alpha = color.alpha * m_context.transform().alpha;
-
-  m_requests.push_back(request);
-}
-
-void
-Canvas::get_pixel(const Vector& position, const std::shared_ptr<Color>& color_out)
-{
-  assert(color_out);
-
-  Vector pos = apply_translate(position)*scale();
-
-  // There is no light offscreen.
-  if (pos.x >= static_cast<float>(m_context.get_viewport().get_width()) ||
-      pos.y >= static_cast<float>(m_context.get_viewport().get_height()) ||
-      pos.x < 0.0f ||
-      pos.y < 0.0f)
-  {
-    *color_out = Color(0, 0, 0);
-    return;
-  }
-
-  auto request = new(m_obst) GetPixelRequest();
-
-  request->layer = LAYER_GETPIXEL;
-  request->pos = pos;
-  request->color_ptr = color_out;
 
   m_requests.push_back(request);
 }

@@ -31,7 +31,7 @@ class Surface;
 
 enum RequestType
 {
-  TEXTURE, GRADIENT, FILLRECT, INVERSEELLIPSE, GETPIXEL, LINE, TRIANGLE
+  TEXTURE, GRADIENT, FILLRECT, INVERSEELLIPSE, LINE, TRIANGLE
 };
 
 struct DrawingRequest
@@ -154,21 +154,6 @@ struct TriangleRequest : public DrawingRequest
 
   Vector pos1, pos2, pos3;
   Color  color;
-};
-
-struct GetPixelRequest : public DrawingRequest
-{
-  GetPixelRequest() :
-    DrawingRequest(GETPIXEL),
-    pos(0.0f, 0.0f),
-    color_ptr() {}
-
-  Vector pos;
-  std::shared_ptr<Color> color_ptr;
-
-private:
-  GetPixelRequest(const GetPixelRequest&) = delete;
-  GetPixelRequest& operator=(const GetPixelRequest&) = delete;
 };
 
 #endif
