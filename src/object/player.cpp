@@ -1931,7 +1931,7 @@ Player::draw(DrawingContext& context)
     else if (m_climbing) {
       action = "climbgrow";
     }
-    m_sprite->set_action_continued(action + sa_postfix);
+    m_sprite->set_action(action + sa_postfix, Sprite::LOOPS_CONTINUED);
   }
   else if (m_stone) {
     m_sprite->set_action("earth-stone");
@@ -2025,7 +2025,7 @@ Player::draw(DrawingContext& context)
         m_idle_stage = 0;
         m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
 
-        m_sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
+        m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
       else if (m_idle_timer.check() || m_sprite->animation_done()) {
         m_idle_stage++;
@@ -2041,7 +2041,7 @@ Player::draw(DrawingContext& context)
         }
       }
       else {
-        m_sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
+        m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
     }
     else {
