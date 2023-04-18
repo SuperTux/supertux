@@ -86,8 +86,11 @@ Crusher::on_type_change(int old_type)
   m_ic_size = (m_type == 0 || m_type == 2 ? NORMAL : LARGE);
   m_ic_type = (m_type == 0 || m_type == 1 ? ICE : CORRUPTED);
 
-  const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
-  change_sprite("images/creatures/crusher/" + (m_ic_type == CORRUPTED ? "corrupted/" + size_prefix + "_corrupt" : size_prefix + "_ice") + ".sprite");
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+  {
+    const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
+    change_sprite("images/creatures/crusher/" + (m_ic_type == CORRUPTED ? "corrupted/" + size_prefix + "_corrupt" : size_prefix + "_ice") + ".sprite");
+  }
 }
 
 HitResponse

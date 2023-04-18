@@ -41,7 +41,8 @@ WalkingLeaf::get_types() const
 void
 WalkingLeaf::on_type_change(int old_type)
 {
-  change_sprite("images/creatures/walkingleaf/" + std::string(m_type == CORRUPTED ? "corrupted/rotten_leaf" : "walkingleaf") + ".sprite");
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite("images/creatures/walkingleaf/" + std::string(m_type == CORRUPTED ? "corrupted/rotten_leaf" : "walkingleaf") + ".sprite");
 
   switch (m_type)
   {

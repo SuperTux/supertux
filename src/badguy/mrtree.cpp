@@ -56,7 +56,8 @@ MrTree::get_types() const
 void
 MrTree::on_type_change(int old_type)
 {
-  change_sprite("images/creatures/mr_tree/" + std::string(m_type == CORRUPTED ? "corrupted/haunted_tree" : "mr_tree") + ".sprite");
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite("images/creatures/mr_tree/" + std::string(m_type == CORRUPTED ? "corrupted/haunted_tree" : "mr_tree") + ".sprite");
 
   switch (m_type)
   {

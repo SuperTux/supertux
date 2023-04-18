@@ -51,7 +51,8 @@ ViciousIvy::get_types() const
 void
 ViciousIvy::on_type_change(int old_type)
 {
-  change_sprite("images/creatures/vicious_ivy/" + std::string(m_type == CORRUPTED ? "corrupted/rotten_ivy" : "vicious_ivy") + ".sprite");
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite("images/creatures/vicious_ivy/" + std::string(m_type == CORRUPTED ? "corrupted/rotten_ivy" : "vicious_ivy") + ".sprite");
 
   switch (m_type)
   {
