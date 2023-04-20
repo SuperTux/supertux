@@ -60,7 +60,7 @@ MoleRock::initialize()
   m_physic.set_velocity(initial_velocity);
 
   // Randomly select a rock size to display.
-  m_sprite->set_action(graphicsRandom.rand(2) == 0 ? "small" : "medium");
+  set_action(graphicsRandom.rand(2) == 0 ? "small" : "medium");
 }
 
 void

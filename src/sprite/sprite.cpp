@@ -70,6 +70,12 @@ Sprite::set_action(const std::string& name, const Direction& dir, int loops)
 }
 
 void
+Sprite::set_action(const Direction& dir, const std::string& name, int loops)
+{
+  set_action(dir_to_string(dir) + "-" + name, loops);
+}
+
+void
 Sprite::set_action(const Direction& dir, int loops)
 {
   set_action(dir_to_string(dir), loops);
@@ -87,6 +93,14 @@ Sprite::set_action(const std::string& name, int loops)
     return;
   }
 
+  // The action's loops were set to continued; use the ones from the previous action.
+  if (loops == LOOPS_CONTINUED)
+  {
+    m_action = newaction;
+    update();
+    return;
+  }
+
   // If the new action has a loops property,
   // we prefer that over the parameter.
   m_animation_loops = newaction->has_custom_loops ? newaction->loops : loops;
@@ -98,22 +112,6 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
-}
-
-void
-Sprite::set_action_continued(const std::string& name)
-{
-  if (m_action && m_action->name == name)
-    return;
-
-  const SpriteData::Action* newaction = m_data.get_action(name);
-  if (!newaction) {
-    log_debug << "Action '" << name << "' not found." << std::endl;
-    return;
-  }
-
-  m_action = newaction;
-  update();
 }
 
 bool
