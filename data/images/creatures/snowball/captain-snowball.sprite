@@ -29,7 +29,7 @@
     (name "jump-left")
     (hitbox 8 13 32 32)
     (fps 20)
-	(loop 1)
+	(loops 1)
     (images "captain_jump-0.png"
             "captain_jump-1.png"
             "captain_jump-2.png"
