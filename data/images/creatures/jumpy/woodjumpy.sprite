@@ -5,13 +5,13 @@
   (fps 25)
   (hitbox 7 8 32 50)
   (images "wood_up-2.png"
-		  "wood_up-1.png"
-		  "wood_down-1.png"
-		  "wood_down-2.png"
-		  "wood_down-2.png"
-		  "wood_down-1.png"
-		  "wood_down-0.png"
-		  "wood_up-0.png"))
+          "wood_up-1.png"
+          "wood_down-1.png"
+          "wood_down-2.png"
+          "wood_down-2.png"
+          "wood_down-1.png"
+          "wood_down-0.png"
+          "wood_up-0.png"))
 
  (action
   (name "right-up")
@@ -70,16 +70,6 @@
   (name "burning-right")
   (hitbox 9 8 32 50)
   (mirror-action "burning-left"))
-
- (action
-  (name "gear-left")
-  (hitbox 7 8 32 50)
-  (images "wood_gear-4.png"))
-
- (action
-  (name "gear-right")
-  (hitbox 9 8 32 50)
-  (mirror-action "gear-left"))
 
  (action
   (name "editor-left")
