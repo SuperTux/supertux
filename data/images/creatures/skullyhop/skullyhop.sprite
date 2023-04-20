@@ -5,9 +5,9 @@
 	  (loops 1)
 	  (fps 20)
 	  (images "jump-1.png"
-			  "land-0.png"
-			  "land-1.png"
-			  "stand-0.png"))
+            "land-0.png"
+            "land-1.png"
+            "stand-0.png"))
 	
 	(action
 	  (name "standing-right")
@@ -49,7 +49,7 @@
     (action
 	  (name "iced-left")
 	  (hitbox 9 8 32 38)
-	  (images "s-idle.png"))
+	  (images "stand-0.png"))
 	
 	(action
 	  (name "iced-right")
@@ -59,7 +59,7 @@
 	(action
 	  (name "squished-left")
 	  (hitbox 9 8 32 38)
-	  (images "s-squish.png"))
+	  (images "squished.png"))
 	
 	(action
 	  (name "squished-right")
@@ -71,17 +71,18 @@
 	  (fps 20)
 	  (hitbox 9 8 32 38)
 	  (images "burning-0.png"
-		  "burning-1.png"
-		  "burning-2.png"
-		  "burning-3.png"
-		  "burning-4.png"
-		  "burning-5.png"
-		  "burning-6.png"
-		  "burning-7.png"
-		  "burning-8.png"
-		  "burning-9.png"))
+            "burning-1.png"
+            "burning-2.png"
+            "burning-3.png"
+            "burning-4.png"
+            "burning-5.png"
+            "burning-6.png"
+            "burning-7.png"
+            "burning-8.png"
+            "burning-9.png"))
 	(action
 	  (name "burning-right")
 	  (fps 20)
 	  (hitbox 9 8 32 38)
-	  (mirror-action "burning-left")))
+	  (mirror-action "burning-left"))
+)
