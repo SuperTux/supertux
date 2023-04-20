@@ -18,7 +18,8 @@
 	  (fps 14)
 	  (mirror-action "left"))
 
-	(action (name "flat-left")
+	(action
+	  (name "flat-left")
 	  (hitbox 8 15 32 26)
 	  (images "iceblock-squished.png"))
 
@@ -29,11 +30,10 @@
 	(action
 		(name "melting-left")
 		(hitbox 8 9 32 32)
-		(images "flat-left.png"
-			    	"melting-0.png"
-			    	"melting-1.png"
-			    	"melting-2.png"
-			    	"melting-3.png"))
+		(images "melting-0.png"
+			    "melting-1.png"
+			    "melting-2.png"
+			    "melting-3.png"))
 
 	(action
 		(name "melting-right")
