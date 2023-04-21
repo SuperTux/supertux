@@ -37,7 +37,6 @@ PushButton::PushButton(const ReaderMapping& mapping) :
 {
   SoundManager::current()->preload(BUTTON_SOUND);
   set_action("off", -1);
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   if (!mapping.get("script", script))
   {

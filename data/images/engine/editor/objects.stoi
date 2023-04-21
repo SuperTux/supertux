@@ -333,6 +333,9 @@
   (object
     (class "lit-object")
     (icon "images/objects/lightflower/lightflower1-0.png"))
+  (object
+    (class "key")
+    (icon "images/objects/keys/key_silver.png"))
  )
 
  (objectgroup

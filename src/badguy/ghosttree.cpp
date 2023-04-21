@@ -63,7 +63,7 @@ void
 GhostTree::die()
 {
   mystate = STATE_DYING;
-  m_sprite->set_action("dying", 1);
+  set_action("dying", 1);
   glow_sprite->set_action("dying", 1);
 
   for (const auto& willo : willowisps) {
@@ -170,7 +170,7 @@ GhostTree::active_update(float /*dt_sec*/)
         suck_lantern->ungrab(*this, Direction::RIGHT);
         suck_lantern->remove_me();
         suck_lantern = nullptr;
-        m_sprite->set_action("swallow", 1);
+        set_action("swallow", 1);
       } else {
         pos += glm::normalize(delta);
         suck_lantern->grab(*this, pos, Direction::RIGHT);
@@ -181,7 +181,7 @@ GhostTree::active_update(float /*dt_sec*/)
         if (is_color_deadly(suck_lantern_color)) {
           die();
         } else {
-          m_sprite->set_action("normal");
+          set_action("normal");
           mystate = STATE_IDLE;
           spawn_lantern();
         }

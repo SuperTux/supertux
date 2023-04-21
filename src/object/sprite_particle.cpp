@@ -26,25 +26,31 @@
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout) :
+                               int drawing_layer_, bool notimeout, Color color_) :
   SpriteParticle(SpriteManager::current()->create(sprite_name), action,
                  position_, anchor, velocity_, acceleration_,
-                 drawing_layer_)
+                 drawing_layer_, notimeout, color_)
 {
   if (sprite_name == "images/particles/sparkle.sprite")
   {
     glow = true;
+    lightsprite->set_blend(Blend::ADD);
     if (action=="dark") {
-      lightsprite->set_blend(Blend::ADD);
       lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
     }
+    else
+    {
+      lightsprite->set_color(color_);
+    }
+
   }
   no_time_out = notimeout;
+  sprite->set_color(color_);
 }
 
 SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout) :
+                               int drawing_layer_, bool notimeout, Color color_) :
   sprite(std::move(sprite_)),
   position(position_),
   velocity(velocity_),
@@ -52,10 +58,12 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
   drawing_layer(drawing_layer_),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
   glow(false),
-  no_time_out(false)
+  no_time_out(false),
+  color(Color::WHITE)
 {
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
+  sprite->set_color(color_);
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
   no_time_out = notimeout;

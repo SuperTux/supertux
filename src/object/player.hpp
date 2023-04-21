@@ -124,10 +124,15 @@ public:
   /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
 
+  std::string bonus_to_string() const;
+
   PlayerStatus& get_status() const { return m_player_status; }
 
   /** set kick animation */
   void kick();
+
+  /** gets the players action */
+  std::string get_action() const;
 
   /** play cheer animation.
       This might need some space and behave in an unpredictable way.
@@ -178,7 +183,7 @@ public:
   void set_on_ground(bool flag);
 
   Portable* get_grabbed_object() const { return m_grabbed_object; }
-  void stop_grabbing() { m_grabbed_object = nullptr; }
+  void stop_grabbing() { ungrab_object(); }
 
   /** Checks whether the player has grabbed a certain object
       @param name Name of the object to check */
@@ -234,6 +239,9 @@ public:
 
   void set_ending_direction(int direction) { m_ending_direction = direction; }
   int get_ending_direction() const { return m_ending_direction; }
+
+  int get_collected_keys() { return m_collected_keys; }
+  void add_collected_keys(int keynum) { m_collected_keys += keynum; }
 
 private:
   void handle_input();
@@ -382,6 +390,7 @@ private:
   std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
 
   int m_ending_direction;
+  int m_collected_keys;
 
 private:
   Player(const Player&) = delete;
