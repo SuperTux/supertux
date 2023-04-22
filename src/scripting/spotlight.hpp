@@ -48,6 +48,16 @@ private:
 
 public:
   /**
+   * Enables/disables the spotlight.
+   * @param bool $enabled
+   */
+  void set_enabled(bool enabled);
+  /**
+   * Returns ""true"" if the spotlight is enabled.
+   */
+  bool is_enabled();
+
+  /**
    * Sets the direction of the spotlight.
    * @param string $direction
    */

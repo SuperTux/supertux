@@ -20,6 +20,21 @@
 
 namespace scripting {
 
+
+void
+Spotlight::set_enabled(bool enabled)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_enabled(enabled);
+}
+
+bool
+Spotlight::is_enabled()
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.is_enabled();
+}
+
 void
 Spotlight::set_direction(const std::string& direction)
 {
