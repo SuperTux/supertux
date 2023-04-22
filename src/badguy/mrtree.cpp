@@ -93,8 +93,8 @@ MrTree::collision_squished(GameObject& object)
 
   // replace with Stumpy
   Vector stumpy_pos = get_pos();
-  stumpy_pos.x += 20;
-  stumpy_pos.y += 25;
+  stumpy_pos.x += 8;
+  stumpy_pos.y += 28;
   auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
   remove_me();
 

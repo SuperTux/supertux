@@ -181,7 +181,7 @@ Zeekling::active_update(float dt_sec) {
     if (should_we_dive()) {
       state = DIVING;
       m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
-      set_action("diving", m_dir);
+      set_action("dive", m_dir);
     }
     BadGuy::active_update(dt_sec);
     return;
