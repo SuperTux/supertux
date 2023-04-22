@@ -28,6 +28,10 @@ class WorldMap;
 
 namespace scripting {
 
+/**
+ * @summary This class provides additional controlling functions for a worldmap, other than the ones listed at ${SRG_REF_GameObjectManager}.
+ * @instances An instance under ""worldmap.settings"" is available from scripts and the console.
+ */
 class WorldMap final : public GameObjectManager
 {
 #ifndef SCRIPTING_API
@@ -43,8 +47,14 @@ private:
 #endif
 
 public:
-  float get_tux_x();
-  float get_tux_y();
+  /**
+   * Gets Tux's X position on the worldmap.
+   */
+  float get_tux_x() const;
+  /**
+   * Gets Tux's Y position on the worldmap.
+   */
+  float get_tux_y() const;
 };
 
 } // namespace scripting

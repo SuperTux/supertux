@@ -127,9 +127,9 @@ WeakBlock::update(float )
       case STATE_BURNING:
         // cause burn light to flicker randomly
         if (linked) {
-          if (gameRandom.rand(10) >= 7) {
-            lightsprite->set_color(Color(0.2f + gameRandom.randf(20.0f) / 100.0f,
-                                         0.1f + gameRandom.randf(20.0f)/100.0f,
+          if (graphicsRandom.rand(10) >= 7) {
+            lightsprite->set_color(Color(0.2f + graphicsRandom.randf(20.0f) / 100.0f,
+                                         0.1f + graphicsRandom.randf(20.0f)/100.0f,
                                          0.1f));
           } else
             lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));

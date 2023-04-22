@@ -25,6 +25,12 @@ class Platform;
 
 namespace scripting {
 
+/**
+ * @summary A ""Platform"" that was given a name can be controlled by scripts.
+            It moves along a specified path.
+ * @instances A ""Platform"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Platform final
 #ifndef SCRIPTING_API
   : public GameObject<::Platform>
@@ -39,17 +45,32 @@ private:
 #endif
 
 public:
-  /** Move platform until at given node, then stop */
+  /**
+   * Moves the platform until at given node, then stops.
+   * @param int $node_no
+   */
   void goto_node(int node_no);
 
-  /** Start moving platform */
+  /**
+   * Starts moving the platform automatically.
+   */
   void start_moving();
 
-  /** Stop platform at next node */
+  /**
+   * Stops moving the platform.
+   */
   void stop_moving();
 
-  /** Updates the platform to the given action  */
-  void set_action(const std::string& action, int repeat);
+  /**
+   * Returns the current sprite action.
+   */
+  std::string get_action() const;
+  /**
+   * Sets the sprite action.
+   * @param string $action
+   * @param string $loops
+   */
+  void set_action(const std::string& action, int loops);
 };
 
 } // namespace scripting

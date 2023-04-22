@@ -25,6 +25,11 @@ class Candle;
 
 namespace scripting {
 
+/**
+ * @summary A ""Candle"" that was given a name can be controlled by scripts.
+ * @instances A ""Candle"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Candle final
 #ifndef SCRIPTING_API
   : public GameObject<::Candle>
@@ -40,8 +45,15 @@ private:
 #endif
 
 public:
-  bool get_burning() const; /**< returns true if candle is lighted */
-  void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
+  /**
+   * Returns ""true"" if the candle is lit up.
+   */
+  bool get_burning() const;
+  /**
+   * Sets the burning state of the candle.
+   * @param bool $burning If ""true"", the candle is lit up. If ""false"", it's extinguished.
+   */
+  void set_burning(bool burning);
 };
 
 } // namespace scripting

@@ -25,6 +25,11 @@ class Camera;
 
 namespace scripting {
 
+/**
+ * @summary A ""Camera"" that was given a name can be manipulated by scripts.
+ * @instances An instance named ""Camera"" (""sector.Camera"" in the console) is available.${SRG_NEWPARAGRAPH}
+              The mode of the camera is either normal (the camera is following the player) or autoscroll. In the latter mode the camera is forced along a specified ${SRG_REF_Path}.
+ */
 class Camera final
 #ifndef SCRIPTING_API
   : public GameObject<::Camera>
@@ -41,26 +46,84 @@ private:
 #endif
 
 public:
+  /**
+   * Reloads the camera's configuration.
+   */
   void reload_config();
 
-  /** Shake the camera */
+  /**
+   * Moves camera to the given coordinates in ""time"" seconds, returning quickly to the original position afterwards.
+   * @param float $speed
+   * @param float $x
+   * @param float $y
+   */
   void shake(float speed, float x, float y);
-  /** Set camera to a specific coordinate */
+  /**
+   * Moves the camera to the specified absolute position. The origin is at the top left.
+   * @param float $x
+   * @param float $y
+   */
   void set_pos(float x, float y);
-  /** Set camera to a specific mode, can be "normal", "manual" */
+  /**
+   * Moves the camera ""x"" to the left and ""y"" down.
+   * @param float $x
+   * @param float $y
+   */
+  void move(float x, float y);
+  /**
+   * Sets the camera mode.
+   * @param string $mode The mode can be "normal" or "manual".
+   */
   void set_mode(const std::string& mode);
-  /** Scroll camera to position x,y in scrolltime seconds */
+  /**
+   * Scrolls the camera to specific coordinates in ""scrolltime"" seconds.
+   * @param float $x
+   * @param float $y
+   * @param float $scrolltime
+   */
   void scroll_to(float x, float y, float scrolltime);
-  /** Get the curent scale factor of the camera */
+  /**
+   * Returns the current scale factor of the camera.
+   */
   float get_current_scale();
-  /** Get the scale factor the camera is fading towards */
+  /**
+   * Returns the scale factor the camera is fading towards.
+   */
   float get_target_scale();
-  /** Set the scale factor */
+  /**
+   * Sets the scale factor.
+   * @param float $scale
+   */
   void set_scale(float scale);
-  /** Fade the scale factor over time */
+  /**
+   * Fades to a specified scale factor in ""time"" seconds.
+   * @param float $scale
+   * @param float $time
+   */
   void scale(float scale, float time);
-  /** Fade the scale factor over time with easing (smooth movement) */
+  /**
+   * Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
+   * @param float $scale
+   * @param float $time
+   * @param string $ease
+   */
   void ease_scale(float scale, float time, const std::string& ease);
+  /**
+   * Gets the current width of the screen.
+   */
+  int get_screen_width();
+  /**
+   * Gets the current height of the screen.
+   */
+  int get_screen_height();
+  /**
+   * Gets the X coordinate of the top-left corner of the screen.
+   */
+  float get_x();
+  /**
+   * Gets the Y coordinate of the top-left corner of the screen.
+   */
+  float get_y();
 };
 
 } // namespace scripting

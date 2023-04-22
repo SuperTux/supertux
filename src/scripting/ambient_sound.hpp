@@ -25,6 +25,11 @@ class AmbientSound;
 
 namespace scripting {
 
+/**
+ * @summary An ""AmbientSound"" that was given a name can be controlled by scripts.
+ * @instances An ""AmbientSound"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class AmbientSound final
 #ifndef SCRIPTING_API
   : public GameObject<::AmbientSound>
@@ -41,17 +46,17 @@ private:
 
 public:
   /**
-   * Sets the position of the ambient sound
-   * @param x X coordinate
-   * @param y Y coordinate
+   * Sets the position of the ambient sound.
+   * @param float $x
+   * @param float $y
    */
   void set_pos(float x, float y);
   /**
-   * Returns the ambient sound's x coordinate
+   * Returns the ambient sound's X coordinate.
    */
   float get_pos_x() const;
   /**
-   * Returns the ambient sound's y coordinate
+   * Returns the ambient sound's Y coordinate.
    */
   float get_pos_y() const;
 };

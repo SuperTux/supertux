@@ -26,6 +26,11 @@ class LitObject;
 
 namespace scripting {
 
+/**
+ * @summary A ""LitObject"" that was given a name can be controlled by scripts.
+ * @instances A ""LitObject"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class LitObject final
 #ifndef SCRIPTING_API
   : public GameObject<::LitObject>
@@ -41,11 +46,25 @@ private:
 #endif
 
 public:
+  /**
+   * Returns the current sprite action.
+   */
   std::string get_action() const;
-  void set_action(std::string action);
+  /**
+   * Sets the sprite action.
+   * @param string $action
+   */
+  void set_action(const std::string& action);
 
+  /**
+   * Returns the current light sprite action.
+   */
   std::string get_light_action() const;
-  void set_light_action(std::string action);
+  /**
+   * Sets the light sprite action.
+   * @param string $action
+   */
+  void set_light_action(const std::string& action);
 };
 
 } // namespace scripting

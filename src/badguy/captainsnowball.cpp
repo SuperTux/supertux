@@ -81,7 +81,7 @@ CaptainSnowball::collision_solid(const CollisionHit& hit)
 bool
 CaptainSnowball::collision_squished(GameObject& object)
 {
-  m_sprite->set_action("squished", m_dir);
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }

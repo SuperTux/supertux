@@ -145,7 +145,7 @@ Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 
   // We actually face the opposite direction of Tux here to make the fuse more
   // visible instead of hiding it behind Tux
-  m_sprite->set_action_continued(m_dir == Direction::LEFT ? "ticking-right" : "ticking-left");
+  set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
   set_colgroup_active(COLGROUP_DISABLED);
 }
 

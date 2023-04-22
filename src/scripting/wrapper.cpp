@@ -645,6 +645,41 @@ static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Camera_move_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'move' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->move(static_cast<float> (arg0), static_cast<float> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'move'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -867,6 +902,110 @@ static SQInteger Camera_ease_scale_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'ease_scale'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_get_screen_width_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_screen_width' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
+
+
+  try {
+    int return_value = _this->get_screen_width();
+
+    sq_pushinteger(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_screen_width'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_get_screen_height_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_screen_height' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
+
+
+  try {
+    int return_value = _this->get_screen_height();
+
+    sq_pushinteger(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_screen_height'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_get_x_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_x' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
+
+
+  try {
+    float return_value = _this->get_x();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_x'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_get_y_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_y' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
+
+
+  try {
+    float return_value = _this->get_y();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_y'"));
     return SQ_ERROR;
   }
 
@@ -6247,6 +6386,33 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Platform_get_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_action' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Platform*> (data);
+
+
+  try {
+    std::string return_value = _this->get_action();
+
+    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Platform_set_action_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -6926,37 +7092,6 @@ static SQInteger Player_use_scripting_controller_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Player_has_grabbed_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'has_grabbed' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::Player*> (data);
-
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    bool return_value = _this->has_grabbed(arg0);
-
-    sq_pushbool(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'has_grabbed'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -6987,6 +7122,37 @@ static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'do_scripting_controller'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_has_grabbed_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'has_grabbed' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Player*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->has_grabbed(arg0);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'has_grabbed'"));
     return SQ_ERROR;
   }
 
@@ -7402,6 +7568,33 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_name' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+
+
+  try {
+    std::string return_value = _this->get_name();
+
+    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_name'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -7774,33 +7967,6 @@ static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_solid'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'get_name' called without instance"));
-    return SQ_ERROR;
-  }
-  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
-
-
-  try {
-    std::string return_value = _this->get_name();
-
-    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
-    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_name'"));
     return SQ_ERROR;
   }
 
@@ -9328,6 +9494,66 @@ static SQInteger TextArray_fade_out_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_out'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger TextArray_grow_in_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'grow_in' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::TextArray*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->grow_in(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'grow_in'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger TextArray_grow_out_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'grow_out' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::TextArray*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->grow_out(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'grow_out'"));
     return SQ_ERROR;
   }
 
@@ -11183,29 +11409,6 @@ static SQInteger play_music_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger stop_music_wrapper(HSQUIRRELVM vm)
-{
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    scripting::stop_music(static_cast<float> (arg0));
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_music'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger fade_in_music_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -11234,6 +11437,29 @@ static SQInteger fade_in_music_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger stop_music_wrapper(HSQUIRRELVM vm)
+{
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::stop_music(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_music'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger resume_music_wrapper(HSQUIRRELVM vm)
 {
   SQFloat arg0;
@@ -11252,6 +11478,29 @@ static SQInteger resume_music_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'resume_music'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger pause_music_wrapper(HSQUIRRELVM vm)
+{
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::pause_music(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'pause_music'"));
     return SQ_ERROR;
   }
 
@@ -11501,25 +11750,6 @@ static SQInteger set_gamma_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_gamma'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger quit_wrapper(HSQUIRRELVM vm)
-{
-  (void) vm;
-
-  try {
-    scripting::quit();
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'quit'"));
     return SQ_ERROR;
   }
 
@@ -12756,13 +12986,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'play_music'");
   }
 
-  sq_pushstring(v, "stop_music", -1);
-  sq_newclosure(v, &stop_music_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'stop_music'");
-  }
-
   sq_pushstring(v, "fade_in_music", -1);
   sq_newclosure(v, &fade_in_music_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsn");
@@ -12770,11 +12993,25 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'fade_in_music'");
   }
 
+  sq_pushstring(v, "stop_music", -1);
+  sq_newclosure(v, &stop_music_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop_music'");
+  }
+
   sq_pushstring(v, "resume_music", -1);
   sq_newclosure(v, &resume_music_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'resume_music'");
+  }
+
+  sq_pushstring(v, "pause_music", -1);
+  sq_newclosure(v, &pause_music_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'pause_music'");
   }
 
   sq_pushstring(v, "play_sound", -1);
@@ -12859,13 +13096,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_gamma'");
-  }
-
-  sq_pushstring(v, "quit", -1);
-  sq_newclosure(v, &quit_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'quit'");
   }
 
   sq_pushstring(v, "rand", -1);
@@ -13165,6 +13395,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'set_pos'");
   }
 
+  sq_pushstring(v, "move", -1);
+  sq_newclosure(v, &Camera_move_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'move'");
+  }
+
   sq_pushstring(v, "set_mode", -1);
   sq_newclosure(v, &Camera_set_mode_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
@@ -13212,6 +13449,34 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnns");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'ease_scale'");
+  }
+
+  sq_pushstring(v, "get_screen_width", -1);
+  sq_newclosure(v, &Camera_get_screen_width_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_screen_width'");
+  }
+
+  sq_pushstring(v, "get_screen_height", -1);
+  sq_newclosure(v, &Camera_get_screen_height_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_screen_height'");
+  }
+
+  sq_pushstring(v, "get_x", -1);
+  sq_newclosure(v, &Camera_get_x_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_x'");
+  }
+
+  sq_pushstring(v, "get_y", -1);
+  sq_newclosure(v, &Camera_get_y_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_y'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -14548,6 +14813,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'stop_moving'");
   }
 
+  sq_pushstring(v, "get_action", -1);
+  sq_newclosure(v, &Platform_get_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_action'");
+  }
+
   sq_pushstring(v, "set_action", -1);
   sq_newclosure(v, &Platform_set_action_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsi");
@@ -14727,18 +14999,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'use_scripting_controller'");
   }
 
-  sq_pushstring(v, "has_grabbed", -1);
-  sq_newclosure(v, &Player_has_grabbed_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'has_grabbed'");
-  }
-
   sq_pushstring(v, "do_scripting_controller", -1);
   sq_newclosure(v, &Player_do_scripting_controller_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsb");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'do_scripting_controller'");
+  }
+
+  sq_pushstring(v, "has_grabbed", -1);
+  sq_newclosure(v, &Player_has_grabbed_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'has_grabbed'");
   }
 
   sq_pushstring(v, "get_velocity_x", -1);
@@ -14865,6 +15137,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'get_action'");
   }
 
+  sq_pushstring(v, "get_name", -1);
+  sq_newclosure(v, &ScriptedObject_get_name_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_name'");
+  }
+
   sq_pushstring(v, "move", -1);
   sq_newclosure(v, &ScriptedObject_move_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnn");
@@ -14954,13 +15233,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'is_solid'");
-  }
-
-  sq_pushstring(v, "get_name", -1);
-  sq_newclosure(v, &ScriptedObject_get_name_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_name'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -15309,6 +15581,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'fade_out'");
+  }
+
+  sq_pushstring(v, "grow_in", -1);
+  sq_newclosure(v, &TextArray_grow_in_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'grow_in'");
+  }
+
+  sq_pushstring(v, "grow_out", -1);
+  sq_newclosure(v, &TextArray_grow_out_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'grow_out'");
   }
 
   sq_pushstring(v, "set_visible", -1);

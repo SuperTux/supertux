@@ -27,13 +27,13 @@ WorldMap::WorldMap(::worldmap::WorldMap* parent) :
 }
 
 float
-WorldMap::get_tux_x()
+WorldMap::get_tux_x() const
 {
   return m_parent->get_tux_pos().x;
 }
 
 float
-WorldMap::get_tux_y()
+WorldMap::get_tux_y() const
 {
   return m_parent->get_tux_pos().y;
 }

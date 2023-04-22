@@ -41,7 +41,7 @@ SCrystallo::initialize()
 {
   state = SCRYSTALLO_SLEEPING;
   m_physic.enable_gravity(false);
-  m_sprite->set_action("editor", m_dir);
+  set_action("editor", m_dir);
 }
 
 ObjectSettings
@@ -96,7 +96,7 @@ SCrystallo::active_update(float dt_sec)
       Vector dist = (p2 - p1);
       if (glm::length(dist) <= m_range)
       {
-        m_sprite->set_action("waking", m_dir, 1);
+        set_action("waking", m_dir, 1);
         state = SCRYSTALLO_WAKING;
       }
     }

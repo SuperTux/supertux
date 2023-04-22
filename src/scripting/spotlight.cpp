@@ -36,7 +36,7 @@ Spotlight::is_enabled()
 }
 
 void
-Spotlight::set_direction(std::string direction)
+Spotlight::set_direction(const std::string& direction)
 {
   SCRIPT_GUARD_VOID;
   object.set_direction(::Spotlight::Direction_from_string(direction));
@@ -57,7 +57,7 @@ Spotlight::fade_speed(float speed, float time)
 }
 
 void
-Spotlight::ease_speed(float speed, float time, std::string easing)
+Spotlight::ease_speed(float speed, float time, const std::string& easing)
 {
   SCRIPT_GUARD_VOID;
   object.ease_speed(time, speed, EasingMode_from_string(easing));
@@ -78,7 +78,7 @@ Spotlight::fade_angle(float angle, float time)
 }
 
 void
-Spotlight::ease_angle(float angle, float time, std::string easing)
+Spotlight::ease_angle(float angle, float time, const std::string& easing)
 {
   SCRIPT_GUARD_VOID;
   object.ease_angle(time, angle, EasingMode_from_string(easing));

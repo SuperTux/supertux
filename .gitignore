@@ -26,6 +26,9 @@ version.cmake
 Doxyfile
 docs/doxygen/
 
+# Tool-related build files
+tools/scripting_docs_gen/build/
+
 # Qt Creator project file
 CMakeLists.txt.user
 
