@@ -28,7 +28,7 @@ LitObject::get_action() const
 }
 
 void
-LitObject::set_action(std::string action)
+LitObject::set_action(const std::string& action)
 {
   SCRIPT_GUARD_VOID;
   object.set_action(action);
@@ -42,7 +42,7 @@ LitObject::get_light_action() const
 }
 
 void
-LitObject::set_light_action(std::string action)
+LitObject::set_light_action(const std::string& action)
 {
   SCRIPT_GUARD_VOID;
   object.set_light_action(action);

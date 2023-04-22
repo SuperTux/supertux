@@ -27,6 +27,10 @@ class Background;
 
 namespace scripting {
 
+/**
+ * @summary A ""Background"" that was given a name can be manipulated by scripts.
+ * @instances A ""Background"" can be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Background final
 #ifndef SCRIPTING_API
   : public GameObject<::Background>
@@ -42,16 +46,57 @@ private:
 #endif
 
 public:
+  /**
+   * Sets the background's image.
+   * @param string $image
+   */
   void set_image(const std::string& image);
+  /**
+   * Sets the top, middle and bottom background images.
+   * @param string $top_image
+   * @param string $middle_image
+   * @param string $bottom_image
+   */
   void set_images(const std::string& top_image, const std::string& middle_image,
                              const std::string& bottom_image);
+  /**
+   * Sets the background speed.
+   * @param float $speed
+   */
   void set_speed(float speed);
 
+  /**
+   * Returns the red color value.
+   */
   float get_color_red();
+  /**
+   * Returns the green color value.
+   */
   float get_color_green();
+  /**
+   * Returns the blue color value.
+   */
   float get_color_blue();
+  /**
+   * Returns the alpha color value.
+   */
   float get_color_alpha();
+  /**
+   * Sets the background color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
   void set_color(float red, float green, float blue, float alpha);
+  /**
+   * Fades to specified background color in ""time"" seconds.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   * @param float $time
+   */
   void fade_color(float red, float green, float blue, float alpha, float time);
 };
 

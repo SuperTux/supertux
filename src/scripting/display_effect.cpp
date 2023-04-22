@@ -21,24 +21,24 @@
 namespace scripting {
 
 void
-DisplayEffect::fade_out(float fadetime)
+DisplayEffect::fade_out(float time)
 {
   SCRIPT_GUARD_VOID;
-  object.fade_out(fadetime);
+  object.fade_out(time);
 }
 
 void
-DisplayEffect::fade_in(float fadetime)
+DisplayEffect::fade_in(float time)
 {
   SCRIPT_GUARD_VOID;
-  object.fade_in(fadetime);
+  object.fade_in(time);
 }
 
 void
-DisplayEffect::set_black(bool enabled)
+DisplayEffect::set_black(bool black)
 {
   SCRIPT_GUARD_VOID;
-  object.set_black(enabled);
+  object.set_black(black);
 }
 
 bool
@@ -49,17 +49,17 @@ DisplayEffect::is_black() const
 }
 
 void
-DisplayEffect::sixteen_to_nine(float fadetime)
+DisplayEffect::sixteen_to_nine(float time)
 {
   SCRIPT_GUARD_VOID;
-  object.sixteen_to_nine(fadetime);
+  object.sixteen_to_nine(time);
 }
 
 void
-DisplayEffect::four_to_three(float fadetime)
+DisplayEffect::four_to_three(float time)
 {
   SCRIPT_GUARD_VOID;
-  object.four_to_three(fadetime);
+  object.four_to_three(time);
 }
 
 } // namespace scripting

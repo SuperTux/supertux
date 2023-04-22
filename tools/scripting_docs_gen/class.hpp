@@ -1,5 +1,5 @@
-//  SuperTux
-//  Copyright (C) 2020 Grzegorz Przybylski <zwatotem@gmail.com>
+//  SuperTux - Scripting reference generator
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,39 +14,41 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/decal.hpp"
-#include "scripting/decal.hpp"
+#ifndef CLASS_HEADER
+#define CLASS_HEADER
 
-namespace scripting {
+#include <string>
+#include <vector>
 
-void
-Decal::change_sprite(const std::string& sprite)
+struct Constant
 {
-  SCRIPT_GUARD_VOID;
-  object.change_sprite(sprite);
-}
+  std::string type;
+  std::string name;
+  std::string description;
+};
 
-void
-Decal::fade_sprite(const std::string& sprite, float time)
+struct Parameter
 {
-  SCRIPT_GUARD_VOID;
-  object.fade_sprite(sprite, time);
-}
+  std::string type;
+  std::string name;
+  std::string description;
+};
 
-void
-Decal::fade_in(float time)
+struct Function
 {
-  SCRIPT_GUARD_VOID;
-  object.fade_in(time);
-}
+  std::string type;
+  std::string name;
+  std::string description;
+  std::vector<Parameter> parameters;
+};
 
-void
-Decal::fade_out(float time)
+struct Class
 {
-  SCRIPT_GUARD_VOID;
-  object.fade_out(time);
-}
+  std::string name;
+  std::string summary;
+  std::string instances;
+  std::vector<Constant> constants;
+  std::vector<Function> functions;
+};
 
-} // namespace scripting
-
-/* EOF */
+#endif

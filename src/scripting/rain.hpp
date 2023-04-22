@@ -25,6 +25,11 @@ class RainParticleSystem;
 
 namespace scripting {
 
+/**
+ * @summary A ""RainParticleSystem"" that was given a name can be controlled by scripts.
+ * @instances A ""RainParticleSystem"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Rain final
 #ifndef SCRIPTING_API
   : public GameObject<::RainParticleSystem>
@@ -40,16 +45,37 @@ private:
 #endif
 
 public:
+  /**
+   * Enables/disables the system.
+   * @param bool $enable
+   */
   void set_enabled(bool enable);
+  /**
+   * Returns ""true"" if the system is enabled.
+   */
   bool get_enabled() const;
 
-  /** Smoothly changes the rain speed to the given value */
+  /**
+   * Smoothly changes the rain speed to the given value in ""time"" seconds.
+   * @param float $speed
+   * @param float $time
+   */
   void fade_speed(float speed, float time);
 
-  /** Smoothly changes the amount of particles to the given value */
+  /**
+   * Smoothly changes the amount of particles to the given value in ""time"" seconds.
+   * @param float $amount
+   * @param float $time
+   */
   void fade_amount(float amount, float time);
 
-  /** Smoothly changes the angle of the rain according to the easing function */
+  /**
+   * Smoothly changes the angle of the rain the given value in ""time"" seconds, according to the provided easing function.
+   * @param float $angle
+   * @param float $time
+   * @param string $ease
+   */
+  /**  */
   void fade_angle(float angle, float time, const std::string& ease);
 };
 
