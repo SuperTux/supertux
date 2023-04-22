@@ -1,43 +1,40 @@
 (supertux-sprite
   (action
-    (hitbox 0 -2 84.8 84.8)
+    (hitbox 14 10 62 78)
     (name "left")
-    (images 
-      "walk-left-1.png"
-      "walk-left-2.png"
-      "walk-left-3.png"
-      "walk-left-4.png"
-      "walk-left-5.png"
-      "walk-left-6.png"
-    )
+    (fps 15)
+    (images "mr_tree-0.png"
+            "mr_tree-1.png"
+            "mr_tree-2.png"
+            "mr_tree-3.png"
+            "mr_tree-4.png"
+            "mr_tree-5.png"
+            "mr_tree-6.png"
+            "mr_tree-7.png"
+            "mr_tree-8.png"
+            "mr_tree-9.png")
+  )
+  (action
+    (hitbox 14 10 62 78)
+    (name "right")
+    (fps 15)
+    (mirror-action "left")
   )
   (action
     (hitbox 0 62 84.8 84.8)
     (name "burning-left")
     (fps 15)
-    (images 
-      "burning-0.png"
-      "burning-1.png"
-      "burning-2.png"
-      "burning-3.png"
-      "burning-4.png"
-      "burning-5.png"
-      "burning-6.png"
-      "burning-7.png"
-      "burning-8.png"
-      "burning-9.png"
-      "burning-10.png"
-    )
-  )
-  (action
-    (hitbox -8 -6 84.8 84.8)
-    (name "iced-left")
-    (images "walk-left-1.png")
-  )
-  (action
-    (hitbox 0 -2 84.8 84.8)
-    (name "right")
-    (mirror-action "left")
+    (images "burning-0.png"
+            "burning-1.png"
+            "burning-2.png"
+            "burning-3.png"
+            "burning-4.png"
+            "burning-5.png"
+            "burning-6.png"
+            "burning-7.png"
+            "burning-8.png"
+            "burning-9.png"
+            "burning-10.png")
   )
   (action
     (hitbox 0 62 84.8 84.8)
@@ -46,7 +43,12 @@
     (mirror-action "burning-left")
   )
   (action
-    (hitbox -4 -6 84.8 84.8)
+    (hitbox 14 10 62 78)
+    (name "iced-left")
+    (images "mr_tree-7.png")
+  )
+  (action
+    (hitbox 14 10 62 78)
     (name "iced-right")
     (mirror-action "iced-left")
   )
