@@ -57,6 +57,7 @@ public:
 
   virtual int get_layer() const override { return m_layer; }
 
+  bool has_found_sprite();
   std::string get_sprite_name() const;
   bool change_sprite(const std::string& new_sprite_name);
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
@@ -107,6 +108,10 @@ protected:
   int m_layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
   Flip m_flip;
+
+private:
+  /** A custom sprite has been successfully found and set on initialization. */
+  bool m_sprite_found;
 
 private:
   MovingSprite(const MovingSprite&) = delete;

@@ -48,6 +48,12 @@ private:
     LARGE
   };
 
+  enum Type
+  {
+    ICE,
+    CORRUPTED
+  };
+
 public:
   Crusher(const ReaderMapping& reader);
 
@@ -65,6 +71,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  GameObjectTypes get_types() const override;
 
   virtual void on_flip(float height) override;
 
@@ -81,9 +88,12 @@ private:
   void after_sprite_set();
   Vector eye_position(bool right) const;
 
+  void on_type_change(int old_type) override;
+
 private:
   CrusherState m_state;
   CrusherSize m_ic_size;
+  Type m_ic_type;
   Vector m_start_position;
   Physic m_physic;
   float m_cooldown_timer;

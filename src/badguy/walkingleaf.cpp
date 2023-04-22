@@ -20,10 +20,43 @@
 #include "supertux/sector.hpp"
 
 WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
+  WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right"),
+  m_fall_speed()
 {
-  walk_speed = 60;
+  parse_type(reader);
+  on_type_change(-1);
+
   max_drop_height = 16;
+}
+
+GameObjectTypes
+WalkingLeaf::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
+
+void
+WalkingLeaf::on_type_change(int old_type)
+{
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite("images/creatures/walkingleaf/" + std::string(m_type == CORRUPTED ? "corrupted/rotten_leaf" : "walkingleaf") + ".sprite");
+
+  switch (m_type)
+  {
+    case NORMAL:
+      walk_speed = 60.f;
+      m_fall_speed = 35.f;
+      break;
+    case CORRUPTED:
+      walk_speed = 55.f;
+      m_fall_speed = 80.f;
+      break;
+    default:
+      break;
+  }
 }
 
 void
@@ -40,8 +73,8 @@ WalkingLeaf::active_update(float dt_sec)
     }
     else {
       set_action("float", m_dir);
-      if (m_physic.get_velocity_y() >= 35.f) {
-        m_physic.set_velocity_y(35.f);
+      if (m_physic.get_velocity_y() >= m_fall_speed) {
+        m_physic.set_velocity_y(m_fall_speed);
       }
     }
   }
@@ -67,4 +100,5 @@ WalkingLeaf::is_freezable() const
 {
   return true;
 }
+
 /* EOF */

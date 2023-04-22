@@ -43,12 +43,13 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override;
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }
 
   Rectf get_rect() {return m_col.m_bbox;}
 
-  enum class ParticleZoneType {
+  enum ParticleZoneType {
     /** Particles will spawn in this area */
     Spawn,
     /** Particles will die if they leave this area */
@@ -100,9 +101,6 @@ public:
 
   /** @} */
 
-  void set_type(ParticleZoneType type) {m_type = type;}
-  ParticleZoneType get_type() {return m_type;}
-
   class ZoneDetails {
   public:
     std::string m_particle_name;
@@ -121,12 +119,13 @@ public:
     std::string get_particle_name() const {return m_particle_name;}
   };
 
-  ZoneDetails get_details() { return ZoneDetails(m_particle_name, m_type, m_col.m_bbox); }
+  ZoneDetails get_details() {
+    return ZoneDetails(m_particle_name, static_cast<ParticleZoneType>(m_type), m_col.m_bbox);
+  }
 
 private:
   bool m_enabled;
   std::string m_particle_name;
-  ParticleZoneType m_type;
 
 private:
   ParticleZone(const ParticleZone&) = delete;
