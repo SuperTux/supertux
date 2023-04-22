@@ -65,7 +65,7 @@ MrTree::on_type_change(int old_type)
       walk_speed = 80.f;
       break;
     case CORRUPTED:
-      walk_speed = 60.f;
+      walk_speed = 70.f;
       break;
     default:
       break;

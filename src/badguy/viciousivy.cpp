@@ -61,8 +61,8 @@ ViciousIvy::on_type_change(int old_type)
       m_fall_speed = 35.f;
       break;
     case CORRUPTED:
-      walk_speed = 60.f;
-      m_fall_speed = 50.f;
+      walk_speed = 70.f;
+      m_fall_speed = 80.f;
       break;
     default:
       break;
