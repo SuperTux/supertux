@@ -25,6 +25,11 @@ class Decal;
 
 namespace scripting {
 
+/**
+ * @summary A ""Decal"" that was given a name can be controlled by scripts.
+ * @instances A ""Decal"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Decal final
 #ifndef SCRIPTING_API
   : public GameObject<::Decal>
@@ -39,10 +44,27 @@ private:
 #endif
 
 public:
-  void fade_sprite(const std::string& new_sprite_name, float fade_time);
-  void change_sprite(const std::string& new_sprite_name);
-  void fade_in(float fade_time);
-  void fade_out(float fade_time);
+  /**
+   * Fades the decal sprite to a new one in ""time"" seconds.
+   * @param string $sprite
+   * @param float $time
+   */
+  void fade_sprite(const std::string& sprite, float time);
+  /**
+   * Changes the decal sprite.
+   * @param string $sprite
+   */
+  void change_sprite(const std::string& sprite);
+  /**
+   * Fades in the decal in ""time"" seconds.
+   * @param float $time
+   */
+  void fade_in(float time);
+  /**
+   * Fades out the decal in ""time"" seconds.
+   * @param float $time
+   */
+  void fade_out(float time);
 };
 
 } // namespace scripting

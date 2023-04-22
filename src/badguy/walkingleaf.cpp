@@ -69,10 +69,10 @@ WalkingLeaf::active_update(float dt_sec)
     bool float_here = (Sector::get().is_free_of_statics(floatbox));
 
     if (!float_here) {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+      set_action(m_dir);
     }
     else {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "float-left" : "float-right");
+      set_action("float", m_dir);
       if (m_physic.get_velocity_y() >= m_fall_speed) {
         m_physic.set_velocity_y(m_fall_speed);
       }
@@ -88,7 +88,7 @@ WalkingLeaf::collision_squished(GameObject& object)
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
 
-  m_sprite->set_action("squished", m_dir);
+  set_action("squished", m_dir);
   // Spawn death particles
   spawn_explosion_sprites(3, "images/particles/walkingleaf.sprite");
   kill_squished(object);

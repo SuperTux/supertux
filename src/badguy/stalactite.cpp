@@ -84,7 +84,7 @@ Stalactite::squish()
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
-  m_sprite->set_action("squished");
+  set_action("squished");
   SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   run_dead_script();

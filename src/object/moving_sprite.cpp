@@ -38,7 +38,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_sprite_found(false)
 {
   m_col.m_bbox.set_pos(pos);
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   set_group(collision_group);
 }
 
@@ -76,7 +76,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
     }
   }
 
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   set_group(collision_group);
 }
 
@@ -97,7 +97,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite_found = true;
   //m_default_sprite_name = m_sprite_name;
   m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   set_group(collision_group);
 }
 
@@ -127,10 +127,37 @@ MovingSprite::get_sprite_name() const
 }
 
 void
-MovingSprite::set_action(const std::string& action, int loops)
+MovingSprite::update_hitbox()
 {
-  m_sprite->set_action(action, loops);
   m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+}
+
+void
+MovingSprite::set_action(const std::string& name, int loops)
+{
+  m_sprite->set_action(name, loops);
+  update_hitbox();
+}
+
+void
+MovingSprite::set_action(const std::string& name, const Direction& dir, int loops)
+{
+  m_sprite->set_action(name, dir, loops);
+  update_hitbox();
+}
+
+void
+MovingSprite::set_action(const Direction& dir, const std::string& name, int loops)
+{
+  m_sprite->set_action(dir, name, loops);
+  update_hitbox();
+}
+
+void
+MovingSprite::set_action(const Direction& dir, int loops)
+{
+  m_sprite->set_action(dir, loops);
+  update_hitbox();
 }
 
 void
@@ -138,7 +165,7 @@ MovingSprite::set_action_centered(const std::string& action, int loops)
 {
   Vector old_size = m_col.m_bbox.get_size().as_vector();
   m_sprite->set_action(action, loops);
-  m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   set_pos(get_pos() - (m_col.m_bbox.get_size().as_vector() - old_size) / 2.0f);
 }
 
@@ -147,10 +174,9 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
 {
   Rectf old_bbox = m_col.m_bbox;
   m_sprite->set_action(action, loops);
-  float w = m_sprite->get_current_hitbox_width();
-  float h = m_sprite->get_current_hitbox_height();
-  m_col.set_size(w, h);
-  set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
+  update_hitbox();
+  set_pos(get_anchor_pos(old_bbox, m_sprite->get_current_hitbox_width(),
+                         m_sprite->get_current_hitbox_height(), anchorPoint));
 }
 
 bool
@@ -193,7 +219,7 @@ MovingSprite::after_editor_set()
   m_sprite = SpriteManager::current()->create(m_sprite_name);
   m_sprite->set_action(current_action);
 
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
 }
 
 void

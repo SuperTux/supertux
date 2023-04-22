@@ -254,14 +254,14 @@ Dispenser::freeze()
   const std::string cannon_iced = "iced-" + dir_to_string(m_dir);
   if (m_type == DispenserType::CANNON && m_sprite->has_action(cannon_iced))
   {
-    m_sprite->set_action(cannon_iced, 1);
+    set_action(cannon_iced, 1);
     // When the dispenser is a cannon, it uses the respective "iced" action, based on the current direction.
   }
   else
   {
     if (m_type == DispenserType::DROPPER && m_sprite->has_action("dropper-iced"))
     {
-      m_sprite->set_action("dropper-iced", 1);
+      set_action("dropper-iced", 1);
       // When the dispenser is a dropper, it uses the "dropper-iced".
     }
     else
@@ -316,7 +316,7 @@ Dispenser::set_correct_action()
   switch (m_type)
   {
     case DispenserType::CANNON:
-      m_sprite->set_action(dir_to_string(m_dir));
+      set_action(dir_to_string(m_dir));
       break;
     case DispenserType::POINT:
       set_colgroup_active(COLGROUP_DISABLED);

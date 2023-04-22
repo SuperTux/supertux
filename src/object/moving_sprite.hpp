@@ -68,7 +68,22 @@ public:
 
   /** Set new action for sprite and resize bounding box.  use with
       care as you can easily get stuck when resizing the bounding box. */
-  void set_action(const std::string& action, int loops = -1);
+  void set_action(const std::string& name, int loops = -1);
+
+  /** Sets the action from an action name and a particular direction
+      in the form of "name-direction", eg. "walk-left".
+   */
+  void set_action(const std::string& name, const Direction& dir, int loops = -1);
+
+  /** Sets the action from an action name and a particular direction
+      in the form of "direction-name", eg. "left-up".
+   */
+  void set_action(const Direction& dir, const std::string& name, int loops = -1);
+
+  /** Sets the action from a string from a particular direction
+      in the form of "direction", e.g. "left".
+   */
+  void set_action(const Direction& dir, int loops = -1);
 
   /** Set new action for sprite and re-center bounding box.  use with
       care as you can easily get stuck when resizing the bounding
@@ -79,6 +94,10 @@ public:
       anchorPoint.  use with care as you can easily get stuck when
       resizing the bounding box. */
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
+
+protected:
+  /** Update hitbox, based on sprite. */
+  void update_hitbox();
 
 protected:
   std::string m_sprite_name;

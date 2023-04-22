@@ -26,6 +26,11 @@
 class Sprite final
 {
 public:
+  enum Loops {
+    LOOPS_CONTINUED = -100
+  };
+
+public:
   Sprite(SpriteData& data);
   ~Sprite();
 
@@ -39,17 +44,19 @@ public:
   void set_action(const std::string& name, int loops = -1);
 
   /** Composes action (or state) string from an action name and a particular direction
-   * in the form of "name-direction", eg. "walk-left" 
+   * in the form of "name-direction", eg. "walk-left"
    */
   void set_action(const std::string& name, const Direction& dir, int loops = -1);
+
+  /** Composes action (or state) string from an action name and a particular direction
+   * in the form of "direction-name", eg. "left-up"
+   */
+  void set_action(const Direction& dir, const std::string& name, int loops = -1);
 
   /** Composes action (or state) string from a particular direction
    * in the form of "direction", e.g. "left"
    */
   void set_action(const Direction& dir, int loops = -1);
-
-  /** Set action (or state), but keep current frame number, loop counter, etc. */
-  void set_action_continued(const std::string& name);
 
   /** Set number of animation cycles until animation stops */
   void set_animation_loops(int loops = -1) { m_animation_loops = loops; }

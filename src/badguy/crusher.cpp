@@ -507,16 +507,16 @@ Crusher::set_state(CrusherState state_, bool force)
   switch (state_)
   {
   case IDLE:
-    m_sprite->set_action("idle");
+    set_action("idle");
     break;
   case CRUSHING:
     m_physic.reset();
     if (not_ice())
-      m_sprite->set_action("crushing");
+      set_action("crushing");
     break;
   case RECOVERING:
     if (not_ice())
-      m_sprite->set_action("recovering");
+      set_action("recovering");
     break;
   default:
     log_debug << "Crusher in invalid state" << std::endl;
@@ -691,17 +691,17 @@ CrusherRoot::start_animation()
   switch (m_direction)
   {
   case Crusher::Direction::DOWN:
-    m_sprite->set_action("downwards");
+    set_action("downwards");
     m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::LEFT:
-    m_sprite->set_action("sideways-left");
+    set_action("sideways-left");
     m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::RIGHT:
-    m_sprite->set_action("sideways-right");
+    set_action("sideways-right");
     m_sprite->set_animation_loops(1);
     break;
   }
