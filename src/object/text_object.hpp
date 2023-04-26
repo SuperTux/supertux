@@ -68,6 +68,7 @@ public:
 
   void set_anchor_point(AnchorPoint anchor) { m_anchor = anchor; }
   AnchorPoint get_anchor_point() const { return m_anchor; }
+  void set_anchor_offset(const Vector& offset) { m_anchor_offset = offset; }
 
   void set_pos(const Vector& pos) { m_pos = pos; }
   const Vector& get_pos() const { return m_pos; }
@@ -84,6 +85,7 @@ private:
   bool m_visible;
   bool m_centered;
   AnchorPoint m_anchor;
+  Vector m_anchor_offset;
   Vector m_pos;
   Color m_front_fill_color;
   Color m_back_fill_color;

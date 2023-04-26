@@ -48,6 +48,7 @@ Crusher::Crusher(const ReaderMapping& reader) :
   MovingSprite(reader, "images/creatures/crusher/krush_ice.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   m_state(IDLE),
   m_ic_size(NORMAL),
+  m_ic_type(ICE),
   m_start_position(get_bbox().p1()),
   m_physic(),
   m_cooldown_timer(0.0),
@@ -57,12 +58,39 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_righteye(),
   m_whites()
 {
+  parse_type(reader);
+  on_type_change(-1);
+
   reader.get("sideways", m_sideways);
   // TODO: crusher hitting deserves its own sounds-
   // one for hitting the ground, one for hitting Tux
   SoundManager::current()->preload(not_ice() ? "sounds/thud.ogg" : "sounds/brick.wav");
   set_state(m_state, true);
   after_sprite_set();
+}
+
+GameObjectTypes
+Crusher::get_types() const
+{
+  return {
+    { "ice-krush", _("Ice (normal)") },
+    { "ice-krosh", _("Ice (big)") },
+    { "corrupted-krush", _("Corrupted (normal)") },
+    { "corrupted-krosh", _("Corrupted (big)") }
+  };
+}
+
+void
+Crusher::on_type_change(int old_type)
+{
+  m_ic_size = (m_type == 0 || m_type == 2 ? NORMAL : LARGE);
+  m_ic_type = (m_type == 0 || m_type == 1 ? ICE : CORRUPTED);
+
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+  {
+    const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
+    change_sprite("images/creatures/crusher/" + (m_ic_type == CORRUPTED ? "corrupted/" + size_prefix + "_corrupt" : size_prefix + "_ice") + ".sprite");
+  }
 }
 
 HitResponse
@@ -109,9 +137,9 @@ Crusher::collision_solid(const CollisionHit& hit)
     crush_sound = "sounds/brick.wav";
 
   float shake_time = m_ic_size == LARGE ? 0.125f : 0.1f;
-  float shake_x = (m_sideways ? m_ic_size == LARGE ? 16.f : 8.f : 0.f)*
+  float shake_x = (m_sideways ? m_ic_size == LARGE ? 32.f : 16.f : 0.f)*
     (m_side_dir == Direction::LEFT ? -1.f : 1.f);
-  float shake_y = m_sideways ? 0.f : m_ic_size == LARGE ? 16.f : 8.f;
+  float shake_y = m_sideways ? 0.f : m_ic_size == LARGE ? 32.f : 16.f;
 
 
   switch (m_state) {
@@ -328,7 +356,7 @@ Crusher::update(float dt_sec)
 void
 Crusher::spawn_roots(Direction direction)
 {
-  if (m_sprite_name.find("root_crusher") == std::string::npos)
+  if (m_ic_type != CORRUPTED)
     return;
 
   Vector origin;
@@ -469,9 +497,7 @@ Crusher::found_victim() const
 bool
 Crusher::not_ice() const
 {
-  return (m_sprite_name.find("rock_crusher") != std::string::npos ||
-    m_sprite_name.find("moss_crusher") != std::string::npos ||
-    m_sprite_name.find("root_crusher") != std::string::npos);
+  return m_ic_type != ICE;
 }
 
 void
@@ -481,16 +507,16 @@ Crusher::set_state(CrusherState state_, bool force)
   switch (state_)
   {
   case IDLE:
-    m_sprite->set_action("idle");
+    set_action("idle");
     break;
   case CRUSHING:
     m_physic.reset();
     if (not_ice())
-      m_sprite->set_action("crushing");
+      set_action("crushing");
     break;
   case RECOVERING:
     if (not_ice())
-      m_sprite->set_action("recovering");
+      set_action("recovering");
     break;
   default:
     log_debug << "Crusher in invalid state" << std::endl;
@@ -503,10 +529,6 @@ Crusher::set_state(CrusherState state_, bool force)
 void
 Crusher::after_sprite_set()
 {
-  float sprite_width = static_cast<float>(m_sprite->get_width());
-  float sprite_height = static_cast<float>(m_sprite->get_height());
-  m_ic_size = (sprite_width*sprite_height >= 10000.f) ? LARGE : NORMAL;
-
   if (!m_sprite->has_action("whites"))
   {
     m_lefteye.reset();
@@ -669,17 +691,17 @@ CrusherRoot::start_animation()
   switch (m_direction)
   {
   case Crusher::Direction::DOWN:
-    m_sprite->set_action("downwards");
+    set_action("downwards");
     m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::LEFT:
-    m_sprite->set_action("sideways-left");
+    set_action("sideways-left");
     m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::RIGHT:
-    m_sprite->set_action("sideways-right");
+    set_action("sideways-right");
     m_sprite->set_animation_loops(1);
     break;
   }

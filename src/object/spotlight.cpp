@@ -61,7 +61,8 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   color(1.0f, 1.0f, 1.0f),
   speed(50.0f),
   m_direction(),
-  m_layer(0)
+  m_layer(0),
+  m_enabled(true)
 {
   m_col.m_group = COLGROUP_DISABLED;
 
@@ -86,6 +87,7 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   }
 
   mapping.get("layer", m_layer, 0);
+  mapping.get("enabled", m_enabled, true);
 }
 
 Spotlight::~Spotlight()
@@ -97,6 +99,7 @@ Spotlight::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
+  result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
   result.add_float(_("Angle"), &angle, "angle");
   result.add_color(_("Color"), &color, "color", Color::WHITE);
   result.add_float(_("Speed"), &speed, "speed", 50.0f);
@@ -116,6 +119,9 @@ Spotlight::update(float dt_sec)
 {
   GameObject::update(dt_sec);
 
+  if (!m_enabled)
+    return;
+
   switch (m_direction)
   {
   case Direction::CLOCKWISE:
@@ -134,24 +140,30 @@ Spotlight::update(float dt_sec)
 void
 Spotlight::draw(DrawingContext& context)
 {
-  light->set_color(color);
-  light->set_blend(Blend::ADD);
-  light->set_angle(angle);
-  light->draw(context.light(), m_col.m_bbox.p1(), m_layer);
+  if (m_enabled)
+  {
+    light->set_color(color);
+    light->set_blend(Blend::ADD);
+    light->set_angle(angle);
+    light->draw(context.light(), m_col.m_bbox.p1(), m_layer);
 
-  //lightcone->set_angle(angle);
-  //lightcone->draw(context.color(), position, m_layer);
+    //lightcone->set_angle(angle);
+    //lightcone->draw(context.color(), position, m_layer);
 
-  lights->set_angle(angle);
-  lights->draw(context.color(), m_col.m_bbox.p1(), m_layer);
+    lights->set_angle(angle);
+    lights->draw(context.color(), m_col.m_bbox.p1(), m_layer);
+  }
 
   base->set_angle(angle);
   base->draw(context.color(), m_col.m_bbox.p1(), m_layer);
 
   center->draw(context.color(), m_col.m_bbox.p1(), m_layer);
 
-  lightcone->set_angle(angle);
-  lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);
+  if (m_enabled)
+  {
+    lightcone->set_angle(angle);
+    lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);
+  }
 }
 
 HitResponse

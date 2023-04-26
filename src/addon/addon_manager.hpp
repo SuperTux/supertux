@@ -73,6 +73,7 @@ public:
   TransferStatusPtr request_install_addon(const AddonId& addon_id);
   void install_addon(const AddonId& addon_id);
   void uninstall_addon(const AddonId& addon_id);
+  void install_addon_from_local_file(const std::string& filename);
 
   void enable_addon(const AddonId& addon_id);
   void disable_addon(const AddonId& addon_id);
@@ -102,7 +103,7 @@ private:
 
   /** add \a archive, given as physfs path, to the list of installed
       archives */
-  void add_installed_archive(const std::string& archive, const std::string& md5);
+  void add_installed_archive(const std::string& archive, const std::string& md5, bool user_install = false);
 
   /** search for an .nfo file in the top level directory that
       originates from \a archive, \a archive is a OS path */

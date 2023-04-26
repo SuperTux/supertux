@@ -2,16 +2,16 @@
       (action
          (fps 15)
          (name "normal")
-         (images "purple_0.png"
-                 "purple_1.png"
-                 "purple_2.png"
-                 "purple_3.png"
-                 "purple_4.png"
-                 "purple_2.png"
-                 "purple_1.png"
-                 "purple_0.png"
-                 "purple_0.png"
-                 "purple_0.png"
+         (images "purple-0.png"
+                 "purple-1.png"
+                 "purple-2.png"
+                 "purple-3.png"
+                 "purple-4.png"
+                 "purple-2.png"
+                 "purple-1.png"
+                 "purple-0.png"
+                 "purple-0.png"
+                 "purple-0.png"
                  ))
       (action
          (name "empty")

@@ -166,12 +166,6 @@ Platform::stop_moving()
 }
 
 void
-Platform::set_action(const std::string& action, int repeat)
-{
-  MovingSprite::set_action(action, repeat);
-}
-
-void
 Platform::move_to(const Vector& pos)
 {
   Vector shift = pos - m_col.m_bbox.p1();

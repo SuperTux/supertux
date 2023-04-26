@@ -24,6 +24,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/addon_browse_menu.hpp"
+#include "supertux/menu/addon_file_install_menu.hpp"
 #include "supertux/menu/addon_preview_menu.hpp"
 #include "supertux/menu/download_dialog.hpp"
 #include "util/log.hpp"
@@ -147,6 +148,7 @@ AddonMenu::rebuild_menu()
   }
 
   add_entry(MNID_BROWSE, m_langpacks_only ? _("Browse language packs") : _("Browse Add-ons"));
+  add_entry(MNID_INSTALL_FROM_FILE, _("Install from file"));
   add_hl();
   add_back(_("Back"));
 }
@@ -162,6 +164,10 @@ AddonMenu::menu_action(MenuItem& item)
   else if (index == MNID_BROWSE)
   {
     MenuManager::instance().push_menu(std::make_unique<AddonBrowseMenu>(m_langpacks_only, false));
+  }
+  else if (index == MNID_INSTALL_FROM_FILE)
+  { 
+    MenuManager::instance().push_menu(std::make_unique<AddonFileInstallMenu>(this));
   }
   else if (IS_UPDATE_MENU_ID(index))
   {

@@ -56,6 +56,8 @@ LitObject::LitObject(const ReaderMapping& reader) :
 
   m_col.m_bbox.set_size(static_cast<float>(m_sprite->get_width()),
                         static_cast<float>(m_sprite->get_height()));
+
+  set_group(COLGROUP_DISABLED);
 }
 
 void

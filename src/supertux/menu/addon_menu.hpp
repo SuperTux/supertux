@@ -28,7 +28,8 @@ private:
   enum {
     MNID_CHECK_ONLINE = 1,
     MNID_BROWSE = 2,
-    MNID_ADDON_LIST_START = 3
+    MNID_INSTALL_FROM_FILE = 3,
+    MNID_ADDON_LIST_START = 4
   };
 
 private:

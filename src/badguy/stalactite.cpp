@@ -30,47 +30,13 @@ static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
-const std::vector<std::string> Stalactite::s_sprites = { "stalactite.sprite", "rock_stalactite.sprite" };
-
-Stalactite::StalactiteType
-Stalactite::StalactiteType_from_string(const std::string& type_string)
-{
-  if (type_string == "ice")
-    return StalactiteType::ICE;
-  else if (type_string == "rock")
-    return StalactiteType::ROCK;
-  else
-    throw std::exception();
-}
-
 Stalactite::Stalactite(const ReaderMapping& mapping) :
   BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
-  m_type(),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
 {
-  std::string type;
-  mapping.get("type", type, "");
-  try
-  {
-    m_type = StalactiteType_from_string(type);
-  }
-  catch (std::exception&)
-  {
-    if (!Editor::is_active())
-    {
-      if (type.empty())
-      {
-        log_warning << "No stalactite type set, setting to ice." << std::endl;
-      }
-      else
-      {
-        log_warning << "Unknown type of stalactite:" << type << ", setting to ice." << std::endl;
-      }
-    }
-    m_type = StalactiteType::ICE;
-  }
+  parse_type(mapping);
 
   if (m_type != StalactiteType::ICE)
     after_editor_set();
@@ -118,7 +84,7 @@ Stalactite::squish()
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
-  m_sprite->set_action("squished");
+  set_action("squished");
   SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   run_dead_script();
@@ -184,26 +150,20 @@ Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& hit)
   return FORCE_MOVE;
 }
 
-ObjectSettings
-Stalactite::get_settings()
+GameObjectTypes
+Stalactite::get_types() const
 {
-  ObjectSettings result = BadGuy::get_settings();
-
-  result.add_enum(_("Type"), reinterpret_cast<int*>(&m_type),
-                  {_("ice"), _("rock")},
-                  {"ice", "rock"},
-                  static_cast<int>(StalactiteType::ICE), "type");
-
-  return result;
+  return {
+    { "ice", _("ice") },
+    { "rock", _("rock") }
+  };
 }
 
 void
-Stalactite::after_editor_set()
+Stalactite::on_type_change(int old_type)
 {
-  BadGuy::after_editor_set();
-
-  if (std::find(s_sprites.begin(), s_sprites.end(), FileSystem::basename(m_sprite_name)) != s_sprites.end())
-    change_sprite("images/creatures/stalactite/" + s_sprites[static_cast<int>(m_type)]);
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite("images/creatures/stalactite/" + std::string(m_type == StalactiteType::ROCK ? "rock_" : "") + "stalactite.sprite");
 }
 
 void

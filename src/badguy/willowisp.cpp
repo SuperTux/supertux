@@ -85,7 +85,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_sprite->set_color(m_color);
   m_glowing = true;
 
-  m_sprite->set_action("idle");
+  set_action("idle");
 }
 
 void
@@ -215,7 +215,7 @@ void
 WillOWisp::vanish()
 {
   m_mystate = STATE_VANISHING;
-  m_sprite->set_action("vanishing", 1);
+  set_action("vanishing", 1);
   set_colgroup_active(COLGROUP_DISABLED);
 
   if (m_parent_dispenser != nullptr)
@@ -247,7 +247,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
     return ABORT_MOVE;
 
   m_mystate = STATE_WARPING;
-  m_sprite->set_action("warping", 1);
+  set_action("warping", 1);
 
   if (!m_hit_script.empty()) {
     Sector::get().run_script(m_hit_script, "hit-script");

@@ -2814,24 +2814,9 @@
 ; Cutscenes And Extras
 
        (action
-         (name "stone-right")
-         (hitbox 16 14 32 64)
+         (name "earth-stone")
+         (hitbox 10 13 32 32)
          (images "earth/statue.png"))
-
-       (action
-         (name "stone-left")
-         (hitbox 16 14 32 64)
-         (mirror-action "stone-right"))
-
-       (action
-         (name "stone-duck-right")
-         (hitbox 16 45 32 32)
-         (images "earth/statue.png"))
-
-       (action
-         (name "stone-duck-left")
-         (hitbox 16 45 32 32)
-         (mirror-action "stone-right"))
 
        (action
          (name "credits-right")

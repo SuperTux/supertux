@@ -29,7 +29,7 @@ SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite")
 {
   SoundManager::current()->preload("sounds/explosion.wav");
-  m_sprite->set_action("normal", 1);
+  set_action("normal", 1);
 }
 
 void
@@ -114,7 +114,7 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
   }
   else if (!m_frozen)
   {
-    m_sprite->set_action("falling", 1);
+    set_action("falling", 1);
     m_physic.set_velocity_y(0);
     m_physic.set_acceleration_y(0);
   }

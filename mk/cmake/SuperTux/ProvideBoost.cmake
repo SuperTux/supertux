@@ -14,7 +14,11 @@ endif()
 
 find_package(Boost REQUIRED COMPONENTS filesystem system date_time locale)
 
-add_library(LibBoost INTERFACE IMPORTED)
+if(EMSCRIPTEN)
+  add_library(LibBoost ALIAS Boost::boost)
+else()
+  add_library(LibBoost INTERFACE IMPORTED)
+endif()
 
 if(WIN32)
   # Boost_LIBRARIES may contain link-type keywords "optimized,debug"
@@ -22,15 +26,17 @@ if(WIN32)
   # meanwhile older cmake on other OSs don't support
   # target_link_libraries(INTERFACE).
   target_link_libraries(LibBoost INTERFACE ${Boost_LIBRARIES})
-else()
+elseif(NOT EMSCRIPTEN)
   set_target_properties(LibBoost PROPERTIES
     INTERFACE_LINK_LIBRARIES "${Boost_LIBRARIES}")
 endif()
 
-set_target_properties(LibBoost PROPERTIES
-  INTERFACE_LINK_DIRECTORIES "${Boost_LIBRARY_DIRS}"
-  INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}"
-  )
+if(NOT EMSCRIPTEN)
+  set_target_properties(LibBoost PROPERTIES
+    INTERFACE_LINK_DIRECTORIES "${Boost_LIBRARY_DIRS}"
+    INTERFACE_INCLUDE_DIRECTORIES "${Boost_INCLUDE_DIR}"
+    )
+endif()
 
 mark_as_advanced(
   Boost_INCLUDE_DIR
