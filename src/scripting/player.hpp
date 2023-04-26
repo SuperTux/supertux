@@ -30,7 +30,7 @@ namespace scripting {
 /**
  * @summary This module contains methods controlling the player. (No, SuperTux doesn't use mind control. ""Player"" refers to the type of the player object.)
  * @instances The first player can be accessed using ""Tux"", or ""sector.Tux"" from the console.
-              All following players (2nd, 3rd, etc...) can be accessed by `Tux{index}".
+              All following players (2nd, 3rd, etc...) can be accessed by ""Tux{index}"".
               For example, to access the 2nd player, use ""Tux1"" (or ""sector.Tux1"" from the console).
  */
 class Player final
