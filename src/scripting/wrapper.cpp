@@ -11920,7 +11920,7 @@ static SQInteger Level_set_start_pos_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    scripting::Level_set_start_pos(arg0, static_cast<float> (arg1), static_cast<float> (arg2));
+    scripting::Level_set_start_pos(arg0, arg1, arg2);
 
     return 0;
 
@@ -11981,7 +11981,7 @@ static SQInteger Level_set_respawn_pos_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    scripting::Level_set_respawn_pos(arg0, static_cast<float> (arg1), static_cast<float> (arg2));
+    scripting::Level_set_respawn_pos(arg0, arg1, arg2);
 
     return 0;
 
@@ -13259,28 +13259,28 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   sq_pushstring(v, "Level_set_start_point", -1);
   sq_newclosure(v, &Level_set_start_point_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tss");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ss");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_set_start_point'");
   }
 
   sq_pushstring(v, "Level_set_start_pos", -1);
   sq_newclosure(v, &Level_set_start_pos_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsnn");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".sb|nb|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_set_start_pos'");
   }
 
   sq_pushstring(v, "Level_set_respawn_point", -1);
   sq_newclosure(v, &Level_set_respawn_point_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tss");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ss");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_set_respawn_point'");
   }
 
   sq_pushstring(v, "Level_set_respawn_pos", -1);
   sq_newclosure(v, &Level_set_respawn_pos_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsnn");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".sb|nb|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_set_respawn_pos'");
   }

@@ -87,7 +87,7 @@ PlayerStatus::get_max_coins() const
 bool
 PlayerStatus::can_reach_checkpoint() const
 {
-  return GameSession::current()->has_active_checkpoint();
+  return GameSession::current()->get_active_checkpoint_spawnpoint();
 }
 
 bool
