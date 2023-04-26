@@ -11873,6 +11873,128 @@ static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Level_set_start_point_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::Level_set_start_point(arg0, arg1);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_set_start_point'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_set_start_pos_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::Level_set_start_pos(arg0, arg1, arg2);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_set_start_pos'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_set_respawn_point_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::Level_set_respawn_point(arg0, arg1);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_set_respawn_point'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_set_respawn_pos_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::Level_set_respawn_pos(arg0, arg1, arg2);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_set_respawn_pos'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Level_flip_vertically_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -13133,6 +13255,34 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ss");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_spawn'");
+  }
+
+  sq_pushstring(v, "Level_set_start_point", -1);
+  sq_newclosure(v, &Level_set_start_point_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_set_start_point'");
+  }
+
+  sq_pushstring(v, "Level_set_start_pos", -1);
+  sq_newclosure(v, &Level_set_start_pos_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".sb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_set_start_pos'");
+  }
+
+  sq_pushstring(v, "Level_set_respawn_point", -1);
+  sq_newclosure(v, &Level_set_respawn_point_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_set_respawn_point'");
+  }
+
+  sq_pushstring(v, "Level_set_respawn_pos", -1);
+  sq_newclosure(v, &Level_set_respawn_pos_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".sb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_set_respawn_pos'");
   }
 
   sq_pushstring(v, "Level_flip_vertically", -1);

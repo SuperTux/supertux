@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,10 +19,22 @@
 #define HEADER_SUPERTUX_SCRIPTING_LEVEL_HPP
 
 #ifndef SCRIPTING_API
-#  include <string>
+
+#include <string>
+
+/** Macro to help easily check if there is a current GameSession and define it, if so. **/
+#define SCRIPT_GUARD_GAMESESSION                        \
+  if (!GameSession::current()) return;                  \
+  GameSession& game_session = *GameSession::current()
+
 #endif
 
 namespace scripting {
+
+/**
+  NOTE: For Level functions to be binded to the Level class in the Squirrel root VM,
+  they must be added to the Level class definition in "data/scripts/default.nut".
+**/
 
 #ifdef DOXYGEN_SCRIPTING
 /**
@@ -48,6 +61,36 @@ void Level_finish(bool win);
  * @param string $spawnpoint
  */
 void Level_spawn(const std::string& sector, const std::string& spawnpoint);
+
+/**
+ * Sets the default start spawnpoint of the level.
+ * @param string $sector
+ * @param string $spawnpoint
+ */
+void Level_set_start_point(const std::string& sector, const std::string& spawnpoint);
+
+/**
+ * Sets the default start spawn position of the level.
+ * @param string $sector
+ * @param float $x
+ * @param float $y
+ */
+void Level_set_start_pos(const std::string& sector, float x, float y);
+
+/**
+ * Sets the default respawn spawnpoint of the level.
+ * @param string $sector
+ * @param string $spawnpoint
+ */
+void Level_set_respawn_point(const std::string& sector, const std::string& spawnpoint);
+
+/**
+ * Sets the default respawn position of the level.
+ * @param string $sector
+ * @param float $x
+ * @param float $y
+ */
+void Level_set_respawn_pos(const std::string& sector, float x, float y);
 
 /**
  * Flips the level vertically (i.e. top is now bottom and vice versa).
