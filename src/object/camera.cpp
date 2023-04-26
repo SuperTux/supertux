@@ -297,7 +297,7 @@ Camera::reset(const Vector& tuxpos)
 void
 Camera::shake(float duration, float x, float y)
 {
-  m_shaketimer.start(duration);
+  m_shaketimer.start(duration*100.f);
   m_shakedepth_x = x;
   m_shakedepth_y = y;
   m_shakespeed = math::PI_2 / duration;
@@ -397,8 +397,18 @@ void
 Camera::shake()
 {
   if (m_shaketimer.started()) {
-    m_translation.x -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_x;
-    m_translation.y -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_y;
+
+    // old method
+    
+    // m_translation.x -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_x;
+    // m_translation.y -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_y;
+
+    // elastic easing
+
+    m_translation.x -= m_shakedepth_x * ((std::pow(2.f, -0.8f * (m_shakespeed * m_shaketimer.get_timegone()))) *
+      std::sin(((0.8f * m_shakespeed * m_shaketimer.get_timegone()) - 0.75f) * (2.f * math::PI) / 3.f));
+    m_translation.y -= m_shakedepth_y * ((std::pow(2.f, -0.8f * (m_shakespeed * m_shaketimer.get_timegone()))) *
+      std::sin(((0.8f * m_shakespeed * m_shaketimer.get_timegone()) - 0.75f) * (2.f * math::PI) / 3.f));
   }
 }
 

@@ -287,7 +287,7 @@ void
 Yeti::drop_stalactite()
 {
   // make a stalactite falling down and shake camera a bit
-  Sector::get().get_camera().shake(.1f, 0, 10);
+  Sector::get().get_camera().shake(.1f, 0, 20.f);
 
   auto player = get_nearest_player();
   if (!player) return;

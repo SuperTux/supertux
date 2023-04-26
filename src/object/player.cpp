@@ -2148,7 +2148,7 @@ Player::collision_solid(const CollisionHit& hit)
         Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
         -70, -50, 260, 280, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().get_camera().shake(.1f, 0, 5);
+      Sector::get().get_camera().shake(.1f, 0.f, 10.f);
     }
 
   } else if (hit.top) {
@@ -2324,6 +2324,8 @@ Player::kill(bool completely)
       SoundManager::current()->pause_music(3.0);
     }
   }
+
+  Sector::get().get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
 }
 
 void

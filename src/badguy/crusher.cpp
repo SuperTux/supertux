@@ -137,9 +137,9 @@ Crusher::collision_solid(const CollisionHit& hit)
     crush_sound = "sounds/brick.wav";
 
   float shake_time = m_ic_size == LARGE ? 0.125f : 0.1f;
-  float shake_x = (m_sideways ? m_ic_size == LARGE ? 16.f : 8.f : 0.f)*
+  float shake_x = (m_sideways ? m_ic_size == LARGE ? 32.f : 16.f : 0.f)*
     (m_side_dir == Direction::LEFT ? -1.f : 1.f);
-  float shake_y = m_sideways ? 0.f : m_ic_size == LARGE ? 16.f : 8.f;
+  float shake_y = m_sideways ? 0.f : m_ic_size == LARGE ? 32.f : 16.f;
 
 
   switch (m_state) {
