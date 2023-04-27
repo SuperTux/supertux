@@ -6338,6 +6338,36 @@ static SQInteger Platform_goto_node_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Platform_set_node_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_node' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Platform* _this = reinterpret_cast<scripting::Platform*> (data);
+
+  SQInteger arg0;
+  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_node(static_cast<int> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_node'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -10153,6 +10183,36 @@ static SQInteger TileMap_goto_node_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'goto_node'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger TileMap_set_node_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_node' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+
+  SQInteger arg0;
+  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_node(static_cast<int> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_node'"));
     return SQ_ERROR;
   }
 
@@ -14951,6 +15011,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'goto_node'");
   }
 
+  sq_pushstring(v, "set_node", -1);
+  sq_newclosure(v, &Platform_set_node_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_node'");
+  }
+
   sq_pushstring(v, "start_moving", -1);
   sq_newclosure(v, &Platform_start_moving_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
@@ -15902,6 +15969,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'goto_node'");
+  }
+
+  sq_pushstring(v, "set_node", -1);
+  sq_newclosure(v, &TileMap_set_node_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_node'");
   }
 
   sq_pushstring(v, "start_moving", -1);

@@ -499,6 +499,13 @@ TileMap::goto_node(int node_no)
 }
 
 void
+TileMap::jump_to_node(int node_no)
+{
+  if (!get_walker()) return;
+  get_walker()->jump_to_node(node_no);
+}
+
+void
 TileMap::start_moving()
 {
   if (!get_walker()) return;

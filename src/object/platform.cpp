@@ -154,6 +154,12 @@ Platform::goto_node(int node_no)
 }
 
 void
+Platform::jump_to_node(int node_no)
+{
+  get_walker()->jump_to_node(node_no);
+}
+
+void
 Platform::start_moving()
 {
   get_walker()->start_moving();

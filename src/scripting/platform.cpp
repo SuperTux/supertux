@@ -27,6 +27,13 @@ Platform::goto_node(int node_no)
 }
 
 void
+Platform::set_node(int node_no)
+{
+  SCRIPT_GUARD_VOID;
+  object.jump_to_node(node_no);
+}
+
+void
 Platform::start_moving()
 {
   SCRIPT_GUARD_VOID;
