@@ -95,7 +95,7 @@ Candle::draw(DrawingContext& context)
   if (burning) {
     //Vector pos = get_pos() + (bbox.get_size() - candle_light_1->get_size()) / 2;
     // draw approx. 1 in 10 frames darker. Makes the candle flicker
-    if (gameRandom.rand(10) != 0 || !flicker) {
+    if (graphicsRandom.rand(10) != 0 || !flicker) {
       //context.color().draw_surface(candle_light_1, pos, layer);
       candle_light_1->draw(context.light(), m_col.m_bbox.get_middle(), m_layer);
     } else {

@@ -131,11 +131,11 @@ MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
   if (dynamic_cast<Owl*>(&object))
-    m_sprite->set_action(dir_ == Direction::LEFT ? "left" : "right");
+    set_action(dir_);
   else
   {
     assert(m_frozen);
-    m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
+    set_action("iced", dir_);
   }
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;

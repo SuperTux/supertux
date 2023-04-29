@@ -19,6 +19,7 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "math/random.hpp"
 #include "sprite/sprite.hpp"
 
 MoleRock::MoleRock(const ReaderMapping& reader) :
@@ -57,7 +58,9 @@ void
 MoleRock::initialize()
 {
   m_physic.set_velocity(initial_velocity);
-  m_sprite->set_action("default");
+
+  // Randomly select a rock size to display.
+  set_action(graphicsRandom.rand(2) == 0 ? "small" : "medium");
 }
 
 void

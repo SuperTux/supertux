@@ -12,7 +12,7 @@ if [ "$SOURCE" = "ON" ]; then
     cpack --config CPackSourceConfig.cmake -G TGZ;
 fi
 
-if ([ "$OS_NAME" = "ubuntu-latest" ] || [ "$OS_NAME" = "ubuntu-18.04" ]) && [ "$PACKAGE" = "ON" ]; then
+if ([ "$OS_NAME" = "ubuntu-20.04" ] || [ "$OS_NAME" = "ubuntu-18.04" ]) && [ "$PACKAGE" = "ON" ]; then
     ../.ci_scripts/build_appimage.sh
     # extract built appimages for uploading
     mv ~/out/* .

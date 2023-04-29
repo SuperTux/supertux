@@ -62,7 +62,7 @@ void
 FishSwimming::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -128.f : 128.f);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "swim-left" : "swim-right");
+  set_action("swim", m_dir);
   m_state = FishYState::BALANCED;
 }
 
@@ -197,7 +197,7 @@ FishSwimming::turn_around()
     return;
 
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "swim-left" : "swim-right");
+  set_action("swim", m_dir);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -128.f : 128.f);
 }
 

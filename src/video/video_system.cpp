@@ -152,6 +152,19 @@ VideoSystem::get_video_string(VideoSystem::Enum video)
   }
 }
 
+std::vector<std::string>
+VideoSystem::get_available_video_systems()
+{
+  std::vector<std::string> output;
+  output.push_back("auto");
+  output.push_back("sdl");
+#ifdef HAVE_OPENGL
+  output.push_back("opengl33");
+  output.push_back("opengl20");
+#endif
+  return output;
+}
+
 void
 VideoSystem::do_take_screenshot()
 {

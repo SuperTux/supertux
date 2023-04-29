@@ -25,6 +25,7 @@
 
 #include "math/vector.hpp"
 #include "math/easing.hpp"
+#include "util/gettext.hpp"
 
 class ObjectOption;
 class ReaderMapping;
@@ -65,6 +66,8 @@ public:
       speed(),
       easing()
     {}
+
+    static std::string display_name() { return _("Path Node"); }
   };
 
 public:

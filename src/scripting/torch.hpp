@@ -26,6 +26,11 @@ class Torch;
 
 namespace scripting {
 
+/**
+ * @summary A ""Torch"" that was given a name can be controlled by scripts.
+ * @instances A ""Torch"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Torch final
 #ifndef SCRIPTING_API
   : public GameObject<::Torch>
@@ -41,8 +46,15 @@ private:
 #endif
 
 public:
-  bool get_burning() const; /**< returns true if torch is lighted */
-  void set_burning(bool burning); /**< true: light torch, false: extinguish torch */
+  /**
+   * Returns ""true"" if the torch is burning.
+   */
+  bool get_burning() const;
+  /**
+   * Switches the burning state of the torch.
+   * @param bool $burning
+   */
+  void set_burning(bool burning);
 };
 
 } // namespace scripting

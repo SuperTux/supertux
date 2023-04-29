@@ -52,7 +52,7 @@ Owl::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  set_action(m_dir);
 
   // If we add the carried object to the sector while we're editing
   // a level with the editor, it gets written to the level file,
@@ -188,7 +188,7 @@ Owl::unfreeze(bool melt)
   BadGuy::unfreeze(melt);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  set_action(m_dir);
 }
 
 bool

@@ -131,31 +131,31 @@ Mole::set_state(MoleState new_state)
 {
   switch (new_state) {
     case PRE_THROWING:
-      m_sprite->set_action("idle");
+      set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
       break;
     case THROWING:
-      m_sprite->set_action("idle");
+      set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(THROW_TIME);
       throw_timer.start(THROW_INTERVAL);
       break;
     case POST_THROWING:
-      m_sprite->set_action("idle");
+      set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
       break;
     case PEEKING:
-      m_sprite->set_action("peeking", 1);
+      set_action("peeking", 1);
       set_colgroup_active(COLGROUP_STATIC);
       break;
     case DEAD:
-      m_sprite->set_action("idle");
+      set_action("squished");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
     case BURNING:
-      m_sprite->set_action("burning", 1);
+      set_action("burning", 1);
       set_colgroup_active(COLGROUP_DISABLED);
       break;
   }

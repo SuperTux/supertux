@@ -40,12 +40,12 @@ Firefly::Firefly(const ReaderMapping& mapping) :
    initial_position(get_pos())
 {
   if (!mapping.get( "sprite", m_sprite_name)){
-    reactivate();
+    update_state();
     return;
   }
   if (m_sprite_name.empty()) {
     m_sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
-    reactivate();
+    update_state();
     return;
   }
   //Replace sprite
@@ -58,7 +58,7 @@ Firefly::Firefly(const ReaderMapping& mapping) :
     m_sprite_light->set_color(TORCH_LIGHT_COLOR);
   }
 
-  reactivate();
+  update_state();
 
   //Load sound
   if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
@@ -84,19 +84,28 @@ Firefly::draw(DrawingContext& context)
 }
 
 void
-Firefly::reactivate()
+Firefly::update(float dt_sec)
 {
-  if (!GameSession::current()) {
-    return;
-  }
-  if (!GameSession::current()->get_reset_point_sectorname().empty() &&
-     GameSession::current()->get_reset_point_pos() == initial_position) {
-    // TODO: && GameSession::current()->get_reset_point_sectorname() ==  <sector this firefly is in>
-    // GameSession::current()->get_current_sector()->get_name() is not yet initialized.
-    // Worst case a resetpoint in a different sector at the same position as the real
-    // resetpoint the player is spawning is set to ringing, too. Until we can check the sector, too, dont set
-    // activated = true; here.
+  MovingSprite::update(dt_sec);
+
+  update_state(); // Update the state of the checkpoint.
+}
+
+void
+Firefly::update_state()
+{
+  if (!GameSession::current()) return;
+
+  auto* active_checkpoint_spawnpoint = GameSession::current()->get_active_checkpoint_spawnpoint();
+  if (active_checkpoint_spawnpoint &&
+      active_checkpoint_spawnpoint->sector == Sector::get().get_name() &&
+      active_checkpoint_spawnpoint->position == initial_position) // Is activated.
+  {
     m_sprite->set_action("ringing");
+  }
+  else // Is deactivated.
+  {
+    m_sprite->set_action("normal");
   }
 }
 
@@ -134,8 +143,8 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     }
 
     m_sprite->set_action("ringing");
-    GameSession::current()->set_reset_point(Sector::get().get_name(),
-                                            initial_position);
+    GameSession::current()->set_checkpoint_pos(Sector::get().get_name(),
+                                               initial_position);
   }
 
   return ABORT_MOVE;

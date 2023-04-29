@@ -24,6 +24,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;
@@ -35,6 +36,11 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
 {
+  parse_type(mapping);
+
+  if (m_type != StalactiteType::ICE)
+    after_editor_set();
+
   m_countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/cracking.wav");
@@ -78,7 +84,7 @@ Stalactite::squish()
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
-  m_sprite->set_action("squished");
+  set_action("squished");
   SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   run_dead_script();
@@ -115,7 +121,7 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 
   if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
 
-  if (other.is_freezable()) {
+  if (other.is_freezable() && m_type != StalactiteType::ROCK) {
     other.freeze();
   } else {
     other.kill_fall();
@@ -125,9 +131,14 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 }
 
 HitResponse
-Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
+Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
-  if (state == STALACTITE_HANGING) {
+  if (m_type == StalactiteType::ROCK)
+  {
+    bullet.ricochet(*this, hit);
+  }
+  else if (state == STALACTITE_HANGING)
+  {
     timer.start(SHAKE_TIME);
     state = STALACTITE_SHAKING;
     bullet.remove_me();
@@ -137,6 +148,22 @@ Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
   }
 
   return FORCE_MOVE;
+}
+
+GameObjectTypes
+Stalactite::get_types() const
+{
+  return {
+    { "ice", _("ice") },
+    { "rock", _("rock") }
+  };
+}
+
+void
+Stalactite::on_type_change(int old_type)
+{
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite("images/creatures/stalactite/" + std::string(m_type == StalactiteType::ROCK ? "rock_" : "") + "stalactite.sprite");
 }
 
 void

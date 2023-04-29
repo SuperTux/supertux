@@ -57,24 +57,47 @@ public:
 
   virtual int get_layer() const override { return m_layer; }
 
+  bool has_found_sprite();
   std::string get_sprite_name() const;
-  void change_sprite(const std::string& new_sprite_name);
+  bool change_sprite(const std::string& new_sprite_name);
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
-protected:
-  /** set new action for sprite and resize bounding box.  use with
-      care as you can easily get stuck when resizing the bounding box. */
-  void set_action(const std::string& action, int loops);
+  /** Get various sprite properties. **/
+  Sprite* get_sprite() const { return m_sprite.get(); }
+  const std::string& get_action() const { return m_sprite->get_action(); }
 
-  /** set new action for sprite and re-center bounding box.  use with
+  /** Set new action for sprite and resize bounding box.  use with
+      care as you can easily get stuck when resizing the bounding box. */
+  void set_action(const std::string& name, int loops = -1);
+
+  /** Sets the action from an action name and a particular direction
+      in the form of "name-direction", eg. "walk-left".
+   */
+  void set_action(const std::string& name, const Direction& dir, int loops = -1);
+
+  /** Sets the action from an action name and a particular direction
+      in the form of "direction-name", eg. "left-up".
+   */
+  void set_action(const Direction& dir, const std::string& name, int loops = -1);
+
+  /** Sets the action from a string from a particular direction
+      in the form of "direction", e.g. "left".
+   */
+  void set_action(const Direction& dir, int loops = -1);
+
+  /** Set new action for sprite and re-center bounding box.  use with
       care as you can easily get stuck when resizing the bounding
       box. */
-  void set_action_centered(const std::string& action, int loops);
+  void set_action_centered(const std::string& action, int loops = -1);
 
-  /** set new action for sprite and align bounding boxes at
+  /** Set new action for sprite and align bounding boxes at
       anchorPoint.  use with care as you can easily get stuck when
       resizing the bounding box. */
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
+
+protected:
+  /** Update hitbox, based on sprite. */
+  void update_hitbox();
 
 protected:
   std::string m_sprite_name;
@@ -85,6 +108,10 @@ protected:
   int m_layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
   Flip m_flip;
+
+private:
+  /** A custom sprite has been successfully found and set on initialization. */
+  bool m_sprite_found;
 
 private:
   MovingSprite(const MovingSprite&) = delete;
