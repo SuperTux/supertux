@@ -66,7 +66,7 @@ private:
 
 public:
   MenuManager();
-  ~MenuManager();
+  ~MenuManager() override;
 
   void event(const SDL_Event& event);
   void process_input(const Controller& controller);
