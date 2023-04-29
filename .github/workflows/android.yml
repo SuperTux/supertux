@@ -17,6 +17,12 @@
 
 name: Android
 on:
+  workflow_dispatch:
+    inputs: {}
+    ref: master
+    repository: https://github.com/SuperTux/supertux
+    sender: SuperTux
+    workflow: Android
   push:
     branches:
       - master
