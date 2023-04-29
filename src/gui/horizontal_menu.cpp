@@ -151,7 +151,7 @@ HorizontalMenu::draw_item(DrawingContext& context, const int& index,
                           const float& pos_x, const float& text_width)
 {
   // Draw icon.
-  context.color().draw_surface_scaled(m_items[index].icon, Rectf(Vector(pos_x + text_width / 2 - m_items[index].icon->get_width() / 2,
+  context.color().draw_surface_scaled(m_items[index].icon, Rectf(Vector(pos_x + text_width / 2 - static_cast<float>(m_items[index].icon->get_width()) / 2,
                                                                         get_y() + s_icon_y),
                                                                  Sizef(s_height / 2, s_height / 2)), LAYER_GUI);
 
