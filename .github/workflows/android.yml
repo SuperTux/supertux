@@ -40,6 +40,10 @@ jobs:
           fetch-depth: 0
           submodules: true
 
+      - name: Set script permissions
+        working-folder: .github
+        run: chmod +x ./scripts/*.sh
+
       - name: Prepare SDL Android project
         run: |
           ./.github/scripts/clone_dependency.sh libsdl-org/SDL release-2.26.5
