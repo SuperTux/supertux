@@ -119,8 +119,8 @@ public:
   /** Remove all entries from the menu */
   void clear();
 
-  /** Check if any of the menu items have previews and if so, perform required tasks */
-  void align_for_previews(float x_offset = 1);
+  /** Align the menu to the left side, if any previews are available. */
+  void align_for_previews(float x_offset = 30.f);
 
   MenuItem& get_item(int index) { return *(m_items[index]); }
 

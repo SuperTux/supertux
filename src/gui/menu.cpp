@@ -49,6 +49,7 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -100,7 +101,7 @@ Menu::align_for_previews(float x_offset)
     if (item->get_preview())
     {
       // Adjust center position to give space for displaying previews.
-      set_center_pos(static_cast<float>(SCREEN_WIDTH) / (2 + x_offset),
+      set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2 - get_width() / 2 - x_offset,
                      static_cast<float>(SCREEN_HEIGHT) / 2);
       m_has_previews = true;
       return;
@@ -743,15 +744,21 @@ Menu::draw_preview(DrawingContext& context)
     alpha = m_preview_fading_out ? alpha_val : 1.f - alpha_val;
   }
 
-  // Perform actions only if current index is a valid world index.
+  // Perform actions only if current index is a valid preview index.
   if (valid_last_index)
   {
-    // Draw progress preview of current world.
-    Rectf preview_rect(Vector(context.get_width() * 0.73f - s_preview_size.width / 2,
-                            context.get_height() / 2 - s_preview_size.height / 2), s_preview_size);
+    // Draw progress preview of current item.
+    SurfacePtr preview = m_items[m_last_preview_item]->get_preview();
+    const float width_diff = s_preview_size.width - preview->get_width();
+    const float height_diff = s_preview_size.height - preview->get_height();
+    // If the preview is smaller than the maximal size, make sure to draw it with its original size and adjust position to center.
+    Rectf preview_rect(Vector(context.get_width() * 0.73f - s_preview_size.width / 2 + (width_diff > 0 ? width_diff / 2 : 0),
+                              context.get_height() / 2 - s_preview_size.height / 2 + (height_diff > 0 ? height_diff / 2 : 0)),
+                       Sizef(width_diff > 0 ? preview->get_width() : s_preview_size.width,
+                             height_diff > 0 ? preview->get_height() : s_preview_size.height));
     PaintStyle style;
     style.set_alpha(alpha);
-    context.color().draw_surface_scaled(m_items[m_last_preview_item]->get_preview(), preview_rect, LAYER_GUI, style);
+    context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI, style);
 
     // Draw any other preview data, if available.
     draw_preview_data(context, preview_rect, alpha);

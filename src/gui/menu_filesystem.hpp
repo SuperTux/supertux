@@ -21,8 +21,13 @@
 
 class FileSystemMenu final : public Menu
 {
+private:
+  static const size_t s_title_max_chars;
+  static const std::vector<std::string> s_image_extensions;
+
 public:
-  FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions, const std::string& basedir, bool path_relative_to_basedir, const std::function<void(std::string)> callback = nullptr);
+  FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions, const std::string& basedir,
+                 bool path_relative_to_basedir, const std::function<void (std::string)> callback = nullptr);
   ~FileSystemMenu() override;
 
   void menu_action(MenuItem& item) override;
@@ -30,6 +35,7 @@ public:
 private:
   void refresh_items();
   bool has_right_suffix(const std::string& file) const;
+  bool is_image(const std::string& file) const;
 
 private:
   std::string* m_filename;

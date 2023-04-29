@@ -19,13 +19,18 @@
 #include <physfs.h>
 
 #include "addon/addon_manager.hpp"
-#include "gui/menu_item.hpp"
+#include "gui/item_action.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
+#include "supertux/resources.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/gettext.hpp"
 #include "util/string_util.hpp"
+#include "video/viewport.hpp"
+
+const size_t FileSystemMenu::s_title_max_chars = 30;
+const std::vector<std::string> FileSystemMenu::s_image_extensions = { ".jpg", ".png", ".surface" };
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
                                const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback) :
@@ -62,7 +67,13 @@ FileSystemMenu::refresh_items()
   m_files.clear();
   m_directory = FileSystem::normalize(m_directory);
 
-  add_label(m_directory);
+  // Make sure label doesn't get too long.
+  std::string title = m_directory;
+  const bool title_large = title.size() > s_title_max_chars;
+  while (title.size() > s_title_max_chars) title = title.substr(title.size() - s_title_max_chars);
+  if (title_large) title = "..." + title;
+
+  add_label(title);
   add_hl();
 
   int item_id = 0;
@@ -105,7 +116,11 @@ FileSystemMenu::refresh_items()
 
   for (const auto& item : m_files)
   {
-    add_entry(item_id, item);
+    ItemAction& entry = add_entry(item_id, item);
+    if (is_image(item))
+    {
+      entry.set_preview(FileSystem::join(m_directory, item));
+    }
     item_id++;
   }
 
@@ -118,6 +133,7 @@ FileSystemMenu::refresh_items()
 
   // Re-center menu
   on_window_resize();
+  align_for_previews(25.f);
 }
 
 bool
@@ -126,12 +142,20 @@ FileSystemMenu::has_right_suffix(const std::string& file) const
   if (m_extensions.empty())
     return true;
 
-  for (const auto& extension : m_extensions) {
+  for (const auto& extension : m_extensions)
     if (StringUtil::has_suffix(file, extension))
-    {
       return true;
-    }
-  }
+
+  return false;
+}
+
+bool
+FileSystemMenu::is_image(const std::string& file) const
+{
+  for (const auto& extension : s_image_extensions)
+    if (StringUtil::has_suffix(file, extension))
+      return true;
+
   return false;
 }
 
