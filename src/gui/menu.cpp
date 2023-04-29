@@ -749,13 +749,13 @@ Menu::draw_preview(DrawingContext& context)
   {
     // Draw progress preview of current item.
     SurfacePtr preview = m_items[m_last_preview_item]->get_preview();
-    const float width_diff = s_preview_size.width - preview->get_width();
-    const float height_diff = s_preview_size.height - preview->get_height();
+    const float width_diff = s_preview_size.width - static_cast<float>(preview->get_width());
+    const float height_diff = s_preview_size.height - static_cast<float>(preview->get_height());
     // If the preview is smaller than the maximal size, make sure to draw it with its original size and adjust position to center.
-    Rectf preview_rect(Vector(context.get_width() * 0.73f - s_preview_size.width / 2 + (width_diff > 0 ? width_diff / 2 : 0),
-                              context.get_height() / 2 - s_preview_size.height / 2 + (height_diff > 0 ? height_diff / 2 : 0)),
-                       Sizef(width_diff > 0 ? preview->get_width() : s_preview_size.width,
-                             height_diff > 0 ? preview->get_height() : s_preview_size.height));
+    Rectf preview_rect(Vector(static_cast<float>(context.get_width()) * 0.73f - s_preview_size.width / 2 + (width_diff > 0 ? width_diff / 2 : 0),
+                              static_cast<float>(context.get_height()) / 2 - s_preview_size.height / 2 + (height_diff > 0 ? height_diff / 2 : 0)),
+                       Sizef(width_diff > 0 ? static_cast<float>(preview->get_width()) : s_preview_size.width,
+                             height_diff > 0 ? static_cast<float>(preview->get_height()) : s_preview_size.height));
     PaintStyle style;
     style.set_alpha(alpha);
     context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI, style);
