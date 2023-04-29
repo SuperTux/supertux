@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,31 +14,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_MAIN_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_OPTIONS_SELECT_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_OPTIONS_SELECT_MENU_HPP
 
-#include "gui/menu.hpp"
+#include "gui/horizontal_menu.hpp"
 
-enum MainMenuIDs {
-  MNID_OPTIONS,
-  MNID_LEVELEDITOR,
-  MNID_CREDITS,
-  MNID_DONATE,
-  MNID_QUITMAINMENU
-};
-
-class MainMenu final : public Menu
+class OptionsSelectMenu final : public HorizontalMenu
 {
 public:
-  MainMenu();
+  OptionsSelectMenu(bool complete_options = true);
 
-  void on_window_resize() override;
-  void menu_action(MenuItem& item) override;
-  bool on_back_action() override { return false; }
+  void menu_action(const Item& item) override;
+
+protected:
+  float get_y() const override;
 
 private:
-  MainMenu(const MainMenu&) = delete;
-  MainMenu& operator=(const MainMenu&) = delete;
+  const bool m_complete_options;
+
+private:
+  OptionsSelectMenu(const OptionsSelectMenu&) = delete;
+  OptionsSelectMenu& operator=(const OptionsSelectMenu&) = delete;
 };
 
 #endif

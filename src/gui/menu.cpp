@@ -52,9 +52,6 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-static const float MENU_REPEAT_INITIAL = 0.4f;
-static const float MENU_REPEAT_RATE    = 0.1f;
-
 #include "supertux/error_handler.hpp"
 
 Menu::Menu() :
@@ -62,7 +59,6 @@ Menu::Menu() :
                static_cast<float>(SCREEN_HEIGHT) / 2.0f)),
   m_delete_character(0),
   m_mn_input_char('\0'),
-  m_menu_repeat_time(),
   m_menu_width(),
   m_menu_height(),
   m_menu_help_height(0.0f),
@@ -395,7 +391,7 @@ Menu::clear()
 }
 
 void
-Menu::process_input(const Controller& controller)
+Menu::process_action(const MenuAction& action)
 {
   { // Scrolling
     // Find the first and last selectable item in the current menu, so
@@ -428,88 +424,13 @@ Menu::process_input(const Controller& controller)
     }
   }
 
-  MenuAction menuaction = MenuAction::NONE;
-
-  /** check main input controller... */
-  if (controller.pressed(Control::UP)) {
-    menuaction = MenuAction::UP;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::UP) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::UP;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
-  if (controller.pressed(Control::DOWN)) {
-    menuaction = MenuAction::DOWN;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::DOWN) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::DOWN;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
-  if (controller.pressed(Control::LEFT)) {
-    menuaction = MenuAction::LEFT;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::LEFT) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::LEFT;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
-  if (controller.pressed(Control::RIGHT)) {
-    menuaction = MenuAction::RIGHT;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::RIGHT) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::RIGHT;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
-  if (controller.pressed(Control::ACTION) ||
-     controller.pressed(Control::JUMP) ||
-     controller.pressed(Control::MENU_SELECT) ||
-     (!is_sensitive() && controller.pressed(Control::MENU_SELECT_SPACE))) {
-    menuaction = MenuAction::HIT;
-  }
-
-  if (controller.pressed(Control::ESCAPE) ||
-     controller.pressed(Control::CHEAT_MENU) ||
-     controller.pressed(Control::DEBUG_MENU) ||
-     controller.pressed(Control::MENU_BACK)) {
-    menuaction = MenuAction::BACK;
-  }
-
-  if (controller.pressed(Control::REMOVE)) {
-    menuaction = MenuAction::REMOVE;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::REMOVE) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::REMOVE;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
   if (m_items.size() == 0)
     return;
 
-  // The menu_action() call can pop() the menu from the stack and thus
-  // delete it, so it's important that no further member variables are
-  // accessed after this call
-  process_action(menuaction);
-}
 
-void
-Menu::process_action(const MenuAction& menuaction)
-{
   const int last_active_item = m_active_item;
 
-  switch (menuaction) {
+  switch (action) {
     case MenuAction::UP:
       do {
         if (m_active_item > 0)
@@ -548,7 +469,7 @@ Menu::process_action(const MenuAction& menuaction)
   }
 
   bool last_action = m_items[m_active_item]->no_other_action();
-  m_items[m_active_item]->process_action(menuaction);
+  m_items[m_active_item]->process_action(action);
   if (last_action)
     return;
 
@@ -558,7 +479,7 @@ Menu::process_action(const MenuAction& menuaction)
 
   if (m_items[m_active_item]->changes_width())
     calculate_width();
-  if (menuaction == MenuAction::HIT)
+  if (action == MenuAction::HIT)
     menu_action(*m_items[m_active_item]);
 }
 
@@ -801,12 +722,6 @@ Menu::set_active_item(int id)
       break;
     }
   }
-}
-
-bool
-Menu::is_sensitive() const
-{
-  return false;
 }
 
 /* EOF */

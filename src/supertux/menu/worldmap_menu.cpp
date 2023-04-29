@@ -18,7 +18,7 @@
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/options_select_menu.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
@@ -28,7 +28,7 @@ WorldmapMenu::WorldmapMenu()
   add_label(_("Pause"));
   add_hl();
   add_entry(MNID_RETURNWORLDMAP, _("Continue"));
-  add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
+  add_entry(MNID_OPTIONS, _("Options"));
   add_hl();
   add_entry(MNID_QUITWORLDMAP, _("Leave World"));
 }
@@ -40,6 +40,10 @@ WorldmapMenu::menu_action(MenuItem& item)
   {
     case MNID_RETURNWORLDMAP:
       MenuManager::instance().clear_menu_stack();
+      break;
+
+    case MNID_OPTIONS:
+      MenuManager::instance().push_menu(std::make_unique<OptionsSelectMenu>(false));
       break;
 
     case MNID_QUITWORLDMAP:

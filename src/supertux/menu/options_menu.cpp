@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/dialog.hpp"
+#include "gui/horizontal_menu.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"
@@ -31,15 +32,17 @@
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
 
-namespace {
-
-bool less_than_volume(const std::string& lhs, const std::string& rhs) {
+bool
+OptionsMenu::less_than_volume(const std::string& lhs, const std::string& rhs)
+{
   int lhs_i, rhs_i;
   if (sscanf(lhs.c_str(), "%i", &lhs_i) == 1 &&
       sscanf(rhs.c_str(), "%i", &rhs_i) == 1)
@@ -51,73 +54,202 @@ bool less_than_volume(const std::string& lhs, const std::string& rhs) {
 }
 
 
-} // namespace
-
-enum OptionsMenuIDs {
-  MNID_WINDOW_RESIZABLE,
-  MNID_WINDOW_RESOLUTION,
-  MNID_FULLSCREEN,
-  MNID_FULLSCREEN_RESOLUTION,
-#ifdef __EMSCRIPTEN__
-  MNID_FIT_WINDOW,
-#endif
-  MNID_MAGNIFICATION,
-  MNID_ASPECTRATIO,
-  MNID_VSYNC,
-  MNID_SOUND,
-  MNID_MUSIC,
-  MNID_SOUND_VOLUME,
-  MNID_MUSIC_VOLUME,
-  MNID_RUMBLING,
-  MNID_DEVELOPER_MODE,
-  MNID_CHRISTMAS_MODE,
-  MNID_TRANSITIONS,
-  MNID_CONFIRMATION_DIALOG,
-  MNID_PAUSE_ON_FOCUSLOSS,
-  MNID_CUSTOM_CURSOR,
-#ifndef __EMSCRIPTEN__
-  MNID_RELEASE_CHECK,
-#endif
-  MNID_MOBILE_CONTROLS,
-  MNID_MOBILE_CONTROLS_SCALE
-};
-
-OptionsMenu::OptionsMenu(bool complete) :
-  next_magnification(0),
-  next_aspect_ratio(0),
-  next_window_resolution(0),
-  next_resolution(0),
-  next_vsync(0),
-  next_sound_volume(0),
-  next_music_volume(0),
-  m_next_mobile_controls_scale(0),
-  magnifications(),
-  aspect_ratios(),
-  window_resolutions(),
-  resolutions(),
-  vsyncs(),
-  sound_volumes(),
-  music_volumes(),
-  m_mobile_controls_scales()
+OptionsMenu::OptionsMenu(Type type, bool complete) :
+  m_magnifications(),
+  m_aspect_ratios(),
+  m_window_resolutions(),
+  m_resolutions(),
+  m_vsyncs(),
+  m_sound_volumes(),
+  m_music_volumes(),
+  m_mobile_control_scales()
 {
-  add_label(_("Options"));
-  add_hl();
+  switch (type) // Insert label and menu items, appropriate for the chosen OptionsMenu type
+  {
+    case LOCALE: /** LOCALE */
+    {
+      insert_label(_("Locale"));
 
-  magnifications.clear();
+      if (complete)
+      {
+        add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
+          .set_help(_("Select a different language to display text in"));
+
+        add_submenu(_("Language Packs"), MenuStorage::LANGPACK_MENU)
+          .set_help(_("Language packs contain up-to-date translations"));
+      }
+
+      break;
+    }
+
+    case VIDEO: /** VIDEO */
+    {
+      insert_label(_("Video"));
+
+#if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
+      add_toggle(MNID_FULLSCREEN,_("Window Resizable"), &g_config->window_resizable)
+        .set_help(_("Allow window resizing, might require a restart to take effect"));
+
+      add_window_resolutions();
+
+      add_toggle(MNID_FULLSCREEN,_("Fullscreen"), &g_config->use_fullscreen)
+        .set_help(_("Fill the entire screen"));
+
+      add_resolutions();
+#endif
+
+#if 0
+#ifdef __EMSCRIPTEN__
+      add_toggle(MNID_FIT_WINDOW, _("Fit to browser"), &g_config->fit_window)
+        .set_help(_("Fit the resolution to the size of your browser"));
+#endif
+#endif
+
+      add_magnification();
+      add_vsync();
+
+#if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
+      add_aspect_ratio();
+#endif
+
+      add_submenu(_("Change Video System"), MenuStorage::MenuId::VIDEO_SYSTEM_MENU)
+        .set_help(_("Change video system used to render graphics"));
+
+      break;
+    }
+
+    case AUDIO: /** AUDIO */
+    {
+      insert_label(_("Audio"));
+
+      if (SoundManager::current()->is_audio_enabled())
+      {
+        add_toggle(MNID_SOUND, _("Sound"), &g_config->sound_enabled)
+          .set_help(_("Disable all sound effects"));
+        add_toggle(MNID_MUSIC, _("Music"), &g_config->music_enabled)
+          .set_help(_("Disable all music"));
+
+        add_sound_volume();
+        add_music_volume();
+      }
+      else
+      {
+        add_inactive( _("Sound (disabled)"));
+        add_inactive( _("Music (disabled)"));
+      }
+
+      break;
+    }
+
+    case CONTROLS: /** CONTROLS */
+    {
+      insert_label(_("Controls"));
+
+      // Separated both translation strings so the latter can be removed if it is
+      // no longer true, without requiring a new round of translating
+      add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
+        .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
+
+      add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
+        .set_help(_("Configure key-action mappings"));
+
+#ifndef UBUNTU_TOUCH
+      add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
+        .set_help(_("Configure joystick control-action mappings"));
+#endif
+
+      break;
+    }
+
+    case EXTRAS: /** EXTRAS */
+    {
+      insert_label(_("Extras"));
+
+      if (complete)
+        add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
+          .set_help(_("Select a profile to play with"));
+
+#ifndef UBUNTU_TOUCH
+      add_submenu(_("Multiplayer settings"), MenuStorage::MULTIPLAYER_MENU)
+        .set_help(_("Configure settings specific to multiplayer"));
+#endif
+
+      add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
+        .set_help(_("Enable screen transitions and smooth menu animation"));
+
+#ifndef HIDE_NONMOBILE_OPTIONS
+      if (g_config->developer_mode)
+#endif
+        add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
+
+      if (g_config->is_christmas() || g_config->christmas_mode)
+        add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
+
+      add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
+      .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));
+
+      if (g_config->developer_mode)
+        add_submenu(_("Menu Customization"), MenuStorage::CUSTOM_MENU_MENU)
+          .set_help(_("Customize the appearance of the menus"));
+
+      break;
+    }
+
+    case ADVANCED: /** ADVANCED */
+    {
+      insert_label(_("Advanced"));
+
+      add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
+
+      add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
+        .set_help(_("Automatically pause the game when the window loses focus"));
+
+      add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
+
+#ifndef __EMSCRIPTEN__
+      add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
+        .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
+#endif
+
+      break;
+    }
+  }
+
+  add_hl();
+  add_back(_("Back"));
+
+  on_window_resize();
+}
+
+OptionsMenu::~OptionsMenu()
+{
+}
+
+void
+OptionsMenu::insert_label(const std::string& text)
+{
+  add_label(text);
+  add_hl();
+}
+
+
+void
+OptionsMenu::add_magnification()
+{
   // These values go from screen:640/projection:1600 to
   // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
-  magnifications.push_back(_("auto"));
+  m_magnifications.list.push_back(_("auto"));
 #ifndef HIDE_NONMOBILE_OPTIONS
-  magnifications.push_back("40%");
-  magnifications.push_back("50%");
-  magnifications.push_back("62.5%");
-  magnifications.push_back("80%");
+  m_magnifications.list.push_back("40%");
+  m_magnifications.list.push_back("50%");
+  m_magnifications.list.push_back("62.5%");
+  m_magnifications.list.push_back("80%");
 #endif
-  magnifications.push_back("100%");
-  magnifications.push_back("125%");
-  magnifications.push_back("160%");
-  magnifications.push_back("200%");
-  magnifications.push_back("250%");
+  m_magnifications.list.push_back("100%");
+  m_magnifications.list.push_back("125%");
+  m_magnifications.list.push_back("160%");
+  m_magnifications.list.push_back("200%");
+  m_magnifications.list.push_back("250%");
   // Gets the actual magnification:
   if (g_config->magnification != 0.0f) //auto
   {
@@ -125,80 +257,95 @@ OptionsMenu::OptionsMenu(bool complete) :
     out << (g_config->magnification*100) << "%";
     std::string magn = out.str();
     int count = 0;
-    for (const auto& magnification : magnifications)
+    for (const auto& magnification : m_magnifications.list)
     {
       if (magnification == magn)
       {
-        next_magnification = count;
+        m_magnifications.next = count;
         magn.clear();
         break;
       }
-
       ++count;
     }
-    if (!magn.empty()) //magnification not in our list but accept anyway
+    if (!magn.empty()) // Current magnification not found
     {
-      next_magnification = static_cast<int>(magnifications.size());
-      magnifications.push_back(magn);
+      m_magnifications.next = static_cast<int>(m_magnifications.list.size());
+      m_magnifications.list.push_back(magn);
     }
   }
 
-  aspect_ratios.clear();
-  aspect_ratios.push_back(_("auto"));
-  aspect_ratios.push_back("5:4");
-  aspect_ratios.push_back("4:3");
-  aspect_ratios.push_back("16:10");
-  aspect_ratios.push_back("16:9");
-  aspect_ratios.push_back("1368:768");
+  add_string_select(MNID_MAGNIFICATION, _("Magnification"), &m_magnifications.next, m_magnifications.list)
+    .set_help(_("Change the magnification of the game area"));
+}
+
+void
+OptionsMenu::add_aspect_ratio()
+{
+  m_aspect_ratios.list.push_back(_("auto"));
+  m_aspect_ratios.list.push_back("5:4");
+  m_aspect_ratios.list.push_back("4:3");
+  m_aspect_ratios.list.push_back("16:10");
+  m_aspect_ratios.list.push_back("16:9");
+  m_aspect_ratios.list.push_back("1368:768");
   // Gets the actual aspect ratio:
   if (g_config->aspect_size != Size(0, 0)) //auto
   {
     std::ostringstream out;
     out << g_config->aspect_size.width << ":" << g_config->aspect_size.height;
     std::string aspect_ratio = out.str();
-    int cnt_ = 0;
-    for (const auto& ratio : aspect_ratios)
+    int count = 0;
+    for (const auto& ratio : m_aspect_ratios.list)
     {
       if (ratio == aspect_ratio)
       {
         aspect_ratio.clear();
-        next_aspect_ratio = cnt_;
+        m_aspect_ratios.next = count;
         break;
       }
-      ++cnt_;
+      ++count;
     }
-
-    if (!aspect_ratio.empty())
+    if (!aspect_ratio.empty()) // Current aspect ratio not found
     {
-      next_aspect_ratio = static_cast<int>(aspect_ratios.size());
-      aspect_ratios.push_back(aspect_ratio);
+      m_aspect_ratios.next = static_cast<int>(m_aspect_ratios.list.size());
+      m_aspect_ratios.list.push_back(aspect_ratio);
     }
   }
 
+  add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &m_aspect_ratios.next, m_aspect_ratios.list)
+    .set_help(_("Adjust the aspect ratio"));
+}
+
+void
+OptionsMenu::add_window_resolutions()
+{
+  m_window_resolutions.list = { "640x480", "854x480", "800x600", "1280x720", "1280x800",
+                                "1440x900", "1920x1080", "1920x1200", "2560x1440" };
+  m_window_resolutions.next = -1;
+  Size window_size = VideoSystem::current()->get_window_size();
+  std::ostringstream out;
+  out << window_size.width << "x" << window_size.height;
+  std::string window_size_text = out.str();
+  for (size_t i = 0; i < m_window_resolutions.list.size(); ++i)
   {
-    window_resolutions = { "640x480", "854x480", "800x600", "1280x720", "1280x800",
-                           "1440x900", "1920x1080", "1920x1200", "2560x1440" };
-    next_window_resolution = -1;
-    Size window_size = VideoSystem::current()->get_window_size();
-    std::ostringstream out;
-    out << window_size.width << "x" << window_size.height;
-    std::string window_size_text = out.str();
-    for (size_t i = 0; i < window_resolutions.size(); ++i)
+    if (m_window_resolutions.list[i] == window_size_text)
     {
-      if (window_resolutions[i] == window_size_text)
-      {
-        next_window_resolution = static_cast<int>(i);
-        break;
-      }
-    }
-    if (next_window_resolution == -1)
-    {
-      window_resolutions.insert(window_resolutions.begin(), window_size_text);
-      next_window_resolution = 0;
+      m_window_resolutions.next = static_cast<int>(i);
+      break;
     }
   }
+  if (m_window_resolutions.next == -1) // Current window resolution not found
+  {
+    m_window_resolutions.list.insert(m_window_resolutions.list.begin(), window_size_text);
+    m_window_resolutions.next = 0;
+  }
 
-  resolutions.clear();
+  add_string_select(MNID_WINDOW_RESOLUTION, _("Window Resolution"), &m_window_resolutions.next, m_window_resolutions.list)
+    .set_help(_("Resize the window to the given size"));
+}
+
+void
+OptionsMenu::add_resolutions()
+{
   int display_mode_count = SDL_GetNumDisplayModes(0);
   std::string last_display_mode;
   for (int i = 0; i < display_mode_count; ++i)
@@ -218,270 +365,162 @@ OptionsMenu::OptionsMenu(bool complete) :
       if (last_display_mode == out.str())
         continue;
       last_display_mode = out.str();
-      resolutions.insert(resolutions.begin(), out.str());
+      m_resolutions.list.insert(m_resolutions.list.begin(), out.str());
     }
   }
-  resolutions.push_back("Desktop");
+  m_resolutions.list.push_back("Desktop");
 
   std::string fullscreen_size_str = _("Desktop");
+  std::ostringstream out;
+  if (g_config->fullscreen_size != Size(0, 0))
   {
-    std::ostringstream out;
-    if (g_config->fullscreen_size != Size(0, 0))
-    {
-      out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
-      if (g_config->fullscreen_refresh_rate)
-         out << "@" << g_config->fullscreen_refresh_rate;
-      fullscreen_size_str = out.str();
-    }
+    out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
+    if (g_config->fullscreen_refresh_rate)
+       out << "@" << g_config->fullscreen_refresh_rate;
+    fullscreen_size_str = out.str();
   }
 
-  int cnt = 0;
-  for (const auto& res : resolutions)
+  int count = 0;
+  for (const auto& res : m_resolutions.list)
   {
     if (res == fullscreen_size_str)
     {
       fullscreen_size_str.clear();
-      next_resolution = cnt;
+      m_resolutions.next = count;
       break;
     }
-    ++cnt;
+    ++count;
   }
-  if (!fullscreen_size_str.empty())
+  if (!fullscreen_size_str.empty()) // Current resolution not found
   {
-    next_resolution = static_cast<int>(resolutions.size());
-    resolutions.push_back(fullscreen_size_str);
+    m_resolutions.next = static_cast<int>(m_resolutions.list.size());
+    m_resolutions.list.push_back(fullscreen_size_str);
   }
 
-  { // vsync
-    vsyncs.push_back(_("on"));
-    vsyncs.push_back(_("off"));
-    vsyncs.push_back(_("adaptive"));
-    int mode = VideoSystem::current()->get_vsync();
+  add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Fullscreen Resolution"), &m_resolutions.next, m_resolutions.list)
+    .set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
+}
 
-    switch (mode)
-    {
-      case -1:
-        next_vsync = 2;
-        break;
-
-      case 0:
-        next_vsync = 1;
-        break;
-
-      case 1:
-        next_vsync = 0;
-        break;
-
-      default:
-        log_warning << "Unknown swap mode: " << mode << std::endl;
-        next_vsync = 0;
-    }
+void
+OptionsMenu::add_vsync()
+{
+  m_vsyncs.list.push_back(_("on"));
+  m_vsyncs.list.push_back(_("off"));
+  m_vsyncs.list.push_back(_("adaptive"));
+  const int mode = VideoSystem::current()->get_vsync();
+  switch (mode)
+  {
+    case -1:
+      m_vsyncs.next = 2;
+      break;
+    case 0:
+      m_vsyncs.next = 1;
+      break;
+    case 1:
+      m_vsyncs.next = 0;
+      break;
+    default:
+      log_warning << "Unknown swap mode: " << mode << std::endl;
+      m_vsyncs.next = 0;
   }
 
-  // Sound Volume
-  sound_volumes.clear();
-  for (const char* percent : {"0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"}) {
-    sound_volumes.push_back(percent);
-  }
+  add_string_select(MNID_VSYNC, _("VSync"), &m_vsyncs.next, m_vsyncs.list)
+    .set_help(_("Set the VSync mode"));
+}
+
+void
+OptionsMenu::add_sound_volume()
+{
+  m_sound_volumes.list = { "0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
 
   std::ostringstream sound_vol_stream;
   sound_vol_stream << g_config->sound_volume << "%";
   std::string sound_vol_string = sound_vol_stream.str();
 
-  if (std::find(sound_volumes.begin(),
-               sound_volumes.end(), sound_vol_string) == sound_volumes.end())
+  if (std::find(m_sound_volumes.list.begin(),
+                m_sound_volumes.list.end(), sound_vol_string) == m_sound_volumes.list.end())
   {
-    sound_volumes.push_back(sound_vol_string);
+    m_sound_volumes.list.push_back(sound_vol_string);
   }
 
-  std::sort(sound_volumes.begin(), sound_volumes.end(), less_than_volume);
+  std::sort(m_sound_volumes.list.begin(), m_sound_volumes.list.end(), less_than_volume);
 
   std::ostringstream out;
   out << g_config->sound_volume << "%";
   std::string sound_volume = out.str();
-  int cnt_ = 0;
-  for (const auto& volume : sound_volumes)
+  int count = 0;
+  for (const auto& volume : m_sound_volumes.list)
   {
     if (volume == sound_volume)
     {
       sound_volume.clear();
-      next_sound_volume = cnt_;
+      m_sound_volumes.next = count;
       break;
     }
-    ++cnt_;
+    ++count;
   }
 
-  // Music Volume
-  music_volumes.clear();
-  for (const char* percent : {"0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"}) {
-    music_volumes.push_back(percent);
-  }
+  add_string_select(MNID_SOUND_VOLUME, _("Sound Volume"), &m_sound_volumes.next, m_sound_volumes.list)
+    .set_help(_("Adjust sound volume"));
+}
+
+void
+OptionsMenu::add_music_volume()
+{
+  m_music_volumes.list = { "0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
 
   std::ostringstream music_vol_stream;
   music_vol_stream << g_config->music_volume << "%";
   std::string music_vol_string = music_vol_stream.str();
 
-  if (std::find(music_volumes.begin(),
-               music_volumes.end(), music_vol_string) == music_volumes.end())
+  if (std::find(m_music_volumes.list.begin(),
+               m_music_volumes.list.end(), music_vol_string) == m_music_volumes.list.end())
   {
-    music_volumes.push_back(music_vol_string);
+    m_music_volumes.list.push_back(music_vol_string);
   }
 
-  std::sort(music_volumes.begin(), music_volumes.end(), less_than_volume);
+  std::sort(m_music_volumes.list.begin(), m_music_volumes.list.end(), less_than_volume);
 
-  out.str("");
-  out.clear();
+  std::ostringstream out;
   out << g_config->music_volume << "%";
   std::string music_volume = out.str();
-  cnt_ = 0;
-  for (const auto& volume : music_volumes)
+  int count = 0;
+  for (const auto& volume : m_music_volumes.list)
   {
     if (volume == music_volume)
     {
       music_volume.clear();
-      next_music_volume = cnt_;
+      m_music_volumes.next = count;
       break;
     }
-    ++cnt_;
+    ++count;
   }
 
-  if (complete)
-  {
-    // Language and profile changes are only be possible in the
-    // main menu, since elsewhere it might not always work fully
-    add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
-      .set_help(_("Select a different language to display text in"));
-
-    add_submenu(_("Language Packs"), MenuStorage::LANGPACK_MENU)
-      .set_help(_("Language packs contain up-to-date translations"));
-
-    add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
-      .set_help(_("Select a profile to play with"));
-  }
-
-#if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
-  add_toggle(MNID_FULLSCREEN,_("Window Resizable"), &g_config->window_resizable)
-    .set_help(_("Allow window resizing, might require a restart to take effect"));
-
-  MenuItem& window_res = add_string_select(MNID_WINDOW_RESOLUTION, _("Window Resolution"), &next_window_resolution, window_resolutions);
-  window_res.set_help(_("Resize the window to the given size"));
-
-  add_toggle(MNID_FULLSCREEN,_("Fullscreen"), &g_config->use_fullscreen)
-    .set_help(_("Fill the entire screen"));
-
-  MenuItem& fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Fullscreen Resolution"), &next_resolution, resolutions);
-  fullscreen_res.set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
-#endif
-
-#if 0
-#ifdef __EMSCRIPTEN__
-  MenuItem& fit_window = add_toggle(MNID_FIT_WINDOW, _("Fit to browser"), &g_config->fit_window);
-  fit_window.set_help(_("Fit the resolution to the size of your browser"));
-#endif
-#endif
-
-  MenuItem& magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
-  magnification.set_help(_("Change the magnification of the game area"));
-
-  MenuItem& vsync = add_string_select(MNID_VSYNC, _("VSync"), &next_vsync, vsyncs);
-  vsync.set_help(_("Set the VSync mode"));
-
-#if !defined(HIDE_NONMOBILE_OPTIONS) && !defined(__EMSCRIPTEN__)
-  MenuItem& aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
-  aspect.set_help(_("Adjust the aspect ratio"));
-#endif
-
-  MenuItem& video_system_menu = add_submenu(_("Change Video System"), MenuStorage::MenuId::VIDEO_SYSTEM_MENU);
-  video_system_menu.set_help(_("Change video system used to render graphics"));
-
-  if (SoundManager::current()->is_audio_enabled())
-  {
-    add_toggle(MNID_SOUND, _("Sound"), &g_config->sound_enabled)
-      .set_help(_("Disable all sound effects"));
-    add_toggle(MNID_MUSIC, _("Music"), &g_config->music_enabled)
-      .set_help(_("Disable all music"));
-
-    MenuItem& sound_volume_select = add_string_select(MNID_SOUND_VOLUME, _("Sound Volume"), &next_sound_volume, sound_volumes);
-    sound_volume_select.set_help(_("Adjust sound volume"));
-
-    MenuItem& music_volume_select = add_string_select(MNID_MUSIC_VOLUME, _("Music Volume"), &next_music_volume, music_volumes);
-    music_volume_select.set_help(_("Adjust music volume"));
-  }
-  else
-  {
-    add_inactive( _("Sound (disabled)"));
-    add_inactive( _("Music (disabled)"));
-  }
-
-  // Separated both translation strings so the latter can be removed if it is
-  // no longer true, without requiring a new round of translating
-  add_toggle(MNID_RUMBLING, _("Enable Rumbling Controllers"), &g_config->multiplayer_buzz_controllers)
-    .set_help(_("Enable vibrating the game controllers.") + " " + _("This feature is currently only used in the multiplayer options menu."));
-
-  add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
-    .set_help(_("Configure key-action mappings"));
-
-#ifndef UBUNTU_TOUCH
-  add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
-    .set_help(_("Configure joystick control-action mappings"));
-
-  add_submenu(_("Multiplayer settings"), MenuStorage::MULTIPLAYER_MENU)
-    .set_help(_("Configure settings specific to multiplayer"));
-#endif
-
-  add_toggle(MNID_MOBILE_CONTROLS, _("On-screen controls"), &g_config->mobile_controls)
-      .set_help(_("Toggle on-screen controls for mobile devices"));
-  m_mobile_controls_scales.clear();
-  for (unsigned i = 50; i <= 300; i+=25)
-  {
-    m_mobile_controls_scales.push_back(std::to_string(i) + "%");
-    if (i == static_cast<unsigned>(g_config->m_mobile_controls_scale * 100))
-      m_next_mobile_controls_scale = (i - 50) / 25;
-  }
-  add_string_select(MNID_MOBILE_CONTROLS_SCALE, _("On-screen controls scale"), &m_next_mobile_controls_scale, m_mobile_controls_scales);
-
-  MenuItem& enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
-  enable_transitions.set_help(_("Enable screen transitions and smooth menu animation"));
-
-#ifndef HIDE_NONMOBILE_OPTIONS
-  if (g_config->developer_mode)
-  {
-    add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
-  }
-#else
-  add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
-#endif
-
-  if (g_config->is_christmas() || g_config->christmas_mode)
-  {
-    add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
-  }
-
-  add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
-  add_toggle(MNID_PAUSE_ON_FOCUSLOSS, _("Pause on focus loss"), &g_config->pause_on_focusloss)
-    .set_help(_("Automatically pause the game when the window loses focus"));
-  add_toggle(MNID_CUSTOM_CURSOR, _("Use custom mouse cursor"), &g_config->custom_mouse_cursor).set_help(_("Whether the game renders its own cursor or uses the system's cursor"));
-#ifndef __EMSCRIPTEN__
-  add_toggle(MNID_RELEASE_CHECK, _("Check for new releases"), &g_config->do_release_check)
-    .set_help(_("Allows the game to perform checks for new SuperTux releases on startup and notify if any found."));
-#endif
-
-  add_submenu(_("Integrations and presence"), MenuStorage::INTEGRATIONS_MENU)
-      .set_help(_("Manage whether SuperTux should display the levels you play on your social media profiles (Discord)"));
-
-  if (g_config->developer_mode)
-  {
-    add_submenu(_("Menu Customization"), MenuStorage::CUSTOM_MENU_MENU)
-      .set_help(_("Customize the appearance of the menus"));
-  }
-
-  add_hl();
-  add_back(_("Back"));
+  add_string_select(MNID_MUSIC_VOLUME, _("Music Volume"), &m_music_volumes.next, m_music_volumes.list)
+    .set_help(_("Adjust music volume"));
 }
 
-OptionsMenu::~OptionsMenu()
+void
+OptionsMenu::add_mobile_control_scales()
 {
+  for (unsigned i = 50; i <= 300; i += 25)
+  {
+    m_mobile_control_scales.list.push_back(std::to_string(i) + "%");
+    if (i == static_cast<unsigned>(g_config->m_mobile_controls_scale * 100))
+      m_mobile_control_scales.next = (i - 50) / 25;
+  }
+
+  add_string_select(MNID_MOBILE_CONTROLS_SCALE, _("On-screen controls scale"), &m_mobile_control_scales.next, m_mobile_control_scales.list);
 }
+
+
+void
+OptionsMenu::on_window_resize()
+{
+  set_center_pos(static_cast<float>(SCREEN_WIDTH) / 2.0f,
+                 static_cast<float>(SCREEN_HEIGHT) / 2.0f + 15.0f);
+}
+
 
 void
 OptionsMenu::menu_action(MenuItem& item)
@@ -489,13 +528,13 @@ OptionsMenu::menu_action(MenuItem& item)
   switch (item.get_id()) {
     case MNID_ASPECTRATIO:
       {
-        if (aspect_ratios[next_aspect_ratio] == _("auto"))
+        if (m_aspect_ratios.next == 0)
         {
           g_config->aspect_size = Size(0, 0); // Magic values
           VideoSystem::current()->apply_config();
           MenuManager::instance().on_window_resize();
         }
-        else if (sscanf(aspect_ratios[next_aspect_ratio].c_str(), "%d:%d",
+        else if (sscanf(m_aspect_ratios.list[m_aspect_ratios.next].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
           VideoSystem::current()->apply_config();
@@ -503,18 +542,18 @@ OptionsMenu::menu_action(MenuItem& item)
         }
         else
         {
-          log_fatal << "Invalid aspect ratio " << aspect_ratios[next_aspect_ratio] << " specified" << std::endl;
+          log_fatal << "Invalid aspect ratio " << m_aspect_ratios.list[m_aspect_ratios.next] << " specified" << std::endl;
           assert(false);
         }
       }
       break;
 
     case MNID_MAGNIFICATION:
-      if (magnifications[next_magnification] == _("auto"))
+      if (m_magnifications.next == 0)
       {
         g_config->magnification = 0.0f; // Magic value
       }
-      else if (sscanf(magnifications[next_magnification].c_str(), "%f", &g_config->magnification) == 1)
+      else if (sscanf(m_magnifications.list[m_magnifications.next].c_str(), "%f", &g_config->magnification) == 1)
       {
         g_config->magnification /= 100.0f;
       }
@@ -523,19 +562,18 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_WINDOW_RESIZABLE:
-      if (!g_config->window_resizable) {
-        next_window_resolution = 0;
-      }
+      if (!g_config->window_resizable)
+        m_resolutions.next = 0;
       break;
 
     case MNID_WINDOW_RESOLUTION:
       {
         int width;
         int height;
-        if (sscanf(window_resolutions[next_window_resolution].c_str(), "%dx%d",
+        if (sscanf(m_window_resolutions.list[m_window_resolutions.next].c_str(), "%dx%d",
                    &width, &height) != 2)
         {
-          log_fatal << "can't parse " << window_resolutions[next_window_resolution] << std::endl;
+          log_fatal << "can't parse " << m_window_resolutions.list[m_window_resolutions.next] << std::endl;
         }
         else
         {
@@ -551,13 +589,13 @@ OptionsMenu::menu_action(MenuItem& item)
         int width;
         int height;
         int refresh_rate;
-        if (resolutions[next_resolution] == "Desktop")
+        if (m_resolutions.list[m_resolutions.next] == "Desktop")
         {
           g_config->fullscreen_size.width = 0;
           g_config->fullscreen_size.height = 0;
           g_config->fullscreen_refresh_rate = 0;
         }
-        else if (sscanf(resolutions[next_resolution].c_str(), "%dx%d@%d",
+        else if (sscanf(m_resolutions.list[m_resolutions.next].c_str(), "%dx%d@%d",
                   &width, &height, &refresh_rate) == 3)
         {
           // do nothing, changes are only applied when toggling fullscreen mode
@@ -565,7 +603,7 @@ OptionsMenu::menu_action(MenuItem& item)
           g_config->fullscreen_size.height = height;
           g_config->fullscreen_refresh_rate = refresh_rate;
         }
-        else if (sscanf(resolutions[next_resolution].c_str(), "%dx%d",
+        else if (sscanf(m_resolutions.list[m_resolutions.next].c_str(), "%dx%d",
                        &width, &height) == 2)
         {
             g_config->fullscreen_size.width = width;
@@ -602,20 +640,17 @@ OptionsMenu::menu_action(MenuItem& item)
 #endif
 
     case MNID_VSYNC:
-      switch (next_vsync)
+      switch (m_vsyncs.next)
       {
         case 2:
           VideoSystem::current()->set_vsync(-1);
           break;
-
         case 1:
           VideoSystem::current()->set_vsync(0);
           break;
-
         case 0:
           VideoSystem::current()->set_vsync(1);
           break;
-
         default:
           assert(false);
           break;
@@ -634,7 +669,7 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_SOUND_VOLUME:
-      if (sscanf(sound_volumes[next_sound_volume].c_str(), "%i", &g_config->sound_volume) == 1)
+      if (sscanf(m_sound_volumes.list[m_sound_volumes.next].c_str(), "%i", &g_config->sound_volume) == 1)
       {
         bool sound_enabled = g_config->sound_volume > 0 ? true : false;
         SoundManager::current()->enable_sound(sound_enabled);
@@ -649,7 +684,7 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_MUSIC_VOLUME:
-      if (sscanf(music_volumes[next_music_volume].c_str(), "%i", &g_config->music_volume) == 1)
+      if (sscanf(m_music_volumes.list[m_music_volumes.next].c_str(), "%i", &g_config->music_volume) == 1)
       {
         bool music_enabled = g_config->music_volume > 0 ? true : false;
         SoundManager::current()->enable_music(music_enabled);
@@ -663,7 +698,7 @@ OptionsMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_MOBILE_CONTROLS_SCALE:
-      if (sscanf(m_mobile_controls_scales[m_next_mobile_controls_scale].c_str(), "%f", &g_config->m_mobile_controls_scale) == EOF)
+      if (sscanf(m_mobile_control_scales.list[m_mobile_control_scales.next].c_str(), "%f", &g_config->m_mobile_controls_scale) == EOF)
         g_config->m_mobile_controls_scale = 1; // if sscanf fails revert to default scale
       else
         g_config->m_mobile_controls_scale /= 100.0f;

@@ -75,7 +75,7 @@ ItemStringSelect::process_action(const MenuAction& action)
       } else {
         (*m_selected) = static_cast<int>(m_items.size()) - 1;
       }
-      MenuManager::instance().current_menu()->menu_action(*this);
+      MenuManager::instance().current_menu<Menu>()->menu_action(*this);
       if (m_callback) {
         m_callback(*m_selected);
       }
@@ -87,7 +87,7 @@ ItemStringSelect::process_action(const MenuAction& action)
       } else {
         (*m_selected) = 0;
       }
-      MenuManager::instance().current_menu()->menu_action(*this);
+      MenuManager::instance().current_menu<Menu>()->menu_action(*this);
       if (m_callback) {
         m_callback(*m_selected);
       }
