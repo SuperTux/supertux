@@ -22,12 +22,10 @@
 #include "gui/item_action.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
-#include "supertux/resources.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/gettext.hpp"
 #include "util/string_util.hpp"
-#include "video/viewport.hpp"
 
 const size_t FileSystemMenu::s_title_max_chars = 30;
 const std::vector<std::string> FileSystemMenu::s_image_extensions = { ".jpg", ".png", ".surface" };

@@ -38,7 +38,7 @@ ItemAction*
 WorldPreviewMenu::add_world(std::string title, std::string folder,
                             SurfacePtr preview, Savegame::Progress progress)
 {
-  ItemAction& item = add_entry(m_world_entries.size(), title);
+  ItemAction& item = add_entry(static_cast<int>(m_world_entries.size()), title);
   item.set_preview(preview);
   m_world_entries.push_back({ folder, progress });
   return &item;
