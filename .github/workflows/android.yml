@@ -42,27 +42,27 @@ jobs:
 
       - name: Prepare SDL Android project
         run: |
-          ./tools/clone-dependency.sh libsdl-org/SDL release-2.26.5
+          ./tools/clone_dependency.sh libsdl-org/SDL release-2.26.5
           mv ./SDL/android-project/ ./build.android
 
       - name: Clone dependencies
         working-directory: build.android/app/jni
         run: |
-          ../../../tools/clone-dependency.sh libsdl-org/SDL_image release-2.20.2
-          ../../../tools/clone-dependency.sh SuperTux/SDL_ttf supertux-changes-2018-09-13
-          ../../../tools/clone-dependency.sh boostorg/boost boost-1.82.0
-          ../../../tools/clone-dependency.sh curl/curl curl-8_0_1
-          ../../../tools/clone-dependency.sh fmtlib/fmt 9.1.0
-          ../../../tools/clone-dependency.sh g-truc/glm 0.9.9.8
-          ../../../tools/clone-dependency.sh xiph/vorbis v1.3.7
-          ../../../tools/clone-dependency.sh kcat/openal-soft 1.23.1
+          ../../../tools/clone_dependency.sh libsdl-org/SDL_image release-2.20.2
+          ../../../tools/clone_dependency.sh SuperTux/SDL_ttf supertux-changes-2018-09-13
+          ../../../tools/clone_dependency.sh boostorg/boost boost-1.82.0
+          ../../../tools/clone_dependency.sh curl/curl curl-8_0_1
+          ../../../tools/clone_dependency.sh fmtlib/fmt 9.1.0
+          ../../../tools/clone_dependency.sh g-truc/glm 0.9.9.8
+          ../../../tools/clone_dependency.sh xiph/vorbis v1.3.7
+          ../../../tools/clone_dependency.sh kcat/openal-soft 1.23.1
           #TODO: i have to take a look into opengl later
           #TODO: i also have to take a look at libpartiozip
-          ../../../tools/clone-dependency.sh SuperTux/physfs release-2.0.3
-          ../../../tools/clone-dependency.sh driedfruit/SDL_SavePNG master
-          ../../../tools/clone-dependency.sh SuperTux/sexp-cpp master
-          ../../../tools/clone-dependency.sh albertodemichelis/squirrel v3.2
-          ../../../tools/clone-dependency.sh SuperTux/tinygettext tinygettext-supertux
+          ../../../tools/clone_dependency.sh SuperTux/physfs release-2.0.3
+          ../../../tools/clone_dependency.sh driedfruit/SDL_SavePNG master
+          ../../../tools/clone_dependency.sh SuperTux/sexp-cpp master
+          ../../../tools/clone_dependency.sh albertodemichelis/squirrel v3.2
+          ../../../tools/clone_dependency.sh SuperTux/tinygettext tinygettext-supertux
 
       - name: Copy Android CMake script
         run: |
