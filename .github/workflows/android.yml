@@ -32,14 +32,6 @@ on:
 
 jobs:
   build-android:
-    env:
-      # Revision of https://github.com/libsdl-org/SDL/ - SDL2 repo is a submodule
-      # We check out a specific stable revision, so the build won't break if I modify my SDL repo
-      SDL_ANDROID_REV: release-2.26.5
-      # It takes 35 minutes per one architecture to build SuperTux, of which 20 minutes are for building Boost and ICU libraries
-      # Enable additional architectures when we have these libraries inside the cache, or create a separate Android script for each architecture
-      ARCH_LIST: armeabi-v7a arm64-v8a x86 x86_64
-
     runs-on: ubuntu-latest
 
     steps:
@@ -50,11 +42,7 @@ jobs:
 
       - name: Prepare SDL Android project
         run: |
-          git clone
-            https://github.com/libsdl-org/SDL/
-            --recurse-submodules
-            --branch ${{env.ANDROID_REV}}
-            --depth 1
+          ./tools/clone-dependency.sh libsdl-org/SDL release-2.26.5
           mv ./SDL/android-project/ ./build.android
 
       - name: Clone dependencies
@@ -75,6 +63,10 @@ jobs:
           ../../../tools/clone-dependency.sh SuperTux/sexp-cpp master
           ../../../tools/clone-dependency.sh albertodemichelis/squirrel v3.2
           ../../../tools/clone-dependency.sh SuperTux/tinygettext tinygettext-supertux
+
+      - name: Copy Android CMake script
+        run: |
+          cp -f ./mk/cmake/Android.cmake ./build.android/app/jni/CMakeLists.txt
 
       - name: Set architectures list and version
         working-directory: build.android
