@@ -33,9 +33,9 @@ on:
 jobs:
   build-android:
     env:
-      # Revision of https://github.com/pelya/commandergenius.git - SDL2 repo is a submodule
+      # Revision of https://github.com/libsdl-org/SDL/ - SDL2 repo is a submodule
       # We check out a specific stable revision, so the build won't break if I modify my SDL repo
-      SDL_ANDROID_REV: 798fd0f5e167aa6ecce33623dbf88ebc6cd647ea
+      SDL_ANDROID_REV: release-2.26.5
       # It takes 35 minutes per one architecture to build SuperTux, of which 20 minutes are for building Boost and ICU libraries
       # Enable additional architectures when we have these libraries inside the cache, or create a separate Android script for each architecture
       ARCH_LIST: armeabi-v7a arm64-v8a x86 x86_64
@@ -48,25 +48,33 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-      - name: Clone SDL Android repo
+      - name: Prepare SDL Android project
         run: |
-          git clone --depth=100 https://github.com/pelya/commandergenius.git build.android
-          git -C build.android checkout ${SDL_ANDROID_REV}
+          git clone
+            https://github.com/libsdl-org/SDL/
+            --recurse-submodules
+            --branch ${{env.ANDROID_REV}}
+            --depth 1
+          mv ./SDL/android-project/ ./build.android
 
-      - name: Clone SDL Android repo submodules
-        # There are many more submodules in this repo, we don't need them all
-        working-directory: build.android
-        run: >
-          git submodule update --init --recursive --depth=1
-          project/jni/boost/src project/jni/iconv/src
-          project/jni/sdl2 project/jni/sdl2_image
-          project/jni/sdl2_mixer project/jni/sdl2_ttf
-
-      - name: Symlink the application dir
+      - name: Clone dependencies
+        working-directory: build.android/app/jni
         run: |
-          rm -rf build.android/project/jni/application/supertux/supertux
-          ln -s `pwd` build.android/project/jni/application/supertux/supertux
-          ln -s supertux build.android/project/jni/application/src
+          ../../../tools/clone-dependency.sh libsdl-org/SDL_image release-2.20.2
+          ../../../tools/clone-dependency.sh SuperTux/SDL_ttf supertux-changes-2018-09-13
+          ../../../tools/clone-dependency.sh boostorg/boost boost-1.82.0
+          ../../../tools/clone-dependency.sh curl/curl curl-8_0_1
+          ../../../tools/clone-dependency.sh fmtlib/fmt 9.1.0
+          ../../../tools/clone-dependency.sh g-truc/glm 0.9.9.8
+          ../../../tools/clone-dependency.sh xiph/vorbis v1.3.7
+          ../../../tools/clone-dependency.sh kcat/openal-soft 1.23.1
+          #TODO: i have to take a look into opengl later
+          #TODO: i also have to take a look at libpartiozip
+          ../../../tools/clone-dependency.sh SuperTux/physfs release-2.0.3
+          ../../../tools/clone-dependency.sh driedfruit/SDL_SavePNG master
+          ../../../tools/clone-dependency.sh SuperTux/sexp-cpp master
+          ../../../tools/clone-dependency.sh albertodemichelis/squirrel v3.2
+          ../../../tools/clone-dependency.sh SuperTux/tinygettext tinygettext-supertux
 
       - name: Set architectures list and version
         working-directory: build.android
