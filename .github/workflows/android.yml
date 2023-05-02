@@ -46,7 +46,11 @@ jobs:
 
       - name: Prepare SDL Android project
         run: |
+<<<<<<< HEAD
           ./.github/scripts/clone_dependency.sh libsdl-org/SDL release-2.26.5
+=======
+          ./tools/clone-dependency.sh libsdl-org/SDL release-2.26.5
+>>>>>>> d8628e69e (WIP android cmake script)
           mv ./SDL/android-project/ ./build.android
 
       - name: Clone dependencies
@@ -67,6 +71,10 @@ jobs:
           ../../../.github/scripts/clone_dependency.sh SuperTux/sexp-cpp master
           ../../../.github/scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
           ../../../.github/scripts/clone_dependency.sh SuperTux/tinygettext tinygettext-supertux
+
+      - name: Copy Android CMake script
+        run: |
+          cp -f ./mk/cmake/Android.cmake ./build.android/app/jni/CMakeLists.txt
 
       - name: Copy Android CMake script
         run: |
