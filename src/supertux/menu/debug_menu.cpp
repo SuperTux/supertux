@@ -36,7 +36,7 @@ DebugMenu::DebugMenu() :
   { // game speed menu entry
     std::vector<float> game_speed_multiplier;
     std::vector<std::string> game_speeds;
-    for (int percent : {0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500, 1000, 1500, 3000})
+    for (int percent : {5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500, 1000, 1500, 3000})
     {
       std::ostringstream out;
       out << percent << "%";
