@@ -68,7 +68,7 @@ jobs:
           ../../../.github/scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
           ../../../.github/scripts/clone_dependency.sh SuperTux/tinygettext tinygettext-supertux
 
-      - name: Copy Android CMake script
+      - name: Copy SuperTux Android project files
         run: |
           cp -r -f ./mk/android/* ./build.android/
 
@@ -84,6 +84,8 @@ jobs:
 
       - name: Setup Android NDK
         uses: nttld/setup-ndk@v1.2.0
+        with:
+          ndk-version: r25c
 
       - name: Make gradlew executable
         working-directory: build.android
