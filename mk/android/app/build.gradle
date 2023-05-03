@@ -19,7 +19,7 @@ android {
         versionName "0.7.0"
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_APP_PLATFORM=android-16", "-DANDROID_STL=c++_static"
+                arguments "-DANDROID_APP_PLATFORM=android-24", "-DANDROID_STL=c++_static"
                 abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
                 abiFilters 'arm64-v8a'
             }
