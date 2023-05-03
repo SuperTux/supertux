@@ -72,10 +72,6 @@ jobs:
         run: |
           cp -f ./mk/cmake/Android.cmake ./build.android/app/jni/CMakeLists.txt
 
-      - name: Copy Android CMake script
-        run: |
-          cp -f ./mk/cmake/Android.cmake ./build.android/app/jni/CMakeLists.txt
-
       - name: Set architectures list and version
         working-directory: build.android
         run: |
