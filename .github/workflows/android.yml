@@ -41,7 +41,7 @@ jobs:
           submodules: true
 
       - name: Set script permissions
-        working-folder: .github
+        working-folder: ./.github
         run: chmod +x ./scripts/*.sh
 
       - name: Prepare SDL Android project
