@@ -46,16 +46,20 @@ jobs:
 
       - name: Prepare SDL Android project
         run: |
-<<<<<<< HEAD
           ./.github/scripts/clone_dependency.sh libsdl-org/SDL release-2.26.5
-=======
-          ./tools/clone-dependency.sh libsdl-org/SDL release-2.26.5
->>>>>>> d8628e69e (WIP android cmake script)
           mv ./SDL/android-project/ ./build.android
 
       - name: Clone dependencies
         working-directory: build.android/app/jni
         run: |
+          ../../../.github/scripts/clone_dependency.sh libsdl-org/SDL_image release-2.20.2
+          ../../../.github/scripts/clone_dependency.sh SuperTux/SDL_ttf supertux-changes-2018-09-13
+          ../../../.github/scripts/clone_dependency.sh boostorg/boost boost-1.82.0
+          ../../../.github/scripts/clone_dependency.sh curl/curl curl-8_0_1
+          ../../../.github/scripts/clone_dependency.sh fmtlib/fmt 9.1.0
+          ../../../.github/scripts/clone_dependency.sh g-truc/glm 0.9.9.8
+          ../../../.github/scripts/clone_dependency.sh xiph/vorbis v1.3.7
+          ../../../.github/scripts/clone_dependency.sh kcat/openal-soft 1.23.1
           ../../../.github/scripts/clone_dependency.sh libsdl-org/SDL_image release-2.20.2
           ../../../.github/scripts/clone_dependency.sh SuperTux/SDL_ttf supertux-changes-2018-09-13
           ../../../.github/scripts/clone_dependency.sh boostorg/boost boost-1.82.0
