@@ -52,7 +52,7 @@ jobs:
       - name: Clone dependencies
         working-directory: build.android/app/jni
         run: |
-          ../../../.github/scripts/clone_dependency.sh libsdl-org/SDL_image release-2.20.2
+          ../../../.github/scripts/clone_dependency.sh libsdl-org/SDL_image release-2.6.3
           ../../../.github/scripts/clone_dependency.sh SuperTux/SDL_ttf supertux-changes-2018-09-13
           ../../../.github/scripts/clone_dependency.sh boostorg/boost boost-1.82.0
           ../../../.github/scripts/clone_dependency.sh curl/curl curl-8_0_1
