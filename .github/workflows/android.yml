@@ -70,10 +70,18 @@ jobs:
 
       - name: Copy Android CMake script
         run: |
-          cp -f ./mk/cmake/Android.cmake ./build.android/app/jni/CMakeLists.txt
+          cp -r -f ./mk/android/* ./build.android/
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1.2.0
 
       - name: Make gradlew executable
         working-directory: build.android

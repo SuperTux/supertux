@@ -3,7 +3,7 @@ build/
 build.*/
 **/CMakeFiles/
 **/CMakeCache.txt
-supertux2
+./supertux2
 
 # Ubuntu Touch (clickable) build files
 .clickable/
