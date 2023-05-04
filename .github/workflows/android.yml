@@ -67,6 +67,7 @@ jobs:
           ../../../.github/scripts/clone_dependency.sh SuperTux/sexp-cpp master
           ../../../.github/scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
           ../../../.github/scripts/clone_dependency.sh SuperTux/tinygettext tinygettext-supertux
+          ../../../.github/scripts/clone_dependency.sh SuperTux/supertux master
 
       - name: Cache dependencies
         uses: actions/cache@v1.2.1
