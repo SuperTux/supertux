@@ -104,5 +104,5 @@ jobs:
       - name: Upload built APK
         uses: actions/upload-artifact@v3
         with:
-          name: "app-release.apk"
-          path: "build.android/app/build/outputs/apk/release/"
+          name: "Built APK"
+          path: "build.android/app/build/outputs/apk/release/app-release-unsigned.apk"

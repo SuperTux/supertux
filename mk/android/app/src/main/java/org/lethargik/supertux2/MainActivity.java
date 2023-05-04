@@ -1,4 +1,4 @@
-package matusguy.game.mousemaze;
+package org.lethargik.supertux2;
 
 import org.libsdl.app.*;
 
