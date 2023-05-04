@@ -102,8 +102,7 @@ jobs:
         run: ./gradlew assembleRelease --stacktrace
 
       - name: Upload built APK
-        working-directory: build.android
         uses: actions/upload-artifact@v3
         with:
-          name: "app-release"
-          path: "app/outputs/apk/release/"
+          name: "app-release.apk"
+          path: "build.android/app/outputs/apk/release/"
