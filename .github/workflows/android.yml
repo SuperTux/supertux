@@ -99,7 +99,7 @@ jobs:
 
       - name: Generate app APK.
         working-directory: build.android
-        run: ./gradlew assembleRelease --stacktrace && tree
+        run: ./gradlew assembleRelease --status --info
 
       - name: Upload built APK
         uses: actions/upload-artifact@v3

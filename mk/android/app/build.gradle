@@ -40,9 +40,6 @@ android {
             jniLibs.srcDir 'libs'
         }
         externalNativeBuild {
-            //ndkBuild {
-            //    path 'jni/Android.mk'
-            //}
             cmake {
                 path 'jni/CMakeLists.txt'
             }
@@ -52,6 +49,7 @@ android {
     lintOptions {
         abortOnError false
     }
+    namespace 'org.lethargik.supertux2'
 
     if (buildAsLibrary) {
         libraryVariants.all { variant ->
