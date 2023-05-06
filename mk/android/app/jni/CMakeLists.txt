@@ -1,10 +1,15 @@
 cmake_minimum_required(VERSION 3.6)
 
+message("HELLO FROM CMAKE")
+message("CMAKE CURDIR ${CMAKE_CURRENT_SOURCE_DIR}")
+
 project(GAME)
 
+#[[
 # armeabi-v7a requires cpufeatures library
 include(AndroidNdkModules)
 android_ndk_import_module_cpufeatures()
+]]
 
 set(SDL2IMAGE_INSTALL OFF CACHE BOOL "" FORCE)
 set(SDL2TTF_INSTALL OFF CACHE BOOL "" FORCE)
@@ -48,12 +53,7 @@ message("PROJ SRC DIR ${PROJECT_SOURCE_DIR}")
 subdirlist(DEPS ${PROJECT_SOURCE_DIR})
 foreach(DEP ${DEPS})
   message("NEW DEP ${DEP}")
-  add_subdirectory(${DEP})
+  add_subdirectory("${DEP}")
 endforeach()
 
-add_subdirectory(SDL_image)
-add_subdirectory(SDL_ttf)
-add_subdirectory(boost)
-add_subdirectory(curl)
-add_subdirectory(fmt)
-add_subdirectory(glm)
+add_subdirectory(supertux)
