@@ -43,9 +43,17 @@ function(subdirlist result curdir)
   set(${result} ${dirlist})
 endfunction()
 
+message("PROJ SRC DIR ${PROJECT_SOURCE_DIR}")
+
 subdirlist(DEPS ${PROJECT_SOURCE_DIR})
 foreach(DEP ${DEPS})
-  message("${DEP}")
+  message("NEW DEP ${DEP}")
   add_subdirectory(${DEP})
 endforeach()
 
+add_subdirectory(SDL_image)
+add_subdirectory(SDL_ttf)
+add_subdirectory(boost)
+add_subdirectory(curl)
+add_subdirectory(fmt)
+add_subdirectory(glm)
