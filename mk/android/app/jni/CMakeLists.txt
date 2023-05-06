@@ -31,8 +31,6 @@ function(dump_cmake_variables)
   endforeach()
 endfunction()
 
-dump_cmake_variables()
-
 # Compilation of companion libraries
 function(subdirlist result curdir)
   file(GLOB children RELATIVE ${curdir} ${curdir}/*)
@@ -47,6 +45,7 @@ endfunction()
 
 subdirlist(DEPS ${PROJECT_SOURCE_DIR})
 foreach(DEP ${DEPS})
+  message("${DEP}")
   add_subdirectory(${DEP})
 endforeach()
 
