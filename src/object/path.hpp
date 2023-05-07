@@ -28,6 +28,7 @@
 #include "util/gettext.hpp"
 
 class ObjectOption;
+class PathGameObject;
 class ReaderMapping;
 class Writer;
 
@@ -50,6 +51,7 @@ public:
   class Node
   {
   public:
+    Path* parent; /**< the parent path of this node */
     Vector position; /**< the position of this node */
     Vector bezier_before; /**< the position of the bezier handle towards the preceding node */
     Vector bezier_after; /**< the position of the bezier handle towards the following node */
@@ -58,7 +60,8 @@ public:
     EasingMode easing; /**< speed variations during travel
             (constant speed, start slow and go progressively quicker, etc.) */
 
-    Node() :
+    Node(Path* parent_) :
+      parent(parent_),
       position(0.0f, 0.0f),
       bezier_before(0.0f, 0.0f),
       bezier_after(0.0f, 0.0f),
@@ -71,8 +74,8 @@ public:
   };
 
 public:
-  Path();
-  Path(const Vector& pos);
+  Path(PathGameObject* parent);
+  Path(const Vector& pos, PathGameObject* parent);
 
   void read(const ReaderMapping& reader);
   void save(Writer& writer);
@@ -96,7 +99,11 @@ public:
 
   const std::vector<Node>& get_nodes() const { return m_nodes; }
 
+  PathGameObject* get_gameobject() const { return m_parent_gameobject; }
+
 public:
+  PathGameObject* m_parent_gameobject;
+
   std::vector<Node> m_nodes;
 
   WalkMode m_mode;

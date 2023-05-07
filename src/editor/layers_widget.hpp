@@ -57,8 +57,11 @@ public:
   void refresh();
 
   void refresh_sector_text();
+  void refresh_layers();
   void sort_layers();
-  void add_layer(GameObject* layer);
+  void add_layer(GameObject* layer, bool initial = false);
+
+  void update_current_tip();
 
   bool has_mouse_focus() const;
 

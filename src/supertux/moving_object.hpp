@@ -31,6 +31,7 @@ class Sector;
 class MovingObject : public GameObject,
                      public CollisionListener
 {
+  friend class ResizeMarker;
   friend class Sector;
   friend class CollisionSystem;
 

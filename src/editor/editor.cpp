@@ -37,7 +37,6 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
-#include "editor/undo_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -113,9 +112,6 @@ Editor::Editor() :
   m_layers_widget(),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
-  m_undo_manager(new UndoManager),
-  m_ignore_sector_change(false),
-  m_level_first_loaded(false),
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f)
 {
@@ -292,7 +288,10 @@ Editor::save_level(const std::string& filename, bool switch_file)
   if (switch_file)
     m_levelfile = filename;
 
-  m_undo_manager->reset_index();
+  for (const auto& sector : m_level->m_sectors)
+  {
+    sector->clear_undo_stack();
+  }
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
   remove_autosave_file();
@@ -525,13 +524,6 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
-  
-  if (!m_level_first_loaded)
-  {
-    m_undo_manager->try_snapshot(*m_level);
-    m_undo_manager->reset_index();
-    m_level_first_loaded = true;
-  }
 }
 
 void
@@ -543,6 +535,9 @@ Editor::reload_level()
                                    StringUtil::has_suffix(m_levelfile, ".stwm"),
                                    true));
   ReaderMapping::s_translations_enabled = true;
+
+  retoggle_undo_tracking();
+  undo_stack_cleanup();
 
   // Autosave files : Once the level is loaded, make sure
   // to use the regular file
@@ -584,7 +579,17 @@ Editor::quit_editor()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (m_undo_manager->has_unsaved_changes() && m_levelloaded)
+  bool has_unsaved_changes = false;
+  for (const auto& sector : m_level->m_sectors)
+  {
+    if (sector->has_object_changes())
+    {
+      has_unsaved_changes = true;
+      break;
+    }
+  }
+
+  if (has_unsaved_changes && m_levelloaded)
   {
     m_enabled = false;
     auto dialog = std::make_unique<Dialog>();
@@ -735,28 +740,11 @@ Editor::event(const SDL_Event& ev)
       return;
     }
 
-    m_ignore_sector_change = false;
-
     BIND_SECTOR(*m_sector);
 
     for(const auto& widget : m_widgets) {
       if (widget->event(ev))
         break;
-    }
-
-    // unreliable heuristic to snapshot the current state for future undo
-    if (((ev.type == SDL_KEYUP && ev.key.repeat == 0 &&
-         ev.key.keysym.sym != SDLK_LSHIFT &&
-         ev.key.keysym.sym != SDLK_RSHIFT &&
-         ev.key.keysym.sym != SDLK_LCTRL &&
-         ev.key.keysym.sym != SDLK_RCTRL) ||
-         ev.type == SDL_MOUSEBUTTONUP))
-    {
-      if (!m_ignore_sector_change) {
-        if (m_level) {
-          m_undo_manager->try_snapshot(*m_level);
-        }
-      }
     }
 
     // Scroll with mouse wheel, if the mouse is not over the toolbox.
@@ -872,29 +860,45 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
 }
 
 void
+Editor::retoggle_undo_tracking()
+{
+  // Toggle undo tracking for all sectors.
+  for (const auto& sector : m_level->m_sectors)
+    sector->toggle_undo_tracking(g_config->editor_undo_tracking);
+}
+
+void
+Editor::undo_stack_cleanup()
+{
+  // Set the undo stack size and perform undo stack cleanup on all sectors.
+  for (const auto& sector : m_level->m_sectors)
+  {
+    sector->set_undo_stack_size(g_config->editor_undo_stack_size);
+    sector->undo_stack_cleanup();
+  }
+}
+
+void
 Editor::undo()
 {
-  log_info << "attempting undo" << std::endl;
-  auto level = m_undo_manager->undo();
-  if (level) {
-    set_level(std::move(level), false);
-    m_ignore_sector_change = true;
-  } else {
-    log_info << "undo failed" << std::endl;
-  }
+  BIND_SECTOR(*m_sector);
+  m_sector->undo();
+  perform_post_undo_actions();
 }
 
 void
 Editor::redo()
 {
-  log_info << "attempting redo" << std::endl;
-  auto level = m_undo_manager->redo();
-  if (level) {
-    set_level(std::move(level), false);
-    m_ignore_sector_change = true;
-  } else {
-    log_info << "redo failed" << std::endl;
-  }
+  BIND_SECTOR(*m_sector);
+  m_sector->redo();
+  perform_post_undo_actions();
+}
+
+void
+Editor::perform_post_undo_actions()
+{
+  m_overlay_widget->delete_markers();
+  m_layers_widget->update_current_tip();
 }
 
 IntegrationStatus

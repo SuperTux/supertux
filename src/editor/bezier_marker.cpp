@@ -17,6 +17,7 @@
 #include "editor/bezier_marker.hpp"
 
 #include "editor/node_marker.hpp"
+#include "object/path_gameobject.hpp"
 #include "supertux/sector.hpp"
 
 BezierMarker::BezierMarker(Path::Node* node, Vector* bezier_pos) :
@@ -63,6 +64,18 @@ NodeMarker*
 BezierMarker::get_parent() const
 {
   return Sector::current()->get_object_by_uid<NodeMarker>(m_parent);
+}
+
+void
+BezierMarker::save_state()
+{
+  m_node->parent->get_gameobject()->save_state();
+}
+
+void
+BezierMarker::check_state()
+{
+  m_node->parent->get_gameobject()->check_state();
 }
 
 /* EOF */

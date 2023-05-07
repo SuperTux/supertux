@@ -126,16 +126,27 @@ EditorLayersWidget::draw(DrawingContext& context)
 void
 EditorLayersWidget::update(float dt_sec)
 {
+  bool has_active_tilemap = false;
   auto it = m_layer_icons.begin();
   while (it != m_layer_icons.end())
   {
     auto layer_icon = (*it).get();
     if (!layer_icon->is_valid())
+    {
       it = m_layer_icons.erase(it);
-    else
-      ++it;
+      continue;
+    }
+
+    ++it;
+    if (has_active_tilemap) continue;
+
+    const auto* tilemap = dynamic_cast<TileMap*>(layer_icon->get_layer());
+    has_active_tilemap = tilemap && tilemap->m_editor_active;
   }
-  
+
+  if (!has_active_tilemap)
+    refresh_layers(); // Ensure a tilemap is always selected.
+
   if(m_scroll_speed < 0 && m_scroll > 0)
   {
     m_scroll -= 5;
@@ -311,36 +322,12 @@ EditorLayersWidget::refresh()
   m_selected_tilemap = nullptr;
   m_layer_icons.clear();
 
-  bool tsel = false;
-  TileMap* first_tm = nullptr;
   for (auto& i : m_editor.get_sector()->get_objects())
   {
-    auto* go = i.get();
-    auto* mo = dynamic_cast<MovingObject*>(go);
-    if (!mo && go->has_settings()) {
-      if (!dynamic_cast<PathGameObject*>(go)) {
-        add_layer(go);
-      }
+    add_layer(i.get(), true);
+  }
 
-      auto tm = dynamic_cast<TileMap*>(go);
-      if (tm) {
-        if (first_tm == nullptr)
-          first_tm = tm;
-        if ( !tm->is_solid() || tsel ) {
-          tm->m_editor_active = false;
-        } else {
-          m_selected_tilemap = tm;
-          tm->m_editor_active = true;
-          tsel = true;
-        }
-      }
-    }
-  }
-  if (!tsel && first_tm != nullptr)
-  {
-    first_tm->m_editor_active = true;
-    m_selected_tilemap = first_tm;
-  }
+  refresh_layers();
 
   sort_layers();
   refresh_sector_text();
@@ -354,6 +341,41 @@ EditorLayersWidget::refresh_sector_text()
 }
 
 void
+EditorLayersWidget::refresh_layers()
+{
+  bool tsel = false;
+  TileMap* first_tm = nullptr;
+  for (auto& i : m_layer_icons)
+  {
+    auto* go = i->get_layer();
+    auto tm = dynamic_cast<TileMap*>(go);
+    if (tm)
+    {
+      if (first_tm == nullptr)
+      {
+        first_tm = tm;
+      }
+      if (!tm->is_solid() || tsel)
+      {
+        tm->m_editor_active = false;
+      }
+      else
+      {
+        m_selected_tilemap = tm;
+        tm->m_editor_active = true;
+        tsel = true;
+      }
+    }
+  }
+
+  if (!tsel && first_tm != nullptr)
+  {
+    first_tm->m_editor_active = true;
+    m_selected_tilemap = first_tm;
+  }
+}
+
+void
 EditorLayersWidget::sort_layers()
 {
   std::sort(m_layer_icons.begin(), m_layer_icons.end(),
@@ -363,21 +385,31 @@ EditorLayersWidget::sort_layers()
 }
 
 void
-EditorLayersWidget::add_layer(GameObject* layer)
+EditorLayersWidget::add_layer(GameObject* layer, bool initial)
 {
+  if (!layer->has_settings() ||
+      dynamic_cast<MovingObject*>(layer) ||
+      dynamic_cast<PathGameObject*>(layer))
+  {
+    return;
+  }
+
   auto icon = std::make_unique<LayerIcon>(layer);
   int z_pos = icon->get_zpos();
 
   // The icon is inserted to the correct position.
+  bool inserted = false;
   for (auto i = m_layer_icons.begin(); i != m_layer_icons.end(); ++i) {
     const auto& li = i->get();
-    if (li->get_zpos() < z_pos) {
+    if (li->get_zpos() > z_pos) {
       m_layer_icons.insert(i, std::move(icon));
-      return;
+      inserted = true;
+      break;
     }
   }
 
-  m_layer_icons.push_back(std::move(icon));
+  if (!inserted) m_layer_icons.push_back(std::move(icon));
+  if (!initial) refresh_layers();
 }
 
 void
@@ -388,6 +420,14 @@ EditorLayersWidget::update_tip()
     return;
   }
   m_object_tip = std::make_unique<Tip>(*m_layer_icons[m_hovered_layer]->get_layer());
+}
+
+void
+EditorLayersWidget::update_current_tip()
+{
+  if (!m_object_tip) return;
+
+  update_tip();
 }
 
 Vector

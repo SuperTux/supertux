@@ -42,6 +42,9 @@ public:
 
   virtual int get_layer() const override { return LAYER_GUI - 20; }
 
+  virtual void save_state() override = 0;
+  virtual void check_state() override = 0;
+
 private:
   MarkerObject(const MarkerObject&) = delete;
   MarkerObject& operator=(const MarkerObject&) = delete;

@@ -19,7 +19,6 @@
 #include <boost/optional.hpp>
 
 #include "editor/node_marker.hpp"
-#include "gui/menu_manager.hpp"
 #include "object/path.hpp"
 #include "object/path_object.hpp"
 #include "sprite/sprite.hpp"
@@ -49,26 +48,30 @@ PathStyle PathStyle_from_string(const std::string& text)
 } // namespace
 
 PathGameObject::PathGameObject() :
-  m_path(new Path),
+  m_path(new Path(this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
 {
+  m_track_undo = false;
+
   m_name = make_unique_name("path", this);
 }
 
 PathGameObject::PathGameObject(const Vector& pos) :
-  m_path(new Path(pos)),
+  m_path(new Path(pos, this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
 {
+  m_track_undo = false;
+
   m_name = make_unique_name("path", this);
 }
 
 PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compatibility_hack) :
   GameObject(mapping),
-  m_path(new Path),
+  m_path(new Path(this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
@@ -106,7 +109,6 @@ PathGameObject::~PathGameObject()
 void
 PathGameObject::update(float dt_sec)
 {
-  check_references();
 }
 
 void
@@ -176,12 +178,6 @@ PathGameObject::get_settings()
 }
 
 void
-PathGameObject::editor_update()
-{
-  check_references();
-}
-
-void
 PathGameObject::editor_select()
 {
   log_fatal << "PathGameObject::selected" << std::endl;
@@ -204,17 +200,6 @@ PathGameObject::remove_me()
       handle.remove_me(); // Removing a node handle also removes its bezier handles
   }
 
-  const auto& path_objects = Sector::get().get_objects_by_type<PathObject>();
-
-  for (const auto& path_obj : path_objects)
-  {
-    if (path_obj.get_path_gameobject() == this)
-    {
-      log_warning << "Attempt to delete path " << get_name() << " while bound to object" << std::endl;
-      return;
-    }
-  }
-
   GameObject::remove_me();
 }
 
@@ -224,23 +209,19 @@ PathGameObject::copy_into(PathGameObject& other)
   other.get_path().m_nodes = get_path().m_nodes;
 }
 
-void
-PathGameObject::check_references()
+bool
+PathGameObject::is_saveable() const
 {
   if (!Sector::current())
-    return;
-
-  // Object settings menu might hold references to paths
-  if (MenuManager::instance().is_active())
-    return;
+    return false;
 
   const auto& path_objects = Sector::get().get_objects_by_type<PathObject>();
 
   for (const auto& path_obj : path_objects)
     if (path_obj.get_path_gameobject() == this)
-      return;
+      return true;
 
-  remove_me();
+  return false;
 }
 
 void

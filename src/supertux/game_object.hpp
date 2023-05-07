@@ -29,6 +29,7 @@
 
 class DrawingContext;
 class GameObjectComponent;
+class GameObjectManager;
 class ObjectRemoveListener;
 class ReaderMapping;
 class Writer;
@@ -82,6 +83,7 @@ public:
 
   /** This function saves the object. Editor will use that. */
   virtual void save(Writer& writer);
+  std::string save();
   virtual std::string get_class_name() const { return "game-object"; }
   virtual std::string get_display_name() const { return _("Unknown object"); }
 
@@ -163,6 +165,10 @@ public:
     }
   }
 
+  /** Save/check the current state of the object. */
+  virtual void save_state();
+  virtual void check_state();
+
   /** The editor requested the deletion of the object */
   virtual void editor_delete() { remove_me(); }
 
@@ -190,6 +196,10 @@ protected:
 private:
   void set_uid(const UID& uid) { m_uid = uid; }
 
+private:
+  /** The parent GameObjectManager. Set by the manager itself. */
+  GameObjectManager* m_parent;
+
 protected:
   /** a name for the gameobject, this is mostly a hint for scripts and
       for debugging, don't rely on names being set or being unique */
@@ -202,6 +212,12 @@ protected:
   /** Fade Helpers are for easing/fading script functions */
   std::vector<std::unique_ptr<FadeHelper>> m_fade_helpers;
 
+  /** Track the following creation/deletion of this object for undo.
+      If m_never_track_undo is true, no matter the value of m_track_undo,
+      this object will be ignored. */
+  bool m_track_undo;
+  bool m_never_track_undo;
+
 private:
   /** The object's type at the time of the last get_settings() call.
       Used to check if the type has changed. **/
@@ -213,6 +229,10 @@ private:
 
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_scheduled_for_removal;
+
+  /** The object's data at the time of the last state save.
+      Used to check for changes that may have occured. */
+  std::string m_last_state;
 
   std::vector<std::unique_ptr<GameObjectComponent> > m_components;
 

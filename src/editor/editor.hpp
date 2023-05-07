@@ -152,6 +152,9 @@ public:
 
   Sector* get_sector() { return m_sector; }
 
+  void retoggle_undo_tracking();
+  void undo_stack_cleanup();
+
   void undo();
   void redo();
 
@@ -171,6 +174,8 @@ private:
   void save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
+
+  void perform_post_undo_actions();
 
 protected:
   std::unique_ptr<Level> m_level;
@@ -212,11 +217,6 @@ private:
   bool m_enabled;
   SurfacePtr m_bgr_surface;
 
-  std::unique_ptr<UndoManager> m_undo_manager;
-  bool m_ignore_sector_change;
-  
-  bool m_level_first_loaded;
-  
   float m_time_since_last_save;
 
   float m_scroll_speed;
