@@ -44,6 +44,7 @@ jobs:
         run: |
           ./.github/scripts/clone_dependency.sh libsdl-org/SDL release-2.26.5
           mv ./SDL/android-project/ ./build.android
+          mv ./SDL/ ./build.android/app/jni/SDL
 
       - name: Clone dependencies
         working-directory: build.android/app/jni
