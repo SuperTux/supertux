@@ -346,7 +346,7 @@ GameObjectManager::save_object_change(GameObject& object, const std::string& dat
 {
   if (!m_undo_tracking) return;
 
-  m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), data });
+  m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
   m_redo_stack.clear();
   undo_stack_cleanup();
 }

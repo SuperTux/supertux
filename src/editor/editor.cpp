@@ -107,6 +107,8 @@ Editor::Editor() :
   m_after_setup(false),
   m_tileset(nullptr),
   m_widgets(),
+  m_undo_widget(),
+  m_redo_widget(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
@@ -123,13 +125,6 @@ Editor::Editor() :
   m_layers_widget = layers_widget.get();
   m_overlay_widget = overlay_widget.get();
 
-  auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
-    Vector(10, 10), [this]{ undo(); });
-  auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
-    Vector(60, 10), [this]{ redo(); });
-
-  m_widgets.push_back(std::move(undo_button_widget));
-  m_widgets.push_back(std::move(redo_button_widget));
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
@@ -589,11 +584,12 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
     }
   }
 
-  if (has_unsaved_changes && m_levelloaded)
+  if ((!g_config->editor_undo_tracking || has_unsaved_changes) && m_levelloaded)
   {
     m_enabled = false;
     auto dialog = std::make_unique<Dialog>();
-    dialog->set_text(_("This level contains unsaved changes, do you want to save?"));
+    dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
+                                                      _("This level may contain unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action] {
       check_save_prerequisites([this, action] {
         save_level();
@@ -862,6 +858,33 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
 void
 Editor::retoggle_undo_tracking()
 {
+  if (g_config->editor_undo_tracking && !m_undo_widget)
+  {
+    // Add undo/redo button widgets.
+    auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
+        Vector(10, 10), [this]{ undo(); });
+    auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
+        Vector(60, 10), [this]{ redo(); });
+
+    m_undo_widget = undo_button_widget.get();
+    m_redo_widget = redo_button_widget.get();
+
+    m_widgets.insert(m_widgets.begin(), std::move(undo_button_widget));
+    m_widgets.insert(m_widgets.begin() + 1, std::move(redo_button_widget));
+  }
+  else if (!g_config->editor_undo_tracking && m_undo_widget)
+  {
+    // Remove undo/redo button widgets.
+    m_widgets.erase(std::remove_if(
+                      m_widgets.begin(), m_widgets.end(),
+                      [this](const std::unique_ptr<Widget>& widget) {
+                          const Widget* ptr = widget.get();
+                          return ptr == m_undo_widget || ptr == m_redo_widget;
+                      }), m_widgets.end());
+    m_undo_widget = nullptr;
+    m_redo_widget = nullptr;
+  }
+
   // Toggle undo tracking for all sectors.
   for (const auto& sector : m_level->m_sectors)
     sector->toggle_undo_tracking(g_config->editor_undo_tracking);

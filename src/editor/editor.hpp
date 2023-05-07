@@ -35,6 +35,7 @@
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
+class ButtonWidget;
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -210,6 +211,8 @@ private:
   TileSet* m_tileset;
 
   std::vector<std::unique_ptr<Widget> > m_widgets;
+  ButtonWidget* m_undo_widget;
+  ButtonWidget* m_redo_widget;
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
