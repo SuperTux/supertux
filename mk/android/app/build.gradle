@@ -17,6 +17,7 @@ android {
         targetSdkVersion 33
         versionCode 7000
         versionName "0.7.0"
+        ndkVersion "25.2.9519653"
         externalNativeBuild {
             cmake {
                 version "3.22.1"

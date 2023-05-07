@@ -50,6 +50,7 @@ endfunction()
 
 message("PROJ SRC DIR ${PROJECT_SOURCE_DIR}")
 
+add_subdirectory(SDL)
 add_subdirectory(SDL_image)
 add_subdirectory(SDL_ttf)
 add_subdirectory(boost)
