@@ -37,6 +37,7 @@ protected:
   static const float s_item_spacing;
 
   static const float s_icon_y;
+  static const float s_icon_w;
   static const float s_text_y;
 
 public:

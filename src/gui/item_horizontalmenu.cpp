@@ -32,7 +32,8 @@ const float ItemHorizontalMenu::s_width_offset = 20.f;
 const float ItemHorizontalMenu::s_menu_width_offset = 30.f;
 const float ItemHorizontalMenu::s_item_spacing = 30.f;
 
-const float ItemHorizontalMenu::s_icon_y = 10.f;
+const float ItemHorizontalMenu::s_icon_y = 3.f;
+const float ItemHorizontalMenu::s_icon_w = s_height / 1.5f;
 const float ItemHorizontalMenu::s_text_y = s_height - 30.f;
 
 ItemHorizontalMenu::ItemHorizontalMenu(int id) :
@@ -157,9 +158,9 @@ ItemHorizontalMenu::draw_item(DrawingContext& context, const ItemHorizontalMenu:
                               const Vector& pos, const float& text_width)
 {
   // Draw icon.
-  context.color().draw_surface_scaled(item.icon, Rectf(Vector(pos.x + text_width / 2 - static_cast<float>(item.icon->get_width()) / 2,
-                                                                pos.y + s_icon_y),
-                                                       Sizef(s_height / 2, s_height / 2)), LAYER_GUI);
+  context.color().draw_surface_scaled(item.icon, Rectf(Vector(pos.x + text_width / 2 - s_icon_w / 2,
+                                                              pos.y + s_icon_y),
+                                                       Sizef(s_icon_w, s_icon_w)), LAYER_GUI);
 
   // Draw text.
   context.color().draw_text(Resources::normal_font, item.text,
@@ -172,7 +173,7 @@ ItemHorizontalMenu::draw_item(DrawingContext& context, const ItemHorizontalMenu:
     const float blink = (sinf(g_real_time * math::PI * 1.0f) / 2.0f + 0.5f) * 0.5f + 0.25f;
 
     const float text_height = Resources::normal_font->get_text_height(item.text);
-    const Rectf item_rect(Vector(pos.x - 7.5f, pos.y + s_icon_y - 5.f),
+    const Rectf item_rect(Vector(pos.x - 7.5f, pos.y + s_icon_y),
                           Sizef(text_width + 10.f, s_text_y + text_height));
 
     context.color().draw_filled_rect(item_rect,
