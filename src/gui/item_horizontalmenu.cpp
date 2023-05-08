@@ -41,7 +41,7 @@ ItemHorizontalMenu::ItemHorizontalMenu(int id) :
   m_selected_item(0),
   m_item_range_begin(0),
   m_item_range_end(0),
-  m_width(0),
+  m_width(0.f),
   m_rect()
 {
   on_window_resize();
@@ -80,7 +80,7 @@ ItemHorizontalMenu::calculate_width(int begin)
   float width = s_menu_width_offset;
   for (int i = begin; i < total; i++)
   {
-    int item_width = Resources::normal_font->get_text_width(m_items[i].text) + s_item_spacing;
+    float item_width = Resources::normal_font->get_text_width(m_items[i].text) + s_item_spacing;
     width += item_width;
     if (width > s_max_width - s_menu_width_offset)
     {
@@ -111,7 +111,7 @@ ItemHorizontalMenu::calculate_rect(const Vector& pos)
 {
   m_rect = Rectf(Vector(pos.x + (MenuManager::instance().current_menu()->get_width() - m_width) / 2,
                         pos.y - s_height / 2 - 2.5f),
-                 Size(m_width, s_height));
+                 Sizef(m_width, s_height));
 }
 
 void

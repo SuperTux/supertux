@@ -54,7 +54,7 @@ protected:
   int m_item_range_begin;
   int m_item_range_end;
 
-  int m_width;
+  float m_width;
   Rectf m_rect;
 
 public:
