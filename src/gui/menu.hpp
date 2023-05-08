@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_HPP
 #define HEADER_SUPERTUX_GUI_MENU_HPP
 
-#include "gui/menu_base.hpp"
-
 #include <functional>
 #include <memory>
 #include <SDL.h>
 
+#include "gui/menu_action.hpp"
+#include "math/vector.hpp"
 #include "video/color.hpp"
+#include "video/drawing_context.hpp"
 
 class ItemAction;
 class ItemBack;
@@ -37,6 +38,7 @@ class ItemFile;
 class ItemFloatField;
 class ItemGoTo;
 class ItemHorizontalLine;
+class ItemHorizontalMenu;
 class ItemInactive;
 class ItemIntField;
 class ItemLabel;
@@ -52,11 +54,11 @@ class ItemImages;
 class MenuItem;
 class PathObject;
 
-class Menu : public Base::Menu
+class Menu
 {
 public:
   Menu();
-  virtual ~Menu() override;
+  virtual ~Menu();
 
   virtual void menu_action(MenuItem& item) = 0;
 
@@ -65,14 +67,14 @@ public:
   virtual bool on_back_action() { return true; }
 
   /** Perform actions to bring the menu up to date with configuration changes */
-  virtual void refresh() override {}
+  virtual void refresh() {}
 
-  virtual void on_window_resize() override;
+  virtual void on_window_resize();
 
-  void draw(DrawingContext& context) override;
+  void draw(DrawingContext& context);
 
-  virtual void event(const SDL_Event& event) override;
-  virtual void process_action(const MenuAction& action) override;
+  virtual void event(const SDL_Event& event);
+  virtual void process_action(const MenuAction& action);
 
   ItemHorizontalLine& add_hl();
   ItemLabel& add_label(const std::string& text);
@@ -107,6 +109,7 @@ public:
   ItemImages& add_images(const std::string& image_path, int max_image_width = 0, int max_image_height = 0, int id = -1);
   ItemImages& add_images(const std::vector<std::string>& image_paths, int max_image_width = 0, int max_image_height = 0, int id = -1);
   ItemList& add_list(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id = -1);
+  ItemHorizontalMenu& add_horizontalmenu(int id = -1);
 
   /** Remove all entries from the menu */
   void clear();
@@ -119,11 +122,14 @@ public:
   int get_active_item_id() const;
   void set_active_item(int id);
 
-  Vector get_center_pos() const override { return m_pos; }
+  Vector get_center_pos() const { return m_pos; }
   void set_center_pos(float x, float y);
 
-  float get_width() const override;
-  float get_height() const override;
+  float get_width() const;
+  float get_height() const;
+
+  /** returns true when the text is more important than action */
+  virtual bool is_sensitive() const { return false; }
 
 protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);

@@ -37,11 +37,17 @@ public:
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
 
+  virtual void on_window_resize() {}
+
   /** Returns true when the menu item has no action and therefore can be skipped.
       Useful for labels and horizontal lines.*/
   virtual bool skippable() const {
     return false;
   }
+
+  /** Returns the distance between the items above and below the current
+      menu item. */
+  virtual float get_distance() const { return 0.f; }
 
   /** Returns the minimum width of the menu item. */
   virtual int get_width() const;
@@ -67,6 +73,10 @@ public:
   virtual bool changes_width() const {
     return false;
   }
+
+  /** Returns true when the item should have a blink effect, provided by the menu,
+      when active. */
+  virtual bool select_blink() const { return true; }
 
 private:
   int m_id;

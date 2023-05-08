@@ -20,7 +20,6 @@
 #include "control/input_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu.hpp"
-#include "gui/menu_base.hpp"
 #include "gui/mousecursor.hpp"
 #include "gui/notification.hpp"
 #include "supertux/globals.hpp"
@@ -219,7 +218,7 @@ MenuManager::set_menu(int id, bool skip_transition)
 }
 
 void
-MenuManager::set_menu(std::unique_ptr<Base::Menu> menu, bool skip_transition)
+MenuManager::set_menu(std::unique_ptr<Menu> menu, bool skip_transition)
 {
   if (menu)
   {
@@ -231,7 +230,7 @@ MenuManager::set_menu(std::unique_ptr<Base::Menu> menu, bool skip_transition)
   else
   {
     if (!skip_transition)
-      transition<Base::Menu, Base::Menu>(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(), nullptr);
+      transition<Menu, Menu>(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(), nullptr);
     m_menu_stack.clear();
   }
 
@@ -246,7 +245,7 @@ MenuManager::push_menu(int id, bool skip_transition)
 }
 
 void
-MenuManager::push_menu(std::unique_ptr<Base::Menu> menu, bool skip_transition)
+MenuManager::push_menu(std::unique_ptr<Menu> menu, bool skip_transition)
 {
   assert(menu);
   if (!skip_transition)
@@ -273,7 +272,7 @@ void
 MenuManager::clear_menu_stack(bool skip_transition)
 {
   if (!skip_transition)
-    transition<Base::Menu, Base::Menu>(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(), nullptr);
+    transition<Menu, Menu>(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(), nullptr);
   m_menu_stack.clear();
 }
 
@@ -298,16 +297,22 @@ MenuManager::has_dialog() const
   return m_dialog.current || m_dialog.has_next;
 }
 
-Base::Menu*
+Menu*
 MenuManager::current_menu() const
 {
-  return current_menu<Base::Menu>();
+  if (m_menu_stack.empty())
+    return nullptr;
+  else
+    return m_menu_stack.back().get();
 }
 
-Base::Menu*
+Menu*
 MenuManager::previous_menu() const
 {
-  return previous_menu<Base::Menu>();
+  if (m_menu_stack.size() < 2)
+    return nullptr;
+  else
+    return m_menu_stack.end()[-2].get();
 }
 
 /* EOF */

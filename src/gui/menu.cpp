@@ -28,6 +28,7 @@
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_hl.hpp"
+#include "gui/item_horizontalmenu.hpp"
 #include "gui/item_inactive.hpp"
 #include "gui/item_intfield.hpp"
 #include "gui/item_label.hpp"
@@ -383,6 +384,15 @@ Menu::add_list(const std::string& text, const std::vector<std::string>& items, s
   return *item_ptr;
 }
 
+ItemHorizontalMenu&
+Menu::add_horizontalmenu(int id)
+{
+  auto item = std::make_unique<ItemHorizontalMenu>(id);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
 void
 Menu::clear()
 {
@@ -494,7 +504,7 @@ Menu::draw_item(DrawingContext& context, int index, float y_pos)
 
   pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width), m_active_item == index);
 
-  if (m_active_item == index)
+  if (m_active_item == index && pitem->select_blink())
   {
     float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - static_cast<float>(pitem->get_height())/2 - 2),
@@ -531,7 +541,7 @@ Menu::calculate_height()
   float height = 0;
   for (unsigned i = 0; i < m_items.size(); i++)
   {
-    height += static_cast<float>(m_items[i]->get_height());
+    height += static_cast<float>(m_items[i]->get_height()) + m_items[i]->get_distance() * 2;
     // If a help text is present, make some space at the bottom of the
     // menu so that the last few items don't overlap with the help
     // text.
@@ -558,6 +568,9 @@ Menu::on_window_resize()
 {
   m_pos.x = static_cast<float>(SCREEN_WIDTH) / 2.0f;
   m_pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f;
+
+  for (auto& item : m_items)
+    item->on_window_resize();
 }
 
 void
@@ -567,8 +580,9 @@ Menu::draw(DrawingContext& context)
   float y_pos = m_pos.y - menu_height / 2.0f;
   for (unsigned int i = 0; i < m_items.size(); ++i)
   {
+    y_pos += m_items[i]->get_distance();
     draw_item(context, i, y_pos + static_cast<float>(m_items[i]->get_height())/2);
-    y_pos += static_cast<float>(m_items[i]->get_height());
+    y_pos += static_cast<float>(m_items[i]->get_height()) + m_items[i]->get_distance();
   }
 
   if (!m_items[m_active_item]->get_help().empty())

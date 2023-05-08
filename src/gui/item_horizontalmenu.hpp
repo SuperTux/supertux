@@ -14,10 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_HORIZONTAL_MENU_HPP
-#define HEADER_SUPERTUX_GUI_HORIZONTAL_MENU_HPP
+#ifndef HEADER_SUPERTUX_GUI_ITEM_HORIZONTALMENU_HPP
+#define HEADER_SUPERTUX_GUI_ITEM_HORIZONTALMENU_HPP
 
-#include "gui/menu_base.hpp"
+#include "gui/menu_item.hpp"
 
 #include <vector>
 
@@ -26,19 +26,20 @@
 
 class DrawingContext;
 
-class HorizontalMenu : public Base::Menu
+class ItemHorizontalMenu : public MenuItem
 {
 protected:
   static float s_max_width;
   static const float s_height;
 
   static const float s_width_offset;
+  static const float s_menu_width_offset;
   static const float s_item_spacing;
 
   static const float s_icon_y;
   static const float s_text_y;
 
-protected:
+public:
   struct Item
   {
     const int id;
@@ -53,46 +54,45 @@ protected:
   int m_item_range_begin;
   int m_item_range_end;
 
-  float m_width;
+  int m_width;
   Rectf m_rect;
 
 public:
-  HorizontalMenu();
+  ItemHorizontalMenu(int id = -1);
 
-  void add_item(const std::string& text, const std::string&description,
+  Item& get_selected_item();
+
+  void add_item(const std::string& text, const std::string& description,
                 const std::string& icon_file, int id = -1);
 
-  void on_window_resize() override;
-
-  virtual void draw(DrawingContext& context) override;
-  virtual void draw_item(DrawingContext& context, const int& index,
-                         const float& pos_x, const float& text_width);
+  void draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) override;
+  virtual void draw_item(DrawingContext& context, const Item& item, bool active,
+                         const Vector& pos, const float& text_width);
 
   virtual void process_action(const MenuAction& action) override;
   virtual void event(const SDL_Event& ev) override;
 
-  virtual void menu_action(const Item& item) {}
+  void on_window_resize() override;
+
+  bool changes_width() const override { return true; }
+  bool select_blink() const override { return false; }
+
+  float get_distance() const override { return 10.f; }
+
+  int get_width() const override { return static_cast<int>(m_width); }
+  int get_height() const override { return static_cast<int>(s_height); }
+
+protected:
+  void calculate_width(int begin = 0);
+  void calculate_rect(const Vector& pos);
 
   // Navigation functions
   void go_left();
   void go_right();
 
-  // Get properties
-  float get_width() const override { return m_rect.get_width(); }
-  float get_height() const override { return m_rect.get_height(); }
-  Vector get_center_pos() const override { return m_rect.get_middle(); }
-
-protected:
-  void calculate_width(int begin = 0);
-  void calculate_rect();
-
-  // Overridable properties
-  virtual bool interactable() const { return true; } // The user can interact.
-  virtual float get_y() const { return 0.f; } // Provide the Y position of the menu.
-
 private:
-  HorizontalMenu(const HorizontalMenu&) = delete;
-  HorizontalMenu& operator=(const HorizontalMenu&) = delete;
+  ItemHorizontalMenu(const ItemHorizontalMenu&) = delete;
+  ItemHorizontalMenu& operator=(const ItemHorizontalMenu&) = delete;
 };
 
 #endif

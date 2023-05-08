@@ -34,10 +34,6 @@ class Menu;
 class Notification;
 union SDL_Event;
 
-namespace Base {
-  class Menu;
-}
-
 class MenuManager final : public Currenton<MenuManager>
 {
 private:
@@ -56,7 +52,7 @@ private:
   };
 
 private:
-  std::vector<std::unique_ptr<Base::Menu> > m_menu_stack;
+  std::vector<std::unique_ptr<Menu> > m_menu_stack;
   std::unique_ptr<MenuTransition> m_transition;
 
   float m_menu_repeat_time;
@@ -78,9 +74,9 @@ public:
   void set_notification(std::unique_ptr<Notification> notification);
 
   void set_menu(int id, bool skip_transition = false);
-  void set_menu(std::unique_ptr<Base::Menu> menu, bool skip_transition = false);
+  void set_menu(std::unique_ptr<Menu> menu, bool skip_transition = false);
   void push_menu(int id, bool skip_transition = false);
-  void push_menu(std::unique_ptr<Base::Menu> menu, bool skip_transition = false);
+  void push_menu(std::unique_ptr<Menu> menu, bool skip_transition = false);
   void pop_menu(bool skip_transition = false);
   void clear_menu_stack(bool skip_transition = false);
 
@@ -89,26 +85,8 @@ public:
   bool is_active() const;
   bool has_dialog() const;
 
-  template<class C>
-  C* current_menu() const
-  {
-    if (m_menu_stack.empty())
-      return nullptr;
-    else
-      return dynamic_cast<C*>(m_menu_stack.back().get());
-  }
-
-  template<class C>
-  C* previous_menu() const
-  {
-    if (m_menu_stack.size() < 2)
-      return nullptr;
-    else
-      return dynamic_cast<C*>(m_menu_stack.end()[-2].get());
-  }
-
-  Base::Menu* current_menu() const;
-  Base::Menu* previous_menu() const;
+  Menu* current_menu() const;
+  Menu* previous_menu() const;
 
 private:
   void check_input_action(Control control, MenuAction action,

@@ -17,20 +17,22 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_OPTIONS_SELECT_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_OPTIONS_SELECT_MENU_HPP
 
-#include "gui/horizontal_menu.hpp"
+#include "gui/menu.hpp"
 
-class OptionsSelectMenu final : public HorizontalMenu
+class OptionsSelectMenu final : public Menu
 {
 public:
-  OptionsSelectMenu(bool complete_options = true);
+  OptionsSelectMenu(bool complete = true);
 
-  void menu_action(const Item& item) override;
-
-protected:
-  float get_y() const override;
+  void menu_action(MenuItem& item) override;
 
 private:
-  const bool m_complete_options;
+  enum MenuIDs {
+    MNID_OPTIONCATEGORIES
+  };
+
+private:
+  bool m_complete_options;
 
 private:
   OptionsSelectMenu(const OptionsSelectMenu&) = delete;

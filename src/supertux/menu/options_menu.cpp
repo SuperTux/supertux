@@ -19,7 +19,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/dialog.hpp"
-#include "gui/horizontal_menu.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_toggle.hpp"

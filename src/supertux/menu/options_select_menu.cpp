@@ -16,38 +16,40 @@
 
 #include "supertux/menu/options_select_menu.hpp"
 
+#include "gui/item_horizontalmenu.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "util/gettext.hpp"
-#include "video/video_system.hpp"
-#include "video/viewport.hpp"
 
-OptionsSelectMenu::OptionsSelectMenu(bool complete_options) :
-  m_complete_options(complete_options)
+OptionsSelectMenu::OptionsSelectMenu(bool complete) :
+  m_complete_options(complete)
 {
+  add_label(_("Options"));
+  add_hl();
+
+  ItemHorizontalMenu& horizontal_menu = add_horizontalmenu(MNID_OPTIONCATEGORIES);
   if (m_complete_options) // Currently, locale options are only available when opened completely.
   {
-    add_item(_("Locale"), "", "images/engine/editor/camera.png", OptionsMenu::LOCALE);
+    horizontal_menu.add_item(_("Locale"), "", "images/engine/editor/camera.png", OptionsMenu::LOCALE);
   }
-  add_item(_("Video"), "", "images/engine/editor/camera.png", OptionsMenu::VIDEO);
-  add_item(_("Audio"), "", "images/engine/editor/camera.png", OptionsMenu::AUDIO);
-  add_item(_("Controls"), "", "images/engine/editor/camera.png", OptionsMenu::CONTROLS);
-  add_item(_("Extras"), "", "images/engine/editor/camera.png", OptionsMenu::EXTRAS);
-  add_item(_("Advanced"), "", "images/engine/editor/camera.png", OptionsMenu::ADVANCED);
+  horizontal_menu.add_item(_("Video"), "", "images/engine/editor/camera.png", OptionsMenu::VIDEO);
+  horizontal_menu.add_item(_("Audio"), "", "images/engine/editor/camera.png", OptionsMenu::AUDIO);
+  horizontal_menu.add_item(_("Controls"), "", "images/engine/editor/camera.png", OptionsMenu::CONTROLS);
+  horizontal_menu.add_item(_("Extras"), "", "images/engine/editor/camera.png", OptionsMenu::EXTRAS);
+  horizontal_menu.add_item(_("Advanced"), "", "images/engine/editor/camera.png", OptionsMenu::ADVANCED);
+
+  add_hl();
+  add_back(_("Back"));
 }
 
 void
-OptionsSelectMenu::menu_action(const OptionsSelectMenu::Item& item)
+OptionsSelectMenu::menu_action(MenuItem& item)
 {
-  MenuManager::instance().push_menu(std::make_unique<OptionsMenu>(static_cast<OptionsMenu::Type>(item.id), m_complete_options));
-}
-
-
-float
-OptionsSelectMenu::get_y() const
-{
-  return static_cast<float>(SCREEN_HEIGHT) / 2 - 35.0f;
+  if (item.get_id() == MNID_OPTIONCATEGORIES)
+  {
+    const int& type = static_cast<ItemHorizontalMenu&>(item).get_selected_item().id;
+    MenuManager::instance().push_menu(std::make_unique<OptionsMenu>(static_cast<OptionsMenu::Type>(type), m_complete_options));
+  }
 }
 
 /* EOF */
