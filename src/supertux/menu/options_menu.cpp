@@ -176,11 +176,6 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
 
-#ifndef HIDE_NONMOBILE_OPTIONS
-      if (g_config->developer_mode)
-#endif
-        add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
-
       if (g_config->is_christmas() || g_config->christmas_mode)
         add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
 
@@ -197,6 +192,11 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
     case ADVANCED: /** ADVANCED */
     {
       insert_label(_("Advanced"));
+
+#ifndef HIDE_NONMOBILE_OPTIONS
+      if (g_config->developer_mode)
+#endif
+        add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
 
       add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog).set_help(_("Confirm aborting level"));
 

@@ -42,6 +42,7 @@
 #include "supertux/menu/main_menu.hpp"
 #include "supertux/menu/multiplayer_menu.hpp"
 #include "supertux/menu/multiplayer_players_menu.hpp"
+#include "supertux/menu/options_select_menu.hpp"
 #include "supertux/menu/particle_editor_menu.hpp"
 #include "supertux/menu/particle_editor_save_as.hpp"
 #include "supertux/menu/particle_editor_open.hpp"
@@ -83,6 +84,12 @@ MenuStorage::create(MenuId menu_id)
 
     case LANGUAGE_MENU:
       return std::make_unique<LanguageMenu>();
+
+    case OPTIONS_MENU:
+      return std::make_unique<OptionsSelectMenu>(true);
+
+    case INGAME_OPTIONS_MENU:
+      return std::make_unique<OptionsSelectMenu>(false);
 
     case PROFILE_MENU:
       return std::make_unique<ProfileMenu>();

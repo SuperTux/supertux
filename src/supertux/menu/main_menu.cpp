@@ -27,7 +27,6 @@
 #include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_select_menu.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/world.hpp"
@@ -57,7 +56,7 @@ MainMenu::MainMenu()
 #ifdef __EMSCRIPTEN__
   add_entry(_("Manage Assets"), MenuStorage::ASSET_MENU);
 #endif
-  add_entry(MNID_OPTIONS, _("Options"));
+  add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
   add_entry(MNID_CREDITS, _("Credits"));
 #ifndef STEAM_BUILD
@@ -83,12 +82,6 @@ MainMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
-    case MNID_OPTIONS:
-    {
-      MenuManager::instance().push_menu(std::make_unique<OptionsSelectMenu>(true));
-      break;
-    }
-
     case MNID_CREDITS:
     {
       SoundManager::current()->stop_music(0.2f);

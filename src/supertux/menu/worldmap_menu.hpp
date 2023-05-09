@@ -29,7 +29,6 @@ public:
 private:
   enum WorldMapMenuIDs {
     MNID_RETURNWORLDMAP,
-    MNID_OPTIONS,
     MNID_QUITWORLDMAP
   };
 

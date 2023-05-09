@@ -30,7 +30,6 @@ public:
 
 private:
   enum MainMenuIDs {
-    MNID_OPTIONS,
     MNID_LEVELEDITOR,
     MNID_CREDITS,
     MNID_DONATE,

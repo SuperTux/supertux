@@ -32,6 +32,8 @@ public:
   enum MenuId {
     NO_MENU,
     MAIN_MENU,
+    OPTIONS_MENU,
+    INGAME_OPTIONS_MENU,
     PROFILE_MENU,
     WORLDSET_MENU,
     CONTRIB_MENU,

@@ -24,7 +24,6 @@
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_select_menu.hpp"
 #include "supertux/sector.hpp"
 #include "object/player.hpp"
 #include "util/gettext.hpp"
@@ -57,7 +56,7 @@ GameMenu::GameMenu() :
     add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
   }
 
-  add_entry(MNID_OPTIONS, _("Options"));
+  add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
 }
@@ -93,10 +92,6 @@ GameMenu::menu_action(MenuItem& item)
       {
         reset_checkpoint_callback();
       }
-      break;
-
-    case MNID_OPTIONS:
-      MenuManager::instance().push_menu(std::make_unique<OptionsSelectMenu>(false));
       break;
 
     case MNID_ABORTLEVEL:
