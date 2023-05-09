@@ -59,8 +59,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
   m_levelfile(levelfile_),
-  m_spawn_points(),
-  m_checkpoint_activated(false),
+  m_spawnpoints(),
+  m_activated_checkpoint(),
   m_newsector(),
   m_newspawnpoint(),
   m_invincibilitytimeleft(),
@@ -109,7 +109,7 @@ GameSession::reset_level()
   currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
 
   clear_respawn_points();
-  m_checkpoint_activated = false;
+  m_activated_checkpoint = nullptr;
 }
 
 int
@@ -161,21 +161,21 @@ GameSession::restart_level(bool after_death)
     m_level = LevelParser::from_file(m_levelfile, false, false);
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
-    const GameSession::SpawnPoint* spawnpoint;
-    if (m_checkpoint_activated && reset_checkpoint_button) // Checkpoint is activated and respawn from it is requested.
+    const GameSession::SpawnPoint* spawnpoint = nullptr;
+    if (m_activated_checkpoint && reset_checkpoint_button) // Checkpoint is activated and respawn from it is requested.
     {
       reset_checkpoint_button = false;
 
       // Attempt to find the last checkpoint's spawnpoint.
-      for (int i = static_cast<int>(m_spawn_points.size()) - 1; i >= 0; i--)
+      for (int i = static_cast<int>(m_spawnpoints.size()) - 1; i >= 0; i--)
       {
-        if (m_spawn_points.at(i).is_checkpoint) // Checkpoint found.
+        if (m_spawnpoints.at(i).is_checkpoint) // Checkpoint found.
         {
-          spawnpoint = &m_spawn_points.at(i);
+          spawnpoint = &m_spawnpoints.at(i);
 
           // Remove any spawnpoints after the checkpoint one.
-          if (i < m_spawn_points.size() - 1)
-            m_spawn_points.erase(m_spawn_points.begin() + i + 1, m_spawn_points.end());
+          if (i < static_cast<int>(m_spawnpoints.size()) - 1)
+            m_spawnpoints.erase(m_spawnpoints.begin() + i + 1, m_spawnpoints.end());
 
           break;
         }
@@ -192,7 +192,7 @@ GameSession::restart_level(bool after_death)
     }
     else // Respawn from the start position.
     {
-      spawnpoint = &m_spawn_points.front();
+      spawnpoint = &m_spawnpoints.front();
 
       m_play_time = 0; // Reset play time.
     }
@@ -502,7 +502,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     std::string current_music = m_currentsector->get_singleton_by_type<MusicObject>().get_music();
     if (sector == nullptr) {
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
-      sector = m_level->get_sector(m_spawn_points.at(0).sector); // Assign start sector.
+      sector = m_level->get_sector(m_spawnpoints.at(0).sector); // Assign start sector.
     }
     assert(m_currentsector != nullptr);
     m_currentsector->stop_looping_sounds();
@@ -663,63 +663,55 @@ void
 GameSession::set_start_point(const std::string& sector,
                              const std::string& spawnpoint)
 {
-  if (!m_spawn_points.empty()) m_spawn_points.erase(m_spawn_points.begin());
-  m_spawn_points.insert(m_spawn_points.begin(), { sector, spawnpoint });
+  if (!m_spawnpoints.empty()) m_spawnpoints.erase(m_spawnpoints.begin());
+  m_spawnpoints.insert(m_spawnpoints.begin(), { sector, spawnpoint });
 }
 
 void
 GameSession::set_start_pos(const std::string& sector, const Vector& pos)
 {
-  if (!m_spawn_points.empty()) m_spawn_points.erase(m_spawn_points.begin());
-  m_spawn_points.insert(m_spawn_points.begin(), { sector, pos });
+  if (!m_spawnpoints.empty()) m_spawnpoints.erase(m_spawnpoints.begin());
+  m_spawnpoints.insert(m_spawnpoints.begin(), { sector, pos });
 }
 
 void
 GameSession::set_respawn_point(const std::string& sector,
                                const std::string& spawnpoint)
 {
-  m_spawn_points.push_back({ sector, spawnpoint });
+  m_spawnpoints.push_back({ sector, spawnpoint });
 }
 
 void
 GameSession::set_respawn_pos(const std::string& sector, const Vector& pos)
 {
-  m_spawn_points.push_back({ sector, pos });
+  m_spawnpoints.push_back({ sector, pos });
 }
 
 void
 GameSession::clear_respawn_points()
 {
   // Delete all respawn points (all, other than the start one).
-  if (m_spawn_points.size() > 1)
-    m_spawn_points.erase(m_spawn_points.begin() + 1, m_spawn_points.end());
+  if (m_spawnpoints.size() > 1)
+    m_spawnpoints.erase(m_spawnpoints.begin() + 1, m_spawnpoints.end());
 }
 
 const GameSession::SpawnPoint&
 GameSession::get_last_spawnpoint() const
 {
-  return m_spawn_points.back();
+  return m_spawnpoints.back();
 }
 
 void
 GameSession::set_checkpoint_pos(const std::string& sector, const Vector& pos)
 {
-  m_spawn_points.push_back({ sector, pos, true });
-  m_checkpoint_activated = true;
+  m_spawnpoints.push_back({ sector, pos, true });
+  m_activated_checkpoint = &m_spawnpoints.back();
 }
 
 const GameSession::SpawnPoint*
 GameSession::get_active_checkpoint_spawnpoint() const
 {
-  if (!m_checkpoint_activated) return nullptr;
-
-  // Attempt to find the index of the last checkpoint's spawnpoint.
-  for (int i = static_cast<int>(m_spawn_points.size()) - 1; i >= 0; i--)
-  {
-    if (m_spawn_points.at(i).is_checkpoint)
-      return &m_spawn_points.at(i);
-  }
-  return nullptr;
+  return m_activated_checkpoint;
 }
 
 std::string

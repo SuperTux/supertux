@@ -57,10 +57,10 @@ TextArray::set_fade_time(float fadetime)
 }
 
 void
-TextArray::set_text_index(int index_)
+TextArray::set_text_index(int index)
 {
   SCRIPT_GUARD_VOID;
-  object.set_text_index(index_);
+  object.set_text_index(index);
 }
 
 void
@@ -78,10 +78,10 @@ TextArray::prev_text()
 }
 
 void
-TextArray::set_keep_visible(bool keep_visible_)
+TextArray::set_keep_visible(bool keep_visible)
 {
   SCRIPT_GUARD_VOID;
-  object.set_keep_visible(keep_visible_);
+  object.set_keep_visible(keep_visible);
 }
 
 void
@@ -140,6 +140,26 @@ TextArray::fade_out(float fadetime)
 
   if (auto* textItem = object.get_current_text_item()) {
     textItem->text_object.fade_out(fadetime);
+  }
+}
+
+void
+TextArray::grow_in(float fadetime)
+{
+  SCRIPT_GUARD_VOID;
+
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.grow_in(fadetime);
+  }
+}
+
+void
+TextArray::grow_out(float fadetime)
+{
+  SCRIPT_GUARD_VOID;
+
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.grow_out(fadetime);
   }
 }
 
@@ -218,6 +238,16 @@ TextArray::get_anchor_point() const
     return textItem->text_object.get_anchor_point();
   } else {
     return -1;
+  }
+}
+
+void
+TextArray::set_anchor_offset(float x, float y)
+{
+  SCRIPT_GUARD_VOID;
+
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.set_anchor_offset(Vector(x, y));
   }
 }
 

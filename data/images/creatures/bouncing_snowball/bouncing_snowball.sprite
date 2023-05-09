@@ -1,66 +1,66 @@
 (supertux-sprite
  (action
   (name "left")
-  (hitbox 17 14 31 31)
+  (hitbox 8 10 32 32)
   (fps 20)
-  (images "bs1.png"
-          "bs2.png"
-          "bs3.png"
-          "bs4.png"
-          "bs5.png"
-          "bs6.png"
-		  "bs7.png"
-		  "bs8.png"
-		  "bs8.png"
-		  "bs8.png"
-		  "bs8.png"
-		  "bs8.png"))
+  (images "jump-0.png"
+          "jump-1.png"
+		  "jump-2.png"
+		  "jump-3.png"
+		  "jump-4.png"
+		  "jump-5.png"
+		  "jump-6.png"
+		  "jump-7.png"
+		  "jump-7.png"
+		  "jump-7.png"
+		  "jump-7.png"
+		  "jump-7.png"))
 
  (action
   (name "right")
-  (hitbox 17 14 31 31)
+  (hitbox 8 10 32 32)
   (fps 20)
   (mirror-action "left"))
 
  (action
   (name "left-down")
   (loops 1)
-  (hitbox 17 14 31 31)
+  (hitbox 8 10 32 32)
   (fps 30)
-  (images "bs8.png"
-		  "bounce1.png"
-		  "bounce2.png"
-		  "bounce3.png"))
+  (images "jump-7.png"
+		  "bounce-0.png"
+		  "bounce-1.png"
+		  "bounce-2.png"))
 
  (action
   (name "right-down")
   (loops 1)
-  (hitbox 17 14 31 31)
+  (hitbox 8 10 32 32)
   (fps 30)
   (mirror-action "left-down"))
   
  (action
   (name "left-up")
   (loops 1)
-  (hitbox 17 14 31 31)
+  (hitbox 8 10 32 32)
   (fps 30)
-  (images "bounce3.png"
-		  "bounce3.png"
-		  "bounce2.png"
-		  "bounce1.png"
-		  "bs8.png"))
+  (images "bounce-2.png"
+		  "bounce-2.png"
+		  "bounce-1.png"
+		  "bounce-0.png"
+		  "jump-7.png"))
 
  (action
   (name "right-up")
   (loops 1)
-  (hitbox 17 14 31 31)
+  (hitbox 8 10 32 32)
   (fps 30)
   (mirror-action "left-up"))
 
  (action
   (name "melting-left")
   (fps 20)
-  (hitbox 1 0 31.8 31.8)
+  (hitbox 8 10 32 32)
   (images "melting-0.png"
           "melting-1.png"
           "melting-2.png"
@@ -69,11 +69,16 @@
  (action
   (name "melting-right")
   (fps 20)
-  (hitbox 1 0 31.8 31.8)
+  (hitbox 8 10 32 32)
   (mirror-action "melting-left"))
 
  (action
-  (name "squished")
-  (hitbox 1 -19 31.8 31.8)
-  (images "../snowball/squished-left.png"))
+    (name "squished-left")
+    (hitbox 8 13 32 32)
+    (images "../snowball/snowball-squished.png"))
+
+  (action
+    (name "squished-right")
+    (hitbox 8 13 32 32)
+    (mirror-action "squished-left"))
 )

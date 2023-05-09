@@ -44,13 +44,18 @@ public:
   virtual void event(Player& player, EventType type) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void on_flip(float height) override;
+  virtual bool is_locked() const { return m_locked; }
+  virtual void unlock();
+  Color get_lock_color() const { return lock_color; }
 
 private:
   enum DoorState {
     CLOSED,
     OPENING,
     OPEN,
-    CLOSING
+    CLOSING,
+    LOCKED,
+    UNLOCKING
   };
 
 private:
@@ -60,8 +65,13 @@ private:
   std::string script;
   std::string sprite_name;
   SpritePtr sprite; /**< "door" sprite to render */
+  SpritePtr lock_sprite;
   Timer stay_open_timer; /**< time until door will close again */
+  Timer unlocking_timer;
+  Timer lock_warn_timer;
   Flip m_flip;
+  bool m_locked;
+  Color lock_color;
 
 private:
   Door(const Door&) = delete;

@@ -25,6 +25,11 @@ class Rock;
 
 namespace scripting {
 
+/**
+ * @summary A ""Rock"" that was given a name can be controlled by scripts.
+ * @instances A ""Rock"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Rock final
 #ifndef SCRIPTING_API
   : public GameObject<::Rock>

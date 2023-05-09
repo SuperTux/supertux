@@ -26,6 +26,10 @@ class Sector;
 
 namespace scripting {
 
+/**
+ * @summary This class provides additional controlling functions for a sector, other than the ones listed at ${SRG_REF_GameObjectManager}.
+ * @instances An instance under ""sector.settings"" is available from scripts and the console.
+ */
 class Sector final : public GameObjectManager
 {
 #ifndef SCRIPTING_API
@@ -41,6 +45,10 @@ private:
 #endif
 
 public:
+  /**
+   * Sets the sector's gravity.
+   * @param float $gravity
+   */
   void set_gravity(float gravity);
 };
 

@@ -99,6 +99,7 @@
 #include "object/invisible_block.hpp"
 #include "object/invisible_wall.hpp"
 #include "object/ispy.hpp"
+#include "object/key.hpp"
 #include "object/lantern.hpp"
 #include "object/level_time.hpp"
 #include "object/lit_object.hpp"
@@ -253,6 +254,7 @@ GameObjectFactory::init_factories()
   add_factory<InvisibleBlock>("invisible_block");
   add_factory<InvisibleWall>("invisible_wall");
   add_factory<Ispy>("ispy");
+  add_factory<Key>("key");
   add_factory<Lantern>("lantern", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<LevelTime>("leveltime");
   add_factory<LitObject>("lit-object");

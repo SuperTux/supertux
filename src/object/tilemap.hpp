@@ -71,6 +71,9 @@ public:
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
 
+  /** Instantly jump to the given node */
+  void jump_to_node(int node_no);
+
   /** Start moving tilemap */
   void start_moving();
 

@@ -26,6 +26,11 @@ class Dispenser;
 
 namespace scripting {
 
+/**
+ * @summary A ""Dispenser"" that was given a name can be controlled by scripts.
+ * @instances A ""Dispenser"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Dispenser final : public scripting::BadGuy
 #ifndef SCRIPTING_API
   , virtual public GameObject<::Dispenser>
@@ -46,11 +51,11 @@ private:
 
 public:
   /**
-   * Make the Dispenser start dispensing BadGuys
+   * Makes the dispenser start dispensing badguys.
    */
   void activate();
   /**
-   * Make the Dispenser stop dispensing BadGuys
+   * Stops the dispenser from dispensing badguys.
    */
   void deactivate();
 };

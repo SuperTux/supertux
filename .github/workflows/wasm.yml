@@ -74,6 +74,13 @@ jobs:
           ./vcpkg/vcpkg install glm:wasm32-emscripten
           ./vcpkg/vcpkg install zlib:wasm32-emscripten
 
+      - name: Step To run on failure
+        if: ${{ failure() }}
+        run: | 
+          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-dbg-CMakeCache.txt.log
+          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-rel-CMakeCache.txt.log
+          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-out.log
+
       - name: Patch SDL_ttf
         working-directory: external/SDL_ttf
         run: git apply ../../mk/emscripten/SDL_ttf.patch

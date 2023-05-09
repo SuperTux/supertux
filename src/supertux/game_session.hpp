@@ -102,7 +102,6 @@ public:
 
   void set_checkpoint_pos(const std::string& sectorname, const Vector& pos);
   const SpawnPoint* get_active_checkpoint_spawnpoint() const;
-  bool has_active_checkpoint() const { return m_checkpoint_activated; }
 
   Sector& get_current_sector() const { return *m_currentsector; }
   Level& get_current_level() const { return *m_level; }
@@ -160,8 +159,8 @@ private:
   std::string m_levelfile;
 
   // Spawnpoints
-  std::vector<SpawnPoint> m_spawn_points;
-  bool m_checkpoint_activated;
+  std::vector<SpawnPoint> m_spawnpoints;
+  const SpawnPoint* m_activated_checkpoint;
 
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;

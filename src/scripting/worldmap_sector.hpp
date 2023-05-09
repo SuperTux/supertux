@@ -29,13 +29,17 @@ namespace worldmap {
 }
 
 /** Macro to allow quick and easy access to the parent worldmap. **/
-#define SCRIPT_GUARD_WORLDMAP                                               \
+#define SCRIPT_GUARD_WORLDMAP               \
   auto& worldmap = m_parent->get_worldmap()
 
 #endif
 
 namespace scripting {
 
+/**
+ * @summary This class provides additional controlling functions for a worldmap sector, other than the ones listed at ${SRG_REF_GameObjectManager}.
+ * @instances An instance under ""worldmap.settings"" is available from scripts and the console.
+ */
 class WorldMapSector final : public GameObjectManager
 {
 #ifndef SCRIPTING_API
@@ -51,22 +55,32 @@ private:
 #endif
 
 public:
-  float get_tux_x();
-  float get_tux_y();
+  /**
+   * Gets Tux's X position on the worldmap.
+   */
+  float get_tux_x() const;
+  /**
+   * Gets Tux's Y position on the worldmap.
+   */
+  float get_tux_y() const;
 
   /**
    * Changes the current sector of the worldmap to a specified new sector.
+   * @param string $sector
    */
   void set_sector(const std::string& sector);
 
   /**
    * Changes the current sector of the worldmap to a specified new sector,
-   * as well as moves Tux to a specified spawnpoint.
+     moving Tux to the specified spawnpoint.
+   * @param string $sector
+   * @param string $spawnpoint
    */
   void spawn(const std::string& sector, const std::string& spawnpoint);
 
   /**
    * Moves Tux to a specified spawnpoint.
+   * @param string $spawnpoint
    */
   void move_to_spawnpoint(const std::string& spawnpoint);
 };
