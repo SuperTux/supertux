@@ -34,6 +34,7 @@
 #include "worldmap/world_select.hpp"
 #include "worldmap/worldmap_parser.hpp"
 #include "worldmap/worldmap_screen.hpp"
+#include "worldmap/worldmap_sector.hpp"
 #include "worldmap/worldmap_state.hpp"
 
 namespace worldmap {
@@ -161,8 +162,6 @@ WorldMap::on_escape_press()
   if (!MenuManager::instance().is_active()) {
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_MENU);
     m_sector->get_tux().set_direction(Direction::NONE); // stop tux movement when menu is called
-  } else {
-    MenuManager::instance().clear_menu_stack();
   }
 }
 

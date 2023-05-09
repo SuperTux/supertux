@@ -30,14 +30,16 @@ class TileSet;
 
 namespace worldmap {
 
+class WorldMapSector;
+
 class WorldMap final : public Level,
                        public Currenton<WorldMap>
 {
-public:
   friend class WorldMapParser;
   friend class WorldMapSector;
   friend class WorldMapState;
 
+public:
   static Color s_level_title_color;
   static Color s_message_color;
   static Color s_teleporter_message_color;

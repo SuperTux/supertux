@@ -76,7 +76,7 @@ SectorParser::from_nothing(Level& level)
   return sector;
 }
 
-SectorParser::SectorParser(SectorBase& sector, bool editable) :
+SectorParser::SectorParser(Base::Sector& sector, bool editable) :
   m_sector(sector),
   m_editable(editable)
 {
@@ -102,7 +102,7 @@ SectorParser::parse_object(const std::string& name, const ReaderMapping& reader)
 bool
 SectorParser::parse_object_additional(const std::string& name, const ReaderMapping& reader)
 {
-  return false; // No additional object parsing rules, so continue with regular object parsing.
+  return false; // No additional object parsing rules, continue with regular object parsing.
 }
 
 void

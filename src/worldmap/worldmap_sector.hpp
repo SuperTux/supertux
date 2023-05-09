@@ -19,7 +19,7 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_SECTOR_HPP
 #define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_SECTOR_HPP
 
-#include "supertux/sector.hpp"
+#include "supertux/sector_base.hpp"
 
 #include "supertux/timer.hpp"
 #include "worldmap/worldmap.hpp"
@@ -35,14 +35,14 @@ class Teleporter;
 class Tux;
 class WorldMap;
 
-/** Worldmap sector, which stores various GameObjects.
-    Worldmap variant of Sector, without many of its features that are not needed here. */
-class WorldMapSector final : public SectorBase
+/** Represents one of (potentially) multiple, separate parts of a WorldMap.
+    WorldMap variant of Sector, utilizing only its base features. */
+class WorldMapSector final : public Base::Sector
 {
-public:
   friend class WorldMapSectorParser;
   friend class WorldMapState;
 
+public:
   static WorldMapSector* current();
 
 public:
@@ -125,7 +125,7 @@ private:
   Timer m_passive_message_timer;
   std::string m_passive_message;
 
-  std::vector<std::unique_ptr<SpawnPoint> > m_spawn_points;
+  std::vector<std::unique_ptr<SpawnPoint> > m_spawnpoints;
 
   bool m_main_is_default;
   std::string m_initial_fade_tilemap;

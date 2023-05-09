@@ -30,7 +30,6 @@ class LevelTile;
 class WorldMap;
 class WorldMapSector;
 
-/* WorldMap parser */
 class WorldMapParser final : public LevelParser
 {
 private:
@@ -51,7 +50,7 @@ private:
   WorldMapParser& operator=(const WorldMapParser&) = delete;
 };
 
-/* WorldMapSector parser */
+
 class WorldMapSectorParser final : public SectorParser
 {
 public:

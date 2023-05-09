@@ -1,6 +1,5 @@
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,15 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 
+#include "supertux/sector_base.hpp"
+
 #include <vector>
 #include <stdint.h>
 
 #include "math/anchor_point.hpp"
 #include "math/easing.hpp"
 #include "math/fwd.hpp"
-#include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
-#include "supertux/game_object_manager.hpp"
 #include "supertux/tile.hpp"
 #include "video/color.hpp"
 
@@ -39,7 +38,6 @@ class CollisionSystem;
 class CollisionGroundMovementManager;
 class DisplayEffect;
 class DrawingContext;
-class Level;
 class MovingObject;
 class Player;
 class ReaderMapping;
@@ -48,50 +46,9 @@ class Size;
 class TileMap;
 class Writer;
 
-/** A base for the sector class. Contains main properties and functions. */
-class SectorBase : public GameObjectManager
-{
-public:
-  SectorBase(Level& parent, const std::string& type);
-  virtual ~SectorBase() {}
-
-  /** Needs to be called after parsing to finish the construction of
-      the Sector before using it. */
-  virtual void finish_construction(bool editable) {}
-
-  virtual void draw(DrawingContext& context) = 0;
-  virtual void update(float dt_sec) = 0;
-
-  Level& get_level() const;
-
-  void set_name(const std::string& name_) { m_name = name_; }
-  const std::string& get_name() const { return m_name; }
-
-  /** set gravity throughout sector */
-  void set_gravity(float gravity);
-  float get_gravity() const;
-
-  void set_init_script(const std::string& init_script) { m_init_script = init_script; }
-  void run_script(const std::string& script, const std::string& sourcename);
-
-protected:
-  Level& m_level; // Parent level
-
-  std::string m_name;
-  std::string m_init_script;
-  float m_gravity;
-
-  std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
-
-private:
-  SectorBase(const SectorBase&) = delete;
-  SectorBase& operator=(const SectorBase&) = delete;
-};
-
-
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */
-class Sector final : public SectorBase
+class Sector final : public Base::Sector
 {
 public:
   friend class CollisionSystem;

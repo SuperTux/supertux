@@ -18,6 +18,7 @@
 #include "worldmap/worldmap_parser.hpp"
 
 #include "physfs/util.hpp"
+#include "supertux/d_scope.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
@@ -49,14 +50,13 @@ WorldMapParser::load(const std::string& filepath)
   LevelParser::load(filepath);
 }
 
-
 void
 WorldMapParser::add_sector(const ReaderMapping& reader)
 {
   m_worldmap.add_sector(WorldMapSectorParser::from_reader(m_worldmap, reader));
 }
 
-/* WorldMapSector parser */
+
 
 std::unique_ptr<WorldMapSector>
 WorldMapSectorParser::from_reader(WorldMap& worldmap, const ReaderMapping& reader)
@@ -74,7 +74,6 @@ WorldMapSectorParser::WorldMapSectorParser(WorldMapSector& sector) :
   m_worldmap_sector(sector)
 {
 }
-
 
 bool
 WorldMapSectorParser::parse_object_additional(const std::string& name, const ReaderMapping& reader)
@@ -103,13 +102,12 @@ WorldMapSectorParser::parse_object_additional(const std::string& name, const Rea
   }
   else if (name == "worldmap-spawnpoint")
   {
-    m_worldmap_sector.m_spawn_points.push_back(std::make_unique<SpawnPoint>(reader));
+    m_worldmap_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>(reader));
     return true;
   }
 
   return false;
 }
-
 
 void
 WorldMapSectorParser::load_level_information(LevelTile& level_tile)

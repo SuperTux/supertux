@@ -36,6 +36,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/shrinkfade.hpp"
+#include "supertux/tile.hpp"
 #include "util/file_system.hpp"
 #include "worldmap/camera.hpp"
 #include "worldmap/level_tile.hpp"
@@ -55,13 +56,13 @@ WorldMapSector::current()
 
 
 WorldMapSector::WorldMapSector(WorldMap& parent) :
-  SectorBase(parent, "worldmap"),
+  Base::Sector(parent, "worldmap"),
   m_parent(parent),
   m_camera(new Camera),
   m_tux(&add<Tux>(&parent)),
   m_passive_message_timer(),
   m_passive_message(),
-  m_spawn_points(),
+  m_spawnpoints(),
   m_main_is_default(true),
   m_initial_fade_tilemap(),
   m_fade_direction()
@@ -73,7 +74,7 @@ WorldMapSector::WorldMapSector(WorldMap& parent) :
 
 WorldMapSector::~WorldMapSector()
 {
-  m_spawn_points.clear();
+  m_spawnpoints.clear();
 
   clear_objects();
 }
@@ -495,7 +496,7 @@ WorldMapSector::finished_level(Level* gamelevel)
 SpawnPoint*
 WorldMapSector::get_spawnpoint_by_name(const std::string& spawnpoint_name) const
 {
-  for (const auto& sp : m_spawn_points)
+  for (const auto& sp : m_spawnpoints)
   {
     if (sp->get_name() == spawnpoint_name)
       return sp.get();

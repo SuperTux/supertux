@@ -25,7 +25,10 @@ class GameObject;
 class Level;
 class ReaderMapping;
 class Sector;
-class SectorBase;
+
+namespace Base {
+  class Sector;
+}
 
 class SectorParser
 {
@@ -35,7 +38,7 @@ public:
   static std::unique_ptr<Sector> from_nothing(Level& level);
 
 protected:
-  SectorParser(SectorBase& sector, bool editable);
+  SectorParser(Base::Sector& sector, bool editable);
 
   void parse_old_format(const ReaderMapping& reader);
   void parse(const ReaderMapping& sector);
@@ -48,7 +51,7 @@ protected:
   virtual bool parse_object_additional(const std::string& name, const ReaderMapping& reader);
 
 protected:
-  SectorBase& m_sector;
+  Base::Sector& m_sector;
   bool m_editable;
 
 private:

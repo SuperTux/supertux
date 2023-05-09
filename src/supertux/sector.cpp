@@ -1,6 +1,5 @@
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -70,49 +69,8 @@ PlayerStatus dummy_player_status(1);
 } // namespace
 
 
-/* Initialize the sector base. */
-SectorBase::SectorBase(Level& parent, const std::string& type) :
-  m_level(parent),
-  m_name(),
-  m_init_script(),
-  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type)),
-  m_gravity(10.0f)
-{
-}
-
-Level&
-SectorBase::get_level() const
-{
-  return m_level;
-}
-
-void
-SectorBase::set_gravity(float gravity)
-{
-  if (gravity != 10.0f)
-  {
-    log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects: " << gravity << std::endl;
-  }
-
-  m_gravity = gravity;
-}
-
-float
-SectorBase::get_gravity() const
-{
-  return m_gravity;
-}
-
-void
-SectorBase::run_script(const std::string& script, const std::string& sourcename)
-{
-  m_squirrel_environment->run_script(script, sourcename);
-}
-
-
-/* Initialize the sector. */
 Sector::Sector(Level& parent) :
-  SectorBase(parent, "sector"),
+  Base::Sector(parent, "sector"),
   m_fully_constructed(false),
   m_foremost_layer(),
   m_collision_system(new CollisionSystem(*this))
