@@ -1,4 +1,11 @@
-find_package(glm QUIET)
+if(ANDROID)
+  find_library(glm::glm glm)
+  if(TARGET glm::glm)
+    set(glm_FOUND TRUE)
+  endif()
+else()
+  find_package(glm QUIET)
+endif()
 
 if(glm_FOUND)
   if(TARGET glm::glm)

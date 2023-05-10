@@ -53,9 +53,11 @@ jobs:
           ../../../.github/scripts/clone_dependency.sh libsdl-org/SDL_ttf release-2.20.2
           ../../../.github/scripts/clone_dependency.sh boostorg/boost boost-1.82.0
           ../../../.github/scripts/clone_dependency.sh curl/curl curl-8_0_1
+          ../../../.github/scripts/clone_dependency.sh glennrp/libpng v1.6.39
           ../../../.github/scripts/clone_dependency.sh fmtlib/fmt 9.1.0
           ../../../.github/scripts/clone_dependency.sh g-truc/glm 0.9.9.8
           ../../../.github/scripts/clone_dependency.sh xiph/vorbis v1.3.7
+          ../../../.github/scripts/clone_dependency.sh xiph/ogg v1.3.5
           ../../../.github/scripts/clone_dependency.sh kcat/openal-soft 1.23.1
           #TODO: i have to take a look into opengl later
           #TODO: i also have to take a look at libpartiozip
@@ -63,8 +65,8 @@ jobs:
           ../../../.github/scripts/clone_dependency.sh driedfruit/SDL_SavePNG master
           ../../../.github/scripts/clone_dependency.sh SuperTux/sexp-cpp master
           ../../../.github/scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
-          ../../../.github/scripts/clone_dependency.sh SuperTux/tinygettext tinygettext-supertux
-          ../../../.github/scripts/clone_dependency.sh SuperTux/supertux master
+          ../../../.github/scripts/clone_dependency.sh tinygettext/tinygettext v0.1.0
+          ln -s ../../../ supertux
 
       - name: Cache dependencies
         uses: actions/cache@v1.2.1

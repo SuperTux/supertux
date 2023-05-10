@@ -1,4 +1,9 @@
-find_package(OggVorbis REQUIRED)
+if(ANDROID)
+  #FIXME: ogg vorbis package not working
+  find_library(OggVorbis vorbis)
+else()
+  find_package(OggVorbis REQUIRED)
+endif()
 
 add_library(LibOggVorbis INTERFACE IMPORTED)
 set_target_properties(LibOggVorbis PROPERTIES

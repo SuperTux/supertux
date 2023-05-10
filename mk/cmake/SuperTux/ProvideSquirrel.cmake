@@ -2,6 +2,9 @@ option(USE_SYSTEM_SQUIRREL "Use preinstalled squirrel if available" ON)
 
 if(USE_SYSTEM_SQUIRREL)
   find_package(squirrel 3.2 QUIET)
+elseif(ANDROID)
+  find_library(squirrel::squirrel squirrel)
+  find_library(squirrel::sqstdlib sqstdlib)
 endif()
 
 if(TARGET squirrel::squirrel)

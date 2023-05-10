@@ -1,4 +1,8 @@
-find_package(PNG REQUIRED)
+if(ANDROID)
+  find_library(PNG png)
+else()
+  find_package(PNG REQUIRED)
+endif()
 
 file(GLOB SAVEPNG_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/SDL_SavePNG/savepng.c)
 add_library(LibSavePNG STATIC ${SAVEPNG_SOURCES_CXX})
