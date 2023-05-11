@@ -16,7 +16,7 @@ else()
   set_target_properties(LibDiscord PROPERTIES
     INTERFACE_LINK_LIBRARIES "discord-rpc"
     # discord-rpc doesn't provide includes itself
-    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/external/discord-sdk/include")
+    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/external/discord-sdk/include")
 endif()
 
 # EOF #

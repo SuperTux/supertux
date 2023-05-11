@@ -12,8 +12,8 @@ else()
     message(STATUS "Could NOT find tinygettext, using external/tinygettext fallback")
   endif()
 
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
-    message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
+  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
+    message(FATAL_ERROR "tinygettext submodule is not checked out or ${PROJECT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
   endif()
 
   # Include altivec wrapper on ppc
@@ -30,7 +30,7 @@ else()
 
   set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext)
   ExternalProject_Add(tinygettext_project
-    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
+    SOURCE_DIR "${PROJECT_SOURCE_DIR}/external/tinygettext/"
     BUILD_BYPRODUCTS "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}"
     LIST_SEPARATOR "|"
     CMAKE_ARGS

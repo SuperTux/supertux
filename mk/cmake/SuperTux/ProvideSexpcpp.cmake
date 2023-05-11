@@ -15,8 +15,8 @@ else()
     message(STATUS "Could NOT find sexp-cpp, using external/sexp-cpp fallback")
   endif()
 
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
-    message(FATAL_ERROR "sexp-cpp submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt is missing")
+  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
+    message(FATAL_ERROR "sexp-cpp submodule is not checked out or ${PROJECT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt is missing")
   endif()
 
   file(GLOB SEXP_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/sexp-cpp/src/*.cpp)

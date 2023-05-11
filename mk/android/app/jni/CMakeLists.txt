@@ -4,11 +4,9 @@ message("HELLO FROM CMAKE")
 
 project(GAME)
 
-#[[
 # armeabi-v7a requires cpufeatures library
 include(AndroidNdkModules)
 android_ndk_import_module_cpufeatures()
-]]
 
 macro(cache_set var value type)
   set(${var} ${value} CACHE ${type} "" FORCE)
@@ -61,9 +59,7 @@ macro(subdirlist result curdir)
 endmacro()
 
 subdirlist(DEPS ${PROJECT_SOURCE_DIR})
-message("DEPS: ${DEPS}")
 list(APPEND CMAKE_PREFIX_PATH ${DEPS})
-message("CMAKE PREFIX PATH: ${CMAKE_PREFIX_PATH}")
 foreach(DEP ${DEPS})
   message("DEP: ${DEP}")
   add_subdirectory(${DEP})

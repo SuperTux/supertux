@@ -3,22 +3,22 @@ option(USE_SYSTEM_SQUIRREL "Use preinstalled squirrel if available" ON)
 if(USE_SYSTEM_SQUIRREL)
   find_package(squirrel 3.2 QUIET)
 elseif(ANDROID)
-  find_library(squirrel::squirrel squirrel)
-  find_library(squirrel::sqstdlib sqstdlib)
+  find_library(squirrel squirrel)
+  find_library(sqstdlib sqstdlib)
 endif()
 
-if(TARGET squirrel::squirrel)
+if(TARGET squirrel)
   message(STATUS "Found preinstalled squirrel")
 
-  add_library(LibSquirrel ALIAS squirrel::squirrel)
-  add_library(LibSqstdlib ALIAS squirrel::sqstdlib)
+  add_library(LibSquirrel ALIAS squirrel)
+  add_library(LibSqstdlib ALIAS sqstdlib)
 else()
   if(USE_SYSTEM_SQUIRREL)
     message(STATUS "Could NOT find squirrel, using external/squirrel fallback")
   endif()
 
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
-    message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
+  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
+    message(FATAL_ERROR "squirrel submodule is not checked out or ${PROJECT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
   endif()
 
   if(CMAKE_CROSSCOMPILING)
@@ -29,7 +29,7 @@ else()
 
   set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
   ExternalProject_Add(squirrel_project
-    SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
+    SOURCE_DIR "${PROJECT_SOURCE_DIR}/external/squirrel/"
     BUILD_BYPRODUCTS
     "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
     "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
