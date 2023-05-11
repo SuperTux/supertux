@@ -396,7 +396,7 @@
     (icon "images/worldmap/common/leveldot_red.png"))
   (object
     (class "special-tile")
-    (icon "images/worldmap/common/messagedot.png"))
+    (icon "images/worldmap/common/specialtile.png"))
   (object
     (class "sprite-change")
     (icon "images/engine/editor/spritechange.png"))
