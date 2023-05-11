@@ -115,7 +115,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
     case MNID_FINISH_LEVEL:
       {
-        auto level_tile = worldmap_sector->at_level();
+        auto level_tile = worldmap_sector->at_object<worldmap::LevelTile>();
         if (level_tile)
         {
           level_tile->set_solved(true);
@@ -127,7 +127,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
     case MNID_RESET_LEVEL:
       {
-        auto level_tile = worldmap_sector->at_level();
+        auto level_tile = worldmap_sector->at_object<worldmap::LevelTile>();
         if (level_tile)
         {
           level_tile->set_solved(false);

@@ -31,6 +31,7 @@
 #include "worldmap/level_tile.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
+#include "worldmap/teleporter.cpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {
@@ -198,7 +199,7 @@ Tux::try_start_walking()
   if (m_input_direction == Direction::NONE)
     return;
 
-  auto level = m_worldmap->get_sector().at_level();
+  auto level = m_worldmap->get_sector().at_object<LevelTile>();
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile(0.0f, 0.0f);
@@ -230,11 +231,11 @@ Tux::can_walk(int tile_data, Direction dir) const
 void
 Tux::change_sprite(SpriteChange* sprite_change)
 {
-  //SpriteChange* sprite_change = m_worldmap->at_sprite_change(tile_pos);
+  //SpriteChange* sprite_change = m_worldmap->at_object<SpriteChange>();
   if (sprite_change != nullptr) {
-    m_sprite = sprite_change->m_sprite->clone();
+    m_sprite = sprite_change->clone_sprite();
     sprite_change->clear_stay_action();
-    m_worldmap->get_savegame().get_player_status().worldmap_sprite = sprite_change->m_sprite_name;
+    m_worldmap->get_savegame().get_player_status().worldmap_sprite = sprite_change->get_sprite_name();
   }
 }
 
@@ -255,11 +256,11 @@ Tux::try_continue_walking(float dt_sec)
 
   auto worldmap_sector = &m_worldmap->get_sector();
 
-  auto sprite_change = worldmap_sector->at_sprite_change(m_tile_pos);
+  auto sprite_change = worldmap_sector->at_object<SpriteChange>(m_tile_pos);
   change_sprite(sprite_change);
 
   // if this is a special_tile with passive_message, display it
-  auto special_tile = worldmap_sector->at_special_tile();
+  auto special_tile = worldmap_sector->at_object<SpecialTile>();
   if (special_tile)
   {
     // direction and the apply_action_ are opposites, since they "see"
@@ -274,10 +275,10 @@ Tux::try_continue_walking(float dt_sec)
   }
 
   // check if we are at a Teleporter
-  auto teleporter = worldmap_sector->at_teleporter(m_tile_pos);
+  auto teleporter = worldmap_sector->at_object<Teleporter>(m_tile_pos);
 
   // stop if we reached a level, a WORLDMAP_STOP tile, a teleporter or a special tile without a passive_message
-  if ((worldmap_sector->at_level()) ||
+  if ((worldmap_sector->at_object<LevelTile>()) ||
       (worldmap_sector->tile_data_at(m_tile_pos) & Tile::WORLDMAP_STOP) ||
       (special_tile && !special_tile->is_passive_message() && special_tile->get_script().empty()) ||
       (teleporter) ||
@@ -329,11 +330,11 @@ Tux::try_continue_walking(float dt_sec)
     return;
   }
 
-  auto next_sprite = worldmap_sector->at_sprite_change(next_tile);
-  if (next_sprite != nullptr && next_sprite->m_change_on_touch) {
+  auto next_sprite = worldmap_sector->at_object<SpriteChange>(next_tile);
+  if (next_sprite != nullptr && next_sprite->change_on_touch()) {
     change_sprite(next_sprite);
   }
-  //SpriteChange* last_sprite = m_worldmap->at_sprite_change(tile_pos);
+  //SpriteChange* last_sprite = m_worldmap->at_object<SpriteChange>(next_tile);
   if (sprite_change != nullptr && next_sprite != nullptr) {
     log_debug << "Old: " << m_tile_pos << " New: " << next_tile << std::endl;
     sprite_change->set_stay_action();
@@ -371,7 +372,7 @@ void
 Tux::setup()
 {
   // check if we already touch a SpriteChange object
-  auto sprite_change = m_worldmap->get_sector().at_sprite_change(m_tile_pos);
+  auto sprite_change = m_worldmap->get_sector().at_object<SpriteChange>(m_tile_pos);
   change_sprite(sprite_change);
 }
 

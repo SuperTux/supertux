@@ -42,9 +42,7 @@
 #include "worldmap/level_tile.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
-#include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
-#include "worldmap/tux.hpp"
 
 namespace worldmap {
 
@@ -155,7 +153,7 @@ WorldMapSector::finish_setup()
   if (!m_init_script.empty()) {
     m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
   }
-  m_tux->process_special_tile(at_special_tile());
+  m_tux->process_special_tile(at_object<SpecialTile>());
 }
 
 void
@@ -215,52 +213,51 @@ WorldMapSector::draw_status(DrawingContext& context)
   context.set_translation(Vector(0, 0));
 
   if (!m_tux->is_moving()) {
-    for (auto& level : get_objects_by_type<LevelTile>()) {
-      if (level.get_pos() == m_tux->get_tile_pos()) {
-        context.color().draw_text(Resources::normal_font, level.get_title(),
+    LevelTile* level = at_object<LevelTile>();
+    if (level)
+    {
+      context.color().draw_text(Resources::normal_font, level->get_title(),
+                                Vector(static_cast<float>(context.get_width()) / 2.0f,
+                                       static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
+                                ALIGN_CENTER, LAYER_HUD, level->get_title_color());
+
+      if (g_config->developer_mode) {
+        context.color().draw_text(Resources::small_font, FileSystem::join(level->get_basedir(), level->get_level_filename()),
                                   Vector(static_cast<float>(context.get_width()) / 2.0f,
-                                         static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
-                                  ALIGN_CENTER, LAYER_HUD, level.get_title_color());
-
-        if (g_config->developer_mode) {
-          context.color().draw_text(Resources::small_font, FileSystem::join(level.get_basedir(), level.get_level_filename()),
-                                    Vector(static_cast<float>(context.get_width()) / 2.0f,
-                                           static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 25),
-                                    ALIGN_CENTER, LAYER_HUD, level.get_title_color());
-        }
-
-        // if level is solved, draw level picture behind stats
-        /*
-          if (level.solved) {
-          if (const Surface* picture = level.get_picture()) {
-          Vector pos = Vector(context.get_width() - picture->get_width(), context.get_height() - picture->get_height());
-          context.push_transform();
-          context.set_alpha(0.5);
-          context.color().draw_surface(picture, pos, LAYER_FOREGROUND1-1);
-          context.pop_transform();
-          }
-          }
-        */
-        level.get_statistics().draw_worldmap_info(context, level.get_target_time());
-        break;
+                                         static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 25),
+                                  ALIGN_CENTER, LAYER_HUD, level->get_title_color());
       }
+
+      // if level is solved, draw level picture behind stats
+      /*
+        if (level.solved) {
+        if (const Surface* picture = level->get_picture()) {
+        Vector pos = Vector(context.get_width() - picture->get_width(), context.get_height() - picture->get_height());
+        context.push_transform();
+        context.set_alpha(0.5);
+        context.color().draw_surface(picture, pos, LAYER_FOREGROUND1-1);
+        context.pop_transform();
+        }
+        }
+      */
+      level->get_statistics().draw_worldmap_info(context, level->get_target_time());
     }
 
-    for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
-      if (special_tile.get_pos() == m_tux->get_tile_pos()) {
-        /* Display an in-map message in the map, if any as been selected */
-        if (!special_tile.get_map_message().empty() && !special_tile.is_passive_message())
-          context.color().draw_text(Resources::normal_font, special_tile.get_map_message(),
-                                    Vector(static_cast<float>(context.get_width()) / 2.0f,
-                                           static_cast<float>(context.get_height()) - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
-                                    ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::s_message_color);
-        break;
-      }
+    SpecialTile* special_tile = at_object<SpecialTile>();
+    if (special_tile)
+    {
+      /* Display an in-map message in the map, if any as been selected */
+      if (!special_tile->get_map_message().empty() && !special_tile->is_passive_message())
+        context.color().draw_text(Resources::normal_font, special_tile->get_map_message(),
+                                  Vector(static_cast<float>(context.get_width()) / 2.0f,
+                                         static_cast<float>(context.get_height()) - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
+                                  ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::s_message_color);
     }
 
     // display teleporter messages
-    auto teleporter = at_teleporter(m_tux->get_tile_pos());
-    if (teleporter && (!teleporter->get_message().empty())) {
+    Teleporter* teleporter = at_object<Teleporter>();
+    if (teleporter && (!teleporter->get_message().empty()))
+    {
       Vector pos = Vector(static_cast<float>(context.get_width()) / 2.0f,
                           static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 30.0f);
       context.color().draw_text(Resources::normal_font, teleporter->get_message(), pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::s_teleporter_message_color);
@@ -288,7 +285,7 @@ WorldMapSector::update(float dt_sec)
 
   {
     // check for teleporters
-    auto teleporter = at_teleporter(m_tux->get_tile_pos());
+    auto teleporter = at_object<Teleporter>();
     if (teleporter && (teleporter->is_automatic() || (m_parent.m_enter_level && (!m_tux->is_moving())))) {
       m_parent.m_enter_level = false;
       if (!teleporter->get_worldmap().empty())
@@ -317,7 +314,7 @@ WorldMapSector::update(float dt_sec)
 
   {
     // check for auto-play levels
-    auto level = at_level();
+    auto level = at_object<LevelTile>();
     if (level && level->is_auto_play() && !level->is_solved() && !m_tux->is_moving()) {
       m_parent.m_enter_level = true;
       // automatically mark these levels as solved in case player aborts
@@ -329,7 +326,7 @@ WorldMapSector::update(float dt_sec)
     if (m_parent.m_enter_level && !m_tux->is_moving())
     {
       /* Check level action */
-      auto level_ = at_level();
+      auto level_ = at_object<LevelTile>();
       if (!level_) {
         //Respawn if player on a tile with no level and nowhere to go.
         int tile_data = tile_data_at(m_tux->get_tile_pos());
@@ -342,10 +339,10 @@ WorldMapSector::update(float dt_sec)
         return;
       }
 
-      if (level_->get_pos() == m_tux->get_tile_pos()) {
+      if (level_->get_tile_pos() == m_tux->get_tile_pos()) {
         try {
-          Vector shrinkpos = Vector(level_->get_pos().x * 32 + 16 - m_camera->get_offset().x,
-                                    level_->get_pos().y * 32 +  8 - m_camera->get_offset().y);
+          Vector shrinkpos = Vector(level_->get_pos().x + 16 - m_camera->get_offset().x,
+                                    level_->get_pos().y +  8 - m_camera->get_offset().y);
           std::string levelfile = m_parent.m_levels_path + level_->get_level_filename();
 
           // update state and savegame
@@ -435,7 +432,7 @@ void
 WorldMapSector::finished_level(Level* gamelevel)
 {
   // TODO use Level* parameter here?
-  auto level = at_level();
+  auto level = at_object<LevelTile>();
 
   if (level == nullptr) {
     return;
@@ -503,52 +500,6 @@ WorldMapSector::get_spawnpoint_by_name(const std::string& spawnpoint_name) const
   }
   return nullptr;
 }
-
-
-LevelTile*
-WorldMapSector::at_level() const
-{
-  for (auto& level : get_objects_by_type<LevelTile>()) {
-    if (level.get_pos() == m_tux->get_tile_pos())
-      return &level;
-  }
-
-  return nullptr;
-}
-
-SpecialTile*
-WorldMapSector::at_special_tile() const
-{
-  for (auto& special_tile : get_objects_by_type<SpecialTile>()) {
-    if (special_tile.get_pos() == m_tux->get_tile_pos())
-      return &special_tile;
-  }
-
-  return nullptr;
-}
-
-SpriteChange*
-WorldMapSector::at_sprite_change(const Vector& pos) const
-{
-  for (auto& sprite_change : get_objects_by_type<SpriteChange>()) {
-    if (sprite_change.get_pos() == pos)
-      return &sprite_change;
-  }
-
-  return nullptr;
-}
-
-Teleporter*
-WorldMapSector::at_teleporter(const Vector& pos) const
-{
-  for (auto& teleporter : get_objects_by_type<Teleporter>()) {
-    if (teleporter.get_pos() == pos)
-      return &teleporter;
-  }
-
-  return nullptr;
-}
-
 
 bool
 WorldMapSector::path_ok(const Direction& direction, const Vector& old_pos, Vector* new_pos) const

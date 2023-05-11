@@ -24,7 +24,6 @@
 #include "badguy/fish_jumping.hpp"
 #include "badguy/jumpy.hpp"
 #include "editor/editor.hpp"
-#include "editor/worldmap_objects.hpp"
 #include "object/ambient_light.hpp"
 #include "object/background.hpp"
 #include "object/camera.hpp"
@@ -43,6 +42,7 @@
 #include "supertux/tile_manager.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
+#include "worldmap/spawn_point.hpp"
 
 static const std::string DEFAULT_BG = "images/background/antarctic/arctis2.png";
 
@@ -361,7 +361,7 @@ SectorParser::create_sector()
   intact.set_solid(true);
 
   if (worldmap) {
-    m_sector.add<worldmap_editor::WorldmapSpawnPoint>("main", Vector(4, 4));
+    m_sector.add<worldmap::SpawnPointObject>("main", Vector(4, 4));
   } else {
     m_sector.add<SpawnPointMarker>("main", Vector(64, 480));
   }

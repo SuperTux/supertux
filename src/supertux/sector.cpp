@@ -149,7 +149,8 @@ Sector::finish_construction(bool editable)
   }
 
   if (!get_object_by_type<Camera>()) {
-    log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
+    if (!m_level.is_worldmap())
+      log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
     add<Camera>("Camera");
   }
 
@@ -192,7 +193,8 @@ Sector::activate(const std::string& spawnpoint)
   }
 
   if (!sp) {
-    log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
+    if (!m_level.is_worldmap())
+      log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
     if (spawnpoint != "main") {
       activate("main");
     } else {

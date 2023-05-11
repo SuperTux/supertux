@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,19 +20,19 @@
 
 #include <physfs.h>
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
+#include "editor/editor.hpp"
+#include "supertux/level_parser.hpp"
 #include "util/file_system.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {
 
-LevelTile::LevelTile(const std::string& basedir, const ReaderMapping& mapping) :
-  GameObject(mapping),
-  m_pos(0.0f, 0.0f),
-  m_basedir(basedir),
+LevelTile::LevelTile(const ReaderMapping& mapping) :
+  WorldMapObject(mapping, "images/worldmap/common/leveldot.sprite"),
+  m_basedir(WorldMap::current() ? WorldMap::current()->get_levels_path() : ""),
   m_level_filename(),
   m_title(),
   m_auto_play(false),
@@ -40,32 +41,25 @@ LevelTile::LevelTile(const std::string& basedir, const ReaderMapping& mapping) :
   m_solved(false),
   m_perfect(false),
   m_statistics(),
-  m_sprite(),
   m_title_color(WorldMap::s_level_title_color)
 {
+  if (m_basedir.empty() && Editor::current() && Editor::current()->get_world())
+    m_basedir = Editor::current()->get_world()->get_basedir();
+
   if (!mapping.get("level", m_level_filename)) {
     // Hack for backward compatibility with 0.5.x level
     m_level_filename = m_name;
   }
 
-  mapping.get("x", m_pos.x);
-  mapping.get("y", m_pos.y);
   mapping.get("auto-play", m_auto_play);
-
-  std::string spritefile = "images/worldmap/common/leveldot.sprite";
-  mapping.get("sprite", spritefile);
-  m_sprite = SpriteManager::current()->create(spritefile);
-
   mapping.get("extro-script", m_extro_script);
 
   std::vector<float> vColor;
-  if (mapping.get("color", vColor)) {
+  if (mapping.get("color", vColor))
     m_title_color = Color(vColor);
-  }
 
-  if (m_basedir == "./") {
+  if (m_basedir == "./")
     m_basedir = "";
-  }
 
   if (!PHYSFS_exists(FileSystem::join(m_basedir, m_level_filename).c_str()))
   {
@@ -73,6 +67,8 @@ LevelTile::LevelTile(const std::string& basedir, const ReaderMapping& mapping) :
                 << "' does not exist and will not be added to the worldmap" << std::endl;
     return;
   }
+
+  load_level_information();
 }
 
 LevelTile::~LevelTile()
@@ -80,24 +76,54 @@ LevelTile::~LevelTile()
 }
 
 void
-LevelTile::draw(DrawingContext& context)
+LevelTile::load_level_information()
 {
-  m_sprite->draw(context.color(), m_pos * 32.0f + Vector(16, 16), LAYER_OBJECTS - 1);
-}
+  /** Set default properties. */
+  m_title = _("<no title>");
+  m_target_time = 0.0f;
 
-void
-LevelTile::update(float )
-{
+  if (!WorldMap::current())
+    return;
+
+  try
+  {
+    // Determine the level filename.
+    const std::string& levels_path = WorldMap::current()->get_levels_path();
+    std::string filename = levels_path + get_level_filename();
+
+    if (levels_path == "./")
+      filename = get_level_filename();
+
+    try
+    {
+      // Read general level info.
+      auto level = LevelParser::from_file(filename, false, false, true, true);
+
+      // Set properties to the ones of the level.
+      m_title = level->m_name;
+      m_target_time = level->m_target_time;
+    }
+    catch (std::exception& err)
+    {
+      std::stringstream out;
+      out << "Cannot read level info: " << err.what() << std::endl;
+      throw std::runtime_error(out.str());
+    }
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Problem when reading level information: " << err.what() << std::endl;
+    return;
+  }
 }
 
 void
 LevelTile::update_sprite_action()
 {
-  if (!m_solved) {
+  if (!m_solved)
     m_sprite->set_action("default");
-  } else {
+  else
     m_sprite->set_action((m_sprite->has_action("perfect") && m_perfect) ? "perfect" : "solved");
-  }
 }
 
 void
@@ -112,6 +138,28 @@ LevelTile::set_perfect(bool v)
 {
   m_perfect = v;
   update_sprite_action();
+}
+
+ObjectSettings
+LevelTile::get_settings()
+{
+  // FIXME: hack to make the basedir absolute, making
+  // World::get_basedir() itself absolute would be correct, but
+  // invalidate savefiles.
+  std::string basedir = m_basedir;
+  if (!basedir.empty() && basedir.front() != '/')
+    basedir = "/" + basedir;
+
+  ObjectSettings result = WorldMapObject::get_settings();
+
+  result.add_level(_("Level"), &m_level_filename, "level", basedir);
+  result.add_script(_("Outro script"), &m_extro_script, "extro-script");
+  result.add_bool(_("Auto play"), &m_auto_play, "auto-play", false);
+  result.add_color(_("Title colour"), &m_title_color, "color", Color::WHITE);
+
+  result.reorder({"name", "sprite", "x", "y"});
+
+  return result;
 }
 
 } // namespace worldmap

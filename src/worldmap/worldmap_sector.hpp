@@ -22,17 +22,13 @@
 #include "supertux/sector_base.hpp"
 
 #include "supertux/timer.hpp"
+#include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {
 
 class Camera;
-class LevelTile;
 class SpawnPoint;
-class SpecialTile;
-class SpriteChange;
-class Teleporter;
-class Tux;
 class WorldMap;
 
 /** Represents one of (potentially) multiple, separate parts of a WorldMap.
@@ -81,10 +77,24 @@ public:
       spawnpoint @return spawnpoint corresponding to that name */
   SpawnPoint* get_spawnpoint_by_name(const std::string& spawnpoint_name) const;
 
-  LevelTile* at_level() const;
-  SpecialTile* at_special_tile() const;
-  SpriteChange* at_sprite_change(const Vector& pos) const;
-  Teleporter* at_teleporter(const Vector& pos) const;
+  template<class T>
+  T* at_object() const
+  {
+    for (auto& obj : get_objects_by_type<T>())
+      if (obj.get_tile_pos() == m_tux->get_tile_pos())
+        return &obj;
+
+    return nullptr;
+  }
+  template<class T>
+  T* at_object(const Vector& pos) const
+  {
+    for (auto& obj : get_objects_by_type<T>())
+      if (obj.get_tile_pos() == pos)
+        return &obj;
+
+    return nullptr;
+  }
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */

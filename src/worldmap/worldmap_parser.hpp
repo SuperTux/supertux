@@ -22,11 +22,8 @@
 #include "supertux/level_parser.hpp"
 #include "supertux/sector_parser.hpp"
 
-class ReaderDocument;
-
 namespace worldmap {
 
-class LevelTile;
 class WorldMap;
 class WorldMapSector;
 
@@ -60,8 +57,6 @@ private:
   WorldMapSectorParser(WorldMapSector& sector);
 
   bool parse_object_additional(const std::string& name, const ReaderMapping& reader) override;
-
-  void load_level_information(LevelTile& level_tile);
 
 private:
   WorldMapSector& m_worldmap_sector;

@@ -238,7 +238,7 @@ WorldMapSector*
 WorldMap::get_sector(int index) const
 {
   if (index < 0 || index > static_cast<int>(m_worldmap_sectors.size()) - 1)
-    return nullptr; // More sectors than the given index, or the index is below 0.
+    return nullptr;
 
   return m_worldmap_sectors.at(index).get();
 }

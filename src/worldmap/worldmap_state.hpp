@@ -22,17 +22,17 @@
 namespace worldmap {
 
 /** Macro to allow quick and easy access to the current Squirrel VM. **/
-#define WORLDMAP_STATE_SQUIRREL_VM_GUARD                                  \
+#define WORLDMAP_STATE_SQUIRREL_VM_GUARD  \
   SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm()
 
 /** Macro to allow quick and easy access to the current WorldMapSector. **/
-#define WORLDMAP_STATE_SECTOR_GUARD                                       \
+#define WORLDMAP_STATE_SECTOR_GUARD   \
   WorldMapSector& sector = m_worldmap.get_sector()
 
 
 class WorldMap;
 
-class WorldMapState
+class WorldMapState final
 {
 public:
   WorldMapState(WorldMap& worldmap);

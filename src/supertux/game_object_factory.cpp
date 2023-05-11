@@ -72,7 +72,6 @@
 #include "badguy/yeti.hpp"
 #include "badguy/yeti_stalactite.hpp"
 #include "badguy/zeekling.hpp"
-#include "editor/worldmap_objects.hpp"
 #include "math/vector.hpp"
 #include "object/ambient_light.hpp"
 #include "object/ambient_sound.hpp"
@@ -141,6 +140,11 @@
 #include "trigger/text_area.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "worldmap/level_tile.hpp"
+#include "worldmap/spawn_point.hpp"
+#include "worldmap/special_tile.hpp"
+#include "worldmap/sprite_change.hpp"
+#include "worldmap/teleporter.hpp"
 
 GameObjectFactory&
 GameObjectFactory::instance()
@@ -295,12 +299,12 @@ GameObjectFactory::init_factories()
   // editor stuff
   add_factory<SpawnPointMarker>("spawnpoint");
 
-  // worldmap editor objects
-  add_factory<worldmap_editor::LevelDot>("level");
-  add_factory<worldmap_editor::SpecialTile>("special-tile");
-  add_factory<worldmap_editor::SpriteChange>("sprite-change");
-  add_factory<worldmap_editor::Teleporter>("teleporter");
-  add_factory<worldmap_editor::WorldmapSpawnPoint>("worldmap-spawnpoint");
+  // worldmap objects
+  add_factory<worldmap::LevelTile>("level");
+  add_factory<worldmap::SpecialTile>("special-tile");
+  add_factory<worldmap::SpriteChange>("sprite-change");
+  add_factory<worldmap::Teleporter>("teleporter");
+  add_factory<worldmap::SpawnPointObject>("worldmap-spawnpoint");
 
   add_factory("tilemap", TileMap::display_name(), [](const ReaderMapping& reader) {
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
