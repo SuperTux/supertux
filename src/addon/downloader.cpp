@@ -31,6 +31,8 @@
 #include <emscripten/html5.h>
 #endif
 
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
@@ -264,6 +266,9 @@ Downloader::download(const std::string& url,
                      size_t (*write_func)(void* ptr, size_t size, size_t nmemb, void* userdata),
                      void* userdata)
 {
+  if (g_config->disable_network)
+    throw std::runtime_error("Networking is disabled");
+
   log_info << "Downloading " << url << std::endl;
 
 #ifndef EMSCRIPTEN
@@ -299,6 +304,9 @@ Downloader::download(const std::string& url,
 std::string
 Downloader::download(const std::string& url)
 {
+  if (g_config->disable_network)
+    throw std::runtime_error("Networking is disabled");
+
   std::string result;
   download(url, my_curl_string_append, &result);
   return result;
@@ -307,6 +315,9 @@ Downloader::download(const std::string& url)
 void
 Downloader::download(const std::string& url, const std::string& filename)
 {
+  if (g_config->disable_network)
+    throw std::runtime_error("Networking is disabled");
+
 #ifndef EMSCRIPTEN
   log_info << "download: " << url << " to " << filename << std::endl;
   std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> fout(PHYSFS_openWrite(filename.c_str()),
@@ -324,6 +335,10 @@ Downloader::download(const std::string& url, const std::string& filename)
 void
 Downloader::abort(TransferId id)
 {
+  // allow aborting
+  //if (g_config->disable_network)
+  //  return;
+
   auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
                          [&id](const std::unique_ptr<Transfer>& rhs)
                          {
@@ -359,6 +374,9 @@ Downloader::abort(TransferId id)
 void
 Downloader::update()
 {
+  if (g_config->disable_network)
+    return;
+
 #ifndef EMSCRIPTEN
   // read data from the network
   CURLMcode ret;
@@ -436,6 +454,14 @@ Downloader::update()
 TransferStatusPtr
 Downloader::request_download(const std::string& url, const std::string& outfile)
 {
+  if (g_config->disable_network)
+  {
+    auto ptr = std::make_shared<TransferStatus>(*this, -1);
+    ptr->prevented = true;
+    ptr->error_msg = "Networking is disabled";
+    return ptr;
+  }
+
   log_info << "request_download: " << url << std::endl;
   auto transfer = std::make_unique<Transfer>(*this, m_next_transfer_id++, url, outfile);
 #ifndef EMSCRIPTEN
