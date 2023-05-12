@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2008 Ingo Ruhnke <grumbel@gmail.com>
-//                2022 Vankata453
+//  Copyright (C) 2022 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,33 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_PROFILE_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_PROFILE_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_ACHIEVEMENT_DATA_HPP
+#define HEADER_SUPERTUX_SUPERTUX_ACHIEVEMENT_DATA_HPP
 
-#include "gui/menu.hpp"
+#include <vector>
 
-class ProfileMenu final : public Menu
+#include "supertux/achievement.hpp"
+
+/** Parses achievement data from a file. */
+class AchievementData
 {
-private:
-  std::vector<int> m_profiles;
-  std::vector<std::string> m_profile_names;
+public:
+  static void load(std::vector<Achievement>& data);
 
-  const int m_initial_profile;
+private:
+  static bool apply(std::vector<Achievement>& data);
 
 public:
-  ProfileMenu();
-  ~ProfileMenu();
-
-  void refresh() override;
-  void rebuild_menu();
-  void menu_action(MenuItem& item) override;
+  static void save(const std::vector<Achievement>& data, int profile = -1);
+  static void clear(std::vector<Achievement>& data);
 };
-
-namespace savegames_util
-{
-  std::vector<int> get_savegames();
-  void delete_savegames(int idx, bool reset = false);
-}
 
 #endif
 

@@ -25,10 +25,16 @@
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
 #include "video/renderer.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
+
+const float Notification::s_icon_size = 35.0f;
+
+const std::string Notification::s_sym1 = "-";
+const std::string Notification::s_sym2 = "-";
 
 Notification::Notification(std::string id, bool no_auto_hide, bool no_auto_disable) :
   m_id(id),
@@ -82,26 +88,35 @@ Notification::set_mini_text(const std::string& text)
 }
 
 void
+Notification::set_icon(const std::string& file)
+{
+  m_icon = Surface::from_file(file);
+}
+
+void
 Notification::calculate_size()
 {
-  m_size = Sizef(std::max(m_text_size.width, m_mini_text_size.width) + 60.0f,
+  m_size = Sizef(std::max(m_text_size.width, m_mini_text_size.width) + 60.0f + (m_icon ? s_icon_size : 0),
                  m_text_size.height + m_mini_text_size.height + 40.0f);
 }
 
 void
 Notification::draw(DrawingContext& context)
 {
-  if (m_quit || !MenuManager::instance().is_active()) // Close notification, if a quit has been requested, or the MenuManager isn't active.
+  // Close notification, if a quit has been requested, or the MenuManager isn't active.
+  if ((!persistent() && !MenuManager::instance().is_active()) || m_quit)
   {
     close();
     return;
   }
 
-  m_pos = Vector(static_cast<float>(context.get_width()) - std::max(m_text_size.width, m_mini_text_size.width) - 90.0f,
-                 static_cast<float>(context.get_height() / 12) - m_text_size.height - m_mini_text_size.height + 10.0f);
+  if (!uses_custom_pos())
+    m_pos = Vector(static_cast<float>(context.get_width()) - std::max(m_text_size.width, m_mini_text_size.width) - 90.0f,
+                   static_cast<float>(context.get_height() / 12) - m_text_size.height - m_mini_text_size.height + 10.0f);
+
   Rectf bg_rect(m_pos, m_size);
 
-  // Draw background rect
+  // Draw background rect.
   context.color().draw_filled_rect(bg_rect.grown(12.0f),
                                      Color(g_config->menubackcolor.red, g_config->menubackcolor.green,
                                        g_config->menubackcolor.blue, std::max(0.f, g_config->menubackcolor.alpha - 0.5f)),
@@ -114,33 +129,37 @@ Notification::draw(DrawingContext& context)
                                        g_config->menuroundness,
                                      LAYER_GUI - 10);
 
+  // Draw icon.
+  if (m_icon)
+    context.color().draw_surface_scaled(m_icon, Rectf(Vector(bg_rect.get_left() + 8.0f,
+                                                             bg_rect.get_top() + bg_rect.get_height() / 3.5f),
+                                                      Sizef(s_icon_size, s_icon_size)), LAYER_GUI);
+
   // Draw normal and mini texts.
   context.color().draw_text(Resources::normal_font, m_text,
-                              Vector(bg_rect.get_left() + bg_rect.get_width() / 2.0f,
+                              Vector(bg_rect.get_left() + bg_rect.get_width() / (m_icon ? 1.7f : 2),
                                      bg_rect.get_top() + (bg_rect.get_height() / 2 - bg_rect.get_height() / 3)),
                               ALIGN_CENTER, LAYER_GUI);
 
   context.color().draw_text(Resources::small_font, m_mini_text,
-                              Vector(bg_rect.get_left() + bg_rect.get_width() / 2.0f,
+                              Vector(bg_rect.get_left() + bg_rect.get_width() / (m_icon ? 1.7f : 2),
                                      bg_rect.get_top() + (bg_rect.get_height() / 2 + bg_rect.get_height() / 8)),
                               ALIGN_CENTER, LAYER_GUI);
 
   // Draw "Do not show again" and "Close" symbols, if the mouse is hovering over the notification.
-  if (!m_mouse_over) return;
-  const std::string sym1 = "-";
-  const std::string sym2 = "X";
+  if (!m_mouse_over || !interactable()) return;
   Vector sym1_pos = Vector(bg_rect.get_left() + 5.0f, bg_rect.get_top());
   Vector sym2_pos = Vector(bg_rect.get_right() - 15.0f, bg_rect.get_top());
 
-  context.color().draw_text(Resources::normal_font, sym1, sym1_pos,
+  context.color().draw_text(Resources::normal_font, s_sym1, sym1_pos,
                               ALIGN_LEFT, LAYER_GUI, Color::YELLOW);
 
-  context.color().draw_text(Resources::normal_font, sym2, sym2_pos,
+  context.color().draw_text(Resources::normal_font, s_sym2, sym2_pos,
                               ALIGN_LEFT, LAYER_GUI, Color::RED);
 
   // Draw description of a symbol, when the mouse hovers over it.
-  Rectf sym1_rect(sym1_pos, Sizef(Resources::normal_font->get_text_width(sym1), Resources::normal_font->get_text_height(sym1)));
-  Rectf sym2_rect(sym2_pos, Sizef(Resources::normal_font->get_text_width(sym2), Resources::normal_font->get_text_height(sym2)));
+  Rectf sym1_rect(sym1_pos, Sizef(Resources::normal_font->get_text_width(s_sym1), Resources::normal_font->get_text_height(s_sym1)));
+  Rectf sym2_rect(sym2_pos, Sizef(Resources::normal_font->get_text_width(s_sym2), Resources::normal_font->get_text_height(s_sym2)));
 
   m_mouse_over_sym1 = sym1_rect.contains(m_mouse_pos);
   m_mouse_over_sym2 = sym2_rect.contains(m_mouse_pos);
@@ -164,6 +183,8 @@ Notification::draw(DrawingContext& context)
 void
 Notification::event(const SDL_Event& ev)
 {
+  if (!interactable()) return;
+
   Rectf bg_rect(m_pos, m_size);
   bg_rect = bg_rect.grown(12.0f);
 
@@ -209,6 +230,8 @@ Notification::event(const SDL_Event& ev)
 void
 Notification::process_input(const Controller& controller)
 {
+  if (!interactable()) return;
+
   if (controller.pressed(Control::MENU_BACK) && !MenuManager::instance().previous_menu())
   {
     // If the user tries to go back on the last menu, close the notification instead.
@@ -242,7 +265,7 @@ Notification::close()
   MenuManager::instance().set_notification({});
 }
 
-// Static functions, serving as utilities
+// Static utilities
 
 bool
 Notification::is_disabled(std::string id) // Check if a notification is disabled by its ID.

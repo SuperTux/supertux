@@ -519,6 +519,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   m_game_manager.reset(new GameManager());
   m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));
+  m_achievement_system.reset(new AchievementSystem());
 
   if (!args.filenames.empty())
   {

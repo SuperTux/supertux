@@ -24,10 +24,17 @@
 #include "control/controller.hpp"
 #include "math/sizef.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface_ptr.hpp"
 
 class Notification
 {
-private:
+protected:
+  static const float s_icon_size;
+
+  static const std::string s_sym1;
+  static const std::string s_sym2;
+
+protected:
   const std::string m_id;
   const bool m_auto_hide;
   const bool m_auto_disable;
@@ -36,6 +43,8 @@ private:
   std::string m_mini_text;
   Sizef m_text_size;
   Sizef m_mini_text_size;
+
+  SurfacePtr m_icon;
 
   Vector m_pos;
   Sizef m_size;
@@ -55,23 +64,27 @@ public:
 
   void set_text(const std::string& text);
   void set_mini_text(const std::string& text);
+  void set_icon(const std::string& file);
   void on_press(const std::function<void ()>& callback) { m_callback = callback; }
 
-  void event(const SDL_Event& event);
-  void process_input(const Controller& controller);
-  void draw(DrawingContext& context);
+  virtual void event(const SDL_Event& event);
+  virtual void process_input(const Controller& controller);
+  virtual void draw(DrawingContext& context);
 
   // Notification actions
-
   void disable();
   void close();
 
-  // Static functions, serving as utilities
-
+  // Static utilities
   static bool is_disabled(std::string id);
 
-private:
-  void calculate_size();
+protected:
+  virtual void calculate_size();
+
+  // Overridable properties
+  virtual bool persistent() const { return false; } // Should always be visible.
+  virtual bool uses_custom_pos() const { return false; } // Uses custom position.
+  virtual bool interactable() const { return true; } // The user can interact.
 
 private:
   Notification(const Notification&) = delete;

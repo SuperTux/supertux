@@ -18,6 +18,7 @@
 
 #include "control/input_manager.hpp"
 #include "gui/dialog.hpp"
+#include "gui/horizontal_menu.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
 #include "gui/notification.hpp"
@@ -153,6 +154,9 @@ MenuManager::MenuManager() :
   m_notification(),
   m_has_next_notification(false),
   m_next_notification(),
+  m_horizontal_menu(),
+  m_has_next_horizontal_menu(false),
+  m_next_horizontal_menu(),
   m_menu_stack(),
   m_transition(new MenuTransition)
 {
@@ -180,7 +184,7 @@ MenuManager::process_input(const Controller& controller)
   {
     m_dialog->process_input(controller);
   }
-  else if (current_menu())
+  else if (current_menu() && !m_horizontal_menu)
   {
     current_menu()->process_input(controller);
   }
@@ -194,6 +198,15 @@ MenuManager::event(const SDL_Event& ev)
     if (m_dialog && !m_dialog->is_passive())
     {
       m_dialog->event(ev);
+    }
+    else if (m_horizontal_menu)
+    {
+      if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE)
+      {
+        m_horizontal_menu.reset();
+        return;
+      }
+      m_horizontal_menu->event(ev);
     }
     else if (current_menu())
     {
@@ -247,6 +260,11 @@ MenuManager::draw(DrawingContext& context)
     m_notification = std::move(m_next_notification);
     m_has_next_notification = false;
   }
+  if (m_has_next_horizontal_menu)
+  {
+    m_horizontal_menu = std::move(m_next_horizontal_menu);
+    m_has_next_horizontal_menu = false;
+  }
 
   if (m_transition->is_active())
   {
@@ -260,7 +278,12 @@ MenuManager::draw(DrawingContext& context)
       m_dialog->update();
       m_dialog->draw(context);
     }
-    if (current_menu() && (!m_dialog || m_dialog->is_passive()))
+
+    if (m_horizontal_menu)
+    {
+      m_horizontal_menu->draw(context);
+    }
+    else if (current_menu() && (!m_dialog || m_dialog->is_passive()))
     {
       // brute force the transition into the right shape in case the
       // menu has changed sizes
@@ -276,7 +299,7 @@ MenuManager::draw(DrawingContext& context)
     m_notification->draw(context);
   }
 
-  if ((m_dialog || current_menu()) && MouseCursor::current())
+  if ((m_dialog || is_active()) && MouseCursor::current())
   {
     MouseCursor::current()->draw(context);
   }
@@ -298,6 +321,15 @@ MenuManager::set_notification(std::unique_ptr<Notification> notification)
   // can't unset itself without ending up with "delete this" problems
   m_next_notification = std::move(notification);
   m_has_next_notification = true;
+}
+
+void
+MenuManager::set_horizontal_menu(std::unique_ptr<HorizontalMenu> horizontal_menu)
+{
+  // delay reseting m_notification to a later point, as otherwise the HorizontalMenu
+  // can't unset itself without ending up with "delete this" problems
+  m_next_horizontal_menu = std::move(horizontal_menu);
+  m_has_next_horizontal_menu = true;
 }
 
 void
