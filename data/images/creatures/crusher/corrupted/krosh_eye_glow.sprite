@@ -1,7 +1,7 @@
 (supertux-sprite
  (action
   (name "default")
-  (hitbox 16 16 128 128)
+  (hitbox 16 16 127 128)
   (images "krosh_eye_glow.png")
  )
 )
