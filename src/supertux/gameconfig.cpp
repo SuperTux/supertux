@@ -16,7 +16,7 @@
 
 #include "supertux/gameconfig.hpp"
 
-#include "config.h"
+#include <ctime>
 
 #include "editor/overlay_widget.hpp"
 #include "supertux/colorscheme.hpp"
@@ -507,6 +507,17 @@ Config::save()
   writer.end_list("editor");
 
   writer.end_list("supertux-config");
+}
+
+
+bool
+Config::is_christmas() const
+{
+  std::time_t time = std::time(0);
+  std::tm* now = std::localtime(&time);
+
+  /* Activate Christmas mode from Dec 6th until Dec 31st. */
+  return now->tm_mday >= 6 && now->tm_mon == 11;
 }
 
 /* EOF */
