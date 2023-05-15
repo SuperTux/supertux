@@ -170,7 +170,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       }
     }
   } else { // Load images
-    boost::optional<ReaderCollection> surfaces_collection;
+    std::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
     if (mapping.get("images", images))
     {

@@ -171,8 +171,8 @@ Main::init_tinygettext()
 }
 
 PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
-                boost::optional<std::string> forced_datadir,
-                boost::optional<std::string> forced_userdir) :
+                std::optional<std::string> forced_datadir,
+                std::optional<std::string> forced_userdir) :
   m_forced_datadir(std::move(forced_datadir)),
   m_forced_userdir(std::move(forced_userdir))
 {
