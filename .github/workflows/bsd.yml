@@ -64,7 +64,6 @@ jobs:
             pkg install -y openal-soft
             pkg install -y glew
             # pkg install -y glbinding # TODO: Uncomment whenever possible
-            pkg install -y boost-all
             pkg install -y curl
             pkg install -y libogg
             pkg install -y libvorbis
