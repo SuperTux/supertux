@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_UTIL_STRING_UTIL_HPP
 
 #include <string>
+#include <vector>
 
 class StringUtil final
 {

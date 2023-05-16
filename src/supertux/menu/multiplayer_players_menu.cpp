@@ -16,7 +16,7 @@
 
 #include "supertux/menu/multiplayer_players_menu.hpp"
 
-#include "boost/format.hpp"
+#include <fmt/format.h>
 
 #include "control/game_controller_manager.hpp"
 #include "control/input_manager.hpp"
@@ -36,7 +36,7 @@ MultiplayerPlayersMenu::MultiplayerPlayersMenu()
 
   for (int i = 0; i < InputManager::current()->get_num_users(); i++)
   {
-    add_entry((boost::format(_("Player %d")) % (i + 1)).str(), [i] {
+    add_entry(fmt::format(_("Player {}"), i + 1), [i] {
       MenuManager::instance().push_menu(std::make_unique<MultiplayerPlayerMenu>(i));
     });
   }
