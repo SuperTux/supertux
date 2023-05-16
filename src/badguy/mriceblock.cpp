@@ -183,7 +183,7 @@ MrIceBlock::collision_squished(GameObject& object)
       break;
     }
   }
-  BOOST_FALLTHROUGH;
+  SDL_FALLTHROUGH;
 
   case ICESTATE_NORMAL:
   {

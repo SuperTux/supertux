@@ -79,7 +79,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       case 4:
         action->hitbox_h = hitbox[3];
         action->hitbox_w = hitbox[2];
-        BOOST_FALLTHROUGH;
+        SDL_FALLTHROUGH;
       case 2:
         action->y_offset = hitbox[1];
         action->x_offset = hitbox[0];
