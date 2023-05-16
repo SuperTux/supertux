@@ -18,12 +18,11 @@
 
 #include <config.h>
 #include <version.h>
+#include <filesystem>
 #include <fstream>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <boost/filesystem.hpp>
-#include <boost/locale.hpp>
 #include <physfs.h>
 #include <tinygettext/log.hpp>
 #include <fmt/format.h>
@@ -198,7 +197,7 @@ void PhysfsSubsystem::find_datadir() const
   if (const char* assetpack = getenv("ANDROID_ASSET_PACK_PATH"))
   {
     // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
-    if (!PHYSFS_mount(boost::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
+    if (!PHYSFS_mount(std::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
     {
       log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       return;
@@ -243,7 +242,7 @@ void PhysfsSubsystem::find_datadir() const
     {
       datadir = BUILD_DATA_DIR;
       // Add config dir for supplemental files
-      PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
     }
     else
     {
@@ -254,7 +253,7 @@ void PhysfsSubsystem::find_datadir() const
     }
   }
 
-  if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
+  if (!PHYSFS_mount(std::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
   {
     log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
@@ -298,20 +297,20 @@ std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
 if (FileSystem::is_directory(olduserdir)) {
-  boost::filesystem::path olduserpath(olduserdir);
-  boost::filesystem::path userpath(userdir);
+  std::filesystem::path olduserpath(olduserdir);
+  std::filesystem::path userpath(userdir);
 
-  boost::filesystem::directory_iterator end_itr;
+  std::filesystem::directory_iterator end_itr;
 
   bool success = true;
 
   // cycle through the directory
-  for (boost::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
+  for (std::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
   try
   {
-    boost::filesystem::rename(itr->path().string().c_str(), userpath / itr->path().filename());
+    std::filesystem::rename(itr->path().string().c_str(), userpath / itr->path().filename());
   }
-  catch (const boost::filesystem::filesystem_error& err)
+  catch (const std::filesystem::filesystem_error& err)
   {
     success = false;
     log_warning << "Failed to move contents of config directory: " << err.what() << std::endl;
@@ -320,9 +319,9 @@ if (FileSystem::is_directory(olduserdir)) {
   if (success) {
     try
     {
-      boost::filesystem::remove_all(olduserpath);
+      std::filesystem::remove_all(olduserpath);
     }
-    catch (const boost::filesystem::filesystem_error& err)
+    catch (const std::filesystem::filesystem_error& err)
     {
       success = false;
       log_warning << "Failed to remove old config directory: " << err.what();
@@ -570,12 +569,12 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (args.sector || args.spawnpoint)
         {
-          std::string sectorname = args.sector.get_value_or("main");
+          std::string sectorname = args.sector.value_or("main");
 
           const auto& spawnpoints = session->get_current_sector().get_objects_by_type<SpawnPointMarker>();
           std::string default_spawnpoint = (spawnpoints.begin() != spawnpoints.end()) ?
             "" : spawnpoints.begin()->get_name();
-          std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
+          std::string spawnpointname = args.spawnpoint.value_or(default_spawnpoint);
 
           session->set_start_point(sectorname, spawnpointname);
           session->restart_level();
@@ -646,9 +645,9 @@ Main::run(int argc, char** argv)
   // This should not be necessary on *nix, so only try it on Windows.
   try
   {
-    std::locale::global(boost::locale::generator().generate(""));
+    std::locale::global(std::locale::generator().generate(""));
     // Make boost.filesystem use it
-    boost::filesystem::path::imbue(std::locale());
+    std::filesystem::path::imbue(std::locale());
   }
   catch(const std::runtime_error& err)
   {
