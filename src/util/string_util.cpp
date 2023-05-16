@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <string>
+#include <sstream>
 #include <string.h>
 
 bool

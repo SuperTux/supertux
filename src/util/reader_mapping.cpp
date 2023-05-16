@@ -16,8 +16,6 @@
 
 #include "util/reader_mapping.hpp"
 
-#include <boost/ref.hpp>
-#include <boost/utility/typed_in_place_factory.hpp>
 #include <sexp/io.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -205,7 +203,7 @@ ReaderMapping::get(const char* key, std::optional<ReaderMapping>& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = boost::in_place<ReaderMapping>(boost::ref(m_doc), boost::ref(*sx));
+    value.emplace(m_doc, *sx);
     return true;
   } else {
     return false;
@@ -217,7 +215,7 @@ ReaderMapping::get(const char* key, std::optional<ReaderCollection>& value) cons
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = boost::in_place<ReaderCollection>(boost::ref(m_doc), boost::ref(*sx));
+    value.emplace(m_doc, *sx);
     return true;
   } else {
     return false;
