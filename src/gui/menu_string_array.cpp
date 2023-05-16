@@ -16,8 +16,6 @@
 
 #include "gui/menu_string_array.hpp"
 
-#include <boost/format.hpp>
-
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 

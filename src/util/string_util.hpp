@@ -33,6 +33,8 @@ public:
   static std::string replace_all(const std::string& haystack,
                                  const std::string& needle,
                                  const std::string& replacement);
+
+  static void split(std::vector<std::string>& result, const std::string& str, char ch);
 };
 
 #endif
