@@ -19,6 +19,7 @@
 
 #include <physfs.h>
 #include <fmt/format.h>
+#include <sstream>
 
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"
