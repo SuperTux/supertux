@@ -17,6 +17,8 @@
 #include "audio/openal_sound_source.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
 
 OpenALSoundSource::OpenALSoundSource() :
@@ -131,13 +133,23 @@ OpenALSoundSource::set_looping(bool looping)
 void
 OpenALSoundSource::set_relative(bool relative)
 {
+  if (g_config->disable_sound_positioning)
+    relative = true;
+
   alSourcei(m_source, AL_SOURCE_RELATIVE, relative ? AL_TRUE : AL_FALSE);
 }
 
 void
 OpenALSoundSource::set_position(const Vector& position)
 {
-  alSource3f(m_source, AL_POSITION, position.x, position.y, 0);
+  if (g_config->disable_sound_positioning)
+  {
+    set_relative(true);
+  }
+  else
+  {
+    alSource3f(m_source, AL_POSITION, position.x, position.y, 0);
+  }
 }
 
 void

@@ -26,6 +26,8 @@
 #include "audio/dummy_sound_source.hpp"
 #include "audio/sound_file.hpp"
 #include "audio/stream_sound_source.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
 
 SoundManager::SoundManager() :
@@ -199,7 +201,7 @@ SoundManager::play(const std::string& filename, const Vector& pos,
     std::unique_ptr<OpenALSoundSource> source(intern_create_sound_source(filename));
     source->set_gain(gain);
 
-    if (pos.x < 0 || pos.y < 0) {
+    if (g_config->disable_sound_positioning || pos.x < 0 || pos.y < 0) {
       source->set_relative(true);
     } else {
       source->set_position(pos);
