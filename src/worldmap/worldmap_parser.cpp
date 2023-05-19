@@ -17,6 +17,7 @@
 #include "worldmap/worldmap_parser.hpp"
 
 #include <physfs.h>
+#include <sstream>
 
 #include "object/ambient_light.hpp"
 #include "object/background.hpp"

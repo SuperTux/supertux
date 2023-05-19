@@ -85,7 +85,8 @@ jobs:
                    -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$GLBINDING    \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
-                   -DINSTALL_SUBDIR_SHARE=share/supertux2 -DBUILD_TESTS=ON
+                   -DINSTALL_SUBDIR_SHARE=share/supertux2 -DBUILD_TESTS=ON     \
+                   -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/lib"
 
       - name: Build and install
         working-directory: build

@@ -190,7 +190,7 @@ VideoSystem::do_take_screenshot()
         oss << "screenshot" << std::setw(6) << std::setfill('0') << num << ".png";
         const std::string screenshot_filename = FileSystem::join(screenshots_dir, oss.str());
         if (!PHYSFS_exists(screenshot_filename.c_str())) {
-          return screenshot_filename;
+          return std::move(screenshot_filename);
         }
       }
       return std::nullopt;

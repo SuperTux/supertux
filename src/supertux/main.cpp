@@ -640,14 +640,9 @@ Main::run(int argc, char** argv)
   // Create and install global locale - this can fail on some situations:
   // - with bad values for env vars (LANG, LC_ALL, ...)
   // - targets where libstdc++ uses its generic locales code (https://gcc.gnu.org/legacy-ml/libstdc++/2003-02/msg00345.html)
-  // NOTE: when moving to C++ >= 17, keep the try-catch block, but use std::locale:global(std::locale(""));
-  //
-  // This should not be necessary on *nix, so only try it on Windows.
   try
   {
-    std::locale::global(std::locale::generator().generate(""));
-    // Make boost.filesystem use it
-    std::filesystem::path::imbue(std::locale());
+    std::locale::global(std::locale::global(std::locale("")));
   }
   catch(const std::runtime_error& err)
   {
