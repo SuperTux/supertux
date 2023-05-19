@@ -73,6 +73,9 @@ WorldMap::setup()
   load_state();
 
   m_in_world_select = false;
+
+  m_sector->setup();
+  m_sector->finish_setup();
 }
 
 void

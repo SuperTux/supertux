@@ -87,17 +87,19 @@ template<class T>
 class GameObject
 {
 public:
-  GameObject(UID uid) :
-    m_uid(uid)
+  GameObject(UID uid, ::GameObjectManager& parent) :
+    m_uid(uid),
+    m_parent(parent)
   {}
 
   T* get_object_ptr() const
   {
-    return get_game_object_manager().get_object_by_uid<T>(m_uid);
+    return m_parent.get_object_by_uid<T>(m_uid);
   }
 
 protected:
   UID m_uid;
+  ::GameObjectManager& m_parent;
 };
 
 } // namespace scripting

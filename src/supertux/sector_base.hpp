@@ -30,7 +30,6 @@ class Sector : public GameObjectManager
 {
 public:
   Sector(Level& parent, const std::string& type);
-  virtual ~Sector() {}
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */

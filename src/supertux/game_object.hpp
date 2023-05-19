@@ -29,6 +29,7 @@
 
 class DrawingContext;
 class GameObjectComponent;
+class GameObjectManager;
 class ObjectRemoveListener;
 class ReaderMapping;
 class Writer;
@@ -176,6 +177,8 @@ public:
       together (e.g. platform on a path) */
   virtual void editor_update() {}
 
+  GameObjectManager* get_parent() const { return m_parent; }
+
 protected:
   /** Parse object type. **/
   void parse_type(const ReaderMapping& reader);
@@ -189,6 +192,10 @@ protected:
 
 private:
   void set_uid(const UID& uid) { m_uid = uid; }
+
+private:
+  /** The parent GameObjectManager. Set by the manager itself. */
+  GameObjectManager* m_parent;
 
 protected:
   /** a name for the gameobject, this is mostly a hint for scripts and

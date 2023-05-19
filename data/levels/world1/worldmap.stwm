@@ -2629,7 +2629,7 @@ state.ambient_b <- 1;")
       )
     )
     (tilemap
-      (solid #f)
+      (solid #t)
       (z-pos 2)
       (name "iv_secret")
       (width 100)

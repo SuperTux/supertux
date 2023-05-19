@@ -205,7 +205,7 @@ WorldmapLevelSelectMenu::menu_action(MenuItem& item)
   {
     if(id == item.get_id())
     {
-      tux.set_tile_pos(tile.get_pos());
+      tux.set_tile_pos(tile.get_tile_pos());
       break;
     }
     id++;

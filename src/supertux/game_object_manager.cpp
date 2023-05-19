@@ -106,6 +106,8 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   assert(object);
   assert(!object->get_uid());
 
+  object->m_parent = this;
+
   object->set_uid(m_uid_generator.next());
 
   // make sure the object isn't already in the list

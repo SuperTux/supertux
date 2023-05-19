@@ -33,7 +33,6 @@ WorldMapObject::in_worldmap()
 
 WorldMapObject::WorldMapObject(const ReaderMapping& mapping, const std::string& default_sprite) :
   MovingSprite(mapping, default_sprite),
-  m_in_worldmap(in_worldmap()),
   m_tile_x(),
   m_tile_y()
 {
@@ -42,7 +41,6 @@ WorldMapObject::WorldMapObject(const ReaderMapping& mapping, const std::string& 
 
 WorldMapObject::WorldMapObject(const ReaderMapping& mapping) :
   MovingSprite(mapping),
-  m_in_worldmap(in_worldmap()),
   m_tile_x(),
   m_tile_y()
 {
@@ -51,7 +49,6 @@ WorldMapObject::WorldMapObject(const ReaderMapping& mapping) :
 
 WorldMapObject::WorldMapObject(const Vector& pos, const std::string& default_sprite) :
   MovingSprite(pos, default_sprite),
-  m_in_worldmap(in_worldmap()),
   m_tile_x(),
   m_tile_y()
 {
@@ -61,7 +58,7 @@ WorldMapObject::WorldMapObject(const Vector& pos, const std::string& default_spr
 void
 WorldMapObject::initialize()
 {
-  m_layer = LAYER_OBJECTS - (m_in_worldmap ? 1 : 0);
+  m_layer = LAYER_OBJECTS - (in_worldmap() ? 1 : 0);
 
   m_col.m_bbox.set_left(32 * m_col.m_bbox.get_left());
   m_col.m_bbox.set_top(32 * m_col.m_bbox.get_top());
@@ -86,7 +83,7 @@ WorldMapObject::get_settings()
 void
 WorldMapObject::draw(DrawingContext& context)
 {
-  if (m_in_worldmap)
+  if (in_worldmap())
     draw_worldmap(context);
   else if (m_sprite)
     m_sprite->draw(context.color(), m_col.m_bbox.p1() + get_editor_offset(), m_layer);

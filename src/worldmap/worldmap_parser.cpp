@@ -19,6 +19,7 @@
 
 #include "physfs/util.hpp"
 #include "supertux/d_scope.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "util/file_system.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/worldmap.hpp"
@@ -74,6 +75,12 @@ WorldMapSectorParser::parse_object_additional(const std::string& name, const Rea
   {
     m_worldmap_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>(reader));
     return true;
+  }
+  else
+  {
+    auto worldmap_objects = GameObjectFactory::instance().get_registered_objects(GameObjectFactory::RegisteredObjectParam::OBJ_PARAM_WORLDMAP);
+    if (std::find(worldmap_objects.begin(), worldmap_objects.end(), name) == worldmap_objects.end())
+      return true; // If the object to be created is not a part of all worldmap-allowed objects, don't proceed adding it.
   }
   return false;
 }

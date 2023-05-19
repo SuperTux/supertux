@@ -36,7 +36,7 @@ SpecialTile::SpecialTile(const ReaderMapping& mapping) :
 {
   mapping.get("invisible-tile", m_invisible);
 
-  if (is_in_worldmap() && !has_found_sprite()) // In worldmap and no valid sprite is specified, be invisible
+  if (in_worldmap() && !has_found_sprite()) // In worldmap and no valid sprite is specified, be invisible
     m_invisible = true;
 
   mapping.get("map-message", m_map_message);

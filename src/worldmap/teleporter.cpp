@@ -29,7 +29,7 @@ Teleporter::Teleporter(const ReaderMapping& mapping) :
   m_automatic(false),
   m_message()
 {
-  if (is_in_worldmap() && !has_found_sprite()) // In worldmap and no valid sprite is specified, remove it
+  if (in_worldmap() && !has_found_sprite()) // In worldmap and no valid sprite is specified, remove it
     m_sprite.reset();
 
   mapping.get("worldmap", m_worldmap);

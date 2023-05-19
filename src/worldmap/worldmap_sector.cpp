@@ -49,6 +49,9 @@ namespace worldmap {
 WorldMapSector*
 WorldMapSector::current()
 {
+  if (!WorldMap::current())
+    return nullptr;
+
   return &WorldMap::current()->get_sector();
 }
 
@@ -132,6 +135,8 @@ WorldMapSector::setup()
 void
 WorldMapSector::finish_setup()
 {
+  BIND_WORLDMAP_SECTOR(*this);
+
   /** Force spawnpoint, if the property is set. **/
   if (!m_parent.m_force_spawnpoint.empty())
   {
@@ -141,18 +146,20 @@ WorldMapSector::finish_setup()
   }
 
   /** Perform scripting related actions. **/
-  BIND_WORLDMAP_SECTOR(*this);
-  try {
-    // Run default.nut just before init script
-    IFileStream in(m_parent.m_levels_path + "default.nut");
-    m_squirrel_environment->run_script(in, "WorldMapSector::default.nut");
-  } catch(std::exception& ) {
+  // Run default.nut just before init script
+  try
+  {
+    IFileStream in(m_parent.get_levels_path() + "default.nut");
+    m_squirrel_environment->run_script(in, "WorldMap::default.nut");
+  }
+  catch (...)
+  {
     // doesn't exist or erroneous; do nothing
   }
 
-  if (!m_init_script.empty()) {
-    m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
-  }
+  if (!m_init_script.empty())
+    m_squirrel_environment->run_script(m_init_script, "WorldMap::init");
+
   m_tux->process_special_tile(at_object<SpecialTile>());
 }
 

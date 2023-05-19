@@ -29,7 +29,7 @@ namespace worldmap {
 
 class WorldMapObject : public MovingSprite
 {
-private:
+protected:
   static bool in_worldmap();
 
 public:
@@ -52,7 +52,6 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void move_to(const Vector& pos) override;
 
-  bool is_in_worldmap() const { return m_in_worldmap; }
   Vector get_tile_pos() const { return { m_tile_x, m_tile_y }; }
 
 private:
@@ -61,8 +60,6 @@ private:
   void update_pos();
 
 private:
-  const bool m_in_worldmap;
-
   int m_tile_x;
   int m_tile_y;
 
