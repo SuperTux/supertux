@@ -332,7 +332,7 @@ GameObjectManager::process_object_change(ObjectChange& change)
 void
 GameObjectManager::save_object_change(GameObject& object, bool creation)
 {
-  if (m_undo_tracking && !object.m_never_track_undo && object.m_track_undo)
+  if (m_undo_tracking && object.track_state() && object.m_track_undo)
   {
     m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
     m_redo_stack.clear();

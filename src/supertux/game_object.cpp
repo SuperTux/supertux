@@ -30,7 +30,6 @@ GameObject::GameObject() :
   m_type(0),
   m_fade_helpers(),
   m_track_undo(true),
-  m_never_track_undo(false),
   m_previous_type(-1),
   m_uid(),
   m_scheduled_for_removal(false),
@@ -46,7 +45,6 @@ GameObject::GameObject(const std::string& name) :
   m_type(0),
   m_fade_helpers(),
   m_track_undo(true),
-  m_never_track_undo(false),
   m_previous_type(-1),
   m_uid(),
   m_scheduled_for_removal(false),
@@ -138,6 +136,8 @@ GameObject::save_state()
     m_last_state.clear();
     return;
   }
+  if (!track_state())
+    return;
 
   if (m_last_state.empty())
     m_last_state = save();
@@ -151,6 +151,8 @@ GameObject::check_state()
     m_last_state.clear();
     return;
   }
+  if (!track_state())
+    return;
 
   // If settings have changed, save the change.
   if (!m_last_state.empty())

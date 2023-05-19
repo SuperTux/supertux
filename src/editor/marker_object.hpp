@@ -39,6 +39,7 @@ public:
   virtual bool hide_if_no_offset() const { return false; }
 
   virtual bool is_saveable() const override { return false; }
+  bool track_state() const override { return false; }
 
   virtual int get_layer() const override { return LAYER_GUI - 20; }
 

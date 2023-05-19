@@ -24,16 +24,12 @@
 
 MarkerObject::MarkerObject(const Vector& pos)
 {
-  m_never_track_undo = true;
-
   m_col.m_bbox.set_p1(pos);
   m_col.m_bbox.set_size(16, 16);
 }
 
 MarkerObject::MarkerObject()
 {
-  m_never_track_undo = true;
-
   m_col.m_bbox.set_p1(Vector(0, 0));
   m_col.m_bbox.set_p2(Vector(16, 16));
 }

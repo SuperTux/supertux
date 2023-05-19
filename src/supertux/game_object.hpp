@@ -99,6 +99,10 @@ public:
       be skipped on saving and can't be cloned in the editor. */
   virtual bool is_saveable() const { return true; }
 
+  /** Indicates if the object's state should be tracked.
+      If false, load_state() and save_state() calls would not do anything. */
+  virtual bool track_state() const { return true; }
+
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */
   virtual bool has_settings() const { return is_saveable(); }
@@ -213,10 +217,9 @@ protected:
   std::vector<std::unique_ptr<FadeHelper>> m_fade_helpers;
 
   /** Track the following creation/deletion of this object for undo.
-      If m_never_track_undo is true, no matter the value of m_track_undo,
-      this object will be ignored. */
+      If track_state() returns false, this object would not be tracked,
+      regardless of the value of this variable. */
   bool m_track_undo;
-  bool m_never_track_undo;
 
 private:
   /** The object's type at the time of the last get_settings() call.
