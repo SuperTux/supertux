@@ -38,7 +38,7 @@ private:
 
 public:
   explicit Level(bool m_is_worldmap, bool temporary = false);
-  ~Level();
+  virtual ~Level();
 
   // saves to a levelfile
   void save(const std::string& filename, bool retry = false);

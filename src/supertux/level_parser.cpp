@@ -117,7 +117,7 @@ LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string
 
 LevelParser::LevelParser(Level& level, bool worldmap, bool editable) :
   m_level(level),
-  m_worldmap(worldmap),
+  m_is_worldmap(worldmap),
   m_editable(editable)
 {
 }
@@ -213,7 +213,7 @@ LevelParser::create(const std::string& filepath, const std::string& levelname)
   m_level.m_filename = filepath;
   m_level.m_name = levelname;
   m_level.m_license = "CC-BY-SA 4.0 International";
-  m_level.m_tileset = m_worldmap ? "images/ice_world.strf" : "images/tiles.strf";
+  m_level.m_tileset = m_is_worldmap ? "images/ice_world.strf" : "images/tiles.strf";
 
   auto sector = SectorParser::from_nothing(m_level);
   sector->set_name("main");

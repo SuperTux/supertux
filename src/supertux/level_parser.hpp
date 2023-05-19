@@ -50,7 +50,7 @@ protected:
 
 protected:
   Level& m_level;
-  bool m_worldmap;
+  bool m_is_worldmap;
   bool m_editable;
 
 private:
