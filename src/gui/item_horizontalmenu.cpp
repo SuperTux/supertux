@@ -26,23 +26,22 @@
 #include "video/viewport.hpp"
 
 float ItemHorizontalMenu::s_max_width = 0.f; // Dynamically set
-const float ItemHorizontalMenu::s_height = 100.f;
 
-const float ItemHorizontalMenu::s_width_offset = 20.f;
+const float ItemHorizontalMenu::s_width_offset = 80.f;
 const float ItemHorizontalMenu::s_menu_width_offset = 30.f;
 const float ItemHorizontalMenu::s_item_spacing = 30.f;
 
 const float ItemHorizontalMenu::s_icon_y = 3.f;
-const float ItemHorizontalMenu::s_icon_w = s_height / 1.5f;
-const float ItemHorizontalMenu::s_text_y = s_height - 30.f;
 
-ItemHorizontalMenu::ItemHorizontalMenu(int id) :
+ItemHorizontalMenu::ItemHorizontalMenu(int id, float height, float min_item_width) :
   MenuItem("", id),
   m_items(),
   m_selected_item(0),
   m_item_range_begin(0),
   m_item_range_end(0),
   m_width(0.f),
+  m_height(height),
+  m_min_item_width(min_item_width),
   m_rect()
 {
   on_window_resize();
@@ -59,15 +58,15 @@ void
 ItemHorizontalMenu::add_item(const std::string& text, const std::string& description,
                              const std::string& icon_file, int id)
 {
-  // Wrap description
-  const float desc_max_width = Resources::normal_font->get_text_width(text) + 300;
-  std::string overflow;
-  std::string desc_result = Resources::normal_font->wrap_to_width(description, desc_max_width, &overflow);
-  while (!overflow.empty())
-    desc_result += "\n" + Resources::normal_font->wrap_to_width(overflow, desc_max_width, &overflow);
-
-  m_items.push_back({ id, text, desc_result, Surface::from_file(icon_file) });
+  m_items.push_back({ id, text, description, Surface::from_file(icon_file) });
   calculate_width();
+}
+
+float
+ItemHorizontalMenu::get_item_width(const std::string& text) const
+{
+  const float item_text_width = Resources::normal_font->get_text_width(text);
+  return m_min_item_width < 0 || item_text_width > m_min_item_width ? item_text_width : m_min_item_width;
 }
 
 void
@@ -81,7 +80,7 @@ ItemHorizontalMenu::calculate_width(int begin)
   float width = s_menu_width_offset;
   for (int i = begin; i < total; i++)
   {
-    float item_width = Resources::normal_font->get_text_width(m_items[i].text) + s_item_spacing;
+    float item_width = get_item_width(m_items[i].text) + (i == total - 1 ? s_menu_width_offset : s_item_spacing);
     width += item_width;
     if (width > s_max_width - s_menu_width_offset)
     {
@@ -111,8 +110,8 @@ void
 ItemHorizontalMenu::calculate_rect(const Vector& pos)
 {
   m_rect = Rectf(Vector(pos.x + (MenuManager::instance().current_menu()->get_width() - m_width) / 2,
-                        pos.y - s_height / 2 - 2.5f),
-                 Sizef(m_width, s_height));
+                        pos.y - m_height / 2 - 2.5f),
+                 Sizef(m_width, m_height));
 }
 
 void
@@ -132,11 +131,11 @@ ItemHorizontalMenu::draw(DrawingContext& context, const Vector& pos, int menu_wi
   float pos_x = m_rect.get_left() + s_menu_width_offset;
   for (int i = m_item_range_begin; i <= m_item_range_end; i++)
   {
-    const float text_width = Resources::normal_font->get_text_width(m_items[i].text);
+    const float item_width = get_item_width(m_items[i].text);
     draw_item(context, m_items[i], active ? i == m_selected_item : false,
-              Vector(pos_x, pos_y), text_width);
+              Vector(pos_x, pos_y), item_width);
 
-    pos_x += text_width + s_item_spacing;
+    pos_x += item_width + s_item_spacing;
   }
 
   // Draw arrows.
@@ -144,28 +143,30 @@ ItemHorizontalMenu::draw(DrawingContext& context, const Vector& pos, int menu_wi
   {
     if (m_item_range_begin > 0)
       context.color().draw_text(Resources::big_font, "<",
-                                Vector(m_rect.get_left() + 5.0f, pos_y + s_height / 2.5f),
+                                Vector(m_rect.get_left() + 5.0f, pos_y + m_height / 2.5f),
                                 ALIGN_CENTER, LAYER_GUI);
     if (m_item_range_end < static_cast<int>(m_items.size()) - 1)
       context.color().draw_text(Resources::big_font, ">",
-                                Vector(m_rect.get_right() - 5.0f, pos_y + s_height / 2.5f),
+                                Vector(m_rect.get_right() - 5.0f, pos_y + m_height / 2.5f),
                                 ALIGN_CENTER, LAYER_GUI);
   }
 }
 
 void
 ItemHorizontalMenu::draw_item(DrawingContext& context, const ItemHorizontalMenu::Item& item, bool active,
-                              const Vector& pos, const float& text_width)
+                              const Vector& pos, const float& item_width)
 {
   // Draw icon.
-  context.color().draw_surface_scaled(item.icon, Rectf(Vector(pos.x + text_width / 2 - s_icon_w / 2,
+  const float icon_w = m_height / 1.5f;
+  context.color().draw_surface_scaled(item.icon, Rectf(Vector(pos.x + item_width / 2 - icon_w / 2,
                                                               pos.y + s_icon_y),
-                                                       Sizef(s_icon_w, s_icon_w)), LAYER_GUI);
+                                                       Sizef(icon_w, icon_w)), LAYER_GUI);
 
   // Draw text.
+  const float text_y = m_height - 35.f;
   context.color().draw_text(Resources::normal_font, item.text,
-                            Vector(pos.x, pos.y + s_text_y),
-                            ALIGN_LEFT, LAYER_GUI);
+                            Vector(pos.x + item_width / 2, pos.y + text_y),
+                            ALIGN_CENTER, LAYER_GUI);
 
   // Draw selection border, if active.
   if (active)
@@ -174,7 +175,7 @@ ItemHorizontalMenu::draw_item(DrawingContext& context, const ItemHorizontalMenu:
 
     const float text_height = Resources::normal_font->get_text_height(item.text);
     const Rectf item_rect(Vector(pos.x - 7.5f, pos.y + s_icon_y),
-                          Sizef(text_width + 10.f, s_text_y + text_height));
+                          Sizef(item_width + 10.f, text_y + text_height));
 
     context.color().draw_filled_rect(item_rect,
                                      Color(1.0f, 1.0f, 1.0f, blink),
@@ -222,9 +223,9 @@ ItemHorizontalMenu::event(const SDL_Event& ev)
         float pos_x = m_rect.get_left() + 20.0f;
         for (int i = m_item_range_begin; i <= m_item_range_end; i++)
         {
-          const float text_width = Resources::normal_font->get_text_width(m_items[i].text);
+          const float item_width = get_item_width(m_items[i].text);
           const Rectf item_rect(Vector(pos_x - 2.0f, m_rect.p1().y + s_icon_y),
-                                Sizef(text_width, s_text_y + Resources::normal_font->get_text_height(m_items[i].text)));
+                                Sizef(item_width, m_height - 30.f + Resources::normal_font->get_text_height(m_items[i].text)));
 
           if (item_rect.contains(mouse_pos))
           {
@@ -232,7 +233,7 @@ ItemHorizontalMenu::event(const SDL_Event& ev)
             break;
           }
 
-          pos_x += text_width + s_item_spacing;
+          pos_x += item_width + s_item_spacing;
         }
       }
       break;

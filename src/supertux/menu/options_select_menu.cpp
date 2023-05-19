@@ -21,22 +21,24 @@
 #include "supertux/menu/options_menu.hpp"
 #include "util/gettext.hpp"
 
+const std::string OptionsSelectMenu::s_icons_base_dir = "images/engine/options/";
+
 OptionsSelectMenu::OptionsSelectMenu(bool complete) :
   m_complete_options(complete)
 {
   add_label(_("Options"));
   add_hl();
 
-  ItemHorizontalMenu& horizontal_menu = add_horizontalmenu(MNID_OPTIONCATEGORIES);
+  ItemHorizontalMenu& horizontal_menu = add_horizontalmenu(MNID_OPTIONCATEGORIES, 150.f, 100.f);
   if (m_complete_options) // Currently, locale options are only available when opened completely.
   {
-    horizontal_menu.add_item(_("Locale"), "", "images/engine/editor/camera.png", OptionsMenu::LOCALE);
+    horizontal_menu.add_item(_("Locale"), "", s_icons_base_dir + "locale.png", OptionsMenu::LOCALE);
   }
-  horizontal_menu.add_item(_("Video"), "", "images/engine/editor/camera.png", OptionsMenu::VIDEO);
-  horizontal_menu.add_item(_("Audio"), "", "images/engine/editor/camera.png", OptionsMenu::AUDIO);
-  horizontal_menu.add_item(_("Controls"), "", "images/engine/editor/camera.png", OptionsMenu::CONTROLS);
-  horizontal_menu.add_item(_("Extras"), "", "images/engine/editor/camera.png", OptionsMenu::EXTRAS);
-  horizontal_menu.add_item(_("Advanced"), "", "images/engine/editor/camera.png", OptionsMenu::ADVANCED);
+  horizontal_menu.add_item(_("Video"), "", s_icons_base_dir + "video.png", OptionsMenu::VIDEO);
+  horizontal_menu.add_item(_("Audio"), "", s_icons_base_dir + "audio.png", OptionsMenu::AUDIO);
+  horizontal_menu.add_item(_("Controls"), "", s_icons_base_dir + "controls.png", OptionsMenu::CONTROLS);
+  horizontal_menu.add_item(_("Extras"), "", s_icons_base_dir + "extras.png", OptionsMenu::EXTRAS);
+  horizontal_menu.add_item(_("Advanced"), "", s_icons_base_dir + "advanced.png", OptionsMenu::ADVANCED);
 
   add_hl();
   add_back(_("Back"));

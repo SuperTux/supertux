@@ -21,6 +21,9 @@
 
 class OptionsSelectMenu final : public Menu
 {
+private:
+  static const std::string s_icons_base_dir;
+
 public:
   OptionsSelectMenu(bool complete = true);
 

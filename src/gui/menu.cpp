@@ -385,9 +385,9 @@ Menu::add_list(const std::string& text, const std::vector<std::string>& items, s
 }
 
 ItemHorizontalMenu&
-Menu::add_horizontalmenu(int id)
+Menu::add_horizontalmenu(int id, float height, float min_item_width)
 {
-  auto item = std::make_unique<ItemHorizontalMenu>(id);
+  auto item = std::make_unique<ItemHorizontalMenu>(id, height, min_item_width);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

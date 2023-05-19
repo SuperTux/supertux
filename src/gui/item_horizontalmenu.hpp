@@ -26,19 +26,16 @@
 
 class DrawingContext;
 
-class ItemHorizontalMenu : public MenuItem
+class ItemHorizontalMenu final : public MenuItem
 {
 protected:
   static float s_max_width;
-  static const float s_height;
 
   static const float s_width_offset;
   static const float s_menu_width_offset;
   static const float s_item_spacing;
 
   static const float s_icon_y;
-  static const float s_icon_w;
-  static const float s_text_y;
 
 public:
   struct Item
@@ -56,10 +53,12 @@ protected:
   int m_item_range_end;
 
   float m_width;
+  const float m_height;
+  const float m_min_item_width;
   Rectf m_rect;
 
 public:
-  ItemHorizontalMenu(int id = -1);
+  ItemHorizontalMenu(int id, float height, float min_item_width = -1.f);
 
   Item& get_selected_item();
 
@@ -67,11 +66,11 @@ public:
                 const std::string& icon_file, int id = -1);
 
   void draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) override;
-  virtual void draw_item(DrawingContext& context, const Item& item, bool active,
-                         const Vector& pos, const float& text_width);
+  void draw_item(DrawingContext& context, const Item& item, bool active,
+                         const Vector& pos, const float& item_width);
 
-  virtual void process_action(const MenuAction& action) override;
-  virtual void event(const SDL_Event& ev) override;
+  void process_action(const MenuAction& action) override;
+  void event(const SDL_Event& ev) override;
 
   void on_window_resize() override;
 
@@ -81,7 +80,7 @@ public:
   float get_distance() const override { return 10.f; }
 
   int get_width() const override { return static_cast<int>(m_width); }
-  int get_height() const override { return static_cast<int>(s_height); }
+  int get_height() const override { return static_cast<int>(m_height); }
 
 protected:
   void calculate_width(int begin = 0);
@@ -90,6 +89,9 @@ protected:
   // Navigation functions
   void go_left();
   void go_right();
+
+private:
+  float get_item_width(const std::string& text) const;
 
 private:
   ItemHorizontalMenu(const ItemHorizontalMenu&) = delete;

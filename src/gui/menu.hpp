@@ -109,7 +109,7 @@ public:
   ItemImages& add_images(const std::string& image_path, int max_image_width = 0, int max_image_height = 0, int id = -1);
   ItemImages& add_images(const std::vector<std::string>& image_paths, int max_image_width = 0, int max_image_height = 0, int id = -1);
   ItemList& add_list(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id = -1);
-  ItemHorizontalMenu& add_horizontalmenu(int id = -1);
+  ItemHorizontalMenu& add_horizontalmenu(int id, float height, float min_item_width = -1.f);
 
   /** Remove all entries from the menu */
   void clear();
