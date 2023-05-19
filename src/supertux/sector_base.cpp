@@ -24,8 +24,8 @@ Sector::Sector(Level& parent, const std::string& type) :
   m_level(parent),
   m_name(),
   m_init_script(),
-  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type)),
-  m_gravity(10.0f)
+  m_gravity(10.0f),
+  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type))
 {
 }
 
