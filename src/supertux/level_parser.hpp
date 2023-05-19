@@ -37,6 +37,7 @@ public:
 
 protected:
   LevelParser(Level& level, bool worldmap, bool editable);
+  virtual ~LevelParser() {}
 
   void load(const ReaderDocument& doc, bool info_only = false);
   void load(std::istream& stream, const std::string& context);

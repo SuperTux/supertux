@@ -39,6 +39,7 @@ public:
 
 protected:
   SectorParser(Base::Sector& sector, bool editable);
+  virtual ~SectorParser() {}
 
   void parse_old_format(const ReaderMapping& reader);
   void parse(const ReaderMapping& sector);

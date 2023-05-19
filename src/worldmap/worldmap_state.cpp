@@ -47,8 +47,6 @@ WorldMapState::load_state()
   WORLDMAP_STATE_SQUIRREL_VM_GUARD;
   SQInteger oldtop = sq_gettop(vm.get_vm());
 
-  bool has_new_sector = false;
-
   try {
     /** Get state table. **/
     sq_pushroottable(vm.get_vm());
@@ -72,10 +70,8 @@ WorldMapState::load_state()
     {
       const std::string sector_name = vm.read_string("sector");
       if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the new sector.
-      {
         m_worldmap.set_sector(sector_name, "", false);
-        has_new_sector = true; // Delay fully setting up the sector after loading the state.
-      }
+
       WORLDMAP_STATE_SECTOR_GUARD;
 
       /** Get state table for the current sector. **/
@@ -84,10 +80,7 @@ WorldMapState::load_state()
     else // Sector property does not exist, which may indicate outdated save file.
     {
       if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the main one.
-      {
         m_worldmap.set_sector("main", "", false);
-        has_new_sector = true; // Delay fully setting up the sector after loading the state.
-      }
     }
     if (!m_worldmap.m_sector)
     {
@@ -106,20 +99,14 @@ WorldMapState::load_state()
     log_warning << "Not loading worldmap state: " << err.what() << std::endl;
 
     // Set default properties.
-    has_new_sector = true; // Delay fully setting up the sector after creating the initial save.
-    if (!m_worldmap.m_sector) m_worldmap.set_sector("main", "", false); // If no current sector is present, set it to "main", or the default one.
+    if (!m_worldmap.m_sector)
+      m_worldmap.set_sector("main", "", false); // If no current sector is present, set it to "main", or the default one.
     m_worldmap.get_sector().move_to_spawnpoint("main"); // Move Tux to the "main" spawnpoint.
 
     // Create a new initial save.
     save_state();
   }
   sq_settop(vm.get_vm(), oldtop);
-
-  // If a new sector has been set earlier and is not fully set up, finish setting it up here.
-  if (has_new_sector)
-  {
-    m_worldmap.get_sector().finish_setup();
-  }
 
   m_worldmap.m_in_level = false;
 }

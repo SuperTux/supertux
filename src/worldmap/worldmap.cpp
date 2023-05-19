@@ -71,18 +71,16 @@ WorldMap::setup()
   MenuManager::instance().clear_menu_stack();
 
   load_state();
-
-  m_in_world_select = false;
-
   m_sector->setup();
   m_sector->finish_setup();
+
+  m_in_world_select = false;
 }
 
 void
 WorldMap::leave()
 {
   save_state();
-
   m_sector->leave();
 
   GameManager::current()->load_next_worldmap();
@@ -272,12 +270,11 @@ WorldMap::set_sector(const std::string& name, const std::string& spawnpoint,
   }
 
   // Set up the new sector.
-  m_sector->setup();
   if (perform_full_setup)
-  {
     load_state();
-    m_sector->finish_setup();
-  }
+  m_sector->setup();
+  m_sector->finish_setup();
+
   if (!spawnpoint.empty())
   {
     // If a spawnpoint has been provided, move to it.
