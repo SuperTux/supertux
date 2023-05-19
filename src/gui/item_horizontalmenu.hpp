@@ -67,7 +67,7 @@ public:
 
   void draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) override;
   void draw_item(DrawingContext& context, const Item& item, bool active,
-                         const Vector& pos, const float& item_width);
+                 const Vector& pos, const float& item_width);
 
   void process_action(const MenuAction& action) override;
   void event(const SDL_Event& ev) override;
