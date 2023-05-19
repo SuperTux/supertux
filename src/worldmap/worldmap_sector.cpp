@@ -150,7 +150,7 @@ WorldMapSector::finish_setup()
   try
   {
     IFileStream in(m_parent.get_levels_path() + "default.nut");
-    m_squirrel_environment->run_script(in, "WorldMap::default.nut");
+    m_squirrel_environment->run_script(in, "WorldMapSector::default.nut");
   }
   catch (...)
   {
@@ -158,7 +158,7 @@ WorldMapSector::finish_setup()
   }
 
   if (!m_init_script.empty())
-    m_squirrel_environment->run_script(m_init_script, "WorldMap::init");
+    m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
 
   m_tux->process_special_tile(at_object<SpecialTile>());
 }
