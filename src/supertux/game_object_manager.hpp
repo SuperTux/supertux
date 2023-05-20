@@ -235,7 +235,7 @@ private:
     bool creation; // If the change represents an object creation.
   };
 
-  /** Create oject from object change. */
+  /** Create object from object change. */
   void create_object_from_change(const ObjectChange& change);
 
   /** Process object change on undo/redo. */
