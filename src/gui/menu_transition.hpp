@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,39 +15,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_GAME_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_GAME_MENU_HPP
+#ifndef HEADER_SUPERTUX_GUI_MENU_TRANSITION_HPP
+#define HEADER_SUPERTUX_GUI_MENU_TRANSITION_HPP
 
-#include "gui/menu.hpp"
+#include "math/rectf.hpp"
 
-#include <functional>
+class DrawingContext;
 
-class GameMenu final : public Menu
+class MenuTransition final
 {
 private:
-  // stores callback for level reset
-  std::function<void ()> reset_callback;
-  // stores callback for level reset from checkpoint
-  std::function<void ()> reset_checkpoint_callback;
-  // stores callback for level abort
-  std::function<void ()> abort_callback;
+  Rectf m_from_rect;
+  Rectf m_to_rect;
+
+  float m_effect_progress;
+  float m_effect_start_time;
+  bool m_is_active;
 
 public:
-  GameMenu();
+  MenuTransition();
 
-  void menu_action(MenuItem& item) override;
+  void start(const Rectf& from_rect, const Rectf& to_rect);
+  void update();
+  void draw(DrawingContext& context);
 
-private:
-  enum GameMenuIDs {
-    MNID_CONTINUE,
-    MNID_RESETLEVEL,
-    MNID_RESETLEVELCHECKPOINT,
-    MNID_ABORTLEVEL
-  };
-
-private:
-  GameMenu(const GameMenu&) = delete;
-  GameMenu& operator=(const GameMenu&) = delete;
+  void set(const Rectf& rect) { m_to_rect = m_from_rect = rect; }
+  bool is_active() const { return m_is_active; }
 };
 
 #endif
