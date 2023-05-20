@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,39 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_GAME_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_GAME_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_OPTIONS_SELECT_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_OPTIONS_SELECT_MENU_HPP
 
 #include "gui/menu.hpp"
 
-#include <functional>
-
-class GameMenu final : public Menu
+class OptionsSelectMenu final : public Menu
 {
 private:
-  // stores callback for level reset
-  std::function<void ()> reset_callback;
-  // stores callback for level reset from checkpoint
-  std::function<void ()> reset_checkpoint_callback;
-  // stores callback for level abort
-  std::function<void ()> abort_callback;
+  static const std::string s_icons_base_dir;
 
 public:
-  GameMenu();
+  OptionsSelectMenu(bool complete = true);
 
   void menu_action(MenuItem& item) override;
 
 private:
-  enum GameMenuIDs {
-    MNID_CONTINUE,
-    MNID_RESETLEVEL,
-    MNID_RESETLEVELCHECKPOINT,
-    MNID_ABORTLEVEL
+  enum MenuIDs {
+    MNID_OPTIONCATEGORIES
   };
 
 private:
-  GameMenu(const GameMenu&) = delete;
-  GameMenu& operator=(const GameMenu&) = delete;
+  bool m_complete_options;
+
+private:
+  OptionsSelectMenu(const OptionsSelectMenu&) = delete;
+  OptionsSelectMenu& operator=(const OptionsSelectMenu&) = delete;
 };
 
 #endif

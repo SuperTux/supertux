@@ -53,6 +53,12 @@ public:
   void goto_node(int node_no);
 
   /**
+   * Jumps instantly to the given node.
+   * @param int $node_no
+   */
+  void set_node(int node_no);
+
+  /**
    * Starts moving the tilemap.
    */
   void start_moving();

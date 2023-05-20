@@ -185,10 +185,6 @@ WorldMap::on_escape_press()
     MenuManager::instance().set_menu(MenuStorage::WORLDMAP_MENU);
     m_tux->set_direction(Direction::NONE);  // stop tux movement when menu is called
   }
-  else
-  {
-    MenuManager::instance().clear_menu_stack();
-  }
 }
 
 void

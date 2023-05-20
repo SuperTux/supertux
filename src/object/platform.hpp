@@ -58,6 +58,9 @@ public:
   /** Move platform until at given node, then stop */
   void goto_node(int node_no);
 
+  /** Move platform instantly to given node */
+  void jump_to_node(int node_no);
+
   /** Start moving platform */
   void start_moving();
 

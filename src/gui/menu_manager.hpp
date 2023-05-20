@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,39 +18,51 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_MANAGER_HPP
 #define HEADER_SUPERTUX_GUI_MENU_MANAGER_HPP
 
+#include "util/currenton.hpp"
+
 #include <memory>
 #include <vector>
 
+#include "control/controller.hpp"
+#include "gui/menu_action.hpp"
+#include "gui/menu_transition.hpp"
+#include "math/rectf.hpp"
+
 class Controller;
 class Dialog;
-class DrawingContext;
 class Menu;
-class MenuTransition;
 class Notification;
 union SDL_Event;
 
-class MenuManager final
+class MenuManager final : public Currenton<MenuManager>
 {
 private:
-  static MenuManager* s_instance;
+  static const float s_menu_repeat_initial;
+  static const float s_menu_repeat_rate;
+
 public:
   static MenuManager& instance();
 
 private:
-  std::unique_ptr<Dialog> m_dialog;
-  bool m_has_next_dialog;
-  std::unique_ptr<Dialog> m_next_dialog;
+  template<typename T>
+  struct SettableItem {
+    std::unique_ptr<T> current;
+    std::unique_ptr<T> next;
+    bool has_next;
+  };
 
-  std::unique_ptr<Notification> m_notification;
-  bool m_has_next_notification;
-  std::unique_ptr<Notification> m_next_notification;
-
+private:
   std::vector<std::unique_ptr<Menu> > m_menu_stack;
   std::unique_ptr<MenuTransition> m_transition;
 
+  float m_menu_repeat_time;
+
+  SettableItem<Dialog> m_dialog;
+  SettableItem<Notification> m_notification;
+
 public:
   MenuManager();
-  ~MenuManager();
+  ~MenuManager() override;
 
   void event(const SDL_Event& event);
   void process_input(const Controller& controller);
@@ -60,31 +73,52 @@ public:
   void set_dialog(std::unique_ptr<Dialog> dialog);
   void set_notification(std::unique_ptr<Notification> notification);
 
-  void set_menu(int id);
-  void set_menu(std::unique_ptr<Menu> menu);
+  void set_menu(int id, bool skip_transition = false);
+  void set_menu(std::unique_ptr<Menu> menu, bool skip_transition = false);
   void push_menu(int id, bool skip_transition = false);
   void push_menu(std::unique_ptr<Menu> menu, bool skip_transition = false);
   void pop_menu(bool skip_transition = false);
   void clear_menu_stack(bool skip_transition = false);
 
   void on_window_resize();
-  bool is_active() const
-  {
-    return !m_menu_stack.empty();
-  }
 
-  bool has_dialog() const
-  {
-    return m_dialog || m_has_next_dialog;
-  }
+  bool is_active() const;
+  bool has_dialog() const;
+
   Menu* current_menu() const;
   Menu* previous_menu() const;
 
 private:
-  void transition(Menu* from, Menu* to, bool call_this = false); // "call_this" -> calls this specific overload to prevent ambiguous calls
-  void transition(Menu* from, Dialog* to);
-  void transition(Dialog* from, Menu* to);
-  void transition(Dialog* from, Dialog* to);
+  void check_input_action(Control control, MenuAction action,
+                          const Controller& controller, MenuAction& result);
+
+  template<typename T>
+  Rectf to_rect(T& menu)
+  {
+    return Rectf(menu.get_center_pos().x - menu.get_width() / 2,
+                 menu.get_center_pos().y - menu.get_height() / 2,
+                 menu.get_center_pos().x + menu.get_width() / 2,
+                 menu.get_center_pos().y + menu.get_height() / 2);
+  }
+
+  template<typename S, typename T>
+  Rectf to_transition_rect(S* from, T* to)
+  {
+    if (from)
+      return to_rect(*from);
+    else
+      return Rectf(to->get_center_pos(), Sizef(0, 0));
+  }
+
+  template<typename S, typename T>
+  void transition(S* from, T* to)
+  {
+    if (!from && !to)
+      return;
+
+    m_transition->start(to_transition_rect(from, to),
+                        to_transition_rect(to, from));
+  }
 
 private:
   MenuManager(const MenuManager&) = delete;
