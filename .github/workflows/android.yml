@@ -61,14 +61,11 @@ jobs:
           ../../../.github/scripts/clone_dependency.sh kcat/openal-soft 1.23.1
           #TODO: i have to take a look into opengl later
           #TODO: i also have to take a look at libpartiozip
-          ../../../.github/scripts/clone_dependency.sh SuperTux/physfs release-2.0.3
+          ../../../.github/scripts/clone_dependency.sh SuperTux/physfs master
           ../../../.github/scripts/clone_dependency.sh driedfruit/SDL_SavePNG master
           ../../../.github/scripts/clone_dependency.sh SuperTux/sexp-cpp master
           ../../../.github/scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
           ../../../.github/scripts/clone_dependency.sh tinygettext/tinygettext v0.1.0
-          curl https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz --output libiconv.tar.gz
-          tar -xzf ./libiconv.tar.gz
-          mv libiconv-1.17/ libiconv/
           ln -s ../../../ supertux
 
       - name: Cache dependencies

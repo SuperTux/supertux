@@ -1,5 +1,6 @@
 # tinygettext - A gettext replacement that works directly on .po files
-# Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+# Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>,
+#               2020 Ingo Ruhnke <grumbel@gmail.com>
 #
 # This software is provided 'as-is', without any express or implied
 # warranty. In no event will the authors be held liable for any damages
@@ -17,180 +18,78 @@
 #    misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
 
-#
-# INSTRUCTIONS:
-# -------------
-#
-# Create a directory build/ and change to it. Run
-#
-#   cmake ..
-#
-# This creates a set of Makefiles to build the project. Run
-#
-#   make
-#
+cmake_minimum_required(VERSION 3.0)
 
-cmake_policy(SET CMP0005 NEW)
+include(mk/cmake/TinyCMMC.cmake)
 
-## Project name to use as command prefix
-
-project(tinygettext)
-set(VERSION "0.1")
-
-### CMake configuration
-
-cmake_minimum_required(VERSION 2.4)
-if(COMMAND cmake_policy)
-	CMAKE_POLICY(SET CMP0003 NEW)
-endif(COMMAND cmake_policy)
-SET(CMAKE_MACOSX_RPATH ON)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${tinygettext_SOURCE_DIR})
-
-# move some config clutter to the advanced section
-mark_as_advanced(
-	CMAKE_BACKWARDS_COMPATIBILITY
-	CMAKE_BUILD_TYPE
-	CMAKE_INSTALL_PREFIX
-	EXECUTABLE_OUTPUT_PATH
-	CMAKE_OSX_ARCHITECTURES
-	CMAKE_OSX_SYSROOT
-)
-
-## Reveal library type choice to users
-option(BUILD_SHARED_LIBS "Produce dynamic library instead of static archive" ON)
-
-## Add iconv to include directories
-
-if(ANDROID)
-  find_library(iconv iconv)
-else()
-  find_package(ICONV REQUIRED)
-endif()
-include_directories(${ICONV_INCLUDE_DIR})
-
-## Check iconv_const
-
-include(CheckCXXSourceCompiles)
-
-set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${ICONV_INCLUDE_DIR})
-check_cxx_source_compiles(
-	"
-	#include <iconv.h>
-	// this declaration will fail when there already exists a non const char** version which returns size_t
-	double iconv(iconv_t cd,  char **inbuf, size_t *inbytesleft, char **outbuf, size_t *outbytesleft);
-	int main() { return 0; }
-	"
-	HAVE_ICONV_CONST
-)
-
-# TODO: better way of config
-
-if(HAVE_ICONV_CONST)
-  add_definitions(-DHAVE_ICONV_CONST)
-else(HAVE_ICONV_CONST)
-  remove_definitions(-DHAVE_ICONV_CONST)
-endif(HAVE_ICONV_CONST)
-
-## TinyGetText library compilation
-
-## build list of source files
+project(tinygettext VERSION "0.2.0")
 
 file(GLOB TINYGETTEXT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp)
 file(GLOB TINYGETTEXT_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/tinygettext/*.hpp)
 
-## define a target for building the library
 
 add_library(tinygettext ${TINYGETTEXT_SOURCES})
+set_target_properties(tinygettext PROPERTIES
+  CXX_STANDARD 17
+  CXX_STANDARD_REQUIRED ON
+  CXX_EXTENSIONS OFF
+  PUBLIC_HEADER "${TINYGETTEXT_HEADERS}")
+target_include_directories(tinygettext PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_options(tinygettext PRIVATE ${TINYCMMC_WARNINGS_CXX_FLAGS})
+target_compile_definitions(tinygettext PRIVATE VERSION=${TINYGETTEXT_VERSION})
 
-## Add tinygettext dir to search path
-
-include_directories(include/)
-
-## Debug options
-
-option(WERROR "Stops on first compiler warning in debug mode" OFF)
-option(WARNINGS "Enable long list of warnings for compiler to check" ON)
-
-add_definitions(-std=c++0x -O3 -Wall -Wextra -Weffc++ -pedantic)
-
-if(WARNINGS)
-  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    add_definitions(
-      -Weverything
-
-      # flags that we deliberately ignore
-      -Wno-c++98-compat
-      -Wno-padded
-      -Wno-weak-vtables
-      -Wno-documentation
-      -Wno-documentation-unknown-command
-      -Wno-exit-time-destructors
-      -Wno-zero-as-null-pointer-constant
-      )
-  elseif(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(
-      -Wctor-dtor-privacy
-      -Wold-style-cast
-      -Woverloaded-virtual
-      -Wsign-promo -Wswitch-enum
-      -Wcast-align  -Wcast-qual
-      -Wdisabled-optimization
-      -Wfloat-equal
-      -Wformat=2
-      -Winit-self
-      -Winvalid-pch
-      -Wmissing-format-attribute  -Wmissing-include-dirs -Wmissing-noreturn
-      -Wpacked
-      -Wredundant-decls
-      -Wshadow
-      -Wsign-conversion  -Wstack-protector
-      -Wstrict-overflow=5
-      -Wswitch-default  -Wswitch-enum
-      -Wundef
-      -Wconversion
-      -Wstrict-null-sentinel
-      -Wlogical-op
-      -Wunsafe-loop-optimizations)
+if(TINYGETTEXT_WITH_SDL)
+  if(ANDROID)
+    find_library(SDL2 SDL2)
+    target_compile_definitions(tinygettext PUBLIC TINYGETTEXT_WITH_SDL)
+    target_link_libraries(tinygettext PUBLIC SDL2)
+  else()
+    # lol no windows
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(SDL2 REQUIRED sdl2 IMPORTED_TARGET)
+    target_compile_definitions(tinygettext PUBLIC TINYGETTEXT_WITH_SDL)
+    target_link_libraries(tinygettext PUBLIC PkgConfig::SDL2)
   endif()
-endif(WARNINGS)
+else()
+  find_package(Iconv REQUIRED)
+  target_link_libraries(tinygettext PUBLIC Iconv::Iconv)
+endif()
 
-if(WERROR)
-  add_definitions(-Werror)
-endif(WERROR)
+if(WIN32)
+  target_compile_definitions(tinygettext PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
 
-## Extra definitions
-
-add_definitions(-DVERSION=${VERSION})
-
-## Generate test executables in the right place
-
-set(EXECUTABLE_OUTPUT_PATH ${tinygettext_BINARY_DIR}/test)
-
-## Build tinygettext tests
-
-foreach(TEST tinygettext_test po_parser_test)
-  ## Add target for tinygettext test
-  add_executable(${TEST} test/${TEST}.cpp)
-  ## Link with tinygettext library
-  target_link_libraries(${TEST} tinygettext)
-  target_link_libraries(${TEST} ${ICONV_LIBRARY})
-endforeach(TEST)
-
-## Install tinygettext
-
-# use standardized variable name
-set(LIB_SUBDIR "lib${LIB_SUFFIX}"
-	CACHE STRING "Subdirectory of prefix into which libraries are installed (e.g., lib32, lib64)")
-
-## prepare tinygettext.pc
 configure_file(tinygettext.pc.in tinygettext.pc @ONLY)
 
+if(ANDROID)
+  return()
+endif()
+
 install(TARGETS tinygettext
-	ARCHIVE DESTINATION ${LIB_SUBDIR}
-	LIBRARY DESTINATION ${LIB_SUBDIR})
-install(FILES ${TINYGETTEXT_HEADERS}
-	DESTINATION include/tinygettext)
+  EXPORT tinygettext-targets
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
 install(FILES ${tinygettext_BINARY_DIR}/tinygettext.pc
-	DESTINATION ${LIB_SUBDIR}/pkgconfig)
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+
+# CMake integration
+tinycmmc_export_and_install_library(tinygettext)
+
+if(BUILD_TESTS)
+  foreach(TEST tinygettext_test po_parser_test)
+    add_executable(${TEST} test/${TEST}.cpp)
+    set_target_properties(${TEST} PROPERTIES
+      CXX_STANDARD 17
+      CXX_STANDARD_REQUIRED ON
+      CXX_EXTENSIONS OFF)
+    target_compile_options(${TEST} PRIVATE ${TINYCMMC_WARNINGS_CXX_FLAGS})
+    if(WIN32)
+      target_compile_definitions(${TEST} PRIVATE _CRT_SECURE_NO_WARNINGS)
+    endif()
+    target_link_libraries(${TEST} PRIVATE tinygettext)
+  endforeach(TEST)
+endif()
 
 # EOF #

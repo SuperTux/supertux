@@ -1,6 +1,11 @@
 option(USE_SYSTEM_TINYGETTEXT "Use preinstalled tinygettext if available" ON)
 if(USE_SYSTEM_TINYGETTEXT)
-  find_package(tinygettext QUIET)
+  if(ANDROID)
+    find_library(tinygettext NAMES tinygettext PATHS ${TINYGETTEXT_PATH})
+    message("TGT: ${tinygettext}")
+  else()
+    find_package(tinygettext QUIET)
+  endif()
 endif()
 
 if(TARGET tinygettext)
