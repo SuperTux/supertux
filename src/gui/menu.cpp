@@ -75,7 +75,7 @@ Menu::Menu() :
   m_preview_fade_active(false),
   m_preview_fading_out(false)
 {
-  m_preview_fade_timer.start(s_preview_fade_time);
+  m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0);
 }
 
 Menu::~Menu()
@@ -652,7 +652,7 @@ Menu::draw_preview(DrawingContext& context)
   if (m_active_item != m_last_preview_item && !m_preview_fade_active) // Index has changed, there is no current fade.
   {
     if (valid_last_index) // Fade out only if the last index is valid.
-      m_preview_fade_timer.start(s_preview_fade_time);
+      m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0);
     m_preview_fading_out = true;
     m_preview_fade_active = true;
   }
@@ -663,7 +663,7 @@ Menu::draw_preview(DrawingContext& context)
     valid_last_index = last_preview_index_valid(); // Repeat valid last index check
     if (m_preview_fading_out) // After a fade-out, a fade-in should follow up.
     {
-      m_preview_fade_timer.start(s_preview_fade_time);
+      m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0);
       timeleft = m_preview_fade_timer.get_timeleft();
       m_preview_fading_out = false;
     }

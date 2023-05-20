@@ -151,11 +151,13 @@ protected:
   /** Recalculates the height for this menu */
   void calculate_height();
 
+  /** Draw additional data together with item previews. */
+  virtual void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, const float& alpha) {}
+
 private:
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index, float y_pos);
   void draw_preview(DrawingContext& context);
-  virtual void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, const float& alpha) {}
   bool last_preview_index_valid() const;
 
 private:
