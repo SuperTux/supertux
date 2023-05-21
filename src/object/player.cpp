@@ -1931,7 +1931,7 @@ Player::draw(DrawingContext& context)
     else if (m_climbing) {
       action = "climbgrow";
     }
-    m_sprite->set_action_continued(action + sa_postfix);
+    m_sprite->set_action(action + sa_postfix, Sprite::LOOPS_CONTINUED);
   }
   else if (m_stone) {
     m_sprite->set_action("earth-stone");
@@ -2025,7 +2025,7 @@ Player::draw(DrawingContext& context)
         m_idle_stage = 0;
         m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
 
-        m_sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
+        m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
       else if (m_idle_timer.check() || m_sprite->animation_done()) {
         m_idle_stage++;
@@ -2041,7 +2041,7 @@ Player::draw(DrawingContext& context)
         }
       }
       else {
-        m_sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix);
+        m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
     }
     else {
@@ -2148,7 +2148,7 @@ Player::collision_solid(const CollisionHit& hit)
         Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
         -70, -50, 260, 280, Vector(0, 300), 3,
         Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().get_camera().shake(.1f, 0, 5);
+      Sector::get().get_camera().shake(.1f, 0.f, 10.f);
     }
 
   } else if (hit.top) {
@@ -2304,7 +2304,7 @@ Player::kill(bool completely)
 
     if (!alive_players)
     {
-      if (m_player_status.can_reach_checkpoint())
+      if (m_player_status.respawns_at_checkpoint())
       {
         for (int i = 0; i < 5; i++)
         {
@@ -2315,15 +2315,13 @@ Player::kill(bool completely)
         }
         m_player_status.take_checkpoint_coins();
       }
-      else
-      {
-        GameSession::current()->set_reset_point("", Vector(0.0f, 0.0f));
-      }
 
       Sector::get().get_effect().fade_out(3.0);
       SoundManager::current()->pause_music(3.0);
     }
   }
+
+  Sector::get().get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
 }
 
 void

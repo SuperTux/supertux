@@ -46,7 +46,7 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
   m_start_position.x = m_col.m_bbox.get_left();
-  m_sprite->set_action("falling");
+  set_action("falling");
   m_physic.enable_gravity(false);
   m_countMe = false;
 
@@ -111,7 +111,7 @@ Kugelblitz::hit(const CollisionHit& hit_)
       pos_groundhit = get_pos();
       groundhit_pos_set = true;
     }
-    m_sprite->set_action("flying");
+    set_action("flying");
     m_physic.set_velocity_y(0);
     //Set random initial speed and direction
     direction = gameRandom.rand(2)? 1: -1;
@@ -167,7 +167,7 @@ Kugelblitz::explode()
 {
   if (!dying) {
     SoundManager::current()->play("sounds/lightning.wav", m_col.m_bbox.p1());
-    m_sprite->set_action("pop");
+    set_action("pop");
     lifetime.start(0.2f);
     dying = true;
   }

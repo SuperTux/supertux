@@ -20,31 +20,31 @@
 namespace scripting {
 
 void
-Decal::change_sprite(const std::string& new_sprite_name)
+Decal::change_sprite(const std::string& sprite)
 {
   SCRIPT_GUARD_VOID;
-  object.change_sprite(new_sprite_name);
+  object.change_sprite(sprite);
 }
 
 void
-Decal::fade_sprite(const std::string& new_sprite_name, float fade_time)
+Decal::fade_sprite(const std::string& sprite, float time)
 {
   SCRIPT_GUARD_VOID;
-  object.fade_sprite(new_sprite_name, fade_time);
+  object.fade_sprite(sprite, time);
 }
 
 void
-Decal::fade_in(float fade_time)
+Decal::fade_in(float time)
 {
   SCRIPT_GUARD_VOID;
-  object.fade_in(fade_time);
+  object.fade_in(time);
 }
 
 void
-Decal::fade_out(float fade_time)
+Decal::fade_out(float time)
 {
   SCRIPT_GUARD_VOID;
-    object.fade_out(fade_time);
+  object.fade_out(time);
 }
 
 } // namespace scripting

@@ -74,7 +74,7 @@ WalkingBadguy::initialize()
 {
   if (m_frozen)
     return;
-  m_sprite->set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
+  set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);
   m_physic.set_acceleration_x (0.0);
@@ -203,7 +203,7 @@ WalkingBadguy::turn_around()
     return;
   m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
   if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE) {
-    m_sprite->set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
+    set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
   }
   m_physic.set_velocity_x(-m_physic.get_velocity_x());
   m_physic.set_acceleration_x (-m_physic.get_acceleration_x ());

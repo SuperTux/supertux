@@ -48,6 +48,33 @@ class GameSession final : public Screen,
                           public GameSessionRecorder,
                           public Currenton<GameSession>
 {
+private:
+  struct SpawnPoint
+  {
+    /* If a spawnpoint is set, the spawn position shall not, and vice versa. */
+    SpawnPoint(const std::string& sector_,
+               const Vector& position_,
+               bool is_checkpoint_ = false) :
+      sector(sector_),
+      spawnpoint(),
+      position(position_),
+      is_checkpoint(is_checkpoint_)
+    {}
+    SpawnPoint(const std::string& sector_,
+               const std::string& spawnpoint_,
+               bool is_checkpoint_ = false) :
+      sector(sector_),
+      spawnpoint(spawnpoint_),
+      position(),
+      is_checkpoint(is_checkpoint_)
+    {}
+
+    std::string sector;
+    std::string spawnpoint;
+    Vector position;
+    bool is_checkpoint;
+  };
+
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
 
@@ -62,13 +89,20 @@ public:
   void respawn(const std::string& sectorname, const std::string& spawnpointname,
                bool retain_invincibility = false);
   void reset_level();
+
   void set_start_point(const std::string& sectorname,
                        const std::string& spawnpointname);
   void set_start_pos(const std::string& sectorname, const Vector& pos);
-  void set_reset_point(const std::string& sectorname, const Vector& pos);
-  std::string get_reset_point_sectorname() const { return m_reset_sector; }
+  void set_respawn_point(const std::string& sectorname,
+                         const std::string& spawnpointname);
+  void set_respawn_pos(const std::string& sectorname, const Vector& pos);
+  void clear_respawn_points();
 
-  Vector get_reset_point_pos() const { return m_reset_pos; }
+  const SpawnPoint& get_last_spawnpoint() const;
+
+  void set_checkpoint_pos(const std::string& sectorname, const Vector& pos);
+  const SpawnPoint* get_active_checkpoint_spawnpoint() const;
+
   Sector& get_current_sector() const { return *m_currentsector; }
   Level& get_current_level() const { return *m_level; }
 
@@ -124,15 +158,9 @@ private:
 
   std::string m_levelfile;
 
-  // spawn point (the point where tux respawns at startup). Usually both "main".
-  // If m_start_spawnpoint is set, m_start_pos shall not, and vice versa.
-  std::string m_start_sector;
-  std::string m_start_spawnpoint;
-  Vector m_start_pos;
-
-  // reset point (the point where tux respawns if he dies)
-  std::string m_reset_sector;
-  Vector m_reset_pos;
+  // Spawnpoints
+  std::vector<SpawnPoint> m_spawnpoints;
+  const SpawnPoint* m_activated_checkpoint;
 
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;

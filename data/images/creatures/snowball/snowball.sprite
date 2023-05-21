@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
     (name "left")
-    (hitbox 5 8 32 32)
+    (hitbox 8 13 32 32)
     (fps 14)
     (images "snowball-0.png"
             "snowball-1.png"
@@ -14,18 +14,18 @@
   )
   (action
     (name "right")
-    (hitbox 7 8 32 32)
+    (hitbox 8 13 32 32)
     (fps 14)
     (mirror-action "left")
   )
   (action
     (name "squished-left")
-    (hitbox 1 -19 31.8 31.8)
-    (images "squished-left.png")
+    (hitbox 8 13 32 32)
+    (images "snowball-squished.png")
   )
   (action
     (name "squished-right")
-    (hitbox 1 -19 31.8 31.8)
+    (hitbox 8 13 32 32)
     (mirror-action "squished-left")
   )
  (action

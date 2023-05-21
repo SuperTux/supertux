@@ -7,6 +7,10 @@
 Level <- {
   finish=Level_finish,
   spawn=Level_spawn,
+  set_start_point=Level_set_start_point,
+  set_start_pos=Level_set_start_pos,
+  set_respawn_point=Level_set_respawn_point,
+  set_respawn_pos=Level_set_respawn_pos,
   flip_vertically=Level_flip_vertically,
   toggle_pause=Level_toggle_pause,
   edit=Level_edit

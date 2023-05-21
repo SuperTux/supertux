@@ -31,7 +31,7 @@ namespace {
 }
 
 MrIceBlock::MrIceBlock(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"),
+  WalkingBadguy(reader, "images/creatures/iceblock/iceblock.sprite", "left", "right"),
   ice_state(ICESTATE_NORMAL),
   nokick_timer(),
   flat_timer(),
@@ -251,8 +251,7 @@ MrIceBlock::set_state(IceState state_)
     flat_timer.stop();
     break;
   case ICESTATE_WAKING:
-    m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right",
-      /* loops = */ 1);
+    set_action("waking", m_dir, /* loops = */ 1);
     break;
   default:
     assert(false);

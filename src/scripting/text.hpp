@@ -26,6 +26,11 @@ class TextObject;
 
 namespace scripting {
 
+/**
+ * @summary A ""TextObject"" that was given a name can be controlled by scripts.
+ * @instances A ""TextObject"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class Text final
 #ifndef SCRIPTING_API
   : public GameObject<::TextObject>
@@ -41,23 +46,103 @@ private:
 #endif
 
 public:
+  /**
+   * Sets the text string to be displayed.
+   * @param string $text
+   */
   void set_text(const std::string& text);
+  /**
+   * Sets the font of the text to be displayed.
+   * @param string $fontname Valid values are normal, big and small.
+   */
   void set_font(const std::string& fontname);
+  /**
+   * Fades in the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
   void fade_in(float fadetime);
+  /**
+   * Fades out the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
   void fade_out(float fadetime);
+  /**
+   * Grows in the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
   void grow_in(float fadetime);
+  /**
+   * Grows out the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
   void grow_out(float fadetime);
+  /**
+   * Shows or hides the text abruptly (drastic counterpart to ""fade_in()"" and ""fade_out()"").
+   * @param bool $visible
+   */
   void set_visible(bool visible);
+  /**
+   * If ""centered"" is ""true"", the text will be centered on the screen. Otherwise, it will be left-aligned.
+   * @param bool $centered
+   */
   void set_centered(bool centered);
+  /**
+   * Sets the offset of the text, relative to the anchor point.
+   * @param float $x
+   * @param float $y
+   */
   void set_pos(float x, float y);
+  /**
+   * Returns the X offset of the text, relative to the anchor point.
+   */
   float get_pos_x() const;
+  /**
+   * Returns the Y offset of the text, relative to the anchor point.
+   */
   float get_pos_y() const;
+  /**
+   * Sets the anchor point of the text.
+   * @param int $anchor One of the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   */
   void set_anchor_point(int anchor);
-  int  get_anchor_point() const;
+  /**
+   * Returns the current anchor point of the text (one of the ""ANCHOR_*"" constants; see ${SRG_REF_AnchorPoints}).
+   */
+  int get_anchor_point() const;
+  /**
+   * Sets the anchor offset of the text.
+   * @param float $x
+   * @param float $y
+   */
   void set_anchor_offset(float x, float y);
+  /**
+   * Sets the front fill color of the text.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
   void set_front_fill_color(float red, float green, float blue, float alpha);
+  /**
+   * Sets the back fill color of the text.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
   void set_back_fill_color(float red, float green, float blue, float alpha);
+  /**
+   * Sets the text color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
   void set_text_color(float red, float green, float blue, float alpha);
+  /**
+   * Sets the frame's roundness.
+   * @param float $roundness
+   */
   void set_roundness(float roundness);
 };
 

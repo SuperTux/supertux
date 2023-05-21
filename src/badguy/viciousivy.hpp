@@ -33,11 +33,24 @@ public:
   static std::string display_name() { return _("Vicious Ivy"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  GameObjectTypes get_types() const override;
+
   virtual void active_update(float dt_sec) override;
   virtual bool is_snipable() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+  void on_type_change(int old_type) override;
+
+protected:
+  enum Type {
+    NORMAL,
+    CORRUPTED
+  };
+
+private:
+  float m_fall_speed;
 
 private:
   ViciousIvy(const ViciousIvy&) = delete;

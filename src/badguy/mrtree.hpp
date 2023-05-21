@@ -32,8 +32,18 @@ public:
   static std::string display_name() { return _("Mr. Tree"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  GameObjectTypes get_types() const override;
+
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+  void on_type_change(int old_type) override;
+
+protected:
+  enum Type {
+    NORMAL,
+    CORRUPTED
+  };
 
 private:
   MrTree(const MrTree&) = delete;

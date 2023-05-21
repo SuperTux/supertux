@@ -58,14 +58,14 @@ public:
   /** Move platform until at given node, then stop */
   void goto_node(int node_no);
 
+  /** Move platform instantly to given node */
+  void jump_to_node(int node_no);
+
   /** Start moving platform */
   void start_moving();
 
   /** Stop platform at next node */
   void stop_moving();
-
-  /** Updates the platform to the given action  */
-  void set_action(const std::string& action, int repeat);
   /** @} */
 
 private:

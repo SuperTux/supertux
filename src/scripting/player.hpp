@@ -27,6 +27,12 @@ class Player;
 
 namespace scripting {
 
+/**
+ * @summary This module contains methods controlling the player. (No, SuperTux doesn't use mind control. ""Player"" refers to the type of the player object.)
+ * @instances The first player can be accessed using ""Tux"", or ""sector.Tux"" from the console.
+              All following players (2nd, 3rd, etc...) can be accessed by ""Tux{index}"".
+              For example, to access the 2nd player, use ""Tux1"" (or ""sector.Tux1"" from the console).
+ */
 class Player final
 #ifndef SCRIPTING_API
   : public GameObject<::Player>
@@ -43,13 +49,13 @@ private:
 
 public:
   /**
-   * Set tux bonus.
-   * This can be "grow", "fireflower" or "iceflower" at the moment
+   * Gives Tux the specified bonus unless Tux’s current bonus is superior.
+   * @param string $bonus Can be "grow", "fireflower", "iceflower", "airflower" or "earthflower" at the moment.
    */
   bool add_bonus(const std::string& bonus);
   /**
-   * Replaces Tux's bonus with another bonus.
-   * This can be "grow", "fireflower" or "iceflower" at the moment
+   * Gives Tux the specified bonus.
+   * @param string $bonus Can be "grow", "fireflower", "iceflower", "airflower" or "earthflower" at the moment.
    */
   bool set_bonus(const std::string& bonus);
   /**
@@ -58,11 +64,11 @@ public:
   std::string get_bonus() const;
 
   /**
-   * Give tux more coins
-   *
+   * Gives the player a number of coins.${SRG_TABLENEWPARAGRAPH}
    * If count is a negative amount of coins, that number of coins will be taken
    * from the player (until the number of coins the player has is 0, when it
    * will stop changing).
+   * @param int $count
    */
   void add_coins(int count);
   /**
@@ -70,114 +76,127 @@ public:
    */
   int get_coins() const;
   /**
-   * Make tux invincible for a short amount of time
+   * Make Tux invincible for a short amount of time.
    */
   void make_invincible();
   /**
-   * Deactivate user/scripting input for Tux
+   * Deactivate user/scripting input for Tux.
+     Carried items like trampolines won't be dropped.
    */
   void deactivate();
   /**
-   * Give control back to user/scripting
+   * Give control back to user/scripting.
    */
   void activate();
   /**
-   * Make Tux walk
+   * Makes Tux walk.
+   * @param float $speed
    */
   void walk(float speed);
   /**
-   * Face Tux in the proper direction
+   * Face Tux in the proper direction.
+   * @param bool $right Set to ""true"" to make Tux face right, ""false"" to face left.
    */
   void set_dir(bool right);
   /**
-   * Set player visible or invisible
+   * Set Tux visible or invisible.
+   * @param bool $visible
    */
   void set_visible(bool visible);
   /**
-   * returns true if Tux is currently visible (that is he was not set
-   * invisible by the set_visible method)
+   * Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
    */
   bool get_visible() const;
 
   /**
-   * Hurts Tux, if completely=true then he will be killed even
-   * if he had grow or fireflower bonus
+   * Hurts Tux.
+   * @param bool $completely If true, he will be killed even if he had "grow" or a superior bonus.
    */
   void kill(bool completely);
 
   /**
-   * Switches ghost mode on/off.
-   * Lets Tux float around and through solid objects.
+   * Switches ghost mode on/off. Lets Tux float around and through solid objects.
+   * @param bool $enable
    */
   void set_ghost_mode(bool enable);
 
   /**
-   * Returns whether ghost mode is currently enabled
+   * Returns whether ghost mode is currently enabled.
    */
   bool get_ghost_mode() const;
 
   /**
-   * start kick animation
+   * Start kick animation.
    */
   void kick();
 
   /**
-   * play cheer animation.
-   * This might need some space and behave in an unpredictable way. Best to use this at level end.
+   * Play cheer animation.${SRG_TABLENEWPARAGRAPH}
+   * This might need some space and behave in an unpredictable way. It's best to use this at level end.
    */
   void do_cheer();
 
   /**
-   * duck down if possible.
-   * this won't last long as long as input is enabled.
+   * Makes Tux duck down, if possible. Won't last long, as long as input is enabled.
    */
   void do_duck();
 
   /**
-   * stand back up if possible.
+   * Makes Tux stand back up, if possible.
    */
   void do_standup();
 
   /**
-   * do a backflip if possible.
+   * Makes Tux do a backflip, if possible.
    */
   void do_backflip();
 
   /**
-   * jump in the air if possible
-   * sensible values for yspeed are negative - unless we want to jump into the ground of course
+   * Makes Tux jump in the air, if possible.
+   * @param float $yspeed
    */
   void do_jump(float yspeed);
 
   /**
-   * Orders the current GameSession to start a sequence
+   * Orders the current ""GameSession"" to start a sequence.
+   * @param string $sequence_name One of “stoptux”, “endsequence” or “fireworks”.
    */
   void trigger_sequence(const std::string& sequence_name);
 
   /**
-   * Uses a scriptable controller for all user input (or restores controls)
+   * Uses a scriptable controller for all user input (or restores controls).
+   * @param bool $enable
    */
-  void use_scripting_controller(bool use_or_release);
+  void use_scripting_controller(bool enable);
 
   /**
-   * Check whether player is carrying a certain object
-   * @param name Name of the Portable object to check for
+   * Instructs the scriptable controller to press or release a button.
+   * @param string $control Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+      “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
+      “peek-left”, “peek-right”, “peek-up” or “peek-down”.
+   * @param bool $pressed
+   */
+  void do_scripting_controller(const std::string& control, bool pressed);
+
+  /**
+   * Returns whether the player is carrying a certain object.
+   * @param string $name Name of the portable object to check for.
    */
    bool has_grabbed(const std::string& name) const;
 
   /**
-   * Instructs the scriptable controller to press or release a button
+   * Returns Tux’s velocity in X direction.
    */
-  void do_scripting_controller(const std::string& control, bool pressed);
-
   float get_velocity_x() const;
+  /**
+   * Returns Tux’s velocity in Y direction.
+   */
   float get_velocity_y() const;
 
   /**
    * Gets the X coordinate of the player.
    */
   float get_x() const;
-
   /**
    * Gets the Y coordinate of the player.
    */

@@ -16,6 +16,7 @@ If the issue only occurs in a custom level, please attach that too.*
 
 - [ ] I have read <https://github.com/SuperTux/supertux/blob/master/CONTRIBUTING.md#bug-reports>.
 - [ ] I verified this isn't an issue that's already been reported.
+- [ ] I verified this isn't a [discussion](https://github.com/SuperTux/supertux/discussions), but an actual issue ─ that is, the game did something not intended such as crashing or giving error messages.
 - [ ] This report only includes details about **one** (1) issue, feature request or topic.
 - [ ] If I make a mistake while submitting this report I will use the edit feature instead of closing this issue and opening a new one.
 - [ ] This issue is **not** about wrong translations (use Transifex for those), or anything unsupported (e.g. third-party add-ons).
