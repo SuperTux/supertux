@@ -31,8 +31,6 @@
 
 typedef int TransferId;
 
-class Downloader;
-
 class TransferStatus final
 {
   friend class Downloader;
@@ -65,6 +63,10 @@ public:
   {
     callbacks.push_back(callback);
   }
+
+private:
+  TransferStatus(const TransferStatus&) = delete;
+  TransferStatus& operator=(const TransferStatus&) = delete;
 };
 
 class TransferStatusList final
@@ -104,6 +106,10 @@ private:
   void on_transfer_complete(TransferStatusPtr this_status, bool successful);
 
   void reset();
+
+private:
+  TransferStatusList(const TransferStatusList&) = delete;
+  TransferStatusList& operator=(const TransferStatusList&) = delete;
 };
 
 class Transfer;

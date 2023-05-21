@@ -153,6 +153,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_addon_config(addon_config),
   m_installed_addons(),
   m_repository_addons(),
+  m_initialized(false),
   m_has_been_updated(false),
   m_transfer_statuses(new TransferStatusList)
 {
@@ -177,7 +178,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
       }
       catch(const std::exception& err)
       {
-        log_warning << "failed to enable addon from config: " << err.what() << std::endl;
+        log_warning << "Failed to enable addon '" << addon.id << "' from config: " << err.what() << std::endl;
       }
     }
   }
@@ -213,6 +214,8 @@ AddonManager::AddonManager(const std::string& addon_directory,
   {
     empty_cache_directory();
   }
+
+  m_initialized = true;
 }
 
 AddonManager::~AddonManager()
@@ -560,12 +563,21 @@ AddonManager::enable_addon(const AddonId& addon_id)
   auto& addon = get_installed_addon(addon_id);
   if (addon.is_enabled())
   {
-    log_warning << "Tried enabling already enabled Add-on" << std::endl;
+    throw std::runtime_error("Tried enabling already enabled add-on.");
   }
   else
   {
-    log_debug << "Adding archive \"" << addon.get_install_filename() << "\" to search path" << std::endl;
-    //int PHYSFS_mount(addon.installed_install_filename.c_str(), "addons/", !addon.overrides_data())
+    if (addon.get_type() == Addon::RESOURCEPACK)
+    {
+      for (const auto& installed_addon : m_installed_addons)
+      {
+        if (installed_addon->get_type() == Addon::RESOURCEPACK &&
+            installed_addon->is_enabled())
+        {
+          throw std::runtime_error(_("Only one resource pack is allowed to be enabled at a time."));
+        }
+      }
+    }
 
     std::string mountpoint;
     switch (addon.get_format()) {
@@ -577,10 +589,20 @@ AddonManager::enable_addon(const AddonId& addon_id)
         break;
     }
 
+    // Only mount resource packs on startup (AddonManager initialization).
+    if (addon.get_type() == Addon::RESOURCEPACK && m_initialized)
+    {
+      addon.set_enabled(true);
+      return;
+    }
+
+    log_debug << "Adding archive \"" << addon.get_install_filename() << "\" to search path" << std::endl;
     if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), !addon.overrides_data()) == 0)
     {
-      log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
-                  << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      std::stringstream err;
+      err << "Could not add " << addon.get_install_filename() << " to search path: "
+          << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      throw std::runtime_error(err.str());
     }
     else
     {
@@ -600,15 +622,24 @@ AddonManager::disable_addon(const AddonId& addon_id)
   auto& addon = get_installed_addon(addon_id);
   if (!addon.is_enabled())
   {
-    log_warning << "Tried disabling already disabled Add-On" << std::endl;
+    throw std::runtime_error("Tried disabling already disabled add-on.");
   }
   else
   {
+    // Don't unmount resource packs. Disabled resource packs will not be mounted on next startup.
+    if (addon.get_type() == Addon::RESOURCEPACK)
+    {
+      addon.set_enabled(false);
+      return;
+    }
+
     log_debug << "Removing archive \"" << addon.get_install_filename() << "\" from search path" << std::endl;
     if (PHYSFS_unmount(addon.get_install_filename().c_str()) == 0)
     {
-      log_warning << "Could not remove " << addon.get_install_filename() << " from search path: "
-                  << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      std::stringstream err;
+      err << "Could not remove " << addon.get_install_filename() << " from search path: "
+          << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
+      throw std::runtime_error(err.str());
     }
     else
     {
@@ -826,7 +857,14 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
           m_installed_addons.push_back(std::move(addon));
           if(user_install)
           {
-            enable_addon(addon_id);
+            try
+            {
+              enable_addon(addon_id);
+            }
+            catch(const std::exception& err)
+            {
+              log_warning << "Failed to enable add-on archive '" << addon_id << "': " << err.what() << std::endl;
+            }
             Dialog::show_message(fmt::format(_("Add-on {} by {} successfully installed."),
                                              addon_title, addon_author));
             // if currently opened menu is addons menu refresh it
@@ -944,13 +982,27 @@ AddonManager::check_for_langpack_updates()
 
         // Langpack update available. Let's install it!
         install_addon(addon_id);
-        enable_addon(addon_id);
+        try
+        {
+          enable_addon(addon_id);
+        }
+        catch(const std::exception& err)
+        {
+          log_warning << "Failed to enable language pack '" << addon_id << "' after update: " << err.what() << std::endl;
+        }
       }
       catch(const std::exception&)
       {
         log_debug << "Language addon " << addon_id << " is not installed. Installing..." << std::endl;
         install_addon(addon_id);
-        enable_addon(addon_id);
+        try
+        {
+          enable_addon(addon_id);
+        }
+        catch(const std::exception& err)
+        {
+          log_warning << "Failed to enable language pack '" << addon_id << "' after install: " << err.what() << std::endl;
+        }
       }
     }
     catch(std::exception&)

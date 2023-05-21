@@ -48,6 +48,7 @@ private:
   AddonList m_installed_addons;
   AddonList m_repository_addons;
 
+  bool m_initialized;
   bool m_has_been_updated;
 
   TransferStatusListPtr m_transfer_statuses;

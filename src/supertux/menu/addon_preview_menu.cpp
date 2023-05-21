@@ -243,7 +243,15 @@ AddonPreviewMenu::menu_action(MenuItem& item)
     }
 
     case MNID_TOGGLE:
-      toggle_addon();
+      try
+      {
+        toggle_addon();
+      }
+      catch (std::exception& err)
+      {
+        Dialog::show_message(fmt::format(fmt::runtime(_("Cannot toggle add-on \"{}\":\n{}")), m_addon.get_id(), err.what()));
+        m_addon_enabled = !m_addon_enabled;
+      }
       break;
 
     default:
@@ -338,14 +346,22 @@ void
 AddonPreviewMenu::toggle_addon()
 {
   const AddonId& addon_id = m_addon.get_id();
-  if (m_addon.is_enabled())
+  try
   {
-    m_addon_manager.disable_addon(addon_id);
+    if (m_addon.is_enabled())
+    {
+      m_addon_manager.disable_addon(addon_id);
+    }
+    else
+    {
+      m_addon_manager.enable_addon(addon_id);
+    }
   }
-  else
+  catch (std::exception& err)
   {
-    m_addon_manager.enable_addon(addon_id);
+    throw std::runtime_error(err.what());
   }
+
   if (m_addon.requires_restart())
   {
     Dialog::show_message(_("Please restart SuperTux\nfor these changes to take effect."));
