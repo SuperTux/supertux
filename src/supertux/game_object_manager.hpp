@@ -195,8 +195,8 @@ public:
 
   /** Undo/redo changes to GameObjects in the manager.
       Utilized by the Editor. */
-  virtual void undo();
-  virtual void redo();
+  void undo();
+  void redo();
 
   /** Save object change in the undo stack with given data.
       Used to save an object's previous state before a change had occured. */
