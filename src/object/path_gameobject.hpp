@@ -62,7 +62,7 @@ public:
 
   void copy_into(PathGameObject& other);
 
-  /** Saves the object only if the path is referenced somewhere */
+  /** Allows saving the object only if the path is referenced somewhere. */
   bool is_saveable() const override;
 
 private:
