@@ -50,6 +50,13 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# This should be set only with windows Visual Studio builds
+string(TOLOWER "${CMAKE_GENERATOR_PLATFORM}" PLATFORM)
+if(${PLATFORM} MATCHES "arm64")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_ARM64_ /DMY_CPU_LE")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_ARM64_ /DMY_CPU_LE")
+endif()
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 include(ConfigureFiles)
 include(ExternalProject)
