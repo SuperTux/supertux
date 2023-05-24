@@ -190,7 +190,7 @@ Background::get_settings()
   result.add_float(_("Scroll offset y"), &m_scroll_offset.y, "scroll-offset-y", 0.0f);
   result.add_float(_("Scroll speed x"), &m_scroll_speed.x, "scroll-speed-x", 0.0f);
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.0f);
-  result.add_float(_("Parallax Speed x"), &m_parallax_speed.x, "speed", boost::none);
+  result.add_float(_("Parallax Speed x"), &m_parallax_speed.x, "speed", std::nullopt);
   result.add_float(_("Parallax Speed y"), &m_parallax_speed.y, "speed-y", m_parallax_speed.x);
   result.add_surface(_("Top image"), &m_imagefile_top, "image-top", std::string());
   result.add_surface(_("Image"), &m_imagefile, "image");

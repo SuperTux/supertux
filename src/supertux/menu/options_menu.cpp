@@ -34,6 +34,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
+#include <sstream>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
