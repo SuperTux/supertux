@@ -162,7 +162,7 @@ Addon::parse(const ReaderMapping& mapping)
         addon->m_screenshots.push_back(url);
       }
     }
-    boost::optional<ReaderCollection> dependencies_reader;
+    std::optional<ReaderCollection> dependencies_reader;
     if (mapping.get("dependencies", dependencies_reader))
     {
       for (auto& obj : dependencies_reader->get_objects())
