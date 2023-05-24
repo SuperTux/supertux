@@ -322,10 +322,8 @@ EditorLayersWidget::refresh()
   m_selected_tilemap = nullptr;
   m_layer_icons.clear();
 
-  for (auto& i : m_editor.get_sector()->get_objects())
-  {
-    add_layer(i.get(), true);
-  }
+  for (const auto& obj : m_editor.get_sector()->get_objects())
+    add_layer(obj.get(), true);
 
   refresh_layers();
 
@@ -345,26 +343,26 @@ EditorLayersWidget::refresh_layers()
 {
   bool tsel = false;
   TileMap* first_tm = nullptr;
-  for (auto& i : m_layer_icons)
+  for (const auto& icon : m_layer_icons)
   {
-    auto* go = i->get_layer();
+    auto* go = icon->get_layer();
     auto tm = dynamic_cast<TileMap*>(go);
-    if (tm)
+    if (!tm)
+      continue;
+
+    if (first_tm == nullptr)
     {
-      if (first_tm == nullptr)
-      {
-        first_tm = tm;
-      }
-      if (!tm->is_solid() || tsel)
-      {
-        tm->m_editor_active = false;
-      }
-      else
-      {
-        m_selected_tilemap = tm;
-        tm->m_editor_active = true;
-        tsel = true;
-      }
+      first_tm = tm;
+    }
+    if (!tm->is_solid() || tsel)
+    {
+      tm->m_editor_active = false;
+    }
+    else
+    {
+      m_selected_tilemap = tm;
+      tm->m_editor_active = true;
+      tsel = true;
     }
   }
 

@@ -176,7 +176,7 @@ private:
   void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
-  void perform_post_undo_actions();
+  void post_undo_redo_actions();
 
 protected:
   std::unique_ptr<Level> m_level;
