@@ -19,11 +19,7 @@
 
 #include <memory>
 
-class JoystickMenu;
-class KeyboardMenu;
 class Menu;
-class OptionsMenu;
-class ProfileMenu;
 
 class MenuStorage final
 {
