@@ -24,12 +24,11 @@
 #include "trigger/secretarea_trigger.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/string_util.hpp"
 #include "util/writer.hpp"
 
 #include <physfs.h>
 #include <numeric>
-
-#include <boost/algorithm/string/predicate.hpp>
 
 Level* Level::s_current = nullptr;
 
@@ -96,7 +95,7 @@ Level::save(const std::string& filepath, bool retry)
     Writer writer(filepath);
     save(writer);
     log_info << "Level saved as " << filepath << "." 
-             << (boost::algorithm::ends_with(filepath, "~") ? " [Autosave]" : "")
+             << (StringUtil::has_suffix(filepath, "~") ? " [Autosave]" : "")
              << std::endl;
   } catch(std::exception& e) {
     if (retry) {

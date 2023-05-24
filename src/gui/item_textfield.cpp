@@ -17,12 +17,11 @@
 
 #include "gui/item_textfield.hpp"
 
-#include <boost/algorithm/string.hpp>
-
 #include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "util/string_util.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
@@ -272,7 +271,7 @@ ItemTextField::paste()
   char* clipboard_content = SDL_GetClipboardText();
   std::string clipboard_text = std::string(clipboard_content);
   SDL_free(clipboard_content);
-  boost::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
+  StringUtil::replace_all(clipboard_text, "\n", " "); // Replace any newlines with spaces.
 
   if (clipboard_text.empty()) return;
   insert_text(clipboard_text, m_cursor_left_offset);
