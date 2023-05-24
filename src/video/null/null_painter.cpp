@@ -87,7 +87,7 @@ void
 NullPainter::clear_clip_rect()
 {
   log_info << "NullPainter::clear_clip_rect()" << std::endl;
-  m_clip_rect = boost::none;
+  m_clip_rect = std::nullopt;
 }
 
 /* EOF */

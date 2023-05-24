@@ -79,7 +79,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       case 4:
         action->hitbox_h = hitbox[3];
         action->hitbox_w = hitbox[2];
-        BOOST_FALLTHROUGH;
+        [[fallthrough]];
       case 2:
         action->y_offset = hitbox[1];
         action->x_offset = hitbox[0];
@@ -170,7 +170,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       }
     }
   } else { // Load images
-    boost::optional<ReaderCollection> surfaces_collection;
+    std::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
     if (mapping.get("images", images))
     {

@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <string>
+#include <sstream>
 #include <string.h>
 
 bool
@@ -110,6 +111,15 @@ StringUtil::replace_all(const std::string& haystack, const std::string& needle,
     start_pos += replacement.length();
   }
   return ret;
+}
+
+void
+StringUtil::split(std::vector<std::string>& output, const std::string& str, char ch)
+{
+  std::stringstream stream(str);
+  std::string element;
+  while(getline(stream, element, ch))
+    output.push_back(element);
 }
 
 /* EOF */

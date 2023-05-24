@@ -17,9 +17,9 @@
 
 #include "addon/addon_manager.hpp"
 
-#include <boost/algorithm/string/predicate.hpp>
 #include <physfs.h>
 #include <fmt/format.h>
+#include <sstream>
 
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"
@@ -141,6 +141,7 @@ static PHYSFS_EnumerateCallbackResult remove_from_dictionary_path(void *data, co
     }
     return PHYSFS_ENUM_OK;
 }
+
 } // namespace
 
 AddonManager::AddonManager(const std::string& addon_directory,
@@ -466,7 +467,7 @@ void
 AddonManager::install_addon_from_local_file(const std::string& filename)
 {
   const std::string& source_filename = FileSystem::basename(filename);
-  if(!boost::algorithm::ends_with(source_filename, ".zip"))
+  if(!StringUtil::has_suffix(source_filename, ".zip"))
     return;
 
   const std::string& target_directory = FileSystem::join(PHYSFS_getRealDir(m_addon_directory.c_str()), m_addon_directory);

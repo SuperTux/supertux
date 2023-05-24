@@ -55,7 +55,7 @@ std::string Control_to_string(Control control)
   return g_control_names[static_cast<int>(control)];
 }
 
-boost::optional<Control> Control_from_string(const std::string& text)
+std::optional<Control> Control_from_string(const std::string& text)
 {
   for(int i = 0; g_control_names[i] != nullptr; ++i) {
     if (text == g_control_names[i]) {
@@ -63,7 +63,7 @@ boost::optional<Control> Control_from_string(const std::string& text)
     }
   }
 
-  return boost::none;
+  return std::nullopt;
 }
 
 Controller::Controller():

@@ -17,7 +17,7 @@
 #include "video/video_system.hpp"
 
 #include <assert.h>
-#include <boost/optional.hpp>
+#include <optional>
 #include <config.h>
 #include <iomanip>
 #include <physfs.h>
@@ -182,7 +182,7 @@ VideoSystem::do_take_screenshot()
     }
   }
 
-  auto find_filename = [&]() -> boost::optional<std::string>
+  auto find_filename = [&]() -> std::optional<std::string>
     {
       for (int num = 0; num < 1000000; ++num)
       {
@@ -190,10 +190,10 @@ VideoSystem::do_take_screenshot()
         oss << "screenshot" << std::setw(6) << std::setfill('0') << num << ".png";
         const std::string screenshot_filename = FileSystem::join(screenshots_dir, oss.str());
         if (!PHYSFS_exists(screenshot_filename.c_str())) {
-          return screenshot_filename;
+          return std::move(screenshot_filename);
         }
       }
-      return boost::none;
+      return std::nullopt;
     };
 
   auto filename = find_filename();

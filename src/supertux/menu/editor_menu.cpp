@@ -147,7 +147,7 @@ EditorMenu::menu_action(MenuItem& item)
     {
       editor->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
-        editor->m_test_pos = boost::none;
+        editor->m_test_pos = std::nullopt;
         editor->m_test_request = true;
       });
     }

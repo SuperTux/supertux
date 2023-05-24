@@ -17,6 +17,8 @@
 
 #include "supertux/menu/download_dialog.hpp"
 
+#include <sstream>
+
 #include "addon/downloader.hpp"
 
 DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close,
