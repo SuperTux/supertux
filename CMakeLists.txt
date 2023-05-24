@@ -253,7 +253,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-if(NOT EMSCRIPTEN)
+if(HAVE_LIBCURL)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
 endif()
 
