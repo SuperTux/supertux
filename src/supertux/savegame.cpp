@@ -191,7 +191,7 @@ Savegame::load(bool progress_only)
 
           if (progress_only) return; // If only set to read progress, don't continue.
 
-          boost::optional<ReaderMapping> tux;
+          std::optional<ReaderMapping> tux;
           if (!mapping.get("tux", tux))
           {
             throw std::runtime_error("No tux section in savegame");
@@ -200,7 +200,7 @@ Savegame::load(bool progress_only)
             m_player_status->read(*tux);
           }
 
-          boost::optional<ReaderMapping> state;
+          std::optional<ReaderMapping> state;
           if (!mapping.get("state", state))
           {
             throw std::runtime_error("No state section in savegame");

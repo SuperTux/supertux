@@ -53,7 +53,7 @@ ObjectOption::~ObjectOption()
 }
 
 BoolObjectOption::BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
-                                   boost::optional<bool> default_value,
+                                   std::optional<bool> default_value,
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -86,7 +86,7 @@ BoolObjectOption::to_string() const
 }
 
 IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const std::string& key,
-                                 boost::optional<int> default_value,
+                                 std::optional<int> default_value,
                                  unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -175,7 +175,7 @@ RectfObjectOption::add_to_menu(Menu& menu) const
 }
 
 FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
-                                     boost::optional<float> default_value,
+                                     std::optional<float> default_value,
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -208,7 +208,7 @@ FloatObjectOption::add_to_menu(Menu& menu) const
 }
 
 StringObjectOption::StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                                       boost::optional<std::string> default_value,
+                                       std::optional<std::string> default_value,
                                        unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -241,7 +241,7 @@ StringObjectOption::add_to_menu(Menu& menu) const
 }
 
 StringMultilineObjectOption::StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                                       boost::optional<std::string> default_value,
+                                       std::optional<std::string> default_value,
                                        unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -278,7 +278,7 @@ StringMultilineObjectOption::add_to_menu(Menu& menu) const
 
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
                                                    const std::vector<std::string>& select,
-                                                   boost::optional<int> default_value,
+                                                   std::optional<int> default_value,
                                                    const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -323,7 +323,7 @@ StringSelectObjectOption::add_to_menu(Menu& menu) const
 EnumObjectOption::EnumObjectOption(const std::string& text, int* pointer,
                                    const std::vector<std::string>& labels,
                                    const std::vector<std::string>& symbols,
-                                   boost::optional<int> default_value,
+                                   std::optional<int> default_value,
                                    const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -402,7 +402,7 @@ ScriptObjectOption::add_to_menu(Menu& menu) const
 }
 
 FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer,
-                                   boost::optional<std::string> default_value,
+                                   std::optional<std::string> default_value,
                                    const std::string& key,
                                    std::vector<std::string> filter,
                                    const std::string& basedir,
@@ -446,7 +446,7 @@ FileObjectOption::add_to_menu(Menu& menu) const
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
-                                     boost::optional<Color> default_value, bool use_alpha,
+                                     std::optional<Color> default_value, bool use_alpha,
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),

@@ -173,7 +173,7 @@ JoystickConfig::read(const ReaderMapping& joystick_mapping)
       std::string control_text;
       map.get("control", control_text);
 
-      const boost::optional<Control> maybe_control = Control_from_string(control_text);
+      const std::optional<Control> maybe_control = Control_from_string(control_text);
       if (!maybe_control)
       {
         log_info << "Invalid control '" << control_text << "' in buttonmap" << std::endl;
