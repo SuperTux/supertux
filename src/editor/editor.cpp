@@ -574,17 +574,20 @@ Editor::quit_editor()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  bool has_unsaved_changes = false;
-  for (const auto& sector : m_level->m_sectors)
+  bool has_unsaved_changes = !g_config->editor_undo_tracking;
+  if (!has_unsaved_changes)
   {
-    if (sector->has_object_changes())
+    for (const auto& sector : m_level->m_sectors)
     {
-      has_unsaved_changes = true;
-      break;
+      if (sector->has_object_changes())
+      {
+        has_unsaved_changes = true;
+        break;
+      }
     }
   }
 
-  if ((!g_config->editor_undo_tracking || has_unsaved_changes) && m_levelloaded)
+  if (has_unsaved_changes && m_levelloaded)
   {
     m_enabled = false;
     auto dialog = std::make_unique<Dialog>();
