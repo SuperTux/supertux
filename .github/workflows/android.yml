@@ -51,7 +51,6 @@ jobs:
         run: |
           ../../../.github/scripts/clone_dependency.sh libsdl-org/SDL_image release-2.6.3
           ../../../.github/scripts/clone_dependency.sh libsdl-org/SDL_ttf release-2.20.2
-          ../../../.github/scripts/clone_dependency.sh boostorg/boost boost-1.82.0
           ../../../.github/scripts/clone_dependency.sh curl/curl curl-8_0_1
           ../../../.github/scripts/clone_dependency.sh glennrp/libpng v1.6.39
           ../../../.github/scripts/clone_dependency.sh fmtlib/fmt 9.1.0
