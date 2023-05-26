@@ -16,7 +16,7 @@
 
 #include "supertux/menu/cheat_apply_menu.hpp"
 
-#include "boost/format.hpp"
+#include <fmt/format.h>
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -36,8 +36,7 @@ CheatApplyMenu::CheatApplyMenu(std::function<void(Player&)> callback) :
   add_entry(-1, _("All Players"));
   for (const auto player : Sector::get().get_players())
   {
-    add_entry(player->get_id(), (boost::format(_("Player %d"))
-                                               % (player->get_id() + 1)).str());
+    add_entry(player->get_id(), fmt::format(_("Player {}"), player->get_id() + 1));
   }
 
   add_hl();
@@ -57,8 +56,7 @@ CheatApplyMenu::CheatApplyMenu(std::function<void(Player&, int)> callback) :
   add_entry(-1, _("All Players"));
   for (const auto player : Sector::get().get_players())
   {
-    add_entry(player->get_id(), (boost::format(_("Player %d"))
-                                               % (player->get_id() + 1)).str());
+    add_entry(player->get_id(), fmt::format(_("Player {}"), player->get_id() + 1));
   }
 
   add_hl();

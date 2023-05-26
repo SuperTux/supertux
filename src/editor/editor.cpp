@@ -318,7 +318,7 @@ Editor::get_level_directory() const
 }
 
 void
-Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos)
+Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
   m_overlay_widget->reset_action_press();
 
@@ -691,7 +691,7 @@ Editor::event(const SDL_Event& ev)
 	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_t &&
         ev.key.keysym.mod & KMOD_CTRL) {
-		test_level(boost::none);
+		test_level(std::nullopt);
 		}
 
 	if (ev.type == SDL_KEYDOWN &&
@@ -951,7 +951,6 @@ Editor::pack_addon()
     if (info_file)
     {
       auto info_stream = ReaderDocument::from_stream(*info_file);
-      boost::optional<ReaderMapping> rm;
       auto a = info_stream.get_root().get_mapping();
       a.get("version", version);
     }

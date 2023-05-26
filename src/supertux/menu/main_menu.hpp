@@ -19,17 +19,6 @@
 
 #include "gui/menu.hpp"
 
-enum MainMenuIDs {
-  MNID_STARTGAME,
-  MNID_ADDONS,
-  MNID_MANAGEASSETS,
-  MNID_OPTIONMENU,
-  MNID_LEVELEDITOR,
-  MNID_CREDITS,
-  MNID_DONATE,
-  MNID_QUITMAINMENU
-};
-
 class MainMenu final : public Menu
 {
 public:
@@ -38,6 +27,14 @@ public:
   void on_window_resize() override;
   void menu_action(MenuItem& item) override;
   bool on_back_action() override { return false; }
+
+private:
+  enum MainMenuIDs {
+    MNID_LEVELEDITOR,
+    MNID_CREDITS,
+    MNID_DONATE,
+    MNID_QUITMAINMENU
+  };
 
 private:
   MainMenu(const MainMenu&) = delete;

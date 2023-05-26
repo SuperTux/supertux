@@ -63,6 +63,7 @@ jobs:
         working-directory: tools/scripting_docs_gen/build
         run: |
           doxygen docs/scripting/Doxyfile
+          rm ../../../wiki/Scripting*.md
           ./ScriptingDocsGen --dir docs/scripting/doxygen/xml \
                              --home ../../../wiki/templates/ScriptingHome.md \
                              --page ../../../wiki/templates/ScriptingPage.md \
