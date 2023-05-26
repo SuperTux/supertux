@@ -43,7 +43,6 @@ class Path;
 class Savegame;
 class Sector;
 class TileSet;
-class UndoManager;
 class World;
 
 class Editor final : public Screen,
