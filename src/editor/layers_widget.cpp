@@ -341,8 +341,8 @@ EditorLayersWidget::refresh_sector_text()
 void
 EditorLayersWidget::refresh_layers()
 {
-  bool tsel = false;
-  TileMap* first_tm = nullptr;
+  bool tilemap_selected = false;
+  TileMap* first_tilemap = nullptr;
   for (const auto& icon : m_layer_icons)
   {
     auto* go = icon->get_layer();
@@ -350,11 +350,11 @@ EditorLayersWidget::refresh_layers()
     if (!tm)
       continue;
 
-    if (first_tm == nullptr)
+    if (first_tilemap == nullptr)
     {
-      first_tm = tm;
+      first_tilemap = tm;
     }
-    if (!tm->is_solid() || tsel)
+    if (!tm->is_solid() || tilemap_selected)
     {
       tm->m_editor_active = false;
     }
@@ -362,14 +362,14 @@ EditorLayersWidget::refresh_layers()
     {
       m_selected_tilemap = tm;
       tm->m_editor_active = true;
-      tsel = true;
+      tilemap_selected = true;
     }
   }
 
-  if (!tsel && first_tm != nullptr)
+  if (!tilemap_selected && first_tilemap != nullptr)
   {
-    first_tm->m_editor_active = true;
-    m_selected_tilemap = first_tm;
+    first_tilemap->m_editor_active = true;
+    m_selected_tilemap = first_tilemap;
   }
 }
 
