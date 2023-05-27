@@ -177,12 +177,6 @@ include(SuperTux/BuildMiniswigWrapper)
 file(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
 file(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp src/video/null/*.cpp)
-if(NOT HAVE_LIBCURL)
-  file(GLOB SUPERTUX_ADDON_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/addon/*)
-  list(REMOVE_ITEM SUPERTUX_SOURCES_CXX ${SUPERTUX_ADDON_CXX})
-endif()
-message("ST SRC: ${SUPERTUX_SOURCES_CXX}")
-
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
 if(HAVE_OPENGL)
@@ -283,7 +277,7 @@ if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
 endif()
 
-if(HAVE_LIBCURL)
+if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 

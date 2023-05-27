@@ -58,7 +58,7 @@ cache_set(OPENSSL_CRYPTO_LIBRARY "${PROJECT_SOURCE_DIR}/openssl/crypto" STRING)
 cache_set(OPENSSL_SSL_LIBRARY "${PROJECT_SOURCE_DIR}/openssl/ssl" STRING)
 
 # watch this backfire terribly
-cache_set(HAVE_LIBCURL ON BOOL)
+cache_set(ADDONS_ENABLED ON BOOL)
 #cache_set(CURL_USE_OPENSSL OFF BOOL)
 cache_set(CURL_ENABLE_EXPORT_TARGET OFF BOOL)
 cache_set(CURL_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/curl/include" STRING)
