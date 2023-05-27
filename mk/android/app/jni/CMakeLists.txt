@@ -58,7 +58,7 @@ cache_set(OPENSSL_CRYPTO_LIBRARY "${PROJECT_SOURCE_DIR}/openssl/crypto" STRING)
 cache_set(OPENSSL_SSL_LIBRARY "${PROJECT_SOURCE_DIR}/openssl/ssl" STRING)
 
 # watch this backfire terribly
-cache_set(HAVE_LIBCURL OFF BOOL)
+cache_set(HAVE_LIBCURL ON BOOL)
 #cache_set(CURL_USE_OPENSSL OFF BOOL)
 cache_set(CURL_ENABLE_EXPORT_TARGET OFF BOOL)
 cache_set(CURL_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/curl/include" STRING)
@@ -81,8 +81,6 @@ cache_set(PHYSFS_BUILD_WX_TEST OFF BOOL)
 
 cache_set(USE_SYSTEM_PHYSFS ON BOOL)
 cache_set(USE_SYSTEM_TINYGETTEXT ON BOOL)
-
-option(BUILD_DIGIVICE "" ON)
 
 # Compilation of companion libraries
 #[[

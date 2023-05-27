@@ -181,6 +181,7 @@ if(NOT HAVE_LIBCURL)
   file(GLOB SUPERTUX_ADDON_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/addon/*)
   list(REMOVE_ITEM SUPERTUX_SOURCES_CXX ${SUPERTUX_ADDON_CXX})
 endif()
+message("ST SRC: ${SUPERTUX_SOURCES_CXX}")
 
 file(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
@@ -257,7 +258,7 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-if(HAVE_LIBCURL)
+if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
 endif()
 

@@ -1,6 +1,7 @@
 ## The curl headers are in the standard include path in dependencies
 ## so it's not required to add them here
-option(HAVE_LIBCURL "Use libcurl" ON)
+option(HAVE_LIBCURL "Use libcurl (build addons)" ON)
+message("LIBCURL: ${HAVE_LIBCURL}")
 
 if(EMSCRIPTEN)
   set(HAVE_LIBCURL OFF)
