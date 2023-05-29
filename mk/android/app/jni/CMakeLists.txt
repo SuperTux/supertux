@@ -32,7 +32,7 @@ macro(subdirlist result curdir)
   set(${result} ${dirlist})
 endmacro()
 
-cache_set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -v" STRING)
+cache_set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v" STRING)
 
 cache_set(SDL2_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/SDL/include PATH)
 cache_set(SDL2IMAGE_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/SDL_image PATH)
@@ -59,7 +59,7 @@ cache_set(OPENSSL_SSL_LIBRARY "${PROJECT_SOURCE_DIR}/openssl/ssl" STRING)
 
 # watch this backfire terribly
 cache_set(ADDONS_ENABLED ON BOOL)
-#cache_set(CURL_USE_OPENSSL OFF BOOL)
+cache_set(CURL_USE_OPENSSL OFF BOOL)
 cache_set(CURL_ENABLE_EXPORT_TARGET OFF BOOL)
 cache_set(CURL_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/curl/include" STRING)
 
@@ -76,30 +76,17 @@ cache_set(VORBIS_LIBRARY vorbis STRING)
 cache_set(VORBIS_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/vorbis/include;${PROJECT_SOURCE_DIR}/ogg/include" STRING)
 
 cache_set(BUILD_TESTS OFF BOOL)
+cache_set(PHYSFS_BUILD_SHARED ON BOOL)
 cache_set(PHYSFS_BUILD_TEST OFF BOOL)
 cache_set(PHYSFS_BUILD_WX_TEST OFF BOOL)
 
 cache_set(USE_SYSTEM_PHYSFS ON BOOL)
 cache_set(USE_SYSTEM_TINYGETTEXT ON BOOL)
 
-# Compilation of companion libraries
-#[[
-subdirlist(DEPS ${PROJECT_SOURCE_DIR})
-cache_set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${PROJECT_SOURCE_DIR};${DEPS}" STRING)
-foreach(DEP ${DEPS})
-  if(${DEP} STREQUAL "supertux")
-    continue()
-  endif()
-
-  message("DEP: ${DEP}")
-  add_subdirectory(${DEP})
-endforeach()
-add_subdirectory(supertux)
-#]]
-
 add_subdirectory(SDL)
 add_subdirectory(SDL_image)
 add_subdirectory(SDL_ttf)
+add_subdirectory(curl)
 add_subdirectory(fmt)
 add_subdirectory(glm)
 add_subdirectory(ogg)
@@ -111,3 +98,21 @@ add_subdirectory(squirrel)
 add_subdirectory(tinygettext)
 
 add_subdirectory(supertux)
+
+add_dependencies(supertux2
+  SDL2
+  SDL2_image
+  SDL2_ttf
+  libcurl
+  fmt
+  glm
+  ogg
+  vorbis
+  OpenAL
+  physfs-static
+  physfs
+  sexp
+  squirrel
+  sqstdlib
+  tinygettext
+)
