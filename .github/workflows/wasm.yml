@@ -1,6 +1,7 @@
 #  SuperTux
 #  Copyright (C) 2020-2021 Jacob Burroughs <maths22@gmail.com>
 #                2020-2022 A. Semphris <semphris@protonmail.com>
+#                2023 mrkubax10 <mrkubax10@onet.pl>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -29,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: ["Release", "Debug"]
+        build_type: ["Release"]
 
     runs-on: ubuntu-20.04
     steps:
@@ -53,43 +54,120 @@ jobs:
           # Fixes a bug with the libjpeg port - see https://github.com/emscripten-core/emscripten/pull/13878
           sed -i 's/2b581c60ae401a79bbbe748ff2deeda5acd50bfd2ea22e5926e36d34b9ebcffb6580b0ff48e972c1441583e30e21e1ea821ca0423f9c67ce08a31dffabdbe6b7/b2affe9a1688bd49fc033f4682c4a242d4ee612f1affaef532f5adcb4602efc4433c4a52a4b3d69e7440ff1f6413b1b041b419bc90efd6d697999961a9a6afb7/g' upstream/emscripten/tools/ports/libjpeg.py
           sed -i 's/https:\/\/dl.bintray.com\/homebrew\/mirror\/jpeg-9c.tar.gz/https:\/\/storage.googleapis.com\/webassembly\/emscripten-ports\/jpegsrc.v9c.tar.gz/g' upstream/emscripten/tools/ports/libjpeg.py
-
-      - name: Install vcpkg and dependencies
-        run: |
           source ~/emsdk/emsdk_env.sh
-          cd ~
-          git clone https://github.com/microsoft/vcpkg
-          ./vcpkg/bootstrap-vcpkg.sh
-          ./vcpkg/vcpkg integrate install
-          ./vcpkg/vcpkg install glbinding:wasm32-emscripten
-          ./vcpkg/vcpkg install libpng:wasm32-emscripten
-          ./vcpkg/vcpkg install libogg:wasm32-emscripten
-          ./vcpkg/vcpkg install libvorbis:wasm32-emscripten
-          ./vcpkg/vcpkg install glm:wasm32-emscripten
-          ./vcpkg/vcpkg install zlib:wasm32-emscripten
-
-      - name: Step To run on failure
-        if: ${{ failure() }}
-        run: | 
-          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-dbg-CMakeCache.txt.log
-          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-rel-CMakeCache.txt.log
-          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-out.log
 
       - name: Patch SDL_ttf
         working-directory: external/SDL_ttf
         run: git apply ../../mk/emscripten/SDL_ttf.patch
 
-      - name: Configure build
-        env:
-          BUILD_TYPE: ${{ matrix.build_type }}
+      - name: Prepare library building
         run: |
-          source ~/emsdk/emsdk_env.sh
+          mkdir libs
+
+      - name: Build SDL2
+        working-directory: libs
+        run: |
+          wget https://github.com/libsdl-org/SDL/releases/download/release-2.26.5/SDL2-2.26.5.tar.gz
+          tar xf SDL2-2.26.5.tar.gz
+          cd SDL2-2.26.5
           mkdir build
           cd build
-          emcmake cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_OPENGLES2=ON \
-                -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake\
-                -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON\
-                -DEMSCRIPTEN=1 -DWARNINGS=ON -DWERROR=ON ..
+          emcmake cmake ..
+          emmake make -j$(nproc)
+
+      - name: Build zlib
+        working-directory: libs
+        run: |
+          wget https://www.zlib.net/zlib-1.2.13.tar.gz
+          tar xf zlib-1.2.13.tar.gz
+          cd zlib-1.2.13
+          mkdir build
+          cd build
+          emcmake cmake .. -DBUILD_SHARED_LIBS=OFF
+          emmake make -j$(nproc)
+          mv zconf.h ..
+
+      - name: Build libpng
+        working-directory: libs
+        run: |
+          wget https://github.com/glennrp/libpng/archive/refs/tags/v1.6.39.tar.gz
+          tar xf v1.6.39.tar.gz
+          cd libpng-1.6.39
+          mkdir build
+          cd build
+          emcmake cmake .. -DZLIB_INCLUDE_DIR=/home/runner/libs/zlib-1.2.13 -DZLIB_LIBRARY=/home/runner/zlib-1.2.13/build/libz.a -DPNG_SHARED=NO -DPNG_EXECUTABLES=NO -DPNG_TESTS=NO
+          emmake make -j$(nproc)
+          mv pngconf.h ..
+          mv pngprefix.h ..
+
+      - name: Build libjpeg
+        working-directory: libs
+        run: |
+          wget https://github.com/winlibs/libjpeg/archive/refs/tags/libjpeg-turbo-2.1.0.tar.gz
+          tar xf libjpeg-turbo-2.1.0.tar.gz
+          cd libjpeg-libjpeg-turbo-2.1.0
+          mkdir build
+          cd build
+          emcmake cmake .. -DENABLE_SHARED=NO
+          emmake make -j$(nproc)
+
+     - name: Build SDL2_image
+       working-directory: libs
+       run: |
+         wget https://github.com/libsdl-org/SDL_image/releases/download/release-2.6.3/SDL2_image-2.6.3.tar.gz
+         tar xf SDL2_image-2.6.3.tar.gz
+         cd SDL2_image-2.6.3
+         mkdir build
+         cd build
+         emcmake cmake .. -DSDL2IMAGE_INSTALL=NO -DSDL2IMAGE_DEPS_SHARED=NO -DSDL2IMAGE_VENDORED=NO -DSDL2IMAGE_SAMPLES=NO -DBUILD_SHARED_LIBS=NO \
+                          -DSDL2IMAGE_BMP=NO -DSDL2IMAGE_GIF=NO -DSDL2IMAGE_LBM=NO -DSDL2IMAGE_PCX=NO -DSDL2IMAGE_PNM=NO -DSDL2IMAGE_QOI=NO -DSDL2IMAGE_SVG=NO \
+                          -DSDL2IMAGE_TGA=NO -DSDL2IMAGE_XCF=NO -DSDL2IMAGE_XPM=NO -DSDL2IMAGE_XV=NO -DPNG_INCLUDE_DIRS=/home/runner/libs/libpng-1.2.13 \
+                          -DPNG_LIBRARIES=/home/runner/libs/libpng-1.2.13/build/libpng16.a -DJPEG_INCLUDE_DIRS=/home/runner/libs/libjpeg-libjpeg-turbo-2.1.0 \
+                          -DJPEG_LIBRARIES=/home/runner/libs/libjpeg-libjpeg-turbo-2.1.0/build/libjpeg.a
+         emmake make -j$(nproc)
+
+      - name: Build libogg
+        working-directory: libs
+        run: |
+          wget https://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.gz
+          tar xf libogg-1.3.5.tar.gz
+          cd libogg-1.3.5
+          mkdir build
+          cd build
+          emcmake cmake ..
+          emmake make -j$(nproc)
+          mv include/ogg/config_types.h ../include/ogg
+
+      - name: Build libvorbis
+        working-directory: libs
+        run: |
+          wget https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.gz
+          tar xf libvorbis-1.3.7.tar.gz
+          cd libvorbis-1.3.7
+          mkdir build
+          cd build
+          emcmake cmake .. -DOGG_INCLUDE_DIR=/home/runner/libs/libogg-1.3.5/include -DOGG_LIBRARY=/home/runner/libs/libogg-1.3.5/build/libogg.a
+          emmake make -j$(nproc)
+
+      - name: Download GLM
+        working-directory: libs
+        run: |
+          wget https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip
+          unzip glm-0.9.9.8.zip
+                          
+      - name: Configure build
+        env:
+          LIB_HOME=/home/runner/libs
+        run: |
+          mkdir build
+          cd build
+          emcmake cmake .. -DEMSCRIPTEN=1 -DWARNINGS=ON -DWERROR=ON -DSDL2_INCLUDE_DIRS=$LIB_HOME/SDL2-2.26.5/include/SDL2 \
+                           -DSDL2_LIBRARIES=$LIB_HOME/SDL2-2.26.5/build/libSDL2.a -DSDL2IMAGE_INCLUDE_DIRS=$LIB_HOME/SDL2_image-2.6.3 \
+                           -DSDL2IMAGE_LIBRARIES=$LIB_HOME/SDL2_image-2.6.3/libSDL2_image.a -DGLM_INCLUDE_DIRS=$LIB_HOME/glm \
+                           -DOGG_INCLUDE_DIR=$LIB_HOME/libogg-1.3.5/include -DOGG_LIBRARY=$LIB_HOME/libogg-1.3.5/build/libogg.a \
+                           -DVORBIS_INCLUDE_DIR=$LIB_HOME/libvorbis-1.3.7/include -DVORBIS_LIBRARY=$LIB_HOME/libvorbis-1.3.7/build/lib/libvorbis.a \
+                           -DVORBISFILE_LIBRARY=$LIB_HOME/libvorbis-1.3.7/build/lib/libvorbisfile.a -DZLIB_INCLUDE_DIR=$LIB_HOME/zlib-1.2.13 \
+                           -DZLIB_LIBRARY=$LIB_HOME/zlib-1.2.13/build/libz.a -DPNG_PNG_INCLUDE_DIR=$LIB_HOME/libpng-1.6.39 -DPNG_LIBRARY=$LIB_HOME/libpng-1.6.39/build/libpng16.a
 
       - name: Sync data folder
         working-directory: build
@@ -99,7 +177,6 @@ jobs:
       - name: Build
         working-directory: build
         run: |
-          source ~/emsdk/emsdk_env.sh
           emmake make -j$(nproc)
 
         # Now you can run a local server with: `emrun supertux2.html`
