@@ -12,7 +12,7 @@
     (background
       (speed 0)
       (fill #t)
-      (image "images/background/halloween/vignette.png")
+      (image "images/background/misc/vignette.png")
       (z-pos 200)
     )
     (background

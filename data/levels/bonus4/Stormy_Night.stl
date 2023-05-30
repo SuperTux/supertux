@@ -37,9 +37,9 @@
     (background
       (color 1 1 1)
       (speed 0)
-      (image-top "/images/background/halloween/vignette.png")
-      (image "/images/background/halloween/vignette.png")
-      (image-bottom "/images/background/halloween/vignette.png")
+      (image-top "/images/background/misc/vignette.png")
+      (image "/images/background/misc/vignette.png")
+      (image-bottom "/images/background/misc/vignette.png")
       (z-pos 120)
     )
     (bonusblock
