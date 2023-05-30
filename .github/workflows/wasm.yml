@@ -157,7 +157,7 @@ jobs:
                           
       - name: Configure build
         env:
-          LIB_HOME=/home/runner/libs
+          LIB_HOME: /home/runner/libs
         run: |
           mkdir build
           cd build
