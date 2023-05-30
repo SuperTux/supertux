@@ -111,20 +111,20 @@ jobs:
           emcmake cmake .. -DENABLE_SHARED=NO
           emmake make -j$(nproc)
 
-     - name: Build SDL2_image
-       working-directory: libs
-       run: |
-         wget https://github.com/libsdl-org/SDL_image/releases/download/release-2.6.3/SDL2_image-2.6.3.tar.gz
-         tar xf SDL2_image-2.6.3.tar.gz
-         cd SDL2_image-2.6.3
-         mkdir build
-         cd build
-         emcmake cmake .. -DSDL2IMAGE_INSTALL=NO -DSDL2IMAGE_DEPS_SHARED=NO -DSDL2IMAGE_VENDORED=NO -DSDL2IMAGE_SAMPLES=NO -DBUILD_SHARED_LIBS=NO \
-                          -DSDL2IMAGE_BMP=NO -DSDL2IMAGE_GIF=NO -DSDL2IMAGE_LBM=NO -DSDL2IMAGE_PCX=NO -DSDL2IMAGE_PNM=NO -DSDL2IMAGE_QOI=NO -DSDL2IMAGE_SVG=NO \
-                          -DSDL2IMAGE_TGA=NO -DSDL2IMAGE_XCF=NO -DSDL2IMAGE_XPM=NO -DSDL2IMAGE_XV=NO -DPNG_INCLUDE_DIRS=/home/runner/libs/libpng-1.2.13 \
-                          -DPNG_LIBRARIES=/home/runner/libs/libpng-1.2.13/build/libpng16.a -DJPEG_INCLUDE_DIRS=/home/runner/libs/libjpeg-libjpeg-turbo-2.1.0 \
-                          -DJPEG_LIBRARIES=/home/runner/libs/libjpeg-libjpeg-turbo-2.1.0/build/libjpeg.a
-         emmake make -j$(nproc)
+      - name: Build SDL2_image
+        working-directory: libs
+        run: |
+          wget https://github.com/libsdl-org/SDL_image/releases/download/release-2.6.3/SDL2_image-2.6.3.tar.gz
+          tar xf SDL2_image-2.6.3.tar.gz
+          cd SDL2_image-2.6.3
+          mkdir build
+          cd build
+          emcmake cmake .. -DSDL2IMAGE_INSTALL=NO -DSDL2IMAGE_DEPS_SHARED=NO -DSDL2IMAGE_VENDORED=NO -DSDL2IMAGE_SAMPLES=NO -DBUILD_SHARED_LIBS=NO \
+                           -DSDL2IMAGE_BMP=NO -DSDL2IMAGE_GIF=NO -DSDL2IMAGE_LBM=NO -DSDL2IMAGE_PCX=NO -DSDL2IMAGE_PNM=NO -DSDL2IMAGE_QOI=NO -DSDL2IMAGE_SVG=NO \
+                           -DSDL2IMAGE_TGA=NO -DSDL2IMAGE_XCF=NO -DSDL2IMAGE_XPM=NO -DSDL2IMAGE_XV=NO -DPNG_INCLUDE_DIRS=/home/runner/libs/libpng-1.2.13 \
+                           -DPNG_LIBRARIES=/home/runner/libs/libpng-1.2.13/build/libpng16.a -DJPEG_INCLUDE_DIRS=/home/runner/libs/libjpeg-libjpeg-turbo-2.1.0 \
+                           -DJPEG_LIBRARIES=/home/runner/libs/libjpeg-libjpeg-turbo-2.1.0/build/libjpeg.a
+          emmake make -j$(nproc)
 
       - name: Build libogg
         working-directory: libs
