@@ -47,8 +47,8 @@ jobs:
           sudo apt-get install -y git cmake build-essential curl zip
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
-          ./emsdk install 1.40.1
-          ./emsdk activate 1.40.1
+          ./emsdk install latest
+          ./emsdk activate latest
           # Fixes a bug in emscripten - see https://github.com/emscripten-core/emscripten/issues/13590
           sed -i "s/\#define MALLOC_ALIGNMENT ((size_t)(2 \* sizeof(void \*)))/#define MALLOC_ALIGNMENT 16/g" upstream/emscripten/system/lib/dlmalloc.c
           # Fixes a bug with the libjpeg port - see https://github.com/emscripten-core/emscripten/pull/13878
@@ -97,7 +97,7 @@ jobs:
           cd libpng-1.6.39
           mkdir build
           cd build
-          emcmake cmake .. -DZLIB_INCLUDE_DIR=/home/runner/libs/zlib-1.2.13 -DZLIB_LIBRARY=/home/runner/zlib-1.2.13/build/libz.a -DPNG_SHARED=NO -DPNG_EXECUTABLES=NO -DPNG_TESTS=NO
+          emcmake cmake .. -DZLIB_INCLUDE_DIR=/home/runner/work/supertux/supertux/libs/zlib-1.2.13 -DZLIB_LIBRARY=/home/runner/zlib-1.2.13/build/libz.a -DPNG_SHARED=NO -DPNG_EXECUTABLES=NO -DPNG_TESTS=NO
           emmake make -j$(nproc)
           mv pngconf.h ..
           mv pngprefix.h ..
@@ -125,9 +125,9 @@ jobs:
           cd build
           emcmake cmake .. -DSDL2IMAGE_INSTALL=NO -DSDL2IMAGE_DEPS_SHARED=NO -DSDL2IMAGE_VENDORED=NO -DSDL2IMAGE_SAMPLES=NO -DBUILD_SHARED_LIBS=NO \
                            -DSDL2IMAGE_BMP=NO -DSDL2IMAGE_GIF=NO -DSDL2IMAGE_LBM=NO -DSDL2IMAGE_PCX=NO -DSDL2IMAGE_PNM=NO -DSDL2IMAGE_QOI=NO -DSDL2IMAGE_SVG=NO \
-                           -DSDL2IMAGE_TGA=NO -DSDL2IMAGE_XCF=NO -DSDL2IMAGE_XPM=NO -DSDL2IMAGE_XV=NO -DPNG_INCLUDE_DIRS=/home/runner/libs/libpng-1.2.13 \
-                           -DPNG_LIBRARIES=/home/runner/libs/libpng-1.2.13/build/libpng16.a -DJPEG_INCLUDE_DIRS=/home/runner/libs/libjpeg-libjpeg-turbo-2.1.0 \
-                           -DJPEG_LIBRARIES=/home/runner/libs/libjpeg-libjpeg-turbo-2.1.0/build/libjpeg.a
+                           -DSDL2IMAGE_TGA=NO -DSDL2IMAGE_XCF=NO -DSDL2IMAGE_XPM=NO -DSDL2IMAGE_XV=NO -DPNG_INCLUDE_DIRS=/home/runner/work/supertux/supertux/libs/libpng-1.2.13 \
+                           -DPNG_LIBRARIES=/home/runner/work/supertux/supertux/libs/libpng-1.2.13/build/libpng16.a -DJPEG_INCLUDE_DIRS=/home/runner/work/supertux/supertux/libs/libjpeg-libjpeg-turbo-2.1.0 \
+                           -DJPEG_LIBRARIES=/home/runner/work/supertux/supertux/libs/libjpeg-libjpeg-turbo-2.1.0/build/libjpeg.a
           emmake make -j$(nproc)
 
       - name: Build libogg
@@ -152,7 +152,7 @@ jobs:
           cd libvorbis-1.3.7
           mkdir build
           cd build
-          emcmake cmake .. -DOGG_INCLUDE_DIR=/home/runner/libs/libogg-1.3.5/include -DOGG_LIBRARY=/home/runner/libs/libogg-1.3.5/build/libogg.a
+          emcmake cmake .. -DOGG_INCLUDE_DIR=/home/runner/work/supertux/supertux/libs/libogg-1.3.5/include -DOGG_LIBRARY=/home/runner/work/supertux/supertux/libs/libogg-1.3.5/build/libogg.a
           emmake make -j$(nproc)
 
       - name: Download GLM
@@ -163,7 +163,7 @@ jobs:
                           
       - name: Configure build
         env:
-          LIB_HOME: /home/runner/libs
+          LIB_HOME: /home/runner/work/supertux/supertux/libs
         run: |
           source ~/emsdk/emsdk_env.sh
           mkdir build
