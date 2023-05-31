@@ -85,7 +85,7 @@ jobs:
           mkdir build
           cd build
           emcmake cmake .. -DBUILD_SHARED_LIBS=OFF
-          emmake make -j$(nproc)
+          emmake make
           mv zconf.h ..
 
       - name: Build libpng
