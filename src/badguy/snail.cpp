@@ -31,7 +31,7 @@ const float SNAIL_KICK_SPEED = 500;
 const int MAX_SNAIL_SQUISHES = 10;
 const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
 
-const float SNAIL_GUARD_DELAY = 8.f; /**< Time in-between corrupted snail guard states (seconds) */
+const float SNAIL_GUARD_DELAY = 5.f; /**< Time in-between corrupted snail guard states (seconds) */
 const float SNAIL_GUARD_TIME = 3.f; /**< Duration of corrupted snail guard states (seconds) */
 
 } // namespace
