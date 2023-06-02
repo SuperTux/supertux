@@ -170,7 +170,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     }
     m_parent->reset();
     MenuManager::instance().refresh();
-    m_wait_for_key = boost::none;
+    m_wait_for_key = std::nullopt;
     return;
   }
 

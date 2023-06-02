@@ -17,8 +17,6 @@
 
 #include "gui/item_script_line.hpp"
 
-#include <boost/algorithm/string.hpp>
-
 #include "control/input_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_script.hpp"
@@ -26,6 +24,7 @@
 #include "supertux/console.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "util/string_util.hpp"
 #include "video/drawing_context.hpp"
 
 ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
@@ -111,7 +110,7 @@ ItemScriptLine::paste() // Paste with mutli-line support
   std::vector<std::string> paste_lines;
   char* clipboard_content = SDL_GetClipboardText();
   std::string clipboard_content_str(clipboard_content);
-  boost::split(paste_lines, clipboard_content_str, boost::is_any_of("\n"));
+  StringUtil::split(paste_lines, clipboard_content_str, '\n');
   SDL_free(clipboard_content);
 
   if (paste_lines.empty()) return;

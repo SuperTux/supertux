@@ -16,7 +16,7 @@
 
 #include "gui/menu_string_array.hpp"
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
 
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
@@ -37,7 +37,7 @@ StringArrayMenu::menu_action(MenuItem& item)
   {
     m_text = m_array_items[id];
     m_selected_item = id;
-    get_item_by_id(-2).set_text(str(boost::format(_("Selected item: %s")) % (m_selected_item >= 0 ? m_array_items[m_selected_item] : _("None"))));
+    get_item_by_id(-2).set_text(fmt::format(_("Selected item: {}"), (m_selected_item >= 0 ? m_array_items[m_selected_item] : _("None"))));
   }
   else if (m_text.length() > 0 && id < -2)
   {
@@ -75,7 +75,7 @@ StringArrayMenu::reload()
   }
   add_hl();
   add_textfield(_("Text"), &m_text);
-  add_entry(-2, str(boost::format(_("Selected item: %s")) % (m_selected_item >= 0 ? m_array_items[m_selected_item] : _("None"))));
+  add_entry(-2, fmt::format(_("Selected item: {}"), (m_selected_item >= 0 ? m_array_items[m_selected_item] : _("None"))));
   add_entry(-3, _("Add"));
   add_entry(-4, _("Insert"));
   add_entry(-5, _("Update"));
