@@ -111,7 +111,7 @@ For ease of use, here are some installation lines for some Linux distributions:
 
 - ArchLinux (using sudo, as of June 3rd 2023)
   ```
-  sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm openssl glew harfbuzz fribidi glm zlib
+  sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
   ```
 
 ### Linux/UNIX using CMake
