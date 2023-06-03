@@ -19,9 +19,6 @@
 # 3. This notice may not be removed or altered from any source distribution.
 
 cmake_minimum_required(VERSION 3.0)
-
-include(mk/cmake/TinyCMMC.cmake)
-
 project(tinygettext VERSION "0.2.0")
 
 file(GLOB TINYGETTEXT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp)

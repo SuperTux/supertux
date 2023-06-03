@@ -65,7 +65,7 @@ jobs:
           ../../../.github/scripts/clone_dependency.sh driedfruit/SDL_SavePNG master
           ../../../.github/scripts/clone_dependency.sh SuperTux/sexp-cpp master
           ../../../.github/scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
-          ../../../.github/scripts/clone_dependency.sh tinygettext/tinygettext v0.1.0
+          ../../../.github/scripts/clone_dependency.sh SuperTux/tinygettext master
           ln -s ../../../ supertux
 
       - name: Cache dependencies

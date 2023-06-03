@@ -33,6 +33,7 @@ macro(subdirlist result curdir)
 endmacro()
 
 cache_set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v" STRING)
+cache_set(CMAKE_VERBOSE_MAKEFILE ON BOOL)
 
 cache_set(SDL2_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/SDL/include PATH)
 cache_set(SDL2IMAGE_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/SDL_image PATH)
@@ -85,6 +86,7 @@ cache_set(USE_SYSTEM_TINYGETTEXT ON BOOL)
 
 add_subdirectory(SDL)
 add_subdirectory(SDL_image)
+add_subdirectory(libpng)
 add_subdirectory(SDL_ttf)
 add_subdirectory(curl)
 add_subdirectory(fmt)
@@ -102,6 +104,7 @@ add_subdirectory(supertux)
 add_dependencies(supertux2
   SDL2
   SDL2_image
+  png
   SDL2_ttf
   libcurl
   fmt

@@ -281,6 +281,22 @@ if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
+# I'm just as confused as you are
+if(ANDROID)
+  target_link_libraries(supertux2_lib PUBLIC physfs)
+  target_link_libraries(supertux2_lib PUBLIC libcurl)
+  target_link_libraries(supertux2_lib PUBLIC OpenAL)
+  target_link_libraries(supertux2_lib PUBLIC ogg)
+  target_link_libraries(supertux2_lib PUBLIC vorbis)
+  target_link_libraries(supertux2_lib PUBLIC vorbisenc)
+  target_link_libraries(supertux2_lib PUBLIC vorbisfile)
+  target_link_libraries(supertux2_lib PUBLIC glm)
+  find_library(png png)
+  target_link_libraries(supertux2_lib PUBLIC png)
+  find_library(log-lib log)
+  target_link_libraries(supertux2_lib PUBLIC ${log-lib})
+endif()
+
 ## Install stuff
 include(SuperTux/BuildInstall)
 
