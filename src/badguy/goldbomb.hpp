@@ -34,6 +34,7 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
@@ -48,6 +49,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Gold Bomb"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
@@ -65,6 +67,7 @@ private:
   Ticking_State tstate;
 
   std::unique_ptr<SoundSource> ticking;
+  SpritePtr m_exploding_sprite;
 
 private:
   GoldBomb(const GoldBomb&) = delete;

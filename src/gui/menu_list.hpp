@@ -19,15 +19,15 @@
 
 #include "gui/menu.hpp"
 
-class ListMenu final : public Menu 
+class ListMenu final : public Menu
 {
 public:
-  ListMenu(const std::vector<std::string>& items, int* selected, Menu* parent);
+  ListMenu(const std::vector<std::string>& items, std::string* selected, Menu* parent);
 
   void menu_action(MenuItem& item) override;
 
 private:
-  int* m_selected;
+  std::string* m_selected;
   Menu* m_parent;
 
 private:

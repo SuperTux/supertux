@@ -42,11 +42,12 @@
 #include "supertux/menu/main_menu.hpp"
 #include "supertux/menu/multiplayer_menu.hpp"
 #include "supertux/menu/multiplayer_players_menu.hpp"
-#include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/options_select_menu.hpp"
 #include "supertux/menu/particle_editor_menu.hpp"
 #include "supertux/menu/particle_editor_save_as.hpp"
 #include "supertux/menu/particle_editor_open.hpp"
 #include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/video_system_menu.hpp"
 #include "supertux/menu/web_asset_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/menu/worldmap_cheat_menu.hpp"
@@ -85,10 +86,10 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<LanguageMenu>();
 
     case OPTIONS_MENU:
-      return std::unique_ptr<Menu>(new OptionsMenu(true));
+      return std::make_unique<OptionsSelectMenu>(true);
 
     case INGAME_OPTIONS_MENU:
-      return std::unique_ptr<Menu>(new OptionsMenu(false));
+      return std::make_unique<OptionsSelectMenu>(false);
 
     case PROFILE_MENU:
       return std::make_unique<ProfileMenu>();
@@ -98,6 +99,9 @@ MenuStorage::create(MenuId menu_id)
 
     case JOYSTICK_MENU:
       return std::unique_ptr<Menu>(new JoystickMenu(*InputManager::current()));
+
+    case VIDEO_SYSTEM_MENU:
+      return std::make_unique<VideoSystemMenu>();
 
     case WORLDMAP_MENU:
       return std::make_unique<WorldmapMenu>();

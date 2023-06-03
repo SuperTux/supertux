@@ -36,7 +36,7 @@ SkullyHop::initialize()
 {
   // initial state is JUMPING, because we might start airborne
   state = JUMPING;
-  m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
+  set_action("jumping", m_dir);
 }
 
 void
@@ -45,15 +45,15 @@ SkullyHop::set_state(SkullyHopState newState)
   if (newState == STANDING) {
     m_physic.set_velocity_x(0);
     m_physic.set_velocity_y(0);
-    m_sprite->set_action(m_dir == Direction::LEFT ? "standing-left" : "standing-right");
+    set_action("standing", m_dir);
 
     recover_timer.start(0.5);
   } else
     if (newState == CHARGING) {
-      m_sprite->set_action(m_dir == Direction::LEFT ? "charging-left" : "charging-right", 1);
+      set_action("charging", m_dir, 1);
     } else
       if (newState == JUMPING) {
-        m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
+        set_action("jumping", m_dir);
 const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
         m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
 const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
@@ -70,7 +70,7 @@ SkullyHop::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
 
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }
@@ -105,7 +105,7 @@ SkullyHop::collision_solid(const CollisionHit& hit)
   // check if we hit left or right while moving in either direction
   if (hit.left || hit.right) {
     m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-    m_sprite->set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right");
+    set_action("jumping", m_dir);
     m_physic.set_velocity_x(-0.25f*m_physic.get_velocity_x());
   }
 }

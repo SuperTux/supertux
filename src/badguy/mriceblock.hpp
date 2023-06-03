@@ -44,6 +44,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Iceblock"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return ice_state != ICESTATE_KICKED; }
 
   bool can_break();
 

@@ -130,6 +130,37 @@ TileSetParser::parse(int32_t start, int32_t end, int32_t offset, bool imported)
       TileSetParser import_parser(m_tileset, import_filename);
       import_parser.parse(import_start, import_end, import_offset, true);
     }
+    else if (iter.get_key() == "additional")
+    {
+      ReaderMapping reader = iter.as_mapping();
+      auto additional_iter = reader.get_iter();
+      while (additional_iter.next())
+      {
+        if (additional_iter.get_key() == "thunderstorm") // Additional attributes for thunderstorms.
+        {
+          auto info_mapping = additional_iter.as_mapping();
+          // Additional attributes for changing tiles for thunderstorms.
+          std::vector<uint32_t> tiles;
+          if (info_mapping.get("changing-tiles", tiles))
+          {
+            if (tiles.size() < 2)
+            {
+              log_warning << "Less than 2 tile IDs given for thunderstorm changing tiles." << std::endl;
+              continue;
+            }
+            if (tiles.size() % 2 != 0) tiles.pop_back(); // If the number of tiles isn't even, remove last tile.
+            for (int i = 0; i < static_cast<int>(tiles.size()); i += 2)
+            {
+              m_tileset.m_thunderstorm_tiles.insert({tiles[i], tiles[i + 1]});
+            }
+          }
+        }
+        else
+        {
+          log_warning << "Unknown symbol '" << additional_iter.get_key() << "' in \"additional\" section of tileset file" << std::endl;
+        }
+      }
+    }
     else
     {
       log_warning << "Unknown symbol '" << iter.get_key() << "' in tileset file" << std::endl;
@@ -207,13 +238,13 @@ TileSetParser::parse_tile(const ReaderMapping& reader, int32_t min, int32_t max,
   }
 
   std::vector<SurfacePtr> editor_surfaces;
-  boost::optional<ReaderMapping> editor_images_mapping;
+  std::optional<ReaderMapping> editor_images_mapping;
   if (reader.get("editor-images", editor_images_mapping)) {
     editor_surfaces = parse_imagespecs(*editor_images_mapping);
   }
 
   std::vector<SurfacePtr> surfaces;
-  boost::optional<ReaderMapping> images_mapping;
+  std::optional<ReaderMapping> images_mapping;
   if (reader.get("images", images_mapping)) {
     surfaces = parse_imagespecs(*images_mapping);
   }
@@ -303,13 +334,13 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max
     if (shared_surface)
     {
       std::vector<SurfacePtr> editor_surfaces;
-      boost::optional<ReaderMapping> editor_surfaces_mapping;
+      std::optional<ReaderMapping> editor_surfaces_mapping;
       if (reader.get("editor-images", editor_surfaces_mapping)) {
         editor_surfaces = parse_imagespecs(*editor_surfaces_mapping);
       }
 
       std::vector<SurfacePtr> surfaces;
-      boost::optional<ReaderMapping> surfaces_mapping;
+      std::optional<ReaderMapping> surfaces_mapping;
       if (reader.get("image", surfaces_mapping) ||
          reader.get("images", surfaces_mapping)) {
         surfaces = parse_imagespecs(*surfaces_mapping);
@@ -357,14 +388,14 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max
         int y = static_cast<int>(32 * (i / width));
 
         std::vector<SurfacePtr> surfaces;
-        boost::optional<ReaderMapping> surfaces_mapping;
+        std::optional<ReaderMapping> surfaces_mapping;
         if (reader.get("image", surfaces_mapping) ||
            reader.get("images", surfaces_mapping)) {
           surfaces = parse_imagespecs(*surfaces_mapping, Rect(x, y, Size(32, 32)));
         }
 
         std::vector<SurfacePtr> editor_surfaces;
-        boost::optional<ReaderMapping> editor_surfaces_mapping;
+        std::optional<ReaderMapping> editor_surfaces_mapping;
         if (reader.get("editor-images", editor_surfaces_mapping)) {
           editor_surfaces = parse_imagespecs(*editor_surfaces_mapping, Rect(x, y, Size(32, 32)));
         }
@@ -383,7 +414,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max
 
 std::vector<SurfacePtr>
   TileSetParser::parse_imagespecs(const ReaderMapping& images_mapping,
-                                  const boost::optional<Rect>& surface_region) const
+                                  const std::optional<Rect>& surface_region) const
 {
   std::vector<SurfacePtr> surfaces;
 

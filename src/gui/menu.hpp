@@ -24,9 +24,8 @@
 #include "gui/menu_action.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
+#include "video/drawing_context.hpp"
 
-class Controller;
-class DrawingContext;
 class ItemAction;
 class ItemBack;
 class ItemBadguySelect;
@@ -39,12 +38,14 @@ class ItemFile;
 class ItemFloatField;
 class ItemGoTo;
 class ItemHorizontalLine;
+class ItemHorizontalMenu;
 class ItemInactive;
 class ItemIntField;
 class ItemLabel;
 class ItemPaths;
 class ItemScript;
 class ItemScriptLine;
+class ItemList;
 class ItemStringSelect;
 class ItemTextField;
 class ItemToggle;
@@ -69,6 +70,11 @@ public:
   virtual void refresh() {}
 
   virtual void on_window_resize();
+
+  void draw(DrawingContext& context);
+
+  virtual void event(const SDL_Event& event);
+  virtual void process_action(const MenuAction& action);
 
   ItemHorizontalLine& add_hl();
   ItemLabel& add_label(const std::string& text);
@@ -102,8 +108,8 @@ public:
   ItemStringArray& add_string_array(const std::string& text, std::vector<std::string>& items, int id = -1);
   ItemImages& add_images(const std::string& image_path, int max_image_width = 0, int max_image_height = 0, int id = -1);
   ItemImages& add_images(const std::vector<std::string>& image_paths, int max_image_width = 0, int max_image_height = 0, int id = -1);
-
-  void process_input(const Controller& controller);
+  ItemList& add_list(const std::string& text, const std::vector<std::string>& items, std::string* value_ptr, int id = -1);
+  ItemHorizontalMenu& add_horizontalmenu(int id, float height, float min_item_width = -1.f);
 
   /** Remove all entries from the menu */
   void clear();
@@ -116,19 +122,16 @@ public:
   int get_active_item_id() const;
   void set_active_item(int id);
 
-  void draw(DrawingContext& context);
   Vector get_center_pos() const { return m_pos; }
   void set_center_pos(float x, float y);
-
-  void event(const SDL_Event& event);
 
   float get_width() const;
   float get_height() const;
 
-protected:
   /** returns true when the text is more important than action */
-  virtual bool is_sensitive() const;
+  virtual bool is_sensitive() const { return false; }
 
+protected:
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem& add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
   void delete_item(int pos_);
@@ -139,7 +142,6 @@ protected:
   void calculate_height();
 
 private:
-  void process_action(const MenuAction& menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index, float y_pos);
 
@@ -150,7 +152,6 @@ private:
   /* input implementation variables */
   int m_delete_character;
   char m_mn_input_char;
-  float m_menu_repeat_time;
   float m_menu_width;
   float m_menu_height;
   float m_menu_help_height;

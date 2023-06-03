@@ -61,10 +61,10 @@ void
 Bullet::update(float dt_sec)
 {
   // cause fireball color to flicker randomly
-  if (gameRandom.rand(5) != 0) {
-    lightsprite->set_color(Color(0.3f + gameRandom.randf(10) / 100.0f,
-                                 0.1f + gameRandom.randf(20.0f) / 100.0f,
-                                 gameRandom.randf(10.0f) / 100.0f));
+  if (graphicsRandom.rand(5) != 0) {
+    lightsprite->set_color(Color(0.3f + graphicsRandom.randf(10) / 100.0f,
+                                 0.1f + graphicsRandom.randf(20.0f) / 100.0f,
+                                 graphicsRandom.randf(10.0f) / 100.0f));
   } else
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
 

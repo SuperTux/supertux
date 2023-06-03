@@ -65,7 +65,7 @@ void
 Dart::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -::DART_SPEED : ::DART_SPEED);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "flying-left" : "flying-right");
+  set_action("flying", m_dir);
 }
 
 void

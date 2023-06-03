@@ -25,17 +25,15 @@ class Dispenser final : public BadGuy,
                         public ExposedObject<Dispenser, scripting::Dispenser>
 {
 private:
-  enum class DispenserType {
-    DROPPER, ROCKETLAUNCHER, CANNON, POINT
+  enum DispenserType {
+    CANNON, DROPPER, POINT
   };
-
-  static DispenserType DispenserType_from_string(const std::string& type_string);
-  static std::string DispenserType_to_string(DispenserType type);
 
 public:
   Dispenser(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
+  virtual void initialize() override;
   virtual void activate() override;
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;
@@ -52,7 +50,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
+  virtual GameObjectTypes get_types() const override;
 
   virtual void on_flip(float height) override;
 
@@ -73,9 +71,10 @@ public:
   }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   void launch_badguy();
+
+  void on_type_change(int old_type) override;
 
 private:
   void set_correct_action();
@@ -86,13 +85,8 @@ private:
   unsigned int m_next_badguy;
   Timer m_dispense_timer;
   bool m_autotarget;
-  bool m_swivel;
-  bool m_broken;
   bool m_random;
   bool m_gravity;
-
-  DispenserType m_type;
-  std::string m_type_str;
 
   /** Do we need to limit the number of dispensed badguys? */
   bool m_limit_dispensed_badguys;

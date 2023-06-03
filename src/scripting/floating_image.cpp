@@ -106,17 +106,17 @@ FloatingImage::get_action() const
 }
 
 void
-FloatingImage::fade_in(float fadetime)
+FloatingImage::fade_in(float time)
 {
   SCRIPT_GUARD_VOID;
-  object.fade_in(fadetime);
+  object.fade_in(time);
 }
 
 void
-FloatingImage::fade_out(float fadetime)
+FloatingImage::fade_out(float time)
 {
   SCRIPT_GUARD_VOID;
-  object.fade_out(fadetime);
+  object.fade_out(time);
 }
 
 } // scripting

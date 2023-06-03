@@ -99,7 +99,7 @@ Resources::get_font_for_locale(const tinygettext::Language& locale)
   if(lang == "he")
     return "fonts/VarelaRound-Regular.ttf";
   if(lang == "ko")
-    return "fonts/NanumBarunGothic.ttf";
+    return "fonts/MapoBackpacking.ttf";
 
   return "fonts/SuperTux-Medium.ttf";
 }

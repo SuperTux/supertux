@@ -32,6 +32,7 @@ public:
   std::string get_display_name() const override { return display_name(); }
   bool is_freezable() const override;
   bool is_flammable() const override;
+  virtual bool is_snipable() const override { return true; }
 
   void finish_construction() override;
 

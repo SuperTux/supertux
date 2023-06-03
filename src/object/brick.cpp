@@ -18,7 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "badguy/icecrusher.hpp"
+#include "badguy/crusher.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/camera.hpp"
 #include "object/explosion.hpp"
@@ -94,24 +94,28 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
     try_break(nullptr);
   }
 
-  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
-  if (icecrusher && m_coin_counter == 0)
+  auto crusher = dynamic_cast<Crusher*> (&other);
+  if (crusher && m_coin_counter == 0)
     try_break(nullptr);
 
   return Block::collision(other, hit);
 }
 
 void
-Brick::try_break(Player* player)
+Brick::try_break(Player* player, bool slider)
 {
   if (m_sprite->get_action() == "empty")
     return;
 
+  //takes too long for sliding tux to barrel through crates and ends up stopping him otherwise
+  if (slider && m_breakable && m_coin_counter <= 0)
+    break_me();
+
   SoundManager::current()->play("sounds/brick.wav", get_pos());
-  Player& player_one = *Sector::get().get_players()[0];
   if (m_coin_counter > 0 ) {
     Sector::get().add<BouncyCoin>(get_pos(), true);
     m_coin_counter--;
+    Player& player_one = *Sector::get().get_players()[0];
     player_one.get_status().add_coins(1);
     if (m_coin_counter == 0)
       m_sprite->set_action("empty");
@@ -131,13 +135,13 @@ Brick::try_break(Player* player)
 }
 
 void
-Brick::break_for_crusher(IceCrusher* icecrusher)
+Brick::break_for_crusher(Crusher* crusher)
 {
-  float shake_vel_x = icecrusher->is_sideways() ? icecrusher->get_physic().get_velocity_x() >= 0.f ? 6.f : -6.f : 0.f;
-  float shake_vel_y = icecrusher->is_sideways() ? 0.f : 6.f;
+  float shake_vel_x = crusher->is_sideways() ? crusher->get_physic().get_velocity_x() >= 0.f ? 6.f : -6.f : 0.f;
+  float shake_vel_y = crusher->is_sideways() ? 0.f : 6.f;
   Sector::get().get_camera().shake(0.1f, shake_vel_x, shake_vel_y);
   try_break(nullptr);
-  start_break(icecrusher);
+  start_break(crusher);
 }
 
 ObjectSettings
@@ -170,10 +174,10 @@ HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
       ricochet(&other);
   }
 
-  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
-  if (icecrusher)
+  auto crusher = dynamic_cast<Crusher*> (&other);
+  if (crusher)
   {
-    if (icecrusher->is_big())
+    if (crusher->is_big())
       try_break(nullptr);
     else
       ricochet(&other);

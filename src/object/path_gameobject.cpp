@@ -16,7 +16,7 @@
 
 #include "object/path_gameobject.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "editor/node_marker.hpp"
 #include "gui/menu_manager.hpp"
@@ -79,7 +79,7 @@ PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compa
   }
   else
   {
-    boost::optional<ReaderMapping> path_mapping;
+    std::optional<ReaderMapping> path_mapping;
     if (mapping.get("path", path_mapping))
     {
       m_path->read(*path_mapping);
@@ -114,11 +114,7 @@ PathGameObject::draw(DrawingContext& context)
 {
   if (m_style == PathStyle::SOLID)
   {
-    boost::optional<Vector> previous_node;
-
-    // FIXME: temporary workaround for compiler warning
-    previous_node = Vector();
-    previous_node = boost::none;
+    std::optional<Vector> previous_node;
 
     for (const auto& node : m_path->get_nodes())
     {
@@ -153,7 +149,7 @@ PathGameObject::draw(DrawingContext& context)
     const Color node_color = Color::BLUE;
     const Color edge_color = Color::MAGENTA;
 
-    boost::optional<Vector> previous_node;
+    std::optional<Vector> previous_node;
     for (const auto& node : m_path->get_nodes())
     {
       if (previous_node)
@@ -222,7 +218,7 @@ PathGameObject::remove_me()
   GameObject::remove_me();
 }
 
-void 
+void
 PathGameObject::copy_into(PathGameObject& other)
 {
   other.get_path().m_nodes = get_path().m_nodes;

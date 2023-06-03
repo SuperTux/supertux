@@ -19,7 +19,7 @@
 #include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
-ListMenu::ListMenu(const std::vector<std::string>& items, int* selected, Menu* parent) : 
+ListMenu::ListMenu(const std::vector<std::string>& items, std::string* selected, Menu* parent) :
   m_selected(selected),
   m_parent(parent)
 {
@@ -33,9 +33,10 @@ ListMenu::ListMenu(const std::vector<std::string>& items, int* selected, Menu* p
 void
 ListMenu::menu_action(MenuItem& item) {
   if(m_selected) {
-    *m_selected = item.get_id();
+    *m_selected = item.get_text();
   }
-  m_parent->refresh();
+  if (m_parent)
+    m_parent->refresh();
   MenuManager::instance().pop_menu();
 }
 

@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "badguy/owl.hpp"
 #include "object/coin_explode.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
@@ -31,7 +32,8 @@
 GoldBomb::GoldBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/gold_bomb/gold_bomb.sprite", "left", "right"),
   tstate(STATE_NORMAL),
-  ticking()
+  ticking(),
+  m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
   walk_speed = 80;
   max_drop_height = 16;
@@ -49,6 +51,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   }
   //Replace sprite
   m_sprite = SpriteManager::current()->create( m_sprite_name );
+  m_exploding_sprite->set_action("default", 1);
 }
 
 void
@@ -137,6 +140,7 @@ void
 GoldBomb::active_update(float dt_sec)
 {
   if (tstate == STATE_TICKING) {
+    m_exploding_sprite->set_action("exploding", 1);
     if (on_ground()) m_physic.set_velocity_x(0);
     ticking->set_position(get_pos());
     if (m_sprite->animation_done()) {
@@ -150,6 +154,19 @@ GoldBomb::active_update(float dt_sec)
   if (is_grabbed())
     return;
   WalkingBadguy::active_update(dt_sec);
+}
+
+void
+GoldBomb::draw(DrawingContext& context)
+{
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  if (tstate == STATE_TICKING)
+  {
+    m_exploding_sprite->set_blend(Blend::ADD);
+    m_exploding_sprite->draw(context.light(),
+      get_pos() + Vector(get_bbox().get_width() / 2, get_bbox().get_height() / 2), m_layer, m_flip);
+  }
+  WalkingBadguy::draw(context);
 }
 
 void
@@ -195,20 +212,19 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object,pos,dir_);
   if (tstate == STATE_TICKING){
-    m_col.set_movement(pos - get_pos());
-    m_dir = dir_;
-
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux
-    m_sprite->set_action_continued(m_dir == Direction::LEFT ? "ticking-right" : "ticking-left");
+    set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
     set_colgroup_active(COLGROUP_DISABLED);
   }
   else if (m_frozen){
-    m_col.set_movement(pos - get_pos());
-    m_dir = dir_;
-    m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
-    set_colgroup_active(COLGROUP_DISABLED);
+    set_action("iced", dir_);
   }
+  else if (dynamic_cast<Owl*>(&object))
+    set_action(dir_);
+  m_col.set_movement(pos - get_pos());
+  m_dir = dir_;
+  set_colgroup_active(COLGROUP_DISABLED);
 }
 
 void

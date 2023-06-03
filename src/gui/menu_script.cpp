@@ -31,10 +31,9 @@ ScriptMenu::ScriptMenu(std::string* script_) :
   // Split the script to the lines.
   std::string script = *base_script;
   std::string line_break = "\n";
-  std::string new_line;
   size_t endl_pos = script.find(line_break);
   while (endl_pos != std::string::npos) {
-    new_line = script.substr(0, endl_pos);
+    std::string new_line = script.substr(0, endl_pos);
     script = script.substr(endl_pos + line_break.length());
     push_string(new_line);
     endl_pos = script.find(line_break);
@@ -77,7 +76,7 @@ ScriptMenu::remove_line() {
 ItemScriptLine*
 ScriptMenu::add_line() {
   auto new_line = std::make_unique<std::string>();
-  script_strings.insert(script_strings.begin() + (m_active_item - 1), move(new_line));
+  script_strings.insert(script_strings.begin() + (m_active_item - 1), std::move(new_line));
 
   auto line_item = std::unique_ptr<ItemScriptLine>(
         new ItemScriptLine( (script_strings.begin()+(m_active_item-1))->get() ));

@@ -43,7 +43,7 @@ Canvas::~Canvas()
 void
 Canvas::clear()
 {
-  for (auto& request : m_requests)
+  for (const auto& request : m_requests)
   {
     request->~DrawingRequest();
   }

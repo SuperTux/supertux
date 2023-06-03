@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "badguy/bomb.hpp"
+#include "badguy/owl.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
@@ -71,10 +72,6 @@ MrBomb::collision_squished(GameObject& object)
     return WalkingBadguy::collision_squished(object);
 
   auto player = dynamic_cast<Player*>(&object);
-  if (player && !player->m_does_buttjump && m_frozen)
-  {
-    return false;
-  }
   if (player && player->is_invincible()) {
     player->bounce(*this);
     kill_fall();
@@ -133,10 +130,15 @@ void
 MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
-  assert(m_frozen);
+  if (dynamic_cast<Owl*>(&object))
+    set_action(dir_);
+  else
+  {
+    assert(m_frozen);
+    set_action("iced", dir_);
+  }
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;
-  m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
 }
 

@@ -115,6 +115,10 @@ public:
       with the attribute "hurts" */
   virtual bool is_hurtable() const { return true; }
 
+  /** Can enemy be sniped by sliding or swimboosting Tux?
+    Returns false if enemy is spiky or too large */
+  virtual bool is_snipable() const { return false; }
+
   bool is_frozen() const;
 
   bool is_in_water() const;

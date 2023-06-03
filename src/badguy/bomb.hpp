@@ -34,6 +34,7 @@ public:
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void kill_fall() override;
   virtual void ignite() override;
   void explode();
@@ -41,12 +42,14 @@ public:
   virtual bool is_portable() const override;
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual bool is_snipable() const override { return true; }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
 private:
   std::unique_ptr<SoundSource> ticking;
+  SpritePtr m_exploding_sprite;
 
 private:
   Bomb(const Bomb&) = delete;

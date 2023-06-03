@@ -35,8 +35,9 @@ public:
   virtual std::string get_overlay_size() const override { return "2x2"; }
   static std::string class_name() { return "spidermite"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Spider"); }
+  static std::string display_name() { return _("Spidermite"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   enum SpiderMiteMode {

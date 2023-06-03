@@ -41,7 +41,7 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
 
   init_path(reader, running);
   
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+  set_action(m_dir);
 }
 
 bool
@@ -50,7 +50,7 @@ Ghoul::collision_squished(GameObject& object)
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
   if (player)
     player->bounce (*this);
-  m_sprite->set_action("squished", 1);
+  set_action("squished", 1);
   kill_fall();
   return true;
 }
@@ -113,11 +113,11 @@ Ghoul::active_update(float dt_sec)
   const Rectf& player_bbox = player->get_bbox();
   
   if (player_bbox.get_right() < m_col.m_bbox.get_left()) {
-    m_sprite->set_action("left", -1);
+    set_action("left", -1);
   }
   
   if (player_bbox.get_left() > m_col.m_bbox.get_right()) {
-    m_sprite->set_action("right", -1);
+    set_action("right", -1);
   }
 
   switch (m_mystate) {

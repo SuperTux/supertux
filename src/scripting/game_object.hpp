@@ -87,10 +87,6 @@ template<class T>
 class GameObject
 {
 public:
-  GameObject() :
-    m_uid()
-  {}
-
   GameObject(UID uid) :
     m_uid(uid)
   {}

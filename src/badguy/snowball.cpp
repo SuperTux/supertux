@@ -34,7 +34,7 @@ SnowBall::SnowBall(const Vector& pos, Direction d, const std::string& script)
 bool
 SnowBall::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }

@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <string>
+#include <vector>
 
 #include "editor/object_settings.hpp"
 #include "supertux/game_object_component.hpp"
@@ -31,6 +32,13 @@ class GameObjectComponent;
 class ObjectRemoveListener;
 class ReaderMapping;
 class Writer;
+
+struct GameObjectType
+{
+  const std::string id;
+  const std::string name;
+};
+typedef std::vector<GameObjectType> GameObjectTypes;
 
 /**
     Base class for all the things that make up Levels' Sectors.
@@ -94,7 +102,12 @@ public:
   virtual bool has_settings() const { return is_saveable(); }
   virtual ObjectSettings get_settings();
 
-  virtual void after_editor_set() {}
+  /** Get all types of the object, if available. **/
+  virtual GameObjectTypes get_types() const;
+  int get_type() const { return m_type; }
+  void set_type(int type) { m_type = type; }
+
+  virtual void after_editor_set();
 
   /** When level is flipped vertically */
   virtual void on_flip(float height) {}
@@ -163,6 +176,17 @@ public:
       together (e.g. platform on a path) */
   virtual void editor_update() {}
 
+protected:
+  /** Parse object type. **/
+  void parse_type(const ReaderMapping& reader);
+
+  /** When the type has been changed from the editor. **/
+  virtual void on_type_change(int old_type) {}
+
+  /** Conversion between type ID and value. **/
+  int type_id_to_value(const std::string& id) const;
+  std::string type_value_to_id(int value) const;
+
 private:
   void set_uid(const UID& uid) { m_uid = uid; }
 
@@ -171,10 +195,18 @@ protected:
       for debugging, don't rely on names being set or being unique */
   std::string m_name;
 
+  /** Type of the GameObject. Used to provide special functionality,
+      based on the child object. */
+  int m_type;
+
   /** Fade Helpers are for easing/fading script functions */
   std::vector<std::unique_ptr<FadeHelper>> m_fade_helpers;
 
 private:
+  /** The object's type at the time of the last get_settings() call.
+      Used to check if the type has changed. **/
+  int m_previous_type;
+
   /** A unique id for the object to safely refer to it. This will be
       set by the GameObjectManager. */
   UID m_uid;

@@ -16,7 +16,7 @@
 
 #include "supertux/gameconfig.hpp"
 
-#include "config.h"
+#include <ctime>
 
 #include "editor/overlay_widget.hpp"
 #include "supertux/colorscheme.hpp"
@@ -69,6 +69,7 @@ Config::Config() :
   keyboard_config(),
   joystick_config(),
   mobile_controls(SDL_GetNumTouchDevices() > 0),
+  m_mobile_controls_scale(1),
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -76,10 +77,16 @@ Config::Config() :
   confirmation_dialog(false),
   pause_on_focusloss(true),
   custom_mouse_cursor(true),
+#ifdef __EMSCRIPTEN__
+  do_release_check(false),
+#else
+  do_release_check(true),
+#endif
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
   hide_editor_levelnames(false),
+  notifications(),
   menubackcolor(ColorScheme::Menu::back_color),
   menufrontcolor(ColorScheme::Menu::front_color),
   menuhelpbackcolor(ColorScheme::Menu::help_back_color),
@@ -131,7 +138,7 @@ Config::load()
 
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
-  boost::optional<ReaderCollection> config_profiles_mapping;
+  std::optional<ReaderCollection> config_profiles_mapping;
   if (config_mapping.get("profiles", config_profiles_mapping))
   {
     for (auto const& profile_node : config_profiles_mapping->get_objects())
@@ -161,8 +168,9 @@ Config::load()
   config_mapping.get("confirmation_dialog", confirmation_dialog);
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
+  config_mapping.get("do_release_check", do_release_check);
 
-  boost::optional<ReaderMapping> config_integrations_mapping;
+  std::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
   {
     config_integrations_mapping->get("hide_editor_levelnames", hide_editor_levelnames);
@@ -171,12 +179,36 @@ Config::load()
 #endif
   }
 
+  std::optional<ReaderCollection> config_notifications_mapping;
+  if (config_mapping.get("notifications", config_notifications_mapping))
+  {
+    for (auto const& notification_node : config_notifications_mapping->get_objects())
+    {
+      if (notification_node.get_name() == "notification")
+      {
+        auto notification = notification_node.get_mapping();
+
+        std::string id;
+        bool disabled = false;
+        if (notification.get("id", id) &&
+            notification.get("disabled", disabled))
+        {
+          notifications.push_back({id, disabled});
+        }
+      }
+      else
+      {
+        log_warning << "Unknown token in config file: " << notification_node.get_name() << std::endl;
+      }
+    }
+  }
+
   // menu colors
 
   std::vector<float> menubackcolor_, menufrontcolor_, menuhelpbackcolor_, menuhelpfrontcolor_,
     labeltextcolor_, activetextcolor_, hlcolor_, editorcolor_, editorhovercolor_, editorgrabcolor_;
 
-  boost::optional<ReaderMapping> interface_colors_mapping;
+  std::optional<ReaderMapping> interface_colors_mapping;
   if (config_mapping.get("interface_colors", interface_colors_mapping))
   {
     interface_colors_mapping->get("menubackcolor", menubackcolor_, ColorScheme::Menu::back_color.toVector());
@@ -208,7 +240,7 @@ Config::load()
 
   editor_autotile_help = !developer_mode;
 
-  boost::optional<ReaderMapping> editor_mapping;
+  std::optional<ReaderMapping> editor_mapping;
   if (config_mapping.get("editor", editor_mapping))
   {
     editor_mapping->get("autosave_frequency", editor_autosave_frequency);
@@ -233,7 +265,7 @@ Config::load()
   config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
 
-  boost::optional<ReaderMapping> config_video_mapping;
+  std::optional<ReaderMapping> config_video_mapping;
   if (config_mapping.get("video", config_video_mapping))
   {
     config_video_mapping->get("fullscreen", use_fullscreen);
@@ -271,7 +303,7 @@ Config::load()
 #endif
   }
 
-  boost::optional<ReaderMapping> config_audio_mapping;
+  std::optional<ReaderMapping> config_audio_mapping;
   if (config_mapping.get("audio", config_audio_mapping))
   {
     config_audio_mapping->get("sound_enabled", sound_enabled);
@@ -280,25 +312,26 @@ Config::load()
     config_audio_mapping->get("music_volume", music_volume);
   }
 
-  boost::optional<ReaderMapping> config_control_mapping;
+  std::optional<ReaderMapping> config_control_mapping;
   if (config_mapping.get("control", config_control_mapping))
   {
-    boost::optional<ReaderMapping> keymap_mapping;
+    std::optional<ReaderMapping> keymap_mapping;
     if (config_control_mapping->get("keymap", keymap_mapping))
     {
       keyboard_config.read(*keymap_mapping);
     }
 
-    boost::optional<ReaderMapping> joystick_mapping;
+    std::optional<ReaderMapping> joystick_mapping;
     if (config_control_mapping->get("joystick", joystick_mapping))
     {
       joystick_config.read(*joystick_mapping);
     }
 
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
+    config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
   }
 
-  boost::optional<ReaderCollection> config_addons_mapping;
+  std::optional<ReaderCollection> config_addons_mapping;
   if (config_mapping.get("addons", config_addons_mapping))
   {
     for (auto const& addon_node : config_addons_mapping->get_objects())
@@ -349,6 +382,7 @@ Config::save()
   writer.write("confirmation_dialog", confirmation_dialog);
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
+  writer.write("do_release_check", do_release_check);
 
   writer.start_list("integrations");
   {
@@ -358,6 +392,16 @@ Config::save()
 #endif
   }
   writer.end_list("integrations");
+
+  writer.start_list("notifications");
+  for (const auto& notification : notifications)
+  {
+    writer.start_list("notification");
+    writer.write("id", notification.id);
+    writer.write("disabled", notification.disabled);
+    writer.end_list("notification");
+  }
+  writer.end_list("notifications");
 
   writer.write("editor_autosave_frequency", editor_autosave_frequency);
 
@@ -435,6 +479,7 @@ Config::save()
     writer.end_list("joystick");
 
     writer.write("mobile_controls", mobile_controls);
+    writer.write("mobile_controls_scale", m_mobile_controls_scale);
   }
   writer.end_list("control");
 
@@ -462,6 +507,17 @@ Config::save()
   writer.end_list("editor");
 
   writer.end_list("supertux-config");
+}
+
+
+bool
+Config::is_christmas() const
+{
+  std::time_t time = std::time(nullptr);
+  std::tm* now = std::localtime(&time);
+
+  /* Activate Christmas mode from Dec 6th until Dec 31st. */
+  return now->tm_mday >= 6 && now->tm_mon == 11;
 }
 
 /* EOF */

@@ -17,7 +17,7 @@
 #include "video/video_system.hpp"
 
 #include <assert.h>
-#include <boost/optional.hpp>
+#include <optional>
 #include <config.h>
 #include <iomanip>
 #include <physfs.h>
@@ -45,7 +45,7 @@ VideoSystem::create(VideoSystem::Enum video_system)
       try
       {
         log_warning << "WebGL detected, using GLVideoSystem-20" << std::endl;
-        return std::make_unique<GLVideoSystem>(false);
+        return std::make_unique<GLVideoSystem>(false, false);
       }
       catch(std::exception& err2)
       {
@@ -55,20 +55,12 @@ VideoSystem::create(VideoSystem::Enum video_system)
   #else
       try
       {
-        return std::make_unique<GLVideoSystem>(true);
+        return std::make_unique<GLVideoSystem>(true, true);
       }
-      catch(std::exception& err)
+      catch(std::exception& err2)
       {
-        try
-        {
-          log_warning << "Error creating GLVideoSystem-330core, using GLVideoSystem-20 fallback: "  << err.what() << std::endl;
-          return std::make_unique<GLVideoSystem>(false);
-        }
-        catch(std::exception& err2)
-        {
-          log_warning << "Error creating GLVideoSystem-20, using SDL fallback: "  << err2.what() << std::endl;
-          return std::make_unique<SDLVideoSystem>();
-        }
+        log_warning << "Error creating GLVideoSystem, using SDL fallback: "  << err2.what() << std::endl;
+        return std::make_unique<SDLVideoSystem>();
       }
   #endif
 #else
@@ -78,10 +70,10 @@ VideoSystem::create(VideoSystem::Enum video_system)
 
 #ifdef HAVE_OPENGL
     case VIDEO_OPENGL33CORE:
-      return std::make_unique<GLVideoSystem>(true);
+      return std::make_unique<GLVideoSystem>(true, false);
 
     case VIDEO_OPENGL20:
-      return std::make_unique<GLVideoSystem>(false);
+      return std::make_unique<GLVideoSystem>(false, false);
 #else
     case VIDEO_OPENGL33CORE:
     case VIDEO_OPENGL20:
@@ -160,6 +152,19 @@ VideoSystem::get_video_string(VideoSystem::Enum video)
   }
 }
 
+std::vector<std::string>
+VideoSystem::get_available_video_systems()
+{
+  std::vector<std::string> output;
+  output.push_back("auto");
+  output.push_back("sdl");
+#ifdef HAVE_OPENGL
+  output.push_back("opengl33");
+  output.push_back("opengl20");
+#endif
+  return output;
+}
+
 void
 VideoSystem::do_take_screenshot()
 {
@@ -177,7 +182,7 @@ VideoSystem::do_take_screenshot()
     }
   }
 
-  auto find_filename = [&]() -> boost::optional<std::string>
+  auto find_filename = [&]() -> std::optional<std::string>
     {
       for (int num = 0; num < 1000000; ++num)
       {
@@ -185,10 +190,10 @@ VideoSystem::do_take_screenshot()
         oss << "screenshot" << std::setw(6) << std::setfill('0') << num << ".png";
         const std::string screenshot_filename = FileSystem::join(screenshots_dir, oss.str());
         if (!PHYSFS_exists(screenshot_filename.c_str())) {
-          return screenshot_filename;
+          return std::move(screenshot_filename);
         }
       }
-      return boost::none;
+      return std::nullopt;
     };
 
   auto filename = find_filename();

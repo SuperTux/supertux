@@ -36,6 +36,7 @@ SpriteData::Action::Action() :
   hitbox_h(0),
   fps(10),
   loops(-1),
+  loop_frame(1),
   has_custom_loops(false),
   family_name(),
   surfaces()
@@ -78,7 +79,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       case 4:
         action->hitbox_h = hitbox[3];
         action->hitbox_w = hitbox[2];
-        BOOST_FALLTHROUGH;
+        [[fallthrough]];
       case 2:
         action->y_offset = hitbox[1];
         action->x_offset = hitbox[0];
@@ -92,6 +93,14 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   if (mapping.get("loops", action->loops))
   {
     action->has_custom_loops = true;
+  }
+  if (mapping.get("loop-frame", action->loop_frame))
+  {
+    if (action->loop_frame < 1)
+    {
+      log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << name << "' set to a value below 1." << std::endl;
+      action->loop_frame = 1;
+    }
   }
 
   if (!mapping.get("family_name", action->family_name))
@@ -161,7 +170,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       }
     }
   } else { // Load images
-    boost::optional<ReaderCollection> surfaces_collection;
+    std::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
     if (mapping.get("images", images))
     {
@@ -211,6 +220,15 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       throw std::runtime_error(msg.str());
     }
   }
+
+  // Reset loop-frame, if it's specified in current action, but not-in-range of total frames.
+  const int frames = static_cast<int>(action->surfaces.size());
+  if (action->loop_frame > frames && frames > 0)
+  {
+    log_warning << "'loop-frame' of action '" << action->name << "' in sprite '" << name << "' not-in-range of total frames." << std::endl;
+    action->loop_frame = 1;
+  }
+
   actions[action->name] = std::move(action);
 }
 

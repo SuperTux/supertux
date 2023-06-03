@@ -18,14 +18,14 @@
 
 #include <config.h>
 #include <version.h>
+#include <filesystem>
 #include <fstream>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <boost/filesystem.hpp>
-#include <boost/locale.hpp>
 #include <physfs.h>
 #include <tinygettext/log.hpp>
+#include <fmt/format.h>
 extern "C" {
 #include <findlocale.h>
 }
@@ -35,6 +35,7 @@ extern "C" {
 #endif
 
 #include "addon/addon_manager.hpp"
+#include "addon/downloader.hpp"
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
@@ -44,6 +45,7 @@ extern "C" {
 #include "editor/tool_icon.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/notification.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
@@ -72,8 +74,11 @@ extern "C" {
 #include "supertux/tile_manager.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
+#include "supertux/menu/download_dialog.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
 #include "util/timelog.hpp"
 #include "util/string_util.hpp"
@@ -133,7 +138,8 @@ Main::Main() :
   m_console(),
   m_game_manager(),
   m_screen_manager(),
-  m_savegame()
+  m_savegame(),
+  m_downloader() // Used for getting the version of the latest SuperTux release.
 {
 }
 
@@ -164,15 +170,15 @@ Main::init_tinygettext()
 }
 
 PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
-                boost::optional<std::string> forced_datadir,
-                boost::optional<std::string> forced_userdir) :
+                std::optional<std::string> forced_datadir,
+                std::optional<std::string> forced_userdir) :
   m_forced_datadir(std::move(forced_datadir)),
   m_forced_userdir(std::move(forced_userdir))
 {
   if (!PHYSFS_init(argv0))
   {
     std::stringstream msg;
-    msg << "Couldn't initialize physfs: " << PHYSFS_getLastErrorCode();
+    msg << "Couldn't initialize physfs: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
   else
@@ -191,22 +197,22 @@ void PhysfsSubsystem::find_datadir() const
   if (const char* assetpack = getenv("ANDROID_ASSET_PACK_PATH"))
   {
     // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
-    if (!PHYSFS_mount(boost::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
+    if (!PHYSFS_mount(std::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
     {
-      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       return;
     }
 
     PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
     if (!data)
     {
-      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getLastErrorCode() << std::endl;
+      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       return;
     }
 
     if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
     {
-      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     }
 
     return;
@@ -236,7 +242,7 @@ void PhysfsSubsystem::find_datadir() const
     {
       datadir = BUILD_DATA_DIR;
       // Add config dir for supplemental files
-      PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
     }
     else
     {
@@ -247,14 +253,14 @@ void PhysfsSubsystem::find_datadir() const
     }
   }
 
-  if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
+  if (!PHYSFS_mount(std::filesystem::canonical(datadir).string().c_str(), nullptr, 1))
   {
-    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
 #else
   if (!PHYSFS_mount(BUILD_CONFIG_DATA_DIR, nullptr, 1))
   {
-    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getLastErrorCode() << std::endl;
+    log_warning << "Couldn't add '" << BUILD_CONFIG_DATA_DIR << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
 #endif
 }
@@ -291,20 +297,20 @@ std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
 if (FileSystem::is_directory(olduserdir)) {
-  boost::filesystem::path olduserpath(olduserdir);
-  boost::filesystem::path userpath(userdir);
+  std::filesystem::path olduserpath(olduserdir);
+  std::filesystem::path userpath(userdir);
 
-  boost::filesystem::directory_iterator end_itr;
+  std::filesystem::directory_iterator end_itr;
 
   bool success = true;
 
   // cycle through the directory
-  for (boost::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
+  for (std::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
   try
   {
-    boost::filesystem::rename(itr->path().string().c_str(), userpath / itr->path().filename());
+    std::filesystem::rename(itr->path().string().c_str(), userpath / itr->path().filename());
   }
-  catch (const boost::filesystem::filesystem_error& err)
+  catch (const std::filesystem::filesystem_error& err)
   {
     success = false;
     log_warning << "Failed to move contents of config directory: " << err.what() << std::endl;
@@ -313,9 +319,9 @@ if (FileSystem::is_directory(olduserdir)) {
   if (success) {
     try
     {
-      boost::filesystem::remove_all(olduserpath);
+      std::filesystem::remove_all(olduserpath);
     }
-    catch (const boost::filesystem::filesystem_error& err)
+    catch (const std::filesystem::filesystem_error& err)
     {
       success = false;
       log_warning << "Failed to remove old config directory: " << err.what();
@@ -350,7 +356,7 @@ if (FileSystem::is_directory(olduserdir)) {
   {
     std::ostringstream msg;
     msg << "Failed to use userdir directory '"
-        <<  userdir << "': errorcode: " << PHYSFS_getLastErrorCode();
+        <<  userdir << "': errorcode: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
     throw std::runtime_error(msg.str());
   }
 
@@ -563,12 +569,12 @@ Main::launch_game(const CommandLineArguments& args)
 
         if (args.sector || args.spawnpoint)
         {
-          std::string sectorname = args.sector.get_value_or("main");
+          std::string sectorname = args.sector.value_or("main");
 
           const auto& spawnpoints = session->get_current_sector().get_objects_by_type<SpawnPointMarker>();
           std::string default_spawnpoint = (spawnpoints.begin() != spawnpoints.end()) ?
             "" : spawnpoints.begin()->get_name();
-          std::string spawnpointname = args.spawnpoint.get_value_or(default_spawnpoint);
+          std::string spawnpointname = args.spawnpoint.value_or(default_spawnpoint);
 
           session->set_start_point(sectorname, spawnpointname);
           session->restart_level();
@@ -598,6 +604,7 @@ Main::launch_game(const CommandLineArguments& args)
     else
     {
       m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame));
+      if (g_config->do_release_check) release_check();
     }
   }
 
@@ -633,14 +640,9 @@ Main::run(int argc, char** argv)
   // Create and install global locale - this can fail on some situations:
   // - with bad values for env vars (LANG, LC_ALL, ...)
   // - targets where libstdc++ uses its generic locales code (https://gcc.gnu.org/legacy-ml/libstdc++/2003-02/msg00345.html)
-  // NOTE: when moving to C++ >= 17, keep the try-catch block, but use std::locale:global(std::locale(""));
-  //
-  // This should not be necessary on *nix, so only try it on Windows.
   try
   {
-    std::locale::global(boost::locale::generator().generate(""));
-    // Make boost.filesystem use it
-    boost::filesystem::path::imbue(std::locale());
+    std::locale::global(std::locale(""));
   }
   catch(const std::runtime_error& err)
   {
@@ -717,6 +719,54 @@ Main::run(int argc, char** argv)
 #endif
 
   return result;
+}
+
+void
+Main::release_check()
+{
+  // Detect a potential new release of SuperTux. If a release, other than
+  // the current one is indicated on the given web file, show a notification on the main menu screen.
+  const std::string target_file = "ver_info.nfo";
+  TransferStatusPtr status = m_downloader.request_download("https://raw.githubusercontent.com/SuperTux/addons/master/ver_info.nfo", target_file);
+  status->then([target_file, status](bool success)
+  {
+    if (!success)
+    {
+      log_warning << "Error performing new release check: Failed to download \"supertux-versioninfo\" file: " << status->error_msg << std::endl;
+      return;
+    }
+    auto doc = ReaderDocument::from_file(target_file);
+    auto root = doc.get_root();
+    if (root.get_name() != "supertux-versioninfo")
+    {
+      log_warning << "File is not a \"supertux-versioninfo\" file." << std::endl;
+      return;
+    }
+    auto mapping = root.get_mapping();
+    std::string latest_ver;
+    if (mapping.get("latest", latest_ver))
+    {
+      const std::string version_full = std::string(PACKAGE_VERSION);
+      const std::string version = version_full.substr(version_full.find("v") + 1, version_full.find("-") - 1);
+      if (version != latest_ver)
+      {
+        auto notif = std::make_unique<Notification>("new_release_" + latest_ver);
+        notif->set_text("New release: SuperTux v" + latest_ver + "!");
+        notif->on_press([latest_ver]()
+                       {
+                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n \nDo you want to visit the website now?")), latest_ver), []()
+                                                   {
+                                                     FileSystem::open_url("https://supertux.org");
+                                                   });
+                       });
+        MenuManager::instance().set_notification(std::move(notif));
+      }
+    }
+  });
+  // Set up a download dialog to update the transfer status.
+  auto dialog = std::make_unique<DownloadDialog>(status, true, true, true);
+  dialog->set_title(_("Checking for new releases..."));
+  MenuManager::instance().set_dialog(std::move(dialog));
 }
 
 /* EOF */

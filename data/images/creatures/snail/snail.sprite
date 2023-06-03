@@ -1,298 +1,128 @@
 (supertux-sprite
 	(action
 	  (name "left")
-	  (hitbox 2 3 31.8 31.8)
-	  (images "snowsnail1.png"
-		  "snowsnail2.png"
-		  "snowsnail3.png"
-		  ))
+	  (hitbox 4 4 32 32)
+	  (fps 15)
+	  (images "left-0.png"
+            "left-1.png"
+            "left-2.png"
+            "left-3.png"
+            "left-4.png"
+            "left-5.png"
+            "left-6.png"
+            "left-7.png")
+	)
+	(action
+		(name "right")
+		(hitbox 12 4 32 32)
+		(fps 15)
+		(mirror-action "left")
+	)
 
-	(action (name "right")
-		(hitbox 2 3 31.8 31.8)
-		(mirror-action "left"))
+	(action
+		(name "flat-left")
+		(fps 40.0)
+		(hitbox 4 7 32 28)
+		(images "rotate-0.png"
+            "rotate-1.png"
+            "rotate-2.png"
+            "rotate-3.png"
+            "rotate-4.png"
+            "rotate-5.png"
+            "rotate-6.png"
+            "rotate-7.png")
+	)
+	(action
+    (name "flat-right")
+		(fps 40.0)
+		(hitbox 4 7 32 28)
+		(mirror-action "flat-left")
+	)
+	
 	(action
 	  (name "iced-left")
-	  (hitbox -2 -5 31.8 31.8)
-	  (images "snowsnail1.png"))
-
-	(action (name "iced-right")
-		(hitbox -2 -5 31.8 31.8)
-		(mirror-action "iced-left"))
-
-	(action (name "flat-left")
-		(fps 64.0)
-		(hitbox 2 3 31.8 31.8)
-		(images
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip5.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip6.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip7.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip1.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip2.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip3.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-"snowsnail_flip4.png"
-			))
-
-	(action (name "flat-right")
-		(fps 64.0)
-		(hitbox 2 3 31.8 31.8)
-		(mirror-action "flat-left"))
+	  (hitbox 4 7 32 28)
+	  (images "rotate-0.png")
+	)
+	(action
+	  (name "iced-right")
+	  (hitbox 4 7 32 28)
+	  (mirror-action "iced-left")
+	)
 	(action
 	  (name "burning-left")
 	  (hitbox 2 35 31.8 31.8)
 	  (fps 15)
 	  (images "burning-0.png"
-		  "burning-1.png"
-		  "burning-2.png"
-		  "burning-3.png"
-		  "burning-4.png"
-		  "burning-5.png"
-		  "burning-6.png"
-		  "burning-7.png"
-		  "burning-8.png"
-		  ))
-	(action (name "burning-right")
-		(hitbox 2 35 31.8 31.8)
-		(fps 15)
-		(mirror-action "burning-left"))
+            "burning-1.png"
+            "burning-2.png"
+            "burning-3.png"
+            "burning-4.png"
+            "burning-5.png"
+            "burning-6.png"
+            "burning-7.png"
+            "burning-8.png")
+	)
+	(action
+	  (name "burning-right")
+	  (hitbox 2 35 31.8 31.8)
+	  (fps 15)
+	  (mirror-action "burning-left")
+	)
 	
-	(action (name "shielded-left")
-		(hitbox 2 -3 31.8 31.8)
-		(images "snowsnail_unflip.png"))
+	(action
+	  (name "waking-left")
+    (fps 40.0)
+    (hitbox 4 7 32 28)
+    (images "rotate-0.png"
+            "rotate-0.png"
+            "rotate-1.png"
+            "rotate-1.png"
+            "rotate-2.png"
+            "rotate-2.png"
+            "rotate-3.png"
+            "rotate-3.png"
+            "rotate-4.png"
+            "rotate-4.png"
+            "rotate-5.png"
+            "rotate-5.png"
+            "rotate-6.png"
+            "rotate-6.png"
+            "rotate-7.png"
+            "rotate-7.png"
+            "rotate-0.png"
+            "rotate-0.png"
+            "rotate-0.png"
+            "rotate-1.png"
+            "rotate-1.png"
+            "rotate-1.png"
+            "rotate-2.png"
+            "rotate-2.png"
+            "rotate-2.png"
+            "rotate-3.png"
+            "rotate-3.png"
+            "rotate-3.png"
+            "rotate-4.png"
+            "rotate-4.png"
+            "rotate-4.png"
+            "rotate-4.png"
+            "rotate-5.png"
+            "rotate-5.png"
+            "rotate-5.png"
+            "rotate-5.png"
+            "rotate-6.png"
+            "rotate-6.png"
+            "rotate-6.png"
+            "rotate-7.png"
+            "rotate-7.png"
+            "rotate-7.png"
+            "rotate-7.png")
+	)
 
-	(action (name "shielded-right")
-		(hitbox 2 -3 31.8 31.8)
-		(mirror-action "shielded-left")))
+	(action
+    (name "waking-right")
+	  (fps 40.0)
+    (hitbox 4 7 32 28)
+    (mirror-action "waking-left")
+	)
+)

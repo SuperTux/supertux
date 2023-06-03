@@ -41,6 +41,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Skydive"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual bool is_snipable() const override { return true; }
 
 private:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;

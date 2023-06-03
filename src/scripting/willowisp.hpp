@@ -19,14 +19,20 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+
 #include "scripting/badguy.hpp"
-#include "scripting/game_object.hpp"
 
 class WillOWisp;
 #endif
 
 namespace scripting {
 
+/**
+ * @summary A ""WillOWisp"" that was given a name can be controlled by scripts.
+            The WillOWisp can be moved by specifying a path for it.
+ * @instances A ""WillOWisp"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class WillOWisp final : public scripting::BadGuy
 #ifndef SCRIPTING_API
   , virtual public GameObject<::WillOWisp>
@@ -34,7 +40,11 @@ class WillOWisp final : public scripting::BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  using BadGuy::BadGuy;
+  WillOWisp(UID uid) :
+    GameObject<::BadGuy>(uid),
+    GameObject<::WillOWisp>(uid),
+    BadGuy(uid)
+  {}
 
 private:
   WillOWisp(const WillOWisp&) = delete;
@@ -42,24 +52,26 @@ private:
 #endif
 
 public:
-  /** Move willowisp to given node */
+  /**
+   * Moves the WillOWisp along a path until at given node, then stops.
+   * @param int $node_no
+   */
   void goto_node(int node_no);
 
-  /** set willowisp state; can be:
-   * -stopped          willowisp doesn't move
-   * -move_path        willowisp moves along the path (call goto_node)
-   * -move_path_track  willowisp moves along path but catches tux when he is near
-   * -normal           "normal" mode starts tracking tux when he is near enough
-   * -vanish           vanish
+  /**
+   * Sets the state of the WillOWisp.
+   * @param string $state One of the following: "stopped", "move_path" (moves along a path),
+      "move_path_track" (moves along a path but catches Tux when he is near), "normal" (starts tracking Tux when he is near enough),
+      "vanish".
    */
   void set_state(const std::string& state);
 
   /**
-   * Start following the path
+   * Starts following a path.
    */
   void start_moving();
   /**
-   * Stop following the path
+   * Stops following a path.
    */
   void stop_moving();
 };
@@ -68,4 +80,5 @@ public:
 
 #endif
 
-/* EOF */
+/* EOF
+   */

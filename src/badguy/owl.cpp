@@ -34,6 +34,8 @@ const float ACTIVATION_DISTANCE = 128.0f;
 
 } // namespace
 
+std::vector<std::string> Owl::s_portable_objects;
+
 Owl::Owl(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
   carried_obj_name(),
@@ -41,6 +43,8 @@ Owl::Owl(const ReaderMapping& reader) :
 {
   reader.get("carry", carried_obj_name, "skydive");
   set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+  if (Editor::is_active() && s_portable_objects.empty())
+    s_portable_objects = GameObjectFactory::instance().get_registered_objects(ObjectFactory::OBJ_PARAM_PORTABLE);
 }
 
 void
@@ -48,7 +52,7 @@ Owl::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  set_action(m_dir);
 
   // If we add the carried object to the sector while we're editing
   // a level with the editor, it gets written to the level file,
@@ -184,7 +188,7 @@ Owl::unfreeze(bool melt)
   BadGuy::unfreeze(melt);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right");
+  set_action(m_dir);
 }
 
 bool
@@ -232,7 +236,7 @@ Owl::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_text(_("Carry"), &carried_obj_name, "carry"); //, std::string("skydive"));
+  result.add_list(_("Carry"), "carry", s_portable_objects, &carried_obj_name);
 
   result.reorder({"carry", "direction", "sprite", "x", "y"});
 

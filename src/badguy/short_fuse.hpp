@@ -37,6 +37,7 @@ protected:
   virtual void freeze() override;
   virtual void kill_fall() override;
   virtual void ignite() override;
+  virtual bool is_snipable() const override { return true; }
 
   void explode();
 

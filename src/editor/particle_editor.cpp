@@ -17,7 +17,6 @@
 #include "editor/particle_editor.hpp"
 
 #include <physfs.h>
-#include <boost/algorithm/string/predicate.hpp>
 
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
@@ -36,6 +35,7 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/string_util.hpp"
 #include "video/compositor.hpp"
 
 
@@ -565,7 +565,7 @@ void
 ParticleEditor::save(const std::string& filepath_, bool retry)
 {
   std::string filepath = filepath_;
-  if (!boost::algorithm::ends_with(filepath, ".stcp"))
+  if (!StringUtil::has_suffix(filepath, ".stcp"))
     filepath += ".stcp";
 
   // FIXME: It tests for directory in supertux/data, but saves into .supertux2.
@@ -579,7 +579,7 @@ ParticleEditor::save(const std::string& filepath_, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for particle config '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }
@@ -610,7 +610,7 @@ ParticleEditor::save(const std::string& filepath_, bool retry)
         {
           std::ostringstream msg;
           msg << "Couldn't create directory for particle config '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+              << dirname << "': " <<PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
           throw std::runtime_error(msg.str());
         }
       }

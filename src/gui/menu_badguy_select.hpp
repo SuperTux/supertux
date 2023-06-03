@@ -26,15 +26,13 @@ public:
 
   void menu_action(MenuItem& item) override;
 
-  static std::vector<std::string> all_badguys;
-
   void remove_badguy();
 
   void refresh() override;
 
 private:
   std::vector<std::string>* badguys;
-  int selected;
+  std::string selected;
   int remove_item;
 
   void add_badguy();

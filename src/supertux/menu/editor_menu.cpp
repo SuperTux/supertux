@@ -49,18 +49,11 @@ EditorMenu::EditorMenu()
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to Editor"));
   add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
-  if (!worldmap)
-  {
+  if (!worldmap) {
     add_entry(MNID_SAVEASLEVEL, _("Save Level as"));
     add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
-  }
-
-  if (!worldmap)
-  {
     add_entry(MNID_TESTLEVEL, _("Test Level"));
-  }
-  else
-  {
+  } else {
     add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
   }
 
@@ -71,9 +64,7 @@ EditorMenu::EditorMenu()
   add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
 
   if (is_world)
-  {
     add_entry(MNID_LEVELSEL, _("Edit Another Level"));
-  }
 
   add_entry(MNID_LEVELSETSEL, _("Edit Another World"));
 
@@ -156,7 +147,7 @@ EditorMenu::menu_action(MenuItem& item)
     {
       editor->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
-        editor->m_test_pos = boost::none;
+        editor->m_test_pos = std::nullopt;
         editor->m_test_request = true;
       });
     }
@@ -169,7 +160,7 @@ EditorMenu::menu_action(MenuItem& item)
       });
     }
     break;
-	
+
 	case MNID_HELP:
     {
       auto dialog = std::make_unique<Dialog>();

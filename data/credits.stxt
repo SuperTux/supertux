@@ -75,6 +75,21 @@
       (info (_ "Programming"))
     )
   (blank)
+  (person
+      (name "Alasdair \"Servalot\"")
+      (info (_ "Level Design"))
+    )
+  (blank)
+  (person
+      (name "Alasdair \"Servalot\"")
+      (info (_ "Level Design"))
+    )
+	(blank)
+	(person
+      (name "Vankata453")
+      (info (_ "Programming"))
+    )
+  (blank)
 	(blank)
     (text
       (type "heading")
@@ -1060,7 +1075,7 @@
       (name "Thiago Corbari Feldhaus (Ninja Apps), Daniela Ferraz, Victor Gonçalves,")
     )
     (person
-      (name "Jesusaves, Joel Gil Leon, MDK3, Jonatas L. Nogueira,"))
+      (name "Joel Gil Leon, MDK3, Jonatas L. Nogueira \"Jesusaves\","))
     (person
       (name "Krishnamurti Lelis Lima Vieira Nunes, Filipe Oliveira,")
     )

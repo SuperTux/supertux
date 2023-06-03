@@ -24,6 +24,9 @@ class Portable;
 
 class Owl final : public BadGuy
 {
+private:
+  static std::vector<std::string> s_portable_objects;
+
 public:
   Owl(const ReaderMapping& reader);
 
@@ -43,6 +46,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   bool is_above_player() const;

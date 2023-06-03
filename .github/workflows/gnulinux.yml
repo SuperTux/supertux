@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         arch: [32, 64]
-        os: [ubuntu-latest, ubuntu-18.04]
+        os: [ubuntu-20.04]
         compiler: [gcc, clang]
         build_type: [Debug, Release]
         glbinding: [ON, OFF]
@@ -39,7 +39,7 @@ jobs:
           - arch: 32
             glbinding: ON
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             build_type: Release
             compiler: gcc
             arch: 64
@@ -47,7 +47,7 @@ jobs:
             release: ON
             source: ON
             documentation: ON
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
             build_type: Debug
             compiler: gcc
             arch: 64
@@ -84,7 +84,6 @@ jobs:
             libogg-dev \
             libvorbis-dev \
             libopenal-dev \
-            libboost-all-dev \
             libsdl2-dev \
             libsdl2-image-dev \
             libfreetype6-dev \
@@ -103,14 +102,14 @@ jobs:
       - name: Install 32-bit dependencies
         if: ${{ matrix.arch == 32 }}
         env:
-          DOWNGRADE_PCRE: ${{ matrix.os == 'ubuntu-latest' && '1' || '' }}
+          DOWNGRADE_PCRE: ${{ matrix.os == 'ubuntu-20.04' && '1' || '' }}
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
 
           if [ "$DOWNGRADE_PCRE" ]; then
             # Github is adding a lot of unnecessary deb.sury.org
-            # packages into ubuntu-latest, this causes
+            # packages into ubuntu-20.04, this causes
             # libharfbuzz-dev:i386 to fail due to issues related to
             # libpcre2-8-0 from deb.sury.org. Remove all that and
             # downgrade to official versions.
@@ -137,9 +136,6 @@ jobs:
             libogg-dev:i386 \
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
-            libboost-date-time-dev:i386 \
-            libboost-filesystem-dev:i386 \
-            libboost-locale-dev:i386 \
             libsdl2-dev:i386 \
             libsdl2-image-dev:i386 \
             libfreetype6-dev:i386 \
@@ -173,7 +169,7 @@ jobs:
           GLBINDING: ${{ matrix.glbinding }}
           # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
           # (also check the step that invokes the tests with ./test_supertux2)
-          TESTS: ${{ matrix.os == 'ubuntu-latest' }}
+          TESTS: ${{ matrix.os == 'ubuntu-20.04' }}
         run: |
           cmake --version
           $CXX --version
@@ -194,7 +190,7 @@ jobs:
       - name: Run tests
         # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
         # (also check the step that invokes CMake with -DBUILD_TESTS)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.os == 'ubuntu-20.04' }}
         working-directory: build
         run: ./test_supertux2
 

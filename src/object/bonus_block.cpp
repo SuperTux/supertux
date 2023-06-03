@@ -18,7 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "badguy/icecrusher.hpp"
+#include "badguy/crusher.hpp"
 #include "editor/editor.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"
@@ -111,7 +111,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
         if (Editor::is_active()) {
           mapping.get("custom-contents", m_custom_sx);
         } else {
-          boost::optional<ReaderCollection> content_collection;
+          std::optional<ReaderCollection> content_collection;
           if (!mapping.get("custom-contents", content_collection))
           {
             log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
@@ -250,8 +250,8 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_)
     }
   }
 
-  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
-  if (icecrusher)
+  auto crusher = dynamic_cast<Crusher*> (&other);
+  if (crusher)
   {
     try_open(player);
   }

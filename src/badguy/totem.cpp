@@ -61,11 +61,11 @@ Totem::initialize()
   if (!carried_by) {
 static const float WALKSPEED = 100;
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -WALKSPEED : WALKSPEED);
-    m_sprite->set_action(m_dir == Direction::LEFT ? "walking-left" : "walking-right");
+    set_action("walking", m_dir);
     return;
   } else {
     synchronize_with(carried_by);
-    m_sprite->set_action(m_dir == Direction::LEFT ? "stacked-left" : "stacked-right");
+    set_action("stacked", m_dir);
     return;
   }
 }
@@ -133,7 +133,7 @@ Totem::collision_squished(GameObject& object)
     jump_off();
   }
 
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  set_action("squished", m_dir);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
   kill_squished(object);
@@ -251,7 +251,7 @@ Totem::synchronize_with(Totem* base)
 
   if (m_dir != base->m_dir) {
     m_dir = base->m_dir;
-    m_sprite->set_action(m_dir == Direction::LEFT ? "stacked-left" : "stacked-right");
+    set_action("stacked", m_dir);
   }
 
   Vector pos = base->get_pos();

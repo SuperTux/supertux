@@ -111,7 +111,7 @@ void
 PneumaticPlatform::update(float dt_sec)
 {
   const int contact_diff = static_cast<int>(m_children[0]->m_contacts.size()) - static_cast<int>(m_children[1]->m_contacts.size());
-  for (auto& child : m_children) {
+  for (const auto& child : m_children) {
     child->m_contacts.clear();
   }
 

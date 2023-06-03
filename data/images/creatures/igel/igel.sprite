@@ -1,22 +1,45 @@
 (supertux-sprite
   (action
-    (name "walking-left")
-    (hitbox 2.1 6.1 45.8 25.8)
-    (images 
-      "walk-0.png"
-"walk-1.png"
-"walk-2.png"
+    (name "left")
+    (hitbox 9 10 48 32)
+	(fps 15)
+    (images "walk-0.png"
+			"walk-1.png"
+			"walk-2.png"
+			"walk-3.png"
+			"walk-4.png"
+			"walk-5.png"
+			"walk-6.png"
+			"walk-7.png"
     )
+  )
+  (action
+    (name "right")
+    (hitbox 11 10 48 32)
+	(fps 15)
+    (mirror-action "left")
+  )
+  (action
+    (name "roll-left")
+	(hitbox 10 10 32 32)
+	(fps 20)
+    (images "roll-0.png"
+			"roll-1.png"
+			"roll-2.png"
+			"roll-3.png"
+			"roll-4.png"
+			"roll-5.png")
+  )
+  (action
+    (name "roll-right")
+    (hitbox 10 10 32 32)
+	(fps 20)
+    (mirror-action "roll-left")
   )
   (action
     (name "iced-left")
     (hitbox -7 -8 45.8 25.8)
     (images "walk-0.png")
-  )
-  (action
-    (name "walking-right")
-    (hitbox 2.1 6.1 45.8 25.8)
-    (mirror-action "walking-left")
   )
   (action
     (name "iced-right")

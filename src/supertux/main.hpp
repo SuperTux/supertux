@@ -51,13 +51,13 @@ private:
 class PhysfsSubsystem final
 {
 private:
-  boost::optional<std::string> m_forced_datadir;
-  boost::optional<std::string> m_forced_userdir;
+  std::optional<std::string> m_forced_datadir;
+  std::optional<std::string> m_forced_userdir;
 
 public:
   PhysfsSubsystem(const char* argv0,
-                  boost::optional<std::string> forced_datadir,
-                  boost::optional<std::string> forced_userdir);
+                  std::optional<std::string> forced_datadir,
+                  std::optional<std::string> forced_userdir);
   ~PhysfsSubsystem();
   void find_datadir() const;
   void find_userdir() const;
@@ -86,6 +86,7 @@ private:
 
   void launch_game(const CommandLineArguments& args);
   void resave(const std::string& input_filename, const std::string& output_filename);
+  void release_check();
 
 private:
   // Using pointers allows us to initialize them whenever we want
@@ -106,6 +107,8 @@ private:
   std::unique_ptr<GameManager> m_game_manager;
   std::unique_ptr<ScreenManager> m_screen_manager;
   std::unique_ptr<Savegame> m_savegame;
+
+  Downloader m_downloader; // Used for getting the version of the latest SuperTux release.
 
 private:
   Main(const Main&) = delete;

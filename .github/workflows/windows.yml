@@ -50,19 +50,21 @@ jobs:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
           submodules: true
+
+      - name: Use cached dependencies
+        id: cache-dependencies
+        uses: actions/cache@v3
+        with:
+          path: C:/vcpkg/installed
+          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/windows.yml') }}
+
       - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         env:
           ARCH: ${{ matrix.arch }}
         run: |
           vcpkg integrate install
           vcpkg install gtest:$Env:ARCH-windows
-          vcpkg install boost-date-time:$Env:ARCH-windows
-          vcpkg install boost-filesystem:$Env:ARCH-windows
-          vcpkg install boost-format:$Env:ARCH-windows
-          vcpkg install boost-iostreams:$Env:ARCH-windows
-          vcpkg install boost-locale:$Env:ARCH-windows
-          vcpkg install boost-optional:$Env:ARCH-windows
-          vcpkg install boost-system:$Env:ARCH-windows
           vcpkg install curl:$Env:ARCH-windows
           vcpkg install --recurse freetype:$Env:ARCH-windows
           vcpkg install glew:$Env:ARCH-windows
