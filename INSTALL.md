@@ -109,6 +109,11 @@ For ease of use, here are some installation lines for some Linux distributions:
   sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
   ```
 
+- ArchLinux (using sudo, as of June 3rd 2023)
+  ```
+  sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm openssl glew harfbuzz fribidi glm zlib
+  ```
+
 ### Linux/UNIX using CMake
 
 SuperTux uses CMake to generate a set of Makefiles for the build
