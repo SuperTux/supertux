@@ -56,7 +56,7 @@ walk_mode_to_string(WalkMode walk_mode)
   }
 }
 
-Path::Path(PathGameObject* parent) :
+Path::Path(PathGameObject& parent) :
   m_parent_gameobject(parent),
   m_nodes(),
   m_mode(WalkMode::CIRCULAR),
@@ -64,7 +64,7 @@ Path::Path(PathGameObject* parent) :
 {
 }
 
-Path::Path(const Vector& pos, PathGameObject* parent) :
+Path::Path(const Vector& pos, PathGameObject& parent) :
   m_parent_gameobject(parent),
   m_nodes(),
   m_mode(),

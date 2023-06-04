@@ -48,7 +48,7 @@ PathStyle PathStyle_from_string(const std::string& text)
 } // namespace
 
 PathGameObject::PathGameObject() :
-  m_path(new Path(this)),
+  m_path(new Path(*this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
@@ -59,7 +59,7 @@ PathGameObject::PathGameObject() :
 }
 
 PathGameObject::PathGameObject(const Vector& pos) :
-  m_path(new Path(pos, this)),
+  m_path(new Path(pos, *this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()
@@ -71,7 +71,7 @@ PathGameObject::PathGameObject(const Vector& pos) :
 
 PathGameObject::PathGameObject(const ReaderMapping& mapping, bool backward_compatibility_hack) :
   GameObject(mapping),
-  m_path(new Path(this)),
+  m_path(new Path(*this)),
   m_style(PathStyle::NONE),
   m_edge_sprite(),
   m_node_sprite()

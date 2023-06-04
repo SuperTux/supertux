@@ -69,13 +69,13 @@ BezierMarker::get_parent() const
 void
 BezierMarker::save_state()
 {
-  m_node->parent->get_gameobject()->save_state();
+  m_node->get_parent().get_gameobject().save_state();
 }
 
 void
 BezierMarker::check_state()
 {
-  m_node->parent->get_gameobject()->check_state();
+  m_node->get_parent().get_gameobject().check_state();
 }
 
 /* EOF */

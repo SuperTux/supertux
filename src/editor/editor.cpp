@@ -574,6 +574,12 @@ Editor::quit_editor()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
+  if (!m_levelloaded)
+  {
+    action();
+    return;
+  }
+
   bool has_unsaved_changes = !g_config->editor_undo_tracking;
   if (!has_unsaved_changes)
   {
@@ -587,7 +593,7 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
     }
   }
 
-  if (has_unsaved_changes && m_levelloaded)
+  if (has_unsaved_changes)
   {
     m_enabled = false;
     auto dialog = std::make_unique<Dialog>();

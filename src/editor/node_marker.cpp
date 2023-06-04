@@ -22,7 +22,7 @@
 #include "supertux/sector.hpp"
 
 NodeMarker::NodeMarker(std::vector<Path::Node>::iterator node_iterator, size_t id_, UID before, UID after) :
-  m_path(node_iterator->parent),
+  m_path(&node_iterator->get_parent()),
   m_bezier_before(before),
   m_bezier_after(after),
   m_node(node_iterator),
@@ -220,13 +220,13 @@ NodeMarker::move_other_marker(UID marker, Vector position)
 void
 NodeMarker::save_state()
 {
-  m_path->get_gameobject()->save_state();
+  m_path->get_gameobject().save_state();
 }
 
 void
 NodeMarker::check_state()
 {
-  m_path->get_gameobject()->check_state();
+  m_path->get_gameobject().check_state();
 }
 
 /* EOF */

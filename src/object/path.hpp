@@ -50,8 +50,10 @@ public:
   /** Helper class that stores an individual node of a Path */
   class Node
   {
-  public:
+  private:
     Path* parent; /**< the parent path of this node */
+
+  public:
     Vector position; /**< the position of this node */
     Vector bezier_before; /**< the position of the bezier handle towards the preceding node */
     Vector bezier_after; /**< the position of the bezier handle towards the following node */
@@ -60,6 +62,7 @@ public:
     EasingMode easing; /**< speed variations during travel
             (constant speed, start slow and go progressively quicker, etc.) */
 
+  public:
     Node(Path* parent_) :
       parent(parent_),
       position(0.0f, 0.0f),
@@ -71,11 +74,13 @@ public:
     {}
 
     static std::string display_name() { return _("Path Node"); }
+
+    Path& get_parent() const { return *parent; }
   };
 
 public:
-  Path(PathGameObject* parent);
-  Path(const Vector& pos, PathGameObject* parent);
+  Path(PathGameObject& parent);
+  Path(const Vector& pos, PathGameObject& parent);
 
   void read(const ReaderMapping& reader);
   void save(Writer& writer);
@@ -99,11 +104,12 @@ public:
 
   const std::vector<Node>& get_nodes() const { return m_nodes; }
 
-  PathGameObject* get_gameobject() const { return m_parent_gameobject; }
+  PathGameObject& get_gameobject() const { return m_parent_gameobject; }
+
+private:
+  PathGameObject& m_parent_gameobject;
 
 public:
-  PathGameObject* m_parent_gameobject;
-
   std::vector<Node> m_nodes;
 
   WalkMode m_mode;
