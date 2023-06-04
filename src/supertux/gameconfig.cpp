@@ -68,8 +68,10 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
-  mobile_controls(SDL_GetNumTouchDevices() > 0),
+#ifdef __ANDROID__
+  mobile_controls(true),
   m_mobile_controls_scale(1),
+#endif
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -235,7 +237,7 @@ Config::load()
   }
 
   // Compatibility; will be overwritten by the "editor" category
-  
+
   config_mapping.get("editor_autosave_frequency", editor_autosave_frequency);
 
   editor_autotile_help = !developer_mode;
@@ -327,8 +329,10 @@ Config::load()
       joystick_config.read(*joystick_mapping);
     }
 
+#ifndef __ANDROID__
     config_control_mapping->get("mobile_controls", mobile_controls, SDL_GetNumTouchDevices() > 0);
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
+#endif
   }
 
   std::optional<ReaderCollection> config_addons_mapping;
@@ -478,8 +482,10 @@ Config::save()
     joystick_config.write(writer);
     writer.end_list("joystick");
 
-    writer.write("mobile_controls", mobile_controls);
+#ifndef __ANDROID__
+    writer.write("mobile_controls", true);
     writer.write("mobile_controls_scale", m_mobile_controls_scale);
+#endif
   }
   writer.end_list("control");
 
