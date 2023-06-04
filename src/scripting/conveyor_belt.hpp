@@ -33,28 +33,28 @@ class ConveyorBelt final
 {
 #ifndef SCRIPTING_API
 public:
-    using GameObject::GameObject;
+  using GameObject::GameObject;
 
 private:
-    ConveyorBelt(const ConveyorBelt&) = delete;
-    ConveyorBelt& operator=(const ConveyorBelt&) = delete;
+  ConveyorBelt(const ConveyorBelt&) = delete;
+  ConveyorBelt& operator=(const ConveyorBelt&) = delete;
 #endif
 
 public:
-    /** Starts the conveyor belt */
-    void start();
+  /** Starts the conveyor belt */
+  void start();
 
-    /** Stops the conveyor belt */
-    void stop();
+  /** Stops the conveyor belt */
+  void stop();
 
-    /** Makes the conveyor shift objects to the left */
-    void move_left();
+  /** Makes the conveyor shift objects to the left */
+  void move_left();
 
-    /** Makes the conveyor shift objects to the right */
-    void move_right();
+  /** Makes the conveyor shift objects to the right */
+  void move_right();
 
-    /** Change the shifting speed of the conveyor */
-    void set_speed(float target_speed);
+  /** Change the shifting speed of the conveyor */
+  void set_speed(float target_speed);
 };
 
 } // namespace scripting

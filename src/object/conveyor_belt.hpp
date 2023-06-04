@@ -30,59 +30,59 @@ class ConveyorBelt final : public MovingObject,
                            public ExposedObject<ConveyorBelt, scripting::ConveyorBelt>
 {
 public:
-    ConveyorBelt(const ReaderMapping& reader);
+  ConveyorBelt(const ReaderMapping& reader);
 
-    ObjectSettings get_settings() override;
+  ObjectSettings get_settings() override;
 
-    virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-    static std::string class_name() { return "conveyor-belt"; }
-    virtual std::string get_class_name() const override { return class_name(); }
-    static std::string display_name() { return _("Conveyor Belt"); }
-    virtual std::string get_display_name() const override { return display_name(); }
+  static std::string class_name() { return "conveyor-belt"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Conveyor Belt"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
-    virtual void update(float dt_sec) override;
-    virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
 
-    virtual int get_layer() const override { return LAYER_TILES; }
+  virtual int get_layer() const override { return LAYER_TILES; }
 
-    virtual void after_editor_set() override;
+  virtual void after_editor_set() override;
 
-    /** @name Scriptable Methods */
+  /** @name Scriptable Methods */
 
-    /** Starts the conveyor belt */
-    void start();
+  /** Starts the conveyor belt */
+  void start();
 
-    /** Stops the conveyor belt */
-    void stop();
+  /** Stops the conveyor belt */
+  void stop();
 
-    /** Makes the conveyor shift objects to the left */
-    void move_left();
+  /** Makes the conveyor shift objects to the left */
+  void move_left();
 
-    /** Makes the conveyor shift objects to the right */
-    void move_right();
+  /** Makes the conveyor shift objects to the right */
+  void move_right();
 
-    /** Change the shifting speed of the conveyor */
-    void set_speed(float target_speed);
-
-private:
-    bool m_running;
-    Direction m_direction;
-    int m_length;
-    float m_speed;
-
-    float m_frame;
-    int m_frame_index;
-
-    const float MAX_SPEED = 32.0f;
-
-    std::unique_ptr<Sprite> m_sprite;
-
-
+  /** Change the shifting speed of the conveyor */
+  void set_speed(float target_speed);
 
 private:
-    ConveyorBelt(const ConveyorBelt&) = delete;
-    ConveyorBelt& operator=(const ConveyorBelt&) = delete;
+  bool m_running;
+  Direction m_direction;
+  int m_length;
+  float m_speed;
+
+  float m_frame;
+  int m_frame_index;
+
+  const float MAX_SPEED = 32.0f;
+
+  std::unique_ptr<Sprite> m_sprite;
+
+
+
+private:
+  ConveyorBelt(const ConveyorBelt&) = delete;
+  ConveyorBelt& operator=(const ConveyorBelt&) = delete;
 };
 
 

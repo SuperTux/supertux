@@ -23,36 +23,36 @@ namespace scripting
 void
 ConveyorBelt::start()
 {
-    SCRIPT_GUARD_VOID;
-    object.start();
+  SCRIPT_GUARD_VOID;
+  object.start();
 }
 
 void
 ConveyorBelt::stop()
 {
-    SCRIPT_GUARD_VOID;
-    object.stop();
+  SCRIPT_GUARD_VOID;
+  object.stop();
 }
 
 void
 ConveyorBelt::move_left()
 {
-    SCRIPT_GUARD_VOID;
-    object.move_left();
+  SCRIPT_GUARD_VOID;
+  object.move_left();
 }
 
 void
 ConveyorBelt::move_right()
 {
-    SCRIPT_GUARD_VOID;
-    object.move_right();
+  SCRIPT_GUARD_VOID;
+  object.move_right();
 }
 
 void
 ConveyorBelt::set_speed(float target_speed)
 {
-    SCRIPT_GUARD_VOID;
-    object.set_speed(target_speed);
+  SCRIPT_GUARD_VOID;
+  object.set_speed(target_speed);
 }
 
 } // namespace scripting
