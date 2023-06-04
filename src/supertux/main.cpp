@@ -673,7 +673,7 @@ Main::run(int argc, char** argv)
   // - targets where libstdc++ uses its generic locales code (https://gcc.gnu.org/legacy-ml/libstdc++/2003-02/msg00345.html)
   try
   {
-    std::locale::global(std::locale(""));
+    std::locale::global(std::locale::classic());
   }
   catch(const std::runtime_error& err)
   {
