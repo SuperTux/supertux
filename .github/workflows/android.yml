@@ -67,8 +67,10 @@ jobs:
           ln -s ../../../ supertux
 
       - name: Copy SuperTux Android project files
-        run: |
-          cp -r -f ./mk/android/* ./build.android/
+        run: cp -r -f ./mk/android/* ./build.android/
+
+      - name: Package data with APK
+        run: zip -r ./build.android/app/src/main/assets/data.zip ./data/*
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
