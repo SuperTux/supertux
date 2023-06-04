@@ -58,21 +58,13 @@ jobs:
           ../../../.github/scripts/clone_dependency.sh xiph/vorbis v1.3.7
           ../../../.github/scripts/clone_dependency.sh xiph/ogg v1.3.5
           ../../../.github/scripts/clone_dependency.sh kcat/openal-soft 1.23.1
-          ../../../.github/scripts/clone_dependency.sh openssl/openssl openssl-3.1.0
-          #TODO: i have to take a look into opengl later
-          #TODO: i also have to take a look at libpartiozip
+          ../../../.github/scripts/clone_dependency.sh janbar/openssl-cmake master
           ../../../.github/scripts/clone_dependency.sh SuperTux/physfs master
           ../../../.github/scripts/clone_dependency.sh driedfruit/SDL_SavePNG master
           ../../../.github/scripts/clone_dependency.sh SuperTux/sexp-cpp master
           ../../../.github/scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
           ../../../.github/scripts/clone_dependency.sh SuperTux/tinygettext master
           ln -s ../../../ supertux
-
-      - name: Cache dependencies
-        uses: actions/cache@v1.2.1
-        with:
-          key: supertux2-android-deps
-          path: build.android/app/jni
 
       - name: Copy SuperTux Android project files
         run: |
