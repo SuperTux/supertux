@@ -62,6 +62,9 @@ public:
   void find_datadir() const;
   void find_userdir() const;
   static void print_search_path();
+
+private:
+  bool setup_android_datadir() const;
 };
 
 class SDLSubsystem final
