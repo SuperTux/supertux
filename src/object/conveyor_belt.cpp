@@ -27,7 +27,7 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
   MovingObject(reader), // TODO: sprite
   ExposedObject<ConveyorBelt, scripting::ConveyorBelt>(this),
   m_running(true),
-  m_direction(Direction::LEFT),
+  m_dir(Direction::LEFT),
   m_length(1),
   m_speed(1.0f),
   m_frame(0.0f),
@@ -38,7 +38,7 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
   reader.get("running", m_running);
   std::string dir_str;
   if (reader.get("direction", dir_str))
-    m_direction = string_to_dir(dir_str);
+    m_dir = string_to_dir(dir_str);
 
   reader.get("speed", m_speed);
   m_speed = math::clamp(m_speed, 0.0f, MAX_SPEED);
@@ -52,7 +52,7 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
   if (!m_running)
     m_sprite->set_action("stopped");
   else
-    m_sprite->set_action((m_direction == Direction::LEFT ? "left" : "right"));
+    m_sprite->set_action(m_dir);
 }
 
 ObjectSettings
@@ -60,7 +60,7 @@ ConveyorBelt::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_direction(_("Direction"), &m_direction, Direction::LEFT, "direction");
+  result.add_direction(_("Direction"), &m_dir, Direction::LEFT, "direction");
   result.add_float(_("Speed"), &m_speed, "speed", 1.0f);
   result.add_bool(_("Running"), &m_running, "running", true);
   result.add_int(_("Length"), &m_length, "length", 3);
@@ -84,7 +84,7 @@ ConveyorBelt::update(float dt_sec)
 {
   if (m_running)
   {
-    Vector shift_movement(m_speed * (m_direction == Direction::LEFT ? -1.0f : 1.0f) * 32.0f * dt_sec, 0.0f);
+    Vector shift_movement(m_speed * (m_dir == Direction::LEFT ? -1.0f : 1.0f) * 32.0f * dt_sec, 0.0f);
     m_col.propagate_movement(shift_movement);
 
     m_frame += (m_speed * static_cast<float>(m_sprite->get_frames())) * dt_sec;
@@ -127,7 +127,7 @@ void
 ConveyorBelt::start()
 {
   m_running = true;
-  m_sprite->set_action((m_direction == Direction::LEFT ? "left" : "right"));
+  m_sprite->set_action(m_dir);
 }
 
 void
@@ -140,7 +140,7 @@ ConveyorBelt::stop()
 void
 ConveyorBelt::move_left()
 {
-  m_direction = Direction::LEFT;
+  m_dir = Direction::LEFT;
   if (m_running)
     m_sprite->set_action("left");
 }
@@ -148,7 +148,7 @@ ConveyorBelt::move_left()
 void
 ConveyorBelt::move_right()
 {
-  m_direction = Direction::RIGHT;
+  m_dir = Direction::RIGHT;
   if (m_running)
     m_sprite->set_action("right");
 }

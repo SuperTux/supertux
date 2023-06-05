@@ -235,8 +235,8 @@ GameObjectFactory::init_factories()
   add_factory<Camera>("camera");
   add_factory<Candle>("candle");
   add_factory<CirclePlatform>("circleplatform");
-  add_factory<ConveyorBelt>("conveyor-belt");
   add_factory<CloudParticleSystem>("particles-clouds");
+  add_factory<ConveyorBelt>("conveyor-belt");
   add_factory<Crusher>("icecrusher"); // backward compatibility
   add_factory<Crusher>("crusher");
   add_factory<CustomParticleSystem>("particles-custom");

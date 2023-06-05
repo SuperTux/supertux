@@ -26,6 +26,11 @@ class ConveyorBelt;
 namespace scripting
 {
 
+/**
+ * @summary A ""ConveyorBelt"" that was given a name can be controlled by scripts.
+ * @instances A ""ConveyorBelt"" is instantiated by placing a definition inside a level.
+              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ */
 class ConveyorBelt final
 #ifndef SCRIPTING_API
         : public GameObject<::ConveyorBelt>
@@ -41,19 +46,30 @@ private:
 #endif
 
 public:
-  /** Starts the conveyor belt */
+  /**
+   * Starts the conveyor belt
+   */
   void start();
 
-  /** Stops the conveyor belt */
+  /**
+   * Stops the conveyor belt
+   */
   void stop();
 
-  /** Makes the conveyor shift objects to the left */
+  /**
+   * Makes the conveyor shift objects to the left
+   */
   void move_left();
 
-  /** Makes the conveyor shift objects to the right */
+  /**
+   * Makes the conveyor shift objects to the right
+   */
   void move_right();
 
-  /** Change the shifting speed of the conveyor */
+  /**
+   * Change the shifting speed of the conveyor
+   * @param float $target_speed
+   */
   void set_speed(float target_speed);
 };
 
