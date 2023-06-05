@@ -281,8 +281,9 @@ if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
-# If I don't do this, the following libraries will not be passed to the linker
-# I'm just as confused as you are
+# FIXME: Some libraries made by Provide*.cmake
+# scripts are not passed to the linker. This
+# forcefully links them
 if(ANDROID)
   target_link_libraries(supertux2_lib PUBLIC physfs)
   target_link_libraries(supertux2_lib PUBLIC libcurl)
