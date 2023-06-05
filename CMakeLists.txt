@@ -281,6 +281,7 @@ if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
+# If I don't do this, the following libraries will not be passed to the linker
 # I'm just as confused as you are
 if(ANDROID)
   target_link_libraries(supertux2_lib PUBLIC physfs)
