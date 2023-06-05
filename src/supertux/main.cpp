@@ -188,7 +188,6 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
 
     find_userdir();
     find_datadir();
-    print_search_path();
   }
 }
 
@@ -487,7 +486,7 @@ Main::resave(const std::string& input_filename, const std::string& output_filena
 void
 Main::launch_game(const CommandLineArguments& args)
 {
-  m_sdl_subsystem.reset(new SDLSubsystem());
+  //m_sdl_subsystem.reset(new SDLSubsystem());
   m_console_buffer.reset(new ConsoleBuffer());
 #ifdef ENABLE_TOUCHSCREEN_SUPPORT
   if (getenv("ANDROID_TV")) {
@@ -704,6 +703,8 @@ Main::run(int argc, char** argv)
     m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
 #endif
     m_physfs_subsystem->print_search_path();
+
+    m_sdl_subsystem.reset(new SDLSubsystem());
 
     s_timelog.log("config");
     m_config_subsystem.reset(new ConfigSubsystem());
