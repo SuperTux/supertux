@@ -698,7 +698,7 @@ Main::run(int argc, char** argv)
 
 #ifdef __ANDROID__
     // nasty workaround
-    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, SDL_GetPrefPath("SuperTux", "supertux2")));
+    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, SDL_AndroidGetExternalStoragePath()));
 #else
     m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
 #endif
