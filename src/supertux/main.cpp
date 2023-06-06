@@ -262,7 +262,7 @@ void PhysfsSubsystem::find_userdir() const
   }
   else
   {
-  userdir = PHYSFS_getPrefDir("SuperTux","supertux2");
+    userdir = PHYSFS_getPrefDir("SuperTux","supertux2");
   }
 //Kept for backwards-compatability only, hence the silence
 #ifdef __GNUC__
@@ -697,7 +697,6 @@ Main::run(int argc, char** argv)
     }
 
 #ifdef __ANDROID__
-    // nasty workaround
     m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, SDL_AndroidGetExternalStoragePath()));
 #else
     m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
