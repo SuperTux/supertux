@@ -88,6 +88,7 @@ jobs:
           packages: |
             platforms;android-33
             ndk;25.2.9519653
+            build-tools;33.0.2
 
       - name: Make gradlew executable
         working-directory: build.android
@@ -112,7 +113,7 @@ jobs:
           -dname "cn=., ou=., O=SuperTux, L=., ST=., C=." \
           -keyalg RSA -keysize 2048 -validity 10000
 
-          apksigner sign \
+          $ANDROID_SDK_ROOT/build-tools/33.0.2/apksigner sign \
           --ks supertux.keystore --ks-pass pass:supertux \
           ./app-release-unsigned.apk
 
