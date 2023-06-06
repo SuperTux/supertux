@@ -113,7 +113,7 @@ jobs:
           keytool -genkey -v \
           -keystore supertux.keystore -alias supertux \
           -storepass supertux \
-          -dname "cn=MatusGuy, ou=Contributor, O=SuperTux Team, L=Antartica, ST=Antartica, C=672" \
+          -dname "cn=MatusGuy, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
           -keyalg RSA -keysize 2048 -validity 10000
 
           $ANDROID_SDK_ROOT/build-tools/33.0.2/apksigner sign \
