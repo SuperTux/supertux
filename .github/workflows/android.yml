@@ -97,8 +97,30 @@ jobs:
         working-directory: build.android
         run: ./gradlew assembleRelease --info
 
-      - name: Upload built APK
+      - name: Upload unsigned APK
         uses: actions/upload-artifact@v3
         with:
-          name: "Built APK"
+          name: "Unsigned APK"
           path: "build.android/app/build/outputs/apk/release/app-release-unsigned.apk"
+
+      - name: Sign APK
+        working-directory: build.android/app/build/outputs/apk/release
+        run: |
+          keytool -genkey -v \
+          -keystore supertux.keystore -alias supertux \
+          -storepass supertux \
+          -dname "cn=., ou=., O=SuperTux, L=., ST=., C=." \
+          -keyalg RSA -keysize 2048 -validity 10000
+
+          apksigner sign \
+          --ks supertux.keystore --ks-pass pass:supertux \
+          ./app-release-unsigned.apk
+
+          # removing possible confusion
+          mv ./app-release-unsigned.apk ./app-release.apk
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Signed APK"
+          path: "build.android/app/build/outputs/apk/release/app-release.apk"
