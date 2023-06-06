@@ -107,18 +107,18 @@ jobs:
       - name: Sign APK
         working-directory: build.android/app/build/outputs/apk/release
         run: |
+          # removing possible confusion
+          cp ./app-release-unsigned.apk ./app-release.apk
+
           keytool -genkey -v \
           -keystore supertux.keystore -alias supertux \
           -storepass supertux \
-          -dname "cn=., ou=., O=SuperTux, L=., ST=., C=." \
+          -dname "cn=MatusGuy, ou=Contributor, O=SuperTux Team, L=Antartica, ST=Antartica, C=672" \
           -keyalg RSA -keysize 2048 -validity 10000
 
           $ANDROID_SDK_ROOT/build-tools/33.0.2/apksigner sign \
           --ks supertux.keystore --ks-pass pass:supertux \
-          ./app-release-unsigned.apk
-
-          # removing possible confusion
-          mv ./app-release-unsigned.apk ./app-release.apk
+          ./app-release.apk
 
       - name: Upload signed APK
         uses: actions/upload-artifact@v3
