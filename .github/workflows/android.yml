@@ -93,7 +93,7 @@ jobs:
         working-directory: build.android
         run: chmod +x ./gradlew
 
-      - name: Generate app APK.
+      - name: Build APK
         working-directory: build.android
         run: ./gradlew assembleRelease --info
 
