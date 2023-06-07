@@ -747,6 +747,13 @@ Main::run(int argc, char** argv)
 
   g_dictionary_manager.reset();
 
+#ifdef __ANDROID__
+  // SDL2 keeps shared libraries loaded after the app is closed,
+  // when we launch the app again the static initializers will run twice and crash the app.
+  // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
+  _Exit(result);
+#endif
+
   return result;
 }
 
