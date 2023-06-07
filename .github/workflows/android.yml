@@ -31,20 +31,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
+      - name: Clone SDL
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-          submodules: true
+          repository: libsdl-org/SDL
+          ref: release-2.26.5
+          path: ./
+
+      - name: Prepare SDL Android project
+        run: |
+          mv ./SDL/android-project/ ./build.android
+          mv ./SDL/ ./build.android/app/jni/SDL
 
       - name: Set script permissions
         working-directory: ./.github
         run: chmod +x ./scripts/*.sh
-
-      - name: Prepare SDL Android project
-        run: |
-          ./.github/scripts/clone_dependency.sh libsdl-org/SDL release-2.26.5
-          mv ./SDL/android-project/ ./build.android
-          mv ./SDL/ ./build.android/app/jni/SDL
 
       - name: Clone dependencies
         working-directory: build.android/app/jni
