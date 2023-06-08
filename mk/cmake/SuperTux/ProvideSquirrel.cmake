@@ -25,7 +25,7 @@ else()
   endif()
 
   # Cannot build Debug version when using gcc on arm64 because an incompatible flag is being passed in
-  if(${CMAKE_COMPILER_IS_GNUCXX} AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64" AND ${CMAKE_BUILD_TYPE} MATCHES "Debug")
+  if(CMAKE_COMPILER_IS_GNUCXX AND ${CMAKE_SYSTEM_PROCESSOR} MATCHES "aarch64" AND ${CMAKE_BUILD_TYPE} MATCHES "Debug")
     set (BUILD_TYPE "RelWithDebInfo")
   else()
     set (BUILD_TYPE ${CMAKE_BUILD_TYPE})
