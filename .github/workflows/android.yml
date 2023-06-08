@@ -38,7 +38,6 @@ jobs:
         with:
           repository: libsdl-org/SDL
           ref: release-2.26.5
-          path: ./
 
       - name: Prepare SDL Android project
         run: |
