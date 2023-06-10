@@ -18,17 +18,18 @@
 #define HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
 
 #include <stdexcept>
+#include <memory>
 
-#include "control/input_manager.hpp"
 #include "editor/widget.hpp"
+
 #include "math/fwd.hpp"
-#include "object/tilemap.hpp"
-#include "supertux/screen.hpp"
+#include "util/uid.hpp"
 
 class DrawingContext;
 class Editor;
 class GameObject;
 class LayerIcon;
+class TileMap;
 class Tip;
 
 /** A widget at the bottom of the screen for switching between tilemap
