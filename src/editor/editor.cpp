@@ -437,6 +437,10 @@ Editor::load_sector(const std::string& name)
   if (!sector) {
     sector = m_level->get_sector(0);
   }
+
+  sector->set_undo_stack_size(g_config->editor_undo_stack_size);
+  sector->toggle_undo_tracking(g_config->editor_undo_tracking);
+
   set_sector(sector);
 }
 
