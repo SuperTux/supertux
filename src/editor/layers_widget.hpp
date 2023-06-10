@@ -65,9 +65,10 @@ public:
 
   bool has_mouse_focus() const;
 
-  TileMap* get_selected_tilemap() const { return m_selected_tilemap; }
+  TileMap* get_selected_tilemap() const;
 
 private:
+  void set_selected_tilemap(TileMap* tilemap);
   Vector get_layer_coords(const int pos) const;
   int get_layer_pos(const Vector& coords) const;
   void update_tip();
@@ -75,7 +76,7 @@ private:
 private:
   Editor& m_editor;
   std::vector<std::unique_ptr<LayerIcon>> m_layer_icons;
-  TileMap* m_selected_tilemap;
+  UID m_selected_tilemap;
 
   int m_Ypos;
   const int m_Xpos = 32;

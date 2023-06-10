@@ -126,7 +126,6 @@ EditorLayersWidget::draw(DrawingContext& context)
 void
 EditorLayersWidget::update(float dt_sec)
 {
-  bool has_active_tilemap = false;
   auto it = m_layer_icons.begin();
   while (it != m_layer_icons.end())
   {
@@ -136,16 +135,14 @@ EditorLayersWidget::update(float dt_sec)
       it = m_layer_icons.erase(it);
       continue;
     }
-
     ++it;
-    if (has_active_tilemap) continue;
-
-    const auto* tilemap = dynamic_cast<TileMap*>(layer_icon->get_layer());
-    has_active_tilemap = tilemap && tilemap->m_editor_active;
   }
 
-  if (!has_active_tilemap)
-    refresh_layers(); // Ensure a tilemap is always selected.
+  TileMap* selected_tilemap = get_selected_tilemap();
+  if (selected_tilemap)
+    selected_tilemap->m_editor_active = true;
+  else
+    refresh_layers(); // Ensure a tilemap is always selected
 
   if(m_scroll_speed < 0 && m_scroll > 0)
   {
@@ -182,13 +179,10 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         else
         {
-          if (m_layer_icons[m_hovered_layer]->is_tilemap()) {
-            if (m_selected_tilemap) {
-              m_selected_tilemap->m_editor_active = false;
-            }
-            m_selected_tilemap = static_cast<TileMap*>(m_layer_icons[m_hovered_layer]->get_layer());
-            m_selected_tilemap->m_editor_active = true;
-            m_editor.edit_path(m_selected_tilemap->get_path_gameobject(), m_selected_tilemap);
+          TileMap* tilemap = dynamic_cast<TileMap*>(m_layer_icons[m_hovered_layer]->get_layer());
+          if (tilemap) {
+            set_selected_tilemap(tilemap);
+            m_editor.edit_path(tilemap->get_path_gameobject(), tilemap);
           } else {
             auto cam = dynamic_cast<Camera*>(m_layer_icons[m_hovered_layer]->get_layer());
             if (cam) {
@@ -319,9 +313,7 @@ EditorLayersWidget::setup()
 void
 EditorLayersWidget::refresh()
 {
-  m_selected_tilemap = nullptr;
   m_layer_icons.clear();
-
   for (const auto& obj : m_editor.get_sector()->get_objects())
     add_layer(obj.get(), true);
 
@@ -360,16 +352,14 @@ EditorLayersWidget::refresh_layers()
     }
     else
     {
-      m_selected_tilemap = tm;
-      tm->m_editor_active = true;
+      set_selected_tilemap(tm);
       tilemap_selected = true;
     }
   }
 
   if (!tilemap_selected && first_tilemap != nullptr)
   {
-    first_tilemap->m_editor_active = true;
-    m_selected_tilemap = first_tilemap;
+    set_selected_tilemap(first_tilemap);
   }
 }
 
@@ -406,8 +396,13 @@ EditorLayersWidget::add_layer(GameObject* layer, bool initial)
     }
   }
 
-  if (!inserted) m_layer_icons.push_back(std::move(icon));
-  if (!initial) refresh_layers();
+  if (!inserted)
+    m_layer_icons.push_back(std::move(icon));
+
+  // Newly added tilemaps shouldn't be active
+  TileMap* tilemap = dynamic_cast<TileMap*>(layer);
+  if (tilemap)
+    tilemap->m_editor_active = false;
 }
 
 void
@@ -426,6 +421,23 @@ EditorLayersWidget::update_current_tip()
   if (!m_object_tip) return;
 
   update_tip();
+}
+
+TileMap*
+EditorLayersWidget::get_selected_tilemap() const
+{
+  return m_editor.get_sector()->get_object_by_uid<TileMap>(m_selected_tilemap);
+}
+
+void
+EditorLayersWidget::set_selected_tilemap(TileMap* tilemap)
+{
+  TileMap* selected_tilemap = get_selected_tilemap();
+  if (selected_tilemap)
+    selected_tilemap->m_editor_active = false;
+
+  m_selected_tilemap = tilemap->get_uid();
+  tilemap->m_editor_active = true;
 }
 
 Vector
