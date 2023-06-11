@@ -122,7 +122,7 @@ LevelTime::draw(DrawingContext& context)
                                    LAYER_FOREGROUND1);
       context.color().draw_text(Resources::normal_font, time_text,
                                 Vector((static_cast<float>(context.get_width()) - all_width) / 2.0f + static_cast<float>(time_surface->get_width()),
-                                       BORDER_Y),
+                                       BORDER_Y + 14),
                                 ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
     }
   }
