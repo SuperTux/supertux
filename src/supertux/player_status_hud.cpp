@@ -86,7 +86,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
     context.color().draw_text(Resources::fixed_font,
                               coins_text,
                               Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                    BORDER_Y),
+                                    BORDER_Y + 14.0f),
                               ALIGN_LEFT,
                               LAYER_HUD,
                               PlayerStatusHUD::text_color);
