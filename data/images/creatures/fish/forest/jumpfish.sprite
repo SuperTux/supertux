@@ -43,8 +43,8 @@
 
   (action
     (name "iced-down")
-    (hitbox 12 24 40 46)
-    (images "jump_blue-6.png"))
+    (hitbox 14 9 40 46)
+    (images "wait_blue-1.png"))
 
   (action
     (name "burning-left")
