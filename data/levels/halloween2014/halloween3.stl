@@ -23,7 +23,7 @@
     (background
       (alignment "bottom")
       (speed 0.5)
-      (image "images/background/halloween/mountain.png")
+      (image "images/background/halloween/mountain_panorama.png")
     )
     (background
       (alignment "bottom")

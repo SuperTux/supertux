@@ -18,9 +18,9 @@
     (background
       (alignment "bottom")
       (speed 0.5)
-      (image-top "/images/background/halloween/mountain.png")
-      (image "/images/background/halloween/mountain.png")
-      (image-bottom "/images/background/halloween/mountain.png")
+      (image-top "/images/background/halloween/mountain_panorama.png")
+      (image "/images/background/halloween/mountain_panoramamountain_panorama.png")
+      (image-bottom "/images/background/halloween/mountain_panoramamountain_panoramamountain_panorama.png")
     )
     (background
       (scroll-offset-x 0.5)
