@@ -19,14 +19,14 @@
       (color 1 1 1)
       (alignment "bottom")
       (speed 0)
-      (image "images/background/halloween/vignette.png")
+      (image "images/background/misc/vignette.png")
       (z-pos 200)
     )
     (background
       (color 1 1 1)
       (alignment "bottom")
       (speed 0.125)
-      (image "images/background/halloween/mountain.png")
+      (image "images/background/halloween/mountain_panorama.png")
     )
     (bonusblock
       (contents "1up")
