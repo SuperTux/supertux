@@ -242,7 +242,7 @@ SpriteChange::get_settings()
 }
 
 SpecialTile::SpecialTile (const ReaderMapping& mapping) :
-  WorldmapObject(mapping, "images/worldmap/common/messagedot.png"),
+  WorldmapObject(mapping, "images/worldmap/common/specialtile.png"),
   m_map_message(),
   m_script(),
   m_passive_message(false),

@@ -107,7 +107,7 @@ FishJumping::active_update(float dt_sec)
 
   // set sprite
   if (!m_frozen && !is_ignited())
-    m_sprite->set_action((m_physic.get_velocity_y() == 0.f && m_in_water) ? "wait" :
+    set_action((m_physic.get_velocity_y() == 0.f && m_in_water) ? "wait" :
       m_physic.get_velocity_y() < 0.f ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
@@ -141,7 +141,7 @@ FishJumping::freeze()
 {
   BadGuy::freeze();
   m_physic.enable_gravity(true);
-  m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
   m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   m_wait_timer.stop();
   if (m_beached_timer.started())
@@ -159,7 +159,7 @@ void
 FishJumping::kill_fall()
 {
   if (!is_ignited())
-    m_sprite->set_action("normal");
+  set_action("normal");
   BadGuy::kill_fall();
 }
 

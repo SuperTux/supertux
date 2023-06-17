@@ -95,7 +95,7 @@ Block::collision(GameObject& other, const CollisionHit& )
       (player->get_physic().get_velocity_x() < 0.f &&
       player->get_bbox().get_left() > get_bbox().get_right()));
 
-    if(player->is_swimboosting() || (player->is_sliding() && in_line_with_player))
+    if(player->is_swimboosting() || ((player->is_sliding() || player->is_stone()) && in_line_with_player))
     {
       hit(*player);
     }

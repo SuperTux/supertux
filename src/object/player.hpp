@@ -124,10 +124,15 @@ public:
   /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
 
+  std::string bonus_to_string() const;
+
   PlayerStatus& get_status() const { return m_player_status; }
 
   /** set kick animation */
   void kick();
+
+  /** gets the players action */
+  std::string get_action() const;
 
   /** play cheer animation.
       This might need some space and behave in an unpredictable way.
@@ -159,6 +164,7 @@ public:
   Vector get_velocity() const;
 
   void bounce(BadGuy& badguy);
+  void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
   bool is_big() const;
@@ -177,7 +183,7 @@ public:
   void set_on_ground(bool flag);
 
   Portable* get_grabbed_object() const { return m_grabbed_object; }
-  void stop_grabbing() { m_grabbed_object = nullptr; }
+  void stop_grabbing() { ungrab_object(); }
 
   /** Checks whether the player has grabbed a certain object
       @param name Name of the object to check */
@@ -234,10 +240,14 @@ public:
   void set_ending_direction(int direction) { m_ending_direction = direction; }
   int get_ending_direction() const { return m_ending_direction; }
 
+  int get_collected_keys() { return m_collected_keys; }
+  void add_collected_keys(int keynum) { m_collected_keys += keynum; }
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
+  void handle_input_rolling();
 
   void handle_input_swimming();
 
@@ -268,6 +278,8 @@ private:
 
   void multiplayer_respawn();
 
+  void stop_rolling(bool violent = true);
+
 private:
   int m_id;
   std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
@@ -285,7 +297,6 @@ private:
   int  m_backflip_direction;
   Direction m_peekingX;
   Direction m_peekingY;
-  float m_ability_time;
   bool m_stone;
   bool m_sliding;
   bool m_slidejumping;
@@ -298,12 +309,12 @@ private:
   bool m_can_walljump;
   float m_boost;
   float m_speedlimit;
+  bool m_velocity_override;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
   bool m_on_ice;
   bool m_ice_this_frame;
-  SpritePtr m_lightsprite;
-  SpritePtr m_powersprite;
+  //SpritePtr m_santahatsprite;
   SpritePtr m_multiplayer_arrow;
 
   // Multiplayer tag stuff (number displayed over the players)
@@ -329,6 +340,7 @@ private:
   Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
   Timer m_coyote_timer; /**< started when Tux falls off a ledge; runs until Tux jumps or COYOTE_TIME runs out */
   bool m_wants_buttjump;
+  bool m_buttjump_stomp;
 
 public:
   bool m_does_buttjump;
@@ -338,9 +350,7 @@ private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
   Timer m_kick_timer;
-  Timer m_shooting_timer;   // used to show the arm when Tux is shooting
-  Timer m_ability_timer;  // maximum lengh of time that special abilities can last
-  Timer m_cooldown_timer; // minimum time period between successive uses of a special ability
+  Timer m_buttjump_timer;
 
 public:
   Timer m_dying_timer;
@@ -380,6 +390,7 @@ private:
   std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
 
   int m_ending_direction;
+  int m_collected_keys;
 
 private:
   Player(const Player&) = delete;

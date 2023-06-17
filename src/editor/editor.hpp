@@ -169,7 +169,7 @@ private:
    *                    new filename.
    */
   void save_level(const std::string& filename = "", bool switch_file = false);
-  void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
+  void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
 protected:
@@ -190,7 +190,7 @@ public:
   bool m_save_request_switch;
   bool m_test_request;
   bool m_particle_editor_request;
-  boost::optional<std::pair<std::string, Vector>> m_test_pos;
+  std::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::unique_ptr<Savegame> m_savegame;
   std::string* m_particle_editor_filename;

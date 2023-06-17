@@ -372,12 +372,12 @@ EditorLayersWidget::add_layer(GameObject* layer)
   for (auto i = m_layer_icons.begin(); i != m_layer_icons.end(); ++i) {
     const auto& li = i->get();
     if (li->get_zpos() < z_pos) {
-      m_layer_icons.insert(i, move(icon));
+      m_layer_icons.insert(i, std::move(icon));
       return;
     }
   }
 
-  m_layer_icons.push_back(move(icon));
+  m_layer_icons.push_back(std::move(icon));
 }
 
 void

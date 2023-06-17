@@ -31,6 +31,7 @@
 #   make
 #
 
+cmake_minimum_required(VERSION 3.1)
 
 ## Project name to use as command prefix.
 
@@ -39,16 +40,22 @@ project(SUPERTUX)
 
 ### CMake configuration
 
-cmake_minimum_required(VERSION 3.1)
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
   cmake_policy(SET CMP0008 NEW)
   cmake_policy(SET CMP0023 NEW)
 endif()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# This should be set only with windows Visual Studio generator builds
+string(TOLOWER "${CMAKE_GENERATOR_PLATFORM}" PLATFORM)
+if(${PLATFORM} MATCHES "arm64")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_ARM64_ /DMY_CPU_LE")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_ARM64_ /DMY_CPU_LE")
+endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 include(ConfigureFiles)
@@ -151,7 +158,6 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 
 ## Add lots of dependencies to compiler switches
-include(SuperTux/ProvideBoost)
 include(SuperTux/ProvideGlm)
 include(SuperTux/ProvideFmt)
 include(SuperTux/ProvideSDL2)
@@ -264,7 +270,6 @@ target_link_libraries(supertux2_lib PUBLIC LibSavePNG)
 target_link_libraries(supertux2_lib PUBLIC LibPartioZip)
 target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
 target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
-target_link_libraries(supertux2_lib PUBLIC LibBoost)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)

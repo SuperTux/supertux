@@ -57,10 +57,11 @@ bool EditorOverlayWidget::alt_pressed = false;
 EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_editor(editor),
   m_hovered_tile(0, 0),
-  m_hovered_corner(0, 0),
+  m_hovered_tile_prev(0, 0),
   m_sector_pos(0, 0),
   m_mouse_pos(0, 0),
   m_previous_mouse_pos(0, 0),
+  m_time_prev_put_tile(std::chrono::steady_clock::now()),
   m_dragging(false),
   m_dragging_right(false),
   m_scrolling(false),
@@ -243,8 +244,9 @@ EditorOverlayWidget::input_autotile_corner(const Vector& corner, uint32_t tile, 
 }
 
 void
-EditorOverlayWidget::put_tile()
+EditorOverlayWidget::put_tile(const Vector& target_tile)
 {
+  Vector hovered_corner = target_tile + Vector(0.5f, 0.5f);
   auto tiles = m_editor.get_tiles();
   Vector add_tile(0.0f, 0.0f);
   for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
@@ -255,20 +257,111 @@ EditorOverlayWidget::put_tile()
 
       if (g_config->editor_autotile_mode && ((tilemap && tilemap->get_autotileset(tile)) || tile == 0)) {
         if (tile == 0) {
-          tilemap->autotile_erase(m_hovered_tile + add_tile, m_hovered_corner + add_tile);
+          tilemap->autotile_erase(target_tile + add_tile, hovered_corner + add_tile);
         } else if (tilemap->get_autotileset(tile)->is_corner()) {
-          input_autotile_corner(m_hovered_corner + add_tile,
+          input_autotile_corner(hovered_corner + add_tile,
                                 tile,
-                                m_hovered_tile + add_tile);
+                                target_tile + add_tile);
         } else {
-          input_autotile(m_hovered_tile + add_tile, tile);
+          input_autotile(target_tile + add_tile, tile);
         }
       } else {
-        input_tile(m_hovered_tile + add_tile, tile);
+        input_tile(target_tile + add_tile, tile);
       }
 
     } // for tile y
   } // for tile x
+}
+
+namespace {
+  // Get integer positions of cartesian grid cells which intersect the line
+  // segment from pos1 to pos2 (similarly to a line drawing algorithm)
+  std::vector<Vector> rasterize_line_segment(Vector pos1, Vector pos2)
+  {
+    if (pos1 == pos2)
+      return std::vector<Vector> {pos1};
+    // An integer position (x, y) contains all floating point vectors in
+    // [x, x+1) x [y, y+1)
+    std::vector<Vector> positions;
+    Vector diff = pos2 - pos1;
+    if (fabsf(diff.x) > fabsf(diff.y)) {
+      // Go along X, from left to right
+      if (diff.x < 0) {
+        Vector tmp = pos1;
+        pos1 = pos2;
+        pos2 = tmp;
+      }
+      positions.emplace_back(pos1);
+      float y_prev = pos1.y;
+      float y_step = diff.y / diff.x;
+      // The x coordinate of the first vertical grid line right of pos1
+      float x_first_gridline = floorf(pos1.x + 1.0f);
+      for (float x = x_first_gridline; x < pos2.x; ++x) {
+        // The y coordinate where our line intersects the vertical grid line
+        float y = pos1.y + (x - pos1.x) * y_step;
+        if (floorf(y) != floorf(y_prev)) {
+          // The current position is one horizontal grid line higher than
+          // the previous one,
+          // so add the position left to the current vertical grid line
+          positions.emplace_back(Vector(x - 0.5f, y));
+          y_prev = y;
+        }
+        // Add the position right to the current vertical grid line
+        positions.emplace_back(Vector(x + 0.5f, y));
+      }
+      if (x_first_gridline > pos2.x && floorf(pos2.y) != floorf(pos1.y)) {
+        // Special case: a single horizontal grid line is crossed with an acute
+        // angle but no vertical grid line, so the for loop was skipped
+        positions.emplace_back(pos2);
+      }
+    } else {
+      // Go along Y, from top to bottom
+      if (diff.y < 0) {
+        Vector tmp = pos1;
+        pos1 = pos2;
+        pos2 = tmp;
+      }
+      positions.emplace_back(pos1);
+      float x_prev = pos1.x;
+      float x_step = diff.x / diff.y;
+      float y_first_gridline = floorf(pos1.y + 1.0f);
+      for (float y = y_first_gridline; y < pos2.y; ++y) {
+        float x = pos1.x + (y - pos1.y) * x_step;
+        if (floorf(x) != floorf(x_prev)) {
+          positions.emplace_back(Vector(x, y - 0.5f));
+          x_prev = x;
+        }
+        positions.emplace_back(Vector(x, y + 0.5f));
+      }
+      if (y_first_gridline > pos2.y && floorf(pos2.x) != floorf(pos1.x)) {
+        positions.emplace_back(pos2);
+      }
+    }
+    return positions;
+  };
+}  // namespace
+
+void
+EditorOverlayWidget::put_next_tiles()
+{
+  auto time_now = std::chrono::steady_clock::now();
+  int expired_ms = static_cast<int>(std::chrono::duration_cast<
+    std::chrono::milliseconds>(time_now - m_time_prev_put_tile).count());
+  m_time_prev_put_tile = time_now;
+  if (expired_ms > 70) {
+    // Avoid drawing lines when the user has hold the left mouse button for some
+    // time while not putting a tile
+    put_tile(m_hovered_tile);
+    m_hovered_tile_prev = m_hovered_tile;
+    return;
+  }
+  // Interpolate on a sub-grid with twice width and height because autotiling
+  // needs to know the closest corner
+  for (const Vector &pos : rasterize_line_segment(m_hovered_tile_prev * 2.0f,
+      m_hovered_tile * 2.0f)) {
+    put_tile(pos * 0.5f);
+  }
+  m_hovered_tile_prev = m_hovered_tile;
 }
 
 void
@@ -787,7 +880,9 @@ EditorOverlayWidget::process_left_click()
       switch (m_editor.get_tileselect_select_mode())
       {
         case 0:
-          put_tile();
+          put_tile(m_hovered_tile);
+          m_hovered_tile_prev = m_hovered_tile;
+          m_time_prev_put_tile = std::chrono::steady_clock::now();
           break;
 
         case 1:
@@ -983,7 +1078,7 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         } else {
           switch (m_editor.get_tileselect_select_mode()) {
             case 0:
-              put_tile();
+              put_next_tiles();
               break;
             case 1:
               preview_rectangle();
@@ -1075,8 +1170,6 @@ EditorOverlayWidget::update_pos()
   m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
 
-  float half_tile = 16.f;
-  m_hovered_corner = sp_to_tp(m_sector_pos + Vector(half_tile, half_tile));
   // update tip
   hover_object();
 }

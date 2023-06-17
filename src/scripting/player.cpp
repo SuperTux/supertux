@@ -34,6 +34,13 @@ Player::set_bonus(const std::string& bonus)
   return object.set_bonus(bonus);
 }
 
+std::string
+Player::get_bonus() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.bonus_to_string();
+}
+
 void
 Player::add_coins(int count)
 {
@@ -169,10 +176,10 @@ Player::trigger_sequence(const std::string& sequence_name)
 }
 
 void
-Player::use_scripting_controller(bool use_or_release)
+Player::use_scripting_controller(bool enable)
 {
   SCRIPT_GUARD_VOID;
-  object.use_scripting_controller(use_or_release);
+  object.use_scripting_controller(enable);
 }
 
 void
@@ -222,6 +229,13 @@ Player::set_pos(float x, float y)
 {
   SCRIPT_GUARD_VOID;
   object.set_pos(Vector(x, y));
+}
+
+std::string
+Player::get_action() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_action();
 }
 
 } // namespace scripting

@@ -20,6 +20,7 @@
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 
+#include <sstream>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>

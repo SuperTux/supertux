@@ -2,32 +2,32 @@
  (action
   (name "left")
   (fps 20)
-  (hitbox 4 3 31.8 31.8)
-  (images "left-0.png"
-          "left-1.png"
-          "left-2.png"
-          "left-3.png"))
+  (hitbox 8 8 32 32)
+  (images "flying_snowball-0.png"
+          "flying_snowball-1.png"
+          "flying_snowball-2.png"
+          "flying_snowball-3.png"))
  
  (action
   (name "right")
   (fps 20)
-  (hitbox 4 3 31.8 31.8)
+  (hitbox 8 8 32 32)
   (mirror-action "left"))
 
  (action
   (name "squished-left")
-  (hitbox 4 -12 31.8 31.8)
-  (images "squished-left.png"))
+  (hitbox 8 8 32 32)
+  (images "flying-squished.png"))
 
  (action
   (name "squished-right")
-  (hitbox 4 -12 31.8 31.8)
+  (hitbox 8 8 32 32)
   (mirror-action "squished-left"))
   
  (action
   (name "melting-left")
   (fps 20)
-  (hitbox 4 3 31.8 31.8)
+  (hitbox 8 8 32 32)
   (images "melting-0.png"
           "melting-1.png"
           "melting-2.png"))
@@ -35,11 +35,6 @@
  (action
   (name "melting-right")
   (fps 20)
-  (hitbox 4 3 31.8 31.8)
+  (hitbox 8 8 32 32)
   (mirror-action "melting-left"))
-
- (action
-  (name "editor")
-  (hitbox 4 83 31.8 31.8)
-  (images "editor.png"))
 )

@@ -87,7 +87,14 @@ PlayerStatus::get_max_coins() const
 bool
 PlayerStatus::can_reach_checkpoint() const
 {
-  return !GameSession::current()->get_reset_point_sectorname().empty();
+  return GameSession::current()->get_active_checkpoint_spawnpoint();
+}
+
+bool
+PlayerStatus::respawns_at_checkpoint() const
+{
+  return GameSession::current()->get_last_spawnpoint().is_checkpoint ||
+         GameSession::current()->reset_checkpoint_button;
 }
 
 void

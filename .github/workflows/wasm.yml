@@ -61,18 +61,19 @@ jobs:
           git clone https://github.com/microsoft/vcpkg
           ./vcpkg/bootstrap-vcpkg.sh
           ./vcpkg/vcpkg integrate install
-          ./vcpkg/vcpkg install boost-date-time:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-filesystem:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-format:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-locale:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-optional:wasm32-emscripten
-          ./vcpkg/vcpkg install boost-system:wasm32-emscripten
           ./vcpkg/vcpkg install glbinding:wasm32-emscripten
           ./vcpkg/vcpkg install libpng:wasm32-emscripten
           ./vcpkg/vcpkg install libogg:wasm32-emscripten
           ./vcpkg/vcpkg install libvorbis:wasm32-emscripten
           ./vcpkg/vcpkg install glm:wasm32-emscripten
           ./vcpkg/vcpkg install zlib:wasm32-emscripten
+
+      - name: Step To run on failure
+        if: ${{ failure() }}
+        run: | 
+          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-dbg-CMakeCache.txt.log
+          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-rel-CMakeCache.txt.log
+          cat /home/runner/vcpkg/buildtrees/libogg/config-wasm32-emscripten-out.log
 
       - name: Patch SDL_ttf
         working-directory: external/SDL_ttf

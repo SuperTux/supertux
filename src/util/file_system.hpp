@@ -30,6 +30,9 @@ bool exists(const std::string& path);
 /** Create the given directory */
 void mkdir(const std::string& directory);
 
+/** Copy file from one directory to another */
+void copy(const std::string& source_path, const std::string& target_path);
+
 /** returns the path of the directory the file is in */
 std::string dirname(const std::string& filename);
 

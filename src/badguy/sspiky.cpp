@@ -31,7 +31,7 @@ SSpiky::initialize()
 {
   state = SSPIKY_SLEEPING;
   m_physic.set_velocity_x(0);
-  m_sprite->set_action("sleeping", m_dir);
+  set_action("sleeping", m_dir);
 }
 
 void
@@ -74,7 +74,7 @@ SSpiky::active_update(float dt_sec) {
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
-        m_sprite->set_action("waking", m_dir, 1);
+        set_action("waking", m_dir, 1);
         state = SSPIKY_WAKING;
       }
     }
