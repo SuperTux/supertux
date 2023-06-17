@@ -4,11 +4,11 @@
     (name "empty-right")
 	(fps 3)
     (images 
-      "boat_0_empty.png"
-	  "boat_1_empty.png"
-	  "boat_2_empty.png"
-	  "boat_3_empty.png"
-	  "boat_3_empty.png"
+      "granito_0_empty.png"
+	  "granito_1_empty.png"
+	  "granito_2_empty.png"
+	  "granito_3_empty.png"
+	  "granito_3_empty.png"
     )
   )
   (action
@@ -24,12 +24,12 @@
     (name "small-stop-right")
     (fps 3)
     (images 
-      "boat_0_small.png"
-	  "boat_1_small.png"
-	  "boat_2_small.png"
-	  "boat_2_small.png"
-	  "boat_3_small.png"
-	  "boat_0_small.png"
+      "granito_0_small.png"
+	  "granito_1_small.png"
+	  "granito_2_small.png"
+	  "granito_2_small.png"
+	  "granito_3_small.png"
+	  "granito_0_small.png"
     )
   )
   (action
@@ -54,10 +54,10 @@
     (name "small-walking-right")
     (fps 5)
     (images 
-      "boat_0_small.png"
-	  "boat_1_small.png"
-	  "boat_2_small.png"
-	  "boat_3_small.png"
+      "granito_0_small.png"
+	  "granito_1_small.png"
+	  "granito_2_small.png"
+	  "granito_3_small.png"
     )
   )
   (action
@@ -84,12 +84,12 @@
     (name "large-stop-right")
     (fps 3)
     (images 
-      "boat_0_big.png"
-	  "boat_1_big.png"
-	  "boat_2_big.png"
-	  "boat_2_big.png"
-	  "boat_3_big.png"
-	  "boat_0_big.png"
+      "granito_0_big.png"
+	  "granito_1_big.png"
+	  "granito_2_big.png"
+	  "granito_2_big.png"
+	  "granito_3_big.png"
+	  "granito_0_big.png"
     )
   )
   (action
@@ -114,10 +114,10 @@
     (name "large-walking-right")
     (fps 5)
     (images 
-      "boat_0_big.png"
-	  "boat_1_big.png"
-	  "boat_2_big.png"
-	  "boat_3_big.png"
+      "granito_0_big.png"
+	  "granito_1_big.png"
+	  "granito_2_big.png"
+	  "granito_3_big.png"
     )
   )
   (action
@@ -144,12 +144,12 @@
     (name "fire-stop-right")
     (fps 3)
     (images 
-      "boat_0_fire.png"
-	  "boat_1_fire.png"
-	  "boat_2_fire.png"
-	  "boat_2_fire.png"
-	  "boat_3_fire.png"
-	  "boat_0_fire.png"
+      "granito_0_fire.png"
+	  "granito_1_fire.png"
+	  "granito_2_fire.png"
+	  "granito_2_fire.png"
+	  "granito_3_fire.png"
+	  "granito_0_fire.png"
     )
   )
   (action
@@ -174,10 +174,10 @@
     (name "fire-walking-right")
     (fps 5)
     (images 
-      "boat_0_fire.png"
-	  "boat_1_fire.png"
-	  "boat_2_fire.png"
-	  "boat_3_fire.png"
+      "granito_0_fire.png"
+	  "granito_1_fire.png"
+	  "granito_2_fire.png"
+	  "granito_3_fire.png"
     )
   )
   (action
@@ -204,12 +204,12 @@
     (name "ice-stop-right")
     (fps 3)
     (images 
-      "boat_0_ice.png"
-	  "boat_1_ice.png"
-	  "boat_2_ice.png"
-	  "boat_2_ice.png"
-	  "boat_3_ice.png"
-	  "boat_0_ice.png"
+      "granito_0_ice.png"
+	  "granito_1_ice.png"
+	  "granito_2_ice.png"
+	  "granito_2_ice.png"
+	  "granito_3_ice.png"
+	  "granito_0_ice.png"
     )
   )
   (action
@@ -234,10 +234,10 @@
     (name "ice-walking-right")
     (fps 5)
     (images 
-      "boat_0_ice.png"
-	  "boat_1_ice.png"
-	  "boat_2_ice.png"
-	  "boat_3_ice.png"
+      "granito_0_ice.png"
+	  "granito_1_ice.png"
+	  "granito_2_ice.png"
+	  "granito_3_ice.png"
     )
   )
   (action
@@ -264,12 +264,12 @@
     (name "air-stop-right")
     (fps 3)
     (images 
-      "boat_0_air.png"
-	  "boat_1_air.png"
-	  "boat_2_air.png"
-	  "boat_2_air.png"
-	  "boat_3_air.png"
-	  "boat_0_air.png"
+      "granito_0_air.png"
+	  "granito_1_air.png"
+	  "granito_2_air.png"
+	  "granito_2_air.png"
+	  "granito_3_air.png"
+	  "granito_0_air.png"
     )
   )
   (action
@@ -294,10 +294,10 @@
     (name "air-walking-right")
     (fps 5)
     (images 
-      "boat_0_air.png"
-	  "boat_1_air.png"
-	  "boat_2_air.png"
-	  "boat_3_air.png"
+      "granito_0_air.png"
+	  "granito_1_air.png"
+	  "granito_2_air.png"
+	  "granito_3_air.png"
     )
   )
   (action
@@ -324,12 +324,12 @@
     (name "earth-stop-right")
     (fps 3)
     (images 
-      "boat_0_earth.png"
-	  "boat_1_earth.png"
-	  "boat_2_earth.png"
-	  "boat_2_earth.png"
-	  "boat_3_earth.png"
-	  "boat_0_earth.png"
+      "granito_0_earth.png"
+	  "granito_1_earth.png"
+	  "granito_2_earth.png"
+	  "granito_2_earth.png"
+	  "granito_3_earth.png"
+	  "granito_0_earth.png"
     )
   )
   (action
@@ -354,10 +354,10 @@
     (name "earth-walking-right")
     (fps 5)
     (images 
-      "boat_0_earth.png"
-	  "boat_1_earth.png"
-	  "boat_2_earth.png"
-	  "boat_3_earth.png"
+      "granito_0_earth.png"
+	  "granito_1_earth.png"
+	  "granito_2_earth.png"
+	  "granito_3_earth.png"
     )
   )
   (action
