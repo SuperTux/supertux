@@ -90,6 +90,8 @@ jobs:
 
       - name: Build libpng
         working-directory: libs
+        env:
+          EMCC_DEBUG: 1
         run: |
           source ~/emsdk/emsdk_env.sh
           wget https://github.com/glennrp/libpng/archive/refs/tags/v1.6.39.tar.gz
