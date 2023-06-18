@@ -29,6 +29,8 @@ ObjectMenu::ObjectMenu(GameObject* go, const std::function<void (GameObject*)>& 
   m_object(go),
   m_remove_function(remove_function)
 {
+  m_object->save_state();
+
   ObjectSettings os = m_object->get_settings();
   add_label(os.get_name());
   add_hl();
@@ -100,6 +102,7 @@ ObjectMenu::on_back_action()
     BIND_SECTOR(*m_editor.get_sector());
 
     m_object->after_editor_set();
+    m_object->check_state();
 
     m_editor.m_reactivate_request = true;
     if (!dynamic_cast<MovingObject*>(m_object)) {

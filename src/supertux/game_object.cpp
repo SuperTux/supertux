@@ -25,24 +25,30 @@
 #include "video/color.hpp"
 
 GameObject::GameObject() :
+  m_parent(),
   m_name(),
   m_type(0),
   m_fade_helpers(),
+  m_track_undo(true),
   m_previous_type(-1),
   m_uid(),
   m_scheduled_for_removal(false),
+  m_last_state(),
   m_components(),
   m_remove_listeners()
 {
 }
 
 GameObject::GameObject(const std::string& name) :
+  m_parent(),
   m_name(name),
   m_type(0),
   m_fade_helpers(),
+  m_track_undo(true),
   m_previous_type(-1),
   m_uid(),
   m_scheduled_for_removal(false),
+  m_last_state(),
   m_components(),
   m_remove_listeners()
 {
@@ -81,10 +87,9 @@ void
 GameObject::save(Writer& writer)
 {
   auto settings = get_settings();
-  for (const auto& option_ptr : settings.get_options())
+  for (const auto& option : settings.get_options())
   {
-    const auto& option = *option_ptr;
-    option.save(writer);
+    option->save(writer);
   }
 }
 
@@ -121,6 +126,43 @@ GameObject::get_settings()
   }
 
   return result;
+}
+
+void
+GameObject::save_state()
+{
+  if (!m_parent->undo_tracking_enabled())
+  {
+    m_last_state.clear();
+    return;
+  }
+  if (!track_state())
+    return;
+
+  if (m_last_state.empty())
+    m_last_state = save();
+}
+
+void
+GameObject::check_state()
+{
+  if (!m_parent->undo_tracking_enabled())
+  {
+    m_last_state.clear();
+    return;
+  }
+  if (!track_state())
+    return;
+
+  // If settings have changed, save the change.
+  if (!m_last_state.empty())
+  {
+    if (m_last_state != save())
+    {
+      m_parent->save_object_change(*this, m_last_state);
+    }
+    m_last_state.clear();
+  }
 }
 
 void

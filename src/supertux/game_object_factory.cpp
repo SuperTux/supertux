@@ -308,6 +308,16 @@ GameObjectFactory::init_factories()
 }
 
 std::unique_ptr<GameObject>
+GameObjectFactory::create(const std::string& name, const std::string& data) const
+{
+  std::stringstream lisptext;
+  lisptext << "(" << name << "\n" << data << ")";
+
+  auto doc = ReaderDocument::from_stream(lisptext);
+  return create(name, doc.get_root().get_mapping());
+}
+
+std::unique_ptr<GameObject>
 GameObjectFactory::create(const std::string& name, const Vector& pos, const Direction& dir, const std::string& data) const
 {
   std::stringstream lisptext;

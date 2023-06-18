@@ -29,6 +29,7 @@
 
 class DrawingContext;
 class GameObjectComponent;
+class GameObjectManager;
 class ObjectRemoveListener;
 class ReaderMapping;
 class Writer;
@@ -98,6 +99,10 @@ public:
       be skipped on saving and can't be cloned in the editor. */
   virtual bool is_saveable() const { return true; }
 
+  /** Indicates if the object's state should be tracked.
+      If false, load_state() and save_state() calls would not do anything. */
+  virtual bool track_state() const { return true; }
+
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */
   virtual bool has_settings() const { return is_saveable(); }
@@ -164,6 +169,10 @@ public:
     }
   }
 
+  /** Save/check the current state of the object. */
+  virtual void save_state();
+  virtual void check_state();
+
   /** The editor requested the deletion of the object */
   virtual void editor_delete() { remove_me(); }
 
@@ -191,6 +200,10 @@ protected:
 private:
   void set_uid(const UID& uid) { m_uid = uid; }
 
+private:
+  /** The parent GameObjectManager. Set by the manager itself. */
+  GameObjectManager* m_parent;
+
 protected:
   /** a name for the gameobject, this is mostly a hint for scripts and
       for debugging, don't rely on names being set or being unique */
@@ -203,6 +216,11 @@ protected:
   /** Fade Helpers are for easing/fading script functions */
   std::vector<std::unique_ptr<FadeHelper>> m_fade_helpers;
 
+  /** Track the following creation/deletion of this object for undo.
+      If track_state() returns false, this object would not be tracked,
+      regardless of the value of this variable. */
+  bool m_track_undo;
+
 private:
   /** The object's type at the time of the last get_settings() call.
       Used to check if the type has changed. **/
@@ -214,6 +232,10 @@ private:
 
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_scheduled_for_removal;
+
+  /** The object's data at the time of the last state save.
+      Used to check for changes that may have occured. */
+  std::string m_last_state;
 
   std::vector<std::unique_ptr<GameObjectComponent> > m_components;
 
