@@ -135,7 +135,8 @@ EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
       auto position = get_tile_coords(pos - m_starting_tile);
       draw_tile(context.color(), *m_editor.get_tileset(), tile_ID, position, LAYER_GUI - 9);
 
-      if (g_config->developer_mode && m_active_tilegroup->developers_group)
+      if (m_hovered_tile == pos - m_starting_tile ||
+          (g_config->developer_mode && m_active_tilegroup->developers_group))
       {
         // Display tile ID on top of tile:
         context.color().draw_text(Resources::console_font, std::to_string(tile_ID),

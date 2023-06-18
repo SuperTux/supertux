@@ -21,6 +21,8 @@
 #include "scripting/dispenser.hpp"
 #include "squirrel/exposed_object.hpp"
 
+class GameObject;
+
 class Dispenser final : public BadGuy,
                         public ExposedObject<Dispenser, scripting::Dispenser>
 {
@@ -31,6 +33,8 @@ private:
 
 public:
   Dispenser(const ReaderMapping& reader);
+
+  void add_object(std::unique_ptr<GameObject> object);
 
   virtual void draw(DrawingContext& context) override;
   virtual void initialize() override;
@@ -72,7 +76,7 @@ public:
 
 protected:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  void launch_badguy();
+  void launch_object();
 
   void on_type_change(int old_type) override;
 
@@ -81,8 +85,8 @@ private:
 
 private:
   float m_cycle;
-  std::vector<std::string> m_badguys;
-  unsigned int m_next_badguy;
+  std::vector<std::unique_ptr<GameObject>> m_objects;
+  unsigned int m_next_object;
   Timer m_dispense_timer;
   bool m_autotarget;
   bool m_random;

@@ -72,6 +72,17 @@ ObjectFactory::get_display_name(const std::string& name) const
   }
 }
 
+bool
+ObjectFactory::has_params(const std::string& name, uint8_t params)
+{
+  for (unsigned int i = 0; i < m_objects_names.size(); i++)
+  {
+    if (m_objects_names[i] == name)
+      return m_objects_params[i] & params;
+  }
+  return false;
+}
+
 std::vector<std::string>
 ObjectFactory::get_registered_badguys(uint8_t params)
 {
@@ -92,6 +103,19 @@ ObjectFactory::get_registered_objects(uint8_t params)
   {
     if (m_objects_params[i] & params)
       out.push_back(m_objects_names[i]);
+  }
+  return out;
+}
+
+std::vector<std::string>
+ObjectFactory::get_registered_objects_without_params(uint8_t params)
+{
+  std::vector<std::string> out;
+  for (unsigned int i = 0; i < m_objects_names.size(); i++)
+  {
+    if (m_objects_params[i] & params)
+      continue;
+    out.push_back(m_objects_names[i]);
   }
   return out;
 }

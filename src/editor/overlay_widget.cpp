@@ -714,7 +714,7 @@ EditorOverlayWidget::clone_object()
 void
 EditorOverlayWidget::show_object_menu(GameObject& object)
 {
-  auto menu = std::make_unique<ObjectMenu>(m_editor, &object);
+  auto menu = std::make_unique<ObjectMenu>(&object);
   m_editor.m_deactivate_request = true;
   MenuManager::instance().push_menu(std::move(menu));
 }

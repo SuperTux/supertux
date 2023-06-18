@@ -222,89 +222,89 @@ GameObjectFactory::init_factories()
   m_adding_badguys = false;
 
   // other objects
-  add_factory<AmbientLight>("ambient-light");
-  add_factory<AmbientSound>("ambient_sound"); // backward compatibilty
-  add_factory<AmbientSound>("ambient-sound");
-  add_factory<Background>("background");
-  add_factory<PathGameObject>("path");
-  add_factory<BicyclePlatform>("bicycle-platform");
+  add_factory<AmbientLight>("ambient-light", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<AmbientSound>("ambient_sound", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE); // backward compatibilty
+  add_factory<AmbientSound>("ambient-sound", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<Background>("background", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<PathGameObject>("path", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<BicyclePlatform>("bicycle-platform", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<BonusBlock>("bonusblock");
   add_factory<Brick>("brick");
   add_factory<Bumper>("bumper");
-  add_factory<Camera>("camera");
+  add_factory<Camera>("camera", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Candle>("candle");
-  add_factory<CirclePlatform>("circleplatform");
-  add_factory<CloudParticleSystem>("particles-clouds");
+  add_factory<CirclePlatform>("circleplatform", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<CloudParticleSystem>("particles-clouds", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Crusher>("icecrusher"); // backward compatibility
   add_factory<Crusher>("crusher");
-  add_factory<CustomParticleSystem>("particles-custom");
-  add_factory<CustomParticleSystemFile>("particles-custom-file");
+  add_factory<CustomParticleSystem>("particles-custom", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<CustomParticleSystemFile>("particles-custom-file", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Coin>("coin");
   add_factory<Decal>("decal");
   add_factory<Explosion>("explosion");
   add_factory<FallBlock>("fallblock");
   add_factory<Firefly>("firefly");
-  add_factory<GhostParticleSystem>("particles-ghosts");
-  add_factory<Gradient>("gradient");
+  add_factory<GhostParticleSystem>("particles-ghosts", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<Gradient>("gradient", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<HeavyBrick>("heavy-brick");
-  add_factory<HeavyCoin>("heavycoin");
-  add_factory<HurtingPlatform>("hurting_platform");
+  add_factory<HeavyCoin>("heavycoin", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<HurtingPlatform>("hurting_platform", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<InfoBlock>("infoblock");
   add_factory<InvisibleBlock>("invisible_block");
   add_factory<InvisibleWall>("invisible_wall");
   add_factory<Ispy>("ispy");
-  add_factory<Key>("key");
+  add_factory<Key>("key", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Lantern>("lantern", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
-  add_factory<LevelTime>("leveltime");
+  add_factory<LevelTime>("leveltime", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<LitObject>("lit-object");
-  add_factory<MagicBlock>("magicblock");
+  add_factory<MagicBlock>("magicblock", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_display_name("#node", Path::Node::display_name());
-  add_factory<ParticleZone>("particle-zone");
-  add_factory<Platform>("platform");
-  add_factory<PneumaticPlatform>("pneumatic-platform");
+  add_factory<ParticleZone>("particle-zone", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<Platform>("platform", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<PneumaticPlatform>("pneumatic-platform", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<PowerUp>("powerup");
   add_factory<PushButton>("pushbutton");
-  add_factory<RainParticleSystem>("particles-rain");
+  add_factory<RainParticleSystem>("particles-rain", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Rock>("rock", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<RubLight>("rublight");
-  add_factory<ScriptedObject>("scriptedobject");
+  add_factory<ScriptedObject>("scriptedobject", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Shard>("shard");
   add_factory<SkullTile>("skull_tile");
-  add_factory<SnowParticleSystem>("particles-snow");
+  add_factory<SnowParticleSystem>("particles-snow", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Spotlight>("spotlight");
-  add_factory<TextScroller>("textscroller");
-  add_factory<TextArrayObject>("text-array");
-  add_factory<Thunderstorm>("thunderstorm");
+  add_factory<TextScroller>("textscroller", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<TextArrayObject>("text-array", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<Thunderstorm>("thunderstorm", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Torch>("torch");
   add_factory<Trampoline>("trampoline", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<RustyTrampoline>("rustytrampoline", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
   add_factory<UnstableTile>("unstable_tile");
   add_factory<WeakBlock>("weak_block");
-  add_factory<Wind>("wind");
-  add_factory<TextArea>("text-area");
+  add_factory<Wind>("wind", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<TextArea>("text-area", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
 
   // trigger
-  add_factory<Climbable>("climbable");
-  add_factory<Door>("door");
-  add_factory<ScriptTrigger>("scripttrigger");
-  add_factory<SecretAreaTrigger>("secretarea");
-  add_factory<SequenceTrigger>("sequencetrigger");
-  add_factory<Switch>("switch");
+  add_factory<Climbable>("climbable", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<Door>("door", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<ScriptTrigger>("scripttrigger", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<SecretAreaTrigger>("secretarea", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<SequenceTrigger>("sequencetrigger", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<Switch>("switch", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
 
   // editor stuff
-  add_factory<SpawnPointMarker>("spawnpoint");
+  add_factory<SpawnPointMarker>("spawnpoint", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
 
   // worldmap editor objects
-  add_factory<worldmap_editor::LevelDot>("level");
-  add_factory<worldmap_editor::SpecialTile>("special-tile");
-  add_factory<worldmap_editor::SpriteChange>("sprite-change");
-  add_factory<worldmap_editor::Teleporter>("teleporter");
-  add_factory<worldmap_editor::WorldmapSpawnPoint>("worldmap-spawnpoint");
+  add_factory<worldmap_editor::LevelDot>("level", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<worldmap_editor::SpecialTile>("special-tile", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<worldmap_editor::SpriteChange>("sprite-change", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<worldmap_editor::Teleporter>("teleporter", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  add_factory<worldmap_editor::WorldmapSpawnPoint>("worldmap-spawnpoint", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
 
   add_factory("tilemap", TileMap::display_name(), [](const ReaderMapping& reader) {
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
       return std::make_unique<TileMap>(tileset, reader);
-    });
+    }, RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
 }
 
 std::unique_ptr<GameObject>

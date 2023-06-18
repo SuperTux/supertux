@@ -194,7 +194,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   else if (button.button == SDL_BUTTON_RIGHT)
   {
     if (m_hovered_item == HoveredItem::LAYERS && m_hovered_layer < m_layer_icons.size()) {
-      auto om = std::make_unique<ObjectMenu>(m_editor, m_layer_icons[m_hovered_layer]->get_layer());
+      auto om = std::make_unique<ObjectMenu>(m_layer_icons[m_hovered_layer]->get_layer());
       m_editor.m_deactivate_request = true;
       MenuManager::instance().push_menu(std::move(om));
       return true;

@@ -19,7 +19,6 @@
 #include "control/input_manager.hpp"
 #include "gui/item_action.hpp"
 #include "gui/item_back.hpp"
-#include "gui/item_badguy_select.hpp"
 #include "gui/item_color.hpp"
 #include "gui/item_colorchannel.hpp"
 #include "gui/item_colordisplay.hpp"
@@ -32,6 +31,7 @@
 #include "gui/item_inactive.hpp"
 #include "gui/item_intfield.hpp"
 #include "gui/item_label.hpp"
+#include "gui/item_object_select.hpp"
 #include "gui/item_paths.hpp"
 #include "gui/item_script.hpp"
 #include "gui/item_script_line.hpp"
@@ -340,9 +340,11 @@ Menu::add_color(const std::string& text, Color* color, int id) {
   return *item_ptr;
 }
 
-ItemBadguySelect&
-Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id) {
-  auto item = std::make_unique<ItemBadguySelect>(text, badguys, id);
+ItemObjectSelect&
+Menu::add_object_select(const std::string& text, std::vector<std::unique_ptr<GameObject>>* objects,
+                        GameObject* parent, int id)
+{
+  auto item = std::make_unique<ItemObjectSelect>(text, objects, parent, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

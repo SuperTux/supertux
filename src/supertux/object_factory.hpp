@@ -49,7 +49,9 @@ protected:
 public:
   enum RegisteredObjectParam
   {
-    OBJ_PARAM_NONE=0, OBJ_PARAM_PORTABLE=0b10000000
+    OBJ_PARAM_NONE = 0,
+    OBJ_PARAM_PORTABLE = 0b10000000,
+    OBJ_PARAM_NON_DISPENSABLE = 0b00100000,
   };
 
 public:
@@ -57,10 +59,13 @@ public:
   std::unique_ptr<GameObject> create(const std::string& name, const ReaderMapping& reader) const;
   std::string get_display_name(const std::string& name) const;
 
+  bool has_params(const std::string& name, uint8_t params);
+
   std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
   std::vector<std::string> get_registered_badguys(uint8_t params);
   std::vector<std::string>& get_registered_objects() { return m_objects_names; }
   std::vector<std::string> get_registered_objects(uint8_t params);
+  std::vector<std::string> get_registered_objects_without_params(uint8_t params);
 
 protected:
   ObjectFactory();

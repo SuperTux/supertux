@@ -88,6 +88,16 @@ GameObject::save(Writer& writer)
   }
 }
 
+std::string
+GameObject::save()
+{
+  std::ostringstream save_stream;
+  Writer writer(save_stream);
+  save(writer);
+
+  return save_stream.str();
+}
+
 ObjectSettings
 GameObject::get_settings()
 {

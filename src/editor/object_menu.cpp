@@ -24,9 +24,10 @@
 #include "supertux/game_object.hpp"
 #include "supertux/moving_object.hpp"
 
-ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
-  m_editor(editor),
-  m_object(go)
+ObjectMenu::ObjectMenu(GameObject* go, const std::function<void (GameObject*)>& remove_function) :
+  m_editor(*Editor::current()),
+  m_object(go),
+  m_remove_function(remove_function)
 {
   ObjectSettings os = m_object->get_settings();
   add_label(os.get_name());
@@ -39,6 +40,13 @@ ObjectMenu::ObjectMenu(Editor& editor, GameObject* go) :
       oo.add_to_menu(*this);
     }
   }
+
+  if (m_remove_function)
+  {
+    add_hl();
+    add_entry(MNID_REMOVEFUNCTION, _("Remove"));
+  }
+
   add_hl();
   add_back(_("OK"), -1);
 }
@@ -57,6 +65,11 @@ ObjectMenu::menu_action(MenuItem& item)
       m_editor.m_reactivate_request = true;
       MenuManager::instance().pop_menu();
       m_object->remove_me();
+      break;
+
+    case MNID_REMOVEFUNCTION:
+      m_remove_function(m_object);
+      MenuManager::instance().pop_menu();
       break;
 
     case MNID_TEST_FROM_HERE: {
@@ -81,14 +94,17 @@ ObjectMenu::menu_action(MenuItem& item)
 bool
 ObjectMenu::on_back_action()
 {
-  // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
-  BIND_SECTOR(*m_editor.get_sector());
+  if (!MenuManager::instance().previous_menu())
+  {
+    // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
+    BIND_SECTOR(*m_editor.get_sector());
 
-  m_object->after_editor_set();
+    m_object->after_editor_set();
 
-  m_editor.m_reactivate_request = true;
-  if (!dynamic_cast<MovingObject*>(m_object)) {
-    m_editor.sort_layers();
+    m_editor.m_reactivate_request = true;
+    if (!dynamic_cast<MovingObject*>(m_object)) {
+      m_editor.sort_layers();
+    }
   }
 
   return true;

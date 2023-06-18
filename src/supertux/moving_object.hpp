@@ -23,6 +23,7 @@
 #include "math/rectf.hpp"
 #include "supertux/game_object.hpp"
 
+class Dispenser;
 class Sector;
 
 /** Base class for all dynamic/moving game objects. This class
@@ -92,6 +93,9 @@ public:
     return &m_col;
   }
 
+  void set_parent_dispenser(Dispenser* dispenser);
+  Dispenser* get_parent_dispenser() const { return m_parent_dispenser; }
+
   static std::string class_name() { return "moving-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
   virtual ObjectSettings get_settings() override;
@@ -110,6 +114,8 @@ protected:
 
 protected:
   CollisionObject m_col;
+
+  Dispenser* m_parent_dispenser;
 
 private:
   MovingObject(const MovingObject&) = delete;

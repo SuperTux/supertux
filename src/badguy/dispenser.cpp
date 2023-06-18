@@ -25,14 +25,15 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_iterator.hpp"
 #include "util/reader_mapping.hpp"
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dropper.sprite"),
   ExposedObject<Dispenser, scripting::Dispenser>(this),
   m_cycle(),
-  m_badguys(),
-  m_next_badguy(0),
+  m_objects(),
+  m_next_object(0),
   m_dispense_timer(),
   m_autotarget(false),
   m_random(),
@@ -47,8 +48,24 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/squish.wav");
   reader.get("cycle", m_cycle, 5.0f);
   if (reader.get("gravity", m_gravity)) m_physic.enable_gravity(true);
-  if (!reader.get("badguy", m_badguys)) m_badguys.clear();
   reader.get("random", m_random, false);
+
+  std::vector<std::string> badguys;
+  if (reader.get("badguy", badguys)) // Backward compatibility
+  {
+    for (auto& badguy : badguys)
+      add_object(GameObjectFactory::instance().create(badguy));
+  }
+  else
+  {
+    std::optional<ReaderMapping> objects_mapping;
+    if (reader.get("objects", objects_mapping))
+    {
+      auto iter = objects_mapping->get_iter();
+      while (iter.next())
+        add_object(GameObjectFactory::instance().create(iter.get_key(), iter.as_mapping()));
+    }
+  }
 
   m_dir = m_start_dir; // Reset direction to default.
 
@@ -62,6 +79,21 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   m_countMe = false;
+}
+
+void
+Dispenser::add_object(std::unique_ptr<GameObject> object)
+{
+  auto moving_object = dynamic_cast<MovingObject*>(object.get());
+  if (GameObjectFactory::instance().has_params(object->get_class_name(), ObjectFactory::RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE) ||
+      !moving_object) // Object is not MovingObject, or is not dispensable
+  {
+    log_warning << object->get_class_name() << " is not MovingObject, or is not dispensable. Removing from dispenser object list." << std::endl;
+    return;
+  }
+
+  moving_object->set_parent_dispenser(this);
+  m_objects.push_back(std::move(object));
 }
 
 void
@@ -81,7 +113,7 @@ void
 Dispenser::activate()
 {
   m_dispense_timer.start(m_cycle, true);
-  launch_badguy();
+  launch_object();
 }
 
 void
@@ -123,18 +155,15 @@ Dispenser::active_update(float dt_sec)
         }
       }
     }
-    launch_badguy();
+    launch_object();
   }
 }
 
 void
-Dispenser::launch_badguy()
+Dispenser::launch_object()
 {
-  if (m_badguys.empty()) return;
+  if (m_objects.empty()) return;
   if (m_frozen) return;
-  if (m_limit_dispensed_badguys &&
-      m_current_badguys >= m_max_concurrent_badguys)
-      return;
 
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen() && !Editor::is_active())
@@ -147,43 +176,44 @@ Dispenser::launch_badguy()
         launch_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
     }
 
-    if (m_badguys.size() > 1)
+    if (m_objects.size() > 1)
     {
       if (m_random)
       {
-        m_next_badguy = static_cast<unsigned int>(gameRandom.rand(static_cast<int>(m_badguys.size())));
+        m_next_object = static_cast<unsigned int>(gameRandom.rand(static_cast<int>(m_objects.size())));
       }
       else
       {
-        m_next_badguy++;
+        m_next_object++;
 
-        if (m_next_badguy >= m_badguys.size())
-          m_next_badguy = 0;
+        if (m_next_object >= m_objects.size())
+          m_next_object = 0;
       }
     }
 
-    std::string badguy = m_badguys[m_next_badguy];
-
-    if (badguy == "random")
+    auto object = m_objects[m_next_object].get();
+    if (dynamic_cast<BadGuy*>(object) && m_limit_dispensed_badguys &&
+        m_current_badguys >= m_max_concurrent_badguys)
     {
-      log_warning << "random is outdated; use a list of badguys to select from." << std::endl;
-      return;
-    }
-    if (badguy == "goldbomb")
-    {
-      log_warning << "goldbomb is not allowed to be dispensed" << std::endl;
       return;
     }
 
-    try {
+    try
+    {
       //Need to allocate the badguy first to figure out its bounding box.
-      auto game_object = GameObjectFactory::instance().create(badguy, get_pos(), launch_dir);
-      if (game_object == nullptr)
-        throw std::runtime_error("Creating " + badguy + " object failed.");
+      auto game_object = GameObjectFactory::instance().create(object->get_class_name(), get_pos(), launch_dir, object->save());
+      if (!game_object)
+      {
+        throw std::runtime_error("Creating " + object->get_class_name() + " object failed.");
+      }
+      auto moving_object = dynamic_cast<MovingObject*>(game_object.get());
+      if (!moving_object)
+      {
+        log_warning << "Creating " << object->get_class_name() << " object failed: Object is not MovingObject." << std::endl;
+        return;
+      }
 
-      auto& bad_guy = dynamic_cast<BadGuy&>(*game_object);
-
-      Rectf object_bbox = bad_guy.get_bbox();
+      Rectf object_bbox = moving_object->get_bbox();
 
       Vector spawnpoint(0.0f, 0.0f);
       switch (m_type)
@@ -221,21 +251,26 @@ Dispenser::launch_badguy()
       }
 
       /* Now we set the real spawn position */
-      bad_guy.set_pos(spawnpoint);
+      moving_object->set_pos(spawnpoint);
 
-      /* We don't want to count dispensed badguys in level stats */
-      bad_guy.m_countMe = false;
+      /* Set reference to dispenser in the object itself */
+      moving_object->set_parent_dispenser(this);
 
-      /* Set reference to dispenser in badguy itself */
-      if (m_limit_dispensed_badguys)
+      auto badguy = dynamic_cast<BadGuy*>(moving_object);
+      if (badguy)
       {
-        bad_guy.set_parent_dispenser(this);
-        m_current_badguys++;
+        /* We don't want to count dispensed badguys in level stats */
+        badguy->m_countMe = false;
+
+        if (m_limit_dispensed_badguys)
+          m_current_badguys++;
       }
 
       Sector::get().add_object(std::move(game_object));
-    } catch(const std::exception& e) {
-      log_warning << "Error dispensing badguy: " << e.what() << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+      log_warning << "Error dispensing object: " << e.what() << std::endl;
       return;
     }
   }
@@ -339,7 +374,7 @@ Dispenser::get_settings()
 
   result.add_float(_("Interval (seconds)"), &m_cycle, "cycle");
   result.add_bool(_("Random"), &m_random, "random", false);
-  result.add_badguy(_("Enemies"), &m_badguys, "badguy");
+  result.add_objects(_("Objects"), &m_objects, this, "objects");
   result.add_bool(_("Limit dispensed badguys"), &m_limit_dispensed_badguys,
                   "limit-dispensed-badguys", false);
   result.add_bool(_("Obey Gravity"), &m_gravity,
@@ -347,7 +382,7 @@ Dispenser::get_settings()
   result.add_int(_("Max concurrent badguys"), &m_max_concurrent_badguys,
                  "max-concurrent-badguys", 0);
 
-  result.reorder({"cycle", "random", "type", "badguy", "direction", "gravity", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
+  result.reorder({"cycle", "random", "type", "objects", "direction", "gravity", "limit-dispensed-badguys", "max-concurrent-badguys", "x", "y"});
 
   return result;
 }

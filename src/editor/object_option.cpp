@@ -25,6 +25,7 @@
 #include "editor/object_menu.hpp"
 #include "gui/menu.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/moving_object.hpp"
 #include "util/gettext.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
@@ -483,31 +484,41 @@ ColorObjectOption::add_to_menu(Menu& menu) const
   menu.add_color(get_text(), m_pointer);
 }
 
-BadGuySelectObjectOption::BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
-                                                   unsigned int flags) :
+ObjectSelectObjectOption::ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
+                                                   GameObject* parent, const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_parent(parent)
 {
 }
 
 void
-BadGuySelectObjectOption::save(Writer& writer) const
+ObjectSelectObjectOption::save(Writer& writer) const
 {
-  if (!get_key().empty()) {
-    writer.write(get_key(), *m_pointer);
+  if (get_key().empty())
+    return;
+
+  writer.start_list(get_key());
+  for (auto it = m_pointer->begin(); it != m_pointer->end(); it++)
+  {
+    auto& obj = *it;
+    writer.start_list(obj->get_class_name());
+    obj->save(writer);
+    writer.end_list(obj->get_class_name());
   }
+  writer.end_list(get_key());
 }
 
 std::string
-BadGuySelectObjectOption::to_string() const
+ObjectSelectObjectOption::to_string() const
 {
   return fmt_to_string(m_pointer->size());
 }
 
 void
-BadGuySelectObjectOption::add_to_menu(Menu& menu) const
+ObjectSelectObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_badguy_select(get_text(), m_pointer);
+  menu.add_object_select(get_text(), m_pointer, m_parent);
 }
 
 TilesObjectOption::TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,

@@ -1,5 +1,5 @@
-//  SuperTux -- List menu
-//  Copyright (C) 2021 Rami <rami.slicer@gmail.com>
+//  SuperTux
+//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
 //                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -15,29 +15,40 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_LIST_HPP
-#define HEADER_SUPERTUX_GUI_MENU_LIST_HPP
+#ifndef HEADER_SUPERTUX_GUI_MENU_OBJECT_SELECT_HPP
+#define HEADER_SUPERTUX_GUI_MENU_OBJECT_SELECT_HPP
 
 #include "gui/menu.hpp"
 
-#include <functional>
+class Dispenser;
+class GameObject;
 
-class ListMenu final : public Menu
+class ObjectSelectMenu final : public Menu
 {
 public:
-  ListMenu(const std::vector<std::string>& items, std::string* selected, Menu* parent,
-           const std::function<std::string (const std::string&)>& text_processor = {});
+  ObjectSelectMenu(std::vector<std::unique_ptr<GameObject>>& objects, GameObject* parent);
 
+  void refresh() override;
   void menu_action(MenuItem& item) override;
 
 private:
-  const std::vector<std::string> m_items;
-  std::string* m_selected;
-  Menu* m_parent;
+  void add_object();
+  void remove_object(GameObject* obj);
+
+  const std::vector<std::string> get_available_objects() const;
 
 private:
-  ListMenu(const ListMenu&) = delete;
-  ListMenu& operator=(const ListMenu&) = delete;
+  std::vector<std::unique_ptr<GameObject>>& m_objects;
+  GameObject* m_parent;
+
+  /** If m_parent is a Dispenser, this would not be nullptr. */
+  Dispenser* m_dispenser;
+
+  std::string m_selected;
+
+private:
+  ObjectSelectMenu(const ObjectSelectMenu&) = delete;
+  ObjectSelectMenu& operator=(const ObjectSelectMenu&) = delete;
 };
 
 #endif

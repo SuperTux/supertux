@@ -22,13 +22,15 @@
 #include "util/writer.hpp"
 
 MovingObject::MovingObject() :
-  m_col(COLGROUP_MOVING, *this)
+  m_col(COLGROUP_MOVING, *this),
+  m_parent_dispenser()
 {
 }
 
 MovingObject::MovingObject(const ReaderMapping& reader) :
   GameObject(reader),
-  m_col(COLGROUP_MOVING, *this)
+  m_col(COLGROUP_MOVING, *this),
+  m_parent_dispenser()
 {
   float height, width;
 
@@ -51,14 +53,29 @@ MovingObject::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  if (has_variable_size()) {
-    result.add_rectf(_("Region"), &m_col.m_bbox, "region", OPTION_HIDDEN);
+  if (m_parent_dispenser)
+  {
+    result.remove("name");
+    return result;
   }
+
+  if (has_variable_size())
+    result.add_rectf(_("Region"), &m_col.m_bbox, "region", OPTION_HIDDEN);
 
   result.add_float(_("X"), &m_col.m_bbox.get_left(), "x", {}, OPTION_HIDDEN);
   result.add_float(_("Y"), &m_col.m_bbox.get_top(), "y", {}, OPTION_HIDDEN);
 
   return result;
+}
+
+void
+MovingObject::set_parent_dispenser(Dispenser* dispenser)
+{
+  m_parent_dispenser = dispenser;
+  if (dispenser)
+  {
+    m_name.clear();
+  }
 }
 
 void
