@@ -20,18 +20,18 @@
 #include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
-ListMenu::ListMenu(const std::vector<std::string>& items, std::string* selected, Menu* parent,
+ListMenu::ListMenu(const std::vector<std::string>& entries, std::string* selected, Menu* parent,
                    const std::function<std::string (const std::string&)>& text_processor) :
-  m_items(items),
+  m_entries(entries),
   m_selected(selected),
   m_parent(parent)
 {
-  for (int i = 0; i < static_cast<int>(m_items.size()); i++)
+  for (int i = 0; i < static_cast<int>(m_entries.size()); i++)
   {
     if (text_processor)
-      add_entry(i, text_processor(items[i]));
+      add_entry(i, text_processor(m_entries[i]));
     else
-      add_entry(i, items[i]);
+      add_entry(i, m_entries[i]);
   }
 
   add_hl();
@@ -42,7 +42,7 @@ void
 ListMenu::menu_action(MenuItem& item)
 {
   if (m_selected)
-    *m_selected = m_items.at(item.get_id());
+    *m_selected = m_entries.at(item.get_id());
 
   if (m_parent)
     m_parent->refresh();

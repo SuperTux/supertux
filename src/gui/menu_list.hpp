@@ -25,13 +25,13 @@
 class ListMenu final : public Menu
 {
 public:
-  ListMenu(const std::vector<std::string>& items, std::string* selected, Menu* parent,
+  ListMenu(const std::vector<std::string>& entries, std::string* selected, Menu* parent,
            const std::function<std::string (const std::string&)>& text_processor = {});
 
   void menu_action(MenuItem& item) override;
 
 private:
-  const std::vector<std::string> m_items;
+  const std::vector<std::string> m_entries;
   std::string* m_selected;
   Menu* m_parent;
 
