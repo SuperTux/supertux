@@ -99,7 +99,7 @@ jobs:
           cd libpng-1.6.39
           mkdir build
           cd build
-          emcmake cmake .. -DZLIB_INCLUDE_DIR=/home/runner/work/supertux/supertux/libs/zlib-1.2.13 -DZLIB_LIBRARY=/home/runner/zlib-1.2.13/build/libz.a -DPNG_SHARED=NO -DPNG_EXECUTABLES=NO -DPNG_TESTS=NO -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -pthread" -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} -pthread"
+          emcmake cmake .. -DZLIB_INCLUDE_DIR=/home/runner/work/supertux/supertux/libs/zlib-1.2.13 -DZLIB_LIBRARY=/home/runner/zlib-1.2.13/build/libz.a -DPNG_SHARED=NO -DPNG_EXECUTABLES=NO -DPNG_TESTS=NO -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -pthread" -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -pthread" -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} -pthread"
           emmake make -j$(nproc)
           mv pnglibconf.h ..
           mv pngprefix.h ..
