@@ -168,6 +168,7 @@ Sector::finish_construction(bool editable)
     add<VerticalStripes>();
   }
 
+  m_initialized = false;
   flush_game_objects();
 
   m_foremost_layer = calculate_foremost_layer();
@@ -178,6 +179,7 @@ Sector::finish_construction(bool editable)
     object->finish_construction();
   }
 
+  m_initialized = false;
   flush_game_objects();
 
   m_fully_constructed = true;
@@ -389,8 +391,7 @@ Sector::before_object_add(GameObject& object)
   }
 
   if (m_fully_constructed) {
-    // if the sector is already fully constructed, finish the object
-    // constructions, as there should be no more named references to resolve
+    process_resolve_requests();
     object.finish_construction();
   }
 
