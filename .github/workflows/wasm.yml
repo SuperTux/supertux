@@ -114,7 +114,7 @@ jobs:
           mkdir build
           cd build
           emcmake cmake .. -DENABLE_SHARED=NO
-          emmake make -j$(nproc)
+          emmake make -j$(nproc) VERBOSE=1
 
       - name: Build SDL2_image
         working-directory: libs
@@ -130,7 +130,7 @@ jobs:
                            -DSDL2IMAGE_TGA=NO -DSDL2IMAGE_XCF=NO -DSDL2IMAGE_XPM=NO -DSDL2IMAGE_XV=NO -DPNG_INCLUDE_DIRS=/home/runner/work/supertux/supertux/libs/libpng-1.2.13 \
                            -DPNG_LIBRARIES=/home/runner/work/supertux/supertux/libs/libpng-1.6.39/build/libpng16.a -DJPEG_INCLUDE_DIRS=/home/runner/work/supertux/supertux/libs/libjpeg-libjpeg-turbo-2.1.0 \
                            -DJPEG_LIBRARIES=/home/runner/work/supertux/supertux/libs/libjpeg-libjpeg-turbo-2.1.0/build/libjpeg.a
-          emmake make -j$(nproc)
+          emmake make -j$(nproc) VERBOSE=1
 
       - name: Build libogg
         working-directory: libs
@@ -142,7 +142,7 @@ jobs:
           mkdir build
           cd build
           emcmake cmake ..
-          emmake make -j$(nproc)
+          emmake make -j$(nproc) VERBOSE=1
           mv include/ogg/config_types.h ../include/ogg
 
       - name: Build libvorbis
@@ -155,7 +155,7 @@ jobs:
           mkdir build
           cd build
           emcmake cmake .. -DOGG_INCLUDE_DIR=/home/runner/work/supertux/supertux/libs/libogg-1.3.5/include -DOGG_LIBRARY=/home/runner/work/supertux/supertux/libs/libogg-1.3.5/build/libogg.a
-          emmake make -j$(nproc)
+          emmake make -j$(nproc) VERBOSE=1
 
       - name: Download GLM
         working-directory: libs
@@ -187,7 +187,7 @@ jobs:
         working-directory: build
         run: |
           source ~/emsdk/emsdk_env.sh
-          emmake make -j$(nproc)
+          emmake make -j$(nproc) VERBOSE=1
 
         # Now you can run a local server with: `emrun supertux2.html`
         # Or any traditional web server will do the job
