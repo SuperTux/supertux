@@ -26,7 +26,7 @@
 
 class Sprite;
 
-/** This class represents a platform that moves entities riding it */
+/** This class represents a platform that moves entities riding it. */
 class ConveyorBelt final : public MovingObject,
                            public ExposedObject<ConveyorBelt, scripting::ConveyorBelt>
 {
@@ -51,19 +51,19 @@ public:
 
   /** @name Scriptable Methods */
 
-  /** Starts the conveyor belt */
+  /** Starts the conveyor belt. */
   void start();
 
-  /** Stops the conveyor belt */
+  /** Stops the conveyor belt. */
   void stop();
 
-  /** Makes the conveyor shift objects to the left */
+  /** Makes the conveyor shift objects to the left. */
   void move_left();
 
-  /** Makes the conveyor shift objects to the right */
+  /** Makes the conveyor shift objects to the right. */
   void move_right();
 
-  /** Change the shifting speed of the conveyor */
+  /** Changes the shifting speed of the conveyor. */
   void set_speed(float target_speed);
 
 private:

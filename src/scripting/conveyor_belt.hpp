@@ -47,27 +47,27 @@ private:
 
 public:
   /**
-   * Starts the conveyor belt
+   * Starts the conveyor belt.
    */
   void start();
 
   /**
-   * Stops the conveyor belt
+   * Stops the conveyor belt.
    */
   void stop();
 
   /**
-   * Makes the conveyor shift objects to the left
+   * Makes the conveyor shift objects to the left.
    */
   void move_left();
 
   /**
-   * Makes the conveyor shift objects to the right
+   * Makes the conveyor shift objects to the right.
    */
   void move_right();
 
   /**
-   * Change the shifting speed of the conveyor
+   * Change the shifting speed of the conveyor.
    * @param float $target_speed
    */
   void set_speed(float target_speed);
