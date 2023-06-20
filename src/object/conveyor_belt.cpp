@@ -87,7 +87,9 @@ ConveyorBelt::update(float dt_sec)
     Vector shift_movement(m_speed * (m_dir == Direction::LEFT ? -1.0f : 1.0f) * 32.0f * dt_sec, 0.0f);
     m_col.propagate_movement(shift_movement);
 
-    m_frame += (m_speed * static_cast<float>(m_sprite->get_frames())) * dt_sec;
+    int frames = m_sprite->get_frames();
+
+    m_frame += m_speed * static_cast<float>(frames) * dt_sec * 2.0f;
 
     while (m_frame >= 1.0f)
     {
@@ -95,9 +97,9 @@ ConveyorBelt::update(float dt_sec)
       m_frame_index++;
     }
 
-    while (m_frame_index >= m_sprite->get_frames())
+    while (m_frame_index >= frames)
     {
-      m_frame_index -= m_sprite->get_frames();
+      m_frame_index -= frames;
     }
   }
 }
