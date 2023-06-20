@@ -17,8 +17,9 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CONVEYOR_BELT_HPP
 #define HEADER_SUPERTUX_OBJECT_CONVEYOR_BELT_HPP
 
-#include "supertux/moving_object.hpp"
 #include "squirrel/exposed_object.hpp"
+#include "supertux/moving_object.hpp"
+
 #include "scripting/conveyor_belt.hpp"
 #include "supertux/timer.hpp"
 #include "video/layer.hpp"
