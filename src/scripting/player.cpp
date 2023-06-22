@@ -18,6 +18,8 @@
 
 #include "object/player.hpp"
 
+#include "control/controller.hpp"
+
 namespace scripting {
 
 bool
@@ -236,6 +238,27 @@ Player::get_action() const
 {
   SCRIPT_GUARD_DEFAULT;
   return object.get_action();
+}
+
+bool
+Player::get_input_pressed(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().pressed(Control_from_string(input).value());
+}
+
+bool
+Player::get_input_held(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().hold(Control_from_string(input).value());
+}
+
+bool
+Player::get_input_released(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().released(Control_from_string(input).value());
 }
 
 } // namespace scripting
