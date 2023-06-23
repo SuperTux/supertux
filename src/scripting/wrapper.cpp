@@ -7356,6 +7356,99 @@ static SQInteger Player_get_action_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Player_get_input_pressed_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_input_pressed' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->get_input_pressed(arg0);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_input_pressed'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_get_input_held_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_input_held' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->get_input_held(arg0);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_input_held'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_get_input_released_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_input_released' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->get_input_released(arg0);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_input_released'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Rain_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Rain* _this = reinterpret_cast<scripting::Rain*> (ptr);
@@ -15272,6 +15365,27 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_action'");
+  }
+
+  sq_pushstring(v, "get_input_pressed", -1);
+  sq_newclosure(v, &Player_get_input_pressed_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_input_pressed'");
+  }
+
+  sq_pushstring(v, "get_input_held", -1);
+  sq_newclosure(v, &Player_get_input_held_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_input_held'");
+  }
+
+  sq_pushstring(v, "get_input_released", -1);
+  sq_newclosure(v, &Player_get_input_released_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_input_released'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
