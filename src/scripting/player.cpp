@@ -16,9 +16,8 @@
 
 #include "scripting/player.hpp"
 
-#include "object/player.hpp"
-
 #include "control/controller.hpp"
+#include "object/player.hpp"
 
 namespace scripting {
 
