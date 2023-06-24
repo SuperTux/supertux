@@ -96,14 +96,14 @@ ObjectMenu::menu_action(MenuItem& item)
 bool
 ObjectMenu::on_back_action()
 {
+  // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
+  BIND_SECTOR(*m_editor.get_sector());
+
+  m_object->after_editor_set();
+  m_object->check_state();
+
   if (!MenuManager::instance().previous_menu())
   {
-    // FIXME: this is a bit fishy, menus shouldn't mess with editor internals
-    BIND_SECTOR(*m_editor.get_sector());
-
-    m_object->after_editor_set();
-    m_object->check_state();
-
     m_editor.m_reactivate_request = true;
     if (!dynamic_cast<MovingObject*>(m_object)) {
       m_editor.sort_layers();
