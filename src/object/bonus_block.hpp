@@ -39,8 +39,11 @@ public:
     LIGHT,
     LIGHT_ON,
     TRAMPOLINE,
+    PORTABLE_TRAMPOLINE,
     RAIN,
-    EXPLODE
+    EXPLODE,
+    ROCK,
+    POTION
   };
 
 public:

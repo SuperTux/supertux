@@ -17,8 +17,10 @@
 #ifndef HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
 #define HEADER_SUPERTUX_EDITOR_LAYERS_WIDGET_HPP
 
-#include <stdexcept>
 #include <memory>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #include "editor/widget.hpp"
 
