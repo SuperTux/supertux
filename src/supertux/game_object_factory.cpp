@@ -168,7 +168,7 @@ GameObjectFactory::init_factories()
   add_factory<Dispenser>("dispenser");
   add_factory<FishChasing>("fish-chasing");
   add_factory<FishHarmless>("fish-harmless");
-  add_factory<FishJumping>("fish"); // backward compatibility
+  add_factory_compat<FishJumping>("fish"); // backward compatibility
   add_factory<FishJumping>("fish-jumping");
   add_factory<FishSwimming>("fish-swimming");
   add_factory<Flame>("flame");
@@ -211,7 +211,7 @@ GameObjectFactory::init_factories()
   add_factory<Stumpy>("stumpy");
   add_factory<Toad>("toad");
   add_factory<Totem>("totem");
-  add_factory<ViciousIvy>("poisonivy"); // backward compatibility
+  add_factory_compat<ViciousIvy>("poisonivy"); // backward compatibility
   add_factory<ViciousIvy>("viciousivy");
   add_factory<WalkingCandle>("walking_candle");
   add_factory<WalkingLeaf>("walkingleaf");
@@ -223,7 +223,7 @@ GameObjectFactory::init_factories()
 
   // other objects
   add_factory<AmbientLight>("ambient-light", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
-  add_factory<AmbientSound>("ambient_sound", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE); // backward compatibilty
+  add_factory_compat<AmbientSound>("ambient_sound", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE); // backward compatibilty
   add_factory<AmbientSound>("ambient-sound", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Background>("background", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<PathGameObject>("path", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
@@ -235,12 +235,12 @@ GameObjectFactory::init_factories()
   add_factory<Candle>("candle");
   add_factory<CirclePlatform>("circleplatform", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<CloudParticleSystem>("particles-clouds", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
-  add_factory<Crusher>("icecrusher"); // backward compatibility
+  add_factory_compat<Crusher>("icecrusher"); // backward compatibility
   add_factory<Crusher>("crusher");
   add_factory<CustomParticleSystem>("particles-custom", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<CustomParticleSystemFile>("particles-custom-file", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Coin>("coin");
-  add_factory<Decal>("decal");
+  add_factory<Decal>("decal", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Explosion>("explosion");
   add_factory<FallBlock>("fallblock");
   add_factory<Firefly>("firefly");
@@ -251,7 +251,7 @@ GameObjectFactory::init_factories()
   add_factory<HurtingPlatform>("hurting_platform", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<InfoBlock>("infoblock");
   add_factory<InvisibleBlock>("invisible_block");
-  add_factory<InvisibleWall>("invisible_wall");
+  add_factory<InvisibleWall>("invisible_wall", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Ispy>("ispy");
   add_factory<Key>("key", RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
   add_factory<Lantern>("lantern", RegisteredObjectParam::OBJ_PARAM_PORTABLE);
