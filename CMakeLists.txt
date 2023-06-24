@@ -258,7 +258,7 @@ endif()
 
 ## Link supertux binary with squirrel and other libraries
 if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2)
 endif()
 
 target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
