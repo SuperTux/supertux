@@ -24,6 +24,13 @@ else()
     set(SQUIRREL_MULTIARCH_DIR "")
   endif()
 
+  # Cannot build Debug version when using gcc on arm64 because an incompatible flag is being passed in
+  if(CMAKE_COMPILER_IS_GNUCXX AND "${CMAKE_SYSTEM_PROCESSOR}" MATCHES "aarch64" AND "${CMAKE_BUILD_TYPE}" MATCHES "Debug")
+    set (BUILD_TYPE "RelWithDebInfo")
+  else()
+    set (BUILD_TYPE ${CMAKE_BUILD_TYPE})
+  endif()
+  
   set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
   ExternalProject_Add(squirrel_project
     SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
@@ -31,7 +38,7 @@ else()
     "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
     "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
     CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+    -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
     -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
     -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}

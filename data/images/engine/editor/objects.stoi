@@ -119,7 +119,7 @@
     (icon "images/creatures/mole/center.png"))
   (object
     (class "fish-jumping")
-    (icon "images/creatures/fish/forest/jump-1.png"))
+    (icon "images/creatures/fish/forest/jump_blue-3.png"))
   (object
     (class "fish-chasing")
     (icon "images/creatures/fish/ice/swim_green-0.png"))
@@ -396,7 +396,7 @@
     (icon "images/worldmap/common/leveldot_red.png"))
   (object
     (class "special-tile")
-    (icon "images/worldmap/common/messagedot.png"))
+    (icon "images/worldmap/common/specialtile.png"))
   (object
     (class "sprite-change")
     (icon "images/engine/editor/spritechange.png"))
