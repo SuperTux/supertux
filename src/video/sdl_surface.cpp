@@ -19,9 +19,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#define STB_IMAGE_IMPLEMENTATION
 #include <physfs.h>
-#define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STBI_WRITE_NO_STDIO
 #include <stb_image_write.h>
 

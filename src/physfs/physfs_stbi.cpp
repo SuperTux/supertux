@@ -22,7 +22,7 @@ static int
 callback_read(void* user, char* data, int size)
 {
   PHYSFS_File* file = reinterpret_cast<PHYSFS_File*>(user);
-  return PHYSFS_readBytes(file, data, size);
+  return static_cast<int>(PHYSFS_readBytes(file, data, size));
 }
 
 static void
