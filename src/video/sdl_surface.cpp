@@ -21,6 +21,9 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <physfs.h>
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define STBI_WRITE_NO_STDIO
+#include <stb_image_write.h>
 
 #include "physfs/physfs_sdl.hpp"
 #include "physfs/physfs_stbi.hpp"
@@ -147,7 +150,9 @@ SDLSurface::from_file(const std::string& filename)
   }
   else
   {
+    SDL_LockSurface(surf);
     surf->pixels = image_data;
+    SDL_UnlockSurface(surf);
     SDLSurfacePtr surface(surf);
     return surface;
   }
@@ -156,21 +161,17 @@ SDLSurface::from_file(const std::string& filename)
 int
 SDLSurface::save_png(const SDL_Surface& surface, const std::string& filename)
 {
-  // This does not lead to a double free when 'tmp == screen', as
-  // SDL_PNGFormatAlpha() will increase the refcount of surface.
-  SDLSurfacePtr tmp(SDL_PNGFormatAlpha(const_cast<SDL_Surface*>(&surface)));
-  SDL_RWops* ops;
-  try {
-    ops = get_writable_physfs_SDLRWops(filename);
-  } catch (std::exception& e) {
-    log_warning << "Could not get SDLRWops for " << filename << ": " <<
-      e.what() << std::endl;
+  PHYSFS_File* file = PHYSFS_openWrite(filename.c_str());
+  if(!file)
+  {
+    log_warning << "Could not get SDLRWops for " << filename << ": " << PHYSFS_getLastErrorCode() << std::endl;
     return false;
   }
-  int ret = SDL_SavePNG_RW(tmp.get(), ops, 1);
-  if (ret < 0)
+  const int ret = stbi_write_png_to_func(physfs_stbi_write_func, file, surface.w, surface.h, surface.format->BytesPerPixel, surface.pixels, surface.pitch);
+  PHYSFS_close(file);
+  if (!ret)
   {
-    log_warning << "Saving " << filename << " failed: " << SDL_GetError() << std::endl;
+    log_warning << "Saving " << filename << " failed";
     return false;
   }
   else

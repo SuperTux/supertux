@@ -25,6 +25,7 @@
 struct PHYSFS_File;
 
 std::unique_ptr<stbi_io_callbacks> get_physfs_stbi_io_callbacks(const std::string& filename, PHYSFS_File*& file);
+void physfs_stbi_write_func(void* context, void* data, int size);
 
 #endif
 

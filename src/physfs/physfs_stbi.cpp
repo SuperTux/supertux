@@ -54,4 +54,11 @@ get_physfs_stbi_io_callbacks(const std::string& filename, PHYSFS_File*& file)
   return result;
 }
 
+void
+physfs_stbi_write_func(void* context, void* data, int size)
+{
+  PHYSFS_File* file = reinterpret_cast<PHYSFS_File*>(context);
+  PHYSFS_writeBytes(file, data, size);
+}
+
 /* EOF */
