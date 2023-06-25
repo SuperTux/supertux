@@ -21,6 +21,7 @@
 
 #include "badguy/dispenser.hpp"
 #include "editor/object_menu.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_list.hpp"
 #include "gui/menu_manager.hpp"
@@ -105,7 +106,11 @@ ObjectSelectMenu::menu_action(MenuItem& item)
   {
     MenuManager::instance().push_menu(std::make_unique<ObjectMenu>(m_objects[item.get_id()].get(),
         [this](GameObject* obj) {
-          remove_object(obj);
+          Dialog::show_confirmation(_("Are you sure you want to remove this object from the list?"), [this, obj]() {
+            remove_object(obj);
+            MenuManager::instance().pop_menu();
+          });
+          return false;
         }));
   }
   else if (item.get_id() == -2)

@@ -35,7 +35,7 @@ public:
   };
 
 public:
-  ObjectMenu(GameObject* go, const std::function<void (GameObject*)>& remove_function = {});
+  ObjectMenu(GameObject* go, const std::function<bool (GameObject*)>& remove_function = {});
   ~ObjectMenu() override;
 
   virtual void menu_action(MenuItem& item) override;
@@ -44,7 +44,7 @@ public:
 private:
   Editor& m_editor;
   GameObject* m_object;
-  const std::function<void (GameObject*)> m_remove_function;
+  const std::function<bool (GameObject*)> m_remove_function;
 
 private:
   ObjectMenu(const ObjectMenu&) = delete;

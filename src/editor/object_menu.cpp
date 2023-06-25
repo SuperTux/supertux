@@ -24,7 +24,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/moving_object.hpp"
 
-ObjectMenu::ObjectMenu(GameObject* go, const std::function<void (GameObject*)>& remove_function) :
+ObjectMenu::ObjectMenu(GameObject* go, const std::function<bool (GameObject*)>& remove_function) :
   m_editor(*Editor::current()),
   m_object(go),
   m_remove_function(remove_function)
@@ -70,8 +70,8 @@ ObjectMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_REMOVEFUNCTION:
-      m_remove_function(m_object);
-      MenuManager::instance().pop_menu();
+      if (m_remove_function(m_object))
+        MenuManager::instance().pop_menu();
       break;
 
     case MNID_TEST_FROM_HERE: {
