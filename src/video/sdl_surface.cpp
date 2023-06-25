@@ -93,7 +93,7 @@ SDLSurface::from_file(const std::string& filename)
   unsigned char* image_data = stbi_load_from_callbacks(callbacks.get(), file, &image_width, &image_height, &image_depth, 0);
   PHYSFS_close(file);
 
-  Uint32 rmask, gmask, bmask, amask;
+  Uint32 rmask = 0, gmask = 0, bmask = 0, amask = 0;
   switch (image_depth)
   {
   case 3:
