@@ -21,7 +21,7 @@
 #include <vector>
 #include <math.h>
 
-#include <SDL_image.h>
+#include <SDL.h>
 
 class Color final
 {

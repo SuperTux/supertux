@@ -21,7 +21,6 @@
 #include <filesystem>
 #include <fstream>
 
-#include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <physfs.h>
 #include <tinygettext/log.hpp>

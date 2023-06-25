@@ -16,7 +16,6 @@
 
 #include "video/texture_manager.hpp"
 
-#include <SDL_image.h>
 #include <assert.h>
 #include <sstream>
 
