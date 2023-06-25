@@ -102,7 +102,7 @@ protected:
   template<class C>
   void add_factory_compat(const char* class_name, uint8_t obj_params = 0, const std::string& display_name = "")
   {
-    add_factory<C>(class_name, obj_params + RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE, display_name);
+    add_factory<C>(class_name, obj_params | RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE, display_name);
   }
 };
 
