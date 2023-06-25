@@ -20,7 +20,6 @@
 #include <stdexcept>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <savepng.h>
 #include <physfs.h>
 
 #include "physfs/physfs_sdl.hpp"

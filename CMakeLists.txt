@@ -171,7 +171,6 @@ include(SuperTux/ProvideTinygettext)
 include(SuperTux/ProvideSDL2_ttf)
 include(SuperTux/ProvideDiscord)
 include(SuperTux/ProvideSexpcpp)
-include(SuperTux/ProvideSavePNG)
 include(SuperTux/ProvidePartioZip)
 include(SuperTux/ProvideOpenGL)
 
