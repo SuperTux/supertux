@@ -85,7 +85,6 @@ jobs:
             libvorbis-dev \
             libopenal-dev \
             libsdl2-dev \
-            libsdl2-image-dev \
             libfreetype6-dev \
             libharfbuzz-dev \
             libfribidi-dev \
@@ -95,7 +94,6 @@ jobs:
             libglbinding-dev \
             libcurl4-openssl-dev \
             libglm-dev \
-            zlib1g-dev \
             lcov \
             doxygen
 
@@ -137,13 +135,11 @@ jobs:
             libvorbis-dev:i386 \
             libopenal-dev:i386 \
             libsdl2-dev:i386 \
-            libsdl2-image-dev:i386 \
             libfreetype6-dev:i386 \
             libcurl4-openssl-dev:i386 \
             libharfbuzz-dev:i386 \
             libfribidi-dev:i386 \
-            libglm-dev \
-            zlib1g-dev
+            libglm-dev
 
           # Nethier GLEW nor glbinding exist in 32-bit for Ubuntu 20.04, so snatch the debs from 16.04 instead
           wget archive.ubuntu.com/ubuntu/pool/main/g/glew/libglew1.13_1.13.0-2_i386.deb && sudo dpkg -i libglew1.13_1.13.0-2_i386.deb
