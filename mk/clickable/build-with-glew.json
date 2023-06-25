@@ -6,14 +6,12 @@
     "libvorbis-dev",
     "libopenal-dev",
     "libsdl2-dev",
-    "libsdl2-image-dev",
     "libfreetype6-dev",
     "libcurl4-openssl-dev",
     "libglew-dev",
     "libharfbuzz-dev",
     "libfribidi-dev",
     "libglm-dev",
-    "zlib1g-dev"
   ],
   "install_lib": [
     "/usr/lib/${ARCH_TRIPLET}/libogg.so*",
@@ -22,8 +20,6 @@
     "/usr/lib/${ARCH_TRIPLET}/libopenal.so*",
     "/usr/lib/${ARCH_TRIPLET}/libSDL2.so*",
     "/usr/lib/${ARCH_TRIPLET}/libSDL2-2.0.so*",
-    "/usr/lib/${ARCH_TRIPLET}/libSDL2_image.so*",
-    "/usr/lib/${ARCH_TRIPLET}/libSDL2_image-2.0.so*",
     "/usr/lib/${ARCH_TRIPLET}/libfreetype.so*",
     "/usr/lib/${ARCH_TRIPLET}/libcurl.so*",
     "/usr/lib/${ARCH_TRIPLET}/libGLEW.so*",
@@ -31,7 +27,6 @@
     "/usr/lib/${ARCH_TRIPLET}/libfribidi.so*",
     "/usr/lib/${ARCH_TRIPLET}/libasound.so*",
     "/usr/lib/${ARCH_TRIPLET}/libsndio.so*",
-    "/lib/${ARCH_TRIPLET}/libz.so*"
   ],
   "build_args": [
     "-DUBUNTU_TOUCH=ON",

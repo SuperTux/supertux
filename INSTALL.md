@@ -73,7 +73,6 @@ distributions.
   accelerated OpenGL drivers installed. Software renderers like Mesa
   will make SuperTux unplayable slow.
 * [SDL2](http://www.libsdl.org) (2.0.1 or later)
-* [SDL2_image](http://www.libsdl.org/projects/SDL_image) (2.0.0 or later)
 * [OpenAL](http://www.openal.org): (1.0 or later)
 * C++ OpenGL library (choose one of the two options below):
   - [GLEW](http://glew.sourceforge.net/) or
@@ -82,11 +81,10 @@ distributions.
 * [libogg and libvorbis](https://www.xiph.org/)
 * [FreeType](https://www.freetype.org/)
 * [GLM](https://github.com/g-truc/glm)
-* [ZLib](https://www.zlib.net/)
 * [libraqm](https://github.com/HOST-Oman/libraqm): optional, but needed
   to display Arabic
 
-**Note I:** for any of the above listed libraries (OpenGL, SDL2, SDL2_image,
+**Note I:** for any of the above listed libraries (OpenGL, SDL2,
 OpenAL, GLEW/glbinding, cURL, libogg and libvorbis), you should
 also have development headers installed. Debian-based distributions have `-devel`
 packages containing the mentioned headers, on Arch Linux these should be included
@@ -106,12 +104,12 @@ For ease of use, here are some installation lines for some Linux distributions:
 
 - Ubuntu 18.04/20.04:
   ```
-  sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
+  sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev
   ```
 
 - ArchLinux (using sudo, as of June 3rd 2023)
   ```
-  sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
+  sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 freetype2 libraqm curl openssl glew harfbuzz fribidi glm
   ```
 
 ### Linux/UNIX using CMake
@@ -248,7 +246,7 @@ Once all of these are installed; you may install dependencies with vcpkg. In any
 ```
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg integrate install
-./vcpkg install --triplet=x86-windows gtest curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
+./vcpkg install --triplet=x86-windows gtest curl freetype glew libogg libraqm libvorbis openal-soft sdl2 glm
 ```
 
 **Note:** If you wish to produce 64-bit builds, replace `--triplet=x86-windows` with `--triplet=x64-windows`.
@@ -317,7 +315,7 @@ git -C build.android checkout 532acc9192
 # commit 532acc9192!
 ```
 
-3. Clone the submodules that SuperTux needs: Iconv, SDL2, SDL2_image,
+3. Clone the submodules that SuperTux needs: Iconv, SDL2,
 SDL2_mixer and SDL2_ttf.
 
 ```
@@ -326,7 +324,6 @@ cd build.android
 
 git submodule update --init --recursive --depth=1 \
           project/jni/iconv/src                   \
-          project/jni/sdl2 project/jni/sdl2_image \
           project/jni/sdl2_mixer project/jni/sdl2_ttf
 ```
 
@@ -476,7 +473,7 @@ patch -p1 < mk/emscripten/SDL_ttf.patch
 `source .../emsdk_env.sh`!):
 ```
 vcpkg integrate install
-vcpkg install --target wasm32-emscripten glbinding libpng libogg libvorbis glm zlib
+vcpkg install --target wasm32-emscripten glbinding libogg libvorbis glm
 ```
 
 3. Run CMake using Emscripten's wrapper:
