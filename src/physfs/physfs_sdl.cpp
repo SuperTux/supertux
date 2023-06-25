@@ -133,32 +133,4 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
   return ops;
 }
 
-SDL_RWops* get_writable_physfs_SDLRWops(const std::string& filename)
-{
-  // check this as PHYSFS seems to be buggy and still returns a
-  // valid pointer in this case
-  if (filename.empty()) {
-    throw std::runtime_error("Couldn't open file: empty filename");
-  }
-
-  PHYSFS_file* file = static_cast<PHYSFS_file*>(PHYSFS_openWrite(filename.c_str()));
-  if (!file) {
-    std::stringstream msg;
-    msg << "Couldn't open '" << filename << "' for writing: "
-        << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode());
-    throw std::runtime_error(msg.str());
-  }
-
-  SDL_RWops* ops = new SDL_RWops;
-  ops->size = funcSize;
-  ops->seek = funcSeek;
-  ops->read = funcRead;
-  ops->write = funcWrite;
-  ops->close = funcClose;
-  ops->type = SDL_RWOPS_UNKNOWN;
-  ops->hidden.unknown.data1 = file;
-
-  return ops;
-}
-
 /* EOF */
