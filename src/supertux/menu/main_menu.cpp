@@ -54,7 +54,7 @@ MainMenu::MainMenu()
   //       Also see src/addon/downloader.*pp
   add_submenu(_("Add-ons"), MenuStorage::ADDON_MENU);
 #ifdef __EMSCRIPTEN__
-  add_entry(_("Manage Assets"), MenuStorage::ASSET_MENU);
+  add_submenu(_("Manage Assets"), MenuStorage::ASSET_MENU);
 #endif
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_LEVELEDITOR, _("Level Editor"));
