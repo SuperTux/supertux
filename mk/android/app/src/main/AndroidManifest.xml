@@ -50,6 +50,9 @@
     <!-- if you want to capture audio, uncomment this. -->
     <!-- <uses-permission android:name="android.permission.RECORD_AUDIO" /> -->
 
+    <!-- This is needed for libcurl to work -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <!-- Create a Java class extending SDLActivity and place it in a
          directory under app/src/main/java matching the package, e.g. app/src/main/java/com/gamemaker/game/MyGame.java
 
@@ -94,3 +97,4 @@
     </application>
 
 </manifest>
+
