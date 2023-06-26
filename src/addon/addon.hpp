@@ -30,7 +30,7 @@ public:
   static std::unique_ptr<Addon> parse(const ReaderMapping& mapping);
   static std::unique_ptr<Addon> parse(const std::string& fname);
 
-  enum Type { WORLD, WORLDMAP, LEVELSET, LANGUAGEPACK, ADDON };
+  enum Type { WORLD, WORLDMAP, LEVELSET, LANGUAGEPACK, RESOURCEPACK, ADDON };
 
   enum Format {
     ORIGINAL = 0,
@@ -52,6 +52,7 @@ private:
   std::string m_url;
   std::string m_md5;
   std::vector<std::string> m_screenshots;
+  std::vector<std::string> m_dependencies;
 
   // fields filled by the AddonManager
   std::string m_install_filename;
@@ -73,7 +74,8 @@ public:
   std::string get_description() const { return m_description; }
   std::string get_url() const { return m_url; }
   std::string get_md5() const { return m_md5; }
-  std::vector<std::string> get_screenshots() const { return m_screenshots; }
+  const std::vector<std::string>& get_screenshots() const { return m_screenshots; }
+  const std::vector<std::string>& get_dependencies() const { return m_dependencies; }
 
   std::string get_filename() const;
   std::string get_install_filename() const;
@@ -81,6 +83,10 @@ public:
   bool is_installed() const;
   bool is_enabled() const;
   bool is_visible() const;
+
+  bool is_levelset() const;
+  bool overrides_data() const;
+  bool requires_restart() const;
 
   void set_install_filename(const std::string& absolute_filename, const std::string& md5);
   void set_enabled(bool v);
@@ -94,6 +100,7 @@ namespace addon_string_util {
   Addon::Type addon_type_from_string(const std::string& type);
   std::string addon_type_to_translated_string(Addon::Type type);
   std::string generate_menu_item_text(const Addon& addon);
+  std::string get_addon_plural_form(size_t count);
 }
 
 #endif
