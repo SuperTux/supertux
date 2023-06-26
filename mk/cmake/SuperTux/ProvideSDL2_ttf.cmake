@@ -3,15 +3,26 @@ if(USE_SYSTEM_SDL2_TTF)
   find_package(SDL2_ttf QUIET)
 endif()
 
-if(TARGET SDL2_ttf)
+if (EMSCRIPTEN)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sUSE_SDL_TTF=2")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -sUSE_SDL_TTF=2")
+  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -sUSE_SDL_TTF=2")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sUSE_SDL_TTF=2")
+elseif(TARGET SDL2_ttf)
   message(STATUS "Found preinstalled SDL2_ttf")
 
   add_library(LibSDL2_ttf ALIAS SDL2_ttf)
 else()
   message(STATUS "Could NOT find SDL2_ttf, using external/SDL_ttf fallback")
 
-  ## external/SDL_ttf with patches
-  if(NOT EMSCRIPTEN)
+  # Won't be used in practice - preserved for knowledge
+  if(EMSCRIPTEN)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sUSE_FREETYPE=1")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -sUSE_FREETYPE=1")
+    set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -sUSE_FREETYPE=1")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sUSE_FREETYPE=1")
+  else()
+    ## external/SDL_ttf with patches
     if(VCPKG_BUILD)
       find_package(freetype CONFIG REQUIRED)
     else()

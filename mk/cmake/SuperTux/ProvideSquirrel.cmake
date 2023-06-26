@@ -21,7 +21,7 @@ else()
     message(FATAL_ERROR "squirrel submodule is not checked out or ${PROJECT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
   endif()
 
-  if(CMAKE_CROSSCOMPILING)
+  if(CMAKE_CROSSCOMPILING AND NOT EMSCRIPTEN)
     set(SQUIRREL_MULTIARCH_DIR "${CMAKE_LIBRARY_ARCHITECTURE}/")
   else()
     set(SQUIRREL_MULTIARCH_DIR "")

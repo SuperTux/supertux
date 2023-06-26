@@ -1,4 +1,9 @@
-find_package(ZLIB REQUIRED)
+if(EMSCRIPTEN)
+  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -sUSE_ZLIB=1")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sUSE_ZLIB=1")
+else()
+  find_package(ZLIB REQUIRED)
+endif()
 
 add_library(LibPartioZip ${PROJECT_SOURCE_DIR}/external/partio_zip/zip_manager.cpp)
 target_link_libraries(LibPartioZip PUBLIC ${ZLIB_LIBRARIES})

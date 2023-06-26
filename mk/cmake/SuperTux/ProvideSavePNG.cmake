@@ -1,5 +1,8 @@
 if(ANDROID)
   find_library(PNG png)
+elseif(EMSCRIPTEN)
+  set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -sUSE_LIBPNG=1")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sUSE_LIBPNG=1")
 else()
   find_package(PNG REQUIRED)
 endif()
