@@ -192,30 +192,27 @@ Dispenser::launch_object()
     }
 
     auto object = m_objects[m_next_object].get();
-    if (dynamic_cast<BadGuy*>(object) && m_limit_dispensed_badguys &&
+    auto obj_badguy = dynamic_cast<BadGuy*>(object);
+    if (obj_badguy && m_limit_dispensed_badguys &&
         m_current_badguys >= m_max_concurrent_badguys)
     {
+      // The object is a badguy and max concurrent badguys limit has been reached.
+      // Do not dispense.
       return;
     }
 
     try
     {
-      //Need to allocate the badguy first to figure out its bounding box.
       auto game_object = GameObjectFactory::instance().create(object->get_class_name(), get_pos(), launch_dir, object->save());
       if (!game_object)
       {
         throw std::runtime_error("Creating " + object->get_class_name() + " object failed.");
       }
       auto moving_object = dynamic_cast<MovingObject*>(game_object.get());
-      if (!moving_object)
-      {
-        log_warning << "Creating " << object->get_class_name() << " object failed: Object is not MovingObject." << std::endl;
-        return;
-      }
 
       Rectf object_bbox = moving_object->get_bbox();
-
       Vector spawnpoint(0.0f, 0.0f);
+
       switch (m_type)
       {
         case DispenserType::DROPPER:
@@ -256,9 +253,10 @@ Dispenser::launch_object()
       /* Set reference to dispenser in the object itself */
       moving_object->set_parent_dispenser(this);
 
-      auto badguy = dynamic_cast<BadGuy*>(moving_object);
-      if (badguy)
+      if (obj_badguy) // The object is a badguy
       {
+        auto badguy = dynamic_cast<BadGuy*>(moving_object);
+
         /* We don't want to count dispensed badguys in level stats */
         badguy->m_countMe = false;
 
