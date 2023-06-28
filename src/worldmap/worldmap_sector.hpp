@@ -136,6 +136,7 @@ private:
   std::string m_passive_message;
 
   std::vector<std::unique_ptr<SpawnPoint> > m_spawnpoints;
+  std::string m_force_spawnpoint;
 
   bool m_main_is_default;
   std::string m_initial_fade_tilemap;

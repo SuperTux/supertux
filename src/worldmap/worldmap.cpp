@@ -44,7 +44,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_sector(),
   m_worldmap_sectors(),
   m_savegame(savegame),
-  m_force_spawnpoint(force_spawnpoint),
   m_map_filename(filename),
   m_levels_path(),
   m_next_worldmap(),

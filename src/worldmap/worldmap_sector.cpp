@@ -64,6 +64,7 @@ WorldMapSector::WorldMapSector(WorldMap& parent) :
   m_passive_message_timer(),
   m_passive_message(),
   m_spawnpoints(),
+  m_force_spawnpoint(),
   m_main_is_default(true),
   m_initial_fade_tilemap(),
   m_fade_direction()
@@ -138,10 +139,10 @@ WorldMapSector::finish_setup()
   BIND_WORLDMAP_SECTOR(*this);
 
   /** Force spawnpoint, if the property is set. **/
-  if (!m_parent.m_force_spawnpoint.empty())
+  if (!m_force_spawnpoint.empty())
   {
-    move_to_spawnpoint(m_parent.m_force_spawnpoint, false);
-    m_parent.m_force_spawnpoint.clear();
+    move_to_spawnpoint(m_force_spawnpoint, false);
+    m_force_spawnpoint.clear();
     m_main_is_default = true;
   }
 
@@ -578,7 +579,7 @@ WorldMapSector::set_initial_fade_tilemap(const std::string& tilemap_name, int di
 void
 WorldMapSector::set_initial_spawnpoint(const std::string& spawnpoint_name)
 {
-  m_parent.m_force_spawnpoint = spawnpoint_name;
+  m_force_spawnpoint = spawnpoint_name;
 
   // If spawnpoint we specified can not be found,
   // don't bother moving to the main spawnpoint.

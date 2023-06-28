@@ -94,8 +94,6 @@ private:
 
   Savegame& m_savegame;
 
-  std::string m_force_spawnpoint;
-
   std::string m_map_filename;
   std::string m_levels_path;
 
