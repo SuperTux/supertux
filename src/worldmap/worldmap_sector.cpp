@@ -160,8 +160,6 @@ WorldMapSector::finish_setup()
 
   if (!m_init_script.empty())
     m_squirrel_environment->run_script(m_init_script, "WorldMapSector::init");
-
-  m_tux->process_special_tile(at_object<SpecialTile>());
 }
 
 void
