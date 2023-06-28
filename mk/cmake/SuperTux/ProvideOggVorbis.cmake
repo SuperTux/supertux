@@ -1,12 +1,14 @@
-if(ANDROID)
-  find_library(OggVorbis vorbis)
-elseif(EMSCRIPTEN)
+if(EMSCRIPTEN)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -sUSE_VORBIS=1")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -sUSE_VORBIS=1")
   set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -sUSE_VORBIS=1")
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sUSE_VORBIS=1")
 else()
-  find_package(OggVorbis REQUIRED)
+  if(ANDROID)
+    find_library(OggVorbis vorbis)
+  else()
+    find_package(OggVorbis REQUIRED)
+  endif()
 
   add_library(LibOggVorbis INTERFACE IMPORTED)
   set_target_properties(LibOggVorbis PROPERTIES
@@ -22,5 +24,4 @@ else()
     VORBIS_LIBRARY
     )
 endif()
-
 # EOF #
