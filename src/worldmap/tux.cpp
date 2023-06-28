@@ -383,12 +383,17 @@ Tux::process_special_tile(SpecialTile* special_tile)
     return;
   }
 
-  if (special_tile->is_passive_message()) {
+  if (special_tile->is_passive_message())
     m_worldmap->get_sector().set_passive_message(special_tile->get_map_message(), map_message_TIME);
-  } else if (!special_tile->get_script().empty()) {
-    try {
+
+  if (!special_tile->get_script().empty())
+  {
+    try
+    {
       m_worldmap->get_sector().run_script(special_tile->get_script(), "specialtile");
-    } catch(std::exception& e) {
+    }
+    catch(std::exception& e)
+    {
       log_warning << "Couldn't execute special tile script: " << e.what()
                   << std::endl;
     }
