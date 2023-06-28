@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <iconv.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -439,6 +440,42 @@ FL_FindLocale(FL_Locale **locale) {
       }
     }
   }
+#elif defined(__ANDROID__)
+  // normal method will always give default guess
+  // use JNI instead
+  JNIEnv* env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+  jclass cls = (*env)->FindClass(env, "org/lethargik/supertux2/MainActivity");
+  if (cls != NULL) {
+    jmethodID getlang = (*env)->GetStaticMethodID(env, cls, "getLang", "()[C");
+    jmethodID getcountry = (*env)->GetStaticMethodID(env, cls, "getCountry", "()[C");
+
+    jcharArray langchararr = (*env)->CallStaticObjectMethod(env, cls, getlang);
+    jcharArray countrychararr = (*env)->CallStaticObjectMethod(env, cls, getcountry);
+
+    int langc = (*env)->GetArrayLength(env, langchararr);
+    int countryc = (*env)->GetArrayLength(env, countrychararr);
+
+    jchar* jnilang = (*env)->GetCharArrayElements(env, langchararr, 0);
+    jchar* jnicountry = (*env)->GetCharArrayElements(env, countrychararr, 0);
+
+    char* lang = SDL_iconv_string("UTF-8", "UTF-16", (const char *) jnilang, langc*2);
+    char* country = SDL_iconv_string("UTF-8", "UTF-16", (const char *) jnicountry, countryc*2);
+
+    char* variant = malloc(sizeof("UTF-8")+1);
+    strcpy(variant, "UTF-8");
+
+    rtn->lang = lang;
+    rtn->country = country;
+    rtn->variant = variant;
+
+    (*env)->ReleaseCharArrayElements(env, langchararr, jnilang, 0);
+    (*env)->ReleaseCharArrayElements(env, countrychararr, jnicountry, 0);
+
+    success = FL_CONFIDENT;
+  } else {
+    success = FL_FAILED;
+  }
+
 #else
   /* assume unixoid */
   {
