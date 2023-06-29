@@ -82,57 +82,57 @@ ItemTextField::event(const SDL_Event& ev)
   {
     switch (ev.key.keysym.sym)
     {
-    #ifdef ANDROID
-    case SDLK_BACKSPACE: // Possible temp fix for deleting in android
-      delete_front();
-      break;
+#ifdef ANDROID
+      case SDLK_BACKSPACE: // Possible temp fix for deleting in android
+        delete_front();
+        break;
 
-    case SDLK_RETURN: // Press enter to quit screen keyboard
-      deactivate();
-      break;
-    #endif
+      case SDLK_RETURN: // Press enter to quit screen keyboard
+        deactivate();
+        break;
+#endif
 
-    case SDLK_DELETE: // Delete back
-      delete_back();
-      break;
+      case SDLK_DELETE: // Delete back
+        delete_back();
+        break;
 
-    case SDLK_HOME: // Home: go to beginning of text
-      go_to_beginning();
-      break;
+      case SDLK_HOME: // Home: go to beginning of text
+        go_to_beginning();
+        break;
 
-    case SDLK_END: // End: go to end of text
-      go_to_end();
-      break;
+      case SDLK_END: // End: go to end of text
+        go_to_end();
+        break;
 
-    default:
-      break;
+      default:
+        break;
     }
     if (SDL_GetModState() & KMOD_CTRL) //Commands which require CTRL
     {
       switch (ev.key.keysym.sym)
       {
-      case SDLK_x: // Cut (whole line)
-        cut();
-        break;
+        case SDLK_x: // Cut (whole line)
+          cut();
+          break;
 
-      case SDLK_c: // Copy (whole line)
-        copy();
-        break;
+        case SDLK_c: // Copy (whole line)
+          copy();
+          break;
 
-      case SDLK_v: // Paste
-        paste();
-        break;
+        case SDLK_v: // Paste
+          paste();
+          break;
 
-      case SDLK_z: // Undo
-        undo();
-        break;
+        case SDLK_z: // Undo
+          undo();
+          break;
 
-      case SDLK_y: // Redo
-        redo();
-        break;
+        case SDLK_y: // Redo
+          redo();
+          break;
 
-      default:
-        break;
+        default:
+          break;
       }
     }
   }
