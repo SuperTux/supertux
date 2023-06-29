@@ -133,14 +133,18 @@ Sector::finish_construction(bool editable)
   if (!editable) {
     convert_tiles2gameobject();
 
-    bool has_background = std::any_of(get_objects().begin(), get_objects().end(),
-                                      [](const auto& obj) {
-                                        return (dynamic_cast<Background*>(obj.get()) ||
-                                                dynamic_cast<Gradient*>(obj.get()));
-                                      });
-    if (!has_background && !m_level.is_worldmap()) {
-      auto& gradient = add<Gradient>();
-      gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
+    if (!m_level.is_worldmap())
+    {
+      bool has_background = std::any_of(get_objects().begin(), get_objects().end(),
+                                        [](const auto& obj) {
+                                          return (dynamic_cast<Background*>(obj.get()) ||
+                                                  dynamic_cast<Gradient*>(obj.get()));
+                                        });
+      if (!has_background)
+      {
+        auto& gradient = add<Gradient>();
+        gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
+      }
     }
   }
 
