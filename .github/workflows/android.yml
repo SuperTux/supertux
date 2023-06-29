@@ -99,7 +99,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: "Unsigned APK"
-          path: "build.android/app/build/outputs/apk/debug/app-debug-unsigned.apk"
+          path: "build.android/app/build/outputs/apk/debug/app-debug.apk"
 
       # - name: Sign APK
       #   working-directory: build.android/app/build/outputs/apk/release
