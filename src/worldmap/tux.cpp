@@ -285,7 +285,7 @@ Tux::try_continue_walking(float dt_sec)
       m_ghost_mode)
   {
     if (special_tile && !special_tile->get_map_message().empty() && !special_tile->is_passive_message()) {
-      worldmap_sector->set_passive_message({}, 0.0f);
+      m_worldmap->set_passive_message({}, 0.0f);
     }
     stop();
     return;
@@ -384,7 +384,7 @@ Tux::process_special_tile(SpecialTile* special_tile)
   }
 
   if (special_tile->is_passive_message())
-    m_worldmap->get_sector().set_passive_message(special_tile->get_map_message(), map_message_TIME);
+    m_worldmap->set_passive_message(special_tile->get_map_message(), map_message_TIME);
 
   if (!special_tile->get_script().empty())
   {

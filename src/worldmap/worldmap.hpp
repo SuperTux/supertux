@@ -73,6 +73,9 @@ public:
   /** Mark all levels as solved or unsolved */
   void set_levels_solved(bool solved, bool perfect);
 
+  /** Sets the passive message with specific time **/
+  void set_passive_message(const std::string& message, float time);
+
   const std::string& get_title() const { return m_name; }
   Savegame& get_savegame() const { return m_savegame; }
   const std::string& get_levels_path() const { return m_levels_path; }
@@ -98,6 +101,10 @@ private:
   std::string m_levels_path;
 
   std::unique_ptr<WorldMap> m_next_worldmap; /* A worldmap, scheduled to change to next frame. */
+
+  /** Passive map message variables */
+  std::string m_passive_message;
+  Timer m_passive_message_timer;
 
   bool m_enter_level;
   bool m_in_level;

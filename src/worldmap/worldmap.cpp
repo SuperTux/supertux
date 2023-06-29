@@ -47,6 +47,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_map_filename(filename),
   m_levels_path(),
   m_next_worldmap(),
+  m_passive_message(),
+  m_passive_message_timer(),
   m_enter_level(false),
   m_in_level(false),
   m_in_world_select(false)
@@ -223,6 +225,13 @@ WorldMap::set_levels_solved(bool solved, bool perfect)
   }
 }
 
+void
+WorldMap::set_passive_message(const std::string& message, float time)
+{
+  m_passive_message = message;
+  m_passive_message_timer.start(time);
+}
+
 
 WorldMapSector*
 WorldMap::get_sector(const std::string& name) const
@@ -275,11 +284,9 @@ WorldMap::set_sector(const std::string& name, const std::string& spawnpoint,
   m_sector->setup();
   m_sector->finish_setup();
 
+  // If a spawnpoint has been provided, move to it.
   if (!spawnpoint.empty())
-  {
-    // If a spawnpoint has been provided, move to it.
     m_sector->move_to_spawnpoint(spawnpoint);
-  }
 }
 
 } // namespace worldmap

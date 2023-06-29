@@ -111,9 +111,6 @@ public:
   /** Sets the initial spawnpoint on worldmap setup */
   void set_initial_spawnpoint(const std::string& spawnpoint_name);
 
-  /** Sets the passive message with specific time **/
-  void set_passive_message(const std::string& message, float time);
-
   WorldMap& get_worldmap() const { return m_parent; }
   Camera& get_camera() const { return *m_camera; }
   Tux& get_tux() const { return *m_tux; }
@@ -130,10 +127,6 @@ private:
 
   std::unique_ptr<Camera> m_camera;
   Tux* m_tux;
-
-  /** Variables to deal with the passive map messages */
-  Timer m_passive_message_timer;
-  std::string m_passive_message;
 
   std::vector<std::unique_ptr<SpawnPoint> > m_spawnpoints;
   std::string m_force_spawnpoint;

@@ -61,8 +61,6 @@ WorldMapSector::WorldMapSector(WorldMap& parent) :
   m_parent(parent),
   m_camera(new Camera),
   m_tux(&add<Tux>(&parent)),
-  m_passive_message_timer(),
-  m_passive_message(),
   m_spawnpoints(),
   m_force_spawnpoint(),
   m_main_is_default(true),
@@ -270,9 +268,9 @@ WorldMapSector::draw_status(DrawingContext& context)
     }
   }
 
-  /* Display a passive message in the map, if needed */
-  if (m_passive_message_timer.started())
-    context.color().draw_text(Resources::normal_font, m_passive_message,
+  /* Display a passive message on the map, if set */
+  if (m_parent.m_passive_message_timer.started())
+    context.color().draw_text(Resources::normal_font, m_parent.m_passive_message,
                               Vector(static_cast<float>(context.get_width()) / 2.0f,
                                      static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 60.0f),
                               ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::s_message_color);
@@ -582,13 +580,6 @@ WorldMapSector::set_initial_spawnpoint(const std::string& spawnpoint_name)
   // If spawnpoint we specified can not be found,
   // don't bother moving to the main spawnpoint.
   m_main_is_default = false;
-}
-
-void
-WorldMapSector::set_passive_message(const std::string& message, float time)
-{
-  m_passive_message = message;
-  m_passive_message_timer.start(time);
 }
 
 
