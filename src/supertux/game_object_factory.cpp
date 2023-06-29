@@ -230,7 +230,7 @@ GameObjectFactory::init_factories()
   add_factory<AmbientLight>("ambient-light");
   add_factory<AmbientSound>("ambient_sound"); // backward compatibilty
   add_factory<AmbientSound>("ambient-sound");
-  add_factory<Background>("background");
+  add_factory<Background>("background", RegisteredObjectParam::OBJ_PARAM_WORLDMAP);
   add_factory<PathGameObject>("path");
   add_factory<BicyclePlatform>("bicycle-platform");
   add_factory<BonusBlock>("bonusblock");
