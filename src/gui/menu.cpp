@@ -126,6 +126,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
 void
 Menu::delete_item(int pos_)
 {
+  m_menu_height -= static_cast<float>(m_items[pos_]->get_height()) + m_items[pos_]->get_distance() * 2;
   m_items.erase(m_items.begin()+pos_);
 
   // When the item is deleted before the selected item, the
