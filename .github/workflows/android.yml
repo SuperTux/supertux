@@ -93,32 +93,32 @@ jobs:
 
       - name: Build APK
         working-directory: build.android
-        run: ./gradlew assembleDebug --info
+        run: ./gradlew assembleRelease --info
 
       - name: Upload unsigned APK
         uses: actions/upload-artifact@v3
         with:
           name: "Unsigned APK"
-          path: "build.android/app/build/outputs/apk/debug/app-debug.apk"
+          path: "build.android/app/build/outputs/apk/release/app-release-unsigned.apk"
 
-      # - name: Sign APK
-      #   working-directory: build.android/app/build/outputs/apk/release
-      #   run: |
-      #     # removing possible confusion
-      #     cp ./app-release-unsigned.apk ./app-release.apk
+      - name: Sign APK
+        working-directory: build.android/app/build/outputs/apk/release
+        run: |
+          # removing possible confusion
+          cp ./app-release-unsigned.apk ./app-release.apk
 
-      #     keytool -genkey -v \
-      #     -keystore supertux.keystore -alias supertux \
-      #     -storepass supertux \
-      #     -dname "cn=MatusGuy, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
-      #     -keyalg RSA -keysize 2048 -validity 10000
+          keytool -genkey -v \
+          -keystore supertux.keystore -alias supertux \
+          -storepass supertux \
+          -dname "cn=MatusGuy, ou=Contributor, O=SuperTux Team, L=Antarctica, ST=Antarctica, C=aq" \
+          -keyalg RSA -keysize 2048 -validity 10000
 
-      #     $ANDROID_SDK_ROOT/build-tools/33.0.2/apksigner sign \
-      #     --ks supertux.keystore --ks-pass pass:supertux \
-      #     ./app-release.apk
+          $ANDROID_SDK_ROOT/build-tools/33.0.2/apksigner sign \
+          --ks supertux.keystore --ks-pass pass:supertux \
+          ./app-release.apk
 
-      # - name: Upload signed APK
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: "Signed APK"
-      #     path: "build.android/app/build/outputs/apk/release/app-release.apk"
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: "Signed APK"
+          path: "build.android/app/build/outputs/apk/release/app-release.apk"
