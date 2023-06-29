@@ -31,7 +31,7 @@ install_lib:
   - "/usr/lib/${ARCH_TRIPLET}/libfribidi.so*"
   - "/usr/lib/${ARCH_TRIPLET}/libasound.so*"
   - "/usr/lib/${ARCH_TRIPLET}/libsndio.so*"
-  - "/lib/${ARCH_TRIPLET}/libz.so*"
+  - "/lib/${ARCH_TRIPLET}/libz.so.1.2.11"
 build_args:
   - "-DUBUNTU_TOUCH=ON"
   - "-DGLBINDING_ENABLED=ON"
