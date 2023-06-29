@@ -80,39 +80,59 @@ ItemTextField::event(const SDL_Event& ev)
   }
   else if (ev.type == SDL_KEYDOWN)
   {
-    if (ev.key.keysym.sym == SDLK_DELETE) // Delete back
+    switch (ev.key.keysym.sym)
     {
+    #ifdef ANDROID
+    case SDLK_BACKSPACE: // Possible temp fix for deleting in android
+      delete_front();
+      break;
+
+    case SDLK_RETURN: // Press enter to quit screen keyboard
+      deactivate();
+      break;
+    #endif
+
+    case SDLK_DELETE: // Delete back
       delete_back();
-    }
-    else if (ev.key.keysym.sym == SDLK_HOME) // Home: go to beginning of text
-    {
+      break;
+
+    case SDLK_HOME: // Home: go to beginning of text
       go_to_beginning();
-    }
-    else if (ev.key.keysym.sym == SDLK_END) // End: go to end of text
-    {
+      break;
+
+    case SDLK_END: // End: go to end of text
       go_to_end();
+      break;
+
+    default:
+      break;
     }
-    else if (SDL_GetModState() & KMOD_CTRL) //Commands which require CTRL
+    if (SDL_GetModState() & KMOD_CTRL) //Commands which require CTRL
     {
-      if (ev.key.keysym.sym == SDLK_x) // Cut (whole line)
+      switch (ev.key.keysym.sym)
       {
+      case SDLK_x: // Cut (whole line)
         cut();
-      }
-      else if (ev.key.keysym.sym == SDLK_c) // Copy (whole line)
-      {
+        break;
+
+      case SDLK_c: // Copy (whole line)
         copy();
-      }
-      else if (ev.key.keysym.sym == SDLK_v) // Paste
-      {
+        break;
+
+      case SDLK_v: // Paste
         paste();
-      }
-      else if (ev.key.keysym.sym == SDLK_z) // Undo
-      {
+        break;
+
+      case SDLK_z: // Undo
         undo();
-      }
-      else if (ev.key.keysym.sym == SDLK_y) // Redo
-      {
+        break;
+
+      case SDLK_y: // Redo
         redo();
+        break;
+
+      default:
+        break;
       }
     }
   }
@@ -299,6 +319,18 @@ ItemTextField::redo()
   m_input_redo.clear();
 
   on_input_update();
+}
+
+void
+ItemTextField::activate()
+{
+  if (SDL_HasScreenKeyboardSupport()) SDL_StartTextInput();
+}
+
+void
+ItemTextField::deactivate()
+{
+  if (SDL_HasScreenKeyboardSupport()) SDL_StopTextInput();
 }
 
 /* EOF */

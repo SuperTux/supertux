@@ -78,6 +78,12 @@ public:
       when active. */
   virtual bool select_blink() const { return true; }
 
+  /** Handle when the item is highlighted */
+  virtual void activate() {};
+
+  /** Handle when the item stopped being highlighted */
+  virtual void deactivate() {};
+
 private:
   int m_id;
   std::string m_text;
