@@ -1,0 +1,31 @@
+(supertux-sprite
+  (action
+    (name "normal")
+    (images 
+      "normal.png"
+    )
+  )
+  (action
+    (name "shake")
+    (fps 20)
+    (images 
+      "crumbling-0.png"
+      "crumbling-1.png"
+      "crumbling-0.png"
+      "crumbling-1.png"
+      "crumbling-0.png"
+      "crumbling-1.png"
+      "crumbling-0.png"
+      "crumbling-1.png"
+      "crumbling-0.png"
+      "crumbling-1.png"
+    )
+  )
+  (action
+    (name "fall-down")
+    (fps 1)
+    (images 
+      "normal.png"
+    )
+  )
+)

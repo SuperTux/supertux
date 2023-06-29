@@ -50,7 +50,7 @@ language.settings.xml
 dependencies*/
 
 # Additional Repos/Translations
-supertux.*
+#supertux.*
 .tx/
 #translations
 

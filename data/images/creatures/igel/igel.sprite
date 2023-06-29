@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "left")
+    (name "walking-left")
     (hitbox 9 10 48 32)
 	(fps 15)
     (images "walk-0.png"
@@ -14,7 +14,7 @@
     )
   )
   (action
-    (name "right")
+    (name "walking-right")
     (hitbox 11 10 48 32)
 	(fps 15)
     (mirror-action "left")

@@ -76,5 +76,7 @@ Color ColorScheme::Editor::grab_color(1.f, 1.f, 1.f, 0.7f);
 Color EditorOverlayWidget::text_autotile_available_color(1.f,1.f,0.6f);
 Color EditorOverlayWidget::text_autotile_active_color(1.f,1.f,1.f);
 Color EditorOverlayWidget::text_autotile_error_color(1.f,0.2f,0.1f);
+Color EditorOverlayWidget::warning_color(1.f, 0.5f, 0.f);
+Color EditorOverlayWidget::error_color(1.f, 0.2f, 0.f);
 
 /* EOF */

@@ -1,23 +1,17 @@
 (supertux-sprite
-  (action
-    (name "normal")
-    (hitbox 21 5 28 43)
-    (images "skydive1.png"))
-
-  (action
-    (name "falling")
-    (fps 15.0)
-    (hitbox 21 5 28 43)
-    (images "skydive1.png"
-            "skydive1.png"
-            "skydive1.png"
-            "skydive2.png"
-            "skydive3.png"
-            "skydive4.png"
-            "skydive5.png"))
-
-  (action
-    (name "iced")
-    (hitbox 2 -3 28 43)
-    (images "skydive1.png"))
+ (action
+  (name "normal")
+  (hitbox 21 5 28 43)
+  (images "skydive1.png"))
+ (action
+  (name "falling")
+  (fps 15.0)
+  (hitbox 21 5 28 43)
+  (images "skydive1.png"
+          "skydive1.png"
+		  "skydive1.png"
+          "skydive2.png"
+		  "skydive3.png"
+		  "skydive4.png"
+		  "skydive5.png"))
 )

@@ -25,12 +25,12 @@
 	  (clone-action "squished-left"))
 	(action
 	  (name "iced-left")
-	  (hitbox 0 -1 37 43)
+	  (hitbox 14 14 37 43)
 	  (images "spidermite1.png"))
 	(action
 	  (name "iced-right")
-	  (hitbox 5 -1 37 43)
-	  (mirror-action "iced-left"))
+	  (hitbox 14 14 37 43)
+	  (clone-action "iced-left"))
 	(action
 	  (name "burning-left")
 	  (hitbox 14 14 37 43)

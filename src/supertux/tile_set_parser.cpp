@@ -166,6 +166,8 @@ TileSetParser::parse(int32_t start, int32_t end, int32_t offset, bool imported)
       log_warning << "Unknown symbol '" << iter.get_key() << "' in tileset file" << std::endl;
     }
   }
+  /* Check for and remove any deprecated tiles from tilegroups */
+  m_tileset.remove_deprecated_tiles();
   /* only create the unassigned tilegroup from the parent strf */
   if (g_config->developer_mode && !imported)
   {
@@ -254,7 +256,7 @@ TileSetParser::parse_tile(const ReaderMapping& reader, int32_t min, int32_t max,
 
   auto tile = std::make_unique<Tile>(surfaces, editor_surfaces,
                                      attributes, data, fps,
-                                     object_name, object_data, deprecated);
+                                     deprecated, object_name, object_data);
   m_tileset.add_tile(id, std::move(tile));
 }
 
@@ -290,6 +292,9 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max
 
   float fps = 10;
   reader.get("fps",     fps);
+
+  bool deprecated = false;
+  reader.get("deprecated", deprecated);
 
   if (ids.empty() || !has_ids)
   {
@@ -372,7 +377,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max
                                            editor_regions,
                                            (has_attributes ? attributes[i] : 0),
                                            (has_datas ? datas[i] : 0),
-                                           fps);
+                                           fps, deprecated);
 
         m_tileset.add_tile(ids[i], std::move(tile));
       }
@@ -404,7 +409,7 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max
                                            editor_surfaces,
                                            (has_attributes ? attributes[i] : 0),
                                            (has_datas ? datas[i] : 0),
-                                           fps);
+                                           fps, deprecated);
 
         m_tileset.add_tile(ids[i], std::move(tile));
       }

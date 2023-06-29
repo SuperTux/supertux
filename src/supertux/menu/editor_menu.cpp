@@ -16,17 +16,24 @@
 
 #include "supertux/menu/editor_menu.hpp"
 
+#include <unordered_map>
+
 #include <physfs.h>
 
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
+#include "gui/item_action.hpp"
+#include "gui/item_toggle.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "object/tilemap.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/editor_save_as.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 #include "video/compositor.hpp"
 
@@ -37,6 +44,14 @@
 
 EditorMenu::EditorMenu()
 {
+  rebuild_menu();
+}
+
+void
+EditorMenu::rebuild_menu()
+{
+  clear();
+
   bool worldmap = Editor::current()->get_level()->is_worldmap();
   bool is_world = Editor::current()->get_world() != nullptr;
   std::vector<std::string> snap_grid_sizes;
@@ -70,6 +85,11 @@ EditorMenu::EditorMenu()
 
   add_hl();
 
+  add_entry(MNID_CONVERT, _("Convert Level"))
+    .set_help(_("Levels, edited in previous Nightly Builds, are likely to have had their tiles corrupted.\nUse this feature to convert all tiles in the current level back to their proper state."));
+
+  add_hl();
+
   add_string_select(-1, _("Grid Size"), &(g_config->editor_selected_snap_grid_size), snap_grid_sizes);
   add_toggle(-1, _("Show Grid"), &(g_config->editor_render_grid));
   add_toggle(-1, _("Grid Snapping"), &(g_config->editor_snap_to_grid));
@@ -83,6 +103,18 @@ EditorMenu::EditorMenu()
     add_intfield(_("Undo Stack Size"), &(g_config->editor_undo_stack_size), -1, true);
   }
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
+
+  if (Editor::current()->has_deprecated_tiles())
+  {
+    add_hl();
+
+    add_entry(MNID_CHECKDEPRECATEDTILES, _("Check for Deprecated Tiles"))
+      .set_help(_("Check if any deprecated tiles are currently present in the level."));
+    add_toggle(-1, _("Show Deprecated Tiles"), &(g_config->editor_show_deprecated_tiles))
+      .set_help(_("Indicate all deprecated tiles on the active tilemap, without the need of hovering over."));
+  }
+
+  add_hl();
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
               MenuStorage::EDITOR_LEVEL_MENU);
@@ -192,6 +224,34 @@ EditorMenu::menu_action(MenuItem& item)
       Editor::current()->m_quit_request = true;
       break;
 
+    case MNID_CONVERT:
+      Dialog::show_confirmation(_("This will convert all tiles in the level. Proceed?\n \nNote: This should not be ran more than once on a level.\nCreating a separate copy of the level is highly recommended."), [this]() {
+        convert_level();
+      });
+      break;
+
+    case MNID_CHECKDEPRECATEDTILES:
+      editor->check_deprecated_tiles();
+      if (editor->has_deprecated_tiles())
+      {
+        if (g_config->editor_show_deprecated_tiles)
+        {
+          Dialog::show_message(_("Deprecated tiles are still available in the level."));
+        }
+        else
+        {
+          Dialog::show_confirmation(_("Deprecated tiles are still available in the level.\n \nDo you want to show all deprecated tiles on active tilemaps?"), []() {
+            g_config->editor_show_deprecated_tiles = true;
+          });
+        }
+      }
+      else
+      {
+        Dialog::show_message(_("There are no more deprecated tiles in the level!"));
+        rebuild_menu();
+      }
+      break;
+
     default:
       break;
   }
@@ -208,6 +268,62 @@ EditorMenu::on_back_action()
   editor->undo_stack_cleanup();
 
   return true;
+}
+
+void
+EditorMenu::convert_level()
+{
+  std::unordered_map<int, int> tiles;
+
+  IFileStream in("images/convert.txt");
+  if (!in.good()) {
+    std::stringstream msg;
+    msg << "Couldn't open images/convert.txt.";
+    throw std::runtime_error(msg.str());
+  }
+
+  int a, b;
+  std::string delimiter;
+  while (in >> a >> delimiter >> b)
+  {
+    if (delimiter != "->")
+    {
+      std::stringstream msg;
+      msg << "Couldn't parse images/convert.txt.";
+      throw std::runtime_error(msg.str());
+    }
+
+    tiles[a] = b;
+  }
+
+  MenuManager::instance().clear_menu_stack();
+  Level* level = Editor::current()->get_level();
+  for (size_t i = 0; i < level->get_sector_count(); i++)
+  {
+    Sector* sector = level->get_sector(i);
+    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
+    {
+      tilemap.save_state();
+      // Can't use change_all(), if there's like `1 -> 2`and then
+      // `2 -> 3`, it'll do a double replacement
+      for (int x = 0; x < tilemap.get_width(); x++)
+      {
+        for (int y = 0; y < tilemap.get_height(); y++)
+        {
+          auto tile = tilemap.get_tile_id(x, y);
+          try
+          {
+            tilemap.change(x, y, tiles.at(tile));
+          }
+          catch (std::out_of_range&)
+          {
+            // Expected for tiles that don't need to be replaced
+          }
+        }
+      }
+      tilemap.check_state();
+    }
+  }
 }
 
 /* EOF */

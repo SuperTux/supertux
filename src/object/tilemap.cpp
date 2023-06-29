@@ -21,7 +21,9 @@
 #include "editor/editor.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
@@ -463,6 +465,14 @@ TileMap::draw(DrawingContext& context)
 
       if (g_debug.show_collision_rects) {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
+      }
+
+      // If the tilemap is active in editor and showing deprecated tiles is enabled, draw indication over each deprecated tile
+      if (Editor::is_active() && m_editor_active &&
+          g_config->editor_show_deprecated_tiles && tile.is_deprecated())
+      {
+        context.color().draw_text(Resources::normal_font, "!", pos + Vector(16, 8),
+                                  ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
       }
 
       const SurfacePtr& surface = Editor::is_active() ? tile.get_current_editor_surface() : tile.get_current_surface();

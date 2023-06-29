@@ -38,10 +38,10 @@
     (icon "images/creatures/short_fuse/short_fuse-0.png"))
   (object
     (class "mriceblock")
-    (icon "images/creatures/iceblock/iceblock-1.png"))
+    (icon "images/creatures/mr_iceblock/iceblock-1.png"))
   (object
     (class "smartblock")
-    (icon "images/creatures/iceblock/smartblock-1.png"))
+    (icon "images/creatures/mr_iceblock/smart_block/smartblock-1.png"))
   (object
     (class "spiky")
     (icon "images/creatures/spiky/spiky-1.png"))

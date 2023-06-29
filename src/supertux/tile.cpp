@@ -59,9 +59,9 @@ Tile::Tile() :
 Tile::Tile(const std::vector<SurfacePtr>& images,
            const std::vector<SurfacePtr>& editor_images,
            uint32_t attributes, uint32_t data, float fps,
+           bool deprecated,
            const std::string& obj_name,
-           const std::string& obj_data,
-           bool deprecated) :
+           const std::string& obj_data) :
   m_images(images),
   m_editor_images(editor_images),
   m_attributes(attributes),

@@ -73,7 +73,10 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_last_node_marker(nullptr),
   m_object_tip(),
   m_obj_mouse_desync(0, 0),
-  m_rectangle_preview(new TileSelection())
+  m_rectangle_preview(new TileSelection()),
+  m_warning_timer(),
+  m_warning_text(),
+  m_selection_warning(false)
 {
 }
 
@@ -1000,11 +1003,13 @@ EditorOverlayWidget::update_tile_selection()
 {
   Rectf select = tile_drag_rect();
   auto tiles = m_editor.get_tiles();
+  auto tileset = m_editor.get_tileset();
   auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap) {
     return;
   }
 
+  m_selection_warning = false;
   tiles->m_tiles.clear();
   tiles->m_width = static_cast<int>(select.get_width());
   tiles->m_height = static_cast<int>(select.get_height());
@@ -1016,7 +1021,17 @@ EditorOverlayWidget::update_tile_selection()
       if ( x < 0 || y < 0 || x >= w || y >= h) {
         tiles->m_tiles.push_back(0);
       } else {
-        tiles->m_tiles.push_back(tilemap->get_tile_id(x, y));
+        uint32_t tile_id = tilemap->get_tile_id(x, y);
+        if (tileset->get(tile_id).is_deprecated())
+        {
+          set_warning(_("Cannot select deprecated tiles"), 3.f);
+          m_selection_warning = true;
+
+          // Clear selections with deprecated tiles
+          tiles->clear();
+          return;
+        }
+        tiles->m_tiles.push_back(tile_id);
       }
     }
   }
@@ -1421,10 +1436,22 @@ EditorOverlayWidget::draw(DrawingContext& context)
     m_object_tip->draw(context, m_mouse_pos);
   }
 
+  auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
+
+  if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE &&
+      !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
+  {
+    // Deprecated tiles in active tilemaps should have indication, when hovered
+    auto sel_tilemap = m_editor.get_selected_tilemap();
+    if (m_editor.get_tileset()->get(sel_tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))).is_deprecated())
+      context.color().draw_text(Resources::normal_font, "!",
+                                tp_to_sp(Vector(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))) - cam_translation + Vector(16, 8),
+                                ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
+  }
+
   if (m_dragging && m_editor.get_tileselect_select_mode() == 1
       && !m_dragging_right) {
     // Draw selection rectangle...
-    auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     Vector p0 = m_drag_start - cam_translation;
     Vector p3 = m_mouse_pos;
     if (p0.x > p3.x) {
@@ -1450,30 +1477,41 @@ EditorOverlayWidget::draw(DrawingContext& context)
   }
 
   if (m_dragging && m_dragging_right) {
-    context.color().draw_filled_rect(selection_draw_rect(),
-                                       Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
+    Color selection_color = m_selection_warning ? EditorOverlayWidget::error_color : Color(0.2f, 0.4f, 1.0f);
+    selection_color.alpha = 0.6f;
+    context.color().draw_filled_rect(selection_draw_rect(), selection_color,
+                                     0.0f, LAYER_GUI-13);
   }
 
-
-  if (g_config->editor_autotile_help) {
-    if (m_editor.get_tileset()->get_autotileset_from_tile(m_editor.get_tiles()->pos(0, 0)) != nullptr)
+  if (m_warning_timer.get_timeleft() > 0.f) // Draw warning, if set
+  {
+    if (m_warning_text.empty())
+      m_warning_timer.stop();
+    else
+      context.color().draw_text(Resources::normal_font, m_warning_text, Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::warning_color);
+  }
+  else // Draw other tooltips
+  {
+    if (g_config->editor_autotile_help)
     {
-      if (g_config->editor_autotile_mode) {
-        context.color().draw_text(Resources::normal_font, _("Autotile mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
-      } else {
-        context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
+      if (m_editor.get_tileset()->get_autotileset_from_tile(m_editor.get_tiles()->pos(0, 0)) != nullptr)
+      {
+        if (g_config->editor_autotile_mode) {
+          context.color().draw_text(Resources::normal_font, _("Autotile mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+        } else {
+          context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
+        }
+      } else if (g_config->editor_autotile_mode) {
+        if (m_editor.get_tiles()->pos(0, 0) == 0) {
+          context.color().draw_text(Resources::normal_font, _("Autotile erasing mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
+        } else {
+          context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
+        }
+      } else if (m_editor.get_tiles()->pos(0, 0) == 0) {
+          context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
       }
-    } else if (g_config->editor_autotile_mode) {
-      if (m_editor.get_tiles()->pos(0, 0) == 0) {
-        context.color().draw_text(Resources::normal_font, _("Autotile erasing mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
-      } else {
-        context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
-      }
-    } else if (m_editor.get_tiles()->pos(0, 0) == 0) {
-        context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
     }
   }
-
 }
 
 Vector
@@ -1520,6 +1558,13 @@ EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
 
   Vector sp_ = sp + tilemap->get_offset() / static_cast<float>(tile_size);
   return glm::trunc(sp_) * static_cast<float>(tile_size);
+}
+
+void
+EditorOverlayWidget::set_warning(const std::string& text, float time)
+{
+  m_warning_text = text;
+  m_warning_timer.start(time);
 }
 
 /* EOF */

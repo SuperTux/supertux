@@ -134,10 +134,11 @@ TileSet::add_unassigned_tilegroup()
       }
     }
 
-    // Weed out all the tiles that have an ID
+    // Weed out all the non-deprecated tiles that have an ID
     // but no image (mostly tiles that act as
     // spacing between other tiles).
-    if (found == false && m_tiles[tile].get())
+    Tile* tile_object = m_tiles[tile].get();
+    if (found == false && tile_object && !tile_object->is_deprecated())
     {
       unassigned_group.tiles.push_back(tile);
     }
@@ -146,6 +147,23 @@ TileSet::add_unassigned_tilegroup()
   if (!unassigned_group.tiles.empty())
   {
     m_tilegroups.push_back(unassigned_group);
+  }
+}
+
+void
+TileSet::remove_deprecated_tiles()
+{
+  for (Tilegroup& tilegroup : m_tilegroups)
+  {
+    for (int& tile : tilegroup.tiles)
+    {
+      if (get(tile).is_deprecated())
+      {
+        log_warning << "Deprecated tile " << tile << " in tilegroup \""
+                    << tilegroup.name << "\", replacing with 0." << std::endl;
+        tile = 0;
+      }
+    }
   }
 }
 
