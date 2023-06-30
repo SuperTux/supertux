@@ -83,6 +83,13 @@ TileSetParser::parse(int32_t start, int32_t end, int32_t offset, bool imported)
       Tilegroup tilegroup;
       reader.get("name", tilegroup.name);
       reader.get("tiles", tilegroup.tiles);
+
+      // Allow offsetting every tile ID, specified in the tilegroup
+      int32_t tiles_offset = 0;
+      if (reader.get("offset", tiles_offset))
+        for (int& tile : tilegroup.tiles)
+          tile += tiles_offset;
+
       m_tileset.add_tilegroup(tilegroup);
     }
     else if (iter.get_key() == "tiles")
@@ -292,6 +299,11 @@ TileSetParser::parse_tiles(const ReaderMapping& reader, int32_t min, int32_t max
 
   float fps = 10;
   reader.get("fps",     fps);
+
+  // Allow specifying additional offset to tiles
+  int32_t tiles_offset = 0;
+  reader.get("offset", tiles_offset);
+  offset += tiles_offset;
 
   bool deprecated = false;
   reader.get("deprecated", deprecated);
