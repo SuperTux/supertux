@@ -84,8 +84,7 @@ jobs:
           BUILD_TYPE: ${{ (matrix.build_type == 'Debug') && '--debug' || '' }}
           ARCH: ${{ matrix.arch }}
         run: |
-          ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}  \
-                                 --config mk/clickable/clickable-sdl.yaml
+          ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}
 
       - uses: actions/upload-artifact@v2
         with:
