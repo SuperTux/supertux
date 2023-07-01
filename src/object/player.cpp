@@ -2523,18 +2523,19 @@ Player::handle_input_climbing()
 
   float vx = 0;
   float vy = 0;
-  if (m_controller->hold(Control::LEFT)) {
+  auto obj_bbox = m_climbing->get_bbox();
+  if (m_controller->hold(Control::LEFT) && m_col.m_bbox.get_left() > obj_bbox.get_left()) {
     m_dir = Direction::LEFT;
     vx -= MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::RIGHT)) {
+  if (m_controller->hold(Control::RIGHT) && m_col.m_bbox.get_right() < obj_bbox.get_right()) {
     m_dir = Direction::RIGHT;
     vx += MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > m_climbing->get_bbox().get_top()) {
+  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > obj_bbox.get_top()) {
     vy -= MAX_CLIMB_YM;
   }
-  if (m_controller->hold(Control::DOWN)) {
+  if (m_controller->hold(Control::DOWN) && m_col.m_bbox.get_bottom() < obj_bbox.get_bottom()) {
     vy += MAX_CLIMB_YM;
   }
   if (m_controller->hold(Control::JUMP)) {
