@@ -148,7 +148,7 @@ Climbable::draw(DrawingContext& context)
 void
 Climbable::event(Player& player, EventType type)
 {
-  if (type == EVENT_ACTIVATE) {
+  if (type == EVENT_ACTIVATE || (type == EVENT_TOUCH && player.get_controller().hold(Control::UP))) {
     if (player.get_grabbed_object() == nullptr){
       auto it = std::find_if(trying_to_climb.begin(), trying_to_climb.end(),
         [&player](const ClimbPlayer& element)

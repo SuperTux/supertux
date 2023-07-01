@@ -2204,8 +2204,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if (moving_object->get_group() == COLGROUP_TOUCHABLE) {
     auto trigger = dynamic_cast<TriggerBase*> (&other);
     if (trigger && !m_deactivated) {
-      auto climbable = dynamic_cast<Climbable*> (&other);
-      if ((climbable && m_controller->hold(Control::UP)) || (m_controller->pressed(Control::UP)))
+      if (m_controller->pressed(Control::UP))
         trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
     }
 
