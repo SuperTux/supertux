@@ -2501,7 +2501,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
 
-  if (m_controller->hold(Control::JUMP)) {
+  if (m_controller->hold(Control::JUMP) && !m_controller->hold(Control::DOWN)) {
     m_on_ground_flag = true;
     m_jump_early_apex = false;
     do_jump(m_player_status.bonus[get_id()] == BonusType::AIR_BONUS ? -540.0f : -480.0f);
@@ -2545,10 +2545,6 @@ Player::handle_input_climbing()
     }
   } else {
     m_can_jump = true;
-  }
-  if (m_controller->hold(Control::ACTION)) {
-    stop_climbing(*m_climbing);
-    return;
   }
   m_physic.set_velocity(vx, vy);
   m_physic.set_acceleration(0, 0);
