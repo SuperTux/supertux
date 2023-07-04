@@ -89,7 +89,7 @@ ConveyorBelt::update(float dt_sec)
 
     int frames = m_sprite->get_frames();
 
-    m_frame += m_speed * static_cast<float>(frames) * dt_sec * 2.0f;
+    m_frame += m_speed * static_cast<float>(frames) * dt_sec * 2.5f;
 
     while (m_frame >= 1.0f)
     {
