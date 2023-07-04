@@ -34,8 +34,6 @@ public:
   static std::string display_name() { return _("Teleporter"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
-  virtual Vector get_editor_offset() const override { return { 16, 16 }; }
-
   virtual ObjectSettings get_settings() override;
 
   const std::string& get_worldmap() const { return m_worldmap; }

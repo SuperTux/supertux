@@ -44,9 +44,8 @@ public:
 
   /** Draws the object, when on a worldmap. */
   virtual void draw_worldmap(DrawingContext& context);
-  virtual Vector get_editor_offset() const { return { 0, 0 }; }
 
-  void update(float dt_sec) override;
+  void update(float) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override { return FORCE_MOVE; }
   virtual ObjectSettings get_settings() override;
@@ -57,6 +56,7 @@ public:
 private:
   void initialize();
 
+  void draw_normal(DrawingContext& context);
   void update_pos();
 
 private:

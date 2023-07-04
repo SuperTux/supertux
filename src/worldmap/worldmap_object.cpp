@@ -17,9 +17,7 @@
 
 #include "worldmap/worldmap_object.hpp"
 
-#include "supertux/d_scope.hpp"
-#include "util/gettext.hpp"
-#include "util/reader_mapping.hpp"
+#include "editor/editor.hpp"
 #include "worldmap/worldmap_sector.hpp"
 
 namespace worldmap {
@@ -27,7 +25,7 @@ namespace worldmap {
 bool
 WorldMapObject::in_worldmap()
 {
-  return d_gameobject_manager.get() == d_worldmap_sector.get();
+  return !Editor::is_active();
 }
 
 
@@ -58,12 +56,13 @@ WorldMapObject::WorldMapObject(const Vector& pos, const std::string& default_spr
 void
 WorldMapObject::initialize()
 {
-  m_layer = LAYER_OBJECTS - (in_worldmap() ? 1 : 0);
+  m_col.m_bbox.set_left(32 * m_col.m_bbox.get_left() +
+                        (m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_width()) / 2 : 0));
+  m_col.m_bbox.set_top(32 * m_col.m_bbox.get_top() +
+                       (m_col.m_bbox.get_height() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0));
 
-  m_col.m_bbox.set_left(32 * m_col.m_bbox.get_left());
-  m_col.m_bbox.set_top(32 * m_col.m_bbox.get_top());
-  m_col.m_bbox.set_size(32, 32);
   update_pos();
+  update_hitbox();
 }
 
 ObjectSettings
@@ -85,20 +84,29 @@ WorldMapObject::draw(DrawingContext& context)
 {
   if (in_worldmap())
     draw_worldmap(context);
-  else if (m_sprite)
-    m_sprite->draw(context.color(), m_col.m_bbox.p1() + get_editor_offset(), m_layer);
+  else
+    draw_normal(context);
 }
 
 void
 WorldMapObject::draw_worldmap(DrawingContext& context)
 {
-  if (!m_sprite) return;
-
-  m_sprite->draw(context.color(), m_col.m_bbox.p1() + get_editor_offset(), m_layer);
+  draw_normal(context);
 }
 
 void
-WorldMapObject::update(float dt_sec)
+WorldMapObject::draw_normal(DrawingContext& context)
+{
+  if (!m_sprite) return;
+
+  m_sprite->draw(context.color(),
+                 m_col.m_bbox.p1() + Vector((m_col.m_bbox.get_width() < 32.f ? (32.f - m_col.m_bbox.get_width()) / 2 : 0),
+                                            (m_col.m_bbox.get_height() < 32.f ? (32.f - m_col.m_bbox.get_height()) / 2 : 0)),
+                 m_layer);
+}
+
+void
+WorldMapObject::update(float)
 {
   update_pos();
 }
