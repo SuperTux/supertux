@@ -23,9 +23,9 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-const float DiveMine::s_trigger_radius = 200.f;
-const float DiveMine::s_swim_speed = 25.f;
-const float DiveMine::s_max_float_acceleration = 20.f;
+const float DiveMine::s_trigger_radius = 80.f;
+const float DiveMine::s_swim_speed = 15.f;
+const float DiveMine::s_max_float_acceleration = 15.f;
 
 DiveMine::DiveMine(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dive_mine/dive_mine.sprite"),
