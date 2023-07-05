@@ -25,6 +25,7 @@
 #include "badguy/dart.hpp"
 #include "badguy/darttrap.hpp"
 #include "badguy/dispenser.hpp"
+#include "badguy/dive_mine.hpp"
 #include "badguy/fish_chasing.hpp"
 #include "badguy/fish_harmless.hpp"
 #include "badguy/fish_jumping.hpp"
@@ -166,6 +167,7 @@ GameObjectFactory::init_factories()
   add_factory<Dart>("dart");
   add_factory<DartTrap>("darttrap");
   add_factory<Dispenser>("dispenser");
+  add_factory<DiveMine>("dive-mine");
   add_factory<FishChasing>("fish-chasing");
   add_factory<FishHarmless>("fish-harmless");
   add_factory<FishJumping>("fish"); // backward compatibility

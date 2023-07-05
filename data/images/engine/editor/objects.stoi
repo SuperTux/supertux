@@ -165,6 +165,9 @@
   (object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
+  (object
+    (class "dive-mine")
+    (icon "images/creatures/dive_mine/left-0.png"))
  )
 
  (objectgroup
