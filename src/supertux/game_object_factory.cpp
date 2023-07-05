@@ -265,7 +265,7 @@ GameObjectFactory::init_factories()
   add_factory<Platform>("platform");
   add_factory<PneumaticPlatform>("pneumatic-platform");
   add_factory<PowerUp>("powerup", OBJ_PARAM_DISPENSABLE);
-  add_factory<PushButton>("pushbutton", OBJ_PARAM_DISPENSABLE);
+  add_factory<PushButton>("pushbutton");
   add_factory<RainParticleSystem>("particles-rain");
   add_factory<Rock>("rock", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<RubLight>("rublight", OBJ_PARAM_DISPENSABLE);
