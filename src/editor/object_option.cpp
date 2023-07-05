@@ -24,6 +24,8 @@
 
 #include "editor/object_menu.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
+#include "gui/menu_object_select.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/moving_object.hpp"
 #include "util/gettext.hpp"
@@ -518,7 +520,9 @@ ObjectSelectObjectOption::to_string() const
 void
 ObjectSelectObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_object_select(get_text(), m_pointer, m_parent);
+  menu.add_entry(get_text(), [pointer = m_pointer, parent = m_parent]() {
+    MenuManager::instance().push_menu(std::make_unique<ObjectSelectMenu>(*pointer, parent));
+  });
 }
 
 TilesObjectOption::TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,

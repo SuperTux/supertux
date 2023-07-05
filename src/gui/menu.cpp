@@ -31,7 +31,6 @@
 #include "gui/item_inactive.hpp"
 #include "gui/item_intfield.hpp"
 #include "gui/item_label.hpp"
-#include "gui/item_object_select.hpp"
 #include "gui/item_paths.hpp"
 #include "gui/item_script.hpp"
 #include "gui/item_script_line.hpp"
@@ -335,16 +334,6 @@ Menu::add_color_display(Color* color, int id) {
 ItemColor&
 Menu::add_color(const std::string& text, Color* color, int id) {
   auto item = std::make_unique<ItemColor>(text, color, id);
-  auto item_ptr = item.get();
-  add_item(std::move(item));
-  return *item_ptr;
-}
-
-ItemObjectSelect&
-Menu::add_object_select(const std::string& text, std::vector<std::unique_ptr<GameObject>>* objects,
-                        GameObject* parent, int id)
-{
-  auto item = std::make_unique<ItemObjectSelect>(text, objects, parent, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;
