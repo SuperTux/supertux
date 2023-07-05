@@ -85,10 +85,10 @@ void
 Dispenser::add_object(std::unique_ptr<GameObject> object)
 {
   auto moving_object = dynamic_cast<MovingObject*>(object.get());
-  if (GameObjectFactory::instance().has_params(object->get_class_name(), ObjectFactory::RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE) ||
+  if (!GameObjectFactory::instance().has_params(object->get_class_name(), ObjectFactory::RegisteredObjectParam::OBJ_PARAM_DISPENSABLE) ||
       !moving_object) // Object is not MovingObject, or is not dispensable
   {
-    log_warning << object->get_class_name() << " is not MovingObject, or is not dispensable. Removing from dispenser object list." << std::endl;
+    log_warning << object->get_class_name() << " is not dispensable. Removing from dispenser object list." << std::endl;
     return;
   }
 

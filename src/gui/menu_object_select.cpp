@@ -31,7 +31,6 @@
 ObjectSelectMenu::ObjectSelectMenu(std::vector<std::unique_ptr<GameObject>>& objects, GameObject* parent) :
   m_objects(objects),
   m_parent(parent),
-  m_dispenser(dynamic_cast<Dispenser*>(m_parent)),
   m_selected()
 {
   refresh();
@@ -71,8 +70,9 @@ ObjectSelectMenu::add_object()
 
   auto obj = GameObjectFactory::instance().create(m_selected);
 
-  if (m_dispenser)
-    m_dispenser->add_object(std::move(obj)); // The Dispenser itself should add the object, running appropriate checks
+  Dispenser* dispenser = dynamic_cast<Dispenser*>(m_parent);
+  if (dispenser)
+    dispenser->add_object(std::move(obj)); // The Dispenser itself should add the object, running appropriate checks
   else
     m_objects.push_back(std::move(obj));
 
@@ -93,8 +93,8 @@ ObjectSelectMenu::remove_object(GameObject* obj)
 const std::vector<std::string>
 ObjectSelectMenu::get_available_objects() const
 {
-  if (m_dispenser)
-    return GameObjectFactory::instance().get_registered_objects_without_params(ObjectFactory::RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE);
+  if (dynamic_cast<Dispenser*>(m_parent))
+    return GameObjectFactory::instance().get_registered_objects(ObjectFactory::RegisteredObjectParam::OBJ_PARAM_DISPENSABLE);
 
   return GameObjectFactory::instance().get_registered_objects();
 }

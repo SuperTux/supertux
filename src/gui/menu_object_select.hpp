@@ -20,7 +20,6 @@
 
 #include "gui/menu.hpp"
 
-class Dispenser;
 class GameObject;
 
 class ObjectSelectMenu final : public Menu
@@ -40,9 +39,6 @@ private:
 private:
   std::vector<std::unique_ptr<GameObject>>& m_objects;
   GameObject* m_parent;
-
-  /** If m_parent is a Dispenser, this would not be nullptr. */
-  Dispenser* m_dispenser;
 
   std::string m_selected;
 

@@ -51,7 +51,7 @@ public:
   {
     OBJ_PARAM_NONE = 0,
     OBJ_PARAM_PORTABLE = 0b10000000,
-    OBJ_PARAM_NON_DISPENSABLE = 0b00100000,
+    OBJ_PARAM_DISPENSABLE = 0b00100000,
   };
 
 public:
@@ -65,7 +65,6 @@ public:
   std::vector<std::string> get_registered_badguys(uint8_t params);
   std::vector<std::string>& get_registered_objects() { return m_objects_names; }
   std::vector<std::string> get_registered_objects(uint8_t params);
-  std::vector<std::string> get_registered_objects_without_params(uint8_t params);
 
 protected:
   ObjectFactory();
@@ -97,12 +96,6 @@ protected:
                 [](const ReaderMapping& reader) {
                   return std::make_unique<C>(reader);
                 }, obj_params);
-  }
-
-  template<class C>
-  void add_factory_compat(const char* class_name, uint8_t obj_params = 0, const std::string& display_name = "")
-  {
-    add_factory<C>(class_name, obj_params | RegisteredObjectParam::OBJ_PARAM_NON_DISPENSABLE, display_name);
   }
 };
 

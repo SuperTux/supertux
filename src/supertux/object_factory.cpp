@@ -107,17 +107,4 @@ ObjectFactory::get_registered_objects(uint8_t params)
   return out;
 }
 
-std::vector<std::string>
-ObjectFactory::get_registered_objects_without_params(uint8_t params)
-{
-  std::vector<std::string> out;
-  for (unsigned int i = 0; i < m_objects_names.size(); i++)
-  {
-    if (m_objects_params[i] & params)
-      continue;
-    out.push_back(m_objects_names[i]);
-  }
-  return out;
-}
-
 /* EOF */
