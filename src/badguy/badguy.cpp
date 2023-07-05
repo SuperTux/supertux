@@ -223,6 +223,7 @@ BadGuy::update(float dt_sec)
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
+      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox(), false, Tile::WATER);
       inactive_update(dt_sec);
       try_activate();
       break;
