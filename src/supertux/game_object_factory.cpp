@@ -179,7 +179,7 @@ GameObjectFactory::init_factories()
   add_factory<Ghostflame>("ghostflame", OBJ_PARAM_DISPENSABLE);
   add_factory<GhostTree>("ghosttree");
   add_factory<Ghoul>("ghoul", OBJ_PARAM_DISPENSABLE);
-  add_factory<GoldBomb>("goldbomb", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
+  add_factory<GoldBomb>("goldbomb", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<Haywire>("haywire", OBJ_PARAM_DISPENSABLE);
   add_factory<Iceflame>("iceflame", OBJ_PARAM_DISPENSABLE);
   add_factory<Igel>("igel", OBJ_PARAM_DISPENSABLE);
@@ -193,8 +193,8 @@ GameObjectFactory::init_factories()
   add_factory<LiveFireDormant>("livefire_dormant", OBJ_PARAM_DISPENSABLE);
   add_factory<Mole>("mole");
   add_factory<MoleRock>("mole_rock", OBJ_PARAM_DISPENSABLE);
-  add_factory<MrBomb>("mrbomb", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
-  add_factory<MrIceBlock>("mriceblock", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
+  add_factory<MrBomb>("mrbomb", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<MrIceBlock>("mriceblock", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<MrTree>("mrtree", OBJ_PARAM_DISPENSABLE);
   add_factory<Owl>("owl", OBJ_PARAM_DISPENSABLE);
   add_factory<Plant>("plant", OBJ_PARAM_DISPENSABLE);
@@ -202,11 +202,11 @@ GameObjectFactory::init_factories()
   add_factory<SCrystallo>("scrystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<ShortFuse>("short_fuse", OBJ_PARAM_DISPENSABLE);
   add_factory<SSpiky>("sspiky", OBJ_PARAM_DISPENSABLE);
-  add_factory<SkyDive>("skydive", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
+  add_factory<SkyDive>("skydive", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<SkullyHop>("skullyhop", OBJ_PARAM_DISPENSABLE);
   add_factory<SmartBall>("smartball", OBJ_PARAM_DISPENSABLE);
-  add_factory<SmartBlock>("smartblock", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
-  add_factory<Snail>("snail", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
+  add_factory<SmartBlock>("smartblock", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<Snail>("snail", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<SnowBall>("snowball", OBJ_PARAM_DISPENSABLE);
   add_factory<Snowman>("snowman", OBJ_PARAM_DISPENSABLE);
   add_factory<SpiderMite>("spidermite", OBJ_PARAM_DISPENSABLE);
@@ -256,7 +256,7 @@ GameObjectFactory::init_factories()
   add_factory<InvisibleBlock>("invisible_block", OBJ_PARAM_DISPENSABLE);
   add_factory<InvisibleWall>("invisible_wall");
   add_factory<Key>("key");
-  add_factory<Lantern>("lantern", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
+  add_factory<Lantern>("lantern", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<LevelTime>("leveltime");
   add_factory<LitObject>("lit-object");
   add_factory<MagicBlock>("magicblock");
@@ -267,7 +267,7 @@ GameObjectFactory::init_factories()
   add_factory<PowerUp>("powerup", OBJ_PARAM_DISPENSABLE);
   add_factory<PushButton>("pushbutton", OBJ_PARAM_DISPENSABLE);
   add_factory<RainParticleSystem>("particles-rain");
-  add_factory<Rock>("rock", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
+  add_factory<Rock>("rock", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<RubLight>("rublight", OBJ_PARAM_DISPENSABLE);
   add_factory<ScriptedObject>("scriptedobject");
   add_factory<Shard>("shard", OBJ_PARAM_DISPENSABLE);
@@ -278,8 +278,8 @@ GameObjectFactory::init_factories()
   add_factory<TextArrayObject>("text-array");
   add_factory<Thunderstorm>("thunderstorm");
   add_factory<Torch>("torch");
-  add_factory<Trampoline>("trampoline", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
-  add_factory<RustyTrampoline>("rustytrampoline", OBJ_PARAM_PORTABLE & OBJ_PARAM_DISPENSABLE);
+  add_factory<Trampoline>("trampoline", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<RustyTrampoline>("rustytrampoline", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<UnstableTile>("unstable_tile");
   add_factory<WeakBlock>("weak_block", OBJ_PARAM_DISPENSABLE);
   add_factory<Wind>("wind");
