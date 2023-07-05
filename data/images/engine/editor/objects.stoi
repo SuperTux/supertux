@@ -235,6 +235,9 @@
     (class "platform")
     (icon "images/objects/flying_platform/flying_platform-0.png"))
   (object
+    (class "conveyor-belt")
+    (icon "images/objects/conveyor_belt/conveyor_left0.png"))
+  (object
     (class "pneumatic-platform")
     (icon "images/engine/editor/pneumaticplatform.png"))
   (object

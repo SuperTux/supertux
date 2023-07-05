@@ -86,6 +86,12 @@ StringUtil::numeric_less(const std::string& lhs, const std::string& rhs)
   return lhs.size() < rhs.size();
 }
 
+bool
+StringUtil::starts_with(const std::string& str, const std::string& prefix)
+{
+  return str.rfind(prefix, 0) == 0;
+}
+
 std::string
 StringUtil::tolower(const std::string& text)
 {

@@ -77,6 +77,11 @@ EditorMenu::EditorMenu()
   add_toggle(-1, _("Render Light"), &(Compositor::s_render_lighting));
   add_toggle(-1, _("Autotile Mode"), &(g_config->editor_autotile_mode));
   add_toggle(-1, _("Enable Autotile Help"), &(g_config->editor_autotile_help));
+  add_toggle(-1, _("Enable Object Undo Tracking"), &(g_config->editor_undo_tracking));
+  if (g_config->editor_undo_tracking)
+  {
+    add_intfield(_("Undo Stack Size"), &(g_config->editor_undo_stack_size), -1, true);
+  }
   add_intfield(_("Autosave Frequency"), &(g_config->editor_autosave_frequency));
 
   add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
@@ -190,6 +195,19 @@ EditorMenu::menu_action(MenuItem& item)
     default:
       break;
   }
+}
+
+bool
+EditorMenu::on_back_action()
+{
+  auto editor = Editor::current();
+  if (!editor)
+    return true;
+
+  editor->retoggle_undo_tracking();
+  editor->undo_stack_cleanup();
+
+  return true;
 }
 
 /* EOF */

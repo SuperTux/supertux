@@ -164,6 +164,7 @@ EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
     return;
   }
 
+  tilemap->save_state();
   tilemap->change(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
 }
 
@@ -182,6 +183,7 @@ EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile)
     return;
   }
 
+  tilemap->save_state();
   tilemap->autotile(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
 }
 
@@ -220,6 +222,7 @@ EditorOverlayWidget::autotile_corner(const Vector& pos, uint32_t tile,
     return;
   }
 
+  tilemap->save_state();
   tilemap->autotile_corner(static_cast<int>(pos.x), static_cast<int>(pos.y), tile, op);
 }
 
@@ -246,6 +249,8 @@ EditorOverlayWidget::input_autotile_corner(const Vector& corner, uint32_t tile, 
 void
 EditorOverlayWidget::put_tile(const Vector& target_tile)
 {
+  m_editor.get_selected_tilemap()->save_state();
+
   Vector hovered_corner = target_tile + Vector(0.5f, 0.5f);
   auto tiles = m_editor.get_tiles();
   Vector add_tile(0.0f, 0.0f);
@@ -649,6 +654,8 @@ EditorOverlayWidget::grab_object()
       m_dragged_object = m_hovered_object;
       m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
 
+      m_dragged_object->save_state();
+
       auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
       if (!pm) {
         select_object();
@@ -714,7 +721,7 @@ EditorOverlayWidget::clone_object()
 void
 EditorOverlayWidget::show_object_menu(GameObject& object)
 {
-  auto menu = std::make_unique<ObjectMenu>(m_editor, &object);
+  auto menu = std::make_unique<ObjectMenu>(&object);
   m_editor.m_deactivate_request = true;
   MenuManager::instance().push_menu(std::move(menu));
 }
@@ -800,7 +807,9 @@ EditorOverlayWidget::update_node_iterators()
 void
 EditorOverlayWidget::add_path_node()
 {
-  Path::Node new_node;
+  m_edited_path->save_state();
+
+  Path::Node new_node(&m_edited_path->get_path());
   new_node.position = m_sector_pos;
   new_node.bezier_before = new_node.position;
   new_node.bezier_after = new_node.position;
@@ -808,7 +817,7 @@ EditorOverlayWidget::add_path_node()
   m_edited_path->get_path().m_nodes.insert(m_last_node_marker->m_node + 1, new_node);
   auto& bezier_before = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_before));
   auto& bezier_after = Sector::get().add<BezierMarker>(&(*(m_edited_path->get_path().m_nodes.end() - 1)), &((m_edited_path->get_path().m_nodes.end() - 1)->bezier_after));
-  auto& new_marker = Sector::get().add<NodeMarker>(&(m_edited_path.get()->get_path()), m_edited_path->get_path().m_nodes.end() - 1, m_edited_path->get_path().m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
+  auto& new_marker = Sector::get().add<NodeMarker>(m_edited_path->get_path().m_nodes.end() - 1, m_edited_path->get_path().m_nodes.size() - 1, bezier_before.get_uid(), bezier_after.get_uid());
   bezier_before.set_parent(new_marker.get_uid());
   bezier_after.set_parent(new_marker.get_uid());
   //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
@@ -820,6 +829,8 @@ EditorOverlayWidget::add_path_node()
   hover_object();
 
   grab_object();
+
+  m_edited_path->check_state();
 }
 
 void
@@ -847,11 +858,7 @@ EditorOverlayWidget::put_object()
     object->after_editor_set();
 
     auto* mo = dynamic_cast<MovingObject*> (object.get());
-    if (!mo) {
-      if (!dynamic_cast<PathGameObject*>(object.get())) {
-        m_editor.add_layer(object.get());
-      }
-    } else if (!g_config->editor_snap_to_grid) {
+    if (mo && !g_config->editor_snap_to_grid) {
       auto bbox = mo->get_bbox();
       mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
     }
@@ -1020,14 +1027,20 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT)
   {
-    if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE
-        && m_editor.get_tileselect_select_mode() == 1)
+    if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE)
     {
-      if (m_dragging)
+      if (m_dragging && m_editor.get_tileselect_select_mode() == 1)
       {
         draw_rectangle();
         m_rectangle_preview->m_tiles.clear();
       }
+
+      m_editor.get_selected_tilemap()->check_state();
+    }
+    else if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::OBJECT)
+    {
+      if (m_dragging && m_dragged_object)
+        m_dragged_object->check_state();
     }
   }
   else if (button.button == SDL_BUTTON_MIDDLE)
