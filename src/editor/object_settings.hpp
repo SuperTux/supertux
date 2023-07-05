@@ -27,6 +27,7 @@
 
 class Color;
 enum class Direction;
+class GameObject;
 class PathObject;
 enum class WalkMode;
 namespace worldmap {
@@ -69,8 +70,8 @@ public:
   void add_walk_mode(const std::string& text, WalkMode* value_ptr,
                      const std::optional<WalkMode>& default_value = {},
                      const std::string& key = {}, unsigned int flags = 0);
-  void add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
-                  const std::string& key = {}, unsigned int flags = 0);
+  void add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
+                   GameObject* parent = nullptr, const std::string& key = {}, unsigned int flags = 0);
   void add_color(const std::string& text, Color* value_ptr,
                  const std::string& key = {},
                  const std::optional<Color>& default_value = {},

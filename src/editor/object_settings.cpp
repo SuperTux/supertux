@@ -35,10 +35,10 @@ ObjectSettings::add_option(std::unique_ptr<ObjectOption> option)
 }
 
 void
-ObjectSettings::add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
-                           const std::string& key, unsigned int flags)
+ObjectSettings::add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
+                            GameObject* parent, const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<BadGuySelectObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<ObjectSelectObjectOption>(text, value_ptr, parent, key, flags));
 }
 
 void

@@ -25,7 +25,7 @@
 class CoinRain final : public GameObject
 {
 public:
-  CoinRain(const Vector& pos, bool emerge=false);
+  CoinRain(const Vector& pos, bool emerge=false, bool count_stats = true);
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_saveable() const override {
@@ -39,6 +39,7 @@ private:
   Timer timer;
   int counter;
   int drop;
+  const bool m_count_stats;
 };
 
 #endif
