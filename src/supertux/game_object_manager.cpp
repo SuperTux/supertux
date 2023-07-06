@@ -145,6 +145,7 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 void
 GameObjectManager::clear_objects()
 {
+  s_needs_flushing_gameobjects_removed = true;
   flush_game_objects();
 
   for (const auto& obj: m_gameobjects) {
