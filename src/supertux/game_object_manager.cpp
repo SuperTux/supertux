@@ -28,6 +28,7 @@ bool GameObjectManager::s_draw_solids_only = false;
 bool GameObjectManager::s_needs_flushing_gameobjects_added = false;
 bool GameObjectManager::s_needs_flushing_gameobjects_removed = false;
 bool GameObjectManager::s_needs_flushing_tilemaps = false;
+bool GameObjectManager::s_is_loading = false;
 
 GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_initialized(false),
@@ -186,6 +187,9 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::flush_game_objects()
 {
+  if(s_is_loading)
+    return;
+
   if(!s_needs_flushing_gameobjects_added &&
      !s_needs_flushing_gameobjects_removed &&
      !s_needs_flushing_tilemaps)

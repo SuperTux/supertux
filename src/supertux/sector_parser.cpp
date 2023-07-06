@@ -101,6 +101,7 @@ SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader
 void
 SectorParser::parse(const ReaderMapping& sector)
 {
+  GameObjectManager::s_is_loading = true;
   auto iter = sector.get_iter();
   while (iter.next()) {
     if (iter.get_key() == "name") {
@@ -148,13 +149,14 @@ SectorParser::parse(const ReaderMapping& sector)
       }
     }
   }
-
+  GameObjectManager::s_is_loading = false;
   m_sector.finish_construction(m_editable);
 }
 
 void
 SectorParser::parse_old_format(const ReaderMapping& reader)
 {
+  GameObjectManager::s_is_loading = true;
   m_sector.set_name("main");
 
   float gravity;
@@ -300,6 +302,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   // add a camera
   auto camera_ = std::make_unique<Camera>("Camera");
   m_sector.add_object(std::move(camera_));
+  GameObjectManager::s_is_loading = false;
 
   m_sector.flush_game_objects();
 

@@ -40,6 +40,7 @@ public:
   static bool s_needs_flushing_gameobjects_added;
   static bool s_needs_flushing_gameobjects_removed;
   static bool s_needs_flushing_tilemaps;
+  static bool s_is_loading;
 
 private:
   struct NameResolveRequest
