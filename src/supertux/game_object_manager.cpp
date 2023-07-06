@@ -25,6 +25,9 @@
 #include "supertux/game_object_factory.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
+bool GameObjectManager::s_needs_flushing_gameobjects_added = false;
+bool GameObjectManager::s_needs_flushing_gameobjects_removed = false;
+bool GameObjectManager::s_needs_flushing_tilemaps = false;
 
 GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_initialized(false),
@@ -134,6 +137,7 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
+  s_needs_flushing_gameobjects_added = true;
   return tmp;
 }
 
@@ -182,6 +186,12 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::flush_game_objects()
 {
+  if(!s_needs_flushing_gameobjects_added &&
+     !s_needs_flushing_gameobjects_removed &&
+     !s_needs_flushing_tilemaps)
+    return;
+
+  if(s_needs_flushing_gameobjects_removed)
   { // cleanup marked objects
     m_gameobjects.erase(
       std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
@@ -196,8 +206,10 @@ GameObjectManager::flush_game_objects()
                        }
                      }),
       m_gameobjects.end());
+      s_needs_flushing_gameobjects_removed = false;
   }
 
+  if(s_needs_flushing_gameobjects_added)
   { // add newly created objects
     // Objects might add new objects in finish_construction(), so we
     // loop until no new objects show up.
@@ -213,8 +225,14 @@ GameObjectManager::flush_game_objects()
         }
       }
     }
+    s_needs_flushing_gameobjects_added = false;
   }
-  update_tilemaps();
+
+  if(s_needs_flushing_tilemaps)
+  {
+    update_tilemaps();
+    s_needs_flushing_tilemaps = false;
+  }
 
   m_initialized = true;
 }
@@ -381,7 +399,12 @@ GameObjectManager::this_before_object_add(GameObject& object)
   }
 
   { // by_type_index
-    m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
+    auto typeIdx = std::type_index(typeid(object));
+    m_objects_by_type_index[typeIdx].push_back(&object);
+    if(typeIdx == typeid(TileMap))
+    {
+      s_needs_flushing_tilemaps = true;
+    }
   }
 
   save_object_change(object, true);
@@ -409,6 +432,7 @@ GameObjectManager::this_before_object_remove(GameObject& object)
     auto it = std::find(vec.begin(), vec.end(), &object);
     assert(it != vec.end());
     vec.erase(it);
+    s_needs_flushing_gameobjects_removed = true;
   }
 }
 

@@ -37,6 +37,9 @@ class GameObjectManager
 {
 public:
   static bool s_draw_solids_only;
+  static bool s_needs_flushing_gameobjects_added;
+  static bool s_needs_flushing_gameobjects_removed;
+  static bool s_needs_flushing_tilemaps;
 
 private:
   struct NameResolveRequest

@@ -119,7 +119,7 @@ public:
   virtual void on_flip(float height) {}
 
   /** schedules this object to be removed at the end of the frame */
-  virtual void remove_me() { m_scheduled_for_removal = true; }
+  virtual void remove_me();
 
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const { return !m_scheduled_for_removal; }

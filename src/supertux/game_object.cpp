@@ -207,6 +207,13 @@ GameObject::after_editor_set()
   m_previous_type = -1;
 }
 
+void 
+GameObject::remove_me()
+{ 
+  m_scheduled_for_removal = true;
+  GameObjectManager::s_needs_flushing_gameobjects_removed = true;
+}
+
 int
 GameObject::type_id_to_value(const std::string& id) const
 {
