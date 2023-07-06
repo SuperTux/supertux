@@ -432,7 +432,6 @@ GameObjectManager::this_before_object_remove(GameObject& object)
     auto it = std::find(vec.begin(), vec.end(), &object);
     assert(it != vec.end());
     vec.erase(it);
-    s_needs_flushing_gameobjects_removed = true;
   }
 }
 
