@@ -75,6 +75,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_ice_bullets_at_start(),
   m_active(false),
   m_end_seq_started(false),
+  m_pause_target_timer(false),
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
@@ -110,6 +111,7 @@ GameSession::reset_level()
 
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
+  m_pause_target_timer = false;
 }
 
 int
@@ -535,7 +537,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     assert(m_currentsector != nullptr);
     // Update the world
     if (!m_end_sequence || !m_end_sequence->is_running()) {
-      if (!m_level->m_is_in_cutscene)
+      if (!m_level->m_is_in_cutscene && !m_pause_target_timer)
       {
         m_play_time += dt_sec;
         m_level->m_stats.finish(m_play_time);

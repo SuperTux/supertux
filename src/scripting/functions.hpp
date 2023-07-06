@@ -96,6 +96,17 @@ void end_cutscene();
 bool check_cutscene();
 
 /**
+ * Pauses the target timer
+ */
+void pause_target_timer();
+
+/**
+ * Resumes the target timer
+ */
+void resume_target_timer();
+
+
+/**
  * Suspends the script execution for a specified number of seconds.
  * @param float $seconds
  */

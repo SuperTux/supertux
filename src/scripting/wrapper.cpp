@@ -11444,6 +11444,44 @@ static SQInteger check_cutscene_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger pause_target_timer_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    scripting::pause_target_timer();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'pause_target_timer'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger resume_target_timer_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    scripting::resume_target_timer();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'resume_target_timer'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger wait_wrapper(HSQUIRRELVM vm)
 {
   HSQUIRRELVM arg0 = vm;
@@ -13437,6 +13475,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'check_cutscene'");
+  }
+
+  sq_pushstring(v, "pause_target_timer", -1);
+  sq_newclosure(v, &pause_target_timer_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'pause_target_timer'");
+  }
+
+  sq_pushstring(v, "resume_target_timer", -1);
+  sq_newclosure(v, &resume_target_timer_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'resume_target_timer'");
   }
 
   sq_pushstring(v, "wait", -1);

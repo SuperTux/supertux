@@ -136,6 +136,30 @@ bool check_cutscene()
   return session->get_current_level().m_is_in_cutscene;
 }
 
+void pause_target_timer()
+{
+  auto session = GameSession::current();
+  if (session == nullptr)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+
+  return session->set_target_timer_paused(true);
+}
+
+void resume_target_timer()
+{
+  auto session = GameSession::current();
+  if (session == nullptr)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+
+  return session->set_target_timer_paused(false);
+}
+
 void wait(HSQUIRRELVM vm, float seconds)
 {
   if(GameSession::current()->get_current_level().m_skip_cutscene)

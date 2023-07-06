@@ -107,6 +107,7 @@ public:
   Level& get_current_level() const { return *m_level; }
 
   void start_sequence(Player* caller, Sequence seq, const SequenceData* data = nullptr);
+  void set_target_timer_paused(bool paused) { m_pause_target_timer = paused; }
 
   /**
    * returns the "working directory" usually this is the directory where the
@@ -187,6 +188,7 @@ private:
   bool m_active; /** Game active? **/
 
   bool m_end_seq_started;
+  bool m_pause_target_timer;
 
   std::unique_ptr<GameObject> m_current_cutscene_text;
 
