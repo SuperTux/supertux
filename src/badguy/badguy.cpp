@@ -65,7 +65,6 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
-  m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
@@ -102,7 +101,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
-  m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
@@ -225,6 +223,7 @@ BadGuy::update(float dt_sec)
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
+      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox(), false, Tile::WATER);
       inactive_update(dt_sec);
       try_activate();
       break;

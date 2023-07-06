@@ -292,7 +292,7 @@ BonusBlock::try_open(Player* player)
       Sector::get().add<BouncyCoin>(get_pos(), true);
       SoundManager::current()->play("sounds/coin.wav", get_pos());
       player->get_status().add_coins(1, false);
-      if (m_hit_counter != 0)
+      if (m_hit_counter != 0 && !m_parent_dispenser)
         Sector::get().get_level().m_stats.increment_coins();
       break;
     }
@@ -379,13 +379,13 @@ BonusBlock::try_open(Player* player)
     }
     case Content::RAIN:
     {
-      Sector::get().add<CoinRain>(get_pos(), true);
+      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser);
       play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser);
       play_upgrade_sound = true;
       break;
     }
@@ -529,7 +529,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40));
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser);
       play_upgrade_sound = true;
       countdown = true;
       break;

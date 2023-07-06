@@ -195,7 +195,7 @@ GoldBomb::kill_fall()
         EXPLOSION_STRENGTH_DEFAULT);
       run_dead_script();
     }
-      Sector::get().add<CoinExplode>(get_pos() + Vector(0, -40));
+      Sector::get().add<CoinExplode>(get_pos() + Vector(0, -40), !m_parent_dispenser);
   }
 }
 
