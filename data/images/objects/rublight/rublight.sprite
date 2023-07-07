@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "default")
+    (name "active")
 	(fps 8)
 	(images "rublight-0.png"
 			"rublight-1.png"
@@ -18,5 +18,9 @@
 			"rublight-0.png"
 			"rublight-0.png"
 			"rublight-0.png")
+  )
+  (action
+    (name "inactive")
+	(images "rublight-0.png")
   )
 )
