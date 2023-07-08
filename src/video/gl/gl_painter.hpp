@@ -43,6 +43,8 @@ public:
   virtual void set_clip_rect(const Rect& rect) override;
   virtual void clear_clip_rect() override;
 
+  void flush_batch();
+
 private:
   GLVideoSystem& m_video_system;
   GLRenderer& m_renderer;
@@ -50,6 +52,11 @@ private:
 private:
   std::vector<float> m_vertices;
   std::vector<float> m_uvs;
+  std::vector<float> m_vertex_cache;
+  std::vector<float> m_uv_cache;
+  std::vector<float> m_color_cache;
+  unsigned int m_current_texture_handle;
+  int m_srcrect_count;
 
 private:
   GLPainter(const GLPainter&) = delete;

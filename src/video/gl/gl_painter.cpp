@@ -63,7 +63,12 @@ GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
   m_video_system(video_system),
   m_renderer(renderer),
   m_vertices(),
-  m_uvs()
+  m_uvs(),
+  m_vertex_cache(),
+  m_uv_cache(),
+  m_color_cache(),
+  m_current_texture_handle(0),
+  m_srcrect_count()
 {
 }
 
@@ -164,18 +169,29 @@ GLPainter::draw_texture(const TextureRequest& request)
     }
   }
 
-  GLContext& context = m_video_system.get_context();
-
-  context.blend_func(sfactor(request.blend), dfactor(request.blend));
-  context.bind_texture(texture, request.displacement_texture);
-  context.set_texcoords(m_uvs.data(), sizeof(float) * m_uvs.size());
-  context.set_positions(m_vertices.data(), sizeof(float) * m_vertices.size());
-  context.set_color(Color(request.color.red,
-                          request.color.green,
-                          request.color.blue,
-                          request.color.alpha * request.alpha));
-
-  context.draw_arrays(GL_TRIANGLES, 0, static_cast<GLsizei>(request.srcrects.size() * 2 * 3));
+  auto handle = texture.get_handle();
+  if (handle != m_current_texture_handle)
+  {
+    if (m_current_texture_handle != 0)
+      flush_batch();
+    GLContext& context = m_video_system.get_context();
+    context.bind_texture(texture, request.displacement_texture);
+    context.blend_func(sfactor(request.blend), dfactor(request.blend));
+    m_current_texture_handle = handle;
+  }
+  else
+  {
+    const float colors[] = {
+            request.color.red,request.color.green,request.color.blue,request.color.alpha * request.alpha,
+            request.color.red,request.color.green,request.color.blue,request.color.alpha * request.alpha,
+            request.color.red,request.color.green,request.color.blue,request.color.alpha * request.alpha,
+            request.color.red,request.color.green,request.color.blue,request.color.alpha * request.alpha,
+    };
+    m_vertex_cache.insert(m_vertex_cache.end(), m_vertices.begin(), m_vertices.end());
+    m_uv_cache.insert(m_uv_cache.end(), m_uvs.begin(), m_uvs.end());
+    m_color_cache.insert(m_color_cache.end(), std::begin(colors), std::end(colors));
+    m_srcrect_count += static_cast<int>(request.srcrects.size() * 2 * 3);
+  }
 
   assert_gl();
 }
@@ -534,6 +550,26 @@ GLPainter::clear_clip_rect()
   assert_gl();
 
   glDisable(GL_SCISSOR_TEST);
+
+  assert_gl();
+}
+
+void
+GLPainter::flush_batch()
+{
+  assert_gl();
+
+  GLContext& context = m_video_system.get_context();
+  context.set_texcoords(m_uv_cache.data(), sizeof(float) * m_uv_cache.size());
+  context.set_positions(m_vertex_cache.data(), sizeof(float) * m_vertex_cache.size());
+  context.set_colors(m_color_cache.data(), m_color_cache.size());
+  context.draw_arrays(GL_TRIANGLES, 0, m_srcrect_count);
+
+  m_uv_cache.clear();
+  m_vertex_cache.clear();
+  m_color_cache.clear();
+  m_srcrect_count = 0;
+  m_current_texture_handle = 0;
 
   assert_gl();
 }

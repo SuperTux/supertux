@@ -65,6 +65,9 @@ GLScreenRenderer::start_draw()
 void
 GLScreenRenderer::end_draw()
 {
+  auto& renderer = static_cast<GLScreenRenderer&>(m_video_system.get_renderer());
+  auto& painter = renderer.get_painter();
+  painter.flush_batch();
 }
 
 Rect
