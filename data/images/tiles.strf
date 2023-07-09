@@ -21,7 +21,7 @@
 
   ;; next-id: 7195
   ;; free/skipped ids (please use before any other): 101
-  ;; 2080-2084 are empty tiles, 5023-5092, 5268-5283, 7002 7005 7007 7008 7173
+  ;; 2080-2084 are empty tiles, 5023-5092, 5205, 5268-5283, 7002 7005 7007 7008 7173
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
@@ -297,7 +297,7 @@
       1345 1346 1344 0
       106  107  108  0
       109  110  111  0
-      5203 5204 5205 0
+      5203 5204 24   0
       1321 1322 1323 1324
       1325 1326 1327 1328
       1329 1330 1331 1332
@@ -1730,13 +1730,14 @@
   (tile
     (id 24)
     (images
-      "tiles/doodads/grass1.png"
+      "tiles/snow/grass2.png"
     )
   )
+  ; Duplicate of 24, retrocompatibility
   (tile
     (id 25)
     (images
-      "tiles/doodads/grass2.png"
+      "tiles/snow/grass2.png"
     )
   )
   (tile
@@ -6565,13 +6566,6 @@
       5203 5204
     )
     (image "tiles/snow/grass1.png")
-  )
-  (tiles
-    (width 1)(height 1)
-    (ids
-      5205
-    )
-    (image "tiles/snow/grass2.png")
   )
   (tiles
     (width 6)(height 5)
