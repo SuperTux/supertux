@@ -28,7 +28,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-Coin::Coin(const Vector& pos) :
+Coin::Coin(const Vector& pos, bool count_stats) :
   MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
   PathObject(),
   m_offset(0.0f, 0.0f),
@@ -36,12 +36,13 @@ Coin::Coin(const Vector& pos) :
   m_add_path(false),
   m_physic(),
   m_collect_script(),
-  m_starting_node(0)
+  m_starting_node(0),
+  m_count_stats(count_stats)
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
 
-Coin::Coin(const ReaderMapping& reader) :
+Coin::Coin(const ReaderMapping& reader, bool count_stats) :
   MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
   PathObject(),
   m_offset(0.0f, 0.0f),
@@ -49,7 +50,8 @@ Coin::Coin(const ReaderMapping& reader) :
   m_add_path(false),
   m_physic(),
   m_collect_script(),
-  m_starting_node(0)
+  m_starting_node(0),
+  m_count_stats(count_stats)
 {
   reader.get("starting-node", m_starting_node, 0);
 
@@ -187,7 +189,8 @@ Coin::collect()
 
   Sector::get().get_players()[0]->get_status().add_coins(1, false);
   Sector::get().add<BouncyCoin>(get_pos(), false, get_sprite_name());
-  Sector::get().get_level().m_stats.increment_coins();
+  if (m_count_stats && !m_parent_dispenser)
+    Sector::get().get_level().m_stats.increment_coins();
   remove_me();
 
   if (!m_collect_script.empty()) {
@@ -207,8 +210,8 @@ Coin::collision(GameObject& other, const CollisionHit& )
 }
 
 /* The following defines a coin subject to gravity */
-HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity) :
-  Coin(pos),
+HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats) :
+  Coin(pos, count_stats),
   m_physic(),
   m_last_hit()
 {
@@ -218,8 +221,8 @@ HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity) :
   m_physic.set_velocity(init_velocity);
 }
 
-HeavyCoin::HeavyCoin(const ReaderMapping& reader) :
-  Coin(reader),
+HeavyCoin::HeavyCoin(const ReaderMapping& reader, bool count_stats) :
+  Coin(reader, count_stats),
   m_physic(),
   m_last_hit()
 {

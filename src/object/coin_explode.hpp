@@ -23,7 +23,7 @@
 class CoinExplode final : public GameObject
 {
 public:
-  CoinExplode(const Vector& pos);
+  CoinExplode(const Vector& pos, bool count_stats = true);
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_saveable() const override {
@@ -32,6 +32,7 @@ public:
 
 private:
   Vector position;
+  const bool m_count_stats;
 };
 
 #endif

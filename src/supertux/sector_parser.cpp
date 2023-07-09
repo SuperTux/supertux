@@ -369,8 +369,6 @@ SectorParser::create_sector()
   m_sector.add<Camera>("Camera");
   m_sector.add<MusicObject>();
 
-  m_sector.flush_game_objects();
-
   m_sector.finish_construction(m_editable);
 }
 

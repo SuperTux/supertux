@@ -52,13 +52,16 @@ public:
   {
     OBJ_PARAM_NONE = 0,
     OBJ_PARAM_PORTABLE = 0b10000000,
-    OBJ_PARAM_WORLDMAP = 0b01000000
+    OBJ_PARAM_WORLDMAP = 0b01000000,
+    OBJ_PARAM_DISPENSABLE = 0b00100000
   };
 
 public:
   /** Will throw in case of creation failure, will never return nullptr */
   std::unique_ptr<GameObject> create(const std::string& name, const ReaderMapping& reader) const;
   std::string get_display_name(const std::string& name) const;
+
+  bool has_params(const std::string& name, uint8_t params);
 
   std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
   std::vector<std::string> get_registered_badguys(uint8_t params);

@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,34 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_BADGUY_SELECT_HPP
-#define HEADER_SUPERTUX_GUI_MENU_BADGUY_SELECT_HPP
+#include <memory>
 
-#include "gui/menu.hpp"
+class Downloader;
 
-class BadguySelectMenu final : public Menu
-{
-public:
-  BadguySelectMenu(std::vector<std::string>* badguys_);
+class TransferStatus;
+using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
-  void menu_action(MenuItem& item) override;
-
-  void remove_badguy();
-
-  void refresh() override;
-
-private:
-  std::vector<std::string>* badguys;
-  std::string selected;
-  int remove_item;
-
-  void add_badguy();
-
-private:
-  BadguySelectMenu(const BadguySelectMenu&) = delete;
-  BadguySelectMenu& operator=(const BadguySelectMenu&) = delete;
-};
-
-#endif
-
-/* EOF */
+class TransferStatusList;
+using TransferStatusListPtr = std::shared_ptr<TransferStatusList>;

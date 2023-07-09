@@ -41,6 +41,7 @@ class Value;
 } // namespace sexp
 class Color;
 class Menu;
+class GameObject;
 class Path;
 class PathObject;
 class Rectf;
@@ -317,22 +318,23 @@ private:
   ColorObjectOption& operator=(const ColorObjectOption&) = delete;
 };
 
-class BadGuySelectObjectOption : public ObjectOption
+class ObjectSelectObjectOption : public ObjectOption
 {
 public:
-  BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
-                           unsigned int flags);
+  ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
+                           GameObject* parent, const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::vector<std::string>* const m_pointer;
+  std::vector<std::unique_ptr<GameObject>>* const m_pointer;
+  GameObject* m_parent;
 
 private:
-  BadGuySelectObjectOption(const BadGuySelectObjectOption&) = delete;
-  BadGuySelectObjectOption& operator=(const BadGuySelectObjectOption&) = delete;
+  ObjectSelectObjectOption(const ObjectSelectObjectOption&) = delete;
+  ObjectSelectObjectOption& operator=(const ObjectSelectObjectOption&) = delete;
 };
 
 class TilesObjectOption : public ObjectOption

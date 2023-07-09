@@ -6,6 +6,7 @@
 #include "scripting/camera.hpp"
 #include "scripting/candle.hpp"
 #include "scripting/clouds.hpp"
+#include "scripting/conveyor_belt.hpp"
 #include "scripting/custom_particles.hpp"
 #include "scripting/decal.hpp"
 #include "scripting/dispenser.hpp"

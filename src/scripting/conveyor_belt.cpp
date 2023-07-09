@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2022 Raoul1808 <raoulthegeek@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,23 +14,47 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gui/item_badguy_select.hpp"
+#include "object/conveyor_belt.hpp"
+#include "scripting/conveyor_belt.hpp"
 
-#include "gui/menu.hpp"
-#include "gui/menu_badguy_select.hpp"
-#include "gui/menu_manager.hpp"
-
-ItemBadguySelect::ItemBadguySelect(const std::string& text, std::vector<std::string>* badguys_, int id) :
-  MenuItem(text, id),
-  badguys(badguys_)
+namespace scripting
 {
+
+void
+ConveyorBelt::start()
+{
+  SCRIPT_GUARD_VOID;
+  object.start();
 }
 
 void
-ItemBadguySelect::process_action(const MenuAction& action) {
-  if (action == MenuAction::HIT) {
-    MenuManager::instance().push_menu(std::make_unique<BadguySelectMenu>(badguys));
-  }
+ConveyorBelt::stop()
+{
+  SCRIPT_GUARD_VOID;
+  object.stop();
 }
+
+void
+ConveyorBelt::move_left()
+{
+  SCRIPT_GUARD_VOID;
+  object.move_left();
+}
+
+void
+ConveyorBelt::move_right()
+{
+  SCRIPT_GUARD_VOID;
+  object.move_right();
+}
+
+void
+ConveyorBelt::set_speed(float target_speed)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_speed(target_speed);
+}
+
+} // namespace scripting
 
 /* EOF */
