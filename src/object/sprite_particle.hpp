@@ -21,6 +21,7 @@
 #include "math/anchor_point.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
+#include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
 class Player;
@@ -31,11 +32,11 @@ public:
   SpriteParticle(SpritePtr sprite, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false);
+                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
   SpriteParticle(const std::string& sprite_name, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false);
+                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
   ~SpriteParticle() override;
 
   SpritePtr& get_sprite() { return sprite; }
@@ -56,6 +57,7 @@ private:
   SpritePtr lightsprite;
   bool glow;
   bool no_time_out;
+  Color color;
 
 private:
   SpriteParticle(const SpriteParticle&) = delete;

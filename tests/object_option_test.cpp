@@ -19,15 +19,17 @@
 #include <errno.h>
 #include <string.h>
 #include <vector>
+#include <memory>
 
 #include "editor/object_option.hpp"
+#include "supertux/game_object.hpp"
 #include "video/color.hpp"
 
 TEST(ObjectOption, to_string)
 {
   {
     std::string mystring = "field";
-    StringObjectOption textfield("test", &mystring, {}, boost::none, 0);
+    StringObjectOption textfield("test", &mystring, {}, std::nullopt, 0);
     ASSERT_EQ(mystring, textfield.to_string());
   }
 
@@ -63,9 +65,21 @@ TEST(ObjectOption, to_string)
   }
 
   {
-    std::vector<std::string> select = {"foo", "bar", "blb"};
-    BadGuySelectObjectOption badguyselect("test", &select, {}, 0);
-    ASSERT_EQ("3", badguyselect.to_string());
+    class TestObject : public GameObject
+    {
+      public:
+        TestObject() : GameObject() {}
+
+        void draw(DrawingContext&) override {}
+        void update(float) override {}
+    };
+
+    std::vector<std::unique_ptr<GameObject>> select;
+    select.push_back(std::make_unique<TestObject>());
+    select.push_back(std::make_unique<TestObject>());
+    select.push_back(std::make_unique<TestObject>());
+    ObjectSelectObjectOption objectselect("test", &select, nullptr, {}, 0);
+    ASSERT_EQ("3", objectselect.to_string());
   }
 
   {

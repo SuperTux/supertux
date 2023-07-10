@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_HPP
 #define HEADER_SUPERTUX_INTERFACE_CONTROL_HPP
 
+#include <functional>
 #include <SDL.h>
 
 #include "control/input_manager.hpp"

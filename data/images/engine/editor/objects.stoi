@@ -11,19 +11,19 @@
     (icon "images/creatures/snowball/smartball-1.png"))
   (object
     (class "snowman")
-    (icon "images/creatures/snowman/smwalk1.png"))
+    (icon "images/creatures/snowman/snowman-5.png"))
   (object
     (class "bouncingsnowball")
-    (icon "images/creatures/bouncing_snowball/bouncing_snowball-editor.png"))
+    (icon "images/creatures/bouncing_snowball/jump-3.png"))
   (object
     (class "captainsnowball")
-    (icon "images/creatures/snowball/captain-left-1.png"))
+    (icon "images/creatures/snowball/captain_left-1.png"))
   (object
     (class "flyingsnowball")
-    (icon "images/creatures/flying_snowball/left-0.png"))
+    (icon "images/creatures/flying_snowball/flying_snowball-0.png"))
   (object
     (class "kamikazesnowball")
-    (icon "images/creatures/snowball/kamikaze-snowball-editor.png"))
+    (icon "images/creatures/snowball/kamikaze-editor.png"))
   (object
     (class "mrbomb")
     (icon "images/creatures/mr_bomb/left-0.png"))
@@ -38,19 +38,19 @@
     (icon "images/creatures/short_fuse/short_fuse-0.png"))
   (object
     (class "mriceblock")
-    (icon "images/creatures/mr_iceblock/iceblock-1.png"))
+    (icon "images/creatures/iceblock/iceblock-1.png"))
   (object
     (class "smartblock")
-    (icon "images/creatures/mr_iceblock/smart_block/smartblock-1.png"))
+    (icon "images/creatures/iceblock/smartblock-1.png"))
   (object
     (class "spiky")
-    (icon "images/creatures/spiky/spikywalk4.png"))
+    (icon "images/creatures/spiky/spiky-1.png"))
   (object
     (class "sspiky")
-    (icon "images/creatures/spiky/sleeping-left.png"))
+    (icon "images/creatures/spiky/spiky_sleep-0.png"))
   (object
     (class "jumpy")
-    (icon "images/creatures/snowjumpy/down-0.png"))
+    (icon "images/creatures/jumpy/snow_down-0.png"))
   (object
     (class "livefire")
     (icon "images/creatures/livefire/f2.png"))
@@ -101,16 +101,16 @@
     (icon "images/creatures/snail/left-0.png"))
   (object
     (class "mrtree")
-    (icon "images/creatures/mr_tree/walk-left-1.png"))
+    (icon "images/creatures/mr_tree/mr_tree-8.png"))
   (object
     (class "stumpy")
-    (icon "images/creatures/mr_tree/small-left-0.png"))
+    (icon "images/creatures/mr_tree/stumpy-8.png"))
   (object
     (class "owl")
     (icon "images/creatures/owl/left-0.png"))
   (object
     (class "zeekling")
-    (icon "images/creatures/zeekling/left-0.png"))
+    (icon "images/creatures/zeekling/zeekling-0.png"))
   (object
     (class "igel")
     (icon "images/creatures/igel/walk-0.png"))
@@ -119,7 +119,7 @@
     (icon "images/creatures/mole/center.png"))
   (object
     (class "fish-jumping")
-    (icon "images/creatures/fish/forest/jump-1.png"))
+    (icon "images/creatures/fish/forest/jump_blue-3.png"))
   (object
     (class "fish-chasing")
     (icon "images/creatures/fish/ice/swim_green-0.png"))
@@ -131,7 +131,7 @@
     (icon "images/creatures/fish/ice/swim_orange-0.png"))
   (object
     (class "skullyhop")
-    (icon "images/creatures/skullyhop/s-jump.png"))
+    (icon "images/creatures/skullyhop/stand-0.png"))
   (object
     (class "spidermite")
     (icon "images/creatures/spidermite/spidermite1.png"))
@@ -165,6 +165,9 @@
   (object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
+  (object
+    (class "dive-mine")
+    (icon "images/creatures/dive_mine/left-0.png"))
  )
 
  (objectgroup
@@ -200,7 +203,7 @@
     (icon "images/objects/bonus_block/full-0.png"))
   (object
     (class "infoblock")
-    (icon "images/objects/bonus_block/infoblock.png"))
+    (icon "images/objects/bonus_block/infoblock-0.png"))
   (object
     (class "invisible_block")
     (icon "images/objects/bonus_block/bonus-invisible.png"))
@@ -231,6 +234,9 @@
   (object
     (class "platform")
     (icon "images/objects/flying_platform/flying_platform-0.png"))
+  (object
+    (class "conveyor-belt")
+    (icon "images/objects/conveyor_belt/conveyor_left0.png"))
   (object
     (class "pneumatic-platform")
     (icon "images/engine/editor/pneumaticplatform.png"))
@@ -333,6 +339,9 @@
   (object
     (class "lit-object")
     (icon "images/objects/lightflower/lightflower1-0.png"))
+  (object
+    (class "key")
+    (icon "images/objects/keys/key_silver.png"))
  )
 
  (objectgroup
@@ -393,7 +402,7 @@
     (icon "images/worldmap/common/leveldot_red.png"))
   (object
     (class "special-tile")
-    (icon "images/worldmap/common/messagedot.png"))
+    (icon "images/worldmap/common/specialtile.png"))
   (object
     (class "sprite-change")
     (icon "images/engine/editor/spritechange.png"))

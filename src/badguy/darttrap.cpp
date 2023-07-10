@@ -59,7 +59,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 void
 DartTrap::initialize()
 {
-  m_sprite->set_action("idle", m_dir);
+  set_action("idle", m_dir);
 }
 
 void
@@ -129,7 +129,7 @@ void
 DartTrap::load()
 {
   state = LOADING;
-  m_sprite->set_action("loading", m_dir, 1);
+  set_action("loading", m_dir, 1);
 }
 
 void
@@ -146,7 +146,7 @@ DartTrap::fire()
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   Sector::get().add<Dart>(Vector(px, py), m_dir, this);
   state = IDLE;
-  m_sprite->set_action("idle", m_dir);
+  set_action("idle", m_dir);
 }
 
 ObjectSettings

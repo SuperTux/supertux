@@ -267,7 +267,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // read reset-points (now spawn-points)
-  boost::optional<ReaderMapping> resetpoints;
+  std::optional<ReaderMapping> resetpoints;
   if (reader.get("reset-points", resetpoints)) {
     auto iter = resetpoints->get_iter();
     while (iter.next()) {
@@ -284,7 +284,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // read objects
-  boost::optional<ReaderCollection> objects;
+  std::optional<ReaderCollection> objects;
   if (reader.get("objects", objects)) {
     for (auto const& obj : objects->get_objects())
     {
@@ -361,8 +361,6 @@ SectorParser::create_sector()
 
   m_sector.add<Camera>("Camera");
   m_sector.add<MusicObject>();
-
-  m_sector.flush_game_objects();
 
   m_sector.finish_construction(m_editable);
 }

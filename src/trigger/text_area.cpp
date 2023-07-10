@@ -35,7 +35,8 @@ TextArea::TextArea(const ReaderMapping& mapping) :
   m_current_text(0),
   m_status(Status::NOT_STARTED),
   m_timer(),
-  m_anchor(AnchorPoint::ANCHOR_MIDDLE)
+  m_anchor(AnchorPoint::ANCHOR_MIDDLE),
+  m_anchor_offset(0, 0)
 {
   float w, h;
 
@@ -47,6 +48,8 @@ TextArea::TextArea(const ReaderMapping& mapping) :
   mapping.get("delay", m_delay);
   mapping.get("once", m_once);
   mapping.get("fade-delay", m_fade_delay);
+  mapping.get("anchor-offset-x", m_anchor_offset.x);
+  mapping.get("anchor-offset-y", m_anchor_offset.y);
 
   std::string anchor;
   if (mapping.get("anchor-point", anchor))
@@ -96,6 +99,7 @@ TextArea::event(Player& player, EventType type)
         m_status = Status::FADING_IN;
         m_timer.start(m_fade_delay);
         text_object.set_anchor_point(m_anchor);
+        text_object.set_anchor_offset(m_anchor_offset);
         text_object.set_text(m_items[m_current_text]);
         text_object.fade_in(m_fade_delay);
       }
@@ -139,6 +143,7 @@ TextArea::update(float dt_sec)
           m_status = Status::FADING_IN;
           m_timer.start(m_fade_delay);
           text_object.set_anchor_point(m_anchor);
+          text_object.set_anchor_offset(m_anchor_offset);
           text_object.set_text(m_items[m_current_text]);
           text_object.fade_in(m_fade_delay);
         }
@@ -162,6 +167,8 @@ TextArea::get_settings()
                     get_anchor_names(), g_anchor_keys,
                     static_cast<int>(AnchorPoint::ANCHOR_MIDDLE),
                     "anchor-point");
+  settings.add_float(_("Anchor offset X"), &m_anchor_offset.x, "anchor-offset-x");
+  settings.add_float(_("Anchor offset Y"), &m_anchor_offset.y, "anchor-offset-y");
   settings.add_string_array(_("Texts"), "texts", m_items);
 
   return settings;

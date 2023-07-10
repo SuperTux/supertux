@@ -21,9 +21,9 @@
     )
     (background
       (speed 0)
-      (image-top "/images/background/halloween/vignette.png")
-      (image "/images/background/halloween/vignette.png")
-      (image-bottom "/images/background/halloween/vignette.png")
+      (image-top "/images/background/misc/vignette.png")
+      (image "/images/background/misc/vignette.png")
+      (image-bottom "/images/background/misc/vignette.png")
       (z-pos 110)
     )
     (background
@@ -765,9 +765,9 @@
     )
     (background
       (speed 0)
-      (image-top "/images/background/halloween/vignette.png")
-      (image "/images/background/halloween/vignette.png")
-      (image-bottom "/images/background/halloween/vignette.png")
+      (image-top "/images/background/misc/vignette.png")
+      (image "/images/background/misc/vignette.png")
+      (image-bottom "/images/background/misc/vignette.png")
       (z-pos 110)
     )
     (background
@@ -974,9 +974,9 @@
     )
     (background
       (speed 0)
-      (image-top "/images/background/halloween/vignette.png")
-      (image "/images/background/halloween/vignette.png")
-      (image-bottom "/images/background/halloween/vignette.png")
+      (image-top "/images/background/misc/vignette.png")
+      (image "/images/background/misc/vignette.png")
+      (image-bottom "/images/background/misc/vignette.png")
       (z-pos 110)
     )
     (camera
@@ -1338,9 +1338,9 @@
     )
     (background
       (speed 0)
-      (image-top "/images/background/halloween/vignette.png")
-      (image "/images/background/halloween/vignette.png")
-      (image-bottom "/images/background/halloween/vignette.png")
+      (image-top "/images/background/misc/vignette.png")
+      (image "/images/background/misc/vignette.png")
+      (image-bottom "/images/background/misc/vignette.png")
       (z-pos 120)
     )
     (background

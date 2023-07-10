@@ -16,7 +16,7 @@
 
 #include "supertux/gameconfig.hpp"
 
-#include "config.h"
+#include <ctime>
 
 #include "editor/overlay_widget.hpp"
 #include "supertux/colorscheme.hpp"
@@ -106,6 +106,8 @@ Config::Config() :
   editor_autotile_mode(false),
   editor_autotile_help(true),
   editor_autosave_frequency(5),
+  editor_undo_tracking(true),
+  editor_undo_stack_size(20),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -138,7 +140,7 @@ Config::load()
 
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
-  boost::optional<ReaderCollection> config_profiles_mapping;
+  std::optional<ReaderCollection> config_profiles_mapping;
   if (config_mapping.get("profiles", config_profiles_mapping))
   {
     for (auto const& profile_node : config_profiles_mapping->get_objects())
@@ -170,7 +172,7 @@ Config::load()
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
 
-  boost::optional<ReaderMapping> config_integrations_mapping;
+  std::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
   {
     config_integrations_mapping->get("hide_editor_levelnames", hide_editor_levelnames);
@@ -179,7 +181,7 @@ Config::load()
 #endif
   }
 
-  boost::optional<ReaderCollection> config_notifications_mapping;
+  std::optional<ReaderCollection> config_notifications_mapping;
   if (config_mapping.get("notifications", config_notifications_mapping))
   {
     for (auto const& notification_node : config_notifications_mapping->get_objects())
@@ -208,7 +210,7 @@ Config::load()
   std::vector<float> menubackcolor_, menufrontcolor_, menuhelpbackcolor_, menuhelpfrontcolor_,
     labeltextcolor_, activetextcolor_, hlcolor_, editorcolor_, editorhovercolor_, editorgrabcolor_;
 
-  boost::optional<ReaderMapping> interface_colors_mapping;
+  std::optional<ReaderMapping> interface_colors_mapping;
   if (config_mapping.get("interface_colors", interface_colors_mapping))
   {
     interface_colors_mapping->get("menubackcolor", menubackcolor_, ColorScheme::Menu::back_color.toVector());
@@ -240,7 +242,7 @@ Config::load()
 
   editor_autotile_help = !developer_mode;
 
-  boost::optional<ReaderMapping> editor_mapping;
+  std::optional<ReaderMapping> editor_mapping;
   if (config_mapping.get("editor", editor_mapping))
   {
     editor_mapping->get("autosave_frequency", editor_autosave_frequency);
@@ -251,6 +253,13 @@ Config::load()
     editor_mapping->get("render_lighting", editor_render_lighting);
     editor_mapping->get("selected_snap_grid_size", editor_selected_snap_grid_size);
     editor_mapping->get("snap_to_grid", editor_snap_to_grid);
+    editor_mapping->get("undo_tracking", editor_undo_tracking);
+    editor_mapping->get("undo_stack_size", editor_undo_stack_size);
+    if (editor_undo_stack_size < 1)
+    {
+      log_warning << "Undo stack size could not be lower than 1. Setting to lowest possible value (1)." << std::endl;
+      editor_undo_stack_size = 1;
+    }
   }
 
   if (is_christmas()) {
@@ -265,7 +274,7 @@ Config::load()
   config_mapping.get("multiplayer_multibind", multiplayer_multibind);
   config_mapping.get("multiplayer_buzz_controllers", multiplayer_buzz_controllers);
 
-  boost::optional<ReaderMapping> config_video_mapping;
+  std::optional<ReaderMapping> config_video_mapping;
   if (config_mapping.get("video", config_video_mapping))
   {
     config_video_mapping->get("fullscreen", use_fullscreen);
@@ -303,7 +312,7 @@ Config::load()
 #endif
   }
 
-  boost::optional<ReaderMapping> config_audio_mapping;
+  std::optional<ReaderMapping> config_audio_mapping;
   if (config_mapping.get("audio", config_audio_mapping))
   {
     config_audio_mapping->get("sound_enabled", sound_enabled);
@@ -312,16 +321,16 @@ Config::load()
     config_audio_mapping->get("music_volume", music_volume);
   }
 
-  boost::optional<ReaderMapping> config_control_mapping;
+  std::optional<ReaderMapping> config_control_mapping;
   if (config_mapping.get("control", config_control_mapping))
   {
-    boost::optional<ReaderMapping> keymap_mapping;
+    std::optional<ReaderMapping> keymap_mapping;
     if (config_control_mapping->get("keymap", keymap_mapping))
     {
       keyboard_config.read(*keymap_mapping);
     }
 
-    boost::optional<ReaderMapping> joystick_mapping;
+    std::optional<ReaderMapping> joystick_mapping;
     if (config_control_mapping->get("joystick", joystick_mapping))
     {
       joystick_config.read(*joystick_mapping);
@@ -331,7 +340,7 @@ Config::load()
     config_control_mapping->get("mobile_controls_scale", m_mobile_controls_scale, 1);
   }
 
-  boost::optional<ReaderCollection> config_addons_mapping;
+  std::optional<ReaderCollection> config_addons_mapping;
   if (config_mapping.get("addons", config_addons_mapping))
   {
     for (auto const& addon_node : config_addons_mapping->get_objects())
@@ -503,10 +512,23 @@ Config::save()
     writer.write("render_lighting", editor_render_lighting);
     writer.write("selected_snap_grid_size", editor_selected_snap_grid_size);
     writer.write("snap_to_grid", editor_snap_to_grid);
+    writer.write("undo_tracking", editor_undo_tracking);
+    writer.write("undo_stack_size", editor_undo_stack_size);
   }
   writer.end_list("editor");
 
   writer.end_list("supertux-config");
+}
+
+
+bool
+Config::is_christmas() const
+{
+  std::time_t time = std::time(nullptr);
+  std::tm* now = std::localtime(&time);
+
+  /* Activate Christmas mode from Dec 6th until Dec 31st. */
+  return now->tm_mday >= 6 && now->tm_mon == 11;
 }
 
 /* EOF */

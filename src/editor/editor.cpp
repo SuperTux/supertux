@@ -37,7 +37,6 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
-#include "editor/undo_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -108,14 +107,13 @@ Editor::Editor() :
   m_after_setup(false),
   m_tileset(nullptr),
   m_widgets(),
+  m_undo_widget(),
+  m_redo_widget(),
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
-  m_undo_manager(new UndoManager),
-  m_ignore_sector_change(false),
-  m_level_first_loaded(false),
   m_time_since_last_save(0.f),
   m_scroll_speed(32.0f)
 {
@@ -127,13 +125,6 @@ Editor::Editor() :
   m_layers_widget = layers_widget.get();
   m_overlay_widget = overlay_widget.get();
 
-  auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
-    Vector(10, 10), [this]{ undo(); });
-  auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
-    Vector(60, 10), [this]{ redo(); });
-
-  m_widgets.push_back(std::move(undo_button_widget));
-  m_widgets.push_back(std::move(redo_button_widget));
   m_widgets.push_back(std::move(toolbox_widget));
   m_widgets.push_back(std::move(layers_widget));
   m_widgets.push_back(std::move(overlay_widget));
@@ -237,7 +228,7 @@ Editor::update(float dt_sec, const Controller& controller)
     std::unique_ptr<Screen> screen(new ParticleEditor());
     if (m_particle_editor_filename)
       static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
-    ScreenManager::current()->push_screen(move(screen));
+    ScreenManager::current()->push_screen(std::move(screen));
     return;
   }
 
@@ -292,7 +283,10 @@ Editor::save_level(const std::string& filename, bool switch_file)
   if (switch_file)
     m_levelfile = filename;
 
-  m_undo_manager->reset_index();
+  for (const auto& sector : m_level->m_sectors)
+  {
+    sector->clear_undo_stack();
+  }
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
   remove_autosave_file();
@@ -318,7 +312,7 @@ Editor::get_level_directory() const
 }
 
 void
-Editor::test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos)
+Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
   m_overlay_widget->reset_action_press();
 
@@ -443,6 +437,10 @@ Editor::load_sector(const std::string& name)
   if (!sector) {
     sector = m_level->get_sector(0);
   }
+
+  sector->set_undo_stack_size(g_config->editor_undo_stack_size);
+  sector->toggle_undo_tracking(g_config->editor_undo_tracking);
+
   set_sector(sector);
 }
 
@@ -525,13 +523,6 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_layers_widget->refresh_sector_text();
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
-  
-  if (!m_level_first_loaded)
-  {
-    m_undo_manager->try_snapshot(*m_level);
-    m_undo_manager->reset_index();
-    m_level_first_loaded = true;
-  }
 }
 
 void
@@ -543,6 +534,9 @@ Editor::reload_level()
                                    StringUtil::has_suffix(m_levelfile, ".stwm"),
                                    true));
   ReaderMapping::s_translations_enabled = true;
+
+  retoggle_undo_tracking();
+  undo_stack_cleanup();
 
   // Autosave files : Once the level is loaded, make sure
   // to use the regular file
@@ -584,11 +578,31 @@ Editor::quit_editor()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (m_undo_manager->has_unsaved_changes() && m_levelloaded)
+  if (!m_levelloaded)
+  {
+    action();
+    return;
+  }
+
+  bool has_unsaved_changes = !g_config->editor_undo_tracking;
+  if (!has_unsaved_changes)
+  {
+    for (const auto& sector : m_level->m_sectors)
+    {
+      if (sector->has_object_changes())
+      {
+        has_unsaved_changes = true;
+        break;
+      }
+    }
+  }
+
+  if (has_unsaved_changes)
   {
     m_enabled = false;
     auto dialog = std::make_unique<Dialog>();
-    dialog->set_text(_("This level contains unsaved changes, do you want to save?"));
+    dialog->set_text(g_config->editor_undo_tracking ? _("This level contains unsaved changes, do you want to save?") :
+                                                      _("This level may contain unsaved changes, do you want to save?"));
     dialog->add_default_button(_("Yes"), [this, action] {
       check_save_prerequisites([this, action] {
         save_level();
@@ -691,7 +705,7 @@ Editor::event(const SDL_Event& ev)
 	if (ev.type == SDL_KEYDOWN &&
         ev.key.keysym.sym == SDLK_t &&
         ev.key.keysym.mod & KMOD_CTRL) {
-		test_level(boost::none);
+		test_level(std::nullopt);
 		}
 
 	if (ev.type == SDL_KEYDOWN &&
@@ -735,28 +749,11 @@ Editor::event(const SDL_Event& ev)
       return;
     }
 
-    m_ignore_sector_change = false;
-
     BIND_SECTOR(*m_sector);
 
     for(const auto& widget : m_widgets) {
       if (widget->event(ev))
         break;
-    }
-
-    // unreliable heuristic to snapshot the current state for future undo
-    if (((ev.type == SDL_KEYUP && ev.key.repeat == 0 &&
-         ev.key.keysym.sym != SDLK_LSHIFT &&
-         ev.key.keysym.sym != SDLK_RSHIFT &&
-         ev.key.keysym.sym != SDLK_LCTRL &&
-         ev.key.keysym.sym != SDLK_RCTRL) ||
-         ev.type == SDL_MOUSEBUTTONUP))
-    {
-      if (!m_ignore_sector_change) {
-        if (m_level) {
-          m_undo_manager->try_snapshot(*m_level);
-        }
-      }
     }
 
     // Scroll with mouse wheel, if the mouse is not over the toolbox.
@@ -872,29 +869,72 @@ Editor::check_save_prerequisites(const std::function<void ()>& callback) const
 }
 
 void
+Editor::retoggle_undo_tracking()
+{
+  if (g_config->editor_undo_tracking && !m_undo_widget)
+  {
+    // Add undo/redo button widgets.
+    auto undo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/undo.png",
+        Vector(10, 10), [this]{ undo(); });
+    auto redo_button_widget = std::make_unique<ButtonWidget>("images/engine/editor/redo.png",
+        Vector(60, 10), [this]{ redo(); });
+
+    m_undo_widget = undo_button_widget.get();
+    m_redo_widget = redo_button_widget.get();
+
+    m_widgets.insert(m_widgets.begin(), std::move(undo_button_widget));
+    m_widgets.insert(m_widgets.begin() + 1, std::move(redo_button_widget));
+  }
+  else if (!g_config->editor_undo_tracking && m_undo_widget)
+  {
+    // Remove undo/redo button widgets.
+    m_widgets.erase(std::remove_if(
+                      m_widgets.begin(), m_widgets.end(),
+                      [this](const std::unique_ptr<Widget>& widget) {
+                          const Widget* ptr = widget.get();
+                          return ptr == m_undo_widget || ptr == m_redo_widget;
+                      }), m_widgets.end());
+    m_undo_widget = nullptr;
+    m_redo_widget = nullptr;
+  }
+
+  // Toggle undo tracking for all sectors.
+  for (const auto& sector : m_level->m_sectors)
+    sector->toggle_undo_tracking(g_config->editor_undo_tracking);
+}
+
+void
+Editor::undo_stack_cleanup()
+{
+  // Set the undo stack size and perform undo stack cleanup on all sectors.
+  for (const auto& sector : m_level->m_sectors)
+  {
+    sector->set_undo_stack_size(g_config->editor_undo_stack_size);
+    sector->undo_stack_cleanup();
+  }
+}
+
+void
 Editor::undo()
 {
-  log_info << "attempting undo" << std::endl;
-  auto level = m_undo_manager->undo();
-  if (level) {
-    set_level(std::move(level), false);
-    m_ignore_sector_change = true;
-  } else {
-    log_info << "undo failed" << std::endl;
-  }
+  BIND_SECTOR(*m_sector);
+  m_sector->undo();
+  post_undo_redo_actions();
 }
 
 void
 Editor::redo()
 {
-  log_info << "attempting redo" << std::endl;
-  auto level = m_undo_manager->redo();
-  if (level) {
-    set_level(std::move(level), false);
-    m_ignore_sector_change = true;
-  } else {
-    log_info << "redo failed" << std::endl;
-  }
+  BIND_SECTOR(*m_sector);
+  m_sector->redo();
+  post_undo_redo_actions();
+}
+
+void
+Editor::post_undo_redo_actions()
+{
+  m_overlay_widget->delete_markers();
+  m_layers_widget->update_current_tip();
 }
 
 IntegrationStatus
@@ -951,7 +991,6 @@ Editor::pack_addon()
     if (info_file)
     {
       auto info_stream = ReaderDocument::from_stream(*info_file);
-      boost::optional<ReaderMapping> rm;
       auto a = info_stream.get_root().get_mapping();
       a.get("version", version);
     }

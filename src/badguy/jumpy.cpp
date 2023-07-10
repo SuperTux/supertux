@@ -26,11 +26,11 @@ static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;
 
 Jumpy::Jumpy(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/snowjumpy/snowjumpy.sprite"),
+  BadGuy(reader, "images/creatures/jumpy/snowjumpy.sprite"),
   pos_groundhit(0.0f, 0.0f),
   groundhit_pos_set(false)
 {
-  m_sprite->set_action("left-middle");
+  set_action(m_dir, "middle");
   // TODO create a nice sound for this...
   //SoundManager::current()->preload("sounds/skid.wav");
 }
@@ -86,17 +86,17 @@ Jumpy::active_update(float dt_sec)
 
   if (!groundhit_pos_set)
   {
-    m_sprite->set_action("editor", m_dir);
+    set_action("editor", m_dir);
     return;
   }
 
   if ( get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE ) )
-    m_sprite->set_action(m_dir == Direction::LEFT ? "left-up" : "right-up");
+    set_action(m_dir, "up");
   else if ( get_pos().y >= (pos_groundhit.y - JUMPY_MID_TOLERANCE) &&
             get_pos().y < (pos_groundhit.y - JUMPY_LOW_TOLERANCE) )
-    m_sprite->set_action(m_dir == Direction::LEFT ? "left-middle" : "right-middle");
+    set_action(m_dir, "middle");
   else
-    m_sprite->set_action(m_dir == Direction::LEFT ? "left-down" : "right-down");
+    set_action(m_dir, "down");
 }
 
 void

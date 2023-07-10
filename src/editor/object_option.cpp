@@ -24,7 +24,10 @@
 
 #include "editor/object_menu.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
+#include "gui/menu_object_select.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/moving_object.hpp"
 #include "util/gettext.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
@@ -53,7 +56,7 @@ ObjectOption::~ObjectOption()
 }
 
 BoolObjectOption::BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
-                                   boost::optional<bool> default_value,
+                                   std::optional<bool> default_value,
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -86,7 +89,7 @@ BoolObjectOption::to_string() const
 }
 
 IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const std::string& key,
-                                 boost::optional<int> default_value,
+                                 std::optional<int> default_value,
                                  unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -175,7 +178,7 @@ RectfObjectOption::add_to_menu(Menu& menu) const
 }
 
 FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
-                                     boost::optional<float> default_value,
+                                     std::optional<float> default_value,
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -208,7 +211,7 @@ FloatObjectOption::add_to_menu(Menu& menu) const
 }
 
 StringObjectOption::StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                                       boost::optional<std::string> default_value,
+                                       std::optional<std::string> default_value,
                                        unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -241,7 +244,7 @@ StringObjectOption::add_to_menu(Menu& menu) const
 }
 
 StringMultilineObjectOption::StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
-                                       boost::optional<std::string> default_value,
+                                       std::optional<std::string> default_value,
                                        unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -278,7 +281,7 @@ StringMultilineObjectOption::add_to_menu(Menu& menu) const
 
 StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int* pointer,
                                                    const std::vector<std::string>& select,
-                                                   boost::optional<int> default_value,
+                                                   std::optional<int> default_value,
                                                    const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -323,7 +326,7 @@ StringSelectObjectOption::add_to_menu(Menu& menu) const
 EnumObjectOption::EnumObjectOption(const std::string& text, int* pointer,
                                    const std::vector<std::string>& labels,
                                    const std::vector<std::string>& symbols,
-                                   boost::optional<int> default_value,
+                                   std::optional<int> default_value,
                                    const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -402,7 +405,7 @@ ScriptObjectOption::add_to_menu(Menu& menu) const
 }
 
 FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer,
-                                   boost::optional<std::string> default_value,
+                                   std::optional<std::string> default_value,
                                    const std::string& key,
                                    std::vector<std::string> filter,
                                    const std::string& basedir,
@@ -446,7 +449,7 @@ FileObjectOption::add_to_menu(Menu& menu) const
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
-                                     boost::optional<Color> default_value, bool use_alpha,
+                                     std::optional<Color> default_value, bool use_alpha,
                                      unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
@@ -483,31 +486,43 @@ ColorObjectOption::add_to_menu(Menu& menu) const
   menu.add_color(get_text(), m_pointer);
 }
 
-BadGuySelectObjectOption::BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
-                                                   unsigned int flags) :
+ObjectSelectObjectOption::ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
+                                                   GameObject* parent, const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_parent(parent)
 {
 }
 
 void
-BadGuySelectObjectOption::save(Writer& writer) const
+ObjectSelectObjectOption::save(Writer& writer) const
 {
-  if (!get_key().empty()) {
-    writer.write(get_key(), *m_pointer);
+  if (get_key().empty())
+    return;
+
+  writer.start_list(get_key());
+  for (auto it = m_pointer->begin(); it != m_pointer->end(); it++)
+  {
+    auto& obj = *it;
+    writer.start_list(obj->get_class_name());
+    obj->save(writer);
+    writer.end_list(obj->get_class_name());
   }
+  writer.end_list(get_key());
 }
 
 std::string
-BadGuySelectObjectOption::to_string() const
+ObjectSelectObjectOption::to_string() const
 {
   return fmt_to_string(m_pointer->size());
 }
 
 void
-BadGuySelectObjectOption::add_to_menu(Menu& menu) const
+ObjectSelectObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_badguy_select(get_text(), m_pointer);
+  menu.add_entry(get_text(), [pointer = m_pointer, parent = m_parent]() {
+    MenuManager::instance().push_menu(std::make_unique<ObjectSelectMenu>(*pointer, parent));
+  });
 }
 
 TilesObjectOption::TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,

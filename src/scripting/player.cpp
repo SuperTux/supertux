@@ -16,6 +16,7 @@
 
 #include "scripting/player.hpp"
 
+#include "control/controller.hpp"
 #include "object/player.hpp"
 
 namespace scripting {
@@ -32,6 +33,13 @@ Player::set_bonus(const std::string& bonus)
 {
   SCRIPT_GUARD_DEFAULT;
   return object.set_bonus(bonus);
+}
+
+std::string
+Player::get_bonus() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.bonus_to_string();
 }
 
 void
@@ -169,10 +177,10 @@ Player::trigger_sequence(const std::string& sequence_name)
 }
 
 void
-Player::use_scripting_controller(bool use_or_release)
+Player::use_scripting_controller(bool enable)
 {
   SCRIPT_GUARD_VOID;
-  object.use_scripting_controller(use_or_release);
+  object.use_scripting_controller(enable);
 }
 
 void
@@ -222,6 +230,34 @@ Player::set_pos(float x, float y)
 {
   SCRIPT_GUARD_VOID;
   object.set_pos(Vector(x, y));
+}
+
+std::string
+Player::get_action() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_action();
+}
+
+bool
+Player::get_input_pressed(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().pressed(Control_from_string(input).value());
+}
+
+bool
+Player::get_input_held(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().hold(Control_from_string(input).value());
+}
+
+bool
+Player::get_input_released(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().released(Control_from_string(input).value());
 }
 
 } // namespace scripting

@@ -2,16 +2,16 @@
       (action
          (fps 15)
          (name "normal")
-         (images "orange_0.png"
-                 "orange_1.png"
-                 "orange_2.png"
-                 "orange_3.png"
-                 "orange_4.png"
-                 "orange_2.png"
-                 "orange_1.png"
-                 "orange_0.png"
-                 "orange_0.png"
-                 "orange_0.png"
+         (images "orange-0.png"
+                 "orange-1.png"
+                 "orange-2.png"
+                 "orange-3.png"
+                 "orange-4.png"
+                 "orange-2.png"
+                 "orange-1.png"
+                 "orange-0.png"
+                 "orange-0.png"
+                 "orange-0.png"
                  ))
       (action
          (name "empty")

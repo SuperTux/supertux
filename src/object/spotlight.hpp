@@ -56,6 +56,9 @@ public:
 
   virtual int get_layer() const override { return m_layer; }
 
+  void set_enabled(bool enabled) { m_enabled = enabled; }
+  bool is_enabled() const { return m_enabled; }
+
   void set_angle(float angle_) { angle = angle_; }
   void set_speed(float speed_) { speed = speed_; }
   void set_color(Color color_) { color = color_; }
@@ -97,6 +100,8 @@ private:
 
   /** The layer (z-pos) of the spotlight. */
   int m_layer;
+
+  bool m_enabled;
 
 private:
   Spotlight(const Spotlight&) = delete;

@@ -27,6 +27,13 @@ TileMap::goto_node(int node_no)
 }
 
 void
+TileMap::set_node(int node_no)
+{
+  SCRIPT_GUARD_VOID;
+  object.jump_to_node(node_no);
+}
+
+void
 TileMap::start_moving()
 {
   SCRIPT_GUARD_VOID;
@@ -69,17 +76,17 @@ TileMap::change_at(float x, float y, int newtile)
 }
 
 void
-TileMap::fade(float alpha, float seconds)
+TileMap::fade(float alpha, float time)
 {
   SCRIPT_GUARD_VOID;
-  object.fade(alpha, seconds);
+  object.fade(alpha, time);
 }
 
 void
-TileMap::tint_fade(float seconds, float red, float green, float blue, float alpha)
+TileMap::tint_fade(float time, float red, float green, float blue, float alpha)
 {
   SCRIPT_GUARD_VOID;
-  object.tint_fade(Color(red, green, blue, alpha), seconds);
+  object.tint_fade(Color(red, green, blue, alpha), time);
 }
 
 void

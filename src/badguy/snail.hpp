@@ -36,20 +36,27 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
+  virtual bool is_snipable() const override;
+
   static std::string class_name() { return "snail"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Snail"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  virtual GameObjectTypes get_types() const override;
+
   virtual bool is_portable() const override;
   virtual void ungrab(MovingObject& , Direction dir_) override;
   virtual void grab(MovingObject&, const Vector& pos, Direction dir_) override;
-  virtual bool is_snipable() const override { return state != STATE_KICKED; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
 
+  void on_type_change(int old_type) override;
+
+private:
   void be_normal(); /**< switch to state STATE_NORMAL */
+  void be_guard(); /**< switch to state STATE_GUARD_SHAKE (prepare for STATE_GUARD) */
   void be_flat(); /**< switch to state STATE_FLAT */
   void be_kicked(bool upwards); /**< switch to state STATE_KICKED_DELAY */
   void be_grabbed();
@@ -58,18 +65,27 @@ protected:
 private:
   enum State {
     STATE_NORMAL, /**< walking around */
+    STATE_GUARD_SHAKE, /**< short delay before switching to STATE_GUARD, plays respective animation */
+    STATE_GUARD, /**< short guarding state, periodically activated on corrupted snails while walking */
+    STATE_GUARD_RETRACT, /**< short delay before switching back to STATE_NORMAL, plays respective animation */
     STATE_FLAT, /**< flipped upside-down */
     STATE_WAKING, /**< is waking up */
     STATE_KICKED_DELAY, /**< short delay before being launched */
     STATE_KICKED, /**< launched */
     STATE_GRABBED, /**< grabbed by tux */
   };
+  enum Type {
+    NORMAL,
+    CORRUPTED
+  };
 
 private:
   State state;
   Timer kicked_delay_timer; /**< wait time until switching from STATE_KICKED_DELAY to STATE_KICKED */
   Timer flat_timer;
-  int   squishcount;
+  Timer m_guard_timer;
+  Timer m_guard_end_timer;
+  int squishcount;
 
 private:
   Snail(const Snail&) = delete;

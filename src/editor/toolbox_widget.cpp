@@ -444,13 +444,12 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       const auto& icons = m_object_info->m_groups[m_active_objectgroup].get_icons();
       if (m_hovered_tile + m_starting_tile < static_cast<int>(icons.size())) {
         const std::string obj_class = icons[m_hovered_tile + m_starting_tile].get_object_class();
-        std::string obj_name;
+        std::string obj_name = obj_class;
         try {
           obj_name = GameObjectFactory::instance().get_display_name(obj_class);
         }
         catch (std::exception& err) {
           log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
-          obj_name = obj_class;
         }
         m_object_tip = std::make_unique<Tip>(obj_name);
       }

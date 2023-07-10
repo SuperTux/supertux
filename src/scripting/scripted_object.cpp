@@ -34,6 +34,13 @@ ScriptedObject::get_action() const
   return object.get_action();
 }
 
+std::string
+ScriptedObject::get_name() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_name();
+}
+
 void
 ScriptedObject::move(float x, float y)
 {
@@ -84,10 +91,10 @@ ScriptedObject::get_velocity_y() const
 }
 
 void
-ScriptedObject::enable_gravity(bool f)
+ScriptedObject::enable_gravity(bool enabled)
 {
   SCRIPT_GUARD_VOID;
-  object.enable_gravity(f);
+  object.enable_gravity(enabled);
 }
 
 bool
@@ -123,13 +130,6 @@ ScriptedObject::is_solid() const
 {
   SCRIPT_GUARD_DEFAULT;
   return object.is_solid();
-}
-
-std::string
-ScriptedObject::get_name() const
-{
-  SCRIPT_GUARD_DEFAULT;
-  return object.get_name();
 }
 
 } // namespace scripting

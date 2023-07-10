@@ -444,11 +444,6 @@ void set_gamma(float gamma)
   VideoSystem::current()->set_gamma(gamma);
 }
 
-void quit()
-{
-  ScreenManager::current()->quit();
-}
-
 int rand()
 {
   return gameRandom.rand();

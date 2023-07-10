@@ -85,6 +85,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
     auto player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
     if (player) {
+      player->override_velocity();
       if (player->m_does_buttjump)
         player->m_does_buttjump = false;
       float vy = player->get_physic().get_velocity_y();
@@ -102,9 +103,9 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
         else
         {
           if (player->get_controller().hold(Control::JUMP))
-            vy = VY_MIN - 300;
+            vy = VY_MIN - 80;
           else if (player->get_controller().hold(Control::DOWN))
-            vy = VY_MIN - 200;
+            vy = VY_MIN - 70;
           else
             vy = VY_INITIAL - 40;
         }

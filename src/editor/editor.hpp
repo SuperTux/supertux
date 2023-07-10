@@ -35,6 +35,7 @@
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
+class ButtonWidget;
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -42,7 +43,6 @@ class Path;
 class Savegame;
 class Sector;
 class TileSet;
-class UndoManager;
 class World;
 
 class Editor final : public Screen,
@@ -152,6 +152,9 @@ public:
 
   Sector* get_sector() { return m_sector; }
 
+  void retoggle_undo_tracking();
+  void undo_stack_cleanup();
+
   void undo();
   void redo();
 
@@ -169,8 +172,10 @@ private:
    *                    new filename.
    */
   void save_level(const std::string& filename = "", bool switch_file = false);
-  void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
+  void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
+
+  void post_undo_redo_actions();
 
 protected:
   std::unique_ptr<Level> m_level;
@@ -190,7 +195,7 @@ public:
   bool m_save_request_switch;
   bool m_test_request;
   bool m_particle_editor_request;
-  boost::optional<std::pair<std::string, Vector>> m_test_pos;
+  std::optional<std::pair<std::string, Vector>> m_test_pos;
 
   std::unique_ptr<Savegame> m_savegame;
   std::string* m_particle_editor_filename;
@@ -205,6 +210,8 @@ private:
   TileSet* m_tileset;
 
   std::vector<std::unique_ptr<Widget> > m_widgets;
+  ButtonWidget* m_undo_widget;
+  ButtonWidget* m_redo_widget;
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
@@ -212,11 +219,6 @@ private:
   bool m_enabled;
   SurfacePtr m_bgr_surface;
 
-  std::unique_ptr<UndoManager> m_undo_manager;
-  bool m_ignore_sector_change;
-  
-  bool m_level_first_loaded;
-  
   float m_time_since_last_save;
 
   float m_scroll_speed;

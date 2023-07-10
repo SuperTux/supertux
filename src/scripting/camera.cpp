@@ -48,6 +48,14 @@ Camera::set_pos(float x, float y)
 }
 
 void
+Camera::move(float x, float y)
+{
+  SCRIPT_GUARD_VOID;
+  BIND_SECTOR(::Sector::get());
+  object.scroll_to(Vector(object.get_position().x + x,object.get_position().y + y), 0.0f);
+}
+
+void
 Camera::set_mode(const std::string& mode)
 {
   SCRIPT_GUARD_VOID;
@@ -106,6 +114,37 @@ Camera::ease_scale(float scale, float time, const std::string& ease)
   object.ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)));
 }
 
+int
+Camera::get_screen_width()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_screen_size().width;
+}
+
+int
+Camera::get_screen_height()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_screen_size().height;
+}
+
+float
+Camera::get_x()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_position().x;
+}
+
+float
+Camera::get_y()
+{
+  SCRIPT_GUARD_DEFAULT;
+  BIND_SECTOR(::Sector::get());
+  return object.get_position().y;
+}
 } // namespace scripting
 
 /* EOF */

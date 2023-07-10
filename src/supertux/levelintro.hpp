@@ -55,7 +55,7 @@ private:
   const Level& m_level; /**< The level of which this is the intro screen */
   const Statistics* m_best_level_statistics; /**< Best level statistics of the level of which is the intro screen */
   std::vector<SpritePtr> m_player_sprite; /**< Sprite representing the player */
-  std::vector<SpritePtr> m_power_sprite;
+  std::vector<SpritePtr> m_santa_sprite;
   std::vector<float> m_player_sprite_py; /**< Position (y axis) for the player sprite */
   std::vector<float> m_player_sprite_vy; /**< Velocity (y axis) for the player sprite */
   std::vector<std::unique_ptr<Timer>> m_player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */

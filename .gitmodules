@@ -19,3 +19,9 @@
 [submodule "external/fmt"]
 	path = external/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "tools/miniswig"]
+	path = tools/miniswig
+	url = https://github.com/WindstilleTeam/miniswig
+[submodule "external/glm"]
+	path = external/glm
+	url = https://github.com/g-truc/glm.git
