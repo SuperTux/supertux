@@ -19,6 +19,8 @@
 
 #include "gui/menu.hpp"
 
+#include <functional>
+
 class Editor;
 class GameObject;
 
@@ -27,12 +29,13 @@ class ObjectMenu final : public Menu
 public:
   enum {
     MNID_REMOVE,
+    MNID_REMOVEFUNCTION,
     MNID_TEST_FROM_HERE,
     MNID_OPEN_PARTICLE_EDITOR,
   };
 
 public:
-  ObjectMenu(Editor& editor, GameObject* go);
+  ObjectMenu(GameObject* go, const std::function<bool (GameObject*)>& remove_function = {});
   ~ObjectMenu() override;
 
   virtual void menu_action(MenuItem& item) override;
@@ -41,6 +44,7 @@ public:
 private:
   Editor& m_editor;
   GameObject* m_object;
+  const std::function<bool (GameObject*)> m_remove_function;
 
 private:
   ObjectMenu(const ObjectMenu&) = delete;

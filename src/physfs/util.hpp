@@ -29,10 +29,13 @@ std::string realpath(const std::string& path);
     pointing to a directory */
 bool is_directory(const std::string& path);
 
-bool remove(const std::string& filenam);
+bool remove(const std::string& filename);
+
+/** Removes the content of a directory */
+void remove_content(const std::string& dir);
 
 /** Removes directory with content */
-void remove_with_content(const std::string& filename);
+void remove_with_content(const std::string& dir);
 
 } // namespace physfsutil
 

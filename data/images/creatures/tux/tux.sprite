@@ -209,7 +209,7 @@
          (fps 15.0)
          (loops 1)
          (hitbox 16 26 32 32)
-         (mirror-action "small-jump-right"))
+         (mirror-action "small-fall-right"))
 
        (action
          (name "small-walljump-right")

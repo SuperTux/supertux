@@ -32,7 +32,8 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 
@@ -131,12 +132,9 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
     assert(false);
   }
 
-  if (max_drop_height > -1) {
-    if (on_ground() && might_fall(max_drop_height+1))
-    {
-      turn_around();
-    }
-  }
+  if (max_drop_height > -1 && on_ground() && might_fall(max_drop_height+1) && !m_stay_on_platform_overridden)
+    turn_around();
+  m_stay_on_platform_overridden = false;
 
   if ((m_dir == Direction::LEFT) && (m_physic.get_velocity_x () > 0.0f)) {
     m_dir = Direction::RIGHT;

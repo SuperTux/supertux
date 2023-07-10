@@ -21,10 +21,10 @@
 #include "editor/marker_object.hpp"
 #include "object/path.hpp"
 
-class NodeMarker : public MarkerObject
+class NodeMarker final : public MarkerObject
 {
 public:
-  NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_, UID before, UID after);
+  NodeMarker(std::vector<Path::Node>::iterator node_iterator, size_t id_, UID before, UID after);
 
   virtual void move_to(const Vector& pos) override;
   virtual void editor_delete() override;
@@ -41,6 +41,9 @@ public:
   /** Moves the bezier marker that ISN'T @c marker to the given position. */
   /** Can't make the by reference because of overlay_widget.cpp */
   void move_other_marker(UID marker, Vector position);
+
+  void save_state() override;
+  void check_state() override;
 
 private:
   Path* m_path;
