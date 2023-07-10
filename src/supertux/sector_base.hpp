@@ -43,10 +43,6 @@ public:
   void set_name(const std::string& name_) { m_name = name_; }
   const std::string& get_name() const { return m_name; }
 
-  /** set gravity throughout sector */
-  void set_gravity(float gravity);
-  float get_gravity() const { return m_gravity; }
-
   void set_init_script(const std::string& init_script) { m_init_script = init_script; }
   void run_script(const std::string& script, const std::string& sourcename);
 
@@ -55,7 +51,6 @@ protected:
 
   std::string m_name;
   std::string m_init_script;
-  float m_gravity;
 
   std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
 

@@ -106,19 +106,27 @@ SectorParser::parse_object_additional(const std::string& name, const ReaderMappi
 }
 
 void
-SectorParser::parse(const ReaderMapping& sector)
+SectorParser::parse(const ReaderMapping& reader)
 {
-  auto iter = sector.get_iter();
+  auto iter = reader.get_iter();
   while (iter.next()) {
-    if (iter.get_key() == "name") {
+    if (iter.get_key() == "name")
+    {
       std::string value;
       iter.get(value);
       m_sector.set_name(value);
-    } else if (iter.get_key() == "gravity") {
+    }
+    else if (iter.get_key() == "gravity")
+    {
+      auto sector = dynamic_cast<Sector*>(&m_sector);
+      if (!sector) continue;
+
       float value;
       iter.get(value);
-      m_sector.set_gravity(value);
-    } else if (iter.get_key() == "music") {
+      sector->set_gravity(value);
+    }
+    else if (iter.get_key() == "music")
+    {
       const auto& sx = iter.get_sexp();
       if (sx.is_array() && sx.as_array().size() == 2 && sx.as_array()[1].is_string()) {
         std::string value;
@@ -127,18 +135,22 @@ SectorParser::parse(const ReaderMapping& sector)
       } else {
         m_sector.add<MusicObject>(iter.as_mapping());
       }
-    } else if (iter.get_key() == "init-script") {
+    }
+    else if (iter.get_key() == "init-script")
+    {
       std::string value;
       iter.get(value);
       m_sector.set_init_script(value);
-    } else if (iter.get_key() == "ambient-light") {
+    }
+    else if (iter.get_key() == "ambient-light")
+    {
       const auto& sx = iter.get_sexp();
       if (sx.is_array() && sx.as_array().size() >= 3 &&
           sx.as_array()[1].is_real() && sx.as_array()[2].is_real() && sx.as_array()[3].is_real())
       {
         // for backward compatibilty
         std::vector<float> vColor;
-        bool hasColor = sector.get("ambient-light", vColor);
+        bool hasColor = reader.get("ambient-light", vColor);
         if (vColor.size() < 3 || !hasColor) {
           log_warning << "(ambient-light) requires a color as argument" << std::endl;
         } else {
@@ -148,11 +160,12 @@ SectorParser::parse(const ReaderMapping& sector)
         // modern format
         m_sector.add<AmbientLight>(iter.as_mapping());
       }
-    } else {
+    }
+    else
+    {
       auto object = parse_object(iter.get_key(), iter.as_mapping());
-      if (object) {
+      if (object)
         m_sector.add_object(std::move(object));
-      }
     }
   }
 
@@ -164,9 +177,13 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 {
   m_sector.set_name("main");
 
-  float gravity;
-  if (reader.get("gravity", gravity))
-    m_sector.set_gravity(gravity);
+  auto sector = dynamic_cast<Sector*>(&m_sector);
+  if (sector)
+  {
+    float gravity;
+    if (reader.get("gravity", gravity))
+      sector->set_gravity(gravity);
+  }
 
   std::string backgroundimage;
   if (reader.get("background", backgroundimage) && (!backgroundimage.empty())) {

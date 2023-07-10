@@ -26,19 +26,22 @@
 
 namespace worldmap {
 
-const std::string WorldMapParser::s_default_tileset = "images/ice_world.strf";
-
 WorldMapParser::WorldMapParser(WorldMap& worldmap) :
-  LevelParser(worldmap, true, false),
-  m_worldmap(worldmap)
+  LevelParser(worldmap, true, false)
 {
+}
+
+WorldMap&
+WorldMapParser::get_worldmap() const
+{
+  return static_cast<WorldMap&>(m_level);
 }
 
 void
 WorldMapParser::load(const std::string& filepath)
 {
-  m_worldmap.m_map_filename = physfsutil::realpath(filepath);
-  m_worldmap.m_levels_path = FileSystem::dirname(m_worldmap.m_map_filename);
+  get_worldmap().m_map_filename = physfsutil::realpath(filepath);
+  get_worldmap().m_levels_path = FileSystem::dirname(get_worldmap().m_map_filename);
 
   LevelParser::load(filepath);
 }
@@ -46,7 +49,7 @@ WorldMapParser::load(const std::string& filepath)
 void
 WorldMapParser::add_sector(const ReaderMapping& reader)
 {
-  m_worldmap.add_sector(WorldMapSectorParser::from_reader(m_worldmap, reader));
+  get_worldmap().add_sector(WorldMapSectorParser::from_reader(get_worldmap(), reader));
 }
 
 
@@ -63,9 +66,14 @@ WorldMapSectorParser::from_reader(WorldMap& worldmap, const ReaderMapping& reade
 
 
 WorldMapSectorParser::WorldMapSectorParser(WorldMapSector& sector) :
-  SectorParser(sector, false),
-  m_worldmap_sector(sector)
+  SectorParser(sector, false)
 {
+}
+
+WorldMapSector&
+WorldMapSectorParser::get_sector() const
+{
+  return static_cast<WorldMapSector&>(m_sector);
 }
 
 bool
@@ -73,16 +81,12 @@ WorldMapSectorParser::parse_object_additional(const std::string& name, const Rea
 {
   if (name == "worldmap-spawnpoint") // Custom rule for adding spawnpoints
   {
-    m_worldmap_sector.m_spawnpoints.push_back(std::make_unique<SpawnPoint>(reader));
+    get_sector().m_spawnpoints.push_back(std::make_unique<SpawnPoint>(reader));
     return true;
   }
-  else
-  {
-    auto worldmap_objects = GameObjectFactory::instance().get_registered_objects(GameObjectFactory::RegisteredObjectParam::OBJ_PARAM_WORLDMAP);
-    if (std::find(worldmap_objects.begin(), worldmap_objects.end(), name) == worldmap_objects.end())
-      return true; // If the object to be created is not a part of all worldmap-allowed objects, don't proceed adding it.
-  }
-  return false;
+
+  // Proceed adding the object only if it's flagged as allowed for worldmaps
+  return !GameObjectFactory::instance().has_params(name, ObjectFactory::RegisteredObjectParam::OBJ_PARAM_WORLDMAP);
 }
 
 } // namespace worldmap

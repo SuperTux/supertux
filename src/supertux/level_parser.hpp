@@ -45,7 +45,7 @@ protected:
   void load_old_format(const ReaderMapping& reader);
   void create(const std::string& filepath, const std::string& levelname);
 
-  /** Virtual functions. **/
+  /** Adds a sector to the Level. */
   virtual void add_sector(const ReaderMapping& reader);
 
 protected:

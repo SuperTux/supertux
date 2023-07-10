@@ -42,7 +42,7 @@ protected:
   virtual ~SectorParser() {}
 
   void parse_old_format(const ReaderMapping& reader);
-  void parse(const ReaderMapping& sector);
+  void parse(const ReaderMapping& reader);
   void create_sector();
 
   std::unique_ptr<GameObject> parse_object(const std::string& name, const ReaderMapping& reader);

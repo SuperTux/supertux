@@ -127,6 +127,10 @@ public:
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
+  /** set gravity throughout sector */
+  void set_gravity(float gravity);
+  float get_gravity() const { return m_gravity; }
+
   Camera& get_camera() const;
   std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
@@ -146,6 +150,8 @@ private:
 private:
   bool m_fully_constructed;
   int m_foremost_layer;
+
+  float m_gravity;
 
   std::unique_ptr<CollisionSystem> m_collision_system;
 

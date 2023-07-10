@@ -73,6 +73,7 @@ Sector::Sector(Level& parent) :
   Base::Sector(parent, "sector"),
   m_fully_constructed(false),
   m_foremost_layer(),
+  m_gravity(10.0f),
   m_collision_system(new CollisionSystem(*this))
 {
   Savegame* savegame = (Editor::current() && Editor::is_active()) ?
@@ -598,6 +599,17 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
   for (auto& solids: get_solid_tilemaps()) {
     solids->change_all(old_tile_id, new_tile_id);
   }
+}
+
+void
+Sector::set_gravity(float gravity)
+{
+  if (gravity != 10.0f)
+  {
+    log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects: " << gravity << std::endl;
+  }
+
+  m_gravity = gravity;
 }
 
 Player*

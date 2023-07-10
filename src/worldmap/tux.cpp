@@ -31,7 +31,7 @@
 #include "worldmap/level_tile.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
-#include "worldmap/teleporter.cpp"
+#include "worldmap/teleporter.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {

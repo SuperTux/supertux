@@ -29,18 +29,15 @@ class WorldMapSector;
 
 class WorldMapParser final : public LevelParser
 {
-private:
-  static const std::string s_default_tileset;
-
 public:
   WorldMapParser(WorldMap& worldmap);
 
   void load(const std::string& filepath);
 
-  void add_sector(const ReaderMapping& reader) override;
-
 private:
-  WorldMap& m_worldmap;
+  WorldMap& get_worldmap() const;
+
+  void add_sector(const ReaderMapping& reader) override;
 
 private:
   WorldMapParser(const WorldMapParser&) = delete;
@@ -56,10 +53,10 @@ public:
 private:
   WorldMapSectorParser(WorldMapSector& sector);
 
-  bool parse_object_additional(const std::string& name, const ReaderMapping& reader) override;
-
 private:
-  WorldMapSector& m_worldmap_sector;
+  WorldMapSector& get_sector() const;
+
+  bool parse_object_additional(const std::string& name, const ReaderMapping& reader) override;
 
 private:
   WorldMapSectorParser(const WorldMapSectorParser&) = delete;
