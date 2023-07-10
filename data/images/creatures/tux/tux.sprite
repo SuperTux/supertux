@@ -624,8 +624,10 @@
        (action
          (name "big-walk-right")
          (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
-         (images "big/walk-0.png"
+         (images "big/walk_transition-0.png"
+                 "big/walk-0.png"
                  "big/walk-1.png"
                  "big/walk-2.png"
                  "big/walk-3.png"
@@ -637,14 +639,17 @@
        (action
          (name "big-walk-left")
          (fps 14.0)
+         (loop-frame 2)
          (hitbox 16 14 32 64)
          (mirror-action "big-walk-right"))
 
        (action
          (name "big-run-right")
          (fps 15.0)
+         (loop-frame 2)
          (hitbox 18 14 32 64)
-         (images "big/run-0.png"
+         (images "big/run_transition-0.png"
+                 "big/run-0.png"
                  "big/run-1.png"
                  "big/run-2.png"
                  "big/run-3.png"
@@ -656,6 +661,7 @@
        (action
          (name "big-run-left")
          (fps 15.0)
+         (loop-frame 2)
          (hitbox 20 14 32 64)
          (mirror-action "big-run-right"))
 
