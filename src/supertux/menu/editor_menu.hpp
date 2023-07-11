@@ -35,7 +35,8 @@ private:
     MNID_LEVELSETSEL,
 	  MNID_HELP,
     MNID_QUITEDITOR,
-    MNID_CONVERT,
+    MNID_CONVERT_TILES,
+    MNID_CONVERT_TILES_CUSTOM,
     MNID_CHECKDEPRECATEDTILES
   };
 
@@ -43,14 +44,16 @@ public:
   EditorMenu();
   ~EditorMenu() override;
 
+  void refresh() override;
   void menu_action(MenuItem& item) override;
 
   bool on_back_action() override;
 
 private:
-  void rebuild_menu();
+  void convert_tiles(const std::string& file);
 
-  void convert_level();
+private:
+  std::string m_tile_conversion_file;
 
 private:
   EditorMenu(const EditorMenu&) = delete;

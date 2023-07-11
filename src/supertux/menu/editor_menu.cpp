@@ -42,13 +42,14 @@
 #include <emscripten/html5.h>
 #endif
 
-EditorMenu::EditorMenu()
+EditorMenu::EditorMenu() :
+  m_tile_conversion_file()
 {
-  rebuild_menu();
+  refresh();
 }
 
 void
-EditorMenu::rebuild_menu()
+EditorMenu::refresh()
 {
   clear();
 
@@ -85,8 +86,15 @@ EditorMenu::rebuild_menu()
 
   add_hl();
 
-  add_entry(MNID_CONVERT, _("Convert Level"))
+  add_entry(MNID_CONVERT_TILES, _("Convert Tiles"))
     .set_help(_("Levels, edited in previous Nightly Builds, are likely to have had their tiles corrupted.\nUse this feature to convert all tiles in the current level back to their proper state."));
+
+  add_hl();
+
+  add_file(_("Select Tile Conversion File"), &m_tile_conversion_file, { "sttc" }, "images/converters", false);
+
+  add_entry(MNID_CONVERT_TILES_CUSTOM, _("Convert Tiles By File"))
+    .set_help(_("Convert all tiles in the current level by a file, specified above."));
 
   add_hl();
 
@@ -224,11 +232,16 @@ EditorMenu::menu_action(MenuItem& item)
       Editor::current()->m_quit_request = true;
       break;
 
-    case MNID_CONVERT:
-      Dialog::show_confirmation(_("This will convert all tiles in the level. Proceed?\n \nNote: This should not be ran more than once on a level.\nCreating a separate copy of the level is highly recommended."), [this]() {
-        convert_level();
-      });
+    case MNID_CONVERT_TILES:
+    case MNID_CONVERT_TILES_CUSTOM:
+    {
+      const bool convert_tiles_custom = item.get_id() == MNID_CONVERT_TILES_CUSTOM;
+      Dialog::show_confirmation(_("This will convert all tiles in the level. Proceed?\n \nNote: This should not be ran more than once on a level.\nCreating a separate copy of the level is highly recommended."),
+        [this, convert_tiles_custom]() {
+          convert_tiles(convert_tiles_custom ? m_tile_conversion_file : "images/converters/nightly_all_tiles.sttc");
+        });
       break;
+    }
 
     case MNID_CHECKDEPRECATEDTILES:
       editor->check_deprecated_tiles();
@@ -248,7 +261,7 @@ EditorMenu::menu_action(MenuItem& item)
       else
       {
         Dialog::show_message(_("There are no more deprecated tiles in the level!"));
-        rebuild_menu();
+        refresh();
       }
       break;
 
@@ -271,29 +284,35 @@ EditorMenu::on_back_action()
 }
 
 void
-EditorMenu::convert_level()
+EditorMenu::convert_tiles(const std::string& file)
 {
   std::unordered_map<int, int> tiles;
 
-  IFileStream in("images/convert.txt");
-  if (!in.good()) {
-    std::stringstream msg;
-    msg << "Couldn't open images/convert.txt.";
-    throw std::runtime_error(msg.str());
-  }
-
-  int a, b;
-  std::string delimiter;
-  while (in >> a >> delimiter >> b)
+  try
   {
-    if (delimiter != "->")
+    IFileStream in(file);
+    if (!in.good())
     {
-      std::stringstream msg;
-      msg << "Couldn't parse images/convert.txt.";
-      throw std::runtime_error(msg.str());
+      log_warning << "Couldn't open conversion file '" << file << "'." << std::endl;
+      return;
     }
 
-    tiles[a] = b;
+    int a, b;
+    std::string delimiter;
+    while (in >> a >> delimiter >> b)
+    {
+      if (delimiter != "->")
+      {
+        log_warning << "Couldn't parse conversion file '" << file << "'." << std::endl;
+        return;
+      }
+
+      tiles[a] = b;
+    }
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Couldn't parse conversion file '" << file << "': " << err.what() << std::endl;
   }
 
   MenuManager::instance().clear_menu_stack();
