@@ -7,8 +7,8 @@
             "skydive-1.png"
             "skydive-2.png"
             "skydive-3.png"
-			"skydive-4.png"
-			"skydive-3.png"
+            "skydive-4.png"
+            "skydive-3.png"
             "skydive-2.png"
             "skydive-1.png"))
 
@@ -17,7 +17,7 @@
     (fps 15)
     (hitbox 14 7 32 44)
     (images "skydive-0.png"
-			"skydive-4.png"))
+            "skydive-4.png"))
 
   (action
     (name "iced")
