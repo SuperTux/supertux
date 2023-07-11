@@ -189,7 +189,7 @@
     (icon "images/engine/editor/stalactite_yeti.png"))
   (object
     (class "skydive")
-    (icon "images/creatures/skydive/skydive1.png"))
+    (icon "images/creatures/skydive/skydive-0.png"))
   (object
     (class "dart")
     (icon "images/creatures/dart/flying.png"))
