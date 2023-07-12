@@ -33,7 +33,7 @@ RubLight::RubLight(const ReaderMapping& mapping) :
   stored_energy(0),
   light(SpriteManager::current()->create(
     "images/objects/lightmap_light/lightmap_light.sprite")),
-  color(1.0f, 0.5f, 0.3f),
+  color(1.f, 1.f, 1.f),
   fading_speed(5.0f),
   strength_multiplier(1.0f)
 {
