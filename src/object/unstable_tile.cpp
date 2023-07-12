@@ -19,7 +19,6 @@
 
 #include "object/unstable_tile.hpp"
 
-#include "collision/collision.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
