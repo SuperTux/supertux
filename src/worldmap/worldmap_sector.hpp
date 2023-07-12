@@ -21,9 +21,7 @@
 
 #include "supertux/sector_base.hpp"
 
-#include "supertux/timer.hpp"
 #include "worldmap/tux.hpp"
-#include "worldmap/worldmap.hpp"
 
 namespace worldmap {
 
@@ -48,7 +46,6 @@ public:
   void finish_construction(bool) override;
 
   void setup();
-  void finish_setup();
   void leave();
 
   void draw(DrawingContext& context) override;
@@ -111,6 +108,9 @@ public:
   /** Sets the initial spawnpoint on worldmap setup */
   void set_initial_spawnpoint(const std::string& spawnpoint_name);
 
+  bool in_worldmap() const override { return true; }
+
+  TileSet* get_tileset() const override;
   WorldMap& get_worldmap() const { return m_parent; }
   Camera& get_camera() const { return *m_camera; }
   Tux& get_tux() const { return *m_tux; }

@@ -55,6 +55,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
+#include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/writer.hpp"
 #include "video/video_system.hpp"
@@ -70,7 +71,8 @@ PlayerStatus dummy_player_status(1);
 
 
 Sector::Sector(Level& parent) :
-  Base::Sector(parent, "sector"),
+  Base::Sector("sector"),
+  m_level(parent),
   m_fully_constructed(false),
   m_foremost_layer(),
   m_gravity(10.0f),
@@ -343,6 +345,18 @@ int
 Sector::get_foremost_layer() const
 {
   return m_foremost_layer;
+}
+
+TileSet*
+Sector::get_tileset() const
+{
+  return TileManager::current()->get_tileset(m_level.get_tileset());
+}
+
+bool
+Sector::in_worldmap() const
+{
+  return m_level.is_worldmap();
 }
 
 void

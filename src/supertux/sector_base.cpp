@@ -20,8 +20,7 @@
 
 namespace Base {
 
-Sector::Sector(Level& parent, const std::string& type) :
-  m_level(parent),
+Sector::Sector(const std::string& type) :
   m_name(),
   m_init_script(),
   m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type))

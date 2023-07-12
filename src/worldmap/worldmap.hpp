@@ -19,23 +19,19 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 #define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 
-#include "supertux/level.hpp"
 #include "util/currenton.hpp"
 
 #include "control/controller.hpp"
 #include "supertux/savegame.hpp"
+#include "supertux/timer.hpp"
 #include "worldmap/worldmap_sector.hpp"
 
 class TileSet;
 
 namespace worldmap {
 
-class WorldMapSector;
-
-class WorldMap final : public Level,
-                       public Currenton<WorldMap>
+class WorldMap final : public Currenton<WorldMap>
 {
-  friend class WorldMapParser;
   friend class WorldMapSector;
   friend class WorldMapState;
 
@@ -44,11 +40,8 @@ public:
   static Color s_message_color;
   static Color s_teleporter_message_color;
 
-  static WorldMap* current() { return Currenton<WorldMap>::current(); }
-
 public:
   WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
-  ~WorldMap() override;
 
   void setup();
   void leave();
@@ -93,14 +86,17 @@ private:
 
 private:
   WorldMapSector* m_sector; /* The currently active sector. */
-  std::vector<std::unique_ptr<WorldMapSector> > m_worldmap_sectors;
+  std::vector<std::unique_ptr<WorldMapSector> > m_sectors;
 
   Savegame& m_savegame;
+  TileSet* m_tileset;
 
+  std::string m_name;
   std::string m_map_filename;
   std::string m_levels_path;
 
-  std::unique_ptr<WorldMap> m_next_worldmap; /* A worldmap, scheduled to change to next frame. */
+  /* A worldmap, scheduled to change to next frame. */
+  std::unique_ptr<WorldMap> m_next_worldmap;
 
   /** Passive map message variables */
   std::string m_passive_message;

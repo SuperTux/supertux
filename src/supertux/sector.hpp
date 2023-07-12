@@ -38,6 +38,7 @@ class CollisionSystem;
 class CollisionGroundMovementManager;
 class DisplayEffect;
 class DrawingContext;
+class Level;
 class MovingObject;
 class Player;
 class ReaderMapping;
@@ -67,6 +68,10 @@ public:
   ~Sector() override;
 
   void finish_construction(bool editable) override;
+
+  Level& get_level() const { return m_level; }
+  TileSet* get_tileset() const override;
+  bool in_worldmap() const override;
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
@@ -148,6 +153,8 @@ private:
   void convert_tiles2gameobject();
 
 private:
+  Level& m_level; // Parent level
+
   bool m_fully_constructed;
   int m_foremost_layer;
 

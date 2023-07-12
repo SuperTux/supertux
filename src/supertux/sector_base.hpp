@@ -22,6 +22,7 @@
 #include "squirrel/squirrel_environment.hpp"
 
 class Level;
+class TileSet;
 
 namespace Base {
 
@@ -29,7 +30,7 @@ namespace Base {
 class Sector : public GameObjectManager
 {
 public:
-  Sector(Level& parent, const std::string& type);
+  Sector(const std::string& type);
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
@@ -38,17 +39,16 @@ public:
   virtual void draw(DrawingContext& context) = 0;
   virtual void update(float dt_sec) = 0;
 
-  Level& get_level() const { return m_level; }
+  virtual TileSet* get_tileset() const = 0;
+  virtual bool in_worldmap() const = 0;
 
-  void set_name(const std::string& name_) { m_name = name_; }
+  void set_name(const std::string& name) { m_name = name; }
   const std::string& get_name() const { return m_name; }
 
   void set_init_script(const std::string& init_script) { m_init_script = init_script; }
   void run_script(const std::string& script, const std::string& sourcename);
 
 protected:
-  Level& m_level; // Parent level
-
   std::string m_name;
   std::string m_init_script;
 

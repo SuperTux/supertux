@@ -25,6 +25,7 @@
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -68,7 +69,8 @@ LevelTile::LevelTile(const ReaderMapping& mapping) :
     return;
   }
 
-  load_level_information();
+  if (in_worldmap())
+    load_level_information();
 }
 
 LevelTile::~LevelTile()
@@ -96,12 +98,16 @@ LevelTile::load_level_information()
 
     try
     {
-      // Read general level info.
-      auto level = LevelParser::from_file(filename, false, false, true, true);
+      auto doc = ReaderDocument::from_file(filename);
+      auto root = doc.get_root();
 
-      // Set properties to the ones of the level.
-      m_title = level->m_name;
-      m_target_time = level->m_target_time;
+      if (root.get_name() != "supertux-level")
+        throw std::runtime_error("'" + filename + "': file is not a supertux-level file.");
+
+      auto mapping = root.get_mapping();
+
+      mapping.get("name", m_title);
+      mapping.get("target-time", m_target_time);
     }
     catch (std::exception& err)
     {

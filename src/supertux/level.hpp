@@ -26,7 +26,7 @@ class Writer;
 /** Represents a collection of Sectors running in a single GameSession.
 
     Each Sector in turn contains GameObjects, e.g. Badguys and Players. */
-class Level
+class Level final
 {
   friend class LevelParser;
 
@@ -37,8 +37,8 @@ private:
   static Level* s_current;
 
 public:
-  explicit Level(bool m_is_worldmap, bool temporary = false);
-  virtual ~Level();
+  explicit Level(bool m_is_worldmap);
+  ~Level();
 
   // saves to a levelfile
   void save(const std::string& filename, bool retry = false);

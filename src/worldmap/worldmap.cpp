@@ -20,32 +20,39 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
+#include "physfs/util.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
+#include "supertux/tile_manager.hpp"
+#include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/direction.hpp"
 #include "worldmap/level_tile.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/world_select.hpp"
-#include "worldmap/worldmap_parser.hpp"
 #include "worldmap/worldmap_screen.hpp"
 #include "worldmap/worldmap_sector.hpp"
+#include "worldmap/worldmap_sector_parser.hpp"
 #include "worldmap/worldmap_state.hpp"
 
 namespace worldmap {
 
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint) :
-  Level(true),
   m_sector(),
-  m_worldmap_sectors(),
+  m_sectors(),
   m_savegame(savegame),
-  m_map_filename(filename),
-  m_levels_path(),
+  m_tileset(),
+  m_name(),
+  m_map_filename(physfsutil::realpath(filename)),
+  m_levels_path(FileSystem::dirname(m_map_filename)),
   m_next_worldmap(),
   m_passive_message(),
   m_passive_message_timer(),
@@ -55,14 +62,30 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 {
   SoundManager::current()->preload("sounds/warp.wav");
 
-  // Load worldmap objects.
-  WorldMapParser parser(*this);
-  parser.load(filename);
-}
+  /** Parse worldmap */
+  register_translation_directory(m_map_filename);
+  auto doc = ReaderDocument::from_file(m_map_filename);
+  auto root = doc.get_root();
 
-WorldMap::~WorldMap()
-{
-  m_worldmap_sectors.clear();
+  if (root.get_name() != "supertux-level")
+    throw std::runtime_error("file isn't a supertux-level file.");
+
+  auto mapping = root.get_mapping();
+
+  mapping.get("name", m_name);
+
+  std::string tileset_name;
+  if (mapping.get("tileset", tileset_name))
+    m_tileset = TileManager::current()->get_tileset(tileset_name);
+  else
+    m_tileset = TileManager::current()->get_tileset("images/ice_world.strf");
+
+  auto iter = mapping.get_iter();
+  while (iter.next())
+  {
+    if (iter.get_key() == "sector")
+      add_sector(WorldMapSectorParser::from_reader(*this, iter.as_mapping()));
+  }
 }
 
 
@@ -73,7 +96,6 @@ WorldMap::setup()
 
   load_state();
   m_sector->setup();
-  m_sector->finish_setup();
 
   m_in_world_select = false;
 }
@@ -173,7 +195,7 @@ size_t
 WorldMap::level_count() const
 {
   size_t count = 0;
-  for (auto& sector : m_worldmap_sectors)
+  for (auto& sector : m_sectors)
   {
     count += sector->level_count();
   }
@@ -184,7 +206,7 @@ size_t
 WorldMap::solved_level_count() const
 {
   size_t count = 0;
-  for (auto& sector : m_worldmap_sectors)
+  for (auto& sector : m_sectors)
   {
     count += sector->solved_level_count();
   }
@@ -236,7 +258,7 @@ WorldMap::set_passive_message(const std::string& message, float time)
 WorldMapSector*
 WorldMap::get_sector(const std::string& name) const
 {
-  for (auto& sector : m_worldmap_sectors)
+  for (auto& sector : m_sectors)
   {
     if (sector->get_name() == name)
       return sector.get();
@@ -247,17 +269,17 @@ WorldMap::get_sector(const std::string& name) const
 WorldMapSector*
 WorldMap::get_sector(int index) const
 {
-  if (index < 0 || index > static_cast<int>(m_worldmap_sectors.size()) - 1)
+  if (index < 0 || index > static_cast<int>(m_sectors.size()) - 1)
     return nullptr;
 
-  return m_worldmap_sectors.at(index).get();
+  return m_sectors.at(index).get();
 }
 
 
 void
 WorldMap::add_sector(std::unique_ptr<WorldMapSector> sector)
 {
-  m_worldmap_sectors.push_back(std::move(sector));
+  m_sectors.push_back(std::move(sector));
 }
 
 void
@@ -282,7 +304,6 @@ WorldMap::set_sector(const std::string& name, const std::string& spawnpoint,
   if (perform_full_setup)
     load_state();
   m_sector->setup();
-  m_sector->finish_setup();
 
   // If a spawnpoint has been provided, move to it.
   if (!spawnpoint.empty())

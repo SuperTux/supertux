@@ -39,7 +39,6 @@
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "supertux/tile_manager.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
 #include "worldmap/spawn_point.hpp"
@@ -258,8 +257,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   std::vector<unsigned int> tiles;
   if (reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
-    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto& tilemap = m_sector.add<TileMap>(tileset);
+    auto& tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
     tilemap.set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
@@ -275,15 +273,13 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   if (reader.get("background-tm", tiles)) {
-    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto& tilemap = m_sector.add<TileMap>(tileset);
+    auto& tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
     tilemap.set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap.resize(width, 19);
   }
 
   if (reader.get("foreground-tm", tiles)) {
-    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto& tilemap = m_sector.add<TileMap>(tileset);
+    auto& tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
     tilemap.set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
@@ -337,20 +333,18 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 void
 SectorParser::create_sector()
 {
-  auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-  bool worldmap = m_sector.get_level().is_worldmap();
-  if (!worldmap)
+  if (!m_sector.in_worldmap())
   {
     auto& background = m_sector.add<Background>();
     background.set_image(DEFAULT_BG);
     background.set_speed(0.5);
 
-    auto& bkgrd = m_sector.add<TileMap>(tileset);
+    auto& bkgrd = m_sector.add<TileMap>(m_sector.get_tileset());
     bkgrd.resize(100, 35);
     bkgrd.set_layer(-100);
     bkgrd.set_solid(false);
 
-    auto& frgrd = m_sector.add<TileMap>(tileset);
+    auto& frgrd = m_sector.add<TileMap>(m_sector.get_tileset());
     frgrd.resize(100, 35);
     frgrd.set_layer(100);
     frgrd.set_solid(false);
@@ -362,14 +356,14 @@ SectorParser::create_sector()
   }
   else
   {
-    auto& water = m_sector.add<TileMap>(tileset);
+    auto& water = m_sector.add<TileMap>(m_sector.get_tileset());
     water.resize(100, 35, 1);
     water.set_layer(-100);
     water.set_solid(false);
   }
 
-  auto& intact = m_sector.add<TileMap>(tileset);
-  if (worldmap) {
+  auto& intact = m_sector.add<TileMap>(m_sector.get_tileset());
+  if (m_sector.in_worldmap()) {
     intact.resize(100, 100, 0);
   } else {
     intact.resize(100, 35, 0);
@@ -377,7 +371,7 @@ SectorParser::create_sector()
   intact.set_layer(0);
   intact.set_solid(true);
 
-  if (worldmap) {
+  if (m_sector.in_worldmap()) {
     m_sector.add<worldmap::SpawnPointObject>("main", Vector(4, 4));
   } else {
     m_sector.add<SpawnPointMarker>("main", Vector(64, 480));

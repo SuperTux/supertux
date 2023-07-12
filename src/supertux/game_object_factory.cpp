@@ -312,7 +312,7 @@ GameObjectFactory::init_factories()
   add_factory("tilemap", TileMap::display_name(), [](const ReaderMapping& reader) {
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
       return std::make_unique<TileMap>(tileset, reader);
-    }, OBJ_PARAM_WORLDMAP);
+    });
 }
 
 std::unique_ptr<GameObject>

@@ -32,6 +32,7 @@
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/level.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
@@ -43,6 +44,7 @@
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/teleporter.hpp"
+#include "worldmap/worldmap.hpp"
 
 namespace worldmap {
 
@@ -57,7 +59,7 @@ WorldMapSector::current()
 
 
 WorldMapSector::WorldMapSector(WorldMap& parent) :
-  Base::Sector(parent, "worldmap"),
+  Base::Sector("worldmap"),
   m_parent(parent),
   m_camera(new Camera),
   m_tux(&add<Tux>(&parent)),
@@ -127,14 +129,7 @@ WorldMapSector::setup()
 
   // register worldmap_table as "worldmap" in scripting
   m_squirrel_environment->expose_self();
-
   m_squirrel_environment->expose("settings", std::make_unique<scripting::WorldMapSector>(this));
-}
-
-void
-WorldMapSector::finish_setup()
-{
-  BIND_WORLDMAP_SECTOR(*this);
 
   /** Force spawnpoint, if the property is set. **/
   if (!m_force_spawnpoint.empty())
@@ -596,6 +591,12 @@ WorldMapSector::before_object_remove(GameObject& object)
   m_squirrel_environment->try_unexpose(object);
 }
 
+
+TileSet*
+WorldMapSector::get_tileset() const
+{
+  return m_parent.m_tileset;
+}
 
 Vector
 WorldMapSector::get_tux_pos() const
