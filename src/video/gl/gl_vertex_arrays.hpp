@@ -36,6 +36,7 @@ public:
 
   /** size is in bytes */
   void set_texcoords(const float* data, size_t size);
+  void set_texcoords_repeat(const float* data, size_t size);
   void set_texcoord(float u, float v);
 
   void set_colors(const float* data, size_t size);
@@ -46,6 +47,7 @@ private:
   GLuint m_vao;
   GLuint m_positions_buffer;
   GLuint m_texcoords_buffer;
+  GLuint m_texcoords_repeat_buffer;
   GLuint m_color_buffer;
 
 private:

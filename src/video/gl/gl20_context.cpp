@@ -104,6 +104,11 @@ GL20Context::set_texcoords(const float* data, size_t size)
 }
 
 void
+GL20Context::set_texcoords_repeat(const float* data, size_t size)
+{
+}
+
+void
 GL20Context::set_texcoord(float u, float v)
 {
   assert_gl();

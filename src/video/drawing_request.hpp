@@ -65,6 +65,7 @@ struct TextureRequest : public DrawingRequest
     srcrects(),
     dstrects(),
     angles(),
+    repeats(),
     color(1.0f, 1.0f, 1.0f)
   {}
 
@@ -73,6 +74,7 @@ struct TextureRequest : public DrawingRequest
   std::vector<Rectf> srcrects;
   std::vector<Rectf> dstrects;
   std::vector<float> angles;
+  std::vector<Size> repeats;
   Color color;
 
 private:

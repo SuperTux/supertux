@@ -63,7 +63,8 @@ GLPainter::GLPainter(GLVideoSystem& video_system, GLRenderer& renderer) :
   m_video_system(video_system),
   m_renderer(renderer),
   m_vertices(),
-  m_uvs()
+  m_uvs(),
+  m_uvs_repeat()
 {
 }
 
@@ -79,21 +80,27 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   m_vertices.clear();
   m_uvs.clear();
+  m_uvs_repeat.clear();
 
   m_vertices.reserve(request.srcrects.size() * 12);
   m_uvs.reserve(request.srcrects.size() * 12);
+  m_uvs_repeat.reserve(request.srcrects.size() * 24);
 
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
     const float left = request.dstrects[i].get_left();
     const float top = request.dstrects[i].get_top();
-    const float right  = request.dstrects[i].get_right();
-    const float bottom = request.dstrects[i].get_bottom();
+    const float right  = request.dstrects[i].get_left() + request.dstrects[i].get_width() * static_cast<float>(request.repeats[i].width);
+    const float bottom = request.dstrects[i].get_top() + request.dstrects[i].get_height() * static_cast<float>(request.repeats[i].height);
 
-    float uv_left = request.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
-    float uv_top = request.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
-    float uv_right = request.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
-    float uv_bottom = request.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
+    float uv_left = 0.0f;
+    float uv_top = 0.0f;
+    float uv_right = request.srcrects[i].get_width() * static_cast<float>(request.repeats[i].width) / static_cast<float>(texture.get_texture_width());
+    float uv_bottom = request.srcrects[i].get_height() * static_cast<float>(request.repeats[i].height) / static_cast<float>(texture.get_texture_height());
+    float uv_left_start = request.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
+    float uv_top_start = request.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
+    float uv_left_step = request.srcrects[i].get_width() / static_cast<float>(texture.get_texture_width());
+    float uv_top_step = request.srcrects[i].get_height() / static_cast<float>(texture.get_texture_height());
 
     if (request.flip & HORIZONTAL_FLIP)
       std::swap(uv_left, uv_right);
@@ -113,17 +120,6 @@ GLPainter::draw_texture(const TextureRequest& request)
         right, bottom,
       };
       m_vertices.insert(m_vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
-
-      auto uvs_lst = {
-        uv_left, uv_top,
-        uv_right, uv_top,
-        uv_right, uv_bottom,
-
-        uv_left, uv_bottom,
-        uv_left, uv_top,
-        uv_right, uv_bottom,
-      };
-      m_uvs.insert(m_uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
     }
     else
     {
@@ -150,18 +146,29 @@ GLPainter::draw_texture(const TextureRequest& request)
         new_right*ca - new_bottom*sa + center_x, new_right*sa + new_bottom*ca + center_y,
       };
       m_vertices.insert(m_vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
-
-      const float uvs_lst[] = {
-        uv_left, uv_top,
-        uv_right, uv_top,
-        uv_right, uv_bottom,
-
-        uv_left, uv_bottom,
-        uv_left, uv_top,
-        uv_right, uv_bottom,
-      };
-      m_uvs.insert(m_uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
     }
+
+    auto uvs_lst = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+
+      uv_left, uv_bottom,
+      uv_left, uv_top,
+      uv_right, uv_bottom,
+    };
+    m_uvs.insert(m_uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
+
+    auto uvs_repeat_lst = {
+      uv_left_start, uv_top_start, uv_left_step, uv_top_step,
+      uv_left_start, uv_top_start, uv_left_step, uv_top_step,
+      uv_left_start, uv_top_start, uv_left_step, uv_top_step,
+
+      uv_left_start, uv_top_start, uv_left_step, uv_top_step,
+      uv_left_start, uv_top_start, uv_left_step, uv_top_step,
+      uv_left_start, uv_top_start, uv_left_step, uv_top_step,
+    };
+    m_uvs_repeat.insert(m_uvs_repeat.end(), std::begin(uvs_repeat_lst), std::end(uvs_repeat_lst));
   }
 
   GLContext& context = m_video_system.get_context();
@@ -169,6 +176,7 @@ GLPainter::draw_texture(const TextureRequest& request)
   context.blend_func(sfactor(request.blend), dfactor(request.blend));
   context.bind_texture(texture, request.displacement_texture);
   context.set_texcoords(m_uvs.data(), sizeof(float) * m_uvs.size());
+  context.set_texcoords_repeat(m_uvs_repeat.data(), sizeof(float) * m_uvs_repeat.size());
   context.set_positions(m_vertices.data(), sizeof(float) * m_vertices.size());
   context.set_color(Color(request.color.red,
                           request.color.green,
