@@ -19,6 +19,7 @@
 
 #include "object/unstable_tile.hpp"
 
+#include "collision/collision.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -198,7 +199,7 @@ UnstableTile::update(float dt_sec)
       {
         if (m_revive_timer.check())
         {
-          if (Sector::current() && Sector::get().is_free_of_movingstatics(m_col.m_bbox.grown(-1.f)))
+          if (Sector::current() && Sector::get().is_free_of_movingstatics(Rectf(m_original_pos, get_bbox().get_size())))
           {
             revive();
           }
