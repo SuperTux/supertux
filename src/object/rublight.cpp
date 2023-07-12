@@ -105,10 +105,14 @@ void RubLight::rub(float strength)
 void
 RubLight::update(float dt_sec)
 {
+  if (m_sprite->get_action() == "active" && m_sprite->animation_done())
+  {
+    m_sprite->set_action("inactive");
+  }
+
   switch (state) {
   case STATE_DARK:
-    if (!(m_sprite->get_action() == "inactive"))
-      m_sprite->set_action("inactive");
+    m_sprite->set_action("inactive");
     break;
 
   case STATE_FADING:

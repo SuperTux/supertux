@@ -2,6 +2,7 @@
   (action
     (name "active")
 	(fps 8)
+  (loops 1)
 	(images "rublight-0.png"
 			"rublight-1.png"
 			"rublight-2.png"
@@ -12,12 +13,7 @@
 			"rublight-7.png"
 			"rublight-8.png"
 			"rublight-9.png"
-			"rublight-10.png"
-			"rublight-0.png"
-			"rublight-0.png"
-			"rublight-0.png"
-			"rublight-0.png"
-			"rublight-0.png")
+			"rublight-10.png")
   )
   (action
     (name "inactive")
