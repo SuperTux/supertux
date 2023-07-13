@@ -525,7 +525,7 @@ bool
 Config::is_christmas() const
 {
   std::time_t time = std::time(nullptr);
-  std::tm* now = std::localtime(&time);
+  const std::tm* now = std::localtime(&time);
 
   /* Activate Christmas mode from Dec 6th until Dec 31st. */
   return now->tm_mday >= 6 && now->tm_mon == 11;
