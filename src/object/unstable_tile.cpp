@@ -198,7 +198,7 @@ UnstableTile::update(float dt_sec)
       {
         if (m_revive_timer.check())
         {
-          if (Sector::current() && Sector::get().is_free_of_movingstatics(m_col.m_bbox.grown(-1.f)))
+          if (Sector::get().is_free_of_movingstatics(Rectf(m_original_pos, get_bbox().get_size()).grown(-1.f)))
           {
             revive();
           }
