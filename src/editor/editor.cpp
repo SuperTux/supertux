@@ -406,7 +406,7 @@ Editor::update_keyboard(const Controller& controller)
   }
 
 
-  if (!MenuManager::instance().has_dialog())
+  if (MenuManager::instance().current_menu() == nullptr)
   {
     if (controller.pressed(Control::ESCAPE)) {
       esc_press();
@@ -415,6 +415,7 @@ Editor::update_keyboard(const Controller& controller)
     if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
     {
       MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+      return;
     }
     if (controller.hold(Control::LEFT)) {
       scroll({ -m_scroll_speed, 0.0f });
