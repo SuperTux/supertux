@@ -405,12 +405,16 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  
+
   if (!MenuManager::instance().has_dialog())
   {
     if (controller.pressed(Control::ESCAPE)) {
       esc_press();
       return;
+    }
+    if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
+    {
+      MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
     }
     if (controller.hold(Control::LEFT)) {
       scroll({ -m_scroll_speed, 0.0f });
@@ -683,7 +687,7 @@ Editor::setup()
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();
   }
-  
+
 }
 
 void
@@ -742,7 +746,7 @@ Editor::event(const SDL_Event& ev)
     }
   }
 
-  
+
 
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;
