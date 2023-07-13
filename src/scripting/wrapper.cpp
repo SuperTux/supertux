@@ -1251,7 +1251,7 @@ static SQInteger Clouds_set_amount_wrapper(HSQUIRRELVM vm)
 
 static SQInteger ConveyorBelt_release_hook(SQUserPointer ptr, SQInteger )
 {
-  auto _this = reinterpret_cast<scripting::ConveyorBelt*> (ptr);
+  scripting::ConveyorBelt* _this = reinterpret_cast<scripting::ConveyorBelt*> (ptr);
   delete _this;
   return 0;
 }
@@ -1263,11 +1263,7 @@ static SQInteger ConveyorBelt_start_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'start' called without instance"));
     return SQ_ERROR;
   }
-  auto _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
+  scripting::ConveyorBelt* _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
 
 
   try {
@@ -1292,11 +1288,7 @@ static SQInteger ConveyorBelt_stop_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'stop' called without instance"));
     return SQ_ERROR;
   }
-  auto _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
+  scripting::ConveyorBelt* _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
 
 
   try {
@@ -1321,11 +1313,7 @@ static SQInteger ConveyorBelt_move_left_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'move_left' called without instance"));
     return SQ_ERROR;
   }
-  auto _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
+  scripting::ConveyorBelt* _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
 
 
   try {
@@ -1350,11 +1338,7 @@ static SQInteger ConveyorBelt_move_right_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'move_right' called without instance"));
     return SQ_ERROR;
   }
-  auto _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
+  scripting::ConveyorBelt* _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
 
 
   try {
@@ -1379,11 +1363,7 @@ static SQInteger ConveyorBelt_set_speed_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_speed' called without instance"));
     return SQ_ERROR;
   }
-  auto _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
-
-  if (_this == nullptr) {
-    return SQ_ERROR;
-  }
+  scripting::ConveyorBelt* _this = reinterpret_cast<scripting::ConveyorBelt*> (data);
 
   SQFloat arg0;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
@@ -1392,7 +1372,7 @@ static SQInteger ConveyorBelt_set_speed_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->set_speed(static_cast<float> (arg0));
+    _this->set_speed(arg0);
 
     return 0;
 
@@ -14051,35 +14031,35 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   }
   sq_pushstring(v, "start", -1);
   sq_newclosure(v, &ConveyorBelt_start_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'start'");
   }
 
   sq_pushstring(v, "stop", -1);
   sq_newclosure(v, &ConveyorBelt_stop_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'stop'");
   }
 
   sq_pushstring(v, "move_left", -1);
   sq_newclosure(v, &ConveyorBelt_move_left_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'move_left'");
   }
 
   sq_pushstring(v, "move_right", -1);
   sq_newclosure(v, &ConveyorBelt_move_right_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'move_right'");
   }
 
   sq_pushstring(v, "set_speed", -1);
   sq_newclosure(v, &ConveyorBelt_set_speed_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_speed'");
   }

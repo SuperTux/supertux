@@ -2045,8 +2045,16 @@ Player::draw(DrawingContext& context)
         m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
     }
-    else {
+    else
+    {
+      if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM-3)
+      {
+        m_sprite->set_action(sa_prefix+"-run"+sa_postfix);
+      }
+      else
+      {
         m_sprite->set_action(sa_prefix+"-walk"+sa_postfix);
+      }
     }
   }
 

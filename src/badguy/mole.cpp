@@ -37,7 +37,7 @@ Mole::Mole(const ReaderMapping& reader) :
   timer(),
   throw_timer()
 {
-  m_physic.enable_gravity(true);
+  m_physic.enable_gravity(false);
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/dartfire.wav");
@@ -132,31 +132,31 @@ Mole::set_state(MoleState new_state)
   switch (new_state) {
     case PRE_THROWING:
       set_action("idle");
-      set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+      set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
       break;
     case THROWING:
       set_action("idle");
-      set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+      set_colgroup_active(COLGROUP_DISABLED);
       timer.start(THROW_TIME);
       throw_timer.start(THROW_INTERVAL);
       break;
     case POST_THROWING:
       set_action("idle");
-      set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+      set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
       break;
     case PEEKING:
       set_action("peeking", 1);
-      set_colgroup_active(COLGROUP_MOVING_STATIC);
+      set_colgroup_active(COLGROUP_STATIC);
       break;
     case DEAD:
       set_action("squished");
-      set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+      set_colgroup_active(COLGROUP_DISABLED);
       break;
     case BURNING:
       set_action("burning", 1);
-      set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+      set_colgroup_active(COLGROUP_DISABLED);
       break;
   }
 

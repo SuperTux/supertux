@@ -229,12 +229,12 @@ Dialog::draw(DrawingContext& context)
   for (int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
     float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());
-    float button_width = segment_width;
     Vector pos(bg_rect.get_left() + segment_width/2.0f + static_cast<float>(i) * segment_width,
                bg_rect.get_bottom() - 12);
 
     if (i == m_selected_button)
     {
+      float button_width = segment_width;
       float button_height = 24.0f;
       float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
       context.color().draw_filled_rect(Rectf(Vector(pos.x - button_width/2, pos.y - button_height/2),
