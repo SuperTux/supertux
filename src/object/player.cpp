@@ -745,12 +745,13 @@ Player::update(float dt_sec)
     }
   }
 
-  if (m_does_buttjump)
+  if (m_does_buttjump || m_stone)
   {
     Rectf downbox = get_bbox().grown(-1.f);
     downbox.set_bottom(get_bbox().get_bottom() + 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (downbox.contains(brick.get_bbox()) && brick.get_class_name() != "heavy-brick") {
+      // stoneform breaks through any kind of bricks
+      if (downbox.contains(brick.get_bbox()) && (m_stone || brick.get_class_name() != "heavy-brick")) {
         brick.try_break(this, is_big());
       }
     }

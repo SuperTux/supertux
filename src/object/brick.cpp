@@ -69,7 +69,6 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
     if (player->m_does_buttjump) try_break(player);
-    if (player->is_stone() && player->get_velocity().y >= 280) try_break(player, true); // stoneform breaks through bricks
   }
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
@@ -166,13 +165,7 @@ HitResponse
 HeavyBrick::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*>(&other);
-  if (player)
-  {
-    if (player->is_stone() && player->get_velocity().y >= 280)
-      try_break(player, true);
-    else if (player->m_does_buttjump)
-      ricochet(&other);
-  }
+  if (player && player->m_does_buttjump) ricochet(&other);
 
   auto crusher = dynamic_cast<Crusher*> (&other);
   if (crusher)
