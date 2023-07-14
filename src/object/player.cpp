@@ -762,6 +762,18 @@ Player::update(float dt_sec)
     }
   }
 
+  // break bricks above without stopping
+  if (m_stone && m_physic.get_velocity_y() < 30.f)
+  {
+    Rectf topbox = get_bbox().grown(-1.f);
+    topbox.set_top(get_bbox().get_top() - 16.f);
+    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+      if (topbox.contains(brick.get_bbox())) {
+        brick.try_break(this, is_big());
+      }
+    }
+  }
+
   //launch from slopes
 
   Rectf launchbox = get_bbox();
