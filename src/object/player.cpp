@@ -751,7 +751,7 @@ Player::update(float dt_sec)
     downbox.set_bottom(get_bbox().get_bottom() + 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
       // stoneform breaks through any kind of bricks
-      if (downbox.contains(brick.get_bbox()) && (m_stone || brick.get_class_name() != "heavy-brick")) {
+      if (downbox.contains(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick))) {
         brick.try_break(this, is_big());
       }
     }
