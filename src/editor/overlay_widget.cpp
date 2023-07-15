@@ -159,13 +159,7 @@ void
 EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile, bool save_state)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap)
-    return;
-
-  if ( pos.x < 0 ||
-       pos.y < 0 ||
-       pos.x >= static_cast<float>(tilemap->get_width()) ||
-       pos.y >= static_cast<float>(tilemap->get_height()))
+  if (!tilemap || !is_position_inside_tilemap(tilemap, pos))
   {
     return;
   }
@@ -178,13 +172,7 @@ void
 EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile, bool save_state)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap)
-    return;
-
-  if ( pos.x < 0 ||
-       pos.y < 0 ||
-       pos.x >= static_cast<float>(tilemap->get_width()) ||
-       pos.y >= static_cast<float>(tilemap->get_height()))
+  if (!tilemap || !is_position_inside_tilemap(tilemap, pos))
   {
     return;
   }
@@ -217,13 +205,7 @@ EditorOverlayWidget::autotile_corner(const Vector& pos, uint32_t tile,
                                      TileMap::AutotileCornerOperation op)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap)
-    return;
-
-  if ( pos.x < 0 ||
-       pos.y < 0 ||
-       pos.x >= static_cast<float>(tilemap->get_width()) ||
-       pos.y >= static_cast<float>(tilemap->get_height()))
+  if (!tilemap || !is_position_inside_tilemap(tilemap, pos))
   {
     return;
   }
@@ -503,10 +485,7 @@ EditorOverlayWidget::fill()
     Vector tpos = pos - m_hovered_tile;
 
     // Tests for being inside tilemap:
-    if ( pos.x < 0 ||
-         pos.y < 0 ||
-         pos.x >= static_cast<float>(tilemap->get_width()) ||
-         pos.y >= static_cast<float>(tilemap->get_height()))
+    if (!is_position_inside_tilemap(tilemap, pos))
     {
       pos_stack.pop_back();
       continue;
@@ -1654,6 +1633,14 @@ EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
 
   Vector sp_ = sp + tilemap->get_offset() / static_cast<float>(tile_size);
   return glm::trunc(sp_) * static_cast<float>(tile_size);
+}
+
+bool
+EditorOverlayWidget::is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos) const
+{
+  return pos.x > 0 && pos.y > 0 && 
+         pos.x <= static_cast<float>(tilemap->get_width()) &&
+         pos.y <= static_cast<float>(tilemap->get_height());
 }
 
 /* EOF */
