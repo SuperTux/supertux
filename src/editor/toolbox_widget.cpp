@@ -65,6 +65,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 {
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
   m_select_mode->push_mode("images/engine/editor/select-mode2.png");
+  m_select_mode->push_mode("images/engine/editor/select-mode3.png");
   m_move_mode->push_mode("images/engine/editor/move-mode1.png");
   m_undo_mode->push_mode("images/engine/editor/redo.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");

@@ -343,7 +343,7 @@ namespace {
       }
     }
     return positions;
-  };
+  }
 }  // namespace
 
 void
@@ -526,6 +526,23 @@ EditorOverlayWidget::fill()
 
     // When tiles on each side are already filled or occupied by another tiles, it ends.
     pos_stack.pop_back();
+  }
+}
+
+void
+EditorOverlayWidget::replace()
+{
+  auto tilemap = m_editor.get_selected_tilemap();
+  Uint32 replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
+  for (int x = 0; x < tilemap->get_width(); ++x)
+  {
+    for (int y = 0; y < tilemap->get_height(); ++y)
+    {
+      if (tilemap->get_tile_id(x, y) == replace_tile)
+      {
+        input_tile(Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(0, 0));
+      }
+    }
   }
 }
 
@@ -898,6 +915,10 @@ EditorOverlayWidget::process_left_click()
 
         case 2:
           fill();
+          break;
+
+        case 3:
+          replace();
           break;
 
         default:
