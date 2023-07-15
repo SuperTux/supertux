@@ -19,6 +19,7 @@
 #include <physfs.h>
 
 #include "addon/addon_manager.hpp"
+#include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
@@ -28,7 +29,8 @@
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback) :
+                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback,
+                               const std::function<void (MenuItem&)>& item_processor) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
@@ -38,7 +40,8 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_directories(),
   m_files(),
   m_path_relative_to_basedir(path_relative_to_basedir),
-  m_callback(std::move(callback))
+  m_callback(std::move(callback)),
+  m_item_processor(std::move(item_processor))
 {
   AddonManager::current()->unmount_old_addons();
 
@@ -103,9 +106,13 @@ FileSystemMenu::refresh_items()
     item_id++;
   }
 
+  const bool in_basedir = m_directory == FileSystem::normalize(m_basedir);
   for (const auto& item : m_files)
   {
-    add_entry(item_id, item);
+    MenuItem& menu_item = add_entry(item_id, item);
+    if (in_basedir && m_item_processor)
+      m_item_processor(menu_item);
+
     item_id++;
   }
 

@@ -19,6 +19,8 @@
 
 #include "gui/menu.hpp"
 
+#include <map>
+
 class EditorMenu final : public Menu
 {
 private:
@@ -36,8 +38,14 @@ private:
 	  MNID_HELP,
     MNID_QUITEDITOR,
     MNID_CONVERT_TILES,
-    MNID_CONVERT_TILES_CUSTOM,
     MNID_CHECKDEPRECATEDTILES
+  };
+
+  struct Converter {
+    Converter() : title(), desc() {}
+
+    std::string title;
+    std::string desc;
   };
 
 public:
@@ -53,6 +61,7 @@ private:
   void convert_tiles(const std::string& file);
 
 private:
+  std::map<std::string, Converter> m_converters;
   std::string m_tile_conversion_file;
 
 private:

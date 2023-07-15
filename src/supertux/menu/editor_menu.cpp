@@ -35,6 +35,8 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
 
 #ifdef __EMSCRIPTEN__
@@ -43,8 +45,36 @@
 #endif
 
 EditorMenu::EditorMenu() :
+  m_converters(),
   m_tile_conversion_file()
 {
+  try
+  {
+    auto doc = ReaderDocument::from_file("images/converters/data.stcd");
+    auto root = doc.get_root();
+    if (root.get_name() != "supertux-converter-data")
+      throw std::runtime_error("File is not a 'supertux-converters-data' file.");
+
+    auto iter = root.get_mapping().get_iter();
+    while (iter.next())
+    {
+      if (iter.get_key().empty())
+        continue;
+
+      EditorMenu::Converter converter;
+
+      auto mapping = iter.as_mapping();
+      mapping.get("title", converter.title);
+      mapping.get("desc", converter.desc);
+
+      m_converters.insert({ iter.get_key(), converter });
+    }
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Cannot read converter data from 'images/converters/data.stcd': " << err.what() << std::endl;
+  }
+
   refresh();
 }
 
@@ -86,14 +116,17 @@ EditorMenu::refresh()
 
   add_hl();
 
-  add_entry(MNID_CONVERT_TILES, _("Convert Tiles"))
-    .set_help(_("Levels, edited in previous Nightly Builds, are likely to have had their tiles corrupted.\nUse this feature to convert all tiles in the current level back to their proper state."));
+  add_file(_("Select Tile Conversion File"), &m_tile_conversion_file, { "sttc" }, "images/converters", false,
+           [this](MenuItem& item) {
+             auto it = m_converters.find(item.get_text());
+             if (it == m_converters.end())
+               return;
 
-  add_hl();
+             item.set_text("\"" + _(it->second.title) + "\"");
+             item.set_help(_(it->second.desc));
+           });
 
-  add_file(_("Select Tile Conversion File"), &m_tile_conversion_file, { "sttc" }, "images/converters", false);
-
-  add_entry(MNID_CONVERT_TILES_CUSTOM, _("Convert Tiles By File"))
+  add_entry(MNID_CONVERT_TILES, _("Convert Tiles By File"))
     .set_help(_("Convert all tiles in the current level by a file, specified above."));
 
   add_hl();
@@ -233,12 +266,10 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_CONVERT_TILES:
-    case MNID_CONVERT_TILES_CUSTOM:
     {
-      const bool convert_tiles_custom = item.get_id() == MNID_CONVERT_TILES_CUSTOM;
       Dialog::show_confirmation(_("This will convert all tiles in the level. Proceed?\n \nNote: This should not be ran more than once on a level.\nCreating a separate copy of the level is highly recommended."),
-        [this, convert_tiles_custom]() {
-          convert_tiles(convert_tiles_custom ? m_tile_conversion_file : "images/converters/nightly_all_tiles.sttc");
+        [this]() {
+          convert_tiles(m_tile_conversion_file);
         });
       break;
     }
