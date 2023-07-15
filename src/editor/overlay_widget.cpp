@@ -150,7 +150,7 @@ EditorOverlayWidget::drag_rect() const
 }
 
 void
-EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
+EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile, bool save_state)
 {
   auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap) {
@@ -164,12 +164,12 @@ EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile)
     return;
   }
 
-  tilemap->save_state();
+  if (save_state) tilemap->save_state();
   tilemap->change(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
 }
 
 void
-EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile)
+EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile, bool save_state)
 {
   auto tilemap = m_editor.get_selected_tilemap();
   if (!tilemap) {
@@ -183,27 +183,27 @@ EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile)
     return;
   }
 
-  tilemap->save_state();
+  if (save_state) tilemap->save_state();
   tilemap->autotile(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
 }
 
 void
-EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
+EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile, bool save_state)
 {
-  this->input_tile(pos, tile);
+  this->input_tile(pos, tile, save_state);
 
   float x = pos.x;
   float y = pos.y;
 
-  this->autotile(Vector(x - 1.0f, y - 1.0f), tile);
-  this->autotile(Vector(x       , y - 1.0f), tile);
-  this->autotile(Vector(x + 1.0f, y - 1.0f), tile);
-  this->autotile(Vector(x - 1.0f, y       ), tile);
-  this->autotile(Vector(x       , y       ), tile);
-  this->autotile(Vector(x + 1.0f, y       ), tile);
-  this->autotile(Vector(x - 1.0f, y + 1.0f), tile);
-  this->autotile(Vector(x       , y + 1.0f), tile);
-  this->autotile(Vector(x + 1.0f, y + 1.0f), tile);
+  this->autotile(Vector(x - 1.0f, y - 1.0f), tile, save_state);
+  this->autotile(Vector(x       , y - 1.0f), tile, save_state);
+  this->autotile(Vector(x + 1.0f, y - 1.0f), tile, save_state);
+  this->autotile(Vector(x - 1.0f, y       ), tile, save_state);
+  this->autotile(Vector(x       , y       ), tile, save_state);
+  this->autotile(Vector(x + 1.0f, y       ), tile, save_state);
+  this->autotile(Vector(x - 1.0f, y + 1.0f), tile, save_state);
+  this->autotile(Vector(x       , y + 1.0f), tile, save_state);
+  this->autotile(Vector(x + 1.0f, y + 1.0f), tile, save_state);
 }
 
 void
@@ -394,23 +394,27 @@ EditorOverlayWidget::preview_rectangle()
 void
 EditorOverlayWidget::draw_rectangle()
 {
+  auto tilemap = m_editor.get_selected_tilemap();
   Rectf dr = drag_rect();
   dr.set_p1(glm::floor(sp_to_tp(dr.p1())));
   dr.set_p2(glm::floor(sp_to_tp(dr.p2())));
   bool sgn_x = m_drag_start.x < m_sector_pos.x;
   bool sgn_y = m_drag_start.y < m_sector_pos.y;
 
+  tilemap->save_state();  
   int x_ = sgn_x ? 0 : static_cast<int>(-dr.get_width());
-  for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++) {
+  for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++)
+  {
     int y_ = sgn_y ? 0 : static_cast<int>(-dr.get_height());
-    for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++) {
-      if (g_config->editor_autotile_mode) {
-        input_autotile( Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_) );
-      } else {
-        input_tile( Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_) );
-      }
+    for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++)
+    {
+      if (g_config->editor_autotile_mode)
+        input_autotile(Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_), false);
+      else
+        input_tile(Vector(static_cast<float>(x), static_cast<float>(y)), m_editor.get_tiles()->pos(x_, y_), false);
     }
   }
+  tilemap->check_state();
 }
 
 bool
@@ -448,11 +452,14 @@ EditorOverlayWidget::fill()
   std::vector<Vector> pos_stack;
   pos_stack.clear();
   pos_stack.push_back(m_hovered_tile);
+  tilemap->save_state();
 
   // Passing recursively trough all tiles to be replaced...
-  while (pos_stack.size()) {
+  while (pos_stack.size())
+  {
 
-    if (pos_stack.size() > 1000000) {
+    if (pos_stack.size() > 1000000)
+    {
       log_warning << "More than 1'000'000 tiles in stack to fill, STOP" << std::endl;
       return;
     }
@@ -471,16 +478,18 @@ EditorOverlayWidget::fill()
     }
 
     // Autotile will happen later, so that directional filling works properly
-    input_tile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
+    input_tile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)), false);
 
     Vector pos_(0.0f, 0.0f);
 
     // Going left...
     pos_ = pos + Vector(-1, 0);
-    if (pos_.x >= 0) {
+    if (pos_.x >= 0)
+    {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
-          tiles->pos(static_cast<int>(tpos.x - 1), static_cast<int>(tpos.y)))) {
+          tiles->pos(static_cast<int>(tpos.x - 1), static_cast<int>(tpos.y))))
+      {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -488,10 +497,12 @@ EditorOverlayWidget::fill()
 
     // Going right...
     pos_ = pos + Vector(1, 0);
-    if (pos_.x < static_cast<float>(tilemap->get_width())) {
+    if (pos_.x < static_cast<float>(tilemap->get_width()))
+    {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
-          tiles->pos(static_cast<int>(tpos.x + 1), static_cast<int>(tpos.y)))) {
+          tiles->pos(static_cast<int>(tpos.x + 1), static_cast<int>(tpos.y))))
+      {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -499,10 +510,12 @@ EditorOverlayWidget::fill()
 
     // Going up...
     pos_ = pos + Vector(0, -1);
-    if (pos_.y >= 0) {
+    if (pos_.y >= 0)
+    {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
-          tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y - 1)))) {
+          tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y - 1))))
+      {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -510,23 +523,25 @@ EditorOverlayWidget::fill()
 
     // Going down...
     pos_ = pos + Vector(0, 1);
-    if (pos_.y < static_cast<float>(tilemap->get_height())) {
+    if (pos_.y < static_cast<float>(tilemap->get_height()))
+    {
       if (check_tiles_for_fill(replace_tile,
           tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)),
-          tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y + 1)))) {
+          tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y + 1))))
+      {
         pos_stack.push_back( pos_ );
         continue;
       }
     }
 
     // Autotile happens after directional detection (because of borders; see snow tileset)
-    if (g_config->editor_autotile_mode) {
-      input_autotile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)));
-    }
+    if (g_config->editor_autotile_mode)
+      input_autotile(pos, tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y)), false);
 
     // When tiles on each side are already filled or occupied by another tiles, it ends.
     pos_stack.pop_back();
   }
+  tilemap->check_state();
 }
 
 void
