@@ -109,11 +109,11 @@ EditorOverlayWidget::delete_markers()
 {
   auto* sector = m_editor.get_sector();
 
-  if (m_selected_object && m_selected_object->is_valid()) {
+  if (m_selected_object && m_selected_object->is_valid())
     m_selected_object->editor_deselect();
-  }
 
-  for (auto& marker : sector->get_objects_by_type<MarkerObject>()) {
+  for (auto& marker : sector->get_objects_by_type<MarkerObject>())
+  {
     marker.remove_me();
   }
 
@@ -127,18 +127,24 @@ EditorOverlayWidget::drag_rect() const
 {
   int start_x, start_y, end_x, end_y;
 
-  if (m_drag_start.x < m_sector_pos.x) {
+  if (m_drag_start.x < m_sector_pos.x)
+  {
     start_x = static_cast<int>(m_drag_start.x);
     end_x = static_cast<int>(m_sector_pos.x);
-  } else {
+  }
+  else
+  {
     start_x = static_cast<int>(m_sector_pos.x);
     end_x = static_cast<int>(m_drag_start.x);
   }
 
-  if (m_drag_start.y < m_sector_pos.y) {
+  if (m_drag_start.y < m_sector_pos.y)
+  {
     start_y = static_cast<int>(m_drag_start.y);
     end_y = static_cast<int>(m_sector_pos.y);
-  } else {
+  }
+  else
+  {
     start_y = static_cast<int>(m_sector_pos.y);
     end_y = static_cast<int>(m_drag_start.y);
   }
@@ -153,14 +159,14 @@ void
 EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile, bool save_state)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap) {
+  if (!tilemap)
     return;
-  }
 
   if ( pos.x < 0 ||
        pos.y < 0 ||
        pos.x >= static_cast<float>(tilemap->get_width()) ||
-       pos.y >= static_cast<float>(tilemap->get_height())) {
+       pos.y >= static_cast<float>(tilemap->get_height()))
+  {
     return;
   }
 
@@ -172,14 +178,14 @@ void
 EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile, bool save_state)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap) {
+  if (!tilemap)
     return;
-  }
 
   if ( pos.x < 0 ||
        pos.y < 0 ||
        pos.x >= static_cast<float>(tilemap->get_width()) ||
-       pos.y >= static_cast<float>(tilemap->get_height())) {
+       pos.y >= static_cast<float>(tilemap->get_height()))
+  {
     return;
   }
 
@@ -211,14 +217,14 @@ EditorOverlayWidget::autotile_corner(const Vector& pos, uint32_t tile,
                                      TileMap::AutotileCornerOperation op)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap) {
+  if (!tilemap)
     return;
-  }
 
   if ( pos.x < 0 ||
        pos.y < 0 ||
        pos.x >= static_cast<float>(tilemap->get_width()) ||
-       pos.y >= static_cast<float>(tilemap->get_height())) {
+       pos.y >= static_cast<float>(tilemap->get_height()))
+  {
     return;
   }
 
@@ -254,23 +260,33 @@ EditorOverlayWidget::put_tile(const Vector& target_tile)
   Vector hovered_corner = target_tile + Vector(0.5f, 0.5f);
   auto tiles = m_editor.get_tiles();
   Vector add_tile(0.0f, 0.0f);
-  for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
-    for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
+  for (add_tile.x = static_cast<float>(tiles->m_width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--)
+  {
+    for (add_tile.y = static_cast<float>(tiles->m_height) - 1.0f; add_tile.y >= 0; add_tile.y--)
+    {
 
       uint32_t tile = tiles->pos(static_cast<int>(add_tile.x), static_cast<int>(add_tile.y));
       auto tilemap = m_editor.get_selected_tilemap();
 
-      if (g_config->editor_autotile_mode && ((tilemap && tilemap->get_autotileset(tile)) || tile == 0)) {
-        if (tile == 0) {
+      if (g_config->editor_autotile_mode && ((tilemap && tilemap->get_autotileset(tile)) || tile == 0))
+      {
+        if (tile == 0)
+        {
           tilemap->autotile_erase(target_tile + add_tile, hovered_corner + add_tile);
-        } else if (tilemap->get_autotileset(tile)->is_corner()) {
+        }
+        else if (tilemap->get_autotileset(tile)->is_corner())
+        {
           input_autotile_corner(hovered_corner + add_tile,
                                 tile,
                                 target_tile + add_tile);
-        } else {
+        }
+        else
+        {
           input_autotile(target_tile + add_tile, tile);
         }
-      } else {
+      }
+      else
+      {
         input_tile(target_tile + add_tile, tile);
       }
 
@@ -289,9 +305,11 @@ namespace {
     // [x, x+1) x [y, y+1)
     std::vector<Vector> positions;
     Vector diff = pos2 - pos1;
-    if (fabsf(diff.x) > fabsf(diff.y)) {
+    if (fabsf(diff.x) > fabsf(diff.y))
+    {
       // Go along X, from left to right
-      if (diff.x < 0) {
+      if (diff.x < 0)
+      {
         Vector tmp = pos1;
         pos1 = pos2;
         pos2 = tmp;
@@ -301,10 +319,12 @@ namespace {
       float y_step = diff.y / diff.x;
       // The x coordinate of the first vertical grid line right of pos1
       float x_first_gridline = floorf(pos1.x + 1.0f);
-      for (float x = x_first_gridline; x < pos2.x; ++x) {
+      for (float x = x_first_gridline; x < pos2.x; ++x)
+      {
         // The y coordinate where our line intersects the vertical grid line
         float y = pos1.y + (x - pos1.x) * y_step;
-        if (floorf(y) != floorf(y_prev)) {
+        if (floorf(y) != floorf(y_prev))
+        {
           // The current position is one horizontal grid line higher than
           // the previous one,
           // so add the position left to the current vertical grid line
@@ -314,14 +334,18 @@ namespace {
         // Add the position right to the current vertical grid line
         positions.emplace_back(Vector(x + 0.5f, y));
       }
-      if (x_first_gridline > pos2.x && floorf(pos2.y) != floorf(pos1.y)) {
+      if (x_first_gridline > pos2.x && floorf(pos2.y) != floorf(pos1.y))
+      {
         // Special case: a single horizontal grid line is crossed with an acute
         // angle but no vertical grid line, so the for loop was skipped
         positions.emplace_back(pos2);
       }
-    } else {
+    }
+    else
+    {
       // Go along Y, from top to bottom
-      if (diff.y < 0) {
+      if (diff.y < 0)
+      {
         Vector tmp = pos1;
         pos1 = pos2;
         pos2 = tmp;
@@ -330,15 +354,18 @@ namespace {
       float x_prev = pos1.x;
       float x_step = diff.x / diff.y;
       float y_first_gridline = floorf(pos1.y + 1.0f);
-      for (float y = y_first_gridline; y < pos2.y; ++y) {
+      for (float y = y_first_gridline; y < pos2.y; ++y)
+      {
         float x = pos1.x + (y - pos1.y) * x_step;
-        if (floorf(x) != floorf(x_prev)) {
+        if (floorf(x) != floorf(x_prev))
+        {
           positions.emplace_back(Vector(x, y - 0.5f));
           x_prev = x;
         }
         positions.emplace_back(Vector(x, y + 0.5f));
       }
-      if (y_first_gridline > pos2.y && floorf(pos2.x) != floorf(pos1.x)) {
+      if (y_first_gridline > pos2.y && floorf(pos2.x) != floorf(pos1.x))
+      {
         positions.emplace_back(pos2);
       }
     }
@@ -353,7 +380,8 @@ EditorOverlayWidget::put_next_tiles()
   int expired_ms = static_cast<int>(std::chrono::duration_cast<
     std::chrono::milliseconds>(time_now - m_time_prev_put_tile).count());
   m_time_prev_put_tile = time_now;
-  if (expired_ms > 70) {
+  if (expired_ms > 70)
+  {
     // Avoid drawing lines when the user has hold the left mouse button for some
     // time while not putting a tile
     put_tile(m_hovered_tile);
@@ -363,7 +391,8 @@ EditorOverlayWidget::put_next_tiles()
   // Interpolate on a sub-grid with twice width and height because autotiling
   // needs to know the closest corner
   for (const Vector &pos : rasterize_line_segment(m_hovered_tile_prev * 2.0f,
-      m_hovered_tile * 2.0f)) {
+      m_hovered_tile * 2.0f))
+  {
     put_tile(pos * 0.5f);
   }
   m_hovered_tile_prev = m_hovered_tile;
@@ -382,9 +411,11 @@ EditorOverlayWidget::preview_rectangle()
   m_rectangle_preview->m_width = static_cast<int>(dr.get_width()) + 1;
   m_rectangle_preview->m_height = static_cast<int>(dr.get_height()) + 1;
   int y_ = sgn_y ? 0 : static_cast<int>(-dr.get_height());
-  for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++) {
+  for (int y = static_cast<int>(dr.get_top()); y <= static_cast<int>(dr.get_bottom()); y++, y_++)
+  {
     int x_ = sgn_x ? 0 : static_cast<int>(-dr.get_width());
-    for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++) {
+    for (int x = static_cast<int>(dr.get_left()); x <= static_cast<int>(dr.get_right()); x++, x_++)
+    {
       m_rectangle_preview->m_tiles.push_back(m_editor.get_tiles()->pos(x_, y_));
     }
   }
@@ -422,12 +453,15 @@ EditorOverlayWidget::check_tiles_for_fill(uint32_t replace_tile,
                                           uint32_t target_tile,
                                           uint32_t third_tile) const
 {
-  if (g_config->editor_autotile_mode) {
+  if (g_config->editor_autotile_mode)
+  {
     return m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
         == m_editor.get_tileset()->get_autotileset_from_tile(target_tile)
       && m_editor.get_tileset()->get_autotileset_from_tile(replace_tile)
         != m_editor.get_tileset()->get_autotileset_from_tile(third_tile);
-  } else {
+  }
+  else
+  {
     return replace_tile == target_tile && replace_tile != third_tile;
   }
 }
@@ -444,7 +478,8 @@ EditorOverlayWidget::fill()
   // The tile that is going to be replaced:
   Uint32 replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
 
-  if (replace_tile == tiles->pos(0, 0)) {
+  if (replace_tile == tiles->pos(0, 0))
+  {
     // Replacing by the same tiles shouldn't do anything.
     return;
   }
@@ -580,8 +615,10 @@ EditorOverlayWidget::hover_object()
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     Rectf bbox = moving_object.get_bbox();
-    if (bbox.contains(m_sector_pos)) {
-      if (&moving_object != m_hovered_object) {
+    if (bbox.contains(m_sector_pos))
+    {
+      if (&moving_object != m_hovered_object)
+      {
 
         // Ignore BezierMarkers if ctrl isn't pressed... (1/2)
         auto* bezier_marker = dynamic_cast<BezierMarker*>(&moving_object);
@@ -618,9 +655,8 @@ EditorOverlayWidget::hover_object()
     }
   }
 
-  if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip()) {
+  if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip())
     m_object_tip = std::make_unique<Tip>(*m_hovered_object);
-  }
 
   // (2/2) ...but select them anyways if they weren't hovering a node marker
   if (marker_hovered_without_ctrl && !m_hovered_object)
@@ -638,15 +674,15 @@ EditorOverlayWidget::edit_path(PathGameObject* path, GameObject* new_marked_obje
   if (!path) return;
   delete_markers();
 
-  if (!path->is_valid()) {
+  if (!path->is_valid())
+  {
     m_edited_path = nullptr;
     return;
   }
   m_edited_path = path;
   m_edited_path->get_path().edit_path();
-  if (new_marked_object) {
+  if (new_marked_object)
     m_selected_object = new_marked_object;
-  }
 }
 
 void
@@ -665,7 +701,8 @@ EditorOverlayWidget::select_object()
   delete_markers();
   if (!m_dragged_object || !m_dragged_object->is_valid()) return;
 
-  if (m_dragged_object->has_variable_size()) {
+  if (m_dragged_object->has_variable_size())
+  {
     m_selected_object = m_dragged_object;
     m_dragged_object->editor_select();
     return;
@@ -681,7 +718,8 @@ EditorOverlayWidget::select_object()
 void
 EditorOverlayWidget::grab_object()
 {
-  if (m_hovered_object) {
+  if (m_hovered_object)
+  {
     if (!m_hovered_object->is_valid())
     {
       m_hovered_object = nullptr;
@@ -694,9 +732,8 @@ EditorOverlayWidget::grab_object()
       m_dragged_object->save_state();
 
       auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
-      if (!pm) {
+      if (!pm)
         select_object();
-      }
       m_last_node_marker = dynamic_cast<NodeMarker*>(pm);
     }
   }
@@ -709,7 +746,9 @@ EditorOverlayWidget::grab_object()
         m_edited_path->is_valid())
     {
       // do nothing
-    } else {
+    }
+    else
+    {
       delete_markers();
     }
   }
@@ -718,8 +757,10 @@ EditorOverlayWidget::grab_object()
 void
 EditorOverlayWidget::clone_object()
 {
-  if (m_hovered_object && m_hovered_object->is_saveable()) {
-    if (!m_hovered_object->is_valid()) {
+  if (m_hovered_object && m_hovered_object->is_saveable())
+  {
+    if (!m_hovered_object->is_valid())
+    {
       m_hovered_object = nullptr;
       return;
     }
@@ -766,20 +807,22 @@ EditorOverlayWidget::show_object_menu(GameObject& object)
 void
 EditorOverlayWidget::move_object()
 {
-  if (m_dragged_object) {
-    if (!m_dragged_object->is_valid()) {
+  if (m_dragged_object)
+  {
+    if (!m_dragged_object->is_valid())
+    {
       m_dragged_object = nullptr;
       return;
     }
     Vector new_pos = m_sector_pos - m_obj_mouse_desync;
-    if (g_config->editor_snap_to_grid) {
+    if (g_config->editor_snap_to_grid)
+    {
       auto& snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
       new_pos = glm::floor(new_pos / static_cast<float>(snap_grid_size)) * static_cast<float>(snap_grid_size);
 
       auto pm = dynamic_cast<MarkerObject*>(m_dragged_object.get());
-      if (pm) {
+      if (pm)
         new_pos -= pm->get_offset();
-      }
     }
 
     // TODO: Temporarily disabled during ongoing discussion
@@ -803,12 +846,12 @@ EditorOverlayWidget::move_object()
 void
 EditorOverlayWidget::rubber_object()
 {
-  if (!m_edited_path) {
+  if (!m_edited_path)
     delete_markers();
-  }
-  if (m_dragged_object) {
+
+  if (m_dragged_object)
     m_dragged_object->editor_delete();
-  }
+
   m_last_node_marker = nullptr;
 }
 
@@ -817,11 +860,12 @@ EditorOverlayWidget::rubber_rect()
 {
   delete_markers();
   Rectf dr = drag_rect();
-  for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>()) {
+  for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
+  {
     Rectf bbox = moving_object.get_bbox();
-    if (dr.contains(bbox)) {
+    if (dr.contains(bbox))
       moving_object.editor_delete();
-    }
+
   }
   m_last_node_marker = nullptr;
 }
@@ -833,11 +877,11 @@ EditorOverlayWidget::update_node_iterators()
   if (!m_edited_path->is_valid()) return;
 
   auto* sector = m_editor.get_sector();
-  for (auto& moving_object : sector->get_objects_by_type<MovingObject>()) {
+  for (auto& moving_object : sector->get_objects_by_type<MovingObject>())
+  {
     auto marker = dynamic_cast<NodeMarker*>(&moving_object);
-    if (marker) {
+    if (marker)
       marker->update_iterator();
-    }
   }
 }
 
@@ -877,7 +921,8 @@ EditorOverlayWidget::put_object()
   if (object_class[0] == '#')
   {
     if (m_edited_path && object_class == "#node") {
-      if (m_edited_path->is_valid() && m_last_node_marker) {
+      if (m_edited_path->is_valid() && m_last_node_marker)
+      {
         add_path_node();
       }
     }
@@ -895,15 +940,15 @@ EditorOverlayWidget::put_object()
     object->after_editor_set();
 
     auto* mo = dynamic_cast<MovingObject*> (object.get());
-    if (mo && !g_config->editor_snap_to_grid) {
+    if (mo && !g_config->editor_snap_to_grid)
+    {
       auto bbox = mo->get_bbox();
       mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
     }
 
     auto* wo = dynamic_cast<worldmap_editor::WorldmapObject*>(object.get());
-    if (wo) {
+    if (wo)
       wo->move_to(wo->get_pos() / 32.0f);
-    }
 
     m_editor.get_sector()->add_object(std::move(object));
   }
@@ -961,11 +1006,15 @@ EditorOverlayWidget::process_left_click()
           break;
       }
 
-      if (!m_editor.get_tileselect_object().empty()) {
-        if (!m_dragged_object) {
+      if (!m_editor.get_tileselect_object().empty())
+      {
+        if (!m_dragged_object)
+        {
           put_object();
         }
-      } else {
+      }
+      else
+      {
         rubber_object();
       }
       break;
@@ -1042,9 +1091,7 @@ EditorOverlayWidget::update_tile_selection()
   Rectf select = tile_drag_rect();
   auto tiles = m_editor.get_tiles();
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap) {
-    return;
-  }
+  if (!tilemap) return;
 
   tiles->m_tiles.clear();
   tiles->m_width = static_cast<int>(select.get_width());
@@ -1052,11 +1099,16 @@ EditorOverlayWidget::update_tile_selection()
 
   int w = static_cast<int>(tilemap->get_width());
   int h = static_cast<int>(tilemap->get_height());
-  for (int y = static_cast<int>(select.get_top()); y < static_cast<int>(select.get_bottom()); y++) {
-    for (int x = static_cast<int>(select.get_left()); x < static_cast<int>(select.get_right()); x++) {
-      if ( x < 0 || y < 0 || x >= w || y >= h) {
+  for (int y = static_cast<int>(select.get_top()); y < static_cast<int>(select.get_bottom()); y++)
+  {
+    for (int x = static_cast<int>(select.get_left()); x < static_cast<int>(select.get_right()); x++)
+    {
+      if ( x < 0 || y < 0 || x >= w || y >= h)
+      {
         tiles->m_tiles.push_back(0);
-      } else {
+      }
+      else
+      {
         tiles->m_tiles.push_back(tilemap->get_tile_id(x, y));
       }
     }
@@ -1127,10 +1179,14 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     switch (m_editor.get_tileselect_input_type())
     {
       case EditorToolboxWidget::InputType::TILE:
-        if (m_dragging_right) {
+        if (m_dragging_right)
+        {
           update_tile_selection();
-        } else {
-          switch (m_editor.get_tileselect_select_mode()) {
+        }
+        else
+        {
+          switch (m_editor.get_tileselect_select_mode())
+          {
             case 0:
               put_next_tiles();
               break;
@@ -1144,11 +1200,15 @@ EditorOverlayWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         break;
 
       case EditorToolboxWidget::InputType::OBJECT:
-        if (m_editor.get_tileselect_object().empty()) {
-          if (m_editor.get_tileselect_select_mode() == 1) {
+        if (m_editor.get_tileselect_object().empty())
+        {
+          if (m_editor.get_tileselect_select_mode() == 1)
+          {
             rubber_rect();
           }
-        } else {
+        }
+        else
+        {
           move_object();
         }
         break;
@@ -1178,7 +1238,8 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
   {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
-  if (sym == SDLK_LCTRL || sym == SDLK_RCTRL) {
+  if (sym == SDLK_LCTRL || sym == SDLK_RCTRL)
+  {
     if (action_pressed)
     {
       g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
@@ -1187,7 +1248,8 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
     // Hovered objects depend on which keys are pressed
     hover_object();
   }
-  if (sym == SDLK_LALT || sym == SDLK_RALT) {
+  if (sym == SDLK_LALT || sym == SDLK_RALT)
+  {
     alt_pressed = false;
   }
   return true;
@@ -1197,19 +1259,23 @@ bool
 EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
-  if (sym == SDLK_F8) {
+  if (sym == SDLK_F8)
+  {
     g_config->editor_render_grid = !g_config->editor_render_grid;
   }
-  if (sym == SDLK_F7 || sym == SDLK_LSHIFT) {
+  if (sym == SDLK_F7 || sym == SDLK_LSHIFT)
+  {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
-  if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed)) {
+  if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed))
+  {
     g_config->editor_autotile_mode = !g_config->editor_autotile_mode;
     action_pressed = true;
     // Hovered objects depend on which keys are pressed
     hover_object();
   }
-  if (sym == SDLK_LALT || sym == SDLK_RALT) {
+  if (sym == SDLK_LALT || sym == SDLK_RALT)
+  {
     alt_pressed = true;
   }
   return true;
@@ -1231,23 +1297,22 @@ EditorOverlayWidget::update_pos()
 void
 EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
 {
-  if ( m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE ) {
-
+  if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE)
+  {
     auto tilemap = m_editor.get_selected_tilemap();
-    if (!tilemap) {
-      return;
-    }
+    if (!tilemap) return;
 
-    if (m_editor.get_tiles()->empty())
-      return;
+    if (m_editor.get_tiles()->empty()) return;
 
     Vector screen_corner = context.get_cliprect().p2() +
                          m_editor.get_sector()->get_camera().get_translation();
     Vector drawn_tile = m_hovered_tile; // FIXME: Why is this initialised if it's going to be overwritten right below?
     auto tiles = m_editor.get_tiles();
 
-    for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--) {
-      for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--) {
+    for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--)
+    {
+      for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--)
+      {
         Vector on_tile = m_hovered_tile + drawn_tile;
 
         if (on_tile.x < 0 ||
@@ -1255,18 +1320,19 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
             on_tile.x >= static_cast<float>(tilemap->get_width()) ||
             on_tile.y >= static_cast<float>(tilemap->get_height()) ||
             on_tile.x >= ceilf(screen_corner.x / 32) ||
-            on_tile.y >= ceilf(screen_corner.y / 32)) {
+            on_tile.y >= ceilf(screen_corner.y / 32)) 
+        {
           continue;
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
         draw_tile(context.color(), *m_editor.get_tileset(), tile_id,
                   align_to_tilemap(on_tile) - m_editor.get_sector()->get_camera().get_translation(),
                   LAYER_GUI-11, Color(1, 1, 1, 0.5));
-        /*if (tile_id) {
-          const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
-          tg_tile->draw(context.color(), tp_to_sp(on_tile) - m_editor.get_sector()->camera->get_translation(),
-                        LAYER_GUI-11, Color(1, 1, 1, 0.5));
-        }*/
+        //if (tile_id) {
+        //const Tile* tg_tile = m_editor.get_tileset()->get( tile_id );
+        //tg_tile->draw(context.color(), tp_to_sp(on_tile) - m_editor.get_sector()->camera->get_translation(),
+        //              LAYER_GUI-11, Color(1, 1, 1, 0.5));
+        //}
       }
     }
   }
@@ -1276,12 +1342,9 @@ void
 EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap) {
-    return;
-  }
+  if (!tilemap) return;
 
-  if (m_rectangle_preview->empty())
-    return;
+  if (m_rectangle_preview->empty()) return;
 
   Vector screen_corner = context.get_cliprect().p2() +
                         m_editor.get_sector()->get_camera().get_translation();
@@ -1290,8 +1353,10 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
                 std::min(sp_to_tp(m_drag_start).y, m_hovered_tile.y));
   auto tiles = m_rectangle_preview.get();
 
-  for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--) {
-    for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--) {
+  for (drawn_tile.x = static_cast<float>(tiles->m_width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--)
+  {
+    for (drawn_tile.y = static_cast<float>(tiles->m_height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--)
+    {
       Vector on_tile = corner + drawn_tile;
 
       if (on_tile.x < 0 ||
@@ -1299,7 +1364,8 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
           on_tile.x >= static_cast<float>(tilemap->get_width()) ||
           on_tile.y >= static_cast<float>(tilemap->get_height()) ||
           on_tile.x >= ceilf(screen_corner.x / 32) ||
-          on_tile.y >= ceilf(screen_corner.y / 32)) {
+          on_tile.y >= ceilf(screen_corner.y / 32))
+      {
         continue;
       }
       uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
@@ -1337,12 +1403,14 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
   {
     context.color().draw_line(from, to, col, current_tm->get_layer());
   };
-  if (draw_shadow) {
+  if (draw_shadow)
+  {
     Vector viewport_scale = VideoSystem::current()->get_viewport().get_scale();
     const Color shadow_colour(0.0f, 0.0f, 0.0f, 0.05f);
     const Vector shadow_offset(1.0f / viewport_scale.x,
       1.0f / viewport_scale.y);
-    for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++) {
+    for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
+    {
       line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f),
         tile_size) + shadow_offset;
       line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y),
@@ -1350,7 +1418,8 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
       draw_line(line_start, line_end, shadow_colour);
     }
 
-    for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++) {
+    for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
+    {
       line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)),
         tile_size) + shadow_offset;
       line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)),
@@ -1360,13 +1429,15 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
   }
 
   const Color line_color(1.f, 1.f, 1.f, 0.2f);
-  for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++) {
+  for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++)
+  {
     line_start = tile_screen_pos(Vector(static_cast<float>(i), 0.0f), tile_size);
     line_end = tile_screen_pos(Vector(static_cast<float>(i), end.y), tile_size);
     draw_line(line_start, line_end, line_color);
   }
 
-  for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++) {
+  for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++)
+  {
     line_start = tile_screen_pos(Vector(0.0f, static_cast<float>(i)), tile_size);
     line_end = tile_screen_pos(Vector(end.x, static_cast<float>(i)), tile_size);
     draw_line(line_start, line_end, line_color);
@@ -1376,11 +1447,10 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
 void
 EditorOverlayWidget::draw_tilemap_border(DrawingContext& context)
 {
-  if ( !m_editor.get_selected_tilemap() ) return;
+  if (!m_editor.get_selected_tilemap()) return;
 
   auto current_tm = m_editor.get_selected_tilemap();
-  if (!current_tm)
-    return;
+  if (!current_tm) return;
 
   Vector start = tile_screen_pos( Vector(0, 0) );
   Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
@@ -1399,15 +1469,20 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
   if (!m_selected_object->is_valid()) return;
   if (!m_edited_path->is_valid()) return;
 
-  for (auto i = m_edited_path->get_path().m_nodes.begin(); i != m_edited_path->get_path().m_nodes.end(); ++i) {
+  for (auto i = m_edited_path->get_path().m_nodes.begin(); i != m_edited_path->get_path().m_nodes.end(); ++i)
+  {
     auto j = i+1;
     Path::Node* node1 = &(*i);
     Path::Node* node2;
-    if (j == m_edited_path->get_path().m_nodes.end()) {
-      if (m_edited_path->get_path().m_mode == WalkMode::CIRCULAR) {
+    if (j == m_edited_path->get_path().m_nodes.end())
+    {
+      if (m_edited_path->get_path().m_mode == WalkMode::CIRCULAR)
+      {
         //loop to the first node
         node2 = &(*m_edited_path->get_path().m_nodes.begin());
-      } else {
+      }
+      else
+      {
         // Just draw the bezier lines
         auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
         context.color().draw_line(node1->position - cam_translation,
@@ -1418,7 +1493,9 @@ EditorOverlayWidget::draw_path(DrawingContext& context)
                                   Color(0, 0, 1), LAYER_GUI - 21);
         continue;
       }
-    } else {
+    }
+    else
+    {
       node2 = &(*j);
     }
     auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
@@ -1449,31 +1526,35 @@ EditorOverlayWidget::draw(DrawingContext& context)
   draw_rectangle_preview(context);
   draw_path(context);
 
-  if (g_config->editor_render_grid) {
+  if (g_config->editor_render_grid)
+  {
     draw_tile_grid(context, 32, true);
     draw_tilemap_border(context);
     auto snap_grid_size = snap_grid_sizes[g_config->editor_selected_snap_grid_size];
-    if (snap_grid_size != 32) {
+    if (snap_grid_size != 32)
+    {
       draw_tile_grid(context, snap_grid_size, false);
     }
   }
 
-  if (m_object_tip) {
+  if (m_object_tip)
+  {
     m_object_tip->draw(context, m_mouse_pos);
   }
 
   if (m_dragging && m_editor.get_tileselect_select_mode() == 1
-      && !m_dragging_right) {
+      && !m_dragging_right)
+  {
     // Draw selection rectangle...
     auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     Vector p0 = m_drag_start - cam_translation;
     Vector p3 = m_mouse_pos;
-    if (p0.x > p3.x) {
+    if (p0.x > p3.x)
       std::swap(p0.x, p3.x);
-    }
-    if (p0.y > p3.y) {
+
+    if (p0.y > p3.y)
       std::swap(p0.y, p3.y);
-    }
+
     Vector p1 = Vector(p0.x, p3.y);
     Vector p2 = Vector(p3.x, p0.y);
 
@@ -1490,27 +1571,39 @@ EditorOverlayWidget::draw(DrawingContext& context)
                                        Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 
-  if (m_dragging && m_dragging_right) {
+  if (m_dragging && m_dragging_right)
+  {
     context.color().draw_filled_rect(selection_draw_rect(),
                                        Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
   }
 
 
-  if (g_config->editor_autotile_help) {
+  if (g_config->editor_autotile_help)
+  {
     if (m_editor.get_tileset()->get_autotileset_from_tile(m_editor.get_tiles()->pos(0, 0)) != nullptr)
     {
-      if (g_config->editor_autotile_mode) {
+      if (g_config->editor_autotile_mode)
+      {
         context.color().draw_text(Resources::normal_font, _("Autotile mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
-      } else {
+      }
+      else
+      {
         context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
       }
-    } else if (g_config->editor_autotile_mode) {
-      if (m_editor.get_tiles()->pos(0, 0) == 0) {
+    }
+    else if (g_config->editor_autotile_mode)
+    {
+      if (m_editor.get_tiles()->pos(0, 0) == 0)
+      {
         context.color().draw_text(Resources::normal_font, _("Autotile erasing mode is on"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_active_color);
-      } else {
+      }
+      else
+      {
         context.color().draw_text(Resources::normal_font, _("Selected tile isn't autotileable"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_error_color);
       }
-    } else if (m_editor.get_tiles()->pos(0, 0) == 0) {
+    }
+    else if (m_editor.get_tiles()->pos(0, 0) == 0)
+    {
         context.color().draw_text(Resources::normal_font, _("Hold Ctrl to enable autotile erasing"), Vector(144, 16), ALIGN_LEFT, LAYER_OBJECTS+1, EditorOverlayWidget::text_autotile_available_color);
     }
   }
