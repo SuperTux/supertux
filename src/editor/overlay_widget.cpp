@@ -573,7 +573,7 @@ EditorOverlayWidget::replace()
     {
       if (tilemap->get_tile_id(x, y) == replace_tile)
       {
-        tilemap->change(x, y, m_editor.get_tiles()->pos(0, 0));
+        tilemap->change(x, y, m_editor.get_tiles()->pos(x % m_editor.get_tiles()->m_width, y % m_editor.get_tiles()->m_height));
       }
     }
   }
