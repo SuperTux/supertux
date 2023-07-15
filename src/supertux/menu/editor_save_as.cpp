@@ -48,7 +48,7 @@ EditorSaveAs::~EditorSaveAs()
   if (editor == nullptr) {
     return;
   }
-  editor->m_reactivate_request = true;
+  editor->activate();
 }
 
 void
@@ -59,9 +59,7 @@ EditorSaveAs::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_SAVE:
-      editor->m_save_request = true;
-      editor->m_save_request_filename = m_filename;
-      editor->m_save_request_switch = m_do_switch_file;
+      editor->save_level(m_filename, m_do_switch_file);
       MenuManager::instance().clear_menu_stack();
       break;
 

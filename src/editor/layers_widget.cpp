@@ -168,7 +168,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     switch (m_hovered_item)
     {
       case HoveredItem::SECTOR:
-        m_editor.disable_keyboard();
+        m_editor.deactivate();
         MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
         return true;
 
@@ -200,7 +200,7 @@ EditorLayersWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   {
     if (m_hovered_item == HoveredItem::LAYERS && m_hovered_layer < m_layer_icons.size()) {
       auto om = std::make_unique<ObjectMenu>(m_layer_icons[m_hovered_layer]->get_layer());
-      m_editor.m_deactivate_request = true;
+      m_editor.deactivate();
       MenuManager::instance().push_menu(std::move(om));
       return true;
     } else {

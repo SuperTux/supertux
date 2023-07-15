@@ -289,7 +289,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
       case HoveredItem::TILEGROUP:
         if (m_editor.get_tileset()->get_tilegroups().size() > 1)
         {
-          m_editor.disable_keyboard();
+          m_editor.deactivate();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
         }
         else
@@ -305,7 +305,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         if ((m_editor.get_level()->is_worldmap() && m_object_info->get_num_worldmap_groups() > 1) ||
             (!m_editor.get_level()->is_worldmap() && m_object_info->get_num_level_groups() > 1))
         {
-          m_editor.disable_keyboard();
+          m_editor.deactivate();
           MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
         }
         else
