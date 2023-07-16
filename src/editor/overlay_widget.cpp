@@ -574,8 +574,8 @@ EditorOverlayWidget::replace()
       if (tilemap->get_tile_id(x, y) == replace_tile)
       {
         tilemap->change(x, y, m_editor.get_tiles()->pos(
-          (x - (static_cast<int>(m_hovered_tile.x) % m_editor.get_tiles()->m_width)) % m_editor.get_tiles()->m_width,
-          (y - (static_cast<int>(m_hovered_tile.y) % m_editor.get_tiles()->m_height)) % m_editor.get_tiles()->m_height)
+          (x - static_cast<int>(m_hovered_tile.x)) % m_editor.get_tiles()->m_width,
+          (y - static_cast<int>(m_hovered_tile.y)) % m_editor.get_tiles()->m_height)
         );
       }
     }
