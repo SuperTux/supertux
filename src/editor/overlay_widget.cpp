@@ -84,12 +84,14 @@ EditorOverlayWidget::~EditorOverlayWidget()
 void
 EditorOverlayWidget::update(float dt_sec)
 {
-  if (m_hovered_object && !m_hovered_object->is_valid()) {
+  if (m_hovered_object && !m_hovered_object->is_valid())
+  {
     m_hovered_object = nullptr;
     m_object_tip = nullptr;
   }
 
-  if (m_selected_object && !m_selected_object->is_valid()) {
+  if (m_selected_object && !m_selected_object->is_valid())
+  {
     delete_markers();
   }
 }
@@ -159,10 +161,7 @@ void
 EditorOverlayWidget::input_tile(const Vector& pos, uint32_t tile, bool save_state)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap || !is_position_inside_tilemap(tilemap, pos))
-  {
-    return;
-  }
+  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   if (save_state) tilemap->save_state();
   tilemap->change(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
@@ -172,10 +171,7 @@ void
 EditorOverlayWidget::autotile(const Vector& pos, uint32_t tile, bool save_state)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap || !is_position_inside_tilemap(tilemap, pos))
-  {
-    return;
-  }
+  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   if (save_state) tilemap->save_state();
   tilemap->autotile(static_cast<int>(pos.x), static_cast<int>(pos.y), tile);
@@ -205,10 +201,7 @@ EditorOverlayWidget::autotile_corner(const Vector& pos, uint32_t tile,
                                      TileMap::AutotileCornerOperation op)
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap || !is_position_inside_tilemap(tilemap, pos))
-  {
-    return;
-  }
+  if (!tilemap || !is_position_inside_tilemap(tilemap, pos)) return;
 
   tilemap->save_state();
   tilemap->autotile_corner(static_cast<int>(pos.x), static_cast<int>(pos.y), tile, op);
@@ -281,8 +274,7 @@ namespace {
   // segment from pos1 to pos2 (similarly to a line drawing algorithm)
   std::vector<Vector> rasterize_line_segment(Vector pos1, Vector pos2)
   {
-    if (pos1 == pos2)
-      return std::vector<Vector> {pos1};
+    if (pos1 == pos2) return std::vector<Vector> {pos1};
     // An integer position (x, y) contains all floating point vectors in
     // [x, x+1) x [y, y+1)
     std::vector<Vector> positions;
@@ -453,9 +445,7 @@ EditorOverlayWidget::fill()
 {
   auto tiles = m_editor.get_tiles();
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap) {
-    return;
-  }
+  if (!tilemap) return;
 
   // The tile that is going to be replaced:
   Uint32 replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
@@ -637,8 +627,9 @@ EditorOverlayWidget::hover_object()
     }
   }
 
-  if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip())
+  if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip()) {
     m_object_tip = std::make_unique<Tip>(*m_hovered_object);
+  }
 
   // (2/2) ...but select them anyways if they weren't hovering a node marker
   if (marker_hovered_without_ctrl && !m_hovered_object)
@@ -663,8 +654,9 @@ EditorOverlayWidget::edit_path(PathGameObject* path, GameObject* new_marked_obje
   }
   m_edited_path = path;
   m_edited_path->get_path().edit_path();
-  if (new_marked_object)
+  if (new_marked_object) {
     m_selected_object = new_marked_object;
+  }
 }
 
 void
@@ -691,8 +683,8 @@ EditorOverlayWidget::select_object()
   }
 
   auto path_obj = dynamic_cast<PathObject*>(m_dragged_object.get());
-  if (path_obj && path_obj->get_path_gameobject())
-  {
+
+  if (path_obj && path_obj->get_path_gameobject()) {
     edit_path(path_obj->get_path_gameobject(), m_dragged_object.get());
   }
 }
@@ -714,8 +706,8 @@ EditorOverlayWidget::grab_object()
       m_dragged_object->save_state();
 
       auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
-      if (!pm)
-        select_object();
+      if (!pm) select_object();
+
       m_last_node_marker = dynamic_cast<NodeMarker*>(pm);
     }
   }
@@ -828,11 +820,13 @@ EditorOverlayWidget::move_object()
 void
 EditorOverlayWidget::rubber_object()
 {
-  if (!m_edited_path)
+  if (!m_edited_path) {
     delete_markers();
+  }
 
-  if (m_dragged_object)
+  if (m_dragged_object) {
     m_dragged_object->editor_delete();
+  }
 
   m_last_node_marker = nullptr;
 }
@@ -845,8 +839,9 @@ EditorOverlayWidget::rubber_rect()
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     Rectf bbox = moving_object.get_bbox();
-    if (dr.contains(bbox))
+    if (dr.contains(bbox)) {
       moving_object.editor_delete();
+    }
 
   }
   m_last_node_marker = nullptr;
@@ -862,8 +857,9 @@ EditorOverlayWidget::update_node_iterators()
   for (auto& moving_object : sector->get_objects_by_type<MovingObject>())
   {
     auto marker = dynamic_cast<NodeMarker*>(&moving_object);
-    if (marker)
+    if (marker) {
       marker->update_iterator();
+    }
   }
 }
 
@@ -903,8 +899,7 @@ EditorOverlayWidget::put_object()
   if (object_class[0] == '#')
   {
     if (m_edited_path && object_class == "#node") {
-      if (m_edited_path->is_valid() && m_last_node_marker)
-      {
+      if (m_edited_path->is_valid() && m_last_node_marker) {
         add_path_node();
       }
     }
@@ -929,8 +924,9 @@ EditorOverlayWidget::put_object()
     }
 
     auto* wo = dynamic_cast<worldmap_editor::WorldmapObject*>(object.get());
-    if (wo)
+    if (wo) {
       wo->move_to(wo->get_pos() / 32.0f);
+    }
 
     m_editor.get_sector()->add_object(std::move(object));
   }
@@ -939,8 +935,7 @@ EditorOverlayWidget::put_object()
 void
 EditorOverlayWidget::process_left_click()
 {
-  if (MenuManager::instance().has_dialog())
-    return;
+  if (MenuManager::instance().has_dialog()) return;
   m_dragging = true;
   m_dragging_right = false;
   m_drag_start = m_sector_pos;
@@ -990,10 +985,7 @@ EditorOverlayWidget::process_left_click()
 
       if (!m_editor.get_tileselect_object().empty())
       {
-        if (!m_dragged_object)
-        {
-          put_object();
-        }
+        if (!m_dragged_object) put_object();
       }
       else
       {
@@ -1114,12 +1106,15 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
     }
     else if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::OBJECT)
     {
-      if (m_dragging && m_dragged_object)
+      if (m_dragging && m_dragged_object) {
         m_dragged_object->check_state();
+      }
     }
   }
   else if (button.button == SDL_BUTTON_MIDDLE)
+  {
     m_scrolling = false;
+  }
 
   m_dragging = false;
 
@@ -1216,8 +1211,7 @@ bool
 EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
-  if (sym == SDLK_LSHIFT)
-  {
+  if (sym == SDLK_LSHIFT) {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
   if (sym == SDLK_LCTRL || sym == SDLK_RCTRL)
@@ -1230,8 +1224,7 @@ EditorOverlayWidget::on_key_up(const SDL_KeyboardEvent& key)
     // Hovered objects depend on which keys are pressed
     hover_object();
   }
-  if (sym == SDLK_LALT || sym == SDLK_RALT)
-  {
+  if (sym == SDLK_LALT || sym == SDLK_RALT) {
     alt_pressed = false;
   }
   return true;
@@ -1241,12 +1234,10 @@ bool
 EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 {
   auto sym = key.keysym.sym;
-  if (sym == SDLK_F8)
-  {
+  if (sym == SDLK_F8) {
     g_config->editor_render_grid = !g_config->editor_render_grid;
   }
-  if (sym == SDLK_F7 || sym == SDLK_LSHIFT)
-  {
+  if (sym == SDLK_F7 || sym == SDLK_LSHIFT) {
     g_config->editor_snap_to_grid = !g_config->editor_snap_to_grid;
   }
   if (sym == SDLK_F5 || ((sym == SDLK_LCTRL || sym == SDLK_RCTRL) && !action_pressed))
@@ -1256,8 +1247,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
     // Hovered objects depend on which keys are pressed
     hover_object();
   }
-  if (sym == SDLK_LALT || sym == SDLK_RALT)
-  {
+  if (sym == SDLK_LALT || sym == SDLK_RALT) {
     alt_pressed = true;
   }
   return true;
@@ -1266,8 +1256,7 @@ EditorOverlayWidget::on_key_down(const SDL_KeyboardEvent& key)
 void
 EditorOverlayWidget::update_pos()
 {
-  if(m_editor.get_sector() == nullptr)
-    return;
+  if(m_editor.get_sector() == nullptr) return;
 
   m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
@@ -1363,8 +1352,7 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
   bool draw_shadow) const
 {
   auto current_tm = m_editor.get_selected_tilemap();
-  if (current_tm == nullptr)
-    return;
+  if (current_tm == nullptr) return;
 
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
@@ -1519,8 +1507,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
     }
   }
 
-  if (m_object_tip)
-  {
+  if (m_object_tip) {
     m_object_tip->draw(context, m_mouse_pos);
   }
 
@@ -1531,11 +1518,13 @@ EditorOverlayWidget::draw(DrawingContext& context)
     auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
     Vector p0 = m_drag_start - cam_translation;
     Vector p3 = m_mouse_pos;
-    if (p0.x > p3.x)
+    if (p0.x > p3.x) {
       std::swap(p0.x, p3.x);
+    }
 
-    if (p0.y > p3.y)
+    if (p0.y > p3.y) {
       std::swap(p0.y, p3.y);
+    }
 
     Vector p1 = Vector(p0.x, p3.y);
     Vector p2 = Vector(p3.x, p0.y);
@@ -1596,10 +1585,7 @@ Vector
 EditorOverlayWidget::tp_to_sp(const Vector& tp, int tile_size) const
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap)
-  {
-    return Vector(0, 0);
-  }
+  if (!tilemap) return Vector(0, 0);
 
   Vector sp = tp * static_cast<float>(tile_size);
   return sp + tilemap->get_offset();
@@ -1609,10 +1595,7 @@ Vector
 EditorOverlayWidget::sp_to_tp(const Vector& sp, int tile_size) const
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap)
-  {
-    return Vector(0, 0);
-  }
+  if (!tilemap) return Vector(0, 0);
 
   Vector sp_ = sp - tilemap->get_offset();
   return sp_ / static_cast<float>(tile_size);
@@ -1629,10 +1612,7 @@ Vector
 EditorOverlayWidget::align_to_tilemap(const Vector& sp, int tile_size) const
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  if (!tilemap)
-  {
-    return Vector(0, 0);
-  }
+  if (!tilemap) return Vector(0, 0);
 
   Vector sp_ = sp + tilemap->get_offset() / static_cast<float>(tile_size);
   return glm::trunc(sp_) * static_cast<float>(tile_size);
