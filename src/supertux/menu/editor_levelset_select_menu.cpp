@@ -45,16 +45,16 @@ EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
   if (editor == nullptr) {
     return;
   }
-  if (!editor->is_level_loaded() && !editor->m_reload_request) {
-    editor->m_quit_request = true;
+  if (!editor->is_level_loaded() && !editor->is_reloading_level()) {
+    editor->quit_editor();
   } else {
-    editor->m_reactivate_request = true;
+    editor->activate();
   }
 }
 void
 EditorLevelsetSelectMenu::initialize()
 {
-  Editor::current()->m_deactivate_request = true;
+  Editor::current()->deactivate();
   // Generating contrib levels list by making use of Level Subset
   std::vector<std::string> level_worlds;
   m_contrib_worlds.clear();

@@ -51,7 +51,7 @@ EditorSectorsMenu::~EditorSectorsMenu()
   if (editor == nullptr) {
     return;
   }
-  editor->m_reactivate_request = true;
+  editor->activate();
 }
 
 void
@@ -78,7 +78,7 @@ EditorSectorsMenu::create_sector()
   level->add_sector(std::move(new_sector));
   Editor::current()->load_sector(sector_name);
   MenuManager::instance().clear_menu_stack();
-  Editor::current()->m_reactivate_request = true;
+  Editor::current()->activate();
 }
 
 void

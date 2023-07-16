@@ -64,7 +64,7 @@ ObjectMenu::menu_action(MenuItem& item)
   {
     case MNID_REMOVE:
       m_editor.delete_markers();
-      m_editor.m_reactivate_request = true;
+      m_editor.activate();
       MenuManager::instance().pop_menu();
       m_object->remove_me();
       break;
@@ -76,15 +76,15 @@ ObjectMenu::menu_action(MenuItem& item)
 
     case MNID_TEST_FROM_HERE: {
       const MovingObject *here = dynamic_cast<const MovingObject *>(m_object);
-      m_editor.m_test_pos = std::make_pair(m_editor.get_sector()->get_name(),
-                                           here->get_pos());
-      m_editor.m_test_request = true;
+      auto test_pos = std::make_pair(m_editor.get_sector()->get_name(),
+                                     here->get_pos());
+      m_editor.test_level(test_pos);
       MenuManager::instance().pop_menu();
       break;
     }
 
     case MNID_OPEN_PARTICLE_EDITOR:
-      m_editor.m_particle_editor_request = true;
+      m_editor.open_particle_editor();
       MenuManager::instance().pop_menu();
       break;
 
@@ -104,7 +104,7 @@ ObjectMenu::on_back_action()
 
   if (!MenuManager::instance().previous_menu())
   {
-    m_editor.m_reactivate_request = true;
+    m_editor.activate();
     if (!dynamic_cast<MovingObject*>(m_object)) {
       m_editor.sort_layers();
     }

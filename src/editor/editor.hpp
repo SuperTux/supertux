@@ -84,7 +84,8 @@ public:
   void event(const SDL_Event& ev);
   void resize();
 
-  void disable_keyboard() { m_enabled = false; }
+  void deactivate() { m_enabled = false; }
+  void activate() { m_enabled = true; }
 
   Level* get_level() const { return m_level.get(); }
 
@@ -106,7 +107,7 @@ public:
 
   void set_level(const std::string& levelfile_) {
     m_levelfile = levelfile_;
-    m_reload_request = true;
+    reload_level();
   }
 
   std::string get_level_directory() const;
@@ -160,11 +161,13 @@ public:
 
   void pack_addon();
 
-private:
+public:
   void set_sector(Sector* sector);
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
+  bool is_reloading_level() const { return m_reloading_level; }
   void quit_editor();
+  void open_particle_editor();
   /**
    * @param filename    If non-empty, save to this file instead.
    * @param switch_file If true, the level editor will bind itself to the new
@@ -173,6 +176,8 @@ private:
    */
   void save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
+
+private:
   void update_keyboard(const Controller& controller);
 
   void post_undo_redo_actions();
@@ -184,19 +189,8 @@ protected:
   std::string m_levelfile;
   std::string m_autosave_levelfile;
 
+  bool m_reloading_level;
 public:
-  bool m_quit_request;
-  bool m_newlevel_request;
-  bool m_reload_request;
-  bool m_reactivate_request;
-  bool m_deactivate_request;
-  bool m_save_request;
-  std::string m_save_request_filename;
-  bool m_save_request_switch;
-  bool m_test_request;
-  bool m_particle_editor_request;
-  std::optional<std::pair<std::string, Vector>> m_test_pos;
-
   std::unique_ptr<Savegame> m_savegame;
   std::string* m_particle_editor_filename;
 

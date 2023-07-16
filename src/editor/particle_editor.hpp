@@ -109,7 +109,6 @@ private:
 
 public:
   bool m_enabled;
-  bool m_quit_request;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls;
   std::vector<std::unique_ptr<InterfaceControl>> m_controls_textures;
   std::vector<std::function<void()>> m_texture_rebinds;

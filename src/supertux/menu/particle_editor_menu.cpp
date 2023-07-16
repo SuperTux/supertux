@@ -126,7 +126,7 @@ ParticleEditorMenu::menu_action(MenuItem& item)
 
     case MNID_QUITEDITOR:
       MenuManager::instance().clear_menu_stack();
-      ParticleEditor::current()->m_quit_request = true;
+      ParticleEditor::current()->quit_editor();
       break;
 
     default:

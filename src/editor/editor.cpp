@@ -88,17 +88,7 @@ Editor::Editor() :
   m_world(),
   m_levelfile(),
   m_autosave_levelfile(),
-  m_quit_request(false),
-  m_newlevel_request(false),
-  m_reload_request(false),
-  m_reactivate_request(false),
-  m_deactivate_request(false),
-  m_save_request(false),
-  m_save_request_filename(""),
-  m_save_request_switch(false),
-  m_test_request(false),
-  m_particle_editor_request(false),
-  m_test_pos(),
+  m_reloading_level(false),
   m_savegame(),
   m_particle_editor_filename(),
   m_sector(),
@@ -190,53 +180,6 @@ Editor::update(float dt_sec, const Controller& controller)
     m_time_since_last_save = 0.f;
   }
 
-  // Pass all requests
-  if (m_reload_request) {
-    reload_level();
-  }
-
-  if (m_quit_request) {
-    quit_editor();
-  }
-
-  if (m_newlevel_request) {
-    //Create new level
-  }
-
-  if (m_reactivate_request) {
-    m_enabled = true;
-    m_reactivate_request = false;
-  }
-
-  if (m_save_request) {
-    save_level(m_save_request_filename, m_save_request_switch);
-    m_enabled = true;
-    m_save_request = false;
-    m_save_request_filename = "";
-    m_save_request_switch = false;
-  }
-
-  if (m_test_request) {
-    m_test_request = false;
-    MouseCursor::current()->set_icon(nullptr);
-    test_level(m_test_pos);
-    return;
-  }
-
-  if (m_particle_editor_request) {
-    m_particle_editor_request = false;
-    std::unique_ptr<Screen> screen(new ParticleEditor());
-    if (m_particle_editor_filename)
-      static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
-    ScreenManager::current()->push_screen(std::move(screen));
-    return;
-  }
-
-  if (m_deactivate_request) {
-    m_enabled = false;
-    m_deactivate_request = false;
-    return;
-  }
 
   // update other stuff
   if (m_levelloaded && !m_leveltested) {
@@ -314,6 +257,7 @@ Editor::get_level_directory() const
 void
 Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos)
 {
+  MouseCursor::current()->set_icon(nullptr);
   m_overlay_widget->reset_action_press();
 
   Tile::draw_editor_images = false;
@@ -343,6 +287,15 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   {
     GameManager::current()->start_worldmap(*current_world, "", m_autosave_levelfile);
   }
+}
+
+void
+Editor::open_particle_editor()
+{
+  std::unique_ptr<Screen> screen(new ParticleEditor());
+  if (m_particle_editor_filename)
+    static_cast<ParticleEditor*>(screen.get())->open("particles/" + *m_particle_editor_filename);
+  ScreenManager::current()->push_screen(std::move(screen));
 }
 
 void
@@ -476,7 +429,7 @@ Editor::delete_current_sector()
   }
 
   set_sector(m_level->m_sectors.front().get());
-  m_reactivate_request = true;
+  activate();
 }
 
 void
@@ -490,7 +443,6 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
     sector_name = m_sector->get_name();
   }
 
-  m_reload_request = false;
   m_enabled = true;
 
   if (reset) {
@@ -527,6 +479,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 void
 Editor::reload_level()
 {
+  m_reloading_level = true;
   ReaderMapping::s_translations_enabled = false;
   set_level(LevelParser::from_file(m_world ?
                                    FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
@@ -542,13 +495,12 @@ Editor::reload_level()
   m_levelfile = get_levelname_from_autosave(m_levelfile);
   m_autosave_levelfile = FileSystem::join(get_level_directory(),
                                           get_autosave_from_levelname(m_levelfile));
+  m_reloading_level = false;
 }
 
 void
 Editor::quit_editor()
 {
-  m_quit_request = false;
-
   auto quit = [this] ()
   {
     remove_autosave_file();
@@ -678,7 +630,6 @@ Editor::setup()
     m_sector->activate(m_sector->get_players()[0]->get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
-    m_deactivate_request = false;
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();
   }

@@ -59,7 +59,6 @@ bool (*ParticleEditor::m_clamp_0_1)(ControlTextboxFloat*, float) = [](ControlTex
 
 ParticleEditor::ParticleEditor() :
   m_enabled(true),
-  m_quit_request(false),
   m_controls(),
   m_controls_textures(),
   m_texture_rebinds(),
@@ -692,10 +691,6 @@ ParticleEditor::update(float dt_sec, const Controller& controller)
 
   update_keyboard(controller);
 
-  if (m_quit_request) {
-    quit_editor();
-  }
-
   if (m_in_texture_tab) {
     for(const auto& control : m_controls_textures) {
       control->update(dt_sec);
@@ -729,13 +724,12 @@ ParticleEditor::update_keyboard(const Controller& controller)
 void
 ParticleEditor::quit_editor()
 {
-  m_quit_request = false;
 
   auto quit = [] ()
   {
     ScreenManager::current()->pop_screen();
     if (Editor::current()) {
-      Editor::current()->m_reactivate_request = true;
+      Editor::current()->activate();
     }
   };
 

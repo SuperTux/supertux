@@ -99,7 +99,7 @@ EditorMenu::~EditorMenu()
   if (editor == nullptr)
     return;
 
-  editor->m_reactivate_request = true;
+  editor->activate();
 }
 
 void
@@ -116,7 +116,7 @@ EditorMenu::menu_action(MenuItem& item)
     {
       editor->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
-        editor->m_save_request = true;
+        editor->save_level();
       });
     }
       break;
@@ -152,8 +152,7 @@ EditorMenu::menu_action(MenuItem& item)
     {
       editor->check_save_prerequisites([editor]() {
         MenuManager::instance().clear_menu_stack();
-        editor->m_test_pos = std::nullopt;
-        editor->m_test_request = true;
+        editor->test_level(std::nullopt);
       });
     }
       break;
@@ -189,7 +188,7 @@ EditorMenu::menu_action(MenuItem& item)
 
     case MNID_QUITEDITOR:
       MenuManager::instance().clear_menu_stack();
-      Editor::current()->m_quit_request = true;
+      Editor::current()->quit_editor();
       break;
 
     default:
