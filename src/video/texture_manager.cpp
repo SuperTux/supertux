@@ -75,6 +75,8 @@ GLenum string2filter(const std::string& text)
 
 } // namespace
 
+const std::string TextureManager::s_dummy_texture = "images/engine/missing.png";
+
 TextureManager::TextureManager() :
   m_image_textures(),
   m_surfaces()
@@ -387,12 +389,10 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Samp
 TexturePtr
 TextureManager::create_dummy_texture()
 {
-  const std::string dummy_texture_fname = "images/engine/missing.png";
-
   // on error, try loading placeholder file
   try
   {
-    TexturePtr tex = create_image_texture_raw(dummy_texture_fname, Sampler());
+    TexturePtr tex = create_image_texture_raw(s_dummy_texture, Sampler());
     return tex;
   }
   catch (const std::exception& err)
@@ -406,7 +406,7 @@ TextureManager::create_dummy_texture()
     }
     else
     {
-      log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
+      log_warning << "Couldn't load texture '" << s_dummy_texture << "' (now using empty one): " << err.what() << std::endl;
       TexturePtr texture = VideoSystem::current()->new_texture(*image);
       return texture;
     }

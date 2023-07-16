@@ -69,11 +69,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   }
   else
   {
-    if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
-    {
-      m_sprite = SpriteManager::current()->create(m_default_sprite_name);
-      m_sprite_found = false;
-    }
+    change_sprite(m_sprite_name);
   }
 
   update_hitbox();
@@ -120,10 +116,11 @@ MovingSprite::has_found_sprite()
   return found;
 }
 
-std::string
-MovingSprite::get_sprite_name() const
+void
+MovingSprite::on_type_change(int old_type)
 {
-  return m_sprite_name;
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite(get_default_sprite_name());
 }
 
 void
@@ -179,23 +176,11 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
                          m_sprite->get_current_hitbox_height(), anchorPoint));
 }
 
-bool
+void
 MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
-  SpritePtr new_sprite;
-  try
-  {
-    new_sprite = SpriteManager::current()->create(m_sprite_name);
-  }
-  catch (std::exception& err)
-  {
-    log_warning << "Sprite change failed: Sprite '" << new_sprite_name << "' cannot be loaded: " << err.what() << std::endl;
-    return false;
-  }
-
-  m_sprite = std::move(new_sprite);
+  m_sprite = SpriteManager::current()->create(new_sprite_name);
   m_sprite_name = new_sprite_name;
-  return true;
 }
 
 ObjectSettings
@@ -203,7 +188,7 @@ MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", m_default_sprite_name);
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name());
 
   result.reorder({"sprite", "x", "y"});
 

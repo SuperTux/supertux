@@ -39,8 +39,10 @@ struct SDL_Surface;
 
 class TextureManager final : public Currenton<TextureManager>
 {
-public:
   friend class Texture;
+
+public:
+  static const std::string s_dummy_texture;
 
 public:
   TextureManager();

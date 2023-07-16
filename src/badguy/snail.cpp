@@ -46,7 +46,6 @@ Snail::Snail(const ReaderMapping& reader) :
   squishcount(0)
 {
   parse_type(reader);
-  on_type_change(-1);
 
   walk_speed = 80;
   max_drop_height = 600;
@@ -72,11 +71,16 @@ Snail::get_types() const
   };
 }
 
-void
-Snail::on_type_change(int old_type)
+std::string
+Snail::get_default_sprite_name() const
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/snail/" + std::string(m_type == Type::CORRUPTED ? "corrupted/corrupted_" : "") + "snail.sprite");
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/snail/corrupted/corrupted_snail.sprite";
+    default:
+      return "images/creatures/snail/snail.sprite";
+  }
 }
 
 void
