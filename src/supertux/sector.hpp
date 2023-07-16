@@ -17,15 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 
+#include "supertux/sector_base.hpp"
+
 #include <vector>
 #include <stdint.h>
 
 #include "math/anchor_point.hpp"
 #include "math/easing.hpp"
 #include "math/fwd.hpp"
-#include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
-#include "supertux/game_object_manager.hpp"
 #include "supertux/tile.hpp"
 #include "video/color.hpp"
 
@@ -49,7 +49,7 @@ class Writer;
 
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */
-class Sector final : public GameObjectManager
+class Sector final : public Base::Sector
 {
 public:
   friend class CollisionSystem;
@@ -67,20 +67,19 @@ public:
   Sector(Level& parent);
   ~Sector() override;
 
-  /** Needs to be called after parsing to finish the construction of
-      the Sector before using it. */
-  void finish_construction(bool editable);
+  void finish_construction(bool editable) override;
 
-  Level& get_level() const;
+  Level& get_level() const { return m_level; }
+  TileSet* get_tileset() const override;
+  bool in_worldmap() const override;
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
   void activate(const Vector& player_pos);
   void deactivate();
 
-  void update(float dt_sec);
-
-  void draw(DrawingContext& context);
+  void draw(DrawingContext& context) override;
+  void update(float dt_sec) override;
 
   void save(Writer &writer);
 
@@ -89,9 +88,6 @@ public:
 
   /** continues the looping sounds in whole sector. */
   void play_looping_sounds();
-
-  void set_name(const std::string& name_) { m_name = name_; }
-  const std::string& get_name() const { return m_name; }
 
   /** tests if a given rectangle is inside the sector
       (a rectangle that is on top of the sector is considered inside) */
@@ -138,13 +134,7 @@ public:
 
   /** set gravity throughout sector */
   void set_gravity(float gravity);
-  float get_gravity() const;
-
-  void set_init_script(const std::string& init_script) {
-    m_init_script = init_script;
-  }
-
-  void run_script(const std::string& script, const std::string& sourcename);
+  float get_gravity() const { return m_gravity; }
 
   Camera& get_camera() const;
   std::vector<Player*> get_players() const;
@@ -163,21 +153,14 @@ private:
   void convert_tiles2gameobject();
 
 private:
-  /** Parent level containing this sector */
-  Level& m_level;
-
-  std::string m_name;
+  Level& m_level; // Parent level
 
   bool m_fully_constructed;
-
-  std::string m_init_script;
-
   int m_foremost_layer;
 
-  std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
-  std::unique_ptr<CollisionSystem> m_collision_system;
-
   float m_gravity;
+
+  std::unique_ptr<CollisionSystem> m_collision_system;
 
 private:
   Sector(const Sector&) = delete;

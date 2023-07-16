@@ -75,7 +75,7 @@ public:
 
     log_debug << "Exposing " << m_parent->get_class_name() << " object " << name << std::endl;
 
-    auto object = std::make_unique<T>(m_parent->get_uid());
+    auto object = std::make_unique<T>(m_parent->get_uid(), *m_parent->get_parent());
     expose_object(vm, table_idx, std::move(object), name);
   }
 

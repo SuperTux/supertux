@@ -947,7 +947,7 @@ TileMap::update_effective_solid()
   {
       Sector::get().update_solid(this);
   } else if(worldmap::WorldMap::current() != nullptr && old != m_effective_solid) {
-      worldmap::WorldMap::current()->update_solid(this);
+      worldmap::WorldMapSector::current()->update_solid(this);
   }
 }
 

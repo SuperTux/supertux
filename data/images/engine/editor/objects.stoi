@@ -418,5 +418,8 @@
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))
-  )
+  (object
+    (class "background")
+    (icon "images/engine/editor/background.png"))
+ )
 )

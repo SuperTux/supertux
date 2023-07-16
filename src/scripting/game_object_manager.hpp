@@ -25,9 +25,9 @@ class GameObjectManager;
 namespace scripting {
 
 /**
- * @summary This class provides basic controlling functions for a sector. Applies for both worldmaps and in-level sectors.
+ * @summary This class provides basic controlling functions for a sector. Applies for both worldmap and in-level sectors.
  * @instances For in-level sectors, an instance under ""sector.settings"" is available from scripts and the console.${SRG_NEWPARAGRAPH}
-              For worldmaps, such instance is available under ""worldmap.settings"".
+              For worldmap sectors, such instance is available under ""worldmap.settings"".
  */
 class GameObjectManager
 {

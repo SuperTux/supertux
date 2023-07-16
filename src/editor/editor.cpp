@@ -333,6 +333,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   m_autosave_levelfile = FileSystem::join(directory, backup_filename);
   m_level->save(m_autosave_levelfile);
   m_time_since_last_save = 0.f;
+  m_leveltested = true;
 
   if (!m_level->is_worldmap())
   {
@@ -342,8 +343,6 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   {
     GameManager::current()->start_worldmap(*current_world, "", m_autosave_levelfile);
   }
-
-  m_leveltested = true;
 }
 
 void
