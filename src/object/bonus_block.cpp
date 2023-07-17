@@ -140,6 +140,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
           }
         }
       }
+    } else if (token == "coin-sprite") {
+      iter.get(m_coin_sprite);
     } else if (token == "custom-contents") {
       // handled elsewhere
     } else {
@@ -222,7 +224,10 @@ BonusBlock::get_settings()
                   static_cast<int>(Content::COIN), "contents");
   result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
 
-  result.reorder({"script", "count", "contents", "sprite", "x", "y"});
+  // FIXME: Change this from text to path
+  result.add_sprite(_("Coin sprite"), &m_coin_sprite, "coin-sprite", "images/objects/coin/coin.sprite");
+
+  result.reorder({"script", "count", "contents", "coin-sprite", "sprite", "x", "y"});
 
   return result;
 }
