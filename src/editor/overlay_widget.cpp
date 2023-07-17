@@ -448,7 +448,7 @@ EditorOverlayWidget::fill()
   if (!tilemap) return;
 
   // The tile that is going to be replaced:
-  Uint32 replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
+  uint32_t replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
 
   if (replace_tile == tiles->pos(0, 0))
   {
@@ -552,7 +552,7 @@ void
 EditorOverlayWidget::replace()
 {
   auto tilemap = m_editor.get_selected_tilemap();
-  Uint32 replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
+  uint32_t replace_tile = tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y));
   //don't do anything if the old and new tiles are the same tile
   if (m_editor.get_tiles()->m_width == 1 && m_editor.get_tiles()->m_height == 1 && replace_tile == m_editor.get_tiles()->pos(0, 0)) return;
 
