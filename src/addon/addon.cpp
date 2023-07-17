@@ -59,7 +59,7 @@ Addon::Type addon_type_from_string(const std::string& type)
   }
   else
   {
-    throw std::runtime_error("not a valid Addon::Type: " + type);
+    throw std::runtime_error("Not a valid Addon::Type: " + type);
   }
 }
 
@@ -130,12 +130,12 @@ Addon::parse(const ReaderMapping& mapping)
 
     if (addon->m_id.empty())
     {
-      throw std::runtime_error("addon id is empty");
+      throw std::runtime_error("Addon id is empty");
     }
 
     if (addon->m_id.find_first_not_of(s_allowed_characters) != std::string::npos)
     {
-      throw std::runtime_error("addon id contains illegal characters: " + addon->m_id);
+      throw std::runtime_error("Addon id contains illegal characters: " + addon->m_id);
     }
 
     mapping.get("version", addon->m_version);
@@ -194,7 +194,7 @@ Addon::parse(const std::string& fname)
     auto root = doc.get_root();
     if (root.get_name() != "supertux-addoninfo")
     {
-      throw std::runtime_error("file is not a supertux-addoninfo file.");
+      throw std::runtime_error("File is not a supertux-addoninfo file.");
     }
     else
     {

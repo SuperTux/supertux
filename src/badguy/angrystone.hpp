@@ -49,10 +49,10 @@ protected:
   };
 
 private:
-  Vector attackDirection;  /**< A normalized vector representing the current attack direction. */
-  Vector oldWallDirection; /**< If a wall was hit during the last attack, a normalized vector representing the direction of the last attack, (0,0) otherwise. */
-  Timer timer;
-  AngryStoneState state;
+  Vector m_attackDirection;  /**< A normalized vector representing the current attack direction. */
+  Vector m_oldWallDirection; /**< If a wall was hit during the last attack, a normalized vector representing the direction of the last attack, (0,0) otherwise. */
+  Timer m_timer;
+  AngryStoneState m_state;
 
 private:
   AngryStone(const AngryStone&) = delete;
