@@ -72,6 +72,7 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_custom_sx()
 {
   m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
+  m_coin_sprite = "images/objects/coin/coin.sprite";
 
   m_col.m_bbox.set_pos(pos);
   m_sprite->set_action("normal");
@@ -89,6 +90,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_custom_sx()
 {
   m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
+  m_coin_sprite = "images/objects/coin/coin.sprite";
 
   auto iter = mapping.get_iter();
   while (iter.next()) {
@@ -289,7 +291,7 @@ BonusBlock::try_open(Player* player)
   switch (m_contents) {
     case Content::COIN:
     {
-      Sector::get().add<BouncyCoin>(get_pos(), true);
+      Sector::get().add<BouncyCoin>(get_pos(), true, m_coin_sprite);
       SoundManager::current()->play("sounds/coin.wav", get_pos());
       player->get_status().add_coins(1, false);
       if (m_hit_counter != 0 && !m_parent_dispenser)
