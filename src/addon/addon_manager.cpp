@@ -314,8 +314,13 @@ AddonManager::request_install_addon(const AddonId& addon_id)
 >>>>>>> f13a2352c (addon -> add-on)
   if (it != m_installed_addons.end())
   {
+<<<<<<< HEAD
     log_debug << "reinstalling addon " << addon_id << std::endl;
     if (it->second->is_enabled())
+=======
+    log_debug << "Reinstalling add-on " << addon_id << std::endl;
+    if ((*it)->is_enabled())
+>>>>>>> cdf38ebb0 (More missed changes)
     {
       disable_addon(it->first);
     }
@@ -323,7 +328,7 @@ AddonManager::request_install_addon(const AddonId& addon_id)
   }
   else
   {
-    log_debug << "installing addon " << addon_id << std::endl;
+    log_debug << "Installing add-on " << addon_id << std::endl;
   }
 
   auto& addon = get_repository_addon(addon_id);
@@ -340,7 +345,7 @@ AddonManager::request_install_addon(const AddonId& addon_id)
     {
       if (success)
       {
-        // Complete the addon installation.
+        // Complete the add-on installation.
         Addon& repository_addon = get_repository_addon(addon_id);
 
         MD5 md5 = md5_from_file(install_filename);
@@ -484,17 +489,8 @@ AddonManager::uninstall_addon(const AddonId& addon_id)
   {
     disable_addon(addon_id);
   }
-<<<<<<< HEAD
-  log_debug << "deleting file \"" << addon.get_install_filename() << "\"" << std::endl;
-  const auto it = m_installed_addons.find(addon.get_id());
-=======
   log_debug << "Deleting file \"" << addon.get_install_filename() << "\"" << std::endl;
-  const auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                                          [&addon](const std::unique_ptr<Addon>& rhs)
-                                          {
-                                            return addon.get_id() == rhs->get_id();
-                                          });
->>>>>>> 7896a2907 (Obvious mistakes.)
+  const auto it = m_installed_addons.find(addon.get_id());
   if (it != m_installed_addons.end())
   {
     if (PHYSFS_delete(FileSystem::join(m_addon_directory, addon.get_filename()).c_str()) == 0)
