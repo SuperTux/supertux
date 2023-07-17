@@ -114,7 +114,7 @@ Flame::freeze()
                                          Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2);
   set_group(COLGROUP_DISABLED);
 
-  // start dead-script
+  // Start the dead-script.
   run_dead_script();
 }
 

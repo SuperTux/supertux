@@ -78,7 +78,7 @@ AddonBrowseMenu::rebuild_menu()
     const Addon& addon = m_addon_manager.get_repository_addon(addon_id);
     try
     {
-      // Addon is already installed, so check if they are the same.
+      // Add-on is already installed, so check if they are the same.
       Addon& installed_addon = m_addon_manager.get_installed_addon(addon_id);
       if (installed_addon.get_md5() == addon.get_md5() ||
           installed_addon.get_version() > addon.get_version())
@@ -88,7 +88,7 @@ AddonBrowseMenu::rebuild_menu()
     }
     catch(const std::exception&)
     {
-      // Addon is not installed.
+      // Add-on is not installed.
       if (addon.is_visible())
       {
         if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)

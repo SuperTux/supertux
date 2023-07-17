@@ -46,7 +46,7 @@ GameObjectManager::GameObjectManager(bool undo_tracking) :
 
 GameObjectManager::~GameObjectManager()
 {
-  // clear_objects() must be called before destructing the GameObjectManager
+  // clear_objects() must be called before destructing the GameObjectManager.
   assert(m_gameobjects.size() == 0);
   assert(m_gameobjects_new.size() == 0);
 }
@@ -67,7 +67,7 @@ GameObjectManager::process_resolve_requests()
     GameObject* object = get_object_by_name<GameObject>(request.name);
     if (!object)
     {
-      log_warning << "GameObjectManager: name resolve for '" << request.name << "' failed" << std::endl;
+      log_warning << "GameObjectManager: name resolve for '" << request.name << "' failed." << std::endl;
       request.callback({});
     }
     else
@@ -89,7 +89,7 @@ GameObjectManager::try_process_resolve_requests()
     auto* object = get_object_by_name<GameObject>(request.name);
     if (!object)
     {
-      // Unlike process_resolve_requests(), we just keep that one in mind
+      // Unlike process_resolve_requests(), we just keep that one in mind.
       new_list.push_back(request);
     }
     else
@@ -118,7 +118,7 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   if (!object->get_uid())
     object->set_uid(m_uid_generator.next());
 
-  // make sure the object isn't already in the list
+  // Make sure the object isn't already in the list.
 #ifndef NDEBUG
   for (const auto& game_object : m_gameobjects) {
     assert(game_object != object);
@@ -182,7 +182,7 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::flush_game_objects()
 {
-  { // cleanup marked objects
+  { // Clean up marked objects.
     m_gameobjects.erase(
       std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
                      [this](const std::unique_ptr<GameObject>& obj) {
@@ -198,7 +198,7 @@ GameObjectManager::flush_game_objects()
       m_gameobjects.end());
   }
 
-  { // add newly created objects
+  { // Add newly created objects
     // Objects might add new objects in finish_construction(), so we
     // loop until no new objects show up.
     while (!m_gameobjects_new.empty()) {
@@ -367,20 +367,20 @@ GameObjectManager::has_object_changes() const
 void
 GameObjectManager::this_before_object_add(GameObject& object)
 {
-  { // by_name
+  { // by_name:
     if (!object.get_name().empty())
     {
       m_objects_by_name[object.get_name()] = &object;
     }
   }
 
-  { // by_id
+  { // by_id:
     assert(object.get_uid());
 
     m_objects_by_uid[object.get_uid()] = &object;
   }
 
-  { // by_type_index
+  { // by_type_index:
     m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
   }
 
@@ -392,7 +392,7 @@ GameObjectManager::this_before_object_remove(GameObject& object)
 {
   save_object_change(object);
 
-  { // by_name
+  { // by_name:
     const std::string& name = object.get_name();
     if (!name.empty())
     {
@@ -400,11 +400,11 @@ GameObjectManager::this_before_object_remove(GameObject& object)
     }
   }
 
-  { // by_id
+  { // by_id:
     m_objects_by_uid.erase(object.get_uid());
   }
 
-  { // by_type_index
+  { // by_type_index:
     auto& vec = m_objects_by_type_index[std::type_index(typeid(object))];
     auto it = std::find(vec.begin(), vec.end(), &object);
     assert(it != vec.end());

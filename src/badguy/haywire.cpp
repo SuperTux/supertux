@@ -54,7 +54,7 @@ Haywire::Haywire(const ReaderMapping& reader) :
   walk_speed = NORMAL_WALK_SPEED;
   max_drop_height = 16;
 
-  //Prevent stutter when Tux jumps on Mr Bomb
+  // Preload the "explosion.wav" sound to prevent stutter when Tux jumps on a Haywire.
   SoundManager::current()->preload("sounds/explosion.wav");
 }
 
@@ -152,7 +152,7 @@ Haywire::active_update(float dt_sec)
       }
       else
       {
-        //jump over gaps if Tux isnt below
+        // Jump over gaps if Tux isn't below.
         Rectf gap_box = get_bbox();
         gap_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -38.f : 26.f));
         gap_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::LEFT ? -26.f : 38.f));
@@ -168,7 +168,7 @@ Haywire::active_update(float dt_sec)
       }
     }
 
-    //end of pathfinding
+    // End of pathfinding.
 
 	  if (stomped_timer.get_timeleft() < 0.05f) {
       if (m_jumping)
@@ -205,7 +205,7 @@ Haywire::active_update(float dt_sec)
       }
       else if (player && time_stunned == 0.0f)
       {
-        /* Player is on the right or left*/
+        /* Player is on the right or left. */
         Direction player_dir = get_player_direction(player);
         if (player_dir != m_last_player_direction)
         {
@@ -230,8 +230,8 @@ Haywire::active_update(float dt_sec)
 void
 Haywire::deactivate()
 {
-  // stop ticking/grunting sounds, in case we are deactivated before actually
-  // exploding (see https://github.com/SuperTux/supertux/issues/1260)
+  // Stop ticking/grunting sounds, in case we are deactivated before actually
+  // exploding (see https://github.com/SuperTux/supertux/issues/1260).
   stop_looping_sounds();
 }
 

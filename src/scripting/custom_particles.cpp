@@ -49,19 +49,14 @@ void CustomParticles::spawn_particles(int amount, bool instantly)
   }
   else
   {
-    // TODO
-    log_warning << "Delayed spawn mode not yet implemented for scripting" << std::endl;
+    // TODO: Implement delayed spawn mode for scripting.
+    log_warning << "Delayed spawn mode is not yet implemented for scripting." << std::endl;
   }
 }
-
-
 
 // =============================================================================
 // ============================   ATTRIBUTES   =================================
 // =============================================================================
-
-
-
 
 int CustomParticles::get_max_amount()
 {
@@ -86,9 +81,6 @@ void CustomParticles::set_cover_screen(bool cover)
   SCRIPT_GUARD_VOID;
   object.m_cover_screen = cover;
 }
-
-
-
 
 std::string CustomParticles::get_birth_mode()
 {
@@ -126,10 +118,9 @@ void CustomParticles::set_birth_mode(std::string mode)
   }
   else
   {
-    log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink" << std::endl;
+    log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink." << std::endl;
   }
 }
-
 
 std::string CustomParticles::get_death_mode()
 {
@@ -167,10 +158,9 @@ void CustomParticles::set_death_mode(std::string mode)
   }
   else
   {
-    log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink" << std::endl;
+    log_warning << "Invalid option " + mode + "; valid options are: None, Fade, Shrink." << std::endl;
   }
 }
-
 
 std::string CustomParticles::get_rotation_mode()
 {
@@ -208,10 +198,9 @@ void CustomParticles::set_rotation_mode(std::string mode)
   }
   else
   {
-    log_warning << "Invalid option " + mode + "; valid options are: Fixed, Facing, Wiggling" << std::endl;
+    log_warning << "Invalid option " + mode + "; valid options are: Fixed, Facing, Wiggling." << std::endl;
   }
 }
-
 
 std::string CustomParticles::get_collision_mode()
 {
@@ -270,10 +259,9 @@ void CustomParticles::set_collision_mode(std::string mode)
   }
   else
   {
-    log_warning << "Invalid option " + mode + "; valid options are: Ignore, Stick, StickForever, BounceHeavy, BounceLight, Destroy" << std::endl;
+    log_warning << "Invalid option " + mode + "; valid options are: Ignore, Stick, StickForever, BounceHeavy, BounceLight, Destroy." << std::endl;
   }
 }
-
 
 std::string CustomParticles::get_offscreen_mode()
 {
@@ -311,18 +299,14 @@ void CustomParticles::set_offscreen_mode(std::string mode)
   }
   else
   {
-    log_warning << "Invalid option " + mode + "; valid options are: Never, OnlyOnExit, Always" << std::endl;
+    log_warning << "Invalid option " + mode + "; valid options are: Never, OnlyOnExit, Always." << std::endl;
   }
 }
 
-
-
-
-
-
 // =============================================================================
-//   delay
+//   Delay
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_delay()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -347,11 +331,10 @@ void CustomParticles::ease_delay(float delay, float time, std::string easing)
   object.ease_value(&object.m_delay, delay, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   lifetime
+//   Lifetime
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_lifetime()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -376,11 +359,10 @@ void CustomParticles::ease_lifetime(float lifetime, float time, std::string easi
   object.ease_value(&object.m_particle_lifetime, lifetime, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   lifetime_variation
+//   Lifetime_variation
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_lifetime_variation()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -405,11 +387,10 @@ void CustomParticles::ease_lifetime_variation(float lifetime_variation, float ti
   object.ease_value(&object.m_particle_lifetime_variation, lifetime_variation, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   birth_time
+//   Birth_time
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_birth_time()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -434,11 +415,10 @@ void CustomParticles::ease_birth_time(float birth_time, float time, std::string 
   object.ease_value(&object.m_particle_birth_time, birth_time, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   birth_time_variation
+//   Birth_time_variation
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_birth_time_variation()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -463,11 +443,10 @@ void CustomParticles::ease_birth_time_variation(float birth_time_variation, floa
   object.ease_value(&object.m_particle_birth_time_variation, birth_time_variation, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   death_time
+//   Death_time
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_death_time()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -521,11 +500,10 @@ void CustomParticles::ease_death_time_variation(float death_time_variation, floa
   object.ease_value(&object.m_particle_death_time_variation, death_time_variation, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   speed_x
+//   Speed_x
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_speed_x()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -550,11 +528,10 @@ void CustomParticles::ease_speed_x(float speed_x, float time, std::string easing
   object.ease_value(&object.m_particle_speed_x, speed_x, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   speed_y
+//   Speed_y
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_speed_y()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -579,11 +556,10 @@ void CustomParticles::ease_speed_y(float speed_y, float time, std::string easing
   object.ease_value(&object.m_particle_speed_y, speed_y, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   speed_variation_x
+//   Speed_variation_x
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_speed_variation_x()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -608,11 +584,10 @@ void CustomParticles::ease_speed_variation_x(float speed_variation_x, float time
   object.ease_value(&object.m_particle_speed_variation_x, speed_variation_x, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   speed_variation_y
+//   Speed_variation_y
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_speed_variation_y()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -637,11 +612,10 @@ void CustomParticles::ease_speed_variation_y(float speed_variation_y, float time
   object.ease_value(&object.m_particle_speed_variation_y, speed_variation_y, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   acceleration_x
+//   Acceleration_x
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_acceleration_x()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -666,11 +640,10 @@ void CustomParticles::ease_acceleration_x(float acceleration_x, float time, std:
   object.ease_value(&object.m_particle_acceleration_x, acceleration_x, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   acceleration_y
+//   Acceleration_y
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_acceleration_y()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -695,11 +668,10 @@ void CustomParticles::ease_acceleration_y(float acceleration_y, float time, std:
   object.ease_value(&object.m_particle_acceleration_y, acceleration_y, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   friction_x
+//   Friction_x
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_friction_x()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -724,11 +696,10 @@ void CustomParticles::ease_friction_x(float friction_x, float time, std::string 
   object.ease_value(&object.m_particle_friction_x, friction_x, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   friction_y
+//   Friction_y
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_friction_y()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -753,11 +724,10 @@ void CustomParticles::ease_friction_y(float friction_y, float time, std::string 
   object.ease_value(&object.m_particle_friction_y, friction_y, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   feather_factor
+//   Feather_factor
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_feather_factor()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -782,11 +752,10 @@ void CustomParticles::ease_feather_factor(float feather_factor, float time, std:
   object.ease_value(&object.m_particle_feather_factor, feather_factor, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   rotation
+//   Rotation
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_rotation()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -811,11 +780,10 @@ void CustomParticles::ease_rotation(float rotation, float time, std::string easi
   object.ease_value(&object.m_particle_rotation, rotation, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   rotation_variation
+//   Rotation_variation
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_rotation_variation()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -840,11 +808,10 @@ void CustomParticles::ease_rotation_variation(float rotation_variation, float ti
   object.ease_value(&object.m_particle_rotation_variation, rotation_variation, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   rotation_speed
+//   Rotation_speed
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_rotation_speed()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -869,11 +836,10 @@ void CustomParticles::ease_rotation_speed(float rotation_speed, float time, std:
   object.ease_value(&object.m_particle_rotation_speed, rotation_speed, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   rotation_speed_variation
+//   Rotation_speed_variation
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_rotation_speed_variation()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -898,11 +864,10 @@ void CustomParticles::ease_rotation_speed_variation(float rotation_speed_variati
   object.ease_value(&object.m_particle_rotation_speed_variation, rotation_speed_variation, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   rotation_acceleration
+//   Rotation_acceleration
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_rotation_acceleration()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -927,11 +892,10 @@ void CustomParticles::ease_rotation_acceleration(float rotation_acceleration, fl
   object.ease_value(&object.m_particle_rotation_acceleration, rotation_acceleration, time, getEasingByName(EasingMode_from_string(easing)));
 }
 
-
-
 // =============================================================================
-//   rotation_decceleration
+//   Rotation_decceleration
 // -----------------------------------------------------------------------------
+
 float CustomParticles::get_rotation_decceleration()
 {
   SCRIPT_GUARD_DEFAULT;

@@ -38,7 +38,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   walk_speed = 80;
   max_drop_height = 16;
 
-  //Prevent stutter when Tux jumps on Gold Bomb
+  // Preload the "explosion.wav" sound to prevent stutter when Tux jumps on a Gold Bomb.
   SoundManager::current()->preload("sounds/explosion.wav");
 
   m_exploding_sprite->set_action("default", 1);
@@ -203,7 +203,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   Portable::grab(object,pos,dir_);
   if (tstate == STATE_TICKING){
     // We actually face the opposite direction of Tux here to make the fuse more
-    // visible instead of hiding it behind Tux
+    // visible instead of hiding it behind Tux.
     set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
     set_colgroup_active(COLGROUP_DISABLED);
   }
@@ -225,19 +225,19 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
     BadGuy::ungrab(object, dir_);
   else
   {
-    //handle swimming
+    // Handle swimming state of the player.
     if (player && (player->is_swimming() || player->is_water_jumping()))
     {
       float swimangle = player->get_swimming_angle();
       m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
         player->get_physic().get_velocity());
     }
-    //handle non-swimming
+    // Handle non-swimming.
     else
     {
       if (player)
       {
-        //handle x-movement
+        // Handle x-movement based on the player's direction and velocity.
         if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
           m_physic.set_velocity_x(0.f);
         else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
@@ -247,7 +247,7 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
         else
           m_physic.set_velocity_x(player->get_physic().get_velocity_x()
             + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
-        //handle y-movement
+        // Handle y-movement based on the player's direction and velocity.
         m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
           dir_ == Direction::DOWN ? 500.f :
           player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);

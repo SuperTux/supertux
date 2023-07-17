@@ -59,7 +59,7 @@ Door::Door(const ReaderMapping& mapping) :
   lock_sprite->set_color(lock_color);
 
   SoundManager::current()->preload("sounds/door.wav");
-  // TODO: Add proper sounds
+  // TODO: Add proper sounds.
   SoundManager::current()->preload("sounds/locked.ogg");
   SoundManager::current()->preload("sounds/turnkey.ogg");
 }
@@ -95,23 +95,33 @@ Door::update(float )
     case CLOSED:
       break;
     case OPENING:
+<<<<<<< HEAD
       // if door has finished opening, start timer and keep door open
       if (m_sprite->animation_done()) {
+=======
+      // If door has finished opening, start timer and keep door open.
+      if (sprite->animation_done()) {
+>>>>>>> 52b3efd73 (Fix comment style and consistency [Part 2])
         state = OPEN;
         set_action("open");
         stay_open_timer.start(1.0);
       }
       break;
     case OPEN:
-      // if door was open long enough, start closing it
+      // If door was open long enough, start closing it.
       if (stay_open_timer.check()) {
         state = CLOSING;
         set_action("closing", 1);
       }
       break;
     case CLOSING:
+<<<<<<< HEAD
       // if door has finished closing, keep it shut
       if (m_sprite->animation_done()) {
+=======
+      // If door has finished closing, keep it shut.
+      if (sprite->animation_done()) {
+>>>>>>> 52b3efd73 (Fix comment style and consistency [Part 2])
         state = CLOSED;
         set_action("closed");
       }
@@ -152,7 +162,7 @@ Door::event(Player& , EventType type)
 {
   switch (state) {
     case CLOSED:
-      // if door was activated, start opening it
+      // If door was activated, start opening it.
       if (type == EVENT_ACTIVATE) {
         state = OPENING;
         SoundManager::current()->play("sounds/door.wav", get_pos());
@@ -186,7 +196,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
       break;
     case OPEN:
     {
-      // if door is open and was touched by a player, teleport the player
+      // If door is open and was touched by a player, teleport the player.
       Player* player = dynamic_cast<Player*> (&other);
 
       if (player) {

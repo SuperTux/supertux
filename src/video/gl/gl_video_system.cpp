@@ -63,7 +63,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
 #else
   if (auto_opengl_version)
   {
-    // Get OpenGL version reported by OS
+    // Get OpenGL version reported by OS.
     const char* version_string = reinterpret_cast<const char*>(glGetString(GL_VERSION));
     int major = 0;
     sscanf(version_string, "%d", &major);
@@ -74,7 +74,7 @@ GLVideoSystem::GLVideoSystem(bool use_opengl33core, bool auto_opengl_version) :
       m_use_opengl33core = false;
     else
     {
-      // OpenGL 2.0 or higher is unsupported, throw exception so SDL renderer will be used instead
+      // OpenGL 2.0 or higher is unsupported, throw exception so SDL renderer will be used instead.
       throw std::runtime_error("OpenGL 2.0 or higher is unsupported");
     }
   }
@@ -164,7 +164,7 @@ GLVideoSystem::create_gl_window()
   {
     log_info << "Requesting OpenGL 2.0 context" << std::endl;
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0); // this only goes to 0
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0); // This only goes to 0.
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
   }
 #endif
@@ -181,7 +181,7 @@ GLVideoSystem::create_gl_context()
   assert_gl();
 
   if (g_config->try_vsync) {
-    // we want vsync for smooth scrolling
+    // We want vsync for smooth scrolling.
     if (SDL_GL_SetSwapInterval(-1) != 0)
     {
       log_info << "no support for late swap tearing vsync: " << SDL_GetError() << std::endl;
@@ -195,9 +195,9 @@ GLVideoSystem::create_gl_context()
   assert_gl();
 
 #if defined(USE_OPENGLES2)
-  // nothing to do
+  // Nothing to do.
 #elif defined(USE_OPENGLES1)
-  // nothing to do
+  // Nothing to do.
 #else
 #  ifdef USE_GLBINDING
   glbinding::Binding::initialize();
@@ -251,7 +251,7 @@ GLVideoSystem::create_gl_context()
       throw std::runtime_error(out.str());
     }
 
-  // older GLEW throws 'invalid enum' error in OpenGL3.3Core, thus we eat up the error code here
+  // Older GLEW throws 'invalid enum' error in OpenGL3.3Core, thus we eat up the error code here.
   glGetError();
 
   // log_info << "OpenGL 3.3: " << GLEW_VERSION_3_3 << std::endl;

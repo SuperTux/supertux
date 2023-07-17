@@ -127,7 +127,7 @@ GLPainter::draw_texture(const TextureRequest& request)
     }
     else
     {
-      // rotated blit
+      // Rotated blit.
       const float center_x = (left + right) / 2;
       const float center_y = (top + bottom) / 2;
 
@@ -244,15 +244,14 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
 
   if (request.radius != 0.0f)
   {
-    // draw round rect
-    // Keep radius in the limits, so that we get a circle instead of
-    // just graphic junk
+    // Draw a rounded rectangle.
+    // Ensure that the radius stays within limits to avoid rendering irregular shapes.
     const float radius = std::min(request.radius,
                                   std::min(request.rect.get_width() / 2.0f,
                                            request.rect.get_height() / 2.0f));
 
-    // Not using Rectf here as the resulting Rectf might be invalid
-    // and assert() due to float imprecision
+    // Using Rectf here might result in an invalid Rectf due
+    // to float imprecision, leading to assert().
     const float inner_rect_left = request.rect.get_left() + radius;
     const float inner_rect_top = request.rect.get_top() + radius;
     const float inner_rect_right = request.rect.get_right() - radius;
@@ -332,22 +331,22 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
   const float screen_width = static_cast<float>(viewport.get_screen_width());
   const float screen_height = static_cast<float>(viewport.get_screen_height());
 
-  // Bottom
+  // Bottom.
   vertices[p++] = screen_width; vertices[p++] = screen_height;
   vertices[p++] = 0;            vertices[p++] = screen_height;
   vertices[p++] = x;            vertices[p++] = y+h;
-
-  // Top
+  
+  // Top.
   vertices[p++] = screen_width; vertices[p++] = 0;
   vertices[p++] = 0;            vertices[p++] = 0;
   vertices[p++] = x;            vertices[p++] = y-h;
 
-  // Left
+  // Left.
   vertices[p++] = screen_width; vertices[p++] = 0;
   vertices[p++] = screen_width; vertices[p++] = screen_height;
   vertices[p++] = x+w;          vertices[p++] = y;
 
-  // Right
+  // Right.
   vertices[p++] = 0;            vertices[p++] = 0;
   vertices[p++] = 0;            vertices[p++] = screen_height;
   vertices[p++] = x-w;          vertices[p++] = y;
@@ -360,17 +359,17 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
     const float ex2 = sinf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i+1)) * w;
     const float ey2 = cosf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i+1)) * h;
 
-    // Bottom/Right
+    // Bottom/Right.
     vertices[p++] = screen_width; vertices[p++] = screen_height;
     vertices[p++] = x + ex1;      vertices[p++] = y + ey1;
     vertices[p++] = x + ex2;      vertices[p++] = y + ey2;
 
-    // Top/Left
+    // Top/Left.
     vertices[p++] = 0;            vertices[p++] = 0;
     vertices[p++] = x - ex1;      vertices[p++] = y - ey1;
     vertices[p++] = x - ex2;      vertices[p++] = y - ey2;
 
-    // Top/Right
+    // Top/Right.
     vertices[p++] = screen_width; vertices[p++] = 0;
     vertices[p++] = x + ex1;      vertices[p++] = y - ey1;
     vertices[p++] = x + ex2;      vertices[p++] = y - ey2;
@@ -499,7 +498,7 @@ GLPainter::get_pixel(const GetPixelRequest& request) const
 #else
   float pixels[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-  // OpenGLES2 does not have PBOs, only GLES3 has
+  // OpenGLES2 does not have PBOs, only GLES3 has.
   glReadPixels(static_cast<GLint>(x), static_cast<GLint>(y),
                1, 1, GL_RGB, GL_FLOAT, pixels);
 

@@ -19,10 +19,10 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
-static const float s_charge_speed = 240;
-static const float s_charge_time = .5;
-static const float s_attack_time = 1;
-static const float s_recover_time = .5;
+static const float CHARGE_SPEED = 240;
+static const float CHARGE_TIME = .5;
+static const float ATTACK_TIME = 1;
+static const float RECOVER_TIME = .5;
 
 AngryStone::AngryStone(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"),
@@ -121,7 +121,7 @@ AngryStone::active_update(float dt_sec)
           if ((m_attackDirection.x != m_oldWallDirection.x) || (m_attackDirection.y != m_oldWallDirection.y)) 
           {
             set_action("charging");
-            m_timer.start(s_charge_time);
+            m_timer.start(CHARGE_TIME);
             m_state = CHARGING;
           }
         } else if ((dy > -playerHeight) && (dy < badguyHeight)) 
@@ -138,7 +138,7 @@ AngryStone::active_update(float dt_sec)
           if ((m_attackDirection.x != m_oldWallDirection.x) || (m_attackDirection.y != m_oldWallDirection.y)) 
           {
             set_action("charging");
-            m_timer.start(s_charge_time);
+            m_timer.start(CHARGE_TIME);
             m_state = CHARGING;
           }
         }
@@ -150,11 +150,11 @@ AngryStone::active_update(float dt_sec)
       if (m_timer.check()) 
       {
         set_action("attacking");
-        m_timer.start(s_attack_time);
+        m_timer.start(ATTACK_TIME);
         m_state = ATTACKING;
         m_physic.enable_gravity(false);
-        m_physic.set_velocity_x(s_charge_speed * m_attackDirection.x);
-        m_physic.set_velocity_y(s_charge_speed * m_attackDirection.y);
+        m_physic.set_velocity_x(CHARGE_SPEED * m_attackDirection.x);
+        m_physic.set_velocity_y(CHARGE_SPEED * m_attackDirection.y);
         m_oldWallDirection.x = 0;
         m_oldWallDirection.y = 0;
       }
@@ -164,7 +164,7 @@ AngryStone::active_update(float dt_sec)
     {
       if (m_timer.check()) 
       {
-        m_timer.start(s_recover_time);
+        m_timer.start(RECOVER_TIME);
         m_state = RECOVERING;
         set_action("idle");
         m_physic.enable_gravity(true);
