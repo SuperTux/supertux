@@ -777,7 +777,7 @@ std::string
 AddonManager::scan_for_info(const std::string& archive_os_path) const
 {
   std::string nfoFilename = std::string();
-  physfsutil::enumerate_files("/", [this, archive_os_path, &nfoFilename](const std::string& file) {
+  physfsutil::enumerate_files("/", [archive_os_path, &nfoFilename](const std::string& file) {
     if (StringUtil::has_suffix(file, ".nfo"))
     {
       std::string nfo_filename = FileSystem::join("/", file);
