@@ -72,9 +72,9 @@ private:
   static bool alt_pressed;
 
 private:
-  void input_tile(const Vector& pos, uint32_t tile, bool save_state = true);
-  void autotile(const Vector& pos, uint32_t tile, bool save_state = true);
-  void input_autotile(const Vector& pos, uint32_t tile, bool save_state = true);
+  void input_tile(const Vector& pos, uint32_t tile);
+  void autotile(const Vector& pos, uint32_t tile);
+  void input_autotile(const Vector& pos, uint32_t tile);
   void autotile_corner(const Vector& pos, uint32_t tile, TileMap::AutotileCornerOperation op);
   void input_autotile_corner(const Vector& corner, uint32_t tile, const Vector& override_pos = Vector(-1.f, -1.f));
   void put_tile(const Vector& target_tile);
