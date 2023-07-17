@@ -48,8 +48,8 @@ protected:
   };
 
 private:
-  Vector attackDirection;  /** A normalized vector representing the current attack direction. */
-  Vector oldWallDirection; /** If a wall was hit during the last attack, a normalized vector representing the direction of the last attack, (0,0) otherwise. */
+  Vector attackDirection;  /**< A normalized vector representing the current attack direction. */
+  Vector oldWallDirection; /**< If a wall was hit during the last attack, a normalized vector representing the direction of the last attack, (0,0) otherwise. */
   Timer timer;
   AngryStoneState state;
 
