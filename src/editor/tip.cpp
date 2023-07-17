@@ -26,6 +26,7 @@
 
 Tip::Tip(GameObject& object) :
   m_strings(),
+  m_warnings(),
   m_header()
 {
   auto os = object.get_settings();
@@ -48,6 +49,10 @@ Tip::Tip(GameObject& object) :
       }
     }
   }
+
+  if (!object.is_up_to_date())
+    m_warnings.push_back(_("This object's current functionality is deprecated.") + "\n" +
+                         _("Updating to get its latest functionality is recommended."));
 }
 
 Tip::Tip(std::string text) :
@@ -68,12 +73,21 @@ Tip::draw(DrawingContext& context, const Vector& pos, const bool align_right)
   auto position = pos;
   position.y += 35;
   context.color().draw_text(Resources::normal_font, m_header, position,
-                              align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, g_config->labeltextcolor);
+                            align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, g_config->labeltextcolor);
 
-  for (const auto& str : m_strings) {
+  for (const auto& str : m_strings)
+  {
     position.y += 22;
     context.color().draw_text(Resources::normal_font, str, position,
-                                align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, ColorScheme::Menu::default_color);
+                              align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, ColorScheme::Menu::default_color);
+  }
+
+  position.y += 35;
+  for (const auto& str : m_warnings)
+  {
+    position.y += 22;
+    context.color().draw_text(Resources::normal_font, str, position,
+                              align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, ColorScheme::Menu::warning_color);
   }
 }
 

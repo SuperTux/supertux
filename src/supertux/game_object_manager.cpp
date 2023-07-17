@@ -128,9 +128,15 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   }
 #endif
 
-  // Attempt to add object to editor layers
-  if (m_initialized && Editor::is_active())
-    Editor::current()->add_layer(object.get());
+  if (m_initialized)
+  {
+    // Attempt to add object to editor layers
+    if (Editor::current())
+      Editor::current()->add_layer(object.get());
+
+    // Any objects added after initialization should be on their latest version
+    object->update_version();
+  }
 
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));

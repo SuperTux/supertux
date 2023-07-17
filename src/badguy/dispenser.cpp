@@ -75,7 +75,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   m_countMe = false;
 }
 
@@ -385,8 +385,8 @@ GameObjectTypes
 Dispenser::get_types() const
 {
   return {
-    { "cannon", _("cannon") },
     { "dropper", _("dropper") },
+    { "cannon", _("cannon") },
     { "point", _("invisible") }
   };
 }

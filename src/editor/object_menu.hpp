@@ -28,10 +28,11 @@ class ObjectMenu final : public Menu
 {
 public:
   enum {
+    MNID_UPDATE,
     MNID_REMOVE,
     MNID_REMOVEFUNCTION,
     MNID_TEST_FROM_HERE,
-    MNID_OPEN_PARTICLE_EDITOR,
+    MNID_OPEN_PARTICLE_EDITOR
   };
 
 public:

@@ -374,7 +374,7 @@ BonusBlock::try_open(Player* player)
     }
     case Content::POTION:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite"));
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<PowerUp>(get_pos(), PowerUp::FLIP));
       break;
     }
     case Content::RAIN:
@@ -447,25 +447,25 @@ BonusBlock::try_drop(Player *player)
 
     case Content::FIREGROW:
     {
-      drop_growup_bonus(player, "images/powerups/fireflower/fireflower.sprite", direction, countdown);
+      drop_growup_bonus(player, PowerUp::FIRE, direction, countdown);
       break;
     }
 
     case Content::ICEGROW:
     {
-      drop_growup_bonus(player, "images/powerups/iceflower/iceflower.sprite", direction, countdown);
+      drop_growup_bonus(player, PowerUp::ICE, direction, countdown);
       break;
     }
 
     case Content::AIRGROW:
     {
-      drop_growup_bonus(player, "images/powerups/airflower/airflower.sprite", direction, countdown);
+      drop_growup_bonus(player, PowerUp::AIR, direction, countdown);
       break;
     }
 
     case Content::EARTHGROW:
     {
-      drop_growup_bonus(player, "images/powerups/earthflower/earthflower.sprite", direction, countdown);
+      drop_growup_bonus(player, PowerUp::EARTH, direction, countdown);
       break;
     }
 
@@ -523,7 +523,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::POTION:
     {
-      Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/potions/red-potion.sprite");
+      Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), PowerUp::FLIP);
       countdown = true;
       break;
     }
@@ -570,7 +570,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
 }
 
 void
-BonusBlock::drop_growup_bonus(Player* player, const std::string& bonus_sprite_name, const Direction& dir, bool& countdown)
+BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown)
 {
   if (player->get_status().bonus[player->get_id()] == NO_BONUS)
   {
@@ -578,7 +578,7 @@ BonusBlock::drop_growup_bonus(Player* player, const std::string& bonus_sprite_na
   }
   else
   {
-    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name);
+    Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), type);
   }
   SoundManager::current()->play("sounds/upgrade.wav", get_pos(), upgrade_sound_gain);
   countdown = true;
@@ -690,7 +690,7 @@ BonusBlock::preload_contents(int d)
       break;
 
     case 12: // Red potion
-      m_object = std::make_unique<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
+      m_object = std::make_unique<PowerUp>(get_pos(), PowerUp::FLIP);
       break;
 
     default:

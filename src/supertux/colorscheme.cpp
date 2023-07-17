@@ -48,6 +48,7 @@ Color ColorScheme::Menu::active_color(0.4f,0.66f,1.f);
 Color ColorScheme::Menu::inactive_color(0.5f,0.5f,0.5f);
 Color ColorScheme::Menu::label_color(0.f,1.f,1.f);
 Color ColorScheme::Menu::field_color(1.f,1.f,0.6f);
+Color ColorScheme::Menu::warning_color(1.f,1.f,0.6f);
 
 Color PlayerStatusHUD::text_color(1.f,1.f,0.6f);
 

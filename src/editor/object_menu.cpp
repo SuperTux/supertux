@@ -17,6 +17,7 @@
 #include "editor/object_menu.hpp"
 
 #include "editor/editor.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/d_scope.hpp"
@@ -43,6 +44,12 @@ ObjectMenu::ObjectMenu(GameObject* go, const std::function<bool (GameObject*)>& 
     }
   }
 
+  if (!m_object->is_up_to_date())
+  {
+    add_hl();
+    add_entry(MNID_UPDATE, _("Update"));
+  }
+
   if (m_remove_function)
   {
     add_hl();
@@ -62,6 +69,16 @@ ObjectMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
+    case MNID_UPDATE:
+      Dialog::show_confirmation(_("This will update the object to its latest functionality.") + "\n \n" +
+                                _("Keep in mind this is very likely to break the proper behaviour of the object.") + "\n" +
+                                _("Make sure to re-check any behaviour, related to the object."), [this]() {
+        m_object->update_version();
+        m_editor.m_reactivate_request = true;
+        MenuManager::instance().pop_menu();
+      });
+      break;
+
     case MNID_REMOVE:
       m_editor.delete_markers();
       m_editor.m_reactivate_request = true;

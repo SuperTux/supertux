@@ -87,6 +87,12 @@ public:
   virtual std::string get_class_name() const { return "game-object"; }
   virtual std::string get_display_name() const { return _("Unknown object"); }
 
+  /** Version checking/updating */
+  int get_version() const { return m_version; }
+  virtual int get_latest_version() const { return 1; }
+  bool is_up_to_date() const { return m_version >= get_latest_version(); }
+  virtual void update_version() { m_version = get_latest_version(); }
+
   /** If true only a single object of this type is allowed in a
       given GameObjectManager */
   virtual bool is_singleton() const { return false; }
@@ -225,6 +231,12 @@ private:
   /** The object's type at the time of the last get_settings() call.
       Used to check if the type has changed. **/
   int m_previous_type;
+
+  /** Indicates the object's version. By default, this is equal to 1.
+      Useful for retaining retrocompatibility for objects, whilst allowing for
+      updated behaviour in newer levels.
+      The version of an object can be updated from the editor. */
+  int m_version;
 
   /** A unique id for the object to safely refer to it. This will be
       set by the GameObjectManager. */

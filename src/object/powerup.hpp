@@ -24,7 +24,10 @@ class PowerUp final : public MovingSprite
 {
 public:
   PowerUp(const ReaderMapping& mapping);
-  PowerUp(const Vector& pos, const std::string& sprite_name);
+  PowerUp(const Vector& pos, int type);
+
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -37,11 +40,26 @@ public:
   static std::string display_name() { return _("Powerup"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  int get_latest_version() const override { return 2; }
   virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
 private:
   /** Initialize power up sprites and other defaults */
-  virtual void initialize();
+  void initialize();
+  void setup_lightsprite();
+
+public:
+  enum Type {
+    EGG,
+    FIRE,
+    ICE,
+    AIR,
+    EARTH,
+    STAR,
+    ONEUP,
+    FLIP
+  };
 
 private:
   Physic physic;

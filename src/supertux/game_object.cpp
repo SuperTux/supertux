@@ -31,6 +31,7 @@ GameObject::GameObject() :
   m_fade_helpers(),
   m_track_undo(true),
   m_previous_type(-1),
+  m_version(1),
   m_uid(),
   m_scheduled_for_removal(false),
   m_last_state(),
@@ -46,6 +47,7 @@ GameObject::GameObject(const std::string& name) :
   m_fade_helpers(),
   m_track_undo(true),
   m_previous_type(-1),
+  m_version(1),
   m_uid(),
   m_scheduled_for_removal(false),
   m_last_state(),
@@ -58,6 +60,7 @@ GameObject::GameObject(const ReaderMapping& reader) :
   GameObject()
 {
   reader.get("name", m_name, "");
+  reader.get("version", m_version, 1);
 }
 
 GameObject::~GameObject()
@@ -108,6 +111,7 @@ GameObject::get_settings()
 {
   ObjectSettings result(get_display_name());
 
+  result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
   result.add_text(_("Name"), &m_name, "name", std::string());
 
   const GameObjectTypes types = get_types();

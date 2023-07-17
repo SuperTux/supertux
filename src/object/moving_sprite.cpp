@@ -123,6 +123,12 @@ MovingSprite::on_type_change(int old_type)
     change_sprite(get_default_sprite_name());
 }
 
+bool
+MovingSprite::matches_sprite(const std::string& sprite_file)
+{
+  return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
+}
+
 void
 MovingSprite::update_hitbox()
 {
