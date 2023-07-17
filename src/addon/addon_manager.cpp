@@ -98,7 +98,7 @@ static Addon& get_addon(const AddonManager::AddonMap& list, const AddonId& id,
 
 static std::vector<AddonId> get_addons(const AddonManager::AddonMap& list)
 {
-  // Use a map for storing sorted addon titles with their respective IDs.
+  // Use a map for storing sorted add-on titles with their respective IDs.
   std::map<std::string, AddonId> sorted_titles;
   for (const auto& [id, addon] : list)
   {
@@ -121,7 +121,7 @@ static PHYSFS_EnumerateCallbackResult add_to_dictionary_path(void *data, const c
     if (physfsutil::is_directory(full_path))
     {
         log_debug << "Adding \"" << full_path << "\" to dictionary search path" << std::endl;
-        // We want translations from addons to have precedence.
+        // We want translations from add-ons to have precedence.
         g_dictionary_manager->add_directory(full_path, true);
     }
     return PHYSFS_ENUM_OK;
@@ -301,8 +301,17 @@ AddonManager::check_online()
 TransferStatusListPtr
 AddonManager::request_install_addon(const AddonId& addon_id)
 {
+<<<<<<< HEAD
   // remove addon if it already exists.
   auto it = m_installed_addons.find(addon_id);
+=======
+  // Remove add-on if it already exists.
+  auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
+                         [&addon_id](const std::unique_ptr<Addon>& addon)
+                         {
+                           return addon->get_id() == addon_id;
+                         });
+>>>>>>> f13a2352c (addon -> add-on)
   if (it != m_installed_addons.end())
   {
     log_debug << "reinstalling addon " << addon_id << std::endl;
@@ -403,25 +412,12 @@ AddonManager::request_install_addon_dependencies(const AddonId& addon_id)
 void
 AddonManager::install_addon(const AddonId& addon_id)
 {
-<<<<<<< HEAD
-  { // remove addon if it already exists
+  { // remove addon if it already exists.
     auto it = m_installed_addons.find(addon_id);
     if (it != m_installed_addons.end())
     {
-      log_debug << "reinstalling addon " << addon_id << std::endl;
+      log_debug << "Reinstalling add-on " << addon_id << std::endl;
       if (it->second->is_enabled())
-=======
-  { // Remove addon if it already exists.
-    auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                           [&addon_id](const std::unique_ptr<Addon>& addon)
-                           {
-                             return addon->get_id() == addon_id;
-                           });
-    if (it != m_installed_addons.end())
-    {
-      log_debug << "Reinstalling addon " << addon_id << std::endl;
-      if ((*it)->is_enabled())
->>>>>>> 7896a2907 (Obvious mistakes.)
       {
         disable_addon(it->first);
       }
@@ -429,7 +425,7 @@ AddonManager::install_addon(const AddonId& addon_id)
     }
     else
     {
-      log_debug << "Installing addon " << addon_id << std::endl;
+      log_debug << "Installing add-on " << addon_id << std::endl;
     }
   }
 
@@ -482,7 +478,7 @@ AddonManager::install_addon_from_local_file(const std::string& filename)
 void
 AddonManager::uninstall_addon(const AddonId& addon_id)
 {
-  log_debug << "Uninstalling addon " << addon_id << std::endl;
+  log_debug << "Uninstalling add-on " << addon_id << std::endl;
   auto& addon = get_installed_addon(addon_id);
   if (addon.is_enabled())
   {
@@ -509,7 +505,7 @@ AddonManager::uninstall_addon(const AddonId& addon_id)
   }
   else
   {
-    throw std::runtime_error(_("Error uninstalling addon: Addon with id ") + addon_id + _(" not found."));
+    throw std::runtime_error(_("Error uninstalling add-on: Addon with id ") + addon_id + _(" not found."));
   }
 }
 
@@ -848,7 +844,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
         }
         catch(...)
         {
-          // Save addon title and author on stack before std::move.
+          // Save add-on title and author on stack before std::move.
           const std::string addon_title = addon->get_title();
           const std::string addon_author = addon->get_author();
           m_installed_addons[addon_id] = std::move(addon);
@@ -864,7 +860,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
             }
             Dialog::show_message(fmt::format(_("Add-on {} by {} successfully installed."),
                                              addon_title, addon_author));
-            // If currently opened menu is addons menu refresh it.
+            // If currently opened menu is add-ons menu refresh it.
             AddonMenu* addon_menu = dynamic_cast<AddonMenu*>(MenuManager::instance().current_menu());
             if (addon_menu)
               addon_menu->refresh();
@@ -964,7 +960,7 @@ AddonManager::check_for_langpack_updates()
     try
     {
       const std::string& addon_id = "language-pack";
-      log_debug << "Looking for language addon with ID " << addon_id << "..." << std::endl;
+      log_debug << "Looking for language add-on with ID " << addon_id << "..." << std::endl;
       Addon& langpack = get_repository_addon(addon_id);
 
       try
@@ -973,7 +969,7 @@ AddonManager::check_for_langpack_updates()
         if (installed_langpack.get_md5() == langpack.get_md5() ||
             installed_langpack.get_version() > langpack.get_version())
         {
-          log_debug << "Language addon " << addon_id << " is already the latest version." << std::endl;
+          log_debug << "Language add-on " << addon_id << " is already the latest version." << std::endl;
           return;
         }
 
@@ -1004,7 +1000,7 @@ AddonManager::check_for_langpack_updates()
     }
     catch(std::exception&)
     {
-      log_debug << "Language addon for current locale not found." << std::endl;
+      log_debug << "Language add-on for current locale not found." << std::endl;
     }
   }
   catch(...)
