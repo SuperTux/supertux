@@ -51,7 +51,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   reader.get("random", m_random, false);
 
   std::vector<std::string> badguys;
-  if (reader.get("badguy", badguys)) // Backward compatibility
+  if (reader.get("badguy", badguys)) // Backward compatibility.
   {
     for (auto& badguy : badguys)
       add_object(GameObjectFactory::instance().create(badguy));

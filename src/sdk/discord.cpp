@@ -91,7 +91,7 @@ DiscordIntegration::DiscordIntegration() :
 
 DiscordIntegration::~DiscordIntegration()
 {
-  // It shouldn't get here, but just in case
+  // It shouldn't get here, but just in case.
   close();
 }
 
@@ -175,7 +175,7 @@ DiscordIntegration::update_status(IntegrationStatus status)
    */
 
   if (status.m_details.size() >= 1)
-    discordPresence.state = status.m_details.begin()->c_str();
+    discordPresence.m_state = status.m_details.begin()->c_str();
 
   if (status.m_details.size() >= 2)
     discordPresence.details = (status.m_details.begin() + 1)->c_str();
@@ -188,7 +188,7 @@ DiscordIntegration::update_status(IntegrationStatus status)
     }
   }
 
-  // TODO: Manage parties and all
+  // TODO: Manage parties and all.
 
   discordPresence.largeImageKey = "supertux_logo";
   Discord_UpdatePresence(&discordPresence);

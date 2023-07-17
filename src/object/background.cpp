@@ -114,7 +114,7 @@ Background::Background(const ReaderMapping& reader) :
   reader.get("scroll-offset-x", m_scroll_offset.x, 0.0f);
   reader.get("scroll-offset-y", m_scroll_offset.y, 0.0f);
 
-  // For backwards compatibility, add position to scroll offset.
+  // For backward compatibility, add position to scroll offset.
   float px;
   float py;
   if (reader.get("x", px))
@@ -132,7 +132,7 @@ Background::Background(const ReaderMapping& reader) :
 
   if(!reader.get("speed-x", m_parallax_speed.x))
   {
-    // For backwards compatibility.
+    // For backward compatibility.
     reader.get("speed", m_parallax_speed.x, 0.5f);
   }
 

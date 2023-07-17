@@ -106,7 +106,7 @@ Dart::collision_solid(const CollisionHit& )
 HitResponse
 Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  // ignore collisions with parent
+  // Ignore collisions with parent.
   if (&badguy == parent) {
     return FORCE_MOVE;
   }

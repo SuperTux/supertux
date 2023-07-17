@@ -160,7 +160,7 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
     m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
       player->get_physic().get_velocity());
   }
-  //Handle non-swimming.
+  // Handle non-swimming.
   else
   {
     if (player)
