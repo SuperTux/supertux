@@ -130,12 +130,12 @@ Addon::parse(const ReaderMapping& mapping)
 
     if (addon->m_id.empty())
     {
-      throw std::runtime_error("Addon id is empty");
+      throw std::runtime_error("Add-on id is empty");
     }
 
     if (addon->m_id.find_first_not_of(s_allowed_characters) != std::string::npos)
     {
-      throw std::runtime_error("Addon id contains illegal characters: " + addon->m_id);
+      throw std::runtime_error("Add-on id contains illegal characters: " + addon->m_id);
     }
 
     mapping.get("version", addon->m_version);
