@@ -30,7 +30,7 @@ CoinExplode::CoinExplode(const Vector& pos, bool count_stats, const std::string&
 void
 CoinExplode::update(float )
 {
-  float mag = 100.0f; // Magnitude at which coins are thrown
+  float mag = 100.0f; // Magnitude at which coins are thrown.
   float rand = 30.0f; // Max variation to be subtracted from the magnitude.
 
   Sector::get().add<HeavyCoin>(position, Vector(2.5, -4.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
