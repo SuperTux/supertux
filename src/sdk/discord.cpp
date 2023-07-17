@@ -175,7 +175,7 @@ DiscordIntegration::update_status(IntegrationStatus status)
    */
 
   if (status.m_details.size() >= 1)
-    discordPresence.m_state = status.m_details.begin()->c_str();
+    discordPresence.state = status.m_details.begin()->c_str();
 
   if (status.m_details.size() >= 2)
     discordPresence.details = (status.m_details.begin() + 1)->c_str();
