@@ -102,7 +102,7 @@ std::string generate_menu_item_text(const Addon& addon)
   }
   else
   {
-    // Only addon type and name, no need for translation.
+    // Only add-on type and name, no need for translation.
     text = fmt::format("{} \"{}\"", type, addon.get_title());
   }
 
