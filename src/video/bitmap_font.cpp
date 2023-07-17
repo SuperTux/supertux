@@ -70,6 +70,7 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
   const std::string fontdir = FileSystem::dirname(filename);
   const std::string fontname = FileSystem::basename(filename);
 
+  // scan for prefix-filename in addons search path
   physfsutil::enumerate_files(fontdir, [fontdir, fontname, this](const std::string& filename) {
     std::string filepath = FileSystem::join(fontdir, filename);
     if ( filename.rfind(fontname) != std::string::npos ) {
