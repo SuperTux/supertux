@@ -206,7 +206,7 @@ Dispenser::launch_object()
       {
         throw std::runtime_error("Creating " + object->get_class_name() + " object failed.");
       }
-      auto moving_object = dynamic_cast<MovingObject*>(game_object.get());
+      auto moving_object = static_cast<MovingObject*>(game_object.get());
 
       Rectf object_bbox = moving_object->get_bbox();
       Vector spawnpoint(0.0f, 0.0f);
@@ -253,7 +253,7 @@ Dispenser::launch_object()
 
       if (obj_badguy) // The object is a badguy
       {
-        auto badguy = dynamic_cast<BadGuy*>(moving_object);
+        auto badguy = static_cast<BadGuy*>(moving_object);
 
         /* We don't want to count dispensed badguys in level stats */
         badguy->m_countMe = false;

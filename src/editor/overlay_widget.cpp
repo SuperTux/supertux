@@ -27,7 +27,6 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/util.hpp"
-#include "editor/worldmap_objects.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/bezier.hpp"
@@ -44,6 +43,7 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
+#include "worldmap/worldmap_object.hpp"
 
 namespace {
 
@@ -839,7 +839,7 @@ EditorOverlayWidget::put_object()
       mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
     }
 
-    auto* wo = dynamic_cast<worldmap_editor::WorldmapObject*>(object.get());
+    auto* wo = dynamic_cast<worldmap::WorldMapObject*>(object.get());
     if (wo) {
       wo->move_to(wo->get_pos() / 32.0f);
     }

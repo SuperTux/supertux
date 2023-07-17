@@ -630,9 +630,9 @@ GameSession::finish(bool win)
   }
 
   if (win) {
-    if (WorldMap::current())
+    if (WorldMapSector::current())
     {
-      WorldMap::current()->finished_level(m_level.get());
+      WorldMapSector::current()->finished_level(m_level.get());
     }
 
     if (LevelsetScreen::current())
@@ -795,17 +795,17 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
 
   m_endsequence_timer.stop();
 
-  if (const auto& worldmap = worldmap::WorldMap::current())
+  if (const auto& worldmap_sector = worldmap::WorldMapSector::current())
   {
     if (data != nullptr)
     {
       if (!data->fade_tilemap.empty())
       {
-        worldmap->set_initial_fade_tilemap(data->fade_tilemap, data->fade_type);
+        worldmap_sector->set_initial_fade_tilemap(data->fade_tilemap, data->fade_type);
       }
       if (!data->spawnpoint.empty())
       {
-        worldmap->set_initial_spawnpoint(data->spawnpoint);
+        worldmap_sector->set_initial_spawnpoint(data->spawnpoint);
       }
     }
   }

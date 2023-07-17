@@ -199,7 +199,7 @@ public:
   void redo();
 
   /** Save object change in the undo stack with given data.
-      Used to save an object's previous state before a change had occured. */
+      Used to save an object's previous state before a change had occurred. */
   void save_object_change(GameObject& object, const std::string& data);
 
   /** Clear undo/redo stacks. */

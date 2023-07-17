@@ -73,7 +73,6 @@
 #include "badguy/yeti.hpp"
 #include "badguy/yeti_stalactite.hpp"
 #include "badguy/zeekling.hpp"
-#include "editor/worldmap_objects.hpp"
 #include "math/vector.hpp"
 #include "object/ambient_light.hpp"
 #include "object/ambient_sound.hpp"
@@ -143,6 +142,11 @@
 #include "trigger/text_area.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "worldmap/level_tile.hpp"
+#include "worldmap/spawn_point.hpp"
+#include "worldmap/special_tile.hpp"
+#include "worldmap/sprite_change.hpp"
+#include "worldmap/teleporter.hpp"
 
 GameObjectFactory&
 GameObjectFactory::instance()
@@ -231,7 +235,7 @@ GameObjectFactory::init_factories()
   add_factory<AmbientLight>("ambient-light");
   add_factory<AmbientSound>("ambient_sound"); // backward compatibilty
   add_factory<AmbientSound>("ambient-sound");
-  add_factory<Background>("background");
+  add_factory<Background>("background", OBJ_PARAM_WORLDMAP);
   add_factory<PathGameObject>("path");
   add_factory<BicyclePlatform>("bicycle-platform");
   add_factory<BonusBlock>("bonusblock", OBJ_PARAM_DISPENSABLE);
@@ -245,7 +249,7 @@ GameObjectFactory::init_factories()
   add_factory<CustomParticleSystem>("particles-custom");
   add_factory<CustomParticleSystemFile>("particles-custom-file");
   add_factory<Coin>("coin", OBJ_PARAM_DISPENSABLE);
-  add_factory<Decal>("decal");
+  add_factory<Decal>("decal", OBJ_PARAM_WORLDMAP);
   add_factory<Explosion>("explosion", OBJ_PARAM_DISPENSABLE);
   add_factory<FallBlock>("fallblock", OBJ_PARAM_DISPENSABLE);
   add_factory<Firefly>("firefly");
@@ -298,12 +302,12 @@ GameObjectFactory::init_factories()
   // editor stuff
   add_factory<SpawnPointMarker>("spawnpoint");
 
-  // worldmap editor objects
-  add_factory<worldmap_editor::LevelDot>("level");
-  add_factory<worldmap_editor::SpecialTile>("special-tile");
-  add_factory<worldmap_editor::SpriteChange>("sprite-change");
-  add_factory<worldmap_editor::Teleporter>("teleporter");
-  add_factory<worldmap_editor::WorldmapSpawnPoint>("worldmap-spawnpoint");
+  // worldmap objects
+  add_factory<worldmap::LevelTile>("level", OBJ_PARAM_WORLDMAP);
+  add_factory<worldmap::SpecialTile>("special-tile", OBJ_PARAM_WORLDMAP);
+  add_factory<worldmap::SpriteChange>("sprite-change", OBJ_PARAM_WORLDMAP);
+  add_factory<worldmap::Teleporter>("teleporter", OBJ_PARAM_WORLDMAP);
+  add_factory<worldmap::SpawnPointObject>("worldmap-spawnpoint", OBJ_PARAM_WORLDMAP);
 
   add_factory("tilemap", TileMap::display_name(), [](const ReaderMapping& reader) {
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
