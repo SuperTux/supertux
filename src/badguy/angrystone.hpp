@@ -40,7 +40,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
-  enum AngryStoneState {
+  enum AngryStoneState 
+  {
     IDLE,
     CHARGING,
     ATTACKING,
