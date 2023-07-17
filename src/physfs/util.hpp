@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_UTIL_HPP
 #define HEADER_SUPERTUX_PHYSFS_UTIL_HPP
 
+#include <functional>
 #include <string>
 
 namespace physfsutil {
