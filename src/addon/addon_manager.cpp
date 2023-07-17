@@ -545,15 +545,13 @@ std::vector<std::string>
 AddonManager::get_local_addon_screenshots(const AddonId& addon_id)
 {
   std::vector<std::string> screenshots;
-  std::unique_ptr<char*, decltype(&PHYSFS_freeList)> rc(PHYSFS_enumerateFiles(m_screenshots_cache_directory.c_str()), PHYSFS_freeList);
-  for (char** i = rc.get(); *i != nullptr; ++i)
-  {
+  physfsutil::enumerate_files(m_screenshots_cache_directory, [&screenshots, &addon_id, this](const std::string& filename) {
     // Push any files from the cache directory, starting with the ID of the add-on.
-    if (StringUtil::starts_with(*i, addon_id))
+    if (StringUtil::starts_with(filename, addon_id))
     {
-      screenshots.push_back(FileSystem::join(m_screenshots_cache_directory, *i));
+      screenshots.push_back(FileSystem::join(m_screenshots_cache_directory, filename));
     }
-  }
+  });
   return screenshots;
 }
 
@@ -753,28 +751,24 @@ AddonManager::scan_for_archives() const
   std::vector<std::string> archives;
 
   // Search for archives and add them to the search path
-  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    rc(PHYSFS_enumerateFiles(m_addon_directory.c_str()),
-       PHYSFS_freeList);
-  for (char** i = rc.get(); *i != nullptr; ++i)
-  {
-    const std::string fullpath = FileSystem::join(m_addon_directory, *i);
+  physfsutil::enumerate_files(m_addon_directory, [this, &archives](const std::string& filename) {
+    const std::string fullpath = FileSystem::join(m_addon_directory, filename);
     if (physfsutil::is_directory(fullpath))
     {
       // ignore dot files (e.g. '.git/'), as well as the addon cache directory
-      if ((*i)[0] != '.' && fullpath != m_cache_directory) {
+      if (filename[0] != '.' && fullpath != m_cache_directory) {
         archives.push_back(fullpath);
       }
     }
     else
     {
-      if (StringUtil::has_suffix(StringUtil::tolower(*i), ".zip")) {
+      if (StringUtil::has_suffix(StringUtil::tolower(filename), ".zip")) {
         if (PHYSFS_exists(fullpath.c_str())) {
           archives.push_back(fullpath);
         }
       }
     }
-  }
+  });
 
   return archives;
 }
@@ -782,14 +776,11 @@ AddonManager::scan_for_archives() const
 std::string
 AddonManager::scan_for_info(const std::string& archive_os_path) const
 {
-  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    rc2(PHYSFS_enumerateFiles("/"),
-        PHYSFS_freeList);
-  for (char** j = rc2.get(); *j != nullptr; ++j)
-  {
-    if (StringUtil::has_suffix(*j, ".nfo"))
+  std::string nfoFilename = std::string();
+  physfsutil::enumerate_files("/", [this, archive_os_path, &nfoFilename](const std::string& file) {
+    if (StringUtil::has_suffix(file, ".nfo"))
     {
-      std::string nfo_filename = FileSystem::join("/", *j);
+      std::string nfo_filename = FileSystem::join("/", file);
 
       // make sure it's in the current archive_os_path
       const char* realdir = PHYSFS_getRealDir(nfo_filename.c_str());
@@ -801,13 +792,13 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
       {
         if (realdir == archive_os_path)
         {
-          return nfo_filename;
+          nfoFilename = nfo_filename;
         }
       }
     }
-  }
+  });
 
-  return std::string();
+  return nfoFilename;
 }
 
 void

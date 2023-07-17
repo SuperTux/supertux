@@ -37,6 +37,9 @@ void remove_content(const std::string& dir);
 /** Removes directory with content */
 void remove_with_content(const std::string& dir);
 
+/** Open directory and call callback for each file */
+bool enumerate_files(const std::string& pathname, std::function<void(const std::string&)> callback);
+
 } // namespace physfsutil
 
 #endif
