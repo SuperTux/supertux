@@ -18,7 +18,6 @@
 
 #include "math/random.hpp"
 #include "object/coin.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
 CoinExplode::CoinExplode(const Vector& pos, bool count_stats, const std::string& sprite) :
