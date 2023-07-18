@@ -87,9 +87,10 @@ public:
   virtual std::string get_class_name() const { return "game-object"; }
   virtual std::string get_display_name() const { return _("Unknown object"); }
 
-  /** Version checking/updating */
+  /** Version checking/updating, patch information */
+  virtual std::vector<std::string> get_patches() const { return {}; }
   int get_version() const { return m_version; }
-  virtual int get_latest_version() const { return 1; }
+  int get_latest_version() const { return 1 + static_cast<int>(get_patches().size()); }
   bool is_up_to_date() const { return m_version >= get_latest_version(); }
   virtual void update_version() { m_version = get_latest_version(); }
 

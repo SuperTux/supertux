@@ -16,6 +16,8 @@
 
 #include "editor/object_menu.hpp"
 
+#include <fmt/format.h>
+
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
@@ -32,6 +34,14 @@ ObjectMenu::ObjectMenu(GameObject* go, const std::function<bool (GameObject*)>& 
 {
   m_object->save_state();
 
+  refresh();
+}
+
+void
+ObjectMenu::refresh()
+{
+  clear();
+
   ObjectSettings os = m_object->get_settings();
   add_label(os.get_name());
   add_hl();
@@ -47,6 +57,7 @@ ObjectMenu::ObjectMenu(GameObject* go, const std::function<bool (GameObject*)>& 
   if (!m_object->is_up_to_date())
   {
     add_hl();
+    add_entry(MNID_PATCH_NOTES, _("Patch Notes"));
     add_entry(MNID_UPDATE, _("Update"));
   }
 
@@ -70,14 +81,32 @@ ObjectMenu::menu_action(MenuItem& item)
   switch (item.get_id())
   {
     case MNID_UPDATE:
-      Dialog::show_confirmation(_("This will update the object to its latest functionality.") + "\n \n" +
+      Dialog::show_confirmation(_("This will update the object to its latest functionality.") + "\n" +
+                                _("Check the \"Patch Notes\" for more information.") + "\n \n" +
                                 _("Keep in mind this is very likely to break the proper behaviour of the object.") + "\n" +
                                 _("Make sure to re-check any behaviour, related to the object."), [this]() {
         m_object->update_version();
-        m_editor.m_reactivate_request = true;
-        MenuManager::instance().pop_menu();
+        refresh();
       });
       break;
+
+    case MNID_PATCH_NOTES:
+    {
+      const std::vector<std::string> patches = m_object->get_patches();
+      std::string text;
+
+      for (int version = m_object->get_version() + 1;
+           version <= 1 + static_cast<int>(patches.size()); version++)
+      {
+        text += fmt::format(fmt::runtime(_("Patch notes for v{}:")), version) + "\n" + patches[version - 2];
+        if (version < 1 + static_cast<int>(patches.size()))
+          text += "\n \n";
+      }
+
+      Dialog::show_message(text);
+      refresh();
+      break;
+    }
 
     case MNID_REMOVE:
       m_editor.delete_markers();

@@ -291,6 +291,13 @@ PowerUp::get_settings()
   return result;
 }
 
+std::vector<std::string>
+PowerUp::get_patches() const
+{
+  return { _("Sprites no longer define the behaviour of the object.") + "\n" +
+           _("Object types are used instead.") };
+}
+
 void
 PowerUp::on_flip(float height)
 {

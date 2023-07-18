@@ -29,6 +29,7 @@ class ObjectMenu final : public Menu
 public:
   enum {
     MNID_UPDATE,
+    MNID_PATCH_NOTES,
     MNID_REMOVE,
     MNID_REMOVEFUNCTION,
     MNID_TEST_FROM_HERE,
@@ -38,6 +39,8 @@ public:
 public:
   ObjectMenu(GameObject* go, const std::function<bool (GameObject*)>& remove_function = {});
   ~ObjectMenu() override;
+
+  void refresh() override;
 
   virtual void menu_action(MenuItem& item) override;
   virtual bool on_back_action() override;

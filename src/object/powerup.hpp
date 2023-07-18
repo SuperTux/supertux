@@ -40,7 +40,7 @@ public:
   static std::string display_name() { return _("Powerup"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
-  int get_latest_version() const override { return 2; }
+  std::vector<std::string> get_patches() const override;
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
