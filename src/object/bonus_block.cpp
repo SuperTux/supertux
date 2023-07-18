@@ -386,13 +386,13 @@ BonusBlock::try_open(Player* player)
     }
     case Content::RAIN:
     {
-      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser);
+      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser);
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
@@ -536,7 +536,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser);
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       countdown = true;
       break;
