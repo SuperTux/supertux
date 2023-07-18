@@ -745,7 +745,7 @@ Player::update(float dt_sec)
     }
   }
 
-  if (m_does_buttjump || (m_stone && m_physic.get_velocity_y() > 30.f))
+  if (m_does_buttjump || (m_stone && m_physic.get_velocity_y() > 30.f && !m_coyote_timer.started()))
   {
     Rectf downbox = get_bbox().grown(-1.f);
     downbox.set_bottom(get_bbox().get_bottom() + 16.f);
