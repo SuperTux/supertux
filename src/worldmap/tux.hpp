@@ -51,7 +51,8 @@ public:
   Vector get_pos() const;
   Vector get_axis() const;
   Vector get_tile_pos() const { return m_tile_pos; }
-  void  set_tile_pos(const Vector& p) { m_tile_pos = p; }
+  void set_pos(const Vector& pos) { m_tile_pos = pos / 32.f; }
+  void set_tile_pos(const Vector& pos) { m_tile_pos = pos; }
 
   void process_special_tile(SpecialTile* special_tile);
 

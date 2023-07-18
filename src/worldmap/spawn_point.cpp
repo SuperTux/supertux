@@ -80,6 +80,8 @@ SpawnPointObject::get_settings()
 
   result.reorder({"auto-dir", "name", "x", "y"});
 
+  result.add_test_from_here();
+
   return result;
 }
 

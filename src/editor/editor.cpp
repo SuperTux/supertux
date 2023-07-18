@@ -341,7 +341,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   }
   else
   {
-    GameManager::current()->start_worldmap(*current_world, "", m_autosave_levelfile);
+    GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos);
   }
 }
 
