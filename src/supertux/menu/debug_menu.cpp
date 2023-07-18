@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <sstream>
 
+#include "editor/editor.hpp"
 #include "gui/item_stringselect.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
@@ -74,6 +75,13 @@ DebugMenu::DebugMenu() :
 
   add_hl();
   add_back(_("Back"));
+}
+
+DebugMenu::~DebugMenu() {
+  auto editor = Editor::current();
+
+  if (editor == nullptr) return;
+  editor->m_reactivate_request = true;
 }
 
 void

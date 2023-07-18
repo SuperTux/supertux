@@ -414,6 +414,8 @@ Editor::update_keyboard(const Controller& controller)
     }
     if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
     {
+      m_enabled = false;
+      m_overlay_widget->delete_markers();
       MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
       return;
     }
