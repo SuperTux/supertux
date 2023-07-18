@@ -90,8 +90,9 @@ void
 GameManager::start_worldmap(const World& world, const std::string& worldmap_filename,
                             const std::optional<std::pair<std::string, Vector>>& start_pos)
 {
-  start_worldmap(world, worldmap_filename, start_pos->first);
-  worldmap::WorldMapSector::current()->get_tux().set_pos(start_pos->second);
+  start_worldmap(world, worldmap_filename, start_pos ? start_pos->first : "");
+  if (start_pos)
+    worldmap::WorldMapSector::current()->get_tux().set_pos(start_pos->second);
 }
 
 bool
