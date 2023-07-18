@@ -47,8 +47,8 @@ ContribMenu::ContribMenu() :
     }
   });
 
-  physfsutil::enumerate_files("custom", [&level_worlds](const std::string& filename) {
-    std::string addonpath = FileSystem::join("custom", filename);
+  physfsutil::enumerate_files("custom", [&level_worlds](const std::string& addon_filename) {
+    std::string addonpath = FileSystem::join("custom", addon_filename);
     if (physfsutil::is_directory(addonpath))
     {
       std::string addonlevelpath = FileSystem::join(addonpath.c_str(), "levels");
