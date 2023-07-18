@@ -64,8 +64,6 @@ WorldMapSector::WorldMapSector(WorldMap& parent) :
   m_camera(new Camera),
   m_tux(&add<Tux>(&parent)),
   m_spawnpoints(),
-  m_force_spawnpoint(),
-  m_main_is_default(true),
   m_initial_fade_tilemap(),
   m_fade_direction()
 {
@@ -130,14 +128,6 @@ WorldMapSector::setup()
   // register worldmap_table as "worldmap" in scripting
   m_squirrel_environment->expose_self();
   m_squirrel_environment->expose("settings", std::make_unique<scripting::WorldMapSector>(this));
-
-  /** Force spawnpoint, if the property is set. **/
-  if (!m_force_spawnpoint.empty())
-  {
-    move_to_spawnpoint(m_force_spawnpoint, false);
-    m_force_spawnpoint.clear();
-    m_main_is_default = true;
-  }
 
   /** Perform scripting related actions. **/
   // Run default.nut just before init script
@@ -290,7 +280,8 @@ WorldMapSector::update(float dt_sec)
       if (!teleporter->get_worldmap().empty())
       {
         // Change worldmap.
-        m_parent.change(teleporter->get_worldmap(), teleporter->get_spawnpoint());
+        m_parent.change(teleporter->get_worldmap(), teleporter->get_sector(),
+                        teleporter->get_spawnpoint());
       }
       else
       {
@@ -555,7 +546,7 @@ WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
   }
 
   log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-  if (spawnpoint != "main" && m_main_is_default) {
+  if (spawnpoint != "main") {
     move_to_spawnpoint("main");
   }
 }
@@ -565,16 +556,6 @@ WorldMapSector::set_initial_fade_tilemap(const std::string& tilemap_name, int di
 {
   m_initial_fade_tilemap = tilemap_name;
   m_fade_direction = direction;
-}
-
-void
-WorldMapSector::set_initial_spawnpoint(const std::string& spawnpoint_name)
-{
-  m_force_spawnpoint = spawnpoint_name;
-
-  // If spawnpoint we specified can not be found,
-  // don't bother moving to the main spawnpoint.
-  m_main_is_default = false;
 }
 
 

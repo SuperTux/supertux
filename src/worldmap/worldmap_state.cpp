@@ -101,7 +101,6 @@ WorldMapState::load_state()
     // Set default properties.
     if (!m_worldmap.m_sector)
       m_worldmap.set_sector("main", "", false); // If no current sector is present, set it to "main", or the default one.
-    m_worldmap.get_sector().move_to_spawnpoint("main"); // Move Tux to the "main" spawnpoint.
 
     // Create a new initial save.
     save_state();
@@ -147,7 +146,7 @@ WorldMapState::load_levels()
   WORLDMAP_STATE_SQUIRREL_VM_GUARD;
   WORLDMAP_STATE_SECTOR_GUARD;
 
-  vm.get_table_entry("levels");
+  vm.get_or_create_table_entry("levels");
   for (auto& level : sector.get_objects_by_type<LevelTile>()) {
     sq_pushstring(vm.get_vm(), level.get_level_filename().c_str(), -1);
     if (SQ_SUCCEEDED(sq_get(vm.get_vm(), -2)))
