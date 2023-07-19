@@ -82,22 +82,22 @@ Totem::active_update(float dt_sec)
       initialize();
     }
 
-    // jump a bit if we find a suitable totem
+    // Jump slightly if we encounter a suitable totem.// Jump slightly if we encounter a suitable totem.
     for (auto& obj : Sector::get().get_objects_by_type<MovingObject>()) {
       auto t = dynamic_cast<Totem*>(&obj);
       if (!t) continue;
 
-      // skip if we are not approaching each other
+      // Skip if we are not approaching each other.
       if (!((m_dir == Direction::LEFT) && (t->m_dir == Direction::RIGHT))) continue;
 
       Vector p1 = m_col.m_bbox.p1();
       Vector p2 = t->get_pos();
 
-      // skip if not on same height
+      // Skip if we are not on the same height.
       float dy = (p1.y - p2.y);
       if (fabsf(dy - 0) > 2) continue;
 
-      // skip if too far away
+      // Skip if the totem is too far away.
       float dx = (p1.x - p2.x);
       if (fabsf(dx - 128) > 2) continue;
 
@@ -145,18 +145,18 @@ Totem::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
 
-  // if we are being carried around, pass event to bottom of stack and ignore it
+  // If we are being carried around: pass event to bottom of stack and ignore it.
   if (carried_by) {
     carried_by->collision_solid(hit);
     return;
   }
 
-  // If we hit something from above or below: stop moving in this direction
+  // If we hit something from above or below: stop moving in this direction.
   if (hit.top || hit.bottom) {
     m_physic.set_velocity_y(0);
   }
 
-  // If we are hit from the direction we are facing: turn around
+  // If we are hit from the direction we are facing: turn around.
   if (hit.left && (m_dir == Direction::LEFT)) {
     m_dir = Direction::RIGHT;
     initialize();
@@ -170,13 +170,13 @@ Totem::collision_solid(const CollisionHit& hit)
 HitResponse
 Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  // if we are being carried around, pass event to bottom of stack and ignore it
+  // If we are being carried around: pass event to bottom of stack and ignore it.
   if (carried_by) {
     carried_by->collision_badguy(badguy, hit);
     return CONTINUE;
   }
 
-  // if we hit a Totem that is not from our stack: have our base jump on its top
+  // If we hit a Totem that is not from our stack: have our base jump on its top.
   auto totem = dynamic_cast<Totem*>(&badguy);
   if (totem) {
     auto thisBase = this; while (thisBase->carried_by) thisBase=thisBase->carried_by;
@@ -187,7 +187,7 @@ Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
     }
   }
 
-  // If we are hit from the direction we are facing: turn around
+  // If we are hit from the direction we are facing: turn around.
   if (hit.left && (m_dir == Direction::LEFT)) {
     m_dir = Direction::RIGHT;
     initialize();
@@ -213,7 +213,7 @@ void
 Totem::jump_on(Totem* target)
 {
   if (target->carrying) {
-    log_warning << "target is already carrying someone" << std::endl;
+    log_warning << "Target is already carrying someone." << std::endl;
     return;
   }
 
@@ -231,7 +231,7 @@ Totem::jump_on(Totem* target)
 void
 Totem::jump_off() {
   if (!carried_by) {
-    log_warning << "not carried by anyone" << std::endl;
+    log_warning << "Not carried by anyone." << std::endl;
     return;
   }
 

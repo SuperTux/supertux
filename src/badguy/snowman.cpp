@@ -32,22 +32,22 @@ Snowman::Snowman(const ReaderMapping& reader) :
 void
 Snowman::loose_head()
 {
-  // replace with Snowball
+  // Replace with Snowball.
   Vector snowball_pos = get_pos();
-  // Hard-coded values from sprites
+  // Hard-coded values from sprites.
   snowball_pos.x += 5;
   snowball_pos.y += 1;
 
-  /* Create death animation for the (now headless) snowman. */
+  /* Create a death animation for the (now headless) snowman. */
   set_action (m_dir == Direction::LEFT ? "headless-left" : "headless-right", /* loops = */ -1);
-  set_pos (get_pos () + Vector (-4.0, 19.0)); /* difference in the sprite offsets */
+  set_pos (get_pos () + Vector (-4.0, 19.0)); /* Difference in the sprite offsets. */
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);
   m_physic.enable_gravity(true);
   set_state (STATE_FALLING);
   m_countMe = false;
 
-  /* Create a new snowball where the snowman's head was */
+  /* Create a new snowball where the snowman's head was. */
   Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
 }
 
@@ -55,24 +55,24 @@ HitResponse
 Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   if (bullet.get_type() == FIRE_BONUS) {
-    // fire bullets destroy snowman's body
+    // Fire bullets destroy snowman's body.
     Vector snowball_pos = get_pos();
-    // Hard-coded values from sprites
+    // Hard-coded values from sprites.
     snowball_pos.x += 5;
     snowball_pos.y += 1;
 
-    /* Create a new snowball where the snowman's head was */
+    /* Create a new snowball where the snowman's head was. */
     Sector::get().add<SnowBall>(snowball_pos, m_dir, m_dead_script);
     m_countMe = false;
 
-    SoundManager::current()->play("sounds/pop.ogg", get_pos()); // this could be a different sound
+    SoundManager::current()->play("sounds/pop.ogg", get_pos()); // This could be a different sound.
     bullet.remove_me();
     ignite();
 
     return ABORT_MOVE;
   }
   else {
-    // in all other cases, bullets ricochet
+    // In all other cases, bullets ricochet.
     bullet.ricochet(*this, hit);
     return FORCE_MOVE;
   }
@@ -88,7 +88,7 @@ Snowman::collision_squished(GameObject& object)
     return true;
   }
 
-  // bounce
+  // Bounce.
   if (player)
     player->bounce(*this);
 

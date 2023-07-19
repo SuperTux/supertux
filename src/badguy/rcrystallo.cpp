@@ -55,7 +55,7 @@ RCrystallo::get_settings()
 void
 RCrystallo::active_update(float dt_sec)
 {
-  //initialization of certain events prior to going into cases
+  // Initialization of certain events prior to going into cases.
   auto player = get_nearest_player();
   float targetwalk = m_dir == Direction::LEFT ? -80.f : 80.f;
   Rectf reversefallbox = get_bbox();
@@ -64,7 +64,7 @@ RCrystallo::active_update(float dt_sec)
   {
   case RCRYSTALLO_ROOF:
     m_physic.set_gravity_modifier(-1.f);
-    //walking and turning properly
+    // Walking and turning properly.
       if (m_dir != Direction::LEFT && get_pos().x > (m_start_position.x + m_radius - 20.f))
         targetwalk = -80.f;
       if (m_dir != Direction::RIGHT && get_pos().x < (m_start_position.x - m_radius + 20.f))
@@ -72,20 +72,20 @@ RCrystallo::active_update(float dt_sec)
       set_action(std::abs(m_physic.get_velocity_x()) < 80.f ?
         m_dir == Direction::LEFT ? "slowdown-left" : "slowdown-right" :
         m_dir == Direction::LEFT ? "left" : "right", -1);
-    //turn at holes
+    // Turn at holes.
     reversefallbox.set_top(m_col.m_bbox.get_top() - 33.f);
     reversefallbox.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -5.f : 34.f));
     reversefallbox.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::LEFT ? -34.f : 5.f));
     if (Sector::get().is_free_of_statics(reversefallbox))
       turn_around();
-    //detect player and fall when it is time
+    // Detect player and fall when it is time.
     if (player && player->get_bbox().get_right() > m_col.m_bbox.get_left() - 192.f
       && player->get_bbox().get_left() < m_col.m_bbox.get_right() + 192.f
       && player->get_bbox().get_bottom() > m_col.m_bbox.get_top()
       && Sector::get().free_line_of_sight(m_col.m_bbox.get_middle() + Vector(0, 20),
         player->get_bbox().get_middle() - Vector(0, 40), false, player))
     {
-      //center enemy, begin falling
+      // Center enemy, begin falling.
       m_col.m_bbox.move(Vector(3.f, 0.f));
       set_action(m_dir == Direction::LEFT ? "detected-left" : "detected-right", 1, ANCHOR_TOP);
       state = RCRYSTALLO_DETECT;
@@ -162,7 +162,7 @@ RCrystallo::kill_fall()
     if (is_valid())
     {
       remove_me();
-      //create 4 shards that the enemy splits into, which serve as an additional threat
+      // Create 4 shards that the enemy splits into, which serve as an additional threat.
       Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(100.f, -500.f));
       Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(270.f, -350.f));
       Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(-100.f, -500.f));

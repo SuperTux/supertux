@@ -116,7 +116,7 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
   if (state == STALACTITE_SQUISHED) return FORCE_MOVE;
 
-  // ignore other Stalactites
+  // Ignore other Stalactites.
   if (dynamic_cast<Stalactite*>(&other)) return FORCE_MOVE;
 
   if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);

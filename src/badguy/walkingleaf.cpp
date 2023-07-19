@@ -89,7 +89,7 @@ WalkingLeaf::collision_squished(GameObject& object)
     return WalkingBadguy::collision_squished(object);
 
   set_action("squished", m_dir);
-  // Spawn death particles
+  // Spawn death particles.
   spawn_explosion_sprites(3, "images/particles/walkingleaf.sprite");
   kill_squished(object);
   return true;

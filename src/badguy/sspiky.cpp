@@ -73,7 +73,7 @@ SSpiky::active_update(float dt_sec) {
       bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_bottom());
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
-        // wake up
+        // Wake up.
         set_action("waking", m_dir, 1);
         state = SSPIKY_WAKING;
       }
@@ -84,7 +84,7 @@ SSpiky::active_update(float dt_sec) {
 
   if (state == SSPIKY_WAKING) {
     if (m_sprite->animation_done()) {
-      // start walking
+      // Start walking.
       state = SSPIKY_WALKING;
       WalkingBadguy::initialize();
     }
@@ -97,7 +97,7 @@ void
 SSpiky::freeze()
 {
   WalkingBadguy::freeze();
-  state = SSPIKY_WALKING; // if we get hit while sleeping, wake up :)
+  state = SSPIKY_WALKING; // If we get hit while sleeping, wake up.
 }
 
 bool

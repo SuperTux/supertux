@@ -34,7 +34,7 @@ SkullyHop::SkullyHop(const ReaderMapping& reader) :
 void
 SkullyHop::initialize()
 {
-  // initial state is JUMPING, because we might start airborne
+  // The initial state is JUMPING, because we might start airborne.
   state = JUMPING;
   set_action("jumping", m_dir);
 }
@@ -54,9 +54,9 @@ SkullyHop::set_state(SkullyHopState newState)
     } else
       if (newState == JUMPING) {
         set_action("jumping", m_dir);
-const float HORIZONTAL_SPEED = 220; /**< x-speed when jumping */
+const float HORIZONTAL_SPEED = 220; /**< X-speed when jumping. */
         m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
+const float VERTICAL_SPEED = -450;   /**< Y-speed when jumping. */
         m_physic.set_velocity_y(VERTICAL_SPEED);
         SoundManager::current()->play( SKULLYHOP_SOUND, get_pos());
       }
@@ -84,25 +84,25 @@ SkullyHop::collision_solid(const CollisionHit& hit)
     return;
   }
 
-  // just default behaviour (i.e. stop at floor/walls) when squished
+  // Default behaviour (i.e. stop at floor/walls) when squished.
   if (BadGuy::get_state() == STATE_SQUISHED) {
     BadGuy::collision_solid(hit);
   }
 
-  // ignore collisions while standing still
+  // Ignore collisions while standing still.
   if (state != JUMPING)
     return;
 
-  // check if we hit the floor while falling
+  // Check if we hit the floor while falling.
   if (hit.bottom && m_physic.get_velocity_y() > 0 ) {
     set_state(STANDING);
   }
-  // check if we hit the roof while climbing
+  // Check if we hit the roof while climbing.
   if (hit.top) {
     m_physic.set_velocity_y(0);
   }
 
-  // check if we hit left or right while moving in either direction
+  // Check if we hit left or right while moving in either direction.
   if (hit.left || hit.right) {
     m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
     set_action("jumping", m_dir);
@@ -113,7 +113,7 @@ SkullyHop::collision_solid(const CollisionHit& hit)
 HitResponse
 SkullyHop::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
-  // behaviour for badguy collisions is the same as for collisions with solids
+  // Behaviour for badguy collisions is the same as for collisions with solids.
   collision_solid(hit);
 
   return CONTINUE;
@@ -124,17 +124,17 @@ SkullyHop::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
-  // no change if frozen
+  // No change if frozen.
   if (m_frozen)
     return;
 
-  // charge when fully recovered
+  // Charge when fully recovered.
   if ((state == STANDING) && (recover_timer.check())) {
     set_state(CHARGING);
     return;
   }
 
-  // jump as soon as charging animation completed
+  // Jump as soon as charging animation completed.
   if ((state == CHARGING) && (m_sprite->animation_done())) {
     set_state(JUMPING);
     return;
