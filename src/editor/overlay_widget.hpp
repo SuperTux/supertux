@@ -83,6 +83,7 @@ private:
   void preview_rectangle();
   bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile) const;
   void fill();
+  void replace();
   void put_object();
 
   void rubber_object();
