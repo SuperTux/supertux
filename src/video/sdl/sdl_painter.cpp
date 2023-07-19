@@ -278,7 +278,14 @@ SDLPainter::draw_gradient(const GradientRequest& request)
   for (int i = 0; i < n; ++i)
   {
     SDL_Rect rect;
-    if (direction == VERTICAL || direction == VERTICAL_SECTOR)
+    if (region.get_left() || region.get_top())
+    {
+      rect.x = static_cast<int>(region.get_left());
+      rect.y = static_cast<int>(region.get_top());
+      rect.w = static_cast<int>(region.get_right() - region.get_left());
+      rect.h = static_cast<int>(region.get_bottom() - region.get_top());
+    }
+    else if (direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
       rect.x = static_cast<int>(region.get_left());
       rect.y = static_cast<int>(region.get_bottom() * static_cast<float>(i) / static_cast<float>(n));
