@@ -36,7 +36,10 @@ public:
   static std::string display_name() { return _("Weak Tile"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  std::vector<std::string> get_patches() const override;
   virtual ObjectSettings get_settings() override;
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
 
@@ -45,6 +48,8 @@ public:
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
+  void on_type_change(int old_type) override;
+
 private:
   /** called by self when hit by a bullet */
 
@@ -52,6 +57,11 @@ private:
   void spreadHit();
 
 private:
+  enum Type {
+    HAY,
+    ICE
+  };
+
   enum State {
     STATE_NORMAL, /**< default state */
     STATE_BURNING, /**< on fire, still solid */

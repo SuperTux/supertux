@@ -41,9 +41,32 @@ UnstableTile::UnstableTile(const ReaderMapping& mapping) :
   m_alpha(1.f),
   m_original_pos(m_col.get_pos())
 {
+  parse_type(mapping);
+
   m_sprite->set_action("normal");
   physic.set_gravity_modifier(.98f);
   physic.enable_gravity(false);
+}
+
+GameObjectTypes
+UnstableTile::get_types() const
+{
+  return {
+    { "ice", _("Ice") },
+    { "brick", _("Brick") }
+  };
+}
+
+std::string
+UnstableTile::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case BRICK:
+      return "images/objects/unstable_tile/brick.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 HitResponse

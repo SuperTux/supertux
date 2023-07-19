@@ -36,25 +36,52 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   linked(true),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  m_sprite->set_action("normal");
-  //Check if this weakblock destroys adjacent weakblocks
-  if (mapping.get("linked", linked)){
-    if (! linked){
-      m_default_sprite_name = "images/objects/weak_block/meltbox.sprite";
-      m_sprite_name = m_default_sprite_name;
-      m_sprite = SpriteManager::current()->create(m_sprite_name);
-      m_sprite->set_action("normal");
-    }
-  }
+  parse_type(mapping);
+  mapping.get("linked", linked);
 
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
 
-  if (m_sprite_name == "images/objects/weak_block/strawbox.sprite") {
-    SoundManager::current()->preload("sounds/fire.ogg"); // TODO: use own sound?
-  } else if (m_sprite_name == "images/objects/weak_block/meltbox.sprite") {
+  // Older levels utilize hardcoded behaviour from the chosen sprite
+  if (get_version() == 1)
+    if (matches_sprite("images/objects/weak_block/meltbox.sprite"))
+      m_type = ICE;
+
+  if (m_type == HAY)
+    SoundManager::current()->preload("sounds/fire.ogg"); // TODO: Use own sound?
+  else
     SoundManager::current()->preload("sounds/sizzle.ogg");
+
+  m_sprite->set_action("normal");
+}
+
+GameObjectTypes
+WeakBlock::get_types() const
+{
+  return {
+    { "hay", _("Hay") },
+    { "ice", _("Ice") }
+  };
+}
+
+std::string
+WeakBlock::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case ICE:
+      return "images/objects/weak_block/meltbox.sprite";
+    default:
+      return m_default_sprite_name;
   }
+}
+
+void
+WeakBlock::on_type_change(int old_type)
+{
+  MovingSprite::on_type_change(old_type);
+
+  linked = (m_type == HAY);
 }
 
 HitResponse
@@ -98,7 +125,7 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
         break;
 
       case STATE_BURNING:
-        if (m_sprite_name != "images/objects/weak_block/strawbox.sprite")
+        if (m_type != HAY)
           break;
 
         if (auto badguy = dynamic_cast<BadGuy*> (&other)) {
@@ -174,12 +201,11 @@ WeakBlock::startBurning()
   if (state != STATE_NORMAL) return;
   state = STATE_BURNING;
   m_sprite->set_action("burning", 1);
-  // FIXME: Not hardcode these sounds?
-  if (m_sprite_name == "images/objects/weak_block/meltbox.sprite") {
+
+  if (m_type == HAY)
+    SoundManager::current()->play("sounds/fire.ogg", get_pos()); // TODO: Use own sound?
+  else
     SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
-  } else if (m_sprite_name == "images/objects/weak_block/strawbox.sprite") {
-    SoundManager::current()->play("sounds/fire.ogg", get_pos());
-  }
 }
 
 void
@@ -205,6 +231,13 @@ WeakBlock::on_flip(float height)
 {
   MovingSprite::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+std::vector<std::string>
+WeakBlock::get_patches() const
+{
+  return { _("Sprites no longer define the behaviour of the object.") + "\n" +
+           _("Object types are used instead.") };
 }
 
 ObjectSettings
