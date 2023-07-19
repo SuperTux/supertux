@@ -30,9 +30,35 @@ Jumpy::Jumpy(const ReaderMapping& reader) :
   pos_groundhit(0.0f, 0.0f),
   groundhit_pos_set(false)
 {
+  parse_type(reader);
+
   set_action(m_dir, "middle");
   // TODO create a nice sound for this...
   //SoundManager::current()->preload("sounds/skid.wav");
+}
+
+GameObjectTypes
+Jumpy::get_types() const
+{
+  return {
+    { "snow", _("Snow") },
+    { "wooden", _("Wooden") },
+    { "metal", _("Metal") }
+  };
+}
+
+std::string
+Jumpy::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case WOODEN:
+      return "images/creatures/jumpy/woodjumpy.sprite";
+    case METAL:
+      return "images/creatures/jumpy/metaljumpy.sprite";
+    default:
+      return "images/creatures/jumpy/snowjumpy.sprite";
+  }
 }
 
 void

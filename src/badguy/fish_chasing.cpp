@@ -34,9 +34,22 @@ FishChasing::FishChasing(const ReaderMapping& reader) :
   m_lost_distance(),
   m_chase_speed()
 {
+  parse_type(reader);
   reader.get("track-distance", m_track_distance, TRACK_DISTANCE);
   reader.get("lost-distance", m_lost_distance, LOST_DISTANCE);
   reader.get("chase-speed", m_chase_speed, CHASE_SPEED);
+}
+
+std::string
+FishChasing::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case FOREST:
+      return "images/creatures/fish/forest/brownfish.sprite";
+    default:
+      return "images/creatures/fish/ice/greenfish.sprite";
+  }
 }
 
 void

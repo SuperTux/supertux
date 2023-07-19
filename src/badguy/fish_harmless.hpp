@@ -33,6 +33,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual std::string get_overlay_size() const override { return "1x1"; }
 
+  GameObjectTypes get_types() const override { return {}; }
+
 private:
   FishHarmless(const FishHarmless&) = delete;
   FishHarmless& operator=(const FishHarmless&) = delete;
