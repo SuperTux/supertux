@@ -24,8 +24,8 @@
 #include "supertux/constants.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos) :
-   Block(SpriteManager::current()->create("images/objects/bonus_block/invisibleblock.sprite")),
-   visible(false)
+  Block(pos, "images/objects/bonus_block/invisibleblock.sprite"),
+  visible(false)
 {
   m_col.m_bbox.set_pos(pos);
   SoundManager::current()->preload("sounds/brick.wav");
@@ -33,8 +33,8 @@ InvisibleBlock::InvisibleBlock(const Vector& pos) :
 }
 
 InvisibleBlock::InvisibleBlock(const ReaderMapping& mapping) :
-   Block(mapping, "images/objects/bonus_block/invisibleblock.sprite"),
-   visible(false)
+  Block(mapping, "images/objects/bonus_block/invisibleblock.sprite"),
+  visible(false)
 {
   SoundManager::current()->preload("sounds/brick.wav");
 }

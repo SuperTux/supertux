@@ -38,6 +38,9 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const;
+
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
@@ -45,6 +48,15 @@ public:
   virtual void on_flip(float height) override;
 
 private:
+  void on_type_change(int old_type = -1) override;
+
+private:
+  enum Type {
+    SIDED_LEFT,
+    SIDED_RIGHT,
+    WALL
+  };
+
   enum SwitchState {
     OFF,
     TURN_ON,

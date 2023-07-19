@@ -63,7 +63,7 @@ const float upgrade_sound_gain = 0.3f;
 } // namespace
 
 BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
-  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
+  Block(pos, "images/objects/bonus_block/bonusblock.sprite"),
   m_contents(),
   m_object(),
   m_hit_counter(1),
@@ -71,8 +71,6 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_lightsprite(),
   m_custom_sx()
 {
-  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-
   m_col.m_bbox.set_pos(pos);
   m_sprite->set_action("normal");
   m_contents = get_content_by_data(tile_data);
@@ -88,7 +86,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_lightsprite(),
   m_custom_sx()
 {
-  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
+  parse_type(mapping);
 
   auto iter = mapping.get_iter();
   while (iter.next()) {
@@ -170,6 +168,49 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     if (m_contents == Content::LIGHT_ON) {
       m_sprite->set_action("on");
     }
+  }
+}
+
+GameObjectTypes
+BonusBlock::get_types() const
+{
+  return {
+    { "blue", _("Blue") },
+    { "orange", _("Orange") },
+    { "purple", _("Purple") }
+  };
+}
+
+std::string
+BonusBlock::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case ORANGE:
+      return "images/objects/bonus_block/orangeblock.sprite";
+    case PURPLE:
+      return "images/objects/bonus_block/purpleblock.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
+void
+BonusBlock::on_type_change(int old_type)
+{
+  MovingSprite::on_type_change();
+
+  switch (m_type)
+  {
+    case ORANGE:
+      m_hit_counter = 3;
+      break;
+    case PURPLE:
+      m_hit_counter = 5;
+      break;
+    default:
+      m_hit_counter = 1;
+      break;
   }
 }
 

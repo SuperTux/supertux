@@ -39,10 +39,13 @@ Switch::Switch(const ReaderMapping& reader) :
   bistable(),
   m_flip(NO_FLIP)
 {
+  parse_type(reader);
+
   if (!reader.get("x", m_col.m_bbox.get_left())) throw std::runtime_error("no x position set");
   if (!reader.get("y", m_col.m_bbox.get_top())) throw std::runtime_error("no y position set");
-  if (!reader.get("sprite", sprite_name)) sprite_name = "images/objects/switch/left.sprite";
+  if (!reader.get("sprite", sprite_name)) on_type_change();
   sprite = SpriteManager::current()->create(sprite_name);
+
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   reader.get("script", script);
@@ -55,12 +58,42 @@ Switch::~Switch()
 {
 }
 
+GameObjectTypes
+Switch::get_types() const
+{
+  return {
+    { "sided-left", _("Sided (Left)") },
+    { "sided-right", _("Sided (Right)") },
+    { "wall", _("Wall Switch") }
+  };
+}
+
+std::string
+Switch::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case SIDED_RIGHT:
+      return "images/objects/switch/right.sprite";
+    case WALL:
+      return "images/objects/switch/switch.sprite";
+    default:
+      return "images/objects/switch/left.sprite";
+  }
+}
+
+void
+Switch::on_type_change(int old_type)
+{
+  sprite_name = get_default_sprite_name();
+}
+
 ObjectSettings
 Switch::get_settings()
 {
   ObjectSettings result = TriggerBase::get_settings();
 
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/switch/left.sprite"));
+  result.add_sprite(_("Sprite"), &sprite_name, "sprite", get_default_sprite_name());
   result.add_script(_("Turn on script"), &script, "script");
   result.add_script(_("Turn off script"), &off_script, "off-script");
 
@@ -70,7 +103,10 @@ Switch::get_settings()
 }
 
 void
-Switch::after_editor_set() {
+Switch::after_editor_set()
+{
+  TriggerBase::after_editor_set();
+
   sprite = SpriteManager::current()->create(sprite_name);
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }

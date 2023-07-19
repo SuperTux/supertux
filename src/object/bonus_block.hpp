@@ -61,6 +61,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   Content get_contents() const { return m_contents; }
   int get_hit_counter() const { return m_hit_counter; }
@@ -68,6 +70,8 @@ public:
   void try_open(Player* player);
 
 private:
+  void on_type_change(int old_type) override;
+
   void try_drop(Player* player);
 
   void preload_contents(int d);
@@ -77,6 +81,13 @@ private:
   BonusBlock::Content get_content_by_data(int tile_data) const;
   BonusBlock::Content get_content_from_string(const std::string& contentstring) const;
   std::string contents_to_string(const BonusBlock::Content& content) const;
+
+private:
+  enum Type {
+    BLUE,
+    ORANGE,
+    PURPLE
+  };
 
 private:
   Content m_contents;

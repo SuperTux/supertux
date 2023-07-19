@@ -31,7 +31,7 @@
 #include "util/reader_mapping.hpp"
 
 Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
-  Block(SpriteManager::current()->create(spriteName)),
+  Block(pos, spriteName),
   m_breakable(false),
   m_coin_counter(0)
 {
