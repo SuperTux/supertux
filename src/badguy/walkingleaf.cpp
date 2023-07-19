@@ -45,7 +45,7 @@ WalkingLeaf::get_default_sprite_name() const
     case CORRUPTED:
       return "images/creatures/walkingleaf/corrupted/rotten_leaf.sprite";
     default:
-      return "images/creatures/walkingleaf/walkingleaf.sprite";
+      return m_default_sprite_name;
   }
 }
 

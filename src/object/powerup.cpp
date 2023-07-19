@@ -87,7 +87,7 @@ PowerUp::get_default_sprite_name() const
     case FLIP:
       return "images/powerups/potions/red-potion.sprite";
     default:
-      return "images/powerups/egg/egg.sprite";
+      return m_default_sprite_name;
   }
 }
 

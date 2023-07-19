@@ -48,7 +48,7 @@ FishChasing::get_default_sprite_name() const
     case FOREST:
       return "images/creatures/fish/forest/brownfish.sprite";
     default:
-      return "images/creatures/fish/ice/greenfish.sprite";
+      return m_default_sprite_name;
   }
 }
 

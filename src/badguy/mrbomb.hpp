@@ -41,8 +41,17 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
 
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+private:
+  enum Type {
+    NORMAL,
+    RETRO
+  };
 
 private:
   MrBomb(const MrBomb&) = delete;

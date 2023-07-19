@@ -60,7 +60,7 @@ MrTree::get_default_sprite_name() const
     case CORRUPTED:
       return "images/creatures/mr_tree/corrupted/haunted_tree.sprite";
     default:
-      return "images/creatures/mr_tree/mr_tree.sprite";
+      return m_default_sprite_name;
   }
 }
 

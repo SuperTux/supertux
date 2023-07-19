@@ -167,7 +167,7 @@ Stalactite::get_default_sprite_name() const
     case ROCK:
       return "images/creatures/stalactite/rock_stalactite.sprite";
     default:
-      return "images/creatures/stalactite/stalactite.sprite";
+      return m_default_sprite_name;
   }
 }
 

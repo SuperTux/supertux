@@ -79,7 +79,7 @@ Snail::get_default_sprite_name() const
     case CORRUPTED:
       return "images/creatures/snail/corrupted/corrupted_snail.sprite";
     default:
-      return "images/creatures/snail/snail.sprite";
+      return m_default_sprite_name;
   }
 }
 

@@ -64,7 +64,7 @@ FishSwimming::get_default_sprite_name() const
     case FOREST:
       return "images/creatures/fish/forest/bluefish.sprite";
     default:
-      return "images/creatures/fish/ice/bluefish.sprite";
+      return m_default_sprite_name;
   }
 }
 

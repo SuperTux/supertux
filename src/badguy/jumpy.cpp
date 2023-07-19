@@ -57,7 +57,7 @@ Jumpy::get_default_sprite_name() const
     case METAL:
       return "images/creatures/jumpy/metaljumpy.sprite";
     default:
-      return "images/creatures/jumpy/snowjumpy.sprite";
+      return m_default_sprite_name;
   }
 }
 

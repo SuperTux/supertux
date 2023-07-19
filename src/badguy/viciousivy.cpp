@@ -54,7 +54,7 @@ ViciousIvy::get_default_sprite_name() const
     case CORRUPTED:
       return "images/creatures/vicious_ivy/corrupted/rotten_ivy.sprite";
     default:
-      return "images/creatures/vicious_ivy/vicious_ivy.sprite";
+      return m_default_sprite_name;
   }
 }
 

@@ -31,6 +31,8 @@
 MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 80;
   max_drop_height = 16;
 
@@ -47,6 +49,27 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   }
   //Replace sprite
   m_sprite = SpriteManager::current()->create( m_sprite_name );
+}
+
+GameObjectTypes
+MrBomb::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "retro", _("Retro") }
+  };
+}
+
+std::string
+MrBomb::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case RETRO:
+      return "images/creatures/mr_bomb/old_bomb/old_bomb.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 HitResponse
