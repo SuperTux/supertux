@@ -92,7 +92,7 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
 {
   start_worldmap(world, worldmap_filename, start_pos ? start_pos->first : "");
   if (start_pos)
-    worldmap::WorldMapSector::current()->get_tux().set_pos(start_pos->second);
+    worldmap::WorldMapSector::current()->get_tux().set_initial_pos(start_pos->second);
 }
 
 bool
