@@ -69,10 +69,10 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_coin_sprite("images/objects/coin/coin.sprite")
 {
   m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-  m_coin_sprite = "images/objects/coin/coin.sprite";
 
   m_col.m_bbox.set_pos(pos);
   m_sprite->set_action("normal");
@@ -87,10 +87,10 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_coin_sprite("images/objects/coin/coin.sprite")
 {
   m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-  m_coin_sprite = "images/objects/coin/coin.sprite";
 
   auto iter = mapping.get_iter();
   while (iter.next()) {
