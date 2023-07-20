@@ -751,14 +751,12 @@ Player::update(float dt_sec)
     downbox.set_bottom(get_bbox().get_bottom() + 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
       // stoneform breaks through any kind of bricks
-      if (downbox.contains(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick))) {
+      if (downbox.contains(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
         brick.try_break(this, is_big());
-      }
     }
     for (auto& badguy : Sector::get().get_objects_by_type<BadGuy>()) {
-      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable()) {
+      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable())
         badguy.kill_fall();
-      }
     }
   }
 
@@ -768,9 +766,8 @@ Player::update(float dt_sec)
     Rectf topbox = get_bbox().grown(-1.f);
     topbox.set_top(get_bbox().get_top() - 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (topbox.contains(brick.get_bbox())) {
+      if (topbox.contains(brick.get_bbox()))
         brick.try_break(this, is_big());
-      }
     }
   }
 

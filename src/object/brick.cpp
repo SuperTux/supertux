@@ -67,9 +67,7 @@ HitResponse
 Brick::collision(GameObject& other, const CollisionHit& hit)
 {
   auto player = dynamic_cast<Player*> (&other);
-  if (player) {
-    if (player->m_does_buttjump) try_break(player);
-  }
+  if (player && player->m_does_buttjump) try_break(player);
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy) {
