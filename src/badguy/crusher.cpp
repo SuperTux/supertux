@@ -85,6 +85,8 @@ Crusher::get_default_sprite_name() const
   const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
   switch (m_ic_type)
   {
+    case ROCK:
+      return "images/creatures/crusher/" + size_prefix + "_rock.sprite";
     case CORRUPTED:
       return "images/creatures/crusher/corrupted/" + size_prefix + "_corrupt.sprite";
     default:
@@ -95,8 +97,22 @@ Crusher::get_default_sprite_name() const
 void
 Crusher::on_type_change(int old_type)
 {
-  m_ic_size = (m_type == 0 || m_type == 2 ? NORMAL : LARGE);
-  m_ic_type = (m_type == 0 || m_type == 1 ? ICE : CORRUPTED);
+  m_ic_size = (m_type % 2 == 0 ? NORMAL : LARGE);
+  switch (m_type)
+  {
+    case 0:
+    case 1:
+      m_ic_type = ICE;
+      break;
+    case 2:
+    case 3:
+      m_ic_type = ROCK;
+      break;
+    case 4:
+    case 5:
+      m_ic_type = CORRUPTED;
+      break;
+  }
 
   MovingSprite::on_type_change();
 }

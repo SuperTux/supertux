@@ -21,6 +21,8 @@
 SnowBall::SnowBall(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 80;
 }
 
@@ -29,6 +31,33 @@ SnowBall::SnowBall(const Vector& pos, Direction d, const std::string& script)
 {
   walk_speed = 80;
   m_dead_script = script;
+}
+
+GameObjectTypes
+SnowBall::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "christmas", _("Christmas") },
+    { "bumpkin", _("Bumpkin") },
+    { "bsod", _("BSOD") }
+  };
+}
+
+std::string
+SnowBall::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CHRISTMAS:
+      return "images/creatures/snowball/seasonal_snowball.sprite";
+    case BUMPKIN:
+      return "images/creatures/pumpkin/bumpkin.sprite";
+    case BSOD:
+      return "images/creatures/bsod/bsod.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 bool

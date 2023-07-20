@@ -37,6 +37,8 @@ MrIceBlock::MrIceBlock(const ReaderMapping& reader) :
   flat_timer(),
   squishcount(0)
 {
+  parse_type(reader);
+
   walk_speed = 80;
   max_drop_height = 600;
   SoundManager::current()->preload("sounds/iceblock_bump.wav");
@@ -49,6 +51,27 @@ MrIceBlock::initialize()
 {
   WalkingBadguy::initialize();
   set_state(ICESTATE_NORMAL);
+}
+
+GameObjectTypes
+MrIceBlock::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "laptop", _("Laptop") }
+  };
+}
+
+std::string
+MrIceBlock::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case LAPTOP:
+      return "images/creatures/laptop/laptop.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void

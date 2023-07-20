@@ -46,6 +46,9 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return ice_state != ICESTATE_KICKED; }
 
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
   bool can_break();
 
 protected:
@@ -60,6 +63,12 @@ protected:
 protected:
   virtual bool collision_squished(GameObject& object) override;
   void set_state(IceState state);
+
+private:
+  enum Type {
+    NORMAL,
+    LAPTOP
+  };
 
 private:
   IceState ice_state;

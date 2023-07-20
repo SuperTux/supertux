@@ -51,6 +51,7 @@ private:
   enum Type
   {
     ICE,
+    ROCK,
     CORRUPTED
   };
 

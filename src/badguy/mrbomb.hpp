@@ -50,7 +50,7 @@ protected:
 private:
   enum Type {
     NORMAL,
-    RETRO
+    CLASSIC
   };
 
 private:

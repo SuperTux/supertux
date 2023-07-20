@@ -43,7 +43,8 @@ Jumpy::get_types() const
   return {
     { "snow", _("Snow") },
     { "wooden", _("Wooden") },
-    { "metal", _("Metal") }
+    { "metal", _("Metal") },
+    { "bag", _("Bag") }
   };
 }
 
@@ -56,6 +57,8 @@ Jumpy::get_default_sprite_name() const
       return "images/creatures/jumpy/woodjumpy.sprite";
     case METAL:
       return "images/creatures/jumpy/metaljumpy.sprite";
+    case BAG:
+      return "images/creatures/bag/bag.sprite";
     default:
       return m_default_sprite_name;
   }
