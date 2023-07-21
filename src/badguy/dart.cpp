@@ -158,6 +158,16 @@ Dart::on_flip(float height)
 {
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+  if (m_dir == Direction::UP)
+  {
+    m_dir = Direction::DOWN;
+    m_physic.set_velocity_y(::DART_SPEED);
+  }
+  else if (m_dir == Direction::DOWN)
+  {
+    m_dir = Direction::UP;
+    m_physic.set_velocity_y(-::DART_SPEED);
+  }
 }
 
 /* EOF */
