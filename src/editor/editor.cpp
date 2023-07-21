@@ -405,7 +405,6 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-
   if (MenuManager::instance().current_menu() == nullptr)
   {
     if (controller.pressed(Control::ESCAPE)) {
@@ -690,7 +689,6 @@ Editor::setup()
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();
   }
-
 }
 
 void
@@ -748,8 +746,6 @@ Editor::event(const SDL_Event& ev)
       m_scroll_speed = 32.0f;
     }
   }
-
-
 
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;

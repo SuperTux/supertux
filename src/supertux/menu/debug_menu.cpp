@@ -77,7 +77,8 @@ DebugMenu::DebugMenu() :
   add_back(_("Back"));
 }
 
-DebugMenu::~DebugMenu() {
+DebugMenu::~DebugMenu()
+{
   auto editor = Editor::current();
 
   if (editor == nullptr) return;
