@@ -105,9 +105,6 @@ public:
   /** Sets the name of the tilemap that should fade when worldmap is set up. */
   void set_initial_fade_tilemap(const std::string& tilemap_name, int direction);
 
-  /** Sets the initial spawnpoint on worldmap setup */
-  void set_initial_spawnpoint(const std::string& spawnpoint_name);
-
   bool in_worldmap() const override { return true; }
 
   TileSet* get_tileset() const override;
@@ -127,11 +124,8 @@ private:
 
   std::unique_ptr<Camera> m_camera;
   Tux* m_tux;
-
   std::vector<std::unique_ptr<SpawnPoint> > m_spawnpoints;
-  std::string m_force_spawnpoint;
 
-  bool m_main_is_default;
   std::string m_initial_fade_tilemap;
   int m_fade_direction;
 
