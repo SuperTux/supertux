@@ -88,9 +88,9 @@ template<class T>
 class GameObject
 {
 public:
-  GameObject(UID uid, ::GameObjectManager& parent) :
-    m_uid(uid),
-    m_parent(parent)
+  GameObject(const ::GameObject& object) :
+    m_uid(object.get_uid()),
+    m_parent(*object.get_parent())
   {}
 
   T* get_object_ptr() const
@@ -101,6 +101,10 @@ public:
 protected:
   UID m_uid;
   ::GameObjectManager& m_parent;
+
+private:
+  GameObject(const GameObject&) = delete;
+  GameObject& operator=(const GameObject&) = delete;
 };
 
 } // namespace scripting
