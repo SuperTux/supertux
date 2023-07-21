@@ -55,7 +55,15 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 void
 DartTrap::initialize()
 {
-  set_action("idle", m_dir);
+  if (m_dir != Direction::UP)
+  {
+    set_action("idle", m_dir);
+  }
+  else
+  {
+    set_action("idle", Direction::DOWN);
+    m_flip = VERTICAL_FLIP;
+  }
 }
 
 void
@@ -99,7 +107,8 @@ void
 DartTrap::load()
 {
   m_state = LOADING;
-  set_action("loading", m_dir, 1);
+  if (m_dir != Direction::UP) set_action("loading", m_dir, 1);
+  else set_action("loading", Direction::DOWN, 1);
 }
 
 void
@@ -111,17 +120,34 @@ DartTrap::fire()
 
   float spawn_x, spawn_y;
 
-  if (m_dir == Direction::LEFT)
-    spawn_x = get_pos().x + m_col.m_bbox.get_width() - dart.get_bbox().get_width();
-  else
-    spawn_x = get_pos().x;
+  switch (m_dir)
+  {
+    case Direction::RIGHT:
+      spawn_x = get_pos().x;
+      spawn_y = get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2;
+      break;
+    case Direction::UP:
+      spawn_x = get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2;
+      spawn_y = get_pos().y + m_col.m_bbox.get_height() - dart.get_bbox().get_height();
+      break;
+    case Direction::DOWN:
+      spawn_x = get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2;
+      spawn_y = get_pos().y;
+      break;
+    default:
+      spawn_x = get_pos().x + m_col.m_bbox.get_width() - dart.get_bbox().get_width();
+      spawn_y = get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2;
+      break;
+  }
+    
 
-  spawn_y = get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2;
+  
 
   dart.set_pos(Vector(spawn_x, spawn_y));
 
   m_state = IDLE;
-  set_action("idle", m_dir);
+  if (m_dir != Direction::UP) set_action("idle", m_dir);
+  else set_action("idle", Direction::DOWN);
 }
 
 ObjectSettings
@@ -141,10 +167,22 @@ DartTrap::get_settings()
 }
 
 void
+DartTrap::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  if ((m_dir == Direction::UP && m_flip == NO_FLIP) || (m_dir == Direction::DOWN && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void
 DartTrap::on_flip(float height)
 {
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+  if (m_dir == Direction::UP)
+    m_dir = Direction::DOWN;
+  else if (m_dir == Direction::DOWN)
+    m_dir = Direction::UP;
 }
 
 /* EOF */

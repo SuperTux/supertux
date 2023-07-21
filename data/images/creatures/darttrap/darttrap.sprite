@@ -2,38 +2,65 @@
   (action
     (hitbox 21 13 11 54)
     (name "idle-left")
-	(loops 1)
-    (images "d3.png"
-	  "d3.png"
-	  "d3.png"
-	  "d3.png"
-	  "d4.png"
-	  "d-idle.png")
+    (loops 1)
+    (images "left-3.png"
+      "left-3.png"
+      "left-3.png"
+      "left-3.png"
+      "left-4.png"
+      "left-idle.png"
+    )
+  )
+  (action
+    (hitbox 13 21 54 11)
+    (name "idle-down")
+    (loops 1)
+    (images "down-3.png"
+      "down-3.png"
+      "down-3.png"
+      "down-3.png"
+      "down-4.png"
+      "down-idle.png"
+    )
   )
   (action
     (hitbox 21 13 11 54)
     (name "idle-right")
-	(loops 1)
+      (loops 1)
     (mirror-action "idle-left")
   )
   (action
     (hitbox 21 13 11 54)
     (name "loading-left")
-	(fps 10)
+    (fps 10)
     (images 
-      "d-idle.png"
-      "d1.png"
-	  "d2.png"
-	  "d3.png"
-	  "d3.png"
-	  "d3.png"
-	  "d3.png"
+      "left-idle.png"
+      "left-1.png"
+      "left-2.png"
+      "left-3.png"
+      "left-3.png"
+      "left-3.png"
+      "left-3.png"
+    )
+  )
+  (action
+    (hitbox 13 21 54 11)
+    (name "loading-down")
+    (fps 10)
+    (images 
+      "down-idle.png"
+      "down-1.png"
+      "down-2.png"
+      "down-3.png"
+      "down-3.png"
+      "down-3.png"
+      "down-3.png"
     )
   )
   (action
     (hitbox 21 13 11 54)
     (name "loading-right")
-	(fps 10)
+    (fps 10)
     (mirror-action "loading-left")
   )
 )

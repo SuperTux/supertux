@@ -154,6 +154,14 @@ Dart::play_looping_sounds()
 }
 
 void
+Dart::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  if ((m_dir == Direction::UP && m_flip == NO_FLIP) || (m_dir == Direction::DOWN && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void
 Dart::on_flip(float height)
 {
   BadGuy::on_flip(height);

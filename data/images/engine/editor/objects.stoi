@@ -155,7 +155,7 @@
     (icon "images/creatures/angrystone/charging-0.png"))
   (object
     (class "darttrap")
-    (icon "images/creatures/darttrap/d1.png"))
+    (icon "images/creatures/darttrap/left-1.png"))
   (object
     (class "dispenser")
     (icon "images/creatures/dispenser/cannon_left.png"))

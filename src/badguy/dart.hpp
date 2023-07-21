@@ -51,6 +51,7 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
+  virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
 
 protected:
