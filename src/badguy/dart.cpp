@@ -39,13 +39,14 @@ Dart::Dart(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
-Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr) :
-  BadGuy(pos, d, "images/creatures/dart/dart.sprite"),
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr, const std::string& sprite, Flip flip) :
+  BadGuy(pos, d, sprite),
   parent(parent_),
   sound_source()
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
+  m_flip = flip;
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
