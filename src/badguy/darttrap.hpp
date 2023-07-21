@@ -53,7 +53,7 @@ private:
   float m_initial_delay;
   float m_fire_delay;
   int m_ammo; // ammo left (-1 means unlimited)
-  std::string m_dart_sprite_name;
+  std::string m_dart_sprite;
 
   State m_state;
   Timer m_fire_timer;

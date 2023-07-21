@@ -32,7 +32,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   m_initial_delay(),
   m_fire_delay(),
   m_ammo(),
-  m_dart_sprite_name("images/creatures/dart/dart.sprite"),
+  m_dart_sprite("images/creatures/dart/dart.sprite"),
   m_state(IDLE),
   m_fire_timer()
 {
@@ -40,7 +40,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
-  reader.get("dart-sprite-name", m_dart_sprite_name, "images/creatures/dart/dart.sprite");
+  reader.get("dart-sprite", m_dart_sprite, "images/creatures/dart/dart.sprite");
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
@@ -55,15 +55,8 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 void
 DartTrap::initialize()
 {
-  if (m_dir != Direction::UP)
-  {
-    set_action("idle", m_dir);
-  }
-  else
-  {
-    set_action("idle", Direction::DOWN);
-    m_flip = VERTICAL_FLIP;
-  }
+  set_action("idle", m_dir == Direction::UP ? Direction::DOWN : m_dir);
+  if (m_dir == Direction::UP) m_flip = VERTICAL_FLIP;
 }
 
 void
@@ -107,42 +100,40 @@ void
 DartTrap::load()
 {
   m_state = LOADING;
-  if (m_dir != Direction::UP) set_action("loading", m_dir, 1);
-  else set_action("loading", Direction::DOWN, 1);
+  set_action("loading", m_dir == Direction::UP ? Direction::DOWN : m_dir, 1);
 }
 
 void
 DartTrap::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Dart &dart = Sector::get().add<Dart>(Vector(0, 0), m_dir, this, m_dart_sprite_name);
+  Dart &dart = Sector::get().add<Dart>(Vector(0, 0), m_dir, this, m_dart_sprite);
 
-  float spawn_x, spawn_y;
+  Vector pos;
   switch (m_dir)
   {
     case Direction::RIGHT:
-      spawn_x = get_pos().x;
-      spawn_y = get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2;
+      pos = Vector(get_pos().x,
+                   get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2);
       break;
     case Direction::UP:
-      spawn_x = get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2;
-      spawn_y = get_pos().y + m_col.m_bbox.get_height() - dart.get_bbox().get_height();
+      pos = Vector(get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2,
+                   get_pos().y + m_col.m_bbox.get_height() - dart.get_bbox().get_height());
       break;
     case Direction::DOWN:
-      spawn_x = get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2;
-      spawn_y = get_pos().y;
+      pos = Vector(get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2,
+                   get_pos().y);
       break;
     default:
-      spawn_x = get_pos().x + m_col.m_bbox.get_width() - dart.get_bbox().get_width();
-      spawn_y = get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2;
+      pos = Vector(get_pos().x + m_col.m_bbox.get_width() - dart.get_bbox().get_width(),
+                   get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2);
       break;
   }
 
-  dart.set_pos(Vector(spawn_x, spawn_y));
+  dart.set_pos(pos);
 
   m_state = IDLE;
-  if (m_dir != Direction::UP) set_action("idle", m_dir);
-  else set_action("idle", Direction::DOWN);
+  set_action("idle", m_dir == Direction::UP ? Direction::DOWN : m_dir);
 }
 
 ObjectSettings
@@ -154,9 +145,9 @@ DartTrap::get_settings()
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
   result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
   result.add_int(_("Ammo"), &m_ammo, "ammo");
-  result.add_sprite(_("Dart sprite"), &m_dart_sprite_name, "dart-sprite-name", "images/creatures/dart/dart.sprite");
+  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/dart/dart.sprite");
 
-  result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite-name"});
+  result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
 
   return result;
 }

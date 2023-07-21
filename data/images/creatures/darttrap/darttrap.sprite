@@ -33,7 +33,7 @@
   (action
     (hitbox 21 13 11 54)
     (name "idle-right")
-      (loops 1)
+    (loops 1)
     (mirror-action "idle-left")
   )
   (action
