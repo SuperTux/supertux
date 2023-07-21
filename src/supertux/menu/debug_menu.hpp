@@ -30,7 +30,7 @@ private:
 
 public:
   DebugMenu();
-  virutal ~DebugMenu() override;
+  virtual ~DebugMenu() override;
 
   virtual void menu_action(MenuItem& item) override;
 
