@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -77,11 +78,11 @@
   }                                                                     \
   auto& object = *object_ptr
 
-class GameObjectManager;
+class Sector;
 
 namespace scripting {
 
-::GameObjectManager& get_game_object_manager();
+::Sector& get_sector();
 
 template<class T>
 class GameObject
