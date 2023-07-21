@@ -115,11 +115,9 @@ void
 DartTrap::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-
   Dart &dart = Sector::get().add<Dart>(Vector(0, 0), m_dir, this, m_dart_sprite_name);
 
   float spawn_x, spawn_y;
-
   switch (m_dir)
   {
     case Direction::RIGHT:
@@ -139,9 +137,6 @@ DartTrap::fire()
       spawn_y = get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2;
       break;
   }
-    
-
-  
 
   dart.set_pos(Vector(spawn_x, spawn_y));
 
