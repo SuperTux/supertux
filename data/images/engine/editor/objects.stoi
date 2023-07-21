@@ -192,7 +192,7 @@
     (icon "images/creatures/skydive/skydive1.png"))
   (object
     (class "dart")
-    (icon "images/creatures/dart/flying.png"))
+    (icon "images/creatures/dart/flying-left.png"))
  )
 
  (objectgroup

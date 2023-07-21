@@ -65,8 +65,17 @@ Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
 void
 Dart::initialize()
 {
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -::DART_SPEED : ::DART_SPEED);
-  set_action("flying", m_dir);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -::DART_SPEED : m_dir == Direction::RIGHT ? ::DART_SPEED : 0);
+  m_physic.set_velocity_y(m_dir == Direction::UP ? -::DART_SPEED : m_dir == Direction::DOWN ? ::DART_SPEED : 0);
+  if(m_dir != Direction::UP)
+  {
+    set_action("flying", m_dir);
+  }
+  else
+  {
+    set_action("flying", Direction::DOWN);
+    m_flip = VERTICAL_FLIP;
+  }
 }
 
 void

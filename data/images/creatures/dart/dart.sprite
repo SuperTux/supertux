@@ -2,11 +2,16 @@
   (action
     (name "flying-left")
     (hitbox 10 6 12 7)
-    (images "flying.png")
-    )
+    (images "flying-left.png")
+  )
   (action
     (name "flying-right")
     (hitbox 10 6 12 7)
     (mirror-action "flying-left")
-    )
   )
+  (action
+    (name "flying-down")
+    (hitbox 6 10 7 12)
+    (images "flying-down.png")
+  )
+)
