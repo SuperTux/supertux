@@ -23,6 +23,13 @@
       "down-idle.png"
     )
   )
+  ;; This will never show up since the editor uses the flipped down texture
+  ;; But it prevents warnings for missing actions
+  (action
+    (hitbox 13 21 54 11)
+    (name "editor-up")
+    (images "down-1.png")
+  )
   (action
     (hitbox 21 13 11 54)
     (name "idle-right")

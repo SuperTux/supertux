@@ -14,4 +14,11 @@
     (hitbox 6 10 7 12)
     (images "flying-down.png")
   )
+  ;; This will never show up since the editor uses the flipped down texture
+  ;; But it prevents warnings for missing actions
+  (action
+    (name "editor-up")
+    (hitbox 6 10 7 12)
+    (images "flying-down.png")
+  )
 )

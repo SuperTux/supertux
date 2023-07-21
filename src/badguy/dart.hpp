@@ -26,7 +26,7 @@ class Dart final : public BadGuy
 {
 public:
   Dart(const ReaderMapping& reader);
-  Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/dart/dart.sprite", Flip flip = NO_FLIP);
+  Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/dart/dart.sprite");
 
   virtual void initialize() override;
   virtual void activate() override;
