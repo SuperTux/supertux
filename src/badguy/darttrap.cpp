@@ -107,7 +107,7 @@ void
 DartTrap::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Dart &dart = Sector::get().add<Dart>(Vector(0, 0), m_dir, this, m_dart_sprite);
+  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this, m_dart_sprite);
 
   Vector pos;
   switch (m_dir)
