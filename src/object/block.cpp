@@ -44,8 +44,7 @@ Block::Block(const Vector& pos, const std::string& sprite_file) :
   m_breaking(false),
   m_bounce_dir(0),
   m_bounce_offset(0),
-  m_original_y(-1),
-  m_flip(NO_FLIP)
+  m_original_y(-1)
 {
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -59,8 +58,7 @@ Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
   m_breaking(false),
   m_bounce_dir(0),
   m_bounce_offset(0),
-  m_original_y(-1),
-  m_flip(NO_FLIP)
+  m_original_y(-1)
 {
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);

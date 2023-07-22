@@ -58,9 +58,6 @@ protected:
   float m_original_y;
 
 private:
-  Flip m_flip;
-
-private:
   Block(const Block&) = delete;
   Block& operator=(const Block&) = delete;
 };
