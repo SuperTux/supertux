@@ -27,22 +27,23 @@ public:
   Bumper(const ReaderMapping& reader);
 
   virtual ObjectSettings get_settings() override;
-  
+
   virtual void update(float dt_sec) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  
+
   static std::string class_name() { return "bumper"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Bumper"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
 
-  Physic physic;
+  Physic m_physic;
 
 private:
-  bool left;
-	
+  bool m_facing_left;
+
 private:
   Bumper(const Bumper&) = delete;
   Bumper& operator=(const Bumper&) = delete;

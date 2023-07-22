@@ -83,13 +83,13 @@ FallBlock::update(float dt_sec)
         case SHAKE:
           break;
         case FALL:
-          bumper.physic.enable_gravity(true);
+          bumper.m_physic.enable_gravity(true);
           break;
         case LAND:
-          bumper.physic.enable_gravity(false);
-          bumper.physic.set_gravity_modifier(0.f);
-          bumper.physic.set_velocity_y(0.f);
-          bumper.physic.reset();
+          bumper.m_physic.enable_gravity(false);
+          bumper.m_physic.set_gravity_modifier(0.f);
+          bumper.m_physic.set_velocity_y(0.f);
+          bumper.m_physic.reset();
           break;
       }
     }

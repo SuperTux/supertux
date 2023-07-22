@@ -1085,7 +1085,7 @@ BadGuy::after_editor_set()
   }
   else
   {
-    std::string action_str = dir_to_string(m_dir);
+    std::string action_str = dir_to_string(m_start_dir);
 
     if (m_sprite->has_action("editor-" + action_str)) {
       set_action("editor-" + action_str);
