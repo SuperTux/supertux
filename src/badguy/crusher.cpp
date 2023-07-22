@@ -115,7 +115,7 @@ Crusher::collision(GameObject& other, const CollisionHit& hit)
     badguy->kill_fall();
   }
 
-  auto heavy_coin = dynamic_cast<HeavyCoin*>(&other);
+  const auto heavy_coin = dynamic_cast<HeavyCoin*>(&other);
   if (heavy_coin) {
     return ABORT_MOVE;
   }

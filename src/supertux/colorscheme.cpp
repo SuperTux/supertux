@@ -23,6 +23,7 @@
 #include "object/text_object.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/player_status_hud.hpp"
+#include "supertux/statistics.hpp"
 #include "supertux/textscroller_screen.hpp"
 #include "trigger/climbable.hpp"
 #include "trigger/secretarea_trigger.hpp"
@@ -61,9 +62,9 @@ Color SecretAreaTrigger::text_color(1.f,1.f,0.6f);
 
 Color Climbable::text_color(1.f,1.f,0.6f);
 
-Color worldmap::WorldMap::level_title_color(1.f,1.f,1.f);
-Color worldmap::WorldMap::message_color(1.f,1.f,0.6f);
-Color worldmap::WorldMap::teleporter_message_color(1.f,1.f,1.f);
+Color worldmap::WorldMap::s_level_title_color(1.f,1.f,1.f);
+Color worldmap::WorldMap::s_message_color(1.f,1.f,0.6f);
+Color worldmap::WorldMap::s_teleporter_message_color(1.f,1.f,1.f);
 
 Color ColorScheme::Text::small_color(1.f,1.f,1.f);
 Color ColorScheme::Text::heading_color(1.f,1.f,0.6f);

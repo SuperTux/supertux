@@ -336,6 +336,7 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   m_autosave_levelfile = FileSystem::join(directory, backup_filename);
   m_level->save(m_autosave_levelfile);
   m_time_since_last_save = 0.f;
+  m_leveltested = true;
 
   if (!m_level->is_worldmap())
   {
@@ -343,10 +344,8 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   }
   else
   {
-    GameManager::current()->start_worldmap(*current_world, "", m_autosave_levelfile);
+    GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos);
   }
-
-  m_leveltested = true;
 }
 
 void
@@ -408,11 +407,17 @@ Editor::update_keyboard(const Controller& controller)
     return;
   }
 
-  
-  if (!MenuManager::instance().has_dialog())
+  if (MenuManager::instance().current_menu() == nullptr)
   {
     if (controller.pressed(Control::ESCAPE)) {
       esc_press();
+      return;
+    }
+    if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
+    {
+      m_enabled = false;
+      m_overlay_widget->delete_markers();
+      MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
       return;
     }
     if (controller.hold(Control::LEFT)) {
@@ -718,7 +723,6 @@ Editor::setup()
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();
   }
-  
 }
 
 void
@@ -776,8 +780,6 @@ Editor::event(const SDL_Event& ev)
       m_scroll_speed = 32.0f;
     }
   }
-
-  
 
     if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_F6) {
       Compositor::s_render_lighting = !Compositor::s_render_lighting;

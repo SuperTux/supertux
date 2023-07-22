@@ -19,7 +19,6 @@
 #include "control/input_manager.hpp"
 #include "gui/item_action.hpp"
 #include "gui/item_back.hpp"
-#include "gui/item_badguy_select.hpp"
 #include "gui/item_color.hpp"
 #include "gui/item_colorchannel.hpp"
 #include "gui/item_colordisplay.hpp"
@@ -126,6 +125,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
 void
 Menu::delete_item(int pos_)
 {
+  m_menu_height -= static_cast<float>(m_items[pos_]->get_height()) + m_items[pos_]->get_distance() * 2;
   m_items.erase(m_items.begin()+pos_);
 
   // When the item is deleted before the selected item, the
@@ -341,14 +341,6 @@ Menu::add_color_display(Color* color, int id) {
 ItemColor&
 Menu::add_color(const std::string& text, Color* color, int id) {
   auto item = std::make_unique<ItemColor>(text, color, id);
-  auto item_ptr = item.get();
-  add_item(std::move(item));
-  return *item_ptr;
-}
-
-ItemBadguySelect&
-Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id) {
-  auto item = std::make_unique<ItemBadguySelect>(text, badguys, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

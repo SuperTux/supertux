@@ -35,6 +35,7 @@ class ObjectFactory
 private:
   typedef std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> FactoryFunction;
   typedef std::map<std::string, FactoryFunction> Factories;
+
   Factories factories;
   std::vector<std::string> m_badguys_names;
   std::vector<uint8_t> m_badguys_params;
@@ -49,13 +50,18 @@ protected:
 public:
   enum RegisteredObjectParam
   {
-    OBJ_PARAM_NONE=0, OBJ_PARAM_PORTABLE=0b10000000
+    OBJ_PARAM_NONE = 0,
+    OBJ_PARAM_PORTABLE = 0b10000000,
+    OBJ_PARAM_WORLDMAP = 0b01000000,
+    OBJ_PARAM_DISPENSABLE = 0b00100000
   };
 
 public:
   /** Will throw in case of creation failure, will never return nullptr */
   std::unique_ptr<GameObject> create(const std::string& name, const ReaderMapping& reader) const;
   std::string get_display_name(const std::string& name) const;
+
+  bool has_params(const std::string& name, uint8_t params);
 
   std::vector<std::string>& get_registered_badguys() { return m_badguys_names; }
   std::vector<std::string> get_registered_badguys(uint8_t params);
@@ -88,7 +94,7 @@ protected:
   template<class C>
   void add_factory(const char* class_name, uint8_t obj_params = 0, const std::string& display_name = "")
   {
-    add_factory(class_name, (display_name == "") ? C::display_name() : display_name,
+    add_factory(class_name, display_name.empty() ? C::display_name() : display_name,
                 [](const ReaderMapping& reader) {
                   return std::make_unique<C>(reader);
                 }, obj_params);

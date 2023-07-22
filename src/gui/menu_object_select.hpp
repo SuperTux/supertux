@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,25 +15,36 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_BADGUY_SELECT_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_BADGUY_SELECT_HPP
+#ifndef HEADER_SUPERTUX_GUI_MENU_OBJECT_SELECT_HPP
+#define HEADER_SUPERTUX_GUI_MENU_OBJECT_SELECT_HPP
 
-#include "gui/menu_item.hpp"
+#include "gui/menu.hpp"
 
-class ItemBadguySelect final : public MenuItem
+class GameObject;
+
+class ObjectSelectMenu final : public Menu
 {
 public:
-  ItemBadguySelect(const std::string& text, std::vector<std::string>* badguys_, int id = -1);
+  ObjectSelectMenu(std::vector<std::unique_ptr<GameObject>>& objects, GameObject* parent);
 
-  /** Processes the menu action. */
-  virtual void process_action(const MenuAction& action) override;
-
-private:
-  std::vector<std::string>* badguys;
+  void refresh() override;
+  void menu_action(MenuItem& item) override;
 
 private:
-  ItemBadguySelect(const ItemBadguySelect&) = delete;
-  ItemBadguySelect& operator=(const ItemBadguySelect&) = delete;
+  void add_object();
+  void remove_object(GameObject* obj);
+
+  const std::vector<std::string> get_available_objects() const;
+
+private:
+  std::vector<std::unique_ptr<GameObject>>& m_objects;
+  GameObject* m_parent;
+
+  std::string m_selected;
+
+private:
+  ObjectSelectMenu(const ObjectSelectMenu&) = delete;
+  ObjectSelectMenu& operator=(const ObjectSelectMenu&) = delete;
 };
 
 #endif

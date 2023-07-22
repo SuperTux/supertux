@@ -131,6 +131,9 @@ GameObject::get_settings()
 void
 GameObject::save_state()
 {
+  if (!m_parent)
+    return;
+
   if (!m_parent->undo_tracking_enabled())
   {
     m_last_state.clear();
@@ -146,6 +149,9 @@ GameObject::save_state()
 void
 GameObject::check_state()
 {
+  if (!m_parent)
+    return;
+
   if (!m_parent->undo_tracking_enabled())
   {
     m_last_state.clear();

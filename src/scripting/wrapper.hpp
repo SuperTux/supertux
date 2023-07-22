@@ -24,6 +24,8 @@ class Candle;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Candle* object, bool setup_releasehook = false);
 class Clouds;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Clouds* object, bool setup_releasehook = false);
+class ConveyorBelt;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::ConveyorBelt* object, bool setup_releasehook = false);
 class CustomParticles;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::CustomParticles* object, bool setup_releasehook = false);
 class Decal;
@@ -72,8 +74,8 @@ class WillOWisp;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::WillOWisp* object, bool setup_releasehook = false);
 class Wind;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Wind* object, bool setup_releasehook = false);
-class WorldMap;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::WorldMap* object, bool setup_releasehook = false);
+class WorldMapSector;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::WorldMapSector* object, bool setup_releasehook = false);
 
 }
 

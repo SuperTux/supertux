@@ -39,8 +39,8 @@ class BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  BadGuy(UID uid) :
-    GameObject<::BadGuy>(uid)
+  BadGuy(const ::GameObject& object) :
+    GameObject<::BadGuy>(object)
   {}
 
 private:
