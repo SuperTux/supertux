@@ -45,9 +45,11 @@
 
 namespace worldmap {
 
-WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint) :
+WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
+                   const std::string& force_sector, const std::string& force_spawnpoint) :
   m_sector(),
   m_sectors(),
+  m_force_spawnpoint(force_spawnpoint),
   m_savegame(savegame),
   m_tileset(),
   m_name(),
@@ -86,6 +88,10 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
     if (iter.get_key() == "sector")
       add_sector(WorldMapSectorParser::from_reader(*this, iter.as_mapping()));
   }
+
+  /** Force the initial sector, if provided */
+  if (!force_sector.empty())
+    set_sector(force_sector, "", false);
 }
 
 
@@ -96,6 +102,13 @@ WorldMap::setup()
 
   load_state();
   m_sector->setup();
+
+  /** Force the initial spawnpoint, if provided */
+  if (!m_force_spawnpoint.empty())
+  {
+    m_sector->move_to_spawnpoint(m_force_spawnpoint);
+    m_force_spawnpoint.clear();
+  }
 
   m_in_world_select = false;
 }
@@ -230,10 +243,11 @@ WorldMap::save_state()
 
 
 void
-WorldMap::change(const std::string& filename, const std::string& force_spawnpoint_)
+WorldMap::change(const std::string& filename, const std::string& force_sector,
+                 const std::string& force_spawnpoint)
 {
   // Schedule worldmap to be changed to next frame.
-  m_next_worldmap = std::make_unique<WorldMap>(filename, m_savegame, force_spawnpoint_);
+  m_next_worldmap = std::make_unique<WorldMap>(filename, m_savegame, force_sector, force_spawnpoint);
 }
 
 
@@ -252,6 +266,12 @@ WorldMap::set_passive_message(const std::string& message, float time)
 {
   m_passive_message = message;
   m_passive_message_timer.start(time);
+}
+
+void
+WorldMap::set_initial_spawnpoint(const std::string& spawnpoint)
+{
+  m_force_spawnpoint = spawnpoint;
 }
 
 
@@ -299,6 +319,8 @@ WorldMap::set_sector(const std::string& name, const std::string& spawnpoint,
     log_warning << "Sector '" << name << "' not found. Setting first sector." << std::endl;
     m_sector = get_sector(0); // In that case, assign the first sector.
   }
+
+  m_sector->move_to_spawnpoint("main");
 
   // Set up the new sector.
   if (perform_full_setup)

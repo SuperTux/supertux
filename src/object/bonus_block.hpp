@@ -96,6 +96,7 @@ private:
   std::string m_script;
   SurfacePtr m_lightsprite;
   sexp::Value m_custom_sx;
+  std::string m_coin_sprite;
 
 private:
   BonusBlock(const BonusBlock&) = delete;

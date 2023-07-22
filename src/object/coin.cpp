@@ -28,8 +28,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-Coin::Coin(const Vector& pos, bool count_stats) :
-  MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
+Coin::Coin(const Vector& pos, bool count_stats, const std::string& sprite_path) :
+  MovingSprite(pos, sprite_path, LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
   PathObject(),
   m_offset(0.0f, 0.0f),
   m_from_tilemap(false),
@@ -210,8 +210,8 @@ Coin::collision(GameObject& other, const CollisionHit& )
 }
 
 /* The following defines a coin subject to gravity */
-HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats) :
-  Coin(pos, count_stats),
+HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats, const std::string& sprite_path) :
+  Coin(pos, count_stats, sprite_path),
   m_physic(),
   m_last_hit()
 {

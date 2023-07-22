@@ -17,16 +17,16 @@
 
 #include "scripting/game_object.hpp"
 
-#include "supertux/d_scope.hpp"
+#include "supertux/sector.hpp"
 
 namespace scripting {
 
-::GameObjectManager& get_game_object_manager()
+::Sector& get_sector()
 {
-  if (d_gameobject_manager)
-    return *d_gameobject_manager.get();
+  if (::Sector::current())
+    return ::Sector::get();
 
-  throw std::runtime_error("Unable to perform scripting GameObject action: No active GameObjectManager.");
+  throw std::runtime_error("Unable to perform scripting action: No active Sector.");
 }
 
 } // namespace scripting

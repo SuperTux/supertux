@@ -46,7 +46,8 @@ Tux::Tux(WorldMap* worldmap) :
   m_controller(InputManager::current()->get_controller()),
   m_input_direction(Direction::NONE),
   m_direction(Direction::NONE),
-  m_tile_pos(0.0f, 0.0f),
+  m_initial_tile_pos(),
+  m_tile_pos(),
   m_offset(0),
   m_moving(false),
   m_ghost_mode(false)
@@ -371,6 +372,10 @@ Tux::update(float dt_sec)
 void
 Tux::setup()
 {
+  // Set initial tile position, if provided
+  if (m_initial_tile_pos != Vector())
+    m_tile_pos = m_initial_tile_pos;
+
   // check if we already touch a SpriteChange object
   auto sprite_change = m_worldmap->get_sector().at_object<SpriteChange>(m_tile_pos);
   change_sprite(sprite_change);

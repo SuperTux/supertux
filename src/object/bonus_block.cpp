@@ -69,7 +69,8 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_coin_sprite("images/objects/coin/coin.sprite")
 {
   m_col.m_bbox.set_pos(pos);
   m_sprite->set_action("normal");
@@ -84,7 +85,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_coin_sprite("images/objects/coin/coin.sprite")
 {
   parse_type(mapping);
 
@@ -136,6 +138,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
           }
         }
       }
+    } else if (token == "coin-sprite") {
+      iter.get(m_coin_sprite);
     } else if (token == "custom-contents") {
       // handled elsewhere
     } else {
@@ -260,8 +264,9 @@ BonusBlock::get_settings()
                    "1up", "custom", "script", "light", "light-on", "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion"},
                   static_cast<int>(Content::COIN), "contents");
   result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
+  result.add_sprite(_("Coin sprite"), &m_coin_sprite, "coin-sprite", "images/objects/coin/coin.sprite");
 
-  result.reorder({"script", "count", "contents", "sprite", "x", "y"});
+  result.reorder({"script", "count", "contents", "coin-sprite", "sprite", "x", "y"});
 
   return result;
 }
@@ -330,7 +335,7 @@ BonusBlock::try_open(Player* player)
   switch (m_contents) {
     case Content::COIN:
     {
-      Sector::get().add<BouncyCoin>(get_pos(), true);
+      Sector::get().add<BouncyCoin>(get_pos(), true, m_coin_sprite);
       SoundManager::current()->play("sounds/coin.wav", get_pos());
       player->get_status().add_coins(1, false);
       if (m_hit_counter != 0 && !m_parent_dispenser)
@@ -420,13 +425,13 @@ BonusBlock::try_open(Player* player)
     }
     case Content::RAIN:
     {
-      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser);
+      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser);
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
@@ -570,7 +575,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser);
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       countdown = true;
       break;

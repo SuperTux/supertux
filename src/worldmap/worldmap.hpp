@@ -41,7 +41,8 @@ public:
   static Color s_teleporter_message_color;
 
 public:
-  WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
+  WorldMap(const std::string& filename, Savegame& savegame,
+           const std::string& force_sector = "", const std::string& force_spawnpoint = "");
 
   void setup();
   void leave();
@@ -61,13 +62,17 @@ public:
 
   /** switch to another worldmap.
       filename is relative to data root path */
-  void change(const std::string& filename, const std::string& force_spawnpoint = "");
+  void change(const std::string& filename, const std::string& force_sector = "",
+              const std::string& force_spawnpoint = "");
 
   /** Mark all levels as solved or unsolved */
   void set_levels_solved(bool solved, bool perfect);
 
   /** Sets the passive message with specific time **/
   void set_passive_message(const std::string& message, float time);
+
+  /** Sets the initial spawnpoint to be forced on next setup */
+  void set_initial_spawnpoint(const std::string& spawnpoint);
 
   const std::string& get_title() const { return m_name; }
   Savegame& get_savegame() const { return m_savegame; }
@@ -87,6 +92,8 @@ private:
 private:
   WorldMapSector* m_sector; /* The currently active sector. */
   std::vector<std::unique_ptr<WorldMapSector> > m_sectors;
+
+  std::string m_force_spawnpoint;
 
   Savegame& m_savegame;
   TileSet* m_tileset;

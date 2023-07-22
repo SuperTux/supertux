@@ -25,7 +25,8 @@
 class CoinRain final : public GameObject
 {
 public:
-  CoinRain(const Vector& pos, bool emerge=false, bool count_stats = true);
+  CoinRain(const Vector& pos, bool emerge=false, bool count_stats = true,
+           const std::string& sprite_path = "images/objects/coin/coin.sprite");
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
   virtual bool is_saveable() const override {
@@ -34,6 +35,7 @@ public:
 
 private:
   SpritePtr sprite;
+  std::string m_sprite_path;
   Vector position;
   float emerge_distance;
   Timer timer;

@@ -62,7 +62,7 @@ public:
   virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
 
   bool matches_sprite(const std::string& sprite_file);
-  void change_sprite(const std::string& new_sprite_name);
+  bool change_sprite(const std::string& new_sprite_name);
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
   /** Get various sprite properties. **/

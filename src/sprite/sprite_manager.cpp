@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,6 +17,7 @@
 
 #include "sprite/sprite_manager.hpp"
 
+#include <optional>
 #include <sstream>
 
 #include "sprite/sprite.hpp"
@@ -24,34 +26,34 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
-#include "video/texture_manager.hpp"
+
+std::unique_ptr<SpriteData> SpriteManager::s_dummy_sprite_data = nullptr;
 
 SpriteManager::SpriteManager() :
-  sprites()
+  m_sprites(),
+  m_load_successful(false)
 {
+  if (!s_dummy_sprite_data)
+    s_dummy_sprite_data.reset(new SpriteData());
 }
 
 SpritePtr
 SpriteManager::create(const std::string& name)
 {
-  Sprites::iterator i = sprites.find(name);
+  Sprites::iterator i = m_sprites.find(name);
   SpriteData* data;
-  if (i == sprites.end())
+  if (i == m_sprites.end())
   {
-    // Try loading the sprite file
+    // Try loading the sprite file.
     try
     {
       data = load(name);
-      if (!data)
-      {
-        log_warning << "Sprite '" << name << "' not found. Using dummy texture." << std::endl;
-        return create(TextureManager::s_dummy_texture); // Load the missing dummy texture
-      }
     }
-    catch (std::exception& err)
+    catch (const std::exception& err)
     {
       log_warning << "Error loading sprite '" << name << "', using dummy texture: " << err.what() << std::endl;
-      return create(TextureManager::s_dummy_texture); // Load the missing dummy texture
+      m_load_successful = false;
+      return SpritePtr(new Sprite(*s_dummy_sprite_data)); // Return a dummy sprite.
     }
   }
   else
@@ -59,43 +61,49 @@ SpriteManager::create(const std::string& name)
     data = i->second.get();
   }
 
+  m_load_successful = true;
   return SpritePtr(new Sprite(*data));
 }
 
 SpriteData*
 SpriteManager::load(const std::string& filename)
 {
-  ReaderDocument doc = [filename](){
-    try {
-      if (StringUtil::has_suffix(filename, ".sprite")) {
-        return ReaderDocument::from_file(filename);
-      } else {
-        std::stringstream text;
-        text << "(supertux-sprite (action "
-             << "(name \"default\") "
-             << "(images \"" << FileSystem::basename(filename) << "\")))";
-        return ReaderDocument::from_stream(text, filename);
-      }
-    } catch(const std::exception& e) {
+  std::unique_ptr<SpriteData> sprite_data;
+
+  if (StringUtil::has_suffix(filename, ".sprite"))
+  {
+    std::optional<ReaderDocument> doc;
+    try
+    {
+      doc = ReaderDocument::from_file(filename);
+    }
+    catch (const std::exception& err)
+    {
       std::ostringstream msg;
       msg << "Parse error when trying to load sprite '" << filename
-      << "': " << e.what() << "\n";
+          << "': " << err.what();
       throw std::runtime_error(msg.str());
     }
-  }();
+    auto root = doc->get_root();
 
-  auto root = doc.get_root();
-
-  if (root.get_name() != "supertux-sprite") {
-    std::ostringstream msg;
-    msg << "'" << filename << "' is not a supertux-sprite file";
-    throw std::runtime_error(msg.str());
-  } else {
-    auto data = std::make_unique<SpriteData>(root.get_mapping());
-    sprites[filename] = std::move(data);
-
-    return sprites[filename].get();
+    if (root.get_name() != "supertux-sprite")
+    {
+      std::ostringstream msg;
+      msg << "'" << filename << "' is not a supertux-sprite file";
+      throw std::runtime_error(msg.str());
+    }
+    else
+    {
+      sprite_data = std::make_unique<SpriteData>(root.get_mapping());
+    }
   }
+  else
+  {
+    sprite_data = std::make_unique<SpriteData>(filename);
+  }
+
+  m_sprites[filename] = std::move(sprite_data);
+  return m_sprites[filename].get();
 }
 
 /* EOF */

@@ -805,7 +805,7 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
       }
       if (!data->spawnpoint.empty())
       {
-        worldmap_sector->set_initial_spawnpoint(data->spawnpoint);
+        worldmap_sector->get_worldmap().set_initial_spawnpoint(data->spawnpoint);
       }
     }
   }

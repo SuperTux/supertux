@@ -79,7 +79,8 @@ const std::string TextureManager::s_dummy_texture = "images/engine/missing.png";
 
 TextureManager::TextureManager() :
   m_image_textures(),
-  m_surfaces()
+  m_surfaces(),
+  m_load_successful(false)
 {
 }
 
@@ -258,6 +259,7 @@ TextureManager::reap_cache_entry(const Texture::Key& key)
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename, const Rect& rect, const Sampler& sampler)
 {
+  m_load_successful = true;
   try
   {
     return create_image_texture_raw(filename, rect, sampler);
@@ -265,6 +267,7 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
   catch(const std::exception& err)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+    m_load_successful = false;
     return create_dummy_texture();
   }
 }
@@ -357,6 +360,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename, const Sampler& sampler)
 {
+  m_load_successful = true;
   try
   {
     return create_image_texture_raw(filename, sampler);
@@ -364,6 +368,7 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
   catch (const std::exception& err)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+    m_load_successful = false;
     return create_dummy_texture();
   }
 }
@@ -399,7 +404,7 @@ TextureManager::create_dummy_texture()
   {
     // on error (when loading placeholder), try using empty surface,
     // when that fails to, just give up
-    SDLSurfacePtr image(SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0));
+    SDLSurfacePtr image(SDL_CreateRGBSurface(0, 128, 128, 8, 0, 0, 0, 0));
     if (!image)
     {
       throw;
