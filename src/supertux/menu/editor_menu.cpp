@@ -16,27 +16,20 @@
 
 #include "supertux/menu/editor_menu.hpp"
 
-#include <unordered_map>
-
 #include <physfs.h>
 
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/item_action.hpp"
+#include "gui/item_goto.hpp"
 #include "gui/item_toggle.hpp"
-#include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "object/tilemap.hpp"
-#include "physfs/ifile_stream.hpp"
 #include "supertux/level.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/editor_save_as.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/sector.hpp"
 #include "util/gettext.hpp"
-#include "util/reader_document.hpp"
-#include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
 
 #ifdef __EMSCRIPTEN__
@@ -44,37 +37,8 @@
 #include <emscripten/html5.h>
 #endif
 
-EditorMenu::EditorMenu() :
-  m_converters(),
-  m_tile_conversion_file()
+EditorMenu::EditorMenu()
 {
-  try
-  {
-    auto doc = ReaderDocument::from_file("images/converters/data.stcd");
-    auto root = doc.get_root();
-    if (root.get_name() != "supertux-converter-data")
-      throw std::runtime_error("File is not a 'supertux-converters-data' file.");
-
-    auto iter = root.get_mapping().get_iter();
-    while (iter.next())
-    {
-      if (iter.get_key().empty())
-        continue;
-
-      EditorMenu::Converter converter;
-
-      auto mapping = iter.as_mapping();
-      mapping.get("title", converter.title);
-      mapping.get("desc", converter.desc);
-
-      m_converters.insert({ iter.get_key(), converter });
-    }
-  }
-  catch (std::exception& err)
-  {
-    log_warning << "Cannot read converter data from 'images/converters/data.stcd': " << err.what() << std::endl;
-  }
-
   refresh();
 }
 
@@ -116,18 +80,8 @@ EditorMenu::refresh()
 
   add_hl();
 
-  add_file(_("Select Tile Conversion File"), &m_tile_conversion_file, { "sttc" }, "images/converters", false,
-           [this](MenuItem& item) {
-             auto it = m_converters.find(item.get_text());
-             if (it == m_converters.end())
-               return;
-
-             item.set_text("\"" + _(it->second.title) + "\"");
-             item.set_help(_(it->second.desc));
-           });
-
-  add_entry(MNID_CONVERT_TILES, _("Convert Tiles By File"))
-    .set_help(_("Convert all tiles in the current level by a file, specified above."));
+  add_submenu(_("Convert Tiles"), MenuStorage::EDITOR_CONVERTERS_MENU)
+    .set_help(_("Convert all tiles in the level using converters."));
 
   add_hl();
 
@@ -265,15 +219,6 @@ EditorMenu::menu_action(MenuItem& item)
       Editor::current()->m_quit_request = true;
       break;
 
-    case MNID_CONVERT_TILES:
-    {
-      Dialog::show_confirmation(_("This will convert all tiles in the level. Proceed?\n \nNote: This should not be ran more than once on a level.\nCreating a separate copy of the level is highly recommended."),
-        [this]() {
-          convert_tiles(m_tile_conversion_file);
-        });
-      break;
-    }
-
     case MNID_CHECKDEPRECATEDTILES:
       editor->check_deprecated_tiles();
       if (editor->has_deprecated_tiles())
@@ -312,68 +257,6 @@ EditorMenu::on_back_action()
   editor->undo_stack_cleanup();
 
   return true;
-}
-
-void
-EditorMenu::convert_tiles(const std::string& file)
-{
-  std::unordered_map<int, int> tiles;
-
-  try
-  {
-    IFileStream in(file);
-    if (!in.good())
-    {
-      log_warning << "Couldn't open conversion file '" << file << "'." << std::endl;
-      return;
-    }
-
-    int a, b;
-    std::string delimiter;
-    while (in >> a >> delimiter >> b)
-    {
-      if (delimiter != "->")
-      {
-        log_warning << "Couldn't parse conversion file '" << file << "'." << std::endl;
-        return;
-      }
-
-      tiles[a] = b;
-    }
-  }
-  catch (std::exception& err)
-  {
-    log_warning << "Couldn't parse conversion file '" << file << "': " << err.what() << std::endl;
-  }
-
-  MenuManager::instance().clear_menu_stack();
-  Level* level = Editor::current()->get_level();
-  for (size_t i = 0; i < level->get_sector_count(); i++)
-  {
-    Sector* sector = level->get_sector(i);
-    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
-    {
-      tilemap.save_state();
-      // Can't use change_all(), if there's like `1 -> 2`and then
-      // `2 -> 3`, it'll do a double replacement
-      for (int x = 0; x < tilemap.get_width(); x++)
-      {
-        for (int y = 0; y < tilemap.get_height(); y++)
-        {
-          auto tile = tilemap.get_tile_id(x, y);
-          try
-          {
-            tilemap.change(x, y, tiles.at(tile));
-          }
-          catch (std::out_of_range&)
-          {
-            // Expected for tiles that don't need to be replaced
-          }
-        }
-      }
-      tilemap.check_state();
-    }
-  }
 }
 
 /* EOF */
