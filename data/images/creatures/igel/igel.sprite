@@ -17,7 +17,7 @@
     (name "walking-right")
     (hitbox 11 10 48 32)
 	(fps 15)
-    (mirror-action "left")
+    (mirror-action "walking-left")
   )
   (action
     (name "roll-left")
