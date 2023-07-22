@@ -1617,8 +1617,8 @@ bool
 EditorOverlayWidget::is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos) const
 {
   return pos.x >= 0 && pos.y >= 0 &&
-         pos.x <= static_cast<float>(tilemap->get_width()) &&
-         pos.y <= static_cast<float>(tilemap->get_height());
+         pos.x < static_cast<float>(tilemap->get_width()) &&
+         pos.y < static_cast<float>(tilemap->get_height());
 }
 
 /* EOF */
