@@ -334,7 +334,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                               );
     context.color().draw_surface_scaled(coin_icon,
                                         Rectf(pos.x + width + 1.f, pos.y + 1.f,
-                                              pos.x + width + 16.f, pos.y + 16.f),
+                                              pos.x + width + 32.f, pos.y + 32.f),
                                         LAYER_HUD);
   }
 
@@ -363,7 +363,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                               );
     context.color().draw_surface_scaled(badguy_icon,
                                         Rectf(pos.x + width + 1.f, pos.y + 1.f,
-                                              pos.x + width + 16.f, pos.y + 16.f),
+                                              pos.x + width + 32.f, pos.y + 32.f),
                                         LAYER_HUD);
   }
 
@@ -392,7 +392,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                               );
     context.color().draw_surface_scaled(secret_icon,
                                         Rectf(pos.x + width + 1.f, pos.y + 1.f,
-                                              pos.x + width + 16.f, pos.y + 16.f),
+                                              pos.x + width + 32.f, pos.y + 32.f),
                                         LAYER_HUD);
   }
 }
