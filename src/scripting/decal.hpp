@@ -66,8 +66,8 @@ public:
    */
   void fade_out(float time);
   /**
-   * Sets the action for this decal
-   * @param float $time
+   * Sets the action for the decal's sprite.
+   * @param string $action
    */
   void set_action(const std::string& action);
 };
