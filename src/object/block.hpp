@@ -34,8 +34,6 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual ObjectSettings get_settings() override;
-
   virtual void on_flip(float height) override;
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
