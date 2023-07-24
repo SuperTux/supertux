@@ -82,6 +82,9 @@ public:
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }
 
+  virtual void stop_looping_sounds() override;
+  virtual void play_looping_sounds() override;
+
 protected:
   virtual void update(float dt_sec) override;
   virtual void start_playing();
