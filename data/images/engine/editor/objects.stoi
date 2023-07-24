@@ -62,13 +62,13 @@
     (icon "images/creatures/livefire/sleeping8.png"))
   (object
     (class "crystallo")
-    (icon "images/creatures/crystallo/crystallo-left-0.png"))
+    (icon "images/creatures/crystallo/left-0.png"))
   (object
     (class "scrystallo")
-    (icon "images/creatures/crystallo/crystallo-sleeping.png"))
+    (icon "images/creatures/crystallo/sleep-0.png"))
   (object
     (class "rcrystallo")
-    (icon "images/creatures/crystallo/rcrystallo-editor.png"))
+    (icon "images/creatures/crystallo/roof_crystallo-editor.png"))
   (object
     (class "crusher")
     (icon "images/creatures/crusher/krush_ice_hit.png"))
@@ -107,7 +107,7 @@
     (icon "images/creatures/mr_tree/stumpy-8.png"))
   (object
     (class "owl")
-    (icon "images/creatures/owl/left-0.png"))
+    (icon "images/creatures/owl/fly-10.png"))
   (object
     (class "zeekling")
     (icon "images/creatures/zeekling/zeekling-0.png"))
