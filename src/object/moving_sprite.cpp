@@ -64,7 +64,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   //Make the sprite go default when the sprite file is invalid
   if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str()))
   {
-    m_sprite = SpriteManager::current()->create(m_default_sprite_name);
+    change_sprite(m_default_sprite_name);
     m_sprite_found = false;
   }
   else if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.

@@ -41,7 +41,8 @@ UnstableTile::UnstableTile(const ReaderMapping& mapping) :
   m_alpha(1.f),
   m_original_pos(m_col.get_pos())
 {
-  m_sprite->set_action("normal");
+  set_action("normal");
+
   physic.set_gravity_modifier(.98f);
   physic.enable_gravity(false);
 }
@@ -151,7 +152,7 @@ UnstableTile::revive()
   m_col.set_movement(Vector(0.0f, 0.0f));
   m_revive_timer.stop();
   m_respawn.reset(new FadeHelper(&m_alpha, FADE_IN_TIME, 1.f));
-  m_sprite->set_action("normal");
+  set_action("normal");
 }
 
 void

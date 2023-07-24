@@ -35,7 +35,7 @@ Bumper::Bumper(const ReaderMapping& reader) :
   m_facing_left()
 {
   reader.get("left", m_facing_left);
-  m_sprite->set_action(m_facing_left ? "left-normal" : "right-normal");
+  set_action(m_facing_left ? "left-normal" : "right-normal");
   m_physic.enable_gravity(false);
 }
 
@@ -54,7 +54,7 @@ Bumper::update(float dt_sec)
 {
   if (m_sprite->animation_done())
   {
-    m_sprite->set_action(m_facing_left ? "left-normal" : "right-normal");
+    set_action(m_facing_left ? "left-normal" : "right-normal");
   }
   m_col.set_movement(m_physic.get_movement (dt_sec));
 }
@@ -69,7 +69,7 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
     player->get_physic().set_velocity(0.f, player->is_swimming() ? 0.f : BOUNCE_Y);
     player->sideways_push(BOUNCE_DIR);
     SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-    m_sprite->set_action((m_facing_left ? "left-swinging" : "right-swinging"), 1);
+    set_action((m_facing_left ? "left-swinging" : "right-swinging"), 1);
   }
   auto bumper = dynamic_cast<Bumper*> (&other);
   if (bumper)
@@ -84,7 +84,7 @@ void
 Bumper::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  m_sprite->set_action(m_facing_left ? "left-normal" : "right-normal");
+  set_action(m_facing_left ? "left-normal" : "right-normal");
 }
 
 void

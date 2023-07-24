@@ -26,8 +26,6 @@
 #include "object/growup.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
@@ -38,16 +36,13 @@ static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;
 static const float BUMP_ROTATION_ANGLE = 10;
 
-Block::Block(SpritePtr newsprite) :
-  m_sprite(std::move(newsprite)),
-  m_sprite_name(),
-  m_default_sprite_name(),
+Block::Block(const Vector& pos, const std::string& sprite_file) :
+  MovingSprite(pos, sprite_file),
   m_bouncing(false),
   m_breaking(false),
   m_bounce_dir(0),
   m_bounce_offset(0),
-  m_original_y(-1),
-  m_flip(NO_FLIP)
+  m_original_y(-1)
 {
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -56,28 +51,13 @@ Block::Block(SpritePtr newsprite) :
 }
 
 Block::Block(const ReaderMapping& mapping, const std::string& sprite_file) :
-  m_sprite(),
-  m_sprite_name(),
-  m_default_sprite_name(),
+  MovingSprite(mapping, sprite_file),
   m_bouncing(false),
   m_breaking(false),
   m_bounce_dir(0),
   m_bounce_offset(0),
-  m_original_y(-1),
-  m_flip(NO_FLIP)
+  m_original_y(-1)
 {
-  mapping.get("x", m_col.m_bbox.get_left());
-  mapping.get("y", m_col.m_bbox.get_top());
-
-  std::string sf;
-  mapping.get("sprite", sf);
-  if (sf.empty() || !PHYSFS_exists(sf.c_str())) {
-    sf = sprite_file;
-  }
-  m_sprite = SpriteManager::current()->create(sf);
-  m_sprite_name = sf;
-  m_default_sprite_name = sprite_file;
-
   m_col.m_bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/upgrade.wav");
@@ -235,11 +215,6 @@ Block::get_settings()
   result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", m_default_sprite_name);
 
   return result;
-}
-
-void Block::after_editor_set()
-{
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
 void
