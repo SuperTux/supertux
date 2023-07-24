@@ -26,8 +26,6 @@
 #include "object/growup.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"

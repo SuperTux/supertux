@@ -30,8 +30,8 @@ namespace {
   const float NOKICK_TIME = 0.1f;
 }
 
-MrIceBlock::MrIceBlock(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/iceblock/iceblock.sprite", "left", "right"),
+MrIceBlock::MrIceBlock(const ReaderMapping& reader, const std::string& sprite_name) :
+  WalkingBadguy(reader, sprite_name, "left", "right"),
   ice_state(ICESTATE_NORMAL),
   nokick_timer(),
   flat_timer(),

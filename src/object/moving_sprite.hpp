@@ -100,7 +100,7 @@ public:
 
 protected:
   /** Update hitbox, based on sprite. */
-  void update_hitbox();
+  virtual void update_hitbox();
 
 protected:
   std::string m_sprite_name;

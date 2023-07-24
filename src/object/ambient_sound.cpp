@@ -258,4 +258,16 @@ AmbientSound::draw(DrawingContext& context)
   }
 }
 
+void
+AmbientSound::stop_looping_sounds()
+{
+  stop_playing();
+}
+
+void
+AmbientSound::play_looping_sounds()
+{
+  start_playing();
+}
+
 /* EOF */

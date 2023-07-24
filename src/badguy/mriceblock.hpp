@@ -22,7 +22,8 @@
 class MrIceBlock : public WalkingBadguy
 {
 public:
-  MrIceBlock(const ReaderMapping& reader);
+  MrIceBlock(const ReaderMapping& reader,
+             const std::string& sprite_name = "images/creatures/iceblock/iceblock.sprite");
 
   virtual void initialize() override;
   virtual HitResponse collision(GameObject& object, const CollisionHit& hit) override;

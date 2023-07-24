@@ -52,7 +52,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   else
     SoundManager::current()->preload("sounds/sizzle.ogg");
 
-  m_sprite->set_action("normal");
+  set_action("normal");
 }
 
 GameObjectTypes
@@ -164,7 +164,7 @@ WeakBlock::update(float )
 
         if (m_sprite->animation_done()) {
           state = STATE_DISINTEGRATING;
-          m_sprite->set_action("disintegrating", 1);
+          set_action("disintegrating", 1);
           spreadHit();
           set_group(COLGROUP_DISABLED);
           lightsprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite");
@@ -200,7 +200,7 @@ WeakBlock::startBurning()
 {
   if (state != STATE_NORMAL) return;
   state = STATE_BURNING;
-  m_sprite->set_action("burning", 1);
+  set_action("burning", 1);
 
   if (m_type == HAY)
     SoundManager::current()->play("sounds/fire.ogg", get_pos()); // TODO: Use own sound?

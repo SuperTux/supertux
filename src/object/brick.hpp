@@ -17,14 +17,15 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BRICK_HPP
 #define HEADER_SUPERTUX_OBJECT_BRICK_HPP
 
-#include "badguy/crusher.hpp"
 #include "object/block.hpp"
+
+#include "badguy/crusher.hpp"
 
 class Brick : public Block
 {
 public:
-  Brick(const Vector& pos, int data, const std::string& spriteName);
-  Brick(const ReaderMapping& mapping, const std::string& spriteName = "images/objects/bonus_block/brick.sprite");
+  Brick(const Vector& pos, int data, const std::string& sprite_name);
+  Brick(const ReaderMapping& mapping, const std::string& sprite_name = "images/objects/bonus_block/brick.sprite");
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual ObjectSettings get_settings() override;

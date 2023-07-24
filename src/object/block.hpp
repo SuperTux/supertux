@@ -19,10 +19,6 @@
 
 #include "object/moving_sprite.hpp"
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_ptr.hpp"
-#include "video/flip.hpp"
-
 class Player;
 class ReaderMapping;
 

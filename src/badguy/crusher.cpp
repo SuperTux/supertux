@@ -120,7 +120,7 @@ Crusher::on_type_change(int old_type)
 HitResponse
 Crusher::collision(GameObject& other, const CollisionHit& hit)
 {
-  auto player = dynamic_cast<Player*>(&other);
+  auto* player = dynamic_cast<Player*>(&other);
 
   // If the other object is the player, and the collision is at the
   // bottom of the crusher, hurt the player.
@@ -134,12 +134,12 @@ Crusher::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
-  auto badguy = dynamic_cast<BadGuy*>(&other);
+  auto* badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy && m_state == CRUSHING) {
     badguy->kill_fall();
   }
 
-  const auto heavy_coin = dynamic_cast<HeavyCoin*>(&other);
+  const auto* heavy_coin = dynamic_cast<HeavyCoin*>(&other);
   if (heavy_coin) {
     return ABORT_MOVE;
   }
