@@ -36,7 +36,6 @@
 #include "object/specialriser.hpp"
 #include "object/star.hpp"
 #include "object/trampoline.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/level.hpp"
@@ -63,7 +62,7 @@ const float upgrade_sound_gain = 0.3f;
 } // namespace
 
 BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
-  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
+  Block(pos, "images/objects/bonus_block/bonusblock.sprite"),
   m_contents(),
   m_object(),
   m_hit_counter(1),
@@ -72,10 +71,7 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_custom_sx(),
   m_coin_sprite("images/objects/coin/coin.sprite")
 {
-  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-
-  m_col.m_bbox.set_pos(pos);
-  m_sprite->set_action("normal");
+  set_action("normal");
   m_contents = get_content_by_data(tile_data);
   preload_contents(tile_data);
 }
@@ -90,8 +86,6 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_custom_sx(),
   m_coin_sprite("images/objects/coin/coin.sprite")
 {
-  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-
   auto iter = mapping.get_iter();
   while (iter.next()) {
     const std::string& token = iter.get_key();
@@ -172,7 +166,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     SoundManager::current()->preload("sounds/switch.ogg");
     m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
     if (m_contents == Content::LIGHT_ON) {
-      m_sprite->set_action("on");
+      set_action("on");
     }
   }
 }
@@ -354,9 +348,9 @@ BonusBlock::try_open(Player* player)
     case Content::LIGHT_ON:
     {
       if (m_sprite->get_action() == "on")
-        m_sprite->set_action("off");
+        set_action("off");
       else
-        m_sprite->set_action("on");
+        set_action("on");
       SoundManager::current()->play("sounds/switch.ogg", get_pos());
       break;
     }
@@ -406,7 +400,7 @@ BonusBlock::try_open(Player* player)
   start_bounce(player);
   if (m_hit_counter <= 0 || m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON) { //use 0 to allow infinite hits
   } else if (m_hit_counter == 1) {
-    m_sprite->set_action("empty");
+    set_action("empty");
   } else {
     m_hit_counter--;
   }
@@ -550,7 +544,7 @@ BonusBlock::try_drop(Player *player)
 
   if (countdown) { // only decrease hit counter if try_open was not called
     if (m_hit_counter == 1) {
-      m_sprite->set_action("empty");
+      set_action("empty");
     } else {
       m_hit_counter--;
     }
