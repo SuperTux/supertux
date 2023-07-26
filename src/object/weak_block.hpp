@@ -48,7 +48,7 @@ public:
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
-  void on_type_change(int old_type) override;
+  void on_type_change(int old_type = -1) override;
 
 private:
   /** called by self when hit by a bullet */
@@ -58,8 +58,8 @@ private:
 
 private:
   enum Type {
-    HAY,
-    ICE
+    ICE,
+    HAY
   };
 
   enum State {

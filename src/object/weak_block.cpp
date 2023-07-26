@@ -32,20 +32,30 @@
 #include "util/reader_mapping.hpp"
 
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
-  MovingSprite(mapping, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
+  MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_TILES, COLGROUP_STATIC),
+  state(STATE_NORMAL),
   linked(true),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  parse_type(mapping);
   mapping.get("linked", linked);
+
+  // Older levels utilize hardcoded behaviour from the current sprite.
+  if (get_version() == 1)
+  {
+    // The object was set to the "meltbox" (ICE) sprite, if it's not linked.
+    // The default sprite was previously the HAY one, so we do the opposite check here.
+    if (linked)
+      m_type = HAY;
+
+    on_type_change();
+  }
+  else
+  {
+    parse_type(mapping);
+  }
 
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
-
-  // Older levels utilize hardcoded behaviour from the chosen sprite
-  if (get_version() == 1)
-    if (matches_sprite("images/objects/weak_block/meltbox.sprite"))
-      m_type = ICE;
 
   if (m_type == HAY)
     SoundManager::current()->preload("sounds/fire.ogg"); // TODO: Use own sound?
@@ -59,8 +69,8 @@ GameObjectTypes
 WeakBlock::get_types() const
 {
   return {
-    { "hay", _("Hay") },
-    { "ice", _("Ice") }
+    { "ice", _("Ice") },
+    { "hay", _("Hay") }
   };
 }
 
@@ -69,8 +79,8 @@ WeakBlock::get_default_sprite_name() const
 {
   switch (m_type)
   {
-    case ICE:
-      return "images/objects/weak_block/meltbox.sprite";
+    case HAY:
+      return "images/objects/weak_block/strawbox.sprite";
     default:
       return m_default_sprite_name;
   }
