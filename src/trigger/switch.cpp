@@ -19,81 +19,37 @@
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {
-const std::string SWITCH_SOUND = "sounds/switch.ogg";
-}
+  const std::string SWITCH_SOUND = "sounds/switch.ogg";
+} // namespace
 
 Switch::Switch(const ReaderMapping& reader) :
-  sprite_name(),
-  sprite(),
+  SpritedTrigger(reader, "images/objects/switch/left.sprite"),
   script(),
   off_script(),
   state(OFF),
-  bistable(),
-  m_flip(NO_FLIP)
+  bistable()
 {
-  parse_type(reader);
-
-  if (!reader.get("x", m_col.m_bbox.get_left())) throw std::runtime_error("no x position set");
-  if (!reader.get("y", m_col.m_bbox.get_top())) throw std::runtime_error("no y position set");
-  if (!reader.get("sprite", sprite_name)) on_type_change();
-  sprite = SpriteManager::current()->create(sprite_name);
-
-  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-
   reader.get("script", script);
   bistable = reader.get("off-script", off_script);
 
-  SoundManager::current()->preload( SWITCH_SOUND );
+  SoundManager::current()->preload(SWITCH_SOUND);
 }
 
 Switch::~Switch()
 {
 }
 
-GameObjectTypes
-Switch::get_types() const
-{
-  return {
-    { "sided-left", _("Sided (Left)") },
-    { "sided-right", _("Sided (Right)") },
-    { "wall", _("Wall Switch") }
-  };
-}
-
-std::string
-Switch::get_default_sprite_name() const
-{
-  switch (m_type)
-  {
-    case SIDED_RIGHT:
-      return "images/objects/switch/right.sprite";
-    case WALL:
-      return "images/objects/switch/switch.sprite";
-    default:
-      return "images/objects/switch/left.sprite";
-  }
-}
-
-void
-Switch::on_type_change(int old_type)
-{
-  sprite_name = get_default_sprite_name();
-}
-
 ObjectSettings
 Switch::get_settings()
 {
-  ObjectSettings result = TriggerBase::get_settings();
+  ObjectSettings result = SpritedTrigger::get_settings();
 
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite", get_default_sprite_name());
   result.add_script(_("Turn on script"), &script, "script");
   result.add_script(_("Turn off script"), &off_script, "off-script");
 
@@ -103,55 +59,40 @@ Switch::get_settings()
 }
 
 void
-Switch::after_editor_set()
-{
-  TriggerBase::after_editor_set();
-
-  sprite = SpriteManager::current()->create(sprite_name);
-  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-}
-
-void
 Switch::update(float )
 {
   switch (state) {
     case OFF:
       break;
     case TURN_ON:
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         std::ostringstream location;
         location << "switch" << m_col.m_bbox.p1();
         Sector::get().run_script(script, location.str());
 
-        sprite->set_action("on", 1);
+        set_action("on", 1);
         state = ON;
       }
       break;
     case ON:
-      if (sprite->animation_done() && !bistable) {
-        sprite->set_action("turnoff", 1);
+      if (m_sprite->animation_done() && !bistable) {
+        set_action("turnoff", 1);
         state = TURN_OFF;
       }
       break;
     case TURN_OFF:
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         if (bistable) {
           std::ostringstream location;
           location << "switch" << m_col.m_bbox.p1();
           Sector::get().run_script(off_script, location.str());
         }
 
-        sprite->set_action("off");
+        set_action("off");
         state = OFF;
       }
       break;
   }
-}
-
-void
-Switch::draw(DrawingContext& context)
-{
-  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_TILES, m_flip);
 }
 
 void
@@ -161,7 +102,7 @@ Switch::event(Player& , EventType type)
 
   switch (state) {
     case OFF:
-      sprite->set_action("turnon", 1);
+      set_action("turnon", 1);
       SoundManager::current()->play(SWITCH_SOUND, get_pos());
       state = TURN_ON;
       break;
@@ -169,7 +110,7 @@ Switch::event(Player& , EventType type)
       break;
     case ON:
       if (bistable) {
-        sprite->set_action("turnoff", 1);
+        set_action("turnoff", 1);
         SoundManager::current()->play(SWITCH_SOUND, get_pos());
         state = TURN_OFF;
       }
@@ -182,7 +123,7 @@ Switch::event(Player& , EventType type)
 void
 Switch::on_flip(float height)
 {
-  TriggerBase::on_flip(height);
+  SpritedTrigger::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
 }
 

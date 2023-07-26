@@ -266,7 +266,6 @@ GameObjectFactory::init_factories()
   add_factory<LevelTime>("leveltime");
   add_factory<LitObject>("lit-object");
   add_factory<MagicBlock>("magicblock");
-  add_display_name("#node", Path::Node::display_name());
   add_factory<ParticleZone>("particle-zone");
   add_factory<Platform>("platform");
   add_factory<PneumaticPlatform>("pneumatic-platform");
@@ -309,10 +308,15 @@ GameObjectFactory::init_factories()
   add_factory<worldmap::Teleporter>("teleporter", OBJ_PARAM_WORLDMAP);
   add_factory<worldmap::SpawnPointObject>("worldmap-spawnpoint", OBJ_PARAM_WORLDMAP);
 
-  add_factory("tilemap", TileMap::display_name(), [](const ReaderMapping& reader) {
+  add_factory("tilemap", {
+    [](const ReaderMapping& reader) {
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
       return std::make_unique<TileMap>(tileset, reader);
-    });
+    },
+    []() {
+      return TileMap::display_name();
+    }
+  });
 }
 
 std::unique_ptr<GameObject>

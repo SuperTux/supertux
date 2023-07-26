@@ -30,73 +30,32 @@
 #include "util/reader_mapping.hpp"
 
 Door::Door(const ReaderMapping& mapping) :
-  TriggerBase(mapping),
+  SpritedTrigger(mapping, "images/objects/door/door.sprite"),
   state(CLOSED),
   target_sector(),
   target_spawnpoint(),
   script(),
-  sprite_name("images/objects/door/door.sprite"),
-  sprite(),
   lock_sprite(SpriteManager::current()->create("images/objects/door/door_lock.sprite")),
   stay_open_timer(),
   unlocking_timer(),
   lock_warn_timer(),
-  m_flip(NO_FLIP),
   m_locked(),
   lock_color(Color::WHITE)
 {
-  mapping.get("x", m_col.m_bbox.get_left());
-  mapping.get("y", m_col.m_bbox.get_top());
   mapping.get("sector", target_sector);
   mapping.get("spawnpoint", target_spawnpoint);
-  mapping.get("sprite", sprite_name);
+  mapping.get("script", script);
   mapping.get("locked", m_locked);
 
   state = m_locked ? DoorState::LOCKED : DoorState::CLOSED;
 
-  mapping.get("script", script);
-
-  sprite = SpriteManager::current()->create(sprite_name);
-  sprite->set_action("closed");
-  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  set_action("closed");
 
   std::vector<float> vColor;
-  if (mapping.get("lock-color", vColor)) {
+  if (mapping.get("lock-color", vColor))
     lock_color = Color(vColor);
-  }
   else
-  {
     lock_color = Color::WHITE;
-  }
-  lock_sprite->set_color(lock_color);
-
-  SoundManager::current()->preload("sounds/door.wav");
-  // TODO: Add proper sounds
-  SoundManager::current()->preload("sounds/locked.ogg");
-  SoundManager::current()->preload("sounds/turnkey.ogg");
-}
-
-Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoint) :
-  TriggerBase(),
-  state(CLOSED),
-  target_sector(sector),
-  target_spawnpoint(spawnpoint),
-  script(),
-  sprite_name("images/objects/door/door.sprite"),
-  sprite(SpriteManager::current()->create(sprite_name)),
-  lock_sprite(SpriteManager::current()->create("images/objects/door/door_lock.sprite")),
-  stay_open_timer(),
-  unlocking_timer(),
-  lock_warn_timer(),
-  m_flip(NO_FLIP),
-  lock_color()
-{
-  state = m_locked ? DoorState::LOCKED : DoorState::CLOSED;
-  m_col.m_bbox.set_pos(Vector(static_cast<float>(x), static_cast<float>(y)));
-
-  sprite->set_action("closed");
-  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-
   lock_sprite->set_color(lock_color);
 
   SoundManager::current()->preload("sounds/door.wav");
@@ -108,9 +67,8 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
 ObjectSettings
 Door::get_settings()
 {
-  ObjectSettings result = TriggerBase::get_settings();
+  ObjectSettings result = SpritedTrigger::get_settings();
 
-  result.add_sprite(_("Sprite"), &sprite_name, "sprite", std::string("images/objects/door/door.sprite"));
   result.add_script(_("Script"), &script, "script");
   result.add_text(_("Sector"), &target_sector, "sector");
   result.add_text(_("Spawn point"), &target_spawnpoint, "spawnpoint");
@@ -123,14 +81,11 @@ Door::get_settings()
 }
 
 void
-Door::after_editor_set() {
-  sprite = SpriteManager::current()->create(sprite_name);
-  m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-  lock_sprite->set_color(lock_color);
-}
-
-Door::~Door()
+Door::after_editor_set()
 {
+  SpritedTrigger::after_editor_set();
+
+  lock_sprite->set_color(lock_color);
 }
 
 void
@@ -141,9 +96,9 @@ Door::update(float )
       break;
     case OPENING:
       // if door has finished opening, start timer and keep door open
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         state = OPEN;
-        sprite->set_action("open");
+        set_action("open");
         stay_open_timer.start(1.0);
       }
       break;
@@ -151,14 +106,14 @@ Door::update(float )
       // if door was open long enough, start closing it
       if (stay_open_timer.check()) {
         state = CLOSING;
-        sprite->set_action("closing", 1);
+        set_action("closing", 1);
       }
       break;
     case CLOSING:
       // if door has finished closing, keep it shut
-      if (sprite->animation_done()) {
+      if (m_sprite->animation_done()) {
         state = CLOSED;
-        sprite->set_action("closed");
+        set_action("closed");
       }
       break;
     case LOCKED:
@@ -181,7 +136,7 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1, m_flip);
+  m_sprite->draw(context.color(), m_col.m_bbox.p1(), LAYER_BACKGROUNDTILES+1, m_flip);
 
   if (state == DoorState::LOCKED || state == DoorState::UNLOCKING)
   {
@@ -201,7 +156,7 @@ Door::event(Player& , EventType type)
       if (type == EVENT_ACTIVATE) {
         state = OPENING;
         SoundManager::current()->play("sounds/door.wav", get_pos());
-        sprite->set_action("opening", 1);
+        set_action("opening", 1);
         ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 1.0f));
       }
       break;
@@ -236,7 +191,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
 
       if (player) {
         state = CLOSING;
-        sprite->set_action("closing", 1);
+        set_action("closing", 1);
         if (!script.empty()) {
           Sector::get().run_script(script, "Door");
         }
