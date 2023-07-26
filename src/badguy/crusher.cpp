@@ -74,6 +74,8 @@ Crusher::get_types() const
   return {
     { "ice-krush", _("Ice (normal)") },
     { "ice-krosh", _("Ice (big)") },
+    { "rock-krush", _("Rock (normal)") },
+    { "rock-krosh", _("Rock (big)") },
     { "corrupted-krush", _("Corrupted (normal)") },
     { "corrupted-krosh", _("Corrupted (big)") }
   };

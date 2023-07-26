@@ -49,6 +49,12 @@ SmartBall::get_default_sprite_name() const
 }
 
 bool
+SmartBall::is_freezable() const
+{
+  return m_type == PUMPKIN;
+}
+
+bool
 SmartBall::collision_squished(GameObject& object)
 {
   set_action("squished", m_dir);

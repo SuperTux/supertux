@@ -74,6 +74,12 @@ MrIceBlock::get_default_sprite_name() const
   }
 }
 
+bool
+MrIceBlock::is_freezable() const
+{
+  return m_type == LAPTOP;
+}
+
 void
 MrIceBlock::active_update(float dt_sec)
 {

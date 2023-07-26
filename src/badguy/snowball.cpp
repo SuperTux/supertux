@@ -38,7 +38,6 @@ SnowBall::get_types() const
 {
   return {
     { "normal", _("Normal") },
-    { "christmas", _("Christmas") },
     { "bumpkin", _("Bumpkin") },
     { "bsod", _("BSOD") }
   };
@@ -49,8 +48,6 @@ SnowBall::get_default_sprite_name() const
 {
   switch (m_type)
   {
-    case CHRISTMAS:
-      return "images/creatures/snowball/seasonal_snowball.sprite";
     case BUMPKIN:
       return "images/creatures/pumpkin/bumpkin.sprite";
     case BSOD:
@@ -58,6 +55,12 @@ SnowBall::get_default_sprite_name() const
     default:
       return m_default_sprite_name;
   }
+}
+
+bool
+SnowBall::is_freezable() const
+{
+  return m_type == BUMPKIN || m_type == BSOD;
 }
 
 bool
