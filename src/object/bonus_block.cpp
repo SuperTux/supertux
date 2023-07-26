@@ -69,7 +69,7 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   m_script(),
   m_lightsprite(),
   m_custom_sx(),
-  m_coin_sprite("images/objects/coin/coin.sprite")
+  m_coin_sprite(get_default_coin_sprite())
 {
   set_action("normal");
   m_contents = get_content_by_data(tile_data);
@@ -84,7 +84,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_script(),
   m_lightsprite(),
   m_custom_sx(),
-  m_coin_sprite("images/objects/coin/coin.sprite")
+  m_coin_sprite(get_default_coin_sprite())
 {
   parse_type(mapping);
   mapping.get("count", m_hit_counter);
@@ -177,6 +177,7 @@ BonusBlock::on_type_change(int old_type)
   Block::on_type_change();
 
   m_hit_counter = get_default_hit_counter();
+  m_coin_sprite = get_default_coin_sprite();
 }
 
 int
@@ -190,6 +191,18 @@ BonusBlock::get_default_hit_counter() const
       return 5;
     default:
       return 1;
+  }
+}
+
+std::string
+BonusBlock::get_default_coin_sprite() const
+{
+  switch (m_type)
+  {
+    case RETRO:
+      return "images/objects/coin/retro_coin.sprite";
+    default:
+      return "images/objects/coin/coin.sprite";
   }
 }
 
@@ -220,10 +233,6 @@ BonusBlock::get_content_by_data(int tile_data) const
   }
 }
 
-BonusBlock::~BonusBlock()
-{
-}
-
 ObjectSettings
 BonusBlock::get_settings()
 {
@@ -239,7 +248,9 @@ BonusBlock::get_settings()
                    "1up", "custom", "script", "light", "light-on", "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion"},
                   static_cast<int>(Content::COIN), "contents");
   result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
-  result.add_sprite(_("Coin sprite"), &m_coin_sprite, "coin-sprite", "images/objects/coin/coin.sprite");
+
+  if (m_contents == Content::COIN || m_contents == Content::RAIN || m_contents == Content::EXPLODE)
+    result.add_sprite(_("Coin sprite"), &m_coin_sprite, "coin-sprite", get_default_coin_sprite());
 
   result.reorder({"script", "count", "contents", "coin-sprite", "sprite", "x", "y"});
 

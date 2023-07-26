@@ -49,7 +49,6 @@ public:
 public:
   BonusBlock(const Vector& pos, int tile_data);
   BonusBlock(const ReaderMapping& mapping);
-  ~BonusBlock() override;
 
   virtual void hit(Player& player) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -73,6 +72,7 @@ private:
   void on_type_change(int old_type) override;
 
   int get_default_hit_counter() const;
+  std::string get_default_coin_sprite() const;
 
   void try_drop(Player* player);
 
