@@ -72,6 +72,8 @@ public:
 private:
   void on_type_change(int old_type) override;
 
+  int get_default_hit_counter() const;
+
   void try_drop(Player* player);
 
   void preload_contents(int d);
@@ -86,7 +88,8 @@ private:
   enum Type {
     BLUE,
     ORANGE,
-    PURPLE
+    PURPLE,
+    RETRO
   };
 
 private:

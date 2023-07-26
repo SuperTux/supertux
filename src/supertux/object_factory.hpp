@@ -85,17 +85,36 @@ protected:
     factories[name] = std::move(functions);
   }
 
+private:
   template<class C>
-  void add_factory(const char* class_name, uint8_t obj_params = 0)
+  void add_factory(const char* class_name,
+                   const std::function<std::unique_ptr<GameObject> (const ReaderMapping&)>& create_func,
+                   uint8_t obj_params = 0)
   {
-    add_factory(class_name, {
-                  [](const ReaderMapping& reader) {
-                    return std::make_unique<C>(reader);
-                  },
+    add_factory(class_name, { std::move(create_func),
                   []() {
                     return C::display_name();
                   }
                 }, obj_params);
+  }
+
+protected:
+  template<class C>
+  void add_factory(const char* class_name, uint8_t obj_params = 0)
+  {
+    add_factory<C>(class_name,
+                   [](const ReaderMapping& reader) {
+                     return std::make_unique<C>(reader);
+                   }, obj_params);
+  }
+
+  template<class C>
+  void add_type_factory(const char* class_name, int type, uint8_t obj_params = 0)
+  {
+    add_factory<C>(class_name,
+                   [type](const ReaderMapping& reader) {
+                     return std::make_unique<C>(reader, type);
+                   }, obj_params);
   }
 };
 

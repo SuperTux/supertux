@@ -33,15 +33,12 @@ public:
   virtual ObjectSettings get_settings() override;
 
   GameObjectTypes get_types() const override;
-  std::string get_default_sprite_name() const;
+  std::string get_default_sprite_name() const override;
 
   virtual void update(float dt_sec) override;
   virtual void event(Player& player, EventType type) override;
 
   virtual void on_flip(float height) override;
-
-private:
-  void on_type_change(int old_type = -1) override;
 
 private:
   enum Type {

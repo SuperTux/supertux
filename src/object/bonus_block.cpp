@@ -57,7 +57,7 @@ std::unique_ptr<MovingObject> to_moving_object(std::unique_ptr<GameObject> objec
   }
 }
 
-const float upgrade_sound_gain = 0.3f;
+const float UPGRADE_SOUND_GAIN = 0.3f;
 
 } // namespace
 
@@ -87,89 +87,60 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_coin_sprite("images/objects/coin/coin.sprite")
 {
   parse_type(mapping);
+  mapping.get("count", m_hit_counter);
+  mapping.get("script", m_script);
+  mapping.get("coin-sprite", m_coin_sprite);
 
-  auto iter = mapping.get_iter();
-  while (iter.next()) {
-    const std::string& token = iter.get_key();
-    if (token == "x" || token == "y" || token == "sprite") {
-      // already initialized in Block::Block
-    } else if (token == "count") {
-      iter.get(m_hit_counter);
-    } else if (token == "script") {
-      iter.get(m_script);
-    } else if (token == "data") {
-      int d = 0;
-      iter.get(d);
-      m_contents = get_content_by_data(d);
-      preload_contents(d);
-    } else if (token == "contents") {
-      std::string contentstring;
-      iter.get(contentstring);
+  int data = 0;
+  if (mapping.get("data", data))
+  {
+    m_contents = get_content_by_data(data);
+    preload_contents(data);
+  }
 
-      m_contents = get_content_from_string(contentstring);
+  std::string content;
+  if (mapping.get("contents", content))
+  {
+    m_contents = get_content_from_string(content);
+    if (m_contents == Content::CUSTOM)
+    {
+      if (Editor::is_active()) {
+        mapping.get("custom-contents", m_custom_sx);
+      } else {
+        std::optional<ReaderCollection> content_collection;
+        if (!mapping.get("custom-contents", content_collection))
+        {
+          log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
+        }
+        else
+        {
+          const auto& object_specs = content_collection->get_objects();
+          if (!object_specs.empty()) {
+            if (object_specs.size() > 1) {
+              log_warning << "only one object allowed in bonusblock 'custom-contents', ignoring the rest" << std::endl;
+            }
 
-      if (m_contents == Content::CUSTOM)
-      {
-        if (Editor::is_active()) {
-          mapping.get("custom-contents", m_custom_sx);
-        } else {
-          std::optional<ReaderCollection> content_collection;
-          if (!mapping.get("custom-contents", content_collection))
-          {
-            log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
-          }
-          else
-          {
-            const auto& object_specs = content_collection->get_objects();
-            if (!object_specs.empty()) {
-              if (object_specs.size() > 1) {
-                log_warning << "only one object allowed in bonusblock 'custom-contents', ignoring the rest" << std::endl;
-              }
-
-              const ReaderObject& spec = object_specs[0];
-              auto game_object = GameObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
-              m_object = to_moving_object(std::move(game_object));
-              if (!m_object) {
-                log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
-              }
+            const ReaderObject& spec = object_specs[0];
+            auto game_object = GameObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
+            m_object = to_moving_object(std::move(game_object));
+            if (!m_object) {
+              log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
             }
           }
         }
       }
-    } else if (token == "coin-sprite") {
-      iter.get(m_coin_sprite);
-    } else if (token == "custom-contents") {
-      // handled elsewhere
-    } else {
-      if (m_contents == Content::CUSTOM && !m_object) {
-        // FIXME: This an ugly mess, could probably be removed as of
-        // 16. Aug 2018 no level in either the supertux or the
-        // addon-src repository is using this anymore
-        ReaderMapping object_mapping = iter.as_mapping();
-        auto game_object = GameObjectFactory::instance().create(token, object_mapping);
-
-        m_object = to_moving_object(std::move(game_object));
-        if (!m_object) {
-          throw std::runtime_error("Only MovingObjects are allowed inside BonusBlocks");
-        }
-      } else {
-        log_warning << "Invalid element '" << token << "' in bonusblock" << std::endl;
-      }
     }
   }
 
-  if (!Editor::is_active()) {
-    if (m_contents == Content::CUSTOM && !m_object) {
-      throw std::runtime_error("Need to specify content object for custom block");
-    }
-  }
+  if (!Editor::is_active() && m_contents == Content::CUSTOM && !m_object)
+    throw std::runtime_error("Need to specify content object for custom block");
 
-  if (m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON) {
+  if (m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON)
+  {
     SoundManager::current()->preload("sounds/switch.ogg");
     m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
-    if (m_contents == Content::LIGHT_ON) {
+    if (m_contents == Content::LIGHT_ON)
       set_action("on");
-    }
   }
 }
 
@@ -179,7 +150,8 @@ BonusBlock::get_types() const
   return {
     { "blue", _("Blue") },
     { "orange", _("Orange") },
-    { "purple", _("Purple") }
+    { "purple", _("Purple") },
+    { "retro", _("Retro") }
   };
 }
 
@@ -192,6 +164,8 @@ BonusBlock::get_default_sprite_name() const
       return "images/objects/bonus_block/orangeblock.sprite";
     case PURPLE:
       return "images/objects/bonus_block/purpleblock.sprite";
+    case RETRO:
+      return "images/objects/bonus_block/retroblock.sprite";
     default:
       return m_default_sprite_name;
   }
@@ -200,19 +174,22 @@ BonusBlock::get_default_sprite_name() const
 void
 BonusBlock::on_type_change(int old_type)
 {
-  MovingSprite::on_type_change();
+  Block::on_type_change();
 
+  m_hit_counter = get_default_hit_counter();
+}
+
+int
+BonusBlock::get_default_hit_counter() const
+{
   switch (m_type)
   {
     case ORANGE:
-      m_hit_counter = 3;
-      break;
+      return 3;
     case PURPLE:
-      m_hit_counter = 5;
-      break;
+      return 5;
     default:
-      m_hit_counter = 1;
-      break;
+      return 1;
   }
 }
 
@@ -253,7 +230,7 @@ BonusBlock::get_settings()
   ObjectSettings result = Block::get_settings();
 
   result.add_script(_("Script"), &m_script, "script");
-  result.add_int(_("Count"), &m_hit_counter, "count", 1);
+  result.add_int(_("Count"), &m_hit_counter, "count", get_default_hit_counter());
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
                   {_("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
                    _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
@@ -401,19 +378,19 @@ BonusBlock::try_open(Player* player)
     }
     case Content::TRAMPOLINE:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), false), true);
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), Trampoline::STATIONARY), true);
       play_upgrade_sound = true;
       break;
     }
     case Content::PORTABLE_TRAMPOLINE:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), true), true);
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), Trampoline::PORTABLE), true);
       play_upgrade_sound = true;
       break;
     }
     case Content::ROCK:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Rock>(get_pos(), "images/objects/rock/rock.sprite"));
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Rock>(get_pos()));
       break;
     }
     case Content::POTION:
@@ -436,7 +413,7 @@ BonusBlock::try_open(Player* player)
   }
 
   if (play_upgrade_sound)
-    SoundManager::current()->play("sounds/upgrade.wav", get_pos(), upgrade_sound_gain);
+    SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
 
   if (!m_script.empty()) { // scripts always run if defined
     Sector::get().run_script(m_script, "BonusBlockScript");
@@ -581,7 +558,7 @@ BonusBlock::try_drop(Player *player)
   }
 
   if (play_upgrade_sound)
-    SoundManager::current()->play("sounds/upgrade.wav", get_pos(), upgrade_sound_gain);
+    SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
 
   if (!m_script.empty()) { // scripts always run if defined
     Sector::get().run_script(m_script, "powerup-script");
@@ -610,7 +587,7 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
   }
 
   Sector::get().add<SpecialRiser>(get_pos(), std::move(obj));
-  SoundManager::current()->play("sounds/upgrade.wav", get_pos(), upgrade_sound_gain);
+  SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
 }
 
 void
@@ -624,7 +601,7 @@ BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bo
   {
     Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), type);
   }
-  SoundManager::current()->play("sounds/upgrade.wav", get_pos(), upgrade_sound_gain);
+  SoundManager::current()->play("sounds/upgrade.wav", get_pos(), UPGRADE_SOUND_GAIN);
   countdown = true;
 }
 

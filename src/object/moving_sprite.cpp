@@ -73,7 +73,6 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
     m_sprite_found = false;
   }
 
-  update_hitbox();
   set_group(collision_group);
 }
 
@@ -186,6 +185,7 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
   m_sprite = SpriteManager::current()->create(new_sprite_name);
   m_sprite_name = new_sprite_name;
+  update_hitbox();
 
   return SpriteManager::current()->last_load_successful();
 }

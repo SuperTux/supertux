@@ -19,13 +19,12 @@
 
 #include "badguy/badguy.hpp"
 
-#include "audio/sound_source.hpp"
+class SoundSource;
 
-class Flame : public BadGuy
+class Flame final : public BadGuy
 {
 public:
-  Flame(const ReaderMapping& reader,
-        const std::string& sprite = "images/creatures/flame/flame.sprite");
+  Flame(const ReaderMapping& reader, int type = -1);
 
   virtual void activate() override;
   virtual void deactivate() override;
@@ -34,10 +33,14 @@ public:
   virtual void kill_fall() override;
 
   virtual void freeze() override;
+  virtual void ignite() override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
 
   virtual ObjectSettings get_settings() override;
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
   static std::string class_name() { return "flame"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Flame"); }
@@ -48,7 +51,14 @@ public:
 
   virtual void on_flip(float height) override;
 
-protected:
+public:
+  enum Type {
+    FIRE,
+    GHOST,
+    ICE
+  };
+
+private:
   float angle;
   float radius;
   float speed;

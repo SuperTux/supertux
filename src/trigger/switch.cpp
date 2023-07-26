@@ -35,6 +35,7 @@ Switch::Switch(const ReaderMapping& reader) :
   state(OFF),
   bistable()
 {
+  parse_type(reader);
   reader.get("script", script);
   bistable = reader.get("off-script", off_script);
 
@@ -43,6 +44,30 @@ Switch::Switch(const ReaderMapping& reader) :
 
 Switch::~Switch()
 {
+}
+
+GameObjectTypes
+Switch::get_types() const
+{
+  return {
+    { "sided-left", _("Sided (Left)") },
+    { "sided-right", _("Sided (Right)") },
+    { "wall", _("Wall Switch") }
+  };
+}
+
+std::string
+Switch::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case SIDED_RIGHT:
+      return "images/objects/switch/right.sprite";
+    case WALL:
+      return "images/objects/switch/switch.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 ObjectSettings
