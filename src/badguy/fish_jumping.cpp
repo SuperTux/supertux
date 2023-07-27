@@ -16,6 +16,7 @@
 
 #include "badguy/fish_jumping.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -80,6 +81,7 @@ FishJumping::collision_tile(uint32_t tile_attributes)
       if (!m_frozen)
         start_waiting();
       m_col.set_movement(Vector(0, 0));
+      SoundManager::current()->play("sounds/splash.wav", get_pos());
     }
   }
   if ((!(tile_attributes & Tile::WATER) || m_frozen) && (tile_attributes & Tile::HURTS)) {

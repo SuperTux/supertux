@@ -17,10 +17,7 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_DIRECTION_HPP
 #define HEADER_SUPERTUX_WORLDMAP_DIRECTION_HPP
 
-#include <memory>
 #include <string>
-
-class ObjectOption;
 
 namespace worldmap {
 

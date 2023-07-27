@@ -31,7 +31,6 @@
 
 class ItemAction;
 class ItemBack;
-class ItemBadguySelect;
 class ItemColor;
 class ItemColorChannelRGBA;
 class ItemColorChannelOKLab;
@@ -45,6 +44,7 @@ class ItemHorizontalMenu;
 class ItemInactive;
 class ItemIntField;
 class ItemLabel;
+class ItemObjectSelect;
 class ItemPaths;
 class ItemScript;
 class ItemScriptLine;
@@ -102,7 +102,6 @@ public:
   ItemScriptLine& add_script_line(std::string* input, int id = -1);
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
-  ItemBadguySelect& add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
   ItemFile& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                      const std::string& basedir, bool path_relative_to_basedir, int id = -1);
 

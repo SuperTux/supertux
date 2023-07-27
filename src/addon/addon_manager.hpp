@@ -27,7 +27,7 @@
 #include "util/currenton.hpp"
 
 class Addon;
-using TransferStatusPtr = std::shared_ptr<TransferStatus>;
+class AddonDependencyManager;
 
 typedef std::string AddonId;
 
@@ -39,30 +39,31 @@ public:
 
 private:
   Downloader m_downloader;
-  std::string m_addon_directory;
-  std::string m_cache_directory;
+  const std::string m_addon_directory;
+  const std::string m_cache_directory;
+  const std::string m_screenshots_cache_directory;
   std::string m_repository_url;
   std::vector<Config::Addon>& m_addon_config;
 
   AddonList m_installed_addons;
   AddonList m_repository_addons;
 
+  bool m_initialized;
   bool m_has_been_updated;
 
-  TransferStatusPtr m_transfer_status;
+  TransferStatusListPtr m_transfer_statuses;
 
 public:
   AddonManager(const std::string& addon_directory,
                std::vector<Config::Addon>& addon_config);
   ~AddonManager() override;
 
+  void empty_cache_directory();
+
   bool has_online_support() const;
   bool has_been_updated() const;
   void check_online();
   TransferStatusPtr request_check_online();
-
-  std::string get_cache_directory() const { return m_cache_directory; }
-  void empty_cache_directory();
 
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
@@ -70,10 +71,14 @@ public:
   Addon& get_repository_addon(const AddonId& addon) const;
   Addon& get_installed_addon(const AddonId& addon) const;
 
-  TransferStatusPtr request_install_addon(const AddonId& addon_id);
+  TransferStatusListPtr request_install_addon(const AddonId& addon_id);
+  TransferStatusListPtr request_install_addon_dependencies(const AddonId& addon_id);
   void install_addon(const AddonId& addon_id);
   void uninstall_addon(const AddonId& addon_id);
   void install_addon_from_local_file(const std::string& filename);
+
+  TransferStatusListPtr request_download_addon_screenshots(const AddonId& addon_id);
+  std::vector<std::string> get_local_addon_screenshots(const AddonId& addon_id);
 
   void enable_addon(const AddonId& addon_id);
   void disable_addon(const AddonId& addon_id);
@@ -86,6 +91,8 @@ public:
   bool is_from_old_addon(const std::string& filename) const;
   bool is_addon_installed(const std::string& id) const;
 
+  std::vector<AddonId> get_depending_addons(const std::string& id) const;
+
   void update();
   void check_for_langpack_updates();
 
@@ -97,6 +104,8 @@ public:
 #endif
 
 private:
+  TransferStatusListPtr request_install_addon_dependencies(const Addon& addon);
+
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
   AddonList parse_addon_infos(const std::string& filename) const;
@@ -112,36 +121,6 @@ private:
 private:
   AddonManager(const AddonManager&) = delete;
   AddonManager& operator=(const AddonManager&) = delete;
-};
-
-/** Manages screenshot previews, specified for a given Add-on */
-class AddonScreenshotManager final
-{
-public:
-  using ScreenshotList = std::vector<std::string>;
-
-private:
-  AddonManager& m_addon_manager;
-  Downloader m_downloader;
-  std::string m_cache_directory;
-  const AddonId m_addon_id;
-  ScreenshotList m_screenshot_urls;
-  ScreenshotList m_local_screenshot_urls;
-  TransferStatusPtr m_transfer_status;
-  std::function<void (ScreenshotList)> m_callback;
-
-public:
-  AddonScreenshotManager(const AddonId& addon_id);
-  ~AddonScreenshotManager();
-
-  void update();
-
-  void request_download_all(const std::function<void (ScreenshotList)>& callback = {});
-  void request_download(const int id, bool recursive = false);
-
-private:
-  AddonScreenshotManager(const AddonScreenshotManager&) = delete;
-  AddonScreenshotManager& operator=(const AddonScreenshotManager&) = delete;
 };
 
 #endif

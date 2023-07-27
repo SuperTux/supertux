@@ -29,8 +29,8 @@
 
 WorldmapCheatMenu::WorldmapCheatMenu()
 {
-  auto worldmap = worldmap::WorldMap::current();
-  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
+  auto worldmap_sector = worldmap::WorldMapSector::current();
+  auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
 
   add_label(_("Cheats"));
   add_hl();
@@ -60,8 +60,9 @@ void
 WorldmapCheatMenu::menu_action(MenuItem& item)
 {
   auto worldmap = worldmap::WorldMap::current();
-  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
-  assert(worldmap);
+  auto worldmap_sector = &worldmap->get_sector();
+  auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
+  assert(worldmap_sector);
 
   PlayerStatus& status = worldmap->get_savegame().get_player_status();
 
@@ -114,7 +115,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
     case MNID_FINISH_LEVEL:
       {
-        auto level_tile = worldmap->at_level();
+        auto level_tile = worldmap_sector->at_object<worldmap::LevelTile>();
         if (level_tile)
         {
           level_tile->set_solved(true);
@@ -126,7 +127,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
 
     case MNID_RESET_LEVEL:
       {
-        auto level_tile = worldmap->at_level();
+        auto level_tile = worldmap_sector->at_object<worldmap::LevelTile>();
         if (level_tile)
         {
           level_tile->set_solved(false);
@@ -151,7 +152,7 @@ WorldmapCheatMenu::menu_action(MenuItem& item)
       return;
 
     case MNID_MOVE_TO_MAIN:
-      worldmap->move_to_spawnpoint("main");
+      worldmap_sector->move_to_spawnpoint("main");
       MenuManager::instance().clear_menu_stack();
       break;
   }
@@ -181,11 +182,11 @@ WorldmapCheatMenu::do_cheat(PlayerStatus& status,
 
 WorldmapLevelSelectMenu::WorldmapLevelSelectMenu()
 {
-  auto worldmap = worldmap::WorldMap::current();
+  auto worldmap_sector = worldmap::WorldMapSector::current();
   int id = 0;
   add_label(_("Select level"));
   add_hl();
-  for (auto& level : worldmap->get_objects_by_type<worldmap::LevelTile>())
+  for (auto& level : worldmap_sector->get_objects_by_type<worldmap::LevelTile>())
   {
     add_entry(id, level.get_title());
     id++;
@@ -197,14 +198,14 @@ WorldmapLevelSelectMenu::WorldmapLevelSelectMenu()
 void
 WorldmapLevelSelectMenu::menu_action(MenuItem& item)
 {
-  auto worldmap = worldmap::WorldMap::current();
-  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
+  auto worldmap_sector = worldmap::WorldMapSector::current();
+  auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
   int id = 0;
-  for(const auto& tile : worldmap->get_objects_by_type<worldmap::LevelTile>())
+  for(const auto& tile : worldmap_sector->get_objects_by_type<worldmap::LevelTile>())
   {
     if(id == item.get_id())
     {
-      tux.set_tile_pos(tile.get_pos());
+      tux.set_tile_pos(tile.get_tile_pos());
       break;
     }
     id++;

@@ -745,19 +745,29 @@ Player::update(float dt_sec)
     }
   }
 
-  if (m_does_buttjump)
+  if (m_does_buttjump || (m_stone && m_physic.get_velocity_y() > 30.f && !m_coyote_timer.started()))
   {
     Rectf downbox = get_bbox().grown(-1.f);
     downbox.set_bottom(get_bbox().get_bottom() + 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (downbox.contains(brick.get_bbox()) && brick.get_class_name() != "heavy-brick") {
+      // stoneform breaks through any kind of bricks
+      if (downbox.contains(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
         brick.try_break(this, is_big());
-      }
     }
     for (auto& badguy : Sector::get().get_objects_by_type<BadGuy>()) {
-      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable()) {
+      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable())
         badguy.kill_fall();
-      }
+    }
+  }
+
+  // break bricks above without stopping
+  if (m_stone && m_physic.get_velocity_y() < 30.f)
+  {
+    Rectf topbox = get_bbox().grown(-1.f);
+    topbox.set_top(get_bbox().get_top() - 16.f);
+    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+      if (topbox.contains(brick.get_bbox()))
+        brick.try_break(this, is_big());
     }
   }
 
@@ -2044,8 +2054,16 @@ Player::draw(DrawingContext& context)
         m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
     }
-    else {
+    else
+    {
+      if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM-3)
+      {
+        m_sprite->set_action(sa_prefix+"-run"+sa_postfix);
+      }
+      else
+      {
         m_sprite->set_action(sa_prefix+"-walk"+sa_postfix);
+      }
     }
   }
 
@@ -2321,7 +2339,7 @@ Player::kill(bool completely)
     }
   }
 
-  Sector::get().get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
+  //Sector::get().get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
 }
 
 void

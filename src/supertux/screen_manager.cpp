@@ -146,7 +146,8 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_speed(1.0),
   m_actions(),
   m_screen_fade(),
-  m_screen_stack()
+  m_screen_stack(),
+  m_draw_hud(true)
 {
 }
 
@@ -277,26 +278,27 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 
   // draw effects and hud
   auto& context = compositor.make_context(true);
-  m_menu_manager->draw(context);
 
-  if (m_screen_fade) {
+  if (m_screen_fade)
     m_screen_fade->draw(context);
-  }
 
-  Console::current()->draw(context);
+  if (m_draw_hud)
+  {
+    m_menu_manager->draw(context);
 
-  if (g_config->mobile_controls)
-    m_mobile_controller.draw(context);
+    Console::current()->draw(context);
 
-  if (g_config->show_fps)
-    draw_fps(context, fps_statistics);
+    if (g_config->mobile_controls)
+      m_mobile_controller.draw(context);
 
-  if (g_config->show_controller) {
-    m_controller_hud->draw(context);
-  }
+    if (g_config->show_fps)
+      draw_fps(context, fps_statistics);
 
-  if (g_config->show_player_pos) {
-    draw_player_pos(context);
+    if (g_config->show_controller)
+      m_controller_hud->draw(context);
+
+    if (g_config->show_player_pos)
+      draw_player_pos(context);
   }
 
   // render everything

@@ -80,31 +80,24 @@ FileSystemMenu::refresh_items()
   if (m_directory != "/") {
     m_directories.push_back("..");
   }
-
-  char** dir_files = PHYSFS_enumerateFiles(m_directory.c_str());
-  if (dir_files)
-  {
-    for (const char* const* file = dir_files; *file != nullptr; ++file)
+  physfsutil::enumerate_files(m_directory, [this](const std::string& file) {
+    std::string filepath = FileSystem::join(m_directory, file);
+    if (physfsutil::is_directory(filepath))
     {
-      std::string filepath = FileSystem::join(m_directory, *file);
-      if (physfsutil::is_directory(filepath))
-      {
-        m_directories.push_back(*file);
+      m_directories.push_back(file);
+    }
+    else
+    {
+      if (AddonManager::current()->is_from_old_addon(filepath)) {
+        return;
       }
-      else
-      {
-        if (AddonManager::current()->is_from_old_addon(filepath)) {
-          continue;
-        }
 
-        if (has_right_suffix(*file))
-        {
-          m_files.push_back(*file);
-        }
+      if (has_right_suffix(file))
+      {
+        m_files.push_back(file);
       }
     }
-    PHYSFS_freeList(dir_files);
-  }
+  });
 
   for (const auto& item : m_directories)
   {
