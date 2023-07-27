@@ -20,10 +20,9 @@
 #include "gui/menu.hpp"
 
 #include "supertux/savegame.hpp"
-#include "supertux/world.hpp"
 #include "video/surface_ptr.hpp"
 
-/* Represents a menu that should show world preview screenshots and progress. */
+/** Represents a menu, which shows world preview screenshots and progress. */
 class WorldPreviewMenu : public Menu
 {
 public:
@@ -32,7 +31,7 @@ public:
   void menu_action(MenuItem& item) override;
 
 protected:
-  ItemAction* add_world(std::string title, std::string folder,
+  ItemAction* add_world(const std::string& title, const std::string& folder,
                         SurfacePtr preview = nullptr, Savegame::Progress progress = { -1, -1 });
 
   SurfacePtr find_preview(const std::string& preview_file, const std::string& basedir);

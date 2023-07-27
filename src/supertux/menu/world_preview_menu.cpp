@@ -23,8 +23,9 @@
 #include "gui/menu_item.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/resources.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
+#include "supertux/resources.hpp"
+#include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
@@ -35,7 +36,7 @@ WorldPreviewMenu::WorldPreviewMenu() :
 }
 
 ItemAction*
-WorldPreviewMenu::add_world(std::string title, std::string folder,
+WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
                             SurfacePtr preview, Savegame::Progress progress)
 {
   ItemAction& item = add_entry(static_cast<int>(m_world_entries.size()), title);

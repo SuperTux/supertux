@@ -19,6 +19,7 @@
 
 #include "gui/item_action.hpp"
 #include "supertux/levelset.hpp"
+#include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 

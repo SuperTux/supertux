@@ -20,6 +20,8 @@
 
 #include "supertux/menu/world_preview_menu.hpp"
 
+class World;
+
 class SortedContribMenu final : public WorldPreviewMenu
 {
 public:
