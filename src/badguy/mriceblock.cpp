@@ -19,6 +19,7 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite.hpp"
@@ -83,6 +84,12 @@ MrIceBlock::is_freezable() const
 void
 MrIceBlock::active_update(float dt_sec)
 {
+  if (m_frozen)
+  {
+    BadGuy::active_update(dt_sec);
+    return;
+  }
+
   if (ice_state == ICESTATE_GRABBED || is_grabbed())
     return;
 
@@ -128,7 +135,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
       m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);
     }
-    set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+    set_action("flat", m_dir, /* loops = */ -1);
     if (fabsf(m_physic.get_velocity_x()) < walk_speed * 1.5f)
       set_state(ICESTATE_NORMAL);
     break;
@@ -145,6 +152,15 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
 HitResponse
 MrIceBlock::collision(GameObject& object, const CollisionHit& hit)
 {
+  if (m_frozen)
+  {
+    auto bullet = dynamic_cast<Bullet*>(&object);
+    if (bullet)
+      return BadGuy::collision_bullet(*bullet, hit);
+
+    return FORCE_MOVE;
+  }
+
   if (ice_state == ICESTATE_GRABBED)
     return FORCE_MOVE;
 
@@ -261,18 +277,18 @@ MrIceBlock::set_state(IceState state_)
 
   switch (state_) {
   case ICESTATE_NORMAL:
-    set_action(m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+    set_action(m_dir, /* loops = */ -1);
     WalkingBadguy::initialize();
     break;
   case ICESTATE_FLAT:
-    set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+    set_action("flat", m_dir, /* loops = */ -1);
     flat_timer.start(4);
     break;
   case ICESTATE_KICKED:
     SoundManager::current()->play("sounds/kick.wav", get_pos());
 
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED : KICKSPEED);
-    set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+    set_action("flat", m_dir, /* loops = */ -1);
     // we should slide above 1 block holes now...
     m_col.m_bbox.set_size(34, 31.8f);
     break;
@@ -291,10 +307,16 @@ MrIceBlock::set_state(IceState state_)
 void
 MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
+  if (m_frozen)
+  {
+    BadGuy::grab(object, pos, dir_);
+    return;
+  }
+
   Portable::grab(object, pos, dir_);
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;
-  set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  set_action("flat", m_dir, /* loops = */ -1);
   set_state(ICESTATE_GRABBED);
   set_colgroup_active(COLGROUP_DISABLED);
 }
@@ -302,6 +324,12 @@ MrIceBlock::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 MrIceBlock::ungrab(MovingObject& object, Direction dir_)
 {
+  if (m_frozen)
+  {
+    BadGuy::ungrab(object, dir_);
+    return;
+  }
+
   auto player = dynamic_cast<Player*> (&object);
   if (player && (player->is_swimming() || player->is_water_jumping()))
   {
