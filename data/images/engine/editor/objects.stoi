@@ -74,7 +74,7 @@
     (icon "images/creatures/crusher/krush_ice_hit.png"))
   (object
     (class "stalactite")
-    (icon "images/creatures/stalactite/falling.png"))
+    (icon "images/creatures/stalactite/stalactite_ice.png"))
   (object
     (class "willowisp")
     (icon "images/creatures/willowisp/editor.png"))
@@ -155,7 +155,7 @@
     (icon "images/creatures/angrystone/charging-0.png"))
   (object
     (class "darttrap")
-    (icon "images/creatures/darttrap/d1.png"))
+    (icon "images/creatures/darttrap/empty-2.png"))
   (object
     (class "dispenser")
     (icon "images/creatures/dispenser/cannon_left.png"))
@@ -192,7 +192,7 @@
     (icon "images/creatures/skydive/skydive-0.png"))
   (object
     (class "dart")
-    (icon "images/creatures/dart/flying.png"))
+    (icon "images/creatures/darttrap/skull_dart.png"))
  )
 
  (objectgroup
