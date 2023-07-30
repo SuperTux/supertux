@@ -756,7 +756,7 @@ Player::update(float dt_sec)
         brick.try_break(this, is_big());
     }
     for (auto& badguy : Sector::get().get_objects_by_type<BadGuy>()) {
-      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable())
+      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable() && !badguy.is_grabbed())
         badguy.kill_fall();
     }
   }
