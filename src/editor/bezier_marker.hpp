@@ -22,7 +22,7 @@
 
 class NodeMarker;
 
-class BezierMarker : public MarkerObject
+class BezierMarker final : public MarkerObject
 {
 public:
   BezierMarker(Path::Node* node, Vector* bezier_pos);
@@ -38,6 +38,9 @@ public:
 
   void set_parent(UID uid) { m_parent = uid; }
   NodeMarker* get_parent() const;
+
+  void save_state() override;
+  void check_state() override;
 
 private:
   Path::Node* m_node;

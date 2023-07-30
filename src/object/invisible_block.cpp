@@ -19,22 +19,19 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos) :
-   Block(SpriteManager::current()->create("images/objects/bonus_block/invisibleblock.sprite")),
-   visible(false)
+  Block(pos, "images/objects/bonus_block/invisibleblock.sprite"),
+  visible(false)
 {
-  m_col.m_bbox.set_pos(pos);
   SoundManager::current()->preload("sounds/brick.wav");
-  m_sprite->set_action("default-editor");
+  set_action("default-editor");
 }
 
 InvisibleBlock::InvisibleBlock(const ReaderMapping& mapping) :
-   Block(mapping, "images/objects/bonus_block/invisibleblock.sprite"),
-   visible(false)
+  Block(mapping, "images/objects/bonus_block/invisibleblock.sprite"),
+  visible(false)
 {
   SoundManager::current()->preload("sounds/brick.wav");
 }
@@ -77,7 +74,7 @@ InvisibleBlock::hit(Player& player)
   if (visible)
     return;
 
-  m_sprite->set_action("empty");
+  set_action("empty");
   start_bounce(&player);
   set_group(COLGROUP_STATIC);
   visible = true;

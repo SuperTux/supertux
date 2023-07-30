@@ -28,18 +28,13 @@
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/dialog.hpp"
-EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu) : 
+EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu) :
+  m_levelset(levelset),
   m_level_full_paths(),
   m_level_names(),
   m_level_select_menu(level_select_menu),
   m_levelset_select_menu(levelset_select_menu)
 {
-  add_label(_("Delete level"));
-  add_hl();
-  if (levelset->get_num_levels() == 0)
-  {
-    add_inactive(_("No levels available"));
-  }
   for (int i = 0; i < levelset->get_num_levels(); i++)
   {
     std::string filename = levelset->get_level_filename(i);
@@ -47,11 +42,30 @@ EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset
     m_level_full_paths.push_back(fullpath);
     const std::string& level_name = LevelParser::get_level_name(fullpath);
     m_level_names.push_back(level_name);
-    add_entry(i, level_name);
+  }
+  refresh();
+}
+
+void
+EditorDeleteLevelMenu::refresh()
+{
+  clear();
+  add_label(_("Delete level"));
+  add_hl();
+  if (m_levelset->get_num_levels() == 0)
+  {
+    add_inactive(_("No levels available"));
+  }
+  for (size_t i = 0; i < m_level_names.size(); i++)
+  {
+    const std::string& level_name = m_level_names[i];
+    if (!level_name.empty())
+      add_entry(static_cast<int>(i), level_name);
   }
   add_hl();
   add_back(_("Back"));
 }
+
 void
 EditorDeleteLevelMenu::menu_action(MenuItem& item)
 {
@@ -67,7 +81,9 @@ EditorDeleteLevelMenu::menu_action(MenuItem& item)
       {
         PHYSFS_delete(m_level_full_paths[id].c_str());
         delete_item(id + 2);
-        m_level_full_paths.erase(m_level_full_paths.begin() + id);
+        m_level_full_paths[id].clear();
+        m_level_names[id].clear();
+        refresh();
         m_level_select_menu->reload_menu();
         if (!Editor::current()->is_level_loaded())
           m_levelset_select_menu->reload_menu();

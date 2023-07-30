@@ -165,6 +165,9 @@
   (object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
+  (object
+    (class "dive-mine")
+    (icon "images/creatures/dive_mine/left-0.png"))
  )
 
  (objectgroup
@@ -231,6 +234,9 @@
   (object
     (class "platform")
     (icon "images/objects/flying_platform/flying_platform-0.png"))
+  (object
+    (class "conveyor-belt")
+    (icon "images/objects/conveyor_belt/conveyor_left0.png"))
   (object
     (class "pneumatic-platform")
     (icon "images/engine/editor/pneumaticplatform.png"))
@@ -412,5 +418,8 @@
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))
-  )
+  (object
+    (class "background")
+    (icon "images/engine/editor/background.png"))
+ )
 )

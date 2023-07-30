@@ -34,29 +34,12 @@ const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when 
 }
 
 Climbable::Climbable(const ReaderMapping& reader) :
+  Trigger(reader),
   climbed_by(),
   trying_to_climb(),
-  message(),
-  new_size(0.0f, 0.0f)
+  message()
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
-  float w = 32, h = 32;
-  reader.get("width", w);
-  reader.get("height", h);
-  m_col.m_bbox.set_size(w, h);
-  new_size.x = w;
-  new_size.y = h;
   reader.get("message", message);
-}
-
-Climbable::Climbable(const Rectf& area) :
-  climbed_by(),
-  trying_to_climb(),
-  message(),
-  new_size(0.0f, 0.0f)
-{
-  m_col.m_bbox = area;
 }
 
 Climbable::~Climbable()
@@ -71,13 +54,7 @@ Climbable::~Climbable()
 ObjectSettings
 Climbable::get_settings()
 {
-  new_size.x = m_col.m_bbox.get_width();
-  new_size.y = m_col.m_bbox.get_height();
-
-  ObjectSettings result = TriggerBase::get_settings();
-
-  // result.add_float(_("Width"), &new_size.x, "width");
-  // result.add_float(_("Height"), &new_size.y, "height");
+  ObjectSettings result = Trigger::get_settings();
 
   result.add_translatable_text(_("Message"), &message, "message");
 
@@ -87,14 +64,10 @@ Climbable::get_settings()
 }
 
 void
-Climbable::after_editor_set() {
-  m_col.m_bbox.set_size(new_size.x, new_size.y);
-}
-
-void
 Climbable::update(float dt_sec)
 {
-  TriggerBase::update(dt_sec);
+  Trigger::update(dt_sec);
+
   auto it = climbed_by.begin();
   while (it != climbed_by.end())
   {

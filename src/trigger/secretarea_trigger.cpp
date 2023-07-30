@@ -32,48 +32,25 @@
 static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
-  TriggerBase(reader),
+  Trigger(reader),
   message_timer(),
   message_displayed(false),
   message(),
   fade_tilemap(),
-  script(),
-  new_size(0.0f, 0.0f)
+  script()
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
-  float w,h;
-  reader.get("width", w, 32.0f);
-  reader.get("height", h, 32.0f);
-  m_col.m_bbox.set_size(w, h);
-  new_size.x = w;
-  new_size.y = h;
   reader.get("fade-tilemap", fade_tilemap);
   reader.get("message", message);
-  if (message.empty() && !Editor::is_active()) {
-    message = _("You found a secret area!");
-  }
   reader.get("script", script);
-}
 
-SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, const std::string& fade_tilemap_) :
-  message_timer(),
-  message_displayed(false),
-  message(_("You found a secret area!")),
-  fade_tilemap(fade_tilemap_),
-  script(),
-  new_size(0.0f, 0.0f)
-{
-  m_col.m_bbox = area;
+  if (message.empty() && !Editor::is_active())
+    message = _("You found a secret area!");
 }
 
 ObjectSettings
 SecretAreaTrigger::get_settings()
 {
-  new_size.x = m_col.m_bbox.get_width();
-  new_size.y = m_col.m_bbox.get_height();
-
-  ObjectSettings result = TriggerBase::get_settings();
+  ObjectSettings result = Trigger::get_settings();
 
   result.add_text(_("Name"), &m_name);
   result.add_text(_("Fade tilemap"), &fade_tilemap, "fade-tilemap");
@@ -83,18 +60,6 @@ SecretAreaTrigger::get_settings()
   result.reorder({"fade-tilemap", "script", "sprite", "message", "region", "name", "x", "y"});
 
   return result;
-}
-
-void
-SecretAreaTrigger::after_editor_set()
-{
-  m_col.m_bbox.set_size(new_size.x, new_size.y);
-}
-
-std::string
-SecretAreaTrigger::get_fade_tilemap_name() const
-{
-  return fade_tilemap;
 }
 
 void

@@ -52,9 +52,9 @@ Candle::Candle(const ReaderMapping& mapping) :
   }
 
   if (burning) {
-    m_sprite->set_action("on");
+    set_action("on");
   } else {
-    m_sprite->set_action("off");
+    set_action("off");
   }
 
 }
@@ -67,7 +67,7 @@ Candle::after_editor_set()
   candle_light_1->set_color(lightcolor);
   candle_light_2->set_color(lightcolor);
 
-  m_sprite->set_action(burning ? "on" : "off");
+  set_action(burning ? "on" : "off");
 }
 
 ObjectSettings
@@ -136,9 +136,9 @@ Candle::set_burning(bool burning_)
   if (burning == burning_) return;
   burning = burning_;
   if (burning_) {
-    m_sprite->set_action("on");
+    set_action("on");
   } else {
-    m_sprite->set_action("off");
+    set_action("off");
   }
   //puff smoke for flickering light sources only
   if (flicker) puff_smoke();

@@ -41,16 +41,6 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   //Prevent stutter when Tux jumps on Gold Bomb
   SoundManager::current()->preload("sounds/explosion.wav");
 
-  //Check if we need another sprite
-  if ( !reader.get( "sprite", m_sprite_name ) ){
-    return;
-  }
-  if (m_sprite_name.empty()) {
-    m_sprite_name = "images/creatures/gold_bomb/gold_bomb.sprite";
-    return;
-  }
-  //Replace sprite
-  m_sprite = SpriteManager::current()->create( m_sprite_name );
   m_exploding_sprite->set_action("default", 1);
 }
 
@@ -195,7 +185,7 @@ GoldBomb::kill_fall()
         EXPLOSION_STRENGTH_DEFAULT);
       run_dead_script();
     }
-      Sector::get().add<CoinExplode>(get_pos() + Vector(0, -40));
+      Sector::get().add<CoinExplode>(get_pos() + Vector(0, -40), !m_parent_dispenser);
   }
 }
 

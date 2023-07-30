@@ -30,6 +30,8 @@ public:
   Explosion(const Vector& pos, float push_strength, int num_particles=100, bool short_fuse = false);
   Explosion(const ReaderMapping& reader);
 
+  static std::string class_name() { return "explosion"; }
+  virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Explosion"); }
   virtual std::string get_display_name() const override { return display_name(); }
 

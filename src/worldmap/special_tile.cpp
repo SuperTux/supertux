@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,70 +18,38 @@
 
 #include "worldmap/special_tile.hpp"
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace worldmap {
 
 SpecialTile::SpecialTile(const ReaderMapping& mapping) :
-  m_pos(0.0f, 0.0f),
-  m_sprite(),
+  WorldMapObject(mapping, "images/worldmap/common/specialtile.png"),
   m_map_message(),
   m_passive_message(false),
   m_script(),
   m_invisible(false),
+  m_apply_direction(),
   m_apply_action_north(true),
   m_apply_action_east(true),
   m_apply_action_south(true),
   m_apply_action_west(true)
 {
-  if (!mapping.get("x", m_pos.x)) {
-    log_warning << "X coordinate of special tile not set, defaulting to 0" << std::endl;
-  }
-  if (!mapping.get("y", m_pos.y)) {
-    log_warning << "Y coordinate of special tile not set, defaulting to 0" << std::endl;
-  }
-  if (!mapping.get("invisible-tile", m_invisible)) {
-    // Ignore attribute if it's not specified. Tile is visible.
-  }
+  mapping.get("invisible-tile", m_invisible);
 
-  if (!m_invisible) {
-    std::string spritefile = "";
-    if (!mapping.get("sprite", spritefile)) {
-      log_warning << "No sprite specified for visible special tile." << std::endl;
-    }
-    m_sprite = SpriteManager::current()->create(spritefile);
-  }
+  if (in_worldmap() && !has_found_sprite()) // In worldmap and no valid sprite is specified, be invisible
+    m_invisible = true;
 
-  if (!mapping.get("map-message", m_map_message)) {
-    // Ignore attribute if it's not specified. No map message set.
-  }
-  if (!mapping.get("passive-message", m_passive_message)) {
-    // Ignore attribute if it's not specified. No passive message set.
-  }
-  if (!mapping.get("script", m_script)) {
-    // Ignore attribute if it's not specified. No script set.
-  }
+  mapping.get("map-message", m_map_message);
+  mapping.get("passive-message", m_passive_message);
+  mapping.get("script", m_script);
 
-  std::string apply_direction;
-  if (!mapping.get("apply-to-direction", apply_direction)) {
-    // Ignore attribute if it's not specified. Applies to all directions.
-  }
-  if (!apply_direction.empty()) {
-    m_apply_action_north = false;
-    m_apply_action_south = false;
-    m_apply_action_east = false;
-    m_apply_action_west = false;
-    if (apply_direction.find("north") != std::string::npos)
-      m_apply_action_north = true;
-    if (apply_direction.find("south") != std::string::npos)
-      m_apply_action_south = true;
-    if (apply_direction.find("east") != std::string::npos)
-      m_apply_action_east = true;
-    if (apply_direction.find("west") != std::string::npos)
-      m_apply_action_west = true;
+  mapping.get("apply-to-direction", m_apply_direction);
+  if (!m_apply_direction.empty())
+  {
+    m_apply_action_north = m_apply_direction.find("north") != std::string::npos;
+    m_apply_action_south = m_apply_direction.find("south") != std::string::npos;
+    m_apply_action_east = m_apply_direction.find("east") != std::string::npos;
+    m_apply_action_west = m_apply_direction.find("west") != std::string::npos;
   }
 }
 
@@ -89,17 +58,28 @@ SpecialTile::~SpecialTile()
 }
 
 void
-SpecialTile::draw(DrawingContext& context)
+SpecialTile::draw_worldmap(DrawingContext& context)
 {
   if (m_invisible)
     return;
 
-  m_sprite->draw(context.color(), m_pos*32.0f + Vector(16, 16), LAYER_OBJECTS - 1);
+  WorldMapObject::draw_worldmap(context);
 }
 
-void
-SpecialTile::update(float )
+ObjectSettings
+SpecialTile::get_settings()
 {
+  ObjectSettings result = WorldMapObject::get_settings();
+
+  result.add_translatable_text(_("Message"), &m_map_message, "map-message");
+  result.add_bool(_("Show message"), &m_passive_message, "passive-message", false);
+  result.add_script(_("Script"), &m_script, "script");
+  result.add_bool(_("Invisible"), &m_invisible, "invisible-tile", false);
+  result.add_text(_("Direction"), &m_apply_direction, "apply-to-direction", std::string("north-east-south-west"));
+
+  result.reorder({"map-message", "invisible-tile", "script", "passive-message", "apply-to-direction", "sprite", "x", "y"});
+
+  return result;
 }
 
 }
