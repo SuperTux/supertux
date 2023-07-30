@@ -748,7 +748,8 @@ Player::update(float dt_sec)
   if (m_does_buttjump || (m_stone && m_physic.get_velocity_y() > 30.f && !m_coyote_timer.started()))
   {
     Rectf downbox = get_bbox().grown(-1.f);
-    downbox.set_bottom(get_bbox().get_bottom() + 16.f);
+    downbox.set_top(get_bbox().get_bottom());
+    downbox.set_bottom(downbox.get_bottom() + 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
       // stoneform breaks through any kind of bricks
       if (downbox.contains(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
