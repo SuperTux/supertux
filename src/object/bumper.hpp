@@ -40,7 +40,7 @@ public:
   virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
 
-  Physic *get_physic();
+  Physic& get_physic();
 
 private:
   Physic m_physic;

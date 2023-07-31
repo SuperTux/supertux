@@ -80,10 +80,10 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   return ABORT_MOVE;
 }
 
-Physic*
+Physic&
 Bumper::get_physic()
 {
-  return &m_physic;
+  return m_physic;
 }
 
 void
