@@ -826,29 +826,21 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   }
 
   // Stop all clocks.
-  for (const auto& obj : m_currentsector->get_objects())
+  for (LevelTime& lt : m_currentsector->get_objects_by_type<LevelTime>())
   {
-    auto lt = dynamic_cast<LevelTime*>(obj.get());
-    if (lt)
-      lt->stop();
+    lt.stop();
   }
 }
 void 
 GameSession::set_target_timer_paused(bool paused)
 {
   m_pause_target_timer = paused;
-  
-  for (const auto& obj : m_currentsector->get_objects())
+  for (LevelTime& lt : m_currentsector->get_objects_by_type<LevelTime>())
   {
-    auto lt = dynamic_cast<LevelTime*>(obj.get());
-    if (lt) {
-      if(paused) {
-        lt->stop();
-      }
-      else {
-        lt->start();
-      }
-    }
+    if(paused)
+      lt.stop();
+    else
+      lt.start();
   }
 }
 
