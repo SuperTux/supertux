@@ -107,7 +107,7 @@ public:
   Level& get_current_level() const { return *m_level; }
 
   void start_sequence(Player* caller, Sequence seq, const SequenceData* data = nullptr);
-  void set_target_timer_paused(bool paused) { m_pause_target_timer = paused; }
+  void set_target_timer_paused(bool paused);
 
   /**
    * returns the "working directory" usually this is the directory where the
