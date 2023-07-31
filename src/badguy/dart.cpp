@@ -39,13 +39,19 @@ Dart::Dart(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
+<<<<<<< HEAD
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr) :
   BadGuy(pos, d, "images/creatures/darttrap/dart.sprite"),
+=======
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::string& sprite, Flip flip) :
+  BadGuy(pos, d, sprite),
+>>>>>>> upstream/master
   parent(parent_),
   sound_source()
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
+  m_flip = flip;
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
@@ -64,8 +70,10 @@ Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
 void
 Dart::initialize()
 {
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -::DART_SPEED : ::DART_SPEED);
-  set_action("flying", m_dir);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -::DART_SPEED : m_dir == Direction::RIGHT ? ::DART_SPEED : 0);
+  m_physic.set_velocity_y(m_dir == Direction::UP ? -::DART_SPEED : m_dir == Direction::DOWN ? ::DART_SPEED : 0);
+  set_action("flying", m_dir == Direction::UP ? Direction::DOWN : m_dir);
+  if (m_dir == Direction::UP) m_flip = VERTICAL_FLIP;
 }
 
 void
@@ -144,10 +152,28 @@ Dart::play_looping_sounds()
 }
 
 void
+Dart::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  if ((m_dir == Direction::UP && m_flip == NO_FLIP) || (m_dir == Direction::DOWN && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void
 Dart::on_flip(float height)
 {
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+  if (m_dir == Direction::UP)
+  {
+    m_dir = Direction::DOWN;
+    m_physic.set_velocity_y(::DART_SPEED);
+  }
+  else if (m_dir == Direction::DOWN)
+  {
+    m_dir = Direction::UP;
+    m_physic.set_velocity_y(-::DART_SPEED);
+  }
 }
 
 /* EOF */

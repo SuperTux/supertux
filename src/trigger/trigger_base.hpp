@@ -17,21 +17,18 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
 #define HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
 
-#include <list>
-
+#include "object/moving_sprite.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
 
-#include "sprite/sprite_ptr.hpp"
-#include "video/layer.hpp"
+#include <vector>
 
 class Player;
 
 /** This class is the base class for all objects you can interact with
     in some way. There are several interaction types defined like
     touch and activate */
-class TriggerBase : public MovingObject,
-                    public ObjectRemoveListener
+class TriggerBase : public ObjectRemoveListener
 {
 public:
   enum EventType {
@@ -41,13 +38,8 @@ public:
   };
 
 public:
-  TriggerBase(const ReaderMapping& mapping);
   TriggerBase();
   ~TriggerBase() override;
-
-  virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   /** Receive trigger events */
   virtual void event(Player& player, EventType type) = 0;
@@ -55,10 +47,11 @@ public:
   /** Called by GameObject destructor of an object in losetouch_listeners */
   virtual void object_removed(GameObject* object) override;
 
-  virtual int get_layer() const override { return LAYER_TILES + 1; }
+protected:
+  void update();
+  HitResponse collision(GameObject& other, const CollisionHit& hit);
 
 private:
-  SpritePtr m_sprite;
   std::vector<Player*> m_hit;
 
   /** Players that will be informed when we lose touch with them */
@@ -67,6 +60,50 @@ private:
 private:
   TriggerBase(const TriggerBase&) = delete;
   TriggerBase& operator=(const TriggerBase&) = delete;
+};
+
+
+class Trigger : public MovingObject,
+                public TriggerBase
+{
+public:
+  Trigger(const ReaderMapping& reader);
+
+  virtual void update(float) override
+  {
+    TriggerBase::update();
+  }
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override
+  {
+    return TriggerBase::collision(other, hit);
+  }
+
+  int get_layer() const override { return LAYER_TILES + 1; }
+
+private:
+  Trigger(const Trigger&) = delete;
+  Trigger& operator=(const Trigger&) = delete;
+};
+
+
+class SpritedTrigger : public MovingSprite,
+                       public TriggerBase
+{
+public:
+  SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name);
+
+  virtual void update(float) override
+  {
+    TriggerBase::update();
+  }
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override
+  {
+    return TriggerBase::collision(other, hit);
+  }
+
+private:
+  SpritedTrigger(const SpritedTrigger&) = delete;
+  SpritedTrigger& operator=(const SpritedTrigger&) = delete;
 };
 
 #endif

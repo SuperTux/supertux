@@ -26,64 +26,62 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
-namespace {
-const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
-}
-
 DartTrap::DartTrap(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
-  enabled(true),
-  initial_delay(),
-  fire_delay(),
-  ammo(),
-  state(IDLE),
-  fire_timer()
+  m_enabled(true),
+  m_initial_delay(),
+  m_fire_delay(),
+  m_ammo(),
+  m_dart_sprite("images/creatures/dart/dart.sprite"),
+  m_state(IDLE),
+  m_fire_timer()
 {
-  reader.get("enabled", enabled, true);
-  reader.get("initial-delay", initial_delay, 0.0f);
-  reader.get("fire-delay", fire_delay, 2.0f);
-  reader.get("ammo", ammo, -1);
+  reader.get("enabled", m_enabled, true);
+  reader.get("initial-delay", m_initial_delay, 0.0f);
+  reader.get("fire-delay", m_fire_delay, 2.0f);
+  reader.get("ammo", m_ammo, -1);
+  reader.get("dart-sprite", m_dart_sprite, "images/creatures/dart/dart.sprite");
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
-  state = IDLE;
+  m_state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
 
   if (!Editor::is_active()) {
-    if (initial_delay == 0) initial_delay = 0.1f;
+    if (m_initial_delay == 0) m_initial_delay = 0.1f;
   }
 }
 
 void
 DartTrap::initialize()
 {
-  set_action("idle", m_dir);
+  set_action("idle", m_dir == Direction::UP ? Direction::DOWN : m_dir);
+  if (m_dir == Direction::UP) m_flip = VERTICAL_FLIP;
 }
 
 void
 DartTrap::activate()
 {
-  fire_timer.start(initial_delay);
+  m_fire_timer.start(m_initial_delay);
 }
 
 HitResponse
-DartTrap::collision_player(Player& , const CollisionHit& )
+DartTrap::collision_player(Player&, const CollisionHit& )
 {
   return ABORT_MOVE;
 }
 
 void
-DartTrap::active_update(float )
+DartTrap::active_update(float)
 {
-  if (!enabled) {
-    return;
-  }
-  switch (state) {
+  if (!m_enabled) return;
+
+  switch (m_state) {
     case IDLE:
-      if ((ammo != 0) && (fire_timer.check())) {
-        if (ammo > 0) ammo--;
+      if ((m_ammo != 0) && (m_fire_timer.check())) {
+        if (m_ammo > 0) m_ammo--;
         load();
-        fire_timer.start(fire_delay);
+        m_fire_timer.start(m_fire_delay);
       }
       break;
 
@@ -101,25 +99,41 @@ DartTrap::active_update(float )
 void
 DartTrap::load()
 {
-  state = LOADING;
-  set_action("loading", m_dir, 1);
+  m_state = LOADING;
+  set_action("loading", m_dir == Direction::UP ? Direction::DOWN : m_dir, 1);
 }
 
 void
 DartTrap::fire()
 {
-  float px = get_pos().x;
-  if (m_dir == Direction::RIGHT) px += 5;
-  float py = get_pos().y;
-  if (m_flip == NO_FLIP)
-    py += MUZZLE_Y;
-  else
-    py += (m_col.m_bbox.get_height() - MUZZLE_Y - 7.0f);
-
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::get().add<Dart>(Vector(px, py), m_dir, this);
-  state = IDLE;
-  set_action("idle", m_dir);
+  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this, m_dart_sprite, m_flip);
+
+  Vector pos;
+  switch (m_dir)
+  {
+    case Direction::RIGHT:
+      pos = Vector(get_pos().x,
+                   get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2);
+      break;
+    case Direction::UP:
+      pos = Vector(get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2,
+                   get_pos().y + m_col.m_bbox.get_height() - dart.get_bbox().get_height());
+      break;
+    case Direction::DOWN:
+      pos = Vector(get_pos().x + m_col.m_bbox.get_width() / 2 - dart.get_bbox().get_width() / 2,
+                   get_pos().y);
+      break;
+    default:
+      pos = Vector(get_pos().x + m_col.m_bbox.get_width() - dart.get_bbox().get_width(),
+                   get_pos().y + m_col.m_bbox.get_height() / 2 - dart.get_bbox().get_height() / 2);
+      break;
+  }
+
+  dart.set_pos(pos);
+
+  m_state = IDLE;
+  set_action("idle", m_dir == Direction::UP ? Direction::DOWN : m_dir);
 }
 
 ObjectSettings
@@ -127,14 +141,23 @@ DartTrap::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_float(_("Initial delay"), &initial_delay, "initial-delay");
-  result.add_bool(_("Enabled"), &enabled, "enabled", true);
-  result.add_float(_("Fire delay"), &fire_delay, "fire-delay");
-  result.add_int(_("Ammo"), &ammo, "ammo");
+  result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay");
+  result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
+  result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
+  result.add_int(_("Ammo"), &m_ammo, "ammo");
+  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/dart/dart.sprite");
 
-  result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y"});
+  result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
 
   return result;
+}
+
+void
+DartTrap::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  if ((m_dir == Direction::UP && m_flip == NO_FLIP) || (m_dir == Direction::DOWN && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 void
@@ -142,6 +165,10 @@ DartTrap::on_flip(float height)
 {
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+  if (m_dir == Direction::UP)
+    m_dir = Direction::DOWN;
+  else if (m_dir == Direction::DOWN)
+    m_dir = Direction::UP;
 }
 
 /* EOF */

@@ -155,7 +155,11 @@
     (icon "images/creatures/angrystone/charging-0.png"))
   (object
     (class "darttrap")
+<<<<<<< HEAD
     (icon "images/creatures/darttrap/empty-2.png"))
+=======
+    (icon "images/creatures/darttrap/left-1.png"))
+>>>>>>> upstream/master
   (object
     (class "dispenser")
     (icon "images/creatures/dispenser/cannon_left.png"))
@@ -192,7 +196,11 @@
     (icon "images/creatures/skydive/skydive-0.png"))
   (object
     (class "dart")
+<<<<<<< HEAD
     (icon "images/creatures/darttrap/skull_dart.png"))
+=======
+    (icon "images/creatures/dart/flying-left.png"))
+>>>>>>> upstream/master
  )
 
  (objectgroup
@@ -418,5 +426,8 @@
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))
-  )
+  (object
+    (class "background")
+    (icon "images/engine/editor/background.png"))
+ )
 )

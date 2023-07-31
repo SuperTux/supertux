@@ -27,9 +27,18 @@ class ReaderMapping;
 
 class SpriteData final
 {
+  friend class Sprite;
+
 public:
-  /** cur has to be a pointer to data in the form of ((hitbox 5 10 0 0) ...) */
-  SpriteData(const ReaderMapping& cur);
+  /**
+   * Sprite from data.
+   * `mapping` has to be a pointer to data in the form of "((hitbox 5 10 0 0) ...)".
+   */
+  SpriteData(const ReaderMapping& mapping);
+  /** Single-image sprite */
+  SpriteData(const std::string& image);
+  /** Dummy texture sprite */
+  SpriteData();
 
   const std::string& get_name() const
   {
@@ -37,8 +46,6 @@ public:
   }
 
 private:
-  friend class Sprite;
-
   struct Action
   {
     Action();
@@ -77,12 +84,15 @@ private:
     std::vector<SurfacePtr> surfaces;
   };
 
-  typedef std::map <std::string, std::unique_ptr<Action> > Actions;
+  typedef std::map<std::string, std::unique_ptr<Action> > Actions;
+
+  static std::unique_ptr<Action> create_action_from_surface(SurfacePtr surface);
 
   void parse_action(const ReaderMapping& mapping);
   /** Get an action */
   const Action* get_action(const std::string& act) const;
 
+private:
   Actions actions;
   std::string name;
 };

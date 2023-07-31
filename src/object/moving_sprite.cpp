@@ -64,16 +64,13 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   //Make the sprite go default when the sprite file is invalid
   if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str()))
   {
-    m_sprite = SpriteManager::current()->create(m_default_sprite_name);
+    change_sprite(m_default_sprite_name);
     m_sprite_found = false;
   }
-  else
+  else if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
   {
-    if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
-    {
-      m_sprite = SpriteManager::current()->create(m_default_sprite_name);
-      m_sprite_found = false;
-    }
+    change_sprite(m_default_sprite_name);
+    m_sprite_found = false;
   }
 
   update_hitbox();
@@ -91,10 +88,8 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
-  if (!reader.get("sprite", m_sprite_name))
-    throw std::runtime_error("no sprite name set");
+  m_sprite_found = reader.get("sprite", m_sprite_name);
 
-  m_sprite_found = true;
   //m_default_sprite_name = m_sprite_name;
   m_sprite = SpriteManager::current()->create(m_sprite_name);
   update_hitbox();
@@ -182,20 +177,10 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
 bool
 MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
-  SpritePtr new_sprite;
-  try
-  {
-    new_sprite = SpriteManager::current()->create(m_sprite_name);
-  }
-  catch (std::exception& err)
-  {
-    log_warning << "Sprite change failed: Sprite '" << new_sprite_name << "' cannot be loaded: " << err.what() << std::endl;
-    return false;
-  }
-
-  m_sprite = std::move(new_sprite);
+  m_sprite = SpriteManager::current()->create(new_sprite_name);
   m_sprite_name = new_sprite_name;
-  return true;
+
+  return SpriteManager::current()->last_load_successful();
 }
 
 ObjectSettings
@@ -216,7 +201,10 @@ MovingSprite::after_editor_set()
   MovingObject::after_editor_set();
 
   std::string current_action = m_sprite->get_action();
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
+  if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
+  {
+    change_sprite(m_default_sprite_name);
+  }
   m_sprite->set_action(current_action);
 
   update_hitbox();

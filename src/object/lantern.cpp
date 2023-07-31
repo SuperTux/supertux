@@ -79,10 +79,10 @@ Lantern::updateColor(){
   lightsprite->set_color(lightcolor);
   //Turn lantern off if light is black
   if (lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
-    m_sprite->set_action("off");
+    set_action("off");
     m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   } else {
-    m_sprite->set_action("normal");
+    set_action("normal");
     m_sprite->set_color(lightcolor);
   }
 }
@@ -126,7 +126,7 @@ Lantern::grab(MovingObject& object, const Vector& pos, Direction dir)
 
   // if lantern is not lit, draw it as opened
   if (is_open()) {
-    m_sprite->set_action("off-open");
+    set_action("off-open");
   }
 
 }
@@ -136,7 +136,7 @@ Lantern::ungrab(MovingObject& object, Direction dir)
 {
   // if lantern is not lit, it was drawn as opened while grabbed. Now draw it as closed again
   if (is_open()) {
-    m_sprite->set_action("off");
+    set_action("off");
   }
 
   Rock::ungrab(object, dir);

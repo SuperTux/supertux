@@ -39,19 +39,6 @@ Firefly::Firefly(const ReaderMapping& mapping) :
    activated(false),
    initial_position(get_pos())
 {
-  if (!mapping.get( "sprite", m_sprite_name)){
-    update_state();
-    return;
-  }
-  if (m_sprite_name.empty()) {
-    m_sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
-    update_state();
-    return;
-  }
-  //Replace sprite
-  m_sprite = SpriteManager::current()->create( m_sprite_name );
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
-
   if (m_sprite_name.find("torch", 0) != std::string::npos) {
     m_sprite_light = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite");
     m_sprite_light->set_blend(Blend::ADD);
@@ -101,11 +88,11 @@ Firefly::update_state()
       active_checkpoint_spawnpoint->sector == Sector::get().get_name() &&
       active_checkpoint_spawnpoint->position == initial_position) // Is activated.
   {
-    m_sprite->set_action("ringing");
+    set_action("ringing");
   }
   else // Is deactivated.
   {
-    m_sprite->set_action("normal");
+    set_action("normal");
   }
 }
 
@@ -142,7 +129,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       SoundManager::current()->play("sounds/savebell2.wav", get_pos());
     }
 
-    m_sprite->set_action("ringing");
+    set_action("ringing");
     GameSession::current()->set_checkpoint_pos(Sector::get().get_name(),
                                                initial_position);
   }
