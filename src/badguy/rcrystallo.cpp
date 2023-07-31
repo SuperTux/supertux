@@ -114,7 +114,6 @@ void
 RCrystallo::draw(DrawingContext& context)
 {
   context.push_transform();
-  context.set_flip(context.get_flip() ^ (state == RCRYSTALLO_ROOF ? VERTICAL_FLIP : NO_FLIP));
   m_sprite->draw(context.color(), get_pos(), m_layer);
   context.pop_transform();
 }

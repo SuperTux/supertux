@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "left")
+    (name "left-upright")
     (fps 14)
     (hitbox 8 1 32 25)
     (images "crystallo-left-0.png"
@@ -10,34 +10,39 @@
             "crystallo-left-4.png"
             "crystallo-left-5.png"
             "crystallo-left-6.png"
-            "crystallo-left-7.png"))
-
+            "crystallo-left-7.png")
+  )
+  (action
+    (name "left")
+    (hitbox 8 1 32 25)
+    (flip-action "left-upright")
+  )
   (action
     (name "right")
     (fps 14)
     (hitbox 8 1 32 25)
-    (mirror-action "left"))
-
+    (mirror-action "left")
+  )
   (action
     (name "slowdown-left")
     (fps 5)
     (hitbox 8 1 32 25)
-    (clone-action "left"))
-
+    (clone-action "left")
+  )
   (action
     (name "slowdown-right")
     (fps 5)
     (hitbox 8 1 32 25)
-    (clone-action "right"))
-
+    (clone-action "right"
+  )
   (action
     (name "shattered-left")
-    (images "shattered-left.png"))
-
+    (images "shattered-left.png")
+  )
   (action
     (name "shattered-right")
-    (mirror-action "shattered-left"))
-
+    (mirror-action "shattered-left")
+  )
   (action
     (name "detected-left")
     (fps 15)
@@ -54,22 +59,23 @@
             "crystallo-fall-6.png"
             "crystallo-fall-8.png"
             "crystallo-fall-9.png"
-            "crystallo-fall-8.png"))
-
+            "crystallo-fall-8.png")
+  )
   (action
     (name "detected-right")
     (fps 15)
     (hitbox 35 2 20 35)
     (loops 1)
-    (mirror-action "detected-left"))
-
+    (mirror-action "detected-left")
+  )
   (action
     (name "fall-left")
     (hitbox 45 2 20 35)
-    (images "crystallo-fall-10.png"))
-
+    (images "crystallo-fall-10.png")
+  )
   (action
     (name "fall-right")
     (hitbox 35 2 20 35)
-    (mirror-action "fall-left"))
+    (mirror-action "fall-left")
+  )
 )
