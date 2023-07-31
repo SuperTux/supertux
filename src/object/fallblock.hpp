@@ -17,6 +17,7 @@
 #define HEADER_SUPERTUX_OBJECT_FALLBLOCK_HPP
 
 #include "object/moving_sprite.hpp"
+
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
@@ -52,14 +53,14 @@ protected:
   };
 
 private:
-  State state;
+  State m_state;
 
-  Physic physic;
-  Timer timer;
-
-  bool found_victim_down() const;
+  Physic m_physic;
+  Timer m_timer;
 
 private:
+  bool found_victim_down() const;
+
   FallBlock(const FallBlock&) = delete;
   FallBlock& operator=(const FallBlock&) = delete;
 };

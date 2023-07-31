@@ -128,8 +128,8 @@ ConveyorBelt::after_editor_set()
 
   if (m_length <= 0)
     m_length = 1;
-  m_col.m_bbox.set_size(32.0f * static_cast<float>(m_length), 32.0f);
   m_sprite->set_action(dir_to_string(m_dir));
+  update_hitbox();
 }
 
 void

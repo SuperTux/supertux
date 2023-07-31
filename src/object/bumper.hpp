@@ -17,6 +17,7 @@
 #define HEADER_SUPERTUX_OBJECT_BUMPER_HPP
 
 #include "object/moving_sprite.hpp"
+
 #include "supertux/physic.hpp"
 
 class Player;
@@ -39,9 +40,10 @@ public:
   virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
 
-  Physic m_physic;
+  Physic *get_physic();
 
 private:
+  Physic m_physic;
   bool m_facing_left;
 
 private:
