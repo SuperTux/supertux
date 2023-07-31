@@ -39,7 +39,7 @@ Dart::Dart(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
-Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = nullptr, const std::string& sprite, Flip flip) :
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::string& sprite, Flip flip) :
   BadGuy(pos, d, sprite),
   parent(parent_),
   sound_source()
