@@ -24,18 +24,15 @@
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
-  Block(SpriteManager::current()->create(spriteName)),
+Brick::Brick(const Vector& pos, int data, const std::string& sprite_name) :
+  Block(pos, sprite_name),
   m_breakable(false),
   m_coin_counter(0)
 {
-  m_col.m_bbox.set_pos(pos);
   if (data == 1) {
     m_coin_counter = 5;
   } else {
@@ -43,8 +40,8 @@ Brick::Brick(const Vector& pos, int data, const std::string& spriteName) :
   }
 }
 
-Brick::Brick(const ReaderMapping& mapping, const std::string& spriteName) :
-  Block(mapping, spriteName),
+Brick::Brick(const ReaderMapping& mapping, const std::string& sprite_name) :
+  Block(mapping, sprite_name),
   m_breakable(),
   m_coin_counter(0)
 {
@@ -115,7 +112,7 @@ Brick::try_break(Player* player, bool slider)
     Player& player_one = *Sector::get().get_players()[0];
     player_one.get_status().add_coins(1);
     if (m_coin_counter == 0)
-      m_sprite->set_action("empty");
+      set_action("empty");
     start_bounce(player);
   } else if (m_breakable) {
     if (player) {

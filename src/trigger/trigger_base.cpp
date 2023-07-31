@@ -19,21 +19,10 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
-TriggerBase::TriggerBase(const ReaderMapping& mapping) :
-  MovingObject(mapping),
-  m_sprite(),
-  m_hit(),
-  m_losetouch_listeners()
-{
-  set_group(COLGROUP_TOUCHABLE);
-}
-
 TriggerBase::TriggerBase() :
-  m_sprite(),
   m_hit(),
   m_losetouch_listeners()
 {
-  set_group(COLGROUP_TOUCHABLE);
 }
 
 TriggerBase::~TriggerBase()
@@ -46,7 +35,7 @@ TriggerBase::~TriggerBase()
 }
 
 void
-TriggerBase::update(float )
+TriggerBase::update()
 {
   for (unsigned i = 0; i < m_losetouch_listeners.size(); i++)
   {
@@ -60,15 +49,6 @@ TriggerBase::update(float )
   }
 
   m_hit.clear();
-}
-
-void
-TriggerBase::draw(DrawingContext& context)
-{
-  if (!m_sprite.get())
-    return;
-
-  m_sprite->draw(context.color(), get_pos(), LAYER_TILES+1);
 }
 
 HitResponse
@@ -94,6 +74,25 @@ TriggerBase::object_removed(GameObject* object)
                                           m_losetouch_listeners.end(),
                                           object),
                               m_losetouch_listeners.end());
+}
+
+
+Trigger::Trigger(const ReaderMapping& reader) :
+  MovingObject(reader)
+{
+  set_group(COLGROUP_TOUCHABLE);
+
+  if (m_col.m_bbox.get_width() == 0.f)
+    m_col.m_bbox.set_width(32.f);
+
+  if (m_col.m_bbox.get_height() == 0.f)
+    m_col.m_bbox.set_height(32.f);
+}
+
+
+SpritedTrigger::SpritedTrigger(const ReaderMapping& reader, const std::string& sprite_name) :
+  MovingSprite(reader, sprite_name, LAYER_TILES + 1, COLGROUP_TOUCHABLE)
+{
 }
 
 /* EOF */

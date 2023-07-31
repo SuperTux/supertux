@@ -36,17 +36,6 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
 
   //Prevent stutter when Tux jumps on Mr Bomb
   SoundManager::current()->preload("sounds/explosion.wav");
-
-  //Check if we need another sprite
-  if ( !reader.get( "sprite", m_sprite_name ) ){
-    return;
-  }
-  if (m_sprite_name.empty()) {
-    m_sprite_name = "images/creatures/mr_bomb/mr_bomb.sprite";
-    return;
-  }
-  //Replace sprite
-  m_sprite = SpriteManager::current()->create( m_sprite_name );
 }
 
 HitResponse
