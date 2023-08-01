@@ -33,6 +33,6 @@
 #include "scripting/torch.hpp"
 #include "scripting/willowisp.hpp"
 #include "scripting/wind.hpp"
-#include "scripting/worldmap.hpp"
+#include "scripting/worldmap_sector.hpp"
 
 /* EOF */

@@ -73,8 +73,6 @@ public:
       easing()
     {}
 
-    static std::string display_name() { return _("Path Node"); }
-
     Path& get_parent() const { return *parent; }
   };
 

@@ -24,8 +24,9 @@
 
 static const float DROP_TIME = .1f; // time duration between "drops" of coin rain
 
-CoinRain::CoinRain(const Vector& pos, bool emerge, bool count_stats) :
-  sprite(SpriteManager::current()->create("images/objects/coin/coin.sprite")),
+CoinRain::CoinRain(const Vector& pos, bool emerge, bool count_stats, const std::string& sprite_path) :
+  sprite(SpriteManager::current()->create(sprite_path)),
+  m_sprite_path(sprite_path),
   position(pos),
   emerge_distance(0),
   timer(),
@@ -50,7 +51,7 @@ CoinRain::update(float dt_sec)
   else if (counter==0){
     drop = gameRandom.rand(10);
     Sector::get().add<HeavyCoin>(Vector(position.x + 32.0f * static_cast<float>((drop < 5) ? -drop - 1 : drop - 4), -32.0f),
-                                                              Vector(0, 0), m_count_stats);
+                                                              Vector(0, 0), m_count_stats, m_sprite_path);
     counter++;
     timer.start(DROP_TIME);
   } // finally the remainder of the coins drop in a determined but appears to be a random order
@@ -59,7 +60,7 @@ CoinRain::update(float dt_sec)
       drop += 7;
       if (drop >= 10) drop -=10;
       Sector::get().add<HeavyCoin>(Vector(position.x + 32.0f * static_cast<float>((drop < 5) ? -drop - 1 : drop - 4), -32.0f),
-                                                                Vector(0, 0), m_count_stats);
+                                                                Vector(0, 0), m_count_stats, m_sprite_path);
       counter++;
       timer.start(DROP_TIME);
     } else {

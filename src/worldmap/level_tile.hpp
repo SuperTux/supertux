@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,25 +19,24 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_LEVEL_TILE_HPP
 #define HEADER_SUPERTUX_WORLDMAP_LEVEL_TILE_HPP
 
-#include "math/vector.hpp"
-#include "sprite/sprite_ptr.hpp"
-#include "supertux/game_object.hpp"
-#include "supertux/statistics.hpp"
+#include "worldmap/worldmap_object.hpp"
 
-class ReaderMapping;
+#include "supertux/statistics.hpp"
 
 namespace worldmap {
 
-class LevelTile final : public GameObject
+class LevelTile final : public WorldMapObject
 {
-  friend class WorldMapParser;
-
 public:
-  LevelTile(const std::string& basedir, const ReaderMapping& mapping);
+  LevelTile(const ReaderMapping& mapping);
   ~LevelTile() override;
 
-  virtual void draw(DrawingContext& context) override;
-  virtual void update(float dt_sec) override;
+  static std::string class_name() { return "level"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Level"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+
+  virtual ObjectSettings get_settings() override;
 
   void set_solved(bool v);
   bool is_solved() const { return m_solved; }
@@ -49,8 +49,6 @@ public:
 
   void update_sprite_action();
 
-  Vector get_pos() const { return m_pos; }
-
   std::string get_title() const { return m_title; }
   std::string get_level_filename() const { return m_level_filename; }
   std::string get_basedir() const { return m_basedir; }
@@ -60,8 +58,9 @@ public:
   bool is_auto_play() const { return m_auto_play; }
 
 private:
-  Vector m_pos;
+  void load_level_information();
 
+private:
   std::string m_basedir;
   std::string m_level_filename;
   std::string m_title;
@@ -80,7 +79,6 @@ private:
 
   Statistics m_statistics;
 
-  SpritePtr m_sprite;
   Color m_title_color;
 
 private:

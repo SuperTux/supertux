@@ -27,21 +27,23 @@
 #include "math/fwd.hpp"
 #include "supertux/direction.hpp"
 
-class ReaderMapping;
 class GameObject;
+class ReaderMapping;
 
 class ObjectFactory
 {
 private:
-  typedef std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> FactoryFunction;
-  typedef std::map<std::string, FactoryFunction> Factories;
+  struct FactoryFunctions {
+    std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> create;
+    std::function<std::string ()> get_display_name;
+  };
+  typedef std::map<std::string, FactoryFunctions> Factories;
+
   Factories factories;
   std::vector<std::string> m_badguys_names;
   std::vector<uint8_t> m_badguys_params;
   std::vector<std::string> m_objects_names;
-  std::vector<std::string> m_objects_display_names;
   std::vector<uint8_t> m_objects_params;
-  std::map<std::string, std::string> m_other_display_names; // Stores display names for non-factory objects.
 
 protected:
   bool m_adding_badguys;
@@ -51,7 +53,8 @@ public:
   {
     OBJ_PARAM_NONE = 0,
     OBJ_PARAM_PORTABLE = 0b10000000,
-    OBJ_PARAM_DISPENSABLE = 0b00100000,
+    OBJ_PARAM_WORLDMAP = 0b01000000,
+    OBJ_PARAM_DISPENSABLE = 0b00100000
   };
 
 public:
@@ -69,13 +72,7 @@ public:
 protected:
   ObjectFactory();
 
-  void add_display_name(const char* class_name, const std::string& display_name)
-  {
-    assert(m_other_display_names.find(class_name) == m_other_display_names.end());
-    m_other_display_names[class_name] = display_name;
-  }
-
-  void add_factory(const char* name, const std::string& display_name, const FactoryFunction& func, uint8_t obj_params = 0)
+  void add_factory(const char* name, const FactoryFunctions functions, uint8_t obj_params = 0)
   {
     assert(factories.find(name) == factories.end());
     if (m_adding_badguys)
@@ -84,17 +81,20 @@ protected:
       m_badguys_params.push_back(obj_params);
     }
     m_objects_names.push_back(name);
-    m_objects_display_names.push_back(display_name);
     m_objects_params.push_back(obj_params);
-    factories[name] = func;
+    factories[name] = std::move(functions);
   }
 
   template<class C>
-  void add_factory(const char* class_name, uint8_t obj_params = 0, const std::string& display_name = "")
+  void add_factory(const char* class_name, uint8_t obj_params = 0)
   {
-    add_factory(class_name, (display_name == "") ? C::display_name() : display_name,
-                [](const ReaderMapping& reader) {
-                  return std::make_unique<C>(reader);
+    add_factory(class_name, {
+                  [](const ReaderMapping& reader) {
+                    return std::make_unique<C>(reader);
+                  },
+                  []() {
+                    return C::display_name();
+                  }
                 }, obj_params);
   }
 };

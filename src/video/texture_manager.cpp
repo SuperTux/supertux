@@ -75,9 +75,12 @@ GLenum string2filter(const std::string& text)
 
 } // namespace
 
+const std::string TextureManager::s_dummy_texture = "images/engine/missing.png";
+
 TextureManager::TextureManager() :
   m_image_textures(),
-  m_surfaces()
+  m_surfaces(),
+  m_load_successful(false)
 {
 }
 
@@ -256,6 +259,7 @@ TextureManager::reap_cache_entry(const Texture::Key& key)
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename, const Rect& rect, const Sampler& sampler)
 {
+  m_load_successful = true;
   try
   {
     return create_image_texture_raw(filename, rect, sampler);
@@ -263,6 +267,7 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
   catch(const std::exception& err)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+    m_load_successful = false;
     return create_dummy_texture();
   }
 }
@@ -355,6 +360,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename, const Sampler& sampler)
 {
+  m_load_successful = true;
   try
   {
     return create_image_texture_raw(filename, sampler);
@@ -362,6 +368,7 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
   catch (const std::exception& err)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+    m_load_successful = false;
     return create_dummy_texture();
   }
 }
@@ -387,26 +394,24 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Samp
 TexturePtr
 TextureManager::create_dummy_texture()
 {
-  const std::string dummy_texture_fname = "images/engine/missing.png";
-
   // on error, try loading placeholder file
   try
   {
-    TexturePtr tex = create_image_texture_raw(dummy_texture_fname, Sampler());
+    TexturePtr tex = create_image_texture_raw(s_dummy_texture, Sampler());
     return tex;
   }
   catch (const std::exception& err)
   {
     // on error (when loading placeholder), try using empty surface,
     // when that fails to, just give up
-    SDLSurfacePtr image(SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0));
+    SDLSurfacePtr image(SDL_CreateRGBSurface(0, 128, 128, 8, 0, 0, 0, 0));
     if (!image)
     {
       throw;
     }
     else
     {
-      log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
+      log_warning << "Couldn't load texture '" << s_dummy_texture << "' (now using empty one): " << err.what() << std::endl;
       TexturePtr texture = VideoSystem::current()->new_texture(*image);
       return texture;
     }

@@ -19,9 +19,10 @@
 #define HEADER_SUPERTUX_TRIGGER_TEXT_AREA_HPP
 
 #include "trigger/trigger_base.hpp"
+
 #include "supertux/timer.hpp"
 
-class TextArea final : public TriggerBase
+class TextArea final : public Trigger
 {
 private:
   enum class Status
@@ -35,7 +36,6 @@ private:
 
 public:
   TextArea(const ReaderMapping& mapping);
-  TextArea(const Vector& pos);
 
   virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;

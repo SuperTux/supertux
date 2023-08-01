@@ -55,6 +55,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
+#include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/writer.hpp"
 #include "video/video_system.hpp"
@@ -68,15 +69,14 @@ PlayerStatus dummy_player_status(1);
 
 } // namespace
 
+
 Sector::Sector(Level& parent) :
+  Base::Sector("sector"),
   m_level(parent),
-  m_name(),
   m_fully_constructed(false),
-  m_init_script(),
   m_foremost_layer(),
-  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), "sector")),
-  m_collision_system(new CollisionSystem(*this)),
-  m_gravity(10.0)
+  m_gravity(10.0f),
+  m_collision_system(new CollisionSystem(*this))
 {
   Savegame* savegame = (Editor::current() && Editor::is_active()) ?
     Editor::current()->m_savegame.get() :
@@ -136,14 +136,18 @@ Sector::finish_construction(bool editable)
   if (!editable) {
     convert_tiles2gameobject();
 
-    bool has_background = std::any_of(get_objects().begin(), get_objects().end(),
-                                      [](const auto& obj) {
-                                        return (dynamic_cast<Background*>(obj.get()) ||
-                                                dynamic_cast<Gradient*>(obj.get()));
-                                      });
-    if (!has_background) {
-      auto& gradient = add<Gradient>();
-      gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
+    if (!m_level.is_worldmap())
+    {
+      bool has_background = std::any_of(get_objects().begin(), get_objects().end(),
+                                        [](const auto& obj) {
+                                          return (dynamic_cast<Background*>(obj.get()) ||
+                                                  dynamic_cast<Gradient*>(obj.get()));
+                                        });
+      if (!has_background)
+      {
+        auto& gradient = add<Gradient>();
+        gradient.set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
+      }
     }
   }
 
@@ -152,7 +156,8 @@ Sector::finish_construction(bool editable)
   }
 
   if (!get_object_by_type<Camera>()) {
-    log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
+    if (!m_level.is_worldmap())
+      log_warning << "sector '" << get_name() << "' does not contain a camera." << std::endl;
     add<Camera>("Camera");
   }
 
@@ -185,12 +190,6 @@ Sector::finish_construction(bool editable)
   m_fully_constructed = true;
 }
 
-Level&
-Sector::get_level() const
-{
-  return m_level;
-}
-
 void
 Sector::activate(const std::string& spawnpoint)
 {
@@ -203,7 +202,8 @@ Sector::activate(const std::string& spawnpoint)
   }
 
   if (!sp) {
-    log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
+    if (!m_level.is_worldmap())
+      log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
     if (spawnpoint != "main") {
       activate("main");
     } else {
@@ -345,6 +345,18 @@ int
 Sector::get_foremost_layer() const
 {
   return m_foremost_layer;
+}
+
+TileSet*
+Sector::get_tileset() const
+{
+  return TileManager::current()->get_tileset(m_level.get_tileset());
+}
+
+bool
+Sector::in_worldmap() const
+{
+  return m_level.is_worldmap();
 }
 
 void
@@ -614,12 +626,6 @@ Sector::set_gravity(float gravity)
   m_gravity = gravity;
 }
 
-float
-Sector::get_gravity() const
-{
-  return m_gravity;
-}
-
 Player*
 Sector::get_nearest_player (const Vector& pos) const
 {
@@ -774,12 +780,6 @@ Sector::convert_tiles2gameobject()
       }
     }
   }
-}
-
-void
-Sector::run_script(const std::string& script, const std::string& sourcename)
-{
-  m_squirrel_environment->run_script(script, sourcename);
 }
 
 Camera&

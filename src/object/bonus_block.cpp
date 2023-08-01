@@ -36,7 +36,6 @@
 #include "object/specialriser.hpp"
 #include "object/star.hpp"
 #include "object/trampoline.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/level.hpp"
@@ -63,18 +62,16 @@ const float upgrade_sound_gain = 0.3f;
 } // namespace
 
 BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
-  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
+  Block(pos, "images/objects/bonus_block/bonusblock.sprite"),
   m_contents(),
   m_object(),
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_coin_sprite("images/objects/coin/coin.sprite")
 {
-  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-
-  m_col.m_bbox.set_pos(pos);
-  m_sprite->set_action("normal");
+  set_action("normal");
   m_contents = get_content_by_data(tile_data);
   preload_contents(tile_data);
 }
@@ -86,10 +83,9 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_coin_sprite("images/objects/coin/coin.sprite")
 {
-  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-
   auto iter = mapping.get_iter();
   while (iter.next()) {
     const std::string& token = iter.get_key();
@@ -138,6 +134,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
           }
         }
       }
+    } else if (token == "coin-sprite") {
+      iter.get(m_coin_sprite);
     } else if (token == "custom-contents") {
       // handled elsewhere
     } else {
@@ -168,7 +166,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     SoundManager::current()->preload("sounds/switch.ogg");
     m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
     if (m_contents == Content::LIGHT_ON) {
-      m_sprite->set_action("on");
+      set_action("on");
     }
   }
 }
@@ -219,8 +217,9 @@ BonusBlock::get_settings()
                    "1up", "custom", "script", "light", "light-on", "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion"},
                   static_cast<int>(Content::COIN), "contents");
   result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
+  result.add_sprite(_("Coin sprite"), &m_coin_sprite, "coin-sprite", "images/objects/coin/coin.sprite");
 
-  result.reorder({"script", "count", "contents", "sprite", "x", "y"});
+  result.reorder({"script", "count", "contents", "coin-sprite", "sprite", "x", "y"});
 
   return result;
 }
@@ -289,7 +288,7 @@ BonusBlock::try_open(Player* player)
   switch (m_contents) {
     case Content::COIN:
     {
-      Sector::get().add<BouncyCoin>(get_pos(), true);
+      Sector::get().add<BouncyCoin>(get_pos(), true, m_coin_sprite);
       SoundManager::current()->play("sounds/coin.wav", get_pos());
       player->get_status().add_coins(1, false);
       if (m_hit_counter != 0 && !m_parent_dispenser)
@@ -349,9 +348,9 @@ BonusBlock::try_open(Player* player)
     case Content::LIGHT_ON:
     {
       if (m_sprite->get_action() == "on")
-        m_sprite->set_action("off");
+        set_action("off");
       else
-        m_sprite->set_action("on");
+        set_action("on");
       SoundManager::current()->play("sounds/switch.ogg", get_pos());
       break;
     }
@@ -379,13 +378,13 @@ BonusBlock::try_open(Player* player)
     }
     case Content::RAIN:
     {
-      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser);
+      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser);
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
@@ -401,7 +400,7 @@ BonusBlock::try_open(Player* player)
   start_bounce(player);
   if (m_hit_counter <= 0 || m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON) { //use 0 to allow infinite hits
   } else if (m_hit_counter == 1) {
-    m_sprite->set_action("empty");
+    set_action("empty");
   } else {
     m_hit_counter--;
   }
@@ -529,7 +528,7 @@ BonusBlock::try_drop(Player *player)
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser);
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -545,7 +544,7 @@ BonusBlock::try_drop(Player *player)
 
   if (countdown) { // only decrease hit counter if try_open was not called
     if (m_hit_counter == 1) {
-      m_sprite->set_action("empty");
+      set_action("empty");
     } else {
       m_hit_counter--;
     }

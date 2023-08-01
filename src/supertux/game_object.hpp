@@ -186,6 +186,8 @@ public:
       together (e.g. platform on a path) */
   virtual void editor_update() {}
 
+  GameObjectManager* get_parent() const { return m_parent; }
+
 protected:
   /** Parse object type. **/
   void parse_type(const ReaderMapping& reader);

@@ -16,8 +16,6 @@
 
 #include "worldmap/direction.hpp"
 
-#include "editor/object_option.hpp"
-#include "util/gettext.hpp"
 #include "util/log.hpp"
 
 namespace worldmap {
@@ -40,8 +38,7 @@ Direction reverse_dir(Direction direction)
   return Direction::NONE;
 }
 
-std::string
-direction_to_string(Direction direction)
+std::string direction_to_string(Direction direction)
 {
   switch (direction)
   {
@@ -58,8 +55,7 @@ direction_to_string(Direction direction)
   }
 }
 
-Direction
-string_to_direction(const std::string& directory)
+Direction string_to_direction(const std::string& directory)
 {
   if (directory == "west")
     return Direction::WEST;
