@@ -100,11 +100,10 @@ static std::vector<AddonId> get_addons(const AddonManager::AddonMap& list)
 {
   // Use a map for storing sorted addon titles with their respective IDs.
   std::map<std::string, AddonId> sorted_titles;
-  std::for_each(list.begin(), list.end(),
-                 [&](const auto& addon)
-                 {
-                   sorted_titles.insert({addon.second->get_title(), addon.first});
-                 });
+  for (const auto& [id, addon] : list)
+  {
+    sorted_titles.insert({addon->get_title(), id});
+  }
   std::vector<AddonId> results;
   results.reserve(sorted_titles.size());
   std::transform(sorted_titles.begin(), sorted_titles.end(),
