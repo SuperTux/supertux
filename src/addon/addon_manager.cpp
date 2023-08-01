@@ -80,18 +80,14 @@ MD5 md5_from_archive(const std::string& filename)
   }
 }
 
-static Addon& get_addon(const AddonManager::AddonList& list, const AddonId& id,
+static Addon& get_addon(const AddonManager::AddonMap& list, const AddonId& id,
                         bool installed)
 {
-  auto it = std::find_if(list.begin(), list.end(),
-                         [&id](const std::unique_ptr<Addon>& addon)
-                         {
-                           return addon->get_id() == id;
-                         });
+  auto it = list.find(id);
 
   if (it != list.end())
   {
-    return **it;
+    return *(it->second);
   }
   else
   {
@@ -100,14 +96,14 @@ static Addon& get_addon(const AddonManager::AddonList& list, const AddonId& id,
   }
 }
 
-static std::vector<AddonId> get_addons(const AddonManager::AddonList& list)
+static std::vector<AddonId> get_addons(const AddonManager::AddonMap& list)
 {
   // Use a map for storing sorted addon titles with their respective IDs.
   std::map<std::string, AddonId> sorted_titles;
   std::for_each(list.begin(), list.end(),
-                 [&](const std::unique_ptr<Addon>& addon)
+                 [&](const auto& addon)
                  {
-                   sorted_titles.insert({addon->get_title(), addon->get_id()});
+                   sorted_titles.insert({addon.second->get_title(), addon.first});
                  });
   std::vector<AddonId> results;
   results.reserve(sorted_titles.size());
@@ -225,7 +221,7 @@ AddonManager::~AddonManager()
   m_addon_config.clear();
   for (const auto& addon : m_installed_addons)
   {
-    m_addon_config.push_back({addon->get_id(), addon->is_enabled()});
+    m_addon_config.push_back({addon.first, addon.second->is_enabled()});
   }
 
   // Delete the add-on cache directory, if it exists.
@@ -307,17 +303,13 @@ TransferStatusListPtr
 AddonManager::request_install_addon(const AddonId& addon_id)
 {
   // remove addon if it already exists
-  auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                         [&addon_id](const std::unique_ptr<Addon>& addon)
-                         {
-                           return addon->get_id() == addon_id;
-                         });
+  auto it = m_installed_addons.find(addon_id);
   if (it != m_installed_addons.end())
   {
     log_debug << "reinstalling addon " << addon_id << std::endl;
-    if ((*it)->is_enabled())
+    if (it->second->is_enabled())
     {
-      disable_addon((*it)->get_id());
+      disable_addon(it->first);
     }
     m_installed_addons.erase(it);
   }
@@ -413,17 +405,13 @@ void
 AddonManager::install_addon(const AddonId& addon_id)
 {
   { // remove addon if it already exists
-    auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                           [&addon_id](const std::unique_ptr<Addon>& addon)
-                           {
-                             return addon->get_id() == addon_id;
-                           });
+    auto it = m_installed_addons.find(addon_id);
     if (it != m_installed_addons.end())
     {
       log_debug << "reinstalling addon " << addon_id << std::endl;
-      if ((*it)->is_enabled())
+      if (it->second->is_enabled())
       {
-        disable_addon((*it)->get_id());
+        disable_addon(it->first);
       }
       m_installed_addons.erase(it);
     }
@@ -489,11 +477,7 @@ AddonManager::uninstall_addon(const AddonId& addon_id)
     disable_addon(addon_id);
   }
   log_debug << "deleting file \"" << addon.get_install_filename() << "\"" << std::endl;
-  const auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                                          [&addon](const std::unique_ptr<Addon>& rhs)
-                                          {
-                                            return addon.get_id() == rhs->get_id();
-                                          });
+  const auto it = m_installed_addons.find(addon.get_id());
   if (it != m_installed_addons.end())
   {
     if (PHYSFS_delete(FileSystem::join(m_addon_directory, addon.get_filename()).c_str()) == 0)
@@ -570,8 +554,8 @@ AddonManager::enable_addon(const AddonId& addon_id)
     {
       for (const auto& installed_addon : m_installed_addons)
       {
-        if (installed_addon->get_type() == Addon::RESOURCEPACK &&
-            installed_addon->is_enabled())
+        if (installed_addon.second->get_type() == Addon::RESOURCEPACK &&
+            installed_addon.second->is_enabled())
         {
           throw std::runtime_error(_("Only one resource pack is allowed to be enabled at a time."));
         }
@@ -662,9 +646,9 @@ AddonManager::is_old_enabled_addon(const std::unique_ptr<Addon>& addon) const
 bool
 AddonManager::is_old_addon_enabled() const {
   auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                         [this](const std::unique_ptr<Addon>& addon)
+                         [this](const auto& addon)
                          {
-                           return is_old_enabled_addon(addon);
+                           return is_old_enabled_addon(addon.second);
                          });
 
   return it != m_installed_addons.end();
@@ -674,8 +658,8 @@ void
 AddonManager::disable_old_addons()
 {
   for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon)) {
-      disable_addon(addon->get_id());
+    if (is_old_enabled_addon(addon.second)) {
+      disable_addon(addon.first);
     }
   }
 }
@@ -685,10 +669,10 @@ AddonManager::mount_old_addons()
 {
   std::string mountpoint;
   for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon)) {
-      if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), !addon->overrides_data()) == 0)
+    if (is_old_enabled_addon(addon.second)) {
+      if (PHYSFS_mount(addon.second->get_install_filename().c_str(), mountpoint.c_str(), !addon.second->overrides_data()) == 0)
       {
-        log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
+        log_warning << "Could not add " << addon.second->get_install_filename() << " to search path: "
                     << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       }
     }
@@ -699,10 +683,10 @@ void
 AddonManager::unmount_old_addons()
 {
   for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon)) {
-      if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
+    if (is_old_enabled_addon(addon.second)) {
+      if (PHYSFS_unmount(addon.second->get_install_filename().c_str()) == 0)
       {
-        log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
+        log_warning << "Could not remove " << addon.second->get_install_filename() << " from search path: "
                     << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       }
     }
@@ -714,8 +698,8 @@ AddonManager::is_from_old_addon(const std::string& filename) const
 {
   std::string real_path = PHYSFS_getRealDir(filename.c_str());
   for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon) &&
-        addon->get_install_filename() == real_path) {
+    if (is_old_enabled_addon(addon.second) &&
+        addon.second->get_install_filename() == real_path) {
       return true;
     }
   }
@@ -738,9 +722,9 @@ AddonManager::get_depending_addons(const std::string& id) const
   std::vector<AddonId> addons;
   for (auto& addon : m_installed_addons)
   {
-    const auto& dependencies = addon->get_dependencies();
+    const auto& dependencies = addon.second->get_dependencies();
     if (std::find(dependencies.begin(), dependencies.end(), id) != dependencies.end())
-      addons.push_back(addon->get_id());
+      addons.push_back(addon.first);
   }
   return addons;
 }
@@ -846,7 +830,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
           // save addon title and author on stack before std::move
           const std::string addon_title = addon->get_title();
           const std::string addon_author = addon->get_author();
-          m_installed_addons.push_back(std::move(addon));
+          m_installed_addons[addon_id] = std::move(addon);
           if(user_install)
           {
             try
@@ -892,10 +876,10 @@ AddonManager::add_installed_addons()
   }
 }
 
-AddonManager::AddonList
+AddonManager::AddonMap
 AddonManager::parse_addon_infos(const std::string& filename) const
 {
-  AddonList m_addons;
+  AddonMap m_addons;
 
   try
   {
@@ -920,7 +904,7 @@ AddonManager::parse_addon_infos(const std::string& filename) const
           try
           {
             std::unique_ptr<Addon> addon = Addon::parse(addon_node.get_mapping());
-            m_addons.push_back(std::move(addon));
+            m_addons[addon->get_id()] = std::move(addon);
           }
           catch(const std::exception& e)
           {
