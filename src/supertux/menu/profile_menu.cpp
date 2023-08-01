@@ -24,6 +24,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
+#include "physfs/util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/profile_name_menu.hpp"
@@ -222,13 +223,10 @@ namespace savegames_util {
   std::vector<int> get_savegames()
   {
     std::vector<int> savegames;
-    char **rc = PHYSFS_enumerateFiles("/");
-    char **i;
-    for (i = rc; *i != nullptr; i++)
-    {
-      if (std::string(*i).substr(0, 7) == "profile") savegames.push_back(std::stoi(std::string(*i).substr(7)));
-    }
-    PHYSFS_freeList(rc);
+    physfsutil::enumerate_files("/", [&savegames](const std::string& filename) {
+      if (std::string(filename).substr(0, 7) == "profile")
+        savegames.push_back(std::stoi(std::string(filename).substr(7)));
+    });
     std::sort(savegames.begin(), savegames.end());
     return savegames;
   }
@@ -236,14 +234,10 @@ namespace savegames_util {
   void delete_savegames(int idx, bool reset)
   {
     const auto& profile_path = "profile" + std::to_string(idx);
-    std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    files(PHYSFS_enumerateFiles(profile_path.c_str()),
-        PHYSFS_freeList);
-    for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
-    {
-      std::string filepath = FileSystem::join(profile_path.c_str(), *filename);
+    physfsutil::enumerate_files(profile_path, [profile_path](const std::string& filename) {
+      std::string filepath = FileSystem::join(profile_path.c_str(), filename);
       PHYSFS_delete(filepath.c_str());
-    }
+    });
     if (!reset) PHYSFS_delete(profile_path.c_str());
   }
 } // namespace savegames_util

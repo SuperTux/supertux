@@ -48,25 +48,17 @@ void
 Levelset::walk_directory(const std::string& directory, bool recursively)
 {
   bool is_basedir = (directory == m_basedir);
-  char** files = PHYSFS_enumerateFiles(directory.c_str());
-  if (!files)
-  {
-    log_warning << "Couldn't read subset dir '" << directory << "'" << std::endl;
-    return;
-  }
-
-  for (const char* const* filename = files; *filename != nullptr; ++filename)
-  {
-    auto filepath = FileSystem::join(directory.c_str(), *filename);
+  bool enumerateSuccess = physfsutil::enumerate_files(directory, [directory, is_basedir, recursively, this](const auto& filename) {
+    auto filepath = FileSystem::join(directory, filename);
     if (physfsutil::is_directory(filepath) && recursively)
     {
       walk_directory(filepath, true);
     }
-    if (StringUtil::has_suffix(*filename, ".stl"))
+    if (StringUtil::has_suffix(filename, ".stl"))
     {
       if (is_basedir)
       {
-        m_levels.push_back(*filename);
+        m_levels.push_back(filename);
       }
       else
       {
@@ -75,8 +67,12 @@ Levelset::walk_directory(const std::string& directory, bool recursively)
         m_levels.push_back(filepath);
       }
     }
+  });
+
+  if (!enumerateSuccess)
+  {
+    log_warning << "Couldn't read subset dir '" << directory << "'" << std::endl;
   }
-  PHYSFS_freeList(files);
 }
 
 /* EOF */

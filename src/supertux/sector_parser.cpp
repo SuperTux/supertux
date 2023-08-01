@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,7 +24,6 @@
 #include "badguy/fish_jumping.hpp"
 #include "badguy/jumpy.hpp"
 #include "editor/editor.hpp"
-#include "editor/worldmap_objects.hpp"
 #include "object/ambient_light.hpp"
 #include "object/background.hpp"
 #include "object/camera.hpp"
@@ -39,9 +39,9 @@
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "supertux/tile_manager.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
+#include "worldmap/spawn_point.hpp"
 
 static const std::string DEFAULT_BG = "images/background/antarctic/arctis2.png";
 
@@ -75,43 +75,57 @@ SectorParser::from_nothing(Level& level)
   return sector;
 }
 
-SectorParser::SectorParser(Sector& sector, bool editable) :
+SectorParser::SectorParser(Base::Sector& sector, bool editable) :
   m_sector(sector),
   m_editable(editable)
 {
 }
 
 std::unique_ptr<GameObject>
-SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader)
+SectorParser::parse_object(const std::string& name, const ReaderMapping& reader)
 {
-  if (name_ == "money") { // for compatibility with old maps
-    return std::make_unique<Jumpy>(reader);
-  } else if (name_ == "fish") { //because the "fish" was renamed to "fish-jumping"
-    return std::make_unique<FishJumping>(reader);
-  } else {
-    try {
-      return GameObjectFactory::instance().create(name_, reader);
-    } catch(std::exception& e) {
-      log_warning << e.what() << "" << std::endl;
-      return {};
-    }
+  if (parse_object_additional(name, reader))
+    return {}; // Object was parsed by additional rules, so cancel regular object parsing.
+
+  try
+  {
+    return GameObjectFactory::instance().create(name, reader);
+  }
+  catch (std::exception& err)
+  {
+    log_warning << err.what() << std::endl;
+    return {};
   }
 }
 
-void
-SectorParser::parse(const ReaderMapping& sector)
+bool
+SectorParser::parse_object_additional(const std::string& name, const ReaderMapping& reader)
 {
-  auto iter = sector.get_iter();
+  return false; // No additional object parsing rules, continue with regular object parsing.
+}
+
+void
+SectorParser::parse(const ReaderMapping& reader)
+{
+  auto iter = reader.get_iter();
   while (iter.next()) {
-    if (iter.get_key() == "name") {
+    if (iter.get_key() == "name")
+    {
       std::string value;
       iter.get(value);
       m_sector.set_name(value);
-    } else if (iter.get_key() == "gravity") {
+    }
+    else if (iter.get_key() == "gravity")
+    {
+      auto sector = dynamic_cast<Sector*>(&m_sector);
+      if (!sector) continue;
+
       float value;
       iter.get(value);
-      m_sector.set_gravity(value);
-    } else if (iter.get_key() == "music") {
+      sector->set_gravity(value);
+    }
+    else if (iter.get_key() == "music")
+    {
       const auto& sx = iter.get_sexp();
       if (sx.is_array() && sx.as_array().size() == 2 && sx.as_array()[1].is_string()) {
         std::string value;
@@ -120,18 +134,22 @@ SectorParser::parse(const ReaderMapping& sector)
       } else {
         m_sector.add<MusicObject>(iter.as_mapping());
       }
-    } else if (iter.get_key() == "init-script") {
+    }
+    else if (iter.get_key() == "init-script")
+    {
       std::string value;
       iter.get(value);
       m_sector.set_init_script(value);
-    } else if (iter.get_key() == "ambient-light") {
+    }
+    else if (iter.get_key() == "ambient-light")
+    {
       const auto& sx = iter.get_sexp();
       if (sx.is_array() && sx.as_array().size() >= 3 &&
           sx.as_array()[1].is_real() && sx.as_array()[2].is_real() && sx.as_array()[3].is_real())
       {
         // for backward compatibilty
         std::vector<float> vColor;
-        bool hasColor = sector.get("ambient-light", vColor);
+        bool hasColor = reader.get("ambient-light", vColor);
         if (vColor.size() < 3 || !hasColor) {
           log_warning << "(ambient-light) requires a color as argument" << std::endl;
         } else {
@@ -141,11 +159,12 @@ SectorParser::parse(const ReaderMapping& sector)
         // modern format
         m_sector.add<AmbientLight>(iter.as_mapping());
       }
-    } else {
+    }
+    else
+    {
       auto object = parse_object(iter.get_key(), iter.as_mapping());
-      if (object) {
+      if (object)
         m_sector.add_object(std::move(object));
-      }
     }
   }
 
@@ -157,9 +176,13 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 {
   m_sector.set_name("main");
 
-  float gravity;
-  if (reader.get("gravity", gravity))
-    m_sector.set_gravity(gravity);
+  auto sector = dynamic_cast<Sector*>(&m_sector);
+  if (sector)
+  {
+    float gravity;
+    if (reader.get("gravity", gravity))
+      sector->set_gravity(gravity);
+  }
 
   std::string backgroundimage;
   if (reader.get("background", backgroundimage) && (!backgroundimage.empty())) {
@@ -234,8 +257,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   std::vector<unsigned int> tiles;
   if (reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
-    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto& tilemap = m_sector.add<TileMap>(tileset);
+    auto& tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
     tilemap.set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
@@ -251,15 +273,13 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   if (reader.get("background-tm", tiles)) {
-    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto& tilemap = m_sector.add<TileMap>(tileset);
+    auto& tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
     tilemap.set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap.resize(width, 19);
   }
 
   if (reader.get("foreground-tm", tiles)) {
-    auto* tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-    auto& tilemap = m_sector.add<TileMap>(tileset);
+    auto& tilemap = m_sector.add<TileMap>(m_sector.get_tileset());
     tilemap.set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
@@ -313,20 +333,18 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 void
 SectorParser::create_sector()
 {
-  auto tileset = TileManager::current()->get_tileset(m_sector.get_level().get_tileset());
-  bool worldmap = m_sector.get_level().is_worldmap();
-  if (!worldmap)
+  if (!m_sector.in_worldmap())
   {
     auto& background = m_sector.add<Background>();
     background.set_image(DEFAULT_BG);
     background.set_speed(0.5);
 
-    auto& bkgrd = m_sector.add<TileMap>(tileset);
+    auto& bkgrd = m_sector.add<TileMap>(m_sector.get_tileset());
     bkgrd.resize(100, 35);
     bkgrd.set_layer(-100);
     bkgrd.set_solid(false);
 
-    auto& frgrd = m_sector.add<TileMap>(tileset);
+    auto& frgrd = m_sector.add<TileMap>(m_sector.get_tileset());
     frgrd.resize(100, 35);
     frgrd.set_layer(100);
     frgrd.set_solid(false);
@@ -338,14 +356,14 @@ SectorParser::create_sector()
   }
   else
   {
-    auto& water = m_sector.add<TileMap>(tileset);
+    auto& water = m_sector.add<TileMap>(m_sector.get_tileset());
     water.resize(100, 35, 1);
     water.set_layer(-100);
     water.set_solid(false);
   }
 
-  auto& intact = m_sector.add<TileMap>(tileset);
-  if (worldmap) {
+  auto& intact = m_sector.add<TileMap>(m_sector.get_tileset());
+  if (m_sector.in_worldmap()) {
     intact.resize(100, 100, 0);
   } else {
     intact.resize(100, 35, 0);
@@ -353,8 +371,8 @@ SectorParser::create_sector()
   intact.set_layer(0);
   intact.set_solid(true);
 
-  if (worldmap) {
-    m_sector.add<worldmap_editor::WorldmapSpawnPoint>("main", Vector(4, 4));
+  if (m_sector.in_worldmap()) {
+    m_sector.add<worldmap::SpawnPointObject>("main", Vector(4, 4));
   } else {
     m_sector.add<SpawnPointMarker>("main", Vector(64, 480));
   }

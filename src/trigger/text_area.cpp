@@ -27,7 +27,7 @@
 #include "video/layer.hpp"
 
 TextArea::TextArea(const ReaderMapping& mapping) :
-  TriggerBase(mapping),
+  Trigger(mapping),
   m_once(false),
   m_items(),
   m_delay(4.0f),
@@ -38,12 +38,6 @@ TextArea::TextArea(const ReaderMapping& mapping) :
   m_anchor(AnchorPoint::ANCHOR_MIDDLE),
   m_anchor_offset(0, 0)
 {
-  float w, h;
-
-  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
-  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
-  mapping.get("width", w, 32.0f);
-  mapping.get("height", h, 32.0f);
   mapping.get("strings", m_items);
   mapping.get("delay", m_delay);
   mapping.get("once", m_once);
@@ -54,22 +48,6 @@ TextArea::TextArea(const ReaderMapping& mapping) :
   std::string anchor;
   if (mapping.get("anchor-point", anchor))
     m_anchor = string_to_anchor_point(anchor);
-
-  m_col.m_bbox.set_size(w, h);
-}
-
-TextArea::TextArea(const Vector& pos) :
-  m_once(false),
-  m_items(),
-  m_delay(4.0f),
-  m_fade_delay(1.0f),
-  m_current_text(0),
-  m_status(Status::NOT_STARTED),
-  m_timer(),
-  m_anchor(AnchorPoint::ANCHOR_MIDDLE)
-{
-  m_col.m_bbox.set_pos(pos);
-  m_col.m_bbox.set_size(32, 32);
 }
 
 void
@@ -113,7 +91,7 @@ TextArea::event(Player& player, EventType type)
 void
 TextArea::update(float dt_sec)
 {
-  TriggerBase::update(dt_sec);
+  Trigger::update(dt_sec);
 
   if (m_timer.check())
   {
@@ -158,7 +136,7 @@ TextArea::update(float dt_sec)
 ObjectSettings
 TextArea::get_settings()
 {
-  ObjectSettings settings = TriggerBase::get_settings();
+  ObjectSettings settings = Trigger::get_settings();
 
   settings.add_bool(_("Once"), &m_once, "once");
   settings.add_float(_("Text change time"), &m_delay, "delay");

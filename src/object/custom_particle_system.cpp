@@ -741,7 +741,6 @@ CustomParticleSystem::update(float dt_sec)
             auto c = get_collision(particle, Vector(particle->speedX, particle->speedY) * dt_sec);
 
             float speed_angle = atanf(-particle->speedY / particle->speedX);
-            float face_angle = atanf(c.slope_normal.y / c.slope_normal.x);
             if (c.slope_normal.x == 0.f && c.slope_normal.y == 0.f) {
               auto cX = get_collision(particle, Vector(particle->speedX, 0) * dt_sec);
               if (cX.left != cX.right)
@@ -750,6 +749,7 @@ CustomParticleSystem::update(float dt_sec)
               if (cY.top != cY.bottom)
                 particle->speedY *= -1;
             } else {
+              float face_angle = atanf(c.slope_normal.y / c.slope_normal.x);
               float dest_angle = face_angle * 2.f - speed_angle; // Reflect the angle around face_angle
               float dX = cosf(dest_angle),
                     dY = sinf(dest_angle);

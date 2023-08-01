@@ -23,6 +23,7 @@
 #include <sstream>
 
 #include "physfs/physfs_sdl.hpp"
+#include "physfs/util.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
@@ -70,20 +71,18 @@ BitmapFont::BitmapFont(GlyphWidth glyph_width_,
   const std::string fontname = FileSystem::basename(filename);
 
   // scan for prefix-filename in addons search path
-  char **rc = PHYSFS_enumerateFiles(fontdir.c_str());
-  for (char **i = rc; *i != nullptr; i++) {
-    std::string filename_(*i);
-    if ( filename_.rfind(fontname) != std::string::npos ) {
+  physfsutil::enumerate_files(fontdir, [fontdir, fontname, this](const std::string& file) {
+    std::string filepath = FileSystem::join(fontdir, file);
+    if (file.rfind(fontname) != std::string::npos) {
       try {
-        loadFontFile(fontdir + filename_);
+        loadFontFile(filepath);
       }
       catch(const std::exception& e)
       {
         log_fatal << "Couldn't load font file: " << e.what() << std::endl;
       }
     }
-  }
-  PHYSFS_freeList(rc);
+  });
 }
 
 void

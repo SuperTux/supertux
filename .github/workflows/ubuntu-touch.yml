@@ -67,7 +67,7 @@ jobs:
           ARCH: ${{ matrix.arch }}
         run: |
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}  \
-                                      --config mk/clickable/build-with-glew.json
+                                      --config mk/clickable/clickable-glew.yaml
 
       - name: Build (OpenGL with GLbinding)
         if: ${{ matrix.opengl == 'glbinding' }}
@@ -76,7 +76,7 @@ jobs:
           ARCH: ${{ matrix.arch }}
         run: |
           ~/.local/bin/clickable build --verbose ${BUILD_TYPE} --arch ${ARCH}  \
-                                 --config mk/clickable/build-with-glbinding.json
+                                 --config mk/clickable/clickable-glbinding.yaml
 
       - name: Build (no OpenGL)
         if: ${{ matrix.opengl == 'sdl' }}
@@ -92,12 +92,12 @@ jobs:
           path: build.clickable/*.click
           if-no-files-found: ignore
 
-      - name: Publish to Open Store
-        if: ${{ github.ref == 'refs/heads/master' && matrix.build_type == 'Release' && matrix.opengl == 'sdl' }}
-        env:
-          ARCH: ${{ matrix.arch }}
-          OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
-        run: |
-          ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B |         \
-                                         head -1)" --apikey ${OPENSTORE_KEY}   \
-                                         --arch ${ARCH}
+      #- name: Publish to Open Store
+      #  if: ${{ github.ref == 'refs/heads/master' && matrix.build_type == 'Release' && matrix.opengl == 'sdl' }}
+      #  env:
+      #    ARCH: ${{ matrix.arch }}
+      #    OPENSTORE_KEY: ${{ secrets.OPENSTORE_KEY }}
+      #  run: |
+      #    ~/.local/bin/clickable publish "* $(git log -1 --pretty=%B |         \
+      #                                   head -1)" --apikey ${OPENSTORE_KEY}   \
+      #                                   --arch ${ARCH}

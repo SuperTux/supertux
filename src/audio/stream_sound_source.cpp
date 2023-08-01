@@ -138,8 +138,8 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   std::unique_ptr<char[]> bufferdata(new char[STREAMFRAGMENTSIZE]);
   size_t bytesread = 0;
   do {
-    bytesread += m_file->read(bufferdata.get() + bytesread,
-                            STREAMFRAGMENTSIZE - bytesread);
+    bytesread += m_file->read(static_cast<char *>(bufferdata.get()) + bytesread,
+      STREAMFRAGMENTSIZE - bytesread);
     // end of sound file
     if (bytesread < STREAMFRAGMENTSIZE) {
       if (m_looping)

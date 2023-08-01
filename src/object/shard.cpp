@@ -39,7 +39,7 @@ Shard::Shard(const Vector& pos, const Vector& velocity) :
 {
   m_physic.enable_gravity(true);
   m_physic.set_velocity(velocity);
-  m_sprite->set_action("default");
+  set_action("default");
   SoundManager::current()->preload("sounds/crystallo-shardhit.ogg");
 }
 

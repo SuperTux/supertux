@@ -29,7 +29,6 @@
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
-#include "worldmap/worldmap_parser.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {
@@ -248,8 +247,7 @@ WorldSelect::update(float dt_sec, const Controller& controller)
   if (controller.pressed(Control::JUMP) && m_worlds[m_selected_world].unlocked) {
     m_enabled = false;
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, 0.25f));
-    worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "main");
-    log_warning << m_worlds[m_selected_world].filename << std::endl;
+    worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "", "main");
     return;
   }
 }

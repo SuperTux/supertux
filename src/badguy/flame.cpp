@@ -45,9 +45,6 @@ Flame::Flame(const ReaderMapping& reader, const std::string& sprite) :
   m_countMe = false;
   SoundManager::current()->preload(FLAME_SOUND);
 
-  reader.get("sprite", m_sprite_name, m_sprite_name.c_str());
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
-
   set_colgroup_active(COLGROUP_TOUCHABLE);
 
   m_lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));

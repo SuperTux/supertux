@@ -111,7 +111,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
 {
   std::string dir_str = "auto";
   reader.get("direction", dir_str);
-  m_start_dir = str2dir( dir_str );
+  m_start_dir = string_to_dir(dir_str);
   m_dir = m_start_dir;
 
   reader.get("dead-script", m_dead_script);
@@ -288,12 +288,6 @@ BadGuy::update(float dt_sec)
   }
 
   m_on_ground_flag = false;
-}
-
-Direction
-BadGuy::str2dir(const std::string& dir_str) const
-{
-  return string_to_dir(dir_str);
 }
 
 void
@@ -1085,7 +1079,7 @@ BadGuy::after_editor_set()
   }
   else
   {
-    std::string action_str = dir_to_string(m_dir);
+    std::string action_str = dir_to_string(m_start_dir);
 
     if (m_sprite->has_action("editor-" + action_str)) {
       set_action("editor-" + action_str);

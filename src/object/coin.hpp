@@ -32,7 +32,8 @@ class Coin : public MovingSprite,
 friend class HeavyCoin;
 
 public:
-  Coin(const Vector& pos, bool count_stats = true);
+  Coin(const Vector& pos, bool count_stats = true,
+       const std::string& sprite_path = "images/objects/coin/coin.sprite");
   Coin(const ReaderMapping& reader, bool count_stats = true);
   virtual void finish_construction() override;
 
@@ -73,7 +74,8 @@ private:
 class HeavyCoin final : public Coin
 {
 public:
-  HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats = true);
+  HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats = true,
+            const std::string& sprite_path = "images/objects/coin/coin.sprite");
   HeavyCoin(const ReaderMapping& reader, bool count_stats = true);
 
   virtual void update(float dt_sec) override;

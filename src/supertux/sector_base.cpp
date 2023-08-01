@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,30 +14,25 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/worldmap.hpp"
+#include "supertux/sector_base.hpp"
 
-#include "worldmap/worldmap.hpp"
+#include "util/log.hpp"
 
-namespace scripting {
+namespace Base {
 
-WorldMap::WorldMap(::worldmap::WorldMap* parent) :
-  GameObjectManager(parent),
-  m_parent(parent)
+Sector::Sector(const std::string& type) :
+  m_name(),
+  m_init_script(),
+  m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type))
 {
 }
 
-float
-WorldMap::get_tux_x() const
+void
+Sector::run_script(const std::string& script, const std::string& sourcename)
 {
-  return m_parent->get_tux_pos().x;
+  m_squirrel_environment->run_script(script, sourcename);
 }
 
-float
-WorldMap::get_tux_y() const
-{
-  return m_parent->get_tux_pos().y;
-}
-
-} // namespace scripting
+} // namespace Base
 
 /* EOF */
