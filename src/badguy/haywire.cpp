@@ -39,7 +39,7 @@ const float SKID_TIME = 0.3f;
 
 Haywire::Haywire(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/haywire/haywire.sprite", "left", "right"),
-  is_exploding(false),
+  m_is_exploding(false),
   time_until_explosion(0.0f),
   is_stunned(false),
   time_stunned(0.0f),
@@ -87,7 +87,7 @@ Haywire::collision_squished(GameObject& object)
     WalkingBadguy::unfreeze();
   }
 
-  if (!is_exploding) {
+  if (!m_is_exploding) {
     m_last_player_direction = m_dir;
     start_exploding();
     stomped_timer.start(STOMPED_TIME);
@@ -109,7 +109,7 @@ Haywire::active_update(float dt_sec)
 {
   auto* player = get_nearest_player();
 
-  if (is_exploding) {
+  if (m_is_exploding) {
     ticking->set_position(get_pos());
     grunting->set_position(get_pos());
     if (dt_sec >= time_until_explosion) {
@@ -130,7 +130,7 @@ Haywire::active_update(float dt_sec)
     }
   }
 
-  if (is_exploding)
+  if (m_is_exploding)
   {
     if (on_ground() && std::abs(m_physic.get_velocity_x()) > 40.f && player)
     {
@@ -239,7 +239,7 @@ void
 Haywire::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  if (stomped_timer.get_timeleft() < 0.05f && is_exploding)
+  if (stomped_timer.get_timeleft() < 0.05f && m_is_exploding)
   {
     m_exploding_sprite->set_blend(Blend::ADD);
     m_exploding_sprite->draw(context.light(),
@@ -251,7 +251,7 @@ Haywire::draw(DrawingContext& context)
 void
 Haywire::kill_fall()
 {
-  if (is_exploding) {
+  if (m_is_exploding) {
     ticking->stop();
     grunting->stop();
   }
@@ -285,7 +285,7 @@ Haywire::ignite()
 void
 Haywire::freeze() {
   BadGuy::freeze();
-  if (is_exploding) {
+  if (m_is_exploding) {
     stop_exploding();
   }
 }
@@ -296,7 +296,7 @@ Haywire::start_exploding()
   set_walk_speed (EXPLODING_WALK_SPEED);
   max_drop_height = -1;
   time_until_explosion = TIME_EXPLOSION;
-  is_exploding = true;
+  m_is_exploding = true;
 
   ticking = SoundManager::current()->create_sound_source("sounds/fizz.wav");
   ticking->set_position(get_pos());
@@ -318,7 +318,7 @@ Haywire::stop_exploding()
   set_walk_speed(NORMAL_WALK_SPEED);
   max_drop_height = 16;
   time_until_explosion = 0.0f;
-  is_exploding = false;
+  m_is_exploding = false;
 
   if (ticking)
     ticking->stop();
@@ -339,7 +339,7 @@ void Haywire::stop_looping_sounds()
 
 void Haywire::play_looping_sounds()
 {
-  if (is_exploding) {
+  if (m_is_exploding) {
     if (ticking) {
       ticking->play();
     }
@@ -359,18 +359,15 @@ Haywire::collision_solid(const CollisionHit& hit)
 
 HitResponse Haywire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if (is_exploding)
+  if (m_is_exploding)
   {
     badguy.kill_fall();
     return FORCE_MOVE;
   }
   if (m_frozen)
     return FORCE_MOVE;
-  else
-  {
-    WalkingBadguy::collision_badguy(badguy, hit);
-  }
-  return ABORT_MOVE;
+
+  return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
 /* EOF */

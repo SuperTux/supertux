@@ -54,17 +54,25 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
+  void flee(Direction dir);
+  void cornered();
+
+  inline bool is_ticking() const { return tstate == STATE_TICKING; }
+
 protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
   enum Ticking_State {
     STATE_NORMAL,
-    STATE_TICKING
+    STATE_TICKING,
+    STATE_REALIZING,
+    STATE_FLEEING,
+    STATE_CORNERED
   };
 
-private:
   Ticking_State tstate;
+  Timer m_realize_timer;
 
   std::unique_ptr<SoundSource> ticking;
   SpritePtr m_exploding_sprite;
