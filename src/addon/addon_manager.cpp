@@ -219,9 +219,9 @@ AddonManager::~AddonManager()
 {
   // sync enabled/disabled add-ons into the config for saving
   m_addon_config.clear();
-  for (const auto& addon : m_installed_addons)
+  for (const auto& [id, addon] : m_installed_addons)
   {
-    m_addon_config.push_back({addon.first, addon.second->is_enabled()});
+    m_addon_config.push_back({id, addon->is_enabled()});
   }
 
   // Delete the add-on cache directory, if it exists.
@@ -552,10 +552,10 @@ AddonManager::enable_addon(const AddonId& addon_id)
   {
     if (addon.get_type() == Addon::RESOURCEPACK)
     {
-      for (const auto& installed_addon : m_installed_addons)
+      for (const auto& [id, addon] : m_installed_addons)
       {
-        if (installed_addon.second->get_type() == Addon::RESOURCEPACK &&
-            installed_addon.second->is_enabled())
+        if (addon->get_type() == Addon::RESOURCEPACK &&
+            addon->is_enabled())
         {
           throw std::runtime_error(_("Only one resource pack is allowed to be enabled at a time."));
         }
@@ -657,9 +657,9 @@ AddonManager::is_old_addon_enabled() const {
 void
 AddonManager::disable_old_addons()
 {
-  for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon.second)) {
-      disable_addon(addon.first);
+  for (auto& [id, addon] : m_installed_addons) {
+    if (is_old_enabled_addon(addon)) {
+      disable_addon(id);
     }
   }
 }
@@ -668,11 +668,11 @@ void
 AddonManager::mount_old_addons()
 {
   std::string mountpoint;
-  for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon.second)) {
-      if (PHYSFS_mount(addon.second->get_install_filename().c_str(), mountpoint.c_str(), !addon.second->overrides_data()) == 0)
+  for (auto& [id, addon] : m_installed_addons) {
+    if (is_old_enabled_addon(addon)) {
+      if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), !addon->overrides_data()) == 0)
       {
-        log_warning << "Could not add " << addon.second->get_install_filename() << " to search path: "
+        log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
                     << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       }
     }
@@ -682,11 +682,11 @@ AddonManager::mount_old_addons()
 void
 AddonManager::unmount_old_addons()
 {
-  for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon.second)) {
-      if (PHYSFS_unmount(addon.second->get_install_filename().c_str()) == 0)
+  for (auto& [id, addon] : m_installed_addons) {
+    if (is_old_enabled_addon(addon)) {
+      if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
       {
-        log_warning << "Could not remove " << addon.second->get_install_filename() << " from search path: "
+        log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
                     << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
       }
     }
@@ -697,9 +697,9 @@ bool
 AddonManager::is_from_old_addon(const std::string& filename) const
 {
   std::string real_path = PHYSFS_getRealDir(filename.c_str());
-  for (auto& addon : m_installed_addons) {
-    if (is_old_enabled_addon(addon.second) &&
-        addon.second->get_install_filename() == real_path) {
+  for (auto& [id, addon] : m_installed_addons) {
+    if (is_old_enabled_addon(addon) &&
+        addon->get_install_filename() == real_path) {
       return true;
     }
   }
@@ -720,11 +720,11 @@ std::vector<AddonId>
 AddonManager::get_depending_addons(const std::string& id) const
 {
   std::vector<AddonId> addons;
-  for (auto& addon : m_installed_addons)
+  for (auto& [id, addon] : m_installed_addons)
   {
-    const auto& dependencies = addon.second->get_dependencies();
+    const auto& dependencies = addon->get_dependencies();
     if (std::find(dependencies.begin(), dependencies.end(), id) != dependencies.end())
-      addons.push_back(addon.first);
+      addons.push_back(id);
   }
   return addons;
 }
