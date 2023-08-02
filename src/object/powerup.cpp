@@ -49,6 +49,8 @@ PowerUp::PowerUp(const Vector& pos, int type) :
 {
   m_type = type;
   on_type_change();
+
+  update_version();
   initialize();
 }
 
@@ -63,7 +65,10 @@ PowerUp::get_types() const
     { "earth", _("Earth Flower") },
     { "star", _("Star") },
     { "oneup", _("Tux Doll") },
-    { "flip", _("Flip Potion") }
+    { "flip", _("Flip Potion") },
+    { "mints", _("Mints") },
+    { "coffee", _("Coffee") },
+    { "herring", _("Herring") }
   };
 }
 
@@ -86,6 +91,12 @@ PowerUp::get_default_sprite_name() const
       return "images/powerups/1up/1up.sprite";
     case FLIP:
       return "images/powerups/potions/red-potion.sprite";
+    case MINTS:
+      return "images/powerups/retro/mints.png";
+    case COFFEE:
+      return "images/powerups/retro/coffee.png";
+    case HERRING:
+      return "images/powerups/retro/golden_herring.png";
     default:
       return m_default_sprite_name;
   }
@@ -193,11 +204,13 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   switch (m_type)
   {
     case EGG:
+    case MINTS:
       if (!player->add_bonus(GROWUP_BONUS, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/grow.ogg", get_pos());
       break;
     case FIRE:
+    case COFFEE:
       if (!player->add_bonus(FIRE_BONUS, true))
         return FORCE_MOVE;
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
@@ -218,6 +231,7 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
       SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
       break;
     case STAR:
+    case HERRING:
       player->make_invincible();
       break;
     case ONEUP:
@@ -238,9 +252,12 @@ PowerUp::update(float dt_sec)
 {
   if (!no_physics)
     m_col.set_movement(physic.get_movement(dt_sec));
-  //Stars sparkle when close to Tux
-  if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite"){
-    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {
+
+  // Stars and herrings should sparkle when close to Tux.
+  if (m_type == STAR || m_type == HERRING)
+  {
+    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+    {
       float disp_x = player->get_bbox().get_left() - m_col.m_bbox.get_left();
       float disp_y = player->get_bbox().get_top() - m_col.m_bbox.get_top();
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
@@ -269,11 +286,9 @@ PowerUp::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  // Stars are brighter
-  if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite")
-  {
+  // Stars and herrings are brighter.
+  if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  }
 
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }

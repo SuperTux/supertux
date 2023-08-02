@@ -227,6 +227,8 @@ BonusBlock::get_content_by_data(int tile_data) const
     case 13: return Content::AIRGROW;
     case 14: return Content::EARTHGROW;
     case 15: return Content::LIGHT_ON;
+    case 16: return Content::COFFEE;
+    case 17: return Content::HERRING;
     default:
       log_warning << "Invalid box contents" << std::endl;
       return Content::COIN;
@@ -241,11 +243,11 @@ BonusBlock::get_settings()
   result.add_script(_("Script"), &m_script, "script");
   result.add_int(_("Count"), &m_hit_counter, "count", get_default_hit_counter());
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
-                  {_("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
-                   _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
-                   _("Trampoline"), _("Portable trampoline"), _("Coin rain"), _("Coin explosion"), _("Rock"), _("Potion")},
-                  {"coin", "firegrow", "icegrow", "airgrow", "earthgrow", "star",
-                   "1up", "custom", "script", "light", "light-on", "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion"},
+                  { _("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
+                   _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Growth (mints, coffee)"), _("Herring"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
+                   _("Trampoline"), _("Portable trampoline"), _("Coin rain"), _("Coin explosion"), _("Rock"), _("Potion") },
+                  { "coin", "firegrow", "icegrow", "airgrow", "earthgrow", "star", "1up", "coffee", "herring", "custom", "script", "light", "light-on",
+                   "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion" },
                   static_cast<int>(Content::COIN), "contents");
   result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
 
@@ -363,6 +365,21 @@ BonusBlock::try_open(Player* player)
     case Content::ONEUP:
     {
       Sector::get().add<OneUp>(get_pos(), direction);
+      play_upgrade_sound = true;
+      break;
+    }
+
+    case Content::COFFEE:
+    {
+      raise_growup_bonus(player, FIRE_BONUS, direction,
+                         "images/powerups/retro/mints.png", "images/powerups/retro/coffee.png");
+      break;
+    }
+
+    case Content::HERRING:
+    {
+      Sector::get().add<Star>(get_pos() + Vector(0, -32), direction,
+                              "images/powerups/retro/golden_herring.png");
       play_upgrade_sound = true;
       break;
     }
@@ -517,6 +534,22 @@ BonusBlock::try_drop(Player *player)
       break;
     }
 
+    case Content::COFFEE:
+    {
+      drop_growup_bonus(player, PowerUp::COFFEE, direction, countdown,
+                        "images/powerups/retro/mints.png");
+      break;
+    }
+
+    case Content::HERRING:
+    {
+      Sector::get().add<Star>(get_pos() + Vector(0, 32), direction,
+                              "images/powerups/retro/golden_herring.png");
+      play_upgrade_sound = true;
+      countdown = true;
+      break;
+    }
+
     case Content::CUSTOM:
     {
       //NOTE: non-portable trampolines could be moved to Content::CUSTOM, but they should not drop
@@ -585,16 +618,17 @@ BonusBlock::try_drop(Player *player)
 }
 
 void
-BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
+BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir,
+                               const std::string& growup_sprite, const std::string& flower_sprite)
 {
   std::unique_ptr<MovingObject> obj;
   if (player->get_status().bonus[player->get_id()] == NO_BONUS)
   {
-    obj = std::make_unique<GrowUp>(get_pos(), dir);
+    obj = std::make_unique<GrowUp>(get_pos(), dir, growup_sprite);
   }
   else
   {
-    obj = std::make_unique<Flower>(bonus);
+    obj = std::make_unique<Flower>(bonus, flower_sprite);
   }
 
   Sector::get().add<SpecialRiser>(get_pos(), std::move(obj));
@@ -602,11 +636,12 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
 }
 
 void
-BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown)
+BonusBlock::drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown,
+                              const std::string& growup_sprite)
 {
   if (player->get_status().bonus[player->get_id()] == NO_BONUS)
   {
-    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir);
+    Sector::get().add<GrowUp>(get_pos() + Vector(0, 32), dir, growup_sprite);
   }
   else
   {
@@ -622,7 +657,8 @@ BonusBlock::draw(DrawingContext& context)
   // do the regular drawing first
   Block::draw(context);
   // then Draw the light if on.
-  if (m_sprite->get_action() == "on") {
+  if (m_sprite->get_action() == "on")
+  {
     Vector pos = get_pos() + (m_col.m_bbox.get_size().as_vector() - Vector(static_cast<float>(m_lightsprite->get_width()),
                                                                    static_cast<float>(m_lightsprite->get_height()))) / 2.0f;
     context.light().draw_surface(m_lightsprite, pos, 10);
@@ -632,69 +668,48 @@ BonusBlock::draw(DrawingContext& context)
 BonusBlock::Content
 BonusBlock::get_content_from_string(const std::string& contentstring) const
 {
-  if (contentstring == "coin") {
+  if (contentstring == "coin")
     return Content::COIN;
-  } else if (contentstring == "firegrow") {
+  else if (contentstring == "firegrow")
     return Content::FIREGROW;
-  } else if (contentstring == "icegrow") {
+  else if (contentstring == "icegrow")
     return Content::ICEGROW;
-  } else if (contentstring == "airgrow") {
+  else if (contentstring == "airgrow")
     return Content::AIRGROW;
-  } else if (contentstring == "earthgrow") {
+  else if (contentstring == "earthgrow")
     return Content::EARTHGROW;
-  } else if (contentstring == "star") {
+  else if (contentstring == "star")
     return Content::STAR;
-  } else if (contentstring == "1up") {
+  else if (contentstring == "1up")
     return Content::ONEUP;
-  } else if (contentstring == "custom") {
+  else if (contentstring == "coffee")
+    return Content::COFFEE;
+  else if (contentstring == "herring")
+    return Content::HERRING;
+  else if (contentstring == "custom")
     return Content::CUSTOM;
-  } else if (contentstring == "script") { // use when bonusblock is to contain ONLY a script
+  else if (contentstring == "script")
     return Content::SCRIPT;
-  } else if (contentstring == "light") {
+  else if (contentstring == "light")
     return Content::LIGHT;
-  } else if (contentstring == "light-on") {
+  else if (contentstring == "light-on")
     return Content::LIGHT_ON;
-  } else if (contentstring == "trampoline") {
+  else if (contentstring == "trampoline")
     return Content::TRAMPOLINE;
-  } else if (contentstring == "portabletrampoline") {
+  else if (contentstring == "portabletrampoline")
     return Content::PORTABLE_TRAMPOLINE;
-  } else if (contentstring == "potion") {
+  else if (contentstring == "potion")
     return Content::POTION;
-  } else if (contentstring == "rock") {
+  else if (contentstring == "rock")
     return Content::ROCK;
-  } else if (contentstring == "rain") {
+  else if (contentstring == "rain")
     return Content::RAIN;
-  } else if (contentstring == "explode") {
+  else if (contentstring == "explode")
     return Content::EXPLODE;
-  } else {
-    log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
-    return Content::COIN;
-  }
-}
-
-std::string
-BonusBlock::contents_to_string(const BonusBlock::Content& content) const
-{
-  switch (m_contents)
+  else
   {
-    case Content::COIN: return "coin";
-    case Content::FIREGROW: return "firegrow";
-    case Content::ICEGROW: return "icegrow";
-    case Content::AIRGROW: return "airgrow";
-    case Content::EARTHGROW: return "earthgrow";
-    case Content::STAR: return "star";
-    case Content::ONEUP: return "1up";
-    case Content::CUSTOM: return "custom";
-    case Content::SCRIPT: return "script";
-    case Content::LIGHT: return "light";
-    case Content::LIGHT_ON: return "light-on";
-    case Content::TRAMPOLINE: return "trampoline";
-    case Content::PORTABLE_TRAMPOLINE: return "portabletrampoline";
-    case Content::POTION: return "potion";
-    case Content::ROCK: return "rock";
-    case Content::RAIN: return "rain";
-    case Content::EXPLODE: return "explode";
-    default: return "coin";
+    log_warning << "Invalid bonus block contents '" << contentstring << "'" << std::endl;
+    return Content::COIN;
   }
 }
 

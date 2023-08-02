@@ -17,23 +17,27 @@
 #ifndef HEADER_SUPERTUX_OBJECT_FLOWER_HPP
 #define HEADER_SUPERTUX_OBJECT_FLOWER_HPP
 
-#include "sprite/sprite.hpp"
 #include "supertux/moving_object.hpp"
+
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/player_status.hpp"
+#include "video/flip.hpp"
+#include "video/layer.hpp"
 
 class Flower final : public MovingObject
 {
   friend class FlipLevelTransformer;
 
 public:
-  Flower(BonusType type);
-  virtual bool is_saveable() const override {
-    return false;
-  }
+  Flower(BonusType type, const std::string& custom_sprite = "");
+
+  virtual bool is_saveable() const override { return false; }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+
   virtual void on_flip(float height) override;
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }

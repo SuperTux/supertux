@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
 
 #include "object/block.hpp"
+
 #include "supertux/direction.hpp"
 #include "supertux/player_status.hpp"
 
@@ -34,6 +35,8 @@ public:
     EARTHGROW,
     STAR,
     ONEUP,
+    COFFEE,
+    HERRING,
     CUSTOM,
     SCRIPT,
     LIGHT,
@@ -77,12 +80,13 @@ private:
   void try_drop(Player* player);
 
   void preload_contents(int d);
-  void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir);
-  void drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown);
+  void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir,
+                          const std::string& growup_sprite = "", const std::string& flower_sprite = "");
+  void drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown,
+                         const std::string& growup_sprite = "");
 
   BonusBlock::Content get_content_by_data(int tile_data) const;
   BonusBlock::Content get_content_from_string(const std::string& contentstring) const;
-  std::string contents_to_string(const BonusBlock::Content& content) const;
 
 private:
   enum Type {

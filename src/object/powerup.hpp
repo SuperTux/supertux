@@ -58,7 +58,10 @@ public:
     EARTH,
     STAR,
     ONEUP,
-    FLIP
+    FLIP,
+    MINTS,
+    COFFEE,
+    HERRING
   };
 
 private:
