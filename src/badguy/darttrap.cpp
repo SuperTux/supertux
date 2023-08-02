@@ -55,8 +55,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 void
 DartTrap::initialize()
 {
-  set_action("idle", m_dir == Direction::UP ? Direction::DOWN : m_dir);
-  if (m_dir == Direction::UP) m_flip = VERTICAL_FLIP;
+  set_action("idle", m_dir);
 }
 
 void
@@ -100,14 +99,16 @@ void
 DartTrap::load()
 {
   m_state = LOADING;
-  set_action("loading", m_dir == Direction::UP ? Direction::DOWN : m_dir, 1);
+  set_action("loading", m_dir, 1);
 }
 
 void
 DartTrap::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this, m_dart_sprite, m_flip);
+  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this, m_dart_sprite);
+  if(m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+    dart.set_flip(m_flip);
 
   Vector pos;
   switch (m_dir)
@@ -133,7 +134,7 @@ DartTrap::fire()
   dart.set_pos(pos);
 
   m_state = IDLE;
-  set_action("idle", m_dir == Direction::UP ? Direction::DOWN : m_dir);
+  set_action("idle", m_dir);
 }
 
 ObjectSettings
@@ -153,22 +154,21 @@ DartTrap::get_settings()
 }
 
 void
-DartTrap::after_editor_set()
-{
-  BadGuy::after_editor_set();
-  if ((m_dir == Direction::UP && m_flip == NO_FLIP) || (m_dir == Direction::DOWN && m_flip == VERTICAL_FLIP))
-    FlipLevelTransformer::transform_flip(m_flip);
-}
-
-void
 DartTrap::on_flip(float height)
 {
   BadGuy::on_flip(height);
-  FlipLevelTransformer::transform_flip(m_flip);
   if (m_dir == Direction::UP)
+  {
     m_dir = Direction::DOWN;
+    set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
+  }
   else if (m_dir == Direction::DOWN)
+  {
     m_dir = Direction::UP;
+    set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
+  }
+  else
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */
