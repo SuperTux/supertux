@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2022 Vankata453
+//  Copyright (C) 2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -74,7 +74,8 @@ WorldPreviewMenu::draw_preview_data(DrawingContext& context, const Rectf& previe
   const Savegame::Progress& progress = m_world_entries[index].progress;
   if (progress.progress > -1) // Progress should be drawn.
     context.color().draw_text(Resources::normal_font,
-                              std::to_string(progress.progress) + "/" + std::to_string(progress.total),
+                              std::to_string(progress.progress) + "/" + std::to_string(progress.total)
+                                + " (" + std::to_string(progress.progress / progress.total * 100) + "%)",
                               Vector(preview_rect.get_left() + s_preview_size.width / 2, preview_rect.get_bottom() * 1.05f),
                               ALIGN_CENTER, LAYER_GUI, Color(1, 1, 1, alpha));
 }
