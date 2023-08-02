@@ -17,9 +17,11 @@
 #include <algorithm>
 
 #include "editor/resize_marker.hpp"
+#include "supertux/moving_object.hpp"
 
-ResizeMarker::ResizeMarker(Rectf* rect, Side vert, Side horz) :
-  m_rect(rect),
+ResizeMarker::ResizeMarker(MovingObject* obj, Side vert, Side horz) :
+  m_object(obj),
+  m_rect(&obj->m_col.m_bbox),
   m_vert(vert),
   m_horz(horz)
 {
@@ -134,6 +136,18 @@ Vector
 ResizeMarker::get_offset() const
 {
   return Vector((m_horz == Side::LEFT_UP) ? 16.0f : 0.0f, (m_vert == Side::LEFT_UP) ? 16.0f : 0.0f);
+}
+
+void
+ResizeMarker::save_state()
+{
+  m_object->save_state();
+}
+
+void
+ResizeMarker::check_state()
+{
+  m_object->check_state();
 }
 
 /* EOF */

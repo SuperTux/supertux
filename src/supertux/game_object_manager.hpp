@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //                2018 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -45,7 +46,7 @@ private:
   };
 
 public:
-  GameObjectManager();
+  GameObjectManager(bool undo_tracking = false);
   virtual ~GameObjectManager();
 
   /** Queue an object up to be added to the object list */
@@ -182,6 +183,31 @@ public:
   
   void update_solid(TileMap* solid);
 
+  /** Toggle object change tracking for undo/redo. */
+  void toggle_undo_tracking(bool enabled);
+  bool undo_tracking_enabled() const { return m_undo_tracking; }
+
+  /** Set undo stack size. */
+  void set_undo_stack_size(int size);
+
+  /** Remove old object changes that exceed the undo stack size limit. */
+  void undo_stack_cleanup();
+
+  /** Undo/redo changes to GameObjects in the manager.
+      Utilized by the Editor. */
+  void undo();
+  void redo();
+
+  /** Save object change in the undo stack with given data.
+      Used to save an object's previous state before a change had occurred. */
+  void save_object_change(GameObject& object, const std::string& data);
+
+  /** Clear undo/redo stacks. */
+  void clear_undo_stack();
+
+  /** Indicate if there are any object changes in the undo stack. */
+  bool has_object_changes() const;
+
 protected:
   void update_tilemaps();
 
@@ -202,11 +228,37 @@ protected:
   }
 
 private:
+  struct ObjectChange {
+    std::string name;
+    UID uid;
+    std::string data;
+    bool creation; // If the change represents an object creation.
+  };
+
+  /** Create object from object change. */
+  void create_object_from_change(const ObjectChange& change);
+
+  /** Process object change on undo/redo. */
+  void process_object_change(ObjectChange& change);
+
+  /** Save object change in the undo stack. */
+  void save_object_change(GameObject& object, bool creation = false);
+
   void this_before_object_add(GameObject& object);
   void this_before_object_remove(GameObject& object);
 
+protected:
+  /** An initial flush_game_objects() call has been initiated. */
+  bool m_initialized;
+
 private:
   UIDGenerator m_uid_generator;
+
+  /** Undo/redo variables */
+  bool m_undo_tracking;
+  int m_undo_stack_size;
+  std::vector<ObjectChange> m_undo_stack;
+  std::vector<ObjectChange> m_redo_stack;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 

@@ -19,11 +19,7 @@
 
 #include <memory>
 
-class JoystickMenu;
-class KeyboardMenu;
 class Menu;
-class OptionsMenu;
-class ProfileMenu;
 
 class MenuStorage final
 {
@@ -48,6 +44,7 @@ public:
     LANGUAGE_MENU,
     KEYBOARD_MENU,
     JOYSTICK_MENU,
+    VIDEO_SYSTEM_MENU,
     WORLDMAP_MENU,
     WORLDMAP_CHEAT_MENU,
     WORLDMAP_LEVEL_SELECT_MENU,

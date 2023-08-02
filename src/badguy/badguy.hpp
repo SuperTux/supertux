@@ -26,7 +26,6 @@
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
-class Dispenser;
 class Player;
 class Bullet;
 
@@ -133,13 +132,6 @@ public:
     set_action(action, loops);
   }
 
-  /** Sets the dispenser that spawns this badguy.
-      @param parent The dispenser */
-  void set_parent_dispenser(Dispenser* parent) { m_parent_dispenser = parent; }
-
-  /** Returns the dispenser this badguys was spawned by */
-  Dispenser* get_parent_dispenser() const { return m_parent_dispenser; }
-
   /** Returns true if the badguy can currently be affected by wind */
   virtual bool can_be_affected_by_wind() const;
 
@@ -217,9 +209,6 @@ protected:
       pixels. Minimum value for height is 1 pixel */
   bool might_fall(int height = 1) const;
 
-  /** Get Direction from String. */
-  Direction str2dir(const std::string& dir_str) const;
-
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so
       call this when overriding collision_solid's default
@@ -277,10 +266,6 @@ protected:
   SpritePtr m_lightsprite;
   SpritePtr m_freezesprite;
   bool m_glowing;
-
-  /** If this badguy was dispensed from a dispenser,
-      save the dispenser here. */
-  Dispenser* m_parent_dispenser;
 
 private:
   State m_state;

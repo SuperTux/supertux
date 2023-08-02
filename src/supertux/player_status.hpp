@@ -49,11 +49,15 @@ public:
 
   int get_max_coins() const;
   bool can_reach_checkpoint() const;
+  bool respawns_at_checkpoint() const;
   std::string get_bonus_prefix(int player_id) const;/**Returns the prefix of the animations that should be displayed*/
   bool has_hat_sprite(int player_id) const { return bonus[player_id] > GROWUP_BONUS; }
 
   void add_player();
   void remove_player(int player_id);
+
+private:
+  void parse_bonus_mapping(const ReaderMapping& map, int id);
 
 public:
   int m_num_players;

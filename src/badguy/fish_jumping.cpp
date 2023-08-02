@@ -16,6 +16,7 @@
 
 #include "badguy/fish_jumping.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -80,6 +81,7 @@ FishJumping::collision_tile(uint32_t tile_attributes)
       if (!m_frozen)
         start_waiting();
       m_col.set_movement(Vector(0, 0));
+      SoundManager::current()->play("sounds/splash.wav", get_pos());
     }
   }
   if ((!(tile_attributes & Tile::WATER) || m_frozen) && (tile_attributes & Tile::HURTS)) {
@@ -107,7 +109,7 @@ FishJumping::active_update(float dt_sec)
 
   // set sprite
   if (!m_frozen && !is_ignited())
-    m_sprite->set_action((m_physic.get_velocity_y() == 0.f && m_in_water) ? "wait" :
+    set_action((m_physic.get_velocity_y() == 0.f && m_in_water) ? "wait" :
       m_physic.get_velocity_y() < 0.f ? "normal" : "down");
 
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
@@ -141,7 +143,7 @@ FishJumping::freeze()
 {
   BadGuy::freeze();
   m_physic.enable_gravity(true);
-  m_sprite->set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
+  set_action(m_physic.get_velocity_y() < 0 ? "iced" : "iced-down");
   m_sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   m_wait_timer.stop();
   if (m_beached_timer.started())
@@ -159,7 +161,7 @@ void
 FishJumping::kill_fall()
 {
   if (!is_ignited())
-    m_sprite->set_action("normal");
+  set_action("normal");
   BadGuy::kill_fall();
 }
 

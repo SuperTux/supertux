@@ -21,22 +21,20 @@
 #include "scripting/dispenser.hpp"
 #include "squirrel/exposed_object.hpp"
 
+class GameObject;
+
 class Dispenser final : public BadGuy,
                         public ExposedObject<Dispenser, scripting::Dispenser>
 {
 private:
-  enum class DispenserType {
+  enum DispenserType {
     CANNON, DROPPER, POINT
   };
 
-  static const std::vector<std::string> s_sprites;
-
-  static DispenserType DispenserType_from_string(const std::string& type_string);
-  static std::string DispenserType_to_string(DispenserType type);
-  static std::string Cannon_Direction_to_string(Direction direction);
-
 public:
   Dispenser(const ReaderMapping& reader);
+
+  void add_object(std::unique_ptr<GameObject> object);
 
   virtual void draw(DrawingContext& context) override;
   virtual void initialize() override;
@@ -56,7 +54,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
+  virtual GameObjectTypes get_types() const override;
 
   virtual void on_flip(float height) override;
 
@@ -78,21 +76,21 @@ public:
 
 protected:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  void launch_badguy();
+  void launch_object();
+
+  void on_type_change(int old_type) override;
 
 private:
   void set_correct_action();
 
 private:
   float m_cycle;
-  std::vector<std::string> m_badguys;
-  unsigned int m_next_badguy;
+  std::vector<std::unique_ptr<GameObject>> m_objects;
+  unsigned int m_next_object;
   Timer m_dispense_timer;
   bool m_autotarget;
   bool m_random;
   bool m_gravity;
-
-  DispenserType m_type;
 
   /** Do we need to limit the number of dispensed badguys? */
   bool m_limit_dispensed_badguys;

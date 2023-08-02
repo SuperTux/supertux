@@ -24,7 +24,11 @@ class GameObjectManager;
 
 namespace scripting {
 
-/** Superclass for sectors and worldmaps */
+/**
+ * @summary This class provides basic controlling functions for a sector. Applies for both worldmap and in-level sectors.
+ * @instances For in-level sectors, an instance under ""sector.settings"" is available from scripts and the console.${SRG_NEWPARAGRAPH}
+              For worldmap sectors, such instance is available under ""worldmap.settings"".
+ */
 class GameObjectManager
 {
 #ifndef SCRIPTING_API
@@ -40,12 +44,38 @@ private:
 #endif
 
 public:
+  /**
+   * Sets the sector's ambient light to the specified color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   */
   void set_ambient_light(float red, float green, float blue);
+  /**
+   * Fades to a specified ambient light color in ""fadetime"" seconds.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $fadetime
+   */
   void fade_to_ambient_light(float red, float green, float blue, float fadetime);
+  /**
+   * Returns the red channel of the ambient light color.
+   */
   float get_ambient_red() const;
+  /**
+   * Returns the green channel of the ambient light color.
+   */
   float get_ambient_green() const;
+  /**
+   * Returns the blue channel of the ambient light color.
+   */
   float get_ambient_blue() const;
 
+  /**
+   * Sets the sector's music.
+   * @param string $music Full filename, relative to the "music" folder.
+   */
   void set_music(const std::string& music);
 };
 

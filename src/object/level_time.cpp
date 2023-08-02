@@ -72,7 +72,7 @@ LevelTime::update(float dt_sec)
   if (time_left <= 0) {
     // Needed to avoid charging a player coins if they had a checkpoint
     if (GameSession::current())
-      GameSession::current()->set_reset_point("", Vector());
+      GameSession::current()->clear_respawn_points();
 
     if (time_left <= -5 || !Sector::get().get_players()[0]->get_coins())
     {

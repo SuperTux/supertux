@@ -65,6 +65,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 {
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
   m_select_mode->push_mode("images/engine/editor/select-mode2.png");
+  m_select_mode->push_mode("images/engine/editor/select-mode3.png");
   m_move_mode->push_mode("images/engine/editor/move-mode1.png");
   m_undo_mode->push_mode("images/engine/editor/redo.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
@@ -444,13 +445,14 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       const auto& icons = m_object_info->m_groups[m_active_objectgroup].get_icons();
       if (m_hovered_tile + m_starting_tile < static_cast<int>(icons.size())) {
         const std::string obj_class = icons[m_hovered_tile + m_starting_tile].get_object_class();
-        std::string obj_name;
+        std::string obj_name = obj_class;
         try {
           obj_name = GameObjectFactory::instance().get_display_name(obj_class);
         }
-        catch (std::exception& err) {
-          log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
-          obj_name = obj_class;
+        catch (std::exception&) {
+          // NOTE: Temporarily commented out, so hovering over node marker doesn't show a warning.
+          //       When the node marker is moved as a tool, this should be uncommented.
+          // log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
         }
         m_object_tip = std::make_unique<Tip>(obj_name);
       }

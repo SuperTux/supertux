@@ -20,8 +20,10 @@
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
 
-CoinExplode::CoinExplode(const Vector& pos) :
-  position(pos)
+CoinExplode::CoinExplode(const Vector& pos, bool count_stats, const std::string& sprite) :
+  m_sprite(sprite),
+  position(pos),
+  m_count_stats(count_stats)
 {
 }
 
@@ -31,16 +33,16 @@ CoinExplode::update(float )
   float mag = 100.0f; // madnitude that coins are to be thrown
   float rand = 30.0f; // max variation to be subtracted from magnitide
 
-  Sector::get().add<HeavyCoin>(position, Vector(2.5, -4.5) * (mag - gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(2, -5) * (mag - gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(1.5, -5.5) * (mag - gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(1, -6) * (mag+gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(0.5, -6.5) * (mag - gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(-2.5, -4.5) * (mag - gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(-2, -5) * (mag - gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(-1.5, -5.5) * (mag - gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(-1, -6) * (mag+gameRandom.randf(rand)));
-  Sector::get().add<HeavyCoin>(position, Vector(-0.5, -6.5) * (mag - gameRandom.randf(rand)));
+  Sector::get().add<HeavyCoin>(position, Vector(2.5, -4.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(2, -5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(1.5, -5.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(1, -6) * (mag+gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(0.5, -6.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(-2.5, -4.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(-2, -5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(-1.5, -5.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(-1, -6) * (mag+gameRandom.randf(rand)), m_count_stats, m_sprite);
+  Sector::get().add<HeavyCoin>(position, Vector(-0.5, -6.5) * (mag - gameRandom.randf(rand)), m_count_stats, m_sprite);
 
   remove_me();
 }

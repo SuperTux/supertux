@@ -160,7 +160,7 @@ Yeti::active_update(float dt_sec)
     case BE_ANGRY:
       if (state_timer.check() && on_ground()) {
         m_physic.set_velocity_y(STOMP_VY);
-        m_sprite->set_action("stomp", m_dir);
+        set_action("stomp", m_dir);
         SoundManager::current()->play("sounds/yeti_gna.wav", get_pos());
       }
       break;
@@ -173,7 +173,7 @@ Yeti::active_update(float dt_sec)
           Sector::get().get_camera().shake(.05f, 0, 5);
         }
         m_dir = newdir;
-        m_sprite->set_action("jump", m_dir);
+        set_action("jump", m_dir);
       }
       if (state_timer.check()) {
         BadGuy::kill_fall();
@@ -196,7 +196,7 @@ Yeti::active_update(float dt_sec)
 void
 Yeti::jump_down()
 {
-  m_sprite->set_action("jump", m_dir);
+  set_action("jump", m_dir);
   m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+JUMP_DOWN_VX):(-JUMP_DOWN_VX));
   m_physic.set_velocity_y(JUMP_DOWN_VY);
   state = JUMP_DOWN;
@@ -205,7 +205,7 @@ Yeti::jump_down()
 void
 Yeti::run()
 {
-  m_sprite->set_action("walking", m_dir);
+  set_action("walking", m_dir);
   m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+RUN_VX):(-RUN_VX));
   m_physic.set_velocity_y(0);
   state = RUN;
@@ -214,7 +214,7 @@ Yeti::run()
 void
 Yeti::jump_up()
 {
-  m_sprite->set_action("jump", m_dir);
+  set_action("jump", m_dir);
   m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+JUMP_UP_VX):(-JUMP_UP_VX));
   m_physic.set_velocity_y(JUMP_UP_VY);
   state = JUMP_UP;
@@ -226,7 +226,7 @@ Yeti::be_angry()
   //turn around
   m_dir = (m_dir==Direction::RIGHT) ? Direction::LEFT : Direction::RIGHT;
 
-  m_sprite->set_action("stand", m_dir);
+  set_action("stand", m_dir);
   m_physic.set_velocity_x(0);
   stomp_count = 0;
   state = BE_ANGRY;
@@ -287,7 +287,7 @@ void
 Yeti::drop_stalactite()
 {
   // make a stalactite falling down and shake camera a bit
-  Sector::get().get_camera().shake(.1f, 0, 10);
+  Sector::get().get_camera().shake(.1f, 0, 20.f);
 
   auto player = get_nearest_player();
   if (!player) return;
@@ -330,7 +330,7 @@ Yeti::collision_solid(const CollisionHit& hit)
       case BE_ANGRY:
         // we just landed
         if (!state_timer.started()) {
-          m_sprite->set_action((m_dir==Direction::RIGHT)?"stand-right":"stand-left");
+          set_action("stand", m_dir);
           stomp_count++;
           drop_stalactite();
 

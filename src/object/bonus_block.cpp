@@ -16,10 +16,13 @@
 
 #include "object/bonus_block.hpp"
 
+#include <memory>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "badguy/crusher.hpp"
 #include "editor/editor.hpp"
+#include "math/vector.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"
 #include "object/coin_rain.hpp"
@@ -29,10 +32,10 @@
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/powerup.hpp"
+#include "object/rock.hpp"
 #include "object/specialriser.hpp"
 #include "object/star.hpp"
 #include "object/trampoline.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/level.hpp"
@@ -59,18 +62,16 @@ const float upgrade_sound_gain = 0.3f;
 } // namespace
 
 BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
-  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
+  Block(pos, "images/objects/bonus_block/bonusblock.sprite"),
   m_contents(),
   m_object(),
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_coin_sprite("images/objects/coin/coin.sprite")
 {
-  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-
-  m_col.m_bbox.set_pos(pos);
-  m_sprite->set_action("normal");
+  set_action("normal");
   m_contents = get_content_by_data(tile_data);
   preload_contents(tile_data);
 }
@@ -82,10 +83,9 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx()
+  m_custom_sx(),
+  m_coin_sprite("images/objects/coin/coin.sprite")
 {
-  m_default_sprite_name = "images/objects/bonus_block/bonusblock.sprite";
-
   auto iter = mapping.get_iter();
   while (iter.next()) {
     const std::string& token = iter.get_key();
@@ -111,7 +111,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
         if (Editor::is_active()) {
           mapping.get("custom-contents", m_custom_sx);
         } else {
-          boost::optional<ReaderCollection> content_collection;
+          std::optional<ReaderCollection> content_collection;
           if (!mapping.get("custom-contents", content_collection))
           {
             log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
@@ -134,6 +134,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
           }
         }
       }
+    } else if (token == "coin-sprite") {
+      iter.get(m_coin_sprite);
     } else if (token == "custom-contents") {
       // handled elsewhere
     } else {
@@ -164,7 +166,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     SoundManager::current()->preload("sounds/switch.ogg");
     m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
     if (m_contents == Content::LIGHT_ON) {
-      m_sprite->set_action("on");
+      set_action("on");
     }
   }
 }
@@ -182,11 +184,11 @@ BonusBlock::get_content_by_data(int tile_data) const
     case 5: return Content::ICEGROW;
     case 6: return Content::LIGHT;
     case 7: return Content::TRAMPOLINE;
-    case 8: return Content::CUSTOM; // Trampoline
-    case 9: return Content::CUSTOM; // Rock
+    case 8: return Content::PORTABLE_TRAMPOLINE; // Trampoline
+    case 9: return Content::ROCK; // Rock
     case 10: return Content::RAIN;
     case 11: return Content::EXPLODE;
-    case 12: return Content::CUSTOM; // Red potion
+    case 12: return Content::POTION; // Red potion
     case 13: return Content::AIRGROW;
     case 14: return Content::EARTHGROW;
     case 15: return Content::LIGHT_ON;
@@ -210,13 +212,14 @@ BonusBlock::get_settings()
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
                   {_("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
                    _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
-                   _("Trampoline"), _("Coin rain"), _("Coin explosion")},
+                   _("Trampoline"), _("Portable trampoline"), _("Coin rain"), _("Coin explosion"), _("Rock"), _("Potion")},
                   {"coin", "firegrow", "icegrow", "airgrow", "earthgrow", "star",
-                   "1up", "custom", "script", "light", "light-on", "trampoline", "rain", "explode"},
+                   "1up", "custom", "script", "light", "light-on", "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion"},
                   static_cast<int>(Content::COIN), "contents");
   result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
+  result.add_sprite(_("Coin sprite"), &m_coin_sprite, "coin-sprite", "images/objects/coin/coin.sprite");
 
-  result.reorder({"script", "count", "contents", "sprite", "x", "y"});
+  result.reorder({"script", "count", "contents", "coin-sprite", "sprite", "x", "y"});
 
   return result;
 }
@@ -285,10 +288,10 @@ BonusBlock::try_open(Player* player)
   switch (m_contents) {
     case Content::COIN:
     {
-      Sector::get().add<BouncyCoin>(get_pos(), true);
+      Sector::get().add<BouncyCoin>(get_pos(), true, m_coin_sprite);
       SoundManager::current()->play("sounds/coin.wav", get_pos());
       player->get_status().add_coins(1, false);
-      if (m_hit_counter != 0)
+      if (m_hit_counter != 0 && !m_parent_dispenser)
         Sector::get().get_level().m_stats.increment_coins();
       break;
     }
@@ -345,9 +348,9 @@ BonusBlock::try_open(Player* player)
     case Content::LIGHT_ON:
     {
       if (m_sprite->get_action() == "on")
-        m_sprite->set_action("off");
+        set_action("off");
       else
-        m_sprite->set_action("on");
+        set_action("on");
       SoundManager::current()->play("sounds/switch.ogg", get_pos());
       break;
     }
@@ -357,15 +360,31 @@ BonusBlock::try_open(Player* player)
       play_upgrade_sound = true;
       break;
     }
+    case Content::PORTABLE_TRAMPOLINE:
+    {
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Trampoline>(get_pos(), true), true);
+      play_upgrade_sound = true;
+      break;
+    }
+    case Content::ROCK:
+    {
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<Rock>(get_pos(), "images/objects/rock/rock.sprite"));
+      break;
+    }
+    case Content::POTION:
+    {
+      Sector::get().add<SpecialRiser>(get_pos(), std::make_unique<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite"));
+      break;
+    }
     case Content::RAIN:
     {
-      Sector::get().add<CoinRain>(get_pos(), true);
+      Sector::get().add<CoinRain>(get_pos(), true, !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40));
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, -40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       break;
     }
@@ -381,7 +400,7 @@ BonusBlock::try_open(Player* player)
   start_bounce(player);
   if (m_hit_counter <= 0 || m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON) { //use 0 to allow infinite hits
   } else if (m_hit_counter == 1) {
-    m_sprite->set_action("empty");
+    set_action("empty");
   } else {
     m_hit_counter--;
   }
@@ -489,9 +508,27 @@ BonusBlock::try_drop(Player *player)
       try_open(player);
       break;
     }
+    case Content::ROCK:
+    {
+      Sector::get().add<Rock>(get_pos() + Vector(0, 32),  "images/objects/rock/rock.sprite");
+      countdown = true;
+      break;
+    }
+    case Content::PORTABLE_TRAMPOLINE:
+    {
+      Sector::get().add<Trampoline>(get_pos() + Vector(0, 32), true);
+      countdown = true;
+      break;
+    }
+    case Content::POTION:
+    {
+      Sector::get().add<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/potions/red-potion.sprite");
+      countdown = true;
+      break;
+    }
     case Content::EXPLODE:
     {
-      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40));
+      Sector::get().add<CoinExplode>(get_pos() + Vector (0, 40), !m_parent_dispenser, m_coin_sprite);
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -507,7 +544,7 @@ BonusBlock::try_drop(Player *player)
 
   if (countdown) { // only decrease hit counter if try_open was not called
     if (m_hit_counter == 1) {
-      m_sprite->set_action("empty");
+      set_action("empty");
     } else {
       m_hit_counter--;
     }
@@ -586,6 +623,12 @@ BonusBlock::get_content_from_string(const std::string& contentstring) const
     return Content::LIGHT_ON;
   } else if (contentstring == "trampoline") {
     return Content::TRAMPOLINE;
+  } else if (contentstring == "portabletrampoline") {
+    return Content::PORTABLE_TRAMPOLINE;
+  } else if (contentstring == "potion") {
+    return Content::POTION;
+  } else if (contentstring == "rock") {
+    return Content::ROCK;
   } else if (contentstring == "rain") {
     return Content::RAIN;
   } else if (contentstring == "explode") {
@@ -613,6 +656,9 @@ BonusBlock::contents_to_string(const BonusBlock::Content& content) const
     case Content::LIGHT: return "light";
     case Content::LIGHT_ON: return "light-on";
     case Content::TRAMPOLINE: return "trampoline";
+    case Content::PORTABLE_TRAMPOLINE: return "portabletrampoline";
+    case Content::POTION: return "potion";
+    case Content::ROCK: return "rock";
     case Content::RAIN: return "rain";
     case Content::EXPLODE: return "explode";
     default: return "coin";

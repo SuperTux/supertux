@@ -52,7 +52,7 @@ Owl::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir);
+  set_action(m_dir);
 
   // If we add the carried object to the sector while we're editing
   // a level with the editor, it gets written to the level file,
@@ -110,7 +110,9 @@ Owl::active_update (float dt_sec)
   if (carried_object != nullptr) {
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM);
-      obj_pos.x -= 16.f; /* FIXME: Actually do use the half width of the carried object here. */
+      auto obj = dynamic_cast<MovingObject*>(carried_object);
+      auto verticalOffset = obj != nullptr ? obj->get_bbox().get_width() / 2.f : 16.f;
+      obj_pos.x -= verticalOffset;
       obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
       //To drop enemie before leave the screen
@@ -188,7 +190,7 @@ Owl::unfreeze(bool melt)
   BadGuy::unfreeze(melt);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -FLYING_SPEED : FLYING_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir);
+  set_action(m_dir);
 }
 
 bool

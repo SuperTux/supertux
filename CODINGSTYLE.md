@@ -2,10 +2,10 @@
 
 ## Language
 
-C++14 is the main langauge used for this project. GCC, Clang and MSVC are supported.
+C++17 is the main langauge used for this project. GCC, Clang and MSVC are supported.
 
 For better backward compatibilty with older compiler, namely gcc5,
-some C++14 features are restricted:
+some C++17 features are restricted:
 
 * generic lambda functions are not allowed, e.g. `[](auto foo){}`
 * tuple constructors have to be explicit, e.g. `std::tuple<int, int>{5, 6}`, not `{5, 6}`

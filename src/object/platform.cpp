@@ -71,9 +71,12 @@ Platform::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
-  result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
-  result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
+  if (get_path_gameobject())
+  {
+    result.add_path_ref(_("Path"), *this, get_path_ref(), "path-ref");
+    result.add_walk_mode(_("Path Mode"), &get_path()->m_mode, {}, {});
+    result.add_bool(_("Adapt Speed"), &get_path()->m_adapt_speed, {}, {});
+  }
   result.add_bool(_("Running"), &get_walker()->m_running, "running", true, 0);
   result.add_int(_("Starting Node"), &m_starting_node, "starting-node", 0, 0U);
   result.add_path_handle(_("Handle"), m_path_handle, "handle");
@@ -154,6 +157,12 @@ Platform::goto_node(int node_no)
 }
 
 void
+Platform::jump_to_node(int node_no)
+{
+  get_walker()->jump_to_node(node_no);
+}
+
+void
 Platform::start_moving()
 {
   get_walker()->start_moving();
@@ -163,12 +172,6 @@ void
 Platform::stop_moving()
 {
   get_walker()->stop_moving();
-}
-
-void
-Platform::set_action(const std::string& action, int repeat)
-{
-  MovingSprite::set_action(action, repeat);
 }
 
 void
@@ -187,6 +190,26 @@ Platform::on_flip(float height)
   MovingSprite::on_flip(height);
   PathObject::on_flip();
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void
+Platform::save_state()
+{
+  MovingSprite::save_state();
+
+  PathGameObject* path_object = get_path_gameobject();
+  if (path_object)
+    path_object->save_state();
+}
+
+void
+Platform::check_state()
+{
+  MovingSprite::check_state();
+
+  PathGameObject* path_object = get_path_gameobject();
+  if (path_object)
+    path_object->check_state();
 }
 
 /* EOF */

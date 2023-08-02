@@ -20,6 +20,7 @@
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/globals.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "video/surface_batch.hpp"
@@ -35,9 +36,7 @@ CloudParticleSystem::CloudParticleSystem() :
   m_target_speed(1.f),
   m_speed_fade_time_remaining(0.f),
 
-  m_current_amount(15.f),
-  //m_target_amount(15.f),
-  //m_amount_fade_time_remaining(0.f),
+  m_current_amount(15),
   m_current_real_amount(0)
 {
   init();
@@ -52,11 +51,10 @@ CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader) :
   m_target_speed(1.f),
   m_speed_fade_time_remaining(0.f),
 
-  m_current_amount(15.f),
-  //m_target_amount(15.f),
-  //m_amount_fade_time_remaining(0.f),
+  m_current_amount(15),
   m_current_real_amount(0)
 {
+  reader.get("intensity", m_current_amount);
   init();
 }
 
@@ -69,14 +67,14 @@ void CloudParticleSystem::init()
   virtual_width = 2000.0;
 
   // create some random clouds
-  add_clouds(15, 0.f);
+  add_clouds(m_current_amount, 0.f);
 }
 
 ObjectSettings CloudParticleSystem::get_settings()
 {
   ObjectSettings result = ParticleSystem::get_settings();
 
-  result.add_float(_("Intensity"), &m_current_amount, "intensity", 15.f);
+  result.add_int(_("Intensity"), &m_current_amount, "intensity", 15);
 
   result.reorder({"intensity", "enabled", "name"});
 

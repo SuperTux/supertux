@@ -32,8 +32,9 @@ class Coin : public MovingSprite,
 friend class HeavyCoin;
 
 public:
-  Coin(const Vector& pos);
-  Coin(const ReaderMapping& reader);
+  Coin(const Vector& pos, bool count_stats = true,
+       const std::string& sprite_path = "images/objects/coin/coin.sprite");
+  Coin(const ReaderMapping& reader, bool count_stats = true);
   virtual void finish_construction() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -63,6 +64,8 @@ private:
 
   int m_starting_node;
 
+  const bool m_count_stats;
+
 private:
   Coin(const Coin&) = delete;
   Coin& operator=(const Coin&) = delete;
@@ -71,8 +74,9 @@ private:
 class HeavyCoin final : public Coin
 {
 public:
-  HeavyCoin(const Vector& pos, const Vector& init_velocity);
-  HeavyCoin(const ReaderMapping& reader);
+  HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats = true,
+            const std::string& sprite_path = "images/objects/coin/coin.sprite");
+  HeavyCoin(const ReaderMapping& reader, bool count_stats = true);
 
   virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;

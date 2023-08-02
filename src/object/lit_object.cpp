@@ -22,40 +22,30 @@
 #include "util/reader_mapping.hpp"
 
 LitObject::LitObject(const ReaderMapping& reader) :
-  MovingObject(reader),
+  MovingSprite(reader, "images/objects/lightflower/lightflower1.sprite"),
   ExposedObject<LitObject, scripting::LitObject>(this),
   m_light_offset(-6.f, -17.f),
-  m_sprite_name("images/objects/lightflower/lightflower1.sprite"),
   m_light_sprite_name("images/objects/lightflower/light/glow_light.sprite"),
   m_sprite_action("default"),
   m_light_sprite_action("default"),
-  m_sprite(),
-  m_light_sprite(),
-  m_layer(0),
-  m_flip(NO_FLIP)
+  m_light_sprite()
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
-
   reader.get("light-offset-x", m_light_offset.x);
   reader.get("light-offset-y", m_light_offset.y);
 
-  reader.get("sprite", m_sprite_name);
   reader.get("light-sprite", m_light_sprite_name);
   reader.get("layer", m_layer, 0);
 
   reader.get("action", m_sprite_action);
   reader.get("light-action", m_light_sprite_action);
 
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
   m_light_sprite = SpriteManager::current()->create(m_light_sprite_name);
   m_light_sprite->set_blend(Blend::ADD);
 
-  m_sprite->set_action(m_sprite_action);
+  set_action(m_sprite_action);
   m_light_sprite->set_action(m_light_sprite_action);
 
-  m_col.m_bbox.set_size(static_cast<float>(m_sprite->get_width()),
-                        static_cast<float>(m_sprite->get_height()));
+  set_group(COLGROUP_DISABLED);
 }
 
 void
@@ -73,9 +63,8 @@ LitObject::update(float)
 ObjectSettings
 LitObject::get_settings()
 {
-  ObjectSettings result = MovingObject::get_settings();
+  ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", std::string("images/objects/lightflower/lightflower1.sprite"));
   result.add_sprite(_("Light sprite"), &m_light_sprite_name, "light-sprite", std::string("images/objects/lightflower/light/glow_light.sprite"));
   result.add_int(_("Layer"), &m_layer, "layer", 0);
 
@@ -91,15 +80,13 @@ LitObject::get_settings()
 void
 LitObject::after_editor_set()
 {
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
+  MovingSprite::after_editor_set();
+
   m_light_sprite = SpriteManager::current()->create(m_light_sprite_name);
   m_light_sprite->set_blend(Blend::ADD);
 
-  m_sprite->set_action(m_sprite_action);
+  set_action(m_sprite_action);
   m_light_sprite->set_action(m_light_sprite_action);
-
-  m_col.m_bbox.set_size(static_cast<float>(m_sprite->get_width()),
-                        static_cast<float>(m_sprite->get_height()));
 }
 
 void
@@ -113,12 +100,6 @@ const std::string&
 LitObject::get_action() const
 {
   return m_sprite->get_action();
-}
-
-void
-LitObject::set_action(const std::string& action)
-{
-  m_sprite->set_action(action);
 }
 
 const std::string&

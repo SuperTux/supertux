@@ -31,34 +31,32 @@ const float BOUNCE_X = 700.0f;
 
 Bumper::Bumper(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
-  physic(),
-  left()
+  m_physic(),
+  m_facing_left()
 {
-	reader.get("left", left);
-  m_sprite->set_action(left ? "left-normal" : "right-normal");
-	physic.enable_gravity(false);
+  reader.get("left", m_facing_left);
+  set_action(m_facing_left ? "left-normal" : "right-normal");
+  m_physic.enable_gravity(false);
 }
-  
+
 ObjectSettings
 Bumper::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_bool(_("Facing Left"), &left, "left", false);
-
+  result.add_bool(_("Facing Left"), &m_facing_left, "left", false);
   result.reorder({"left", "sprite", "x", "y"});
-
   return result;
 }
-  
+
 void
 Bumper::update(float dt_sec)
 {
   if (m_sprite->animation_done())
   {
-    m_sprite->set_action(left ? "left-normal" : "right-normal");
+    set_action(m_facing_left ? "left-normal" : "right-normal");
   }
-  m_col.set_movement(physic.get_movement (dt_sec));
+  m_col.set_movement(m_physic.get_movement (dt_sec));
 }
 
 HitResponse
@@ -67,20 +65,32 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-	  float BOUNCE_DIR = left ? -BOUNCE_X : BOUNCE_X;
-	  player->get_physic().set_velocity(0.f, BOUNCE_Y);
+    float BOUNCE_DIR = m_facing_left ? -BOUNCE_X : BOUNCE_X;
+    player->get_physic().set_velocity(0.f, player->is_swimming() ? 0.f : BOUNCE_Y);
     player->sideways_push(BOUNCE_DIR);
     SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-    m_sprite->set_action((left ? "left-swinging" : "right-swinging"), 1);
+    set_action((m_facing_left ? "left-swinging" : "right-swinging"), 1);
   }
-	
-	auto bumper = dynamic_cast<Bumper*> (&other);
-	if (bumper)
+  auto bumper = dynamic_cast<Bumper*> (&other);
+  if (bumper)
   {
-    physic.set_velocity_y(0);
-	  return FORCE_MOVE;
-	}
+    m_physic.set_velocity_y(0);
+    return FORCE_MOVE;
+  }
   return ABORT_MOVE;
+}
+
+Physic&
+Bumper::get_physic()
+{
+  return m_physic;
+}
+
+void
+Bumper::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+  set_action(m_facing_left ? "left-normal" : "right-normal");
 }
 
 void

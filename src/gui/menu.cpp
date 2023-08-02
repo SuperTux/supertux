@@ -19,7 +19,6 @@
 #include "control/input_manager.hpp"
 #include "gui/item_action.hpp"
 #include "gui/item_back.hpp"
-#include "gui/item_badguy_select.hpp"
 #include "gui/item_color.hpp"
 #include "gui/item_colorchannel.hpp"
 #include "gui/item_colordisplay.hpp"
@@ -28,6 +27,7 @@
 #include "gui/item_floatfield.hpp"
 #include "gui/item_goto.hpp"
 #include "gui/item_hl.hpp"
+#include "gui/item_horizontalmenu.hpp"
 #include "gui/item_inactive.hpp"
 #include "gui/item_intfield.hpp"
 #include "gui/item_label.hpp"
@@ -52,9 +52,6 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-static const float MENU_REPEAT_INITIAL = 0.4f;
-static const float MENU_REPEAT_RATE    = 0.1f;
-
 #include "supertux/error_handler.hpp"
 
 Menu::Menu() :
@@ -62,7 +59,6 @@ Menu::Menu() :
                static_cast<float>(SCREEN_HEIGHT) / 2.0f)),
   m_delete_character(0),
   m_mn_input_char('\0'),
-  m_menu_repeat_time(),
   m_menu_width(),
   m_menu_height(),
   m_menu_help_height(0.0f),
@@ -129,6 +125,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
 void
 Menu::delete_item(int pos_)
 {
+  m_menu_height -= static_cast<float>(m_items[pos_]->get_height()) + m_items[pos_]->get_distance() * 2;
   m_items.erase(m_items.begin()+pos_);
 
   // When the item is deleted before the selected item, the
@@ -343,14 +340,6 @@ Menu::add_color(const std::string& text, Color* color, int id) {
   return *item_ptr;
 }
 
-ItemBadguySelect&
-Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id) {
-  auto item = std::make_unique<ItemBadguySelect>(text, badguys, id);
-  auto item_ptr = item.get();
-  add_item(std::move(item));
-  return *item_ptr;
-}
-
 ItemStringArray&
 Menu::add_string_array(const std::string& text, std::vector<std::string>& items, int id)
 {
@@ -387,6 +376,15 @@ Menu::add_list(const std::string& text, const std::vector<std::string>& items, s
   return *item_ptr;
 }
 
+ItemHorizontalMenu&
+Menu::add_horizontalmenu(int id, float height, float min_item_width)
+{
+  auto item = std::make_unique<ItemHorizontalMenu>(id, height, min_item_width);
+  auto item_ptr = item.get();
+  add_item(std::move(item));
+  return *item_ptr;
+}
+
 void
 Menu::clear()
 {
@@ -395,7 +393,7 @@ Menu::clear()
 }
 
 void
-Menu::process_input(const Controller& controller)
+Menu::process_action(const MenuAction& action)
 {
   { // Scrolling
     // Find the first and last selectable item in the current menu, so
@@ -428,88 +426,13 @@ Menu::process_input(const Controller& controller)
     }
   }
 
-  MenuAction menuaction = MenuAction::NONE;
-
-  /** check main input controller... */
-  if (controller.pressed(Control::UP)) {
-    menuaction = MenuAction::UP;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::UP) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::UP;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
-  if (controller.pressed(Control::DOWN)) {
-    menuaction = MenuAction::DOWN;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::DOWN) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::DOWN;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
-  if (controller.pressed(Control::LEFT)) {
-    menuaction = MenuAction::LEFT;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::LEFT) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::LEFT;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
-  if (controller.pressed(Control::RIGHT)) {
-    menuaction = MenuAction::RIGHT;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::RIGHT) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::RIGHT;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
-  if (controller.pressed(Control::ACTION) ||
-     controller.pressed(Control::JUMP) ||
-     controller.pressed(Control::MENU_SELECT) ||
-     (!is_sensitive() && controller.pressed(Control::MENU_SELECT_SPACE))) {
-    menuaction = MenuAction::HIT;
-  }
-
-  if (controller.pressed(Control::ESCAPE) ||
-     controller.pressed(Control::CHEAT_MENU) ||
-     controller.pressed(Control::DEBUG_MENU) ||
-     controller.pressed(Control::MENU_BACK)) {
-    menuaction = MenuAction::BACK;
-  }
-
-  if (controller.pressed(Control::REMOVE)) {
-    menuaction = MenuAction::REMOVE;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_INITIAL;
-  }
-  if (controller.hold(Control::REMOVE) &&
-     m_menu_repeat_time != 0 && g_real_time > m_menu_repeat_time) {
-    menuaction = MenuAction::REMOVE;
-    m_menu_repeat_time = g_real_time + MENU_REPEAT_RATE;
-  }
-
   if (m_items.size() == 0)
     return;
 
-  // The menu_action() call can pop() the menu from the stack and thus
-  // delete it, so it's important that no further member variables are
-  // accessed after this call
-  process_action(menuaction);
-}
 
-void
-Menu::process_action(const MenuAction& menuaction)
-{
   const int last_active_item = m_active_item;
 
-  switch (menuaction) {
+  switch (action) {
     case MenuAction::UP:
       do {
         if (m_active_item > 0)
@@ -548,7 +471,7 @@ Menu::process_action(const MenuAction& menuaction)
   }
 
   bool last_action = m_items[m_active_item]->no_other_action();
-  m_items[m_active_item]->process_action(menuaction);
+  m_items[m_active_item]->process_action(action);
   if (last_action)
     return;
 
@@ -558,7 +481,7 @@ Menu::process_action(const MenuAction& menuaction)
 
   if (m_items[m_active_item]->changes_width())
     calculate_width();
-  if (menuaction == MenuAction::HIT)
+  if (action == MenuAction::HIT)
     menu_action(*m_items[m_active_item]);
 }
 
@@ -573,7 +496,7 @@ Menu::draw_item(DrawingContext& context, int index, float y_pos)
 
   pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width), m_active_item == index);
 
-  if (m_active_item == index)
+  if (m_active_item == index && pitem->select_blink())
   {
     float blink = (sinf(g_real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
     context.color().draw_filled_rect(Rectf(Vector(m_pos.x - menu_width/2 + 10 - 2, y_pos - static_cast<float>(pitem->get_height())/2 - 2),
@@ -610,7 +533,7 @@ Menu::calculate_height()
   float height = 0;
   for (unsigned i = 0; i < m_items.size(); i++)
   {
-    height += static_cast<float>(m_items[i]->get_height());
+    height += static_cast<float>(m_items[i]->get_height()) + m_items[i]->get_distance() * 2;
     // If a help text is present, make some space at the bottom of the
     // menu so that the last few items don't overlap with the help
     // text.
@@ -637,6 +560,12 @@ Menu::on_window_resize()
 {
   m_pos.x = static_cast<float>(SCREEN_WIDTH) / 2.0f;
   m_pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f;
+
+  calculate_width();
+  calculate_height();
+
+  for (auto& item : m_items)
+    item->on_window_resize();
 }
 
 void
@@ -646,8 +575,9 @@ Menu::draw(DrawingContext& context)
   float y_pos = m_pos.y - menu_height / 2.0f;
   for (unsigned int i = 0; i < m_items.size(); ++i)
   {
+    y_pos += m_items[i]->get_distance();
     draw_item(context, i, y_pos + static_cast<float>(m_items[i]->get_height())/2);
-    y_pos += static_cast<float>(m_items[i]->get_height());
+    y_pos += static_cast<float>(m_items[i]->get_height()) + m_items[i]->get_distance();
   }
 
   if (!m_items[m_active_item]->get_help().empty())
@@ -801,12 +731,6 @@ Menu::set_active_item(int id)
       break;
     }
   }
-}
-
-bool
-Menu::is_sensitive() const
-{
-  return false;
 }
 
 /* EOF */

@@ -27,7 +27,7 @@
 #include "video/layer.hpp"
 
 TextArea::TextArea(const ReaderMapping& mapping) :
-  TriggerBase(mapping),
+  Trigger(mapping),
   m_once(false),
   m_items(),
   m_delay(4.0f),
@@ -35,38 +35,19 @@ TextArea::TextArea(const ReaderMapping& mapping) :
   m_current_text(0),
   m_status(Status::NOT_STARTED),
   m_timer(),
-  m_anchor(AnchorPoint::ANCHOR_MIDDLE)
+  m_anchor(AnchorPoint::ANCHOR_MIDDLE),
+  m_anchor_offset(0, 0)
 {
-  float w, h;
-
-  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
-  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
-  mapping.get("width", w, 32.0f);
-  mapping.get("height", h, 32.0f);
   mapping.get("strings", m_items);
   mapping.get("delay", m_delay);
   mapping.get("once", m_once);
   mapping.get("fade-delay", m_fade_delay);
+  mapping.get("anchor-offset-x", m_anchor_offset.x);
+  mapping.get("anchor-offset-y", m_anchor_offset.y);
 
   std::string anchor;
   if (mapping.get("anchor-point", anchor))
     m_anchor = string_to_anchor_point(anchor);
-
-  m_col.m_bbox.set_size(w, h);
-}
-
-TextArea::TextArea(const Vector& pos) :
-  m_once(false),
-  m_items(),
-  m_delay(4.0f),
-  m_fade_delay(1.0f),
-  m_current_text(0),
-  m_status(Status::NOT_STARTED),
-  m_timer(),
-  m_anchor(AnchorPoint::ANCHOR_MIDDLE)
-{
-  m_col.m_bbox.set_pos(pos);
-  m_col.m_bbox.set_size(32, 32);
 }
 
 void
@@ -96,6 +77,7 @@ TextArea::event(Player& player, EventType type)
         m_status = Status::FADING_IN;
         m_timer.start(m_fade_delay);
         text_object.set_anchor_point(m_anchor);
+        text_object.set_anchor_offset(m_anchor_offset);
         text_object.set_text(m_items[m_current_text]);
         text_object.fade_in(m_fade_delay);
       }
@@ -109,7 +91,7 @@ TextArea::event(Player& player, EventType type)
 void
 TextArea::update(float dt_sec)
 {
-  TriggerBase::update(dt_sec);
+  Trigger::update(dt_sec);
 
   if (m_timer.check())
   {
@@ -139,6 +121,7 @@ TextArea::update(float dt_sec)
           m_status = Status::FADING_IN;
           m_timer.start(m_fade_delay);
           text_object.set_anchor_point(m_anchor);
+          text_object.set_anchor_offset(m_anchor_offset);
           text_object.set_text(m_items[m_current_text]);
           text_object.fade_in(m_fade_delay);
         }
@@ -153,7 +136,7 @@ TextArea::update(float dt_sec)
 ObjectSettings
 TextArea::get_settings()
 {
-  ObjectSettings settings = TriggerBase::get_settings();
+  ObjectSettings settings = Trigger::get_settings();
 
   settings.add_bool(_("Once"), &m_once, "once");
   settings.add_float(_("Text change time"), &m_delay, "delay");
@@ -162,6 +145,8 @@ TextArea::get_settings()
                     get_anchor_names(), g_anchor_keys,
                     static_cast<int>(AnchorPoint::ANCHOR_MIDDLE),
                     "anchor-point");
+  settings.add_float(_("Anchor offset X"), &m_anchor_offset.x, "anchor-offset-x");
+  settings.add_float(_("Anchor offset Y"), &m_anchor_offset.y, "anchor-offset-y");
   settings.add_string_array(_("Texts"), "texts", m_items);
 
   return settings;

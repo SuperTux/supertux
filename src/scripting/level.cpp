@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,41 +25,79 @@ namespace scripting {
 void
 Level_finish(bool win)
 {
-  if (GameSession::current() == nullptr)
-    return;
-
-  GameSession::current()->finish(win);
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.finish(win);
 }
 
 void
 Level_spawn(const std::string& sector, const std::string& spawnpoint)
 {
-  if (GameSession::current() == nullptr)
-    return;
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.respawn(sector, spawnpoint);
+}
 
-  GameSession::current()->respawn(sector, spawnpoint);
+void
+Level_set_start_point(const std::string& sector, const std::string& spawnpoint)
+{
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_start_point(sector, spawnpoint);
+}
+
+void
+Level_set_start_pos(const std::string& sector, float x, float y)
+{
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_start_pos(sector, Vector(x, y));
+}
+
+void
+Level_set_respawn_point(const std::string& sector, const std::string& spawnpoint)
+{
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_respawn_point(sector, spawnpoint);
+}
+
+void
+Level_set_respawn_pos(const std::string& sector, float x, float y)
+{
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_respawn_pos(sector, Vector(x, y));
 }
 
 void
 Level_flip_vertically()
 {
+  SCRIPT_GUARD_GAMESESSION;
   FlipLevelTransformer flip_transformer;
-  flip_transformer.transform(GameSession::current()->get_current_level());
+  flip_transformer.transform(game_session.get_current_level());
 }
 
 void
 Level_toggle_pause()
 {
-  if (GameSession::current() == nullptr)
-    return;
-  GameSession::current()->toggle_pause();
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.toggle_pause();
 }
 
 void
 Level_edit(bool edit_mode)
 {
-  if (GameSession::current() == nullptr) return;
-  GameSession::current()->set_editmode(edit_mode);
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_editmode(edit_mode);
+}
+
+void
+Level_pause_target_timer()
+{
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_target_timer_paused(true);
+}
+
+void
+Level_resume_target_timer()
+{
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_target_timer_paused(false);
 }
 
 } // namespace scripting

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_EDITOR_OVERLAY_WIDGET_HPP
 
 #include <SDL.h>
+#include <chrono>
 
 #include "control/input_manager.hpp"
 #include "editor/tile_selection.hpp"
@@ -76,11 +77,13 @@ private:
   void input_autotile(const Vector& pos, uint32_t tile);
   void autotile_corner(const Vector& pos, uint32_t tile, TileMap::AutotileCornerOperation op);
   void input_autotile_corner(const Vector& corner, uint32_t tile, const Vector& override_pos = Vector(-1.f, -1.f));
-  void put_tile();
+  void put_tile(const Vector& target_tile);
+  void put_next_tiles();
   void draw_rectangle();
   void preview_rectangle();
   bool check_tiles_for_fill(uint32_t replace_tile, uint32_t target_tile, uint32_t third_tile) const;
   void fill();
+  void replace();
   void put_object();
 
   void rubber_object();
@@ -109,6 +112,7 @@ private:
   Vector sp_to_tp(const Vector& sp, int tile_size = 32) const;
   Vector tile_screen_pos(const Vector& tp, int tile_size = 32) const;
   Vector align_to_tilemap(const Vector& sp, int tile_size = 32) const;
+  bool is_position_inside_tilemap(const TileMap* tilemap, const Vector& pos) const;
 
   // in sector position
   Rectf drag_rect() const;
@@ -119,10 +123,12 @@ private:
 private:
   Editor& m_editor;
   Vector m_hovered_tile;
-  Vector m_hovered_corner;
+  Vector m_hovered_tile_prev;
   Vector m_sector_pos;
   Vector m_mouse_pos;
   Vector m_previous_mouse_pos;
+
+  std::chrono::steady_clock::time_point m_time_prev_put_tile;
 
   bool m_dragging;
   bool m_dragging_right;

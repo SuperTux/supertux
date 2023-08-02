@@ -25,8 +25,10 @@
 
 #include "math/vector.hpp"
 #include "math/easing.hpp"
+#include "util/gettext.hpp"
 
 class ObjectOption;
+class PathGameObject;
 class ReaderMapping;
 class Writer;
 
@@ -48,6 +50,9 @@ public:
   /** Helper class that stores an individual node of a Path */
   class Node
   {
+  private:
+    Path* parent; /**< the parent path of this node */
+
   public:
     Vector position; /**< the position of this node */
     Vector bezier_before; /**< the position of the bezier handle towards the preceding node */
@@ -57,7 +62,9 @@ public:
     EasingMode easing; /**< speed variations during travel
             (constant speed, start slow and go progressively quicker, etc.) */
 
-    Node() :
+  public:
+    Node(Path* parent_) :
+      parent(parent_),
       position(0.0f, 0.0f),
       bezier_before(0.0f, 0.0f),
       bezier_after(0.0f, 0.0f),
@@ -65,11 +72,13 @@ public:
       speed(),
       easing()
     {}
+
+    Path& get_parent() const { return *parent; }
   };
 
 public:
-  Path();
-  Path(const Vector& pos);
+  Path(PathGameObject& parent);
+  Path(const Vector& pos, PathGameObject& parent);
 
   void read(const ReaderMapping& reader);
   void save(Writer& writer);
@@ -92,6 +101,11 @@ public:
   bool is_valid() const;
 
   const std::vector<Node>& get_nodes() const { return m_nodes; }
+
+  PathGameObject& get_gameobject() const { return m_parent_gameobject; }
+
+private:
+  PathGameObject& m_parent_gameobject;
 
 public:
   std::vector<Node> m_nodes;

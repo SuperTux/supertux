@@ -499,6 +499,13 @@ TileMap::goto_node(int node_no)
 }
 
 void
+TileMap::jump_to_node(int node_no)
+{
+  if (!get_walker()) return;
+  get_walker()->jump_to_node(node_no);
+}
+
+void
 TileMap::start_moving()
 {
   if (!get_walker()) return;
@@ -670,7 +677,9 @@ TileMap::get_tile_at(const Vector& pos) const
 void
 TileMap::change(int x, int y, uint32_t newtile)
 {
-  assert(x >= 0 && x < m_width && y >= 0 && y < m_height);
+  if(x < 0 || x >= m_width || y < 0 || y >= m_height)
+    return;
+
   m_tiles[y*m_width + x] = newtile;
 }
 
@@ -940,7 +949,7 @@ TileMap::update_effective_solid()
   {
       Sector::get().update_solid(this);
   } else if(worldmap::WorldMap::current() != nullptr && old != m_effective_solid) {
-      worldmap::WorldMap::current()->update_solid(this);
+      worldmap::WorldMapSector::current()->update_solid(this);
   }
 }
 

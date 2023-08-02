@@ -1,5 +1,6 @@
 //  SuperTux - Worldmap Spawnpoint
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,12 +18,12 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_SPAWN_POINT_HPP
 #define HEADER_SUPERTUX_WORLDMAP_SPAWN_POINT_HPP
 
+#include "worldmap/worldmap_object.hpp"
+
 #include <string>
 
 #include "math/vector.hpp"
 #include "worldmap/direction.hpp"
-
-class ReaderMapping;
 
 namespace worldmap {
 
@@ -43,6 +44,28 @@ private:
 private:
   SpawnPoint(const SpawnPoint&) = delete;
   SpawnPoint& operator=(const SpawnPoint&) = delete;
+};
+
+
+class SpawnPointObject final : public WorldMapObject
+{
+public:
+  SpawnPointObject(const ReaderMapping& mapping);
+  SpawnPointObject(const std::string& name, const Vector& pos);
+
+  static std::string class_name() { return "worldmap-spawnpoint"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Spawn point"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+
+  virtual ObjectSettings get_settings() override;
+
+private:
+  Direction m_dir;
+
+private:
+  SpawnPointObject(const SpawnPointObject&) = delete;
+  SpawnPointObject& operator=(const SpawnPointObject&) = delete;
 };
 
 } // namespace worldmap

@@ -17,8 +17,6 @@
 #include "badguy/kamikazesnowball.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 
 namespace{
   static const float KAMIKAZE_SPEED = 200;
@@ -26,8 +24,8 @@ namespace{
   const std::string SPLAT_SOUND = "sounds/splat.wav";
 }
 
-KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
+KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader, const std::string& sprite_name) :
+  BadGuy(reader, sprite_name)
 {
   SoundManager::current()->preload(SPLAT_SOUND);
   set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
@@ -38,7 +36,7 @@ KamikazeSnowball::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KAMIKAZE_SPEED : KAMIKAZE_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir);
+  set_action(m_dir);
 }
 
 bool
@@ -46,7 +44,7 @@ KamikazeSnowball::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
-  m_sprite->set_action("squished", m_dir);
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }
@@ -70,7 +68,7 @@ KamikazeSnowball::collision_solid(const CollisionHit& hit)
 void
 KamikazeSnowball::kill_collision()
 {
-  m_sprite->set_action("collision", m_dir);
+  set_action("collision", m_dir);
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
@@ -100,10 +98,8 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 }
 
 LeafShot::LeafShot(const ReaderMapping& reader) :
-  KamikazeSnowball(reader)
+  KamikazeSnowball(reader, "images/creatures/leafshot/leafshot.sprite")
 {
-  m_sprite_name = "images/creatures/leafshot/leafshot.sprite";
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
 void
@@ -111,7 +107,7 @@ LeafShot::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -LEAFSHOT_SPEED : LEAFSHOT_SPEED);
   m_physic.enable_gravity(false);
-  m_sprite->set_action(m_dir);
+  set_action(m_dir);
 }
 
 bool
@@ -140,7 +136,7 @@ LeafShot::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
-  m_sprite->set_action("squished", m_dir);
+  set_action("squished", m_dir);
   // Spawn death particles
   spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
   kill_squished(object);

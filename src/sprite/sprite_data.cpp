@@ -27,6 +27,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/reader_object.hpp"
 #include "video/surface.hpp"
+#include "video/texture_manager.hpp"
 
 SpriteData::Action::Action() :
   name(),
@@ -61,6 +62,41 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
     throw std::runtime_error("Error: Sprite without actions.");
 }
 
+SpriteData::SpriteData(const std::string& image) :
+  actions(),
+  name()
+{
+  auto surface = Surface::from_file(image);
+  if (!TextureManager::current()->last_load_successful())
+    throw std::runtime_error("Cannot load image.");
+
+  auto action = create_action_from_surface(surface);
+  action->name = "default";
+  actions[action->name] = std::move(action);
+}
+
+SpriteData::SpriteData() :
+  actions(),
+  name()
+{
+  auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
+  auto action = create_action_from_surface(surface);
+  action->name = "default";
+  actions[action->name] = std::move(action);
+}
+
+std::unique_ptr<SpriteData::Action>
+SpriteData::create_action_from_surface(SurfacePtr surface)
+{
+  auto action = std::make_unique<Action>();
+
+  action->hitbox_w = static_cast<float>(surface->get_width());
+  action->hitbox_h = static_cast<float>(surface->get_height());
+  action->surfaces.push_back(surface);
+
+  return action;
+}
+
 void
 SpriteData::parse_action(const ReaderMapping& mapping)
 {
@@ -79,7 +115,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       case 4:
         action->hitbox_h = hitbox[3];
         action->hitbox_w = hitbox[2];
-        BOOST_FALLTHROUGH;
+        [[fallthrough]];
       case 2:
         action->y_offset = hitbox[1];
         action->x_offset = hitbox[0];
@@ -170,7 +206,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
       }
     }
   } else { // Load images
-    boost::optional<ReaderCollection> surfaces_collection;
+    std::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
     if (mapping.get("images", images))
     {

@@ -52,6 +52,7 @@ public:
 
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;
+  const std::vector<std::unique_ptr<Sector> >& get_sectors() const { return m_sectors; }
 
   std::string get_tileset() const { return m_tileset; }
 

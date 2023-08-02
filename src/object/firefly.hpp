@@ -30,6 +30,7 @@ public:
   Firefly(const ReaderMapping& mapping);
 
   virtual void draw(DrawingContext& context) override;
+  virtual void update(float dt_sec) override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   static std::string class_name() { return "firefly"; }
@@ -41,7 +42,7 @@ public:
   virtual void on_flip(float height) override;
 
 private:
-  void reactivate();
+  void update_state();
 
 private:
   SpritePtr m_sprite_light;

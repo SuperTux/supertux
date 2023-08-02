@@ -21,14 +21,14 @@
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-
 ParticleZone::ParticleZone(const ReaderMapping& reader) :
   MovingObject(reader),
   //ExposedObject<ParticleZone, scripting::Wind>(this),
   m_enabled(),
-  m_particle_name(),
-  m_type()
+  m_particle_name()
 {
+  parse_type(reader);
+
   float w,h;
   reader.get("x", m_col.m_bbox.get_left(), 0.0f);
   reader.get("y", m_col.m_bbox.get_top(), 0.0f);
@@ -38,35 +38,6 @@ ParticleZone::ParticleZone(const ReaderMapping& reader) :
 
   reader.get("enabled", m_enabled, true);
   reader.get("particle-name", m_particle_name, "");
-
-  std::string zone_type;
-  if (reader.get("zone-type", zone_type))
-  {
-    if (zone_type == "destroyer")
-    {
-      m_type = ParticleZoneType::Destroyer;
-    }
-    else if (zone_type == "killer")
-    {
-      m_type = ParticleZoneType::Killer;
-    }
-    else if (zone_type == "life")
-    {
-      m_type = ParticleZoneType::Life;
-    }
-    else if (zone_type == "life-clear")
-    {
-      m_type = ParticleZoneType::LifeClear;
-    }
-    else
-    {
-      m_type = ParticleZoneType::Spawn;
-    }
-  }
-  else
-  {
-    m_type = ParticleZoneType::Spawn;
-  }
 
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -78,15 +49,22 @@ ParticleZone::get_settings()
 
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
   result.add_text(_("Particle Name"), &m_particle_name, "particle-name");
-  result.add_enum(_("Zone Type"), reinterpret_cast<int*>(&m_type),
-                  {_("Spawn"), _("Life zone"), _("Life zone (clear)"), _("Kill particles"), _("Clear particles")},
-                  {"spawn", "life", "life-clear", "killer", "destroyer"},
-                  static_cast<int>(ParticleZoneType::Spawn),
-                  "zone-type");
 
   result.reorder({"region", "name", "x", "y"});
 
   return result;
+}
+
+GameObjectTypes
+ParticleZone::get_types() const
+{
+  return {
+    { "spawn", _("Spawn") },
+    { "life", _("Life zone") },
+    { "life-clear", _("Life zone (clear)") },
+    { "killer", _("Kill particles") },
+    { "destroyer", _("Clear particles") }
+  };
 }
 
 void

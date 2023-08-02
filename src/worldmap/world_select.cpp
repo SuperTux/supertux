@@ -29,7 +29,6 @@
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
-#include "worldmap/worldmap_parser.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {
@@ -58,6 +57,18 @@ WorldSelect::WorldSelect(const std::string& current_world_filename) :
 
   if (worlds.size() > 0)
     std::reverse(worlds.begin(), worlds.end());
+
+  // Only worlds with a set prefix, which also are numbered starting with 1, will be ordered properly.
+  // This is a probably a poor solution, but I can't think of any other. - Daniel
+  std::string prefix = "";
+  vm.get_string("prefix", prefix);
+  if (!prefix.empty())
+  {
+    for (int i = 0; unsigned(i) < worlds.size(); i++)
+    {
+      worlds[i] = prefix + std::to_string(i+1) + "/worldmap.stwm";
+    }
+  }
 
   int i = 0;
   for (const auto& world : worlds) {
@@ -236,8 +247,7 @@ WorldSelect::update(float dt_sec, const Controller& controller)
   if (controller.pressed(Control::JUMP) && m_worlds[m_selected_world].unlocked) {
     m_enabled = false;
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, 0.25f));
-    worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "main");
-    log_warning << m_worlds[m_selected_world].filename << std::endl;
+    worldmap::WorldMap::current()->change(m_worlds[m_selected_world].filename, "", "main");
     return;
   }
 }

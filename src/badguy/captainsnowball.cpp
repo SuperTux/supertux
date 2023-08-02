@@ -24,8 +24,9 @@ namespace{
   static const float BOARDING_SPEED = 200;
 }
 
-CaptainSnowball::CaptainSnowball(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
+CaptainSnowball::CaptainSnowball(const ReaderMapping& reader) :
+  WalkingBadguy(reader, "images/creatures/snowball/captain-snowball.sprite", "left", "right"),
+  m_jumping(false)
 {
   walk_speed = BOARDING_SPEED;
   max_drop_height = -1;
@@ -58,10 +59,16 @@ CaptainSnowball::might_climb(int width, int height) const
 void
 CaptainSnowball::active_update(float dt_sec)
 {
-  if (on_ground() && might_climb(8, 64)) {
+  const bool will_climb = on_ground() && might_climb(8, 64);
+  const bool will_fall = on_ground() && might_fall(16);
+  if (will_climb || will_fall)
+  {
+    m_jumping = true;
+    set_action("jump", m_dir, 1);
     m_physic.set_velocity_y(-400);
-  } else if (on_ground() && might_fall(16)) {
-    m_physic.set_velocity_y(-400);
+  }
+  if (will_fall)
+  {
     walk_speed = BOARDING_SPEED;
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);
   }
@@ -71,7 +78,13 @@ CaptainSnowball::active_update(float dt_sec)
 void
 CaptainSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (is_active() && (walk_speed == BOARDING_SPEED)) {
+  if (m_jumping && get_state() != STATE_SQUISHED)
+  {
+    m_jumping = false;
+    set_action(m_dir);
+  }
+  if (is_active() && (walk_speed == BOARDING_SPEED))
+  {
     walk_speed = CAPTAIN_WALK_SPEED;
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);
   }
@@ -81,7 +94,7 @@ CaptainSnowball::collision_solid(const CollisionHit& hit)
 bool
 CaptainSnowball::collision_squished(GameObject& object)
 {
-  m_sprite->set_action("squished", m_dir);
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }

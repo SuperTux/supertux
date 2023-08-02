@@ -286,12 +286,12 @@ void debug_draw_editor_images(bool enable)
 
 void debug_worldmap_ghost(bool enable)
 {
-  auto worldmap = worldmap::WorldMap::current();
+  auto worldmap_sector = worldmap::WorldMapSector::current();
 
-  if (worldmap == nullptr)
-    throw std::runtime_error("Can't change ghost mode without active WorldMap");
+  if (worldmap_sector == nullptr)
+    throw std::runtime_error("Can't change ghost mode without active WorldMapSector");
 
-  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
+  auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
   tux.set_ghost_mode(enable);
 }
 
@@ -437,11 +437,6 @@ void camera()
 void set_gamma(float gamma)
 {
   VideoSystem::current()->set_gamma(gamma);
-}
-
-void quit()
-{
-  ScreenManager::current()->quit();
 }
 
 int rand()

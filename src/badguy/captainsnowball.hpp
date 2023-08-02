@@ -39,6 +39,9 @@ protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
+  bool m_jumping;
+
+private:
   CaptainSnowball(const CaptainSnowball&) = delete;
   CaptainSnowball& operator=(const CaptainSnowball&) = delete;
 };

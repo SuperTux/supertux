@@ -1,6 +1,6 @@
 Install instructions for SuperTux - <https://supertux.org/>
 ====================================================================
-Last update: December 18, 2021
+Last update: May 19, 2023
 
 Quick links:
 - [Binaires](#binaries)
@@ -78,7 +78,6 @@ distributions.
 * C++ OpenGL library (choose one of the two options below):
   - [GLEW](http://glew.sourceforge.net/) or
   - [glbinding](https://github.com/hpicgs/glbinding)
-* [Boost](http://www.boost.org) smart_ptr and format headers, along with date_time and filesystem libraries
 * [cURL](http://curl.haxx.se/libcurl/): for Add-on downloads
 * [libogg and libvorbis](https://www.xiph.org/)
 * [FreeType](https://www.freetype.org/)
@@ -88,7 +87,7 @@ distributions.
   to display Arabic
 
 **Note I:** for any of the above listed libraries (OpenGL, SDL2, SDL2_image,
-OpenAL, GLEW/glbinding, Boost, cURL, libogg and libvorbis), you should
+OpenAL, GLEW/glbinding, cURL, libogg and libvorbis), you should
 also have development headers installed. Debian-based distributions have `-devel`
 packages containing the mentioned headers, on Arch Linux these should be included
 in the library package.
@@ -107,7 +106,12 @@ For ease of use, here are some installation lines for some Linux distributions:
 
 - Ubuntu 18.04/20.04:
   ```
-  sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libboost-all-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
+  sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
+  ```
+
+- ArchLinux (using sudo, as of June 3rd 2023)
+  ```
+  sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
   ```
 
 ### Linux/UNIX using CMake
@@ -244,7 +248,7 @@ Once all of these are installed; you may install dependencies with vcpkg. In any
 ```
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg integrate install
-./vcpkg install --triplet=x86-windows gtest boost-date-time boost-filesystem boost-format boost-iostreams boost-locale boost-optional boost-system curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
+./vcpkg install --triplet=x86-windows gtest curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
 ```
 
 **Note:** If you wish to produce 64-bit builds, replace `--triplet=x86-windows` with `--triplet=x64-windows`.
@@ -313,7 +317,7 @@ git -C build.android checkout 532acc9192
 # commit 532acc9192!
 ```
 
-3. Clone the submodules that SuperTux needs: Boost, Iconv, SDL2, SDL2_image,
+3. Clone the submodules that SuperTux needs: Iconv, SDL2, SDL2_image,
 SDL2_mixer and SDL2_ttf.
 
 ```
@@ -321,7 +325,7 @@ SDL2_mixer and SDL2_ttf.
 cd build.android
 
 git submodule update --init --recursive --depth=1 \
-          project/jni/boost/src project/jni/iconv/src \
+          project/jni/iconv/src                   \
           project/jni/sdl2 project/jni/sdl2_image \
           project/jni/sdl2_mixer project/jni/sdl2_ttf
 ```
@@ -459,57 +463,43 @@ toolchain; newer versions are known not to work properly.
 git submodule update --init --recursive
 ```
 
-1. Patch SDL_ttf by applying the patch in `mk/emscripten/SDL_ttf.patch`:
+1. Install [Emscripten](emscripten.org):
 ```
-# For git users:
-git apply mk/emscripten/SDL_ttf.patch
-
-# If you do not have git installed:
-patch -p1 < mk/emscripten/SDL_ttf.patch
-```
-
-2. Install dependencies using Vcpkg (Make sure you enabled Emscripten and ran
-`source .../emsdk_env.sh`!):
-```
-vcpkg integrate install
-vcpkg install --target wasm32-emscripten boost-date-time boost-filesystem boost-format boost-locale boost-optional boost-system glbinding libpng libogg libvorbis glm zlib
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
 ```
 
-3. Run CMake using Emscripten's wrapper:
+2. Run CMake using Emscripten's wrapper:
 ```
-emcmake cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_OPENGLES2=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON -DEMSCRIPTEN=1 ..
+# Make sure you ran `source /path/to/emsdk/emsdk_env.sh` if you opened a new terminal since last step!
+emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
 ```
-Replace `/path/to/vcpkg` with the absolute path to where Vcpkg is installed.
-Note that Debug builds are generally unplayably slow. Also, the
-`-DENABLE_OPENGLES2=ON` flag is optional and will enable using WebGL instead of
-the SDL renderer. Currently, the WebGL renderer is much slower than the SDL
-renderer.
 
-4. Copy data files to the build folder, as Emscripten will package them to make
+3. Copy data files to the build folder, as Emscripten will package them to make
 them usable from WASM:
 ```
 rsync -aP ../data/ data/
 ```
 
-5. Build SuperTux:
+4. Build SuperTux:
 ```
 emmake make -j$(nproc || sysctl -n hw.ncpu || echo 2)
 ```
 
-6. Replace the Emscripten HTML template with SuperTux's custom container:
+5. Replace the Emscripten HTML template with SuperTux's custom container:
 ```
-rm supertux2.html && cp template.html supertux2.html
+cp template.html supertux2.html
 ```
 You may skip the step above you intend to directly open the `template.html` file;
 note that SuperTux won't work if it is not located in the custom template, as it
 requires some custom JavaScript functions to work properly.
 
-7. Run the Emscripten webserver:
+6. Run the Emscripten webserver:
 ```
-# Without --no-browser, Emscripten does not wait for data to finish downloading,
-# which fails the process. It only works by launching Emscripten in no-browser
-# mode, and then by opening the browser manually.
-emrun --no_browser .
+emrun supertux2.html
 ```
 
 You can now play SuperTux by opening `http://localhost:6931/supertux2.html` in

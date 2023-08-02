@@ -26,7 +26,7 @@ class Dart final : public BadGuy
 {
 public:
   Dart(const ReaderMapping& reader);
-  Dart(const Vector& pos, Direction d, const BadGuy* parent);
+  Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/dart/dart.sprite", Flip flip = NO_FLIP);
 
   virtual void initialize() override;
   virtual void activate() override;
@@ -51,6 +51,7 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
+  virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
 
 protected:
