@@ -127,11 +127,6 @@ public:
     return "images/objects/water_drop/water_drop.sprite";
   }
 
-  void set_sprite_action(const std::string& action, int loops = 1)
-  {
-    set_action(action, loops);
-  }
-
   /** Returns true if the badguy can currently be affected by wind */
   virtual bool can_be_affected_by_wind() const;
 
