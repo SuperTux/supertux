@@ -551,10 +551,10 @@ AddonManager::enable_addon(const AddonId& addon_id)
   {
     if (addon.get_type() == Addon::RESOURCEPACK)
     {
-      for (const auto& [id, addon] : m_installed_addons)
+      for (const auto& [id, installed_addon] : m_installed_addons)
       {
-        if (addon->get_type() == Addon::RESOURCEPACK &&
-            addon->is_enabled())
+        if (installed_addon->get_type() == Addon::RESOURCEPACK &&
+            installed_addon->is_enabled())
         {
           throw std::runtime_error(_("Only one resource pack is allowed to be enabled at a time."));
         }
@@ -719,11 +719,11 @@ std::vector<AddonId>
 AddonManager::get_depending_addons(const std::string& id) const
 {
   std::vector<AddonId> addons;
-  for (auto& [id, addon] : m_installed_addons)
+  for (auto& [addon_id, addon] : m_installed_addons)
   {
     const auto& dependencies = addon->get_dependencies();
     if (std::find(dependencies.begin(), dependencies.end(), id) != dependencies.end())
-      addons.push_back(id);
+      addons.push_back(addon_id);
   }
   return addons;
 }
