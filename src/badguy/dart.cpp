@@ -37,6 +37,8 @@ Dart::Dart(const ReaderMapping& reader) :
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
+
+  set_action("flying", m_dir);
 }
 
 Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::string& sprite) :
@@ -49,6 +51,8 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::str
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
+
+  set_action("flying", m_dir);
 }
 
 bool
@@ -66,7 +70,6 @@ Dart::initialize()
 {
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -::DART_SPEED : m_dir == Direction::RIGHT ? ::DART_SPEED : 0);
   m_physic.set_velocity_y(m_dir == Direction::UP ? -::DART_SPEED : m_dir == Direction::DOWN ? ::DART_SPEED : 0);
-  set_action("flying", m_dir);
 }
 
 void
