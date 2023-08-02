@@ -722,7 +722,7 @@ AddonManager::get_depending_addons(const std::string& id) const
   for (auto& [addon_id, addon] : m_installed_addons)
   {
     const auto& dependencies = addon->get_dependencies();
-    if (std::find(dependencies.begin(), dependencies.end(), id) != dependencies.end())
+    if (std::find(dependencies.begin(), dependencies.end(), addon_id) != dependencies.end())
       addons.push_back(addon_id);
   }
   return addons;
