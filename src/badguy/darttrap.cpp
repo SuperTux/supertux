@@ -160,12 +160,12 @@ DartTrap::on_flip(float height)
   if (m_dir == Direction::UP)
   {
     m_dir = Direction::DOWN;
-    set_sprite_action(m_state == IDLE ? "idle-down" : "loading-down");
+    set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
   }
   else if (m_dir == Direction::DOWN)
   {
     m_dir = Direction::UP;
-    set_sprite_action(m_state == IDLE ? "idle-up" : "loading-up");
+    set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
   }
   else
     FlipLevelTransformer::transform_flip(m_flip);
