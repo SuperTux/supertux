@@ -1,21 +1,25 @@
 (supertux-sprite
  (action
   (name "left")
-  (fps 10.0)
-  (hitbox 14 7 35 45)
-  (images "left-0.png"
-          "left-1.png"
-          "left-2.png"
-          "left-3.png"
-          "left-4.png"
-          "left-5.png"
-          "left-6.png"))
+  (fps 15)
+  (hitbox 24 15 45 44)
+  (images "carry-0.png"
+          "carry-1.png"
+          "carry-2.png"
+          "carry-3.png"
+          "carry-4.png"
+          "carry-5.png"
+          "carry-6.png"
+		  "carry-7.png"
+		  "carry-8.png"
+		  "carry-9.png"))
 
  (action
   (name "right")
-  (fps 10.0)
-  (hitbox 14 7 35 45)
+  (fps 15)
+  (hitbox 31 15 45 44)
   (mirror-action "left"))
+  
  (action
   (name "burning-left")
   (fps 15.0)
