@@ -2,44 +2,41 @@
   (action
     (name "left")
     (fps 14)
-    (hitbox 8 9 32 20)
-    (images "crystallo-left-0.png"
-            "crystallo-left-1.png"
-            "crystallo-left-2.png"
-            "crystallo-left-3.png"
-            "crystallo-left-4.png"
-            "crystallo-left-5.png"
-            "crystallo-left-6.png"
-            "crystallo-left-7.png"))
+    (hitbox 8 12 32 26)
+    (images "left-0.png"
+            "left-1.png"
+            "left-2.png"
+            "left-3.png"
+            "left-4.png"
+            "left-5.png"
+            "left-6.png"
+            "left-7.png"))
 
   (action
     (name "right")
     (fps 14)
-    (hitbox 8 9 32 20)
+    (hitbox 8 12 32 26)
     (mirror-action "left"))
 
   (action
     (name "slowdown-left")
     (fps 5)
-    (hitbox 8 9 32 20)
+    (hitbox 8 12 32 26)
     (clone-action "left"))
 
   (action
     (name "slowdown-right")
     (fps 5)
-    (hitbox 8 9 32 20)
+    (hitbox 8 12 32 26)
     (clone-action "right"))
 
   (action
     (name "shattered-left")
-    (images "shattered-left.png"))
+	(hitbox 8 12 32 26)
+    (images "squished.png"))
 
   (action
     (name "shattered-right")
+	(hitbox 8 12 32 26)
     (mirror-action "shattered-left"))
-
-  (action
-    (name "editor")
-    (hitbox 100 7 135 20)
-    (images "crystallo-editor.png"))
 )
