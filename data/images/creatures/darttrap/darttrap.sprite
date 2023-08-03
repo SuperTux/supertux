@@ -21,27 +21,6 @@
 			"empty_down-3.png"
 			"empty_down-4.png")
   )
-  
-  ;; This will never show up since the editor uses the flipped down texture
-  ;; But it prevents warnings for missing actions
-  (action
-    (hitbox 2 19 38 32)
-    (name "editor-up")
-    (images "empty_down-0.png"
-			"empty_down-1.png"
-			"empty_down-2.png"
-			"empty_down-3.png"
-			"empty_down-4.png")
-  )
-  (action
-    (hitbox 19 2 32 38)
-    (name "idle-right")
-	(loops 1)
-	(fps 10)
-    (mirror-action "idle-left")
-  )
-  (action
-    (hitbox -13 2 32 38)
     (name "loading-left")
 	(fps 10)
 	(loops 1)
@@ -69,5 +48,10 @@
 	(fps 10)
 	(loops 1)
     (mirror-action "loading-left")
+  )
+  (action
+    (hitbox 13 18 54 11)
+    (name "loading-up")
+    (flip-action "loading-down")
   )
 )

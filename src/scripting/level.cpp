@@ -86,6 +86,20 @@ Level_edit(bool edit_mode)
   game_session.set_editmode(edit_mode);
 }
 
+void
+Level_pause_target_timer()
+{
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_target_timer_paused(true);
+}
+
+void
+Level_resume_target_timer()
+{
+  SCRIPT_GUARD_GAMESESSION;
+  game_session.set_target_timer_paused(false);
+}
+
 } // namespace scripting
 
 /* EOF */

@@ -24,6 +24,7 @@
 #include <curl/easy.h>
 #endif
 #include <functional>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -120,7 +121,7 @@ private:
 #ifndef EMSCRIPTEN
   CURLM* m_multi_handle;
 #endif
-  std::vector<std::unique_ptr<Transfer> > m_transfers;
+  std::map<TransferId, std::unique_ptr<Transfer> > m_transfers;
   int m_next_transfer_id;
 
   float m_last_update_time;

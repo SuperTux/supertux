@@ -14,11 +14,9 @@
     (hitbox 12 6 9 22)
     (images "skull_dart_down.png")
   )
-  ;; This will never show up since the editor uses the flipped down texture
-  ;; But it prevents warnings for missing actions
   (action
-    (name "editor-up")
-    (hitbox 6 4 9 22)
-    (images "skull_dart_down.png")
+    (name "flying-up")
+    (hitbox 6 10 7 12)
+    (flip-action "flying-down")
   )
 )
