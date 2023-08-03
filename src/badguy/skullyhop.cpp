@@ -20,7 +20,9 @@
 #include "sprite/sprite.hpp"
 
 namespace {
-static const std::string SKULLYHOP_SOUND = "sounds/hop.ogg";
+const std::string SKULLYHOP_SOUND = "sounds/hop.ogg";
+const float HORIZONTAL_SPEED = 220; /**< X-speed when jumping. */
+const float VERTICAL_SPEED = -450;   /**< Y-speed when jumping. */
 }
 
 SkullyHop::SkullyHop(const ReaderMapping& reader) :
@@ -54,9 +56,7 @@ SkullyHop::set_state(SkullyHopState newState)
     } else
       if (newState == JUMPING) {
         set_action("jumping", m_dir);
-const float HORIZONTAL_SPEED = 220; /**< X-speed when jumping. */
         m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-const float VERTICAL_SPEED = -450;   /**< Y-speed when jumping. */
         m_physic.set_velocity_y(VERTICAL_SPEED);
         SoundManager::current()->play( SKULLYHOP_SOUND, get_pos());
       }

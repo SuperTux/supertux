@@ -67,7 +67,7 @@ GameObjectManager::process_resolve_requests()
     GameObject* object = get_object_by_name<GameObject>(request.name);
     if (!object)
     {
-      log_warning << "GameObjectManager: name resolve for '" << request.name << "' failed." << std::endl;
+      log_warning << "GameObjectManager: Name resolve for '" << request.name << "' failed." << std::endl;
       request.callback({});
     }
     else
@@ -198,7 +198,7 @@ GameObjectManager::flush_game_objects()
       m_gameobjects.end());
   }
 
-  { // Add newly created objects
+  { // Add newly created objects.
     // Objects might add new objects in finish_construction(), so we
     // loop until no new objects show up.
     while (!m_gameobjects_new.empty()) {
@@ -367,20 +367,20 @@ GameObjectManager::has_object_changes() const
 void
 GameObjectManager::this_before_object_add(GameObject& object)
 {
-  { // by_name:
+  { // By name:
     if (!object.get_name().empty())
     {
       m_objects_by_name[object.get_name()] = &object;
     }
   }
 
-  { // by_id:
+  { // By id:
     assert(object.get_uid());
 
     m_objects_by_uid[object.get_uid()] = &object;
   }
 
-  { // by_type_index:
+  { // By type index:
     m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
   }
 
@@ -392,7 +392,7 @@ GameObjectManager::this_before_object_remove(GameObject& object)
 {
   save_object_change(object);
 
-  { // by_name:
+  { // By name:
     const std::string& name = object.get_name();
     if (!name.empty())
     {
@@ -400,11 +400,11 @@ GameObjectManager::this_before_object_remove(GameObject& object)
     }
   }
 
-  { // by_id:
+  { // By id:
     m_objects_by_uid.erase(object.get_uid());
   }
 
-  { // by_type_index:
+  { // By type index:
     auto& vec = m_objects_by_type_index[std::type_index(typeid(object))];
     auto it = std::find(vec.begin(), vec.end(), &object);
     assert(it != vec.end());

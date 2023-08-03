@@ -86,7 +86,7 @@ ContribMenu::ContribMenu() :
         }
         else
         {
-          log_warning << "Unknown World type" << std::endl;
+          log_warning << "Unknown World type." << std::endl;
         }
       }
     }

@@ -42,7 +42,7 @@
 namespace {
 
 // Not added to header, function to only be used by others
-// in this file,
+// in this file.
 bool validate_sector_player()
 {
   if (::Sector::current() == nullptr)
@@ -142,7 +142,7 @@ void wait(HSQUIRRELVM vm, float seconds)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
-      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`
+      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
       squirrelenv->wait_for_seconds(vm, 0);
     }
     else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))

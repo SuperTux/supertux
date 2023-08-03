@@ -82,7 +82,7 @@ Totem::active_update(float dt_sec)
       initialize();
     }
 
-    // Jump slightly if we encounter a suitable totem.// Jump slightly if we encounter a suitable totem.
+    // Jump slightly if we encounter a suitable totem.
     for (auto& obj : Sector::get().get_objects_by_type<MovingObject>()) {
       auto t = dynamic_cast<Totem*>(&obj);
       if (!t) continue;

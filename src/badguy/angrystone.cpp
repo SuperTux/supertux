@@ -26,8 +26,8 @@ static const float RECOVER_TIME = .5;
 
 AngryStone::AngryStone(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/angrystone/angrystone.sprite"),
-  m_attackDirection(0.0f, 0.0f),
-  m_oldWallDirection(0.0f, 0.0f),
+  m_attack_direction(0.0f, 0.0f),
+  m_old_wall_direction(0.0f, 0.0f),
   m_timer(),
   m_state(IDLE)
 {
@@ -46,15 +46,15 @@ AngryStone::collision_solid(const CollisionHit& hit)
   // TODO
 #if 0
   if ((m_state == ATTACKING) &&
-      (hit.normal.x == -m_attackDirection.x) && (hit.normal.y == m_attackDirection.y)) 
+      (hit.normal.x == -m_attack_direction.x) && (hit.normal.y == m_attack_direction.y)) 
   {
     m_state = IDLE;
     sprite->set_action("idle");
     physic.set_velocity_x(0);
     physic.set_velocity_y(0);
     physic.enable_gravity(true);
-    m_oldWallDirection.x = m_attackDirection.x;
-    m_oldWallDirection.y = m_attackDirection.y;
+    m_old_wall_direction.x = m_attack_direction.x;
+    m_old_wall_direction.y = m_attack_direction.y;
   }
 #endif
 }
@@ -111,14 +111,14 @@ AngryStone::active_update(float dt_sec)
         {
           if (dy > 0) 
           {
-            m_attackDirection.x = 0;
-            m_attackDirection.y = 1;
+            m_attack_direction.x = 0;
+            m_attack_direction.y = 1;
           } else 
           {
-            m_attackDirection.x = 0;
-            m_attackDirection.y = -1;
+            m_attack_direction.x = 0;
+            m_attack_direction.y = -1;
           }
-          if ((m_attackDirection.x != m_oldWallDirection.x) || (m_attackDirection.y != m_oldWallDirection.y)) 
+          if ((m_attack_direction.x != m_old_wall_direction.x) || (m_attack_direction.y != m_old_wall_direction.y)) 
           {
             set_action("charging");
             m_timer.start(CHARGE_TIME);
@@ -128,14 +128,14 @@ AngryStone::active_update(float dt_sec)
           {
           if (dx > 0) 
           {
-            m_attackDirection.x = 1;
-            m_attackDirection.y = 0;
+            m_attack_direction.x = 1;
+            m_attack_direction.y = 0;
           } else 
           {
-            m_attackDirection.x = -1;
-            m_attackDirection.y = 0;
+            m_attack_direction.x = -1;
+            m_attack_direction.y = 0;
           }
-          if ((m_attackDirection.x != m_oldWallDirection.x) || (m_attackDirection.y != m_oldWallDirection.y)) 
+          if ((m_attack_direction.x != m_old_wall_direction.x) || (m_attack_direction.y != m_old_wall_direction.y)) 
           {
             set_action("charging");
             m_timer.start(CHARGE_TIME);
@@ -153,10 +153,10 @@ AngryStone::active_update(float dt_sec)
         m_timer.start(ATTACK_TIME);
         m_state = ATTACKING;
         m_physic.enable_gravity(false);
-        m_physic.set_velocity_x(CHARGE_SPEED * m_attackDirection.x);
-        m_physic.set_velocity_y(CHARGE_SPEED * m_attackDirection.y);
-        m_oldWallDirection.x = 0;
-        m_oldWallDirection.y = 0;
+        m_physic.set_velocity_x(CHARGE_SPEED * m_attack_direction.x);
+        m_physic.set_velocity_y(CHARGE_SPEED * m_attack_direction.y);
+        m_old_wall_direction.x = 0;
+        m_old_wall_direction.y = 0;
       }
     } break;
 

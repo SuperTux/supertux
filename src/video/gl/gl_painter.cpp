@@ -335,7 +335,7 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
   vertices[p++] = screen_width; vertices[p++] = screen_height;
   vertices[p++] = 0;            vertices[p++] = screen_height;
   vertices[p++] = x;            vertices[p++] = y+h;
-  
+
   // Top.
   vertices[p++] = screen_width; vertices[p++] = 0;
   vertices[p++] = 0;            vertices[p++] = 0;

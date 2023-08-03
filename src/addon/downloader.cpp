@@ -595,7 +595,7 @@ Downloader::update()
 TransferStatusPtr
 Downloader::request_download(const std::string& url, const std::string& outfile)
 {
-  log_info << "Request_download: " << url << std::endl;
+  log_info << "Requesting download for: " << url << std::endl;
   auto transfer = std::make_unique<Transfer>(*this, m_next_transfer_id++, url, outfile);
 #ifndef EMSCRIPTEN
   curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());

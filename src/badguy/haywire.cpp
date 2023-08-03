@@ -54,7 +54,6 @@ Haywire::Haywire(const ReaderMapping& reader) :
   walk_speed = NORMAL_WALK_SPEED;
   max_drop_height = 16;
 
-  // Preload the "explosion.wav" sound to prevent stutter when Tux jumps on a Haywire.
   SoundManager::current()->preload("sounds/explosion.wav");
 }
 

@@ -145,7 +145,7 @@ Editor::draw(Compositor& compositor)
     }
 
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
-    // issue with the PlayerStatus. Fixing it requires expertise beyond my current level.
+    // issue with the PlayerStatus.
     if (!m_leveltested)
       m_sector->draw(context);
 
@@ -200,7 +200,7 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   if (m_newlevel_request) {
-    //Create new level.
+    // Create new level.
   }
 
   if (m_reactivate_request) {

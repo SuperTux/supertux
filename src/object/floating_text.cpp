@@ -32,15 +32,10 @@ FloatingText::FloatingText(const Vector& pos, const std::string& text_) :
 
 FloatingText::FloatingText(const Vector& pos, int score) :
   position(pos),
-  text(),
+  text(std::to_string(score)),
   timer()
 {
   timer.start(.1f);
-
-  // Turn int into a string.
-  char str[10];
-  snprintf(str, 10, "%d", score);
-  text = str;
 
   position.x -= static_cast<float>(text.size()) * 8.0f;
 }

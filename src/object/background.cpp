@@ -225,7 +225,7 @@ Background::update(float dt_sec)
   if (m_timer_color.check())
   {
     m_color = m_dst_color;
-    m_timer_color.stop(); // Tto reset the "check()" value.
+    m_timer_color.stop(); // To reset the "check()" value.
   }
   else if (m_timer_color.started())
   {

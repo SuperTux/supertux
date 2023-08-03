@@ -89,7 +89,6 @@ EditorSectorsMenu::delete_sector()
 
   // Do not delete sector when there would be no left.
   if (level->get_sector_count() < 2) {
-    // Do not allow to delete the sector.
     dialog->set_text(_("Each level must have at least one sector."));
     dialog->clear_buttons();
     dialog->add_cancel_button(_("Cancel"));

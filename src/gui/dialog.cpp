@@ -217,7 +217,7 @@ Dialog::draw(DrawingContext& context)
   if (m_passive)
     return;
 
-  // Draw HL line.
+  // Draw horizontal line.
   context.color().draw_filled_rect(Rectf(Vector(bg_rect.get_left(), bg_rect.get_bottom() - 35),
                                          Sizef(bg_rect.get_width(), 4)),
                                    g_config->hlcolor, LAYER_GUI);

@@ -360,7 +360,7 @@ void CustomParticles::ease_lifetime(float lifetime, float time, std::string easi
 }
 
 // =============================================================================
-//   Lifetime_variation
+//   Lifetime variation
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_lifetime_variation()
@@ -388,7 +388,7 @@ void CustomParticles::ease_lifetime_variation(float lifetime_variation, float ti
 }
 
 // =============================================================================
-//   Birth_time
+//   Birth time
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_birth_time()
@@ -416,7 +416,7 @@ void CustomParticles::ease_birth_time(float birth_time, float time, std::string 
 }
 
 // =============================================================================
-//   Birth_time_variation
+//   Birth time variation
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_birth_time_variation()
@@ -444,7 +444,7 @@ void CustomParticles::ease_birth_time_variation(float birth_time_variation, floa
 }
 
 // =============================================================================
-//   Death_time
+//   Death time
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_death_time()
@@ -474,7 +474,7 @@ void CustomParticles::ease_death_time(float death_time, float time, std::string 
 
 
 // =============================================================================
-//   death_time_variation
+//   Death time variation
 // -----------------------------------------------------------------------------
 float CustomParticles::get_death_time_variation()
 {
@@ -501,7 +501,7 @@ void CustomParticles::ease_death_time_variation(float death_time_variation, floa
 }
 
 // =============================================================================
-//   Speed_x
+//   X speed
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_speed_x()
@@ -529,7 +529,7 @@ void CustomParticles::ease_speed_x(float speed_x, float time, std::string easing
 }
 
 // =============================================================================
-//   Speed_y
+//   Y speed
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_speed_y()
@@ -557,7 +557,7 @@ void CustomParticles::ease_speed_y(float speed_y, float time, std::string easing
 }
 
 // =============================================================================
-//   Speed_variation_x
+//   X speed variation
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_speed_variation_x()
@@ -585,7 +585,7 @@ void CustomParticles::ease_speed_variation_x(float speed_variation_x, float time
 }
 
 // =============================================================================
-//   Speed_variation_y
+//   Y speed variation
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_speed_variation_y()
@@ -613,7 +613,7 @@ void CustomParticles::ease_speed_variation_y(float speed_variation_y, float time
 }
 
 // =============================================================================
-//   Acceleration_x
+//   X acceleration
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_acceleration_x()
@@ -641,7 +641,7 @@ void CustomParticles::ease_acceleration_x(float acceleration_x, float time, std:
 }
 
 // =============================================================================
-//   Acceleration_y
+//   Y acceleration
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_acceleration_y()
@@ -669,7 +669,7 @@ void CustomParticles::ease_acceleration_y(float acceleration_y, float time, std:
 }
 
 // =============================================================================
-//   Friction_x
+//   X friction
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_friction_x()
@@ -697,7 +697,7 @@ void CustomParticles::ease_friction_x(float friction_x, float time, std::string 
 }
 
 // =============================================================================
-//   Friction_y
+//   Y friction
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_friction_y()
@@ -725,7 +725,7 @@ void CustomParticles::ease_friction_y(float friction_y, float time, std::string 
 }
 
 // =============================================================================
-//   Feather_factor
+//   Feather factor
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_feather_factor()
@@ -781,7 +781,7 @@ void CustomParticles::ease_rotation(float rotation, float time, std::string easi
 }
 
 // =============================================================================
-//   Rotation_variation
+//   Rotation variation
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_rotation_variation()
@@ -809,7 +809,7 @@ void CustomParticles::ease_rotation_variation(float rotation_variation, float ti
 }
 
 // =============================================================================
-//   Rotation_speed
+//   Rotation speed
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_rotation_speed()
@@ -837,7 +837,7 @@ void CustomParticles::ease_rotation_speed(float rotation_speed, float time, std:
 }
 
 // =============================================================================
-//   Rotation_speed_variation
+//   Rotation speed variation
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_rotation_speed_variation()
@@ -865,7 +865,7 @@ void CustomParticles::ease_rotation_speed_variation(float rotation_speed_variati
 }
 
 // =============================================================================
-//   Rotation_acceleration
+//   Rotation acceleration
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_rotation_acceleration()
@@ -893,7 +893,7 @@ void CustomParticles::ease_rotation_acceleration(float rotation_acceleration, fl
 }
 
 // =============================================================================
-//   Rotation_decceleration
+//   Rotation decceleration
 // -----------------------------------------------------------------------------
 
 float CustomParticles::get_rotation_decceleration()

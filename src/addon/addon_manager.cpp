@@ -301,26 +301,12 @@ AddonManager::check_online()
 TransferStatusListPtr
 AddonManager::request_install_addon(const AddonId& addon_id)
 {
-<<<<<<< HEAD
-  // remove addon if it already exists.
+  // Remove addon if it already exists.
   auto it = m_installed_addons.find(addon_id);
-=======
-  // Remove add-on if it already exists.
-  auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                         [&addon_id](const std::unique_ptr<Addon>& addon)
-                         {
-                           return addon->get_id() == addon_id;
-                         });
->>>>>>> f13a2352c (addon -> add-on)
   if (it != m_installed_addons.end())
   {
-<<<<<<< HEAD
-    log_debug << "reinstalling addon " << addon_id << std::endl;
-    if (it->second->is_enabled())
-=======
     log_debug << "Reinstalling add-on " << addon_id << std::endl;
-    if ((*it)->is_enabled())
->>>>>>> cdf38ebb0 (More missed changes)
+    if (it->second->is_enabled())
     {
       disable_addon(it->first);
     }

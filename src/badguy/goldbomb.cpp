@@ -38,7 +38,6 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   walk_speed = 80;
   max_drop_height = 16;
 
-  // Preload the "explosion.wav" sound to prevent stutter when Tux jumps on a Gold Bomb.
   SoundManager::current()->preload("sounds/explosion.wav");
 
   m_exploding_sprite->set_action("default", 1);

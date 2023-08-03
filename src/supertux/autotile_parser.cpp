@@ -45,7 +45,7 @@ AutotileParser::parse()
   auto root = doc.get_root();
 
   if (root.get_name() != "supertux-autotiles") {
-    throw std::runtime_error("File is not a supertux autotile configuration file.");
+    throw std::runtime_error("File is not a supertux autotile configuration file (Root list doesn't start with 'supertux-autotiles').");
   }
 
   auto iter = root.get_mapping().get_iter();

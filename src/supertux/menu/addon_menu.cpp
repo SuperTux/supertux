@@ -87,7 +87,7 @@ AddonMenu::rebuild_menu()
         bool addon_update = false;
         try
         {
-          // Detect if the addon has an update.
+          // Detect if the add-on has an update.
           const Addon& repository_addon = m_addon_manager.get_repository_addon(addon_id);
           if (addon.get_md5() != repository_addon.get_md5() &&
             addon.get_version() < repository_addon.get_version())

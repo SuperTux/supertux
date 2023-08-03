@@ -98,7 +98,7 @@ MrTree::collision_squished(GameObject& object)
   auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
   remove_me();
 
-  // Give Feedback.
+  // Give feedback.
   SoundManager::current()->play("sounds/mr_tree.ogg", get_pos());
   if (player) player->bounce(*this);
 

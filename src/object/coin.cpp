@@ -242,7 +242,7 @@ void
 HeavyCoin::collision_solid(const CollisionHit& hit)
 {
   float clink_threshold = 100.0f; // Sets the minimum speed needed to result in collision noise.
-  //TODO: colliding HeavyCoins should have their own unique sound.
+  // TODO: Colliding with HeavyCoins should have their own unique sound.
 
   if (hit.bottom) {
     if (m_physic.get_velocity_y() > clink_threshold && !m_last_hit.bottom)

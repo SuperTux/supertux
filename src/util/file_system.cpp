@@ -146,7 +146,7 @@ std::string normalize(const std::string& filename)
       if (path_stack.empty()) {
 
         log_warning << "Invalid '..' in path '" << filename << "'" << std::endl;
-        // Push it into the result path so that the user sees their error...
+        // Push it into the result path so that the user sees this error...
         path_stack.push_back(pathelem);
       } else {
         path_stack.pop_back();

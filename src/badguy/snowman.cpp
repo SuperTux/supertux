@@ -88,7 +88,6 @@ Snowman::collision_squished(GameObject& object)
     return true;
   }
 
-  // Bounce.
   if (player)
     player->bounce(*this);
 

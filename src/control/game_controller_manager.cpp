@@ -144,8 +144,7 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
     player_id = it->second;
   }
 
-  // FIXME: buttons and axis are fighting for control ownership, need
-  // to OR the values together.
+  // FIXME: Buttons and axis are fighting for control ownership, need jump slightly if we encounter a suitable totem.
 
   //log_info << "axis event: " << static_cast<int>(ev.axis) << " " << ev.value << std::endl;
   Controller& controller = m_parent->get_controller(player_id);

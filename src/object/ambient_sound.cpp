@@ -70,7 +70,7 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   mapping.get("silence_distance",silence_distance);
 
   if (!Editor::is_active()) {
-    sound_source.reset(); // Resetting the sound source to stop playing at the beginning
+    sound_source.reset(); // Resetting the sound source to stop playing at the beginning.
     SoundManager::current()->preload(sample);
   }
   latency=0;
@@ -101,7 +101,7 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
     silence_distance = 1/distance_factor;
 
   if (!Editor::is_active()) {
-    sound_source.reset(); // Resetting the sound source to stop playing at the beginning
+    sound_source.reset(); // Resetting the sound source to stop playing at the beginning.
     SoundManager::current()->preload(sample);
   }
 }
