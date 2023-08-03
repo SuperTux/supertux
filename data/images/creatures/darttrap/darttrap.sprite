@@ -2,38 +2,74 @@
   (action
     (hitbox -13 2 32 38)
     (name "idle-left")
-	(loops 1)
-	(fps 10)
-    (images "empty-0.png"
-			"empty-1.png"
-			"empty-2.png"
-			"empty-3.png"
-			"empty-4.png")
+    (loops 1)
+    (fps 10)
+    (images "empty_left-0.png"
+			"empty_left-1.png"
+			"empty_left-2.png"
+			"empty_left-3.png"
+			"empty_left-4.png")
   )
   (action
-    (hitbox 1 2 32 38)
+    (hitbox 2 19 38 32)
+    (name "idle-down")
+    (loops 1)
+    (fps 10)
+    (images "empty_down-0.png"
+			"empty_down-1.png"
+			"empty_down-2.png"
+			"empty_down-3.png"
+			"empty_down-4.png")
+  )
+  (action
+    (hitbox 19 2 32 38)
     (name "idle-right")
-	(loops 1)
+    (loops 1)
 	(fps 10)
     (mirror-action "idle-left")
   )
   (action
+    (hitbox 2 -13 38 32)
+    (name "idle-up")
+	(loops 1)
+	(fps 10)
+    (flip-action "idle-down")
+  )
+
+  (action
     (hitbox -13 2 32 38)
     (name "loading-left")
+    (loops 1)
 	(fps 10)
-	(loops 1)
-    (images "empty-4.png"
-			"charge-0.png"
-			"charge-1.png"
-			"charge-2.png"
-			"charge-3.png"
-    )
+    (images "empty_left-4.png"
+			"charge_left-0.png"
+			"charge_left-1.png"
+			"charge_left-2.png"
+			"charge_left-3.png")
+  )
+  (action
+    (hitbox 2 19 38 32)
+    (name "loading-down")
+    (loops 1)
+	(fps 10)
+    (images "empty_down-4.png"
+			"charge_down-0.png"
+			"charge_down-1.png"
+			"charge_down-2.png"
+			"charge_down-3.png")
   )
   (action
     (hitbox 19 2 32 38)
     (name "loading-right")
+    (loops 1)
 	(fps 10)
-	(loops 1)
     (mirror-action "loading-left")
+  )
+  (action
+    (hitbox 2 -13 38 32)
+    (name "loading-up")
+	(loops 1)
+	(fps 10)
+    (flip-action "loading-down")
   )
 )
