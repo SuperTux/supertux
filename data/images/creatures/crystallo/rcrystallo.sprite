@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (name "left")
+    (name "left-upright")
     (fps 14)
     (hitbox 8 12 32 26)
     (images "left-0.png"
@@ -10,8 +10,13 @@
             "left-4.png"
             "left-5.png"
             "left-6.png"
-            "left-7.png"))
-
+            "left-7.png")
+  )
+  (action
+    (name "left")
+	(fps 14)
+    (hitbox 8 12 32 26)
+    (flip-action "left-upright"))
   (action
     (name "right")
     (fps 14)
