@@ -1,76 +1,39 @@
 (supertux-sprite
   (action
-    (hitbox 21 13 11 54)
+    (hitbox -13 2 32 38)
     (name "idle-left")
-    (loops 1)
-    (images "left-3.png"
-      "left-3.png"
-      "left-3.png"
-      "left-3.png"
-      "left-4.png"
-      "left-idle.png"
-    )
+	(loops 1)
+	(fps 10)
+    (images "empty-0.png"
+			"empty-1.png"
+			"empty-2.png"
+			"empty-3.png"
+			"empty-4.png")
   )
   (action
-    (hitbox 13 21 54 11)
-    (name "idle-down")
-    (loops 1)
-    (images "down-3.png"
-      "down-3.png"
-      "down-3.png"
-      "down-3.png"
-      "down-4.png"
-      "down-idle.png"
-    )
-  )
-  (action
-    (hitbox 21 13 11 54)
+    (hitbox 1 2 32 38)
     (name "idle-right")
-    (loops 1)
+	(loops 1)
+	(fps 10)
     (mirror-action "idle-left")
   )
   (action
-    (hitbox 13 18 54 11)
-    (name "idle-up")
-    (flip-action "idle-down")
-  )
-  (action
-    (hitbox 21 13 11 54)
+    (hitbox -13 2 32 38)
     (name "loading-left")
-    (fps 10)
-    (images 
-      "left-idle.png"
-      "left-1.png"
-      "left-2.png"
-      "left-3.png"
-      "left-3.png"
-      "left-3.png"
-      "left-3.png"
+	(fps 10)
+	(loops 1)
+    (images "empty-4.png"
+			"charge-0.png"
+			"charge-1.png"
+			"charge-2.png"
+			"charge-3.png"
     )
   )
   (action
-    (hitbox 13 21 54 11)
-    (name "loading-down")
-    (fps 10)
-    (images 
-      "down-idle.png"
-      "down-1.png"
-      "down-2.png"
-      "down-3.png"
-      "down-3.png"
-      "down-3.png"
-      "down-3.png"
-    )
-  )
-  (action
-    (hitbox 21 13 11 54)
+    (hitbox 19 2 32 38)
     (name "loading-right")
-    (fps 10)
+	(fps 10)
+	(loops 1)
     (mirror-action "loading-left")
-  )
-  (action
-    (hitbox 13 18 54 11)
-    (name "loading-up")
-    (flip-action "loading-down")
   )
 )
