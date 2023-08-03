@@ -73,12 +73,12 @@
     (mirror-action "dizzy-left")
   )
   (action
-    (hitbox 22 38 46 50)
+    (hitbox 22 38 46 32)
     (name "squished-left")
     (images "squished.png")
   )
   (action
-    (hitbox 22 38 46 50)
+    (hitbox 22 38 46 32)
     (name "squished-right")
     (mirror-action "squished-left")
   )
