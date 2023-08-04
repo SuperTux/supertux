@@ -227,8 +227,8 @@ BonusBlock::get_content_by_data(int tile_data) const
     case 13: return Content::AIRGROW;
     case 14: return Content::EARTHGROW;
     case 15: return Content::LIGHT_ON;
-    case 16: return Content::COFFEE;
-    case 17: return Content::HERRING;
+    case 16: return Content::RETROGROW;
+    case 17: return Content::RETROSTAR;
     default:
       log_warning << "Invalid box contents" << std::endl;
       return Content::COIN;
@@ -244,9 +244,9 @@ BonusBlock::get_settings()
   result.add_int(_("Count"), &m_hit_counter, "count", get_default_hit_counter());
   result.add_enum(_("Content"), reinterpret_cast<int*>(&m_contents),
                   { _("Coin"), _("Growth (fire flower)"), _("Growth (ice flower)"), _("Growth (air flower)"),
-                   _("Growth (earth flower)"), _("Star"), _("Tux doll"), _("Growth (mints, coffee)"), _("Herring"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
+                   _("Growth (earth flower)"), _("Growth (retro)"), _("Star"), _("Star (retro)"), _("Tux doll"), _("Custom"), _("Script"), _("Light"), _("Light (On)"),
                    _("Trampoline"), _("Portable trampoline"), _("Coin rain"), _("Coin explosion"), _("Rock"), _("Potion") },
-                  { "coin", "firegrow", "icegrow", "airgrow", "earthgrow", "star", "1up", "coffee", "herring", "custom", "script", "light", "light-on",
+                  { "coin", "firegrow", "icegrow", "airgrow", "earthgrow", "retrogrow", "star", "retrostar", "1up", "custom", "script", "light", "light-on",
                    "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion" },
                   static_cast<int>(Content::COIN), "contents");
   result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
@@ -355,6 +355,13 @@ BonusBlock::try_open(Player* player)
       break;
     }
 
+    case Content::RETROGROW:
+    {
+      raise_growup_bonus(player, FIRE_BONUS, direction,
+                         "images/powerups/retro/mints.png", "images/powerups/retro/coffee.png");
+      break;
+    }
+
     case Content::STAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, -32), direction);
@@ -362,24 +369,17 @@ BonusBlock::try_open(Player* player)
       break;
     }
 
-    case Content::ONEUP:
+    case Content::RETROSTAR:
     {
-      Sector::get().add<OneUp>(get_pos(), direction);
+      Sector::get().add<Star>(get_pos() + Vector(0, -32), direction,
+                              "images/powerups/retro/golden_herring.png");
       play_upgrade_sound = true;
       break;
     }
 
-    case Content::COFFEE:
+    case Content::ONEUP:
     {
-      raise_growup_bonus(player, FIRE_BONUS, direction,
-                         "images/powerups/retro/mints.png", "images/powerups/retro/coffee.png");
-      break;
-    }
-
-    case Content::HERRING:
-    {
-      Sector::get().add<Star>(get_pos() + Vector(0, -32), direction,
-                              "images/powerups/retro/golden_herring.png");
+      Sector::get().add<OneUp>(get_pos(), direction);
       play_upgrade_sound = true;
       break;
     }
@@ -518,6 +518,13 @@ BonusBlock::try_drop(Player *player)
       break;
     }
 
+    case Content::RETROGROW:
+    {
+      drop_growup_bonus(player, PowerUp::COFFEE, direction, countdown,
+                        "images/powerups/retro/mints.png");
+      break;
+    }
+
     case Content::STAR:
     {
       Sector::get().add<Star>(get_pos() + Vector(0, 32), direction);
@@ -526,25 +533,18 @@ BonusBlock::try_drop(Player *player)
       break;
     }
 
-    case Content::ONEUP:
+    case Content::RETROSTAR:
     {
-      Sector::get().add<OneUp>(get_pos(), Direction::DOWN);
+      Sector::get().add<Star>(get_pos() + Vector(0, 32), direction,
+                              "images/powerups/retro/golden_herring.png");
       play_upgrade_sound = true;
       countdown = true;
       break;
     }
 
-    case Content::COFFEE:
+    case Content::ONEUP:
     {
-      drop_growup_bonus(player, PowerUp::COFFEE, direction, countdown,
-                        "images/powerups/retro/mints.png");
-      break;
-    }
-
-    case Content::HERRING:
-    {
-      Sector::get().add<Star>(get_pos() + Vector(0, 32), direction,
-                              "images/powerups/retro/golden_herring.png");
+      Sector::get().add<OneUp>(get_pos(), Direction::DOWN);
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -678,14 +678,14 @@ BonusBlock::get_content_from_string(const std::string& contentstring) const
     return Content::AIRGROW;
   else if (contentstring == "earthgrow")
     return Content::EARTHGROW;
+  else if (contentstring == "retrogrow")
+    return Content::RETROGROW;
   else if (contentstring == "star")
     return Content::STAR;
+  else if (contentstring == "retrostar")
+    return Content::RETROSTAR;
   else if (contentstring == "1up")
     return Content::ONEUP;
-  else if (contentstring == "coffee")
-    return Content::COFFEE;
-  else if (contentstring == "herring")
-    return Content::HERRING;
   else if (contentstring == "custom")
     return Content::CUSTOM;
   else if (contentstring == "script")
