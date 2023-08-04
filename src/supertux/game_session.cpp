@@ -75,6 +75,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_ice_bullets_at_start(),
   m_active(false),
   m_end_seq_started(false),
+  m_pause_target_timer(false),
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
@@ -110,6 +111,7 @@ GameSession::reset_level()
 
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
+  m_pause_target_timer = false;
 }
 
 int
@@ -535,7 +537,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     assert(m_currentsector != nullptr);
     // Update the world
     if (!m_end_sequence || !m_end_sequence->is_running()) {
-      if (!m_level->m_is_in_cutscene)
+      if (!m_level->m_is_in_cutscene && !m_pause_target_timer)
       {
         m_play_time += dt_sec;
         m_level->m_stats.finish(m_play_time);
@@ -824,11 +826,21 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
   }
 
   // Stop all clocks.
-  for (const auto& obj : m_currentsector->get_objects())
+  for (LevelTime& lt : m_currentsector->get_objects_by_type<LevelTime>())
   {
-    auto lt = dynamic_cast<LevelTime*>(obj.get());
-    if (lt)
-      lt->stop();
+    lt.stop();
+  }
+}
+void 
+GameSession::set_target_timer_paused(bool paused)
+{
+  m_pause_target_timer = paused;
+  for (LevelTime& lt : m_currentsector->get_objects_by_type<LevelTime>())
+  {
+    if(paused)
+      lt.stop();
+    else
+      lt.start();
   }
 }
 

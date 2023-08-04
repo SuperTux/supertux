@@ -114,13 +114,6 @@ DrawingContext::pop_transform()
 const Rect
 DrawingContext::get_viewport() const
 {
-  Rect tmp(
-    static_cast<int>(static_cast<float>(m_viewport.left) / transform().scale),
-    static_cast<int>(static_cast<float>(m_viewport.top) / transform().scale),
-    static_cast<int>(static_cast<float>(m_viewport.right) / transform().scale),
-    static_cast<int>(static_cast<float>(m_viewport.bottom) / transform().scale)
-  );
-
   return m_viewport;
 }
 

@@ -127,11 +127,6 @@ public:
     return "images/objects/water_drop/water_drop.sprite";
   }
 
-  void set_sprite_action(const std::string& action, int loops = 1)
-  {
-    set_action(action, loops);
-  }
-
   /** Returns true if the badguy can currently be affected by wind */
   virtual bool can_be_affected_by_wind() const;
 
@@ -208,9 +203,6 @@ protected:
   /** Returns true if we might soon fall at least @c height
       pixels. Minimum value for height is 1 pixel */
   bool might_fall(int height = 1) const;
-
-  /** Get Direction from String. */
-  Direction str2dir(const std::string& dir_str) const;
 
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so

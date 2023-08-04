@@ -31,7 +31,7 @@ static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
+  BadGuy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
@@ -165,7 +165,7 @@ Stalactite::get_default_sprite_name() const
   switch (m_type)
   {
     case ROCK:
-      return "images/creatures/stalactite/rock_stalactite.sprite";
+      return "images/creatures/stalactite/stalactite_rock.sprite";
     default:
       return m_default_sprite_name;
   }
