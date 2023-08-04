@@ -50,6 +50,7 @@ private:
   enum Type {
     SNOW,
     WOODEN,
+    CORRUPTED,
     METAL,
     BAG
   };
