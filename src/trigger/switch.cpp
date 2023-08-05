@@ -35,8 +35,7 @@ Switch::Switch(const ReaderMapping& reader) :
   m_state(OFF),
   m_bistable(),
   m_dir(Direction::NONE),
-  m_dir_in_allowed(0),
-  m_allowed_directions({Direction::NONE, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN})
+  m_dir_in_allowed(0)
 {
   std::string dir_str;
   if (reader.get("direction", dir_str))
@@ -44,9 +43,11 @@ Switch::Switch(const ReaderMapping& reader) :
   else
     m_dir = Direction::NONE;
 
-  for (int i = 0; i < static_cast<int>(m_allowed_directions.size()); ++i)
+  auto allowed_directions = get_allowed_directions();
+
+  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
   {
-    if (m_allowed_directions[i] == m_dir)
+    if (allowed_directions[i] == m_dir)
     {
       m_dir_in_allowed = i;
       break;
@@ -70,7 +71,7 @@ Switch::get_settings()
 {
   ObjectSettings result = SpritedTrigger::get_settings();
 
-  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), m_allowed_directions[0], "direction", 0, m_allowed_directions);
+  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::NONE, "direction", 0, get_allowed_directions());
 
   result.add_script(_("Turn on script"), &m_script, "script");
   result.add_script(_("Turn off script"), &m_off_script, "off-script");
@@ -142,12 +143,18 @@ Switch::event(Player& , EventType type)
   }
 }
 
+std::vector<Direction>
+Switch::get_allowed_directions() const
+{
+  return {Direction::NONE, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN};
+}
+
 void
 Switch::after_editor_set()
 {
   SpritedTrigger::after_editor_set();
 
-  m_dir = m_allowed_directions[m_dir_in_allowed];
+  m_dir = get_allowed_directions()[m_dir_in_allowed];
   set_action("off", m_dir);
 }
 

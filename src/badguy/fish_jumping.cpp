@@ -33,7 +33,6 @@ FishJumping::FishJumping(const ReaderMapping& reader) :
   m_stop_y(0)
 {
   m_physic.enable_gravity(true);
-  m_allowed_directions = {};
 }
 
 void
@@ -170,6 +169,12 @@ bool
 FishJumping::is_freezable() const
 {
   return true;
+}
+
+std::vector<Direction>
+FishJumping::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

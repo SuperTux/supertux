@@ -38,7 +38,6 @@ DiveMine::DiveMine(const ReaderMapping& reader) :
 void
 DiveMine::reset_sprites()
 {
-  m_allowed_directions = {};
   set_action(m_dir);
   m_ticking_glow->set_action("idle");
 }
@@ -203,6 +202,12 @@ DiveMine::turn_around()
     return;
 
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
+}
+
+std::vector<Direction>
+DiveMine::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

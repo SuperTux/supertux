@@ -76,7 +76,6 @@ Yeti::Yeti(const ReaderMapping& reader) :
 
   reader.get("hud-icon", m_hud_icon, "images/creatures/yeti/hudlife.png");
   m_hud_head = Surface::from_file(m_hud_icon);
-  m_allowed_directions = {};
 
   initialize();
 
@@ -397,6 +396,12 @@ Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vect
   m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
   m_layer = Sector::get().get_foremost_layer() + 1;
+}
+
+std::vector<Direction>
+Yeti::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

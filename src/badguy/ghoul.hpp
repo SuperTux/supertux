@@ -49,6 +49,7 @@ public:
 
 protected:
   bool collision_squished(GameObject& object) override;
+  std::vector<Direction> get_allowed_directions() const override;
   
 private:
   enum MyState {

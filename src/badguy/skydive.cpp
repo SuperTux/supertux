@@ -28,7 +28,6 @@
 SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite")
 {
-  m_allowed_directions = {};
   SoundManager::current()->preload("sounds/explosion.wav");
   set_action("normal", 1);
 }
@@ -194,6 +193,12 @@ bool
 SkyDive::is_portable() const
 {
   return true;
+}
+
+std::vector<Direction>
+SkyDive::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

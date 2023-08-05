@@ -40,6 +40,9 @@ public:
   virtual void on_flip(float height) override;
 
 private:
+  virtual std::vector<Direction> get_allowed_directions() const;
+
+private:
   enum SwitchState {
     OFF,
     TURN_ON,
@@ -54,7 +57,6 @@ private:
   bool m_bistable;
   Direction m_dir;
   int m_dir_in_allowed;
-  std::vector<Direction> m_allowed_directions;
 
 private:
   Switch(const Switch&) = delete;

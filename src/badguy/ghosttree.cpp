@@ -57,8 +57,6 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/tree_howling.ogg");
   SoundManager::current()->preload("sounds/tree_suck.ogg");
-
-  m_allowed_directions = {};
 }
 
 void
@@ -262,6 +260,12 @@ void
 GhostTree::spawn_lantern()
 {
   Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
+}
+
+std::vector<Direction>
+GhostTree::get_allowed_directions() const
+{
+  return {};
 }
 
 void

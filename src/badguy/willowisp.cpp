@@ -85,8 +85,6 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_sprite->set_color(m_color);
   m_glowing = true;
 
-  m_allowed_directions = {};
-
   set_action("idle");
 }
 
@@ -351,6 +349,12 @@ WillOWisp::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+std::vector<Direction>
+WillOWisp::get_allowed_directions() const
+{
+  return {};
 }
 
 void

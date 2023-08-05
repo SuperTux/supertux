@@ -46,8 +46,6 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/cracking.wav");
   SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/icecrash.ogg");
-
-  m_allowed_directions = {};
 }
 
 void
@@ -198,6 +196,12 @@ Stalactite::deactivate()
 {
   if (state != STALACTITE_HANGING)
     remove_me();
+}
+
+std::vector<Direction>
+Stalactite::get_allowed_directions() const
+{
+  return {};
 }
 
 void

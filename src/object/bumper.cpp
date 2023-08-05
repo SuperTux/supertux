@@ -33,8 +33,7 @@ Bumper::Bumper(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
   m_dir(Direction::RIGHT),
-  m_dir_in_allowed(0),
-  m_allowed_directions({Direction::LEFT, Direction::RIGHT})
+  m_dir_in_allowed(0)
 {
   std::string dir_str;
   bool old_facing_left = false;
@@ -46,9 +45,11 @@ Bumper::Bumper(const ReaderMapping& reader) :
   set_action("normal", m_dir);
   m_physic.enable_gravity(false);
 
-  for (int i = 0; i < static_cast<int>(m_allowed_directions.size()); ++i)
+  auto allowed_directions = get_allowed_directions();
+
+  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
   {
-    if (m_allowed_directions[i] == m_dir)
+    if (allowed_directions[i] == m_dir)
     {
       m_dir_in_allowed = i;
       break;
@@ -61,7 +62,7 @@ Bumper::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::RIGHT, "direction", 0, m_allowed_directions);
+  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::RIGHT, "direction", 0, get_allowed_directions());
   result.reorder({"direction", "sprite", "x", "y"});
   return result;
 }
@@ -101,12 +102,18 @@ Bumper::get_physic()
   return m_physic;
 }
 
+std::vector<Direction>
+Bumper::get_allowed_directions() const
+{
+  return {Direction::LEFT, Direction::RIGHT};
+}
+
 void
 Bumper::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  m_dir = m_allowed_directions[m_dir_in_allowed];
+  m_dir = get_allowed_directions()[m_dir_in_allowed];
   set_action("normal", m_dir);
 }
 

@@ -42,6 +42,9 @@ public:
 
   void kill_squished(GameObject& object);
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   void run();
   void jump_up();

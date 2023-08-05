@@ -65,12 +65,12 @@ public:
 
 private:
   void update_hitbox() override;
+  virtual std::vector<Direction> get_allowed_directions() const;
 
 private:
   bool m_running;
   Direction m_dir;
   int m_dir_in_allowed;
-  std::vector<Direction> m_allowed_directions;
   int m_length;
   float m_speed;
 

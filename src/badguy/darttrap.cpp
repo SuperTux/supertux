@@ -42,7 +42,6 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("ammo", m_ammo, -1);
   reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/skull_dart.sprite");
   m_countMe = false;
-  m_allowed_directions = {Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN};
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
   m_state = IDLE;
@@ -152,6 +151,12 @@ DartTrap::get_settings()
   result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
 
   return result;
+}
+
+std::vector<Direction>
+DartTrap::get_allowed_directions() const
+{
+  return {Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN};
 }
 
 void

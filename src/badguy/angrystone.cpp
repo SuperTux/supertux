@@ -36,7 +36,6 @@ AngryStone::AngryStone(const ReaderMapping& reader) :
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
   m_physic.enable_gravity(true);
-  m_allowed_directions = {};
   set_action("idle");
 }
 
@@ -196,6 +195,12 @@ bool
 AngryStone::is_flammable() const
 {
   return false;
+}
+
+std::vector<Direction>
+AngryStone::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

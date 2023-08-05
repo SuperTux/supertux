@@ -35,8 +35,7 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   m_script(),
   m_state(OFF),
   m_dir(Direction::UP),
-  m_dir_in_allowed(0),
-  m_allowed_directions({Direction::UP, Direction::DOWN})
+  m_dir_in_allowed(0)
 {
   SoundManager::current()->preload(BUTTON_SOUND);
 
@@ -53,9 +52,11 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   else if (mapping.get("upside-down", old_upside_down) && old_upside_down)
     m_dir = Direction::DOWN;
 
-  for (int i = 0; i < static_cast<int>(m_allowed_directions.size()); ++i)
+  auto allowed_directions = get_allowed_directions();
+
+  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
   {
-    if (m_allowed_directions[i] == m_dir)
+    if (allowed_directions[i] == m_dir)
     {
       m_dir_in_allowed = i;
       break;
@@ -70,7 +71,7 @@ PushButton::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::UP, "direction", 0, m_allowed_directions);
+  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::UP, "direction", 0, get_allowed_directions());
   result.add_script(_("Script"), &m_script, "script");
 
   result.reorder({"direction", "script", "x", "y"});
@@ -82,7 +83,7 @@ void
 PushButton::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  m_dir = m_allowed_directions[m_dir_in_allowed];
+  m_dir = get_allowed_directions()[m_dir_in_allowed];
   set_action("off", m_dir);
 }
 
@@ -141,6 +142,12 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   Sector::get().run_script(m_script, "PushButton");
 
   return FORCE_MOVE;
+}
+
+std::vector<Direction>
+PushButton::get_allowed_directions() const
+{
+  return {Direction::UP, Direction::DOWN};
 }
 
 void

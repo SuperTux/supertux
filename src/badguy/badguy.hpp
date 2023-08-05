@@ -22,10 +22,10 @@
 #include "object/portable.hpp"
 #include "scripting/badguy.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
+enum class Direction;
 class Player;
 class Bullet;
 
@@ -184,6 +184,9 @@ protected:
   /** called when the badguy has been deactivated */
   virtual void deactivate();
 
+  /** returns a vector of dorections the BadGuy can be set to */
+  virtual std::vector<Direction> get_allowed_directions() const;
+
   void kill_squished(GameObject& object);
 
   void set_state(State state);
@@ -253,8 +256,6 @@ protected:
   /** The order of the direction in the allowed directions,
       does not correspond to the actual direction!*/
   int m_dir_in_allowed;
-
-  std::vector<Direction> m_allowed_directions;
 
   bool m_frozen;
   bool m_ignited; /**< true if this badguy is currently on fire */

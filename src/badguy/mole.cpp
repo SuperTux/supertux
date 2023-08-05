@@ -41,8 +41,6 @@ Mole::Mole(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/dartfire.wav");
-
-  m_allowed_directions = {};
 }
 
 void
@@ -170,6 +168,12 @@ Mole::ignite() {
   set_state(BURNING);
   run_dead_script();
   SoundManager::current()->play("sounds/fire.ogg", get_pos());
+}
+
+std::vector<Direction>
+Mole::get_allowed_directions() const
+{
+  return {};
 }
 
 void

@@ -58,7 +58,6 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_dir(direction),
   m_start_dir(direction),
   m_dir_in_allowed(0),
-  m_allowed_directions({Direction::AUTO, Direction::LEFT, Direction::RIGHT}),
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
@@ -84,9 +83,11 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
 
-  for (int i = 0; i < static_cast<int>(m_allowed_directions.size()); ++i)
+  auto allowed_directions = get_allowed_directions();
+
+  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
   {
-    if (m_allowed_directions[i] == m_start_dir)
+    if (allowed_directions[i] == m_start_dir)
     {
       m_dir_in_allowed = i;
       break;
@@ -105,7 +106,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_dir(Direction::LEFT),
   m_start_dir(Direction::AUTO),
   m_dir_in_allowed(0),
-  m_allowed_directions({Direction::AUTO, Direction::LEFT, Direction::RIGHT}),
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
@@ -138,9 +138,11 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_dir = (m_start_dir == Direction::AUTO) ? Direction::LEFT : m_start_dir;
   m_lightsprite->set_blend(Blend::ADD);
 
-  for (int i = 0; i < static_cast<int>(m_allowed_directions.size()); ++i)
+  auto allowed_directions = get_allowed_directions();
+
+  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
   {
-    if (m_allowed_directions[i] == m_start_dir)
+    if (allowed_directions[i] == m_start_dir)
     {
       m_dir_in_allowed = i;
       break;
@@ -325,6 +327,12 @@ BadGuy::activate()
 void
 BadGuy::deactivate()
 {
+}
+
+std::vector<Direction>
+BadGuy::get_allowed_directions() const
+{
+  return {Direction::AUTO, Direction::LEFT, Direction::RIGHT};
 }
 
 void
@@ -1060,8 +1068,8 @@ BadGuy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  if (!m_allowed_directions.empty())
-  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::AUTO, "direction", 0, m_allowed_directions);
+  if (!get_allowed_directions().empty())
+  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::AUTO, "direction", 0, get_allowed_directions());
   result.add_script(_("Death script"), &m_dead_script, "dead-script");
 
   result.reorder({"direction", "sprite", "x", "y"});
@@ -1074,7 +1082,9 @@ BadGuy::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  m_start_dir = m_allowed_directions[m_dir_in_allowed];
+  if (!get_allowed_directions().empty())
+    m_start_dir = get_allowed_directions()[m_dir_in_allowed];
+  else m_start_dir = Direction::AUTO;
 
   if (m_dir == Direction::AUTO)
   {

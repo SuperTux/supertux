@@ -35,7 +35,6 @@ FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   puff_timer()
 {
   m_physic.enable_gravity(false);
-  m_allowed_directions = {};
 }
 
 void
@@ -105,6 +104,12 @@ FlyingSnowBall::active_update(float dt_sec)
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
   }
 
+}
+
+std::vector<Direction>
+FlyingSnowBall::get_allowed_directions() const
+{
+  return std::vector<Direction>();
 }
 
 /* EOF */

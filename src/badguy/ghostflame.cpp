@@ -20,7 +20,6 @@ Ghostflame::Ghostflame(const ReaderMapping& reader) :
   Flame(reader, "images/creatures/flame/ghostflame.sprite")
 {
   m_lightsprite->set_color(Color(0.21f, 0.00f, 0.21f));
-  m_allowed_directions = {};
 }
 
 bool
@@ -33,6 +32,12 @@ bool
 Ghostflame::is_freezable() const
 {
   return false;
+}
+
+std::vector<Direction>
+Ghostflame::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */
