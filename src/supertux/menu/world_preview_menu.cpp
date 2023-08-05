@@ -35,14 +35,14 @@ WorldPreviewMenu::WorldPreviewMenu() :
 {
 }
 
-ItemAction*
+ItemAction&
 WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
                             SurfacePtr preview, Savegame::Progress progress)
 {
   ItemAction& item = add_entry(static_cast<int>(m_world_entries.size()), title);
   item.set_preview(preview);
   m_world_entries.push_back({ folder, progress });
-  return &item;
+  return item;
 }
 
 SurfacePtr
@@ -64,7 +64,7 @@ WorldPreviewMenu::find_preview(const std::string& preview_file, const std::strin
 }
 
 void
-WorldPreviewMenu::draw_preview_data(DrawingContext& context, const Rectf& preview_rect, const float& alpha)
+WorldPreviewMenu::draw_preview_data(DrawingContext& context, const Rectf& preview_rect, float alpha)
 {
   const int index = m_items[m_last_preview_item]->get_id();
   if (index < 0 || index >= static_cast<int>(m_world_entries.size())) // Not a valid world index.
@@ -75,7 +75,7 @@ WorldPreviewMenu::draw_preview_data(DrawingContext& context, const Rectf& previe
   if (progress.progress > -1) // Progress should be drawn.
     context.color().draw_text(Resources::normal_font,
                               std::to_string(progress.progress) + "/" + std::to_string(progress.total)
-                                + " (" + std::to_string(progress.progress / progress.total * 100) + "%)",
+                                + " (" + (progress.progress > 0 ? std::to_string(static_cast<int>(static_cast<float>(progress.progress) / progress.total * 100)) : "0") + "%)",
                               Vector(preview_rect.get_left() + s_preview_size.width / 2, preview_rect.get_bottom() * 1.05f),
                               ALIGN_CENTER, LAYER_GUI, Color(1, 1, 1, alpha));
 }

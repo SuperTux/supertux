@@ -170,14 +170,7 @@ WorldMapSector::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(m_camera->get_offset());
 
-  for (const auto& object : get_objects())
-  {
-    if (!object->is_valid() ||
-        (m_parent.m_quit_request && dynamic_cast<PlayerStatusHUD*>(object.get())))
-      continue;
-
-    object->draw(context);
-  }
+  GameObjectManager::draw(context);
 
   if (g_debug.show_worldmap_path)
   {
@@ -199,7 +192,7 @@ WorldMapSector::draw(DrawingContext& context)
     }
   }
 
-  if (!m_parent.m_quit_request)
+  if (!m_parent.m_screenshot_request)
     draw_status(context);
 }
 

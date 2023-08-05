@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
-//                2022 Vankata453
+//                2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -39,15 +39,15 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
       ItemAction* item;
       if (world->is_levelset())
       {
-        item = add_world("[" + world->get_title() + "]", world->get_basedir());
+        item = &add_world("[" + world->get_title() + "]", world->get_basedir());
       }
       else
       {
         const std::string preview_file = FileSystem::join("previews", FileSystem::strip_extension(FileSystem::basename(world->get_savegame_filename())) + ".png");
         SurfacePtr preview = find_preview(preview_file, world->get_basedir());
 
-        item = add_world(world->get_title(), world->get_basedir(),
-                         preview, Savegame::progress_from_file(world->get_savegame_filename()));
+        item = &add_world(world->get_title(), world->get_basedir(),
+                          preview, Savegame::progress_from_file(world->get_savegame_filename()));
       }
       item->set_help(world->get_description());
     }

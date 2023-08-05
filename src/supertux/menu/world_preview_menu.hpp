@@ -31,11 +31,11 @@ public:
   void menu_action(MenuItem& item) override;
 
 protected:
-  ItemAction* add_world(const std::string& title, const std::string& folder,
+  ItemAction& add_world(const std::string& title, const std::string& folder,
                         SurfacePtr preview = nullptr, Savegame::Progress progress = { -1, -1 });
 
   SurfacePtr find_preview(const std::string& preview_file, const std::string& basedir);
-  void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, const float& alpha) override;
+  void draw_preview_data(DrawingContext& context, const Rectf& preview_rect, float alpha) override;
 
 private:
   struct WorldEntry

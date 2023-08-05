@@ -28,6 +28,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/player_status_hud.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
@@ -65,7 +66,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   m_enter_level(false),
   m_in_level(false),
   m_in_world_select(false),
-  m_quit_request(false)
+  m_screenshot_request(false)
 {
   SoundManager::current()->preload("sounds/warp.wav");
 
@@ -121,7 +122,7 @@ WorldMap::setup()
 void
 WorldMap::leave()
 {
-  if (m_quit_request)
+  if (m_screenshot_request)
   {
     take_preview_screenshot();
     ScreenManager::current()->set_draw_hud(true);
@@ -136,8 +137,11 @@ WorldMap::leave()
 void
 WorldMap::quit()
 {
-  m_quit_request = true;
+  // Prepare to take preview screenshot, when leaving the worldmap.
+  m_screenshot_request = true;
   ScreenManager::current()->set_draw_hud(false);
+  m_sector->get_singleton_by_type<PlayerStatusHUD>().remove_me();
+
   ScreenManager::current()->pop_screen();
 }
 

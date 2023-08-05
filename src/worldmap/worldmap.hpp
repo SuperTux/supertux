@@ -115,7 +115,7 @@ private:
   bool m_enter_level;
   bool m_in_level;
   bool m_in_world_select;
-  bool m_quit_request;
+  bool m_screenshot_request;
 
 private:
   WorldMap(const WorldMap&) = delete;

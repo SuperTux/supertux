@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Matthew <thebatmankiller3@gmail.com>
-//                2022 Vankata453
+//                2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,16 +22,13 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 
-WorldSetMenu::WorldSetMenu() :
-  WorldPreviewMenu()
+WorldSetMenu::WorldSetMenu()
 {
   add_label(_("Start Game"));
   add_hl();
 
   // Add Story Mode entry.
-  const std::string basedir = "levels/world1";
-  const std::string preview_file = "previews/world1.png";
-  add_world(_("Story Mode"), basedir, find_preview(preview_file, basedir));
+  add_world(_("Story Mode"), "levels/world1", find_preview("previews/world1.png", "levels/world1"));
 
   add_entry(1, _("Contrib Levels"));
   add_hl();
