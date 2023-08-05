@@ -20,6 +20,7 @@
 #include "object/player.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -31,21 +32,37 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 
 PushButton::PushButton(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
-  script(),
-  state(OFF),
-  m_upside_down(false)
+  m_script(),
+  m_state(OFF),
+  m_dir(Direction::UP),
+  m_dir_in_allowed(0),
+  m_allowed_directions({Direction::UP, Direction::DOWN})
 {
   SoundManager::current()->preload(BUTTON_SOUND);
-  set_action("off", -1);
 
-  if (!mapping.get("script", script))
+  if (!mapping.get("script", m_script))
   {
     log_warning << "No script set for pushbutton." << std::endl;
   }
 
-  mapping.get("upside-down", m_upside_down);
-  if (m_upside_down)
-    FlipLevelTransformer::transform_flip(m_flip);
+  bool old_upside_down;
+  std::string dir_str;
+
+  if (mapping.get("direction", dir_str))
+    m_dir = string_to_dir(dir_str);
+  else if (mapping.get("upside-down", old_upside_down) && old_upside_down)
+    m_dir = Direction::DOWN;
+
+  for (int i = 0; i < static_cast<int>(m_allowed_directions.size()); ++i)
+  {
+    if (m_allowed_directions[i] == m_dir)
+    {
+      m_dir_in_allowed = i;
+      break;
+    }
+  }
+
+  set_action("off", m_dir, -1);
 }
 
 ObjectSettings
@@ -53,10 +70,10 @@ PushButton::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_script(_("Script"), &script, "script");
-  result.add_bool(_("Upside down"), &m_upside_down, "upside-down");
+  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::UP, "direction", 0, m_allowed_directions);
+  result.add_script(_("Script"), &m_script, "script");
 
-  result.reorder({"script", "upside-down", "x", "y"});
+  result.reorder({"direction", "script", "x", "y"});
 
   return result;
 }
@@ -65,8 +82,8 @@ void
 PushButton::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  if ((m_upside_down && m_flip == NO_FLIP) || (!m_upside_down && m_flip == VERTICAL_FLIP))
-    FlipLevelTransformer::transform_flip(m_flip);
+  m_dir = m_allowed_directions[m_dir_in_allowed];
+  set_action("off", m_dir);
 }
 
 void
@@ -85,7 +102,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   {
     float vy = player->get_physic().get_velocity_y();
 
-    if (m_upside_down)
+    if (m_dir == Direction::DOWN)
     {
       if (vy >= 0)
         return FORCE_MOVE;
@@ -106,22 +123,22 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
     }
 	}
 
-  if (state != OFF || !(m_upside_down ? hit.bottom : hit.top))
+  if (m_state != OFF || !(m_dir == Direction::DOWN ? hit.bottom : hit.top))
     return FORCE_MOVE;
 
   // change appearance
-  state = ON;
+  m_state = ON;
   float old_bbox_height = m_col.m_bbox.get_height();
-  set_action("on", -1);
+  set_action("on", m_dir, -1);
   float new_bbox_height = m_col.m_bbox.get_height();
   Vector delta(0, old_bbox_height - new_bbox_height);
-  set_pos(get_pos() + delta * (m_upside_down ? 0 : 1.f));
+  set_pos(get_pos() + delta * (m_dir == Direction::DOWN ? 0 : 1.f));
 
   // play sound
   SoundManager::current()->play(BUTTON_SOUND, get_pos());
 
   // run script
-  Sector::get().run_script(script, "PushButton");
+  Sector::get().run_script(m_script, "PushButton");
 
   return FORCE_MOVE;
 }
@@ -130,8 +147,8 @@ void
 PushButton::on_flip(float height)
 {
   MovingSprite::on_flip(height);
-  FlipLevelTransformer::transform_flip(m_flip);
-  m_upside_down = !m_upside_down;
+  m_dir = m_dir == Direction::UP ? Direction::DOWN : Direction::UP;
+  set_action(m_state == OFF ? "off" : "on", m_dir);
 }
 
 /* EOF */

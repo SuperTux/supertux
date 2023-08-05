@@ -20,6 +20,7 @@
 
 #include "supertux/physic.hpp"
 
+enum class Direction;
 class Player;
 
 class Bumper final : public MovingSprite
@@ -44,7 +45,10 @@ public:
 
 private:
   Physic m_physic;
-  bool m_facing_left;
+
+  Direction m_dir;
+  int m_dir_in_allowed;
+  std::vector<Direction> m_allowed_directions;
 
 private:
   Bumper(const Bumper&) = delete;

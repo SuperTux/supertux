@@ -32,11 +32,28 @@ const float BOUNCE_X = 700.0f;
 Bumper::Bumper(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
-  m_facing_left()
+  m_dir(Direction::RIGHT),
+  m_dir_in_allowed(0),
+  m_allowed_directions({Direction::LEFT, Direction::RIGHT})
 {
-  reader.get("left", m_facing_left);
-  set_action(m_facing_left ? "left-normal" : "right-normal");
+  std::string dir_str;
+  bool old_facing_left = false;
+
+  if (reader.get("direction", dir_str))
+    m_dir = string_to_dir(dir_str);
+  else if (reader.get("left", old_facing_left) && old_facing_left)
+    m_dir = Direction::LEFT;
+  set_action("normal", m_dir);
   m_physic.enable_gravity(false);
+
+  for (int i = 0; i < static_cast<int>(m_allowed_directions.size()); ++i)
+  {
+    if (m_allowed_directions[i] == m_dir)
+    {
+      m_dir_in_allowed = i;
+      break;
+    }
+  }
 }
 
 ObjectSettings
@@ -44,8 +61,8 @@ Bumper::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_bool(_("Facing Left"), &m_facing_left, "left", false);
-  result.reorder({"left", "sprite", "x", "y"});
+  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::RIGHT, "direction", 0, m_allowed_directions);
+  result.reorder({"direction", "sprite", "x", "y"});
   return result;
 }
 
@@ -53,9 +70,7 @@ void
 Bumper::update(float dt_sec)
 {
   if (m_sprite->animation_done())
-  {
-    set_action(m_facing_left ? "left-normal" : "right-normal");
-  }
+    set_action("normal", m_dir);
   m_col.set_movement(m_physic.get_movement (dt_sec));
 }
 
@@ -65,11 +80,11 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
-    float BOUNCE_DIR = m_facing_left ? -BOUNCE_X : BOUNCE_X;
+    float BOUNCE_DIR = m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X;
     player->get_physic().set_velocity(0.f, player->is_swimming() ? 0.f : BOUNCE_Y);
     player->sideways_push(BOUNCE_DIR);
     SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-    set_action((m_facing_left ? "left-swinging" : "right-swinging"), 1);
+    set_action("swinging", m_dir, 1);
   }
   auto bumper = dynamic_cast<Bumper*> (&other);
   if (bumper)
@@ -90,7 +105,9 @@ void
 Bumper::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  set_action(m_facing_left ? "left-normal" : "right-normal");
+
+  m_dir = m_allowed_directions[m_dir_in_allowed];
+  set_action("normal", m_dir);
 }
 
 void

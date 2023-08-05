@@ -19,6 +19,8 @@
 
 #include "object/moving_sprite.hpp"
 
+enum class Direction;
+
 /** PushButton - jump on it to run a script */
 class PushButton final : public MovingSprite
 {
@@ -43,9 +45,12 @@ private:
     ON
   };
 
-  std::string script;
-  PushButtonState state;
-  bool m_upside_down;
+  std::string m_script;
+  PushButtonState m_state;
+
+  Direction m_dir;
+  int m_dir_in_allowed;
+  std::vector<Direction> m_allowed_directions;
 
 private:
   PushButton(const PushButton&) = delete;
