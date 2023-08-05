@@ -37,11 +37,31 @@ WorldPreviewMenu::WorldPreviewMenu() :
 
 ItemAction&
 WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
-                            SurfacePtr preview, Savegame::Progress progress)
+                            Savegame::Progress progress, SurfacePtr preview)
 {
   ItemAction& item = add_entry(static_cast<int>(m_world_entries.size()), title);
-  item.set_preview(preview);
-  m_world_entries.push_back({ folder, progress });
+
+  std::stringstream out;
+  if (!preview) // No preview, progress should be shown on the menu item.
+  {
+    if (progress.total > 0) // Only show progress, if provided.
+    {
+      out << title << " (" << progress.solved << "/" << progress.total << "; " << progress.get_percentage() << "%)";
+      item.set_text(out.str());
+    }
+
+    m_world_entries.push_back({ folder, "" });
+  }
+  else // Progress can be shown under the preview.
+  {
+    item.set_preview(preview);
+
+    if (progress.total > 0) // Only show progress, if provided.
+      out << progress.solved << "/" << progress.total << " (" << progress.get_percentage() << "%)";
+
+    m_world_entries.push_back({ folder, out.str() });
+  }
+
   return item;
 }
 
@@ -71,11 +91,8 @@ WorldPreviewMenu::draw_preview_data(DrawingContext& context, const Rectf& previe
     return;
 
   // Draw world progress.
-  const Savegame::Progress& progress = m_world_entries[index].progress;
-  if (progress.progress > -1) // Progress should be drawn.
-    context.color().draw_text(Resources::normal_font,
-                              std::to_string(progress.progress) + "/" + std::to_string(progress.total)
-                                + " (" + (progress.progress > 0 ? std::to_string(static_cast<int>(static_cast<float>(progress.progress) / progress.total * 100)) : "0") + "%)",
+  if (!m_world_entries[index].progress_text.empty())
+    context.color().draw_text(Resources::normal_font, m_world_entries[index].progress_text,
                               Vector(preview_rect.get_left() + s_preview_size.width / 2, preview_rect.get_bottom() * 1.05f),
                               ALIGN_CENTER, LAYER_GUI, Color(1, 1, 1, alpha));
 }
@@ -89,7 +106,7 @@ WorldPreviewMenu::menu_action(MenuItem& item)
     std::unique_ptr<World> world = World::from_directory(m_world_entries[index].folder);
     if (world->is_levelset())
     {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribLevelsetMenu(std::move(world))));
+      MenuManager::instance().push_menu(std::make_unique<ContribLevelsetMenu>(std::move(world)));
     }
     else
     {

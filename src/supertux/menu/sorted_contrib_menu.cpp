@@ -18,7 +18,6 @@
 #include "supertux/menu/sorted_contrib_menu.hpp"
 
 #include "gui/item_action.hpp"
-#include "supertux/levelset.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
@@ -30,16 +29,19 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
   add_hl();
 
   bool has_worlds = false;
-  for (auto& world : worlds)
+  for (const auto& world : worlds)
   {
     if (world->get_contrib_type() == contrib_type)
     {
       has_worlds = true;
 
+      const auto savegame = Savegame::from_file(world->get_savegame_filename());
+
       ItemAction* item;
       if (world->is_levelset())
       {
-        item = &add_world("[" + world->get_title() + "]", world->get_basedir());
+        item = &add_world("[" + world->get_title() + "]", world->get_basedir(),
+                          savegame->get_levelset_progress());
       }
       else
       {
@@ -47,7 +49,7 @@ SortedContribMenu::SortedContribMenu(std::vector<std::unique_ptr<World>>& worlds
         SurfacePtr preview = find_preview(preview_file, world->get_basedir());
 
         item = &add_world(world->get_title(), world->get_basedir(),
-                          preview, Savegame::progress_from_file(world->get_savegame_filename()));
+                          savegame->get_worldmap_progress(), preview);
       }
       item->set_help(world->get_description());
     }
