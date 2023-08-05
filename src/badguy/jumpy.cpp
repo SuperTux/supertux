@@ -33,6 +33,8 @@ Jumpy::Jumpy(const ReaderMapping& reader) :
   set_action(m_dir, "middle");
   // TODO create a nice sound for this...
   //SoundManager::current()->preload("sounds/skid.wav");
+
+  m_allowed_directions = {};
 }
 
 void

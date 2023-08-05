@@ -24,6 +24,7 @@ static const float YT_SHAKE_TIME = .8f;
 YetiStalactite::YetiStalactite(const ReaderMapping& mapping) :
   Stalactite(mapping)
 {
+  m_allowed_directions = {};
 }
 
 void

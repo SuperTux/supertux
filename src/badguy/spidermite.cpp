@@ -28,6 +28,7 @@ SpiderMite::SpiderMite(const ReaderMapping& reader) :
   timer()
 {
   m_physic.enable_gravity(false);
+  m_allowed_directions = {};
 }
 
 void

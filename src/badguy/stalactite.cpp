@@ -46,6 +46,8 @@ Stalactite::Stalactite(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/cracking.wav");
   SoundManager::current()->preload("sounds/sizzle.ogg");
   SoundManager::current()->preload("sounds/icecrash.ogg");
+
+  m_allowed_directions = {};
 }
 
 void

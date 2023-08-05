@@ -85,6 +85,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   m_sprite->set_color(m_color);
   m_glowing = true;
 
+  m_allowed_directions = {};
+
   set_action("idle");
 }
 
@@ -307,7 +309,6 @@ WillOWisp::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir);
   result.add_text(_("Sector"), &m_target_sector, "sector");
   result.add_text(_("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
   result.add_text(_("Hit script"), &m_hit_script, "hit-script");

@@ -32,6 +32,8 @@ dir_to_string(const Direction& dir)
 {
   switch (dir)
   {
+    case Direction::NONE:
+      return "none";
     case Direction::LEFT:
       return "left";
     case Direction::RIGHT:
@@ -53,7 +55,9 @@ dir_to_string(const Direction& dir)
 Direction
 string_to_dir(const std::string& dir_str)
 {
-  if (dir_str == "left")
+  if (dir_str == "none")
+    return Direction::NONE;
+  else if (dir_str == "left")
     return Direction::LEFT;
   else if (dir_str == "right")
     return Direction::RIGHT;

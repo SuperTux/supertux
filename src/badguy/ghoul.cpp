@@ -40,6 +40,8 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   reader.get("running", running, false);
 
   init_path(reader, running);
+
+  m_allowed_directions = {};
   
   set_action(m_dir);
 }

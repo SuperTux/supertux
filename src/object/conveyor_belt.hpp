@@ -69,6 +69,8 @@ private:
 private:
   bool m_running;
   Direction m_dir;
+  int m_dir_in_allowed;
+  std::vector<Direction> m_allowed_directions;
   int m_length;
   float m_speed;
 

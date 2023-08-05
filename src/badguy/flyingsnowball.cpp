@@ -35,6 +35,7 @@ FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   puff_timer()
 {
   m_physic.enable_gravity(false);
+  m_allowed_directions = {};
 }
 
 void

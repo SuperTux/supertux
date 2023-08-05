@@ -250,6 +250,12 @@ protected:
   /** The direction we initially faced in */
   Direction m_start_dir;
 
+  /** The order of the direction in the allowed directions,
+      does not correspond to the actual direction!*/
+  int m_dir_in_allowed;
+
+  std::vector<Direction> m_allowed_directions;
+
   bool m_frozen;
   bool m_ignited; /**< true if this badguy is currently on fire */
   bool m_in_water; /** < true if the badguy is currently in water */

@@ -49,6 +49,7 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   set_action("falling");
   m_physic.enable_gravity(false);
   m_countMe = false;
+  m_allowed_directions = {};
 
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.2f, 0.1f, 0.0f));

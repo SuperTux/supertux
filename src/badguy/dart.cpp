@@ -34,6 +34,8 @@ Dart::Dart(const ReaderMapping& reader) :
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
+  m_allowed_directions = {Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN};
+
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
@@ -48,6 +50,8 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::str
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
+  m_allowed_directions = {Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN};
+
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");

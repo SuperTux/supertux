@@ -38,6 +38,7 @@ DiveMine::DiveMine(const ReaderMapping& reader) :
 void
 DiveMine::reset_sprites()
 {
+  m_allowed_directions = {};
   set_action(m_dir);
   m_ticking_glow->set_action("idle");
 }

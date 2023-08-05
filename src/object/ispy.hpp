@@ -56,6 +56,8 @@ private:
 
   std::string m_script; /**< script to execute when Tux is spotted */
   Direction m_dir;
+  std::vector<Direction> m_allowed_directions;
+  int m_dir_in_allowed;
 
 private:
   Ispy(const Ispy&) = delete;

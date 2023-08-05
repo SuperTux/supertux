@@ -41,6 +41,8 @@ Mole::Mole(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/dartfire.wav");
+
+  m_allowed_directions = {};
 }
 
 void

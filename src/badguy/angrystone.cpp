@@ -36,6 +36,7 @@ AngryStone::AngryStone(const ReaderMapping& reader) :
   m_physic.set_velocity_x(0);
   m_physic.set_velocity_y(0);
   m_physic.enable_gravity(true);
+  m_allowed_directions = {};
   set_action("idle");
 }
 

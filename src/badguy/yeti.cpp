@@ -76,6 +76,7 @@ Yeti::Yeti(const ReaderMapping& reader) :
 
   reader.get("hud-icon", hud_icon, "images/creatures/yeti/hudlife.png");
   hud_head = Surface::from_file(hud_icon);
+  m_allowed_directions = {};
 
   initialize();
 

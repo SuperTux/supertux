@@ -29,6 +29,7 @@ Iceflame::Iceflame(const ReaderMapping& reader) :
   Flame(reader, "images/creatures/flame/iceflame.sprite")
 {
   m_lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
+  m_allowed_directions = {};
 }
 
 void

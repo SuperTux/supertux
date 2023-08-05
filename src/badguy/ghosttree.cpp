@@ -57,6 +57,8 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/tree_howling.ogg");
   SoundManager::current()->preload("sounds/tree_suck.ogg");
+
+  m_allowed_directions = {};
 }
 
 void

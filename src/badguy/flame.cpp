@@ -49,6 +49,7 @@ Flame::Flame(const ReaderMapping& reader, const std::string& sprite) :
 
   m_lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
   m_glowing = true;
+  m_allowed_directions = {};
 }
 
 ObjectSettings

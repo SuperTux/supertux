@@ -21,6 +21,7 @@
 
 #include "util/gettext.hpp"
 #include "video/color.hpp"
+#include "supertux/direction.hpp"
 
 ObjectSettings::ObjectSettings(const std::string& name) :
   m_name(name),
@@ -113,12 +114,40 @@ ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
 void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
                               std::optional<Direction> default_value,
-                              const std::string& key, unsigned int flags)
+                              const std::string& key, unsigned int flags,
+                              std::vector<Direction> possible_directions)
 {
+  std::vector<std::string> direction_labels, direction_symbols;
+  if (!possible_directions.empty())
+  {
+    for (Direction direction : possible_directions)
+    {
+      direction_labels.push_back(_(dir_to_string(direction)));
+      direction_symbols.push_back(dir_to_string(direction));
+    }
+  }
+  else
+  {
+    direction_labels = {_("auto"), _("none"), _("left"), _("right"), _("up"), _("down")};
+    direction_symbols = {"auto", "none", "left", "right", "up", "down"};
+  }
+
+  int new_default_value = -1;
+  if (default_value)
+  {
+    for (int i = 0; i < static_cast<int>(direction_symbols.size()); ++i)
+    {
+      if (string_to_dir(direction_symbols[i]) == *default_value)
+      {
+        new_default_value = i;
+        break;
+      }
+    }
+  }
+
   add_enum(text, reinterpret_cast<int*>(value_ptr),
-           {_("auto"), _("left"), _("right"), _("up"), _("down")},
-           {"auto", "left", "right", "up", "down"},
-           default_value ? static_cast<int>(*default_value) : std::optional<int>(),
+           direction_labels, direction_symbols,
+           default_value ? new_default_value : std::optional<int>(),
            key, flags);
 }
 

@@ -28,6 +28,7 @@
 SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite")
 {
+  m_allowed_directions = {};
   SoundManager::current()->preload("sounds/explosion.wav");
   set_action("normal", 1);
 }
