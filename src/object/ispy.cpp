@@ -53,7 +53,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
     }
   }
 
-  set_sprite_action("idle");
+  set_action("idle", m_dir);
 }
 
 ObjectSettings
@@ -74,7 +74,7 @@ Ispy::after_editor_set()
 {
   MovingSprite::after_editor_set();
   m_dir = m_allowed_directions[m_dir_in_allowed];
-  set_sprite_action("idle");
+  set_action("idle", m_dir);
 }
 
 HitResponse
@@ -103,7 +103,7 @@ Ispy::update(float dt_sec)
 
     if (Sector::get().can_see_player(eye))
     {
-      set_sprite_action("alert", 1);
+      set_action("alert", m_dir, 1);
       m_state = ISPYSTATE_ALERT;
     }
   }
@@ -111,7 +111,7 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      set_sprite_action("hiding", 1);
+      set_action("hiding", m_dir, 1);
       m_state = ISPYSTATE_HIDING;
 
       Sector::get().run_script(m_script, "Ispy");
@@ -121,7 +121,7 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      set_sprite_action("showing", 1);
+      set_action("showing", m_dir, 1);
       m_state = ISPYSTATE_SHOWING;
     }
   }
@@ -129,22 +129,9 @@ Ispy::update(float dt_sec)
   {
     if (m_sprite->animation_done())
     {
-      set_sprite_action("idle");
+      set_action("idle", m_dir);
       m_state = ISPYSTATE_IDLE;
     }
-  }
-}
-
-void
-Ispy::set_sprite_action(const std::string& action, int loops)
-{
-  switch (m_dir)
-  {
-    case Direction::DOWN:  set_action(action + "-down",  loops); break;
-    case Direction::UP:    set_action(action + "-up",    loops); break;
-    case Direction::LEFT:  set_action(action + "-left",  loops); break;
-    case Direction::RIGHT: set_action(action + "-right", loops); break;
-    default: break;
   }
 }
 

@@ -19,9 +19,9 @@
 #include <assert.h>
 #include <sexp/value.hpp>
 
+#include "supertux/direction.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
-#include "supertux/direction.hpp"
 
 ObjectSettings::ObjectSettings(const std::string& name) :
   m_name(name),

@@ -41,9 +41,6 @@ public:
   virtual void on_flip(float height) override;
 
 private:
-  void set_sprite_action(const std::string& action, int loops = -1);
-
-private:
   enum IspyState {
     ISPYSTATE_IDLE,
     ISPYSTATE_ALERT,

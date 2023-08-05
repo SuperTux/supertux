@@ -54,6 +54,7 @@ private:
   void take_hit(Player& player);
 
   void add_snow_explosions();
+  void recalculate_pos();
 
 private:
   enum YetiState {
@@ -66,22 +67,20 @@ private:
   };
 
 private:
-  YetiState state;
-  Timer state_timer;
-  Timer safe_timer;
-  int stomp_count;
-  int hit_points;
-  SurfacePtr hud_head;
+  YetiState m_state;
+  Timer m_state_timer;
+  Timer m_safe_timer;
+  int m_stomp_count;
+  int m_hit_points;
+  SurfacePtr m_hud_head;
 
-  float left_stand_x;
-  float right_stand_x;
-  float left_jump_x;
-  float right_jump_x;
+  float m_left_stand_x;
+  float m_right_stand_x;
+  float m_left_jump_x;
+  float m_right_jump_x;
 
-  void recalculate_pos();
-
-  bool fixed_pos;
-  std::string hud_icon;
+  bool m_fixed_pos;
+  std::string m_hud_icon;
 
   class SnowExplosionParticle: public BadGuy
   {
