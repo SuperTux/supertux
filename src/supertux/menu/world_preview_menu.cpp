@@ -42,7 +42,7 @@ WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
   ItemAction& item = add_entry(static_cast<int>(m_world_entries.size()), title);
 
   std::stringstream out;
-  if (!preview) // No preview, progress should be shown on the menu item.
+  if (!preview || !g_config->show_world_previews) // No preview, or previews are not enabled, so progress should be shown on the menu item.
   {
     if (progress.total > 0) // Only show progress, if provided.
     {
@@ -68,6 +68,9 @@ WorldPreviewMenu::add_world(const std::string& title, const std::string& folder,
 SurfacePtr
 WorldPreviewMenu::find_preview(const std::string& preview_file, const std::string& basedir)
 {
+  if (!g_config->show_world_previews)
+    return nullptr;
+
   std::string preview_path = FileSystem::join("profile" + std::to_string(g_config->profile), preview_file);
   if (PHYSFS_exists(preview_path.c_str())) // A preview exists.
   {

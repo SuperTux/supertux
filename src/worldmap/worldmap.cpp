@@ -137,10 +137,13 @@ WorldMap::leave()
 void
 WorldMap::quit()
 {
-  // Prepare to take preview screenshot, when leaving the worldmap.
-  m_screenshot_request = true;
-  ScreenManager::current()->set_draw_hud(false);
-  m_sector->get_singleton_by_type<PlayerStatusHUD>().remove_me();
+  if (g_config->show_world_previews)
+  {
+    // Prepare to take preview screenshot, when leaving the worldmap.
+    m_screenshot_request = true;
+    ScreenManager::current()->set_draw_hud(false);
+    m_sector->get_singleton_by_type<PlayerStatusHUD>().remove_me();
+  }
 
   ScreenManager::current()->pop_screen();
 }
