@@ -50,6 +50,17 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   if (!Editor::is_active()) {
     if (m_initial_delay == 0) m_initial_delay = 0.1f;
   }
+
+  auto allowed_directions = get_allowed_directions();
+
+  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
+  {
+    if (allowed_directions[i] == m_start_dir)
+    {
+      m_dir_in_allowed = i;
+      break;
+    }
+  }
 }
 
 void
