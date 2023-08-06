@@ -109,7 +109,7 @@ FlyingSnowBall::active_update(float dt_sec)
 std::vector<Direction>
 FlyingSnowBall::get_allowed_directions() const
 {
-  return std::vector<Direction>();
+  return {};
 }
 
 /* EOF */
