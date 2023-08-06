@@ -589,6 +589,7 @@ Menu::on_window_resize()
 
   calculate_width();
   calculate_height();
+  align_for_previews();
 
   for (auto& item : m_items)
     item->on_window_resize();
@@ -644,7 +645,7 @@ Menu::draw_preview(DrawingContext& context)
   if (m_active_item != m_last_preview_item && !m_preview_fade_active) // Index has changed, there is no current fade.
   {
     if (valid_last_index) // Fade out only if the last index is valid.
-      m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0);
+      m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0.f);
     m_preview_fading_out = true;
     m_preview_fade_active = true;
   }
@@ -655,7 +656,7 @@ Menu::draw_preview(DrawingContext& context)
     valid_last_index = last_preview_index_valid(); // Repeat valid last index check
     if (m_preview_fading_out) // After a fade-out, a fade-in should follow up.
     {
-      m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0);
+      m_preview_fade_timer.start(g_config->transitions_enabled ? s_preview_fade_time : 0.f);
       timeleft = m_preview_fade_timer.get_timeleft();
       m_preview_fading_out = false;
     }
@@ -685,11 +686,22 @@ Menu::draw_preview(DrawingContext& context)
                               static_cast<float>(context.get_height()) / 2 - s_preview_size.height / 2 + (height_diff > 0 ? height_diff / 2 : 0)),
                        Sizef(width_diff > 0 ? static_cast<float>(preview->get_width()) : s_preview_size.width,
                              height_diff > 0 ? static_cast<float>(preview->get_height()) : s_preview_size.height));
-    PaintStyle style;
-    style.set_alpha(alpha);
-    context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI, style);
 
-    // Draw any other preview data, if available.
+    // If the preview starts overlapping the menu, due to a smaller screen resolution, do not draw it.
+    // Instead, set the Y position to half the height, so preview data, if available, can still be drawn.
+    if (preview_rect.get_left() <= m_pos.x + m_menu_width / 2)
+    {
+      preview_rect.set_top(preview_rect.get_top() + preview_rect.get_height() / 2);
+      preview_rect.set_height(0.f);
+    }
+    else
+    {
+      PaintStyle style;
+      style.set_alpha(alpha);
+      context.color().draw_surface_scaled(preview, preview_rect, LAYER_GUI, style);
+    }
+
+    // Draw other data, alongside the preview, if available.
     draw_preview_data(context, preview_rect, alpha);
   }
 }
