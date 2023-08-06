@@ -29,7 +29,7 @@ WorldSetMenu::WorldSetMenu()
 
   // Add Story Mode entry.
   // Story Mode should not have its progress shown.
-  add_world(_("Story Mode"), "levels/world1", { -1, -1 }, find_preview("previews/world1.png", "levels/world1"));
+  add_world(_("Story Mode"), "levels/world1", { 0, 0 }, find_preview("previews/world1.png", "levels/world1"));
 
   add_entry(1, _("Contrib Levels"));
   add_hl();

@@ -98,10 +98,10 @@ LevelsetState::get_level_state(const std::string& filename) const
   }
 }
 
-int
+uint32_t
 Savegame::Progress::get_percentage() const
 {
-  return solved > 0 ? static_cast<int>(static_cast<float>(solved) / total * 100) : 0;
+  return solved > 0 ? static_cast<uint32_t>(static_cast<float>(solved) / static_cast<float>(total) * 100) : 0;
 }
 
 std::unique_ptr<Savegame>

@@ -78,10 +78,10 @@ public:
       solved(solved_),
       total(total_)
     {}
-    int solved;
-    int total;
+    uint32_t solved;
+    uint32_t total;
 
-    int get_percentage() const;
+    uint32_t get_percentage() const;
   };
 
 public:
