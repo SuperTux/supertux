@@ -16,6 +16,8 @@
 
 #include "supertux/menu/world_preview_menu.hpp"
 
+#include <sstream>
+
 #include <physfs.h>
 
 #include "gui/item_action.hpp"
