@@ -34,6 +34,7 @@ namespace worldmap {
 
 WorldMapState::WorldMapState(WorldMap& worldmap) :
   m_worldmap(worldmap),
+  m_sector(),
   m_position_was_reset(false)
 {
 }
@@ -65,34 +66,53 @@ WorldMapState::load_state()
     /** Get state table for the current worldmap. **/
     vm.get_table_entry(m_worldmap.m_map_filename);
 
-    // Load the current sector.
-    if (vm.has_property("sector")) // Load the current sector, only if a "sector" property exists.
-    {
-      const std::string sector_name = vm.read_string("sector");
-      if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the new sector.
-        m_worldmap.set_sector(sector_name, "", false);
-
-      WORLDMAP_STATE_SECTOR_GUARD;
-
-      /** Get state table for the current sector. **/
-      vm.get_table_entry(sector.get_name().c_str());
-    }
-    else // Sector property does not exist, which may indicate outdated save file.
+    // If the "sector" property doesn't exist, that may indicate an outdated savefile.
+    // To support savefiles before the implementation of worldmap sectors, we load the state table for the only "main" sector.
+    if (!vm.has_property("sector"))
     {
       if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the main one.
         m_worldmap.set_sector("main", "", false);
-    }
-    if (!m_worldmap.m_sector)
-    {
+
       // Quit loading worldmap state, if there is still no current sector loaded.
-      throw std::runtime_error("No sector set.");
+      if (!m_worldmap.m_sector)
+        throw std::runtime_error("No sector set.");
+
+      m_sector = m_worldmap.m_sector;
+
+      /** Load objects. **/
+      load_tux();
+      load_levels();
+      load_tilemap_visibility();
+      load_sprite_change_objects();
+
+      return;
     }
 
-    /** Load objects. **/
-    load_tux();
-    load_levels();
-    load_tilemap_visibility();
-    load_sprite_change_objects();
+    const std::string sector_name = vm.read_string("sector");
+    if (!m_worldmap.m_sector) // If the worldmap doesn't have a current sector, try setting the new sector.
+      m_worldmap.set_sector(sector_name, "", false);
+
+    /** Load state table for all sectors in the worldmap. **/
+    for (auto& sector : m_worldmap.m_sectors)
+    {
+      // Only load sector table, if it exists.
+      if (!vm.has_property(sector->get_name().c_str()))
+        continue;
+
+      /** Enter the sector table. **/
+      vm.get_table_entry(sector->get_name().c_str());
+
+      m_sector = sector.get();
+
+      /** Load objects. **/
+      load_tux();
+      load_levels();
+      load_tilemap_visibility();
+      load_sprite_change_objects();
+
+      /** Exit the current sector table to prepare for next iteration. **/
+      sq_pop(vm.get_vm(), 1);
+    }
   }
   catch (std::exception& err)
   {
@@ -118,9 +138,12 @@ WorldMapState::load_tux()
   WORLDMAP_STATE_SQUIRREL_VM_GUARD;
   WORLDMAP_STATE_SECTOR_GUARD;
 
+  // Indicate if Tux is being loaded for the current sector.
+  const bool current_sector = m_sector == &m_worldmap.get_sector();
+
   vm.get_table_entry("tux");
   Vector p(0.0f, 0.0f);
-  if (!vm.get_float("x", p.x) || !vm.get_float("y", p.y))
+  if ((!vm.get_float("x", p.x) || !vm.get_float("y", p.y)) && current_sector)
   {
     log_warning << "Player position not set, respawning." << std::endl;
     sector.move_to_spawnpoint("main");
@@ -131,7 +154,9 @@ WorldMapState::load_tux()
   sector.m_tux->set_tile_pos(p);
 
   int tile_data = sector.tile_data_at(p);
-  if (!( tile_data & ( Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))) {
+  if (!( tile_data & ( Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST )) &&
+      current_sector)
+  {
     log_warning << "Player at illegal position " << p.x << ", " << p.y << " respawning." << std::endl;
     sector.move_to_spawnpoint("main");
     m_position_was_reset = true;
@@ -264,10 +289,8 @@ WorldMapState::load_sprite_change_objects()
 
 
 void
-WorldMapState::save_state() const
+WorldMapState::save_state()
 {
-  WorldMapSector& sector = m_worldmap.get_sector();
-
   SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
   SQInteger oldtop = sq_gettop(vm.get_vm());
 
@@ -282,21 +305,26 @@ WorldMapState::save_state() const
     /** Get or create state table for the current worldmap. **/
     vm.get_or_create_table_entry(m_worldmap.m_map_filename.c_str());
 
-    // Save the current sector.
-    vm.store_string("sector", sector.get_name());
+    // Store the current sector.
+    vm.store_string("sector", m_worldmap.get_sector().get_name());
 
-    /** Delete the table entry for the current sector and construct a new one. **/
-    vm.delete_table_entry(sector.get_name().c_str());
-    vm.begin_table(sector.get_name().c_str());
+    for (auto& sector : m_worldmap.m_sectors)
+    {
+      m_sector = sector.get();
 
-    /** Save objects. **/
-    save_tux();
-    save_levels();
-    save_tilemap_visibility();
-    save_sprite_change_objects();
+      /** Delete the table entry for the sector and construct a new one. **/
+      vm.delete_table_entry(sector->get_name().c_str());
+      vm.begin_table(sector->get_name().c_str());
 
-    /** Push the current sector into the current worldmap table. **/
-    vm.end_table(sector.get_name().c_str());
+      /** Save objects. **/
+      save_tux();
+      save_levels();
+      save_tilemap_visibility();
+      save_sprite_change_objects();
+
+      /** Push the sector into the current worldmap table. **/
+      vm.end_table(sector->get_name().c_str());
+    }
   }
   catch (std::exception& err)
   {

@@ -27,10 +27,11 @@ namespace worldmap {
 
 /** Macro to allow quick and easy access to the current WorldMapSector. **/
 #define WORLDMAP_STATE_SECTOR_GUARD   \
-  WorldMapSector& sector = m_worldmap.get_sector()
+  WorldMapSector& sector = *m_sector;
 
 
 class WorldMap;
+class WorldMapSector;
 
 class WorldMapState final
 {
@@ -38,7 +39,7 @@ public:
   WorldMapState(WorldMap& worldmap);
 
   void load_state();
-  void save_state() const;
+  void save_state();
 
 private:
   void load_tux();
@@ -53,6 +54,7 @@ private:
 
 private:
   WorldMap& m_worldmap;
+  WorldMapSector* m_sector;
 
   /** Variables, related to loading. **/
   bool m_position_was_reset;
