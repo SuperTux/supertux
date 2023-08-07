@@ -61,9 +61,9 @@ public:
    * @param string $direction Direction.
    * @param string $data Additional data.
    */
-void add_object(const std::string& class_name, const std::string& name,
-                int posX, int posY, const std::string& direction,
-                const std::string& data);
+  void add_object(const std::string& class_name, const std::string& name,
+                  int posX, int posY, const std::string& direction,
+                  const std::string& data);
 };
 
 } // namespace scripting
