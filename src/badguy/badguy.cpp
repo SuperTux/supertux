@@ -65,7 +65,6 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
-  m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
@@ -102,7 +101,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
-  m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
@@ -113,7 +111,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
 {
   std::string dir_str = "auto";
   reader.get("direction", dir_str);
-  m_start_dir = str2dir( dir_str );
+  m_start_dir = string_to_dir(dir_str);
   m_dir = m_start_dir;
 
   reader.get("dead-script", m_dead_script);
@@ -225,6 +223,7 @@ BadGuy::update(float dt_sec)
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
+      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox(), false, Tile::WATER);
       inactive_update(dt_sec);
       try_activate();
       break;
@@ -289,12 +288,6 @@ BadGuy::update(float dt_sec)
   }
 
   m_on_ground_flag = false;
-}
-
-Direction
-BadGuy::str2dir(const std::string& dir_str) const
-{
-  return string_to_dir(dir_str);
 }
 
 void
@@ -1086,7 +1079,7 @@ BadGuy::after_editor_set()
   }
   else
   {
-    std::string action_str = dir_to_string(m_dir);
+    std::string action_str = dir_to_string(m_start_dir);
 
     if (m_sprite->has_action("editor-" + action_str)) {
       set_action("editor-" + action_str);

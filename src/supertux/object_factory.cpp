@@ -26,9 +26,7 @@ ObjectFactory::ObjectFactory() :
   m_badguys_names(),
   m_badguys_params(),
   m_objects_names(),
-  m_objects_display_names(),
   m_objects_params(),
-  m_other_display_names(),
   m_adding_badguys(false)
 {
 }
@@ -46,30 +44,36 @@ ObjectFactory::create(const std::string& name, const ReaderMapping& reader) cons
   }
   else
   {
-    return it->second(reader);
+    return it->second.create(reader);
   }
 }
 
 std::string
 ObjectFactory::get_display_name(const std::string& name) const
 {
-  auto it = std::find(m_objects_names.begin(), m_objects_names.end(), name);
+  auto it = factories.find(name);
 
-  if (it == m_objects_names.end())
+  if (it == factories.end())
   {
-    auto it_other_names = m_other_display_names.find(name); // Attempt to find display name in non-factory object names.
-    if (it_other_names == m_other_display_names.end())
-    {
-      std::stringstream msg;
-      msg << "No display name for object '" << name << "' found.";
-      throw std::runtime_error(msg.str());
-    }
-    return it_other_names->second;
+    std::stringstream msg;
+    msg << "No factory for object '" << name << "' found. Unable to get display name.";
+    throw std::runtime_error(msg.str());
   }
   else
   {
-    return m_objects_display_names[std::distance(m_objects_names.begin(), it)];
+    return it->second.get_display_name();
   }
+}
+
+bool
+ObjectFactory::has_params(const std::string& name, uint8_t params)
+{
+  for (unsigned int i = 0; i < m_objects_names.size(); i++)
+  {
+    if (m_objects_names[i] == name)
+      return m_objects_params[i] & params;
+  }
+  return false;
 }
 
 std::vector<std::string>

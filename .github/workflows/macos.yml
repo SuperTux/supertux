@@ -30,14 +30,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-10.15, macos-11]
+        os: [macos-11]
         build_type: [Debug, Release]
         glbinding: [ON, OFF]
         include:
-          - os: macos-10.15
-            build_type: Release
-            glbinding: OFF
-            release: ON
           - os: macos-11
             build_type: Release
             glbinding: OFF
@@ -52,7 +48,7 @@ jobs:
           submodules: true
 
       - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-10.15' ||  matrix.os == 'macos-11' }}
+        if: ${{ matrix.os == 'macos-11' }}
         run: |
           brew install cmake googletest bash rename libogg libvorbis glew\
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz  \
@@ -85,8 +81,7 @@ jobs:
                    -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$GLBINDING    \
                    -DENABLE_DISCORD=ON -DCMAKE_INSTALL_MESSAGE=NEVER           \
                    -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin        \
-                   -DINSTALL_SUBDIR_SHARE=share/supertux2 -DBUILD_TESTS=ON     \
-                   -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/lib"
+                   -DINSTALL_SUBDIR_SHARE=share/supertux2 -DBUILD_TESTS=ON
 
       - name: Build and install
         working-directory: build
@@ -138,9 +133,6 @@ jobs:
         env:
           OS: ${{ matrix.os }}
         run: |
-          if [ "$OS" = "macos-10.15" ]; then
-            rename 's/.dmg/-10.15.dmg/' build/upload/SuperTux-*
-          fi
           if [ "$OS" = "macos-11" ]; then
             rename 's/.dmg/-11.dmg/' build/upload/SuperTux-*
           fi

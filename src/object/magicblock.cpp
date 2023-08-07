@@ -176,11 +176,11 @@ MagicBlock::update(float dt_sec)
   if (m_is_solid) {
     m_solid_time+=dt_sec;
     m_color.alpha = ALPHA_SOLID;
-    m_sprite->set_action("solid");
+    set_action("solid");
     set_group(COLGROUP_STATIC);
   } else {
     m_color.alpha = ALPHA_NONSOLID;
-    m_sprite->set_action("normal");
+    set_action("normal");
     set_group(COLGROUP_DISABLED);
   }
 }

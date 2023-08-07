@@ -78,7 +78,7 @@ CaptainSnowball::active_update(float dt_sec)
 void
 CaptainSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (m_jumping)
+  if (m_jumping && get_state() != STATE_SQUISHED)
   {
     m_jumping = false;
     set_action(m_dir);

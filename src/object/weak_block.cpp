@@ -36,14 +36,14 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   linked(true),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  m_sprite->set_action("normal");
+  set_action("normal");
   //Check if this weakblock destroys adjacent weakblocks
   if (mapping.get("linked", linked)){
     if (! linked){
       m_default_sprite_name = "images/objects/weak_block/meltbox.sprite";
       m_sprite_name = m_default_sprite_name;
       m_sprite = SpriteManager::current()->create(m_sprite_name);
-      m_sprite->set_action("normal");
+      set_action("normal");
     }
   }
 
@@ -137,7 +137,7 @@ WeakBlock::update(float )
 
         if (m_sprite->animation_done()) {
           state = STATE_DISINTEGRATING;
-          m_sprite->set_action("disintegrating", 1);
+          set_action("disintegrating", 1);
           spreadHit();
           set_group(COLGROUP_DISABLED);
           lightsprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite");
@@ -173,7 +173,7 @@ WeakBlock::startBurning()
 {
   if (state != STATE_NORMAL) return;
   state = STATE_BURNING;
-  m_sprite->set_action("burning", 1);
+  set_action("burning", 1);
   // FIXME: Not hardcode these sounds?
   if (m_sprite_name == "images/objects/weak_block/meltbox.sprite") {
     SoundManager::current()->play("sounds/sizzle.ogg", get_pos());

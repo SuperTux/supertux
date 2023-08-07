@@ -17,8 +17,6 @@
 #include "badguy/kamikazesnowball.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 
 namespace{
   static const float KAMIKAZE_SPEED = 200;
@@ -26,8 +24,8 @@ namespace{
   const std::string SPLAT_SOUND = "sounds/splat.wav";
 }
 
-KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
+KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader, const std::string& sprite_name) :
+  BadGuy(reader, sprite_name)
 {
   SoundManager::current()->preload(SPLAT_SOUND);
   set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
@@ -100,10 +98,8 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 }
 
 LeafShot::LeafShot(const ReaderMapping& reader) :
-  KamikazeSnowball(reader)
+  KamikazeSnowball(reader, "images/creatures/leafshot/leafshot.sprite")
 {
-  m_sprite_name = "images/creatures/leafshot/leafshot.sprite";
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
 }
 
 void

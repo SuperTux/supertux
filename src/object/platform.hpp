@@ -50,6 +50,9 @@ public:
 
   virtual void on_flip(float height) override;
 
+  void save_state() override;
+  void check_state() override;
+
   const Vector& get_speed() const { return m_speed; }
 
   /** @name Scriptable Methods

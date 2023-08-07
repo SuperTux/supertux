@@ -53,11 +53,8 @@ HitResponse
 Jumpy::hit(const CollisionHit& chit)
 {
   if (chit.bottom) {
-    if (!groundhit_pos_set)
-    {
-      pos_groundhit = get_pos();
-      groundhit_pos_set = true;
-    }
+    pos_groundhit = get_pos();
+    groundhit_pos_set = true;
 
     m_physic.set_velocity_y((m_frozen || get_state() != STATE_ACTIVE) ? 0 : JUMPYSPEED);
     // TODO create a nice sound for this...
@@ -87,6 +84,14 @@ Jumpy::active_update(float dt_sec)
   if (!groundhit_pos_set)
   {
     set_action("editor", m_dir);
+    return;
+  }
+
+  if (get_pos().y > pos_groundhit.y)
+  {
+    // Jumpy is below its groundhit position,
+    // ground tile probably doesn't exist anymore
+    set_action(m_dir, "down");
     return;
   }
 

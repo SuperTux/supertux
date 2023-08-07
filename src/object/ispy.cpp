@@ -128,10 +128,10 @@ Ispy::set_sprite_action(const std::string& action, int loops)
 {
   switch (m_dir)
   {
-    case Direction::DOWN:  m_sprite->set_action(action + "-down",  loops); break;
-    case Direction::UP:    m_sprite->set_action(action + "-up",    loops); break;
-    case Direction::LEFT:  m_sprite->set_action(action + "-left",  loops); break;
-    case Direction::RIGHT: m_sprite->set_action(action + "-right", loops); break;
+    case Direction::DOWN:  set_action(action + "-down",  loops); break;
+    case Direction::UP:    set_action(action + "-up",    loops); break;
+    case Direction::LEFT:  set_action(action + "-left",  loops); break;
+    case Direction::RIGHT: set_action(action + "-right", loops); break;
     default: break;
   }
 }
@@ -143,12 +143,12 @@ Ispy::on_flip(float height)
   if (m_dir == Direction::UP)
   {
     m_dir = Direction::DOWN;
-    m_sprite->set_action("idle-down");
+    set_action("idle-down");
   }
   else if (m_dir == Direction::DOWN)
   {
     m_dir = Direction::UP;
-    m_sprite->set_action("idle-up");
+    set_action("idle-up");
   }
 }
 
