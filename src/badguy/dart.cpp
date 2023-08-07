@@ -158,7 +158,7 @@ Dart::set_flip(Flip flip)
 std::vector<Direction>
 Dart::get_allowed_directions() const
 {
-  return {Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN};
+  return { Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
 void

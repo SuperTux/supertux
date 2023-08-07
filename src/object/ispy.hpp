@@ -41,7 +41,7 @@ public:
   virtual void on_flip(float height) override;
 
 private:
-  virtual std::vector<Direction> get_allowed_directions() const;
+  std::vector<Direction> get_allowed_directions() const;
 
 private:
   enum IspyState {
@@ -56,7 +56,6 @@ private:
 
   std::string m_script; /**< script to execute when Tux is spotted */
   Direction m_dir;
-  int m_dir_in_allowed;
 
 private:
   Ispy(const Ispy&) = delete;

@@ -44,13 +44,12 @@ public:
   Physic& get_physic();
 
 private:
-  virtual std::vector<Direction> get_allowed_directions() const;
+  std::vector<Direction> get_allowed_directions() const;
 
 private:
   Physic m_physic;
 
   Direction m_dir;
-  int m_dir_in_allowed;
 
 private:
   Bumper(const Bumper&) = delete;

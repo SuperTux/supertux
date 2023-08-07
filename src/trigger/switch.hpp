@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
 
 #include "trigger/trigger_base.hpp"
-#include "supertux/direction.hpp"
 
 class Switch final : public SpritedTrigger
 {
@@ -40,7 +39,7 @@ public:
   virtual void on_flip(float height) override;
 
 private:
-  virtual std::vector<Direction> get_allowed_directions() const;
+  std::vector<Direction> get_allowed_directions() const;
 
 private:
   enum SwitchState {
@@ -56,7 +55,6 @@ private:
   SwitchState m_state;
   bool m_bistable;
   Direction m_dir;
-  int m_dir_in_allowed;
 
 private:
   Switch(const Switch&) = delete;

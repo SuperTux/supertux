@@ -184,7 +184,7 @@ protected:
   /** called when the badguy has been deactivated */
   virtual void deactivate();
 
-  /** returns a vector of dorections the BadGuy can be set to */
+  /** Returns a vector of directions the badguy can be set to. */
   virtual std::vector<Direction> get_allowed_directions() const;
 
   void kill_squished(GameObject& object);
@@ -252,10 +252,6 @@ protected:
 
   /** The direction we initially faced in */
   Direction m_start_dir;
-
-  /** The order of the direction in the allowed directions,
-      does not correspond to the actual direction!*/
-  int m_dir_in_allowed;
 
   bool m_frozen;
   bool m_ignited; /**< true if this badguy is currently on fire */

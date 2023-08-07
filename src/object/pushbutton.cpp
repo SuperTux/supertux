@@ -20,7 +20,6 @@
 #include "object/player.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -34,8 +33,7 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   m_script(),
   m_state(OFF),
-  m_dir(Direction::UP),
-  m_dir_in_allowed(0)
+  m_dir(Direction::UP)
 {
   SoundManager::current()->preload(BUTTON_SOUND);
 
@@ -52,17 +50,6 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   else if (mapping.get("upside-down", old_upside_down) && old_upside_down)
     m_dir = Direction::DOWN;
 
-  auto allowed_directions = get_allowed_directions();
-
-  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
-  {
-    if (allowed_directions[i] == m_dir)
-    {
-      m_dir_in_allowed = i;
-      break;
-    }
-  }
-
   set_action("off", m_dir, -1);
 }
 
@@ -71,7 +58,7 @@ PushButton::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::UP, "direction", 0, get_allowed_directions());
+  result.add_direction(_("Direction"), &m_dir, get_allowed_directions(), "direction");
   result.add_script(_("Script"), &m_script, "script");
 
   result.reorder({"direction", "script", "x", "y"});
@@ -83,7 +70,6 @@ void
 PushButton::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  m_dir = get_allowed_directions()[m_dir_in_allowed];
   set_action("off", m_dir);
 }
 
@@ -147,7 +133,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
 std::vector<Direction>
 PushButton::get_allowed_directions() const
 {
-  return {Direction::UP, Direction::DOWN};
+  return { Direction::UP, Direction::DOWN };
 }
 
 void

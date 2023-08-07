@@ -19,7 +19,6 @@
 #include <assert.h>
 #include <sexp/value.hpp>
 
-#include "supertux/direction.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
@@ -113,42 +112,11 @@ ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
 
 void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
-                              std::optional<Direction> default_value,
-                              const std::string& key, unsigned int flags,
-                              std::vector<Direction> possible_directions)
+                              std::vector<Direction> possible_directions,
+                              const std::string& key, unsigned int flags)
 {
-  std::vector<std::string> direction_labels, direction_symbols;
-  if (!possible_directions.empty())
-  {
-    for (Direction direction : possible_directions)
-    {
-      direction_labels.push_back(_(dir_to_string(direction)));
-      direction_symbols.push_back(dir_to_string(direction));
-    }
-  }
-  else
-  {
-    direction_labels = {_("auto"), _("none"), _("left"), _("right"), _("up"), _("down")};
-    direction_symbols = {"auto", "none", "left", "right", "up", "down"};
-  }
-
-  int new_default_value = -1;
-  if (default_value)
-  {
-    for (int i = 0; i < static_cast<int>(direction_symbols.size()); ++i)
-    {
-      if (string_to_dir(direction_symbols[i]) == *default_value)
-      {
-        new_default_value = i;
-        break;
-      }
-    }
-  }
-
-  add_enum(text, reinterpret_cast<int*>(value_ptr),
-           direction_labels, direction_symbols,
-           default_value ? new_default_value : std::optional<int>(),
-           key, flags);
+  add_option(std::make_unique<DirectionOption>(text, value_ptr, std::move(possible_directions),
+                                               key, flags));
 }
 
 void

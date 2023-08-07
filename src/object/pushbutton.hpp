@@ -19,8 +19,6 @@
 
 #include "object/moving_sprite.hpp"
 
-enum class Direction;
-
 /** PushButton - jump on it to run a script */
 class PushButton final : public MovingSprite
 {
@@ -40,7 +38,7 @@ public:
   virtual void on_flip(float height) override;
 
 private:
-  virtual std::vector<Direction> get_allowed_directions() const;
+  std::vector<Direction> get_allowed_directions() const;
 
 private:
   enum PushButtonState {
@@ -52,7 +50,6 @@ private:
   PushButtonState m_state;
 
   Direction m_dir;
-  int m_dir_in_allowed;
 
 private:
   PushButton(const PushButton&) = delete;

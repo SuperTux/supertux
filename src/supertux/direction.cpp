@@ -52,6 +52,31 @@ dir_to_string(const Direction& dir)
   }
 }
 
+std::string
+dir_to_translated_string(const Direction& dir)
+{
+  switch (dir)
+  {
+    case Direction::NONE:
+      return _("none");
+    case Direction::LEFT:
+      return _("left");
+    case Direction::RIGHT:
+      return _("right");
+    case Direction::UP:
+      return _("up");
+    case Direction::DOWN:
+      return _("down");
+    default:
+      if (dir != Direction::AUTO)
+      {
+        // Display a warning when an invalid direction has been provided.
+        log_warning << "Unknown direction \"" << dir << "\". Switching to \"auto\"." << std::endl;
+      }
+      return _("auto");
+  }
+}
+
 Direction
 string_to_dir(const std::string& dir_str)
 {

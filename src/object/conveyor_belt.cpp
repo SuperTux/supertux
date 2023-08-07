@@ -28,7 +28,6 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
   ExposedObject<ConveyorBelt, scripting::ConveyorBelt>(this),
   m_running(true),
   m_dir(Direction::LEFT),
-  m_dir_in_allowed(0),
   m_length(1),
   m_speed(1.0f),
   m_frame(0.0f),
@@ -51,17 +50,6 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
     set_action("stopped");
   else
     set_action(m_dir);
-
-  auto allowed_directions = get_allowed_directions();
-
-  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
-  {
-    if (allowed_directions[i] == m_dir)
-    {
-      m_dir_in_allowed = i;
-      break;
-    }
-  }
 }
 
 ObjectSettings
@@ -69,7 +57,7 @@ ConveyorBelt::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::LEFT, "direction", 0, get_allowed_directions());
+  result.add_direction(_("Direction"), &m_dir, get_allowed_directions(), "direction");
   result.add_float(_("Speed"), &m_speed, "speed", 1.0f);
   result.add_bool(_("Running"), &m_running, "running", true);
   result.add_int(_("Length"), &m_length, "length", 3);
@@ -138,8 +126,6 @@ ConveyorBelt::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  m_dir = get_allowed_directions()[m_dir_in_allowed];
-
   if (m_length <= 0)
     m_length = 1;
   set_action(dir_to_string(m_dir));
@@ -185,7 +171,7 @@ ConveyorBelt::set_speed(float target_speed)
 std::vector<Direction>
 ConveyorBelt::get_allowed_directions() const
 {
-  return {Direction::LEFT, Direction::RIGHT};
+  return { Direction::LEFT, Direction::RIGHT };
 }
 
 /* EOF */

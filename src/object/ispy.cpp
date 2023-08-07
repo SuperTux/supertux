@@ -29,8 +29,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES + 5, COLGROUP_DISABLED),
   m_state(ISPYSTATE_IDLE),
   m_script(),
-  m_dir(Direction::LEFT),
-  m_dir_in_allowed(0)
+  m_dir(Direction::LEFT)
 {
   reader.get("script", m_script);
 
@@ -43,17 +42,6 @@ Ispy::Ispy(const ReaderMapping& reader) :
   if (m_dir == Direction::AUTO)
     log_warning << "Setting an Ispy's direction to AUTO is no good idea." << std::endl;
 
-  auto allowed_directions = get_allowed_directions();
-
-  for (int i = 0; i < static_cast<int>(allowed_directions.size()); ++i)
-  {
-    if (allowed_directions[i] == m_dir)
-    {
-      m_dir_in_allowed = i;
-      break;
-    }
-  }
-
   set_action("idle", m_dir);
 }
 
@@ -63,7 +51,7 @@ Ispy::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_script(_("Script"), &m_script, "script");
-  result.add_direction(_("Direction"), reinterpret_cast<Direction*>(&m_dir_in_allowed), Direction::LEFT, "direction", 0, get_allowed_directions());
+  result.add_direction(_("Direction"), &m_dir, get_allowed_directions(), "direction");
 
   result.reorder({"script", "facing-down", "direction", "x", "y"});
 
@@ -74,7 +62,6 @@ void
 Ispy::after_editor_set()
 {
   MovingSprite::after_editor_set();
-  m_dir = get_allowed_directions()[m_dir_in_allowed];
   set_action("idle", m_dir);
 }
 
@@ -139,7 +126,7 @@ Ispy::update(float dt_sec)
 std::vector<Direction>
 Ispy::get_allowed_directions() const
 {
-  return {Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN};
+  return { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
 void
