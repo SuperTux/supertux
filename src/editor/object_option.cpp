@@ -814,8 +814,8 @@ DirectionOption::add_to_menu(Menu& menu) const
   }
 
   menu.add_string_select(-1, get_text(), selected, labels)
-    .set_callback([value_ptr = m_value_ptr, possible_directions = m_possible_directions](int selected) {
-                    *value_ptr = possible_directions.at(selected);
+    .set_callback([value_ptr = m_value_ptr, possible_directions = m_possible_directions](int index) {
+                    *value_ptr = possible_directions.at(index);
                   });
 }
 
