@@ -1,13 +1,13 @@
 (supertux-sprite
   (action
-    (name "off-none")
+    (name "off")
     (hitbox 3 4 25 39)
     (images
       "switch-0.png"
     )
   )
   (action
-    (name "turnon-none")
+    (name "turnon")
     (fps 18)
     (hitbox 3 4 25 39)
     (images
@@ -17,14 +17,14 @@
     )
   )
   (action
-    (name "on-none")
+    (name "on")
     (hitbox 3 4 25 39)
     (images
       "switch-4.png"
     )
   )
   (action
-    (name "turnoff-none")
+    (name "turnoff")
     (fps 18)
     (hitbox 3 4 25 39)
     (images

@@ -24,6 +24,7 @@
 #include "math/util.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -137,14 +138,20 @@ MovingSprite::set_action(const std::string& name, int loops)
 void
 MovingSprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
-  m_sprite->set_action(name, dir, loops);
+  if (dir == Direction::NONE)
+    m_sprite->set_action(name, loops);
+  else
+    m_sprite->set_action(name, dir, loops);
   update_hitbox();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
-  m_sprite->set_action(dir, name, loops);
+  if (dir == Direction::NONE)
+    m_sprite->set_action(name, loops);
+  else
+    m_sprite->set_action(dir, name, loops);
   update_hitbox();
 }
 
