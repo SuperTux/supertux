@@ -27,7 +27,7 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
+  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", get_allowed_directions()[0], LAYER_TILES-1),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),

@@ -41,15 +41,15 @@ static const float BURN_TIME = 1;
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
-BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  BadGuy(pos, Direction::LEFT, sprite_name_, layer_, light_sprite_name)
+  BadGuy(pos, Direction::LEFT, sprite_name, layer, light_sprite_name)
 {
 }
 
-BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
@@ -83,16 +83,23 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_lightsprite->set_blend(Blend::ADD);
 }
 
-BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
+  BadGuy(reader, sprite_name, Direction::AUTO, layer, light_sprite_name, ice_sprite_name)
+{
+}
+
+BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
+               Direction default_direction, int layer,
+               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(Direction::LEFT),
-  m_start_dir(Direction::AUTO),
+  m_start_dir(default_direction),
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
@@ -109,9 +116,9 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
-  std::string dir_str = "auto";
-  reader.get("direction", dir_str);
-  m_start_dir = string_to_dir(dir_str);
+  std::string dir_str;
+  if (reader.get("direction", dir_str))
+    m_start_dir = string_to_dir(dir_str);
   m_dir = m_start_dir;
 
   reader.get("dead-script", m_dead_script);

@@ -44,6 +44,9 @@ public:
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
          const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+  BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
