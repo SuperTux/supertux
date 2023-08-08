@@ -324,6 +324,12 @@ else()
   set(LOGO_FILE "logo.sprite")
 endif()
 configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
+if(ANDROID)
+  file(COPY ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl DESTINATION data/levels/misc/menu.stl)
+  file(GLOB DATA_CONTENTS data/*)
+  message("DATA: ${DATA_CONTENTS}")
+  file(ARCHIVE_CREATE OUTPUT ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
+endif()
 
 ## Build tests
 include(SuperTux/BuildTests)
