@@ -95,6 +95,7 @@ jobs:
           envs: BUILD_TYPE
           sync: rsync
           usesh: true
+          copyback: false
           prepare: |
             pkg_add git
             pkg_add cmake
