@@ -32,21 +32,12 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  GameObjectTypes get_types() const override;
-  std::string get_default_sprite_name() const override;
-
   virtual void update(float dt_sec) override;
   virtual void event(Player& player, EventType type) override;
 
   virtual void on_flip(float height) override;
 
 private:
-  enum Type {
-    SIDED_LEFT,
-    SIDED_RIGHT,
-    WALL
-  };
-
   enum SwitchState {
     OFF,
     TURN_ON,
