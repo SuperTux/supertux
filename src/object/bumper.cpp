@@ -93,7 +93,7 @@ Bumper::get_physic()
 std::vector<Direction>
 Bumper::get_allowed_directions() const
 {
-  return { Direction::LEFT, Direction::RIGHT };
+  return { Direction::RIGHT, Direction::LEFT };
 }
 
 void
