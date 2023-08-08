@@ -38,6 +38,9 @@ public:
   virtual bool is_flammable() const override;
   virtual bool is_snipable() const override { return true; }
 
+  virtual void after_editor_set() override;
+  virtual void on_flip(float height) override;
+
 protected:
   virtual bool collision_squished(GameObject& object) override;
 protected:
@@ -48,7 +51,7 @@ protected:
     SCRYSTALLO_JUMPING,
     SCRYSTALLO_WALKING
   };
-  SCrystalloState state;
+  SCrystalloState m_state;
 
 private:
   float m_radius;

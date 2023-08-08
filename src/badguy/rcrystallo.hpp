@@ -23,6 +23,7 @@ class RCrystallo final : public WalkingBadguy
 {
 public:
   RCrystallo(const ReaderMapping& reader);
+  RCrystallo(Vector pos, Vector start_pos, float vel_x, std::unique_ptr<Sprite> sprite, Direction dir, float radius, std::string& script, bool fall = false);
 
   virtual void initialize() override;
   virtual ObjectSettings get_settings() override;
@@ -39,6 +40,9 @@ public:
   virtual bool is_flammable() const override;
   virtual void kill_fall() override;
 
+  virtual void after_editor_set() override;
+  virtual void on_flip(float height) override;
+
 protected:
   enum RCrystalloState
   {
@@ -46,7 +50,7 @@ protected:
     RCRYSTALLO_DETECT,
     RCRYSTALLO_FALLING
   };
-  RCrystalloState state;
+  RCrystalloState m_state;
 
 private:
   float m_radius;
