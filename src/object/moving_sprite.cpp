@@ -138,20 +138,14 @@ MovingSprite::set_action(const std::string& name, int loops)
 void
 MovingSprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
-  if (dir == Direction::NONE)
-    m_sprite->set_action(name, loops);
-  else
-    m_sprite->set_action(name, dir, loops);
+  m_sprite->set_action(name, dir, loops);
   update_hitbox();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
-  if (dir == Direction::NONE)
-    m_sprite->set_action(name, loops);
-  else
-    m_sprite->set_action(dir, name, loops);
+  m_sprite->set_action(dir, name, loops);
   update_hitbox();
 }
 
