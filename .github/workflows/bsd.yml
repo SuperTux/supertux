@@ -56,7 +56,6 @@ jobs:
             pkg install -y sdl2_image
             pkg install -y openal-soft
             pkg install -y glew
-            pkg install -y boost-all
             pkg install -y curl
             pkg install -y libogg
             pkg install -y libvorbis
@@ -107,7 +106,6 @@ jobs:
             pkg_add sdl2-image
             pkg_add openal
             pkg_add glew
-            pkg_add boost
             pkg_add curl
             pkg_add libogg
             pkg_add libvorbis
