@@ -54,9 +54,12 @@ protected:
   SCrystalloState m_state;
 
 private:
+  bool m_roof;
   float m_radius;
   float m_range;
   Vector m_radius_anchor;
+
+
 private:
   SCrystallo(const SCrystallo&) = delete;
   SCrystallo& operator=(const SCrystallo&) = delete;

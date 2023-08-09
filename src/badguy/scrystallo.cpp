@@ -27,12 +27,14 @@
 SCrystallo::SCrystallo(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "sleeping-left", "sleeping-right"),
   m_state(SCRYSTALLO_SLEEPING),
+  m_roof(),
   m_radius(),
   m_range(),
   m_radius_anchor()
 {
   walk_speed = 80;
   max_drop_height = 16;
+  reader.get("roof", m_roof, false);
   reader.get("radius", m_radius, 100.0f);
   reader.get("range", m_range, 250.0f);
   SoundManager::current()->preload("sounds/crystallo-pop.ogg");
@@ -41,8 +43,16 @@ SCrystallo::SCrystallo(const ReaderMapping& reader) :
 void
 SCrystallo::initialize()
 {
+  if (m_roof)
+  {
+    m_physic.set_gravity_modifier(-Sector::get().get_gravity());
+    FlipLevelTransformer::transform_flip(m_flip);
+  }
+  else
+  {
+    m_physic.set_gravity_modifier(Sector::get().get_gravity());
+  }
   m_state = SCRYSTALLO_SLEEPING;
-  m_physic.enable_gravity(false);
   set_action("sleeping", m_dir);
 }
 
@@ -53,6 +63,7 @@ SCrystallo::get_settings()
 
   result.add_float(_("Walk Radius"), &m_radius, "radius", 100.0f);
   result.add_float(_("Awakening Radius"), &m_range, "range", 250.0f);
+  result.add_bool(_("Roof-attached"), &m_roof, "roof", false);
 
   result.reorder({ "radius", "range", "direction", "x", "y" });
 
@@ -120,7 +131,6 @@ SCrystallo::active_update(float dt_sec)
         return;
       }
 
-      m_physic.enable_gravity(true);
       m_physic.set_velocity_y(-250.f);
       WalkingBadguy::initialize();
       set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right", -1);
@@ -158,7 +168,6 @@ SCrystallo::collision_squished(GameObject& object)
 {
   set_action(m_dir == Direction::LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
-  m_physic.enable_gravity(true);
   m_physic.set_velocity_x(0.0);
   m_physic.set_acceleration_x(0.0);
   return true;
@@ -175,7 +184,9 @@ SCrystallo::after_editor_set()
 {
   WalkingBadguy::after_editor_set();
 
-  set_action("sleeping", m_start_dir);
+  if ((m_roof && m_flip == NO_FLIP) || (!m_roof && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
+  set_action("sleeping", m_start_dir == Direction::AUTO ? Direction::LEFT : m_start_dir);
   update_hitbox();
 }
 
@@ -186,6 +197,7 @@ SCrystallo::on_flip(float height)
 
   if (m_state == SCRYSTALLO_SLEEPING || m_state == SCRYSTALLO_WAKING)
   {
+    m_physic.set_gravity_modifier(-m_physic.get_gravity_modifier());
     FlipLevelTransformer::transform_flip(m_flip);
   }
   else

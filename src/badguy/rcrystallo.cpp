@@ -204,7 +204,7 @@ RCrystallo::after_editor_set()
 {
   WalkingBadguy::after_editor_set();
 
-  set_action("roof", m_start_dir);
+  set_action("roof", m_start_dir == Direction::AUTO ? Direction::LEFT : m_start_dir);
   update_hitbox();
 }
 

@@ -68,6 +68,8 @@ public:
   /** Set gravity modifier factor to apply to object when enabled */
   void set_gravity_modifier(float modifier) { gravity_modifier = modifier; }
 
+  float get_gravity_modifier() { return gravity_modifier; }
+
   Vector get_movement(float dt_sec);
 
 private:
