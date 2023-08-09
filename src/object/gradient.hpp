@@ -51,8 +51,8 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void set_gradient(Color top, Color bottom);
-  void fade_gradient(Color top, Color bottom, float time);
+  void set_gradient(const Color& top, const Color& bottom);
+  void fade_gradient(const Color& top, const Color& bottom, float time);
   Color get_gradient_top() const { return m_gradient_top; }
   Color get_gradient_bottom() const { return m_gradient_bottom; }
 

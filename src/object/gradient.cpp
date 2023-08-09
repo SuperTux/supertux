@@ -197,7 +197,7 @@ Gradient::update(float delta)
 }
 
 void
-Gradient::set_gradient(Color top, Color bottom)
+Gradient::set_gradient(const Color& top, const Color& bottom)
 {
   m_gradient_top = top;
   m_gradient_bottom = bottom;
@@ -220,7 +220,7 @@ Gradient::set_gradient(Color top, Color bottom)
 }
 
 void
-Gradient::fade_gradient(Color top, Color bottom, float time)
+Gradient::fade_gradient(const Color& top, const Color& bottom, float time)
 {
   m_start_gradient_top = m_gradient_top;
   m_start_gradient_bottom = m_gradient_bottom;
