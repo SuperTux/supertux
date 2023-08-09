@@ -64,12 +64,15 @@ jobs:
             pkg install -y libraqm
             pkg install -y glm
           run: |
+            df -h
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
                      -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
                      -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
+            df -h
             make -j3 VERBOSE=1
+            df -h
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
 
