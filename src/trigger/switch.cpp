@@ -59,7 +59,8 @@ Switch::get_settings()
 {
   ObjectSettings result = SpritedTrigger::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir, get_allowed_directions(), "direction");
+  result.add_direction(_("Direction"), &m_dir,
+                        { Direction::NONE, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
 
   result.add_script(_("Turn on script"), &m_script, "script");
   result.add_script(_("Turn off script"), &m_off_script, "off-script");
@@ -129,12 +130,6 @@ Switch::event(Player& , EventType type)
     case TURN_OFF:
       break;
   }
-}
-
-std::vector<Direction>
-Switch::get_allowed_directions() const
-{
-  return { Direction::NONE, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
 void

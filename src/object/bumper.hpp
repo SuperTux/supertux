@@ -44,9 +44,6 @@ public:
   Physic& get_physic();
 
 private:
-  std::vector<Direction> get_allowed_directions() const;
-
-private:
   Physic m_physic;
 
   Direction m_dir;

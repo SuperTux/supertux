@@ -51,7 +51,8 @@ Ispy::get_settings()
   ObjectSettings result = MovingSprite::get_settings();
 
   result.add_script(_("Script"), &m_script, "script");
-  result.add_direction(_("Direction"), &m_dir, get_allowed_directions(), "direction");
+  result.add_direction(_("Direction"), &m_dir,
+                        { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
 
   result.reorder({"script", "facing-down", "direction", "x", "y"});
 
@@ -121,12 +122,6 @@ Ispy::update(float dt_sec)
       m_state = ISPYSTATE_IDLE;
     }
   }
-}
-
-std::vector<Direction>
-Ispy::get_allowed_directions() const
-{
-  return { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
 void

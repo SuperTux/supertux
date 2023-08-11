@@ -50,7 +50,7 @@ Bumper::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir, get_allowed_directions(), "direction");
+  result.add_direction(_("Direction"), &m_dir, { Direction::RIGHT, Direction::LEFT }, "direction");
   result.reorder({"direction", "sprite", "x", "y"});
   return result;
 }
@@ -88,12 +88,6 @@ Physic&
 Bumper::get_physic()
 {
   return m_physic;
-}
-
-std::vector<Direction>
-Bumper::get_allowed_directions() const
-{
-  return { Direction::RIGHT, Direction::LEFT };
 }
 
 void

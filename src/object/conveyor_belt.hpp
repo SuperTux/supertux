@@ -66,8 +66,6 @@ public:
 private:
   void update_hitbox() override;
 
-  std::vector<Direction> get_allowed_directions() const;
-
 private:
   bool m_running;
   Direction m_dir;

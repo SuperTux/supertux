@@ -57,7 +57,7 @@ ConveyorBelt::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir, get_allowed_directions(), "direction");
+  result.add_direction(_("Direction"), &m_dir, { Direction::LEFT, Direction::RIGHT }, "direction");
   result.add_float(_("Speed"), &m_speed, "speed", 1.0f);
   result.add_bool(_("Running"), &m_running, "running", true);
   result.add_int(_("Length"), &m_length, "length", 3);
@@ -166,12 +166,6 @@ ConveyorBelt::set_speed(float target_speed)
 {
   target_speed = math::clamp(target_speed, 0.0f, MAX_SPEED);
   m_speed = target_speed;
-}
-
-std::vector<Direction>
-ConveyorBelt::get_allowed_directions() const
-{
-  return { Direction::LEFT, Direction::RIGHT };
 }
 
 /* EOF */

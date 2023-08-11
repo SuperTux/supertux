@@ -58,7 +58,7 @@ PushButton::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir, get_allowed_directions(), "direction");
+  result.add_direction(_("Direction"), &m_dir, { Direction::UP, Direction::DOWN }, "direction");
   result.add_script(_("Script"), &m_script, "script");
 
   result.reorder({"direction", "script", "x", "y"});
@@ -128,12 +128,6 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   Sector::get().run_script(m_script, "PushButton");
 
   return FORCE_MOVE;
-}
-
-std::vector<Direction>
-PushButton::get_allowed_directions() const
-{
-  return { Direction::UP, Direction::DOWN };
 }
 
 void

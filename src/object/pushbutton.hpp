@@ -38,9 +38,6 @@ public:
   virtual void on_flip(float height) override;
 
 private:
-  std::vector<Direction> get_allowed_directions() const;
-
-private:
   enum PushButtonState {
     OFF,
     ON
