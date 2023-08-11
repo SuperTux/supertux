@@ -38,6 +38,7 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_directories(),
   m_files(),
   m_path_relative_to_basedir(path_relative_to_basedir),
+  m_ignore_filter(false),
   m_callback(std::move(callback))
 {
   AddonManager::current()->unmount_old_addons();
@@ -83,7 +84,7 @@ FileSystemMenu::refresh_items()
         return;
       }
 
-      if (has_right_suffix(file))
+      if (m_ignore_filter || has_right_suffix(file))
       {
         m_files.push_back(file);
       }
@@ -104,6 +105,7 @@ FileSystemMenu::refresh_items()
 
   add_hl();
   add_entry(-2, _("Open Directory"));
+  add_toggle(-3, _("Show all files"), &m_ignore_filter, true);
   add_hl();
   add_back(_("Cancel"));
 
@@ -161,6 +163,9 @@ FileSystemMenu::menu_action(MenuItem& item)
   {
     FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
   }
+  else if (item.get_id() == -3)
+  {
+    refresh_items();
+  }
 }
-
 /* EOF */

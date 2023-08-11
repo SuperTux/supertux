@@ -269,7 +269,7 @@ ObjectSettings::add_sprite(const std::string& text, std::string* value_ptr,
                            std::optional<std::string> default_value,
                            unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".jpg", ".png", ".sprite"}, {}, true, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".sprite"}, {}, true, flags);
 }
 
 void
@@ -278,7 +278,7 @@ ObjectSettings::add_surface(const std::string& text, std::string* value_ptr,
                             std::optional<std::string> default_value,
                             unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".jpg", ".png", ".surface"}, {}, true, flags);
+  add_file(text, value_ptr, key, std::move(default_value), {".surface"}, {}, true, flags);
 }
 
 void

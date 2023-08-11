@@ -39,6 +39,7 @@ private:
   std::vector<std::string> m_directories;
   std::vector<std::string> m_files;
   bool m_path_relative_to_basedir;
+  bool m_ignore_filter;
   std::function<void(std::string)> m_callback;
 
 private:
