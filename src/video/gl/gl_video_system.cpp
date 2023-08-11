@@ -181,7 +181,7 @@ GLVideoSystem::create_gl_context()
   assert_gl();
 
   if (g_config->try_vsync) {
-    // We want v-sync for smooth scrolling.
+    // We want VSync for smooth scrolling.
     if (SDL_GL_SetSwapInterval(-1) != 0)
     {
       log_info << "no support for late swap tearing vsync: " << SDL_GetError() << std::endl;

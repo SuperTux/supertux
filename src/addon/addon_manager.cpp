@@ -301,7 +301,7 @@ AddonManager::check_online()
 TransferStatusListPtr
 AddonManager::request_install_addon(const AddonId& addon_id)
 {
-  // Remove addon if it already exists.
+  // Remove add-on if it already exists.
   auto it = m_installed_addons.find(addon_id);
   if (it != m_installed_addons.end())
   {

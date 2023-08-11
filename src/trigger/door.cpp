@@ -95,13 +95,8 @@ Door::update(float )
     case CLOSED:
       break;
     case OPENING:
-<<<<<<< HEAD
-      // if door has finished opening, start timer and keep door open
-      if (m_sprite->animation_done()) {
-=======
       // If door has finished opening, start timer and keep door open.
-      if (sprite->animation_done()) {
->>>>>>> 52b3efd73 (Fix comment style and consistency [Part 2])
+      if (m_sprite->animation_done()) {
         state = OPEN;
         set_action("open");
         stay_open_timer.start(1.0);
@@ -115,13 +110,8 @@ Door::update(float )
       }
       break;
     case CLOSING:
-<<<<<<< HEAD
-      // if door has finished closing, keep it shut
-      if (m_sprite->animation_done()) {
-=======
       // If door has finished closing, keep it shut.
-      if (sprite->animation_done()) {
->>>>>>> 52b3efd73 (Fix comment style and consistency [Part 2])
+      if (m_sprite->animation_done()) {
         state = CLOSED;
         set_action("closed");
       }
