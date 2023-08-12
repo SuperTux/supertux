@@ -43,7 +43,8 @@ protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 protected:
-  enum AngryStoneState {
+  enum AngryStoneState
+  {
     IDLE,
     CHARGING,
     ATTACKING,
@@ -51,10 +52,10 @@ protected:
   };
 
 private:
-  Vector attackDirection;  /**< 1-normalized vector of current attack direction */
-  Vector oldWallDirection; /**< if wall was hit during last attack: 1-normalized vector of last attack direction, (0,0) otherwise */
-  Timer timer;
-  AngryStoneState state;
+  Vector m_attack_direction;  /**< A normalized vector representing the current attack direction. */
+  Vector m_old_wall_direction; /**< If a wall was hit during the last attack, a normalized vector representing the direction of the last attack, (0,0) otherwise. */
+  Timer m_timer;
+  AngryStoneState m_state;
 
 private:
   AngryStone(const AngryStone&) = delete;

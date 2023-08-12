@@ -54,17 +54,17 @@ YetiStalactite::active_update(float dt_sec)
 void
 YetiStalactite::update(float dt_sec)
 {
-  // Respawn instead of removing once squished
+  // Respawn instead of removing once squished.
   if (get_state() == STATE_SQUISHED && check_state_timer()) {
     set_state(STATE_ACTIVE);
     state = STALACTITE_HANGING;
-    // Hopefully we shouldn't come into contact with anything...
+    // Attempt to minimize any potential collisions during this process.
     set_action("normal");
     set_pos(m_start_position);
     set_colgroup_active(COLGROUP_TOUCHABLE);
   }
 
-  // Call back to badguy to do normal stuff
+  // Invoke the badguy's update function to handle regular tasks.
   BadGuy::update(dt_sec);
 }
 

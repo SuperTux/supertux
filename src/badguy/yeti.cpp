@@ -29,29 +29,30 @@
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
-namespace {
-const float JUMP_DOWN_VX = 250; /**< horizontal speed while jumping off the dais */
-const float JUMP_DOWN_VY = -250; /**< vertical speed while jumping off the dais */
+namespace
+{
+const float JUMP_DOWN_VX = 250; /**< Horizontal speed while jumping off the dais. */
+const float JUMP_DOWN_VY = -250; /**< Vertical speed while jumping off the dais. */
 
-const float RUN_VX = 350; /**< horizontal speed while running */
+const float RUN_VX = 350; /**< Horizontal speed while running. */
 
-const float JUMP_UP_VX = 350; /**< horizontal speed while jumping on the dais */
-const float JUMP_UP_VY = -700; /**< vertical speed while jumping on the dais */
+const float JUMP_UP_VX = 350; /**< Horizontal speed while jumping on the dais. */
+const float JUMP_UP_VY = -700; /**< Vertical speed while jumping on the dais. */
 
-const float STOMP_VY = -300; /** vertical speed while stomping on the dais */
+const float STOMP_VY = -300; /**< Vertical speed while stomping on the dais. */
 
-const float RUN_DISTANCE = 1060; /** Distance between the x-coordinates of left and right end positions */
-const float JUMP_SPACE = 448; /** Distance between jump position and stand position */
-const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again */
-const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
-const int INITIAL_HITPOINTS = 5; /**< number of hits we can take */
+const float RUN_DISTANCE = 1060; /**< Distance between the x-coordinates of left and right end positions. */
+const float JUMP_SPACE = 448; /**< Distance between the jump position and the stand position. */
+const float STOMP_WAIT = 0.5; /**< Time we stay on the dais before jumping again. */
+const float SAFE_TIME = 0.5; /**< The time we are safe when Tux just hit us. */
+const int INITIAL_HITPOINTS = 5; /**< Number of hits we can take. */
 
 const float YETI_SQUISH_TIME = 3;
 
-const float SNOW_EXPLOSIONS_FREQUENCY = 8; /**< number of snowball explosions per second */
-const int SNOW_EXPLOSIONS_COUNT = 5; /**< number of snowballs per explosion */
-const float SNOW_EXPLOSIONS_VX = 150; /**< Speed of snowballs */
-const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs */
+const float SNOW_EXPLOSIONS_FREQUENCY = 8; /**< Number of snowball explosions per second. */
+const int SNOW_EXPLOSIONS_COUNT = 5; /**< Number of snowballs per explosion. */
+const float SNOW_EXPLOSIONS_VX = 150; /**< Speed of snowballs. */
+const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs. */
 }
 
 Yeti::Yeti(const ReaderMapping& reader) :
@@ -115,7 +116,7 @@ Yeti::recalculate_pos()
 void
 Yeti::draw(DrawingContext& context)
 {
-  // we blink when we are safe
+  // We blink when we are safe.
   if (m_safe_timer.started() && size_t(g_game_time * 40) % 2)
     return;
 
@@ -179,7 +180,7 @@ Yeti::active_update(float dt_sec)
         BadGuy::kill_fall();
         m_state = FALLING;
         m_physic.set_velocity_y(JUMP_UP_VY / 2); // Move up a bit before falling
-        // Add some extra explosions
+        // Add some extra explosions.
         for (int i = 0; i < 10; i++) {
           add_snow_explosions();
         }
@@ -223,7 +224,7 @@ Yeti::jump_up()
 void
 Yeti::be_angry()
 {
-  //turn around
+  // Turn around.
   m_dir = (m_dir==Direction::RIGHT) ? Direction::LEFT : Direction::RIGHT;
 
   set_action("stand", m_dir);
@@ -260,7 +261,7 @@ void Yeti::take_hit(Player& )
   m_hit_points--;
 
   if (m_hit_points <= 0) {
-    // We're dead
+    // We're dead.
     m_physic.set_velocity_x(((m_dir==Direction::RIGHT)?+RUN_VX:-RUN_VX)/5);
     m_physic.set_velocity_y(0);
 
@@ -270,7 +271,7 @@ void Yeti::take_hit(Player& )
     m_state = SQUISHED;
     m_state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
-    //sprite->set_action("dead"); // This sprite does not look very good
+    // sprite->setAction("dead");
   }
   else {
     m_safe_timer.start(SAFE_TIME);
@@ -280,13 +281,13 @@ void Yeti::take_hit(Player& )
 void
 Yeti::kill_fall()
 {
-  // shooting bullets or being invincible won't work :)
+  // Shooting bullets or being invincible won't prevent this action.
 }
 
 void
 Yeti::drop_stalactite()
 {
-  // make a stalactite falling down and shake camera a bit
+  // Make a stalactite fall down and shake the camera a bit.
   Sector::get().get_camera().shake(.1f, 0, 20.f);
 
   auto player = get_nearest_player();
@@ -296,17 +297,16 @@ Yeti::drop_stalactite()
   {
     if (stalactite.is_hanging()) {
       if (m_hit_points >= 3) {
-        // drop stalactites within 3 of player, going out with each jump
+        // Drop stalactites within 3 units of player, going out with each jump.
         float distancex = fabsf(stalactite.get_bbox().get_middle().x - player->get_bbox().get_middle().x);
         if (distancex < static_cast<float>(m_stomp_count) * 32.0f) {
           stalactite.start_shaking();
         }
       }
       else { /* if (hitpoints < 3) */
-        // drop every 3rd pair of stalactites
-        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (m_stomp_count % 3)) {
+        // Drop every 3rd pair of stalactites.
+        if ((((static_cast<int>(stalactite.get_pos().x) + 16) / 64) % 3) == (m_stomp_count % 3))
           stalactite.start_shaking();
-        }
       }
     }
   }
@@ -317,7 +317,7 @@ Yeti::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
   if (hit.top || hit.bottom) {
-    // hit floor or roof
+    // Hit floor or roof.
     m_physic.set_velocity_y(0);
     switch (m_state) {
       case JUMP_DOWN:
@@ -328,17 +328,21 @@ Yeti::collision_solid(const CollisionHit& hit)
       case JUMP_UP:
         break;
       case BE_ANGRY:
-        // we just landed
-        if (!m_state_timer.started()) {
+        // We just landed.
+        if (!m_state_timer.started())
+        {
           set_action("stand", m_dir);
           m_stomp_count++;
           drop_stalactite();
 
-          // go to other side after 3 jumps
-          if (m_stomp_count == 3) {
+          // Go to the other side after 3 jumps.
+          if (m_stomp_count == 3)
+          {
             jump_down();
-          } else {
-            // jump again
+          }
+          else
+          {
+            // Jump again.
             m_state_timer.start(STOMP_WAIT);
           }
         }
@@ -349,7 +353,7 @@ Yeti::collision_solid(const CollisionHit& hit)
         break;
     }
   } else if (hit.left || hit.right) {
-    // hit wall
+    // Hit wall.
     if(m_state != SQUISHED && m_state != FALLING)
       jump_up();
   }

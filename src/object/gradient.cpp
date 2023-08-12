@@ -197,7 +197,7 @@ Gradient::update(float delta)
 }
 
 void
-Gradient::set_gradient(Color top, Color bottom)
+Gradient::set_gradient(const Color& top, const Color& bottom)
 {
   m_gradient_top = top;
   m_gradient_bottom = bottom;
@@ -207,7 +207,7 @@ Gradient::set_gradient(Color top, Color bottom)
       m_gradient_top.blue > 1.0f ||
       m_gradient_top.alpha > 1.0f)
   {
-    log_warning << "top gradient color has values above 1.0" << std::endl;
+    log_warning << "Top gradient color has values above 1.0." << std::endl;
   }
 
   if (m_gradient_bottom.red > 1.0f ||
@@ -215,12 +215,12 @@ Gradient::set_gradient(Color top, Color bottom)
       m_gradient_bottom.blue > 1.0f ||
       m_gradient_bottom.alpha > 1.0f)
   {
-    log_warning << "bottom gradient color has values above 1.0" << std::endl;
+    log_warning << "Bottom gradient color has values above 1.0." << std::endl;
   }
 }
 
 void
-Gradient::fade_gradient(Color top, Color bottom, float time)
+Gradient::fade_gradient(const Color& top, const Color& bottom, float time)
 {
   m_start_gradient_top = m_gradient_top;
   m_start_gradient_bottom = m_gradient_bottom;

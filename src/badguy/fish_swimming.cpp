@@ -108,12 +108,12 @@ FishSwimming::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 void
 FishSwimming::active_update(float dt_sec) {
 
-  //basic stuff
+  // Perform basic updates.
   BadGuy::active_update(dt_sec);
   m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
   m_physic.enable_gravity((!m_frozen && m_in_water) ? false : true);
 
-  //beached stuff
+  // Handle beached state when the fish is in water and beached_timer is active.
   if (m_in_water && m_beached_timer.started())
     m_beached_timer.stop();
 
@@ -124,7 +124,7 @@ FishSwimming::active_update(float dt_sec) {
     m_beached_timer.stop();
   }
 
-  //y-velocity stuff
+  // Handle y-velocity related functionality.
   if (!m_float_timer.started())
     m_float_timer.start(FISH_FLOAT_TIME);
 
@@ -158,7 +158,7 @@ FishSwimming::active_update(float dt_sec) {
 
   if (!m_beached_timer.started())
   {
-    //x-velocity stuff
+    // Handle x-velocity related functionality.
     float goal_x_velocity = m_dir == Direction::LEFT ? -128.f : 128.f;
     if (m_dir != Direction::LEFT && get_pos().x > (m_start_position.x + m_radius - 20.f))
       goal_x_velocity = -128.f;
@@ -208,19 +208,19 @@ FishSwimming::maintain_velocity(float goal_x_velocity)
     return;
 
   float current_x_velocity = m_physic.get_velocity_x();
-  /* We're very close to our target speed. Just set it to avoid oscillation */
+  /* We're very close to our target speed. Just set it to avoid oscillation. */
   if ((current_x_velocity > (goal_x_velocity - 5.0f)) &&
     (current_x_velocity < (goal_x_velocity + 5.0f)))
   {
     m_physic.set_velocity_x(goal_x_velocity);
     m_physic.set_acceleration_x(0.0);
   }
-  /* Check if we're going too slow or even in the wrong direction */
+  /* Check if we're going too slow or even in the wrong direction. */
   else if (((goal_x_velocity <= 0.0f) && (current_x_velocity > goal_x_velocity)) ||
     ((goal_x_velocity > 0.0f) && (current_x_velocity < goal_x_velocity))) {
     m_physic.set_acceleration_x(goal_x_velocity);
   }
-  /* Check if we're going too fast */
+  /* Check if we're going too fast. */
   else if (((goal_x_velocity <= 0.0f) && (current_x_velocity < goal_x_velocity)) ||
     ((goal_x_velocity > 0.0f) && (current_x_velocity > goal_x_velocity))) {
     m_physic.set_acceleration_x((-1.f) * goal_x_velocity);

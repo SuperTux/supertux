@@ -46,7 +46,7 @@ CollisionGroundMovementManager::apply_all_ground_movement()
     const auto& tilemaps_map = movements.get_tilemaps_map();
 
     // Find the lowest "y" position (i.e. the highest point since
-    // (0,0) is the top-left corner) and the associated object
+    // (0,0) is the top-left corner) and the associated object.
     Vector lowest_y_vector(0.0f, 0.0f);
     bool first_to_do = true;
 

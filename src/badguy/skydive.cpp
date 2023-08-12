@@ -84,7 +84,7 @@ void
 SkyDive::ungrab(MovingObject& object, Direction dir_)
 {
   auto player = dynamic_cast<Player*> (&object);
-  //handle swimming
+  // Handle swimming state of the player.
   if (player)
   {
     if (player->is_swimming() || player->is_water_jumping())
@@ -93,10 +93,10 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
       m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
         player->get_physic().get_velocity());
     }
-    //handle non-swimming
+    // Handle non-swimming.
     else
     {
-      //handle x-movement
+      // Handle x-movement based on the player's direction and velocity.
       if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
         m_physic.set_velocity_x(0.f);
       else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
@@ -106,7 +106,7 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
       else
         m_physic.set_velocity_x(player->get_physic().get_velocity_x()
           + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
-      //handle y-movement
+      // Handle y-movement based on the player's direction and velocity.
       m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
         dir_ == Direction::DOWN ? 500.f :
         player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
