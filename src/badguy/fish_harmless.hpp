@@ -19,7 +19,7 @@
 
 #include "badguy/fish_swimming.hpp"
 
-/** Jumping on a trampoline makes tux jump higher. */
+/** Fish, which doesn't harm the player. */
 class FishHarmless final : public FishSwimming
 {
 public:
