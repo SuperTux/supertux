@@ -51,7 +51,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   reader.get("random", m_random, false);
 
   std::vector<std::string> badguys;
-  if (reader.get("badguy", badguys)) // Backward compatibility
+  if (reader.get("badguy", badguys)) // Backward compatibility.
   {
     for (auto& badguy : badguys)
       add_object(GameObjectFactory::instance().create(badguy));
@@ -86,7 +86,7 @@ Dispenser::add_object(std::unique_ptr<GameObject> object)
 {
   auto moving_object = dynamic_cast<MovingObject*>(object.get());
   if (!GameObjectFactory::instance().has_params(object->get_class_name(), ObjectFactory::RegisteredObjectParam::OBJ_PARAM_DISPENSABLE) ||
-      !moving_object) // Object is not MovingObject, or is not dispensable
+      !moving_object) // Object is not MovingObject, or is not dispensable.
   {
     log_warning << object->get_class_name() << " is not dispensable. Removing from dispenser object list." << std::endl;
     return;
@@ -141,7 +141,7 @@ Dispenser::active_update(float dt_sec)
   }
   if (m_dispense_timer.check())
   {
-    // auto always shoots in Tux's direction
+    // Auto always shoots in Tux's direction.
     if (m_autotarget)
     {
       auto player = get_nearest_player();
@@ -165,7 +165,7 @@ Dispenser::launch_object()
   if (m_objects.empty()) return;
   if (m_frozen) return;
 
-  //FIXME: Does is_offscreen() work right here?
+  // FIXME: Does is_offscreen() work right here?
   if (!is_offscreen() && !Editor::is_active())
   {
     Direction launch_dir = m_dir;
@@ -230,7 +230,7 @@ Dispenser::launch_object()
           break;
 
         case DispenserType::CANNON:
-          spawnpoint = get_pos(); /* top-left corner of the cannon */
+          spawnpoint = get_pos(); /* Top-left corner of the cannon. */
           if (launch_dir == Direction::LEFT)
             spawnpoint.x -= object_bbox.get_width() + 1;
           else
@@ -247,17 +247,17 @@ Dispenser::launch_object()
           break;
       }
 
-      /* Now we set the real spawn position */
+      /* Now we set the real spawn position. */
       moving_object->set_pos(spawnpoint);
 
-      /* Set reference to dispenser in the object itself */
+      /* Set reference to dispenser in the object itself. */
       moving_object->set_parent_dispenser(this);
 
-      if (obj_badguy) // The object is a badguy
+      if (obj_badguy) // The object is a badguy.
       {
         auto badguy = static_cast<BadGuy*>(moving_object);
 
-        /* We don't want to count dispensed badguys in level stats */
+        /* We don't want to count dispensed badguys in level stats. */
         badguy->m_countMe = false;
 
         if (m_limit_dispensed_badguys)

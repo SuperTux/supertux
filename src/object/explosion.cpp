@@ -73,15 +73,15 @@ Explosion::explode()
   Sector::get().get_camera().shake(.1f, 0.f, 10.f);
 
   set_action(hurt ? "default" : "pop", 1);
-  m_sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
-  m_sprite->set_angle(graphicsRandom.randf(0, 360)); // a random rotation on the sprite to make explosions appear more random
+  m_sprite->set_animation_loops(1); //TODO: This is necessary because set_action will not set "loops" when "action" is the default action.
+  m_sprite->set_angle(graphicsRandom.randf(0, 360)); // A random rotation on the sprite to make explosions appear more random.
   if (hurt)
     SoundManager::current()->play("sounds/explosion.wav", get_pos(), 0.98f);
   else
     SoundManager::current()->play("sounds/firecracker.ogg", get_pos(), 0.7f);
   bool does_push = push_strength > 0;
 
-  // spawn some particles
+  // Spawn some particles.
   Vector accel = Vector(0, Sector::get().get_gravity()*100);
   Sector::get().add<Particles>(
     m_col.m_bbox.get_middle(), -360, 360, 450.0f, 900.0f, accel, num_particles,

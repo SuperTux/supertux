@@ -25,8 +25,8 @@ IFileStreambuf::IFileStreambuf(const std::string& filename) :
   file(),
   buf()
 {
-  // check this as PHYSFS seems to be buggy and still returns a
-  // valid pointer in this case
+  // Check this as PHYSFS seems to be buggy and still returns a
+  // valid pointer in this case.
   if (filename.empty()) {
     throw std::runtime_error("Couldn't open file: empty filename");
   }
@@ -67,7 +67,7 @@ IFileStreambuf::seekpos(pos_type pos, std::ios_base::openmode)
     return pos_type(off_type(-1));
   }
 
-  // the seek invalidated the buffer
+  // The seek invalidated the buffer.
   setg(buf, buf, buf);
   return pos;
 }

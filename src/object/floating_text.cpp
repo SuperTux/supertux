@@ -32,15 +32,10 @@ FloatingText::FloatingText(const Vector& pos, const std::string& text_) :
 
 FloatingText::FloatingText(const Vector& pos, int score) :
   position(pos),
-  text(),
+  text(std::to_string(score)),
   timer()
 {
   timer.start(.1f);
-
-  // turn int into a string
-  char str[10];
-  snprintf(str, 10, "%d", score);
-  text = str;
 
   position.x -= static_cast<float>(text.size()) * 8.0f;
 }
@@ -59,7 +54,7 @@ const float FADING_TIME = .350f;
 void
 FloatingText::draw(DrawingContext& context)
 {
-  // make an alpha animation when disappearing
+  // Make an alpha animation when disappearing.
   float alpha;
   if (timer.get_timeleft() < FADING_TIME)
     alpha = timer.get_timeleft() * 255.0f / FADING_TIME;

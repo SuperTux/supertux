@@ -42,7 +42,7 @@ Crystallo::get_settings()
 void
 Crystallo::active_update(float dt_sec)
 {
-  //walking and turning properly
+  // Walking and turning properly.
   float targetwalk = m_dir == Direction::LEFT ? -80.f : 80.f;
   if (m_dir != Direction::LEFT && get_pos().x > (m_start_position.x + m_radius - 20.f))
     targetwalk = -80.f;

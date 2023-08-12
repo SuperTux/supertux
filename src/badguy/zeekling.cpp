@@ -122,7 +122,7 @@ Zeekling::collision_solid(const CollisionHit& hit)
   }
 }
 
-/** linear prediction of player and badguy positions to decide if we should enter the DIVING state */
+/** Linear prediction of player and badguy positions to decide if we should enter the DIVING state. */
 bool
 Zeekling::should_we_dive()
 {
@@ -132,40 +132,40 @@ Zeekling::should_we_dive()
   const auto player = get_nearest_player();
   if (player && last_player && (player == last_player)) {
 
-    // get positions, calculate movement
+    // Get positions and calculate movement.
     const Vector& player_pos = player->get_pos();
     const Vector player_mov = (player_pos - last_player_pos);
     const Vector self_pos = m_col.m_bbox.p1();
     const Vector self_mov = (self_pos - last_self_pos);
 
-    // new vertical speed to test with
+    // New vertical speed to test with.
     float vy = 2*fabsf(self_mov.x);
 
-    // do not dive if we are not above the player
+    // Do not dive if we are not above the player.
     float height = player_pos.y - self_pos.y;
     if (height <= 0) return false;
 
-    // do not dive if we are too far above the player
+    // Do not dive if we are too far above the player.
     if (height > 512) return false;
 
-    // do not dive if we would not descend faster than the player
+    // Do not dive if we would not descend faster than the player.
     float relSpeed = vy - player_mov.y;
     if (relSpeed <= 0) return false;
 
-    // guess number of frames to descend to same height as player
+    // Guess number of frames to descend to same height as player.
     float estFrames = height / relSpeed;
 
-    // guess where the player would be at this time
+    // Guess where the player would be at this time.
     float estPx = (player_pos.x + (estFrames * player_mov.x));
 
-    // guess where we would be at this time
+    // Guess where we would be at this time.
     float estBx = (self_pos.x + (estFrames * self_mov.x));
 
-    // near misses are OK, too
+    // Allow for slight inaccuracies.
     if (fabsf(estPx - estBx) < 8) return true;
   }
 
-  // update last player tracked, as well as our positions
+  // Update the last player tracked, as well as our positions.
   last_player = player;
   if (player) {
     last_player_pos = player->get_pos();
@@ -189,7 +189,7 @@ Zeekling::active_update(float dt_sec) {
     BadGuy::active_update(dt_sec);
     return;
   } else if (state == CLIMBING) {
-    // stop climbing when we're back at initial height
+    // Stop climbing when we're back at initial height.
     if (get_pos().y <= m_start_position.y) {
       state = FLYING;
       m_physic.set_velocity_y(0);

@@ -217,7 +217,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
       window_size = Size(1280, 800);
       fullscreen_size = Size(1280, 800);
       fullscreen_refresh_rate = 0;
-      aspect_size = Size(0, 0);  // auto detect
+      aspect_size = Size(0, 0);  // Auto detect.
     }
     else if (arg == "--window" || arg == "-w")
     {
@@ -262,7 +262,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
         }
         else
         {
-          // use aspect ratio to calculate logical resolution
+          // Use aspect ratio to calculate logical resolution.
           if (aspect_width / aspect_height > 1) {
             aspect_size = Size(600 * aspect_width / aspect_height, 600);
           } else {
