@@ -236,7 +236,7 @@ private:
   int m_previous_type;
 
   /** Indicates the object's version. By default, this is equal to 1.
-      Useful for retaining retrocompatibility for objects, whilst allowing for
+      Useful for retaining retro-compatibility for objects, whilst allowing for
       updated behaviour in newer levels.
       The version of an object can be updated from the editor. */
   int m_version;
