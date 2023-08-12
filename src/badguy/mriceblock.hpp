@@ -49,7 +49,7 @@ public:
   virtual bool is_snipable() const override { return ice_state != ICESTATE_KICKED; }
   virtual bool is_freezable() const override;
 
-  GameObjectTypes get_types() const override;
+  virtual GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
   bool can_break();
