@@ -24,7 +24,6 @@
 #include "math/util.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
