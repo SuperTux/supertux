@@ -101,19 +101,19 @@ MrTree::collision_squished(GameObject& object)
     return true;
   }
 
-  // replace with Stumpy
+  // Replace with Stumpy.
   Vector stumpy_pos = get_pos();
   stumpy_pos.x += 8;
   stumpy_pos.y += 28;
   auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
   remove_me();
 
-  // give Feedback
+  // Give feedback.
   SoundManager::current()->play("sounds/mr_tree.ogg", get_pos());
   if (player) player->bounce(*this);
 
-  // spawn some particles
-  // TODO: provide convenience function in MovingSprite or MovingObject?
+  // Spawn some particles.
+  // TODO: Provide convenience function in MovingSprite or MovingObject?
   for (int px = static_cast<int>(stumpy.get_bbox().get_left()); px < static_cast<int>(stumpy.get_bbox().get_right()); px+=10) {
     Vector ppos = Vector(static_cast<float>(px),
                          static_cast<float>(stumpy.get_bbox().get_top()) - 5.0f);
@@ -130,8 +130,8 @@ MrTree::collision_squished(GameObject& object)
                                            LAYER_OBJECTS-1);
   }
 
-  if (!m_frozen) { //Frozen Mr.Trees don't spawn any ViciousIvys.
-    // spawn ViciousIvy
+  if (!m_frozen) { // Mr.Trees that are frozen don't spawn any Vicious Ivys.
+    // Spawn ViciousIvy.
     Vector leaf1_pos(stumpy_pos.x - VICIOUSIVY_WIDTH - 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + VICIOUSIVY_WIDTH, leaf1_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
@@ -139,7 +139,7 @@ MrTree::collision_squished(GameObject& object)
       leaf1.m_countMe = false;
     }
 
-    // spawn ViciousIvy
+    // Spawn ViciousIvy.
     Vector leaf2_pos(stumpy_pos.x + m_sprite->get_current_hitbox_width() + 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
     Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + VICIOUSIVY_WIDTH, leaf2_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {

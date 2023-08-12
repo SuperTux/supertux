@@ -21,9 +21,9 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
-static const float JUMPYSPEED=-600;
-static const float JUMPY_MID_TOLERANCE=4;
-static const float JUMPY_LOW_TOLERANCE=2;
+static const float JUMPYSPEED =- 600;
+static const float JUMPY_MID_TOLERANCE = 4;
+static const float JUMPY_LOW_TOLERANCE = 2;
 
 Jumpy::Jumpy(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/jumpy/snowjumpy.sprite"),
@@ -33,8 +33,8 @@ Jumpy::Jumpy(const ReaderMapping& reader) :
   parse_type(reader);
 
   set_action(m_dir, "middle");
-  // TODO create a nice sound for this...
-  //SoundManager::current()->preload("sounds/skid.wav");
+  // TODO: Create a suitable sound for this...
+  // SoundManager::current()->preload("sounds/skid.wav");
 }
 
 GameObjectTypes
@@ -85,15 +85,12 @@ HitResponse
 Jumpy::hit(const CollisionHit& chit)
 {
   if (chit.bottom) {
-    if (!groundhit_pos_set)
-    {
-      pos_groundhit = get_pos();
-      groundhit_pos_set = true;
-    }
+    pos_groundhit = get_pos();
+    groundhit_pos_set = true;
 
     m_physic.set_velocity_y((m_frozen || get_state() != STATE_ACTIVE) ? 0 : JUMPYSPEED);
-    // TODO create a nice sound for this...
-    //SoundManager::current()->play("sounds/skid.wav", get_pos());
+    // TODO: Create a suitable sound for this...
+    // SoundManager::current()->play("sounds/skid.wav", get_pos());
     update_on_ground_flag(chit);
   } else if (chit.top) {
     m_physic.set_velocity_y(0);
@@ -119,6 +116,14 @@ Jumpy::active_update(float dt_sec)
   if (!groundhit_pos_set)
   {
     set_action("editor", m_dir);
+    return;
+  }
+
+  if (get_pos().y > pos_groundhit.y)
+  {
+    // Jumpy is below its groundhit position,
+    // ground tile probably doesn't exist anymore
+    set_action(m_dir, "down");
     return;
   }
 

@@ -36,7 +36,7 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   walk_speed = 80;
   max_drop_height = 16;
 
-  //Prevent stutter when Tux jumps on Mr Bomb
+  // Prevent stutter when Tux jumps on Mr Bomb.
   SoundManager::current()->preload("sounds/explosion.wav");
 }
 

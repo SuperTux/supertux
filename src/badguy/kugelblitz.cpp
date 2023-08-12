@@ -60,7 +60,7 @@ void
 Kugelblitz::initialize()
 {
   m_physic.set_velocity_y(300);
-  m_physic.set_velocity_x(-20); //fall a little to the left
+  m_physic.set_velocity_x(-20); // Fall a little to the left.
   direction = 1;
   dying = false;
 }
@@ -78,10 +78,10 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
     explode();
     return ABORT_MOVE;
   }
-  // hit from above?
+  // Did the collision occur from above?
   if (player.get_movement().y - get_movement().y > 0 && player.get_bbox().get_bottom() <
      (m_col.m_bbox.get_top() + m_col.m_bbox.get_bottom()) / 2) {
-    // if it's not is it possible to squish us, then this will hurt
+    // If not, and if it's possible for the player to squish us, then this collision will hurt.
     if (!collision_squished(player))
       player.kill(false);
     explode();
@@ -95,8 +95,8 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
 HitResponse
 Kugelblitz::collision_badguy(BadGuy& other , const CollisionHit& chit)
 {
-  //Let the Kugelblitz explode, too? The problem with that is that
-  //two Kugelblitzes would cancel each other out on contact...
+  // Should the Kugelblitz explode as well? The concern is that
+  // two Kugelblitzes would cancel each other out on contact.
   other.kill_fall();
   return hit(chit);
 }
@@ -104,7 +104,7 @@ Kugelblitz::collision_badguy(BadGuy& other , const CollisionHit& chit)
 HitResponse
 Kugelblitz::hit(const CollisionHit& hit_)
 {
-  // hit floor?
+  // Did the collision occur with the floor?
   if (hit_.bottom) {
     if (!groundhit_pos_set)
     {
@@ -113,7 +113,7 @@ Kugelblitz::hit(const CollisionHit& hit_)
     }
     set_action("flying");
     m_physic.set_velocity_y(0);
-    //Set random initial speed and direction
+    // Set random initial speed and direction.
     direction = gameRandom.rand(2)? 1: -1;
     int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
     m_physic.set_velocity_x(static_cast<float>(speed));
@@ -177,7 +177,7 @@ Kugelblitz::explode()
 void
 Kugelblitz::try_activate()
 {
-  // Much smaller offscreen distances to pop out of nowhere and surprise Tux
+  // Define much smaller offscreen distances to appear unexpectedly and surprise Tux.
   float X_OFFSCREEN_DISTANCE = 400;
   float Y_OFFSCREEN_DISTANCE = 600;
 
@@ -188,7 +188,7 @@ Kugelblitz::try_activate()
     set_state(STATE_ACTIVE);
     if (!m_is_initialized) {
 
-      // if starting direction was set to AUTO, this is our chance to re-orient the badguy
+      // If the starting direction was set to AUTO, this is our chance to re-orient the badguy.
       if (m_start_dir == Direction::AUTO) {
         Player* player__ = get_nearest_player();
         if (player__ && (player__->get_bbox().get_left() > m_col.m_bbox.get_right())) {

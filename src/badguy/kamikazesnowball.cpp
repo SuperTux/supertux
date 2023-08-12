@@ -81,7 +81,7 @@ KamikazeSnowball::kill_collision()
 HitResponse
 KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 {
-  //Hack to tell if we should die
+  // Methodology to determine necessity of death.
   if (!m_frozen)
   {
     HitResponse response = BadGuy::collision_player(player, hit);
@@ -159,7 +159,7 @@ LeafShot::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
   set_action("squished", m_dir);
-  // Spawn death particles
+  // Spawn death particles.
   spawn_explosion_sprites(3, "images/particles/leafshot.sprite");
   kill_squished(object);
   return true;

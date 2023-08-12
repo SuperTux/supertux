@@ -90,7 +90,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit)
 
   auto badguy = dynamic_cast<BadGuy*> (&other);
   if (badguy) {
-    // hit contains no information for collisions with blocks.
+    // Hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the brick
     // SHIFT_DELTA is required to slide over one tile gaps.
     if ( badguy->can_break() && ( badguy->get_bbox().get_bottom() > m_col.m_bbox.get_top() + SHIFT_DELTA ) ) {
@@ -123,7 +123,7 @@ Brick::try_break(Player* player, bool slider)
   if (m_sprite->get_action() == "empty")
     return;
 
-  //takes too long for sliding tux to barrel through crates and ends up stopping him otherwise
+  // Takes too long for sliding tux to barrel through crates and ends up stopping him otherwise.
   if (slider && m_breakable && m_coin_counter <= 0)
     break_me();
 

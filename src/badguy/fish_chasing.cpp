@@ -54,12 +54,12 @@ FishChasing::get_default_sprite_name() const
 
 void
 FishChasing::active_update(float dt_sec) {
-  //basic stuff
+  // Perform basic updates.
   BadGuy::active_update(dt_sec);
   m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
   m_physic.enable_gravity((!m_frozen && m_in_water) ? false : true);
 
-  //beached stuff
+  // Handle beached state when the fish is in water and beached_timer is active.
   if (m_in_water && m_beached_timer.started())
     m_beached_timer.stop();
 
@@ -70,7 +70,7 @@ FishChasing::active_update(float dt_sec) {
     m_beached_timer.stop();
   }
 
-  //behavior
+  // Behavior - chase the nearest player.
   auto player = get_nearest_player();
   if (!player) return;
   Vector p1 = m_col.m_bbox.get_middle();

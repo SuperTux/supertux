@@ -62,7 +62,7 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
 
     auto filename = m_savegame->get_player_status().last_worldmap;
     // If we specified a worldmap filename manually,
-    // this overrides the default choice of "last worldmap"
+    // this overrides the default choice of "last worldmap".
     if (!worldmap_filename.empty())
     {
       filename = worldmap_filename;
@@ -109,7 +109,7 @@ GameManager::load_next_worldmap()
     log_warning << "Can't load world '" << m_next_worldmap << "'" <<  std::endl;
     return false;
   }
-  start_worldmap(*world, m_next_spawnpoint); // New world, new savegame
+  start_worldmap(*world, m_next_spawnpoint); // New world, new savegame.
   return true;
 }
 
