@@ -24,25 +24,25 @@
 #include <string>
 #include <string.h>
 
-// Modeled after the line y = x
+// Modeled after the line y = x.
 double LinearInterpolation(double p)
 {
 	return p;
 }
 
-// Modeled after the parabola y = x^2
+// Modeled after the parabola y = x^2.
 double QuadraticEaseIn(double p)
 {
 	return p * p;
 }
 
-// Modeled after the parabola y = -x^2 + 2x
+// Modeled after the parabola y = -x^2 + 2x.
 double QuadraticEaseOut(double p)
 {
 	return -(p * (p - 2));
 }
 
-// Modeled after the piecewise quadratic
+// Modeled after the piecewise quadratic:
 // y = (1/2)((2x)^2)             ; [0, 0.5)
 // y = -(1/2)((2x-1)*(2x-3) - 1) ; [0.5, 1]
 double QuadraticEaseInOut(double p)
@@ -57,20 +57,20 @@ double QuadraticEaseInOut(double p)
 	}
 }
 
-// Modeled after the cubic y = x^3
+// Modeled after the cubic y = x^3.
 double CubicEaseIn(double p)
 {
 	return p * p * p;
 }
 
-// Modeled after the cubic y = (x - 1)^3 + 1
+// Modeled after the cubic y = (x - 1)^3 + 1.
 double CubicEaseOut(double p)
 {
 	double f = (p - 1);
 	return f * f * f + 1;
 }
 
-// Modeled after the piecewise cubic
+// Modeled after the piecewise cubic:
 // y = (1/2)((2x)^3)       ; [0, 0.5)
 // y = (1/2)((2x-2)^3 + 2) ; [0.5, 1]
 double CubicEaseInOut(double p)
@@ -86,20 +86,20 @@ double CubicEaseInOut(double p)
 	}
 }
 
-// Modeled after the quartic x^4
+// Modeled after the quartic x^4.
 double QuarticEaseIn(double p)
 {
 	return p * p * p * p;
 }
 
-// Modeled after the quartic y = 1 - (x - 1)^4
+// Modeled after the quartic y = 1 - (x - 1)^4.
 double QuarticEaseOut(double p)
 {
 	double f = (p - 1);
 	return f * f * f * (1 - p) + 1;
 }
 
-// Modeled after the piecewise quartic
+// Modeled after the piecewise quartic.
 // y = (1/2)((2x)^4)        ; [0, 0.5)
 // y = -(1/2)((2x-2)^4 - 2) ; [0.5, 1]
 double QuarticEaseInOut(double p) 
@@ -115,20 +115,20 @@ double QuarticEaseInOut(double p)
 	}
 }
 
-// Modeled after the quintic y = x^5
+// Modeled after the quintic y = x^5.
 double QuinticEaseIn(double p) 
 {
 	return p * p * p * p * p;
 }
 
-// Modeled after the quintic y = (x - 1)^5 + 1
+// Modeled after the quintic y = (x - 1)^5 + 1.
 double QuinticEaseOut(double p) 
 {
 	double f = (p - 1);
 	return f * f * f * f * f + 1;
 }
 
-// Modeled after the piecewise quintic
+// Modeled after the piecewise quintic:
 // y = (1/2)((2x)^5)       ; [0, 0.5)
 // y = (1/2)((2x-2)^5 + 2) ; [0.5, 1]
 double QuinticEaseInOut(double p) 
@@ -144,37 +144,37 @@ double QuinticEaseInOut(double p)
 	}
 }
 
-// Modeled after quarter-cycle of sine wave
+// Modeled after quarter-cycle of sine wave.
 double SineEaseIn(double p)
 {
 	return sin((p - 1) * M_PI_2) + 1;
 }
 
-// Modeled after quarter-cycle of sine wave (different phase)
+// Modeled after quarter-cycle of sine wave (different phase).
 double SineEaseOut(double p)
 {
 	return sin(p * M_PI_2);
 }
 
-// Modeled after half sine wave
+// Modeled after half sine wave.
 double SineEaseInOut(double p)
 {
 	return 0.5 * (1 - cos(p * M_PI));
 }
 
-// Modeled after shifted quadrant IV of unit circle
+// Modeled after shifted quadrant IV of unit circle.
 double CircularEaseIn(double p)
 {
 	return 1 - sqrt(1 - (p * p));
 }
 
-// Modeled after shifted quadrant II of unit circle
+// Modeled after shifted quadrant II of unit circle.
 double CircularEaseOut(double p)
 {
 	return sqrt((2 - p) * p);
 }
 
-// Modeled after the piecewise circular function
+// Modeled after the piecewise circular function:
 // y = (1/2)(1 - sqrt(1 - 4x^2))           ; [0, 0.5)
 // y = (1/2)(sqrt(-(2x - 3)*(2x - 1)) + 1) ; [0.5, 1]
 double CircularEaseInOut(double p)
@@ -189,19 +189,19 @@ double CircularEaseInOut(double p)
 	}
 }
 
-// Modeled after the exponential function y = 2^(10(x - 1))
+// Modeled after the exponential function y = 2^(10(x - 1)).
 double ExponentialEaseIn(double p)
 {
 	return (p == 0.0) ? p : pow(2, 10 * (p - 1));
 }
 
-// Modeled after the exponential function y = -2^(-10x) + 1
+// Modeled after the exponential function y = -2^(-10x) + 1.
 double ExponentialEaseOut(double p)
 {
 	return (p == 1.0) ? p : 1 - pow(2, -10 * p);
 }
 
-// Modeled after the piecewise exponential
+// Modeled after the piecewise exponential:
 // y = (1/2)2^(10(2x - 1))         ; [0,0.5)
 // y = -(1/2)*2^(-10(2x - 1))) + 1 ; [0.5,1]
 double ExponentialEaseInOut(double p)
@@ -218,13 +218,13 @@ double ExponentialEaseInOut(double p)
 	}
 }
 
-// Modeled after the damped sine wave y = sin(13pi/2*x)*pow(2, 10 * (x - 1))
+// Modeled after the damped sine wave y = sin(13pi/2*x)*pow(2, 10 * (x - 1)).
 double ElasticEaseIn(double p)
 {
 	return sin(13 * M_PI_2 * p) * pow(2, 10 * (p - 1));
 }
 
-// Modeled after the damped sine wave y = sin(-13pi/2*(x + 1))*pow(2, -10x) + 1
+// Modeled after the damped sine wave y = sin(-13pi/2*(x + 1))*pow(2, -10x) + 1.
 double ElasticEaseOut(double p)
 {
 	return sin(-13 * M_PI_2 * (p + 1)) * pow(2, -10 * p) + 1;
@@ -245,13 +245,13 @@ double ElasticEaseInOut(double p)
 	}
 }
 
-// Modeled after the overshooting cubic y = x^3-x*sin(x*pi)
+// Modeled after the overshooting cubic y = x^3-x*sin(x*pi).
 double BackEaseIn(double p)
 {
 	return p * p * p - p * sin(p * M_PI);
 }
 
-// Modeled after overshooting cubic y = 1-((1-x)^3-(1-x)*sin((1-x)*pi))
+// Modeled after overshooting cubic y = 1-((1-x)^3-(1-x)*sin((1-x)*pi)).
 double BackEaseOut(double p)
 {
 	double f = (1 - p);
@@ -381,7 +381,6 @@ easing getEasingByName(const EasingMode& ease_type)
     return LinearInterpolation;
   }
 }
-
 
 EasingMode EasingMode_from_string(const std::string& ease_name)
 {
@@ -616,7 +615,7 @@ std::string get_reverse_easing_str(const std::string& ease_name)
     return e + "In";
   }
 
-  throw std::runtime_error("Trying to find opposite easing of non-easing string");
+  throw std::runtime_error("Trying to find opposite easing of non-easing string.");
 }
 
 /* EOF */

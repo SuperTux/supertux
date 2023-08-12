@@ -80,7 +80,7 @@ Coin::finish_construction()
 void
 Coin::update(float dt_sec)
 {
-  // if we have a path to follow, follow it
+  // If we have a path to follow, follow it.
   if (get_walker()) {
     Vector v(0.0f, 0.0f);
     if (m_from_tilemap)
@@ -138,43 +138,43 @@ Coin::collect()
   } else {
     switch ((pitch_one - tile) % 7) {
       case -6:
-        pitch = 1.f/2;  // C
+        pitch = 1.f/2;  // C.
         break;
       case -5:
-        pitch = 5.f/8;  // E
+        pitch = 5.f/8;  // E.
         break;
       case -4:
-        pitch = 4.f/6;  // F
+        pitch = 4.f/6;  // F.
         break;
       case -3:
-        pitch = 3.f/4;  // G
+        pitch = 3.f/4;  // G.
         break;
       case -2:
-        pitch = 5.f/6;  // A
+        pitch = 5.f/6;  // A.
         break;
       case -1:
-        pitch = 9.f/10;  // Bb
+        pitch = 9.f/10;  // Bb.
         break;
       case 0:
-        pitch = 1.f;  // c
+        pitch = 1.f;  // c.
         break;
       case 1:
-        pitch = 9.f/8;  // d
+        pitch = 9.f/8;  // d.
         break;
       case 2:
-        pitch = 5.f/4;  // e
+        pitch = 5.f/4;  // e.
         break;
       case 3:
-        pitch = 4.f/3;  // f
+        pitch = 4.f/3;  // f.
         break;
       case 4:
-        pitch = 3.f/2;  // g
+        pitch = 3.f/2;  // g.
         break;
       case 5:
-        pitch = 5.f/3;  // a
+        pitch = 5.f/3;  // a.
         break;
       case 6:
-        pitch = 9.f/5;  // bb
+        pitch = 9.f/5;  // bb.
         break;
     }
     last_pitch = pitch;
@@ -209,7 +209,7 @@ Coin::collision(GameObject& other, const CollisionHit& )
   return ABORT_MOVE;
 }
 
-/* The following defines a coin subject to gravity */
+/* The following defines a coin subject to gravity. */
 HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats, const std::string& sprite_path) :
   Coin(pos, count_stats, sprite_path),
   m_physic(),
@@ -234,15 +234,15 @@ HeavyCoin::HeavyCoin(const ReaderMapping& reader, bool count_stats) :
 void
 HeavyCoin::update(float dt_sec)
 {
-  // enable physics
+  // Enable physics.
   m_col.set_movement(m_physic.get_movement(dt_sec));
 }
 
 void
 HeavyCoin::collision_solid(const CollisionHit& hit)
 {
-  float clink_threshold = 100.0f; // sets the minimum speed needed to result in collision noise
-  //TODO: colliding HeavyCoins should have their own unique sound
+  float clink_threshold = 100.0f; // Sets the minimum speed needed to result in collision noise.
+  // TODO: Colliding with HeavyCoins should have their own unique sound.
 
   if (hit.bottom) {
     if (m_physic.get_velocity_y() > clink_threshold && !m_last_hit.bottom)
@@ -268,7 +268,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
   }
 
   // Only make a sound if the coin wasn't hittin anything last frame (A coin
-  // stuck in solid matter would flood the sound manager - see #1555 on GitHub)
+  // stuck in solid matter would flood the sound manager - see #1555 on GitHub).
   m_last_hit = hit;
 }
 
@@ -351,7 +351,7 @@ void
 HeavyCoin::on_flip(float height)
 {
   // Call on_flip from grandparent class MovingSprite to
-  // avoid flipping of gravity-affected object HeavyCoin
+  // avoid flipping of gravity-affected object HeavyCoin.
   MovingSprite::on_flip(height);
 }
 

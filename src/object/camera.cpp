@@ -30,9 +30,9 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-/* this is the fractional distance toward the peek
+/* This is the fractional distance toward the peek
    position to move each frame; lower is slower,
-   0 is never get there, 1 is instant */
+   0 is never get there, 1 is instant. */
 static const float PEEK_ARRIVE_RATIO = 0.03f;
 
 /**
@@ -40,39 +40,39 @@ static const float PEEK_ARRIVE_RATIO = 0.03f;
  * These variables allow establishing a minimum zone around them that will also
  * be always visible.
  */
-static const float HORIZONTAL_MARGIN = 196.f; // 6 tiles
-static const float VERTICAL_MARGIN = 196.f; // 6 tiles
-static const float PEEK_ADD_HORIZONTAL_MARGIN = 320.f; // 10 tiles
-static const float PEEK_ADD_VERTICAL_MARGIN = 320.f; // 10 tiles
+static const float HORIZONTAL_MARGIN = 196.f; // 6 tiles.
+static const float VERTICAL_MARGIN = 196.f; // 6 tiles.
+static const float PEEK_ADD_HORIZONTAL_MARGIN = 320.f; // 10 tiles.
+static const float PEEK_ADD_VERTICAL_MARGIN = 320.f; // 10 tiles.
 
-/* 0 = no movement, 1 = no smooth adaptation */
+/* 0 = no movement, 1 = no smooth adaptation. */
 static const float MULTIPLAYER_CAM_WEIGHT = 0.1f;
 
 class CameraConfig final
 {
 public:
-  // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby, 4 = Super Metroid-like
+  // 0 = No, 1 = Fix, 2 = Mario/Yoshi, 3 = Kirby, 4 = Super Metroid-like.
   int xmode;
-  // as above
+  // As above.
   int ymode;
   float kirby_rectsize_x;
   float kirby_rectsize_y;
-  // where to fix the player (used for Yoshi and Fix camera)
+  // Where to fix the player (used for Yoshi and Fix camera).
   float target_x;
   float target_y;
-  // maximum scrolling speed in Y direction
+  // Maximum scrolling speed in Y direction.
   float max_speed_x;
   float max_speed_y;
-  // factor to dynamically increase max_speed_x based on player speed
+  // Factor to dynamically increase max_speed_x based on player speed.
   float dynamic_max_speed_x;
 
-  // time the player has to face into the other direction before we assume a
-  // changed direction
+  // Time the player has to face into the other direction before we assume a
+  // changed direction.
   float dirchange_time;
-  // edge_x
+  // edge_x.
   float edge_x;
-  // when too change from noscroll mode back to lookahead left/right mode
-  // set to <= 0 to disable noscroll mode
+  // When too change from noscroll mode back to lookahead left/right mode
+  // set to <= 0 to disable noscroll mode.
   float sensitive_x;
 
   float clamp_x;
@@ -335,7 +335,7 @@ Camera::draw(DrawingContext& context)
 void
 Camera::update(float dt_sec)
 {
-  // Minimum scale should be set during the update sequence; else, reset it
+  // Minimum scale should be set during the update sequence; else, reset it.
   m_enfore_minimum_scale = false;
 
   switch (m_mode) {
@@ -383,7 +383,7 @@ Camera::keep_in_bounds(Vector& translation_)
   float width = d_sector->get_width();
   float height = d_sector->get_height();
 
-  // don't scroll before the start or after the level's end
+  // Don't scroll before the start or after the level's end.
   translation_.x = math::clamp(translation_.x, 0.0f, width - static_cast<float>(m_screen_size.width));
   translation_.y = math::clamp(translation_.y, 0.0f, height - static_cast<float>(m_screen_size.height));
 
@@ -398,12 +398,12 @@ Camera::shake()
 {
   if (m_shaketimer.started()) {
 
-    // old method
+    // Old method:
     
     // m_translation.x -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_x;
     // m_translation.y -= sinf(m_shaketimer.get_timegone() * m_shakespeed) * m_shakedepth_y;
 
-    // elastic easing
+    // Elastic easing:
 
     m_translation.x -= m_shakedepth_x * ((std::pow(2.f, -0.8f * (m_shakespeed * m_shaketimer.get_timegone()))) *
       std::sin(((0.8f * m_shakespeed * m_shaketimer.get_timegone()) - 0.75f) * (2.f * math::PI) / 3.f));
@@ -417,18 +417,18 @@ Camera::update_scroll_normal(float dt_sec)
 {
   const auto& config_ = *(m_config);
   Player& player = *d_sector->get_players()[0];
-  // TODO: co-op mode needs a good camera
+  // TODO: Co-op mode needs a good camera.
   Vector player_pos(player.get_bbox().get_left(),
                                     player.get_bbox().get_bottom());
   static Vector last_player_pos = player_pos;
   Vector player_delta = player_pos - last_player_pos;
   last_player_pos = player_pos;
 
-  // check that we don't have division by zero later
+  // Check that we don't have division by zero later.
   if (dt_sec < CAMERA_EPSILON)
     return;
 
-  /****** Vertical Scrolling part ******/
+  /****** Vertical Scrolling part. ******/
   int ymode = config_.ymode;
 
   if (player.is_dying() || d_sector->get_height() == 19*32) {
@@ -441,7 +441,7 @@ Camera::update_scroll_normal(float dt_sec)
     // target_y is the height we target our scrolling at. This is not always the
     // height of the player: while jumping upwards, we should use the
     // position where they last touched the ground. (this probably needs
-    // exceptions for trampolines and similar things in the future)
+    // exceptions for trampolines and similar things in the future).
     float target_y;
     if (player.m_fall_mode == Player::JUMPING)
       target_y = player.m_last_ground_y + player.get_bbox().get_height();
@@ -449,18 +449,18 @@ Camera::update_scroll_normal(float dt_sec)
       target_y = player.get_bbox().get_bottom();
     target_y -= static_cast<float>(static_cast<float>(m_screen_size.height)) * config_.target_y;
 
-    // delta_y is the distance we'd have to travel to directly reach target_y
+    // delta_y is the distance we'd have to travel to directly reach target_y.
     float delta_y = m_cached_translation.y - target_y;
-    // speed is the speed the camera would need to reach target_y in this frame
+    // speed is the speed the camera would need to reach target_y in this frame.
     float speed_y = delta_y / dt_sec;
 
-    // limit the camera speed when jumping upwards
+    // Limit the camera speed when jumping upwards.
     if (player.m_fall_mode != Player::FALLING
        && player.m_fall_mode != Player::TRAMPOLINE_JUMP) {
       speed_y = math::clamp(speed_y, -config_.max_speed_y, config_.max_speed_y);
     }
 
-    // scroll with calculated speed
+    // Scroll with calculated speed.
     m_cached_translation.y -= speed_y * dt_sec;
   }
   if (ymode == 3) {
@@ -474,21 +474,21 @@ Camera::update_scroll_normal(float dt_sec)
     float lowerend = static_cast<float>(m_screen_size.height) * (1 - config_.edge_x);
 
     if (player_delta.y < -CAMERA_EPSILON) {
-      // walking left
+      // Walking left.
       m_lookahead_pos.y -= player_delta.y * config_.dynamic_speed_sm;
 
       if (m_lookahead_pos.y > lowerend) {
         m_lookahead_pos.y = lowerend;
       }
     } else if (player_delta.y > CAMERA_EPSILON) {
-      // walking right
+      // Walking right.
       m_lookahead_pos.y -= player_delta.y * config_.dynamic_speed_sm;
       if (m_lookahead_pos.y < upperend) {
         m_lookahead_pos.y = upperend;
       }
     }
 
-    // adjust for level ends
+    // Adjust for level ends.
     if (player_pos.y < upperend) {
       m_lookahead_pos.y = upperend;
     }
@@ -549,14 +549,14 @@ Camera::update_scroll_normal(float dt_sec)
     m_cached_translation.x = player_pos.x - static_cast<float>(m_screen_size.width) * config_.target_x;
   }
   if (xmode == 2) {
-    // our camera is either in leftscrolling, rightscrolling or
+    // Our camera is either in leftscrolling, rightscrolling or
     // nonscrollingmode.
     //
-    // when suddenly changing directions while scrolling into the other
-    // direction abort scrolling, since tux might be going left/right at a
-    // relatively small part of the map (like when jumping upwards)
+    // When suddenly changing directions while scrolling into the other
+    // direction abort scrolling, since Tux might be going left/right at a
+    // relatively small part of the map (like when jumping upwards).
 
-    // Find out direction in which the player moves
+    // Find out direction in which the player moves.
     LookaheadMode walkDirection;
     if (player_delta.x < -CAMERA_EPSILON) walkDirection = LookaheadMode::LEFT;
     else if (player_delta.x > CAMERA_EPSILON) walkDirection = LookaheadMode::RIGHT;
@@ -612,7 +612,7 @@ Camera::update_scroll_normal(float dt_sec)
     LEFTEND = static_cast<float>(m_screen_size.width) * config_.edge_x;
     RIGHTEND = static_cast<float>(m_screen_size.width) * (1-config_.edge_x);
 
-    // calculate our scroll target depending on scroll mode
+    // Calculate our scroll target depending on scroll mode.
     float target_x;
     if (m_lookahead_mode == LookaheadMode::LEFT)
       target_x = player_pos.x - RIGHTEND;
@@ -621,17 +621,17 @@ Camera::update_scroll_normal(float dt_sec)
     else
       target_x = m_cached_translation.x;
 
-    // that's the distance we would have to travel to reach target_x
+    // That's the distance we would have to travel to reach target_x.
     float delta_x = m_cached_translation.x - target_x;
-    // the speed we'd need to travel to reach target_x in this frame
+    // The speed we'd need to travel to reach target_x in this frame.
     float speed_x = delta_x / dt_sec;
 
-    // limit our speed
+    // Limit our speed.
     float player_speed_x = player_delta.x / dt_sec;
     float maxv = config_.max_speed_x + (fabsf(player_speed_x * config_.dynamic_max_speed_x));
     speed_x = math::clamp(speed_x, -maxv, maxv);
 
-    // apply scrolling
+    // Apply scrolling.
     m_cached_translation.x -= speed_x * dt_sec;
   }
   if (xmode == 3) {
@@ -645,14 +645,14 @@ Camera::update_scroll_normal(float dt_sec)
     float RIGHTEND = static_cast<float>(m_screen_size.width) * (1 - config_.edge_x);
 
     if (player_delta.x < -CAMERA_EPSILON) {
-      // walking left
+      // Walking left.
       m_lookahead_pos.x -= player_delta.x * config_.dynamic_speed_sm;
       if (m_lookahead_pos.x > RIGHTEND) {
         m_lookahead_pos.x = RIGHTEND;
       }
 
     } else if (player_delta.x > CAMERA_EPSILON) {
-      // walking right
+      // Walking right.
       m_lookahead_pos.x -= player_delta.x * config_.dynamic_speed_sm;
       if (m_lookahead_pos.x < LEFTEND) {
         m_lookahead_pos.x = LEFTEND;
@@ -666,7 +666,7 @@ Camera::update_scroll_normal(float dt_sec)
       m_lookahead_pos.x = LEFTEND;
     }
 
-    // adjust for level ends
+    // Adjust for level ends.
     if (player_pos.x < LEFTEND) {
       m_lookahead_pos.x = LEFTEND;
     }
@@ -758,7 +758,7 @@ Camera::update_scroll_normal_multiplayer(float dt_sec)
     y2 = std::max(y2, btm);
   }
 
-  // Might happens if all players are dead
+  // Might happen if all players are dead.
   if (x2 < x1 || y2 < y1)
     return;
 
@@ -843,11 +843,11 @@ Camera::update_scale(float dt_sec)
                              (m_scale_target - m_scale_origin) * true_progress;
     }
 
-    // Re-center camera when zooming
+    // Re-center camera when zooming.
     m_lookahead_pos /= 1.01f;
   }
 
-  // FIXME: Poor design: This shouldn't pose a problem to multiplayer
+  // FIXME: Poor design: This shouldn't pose a problem to multiplayer.
   if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
     return;
 

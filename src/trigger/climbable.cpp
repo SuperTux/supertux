@@ -26,11 +26,11 @@
 #include "video/viewport.hpp"
 
 namespace {
-const float GRACE_DX = 8; // how far off may the player's bounding-box be x-wise
-const float GRACE_DY = 8; // how far off may the player's bounding-box be y-wise
-const float ACTIVATE_TRY_FOR = 1; // how long to try correcting mis-alignment of player and climbable before giving up
-const float POSITION_FIX_AX = 30; // x-wise acceleration applied to player when trying to align player and Climbable
-const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when trying to align player and Climbable
+const float GRACE_DX = 8; // How far off may the player's bounding-box be x-wise.
+const float GRACE_DY = 8; // How far off may the player's bounding-box be y-wise.
+const float ACTIVATE_TRY_FOR = 1; // How long to try correcting mis-alignment of player and climbable before giving up.
+const float POSITION_FIX_AX = 30; // X-wise acceleration applied to player when trying to align player and Climbable.
+const float POSITION_FIX_AY = 50; // Y-wise acceleration applied to player when trying to align player and Climbable.
 }
 
 Climbable::Climbable(const ReaderMapping& reader) :
@@ -84,7 +84,7 @@ Climbable::update(float dt_sec)
   {
     if (it2->m_activate_try_timer->started())
     {
-      // the "-20" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments
+      // The "-20" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments.
       if (it2->m_player->get_bbox().get_left() < m_col.m_bbox.get_left() - GRACE_DX) it2->m_player->add_velocity(Vector(POSITION_FIX_AX,-20));
       if (it2->m_player->get_bbox().get_right() > m_col.m_bbox.get_right() + GRACE_DX) it2->m_player->add_velocity(Vector(-POSITION_FIX_AX,-20));
       if (it2->m_player->get_bbox().get_top() < m_col.m_bbox.get_top() - GRACE_DY) it2->m_player->add_velocity(Vector(0,POSITION_FIX_AY));
