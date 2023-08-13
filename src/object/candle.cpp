@@ -51,12 +51,7 @@ Candle::Candle(const ReaderMapping& mapping) :
     candle_light_2->set_action("white");
   }
 
-  if (burning) {
-    set_action("on");
-  } else {
-    set_action("off");
-  }
-
+  set_action(burning ? "on" : "off");
 }
 
 void
