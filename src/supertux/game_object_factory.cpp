@@ -313,9 +313,7 @@ GameObjectFactory::init_factories()
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
       return std::make_unique<TileMap>(tileset, reader);
     },
-    []() {
-      return TileMap::display_name();
-    }
+    TileMap::display_name
   });
 }
 
