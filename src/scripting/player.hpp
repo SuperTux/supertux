@@ -193,6 +193,8 @@ public:
    */
   float get_velocity_y() const;
 
+  void set_velocity(float x, float y);
+
   /**
    * Gets the X coordinate of the player.
    */
