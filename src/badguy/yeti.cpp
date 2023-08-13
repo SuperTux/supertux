@@ -198,8 +198,7 @@ void
 Yeti::jump_down()
 {
   set_action("jump", m_dir);
-  m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+JUMP_DOWN_VX):(-JUMP_DOWN_VX));
-  m_physic.set_velocity_y(JUMP_DOWN_VY);
+  m_physic.set_velocity(m_dir == Direction::RIGHT ? JUMP_DOWN_VX : -JUMP_DOWN_VX, JUMP_DOWN_VY);
   state = JUMP_DOWN;
 }
 
@@ -207,8 +206,7 @@ void
 Yeti::run()
 {
   set_action("walking", m_dir);
-  m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+RUN_VX):(-RUN_VX));
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX, 0);
   state = RUN;
 }
 
@@ -216,8 +214,7 @@ void
 Yeti::jump_up()
 {
   set_action("jump", m_dir);
-  m_physic.set_velocity_x((m_dir==Direction::RIGHT)?(+JUMP_UP_VX):(-JUMP_UP_VX));
-  m_physic.set_velocity_y(JUMP_UP_VY);
+  m_physic.set_velocity(m_dir == Direction::RIGHT ? JUMP_UP_VX : -JUMP_UP_VX, JUMP_UP_VY);
   state = JUMP_UP;
 }
 
@@ -262,8 +259,7 @@ void Yeti::take_hit(Player& )
 
   if (hit_points <= 0) {
     // We're dead.
-    m_physic.set_velocity_x(((m_dir==Direction::RIGHT)?+RUN_VX:-RUN_VX)/5);
-    m_physic.set_velocity_y(0);
+    m_physic.set_velocity((m_dir == Direction::RIGHT ? RUN_VX : -RUN_VX) / 5, 0);
 
     // Set the badguy layer to be above the foremost, so that
     // this does not reveal secret tilemaps:
@@ -392,8 +388,7 @@ Yeti::add_snow_explosions()
 Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vector& velocity)
   : BadGuy(pos, (velocity.x > 0) ? Direction::RIGHT : Direction::LEFT, "images/objects/bullets/icebullet.sprite")
 {
-  m_physic.set_velocity_x(velocity.x);
-  m_physic.set_velocity_y(velocity.y);
+  m_physic.set_velocity(velocity);
   m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
   m_layer = Sector::get().get_foremost_layer() + 1;

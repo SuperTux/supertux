@@ -258,8 +258,7 @@ Totem::synchronize_with(Totem* base)
   pos.y -= m_sprite->get_current_hitbox_height();
   set_pos(pos);
 
-  m_physic.set_velocity_x(base->m_physic.get_velocity_x());
-  m_physic.set_velocity_y(base->m_physic.get_velocity_y());
+  m_physic.set_velocity(base->m_physic.get_velocity());
 }
 
 /* EOF */

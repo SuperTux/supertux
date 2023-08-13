@@ -70,8 +70,7 @@ KamikazeSnowball::kill_collision()
 {
   set_action("collision", m_dir);
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   m_physic.enable_gravity(true);
   set_state(STATE_FALLING);
 

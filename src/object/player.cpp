@@ -2435,8 +2435,7 @@ Player::deactivate()
   if (m_deactivated)
     return;
   m_deactivated = true;
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   m_physic.set_acceleration_x(0);
   m_physic.set_acceleration_y(0);
   if (m_climbing) stop_climbing(*m_climbing);

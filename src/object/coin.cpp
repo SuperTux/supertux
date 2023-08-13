@@ -250,8 +250,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
     if (m_physic.get_velocity_y() > 200) {// lets some coins bounce
       m_physic.set_velocity_y(-99);
     } else {
-      m_physic.set_velocity_y(0);
-      m_physic.set_velocity_x(0);
+      m_physic.set_velocity(0, 0);
     }
   }
   if (hit.right || hit.left) {

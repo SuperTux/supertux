@@ -448,8 +448,7 @@ BadGuy::collision_solid(const CollisionHit& hit)
   }
   else
   {
-    m_physic.set_velocity_x(0);
-    m_physic.set_velocity_y(0);
+    m_physic.set_velocity(0, 0);
   }
   update_on_ground_flag(hit);
 }
@@ -574,8 +573,7 @@ BadGuy::kill_squished(GameObject& object)
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);
@@ -969,8 +967,7 @@ BadGuy::ignite()
     unfreeze();
 
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   m_sprite->stop_animation();
   m_ignited = true;
