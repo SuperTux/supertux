@@ -193,6 +193,9 @@ public:
    */
   float get_velocity_y() const;
 
+  /**
+   * Sets the velocity of the player to a programmable/variable speed.
+   */
   void set_velocity(float x, float y);
 
   /**
