@@ -17,17 +17,15 @@
 #ifndef HEADER_SUPERTUX_OBJECT_LIT_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_LIT_OBJECT_HPP
 
-#include "scripting/lit_object.hpp"
-#include "sprite/sprite_ptr.hpp"
+#include "object/moving_sprite.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "supertux/moving_object.hpp"
-#include "video/flip.hpp"
+
+#include "scripting/lit_object.hpp"
 
 class ReaderMapping;
 
-class LitObject final :
-  public MovingObject,
-  public ExposedObject<LitObject, scripting::LitObject>
+class LitObject final : public MovingSprite,
+                        public ExposedObject<LitObject, scripting::LitObject>
 {
 public:
   LitObject(const ReaderMapping& reader);
@@ -35,8 +33,7 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual void update(float) override;
 
-  virtual HitResponse collision(GameObject&, const CollisionHit&) override
-    { return ABORT_MOVE; }
+  virtual HitResponse collision(GameObject&, const CollisionHit&) override { return ABORT_MOVE; }
 
   static std::string class_name() { return "lit-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -51,20 +48,15 @@ public:
   virtual void on_flip(float height) override;
 
   const std::string& get_action() const;
-  void set_action(const std::string& action);
   const std::string& get_light_action() const;
   void set_light_action(const std::string& action);
 
 private:
   Vector m_light_offset;
-  std::string m_sprite_name;
   std::string m_light_sprite_name;
   std::string m_sprite_action;
   std::string m_light_sprite_action;
-  SpritePtr m_sprite;
   SpritePtr m_light_sprite;
-  int m_layer;
-  Flip m_flip;
 
 private:
   LitObject(const LitObject&) = delete;

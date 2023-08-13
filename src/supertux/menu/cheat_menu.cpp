@@ -47,7 +47,7 @@ CheatMenu::CheatMenu()
   }
   else
   {
-    // In multiplayer, different players may have different ghost states
+    // In multiplayer, different players may have different ghost states.
     add_entry(MNID_GHOST, _("Activate Ghost Mode"));
     add_entry(MNID_UNGHOST, _("Leave Ghost Mode"));
   }
@@ -81,7 +81,6 @@ CheatMenu::menu_action(MenuItem& item)
 
     case MNID_FIRE:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
-        log_warning << player.get_id() << std::endl;
         player.set_bonus(FIRE_BONUS);
         player.get_status().max_fire_bullets[player.get_id()] = count;
       }));
@@ -89,7 +88,6 @@ CheatMenu::menu_action(MenuItem& item)
 
     case MNID_ICE:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
-        log_warning << player.get_id() << std::endl;
         player.set_bonus(ICE_BONUS);
         player.get_status().max_ice_bullets[player.get_id()] = count;
       }));
@@ -97,7 +95,6 @@ CheatMenu::menu_action(MenuItem& item)
 
     case MNID_AIR:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
-        log_warning << player.get_id() << std::endl;
         player.set_bonus(AIR_BONUS);
         player.get_status().max_air_time[player.get_id()] = count;
       }));
@@ -105,7 +102,6 @@ CheatMenu::menu_action(MenuItem& item)
 
     case MNID_EARTH:
       MenuManager::instance().push_menu(std::make_unique<CheatApplyMenu>([](Player& player, int count){
-        log_warning << player.get_id() << std::endl;
         player.set_bonus(EARTH_BONUS);
         player.get_status().max_earth_time[player.get_id()] = count;
       }));

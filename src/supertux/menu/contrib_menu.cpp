@@ -37,46 +37,33 @@
 ContribMenu::ContribMenu() :
   m_contrib_worlds()
 {
-  // Generating contrib levels list by making use of Level Subset
+  // Generating contrib levels list by making use of Level Subset.
   std::vector<std::string> level_worlds;
-
-  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    files(PHYSFS_enumerateFiles("levels"),
-          PHYSFS_freeList);
-  for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
-  {
-    std::string filepath = FileSystem::join("levels", *filename);
+  physfsutil::enumerate_files("levels", [&level_worlds](const std::string& filename) {
+    std::string filepath = FileSystem::join("levels", filename);
     if (physfsutil::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
     }
-  }
+  });
 
-  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    addons(PHYSFS_enumerateFiles("custom"),
-          PHYSFS_freeList);
-  for (const char* const* addondir = addons.get(); *addondir != nullptr; ++addondir)
-  {
-    std::string addonpath = FileSystem::join("custom", *addondir);
+  physfsutil::enumerate_files("custom", [&level_worlds](const std::string& addon_filename) {
+    std::string addonpath = FileSystem::join("custom", addon_filename);
     if (physfsutil::is_directory(addonpath))
     {
       std::string addonlevelpath = FileSystem::join(addonpath.c_str(), "levels");
       if (physfsutil::is_directory(addonlevelpath))
       {
-        std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-          addonfiles(PHYSFS_enumerateFiles(addonlevelpath.c_str()),
-                PHYSFS_freeList);
-        for (const char* const* filename = addonfiles.get(); *filename != nullptr; ++filename)
-        {
-          std::string filepath = FileSystem::join(addonlevelpath.c_str(), *filename);
+        physfsutil::enumerate_files(addonlevelpath, [addonlevelpath, &level_worlds](const std::string& filename) {
+          std::string filepath = FileSystem::join(addonlevelpath.c_str(), filename);
           if (physfsutil::is_directory(filepath))
           {
             level_worlds.push_back(filepath);
           }
-        }
+        });
       }
     }
-  }
+  });
 
   add_label(_("Contrib Levels"));
   add_hl();
@@ -99,7 +86,7 @@ ContribMenu::ContribMenu() :
         }
         else
         {
-          log_warning << "unknown World type" << std::endl;
+          log_warning << "Unknown World type." << std::endl;
         }
       }
     }

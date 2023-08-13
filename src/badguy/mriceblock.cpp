@@ -30,8 +30,8 @@ namespace {
   const float NOKICK_TIME = 0.1f;
 }
 
-MrIceBlock::MrIceBlock(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/iceblock/iceblock.sprite", "left", "right"),
+MrIceBlock::MrIceBlock(const ReaderMapping& reader, const std::string& sprite_name) :
+  WalkingBadguy(reader, sprite_name, "left", "right"),
   ice_state(ICESTATE_NORMAL),
   nokick_timer(),
   flat_timer(),
@@ -84,11 +84,11 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
 {
   update_on_ground_flag(hit);
 
-  if (hit.top || hit.bottom) { // floor or roof
+  if (hit.top || hit.bottom) { // Floor or roof.
     m_physic.set_velocity_y(0);
   }
 
-  // hit left or right
+  // Hit left or right.
   switch (ice_state) {
   case ICESTATE_NORMAL:
     WalkingBadguy::collision_solid(hit);
@@ -125,7 +125,7 @@ MrIceBlock::collision(GameObject& object, const CollisionHit& hit)
 HitResponse
 MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
 {
-  // handle kicks from left or right side
+  // Handle kicks from left or right side.
   if ((ice_state == ICESTATE_WAKING || ice_state == ICESTATE_FLAT) && get_state() == STATE_ACTIVE) {
     if (hit.left) {
       m_dir = Direction::RIGHT;
@@ -244,7 +244,7 @@ MrIceBlock::set_state(IceState state_)
 
     m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KICKSPEED : KICKSPEED);
     set_action(m_dir == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
-    // we should slide above 1 block holes now...
+    // We should slide above 1 block holes now.
     m_col.m_bbox.set_size(34, 31.8f);
     break;
   case ICESTATE_GRABBED:
@@ -276,7 +276,7 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   auto player = dynamic_cast<Player*> (&object);
   if (player && (player->is_swimming() || player->is_water_jumping()))
   {
-    //move icecube a little bit away as to not insta-kill Tux
+    // Move the ice cube slightly away to avoid instantly killing Tux.
     float swimangle = player->get_swimming_angle();
     m_col.m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
   }
@@ -287,7 +287,7 @@ MrIceBlock::ungrab(MovingObject& object, Direction dir_)
   else if (dir_ == Direction::DOWN) {
     Vector mov(0, 32);
     if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this)) {
-      // There is free space, so throw it down
+      // There is free space, so throw it down.
       SoundManager::current()->play("sounds/kick.wav", get_pos());
       m_physic.set_velocity_y(KICKSPEED);
     }

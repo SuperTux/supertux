@@ -13,6 +13,8 @@ Level <- {
   set_respawn_pos=Level_set_respawn_pos,
   flip_vertically=Level_flip_vertically,
   toggle_pause=Level_toggle_pause,
+  pause_target_timer=Level_pause_target_timer,
+  resume_target_timer=Level_resume_target_timer,
   edit=Level_edit
 };
 

@@ -2,100 +2,104 @@
   (action
     (name "editor-left")
     (fps 14)
-    (hitbox 8 13 32 14)
+    (hitbox 8 12 32 26)
     (loops 1)
-    (images "crystallo-sleeping.png"))
+    (images "sleep-0.png"))
 
   (action
     (name "editor-right")
     (fps 14)
-    (hitbox 9 13 32 14)
+    (hitbox 8 12 32 26)
     (loops 1)
     (mirror-action "editor-left"))
 
   (action
     (name "left")
     (fps 14)
-    (hitbox 8 9 32 20)
-    (images "crystallo-left-0.png"
-            "crystallo-left-1.png"
-            "crystallo-left-2.png"
-            "crystallo-left-3.png"
-            "crystallo-left-4.png"
-            "crystallo-left-5.png"
-            "crystallo-left-6.png"
-            "crystallo-left-7.png"))
+    (hitbox 8 12 32 26)
+    (images "left-0.png"
+            "left-1.png"
+            "left-2.png"
+            "left-3.png"
+            "left-4.png"
+            "left-5.png"
+            "left-6.png"
+            "left-7.png"))
 
   (action
     (name "right")
     (fps 14)
-    (hitbox 8 9 32 20)
+    (hitbox 8 12 32 26)
     (mirror-action "left"))
 
   (action
     (name "slowdown-left")
     (fps 5)
-    (hitbox 8 9 32 20)
+    (hitbox 8 12 32 26)
     (clone-action "left"))
 
   (action
     (name "slowdown-right")
     (fps 5)
-    (hitbox 8 9 32 20)
+    (hitbox 8 12 32 26)
     (clone-action "right"))
 
   (action
     (name "shattered-left")
-    (images "shattered-left.png"))
+	(hitbox 8 12 32 26)
+    (images "squished.png"))
 
   (action
     (name "shattered-right")
+	(hitbox 8 12 32 26)
     (mirror-action "shattered-left"))
 
   (action
     (name "waking-left")
     (fps 14)
-    (hitbox 8 13 32 14)
+    (hitbox 8 12 32 26)
     (loops 1)
-    (images "crystallo-waking-0.png"
-            "crystallo-waking-1.png"
-            "crystallo-sleeping.png"
-            "crystallo-waking-0.png"
-            "crystallo-waking-1.png"
-            "crystallo-waking-1.png"
-            "crystallo-waking-1.png"
-            "crystallo-waking-1.png"
-            "crystallo-preparing-0.png"
-            "crystallo-preparing-1.png"
-            "crystallo-preparing-0.png"
-            "crystallo-preparing-1.png"
-            "crystallo-preparing-0.png"
-            "crystallo-preparing-1.png"
-            "crystallo-preparing-0.png"))
+    (images "sleep-0.png"
+            "sleep-1.png"
+			"sleep-2.png"
+            "sleep-0.png"
+            "sleep-1.png"
+            "sleep-3.png"
+            "sleep-3.png"
+            "sleep-3.png"
+            "sleep-3.png"
+            "sleep-4.png"
+            "sleep-5.png"
+            "sleep-4.png"
+            "sleep-5.png"
+            "sleep-4.png"
+            "sleep-5.png"
+            "sleep-4.png"
+			"sleep-5.png"))
 
   (action
     (name "waking-right")
     (fps 14)
-    (hitbox 9 13 32 14)
+    (hitbox 8 12 32 26)
     (loops 1)
     (mirror-action "waking-left"))
 
   (action
     (name "jumping-left")
     (fps 14)
-    (hitbox 8 9 32 20)
+    (hitbox 10 12 32 26)
     (loops 1)
-    (images "crystallo-jump-1.png"
-            "crystallo-jump-2.png"
-            "crystallo-jump-3.png"
-            "crystallo-jump-4.png"
-            "crystallo-jump-5.png"
-            "crystallo-jump-6.png"))
+    (images "jump-0.png"
+            "jump-1.png"
+            "jump-2.png"
+            "jump-3.png"
+            "jump-4.png"
+            "jump-5.png"))
 
   (action
     (name "jumping-right")
     (fps 14)
-    (hitbox 8 9 32 20)
+    (hitbox 8 12 32 26)
     (loops 1)
     (mirror-action "jumping-left"))
 )

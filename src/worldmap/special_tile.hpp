@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,26 +19,27 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_SPECIAL_TILE_HPP
 #define HEADER_SUPERTUX_WORLDMAP_SPECIAL_TILE_HPP
 
+#include "worldmap/worldmap_object.hpp"
+
 #include <string>
-
-#include "math/vector.hpp"
-#include "sprite/sprite_ptr.hpp"
-#include "supertux/game_object.hpp"
-
-class ReaderMapping;
 
 namespace worldmap {
 
-class SpecialTile final : public GameObject
+class SpecialTile final : public WorldMapObject
 {
 public:
   SpecialTile(const ReaderMapping& mapping);
   ~SpecialTile() override;
 
-  virtual void draw(DrawingContext& context) override;
-  virtual void update(float dt_sec) override;
+  static std::string class_name() { return "special-tile"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Special Tile"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
-  Vector get_pos() const { return m_pos; }
+  virtual void draw_worldmap(DrawingContext& context) override;
+
+  virtual ObjectSettings get_settings() override;
+
   std::string get_map_message() const { return m_map_message; }
   bool is_passive_message() const { return m_passive_message; }
   std::string get_script() const { return m_script; }
@@ -48,11 +50,6 @@ public:
   bool get_apply_action_west() const { return m_apply_action_west; }
 
 private:
-  Vector m_pos;
-
-  /** Sprite to render instead of guessing what image to draw */
-  SpritePtr m_sprite;
-
   /** Message to show in the Map */
   std::string m_map_message;
   bool m_passive_message;
@@ -64,6 +61,7 @@ private:
   bool m_invisible;
 
   /** Only applies actions (ie. passive messages) when going to that direction */
+  std::string m_apply_direction;
   bool m_apply_action_north;
   bool m_apply_action_east;
   bool m_apply_action_south;

@@ -129,29 +129,28 @@ ColorOKLab lch_to_lab(const ColorOKLCh& c)
 
 // Finds the maximum saturation possible for a given hue that fits in sRGB
 // Saturation here is defined as S = C/L
-// a and b must be normalized so a^2 + b^2 == 1
+// a and b must be normalized so a^2 + b^2 == 1.
 float compute_max_saturation(float a, float b)
 {
-    // Max saturation will be when one of r, g or b goes below zero.
-
-  // Select different coefficients depending on which component goes below zero first
+  // Max saturation will be when one of r, g or b goes below zero.
+  // Select different coefficients depending on which component goes below zero first.
   float k0, k1, k2, k3, k4, wl, wm, ws;
 
   if (-1.88170328f * a - 0.80936493f * b > 1)
   {
-    // Red component
+    // Red component.
     k0 = +1.19086277f; k1 = +1.76576728f; k2 = +0.59662641f; k3 = +0.75515197f; k4 = +0.56771245f;
     wl = +4.0767416621f; wm = -3.3077115913f; ws = +0.2309699292f;
   }
   else if (1.81444104f * a - 1.19445276f * b > 1)
   {
-    // Green component
+    // Green component.
     k0 = +0.73956515f; k1 = -0.45954404f; k2 = +0.08285427f; k3 = +0.12541070f; k4 = +0.14503204f;
     wl = -1.2681437731f; wm = +2.6097574011f; ws = -0.3413193965f;
   }
   else
   {
-    // Blue component
+    // Blue component.
     k0 = +1.35733652f; k1 = -0.00915799f; k2 = -1.15130210f; k3 = -0.50559606f; k4 = +0.00692167f;
     wl = -0.0041960863f; wm = -0.7034186147f; ws = +1.7076147010f;
   }
@@ -161,7 +160,7 @@ float compute_max_saturation(float a, float b)
 
   // Do one step Halley's method to get closer
   // this gives an error less than 10e6, except for some blue hues where the dS/dh is close to infinite
-  // this should be sufficient for most applications, otherwise do two/three steps
+  // this should be sufficient for most applications, otherwise do two/three steps.
 
   float k_l = +0.3963377774f * a + 0.2158037573f * b;
   float k_m = -0.1055613458f * a - 0.0638541728f * b;
@@ -194,14 +193,14 @@ float compute_max_saturation(float a, float b)
   return S;
 }
 
-// finds L_cusp and C_cusp for a given hue
-// a and b must be normalized so a^2 + b^2 == 1
+// Finds L_cusp and C_cusp for a given hue
+// a and b must be normalized so a^2 + b^2 == 1.
 struct OKLabCusp {
   float L, C;
 };
 OKLabCusp find_cusp(float a, float b)
 {
-  // First, find the maximum saturation (saturation S = C/L)
+  // First, find the maximum saturation (saturation S = C/L).
   float S_cusp = compute_max_saturation(a, b);
 
   // Convert to linear sRGB to find the first point where at least one of r,g or b >= 1:
@@ -217,28 +216,28 @@ OKLabCusp find_cusp(float a, float b)
 // Finds intersection of the line defined by
 // L = L0 * (1 - t) + t * L1;
 // C = t * C1;
-// a and b must be normalized so a^2 + b^2 == 1
+// a and b must be normalized so a^2 + b^2 == 1.
 float find_gamut_intersection(float a, float b, float L1, float C1, float L0)
 {
-  // Find the cusp of the gamut triangle
+  // Find the cusp of the gamut triangle.
   OKLabCusp cusp = find_cusp(a, b);
 
-  // Find the intersection for upper and lower half seprately
+  // Find the intersection for upper and lower half seprately.
   float t;
   if (((L1 - L0) * cusp.C - (cusp.L - L0) * C1) <= 0.f)
   {
-    // Lower half
+    // Lower half.
 
     t = cusp.C * L0 / (C1 * cusp.L + cusp.C * (L0 - L1));
   }
   else
   {
-    // Upper half
+    // Upper half.
 
-    // First intersect with triangle
+    // First intersect with triangle.
     t = cusp.C * (L0 - 1.f) / (C1 * (cusp.L - 1.f) + cusp.C * (L0 - L1));
 
-    // Then one step Halley's method
+    // Then one step Halley's method.
     {
       float dL = L1 - L0;
       float dC = C1;
@@ -318,7 +317,7 @@ ColorOKLCh::ColorOKLCh(Color& c) :
   ColorOKLab lab = linear_srgb_to_oklab(rgb);
   *this = lab_to_lch(lab);
   if (C < 0.00001f)
-    // Deterministic behaviour when increasing chroma of greyscale colours
+    // Deterministic behaviour when increasing chroma of greyscale colours.
     h = 0.0f;
 }
 
@@ -330,7 +329,7 @@ ColorOKLCh::to_srgb() const
   ColorRGB rgb = oklab_to_linear_srgb(lab);
   if (!rgb.is_valid()) {
     c.clip_chroma();
-    // Gamut clipping; reduce chroma when needed
+    // Gamut clipping; reduce chroma when needed.
     lab = lch_to_lab(c);
     rgb = oklab_to_linear_srgb(lab);
   }
@@ -360,7 +359,7 @@ ColorOKLCh::get_maximum_chroma_any_l() const
 void
 ColorOKLCh::clip_chroma()
 {
-  // Avoid numerical problems for certain hues of blue
+  // Avoid numerical problems for certain hues of blue.
   if (-1.67462f < h && h < -1.67460f)
     h = -1.67462f;
 
@@ -371,7 +370,7 @@ ColorOKLCh::clip_chroma()
 void
 ColorOKLCh::clip_lightness()
 {
-  // Avoid numerical problems for certain hues of blue
+  // Avoid numerical problems for certain hues of blue.
   if (-1.67462f < h && h < -1.67460f)
     h = -1.67462f;
 
@@ -383,23 +382,23 @@ ColorOKLCh::clip_lightness()
 
   OKLabCusp cusp = find_cusp(lab.a / C, lab.b / C);
   if (C >= cusp.C) {
-    // The cusp is the most colourful point for the given hue
+    // The cusp is the most colourful point for the given hue.
     C = cusp.C;
     L = cusp.L;
     return;
   }
   // Select a point inside the triangle defined by (L,C) in {(0,0), (1,0), cusp}
-  // and then move it further if it's not in the sRGB gamut
+  // and then move it further if it's not in the sRGB gamut.
   if (L > cusp.L) {
-    // Reduce L so that it's on the triangle
+    // Reduce L so that it's on the triangle.
     L = std::min<float>(L, 1.0f + C * (cusp.L - 1.0f) / cusp.C);
-    // Reduce L so that it's in the sRGB gamut
+    // Reduce L so that it's in the sRGB gamut.
     float L0 = -100.0f;
     float t = find_gamut_intersection(lab.a / C, lab.b / C, L, C, L0);
     L = (1.0f - t) * L0 + t * L;
     C *= t;
   } else {
-    // Here the triangle is accurate
+    // Here the triangle is accurate.
     L = std::max<float>(L, C * cusp.L / cusp.C);
   }
 }
@@ -407,7 +406,7 @@ ColorOKLCh::clip_lightness()
 void
 ColorOKLCh::clip_adaptive_L0_L_cusp(float alpha)
 {
-  // Avoid numerical problems for certain hues of blue
+  // Avoid numerical problems for certain hues of blue.
   if (-1.67462f < h && h < -1.67460f)
     h = -1.67462f;
 

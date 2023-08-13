@@ -32,7 +32,7 @@ Plant::Plant(const ReaderMapping& reader) :
 void
 Plant::initialize()
 {
-  //FIXME: turns plant around for debugging
+  // FIXME: Turns plant around for debugging.
   m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
 
   state = PLANT_SLEEPING;
@@ -92,7 +92,7 @@ Plant::active_update(float dt_sec) {
 
   if (state == PLANT_WAKING) {
     if (timer.check()) {
-      // start walking
+      // Start walking.
       set_action(m_dir);
       m_physic.set_velocity_x(m_dir == Direction::LEFT ? -PLANT_SPEED : PLANT_SPEED);
       state = PLANT_WALKING;

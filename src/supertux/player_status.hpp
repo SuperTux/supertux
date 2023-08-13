@@ -56,6 +56,9 @@ public:
   void add_player();
   void remove_player(int player_id);
 
+private:
+  void parse_bonus_mapping(const ReaderMapping& map, int id);
+
 public:
   int m_num_players;
 

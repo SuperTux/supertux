@@ -463,57 +463,43 @@ toolchain; newer versions are known not to work properly.
 git submodule update --init --recursive
 ```
 
-1. Patch SDL_ttf by applying the patch in `mk/emscripten/SDL_ttf.patch`:
+1. Install [Emscripten](emscripten.org):
 ```
-# For git users:
-git apply mk/emscripten/SDL_ttf.patch
-
-# If you do not have git installed:
-patch -p1 < mk/emscripten/SDL_ttf.patch
-```
-
-2. Install dependencies using Vcpkg (Make sure you enabled Emscripten and ran
-`source .../emsdk_env.sh`!):
-```
-vcpkg integrate install
-vcpkg install --target wasm32-emscripten glbinding libpng libogg libvorbis glm zlib
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
 ```
 
-3. Run CMake using Emscripten's wrapper:
+2. Run CMake using Emscripten's wrapper:
 ```
-emcmake cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_OPENGLES2=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON -DEMSCRIPTEN=1 ..
+# Make sure you ran `source /path/to/emsdk/emsdk_env.sh` if you opened a new terminal since last step!
+emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
 ```
-Replace `/path/to/vcpkg` with the absolute path to where Vcpkg is installed.
-Note that Debug builds are generally unplayably slow. Also, the
-`-DENABLE_OPENGLES2=ON` flag is optional and will enable using WebGL instead of
-the SDL renderer. Currently, the WebGL renderer is much slower than the SDL
-renderer.
 
-4. Copy data files to the build folder, as Emscripten will package them to make
+3. Copy data files to the build folder, as Emscripten will package them to make
 them usable from WASM:
 ```
 rsync -aP ../data/ data/
 ```
 
-5. Build SuperTux:
+4. Build SuperTux:
 ```
 emmake make -j$(nproc || sysctl -n hw.ncpu || echo 2)
 ```
 
-6. Replace the Emscripten HTML template with SuperTux's custom container:
+5. Replace the Emscripten HTML template with SuperTux's custom container:
 ```
-rm supertux2.html && cp template.html supertux2.html
+cp template.html supertux2.html
 ```
 You may skip the step above you intend to directly open the `template.html` file;
 note that SuperTux won't work if it is not located in the custom template, as it
 requires some custom JavaScript functions to work properly.
 
-7. Run the Emscripten webserver:
+6. Run the Emscripten webserver:
 ```
-# Without --no-browser, Emscripten does not wait for data to finish downloading,
-# which fails the process. It only works by launching Emscripten in no-browser
-# mode, and then by opening the browser manually.
-emrun --no_browser .
+emrun supertux2.html
 ```
 
 You can now play SuperTux by opening `http://localhost:6931/supertux2.html` in

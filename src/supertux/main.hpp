@@ -54,14 +54,26 @@ private:
   std::optional<std::string> m_forced_datadir;
   std::optional<std::string> m_forced_userdir;
 
+  std::string m_datadir;
+  std::string m_userdir;
+
 public:
   PhysfsSubsystem(const char* argv0,
                   std::optional<std::string> forced_datadir,
                   std::optional<std::string> forced_userdir);
   ~PhysfsSubsystem();
-  void find_datadir() const;
-  void find_userdir() const;
+
+private:
+  void find_mount_datadir();
+  void find_mount_userdir();
+
+public:
+  void remount_datadir_static() const;
+
   static void print_search_path();
+
+private:
+  void add_data_to_search_path(const std::string& dir) const;
 };
 
 class SDLSubsystem final

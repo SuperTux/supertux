@@ -40,10 +40,10 @@ class WillOWisp final : public scripting::BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  WillOWisp(UID uid) :
-    GameObject<::BadGuy>(uid),
-    GameObject<::WillOWisp>(uid),
-    BadGuy(uid)
+  WillOWisp(const ::GameObject& object) :
+    GameObject<::BadGuy>(object),
+    GameObject<::WillOWisp>(object),
+    BadGuy(object)
   {}
 
 private:

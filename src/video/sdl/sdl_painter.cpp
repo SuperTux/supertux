@@ -278,19 +278,20 @@ SDLPainter::draw_gradient(const GradientRequest& request)
   for (int i = 0; i < n; ++i)
   {
     SDL_Rect rect;
+
     if (direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
       rect.x = static_cast<int>(region.get_left());
-      rect.y = static_cast<int>(region.get_bottom() * static_cast<float>(i) / static_cast<float>(n));
-      rect.w = static_cast<int>(region.get_right());
-      rect.h = static_cast<int>((region.get_bottom() * static_cast<float>(i+1) / static_cast<float>(n)) - static_cast<float>(rect.y));
+      rect.y = static_cast<int>(region.get_top() + (region.get_bottom() - region.get_top()) * static_cast<float>(i) / static_cast<float>(n));
+      rect.w = static_cast<int>(region.get_right() - region.get_left());
+      rect.h = static_cast<int>(ceilf((region.get_bottom() - region.get_top()) / static_cast<float>(n)));
     }
     else
     {
-      rect.x = static_cast<int>(region.get_right() * static_cast<float>(i) / static_cast<float>(n));
+      rect.x = static_cast<int>(region.get_left() + (region.get_right() - region.get_left()) * static_cast<float>(i) / static_cast<float>(n));
       rect.y = static_cast<int>(region.get_top());
-      rect.w = static_cast<int>((region.get_right() * static_cast<float>(i+1) / static_cast<float>(n)) - static_cast<float>(rect.x));
-      rect.h = static_cast<int>(region.get_bottom());
+      rect.w = static_cast<int>(ceilf((region.get_right() - region.get_left()) / static_cast<float>(n)));
+      rect.h = static_cast<int>(region.get_bottom() - region.get_top());
     }
 
     float p = static_cast<float>(i+1) / static_cast<float>(n);

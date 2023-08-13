@@ -24,6 +24,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
@@ -215,11 +216,12 @@ PathGameObject::is_saveable() const
   if (!Sector::current())
     return false;
 
-  const auto& path_objects = Sector::get().get_objects_by_type<PathObject>();
-
-  for (const auto& path_obj : path_objects)
-    if (path_obj.get_path_gameobject() == this)
-      return true;
+  for (const auto& sector : Level::current()->get_sectors())
+  {
+    for (const auto& path_obj : sector->get_objects_by_type<PathObject>())
+      if (path_obj.get_path_gameobject() == this)
+        return true;
+  }
 
   return false;
 }
