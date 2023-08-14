@@ -262,6 +262,12 @@ GhostTree::spawn_lantern()
   Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
 }
 
+std::vector<Direction>
+GhostTree::get_allowed_directions() const
+{
+  return {};
+}
+
 void
 GhostTree::on_flip(float height)
 {

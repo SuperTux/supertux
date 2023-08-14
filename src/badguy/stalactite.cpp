@@ -197,6 +197,12 @@ Stalactite::deactivate()
     remove_me();
 }
 
+std::vector<Direction>
+Stalactite::get_allowed_directions() const
+{
+  return {};
+}
+
 void
 Stalactite::on_flip(float height)
 {

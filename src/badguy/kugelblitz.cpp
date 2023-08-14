@@ -210,4 +210,10 @@ Kugelblitz::is_flammable() const
   return false;
 }
 
+std::vector<Direction>
+Kugelblitz::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

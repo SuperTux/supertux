@@ -194,4 +194,10 @@ SkyDive::is_portable() const
   return true;
 }
 
+std::vector<Direction>
+SkyDive::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

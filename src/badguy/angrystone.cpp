@@ -209,4 +209,10 @@ AngryStone::is_flammable() const
   return false;
 }
 
+std::vector<Direction>
+AngryStone::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

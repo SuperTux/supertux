@@ -27,7 +27,7 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
+  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", get_allowed_directions()[0], LAYER_TILES-1),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
@@ -151,6 +151,12 @@ DartTrap::get_settings()
   result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
 
   return result;
+}
+
+std::vector<Direction>
+DartTrap::get_allowed_directions() const
+{
+  return { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
 void

@@ -144,6 +144,12 @@ void Flame::play_looping_sounds()
   }
 }
 
+std::vector<Direction>
+Flame::get_allowed_directions() const
+{
+  return {};
+}
+
 void
 Flame::on_flip(float height)
 {

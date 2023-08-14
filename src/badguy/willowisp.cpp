@@ -307,7 +307,6 @@ WillOWisp::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir);
   result.add_text(_("Sector"), &m_target_sector, "sector");
   result.add_text(_("Spawnpoint"), &m_target_spawnpoint, "spawnpoint");
   result.add_text(_("Hit script"), &m_hit_script, "hit-script");
@@ -350,6 +349,12 @@ WillOWisp::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+std::vector<Direction>
+WillOWisp::get_allowed_directions() const
+{
+  return {};
 }
 
 void

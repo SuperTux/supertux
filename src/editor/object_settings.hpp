@@ -23,8 +23,6 @@
 #include "editor/object_option.hpp"
 #include "object/path_walker.hpp"
 
-#include <algorithm>
-
 class Color;
 enum class Direction;
 class GameObject;
@@ -65,7 +63,7 @@ public:
                               std::optional<worldmap::Direction> default_value = {},
                               const std::string& key = {}, unsigned int flags = 0);
   void add_direction(const std::string& text, Direction* value_ptr,
-                     std::optional<Direction> default_value = {},
+                     std::vector<Direction> possible_directions = {},
                      const std::string& key = {}, unsigned int flags = 0);
   void add_walk_mode(const std::string& text, WalkMode* value_ptr,
                      const std::optional<WalkMode>& default_value = {},

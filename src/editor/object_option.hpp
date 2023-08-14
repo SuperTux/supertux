@@ -40,8 +40,9 @@ namespace sexp {
 class Value;
 } // namespace sexp
 class Color;
-class Menu;
+enum class Direction;
 class GameObject;
+class Menu;
 class Path;
 class PathObject;
 class Rectf;
@@ -519,6 +520,26 @@ private:
 private:
   ListOption(const ListOption&) = delete;
   ListOption& operator=(const ListOption&) = delete;
+};
+
+class DirectionOption : public ObjectOption
+{
+public:
+  DirectionOption(const std::string& text, Direction* value_ptr,
+                  std::vector<Direction> possible_directions,
+                  const std::string& key, unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  Direction* m_value_ptr;
+  std::vector<Direction> m_possible_directions;
+
+private:
+  DirectionOption(const DirectionOption&) = delete;
+  DirectionOption& operator=(const DirectionOption&) = delete;
 };
 
 #endif
