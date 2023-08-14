@@ -45,12 +45,8 @@ SCrystallo::initialize()
 {
   if (m_roof)
   {
-    m_physic.set_gravity_modifier(-Sector::get().get_gravity());
+    m_physic.set_gravity_modifier(-1.f);
     FlipLevelTransformer::transform_flip(m_flip);
-  }
-  else
-  {
-    m_physic.set_gravity_modifier(Sector::get().get_gravity());
   }
   m_state = SCRYSTALLO_SLEEPING;
   set_action("sleeping", m_dir);
@@ -99,8 +95,8 @@ SCrystallo::active_update(float dt_sec)
   switch (m_state)
   {
   case SCRYSTALLO_SLEEPING:
-    m_physic.set_velocity(0.f, 0.f);
-    m_physic.set_acceleration(0.f, 0.f);
+    m_physic.set_velocity_x(0.f);
+    m_physic.set_acceleration_x(0.f);
     // The entity is sleeping peacefully.
     if (player)
     {
@@ -116,8 +112,8 @@ SCrystallo::active_update(float dt_sec)
     BadGuy::active_update(dt_sec);
     break;
   case SCRYSTALLO_WAKING:
-    m_physic.set_velocity(0.f, 0.f);
-    m_physic.set_acceleration(0.f, 0.f);
+    m_physic.set_velocity_x(0.f);
+    m_physic.set_acceleration_x(0.f);
     // Wake up and acknowledge surroundings once the animation is done.
     if (m_sprite->animation_done())
     {
