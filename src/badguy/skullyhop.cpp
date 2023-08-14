@@ -45,8 +45,7 @@ void
 SkullyHop::set_state(SkullyHopState newState)
 {
   if (newState == STANDING) {
-    m_physic.set_velocity_x(0);
-    m_physic.set_velocity_y(0);
+    m_physic.set_velocity(0, 0);
     set_action("standing", m_dir);
 
     recover_timer.start(0.5);

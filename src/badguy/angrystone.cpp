@@ -32,8 +32,7 @@ AngryStone::AngryStone(const ReaderMapping& reader) :
   m_state(IDLE)
 {
   m_countMe = false;
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   m_physic.enable_gravity(true);
   set_action("idle");
 }
@@ -50,8 +49,7 @@ AngryStone::collision_solid(const CollisionHit& hit)
   {
     m_state = IDLE;
     sprite->set_action("idle");
-    physic.set_velocity_x(0);
-    physic.set_velocity_y(0);
+    physic.set_velocity(0, 0);
     physic.enable_gravity(true);
     m_old_wall_direction.x = m_attack_direction.x;
     m_old_wall_direction.y = m_attack_direction.y;
@@ -153,8 +151,8 @@ AngryStone::active_update(float dt_sec)
         m_timer.start(ATTACK_TIME);
         m_state = ATTACKING;
         m_physic.enable_gravity(false);
-        m_physic.set_velocity_x(CHARGE_SPEED * m_attack_direction.x);
-        m_physic.set_velocity_y(CHARGE_SPEED * m_attack_direction.y);
+        m_physic.set_velocity(CHARGE_SPEED * m_attack_direction.x,
+                              CHARGE_SPEED * m_attack_direction.y);
         m_old_wall_direction.x = 0;
         m_old_wall_direction.y = 0;
       }
@@ -168,8 +166,7 @@ AngryStone::active_update(float dt_sec)
         m_state = RECOVERING;
         set_action("idle");
         m_physic.enable_gravity(true);
-        m_physic.set_velocity_x(0);
-        m_physic.set_velocity_y(0);
+        m_physic.set_velocity(0, 0);
       }
     } break;
 
@@ -180,8 +177,7 @@ AngryStone::active_update(float dt_sec)
         m_state = IDLE;
         set_action("idle");
         m_physic.enable_gravity(true);
-        m_physic.set_velocity_x(0);
-        m_physic.set_velocity_y(0);
+        m_physic.set_velocity(0, 0);
       }
     } break;
   }

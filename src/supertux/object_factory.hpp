@@ -92,9 +92,7 @@ protected:
                   [](const ReaderMapping& reader) {
                     return std::make_unique<C>(reader);
                   },
-                  []() {
-                    return C::display_name();
-                  }
+                  C::display_name
                 }, obj_params);
   }
 };

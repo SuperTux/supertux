@@ -204,6 +204,8 @@ public:
 
   /**
    * Sets the position of the player to a programmable/variable position.
+   * @param float $x X position.
+   * @param float $y Y position.
    */
   void set_pos(float x, float y);
 
