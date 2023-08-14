@@ -666,6 +666,7 @@ BadGuy::set_state(State state_)
       break;
     case STATE_ACTIVE:
       set_group(m_colgroup_active);
+      play_looping_sounds();
       //bbox.set_pos(start_position);
       break;
     case STATE_INACTIVE:
@@ -673,6 +674,7 @@ BadGuy::set_state(State state_)
       if (laststate == STATE_SQUISHED || laststate == STATE_FALLING) {
         remove_me();
       }
+      stop_looping_sounds();
       set_group(COLGROUP_DISABLED);
       break;
     case STATE_FALLING:
