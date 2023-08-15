@@ -45,13 +45,13 @@ Sector::add_object(const std::string& class_name, const std::string& name,
                    int posX, int posY, const std::string& direction,
                    const std::string& data)
 {
-  if(name.empty())
+  if(class_name.empty())
   {
-    log_fatal << "Object name cannot be empty" << std::endl;
+    log_fatal << "Object class name cannot be empty" << std::endl;
     return; 
   } 
 
-  if(m_parent->get_object_by_name<GameObject>(name) != nullptr)
+  if(!name.empty() && m_parent->get_object_by_name<GameObject>(name) != nullptr)
   {
     log_fatal << "Object with name " << name << " already exists in sector" << std::endl;
     return; 
@@ -66,7 +66,10 @@ Sector::add_object(const std::string& class_name, const std::string& name,
     return; 
   }
 
-  obj->set_name(name);
+  if(!name.empty())
+  {
+    obj->set_name(name);
+  }
   m_parent->add_object(std::move(obj));
 }
 
