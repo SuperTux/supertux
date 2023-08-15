@@ -19,7 +19,7 @@ name: MacOS
 on:
   push:
     branches:
-      - rollback-harfbuzz
+      - master
     tags:
       - '*'
   pull_request: {}
