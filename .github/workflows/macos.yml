@@ -19,7 +19,7 @@ name: MacOS
 on:
   push:
     branches:
-      - master
+      - rollback-harfbuzz
     tags:
       - '*'
   pull_request: {}
@@ -57,6 +57,17 @@ jobs:
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework                           \
                   /Library/Frameworks/Mono.framework-disabled
+
+      - name: Rollback harfbuzz version
+        if: ${{ matrix.os == 'macos-11' }}
+        run: |
+          PKG_NAME=harfbuzz
+          FORMULA_COMMIT=beb314d142c6ba06c23c761699ebe6a96d0d9864
+          brew uninstall --ignore-dependencies "${PKG_NAME}" || true
+          FORMULA_URL="https://raw.githubusercontent.com/Homebrew/homebrew-core/${FORMULA_COMMIT}/Formula/${PKG_NAME}.rb"
+          FORMULA_FILE=$(find $(brew --repository) -path "*/Formula/${PKG_NAME}.rb")
+          curl -fsSL "$FORMULA_URL" > "${FORMULA_FILE}"
+          HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_FROM_API=1 brew install "${PKG_NAME}"
 
       - name: Set compiler
         run: |
