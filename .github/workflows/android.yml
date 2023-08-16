@@ -65,18 +65,6 @@ jobs:
       - name: Copy SuperTux Android project files
         run: cp -r -f ./mk/android/* ./build.android/
 
-      - name: Package data with APK
-        working-directory: data
-        run: |
-          mkdir ../build.android/app/src/main/assets
-          zip -r ../build.android/app/src/main/assets/data.zip .
-
-      - name: Upload data zip
-        uses: actions/upload-artifact@v3
-        with:
-          name: "Data zip"
-          path: "build.android/app/src/main/assets/data.zip"
-
       - name: Set up JDK 20
         uses: actions/setup-java@v3
         with:

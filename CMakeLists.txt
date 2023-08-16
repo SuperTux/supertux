@@ -325,10 +325,18 @@ else()
 endif()
 configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
 if(ANDROID)
-  file(COPY ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl DESTINATION data/levels/misc/menu.stl)
-  file(GLOB DATA_CONTENTS data/*)
+  get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
+  file(COPY_FILE ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl ${DATADIR}/levels/misc/menu.stl)
+  file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
   message("DATA: ${DATA_CONTENTS}")
-  file(ARCHIVE_CREATE OUTPUT ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
+  #file(ARCHIVE_CREATE OUTPUT ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
+    "${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip"
+    --format=zip
+    ${DATA_CONTENTS}
+
+    WORKING_DIRECTORY ${DATADIR}
+  )
 endif()
 
 ## Build tests
