@@ -18,6 +18,7 @@
 
 #include <assert.h>
 
+#include "supertux/direction.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/surface.hpp"
@@ -66,13 +67,19 @@ Sprite::clone() const
 void
 Sprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
-  set_action(name + "-" + dir_to_string(dir), loops);
+  if (dir == Direction::NONE)
+    set_action(name, loops);
+  else
+    set_action(name + "-" + dir_to_string(dir), loops);
 }
 
 void
 Sprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
-  set_action(dir_to_string(dir) + "-" + name, loops);
+  if (dir == Direction::NONE)
+    set_action(name, loops);
+  else
+    set_action(dir_to_string(dir) + "-" + name, loops);
 }
 
 void

@@ -127,7 +127,7 @@ DiveMine::active_update(float dt_sec)
   }
   m_physic.enable_gravity(false);
 
-  // Update float cycles
+  // Update float cycles.
   if (!m_chasing)
   {
     if (std::abs(m_physic.get_acceleration_y()) > s_max_float_acceleration * 3)
@@ -136,11 +136,11 @@ DiveMine::active_update(float dt_sec)
     m_physic.set_acceleration_y(m_physic.get_acceleration_y() + (s_max_float_acceleration / 25) * (m_physic.get_velocity_y() < 0.f ? 1 : -1));
   }
 
-  // Detect if player is near
+  // Detect if player is near.
   auto player = get_nearest_player();
   if (player)
   {
-    // Face the player
+    // Face the player.
     m_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
   }
 
@@ -153,7 +153,7 @@ DiveMine::active_update(float dt_sec)
   Vector dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
   if (m_chasing)
   {
-    if (glm::length(dist) > s_trigger_radius) // Player is out of trigger radius
+    if (glm::length(dist) > s_trigger_radius) // Player is out of trigger radius.
     {
       stop_chasing();
       return;
@@ -191,7 +191,7 @@ DiveMine::unfreeze(bool melt)
 {
   BadGuy::unfreeze();
 
-  m_chasing = true; // Ensure stop_chasing() will be executed
+  m_chasing = true; // Ensure stop_chasing() will be executed.
   stop_chasing();
 }
 
@@ -202,6 +202,12 @@ DiveMine::turn_around()
     return;
 
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
+}
+
+std::vector<Direction>
+DiveMine::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

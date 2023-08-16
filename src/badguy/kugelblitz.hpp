@@ -42,6 +42,9 @@ public:
 
   void explode();
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   void try_activate();
   HitResponse hit(const CollisionHit& hit);

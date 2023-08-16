@@ -163,7 +163,7 @@ GameObjectFactory::GameObjectFactory()
 void
 GameObjectFactory::init_factories()
 {
-  // badguys
+  // Badguys.
   m_adding_badguys = true;
   add_factory<AngryStone>("angrystone");
   add_factory<BouncingSnowball>("bouncingsnowball", OBJ_PARAM_DISPENSABLE);
@@ -221,7 +221,7 @@ GameObjectFactory::init_factories()
   add_factory<Stumpy>("stumpy", OBJ_PARAM_DISPENSABLE);
   add_factory<Toad>("toad", OBJ_PARAM_DISPENSABLE);
   add_factory<Totem>("totem", OBJ_PARAM_DISPENSABLE);
-  add_factory<ViciousIvy>("poisonivy"); // backward compatibility
+  add_factory<ViciousIvy>("poisonivy"); // Backward compatibilty.
   add_factory<ViciousIvy>("viciousivy", OBJ_PARAM_DISPENSABLE);
   add_factory<WalkingCandle>("walking_candle", OBJ_PARAM_DISPENSABLE);
   add_factory<WalkingLeaf>("walkingleaf", OBJ_PARAM_DISPENSABLE);
@@ -231,9 +231,9 @@ GameObjectFactory::init_factories()
   add_factory<Zeekling>("zeekling", OBJ_PARAM_DISPENSABLE);
   m_adding_badguys = false;
 
-  // other objects
+  // Other objects.
   add_factory<AmbientLight>("ambient-light");
-  add_factory<AmbientSound>("ambient_sound"); // backward compatibilty
+  add_factory<AmbientSound>("ambient_sound"); // Backward compatibilty.
   add_factory<AmbientSound>("ambient-sound");
   add_factory<Background>("background", OBJ_PARAM_WORLDMAP);
   add_factory<PathGameObject>("path");
@@ -290,7 +290,7 @@ GameObjectFactory::init_factories()
   add_factory<Wind>("wind");
   add_factory<TextArea>("text-area");
 
-  // trigger
+  // Triggers.
   add_factory<Climbable>("climbable");
   add_factory<Door>("door");
   add_factory<ScriptTrigger>("scripttrigger");
@@ -298,10 +298,10 @@ GameObjectFactory::init_factories()
   add_factory<SequenceTrigger>("sequencetrigger");
   add_factory<Switch>("switch");
 
-  // editor stuff
+  // Editor stuff.
   add_factory<SpawnPointMarker>("spawnpoint");
 
-  // worldmap objects
+  // Worldmap objects.
   add_factory<worldmap::LevelTile>("level", OBJ_PARAM_WORLDMAP);
   add_factory<worldmap::SpecialTile>("special-tile", OBJ_PARAM_WORLDMAP);
   add_factory<worldmap::SpriteChange>("sprite-change", OBJ_PARAM_WORLDMAP);
@@ -313,9 +313,7 @@ GameObjectFactory::init_factories()
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
       return std::make_unique<TileMap>(tileset, reader);
     },
-    []() {
-      return TileMap::display_name();
-    }
+    TileMap::display_name
   });
 }
 

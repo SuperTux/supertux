@@ -57,7 +57,7 @@ ConveyorBelt::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir, Direction::LEFT, "direction");
+  result.add_direction(_("Direction"), &m_dir, { Direction::LEFT, Direction::RIGHT }, "direction");
   result.add_float(_("Speed"), &m_speed, "speed", 1.0f);
   result.add_bool(_("Running"), &m_running, "running", true);
   result.add_int(_("Length"), &m_length, "length", 3);

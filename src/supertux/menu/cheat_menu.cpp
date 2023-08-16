@@ -47,7 +47,7 @@ CheatMenu::CheatMenu()
   }
   else
   {
-    // In multiplayer, different players may have different ghost states
+    // In multiplayer, different players may have different ghost states.
     add_entry(MNID_GHOST, _("Activate Ghost Mode"));
     add_entry(MNID_UNGHOST, _("Leave Ghost Mode"));
   }

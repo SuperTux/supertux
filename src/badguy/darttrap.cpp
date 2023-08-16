@@ -27,7 +27,7 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
+  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", get_allowed_directions()[0], LAYER_TILES-1),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
@@ -40,7 +40,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
-  reader.get("dart-sprite", m_dart_sprite, "images/creatures/dart/dart.sprite");
+  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/skull_dart.sprite");
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
@@ -55,8 +55,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 void
 DartTrap::initialize()
 {
-  set_action("idle", m_dir == Direction::UP ? Direction::DOWN : m_dir);
-  if (m_dir == Direction::UP) m_flip = VERTICAL_FLIP;
+  set_action("idle", m_dir);
 }
 
 void
@@ -100,14 +99,16 @@ void
 DartTrap::load()
 {
   m_state = LOADING;
-  set_action("loading", m_dir == Direction::UP ? Direction::DOWN : m_dir, 1);
+  set_action("loading", m_dir, 1);
 }
 
 void
 DartTrap::fire()
 {
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this, m_dart_sprite, m_flip);
+  Dart &dart = Sector::get().add<Dart>(Vector(0.f, 0.f), m_dir, this, m_dart_sprite);
+  if(m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+    dart.set_flip(m_flip);
 
   Vector pos;
   switch (m_dir)
@@ -133,7 +134,7 @@ DartTrap::fire()
   dart.set_pos(pos);
 
   m_state = IDLE;
-  set_action("idle", m_dir == Direction::UP ? Direction::DOWN : m_dir);
+  set_action("idle", m_dir);
 }
 
 ObjectSettings
@@ -145,30 +146,35 @@ DartTrap::get_settings()
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
   result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
   result.add_int(_("Ammo"), &m_ammo, "ammo");
-  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/dart/dart.sprite");
+  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/skull_dart.sprite");
 
   result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
 
   return result;
 }
 
-void
-DartTrap::after_editor_set()
+std::vector<Direction>
+DartTrap::get_allowed_directions() const
 {
-  BadGuy::after_editor_set();
-  if ((m_dir == Direction::UP && m_flip == NO_FLIP) || (m_dir == Direction::DOWN && m_flip == VERTICAL_FLIP))
-    FlipLevelTransformer::transform_flip(m_flip);
+  return { Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
 void
 DartTrap::on_flip(float height)
 {
   BadGuy::on_flip(height);
-  FlipLevelTransformer::transform_flip(m_flip);
   if (m_dir == Direction::UP)
+  {
     m_dir = Direction::DOWN;
+    set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
+  }
   else if (m_dir == Direction::DOWN)
+  {
     m_dir = Direction::UP;
+    set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
+  }
+  else
+    FlipLevelTransformer::transform_flip(m_flip);
 }
 
 /* EOF */

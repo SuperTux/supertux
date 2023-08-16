@@ -155,8 +155,12 @@ WorldMap::process_input(const Controller& controller)
 {
   m_enter_level = false;
 
+  if (m_in_world_select)
+    return;
+
   if (controller.pressed(Control::ACTION) && !m_in_level)
   {
+    MenuManager::instance().clear_menu_stack();
     ScreenManager::current()->push_screen(std::make_unique<WorldSelect>(m_map_filename),
           std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, .25f));
     m_in_world_select = true;
