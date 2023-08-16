@@ -36,6 +36,8 @@ else()
       find_library(SDL2IMAGE_LIBRARIES SDL2_image)
       find_path(SDL2_INCLUDE_DIRS SDL2/SDL.h)
       find_path(SDL2IMAGE_INCLUDE_DIRS SDL2/SDL_image.h)
+      set(SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS}/SDL2)
+      set(SDL2IMAGE_INCLUDE_DIRS ${SDL2IMAGE_INCLUDE_DIRS}/SDL2)
     else()
       # 64-bit
       include(FindPkgConfig)
