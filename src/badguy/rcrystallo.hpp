@@ -23,8 +23,8 @@ class RCrystallo final : public WalkingBadguy
 {
 public:
   RCrystallo(const ReaderMapping& reader);
-  RCrystallo(Vector pos, Vector start_pos, float vel_x, std::unique_ptr<Sprite> sprite,
-             Direction dir, float radius, std::string& script, bool fall = false);
+  RCrystallo(const Vector& pos, const Vector& start_pos, float vel_x, std::unique_ptr<Sprite> sprite,
+             Direction dir, float radius, const std::string& script, bool fall = false);
 
   virtual void initialize() override;
   virtual ObjectSettings get_settings() override;

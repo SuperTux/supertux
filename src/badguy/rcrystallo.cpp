@@ -36,8 +36,8 @@ RCrystallo::RCrystallo(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/crystallo-shatter.ogg");
 }
 
-RCrystallo::RCrystallo(Vector pos, Vector start_pos, float vel_x, std::unique_ptr<Sprite> sprite,
-                       Direction dir, float radius, std::string& script, bool fall) :
+RCrystallo::RCrystallo(const Vector& pos, const Vector& start_pos, float vel_x, std::unique_ptr<Sprite> sprite,
+                       Direction dir, float radius, const std::string& script, bool fall) :
   WalkingBadguy(pos, dir, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
   m_state(RCRYSTALLO_ROOF),
   m_radius(radius)
