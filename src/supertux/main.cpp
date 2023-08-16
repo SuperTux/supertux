@@ -436,7 +436,7 @@ PhysfsSubsystem::setup_android_datadir() const
 
   SDL_free(zipdata);
 
-  PHYSFS_mount(newzip.c_str(), NULL, 1);
+  PHYSFS_mount(newzip.c_str(), nullptr, 1);
 
   return true;
 }
