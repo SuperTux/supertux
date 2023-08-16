@@ -29,7 +29,8 @@ Crystallo::Crystallo(const ReaderMapping& reader) :
   reader.get("radius", m_radius, 100.0f);
 }
 
-Crystallo::Crystallo(Vector pos, Vector start_pos, float vel_x, std::unique_ptr<Sprite> sprite, Direction dir, float radius, std::string& script) :
+Crystallo::Crystallo(Vector pos, Vector start_pos, float vel_x, std::unique_ptr<Sprite> sprite,
+                     Direction dir, float radius, std::string& script) :
   WalkingBadguy(pos, dir, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
   m_radius(radius)
 {
