@@ -79,10 +79,10 @@ public:
   virtual bool select_blink() const { return true; }
 
   /** Handle when the item is highlighted */
-  virtual void activate() {};
+  virtual void activate() {}
 
   /** Handle when the item stopped being highlighted */
-  virtual void deactivate() {};
+  virtual void deactivate() {}
 
 private:
   int m_id;
