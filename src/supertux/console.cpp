@@ -61,10 +61,10 @@ ConsoleBuffer::addLine(const std::string& s_)
 {
   std::string s = s_;
 
-  // output line to stderr
+  // Output line to stderr.
   get_logging_instance(false) << s << std::endl;
 
-  // wrap long lines
+  // Wrap long lines.
   std::string overflow;
   int line_count = 0;
   do {
@@ -73,7 +73,7 @@ ConsoleBuffer::addLine(const std::string& s_)
     s = overflow;
   } while (s.length() > 0);
 
-  // trim scrollback buffer
+  // Trim scrollback buffer.
   while (m_lines.size() >= 1000)
   {
     m_lines.pop_back();
@@ -136,7 +136,7 @@ Console::~Console()
 void
 Console::on_buffer_change(int line_count)
 {
-  // increase console height if necessary
+  // Increase console height if necessary.
   if (m_stayOpen > 0 && m_height < 64)
   {
     if (m_height < 4)
@@ -146,7 +146,7 @@ Console::on_buffer_change(int line_count)
     m_height += m_font->get_height() * static_cast<float>(line_count);
   }
 
-  // reset console to full opacity
+  // Reset console to full opacity.
   m_alpha = 1.0;
 }
 
@@ -159,14 +159,14 @@ Console::ready_vm()
     if (new_vm == nullptr)
       throw SquirrelError(m_vm, "Couldn't create new VM thread for console");
 
-    // store reference to thread
+    // Store reference to thread.
     sq_resetobject(&m_vm_object);
     if (SQ_FAILED(sq_getstackobj(m_vm, -1, &m_vm_object)))
       throw SquirrelError(m_vm, "Couldn't get vm object for console");
     sq_addref(m_vm, &m_vm_object);
     sq_pop(m_vm, 1);
 
-    // create new roottable for thread
+    // Create new roottable for thread.
     sq_newtable(new_vm);
     sq_pushroottable(new_vm);
     if (SQ_FAILED(sq_setdelegate(new_vm, -2)))
@@ -284,8 +284,8 @@ Console::move_cursor(int offset_)
   if (m_inputBufferPosition > static_cast<int>(m_inputBuffer.length())) m_inputBufferPosition = static_cast<int>(m_inputBuffer.length());
 }
 
-// Helper functions for Console::autocomplete
-// TODO: Fix rough documentation
+// Helper functions for Console::autocomplete.
+// TODO: Fix rough documentation.
 namespace {
 
 void sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, const std::string& table_prefix, const std::string& search_prefix);
@@ -333,26 +333,26 @@ sq_insert_command(std::list<std::string>& cmds, HSQUIRRELVM vm, const std::strin
 }
 
 /**
- * calls sq_insert_command for all entries of table/class on top of stack
+ * Calls sq_insert_command for all entries of table/class on top of stack.
  */
 void
 sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, const std::string& table_prefix, const std::string& search_prefix)
 {
-  sq_pushnull(vm); // push iterator
+  sq_pushnull(vm); // push iterator.
   while (SQ_SUCCEEDED(sq_next(vm,-2))) {
     sq_insert_command(cmds, vm, table_prefix, search_prefix);
-    sq_pop(vm, 2); // pop key, val
+    sq_pop(vm, 2); // pop key, val.
   }
-  sq_pop(vm, 1); // pop iterator
+  sq_pop(vm, 1); // pop iterator.
 }
 
 }
-// End of Console::autocomplete helper functions
+// End of Console::autocomplete helper functions.
 
 void
 Console::autocomplete()
 {
-  //int autocompleteFrom = m_inputBuffer.find_last_of(" ();+", m_inputBufferPosition);
+  // int autocompleteFrom = m_inputBuffer.find_last_of(" ();+", m_inputBufferPosition);
   int autocompleteFrom = static_cast<int>(m_inputBuffer.find_last_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_->.", m_inputBufferPosition));
   if (autocompleteFrom != static_cast<int>(std::string::npos)) {
     autocompleteFrom += 1;
@@ -366,22 +366,22 @@ Console::autocomplete()
 
   ready_vm();
 
-  // append all keys of the current root table to list
-  sq_pushroottable(m_vm); // push root table
+  // Append all keys of the current root table to list.
+  sq_pushroottable(m_vm); // push root table.
   while (true) {
-    // check all keys (and their children) for matches
+    // Check all keys (and their children) for matches.
     sq_insert_commands(cmds, m_vm, "", prefix);
 
-    // cycle through parent(delegate) table
+    // Cycle through parent(delegate) table.
     SQInteger oldtop = sq_gettop(m_vm);
     if (SQ_FAILED(sq_getdelegate(m_vm, -1)) || oldtop == sq_gettop(m_vm)) {
       break;
     }
-    sq_remove(m_vm, -2); // remove old table
+    sq_remove(m_vm, -2); // Remove old table.
   }
-  sq_pop(m_vm, 1); // remove table
+  sq_pop(m_vm, 1); // Remove table.
 
-  // depending on number of hits, show matches or autocomplete
+  // Depending on number of hits, show matches or autocomplete.
   if (cmds.empty())
   {
     m_buffer.addLines("No known command starts with \"" + prefix + "\"");
@@ -389,7 +389,7 @@ Console::autocomplete()
 
   if (cmds.size() == 1)
   {
-    // one match: just replace input buffer with full command
+    // One match: just replace input buffer with full command.
     std::string replaceWith = cmds.front();
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
     m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
@@ -397,7 +397,7 @@ Console::autocomplete()
 
   if (cmds.size() > 1)
   {
-    // multiple matches: show all matches and set input buffer to longest common prefix
+    // Multiple matches: show all matches and set input buffer to longest common prefix.
     std::string commonPrefix = cmds.front();
     while (cmds.begin() != cmds.end()) {
       std::string cmd = cmds.front();
@@ -416,14 +416,14 @@ Console::autocomplete()
 void
 Console::parse(const std::string& s)
 {
-  // make sure we actually have something to parse
+  // Make sure we actually have something to parse.
   if (s.length() == 0) return;
 
-  // add line to history
+  // Add line to history.
   m_history.push_back(s);
   m_history_position = m_history.end();
 
-  // split line into list of args
+  // Split line into list of args.
   std::vector<std::string> args;
   size_t end = 0;
   while (1) {
@@ -433,12 +433,12 @@ Console::parse(const std::string& s)
     args.push_back(s.substr(start, end-start));
   }
 
-  // command is args[0]
+  // Command is args[0].
   if (args.size() == 0) return;
   std::string command = args.front();
   args.erase(args.begin());
 
-  // ignore if it's an internal command
+  // Ignore if it's an internal command.
   if (consoleCommand(command,args)) return;
 
   try {
@@ -485,7 +485,7 @@ Console::hide()
   m_height = 0;
   m_stayOpen = 0;
 
-  // clear input buffer
+  // Clear the input buffer.
 }
 
 void

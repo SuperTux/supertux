@@ -21,9 +21,9 @@
 
 namespace {
 
-const float IGEL_SPEED = 80; /**< speed at which we walk around */
-const float TURN_RECOVER_TIME = 0.5; /**< seconds before we will again turn around when shot at */
-const float RANGE_OF_VISION = 256; /**< range in px at which we can see bullets */
+const float IGEL_SPEED = 80; /**< Speed at which we walk around. */
+const float TURN_RECOVER_TIME = 0.5; /**< Seconds before we will again turn around when shot at. */
+const float RANGE_OF_VISION = 256; /**< Sange in px at which we can see bullets. */
 
 } // namespace
 
@@ -66,33 +66,34 @@ Igel::active_update(float dt_sec)
 {
   bool wants_to_flee = false;
 
-  // check if we see a fire bullet
+  // Check if we see a fire bullet.
   for (const auto& bullet : Sector::get().get_objects_by_type<Bullet>()) {
     if (bullet.get_type() != FIRE_BONUS) continue;
     if (can_see(bullet)) wants_to_flee = true;
   }
 
-  // if we flee, handle this ourselves
+  // If the Igel wants to flee and the turn recovery timer is not started,
+  // turn around and handle the fleeing behavior.
   if (wants_to_flee && (!turn_recover_timer.started())) {
     turn_around();
     BadGuy::active_update(dt_sec);
     return;
   }
 
-  // else adhere to default behaviour
+  // Otherwise, adhere to the default behavior for WalkingBadguy.
   WalkingBadguy::active_update(dt_sec);
 }
 
 HitResponse
 Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
-  // default reaction if hit on front side or for freeze and unfreeze
+  // Default reaction if hit on the front side or for freeze and unfreeze conditions.
   if (((m_dir == Direction::LEFT) && hit.left) || ((m_dir == Direction::RIGHT) && hit.right) ||
     (bullet.get_type() == ICE_BONUS) || ((bullet.get_type() == FIRE_BONUS) && (m_frozen))) {
     return BadGuy::collision_bullet(bullet, hit);
   }
 
-  // else make bullet ricochet and ignore the hit
+  // Otherwise, make the bullet ricochet and ignore the hit for this case.
   bullet.ricochet(*this, hit);
   return FORCE_MOVE;
 }
@@ -106,7 +107,7 @@ Igel::is_freezable() const
 /**bool
 Igel::collision_squished(GameObject& )
 {
-  // this will hurt
+  // This will hurt.
   return false;
 }*/
 // Enable this and the igle will no longer be butt-jumpable.

@@ -115,7 +115,7 @@ Owl::active_update (float dt_sec)
       obj_pos.x -= verticalOffset;
       obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
-      //To drop enemie before leave the screen
+      // Drop carried object before leaving the screen
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::get().get_width()){
         carried_object->ungrab (*this, m_dir);
         carried_object = nullptr;
@@ -169,7 +169,7 @@ Owl::kill_fall()
     carried_object = nullptr;
   }
 
-  // start dead-script
+  // Start the dead-script.
   run_dead_script();
 }
 

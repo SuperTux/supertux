@@ -89,7 +89,7 @@ Stumpy::collision_squished(GameObject& object)
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
 
-  // if we're still invincible, we ignore the hit
+  // If we're still invincible, we ignore the hit.
   if (mystate == STATE_INVINCIBLE) {
     SoundManager::current()->play("sounds/mr_treehit.ogg", get_pos());
     auto player = dynamic_cast<Player*>(&object);
@@ -97,13 +97,13 @@ Stumpy::collision_squished(GameObject& object)
     return true;
   }
 
-  // if we can die, we do
+  // If we can die, we do.
   if (mystate == STATE_NORMAL) {
     set_action("squished", m_dir);
     m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
     kill_squished(object);
-    // spawn some particles
-    // TODO: provide convenience function in MovingSprite or MovingObject?
+    // Spawn some particles.
+    // TODO: Provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 25; i++) {
       Vector ppos = m_col.m_bbox.get_middle();
       float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
@@ -123,7 +123,7 @@ Stumpy::collision_squished(GameObject& object)
 
   }
 
-  //TODO: exception?
+  // TODO: Handle exception or add relevant logic here.
   return true;
 }
 

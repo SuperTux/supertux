@@ -35,6 +35,7 @@ public:
   virtual void update(float dt_sec) override;
   virtual void event(Player& player, EventType type) override;
 
+  virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
 
 private:
@@ -46,10 +47,11 @@ private:
   };
 
 private:
-  std::string script;
-  std::string off_script;
-  SwitchState state;
-  bool bistable;
+  std::string m_script;
+  std::string m_off_script;
+  SwitchState m_state;
+  bool m_bistable;
+  Direction m_dir;
 
 private:
   Switch(const Switch&) = delete;

@@ -1,9 +1,0 @@
-(supertux-sprite
-	(action
-	  (name "normal")
-	  (hitbox 0 4 32 39)
-	  (images "rock_falling.png"))
-	(action
-	  (name "squished")
-	  (hitbox 0 9 32 39)
-	  (images "rock_broken.png")))

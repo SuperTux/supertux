@@ -88,7 +88,7 @@ SCrystallo::active_update(float dt_sec)
   case SCRYSTALLO_SLEEPING:
     m_physic.set_velocity(0.f, 0.f);
     m_physic.set_acceleration(0.f, 0.f);
-    // is sleeping peacefully
+    // The entity is sleeping peacefully.
     if (player)
     {
       Vector p1 = m_col.m_bbox.get_middle();
@@ -105,7 +105,7 @@ SCrystallo::active_update(float dt_sec)
   case SCRYSTALLO_WAKING:
     m_physic.set_velocity(0.f, 0.f);
     m_physic.set_acceleration(0.f, 0.f);
-    //wake up, acknowledge surroundings
+    // Wake up and acknowledge surroundings once the animation is done.
     if (m_sprite->animation_done())
     {
       SoundManager::current()->play("sounds/crystallo-pop.ogg", get_pos());
@@ -118,7 +118,7 @@ SCrystallo::active_update(float dt_sec)
     BadGuy::active_update(dt_sec);
     break;
   case SCRYSTALLO_JUMPING:
-    //popping out of the hole, ends when near ground
+    // Popping out of the hole, ends when near the ground.
     downbox.set_bottom(get_bbox().get_bottom() + 10.f);
     if (!Sector::get().is_free_of_statics(downbox))
     {
@@ -128,7 +128,7 @@ SCrystallo::active_update(float dt_sec)
     WalkingBadguy::active_update(dt_sec);
     break;
   case SCRYSTALLO_WALKING:
-    //walking and turning properly
+    // Walking and turning properly.
     float targetwalk = m_dir == Direction::LEFT ? -80.f : 80.f;
     if (m_dir != Direction::LEFT && get_pos().x > (m_radius_anchor.x + m_radius - 20.f))
       targetwalk = -80.f;
