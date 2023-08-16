@@ -194,6 +194,13 @@ public:
   float get_velocity_y() const;
 
   /**
+   * Sets the velocity of the player to a programmable/variable speed.
+   * @param float $x The speed Tux will move on the x axis.
+   * @param float $y The speed Tux will move on the y axis.
+   */
+  void set_velocity(float x, float y);
+
+  /**
    * Gets the X coordinate of the player.
    */
   float get_x() const;
