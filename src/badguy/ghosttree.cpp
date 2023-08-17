@@ -155,14 +155,14 @@ GhostTree::active_update(float /*dt_sec*/)
     }
 
     if (root_timer.check()) {
-      /* TODO indicate root with an animation */
+      /* TODO: indicate root with an animation. */
       auto player = get_nearest_player();
       if (player)
         Sector::get().add<Root>(Vector(player->get_bbox().get_left(), (m_flip == NO_FLIP ? (m_col.m_bbox.get_bottom() + ROOT_TOP_OFFSET) : (m_col.m_bbox.get_top() - ROOT_TOP_OFFSET - ROOT_HEIGHT))), m_flip);
     }
   } else if (mystate == STATE_SWALLOWING) {
     if (suck_lantern) {
-      // suck in lantern
+      // Suck in the lantern.
       assert (suck_lantern);
       Vector pos = suck_lantern->get_pos();
       Vector delta = m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
@@ -176,7 +176,7 @@ GhostTree::active_update(float /*dt_sec*/)
         suck_lantern->grab(*this, pos, Direction::RIGHT);
       }
     } else {
-      // wait until lantern is swallowed
+      // Wait until the lantern is swallowed completely.
       if (m_sprite->animation_done()) {
         if (is_color_deadly(suck_lantern_color)) {
           die();
@@ -260,6 +260,12 @@ void
 GhostTree::spawn_lantern()
 {
   Sector::get().add<Lantern>(m_col.m_bbox.get_middle() + SUCK_TARGET_OFFSET);
+}
+
+std::vector<Direction>
+GhostTree::get_allowed_directions() const
+{
+  return {};
 }
 
 void

@@ -90,3 +90,4 @@ ControlCheckbox::on_key_up(const SDL_KeyboardEvent& key)
   return true;
 }
 
+/* EOF */

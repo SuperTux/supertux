@@ -26,7 +26,7 @@ class Dart final : public BadGuy
 {
 public:
   Dart(const ReaderMapping& reader);
-  Dart(const Vector& pos, Direction d, const BadGuy* parent);
+  Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/dart/dart.sprite");
 
   virtual void initialize() override;
   virtual void activate() override;
@@ -52,6 +52,11 @@ public:
   virtual void play_looping_sounds() override;
 
   virtual void on_flip(float height) override;
+
+  void set_flip(Flip flip);
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */

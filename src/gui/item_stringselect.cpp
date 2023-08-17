@@ -28,9 +28,26 @@ ItemStringSelect::ItemStringSelect(const std::string& text, std::vector<std::str
   MenuItem(text, id),
   m_items(std::move(items)),
   m_selected(std::move(selected)),
+  m_pointer_provided(true),
   m_callback(),
   m_width(calculate_width())
 {
+}
+
+ItemStringSelect::ItemStringSelect(const std::string& text, std::vector<std::string> items, int default_item, int id) :
+  MenuItem(text, id),
+  m_items(std::move(items)),
+  m_selected(new int(default_item)),
+  m_pointer_provided(false),
+  m_callback(),
+  m_width(calculate_width())
+{
+}
+
+ItemStringSelect::~ItemStringSelect()
+{
+  if (!m_pointer_provided)
+    delete m_selected;
 }
 
 void

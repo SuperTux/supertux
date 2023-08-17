@@ -31,7 +31,6 @@ public:
   virtual void ignite() override;
 
   virtual void active_update(float dt_sec) override;
-  virtual void deactivate() override;
   virtual void draw(DrawingContext& context) override;
 
   virtual bool is_freezable() const override;

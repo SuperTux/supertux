@@ -109,6 +109,16 @@ void Level_toggle_pause();
  */
 void Level_edit(bool edit_mode);
 
+/**
+ * Pauses the target timer.
+ */
+void Level_pause_target_timer();
+
+/**
+ * Resumes the target timer.
+ */
+void Level_resume_target_timer();
+
 #ifdef DOXYGEN_SCRIPTING
 }
 #endif

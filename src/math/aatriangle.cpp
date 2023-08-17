@@ -31,7 +31,7 @@ int AATriangle::vertical_flip(int dir) {
       deform = AATriangle::DEFORM_BOTTOM;
       break;
     default:
-      // unchanged
+      // Unchanged.
       break;
   }
   return (direction | deform);

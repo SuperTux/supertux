@@ -114,7 +114,7 @@ Flame::freeze()
                                          Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2);
   set_group(COLGROUP_DISABLED);
 
-  // start dead-script
+  // Start the dead-script.
   run_dead_script();
 }
 
@@ -142,6 +142,12 @@ void Flame::play_looping_sounds()
   if (sound_source) {
     sound_source->play();
   }
+}
+
+std::vector<Direction>
+Flame::get_allowed_directions() const
+{
+  return {};
 }
 
 void

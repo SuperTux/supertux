@@ -449,8 +449,10 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         try {
           obj_name = GameObjectFactory::instance().get_display_name(obj_class);
         }
-        catch (std::exception& err) {
-          log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
+        catch (std::exception&) {
+          // NOTE: Temporarily commented out, so hovering over node marker doesn't show a warning.
+          //       When the node marker is moved as a tool, this should be uncommented.
+          // log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
         }
         m_object_tip = std::make_unique<Tip>(obj_name);
       }
