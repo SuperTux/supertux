@@ -21,8 +21,8 @@ if(USE_SYSTEM_PHYSFS)
     INTERFACE_LINK_LIBRARIES "${PHYSFS_LIBRARY}"
     INTERFACE_INCLUDE_DIRECTORIES "${PHYSFS_INCLUDE_DIR}")
 else()
-  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/external/physfs/CMakeLists.txt)
-    message(FATAL_ERROR "physfs submodule is not checked out or ${PROJECT_SOURCE_DIR}/external/physfs/CMakeLists.txt is missing")
+  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt)
+    message(FATAL_ERROR "physfs submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/CMakeLists.txt is missing")
   endif()
 
   if(WIN32)
@@ -35,7 +35,7 @@ else()
 
   set(PHYSFS_PREFIX ${CMAKE_BINARY_DIR}/physfs)
   ExternalProject_Add(physfs_project
-    SOURCE_DIR "${PROJECT_SOURCE_DIR}/external/physfs/"
+    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/physfs/"
     BUILD_BYPRODUCTS
     "${PHYSFS_PREFIX}/bin/${CMAKE_SHARED_LIBRARY_PREFIX}physfs${CMAKE_SHARED_LIBRARY_SUFFIX}"
     "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/physfs${CMAKE_LINK_LIBRARY_SUFFIX}"

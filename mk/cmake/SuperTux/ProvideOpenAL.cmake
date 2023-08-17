@@ -18,7 +18,7 @@ if(NOT EMSCRIPTEN)
 else()
   add_library(LibOpenAL INTERFACE IMPORTED)
   set_target_properties(LibOpenAL PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/mk/emscripten/AL"
+    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/mk/emscripten/AL"
     INTERFACE_LINK_LIBRARIES "-lopenal"
     )
 endif()
