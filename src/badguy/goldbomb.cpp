@@ -63,6 +63,8 @@ HitResponse
 GoldBomb::collision(GameObject& object, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING) {
+    if (m_physic.get_velocity() != Vector(0.f, 0.f))
+      kill_fall();
     if ( dynamic_cast<Player*>(&object) ) {
       return ABORT_MOVE;
     }
@@ -79,7 +81,11 @@ HitResponse
 GoldBomb::collision_player(Player& player, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING)
+  {
+    if (m_physic.get_velocity() != Vector(0.f, 0.f))
+      kill_fall();
     return FORCE_MOVE;
+  }
   if (is_grabbed())
     return FORCE_MOVE;
   return BadGuy::collision_player(player, hit);
@@ -89,7 +95,11 @@ HitResponse
 GoldBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING)
+  {
+    if (m_physic.get_velocity() != Vector(0.f, 0.f))
+      kill_fall();
     return FORCE_MOVE;
+  }
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 

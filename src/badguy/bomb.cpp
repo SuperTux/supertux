@@ -60,12 +60,16 @@ Bomb::collision_solid(const CollisionHit& hit)
 HitResponse
 Bomb::collision_player(Player& , const CollisionHit& )
 {
+  if (m_physic.get_velocity() != Vector(0.f, 0.f))
+    explode();
   return ABORT_MOVE;
 }
 
 HitResponse
 Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 {
+  if (m_physic.get_velocity() != Vector(0.f, 0.f))
+    explode();
   return ABORT_MOVE;
 }
 
