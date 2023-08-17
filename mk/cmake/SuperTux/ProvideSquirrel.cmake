@@ -17,8 +17,8 @@ else()
     message(STATUS "Could NOT find squirrel, using external/squirrel fallback")
   endif()
 
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
-    message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
+  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
+    message(FATAL_ERROR "squirrel submodule is not checked out or ${PROJECT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
   endif()
 
   if(CMAKE_CROSSCOMPILING AND NOT EMSCRIPTEN)
@@ -36,7 +36,7 @@ else()
   
   set(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/ex)
   ExternalProject_Add(squirrel_project
-    SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/"
+    SOURCE_DIR "${PROJECT_SOURCE_DIR}/external/squirrel/"
     BUILD_BYPRODUCTS
     "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}sqstdlib_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
     "${SQUIRREL_PREFIX}/lib/${SQUIRREL_MULTIARCH_DIR}${CMAKE_STATIC_LIBRARY_PREFIX}squirrel_static${CMAKE_STATIC_LIBRARY_SUFFIX}"
