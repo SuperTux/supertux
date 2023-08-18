@@ -1064,7 +1064,7 @@ BadGuy::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  if (m_dir == Direction::AUTO)
+  if (m_start_dir == Direction::AUTO)
   {
     if (m_sprite->has_action("editor-left")) {
       set_action("editor-left");
@@ -1086,6 +1086,8 @@ BadGuy::after_editor_set()
       set_action("flying");
     } else if (m_sprite->has_action("standing-left")) {
       set_action("standing-left");
+    } else if (m_sprite->has_action("swim-left")) {
+      set_action("swim-left");
     } else {
       log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class_name() << std::endl;
     }
@@ -1106,6 +1108,8 @@ BadGuy::after_editor_set()
       set_action("standing-" + action_str);
     } else if (m_sprite->has_action("walking-" + action_str)) {
       set_action("walking-" + action_str);
+    } else if (m_sprite->has_action("swim-" + action_str)) {
+      set_action("swim-" + action_str);
     } else if (m_sprite->has_action("left")) {
       set_action("left");
     } else if (m_sprite->has_action("normal")) {
