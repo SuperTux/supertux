@@ -19,9 +19,9 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "badguy/bomb.hpp"
-#include "badguy/haywire.hpp"
 #include "badguy/owl.hpp"
+#include "badguy/haywire.hpp"
+#include "badguy/bomb.hpp"
 #include "object/coin_explode.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
@@ -55,7 +55,6 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   walk_speed = NORMAL_WALK_SPEED;
   max_drop_height = NORMAL_MAX_DROP_HEIGHT;
 
-  //Prevent stutter when Tux jumps on Gold Bomb
   SoundManager::current()->preload("sounds/explosion.wav");
 
   m_exploding_sprite->set_action("default", 1);
@@ -66,8 +65,7 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING) {
     if (hit.bottom) {
-      m_physic.set_velocity_y(0);
-      m_physic.set_velocity_x(0);
+      m_physic.set_velocity(0, 0);
     }else if (hit.left || hit.right)
       m_physic.set_velocity_x(-m_physic.get_velocity_x());
     else if (hit.top)
@@ -263,6 +261,10 @@ void
 GoldBomb::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  //const Rectf realizerect(get_bbox().get_middle()-Vector(REALIZE_DIST, REALIZE_DIST), get_bbox().get_middle()+Vector(REALIZE_DIST, REALIZE_DIST));
+  //const Rectf saferect(get_bbox().get_middle()-Vector(SAFE_DIST, SAFE_DIST), get_bbox().get_middle()+Vector(SAFE_DIST, SAFE_DIST));
+  //context.color().draw_filled_rect(realizerect, Color::from_rgba8888(255, 0, 0, 100), realizerect.get_size().width/2, 100);
+  //context.color().draw_filled_rect(saferect, Color::from_rgba8888(0, 255, 0, 100), saferect.get_size().width/2, 100);
   if (tstate == STATE_TICKING)
   {
     m_exploding_sprite->set_blend(Blend::ADD);
@@ -316,7 +318,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   Portable::grab(object,pos,dir_);
   if (tstate == STATE_TICKING){
     // We actually face the opposite direction of Tux here to make the fuse more
-    // visible instead of hiding it behind Tux
+    // visible instead of hiding it behind Tux.
     set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
     set_colgroup_active(COLGROUP_DISABLED);
   }
@@ -338,19 +340,19 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
     BadGuy::ungrab(object, dir_);
   else
   {
-    //handle swimming
+    // Handle swimming state of the player.
     if (player && (player->is_swimming() || player->is_water_jumping()))
     {
       float swimangle = player->get_swimming_angle();
       m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
         player->get_physic().get_velocity());
     }
-    //handle non-swimming
+    // Handle non-swimming.
     else
     {
       if (player)
       {
-        //handle x-movement
+        // Handle x-movement based on the player's direction and velocity.
         if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
           m_physic.set_velocity_x(0.f);
         else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
@@ -360,7 +362,7 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
         else
           m_physic.set_velocity_x(player->get_physic().get_velocity_x()
             + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
-        //handle y-movement
+        // Handle y-movement based on the player's direction and velocity.
         m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
           dir_ == Direction::DOWN ? 500.f :
           player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);
