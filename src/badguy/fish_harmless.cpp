@@ -20,12 +20,12 @@ FishHarmless::FishHarmless(const ReaderMapping& reader) :
   FishSwimming(reader, "images/creatures/fish/ice/goldfish.sprite")
 {
   m_countMe = false;
-  set_group(COLGROUP_DISABLED);
 }
 
 void
 FishHarmless::initialize()
 {
+  FishSwimming::initialize();
   set_group(COLGROUP_MOVING_ONLY_STATIC);
 }
 
