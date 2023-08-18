@@ -19,9 +19,9 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
-#include "badguy/owl.hpp"
-#include "badguy/haywire.hpp"
 #include "badguy/bomb.hpp"
+#include "badguy/haywire.hpp"
+#include "badguy/owl.hpp"
 #include "object/coin_explode.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
@@ -261,10 +261,7 @@ void
 GoldBomb::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  //const Rectf realizerect(get_bbox().get_middle()-Vector(REALIZE_DIST, REALIZE_DIST), get_bbox().get_middle()+Vector(REALIZE_DIST, REALIZE_DIST));
-  //const Rectf saferect(get_bbox().get_middle()-Vector(SAFE_DIST, SAFE_DIST), get_bbox().get_middle()+Vector(SAFE_DIST, SAFE_DIST));
-  //context.color().draw_filled_rect(realizerect, Color::from_rgba8888(255, 0, 0, 100), realizerect.get_size().width/2, 100);
-  //context.color().draw_filled_rect(saferect, Color::from_rgba8888(0, 255, 0, 100), saferect.get_size().width/2, 100);
+
   if (tstate == STATE_TICKING)
   {
     m_exploding_sprite->set_blend(Blend::ADD);
