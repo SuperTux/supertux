@@ -1093,8 +1093,8 @@ BadGuy::after_editor_set()
     }
     else
     {
-    log_warning << "Couldn't find editor sprite action for badguy direction='"
-                << dir_to_string(m_start_dir) << "': " << get_class_name() << "." << std::endl;
+      log_warning << "Couldn't find editor sprite action for badguy direction='"
+                  << dir_to_string(m_start_dir) << "': " << get_class_name() << "." << std::endl;
     }
   }
 }
