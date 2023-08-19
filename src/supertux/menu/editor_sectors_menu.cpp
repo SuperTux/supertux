@@ -66,7 +66,7 @@ EditorSectorsMenu::create_sector()
     return;
   }
 
-  // Find an unique name
+  // Find an unique name.
   std::string sector_name;
   int num = 2;
   do {
@@ -89,12 +89,11 @@ EditorSectorsMenu::delete_sector()
 
   // Do not delete sector when there would be no left.
   if (level->get_sector_count() < 2) {
-    // do not allow to delete the sector
     dialog->set_text(_("Each level must have at least one sector."));
     dialog->clear_buttons();
     dialog->add_cancel_button(_("Cancel"));
   } else {
-    // confirmation dialog
+    // Confirmation dialog.
     dialog->set_text(_("Do you really want to delete this sector?"));
     dialog->clear_buttons();
     dialog->add_cancel_button(_("Cancel"));

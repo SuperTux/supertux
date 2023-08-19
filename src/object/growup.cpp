@@ -33,9 +33,9 @@ GrowUp::GrowUp(const Vector& pos, Direction direction) :
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
   SoundManager::current()->preload("sounds/grow.ogg");
-  //shadow to remain in place as egg rolls
+  // Set the shadow action for the egg sprite, so it remains in place as the egg rolls.
   shadesprite->set_action("shadow");
-  //set light for glow effect
+  // Configure the light sprite for the glow effect.
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
 }

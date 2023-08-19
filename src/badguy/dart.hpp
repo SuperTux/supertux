@@ -56,6 +56,9 @@ public:
   void set_flip(Flip flip);
 
 protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
+protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   std::unique_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
 

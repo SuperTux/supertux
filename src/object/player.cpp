@@ -2435,8 +2435,7 @@ Player::deactivate()
   if (m_deactivated)
     return;
   m_deactivated = true;
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   m_physic.set_acceleration_x(0);
   m_physic.set_acceleration_y(0);
   if (m_climbing) stop_climbing(*m_climbing);
@@ -2520,7 +2519,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
 
-  if (m_controller->hold(Control::JUMP)) {
+  if (m_controller->hold(Control::JUMP) && !m_controller->hold(Control::DOWN)) {
     m_on_ground_flag = true;
     m_jump_early_apex = false;
     do_jump(m_player_status.bonus[get_id()] == BonusType::AIR_BONUS ? -540.0f : -480.0f);
@@ -2542,18 +2541,19 @@ Player::handle_input_climbing()
 
   float vx = 0;
   float vy = 0;
-  if (m_controller->hold(Control::LEFT)) {
+  auto obj_bbox = m_climbing->get_bbox();
+  if (m_controller->hold(Control::LEFT) && m_col.m_bbox.get_left() > obj_bbox.get_left()) {
     m_dir = Direction::LEFT;
     vx -= MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::RIGHT)) {
+  if (m_controller->hold(Control::RIGHT) && m_col.m_bbox.get_right() < obj_bbox.get_right()) {
     m_dir = Direction::RIGHT;
     vx += MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > m_climbing->get_bbox().get_top()) {
+  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > obj_bbox.get_top()) {
     vy -= MAX_CLIMB_YM;
   }
-  if (m_controller->hold(Control::DOWN)) {
+  if (m_controller->hold(Control::DOWN) && m_col.m_bbox.get_bottom() < obj_bbox.get_bottom()) {
     vy += MAX_CLIMB_YM;
   }
   if (m_controller->hold(Control::JUMP)) {
@@ -2563,10 +2563,6 @@ Player::handle_input_climbing()
     }
   } else {
     m_can_jump = true;
-  }
-  if (m_controller->hold(Control::ACTION)) {
-    stop_climbing(*m_climbing);
-    return;
   }
   m_physic.set_velocity(vx, vy);
   m_physic.set_acceleration(0, 0);

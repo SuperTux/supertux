@@ -43,6 +43,9 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual bool collision_squished (GameObject& obj) override;

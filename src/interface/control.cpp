@@ -25,3 +25,4 @@ InterfaceControl::InterfaceControl() :
 {
 }
 
+/* EOF */

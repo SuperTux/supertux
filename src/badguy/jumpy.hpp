@@ -40,6 +40,9 @@ public:
   static std::string display_name() { return _("Jumpy"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   HitResponse hit(const CollisionHit& hit);
 

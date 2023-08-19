@@ -204,7 +204,7 @@ AddonPreviewMenu::menu_action(MenuItem& item)
 {
   switch (item.get_id())
   {
-    case MNID_SCREENSHOTS: // Non-interactive item
+    case MNID_SCREENSHOTS: // Non-interactive item.
       return;
 
     case MNID_SHOW_SCREENSHOTS:

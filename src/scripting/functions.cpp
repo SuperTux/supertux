@@ -41,8 +41,8 @@
 
 namespace {
 
-// not added to header, function to only be used by others
-// in this file
+// Not added to header, function to only be used by others
+// in this file.
 bool validate_sector_player()
 {
   if (::Sector::current() == nullptr)
@@ -93,7 +93,7 @@ void start_cutscene()
   {
     log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceding cutscene (use end_cutscene() in scripts!)" << std::endl;
 
-    // Remove all sounds that started playing while skipping
+    // Remove all sounds that started playing while skipping.
     if (session->get_current_level().m_skip_cutscene)
       SoundManager::current()->stop_sounds();
   }
@@ -107,16 +107,16 @@ void end_cutscene()
   auto session = GameSession::current();
   if (session == nullptr)
   {
-    log_info << "No game session" << std::endl;
+    log_info << "No game session." << std::endl;
     return;
   }
 
   if (!session->get_current_level().m_is_in_cutscene)
   {
-    log_warning << "end_cutscene(): no cutscene to end, resetting status anyways" << std::endl;
+    log_warning << "end_cutscene(): no cutscene to end, resetting status anyways." << std::endl;
   }
 
-  // Remove all sounds that started playing while skipping
+  // Remove all sounds that started playing while skipping.
   if (session->get_current_level().m_skip_cutscene)
     SoundManager::current()->stop_sounds();
 
@@ -142,7 +142,7 @@ void wait(HSQUIRRELVM vm, float seconds)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
-      // wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`
+      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
       squirrelenv->wait_for_seconds(vm, 0);
     }
     else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
@@ -158,7 +158,7 @@ void wait(HSQUIRRELVM vm, float seconds)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
-      // wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game
+      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
       squirrelenv->skippable_wait_for_seconds(vm, seconds);
       //GameSession::current()->set_scheduler(squirrelenv->get_scheduler());
     }
@@ -289,7 +289,7 @@ void debug_worldmap_ghost(bool enable)
   auto worldmap_sector = worldmap::WorldMapSector::current();
 
   if (worldmap_sector == nullptr)
-    throw std::runtime_error("Can't change ghost mode without active WorldMapSector");
+    throw std::runtime_error("Can't change ghost mode without active WorldMapSector.");
 
   auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
   tux.set_ghost_mode(enable);
@@ -301,7 +301,7 @@ void save_state()
 
   if (!worldmap)
   {
-    throw std::runtime_error("Can't save state without active Worldmap");
+    throw std::runtime_error("Can't save state without active Worldmap.");
   }
   else
   {
@@ -315,7 +315,7 @@ void load_state()
 
   if (!worldmap)
   {
-    throw std::runtime_error("Can't save state without active Worldmap");
+    throw std::runtime_error("Can't save state without active Worldmap.");
   }
   else
   {
@@ -356,7 +356,7 @@ void play_sound(const std::string& filename)
 void grease()
 {
   if (!validate_sector_player()) return;
-  // FIXME: This only has effect on the first player
+  // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]); // scripting::Player != ::Player
   tux.get_physic().set_velocity_x(tux.get_physic().get_velocity_x()*3);
 }
@@ -364,7 +364,7 @@ void grease()
 void invincible()
 {
   if (!validate_sector_player()) return;
-  // FIXME: This only has effect on the first player
+  // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.m_invincible_timer.start(10000);
 }
@@ -372,7 +372,7 @@ void invincible()
 void ghost()
 {
   if (!validate_sector_player()) return;
-  // FIXME: This only has effect on the first player
+  // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.set_ghost_mode(true);
 }
@@ -380,7 +380,7 @@ void ghost()
 void mortal()
 {
   if (!validate_sector_player()) return;
-  // FIXME: This only has effect on the first player
+  // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.m_invincible_timer.stop();
   tux.set_ghost_mode(false);
@@ -391,7 +391,7 @@ void restart()
   auto session = GameSession::current();
   if (session == nullptr)
   {
-    log_info << "No game session" << std::endl;
+    log_info << "No game session." << std::endl;
     return;
   }
   session->restart_level();
@@ -400,7 +400,7 @@ void restart()
 void whereami()
 {
   if (!validate_sector_player()) return;
-  // FIXME: This only has effect on the first player
+  // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]);
   log_info << "You are at x " << (static_cast<int>(tux.get_pos().x)) << ", y " << (static_cast<int>(tux.get_pos().y)) << std::endl;
 }
@@ -408,7 +408,7 @@ void whereami()
 void gotoend()
 {
   if (!validate_sector_player()) return;
-  // FIXME: This only has effect on the first player
+  // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.move(Vector(
               (::Sector::get().get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
@@ -419,7 +419,7 @@ void gotoend()
 void warp(float offset_x, float offset_y)
 {
   if (!validate_sector_player()) return;
-  // FIXME: This only has effect on the first player
+  // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.move(Vector(
               tux.get_pos().x + (offset_x*32), tux.get_pos().y - (offset_y*32)));
@@ -450,7 +450,7 @@ void set_game_speed(float speed)
   {
     // Always put a minimum speed above 0 - if the user enabled transitions,
     // executing transitions would take an unreaonably long time if we allow
-    // game speeds like 0.00001
+    // game speeds like 0.00001.
     log_warning << "Cannot set game speed to less than 0.05" << std::endl;
     throw std::runtime_error("Cannot set game speed to less than 0.05");
   }
@@ -462,7 +462,7 @@ void record_demo(const std::string& filename)
 {
   if (GameSession::current() == nullptr)
   {
-    log_info << "No game session" << std::endl;
+    log_info << "No game session." << std::endl;
     return;
   }
   GameSession::current()->restart_level();
@@ -474,10 +474,10 @@ void play_demo(const std::string& filename)
   auto session = GameSession::current();
   if (session == nullptr)
   {
-    log_info << "No game session" << std::endl;
+    log_info << "No game session." << std::endl;
     return;
   }
-  // Reset random seed
+  // Reset random seed.
   g_config->random_seed = session->get_demo_random_seed(filename);
   gameRandom.seed(g_config->random_seed);
   session->restart_level();

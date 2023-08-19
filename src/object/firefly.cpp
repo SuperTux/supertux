@@ -30,8 +30,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const Color TORCH_LIGHT_COLOR = Color(0.87f, 0.64f, 0.12f); /** Color of the light specific to the torch firefly sprite */
-static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite */
+static const Color TORCH_LIGHT_COLOR = Color(0.87f, 0.64f, 0.12f); /** Color of the light specific to the torch firefly sprite. */
+static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite. */
 
 Firefly::Firefly(const ReaderMapping& mapping) :
    MovingSprite(mapping, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
@@ -47,7 +47,7 @@ Firefly::Firefly(const ReaderMapping& mapping) :
 
   update_state();
 
-  //Load sound
+  // Load sound.
   if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
     SoundManager::current()->preload("sounds/savebell_low.wav");
   }
@@ -106,7 +106,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
     activated = true;
-    // spawn some particles
+    // Spawn some particles.
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 5; i++) {
       Vector ppos = m_col.m_bbox.get_middle();

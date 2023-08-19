@@ -43,7 +43,7 @@ Camera::Camera() :
 void
 Camera::update(float dt_sec)
 {
-  // position "camera"
+  // Position the "camera".
   Vector target_pos = get_camera_pos_for_tux();
   clamp_camera_position(target_pos);
   if (!m_panning) {
@@ -53,7 +53,7 @@ Camera::update(float dt_sec)
 
   m_pan_time_remaining -= dt_sec;
   if (m_pan_time_remaining > 0) {
-    // Smoothly interpolate camera position
+    // Smoothly interpolate the camera's position.
     float f = m_pan_time_remaining / m_pan_time_full;
     f = 0.5f - 0.5f * cosf(math::PI * f);
     m_camera_offset.x = f * m_pan_startpos.x + (1.0f - f) * target_pos.x;

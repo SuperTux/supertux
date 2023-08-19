@@ -23,7 +23,7 @@ Vector
 Bezier::get_point(const Vector& p1, const Vector& p2, const Vector& p3,
                   const Vector& p4, float t)
 {
-  // SPECIAL CASE
+  // SPECIAL CASE:
   // If Beziers aren't used, treat it linearly. That is because Beziers will
   // automatically add some "easing"-like effect when unused, which might be
   // undesired.
@@ -85,7 +85,7 @@ Bezier::get_point_at_length(const Vector& p1, const Vector& p2, const Vector& p3
 
   // The length might be equal to something like 4.86e-05 if the original length
   // was equal or close to the total length, due to float's limited precision.
-  // We'll consider it a problem if the difference is greater than 0.001
+  // We'll consider it a problem if the difference is greater than 0.001.
   if (length > 0.001f)
     log_warning << "Attempt to get point on Bezier curve further than the end: " << length << std::endl;
 
@@ -104,7 +104,7 @@ Bezier::draw_curve(DrawingContext& context, const Vector& p1, const Vector& p2,
                    const Vector& p3, const Vector& p4, int steps, Color color,
                    int layer)
 {
-  // Save ourselves some processing time in common special cases
+  // Save ourselves some processing time in common special cases.
   if (p1 == p2 && p3 == p4)
   {
     context.color().draw_line(p1, p4, color, layer);

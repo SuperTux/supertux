@@ -27,7 +27,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-// The time for the caret to change visibility (when it flashes)
+// The time for the caret to change visibility (when it flashes).
 static const float CONTROL_CURSOR_TIMER = 0.5f;
 
 ControlTextbox::ControlTextbox() :
@@ -53,7 +53,7 @@ ControlTextbox::update(float dt_sec)
     m_cursor_timer = CONTROL_CURSOR_TIMER;
   }
 
-  // Apparently the stuff bugs from time to time
+  // Apparently the stuff bugs from time to time.
   recenter_offset();
 }
 

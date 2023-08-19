@@ -19,9 +19,9 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-/** this controls the time over which a bouncy coin fades */
+/** Controls the duration over which a bouncy coin fades. */
 static const float FADE_TIME = .2f;
-/** this is the total life time of a bouncy coin */
+/** Represents the total lifetime of a bouncy coin. */
 static const float LIFE_TIME = .5f;
 
 BouncyCoin::BouncyCoin(const Vector& pos, bool emerge, const std::string& sprite_path) :

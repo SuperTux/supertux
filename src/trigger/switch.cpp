@@ -29,14 +29,23 @@ namespace {
 } // namespace
 
 Switch::Switch(const ReaderMapping& reader) :
-  SpritedTrigger(reader, "images/objects/switch/left.sprite"),
-  script(),
-  off_script(),
-  state(OFF),
-  bistable()
+  SpritedTrigger(reader, "images/objects/switch/switch.sprite"),
+  m_script(),
+  m_off_script(),
+  m_state(OFF),
+  m_bistable(),
+  m_dir(Direction::NONE)
 {
-  reader.get("script", script);
-  bistable = reader.get("off-script", off_script);
+  std::string dir_str;
+  if (reader.get("direction", dir_str))
+    m_dir = string_to_dir(dir_str);
+  else
+    m_dir = Direction::NONE;
+
+  set_action("off", m_dir);
+
+  reader.get("script", m_script);
+  m_bistable = reader.get("off-script", m_off_script);
 
   SoundManager::current()->preload(SWITCH_SOUND);
 }
@@ -50,10 +59,13 @@ Switch::get_settings()
 {
   ObjectSettings result = SpritedTrigger::get_settings();
 
-  result.add_script(_("Turn on script"), &script, "script");
-  result.add_script(_("Turn off script"), &off_script, "off-script");
+  result.add_direction(_("Direction"), &m_dir,
+                        { Direction::NONE, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN }, "direction");
 
-  result.reorder({"script", "off-script", "sprite", "x", "y"});
+  result.add_script(_("Turn on script"), &m_script, "script");
+  result.add_script(_("Turn off script"), &m_off_script, "off-script");
+
+  result.reorder({"direction", "script", "off-script", "sprite", "x", "y"});
 
   return result;
 }
@@ -61,35 +73,35 @@ Switch::get_settings()
 void
 Switch::update(float )
 {
-  switch (state) {
+  switch (m_state) {
     case OFF:
       break;
     case TURN_ON:
       if (m_sprite->animation_done()) {
         std::ostringstream location;
         location << "switch" << m_col.m_bbox.p1();
-        Sector::get().run_script(script, location.str());
+        Sector::get().run_script(m_script, location.str());
 
-        set_action("on", 1);
-        state = ON;
+        set_action("on", m_dir, 1);
+        m_state = ON;
       }
       break;
     case ON:
-      if (m_sprite->animation_done() && !bistable) {
-        set_action("turnoff", 1);
-        state = TURN_OFF;
+      if (m_sprite->animation_done() && !m_bistable) {
+        set_action("turnoff", m_dir, 1);
+        m_state = TURN_OFF;
       }
       break;
     case TURN_OFF:
       if (m_sprite->animation_done()) {
-        if (bistable) {
+        if (m_bistable) {
           std::ostringstream location;
           location << "switch" << m_col.m_bbox.p1();
-          Sector::get().run_script(off_script, location.str());
+          Sector::get().run_script(m_off_script, location.str());
         }
 
-        set_action("off");
-        state = OFF;
+        set_action("off", m_dir);
+        m_state = OFF;
       }
       break;
   }
@@ -100,24 +112,32 @@ Switch::event(Player& , EventType type)
 {
   if (type != EVENT_ACTIVATE) return;
 
-  switch (state) {
+  switch (m_state) {
     case OFF:
-      set_action("turnon", 1);
+      set_action("turnon", m_dir, 1);
       SoundManager::current()->play(SWITCH_SOUND, get_pos());
-      state = TURN_ON;
+      m_state = TURN_ON;
       break;
     case TURN_ON:
       break;
     case ON:
-      if (bistable) {
-        set_action("turnoff", 1);
+      if (m_bistable) {
+        set_action("turnoff", m_dir, 1);
         SoundManager::current()->play(SWITCH_SOUND, get_pos());
-        state = TURN_OFF;
+        m_state = TURN_OFF;
       }
       break;
     case TURN_OFF:
       break;
   }
+}
+
+void
+Switch::after_editor_set()
+{
+  SpritedTrigger::after_editor_set();
+
+  set_action("off", m_dir);
 }
 
 void

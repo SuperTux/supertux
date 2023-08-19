@@ -110,7 +110,7 @@ DisplayEffect::draw(DrawingContext& context)
           assert(false);
       }
 
-      // Same as in fadetoblack.cpp
+      // Same as in fadetoblack.cpp.
       alpha = Color::remove_gamma(alpha);
     }
     context.color().draw_filled_rect(Rectf(0, 0,

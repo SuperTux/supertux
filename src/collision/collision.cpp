@@ -205,14 +205,14 @@ bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, co
   float den1 = (d2-b2)*(c1-c2) + (a2-c2)*(d1-d2);
   float den2 = (d2-b2)*(a1-a2) + (a2-c2)*(b1-b2);
 
-  // normalize to positive numerator
+  // Normalize to positive numerator.
   if (num < 0) {
     num = -num;
     den1 = -den1;
     den2 = -den2;
   }
 
-  // numerator is zero -> Check for parallel or coinciding lines
+  // Numerator is zero -> Check for parallel or coinciding lines.
   if (num == 0) {
     if ((b1-b2)*(c1-a2) != (a1-a2)*(d1-b2)) return false;
     if (a1 == a2) {
@@ -226,7 +226,7 @@ bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, co
     return ((a1 <= c2) && (a2 >= c1));
   }
 
-  // Standard check
+  // Standard check.
   return (den1>=0) && (den1<=num) && (den2>=0) && (den2<=num);
 
 }

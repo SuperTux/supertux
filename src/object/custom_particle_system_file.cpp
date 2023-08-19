@@ -53,7 +53,7 @@ CustomParticleSystemFile::get_settings()
   result.add_file(_("File"), &m_filename, "file", {}, {".stcp"}, "/particles");
   result.add_particle_editor();
 
-  // It is assumed get_settings() is called whenever the menu is opened
+  // It is assumed get_settings() is called whenever the menu is opened.
   Editor::current()->m_particle_editor_filename = &m_filename;
 
   result.add_remove();

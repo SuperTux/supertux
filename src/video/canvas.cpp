@@ -114,7 +114,7 @@ Canvas::draw_surface(const SurfacePtr& surface,
 
   const auto& cliprect = m_context.get_cliprect();
 
-  // discard clipped surface
+  // Discard clipped surface.
   if (position.x > cliprect.get_right() ||
      position.y > cliprect.get_bottom() ||
      position.x + static_cast<float>(surface->get_width()) < cliprect.get_left() ||
@@ -234,7 +234,7 @@ void
 Canvas::draw_text(const FontPtr& font, const std::string& text,
                   const Vector& pos, FontAlignment alignment, int layer, const Color& color)
 {
-  // FOXME: Font viewport
+  // FIXME: Font viewport.
   font->draw_text(*this, text, pos, alignment, layer, color);
 }
 

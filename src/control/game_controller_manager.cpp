@@ -144,8 +144,7 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
     player_id = it->second;
   }
 
-  // FIXME: buttons and axis are fighting for control ownership, need
-  // to OR the values together
+  // FIXME: Buttons and axis are fighting for control ownership, need jump slightly if we encounter a suitable totem.
 
   //log_info << "axis event: " << static_cast<int>(ev.axis) << " " << ev.value << std::endl;
   Controller& controller = m_parent->get_controller(player_id);
@@ -277,7 +276,7 @@ GameControllerManager::on_controller_removed(int instance_id)
     if (m_parent->m_use_game_controller && g_config->multiplayer_auto_manage_players
         && deleted_player_id != 0 && !m_parent->m_uses_keyboard[deleted_player_id])
     {
-      // Sectors in worldmaps have no Player's of that class
+      // Sectors in worldmaps have no Player's of that class.
       if (Sector::current() && Sector::current()->get_object_count<Player>() > 0)
       {
         auto players = Sector::current()->get_objects_by_type<Player>();
@@ -310,8 +309,8 @@ GameControllerManager::on_player_removed(int player_id)
   if (it2 != m_game_controllers.end())
   {
     it2->second = -1;
-    // Try again, in case multiple controllers were bount to a player
-    // Recursive call shouldn't go too deep except in hardcore scenarios
+    // Try again, in case multiple controllers were bount to a player.
+    // Recursive call shouldn't go too deep except in hardcore scenarios.
     on_player_removed(player_id);
   }
 }
@@ -334,7 +333,7 @@ GameControllerManager::rumble(SDL_GameController* controller) const
     if (SDL_GameControllerHasRumble(controller))
     {
 #endif
-      // TODO: Rumble intensity setting (like volume)
+      // TODO: Rumble intensity setting (like volume).
       SDL_GameControllerRumble(controller, 0xFFFF, 0xFFFF, 300);
 #if SDL_VERSION_ATLEAST(2, 0, 18)
     }

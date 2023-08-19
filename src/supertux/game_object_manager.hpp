@@ -144,7 +144,7 @@ public:
   }
 
   /** Register a callback to be called once the given name can be
-      resolsed to a UID. Note that this function is only valid in the
+      resolved to a UID. Note that this function is only valid in the
       construction phase, not during draw() or update() calls, use
       get_object_by_uid() instead. */
   void request_name_resolve(const std::string& name, std::function<void (UID)> callback);

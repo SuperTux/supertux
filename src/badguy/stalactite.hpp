@@ -47,6 +47,7 @@ public:
 
 protected:
   void on_type_change(int old_type) override;
+  std::vector<Direction> get_allowed_directions() const override;
 
 protected:
   enum StalactiteType {

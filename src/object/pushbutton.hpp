@@ -43,9 +43,10 @@ private:
     ON
   };
 
-  std::string script;
-  PushButtonState state;
-  bool m_upside_down;
+  std::string m_script;
+  PushButtonState m_state;
+
+  Direction m_dir;
 
 private:
   PushButton(const PushButton&) = delete;

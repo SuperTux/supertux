@@ -50,7 +50,7 @@ ErrorHandler::handle_error(int sig)
   {
     m_handing_error = true;
     // Do not use external stuff (like log_fatal) to limit the risk of causing
-    // another error, which would restart the handler again
+    // another error, which would restart the handler again.
     fprintf(stderr, "\nError: signal %d:\n", sig);
     print_stack_trace();
     close_program();
@@ -64,10 +64,10 @@ ErrorHandler::print_stack_trace()
   void *array[127];
   size_t size;
 
-  // get void*'s for all entries on the stack
+  // Get void*'s for all entries on the stack.
   size = backtrace(array, 127);
 
-  // print out all the frames to stderr
+  // Print out all the frames to stderr.
   backtrace_symbols_fd(array, static_cast<int>(size), STDERR_FILENO);
 #endif
 }

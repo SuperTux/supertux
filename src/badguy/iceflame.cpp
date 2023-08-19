@@ -66,4 +66,10 @@ Iceflame::is_freezable() const
   return false;
 }
 
+std::vector<Direction>
+Iceflame::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

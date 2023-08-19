@@ -114,7 +114,7 @@ Background::Background(const ReaderMapping& reader) :
   reader.get("scroll-offset-x", m_scroll_offset.x, 0.0f);
   reader.get("scroll-offset-y", m_scroll_offset.y, 0.0f);
 
-  // for backwards compatibility, add position to scroll offset
+  // For backward compatibility, add position to scroll offset.
   float px;
   float py;
   if (reader.get("x", px))
@@ -132,7 +132,7 @@ Background::Background(const ReaderMapping& reader) :
 
   if(!reader.get("speed-x", m_parallax_speed.x))
   {
-    // for backward compatibilty
+    // For backward compatibility.
     reader.get("speed", m_parallax_speed.x, 0.5f);
   }
 
@@ -225,7 +225,7 @@ Background::update(float dt_sec)
   if (m_timer_color.check())
   {
     m_color = m_dst_color;
-    m_timer_color.stop(); // to reset the "check()" value
+    m_timer_color.stop(); // To reset the "check()" value.
   }
   else if (m_timer_color.started())
   {
@@ -466,10 +466,10 @@ Background::load_background(const std::string& image_path)
     return nullptr;
 
   if (PHYSFS_exists(image_path.c_str()))
-    // No need to search fallback paths
+    // No need to search fallback paths.
     return Surface::from_file(image_path);
 
-  // Search for a fallback image in fallback_paths
+  // Search for a fallback image in fallback_paths.
   const std::string& default_dir = "images/background/";
   const std::string& default_dir2 = "/images/background/";
   std::string new_path = image_path;
@@ -479,7 +479,7 @@ Background::load_background(const std::string& image_path)
     new_path.erase(0, default_dir2.length());
   auto it = fallback_paths.find(new_path);
   if (it == fallback_paths.end())
-    // Unknown image, let the texture manager select the dummy texture
+    // Unknown image, let the texture manager select the dummy texture.
     return Surface::from_file(image_path);
 
   new_path = default_dir + it->second;
@@ -499,6 +499,5 @@ Background::on_flip(float height)
     m_alignment = BOTTOM_ALIGNMENT;
   FlipLevelTransformer::transform_flip(m_flip);
 }
-
 
 /* EOF */

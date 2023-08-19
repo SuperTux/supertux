@@ -34,6 +34,7 @@ Dart::Dart(const ReaderMapping& reader) :
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
+
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
@@ -48,6 +49,7 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_, const std::str
 {
   m_physic.enable_gravity(false);
   m_countMe = false;
+
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
@@ -107,7 +109,7 @@ Dart::collision_solid(const CollisionHit& )
 HitResponse
 Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  // ignore collisions with parent
+  // Ignore collisions with parent.
   if (&badguy == parent) {
     return FORCE_MOVE;
   }
@@ -151,6 +153,12 @@ void
 Dart::set_flip(Flip flip)
 {
   m_flip = flip;
+}
+
+std::vector<Direction>
+Dart::get_allowed_directions() const
+{
+  return { Direction::AUTO, Direction::LEFT, Direction::RIGHT, Direction::UP, Direction::DOWN };
 }
 
 void

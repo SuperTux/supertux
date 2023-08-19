@@ -67,7 +67,7 @@ ControlTextboxInt::parse_value(bool call_on_change /* = true (see header */)
   if (*m_value != temp) {
     *m_value = temp;
 
-    // Do it anyways
+    // Revert the value regardless.
     revert_value();
 
     if (call_on_change && m_on_change)

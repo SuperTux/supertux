@@ -26,7 +26,7 @@
 #include "video/viewport.hpp"
 
 //FIXME: Sometimes both ghosts have the same image
-//       Ghosts don't change their movement pattern - not random
+//       Ghosts don't change their movement pattern - not random.
 GhostParticleSystem::GhostParticleSystem()
 {
   init();
@@ -50,7 +50,7 @@ GhostParticleSystem::init()
 
   virtual_width = static_cast<float>(SCREEN_WIDTH) * 2.0f;
 
-  // create two ghosts
+  // Create two ghosts.
   size_t ghostcount = 2;
   for (size_t i=0; i<ghostcount; ++i) {
     auto particle = std::make_unique<GhostParticle>();

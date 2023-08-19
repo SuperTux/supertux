@@ -119,6 +119,6 @@ FloatingImage::fade_out(float time)
   object.fade_out(time);
 }
 
-} // scripting
+} // namespace scripting
 
 /* EOF */

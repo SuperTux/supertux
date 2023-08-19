@@ -17,20 +17,24 @@
 #include "badguy/scrystallo.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/rcrystallo.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
 SCrystallo::SCrystallo(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/crystallo/scrystallo.sprite", "editor-left", "editor-right"),
-  state(SCRYSTALLO_SLEEPING),
+  WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "sleeping-left", "sleeping-right"),
+  m_state(SCRYSTALLO_SLEEPING),
+  m_roof(),
   m_radius(),
   m_range(),
   m_radius_anchor()
 {
   walk_speed = 80;
   max_drop_height = 16;
+  reader.get("roof", m_roof, false);
   reader.get("radius", m_radius, 100.0f);
   reader.get("range", m_range, 250.0f);
   SoundManager::current()->preload("sounds/crystallo-pop.ogg");
@@ -39,9 +43,13 @@ SCrystallo::SCrystallo(const ReaderMapping& reader) :
 void
 SCrystallo::initialize()
 {
-  state = SCRYSTALLO_SLEEPING;
-  m_physic.enable_gravity(false);
-  set_action("editor", m_dir);
+  if (m_roof)
+  {
+    m_physic.set_gravity_modifier(-1.f);
+    FlipLevelTransformer::transform_flip(m_flip);
+  }
+  m_state = SCRYSTALLO_SLEEPING;
+  set_action("sleeping", m_dir);
 }
 
 ObjectSettings
@@ -51,6 +59,7 @@ SCrystallo::get_settings()
 
   result.add_float(_("Walk Radius"), &m_radius, "radius", 100.0f);
   result.add_float(_("Awakening Radius"), &m_range, "range", 250.0f);
+  result.add_bool(_("Roof-attached"), &m_roof, "roof", false);
 
   result.reorder({ "radius", "range", "direction", "x", "y" });
 
@@ -60,7 +69,7 @@ SCrystallo::get_settings()
 void
 SCrystallo::collision_solid(const CollisionHit& hit)
 {
-  if (state != SCRYSTALLO_WALKING)
+  if (m_state != SCRYSTALLO_WALKING)
   {
     BadGuy::collision_solid(hit);
     return;
@@ -71,7 +80,7 @@ SCrystallo::collision_solid(const CollisionHit& hit)
 HitResponse
 SCrystallo::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if (state != SCRYSTALLO_WALKING)
+  if (m_state != SCRYSTALLO_WALKING)
   {
     return BadGuy::collision_badguy(badguy, hit);
   }
@@ -83,12 +92,12 @@ SCrystallo::active_update(float dt_sec)
 {
   auto player = get_nearest_player();
   Rectf downbox = get_bbox();
-  switch (state)
+  switch (m_state)
   {
   case SCRYSTALLO_SLEEPING:
-    m_physic.set_velocity(0.f, 0.f);
-    m_physic.set_acceleration(0.f, 0.f);
-    // is sleeping peacefully
+    m_physic.set_velocity_x(0.f);
+    m_physic.set_acceleration_x(0.f);
+    // The entity is sleeping peacefully.
     if (player)
     {
       Vector p1 = m_col.m_bbox.get_middle();
@@ -97,38 +106,46 @@ SCrystallo::active_update(float dt_sec)
       if (glm::length(dist) <= m_range)
       {
         set_action("waking", m_dir, 1);
-        state = SCRYSTALLO_WAKING;
+        m_state = SCRYSTALLO_WAKING;
       }
     }
     BadGuy::active_update(dt_sec);
     break;
   case SCRYSTALLO_WAKING:
-    m_physic.set_velocity(0.f, 0.f);
-    m_physic.set_acceleration(0.f, 0.f);
-    //wake up, acknowledge surroundings
+    m_physic.set_velocity_x(0.f);
+    m_physic.set_acceleration_x(0.f);
+    // Wake up and acknowledge surroundings once the animation is done.
     if (m_sprite->animation_done())
     {
       SoundManager::current()->play("sounds/crystallo-pop.ogg", get_pos());
-      m_physic.enable_gravity(true);
+
+      if (m_flip == VERTICAL_FLIP)
+      {
+        Sector::get().add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
+                                      std::move(m_sprite), m_dir, m_radius, m_dead_script, true);
+        remove_me();
+        return;
+      }
+
       m_physic.set_velocity_y(-250.f);
       WalkingBadguy::initialize();
       set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right", -1);
-      state = SCRYSTALLO_JUMPING;
+      m_state = SCRYSTALLO_JUMPING;
     }
     BadGuy::active_update(dt_sec);
     break;
   case SCRYSTALLO_JUMPING:
-    //popping out of the hole, ends when near ground
+    // Popping out of the hole, ends when near the ground.
     downbox.set_bottom(get_bbox().get_bottom() + 10.f);
     if (!Sector::get().is_free_of_statics(downbox))
     {
       m_radius_anchor = get_pos();
-      state = SCRYSTALLO_WALKING;
+      m_state = SCRYSTALLO_WALKING;
     }
     WalkingBadguy::active_update(dt_sec);
     break;
   case SCRYSTALLO_WALKING:
-    //walking and turning properly
+    // Walking and turning properly.
     float targetwalk = m_dir == Direction::LEFT ? -80.f : 80.f;
     if (m_dir != Direction::LEFT && get_pos().x > (m_radius_anchor.x + m_radius - 20.f))
       targetwalk = -80.f;
@@ -147,7 +164,6 @@ SCrystallo::collision_squished(GameObject& object)
 {
   set_action(m_dir == Direction::LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
-  m_physic.enable_gravity(true);
   m_physic.set_velocity_x(0.0);
   m_physic.set_acceleration_x(0.0);
   return true;
@@ -157,6 +173,35 @@ bool
 SCrystallo::is_flammable() const
 {
   return false;
+}
+
+void
+SCrystallo::after_editor_set()
+{
+  WalkingBadguy::after_editor_set();
+
+  if ((m_roof && m_flip == NO_FLIP) || (!m_roof && m_flip == VERTICAL_FLIP))
+    FlipLevelTransformer::transform_flip(m_flip);
+  set_action("sleeping", m_start_dir == Direction::AUTO ? Direction::LEFT : m_start_dir);
+  update_hitbox();
+}
+
+void
+SCrystallo::on_flip(float height)
+{
+  WalkingBadguy::on_flip(height);
+
+  if (m_state == SCRYSTALLO_SLEEPING || m_state == SCRYSTALLO_WAKING)
+  {
+    m_physic.set_gravity_modifier(-m_physic.get_gravity_modifier());
+    FlipLevelTransformer::transform_flip(m_flip);
+  }
+  else
+  {
+    Sector::get().add<RCrystallo>(get_pos(), m_start_position, get_velocity_x(),
+                                  std::move(m_sprite), m_dir, m_radius, m_dead_script);
+    remove_me();
+  }
 }
 
 /* EOF */

@@ -40,6 +40,9 @@ public:
   virtual bool is_snipable() const override { return true; }
 
 protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
+protected:
   enum SpiderMiteMode {
     FLY_UP,
     FLY_DOWN

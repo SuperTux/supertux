@@ -24,9 +24,9 @@
 #include "supertux/sector.hpp"
 
 namespace {
-const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
-const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
-const float GLOBAL_SPEED_MULT = 0.8f; /**< the overall movement speed/rate */
+const float PUFF_INTERVAL_MIN = 4.0f; /**< Spawn new puff of smoke at most that often. */
+const float PUFF_INTERVAL_MAX = 8.0f; /**< Spawn new puff of smoke at least that often. */
+const float GLOBAL_SPEED_MULT = 0.8f; /**< The overall movement speed/rate. */
 }
 
 FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
@@ -92,7 +92,7 @@ FlyingSnowBall::active_update(float dt_sec)
     set_action(m_dir);
   }
 
-  // spawn smoke puffs
+  // Spawn smoke puffs.
   if (puff_timer.check()) {
     Vector ppos = m_col.m_bbox.get_middle();
     Vector pspeed = Vector(graphicsRandom.randf(-10, 10), 150);
@@ -104,6 +104,12 @@ FlyingSnowBall::active_update(float dt_sec)
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
   }
 
+}
+
+std::vector<Direction>
+FlyingSnowBall::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

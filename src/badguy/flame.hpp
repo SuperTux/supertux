@@ -49,6 +49,9 @@ public:
   virtual void on_flip(float height) override;
 
 protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
+protected:
   float angle;
   float radius;
   float speed;

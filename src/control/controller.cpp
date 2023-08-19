@@ -99,7 +99,7 @@ Controller::set_control(Control control, bool value)
 void
 Controller::set_jump_key_with_up(bool value)
 {
-  // Do not release the jump key if the jump key is still pressed
+  // Do not release the jump key if the jump key is still pressed.
   if (!m_jump_key_pressed) {
     m_controls[static_cast<int>(Control::JUMP)] = value;
   }

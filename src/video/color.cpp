@@ -93,7 +93,7 @@ Color
 Color::multiply_linearly(float v) const
 {
   // For the approximate sRGB conversion, it is sufficient to apply the exponent
-  // to v
+  // to v.
   v = add_gamma(v);
   return Color(red * v, green * v, blue * v, alpha);
 }

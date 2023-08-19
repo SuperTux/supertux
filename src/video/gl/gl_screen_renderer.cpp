@@ -55,7 +55,7 @@ GLScreenRenderer::start_draw()
                 static_cast<float>(viewport.get_screen_height()),
                 true);
 
-  // clear the screen to get rid of lightmap remains
+  // Clear the screen to get rid of lightmap remains.
   glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 

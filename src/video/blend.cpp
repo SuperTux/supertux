@@ -40,7 +40,7 @@ Blend_from_string(const std::string& text)
   }
   else
   {
-    log_warning << "unknown blend mode: '" << text << "'" << std::endl;
+    log_warning << "Unknown blend mode: '" << text << "'" << std::endl;
     return Blend::BLEND;
   }
 }
@@ -66,7 +66,7 @@ Blend_to_string(Blend blend)
   }
   else
   {
-    log_warning << "unknown blend mode: " << static_cast<int>(blend) << std::endl;
+    log_warning << "Unknown blend mode: " << static_cast<int>(blend) << std::endl;
     return "blend";
   }
 }

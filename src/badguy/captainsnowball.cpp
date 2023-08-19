@@ -36,7 +36,7 @@ CaptainSnowball::CaptainSnowball(const ReaderMapping& reader) :
 bool
 CaptainSnowball::might_climb(int width, int height) const
 {
-  // make sure we check for at least a 1-pixel climb
+  // Make sure we check for at least a 1-pixel climb.
   assert(height > 0);
 
   float x1;

@@ -85,7 +85,7 @@ MoleRock::collision_solid(const CollisionHit& )
 HitResponse
 MoleRock::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  // ignore collisions with parent
+  // Ignore collisions with parent.
   if (&badguy == parent) {
     return FORCE_MOVE;
   }

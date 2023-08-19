@@ -20,13 +20,13 @@
 std::string
 Font::wrap_to_chars(const std::string& s, int line_length, std::string* overflow)
 {
-  // if text is already smaller, return full text
+  // If text is already smaller, return full text.
   if (static_cast<int>(s.length()) <= line_length) {
     if (overflow) *overflow = "";
     return s;
   }
 
-  // if we can find a whitespace character to break at, return text up to this character
+  // If we can find a whitespace character to break at, return text up to this character.
   int i = line_length;
   while ((i > 0) && (s[i] != ' ')) i--;
   if (i > 0) {
@@ -34,7 +34,7 @@ Font::wrap_to_chars(const std::string& s, int line_length, std::string* overflow
     return s.substr(0, i);
   }
 
-  // FIXME: wrap at line_length, taking care of multibyte characters
+  // FIXME: Wrap at line_length, taking care of multibyte characters.
   if (overflow) *overflow = "";
   return s;
 }

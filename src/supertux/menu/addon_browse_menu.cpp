@@ -78,7 +78,7 @@ AddonBrowseMenu::rebuild_menu()
     const Addon& addon = m_addon_manager.get_repository_addon(addon_id);
     try
     {
-      // addon is already installed, so check if they are the same
+      // Add-on is already installed, so check if they are the same.
       Addon& installed_addon = m_addon_manager.get_installed_addon(addon_id);
       if (installed_addon.get_md5() == addon.get_md5() ||
           installed_addon.get_version() > addon.get_version())
@@ -88,7 +88,7 @@ AddonBrowseMenu::rebuild_menu()
     }
     catch(const std::exception&)
     {
-      // addon is not installed
+      // Add-on is not installed.
       if (addon.is_visible())
       {
         if ((m_langpacks_only && addon.get_type() == Addon::LANGUAGEPACK) || !m_langpacks_only)
@@ -205,7 +205,7 @@ void
 AddonBrowseMenu::menu_action(MenuItem& item)
 {
   const int index = item.get_id();
-  if (index == MNID_CHECK_ONLINE) // Check if "Check Online" was chosen
+  if (index == MNID_CHECK_ONLINE) // Check if "Check Online" was chosen.
   {
     check_online();
   }
@@ -213,7 +213,7 @@ AddonBrowseMenu::menu_action(MenuItem& item)
     index == MNID_PREV_PAGE ? m_browse_page-- : m_browse_page++;
     rebuild_menu();
     set_active_item(index);
-    if (get_active_item_id() != index) // Check if the item wasn't set as active, because it's disabled
+    if (get_active_item_id() != index) // Check if the item wasn't set as active, because it's disabled.
     {
       set_active_item(index == MNID_PREV_PAGE ? MNID_NEXT_PAGE : MNID_PREV_PAGE);
     }

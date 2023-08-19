@@ -48,6 +48,9 @@ public:
   static std::string display_name() { return _("Dive Mine"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   void reset_sprites();
   void stop_chasing();

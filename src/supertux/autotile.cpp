@@ -20,7 +20,7 @@
 
 //#include "supertux/autotile_parser.hpp"
 
-// AutotileMask
+// AutotileMask.
 
 AutotileMask::AutotileMask(uint8_t mask, bool center) :
   m_mask(mask),
@@ -40,7 +40,7 @@ AutotileMask::get_mask() const
   return m_mask;
 }
 
-// Autotile
+// Autotile.
 
 Autotile::Autotile(uint32_t tile_id, std::vector<std::pair<uint32_t, float>> alt_tiles, std::vector<AutotileMask*> masks, bool solid) :
   m_tile_id(tile_id),
@@ -73,13 +73,13 @@ uint32_t
 Autotile::pick_tile(int x, int y) const
 {
   // Needed? Not needed?
-  // Could avoid pointless computation
+  // Could avoid pointless computation.
   if (m_alt_tiles.size() == 0)
     return m_tile_id;
 
   // srand() and rand() are inconsistent across platforms (Windows)
-  //srand(x * 32768 + y);
-  //float rnd_val = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+  // srand(x * 32768 + y);
+  // float rnd_val = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 
   float rnd_val = static_cast<float>(
     (
@@ -133,7 +133,7 @@ Autotile::is_solid() const
 }
 
 
-// AutotileSet
+// AutotileSet.
 
 std::vector<AutotileSet*>* AutotileSet::m_autotilesets = new std::vector<AutotileSet*>();
 
@@ -221,8 +221,6 @@ AutotileSet::get_autotile(uint32_t tile_id,
   return center ? get_default_tile() : 0;
 }
 
-
-
 uint32_t
 AutotileSet::get_default_tile() const
 {
@@ -250,7 +248,7 @@ AutotileSet::is_member(uint32_t tile_id) const
     }
   }
   // m_default should *never* be 0 (always a valid solid tile,
-  //   even if said tile isn't part of the tileset)
+  // even if said tile isn't part of the tileset).
   return tile_id == m_default && m_default != 0;
 }
 
@@ -281,7 +279,7 @@ AutotileSet::is_solid(uint32_t tile_id) const
   //log_warning << "Called AutotileSet::is_solid() with a tile_id that isn't in the Autotileset, yet that returns is_member() = true." << std::endl;
 
   // m_default should *never* be 0 (always a valid solid tile,
-  //   even if said tile isn't part of the tileset)
+  // even if said tile isn't part of the tileset).
   return tile_id == m_default && m_default != 0;
 }
 
@@ -301,13 +299,13 @@ void
 AutotileSet::validate() const
 {
   // Corner autotiles are always empty if all 4 corners are, but regular
-  // autotiles should have a valid tile ID that can be surrounded by emptiness
+  // autotiles should have a valid tile ID that can be surrounded by emptiness.
   for (int mask = (m_corner ? 1 : 0); mask <= (m_corner ? 15 : 255); mask++)
   {
     uint8_t num_mask = static_cast<uint8_t>(mask);
     bool tile_exists = false;
-    uint32_t tile_nonsolid = 0; // Relevant only for non-corner autotiles
-    uint32_t tile_with_that_mask = 0; // Used to help users debug
+    uint32_t tile_nonsolid = 0; // Relevant only for non-corner autotiles.
+    uint32_t tile_with_that_mask = 0; // Used to help users debug.
 
     for (auto& autotile : m_autotiles)
     {

@@ -53,7 +53,7 @@ SpiderMite::collision_squished(GameObject& object)
 void
 SpiderMite::collision_solid(const CollisionHit& hit)
 {
-  if (hit.top || hit.bottom) { // hit floor or roof?
+  if (hit.top || hit.bottom) { // Hit floor or roof?
     m_physic.set_velocity_y(0);
   }
   if (m_frozen)
@@ -106,6 +106,12 @@ bool
 SpiderMite::is_freezable() const
 {
   return true;
+}
+
+std::vector<Direction>
+SpiderMite::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

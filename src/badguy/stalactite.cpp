@@ -81,8 +81,7 @@ Stalactite::squish()
 {
   state = STALACTITE_SQUISHED;
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_state(STATE_SQUISHED);
   set_action("squished");
   SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
@@ -116,7 +115,7 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
   if (state == STALACTITE_SQUISHED) return FORCE_MOVE;
 
-  // ignore other Stalactites
+  // Ignore other Stalactites.
   if (dynamic_cast<Stalactite*>(&other)) return FORCE_MOVE;
 
   if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
@@ -196,6 +195,12 @@ Stalactite::deactivate()
 {
   if (state != STALACTITE_HANGING)
     remove_me();
+}
+
+std::vector<Direction>
+Stalactite::get_allowed_directions() const
+{
+  return {};
 }
 
 void

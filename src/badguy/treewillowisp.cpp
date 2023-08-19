@@ -86,7 +86,7 @@ TreeWillOWisp::start_sucking(const Vector& suck_target_)
 HitResponse
 TreeWillOWisp::collision_player(Player& player, const CollisionHit& hit)
 {
-  //TODO: basically a no-op. Remove if this doesn't change.
+  // TODO: This function is essentially a no-op. Remove if it doesn't change the behavior.
   return BadGuy::collision_player(player, hit);
 }
 
@@ -112,7 +112,7 @@ TreeWillOWisp::draw(DrawingContext& context)
 void
 TreeWillOWisp::active_update(float dt_sec)
 {
-  // remove TreeWillOWisp if it has completely vanished
+  // Remove the TreeWillOWisp if it has completely vanished.
   if (mystate == STATE_VANISHING) {
     if (m_sprite->animation_done()) {
       remove_me();
@@ -136,7 +136,7 @@ TreeWillOWisp::active_update(float dt_sec)
   Vector newpos(m_start_position + Vector(sinf(angle) * radius, 0));
   m_col.set_movement(newpos - get_pos());
   float sizemod = cosf(angle) * 0.8f;
-  /* TODO: modify sprite size */
+  /* TODO: Modify sprite size using the 'sizeMod' value. */
 
   sound_source->set_position(get_pos());
 
