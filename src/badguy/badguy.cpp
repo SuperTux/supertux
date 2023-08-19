@@ -1064,59 +1064,37 @@ BadGuy::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  if (m_dir == Direction::AUTO)
+  const std::string direction_str = m_start_dir == Direction::AUTO ? "left" : dir_to_string(m_start_dir);
+  const std::string actions[] = {"editor", "normal", "idle", "flying", "walking", "standing", "swim"};
+  bool action_set = false;
+
+  for (const auto& action_str : actions)
   {
-    if (m_sprite->has_action("editor-left")) {
-      set_action("editor-left");
-    } else if (m_sprite->has_action("editor-right")) {
-      set_action("editor-right");
-    } else if (m_sprite->has_action("left")) {
-      set_action("left");
-    } else if (m_sprite->has_action("normal")) {
-      set_action("normal");
-    } else if (m_sprite->has_action("idle")) {
-      set_action("idle");
-    } else if (m_sprite->has_action("idle-left")) {
-      set_action("idle-left");
-    } else if (m_sprite->has_action("flying-left")) {
-      set_action("flying-left");
-    } else if (m_sprite->has_action("walking-left")) {
-      set_action("walking-left");
-    } else if (m_sprite->has_action("flying")) {
-      set_action("flying");
-    } else if (m_sprite->has_action("standing-left")) {
-      set_action("standing-left");
-    } else {
-      log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class_name() << std::endl;
+    const std::string test_action = action_str + "-" + direction_str;
+    if (m_sprite->has_action(test_action))
+    {
+      set_action(test_action);
+      action_set = true;
+      break;
+    }
+    else if (m_sprite->has_action(action_str))
+    {
+      set_action(action_str);
+      action_set = true;
+      break;
     }
   }
-  else
-  {
-    std::string action_str = dir_to_string(m_start_dir);
 
-    if (m_sprite->has_action("editor-" + action_str)) {
-      set_action("editor-" + action_str);
-    } else if (m_sprite->has_action(action_str)) {
-      set_action(action_str);
-    } else if (m_sprite->has_action("idle-" + action_str)) {
-      set_action("idle-" + action_str);
-    } else if (m_sprite->has_action("flying-" + action_str)) {
-      set_action("flying-" + action_str);
-    } else if (m_sprite->has_action("standing-" + action_str)) {
-      set_action("standing-" + action_str);
-    } else if (m_sprite->has_action("walking-" + action_str)) {
-      set_action("walking-" + action_str);
-    } else if (m_sprite->has_action("left")) {
-      set_action("left");
-    } else if (m_sprite->has_action("normal")) {
-      set_action("normal");
-    } else if (m_sprite->has_action("idle")) {
-      set_action("idle");
-    } else if (m_sprite->has_action("flying")) {
-      set_action("flying");
-    } else {
-      log_warning << "couldn't find editor sprite for badguy direction='" << action_str << "': "
-                  << get_class_name() << std::endl;
+  if (!action_set)
+  {
+    if (m_sprite->has_action(direction_str))
+    {
+      set_action(direction_str);
+    }
+    else
+    {
+      log_warning << "Couldn't find editor sprite action for badguy direction='"
+                  << dir_to_string(m_start_dir) << "': " << get_class_name() << "." << std::endl;
     }
   }
 }
