@@ -1081,18 +1081,19 @@ BadGuy::after_editor_set()
       action_set = true;
       break;
     }
-    else if (m_sprite->has_action(direction_str))
-    {
-      set_action(direction_str);
-      action_set = true;
-      break;
-    }
   }
 
   if (!action_set)
   {
+    if (m_sprite->has_action(direction_str))
+    {
+      set_action(direction_str);
+    }
+    else
+    {
     log_warning << "Couldn't find editor sprite action for badguy direction='"
                 << dir_to_string(m_start_dir) << "': " << get_class_name() << "." << std::endl;
+    }
   }
 }
 
