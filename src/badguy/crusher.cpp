@@ -702,24 +702,21 @@ CrusherRoot::start_animation()
   {
   case Crusher::Direction::DOWN:
     set_action("downwards");
-    m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::UP:
     set_action("upwards");
-    m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::LEFT:
     set_action("sideways-left");
-    m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::RIGHT:
     set_action("sideways-right");
-    m_sprite->set_animation_loops(1);
     break;
   }
+  m_sprite->set_animation_loops(1);
 }
 
 /* EOF */
