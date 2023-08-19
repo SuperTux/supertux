@@ -16,6 +16,8 @@
 
 #include "badguy/badguy.hpp"
 
+#include <list>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
@@ -1066,7 +1068,8 @@ BadGuy::after_editor_set()
 
   const std::string direction_str = m_start_dir == Direction::AUTO ? "left" : dir_to_string(m_start_dir);
   bool action_set = false;
-  for (std::string action_str : {"editor", "normal", "idle", "flying", "walking", "standing", "swim"})
+  const std::list<std::string> actions = {"editor", "normal", "idle", "flying", "walking", "standing", "swim"};
+  for (const auto& action_str : actions)
   {
     const std::string test_action = action_str + "-" + direction_str;
     if (m_sprite->has_action(test_action))
