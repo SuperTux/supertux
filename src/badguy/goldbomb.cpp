@@ -47,12 +47,11 @@ void
 GoldBomb::collision_solid(const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING) {
-    if (hit.bottom) {
+    if (hit.bottom)
       m_physic.set_velocity(0, 0);
-    }else if (hit.left || hit.right)
-      m_physic.set_velocity_x(-m_physic.get_velocity_x());
-    else if (hit.top)
-      m_physic.set_velocity_y(0);
+    else
+      kill_fall();
+
     update_on_ground_flag(hit);
     return;
   }
