@@ -20,6 +20,7 @@
 
 #include <memory>
 #include <string>
+#include <map>
 #include <vector>
 
 #include "addon/downloader.hpp"
@@ -35,7 +36,7 @@ typedef std::string AddonId;
 class AddonManager final : public Currenton<AddonManager>
 {
 public:
-  using AddonList = std::vector<std::unique_ptr<Addon> >;
+  using AddonMap = std::map<AddonId, std::unique_ptr<Addon> >;
 
 private:
   Downloader m_downloader;
@@ -45,8 +46,8 @@ private:
   std::string m_repository_url;
   std::vector<Config::Addon>& m_addon_config;
 
-  AddonList m_installed_addons;
-  AddonList m_repository_addons;
+  AddonMap m_installed_addons;
+  AddonMap m_repository_addons;
 
   bool m_initialized;
   bool m_has_been_updated;
@@ -108,7 +109,7 @@ private:
 
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
-  AddonList parse_addon_infos(const std::string& filename) const;
+  AddonMap parse_addon_infos(const std::string& filename) const;
 
   /** add \a archive, given as physfs path, to the list of installed
       archives */

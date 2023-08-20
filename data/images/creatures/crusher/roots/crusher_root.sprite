@@ -24,4 +24,9 @@
     )
     (loops 1)
   )
+  (action
+    (name "upwards")
+    (hitbox 6 4 20 60)
+    (flip-action "downwards")
+  )
 )

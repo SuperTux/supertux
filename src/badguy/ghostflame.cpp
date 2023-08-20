@@ -34,4 +34,10 @@ Ghostflame::is_freezable() const
   return false;
 }
 
+std::vector<Direction>
+Ghostflame::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

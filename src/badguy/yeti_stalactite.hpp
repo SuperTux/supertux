@@ -37,6 +37,9 @@ public:
   void start_shaking();
   bool is_hanging() const;
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   YetiStalactite(const YetiStalactite&) = delete;
   YetiStalactite& operator=(const YetiStalactite&) = delete;

@@ -67,7 +67,7 @@ ControlTextboxFloat::parse_value(bool call_on_change /* = true (see header */)
   if (*m_value != temp) {
     *m_value = temp;
 
-    // Do it anyways
+    // Revert the value regardless.
     revert_value();
 
     if (call_on_change && m_on_change)
@@ -89,7 +89,7 @@ ControlTextboxFloat::revert_value()
   while (m_internal_string_backup.at(m_internal_string_backup.size() - 1) == '0')
     m_internal_string_backup.pop_back();
 
-  // ...but keep at least one number after the point
+  // ...but keep at least one number after the point.
   if (m_internal_string_backup.at(m_internal_string_backup.size() - 1) == '.')
     m_internal_string_backup += "0";
 

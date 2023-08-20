@@ -23,10 +23,12 @@
 #include <sstream>
 
 #include "editor/object_menu.hpp"
+#include "gui/item_stringselect.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_object_select.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
 #include "util/gettext.hpp"
 #include "util/writer.hpp"
@@ -769,4 +771,52 @@ ListOption::add_to_menu(Menu& menu) const
 {
   menu.add_list(get_text(), m_items, m_value_ptr);
 }
+
+DirectionOption::DirectionOption(const std::string& text, Direction* value_ptr,
+                                 std::vector<Direction> possible_directions,
+                                 const std::string& key, unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_value_ptr(value_ptr),
+  m_possible_directions(std::move(possible_directions))
+{
+  if (m_possible_directions.empty())
+    m_possible_directions = { Direction::AUTO, Direction::NONE, Direction::LEFT,
+                              Direction::RIGHT, Direction::UP, Direction::DOWN };
+}
+
+void
+DirectionOption::save(Writer& writer) const
+{
+  if (*m_value_ptr == m_possible_directions.at(0))
+    return;
+
+  writer.write(get_key(), dir_to_string(*m_value_ptr));
+}
+
+std::string
+DirectionOption::to_string() const
+{
+  return dir_to_translated_string(*m_value_ptr);
+}
+
+void
+DirectionOption::add_to_menu(Menu& menu) const
+{
+  int selected = 0;
+  std::vector<std::string> labels;
+  for (size_t i = 0; i < m_possible_directions.size(); i++)
+  {
+    const auto& dir = m_possible_directions.at(i);
+    labels.push_back(dir_to_translated_string(dir));
+
+    if (dir == *m_value_ptr)
+      selected = static_cast<int>(i);
+  }
+
+  menu.add_string_select(-1, get_text(), selected, labels)
+    .set_callback([value_ptr = m_value_ptr, possible_directions = m_possible_directions](int index) {
+                    *value_ptr = possible_directions.at(index);
+                  });
+}
+
 /* EOF */

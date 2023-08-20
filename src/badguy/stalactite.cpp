@@ -31,7 +31,7 @@ static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
+  BadGuy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
@@ -81,8 +81,7 @@ Stalactite::squish()
 {
   state = STALACTITE_SQUISHED;
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_state(STATE_SQUISHED);
   set_action("squished");
   SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
@@ -116,7 +115,7 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
   if (state == STALACTITE_SQUISHED) return FORCE_MOVE;
 
-  // ignore other Stalactites
+  // Ignore other Stalactites.
   if (dynamic_cast<Stalactite*>(&other)) return FORCE_MOVE;
 
   if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
@@ -163,7 +162,7 @@ void
 Stalactite::on_type_change(int old_type)
 {
   if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/stalactite/" + std::string(m_type == StalactiteType::ROCK ? "rock_" : "") + "stalactite.sprite");
+    change_sprite("images/creatures/stalactite/stalactite_" + std::string(m_type == StalactiteType::ROCK ? "rock" : "") + ".sprite");
 }
 
 void
@@ -196,6 +195,12 @@ Stalactite::deactivate()
 {
   if (state != STALACTITE_HANGING)
     remove_me();
+}
+
+std::vector<Direction>
+Stalactite::get_allowed_directions() const
+{
+  return {};
 }
 
 void

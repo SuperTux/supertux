@@ -62,19 +62,19 @@
     (icon "images/creatures/livefire/sleeping8.png"))
   (object
     (class "crystallo")
-    (icon "images/creatures/crystallo/crystallo-left-0.png"))
+    (icon "images/creatures/crystallo/left-2.png"))
   (object
     (class "scrystallo")
-    (icon "images/creatures/crystallo/crystallo-sleeping.png"))
+    (icon "images/creatures/crystallo/sleep-0.png"))
   (object
     (class "rcrystallo")
-    (icon "images/creatures/crystallo/rcrystallo-editor.png"))
+    (icon "images/creatures/crystallo/roof_crystallo-editor.png"))
   (object
     (class "crusher")
     (icon "images/creatures/crusher/krush_ice_hit.png"))
   (object
     (class "stalactite")
-    (icon "images/creatures/stalactite/falling.png"))
+    (icon "images/creatures/stalactite/stalactite_ice.png"))
   (object
     (class "willowisp")
     (icon "images/creatures/willowisp/editor.png"))
@@ -107,7 +107,7 @@
     (icon "images/creatures/mr_tree/stumpy-8.png"))
   (object
     (class "owl")
-    (icon "images/creatures/owl/left-0.png"))
+    (icon "images/creatures/owl/carry-0.png"))
   (object
     (class "zeekling")
     (icon "images/creatures/zeekling/zeekling-0.png"))
@@ -155,7 +155,7 @@
     (icon "images/creatures/angrystone/charging-0.png"))
   (object
     (class "darttrap")
-    (icon "images/creatures/darttrap/d1.png"))
+    (icon "images/creatures/darttrap/charge_left-1.png"))
   (object
     (class "dispenser")
     (icon "images/creatures/dispenser/cannon_left.png"))
@@ -186,13 +186,13 @@
   (worldmap #f)
   (object
     (class "yeti_stalactite")
-    (icon "images/engine/editor/stalactite_yeti.png"))
+    (icon "images/engine/editor/stalactite_ice_yeti.png"))
   (object
     (class "skydive")
-    (icon "images/creatures/skydive/skydive1.png"))
+    (icon "images/creatures/skydive/skydive-0.png"))
   (object
     (class "dart")
-    (icon "images/creatures/dart/flying.png"))
+    (icon "images/creatures/darttrap/skull_dart_left.png"))
  )
 
  (objectgroup

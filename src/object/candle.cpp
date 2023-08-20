@@ -39,24 +39,19 @@ Candle::Candle(const ReaderMapping& mapping) :
   if (!mapping.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
   mapping.get("layer", m_layer, 0);
 
-  //change the light color if defined
+  // Change the light color if defined.
   if (vColor.size() >= 3) {
     lightcolor = Color(vColor);
     candle_light_1->set_blend(Blend::ADD);
     candle_light_2->set_blend(Blend::ADD);
     candle_light_1->set_color(lightcolor);
     candle_light_2->set_color(lightcolor);
-    //the following allows the original candle appearance to be preserved
+    // The following allows the original candle appearance to be preserved.
     candle_light_1->set_action("white");
     candle_light_2->set_action("white");
   }
 
-  if (burning) {
-    set_action("on");
-  } else {
-    set_action("off");
-  }
-
+  set_action(burning ? "on" : "off");
 }
 
 void
@@ -88,18 +83,18 @@ Candle::get_settings()
 void
 Candle::draw(DrawingContext& context)
 {
-  // draw regular sprite
+  // Draw regular sprite.
   MovingSprite::draw(context);
 
-  // draw on lightmap
+  // Draw on lightmap.
   if (burning) {
-    //Vector pos = get_pos() + (bbox.get_size() - candle_light_1->get_size()) / 2;
-    // draw approx. 1 in 10 frames darker. Makes the candle flicker
+    // Vector pos = get_pos() + (bbox.get_size() - candle_light_1->get_size()) / 2;
+    // draw approx. 1 in 10 frames darker. Makes the candle flicker.
     if (graphicsRandom.rand(10) != 0 || !flicker) {
-      //context.color().draw_surface(candle_light_1, pos, layer);
+      // context.color().draw_surface(candle_light_1, pos, layer);
       candle_light_1->draw(context.light(), m_col.m_bbox.get_middle(), m_layer);
     } else {
-      //context.color().draw_surface(candle_light_2, pos, layer);
+      // context.color().draw_surface(candle_light_2, pos, layer);
       candle_light_2->draw(context.light(), m_col.m_bbox.get_middle(), m_layer);
     }
   }
@@ -140,7 +135,7 @@ Candle::set_burning(bool burning_)
   } else {
     set_action("off");
   }
-  //puff smoke for flickering light sources only
+  // Puff smoke for flickering light sources only.
   if (flicker) puff_smoke();
 }
 

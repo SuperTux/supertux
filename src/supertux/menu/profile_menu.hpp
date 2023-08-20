@@ -20,18 +20,22 @@
 
 #include "gui/menu.hpp"
 
+#include <map>
+
 class ProfileMenu final : public Menu
 {
-private:
-  std::vector<int> m_profiles;
-  std::vector<std::string> m_profile_names;
-
 public:
   ProfileMenu();
 
   void refresh() override;
-  void rebuild_menu();
   void menu_action(MenuItem& item) override;
+
+private:
+  void rebuild_menu();
+
+private:
+  std::vector<int> m_profiles;
+  std::map<int, std::string> m_profile_names;
 };
 
 namespace savegames_util

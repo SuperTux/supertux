@@ -36,7 +36,7 @@
 #include "util/reader_mapping.hpp"
 
 namespace {
-  /* Maximum movement speed in pixels per LOGICAL_FPS */
+  /* Maximum movement speed in pixels per LOGICAL_FPS. */
   const float RECOVER_SPEED_NORMAL = -3.125f;
   const float RECOVER_SPEED_LARGE = -2.0f;
   const float DROP_ACTIVATION_DISTANCE = 4.0f;
@@ -62,8 +62,7 @@ Crusher::Crusher(const ReaderMapping& reader) :
   on_type_change(-1);
 
   reader.get("sideways", m_sideways);
-  // TODO: crusher hitting deserves its own sounds-
-  // one for hitting the ground, one for hitting Tux
+  // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
   SoundManager::current()->preload(not_ice() ? "sounds/thud.ogg" : "sounds/brick.wav");
   set_state(m_state, true);
   after_sprite_set();
@@ -155,7 +154,7 @@ Crusher::collision_solid(const CollisionHit& hit)
       m_cooldown_timer = m_ic_size == LARGE ? PAUSE_TIME_LARGE : PAUSE_TIME_NORMAL;
       set_state(RECOVERING);
 
-      // throw some particles
+      // Throw some particles.
       for (int j = 0; j < 5; j++)
       {
         if (!m_sideways)
@@ -188,9 +187,11 @@ Crusher::collision_solid(const CollisionHit& hit)
     }
     if (hit.bottom)
       spawn_roots(Direction::DOWN);
-    if (hit.left)
+    else if (hit.top)
+      spawn_roots(Direction::UP);
+    else if (hit.left)
       spawn_roots(Direction::LEFT);
-    if (hit.right)
+    else if (hit.right)
       spawn_roots(Direction::RIGHT);
     break;
   default:
@@ -216,7 +217,7 @@ Crusher::update(float dt_sec)
     m_cooldown_timer = 0.0;
   }
 
-  //because this game's physics are so broken, we have to create faux collisions with bricks
+  // Because this game's physics are so broken, we have to create faux collisions with bricks.
 
   for (auto& brick : Sector::get().get_objects_by_type<Brick>())
   {
@@ -245,7 +246,7 @@ Crusher::update(float dt_sec)
     }
   }
 
-  //determine whether side-crushers will go left or right
+  // Determine whether side-crushers will go left or right.
 
   if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
   {
@@ -255,7 +256,7 @@ Crusher::update(float dt_sec)
     }
   }
 
-  // handle blockage
+  // Handle blockage.
   Rectf recover_box = get_bbox().grown(-1);
   if (!m_sideways)
   {
@@ -277,7 +278,7 @@ Crusher::update(float dt_sec)
   }
   bool blocked = !Sector::get().is_free_of_statics(recover_box);
 
-  //velocity for recovery speed
+  // Velocity for recovery speed.
   float recover_x;
   float recover_y;
 
@@ -297,7 +298,7 @@ Crusher::update(float dt_sec)
   bool returned_left = m_sideways && m_side_dir == Direction::LEFT && get_bbox().get_left() >= m_start_position.x - 2.f;
   bool returned_right = m_sideways && m_side_dir == Direction::RIGHT && get_bbox().get_left() <= m_start_position.x + 2.f;
 
-  //handle crusher states
+  // Handle crusher states.
   switch (m_state)
   {
   case IDLE:
@@ -374,6 +375,15 @@ Crusher::spawn_roots(Direction direction)
     test_solid_offset_2 = Rectf(Vector(16, 8), Size(1, 1));
     break;
 
+  case Direction::UP:
+    vertical = true;
+    origin.x = m_col.m_bbox.get_middle().x - 16.f;
+    origin.y = m_col.m_bbox.get_top() - 6.f;
+    test_empty_offset = Rectf(Vector(4, 4), Size(16, 1));
+    test_solid_offset_1 = Rectf(Vector(6, -8), Size(1, 1));
+    test_solid_offset_2 = Rectf(Vector(16, -8), Size(1, 1));
+    break;
+
   case Direction::LEFT:
     origin.x = m_col.m_bbox.get_left() - 6.f;
     origin.y = m_col.m_bbox.get_middle().y - 16.f;
@@ -403,7 +413,6 @@ Crusher::spawn_roots(Direction direction)
       bool solid_2 = Sector::current()->is_free_of_tiles(test_solid_offset_2.moved(pos));
       bool empty = Sector::current()->is_free_of_tiles(test_empty_offset.moved(pos));
 
-      printf("Empty %d, solid1 %d, solid2 %d\n", empty, solid_1, solid_2);
       if (!empty || solid_1 || solid_2)
         break;
 
@@ -418,10 +427,10 @@ Crusher::draw(DrawingContext& context)
   m_sprite->draw(context.color(), get_pos(), m_layer + 2, m_flip);
   if (m_sprite->has_action("whites"))
   {
-    // draw crusher's eyes slightly behind
+    // Draw crusher's eyes slightly behind.
     m_lefteye->draw(context.color(), get_pos() + eye_position(false), m_layer + 1, m_flip);
     m_righteye->draw(context.color(), get_pos() + eye_position(true), m_layer + 1, m_flip);
-    // draw the whites of crusher's eyes even further behind
+    // Draw the whites of crusher's eyes even further behind.
     m_whites->draw(context.color(), get_pos(), m_layer, m_flip);
   }
 }
@@ -554,17 +563,17 @@ Crusher::eye_position(bool right) const
   case IDLE:
     if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
     {
-      // Crusher focuses on approximate position of player's head
+      // Crusher focuses on approximate position of player's head.
       const float player_focus_x = (player->get_bbox().get_right() + player->get_bbox().get_left()) * 0.5f;
       const float player_focus_y = player->get_bbox().get_bottom() * 0.25f + player->get_bbox().get_top() * 0.75f;
-      // Crusher's approximate origin of line-of-sight
+      // Crusher's approximate origin of line-of-sight.
       const float crusher_origin_x = get_bbox().get_middle().x;
       const float crusher_origin_y = get_bbox().get_middle().y;
-      // Line-of-sight displacement from crusher to player
+      // Line-of-sight displacement from crusher to player.
       const float displacement_x = player_focus_x - crusher_origin_x;
       const float displacement_y = player_focus_y - crusher_origin_y;
       const float displacement_mag = powf(powf(displacement_x, 2.0f) + powf(displacement_y, 2.0f), 0.5f);
-      // Determine weighting for eye displacement along x given crusher eye shape
+      // Determine weighting for eye displacement along x given crusher eye shape.
       int weight_x = m_sprite->get_width() / 64 * (((displacement_x > 0) == right) ? 1 : 4);
       int weight_y = m_sprite->get_width() / 64 * 2;
 
@@ -584,18 +593,18 @@ Crusher::eye_position(bool right) const
     }
     break;
   case RECOVERING:
-    // Eyes spin while crusher is recovering, giving a dazed impression
-    return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other
-      ((!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position
-      (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f - (right ? 1 : -1) * // Amplitude dependent on size
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f, // Offset to keep eyes visible
+    // Eyes spin while crusher is recovering, giving a dazed impression.
+    return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other.
+      ((!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position.
+      (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer.
+      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f - (right ? 1 : -1) * // Amplitude dependent on size.
+      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f, // Offset to keep eyes visible.
 
-      cosf((right ? 3.1415f : 0.0f) + // Eyes spin out of phase of eachother
-      (!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position
-        (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f) * //Phase factor due to cooldown timer
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size
-      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible
+      cosf((right ? 3.1415f : 0.0f) + // Eyes spin out of phase of eachother.
+      (!m_sideways ? get_pos().y / 13 : get_pos().x / 13) - // Phase factor due to y position.
+        (m_ic_size == NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + m_cooldown_timer * 13.0f) * //Phase factor due to cooldown timer.
+      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size.
+      static_cast<float>(m_sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible.
   default:
     log_debug << "Crusher in invalid state" << std::endl;
     break;
@@ -612,7 +621,7 @@ Crusher::on_flip(float height)
 }
 
 CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer) :
-  MovingSprite(position, direction == Crusher::Direction::DOWN ?
+  MovingSprite(position, direction == Crusher::Direction::DOWN || direction == Crusher::Direction::UP ?
     "images/creatures/crusher/roots/crusher_root.sprite" :
     "images/creatures/crusher/roots/crusher_root_side.sprite"),
   m_original_pos(position),
@@ -673,6 +682,7 @@ CrusherRoot::update(float dt_sec)
     m_col.move_to(m_original_pos + Vector(0, -m_sprite->get_current_hitbox_height()));
     break;
 
+  case Crusher::Direction::UP:
   case Crusher::Direction::LEFT:
     m_col.move_to(m_original_pos);
     break;
@@ -692,19 +702,21 @@ CrusherRoot::start_animation()
   {
   case Crusher::Direction::DOWN:
     set_action("downwards");
-    m_sprite->set_animation_loops(1);
+    break;
+
+  case Crusher::Direction::UP:
+    set_action("upwards");
     break;
 
   case Crusher::Direction::LEFT:
     set_action("sideways-left");
-    m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::RIGHT:
     set_action("sideways-right");
-    m_sprite->set_animation_loops(1);
     break;
   }
+  m_sprite->set_animation_loops(1);
 }
 
 /* EOF */

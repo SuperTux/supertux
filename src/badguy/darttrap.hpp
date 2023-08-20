@@ -40,21 +40,25 @@ public:
   virtual void on_flip(float height) override;
 
 protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
+protected:
   enum State {
     IDLE, LOADING
   };
 
-  void load(); /**< load a shot */
-  void fire(); /**< fire a shot */
+  void load();
+  void fire();
 
 private:
-  bool enabled; /** Is DartTrap enabled **/
-  float initial_delay; /**< time to wait before firing first shot */
-  float fire_delay; /**< reload time */
-  int ammo; /**< ammo left (-1 means unlimited) */
+  bool m_enabled;
+  float m_initial_delay;
+  float m_fire_delay;
+  int m_ammo; // ammo left (-1 means unlimited)
+  std::string m_dart_sprite;
 
-  State state; /**< current state */
-  Timer fire_timer; /**< time until new shot is fired */
+  State m_state;
+  Timer m_fire_timer;
 
 private:
   DartTrap(const DartTrap&) = delete;

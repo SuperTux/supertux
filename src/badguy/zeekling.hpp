@@ -58,9 +58,9 @@ private:
   float speed;
   Timer diveRecoverTimer;
   ZeeklingState state;
-  const MovingObject* last_player; /**< last player we tracked */
-  Vector last_player_pos; /**< position we last spotted the player at */
-  Vector last_self_pos; /**< position we last were at */
+  const MovingObject* last_player; /**< Last player we tracked. */
+  Vector last_player_pos; /**< Position we last spotted the player at. */
+  Vector last_self_pos; /**< Position we last were at. */
 
 private:
   Zeekling(const Zeekling&) = delete;
