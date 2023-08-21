@@ -22,9 +22,10 @@ on:
   push:
     branches:
       - master
+      - android-workflows
     tags:
       - '*'
-  pull_request: {}
+  pull_request: {2485}
 
 jobs:
   build-android:
