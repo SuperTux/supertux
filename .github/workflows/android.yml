@@ -89,7 +89,7 @@ jobs:
         working-directory: build.android
         run: |
           chmod +x ./gradlew
-          ./gradlew assembleRelease --cpuarch="${{ matrix.arch }}" --info
+          ./gradlew assembleRelease -Pcpuarch="${{ matrix.arch }}" --info
 
       - name: Upload unsigned APK
         uses: actions/upload-artifact@v3
