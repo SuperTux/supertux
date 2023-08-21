@@ -28,6 +28,10 @@ on:
 
 jobs:
   build-android:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64-v8a, armeabi-v7a, x86, x86_64]
     runs-on: ubuntu-latest
 
     steps:
@@ -80,13 +84,11 @@ jobs:
             ndk;25.2.9519653
             build-tools;33.0.2
 
-      - name: Make gradlew executable
-        working-directory: build.android
-        run: chmod +x ./gradlew
-
       - name: Build APK
         working-directory: build.android
-        run: ./gradlew assembleRelease --info
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease --cpuarch="${{ matrix.arch }}" --info
 
       - name: Upload unsigned APK
         uses: actions/upload-artifact@v3
