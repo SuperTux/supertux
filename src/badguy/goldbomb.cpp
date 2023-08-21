@@ -61,18 +61,17 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 HitResponse
 GoldBomb::collision(GameObject& object, const CollisionHit& hit)
 {
-  if (tstate == STATE_TICKING) {
-    if (m_physic.get_velocity() != Vector(0.f, 0.f))
-      kill_fall();
-    if ( dynamic_cast<Player*>(&object) ) {
-      return ABORT_MOVE;
-    }
-    if ( dynamic_cast<BadGuy*>(&object)) {
-      return ABORT_MOVE;
-    }
+  if (tstate == STATE_TICKING)
+  {
+    auto player = dynamic_cast<Player*> (&object);
+    if (player) return collision_player(*player, hit);
+    auto badguy = dynamic_cast<BadGuy*> (&object);
+    if (badguy) return collision_badguy(*badguy, hit);
   }
+
   if (is_grabbed())
     return FORCE_MOVE;
+
   return WalkingBadguy::collision(object, hit);
 }
 
@@ -83,7 +82,7 @@ GoldBomb::collision_player(Player& player, const CollisionHit& hit)
   {
     if (m_physic.get_velocity() != Vector(0.f, 0.f))
       kill_fall();
-    return FORCE_MOVE;
+    return ABORT_MOVE;
   }
   if (is_grabbed())
     return FORCE_MOVE;
@@ -97,7 +96,7 @@ GoldBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   {
     if (m_physic.get_velocity() != Vector(0.f, 0.f))
       kill_fall();
-    return FORCE_MOVE;
+    return ABORT_MOVE;
   }
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
@@ -192,7 +191,7 @@ GoldBomb::kill_fall()
         EXPLOSION_STRENGTH_DEFAULT);
       run_dead_script();
     }
-      Sector::get().add<CoinExplode>(get_pos() + Vector(0, -40), !m_parent_dispenser);
+      Sector::get().add<CoinExplode>(get_pos(), !m_parent_dispenser);
   }
 }
 
