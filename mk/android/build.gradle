@@ -3,7 +3,7 @@
 if (project.hasProperty("cpuarch")) {
     ext.cpuarch = project.getProperty("cpuarch").split()
 } else {
-    ext.cpuarch = 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
+    ext.cpuarch = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
 }
 
 buildscript {

@@ -93,7 +93,7 @@ jobs:
       - name: Upload unsigned APK
         uses: actions/upload-artifact@v3
         with:
-          name: "Unsigned APK"
+          name: "Unsigned APK ${{ matrix.arch }}"
           path: "build.android/app/build/outputs/apk/release/app-release-unsigned.apk"
 
       - name: Sign APK
@@ -115,5 +115,5 @@ jobs:
       - name: Upload signed APK
         uses: actions/upload-artifact@v3
         with:
-          name: "Signed APK"
+          name: "Signed APK ${{ matrix.arch }}"
           path: "build.android/app/build/outputs/apk/release/app-release.apk"
