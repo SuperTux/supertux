@@ -41,7 +41,15 @@ jobs:
       - name: Set script permissions
         run: chmod +x ./.ci_scripts/*.sh
 
+      - name: Use cached dependencies
+        id: use-dependencies
+        uses: actions/cache/restore@v3
+        with:
+          path: ./build.android/app/jni/
+          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
+
       - name: Prepare SDL Android project
+        if: steps.use-dependencies.outputs.cache-hit != 'true'
         run: |
           ./.ci_scripts/clone_dependency.sh libsdl-org/SDL release-2.26.5
           mv ./SDL/android-project/ ./build.android
@@ -49,6 +57,7 @@ jobs:
 
       - name: Clone dependencies
         working-directory: build.android/app/jni
+        if: steps.use-dependencies.outputs.cache-hit != 'true'
         run: |
           ../../../.ci_scripts/clone_dependency.sh libsdl-org/SDL_image release-2.6.3
           ../../../.ci_scripts/clone_dependency.sh libsdl-org/SDL_ttf release-2.20.2
@@ -65,10 +74,18 @@ jobs:
           ../../../.ci_scripts/clone_dependency.sh SuperTux/sexp-cpp master
           ../../../.ci_scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
           ../../../.ci_scripts/clone_dependency.sh SuperTux/tinygettext master
-          ln -s ../../../ supertux
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache/save@v3
+        with:
+          path: ./build.android/app/jni/
+          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
 
       - name: Copy SuperTux Android project files
-        run: cp -r -f ./mk/android/* ./build.android/
+        run: |
+          ln -s ../../../ supertux
+          cp -r -f ./mk/android/* ./build.android/
 
       - name: Set up JDK 20
         uses: actions/setup-java@v3
