@@ -1611,31 +1611,27 @@ Player::position_grabbed_object(bool teleport)
   auto moving_object = dynamic_cast<MovingObject*>(m_grabbed_object);
   assert(moving_object);
   const auto& object_bbox = moving_object->get_bbox();
+
+  Vector pos;
   if (!m_swimming && !m_water_jump)
   {
     // Position where we will hold the lower-inner corner
-    Vector pos(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
-      m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f);
+    pos = Vector(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
+                 m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
     // Adjust to find the grabbed object's upper-left corner
     if (m_dir == Direction::LEFT)
       pos.x -= object_bbox.get_width();
     pos.y -= object_bbox.get_height();
-
-    if (teleport)
-      moving_object->set_pos(pos);
-    else
-      m_grabbed_object->grab(*this, pos, m_dir);
   }
   else
   {
-    Vector pos(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
-               m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
-
-    if (teleport)
-      moving_object->set_pos(pos);
-    else
-      m_grabbed_object->grab(*this, pos, m_dir);
+    pos = Vector(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
+                 m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
   }
+
+  if (teleport)
+    moving_object->set_pos(pos);
+  m_grabbed_object->grab(*this, pos, m_dir);
 }
 
 bool
