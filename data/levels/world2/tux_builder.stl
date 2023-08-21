@@ -772,27 +772,27 @@
       (y 1696)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 2272)
       (y 1408)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 80)
       (y 1440)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 1488)
       (y 960)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 1232)
       (y 960)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 1616)
       (y 464)
     )
