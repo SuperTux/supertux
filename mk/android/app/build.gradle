@@ -22,7 +22,7 @@ android {
             cmake {
                 version "3.22.1"
                 arguments "-DANDROID_APP_PLATFORM=android-33", "-Wno-dev"
-                abiFilters rootProject.ext.cpuarch
+                abiFilters *rootProject.ext.cpuarch
             }
         }
     }
