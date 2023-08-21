@@ -74,6 +74,7 @@ jobs:
           ../../../.ci_scripts/clone_dependency.sh SuperTux/sexp-cpp master
           ../../../.ci_scripts/clone_dependency.sh albertodemichelis/squirrel v3.2
           ../../../.ci_scripts/clone_dependency.sh SuperTux/tinygettext master
+          ln -s ../../../ supertux
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -84,7 +85,6 @@ jobs:
 
       - name: Copy SuperTux Android project files
         run: |
-          ln -s . build.android/app/jni/supertux
           cp -r -f ./mk/android/* ./build.android/
 
       - name: Set up JDK 20
