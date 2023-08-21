@@ -110,22 +110,22 @@
       (y 3488)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 944)
       (y 1456)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 2208)
       (y 2048)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 2336)
       (y 2016)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 3808)
       (y 2400)
     )

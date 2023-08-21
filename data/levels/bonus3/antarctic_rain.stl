@@ -31,27 +31,27 @@
       (bottom_color 1 1 1)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 4768)
       (y 576)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 3968)
       (y 640)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 3520)
       (y 608)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 4384)
       (y 576)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 1664)
       (y 480)
     )

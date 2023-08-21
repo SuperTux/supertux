@@ -89,19 +89,19 @@
     )
     (jumpy
       (direction "left")
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 7152.984)
       (y 330.7664)
     )
     (jumpy
       (direction "left")
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 6544.095)
       (y 1089.873)
     )
     (jumpy
       (direction "left")
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 10048.06)
       (y 1032.988)
     )

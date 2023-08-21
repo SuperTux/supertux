@@ -59,7 +59,7 @@
       (y 320)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 288)
       (y 128)
     )
