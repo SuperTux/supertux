@@ -84,7 +84,7 @@ jobs:
 
       - name: Copy SuperTux Android project files
         run: |
-          ln -s ../../../ supertux
+          ln -s . build.android/app/jni/supertux
           cp -r -f ./mk/android/* ./build.android/
 
       - name: Set up JDK 20
