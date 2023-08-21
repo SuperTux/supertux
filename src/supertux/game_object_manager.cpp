@@ -244,6 +244,32 @@ GameObjectManager::update_tilemaps()
 }
 
 void
+GameObjectManager::move_object(const UID& uid, GameObjectManager& other)
+{
+  if (&other == this)
+    return;
+
+  auto it = std::find_if(m_gameobjects.begin(), m_gameobjects.end(),
+                         [uid](const auto& obj) {
+                           return obj->get_uid() == uid;
+                         });
+  if (it == m_gameobjects.end())
+  {
+    std::ostringstream err;
+    err << "Object with UID " << uid << " not found.";
+    throw std::runtime_error(err.str());
+  }
+
+  this_before_object_remove(**it);
+  before_object_remove(**it);
+
+  other.add_object(std::move(*it));
+  m_gameobjects.erase(it);
+
+  other.flush_game_objects();
+}
+
+void
 GameObjectManager::toggle_undo_tracking(bool enabled)
 {
   if (m_undo_tracking == enabled)

@@ -63,7 +63,6 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_activated_checkpoint(),
   m_newsector(),
   m_newspawnpoint(),
-  m_invincibilitytimeleft(),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
@@ -508,28 +507,21 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
     assert(m_currentsector != nullptr);
     m_currentsector->stop_looping_sounds();
+
     sector->activate(m_newspawnpoint);
+
     // Start the new sector's music only if it's different from the current one.
     if (current_music != sector->get_singleton_by_type<MusicObject>().get_music())
       sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
+
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
     if (is_playing_demo())
-    {
       reset_demo_controller();
-    }
-    // Keep persistent across sectors.
-    if (m_edit_mode)
-      for (auto* p : m_currentsector->get_players())
-        p->set_edit_mode(m_edit_mode);
+
     m_newsector = "";
     m_newspawnpoint = "";
-
-    // Retain invincibility if the player has it.
-    auto players = m_currentsector->get_players();
-    for (const auto& player : players)
-      player->m_invincible_timer.start(m_invincibilitytimeleft[player->get_id()]);
   }
 
   // Update the world state and all objects in the world.
@@ -647,18 +639,10 @@ GameSession::finish(bool win)
 }
 
 void
-GameSession::respawn(const std::string& sector, const std::string& spawnpoint,
-                     bool retain_invincibility)
+GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 {
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
-
-  m_invincibilitytimeleft.clear();
-
-  if (retain_invincibility)
-    for (const auto* player : Sector::get().get_players())
-      if (player->is_invincible())
-        m_invincibilitytimeleft[player->get_id()] = player->m_invincible_timer.get_timeleft();
 }
 
 void

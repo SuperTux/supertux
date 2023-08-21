@@ -99,6 +99,9 @@ public:
   void use_scripting_controller(bool use_or_release);
   void do_scripting_controller(const std::string& control, bool pressed);
 
+  /** Move the player to a different sector, including any objects that it points to, or references. */
+  void move_to_sector(Sector& other);
+
   void make_invincible();
 
   bool is_invincible() const { return m_invincible_timer.started(); }
@@ -229,7 +232,7 @@ public:
   void set_dir(bool right);
   void stop_backflipping();
 
-  void position_grabbed_object();
+  void position_grabbed_object(bool teleport = false);
   bool try_grab();
 
   /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
@@ -242,6 +245,8 @@ public:
 
   int get_collected_keys() { return m_collected_keys; }
   void add_collected_keys(int keynum) { m_collected_keys += keynum; }
+
+  bool track_state() const override { return false; }
 
 private:
   void handle_input();
@@ -387,7 +392,6 @@ private:
   unsigned int m_idle_stage;
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
-  std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
 
   int m_ending_direction;
   int m_collected_keys;

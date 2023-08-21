@@ -192,7 +192,7 @@ LevelParser::load(const ReaderDocument& doc)
     log_warning << "[" << doc.get_filename() << "] level format version " << version << " is not supported" << std::endl;
   }
 
-  m_level.m_stats.init(m_level);
+  m_level.initialize();
 }
 
 void
@@ -203,6 +203,8 @@ LevelParser::load_old_format(const ReaderMapping& reader)
 
   auto sector = SectorParser::from_reader_old_format(m_level, reader, m_editable);
   m_level.add_sector(std::move(sector));
+
+  m_level.initialize();
 }
 
 void

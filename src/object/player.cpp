@@ -225,7 +225,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_idle_timer(),
   m_idle_stage(0),
   m_climbing(nullptr),
-  m_climbing_remove_listener(nullptr),
   m_ending_direction(0),
   m_collected_keys(0)
 {
@@ -309,6 +308,21 @@ Player::do_scripting_controller(const std::string& control_text, bool pressed)
   if (const auto maybe_control = Control_from_string(control_text)) {
     m_scripting_controller->press(*maybe_control, pressed);
   }
+}
+
+void
+Player::move_to_sector(Sector& other)
+{
+  stop_climbing(*m_climbing);
+  if (m_grabbed_object)
+  {
+    auto grabbed_game_object = dynamic_cast<GameObject*>(m_grabbed_object);
+    if (grabbed_game_object)
+      get_parent()->move_object(grabbed_game_object->get_uid(), other);
+  }
+
+  // Move the player.
+  get_parent()->move_object(get_uid(), other);
 }
 
 bool
@@ -1589,8 +1603,11 @@ Player::handle_input()
 }
 
 void
-Player::position_grabbed_object()
+Player::position_grabbed_object(bool teleport)
 {
+  if (!m_grabbed_object)
+    return;
+
   auto moving_object = dynamic_cast<MovingObject*>(m_grabbed_object);
   assert(moving_object);
   const auto& object_bbox = moving_object->get_bbox();
@@ -1603,13 +1620,21 @@ Player::position_grabbed_object()
     if (m_dir == Direction::LEFT)
       pos.x -= object_bbox.get_width();
     pos.y -= object_bbox.get_height();
-    m_grabbed_object->grab(*this, pos, m_dir);
+
+    if (teleport)
+      moving_object->set_pos(pos);
+    else
+      m_grabbed_object->grab(*this, pos, m_dir);
   }
   else
   {
     Vector pos(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
                m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
-    m_grabbed_object->grab(*this, pos, m_dir);
+
+    if (teleport)
+      moving_object->set_pos(pos);
+    else
+      m_grabbed_object->grab(*this, pos, m_dir);
   }
 }
 
@@ -2357,6 +2382,9 @@ Player::move(const Vector& vector)
   stop_backflipping();
   m_last_ground_y = vector.y;
   if (m_climbing) stop_climbing(*m_climbing);
+
+  // Make sure grabbed objects move directly with the player.
+  position_grabbed_object(true);
 
   m_physic.reset();
 }
