@@ -46,7 +46,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: ./build.android/app/jni/
-          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
+          key: Android-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
 
       - name: Prepare SDL Android project
         if: steps.use-dependencies.outputs.cache-hit != 'true'
