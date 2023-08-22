@@ -28,7 +28,7 @@ on:
   pull_request: {2485}
 
 jobs:
-  build-android:
+  android:
     strategy:
       fail-fast: false
       matrix:
@@ -81,7 +81,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: ./build.android/app/jni/
-          key: ${{ runner.os }}-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
+          key: Android-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
 
       - name: Copy SuperTux Android project files
         run: |
