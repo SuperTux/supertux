@@ -40,7 +40,10 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
-  enum AngryStoneState 
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
+protected:
+  enum AngryStoneState
   {
     IDLE,
     CHARGING,

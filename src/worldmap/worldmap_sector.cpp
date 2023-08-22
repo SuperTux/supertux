@@ -82,6 +82,8 @@ WorldMapSector::~WorldMapSector()
 void
 WorldMapSector::finish_construction(bool)
 {
+  flush_game_objects();
+
   if (!get_object_by_type<AmbientLight>())
     add<AmbientLight>(Color::WHITE);
 

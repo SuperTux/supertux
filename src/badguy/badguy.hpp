@@ -22,10 +22,10 @@
 #include "object/portable.hpp"
 #include "scripting/badguy.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
+enum class Direction;
 class Player;
 class Bullet;
 
@@ -42,6 +42,9 @@ public:
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
          const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+  BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
          const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
 
@@ -183,6 +186,9 @@ protected:
 
   /** called when the badguy has been deactivated */
   virtual void deactivate();
+
+  /** Returns a vector of directions the badguy can be set to. */
+  virtual std::vector<Direction> get_allowed_directions() const;
 
   void kill_squished(GameObject& object);
 

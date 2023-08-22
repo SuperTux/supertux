@@ -43,6 +43,9 @@ public:
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   HitResponse hit(const CollisionHit& hit);
 

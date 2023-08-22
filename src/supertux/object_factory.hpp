@@ -91,11 +91,7 @@ private:
                    const std::function<std::unique_ptr<GameObject> (const ReaderMapping&)>& create_func,
                    uint8_t obj_params = 0)
   {
-    add_factory(class_name, { std::move(create_func),
-                  []() {
-                    return C::display_name();
-                  }
-                }, obj_params);
+    add_factory(class_name, { std::move(create_func), C::display_name }, obj_params);
   }
 
 protected:

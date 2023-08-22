@@ -25,6 +25,8 @@ class ItemStringSelect final : public MenuItem
 {
 public:
   ItemStringSelect(const std::string& text, std::vector<std::string> items, int* selected, int id = -1);
+  ItemStringSelect(const std::string& text, std::vector<std::string> items, int default_item, int id = -1);
+  ~ItemStringSelect() override;
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active) override;
@@ -49,6 +51,8 @@ private:
 private:
   std::vector<std::string> m_items; // list of values for a STRINGSELECT item
   int* m_selected; // currently selected item
+  const bool m_pointer_provided; // Indicates whether a pointer has been provided to the item.
+
   std::function<void(int)> m_callback;
   float m_width;
 

@@ -162,4 +162,10 @@ Jumpy::is_flammable() const
   return true;
 }
 
+std::vector<Direction>
+Jumpy::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

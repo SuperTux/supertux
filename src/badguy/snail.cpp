@@ -111,8 +111,7 @@ Snail::be_flat()
   state = STATE_FLAT;
   set_action("flat", m_dir, /* loops = */ -1);
 
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
 
   flat_timer.start(4);
 }
@@ -133,8 +132,7 @@ Snail::be_kicked(bool upwards)
     state = STATE_KICKED;
   set_action("flat", m_dir, /* loops = */ -1);
 
-  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED, 0);
 
   // Start a timer to delay addition of upward movement until we are (hopefully) out from under the player.
   if (upwards)
@@ -207,8 +205,7 @@ Snail::active_update(float dt_sec)
 
     case STATE_KICKED_DELAY:
       if (kicked_delay_timer.check()) {
-        m_physic.set_velocity_x(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED);
-        m_physic.set_velocity_y(SNAIL_KICK_SPEED_Y);
+        m_physic.set_velocity(m_dir == Direction::LEFT ? -SNAIL_KICK_SPEED : SNAIL_KICK_SPEED, SNAIL_KICK_SPEED_Y);
         state = STATE_KICKED;
       }
       break;

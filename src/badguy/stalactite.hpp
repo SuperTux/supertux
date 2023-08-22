@@ -47,6 +47,9 @@ public:
   void squish();
 
 protected:
+  std::vector<Direction> get_allowed_directions() const override;
+
+protected:
   enum StalactiteType {
     ICE,
     ROCK

@@ -204,4 +204,10 @@ DiveMine::turn_around()
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
 }
 
+std::vector<Direction>
+DiveMine::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

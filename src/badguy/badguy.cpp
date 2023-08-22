@@ -41,15 +41,15 @@ static const float BURN_TIME = 1;
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
-BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  BadGuy(pos, Direction::LEFT, sprite_name_, layer_, light_sprite_name)
+  BadGuy(pos, Direction::LEFT, sprite_name, layer, light_sprite_name)
 {
 }
 
-BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
@@ -83,16 +83,23 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_lightsprite->set_blend(Blend::ADD);
 }
 
-BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
+  BadGuy(reader, sprite_name, Direction::AUTO, layer, light_sprite_name, ice_sprite_name)
+{
+}
+
+BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
+               Direction default_direction, int layer,
+               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(Direction::LEFT),
-  m_start_dir(Direction::AUTO),
+  m_start_dir(default_direction),
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
@@ -109,9 +116,9 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
-  std::string dir_str = "auto";
-  reader.get("direction", dir_str);
-  m_start_dir = string_to_dir(dir_str);
+  std::string dir_str;
+  if (reader.get("direction", dir_str))
+    m_start_dir = string_to_dir(dir_str);
   m_dir = m_start_dir;
 
   reader.get("dead-script", m_dead_script);
@@ -200,7 +207,9 @@ BadGuy::update(float dt_sec)
     }
   }
 
-  if (m_is_active_flag && is_offscreen()) {
+  // Deactivate badguy, if off-screen and not falling down.
+  if (m_is_active_flag && is_offscreen() && m_physic.get_velocity_y() <= 0.f)
+  {
     deactivate();
     set_state(STATE_INACTIVE);
   }
@@ -303,6 +312,12 @@ BadGuy::activate()
 void
 BadGuy::deactivate()
 {
+}
+
+std::vector<Direction>
+BadGuy::get_allowed_directions() const
+{
+  return { Direction::AUTO, Direction::LEFT, Direction::RIGHT };
 }
 
 void
@@ -448,8 +463,7 @@ BadGuy::collision_solid(const CollisionHit& hit)
   }
   else
   {
-    m_physic.set_velocity_x(0);
-    m_physic.set_velocity_y(0);
+    m_physic.set_velocity(0, 0);
   }
   update_on_ground_flag(hit);
 }
@@ -574,8 +588,7 @@ BadGuy::kill_squished(GameObject& object)
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);
@@ -668,6 +681,7 @@ BadGuy::set_state(State state_)
       break;
     case STATE_ACTIVE:
       set_group(m_colgroup_active);
+      play_looping_sounds();
       //bbox.set_pos(start_position);
       break;
     case STATE_INACTIVE:
@@ -675,6 +689,7 @@ BadGuy::set_state(State state_)
       if (laststate == STATE_SQUISHED || laststate == STATE_FALLING) {
         remove_me();
       }
+      stop_looping_sounds();
       set_group(COLGROUP_DISABLED);
       break;
     case STATE_FALLING:
@@ -969,8 +984,7 @@ BadGuy::ignite()
     unfreeze();
 
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   m_sprite->stop_animation();
   m_ignited = true;
@@ -1038,7 +1052,8 @@ BadGuy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_start_dir, Direction::AUTO, "direction");
+  if (!get_allowed_directions().empty())
+    result.add_direction(_("Direction"), &m_start_dir, get_allowed_directions(), "direction");
   result.add_script(_("Death script"), &m_dead_script, "dead-script");
 
   result.reorder({"direction", "sprite", "x", "y"});
@@ -1051,59 +1066,37 @@ BadGuy::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  if (m_dir == Direction::AUTO)
+  const std::string direction_str = m_start_dir == Direction::AUTO ? "left" : dir_to_string(m_start_dir);
+  const std::string actions[] = {"editor", "normal", "idle", "flying", "walking", "standing", "swim"};
+  bool action_set = false;
+
+  for (const auto& action_str : actions)
   {
-    if (m_sprite->has_action("editor-left")) {
-      set_action("editor-left");
-    } else if (m_sprite->has_action("editor-right")) {
-      set_action("editor-right");
-    } else if (m_sprite->has_action("left")) {
-      set_action("left");
-    } else if (m_sprite->has_action("normal")) {
-      set_action("normal");
-    } else if (m_sprite->has_action("idle")) {
-      set_action("idle");
-    } else if (m_sprite->has_action("idle-left")) {
-      set_action("idle-left");
-    } else if (m_sprite->has_action("flying-left")) {
-      set_action("flying-left");
-    } else if (m_sprite->has_action("walking-left")) {
-      set_action("walking-left");
-    } else if (m_sprite->has_action("flying")) {
-      set_action("flying");
-    } else if (m_sprite->has_action("standing-left")) {
-      set_action("standing-left");
-    } else {
-      log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class_name() << std::endl;
+    const std::string test_action = action_str + "-" + direction_str;
+    if (m_sprite->has_action(test_action))
+    {
+      set_action(test_action);
+      action_set = true;
+      break;
+    }
+    else if (m_sprite->has_action(action_str))
+    {
+      set_action(action_str);
+      action_set = true;
+      break;
     }
   }
-  else
-  {
-    std::string action_str = dir_to_string(m_start_dir);
 
-    if (m_sprite->has_action("editor-" + action_str)) {
-      set_action("editor-" + action_str);
-    } else if (m_sprite->has_action(action_str)) {
-      set_action(action_str);
-    } else if (m_sprite->has_action("idle-" + action_str)) {
-      set_action("idle-" + action_str);
-    } else if (m_sprite->has_action("flying-" + action_str)) {
-      set_action("flying-" + action_str);
-    } else if (m_sprite->has_action("standing-" + action_str)) {
-      set_action("standing-" + action_str);
-    } else if (m_sprite->has_action("walking-" + action_str)) {
-      set_action("walking-" + action_str);
-    } else if (m_sprite->has_action("left")) {
-      set_action("left");
-    } else if (m_sprite->has_action("normal")) {
-      set_action("normal");
-    } else if (m_sprite->has_action("idle")) {
-      set_action("idle");
-    } else if (m_sprite->has_action("flying")) {
-      set_action("flying");
-    } else {
-      log_warning << "couldn't find editor sprite for badguy direction='" << action_str << "': "
-                  << get_class_name() << std::endl;
+  if (!action_set)
+  {
+    if (m_sprite->has_action(direction_str))
+    {
+      set_action(direction_str);
+    }
+    else
+    {
+      log_warning << "Couldn't find editor sprite action for badguy direction='"
+                  << dir_to_string(m_start_dir) << "': " << get_class_name() << "." << std::endl;
     }
   }
 }

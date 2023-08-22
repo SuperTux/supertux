@@ -59,8 +59,7 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
 void
 Kugelblitz::initialize()
 {
-  m_physic.set_velocity_y(300);
-  m_physic.set_velocity_x(-20); // Fall a little to the left.
+  m_physic.set_velocity(-20, 300); // Fall a little to the left.
   direction = 1;
   dying = false;
 }
@@ -209,6 +208,12 @@ bool
 Kugelblitz::is_flammable() const
 {
   return false;
+}
+
+std::vector<Direction>
+Kugelblitz::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

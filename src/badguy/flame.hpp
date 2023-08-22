@@ -58,6 +58,9 @@ public:
     ICE
   };
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   float angle;
   float radius;

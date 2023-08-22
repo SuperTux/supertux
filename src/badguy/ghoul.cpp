@@ -40,7 +40,7 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   reader.get("running", running, false);
 
   init_path(reader, running);
-  
+
   set_action(m_dir);
 }
 
@@ -205,6 +205,12 @@ Ghoul::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+std::vector<Direction>
+Ghoul::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

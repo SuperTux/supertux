@@ -240,8 +240,7 @@ MrIceBlock::collision_squished(GameObject& object)
   }
 
   SoundManager::current()->play("sounds/stomp.wav", get_pos());
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_state(ICESTATE_FLAT);
   nokick_timer.start(NOKICK_TIME);
   break;

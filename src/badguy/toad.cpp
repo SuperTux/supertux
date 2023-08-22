@@ -47,8 +47,7 @@ void
 Toad::set_state(ToadState newState)
 {
   if (newState == IDLE) {
-    m_physic.set_velocity_x(0);
-    m_physic.set_velocity_y(0);
+    m_physic.set_velocity(0, 0);
     if (!m_frozen)
       set_action("idle", m_dir);
 
@@ -56,8 +55,7 @@ Toad::set_state(ToadState newState)
   } else
     if (newState == JUMPING) {
       set_action("jumping", m_dir);
-      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
-      m_physic.set_velocity_y(VERTICAL_SPEED);
+      m_physic.set_velocity(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED, VERTICAL_SPEED);
       SoundManager::current()->play( HOP_SOUND, get_pos());
     } else
       if (newState == FALLING) {

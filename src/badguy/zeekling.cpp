@@ -65,8 +65,7 @@ Zeekling::onBumpHorizontal()
       m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
       state = FLYING;
       set_action(m_dir);
-      m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
-      m_physic.set_velocity_y(0);
+      m_physic.set_velocity(m_dir == Direction::LEFT ? -speed : speed, 0);
     } else
       if (state == CLIMBING) {
         m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
@@ -82,8 +81,7 @@ Zeekling::onBumpVertical()
 {
   if (BadGuy::get_state() == STATE_BURNING)
   {
-    m_physic.set_velocity_y(0);
-    m_physic.set_velocity_x(0);
+    m_physic.set_velocity(0, 0);
     return;
   }
   if (state == FLYING) {

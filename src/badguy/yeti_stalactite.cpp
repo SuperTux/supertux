@@ -91,4 +91,10 @@ YetiStalactite::is_flammable() const
   return false;
 }
 
+std::vector<Direction>
+YetiStalactite::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

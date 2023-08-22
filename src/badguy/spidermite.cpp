@@ -108,4 +108,10 @@ SpiderMite::is_freezable() const
   return true;
 }
 
+std::vector<Direction>
+SpiderMite::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

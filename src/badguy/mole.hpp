@@ -40,6 +40,9 @@ public:
 
   virtual void on_flip(float height) override;
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   enum MoleState {
     PRE_THROWING,

@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_CRUSHER_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
 class Player;
@@ -37,6 +36,7 @@ public:
   enum class Direction
   {
     DOWN,
+    UP,
     LEFT,
     RIGHT
   };

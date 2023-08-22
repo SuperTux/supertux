@@ -25,8 +25,6 @@ class FishHarmless final : public FishSwimming
 public:
   FishHarmless(const ReaderMapping& reader);
 
-  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
-
   static std::string class_name() { return "fish-harmless"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Harmless Fish"); }
@@ -34,6 +32,9 @@ public:
   virtual std::string get_overlay_size() const override { return "1x1"; }
 
   GameObjectTypes get_types() const override { return {}; }
+
+protected:
+  virtual void initialize() override;
 
 private:
   FishHarmless(const FishHarmless&) = delete;

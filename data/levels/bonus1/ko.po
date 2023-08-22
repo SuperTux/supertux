@@ -3,15 +3,18 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Go Nam Hyeon <gnh1201@gmail.com>, 2021
+# 최이준, 2023
+# JungHee Lee <daemul72@gmail.com>, 2022
 # Myeongjin <aranet100@gmail.com>, 2016-2017,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 20:16+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: 최이준, 2023\n"
+"Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,7 +82,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-축하합니다!\n\n#당신은 보너스 섬 I에\n#성공적으로 마쳤습니다\n\n\t특색있는 레벨 기여자\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#아직 모든 레벨을 깨지 않았다면,\n#집으로 돌아가는 길을 찾아\n#다른 길을 거치세요. 여기에는\n#아직 더 많은 도전이\n#여러분을 기다리고 있습니다!\n\n#그 뿐만 아니라 여기에\n#숨겨진 레벨이 있습니다...\n\n#큰 \"감사합니다\"가 이 배포판에\n#기여한 모든 분들께 보냅니다. 우리는\n#그것을 즐길 수 있기를 바랍니다!"
+msgstr "-축하합니다!\n\n#당신은 보너스 섬 I에\n#성공적으로 마쳤습니다\n\n\t특색있는 레벨 기여자\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#아직 모든 레벨을 깨지 않았다면,\n#집으로 돌아가는 길을 찾아\n#다른 길을 거치세요. 여기에는\n#아직 더 많은 도전이\n#여러분을 기다리고 있습니다!\n\n#그 뿐만 아니라 여기에\n#비밀공간 레벨이 있습니다...\n\n#큰 \"감사합니다\"가 이 배포판에\n#기여한 모든 분들께 보냅니다. 우리는\n#그것을 즐길 수 있기를 바랍니다!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -105,7 +108,7 @@ msgstr "악당 악취!"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr ""
+msgstr "#이 레벨은 Serano가 수영 기능을 활성화하였고 AllyTheOcelot가 개선하였습니다."
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -117,7 +120,7 @@ msgstr "너무 쉬워"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr ""
+msgstr "#모든 레벨은 Hume가 마일스톤 2로 업그레이드하였습니다."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -149,7 +152,7 @@ msgstr "보너스 섬 I"
 
 #: data/levels/bonus1/worldmap.stwm:127
 msgid "You found a secret place!"
-msgstr "숨겨진 장소를 찾았습니다!"
+msgstr "비밀 장소를 찾았어요!"
 
 #: data/levels/bonus1/worldmap.stwm:135
 msgid "Hint: Use igloos to get back here."
@@ -157,7 +160,7 @@ msgstr "힌트: 여기에 다시 돌아가려면 이글루를 사용하세요."
 
 #: data/levels/bonus1/worldmap.stwm:144
 msgid "Warp to Matr1x' Sector"
-msgstr "Matr1x의 부분으로 워프"
+msgstr "Matr1x의 섹터로 워프"
 
 #: data/levels/bonus1/worldmap.stwm:151 data/levels/bonus1/worldmap.stwm:228
 msgid "Warp to Thompson's Domain"
@@ -185,7 +188,7 @@ msgstr "Thompson의 영역을 떠나기"
 
 #: data/levels/bonus1/worldmap.stwm:193
 msgid "Back to Matr1x' Sector"
-msgstr "Matr1x의 부분으로 돌아가기"
+msgstr "Matr1x의 섹터로 돌아가기"
 
 #: data/levels/bonus1/worldmap.stwm:200
 msgid "Warp home"
@@ -197,11 +200,11 @@ msgstr "슈퍼턱스 팀 섬으로 워프"
 
 #: data/levels/bonus1/worldmap.stwm:241
 msgid "Leave Matr1x' Sector"
-msgstr "Matr1x의 부분을 떠나기"
+msgstr "Matr1x의 섹터 떠나기"
 
 #: data/levels/bonus1/worldmap.stwm:248
 msgid "Continue Matr1x' Sector"
-msgstr "Matr1x의 부분에서 계속"
+msgstr "Matr1x의 섹터 계속하기"
 
 #: data/levels/bonus1/worldmap.stwm:255
 msgid "Warp to Torfi's Territory"

@@ -170,6 +170,12 @@ Mole::ignite() {
   SoundManager::current()->play("sounds/fire.ogg", get_pos());
 }
 
+std::vector<Direction>
+Mole::get_allowed_directions() const
+{
+  return {};
+}
+
 void
 Mole::on_flip(float height)
 {

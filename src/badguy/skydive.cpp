@@ -71,8 +71,7 @@ SkyDive::grab(MovingObject& object, const Vector& pos, Direction dir_)
 
   if (!m_frozen)
   {
-    m_physic.set_velocity_x(movement.x * LOGICAL_FPS);
-    m_physic.set_velocity_y(0.0);
+    m_physic.set_velocity(movement.x * LOGICAL_FPS, 0.0);
     m_physic.set_acceleration_y(0.0);
   }
   m_physic.enable_gravity(false);
@@ -193,6 +192,12 @@ bool
 SkyDive::is_portable() const
 {
   return true;
+}
+
+std::vector<Direction>
+SkyDive::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

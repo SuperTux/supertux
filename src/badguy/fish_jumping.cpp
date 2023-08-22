@@ -171,4 +171,10 @@ FishJumping::is_freezable() const
   return true;
 }
 
+std::vector<Direction>
+FishJumping::get_allowed_directions() const
+{
+  return {};
+}
+
 /* EOF */

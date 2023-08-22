@@ -139,11 +139,16 @@ Dispenser::active_update(float dt_sec)
   }
   if (m_dispense_timer.check())
   {
-    // Auto always shoots in Tux's direction.
-    if (m_autotarget)
+    auto player = get_nearest_player();
+    if (player)
     {
-      auto player = get_nearest_player();
-      if (player)
+      if(player->is_dying() || player->is_dead())
+      {
+        return;
+      }
+      
+      // Auto always shoots in Tux's direction.
+      if (m_autotarget)
       {
         Direction target_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
         if (m_dir != target_dir)
@@ -153,6 +158,7 @@ Dispenser::active_update(float dt_sec)
         }
       }
     }
+
     launch_object();
   }
 }
