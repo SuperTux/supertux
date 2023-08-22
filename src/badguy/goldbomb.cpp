@@ -63,9 +63,9 @@ GoldBomb::collision(GameObject& object, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING)
   {
-    auto player = dynamic_cast<Player*> (&object);
+    auto player = dynamic_cast<Player*>(&object);
     if (player) return collision_player(*player, hit);
-    auto badguy = dynamic_cast<BadGuy*> (&object);
+    auto badguy = dynamic_cast<BadGuy*>(&object);
     if (badguy) return collision_badguy(*badguy, hit);
   }
 
@@ -80,7 +80,7 @@ GoldBomb::collision_player(Player& player, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING)
   {
-    if (m_physic.get_velocity() != Vector(0.f, 0.f))
+    if (m_physic.get_velocity() != Vector())
       kill_fall();
     return ABORT_MOVE;
   }
@@ -94,7 +94,7 @@ GoldBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING)
   {
-    if (m_physic.get_velocity() != Vector(0.f, 0.f))
+    if (m_physic.get_velocity() != Vector())
       kill_fall();
     return ABORT_MOVE;
   }
