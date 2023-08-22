@@ -289,8 +289,10 @@ SDLPainter::draw_gradient(const GradientRequest& request)
       rect.w = static_cast<int>(region.get_right() - region.get_left());
       rect.h = static_cast<int>(ceilf((region.get_bottom() - region.get_top()) / static_cast<float>(n)));
 
+      // Account for the build-up of rounding errors due to floating point precision.
       if (next_step > static_cast<int>(region.get_top() + (region.get_bottom() - region.get_top()) * static_cast<float>(i) / static_cast<float>(n)))
         --rect.h;
+
       next_step += rect.h;
     }
     else
@@ -300,8 +302,10 @@ SDLPainter::draw_gradient(const GradientRequest& request)
       rect.w = static_cast<int>(ceilf((region.get_right() - region.get_left()) / static_cast<float>(n)));
       rect.h = static_cast<int>(region.get_bottom() - region.get_top());
 
+      // Account for the build-up of rounding errors due to floating point precision.
       if (next_step > static_cast<int>(region.get_left() + (region.get_right() - region.get_left()) * static_cast<float>(i) / static_cast<float>(n)))
         --rect.w;
+
       next_step += rect.w;
     }
 
