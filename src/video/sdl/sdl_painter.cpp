@@ -326,16 +326,21 @@ SDLPainter::draw_gradient(const GradientRequest& request)
         end_percentage = (-region.get_top() + static_cast<float>(SCREEN_HEIGHT)) / region.get_bottom();
       }
 
-      Color begin, end;
-      begin.red   = top.red   * (1.f - begin_percentage) + bottom.red   * begin_percentage;
-      begin.green = top.green * (1.f - begin_percentage) + bottom.green * begin_percentage;
-      begin.blue  = top.blue  * (1.f - begin_percentage) + bottom.blue  * begin_percentage;
-      begin.alpha = top.alpha * (1.f - begin_percentage) + bottom.alpha * begin_percentage;
+      // This is needed because the limited floating point precision can produce
+      // values just below zero or just above one.
+      begin_percentage = math::clamp(begin_percentage, 0.0f, 1.0f);
+      end_percentage   = math::clamp(end_percentage,   0.0f, 1.0f);
 
-      end.red   = top.red   * (1.f - end_percentage) + bottom.red   * end_percentage;
-      end.green = top.green * (1.f - end_percentage) + bottom.green * end_percentage;
-      end.blue  = top.blue  * (1.f - end_percentage) + bottom.blue  * end_percentage;
-      end.alpha = top.alpha * (1.f - end_percentage) + bottom.alpha * end_percentage;
+      Color begin, end;
+      begin.red   = top.red   * (1.0f - begin_percentage) + bottom.red   * begin_percentage;
+      begin.green = top.green * (1.0f - begin_percentage) + bottom.green * begin_percentage;
+      begin.blue  = top.blue  * (1.0f - begin_percentage) + bottom.blue  * begin_percentage;
+      begin.alpha = top.alpha * (1.0f - begin_percentage) + bottom.alpha * begin_percentage;
+
+      end.red   = top.red   * (1.0f - end_percentage) + bottom.red   * end_percentage;
+      end.green = top.green * (1.0f - end_percentage) + bottom.green * end_percentage;
+      end.blue  = top.blue  * (1.0f - end_percentage) + bottom.blue  * end_percentage;
+      end.alpha = top.alpha * (1.0f - end_percentage) + bottom.alpha * end_percentage;
 
       r = static_cast<Uint8>(((1.0f - p) * begin.red   + p * end.red)   * 255);
       g = static_cast<Uint8>(((1.0f - p) * begin.green + p * end.green) * 255);
