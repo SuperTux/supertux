@@ -77,6 +77,20 @@ public:
    * @param string $music Full filename, relative to the "music" folder.
    */
   void set_music(const std::string& music);
+
+  /**
+   * Adds a ""MovingObject"" to the manager.
+     Note: If adding objects to a worldmap sector, ""posX"" and ""posY"" have to be tile positions (sector position / 32).
+   * @param string $class_name GameObject's class.
+   * @param string $name Name of the created object.
+   * @param int $posX X position inside the current sector.
+   * @param int $posY Y position inside the current sector.
+   * @param string $direction Direction.
+   * @param string $data Additional data in S-Expression format (check object definitions in level files).
+   */
+  void add_object(const std::string& class_name, const std::string& name,
+                  int posX, int posY, const std::string& direction,
+                  const std::string& data);
 };
 
 } // namespace scripting
