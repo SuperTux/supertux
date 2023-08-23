@@ -31,8 +31,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-11]
-        build_type: [Debug, Release]
-        glbinding: [ON, OFF]
+        build_type: [Debug]
+        glbinding: [OFF]
         include:
           - os: macos-11
             build_type: Release
@@ -66,7 +66,7 @@ jobs:
           FORMULA_URL="https://raw.githubusercontent.com/tobbi/homebrew-core/master/Formula/h/harfbuzz.rb"
           FORMULA_FILE=$(find $(brew --repository) -path "*/Formula/${PKG_NAME}.rb")
           curl -fsSL "$FORMULA_URL" > "${FORMULA_FILE}"
-          HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_FROM_API=1 brew install "${PKG_NAME}"
+          HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_FROM_API=1 brew install --build-from-source "${PKG_NAME}"
 
       - name: Set compiler
         run: |
