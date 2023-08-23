@@ -66,6 +66,9 @@ SnowBall::is_freezable() const
 bool
 SnowBall::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(object);
+
   set_action("squished", m_dir);
   kill_squished(object);
   return true;
