@@ -62,9 +62,8 @@ jobs:
         if: ${{ matrix.os == 'macos-11' }}
         run: |
           PKG_NAME=harfbuzz
-          FORMULA_COMMIT=beb314d142c6ba06c23c761699ebe6a96d0d9864
           brew uninstall --ignore-dependencies "${PKG_NAME}" || true
-          FORMULA_URL="https://raw.githubusercontent.com/Homebrew/homebrew-core/${FORMULA_COMMIT}/Formula/${PKG_NAME}.rb"
+          FORMULA_URL="https://raw.githubusercontent.com/tobbi/homebrew-core/master/Formula/h/harfbuzz.rb"
           FORMULA_FILE=$(find $(brew --repository) -path "*/Formula/${PKG_NAME}.rb")
           curl -fsSL "$FORMULA_URL" > "${FORMULA_FILE}"
           HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_FROM_API=1 brew install "${PKG_NAME}"
