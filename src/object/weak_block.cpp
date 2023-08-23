@@ -30,18 +30,19 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_TILES, COLGROUP_STATIC),
   state(STATE_NORMAL),
-  linked(true),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  mapping.get("linked", linked);
-
-  // Older levels utilize hardcoded behaviour from the current sprite.
+  // Older levels utilize hardcoded behaviour from the "linked" property.
   if (get_version() == 1)
   {
+    bool linked = true;
+    mapping.get("linked", linked);
+
     // The object was set to the "meltbox" (ICE) sprite, if it's not linked.
     // The default sprite was previously the HAY one, so we do the opposite check here.
     if (linked)
@@ -65,6 +66,30 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   set_action("normal");
 }
 
+void
+WeakBlock::update_version()
+{
+  // Use ICE as default, when migrating from version 1.
+  if (get_version() == 1)
+  {
+    m_type = ICE;
+    on_type_change();
+  }
+
+  GameObject::update_version();
+}
+
+void
+WeakBlock::save(Writer& writer)
+{
+  // If the version is 1 and the type is ICE, save "linked" as false.
+  // Used to properly initialize the object as ICE when reading the saved level.
+  if (get_version() == 1 && m_type == ICE)
+    writer.write("linked", false);
+
+  GameObject::save(writer);
+}
+
 GameObjectTypes
 WeakBlock::get_types() const
 {
@@ -84,14 +109,6 @@ WeakBlock::get_default_sprite_name() const
     default:
       return m_default_sprite_name;
   }
-}
-
-void
-WeakBlock::on_type_change(int old_type)
-{
-  MovingSprite::on_type_change(old_type);
-
-  linked = (m_type == HAY);
 }
 
 HitResponse
@@ -163,7 +180,7 @@ WeakBlock::update(float )
 
       case STATE_BURNING:
         // cause burn light to flicker randomly
-        if (linked) {
+        if (m_type == HAY) {
           if (graphicsRandom.rand(10) >= 7) {
             lightsprite->set_color(Color(0.2f + graphicsRandom.randf(20.0f) / 100.0f,
                                          0.1f + graphicsRandom.randf(20.0f)/100.0f,
@@ -199,7 +216,7 @@ WeakBlock::draw(DrawingContext& context)
   //Draw the Sprite just in front of other objects
   m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10, m_flip);
 
-  if (linked && (state != STATE_NORMAL))
+  if (m_type == HAY && (state != STATE_NORMAL))
   {
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
   }
@@ -222,7 +239,7 @@ void
 WeakBlock::spreadHit()
 {
   //Destroy adjacent weakblocks if applicable
-  if (linked) {
+  if (m_type == HAY) {
     for (auto& wb : Sector::get().get_objects_by_type<WeakBlock>()) {
       if (&wb != this && wb.state == STATE_NORMAL)
       {
@@ -248,18 +265,6 @@ WeakBlock::get_patches() const
 {
   return { _("Sprites no longer define the behaviour of the object.") + "\n" +
            _("Object types are used instead.") };
-}
-
-ObjectSettings
-WeakBlock::get_settings()
-{
-  ObjectSettings result = MovingSprite::get_settings();
-
-  result.add_bool(_("Linked"), &linked, "linked", true);
-
-  result.reorder({"linked", "sprite", "x", "y"});
-
-  return result;
 }
 
 /* EOF */

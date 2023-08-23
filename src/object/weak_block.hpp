@@ -37,7 +37,9 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   std::vector<std::string> get_patches() const override;
-  virtual ObjectSettings get_settings() override;
+  void update_version() override;
+  void save(Writer& writer) override;
+
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
@@ -47,8 +49,6 @@ public:
 
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
-
-  void on_type_change(int old_type = -1) override;
 
 private:
   /** called by self when hit by a bullet */
@@ -70,7 +70,6 @@ private:
 
 private:
   State state;
-  bool linked;
   SpritePtr lightsprite;
 
 private:
