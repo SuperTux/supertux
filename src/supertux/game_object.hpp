@@ -88,11 +88,11 @@ public:
   virtual std::string get_display_name() const { return _("Unknown object"); }
 
   /** Version checking/updating, patch information */
-  virtual std::vector<std::string> get_patches() const { return {}; }
+  virtual std::vector<std::string> get_patches() const;
   int get_version() const { return m_version; }
-  int get_latest_version() const { return 1 + static_cast<int>(get_patches().size()); }
-  bool is_up_to_date() const { return m_version >= get_latest_version(); }
-  virtual void update_version() { m_version = get_latest_version(); }
+  int get_latest_version() const;
+  bool is_up_to_date() const;
+  virtual void update_version();
 
   /** If true only a single object of this type is allowed in a
       given GameObjectManager */

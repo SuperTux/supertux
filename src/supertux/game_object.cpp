@@ -132,6 +132,30 @@ GameObject::get_settings()
   return result;
 }
 
+std::vector<std::string>
+GameObject::get_patches() const
+{
+  return {};
+}
+
+int
+GameObject::get_latest_version() const
+{
+  return 1 + static_cast<int>(get_patches().size());
+}
+
+bool
+GameObject::is_up_to_date() const
+{
+  return m_version >= get_latest_version();
+}
+
+void
+GameObject::update_version()
+{
+  m_version = get_latest_version();
+}
+
 void
 GameObject::save_state()
 {
