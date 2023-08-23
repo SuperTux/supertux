@@ -50,7 +50,7 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-11' }}
         run: |
-          brew install --build-from-source harfbuzz
+          brew uninstall --ignore-dependencies harfbuzz
           brew install cmake googletest bash rename libogg libvorbis glew\
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype \
                        fribidi glib gtk-doc glbinding libraqm glm zlib
