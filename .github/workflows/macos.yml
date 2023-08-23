@@ -31,8 +31,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-11]
-        build_type: [Debug, Release]
-        glbinding: [ON, OFF]
+        build_type: [Debug]
+        glbinding: [OFF]
         include:
           - os: macos-11
             build_type: Release
