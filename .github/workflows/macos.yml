@@ -53,7 +53,7 @@ jobs:
           # See https://github.com/orgs/Homebrew/discussions/4735
           # and https://github.com/actions/runner-images/issues/8078
           brew uninstall --ignore-dependencies harfbuzz
-          brew install --from-source harfbuzz
+          brew install --build-from-source harfbuzz
           brew install cmake googletest bash rename libogg libvorbis glew\
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz  \
                        fribidi glib gtk-doc glbinding libraqm glm zlib
