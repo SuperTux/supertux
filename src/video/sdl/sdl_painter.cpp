@@ -275,6 +275,9 @@ SDLPainter::draw_gradient(const GradientRequest& request)
                                     std::max(fabsf(top.blue - bottom.blue),
                                              fabsf(top.alpha - bottom.alpha))) * 255);
   n = std::max(n, 1);
+
+  int next_step = (direction == VERTICAL || direction == VERTICAL_SECTOR) ?
+                  static_cast<int>(region.get_top()) : static_cast<int>(region.get_left());
   for (int i = 0; i < n; ++i)
   {
     SDL_Rect rect;
@@ -282,35 +285,74 @@ SDLPainter::draw_gradient(const GradientRequest& request)
     if (direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
       rect.x = static_cast<int>(region.get_left());
-      rect.y = static_cast<int>(region.get_top() + (region.get_bottom() - region.get_top()) * static_cast<float>(i) / static_cast<float>(n));
+      rect.y = next_step;
       rect.w = static_cast<int>(region.get_right() - region.get_left());
       rect.h = static_cast<int>(ceilf((region.get_bottom() - region.get_top()) / static_cast<float>(n)));
+
+      // Account for the build-up of rounding errors due to floating point precision.
+      if (next_step > static_cast<int>(region.get_top() + (region.get_bottom() - region.get_top()) * static_cast<float>(i) / static_cast<float>(n)))
+        --rect.h;
+
+      next_step += rect.h;
     }
     else
     {
-      rect.x = static_cast<int>(region.get_left() + (region.get_right() - region.get_left()) * static_cast<float>(i) / static_cast<float>(n));
+      rect.x = next_step;
       rect.y = static_cast<int>(region.get_top());
       rect.w = static_cast<int>(ceilf((region.get_right() - region.get_left()) / static_cast<float>(n)));
       rect.h = static_cast<int>(region.get_bottom() - region.get_top());
+
+      // Account for the build-up of rounding errors due to floating point precision.
+      if (next_step > static_cast<int>(region.get_left() + (region.get_right() - region.get_left()) * static_cast<float>(i) / static_cast<float>(n)))
+        --rect.w;
+
+      next_step += rect.w;
     }
 
-    float p = static_cast<float>(i+1) / static_cast<float>(n);
+    float p = static_cast<float>(i) / static_cast<float>(n == 1 ? n : n - 1);
     Uint8 r, g, b, a;
 
-    if ( direction == HORIZONTAL_SECTOR || direction == VERTICAL_SECTOR)
+    if (direction == HORIZONTAL_SECTOR || direction == VERTICAL_SECTOR)
     {
-        float begin_percentage = region.get_left() * -1 / region.get_right();
-        r = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.red + (p + begin_percentage) * bottom.red)  * 255);
-        g = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.green + (p + begin_percentage) * bottom.green) * 255);
-        b = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.blue + (p + begin_percentage) * bottom.blue) * 255);
-        a = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.alpha + (p + begin_percentage) * bottom.alpha) * 255);
+      float begin_percentage, end_percentage;
+      if (direction == HORIZONTAL_SECTOR)
+      {
+        begin_percentage = -region.get_left() / region.get_right();
+        end_percentage = (-region.get_left() + static_cast<float>(SCREEN_WIDTH)) / region.get_right();
+      }
+      else
+      {
+        begin_percentage = -region.get_top() / region.get_bottom();
+        end_percentage = (-region.get_top() + static_cast<float>(SCREEN_HEIGHT)) / region.get_bottom();
+      }
+
+      // This is needed because the limited floating point precision can produce
+      // values just below zero or just above one.
+      begin_percentage = math::clamp(begin_percentage, 0.0f, 1.0f);
+      end_percentage   = math::clamp(end_percentage,   0.0f, 1.0f);
+
+      Color begin, end;
+      begin.red   = top.red   * (1.0f - begin_percentage) + bottom.red   * begin_percentage;
+      begin.green = top.green * (1.0f - begin_percentage) + bottom.green * begin_percentage;
+      begin.blue  = top.blue  * (1.0f - begin_percentage) + bottom.blue  * begin_percentage;
+      begin.alpha = top.alpha * (1.0f - begin_percentage) + bottom.alpha * begin_percentage;
+
+      end.red   = top.red   * (1.0f - end_percentage) + bottom.red   * end_percentage;
+      end.green = top.green * (1.0f - end_percentage) + bottom.green * end_percentage;
+      end.blue  = top.blue  * (1.0f - end_percentage) + bottom.blue  * end_percentage;
+      end.alpha = top.alpha * (1.0f - end_percentage) + bottom.alpha * end_percentage;
+
+      r = static_cast<Uint8>(((1.0f - p) * begin.red   + p * end.red)   * 255);
+      g = static_cast<Uint8>(((1.0f - p) * begin.green + p * end.green) * 255);
+      b = static_cast<Uint8>(((1.0f - p) * begin.blue  + p * end.blue)  * 255);
+      a = static_cast<Uint8>(((1.0f - p) * begin.alpha + p * end.alpha) * 255);
     }
     else
     {
-        r = static_cast<Uint8>(((1.0f - p) * top.red + p * bottom.red)  * 255);
-        g = static_cast<Uint8>(((1.0f - p) * top.green + p * bottom.green) * 255);
-        b = static_cast<Uint8>(((1.0f - p) * top.blue + p * bottom.blue) * 255);
-        a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
+      r = static_cast<Uint8>(((1.0f - p) * top.red   + p * bottom.red)   * 255);
+      g = static_cast<Uint8>(((1.0f - p) * top.green + p * bottom.green) * 255);
+      b = static_cast<Uint8>(((1.0f - p) * top.blue  + p * bottom.blue)  * 255);
+      a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
     }
 
     SDL_SetRenderDrawBlendMode(m_sdl_renderer, blend2sdl(request.blend));
