@@ -156,6 +156,8 @@ Camera::Camera(const std::string& name) :
   m_scale_target(1.f),
   m_scale_time_total(0.f),
   m_scale_time_remaining(0.f),
+  m_scale_origin_translation(),
+  m_scale_target_translation(),
   m_scale_easing(),
   m_minimum_scale(1.f),
   m_enfore_minimum_scale(false)
@@ -189,6 +191,8 @@ Camera::Camera(const ReaderMapping& reader) :
   m_scale_target(1.f),
   m_scale_time_total(0.f),
   m_scale_time_remaining(0.f),
+  m_scale_origin_translation(),
+  m_scale_target_translation(),
   m_scale_easing(),
   m_minimum_scale(1.f),
   m_enfore_minimum_scale(false)
@@ -824,26 +828,29 @@ Camera::update_scroll_to(float dt_sec)
 void
 Camera::update_scale(float dt_sec)
 {
+  float progress = -1.f;
+
   if (m_scale_time_remaining > 0.f)
   {
     m_scale_time_remaining -= dt_sec;
-
     if (m_scale_time_remaining <= 0.f)
     {
       m_scale = m_scale_target;
+      if (m_mode == Mode::MANUAL)
+        m_translation = m_scale_target_translation;
+
       m_scale_time_remaining = 0.f;
+      m_scale_target_translation = Vector();
     }
     else
     {
-      float progress = (m_scale_time_total - m_scale_time_remaining)
-                                                          / m_scale_time_total;
-      float true_progress = static_cast<float>(m_scale_easing(
-                                               static_cast<double>(progress)));
-      m_scale = m_scale_origin +
-                             (m_scale_target - m_scale_origin) * true_progress;
+      float time_progress = (m_scale_time_total - m_scale_time_remaining) / m_scale_time_total;
+      progress = static_cast<float>(m_scale_easing(static_cast<double>(time_progress)));
+
+      m_scale = m_scale_origin + (m_scale_target - m_scale_origin) * progress;
     }
 
-    // Re-center camera when zooming.
+    // Re-center camera, when zooming in normal mode.
     m_lookahead_pos /= 1.01f;
   }
 
@@ -851,20 +858,50 @@ Camera::update_scale(float dt_sec)
   if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
     return;
 
-  Vector screen_size = Sizef(m_screen_size).as_vector();
-  m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
+  /** Manual mode scale management */
+  if (m_mode == Mode::MANUAL)
+  {
+    if (progress < 0.f)
+      return;
+
+    // Move camera to the target translation, when zooming in manual mode.
+    m_translation = m_scale_origin_translation + (m_scale_target_translation - m_scale_origin_translation) * progress;
+  }
+  else
+  {
+    Vector screen_size = Sizef(m_screen_size).as_vector();
+    m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
+  }
 }
 
 void
 Camera::ease_scale(float scale, float time, easing ease)
 {
-  if (time <= 0.f) {
+  if (m_mode == Mode::MANUAL)
+    throw std::runtime_error("Scaling the camera in manual mode requires a target center position.");
+
+  ease_scale(scale, time, Vector(), ease);
+}
+
+void
+Camera::ease_scale(float scale, float time, Vector center_pos, easing ease)
+{
+  if (time <= 0.f)
+  {
     m_scale = scale;
-  } else {
+  }
+  else
+  {
     m_scale_origin = m_scale;
     m_scale_target = scale;
     m_scale_time_total = time;
     m_scale_time_remaining = time;
+    if (m_mode == Mode::MANUAL)
+    {
+      m_scale_origin_translation = m_translation;
+      // "center_pos" represents center position, convert to respective translation position.
+      m_scale_target_translation = center_pos - Vector(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) / 2);
+    }
     m_scale_easing = ease;
   }
 }

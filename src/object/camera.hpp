@@ -117,6 +117,9 @@ public:
 
   /** smoothly slide the scale of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease);
+
+  /** smoothly slide the scale and position of the camera towards a new value */
+  void ease_scale(float scale, float time, Vector center_pos, easing ease);
   /** @} */
 
 private:
@@ -162,6 +165,8 @@ private:
         m_scale_target,
         m_scale_time_total,
         m_scale_time_remaining;
+  Vector m_scale_origin_translation,
+         m_scale_target_translation;
   easing m_scale_easing;
 
   // Minimum scale is used in certain circumstances where a fixed minimum scale

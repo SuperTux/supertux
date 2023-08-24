@@ -101,9 +101,21 @@ Camera::set_scale(float scale)
 }
 
 void
+Camera::set_scale_target(float scale, float centerX, float centerY)
+{
+  ease_scale_target(scale, 0, centerX, centerY, "");
+}
+
+void
 Camera::scale(float scale, float time)
 {
   ease_scale(scale, time, "");
+}
+
+void
+Camera::scale_target(float scale, float time, float centerX, float centerY)
+{
+  ease_scale_target(scale, time, centerX, centerY, "");
 }
 
 void
@@ -112,6 +124,14 @@ Camera::ease_scale(float scale, float time, const std::string& ease)
   SCRIPT_GUARD_VOID;
   BIND_SECTOR(::Sector::get());
   object.ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)));
+}
+
+void
+Camera::ease_scale_target(float scale, float time, float centerX, float centerY, const std::string& ease)
+{
+  SCRIPT_GUARD_VOID;
+  BIND_SECTOR(::Sector::get());
+  object.ease_scale(scale, time, Vector(centerX, centerY), getEasingByName(EasingMode_from_string(ease)));
 }
 
 int

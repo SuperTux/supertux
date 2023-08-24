@@ -92,22 +92,52 @@ public:
   float get_target_scale();
   /**
    * Sets the scale factor.
+     NOTE: If the camera is in "manual" mode, it is required to provide a target center position. See the function below.
    * @param float $scale
    */
   void set_scale(float scale);
   /**
+   * Sets the scale factor and the target center position.
+     NOTE: Target center position is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param float $centerX
+   * @param float $centerY
+   */
+  void set_scale_target(float scale, float centerX, float centerY);
+  /**
    * Fades to a specified scale factor in ""time"" seconds.
+     NOTE: If the camera is in "manual" mode, it is required to provide a target center position. See the function below.
    * @param float $scale
    * @param float $time
    */
   void scale(float scale, float time);
   /**
+   * Fades to a specified scale factor and target center position in ""time"" seconds.
+     NOTE: Target center position is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param float $time
+   * @param float $centerX
+   * @param float $centerY
+   */
+  void scale_target(float scale, float time, float centerX, float centerY);
+  /**
    * Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
+     NOTE: If the camera is in "manual" mode, it is required to provide a target center position. See the function below.
    * @param float $scale
    * @param float $time
    * @param string $ease
    */
   void ease_scale(float scale, float time, const std::string& ease);
+  /**
+   * Fades to a specified scale factor and target center position in ""time"" seconds with easing (smooth movement).
+     NOTE: Target center position is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param float $time
+   * @param float $centerX
+   * @param float $centerY
+   * @param string $ease
+   */
+  void ease_scale_target(float scale, float time, float centerX, float centerY, const std::string& ease);
   /**
    * Gets the current width of the screen.
    */
