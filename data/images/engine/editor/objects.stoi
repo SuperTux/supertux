@@ -379,13 +379,13 @@
 ;;  v                               ~ Semphris
   (object
     (class "particles-custom")
-    (icon "images/engine/editor/sparkle.png"))
+    (icon "images/engine/editor/particle.png"))
 
 
 
   (object
     (class "particles-custom-file")
-    (icon "images/engine/editor/sparkle-file.png"))
+    (icon "images/engine/editor/particle_file.png"))
   (object
     (class "thunderstorm")
     (icon "images/engine/editor/thunderstorm.png"))
@@ -402,7 +402,7 @@
     (icon "images/worldmap/common/leveldot_red.png"))
   (object
     (class "special-tile")
-    (icon "images/worldmap/common/specialtile.png"))
+    (icon "images/engine/editor/specialtile.png"))
   (object
     (class "sprite-change")
     (icon "images/engine/editor/spritechange.png"))
