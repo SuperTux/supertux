@@ -40,6 +40,8 @@ public:
   virtual bool can_break() const override;
 
   virtual void ignite() override;
+  virtual void freeze() override;
+  virtual void unfreeze(bool melt = true) override;
 
   static std::string class_name() { return "mriceblock"; }
   virtual std::string get_class_name() const override { return class_name(); }

@@ -82,6 +82,29 @@ MrIceBlock::is_freezable() const
 }
 
 void
+MrIceBlock::freeze()
+{
+  WalkingBadguy::freeze();
+
+  m_physic.reset();
+  if (ice_state == ICESTATE_KICKED)
+    set_state(ICESTATE_FLAT);
+}
+
+void
+MrIceBlock::unfreeze(bool melt)
+{
+  WalkingBadguy::unfreeze(melt);
+
+  // Wake up on unfreeze, if flat.
+  if (ice_state == ICESTATE_FLAT)
+  {
+    flat_timer.stop();
+    set_state(ICESTATE_WAKING);
+  }
+}
+
+void
 MrIceBlock::active_update(float dt_sec)
 {
   if (m_frozen)
