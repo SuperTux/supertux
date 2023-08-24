@@ -88,22 +88,6 @@ Gradient::Gradient(const ReaderMapping& reader) :
   {
     m_gradient_direction = VERTICAL;
   }
-  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR)
-  {
-    if (!reader.get("left_color", bkgd_top_color) ||
-       !reader.get("right_color", bkgd_bottom_color))
-    {
-      log_warning <<
-        "Horizontal gradients should use left_color and right_color, respectively. "
-        "Trying to parse top and bottom color instead" << std::endl;
-    }
-    else
-    {
-      m_gradient_top = Color(bkgd_top_color);
-      m_gradient_bottom = Color(bkgd_bottom_color);
-      return;
-    }
-  }
 
   if (reader.get("top_color", bkgd_top_color)) {
     m_gradient_top = Color(bkgd_top_color);
@@ -126,13 +110,8 @@ Gradient::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
-    result.add_rgba(_("Left Colour"), &m_gradient_top, "left_color");
-    result.add_rgba(_("Right Colour"), &m_gradient_bottom, "right_color");
-  } else {
-    result.add_rgba(_("Top Colour"), &m_gradient_top, "top_color");
-    result.add_rgba(_("Bottom Colour"), &m_gradient_bottom, "bottom_color");
-  }
+  result.add_rgba(_("Top/Left Colour"), &m_gradient_top, "top_color");
+  result.add_rgba(_("Bottom/Right Colour"), &m_gradient_bottom, "bottom_color");
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
 
