@@ -98,10 +98,7 @@ MrIceBlock::unfreeze(bool melt)
 
   // Wake up on unfreeze, if flat.
   if (ice_state == ICESTATE_FLAT)
-  {
-    flat_timer.stop();
     set_state(ICESTATE_WAKING);
-  }
 }
 
 void
@@ -318,6 +315,7 @@ MrIceBlock::set_state(IceState state_)
     flat_timer.stop();
     break;
   case ICESTATE_WAKING:
+    flat_timer.stop();
     set_action("waking", m_dir, /* loops = */ 1);
     break;
   default:
