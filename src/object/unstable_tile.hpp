@@ -2,6 +2,7 @@
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //  Copyright (C) 2010 Florian Forster <supertux at octo.it>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,7 +30,7 @@
 class UnstableTile final : public MovingSprite
 {
 public:
-  UnstableTile(const ReaderMapping& mapping);
+  UnstableTile(const ReaderMapping& mapping, int type = -1);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
@@ -44,12 +45,14 @@ public:
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
-private:
+public:
   enum Type {
     ICE,
-    BRICK
+    BRICK,
+    DELAYED
   };
 
+private:
   enum State {
     STATE_NORMAL,   /**< default state */
     STATE_SHAKE,    /**< shaking, still solid */
@@ -74,6 +77,10 @@ private:
   std::unique_ptr<FadeHelper> m_respawn;
   float m_alpha;
   Vector m_original_pos;
+
+  /** DELAYED type management */
+  Timer m_fall_timer;
+  bool m_player_hit;
 
 private:
   UnstableTile(const UnstableTile&) = delete;

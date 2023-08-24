@@ -115,7 +115,6 @@
 #include "object/rusty_trampoline.hpp"
 #include "object/scripted_object.hpp"
 #include "object/shard.hpp"
-#include "object/skull_tile.hpp"
 #include "object/snow_particle_system.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
@@ -274,7 +273,7 @@ GameObjectFactory::init_factories()
   add_factory<RubLight>("rublight", OBJ_PARAM_DISPENSABLE);
   add_factory<ScriptedObject>("scriptedobject");
   add_factory<Shard>("shard", OBJ_PARAM_DISPENSABLE);
-  add_factory<SkullTile>("skull_tile");
+  add_type_factory<UnstableTile>("skull_tile", UnstableTile::DELAYED); // Backward compatibility.
   add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
   add_factory<TextScroller>("textscroller");
