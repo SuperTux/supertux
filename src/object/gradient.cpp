@@ -110,8 +110,8 @@ Gradient::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_rgba(_("Top/Left Colour"), &m_gradient_top, "top_color");
-  result.add_rgba(_("Bottom/Right Colour"), &m_gradient_bottom, "bottom_color");
+  result.add_rgba(_("Primary Colour"), &m_gradient_top, "top_color");
+  result.add_rgba(_("Secondary Colour"), &m_gradient_bottom, "bottom_color");
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
 
