@@ -876,7 +876,7 @@ Camera::update_scale(float dt_sec)
   if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
     return;
 
-  /** Manual mode scale management */
+  /** MANUAL mode scale management */
   if (m_mode == Mode::MANUAL)
   {
     if (progress < 0.f)
@@ -897,7 +897,7 @@ void
 Camera::ease_scale(float scale, float time, easing ease)
 {
   if (m_mode == Mode::MANUAL)
-    throw std::runtime_error("Scaling the camera in manual mode requires a target center position.");
+    throw std::runtime_error("Scaling the camera in \"manual\" mode requires a target center position.");
 
   ease_scale(scale, time, AnchorPoint::ANCHOR_TOP_LEFT, ease);
 }
