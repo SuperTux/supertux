@@ -23,7 +23,6 @@
 
 #include "gui/menu_action.hpp"
 #include "math/vector.hpp"
-#include "supertux/resources.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
