@@ -132,6 +132,7 @@ Resources::unload()
   arrow_right.reset();
 
   // Free global images:
+  default_font.reset();
   console_font.reset();
   fixed_font.reset();
   normal_font.reset();
