@@ -87,6 +87,12 @@ Resources::load()
   no_tile = Surface::from_file("images/tiles/auxiliary/notile.png");
 }
 
+bool
+Resources::needs_custom_font(const tinygettext::Language& locale)
+{
+  return get_font_for_locale(locale) != "fonts/SuperTux-Medium.ttf";
+}
+
 std::string
 Resources::get_font_for_locale(const tinygettext::Language& locale)
 {

@@ -28,6 +28,7 @@ extern "C" {
 #include "supertux/resources.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
+#include "video/ttf_font.hpp"
 
 enum {
   MNID_LANGUAGE_AUTO_DETECT = 0,
@@ -46,10 +47,16 @@ LanguageMenu::LanguageMenu()
   auto languages = g_dictionary_manager->get_languages();
   for (auto& lang : languages)
   {
-    // TODO: Currently, the fonts used in SuperTux don't contain the glyphs to
-    // display the language names in the respective language. Thus reverting for
-    // 0.5.0.
-    add_entry(mnid++, lang.get_name());
+    if(Resources::needs_custom_font(lang))
+    {
+      auto font_path = Resources::get_font_for_locale(lang);
+      auto font = std::make_shared<TTFFont>(font_path, 18, 1.25f, 2, 1);
+      add_entry(mnid++, lang.get_localized_name(), font);
+    }
+    else
+    {
+      add_entry(mnid++, lang.get_localized_name());
+    }
   }
 
   add_hl();
