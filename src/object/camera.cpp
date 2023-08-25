@@ -390,9 +390,24 @@ Camera::keep_in_bounds(Vector& translation_)
   float width = d_sector->get_width();
   float height = d_sector->get_height();
 
-  // Don't scroll before the start or after the level's end.
-  translation_.x = math::clamp(translation_.x, 0.0f, width - static_cast<float>(m_screen_size.width));
-  translation_.y = math::clamp(translation_.y, 0.0f, height - static_cast<float>(m_screen_size.height));
+  if (m_mode == Mode::MANUAL)
+  {
+    // Determines the difference between normal and scaled translation.
+    const Vector scale_factor = (Sizef(m_screen_size).as_vector() * (get_current_scale() - 1.f)) / 2.f;
+
+    // Keep the translation's scaled position in sector bounds.
+    translation_.x = math::clamp(translation_.x + scale_factor.x, 0.0f, width - static_cast<float>(m_screen_size.width));
+    translation_.y = math::clamp(translation_.y + scale_factor.y, 0.0f, height - static_cast<float>(m_screen_size.height));
+
+    // Remove any scale factor we may have added in the checks above.
+    translation_ -= scale_factor;
+  }
+  else
+  {
+    // Don't scroll before the start or after the sector's end.
+    translation_.x = math::clamp(translation_.x, 0.0f, width - static_cast<float>(m_screen_size.width));
+    translation_.y = math::clamp(translation_.y, 0.0f, height - static_cast<float>(m_screen_size.height));
+  }
 
   if (height < static_cast<float>(m_screen_size.height))
     translation_.y = height / 2.0f - static_cast<float>(m_screen_size.height) / 2.0f;
