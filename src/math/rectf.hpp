@@ -23,10 +23,11 @@
 #include <SDL.h>
 
 #include "math/anchor_point.hpp"
-#include "math/rect.hpp"
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
 #include "util/log.hpp"
+
+class Rect;
 
 class Rectf final
 {
@@ -192,12 +193,7 @@ public:
                    p.y - m_p1.y);
   }
 
-  Rect to_rect() const
-  {
-    return { static_cast<int>(m_p1.x), static_cast<int>(m_p1.y),
-             static_cast<int>(m_size.width), static_cast<int>(m_size.height) };
-  }
-
+  Rect to_rect() const;
   SDL_FRect to_sdl() const
   {
     return { m_p1.x, m_p1.y, m_size.width, m_size.height };

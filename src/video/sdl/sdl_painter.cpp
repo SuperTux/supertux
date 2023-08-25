@@ -66,38 +66,42 @@ SDL_BlendMode blend2sdl(const Blend& blend)
 std::tuple<Rectf, Rectf, Rectf, Rectf, Rectf>
 intersect(const Rect& srcrect, const Rectf& imgrect)
 {
+  const Rectf src_rectf = srcrect.to_rectf();
+
   return std::make_tuple(
     // inside
-    Rectf(std::max(static_cast<float>(srcrect.get_left()), imgrect.get_left()), std::max(static_cast<float>(srcrect.get_top()), imgrect.get_top()),
-          std::min(static_cast<float>(srcrect.get_right()), imgrect.get_right()), std::min(static_cast<float>(srcrect.get_bottom()), imgrect.get_bottom())),
+    Rectf(std::max(src_rectf.get_left(), imgrect.get_left()), std::max(src_rectf.get_top(), imgrect.get_top()),
+          std::min(src_rectf.get_right(), imgrect.get_right()), std::min(src_rectf.get_bottom(), imgrect.get_bottom())),
 
     // top
-    Rectf(static_cast<float>(srcrect.get_left()), static_cast<float>(srcrect.get_top()),
-          static_cast<float>(srcrect.get_right()), imgrect.get_top()),
+    Rectf(src_rectf.get_left(), src_rectf.get_top(),
+          src_rectf.get_right(), imgrect.get_top()),
 
     // left
-    Rectf(static_cast<float>(srcrect.get_left()), std::max(static_cast<float>(srcrect.get_top()), imgrect.get_top()),
-          imgrect.get_left(), std::min(static_cast<float>(srcrect.get_bottom()), imgrect.get_bottom())),
+    Rectf(src_rectf.get_left(), std::max(src_rectf.get_top(), imgrect.get_top()),
+          imgrect.get_left(), std::min(src_rectf.get_bottom(), imgrect.get_bottom())),
 
     // right
-    Rectf(imgrect.get_right(), std::max(static_cast<float>(srcrect.get_top()), imgrect.get_top()),
-          static_cast<float>(srcrect.get_right()), std::min(static_cast<float>(srcrect.get_bottom()), imgrect.get_bottom())),
+    Rectf(imgrect.get_right(), std::max(src_rectf.get_top(), imgrect.get_top()),
+          src_rectf.get_right(), std::min(src_rectf.get_bottom(), imgrect.get_bottom())),
 
     // bottom
-    Rectf(static_cast<float>(srcrect.get_left()), imgrect.get_bottom(),
-          static_cast<float>(srcrect.get_right()), static_cast<float>(srcrect.get_bottom()))
+    Rectf(src_rectf.get_left(), imgrect.get_bottom(),
+          src_rectf.get_right(), src_rectf.get_bottom())
     );
 }
 
 /* Map the area covered by inside in srcrect to dstrect */
-Rectf relative_map(const Rectf& inside, const Rectf& srcrect, const Rectf& dstrect)
+Rectf relative_map(const Rectf& inside, const Rect& srcrect, const Rectf& dstrect)
 {
-  assert(srcrect.contains(inside));
+  assert(srcrect.contains(inside.to_rect()));
 
-  Rectf result(dstrect.get_left() + (inside.get_left() - srcrect.get_left()) * dstrect.get_width() / srcrect.get_width(),
-               dstrect.get_top() + (inside.get_top() - srcrect.get_top()) * dstrect.get_height() / srcrect.get_height(),
-               dstrect.get_left() + (inside.get_right() - srcrect.get_left()) * dstrect.get_width() / srcrect.get_width(),
-               dstrect.get_top() + (inside.get_bottom() - srcrect.get_top()) * dstrect.get_height() / srcrect.get_height());
+  const Rectf src_rectf = srcrect.to_rectf();
+
+  Rectf result(dstrect.get_left() + (inside.get_left() - src_rectf.get_left()) * dstrect.get_width() / src_rectf.get_width(),
+               dstrect.get_top() + (inside.get_top() - src_rectf.get_top()) * dstrect.get_height() / src_rectf.get_height(),
+               dstrect.get_left() + (inside.get_right() - src_rectf.get_left()) * dstrect.get_width() / src_rectf.get_width(),
+               dstrect.get_top() + (inside.get_bottom() - src_rectf.get_top()) * dstrect.get_height() / src_rectf.get_height());
 
   assert(dstrect.contains(result));
 
