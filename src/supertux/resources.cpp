@@ -98,14 +98,22 @@ Resources::get_font_for_locale(const tinygettext::Language& locale)
 {
   auto lang = locale.get_language();
 
+  if(lang == "az")
+    return "fonts/NotoSans-Regular.ttf";
   if(lang == "ne")
     return "fonts/Dekko-Regular.ttf";
   if(lang == "cmn" || lang == "ja" || lang == "zh")
     return "fonts/NotoSansCJKjp-Medium.otf";
   if(lang == "he")
     return "fonts/VarelaRound-Regular.ttf";
+  if(lang == "hy")
+    return "fonts/NotoSansArmenian-Regular.ttf";
+  if(lang == "km")
+    return "fonts/NotoSansKhmer-Regular.ttf";
   if(lang == "ko")
     return "fonts/MapoBackpacking.ttf";
+  if(lang == "ml")
+    return "fonts/NotoSansMalayalam-Regular.ttf";
 
   return "fonts/SuperTux-Medium.ttf";
 }
