@@ -131,13 +131,14 @@ void render_texture(SDL_Renderer* renderer,
 
     render_texture(renderer, texture, imgrect, inside.to_rect(), relative_map(inside, srcrect, dstrect));
 
-    for (const Rectf& rect : rest)
+    for (const Rectf& rectf : rest)
     {
-      const Rect new_srcrect(math::positive_fmodf(rect.get_left(), imgrect.get_width()),
-                             math::positive_fmodf(rect.get_top(), imgrect.get_height()),
-                             Size(static_cast<int>(rect.get_width()), static_cast<int>(rect.get_height())));
+      const Rect rect = rectf.to_rect();
+      const Rect new_srcrect(math::positive_mod(rect.get_left(), static_cast<int>(imgrect.get_width())),
+                             math::positive_mod(rect.get_top(), static_cast<int>(imgrect.get_height())),
+                             Size(rect.get_width(), rect.get_height()));
       render_texture(renderer, texture, imgrect,
-                     new_srcrect, relative_map(rect, srcrect, dstrect));
+                     new_srcrect, relative_map(rectf, srcrect, dstrect));
     }
   }
 }
@@ -357,19 +358,19 @@ SDLPainter::draw_filled_rect(const FillRectRequest& request)
   Uint8 b = static_cast<Uint8>(request.color.blue * 255);
   Uint8 a = static_cast<Uint8>(request.color.alpha * 255);
 
-  float radius = std::min(std::min(rect.h / 2, rect.w / 2), request.radius);
+  const float radius = std::min(std::min(rect.h / 2, rect.w / 2), request.radius);
 
-  if (radius)
+  if (radius > 0.f)
   {
-    int slices = radius;
+    const int slices = static_cast<int>(radius);
 
     // rounded top and bottom parts
     std::vector<SDL_FRect> rects;
     rects.reserve(2*slices + 1);
     for (int i = 0; i < slices; ++i)
     {
-      float p = (static_cast<float>(i) + 0.5f) / static_cast<float>(slices);
-      float xoff = radius - sqrtf(1.0f - p * p) * static_cast<float>(radius);
+      float p = (static_cast<float>(i) + 0.5f) / radius;
+      float xoff = radius - sqrtf(1.0f - p * p) * radius;
 
       SDL_FRect tmp;
       tmp.x = rect.x + xoff;
@@ -445,7 +446,7 @@ SDLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 
     right.x = x + xoff;
     right.y = left.y;
-    right.w = viewport.get_screen_width() - right.x;
+    right.w = static_cast<float>(viewport.get_screen_width()) - right.x;
     right.h = left.h;
   }
 
@@ -454,13 +455,13 @@ SDLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 
   top_rect.x = 0;
   top_rect.y = 0;
-  top_rect.w = viewport.get_screen_width();
+  top_rect.w = static_cast<float>(viewport.get_screen_width());
   top_rect.h = top;
 
   bottom_rect.x = 0;
   bottom_rect.y = top + h;
-  bottom_rect.w = viewport.get_screen_width();
-  bottom_rect.h = viewport.get_screen_height() - bottom_rect.y;
+  bottom_rect.w = static_cast<float>(viewport.get_screen_width());
+  bottom_rect.h = static_cast<float>(viewport.get_screen_height()) - bottom_rect.y;
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);
