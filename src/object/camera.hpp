@@ -20,6 +20,7 @@
 #include <memory>
 #include <string>
 
+#include "math/anchor_point.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
 #include "object/path_object.hpp"
@@ -118,8 +119,8 @@ public:
   /** smoothly slide the scale of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease);
 
-  /** smoothly slide the scale and position of the camera towards a new value */
-  void ease_scale(float scale, float time, Vector center_pos, easing ease);
+  /** smoothly slide the scale and anchor position of the camera towards a new value */
+  void ease_scale(float scale, float time, AnchorPoint anchor, easing ease);
   /** @} */
 
 private:

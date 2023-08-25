@@ -834,11 +834,11 @@ static SQInteger Camera_set_scale_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Camera_set_scale_target_wrapper(HSQUIRRELVM vm)
+static SQInteger Camera_set_scale_anchor_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
   if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'set_scale_target' called without instance"));
+    sq_throwerror(vm, _SC("'set_scale_anchor' called without instance"));
     return SQ_ERROR;
   }
   scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
@@ -848,19 +848,14 @@ static SQInteger Camera_set_scale_target_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-  SQFloat arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg2;
-  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a float"));
+  SQInteger arg1;
+  if(SQ_FAILED(sq_getinteger(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not an integer"));
     return SQ_ERROR;
   }
 
   try {
-    _this->set_scale_target(arg0, arg1, arg2);
+    _this->set_scale_anchor(arg0, static_cast<int> (arg1));
 
     return 0;
 
@@ -868,7 +863,7 @@ static SQInteger Camera_set_scale_target_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
   } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_scale_target'"));
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_scale_anchor'"));
     return SQ_ERROR;
   }
 
@@ -909,11 +904,11 @@ static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Camera_scale_target_wrapper(HSQUIRRELVM vm)
+static SQInteger Camera_scale_anchor_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
   if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'scale_target' called without instance"));
+    sq_throwerror(vm, _SC("'scale_anchor' called without instance"));
     return SQ_ERROR;
   }
   scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
@@ -928,19 +923,14 @@ static SQInteger Camera_scale_target_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
   }
-  SQFloat arg2;
-  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg3;
-  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
-    sq_throwerror(vm, _SC("Argument 4 not a float"));
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
     return SQ_ERROR;
   }
 
   try {
-    _this->scale_target(arg0, arg1, arg2, arg3);
+    _this->scale_anchor(arg0, arg1, static_cast<int> (arg2));
 
     return 0;
 
@@ -948,7 +938,7 @@ static SQInteger Camera_scale_target_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
   } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'scale_target'"));
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'scale_anchor'"));
     return SQ_ERROR;
   }
 
@@ -994,11 +984,11 @@ static SQInteger Camera_ease_scale_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Camera_ease_scale_target_wrapper(HSQUIRRELVM vm)
+static SQInteger Camera_ease_scale_anchor_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
   if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'ease_scale_target' called without instance"));
+    sq_throwerror(vm, _SC("'ease_scale_anchor' called without instance"));
     return SQ_ERROR;
   }
   scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
@@ -1013,24 +1003,19 @@ static SQInteger Camera_ease_scale_target_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
   }
-  SQFloat arg2;
-  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a float"));
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
     return SQ_ERROR;
   }
-  SQFloat arg3;
-  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
-    sq_throwerror(vm, _SC("Argument 4 not a float"));
-    return SQ_ERROR;
-  }
-  const SQChar* arg4;
-  if(SQ_FAILED(sq_getstring(vm, 6, &arg4))) {
-    sq_throwerror(vm, _SC("Argument 5 not a string"));
+  const SQChar* arg3;
+  if(SQ_FAILED(sq_getstring(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a string"));
     return SQ_ERROR;
   }
 
   try {
-    _this->ease_scale_target(arg0, arg1, arg2, arg3, arg4);
+    _this->ease_scale_anchor(arg0, arg1, static_cast<int> (arg2), arg3);
 
     return 0;
 
@@ -1038,7 +1023,7 @@ static SQInteger Camera_ease_scale_target_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
   } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'ease_scale_target'"));
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'ease_scale_anchor'"));
     return SQ_ERROR;
   }
 
@@ -14307,11 +14292,11 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'set_scale'");
   }
 
-  sq_pushstring(v, "set_scale_target", -1);
-  sq_newclosure(v, &Camera_set_scale_target_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|n");
+  sq_pushstring(v, "set_scale_anchor", -1);
+  sq_newclosure(v, &Camera_set_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_scale_target'");
+    throw SquirrelError(v, "Couldn't register function 'set_scale_anchor'");
   }
 
   sq_pushstring(v, "scale", -1);
@@ -14321,11 +14306,11 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'scale'");
   }
 
-  sq_pushstring(v, "scale_target", -1);
-  sq_newclosure(v, &Camera_scale_target_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|nb|n");
+  sq_pushstring(v, "scale_anchor", -1);
+  sq_newclosure(v, &Camera_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'scale_target'");
+    throw SquirrelError(v, "Couldn't register function 'scale_anchor'");
   }
 
   sq_pushstring(v, "ease_scale", -1);
@@ -14335,11 +14320,11 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'ease_scale'");
   }
 
-  sq_pushstring(v, "ease_scale_target", -1);
-  sq_newclosure(v, &Camera_ease_scale_target_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|nb|ns");
+  sq_pushstring(v, "ease_scale_anchor", -1);
+  sq_newclosure(v, &Camera_ease_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|ns");
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'ease_scale_target'");
+    throw SquirrelError(v, "Couldn't register function 'ease_scale_anchor'");
   }
 
   sq_pushstring(v, "get_screen_width", -1);

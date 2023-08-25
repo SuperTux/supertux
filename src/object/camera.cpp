@@ -353,6 +353,9 @@ Camera::update(float dt_sec)
         update_scroll_normal(dt_sec);
       }
       break;
+    case Mode::MANUAL:
+      keep_in_bounds(m_translation);
+      break;
     case Mode::AUTOSCROLL:
       update_scroll_autoscroll(dt_sec);
       break;
@@ -866,6 +869,7 @@ Camera::update_scale(float dt_sec)
 
     // Move camera to the target translation, when zooming in manual mode.
     m_translation = m_scale_origin_translation + (m_scale_target_translation - m_scale_origin_translation) * progress;
+    keep_in_bounds(m_translation);
   }
   else
   {
@@ -880,15 +884,22 @@ Camera::ease_scale(float scale, float time, easing ease)
   if (m_mode == Mode::MANUAL)
     throw std::runtime_error("Scaling the camera in manual mode requires a target center position.");
 
-  ease_scale(scale, time, Vector(), ease);
+  ease_scale(scale, time, AnchorPoint::ANCHOR_TOP_LEFT, ease);
 }
 
 void
-Camera::ease_scale(float scale, float time, Vector center_pos, easing ease)
+Camera::ease_scale(float scale, float time, AnchorPoint anchor, easing ease)
 {
+  // Get target center position from the anchor, and afterwards, top-left position from the center position.
+  const Vector target_translation = get_anchor_center_pos(Rectf(m_translation,
+                                                                Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))),
+                                                          anchor) - Vector(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) / 2);
+
   if (time <= 0.f)
   {
     m_scale = scale;
+    if (m_mode == Mode::MANUAL)
+      m_translation = target_translation;
   }
   else
   {
@@ -896,12 +907,8 @@ Camera::ease_scale(float scale, float time, Vector center_pos, easing ease)
     m_scale_target = scale;
     m_scale_time_total = time;
     m_scale_time_remaining = time;
-    if (m_mode == Mode::MANUAL)
-    {
-      m_scale_origin_translation = m_translation;
-      // "center_pos" represents center position, convert to respective translation position.
-      m_scale_target_translation = center_pos - Vector(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) / 2);
-    }
+    m_scale_origin_translation = m_translation;
+    m_scale_target_translation = target_translation;
     m_scale_easing = ease;
   }
 }
