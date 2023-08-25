@@ -2083,12 +2083,10 @@ Player::draw(DrawingContext& context)
   */
 
   /* Draw Tux */
-  if (m_safe_timer.started() && size_t(g_game_time * 40) % 2 || (Editor::is_active() || !m_visible))
+  if ((Editor::is_active() || !m_visible) || (m_safe_timer.started() && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
-  else if (m_player_status.bonus[get_id()] == EARTH_BONUS)
-    m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
   else if (m_dying)
     m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer());
   else
