@@ -92,7 +92,6 @@ public:
   float get_target_scale();
   /**
    * Sets the scale factor.
-     NOTE: If the camera is in "manual" mode, it is required to provide a target position anchor. See the function below.
    * @param float $scale
    */
   void set_scale(float scale);
@@ -105,7 +104,6 @@ public:
   void set_scale_anchor(float scale, int anchor);
   /**
    * Fades to a specified scale factor in ""time"" seconds.
-     NOTE: If the camera is in "manual" mode, it is required to provide a target position anchor. See the function below.
    * @param float $scale
    * @param float $time
    */
@@ -120,7 +118,6 @@ public:
   void scale_anchor(float scale, float time, int anchor);
   /**
    * Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
-     NOTE: If the camera is in "manual" mode, it is required to provide a target position anchor. See the function below.
    * @param float $scale
    * @param float $time
    * @param string $ease

@@ -852,8 +852,6 @@ Camera::update_scroll_to(float dt_sec)
 void
 Camera::update_scale(float dt_sec)
 {
-  float progress = -1.f;
-
   if (m_scale_time_remaining > 0.f)
   {
     m_scale_time_remaining -= dt_sec;
@@ -864,47 +862,46 @@ Camera::update_scale(float dt_sec)
         m_translation = m_scale_target_translation;
 
       m_scale_time_remaining = 0.f;
+      m_scale_time_total = 0.f;
     }
     else
     {
       float time_progress = (m_scale_time_total - m_scale_time_remaining) / m_scale_time_total;
-      progress = static_cast<float>(m_scale_easing(static_cast<double>(time_progress)));
+      float progress = static_cast<float>(m_scale_easing(static_cast<double>(time_progress)));
 
       m_scale = m_scale_origin + (m_scale_target - m_scale_origin) * progress;
+
+      /** MANUAL mode scale management */
+      if (m_mode == Mode::MANUAL)
+      {
+        // Move camera to the target translation, when zooming in manual mode.
+        m_translation = m_scale_origin_translation + (m_scale_target_translation - m_scale_origin_translation) * progress;
+        keep_in_bounds(m_translation);
+        return;
+      }
     }
 
     // Re-center camera, when zooming in normal mode.
     m_lookahead_pos /= 1.01f;
   }
 
+  // In MANUAL mode, the translation is managed only when a scale is active.
+  // In SCROLLTO mode, the translation is managed in update_scroll_to().
+  if (m_mode == Mode::MANUAL || m_mode == Mode::SCROLLTO)
+    return;
+
   // FIXME: Poor design: This shouldn't pose a problem to multiplayer.
   if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
     return;
 
-  /** MANUAL mode scale management */
-  if (m_mode == Mode::MANUAL)
-  {
-    if (progress < 0.f)
-      return;
-
-    // Move camera to the target translation, when zooming in manual mode.
-    m_translation = m_scale_origin_translation + (m_scale_target_translation - m_scale_origin_translation) * progress;
-    keep_in_bounds(m_translation);
-  }
-  else if (m_mode != Mode::SCROLLTO) // In SCROLLTO mode, the translation is managed in update_scroll_to().
-  {
-    Vector screen_size = Sizef(m_screen_size).as_vector();
-    m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
-  }
+  Vector screen_size = Sizef(m_screen_size).as_vector();
+  m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
 }
 
 void
 Camera::ease_scale(float scale, float time, easing ease)
 {
-  if (m_mode == Mode::MANUAL)
-    throw std::runtime_error("Scaling the camera in \"manual\" mode requires a target center position.");
-
-  ease_scale(scale, time, AnchorPoint::ANCHOR_TOP_LEFT, ease);
+  ease_scale(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease);
 }
 
 void
