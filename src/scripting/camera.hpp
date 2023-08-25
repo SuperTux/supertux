@@ -92,27 +92,27 @@ public:
   float get_target_scale();
   /**
    * Sets the scale factor.
-     NOTE: If the camera is in "manual" mode, it is required to provide a target center position. See the function below.
+     NOTE: If the camera is in "manual" mode, it is required to provide a target position anchor. See the function below.
    * @param float $scale
    */
   void set_scale(float scale);
   /**
    * Sets the scale factor and the target position anchor.
-     NOTE: Target center position is only applied, if the camera is in "manual" mode.
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
    */
   void set_scale_anchor(float scale, int anchor);
   /**
    * Fades to a specified scale factor in ""time"" seconds.
-     NOTE: If the camera is in "manual" mode, it is required to provide a target center position. See the function below.
+     NOTE: If the camera is in "manual" mode, it is required to provide a target position anchor. See the function below.
    * @param float $scale
    * @param float $time
    */
   void scale(float scale, float time);
   /**
    * Fades to a specified scale factor and target position anchor in ""time"" seconds.
-     NOTE: Target center position is only applied, if the camera is in "manual" mode.
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param float $time
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
@@ -120,7 +120,7 @@ public:
   void scale_anchor(float scale, float time, int anchor);
   /**
    * Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
-     NOTE: If the camera is in "manual" mode, it is required to provide a target center position. See the function below.
+     NOTE: If the camera is in "manual" mode, it is required to provide a target position anchor. See the function below.
    * @param float $scale
    * @param float $time
    * @param string $ease
@@ -128,7 +128,7 @@ public:
   void ease_scale(float scale, float time, const std::string& ease);
   /**
    * Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
-     NOTE: Target center position is only applied, if the camera is in "manual" mode.
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
    * @param float $scale
    * @param float $time
    * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
