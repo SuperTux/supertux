@@ -216,10 +216,9 @@ Menu::add_floatfield(const std::string& text, float* input, int id, bool positiv
 }
 
 ItemAction&
-Menu::add_entry(int id, const std::string& text, FontPtr font)
+Menu::add_entry(int id, const std::string& text)
 {
   auto item = std::make_unique<ItemAction>(text, id);
-  item->set_font(font);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

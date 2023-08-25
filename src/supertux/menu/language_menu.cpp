@@ -21,6 +21,7 @@
 extern "C" {
 #include <findlocale.h>
 }
+#include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
@@ -47,15 +48,12 @@ LanguageMenu::LanguageMenu()
   auto languages = g_dictionary_manager->get_languages();
   for (auto& lang : languages)
   {
+    auto& item = add_entry(mnid++, lang.get_localized_name());
     if(Resources::needs_custom_font(lang))
     {
       auto font_path = Resources::get_font_for_locale(lang);
       auto font = std::make_shared<TTFFont>(font_path, 18, 1.25f, 2, 1);
-      add_entry(mnid++, lang.get_localized_name(), font);
-    }
-    else
-    {
-      add_entry(mnid++, lang.get_localized_name());
+      item.set_font(font);
     }
   }
 

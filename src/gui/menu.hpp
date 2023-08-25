@@ -79,7 +79,7 @@ public:
 
   ItemHorizontalLine& add_hl();
   ItemLabel& add_label(const std::string& text);
-  ItemAction& add_entry(int id, const std::string& text, FontPtr font = Resources::normal_font);
+  ItemAction& add_entry(int id, const std::string& text);
   ItemAction& add_entry(const std::string& text, const std::function<void()>& callback);
   ItemToggle& add_toggle(int id, const std::string& text, bool* toggled, bool center_text = false);
   ItemToggle& add_toggle(int id, const std::string& text,
