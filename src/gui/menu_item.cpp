@@ -54,7 +54,7 @@ MenuItem::draw(DrawingContext& context, const Vector& pos, int menu_width, bool 
 {
   context.color().draw_text(m_font, m_text,
                             Vector( pos.x + static_cast<float>(menu_width) / 2.0f,
-                                    pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.0f ),
+                                    pos.y - static_cast<float>(m_font->get_height()) / 2.0f ),
                             ALIGN_CENTER, LAYER_GUI, active ? g_config->activetextcolor : get_color());
 }
 
