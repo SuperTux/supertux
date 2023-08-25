@@ -3,8 +3,7 @@
 shopt -s nullglob
 
 if ([ "$OS_NAME" = "macos-10.15" ] || [ "$OS_NAME" = "macos-11" ]) && [ "$PACKAGE" = "ON" ]; then
-    sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
-    locate "libglib-2.0.0.dylib"
+    sudo find / -name "libglib-2.0.0.dylib"
     sudo chmod -R +w /usr/local/Cellar
     cpack -G Bundle;
 fi
