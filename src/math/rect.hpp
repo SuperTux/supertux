@@ -98,6 +98,11 @@ public:
             top <= other.top && other.bottom <= bottom);
   }
 
+  int get_left() const { return left; }
+  int get_right() const { return right; }
+  int get_top() const { return top; }
+  int get_bottom() const { return bottom; }
+
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
   Size get_size() const { return Size(right - left, bottom - top); }
