@@ -899,13 +899,7 @@ Camera::update_scale(float dt_sec)
 }
 
 void
-Camera::ease_scale(float scale, float time, easing ease)
-{
-  ease_scale(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease);
-}
-
-void
-Camera::ease_scale(float scale, float time, AnchorPoint anchor, easing ease)
+Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
 {
   // Get target center position from the anchor, and afterwards, top-left position from the center position.
   const Vector target_translation = get_anchor_center_pos(Rectf(m_translation,

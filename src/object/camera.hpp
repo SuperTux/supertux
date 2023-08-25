@@ -116,11 +116,8 @@ public:
   /** get the scale towards which the camera is moving */
   float get_target_scale() const { return m_scale_target; }
 
-  /** smoothly slide the scale of the camera towards a new value */
-  void ease_scale(float scale, float time, easing ease);
-
   /** smoothly slide the scale and anchor position of the camera towards a new value */
-  void ease_scale(float scale, float time, AnchorPoint anchor, easing ease);
+  void ease_scale(float scale, float time, easing ease, AnchorPoint anchor = AnchorPoint::ANCHOR_MIDDLE);
   /** @} */
 
 private:

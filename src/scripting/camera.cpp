@@ -121,9 +121,7 @@ Camera::scale_anchor(float scale, float time, int anchor)
 void
 Camera::ease_scale(float scale, float time, const std::string& ease)
 {
-  SCRIPT_GUARD_VOID;
-  BIND_SECTOR(::Sector::get());
-  object.ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)));
+  ease_scale_anchor(scale, time, AnchorPoint::ANCHOR_MIDDLE, ease);
 }
 
 void
@@ -131,7 +129,7 @@ Camera::ease_scale_anchor(float scale, float time, int anchor, const std::string
 {
   SCRIPT_GUARD_VOID;
   BIND_SECTOR(::Sector::get());
-  object.ease_scale(scale, time, static_cast<AnchorPoint>(anchor), getEasingByName(EasingMode_from_string(ease)));
+  object.ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), static_cast<AnchorPoint>(anchor));
 }
 
 int
