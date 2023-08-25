@@ -834,9 +834,15 @@ void
 Camera::update_scroll_to(float dt_sec)
 {
   m_scroll_to_pos += dt_sec * m_scrollspeed;
-  if (m_scroll_to_pos >= 1.0f) {
+  if (m_scroll_to_pos >= 1.0f)
+  {
     m_mode = Mode::MANUAL;
     m_translation = m_scroll_goal;
+
+    // In case a scale is active, set the initial scale values from the scroll destination.
+    m_scale_origin = m_scale;
+    m_scale_origin_translation = m_translation;
+    m_scale_time_remaining = m_scale_time_total;
     return;
   }
 
@@ -858,7 +864,6 @@ Camera::update_scale(float dt_sec)
         m_translation = m_scale_target_translation;
 
       m_scale_time_remaining = 0.f;
-      m_scale_target_translation = Vector();
     }
     else
     {
@@ -886,7 +891,7 @@ Camera::update_scale(float dt_sec)
     m_translation = m_scale_origin_translation + (m_scale_target_translation - m_scale_origin_translation) * progress;
     keep_in_bounds(m_translation);
   }
-  else
+  else if (m_mode != Mode::SCROLLTO) // In SCROLLTO mode, the translation is managed in update_scroll_to().
   {
     Vector screen_size = Sizef(m_screen_size).as_vector();
     m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
