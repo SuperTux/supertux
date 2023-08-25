@@ -30,6 +30,7 @@
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
+FontPtr Resources::default_font;
 FontPtr Resources::console_font;
 FontPtr Resources::fixed_font;
 FontPtr Resources::normal_font;
@@ -53,6 +54,7 @@ Resources::load()
   mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
   MouseCursor::set_current(mouse_cursor.get());
 
+  default_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
   if (g_debug.get_use_bitmap_fonts())
   {
     console_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/andale12.stf", 1));

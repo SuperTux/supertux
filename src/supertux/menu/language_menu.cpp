@@ -49,12 +49,13 @@ LanguageMenu::LanguageMenu()
   for (auto& lang : languages)
   {
     auto& item = add_entry(mnid++, lang.get_localized_name());
+    auto font = Resources::default_font;
     if(Resources::needs_custom_font(lang))
     {
       auto font_path = Resources::get_font_for_locale(lang);
-      auto font = std::make_shared<TTFFont>(font_path, 18, 1.25f, 2, 1);
-      item.set_font(font);
+      font = std::make_shared<TTFFont>(font_path, 18, 1.25f, 2, 1);
     }
+    item.set_font(font);
   }
 
   add_hl();

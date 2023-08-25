@@ -32,6 +32,9 @@ class Resources final
 public:
   static std::unique_ptr<MouseCursor> mouse_cursor;
 
+  /** Font that can display English glyphs */
+  static FontPtr default_font;
+
   /** Font used in the console */
   static FontPtr console_font;
 
