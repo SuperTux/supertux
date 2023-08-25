@@ -42,9 +42,16 @@ RCrystallo::RCrystallo(const Vector& pos, const Vector& start_pos, float vel_x, 
   m_state(RCRYSTALLO_ROOF),
   m_radius(radius)
 {
-  if (fall) m_state = RCRYSTALLO_DETECT;
+  if (fall)
+  {
+    m_state = RCRYSTALLO_DETECT;
+    m_physic.set_gravity_modifier(0.f);
+  }
+  else
+  {
+    m_physic.set_gravity_modifier(-1.f);
+  }
   m_physic.set_velocity_x(vel_x);
-  m_physic.set_gravity_modifier(-1.f);
   m_sprite = std::move(sprite);
   m_dead_script = script;
   m_start_position = start_pos;

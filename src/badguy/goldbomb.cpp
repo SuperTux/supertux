@@ -47,12 +47,11 @@ void
 GoldBomb::collision_solid(const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING) {
-    if (hit.bottom) {
+    if (hit.bottom)
       m_physic.set_velocity(0, 0);
-    }else if (hit.left || hit.right)
-      m_physic.set_velocity_x(-m_physic.get_velocity_x());
-    else if (hit.top)
-      m_physic.set_velocity_y(0);
+    else
+      kill_fall();
+
     update_on_ground_flag(hit);
     return;
   }
@@ -62,16 +61,17 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 HitResponse
 GoldBomb::collision(GameObject& object, const CollisionHit& hit)
 {
-  if (tstate == STATE_TICKING) {
-    if ( dynamic_cast<Player*>(&object) ) {
-      return ABORT_MOVE;
-    }
-    if ( dynamic_cast<BadGuy*>(&object)) {
-      return ABORT_MOVE;
-    }
+  if (tstate == STATE_TICKING)
+  {
+    auto player = dynamic_cast<Player*>(&object);
+    if (player) return collision_player(*player, hit);
+    auto badguy = dynamic_cast<BadGuy*>(&object);
+    if (badguy) return collision_badguy(*badguy, hit);
   }
+
   if (is_grabbed())
     return FORCE_MOVE;
+
   return WalkingBadguy::collision(object, hit);
 }
 
@@ -79,7 +79,11 @@ HitResponse
 GoldBomb::collision_player(Player& player, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING)
-    return FORCE_MOVE;
+  {
+    if (m_physic.get_velocity() != Vector())
+      kill_fall();
+    return ABORT_MOVE;
+  }
   if (is_grabbed())
     return FORCE_MOVE;
   return BadGuy::collision_player(player, hit);
@@ -89,7 +93,11 @@ HitResponse
 GoldBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   if (tstate == STATE_TICKING)
-    return FORCE_MOVE;
+  {
+    if (m_physic.get_velocity() != Vector())
+      kill_fall();
+    return ABORT_MOVE;
+  }
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
@@ -183,7 +191,7 @@ GoldBomb::kill_fall()
         EXPLOSION_STRENGTH_DEFAULT);
       run_dead_script();
     }
-      Sector::get().add<CoinExplode>(get_pos() + Vector(0, -40), !m_parent_dispenser);
+      Sector::get().add<CoinExplode>(get_pos(), !m_parent_dispenser);
   }
 }
 
