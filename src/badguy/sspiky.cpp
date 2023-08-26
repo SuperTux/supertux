@@ -112,4 +112,12 @@ SSpiky::is_flammable() const
   return state != SSPIKY_SLEEPING;
 }
 
+void
+SSpiky::after_editor_set()
+{
+  WalkingBadguy::after_editor_set();
+  if (m_start_dir == Direction::AUTO)
+    set_action("sleeping-left");
+}
+
 /* EOF */
