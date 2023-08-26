@@ -324,8 +324,8 @@ Camera::start_earthquake(float strength, float delay)
   }
   if (delay <= 0.f)
   {
-    log_warning << "Invalid earthquake delay value provided. Setting to 0.1." << std::endl;
-    delay = 0.1f;
+    log_warning << "Invalid earthquake delay value provided. Setting to 0.05." << std::endl;
+    delay = 0.05f;
   }
 
   m_earthquake = true;
@@ -337,6 +337,7 @@ void
 Camera::stop_earthquake()
 {
   m_translation.y -= m_earthquake_last_offset;
+  m_cached_translation.y -= m_earthquake_last_offset;
 
   m_earthquake = false;
   m_earthquake_last_offset = 0.f;
@@ -424,9 +425,15 @@ Camera::keep_in_bounds(Vector& translation_)
   float width = d_sector->get_width();
   float height = d_sector->get_height();
 
+  // Remove any earthquake offset from the translation.
+  translation_.y -= m_earthquake_last_offset;
+
   // Don't scroll before the start or after the level's end.
   translation_.x = math::clamp(translation_.x, 0.0f, width - static_cast<float>(m_screen_size.width));
   translation_.y = math::clamp(translation_.y, 0.0f, height - static_cast<float>(m_screen_size.height));
+
+  // Add any earthquake offset we may have removed earlier.
+  translation_.y += m_earthquake_last_offset;
 
   if (height < static_cast<float>(m_screen_size.height))
     translation_.y = height / 2.0f - static_cast<float>(m_screen_size.height) / 2.0f;
@@ -465,10 +472,12 @@ Camera::update_earthquake()
     {
       m_earthquake_last_offset = m_earthquake_strength * graphicsRandom.randf(-2, 2);
       m_translation.y += m_earthquake_last_offset;
+      m_cached_translation.y += m_earthquake_last_offset;
     }
     else
     {
       m_translation.y -= m_earthquake_last_offset;
+      m_cached_translation.y -= m_earthquake_last_offset;
       m_earthquake_last_offset = 0.f;
     }
 
