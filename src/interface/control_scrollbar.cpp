@@ -132,18 +132,16 @@ Rectf
 ControlScrollbar::get_bar_rect()
 {
   return Rectf(m_rect.get_left(),
-               m_rect.get_top() + int(float(m_progress)
-                                    * float(m_covered_region)
-                                    / float(m_total_region)
-                                  ),
+               m_rect.get_top() + static_cast<float>(m_progress)
+                                * static_cast<float>(m_covered_region)
+                                / static_cast<float>(m_total_region),
                m_rect.get_right(),
-               m_rect.get_top() + int(float(m_progress)
-                                   * float(m_covered_region)
-                                    / float(m_total_region))
-                          + int(m_rect.get_height()
-                              * float(m_covered_region)
-                              / float(m_total_region)
-                            )
+               m_rect.get_top() + static_cast<float>(m_progress)
+                                * static_cast<float>(m_covered_region)
+                                / static_cast<float>(m_total_region)
+                          + m_rect.get_height()
+                          * static_cast<float>(m_covered_region)
+                          / static_cast<float>(m_total_region)
              );
 }
 
