@@ -1860,6 +1860,9 @@ Player::get_action() const
 void
 Player::draw(DrawingContext& context)
 {
+  if(Editor::is_active())
+    return;
+
   if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
   {
     auto* target = Sector::get().get_object_by_uid<Player>(*m_target);
@@ -2083,7 +2086,7 @@ Player::draw(DrawingContext& context)
   */
 
   /* Draw Tux */
-  if ((Editor::is_active() || !m_visible) || (m_safe_timer.started() && size_t(g_game_time * 40) % 2))
+  if (!m_visible || (m_safe_timer.started() && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
