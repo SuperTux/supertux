@@ -1353,8 +1353,8 @@ EditorOverlayWidget::draw_tile_grid(DrawingContext& context, int tile_size,
   int tm_height = current_tm->get_height() * (32 / tile_size);
   auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
-                          Vector(static_cast<float>(context.get_width() - 128),
-                                 static_cast<float>(context.get_height() - 32)));
+                          Vector(context.get_width() - 128.f,
+                                 context.get_height() - 32.f));
   Vector start = sp_to_tp( Vector(draw_rect.get_left(), draw_rect.get_top()), tile_size );
   Vector end = sp_to_tp( Vector(draw_rect.get_right(), draw_rect.get_bottom()), tile_size );
   start.x = std::max(0.0f, start.x);

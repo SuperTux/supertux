@@ -271,7 +271,7 @@ Camera::after_editor_set()
 const Vector
 Camera::get_translation() const
 {
-  Vector screen_size = Sizef(m_screen_size).as_vector();
+  Vector screen_size = m_screen_size.as_vector();
   return m_translation + ((screen_size * (get_current_scale() - 1.f)) / 2.f);
 }
 
@@ -284,8 +284,8 @@ Camera::get_rect() const
 void
 Camera::reset(const Vector& tuxpos)
 {
-  m_translation.x = tuxpos.x - static_cast<float>(m_screen_size.width) / 2.0f;
-  m_translation.y = tuxpos.y - static_cast<float>(m_screen_size.height) / 2.0f;
+  m_translation.x = tuxpos.x - m_screen_size.width / 2.0f;
+  m_translation.y = tuxpos.y - m_screen_size.height / 2.0f;
 
   m_shakespeed = 0;
   m_shaketimer.stop();
@@ -328,8 +328,8 @@ static const float CAMERA_EPSILON = .00001f;
 void
 Camera::draw(DrawingContext& context)
 {
-  m_screen_size = Size(context.get_width(),
-                       context.get_height());
+  m_screen_size = Sizef(context.get_width(),
+                        context.get_height());
 }
 
 void
@@ -384,13 +384,13 @@ Camera::keep_in_bounds(Vector& translation_)
   float height = d_sector->get_height();
 
   // Don't scroll before the start or after the level's end.
-  translation_.x = math::clamp(translation_.x, 0.0f, width - static_cast<float>(m_screen_size.width));
-  translation_.y = math::clamp(translation_.y, 0.0f, height - static_cast<float>(m_screen_size.height));
+  translation_.x = math::clamp(translation_.x, 0.0f, width - m_screen_size.width);
+  translation_.y = math::clamp(translation_.y, 0.0f, height - m_screen_size.height);
 
-  if (height < static_cast<float>(m_screen_size.height))
-    translation_.y = height / 2.0f - static_cast<float>(m_screen_size.height) / 2.0f;
-  if (width < static_cast<float>(m_screen_size.width))
-    translation_.x = width / 2.0f - static_cast<float>(m_screen_size.width) / 2.0f;
+  if (height < m_screen_size.height)
+    translation_.y = height / 2.0f - m_screen_size.height / 2.0f;
+  if (width < m_screen_size.width)
+    translation_.x = width / 2.0f - m_screen_size.width / 2.0f;
 }
 
 void
@@ -435,7 +435,7 @@ Camera::update_scroll_normal(float dt_sec)
     ymode = 0;
   }
   if (ymode == 1) {
-    m_cached_translation.y = player_pos.y - static_cast<float>(m_screen_size.height) * config_.target_y;
+    m_cached_translation.y = player_pos.y - m_screen_size.height * config_.target_y;
   }
   if (ymode == 2) {
     // target_y is the height we target our scrolling at. This is not always the
@@ -447,7 +447,7 @@ Camera::update_scroll_normal(float dt_sec)
       target_y = player.m_last_ground_y + player.get_bbox().get_height();
     else
       target_y = player.get_bbox().get_bottom();
-    target_y -= static_cast<float>(static_cast<float>(m_screen_size.height)) * config_.target_y;
+    target_y -= static_cast<float>(m_screen_size.height) * config_.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y.
     float delta_y = m_cached_translation.y - target_y;
@@ -466,12 +466,12 @@ Camera::update_scroll_normal(float dt_sec)
   if (ymode == 3) {
     float halfsize = config_.kirby_rectsize_y * 0.5f;
     m_cached_translation.y = math::clamp(m_cached_translation.y,
-                                 player_pos.y - static_cast<float>(m_screen_size.height) * (0.5f + halfsize),
-                                 player_pos.y - static_cast<float>(m_screen_size.height) * (0.5f - halfsize));
+                                 player_pos.y - m_screen_size.height * (0.5f + halfsize),
+                                 player_pos.y - m_screen_size.height * (0.5f - halfsize));
   }
   if (ymode == 4) {
-    float upperend = static_cast<float>(m_screen_size.height) * config_.edge_x;
-    float lowerend = static_cast<float>(m_screen_size.height) * (1 - config_.edge_x);
+    float upperend = m_screen_size.height * config_.edge_x;
+    float lowerend = m_screen_size.height * (1 - config_.edge_x);
 
     if (player_delta.y < -CAMERA_EPSILON) {
       // Walking left.
@@ -505,10 +505,10 @@ Camera::update_scroll_normal(float dt_sec)
     float top_edge, bottom_edge;
     if (config_.clamp_y <= 0) {
       top_edge = 0;
-      bottom_edge = static_cast<float>(m_screen_size.height);
+      bottom_edge = m_screen_size.height;
     } else {
-      top_edge = static_cast<float>(m_screen_size.height) * config_.clamp_y;
-      bottom_edge = static_cast<float>(m_screen_size.height) * (1.0f - config_.clamp_y);
+      top_edge = m_screen_size.height * config_.clamp_y;
+      bottom_edge = m_screen_size.height * (1.0f - config_.clamp_y);
     }
 
     float peek_to = 0;
@@ -531,11 +531,11 @@ Camera::update_scroll_normal(float dt_sec)
 
     if (config_.clamp_y > 0.0f) {
       m_translation.y = math::clamp(m_translation.y,
-                            player_pos.y - static_cast<float>(m_screen_size.height) * (1.0f - config_.clamp_y),
-                            player_pos.y - static_cast<float>(m_screen_size.height) * config_.clamp_y);
+                            player_pos.y - m_screen_size.height * (1.0f - config_.clamp_y),
+                            player_pos.y - m_screen_size.height * config_.clamp_y);
       m_cached_translation.y = math::clamp(m_cached_translation.y,
-                                   player_pos.y - static_cast<float>(m_screen_size.height) * (1.0f - config_.clamp_y),
-                                   player_pos.y - static_cast<float>(m_screen_size.height) * config_.clamp_y);
+                                   player_pos.y - m_screen_size.height * (1.0f - config_.clamp_y),
+                                   player_pos.y - m_screen_size.height * config_.clamp_y);
     }
   }
 
@@ -546,7 +546,7 @@ Camera::update_scroll_normal(float dt_sec)
     xmode = 0;
 
   if (xmode == 1) {
-    m_cached_translation.x = player_pos.x - static_cast<float>(m_screen_size.width) * config_.target_x;
+    m_cached_translation.x = player_pos.x - m_screen_size.width * config_.target_x;
   }
   if (xmode == 2) {
     // Our camera is either in leftscrolling, rightscrolling or
@@ -565,10 +565,10 @@ Camera::update_scroll_normal(float dt_sec)
 
     float LEFTEND, RIGHTEND;
     if (config_.sensitive_x > 0) {
-      LEFTEND = static_cast<float>(m_screen_size.width) * config_.sensitive_x;
-      RIGHTEND = static_cast<float>(m_screen_size.width) * (1-config_.sensitive_x);
+      LEFTEND = m_screen_size.width * config_.sensitive_x;
+      RIGHTEND = m_screen_size.width * (1-config_.sensitive_x);
     } else {
-      LEFTEND = static_cast<float>(m_screen_size.width);
+      LEFTEND = m_screen_size.width;
       RIGHTEND = 0.0f;
     }
 
@@ -581,9 +581,9 @@ Camera::update_scroll_normal(float dt_sec)
         m_lookahead_mode = LookaheadMode::RIGHT;
       }
       /* at the ends of a level it's obvious which way we will go */
-      if (player_pos.x < static_cast<float>(m_screen_size.width) * 0.5f) {
+      if (player_pos.x < m_screen_size.width * 0.5f) {
         m_lookahead_mode = LookaheadMode::RIGHT;
-      } else if (player_pos.x >= d_sector->get_width() - static_cast<float>(m_screen_size.width) * 0.5f) {
+      } else if (player_pos.x >= d_sector->get_width() - m_screen_size.width * 0.5f) {
         m_lookahead_mode = LookaheadMode::LEFT;
       }
 
@@ -609,8 +609,8 @@ Camera::update_scroll_normal(float dt_sec)
       m_changetime = -1;
     }
 
-    LEFTEND = static_cast<float>(m_screen_size.width) * config_.edge_x;
-    RIGHTEND = static_cast<float>(m_screen_size.width) * (1-config_.edge_x);
+    LEFTEND = m_screen_size.width * config_.edge_x;
+    RIGHTEND = m_screen_size.width * (1-config_.edge_x);
 
     // Calculate our scroll target depending on scroll mode.
     float target_x;
@@ -637,12 +637,12 @@ Camera::update_scroll_normal(float dt_sec)
   if (xmode == 3) {
     float halfsize = config_.kirby_rectsize_x * 0.5f;
     m_cached_translation.x = math::clamp(m_cached_translation.x,
-                                 player_pos.x - static_cast<float>(m_screen_size.width) * (0.5f + halfsize),
-                                 player_pos.x - static_cast<float>(m_screen_size.width) * (0.5f - halfsize));
+                                 player_pos.x - m_screen_size.width * (0.5f + halfsize),
+                                 player_pos.x - m_screen_size.width * (0.5f - halfsize));
   }
   if (xmode == 4) {
-    float LEFTEND = static_cast<float>(m_screen_size.width) * config_.edge_x;
-    float RIGHTEND = static_cast<float>(m_screen_size.width) * (1 - config_.edge_x);
+    float LEFTEND = m_screen_size.width * config_.edge_x;
+    float RIGHTEND = m_screen_size.width * (1 - config_.edge_x);
 
     if (player_delta.x < -CAMERA_EPSILON) {
       // Walking left.
@@ -683,10 +683,10 @@ Camera::update_scroll_normal(float dt_sec)
     float left_edge, right_edge;
     if (config_.clamp_x <= 0) {
       left_edge = 0;
-      right_edge = static_cast<float>(m_screen_size.width);
+      right_edge = m_screen_size.width;
     } else {
-      left_edge = static_cast<float>(m_screen_size.width) * config_.clamp_x;
-      right_edge = static_cast<float>(m_screen_size.width) * (1.0f - config_.clamp_x);
+      left_edge = m_screen_size.width * config_.clamp_x;
+      right_edge = m_screen_size.width * (1.0f - config_.clamp_x);
     }
 
     float peek_to = 0;
@@ -709,12 +709,12 @@ Camera::update_scroll_normal(float dt_sec)
 
     if (config_.clamp_x > 0.0f) {
       m_translation.x = math::clamp(m_translation.x,
-                            player_pos.x - static_cast<float>(m_screen_size.width) * (1-config_.clamp_x),
-                            player_pos.x - static_cast<float>(m_screen_size.width) * config_.clamp_x);
+                            player_pos.x - m_screen_size.width * (1-config_.clamp_x),
+                            player_pos.x - m_screen_size.width * config_.clamp_x);
 
       m_cached_translation.x = math::clamp(m_cached_translation.x,
-                                   player_pos.x - static_cast<float>(m_screen_size.width) * (1-config_.clamp_x),
-                                   player_pos.x - static_cast<float>(m_screen_size.width) * config_.clamp_x);
+                                   player_pos.x - m_screen_size.width * (1-config_.clamp_x),
+                                   player_pos.x - m_screen_size.width * config_.clamp_x);
     }
   }
 
@@ -851,7 +851,7 @@ Camera::update_scale(float dt_sec)
   if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
     return;
 
-  Vector screen_size = Sizef(m_screen_size).as_vector();
+  Vector screen_size = m_screen_size.as_vector();
   m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
 }
 
@@ -872,8 +872,8 @@ Camera::ease_scale(float scale, float time, easing ease)
 Vector
 Camera::get_center() const
 {
-  return m_translation + Vector(static_cast<float>(m_screen_size.width) / 2.0f,
-                              static_cast<float>(m_screen_size.height) / 2.0f);
+  return m_translation + Vector(m_screen_size.width / 2.0f,
+                                m_screen_size.height / 2.0f);
 }
 
 const Vector&
@@ -882,7 +882,7 @@ Camera::get_position() const
   return m_translation;
 }
 
-const Size&
+const Sizef&
 Camera::get_screen_size() const
 {
   return m_screen_size;

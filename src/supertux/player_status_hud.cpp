@@ -78,14 +78,14 @@ PlayerStatusHUD::draw(DrawingContext& context)
     if (coin_surface)
     {
       context.color().draw_surface(coin_surface,
-                                  Vector(static_cast<float>(context.get_width()) - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
+                                  Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
                                           BORDER_Y + 1.0f),
                                   LAYER_HUD);
     }
 
     context.color().draw_text(Resources::fixed_font,
                               coins_text,
-                              Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                              Vector(context.get_width() - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
                                     BORDER_Y),
                               ALIGN_LEFT,
                               LAYER_HUD,
@@ -101,7 +101,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
       if (fire_surface) {
         context.color().draw_surface(fire_surface,
-                                    Vector(static_cast<float>(context.get_width())
+                                    Vector(context.get_width()
                                                 - BORDER_X
                                                 - static_cast<float>(fire_surface->get_width())
                                                 - Resources::fixed_font->get_text_width(ammo_text),
@@ -115,7 +115,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
       context.color().draw_text(Resources::fixed_font,
                                 ammo_text,
-                                Vector(static_cast<float>(context.get_width())
+                                Vector(context.get_width()
                                           - BORDER_X
                                           - Resources::fixed_font->get_text_width(ammo_text),
                                       BORDER_Y
@@ -133,7 +133,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
       if (ice_surface) {
         context.color().draw_surface(ice_surface,
-                                    Vector(static_cast<float>(context.get_width())
+                                    Vector(context.get_width()
                                                 - BORDER_X
                                                 - static_cast<float>(ice_surface->get_width())
                                                 - Resources::fixed_font->get_text_width(ammo_text),
@@ -147,7 +147,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
       context.color().draw_text(Resources::fixed_font,
                                 ammo_text,
-                                Vector(static_cast<float>(context.get_width())
+                                Vector(context.get_width()
                                           - BORDER_X
                                           - Resources::fixed_font->get_text_width(ammo_text),
                                       BORDER_Y

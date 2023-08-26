@@ -31,7 +31,6 @@ ControlScrollbar::ControlScrollbar() :
   m_covered_region(),
   m_progress(),
   m_rect(),
-  m_scaled_rect(),
   //is_horizontal(),
   last_mouse_pos()
   //zoom_factor()
@@ -43,7 +42,7 @@ ControlScrollbar::ControlScrollbar() :
 void
 ControlScrollbar::draw(DrawingContext& context)
 {
-  m_rect = Rect(0, 0, 10, context.get_height());
+  m_rect = Rectf(0, 0, 10, context.get_height());
 
   context.color().draw_filled_rect(m_rect, Color(0.5f, 0.5f, 0.5f, 1.f), 8, LAYER_GUI);
   context.color().draw_filled_rect(get_bar_rect(),
@@ -86,7 +85,7 @@ ControlScrollbar::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   if (button.button == SDL_BUTTON_LEFT) {
     Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-    if (get_bar_rect().contains(int(mouse_pos.x), int(mouse_pos.y))) {
+    if (get_bar_rect().contains(mouse_pos)) {
       m_scrolling = true;
       return true;
     } else {
@@ -112,7 +111,7 @@ ControlScrollbar::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     }
   }*/
 
-  m_hovering = get_bar_rect().contains(int(mouse_pos.x), int(mouse_pos.y));
+  m_hovering = get_bar_rect().contains(mouse_pos);
 
   int new_progress = m_progress + int((mouse_pos.y - last_mouse_pos) * VideoSystem::current()->get_viewport().get_scale().y * float(m_total_region) / float(m_covered_region));
   last_mouse_pos = mouse_pos.y;
@@ -129,22 +128,22 @@ ControlScrollbar::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   }
 }
 
-Rect
+Rectf
 ControlScrollbar::get_bar_rect()
 {
-  return Rect(m_rect.left,
-              m_rect.top + int(float(m_progress)
-                             * float(m_covered_region)
-                             / float(m_total_region)
-                           ),
-              m_rect.right,
-              m_rect.top + int(float(m_progress)
-                             * float(m_covered_region)
-                             / float(m_total_region))
-                         + int(float(m_rect.get_height())
-                             * float(m_covered_region)
-                             / float(m_total_region)
-                           )
+  return Rectf(m_rect.get_left(),
+               m_rect.get_top() + int(float(m_progress)
+                                    * float(m_covered_region)
+                                    / float(m_total_region)
+                                  ),
+               m_rect.get_right(),
+               m_rect.get_top() + int(float(m_progress)
+                                   * float(m_covered_region)
+                                    / float(m_total_region))
+                          + int(m_rect.get_height()
+                              * float(m_covered_region)
+                              / float(m_total_region)
+                            )
              );
 }
 

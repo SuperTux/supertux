@@ -105,7 +105,7 @@ public:
   const Vector& get_position() const;
 
   /** get the width and height of the screen*/
-  const Size& get_screen_size() const;
+  const Sizef& get_screen_size() const;
 
   void set_mode(Mode mode_) { m_mode = mode_; }
 
@@ -132,7 +132,7 @@ private:
   Mode m_mode;
   Mode m_defaultmode;
 
-  Size m_screen_size;
+  Sizef m_screen_size;
 
   Vector m_translation;
 

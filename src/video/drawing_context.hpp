@@ -99,8 +99,8 @@ public:
 
   const Rect get_viewport() const;
 
-  int get_width() const;
-  int get_height() const;
+  float get_width() const;
+  float get_height() const;
   Vector get_size() const;
   Rectf get_rect() const { return Rectf(Vector(0, 0), get_size()); }
 
