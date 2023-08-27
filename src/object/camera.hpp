@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -126,7 +127,12 @@ private:
   void update_scroll_autoscroll(float dt_sec);
   void update_scroll_to(float dt_sec);
   void update_scale(float dt_sec);
+
+  Vector get_scale_anchor_target() const;
+  void reload_scale();
+
   void keep_in_bounds(Vector& vector);
+
   void shake();
 
 private:
@@ -166,6 +172,7 @@ private:
   Vector m_scale_origin_translation,
          m_scale_target_translation;
   easing m_scale_easing;
+  AnchorPoint m_scale_anchor;
 
   // Minimum scale is used in certain circumstances where a fixed minimum scale
   // should be used, regardless of the scriping-accessible `m_scale` property.

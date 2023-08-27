@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -159,6 +160,7 @@ Camera::Camera(const std::string& name) :
   m_scale_origin_translation(),
   m_scale_target_translation(),
   m_scale_easing(),
+  m_scale_anchor(),
   m_minimum_scale(1.f),
   m_enfore_minimum_scale(false)
 {
@@ -194,6 +196,7 @@ Camera::Camera(const ReaderMapping& reader) :
   m_scale_origin_translation(),
   m_scale_target_translation(),
   m_scale_easing(),
+  m_scale_anchor(),
   m_minimum_scale(1.f),
   m_enfore_minimum_scale(false)
 {
@@ -839,10 +842,19 @@ Camera::update_scroll_to(float dt_sec)
     m_mode = Mode::MANUAL;
     m_translation = m_scroll_goal;
 
-    // In case a scale is active, set the initial scale values from the scroll destination.
-    m_scale_origin = m_scale;
-    m_scale_origin_translation = m_translation;
-    m_scale_time_remaining = m_scale_time_total;
+    // If a scale is active and wouldn't finish this frame, reload it with the remaining time,
+    // setting the initial scale values from the scroll destination.
+    if (m_scale_time_remaining - dt_sec > 0.f)
+    {
+      m_scale_time_total -= m_scale_time_total - m_scale_time_remaining;
+      reload_scale();
+    }
+    else
+    {
+      // In case a scale finishes this frame, set its target translation to the scroll destination.
+      m_scale_target_translation = m_translation;
+    }
+
     return;
   }
 
@@ -898,29 +910,44 @@ Camera::update_scale(float dt_sec)
   m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
 }
 
+/** Get target scale position from the anchor point (m_scale_anchor). */
+Vector
+Camera::get_scale_anchor_target() const
+{
+  // Get target center position from the anchor, and afterwards, top-left position from the center position.
+  return get_anchor_center_pos(Rectf(m_translation,
+                                     Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))),
+                               m_scale_anchor) - Vector(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) / 2);
+}
+
+/** Reload easing scale from the current position. */
+void
+Camera::reload_scale()
+{
+  m_scale_origin = m_scale;
+  m_scale_origin_translation = m_translation;
+  m_scale_target_translation = get_scale_anchor_target();
+  m_scale_time_remaining = m_scale_time_total;
+}
+
 void
 Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
 {
-  // Get target center position from the anchor, and afterwards, top-left position from the center position.
-  const Vector target_translation = get_anchor_center_pos(Rectf(m_translation,
-                                                                Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))),
-                                                          anchor) - Vector(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) / 2);
+  m_scale_anchor = anchor;
 
   if (time <= 0.f)
   {
     m_scale = scale;
     if (m_mode == Mode::MANUAL)
-      m_translation = target_translation;
+      m_translation = get_scale_anchor_target();
   }
   else
   {
-    m_scale_origin = m_scale;
     m_scale_target = scale;
     m_scale_time_total = time;
-    m_scale_time_remaining = time;
-    m_scale_origin_translation = m_translation;
-    m_scale_target_translation = target_translation;
     m_scale_easing = ease;
+
+    reload_scale();
   }
 }
 
