@@ -110,7 +110,7 @@ MrIceBlock::active_update(float dt_sec)
     {
       const float& vel_x = m_physic.get_velocity_x();
 
-      // Gradually slow down, when frozen in FLAT state, if any horizontal velocity is persistent.
+      // Gradually slow down, when frozen in FLAT state, if any horizontal velocity is present.
       if ((m_dir == Direction::LEFT && vel_x < 0.f) || (m_dir == Direction::RIGHT && vel_x > 0.f))
         m_physic.set_velocity_x(vel_x * 0.95f);
       else
