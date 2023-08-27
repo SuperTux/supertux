@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -86,7 +87,6 @@ MrIceBlock::freeze()
 {
   WalkingBadguy::freeze();
 
-  m_physic.reset();
   if (ice_state == ICESTATE_KICKED)
     set_state(ICESTATE_FLAT);
 }
@@ -106,6 +106,17 @@ MrIceBlock::active_update(float dt_sec)
 {
   if (m_frozen)
   {
+    if (ice_state == ICESTATE_FLAT)
+    {
+      const float& vel_x = m_physic.get_velocity_x();
+
+      // Gradually slow down, when frozen in FLAT state, if any horizontal velocity is persistent.
+      if ((m_dir == Direction::LEFT && vel_x < 0.f) || (m_dir == Direction::RIGHT && vel_x > 0.f))
+        m_physic.set_velocity_x(vel_x * 0.95f);
+      else
+        m_physic.set_velocity_x(0.f);
+    }
+
     BadGuy::active_update(dt_sec);
     return;
   }
@@ -161,6 +172,16 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     break;
   }
   case ICESTATE_FLAT:
+    if (m_frozen)
+    {
+      if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT))
+      {
+        m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
+        m_physic.inverse_velocity_x();
+      }
+      break;
+    }
+    [[fallthrough]];
   case ICESTATE_WAKING:
     m_physic.set_velocity_x(0);
     break;
