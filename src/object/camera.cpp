@@ -20,6 +20,7 @@
 #include <math.h>
 #include <physfs.h>
 
+#include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
 #include "supertux/level.hpp"
@@ -147,6 +148,11 @@ Camera::Camera(const std::string& name) :
   m_shakespeed(),
   m_shakedepth_x(),
   m_shakedepth_y(),
+  m_earthquake(false),
+  m_earthquake_strength(),
+  m_earthquake_delay(),
+  m_earthquake_last_offset(0.f),
+  m_earthquake_delay_timer(),
   m_scroll_from(0.0f, 0.0f),
   m_scroll_goal(0.0f, 0.0f),
   m_scroll_to_pos(),
@@ -183,6 +189,11 @@ Camera::Camera(const ReaderMapping& reader) :
   m_shakespeed(),
   m_shakedepth_x(),
   m_shakedepth_y(),
+  m_earthquake(false),
+  m_earthquake_strength(),
+  m_earthquake_delay(),
+  m_earthquake_last_offset(0.f),
+  m_earthquake_delay_timer(),
   m_scroll_from(0.0f, 0.0f),
   m_scroll_goal(0.0f, 0.0f),
   m_scroll_to_pos(),
@@ -311,6 +322,36 @@ Camera::shake(float duration, float x, float y)
 }
 
 void
+Camera::start_earthquake(float strength, float delay)
+{
+  if (strength <= 0.f)
+  {
+    log_warning << "Invalid earthquake strength value provided. Setting to 3." << std::endl;
+    strength = 3.f;
+  }
+  if (delay <= 0.f)
+  {
+    log_warning << "Invalid earthquake delay value provided. Setting to 0.05." << std::endl;
+    delay = 0.05f;
+  }
+
+  m_earthquake = true;
+  m_earthquake_strength = strength;
+  m_earthquake_delay = delay;
+}
+
+void
+Camera::stop_earthquake()
+{
+  m_translation.y -= m_earthquake_last_offset;
+  m_cached_translation.y -= m_earthquake_last_offset;
+
+  m_earthquake = false;
+  m_earthquake_last_offset = 0.f;
+  m_earthquake_delay_timer.stop();
+}
+
+void
 Camera::scroll_to(const Vector& goal, float scrolltime)
 {
   if(scrolltime == 0.0f)
@@ -370,7 +411,8 @@ Camera::update(float dt_sec)
   }
 
   update_scale(dt_sec);
-  shake();
+  update_shake();
+  update_earthquake();
 }
 
 void
@@ -393,6 +435,9 @@ Camera::keep_in_bounds(Vector& translation_)
   float width = d_sector->get_width();
   float height = d_sector->get_height();
 
+  // Remove any earthquake offset from the translation.
+  translation_.y -= m_earthquake_last_offset;
+
   if (m_mode == Mode::MANUAL)
   {
     // Determines the difference between normal and scaled translation.
@@ -412,6 +457,9 @@ Camera::keep_in_bounds(Vector& translation_)
     translation_.y = math::clamp(translation_.y, 0.0f, height - static_cast<float>(m_screen_size.height));
   }
 
+  // Add any earthquake offset we may have removed earlier.
+  translation_.y += m_earthquake_last_offset;
+
   if (height < static_cast<float>(m_screen_size.height))
     translation_.y = height / 2.0f - static_cast<float>(m_screen_size.height) / 2.0f;
   if (width < static_cast<float>(m_screen_size.width))
@@ -419,7 +467,7 @@ Camera::keep_in_bounds(Vector& translation_)
 }
 
 void
-Camera::shake()
+Camera::update_shake()
 {
   if (m_shaketimer.started()) {
 
@@ -434,6 +482,35 @@ Camera::shake()
       std::sin(((0.8f * m_shakespeed * m_shaketimer.get_timegone()) - 0.75f) * (2.f * math::PI) / 3.f));
     m_translation.y -= m_shakedepth_y * ((std::pow(2.f, -0.8f * (m_shakespeed * m_shaketimer.get_timegone()))) *
       std::sin(((0.8f * m_shakespeed * m_shaketimer.get_timegone()) - 0.75f) * (2.f * math::PI) / 3.f));
+  }
+}
+
+void
+Camera::update_earthquake()
+{
+  if (!m_earthquake)
+    return;
+
+  if (m_earthquake_delay_timer.check())
+  {
+    if (m_earthquake_last_offset == 0.f)
+    {
+      m_earthquake_last_offset = m_earthquake_strength * graphicsRandom.randf(-2, 2);
+      m_translation.y += m_earthquake_last_offset;
+      m_cached_translation.y += m_earthquake_last_offset;
+    }
+    else
+    {
+      m_translation.y -= m_earthquake_last_offset;
+      m_cached_translation.y -= m_earthquake_last_offset;
+      m_earthquake_last_offset = 0.f;
+    }
+
+    m_earthquake_delay_timer.start(m_earthquake_delay + static_cast<float>(graphicsRandom.rand(0, 1)));
+  }
+  else if (!m_earthquake_delay_timer.started())
+  {
+    m_earthquake_delay_timer.start(m_earthquake_delay + static_cast<float>(graphicsRandom.rand(0, 1)));
   }
 }
 
@@ -867,6 +944,7 @@ Camera::update_scale(float dt_sec)
   if (m_scale_time_remaining > 0.f)
   {
     m_scale_time_remaining -= dt_sec;
+
     if (m_scale_time_remaining <= 0.f)
     {
       m_scale = m_scale_target;

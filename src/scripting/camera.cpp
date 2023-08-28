@@ -32,11 +32,27 @@ Camera::reload_config()
 }
 
 void
-Camera::shake(float speed, float x, float y)
+Camera::shake(float duration, float x, float y)
 {
   SCRIPT_GUARD_VOID;
   BIND_SECTOR(::Sector::get());
-  object.shake(speed, x, y);
+  object.shake(duration, x, y);
+}
+
+void
+Camera::start_earthquake(float strength, float delay)
+{
+  SCRIPT_GUARD_VOID;
+  BIND_SECTOR(::Sector::get());
+  object.start_earthquake(strength, delay);
+}
+
+void
+Camera::stop_earthquake()
+{
+  SCRIPT_GUARD_VOID;
+  BIND_SECTOR(::Sector::get());
+  object.stop_earthquake();
 }
 
 void

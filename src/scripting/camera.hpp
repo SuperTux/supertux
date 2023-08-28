@@ -52,12 +52,22 @@ public:
   void reload_config();
 
   /**
-   * Moves camera to the given coordinates in ""time"" seconds, returning quickly to the original position afterwards.
-   * @param float $speed
+   * Shakes the camera in a certain direction only 1 time.
+   * @param float $duration
    * @param float $x
    * @param float $y
    */
-  void shake(float speed, float x, float y);
+  void shake(float duration, float x, float y);
+  /**
+   * Starts "earthquake" mode, which shakes the camera vertically with a specified average ""strength"", at a certain minimal ""delay"", until stopped.
+   * @param float $strength
+   * @param float $delay
+   */
+  void start_earthquake(float strength, float delay);
+  /**
+   * Stops "earthquake" mode.
+   */
+  void stop_earthquake();
   /**
    * Moves the camera to the specified absolute position. The origin is at the top left.
    * @param float $x
