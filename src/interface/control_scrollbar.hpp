@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_INTERFACE_CONTROL_SCROLLBAR_HPP
 
 #include "editor/widget.hpp"
-#include "math/rect.hpp"
+
+#include "math/rectf.hpp"
 #include "math/vector.hpp"
 
 class DrawingContext;
@@ -54,16 +55,13 @@ private:
   int m_progress;
   
   /** The logical position and size of the widget */
-  Rect m_rect;
-  
-  /** The position and size of the widget, to scale */
-  Rect m_scaled_rect;
+  Rectf m_rect;
   
   /** `true` of the scroller is horizontal; `false` if it is vertical */
   //bool is_horizontal;
 
 private:
-  Rect get_bar_rect();
+  Rectf get_bar_rect();
 
   float last_mouse_pos;
   //float zoom_factor;

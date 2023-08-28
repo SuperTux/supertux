@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <iosfwd>
 
+#include <SDL.h>
+
 #include "math/anchor_point.hpp"
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
@@ -65,6 +67,12 @@ public:
   Rectf(const Vector& p1, const Sizef& size) :
     m_p1(p1),
     m_size(size)
+  {
+    initialize();
+  }
+
+  Rectf(const SDL_FRect& rect) :
+    m_p1(rect.x, rect.y), m_size(rect.w, rect.h)
   {
     initialize();
   }
@@ -125,6 +133,12 @@ public:
   }
   Sizef get_size() const { return m_size; }
 
+  bool empty() const
+  {
+    return get_width() <= 0 ||
+           get_height() <= 0;
+  }
+
   void move(const Vector& v) { m_p1 += v; }
   Rectf moved(const Vector& v) const { return Rectf(m_p1 + v, m_size); }
 
@@ -177,6 +191,12 @@ public:
   void set_p2(const Vector& p) {
     m_size = Sizef(p.x - m_p1.x,
                    p.y - m_p1.y);
+  }
+
+  Rect to_rect() const;
+  SDL_FRect to_sdl() const
+  {
+    return { m_p1.x, m_p1.y, m_size.width, m_size.height };
   }
 
 private:

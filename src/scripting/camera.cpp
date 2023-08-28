@@ -148,7 +148,7 @@ Camera::ease_scale_anchor(float scale, float time, int anchor, const std::string
   object.ease_scale(scale, time, getEasingByName(EasingMode_from_string(ease)), static_cast<AnchorPoint>(anchor));
 }
 
-int
+float
 Camera::get_screen_width()
 {
   SCRIPT_GUARD_DEFAULT;
@@ -156,7 +156,7 @@ Camera::get_screen_width()
   return object.get_screen_size().width;
 }
 
-int
+float
 Camera::get_screen_height()
 {
   SCRIPT_GUARD_DEFAULT;
