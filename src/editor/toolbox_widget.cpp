@@ -76,8 +76,8 @@ EditorToolboxWidget::draw(DrawingContext& context)
 {
   //SCREEN_WIDTH SCREEN_HEIGHT
   context.color().draw_filled_rect(Rectf(Vector(static_cast<float>(m_Xpos), 0),
-                                         Vector(static_cast<float>(context.get_width()),
-                                                static_cast<float>(context.get_height()))),
+                                         Vector(context.get_width(),
+                                                context.get_height())),
                                      g_config->editorcolor,
                                      0.0f, LAYER_GUI-10);
   if (m_dragging) {
@@ -97,10 +97,10 @@ EditorToolboxWidget::draw(DrawingContext& context)
   }
 
   context.color().draw_text(Resources::normal_font, _("Tiles"),
-                            Vector(static_cast<float>(context.get_width()), 5),
+                            Vector(context.get_width(), 5),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
   context.color().draw_text(Resources::normal_font, _("Objects"),
-                            Vector(static_cast<float>(context.get_width()), 37),
+                            Vector(context.get_width(), 37),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   m_rubber->draw(context);

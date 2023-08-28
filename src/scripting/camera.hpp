@@ -121,11 +121,11 @@ public:
   /**
    * Gets the current width of the screen.
    */
-  int get_screen_width();
+  float get_screen_width();
   /**
    * Gets the current height of the screen.
    */
-  int get_screen_height();
+  float get_screen_height();
   /**
    * Gets the X coordinate of the top-left corner of the screen.
    */
