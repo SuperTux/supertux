@@ -89,6 +89,10 @@ public:
   /** shake camera in a direction 1 time */
   void shake(float duration, float x, float y);
 
+  /** Shake the camera vertically with a specified average strength, at a certain minimal delay, until stopped. */
+  void start_earthquake(float strength, float delay);
+  void stop_earthquake();
+
   /** scroll the upper left edge of the camera in scrolltime seconds
       to the position goal */
   void scroll_to(const Vector& goal, float scrolltime);
@@ -124,9 +128,12 @@ private:
   void update_scroll_normal_multiplayer(float dt_sec);
   void update_scroll_autoscroll(float dt_sec);
   void update_scroll_to(float dt_sec);
+
   void update_scale(float dt_sec);
+  void update_shake();
+  void update_earthquake();
+
   void keep_in_bounds(Vector& vector);
-  void shake();
 
 private:
   Mode m_mode;
@@ -148,6 +155,13 @@ private:
   float m_shakespeed;
   float m_shakedepth_x;
   float m_shakedepth_y;
+
+  // Earthquake
+  bool m_earthquake;
+  float m_earthquake_strength,
+        m_earthquake_delay,
+        m_earthquake_last_offset;
+  Timer m_earthquake_delay_timer;
 
   // scrollto mode
   Vector m_scroll_from;
