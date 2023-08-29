@@ -1860,11 +1860,7 @@ Player::get_action() const
 void
 Player::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
-    return;
-  }
-
-  if (!m_visible)
+  if(Editor::is_active())
     return;
 
   if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
@@ -2090,19 +2086,14 @@ Player::draw(DrawingContext& context)
   */
 
   /* Draw Tux */
-  if (m_safe_timer.started() && size_t(g_game_time * 40) % 2)
+  if (!m_visible || (m_safe_timer.started() && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
-  else if (m_player_status.bonus[get_id()] == EARTH_BONUS) {
+  else if (m_dying)
+    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer());
+  else
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
-  }
-  else {
-    if (m_dying)
-      m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer());
-    else
-      m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
-  }
 
   //TODO: Replace recoloring with proper costumes
   Color power_color = (m_player_status.bonus[get_id()] == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
@@ -2112,7 +2103,6 @@ Player::draw(DrawingContext& context)
     Color(1.f, 1.f, 1.f));
 
   m_sprite->set_color(m_stone ? Color(1.f, 1.f, 1.f) : power_color);
-
 }
 
 
