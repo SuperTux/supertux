@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,6 +21,7 @@
 #include <memory>
 #include <string>
 
+#include "math/anchor_point.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
 #include "object/path_object.hpp"
@@ -119,21 +121,23 @@ public:
   /** get the scale towards which the camera is moving */
   float get_target_scale() const { return m_scale_target; }
 
-  /** smoothly slide the scale of the camera towards a new value */
-  void ease_scale(float scale, float time, easing ease);
+  /** smoothly slide the scale and anchor position of the camera towards a new value */
+  void ease_scale(float scale, float time, easing ease, AnchorPoint anchor = AnchorPoint::ANCHOR_MIDDLE);
   /** @} */
 
 private:
+  void keep_in_bounds(Vector& vector);
+
   void update_scroll_normal(float dt_sec);
   void update_scroll_normal_multiplayer(float dt_sec);
   void update_scroll_autoscroll(float dt_sec);
   void update_scroll_to(float dt_sec);
-
   void update_scale(float dt_sec);
   void update_shake();
   void update_earthquake();
 
-  void keep_in_bounds(Vector& vector);
+  Vector get_scale_anchor_target() const;
+  void reload_scale();
 
 private:
   Mode m_mode;
@@ -176,7 +180,10 @@ private:
         m_scale_target,
         m_scale_time_total,
         m_scale_time_remaining;
+  Vector m_scale_origin_translation,
+         m_scale_target_translation;
   easing m_scale_easing;
+  AnchorPoint m_scale_anchor;
 
   // Minimum scale is used in certain circumstances where a fixed minimum scale
   // should be used, regardless of the scriping-accessible `m_scale` property.
