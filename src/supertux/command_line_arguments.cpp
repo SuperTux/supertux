@@ -114,7 +114,7 @@ CommandLineArguments::print_help(const char* arg0) const
     << _("Game Options:") << "\n"
     << _("  --edit-level                 Open given level in editor") << "\n"
     << _("  --resave                     Loads given level and saves it") << "\n"
-    << _("  --from-datadir               Indicates that the LEVELFILE path is relative to the data dir. Only used if --edit-level is specified") << "\n"
+    << _("  --paths-from-datadir         Indicates that the paths are relative to the data dir. Only used if --edit-level is specified") << "\n"
     << _("  --show-fps                   Display framerate in levels") << "\n"
     << _("  --no-show-fps                Do not display framerate in levels") << "\n"
     << _("  --show-pos                   Display player's current position") << "\n"
@@ -365,7 +365,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       editor = true;
     }
-    else if (arg == "--from-datadir")
+    else if (arg == "--paths-from-datadir")
     {
       from_datadir = true;
     }
