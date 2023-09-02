@@ -28,8 +28,7 @@ class TileMap;
 class Coin : public MovingSprite,
              public PathObject
 {
-
-friend class HeavyCoin;
+  friend class HeavyCoin;
 
 public:
   Coin(const Vector& pos, bool count_stats = true,
@@ -46,6 +45,9 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
   virtual void after_editor_set() override;
   virtual void editor_update() override;
 
@@ -54,6 +56,12 @@ public:
   virtual void on_flip(float height) override;
 
   void collect();
+
+private:
+  enum Type {
+    NORMAL,
+    RETRO
+  };
 
 private:
   Vector m_offset;

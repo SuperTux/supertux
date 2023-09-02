@@ -612,6 +612,66 @@ static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Camera_start_earthquake_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'start_earthquake' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->start_earthquake(arg0, arg1);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'start_earthquake'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_stop_earthquake_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'stop_earthquake' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+
+  try {
+    _this->stop_earthquake();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_earthquake'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -834,6 +894,41 @@ static SQInteger Camera_set_scale_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Camera_set_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg1;
+  if(SQ_FAILED(sq_getinteger(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_scale_anchor(arg0, static_cast<int> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_scale_anchor'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -864,6 +959,46 @@ static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'scale'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->scale_anchor(arg0, arg1, static_cast<int> (arg2));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'scale_anchor'"));
     return SQ_ERROR;
   }
 
@@ -909,6 +1044,51 @@ static SQInteger Camera_ease_scale_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Camera_ease_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'ease_scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg3;
+  if(SQ_FAILED(sq_getstring(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->ease_scale_anchor(arg0, arg1, static_cast<int> (arg2), arg3);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'ease_scale_anchor'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_get_screen_width_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -920,9 +1100,9 @@ static SQInteger Camera_get_screen_width_wrapper(HSQUIRRELVM vm)
 
 
   try {
-    int return_value = _this->get_screen_width();
+    float return_value = _this->get_screen_width();
 
-    sq_pushinteger(vm, return_value);
+    sq_pushfloat(vm, return_value);
     return 1;
 
   } catch(std::exception& e) {
@@ -946,9 +1126,9 @@ static SQInteger Camera_get_screen_height_wrapper(HSQUIRRELVM vm)
 
 
   try {
-    int return_value = _this->get_screen_height();
+    float return_value = _this->get_screen_height();
 
-    sq_pushinteger(vm, return_value);
+    sq_pushfloat(vm, return_value);
     return 1;
 
   } catch(std::exception& e) {
@@ -14123,6 +14303,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'shake'");
   }
 
+  sq_pushstring(v, "start_earthquake", -1);
+  sq_newclosure(v, &Camera_start_earthquake_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'start_earthquake'");
+  }
+
+  sq_pushstring(v, "stop_earthquake", -1);
+  sq_newclosure(v, &Camera_stop_earthquake_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop_earthquake'");
+  }
+
   sq_pushstring(v, "set_pos", -1);
   sq_newclosure(v, &Camera_set_pos_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
@@ -14172,6 +14366,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'set_scale'");
   }
 
+  sq_pushstring(v, "set_scale_anchor", -1);
+  sq_newclosure(v, &Camera_set_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_scale_anchor'");
+  }
+
   sq_pushstring(v, "scale", -1);
   sq_newclosure(v, &Camera_scale_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
@@ -14179,11 +14380,25 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'scale'");
   }
 
+  sq_pushstring(v, "scale_anchor", -1);
+  sq_newclosure(v, &Camera_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'scale_anchor'");
+  }
+
   sq_pushstring(v, "ease_scale", -1);
   sq_newclosure(v, &Camera_ease_scale_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|ns");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'ease_scale'");
+  }
+
+  sq_pushstring(v, "ease_scale_anchor", -1);
+  sq_newclosure(v, &Camera_ease_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|ns");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'ease_scale_anchor'");
   }
 
   sq_pushstring(v, "get_screen_width", -1);

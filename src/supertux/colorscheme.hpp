@@ -35,6 +35,7 @@ public:
     static Color inactive_color;
     static Color label_color;
     static Color field_color;
+    static Color warning_color;
   };
 
   class Text

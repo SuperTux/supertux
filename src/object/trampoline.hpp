@@ -24,27 +24,31 @@ class Trampoline final : public Rock
 {
 public:
   Trampoline(const ReaderMapping& reader);
-  Trampoline(const Vector& pos, bool port);
+  Trampoline(const Vector& pos, int type);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
 
   virtual void grab(MovingObject&, const Vector& pos, Direction) override;
   virtual bool is_portable() const override;
+
   static std::string class_name() { return "trampoline"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Trampoline"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
-  virtual ObjectSettings get_settings() override;
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
-private:
-  bool portable;
+public:
+  enum Type {
+    PORTABLE,
+    STATIONARY
+  };
 
 private:
   Trampoline(const Trampoline&) = delete;
   Trampoline& operator=(const Trampoline&) = delete;
-
 };
 
 #endif

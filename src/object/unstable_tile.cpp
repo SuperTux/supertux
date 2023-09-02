@@ -3,6 +3,7 @@
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //  Copyright (C) 2010 Florian Forster <supertux at octo.it>
 //  Copyright (C) 2021 A. Semphris <semphris@protonmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,6 +20,7 @@
 
 #include "object/unstable_tile.hpp"
 
+#include "math/random.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -26,12 +28,14 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
+static const float CRACK_TIME = 0.3f;
+static const float FALL_TIME = 0.8f;
 static const float RESPAWN_TIME = 5.f;
 static const float FADE_OUT_TIME = 1.f;
 static const float FADE_IN_TIME = .5f;
 static const float DELAY_IF_TUX = 0.001f;
 
-UnstableTile::UnstableTile(const ReaderMapping& mapping) :
+UnstableTile::UnstableTile(const ReaderMapping& mapping, int type) :
   MovingSprite(mapping, "images/objects/unstable_tile/snow.sprite", LAYER_TILES, COLGROUP_STATIC),
   physic(),
   state(STATE_NORMAL),
@@ -39,12 +43,48 @@ UnstableTile::UnstableTile(const ReaderMapping& mapping) :
   m_revive_timer(),
   m_respawn(),
   m_alpha(1.f),
-  m_original_pos(m_col.get_pos())
+  m_original_pos(m_col.get_pos()),
+  m_fall_timer(),
+  m_player_hit(false)
 {
+  if (type >= 0)
+  {
+    m_type = type;
+    on_type_change();
+  }
+  else
+  {
+    parse_type(mapping);
+  }
+
   set_action("normal");
 
   physic.set_gravity_modifier(.98f);
   physic.enable_gravity(false);
+}
+
+GameObjectTypes
+UnstableTile::get_types() const
+{
+  return {
+    { "ice", _("Ice") },
+    { "brick", _("Brick") },
+    { "delayed", _("Delayed") }
+  };
+}
+
+std::string
+UnstableTile::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case BRICK:
+      return "images/objects/unstable_tile/brick.sprite";
+    case DELAYED:
+      return "images/objects/skull_tile/skull_tile.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 HitResponse
@@ -57,10 +97,13 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
        (player->get_bbox().get_bottom() < m_col.m_bbox.get_top() + SHIFT_DELTA ||
        player->get_bbox().get_top() < m_col.m_bbox.get_bottom() + SHIFT_DELTA))
     {
-      shake();
+      if (m_type == DELAYED)
+        m_player_hit = true;
+      else
+        shake();
     }
 
-    if (dynamic_cast<Explosion*>(&other))
+    if (m_type != DELAYED && dynamic_cast<Explosion*>(&other))
     {
       shake();
     }
@@ -68,10 +111,12 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
   return FORCE_MOVE;
 }
 
-void UnstableTile::shake()
+void
+UnstableTile::shake()
 {
   if (state != STATE_NORMAL)
     return;
+
   if (m_sprite->has_action("shake"))
   {
     state = STATE_SHAKE;
@@ -83,7 +128,8 @@ void UnstableTile::shake()
   }
 }
 
-void UnstableTile::dissolve()
+void
+UnstableTile::dissolve()
 {
   if ((state != STATE_NORMAL) && (state != STATE_SHAKE))
     return;
@@ -99,7 +145,8 @@ void UnstableTile::dissolve()
   }
 }
 
-void UnstableTile::slow_fall()
+void
+UnstableTile::slow_fall()
 {
   /* Only enter slow-fall if neither shake nor dissolve is available. */
   if (state != STATE_NORMAL)
@@ -123,15 +170,18 @@ void UnstableTile::slow_fall()
   }
 }
 
-void UnstableTile::fall_down()
+void
+UnstableTile::fall_down()
 {
   if (state == STATE_FALL)
     return;
 
-  if (m_sprite->has_action("fall-down"))
+  const bool has_action = m_sprite->has_action("fall-down");
+  if (m_type == DELAYED || has_action)
   {
     state = STATE_FALL;
-    set_action("fall-down", /* loops = */ 1);
+    if (has_action)
+      set_action("fall-down", /* loops = */ 1);
     physic.set_gravity_modifier(.98f);
     physic.enable_gravity(true);
   }
@@ -169,6 +219,29 @@ UnstableTile::update(float dt_sec)
   switch (state)
   {
     case STATE_NORMAL:
+      if (m_type != DELAYED)
+        break;
+
+      /** Manage DELAYED type (behaviour of the former SkullTile object). */
+
+      if (m_player_hit)
+      {
+        set_action("mad");
+        if (m_fall_timer.check())
+          fall_down();
+        else if (!m_fall_timer.started())
+          m_fall_timer.start(FALL_TIME);
+        else if (m_fall_timer.get_timegone() > CRACK_TIME) // Should perform shake animation.
+          m_col.set_pos(m_original_pos + Vector(static_cast<float>(graphicsRandom.rand(-3, 3)), 0.f));
+      }
+      else
+      {
+        set_action("normal");
+        m_fall_timer.stop();
+        m_col.set_pos(m_original_pos);
+      }
+
+      m_player_hit = false; // To be updated next frame in collision().
       break;
 
     case STATE_SHAKE:

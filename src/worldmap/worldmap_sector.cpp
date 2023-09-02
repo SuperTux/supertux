@@ -82,6 +82,8 @@ WorldMapSector::~WorldMapSector()
 void
 WorldMapSector::finish_construction(bool)
 {
+  flush_game_objects();
+
   if (!get_object_by_type<AmbientLight>())
     add<AmbientLight>(Color::WHITE);
 
@@ -160,8 +162,8 @@ WorldMapSector::draw(DrawingContext& context)
 {
   BIND_WORLDMAP_SECTOR(*this);
 
-  if (get_width() < static_cast<float>(context.get_width()) ||
-      get_height() < static_cast<float>(context.get_height()))
+  if (get_width() < context.get_width() ||
+      get_height() < context.get_height())
   {
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
@@ -206,14 +208,14 @@ WorldMapSector::draw_status(DrawingContext& context)
     if (level)
     {
       context.color().draw_text(Resources::normal_font, level->get_title(),
-                                Vector(static_cast<float>(context.get_width()) / 2.0f,
-                                       static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
+                                Vector(context.get_width() / 2.0f,
+                                       context.get_height() - Resources::normal_font->get_height() - 10),
                                 ALIGN_CENTER, LAYER_HUD, level->get_title_color());
 
       if (g_config->developer_mode) {
         context.color().draw_text(Resources::small_font, FileSystem::join(level->get_basedir(), level->get_level_filename()),
-                                  Vector(static_cast<float>(context.get_width()) / 2.0f,
-                                         static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 25),
+                                  Vector(context.get_width() / 2.0f,
+                                         context.get_height() - Resources::normal_font->get_height() - 25),
                                   ALIGN_CENTER, LAYER_HUD, level->get_title_color());
       }
 
@@ -238,8 +240,8 @@ WorldMapSector::draw_status(DrawingContext& context)
       /* Display an in-map message in the map, if any as been selected */
       if (!special_tile->get_map_message().empty() && !special_tile->is_passive_message())
         context.color().draw_text(Resources::normal_font, special_tile->get_map_message(),
-                                  Vector(static_cast<float>(context.get_width()) / 2.0f,
-                                         static_cast<float>(context.get_height()) - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
+                                  Vector(context.get_width() / 2.0f,
+                                         context.get_height() - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
                                   ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::s_message_color);
     }
 
@@ -247,8 +249,8 @@ WorldMapSector::draw_status(DrawingContext& context)
     Teleporter* teleporter = at_object<Teleporter>();
     if (teleporter && (!teleporter->get_message().empty()))
     {
-      Vector pos = Vector(static_cast<float>(context.get_width()) / 2.0f,
-                          static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 30.0f);
+      Vector pos = Vector(context.get_width() / 2.0f,
+                          context.get_height() - Resources::normal_font->get_height() - 30.0f);
       context.color().draw_text(Resources::normal_font, teleporter->get_message(), pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::s_teleporter_message_color);
     }
   }
@@ -256,8 +258,8 @@ WorldMapSector::draw_status(DrawingContext& context)
   /* Display a passive message on the map, if set */
   if (m_parent.m_passive_message_timer.started())
     context.color().draw_text(Resources::normal_font, m_parent.m_passive_message,
-                              Vector(static_cast<float>(context.get_width()) / 2.0f,
-                                     static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 60.0f),
+                              Vector(context.get_width() / 2.0f,
+                                     context.get_height() - Resources::normal_font->get_height() - 60.0f),
                               ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::s_message_color);
 
   context.pop_transform();

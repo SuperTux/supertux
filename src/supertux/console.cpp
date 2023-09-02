@@ -525,23 +525,23 @@ Console::draw(DrawingContext& context) const
     return;
 
   const int layer = LAYER_GUI + 1;
-  const int context_center_x = context.get_width() / 2;
+  const float context_center_x = context.get_width() / 2;
   const int background_center_x = m_background->get_width() / 2;
 
   context.push_transform();
   context.set_alpha(m_alpha);
   context.color().draw_surface(m_background2,
-                               Vector(static_cast<float>(context_center_x - background_center_x - m_background->get_width() + m_backgroundOffset),
+                               Vector(context_center_x - static_cast<float>(background_center_x + m_background->get_width() - m_backgroundOffset),
                                       m_height - static_cast<float>(m_background->get_height())),
                                layer);
   context.color().draw_surface(m_background2,
-                               Vector(static_cast<float>(context_center_x - background_center_x + m_backgroundOffset),
+                               Vector(context_center_x - static_cast<float>(background_center_x - m_backgroundOffset),
                                       m_height - static_cast<float>(m_background->get_height())),
                                layer);
-  for (int x = (context_center_x - background_center_x
-                - (static_cast<int>(ceilf(static_cast<float>(context.get_width()) /
+  for (int x = (static_cast<int>(context_center_x) - background_center_x
+                - (static_cast<int>(ceilf(context.get_width() /
                                           static_cast<float>(m_background->get_width())) - 1) * m_background->get_width()));
-       x < context.get_width();
+       x < static_cast<int>(context.get_width());
        x += m_background->get_width())
   {
     context.color().draw_surface(m_background, Vector(static_cast<float>(x),

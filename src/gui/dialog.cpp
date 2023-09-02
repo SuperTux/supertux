@@ -189,11 +189,11 @@ void
 Dialog::draw(DrawingContext& context)
 {
   Rectf bg_rect(Vector(static_cast<float>(m_passive ?
-                                          (static_cast<float>(context.get_width()) - m_text_size.width - 20.0f) :
-                                          static_cast<float>(context.get_width()) / 2.0f - m_text_size.width / 2.0f),
+                                          (context.get_width() - m_text_size.width - 20.0f) :
+                                          context.get_width() / 2.0f - m_text_size.width / 2.0f),
                        static_cast<float>(m_passive ?
-                                          (static_cast<float>(context.get_height()) - m_text_size.height - 65.0f) :
-                                          (static_cast<float>(context.get_height()) / 2.0f - m_text_size.height / 2.0f))),
+                                          (context.get_height() - m_text_size.height - 65.0f) :
+                                          (context.get_height() / 2.0f - m_text_size.height / 2.0f))),
                 m_size);
 
   // Draw background rect.

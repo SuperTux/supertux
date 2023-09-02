@@ -105,8 +105,8 @@ Thunderstorm::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.color().draw_filled_rect(Rectf(0, 0,
-                                         static_cast<float>(context.get_width()),
-                                         static_cast<float>(context.get_height())),
+                                         context.get_width(),
+                                         context.get_height()),
                                    Color(1, 1, 1, alpha), layer);
   context.pop_transform();
 

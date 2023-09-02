@@ -19,7 +19,7 @@
 
 #include "object/block.hpp"
 
-#include "badguy/crusher.hpp"
+class Crusher;
 
 class Brick : public Block
 {
@@ -34,11 +34,20 @@ public:
   static std::string display_name() { return _("Brick"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
   void try_break(Player* player, bool slider = false);
   void break_for_crusher(Crusher* crusher);
 
 protected:
   virtual void hit(Player& player) override;
+
+private:
+  enum Type {
+    NORMAL,
+    RETRO
+  };
 
 private:
   bool m_breakable;
@@ -61,11 +70,17 @@ public:
   static std::string display_name() { return _("Heavy Brick"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
-private:
-  void ricochet(GameObject* collider);
+  GameObjectTypes get_types() const override { return {}; }
 
 protected:
   virtual void hit(Player& player) override;
+
+private:
+  void ricochet(GameObject* collider);
+
+private:
+  HeavyBrick(const HeavyBrick&) = delete;
+  HeavyBrick& operator=(const HeavyBrick&) = delete;
 };
 
 #endif
