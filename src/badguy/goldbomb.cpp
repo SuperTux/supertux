@@ -239,7 +239,7 @@ GoldBomb::active_update(float dt_sec)
   switch (tstate)
   {
     case STATE_FLEEING:
-      // Aah!! They popped up from the other side! Turn around!
+      // They popped up from the other side! Turn around!
       if (m_dir == (vecdist.x > 0 ? Direction::LEFT : Direction::RIGHT)) return;
       [[fallthrough]];
 

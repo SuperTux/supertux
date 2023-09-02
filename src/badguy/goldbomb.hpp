@@ -54,13 +54,14 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-  void flee(Direction dir);
-  void cornered();
-
   bool is_ticking() const { return tstate == STATE_TICKING; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+private:
+  void flee(Direction dir);
+  void cornered();
 
 private:
   enum Ticking_State {
