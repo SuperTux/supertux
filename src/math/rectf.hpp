@@ -25,7 +25,6 @@
 #include "math/anchor_point.hpp"
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
-#include "util/log.hpp"
 
 class Rect;
 
@@ -40,9 +39,6 @@ public:
                  center.y + size.height / 2.0f);
   }
 
-private:
-  void initialize();
-
 public:
   Rectf() :
     m_p1(0.0f, 0.0f),
@@ -55,26 +51,26 @@ public:
   Rectf(const Vector& np1, const Vector& np2) :
     m_p1(np1), m_size(np2.x - np1.x, np2.y - np1.y)
   {
-    initialize();
+    assert(m_size.width >= 0 &&
+           m_size.height >= 0);
   }
 
   Rectf(float x1, float y1, float x2, float y2) :
     m_p1(x1, y1), m_size(x2 - x1, y2 - y1)
   {
-    initialize();
+    assert(m_size.width >= 0 &&
+           m_size.height >= 0);
   }
 
   Rectf(const Vector& p1, const Sizef& size) :
     m_p1(p1),
     m_size(size)
   {
-    initialize();
   }
 
   Rectf(const SDL_FRect& rect) :
     m_p1(rect.x, rect.y), m_size(rect.w, rect.h)
   {
-    initialize();
   }
 
   Rectf(const Rect& rect);
@@ -108,29 +104,9 @@ public:
 
   void set_pos(const Vector& v) { m_p1 = v; }
 
-  void set_width(float width)
-  {
-    if (width < 0.f)
-    {
-      log_warning << "Attempted to set width to negative value: " << width << ". Setting to 0." << std::endl;
-      width = 0.f;
-    }
-    m_size.width = width;
-  }
-  void set_height(float height)
-  {
-    if (height < 0.f)
-    {
-      log_warning << "Attempted to set height to negative value: " << height << ". Setting to 0." << std::endl;
-      height = 0.f;
-    }
-    m_size.height = height;
-  }
-  void set_size(float width, float height)
-  {
-    set_width(width);
-    set_height(height);
-  }
+  void set_width(float width) { m_size.width = width; }
+  void set_height(float height) { m_size.height = height; }
+  void set_size(float width, float height) { m_size = Sizef(width, height); }
   Sizef get_size() const { return m_size; }
 
   bool empty() const
