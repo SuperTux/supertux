@@ -57,7 +57,7 @@ public:
   void flee(Direction dir);
   void cornered();
 
-  inline bool is_ticking() const { return tstate == STATE_TICKING; }
+  bool is_ticking() const { return tstate == STATE_TICKING; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

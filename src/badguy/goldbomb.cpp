@@ -113,13 +113,13 @@ GoldBomb::collision_player(Player& player, const CollisionHit& hit)
 HitResponse
 GoldBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-if (tstate == STATE_TICKING)
-{
-  if (m_physic.get_velocity() != Vector()) kill_fall();
-  return ABORT_MOVE;
-} else if (tstate != STATE_NORMAL) {
-  return FORCE_MOVE;
-}
+  if (tstate == STATE_TICKING)
+  {
+    if (m_physic.get_velocity() != Vector()) kill_fall();
+    return ABORT_MOVE;
+  } else if (tstate != STATE_NORMAL) {
+    return FORCE_MOVE;
+  }
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
@@ -181,6 +181,8 @@ GoldBomb::active_update(float dt_sec)
 
   if (m_frozen) return;
 
+  // Look for any of these in safe distance:
+  // Player, ticking Haywire, ticking Bomb or ticking GoldBomb
   MovingObject* obj = nullptr;
   std::vector<MovingObject*> objs = Sector::get().get_nearby_objects(get_bbox().get_middle(), SAFE_DIST);
   for (MovingObject* currobj : objs)
@@ -204,11 +206,18 @@ GoldBomb::active_update(float dt_sec)
 
   if (!obj)
   {
+    // Everybody's outside of safe distance. Am I cornered?
+
     if (tstate == STATE_CORNERED)
     {
+      // Look back to check.
       set_action("recover", m_dir);
       if (!m_sprite->animation_done()) return;
     }
+
+    // Finally, when done recovering, go back to normal.
+    if (tstate == STATE_NORMAL) return;
+
     tstate = STATE_NORMAL;
     m_physic.set_velocity_x(NORMAL_WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
     m_physic.set_acceleration_x(0);
@@ -218,15 +227,19 @@ GoldBomb::active_update(float dt_sec)
     return;
   }
 
+  // Someone's in safe distance
   const Vector p1      = get_bbox().get_middle();
   const Vector p2      = obj->get_bbox().get_middle();
   const Vector vecdist = p2-p1;
 
+  // But I only react to those who are in realize distance
   if (glm::length(vecdist) > REALIZE_DIST && tstate == STATE_NORMAL) return;
 
+  // Someone's around!
   switch (tstate)
   {
     case STATE_FLEEING:
+      // Aah!! They popped up from the other side! Turn around!
       if (m_dir == (vecdist.x > 0 ? Direction::LEFT : Direction::RIGHT)) return;
       [[fallthrough]];
 
@@ -245,6 +258,7 @@ GoldBomb::active_update(float dt_sec)
         obj
       )) break;
 
+      // Hop before fleeing.
       set_walk_speed(0);
       m_physic.set_velocity_y(HOP_HEIGHT);
       m_physic.set_velocity_x(0);
