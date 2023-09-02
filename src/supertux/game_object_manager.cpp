@@ -116,7 +116,14 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   object->m_parent = this;
 
   if (!object->get_uid())
+  {
     object->set_uid(m_uid_generator.next());
+
+    // No object UID would indicate the object is not a result of undo/redo.
+    // Any newly placed object in the editor should be on its latest version.
+    if (m_initialized && Editor::is_active())
+      object->update_version();
+  }
 
   // Make sure the object isn't already in the list.
 #ifndef NDEBUG
@@ -128,7 +135,7 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   }
 #endif
 
-  // Attempt to add object to editor layers
+  // Attempt to add object to editor layers.
   if (m_initialized && Editor::is_active())
     Editor::current()->add_layer(object.get());
 

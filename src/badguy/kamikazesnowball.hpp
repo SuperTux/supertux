@@ -58,14 +58,25 @@ public:
   virtual void kill_collision() override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
+
   static std::string class_name() { return "leafshot"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Leafshot"); }
   virtual std::string get_display_name() const override { return display_name(); }
+
   virtual bool is_snipable() const override { return true; }
+
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+private:
+  enum Type {
+    NORMAL,
+    CORRUPTED
+  };
 
 private:
   LeafShot(const LeafShot&) = delete;

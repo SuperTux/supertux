@@ -29,10 +29,27 @@
 #include "util/reader_mapping.hpp"
 
 namespace {
-const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
-}
+  const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
+  const float GROUND_FRICTION = 0.1f; // Amount of friction to apply while on ground.
+} // namespace
 
-static const float GROUND_FRICTION = 0.1f; // Amount of friction to apply while on ground.
+
+Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
+  MovingSprite(reader, spritename),
+  ExposedObject<Rock, scripting::Rock>(this),
+  physic(),
+  on_ground(false),
+  last_movement(0.0f, 0.0f),
+  on_grab_script(),
+  on_ungrab_script()
+{
+  parse_type(reader);
+  reader.get("on-grab-script", on_grab_script, "");
+  reader.get("on-ungrab-script", on_ungrab_script, "");
+
+  SoundManager::current()->preload(ROCK_SOUND);
+  set_group(COLGROUP_MOVING_STATIC);
+}
 
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
@@ -47,34 +64,25 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/rock/rock.sprite"),
-  ExposedObject<Rock, scripting::Rock>(this),
-  physic(),
-  on_ground(false),
-  last_movement(0.0f, 0.0f),
-  on_grab_script(),
-  on_ungrab_script()
+GameObjectTypes
+Rock::get_types() const
 {
-  reader.get("on-grab-script", on_grab_script, "");
-  reader.get("on-ungrab-script", on_ungrab_script, "");
-  SoundManager::current()->preload(ROCK_SOUND);
-  set_group(COLGROUP_MOVING_STATIC);
+  return {
+    { "small", _("Small") },
+    { "large", _("Large") }
+  };
 }
 
-Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
-  MovingSprite(reader, spritename),
-  ExposedObject<Rock, scripting::Rock>(this),
-  physic(),
-  on_ground(false),
-  last_movement(0.0f, 0.0f),
-  on_grab_script(),
-  on_ungrab_script()
+std::string
+Rock::get_default_sprite_name() const
 {
-  if (!reader.get("on-grab-script", on_grab_script)) on_grab_script = "";
-  if (!reader.get("on-ungrab-script", on_ungrab_script)) on_ungrab_script = "";
-  SoundManager::current()->preload(ROCK_SOUND);
-  set_group(COLGROUP_MOVING_STATIC);
+  switch (m_type)
+  {
+    case LARGE:
+      return "images/objects/rock/rock-b.png";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void

@@ -54,12 +54,33 @@ Coin::Coin(const ReaderMapping& reader, bool count_stats) :
   m_count_stats(count_stats)
 {
   reader.get("starting-node", m_starting_node, 0);
-
-  init_path(reader, true);
-
   reader.get("collect-script", m_collect_script, "");
 
+  parse_type(reader);
+  init_path(reader, true);
+
   SoundManager::current()->preload("sounds/coin.wav");
+}
+
+GameObjectTypes
+Coin::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "retro", _("Retro") }
+  };
+}
+
+std::string
+Coin::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case RETRO:
+      return "images/objects/coin/retro_coin.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void

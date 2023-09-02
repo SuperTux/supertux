@@ -19,8 +19,6 @@
 
 #include "object/block.hpp"
 
-class ReaderMapping;
-
 class InvisibleBlock final : public Block
 {
 public:
@@ -36,8 +34,17 @@ public:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
 private:
   virtual void hit(Player& player) override;
+
+private:
+  enum Type {
+    NORMAL,
+    RETRO
+  };
 
 private:
   bool visible;

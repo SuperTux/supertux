@@ -57,6 +57,7 @@ public:
   T& add(Args&&... args)
   {
     auto obj = std::make_unique<T>(std::forward<Args>(args)...);
+    obj->update_version();
     T& obj_ref = *obj;
     add_object(std::move(obj));
     return obj_ref;
