@@ -116,35 +116,6 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                 ALIGN_LEFT,
                                 LAYER_HUD,
                                 PlayerStatusHUD::text_color);
-
-/*
-      if (fire_surface) {
-        context.color().draw_surface(fire_surface,
-                                    Vector(context.get_width()
-                                                - BORDER_X
-                                                - static_cast<float>(fire_surface->get_width())
-                                                - Resources::fixed_font->get_text_width(ammo_text),
-                                            BORDER_Y
-                                                + 1.0f
-                                                + (Resources::fixed_font->get_text_height(coins_text) + 5)
-                                                + (Resources::fixed_font->get_text_height(ammo_text) + 5)
-                                                * static_cast<float>(target)),
-                                    LAYER_HUD);
-      }
-
-      context.color().draw_text(Resources::fixed_font,
-                                ammo_text,
-                                Vector(context.get_width()
-                                          - BORDER_X
-                                          - Resources::fixed_font->get_text_width(ammo_text),
-                                      BORDER_Y
-                                          + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)
-                                          + (Resources::fixed_font->get_text_height(ammo_text) + 5.0f)
-                                          * static_cast<float>(target)),
-                                ALIGN_LEFT,
-                                LAYER_HUD,
-                                PlayerStatusHUD::text_color);
-*/
     }
 
     if (m_player_status.bonus[target] == ICE_BONUS) {
@@ -166,35 +137,6 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                 ALIGN_LEFT,
                                 LAYER_HUD,
                                 PlayerStatusHUD::text_color);
-
-      /*
-      if (ice_surface) {
-        context.color().draw_surface(ice_surface,
-                                    Vector(context.get_width()
-                                                - BORDER_X
-                                                - static_cast<float>(ice_surface->get_width())
-                                                - Resources::fixed_font->get_text_width(ammo_text),
-                                            BORDER_Y
-                                                + 1.0f
-                                                + (Resources::fixed_font->get_text_height(coins_text) + 5)
-                                                + (Resources::fixed_font->get_text_height(ammo_text) + 5)
-                                                * static_cast<float>(target)),
-                                    LAYER_HUD);
-      }
-
-      context.color().draw_text(Resources::fixed_font,
-                                ammo_text,
-                                Vector(context.get_width()
-                                          - BORDER_X
-                                          - Resources::fixed_font->get_text_width(ammo_text),
-                                      BORDER_Y
-                                          + (Resources::fixed_font->get_text_height(coins_text) + 5.0f)
-                                          + (Resources::fixed_font->get_text_height(ammo_text) + 5.0f)
-                                          * static_cast<float>(target)),
-                                ALIGN_LEFT,
-                                LAYER_HUD,
-                                PlayerStatusHUD::text_color);
-*/
     }
   }
 
