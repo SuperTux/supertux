@@ -32,8 +32,8 @@ PlayerStatusHUD::PlayerStatusHUD(PlayerStatus& player_status) :
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
   coin_surface(Surface::from_file("images/engine/hud/coins-0.png")),
-  fire_surface(Surface::from_file("images/objects/bullets/fire-hud.png")),
-  ice_surface(Surface::from_file("images/objects/bullets/ice-hud.png"))
+  fire_surface(Surface::from_file("images/engine/hud/fire-0.png")),
+  ice_surface(Surface::from_file("images/engine/hud/ice-0.png"))
 {
 }
 
@@ -66,6 +66,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
   }
   displayed_coins = std::min(std::max(displayed_coins, 0), m_player_status.get_max_coins());
 
+  float hudpos = BORDER_Y + 1.0f;
   std::ostringstream ss;
   ss << displayed_coins;
   std::string coins_text = ss.str();
@@ -79,26 +80,44 @@ PlayerStatusHUD::draw(DrawingContext& context)
     {
       context.color().draw_surface(coin_surface,
                                   Vector(context.get_width() - BORDER_X - static_cast<float>(coin_surface->get_width()) - Resources::fixed_font->get_text_width(coins_text),
-                                          BORDER_Y + 1.0f),
+                                         hudpos),
                                   LAYER_HUD);
     }
 
     context.color().draw_text(Resources::fixed_font,
                               coins_text,
                               Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                                    BORDER_Y + 14.0f),
+                                    hudpos + 13.f),
                               ALIGN_LEFT,
                               LAYER_HUD,
                               PlayerStatusHUD::text_color);
   }
   std::string ammo_text;
 
+  hudpos += static_cast<float>(fire_surface->get_height()) + 3.0f;
   for (int target = 0; target < InputManager::current()->get_num_users(); target++)
   {
     if (m_player_status.bonus[target] == FIRE_BONUS) {
 
       ammo_text = std::to_string(m_player_status.max_fire_bullets[target]);
 
+      if (fire_surface)
+      {
+          context.color().draw_surface(fire_surface,
+                                       Vector(context.get_width() - BORDER_X - static_cast<float>(fire_surface->get_width()) - Resources::fixed_font->get_text_width(ammo_text),
+                                              hudpos),
+                                       LAYER_HUD);
+      }
+
+      context.color().draw_text(Resources::fixed_font,
+                                ammo_text,
+                                Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(ammo_text),
+                                       hudpos + 13.f),
+                                ALIGN_LEFT,
+                                LAYER_HUD,
+                                PlayerStatusHUD::text_color);
+
+/*
       if (fire_surface) {
         context.color().draw_surface(fire_surface,
                                     Vector(context.get_width()
@@ -125,12 +144,30 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                 ALIGN_LEFT,
                                 LAYER_HUD,
                                 PlayerStatusHUD::text_color);
+*/
     }
 
     if (m_player_status.bonus[target] == ICE_BONUS) {
 
       ammo_text = std::to_string(m_player_status.max_ice_bullets[target]);
 
+      if (ice_surface)
+      {
+          context.color().draw_surface(ice_surface,
+                                       Vector(context.get_width() - BORDER_X - static_cast<float>(ice_surface->get_width()) - Resources::fixed_font->get_text_width(ammo_text),
+                                              hudpos),
+                                       LAYER_HUD);
+      }
+
+      context.color().draw_text(Resources::fixed_font,
+                                ammo_text,
+                                Vector(static_cast<float>(context.get_width()) - BORDER_X - Resources::fixed_font->get_text_width(ammo_text),
+                                       hudpos + 13.f),
+                                ALIGN_LEFT,
+                                LAYER_HUD,
+                                PlayerStatusHUD::text_color);
+
+      /*
       if (ice_surface) {
         context.color().draw_surface(ice_surface,
                                     Vector(context.get_width()
@@ -157,6 +194,7 @@ PlayerStatusHUD::draw(DrawingContext& context)
                                 ALIGN_LEFT,
                                 LAYER_HUD,
                                 PlayerStatusHUD::text_color);
+*/
     }
   }
 
