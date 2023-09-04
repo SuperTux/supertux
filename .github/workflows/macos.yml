@@ -50,8 +50,10 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-11' }}
         run: |
+          brew update
+          brew reinstall harfbuzz
           brew install cmake googletest bash rename libogg libvorbis glew\
-                       openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz  \
+                       openal-soft sdl2 sdl2_image sdl2_ttf freetype \
                        fribidi glib gtk-doc glbinding libraqm glm zlib
 
           # Something funky happens with freetype if mono is left
