@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
 
 #include "object/block.hpp"
+
 #include "supertux/direction.hpp"
 #include "supertux/player_status.hpp"
 
@@ -32,21 +33,25 @@ public:
     ICEGROW,
     AIRGROW,
     EARTHGROW,
+    RETROGROW,
     STAR,
+    RETROSTAR,
     ONEUP,
     CUSTOM,
     SCRIPT,
     LIGHT,
     LIGHT_ON,
     TRAMPOLINE,
+    PORTABLE_TRAMPOLINE,
     RAIN,
-    EXPLODE
+    EXPLODE,
+    ROCK,
+    POTION
   };
 
 public:
   BonusBlock(const Vector& pos, int tile_data);
   BonusBlock(const ReaderMapping& mapping);
-  ~BonusBlock() override;
 
   virtual void hit(Player& player) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -58,6 +63,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   Content get_contents() const { return m_contents; }
   int get_hit_counter() const { return m_hit_counter; }
@@ -65,15 +72,29 @@ public:
   void try_open(Player* player);
 
 private:
+  void on_type_change(int old_type) override;
+
+  int get_default_hit_counter() const;
+  std::string get_default_coin_sprite() const;
+
   void try_drop(Player* player);
 
   void preload_contents(int d);
-  void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir);
-  void drop_growup_bonus(Player* player, const std::string& bonus_sprite_name, const Direction& dir, bool& countdown);
+  void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir,
+                          const std::string& growup_sprite = "", const std::string& flower_sprite = "");
+  void drop_growup_bonus(Player* player, int type, const Direction& dir, bool& countdown,
+                         const std::string& growup_sprite = "");
 
   BonusBlock::Content get_content_by_data(int tile_data) const;
   BonusBlock::Content get_content_from_string(const std::string& contentstring) const;
-  std::string contents_to_string(const BonusBlock::Content& content) const;
+
+private:
+  enum Type {
+    BLUE,
+    ORANGE,
+    PURPLE,
+    RETRO
+  };
 
 private:
   Content m_contents;
@@ -82,6 +103,7 @@ private:
   std::string m_script;
   SurfacePtr m_lightsprite;
   sexp::Value m_custom_sx;
+  std::string m_coin_sprite;
 
 private:
   BonusBlock(const BonusBlock&) = delete;

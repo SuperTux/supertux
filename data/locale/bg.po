@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# IAN RODRÍGUEZ Lorenzo, 2023
 # Любомир Василев, 2015-2016
 # Tony Ivanov <duskull88@fastmail.fm>, 2014
 # Любомир Василев, 2016,2018-2020
@@ -12,9 +13,9 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-15 07:36+0000\n"
-"Last-Translator: Любомир Василев\n"
-"Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
+"PO-Revision-Date: 2013-08-10 22:56+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
+"Language-Team: Bulgarian (http://app.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -492,7 +493,7 @@ msgstr "Ледоразбивач"
 
 #: src/object/rublight.hpp:33
 msgid "Rublight"
-msgstr ""
+msgstr "Адаптер за светлина"
 
 #: src/object/background.hpp:43
 msgid "Background"
@@ -689,7 +690,7 @@ msgstr "Светлина"
 
 #: src/object/shard.hpp:34
 msgid "Shard"
-msgstr ""
+msgstr "Чиреп"
 
 #: src/object/rublight.cpp:55
 msgid "Fading Speed"
@@ -808,162 +809,162 @@ msgstr "Свиване"
 #: src/object/custom_particle_system.cpp:434
 #: src/editor/particle_editor.cpp:172
 msgid "Birth easing"
-msgstr ""
+msgstr "Облекчаване на раждаемостта"
 
 #: src/object/custom_particle_system.cpp:436
 #: src/object/custom_particle_system.cpp:471 src/editor/node_marker.cpp:129
 msgid "No easing"
-msgstr ""
+msgstr "Без облекчаване"
 
 #: src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
 msgid "Quad in"
-msgstr ""
+msgstr "Четворна ин"
 
 #: src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
 msgid "Quad out"
-msgstr ""
+msgstr "Четворна навън"
 
 #: src/object/custom_particle_system.cpp:437
 #: src/object/custom_particle_system.cpp:472 src/editor/node_marker.cpp:130
 msgid "Quad in/out"
-msgstr ""
+msgstr "Четворна вход/изход"
 
 #: src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
 msgid "Cubic in"
-msgstr ""
+msgstr "Кубичен инч"
 
 #: src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
 msgid "Cubic out"
-msgstr ""
+msgstr "Кубичен аут"
 
 #: src/object/custom_particle_system.cpp:438
 #: src/object/custom_particle_system.cpp:473 src/editor/node_marker.cpp:131
 msgid "Cubic in/out"
-msgstr ""
+msgstr "Кубичен вход/изход"
 
 #: src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
 msgid "Quart in"
-msgstr ""
+msgstr "Литър ин"
 
 #: src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
 msgid "Quart out"
-msgstr ""
+msgstr "Литър навън"
 
 #: src/object/custom_particle_system.cpp:439
 #: src/object/custom_particle_system.cpp:474 src/editor/node_marker.cpp:132
 msgid "Quart in/out"
-msgstr ""
+msgstr "Литър в/вън"
 
 #: src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
 msgid "Quint in"
-msgstr ""
+msgstr "Куинт ин"
 
 #: src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
 msgid "Quint out"
-msgstr ""
+msgstr "Куинт навън"
 
 #: src/object/custom_particle_system.cpp:440
 #: src/object/custom_particle_system.cpp:475 src/editor/node_marker.cpp:133
 msgid "Quint in/out"
-msgstr ""
+msgstr "Куинт вход/изход"
 
 #: src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
 msgid "Sine in"
-msgstr ""
+msgstr "Синус в"
 
 #: src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
 msgid "Sine out"
-msgstr ""
+msgstr "Синус аут"
 
 #: src/object/custom_particle_system.cpp:441
 #: src/object/custom_particle_system.cpp:476 src/editor/node_marker.cpp:134
 msgid "Sine in/out"
-msgstr ""
+msgstr "Синус вход/изход"
 
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular in"
-msgstr ""
+msgstr "Кръгов в"
 
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular out"
-msgstr ""
+msgstr "Кръгъл навън"
 
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular in/out"
-msgstr ""
+msgstr "Кръгов вход/вън"
 
 #: src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
 msgid "Exponential in"
-msgstr ""
+msgstr "Експоненциален в"
 
 #: src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
 msgid "Exponential out"
-msgstr ""
+msgstr "Експоненциален аут"
 
 #: src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
 msgid "Exponential in/out"
-msgstr ""
+msgstr "Експоненциален вход/изход"
 
 #: src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
 msgid "Elastic in"
-msgstr ""
+msgstr "Еластичен в"
 
 #: src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
 msgid "Elastic out"
-msgstr ""
+msgstr "Еластичен навън"
 
 #: src/object/custom_particle_system.cpp:444
 #: src/object/custom_particle_system.cpp:479 src/editor/node_marker.cpp:137
 msgid "Elastic in/out"
-msgstr ""
+msgstr "Еластичен в/в"
 
 #: src/object/custom_particle_system.cpp:445
 #: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
 msgid "Back in"
-msgstr ""
+msgstr "Обратно в"
 
 #: src/object/custom_particle_system.cpp:445
 #: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
 msgid "Back out"
-msgstr ""
+msgstr "Обратно навън"
 
 #: src/object/custom_particle_system.cpp:445
 #: src/object/custom_particle_system.cpp:480 src/editor/node_marker.cpp:138
 msgid "Back in/out"
-msgstr ""
+msgstr "Обратно влизане/излизане"
 
 #: src/object/custom_particle_system.cpp:446
 #: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
 msgid "Bounce in"
-msgstr ""
+msgstr "Отскочи в"
 
 #: src/object/custom_particle_system.cpp:446
 #: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
 msgid "Bounce out"
-msgstr ""
+msgstr "Отскочи навън"
 
 #: src/object/custom_particle_system.cpp:446
 #: src/object/custom_particle_system.cpp:481 src/editor/node_marker.cpp:139
 msgid "Bounce in/out"
-msgstr ""
+msgstr "Отскачане навътре/навън"
 
 #: src/object/custom_particle_system.cpp:462
 msgid "Birth time"
@@ -981,7 +982,7 @@ msgstr "Режим на унищожаване"
 #: src/object/custom_particle_system.cpp:469
 #: src/editor/particle_editor.cpp:173
 msgid "Death easing"
-msgstr ""
+msgstr "Облекчаване на смъртта"
 
 #: src/object/custom_particle_system.cpp:497
 msgid "Death time"
@@ -1018,7 +1019,7 @@ msgstr "Триене по Y"
 #: src/object/custom_particle_system.cpp:507
 #: src/editor/particle_editor.cpp:189
 msgid "Feather factor"
-msgstr ""
+msgstr "Фактор на перата"
 
 #: src/object/custom_particle_system.cpp:508
 msgid "Rotation"
@@ -3148,7 +3149,7 @@ msgstr "Задръж CTRL, за да местиш хватките на крив
 
 #: src/editor/node_marker.cpp:127
 msgid "Easing"
-msgstr ""
+msgstr "Облекчаване"
 
 #: src/editor/object_settings.cpp:119
 msgid "up"

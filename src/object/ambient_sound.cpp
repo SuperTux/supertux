@@ -53,14 +53,14 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   mapping.get("sample"         ,sample         , "");
   mapping.get("volume"         ,maximumvolume  , 1.0f);
 
-  // square all distances (saves us a sqrt later)
+  // Square all distances (saves us a sqrt later).
 
   if (!Editor::is_active()) {
     distance_bias*=distance_bias;
     distance_factor*=distance_factor;
   }
 
-  // set default silence_distance
+  // Set default silence_distance.
 
   if (distance_factor == 0)
     silence_distance = std::numeric_limits<float>::max();
@@ -70,7 +70,7 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   mapping.get("silence_distance",silence_distance);
 
   if (!Editor::is_active()) {
-    sound_source.reset(); // not playing at the beginning
+    sound_source.reset(); // Resetting the sound source to stop playing at the beginning.
     SoundManager::current()->preload(sample);
   }
   latency=0;
@@ -93,7 +93,7 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(32, 32);
 
-  // set default silence_distance
+  // Set default silence_distance.
 
   if (distance_factor == 0)
     silence_distance = std::numeric_limits<float>::max();
@@ -101,7 +101,7 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
     silence_distance = 1/distance_factor;
 
   if (!Editor::is_active()) {
-    sound_source.reset(); // not playing at the beginning
+    sound_source.reset(); // Resetting the sound source to stop playing at the beginning.
     SoundManager::current()->preload(sample);
   }
 }
@@ -166,35 +166,35 @@ AmbientSound::update(float dt_sec)
     float px,py;
     float rx,ry;
 
-    // Camera position
+    // Get the central position of the camera.
     px=Sector::get().get_camera().get_center().x;
     py=Sector::get().get_camera().get_center().y;
 
-    // Relate to which point in the area
+    // Determine the nearest point within the area bounds.
     rx=px<m_col.m_bbox.get_left()?m_col.m_bbox.get_left():
       (px<m_col.m_bbox.get_right()?px:m_col.m_bbox.get_right());
     ry=py<m_col.m_bbox.get_top()?m_col.m_bbox.get_top():
       (py<m_col.m_bbox.get_bottom()?py:m_col.m_bbox.get_bottom());
 
-    // calculate square of distance
+    // Calculate the square of the distance.
     float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
     sqrdistance-=distance_bias;
 
-    // inside the bias: full volume (distance 0)
+    // Inside the bias: full volume (distance 0).
     if (sqrdistance<0)
       sqrdistance=0;
 
-    // calculate target volume - will never become 0
+    // Calculate target volume - will never become 0.
     targetvolume=1/(1+sqrdistance*distance_factor);
     float rise=targetvolume/currentvolume;
 
-    // rise/fall half life?
+    // Determine the rise/fall half-life.
     currentvolume *= powf(rise, dt_sec * 10.0f);
     currentvolume += 1e-6f; // volume is at least 1e-6 (0 would never rise)
 
     if (sound_source != nullptr) {
 
-      // set the volume
+      // Set the volume.
       sound_source->set_gain(currentvolume*maximumvolume);
 
       if (sqrdistance>=silence_distance && currentvolume < 1e-3f)
@@ -205,16 +205,16 @@ AmbientSound::update(float dt_sec)
         start_playing();
         latency=0;
       }
-      else // set a reasonable latency
+      else // Set a reasonable latency.
         latency = static_cast<int>(0.001f / distance_factor);
       //(int)(10*((sqrdistance-silence_distance)/silence_distance));
     }
   }
 
-  // heuristically measured "good" latency maximum
+  // Heuristically measured "good" maximum latency.
 
-  //  if (latency>0.001/distance_factor)
-  // latency=
+  // if (latency > 0.001 / distance_factor)
+  //   latency =
 }
 
 #ifndef SCRIPTING_API
@@ -256,6 +256,18 @@ AmbientSound::draw(DrawingContext& context)
     context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
                                      0.0f, LAYER_OBJECTS);
   }
+}
+
+void
+AmbientSound::stop_looping_sounds()
+{
+  stop_playing();
+}
+
+void
+AmbientSound::play_looping_sounds()
+{
+  start_playing();
 }
 
 /* EOF */

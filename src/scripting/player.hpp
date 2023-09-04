@@ -194,6 +194,13 @@ public:
   float get_velocity_y() const;
 
   /**
+   * Sets the velocity of the player to a programmable/variable speed.
+   * @param float $x The speed Tux will move on the x axis.
+   * @param float $y The speed Tux will move on the y axis.
+   */
+  void set_velocity(float x, float y);
+
+  /**
    * Gets the X coordinate of the player.
    */
   float get_x() const;
@@ -204,6 +211,8 @@ public:
 
   /**
    * Sets the position of the player to a programmable/variable position.
+   * @param float $x X position.
+   * @param float $y Y position.
    */
   void set_pos(float x, float y);
 
@@ -211,6 +220,25 @@ public:
    * Gets the player's current action/animation.
    */
   std::string get_action() const;
+
+  /**
+   * Gets whether the current input on the keyboard/controller/touchpad has been pressed.
+   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+      “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
+      “peek-left”, “peek-right”, “peek-up” or “peek-down”.
+   */
+  bool get_input_pressed(const std::string& input);
+
+  /**
+   * Gets whether the current input on the keyboard/controller/touchpad is being held.
+   * @param string $input Valid values are listed above.
+   */
+  bool get_input_held(const std::string& input);
+  /**
+   * Gets whether the current input on the keyboard/controller/touchpad has been released.
+   * @param string $input Valid values are listed above.
+   */
+  bool get_input_released(const std::string& input);
 };
 
 } // namespace scripting

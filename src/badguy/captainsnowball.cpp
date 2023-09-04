@@ -36,7 +36,7 @@ CaptainSnowball::CaptainSnowball(const ReaderMapping& reader) :
 bool
 CaptainSnowball::might_climb(int width, int height) const
 {
-  // make sure we check for at least a 1-pixel climb
+  // Make sure we check for at least a 1-pixel climb.
   assert(height > 0);
 
   float x1;
@@ -78,7 +78,7 @@ CaptainSnowball::active_update(float dt_sec)
 void
 CaptainSnowball::collision_solid(const CollisionHit& hit)
 {
-  if (m_jumping)
+  if (m_jumping && get_state() != STATE_SQUISHED)
   {
     m_jumping = false;
     set_action(m_dir);

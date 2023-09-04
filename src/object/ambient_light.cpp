@@ -19,6 +19,7 @@
 #include <sexp/io.hpp>
 #include <sexp/value.hpp>
 
+#include "math/util.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -46,7 +47,7 @@ AmbientLight::AmbientLight(const ReaderMapping& mapping) :
   if (mapping.get("color", color_vec))
   {
     if (color_vec.size() < 3) {
-      log_warning << "ambient-light requires three float arguments" << std::endl;
+      log_warning << "'ambient-light' requires three float arguments" << std::endl;
     } else {
       m_ambient_light = Color(color_vec);
     }
@@ -64,19 +65,9 @@ AmbientLight::update(float dt_sec)
     float g = (1.0f - percent_done) * m_source_ambient_light.green + percent_done * m_target_ambient_light.green;
     float b = (1.0f - percent_done) * m_source_ambient_light.blue + percent_done * m_target_ambient_light.blue;
 
-    if (r > 1.0f)
-      r = 1.0;
-    if (g > 1.0f)
-      g = 1.0;
-    if (b > 1.0f)
-      b = 1.0;
-
-    if (r < 0)
-      r = 0;
-    if (g < 0)
-      g = 0;
-    if (b < 0)
-      b = 0;
+    r = math::clamp(r, 0.0f, 1.0f);
+    g = math::clamp(g, 0.0f, 1.0f);
+    b = math::clamp(b, 0.0f, 1.0f);
 
     m_ambient_light = Color(r, g, b);
 

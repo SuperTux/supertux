@@ -16,6 +16,7 @@
 
 #include "scripting/player.hpp"
 
+#include "control/controller.hpp"
 #include "object/player.hpp"
 
 namespace scripting {
@@ -203,6 +204,13 @@ Player::get_velocity_y() const
   return object.get_physic().get_velocity_y();
 }
 
+void 
+Player::set_velocity(float x, float y)
+{
+  SCRIPT_GUARD_VOID;
+  object.get_physic().set_velocity(x, y);
+}
+
 bool
 Player::has_grabbed(const std::string& name) const
 {
@@ -236,6 +244,27 @@ Player::get_action() const
 {
   SCRIPT_GUARD_DEFAULT;
   return object.get_action();
+}
+
+bool
+Player::get_input_pressed(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().pressed(Control_from_string(input).value());
+}
+
+bool
+Player::get_input_held(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().hold(Control_from_string(input).value());
+}
+
+bool
+Player::get_input_released(const std::string& input)
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_controller().released(Control_from_string(input).value());
 }
 
 } // namespace scripting

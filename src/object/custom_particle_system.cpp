@@ -538,10 +538,10 @@ CustomParticleSystem::get_settings()
 void
 CustomParticleSystem::update(float dt_sec)
 {
-  // "enabled" being false only means new particles shouldn't spawn;
-  //  update the already existing particles regardless, if any
+  // The "enabled" flag being false only indicates that new particles shouldn't spawn.
+  // However, we still need to update the existing particles, if any.
 
-  // Handle easings
+  // Handle script-based easings.
   for (auto& req : script_easings)
   {
     req.time_remain -= dt_sec;
@@ -558,7 +558,7 @@ CustomParticleSystem::update(float dt_sec)
     }
   }
 
-  // Update existing particles
+  // Update existing particles.
   for (auto& it : custom_particles) {
     auto particle = dynamic_cast<CustomParticle*>(it.get());
     assert(particle);
@@ -696,12 +696,12 @@ CustomParticleSystem::update(float dt_sec)
           is_in_life_zone = true;
           break;
 
-          // Nothing to do; there's a warning if I don't put that here
+        // This case is intentionally empty; it serves as a placeholder to prevent a warning.
         case ParticleZone::ParticleZoneType::Spawn:
           break;
         }
       }
-    } // For each ParticleZone object
+    } // For each ParticleZone object.
 
     if (!is_in_life_zone && particle->has_been_in_life_zone) {
       if (particle->last_life_zone_required_instakill) {
@@ -741,7 +741,6 @@ CustomParticleSystem::update(float dt_sec)
             auto c = get_collision(particle, Vector(particle->speedX, particle->speedY) * dt_sec);
 
             float speed_angle = atanf(-particle->speedY / particle->speedX);
-            float face_angle = atanf(c.slope_normal.y / c.slope_normal.x);
             if (c.slope_normal.x == 0.f && c.slope_normal.y == 0.f) {
               auto cX = get_collision(particle, Vector(particle->speedX, 0) * dt_sec);
               if (cX.left != cX.right)
@@ -750,7 +749,8 @@ CustomParticleSystem::update(float dt_sec)
               if (cY.top != cY.bottom)
                 particle->speedY *= -1;
             } else {
-              float dest_angle = face_angle * 2.f - speed_angle; // Reflect the angle around face_angle
+              float face_angle = atanf(c.slope_normal.y / c.slope_normal.x);
+              float dest_angle = face_angle * 2.f - speed_angle; // Reflect the angle around face_angle.
               float dX = cosf(dest_angle),
                     dY = sinf(dest_angle);
 
@@ -806,12 +806,12 @@ CustomParticleSystem::update(float dt_sec)
       }
     }
 
-  } // For each particle
+  } // For each particle.
 
 
   // Clear dead particles
-  // Scroll through the vector backwards, because removing an element affects
-  //   the index of all elements after it (prevents buggy behavior)
+  // We iterate through the vector backwards because removing an element affects
+  // the index of all elements after it, which can lead to buggy behavior.
   for (int i = static_cast<int>(custom_particles.size()) - 1; i >= 0; --i) {
     auto particle = dynamic_cast<CustomParticle*>(custom_particles.at(i).get());
 
@@ -820,7 +820,7 @@ CustomParticleSystem::update(float dt_sec)
     }
   }
 
-  // Add necessary particles
+  // Add necessary particles.
   float remaining = dt_sec + time_last_remaining;
 
   if (enabled) {
@@ -845,7 +845,7 @@ CustomParticleSystem::update(float dt_sec)
   // it won't store all the time waiting for some particles to go and then
   // spawn a bazillion particles instantly. (Bacisally it means : This will
   // help guarantee there will be at least m_delay between each particle
-  // spawn as long as m_delay >= dt_sec)
+  // spawn as long as m_delay >= dt_sec).
   time_last_remaining = (remaining > m_delay) ? m_delay : remaining;
 
 }
@@ -853,8 +853,8 @@ CustomParticleSystem::update(float dt_sec)
 void
 CustomParticleSystem::draw(DrawingContext& context)
 {
-  // "enabled" being false only means new particles shouldn't spawn;
-  //  draw the already existing particles regardless, if any
+  // The "enabled" flag being false only indicates that new particles shouldn't spawn.
+  // However, we still need to update the existing particles, if any.
 
   context.push_transform();
 
@@ -912,7 +912,7 @@ CustomParticleSystem::draw(DrawingContext& context)
 }
 
 // Duplicated from ParticleSystem_Interactive because I intend to bring edits
-// sometime in the future, for even more flexibility with particles. (Semphris)
+// sometime in the future, for even more flexibility with particles. (Semphris).
 int
 CustomParticleSystem::collision(Particle* object, const Vector& movement)
 {
@@ -921,7 +921,7 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
   CustomParticle* particle = dynamic_cast<CustomParticle*>(object);
   assert(particle);
 
-  // calculate rectangle where the object will move
+  // Calculate rectangle where the object will move.
   float x1, x2;
   float y1, y2;
 
@@ -944,7 +944,7 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
   }
   bool water = false;
 
-  // test with all tiles in this rectangle
+  // Test with all tiles in this rectangle.
   int starttilex = int(x1-1) / 32;
   int starttiley = int(y1-1) / 32;
   int max_x = int(x2+1);
@@ -955,25 +955,25 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
   Constraints constraints;
 
   for (const auto& solids : Sector::get().get_solid_tilemaps()) {
-    // FIXME Handle a nonzero tilemap offset
-    // Check if it gets fixed in particlesystem_interactive.cpp
+    // FIXME: Handle a nonzero tilemap offset.
+    // Check if it gets fixed in particlesystem_interactive.cpp.
     for (int x = starttilex; x*32 < max_x; ++x) {
       for (int y = starttiley; y*32 < max_y; ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
-        // skip non-solid tiles, except water
+        // Skip non-solid tiles, except water.
         if (! (tile.get_attributes() & (Tile::WATER | Tile::SOLID)))
           continue;
 
         Rectf rect = solids->get_tile_bbox(x, y);
-        if (tile.is_slope ()) { // slope tile
+        if (tile.is_slope ()) { // Slope tile.
           AATriangle triangle = AATriangle(rect, tile.get_data());
 
           if (rectangle_aatriangle(&constraints, dest, triangle)) {
             if (tile.get_attributes() & Tile::WATER)
               water = true;
           }
-        } else { // normal rectangular tile
+        } else { // Normal rectangular tile.
           if (intersects(dest, rect)) {
             if (tile.get_attributes() & Tile::WATER)
               water = true;
@@ -984,20 +984,20 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
     }
   }
 
-  // TODO don't use magic numbers here...
+  // TODO: Avoid using magic numbers in this section.
 
-  // did we collide at all?
+  // Check if any constraints exist for collision.
   if (!constraints.has_constraints())
     return -1;
 
   const CollisionHit& hit = constraints.hit;
   if (water) {
-    return 0; //collision with water tile - don't draw splash
+    return 0; // Collision with water tile - no need to draw splash.
   } else {
     if (hit.right || hit.left) {
-      return 2; //collision from right
+      return 2; // Collision from the right.
     } else {
-      return 1; //collision from above
+      return 1; // Collision from above.
     }
   }
 }
@@ -1010,7 +1010,7 @@ CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
   CustomParticle* particle = dynamic_cast<CustomParticle*>(object);
   assert(particle);
 
-  // calculate rectangle where the object will move
+  // Calculate rectangle where the object will move.
   float x1, x2;
   float y1, y2;
 
@@ -1030,7 +1030,7 @@ CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
     y2 = temp_y;
   }
 
-  // test with all tiles in this rectangle
+  // Test with all tiles in this rectangle.
   int starttilex = int(x1-1) / 32;
   int starttiley = int(y1-1) / 32;
   int max_x = int(x2+1);
@@ -1041,21 +1041,21 @@ CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
   Constraints constraints;
 
   for (const auto& solids : Sector::get().get_solid_tilemaps()) {
-    // FIXME Handle a nonzero tilemap offset
-    // Check if it gets fixed in particlesystem_interactive.cpp
+    // FIXME: Handle a nonzero tilemap offset.
+    // Check if it gets fixed in particlesystem_interactive.cpp.
     for (int x = starttilex; x*32 < max_x; ++x) {
       for (int y = starttiley; y*32 < max_y; ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
-        // skip non-solid tiles
+        // Skip non-solid tiles.
         if (! (tile.get_attributes() & (/*Tile::WATER |*/ Tile::SOLID)))
           continue;
 
         Rectf rect = solids->get_tile_bbox(x, y);
-        if (tile.is_slope ()) { // slope tile
+        if (tile.is_slope ()) { // Slope tile.
           AATriangle triangle = AATriangle(rect, tile.get_data());
           rectangle_aatriangle(&constraints, dest, triangle);
-        } else { // normal rectangular tile
+        } else { // Normal rectangular tile.
           if (intersects(dest, rect)) {
             set_rectangle_rectangle_constraints(&constraints, dest, rect);
           }
@@ -1094,14 +1094,14 @@ CustomParticleSystem::get_zones()
   //if (!!GameSession::current() && Sector::current()) {
   if (!ParticleEditor::current()) {
 
-    // In game or in level editor
+    // In game or in level editor.
     for (auto& zone : GameSession::current()->get_current_sector().get_objects_by_type<ParticleZone>()) {
       list.push_back(zone.get_details());
     }
 
   } else {
 
-    // In particle editor
+    // In particle editor.
     list.push_back(ParticleZone::ZoneDetails(m_name,
                                              ParticleZone::ParticleZoneType::Spawn,
                                              Rectf(virtual_width / 2 - 16.f,
@@ -1129,7 +1129,7 @@ CustomParticleSystem::get_abs_y()
 
 /** Initializes and adds a single particle to the stack. Performs
  *    no check regarding the maximum amount of total particles.
- * @param lifetime The time elapsed since the moment the particle should have been born
+ * @param lifetime The time elapsed since the moment the particle should have been born.
  */
 void
 CustomParticleSystem::add_particle(float lifetime, float x, float y)

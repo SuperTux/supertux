@@ -38,10 +38,10 @@ class Dispenser final : public scripting::BadGuy
 {
 #ifndef SCRIPTING_API
 public:
-  Dispenser(UID uid) :
-    GameObject<::BadGuy>(uid),
-    GameObject<::Dispenser>(uid),
-    BadGuy(uid)
+  Dispenser(const ::GameObject& object) :
+    GameObject<::BadGuy>(object),
+    GameObject<::Dispenser>(object),
+    BadGuy(object)
   {}
 
 private:

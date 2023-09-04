@@ -18,12 +18,12 @@
 #include "supertux/menu/profile_menu.hpp"
 
 #include <fmt/format.h>
-#include <physfs.h>
 #include <sstream>
 
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
+#include "physfs/util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/profile_name_menu.hpp"
@@ -55,33 +55,33 @@ ProfileMenu::rebuild_menu()
   add_hl();
   if (m_profiles.empty()) add_inactive(_("No profiles found."));
   bool has_selected_profile = false;
-  for (std::size_t i = 0; i < m_profiles.size(); ++i)
+  for (size_t i = 0; i < m_profiles.size(); ++i)
   {
     int id = m_profiles[i];
     std::string name;
-    for (std::size_t y = 0; y < g_config->profiles.size(); ++y)
+    for (const auto& profile : g_config->profiles)
     {
-      if (g_config->profiles[y].id == id)
-        name = g_config->profiles[y].name;
+      if (profile.id == id)
+        name = profile.name;
     }
     std::string text;
     if (name.empty())
     {
-      text = fmt::format(fmt::runtime(_("profile{}")), id);
+      text = fmt::format(fmt::runtime(_("Profile {}")), id);
     }
     else
     {
       text = name;
     }
-    m_profile_names.push_back(text);
+    m_profile_names.insert({ id, text });
 
     if (id == g_config->profile)
     {
-      text = fmt::format(fmt::runtime(_("[{}]")), text);
+      text = "[" + text + "]";
       has_selected_profile = true;
     }
     if (g_config->developer_mode && !name.empty())
-      text = fmt::format(fmt::runtime(_("{} (profile{})")), text, id);
+      text = fmt::format(fmt::runtime(_("{} (Profile {})")), text, id);
 
     add_entry(id, text);
     if (id == g_config->profile) set_active_item(id);
@@ -162,13 +162,13 @@ ProfileMenu::menu_action(MenuItem& item)
   else if (id == -2)
   {
     MenuManager::instance().push_menu(std::make_unique<ProfileNameMenu>(true,
-      g_config->profile, m_profile_names[g_config->profile - 1]));
+      g_config->profile, m_profile_names[g_config->profile]));
   }
   else if (id == -3)
   {
     const std::string message = fmt::format(
       fmt::runtime(_("This will reset all game progress on the profile \"{}\".\nAre you sure?")),
-      m_profile_names[g_config->profile - 1]);
+      m_profile_names[g_config->profile]);
 
     Dialog::show_confirmation(message, []() {
       savegames_util::delete_savegames(g_config->profile, true);
@@ -186,7 +186,7 @@ ProfileMenu::menu_action(MenuItem& item)
   {
     const std::string message = fmt::format(
     fmt::runtime(_("This will delete the profile \"{}\",\nincluding all game progress on it. Are you sure?")),
-    m_profile_names[g_config->profile - 1]);
+    m_profile_names[g_config->profile]);
 
     Dialog::show_confirmation(message, [this]() {
       savegames_util::delete_savegames(g_config->profile);
@@ -222,29 +222,20 @@ namespace savegames_util {
   std::vector<int> get_savegames()
   {
     std::vector<int> savegames;
-    char **rc = PHYSFS_enumerateFiles("/");
-    char **i;
-    for (i = rc; *i != nullptr; i++)
-    {
-      if (std::string(*i).substr(0, 7) == "profile") savegames.push_back(std::stoi(std::string(*i).substr(7)));
-    }
-    PHYSFS_freeList(rc);
+    physfsutil::enumerate_files("/", [&savegames](const std::string& filename) {
+      if (filename.substr(0, 7) == "profile")
+        savegames.push_back(std::stoi(filename.substr(7)));
+    });
     std::sort(savegames.begin(), savegames.end());
     return savegames;
   }
 
   void delete_savegames(int idx, bool reset)
   {
-    const auto& profile_path = "profile" + std::to_string(idx);
-    std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    files(PHYSFS_enumerateFiles(profile_path.c_str()),
-        PHYSFS_freeList);
-    for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
-    {
-      std::string filepath = FileSystem::join(profile_path.c_str(), *filename);
-      PHYSFS_delete(filepath.c_str());
-    }
-    if (!reset) PHYSFS_delete(profile_path.c_str());
+    const std::string profile_path = "profile" + std::to_string(idx);
+    physfsutil::remove_content(profile_path);
+    if (!reset)
+      physfsutil::remove(profile_path);
   }
 } // namespace savegames_util
 

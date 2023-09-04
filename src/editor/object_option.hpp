@@ -40,6 +40,8 @@ namespace sexp {
 class Value;
 } // namespace sexp
 class Color;
+enum class Direction;
+class GameObject;
 class Menu;
 class Path;
 class PathObject;
@@ -317,22 +319,23 @@ private:
   ColorObjectOption& operator=(const ColorObjectOption&) = delete;
 };
 
-class BadGuySelectObjectOption : public ObjectOption
+class ObjectSelectObjectOption : public ObjectOption
 {
 public:
-  BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
-                           unsigned int flags);
+  ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
+                           GameObject* parent, const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  std::vector<std::string>* const m_pointer;
+  std::vector<std::unique_ptr<GameObject>>* const m_pointer;
+  GameObject* m_parent;
 
 private:
-  BadGuySelectObjectOption(const BadGuySelectObjectOption&) = delete;
-  BadGuySelectObjectOption& operator=(const BadGuySelectObjectOption&) = delete;
+  ObjectSelectObjectOption(const ObjectSelectObjectOption&) = delete;
+  ObjectSelectObjectOption& operator=(const ObjectSelectObjectOption&) = delete;
 };
 
 class TilesObjectOption : public ObjectOption
@@ -517,6 +520,26 @@ private:
 private:
   ListOption(const ListOption&) = delete;
   ListOption& operator=(const ListOption&) = delete;
+};
+
+class DirectionOption : public ObjectOption
+{
+public:
+  DirectionOption(const std::string& text, Direction* value_ptr,
+                  std::vector<Direction> possible_directions,
+                  const std::string& key, unsigned int flags);
+
+  virtual void save(Writer& write) const override;
+  virtual std::string to_string() const override;
+  virtual void add_to_menu(Menu& menu) const override;
+
+private:
+  Direction* m_value_ptr;
+  std::vector<Direction> m_possible_directions;
+
+private:
+  DirectionOption(const DirectionOption&) = delete;
+  DirectionOption& operator=(const DirectionOption&) = delete;
 };
 
 #endif

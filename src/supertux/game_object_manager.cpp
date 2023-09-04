@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //                2018 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,12 +20,19 @@
 
 #include <algorithm>
 
+#include "editor/editor.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/game_object_factory.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
-GameObjectManager::GameObjectManager() :
+GameObjectManager::GameObjectManager(bool undo_tracking) :
+  m_initialized(false),
   m_uid_generator(),
+  m_undo_tracking(undo_tracking),
+  m_undo_stack_size(20),
+  m_undo_stack(),
+  m_redo_stack(),
   m_gameobjects(),
   m_gameobjects_new(),
   m_solid_tilemaps(),
@@ -38,7 +46,7 @@ GameObjectManager::GameObjectManager() :
 
 GameObjectManager::~GameObjectManager()
 {
-  // clear_objects() must be called before destructing the GameObjectManager
+  // clear_objects() must be called before destructing the GameObjectManager.
   assert(m_gameobjects.size() == 0);
   assert(m_gameobjects_new.size() == 0);
 }
@@ -59,7 +67,7 @@ GameObjectManager::process_resolve_requests()
     GameObject* object = get_object_by_name<GameObject>(request.name);
     if (!object)
     {
-      log_warning << "GameObjectManager: name resolve for '" << request.name << "' failed" << std::endl;
+      log_warning << "GameObjectManager: Name resolve for '" << request.name << "' failed." << std::endl;
       request.callback({});
     }
     else
@@ -81,7 +89,7 @@ GameObjectManager::try_process_resolve_requests()
     auto* object = get_object_by_name<GameObject>(request.name);
     if (!object)
     {
-      // Unlike process_resolve_requests(), we just keep that one in mind
+      // Unlike process_resolve_requests(), we just keep that one in mind.
       new_list.push_back(request);
     }
     else
@@ -104,11 +112,20 @@ GameObject&
 GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 {
   assert(object);
-  assert(!object->get_uid());
 
-  object->set_uid(m_uid_generator.next());
+  object->m_parent = this;
 
-  // make sure the object isn't already in the list
+  if (!object->get_uid())
+  {
+    object->set_uid(m_uid_generator.next());
+
+    // No object UID would indicate the object is not a result of undo/redo.
+    // Any newly placed object in the editor should be on its latest version.
+    if (m_initialized && Editor::is_active())
+      object->update_version();
+  }
+
+  // Make sure the object isn't already in the list.
 #ifndef NDEBUG
   for (const auto& game_object : m_gameobjects) {
     assert(game_object != object);
@@ -117,6 +134,10 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
     assert(gameobject != object);
   }
 #endif
+
+  // Attempt to add object to editor layers.
+  if (m_initialized && Editor::is_active())
+    Editor::current()->add_layer(object.get());
 
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
@@ -168,7 +189,7 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::flush_game_objects()
 {
-  { // cleanup marked objects
+  { // Clean up marked objects.
     m_gameobjects.erase(
       std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
                      [this](const std::unique_ptr<GameObject>& obj) {
@@ -184,7 +205,7 @@ GameObjectManager::flush_game_objects()
       m_gameobjects.end());
   }
 
-  { // add newly created objects
+  { // Add newly created objects.
     // Objects might add new objects in finish_construction(), so we
     // loop until no new objects show up.
     while (!m_gameobjects_new.empty()) {
@@ -193,6 +214,7 @@ GameObjectManager::flush_game_objects()
       {
         if (before_object_add(*object))
         {
+          if (!m_initialized) object->m_track_undo = false;
           this_before_object_add(*object);
           m_gameobjects.push_back(std::move(object));
         }
@@ -200,6 +222,8 @@ GameObjectManager::flush_game_objects()
     }
   }
   update_tilemaps();
+
+  m_initialized = true;
 }
 
 void 
@@ -227,30 +251,155 @@ GameObjectManager::update_tilemaps()
 }
 
 void
+GameObjectManager::toggle_undo_tracking(bool enabled)
+{
+  if (m_undo_tracking == enabled)
+    return;
+
+  m_undo_tracking = enabled;
+  clear_undo_stack();
+}
+
+void
+GameObjectManager::set_undo_stack_size(int size)
+{
+  if (m_undo_stack_size == size)
+    return;
+
+  m_undo_stack_size = size;
+  undo_stack_cleanup();
+}
+
+void
+GameObjectManager::undo_stack_cleanup()
+{
+  const int current_size = static_cast<int>(m_undo_stack.size());
+  if (current_size > m_undo_stack_size)
+    m_undo_stack.erase(m_undo_stack.begin(),
+                       m_undo_stack.begin() + (current_size - m_undo_stack_size));
+}
+
+void
+GameObjectManager::undo()
+{
+  if (m_undo_stack.empty()) return;
+  ObjectChange& change = m_undo_stack.back();
+
+  process_object_change(change);
+
+  m_redo_stack.push_back(change);
+  m_undo_stack.pop_back();
+}
+
+void
+GameObjectManager::redo()
+{
+  if (m_redo_stack.empty()) return;
+  ObjectChange& change = m_redo_stack.back();
+
+  process_object_change(change);
+
+  m_undo_stack.push_back(change);
+  m_redo_stack.pop_back();
+}
+
+void
+GameObjectManager::create_object_from_change(const ObjectChange& change)
+{
+  auto object = GameObjectFactory::instance().create(change.name, change.data);
+  object->m_track_undo = false;
+  object->set_uid(change.uid);
+  object->after_editor_set();
+  add_object(std::move(object));
+}
+
+void
+GameObjectManager::process_object_change(ObjectChange& change)
+{
+  GameObject* object = get_object_by_uid<GameObject>(change.uid);
+  if (object) // Object exists, remove it.
+  {
+    object->m_track_undo = false;
+    object->remove_me();
+
+    const std::string data = object->save();
+
+    // If settings have changed, re-create object with old settings.
+    if (!change.creation && change.data != data)
+      create_object_from_change(change);
+
+    change.data = std::move(data);
+  }
+  else // Object doesn't exist, create it.
+  {
+    create_object_from_change(change);
+  }
+}
+
+void
+GameObjectManager::save_object_change(GameObject& object, bool creation)
+{
+  if (m_undo_tracking && object.track_state() && object.m_track_undo)
+  {
+    m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
+    m_redo_stack.clear();
+    undo_stack_cleanup();
+  }
+  object.m_track_undo = true;
+}
+
+void
+GameObjectManager::save_object_change(GameObject& object, const std::string& data)
+{
+  if (!m_undo_tracking) return;
+
+  m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
+  m_redo_stack.clear();
+  undo_stack_cleanup();
+}
+
+void
+GameObjectManager::clear_undo_stack()
+{
+  m_undo_stack.clear();
+  m_redo_stack.clear();
+}
+
+bool
+GameObjectManager::has_object_changes() const
+{
+  return !m_undo_stack.empty();
+}
+
+void
 GameObjectManager::this_before_object_add(GameObject& object)
 {
-  { // by_name
+  { // By name:
     if (!object.get_name().empty())
     {
       m_objects_by_name[object.get_name()] = &object;
     }
   }
 
-  { // by_id
+  { // By id:
     assert(object.get_uid());
 
     m_objects_by_uid[object.get_uid()] = &object;
   }
 
-  { // by_type_index
+  { // By type index:
     m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
   }
+
+  save_object_change(object, true);
 }
 
 void
 GameObjectManager::this_before_object_remove(GameObject& object)
 {
-  { // by_name
+  save_object_change(object);
+
+  { // By name:
     const std::string& name = object.get_name();
     if (!name.empty())
     {
@@ -258,11 +407,11 @@ GameObjectManager::this_before_object_remove(GameObject& object)
     }
   }
 
-  { // by_id
+  { // By id:
     m_objects_by_uid.erase(object.get_uid());
   }
 
-  { // by_type_index
+  { // By type index:
     auto& vec = m_objects_by_type_index[std::type_index(typeid(object))];
     auto it = std::find(vec.begin(), vec.end(), &object);
     assert(it != vec.end());

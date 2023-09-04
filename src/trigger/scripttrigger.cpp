@@ -24,26 +24,18 @@
 #include "video/drawing_context.hpp"
 
 ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
-  TriggerBase(reader),
+  Trigger(reader),
   triggerevent(),
   script(),
-  new_size(0.0f, 0.0f),
   must_activate(false),
   oneshot(false),
   runcount(0)
 {
-  if (m_col.m_bbox.get_width() == 0.f)
-    m_col.m_bbox.set_width(32.f);
-
-  if (m_col.m_bbox.get_height() == 0.f)
-    m_col.m_bbox.set_height(32.f);
-
   reader.get("script", script);
   reader.get("button", must_activate);
   reader.get("oneshot", oneshot);
-  if (script.empty()) {
+  if (script.empty() && !Editor::is_active())
     log_warning << "No script set in script trigger" << std::endl;
-  }
 
   if (must_activate)
     triggerevent = EVENT_ACTIVATE;
@@ -51,26 +43,10 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
     triggerevent = EVENT_TOUCH;
 }
 
-ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
-  TriggerBase(),
-  triggerevent(EVENT_TOUCH),
-  script(script_),
-  new_size(0.0f, 0.0f),
-  must_activate(),
-  oneshot(false),
-  runcount(0)
-{
-  m_col.m_bbox.set_pos(pos);
-  m_col.m_bbox.set_size(32, 32);
-}
-
 ObjectSettings
 ScriptTrigger::get_settings()
 {
-  new_size.x = m_col.m_bbox.get_width();
-  new_size.y = m_col.m_bbox.get_height();
-
-  ObjectSettings result = TriggerBase::get_settings();
+  ObjectSettings result = Trigger::get_settings();
 
   result.add_script(_("Script"), &script, "script");
   result.add_bool(_("Button"), &must_activate, "button");
@@ -82,24 +58,10 @@ ScriptTrigger::get_settings()
 }
 
 void
-ScriptTrigger::after_editor_set() {
-  //m_col.m_bbox.set_size(new_size.x, new_size.y);
-  if (must_activate) {
-    triggerevent = EVENT_ACTIVATE;
-  } else {
-    triggerevent = EVENT_TOUCH;
-  }
-}
-
-void
 ScriptTrigger::event(Player& , EventType type)
 {
-  if (type != triggerevent)
+  if (type != triggerevent || (oneshot && runcount >= 1))
     return;
-
-  if (oneshot && runcount >= 1) {
-    return;
-  }
 
   Sector::get().run_script(script, "ScriptTrigger");
   runcount++;
@@ -108,10 +70,9 @@ ScriptTrigger::event(Player& , EventType type)
 void
 ScriptTrigger::draw(DrawingContext& context)
 {
-  if (Editor::is_active() || g_debug.show_collision_rects) {
+  if (Editor::is_active() || g_debug.show_collision_rects)
     context.color().draw_filled_rect(m_col.m_bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
-  }
 }
 
 /* EOF */

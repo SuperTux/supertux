@@ -55,21 +55,18 @@ void
 EditorLevelsetSelectMenu::initialize()
 {
   Editor::current()->m_deactivate_request = true;
-  // Generating contrib levels list by making use of Level Subset
-  std::vector<std::string> level_worlds;
   m_contrib_worlds.clear();
 
-  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    files(PHYSFS_enumerateFiles("levels"),
-          PHYSFS_freeList);
-  for (const char* const* filename = files.get(); *filename != nullptr; ++filename)
-  {
-    std::string filepath = FileSystem::join("levels", *filename);
+  // Generating contrib levels list by making use of Level Subset
+  std::vector<std::string> level_worlds;
+  
+  physfsutil::enumerate_files("levels", [&level_worlds](const auto& filename) {
+    std::string filepath = FileSystem::join("levels", filename);
     if (physfsutil::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
     }
-  }
+  });
 
   add_label(_("Choose World"));
   add_hl();
@@ -86,7 +83,7 @@ EditorLevelsetSelectMenu::initialize()
       }
       if (!world->is_levelset() && !world->is_worldmap())
       {
-        log_warning << level_world << ": unknown World type" << std::endl;
+        log_warning << level_world << ": Unknown World type." << std::endl;
         continue;
       }
       auto title = world->get_title();

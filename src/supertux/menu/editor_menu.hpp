@@ -28,6 +28,7 @@ private:
     MNID_SAVEASLEVEL,
     MNID_SAVECOPYLEVEL,
     MNID_TESTLEVEL,
+    MNID_OPTIONS,
     MNID_PACK,
     MNID_OPEN_DIR,
     MNID_SHARE,
@@ -42,6 +43,8 @@ public:
   ~EditorMenu() override;
 
   void menu_action(MenuItem& item) override;
+
+  bool on_back_action() override;
 
 private:
   EditorMenu(const EditorMenu&) = delete;

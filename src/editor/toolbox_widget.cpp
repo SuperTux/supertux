@@ -65,6 +65,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 {
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
   m_select_mode->push_mode("images/engine/editor/select-mode2.png");
+  m_select_mode->push_mode("images/engine/editor/select-mode3.png");
   m_move_mode->push_mode("images/engine/editor/move-mode1.png");
   m_undo_mode->push_mode("images/engine/editor/redo.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
@@ -75,8 +76,8 @@ EditorToolboxWidget::draw(DrawingContext& context)
 {
   //SCREEN_WIDTH SCREEN_HEIGHT
   context.color().draw_filled_rect(Rectf(Vector(static_cast<float>(m_Xpos), 0),
-                                         Vector(static_cast<float>(context.get_width()),
-                                                static_cast<float>(context.get_height()))),
+                                         Vector(context.get_width(),
+                                                context.get_height())),
                                      g_config->editorcolor,
                                      0.0f, LAYER_GUI-10);
   if (m_dragging) {
@@ -96,10 +97,10 @@ EditorToolboxWidget::draw(DrawingContext& context)
   }
 
   context.color().draw_text(Resources::normal_font, _("Tiles"),
-                            Vector(static_cast<float>(context.get_width()), 5),
+                            Vector(context.get_width(), 5),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
   context.color().draw_text(Resources::normal_font, _("Objects"),
-                            Vector(static_cast<float>(context.get_width()), 37),
+                            Vector(context.get_width(), 37),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   m_rubber->draw(context);
@@ -448,8 +449,10 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         try {
           obj_name = GameObjectFactory::instance().get_display_name(obj_class);
         }
-        catch (std::exception& err) {
-          log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
+        catch (std::exception&) {
+          // NOTE: Temporarily commented out, so hovering over node marker doesn't show a warning.
+          //       When the node marker is moved as a tool, this should be uncommented.
+          // log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
         }
         m_object_tip = std::make_unique<Tip>(obj_name);
       }

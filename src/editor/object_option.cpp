@@ -23,8 +23,13 @@
 #include <sstream>
 
 #include "editor/object_menu.hpp"
+#include "gui/item_stringselect.hpp"
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
+#include "gui/menu_object_select.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/direction.hpp"
+#include "supertux/moving_object.hpp"
 #include "util/gettext.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
@@ -483,31 +488,43 @@ ColorObjectOption::add_to_menu(Menu& menu) const
   menu.add_color(get_text(), m_pointer);
 }
 
-BadGuySelectObjectOption::BadGuySelectObjectOption(const std::string& text, std::vector<std::string>* pointer, const std::string& key,
-                                                   unsigned int flags) :
+ObjectSelectObjectOption::ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
+                                                   GameObject* parent, const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags),
-  m_pointer(pointer)
+  m_pointer(pointer),
+  m_parent(parent)
 {
 }
 
 void
-BadGuySelectObjectOption::save(Writer& writer) const
+ObjectSelectObjectOption::save(Writer& writer) const
 {
-  if (!get_key().empty()) {
-    writer.write(get_key(), *m_pointer);
+  if (get_key().empty())
+    return;
+
+  writer.start_list(get_key());
+  for (auto it = m_pointer->begin(); it != m_pointer->end(); it++)
+  {
+    auto& obj = *it;
+    writer.start_list(obj->get_class_name());
+    obj->save(writer);
+    writer.end_list(obj->get_class_name());
   }
+  writer.end_list(get_key());
 }
 
 std::string
-BadGuySelectObjectOption::to_string() const
+ObjectSelectObjectOption::to_string() const
 {
   return fmt_to_string(m_pointer->size());
 }
 
 void
-BadGuySelectObjectOption::add_to_menu(Menu& menu) const
+ObjectSelectObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_badguy_select(get_text(), m_pointer);
+  menu.add_entry(get_text(), [pointer = m_pointer, parent = m_parent]() {
+    MenuManager::instance().push_menu(std::make_unique<ObjectSelectMenu>(*pointer, parent));
+  });
 }
 
 TilesObjectOption::TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
@@ -754,4 +771,52 @@ ListOption::add_to_menu(Menu& menu) const
 {
   menu.add_list(get_text(), m_items, m_value_ptr);
 }
+
+DirectionOption::DirectionOption(const std::string& text, Direction* value_ptr,
+                                 std::vector<Direction> possible_directions,
+                                 const std::string& key, unsigned int flags) :
+  ObjectOption(text, key, flags),
+  m_value_ptr(value_ptr),
+  m_possible_directions(std::move(possible_directions))
+{
+  if (m_possible_directions.empty())
+    m_possible_directions = { Direction::AUTO, Direction::NONE, Direction::LEFT,
+                              Direction::RIGHT, Direction::UP, Direction::DOWN };
+}
+
+void
+DirectionOption::save(Writer& writer) const
+{
+  if (*m_value_ptr == m_possible_directions.at(0))
+    return;
+
+  writer.write(get_key(), dir_to_string(*m_value_ptr));
+}
+
+std::string
+DirectionOption::to_string() const
+{
+  return dir_to_translated_string(*m_value_ptr);
+}
+
+void
+DirectionOption::add_to_menu(Menu& menu) const
+{
+  int selected = 0;
+  std::vector<std::string> labels;
+  for (size_t i = 0; i < m_possible_directions.size(); i++)
+  {
+    const auto& dir = m_possible_directions.at(i);
+    labels.push_back(dir_to_translated_string(dir));
+
+    if (dir == *m_value_ptr)
+      selected = static_cast<int>(i);
+  }
+
+  menu.add_string_select(-1, get_text(), selected, labels)
+    .set_callback([value_ptr = m_value_ptr, possible_directions = m_possible_directions](int index) {
+                    *value_ptr = possible_directions.at(index);
+                  });
+}
+
 /* EOF */

@@ -40,8 +40,7 @@ GameMenu::GameMenu() :
 
     GameSession::current()->reset_checkpoint_button = true;
   }),
-  abort_callback ( [] {
-    MenuManager::instance().clear_menu_stack();
+  abort_callback([] {
     GameSession::current()->abort_level();
   })
 {

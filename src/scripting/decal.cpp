@@ -47,6 +47,13 @@ Decal::fade_out(float time)
   object.fade_out(time);
 }
 
+void
+Decal::set_action(const std::string& action)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_action(action);
+}
+
 } // namespace scripting
 
 /* EOF */

@@ -16,6 +16,7 @@
 
 #include "badguy/fish_jumping.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -72,14 +73,15 @@ FishJumping::collision_tile(uint32_t tile_attributes)
   if ((tile_attributes & Tile::WATER) && (m_physic.get_velocity_y() >= 0)) {
     if (m_beached_timer.started())
       m_beached_timer.stop();
-    // initialize stop position if uninitialized
+    // Initialize stop position if uninitialized.
     if (m_stop_y == 0) m_stop_y = get_pos().y + m_col.m_bbox.get_height();
 
-    // stop when we have reached the stop position
+    // Stop when we have reached the stop position.
     if (get_pos().y >= m_stop_y && m_physic.get_velocity_y() > 0.f) {
       if (!m_frozen)
         start_waiting();
       m_col.set_movement(Vector(0, 0));
+      SoundManager::current()->play("sounds/splash.wav", get_pos());
     }
   }
   if ((!(tile_attributes & Tile::WATER) || m_frozen) && (tile_attributes & Tile::HURTS)) {
@@ -101,17 +103,17 @@ FishJumping::active_update(float dt_sec)
     m_beached_timer.stop();
   }
 
-  // waited long enough?
+  // Waited long enough?
   if (m_wait_timer.check())
     jump();
 
-  // set sprite
+  // Set sprite.
   if (!m_frozen && !is_ignited())
     set_action((m_physic.get_velocity_y() == 0.f && m_in_water) ? "wait" :
       m_physic.get_velocity_y() < 0.f ? "normal" : "down");
 
-  // we can't afford flying out of the tilemap, 'cause the engine would remove us.
-  if ((get_pos().y - 31.8f) < 0) // too high, let us fall
+  // We can't afford flying out of the tilemap, 'cause the engine would remove us.
+  if ((get_pos().y - 31.8f) < 0) // Too high, let us fall.
   {
     m_physic.set_velocity_y(0);
     m_physic.enable_gravity(true);
@@ -167,6 +169,12 @@ bool
 FishJumping::is_freezable() const
 {
   return true;
+}
+
+std::vector<Direction>
+FishJumping::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

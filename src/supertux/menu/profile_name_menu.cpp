@@ -70,7 +70,7 @@ ProfileNameMenu::menu_action(MenuItem& item)
     if (!PHYSFS_mkdir(profile_path.c_str()))
     {
       log_warning << "Error creating folder for profile " << id << std::endl;
-      Dialog::show_message(_("An error occured while creating the profile."));
+      Dialog::show_message(_("An error occurred while creating the profile."));
       return;
     }
 

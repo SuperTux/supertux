@@ -28,6 +28,13 @@ Rectf::Rectf(const Rect& rect) :
 {
 }
 
+Rect
+Rectf::to_rect() const
+{
+  return { static_cast<int>(m_p1.x), static_cast<int>(m_p1.y),
+           static_cast<int>(m_size.width), static_cast<int>(m_size.height) };
+}
+
 std::ostream& operator<<(std::ostream& out, const Rectf& rect)
 {
   out << "Rectf("

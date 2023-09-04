@@ -37,6 +37,7 @@ public:
 
 private:
   std::vector<std::string> m_strings;
+  std::vector<std::string> m_warnings;
   std::string m_header;
 
 private:

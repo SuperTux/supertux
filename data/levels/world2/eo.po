@@ -4,17 +4,17 @@
 # 
 # Translators:
 # vpzomtrrfrt <colin@vpzom.click>, 2020
-# Robin van der Vliet <info@robinvandervliet.nl>, 2015
+# Robin van der Vliet <info@robinvandervliet.com>, 2015
 # Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
-# tellovishous <skyguy@readytek.net>, 2020-2021
+# tellovishous <skyguy@readytek.net>, 2020-2021,2023
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 21:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: tellovishous <skyguy@readytek.net>, 2020-2021,2023\n"
+"Language-Team: Esperanto (http://app.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -192,7 +192,7 @@ msgstr "Propra Teruro Teatraĵo de Tux"
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr ""
+msgstr "#Vilovispoj estas malgrandaj, ĝenaj fantomoj, kiuj transportas vin al malsamaj, ofte danĝeraj lokoj."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -215,7 +215,7 @@ msgstr "Lignaj Radikoj"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Rooted Forest"
-msgstr ""
+msgstr "Radikita Arbaro"
 
 #: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."

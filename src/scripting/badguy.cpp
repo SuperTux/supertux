@@ -45,7 +45,7 @@ void
 BadGuy::set_action(const std::string& action, int loops)
 {
   SCRIPT_GUARD_VOID;
-  object.set_sprite_action(action, loops);
+  object.set_action(action, loops);
 }
 
 void

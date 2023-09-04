@@ -745,19 +745,30 @@ Player::update(float dt_sec)
     }
   }
 
-  if (m_does_buttjump)
+  if (m_does_buttjump || (m_stone && m_physic.get_velocity_y() > 30.f && !m_coyote_timer.started()))
   {
     Rectf downbox = get_bbox().grown(-1.f);
-    downbox.set_bottom(get_bbox().get_bottom() + 16.f);
+    downbox.set_top(get_bbox().get_bottom());
+    downbox.set_bottom(downbox.get_bottom() + 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (downbox.contains(brick.get_bbox()) && brick.get_class_name() != "heavy-brick") {
+      // stoneform breaks through any kind of bricks
+      if (downbox.contains(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
         brick.try_break(this, is_big());
-      }
     }
     for (auto& badguy : Sector::get().get_objects_by_type<BadGuy>()) {
-      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable()) {
+      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable() && !badguy.is_grabbed())
         badguy.kill_fall();
-      }
+    }
+  }
+
+  // break bricks above without stopping
+  if (m_stone && m_physic.get_velocity_y() < 30.f)
+  {
+    Rectf topbox = get_bbox().grown(-1.f);
+    topbox.set_top(get_bbox().get_top() - 16.f);
+    for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
+      if (topbox.contains(brick.get_bbox()))
+        brick.try_break(this, is_big());
     }
   }
 
@@ -1849,11 +1860,7 @@ Player::get_action() const
 void
 Player::draw(DrawingContext& context)
 {
-  if (Editor::is_active()) {
-    return;
-  }
-
-  if (!m_visible)
+  if(Editor::is_active())
     return;
 
   if (is_dead() && m_target && Sector::get().get_object_count<Player>([this](const Player& p){ return !p.is_dead() && !p.is_dying() && !p.is_winning() && &p != this; }))
@@ -2044,8 +2051,16 @@ Player::draw(DrawingContext& context)
         m_sprite->set_action(sa_prefix+("-" + IDLE_STAGES[m_idle_stage])+sa_postfix, Sprite::LOOPS_CONTINUED);
       }
     }
-    else {
+    else
+    {
+      if (std::abs(m_physic.get_velocity_x()) >= MAX_RUN_XM-3)
+      {
+        m_sprite->set_action(sa_prefix+"-run"+sa_postfix);
+      }
+      else
+      {
         m_sprite->set_action(sa_prefix+"-walk"+sa_postfix);
+      }
     }
   }
 
@@ -2071,19 +2086,14 @@ Player::draw(DrawingContext& context)
   */
 
   /* Draw Tux */
-  if (m_safe_timer.started() && size_t(g_game_time * 40) % 2)
+  if (!m_visible || (m_safe_timer.started() && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
-  else if (m_player_status.bonus[get_id()] == EARTH_BONUS) {
+  else if (m_dying)
+    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer());
+  else
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
-  }
-  else {
-    if (m_dying)
-      m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer());
-    else
-      m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
-  }
 
   //TODO: Replace recoloring with proper costumes
   Color power_color = (m_player_status.bonus[get_id()] == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
@@ -2093,7 +2103,6 @@ Player::draw(DrawingContext& context)
     Color(1.f, 1.f, 1.f));
 
   m_sprite->set_color(m_stone ? Color(1.f, 1.f, 1.f) : power_color);
-
 }
 
 
@@ -2321,7 +2330,7 @@ Player::kill(bool completely)
     }
   }
 
-  Sector::get().get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
+  //Sector::get().get_camera().shake(0.1f, m_dying ? 32.f : 0.f, m_dying ? 20.f : 10.f);
 }
 
 void
@@ -2416,8 +2425,7 @@ Player::deactivate()
   if (m_deactivated)
     return;
   m_deactivated = true;
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   m_physic.set_acceleration_x(0);
   m_physic.set_acceleration_y(0);
   if (m_climbing) stop_climbing(*m_climbing);
@@ -2501,7 +2509,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
   m_physic.set_velocity(0, 0);
   m_physic.set_acceleration(0, 0);
 
-  if (m_controller->hold(Control::JUMP)) {
+  if (m_controller->hold(Control::JUMP) && !m_controller->hold(Control::DOWN)) {
     m_on_ground_flag = true;
     m_jump_early_apex = false;
     do_jump(m_player_status.bonus[get_id()] == BonusType::AIR_BONUS ? -540.0f : -480.0f);
@@ -2523,18 +2531,19 @@ Player::handle_input_climbing()
 
   float vx = 0;
   float vy = 0;
-  if (m_controller->hold(Control::LEFT)) {
+  auto obj_bbox = m_climbing->get_bbox();
+  if (m_controller->hold(Control::LEFT) && m_col.m_bbox.get_left() > obj_bbox.get_left()) {
     m_dir = Direction::LEFT;
     vx -= MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::RIGHT)) {
+  if (m_controller->hold(Control::RIGHT) && m_col.m_bbox.get_right() < obj_bbox.get_right()) {
     m_dir = Direction::RIGHT;
     vx += MAX_CLIMB_XM;
   }
-  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > m_climbing->get_bbox().get_top()) {
+  if (m_controller->hold(Control::UP) && m_col.m_bbox.get_top() > obj_bbox.get_top()) {
     vy -= MAX_CLIMB_YM;
   }
-  if (m_controller->hold(Control::DOWN)) {
+  if (m_controller->hold(Control::DOWN) && m_col.m_bbox.get_bottom() < obj_bbox.get_bottom()) {
     vy += MAX_CLIMB_YM;
   }
   if (m_controller->hold(Control::JUMP)) {
@@ -2544,10 +2553,6 @@ Player::handle_input_climbing()
     }
   } else {
     m_can_jump = true;
-  }
-  if (m_controller->hold(Control::ACTION)) {
-    stop_climbing(*m_climbing);
-    return;
   }
   m_physic.set_velocity(vx, vy);
   m_physic.set_acceleration(0, 0);

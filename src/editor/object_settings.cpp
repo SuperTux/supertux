@@ -35,10 +35,10 @@ ObjectSettings::add_option(std::unique_ptr<ObjectOption> option)
 }
 
 void
-ObjectSettings::add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
-                           const std::string& key, unsigned int flags)
+ObjectSettings::add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
+                            GameObject* parent, const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<BadGuySelectObjectOption>(text, value_ptr, key, flags));
+  add_option(std::make_unique<ObjectSelectObjectOption>(text, value_ptr, parent, key, flags));
 }
 
 void
@@ -112,14 +112,11 @@ ObjectSettings::add_rectf(const std::string& text, Rectf* value_ptr,
 
 void
 ObjectSettings::add_direction(const std::string& text, Direction* value_ptr,
-                              std::optional<Direction> default_value,
+                              std::vector<Direction> possible_directions,
                               const std::string& key, unsigned int flags)
 {
-  add_enum(text, reinterpret_cast<int*>(value_ptr),
-           {_("auto"), _("left"), _("right"), _("up"), _("down")},
-           {"auto", "left", "right", "up", "down"},
-           default_value ? static_cast<int>(*default_value) : std::optional<int>(),
-           key, flags);
+  add_option(std::make_unique<DirectionOption>(text, value_ptr, std::move(possible_directions),
+                                               key, flags));
 }
 
 void

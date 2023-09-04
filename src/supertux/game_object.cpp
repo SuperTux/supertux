@@ -25,24 +25,32 @@
 #include "video/color.hpp"
 
 GameObject::GameObject() :
+  m_parent(),
   m_name(),
   m_type(0),
   m_fade_helpers(),
+  m_track_undo(true),
   m_previous_type(-1),
+  m_version(1),
   m_uid(),
   m_scheduled_for_removal(false),
+  m_last_state(),
   m_components(),
   m_remove_listeners()
 {
 }
 
 GameObject::GameObject(const std::string& name) :
+  m_parent(),
   m_name(name),
   m_type(0),
   m_fade_helpers(),
+  m_track_undo(true),
   m_previous_type(-1),
+  m_version(1),
   m_uid(),
   m_scheduled_for_removal(false),
+  m_last_state(),
   m_components(),
   m_remove_listeners()
 {
@@ -52,6 +60,7 @@ GameObject::GameObject(const ReaderMapping& reader) :
   GameObject()
 {
   reader.get("name", m_name, "");
+  reader.get("version", m_version, 1);
 }
 
 GameObject::~GameObject()
@@ -81,11 +90,20 @@ void
 GameObject::save(Writer& writer)
 {
   auto settings = get_settings();
-  for (const auto& option_ptr : settings.get_options())
+  for (const auto& option : settings.get_options())
   {
-    const auto& option = *option_ptr;
-    option.save(writer);
+    option->save(writer);
   }
+}
+
+std::string
+GameObject::save()
+{
+  std::ostringstream save_stream;
+  Writer writer(save_stream);
+  save(writer);
+
+  return save_stream.str();
 }
 
 ObjectSettings
@@ -93,6 +111,7 @@ GameObject::get_settings()
 {
   ObjectSettings result(get_display_name());
 
+  result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
   result.add_text(_("Name"), &m_name, "name", std::string());
 
   const GameObjectTypes types = get_types();
@@ -113,6 +132,73 @@ GameObject::get_settings()
   return result;
 }
 
+std::vector<std::string>
+GameObject::get_patches() const
+{
+  return {};
+}
+
+int
+GameObject::get_latest_version() const
+{
+  return 1 + static_cast<int>(get_patches().size());
+}
+
+bool
+GameObject::is_up_to_date() const
+{
+  return m_version >= get_latest_version();
+}
+
+void
+GameObject::update_version()
+{
+  m_version = get_latest_version();
+}
+
+void
+GameObject::save_state()
+{
+  if (!m_parent)
+    return;
+
+  if (!m_parent->undo_tracking_enabled())
+  {
+    m_last_state.clear();
+    return;
+  }
+  if (!track_state())
+    return;
+
+  if (m_last_state.empty())
+    m_last_state = save();
+}
+
+void
+GameObject::check_state()
+{
+  if (!m_parent)
+    return;
+
+  if (!m_parent->undo_tracking_enabled())
+  {
+    m_last_state.clear();
+    return;
+  }
+  if (!track_state())
+    return;
+
+  // If settings have changed, save the change.
+  if (!m_last_state.empty())
+  {
+    if (m_last_state != save())
+    {
+      m_parent->save_object_change(*this, m_last_state);
+    }
+    m_last_state.clear();
+  }
+}
+
 void
 GameObject::parse_type(const ReaderMapping& reader)
 {
@@ -129,6 +215,8 @@ GameObject::parse_type(const ReaderMapping& reader)
         log_warning << "Unknown type of " << get_class_name() << ": '" << type << "', using default." << std::endl;
     }
   }
+
+  on_type_change(-1); // Initial object type initialization
 }
 
 GameObjectTypes

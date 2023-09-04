@@ -41,15 +41,15 @@ static const float BURN_TIME = 1;
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 
-BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  BadGuy(pos, Direction::LEFT, sprite_name_, layer_, light_sprite_name)
+  BadGuy(pos, Direction::LEFT, sprite_name, layer, light_sprite_name)
 {
 }
 
-BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
+  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
@@ -65,7 +65,6 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
-  m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
@@ -84,16 +83,23 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   m_lightsprite->set_blend(Blend::ADD);
 }
 
-BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int layer_,
+BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer,
                const std::string& light_sprite_name, const std::string& ice_sprite_name) :
-  MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
+  BadGuy(reader, sprite_name, Direction::AUTO, layer, light_sprite_name, ice_sprite_name)
+{
+}
+
+BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
+               Direction default_direction, int layer,
+               const std::string& light_sprite_name, const std::string& ice_sprite_name) :
+  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
   ExposedObject<BadGuy, scripting::BadGuy>(this),
   m_physic(),
   m_countMe(true),
   m_is_initialized(false),
   m_start_position(m_col.m_bbox.p1()),
   m_dir(Direction::LEFT),
-  m_start_dir(Direction::AUTO),
+  m_start_dir(default_direction),
   m_frozen(false),
   m_ignited(false),
   m_in_water(false),
@@ -102,7 +108,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_lightsprite(SpriteManager::current()->create(light_sprite_name)),
   m_freezesprite(SpriteManager::current()->create(ice_sprite_name)),
   m_glowing(false),
-  m_parent_dispenser(),
   m_state(STATE_INIT),
   m_is_active_flag(),
   m_state_timer(),
@@ -111,9 +116,9 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   m_floor_normal(0.0f, 0.0f),
   m_colgroup_active(COLGROUP_MOVING)
 {
-  std::string dir_str = "auto";
-  reader.get("direction", dir_str);
-  m_start_dir = str2dir( dir_str );
+  std::string dir_str;
+  if (reader.get("direction", dir_str))
+    m_start_dir = string_to_dir(dir_str);
   m_dir = m_start_dir;
 
   reader.get("dead-script", m_dead_script);
@@ -202,7 +207,9 @@ BadGuy::update(float dt_sec)
     }
   }
 
-  if (m_is_active_flag && is_offscreen()) {
+  // Deactivate badguy, if off-screen and not falling down.
+  if (m_is_active_flag && is_offscreen() && m_physic.get_velocity_y() <= 0.f)
+  {
     deactivate();
     set_state(STATE_INACTIVE);
   }
@@ -225,6 +232,7 @@ BadGuy::update(float dt_sec)
     case STATE_INIT:
     case STATE_INACTIVE:
       m_is_active_flag = false;
+      m_in_water = !Sector::get().is_free_of_tiles(m_col.get_bbox(), false, Tile::WATER);
       inactive_update(dt_sec);
       try_activate();
       break;
@@ -291,12 +299,6 @@ BadGuy::update(float dt_sec)
   m_on_ground_flag = false;
 }
 
-Direction
-BadGuy::str2dir(const std::string& dir_str) const
-{
-  return string_to_dir(dir_str);
-}
-
 void
 BadGuy::initialize()
 {
@@ -310,6 +312,12 @@ BadGuy::activate()
 void
 BadGuy::deactivate()
 {
+}
+
+std::vector<Direction>
+BadGuy::get_allowed_directions() const
+{
+  return { Direction::AUTO, Direction::LEFT, Direction::RIGHT };
 }
 
 void
@@ -329,7 +337,7 @@ BadGuy::inactive_update(float )
 void
 BadGuy::collision_tile(uint32_t tile_attributes)
 {
-  // Don't kill badguys that have already been killed
+  // Don't kill badguys that have already been killed.
   if (!is_active()) return;
 
   if (tile_attributes & Tile::WATER && !is_in_water())
@@ -385,7 +393,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 
     /* Badguys don't let badguys squish other badguys. It's bad. */
 #if 0
-    // hit from above?
+    // Hit from above?
     if (badguy->get_bbox().get_bottom() < (bbox.get_top() + (player->is_sliding() ? 8.f : 16.f))) {
       if (collision_squished(*badguy)) {
         return ABORT_MOVE;
@@ -399,7 +407,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
 
-    // hit from above?
+    // Hit from above?
     if (player->get_bbox().get_bottom() < (m_col.m_bbox.get_top() + 16)) {
       if (player->is_stone()) {
         kill_fall();
@@ -455,8 +463,7 @@ BadGuy::collision_solid(const CollisionHit& hit)
   }
   else
   {
-    m_physic.set_velocity_x(0);
-    m_physic.set_velocity_y(0);
+    m_physic.set_velocity(0, 0);
   }
   update_on_ground_flag(hit);
 }
@@ -494,7 +501,7 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
         return ABORT_MOVE;
       }
   }
-  //TODO: unfreeze timer
+  //TODO: Unfreeze timer.
   if (m_frozen)
   {
     player.collision_solid(hit);
@@ -515,7 +522,7 @@ BadGuy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 bool
 BadGuy::collision_squished(GameObject& object)
 {
-  // frozen badguys can be killed with butt-jump
+  // Frozen badguys can be killed with butt-jump.
   if (m_frozen)
   {
     auto player = dynamic_cast<Player*>(&object);
@@ -533,42 +540,42 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   if (is_frozen()) {
     if (bullet.get_type() == FIRE_BONUS) {
-      // fire bullet thaws frozen badguys
+      // Fire bullet thaws frozen badguys.
       unfreeze();
       bullet.remove_me();
       return ABORT_MOVE;
     } else {
-      // other bullets ricochet
+      // Other bullets ricochet.
       bullet.ricochet(*this, hit);
       return FORCE_MOVE;
     }
   }
   else if (is_ignited()) {
     if (bullet.get_type() == ICE_BONUS) {
-      // ice bullets extinguish ignited badguys
+      // Ice bullets extinguish ignited badguys.
       extinguish();
       bullet.remove_me();
       return ABORT_MOVE;
     } else {
-      // other bullets are absorbed by ignited badguys
+      // Other bullets are absorbed by ignited badguys.
       bullet.remove_me();
       return FORCE_MOVE;
     }
   }
   else if (bullet.get_type() == FIRE_BONUS && is_flammable()) {
-    // fire bullets ignite flammable badguys
+    // Fire bullets ignite flammable badguys.
     ignite();
     bullet.remove_me();
     return ABORT_MOVE;
   }
   else if (bullet.get_type() == ICE_BONUS && is_freezable()) {
-    // ice bullets freeze freezable badguys
+    // Ice bullets freeze freezable badguys.
     freeze();
     bullet.remove_me();
     return ABORT_MOVE;
   }
   else {
-    // in all other cases, bullets ricochet
+    // In all other cases, bullets ricochet.
     bullet.ricochet(*this, hit);
     return FORCE_MOVE;
   }
@@ -581,8 +588,7 @@ BadGuy::kill_squished(GameObject& object)
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   auto player = dynamic_cast<Player*>(&object);
@@ -590,7 +596,7 @@ BadGuy::kill_squished(GameObject& object)
     player->bounce(*this);
   }
 
-  // start dead-script
+  // Start the dead-script.
   run_dead_script();
 }
 
@@ -610,14 +616,14 @@ BadGuy::kill_fall()
         Sector::get().add<SpriteParticle>(
             "images/particles/ice_piece"+std::to_string(graphicsRandom.rand(1, 3))+".sprite", "default",
             m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
-            //SPEED: add current enemy speed but do not add downwards velocity because it looks bad
+            //SPEED: Add current enemy speed, but do not add downwards velocity because it looks bad.
             Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
-            //SPEED: add specified speed and randomization
+            //SPEED: Add specified speed and randomization.
           + speed + Vector(graphicsRandom.randf(-30.f, 30.f), graphicsRandom.randf(-30.f, 30.f)),
             Vector(0, Sector::get().get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS - 1, true);
       }
     }
-    // start dead-script
+    // Start the dead-script.
     run_dead_script();
     remove_me();
   } else {
@@ -630,7 +636,7 @@ BadGuy::kill_fall()
     // Set the badguy layer to be the foremost, so that
     // this does not reveal secret tilemaps:
     m_layer = Sector::get().get_foremost_layer() + 1;
-    // start dead-script
+    // Start the dead-script.
     run_dead_script();
   }
 
@@ -649,7 +655,7 @@ BadGuy::run_dead_script()
     m_parent_dispenser->notify_dead();
   }
 
-  // start dead-script
+  // Start the dead-script.
   if (!m_dead_script.empty()) {
     Sector::get().run_script(m_dead_script, "dead-script");
   }
@@ -675,13 +681,15 @@ BadGuy::set_state(State state_)
       break;
     case STATE_ACTIVE:
       set_group(m_colgroup_active);
+      play_looping_sounds();
       //bbox.set_pos(start_position);
       break;
     case STATE_INACTIVE:
-      // was the badguy dead anyway?
+      // Was the badguy dead anyway?
       if (laststate == STATE_SQUISHED || laststate == STATE_FALLING) {
         remove_me();
       }
+      stop_looping_sounds();
       set_group(COLGROUP_DISABLED);
       break;
     case STATE_FALLING:
@@ -710,8 +718,8 @@ BadGuy::is_offscreen() const
   if (!Editor::is_active()) {
     player_dist = player->get_bbox().get_middle() - m_col.m_bbox.get_middle();
   }
-  // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
-  // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
+  // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px.
+  // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px.
   if (((fabsf(player_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(player_dist.y) <= Y_OFFSCREEN_DISTANCE))
       ||((fabsf(cam_dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(cam_dist.y) <= Y_OFFSCREEN_DISTANCE))) {
     return false;
@@ -722,7 +730,7 @@ BadGuy::is_offscreen() const
 void
 BadGuy::try_activate()
 {
-  // Don't activate if player is dying
+  // Don't activate if player is dying.
   auto player = get_nearest_player();
   if (!player) return;
 
@@ -730,7 +738,7 @@ BadGuy::try_activate()
     set_state(STATE_ACTIVE);
     if (!m_is_initialized) {
 
-      // if starting direction was set to AUTO, this is our chance to re-orient the badguy
+      // If starting direction was set to AUTO, this is our chance to re-orient the badguy.
       if (m_start_dir == Direction::AUTO) {
         auto player_ = get_nearest_player();
         if (player_ && (player_->get_bbox().get_left() > m_col.m_bbox.get_right())) {
@@ -750,7 +758,7 @@ BadGuy::try_activate()
 bool
 BadGuy::might_fall(int height) const
 {
-  // make sure we check for at least a 1-pixel fall
+  // Make sure we check for at least a 1-pixel fall.
   assert(height > 0);
 
   float x1;
@@ -812,7 +820,7 @@ BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
     if (m_sprite->has_action("iced-left"))
     {
       set_action("iced", m_dir, 1);
-      // when the sprite doesn't have sepaigrate actions for left and right, it tries to use an universal one.
+      // When the sprite doesn't have sepaigrate actions for left and right, it tries to use an universal one.
     }
     else
     {
@@ -820,7 +828,7 @@ BadGuy::grab(MovingObject& object, const Vector& pos, Direction dir_)
       {
         set_action("iced", 1);
       }
-      // when no iced action exists, default to shading badguy blue
+      // When no iced action exists, default to shading badguy blue.
       else
       {
         m_sprite->set_color(Color(0.60f, 0.72f, 0.88f));
@@ -857,7 +865,7 @@ BadGuy::ungrab(MovingObject& object, Direction dir_)
         Vector mov(0, 32);
         if (Sector::get().is_free_of_statics(get_bbox().moved(mov), this))
         {
-          // There is free space, so throw it down
+          // There is free space, so throw it down.
           m_physic.set_velocity_y(500.f);
         }
       }
@@ -900,12 +908,12 @@ BadGuy::freeze()
 
   if (m_sprite->has_action("iced-left"))
     set_action("iced", m_dir, 1);
-  // when the sprite doesn't have separate actions for left and right, it tries to use an universal one.
+  // When the sprite doesn't have separate actions for left and right, it tries to use an universal one.
   else
   {
     if (m_sprite->has_action("iced"))
       set_action("iced", 1);
-    // when no iced action exists, default to shading badguy blue
+    // When no iced action exists, default to shading badguy blue.
     else
     {
       m_sprite->set_color(Color(0.60f, 0.72f, 0.88f));
@@ -938,9 +946,9 @@ BadGuy::unfreeze(bool melt)
       Sector::get().add<SpriteParticle>(
         particle_sprite_name + std::to_string(graphicsRandom.rand(1, 3)) + ".sprite", "default",
         m_col.m_bbox.p1() + pr_pos, ANCHOR_MIDDLE,
-        //SPEED: add current enemy speed but do not add downwards velocity because it looks bad
+        //SPEED: add current enemy speed but do not add downwards velocity because it looks bad.
         Vector(m_physic.get_velocity_x(), m_physic.get_velocity_y() > 0.f ? 0.f : m_physic.get_velocity_y())
-        //SPEED: add specified speed and randomization
+        //SPEED: add specified speed and randomization.
         + speed + Vector(graphicsRandom.randf(-30.f, 30.f), 0.f),
         Vector(0.f, Sector::get().get_gravity() * graphicsRandom.randf(100.f, 120.f)), LAYER_OBJECTS + 1, true);
     }
@@ -976,15 +984,14 @@ BadGuy::ignite()
     unfreeze();
 
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   m_sprite->stop_animation();
   m_ignited = true;
 
   if (m_sprite->has_action("melting-left")) {
 
-    // melt it!
+    // Melt it!
     if (m_sprite->has_action("ground-melting-left") && on_ground()) {
       set_action("ground-melting", m_dir, 1);
       SoundManager::current()->play("sounds/splash.ogg", get_pos());
@@ -998,7 +1005,7 @@ BadGuy::ignite()
     run_dead_script();
 
   } else if (m_sprite->has_action("burning-left")) {
-    // burn it!
+    // Burn it!
     m_glowing = true;
     SoundManager::current()->play("sounds/fire.ogg", get_pos());
     set_action("burning", m_dir, 1);
@@ -1045,7 +1052,8 @@ BadGuy::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_start_dir, Direction::AUTO, "direction");
+  if (!get_allowed_directions().empty())
+    result.add_direction(_("Direction"), &m_start_dir, get_allowed_directions(), "direction");
   result.add_script(_("Death script"), &m_dead_script, "dead-script");
 
   result.reorder({"direction", "sprite", "x", "y"});
@@ -1058,59 +1066,37 @@ BadGuy::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  if (m_dir == Direction::AUTO)
+  const std::string direction_str = m_start_dir == Direction::AUTO ? "left" : dir_to_string(m_start_dir);
+  const std::string actions[] = {"editor", "normal", "idle", "flying", "walking", "standing", "swim"};
+  bool action_set = false;
+
+  for (const auto& action_str : actions)
   {
-    if (m_sprite->has_action("editor-left")) {
-      set_action("editor-left");
-    } else if (m_sprite->has_action("editor-right")) {
-      set_action("editor-right");
-    } else if (m_sprite->has_action("left")) {
-      set_action("left");
-    } else if (m_sprite->has_action("normal")) {
-      set_action("normal");
-    } else if (m_sprite->has_action("idle")) {
-      set_action("idle");
-    } else if (m_sprite->has_action("idle-left")) {
-      set_action("idle-left");
-    } else if (m_sprite->has_action("flying-left")) {
-      set_action("flying-left");
-    } else if (m_sprite->has_action("walking-left")) {
-      set_action("walking-left");
-    } else if (m_sprite->has_action("flying")) {
-      set_action("flying");
-    } else if (m_sprite->has_action("standing-left")) {
-      set_action("standing-left");
-    } else {
-      log_warning << "couldn't find editor sprite for badguy direction='auto': " << get_class_name() << std::endl;
+    const std::string test_action = action_str + "-" + direction_str;
+    if (m_sprite->has_action(test_action))
+    {
+      set_action(test_action);
+      action_set = true;
+      break;
+    }
+    else if (m_sprite->has_action(action_str))
+    {
+      set_action(action_str);
+      action_set = true;
+      break;
     }
   }
-  else
-  {
-    std::string action_str = dir_to_string(m_dir);
 
-    if (m_sprite->has_action("editor-" + action_str)) {
-      set_action("editor-" + action_str);
-    } else if (m_sprite->has_action(action_str)) {
-      set_action(action_str);
-    } else if (m_sprite->has_action("idle-" + action_str)) {
-      set_action("idle-" + action_str);
-    } else if (m_sprite->has_action("flying-" + action_str)) {
-      set_action("flying-" + action_str);
-    } else if (m_sprite->has_action("standing-" + action_str)) {
-      set_action("standing-" + action_str);
-    } else if (m_sprite->has_action("walking-" + action_str)) {
-      set_action("walking-" + action_str);
-    } else if (m_sprite->has_action("left")) {
-      set_action("left");
-    } else if (m_sprite->has_action("normal")) {
-      set_action("normal");
-    } else if (m_sprite->has_action("idle")) {
-      set_action("idle");
-    } else if (m_sprite->has_action("flying")) {
-      set_action("flying");
-    } else {
-      log_warning << "couldn't find editor sprite for badguy direction='" << action_str << "': "
-                  << get_class_name() << std::endl;
+  if (!action_set)
+  {
+    if (m_sprite->has_action(direction_str))
+    {
+      set_action(direction_str);
+    }
+    else
+    {
+      log_warning << "Couldn't find editor sprite action for badguy direction='"
+                  << dir_to_string(m_start_dir) << "': " << get_class_name() << "." << std::endl;
     }
   }
 }
@@ -1124,7 +1110,7 @@ BadGuy::can_be_affected_by_wind() const
 void
 BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
 {
-  // only add velocity in the same direction as the wind
+  // Only add velocity in the same direction as the wind.
   if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
     m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
   if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)

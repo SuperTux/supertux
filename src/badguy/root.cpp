@@ -31,7 +31,7 @@ Root::Root(const Vector& pos, Flip flip) :
   hatch_timer()
 {
   base_sprite->set_action("appearing", 1);
-  base_sprite->set_animation_loops(1); // TODO: necessary because set_action ignores loops for default action
+  base_sprite->set_animation_loops(1); // TODO: Necessary because set_action ignores loops for default actions.
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
   m_flip = flip;
@@ -45,7 +45,7 @@ void
 Root::deactivate()
 {
   remove_me();
-  //no dead script
+  // No dead-script required for deactivation.
 }
 
 void
@@ -74,7 +74,7 @@ Root::active_update(float dt_sec)
       offset_y = 0;
       mystate = STATE_VANISHING;
       base_sprite->set_action("vanishing", 2);
-      base_sprite->set_animation_loops(2); // TODO: doesn't seem to work for loops=1
+      base_sprite->set_animation_loops(2); // TODO: Verify if setting loops to 1 works as intended.
     }
     set_pos(m_start_position + Vector(0, (m_flip == NO_FLIP ? offset_y : -offset_y)));
   }

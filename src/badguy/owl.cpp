@@ -110,10 +110,12 @@ Owl::active_update (float dt_sec)
   if (carried_object != nullptr) {
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM);
-      obj_pos.x -= 16.f; /* FIXME: Actually do use the half width of the carried object here. */
+      auto obj = dynamic_cast<MovingObject*>(carried_object);
+      auto verticalOffset = obj != nullptr ? obj->get_bbox().get_width() / 2.f : 16.f;
+      obj_pos.x -= verticalOffset;
       obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
-      //To drop enemie before leave the screen
+      // Drop carried object before leaving the screen
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::get().get_width()){
         carried_object->ungrab (*this, m_dir);
         carried_object = nullptr;
@@ -167,7 +169,7 @@ Owl::kill_fall()
     carried_object = nullptr;
   }
 
-  // start dead-script
+  // Start the dead-script.
   run_dead_script();
 }
 
