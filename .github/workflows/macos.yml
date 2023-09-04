@@ -51,6 +51,7 @@ jobs:
         if: ${{ matrix.os == 'macos-11' }}
         run: |
           brew update
+          brew unlink python && brew link --overwrite python
           brew reinstall harfbuzz
           brew install cmake googletest bash rename libogg libvorbis glew\
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype \
