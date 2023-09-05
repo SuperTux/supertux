@@ -44,8 +44,8 @@ private:
   virtual bool collision_squished(GameObject& object) override;
 
   bool should_we_dive();
-  void onBumpHorizontal();
-  void onBumpVertical();
+  void on_bump_horizontal();
+  void on_bump_vertical();
 
 private:
   enum ZeeklingState {

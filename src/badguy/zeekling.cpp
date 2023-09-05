@@ -54,7 +54,7 @@ Zeekling::collision_squished(GameObject& object)
 }
 
 void
-Zeekling::onBumpHorizontal()
+Zeekling::on_bump_horizontal()
 {
   m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
   set_action(m_dir);
@@ -68,7 +68,7 @@ Zeekling::onBumpHorizontal()
 }
 
 void
-Zeekling::onBumpVertical()
+Zeekling::on_bump_vertical()
 {
   if (BadGuy::get_state() == STATE_BURNING)
   {
@@ -97,21 +97,23 @@ void
 Zeekling::collision_solid(const CollisionHit& hit)
 {
   if (m_frozen)
-    BadGuy::collision_solid(hit);
-  else
   {
-    if (m_sprite->get_action() == "squished-left" ||
-      m_sprite->get_action() == "squished-right")
-    {
-      return;
-    }
+    BadGuy::collision_solid(hit);
+    return;
+  }
 
-    if (hit.top || hit.bottom) {
-      onBumpVertical();
-    }
-    else if (hit.left || hit.right) {
-      onBumpHorizontal();
-    }
+  if (m_sprite->get_action() == "squished-left" ||
+      m_sprite->get_action() == "squished-right")
+  {
+    return;
+  }
+
+  if (hit.top || hit.bottom) {
+    on_bump_vertical();
+  }
+  else if (hit.left || hit.right)
+  {
+    on_bump_horizontal();
   }
 }
 
@@ -170,28 +172,28 @@ Zeekling::should_we_dive()
 
 void
 Zeekling::active_update(float dt_sec) {
-  if (state == FLYING) {
-    if (should_we_dive()) {
-      state = DIVING;
-      m_physic.set_velocity_y(2*fabsf(m_physic.get_velocity_x()));
-      set_action("dive", m_dir);
-    }
-    BadGuy::active_update(dt_sec);
-    return;
-  } else if (state == DIVING) {
-    BadGuy::active_update(dt_sec);
-    return;
-  } else if (state == CLIMBING) {
-    // Stop climbing when we're back at initial height.
-    if (get_pos().y <= m_start_position.y) {
-      state = FLYING;
-      m_physic.set_velocity_y(0);
-    }
-    BadGuy::active_update(dt_sec);
-    return;
-  } else {
-    assert(false);
+  switch (state) {
+    case FLYING:
+      if (should_we_dive()) {
+        state = DIVING;
+        m_physic.set_velocity_y(2 * fabsf(m_physic.get_velocity_x()));
+        set_action("dive", m_dir);
+      }
+      break;
+
+    case CLIMBING:
+      // Stop climbing when we're back at initial height.
+      if (get_pos().y <= m_start_position.y) {
+        state = FLYING;
+        m_physic.set_velocity_y(0);
+      }
+      break;
+
+    default:
+      break;
   }
+
+  BadGuy::active_update(dt_sec);
 }
 
 void
