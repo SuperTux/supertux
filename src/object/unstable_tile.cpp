@@ -176,18 +176,15 @@ UnstableTile::fall_down()
   if (state == STATE_FALL)
     return;
 
+  state = STATE_FALL;
+
   const bool has_action = m_sprite->has_action("fall-down");
   if (m_type == DELAYED || has_action)
   {
-    state = STATE_FALL;
     if (has_action)
       set_action("fall-down", /* loops = */ 1);
     physic.set_gravity_modifier(.98f);
     physic.enable_gravity(true);
-  }
-  else
-  {
-    state = STATE_FALL;
   }
 }
 
