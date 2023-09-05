@@ -441,7 +441,7 @@ Camera::keep_in_bounds(Vector& translation_)
   if (m_mode == Mode::MANUAL)
   {
     // Determines the difference between normal and scaled translation.
-    const Vector scale_factor = (Sizef(m_screen_size).as_vector() * (get_current_scale() - 1.f)) / 2.f;
+    const Vector scale_factor = (m_screen_size.as_vector() * (get_current_scale() - 1.f)) / 2.f;
 
     // Keep the translation's scaled position in sector bounds.
     translation_.x = math::clamp(translation_.x + scale_factor.x, 0.0f, width - m_screen_size.width);
@@ -549,7 +549,7 @@ Camera::update_scroll_normal(float dt_sec)
       target_y = player.m_last_ground_y + player.get_bbox().get_height();
     else
       target_y = player.get_bbox().get_bottom();
-    target_y -= static_cast<float>(m_screen_size.height) * config_.target_y;
+    target_y -= m_screen_size.height * config_.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y.
     float delta_y = m_cached_translation.y - target_y;
