@@ -8571,32 +8571,6 @@ static SQInteger Sector_add_object_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Sector_get_session_active_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'get_session_active' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
-
-
-  try {
-    bool return_value = _this->get_session_active();
-
-    sq_pushbool(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_session_active'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger Spotlight_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Spotlight* _this = reinterpret_cast<scripting::Spotlight*> (ptr);
@@ -15637,13 +15611,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ssb|nb|nss");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'add_object'");
-  }
-
-  sq_pushstring(v, "get_session_active", -1);
-  sq_newclosure(v, &Sector_get_session_active_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_session_active'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
