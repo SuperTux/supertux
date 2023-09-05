@@ -28,7 +28,7 @@ KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader, const std::strin
   BadGuy(reader, sprite_name)
 {
   SoundManager::current()->preload(SPLAT_SOUND);
-  set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+  set_action (m_dir, /* loops = */ -1);
 }
 
 void

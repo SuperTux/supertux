@@ -392,7 +392,7 @@ Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_dir = dir_;
   if (!m_frozen)
   {
-    set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+    set_action("flat", dir_, /* loops = */ -1);
     be_grabbed();
     flat_timer.stop();
   }

@@ -127,7 +127,7 @@ SCrystallo::active_update(float dt_sec)
       m_physic.enable_gravity(true);
       m_physic.set_velocity_y(-250.f);
       WalkingBadguy::initialize();
-      set_action(m_dir == Direction::LEFT ? "jumping-left" : "jumping-right", -1);
+      set_action("jumping", m_dir, -1);
       m_state = SCRYSTALLO_JUMPING;
     }
     BadGuy::active_update(dt_sec);

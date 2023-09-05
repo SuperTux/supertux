@@ -31,7 +31,7 @@ Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /
   m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
   SoundManager::current()->preload("sounds/explosion.wav");
-  set_action(dir_ == Direction::LEFT ? "ticking-left" : "ticking-right", 1);
+  set_action("ticking", dir_, 1);
   m_countMe = false;
 
   ticking->set_position(get_pos());

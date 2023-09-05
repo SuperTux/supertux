@@ -172,7 +172,7 @@ Haywire::active_update(float dt_sec)
 	  if (stomped_timer.get_timeleft() < 0.05f) {
       if (m_jumping)
       {
-        set_action((m_dir == Direction::LEFT) ? "jump-left" : "jump-right", /* loops = */ 1);
+        set_action("jump", m_dir, /* loops = */ 1);
         m_exploding_sprite->set_action("jump", /* loops = */ 1);
       }
       else if (!m_skid_timer.check() && m_skid_timer.started())
@@ -182,14 +182,14 @@ Haywire::active_update(float dt_sec)
       }
       else
       {
-        set_action((m_last_player_direction == Direction::LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
+        set_action("ticking", m_last_player_direction, /* loops = */ -1);
         m_exploding_sprite->set_action("run", /* loops = */ -1);
       }
       walk_left_action = "ticking-left";
       walk_right_action = "ticking-right";
     }
     else {
-      set_action((m_dir == Direction::LEFT) ? "active-left" : "active-right", /* loops = */ 1);
+      set_action("active", m_dir, /* loops = */ 1);
       walk_left_action = "active-left";
       walk_right_action = "active-right";
     }

@@ -138,7 +138,7 @@ GoldBomb::collision_squished(GameObject& object)
   if (is_valid() && tstate != STATE_TICKING) {
     tstate = STATE_TICKING;
     m_frozen = false;
-    set_action(m_dir == Direction::LEFT ? "ticking-left" : "ticking-right", 1);
+    set_action("ticking", m_dir, 1);
     m_physic.set_velocity_x(0);
 
     if (player)
