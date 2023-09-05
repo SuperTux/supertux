@@ -23,8 +23,8 @@
 #include <string>
 
 /** Macro to help easily check if there is a current GameSession and define it, if so. **/
-#define SCRIPT_GUARD_GAMESESSION                        \
-  if (!GameSession::current()) return;                  \
+#define SCRIPT_GUARD_GAMESESSION(returnvalue)           \
+  if (!GameSession::current()) return returnvalue;      \
   GameSession& game_session = *GameSession::current()
 
 #endif
@@ -51,7 +51,10 @@ public:
  * @param bool $win If ""true"", the level is marked as completed if launched from a worldmap.
  */
 void Level_finish(bool win);
-
+/**
+ * Returns whether the current level has ended.
+ */
+bool Level_is_finished();
 /**
  * Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"".${SRG_TABLENEWPARAGRAPH}
    Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.

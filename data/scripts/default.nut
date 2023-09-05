@@ -6,6 +6,7 @@
 //Create Level table
 Level <- {
   finish=Level_finish,
+  is_finished=Level_is_finished,
   spawn=Level_spawn,
   set_start_point=Level_set_start_point,
   set_start_pos=Level_set_start_pos,
