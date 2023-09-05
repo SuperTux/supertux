@@ -56,24 +56,15 @@ Zeekling::collision_squished(GameObject& object)
 void
 Zeekling::onBumpHorizontal()
 {
-  if (state == FLYING) {
-    m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
-    set_action(m_dir);
-    m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
-  } else
-    if (state == DIVING) {
-      m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
-      state = FLYING;
-      set_action(m_dir);
-      m_physic.set_velocity(m_dir == Direction::LEFT ? -speed : speed, 0);
-    } else
-      if (state == CLIMBING) {
-        m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
-        set_action(m_dir);
-        m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
-      } else {
-        assert(false);
-      }
+  m_dir = (m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT);
+  set_action(m_dir);
+  m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
+
+  if (state == DIVING)
+  {
+    state = FLYING;
+    m_physic.set_velocity_y(0);
+  }
 }
 
 void
@@ -84,18 +75,22 @@ Zeekling::onBumpVertical()
     m_physic.set_velocity(0, 0);
     return;
   }
-  if (state == FLYING) {
-    m_physic.set_velocity_y(0);
-  } else
-    if (state == DIVING) {
+
+  switch (state) {
+    case DIVING:
       state = CLIMBING;
-      m_physic.set_velocity_y(-speed);
       set_action(m_dir);
-    } else
-      if (state == CLIMBING) {
-        state = FLYING;
-        m_physic.set_velocity_y(0);
-      }
+      break;
+
+    case CLIMBING:
+      state = FLYING;
+      break;
+
+    default:
+      break;
+  }
+
+  m_physic.set_velocity_y(state == CLIMBING ? -speed : 0);
 }
 
 void
