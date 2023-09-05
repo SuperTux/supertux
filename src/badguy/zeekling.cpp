@@ -19,6 +19,7 @@
 
 #include <math.h>
 
+#include "math/easing.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -26,7 +27,8 @@
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
   speed(gameRandom.randf(130.0f, 171.0f)),
-  diveRecoverTimer(),
+  m_easing_progress(0.0),
+  m_swoop_up_timer(),
   state(FLYING),
   last_player(nullptr),
   last_player_pos(0.0f, 0.0f),
@@ -174,11 +176,23 @@ void
 Zeekling::active_update(float dt_sec) {
   switch (state) {
     case FLYING:
-      if (should_we_dive()) {
+      if (state != DIVING && should_we_dive())
+      {
+        // swoop a bit up
         state = DIVING;
-        m_physic.set_velocity_y(2 * fabsf(m_physic.get_velocity_x()));
-        set_action("dive", m_dir);
+        m_physic.set_velocity_y(2 * -(fabsf(m_physic.get_velocity_x())));
+        m_swoop_up_timer.start(0.2f);
+        set_action("charge", m_dir);
       }
+
+      break;
+
+    case DIVING:
+      if (!m_swoop_up_timer.check()) break;
+
+      // swoop down
+      set_action("dive", m_dir);
+      m_physic.set_velocity_y(2 * fabsf(m_physic.get_velocity_x()));
       break;
 
     case CLIMBING:
@@ -187,9 +201,6 @@ Zeekling::active_update(float dt_sec) {
         state = FLYING;
         m_physic.set_velocity_y(0);
       }
-      break;
-
-    default:
       break;
   }
 
