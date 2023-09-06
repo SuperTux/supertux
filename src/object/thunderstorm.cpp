@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
+#include "object/ambient_light.hpp"
 #include "object/background.hpp"
 #include "object/electrifier.hpp"
 #include "supertux/level.hpp"
@@ -95,6 +96,10 @@ Thunderstorm::update(float )
     lightning();
     time_to_thunder.start(interval);
   }
+  if(flash_display_timer.check()) {
+    Sector::current()->get_singleton_by_type<AmbientLight>()
+      .set_ambient_light(last_ambient_color);
+  }
 }
 
 void
@@ -133,6 +138,7 @@ Thunderstorm::thunder()
 {
   SoundManager::current()->play("sounds/thunder.wav");
   set_background_color(Color(0.4f, 0.4f, 0.4f));
+  last_ambient_color = Sector::current()->get_singleton_by_type<AmbientLight>().get_ambient_light();
 }
 
 void
@@ -145,6 +151,7 @@ Thunderstorm::lightning()
   }
 
   set_background_color(Color::WHITE);
+  Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(Color::LIGHTNING_HIT_COLOR);
 }
 
 void
