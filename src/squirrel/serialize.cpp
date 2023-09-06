@@ -21,6 +21,7 @@
 #include <sexp/util.hpp>
 
 #include "squirrel/squirrel_error.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -133,6 +134,9 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
         writer.end_list(key);
         break;
       }
+      case OT_ARRAY:
+        writer.write(key, squirrel2string(vm, -1));
+        break;
       case OT_CLOSURE:
         break; // ignore
       case OT_NATIVECLOSURE:
