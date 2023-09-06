@@ -132,7 +132,7 @@ void
 Thunderstorm::thunder()
 {
   SoundManager::current()->play("sounds/thunder.wav");
-  set_background_color(Color(0.4, 0.4, 0.4));
+  set_background_color(Color(0.4f, 0.4f, 0.4f));
 }
 
 void
