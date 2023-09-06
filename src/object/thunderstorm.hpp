@@ -71,10 +71,13 @@ public:
   /** @} */
 
 private:
+  void set_background_color(const Color& color);
+
+private:
   bool running; /**< whether we currently automatically trigger lightnings */
   float interval; /**< time between two lightnings */
   int layer; /**< layer, where flash will be painted */
-  
+
   std::string m_strike_script;
 
   Timer time_to_thunder; /**< counts down until next thunder */

@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
+#include "object/background.hpp"
 #include "object/electrifier.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
@@ -131,6 +132,7 @@ void
 Thunderstorm::thunder()
 {
   SoundManager::current()->play("sounds/thunder.wav");
+  set_background_color(Color(0.4, 0.4, 0.4));
 }
 
 void
@@ -141,6 +143,8 @@ Thunderstorm::lightning()
   if (!m_strike_script.empty()) {
 	  Sector::get().run_script(m_strike_script, "strike-script");
   }
+
+  set_background_color(Color::WHITE);
 }
 
 void
@@ -154,6 +158,16 @@ void
 Thunderstorm::electrify()
 {
   Sector::get().add<Electrifier>(changing_tiles, ELECTRIFY_TIME);
+}
+
+void
+Thunderstorm::set_background_color(const Color& color)
+{
+  auto backgrounds = Sector::current()->get_objects_by_type<Background>();
+  for(auto& background : backgrounds)
+  {
+    background.fade_color(color, 0.1f);
+  }
 }
 
 /* EOF */
