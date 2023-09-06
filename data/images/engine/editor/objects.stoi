@@ -202,11 +202,11 @@
     (class "heavy-brick")
     (icon "images/tiles/blocks/brick3.png"))
   (object
-    (class "heavycoin")
-    (icon "images/objects/coin/heavy_coin.png"))
-  (object
     (class "coin")
-    (icon "images/objects/coin/path_coin.png"))
+    (icon "images/objects/coin/coin-0.png"))
+  (object
+    (class "heavycoin")
+    (icon "images/engine/editor/heavy_coin.png"))
   (object
     (class "powerup")
     (icon "images/engine/editor/powerup.png"))
