@@ -257,7 +257,7 @@
     (icon "images/objects/unstable_tile/snow-3.png"))
   (object
     (class "weak_block")
-    (icon "images/objects/weak_block/strawbox-0.png"))
+    (icon "images/objects/weak_block/meltbox-0.png"))
   (object
     (class "conveyor-belt")
     (icon "images/objects/conveyor_belt/conveyor_left0.png"))
