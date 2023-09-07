@@ -21,8 +21,10 @@
 
 #include "math/easing.hpp"
 #include "math/random.hpp"
+#include "math/vector.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
@@ -92,7 +94,7 @@ Zeekling::on_bump_vertical()
       break;
   }
 
-  m_physic.set_velocity_y(state == CLIMBING ? -speed : 0);
+    m_physic.set_velocity_y(state == CLIMBING ? -speed : 0);
 }
 
 void
@@ -119,57 +121,34 @@ Zeekling::collision_solid(const CollisionHit& hit)
   }
 }
 
-/** Linear prediction of player and badguy positions to decide if we should enter the DIVING state. */
 bool
 Zeekling::should_we_dive()
 {
-  if (m_frozen)
-    return false;
+  if (m_frozen) return false;
 
-  const auto player = get_nearest_player();
-  if (player && last_player && (player == last_player)) {
+  // Left/rightmost point of the hitbox.
+  Vector eye;
+  const Rectf& bbox = get_bbox().grown(1.f);
+  eye = bbox.get_middle();
+  eye.x = m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right();
 
-    // Get positions and calculate movement.
-    const Vector& player_pos = player->get_pos();
-    const Vector player_mov = (player_pos - last_player_pos);
-    const Vector self_pos = m_col.m_bbox.p1();
-    const Vector self_mov = (self_pos - last_self_pos);
+  const Vector& plrmid = get_nearest_player()->get_bbox().get_middle();
 
-    // New vertical speed to test with.
-    float vy = 2*fabsf(self_mov.x);
+  // Do not dive if we are not above the player.
+  float height = plrmid.y - eye.y;
+  if (height <= 0) return false;
 
-    // Do not dive if we are not above the player.
-    float height = player_pos.y - self_pos.y;
-    if (height <= 0) return false;
+  // Do not dive if we are too far above the player.
+  if (height > 512) return false;
 
-    // Do not dive if we are too far above the player.
-    if (height > 512) return false;
+  const Vector& rangeend = {eye.x + ((plrmid.y - eye.y) *
+                                     (m_dir == Direction::LEFT ? -1 : 1)),
+                            plrmid.y};
 
-    // Do not dive if we would not descend faster than the player.
-    float relSpeed = vy - player_mov.y;
-    if (relSpeed <= 0) return false;
-
-    // Guess number of frames to descend to same height as player.
-    float estFrames = height / relSpeed;
-
-    // Guess where the player would be at this time.
-    float estPx = (player_pos.x + (estFrames * player_mov.x));
-
-    // Guess where we would be at this time.
-    float estBx = (self_pos.x + (estFrames * self_mov.x));
-
-    // Allow for slight inaccuracies.
-    if (fabsf(estPx - estBx) < 8) return true;
-  }
-
-  // Update the last player tracked, as well as our positions.
-  last_player = player;
-  if (player) {
-    last_player_pos = player->get_pos();
-    last_self_pos = m_col.m_bbox.p1();
-  }
-
-  return false;
+  // FIXME: Give the actual object that hit the raycast, or at least the hitbox
+  // to avoid having to raycast a bunch of times
+  return !Sector::get().free_line_of_sight(eye, rangeend, false, this) &&
+          Sector::get().can_see_player(eye);
 }
 
 void
@@ -204,7 +183,7 @@ Zeekling::active_update(float dt_sec) {
       break;
   }
 
-  BadGuy::active_update(dt_sec);
+    BadGuy::active_update(dt_sec);
 }
 
 void
