@@ -52,13 +52,9 @@ public:
  */
 void Level_finish(bool win);
 /**
- * Returns whether the current level has ended.
- */
-bool Level_is_finished();
-/**
  * Gets whether an end sequence has started. (AKA when the stats at the end are visible)
  */
-bool Level_end_sequence_started();
+bool Level_has_active_sequence();
 
 /**
  * Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"".${SRG_TABLENEWPARAGRAPH}

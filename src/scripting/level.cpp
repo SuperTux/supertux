@@ -30,7 +30,7 @@ Level_finish(bool win)
 }
 
 bool
-Level_end_sequence_started()
+Level_has_active_sequence()
 {
   SCRIPT_GUARD_GAMESESSION(false);
   return game_session.get_end_sequence();

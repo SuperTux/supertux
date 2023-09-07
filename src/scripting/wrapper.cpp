@@ -12530,11 +12530,11 @@ static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Level_is_finished_wrapper(HSQUIRRELVM vm)
+static SQInteger Level_has_active_sequence_wrapper(HSQUIRRELVM vm)
 {
 
   try {
-    bool return_value = scripting::Level_is_finished();
+    bool return_value = scripting::Level_has_active_sequence();
 
     sq_pushbool(vm, return_value);
     return 1;
@@ -12543,7 +12543,7 @@ static SQInteger Level_is_finished_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
   } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_is_finished'"));
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_has_active_sequence'"));
     return SQ_ERROR;
   }
 
@@ -14018,11 +14018,11 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'Level_finish'");
   }
 
-  sq_pushstring(v, "Level_is_finished", -1);
-  sq_newclosure(v, &Level_is_finished_wrapper, 0);
+  sq_pushstring(v, "Level_has_active_sequence", -1);
+  sq_newclosure(v, &Level_has_active_sequence_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'Level_is_finished'");
+    throw SquirrelError(v, "Couldn't register function 'Level_has_active_sequence'");
   }
 
   sq_pushstring(v, "Level_spawn", -1);
