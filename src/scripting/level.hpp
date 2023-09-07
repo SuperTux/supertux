@@ -56,6 +56,11 @@ void Level_finish(bool win);
  */
 bool Level_is_finished();
 /**
+ * Gets whether an end sequence has started. (AKA when the stats at the end are visible)
+ */
+bool Level_end_sequence_started();
+
+/**
  * Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"".${SRG_TABLENEWPARAGRAPH}
    Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
    If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.

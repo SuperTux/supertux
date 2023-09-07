@@ -722,6 +722,12 @@ GameSession::get_working_directory() const
   return FileSystem::dirname(m_levelfile);
 }
 
+bool
+GameSession::get_end_sequence() const
+{
+  return m_end_sequence;
+}
+
 void
 GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* data)
 {
