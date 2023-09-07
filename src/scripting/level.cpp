@@ -33,7 +33,7 @@ bool
 Level_has_active_sequence()
 {
   SCRIPT_GUARD_GAMESESSION(false);
-  return game_session.get_end_sequence();
+  return game_session.has_active_sequence();
 }
 
 void

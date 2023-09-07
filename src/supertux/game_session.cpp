@@ -723,7 +723,7 @@ GameSession::get_working_directory() const
 }
 
 bool
-GameSession::get_end_sequence() const
+GameSession::has_active_sequence() const
 {
   return m_end_sequence;
 }
