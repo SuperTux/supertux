@@ -33,6 +33,19 @@ Sector::run_script(const std::string& script, const std::string& sourcename)
   m_squirrel_environment->run_script(script, sourcename);
 }
 
+bool
+Sector::before_object_add(GameObject& object)
+{
+  m_squirrel_environment->try_expose(object);
+  return true;
+}
+
+void
+Sector::before_object_remove(GameObject& object)
+{
+  m_squirrel_environment->try_unexpose(object);
+}
+
 } // namespace Base
 
 /* EOF */

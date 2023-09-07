@@ -303,7 +303,7 @@ GameObjectFactory::init_factories()
   add_factory<worldmap::SpecialTile>("special-tile", OBJ_PARAM_WORLDMAP);
   add_factory<worldmap::SpriteChange>("sprite-change", OBJ_PARAM_WORLDMAP);
   add_factory<worldmap::Teleporter>("teleporter", OBJ_PARAM_WORLDMAP);
-  add_factory<worldmap::SpawnPointObject>("worldmap-spawnpoint", OBJ_PARAM_WORLDMAP);
+  add_factory<worldmap::SpawnPointObject>("worldmap-spawnpoint");
 
   add_factory("tilemap", {
     [](const ReaderMapping& reader) {
