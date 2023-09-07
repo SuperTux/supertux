@@ -30,7 +30,7 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
   speed(gameRandom.randf(130.0f, 171.0f)),
   m_easing_progress(0.0),
-  m_swoop_up_timer(),
+  m_charge_timer(),
   state(FLYING),
   last_player(nullptr),
   last_player_pos(0.0f, 0.0f),
@@ -83,6 +83,7 @@ Zeekling::on_bump_vertical()
   switch (state) {
     case DIVING:
       state = CLIMBING;
+      m_easing_progress = 0.0;
       set_action(m_dir);
       break;
 
@@ -155,23 +156,40 @@ void
 Zeekling::active_update(float dt_sec) {
   switch (state) {
     case FLYING:
-      if (state != DIVING && should_we_dive())
+      if (!should_we_dive()) break;
+
+      // swoop a bit up
+      state = CHARGING;
+      set_action("charge", m_dir);
+      m_charge_timer.start(0.4f);
+
+      [[fallthrough]];
+
+    case CHARGING:
+    {
+      if (m_charge_timer.check())
       {
-        // swoop a bit up
         state = DIVING;
-        m_physic.set_velocity_y(2 * -(fabsf(m_physic.get_velocity_x())));
-        m_swoop_up_timer.start(0.2f);
-        set_action("charge", m_dir);
+        set_action("dive", m_dir);
+        break;
       }
 
+      double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
+                                                   m_charge_timer.get_period());
+
+      m_physic.set_velocity_y(-325 * QuarticEaseInOut(easing_progress));
       break;
+    }
 
     case DIVING:
-      if (!m_swoop_up_timer.check()) break;
+      if (m_easing_progress >= 1.0) break;
 
       // swoop down
-      set_action("dive", m_dir);
-      m_physic.set_velocity_y(2 * fabsf(m_physic.get_velocity_x()));
+      m_easing_progress += 0.1;
+      m_physic.set_velocity_y(2 *
+                              fabsf(m_physic.get_velocity_x()) *
+                              std::min<double>(5.0, QuarticEaseIn(m_easing_progress)));
+
       break;
 
     case CLIMBING:
@@ -181,9 +199,12 @@ Zeekling::active_update(float dt_sec) {
         m_physic.set_velocity_y(0);
       }
       break;
+
+    default:
+      break;
   }
 
-    BadGuy::active_update(dt_sec);
+  BadGuy::active_update(dt_sec);
 }
 
 void
