@@ -29,6 +29,7 @@
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
+class MovingObject;
 class TileMap;
 
 template<class T> class GameObjectRange;
@@ -57,10 +58,16 @@ public:
   T& add(Args&&... args)
   {
     auto obj = std::make_unique<T>(std::forward<Args>(args)...);
+    obj->update_version();
     T& obj_ref = *obj;
     add_object(std::move(obj));
     return obj_ref;
   }
+
+  /** Add a MovingObject from scripting. */
+  virtual MovingObject& add_object_scripting(const std::string& class_name, const std::string& name,
+                                             const Vector& pos, const std::string& direction,
+                                             const std::string& data);
 
   void update(float dt_sec);
   void draw(DrawingContext& context);

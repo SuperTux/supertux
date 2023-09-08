@@ -69,6 +69,7 @@ ObjectSelectMenu::add_object()
   }
 
   auto obj = GameObjectFactory::instance().create(m_selected);
+  obj->update_version(); // Ensure the object is on its latest version
 
   Dispenser* dispenser = dynamic_cast<Dispenser*>(m_parent);
   if (dispenser)

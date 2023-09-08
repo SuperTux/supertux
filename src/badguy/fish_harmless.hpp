@@ -19,7 +19,7 @@
 
 #include "badguy/fish_swimming.hpp"
 
-/** Jumping on a trampoline makes tux jump higher. */
+/** Fish, which doesn't harm the player. */
 class FishHarmless final : public FishSwimming
 {
 public:
@@ -30,6 +30,8 @@ public:
   static std::string display_name() { return _("Harmless Fish"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual std::string get_overlay_size() const override { return "1x1"; }
+
+  GameObjectTypes get_types() const override { return {}; }
 
 protected:
   virtual void initialize() override;

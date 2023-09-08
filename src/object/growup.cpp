@@ -24,9 +24,10 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-GrowUp::GrowUp(const Vector& pos, Direction direction) :
-  MovingSprite(pos, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
+GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom_sprite) :
+  MovingSprite(pos, custom_sprite.empty() ? "images/powerups/egg/egg.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
+  m_custom_sprite(!custom_sprite.empty()),
   shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
@@ -43,16 +44,20 @@ GrowUp::GrowUp(const Vector& pos, Direction direction) :
 void
 GrowUp::update(float dt_sec)
 {
+  if (!m_custom_sprite && physic.get_velocity_x() != 0)
+    m_sprite->set_angle(get_pos().x * 360.0f / (32.0f * math::PI));
+
   m_col.set_movement(physic.get_movement(dt_sec));
 }
 
 void
 GrowUp::draw(DrawingContext& context)
 {
-  if (physic.get_velocity_x() != 0) {
-    m_sprite->set_angle(get_pos().x * 360.0f / (32.0f * math::PI));
-  }
   MovingSprite::draw(context);
+
+  if (m_custom_sprite)
+    return;
+
   shadesprite->draw(context.color(), get_pos(), m_layer);
   lightsprite->draw(context.light(), get_bbox().get_middle(), 0);
 }

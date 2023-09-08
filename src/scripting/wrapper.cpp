@@ -894,6 +894,41 @@ static SQInteger Camera_set_scale_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Camera_set_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg1;
+  if(SQ_FAILED(sq_getinteger(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_scale_anchor(arg0, static_cast<int> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_scale_anchor'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -924,6 +959,46 @@ static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'scale'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->scale_anchor(arg0, arg1, static_cast<int> (arg2));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'scale_anchor'"));
     return SQ_ERROR;
   }
 
@@ -964,6 +1039,51 @@ static SQInteger Camera_ease_scale_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'ease_scale'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_ease_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'ease_scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg3;
+  if(SQ_FAILED(sq_getstring(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->ease_scale_anchor(arg0, arg1, static_cast<int> (arg2), arg3);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'ease_scale_anchor'"));
     return SQ_ERROR;
   }
 
@@ -5857,6 +5977,61 @@ static SQInteger GameObjectManager_set_music_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger GameObjectManager_add_object_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'add_object' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::GameObjectManager* _this = reinterpret_cast<scripting::GameObjectManager*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+  SQInteger arg3;
+  if(SQ_FAILED(sq_getinteger(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not an integer"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg4;
+  if(SQ_FAILED(sq_getstring(vm, 6, &arg4))) {
+    sq_throwerror(vm, _SC("Argument 5 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg5;
+  if(SQ_FAILED(sq_getstring(vm, 7, &arg5))) {
+    sq_throwerror(vm, _SC("Argument 6 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->add_object(arg0, arg1, static_cast<int> (arg2), static_cast<int> (arg3), arg4, arg5);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'add_object'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Gradient_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (ptr);
@@ -8391,61 +8566,6 @@ static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_gravity'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Sector_add_object_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'add_object' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
-
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-  const SQChar* arg1;
-  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a string"));
-    return SQ_ERROR;
-  }
-  SQInteger arg2;
-  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not an integer"));
-    return SQ_ERROR;
-  }
-  SQInteger arg3;
-  if(SQ_FAILED(sq_getinteger(vm, 5, &arg3))) {
-    sq_throwerror(vm, _SC("Argument 4 not an integer"));
-    return SQ_ERROR;
-  }
-  const SQChar* arg4;
-  if(SQ_FAILED(sq_getstring(vm, 6, &arg4))) {
-    sq_throwerror(vm, _SC("Argument 5 not a string"));
-    return SQ_ERROR;
-  }
-  const SQChar* arg5;
-  if(SQ_FAILED(sq_getstring(vm, 7, &arg5))) {
-    sq_throwerror(vm, _SC("Argument 6 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->add_object(arg0, arg1, static_cast<int> (arg2), static_cast<int> (arg3), arg4, arg5);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'add_object'"));
     return SQ_ERROR;
   }
 
@@ -14246,6 +14366,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'set_scale'");
   }
 
+  sq_pushstring(v, "set_scale_anchor", -1);
+  sq_newclosure(v, &Camera_set_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_scale_anchor'");
+  }
+
   sq_pushstring(v, "scale", -1);
   sq_newclosure(v, &Camera_scale_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
@@ -14253,11 +14380,25 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'scale'");
   }
 
+  sq_pushstring(v, "scale_anchor", -1);
+  sq_newclosure(v, &Camera_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'scale_anchor'");
+  }
+
   sq_pushstring(v, "ease_scale", -1);
   sq_newclosure(v, &Camera_ease_scale_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|ns");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'ease_scale'");
+  }
+
+  sq_pushstring(v, "ease_scale_anchor", -1);
+  sq_newclosure(v, &Camera_ease_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|ns");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'ease_scale_anchor'");
   }
 
   sq_pushstring(v, "get_screen_width", -1);
@@ -15419,6 +15560,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'set_music'");
   }
 
+  sq_pushstring(v, "add_object", -1);
+  sq_newclosure(v, &GameObjectManager_add_object_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ssb|nb|nss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'add_object'");
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'GameObjectManager'");
   }
@@ -15437,13 +15585,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_gravity'");
-  }
-
-  sq_pushstring(v, "add_object", -1);
-  sq_newclosure(v, &Sector_add_object_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ssb|nb|nss");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'add_object'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

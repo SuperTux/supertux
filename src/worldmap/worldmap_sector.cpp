@@ -30,6 +30,7 @@
 #include "supertux/debug.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -353,6 +354,26 @@ WorldMapSector::update(float dt_sec)
       // tux->set_direction(input_direction);
     }
   }
+
+  flush_game_objects();
+}
+
+
+MovingObject&
+WorldMapSector::add_object_scripting(const std::string& class_name, const std::string& name,
+                                     const Vector& pos, const std::string& direction,
+                                     const std::string& data)
+{
+  if (!GameObjectFactory::instance().has_params(class_name, ObjectFactory::OBJ_PARAM_WORLDMAP))
+    throw std::runtime_error("Object '" + class_name + "' cannot be added to a worldmap sector.");
+
+  auto& obj = GameObjectManager::add_object_scripting(class_name, name, pos, direction, data);
+
+  // Set position of non-WorldMapObjects from provided tile position.
+  if (!dynamic_cast<WorldMapObject*>(&obj))
+    obj.set_pos(obj.get_pos() * 32.f);
+
+  return obj;
 }
 
 
@@ -558,20 +579,6 @@ WorldMapSector::set_initial_fade_tilemap(const std::string& tilemap_name, int di
 {
   m_initial_fade_tilemap = tilemap_name;
   m_fade_direction = direction;
-}
-
-
-bool
-WorldMapSector::before_object_add(GameObject& object)
-{
-  m_squirrel_environment->try_expose(object);
-  return true;
-}
-
-void
-WorldMapSector::before_object_remove(GameObject& object)
-{
-  m_squirrel_environment->try_unexpose(object);
 }
 
 

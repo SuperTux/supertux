@@ -59,7 +59,6 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_whites()
 {
   parse_type(reader);
-  on_type_change(-1);
 
   reader.get("sideways", m_sideways);
   // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
@@ -74,22 +73,49 @@ Crusher::get_types() const
   return {
     { "ice-krush", _("Ice (normal)") },
     { "ice-krosh", _("Ice (big)") },
+    { "rock-krush", _("Rock (normal)") },
+    { "rock-krosh", _("Rock (big)") },
     { "corrupted-krush", _("Corrupted (normal)") },
     { "corrupted-krosh", _("Corrupted (big)") }
   };
 }
 
+std::string
+Crusher::get_default_sprite_name() const
+{
+  const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
+  switch (m_ic_type)
+  {
+    case ROCK:
+      return "images/creatures/crusher/" + size_prefix + "_rock.sprite";
+    case CORRUPTED:
+      return "images/creatures/crusher/corrupted/" + size_prefix + "_corrupt.sprite";
+    default:
+      return "images/creatures/crusher/" + size_prefix + "_ice.sprite";
+  }
+}
+
 void
 Crusher::on_type_change(int old_type)
 {
-  m_ic_size = (m_type == 0 || m_type == 2 ? NORMAL : LARGE);
-  m_ic_type = (m_type == 0 || m_type == 1 ? ICE : CORRUPTED);
-
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+  m_ic_size = (m_type % 2 == 0 ? NORMAL : LARGE);
+  switch (m_type)
   {
-    const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
-    change_sprite("images/creatures/crusher/" + (m_ic_type == CORRUPTED ? "corrupted/" + size_prefix + "_corrupt" : size_prefix + "_ice") + ".sprite");
+    case 0:
+    case 1:
+      m_ic_type = ICE;
+      break;
+    case 2:
+    case 3:
+      m_ic_type = ROCK;
+      break;
+    case 4:
+    case 5:
+      m_ic_type = CORRUPTED;
+      break;
   }
+
+  MovingSprite::on_type_change();
 }
 
 HitResponse

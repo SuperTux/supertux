@@ -77,10 +77,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   mapping.get("name", m_name);
 
   std::string tileset_name;
-  if (mapping.get("tileset", tileset_name))
-    m_tileset = TileManager::current()->get_tileset(tileset_name);
-  else
-    m_tileset = TileManager::current()->get_tileset("images/ice_world.strf");
+  mapping.get("tileset", tileset_name, "images/ice_world.strf");
+  m_tileset = TileManager::current()->get_tileset(tileset_name);
 
   auto iter = mapping.get_iter();
   while (iter.next())

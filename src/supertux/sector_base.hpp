@@ -49,6 +49,10 @@ public:
   void run_script(const std::string& script, const std::string& sourcename);
 
 protected:
+  virtual bool before_object_add(GameObject& object) override;
+  virtual void before_object_remove(GameObject& object) override;
+
+protected:
   std::string m_name;
   std::string m_init_script;
 

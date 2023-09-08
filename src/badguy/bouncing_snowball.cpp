@@ -27,6 +27,7 @@ static const float BSNOWBALL_WALKSPEED = 80;
 BouncingSnowball::BouncingSnowball(const ReaderMapping& reader)
   : BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
 {
+  parse_type(reader);
 }
 
 void
@@ -40,6 +41,9 @@ void
 BouncingSnowball::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
+  if (m_frozen)
+    return;
+
   if ((m_sprite->get_action() == "left-up" || m_sprite->get_action() == "right-up") && m_sprite->animation_done())
   {
     set_action(m_dir);
@@ -58,9 +62,39 @@ BouncingSnowball::active_update(float dt_sec)
   }
 }
 
+GameObjectTypes
+BouncingSnowball::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "fatbat", _("Fatbat") }
+  };
+}
+
+std::string
+BouncingSnowball::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case FATBAT:
+      return "images/creatures/fatbat/fatbat.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
+bool
+BouncingSnowball::is_freezable() const
+{
+  return m_type == FATBAT;
+}
+
 bool
 BouncingSnowball::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return BadGuy::collision_squished(object);
+
   set_action("squished", m_dir);
   kill_squished(object);
   return true;
@@ -70,7 +104,11 @@ void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
   if (m_sprite->get_action() == "squished")
+    return;
+
+  if (m_frozen)
   {
+    BadGuy::collision_solid(hit);
     return;
   }
 
@@ -93,7 +131,6 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     set_action(m_dir);
     m_physic.set_velocity_x(-m_physic.get_velocity_x());
   }
-
 }
 
 HitResponse
@@ -101,6 +138,13 @@ BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
   collision_solid(hit);
   return CONTINUE;
+}
+
+void
+BouncingSnowball::unfreeze(bool melt)
+{
+  BadGuy::unfreeze(melt);
+  initialize();
 }
 
 void

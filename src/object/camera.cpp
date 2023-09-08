@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -162,7 +163,10 @@ Camera::Camera(const std::string& name) :
   m_scale_target(1.f),
   m_scale_time_total(0.f),
   m_scale_time_remaining(0.f),
+  m_scale_origin_translation(),
+  m_scale_target_translation(),
   m_scale_easing(),
+  m_scale_anchor(),
   m_minimum_scale(1.f),
   m_enfore_minimum_scale(false)
 {
@@ -200,7 +204,10 @@ Camera::Camera(const ReaderMapping& reader) :
   m_scale_target(1.f),
   m_scale_time_total(0.f),
   m_scale_time_remaining(0.f),
+  m_scale_origin_translation(),
+  m_scale_target_translation(),
   m_scale_easing(),
+  m_scale_anchor(),
   m_minimum_scale(1.f),
   m_enfore_minimum_scale(false)
 {
@@ -390,6 +397,9 @@ Camera::update(float dt_sec)
         update_scroll_normal(dt_sec);
       }
       break;
+    case Mode::MANUAL:
+      keep_in_bounds(m_translation);
+      break;
     case Mode::AUTOSCROLL:
       update_scroll_autoscroll(dt_sec);
       break;
@@ -428,9 +438,24 @@ Camera::keep_in_bounds(Vector& translation_)
   // Remove any earthquake offset from the translation.
   translation_.y -= m_earthquake_last_offset;
 
-  // Don't scroll before the start or after the level's end.
-  translation_.x = math::clamp(translation_.x, 0.0f, width - m_screen_size.width);
-  translation_.y = math::clamp(translation_.y, 0.0f, height - m_screen_size.height);
+  if (m_mode == Mode::MANUAL)
+  {
+    // Determines the difference between normal and scaled translation.
+    const Vector scale_factor = (m_screen_size.as_vector() * (get_current_scale() - 1.f)) / 2.f;
+
+    // Keep the translation's scaled position in sector bounds.
+    translation_.x = math::clamp(translation_.x + scale_factor.x, 0.0f, width - m_screen_size.width);
+    translation_.y = math::clamp(translation_.y + scale_factor.y, 0.0f, height - m_screen_size.height);
+
+    // Remove any scale factor we may have added in the checks above.
+    translation_ -= scale_factor;
+  }
+  else
+  {
+    // Don't scroll before the start or after the sector's end.
+    translation_.x = math::clamp(translation_.x, 0.0f, width - m_screen_size.width);
+    translation_.y = math::clamp(translation_.y, 0.0f, height - m_screen_size.height);
+  }
 
   // Add any earthquake offset we may have removed earlier.
   translation_.y += m_earthquake_last_offset;
@@ -524,7 +549,7 @@ Camera::update_scroll_normal(float dt_sec)
       target_y = player.m_last_ground_y + player.get_bbox().get_height();
     else
       target_y = player.get_bbox().get_bottom();
-    target_y -= static_cast<float>(m_screen_size.height) * config_.target_y;
+    target_y -= m_screen_size.height * config_.target_y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y.
     float delta_y = m_cached_translation.y - target_y;
@@ -889,9 +914,24 @@ void
 Camera::update_scroll_to(float dt_sec)
 {
   m_scroll_to_pos += dt_sec * m_scrollspeed;
-  if (m_scroll_to_pos >= 1.0f) {
+  if (m_scroll_to_pos >= 1.0f)
+  {
     m_mode = Mode::MANUAL;
     m_translation = m_scroll_goal;
+
+    // If a scale is active and wouldn't finish this frame, reload it with the remaining time,
+    // setting the initial scale values from the scroll destination.
+    if (m_scale_time_remaining - dt_sec > 0.f)
+    {
+      m_scale_time_total -= m_scale_time_total - m_scale_time_remaining;
+      reload_scale();
+    }
+    else
+    {
+      // In case a scale finishes this frame, set its target translation to the scroll destination.
+      m_scale_target_translation = m_translation;
+    }
+
     return;
   }
 
@@ -908,21 +948,37 @@ Camera::update_scale(float dt_sec)
     if (m_scale_time_remaining <= 0.f)
     {
       m_scale = m_scale_target;
+      if (m_mode == Mode::MANUAL)
+        m_translation = m_scale_target_translation;
+
       m_scale_time_remaining = 0.f;
+      m_scale_time_total = 0.f;
     }
     else
     {
-      float progress = (m_scale_time_total - m_scale_time_remaining)
-                                                          / m_scale_time_total;
-      float true_progress = static_cast<float>(m_scale_easing(
-                                               static_cast<double>(progress)));
-      m_scale = m_scale_origin +
-                             (m_scale_target - m_scale_origin) * true_progress;
+      float time_progress = (m_scale_time_total - m_scale_time_remaining) / m_scale_time_total;
+      float progress = static_cast<float>(m_scale_easing(static_cast<double>(time_progress)));
+
+      m_scale = m_scale_origin + (m_scale_target - m_scale_origin) * progress;
+
+      /** MANUAL mode scale management */
+      if (m_mode == Mode::MANUAL)
+      {
+        // Move camera to the target translation, when zooming in manual mode.
+        m_translation = m_scale_origin_translation + (m_scale_target_translation - m_scale_origin_translation) * progress;
+        keep_in_bounds(m_translation);
+        return;
+      }
     }
 
-    // Re-center camera when zooming.
+    // Re-center camera, when zooming in normal mode.
     m_lookahead_pos /= 1.01f;
   }
+
+  // In MANUAL mode, the translation is managed only when a scale is active.
+  // In SCROLLTO mode, the translation is managed in update_scroll_to().
+  if (m_mode == Mode::MANUAL || m_mode == Mode::SCROLLTO)
+    return;
 
   // FIXME: Poor design: This shouldn't pose a problem to multiplayer.
   if (m_mode == Mode::NORMAL && Sector::current()->get_object_count<Player>() > 1)
@@ -932,17 +988,44 @@ Camera::update_scale(float dt_sec)
   m_translation += screen_size * (1.f - get_current_scale()) / 2.f;
 }
 
-void
-Camera::ease_scale(float scale, float time, easing ease)
+/** Get target scale position from the anchor point (m_scale_anchor). */
+Vector
+Camera::get_scale_anchor_target() const
 {
-  if (time <= 0.f) {
+  // Get target center position from the anchor, and afterwards, top-left position from the center position.
+  return get_anchor_center_pos(Rectf(m_translation,
+                                     Sizef(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT))),
+                               m_scale_anchor) - Vector(static_cast<float>(SCREEN_WIDTH) / 2, static_cast<float>(SCREEN_HEIGHT) / 2);
+}
+
+/** Reload easing scale from the current position. */
+void
+Camera::reload_scale()
+{
+  m_scale_origin = m_scale;
+  m_scale_origin_translation = m_translation;
+  m_scale_target_translation = get_scale_anchor_target();
+  m_scale_time_remaining = m_scale_time_total;
+}
+
+void
+Camera::ease_scale(float scale, float time, easing ease, AnchorPoint anchor)
+{
+  m_scale_anchor = anchor;
+
+  if (time <= 0.f)
+  {
     m_scale = scale;
-  } else {
-    m_scale_origin = m_scale;
+    if (m_mode == Mode::MANUAL)
+      m_translation = get_scale_anchor_target();
+  }
+  else
+  {
     m_scale_target = scale;
     m_scale_time_total = time;
-    m_scale_time_remaining = time;
     m_scale_easing = ease;
+
+    reload_scale();
   }
 }
 

@@ -33,6 +33,7 @@ FishSwimming::FishSwimming(const ReaderMapping& reader) :
   m_float_timer(),
   m_radius()
 {
+  parse_type(reader);
   reader.get("radius", m_radius, 100.0f);
 }
 
@@ -44,6 +45,27 @@ FishSwimming::FishSwimming(const ReaderMapping& reader, const std::string& sprit
   m_radius()
 {
   reader.get("radius", m_radius, 100.0f);
+}
+
+GameObjectTypes
+FishSwimming::get_types() const
+{
+  return {
+    { "snow", _("Snow") },
+    { "forest", _("Forest") }
+  };
+}
+
+std::string
+FishSwimming::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case FOREST:
+      return "images/creatures/fish/forest/bluefish.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 ObjectSettings

@@ -31,6 +31,7 @@ public:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
 
   virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void kill_fall() override;
   virtual void draw(DrawingContext& context) override;
@@ -46,7 +47,6 @@ public:
   void squish();
 
 protected:
-  void on_type_change(int old_type) override;
   std::vector<Direction> get_allowed_directions() const override;
 
 protected:
