@@ -63,7 +63,7 @@ public:
     const bool is_tile = true; /**< true if raycast hit a tile */
     const CollisionObject* object = nullptr; /**< object that the raycast hit, nullptr if is_tile is true */
     const Tile* tile = nullptr; /**< tile that the raycast hit, nullptr if is_tile is false */
-    const Rectf tile_box = {0,0,0,0}; /**< hitbox of tile, empty if is_tile is false */
+    const Rectf tile_box = {}; /**< hitbox of tile, empty if is_tile is false */
   };
 
   RaycastResult get_first_line_intersection(const Vector& line_start,

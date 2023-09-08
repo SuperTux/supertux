@@ -716,7 +716,7 @@ CollisionSystem::get_first_line_intersection(const Vector &line_start,
         const Tile* tile = &solids->get_tile_at(test_vector);
 
         // Get the rect of the tile.
-        const Rectf tilebox(glm::floor((test_vector - solids->get_offset()) / 32.0f), {32.f, 32.f});
+        const Rectf tilebox(glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f));
 
         // FIXME: check collision with slope tiles
         if ((tile->get_attributes() & Tile::SOLID))
