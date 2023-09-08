@@ -319,8 +319,8 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     if (!on_pause_menu)
       x_offset *= std::min(1.f, -std::abs(m_coins_time - 2.5f) + 2.5f);
 
-    Vector pos(static_cast<float>(context.get_width()) - x_offset,
-               static_cast<float>(context.get_height()) - height * 6.f - 20.f - 16.f);
+    Vector pos(context.get_width() - x_offset,
+               context.get_height() - height * 6.f - 20.f - 16.f);
 
     context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 37.f,
                                            pos.y + height).grown(5.f),
@@ -348,8 +348,8 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     if (!on_pause_menu)
       x_offset *= std::min(1.f, -std::abs(m_badguys_time - 2.5f) + 2.5f);
 
-    Vector pos(static_cast<float>(context.get_width()) - x_offset,
-               static_cast<float>(context.get_height()) - height * 5.f - 10.f - 8.f);
+    Vector pos(context.get_width() - x_offset,
+               context.get_height() - height * 5.f - 10.f - 8.f);
 
     context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 37.f,
                                            pos.y + height).grown(5.f),

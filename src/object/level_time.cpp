@@ -121,7 +121,7 @@ LevelTime::draw(DrawingContext& context)
                                           BORDER_Y + 1),
                                    LAYER_HUD);
       context.color().draw_text(Resources::normal_font, time_text,
-                                Vector((static_cast<float>(context.get_width()) - all_width) / 2.0f + static_cast<float>(time_surface->get_width()),
+                                Vector(context.get_width() - all_width) / 2.0f + static_cast<float>(time_surface->get_width()),
                                        BORDER_Y + 14),
                                 ALIGN_LEFT, LAYER_HUD, LevelTime::text_color);
     }
