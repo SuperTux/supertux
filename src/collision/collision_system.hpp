@@ -56,6 +56,20 @@ public:
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
+
+  struct RaycastResult
+  {
+    const bool is_valid; /**< true if raycast hit something */
+    const bool is_tile = true; /**< true if raycast hit a tile */
+    const CollisionObject* object = nullptr; /**< object that the raycast hit, nullptr if is_tile is true */
+    const Tile* tile = nullptr; /**< tile that the raycast hit, nullptr if is_tile is false */
+    const Rectf tile_box = {0,0,0,0}; /**< hitbox of tile, empty if is_tile is false */
+  };
+
+  RaycastResult get_first_line_intersection(const Vector& line_start,
+                                            const Vector& line_end,
+                                            bool ignore_objects,
+                                            const CollisionObject* ignore_object) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const;
 
   std::vector<CollisionObject*> get_nearby_objects(const Vector& center, float max_distance) const;
