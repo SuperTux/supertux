@@ -5,13 +5,13 @@
 	path = external/squirrel
 	url = https://github.com/albertodemichelis/squirrel.git
 [submodule "external/sexp-cpp"]
-	path = external/sexp-cpp
+	path = external/sexp
 	url = https://github.com/SuperTux/sexp-cpp.git
 [submodule "external/physfs"]
 	path = external/physfs
 	url = https://github.com/SuperTux/physfs.git
 [submodule "external/SDL_ttf"]
-	path = external/SDL_ttf
+	path = external/SDL2_ttf
 	url = https://github.com/SuperTux/SDL_ttf
 [submodule "discord-sdk"]
 	path = external/discord-sdk
@@ -25,3 +25,26 @@
 [submodule "external/glm"]
 	path = external/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "external/OpenAL"]
+	path = external/OpenAL
+	url = https://github.com/kcat/openal-soft
+[submodule "external/SDL2"]
+	path = external/SDL2
+	url = https://github.com/libsdl-org/SDL
+	branch = SDL2
+[submodule "external/SDL2_image"]
+	path = external/SDL2_image
+	url = https://github.com/libsdl-org/SDL_image
+	branch = SDL2
+[submodule "external/png_shared"]
+	path = external/png_shared
+	url = https://github.com/glennrp/libpng
+	branch = libpng16
+[submodule "external/zlib"]
+	path = external/zlib
+	url = https://github.com/luvit/zlib
+	branch = master
+[submodule "external/libcurl_shared"]
+	path = external/libcurl_shared
+	url = https://github.com/curl/curl
+	branch = master

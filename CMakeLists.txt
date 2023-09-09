@@ -16,6 +16,7 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/mk/cmake)
 include(ConfigureFiles)
 include(ExternalProject)
+include(Dependencies)
 
 ## For autopackage
 set(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
@@ -120,6 +121,7 @@ file(GLOB_RECURSE SUPERTUX_SRC src/*.cpp src/*.hpp)
 list(REMOVE_ITEM SUPERTUX_SRC src/main.cpp)
 
 # TODO: that "HAVE_OPENGL" thingy
+set(HAVE_OPENGL OFF)
 
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/src/scripting/wrapper.cpp)
   list(APPEND SUPERTUX_SRC ${PROJECT_SOURCE_DIR}/src/scripting/wrapper.cpp)
@@ -140,7 +142,27 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 ## Add target for supertux binary
 
 add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
+
+set(HAVE_SDL ON)
+if(NOT EMSCRIPTEN)
+  target_dependencies(supertux2_lib SDL2 SDL2_image SDL2_ttf libcurl_shared)
+  # TODO: oggvorbis
+endif()
+
+target_dependencies(supertux2_lib tinygettext sexp OpenAL glm fmt physfs)
+target_external_dependencies_from_folder(supertux2_lib squirrel squirrel sqstdlib)
+
+if(ENABLE_DISCORD)
+  target_dependencies(supertux2_lib discord-rpc)
+endif()
+
 target_include_directories(supertux2_lib PUBLIC src/)
+
+# Include altivec wrapper on ppc
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
+  target_include_directories(supertux2_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
+endif()
+
 if(WIN32)
   add_executable(supertux2 WIN32 ${} ${PROJECT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
 else()
