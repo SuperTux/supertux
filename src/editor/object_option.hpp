@@ -53,6 +53,7 @@ class BaseObjectOption
 {
 public:
   BaseObjectOption(const std::string& text, const std::string& key, unsigned int flags);
+  ~BaseObjectOption();
 
   virtual void save(Writer& write) const = 0;
   virtual std::string to_string() const = 0;
