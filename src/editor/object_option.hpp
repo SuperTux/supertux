@@ -53,7 +53,9 @@ class BaseObjectOption
 {
 public:
   BaseObjectOption(const std::string& text, const std::string& key, unsigned int flags);
-  virtual ~BaseObjectOption();
+  virtual ~BaseObjectOption()
+  {
+  }
 
   virtual void save(Writer& write) const = 0;
   virtual std::string to_string() const = 0;
@@ -78,7 +80,9 @@ class ObjectOption: public BaseObjectOption
 {
 public:
   ObjectOption(const std::string& text, const std::string& key, unsigned int flags, T* pointer = nullptr);
-  virtual ~ObjectOption() override;
+  virtual ~ObjectOption() override
+  {
+  }
 
   virtual T* get_value() const { return m_value_pointer; }
 
