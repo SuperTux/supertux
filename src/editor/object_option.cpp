@@ -53,10 +53,6 @@ BaseObjectOption::BaseObjectOption(const std::string& text, const std::string& k
 {
 }
 
-BaseObjectOption::~BaseObjectOption()
-{
-}
-
 template<typename T>
 ObjectOption<T>::ObjectOption(const std::string& text, const std::string& key, unsigned int flags, T* pointer) :
   BaseObjectOption(text, key, flags),
