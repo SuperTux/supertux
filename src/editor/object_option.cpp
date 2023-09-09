@@ -64,7 +64,8 @@ ObjectOption<T>::ObjectOption(const std::string& text, const std::string& key, u
 {
 }
 
-ObjectOption::~ObjectOption()
+template<typename T>
+ObjectOption<T>::~ObjectOption()
 {
 }
 
