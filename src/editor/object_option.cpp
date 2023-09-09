@@ -64,6 +64,10 @@ ObjectOption<T>::ObjectOption(const std::string& text, const std::string& key, u
 {
 }
 
+ObjectOption::~ObjectOption()
+{
+}
+
 BoolObjectOption::BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
                                    std::optional<bool> default_value,
                                    unsigned int flags) :
