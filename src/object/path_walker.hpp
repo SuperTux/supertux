@@ -24,6 +24,7 @@
 #include "object/path.hpp"
 #include "util/uid.hpp"
 
+template<class T>
 class ObjectOption;
 
 /** A walker that travels along a path */
