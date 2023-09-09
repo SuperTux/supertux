@@ -31,10 +31,7 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   speed(gameRandom.randf(130.0f, 171.0f)),
   m_easing_progress(0.0),
   m_charge_timer(),
-  state(FLYING),
-  last_player(nullptr),
-  last_player_pos(0.0f, 0.0f),
-  last_self_pos(0.0f, 0.0f)
+  state(FLYING)
 {
   m_physic.enable_gravity(false);
 }
