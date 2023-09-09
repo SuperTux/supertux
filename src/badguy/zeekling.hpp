@@ -60,9 +60,6 @@ private:
   double m_easing_progress;
   Timer m_charge_timer;
   ZeeklingState state;
-  const MovingObject* last_player; /**< Last player we tracked. */
-  Vector last_player_pos; /**< Position we last spotted the player at. */
-  Vector last_self_pos; /**< Position we last were at. */
 
 private:
   Zeekling(const Zeekling&) = delete;
