@@ -78,7 +78,7 @@ class ObjectOption: public BaseObjectOption
 {
 public:
   ObjectOption(const std::string& text, const std::string& key, unsigned int flags, T* pointer = NULL);
-  ~ObjectOption();
+  ~ObjectOption() override;
 
   virtual T* get_value() const { return m_value_pointer; }
 
