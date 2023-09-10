@@ -594,9 +594,9 @@ PathRefObjectOption::add_to_menu(Menu& menu) const
   menu.add_path_settings(m_text, *m_value_pointer, m_path_ref);
 }
 
-SExpObjectOption::SExpObjectOption(const std::string& text, const std::string& key, sexp::Value* value,
+SExpObjectOption::SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value,
                                    unsigned int flags) :
-  ObjectOption(text, key, flags, value)
+  ObjectOption(text, key, flags, &value)
 {
 }
 

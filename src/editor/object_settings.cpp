@@ -306,7 +306,7 @@ ObjectSettings::add_worldmap(const std::string& text, std::string* value_ptr, co
 void
 ObjectSettings::add_sexp(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags)
 {
-  add_option(std::make_unique<SExpObjectOption>(text, key, &value, flags));
+  add_option(std::make_unique<SExpObjectOption>(text, key, value, flags));
 }
 
 void

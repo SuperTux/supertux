@@ -399,7 +399,7 @@ private:
 class SExpObjectOption : public ObjectOption<sexp::Value>
 {
 public:
-  SExpObjectOption(const std::string& text, const std::string& key, sexp::Value* value, unsigned int flags);
+  SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
