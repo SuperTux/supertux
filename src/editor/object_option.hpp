@@ -132,7 +132,7 @@ private:
   IntObjectOption& operator=(const IntObjectOption&) = delete;
 };
 
-class LabelObjectOption : public ObjectOption<void>
+class LabelObjectOption : public ObjectOption<>
 {
 public:
   LabelObjectOption(const std::string& text,
@@ -428,7 +428,7 @@ private:
   PathHandleOption& operator=(const PathHandleOption&) = delete;
 };
 
-class RemoveObjectOption : public ObjectOption<void>
+class RemoveObjectOption : public ObjectOption<>
 {
 public:
   RemoveObjectOption();
@@ -442,7 +442,7 @@ private:
   RemoveObjectOption& operator=(const RemoveObjectOption&) = delete;
 };
 
-class TestFromHereOption : public ObjectOption<void>
+class TestFromHereOption : public ObjectOption<>
 {
 public:
   TestFromHereOption();
@@ -456,7 +456,7 @@ private:
   TestFromHereOption& operator=(const TestFromHereOption&) = delete;
 };
 
-class ParticleEditorOption : public ObjectOption<void>
+class ParticleEditorOption : public ObjectOption<>
 {
 public:
   ParticleEditorOption();
@@ -470,7 +470,7 @@ private:
   ParticleEditorOption& operator=(const ParticleEditorOption&) = delete;
 };
 
-class ButtonOption : public ObjectOption<void>
+class ButtonOption : public ObjectOption<>
 {
 public:
   ButtonOption(const std::string& text, std::function<void()> callback);
@@ -487,7 +487,7 @@ private:
   ButtonOption& operator=(const ButtonOption&) = delete;
 };
 
-class StringArrayOption : public ObjectOption<void>
+class StringArrayOption : public ObjectOption<>
 {
 public:
   StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items);
