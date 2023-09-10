@@ -149,6 +149,7 @@ if(NOT EMSCRIPTEN)
   # TODO: oggvorbis
 endif()
 
+set(FMT_INSTALL OFF)
 target_dependencies(supertux2_lib tinygettext sexp OpenAL glm fmt physfs)
 target_external_dependencies_from_folder(supertux2_lib squirrel squirrel sqstdlib)
 

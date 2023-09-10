@@ -66,21 +66,54 @@ macro(target_external_dependencies tar)
       set(deptar ${dep})
     endif()
 
+    if(${deptar}_FOUND)
+      message(VERBOSE "Already found ${deptar} earlier. Skipping.")
+      continue()
+    endif()
+
+    set(${deptar}_FOUND OFF)
+
     if(NOT TARGET ${deptar})
       message(WARNING "Could NOT find ${deptar} in ${subdir}. Skipping.")
       continue()
     endif()
+    
+    set(${deptar}_FOUND ON)
 
-    get_target_property(DEP_INCLUDES ${dep} INCLUDE_DIRECTORIES)
+    get_target_property(DEP_TYPE ${deptar} TYPE)
+    if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
+      # We're dealing with an interface library
+      # Doing this should be enough, right?
+      target_link_libraries(${tar} PUBLIC ${deptar})
+      continue()
+    endif()
+
+    get_target_property(DEP_INCLUDES ${deptar} INCLUDE_DIRECTORIES)
     if("${DEP_INCLUDES}" STREQUAL "DEP_INCLUDES-NOTFOUND")
-      get_target_property(DEP_INCLUDES ${dep} INTERFACE_INCLUDE_DIRECTORIES)
+      # Try to check interface include directories
+      get_target_property(DEP_INCLUDES ${deptar} INTERFACE_INCLUDE_DIRECTORIES)
       if("${DEP_INCLUDES}" STREQUAL "DEP_INCLUDES-NOTFOUND")
         message(WARNING "Could NOT find include directories for ${deptar}.")
       endif()
     endif()
+
     target_include_directories(${tar} PUBLIC ${DEP_INCLUDES})
-    target_link_libraries(${tar} PUBLIC ${dep})
-    add_dependencies(${tar} ${dep})
+    # Try both names
+    set(${deptar}_INCLUDE_DIR ${DEP_INCLUDES})
+    set(${deptar}_INCLUDE_DIRS ${DEP_INCLUDES})
+
+    target_link_libraries(${tar} PUBLIC ${deptar})
+    # Try both names, again
+    set(${deptar}_LIBRARY ${deptar})
+    set(${deptar}_LIBRARIES ${deptar})
+
+    add_custom_command(TARGET ${tar}
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      $<TARGET_FILE:${deptar}>
+      $<TARGET_FILE_DIR:${tar}>
+    )
+
+    add_dependencies(${tar} ${deptar})
   endforeach()
 endmacro()
 

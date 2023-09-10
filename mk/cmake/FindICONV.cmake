@@ -1,5 +1,5 @@
 #
-#  Copyright (c) 2006, Peter Kümmel, <syntheticpp@gmx.net>
+#  Copyright (c) 2006, Peter KÃ¼mmel, <syntheticpp@gmx.net>
 #
 #  Redistribution and use in source and binary forms, with or without
 #  modification, are permitted provided that the following conditions
@@ -24,6 +24,8 @@
 #  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 #  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
+
+return()
 
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
