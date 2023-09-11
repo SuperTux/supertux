@@ -333,8 +333,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                                     : Statistics::perfect_color
                               );
     context.color().draw_surface_scaled(coin_icon,
-                                        Rectf(pos.x + width + 3.f, pos.y - 5.f,
-                                              pos.x + width + 3.f + 32.f, pos.y - 5.f + 32.f),
+                                        Rectf(Vector(pos.x + width + 3.f, pos.y - 5.f), Sizef(32.f, 32.f)),
                                         LAYER_HUD);
   }
 
@@ -362,8 +361,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                                     : Statistics::perfect_color
                               );
     context.color().draw_surface_scaled(badguy_icon,
-                                        Rectf(pos.x + 3.f + width, pos.y - 5.f,
-                                              pos.x + 3.f + width + 32.f, pos.y - 5.f + 32.f),
+                                        Rectf(Vector(pos.x + width + 3.f, pos.y - 5.f), Sizef(32.f, 32.f)),
                                         LAYER_HUD);
   }
 
@@ -391,8 +389,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                                     : Statistics::perfect_color
                               );
     context.color().draw_surface_scaled(secret_icon,
-                                        Rectf(pos.x + 3.f + width, pos.y - 5.f,
-                                              pos.x + 3.f + width + 32.f, pos.y - 5.f + 32.f),
+                                        Rectf(Vector(pos.x + width + 3.f, pos.y - 5.f), Sizef(32.f, 32.f)),
                                         LAYER_HUD);
   }
 }
