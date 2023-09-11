@@ -30,7 +30,6 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
   speed(gameRandom.randf(130.0f, 171.0f)),
   m_easing_progress(0.0),
-  m_charge_timer(),
   state(FLYING)
 {
   m_physic.enable_gravity(false);
@@ -158,23 +157,23 @@ Zeekling::active_update(float dt_sec) {
       // swoop a bit up
       state = CHARGING;
       set_action("charge", m_dir);
-      m_charge_timer.start(0.4f);
+      //m_charge_timer.start(0.1f);
 
       [[fallthrough]];
 
     case CHARGING:
     {
-      if (m_charge_timer.check())
+      if (m_sprite->animation_done())
       {
         state = DIVING;
         set_action("dive", m_dir);
         break;
       }
 
-      double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
-                                                   m_charge_timer.get_period());
+      //double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
+      //                                             m_charge_timer.get_period());
 
-      m_physic.set_velocity_y(-325 * QuarticEaseInOut(easing_progress));
+      m_physic.set_velocity_y(-325 * QuarticEaseOut(m_sprite->get_current_frame_progress()));
       break;
     }
 
