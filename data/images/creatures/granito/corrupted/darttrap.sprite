@@ -1,0 +1,31 @@
+(supertux-sprite
+  (action
+    (hitbox -5 14 32 38)
+    (name "idle-left")
+    (images "empty.png")
+  )
+  (action
+    (hitbox 19 14 12 38)
+    (name "idle-right")
+    (mirror-action "idle-left")
+  )
+  (action
+    (hitbox -5 14 32 38)
+    (name "loading-left")
+	(fps 15)
+	(loops 1)
+    (images 
+      "empty.png"
+      "charge-0.png"
+	  "charge-1.png"
+	  "charge-2.png"
+	  "charge-3.png")
+  )
+  (action
+    (hitbox 19 14 12 38)
+    (name "loading-right")
+	(fps 15)
+	(loops 1)
+    (mirror-action "loading-left")
+  )
+)

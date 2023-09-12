@@ -1,0 +1,13 @@
+(supertux-sprite
+	(action
+	  (name "stand-left")
+	  (hitbox 22 20 44 62)
+	  (fps 10)
+	  (images "granito_stand-0.png"))
+	
+	(action
+	  (name "stand-right")
+	  (hitbox 18 20 44 62)
+	  (fps 10)
+	  (mirror-action "stand-left"))
+)
