@@ -143,6 +143,7 @@ public:
                 const std::vector<std::string>& filter = {},
                 const std::string& basedir = {},
                 bool path_relative_to_basedir = true,
+                const std::vector<std::string>& additional_filter = {},
                 unsigned int flags = 0);
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);

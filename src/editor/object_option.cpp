@@ -412,13 +412,15 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
                                    std::vector<std::string> filter,
                                    const std::string& basedir,
                                    bool path_relative_to_basedir,
+                                   const std::vector<std::string>& additional_filter,
                                    unsigned int flags) :
   ObjectOption(text, key, flags),
   m_pointer(pointer),
   m_default_value(std::move(default_value)),
   m_filter(std::move(filter)),
   m_basedir(basedir),
-  m_path_relative_to_basedir(path_relative_to_basedir)
+  m_path_relative_to_basedir(path_relative_to_basedir),
+  m_additional_filter(additional_filter)
 {
 }
 
@@ -447,7 +449,7 @@ FileObjectOption::to_string() const
 void
 FileObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_file(get_text(), m_pointer, m_filter, m_basedir, m_path_relative_to_basedir);
+  menu.add_file(get_text(), m_pointer, m_filter, m_basedir, m_path_relative_to_basedir, m_additional_filter);
 }
 
 ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,

@@ -371,12 +371,14 @@ ParticleEditor::reset_texture_ui()
   // Texture button start
   auto chg_texture_btn = std::make_unique<ControlButton>(_("Change texture..."));
   chg_texture_btn.get()->m_on_change = std::function<void()>([this](){
-    const std::vector<std::string>& filter = {".jpg", ".png", ".surface"};
+    const std::vector<std::string>& filter = {".surface"};
+    const std::vector<std::string>& extrafilter = {".jpg", ".png"};
     MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(
       nullptr,
       filter,
       "/",
       false,
+      extrafilter,
       [this](const std::string& new_filename) {
         (m_particles->m_textures.begin() + m_texture_current)->texture = Surface::from_file(new_filename);
         m_particles->reinit_textures();

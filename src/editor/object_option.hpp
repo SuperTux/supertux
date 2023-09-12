@@ -280,7 +280,8 @@ public:
                    std::vector<std::string> filter,
                    const std::string& basedir,
                    bool path_relative_to_basedir,
-                   unsigned int flags);
+                   const std::vector<std::string>& additional_filter = {},
+                   unsigned int flags = 0);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
@@ -292,6 +293,7 @@ private:
   const std::vector<std::string> m_filter;
   std::string m_basedir;
   bool m_path_relative_to_basedir;
+  const std::vector<std::string> m_additional_filter;
 
 private:
   FileObjectOption(const FileObjectOption&) = delete;

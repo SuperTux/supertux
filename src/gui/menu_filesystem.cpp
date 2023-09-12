@@ -28,16 +28,20 @@
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback) :
+                               const std::string& basedir, bool path_relative_to_basedir,
+                               const std::vector<std::string>& additional_filter,
+                               const std::function<void(std::string)> callback) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
   m_directory(basedir.empty() ? (filename ? FileSystem::dirname(*filename) : "/") : basedir),
   m_extensions(extensions),
+  m_additional_extensions(additional_filter),
   m_basedir(basedir),
   m_directories(),
   m_files(),
   m_path_relative_to_basedir(path_relative_to_basedir),
+  m_additional_filter(false),
   m_callback(std::move(callback))
 {
   AddonManager::current()->unmount_old_addons();
@@ -103,8 +107,13 @@ FileSystemMenu::refresh_items()
   }
 
   add_hl();
+
   add_entry(-2, _("Open Directory"));
+  if (!m_additional_extensions.empty())
+    add_toggle(-3, _("Show additional files"), &m_additional_filter, true);
+
   add_hl();
+
   add_back(_("Cancel"));
 
   m_active_item = 2;
@@ -116,8 +125,7 @@ FileSystemMenu::refresh_items()
 bool
 FileSystemMenu::has_right_suffix(const std::string& file) const
 {
-  if (m_extensions.empty())
-    return true;
+  if (m_extensions.empty()) return true;
 
   for (const auto& extension : m_extensions) {
     if (StringUtil::has_suffix(file, extension))
@@ -125,6 +133,16 @@ FileSystemMenu::has_right_suffix(const std::string& file) const
       return true;
     }
   }
+
+  if (m_additional_extensions.empty() || !m_additional_filter) return false;
+
+  for (const auto& extension : m_additional_extensions) {
+    if (StringUtil::has_suffix(file, extension))
+    {
+      return true;
+    }
+  }
+
   return false;
 }
 
@@ -161,6 +179,9 @@ FileSystemMenu::menu_action(MenuItem& item)
   {
     FileSystem::open_path(FileSystem::join(PHYSFS_getRealDir(m_directory.c_str()), m_directory));
   }
+  else if (item.get_id() == -3)
+  {
+    refresh_items();
+  }
 }
-
 /* EOF */
