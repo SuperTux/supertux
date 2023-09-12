@@ -131,7 +131,7 @@ macro(target_dependencies tar)
       if(USE_PKGCONFIG)
         message(VERBOSE "Could not find ${dep} with find_package. Falling back to pkg-config.")
 
-        pkg_search_module(${dep} REQUIRED ${dep})
+        pkg_search_module(${dep} ${dep})
         if(NOT ${${dep}_FOUND})
           message(VERBOSE "Could not find ${dep} in pkg-config. Falling back to external/.")
         else()
