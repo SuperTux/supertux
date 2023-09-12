@@ -106,54 +106,48 @@
 	(action
 	  (name "lookup-left")
 	  (hitbox 15 15 32 42)
-	  (loops 1)
+	  (loop-frame 4)
 	  (fps 12)
 	  (images "granito_look-0.png"
 			  "granito_look-1.png"
 			  "granito_look-2.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
-			  "granito_look-3.png"
 			  "granito_look-2.png"
-			  "granito_look-1.png"
-			  "granito_look-0.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-2.png"
+			  "granito_look-3.png"
+			  "granito_look-4.png"
+			  "granito_look-5.png"
+			  "granito_look-2.png"
+			  "granito_look-3.png"
+			  "granito_look-4.png"
+			  "granito_look-5.png"
+			  "granito_look-2.png"
 			  ))
 	
 	(action
 	  (name "lookup-right")
 	  (hitbox 17 15 32 42)
-	  (loops 1)
+	  (loop-frame 4)
 	  (fps 12)
 	  (mirror-action "lookup-left"))
 	
