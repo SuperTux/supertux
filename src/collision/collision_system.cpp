@@ -720,7 +720,7 @@ CollisionSystem::get_first_line_intersection(const Vector &line_start,
 
         // FIXME: check collision with slope tiles
         if ((tile->get_attributes() & Tile::SOLID))
-          return {true, true, nullptr, tile, tilebox};
+          return {true, {.tile = tile}, tilebox};
       }
     }
   }
@@ -737,7 +737,7 @@ CollisionSystem::get_first_line_intersection(const Vector &line_start,
         || (object->get_group() == COLGROUP_STATIC))
     {
       if (intersects_line(object->get_bbox(), line_start, line_end))
-        return {true, false, object};
+        return {true, {.object = object}, object->get_bbox()};
     }
   }
 

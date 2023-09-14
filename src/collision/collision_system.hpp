@@ -35,6 +35,17 @@ class Sector;
 class CollisionSystem final
 {
 public:
+  struct RaycastResult
+  {
+    const bool is_valid; /**< true if raycast hit something */
+    union
+    {
+      const CollisionObject* object;
+      const Tile* tile;
+    } hit; /**< tile/object that the raycast hit */
+    const Rectf box = {}; /**< hitbox of tile/object */
+  };
+
   CollisionSystem(Sector& sector);
 
   void add(CollisionObject* object);
@@ -57,14 +68,6 @@ public:
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
 
-  struct RaycastResult
-  {
-    const bool is_valid; /**< true if raycast hit something */
-    const bool is_tile = true; /**< true if raycast hit a tile */
-    const CollisionObject* object = nullptr; /**< object that the raycast hit, nullptr if is_tile is true */
-    const Tile* tile = nullptr; /**< tile that the raycast hit, nullptr if is_tile is false */
-    const Rectf tile_box = {}; /**< hitbox of tile, empty if is_tile is false */
-  };
 
   RaycastResult get_first_line_intersection(const Vector& line_start,
                                             const Vector& line_end,
