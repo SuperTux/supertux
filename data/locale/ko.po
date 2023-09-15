@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Maldron <bagjinhyeong640.com> 2023
 # Go Nam Hyeon <gnh1201@gmail.com>, 2021
 # IAN RODRÍGUEZ Lorenzo, 2022
 # 최이준, 2023
@@ -16,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
 "PO-Revision-Date: 2013-08-10 22:56+0000\n"
-"Last-Translator: 최이준, 2023\n"
+"Last-Translator: Maldron, 2023\n"
 "Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -112,11 +113,11 @@ msgstr "폭죽"
 
 #: src/trigger/sequence_trigger.cpp:80
 msgid "New worldmap spawnpoint"
-msgstr "새 세계지도 스폰지점"
+msgstr "새 월드맵 스폰지점"
 
 #: src/trigger/sequence_trigger.cpp:81
 msgid "Worldmap fade tilemap"
-msgstr "세계지도 페이드 타일맵"
+msgstr "월드맵 페이드 타일맵"
 
 #: src/trigger/sequence_trigger.cpp:82
 #: src/object/custom_particle_system.cpp:430
@@ -601,7 +602,7 @@ msgstr "시간"
 
 #: src/object/hurting_platform.hpp:30
 msgid "Hurting Platform"
-msgstr "다침 플랫폼"
+msgstr "피해 플랫폼"
 
 #: src/object/icecrusher.cpp:83
 msgid "Sideways"
@@ -1992,7 +1993,7 @@ msgstr "충돌 구형 보이기"
 
 #: src/supertux/menu/debug_menu.cpp:64
 msgid "Show Worldmap Path"
-msgstr "세계지도 길 보이기"
+msgstr "월드맵 길 보이기"
 
 #: src/supertux/menu/debug_menu.cpp:65
 msgid "Show Controller"
@@ -2067,7 +2068,7 @@ msgstr "물건"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:62
 msgid "Empty World"
-msgstr "빈 세계"
+msgstr "빈 월드"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:77
 msgid "Create Level"
@@ -2075,11 +2076,11 @@ msgstr "레벨 만들기"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:81
 msgid "Edit Worldmap"
-msgstr "세계지도 편집하기"
+msgstr "월드맵 편집하기"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:83
 msgid "Create Worldmap"
-msgstr "세계지도 만들기"
+msgstr "월드맵 만들기"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:85
 #: src/supertux/menu/editor_delete_level_menu.cpp:33
@@ -2089,7 +2090,7 @@ msgstr "레벨 삭제하기"
 #: src/supertux/menu/editor_level_select_menu.cpp:87
 #: src/supertux/menu/editor_levelset_menu.cpp:56
 msgid "World Settings"
-msgstr "세계 설정"
+msgstr "월드 설정"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:127
 msgid ""
@@ -2097,7 +2098,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "이 세계지도를 CC-BY-SA 4.0 국제 사용 허가에 따라 공유합니다 (권장).\n제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n이 라이선스에 동의하지 않는다면, 세계지도 속성에서 라이선스를 바꾸세요.\n면책 조항: 슈퍼턱스 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
+msgstr "이 월드맵을 CC-BY-SA 4.0 국제 사용 허가에 따라 공유합니다 (권장).\n제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n이 라이선스에 동의하지 않는다면, 월드맵 속성에서 라이선스를 바꾸세요.\n면책 조항: 슈퍼턱스 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:134
 msgid ""
@@ -2168,11 +2169,11 @@ msgstr "레벨 재설정"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:49
 msgid "Finish Worldmap"
-msgstr "세계지도 마침"
+msgstr "월드맵 마침"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:50
 msgid "Reset Worldmap"
-msgstr "세계지도 재설정"
+msgstr "월드맵 재설정"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:52
 msgid "Go to level"
@@ -2198,7 +2199,7 @@ msgstr "사본 저장하기"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:72
 msgid "Choose World"
-msgstr "세계 선택"
+msgstr "월드 선택"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:100
 #, c-format
@@ -2208,7 +2209,7 @@ msgstr[0] "레벨 %d개"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:113
 msgid "Create World"
-msgstr "세계 만들기"
+msgstr "월드 만들기"
 
 #: src/supertux/menu/options_menu.cpp:98 src/supertux/menu/main_menu.cpp:64
 #: src/supertux/menu/game_menu.cpp:61 src/supertux/menu/worldmap_menu.cpp:31
@@ -2527,7 +2528,7 @@ msgstr "설명"
 #: src/supertux/menu/addon_menu.cpp:48
 #: data//images/engine/editor/objects.stoi:371
 msgid "Worldmap"
-msgstr "세계지도"
+msgstr "월드맵"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 #: src/supertux/menu/addon_menu.cpp:45
@@ -2536,7 +2537,7 @@ msgstr "레벨셋"
 
 #: src/supertux/menu/addon_menu.cpp:51
 msgid "World"
-msgstr "세계"
+msgstr "월드"
 
 #: src/supertux/menu/addon_menu.cpp:54
 msgid "Add-on"
@@ -2598,7 +2599,7 @@ msgstr "변경을 적용하려면 슈퍼턱스를\n다시 시작해주세요."
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:31
 msgid "New World"
-msgstr "새 세계"
+msgstr "새 월드"
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:51
 msgid "Please enter a name for this level subset."
@@ -2838,7 +2839,7 @@ msgstr "일시 정지"
 
 #: src/supertux/menu/worldmap_menu.cpp:33
 msgid "Leave World"
-msgstr "세계 떠나기"
+msgstr "월드 떠나기"
 
 #: src/supertux/menu/download_dialog.cpp:27
 msgid "Abort Download"
@@ -2938,7 +2939,7 @@ msgstr "알았어요!"
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:86
 msgid "Worldmap Settings"
-msgstr "세계지도 설정"
+msgstr "월드맵 설정"
 
 #: src/supertux/menu/editor_level_menu.cpp:31
 #: src/supertux/menu/editor_menu.cpp:86
@@ -2999,7 +3000,7 @@ msgstr "큰 타일 (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:46
 msgid "Save Worldmap"
-msgstr "세계지도 저장하기"
+msgstr "월드맵 저장하기"
 
 #: src/supertux/menu/editor_menu.cpp:46
 msgid "Save Level"
@@ -3011,7 +3012,7 @@ msgstr "레벨 테스트"
 
 #: src/supertux/menu/editor_menu.cpp:59
 msgid "Test Worldmap"
-msgstr "세계지도 테스트"
+msgstr "월드맵 테스트"
 
 #: src/supertux/menu/editor_menu.cpp:62
 msgid "Share Level"
@@ -3031,7 +3032,7 @@ msgstr "다른 레벨 편집하기"
 
 #: src/supertux/menu/editor_menu.cpp:73
 msgid "Edit Another World"
-msgstr "다른 세계 편집하기"
+msgstr "다른 월드 편집하기"
 
 #: src/supertux/menu/editor_menu.cpp:77
 msgid "Grid Size"
@@ -3071,7 +3072,7 @@ msgstr "레벨 편집기 나가기"
 
 #: src/supertux/menu/editor_menu.cpp:140
 msgid "Do you want to package this world as an add-on?"
-msgstr "이 세계를 애드온으로 패키지화하시겠습니까?"
+msgstr "이 월드를 애드온으로 패키지화하시겠습니까?"
 
 #: src/supertux/menu/editor_menu.cpp:163
 msgid ""
@@ -3386,7 +3387,7 @@ msgstr "자동"
 
 #: src/editor/worldmap_objects.cpp:175
 msgid "Target worldmap"
-msgstr "대상 세계지도"
+msgstr "대상 월드맵"
 
 #: src/editor/worldmap_objects.cpp:238
 msgid "Stay action"
@@ -3643,7 +3644,7 @@ msgstr "리눅스에서 이러한 훌륭한 게임 경험을\n        가능하�
 
 #: data//credits.stxt:1159
 msgid "and you, the player"
-msgstr "그리고 플레이어인 여러분"
+msgstr "그리고 플레이어 여러분"
 
 #: data//credits.stxt:1160
 msgid "for giving this game a chance and playing it"
