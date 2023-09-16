@@ -53,9 +53,7 @@ class BaseObjectOption
 {
 public:
   BaseObjectOption(const std::string& text, const std::string& key, unsigned int flags);
-  virtual ~BaseObjectOption()
-  {
-  }
+  virtual ~BaseObjectOption() = default;
 
   virtual void save(Writer& write) const = 0;
   virtual std::string to_string() const = 0;
@@ -80,9 +78,7 @@ class ObjectOption: public BaseObjectOption
 {
 public:
   ObjectOption(const std::string& text, const std::string& key, unsigned int flags, T* pointer = nullptr);
-  virtual ~ObjectOption() override
-  {
-  }
+  virtual ~ObjectOption() override = default;
 
   virtual T* get_value() const { return m_value_pointer; }
 
@@ -94,7 +90,7 @@ private:
   ObjectOption& operator=(const ObjectOption&) = delete;
 };
 
-class BoolObjectOption : public ObjectOption<bool>
+class BoolObjectOption final : public ObjectOption<bool>
 {
 public:
   BoolObjectOption(const std::string& text, bool* pointer, const std::string& key,
@@ -113,7 +109,7 @@ private:
   BoolObjectOption& operator=(const BoolObjectOption&) = delete;
 };
 
-class IntObjectOption : public ObjectOption<int>
+class IntObjectOption final : public ObjectOption<int>
 {
 public:
   IntObjectOption(const std::string& text, int* pointer, const std::string& key,
@@ -132,7 +128,7 @@ private:
   IntObjectOption& operator=(const IntObjectOption&) = delete;
 };
 
-class LabelObjectOption : public ObjectOption<>
+class LabelObjectOption final : public ObjectOption<>
 {
 public:
   LabelObjectOption(const std::string& text,
@@ -147,7 +143,7 @@ private:
   LabelObjectOption& operator=(const LabelObjectOption&) = delete;
 };
 
-class RectfObjectOption : public ObjectOption<Rectf>
+class RectfObjectOption final : public ObjectOption<Rectf>
 {
 public:
   RectfObjectOption(const std::string& text, Rectf* pointer, const std::string& key,
@@ -166,7 +162,7 @@ private:
   RectfObjectOption& operator=(const RectfObjectOption&) = delete;
 };
 
-class FloatObjectOption : public ObjectOption<float>
+class FloatObjectOption final : public ObjectOption<float>
 {
 public:
   FloatObjectOption(const std::string& text, float* pointer, const std::string& key,
@@ -185,7 +181,7 @@ private:
   FloatObjectOption& operator=(const FloatObjectOption&) = delete;
 };
 
-class StringObjectOption : public ObjectOption<std::string>
+class StringObjectOption final : public ObjectOption<std::string>
 {
 public:
   StringObjectOption(const std::string& text, std::string* pointer, const std::string& key,
@@ -204,7 +200,7 @@ private:
   StringObjectOption& operator=(const StringObjectOption&) = delete;
 };
 
-class StringMultilineObjectOption : public ObjectOption<std::string>
+class StringMultilineObjectOption final : public ObjectOption<std::string>
 {
 public:
   StringMultilineObjectOption(const std::string& text, std::string* pointer, const std::string& key,
@@ -223,7 +219,7 @@ private:
   StringMultilineObjectOption& operator=(const StringMultilineObjectOption&) = delete;
 };
 
-class StringSelectObjectOption : public ObjectOption<int>
+class StringSelectObjectOption final : public ObjectOption<int>
 {
 public:
   StringSelectObjectOption(const std::string& text, int* pointer, const std::vector<std::string>& select,
@@ -243,7 +239,7 @@ private:
   StringSelectObjectOption& operator=(const StringSelectObjectOption&) = delete;
 };
 
-class EnumObjectOption : public ObjectOption<int>
+class EnumObjectOption final : public ObjectOption<int>
 {
 public:
   EnumObjectOption(const std::string& text, int* pointer,
@@ -266,7 +262,7 @@ private:
   EnumObjectOption& operator=(const EnumObjectOption&) = delete;
 };
 
-class ScriptObjectOption : public ObjectOption<std::string>
+class ScriptObjectOption final : public ObjectOption<std::string>
 {
 public:
   ScriptObjectOption(const std::string& text, std::string* pointer, const std::string& key,
@@ -281,7 +277,7 @@ private:
   ScriptObjectOption& operator=(const ScriptObjectOption&) = delete;
 };
 
-class FileObjectOption : public ObjectOption<std::string>
+class FileObjectOption final : public ObjectOption<std::string>
 {
 public:
   FileObjectOption(const std::string& text, std::string* pointer,
@@ -307,7 +303,7 @@ private:
   FileObjectOption& operator=(const FileObjectOption&) = delete;
 };
 
-class ColorObjectOption : public ObjectOption<Color>
+class ColorObjectOption final : public ObjectOption<Color>
 {
 public:
   ColorObjectOption(const std::string& text, Color* pointer, const std::string& key,
@@ -327,7 +323,7 @@ private:
   ColorObjectOption& operator=(const ColorObjectOption&) = delete;
 };
 
-class ObjectSelectObjectOption : public ObjectOption<std::vector<std::unique_ptr<GameObject>>>
+class ObjectSelectObjectOption final : public ObjectOption<std::vector<std::unique_ptr<GameObject>>>
 {
 public:
   ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
@@ -345,7 +341,7 @@ private:
   ObjectSelectObjectOption& operator=(const ObjectSelectObjectOption&) = delete;
 };
 
-class TilesObjectOption : public ObjectOption<TileMap>
+class TilesObjectOption final : public ObjectOption<TileMap>
 {
 public:
   TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
@@ -363,7 +359,7 @@ private:
   TilesObjectOption& operator=(const TilesObjectOption&) = delete;
 };
 
-class PathObjectOption : public ObjectOption<Path>
+class PathObjectOption final : public ObjectOption<Path>
 {
 public:
   PathObjectOption(const std::string& text, Path* path, const std::string& key,
@@ -378,7 +374,7 @@ private:
   PathObjectOption& operator=(const PathObjectOption&) = delete;
 };
 
-class PathRefObjectOption : public ObjectOption<PathObject>
+class PathRefObjectOption final : public ObjectOption<PathObject>
 {
 public:
   PathRefObjectOption(const std::string& text, PathObject& target, const std::string& path_ref,
@@ -396,7 +392,7 @@ private:
   PathRefObjectOption& operator=(const PathRefObjectOption&) = delete;
 };
 
-class SExpObjectOption : public ObjectOption<sexp::Value>
+class SExpObjectOption final : public ObjectOption<sexp::Value>
 {
 public:
   SExpObjectOption(const std::string& text, const std::string& key, sexp::Value& value, unsigned int flags);
@@ -410,7 +406,7 @@ private:
   SExpObjectOption& operator=(const SExpObjectOption&) = delete;
 };
 
-class PathHandleOption : public ObjectOption<PathWalker::Handle>
+class PathHandleOption final : public ObjectOption<PathWalker::Handle>
 {
 public:
   PathHandleOption(const std::string& text, PathWalker::Handle& handle,
@@ -428,7 +424,7 @@ private:
   PathHandleOption& operator=(const PathHandleOption&) = delete;
 };
 
-class RemoveObjectOption : public ObjectOption<>
+class RemoveObjectOption final : public ObjectOption<>
 {
 public:
   RemoveObjectOption();
@@ -442,7 +438,7 @@ private:
   RemoveObjectOption& operator=(const RemoveObjectOption&) = delete;
 };
 
-class TestFromHereOption : public ObjectOption<>
+class TestFromHereOption final : public ObjectOption<>
 {
 public:
   TestFromHereOption();
@@ -456,7 +452,7 @@ private:
   TestFromHereOption& operator=(const TestFromHereOption&) = delete;
 };
 
-class ParticleEditorOption : public ObjectOption<>
+class ParticleEditorOption final : public ObjectOption<>
 {
 public:
   ParticleEditorOption();
@@ -470,7 +466,7 @@ private:
   ParticleEditorOption& operator=(const ParticleEditorOption&) = delete;
 };
 
-class ButtonOption : public ObjectOption<>
+class ButtonOption final : public ObjectOption<>
 {
 public:
   ButtonOption(const std::string& text, std::function<void()> callback);
@@ -487,7 +483,7 @@ private:
   ButtonOption& operator=(const ButtonOption&) = delete;
 };
 
-class StringArrayOption : public ObjectOption<>
+class StringArrayOption final : public ObjectOption<>
 {
 public:
   StringArrayOption(const std::string& text, const std::string& key, std::vector<std::string>& items);
@@ -504,7 +500,7 @@ private:
   StringArrayOption& operator=(const StringArrayOption&) = delete;
 };
 
-class ListOption : public ObjectOption<std::string>
+class ListOption final : public ObjectOption<std::string>
 {
 public:
   ListOption(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
@@ -521,7 +517,7 @@ private:
   ListOption& operator=(const ListOption&) = delete;
 };
 
-class DirectionOption : public ObjectOption<Direction>
+class DirectionOption final : public ObjectOption<Direction>
 {
 public:
   DirectionOption(const std::string& text, Direction* value_ptr,
