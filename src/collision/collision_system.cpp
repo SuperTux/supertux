@@ -697,6 +697,8 @@ CollisionSystem::get_first_line_intersection(const Vector &line_start,
                                              const CollisionObject *ignore_object) const
 {
   using namespace collision;
+  using RaycastResult = CollisionSystem::RaycastResult;
+  RaycastResult result{};
 
   // Check if no tile is in the way.
   const float lsx = std::min(line_start.x, line_end.x);
@@ -715,18 +717,23 @@ CollisionSystem::get_first_line_intersection(const Vector &line_start,
 
         const Tile* tile = &solids->get_tile_at(test_vector);
 
-        // Get the rect of the tile.
-        const Rectf tilebox(glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f));
-
         // FIXME: check collision with slope tiles
         if ((tile->get_attributes() & Tile::SOLID))
-          return {true, {.tile = tile}, tilebox};
+        {
+          result.is_valid = true;
+          result.hit.tile = tile;
+          result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
+          return result;
+        }
       }
     }
   }
 
   if (ignore_objects)
-    return {false};
+  {
+    result.is_valid = false;
+    return result;
+  }
 
   // Check if no object is in the way.
   for (const auto& object : m_objects) {
@@ -737,11 +744,17 @@ CollisionSystem::get_first_line_intersection(const Vector &line_start,
         || (object->get_group() == COLGROUP_STATIC))
     {
       if (intersects_line(object->get_bbox(), line_start, line_end))
-        return {true, {.object = object}, object->get_bbox()};
+      {
+        result.is_valid = true;
+        result.hit.object = object;
+        result.box = object->get_bbox();
+        return result;
+      }
     }
   }
 
-  return {false};
+  result.is_valid = false;
+  return result;
 }
 
 bool

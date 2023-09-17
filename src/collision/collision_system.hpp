@@ -37,13 +37,13 @@ class CollisionSystem final
 public:
   struct RaycastResult
   {
-    const bool is_valid; /**< true if raycast hit something */
+    bool is_valid; /**< true if raycast hit something */
     union
     {
       const CollisionObject* object;
       const Tile* tile;
     } hit; /**< tile/object that the raycast hit */
-    const Rectf box = {}; /**< hitbox of tile/object */
+    Rectf box = {}; /**< hitbox of tile/object */
   };
 
   CollisionSystem(Sector& sector);
