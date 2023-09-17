@@ -156,7 +156,7 @@ public:
   // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
   void add_button(const std::string& text, const std::function<void()>& callback);
 
-  const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
+  const std::vector<std::unique_ptr<BaseObjectOption> >& get_options() const { return m_options; }
 
   /** Reorder the options in the given order, this is a hack to get
       saving identical to the other editor */
@@ -166,11 +166,11 @@ public:
   void remove(const std::string& key);
 
 private:
-  void add_option(std::unique_ptr<ObjectOption> option);
+  void add_option(std::unique_ptr<BaseObjectOption> option);
 
 private:
   std::string m_name;
-  std::vector<std::unique_ptr<ObjectOption> > m_options;
+  std::vector<std::unique_ptr<BaseObjectOption> > m_options;
 
 private:
   ObjectSettings(const ObjectSettings&) = delete;
