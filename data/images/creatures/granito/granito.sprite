@@ -51,7 +51,7 @@
 	  (mirror-action "stand-left"))
 	
 	(action
-	  (name "walk-left")
+    (name "left")
 	  (hitbox 15 15 32 42)
 	  (fps 12)
 	  (images "granito_walk-0.png"
@@ -64,10 +64,10 @@
 			  "granito_walk-7.png"))
 	
 	(action
-	  (name "walk-right")
+    (name "right")
 	  (hitbox 17 15 32 42)
 	  (fps 12)
-	  (mirror-action "walk-left"))
+    (mirror-action "left"))
 	
 	(action
 	  (name "jump-left")

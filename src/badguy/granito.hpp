@@ -25,18 +25,17 @@ public:
 
 protected:
   virtual void initialize() override;
+  //virtual void on_type_change(int old_type) override;
 
 private:
-  enum Type {
-    SMALL_WALK,
-    SMALL_SIT,
-    SMALL_STAND
-  };
+  enum Type { WALK, SIT, STAND };
+
+private:
+  Timer m_walk_interval;
 
 private:
   Granito(const Granito&) = delete;
   Granito& operator=(const Granito&) = delete;
-
 
 };
 
