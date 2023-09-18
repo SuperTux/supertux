@@ -22,21 +22,31 @@ void Granito::active_update(float dt_sec)
     case WALK: {
       if (!m_walk_interval.started() && !m_walk_interval.check())
       {
-        m_walk_interval.start(gameRandom.rand(1000, 4000) / 1000);
+        m_walk_interval.start(gameRandom.randf(1.f, 4.f));
 
-
-        if (walk_speed > 0)
+        if (gameRandom.rand(100) > 50 && walk_speed == 0)
         {
-          walk_speed = 0;
-          m_physic.set_velocity_x(0);
+          // turn around
+          m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
           set_action("stand", m_dir);
         }
         else
         {
-          m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-          walk_speed = WALK_SPEED;
-          m_physic.set_velocity_x(WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
-          set_action(m_dir);
+          // walk/stop
+          if (walk_speed > 0)
+          {
+            walk_speed = 0;
+            m_physic.set_velocity_x(0);
+            set_action("stand", m_dir);
+          }
+          else
+          {
+            // FIXME: Why do I need to add 1??? Grumbel, you...
+            m_dir = (gameRandom.rand(1 + 1) == 0 ? Direction::LEFT : Direction::RIGHT);
+            walk_speed = WALK_SPEED;
+            m_physic.set_velocity_x(WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
+            set_action(m_dir);
+          }
         }
       }
 
