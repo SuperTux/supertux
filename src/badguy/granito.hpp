@@ -19,7 +19,12 @@ public:
   virtual bool is_snipable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
 
+  virtual void kill_fall() override;
+
   GameObjectTypes get_types() const override;
+
+protected:
+  virtual void initialize() override;
 
 private:
   enum Type {
@@ -31,6 +36,8 @@ private:
 private:
   Granito(const Granito&) = delete;
   Granito& operator=(const Granito&) = delete;
+
+
 };
 
 #endif // GRANITO_H

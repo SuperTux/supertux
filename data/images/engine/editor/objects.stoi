@@ -335,7 +335,7 @@
     (icon "images/engine/editor/textarray.png"))
   (object
     (class "granito")
-    (icon "images/creatures/granito/granito-0.png"))
+    (icon "images/creatures/granito/granito_stand-0.png"))
  )
 
  (objectgroup
