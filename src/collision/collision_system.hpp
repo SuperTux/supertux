@@ -46,6 +46,7 @@ public:
     Rectf box = {}; /**< hitbox of tile/object */
   };
 
+public:
   CollisionSystem(Sector& sector);
 
   void add(CollisionObject* object);

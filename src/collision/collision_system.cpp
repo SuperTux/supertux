@@ -691,13 +691,12 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
 }
 
 CollisionSystem::RaycastResult
-CollisionSystem::get_first_line_intersection(const Vector &line_start,
-                                             const Vector &line_end,
+CollisionSystem::get_first_line_intersection(const Vector& line_start,
+                                             const Vector& line_end,
                                              bool ignore_objects,
-                                             const CollisionObject *ignore_object) const
+                                             const CollisionObject* ignore_object) const
 {
   using namespace collision;
-  using RaycastResult = CollisionSystem::RaycastResult;
   RaycastResult result{};
 
   // Check if no tile is in the way.
