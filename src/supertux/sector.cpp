@@ -527,6 +527,15 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
                                                       ignore_object ? ignore_object->get_collision_object() : nullptr);
 }
 
+CollisionSystem::RaycastResult
+Sector::get_first_line_intersection(const Vector& line_start,
+                                    const Vector& line_end,
+                                    bool ignore_objects,
+                                    const CollisionObject* ignore_object) const {
+  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore_objects,
+                                                         ignore_object ? ignore_object->get_collision_object() : nullptr);
+}
+
 bool
 Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const MovingObject* ignore_object) const
 {
