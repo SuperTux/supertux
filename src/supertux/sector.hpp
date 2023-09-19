@@ -22,6 +22,7 @@
 #include <vector>
 #include <stdint.h>
 
+#include "collision/collision_system.hpp"
 #include "math/anchor_point.hpp"
 #include "math/easing.hpp"
 #include "math/fwd.hpp"
@@ -34,7 +35,6 @@ class Constraints;
 }
 
 class Camera;
-class CollisionSystem;
 class CollisionGroundMovementManager;
 class DisplayEffect;
 class DrawingContext;

@@ -22,7 +22,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "collision/collision.hpp"
-#include "collision/collision_system.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
@@ -532,8 +531,7 @@ Sector::get_first_line_intersection(const Vector& line_start,
                                     const Vector& line_end,
                                     bool ignore_objects,
                                     const CollisionObject* ignore_object) const {
-  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore_objects,
-                                                         ignore_object ? ignore_object->get_collision_object() : nullptr);
+  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore_objects, ignore_object);
 }
 
 bool
