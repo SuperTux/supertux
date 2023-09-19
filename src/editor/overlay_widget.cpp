@@ -185,15 +185,11 @@ EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
   float x = pos.x;
   float y = pos.y;
 
-  this->autotile(Vector(x - 1.0f, y - 1.0f), tile);
-  this->autotile(Vector(x       , y - 1.0f), tile);
-  this->autotile(Vector(x + 1.0f, y - 1.0f), tile);
-  this->autotile(Vector(x - 1.0f, y       ), tile);
-  this->autotile(Vector(x       , y       ), tile);
-  this->autotile(Vector(x + 1.0f, y       ), tile);
-  this->autotile(Vector(x - 1.0f, y + 1.0f), tile);
-  this->autotile(Vector(x       , y + 1.0f), tile);
-  this->autotile(Vector(x + 1.0f, y + 1.0f), tile);
+  for(float posY = y - 1.0f; posY <= y + 1.0f; posY++)
+    for(float posX = x - 1.0f; posX <= x + 1.0f; posX++)
+    {
+      this->autotile(Vector(posX, posY), tile);
+    }
 }
 
 void
