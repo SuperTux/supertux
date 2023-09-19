@@ -95,8 +95,8 @@ FloatingImage::draw(DrawingContext& context)
   }
 
   Vector spos = pos + get_anchor_pos(Rectf(0, 0,
-                                           static_cast<float>(context.get_width()),
-                                           static_cast<float>(context.get_height())),
+                                           context.get_width(),
+                                           context.get_height()),
                                      static_cast<float>(sprite->get_width()),
                                      static_cast<float>(sprite->get_height()),
                                      anchor);

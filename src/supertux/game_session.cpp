@@ -412,7 +412,7 @@ void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.color().draw_filled_rect(
-    Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+    Rectf(0, 0, context.get_width(), context.get_height()),
     Color(0.0f, 0.0f, 0.0f, 0.25f),
     LAYER_FOREGROUND1);
 }
@@ -720,6 +720,12 @@ std::string
 GameSession::get_working_directory() const
 {
   return FileSystem::dirname(m_levelfile);
+}
+
+bool
+GameSession::has_active_sequence() const
+{
+  return m_end_sequence;
 }
 
 void

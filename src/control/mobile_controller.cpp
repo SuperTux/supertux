@@ -84,10 +84,12 @@ MobileController::draw(DrawingContext& context)
   if (!g_config->mobile_controls)
     return;
 
-  if (m_screen_width != context.get_width() || m_screen_height != context.get_height() || m_mobile_controls_scale != g_config->m_mobile_controls_scale)
+  if (m_screen_width != static_cast<int>(context.get_width()) ||
+      m_screen_height != static_cast<int>(context.get_height()) ||
+      m_mobile_controls_scale != g_config->m_mobile_controls_scale)
   {
-    m_screen_width = context.get_width();
-    m_screen_height = context.get_height();
+    m_screen_width = static_cast<int>(context.get_width());
+    m_screen_height = static_cast<int>(context.get_height());
     float width = static_cast<float>(m_screen_width);
     float height = static_cast<float>(m_screen_height);
     m_mobile_controls_scale = g_config->m_mobile_controls_scale;

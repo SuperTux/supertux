@@ -33,23 +33,6 @@
 
 namespace {
 
-SDL_Rect to_sdl_rect(const Rectf& rect)
-{
-  SDL_Rect sdl_rect;
-
-  // floorf() here due to int(-0.5) and int(0.5) both rounding to 0,
-  // thus creating a jump in coordinates at 0
-  sdl_rect.x = static_cast<int>(floorf(rect.get_left()));
-  sdl_rect.y = static_cast<int>(floorf(rect.get_top()));
-
-  // roundf() here due to int(rect.get_right()y - rect.get_left()y) being
-  // off-by-one due to float errors
-  sdl_rect.w = static_cast<int>(roundf(rect.get_width()));
-  sdl_rect.h = static_cast<int>(roundf(rect.get_height()));
-
-  return sdl_rect;
-}
-
 SDL_BlendMode blend2sdl(const Blend& blend)
 {
   if (blend == Blend::NONE)
@@ -80,41 +63,45 @@ SDL_BlendMode blend2sdl(const Blend& blend)
    where srcrect is outside of imgrect, some of those rects will be
    empty. The rectangles will be returned in the order inside, top,
    left, right, bottom */
-std::tuple<Rect, Rect, Rect, Rect, Rect>
-intersect(const Rect& srcrect, const Rect& imgrect)
+std::tuple<Rectf, Rectf, Rectf, Rectf, Rectf>
+intersect(const Rect& srcrect, const Rectf& imgrect)
 {
+  const Rectf src_rectf = srcrect.to_rectf();
+
   return std::make_tuple(
     // inside
-    Rect(std::max(srcrect.left, imgrect.left), std::max(srcrect.top, imgrect.top),
-         std::min(srcrect.right, imgrect.right), std::min(srcrect.bottom, imgrect.bottom)),
+    Rectf(std::max(src_rectf.get_left(), imgrect.get_left()), std::max(src_rectf.get_top(), imgrect.get_top()),
+          std::min(src_rectf.get_right(), imgrect.get_right()), std::min(src_rectf.get_bottom(), imgrect.get_bottom())),
 
     // top
-    Rect(srcrect.left, srcrect.top,
-         srcrect.right, imgrect.top),
+    Rectf(src_rectf.get_left(), src_rectf.get_top(),
+          src_rectf.get_right(), imgrect.get_top()),
 
     // left
-    Rect(srcrect.left, std::max(srcrect.top, imgrect.top),
-         imgrect.left, std::min(srcrect.bottom, imgrect.bottom)),
+    Rectf(src_rectf.get_left(), std::max(src_rectf.get_top(), imgrect.get_top()),
+          imgrect.get_left(), std::min(src_rectf.get_bottom(), imgrect.get_bottom())),
 
     // right
-    Rect(imgrect.right, std::max(srcrect.top, imgrect.top),
-         srcrect.right, std::min(srcrect.bottom, imgrect.bottom)),
+    Rectf(imgrect.get_right(), std::max(src_rectf.get_top(), imgrect.get_top()),
+          src_rectf.get_right(), std::min(src_rectf.get_bottom(), imgrect.get_bottom())),
 
     // bottom
-    Rect(srcrect.left, imgrect.bottom,
-         srcrect.right, srcrect.bottom)
+    Rectf(src_rectf.get_left(), imgrect.get_bottom(),
+          src_rectf.get_right(), src_rectf.get_bottom())
     );
 }
 
 /* Map the area covered by inside in srcrect to dstrect */
-Rect relative_map(const Rect& inside, const Rect& srcrect, const Rect& dstrect)
+Rectf relative_map(const Rectf& inside, const Rect& srcrect, const Rectf& dstrect)
 {
-  assert(srcrect.contains(inside));
+  assert(srcrect.contains(inside.to_rect()));
 
-  Rect result(dstrect.left + (inside.left - srcrect.left) * dstrect.get_width() / srcrect.get_width(),
-              dstrect.top + (inside.top - srcrect.top) * dstrect.get_height() / srcrect.get_height(),
-              dstrect.left + (inside.right - srcrect.left) * dstrect.get_width() / srcrect.get_width(),
-              dstrect.top + (inside.bottom - srcrect.top) * dstrect.get_height() / srcrect.get_height());
+  const Rectf src_rectf = srcrect.to_rectf();
+
+  Rectf result(dstrect.get_left() + (inside.get_left() - src_rectf.get_left()) * dstrect.get_width() / src_rectf.get_width(),
+               dstrect.get_top() + (inside.get_top() - src_rectf.get_top()) * dstrect.get_height() / src_rectf.get_height(),
+               dstrect.get_left() + (inside.get_right() - src_rectf.get_left()) * dstrect.get_width() / src_rectf.get_width(),
+               dstrect.get_top() + (inside.get_bottom() - src_rectf.get_top()) * dstrect.get_height() / src_rectf.get_height());
 
   assert(dstrect.contains(result));
 
@@ -122,10 +109,10 @@ Rect relative_map(const Rect& inside, const Rect& srcrect, const Rect& dstrect)
 }
 
 void render_texture(SDL_Renderer* renderer,
-                    SDL_Texture* texture, const Rect& imgrect,
-                    const Rect& srcrect, const Rect& dstrect)
+                    SDL_Texture* texture, const Rectf& imgrect,
+                    const Rect& srcrect, const Rectf& dstrect)
 {
-  assert(imgrect.contains(srcrect.left, srcrect.top));
+  assert(imgrect.contains(Vector(srcrect.get_left(), srcrect.get_top())));
 
   if (srcrect.empty() || dstrect.empty())
     return;
@@ -133,24 +120,25 @@ void render_texture(SDL_Renderer* renderer,
   if (imgrect.contains(srcrect))
   {
     SDL_Rect sdl_srcrect = srcrect.to_sdl();
-    SDL_Rect sdl_dstrect = dstrect.to_sdl();
-    SDL_RenderCopy(renderer, texture, &sdl_srcrect, &sdl_dstrect);
+    SDL_FRect sdl_dstrect = dstrect.to_sdl();
+    SDL_RenderCopyF(renderer, texture, &sdl_srcrect, &sdl_dstrect);
   }
   else
   {
-    Rect inside;
-    std::array<Rect, 4> rest;
+    Rectf inside;
+    std::array<Rectf, 4> rest;
     std::tie(inside, rest[0], rest[1], rest[2], rest[3]) = intersect(srcrect, imgrect);
 
-    render_texture(renderer, texture, imgrect, inside, relative_map(inside, srcrect, dstrect));
+    render_texture(renderer, texture, imgrect, inside.to_rect(), relative_map(inside, srcrect, dstrect));
 
-    for (const Rect& rect : rest)
+    for (const Rectf& rectf : rest)
     {
-      const Rect new_srcrect(math::positive_mod(rect.left, imgrect.get_width()),
-                             math::positive_mod(rect.top, imgrect.get_height()),
-                             rect.get_size());
+      const Rect rect = rectf.to_rect();
+      const Rect new_srcrect(math::positive_mod(rect.get_left(), static_cast<int>(imgrect.get_width())),
+                             math::positive_mod(rect.get_top(), static_cast<int>(imgrect.get_height())),
+                             Size(rect.get_width(), rect.get_height()));
       render_texture(renderer, texture, imgrect,
-                     new_srcrect, relative_map(rect, srcrect, dstrect));
+                     new_srcrect, relative_map(rectf, srcrect, dstrect));
     }
   }
 }
@@ -159,7 +147,7 @@ void render_texture(SDL_Renderer* renderer,
 void RenderCopyEx(SDL_Renderer*          renderer,
                   SDL_Texture*           texture,
                   const SDL_Rect*        sdl_srcrect,
-                  const SDL_Rect*        sdl_dstrect,
+                  const SDL_FRect*       sdl_dstrect,
                   const double           angle,
                   const SDL_Point*       center,
                   const SDL_RendererFlip flip,
@@ -168,7 +156,7 @@ void RenderCopyEx(SDL_Renderer*          renderer,
   Vector animate = sampler.get_animate();
   if (animate.x == 0.0f && animate.y == 0.0f)
   {
-    SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, nullptr, flip);
+    SDL_RenderCopyExF(renderer, texture, sdl_srcrect, sdl_dstrect, angle, nullptr, flip);
   }
   else
   {
@@ -198,16 +186,16 @@ void RenderCopyEx(SDL_Renderer*          renderer,
         flip ||
         angle != 0.0)
     {
-      SDL_RenderCopyEx(renderer, texture, sdl_srcrect, sdl_dstrect, angle, nullptr, flip);
+      SDL_RenderCopyExF(renderer, texture, sdl_srcrect, sdl_dstrect, angle, nullptr, flip);
     }
     else
     {
-      Rect imgrect(0, 0, Size(width, height));
+      Rectf imgrect(Vector(), Sizef(static_cast<float>(width), static_cast<float>(height)));
       Rect srcrect(math::positive_mod(sdl_srcrect->x + tex_off_x, width),
                    math::positive_mod(sdl_srcrect->y + tex_off_y, height),
                    Size(sdl_srcrect->w, sdl_srcrect->h));
 
-      render_texture(renderer, texture, imgrect, srcrect, Rect(*sdl_dstrect));
+      render_texture(renderer, texture, imgrect, srcrect, Rectf(*sdl_dstrect));
     }
   }
 }
@@ -231,8 +219,8 @@ SDLPainter::draw_texture(const TextureRequest& request)
 
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
-    const SDL_Rect& src_rect = to_sdl_rect(request.srcrects[i]);
-    const SDL_Rect& dst_rect = to_sdl_rect(request.dstrects[i]);
+    const SDL_Rect& src_rect = request.srcrects[i].to_rect().to_sdl();
+    const SDL_FRect& dst_rect = request.dstrects[i].to_sdl();
 
     Uint8 r = static_cast<Uint8>(request.color.red * 255);
     Uint8 g = static_cast<Uint8>(request.color.green * 255);
@@ -275,85 +263,125 @@ SDLPainter::draw_gradient(const GradientRequest& request)
                                     std::max(fabsf(top.blue - bottom.blue),
                                              fabsf(top.alpha - bottom.alpha))) * 255);
   n = std::max(n, 1);
+
+  float next_step = (direction == VERTICAL || direction == VERTICAL_SECTOR) ? region.get_top() : region.get_left();
   for (int i = 0; i < n; ++i)
   {
-    SDL_Rect rect;
+    SDL_FRect rect;
 
     if (direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
-      rect.x = static_cast<int>(region.get_left());
-      rect.y = static_cast<int>(region.get_top() + (region.get_bottom() - region.get_top()) * static_cast<float>(i) / static_cast<float>(n));
-      rect.w = static_cast<int>(region.get_right() - region.get_left());
-      rect.h = static_cast<int>(ceilf((region.get_bottom() - region.get_top()) / static_cast<float>(n)));
+      rect.x = region.get_left();
+      rect.y = next_step;
+      rect.w = region.get_right() - region.get_left();
+      rect.h = ceilf((region.get_bottom() - region.get_top()) / static_cast<float>(n));
+
+      // Account for the build-up of rounding errors due to floating point precision.
+      if (next_step > region.get_top() + (region.get_bottom() - region.get_top()) * static_cast<float>(i) / static_cast<float>(n))
+        --rect.h;
+
+      next_step += rect.h;
     }
     else
     {
-      rect.x = static_cast<int>(region.get_left() + (region.get_right() - region.get_left()) * static_cast<float>(i) / static_cast<float>(n));
-      rect.y = static_cast<int>(region.get_top());
-      rect.w = static_cast<int>(ceilf((region.get_right() - region.get_left()) / static_cast<float>(n)));
-      rect.h = static_cast<int>(region.get_bottom() - region.get_top());
+      rect.x = next_step;
+      rect.y = region.get_top();
+      rect.w = ceilf((region.get_right() - region.get_left()) / static_cast<float>(n));
+      rect.h = region.get_bottom() - region.get_top();
+
+      // Account for the build-up of rounding errors due to floating point precision.
+      if (next_step > region.get_left() + (region.get_right() - region.get_left()) * static_cast<float>(i) / static_cast<float>(n))
+        --rect.w;
+
+      next_step += rect.w;
     }
 
-    float p = static_cast<float>(i+1) / static_cast<float>(n);
+    float p = static_cast<float>(i) / static_cast<float>(n == 1 ? n : n - 1);
     Uint8 r, g, b, a;
 
-    if ( direction == HORIZONTAL_SECTOR || direction == VERTICAL_SECTOR)
+    if (direction == HORIZONTAL_SECTOR || direction == VERTICAL_SECTOR)
     {
-        float begin_percentage = region.get_left() * -1 / region.get_right();
-        r = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.red + (p + begin_percentage) * bottom.red)  * 255);
-        g = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.green + (p + begin_percentage) * bottom.green) * 255);
-        b = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.blue + (p + begin_percentage) * bottom.blue) * 255);
-        a = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.alpha + (p + begin_percentage) * bottom.alpha) * 255);
+      float begin_percentage, end_percentage;
+      if (direction == HORIZONTAL_SECTOR)
+      {
+        begin_percentage = -region.get_left() / region.get_right();
+        end_percentage = (-region.get_left() + static_cast<float>(SCREEN_WIDTH)) / region.get_right();
+      }
+      else
+      {
+        begin_percentage = -region.get_top() / region.get_bottom();
+        end_percentage = (-region.get_top() + static_cast<float>(SCREEN_HEIGHT)) / region.get_bottom();
+      }
+
+      // This is needed because the limited floating point precision can produce
+      // values just below zero or just above one.
+      begin_percentage = math::clamp(begin_percentage, 0.0f, 1.0f);
+      end_percentage   = math::clamp(end_percentage,   0.0f, 1.0f);
+
+      Color begin, end;
+      begin.red   = top.red   * (1.0f - begin_percentage) + bottom.red   * begin_percentage;
+      begin.green = top.green * (1.0f - begin_percentage) + bottom.green * begin_percentage;
+      begin.blue  = top.blue  * (1.0f - begin_percentage) + bottom.blue  * begin_percentage;
+      begin.alpha = top.alpha * (1.0f - begin_percentage) + bottom.alpha * begin_percentage;
+
+      end.red   = top.red   * (1.0f - end_percentage) + bottom.red   * end_percentage;
+      end.green = top.green * (1.0f - end_percentage) + bottom.green * end_percentage;
+      end.blue  = top.blue  * (1.0f - end_percentage) + bottom.blue  * end_percentage;
+      end.alpha = top.alpha * (1.0f - end_percentage) + bottom.alpha * end_percentage;
+
+      r = static_cast<Uint8>(((1.0f - p) * begin.red   + p * end.red)   * 255);
+      g = static_cast<Uint8>(((1.0f - p) * begin.green + p * end.green) * 255);
+      b = static_cast<Uint8>(((1.0f - p) * begin.blue  + p * end.blue)  * 255);
+      a = static_cast<Uint8>(((1.0f - p) * begin.alpha + p * end.alpha) * 255);
     }
     else
     {
-        r = static_cast<Uint8>(((1.0f - p) * top.red + p * bottom.red)  * 255);
-        g = static_cast<Uint8>(((1.0f - p) * top.green + p * bottom.green) * 255);
-        b = static_cast<Uint8>(((1.0f - p) * top.blue + p * bottom.blue) * 255);
-        a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
+      r = static_cast<Uint8>(((1.0f - p) * top.red   + p * bottom.red)   * 255);
+      g = static_cast<Uint8>(((1.0f - p) * top.green + p * bottom.green) * 255);
+      b = static_cast<Uint8>(((1.0f - p) * top.blue  + p * bottom.blue)  * 255);
+      a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
     }
 
     SDL_SetRenderDrawBlendMode(m_sdl_renderer, blend2sdl(request.blend));
     SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
-    SDL_RenderFillRect(m_sdl_renderer, &rect);
+    SDL_RenderFillRectF(m_sdl_renderer, &rect);
   }
 }
 
 void
 SDLPainter::draw_filled_rect(const FillRectRequest& request)
 {
-  SDL_Rect rect = to_sdl_rect(request.rect);
+  SDL_FRect rect = request.rect.to_sdl();
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);
   Uint8 b = static_cast<Uint8>(request.color.blue * 255);
   Uint8 a = static_cast<Uint8>(request.color.alpha * 255);
 
-  int radius = std::min(std::min(rect.h / 2, rect.w / 2),
-                        static_cast<int>(request.radius));
+  const float radius = std::min(std::min(rect.h / 2, rect.w / 2), request.radius);
 
-  if (radius)
+  if (radius > 0.f)
   {
-    int slices = radius;
+    const int slices = static_cast<int>(radius);
 
     // rounded top and bottom parts
-    std::vector<SDL_Rect> rects;
+    std::vector<SDL_FRect> rects;
     rects.reserve(2*slices + 1);
     for (int i = 0; i < slices; ++i)
     {
-      float p = (static_cast<float>(i) + 0.5f) / static_cast<float>(slices);
-      int xoff = radius - static_cast<int>(sqrtf(1.0f - p * p) * static_cast<float>(radius));
+      float p = (static_cast<float>(i) + 0.5f) / radius;
+      float xoff = radius - sqrtf(1.0f - p * p) * radius;
 
-      SDL_Rect tmp;
+      SDL_FRect tmp;
       tmp.x = rect.x + xoff;
-      tmp.y = rect.y + (radius - i);
+      tmp.y = rect.y + (radius - static_cast<float>(i));
       tmp.w = rect.w - 2*(xoff);
       tmp.h = 1;
       rects.push_back(tmp);
 
-      SDL_Rect tmp2;
+      SDL_FRect tmp2;
       tmp2.x = rect.x + xoff;
-      tmp2.y = rect.y + rect.h - radius + i;
+      tmp2.y = rect.y + rect.h - radius + static_cast<float>(i);
       tmp2.w = rect.w - 2*xoff;
       tmp2.h = 1;
 
@@ -366,7 +394,7 @@ SDLPainter::draw_filled_rect(const FillRectRequest& request)
     if (2*radius < rect.h)
     {
       // center rectangle
-      SDL_Rect tmp;
+      SDL_FRect tmp;
       tmp.x = rect.x;
       tmp.y = rect.y + radius + 1;
       tmp.w = rect.w;
@@ -376,7 +404,7 @@ SDLPainter::draw_filled_rect(const FillRectRequest& request)
 
     SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
-    SDL_RenderFillRects(m_sdl_renderer, &*rects.begin(), static_cast<int>(rects.size()));
+    SDL_RenderFillRectsF(m_sdl_renderer, &*rects.begin(), static_cast<int>(rects.size()));
   }
   else
   {
@@ -384,7 +412,7 @@ SDLPainter::draw_filled_rect(const FillRectRequest& request)
     {
       SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
       SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
-      SDL_RenderFillRect(m_sdl_renderer, &rect);
+      SDL_RenderFillRectF(m_sdl_renderer, &rect);
     }
   }
 }
@@ -396,44 +424,44 @@ SDLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
   float w = request.size.x;
   float h = request.size.y;
 
-  int top = static_cast<int>(request.pos.y - (h / 2));
+  float top = request.pos.y - (h / 2);
 
   const Viewport& viewport = m_video_system.get_viewport();
 
   const int max_slices = 256;
-  SDL_Rect rects[2*max_slices+2];
+  SDL_FRect rects[2*max_slices+2];
   int slices = std::min(static_cast<int>(request.size.y), max_slices);
   for (int i = 0; i < slices; ++i)
   {
     float p = ((static_cast<float>(i) + 0.5f) / static_cast<float>(slices)) * 2.0f - 1.0f;
-    int xoff = static_cast<int>(sqrtf(1.0f - p*p) * w / 2);
+    float xoff = sqrtf(1.0f - p*p) * w / 2;
 
-    SDL_Rect& left  = rects[2*i+0];
-    SDL_Rect& right = rects[2*i+1];
+    SDL_FRect& left  = rects[2*i+0];
+    SDL_FRect& right = rects[2*i+1];
 
     left.x = 0;
-    left.y = top + (i * static_cast<int>(h) / slices);
-    left.w = static_cast<int>(x) - xoff;
-    left.h = top + ((i+1) * static_cast<int>(h) / slices) - left.y;
+    left.y = top + (static_cast<float>(i) * h / static_cast<float>(slices));
+    left.w = x - xoff;
+    left.h = top + ((static_cast<float>(i + 1) * h / static_cast<float>(slices)) - left.y);
 
-    right.x = static_cast<int>(x) + xoff;
+    right.x = x + xoff;
     right.y = left.y;
-    right.w = viewport.get_screen_width() - right.x;
+    right.w = static_cast<float>(viewport.get_screen_width()) - right.x;
     right.h = left.h;
   }
 
-  SDL_Rect& top_rect = rects[2*slices+0];
-  SDL_Rect& bottom_rect = rects[2*slices+1];
+  SDL_FRect& top_rect = rects[2*slices+0];
+  SDL_FRect& bottom_rect = rects[2*slices+1];
 
   top_rect.x = 0;
   top_rect.y = 0;
-  top_rect.w = viewport.get_screen_width();
+  top_rect.w = static_cast<float>(viewport.get_screen_width());
   top_rect.h = top;
 
   bottom_rect.x = 0;
-  bottom_rect.y = top + static_cast<int>(h);
-  bottom_rect.w = viewport.get_screen_width();
-  bottom_rect.h = viewport.get_screen_height() - bottom_rect.y;
+  bottom_rect.y = top + h;
+  bottom_rect.w = static_cast<float>(viewport.get_screen_width());
+  bottom_rect.h = static_cast<float>(viewport.get_screen_height()) - bottom_rect.y;
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);
@@ -442,7 +470,7 @@ SDLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 
   SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
   SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
-  SDL_RenderFillRects(m_sdl_renderer, rects, 2*slices+2);
+  SDL_RenderFillRectsF(m_sdl_renderer, rects, 2*slices+2);
 }
 
 void

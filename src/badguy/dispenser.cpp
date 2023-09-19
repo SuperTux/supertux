@@ -75,9 +75,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
-  set_correct_action();
-
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   m_countMe = false;
 }
 
@@ -141,11 +139,16 @@ Dispenser::active_update(float dt_sec)
   }
   if (m_dispense_timer.check())
   {
-    // Auto always shoots in Tux's direction.
-    if (m_autotarget)
+    auto player = get_nearest_player();
+    if (player)
     {
-      auto player = get_nearest_player();
-      if (player)
+      if(player->is_dying() || player->is_dead())
+      {
+        return;
+      }
+      
+      // Auto always shoots in Tux's direction.
+      if (m_autotarget)
       {
         Direction target_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
         if (m_dir != target_dir)
@@ -155,6 +158,7 @@ Dispenser::active_update(float dt_sec)
         }
       }
     }
+
     launch_object();
   }
 }
@@ -343,9 +347,6 @@ Dispenser::is_portable() const
 void
 Dispenser::set_correct_action()
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/dispenser/" + (m_type == DispenserType::POINT ? "invisible" : type_value_to_id(m_type)) + ".sprite");
-
   switch (m_type)
   {
     case DispenserType::CANNON:
@@ -362,6 +363,7 @@ Dispenser::set_correct_action()
 void
 Dispenser::on_type_change(int old_type)
 {
+  MovingSprite::on_type_change();
   set_correct_action();
 }
 
@@ -389,10 +391,22 @@ GameObjectTypes
 Dispenser::get_types() const
 {
   return {
-    { "cannon", _("cannon") },
     { "dropper", _("dropper") },
+    { "cannon", _("cannon") },
     { "point", _("invisible") }
   };
+}
+
+std::string
+Dispenser::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case POINT:
+      return "images/creatures/dispenser/invisible.sprite";
+    default:
+      return "images/creatures/dispenser/" + type_value_to_id(m_type) + ".sprite";
+  }
 }
 
 void

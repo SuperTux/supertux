@@ -23,6 +23,7 @@
 #include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
+#include "supertux/moving_object.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
@@ -116,7 +117,14 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   object->m_parent = this;
 
   if (!object->get_uid())
+  {
     object->set_uid(m_uid_generator.next());
+
+    // No object UID would indicate the object is not a result of undo/redo.
+    // Any newly placed object in the editor should be on its latest version.
+    if (m_initialized && Editor::is_active())
+      object->update_version();
+  }
 
   // Make sure the object isn't already in the list.
 #ifndef NDEBUG
@@ -128,13 +136,39 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   }
 #endif
 
-  // Attempt to add object to editor layers
+  // Attempt to add object to editor layers.
   if (m_initialized && Editor::is_active())
     Editor::current()->add_layer(object.get());
 
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
   return tmp;
+}
+
+MovingObject&
+GameObjectManager::add_object_scripting(const std::string& class_name, const std::string& name,
+                                        const Vector& pos, const std::string& direction,
+                                        const std::string& data)
+{
+  if (class_name.empty())
+    throw std::runtime_error("Object class name cannot be empty.");
+
+  if (!name.empty() && get_object_by_name<GameObject>(name))
+    throw std::runtime_error("Object with name '" + name + "' already exists.");
+
+  auto obj = GameObjectFactory::instance().create(class_name, pos,
+                                                  direction.empty() ? Direction::AUTO : string_to_dir(direction),
+                                                  data);
+
+  auto moving_object = dynamic_cast<MovingObject*>(obj.get());
+  if (!moving_object)
+    throw std::runtime_error("Only MovingObject instances can be created via scripting.");
+
+  if (!name.empty())
+    obj->set_name(name);
+
+  add_object(std::move(obj));
+  return *moving_object;
 }
 
 void

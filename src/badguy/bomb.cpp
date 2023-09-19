@@ -31,7 +31,7 @@ Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /
   m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
   SoundManager::current()->preload("sounds/explosion.wav");
-  set_action(dir_ == Direction::LEFT ? "ticking-left" : "ticking-right", 1);
+  set_action("ticking", dir_, 1);
   m_countMe = false;
 
   ticking->set_position(get_pos());
@@ -47,12 +47,10 @@ Bomb::collision_solid(const CollisionHit& hit)
   if (is_grabbed()) {
     return;
   }
-  if (hit.top || hit.bottom)
+  if (hit.bottom)
     m_physic.set_velocity_y(0);
-  if (hit.left || hit.right)
-    m_physic.set_velocity_x(-m_physic.get_velocity_x() * 0.5f);
-  if (hit.crush)
-    m_physic.set_velocity(0, 0);
+  else
+    explode();
 
   update_on_ground_flag(hit);
 }
@@ -60,12 +58,16 @@ Bomb::collision_solid(const CollisionHit& hit)
 HitResponse
 Bomb::collision_player(Player& , const CollisionHit& )
 {
+  if (m_physic.get_velocity() != Vector())
+    explode();
   return ABORT_MOVE;
 }
 
 HitResponse
 Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 {
+  if (m_physic.get_velocity() != Vector())
+    explode();
   return ABORT_MOVE;
 }
 

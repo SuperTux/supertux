@@ -114,19 +114,19 @@ DisplayEffect::draw(DrawingContext& context)
       alpha = Color::remove_gamma(alpha);
     }
     context.color().draw_filled_rect(Rectf(0, 0,
-                                           static_cast<float>(context.get_width()),
-                                           static_cast<float>(context.get_height())),
+                                           context.get_width(),
+                                           context.get_height()),
                                      Color(0, 0, 0, alpha), LAYER_GUI - 10);
   }
 
   if (borders) {
     context.color().draw_filled_rect(Rectf(0, 0,
-                                           static_cast<float>(context.get_width()),
+                                           context.get_width(),
                                            static_cast<float>(border_size)),
                                        Color(0, 0, 0, 1.0f), LAYER_GUI-10);
     context.color().draw_filled_rect(Rectf(Vector(0,
-                                                  static_cast<float>(context.get_height()) - border_size),
-                                           Sizef(static_cast<float>(context.get_width()),
+                                                  context.get_height() - border_size),
+                                           Sizef(context.get_width(),
                                                  static_cast<float>(border_size))),
                                        Color(0, 0, 0, 1.0f), LAYER_GUI-10);
   }

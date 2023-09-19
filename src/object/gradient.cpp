@@ -88,22 +88,6 @@ Gradient::Gradient(const ReaderMapping& reader) :
   {
     m_gradient_direction = VERTICAL;
   }
-  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR)
-  {
-    if (!reader.get("left_color", bkgd_top_color) ||
-       !reader.get("right_color", bkgd_bottom_color))
-    {
-      log_warning <<
-        "Horizontal gradients should use left_color and right_color, respectively. "
-        "Trying to parse top and bottom color instead" << std::endl;
-    }
-    else
-    {
-      m_gradient_top = Color(bkgd_top_color);
-      m_gradient_bottom = Color(bkgd_bottom_color);
-      return;
-    }
-  }
 
   if (reader.get("top_color", bkgd_top_color)) {
     m_gradient_top = Color(bkgd_top_color);
@@ -126,20 +110,15 @@ Gradient::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  if (m_gradient_direction == HORIZONTAL || m_gradient_direction == HORIZONTAL_SECTOR) {
-    result.add_rgba(_("Left Colour"), &m_gradient_top, "left_color");
-    result.add_rgba(_("Right Colour"), &m_gradient_bottom, "right_color");
-  } else {
-    result.add_rgba(_("Top Colour"), &m_gradient_top, "top_color");
-    result.add_rgba(_("Bottom Colour"), &m_gradient_bottom, "bottom_color");
-  }
+  result.add_rgba(_("Primary Colour"), &m_gradient_top, "top_color");
+  result.add_rgba(_("Secondary Colour"), &m_gradient_bottom, "bottom_color");
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_BACKGROUND0);
 
   result.add_enum(_("Direction"), reinterpret_cast<int*>(&m_gradient_direction),
                   {_("Vertical"), _("Horizontal"), _("Vertical (whole sector)"), _("Horizontal (whole sector)")},
                   {"vertical", "horizontal", "vertical_sector", "horizontal_sector"},
-                  static_cast<int>(VERTICAL));
+                  static_cast<int>(VERTICAL), "direction");
 
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
                   {_("Normal"), _("Lightmap")},
@@ -253,8 +232,8 @@ Gradient::draw(DrawingContext& context)
   else
   {
     gradient_region = Rectf(0, 0,
-                            static_cast<float>(context.get_width()),
-                            static_cast<float>(context.get_height()));
+                            context.get_width(),
+                            context.get_height());
   }
 
   context.push_transform();

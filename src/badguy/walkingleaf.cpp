@@ -24,7 +24,6 @@ WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
   m_fall_speed()
 {
   parse_type(reader);
-  on_type_change(-1);
 
   max_drop_height = 16;
 }
@@ -38,11 +37,22 @@ WalkingLeaf::get_types() const
   };
 }
 
+std::string
+WalkingLeaf::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/walkingleaf/corrupted/rotten_leaf.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
 void
 WalkingLeaf::on_type_change(int old_type)
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/walkingleaf/" + std::string(m_type == CORRUPTED ? "corrupted/rotten_leaf" : "walkingleaf") + ".sprite");
+  MovingSprite::on_type_change();
 
   switch (m_type)
   {

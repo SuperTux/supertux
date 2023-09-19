@@ -50,20 +50,6 @@ public:
    * @param float $gravity
    */
   void set_gravity(float gravity);
-
-  /**
-   * Adds a MovingObject to the game.
-   * 
-   * @param string $class_name GameObject's class.
-   * @param string $name Name of the created object.
-   * @param int $posX X position inside the current sector.
-   * @param int $posY Y position inside the current sector.
-   * @param string $direction Direction.
-   * @param string $data Additional data.
-   */
-  void add_object(const std::string& class_name, const std::string& name,
-                  int posX, int posY, const std::string& direction,
-                  const std::string& data);
 };
 
 } // namespace scripting

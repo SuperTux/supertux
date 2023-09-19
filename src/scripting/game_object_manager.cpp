@@ -71,6 +71,14 @@ GameObjectManager::set_music(const std::string& filename)
   music.set_music(filename);
 }
 
+void
+GameObjectManager::add_object(const std::string& class_name, const std::string& name,
+                              int posX, int posY, const std::string& direction,
+                              const std::string& data)
+{
+  m_gom_parent->add_object_scripting(class_name, name, Vector(posX, posY), direction, data);
+}
+
 } // namespace scripting
 
 /* EOF */

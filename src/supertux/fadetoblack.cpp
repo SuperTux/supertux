@@ -48,8 +48,8 @@ FadeToBlack::draw(DrawingContext& context)
   col.alpha = Color::remove_gamma(col.alpha);
 
   context.color().draw_filled_rect(Rectf(0, 0,
-                                         static_cast<float>(context.get_width()),
-                                         static_cast<float>(context.get_height())),
+                                         context.get_width(),
+                                         context.get_height()),
                                    col, LAYER_GUI + 1);
 }
 

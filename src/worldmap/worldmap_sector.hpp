@@ -51,6 +51,10 @@ public:
   void draw(DrawingContext& context) override;
   void update(float dt_sec) override;
 
+  MovingObject& add_object_scripting(const std::string& class_name, const std::string& name,
+                                     const Vector& pos, const std::string& direction,
+                                     const std::string& data) override;
+
   Vector get_next_tile(const Vector& pos, const Direction& direction) const;
 
   /** gets a bitfield of Tile::WORLDMAP_NORTH | Tile::WORLDMAP_WEST |
@@ -115,9 +119,6 @@ public:
 
 protected:
   void draw_status(DrawingContext& context);
-
-  bool before_object_add(GameObject& object) override;
-  void before_object_remove(GameObject& object) override;
 
 private:
   WorldMap& m_parent;

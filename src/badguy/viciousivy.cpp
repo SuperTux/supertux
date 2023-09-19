@@ -29,14 +29,12 @@ ViciousIvy::ViciousIvy(const ReaderMapping& reader) :
   m_fall_speed()
 {
   parse_type(reader);
-  on_type_change(-1);
 }
 
 ViciousIvy::ViciousIvy(const Vector& pos, Direction d) :
   WalkingBadguy(pos, d, "images/creatures/vicious_ivy/vicious_ivy.sprite", "left", "right"),
   m_fall_speed()
 {
-  on_type_change(-1);
 }
 
 GameObjectTypes
@@ -48,11 +46,22 @@ ViciousIvy::get_types() const
   };
 }
 
+std::string
+ViciousIvy::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/vicious_ivy/corrupted/rotten_ivy.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
 void
 ViciousIvy::on_type_change(int old_type)
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/vicious_ivy/" + std::string(m_type == CORRUPTED ? "corrupted/rotten_ivy" : "vicious_ivy") + ".sprite");
+  MovingSprite::on_type_change();
 
   switch (m_type)
   {

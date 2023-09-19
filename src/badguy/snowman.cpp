@@ -39,7 +39,7 @@ Snowman::loose_head()
   snowball_pos.y += 1;
 
   /* Create a death animation for the (now headless) snowman. */
-  set_action (m_dir == Direction::LEFT ? "headless-left" : "headless-right", /* loops = */ -1);
+  set_action ("headless", m_dir, /* loops = */ -1);
   set_pos (get_pos () + Vector (-4.0, 19.0)); /* Difference in the sprite offsets. */
   m_physic.set_velocity_y(0);
   m_physic.set_acceleration_y(0);

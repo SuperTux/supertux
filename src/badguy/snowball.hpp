@@ -29,10 +29,22 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Snowball"); }
   virtual std::string get_display_name() const override { return display_name(); }
+
   virtual bool is_snipable() const override { return true; }
+  virtual bool is_freezable() const override;
+
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+private:
+  enum Type {
+    NORMAL,
+    BUMPKIN,
+    BSOD
+  };
 
 private:
   SnowBall(const SnowBall&) = delete;

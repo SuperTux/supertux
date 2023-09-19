@@ -218,7 +218,7 @@ void
 ScreenManager::draw_fps(DrawingContext& context, FPS_Stats& fps_statistics)
 {
   // The fonts are not monospace, so the numbers need to be drawn separately
-  Vector pos(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 50);
+  Vector pos(context.get_width() - BORDER_X, BORDER_Y + 50);
   context.color().draw_text(Resources::small_font, "FPS  min / avg / max",
     pos, ALIGN_RIGHT, LAYER_HUD);
   static const float w2 = Resources::small_font->get_text_width("999.9 /");
@@ -259,7 +259,7 @@ ScreenManager::draw_player_pos(DrawingContext& context)
 
       context.color().draw_text(
         Resources::small_font, pos_text,
-        Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
+        Vector(context.get_width() - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
               BORDER_Y + 60 + height), ALIGN_LEFT, LAYER_HUD);
 
       height += 30;
