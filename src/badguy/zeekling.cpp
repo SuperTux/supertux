@@ -121,6 +121,8 @@ Zeekling::collision_solid(const CollisionHit& hit)
 bool
 Zeekling::should_we_dive()
 {
+  using RaycastResult = CollisionSystem::RaycastResult;
+
   if (m_frozen) return false;
 
   // Left/rightmost point of the hitbox.
@@ -142,10 +144,10 @@ Zeekling::should_we_dive()
                                      (m_dir == Direction::LEFT ? -1 : 1)),
                             plrmid.y};
 
-  // FIXME: Give the actual object that hit the raycast, or at least the hitbox
-  // to avoid having to raycast a bunch of times
-  return !Sector::get().free_line_of_sight(eye, rangeend, false, this) &&
-          Sector::get().can_see_player(eye);
+  const RaycastResult& result = Sector::get().get_first_line_intersection(eye, rangeend, false, get_collision_object());
+
+  return result.is_valid &&
+         result.hit.object == get_nearest_player()->get_collision_object();
 }
 
 void
