@@ -78,12 +78,12 @@ Zeekling::on_bump_vertical()
 
   switch (state) {
     case DIVING:
-      state = CLIMBING;
+      state = RECOVERING;
       m_easing_progress = 0.0;
       set_action(m_dir);
       break;
 
-    case CLIMBING:
+    case RECOVERING:
       state = FLYING;
       break;
 
@@ -91,7 +91,7 @@ Zeekling::on_bump_vertical()
       break;
   }
 
-    m_physic.set_velocity_y(state == CLIMBING ? -speed : 0);
+    m_physic.set_velocity_y(state == RECOVERING ? -speed : 0);
 }
 
 void
@@ -140,14 +140,33 @@ Zeekling::should_we_dive()
   // Do not dive if we are too far above the player.
   if (height > 512) return false;
 
-  const Vector& rangeend = {eye.x + ((plrmid.y - eye.y) *
+  const Vector rangeend = {eye.x + ((plrmid.y - eye.y) *
                                      (m_dir == Direction::LEFT ? -1 : 1)),
                             plrmid.y};
 
-  const RaycastResult& result = Sector::get().get_first_line_intersection(eye, rangeend, false, get_collision_object());
+  const RaycastResult& result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
 
   return result.is_valid &&
          result.hit.object == get_nearest_player()->get_collision_object();
+}
+
+bool
+Zeekling::should_we_rebound()
+{
+  using RaycastResult = CollisionSystem::RaycastResult;
+
+  Vector eye;
+  const Rectf& bbox = get_bbox().grown(1.f);
+  eye = bbox.get_middle();
+  eye.y = bbox.get_bottom();
+
+  const Vector rangeend = {eye.x, eye.y + 32*4};
+
+  const RaycastResult& result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
+
+  return result.is_valid &&
+         result.hit.tile != nullptr &&
+         result.hit.tile->is_solid();
 }
 
 void
@@ -180,6 +199,13 @@ Zeekling::active_update(float dt_sec) {
     }
 
     case DIVING:
+      if (should_we_rebound())
+      {
+        state = REBOUND;
+        m_easing_progress = 0.0;
+        break;
+      }
+
       if (m_easing_progress >= 1.0) break;
 
       // swoop down
@@ -190,7 +216,16 @@ Zeekling::active_update(float dt_sec) {
 
       break;
 
-    case CLIMBING:
+    case REBOUND:
+      if (m_easing_progress < 1.0) m_easing_progress += 0.1;
+      else break;
+
+      m_physic.set_velocity_y(2 *
+                              fabsf(m_physic.get_velocity_x()) *
+                              QuarticEaseOut(m_easing_progress) +
+                              (5 * m_easing_progress));
+
+    case RECOVERING:
       // Stop climbing when we're back at initial height.
       if (get_pos().y <= m_start_position.y) {
         state = FLYING;

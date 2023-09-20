@@ -44,6 +44,8 @@ private:
   virtual bool collision_squished(GameObject& object) override;
 
   bool should_we_dive();
+  bool should_we_rebound();
+
   void on_bump_horizontal();
   void on_bump_vertical();
 
@@ -52,7 +54,8 @@ private:
     FLYING,
     CHARGING,
     DIVING,
-    CLIMBING
+    REBOUND,
+    RECOVERING
   };
 
 private:
