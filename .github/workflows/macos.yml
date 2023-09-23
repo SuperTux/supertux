@@ -53,9 +53,13 @@ jobs:
           brew update
           brew unlink python && brew link --overwrite python
           brew reinstall harfbuzz
-          brew install cmake googletest bash rename libogg libvorbis glew\
+          brew install cmake googletest bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype \
                        fribidi glib gtk-doc glbinding libraqm glm zlib
+          install_name_tool -change \
+            '@rpath/libsharpyuv.0.dylib' \
+            /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
+            /usr/local/opt/webp/lib/libwebp.7.dylib
 
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework                           \
@@ -121,8 +125,8 @@ jobs:
           aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
           source_dir: 'build/upload'
-          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}" 
-           
+          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
+
       - name: Post uploaded file
         if: matrix.release && env.DOWNLOAD_APIKEY != null
         working-directory: build
