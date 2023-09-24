@@ -208,6 +208,7 @@ GameObject::parse_type(const ReaderMapping& reader)
     try
     {
       set_type(type_id_to_value(type));
+      on_type_change(-1); // Initial object type initialization
     }
     catch (...)
     {
@@ -215,8 +216,6 @@ GameObject::parse_type(const ReaderMapping& reader)
         log_warning << "Unknown type of " << get_class_name() << ": '" << type << "', using default." << std::endl;
     }
   }
-
-  on_type_change(-1); // Initial object type initialization
 }
 
 GameObjectTypes
