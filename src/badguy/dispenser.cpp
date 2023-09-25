@@ -363,7 +363,7 @@ Dispenser::set_correct_action()
 void
 Dispenser::on_type_change(int old_type)
 {
-  MovingSprite::on_type_change();
+  MovingSprite::on_type_change(old_type);
   set_correct_action();
 }
 

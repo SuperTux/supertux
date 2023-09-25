@@ -53,11 +53,11 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
-  virtual void on_type_change(int old_type = -1) override;
+  virtual void on_type_change(int old_type) override;
 
   virtual int get_layer() const override { return m_layer; }
 
-  bool has_found_sprite();
+  bool has_found_sprite() const { return m_sprite_found; }
   const std::string& get_sprite_name() const { return m_sprite_name; }
   virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
 

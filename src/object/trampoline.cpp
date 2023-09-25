@@ -34,15 +34,17 @@ namespace {
 Trampoline::Trampoline(const ReaderMapping& mapping) :
   Rock(mapping, "images/objects/trampoline/trampoline.sprite")
 {
-  parse_type(mapping);
-
   // Older levels use the "portable" property to determine the type.
   bool portable = true;
   mapping.get("portable", portable);
   if (!portable)
   {
     m_type = STATIONARY;
-    on_type_change();
+    on_type_change(-1);
+  }
+  else
+  {
+    parse_type(mapping);
   }
 
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
@@ -52,7 +54,7 @@ Trampoline::Trampoline(const Vector& pos, int type) :
   Rock(pos, "images/objects/trampoline/trampoline.sprite")
 {
   m_type = type;
-  on_type_change();
+  on_type_change(-1);
 
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
 }
