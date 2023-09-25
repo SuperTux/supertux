@@ -481,33 +481,23 @@ SDLPainter::draw_line(const LineRequest& request)
   Uint8 b = static_cast<Uint8>(request.color.blue * 255);
   Uint8 a = static_cast<Uint8>(request.color.alpha * 255);
 
-  int x1 = static_cast<int>(request.pos.x);
-  int y1 = static_cast<int>(request.pos.y);
-  int x2 = static_cast<int>(request.dest_pos.x);
-  int y2 = static_cast<int>(request.dest_pos.y);
-
   SDL_SetRenderDrawBlendMode(m_sdl_renderer, SDL_BLENDMODE_BLEND);
   SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
-  SDL_RenderDrawLine(m_sdl_renderer, x1, y1, x2, y2);
+  SDL_RenderDrawLineF(m_sdl_renderer, request.pos.x, request.pos.y,
+                                      request.dest_pos.x, request.dest_pos.y);
 }
 
 namespace {
 
-using Edge = std::pair<Vector, Vector>;
+using Edge = std::pair<const Vector&, const Vector&>;
 
 Edge
-make_edge(int x1, int y1, int x2, int y2)
+make_edge(const Vector& p1, const Vector& p2)
 {
-  if (y1 < y2)
-  {
-    return Edge(Vector(static_cast<float>(x1), static_cast<float>(y1)),
-                Vector(static_cast<float>(x2), static_cast<float>(y2)));
-  }
-  else
-  {
-    return Edge(Vector(static_cast<float>(x2), static_cast<float>(y2)),
-                Vector(static_cast<float>(x1), static_cast<float>(y1)));
-  }
+  if (p1.y < p2.y)
+    return Edge(p1, p2);
+
+  return Edge(p2, p1);
 }
 
 void
@@ -515,13 +505,13 @@ draw_span_between_edges(SDL_Renderer* renderer, const Edge& e1, const Edge& e2)
 {
   // calculate difference between the y coordinates
   // of the first edge and return if 0
-  float e1ydiff = static_cast<float>(e1.second.y - e1.first.y);
+  float e1ydiff = e1.second.y - e1.first.y;
   if (e1ydiff == 0.0f)
     return;
 
   // calculate difference between the y coordinates
   // of the second edge and return if 0
-  float e2ydiff = static_cast<float>(e2.second.y - e2.first.y);
+  float e2ydiff = e2.second.y - e2.first.y;
   if (e2ydiff == 0.0f)
     return;
 
@@ -532,16 +522,17 @@ draw_span_between_edges(SDL_Renderer* renderer, const Edge& e1, const Edge& e2)
   float factor2 = 0.0f;
   float factorStep2 = 1.0f / e2ydiff;
 
-  for (int y = static_cast<int>(e2.first.y); y < static_cast<int>(e2.second.y); y++) {
-    SDL_RenderDrawLine(renderer,
-                       static_cast<int>(e1.first.x + e1xdiff * factor1), y,
-                       static_cast<int>(e2.first.x + e2xdiff * factor2), y);
+  for (float y = e2.first.y; y < e2.second.y; y += 1.f)
+  {
+    SDL_RenderDrawLineF(renderer,
+                        e1.first.x + e1xdiff * factor1, y,
+                        e2.first.x + e2xdiff * factor2, y);
     factor1 += factorStep1;
     factor2 += factorStep2;
   }
 }
 
-} //namespace
+} // namespace
 
 void
 SDLPainter::draw_triangle(const TriangleRequest& request)
@@ -551,26 +542,21 @@ SDLPainter::draw_triangle(const TriangleRequest& request)
   Uint8 b = static_cast<Uint8>(request.color.blue * 255);
   Uint8 a = static_cast<Uint8>(request.color.alpha * 255);
 
-  int x1 = static_cast<int>(request.pos1.x);
-  int y1 = static_cast<int>(request.pos1.y);
-  int x2 = static_cast<int>(request.pos2.x);
-  int y2 = static_cast<int>(request.pos2.y);
-  int x3 = static_cast<int>(request.pos3.x);
-  int y3 = static_cast<int>(request.pos3.y);
-
   std::array<Edge, 3> edges{
-    make_edge(x1, y1, x2, y2),
-    make_edge(x2, y2, x3, y3),
-    make_edge(x3, y3, x1, y1)
+    make_edge(request.pos1, request.pos2),
+    make_edge(request.pos2, request.pos3),
+    make_edge(request.pos3, request.pos1)
   };
 
-  int maxLength = 0;
+  float maxLength = 0.f;
   int longEdge = 0;
 
-  // find edge with the greatest length in the y axis
-  for (int i = 0; i < 3; i++) {
-    int length = static_cast<int>(edges[i].second.y - edges[i].first.y);
-    if (length > maxLength) {
+  // Find the edge with the greatest length on the Y axis.
+  for (int i = 0; i < 3; i++)
+  {
+    const float length = edges[i].second.y - edges[i].first.y;
+    if (length > maxLength)
+    {
       maxLength = length;
       longEdge = i;
     }

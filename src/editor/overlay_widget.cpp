@@ -185,15 +185,11 @@ EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
   float x = pos.x;
   float y = pos.y;
 
-  this->autotile(Vector(x - 1.0f, y - 1.0f), tile);
-  this->autotile(Vector(x       , y - 1.0f), tile);
-  this->autotile(Vector(x + 1.0f, y - 1.0f), tile);
-  this->autotile(Vector(x - 1.0f, y       ), tile);
-  this->autotile(Vector(x       , y       ), tile);
-  this->autotile(Vector(x + 1.0f, y       ), tile);
-  this->autotile(Vector(x - 1.0f, y + 1.0f), tile);
-  this->autotile(Vector(x       , y + 1.0f), tile);
-  this->autotile(Vector(x + 1.0f, y + 1.0f), tile);
+  for(float posY = y - 1.0f; posY <= y + 1.0f; posY++)
+    for(float posX = x - 1.0f; posX <= x + 1.0f; posX++)
+    {
+      this->autotile(Vector(posX, posY), tile);
+    }
 }
 
 void
@@ -1281,12 +1277,9 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
       {
         Vector on_tile = m_hovered_tile + drawn_tile;
 
-        if (on_tile.x < 0 ||
-            on_tile.y < 0 ||
-            on_tile.x >= static_cast<float>(tilemap->get_width()) ||
-            on_tile.y >= static_cast<float>(tilemap->get_height()) ||
+        if (!is_position_inside_tilemap(tilemap, on_tile) ||
             on_tile.x >= ceilf(screen_corner.x / 32) ||
-            on_tile.y >= ceilf(screen_corner.y / 32)) 
+            on_tile.y >= ceilf(screen_corner.y / 32))
         {
           continue;
         }
@@ -1325,10 +1318,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
     {
       Vector on_tile = corner + drawn_tile;
 
-      if (on_tile.x < 0 ||
-          on_tile.y < 0 ||
-          on_tile.x >= static_cast<float>(tilemap->get_width()) ||
-          on_tile.y >= static_cast<float>(tilemap->get_height()) ||
+      if (!is_position_inside_tilemap(tilemap, on_tile) ||
           on_tile.x >= ceilf(screen_corner.x / 32) ||
           on_tile.y >= ceilf(screen_corner.y / 32))
       {

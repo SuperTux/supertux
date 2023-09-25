@@ -690,10 +690,14 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
   return true;
 }
 
-bool
-CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const
+CollisionSystem::RaycastResult
+CollisionSystem::get_first_line_intersection(const Vector& line_start,
+                                             const Vector& line_end,
+                                             bool ignore_objects,
+                                             const CollisionObject* ignore_object) const
 {
   using namespace collision;
+  RaycastResult result{};
 
   // Check if no tile is in the way.
   const float lsx = std::min(line_start.x, line_end.x);
@@ -709,16 +713,26 @@ CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line
         {
           continue;
         }
-        
-        const Tile& tile = solids->get_tile_at(test_vector);
+
+        const Tile* tile = &solids->get_tile_at(test_vector);
+
         // FIXME: check collision with slope tiles
-        if ((tile.get_attributes() & Tile::SOLID)) return false;
+        if ((tile->get_attributes() & Tile::SOLID))
+        {
+          result.is_valid = true;
+          result.hit.tile = tile;
+          result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
+          return result;
+        }
       }
     }
   }
 
   if (ignore_objects)
-    return true;
+  {
+    result.is_valid = false;
+    return result;
+  }
 
   // Check if no object is in the way.
   for (const auto& object : m_objects) {
@@ -726,12 +740,26 @@ CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line
     if (!object->is_valid()) continue;
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
-        || (object->get_group() == COLGROUP_STATIC)) {
-      if (intersects_line(object->get_bbox(), line_start, line_end)) return false;
+        || (object->get_group() == COLGROUP_STATIC))
+    {
+      if (intersects_line(object->get_bbox(), line_start, line_end))
+      {
+        result.is_valid = true;
+        result.hit.object = object;
+        result.box = object->get_bbox();
+        return result;
+      }
     }
   }
 
-  return true;
+  result.is_valid = false;
+  return result;
+}
+
+bool
+CollisionSystem::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const
+{
+  return !get_first_line_intersection(line_start, line_end, ignore_objects, ignore_object).is_valid;
 }
 
 std::vector<CollisionObject*>

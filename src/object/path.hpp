@@ -27,6 +27,7 @@
 #include "math/easing.hpp"
 #include "util/gettext.hpp"
 
+template<typename T>
 class ObjectOption;
 class PathGameObject;
 class ReaderMapping;
