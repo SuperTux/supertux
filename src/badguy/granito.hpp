@@ -25,13 +25,25 @@ public:
 
 protected:
   virtual void initialize() override;
-  //virtual void on_type_change(int old_type) override;
+  virtual void on_type_change(int old_type) override;
+
+  bool try_wave();
+  void wave();
 
 private:
   enum Type { WALK, SIT, STAND };
+  enum State {
+    STATE_STAND,
+    STATE_WALK,
+    STATE_WAVE
+  };
 
 private:
   Timer m_walk_interval;
+  State m_state;
+
+  bool m_has_waved;
+
 
 private:
   Granito(const Granito&) = delete;
