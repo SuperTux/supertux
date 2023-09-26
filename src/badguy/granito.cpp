@@ -112,6 +112,12 @@ void Granito::kill_fall()
   return;
 }
 
+void Granito::activate()
+{
+  WalkingBadguy::activate();
+  m_has_waved = false;
+}
+
 GameObjectTypes Granito::get_types() const
 {
   return {

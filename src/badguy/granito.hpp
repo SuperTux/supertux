@@ -30,6 +30,8 @@ protected:
   bool try_wave();
   void wave();
 
+  void activate() override;
+
 private:
   enum Type { WALK, SIT, STAND };
   enum State {
