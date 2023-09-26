@@ -161,9 +161,13 @@ bool Granito::try_wave()
 
   if (result.hit.object != nullptr && result.hit.object == plr->get_collision_object())
   {
-    float dist = glm::distance(result.box.get_middle(), get_bbox().get_middle());
-    if (std::abs(dist) < 32.f*4.f)
+    float xdist = get_bbox().get_middle().x - result.box.get_middle().x;
+    if (std::abs(xdist) < 32.f*4.f)
     {
+      // Only wave if facing player.
+      if (xdist == std::abs(xdist) * (m_dir == Direction::LEFT ? -1 : 1))
+        return false;
+
       wave();
       return true;
     }
@@ -176,10 +180,8 @@ void Granito::wave()
 {
   walk_speed = 0;
   m_physic.set_velocity_x(0);
+
   m_state = STATE_WAVE;
 
-  float xdist = get_bbox().get_middle().x - get_nearest_player()->get_bbox().get_middle().x;
-
-  m_dir = (xdist > 0 ? Direction::LEFT : Direction::RIGHT);
   set_action("wave", m_dir, 1);
 }
