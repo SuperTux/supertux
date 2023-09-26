@@ -136,7 +136,7 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
 
   bool shiftout = false;
 
-  if (other_object && !other_object->is_unisolid())
+  if (!other_object || !other_object->is_unisolid())
   {
     if (fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
       if (ileft < SHIFT_DELTA) {
