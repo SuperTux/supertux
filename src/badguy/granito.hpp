@@ -7,9 +7,11 @@
 class Granito : public WalkingBadguy
 {
 public:
-  Granito(const ReaderMapping& reader);
+  explicit Granito(const ReaderMapping& reader);
 
   virtual void active_update(float dt_sec) override;
+
+  virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
 
   static std::string class_name() { return "granito"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -50,7 +52,6 @@ private:
 private:
   Granito(const Granito&) = delete;
   Granito& operator=(const Granito&) = delete;
-
 };
 
 #endif // GRANITO_H

@@ -107,6 +107,14 @@ void Granito::active_update(float dt_sec)
   WalkingBadguy::active_update(dt_sec);
 }
 
+HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
+{
+  if (hit.top)
+    m_col.propagate_movement(m_col.get_movement());
+
+  return FORCE_MOVE;
+}
+
 void Granito::kill_fall()
 {
   return;
@@ -147,7 +155,7 @@ void Granito::initialize()
       break;
   }
 
-  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+  set_colgroup_active(COLGROUP_MOVING_STATIC);
 }
 
 void Granito::on_type_change(__attribute__((unused)) int old_type)
