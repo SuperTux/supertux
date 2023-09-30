@@ -287,6 +287,11 @@ void set_gamma(float gamma);
 int rand();
 
 /**
+ * Sets the seed to ""v"".
+ */
+void srand(int v);
+
+/**
  * Records a demo to the given file.
  * @param string $filename
  */

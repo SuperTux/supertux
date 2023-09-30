@@ -444,6 +444,11 @@ int rand()
   return gameRandom.rand();
 }
 
+void srand(int v)
+{
+  return gameRandom.seed(v);
+}
+
 void set_game_speed(float speed)
 {
   if (speed < 0.05f)

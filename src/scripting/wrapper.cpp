@@ -12461,6 +12461,29 @@ static SQInteger rand_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger srand_wrapper(HSQUIRRELVM vm)
+{
+  SQInteger arg0;
+  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::srand(static_cast<int> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'srand'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger record_demo_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -13995,6 +14018,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'rand'");
+  }
+
+  sq_pushstring(v, "srand", -1);
+  sq_newclosure(v, &srand_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'srand'");
   }
 
   sq_pushstring(v, "record_demo", -1);
