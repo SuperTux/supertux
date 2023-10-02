@@ -7,7 +7,8 @@
 Granito::Granito(const ReaderMapping& reader):
   WalkingBadguy(reader, "images/creatures/granito/granito.sprite", "left", "right"),
   m_state(STATE_STAND),
-  m_has_waved(false)
+  m_has_waved(false),
+  m_stepped_on(false)
 {
   parse_type(reader);
 
