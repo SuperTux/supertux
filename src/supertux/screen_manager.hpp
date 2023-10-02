@@ -102,6 +102,7 @@ private:
 
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
+  bool m_running;
 };
 
 #endif

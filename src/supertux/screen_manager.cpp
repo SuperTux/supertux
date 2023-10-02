@@ -146,7 +146,8 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_speed(1.0),
   m_actions(),
   m_screen_fade(),
-  m_screen_stack()
+  m_screen_stack(),
+  m_running()
 {
 }
 
@@ -200,6 +201,7 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
     m_screen_fade = std::move(screen_fade);
   }
   m_actions.emplace_back(Action::QUIT_ACTION);
+  m_running = false;
 }
 
 void
@@ -272,31 +274,38 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 {
   assert(!m_screen_stack.empty());
 
-  // draw the actual screen
-  m_screen_stack.back()->draw(compositor);
+    // draw the actual screen
+    m_screen_stack.back()->draw(compositor);
 
   // draw effects and hud
   auto& context = compositor.make_context(true);
-  m_menu_manager->draw(context);
+
+  if(m_running)
+  {
+    m_menu_manager->draw(context);
+  }
 
   if (m_screen_fade) {
     m_screen_fade->draw(context);
   }
 
-  Console::current()->draw(context);
+  if(m_running)
+  {
+    Console::current()->draw(context);
 
-  if (g_config->mobile_controls)
-    m_mobile_controller.draw(context);
+    if (g_config->mobile_controls)
+      m_mobile_controller.draw(context);
 
-  if (g_config->show_fps)
-    draw_fps(context, fps_statistics);
+    if (g_config->show_fps)
+      draw_fps(context, fps_statistics);
 
-  if (g_config->show_controller) {
-    m_controller_hud->draw(context);
-  }
+    if (g_config->show_controller) {
+      m_controller_hud->draw(context);
+    }
 
-  if (g_config->show_player_pos) {
-    draw_player_pos(context);
+    if (g_config->show_player_pos) {
+      draw_player_pos(context);
+    }
   }
 
   // render everything
@@ -511,6 +520,7 @@ ScreenManager::handle_screen_switch()
   {
     m_screen_fade.reset();
 
+    m_running = false;
     // Screen::setup() might push more screens, so loop till everything is done
     while (!m_actions.empty())
     {
@@ -568,15 +578,12 @@ ScreenManager::handle_screen_switch()
         }
       }
     }
+    m_running = true;
   }
 }
 
 void ScreenManager::loop_iter()
 {
-  // Useful if screens edit their status without switching screens
-  Integration::update_status_all(m_screen_stack.back()->get_status());
-  Integration::update_all();
-
   Uint32 ticks = SDL_GetTicks();
   elapsed_ticks += ticks - last_ticks;
   last_ticks = ticks;
@@ -593,6 +600,13 @@ void ScreenManager::loop_iter()
     // logical game step
     SDL_Delay(ms_per_step - elapsed_ticks);
     return;
+  }
+
+  if (m_running)
+  {
+    // Useful if screens edit their status without switching screens
+    Integration::update_status_all(m_screen_stack.back()->get_status());
+    Integration::update_all();
   }
 
   g_real_time = static_cast<float>(ticks) / 1000.0f;
@@ -630,7 +644,11 @@ void ScreenManager::loop_iter()
     // end sequence and debugging, dtime can be changed.
     float dtime = seconds_per_step * m_speed * speed_multiplier;
     g_game_time += dtime;
-    process_events();
+    if (m_running)
+    {
+      process_events();
+    }
+
     update_gamelogic(dtime);
     elapsed_ticks -= ms_per_step;
   }
@@ -642,8 +660,10 @@ void ScreenManager::loop_iter()
     draw(compositor, *m_fps_statistics);
     m_fps_statistics->report_frame();
   }
-
-  SoundManager::current()->update();
+  if (m_running)
+  {
+    SoundManager::current()->update();
+  }
 
   handle_screen_switch();
 
@@ -664,6 +684,7 @@ static void g_loop_iter() {
 void
 ScreenManager::run()
 {
+  m_running = true;
   Integration::init_all();
 
   handle_screen_switch();
