@@ -34,7 +34,7 @@ void print_squirrel_stack(HSQUIRRELVM vm);
 
 SQInteger squirrel_read_char(SQUserPointer file);
 
-HSQUIRRELVM object_to_vm(HSQOBJECT object);
+HSQUIRRELVM object_to_vm(const HSQOBJECT& object);
 
 void compile_script(HSQUIRRELVM vm, std::istream& in,
                     const std::string& sourcename);
