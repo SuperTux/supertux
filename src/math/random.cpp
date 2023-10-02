@@ -33,7 +33,7 @@ Random::seed(int v)
   if (v <= 0)
   {
     // Use the UNIX timestamp of the current time as a seed.
-    m_generator.seed(std::time(nullptr));
+    m_generator.seed(static_cast<unsigned int>(std::time(nullptr)));
     return;
   }
   m_generator.seed(v);
