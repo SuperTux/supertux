@@ -279,11 +279,7 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 
   // draw effects and hud
   auto& context = compositor.make_context(true);
-
-  if(m_running)
-  {
-    m_menu_manager->draw(context);
-  }
+  m_menu_manager->draw(context);
 
   if (m_screen_fade) {
     m_screen_fade->draw(context);
