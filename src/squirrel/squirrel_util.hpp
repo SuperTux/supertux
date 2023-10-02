@@ -29,7 +29,7 @@
 
 typedef std::vector<HSQOBJECT> SquirrelObjectList;
 
-std::string squirrel2string(HSQUIRRELVM vm, SQInteger i, bool lisp_format = false);
+std::string squirrel2string(HSQUIRRELVM vm, SQInteger i, bool lisp_format);
 void print_squirrel_stack(HSQUIRRELVM vm);
 
 SQInteger squirrel_read_char(SQUserPointer file);
