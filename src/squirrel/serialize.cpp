@@ -134,9 +134,27 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
         writer.end_list(key);
         break;
       }
-      case OT_ARRAY:
-        writer.write(key, squirrel2string(vm, -1));
+      case OT_ARRAY: {
+        std::ostringstream os;
+        bool first = true;
+        sq_pushnull(vm);  //null iterator
+        while (SQ_SUCCEEDED(sq_next(vm, -2)))
+        {
+          if (!first) {
+            os << " ";
+          }
+          first = false;
+
+          //here -1 is the value and -2 is the key
+          // we ignore the key, since that is just the index in an array
+          os << squirrel2string(vm, -1);
+
+          sq_pop(vm, 2); //pops key and val before the nex iteration
+        }
+        sq_pop(vm, 1);
+        writer.write(key, os.str());
         break;
+      }
       case OT_CLOSURE:
         break; // ignore
       case OT_NATIVECLOSURE:
