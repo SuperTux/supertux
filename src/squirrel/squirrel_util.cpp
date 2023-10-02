@@ -29,7 +29,7 @@
 #include "supertux/game_object.hpp"
 #include "util/log.hpp"
 
-std::string squirrel2string(HSQUIRRELVM v, SQInteger i, bool lisp_format = false)
+std::string squirrel2string(HSQUIRRELVM v, SQInteger i, bool lisp_format)
 {
   std::ostringstream os;
   switch (sq_gettype(v, i))
