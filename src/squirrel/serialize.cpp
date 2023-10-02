@@ -128,13 +128,15 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
         writer.write(key, reinterpret_cast<const char*> (str));
         break;
       }
-      case OT_TABLE:
-      case OT_ARRAY: {
+      case OT_TABLE: {
         writer.start_list(key, true);
         save_squirrel_table(vm, -1, writer);
         writer.end_list(key);
         break;
       }
+      case OT_ARRAY:
+        writer.write(key, squirrel2string(vm, -1));
+        break;
       case OT_CLOSURE:
         break; // ignore
       case OT_NATIVECLOSURE:
