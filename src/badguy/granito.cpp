@@ -20,10 +20,17 @@ Granito::Granito(const ReaderMapping& reader):
 
 void Granito::active_update(float dt_sec)
 {
-  if (m_type == SIT)
+  if (!m_stepped_on && m_state == STATE_LOOKUP)
   {
-    // Sit type does nothing
+    m_state = STATE_STAND;
+    set_action("stand", m_dir);
+  }
+
+  if (m_type == SIT || m_state == STATE_LOOKUP)
+  {
+    // Sit type and look up state do nothing
     WalkingBadguy::active_update(dt_sec);
+    m_stepped_on = false;
     return;
   }
 
@@ -35,6 +42,7 @@ void Granito::active_update(float dt_sec)
       {
         // Still waving
         WalkingBadguy::active_update(dt_sec);
+        m_stepped_on = false;
         return;
       }
       else
@@ -105,12 +113,28 @@ void Granito::active_update(float dt_sec)
   }
 
   WalkingBadguy::active_update(dt_sec);
+
+  m_stepped_on = false;
 }
 
 HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
 {
+  if (m_type == SIT) return FORCE_MOVE;
+
   if (hit.top)
-    m_col.propagate_movement(m_col.get_movement());
+  {
+    m_stepped_on = true;
+    //m_col.propagate_movement(m_col.get_movement());
+    if (m_state != STATE_LOOKUP)
+    {
+      m_state = STATE_LOOKUP;
+      set_action("lookup", m_dir);
+
+      // Don't wave again because we've
+      // already spotted the player
+      m_has_waved = true;
+    }
+  }
 
   return FORCE_MOVE;
 }

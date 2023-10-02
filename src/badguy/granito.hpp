@@ -39,7 +39,8 @@ private:
   enum State {
     STATE_STAND,
     STATE_WALK,
-    STATE_WAVE
+    STATE_WAVE,
+    STATE_LOOKUP,
   };
 
 private:
@@ -47,7 +48,7 @@ private:
   State m_state;
 
   bool m_has_waved;
-
+  bool m_stepped_on; /** true if tux was on top of granito last frame */
 
 private:
   Granito(const Granito&) = delete;
