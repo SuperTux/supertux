@@ -60,6 +60,13 @@ void Granito::active_update(float dt_sec)
     }
   }
 
+  if (m_type == WALK && try_jump())
+  {
+    WalkingBadguy::active_update(dt_sec);
+    return;
+  }
+
+  // only called when timer is finished
   if (!m_walk_interval.started() && !m_walk_interval.check())
   {
     m_walk_interval.start(gameRandom.randf(1.f, 4.f));
@@ -116,6 +123,23 @@ void Granito::active_update(float dt_sec)
   WalkingBadguy::active_update(dt_sec);
 
   m_stepped_on = false;
+}
+
+void Granito::draw(DrawingContext &context)
+{
+  //WalkingBadguy::draw(context);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  Rectf detect = get_bbox().grown(-1.f);
+  int inc = (32*2)*(m_dir == Direction::LEFT ? -1 : 1);
+
+  detect.move({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()) + inc, detect.get_top()});
+
+  context.color().draw_filled_rect(detect, Color::from_rgba8888(255, 0, 0, 100), 0, 100);
+
+  detect.move({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()), detect.get_top() + inc});
+
+  context.color().draw_filled_rect(detect, Color::from_rgba8888(0, 255, 0, 100), 0, 100);
 }
 
 HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
@@ -225,4 +249,32 @@ void Granito::wave()
   m_state = STATE_WAVE;
 
   set_action("wave", m_dir, 1);
+}
+
+bool Granito::try_jump()
+{
+
+  if (walk_speed == 0) return false;
+
+  Rectf detect = get_bbox().grown(-1.f);
+  int inc = (32*2)*(m_dir == Direction::LEFT ? -1 : 1);
+
+  detect.move({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()) + inc, detect.get_top()});
+  std::printf("check jump: %f %f %f %f\n", detect.p1().x, detect.p1().y, detect.p2().x, detect.p2().y);
+  std::fflush(stdout);
+  if (!Sector::get().is_free_of_tiles(detect)) return false;
+
+  // if the jump destination is occupied, then dont jump
+  detect.move({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()), detect.get_top() + inc});
+  if (Sector::get().is_free_of_tiles(detect)) return false;
+
+  jump();
+  return true;
+}
+
+void Granito::jump()
+{
+  m_state = STATE_JUMPING;
+  m_physic.set_velocity_y(-1000.f);
+  set_action("jump", m_dir);
 }

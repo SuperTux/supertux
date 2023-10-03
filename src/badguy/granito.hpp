@@ -10,6 +10,7 @@ public:
   explicit Granito(const ReaderMapping& reader);
 
   virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext &context) override;
 
   virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
 
@@ -32,6 +33,9 @@ protected:
   bool try_wave();
   void wave();
 
+  bool try_jump();
+  void jump();
+
   void activate() override;
 
 private:
@@ -41,6 +45,7 @@ private:
     STATE_WALK,
     STATE_WAVE,
     STATE_LOOKUP,
+    STATE_JUMPING
   };
 
 private:
