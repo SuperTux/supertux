@@ -129,6 +129,8 @@ HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
     if (m_state != STATE_LOOKUP)
     {
       m_state = STATE_LOOKUP;
+      walk_speed = 0;
+      m_physic.set_velocity_x(0);
       set_action("lookup", m_dir);
 
       // Don't wave again because we've
