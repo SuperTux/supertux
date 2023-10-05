@@ -104,6 +104,57 @@
 	  (mirror-action "fall-left"))
 	
 	(action
+	  (name "sit-left")
+	  (hitbox 15 25 32 32)
+	  (fps 10)
+	  (images "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-1.png"
+			  "granito_sit-2.png"
+			  "granito_sit-3.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"
+			  "granito_sit-0.png"))
+	
+	(action
+	  (name "sit-right")
+	  (hitbox 17 25 32 32)
+	  (fps 10)
+	  (mirror-action "sit-left"))
+	
+	(action
 	  (name "lookup-left")
 	  (hitbox 15 15 32 42)
 	  (loop-frame 4)
@@ -150,6 +201,24 @@
 	  (loop-frame 4)
 	  (fps 12)
 	  (mirror-action "lookup-left"))
+	
+	(action
+	  (name "lookdown-left")
+	  (hitbox 15 15 32 42)
+	  (loops 1)
+	  (fps 12)
+	  (images "granito_look-2.png"
+			  "granito_look-1.png"
+			  "granito_look-0.png"
+			  "granito_stand-0.png"
+			  ))
+	
+	(action
+	  (name "lookdown-right")
+	  (hitbox 17 15 32 42)
+	  (loops 1)
+	  (fps 12)
+	  (mirror-action "lookdown-left"))
 	
 	(action
 	  (name "wave-left")
