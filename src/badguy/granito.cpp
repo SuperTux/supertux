@@ -7,6 +7,7 @@
 Granito::Granito(const ReaderMapping& reader):
   WalkingBadguy(reader, "images/creatures/granito/granito.sprite", "left", "right"),
   m_state(STATE_STAND),
+  m_original_state(STATE_STAND),
   m_has_waved(false),
   m_stepped_on(false)
 {
@@ -21,15 +22,15 @@ Granito::Granito(const ReaderMapping& reader):
 
 void Granito::active_update(float dt_sec)
 {
-  if (!m_stepped_on && m_state == STATE_LOOKUP)
+  if ((m_state == STATE_LOOKUP && !m_stepped_on) ||
+      (m_state == STATE_JUMPING && on_ground()))
   {
-    m_state = STATE_STAND;
-    set_action("stand", m_dir);
+    restore_original_state();
   }
 
-  if (m_type == SIT || m_state == STATE_LOOKUP)
+  if (m_type == SIT || m_state == STATE_LOOKUP || m_state == STATE_JUMPING)
   {
-    // Sit type and look up state do nothing
+    // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
     m_stepped_on = false;
     return;
@@ -49,8 +50,7 @@ void Granito::active_update(float dt_sec)
       else
       {
         // Finished waving
-        m_state = STATE_STAND;
-        set_action("stand", m_dir);
+        restore_original_state();
         m_has_waved = true;
       }
     }
@@ -98,6 +98,7 @@ void Granito::active_update(float dt_sec)
           {
             walk_speed = 0;
             m_state = STATE_STAND;
+            m_original_state = STATE_STAND;
             m_physic.set_velocity_x(0);
             set_action("stand", m_dir);
           }
@@ -107,6 +108,7 @@ void Granito::active_update(float dt_sec)
             m_dir = (gameRandom.rand(1 + 1) == 0 ? Direction::LEFT : Direction::RIGHT);
             walk_speed = 80;
             m_state = STATE_WALK;
+            m_original_state = STATE_STAND;
             m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
             set_action(m_dir);
           }
@@ -123,23 +125,6 @@ void Granito::active_update(float dt_sec)
   WalkingBadguy::active_update(dt_sec);
 
   m_stepped_on = false;
-}
-
-void Granito::draw(DrawingContext &context)
-{
-  //WalkingBadguy::draw(context);
-  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-
-  Rectf detect = get_bbox().grown(-1.f);
-  int inc = (32*2)*(m_dir == Direction::LEFT ? -1 : 1);
-
-  detect.move({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()) + inc, detect.get_top()});
-
-  context.color().draw_filled_rect(detect, Color::from_rgba8888(255, 0, 0, 100), 0, 100);
-
-  detect.move({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()), detect.get_top() + inc});
-
-  context.color().draw_filled_rect(detect, Color::from_rgba8888(0, 255, 0, 100), 0, 100);
 }
 
 HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
@@ -253,20 +238,16 @@ void Granito::wave()
 
 bool Granito::try_jump()
 {
-
-  if (walk_speed == 0) return false;
+  if (walk_speed == 0 || !on_ground()) return false;
 
   Rectf detect = get_bbox().grown(-1.f);
-  int inc = (32*2)*(m_dir == Direction::LEFT ? -1 : 1);
+  float inc = (m_dir == Direction::LEFT ? -32.f*1.25f : 32.f*.25f);
 
-  detect.move({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()) + inc, detect.get_top()});
-  std::printf("check jump: %f %f %f %f\n", detect.p1().x, detect.p1().y, detect.p2().x, detect.p2().y);
-  std::fflush(stdout);
-  if (!Sector::get().is_free_of_tiles(detect)) return false;
-
-  // if the jump destination is occupied, then dont jump
-  detect.move({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()), detect.get_top() + inc});
+  detect.set_pos({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()) + inc, detect.get_top()});
   if (Sector::get().is_free_of_tiles(detect)) return false;
+
+  detect.set_pos({detect.get_left(), detect.get_top() - (32.f*2)});
+  if (!Sector::get().is_free_of_tiles(detect)) return false;
 
   jump();
   return true;
@@ -275,6 +256,24 @@ bool Granito::try_jump()
 void Granito::jump()
 {
   m_state = STATE_JUMPING;
-  m_physic.set_velocity_y(-1000.f);
+  m_physic.set_velocity_y(-400.f);
   set_action("jump", m_dir);
+}
+
+void Granito::restore_original_state()
+{
+  m_state = m_original_state;
+
+  if (m_state == STATE_WALK)
+  {
+    set_action(m_dir);
+    walk_speed = 80;
+    m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
+  }
+  else
+  {
+    set_action("stand", m_dir);
+    walk_speed = 0;
+    m_physic.set_velocity_x(0);
+  }
 }

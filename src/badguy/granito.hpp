@@ -10,7 +10,6 @@ public:
   explicit Granito(const ReaderMapping& reader);
 
   virtual void active_update(float dt_sec) override;
-  virtual void draw(DrawingContext &context) override;
 
   virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
 
@@ -36,6 +35,8 @@ protected:
   bool try_jump();
   void jump();
 
+  void restore_original_state();
+
   void activate() override;
 
 private:
@@ -51,6 +52,7 @@ private:
 private:
   Timer m_walk_interval;
   State m_state;
+  State m_original_state;
 
   bool m_has_waved;
   bool m_stepped_on; /** true if tux was on top of granito last frame */
