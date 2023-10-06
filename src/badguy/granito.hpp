@@ -29,6 +29,20 @@ protected:
   virtual void initialize() override;
   virtual void on_type_change(int old_type) override;
 
+  void activate() override;
+
+protected:
+  enum Type { WALK, STAND, SIT };
+  enum State
+  {
+    STATE_STAND,
+    STATE_WALK,
+    STATE_WAVE,
+    STATE_LOOKUP,
+    STATE_JUMPING
+  };
+
+protected:
   bool try_wave();
   void wave();
 
@@ -36,18 +50,6 @@ protected:
   void jump();
 
   void restore_original_state();
-
-  void activate() override;
-
-private:
-  enum Type { WALK, SIT, STAND };
-  enum State {
-    STATE_STAND,
-    STATE_WALK,
-    STATE_WAVE,
-    STATE_LOOKUP,
-    STATE_JUMPING
-  };
 
 private:
   Timer m_walk_interval;

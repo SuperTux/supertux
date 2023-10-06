@@ -22,6 +22,29 @@ Granito::Granito(const ReaderMapping& reader):
 
 void Granito::active_update(float dt_sec)
 {
+  if (get_velocity_y() != 0)
+  {
+    if (get_velocity_y() < 0)
+      set_action("jump", m_dir);
+    else if (get_velocity_y() > 0)
+      set_action("fall", m_dir);
+  }
+  else if (on_ground() && m_state == m_original_state)
+  {
+    if (m_state == STATE_STAND)
+    {
+      if (m_type == SIT)
+        set_action("stand", m_dir);
+      else
+        set_action("stand", m_dir);
+    }
+    else if (m_state == STATE_WALK)
+    {
+      set_action(m_dir);
+    }
+    std::cout << "!!!" << std::endl;
+  }
+
   if ((m_state == STATE_LOOKUP && !m_stepped_on) ||
       (m_state == STATE_JUMPING && on_ground()))
   {
@@ -67,7 +90,7 @@ void Granito::active_update(float dt_sec)
   }
 
   // only called when timer is finished
-  if (!m_walk_interval.started() && !m_walk_interval.check())
+  if ((!m_walk_interval.started() && !m_walk_interval.check()))
   {
     m_walk_interval.start(gameRandom.randf(1.f, 4.f));
 
@@ -108,7 +131,7 @@ void Granito::active_update(float dt_sec)
             m_dir = (gameRandom.rand(1 + 1) == 0 ? Direction::LEFT : Direction::RIGHT);
             walk_speed = 80;
             m_state = STATE_WALK;
-            m_original_state = STATE_STAND;
+            m_original_state = STATE_WALK;
             m_physic.set_velocity_x(80 * (m_dir == Direction::LEFT ? -1 : 1));
             set_action(m_dir);
           }
@@ -166,8 +189,8 @@ GameObjectTypes Granito::get_types() const
 {
   return {
     {"walking", _("Walking")},
-    {"sitting", _("Sitting")},
-    {"standing", _("Standing")}
+    {"standing", _("Standing")},
+    {"sitting", _("Sitting")}
   };
 }
 
@@ -203,7 +226,11 @@ bool Granito::try_wave()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
+  if (!on_ground()) return false;
+
   Player* plr = get_nearest_player();
+  if (!plr) return false;
+
   RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
                                                                    plr->get_bbox().get_middle(),
                                                                    false,
@@ -256,12 +283,13 @@ bool Granito::try_jump()
 void Granito::jump()
 {
   m_state = STATE_JUMPING;
-  m_physic.set_velocity_y(-400.f);
-  set_action("jump", m_dir);
+  m_physic.set_velocity_y(-420.f);
 }
 
 void Granito::restore_original_state()
 {
+  if (m_state == m_original_state) return;
+
   m_state = m_original_state;
 
   if (m_state == STATE_WALK)
