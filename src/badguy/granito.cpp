@@ -42,7 +42,6 @@ void Granito::active_update(float dt_sec)
     {
       set_action(m_dir);
     }
-    std::cout << "!!!" << std::endl;
   }
 
   if ((m_state == STATE_LOOKUP && !m_stepped_on) ||
