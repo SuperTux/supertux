@@ -181,16 +181,30 @@ AutotileParser::parse_autotile(const ReaderMapping& reader, bool corner)
 void
 AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask>& autotile_masks, bool solid)
 {
-  if (mask.size() != 8)
+  parse_mask(mask, autotile_masks, solid, 8);
+}
+
+void
+AutotileParser::parse_mask_corner(std::string mask, std::vector<AutotileMask>& autotile_masks)
+{
+  parse_mask(mask, autotile_masks, true, 4);
+}
+
+void
+AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask>& autotile_masks, bool solid, int mask_size)
+{
+  if (mask.size() != mask_size)
   {
-    throw std::runtime_error("Autotile config : mask isn't exactly 8 characters.");
+    std::ostringstream msg;
+    msg << "Autotile config : mask isn't exactly " << mask_size << " characters.";
+    throw std::runtime_error(msg.str());
   }
 
   std::vector<uint8_t> masks;
 
   masks.push_back(0);
 
-  for (int i = 0; i < 8; i++)
+  for (int i = 0; i < mask_size; i++)
   {
     std::vector<uint8_t> new_masks;
     switch (mask[i])
@@ -223,54 +237,6 @@ AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask>& autotile
   for (uint8_t val : masks)
   {
     autotile_masks.push_back(AutotileMask(val, solid));
-  }
-}
-
-void
-AutotileParser::parse_mask_corner(std::string mask, std::vector<AutotileMask>& autotile_masks)
-{
-  if (mask.size() != 4)
-  {
-    throw std::runtime_error("Autotile config : corner-based mask isn't exactly 4 characters.");
-  }
-
-  std::vector<uint8_t> masks;
-
-  masks.push_back(0);
-
-  for (int i = 0; i < 4; i++)
-  {
-    std::vector<uint8_t> new_masks;
-    switch (mask[i])
-    {
-    case '0':
-      for (uint8_t val : masks)
-      {
-        new_masks.push_back(static_cast<uint8_t>(val * 2));
-      }
-      break;
-    case '1':
-      for (uint8_t val : masks)
-      {
-        new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
-      }
-      break;
-    case '*':
-      for (uint8_t val : masks)
-      {
-        new_masks.push_back(static_cast<uint8_t>(val * 2));
-        new_masks.push_back(static_cast<uint8_t>(val * 2 + 1));
-      }
-      break;
-    default:
-      throw std::runtime_error("Autotile config : unrecognized character");
-    }
-    masks = new_masks;
-  }
-
-  for (uint8_t val : masks)
-  {
-    autotile_masks.push_back(AutotileMask(val, true));
   }
 }
 
