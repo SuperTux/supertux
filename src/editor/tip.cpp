@@ -51,6 +51,7 @@ Tip::set_info_for_object(GameObject& object)
   auto os = object.get_settings();
   m_header = os.get_name();
   m_strings.clear();
+  m_warnings.clear();
 
   for (const auto& oo_ptr : os.get_options())
   {
