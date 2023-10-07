@@ -1059,13 +1059,11 @@ EditorOverlayWidget::update_tile_selection()
   tiles->m_width = static_cast<int>(select.get_width());
   tiles->m_height = static_cast<int>(select.get_height());
 
-  int w = static_cast<int>(tilemap->get_width());
-  int h = static_cast<int>(tilemap->get_height());
   for (int y = static_cast<int>(select.get_top()); y < static_cast<int>(select.get_bottom()); y++)
   {
     for (int x = static_cast<int>(select.get_left()); x < static_cast<int>(select.get_right()); x++)
     {
-      if ( x < 0 || y < 0 || x >= w || y >= h)
+      if (!is_position_inside_tilemap(tilemap, Vector(x, y)))
       {
         tiles->m_tiles.push_back(0);
       }
