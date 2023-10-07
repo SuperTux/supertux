@@ -16,22 +16,15 @@
 
 #include "supertux/menu/editor_levelset_menu.hpp"
 
-#include "gui/menu_item.hpp"
 #include "editor/editor.hpp"
+#include "gui/menu_item.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
-EditorLevelsetMenu::EditorLevelsetMenu():
-  world(Editor::current()->get_world()),
-  levelset_type()
-{
-  initialize();
-}
-
 EditorLevelsetMenu::EditorLevelsetMenu(World* world_):
-  world(world_),
-  levelset_type()
+  m_world(world_),
+  m_levelset_type()
 {
   initialize();
 }
@@ -40,7 +33,7 @@ EditorLevelsetMenu::~EditorLevelsetMenu()
 {
   try
   {
-    world->save();
+    m_world->save();
   }
   catch(std::exception& e)
   {
@@ -49,15 +42,15 @@ EditorLevelsetMenu::~EditorLevelsetMenu()
 }
 
 void
-EditorLevelsetMenu::initialize() {
-
-  levelset_type = world->is_levelset() ? 1 : 0;
+EditorLevelsetMenu::initialize()
+{
+  m_levelset_type = m_world->is_levelset() ? 1 : 0;
 
   add_label(_("World Settings"));
   add_hl();
-  add_textfield(_("Name"), &world->m_title);
-  add_textfield(_("Description"), &world->m_description);
-  add_string_select(1, _("Type"), &levelset_type, {_("Worldmap"), _("Levelset")});
+  add_textfield(_("Name"), &m_world->m_title);
+  add_textfield(_("Description"), &m_world->m_description);
+  add_string_select(1, _("Type"), &m_levelset_type, {_("Worldmap"), _("Levelset")});
   add_hl();
   add_back(_("OK"));
 }
@@ -65,14 +58,8 @@ EditorLevelsetMenu::initialize() {
 void
 EditorLevelsetMenu::menu_action(MenuItem& item)
 {
-  switch (item.get_id())
-  {
-  case 1:
-    world->m_is_levelset = (levelset_type == 1);
-    break;
-  default:
-    break;
-  }
+  if (item.get_id() == 1)
+    m_world->m_is_levelset = (m_levelset_type == 1);
 }
 
 /* EOF */
