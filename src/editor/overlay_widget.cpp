@@ -127,34 +127,31 @@ EditorOverlayWidget::delete_markers()
 Rectf
 EditorOverlayWidget::drag_rect() const
 {
-  int start_x, start_y, end_x, end_y;
+  float start_x, start_y, end_x, end_y;
 
   if (m_drag_start.x < m_sector_pos.x)
   {
-    start_x = static_cast<int>(m_drag_start.x);
-    end_x = static_cast<int>(m_sector_pos.x);
+    start_x = m_drag_start.x;
+    end_x = m_sector_pos.x;
   }
   else
   {
-    start_x = static_cast<int>(m_sector_pos.x);
-    end_x = static_cast<int>(m_drag_start.x);
+    start_x = m_sector_pos.x;
+    end_x = m_drag_start.x;
   }
 
   if (m_drag_start.y < m_sector_pos.y)
   {
-    start_y = static_cast<int>(m_drag_start.y);
-    end_y = static_cast<int>(m_sector_pos.y);
+    start_y = m_drag_start.y;
+    end_y = m_sector_pos.y;
   }
   else
   {
-    start_y = static_cast<int>(m_sector_pos.y);
-    end_y = static_cast<int>(m_drag_start.y);
+    start_y = m_sector_pos.y;
+    end_y = m_drag_start.y;
   }
 
-  return Rectf( static_cast<float>(start_x),
-                static_cast<float>(start_y),
-                static_cast<float>(end_x),
-                static_cast<float>(end_y) );
+  return Rectf(start_x, start_y, end_x, end_y);
 }
 
 void
