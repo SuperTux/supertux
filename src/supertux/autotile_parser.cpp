@@ -197,8 +197,8 @@ AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask>& autotile
   if (mask.size() != mask_size)
   {
     std::ostringstream msg;
-    msg << is_corner ? "Autotile config : corner-based mask isn't exactly 4 characters." : 
-                       "Autotile config : mask isn't exactly 8 characters.";
+    msg << (is_corner ? "Autotile config : corner-based mask isn't exactly 4 characters." : 
+                       "Autotile config : mask isn't exactly 8 characters.");
     throw std::runtime_error(msg.str());
   }
 
@@ -206,7 +206,7 @@ AutotileParser::parse_mask(std::string mask, std::vector<AutotileMask>& autotile
 
   masks.push_back(0);
 
-  for (int i = 0; i < mask_size; i++)
+  for (size_t i = 0; i < mask_size; i++)
   {
     std::vector<uint8_t> new_masks;
     switch (mask[i])
