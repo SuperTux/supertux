@@ -16,21 +16,24 @@
 
 #include "gui/menu.hpp"
 
-class Levelset;
 class EditorLevelSelectMenu;
 class EditorLevelsetSelectMenu;
+class Levelset;
+class World;
 
 class EditorDeleteLevelMenu final : public Menu
 {
 private:
-  std::unique_ptr<Levelset>& m_levelset;
+  Levelset* m_levelset;
+
   std::vector<std::string> m_level_full_paths;
   std::vector<std::string> m_level_names;
   EditorLevelSelectMenu* m_level_select_menu;
   EditorLevelsetSelectMenu* m_levelset_select_menu;
 
 public:
-  EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu);
+  EditorDeleteLevelMenu(World* world, Levelset* levelset,
+                        EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu);
 
   virtual void refresh() override;
   virtual void menu_action(MenuItem& item) override;
@@ -39,4 +42,5 @@ private:
   EditorDeleteLevelMenu(const EditorDeleteLevelMenu&) = delete;
   EditorDeleteLevelMenu& operator=(const EditorDeleteLevelMenu&) = delete;
 };
+
 /* EOF */

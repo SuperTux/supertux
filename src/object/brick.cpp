@@ -140,11 +140,10 @@ Brick::try_break(Player* player, bool slider)
     if (player) {
       if (player->is_big()) {
         start_break(player);
-        return;
       } else {
         start_bounce(player);
-        return;
       }
+      return;
     }
     break_me();
   }
