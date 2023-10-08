@@ -46,10 +46,6 @@ Key::Key(const ReaderMapping& reader) :
   if (reader.get("color", vColor)) {
     m_color = Color(vColor);
   }
-  else
-  {
-      m_color = Color::WHITE;
-  }
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(m_color);
 

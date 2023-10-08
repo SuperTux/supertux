@@ -50,7 +50,7 @@ SquirrelThreadQueue::wakeup()
   std::vector<HSQOBJECT> threads = std::move(m_threads);
   m_threads.clear();
 
-  for (HSQOBJECT object : threads)
+  for (HSQOBJECT& object : threads)
   {
     sq_pushobject(m_vm.get_vm(), object);
     sq_getweakrefval(m_vm.get_vm(), -1);

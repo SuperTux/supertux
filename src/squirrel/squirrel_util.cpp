@@ -249,7 +249,7 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
   }
 }
 
-HSQUIRRELVM object_to_vm(HSQOBJECT object)
+HSQUIRRELVM object_to_vm(const HSQOBJECT& object)
 {
   if (object._type != OT_THREAD)
     return nullptr;

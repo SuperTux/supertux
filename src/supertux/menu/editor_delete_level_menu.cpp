@@ -19,16 +19,18 @@
 #include <physfs.h>
 #include <fmt/format.h>
 
-#include "supertux/levelset.hpp"
-#include "supertux/level_parser.hpp"
+#include "editor/editor.hpp"
+#include "gui/dialog.hpp"
+#include "gui/menu_item.hpp"
 #include "supertux/level.hpp"
+#include "supertux/level_parser.hpp"
+#include "supertux/levelset.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "util/file_system.hpp"
-#include "editor/editor.hpp"
-#include "gui/menu_item.hpp"
-#include "gui/dialog.hpp"
-EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset, EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu) :
+
+EditorDeleteLevelMenu::EditorDeleteLevelMenu(World* world, Levelset* levelset,
+                                             EditorLevelSelectMenu* level_select_menu, EditorLevelsetSelectMenu* levelset_select_menu) :
   m_levelset(levelset),
   m_level_full_paths(),
   m_level_names(),
@@ -38,7 +40,7 @@ EditorDeleteLevelMenu::EditorDeleteLevelMenu(std::unique_ptr<Levelset>& levelset
   for (int i = 0; i < levelset->get_num_levels(); i++)
   {
     std::string filename = levelset->get_level_filename(i);
-    std::string fullpath = FileSystem::join(Editor::current()->get_world()->get_basedir(),filename);
+    std::string fullpath = FileSystem::join(world->get_basedir(), filename);
     m_level_full_paths.push_back(fullpath);
     const std::string& level_name = LevelParser::get_level_name(fullpath);
     m_level_names.push_back(level_name);
