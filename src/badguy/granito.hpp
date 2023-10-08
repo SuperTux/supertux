@@ -28,6 +28,7 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
+  virtual HitResponse collision(GameObject &other, const CollisionHit &hit) override;
 
   static std::string class_name() { return "granito"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -40,10 +41,10 @@ public:
   virtual void kill_fall() override;
 
   GameObjectTypes get_types() const override;
+  virtual void after_editor_set() override;
 
 protected:
   virtual void initialize() override;
-  virtual void on_type_change(int old_type) override;
 
   void activate() override;
 

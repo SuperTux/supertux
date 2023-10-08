@@ -38,11 +38,12 @@ Granito::Granito(const ReaderMapping& reader):
 
 void Granito::active_update(float dt_sec)
 {
-  if (get_velocity_y() != 0)
+  if (!on_ground() && get_velocity_y() != 0)
   {
-    if (get_velocity_y() < 0)
+    // a bit of clearance
+    if (get_velocity_y() < 5)
       set_action("jump", m_dir);
-    else if (get_velocity_y() > 0)
+    else if (get_velocity_y() > 5)
       set_action("fall", m_dir);
   }
   else if (on_ground() && m_state == m_original_state)
@@ -172,7 +173,7 @@ HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
   if (hit.top)
   {
     m_stepped_on = true;
-    //m_col.propagate_movement(m_col.get_movement());
+
     if (m_state != STATE_LOOKUP)
     {
       m_state = STATE_LOOKUP;
@@ -187,6 +188,11 @@ HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
   }
 
   return FORCE_MOVE;
+}
+
+HitResponse Granito::collision(GameObject &other, const CollisionHit &hit) {
+  m_col.propagate_movement(m_col.get_movement());
+  return WalkingBadguy::collision(other, hit);
 }
 
 void Granito::kill_fall()
@@ -209,6 +215,26 @@ GameObjectTypes Granito::get_types() const
   };
 }
 
+void Granito::after_editor_set()
+{
+  WalkingBadguy::after_editor_set();
+
+  switch (m_type)
+  {
+    case WALK:
+      set_action(m_dir);
+      break;
+
+    case SIT:
+      set_action("sit", m_dir);
+      break;
+
+    case STAND:
+      set_action("stand", m_dir);
+      break;
+  }
+}
+
 void Granito::initialize()
 {
   WalkingBadguy::initialize();
@@ -229,11 +255,6 @@ void Granito::initialize()
   }
 
   set_colgroup_active(COLGROUP_MOVING_STATIC);
-}
-
-void Granito::on_type_change(__attribute__((unused)) int old_type)
-{
-  // FIXME: change action for type in editor
 }
 
 bool Granito::try_wave()
@@ -285,7 +306,7 @@ bool Granito::try_jump()
   float inc = (m_dir == Direction::LEFT ? -32.f*1.25f : 32.f*.25f);
 
   detect.set_pos({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()) + inc, detect.get_top()});
-  if (Sector::get().is_free_of_tiles(detect)) return false;
+  if (Sector::get().is_free_of_tiles(detect, false, Tile::SOLID | ~Tile::SLOPE)) return false;
 
   detect.set_pos({detect.get_left(), detect.get_top() - (32.f*2)});
   if (!Sector::get().is_free_of_tiles(detect)) return false;
