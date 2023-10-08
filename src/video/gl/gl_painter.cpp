@@ -85,10 +85,10 @@ GLPainter::draw_texture(const TextureRequest& request)
 
   for (size_t i = 0; i < request.srcrects.size(); ++i)
   {
-    const float left = request.dstrects[i].get_left();
-    const float top = request.dstrects[i].get_top();
-    const float right  = request.dstrects[i].get_right();
-    const float bottom = request.dstrects[i].get_bottom();
+    const float& left = request.dstrects[i].get_left();
+    const float& top = request.dstrects[i].get_top();
+    const float& right  = request.dstrects[i].get_right();
+    const float& bottom = request.dstrects[i].get_bottom();
 
     float uv_left = request.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
     float uv_top = request.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
@@ -291,10 +291,10 @@ GLPainter::draw_filled_rect(const FillRectRequest& request)
   }
   else
   {
-    const float x = request.rect.get_left();
-    const float y = request.rect.get_top();
-    const float w = request.rect.get_width();
-    const float h = request.rect.get_height();
+    const float& x = request.rect.get_left();
+    const float& y = request.rect.get_top();
+    const float& w = request.rect.get_width();
+    const float& h = request.rect.get_height();
 
     const float vertices[] = {
       x,   y,
@@ -316,8 +316,8 @@ GLPainter::draw_inverse_ellipse(const InverseEllipseRequest& request)
 {
   assert_gl();
 
-  const float x = request.pos.x;
-  const float y = request.pos.y;
+  const float& x = request.pos.x;
+  const float& y = request.pos.y;
   const float w = request.size.x/2.0f;
   const float h = request.size.y/2.0f;
 
@@ -399,10 +399,10 @@ GLPainter::draw_line(const LineRequest& request)
   assert_gl();
 
   Vector viewport_scale = m_video_system.get_viewport().get_scale();
-  const float x1 = request.pos.x;
-  const float y1 = request.pos.y;
-  const float x2 = request.dest_pos.x;
-  const float y2 = request.dest_pos.y;
+  const float& x1 = request.pos.x;
+  const float& y1 = request.pos.y;
+  const float& x2 = request.dest_pos.x;
+  const float& y2 = request.dest_pos.y;
 
   // OpenGL3.3 doesn't have GL_LINES anymore, so instead we transform
   // the line into a quad and draw it as triangle strip.
