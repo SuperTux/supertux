@@ -29,8 +29,10 @@
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::string>& extensions,
-                               const std::string& basedir, bool path_relative_to_basedir, std::function<void(std::string)> callback,
-                               const std::function<void (MenuItem&)>& item_processor) :
+                               const std::string& basedir, bool path_relative_to_basedir,
+                               std::function<void(std::string)> callback,
+                               const std::function<void (MenuItem&)>& item_processor,
+                               std::function<std::string(std::string)> generate_help_text_for_file) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point
@@ -41,7 +43,8 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
   m_files(),
   m_path_relative_to_basedir(path_relative_to_basedir),
   m_callback(std::move(callback)),
-  m_item_processor(std::move(item_processor))
+  m_item_processor(std::move(item_processor)),
+  m_generate_help_text_for_file(generate_help_text_for_file)
 {
   AddonManager::current()->unmount_old_addons();
 
@@ -110,6 +113,12 @@ FileSystemMenu::refresh_items()
     MenuItem& menu_item = add_entry(item_id, item);
     if (in_basedir && m_item_processor)
       m_item_processor(menu_item);
+
+    std::string help_text = m_generate_help_text_for_file ? m_generate_help_text_for_file(FileSystem::join(m_directory, item)) : "";
+
+    if (!help_text.empty()) {
+      menu_item.set_help(help_text);
+    }
 
     item_id++;
   }

@@ -1,5 +1,7 @@
 (supertux-music
   (file "ice_music.ogg")
+  (author "ZhayTee")
+  (title "supertux ice level")
   (loop-begin 0)
   (loop-at    137)
 )

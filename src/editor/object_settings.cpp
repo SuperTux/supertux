@@ -19,6 +19,8 @@
 #include <assert.h>
 #include <sexp/value.hpp>
 
+#include "audio/sound_file.hpp"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
@@ -219,9 +221,10 @@ ObjectSettings::add_file(const std::string& text, std::string* value_ptr,
                          const std::vector<std::string>& filter,
                          const std::string& basedir,
                          bool path_relative_to_basedir,
-                         unsigned int flags)
+                         unsigned int flags,
+                         std::function<std::string(std::string)> generate_help_text_for_file)
 {
-  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, basedir, path_relative_to_basedir, flags));
+  add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, basedir, path_relative_to_basedir, flags, generate_help_text_for_file));
 }
 
 void
@@ -294,7 +297,35 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
                           std::optional<std::string> default_value,
                           unsigned int flags)
 {
-  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, false, flags);
+  auto generate_help_text_for_file = [](std::string path) -> std::string
+  {
+    std::string filename = FileSystem::basename(path);
+    std::unique_ptr<SoundFile> sound_file;
+    try {
+      sound_file = load_sound_file(path);
+    } catch (...) {
+      return "";
+    }
+
+    std::string& author = sound_file->m_author;
+    std::string& license = sound_file->m_license;
+    std::string& title = sound_file->m_title;
+
+    bool hasMusicMetadata = !title.empty() || !author.empty() || !license.empty();
+    if (!hasMusicMetadata) {
+      return "";
+    }
+
+    std::string title_or_filename = title.empty() ? filename : "\"" + title + "\""; // assumes path is just a filename
+
+    std::string help_text =
+        title_or_filename + (author.empty() ? "" : "\n by " + author)
+        + (license.empty() ? "" : "\nLicense: " + license);
+
+    return help_text;
+  };
+
+  add_file(text, value_ptr, key, std::move(default_value), {".music"}, {"/music"}, false, flags, generate_help_text_for_file);
 }
 
 void

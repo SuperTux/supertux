@@ -16,6 +16,7 @@
 
 #include "gui/menu.hpp"
 
+#include "audio/sound_file.hpp"
 #include "control/input_manager.hpp"
 #include "gui/item_action.hpp"
 #include "gui/item_back.hpp"
@@ -47,6 +48,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "util/file_system.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
@@ -284,13 +286,14 @@ Menu::add_string_select(int id, const std::string& text, int default_item, const
 ItemAction&
 Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                const std::string& basedir, bool path_relative_to_basedir,
-               const std::function<void (MenuItem&)>& item_processor, int id)
+               const std::function<void (MenuItem&)>& item_processor,
+               const std::function<std::string(std::string)> generate_help_text_for_file, int id)
 {
   auto item = std::make_unique<ItemAction>(text, id,
-    [input, extensions, basedir, path_relative_to_basedir, item_processor]()
+    [input, extensions, basedir, path_relative_to_basedir, item_processor, generate_help_text_for_file]()
     {
       MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(input, extensions, basedir,
-          path_relative_to_basedir, nullptr, item_processor));
+          path_relative_to_basedir, nullptr, item_processor, generate_help_text_for_file));
     });
   auto item_ptr = item.get();
   add_item(std::move(item));

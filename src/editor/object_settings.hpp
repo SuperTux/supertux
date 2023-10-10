@@ -144,7 +144,8 @@ public:
                 const std::vector<std::string>& filter = {},
                 const std::string& basedir = {},
                 bool path_relative_to_basedir = true,
-                unsigned int flags = 0);
+                unsigned int flags = 0,
+                std::function<std::string(std::string)> generate_help_text_for_file = nullptr);
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
   void add_string_array(const std::string& text, const std::string& key, std::vector<std::string>& items);
