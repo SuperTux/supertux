@@ -336,7 +336,7 @@ Sector::calculate_foremost_layer() const
       }
     }
   }
-  log_debug << "Calculated baduy falling layer was: " << layer << std::endl;
+  log_debug << "Calculated badguy falling layer was: " << layer << std::endl;
   return layer;
 }
 
