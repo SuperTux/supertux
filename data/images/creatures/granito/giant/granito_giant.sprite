@@ -1,14 +1,16 @@
 (supertux-sprite
   (action
     (name "left")
-	(hitbox 85 27 90 156)
+	  (hitbox 85 27 90 156)
+    (unisolid #t)
     (fps 6)
     (images "granito_sleep.png"
             )
   )
   (action
     (name "right")
-	(hitbox 47 27 90 156)
+	  (hitbox 47 27 90 156)
+    (unisolid #t)
     (fps 6)
     (mirror-action "left")
   )
