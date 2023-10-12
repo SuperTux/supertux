@@ -44,7 +44,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
-  GameObjectTypes get_types() const override;
+  virtual GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
   /** Adds velocity from wind */
