@@ -19,7 +19,7 @@
 
 #include <iostream>
 
-class ObjectOption;
+template<typename T> class ObjectOption;
 
 enum class Direction { AUTO, NONE, LEFT, RIGHT, UP, DOWN };
 

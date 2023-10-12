@@ -71,7 +71,7 @@ EditorOverlayWidget::EditorOverlayWidget(Editor& editor) :
   m_selected_object(nullptr),
   m_edited_path(nullptr),
   m_last_node_marker(nullptr),
-  m_object_tip(),
+  m_object_tip(new Tip()),
   m_obj_mouse_desync(0, 0),
   m_rectangle_preview(new TileSelection())
 {
@@ -87,7 +87,7 @@ EditorOverlayWidget::update(float dt_sec)
   if (m_hovered_object && !m_hovered_object->is_valid())
   {
     m_hovered_object = nullptr;
-    m_object_tip = nullptr;
+    m_object_tip->set_visible(false);
   }
 
   if (m_selected_object && !m_selected_object->is_valid())
@@ -127,34 +127,31 @@ EditorOverlayWidget::delete_markers()
 Rectf
 EditorOverlayWidget::drag_rect() const
 {
-  int start_x, start_y, end_x, end_y;
+  float start_x, start_y, end_x, end_y;
 
   if (m_drag_start.x < m_sector_pos.x)
   {
-    start_x = static_cast<int>(m_drag_start.x);
-    end_x = static_cast<int>(m_sector_pos.x);
+    start_x = m_drag_start.x;
+    end_x = m_sector_pos.x;
   }
   else
   {
-    start_x = static_cast<int>(m_sector_pos.x);
-    end_x = static_cast<int>(m_drag_start.x);
+    start_x = m_sector_pos.x;
+    end_x = m_drag_start.x;
   }
 
   if (m_drag_start.y < m_sector_pos.y)
   {
-    start_y = static_cast<int>(m_drag_start.y);
-    end_y = static_cast<int>(m_sector_pos.y);
+    start_y = m_drag_start.y;
+    end_y = m_sector_pos.y;
   }
   else
   {
-    start_y = static_cast<int>(m_sector_pos.y);
-    end_y = static_cast<int>(m_drag_start.y);
+    start_y = m_sector_pos.y;
+    end_y = m_drag_start.y;
   }
 
-  return Rectf( static_cast<float>(start_x),
-                static_cast<float>(start_y),
-                static_cast<float>(end_x),
-                static_cast<float>(end_y) );
+  return Rectf(start_x, start_y, end_x, end_y);
 }
 
 void
@@ -185,15 +182,11 @@ EditorOverlayWidget::input_autotile(const Vector& pos, uint32_t tile)
   float x = pos.x;
   float y = pos.y;
 
-  this->autotile(Vector(x - 1.0f, y - 1.0f), tile);
-  this->autotile(Vector(x       , y - 1.0f), tile);
-  this->autotile(Vector(x + 1.0f, y - 1.0f), tile);
-  this->autotile(Vector(x - 1.0f, y       ), tile);
-  this->autotile(Vector(x       , y       ), tile);
-  this->autotile(Vector(x + 1.0f, y       ), tile);
-  this->autotile(Vector(x - 1.0f, y + 1.0f), tile);
-  this->autotile(Vector(x       , y + 1.0f), tile);
-  this->autotile(Vector(x + 1.0f, y + 1.0f), tile);
+  for(float posY = y - 1.0f; posY <= y + 1.0f; posY++)
+    for(float posX = x - 1.0f; posX <= x + 1.0f; posX++)
+    {
+      this->autotile(Vector(posX, posY), tile);
+    }
 }
 
 void
@@ -571,7 +564,7 @@ EditorOverlayWidget::replace()
 void
 EditorOverlayWidget::hover_object()
 {
-  m_object_tip = nullptr;
+  m_object_tip->set_visible(false);
   m_hovered_object = nullptr;
 
   BezierMarker* marker_hovered_without_ctrl = nullptr;
@@ -581,7 +574,7 @@ EditorOverlayWidget::hover_object()
 
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
-    Rectf bbox = moving_object.get_bbox();
+    const Rectf& bbox = moving_object.get_bbox();
     if (bbox.contains(m_sector_pos))
     {
       if (&moving_object != m_hovered_object)
@@ -623,7 +616,7 @@ EditorOverlayWidget::hover_object()
   }
 
   if (m_hovered_object && m_hovered_object->has_settings() && !m_editor.has_active_toolbox_tip()) {
-    m_object_tip = std::make_unique<Tip>(*m_hovered_object);
+    m_object_tip->set_info_for_object(*m_hovered_object);
   }
 
   // (2/2) ...but select them anyways if they weren't hovering a node marker
@@ -833,7 +826,7 @@ EditorOverlayWidget::rubber_rect()
   Rectf dr = drag_rect();
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
-    Rectf bbox = moving_object.get_bbox();
+    const Rectf& bbox = moving_object.get_bbox();
     if (dr.contains(bbox)) {
       moving_object.editor_delete();
     }
@@ -1066,13 +1059,11 @@ EditorOverlayWidget::update_tile_selection()
   tiles->m_width = static_cast<int>(select.get_width());
   tiles->m_height = static_cast<int>(select.get_height());
 
-  int w = static_cast<int>(tilemap->get_width());
-  int h = static_cast<int>(tilemap->get_height());
   for (int y = static_cast<int>(select.get_top()); y < static_cast<int>(select.get_bottom()); y++)
   {
     for (int x = static_cast<int>(select.get_left()); x < static_cast<int>(select.get_right()); x++)
     {
-      if ( x < 0 || y < 0 || x >= w || y >= h)
+      if (!is_position_inside_tilemap(tilemap, Vector(x, y)))
       {
         tiles->m_tiles.push_back(0);
       }
@@ -1281,12 +1272,9 @@ EditorOverlayWidget::draw_tile_tip(DrawingContext& context)
       {
         Vector on_tile = m_hovered_tile + drawn_tile;
 
-        if (on_tile.x < 0 ||
-            on_tile.y < 0 ||
-            on_tile.x >= static_cast<float>(tilemap->get_width()) ||
-            on_tile.y >= static_cast<float>(tilemap->get_height()) ||
+        if (!is_position_inside_tilemap(tilemap, on_tile) ||
             on_tile.x >= ceilf(screen_corner.x / 32) ||
-            on_tile.y >= ceilf(screen_corner.y / 32)) 
+            on_tile.y >= ceilf(screen_corner.y / 32))
         {
           continue;
         }
@@ -1325,10 +1313,7 @@ EditorOverlayWidget::draw_rectangle_preview(DrawingContext& context)
     {
       Vector on_tile = corner + drawn_tile;
 
-      if (on_tile.x < 0 ||
-          on_tile.y < 0 ||
-          on_tile.x >= static_cast<float>(tilemap->get_width()) ||
-          on_tile.y >= static_cast<float>(tilemap->get_height()) ||
+      if (!is_position_inside_tilemap(tilemap, on_tile) ||
           on_tile.x >= ceilf(screen_corner.x / 32) ||
           on_tile.y >= ceilf(screen_corner.y / 32))
       {
@@ -1502,9 +1487,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
     }
   }
 
-  if (m_object_tip) {
-    m_object_tip->draw(context, m_mouse_pos);
-  }
+  m_object_tip->draw(context, m_mouse_pos);
 
   if (m_dragging && m_editor.get_tileselect_select_mode() == 1
       && !m_dragging_right)

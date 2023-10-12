@@ -12530,6 +12530,25 @@ static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Level_has_active_sequence_wrapper(HSQUIRRELVM vm)
+{
+
+  try {
+    bool return_value = scripting::Level_has_active_sequence();
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_has_active_sequence'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -13997,6 +14016,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_finish'");
+  }
+
+  sq_pushstring(v, "Level_has_active_sequence", -1);
+  sq_newclosure(v, &Level_has_active_sequence_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_has_active_sequence'");
   }
 
   sq_pushstring(v, "Level_spawn", -1);

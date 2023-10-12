@@ -35,6 +35,7 @@ SpriteData::Action::Action() :
   y_offset(0),
   hitbox_w(0),
   hitbox_h(0),
+  hitbox_unisolid(false),
   fps(10),
   loops(-1),
   loop_frame(1),
@@ -127,6 +128,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         throw std::runtime_error("hitbox should specify 2/4 coordinates");
     }
   }
+  mapping.get("unisolid", action->hitbox_unisolid);
   mapping.get("fps", action->fps);
   if (mapping.get("loops", action->loops))
   {

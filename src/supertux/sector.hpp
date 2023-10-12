@@ -22,6 +22,7 @@
 #include <vector>
 #include <stdint.h>
 
+#include "collision/collision_system.hpp"
 #include "math/anchor_point.hpp"
 #include "math/easing.hpp"
 #include "math/fwd.hpp"
@@ -34,7 +35,6 @@ class Constraints;
 }
 
 class Camera;
-class CollisionSystem;
 class CollisionGroundMovementManager;
 class DisplayEffect;
 class DrawingContext;
@@ -109,6 +109,10 @@ public:
       This includes badguys and players. */
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
 
+  CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
+                                                             const Vector& line_end,
+                                                             bool ignore_objects,
+                                                             const CollisionObject* ignore_object) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
