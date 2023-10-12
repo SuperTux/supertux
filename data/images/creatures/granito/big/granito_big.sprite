@@ -2,7 +2,6 @@
 	(action
 	  (name "stand-left")
 	  (hitbox 22 20 44 62)
-    (unisolid #t)
 	  (fps 10)
 	  (images "granito_stand-0.png"
 			  "granito_stand-1.png"
@@ -48,7 +47,6 @@
 	(action
 	  (name "stand-right")
 	  (hitbox 18 20 44 62)
-    (unisolid #t)
 	  (fps 10)
 	  (mirror-action "stand-left")
 	)
@@ -56,7 +54,6 @@
 	(action
 	  (name "walk-left")
 	  (hitbox 22 20 44 62)
-    (unisolid #t)
 	  (fps 10)
 	  (images "granito_walk-0.png"
 			  "granito_walk-1.png"
@@ -70,7 +67,6 @@
 	(action
 	  (name "walk-right")
 	  (hitbox 18 20 44 62)
-    (unisolid #t)
 	  (fps 10)
 	  (mirror-action "walk-left")
 	)
