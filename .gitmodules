@@ -4,13 +4,13 @@
 [submodule "external/squirrel"]
 	path = external/squirrel
 	url = https://github.com/albertodemichelis/squirrel.git
-[submodule "external/sexp-cpp"]
+[submodule "external/sexp"]
 	path = external/sexp
 	url = https://github.com/SuperTux/sexp-cpp.git
 [submodule "external/physfs"]
 	path = external/physfs
 	url = https://github.com/SuperTux/physfs.git
-[submodule "external/SDL_ttf"]
+[submodule "external/SDL2_ttf"]
 	path = external/SDL2_ttf
 	url = https://github.com/SuperTux/SDL_ttf
 [submodule "discord-sdk"]
