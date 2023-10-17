@@ -182,8 +182,6 @@ SkyDive::explode()
     auto& explosion = Sector::get().add<Explosion>(
       get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM), EXPLOSION_STRENGTH_DEFAULT);
 
-    explosion.hurts(true);
-
     remove_me();
   }
 }
