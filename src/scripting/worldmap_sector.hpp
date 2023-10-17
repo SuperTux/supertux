@@ -87,7 +87,7 @@ public:
   /**
    * Gets the path to the worldmap file. Useful for saving worldmap specific data.
    */
-  const std::string& get_filename();
+  std::string get_filename() const;
 
 };
 

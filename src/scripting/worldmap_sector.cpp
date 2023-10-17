@@ -59,8 +59,8 @@ WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint)
   m_parent->move_to_spawnpoint(spawnpoint);
 }
 
-const std::string&
-WorldMapSector::get_filename()
+std::string
+WorldMapSector::get_filename() const
 {
   SCRIPT_GUARD_WORLDMAP;
   return worldmap.get_filename();

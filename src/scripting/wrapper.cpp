@@ -11523,7 +11523,7 @@ static SQInteger WorldMapSector_get_filename_wrapper(HSQUIRRELVM vm)
 
 
   try {
-    const std::string& return_value = _this->get_filename();
+    std::string return_value = _this->get_filename();
 
     assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
     sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
