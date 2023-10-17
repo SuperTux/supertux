@@ -13,7 +13,6 @@
     )
     (background
       (color 0.9999999 0.9999999 0.9999999)
-      (alignment "top")
       (scroll-speed-x -2)
       (speed 0)
       (image "/images/background/misc/clouds.png")
@@ -43,8 +42,7 @@
     )
     (background
       (color 1 1 1)
-      (alignment "top")
-      (scroll-speed-x -0.5)
+      (scroll-speed-x -0.1)
       (speed 0)
       (image "/images/background/misc/skybox.png")
       (z-pos -240)
