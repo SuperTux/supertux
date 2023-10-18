@@ -1,0 +1,12 @@
+(supertux-sprite
+  (action
+    (name "flying-left")
+    (hitbox 6 13 20 8)
+    (images "dart_root.png")
+    )
+  (action
+    (name "flying-right")
+    (hitbox 6 13 20 8)
+    (mirror-action "flying-left")
+    )
+  )
