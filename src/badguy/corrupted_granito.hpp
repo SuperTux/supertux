@@ -1,4 +1,4 @@
-//  SkullyHop - A Hopping Skull
+//  Corrupted Granito - A "Evil" Granito
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -14,16 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_SKULLYHOP_HPP
-#define HEADER_SUPERTUX_BADGUY_SKULLYHOP_HPP
+#ifndef HEADER_SUPERTUX_BADGUY_CORRUPTEDGRANITO_HPP
+#define HEADER_SUPERTUX_BADGUY_CORRUPTEDGRANITO_HPP
 
 #include "badguy/badguy.hpp"
 
-/** Badguy "SkullyHop" - A Hopping Skull */
-class SkullyHop final : public BadGuy
+/** Badguy "Corrupted Granito" - A "Evil" Granito */
+class CorruptedGranito final : public BadGuy
 {
 public:
-  SkullyHop(const ReaderMapping& reader);
+  CorruptedGranito(const ReaderMapping& reader);
 
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
@@ -33,29 +33,29 @@ public:
 
   virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
-  static std::string class_name() { return "skullyhop"; }
+  static std::string class_name() { return "corrupted_granito"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Skullyhop"); }
+  static std::string display_name() { return _("Corrupted Granito"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
 
 private:
-  enum SkullyHopState {
+  enum CorruptedGranitoState {
     STANDING,
     CHARGING,
     JUMPING
   };
 
 private:
-  void set_state(SkullyHopState newState);
+  void set_state(CorruptedGranitoState newState);
 
 private:
   Timer recover_timer;
-  SkullyHopState state;
+  CorruptedGranitoState state;
 
 private:
-  SkullyHop(const SkullyHop&) = delete;
-  SkullyHop& operator=(const SkullyHop&) = delete;
+  CorruptedGranito(const CorruptedGranito&) = delete;
+  CorruptedGranito& operator=(const CorruptedGranito&) = delete;
 };
 
 #endif

@@ -1,4 +1,4 @@
-//  SkullyHop - A Hopping Skull
+//  Corrupted Granito - A "Evil" Granito
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -14,27 +14,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/skullyhop.hpp"
+#include "badguy/corrupted_granito.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 
 namespace {
-const std::string SKULLYHOP_SOUND = "sounds/hop.ogg";
+const std::string CORRUPTED_GRANITO_SOUND = "sounds/hop.ogg";
 const float HORIZONTAL_SPEED = 220; /**< X-speed when jumping. */
 const float VERTICAL_SPEED = -450;   /**< Y-speed when jumping. */
 }
 
-SkullyHop::SkullyHop(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite"),
+CorruptedGranito::CorruptedGranito(const ReaderMapping& reader) :
+  BadGuy(reader, "images/creatures/grantio/corrupted/corrupted_granito.sprite"),
   recover_timer(),
   state()
 {
-  SoundManager::current()->preload( SKULLYHOP_SOUND );
+  SoundManager::current()->preload( CORRUPTED_GRANITO_SOUND );
 }
 
 void
-SkullyHop::initialize()
+CorruptedGranito::initialize()
 {
   // The initial state is JUMPING, because we might start airborne.
   state = JUMPING;
@@ -42,7 +42,7 @@ SkullyHop::initialize()
 }
 
 void
-SkullyHop::set_state(SkullyHopState newState)
+CorruptedGranito::set_state(CorruptedGranitoState newState)
 {
   if (newState == STANDING) {
     m_physic.set_velocity(0, 0);
@@ -57,14 +57,14 @@ SkullyHop::set_state(SkullyHopState newState)
         set_action("jumping", m_dir);
         m_physic.set_velocity_x(m_dir == Direction::LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
         m_physic.set_velocity_y(VERTICAL_SPEED);
-        SoundManager::current()->play( SKULLYHOP_SOUND, get_pos());
+        SoundManager::current()->play( CORRUPTED_GRANITO_SOUND, get_pos());
       }
 
   state = newState;
 }
 
 bool
-SkullyHop::collision_squished(GameObject& object)
+CorruptedGranito::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
@@ -75,7 +75,7 @@ SkullyHop::collision_squished(GameObject& object)
 }
 
 void
-SkullyHop::collision_solid(const CollisionHit& hit)
+CorruptedGranito::collision_solid(const CollisionHit& hit)
 {
   if (m_frozen || BadGuy::get_state() == STATE_BURNING)
   {
@@ -110,7 +110,7 @@ SkullyHop::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-SkullyHop::collision_badguy(BadGuy& , const CollisionHit& hit)
+CorruptedGranito::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
   // Behaviour for badguy collisions is the same as for collisions with solids.
   collision_solid(hit);
@@ -119,7 +119,7 @@ SkullyHop::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 void
-SkullyHop::active_update(float dt_sec)
+CorruptedGranito::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
@@ -141,14 +141,14 @@ SkullyHop::active_update(float dt_sec)
 }
 
 void
-SkullyHop::unfreeze(bool melt)
+CorruptedGranito::unfreeze(bool melt)
 {
   BadGuy::unfreeze(melt);
   initialize();
 }
 
 bool
-SkullyHop::is_freezable() const
+CorruptedGranito::is_freezable() const
 {
   return true;
 }
