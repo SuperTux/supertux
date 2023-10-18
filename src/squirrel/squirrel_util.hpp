@@ -27,7 +27,7 @@
 #include "squirrel/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
-typedef std::vector<HSQOBJECT> ScriptList;
+typedef std::vector<HSQOBJECT> SquirrelObjectList;
 
 std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
 void print_squirrel_stack(HSQUIRRELVM vm);

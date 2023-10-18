@@ -47,7 +47,7 @@ SquirrelThreadQueue::add(HSQUIRRELVM vm)
 void
 SquirrelThreadQueue::wakeup()
 {
-  std::vector<HSQOBJECT> threads = std::move(m_threads);
+  SquirrelObjectList threads = std::move(m_threads);
   m_threads.clear();
 
   for (HSQOBJECT& object : threads)
