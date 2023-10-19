@@ -27,12 +27,12 @@
 #include "util/reader_mapping.hpp"
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", get_allowed_directions()[0], LAYER_TILES-1),
+  BadGuy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1),
   m_enabled(true),
   m_initial_delay(),
   m_fire_delay(),
   m_ammo(),
-  m_dart_sprite("images/creatures/dart/dart.sprite"),
+  m_dart_sprite("images/creatures/darttrap/root_dart.sprite"),
   m_state(IDLE),
   m_fire_timer()
 {
@@ -40,7 +40,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
-  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/skull_dart.sprite");
+  reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/granito/root_dart.sprite");
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
@@ -146,7 +146,7 @@ DartTrap::get_settings()
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
   result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
   result.add_int(_("Ammo"), &m_ammo, "ammo");
-  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/skull_dart.sprite");
+  result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/granito/root_dart.sprite");
 
   result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
 

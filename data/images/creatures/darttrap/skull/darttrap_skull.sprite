@@ -1,6 +1,6 @@
 (supertux-sprite
   (action
-    (hitbox -8 2 32 63)
+    (hitbox -8 2 32 64)
     (name "idle-left")
     (loops 1)
     (fps 10)
@@ -12,7 +12,14 @@
     )
   )
   (action
-    (hitbox 2 14 63 32)
+    (hitbox 14 2 32 64)
+    (name "idle-right")
+    (loops 1)
+    (fps 10)
+    (mirror-action "idle-left")
+  )
+  (action
+    (hitbox 2 14 64 32)
     (name "idle-down")
     (loops 1)
     (fps 10)
@@ -24,14 +31,7 @@
     )
   )
   (action
-    (hitbox 14 2 32 63)
-    (name "idle-right")
-    (loops 1)
-    (fps 10)
-    (mirror-action "idle-left")
-  )
-  (action
-    (hitbox 2 -8 63 32)
+    (hitbox 2 -8 64 32)
     (name "idle-up")
     (loops 1)
     (fps 10)
@@ -39,7 +39,7 @@
   )
 
   (action
-    (hitbox -8 2 32 63)
+    (hitbox -8 2 32 64)
     (name "loading-left")
     (loops 1)
     (fps 10)
@@ -51,7 +51,14 @@
     )
   )
   (action
-    (hitbox 2 14 63 32)
+    (hitbox 14 2 32 64)
+    (name "loading-right")
+    (loops 1)
+    (fps 10)
+    (mirror-action "loading-left")
+  )
+  (action
+    (hitbox 2 14 64 32)
     (name "loading-down")
     (loops 1)
     (fps 10)
@@ -63,14 +70,7 @@
     )
   )
   (action
-    (hitbox 14 2 32 63)
-    (name "loading-right")
-    (loops 1)
-    (fps 10)
-    (mirror-action "loading-left")
-  )
-  (action
-    (hitbox 2 -8 63 32)
+    (hitbox 2 -8 64 32)
     (name "loading-up")
     (loops 1)
     (fps 10)
