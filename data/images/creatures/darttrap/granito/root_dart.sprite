@@ -15,8 +15,8 @@
     (images "root_dart_down.png")
     )
   (action
-    (name "flying-right")
+    (name "flying-up")
     (hitbox 13 6 8 20)
-    (mirror-action "flying-left")
+    (flip-action "flying-down")
     )
   )
