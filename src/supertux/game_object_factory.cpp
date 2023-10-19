@@ -166,7 +166,7 @@ GameObjectFactory::init_factories()
   add_factory<BouncingSnowball>("bouncingsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<CaptainSnowball>("captainsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<CorruptedGranito>("skullyhop"); // backward compatibility
-  add_factory<CorruptedGranito>("corruped_granito", OBJ_PARAM_DISPENSABLE);
+  add_factory<CorruptedGranito>("corrupted_granito", OBJ_PARAM_DISPENSABLE);
   add_factory<Crusher>("icecrusher"); // backward compatibility
   add_factory<Crusher>("crusher");
   add_factory<Crystallo>("crystallo", OBJ_PARAM_DISPENSABLE);

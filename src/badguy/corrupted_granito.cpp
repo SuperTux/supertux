@@ -26,7 +26,7 @@ const float VERTICAL_SPEED = -450;   /**< Y-speed when jumping. */
 }
 
 CorruptedGranito::CorruptedGranito(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/grantio/corrupted/corrupted_granito.sprite"),
+  BadGuy(reader, "images/creatures/granito/corrupted/corrupted_granito.sprite"),
   recover_timer(),
   state()
 {
