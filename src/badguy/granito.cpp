@@ -34,10 +34,35 @@ Granito::Granito(const ReaderMapping& reader):
 
   m_countMe = false;
 
+  switch (m_type)
+  {
+    case WALK:
+      set_action(m_dir);
+      break;
+
+    case SIT:
+      set_action("sit", m_dir);
+      break;
+
+    case STAND:
+      set_action("stand", m_dir);
+      break;
+  }
+
+  set_colgroup_active(COLGROUP_MOVING_STATIC);
+  m_col.set_unisolid(true);
 }
 
 void Granito::active_update(float dt_sec)
 {
+  if (m_type == SIT)
+  {
+    // Don't do any extra calculations
+    WalkingBadguy::active_update(dt_sec);
+    m_stepped_on = false;
+    return;
+  }
+
   if (!on_ground() && get_velocity_y() != 0)
   {
     // a bit of clearance
@@ -67,7 +92,7 @@ void Granito::active_update(float dt_sec)
     restore_original_state();
   }
 
-  if (m_type == SIT || m_state == STATE_LOOKUP || m_state == STATE_JUMPING)
+  if (m_state == STATE_LOOKUP || m_state == STATE_JUMPING)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
@@ -235,26 +260,10 @@ void Granito::after_editor_set()
   }
 }
 
-void Granito::initialize()
+void Granito::update_hitbox()
 {
-  WalkingBadguy::initialize();
-
-  switch (m_type)
-  {
-    case WALK:
-      set_action(m_dir);
-      break;
-
-    case SIT:
-      set_action("sit", m_dir);
-      break;
-
-    case STAND:
-      set_action("stand", m_dir);
-      break;
-  }
-
-  set_colgroup_active(COLGROUP_MOVING_STATIC);
+  WalkingBadguy::update_hitbox();
+  m_col.set_unisolid(true);
 }
 
 bool Granito::try_wave()

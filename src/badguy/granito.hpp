@@ -44,7 +44,7 @@ public:
   virtual void after_editor_set() override;
 
 protected:
-  virtual void initialize() override;
+  virtual void update_hitbox() override;
 
   void activate() override;
 
