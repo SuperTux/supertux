@@ -32,7 +32,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   m_initial_delay(),
   m_fire_delay(),
   m_ammo(),
-  m_dart_sprite("images/creatures/darttrap/root_dart.sprite"),
+  m_dart_sprite("images/creatures/darttrap/granito/root_dart.sprite"),
   m_state(IDLE),
   m_fire_timer()
 {

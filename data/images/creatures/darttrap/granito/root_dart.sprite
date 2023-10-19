@@ -2,11 +2,21 @@
   (action
     (name "flying-left")
     (hitbox 6 13 20 8)
-    (images "dart_root.png")
+    (images "root_dart_left.png")
     )
   (action
     (name "flying-right")
     (hitbox 6 13 20 8)
+    (mirror-action "flying-left")
+    )
+  (action
+    (name "flying-down")
+    (hitbox 13 6 8 20)
+    (images "root_dart_down.png")
+    )
+  (action
+    (name "flying-right")
+    (hitbox 13 6 8 20)
     (mirror-action "flying-left")
     )
   )

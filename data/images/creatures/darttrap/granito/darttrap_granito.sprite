@@ -5,12 +5,12 @@
     (images "empty_left.png")
   )
   (action
-    (hitbox 16 -3 32 64)
+    (hitbox 14 -3 32 64)
     (name "idle-right")
     (mirror-action "idle-left")
   )
   (action
-    (hitbox -3 16 64 32)
+    (hitbox -3 14 64 32)
     (name "idle-down")
     (images "empty_down.png")
   )
@@ -26,21 +26,21 @@
 	(fps 15)
 	(loops 1)
     (images 
-      "empty.png"
-      "charge-0.png"
-	  "charge-1.png"
-	  "charge-2.png"
-	  "charge-3.png")
+      "empty_left.png"
+      "charge_left-0.png"
+	  "charge_left-1.png"
+	  "charge_left-2.png"
+	  "charge_left-3.png")
   )
   (action
-    (hitbox 16 -3 32 64)
+    (hitbox 14 -3 32 64)
     (name "loading-right")
 	(fps 15)
 	(loops 1)
     (mirror-action "loading-left")
   )
   (action
-    (hitbox -3 16 64 32)
+    (hitbox -3 14 64 32)
     (name "loading-down")
 	(fps 15)
 	(loops 1)

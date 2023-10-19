@@ -98,7 +98,7 @@
     (icon "images/creatures/zeekling/zeekling-0.png"))
   (object
     (class "corrupted_granito")
-    (icon "images/creatures/granito/corrupted/idle-left-0.png"))
+    (icon "images/creatures/granito/corrupted/idle_left-0.png"))
   (object
     (class "darttrap")
     (icon "images/creatures/darttrap/granito/empty_left.png"))
@@ -180,7 +180,7 @@
     (icon "images/engine/editor/stalactite_ice_yeti.png"))
   (object
     (class "dart")
-    (icon "images/creatures/darttrap/skull_dart_left.png"))
+    (icon "images/creatures/darttrap/granito/root_dart_left.png"))
  )
 
  (objectgroup
