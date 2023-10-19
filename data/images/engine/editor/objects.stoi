@@ -101,7 +101,7 @@
     (icon "images/creatures/granito/corrupted/idle-left-0.png"))
   (object
     (class "darttrap")
-    (icon "images/creatures/darttrap/charge_left-1.png"))
+    (icon "images/creatures/darttrap/granito/empty_left.png"))
   (object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
