@@ -97,8 +97,8 @@
     (class "zeekling")
     (icon "images/creatures/zeekling/zeekling-0.png"))
   (object
-    (class "skullyhop")
-    (icon "images/creatures/skullyhop/stand-0.png"))
+    (class "corrupted_granito")
+    (icon "images/creatures/granito/corrupted/idle-left-0.png"))
   (object
     (class "darttrap")
     (icon "images/creatures/darttrap/charge_left-1.png"))
