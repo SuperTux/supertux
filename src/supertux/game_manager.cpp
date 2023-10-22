@@ -34,8 +34,7 @@
 
 GameManager::GameManager() :
   m_savegame(),
-  m_next_worldmap(),
-  m_next_spawnpoint()
+  m_next_worldmap()
 {
 }
 
@@ -98,26 +97,28 @@ GameManager::start_worldmap(const World& world, const std::string& worldmap_file
 bool
 GameManager::load_next_worldmap()
 {
-  if (m_next_worldmap.empty())
-  {
+  if (!m_next_worldmap)
     return false;
-  }
-  std::unique_ptr<World> world = World::from_directory(m_next_worldmap);
-  m_next_worldmap = "";
+
+  const auto next_worldmap = std::move(*m_next_worldmap);
+  m_next_worldmap.reset();
+
+  std::unique_ptr<World> world = World::from_directory(next_worldmap.world);
   if (!world)
   {
-    log_warning << "Can't load world '" << m_next_worldmap << "'" <<  std::endl;
+    log_warning << "Cannot load world '" << next_worldmap.world << "'" <<  std::endl;
     return false;
   }
-  start_worldmap(*world, m_next_spawnpoint); // New world, new savegame.
+
+  start_worldmap(*world, "", next_worldmap.sector, next_worldmap.spawnpoint); // New world, new savegame.
   return true;
 }
 
 void
-GameManager::set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint)
+GameManager::set_next_worldmap(const std::string& world, const std::string& sector,
+                               const std::string& spawnpoint)
 {
-  m_next_worldmap = worldmap;
-  m_next_spawnpoint = spawnpoint;
+  m_next_worldmap.emplace(world, sector, spawnpoint);
 }
 
 /* EOF */
