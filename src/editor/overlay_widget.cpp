@@ -842,12 +842,9 @@ EditorOverlayWidget::update_node_iterators()
   if (!m_edited_path->is_valid()) return;
 
   auto* sector = m_editor.get_sector();
-  for (auto& moving_object : sector->get_objects_by_type<MovingObject>())
+  for (auto& marker : sector->get_objects_by_type<NodeMarker>())
   {
-    auto marker = dynamic_cast<NodeMarker*>(&moving_object);
-    if (marker) {
-      marker->update_iterator();
-    }
+    marker.update_iterator();
   }
 }
 

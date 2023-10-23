@@ -2091,7 +2091,7 @@ Player::draw(DrawingContext& context)
   }  // don't draw Tux
 
   else if (m_dying)
-    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer());
+    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer() + 1);
   else
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
 
