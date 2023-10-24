@@ -85,6 +85,11 @@ public:
   void move_to_spawnpoint(const std::string& spawnpoint);
 
   /**
+   * Gets the path to the worldmap file. Useful for saving worldmap specific data.
+   */
+  std::string get_filename() const;
+
+  /**
    * Overrides the "Title Screen Level" property for the world with ""filename"".
      The newly set level will be used for the title screen, after exiting the world.
    * @param string $filename

@@ -11512,6 +11512,33 @@ static SQInteger WorldMapSector_move_to_spawnpoint_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger WorldMapSector_get_filename_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_filename' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::WorldMapSector* _this = reinterpret_cast<scripting::WorldMapSector*> (data);
+
+
+  try {
+    std::string return_value = _this->get_filename();
+
+    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_filename'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger WorldMapSector_set_title_level_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -15719,6 +15746,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'move_to_spawnpoint'");
+  }
+
+  sq_pushstring(v, "get_filename", -1);
+  sq_newclosure(v, &WorldMapSector_get_filename_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_filename'");
   }
 
   sq_pushstring(v, "set_title_level", -1);
