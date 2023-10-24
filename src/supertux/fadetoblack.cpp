@@ -19,10 +19,12 @@
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
-FadeToBlack::FadeToBlack(Direction direction, float fade_time, Color color) :
+FadeToBlack::FadeToBlack(Direction direction, float fade_time, Color color,
+                         int layer) :
   m_direction(direction),
   m_fade_time(fade_time),
   m_color(color),
+  m_layer(layer),
   m_accum_time(0)
 {
 }
@@ -50,7 +52,7 @@ FadeToBlack::draw(DrawingContext& context)
   context.color().draw_filled_rect(Rectf(0, 0,
                                          context.get_width(),
                                          context.get_height()),
-                                   col, LAYER_GUI + 1);
+                                   col, m_layer);
 }
 
 bool

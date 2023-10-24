@@ -46,7 +46,8 @@
 #include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
+                         bool preserve_music) :
   GameSessionRecorder(),
   reset_button(false),
   reset_checkpoint_button(false),
@@ -85,7 +86,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
   m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
 
-  if (restart_level() != 0)
+  if (restart_level(false, preserve_music) != 0)
     throw std::runtime_error ("Initializing the level failed.");
 }
 
@@ -115,7 +116,7 @@ GameSession::reset_level()
 }
 
 int
-GameSession::restart_level(bool after_death)
+GameSession::restart_level(bool after_death, bool preserve_music)
 {
   const PlayerStatus& currentStatus = m_savegame.get_player_status();
   m_coins_at_start = currentStatus.coins;
@@ -222,12 +223,15 @@ GameSession::restart_level(bool after_death)
     return (-1);
   }
 
-  auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
-  if (after_death == true) {
-    music_object.resume_music();
-  } else {
-    SoundManager::current()->stop_music();
-    music_object.play_music(LEVEL_MUSIC);
+  if (!preserve_music)
+  {
+    auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
+    if (after_death == true) {
+      music_object.resume_music();
+    } else {
+      SoundManager::current()->stop_music();
+      music_object.play_music(LEVEL_MUSIC);
+    }
   }
 
   auto level_times = m_currentsector->get_objects_by_type<LevelTime>();

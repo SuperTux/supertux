@@ -298,6 +298,12 @@ void record_demo(const std::string& filename);
  */
 void play_demo(const std::string& filename);
 
+/**
+ * Sets the frame, displayed on the title screen.
+ * @param string $image
+ */
+void set_title_frame(const std::string& image);
+
 #ifdef DOXYGEN_SCRIPTING
 }
 #endif

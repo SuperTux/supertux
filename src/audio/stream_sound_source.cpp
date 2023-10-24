@@ -72,6 +72,14 @@ StreamSoundSource::set_sound_file(std::unique_ptr<SoundFile> newfile)
 }
 
 void
+StreamSoundSource::resume()
+{
+  OpenALSoundSource::resume();
+  set_gain(1.0);
+  m_fade_state = NoFading;
+}
+
+void
 StreamSoundSource::update()
 {
   ALint processed = 0;

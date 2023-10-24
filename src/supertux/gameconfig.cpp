@@ -81,6 +81,7 @@ Config::Config() :
 #else
   do_release_check(true),
 #endif
+  custom_title_levels(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -148,6 +149,7 @@ Config::load()
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
+  config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
@@ -359,6 +361,7 @@ Config::save()
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
   writer.write("do_release_check", do_release_check);
+  writer.write("custom_title_levels", custom_title_levels);
 
   writer.start_list("integrations");
   {
@@ -491,6 +494,9 @@ Config::save()
 bool
 Config::is_christmas() const
 {
+  if (christmas_mode)
+    return true;
+
   std::time_t time = std::time(nullptr);
   const std::tm* now = std::localtime(&time);
 

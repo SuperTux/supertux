@@ -83,6 +83,13 @@ public:
    * @param string $spawnpoint
    */
   void move_to_spawnpoint(const std::string& spawnpoint);
+
+  /**
+   * Overrides the "Title Screen Level" property for the world with ""filename"".
+     The newly set level will be used for the title screen, after exiting the world.
+   * @param string $filename
+   */
+  void set_title_level(const std::string& filename);
 };
 
 } // namespace scripting

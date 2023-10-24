@@ -77,7 +77,8 @@ private:
   };
 
 public:
-  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr);
+  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr,
+              bool preserve_music = false);
 
   virtual void draw(Compositor& compositor) override;
   virtual void update(float dt_sec, const Controller& controller) override;
@@ -116,8 +117,9 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory() const;
+  std::string get_level_file() const { return m_levelfile; }
   bool has_active_sequence() const;
-  int restart_level(bool after_death = false);
+  int restart_level(bool after_death = false, bool preserve_music = false);
   bool reset_button;
   bool reset_checkpoint_button;
 
