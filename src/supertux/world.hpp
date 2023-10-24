@@ -32,6 +32,7 @@ private:
   World(const std::string& directory);
 
 public:
+  std::string get_basename() const;
   std::string get_basedir() const { return m_basedir; }
   std::string get_title() const { return m_title; }
   std::string get_description() const { return m_description; }
@@ -44,7 +45,6 @@ public:
   std::string get_contrib_type() const { return m_contrib_type; }
 
   std::string get_worldmap_filename() const;
-  std::string get_savegame_filename() const;
 
   void save(bool retry = false);
 

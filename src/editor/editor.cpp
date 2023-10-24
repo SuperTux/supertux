@@ -99,7 +99,6 @@ Editor::Editor() :
   m_test_request(false),
   m_particle_editor_request(false),
   m_test_pos(),
-  m_savegame(),
   m_particle_editor_filename(),
   m_sector(),
   m_levelloaded(false),
@@ -674,7 +673,6 @@ Editor::setup()
   }
   m_toolbox_widget->setup();
   m_layers_widget->setup();
-  m_savegame = Savegame::from_file("levels/misc");
 
   // Reactivate the editor after level test.
   if (m_leveltested) {

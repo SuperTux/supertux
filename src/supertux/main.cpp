@@ -133,6 +133,7 @@ Main::Main() :
   m_squirrel_virtual_machine(),
   m_tile_manager(),
   m_sprite_manager(),
+  m_profile_manager(),
   m_resources(),
   m_addon_manager(),
   m_console(),
@@ -544,6 +545,7 @@ Main::launch_game(const CommandLineArguments& args)
   s_timelog.log("resources");
   m_tile_manager.reset(new TileManager());
   m_sprite_manager.reset(new SpriteManager());
+  m_profile_manager.reset(new ProfileManager());
   m_resources.reset(new Resources());
 
   s_timelog.log("integrations");
@@ -553,7 +555,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   s_timelog.log(nullptr);
 
-  m_savegame = std::make_unique<Savegame>(std::string());
+  m_savegame = std::make_unique<Savegame>(m_profile_manager->get_current_profile(), "");
 
   m_game_manager.reset(new GameManager());
   m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));

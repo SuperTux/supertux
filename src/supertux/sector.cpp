@@ -77,9 +77,8 @@ Sector::Sector(Level& parent) :
   m_gravity(10.0f),
   m_collision_system(new CollisionSystem(*this))
 {
-  Savegame* savegame = (Editor::current() && Editor::is_active()) ?
-    Editor::current()->m_savegame.get() :
-    GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
+  Savegame* savegame = (GameSession::current() && !Editor::current() ?
+    &GameSession::current()->get_savegame() : nullptr);
   PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
 
   if (savegame && !m_level.m_suppress_pause_menu && !savegame->is_title_screen()) {
