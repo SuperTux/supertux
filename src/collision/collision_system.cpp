@@ -314,9 +314,13 @@ CollisionSystem::collision_tile_attributes(const Rectf& dest, const Vector& mov)
 }
 
 /** Fills the CollisionHit and Normal vector between two intersecting rectangles. */
-static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
-                           Vector& normal)
+void
+CollisionSystem::get_hit_normal(const CollisionObject* object1, const CollisionObject* object2,
+                                CollisionHit& hit, Vector& normal) const
 {
+  const Rectf& r1 = object1->m_dest;
+  const Rectf& r2 = object2->m_dest;
+
   const float itop = r1.get_bottom() - r2.get_top();
   const float ibottom = r2.get_bottom() - r1.get_top();
   const float ileft = r1.get_right() - r2.get_left();
@@ -324,6 +328,17 @@ static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
 
   const float vert_penetration = std::min(itop, ibottom);
   const float horiz_penetration = std::min(ileft, iright);
+
+  if (object2->is_unisolid())
+  {
+    // Apply movement only on top collision with an unisolid object.
+    if (vert_penetration < horiz_penetration && itop < ibottom)
+    {
+      hit.bottom = true;
+      normal.y = vert_penetration;
+    }
+    return;
+  }
 
   if (vert_penetration < horiz_penetration) {
     if (itop < ibottom) {
@@ -353,9 +368,9 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
   const Rectf& r2 = object2->m_dest;
 
   CollisionHit hit;
-  if (intersects(object1->m_dest, object2->m_dest)) {
+  if (intersects(r1, r2)) {
     Vector normal(0.0f, 0.0f);
-    get_hit_normal(r1, r2, hit, normal);
+    get_hit_normal(object1, object2, hit, normal);
 
     if (!object1->collides(*object2, hit))
       return;
@@ -597,8 +612,7 @@ CollisionSystem::update()
       if (intersects(object->m_dest, object_2->m_dest)) {
         Vector normal(0.0f, 0.0f);
         CollisionHit hit;
-        get_hit_normal(object->m_dest, object_2->m_dest,
-                       hit, normal);
+        get_hit_normal(object, object_2, hit, normal);
         if (!object->collides(*object_2, hit))
           continue;
         if (!object_2->collides(*object, hit))

@@ -101,6 +101,9 @@ private:
 
   void collision_static_constrains(CollisionObject& object);
 
+  void get_hit_normal(const CollisionObject* object1, const CollisionObject* object2,
+                      CollisionHit& hit, Vector& normal) const;
+
 private:
   Sector& m_sector;
 
