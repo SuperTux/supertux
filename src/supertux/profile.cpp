@@ -28,8 +28,7 @@
 
 Profile::Profile(int id) :
   m_id(id),
-  m_name(),
-  m_last_world()
+  m_name()
 {
   const std::string info_file = get_basedir() + "/info";
   try
@@ -45,7 +44,6 @@ Profile::Profile(int id) :
     auto reader = root.get_mapping();
 
     reader.get("name", m_name);
-    reader.get("last-world", m_last_world);
   }
   catch (const std::exception& err)
   {
@@ -63,7 +61,6 @@ Profile::save()
   writer.start_list("supertux-profile");
 
   writer.write("name", m_name);
-  writer.write("last-world", m_last_world);
 
   writer.end_list("supertux-profile");
 }
@@ -71,8 +68,6 @@ Profile::save()
 void
 Profile::reset()
 {
-  m_last_world.clear();
-
   save();
 }
 
