@@ -245,8 +245,8 @@ TextScroller::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
   context.transform().scale = 1.f;
 
-  const float ctx_w = static_cast<float>(context.get_width());
-  const float ctx_h = static_cast<float>(context.get_height());
+  const float ctx_w = context.get_width();
+  const float ctx_h = context.get_height();
 
   float y = floorf(ctx_h - m_scroll);
 

@@ -22,7 +22,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "collision/collision.hpp"
-#include "collision/collision_system.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
@@ -337,7 +336,7 @@ Sector::calculate_foremost_layer() const
       }
     }
   }
-  log_debug << "Calculated baduy falling layer was: " << layer << std::endl;
+  log_debug << "Calculated badguy falling layer was: " << layer << std::endl;
   return layer;
 }
 
@@ -525,6 +524,14 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 {
   return m_collision_system->is_free_of_movingstatics(rect,
                                                       ignore_object ? ignore_object->get_collision_object() : nullptr);
+}
+
+CollisionSystem::RaycastResult
+Sector::get_first_line_intersection(const Vector& line_start,
+                                    const Vector& line_end,
+                                    bool ignore_objects,
+                                    const CollisionObject* ignore_object) const {
+  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore_objects, ignore_object);
 }
 
 bool

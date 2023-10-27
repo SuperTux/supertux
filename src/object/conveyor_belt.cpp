@@ -57,7 +57,7 @@ ConveyorBelt::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir, Direction::LEFT, "direction");
+  result.add_direction(_("Direction"), &m_dir, { Direction::LEFT, Direction::RIGHT }, "direction");
   result.add_float(_("Speed"), &m_speed, "speed", 1.0f);
   result.add_bool(_("Running"), &m_running, "running", true);
   result.add_int(_("Length"), &m_length, "length", 3);
@@ -117,6 +117,8 @@ ConveyorBelt::draw(DrawingContext &context)
 void
 ConveyorBelt::update_hitbox()
 {
+  MovingSprite::update_hitbox();
+
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width() * static_cast<float>(m_length),
                         m_sprite->get_current_hitbox_height());
 }
@@ -128,6 +130,7 @@ ConveyorBelt::after_editor_set()
 
   if (m_length <= 0)
     m_length = 1;
+  set_action(dir_to_string(m_dir));
 }
 
 void

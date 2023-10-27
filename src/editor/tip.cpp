@@ -24,12 +24,34 @@
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
-Tip::Tip(GameObject& object) :
+Tip::Tip() :
   m_strings(),
+  m_warnings(),
   m_header()
+{
+}
+
+void
+Tip::set_info(const std::string& header, const std::vector<std::string>& text)
+{
+  m_header = header;
+  m_strings = text;
+}
+
+void
+Tip::set_info(const std::string& text)
+{
+  m_header = text;
+  m_strings.clear();
+}
+
+void
+Tip::set_info_for_object(GameObject& object)
 {
   auto os = object.get_settings();
   m_header = os.get_name();
+  m_strings.clear();
+  m_warnings.clear();
 
   for (const auto& oo_ptr : os.get_options())
   {
@@ -48,39 +70,50 @@ Tip::Tip(GameObject& object) :
       }
     }
   }
-}
 
-Tip::Tip(std::string text) :
-  m_strings(),
-  m_header(text)
-{
-}
+  if (!object.is_up_to_date())
+    m_warnings.push_back(_("This object's current functionality is deprecated.") + "\n" +
+                         _("Updating to get its latest functionality is recommended."));
 
-Tip::Tip(std::string header, std::vector<std::string> text) :
-  m_strings(text),
-  m_header(header)
-{
+  m_visible = true;
 }
 
 void
 Tip::draw(DrawingContext& context, const Vector& pos, const bool align_right)
 {
+  if(!m_visible)
+    return;
+
   auto position = pos;
   position.y += 35;
   context.color().draw_text(Resources::normal_font, m_header, position,
-                              align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, g_config->labeltextcolor);
+                            align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, g_config->labeltextcolor);
 
-  for (const auto& str : m_strings) {
+  for (const auto& str : m_strings)
+  {
     position.y += 22;
     context.color().draw_text(Resources::normal_font, str, position,
-                                align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, ColorScheme::Menu::default_color);
+                              align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, ColorScheme::Menu::default_color);
+  }
+
+  position.y += 35;
+  for (const auto& str : m_warnings)
+  {
+    position.y += 22;
+    context.color().draw_text(Resources::normal_font, str, position,
+                              align_right ? ALIGN_RIGHT : ALIGN_LEFT, LAYER_GUI + 10, ColorScheme::Menu::warning_color);
   }
 }
 
 void
 Tip::draw_up(DrawingContext& context, const Vector& pos, const bool align_right)
 {
-  auto position = Vector(pos.x, pos.y - (static_cast<float>(m_strings.size()) + 1.0f) * 22.0f - 35.0f);
+  if(!m_visible)
+    return; 
+
+  auto position = Vector(pos.x, pos.y - (static_cast<float>(m_strings.size()) + 1.0f) * 22.0f
+                                      - (m_warnings.empty() ? 0.f : (static_cast<float>(m_warnings.size()) + 1.0f) * 22.0f + 35.0f)
+                                      - 40.0f);
   draw(context, position, align_right);
 }
 

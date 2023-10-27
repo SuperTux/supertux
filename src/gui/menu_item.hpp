@@ -36,6 +36,9 @@ public:
   void set_text(const std::string& text) { m_text = text; }
   const std::string& get_text() const { return m_text; }
 
+  void set_font(const FontPtr font) { m_font = font; }
+  const FontPtr& get_font() const { return m_font; }
+
   void set_preview(const std::string& preview_file);
   void set_preview(SurfacePtr preview) { m_preview = preview; }
   SurfacePtr get_preview() const { return m_preview; }
@@ -88,6 +91,7 @@ private:
   int m_id;
   std::string m_text;
   std::string m_help;
+  FontPtr m_font;
   SurfacePtr m_preview;
 
 private:

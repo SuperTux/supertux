@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -40,12 +41,19 @@ public:
   virtual bool can_break() const override;
 
   virtual void ignite() override;
+  virtual void freeze() override;
+  virtual void unfreeze(bool melt = true) override;
 
   static std::string class_name() { return "mriceblock"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Iceblock"); }
   virtual std::string get_display_name() const override { return display_name(); }
+
   virtual bool is_snipable() const override { return ice_state != ICESTATE_KICKED; }
+  virtual bool is_freezable() const override;
+
+  virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   bool can_break();
 
@@ -61,6 +69,12 @@ protected:
 protected:
   virtual bool collision_squished(GameObject& object) override;
   void set_state(IceState state);
+
+private:
+  enum Type {
+    NORMAL,
+    LAPTOP
+  };
 
 private:
   IceState ice_state;

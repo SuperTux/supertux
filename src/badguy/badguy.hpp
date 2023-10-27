@@ -22,10 +22,10 @@
 #include "object/portable.hpp"
 #include "scripting/badguy.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
+enum class Direction;
 class Player;
 class Bullet;
 
@@ -42,6 +42,9 @@ public:
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
          const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+  BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
          const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
 
@@ -127,11 +130,6 @@ public:
     return "images/objects/water_drop/water_drop.sprite";
   }
 
-  void set_sprite_action(const std::string& action, int loops = 1)
-  {
-    set_action(action, loops);
-  }
-
   /** Returns true if the badguy can currently be affected by wind */
   virtual bool can_be_affected_by_wind() const;
 
@@ -189,6 +187,9 @@ protected:
   /** called when the badguy has been deactivated */
   virtual void deactivate();
 
+  /** Returns a vector of directions the badguy can be set to. */
+  virtual std::vector<Direction> get_allowed_directions() const;
+
   void kill_squished(GameObject& object);
 
   void set_state(State state);
@@ -208,9 +209,6 @@ protected:
   /** Returns true if we might soon fall at least @c height
       pixels. Minimum value for height is 1 pixel */
   bool might_fall(int height = 1) const;
-
-  /** Get Direction from String. */
-  Direction str2dir(const std::string& dir_str) const;
 
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so

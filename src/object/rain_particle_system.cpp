@@ -300,8 +300,8 @@ void RainParticleSystem::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
   context.color().draw_filled_rect(Rectf(0,
                                          0,
-                                         static_cast<float>(context.get_width()),
-                                         static_cast<float>(context.get_height())),
+                                         context.get_width(),
+                                         context.get_height()),
                                    Color(0.3f, 0.38f, 0.4f, opacity),
                                    199); // TODO: Change the hardcoded layer value with the rain's layer
   context.pop_transform();

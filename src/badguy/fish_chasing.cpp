@@ -34,19 +34,32 @@ FishChasing::FishChasing(const ReaderMapping& reader) :
   m_lost_distance(),
   m_chase_speed()
 {
+  parse_type(reader);
   reader.get("track-distance", m_track_distance, TRACK_DISTANCE);
   reader.get("lost-distance", m_lost_distance, LOST_DISTANCE);
   reader.get("chase-speed", m_chase_speed, CHASE_SPEED);
 }
 
+std::string
+FishChasing::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case FOREST:
+      return "images/creatures/fish/forest/brownfish.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
 void
 FishChasing::active_update(float dt_sec) {
-  //basic stuff
+  // Perform basic updates.
   BadGuy::active_update(dt_sec);
   m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
   m_physic.enable_gravity((!m_frozen && m_in_water) ? false : true);
 
-  //beached stuff
+  // Handle beached state when the fish is in water and beached_timer is active.
   if (m_in_water && m_beached_timer.started())
     m_beached_timer.stop();
 
@@ -57,7 +70,7 @@ FishChasing::active_update(float dt_sec) {
     m_beached_timer.stop();
   }
 
-  //behavior
+  // Behavior - chase the nearest player.
   auto player = get_nearest_player();
   if (!player) return;
   Vector p1 = m_col.m_bbox.get_middle();

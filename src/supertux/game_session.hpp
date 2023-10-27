@@ -25,6 +25,7 @@
 
 #include "math/vector.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
@@ -107,6 +108,7 @@ public:
   Level& get_current_level() const { return *m_level; }
 
   void start_sequence(Player* caller, Sequence seq, const SequenceData* data = nullptr);
+  void set_target_timer_paused(bool paused);
 
   /**
    * returns the "working directory" usually this is the directory where the
@@ -114,6 +116,7 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory() const;
+  bool has_active_sequence() const;
   int restart_level(bool after_death = false);
   bool reset_button;
   bool reset_checkpoint_button;
@@ -146,8 +149,7 @@ private:
   SurfacePtr m_statistics_backdrop;
 
   // scripts
-  typedef std::vector<HSQOBJECT> ScriptList;
-  ScriptList m_scripts;
+  SquirrelObjectList m_scripts;
 
   Sector* m_currentsector;
 
@@ -187,6 +189,7 @@ private:
   bool m_active; /** Game active? **/
 
   bool m_end_seq_started;
+  bool m_pause_target_timer;
 
   std::unique_ptr<GameObject> m_current_cutscene_text;
 

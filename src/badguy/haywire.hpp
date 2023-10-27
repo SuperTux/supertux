@@ -31,7 +31,6 @@ public:
   virtual void ignite() override;
 
   virtual void active_update(float dt_sec) override;
-  virtual void deactivate() override;
   virtual void draw(DrawingContext& context) override;
 
   virtual bool is_freezable() const override;
@@ -48,6 +47,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
 
+  inline bool is_exploding() const { return m_is_exploding; }
+
 protected:
   virtual bool collision_squished(GameObject& object) override;
   virtual void collision_solid(const CollisionHit& hit) override;
@@ -59,7 +60,7 @@ private:
   void stop_exploding();
 
 private:
-  bool is_exploding;
+  bool m_is_exploding;
   float time_until_explosion;
   bool is_stunned;
   float time_stunned;

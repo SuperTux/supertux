@@ -69,7 +69,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.push_transform();
     context.set_translation(Vector(0, 0));
     context.transform().scale = 1.f;
-    Vector pos = Vector(static_cast<float>(context.get_width()) / 2.0f, static_cast<float>(context.get_height()) / 2.0f - Resources::normal_font->get_height() / 2.0f);
+    Vector pos = Vector(context.get_width() / 2.0f, context.get_height() / 2.0f - Resources::normal_font->get_height() / 2.0f);
     context.color().draw_text(Resources::normal_font, message, pos, FontAlignment::ALIGN_CENTER, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }

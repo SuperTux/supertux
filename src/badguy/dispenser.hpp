@@ -28,7 +28,7 @@ class Dispenser final : public BadGuy,
 {
 private:
   enum DispenserType {
-    CANNON, DROPPER, POINT
+    DROPPER, CANNON, POINT
   };
 
 public:
@@ -55,6 +55,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
 

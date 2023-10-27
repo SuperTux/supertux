@@ -32,12 +32,10 @@
 #include "badguy/fish_swimming.hpp"
 #include "badguy/flame.hpp"
 #include "badguy/flyingsnowball.hpp"
-#include "badguy/ghostflame.hpp"
 #include "badguy/ghosttree.hpp"
 #include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
 #include "badguy/haywire.hpp"
-#include "badguy/iceflame.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
 #include "badguy/kamikazesnowball.hpp"
@@ -117,7 +115,6 @@
 #include "object/rusty_trampoline.hpp"
 #include "object/scripted_object.hpp"
 #include "object/shard.hpp"
-#include "object/skull_tile.hpp"
 #include "object/snow_particle_system.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
@@ -163,7 +160,7 @@ GameObjectFactory::GameObjectFactory()
 void
 GameObjectFactory::init_factories()
 {
-  // badguys
+  // Badguys.
   m_adding_badguys = true;
   add_factory<AngryStone>("angrystone");
   add_factory<BouncingSnowball>("bouncingsnowball", OBJ_PARAM_DISPENSABLE);
@@ -182,12 +179,12 @@ GameObjectFactory::init_factories()
   add_factory<FishSwimming>("fish-swimming", OBJ_PARAM_DISPENSABLE);
   add_factory<Flame>("flame", OBJ_PARAM_DISPENSABLE);
   add_factory<FlyingSnowBall>("flyingsnowball", OBJ_PARAM_DISPENSABLE);
-  add_factory<Ghostflame>("ghostflame", OBJ_PARAM_DISPENSABLE);
+  add_type_factory<Flame>("ghostflame", Flame::GHOST); // Backward compatibility.
   add_factory<GhostTree>("ghosttree");
   add_factory<Ghoul>("ghoul", OBJ_PARAM_DISPENSABLE);
   add_factory<GoldBomb>("goldbomb", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<Haywire>("haywire", OBJ_PARAM_DISPENSABLE);
-  add_factory<Iceflame>("iceflame", OBJ_PARAM_DISPENSABLE);
+  add_type_factory<Flame>("iceflame", Flame::ICE); // Backward compatibility.
   add_factory<Igel>("igel", OBJ_PARAM_DISPENSABLE);
   add_factory<Ispy>("ispy");
   add_factory<Jumpy>("jumpy", OBJ_PARAM_DISPENSABLE);
@@ -221,7 +218,7 @@ GameObjectFactory::init_factories()
   add_factory<Stumpy>("stumpy", OBJ_PARAM_DISPENSABLE);
   add_factory<Toad>("toad", OBJ_PARAM_DISPENSABLE);
   add_factory<Totem>("totem", OBJ_PARAM_DISPENSABLE);
-  add_factory<ViciousIvy>("poisonivy"); // backward compatibility
+  add_factory<ViciousIvy>("poisonivy"); // Backward compatibilty.
   add_factory<ViciousIvy>("viciousivy", OBJ_PARAM_DISPENSABLE);
   add_factory<WalkingCandle>("walking_candle", OBJ_PARAM_DISPENSABLE);
   add_factory<WalkingLeaf>("walkingleaf", OBJ_PARAM_DISPENSABLE);
@@ -231,9 +228,9 @@ GameObjectFactory::init_factories()
   add_factory<Zeekling>("zeekling", OBJ_PARAM_DISPENSABLE);
   m_adding_badguys = false;
 
-  // other objects
+  // Other objects.
   add_factory<AmbientLight>("ambient-light");
-  add_factory<AmbientSound>("ambient_sound"); // backward compatibilty
+  add_factory<AmbientSound>("ambient_sound"); // Backward compatibilty.
   add_factory<AmbientSound>("ambient-sound");
   add_factory<Background>("background", OBJ_PARAM_WORLDMAP);
   add_factory<PathGameObject>("path");
@@ -276,7 +273,7 @@ GameObjectFactory::init_factories()
   add_factory<RubLight>("rublight", OBJ_PARAM_DISPENSABLE);
   add_factory<ScriptedObject>("scriptedobject");
   add_factory<Shard>("shard", OBJ_PARAM_DISPENSABLE);
-  add_factory<SkullTile>("skull_tile");
+  add_type_factory<UnstableTile>("skull_tile", UnstableTile::DELAYED); // Backward compatibility.
   add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
   add_factory<TextScroller>("textscroller");
@@ -290,7 +287,7 @@ GameObjectFactory::init_factories()
   add_factory<Wind>("wind");
   add_factory<TextArea>("text-area");
 
-  // trigger
+  // Triggers.
   add_factory<Climbable>("climbable");
   add_factory<Door>("door");
   add_factory<ScriptTrigger>("scripttrigger");
@@ -298,24 +295,22 @@ GameObjectFactory::init_factories()
   add_factory<SequenceTrigger>("sequencetrigger");
   add_factory<Switch>("switch");
 
-  // editor stuff
+  // Editor stuff.
   add_factory<SpawnPointMarker>("spawnpoint");
 
-  // worldmap objects
+  // Worldmap objects.
   add_factory<worldmap::LevelTile>("level", OBJ_PARAM_WORLDMAP);
   add_factory<worldmap::SpecialTile>("special-tile", OBJ_PARAM_WORLDMAP);
   add_factory<worldmap::SpriteChange>("sprite-change", OBJ_PARAM_WORLDMAP);
   add_factory<worldmap::Teleporter>("teleporter", OBJ_PARAM_WORLDMAP);
-  add_factory<worldmap::SpawnPointObject>("worldmap-spawnpoint", OBJ_PARAM_WORLDMAP);
+  add_factory<worldmap::SpawnPointObject>("worldmap-spawnpoint");
 
   add_factory("tilemap", {
     [](const ReaderMapping& reader) {
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
       return std::make_unique<TileMap>(tileset, reader);
     },
-    []() {
-      return TileMap::display_name();
-    }
+    TileMap::display_name
   });
 }
 

@@ -44,6 +44,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual bool is_portable() const override;
   virtual void ungrab(MovingObject& , Direction dir_) override;
@@ -51,8 +52,6 @@ public:
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
-
-  void on_type_change(int old_type) override;
 
 private:
   void be_normal(); /**< switch to state STATE_NORMAL */

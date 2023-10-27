@@ -6,7 +6,7 @@
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Hume2 <teratux.mail@gmail.com>, 2016-2017
 # Jakub Vaněk <vanek.jakub4@seznam.cz>, 2015
-# Jiří Paleček <narre@protonmail.com>, 2021
+# Jiří Paleček <narre@protonmail.com>, 2021-2023
 # Jiří Paleček <narre@protonmail.com>, 2016
 # Jiří Paleček <narre@protonmail.com>, 2013-2015
 # Jiří Paleček <narre@protonmail.com>, 2020
@@ -20,9 +20,9 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-22 20:55+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
+"PO-Revision-Date: 2013-08-10 22:56+0000\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2023\n"
+"Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -401,7 +401,7 @@ msgstr "automatický posun"
 
 #: src/object/textscroller.cpp:349
 msgid "Finish Script"
-msgstr "Dokončovací skript"
+msgstr "Zakončovací skript"
 
 #: src/object/textscroller.cpp:351
 msgid "X-offset"
@@ -701,7 +701,7 @@ msgstr "Střep"
 
 #: src/object/rublight.cpp:55
 msgid "Fading Speed"
-msgstr "Rychlost mizení"
+msgstr "Rychlost zhasínání"
 
 #: src/object/rublight.cpp:56
 msgid "Glowing Strength"
@@ -737,7 +737,7 @@ msgstr "Působí na hráče"
 
 #: src/object/wind.cpp:85
 msgid "Fancy Particles"
-msgstr "Částicové efekty"
+msgstr "Lepší částicové efekty"
 
 #: src/object/bicycle_platform.hpp:64
 msgid "Bicycle Platform"
@@ -901,17 +901,17 @@ msgstr "Sinové do/z"
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular in"
-msgstr "Cirkulární do"
+msgstr "Kruhové do"
 
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular out"
-msgstr "Cirkulární z"
+msgstr "Kruhové z"
 
 #: src/object/custom_particle_system.cpp:442
 #: src/object/custom_particle_system.cpp:477 src/editor/node_marker.cpp:135
 msgid "Circular in/out"
-msgstr "Cirkulární do/z"
+msgstr "Kruhové do/z"
 
 #: src/object/custom_particle_system.cpp:443
 #: src/object/custom_particle_system.cpp:478 src/editor/node_marker.cpp:136
@@ -1067,7 +1067,7 @@ msgstr "Pevný"
 #: src/object/custom_particle_system.cpp:515
 #: src/editor/particle_editor.cpp:205
 msgid "Facing"
-msgstr "Směřující"
+msgstr "Podle směru"
 
 #: src/object/custom_particle_system.cpp:515
 #: src/editor/particle_editor.cpp:204
@@ -1081,7 +1081,7 @@ msgstr "Režim kolize"
 
 #: src/object/custom_particle_system.cpp:520
 msgid "None (pass through)"
-msgstr "Žádná (projít skrz)"
+msgstr "Žádná kolize (projít skrz)"
 
 #: src/object/custom_particle_system.cpp:520
 msgid "Stick"
@@ -1145,7 +1145,7 @@ msgstr "Název částice"
 
 #: src/object/particle_zone.cpp:81
 msgid "Zone Type"
-msgstr "Typ zóny"
+msgstr "Typ oblasti"
 
 #: src/object/particle_zone.cpp:82
 msgid "Spawn"
@@ -1384,7 +1384,7 @@ msgstr "Nastala chyba a SuperTux nemohl vytvořit kopii cesty. Kontaktujte, pros
 
 #: src/gui/menu_paths.cpp:41
 msgid "Bind"
-msgstr "Propojit"
+msgstr "Přičlenit"
 
 #: src/gui/menu_paths.cpp:63 src/supertux/menu/integrations_menu.cpp:60
 #: src/supertux/menu/contrib_menu.cpp:161 src/supertux/menu/debug_menu.cpp:75
@@ -1956,7 +1956,7 @@ msgstr "Copyright"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Je to volně šiřitelný software a jeho šíření\nbude za určitých podmínek uvítáno; podívejte se do souboru s licencí pro více\npodrobností.\n"
+msgstr "Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Je to volně šiřitelný software a jeho šíření\nje za určitých podmínek vítáno; podrobnosti najdeš v souboru s licencí.\n"
 
 #: src/supertux/menu/integrations_menu.cpp:49
 msgid "Integrations"
@@ -1964,7 +1964,7 @@ msgstr "Integrace"
 
 #: src/supertux/menu/integrations_menu.cpp:51
 msgid "Do not share level names when editing"
-msgstr "Při editaci nesdílet název úrovně"
+msgstr "Při úpravě v editoru nesdílet název úrovně"
 
 #: src/supertux/menu/integrations_menu.cpp:54
 msgid "Enable Discord integration"
@@ -2025,7 +2025,7 @@ msgstr "Zahodit vyrovnávací paměť textur"
 
 #: src/supertux/menu/particle_editor_save_as.cpp:33
 msgid "Save particle as"
-msgstr "Uložit částici jako"
+msgstr "Uložit částice jako"
 
 #: src/supertux/menu/particle_editor_save_as.cpp:37
 #: src/supertux/menu/editor_save_as.cpp:37
@@ -2102,7 +2102,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Sdílejte tuto mapu pod licencí CC-BY-SA 4.0 International (doporučujeme).\nTato licence umožňuje modifikace a redistribuci třetími stranami.\nPokud s touto licencí nesouhlasíte, změňte jí ve vlastnostech mapy.\nODVOLÁNÍ: Autoři SuperTuxe nejsou zodpovědní za volbu licence."
+msgstr "Sdílej tuto mapu pod licencí CC-BY-SA 4.0 International (doporučujeme).\nTato licence umožňuje modifikace a redistribuci třetími stranami.\nPokud s touto licencí nesouhlasíš, změň jí ve vlastnostech mapy.\nODVOLÁNÍ: Autoři SuperTuxe nejsou zodpovědní za volbu licence."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:134
 msgid ""
@@ -2110,7 +2110,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Sdílejte tuto úroveň pod licencí CC-BY-SA 4.0 International (doporučujeme).\nTato licence umožňuje modifikace a redistribuci třetími stranami.\nPokud s touto licencí nesouhlasíte, změňte jí ve vlastnostech úrovně.\nODVOLÁNÍ: Autoři SuperTuxe nejsou zodpovědní za volbu licence."
+msgstr "Sdílej tuto úroveň pod licencí CC-BY-SA 4.0 International (doporučujeme).\nTato licence umožňuje modifikace a redistribuci třetími stranami.\nPokud s touto licencí nesouhlasíš, změň jí ve vlastnostech úrovně.\nODVOLÁNÍ: Autoři SuperTuxe nejsou zodpovědní za volbu licence."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:162
 msgid ""
@@ -2277,7 +2277,7 @@ msgstr "Měnitelná velikost okna"
 
 #: src/supertux/menu/options_menu.cpp:359
 msgid "Allow window resizing, might require a restart to take effect"
-msgstr "Povolit změnu velikosti okna, může vyžadovat restart hry"
+msgstr "Povolit změnu velikosti okna (může vyžadovat restart hry)"
 
 #: src/supertux/menu/options_menu.cpp:361
 msgid "Window Resolution"
@@ -2311,7 +2311,7 @@ msgstr "Podle prohlížeče"
 
 #: src/supertux/menu/options_menu.cpp:374
 msgid "Fit the resolution to the size of your browser"
-msgstr "Upravit rozlišení podle velikosti okna Tvého prohlížeče"
+msgstr "Upravit rozlišení podle velikosti okna prohlížeče"
 
 #: src/supertux/menu/options_menu.cpp:378
 msgid "Magnification"
@@ -2389,11 +2389,11 @@ msgstr "Nastavit přiřazení tlačítek joysticku"
 
 #: src/supertux/menu/options_menu.cpp:417
 msgid "On-screen controls"
-msgstr "Ovládač na obrazovce"
+msgstr "Ovládání na obrazovce"
 
 #: src/supertux/menu/options_menu.cpp:418
 msgid "Toggle on-screen controls for mobile devices"
-msgstr "Zapnout/vypnout ovládací klávesy na obrazovce pro mobilní zařízení"
+msgstr "Zapnout/vypnout ovládání na obrazovce pro mobilní zařízení"
 
 #: src/supertux/menu/options_menu.cpp:420
 msgid "Enable transitions"
@@ -2433,7 +2433,7 @@ msgstr "Použít herní kurzor myši"
 
 #: src/supertux/menu/options_menu.cpp:436
 msgid "Whether the game renders its own cursor or uses the system's cursor"
-msgstr "Určuje, zda hra vykreslí svůj vlastní kurzor nebo použije systémový kurzor"
+msgstr "Určuje, zda hra vykreslí svůj vlastní kurzor, nebo použije systémový kurzor"
 
 #: src/supertux/menu/options_menu.cpp:438
 msgid "Integrations and presence"
@@ -2443,7 +2443,7 @@ msgstr "Integrace a prezence"
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
-msgstr "Nastav, zda by měl SuperTux zobrazovat jaké úrovně právě hraješ na Tvém profilu na Discordu"
+msgstr "Nastav, zda by měl SuperTux zobrazovat, jaké úrovně právě hraješ, na Tvém profilu na Discordu"
 
 #: src/supertux/menu/options_menu.cpp:559
 msgid ""
@@ -2462,7 +2462,7 @@ msgstr "Doplňky"
 
 #: src/supertux/menu/main_menu.cpp:62 src/supertux/menu/web_asset_menu.cpp:38
 msgid "Manage Assets"
-msgstr "Správa zdrojových souborů"
+msgstr "Správa datových souborů"
 
 #: src/supertux/menu/main_menu.cpp:65 src/supertux/menu/editor_menu.cpp:43
 msgid "Level Editor"
@@ -2987,7 +2987,7 @@ msgstr "Pojmenujte prosím autora této úrovně."
 
 #: src/supertux/menu/editor_level_menu.cpp:91
 msgid "Please enter a license for this level."
-msgstr "Určete prosím licenci této úrovně"
+msgstr "Urči, prosím, licenci této úrovně"
 
 #: src/supertux/menu/editor_menu.cpp:38
 msgid "tiny tile (4px)"
@@ -3071,7 +3071,7 @@ msgstr "Nápověda k automatickému vyhlazování"
 
 #: src/supertux/menu/editor_menu.cpp:84
 msgid "Autosave Frequency"
-msgstr "Frekvence automatického ukládání"
+msgstr "Četnost automatického ukládání"
 
 #: src/supertux/menu/editor_menu.cpp:91
 msgid "Exit Level Editor"
@@ -3079,7 +3079,7 @@ msgstr "Ukončit editor"
 
 #: src/supertux/menu/editor_menu.cpp:140
 msgid "Do you want to package this world as an add-on?"
-msgstr "Chcete zabalit tento svět jako doplněk?"
+msgstr "Chceš zabalit tento svět jako doplněk?"
 
 #: src/supertux/menu/editor_menu.cpp:163
 msgid ""
@@ -3105,7 +3105,7 @@ msgstr "Klávesové zkratky:\n---------------------\nEsc = otevřít menu\nCtrl+
 
 #: src/supertux/menu/editor_delete_level_menu.cpp:53
 msgid "You cannot delete level that you are editing!"
-msgstr "Nemůžete odstranit úroveň, která je právě otevřena!"
+msgstr "Nemůžeš odstranit úroveň, která je právě otevřena!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
@@ -3336,7 +3336,7 @@ msgid ""
 "aren't saved between sessions!\n"
 "If you want to keep your levels, download them\n"
 "from the \"Manage Assets\" menu."
-msgstr "Nezapomeň, že Tvoje úrovně a zdrojové soubory\nse automaticky mezi sezeními neuloží!\nPokud chceš uložit své úrovně, stáhni si je\nz nabídky \"Správa zdrojových souborů\"."
+msgstr "Nezapomeň, že Tvoje úrovně a zdrojové soubory\nse automaticky mezi sezeními neuloží!\nPokud chceš uložit své úrovně, stáhni si je\nz nabídky \"Správa datových souborů\"."
 
 #: src/editor/editor.cpp:582
 msgid "This level contains unsaved changes, do you want to save?"
@@ -3780,11 +3780,11 @@ msgstr "Sněžné pozadí"
 
 #: data//images/tiles.strf:231
 msgid "Snow Mountain"
-msgstr "Sněžná hora"
+msgstr "Zasněžené hory"
 
 #: data//images/tiles.strf:305
 msgid "Crystal"
-msgstr "Krystaly"
+msgstr "Křišťály"
 
 #: data//images/tiles.strf:532
 msgid "Forest Background"

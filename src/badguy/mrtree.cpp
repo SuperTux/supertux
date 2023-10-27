@@ -38,7 +38,6 @@ MrTree::MrTree(const ReaderMapping& reader) :
                 "images/objects/lightmap_light/lightmap_light-large.sprite")
 {
   parse_type(reader);
-  on_type_change(-1);
 
   max_drop_height = 16;
   SoundManager::current()->preload("sounds/mr_tree.ogg");
@@ -53,11 +52,22 @@ MrTree::get_types() const
   };
 }
 
+std::string
+MrTree::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/mr_tree/corrupted/haunted_tree.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
 void
 MrTree::on_type_change(int old_type)
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/mr_tree/" + std::string(m_type == CORRUPTED ? "corrupted/haunted_tree" : "mr_tree") + ".sprite");
+  MovingSprite::on_type_change();
 
   switch (m_type)
   {
@@ -91,19 +101,19 @@ MrTree::collision_squished(GameObject& object)
     return true;
   }
 
-  // replace with Stumpy
+  // Replace with Stumpy.
   Vector stumpy_pos = get_pos();
   stumpy_pos.x += 8;
   stumpy_pos.y += 28;
   auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
   remove_me();
 
-  // give Feedback
+  // Give feedback.
   SoundManager::current()->play("sounds/mr_tree.ogg", get_pos());
   if (player) player->bounce(*this);
 
-  // spawn some particles
-  // TODO: provide convenience function in MovingSprite or MovingObject?
+  // Spawn some particles.
+  // TODO: Provide convenience function in MovingSprite or MovingObject?
   for (int px = static_cast<int>(stumpy.get_bbox().get_left()); px < static_cast<int>(stumpy.get_bbox().get_right()); px+=10) {
     Vector ppos = Vector(static_cast<float>(px),
                          static_cast<float>(stumpy.get_bbox().get_top()) - 5.0f);
@@ -120,8 +130,8 @@ MrTree::collision_squished(GameObject& object)
                                            LAYER_OBJECTS-1);
   }
 
-  if (!m_frozen) { //Frozen Mr.Trees don't spawn any ViciousIvys.
-    // spawn ViciousIvy
+  if (!m_frozen) { // Mr.Trees that are frozen don't spawn any Vicious Ivys.
+    // Spawn ViciousIvy.
     Vector leaf1_pos(stumpy_pos.x - VICIOUSIVY_WIDTH - 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + VICIOUSIVY_WIDTH, leaf1_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
@@ -129,7 +139,7 @@ MrTree::collision_squished(GameObject& object)
       leaf1.m_countMe = false;
     }
 
-    // spawn ViciousIvy
+    // Spawn ViciousIvy.
     Vector leaf2_pos(stumpy_pos.x + m_sprite->get_current_hitbox_width() + 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
     Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + VICIOUSIVY_WIDTH, leaf2_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {

@@ -32,25 +32,35 @@
 #include "util/file_system.hpp"
 
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
+  m_world(),
   m_levelset(),
   m_levelset_select_menu()
 {
   initialize();
 }
 
-EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world,EditorLevelsetSelectMenu* levelset_select_menu) :
+EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world, EditorLevelsetSelectMenu* levelset_select_menu) :
+  m_world(std::move(world)),
   m_levelset(),
   m_levelset_select_menu(levelset_select_menu)
 {
-  Editor::current()->set_world(std::move(world));
   initialize();
 }
 
-void EditorLevelSelectMenu::initialize() {
-  auto editor = Editor::current();
-  World* world = editor->get_world();
+void
+EditorLevelSelectMenu::reload_menu()
+{
+  clear();
+  initialize();
+}
+
+void
+EditorLevelSelectMenu::initialize()
+{
+  Editor::current()->m_deactivate_request = true;
+
+  World* world = get_world();
   auto basedir = world->get_basedir();
-  editor->m_deactivate_request = true;
   m_levelset = std::unique_ptr<Levelset>(new Levelset(basedir, /* recursively = */ true));
   auto num_levels = m_levelset->get_num_levels();
 
@@ -97,6 +107,12 @@ EditorLevelSelectMenu::~EditorLevelSelectMenu()
   editor->m_reactivate_request = true;
 }
 
+World*
+EditorLevelSelectMenu::get_world() const
+{
+  return m_world ? m_world.get() : Editor::current()->get_world();
+}
+
 void
 EditorLevelSelectMenu::create_level()
 {
@@ -112,15 +128,13 @@ EditorLevelSelectMenu::create_worldmap()
 void
 EditorLevelSelectMenu::create_item(bool worldmap)
 {
-  auto editor = Editor::current();
-  World* world = editor->get_world();
+  World* world = get_world();
   auto basedir = world->get_basedir();
   auto new_item = worldmap ?
       LevelParser::from_nothing_worldmap(basedir, world->get_title()) :
       LevelParser::from_nothing(basedir);
-  new_item->save(basedir + "/" + new_item->m_filename);
-  editor->set_level(new_item->m_filename);
-  MenuManager::instance().clear_menu_stack();
+  new_item->save(FileSystem::join(basedir, new_item->m_filename));
+  open_level(new_item->m_filename);
 
   if (worldmap)
   {
@@ -142,6 +156,11 @@ void
 EditorLevelSelectMenu::open_level(const std::string& filename)
 {
   auto editor = Editor::current();
+
+  // If a world has been provided (not associated with the editor), set it as the editor world.
+  if (m_world)
+    editor->set_world(std::move(m_world));
+
   editor->set_level(filename);
   MenuManager::instance().clear_menu_stack();
 }
@@ -150,10 +169,8 @@ void
 EditorLevelSelectMenu::menu_action(MenuItem& item)
 {
   auto editor = Editor::current();
-  World* world = editor->get_world();
   if (item.get_id() >= 0)
   {
-
     std::string file_name = m_levelset->get_level_filename(item.get_id());
     std::string file_name_full = FileSystem::join(editor->get_level_directory(), file_name);
 
@@ -185,17 +202,16 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
         MenuManager::instance().pop_menu();
         break;
       case -3: {
-        auto menu = std::unique_ptr<Menu>(new EditorLevelsetMenu(world));
+        auto menu = std::unique_ptr<Menu>(new EditorLevelsetMenu(get_world()));
         MenuManager::instance().push_menu(std::move(menu));
       } break;
       case -4:
-        editor->set_level("worldmap.stwm");
-        MenuManager::instance().clear_menu_stack();
+        open_level("worldmap.stwm");
         break;
       case -5: {
         if (m_levelset->get_num_levels() > 0)
         {
-          auto delete_menu = std::unique_ptr<Menu>(new EditorDeleteLevelMenu(m_levelset, this, m_levelset_select_menu));
+          auto delete_menu = std::unique_ptr<Menu>(new EditorDeleteLevelMenu(get_world(), m_levelset.get(), this, m_levelset_select_menu));
           MenuManager::instance().push_menu(std::move(delete_menu));
         }
         break;
@@ -208,10 +224,5 @@ EditorLevelSelectMenu::menu_action(MenuItem& item)
     }
   }
 }
-void
-EditorLevelSelectMenu::reload_menu()
-{
-  clear();
-  initialize();
-}
+
 /* EOF */

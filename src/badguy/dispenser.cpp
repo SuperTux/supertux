@@ -51,7 +51,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   reader.get("random", m_random, false);
 
   std::vector<std::string> badguys;
-  if (reader.get("badguy", badguys)) // Backward compatibility
+  if (reader.get("badguy", badguys)) // Backward compatibility.
   {
     for (auto& badguy : badguys)
       add_object(GameObjectFactory::instance().create(badguy));
@@ -75,9 +75,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
-  set_correct_action();
-
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   m_countMe = false;
 }
 
@@ -86,7 +84,7 @@ Dispenser::add_object(std::unique_ptr<GameObject> object)
 {
   auto moving_object = dynamic_cast<MovingObject*>(object.get());
   if (!GameObjectFactory::instance().has_params(object->get_class_name(), ObjectFactory::RegisteredObjectParam::OBJ_PARAM_DISPENSABLE) ||
-      !moving_object) // Object is not MovingObject, or is not dispensable
+      !moving_object) // Object is not MovingObject, or is not dispensable.
   {
     log_warning << object->get_class_name() << " is not dispensable. Removing from dispenser object list." << std::endl;
     return;
@@ -141,11 +139,16 @@ Dispenser::active_update(float dt_sec)
   }
   if (m_dispense_timer.check())
   {
-    // auto always shoots in Tux's direction
-    if (m_autotarget)
+    auto player = get_nearest_player();
+    if (player)
     {
-      auto player = get_nearest_player();
-      if (player)
+      if(player->is_dying() || player->is_dead())
+      {
+        return;
+      }
+      
+      // Auto always shoots in Tux's direction.
+      if (m_autotarget)
       {
         Direction target_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
         if (m_dir != target_dir)
@@ -155,6 +158,7 @@ Dispenser::active_update(float dt_sec)
         }
       }
     }
+
     launch_object();
   }
 }
@@ -165,7 +169,7 @@ Dispenser::launch_object()
   if (m_objects.empty()) return;
   if (m_frozen) return;
 
-  //FIXME: Does is_offscreen() work right here?
+  // FIXME: Does is_offscreen() work right here?
   if (!is_offscreen() && !Editor::is_active())
   {
     Direction launch_dir = m_dir;
@@ -230,7 +234,7 @@ Dispenser::launch_object()
           break;
 
         case DispenserType::CANNON:
-          spawnpoint = get_pos(); /* top-left corner of the cannon */
+          spawnpoint = get_pos(); /* Top-left corner of the cannon. */
           if (launch_dir == Direction::LEFT)
             spawnpoint.x -= object_bbox.get_width() + 1;
           else
@@ -247,17 +251,17 @@ Dispenser::launch_object()
           break;
       }
 
-      /* Now we set the real spawn position */
+      /* Now we set the real spawn position. */
       moving_object->set_pos(spawnpoint);
 
-      /* Set reference to dispenser in the object itself */
+      /* Set reference to dispenser in the object itself. */
       moving_object->set_parent_dispenser(this);
 
-      if (obj_badguy) // The object is a badguy
+      if (obj_badguy) // The object is a badguy.
       {
         auto badguy = static_cast<BadGuy*>(moving_object);
 
-        /* We don't want to count dispensed badguys in level stats */
+        /* We don't want to count dispensed badguys in level stats. */
         badguy->m_countMe = false;
 
         if (m_limit_dispensed_badguys)
@@ -343,9 +347,6 @@ Dispenser::is_portable() const
 void
 Dispenser::set_correct_action()
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/dispenser/" + (m_type == DispenserType::POINT ? "invisible" : type_value_to_id(m_type)) + ".sprite");
-
   switch (m_type)
   {
     case DispenserType::CANNON:
@@ -362,6 +363,7 @@ Dispenser::set_correct_action()
 void
 Dispenser::on_type_change(int old_type)
 {
+  MovingSprite::on_type_change();
   set_correct_action();
 }
 
@@ -389,10 +391,22 @@ GameObjectTypes
 Dispenser::get_types() const
 {
   return {
-    { "cannon", _("cannon") },
     { "dropper", _("dropper") },
+    { "cannon", _("cannon") },
     { "point", _("invisible") }
   };
+}
+
+std::string
+Dispenser::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case POINT:
+      return "images/creatures/dispenser/invisible.sprite";
+    default:
+      return "images/creatures/dispenser/" + type_value_to_id(m_type) + ".sprite";
+  }
 }
 
 void

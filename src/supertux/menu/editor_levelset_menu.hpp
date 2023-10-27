@@ -23,9 +23,7 @@ class World;
 
 class EditorLevelsetMenu final : public Menu
 {
-private:
 public:
-  EditorLevelsetMenu();
   EditorLevelsetMenu(World* world_);
   ~EditorLevelsetMenu() override;
 
@@ -34,9 +32,10 @@ public:
 private:
   void initialize();
 
-  World* world;
+private:
+  World* m_world;
 
-  int levelset_type;
+  int m_levelset_type;
 
 private:
   EditorLevelsetMenu(const EditorLevelsetMenu&) = delete;

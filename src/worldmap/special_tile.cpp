@@ -23,7 +23,7 @@
 namespace worldmap {
 
 SpecialTile::SpecialTile(const ReaderMapping& mapping) :
-  WorldMapObject(mapping, "images/worldmap/common/specialtile.png"),
+  WorldMapObject(mapping, "images/engine/editor/specialtile.png"),
   m_map_message(),
   m_passive_message(false),
   m_script(),

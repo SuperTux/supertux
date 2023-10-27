@@ -28,9 +28,8 @@ class Rock : public MovingSprite,
              public ExposedObject<Rock, scripting::Rock>
 {
 public:
-  Rock(const Vector& pos, const std::string& spritename);
-  Rock(const ReaderMapping& reader);
-  Rock(const ReaderMapping& reader, const std::string& spritename);
+  Rock(const ReaderMapping& reader, const std::string& spritename = "images/objects/rock/rock.sprite");
+  Rock(const Vector& pos, const std::string& spritename = "images/objects/rock/rock.sprite");
 
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -38,14 +37,24 @@ public:
 
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
+
   static std::string class_name() { return "rock"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Rock"); }
   virtual std::string get_display_name() const override { return display_name(); }
+
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
+
+private:
+  enum Type {
+    SMALL,
+    LARGE
+  };
 
 protected:
   Physic physic;

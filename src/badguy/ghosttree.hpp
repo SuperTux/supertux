@@ -48,6 +48,9 @@ public:
   void willowisp_died(TreeWillOWisp* willowisp);
   void die();
 
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   enum MyState {
     STATE_IDLE, STATE_SUCKING, STATE_SWALLOWING, STATE_DYING

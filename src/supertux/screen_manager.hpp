@@ -61,6 +61,8 @@ public:
 
   void loop_iter();
 
+  const std::vector<std::unique_ptr<Screen>>& get_screen_stack() { return m_screen_stack; }
+
 private:
   struct FPS_Stats;
   void draw_fps(DrawingContext& context, FPS_Stats& fps_statistics);

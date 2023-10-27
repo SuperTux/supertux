@@ -19,7 +19,6 @@
 
 #include "badguy/fish_swimming.hpp"
 
-/** Jumping on a trampoline makes tux jump higher. */
 class FishChasing final : public FishSwimming
 {
 public:
@@ -33,6 +32,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual std::string get_overlay_size() const override { return "2x2"; }
   virtual ObjectSettings get_settings() override;
+
+  std::string get_default_sprite_name() const override;
 
 private:
   enum ChaseState {

@@ -30,6 +30,7 @@ MenuItem::MenuItem(const std::string& text, int id) :
   m_id(id),
   m_text(text),
   m_help(),
+  m_font(Resources::normal_font),
   m_preview()
 {
 }
@@ -42,11 +43,11 @@ void
 MenuItem::set_help(const std::string& help_text)
 {
   std::string overflow;
-  m_help = Resources::normal_font->wrap_to_width(help_text, 600, &overflow);
+  m_help = m_font->wrap_to_width(help_text, 600, &overflow);
   while (!overflow.empty())
   {
     m_help += "\n";
-    m_help += Resources::normal_font->wrap_to_width(overflow, 600, &overflow);
+    m_help += m_font->wrap_to_width(overflow, 600, &overflow);
   }
 }
 
@@ -59,9 +60,9 @@ MenuItem::set_preview(const std::string& preview_file)
 void
 MenuItem::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  context.color().draw_text(Resources::normal_font, m_text,
+  context.color().draw_text(m_font, m_text,
                             Vector( pos.x + static_cast<float>(menu_width) / 2.0f,
-                                    pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.0f ),
+                                    pos.y - static_cast<float>(m_font->get_height()) / 2.0f ),
                             ALIGN_CENTER, LAYER_GUI, active ? g_config->activetextcolor : get_color());
 }
 
@@ -72,7 +73,7 @@ MenuItem::get_color() const {
 
 int
 MenuItem::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(m_text)) + 16;
+  return static_cast<int>(m_font->get_text_width(m_text)) + 16;
 }
 
 /* EOF */

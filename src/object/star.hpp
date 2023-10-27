@@ -18,25 +18,30 @@
 #define HEADER_SUPERTUX_OBJECT_STAR_HPP
 
 #include "object/moving_sprite.hpp"
+
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
 class Star final : public MovingSprite
 {
 public:
-  Star(const Vector& pos, Direction direction = Direction::RIGHT);
+  Star(const Vector& pos, Direction direction = Direction::RIGHT, const std::string& custom_sprite = "");
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual bool is_saveable() const override {
-    return false;
-  }
+
+  virtual bool is_saveable() const override { return false; }
 
 private:
   Physic physic;
   SpritePtr lightsprite;
+
+private:
+  Star(const Star&) = delete;
+  Star& operator=(const Star&) = delete;
 };
 
 #endif

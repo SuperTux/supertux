@@ -6,6 +6,7 @@
 # André Pinheiro <andrepinheiro2004@gmail.com>, 2021
 # Dani <danielaafferraz@gmail.com>, 2013
 # Hugo Carvalho <hugokarvalho@hotmail.com>, 2021
+# João Frade <100nome.portugal@gmail.com>, 2023
 # Rui <xymarior@yandex.com>, 2016,2018
 # Tiago Correia <tiaguito05@gmail.com>, 2019
 # Rui <xymarior@yandex.com>, 2016
@@ -15,14 +16,14 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-14 13:14+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
-"Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: João Frade <100nome.portugal@gmail.com>, 2023\n"
+"Language-Team: Portuguese (http://app.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: data/levels/world2/ancient_ruins.stl:3
 msgid "Ancient Ruins"
@@ -45,7 +46,7 @@ msgstr "Velhas Ruínas"
 #: data/levels/world2/wooden_roots.stl:279
 #: data/levels/world2/worldmap.stwm:186
 msgid "You found a secret area!"
-msgstr "Descobriu uma área secreta!"
+msgstr "Descobriste uma área secreta!"
 
 #: data/levels/world2/beside_bushes.stl:3
 msgid "Beside the Bushes"
@@ -57,7 +58,7 @@ msgstr "Molas Saltitantes"
 
 #: data/levels/world2/bye_bye_forest.stl:3
 msgid "Bye Bye Forest"
-msgstr "Floresta Bye Bye"
+msgstr "Floresta Adeusinho"
 
 #: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
@@ -65,7 +66,7 @@ msgstr "Caminho Destruído"
 
 #: data/levels/world2/darkness_awaits.stl:3
 msgid "Darkness Awaits"
-msgstr "A Escuridão Espera"
+msgstr "A Escuridão Aguarda"
 
 #: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
@@ -99,7 +100,7 @@ msgstr "Covil de Ghouls"
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
-msgstr "#Lanternas são usadas para fazer blocos mágicos sólidos, para que consigas andar sobre eles."
+msgstr "#Lanternas são usadas para tornar sólidos os blocos mágicos, para que consigas andar sobre eles."
 
 #: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
@@ -107,17 +108,17 @@ msgstr "Pelo Subterrâneo"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:3
 msgid "I Spy With My Little Eye"
-msgstr "Eu Espio Com o Meu Pequeno Olho"
+msgstr "Eu Espio Com o Meu Olhinho"
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:221
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
-msgstr "-Ispy\n#Ispys vão ativar coisas, como por exemplo, plataformas, sempre que Tux estiver no seu campo de visão."
+msgstr "-Ispy\n#Ispys vão ativar coisas, como por exemplo plataformas, sempre que o Tux estiver no seu campo de visão."
 
 #: data/levels/world2/i_spy_with_my_little_eye.stl:595
 msgid "Hint: Use snails to break blocks!"
-msgstr "Dica: Usa caracóis para partir blocos!"
+msgstr "Dica: usa caracóis para partir blocos!"
 
 #: data/levels/world2/leaf_wind.stl:3
 msgid "Like a leaf in the Wind"
@@ -165,7 +166,7 @@ msgid ""
 "!images/powerups/earthflower/earth_flower-1.png\n"
 "#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
 "#This does not work while jumping or falling!"
-msgstr "-Flor-de-Terra\n!images/powerups/earthflower/earth_flower-1.png\n#A  flor-de-Terra dá ao Tux o poder de virar em pedra ao pressionar a tecla de AÇÃO e de SETA PARA BAIXO ao mesmo tempo.\n#Isto não funciona quando pulas ou saltas!"
+msgstr "-Flor-de-Terra\n!images/powerups/earthflower/earth_flower-1.png\n#A flor-de-Terra dá ao Tux o poder de se tornar em pedra ao premir a tecla AÇÃO e SETA BAIXO ao mesmo tempo.\n#Isto não funciona quando saltas ou cais!"
 
 #: data/levels/world2/tower_cutscene.stl:3
 msgid "Tower Cutscene"
@@ -177,7 +178,7 @@ msgstr "Torre de Fantasmas"
 
 #: data/levels/world2/tux_builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux o Construtor"
+msgstr "Tux, o Construtor"
 
 #: data/levels/world2/tux_builder.stl:77
 msgid ""
@@ -185,7 +186,7 @@ msgid ""
 "!images/objects/rock/rock.png\n"
 "#Tux can pick up certain objects and carry them around.\n"
 "#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
-msgstr "-Objetos Portáteis:\n!images/objects/rock/rock.png\n#O Tux pode segurar em certos objectos e transportá-los\n#Pressione a tecla de AÇÃO para agarrar um objeto e mantê-lo premido durante o tempo que desejar transportar o objeto. Solte a tecla de AÇÃO para largar o objeto."
+msgstr "-Objetos Portáteis:\n!images/objects/rock/rock.png\n#O Tux pode segurar certos objetos e transportá-los.\n#Prime a tecla AÇÃO para apanhar um objeto e segura-a premida durante o tempo que desejes que o transporte. Solta a tecla AÇÃO para largar o objeto."
 
 #: data/levels/world2/tux_own_horror_show.stl:3
 msgid "Tux' Own Horror Show"
@@ -210,7 +211,7 @@ msgid ""
 "-Doors\n"
 "!images/objects/door/door-0.png\n"
 "#Tux can go through a door by pressing the UP key."
-msgstr "-Portas\n!images/objects/door/door-0.png\n#Tux pode passar por uma porta premindo a tecla SETA PARA CIMA."
+msgstr "-Portas\n!images/objects/door/door-0.png\n#O Tux pode passar por uma porta premindo a tecla SETA CIMA."
 
 #: data/levels/world2/wooden_roots.stl:3
 msgid "Wooden Roots"
