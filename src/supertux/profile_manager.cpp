@@ -43,10 +43,8 @@ ProfileManager::get_profile(int id)
   }
   else
   {
-    auto profile = std::make_unique<Profile>(id);
-    Profile& result = *profile;
-    m_profiles[id] = std::move(profile);
-    return result;
+    m_profiles[id] = std::make_unique<Profile>(id);
+    return *m_profiles[id];
   }
 }
 
