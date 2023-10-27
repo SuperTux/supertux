@@ -25,7 +25,7 @@ namespace{
 }
 
 CaptainSnowball::CaptainSnowball(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right"),
+  WalkingBadguy(reader, "images/creatures/snowball/captain-snowball.sprite", "left", "right"),
   m_jumping(false)
 {
   walk_speed = BOARDING_SPEED;

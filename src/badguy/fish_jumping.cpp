@@ -27,7 +27,7 @@ static const float FISH_WAIT_TIME = 1.f;
 static const float FISH_BEACH_TIME = 5.f;
 
 FishJumping::FishJumping(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/fish/jumpfish.sprite"),
+  BadGuy(reader, "images/creatures/fish/forest/jumpfish.sprite"),
   m_wait_timer(),
   m_beached_timer(),
   m_stop_y(0)
