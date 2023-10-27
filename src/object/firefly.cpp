@@ -30,8 +30,8 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const Color TORCH_LIGHT_COLOR = Color(0.87f, 0.64f, 0.12f); /** Color of the light specific to the torch firefly sprite */
-static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite */
+static const Color TORCH_LIGHT_COLOR = Color(0.87f, 0.64f, 0.12f); /** Color of the light specific to the torch firefly sprite. */
+static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite. */
 
 Firefly::Firefly(const ReaderMapping& mapping) :
    MovingSprite(mapping, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
@@ -39,19 +39,6 @@ Firefly::Firefly(const ReaderMapping& mapping) :
    activated(false),
    initial_position(get_pos())
 {
-  if (!mapping.get( "sprite", m_sprite_name)){
-    update_state();
-    return;
-  }
-  if (m_sprite_name.empty()) {
-    m_sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
-    update_state();
-    return;
-  }
-  //Replace sprite
-  m_sprite = SpriteManager::current()->create( m_sprite_name );
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
-
   if (m_sprite_name.find("torch", 0) != std::string::npos) {
     m_sprite_light = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite");
     m_sprite_light->set_blend(Blend::ADD);
@@ -60,7 +47,7 @@ Firefly::Firefly(const ReaderMapping& mapping) :
 
   update_state();
 
-  //Load sound
+  // Load sound.
   if ( m_sprite_name.find("vbell", 0) != std::string::npos ) {
     SoundManager::current()->preload("sounds/savebell_low.wav");
   }
@@ -101,11 +88,11 @@ Firefly::update_state()
       active_checkpoint_spawnpoint->sector == Sector::get().get_name() &&
       active_checkpoint_spawnpoint->position == initial_position) // Is activated.
   {
-    m_sprite->set_action("ringing");
+    set_action("ringing");
   }
   else // Is deactivated.
   {
-    m_sprite->set_action("normal");
+    set_action("normal");
   }
 }
 
@@ -119,7 +106,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
   auto player = dynamic_cast<Player*> (&other);
   if (player) {
     activated = true;
-    // spawn some particles
+    // Spawn some particles.
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 5; i++) {
       Vector ppos = m_col.m_bbox.get_middle();
@@ -142,7 +129,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       SoundManager::current()->play("sounds/savebell2.wav", get_pos());
     }
 
-    m_sprite->set_action("ringing");
+    set_action("ringing");
     GameSession::current()->set_checkpoint_pos(Sector::get().get_name(),
                                                initial_position);
   }

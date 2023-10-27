@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <bitset>
-
 #include "supertux/autotile.hpp"
 
-//#include "supertux/autotile_parser.hpp"
+#include <bitset>
 
-// AutotileMask
+#include "util/log.hpp"
+
+// AutotileMask.
 
 AutotileMask::AutotileMask(uint8_t mask, bool center) :
   m_mask(mask),
@@ -34,17 +34,11 @@ AutotileMask::matches(uint8_t mask, bool center) const
   return mask == m_mask && center == m_center;
 }
 
-uint8_t
-AutotileMask::get_mask() const
-{
-  return m_mask;
-}
+// Autotile.
 
-// Autotile
-
-Autotile::Autotile(uint32_t tile_id, std::vector<std::pair<uint32_t, float>> alt_tiles, std::vector<AutotileMask*> masks, bool solid) :
+Autotile::Autotile(uint32_t tile_id, const std::vector<std::pair<uint32_t, float>>& alt_tiles, const std::vector<AutotileMask>& masks, bool solid) :
   m_tile_id(tile_id),
-  m_alt_tiles(std::move(alt_tiles)),
+  m_alt_tiles(alt_tiles),
   m_masks(std::move(masks)),
   m_solid(solid)
 {
@@ -55,7 +49,7 @@ Autotile::matches(uint8_t num_mask, bool center) const
 {
   for (auto& l_mask : m_masks)
   {
-    if (l_mask->matches(num_mask, center))
+    if (l_mask.matches(num_mask, center))
     {
       return true;
     }
@@ -64,22 +58,16 @@ Autotile::matches(uint8_t num_mask, bool center) const
 }
 
 uint32_t
-Autotile::get_tile_id() const
-{
-  return m_tile_id;
-}
-
-uint32_t
 Autotile::pick_tile(int x, int y) const
 {
   // Needed? Not needed?
-  // Could avoid pointless computation
+  // Could avoid pointless computation.
   if (m_alt_tiles.size() == 0)
     return m_tile_id;
 
   // srand() and rand() are inconsistent across platforms (Windows)
-  //srand(x * 32768 + y);
-  //float rnd_val = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+  // srand(x * 32768 + y);
+  // float rnd_val = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 
   float rnd_val = static_cast<float>(
     (
@@ -116,33 +104,26 @@ uint8_t
 Autotile::get_first_mask() const
 {
   if (!m_masks.empty())
-    return m_masks[0]->get_mask();
+    return m_masks[0].get_mask();
   return 0;
 }
 
-std::vector<std::pair<uint32_t, float>>
-Autotile::get_all_tile_ids() const
-{
-  return m_alt_tiles;
-}
+// AutotileSet.
 
-bool
-Autotile::is_solid() const
-{
-  return m_solid;
-}
+std::vector<std::unique_ptr<AutotileSet>> AutotileSet::m_autotilesets;
 
-
-// AutotileSet
-
-std::vector<AutotileSet*>* AutotileSet::m_autotilesets = new std::vector<AutotileSet*>();
-
-AutotileSet::AutotileSet(std::vector<Autotile*> tiles, uint32_t default_tile, std::string name, bool corner) :
-  m_autotiles(std::move(tiles)),
+AutotileSet::AutotileSet(const std::vector<Autotile*>& tiles, uint32_t default_tile, const std::string& name, bool corner) :
+  m_autotiles(tiles),
   m_default(default_tile),
-  m_name(std::move(name)),
+  m_name(name),
   m_corner(corner)
 {
+}
+
+AutotileSet::~AutotileSet()
+{
+  for (Autotile* autotile : m_autotiles)
+    delete autotile;
 }
 
 /*
@@ -210,7 +191,7 @@ AutotileSet::get_autotile(uint32_t tile_id,
     if (top_left)     num_mask = static_cast<uint8_t>(num_mask + 0x80);
   }
 
-  for (auto& autotile : m_autotiles)
+  for (auto* autotile : m_autotiles)
   {
     if (autotile->matches(num_mask, center))
     {
@@ -219,14 +200,6 @@ AutotileSet::get_autotile(uint32_t tile_id,
   }
 
   return center ? get_default_tile() : 0;
-}
-
-
-
-uint32_t
-AutotileSet::get_default_tile() const
-{
-  return m_default;
 }
 
 bool
@@ -250,7 +223,7 @@ AutotileSet::is_member(uint32_t tile_id) const
     }
   }
   // m_default should *never* be 0 (always a valid solid tile,
-  //   even if said tile isn't part of the tileset)
+  // even if said tile isn't part of the tileset).
   return tile_id == m_default && m_default != 0;
 }
 
@@ -260,7 +233,7 @@ AutotileSet::is_solid(uint32_t tile_id) const
   if (!is_member(tile_id))
     return false;
 
-  for (auto& tile : m_autotiles)
+  for (auto* tile : m_autotiles)
   {
     if (tile->get_tile_id() == tile_id)
     {
@@ -281,14 +254,14 @@ AutotileSet::is_solid(uint32_t tile_id) const
   //log_warning << "Called AutotileSet::is_solid() with a tile_id that isn't in the Autotileset, yet that returns is_member() = true." << std::endl;
 
   // m_default should *never* be 0 (always a valid solid tile,
-  //   even if said tile isn't part of the tileset)
+  // even if said tile isn't part of the tileset).
   return tile_id == m_default && m_default != 0;
 }
 
 uint8_t
 AutotileSet::get_mask_from_tile(uint32_t tile) const
 {
-  for (auto& autotile : m_autotiles)
+  for (auto* autotile : m_autotiles)
   {
     if (autotile->is_amongst(tile)) {
       return autotile->get_first_mask();
@@ -301,15 +274,15 @@ void
 AutotileSet::validate() const
 {
   // Corner autotiles are always empty if all 4 corners are, but regular
-  // autotiles should have a valid tile ID that can be surrounded by emptiness
+  // autotiles should have a valid tile ID that can be surrounded by emptiness.
   for (int mask = (m_corner ? 1 : 0); mask <= (m_corner ? 15 : 255); mask++)
   {
     uint8_t num_mask = static_cast<uint8_t>(mask);
     bool tile_exists = false;
-    uint32_t tile_nonsolid = 0; // Relevant only for non-corner autotiles
-    uint32_t tile_with_that_mask = 0; // Used to help users debug
+    uint32_t tile_nonsolid = 0; // Relevant only for non-corner autotiles.
+    uint32_t tile_with_that_mask = 0; // Used to help users debug.
 
-    for (auto& autotile : m_autotiles)
+    for (auto* autotile : m_autotiles)
     {
       if (autotile->matches(num_mask, true))
       {

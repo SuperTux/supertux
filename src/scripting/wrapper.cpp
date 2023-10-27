@@ -612,6 +612,66 @@ static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Camera_start_earthquake_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'start_earthquake' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->start_earthquake(arg0, arg1);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'start_earthquake'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_stop_earthquake_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'stop_earthquake' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+
+  try {
+    _this->stop_earthquake();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_earthquake'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -834,6 +894,41 @@ static SQInteger Camera_set_scale_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Camera_set_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg1;
+  if(SQ_FAILED(sq_getinteger(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_scale_anchor(arg0, static_cast<int> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_scale_anchor'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -864,6 +959,46 @@ static SQInteger Camera_scale_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'scale'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Camera_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->scale_anchor(arg0, arg1, static_cast<int> (arg2));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'scale_anchor'"));
     return SQ_ERROR;
   }
 
@@ -909,6 +1044,51 @@ static SQInteger Camera_ease_scale_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Camera_ease_scale_anchor_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'ease_scale_anchor' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg3;
+  if(SQ_FAILED(sq_getstring(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->ease_scale_anchor(arg0, arg1, static_cast<int> (arg2), arg3);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'ease_scale_anchor'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_get_screen_width_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -920,9 +1100,9 @@ static SQInteger Camera_get_screen_width_wrapper(HSQUIRRELVM vm)
 
 
   try {
-    int return_value = _this->get_screen_width();
+    float return_value = _this->get_screen_width();
 
-    sq_pushinteger(vm, return_value);
+    sq_pushfloat(vm, return_value);
     return 1;
 
   } catch(std::exception& e) {
@@ -946,9 +1126,9 @@ static SQInteger Camera_get_screen_height_wrapper(HSQUIRRELVM vm)
 
 
   try {
-    int return_value = _this->get_screen_height();
+    float return_value = _this->get_screen_height();
 
-    sq_pushinteger(vm, return_value);
+    sq_pushfloat(vm, return_value);
     return 1;
 
   } catch(std::exception& e) {
@@ -4920,6 +5100,36 @@ static SQInteger Decal_fade_out_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Decal_set_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_action' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Decal* _this = reinterpret_cast<scripting::Decal*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_action(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Dispenser_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Dispenser* _this = reinterpret_cast<scripting::Dispenser*> (ptr);
@@ -5762,6 +5972,61 @@ static SQInteger GameObjectManager_set_music_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_music'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger GameObjectManager_add_object_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'add_object' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::GameObjectManager* _this = reinterpret_cast<scripting::GameObjectManager*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+  SQInteger arg3;
+  if(SQ_FAILED(sq_getinteger(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not an integer"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg4;
+  if(SQ_FAILED(sq_getstring(vm, 6, &arg4))) {
+    sq_throwerror(vm, _SC("Argument 5 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg5;
+  if(SQ_FAILED(sq_getstring(vm, 7, &arg5))) {
+    sq_throwerror(vm, _SC("Argument 6 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->add_object(arg0, arg1, static_cast<int> (arg2), static_cast<int> (arg3), arg4, arg5);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'add_object'"));
     return SQ_ERROR;
   }
 
@@ -7374,6 +7639,41 @@ static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_velocity_y'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_set_velocity_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_velocity' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_velocity(arg0, arg1);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_velocity'"));
     return SQ_ERROR;
   }
 
@@ -11212,6 +11512,33 @@ static SQInteger WorldMapSector_move_to_spawnpoint_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger WorldMapSector_get_filename_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_filename' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::WorldMapSector* _this = reinterpret_cast<scripting::WorldMapSector*> (data);
+
+
+  try {
+    std::string return_value = _this->get_filename();
+
+    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_filename'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return scripting::display(vm);
@@ -12230,6 +12557,25 @@ static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Level_has_active_sequence_wrapper(HSQUIRRELVM vm)
+{
+
+  try {
+    bool return_value = scripting::Level_has_active_sequence();
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_has_active_sequence'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Level_spawn_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -12436,6 +12782,44 @@ static SQInteger Level_edit_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_edit'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_pause_target_timer_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    scripting::Level_pause_target_timer();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_pause_target_timer'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Level_resume_target_timer_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+
+  try {
+    scripting::Level_resume_target_timer();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_resume_target_timer'"));
     return SQ_ERROR;
   }
 
@@ -13661,6 +14045,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'Level_finish'");
   }
 
+  sq_pushstring(v, "Level_has_active_sequence", -1);
+  sq_newclosure(v, &Level_has_active_sequence_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_has_active_sequence'");
+  }
+
   sq_pushstring(v, "Level_spawn", -1);
   sq_newclosure(v, &Level_spawn_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ss");
@@ -13715,6 +14106,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_edit'");
+  }
+
+  sq_pushstring(v, "Level_pause_target_timer", -1);
+  sq_newclosure(v, &Level_pause_target_timer_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_pause_target_timer'");
+  }
+
+  sq_pushstring(v, "Level_resume_target_timer", -1);
+  sq_newclosure(v, &Level_resume_target_timer_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'Level_resume_target_timer'");
   }
 
   // Register class AmbientSound
@@ -13951,6 +14356,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'shake'");
   }
 
+  sq_pushstring(v, "start_earthquake", -1);
+  sq_newclosure(v, &Camera_start_earthquake_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'start_earthquake'");
+  }
+
+  sq_pushstring(v, "stop_earthquake", -1);
+  sq_newclosure(v, &Camera_stop_earthquake_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop_earthquake'");
+  }
+
   sq_pushstring(v, "set_pos", -1);
   sq_newclosure(v, &Camera_set_pos_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
@@ -14000,6 +14419,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'set_scale'");
   }
 
+  sq_pushstring(v, "set_scale_anchor", -1);
+  sq_newclosure(v, &Camera_set_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_scale_anchor'");
+  }
+
   sq_pushstring(v, "scale", -1);
   sq_newclosure(v, &Camera_scale_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
@@ -14007,11 +14433,25 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'scale'");
   }
 
+  sq_pushstring(v, "scale_anchor", -1);
+  sq_newclosure(v, &Camera_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'scale_anchor'");
+  }
+
   sq_pushstring(v, "ease_scale", -1);
   sq_newclosure(v, &Camera_ease_scale_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|ns");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'ease_scale'");
+  }
+
+  sq_pushstring(v, "ease_scale_anchor", -1);
+  sq_newclosure(v, &Camera_ease_scale_anchor_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|ns");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'ease_scale_anchor'");
   }
 
   sq_pushstring(v, "get_screen_width", -1);
@@ -14951,6 +15391,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'fade_out'");
   }
 
+  sq_pushstring(v, "set_action", -1);
+  sq_newclosure(v, &Decal_set_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_action'");
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Decal'");
   }
@@ -15166,6 +15613,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'set_music'");
   }
 
+  sq_pushstring(v, "add_object", -1);
+  sq_newclosure(v, &GameObjectManager_add_object_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ssb|nb|nss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'add_object'");
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'GameObjectManager'");
   }
@@ -15232,6 +15686,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'move_to_spawnpoint'");
+  }
+
+  sq_pushstring(v, "get_filename", -1);
+  sq_newclosure(v, &WorldMapSector_get_filename_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_filename'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -15662,6 +16123,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_velocity_y'");
+  }
+
+  sq_pushstring(v, "set_velocity", -1);
+  sq_newclosure(v, &Player_set_velocity_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_velocity'");
   }
 
   sq_pushstring(v, "get_x", -1);

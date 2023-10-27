@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2018-2021
+# Andrei Stepanov, 2018-2021
 # Artem Krosheninnikov <feeblehamster@gmail.com>, 2013,2015
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # Dmitry <dmitrymq@gmail.com>, 2013
 # Savsish <alex.ahmetshins@mail.ru>, 2016
-# Translator TRA, 2021
+# 85e8e9a0e917e081842b0894245d15cc_1e402b3, 2021
+# Темак, 2022-2023
 # Dmitry Anikonov <starwars32@yandex.ru>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-20 14:05+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
+"PO-Revision-Date: 2013-08-10 22:56+0000\n"
+"Last-Translator: Темак, 2022-2023\n"
+"Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -418,7 +419,7 @@ msgstr "Влево"
 
 #: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
 msgid "Center"
-msgstr "По центру"
+msgstr "По середине"
 
 #: src/object/textscroller.cpp:354 src/object/textscroller.cpp:358
 #: src/supertux/menu/keyboard_menu.cpp:35
@@ -511,7 +512,7 @@ msgstr "Окружающее освещение"
 
 #: src/object/lantern.hpp:37
 msgid "Lantern"
-msgstr "Фонарь"
+msgstr "Светильник"
 
 #: src/object/wind.hpp:40
 msgid "Wind"
@@ -588,7 +589,7 @@ msgstr "Инфоблок"
 
 #: src/object/powerup.cpp:191
 msgid "Disable gravity"
-msgstr "Отключить гравитацию"
+msgstr "Отключить притяжение"
 
 #: src/object/ambient_sound.hpp:62
 msgid "Ambient Sound"
@@ -757,7 +758,7 @@ msgstr "Интерактивная система частиц"
 
 #: src/object/thunderstorm.cpp:70
 msgid "Interval"
-msgstr "Интервал"
+msgstr "Промежуток"
 
 #: src/object/thunderstorm.cpp:71
 msgid "Strike Script"
@@ -1815,7 +1816,7 @@ msgstr "  -f, --fullscreen             Запуск в полноэкранно�
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "  -w, --window                 Run in window mode"
-msgstr "  -w, --window                 Запуск в режиме окна"
+msgstr "  -w, --window                 Запуск в окне"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
@@ -1909,18 +1910,18 @@ msgstr "  --play-demo ФАЙЛ УРОВЕНЬ       Проигрывает за�
 
 #: src/supertux/command_line_arguments.cpp:132
 msgid "Directory Options:"
-msgstr "Настройка каталогов:"
+msgstr "Настройка папок:"
 
 #: src/supertux/command_line_arguments.cpp:133
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "  --datadir ПУТЬ                Устанавливает каталог для данных игры"
+msgstr "  --datadir ПУТЬ                Устанавливает папку для данных игры"
 
 #: src/supertux/command_line_arguments.cpp:134
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "  --userdir ПУТЬ                Указывает каталог для пользовательских данных (сохранения и т. д.)"
+msgstr "  --userdir ПУТЬ                Указывает папку для пользовательских данных (сохранения и т. д.)"
 
 #: src/supertux/command_line_arguments.cpp:136
 msgid "Add-On Options:"
@@ -1928,7 +1929,7 @@ msgstr "Настройки дополнений:"
 
 #: src/supertux/command_line_arguments.cpp:137
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
-msgstr "  --repository-url АДРЕС         Установить адрес репозитория дополнений"
+msgstr "  --repository-url АДРЕС         Установить адрес сетевого хранилища дополнений"
 
 #: src/supertux/command_line_arguments.cpp:139
 msgid "Environment variables:"
@@ -1937,11 +1938,11 @@ msgstr "Переменные среды:"
 #: src/supertux/command_line_arguments.cpp:140
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "  SUPERTUX2_USER_DIR           Каталог для пользовательских данных (сохранения и т. д.)"
+msgstr "  SUPERTUX2_USER_DIR           Папка для пользовательских данных (сохранения и т. д.)"
 
 #: src/supertux/command_line_arguments.cpp:141
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "  SUPERTUX2_DATA_DIR           Каталог для данных игры"
+msgstr "  SUPERTUX2_DATA_DIR           Папка для данных игры"
 
 #: src/supertux/title_screen.cpp:44
 msgid "Copyright"
@@ -1951,7 +1952,7 @@ msgstr "Авторское право"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Эта игра поставляется АБСОЛЮТНО БЕЗ ГАРАНТИИ. Это свободное программное обеспечение,\nи вы можете распространять его на определённых условиях, подробности смотрите в файле лицензии.\n"
+msgstr "Эта игра поставляется без КАКИХ-ЛИБО ГАРАНТИЙ. Это свободное программное обеспечение,\nи вы можете распространять его на определённых условиях, подробности смотрите в файле лицензии.\n"
 
 #: src/supertux/menu/integrations_menu.cpp:49
 msgid "Integrations"
@@ -2097,7 +2098,7 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Поделитесь этой картой мира под лицензией CC-BY-SA 4.0 International (рекомендуется).\nОна позволяет третьими лицами вносить изменения и повторно распространять.\nЕсли вы не согласны с этой лицензией, смените её в свойствах карты мира.\nОГОВОРКА: авторы SuperTux не несут ответственности за ваш выбор лицензии."
+msgstr "Поделитесь этой картой мира под лицензией CC-BY-SA 4.0 International (желательно).\nОна позволяет третьими лицами вносить изменения и повторно распространять.\nЕсли вы не согласны с этой лицензией, смените её в свойствах карты мира.\nОГОВОРКА: авторы SuperTux не несут ответственности за ваш выбор лицензии."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:134
 msgid ""
@@ -2105,13 +2106,13 @@ msgid ""
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "Поделитесь этим уровнем под лицензией CC-BY-SA 4.0 International (рекомендуется).\nОна позволяет третьими лицами вносить изменения и повторно распространять.\nЕсли вы не согласны с этой лицензией, смените её в свойствах уровня.\nОГОВОРКА: авторы SuperTux не несут ответственности за ваш выбор лицензии."
+msgstr "Поделитесь этим уровнем под лицензией CC-BY-SA 4.0 International (желательно).\nОна позволяет третьими лицами вносить изменения и повторно распространять.\nЕсли вы не согласны с этой лицензией, смените её в свойствах уровня.\nОГОВОРКА: авторы SuperTux не несут ответственности за ваш выбор лицензии."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:162
 msgid ""
 "An auto-save recovery file was found. Would you like to restore the recovery\n"
 "file and resume where you were before the editor crashed?"
-msgstr "Найден файл восстановления с автоматическим сохранением. Хотите восстановиться\nи вернуться к тому моменту, где вы были до сбоя редактора?"
+msgstr "Найден файл восстановления с автоматическим сохранением. Хотите восстановиться\nи вернуться к тому месту, где вы были до сбоя редактора?"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:169
 msgid "This will delete the auto-save file. Are you sure?"
@@ -2260,11 +2261,11 @@ msgstr "Языковые пакеты содержат актуальные пе
 #: src/supertux/menu/options_menu.cpp:353
 #: src/supertux/menu/profile_menu.cpp:34
 msgid "Select Profile"
-msgstr "Выбор профиля"
+msgstr "Выбор учётной записи"
 
 #: src/supertux/menu/options_menu.cpp:354
 msgid "Select a profile to play with"
-msgstr "Выбрать профиль для игры"
+msgstr "Выбрать учётную запись для игры"
 
 #: src/supertux/menu/options_menu.cpp:358
 msgid "Window Resizable"
@@ -2424,11 +2425,11 @@ msgstr "Автоматически ставить игру на паузу, ко
 
 #: src/supertux/menu/options_menu.cpp:436
 msgid "Use custom mouse cursor"
-msgstr "Использовать игровой курсор мыши"
+msgstr "Использовать игровой указатель мыши"
 
 #: src/supertux/menu/options_menu.cpp:436
 msgid "Whether the game renders its own cursor or uses the system's cursor"
-msgstr "Использовать внутриигровой либо системный курсор"
+msgstr "Использовать внутриигровой либо системный указатель мыши"
 
 #: src/supertux/menu/options_menu.cpp:438
 msgid "Integrations and presence"
@@ -2438,7 +2439,7 @@ msgstr "Интеграция и представление"
 msgid ""
 "Manage whether SuperTux should display the levels you play on your social "
 "media profiles (Discord)"
-msgstr "Отображение уровней SuperTux, на которых вы играете, в ваших социальных сетях (Discord)"
+msgstr "Отображение уровней SuperTux, на которых вы играете, в ваших соцсетях (Discord)"
 
 #: src/supertux/menu/options_menu.cpp:559
 msgid ""
@@ -2481,7 +2482,7 @@ msgstr "Сценарий инициализации"
 
 #: src/supertux/menu/editor_sector_menu.cpp:36
 msgid "Gravity"
-msgstr "Гравитация"
+msgstr "Притяжение"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Resize offset X"
@@ -2498,28 +2499,28 @@ msgstr "Изменить размер"
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
 msgid "[Profile %s]"
-msgstr "[Профиль %s]"
+msgstr "[Учётная запись %s]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
 msgid "Profile %s"
-msgstr "Профиль %s"
+msgstr "Учётная запись %s"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
-msgstr "Сбросить профиль"
+msgstr "Сбросить учётную запись"
 
 #: src/supertux/menu/profile_menu.cpp:51
 msgid "Reset all profiles"
-msgstr "Сбросить все профили"
+msgstr "Сбросить все учётные записи"
 
 #: src/supertux/menu/profile_menu.cpp:67
 msgid "Deleting your profile will reset your game progress. Are you sure?"
-msgstr "Удаление вашего профиля приведёт к сбросу игрового прогресса. Вы уверены?"
+msgstr "Удаление Вашей учётной записи приведёт к сбросу развития в игре. Вы уверены?"
 
 #: src/supertux/menu/profile_menu.cpp:73
 msgid "This will reset your game progress on all profiles. Are you sure?"
-msgstr "Это приведёт к сбросу вашего игрового прогресса во всех профилях. Вы уверены?"
+msgstr "Это приведёт к сбросу Вашего игрового развития во всех учётных записях. Вы уверены?"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -2586,7 +2587,7 @@ msgstr "Проверить в сети"
 
 #: src/supertux/menu/addon_menu.cpp:286
 msgid "Downloading Add-On Repository Index"
-msgstr "Загрузка индекса хранилища дополнений"
+msgstr "Загрузка индекса сетевого хранилища дополнений"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
@@ -2724,7 +2725,7 @@ msgstr "Стрелка вправо"
 
 #: src/supertux/menu/keyboard_menu.cpp:68
 msgid "Return"
-msgstr "Enter"
+msgstr "Ввод"
 
 #: src/supertux/menu/keyboard_menu.cpp:70
 msgid "Space"
@@ -2910,7 +2911,7 @@ msgstr "Подгрузить другую конфигурацию частиц"
 
 #: src/supertux/menu/particle_editor_menu.cpp:44
 msgid "Open Particle Directory"
-msgstr "Открыть папку частицы"
+msgstr "Открыть папку частиц"
 
 #: src/supertux/menu/particle_editor_menu.cpp:45
 #: src/supertux/menu/editor_menu.cpp:88
@@ -3050,7 +3051,7 @@ msgstr "Привязка к сетке"
 
 #: src/supertux/menu/editor_menu.cpp:80
 msgid "Render Background"
-msgstr "Отрисовать фон"
+msgstr "Отрисовать задний план"
 
 #: src/supertux/menu/editor_menu.cpp:81
 msgid "Render Light"
@@ -3133,7 +3134,7 @@ msgid ""
 "If you encounter issues, PLEASE contact the maintainter\n"
 "at https://github.com/supertux/supertux/issues or on the\n"
 "Open Store's Telegram at https://open-store.io/telegram"
-msgstr "Версия для UBports находится в стадии активной разработки!\nЕсли у вас возникнут проблемы, ПОЖАЛУЙСТА, свяжитесь с\nсопровождающим через https://github.com/supertux/supertux/issues\nили в Telegram Open Store: https://open-store.io/telegram"
+msgstr "Версия для Ubuntu Touch находится в разработке!\nЕсли у вас возникнут вопросы, ПОЖАЛУЙСТА, свяжитесь с\nсопровождающим через https://github.com/supertux/supertux/issues\nили в Телеграме Open Store: https://open-store.io/telegram"
 
 #: src/control/joystick_config.cpp:85
 msgid "Joystick Mappings"
@@ -3237,7 +3238,7 @@ msgstr "Специальная плитка"
 
 #: src/editor/particle_editor.cpp:126
 msgid "Max amount"
-msgstr "Максимальное число"
+msgstr "Предельное число"
 
 #: src/editor/particle_editor.cpp:142
 msgid "Spawn anywhere"
@@ -3343,7 +3344,7 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "Некоторые устаревшие дополнения\nвсё ещё активны и могут создавать проблемы в текущей структуре игры.\nВы всё ещё можете включить их из меню.\nОтключение этих дополнений не повлияет на игровой прогресс."
+msgstr "Некоторые устаревшие дополнения\nвсё ещё активны и могут создавать проблемы в текущей структуре игры.\nВы всё ещё можете включить их из меню.\nОтключение этих дополнений не повлияет на игровое развитие."
 
 #: src/editor/editor.cpp:625
 msgid "Disable add-ons"
@@ -3480,11 +3481,11 @@ msgstr "Программирование"
 
 #: data//credits.stxt:76
 msgid "Original Developers"
-msgstr "Оригинальные разработчики"
+msgstr "Изначальные разработчики"
 
 #: data//credits.stxt:81
 msgid "Original Developer"
-msgstr "Оригинальный разработчик"
+msgstr "Изначальный разработчик"
 
 #: data//credits.stxt:99
 msgid "Music, Level Design"
@@ -3642,7 +3643,7 @@ msgstr "SDL, OpenAL и OpenGL"
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
-msgstr "За помощь в создании прекрасной игры\n        для Linux"
+msgstr "За помощь в создании прекрасной игры\n        для Линукса"
 
 #: data//credits.stxt:1159
 msgid "and you, the player"
@@ -3654,7 +3655,7 @@ msgstr "за то, что попробовал эту игру."
 
 #: data//credits.stxt:1171
 msgid "Visit our webpage at"
-msgstr "Посетите наш веб-сайт на"
+msgstr "Посетите нашу страницу на"
 
 #: data//credits.stxt:1180
 msgid "Or visit us directly at IRC:"
@@ -3697,7 +3698,7 @@ msgstr "Желаете помочь…"
 
 #: data//credits.stxt:1234
 msgid "…with localization?"
-msgstr "…с локализацией?"
+msgstr "…с переводом?"
 
 #: data//credits.stxt:1244
 msgid "…with something else?"
@@ -3759,7 +3760,7 @@ msgstr "Сезонный"
 
 #: data//images/ice_world.strf:496
 msgid "Structure"
-msgstr "Структура"
+msgstr "Строение"
 
 #: data//images/ice_world.strf:557
 msgid "Pathing"
@@ -3771,7 +3772,7 @@ msgstr "Вода"
 
 #: data//images/tiles.strf:176
 msgid "Snow Background"
-msgstr "Снежный фон"
+msgstr "Снежный задний план"
 
 #: data//images/tiles.strf:231
 msgid "Snow Mountain"
@@ -3783,7 +3784,7 @@ msgstr "Хрусталь"
 
 #: data//images/tiles.strf:532
 msgid "Forest Background"
-msgstr "Фон леса"
+msgstr "Задний план леса"
 
 #: data//images/tiles.strf:663
 msgid "Block + Bonus"

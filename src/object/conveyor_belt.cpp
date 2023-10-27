@@ -24,15 +24,14 @@
 #include "util/reader_mapping.hpp"
 
 ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
-  MovingObject(reader), // TODO: sprite
+  MovingSprite(reader, "images/objects/conveyor_belt/conveyor.sprite"),
   ExposedObject<ConveyorBelt, scripting::ConveyorBelt>(this),
   m_running(true),
   m_dir(Direction::LEFT),
   m_length(1),
   m_speed(1.0f),
   m_frame(0.0f),
-  m_frame_index(0),
-  m_sprite(SpriteManager::current()->create("images/objects/conveyor_belt/conveyor.sprite"))
+  m_frame_index(0)
 {
   set_group(COLGROUP_STATIC);
   reader.get("running", m_running);
@@ -47,20 +46,18 @@ ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
   if (m_length <= 0)
     m_length = 1;
 
-  m_col.m_bbox.set_size(32.0f * static_cast<float>(m_length), 32.0f);
-
   if (!m_running)
-    m_sprite->set_action("stopped");
+    set_action("stopped");
   else
-    m_sprite->set_action(m_dir);
+    set_action(m_dir);
 }
 
 ObjectSettings
 ConveyorBelt::get_settings()
 {
-  ObjectSettings result = MovingObject::get_settings();
+  ObjectSettings result = MovingSprite::get_settings();
 
-  result.add_direction(_("Direction"), &m_dir, Direction::LEFT, "direction");
+  result.add_direction(_("Direction"), &m_dir, { Direction::LEFT, Direction::RIGHT }, "direction");
   result.add_float(_("Speed"), &m_speed, "speed", 1.0f);
   result.add_bool(_("Running"), &m_running, "running", true);
   result.add_int(_("Length"), &m_length, "length", 3);
@@ -118,25 +115,36 @@ ConveyorBelt::draw(DrawingContext &context)
 }
 
 void
+ConveyorBelt::update_hitbox()
+{
+  MovingSprite::update_hitbox();
+
+  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width() * static_cast<float>(m_length),
+                        m_sprite->get_current_hitbox_height());
+}
+
+void
 ConveyorBelt::after_editor_set()
 {
+  MovingSprite::after_editor_set();
+
   if (m_length <= 0)
     m_length = 1;
-  m_col.m_bbox.set_size(32.0f * static_cast<float>(m_length), 32.0f);
+  set_action(dir_to_string(m_dir));
 }
 
 void
 ConveyorBelt::start()
 {
   m_running = true;
-  m_sprite->set_action(m_dir);
+  set_action(m_dir);
 }
 
 void
 ConveyorBelt::stop()
 {
   m_running = false;
-  m_sprite->set_action("stopped");
+  set_action("stopped");
 }
 
 void
@@ -144,7 +152,7 @@ ConveyorBelt::move_left()
 {
   m_dir = Direction::LEFT;
   if (m_running)
-    m_sprite->set_action("left");
+    set_action("left");
 }
 
 void
@@ -152,7 +160,7 @@ ConveyorBelt::move_right()
 {
   m_dir = Direction::RIGHT;
   if (m_running)
-    m_sprite->set_action("right");
+    set_action("right");
 }
 
 void

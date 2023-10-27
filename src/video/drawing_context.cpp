@@ -114,32 +114,25 @@ DrawingContext::pop_transform()
 const Rect
 DrawingContext::get_viewport() const
 {
-  Rect tmp(
-    static_cast<int>(static_cast<float>(m_viewport.left) / transform().scale),
-    static_cast<int>(static_cast<float>(m_viewport.top) / transform().scale),
-    static_cast<int>(static_cast<float>(m_viewport.right) / transform().scale),
-    static_cast<int>(static_cast<float>(m_viewport.bottom) / transform().scale)
-  );
-
   return m_viewport;
 }
 
-int
+float
 DrawingContext::get_width() const
 {
-  return static_cast<int>(static_cast<float>(m_viewport.get_width()) / transform().scale);
+  return static_cast<float>(m_viewport.get_width()) / transform().scale;
 }
 
-int
+float
 DrawingContext::get_height() const
 {
-  return static_cast<int>(static_cast<float>(m_viewport.get_height()) / transform().scale);
+  return static_cast<float>(m_viewport.get_height()) / transform().scale;
 }
 
 Vector
 DrawingContext::get_size() const
 {
-  return Vector(static_cast<float>(get_width()), static_cast<float>(get_height())) * transform().scale;
+  return Vector(get_width(), get_height()) * transform().scale;
 }
 
 /* EOF */

@@ -88,6 +88,7 @@ public:
   ItemGoTo& add_submenu(const std::string& text, int submenu, int id = -1);
   ItemControlField& add_controlfield(int id, const std::string& text, const std::string& mapping = "");
   ItemStringSelect& add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings);
+  ItemStringSelect& add_string_select(int id, const std::string& text, int default_item, const std::vector<std::string>& strings);
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
   ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
   ItemScriptLine& add_script_line(std::string* input, int id = -1);

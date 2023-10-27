@@ -98,6 +98,11 @@ public:
             top <= other.top && other.bottom <= bottom);
   }
 
+  const int& get_left() const { return left; }
+  const int& get_right() const { return right; }
+  const int& get_top() const { return top; }
+  const int& get_bottom() const { return bottom; }
+
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
   Size get_size() const { return Size(right - left, bottom - top); }
@@ -138,9 +143,10 @@ public:
                 bottom + border);
   }
 
+  Rectf to_rectf() const;
   SDL_Rect to_sdl() const
   {
-    return {left, top, get_width(), get_height()};
+    return { left, top, get_width(), get_height() };
   }
 
   bool operator<(const Rect& other) const {

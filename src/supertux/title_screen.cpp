@@ -118,18 +118,18 @@ TitleScreen::draw(Compositor& compositor)
   sector.draw(context);
 
   context.color().draw_surface_scaled(m_frame,
-                                      Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+                                      Rectf(0, 0, context.get_width(), context.get_height()),
                                       LAYER_FOREGROUND1);
 
   context.color().draw_text(Resources::small_font,
                             m_copyright_text,
-                            Vector(5.0f, static_cast<float>(context.get_height()) - 50.0f),
+                            Vector(5.0f, context.get_height() - 50.0f),
                             ALIGN_LEFT, LAYER_FOREGROUND1);
 
   context.color().draw_text(Resources::small_font,
                             m_videosystem_name,
-                            Vector(static_cast<float>(context.get_width()) - 5.0f,
-                                   static_cast<float>(context.get_height()) - 14.0f),
+                            Vector(context.get_width() - 5.0f,
+                                   context.get_height() - 14.0f),
                             ALIGN_RIGHT, LAYER_FOREGROUND1);
 }
 

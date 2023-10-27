@@ -27,14 +27,14 @@
 #include "squirrel/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
-typedef std::vector<HSQOBJECT> ScriptList;
+typedef std::vector<HSQOBJECT> SquirrelObjectList;
 
 std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
 void print_squirrel_stack(HSQUIRRELVM vm);
 
 SQInteger squirrel_read_char(SQUserPointer file);
 
-HSQUIRRELVM object_to_vm(HSQOBJECT object);
+HSQUIRRELVM object_to_vm(const HSQOBJECT& object);
 
 void compile_script(HSQUIRRELVM vm, std::istream& in,
                     const std::string& sourcename);

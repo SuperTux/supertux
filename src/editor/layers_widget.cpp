@@ -49,7 +49,7 @@ EditorLayersWidget::EditorLayersWidget(Editor& editor) :
   m_sector_text_width(0),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_layer(-1),
-  m_object_tip(),
+  m_object_tip(new Tip()),
   m_has_mouse_focus(false)
 {
 }
@@ -58,7 +58,7 @@ void
 EditorLayersWidget::draw(DrawingContext& context)
 {
 
-  if (m_object_tip) {
+  if (m_object_tip->get_visible()) {
     auto position = get_layer_coords(m_hovered_layer);
     m_object_tip->draw_up(context, position);
   }
@@ -221,7 +221,7 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   float y = mouse_pos.y - static_cast<float>(m_Ypos);
   if (y < 0 || x > static_cast<float>(m_Width)) {
     m_hovered_item = HoveredItem::NONE;
-    m_object_tip = nullptr;
+    m_object_tip->set_visible(false);
     m_has_mouse_focus = false;
     m_scroll_speed = 0;
     return false;
@@ -231,12 +231,12 @@ EditorLayersWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 
   if (x < 0) {
     m_hovered_item = HoveredItem::SPAWNPOINTS;
-    m_object_tip = nullptr;
+    m_object_tip->set_visible(false);
     return true;
   } else {
     if (x <= static_cast<float>(m_sector_text_width)) {
       m_hovered_item = HoveredItem::SECTOR;
-      m_object_tip = nullptr;
+      m_object_tip->set_visible(false);
     } else {
       // Scrolling
       if (x < static_cast<float>(m_sector_text_width + 32)) {
@@ -409,16 +409,17 @@ void
 EditorLayersWidget::update_tip()
 {
   if ( m_hovered_layer >= m_layer_icons.size() ) {
-    m_object_tip = nullptr;
+    m_object_tip->set_visible(false);
     return;
   }
-  m_object_tip = std::make_unique<Tip>(*m_layer_icons[m_hovered_layer]->get_layer());
+  m_object_tip->set_info_for_object(*m_layer_icons[m_hovered_layer]->get_layer());
 }
 
 void
 EditorLayersWidget::update_current_tip()
 {
-  if (!m_object_tip) return;
+  if (!m_object_tip->get_visible())
+    return;
 
   update_tip();
 }

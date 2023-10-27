@@ -30,6 +30,7 @@
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
+FontPtr Resources::default_font;
 FontPtr Resources::console_font;
 FontPtr Resources::fixed_font;
 FontPtr Resources::normal_font;
@@ -53,6 +54,7 @@ Resources::load()
   mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
   MouseCursor::set_current(mouse_cursor.get());
 
+  default_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));
   if (g_debug.get_use_bitmap_fonts())
   {
     console_font.reset(new BitmapFont(BitmapFont::FIXED, "fonts/andale12.stf", 1));
@@ -87,19 +89,33 @@ Resources::load()
   no_tile = Surface::from_file("images/tiles/auxiliary/notile.png");
 }
 
+bool
+Resources::needs_custom_font(const tinygettext::Language& locale)
+{
+  return get_font_for_locale(locale) != "fonts/SuperTux-Medium.ttf";
+}
+
 std::string
 Resources::get_font_for_locale(const tinygettext::Language& locale)
 {
   auto lang = locale.get_language();
 
+  if(lang == "az")
+    return "fonts/NotoSans-Regular.ttf";
   if(lang == "ne")
     return "fonts/Dekko-Regular.ttf";
   if(lang == "cmn" || lang == "ja" || lang == "zh")
     return "fonts/NotoSansCJKjp-Medium.otf";
   if(lang == "he")
     return "fonts/VarelaRound-Regular.ttf";
+  if(lang == "hy")
+    return "fonts/NotoSansArmenian-Regular.ttf";
+  if(lang == "km")
+    return "fonts/NotoSansKhmer-Regular.ttf";
   if(lang == "ko")
     return "fonts/MapoBackpacking.ttf";
+  if(lang == "ml")
+    return "fonts/NotoSansMalayalam-Regular.ttf";
 
   return "fonts/SuperTux-Medium.ttf";
 }
@@ -116,6 +132,7 @@ Resources::unload()
   arrow_right.reset();
 
   // Free global images:
+  default_font.reset();
   console_font.reset();
   fixed_font.reset();
   normal_font.reset();

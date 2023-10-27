@@ -42,7 +42,7 @@ Owl::Owl(const ReaderMapping& reader) :
   carried_object(nullptr)
 {
   reader.get("carry", carried_obj_name, "skydive");
-  set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+  set_action (m_dir, /* loops = */ -1);
   if (Editor::is_active() && s_portable_objects.empty())
     s_portable_objects = GameObjectFactory::instance().get_registered_objects(ObjectFactory::OBJ_PARAM_PORTABLE);
 }
@@ -115,7 +115,7 @@ Owl::active_update (float dt_sec)
       obj_pos.x -= verticalOffset;
       obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
-      //To drop enemie before leave the screen
+      // Drop carried object before leaving the screen
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::get().get_width()){
         carried_object->ungrab (*this, m_dir);
         carried_object = nullptr;
@@ -125,8 +125,7 @@ Owl::active_update (float dt_sec)
         carried_object->grab (*this, obj_pos, m_dir);
     }
     else { /* if (is_above_player) */
-      carried_object->ungrab (*this, m_dir);
-      carried_object = nullptr;
+      ungrab_carried_object();
     }
   }
 }
@@ -141,10 +140,7 @@ Owl::collision_squished(GameObject& object)
   if (player)
     player->bounce (*this);
 
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
 
   kill_fall ();
   return true;
@@ -164,22 +160,16 @@ Owl::kill_fall()
   else
     BadGuy::kill_fall();
 
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
 
-  // start dead-script
+  // Start the dead-script.
   run_dead_script();
 }
 
 void
 Owl::freeze()
 {
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
   m_physic.enable_gravity(true);
   BadGuy::freeze();
 }
@@ -226,11 +216,17 @@ Owl::collision_solid(const CollisionHit& hit)
 void
 Owl::ignite()
 {
+  ungrab_carried_object();
+  BadGuy::ignite();
+}
+
+void
+Owl::ungrab_carried_object()
+{
   if (carried_object != nullptr) {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
-  BadGuy::ignite();
 }
 
 ObjectSettings

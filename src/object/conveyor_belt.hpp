@@ -17,17 +17,14 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CONVEYOR_BELT_HPP
 #define HEADER_SUPERTUX_OBJECT_CONVEYOR_BELT_HPP
 
+#include "object/moving_sprite.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "supertux/moving_object.hpp"
 
 #include "scripting/conveyor_belt.hpp"
 #include "supertux/timer.hpp"
-#include "video/layer.hpp"
-
-class Sprite;
 
 /** This class represents a platform that moves entities riding it. */
-class ConveyorBelt final : public MovingObject,
+class ConveyorBelt final : public MovingSprite,
                            public ExposedObject<ConveyorBelt, scripting::ConveyorBelt>
 {
 public:
@@ -67,6 +64,9 @@ public:
   void set_speed(float target_speed);
 
 private:
+  void update_hitbox() override;
+
+private:
   bool m_running;
   Direction m_dir;
   int m_length;
@@ -76,8 +76,6 @@ private:
   int m_frame_index;
 
   const float MAX_SPEED = 32.0f;
-
-  std::unique_ptr<Sprite> m_sprite;
 
 private:
   ConveyorBelt(const ConveyorBelt&) = delete;

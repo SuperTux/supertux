@@ -23,6 +23,7 @@
 #include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
+#include "supertux/moving_object.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
@@ -46,7 +47,7 @@ GameObjectManager::GameObjectManager(bool undo_tracking) :
 
 GameObjectManager::~GameObjectManager()
 {
-  // clear_objects() must be called before destructing the GameObjectManager
+  // clear_objects() must be called before destructing the GameObjectManager.
   assert(m_gameobjects.size() == 0);
   assert(m_gameobjects_new.size() == 0);
 }
@@ -67,7 +68,7 @@ GameObjectManager::process_resolve_requests()
     GameObject* object = get_object_by_name<GameObject>(request.name);
     if (!object)
     {
-      log_warning << "GameObjectManager: name resolve for '" << request.name << "' failed" << std::endl;
+      log_warning << "GameObjectManager: Name resolve for '" << request.name << "' failed." << std::endl;
       request.callback({});
     }
     else
@@ -89,7 +90,7 @@ GameObjectManager::try_process_resolve_requests()
     auto* object = get_object_by_name<GameObject>(request.name);
     if (!object)
     {
-      // Unlike process_resolve_requests(), we just keep that one in mind
+      // Unlike process_resolve_requests(), we just keep that one in mind.
       new_list.push_back(request);
     }
     else
@@ -116,9 +117,16 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   object->m_parent = this;
 
   if (!object->get_uid())
+  {
     object->set_uid(m_uid_generator.next());
 
-  // make sure the object isn't already in the list
+    // No object UID would indicate the object is not a result of undo/redo.
+    // Any newly placed object in the editor should be on its latest version.
+    if (m_initialized && Editor::is_active())
+      object->update_version();
+  }
+
+  // Make sure the object isn't already in the list.
 #ifndef NDEBUG
   for (const auto& game_object : m_gameobjects) {
     assert(game_object != object);
@@ -128,13 +136,39 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
   }
 #endif
 
-  // Attempt to add object to editor layers
+  // Attempt to add object to editor layers.
   if (m_initialized && Editor::is_active())
     Editor::current()->add_layer(object.get());
 
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
   return tmp;
+}
+
+MovingObject&
+GameObjectManager::add_object_scripting(const std::string& class_name, const std::string& name,
+                                        const Vector& pos, const std::string& direction,
+                                        const std::string& data)
+{
+  if (class_name.empty())
+    throw std::runtime_error("Object class name cannot be empty.");
+
+  if (!name.empty() && get_object_by_name<GameObject>(name))
+    throw std::runtime_error("Object with name '" + name + "' already exists.");
+
+  auto obj = GameObjectFactory::instance().create(class_name, pos,
+                                                  direction.empty() ? Direction::AUTO : string_to_dir(direction),
+                                                  data);
+
+  auto moving_object = dynamic_cast<MovingObject*>(obj.get());
+  if (!moving_object)
+    throw std::runtime_error("Only MovingObject instances can be created via scripting.");
+
+  if (!name.empty())
+    obj->set_name(name);
+
+  add_object(std::move(obj));
+  return *moving_object;
 }
 
 void
@@ -182,7 +216,7 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::flush_game_objects()
 {
-  { // cleanup marked objects
+  { // Clean up marked objects.
     m_gameobjects.erase(
       std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
                      [this](const std::unique_ptr<GameObject>& obj) {
@@ -198,7 +232,7 @@ GameObjectManager::flush_game_objects()
       m_gameobjects.end());
   }
 
-  { // add newly created objects
+  { // Add newly created objects.
     // Objects might add new objects in finish_construction(), so we
     // loop until no new objects show up.
     while (!m_gameobjects_new.empty()) {
@@ -367,20 +401,20 @@ GameObjectManager::has_object_changes() const
 void
 GameObjectManager::this_before_object_add(GameObject& object)
 {
-  { // by_name
+  { // By name:
     if (!object.get_name().empty())
     {
       m_objects_by_name[object.get_name()] = &object;
     }
   }
 
-  { // by_id
+  { // By id:
     assert(object.get_uid());
 
     m_objects_by_uid[object.get_uid()] = &object;
   }
 
-  { // by_type_index
+  { // By type index:
     m_objects_by_type_index[std::type_index(typeid(object))].push_back(&object);
   }
 
@@ -392,7 +426,7 @@ GameObjectManager::this_before_object_remove(GameObject& object)
 {
   save_object_change(object);
 
-  { // by_name
+  { // By name:
     const std::string& name = object.get_name();
     if (!name.empty())
     {
@@ -400,11 +434,11 @@ GameObjectManager::this_before_object_remove(GameObject& object)
     }
   }
 
-  { // by_id
+  { // By id:
     m_objects_by_uid.erase(object.get_uid());
   }
 
-  { // by_type_index
+  { // By type index:
     auto& vec = m_objects_by_type_index[std::type_index(typeid(object))];
     auto it = std::find(vec.begin(), vec.end(), &object);
     assert(it != vec.end());

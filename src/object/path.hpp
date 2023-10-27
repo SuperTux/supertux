@@ -27,6 +27,7 @@
 #include "math/easing.hpp"
 #include "util/gettext.hpp"
 
+template<typename T>
 class ObjectOption;
 class PathGameObject;
 class ReaderMapping;
@@ -72,8 +73,6 @@ public:
       speed(),
       easing()
     {}
-
-    static std::string display_name() { return _("Path Node"); }
 
     Path& get_parent() const { return *parent; }
   };

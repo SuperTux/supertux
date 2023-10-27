@@ -3,10 +3,11 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Anyone Anonymous, 2022
 # Caio César Tavares <caiotava@gmail.com>, 2021
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
-# Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021
+# Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023
 # Herval Ribeiro <heraze@gmail.com>, 2006
 # Jesusaves <jesusalva@themanaworld.org>, 2019
 # Jesusaves <jesusalva@themanaworld.org>, 2020
@@ -22,14 +23,14 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-13 03:08+0000\n"
-"Last-Translator: Jesusaves <jesusalva@themanaworld.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
+"PO-Revision-Date: 2013-08-10 22:56+0000\n"
+"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>, 2020-2021,2023\n"
+"Language-Team: Portuguese (Brazil) (http://app.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: src/trigger/secretarea_trigger.cpp:53 src/trigger/secretarea_trigger.cpp:61
 msgid "You found a secret area!"
@@ -210,7 +211,7 @@ msgstr "Ação"
 
 #: src/object/weak_block.hpp:35
 msgid "Weak Tile"
-msgstr "Bloco frágil"
+msgstr "Piso Frágil"
 
 #: src/object/bumper.cpp:46
 msgid "Facing Left"
@@ -222,7 +223,7 @@ msgstr "Gradiente"
 
 #: src/object/tilemap.hpp:57
 msgid "Tilemap"
-msgstr "Mapa de telas"
+msgstr "Mapa de Pisos"
 
 #: src/object/circleplatform.hpp:32
 msgid "Circular Platform"
@@ -295,7 +296,7 @@ msgstr "Quantidade de bônus"
 
 #: src/object/bonus_block.cpp:209
 msgid "Content"
-msgstr "Bónus"
+msgstr "Bônus"
 
 #: src/object/bonus_block.cpp:210 src/object/coin.hpp:43
 msgid "Coin"
@@ -323,7 +324,7 @@ msgstr "Estrela"
 
 #: src/object/bonus_block.cpp:211
 msgid "Tux doll"
-msgstr "Boneca Tux"
+msgstr "Boneco Tux"
 
 #: src/object/bonus_block.cpp:211
 msgid "Custom"
@@ -536,7 +537,7 @@ msgstr "X"
 #: src/supertux/menu/joystick_menu.cpp:172 src/supertux/moving_object.cpp:59
 #: src/editor/worldmap_objects.cpp:74
 msgid "Y"
-msgstr "S"
+msgstr "Y"
 
 #: src/object/bicycle_platform.cpp:192
 msgid "Platforms"
@@ -1270,7 +1271,7 @@ msgstr "Bate-Bate"
 
 #: src/object/unstable_tile.hpp:37
 msgid "Unstable Tile"
-msgstr "Bloco Instável"
+msgstr "Piso Instável"
 
 #: src/object/brick.hpp:31
 msgid "Brick"
@@ -1578,7 +1579,7 @@ msgstr "Chama"
 
 #: src/badguy/scrystallo.hpp:30
 msgid "Sleeping Crystallo"
-msgstr "Crystallo Adormecido"
+msgstr "Cristal Adormecido"
 
 #: src/badguy/poisonivy.hpp:30
 msgid "Spring Leaf"
@@ -1598,7 +1599,7 @@ msgstr "Chama Fantasma"
 
 #: src/badguy/rcrystallo.hpp:30
 msgid "Roof Crystallo"
-msgstr "Crystallo de Teto"
+msgstr "Cristal de Teto"
 
 #: src/badguy/spiky.hpp:30
 msgid "Spiky"
@@ -1774,7 +1775,7 @@ msgstr "Objeto desconhecido"
 
 #: src/supertux/sector.cpp:414
 msgid "Press escape to skip"
-msgstr "Pressione escape para pular"
+msgstr "Pressione Escape para pular"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
@@ -1804,7 +1805,7 @@ msgstr "  --debug                      Mostra mais mensagens detalhadas de depur
 #: src/supertux/command_line_arguments.cpp:100
 msgid ""
 "  --print-datadir              Print SuperTux's primary data directory."
-msgstr "  --print-datadir               Mostra a diretoria dos dados principais do SuperTux."
+msgstr "  --print-datadir               Mostra o diretório dos dados principais do SuperTux."
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid ""
@@ -1846,7 +1847,7 @@ msgstr "Opções de Áudio:"
 
 #: src/supertux/command_line_arguments.cpp:112
 msgid "  --disable-sound              Disable sound effects"
-msgstr "  --disable-sound              Disable sound effects"
+msgstr "  --disable-sound              Desabilita os efeitos de som"
 
 #: src/supertux/command_line_arguments.cpp:113
 msgid "  --disable-music              Disable music"
@@ -1912,7 +1913,7 @@ msgstr "  --record-demo ARQUIVO NÍVEL     Grava um demo para ARQUIVO"
 
 #: src/supertux/command_line_arguments.cpp:130
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "  --play-demo ARQUIVO NÍVEL       Roda um demo gravado"
+msgstr "  --play-demo ARQUIVO NÍVEL       Reproduz um demo gravado"
 
 #: src/supertux/command_line_arguments.cpp:132
 msgid "Directory Options:"
@@ -1974,7 +1975,7 @@ msgstr "Ativar integração com o Discord"
 
 #: src/supertux/menu/integrations_menu.cpp:57
 msgid "Discord (disabled; not compiled)"
-msgstr "Discord (desativado, não compilado)"
+msgstr "Discord (desativado; não compilado)"
 
 #: src/supertux/menu/contrib_menu.cpp:80
 #: src/supertux/menu/world_set_menu.cpp:31
@@ -2213,6 +2214,7 @@ msgid "%d level"
 msgid_plural "%d levels"
 msgstr[0] "%d nível"
 msgstr[1] "%d níveis"
+msgstr[2] "%d níveis"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:113
 msgid "Create World"
@@ -2704,7 +2706,7 @@ msgstr "Menu de Trapaças"
 #: src/supertux/menu/keyboard_menu.cpp:45
 #: src/supertux/menu/joystick_menu.cpp:83
 msgid "Debug Menu"
-msgstr "Debugar Menu"
+msgstr "Menu de Depuração"
 
 #: src/supertux/menu/keyboard_menu.cpp:47
 #: src/supertux/menu/joystick_menu.cpp:85
@@ -2786,7 +2788,7 @@ msgstr "Configuração Manual"
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Use a configuração manual ao invés do suporte automatico GameController do SDL2."
+msgstr "Use a configuração manual ao invés do suporte automático GameController do SDL2"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
@@ -2806,7 +2808,7 @@ msgstr "Pressione um Botão"
 
 #: src/supertux/menu/joystick_menu.cpp:162
 msgid "Axis "
-msgstr "Eixo"
+msgstr "Eixo "
 
 #: src/supertux/menu/joystick_menu.cpp:165
 msgid "-"
@@ -2979,11 +2981,11 @@ msgstr "Tempo Alvo"
 
 #: src/supertux/menu/editor_level_menu.cpp:83
 msgid "Please enter a name for this level."
-msgstr "Por favor entre com um nome para esse nível"
+msgstr "Por favor entre com um nome para este nível."
 
 #: src/supertux/menu/editor_level_menu.cpp:87
 msgid "Please enter a level author for this level."
-msgstr "Por favor entre com o nome do autor para este nível"
+msgstr "Por favor entre com o nome do autor para este nível."
 
 #: src/supertux/menu/editor_level_menu.cpp:91
 msgid "Please enter a license for this level."
@@ -2991,19 +2993,19 @@ msgstr "Por favor digite uma licença para este nível."
 
 #: src/supertux/menu/editor_menu.cpp:38
 msgid "tiny tile (4px)"
-msgstr "bloco minúsculo (4px)"
+msgstr "piso minúsculo (4px)"
 
 #: src/supertux/menu/editor_menu.cpp:39
 msgid "small tile (8px)"
-msgstr "bloco pequeno (8px)"
+msgstr "piso pequeno (8px)"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "medium tile (16px)"
-msgstr "bloco médio (16px)"
+msgstr "piso médio (16px)"
 
 #: src/supertux/menu/editor_menu.cpp:41
 msgid "big tile (32px)"
-msgstr "bloco grande (32px)"
+msgstr "piso grande (32px)"
 
 #: src/supertux/menu/editor_menu.cpp:46
 msgid "Save Worldmap"
@@ -3594,7 +3596,7 @@ msgstr "Novos recursos e atualizações notórias"
 
 #: data//credits.stxt:503
 msgid "Support for \"glbinding\" as optional OpenGL binding"
-msgstr "Suporte para \"glbinding\" como anexação opcional OpenGL "
+msgstr "Suporte para \"glbinding\" como anexação opcional OpenGL"
 
 #: data//credits.stxt:507
 msgid "New menu code"
@@ -3637,7 +3639,7 @@ msgstr " Agradecimento Especial a"
 
 #: data//credits.stxt:1149
 msgid "Creator of Tux, the Linux penguin"
-msgstr "Criador de Tux, o Pinguim do Linux"
+msgstr "Criador de Tux, o pinguim do Linux"
 
 #: data//credits.stxt:1153
 msgid "SDL, OpenAL and OpenGL"
@@ -3698,7 +3700,7 @@ msgstr "supertux-devel@lists.lethargik.org"
 
 #: data//credits.stxt:1229
 msgid "Want to help…"
-msgstr "Deseja ajudar..."
+msgstr "Deseja ajudar…"
 
 #: data//credits.stxt:1234
 msgid "…with localization?"

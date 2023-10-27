@@ -67,6 +67,8 @@ EditorMenu::refresh()
     add_entry(MNID_TESTLEVEL, _("Test Worldmap"));
   }
 
+  add_entry(MNID_OPTIONS, _("Options"));
+
   add_entry(MNID_SHARE, _("Share Level"));
 
   add_entry(MNID_PACK, _("Package Add-On"));
@@ -183,6 +185,10 @@ EditorMenu::menu_action(MenuItem& item)
         editor->m_test_request = true;
       });
     }
+      break;
+
+    case MNID_OPTIONS:
+      MenuManager::instance().push_menu(MenuStorage::OPTIONS_MENU);
       break;
 
     case MNID_SHARE:

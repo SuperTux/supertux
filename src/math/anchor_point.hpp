@@ -48,6 +48,7 @@ AnchorPoint string_to_anchor_point(const std::string& str);
 Vector get_anchor_pos(const Rectf& rect, AnchorPoint point);
 Vector get_anchor_pos(const Rectf& destrect, float width, float height,
                       AnchorPoint point);
+Vector get_anchor_center_pos(const Rectf& rect, AnchorPoint point);
 
 #endif
 

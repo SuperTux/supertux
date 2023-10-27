@@ -24,12 +24,12 @@
 
 #include "math/fwd.hpp"
 #include "supertux/autotile.hpp"
+#include "supertux/tile.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class Canvas;
 class DrawingContext;
-class Tile;
 
 class Tilegroup final
 {
@@ -48,7 +48,7 @@ public:
 
 public:
   TileSet();
-  ~TileSet();
+  ~TileSet() = default;
 
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
@@ -77,7 +77,7 @@ public:
   
 public:
   // Must be public because of tile_set_parser.cpp
-  std::vector<AutotileSet*>* m_autotilesets;
+  std::vector<std::unique_ptr<AutotileSet>> m_autotilesets;
 
   // Additional attributes
 

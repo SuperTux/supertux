@@ -86,6 +86,8 @@ public:
   void set_sector(const std::string& name, const std::string& spawnpoint = "",
                   bool perform_full_setup = true);
 
+  std::string get_filename() const;
+
 private:
   void on_escape_press();
 

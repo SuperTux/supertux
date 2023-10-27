@@ -20,7 +20,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
@@ -54,10 +54,9 @@ EditorNewLevelsetMenu::menu_action(MenuItem& item)
 
   std::unique_ptr<World> new_world = World::create(levelset_name, levelset_desc);
   new_world->save();
-  Editor::current()->set_world(std::move(new_world));
 
   MenuManager::instance().pop_menu();
-  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+  MenuManager::instance().push_menu(std::make_unique<EditorLevelSelectMenu>(std::move(new_world)));
 }
 
 /* EOF */

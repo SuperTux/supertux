@@ -27,8 +27,8 @@
 
 std::vector<std::string> get_anchor_names()
 {
-  // Must be dynamic because language can change at runtime (+ tinygettext must
-  // be init'ed)
+  // The language setting must be dynamic because it can change at runtime,
+  // and it requires initialization of the TinyGetText library (tinygettext).
   return {
     _("Top Left"),
     _("Top"),
@@ -70,13 +70,13 @@ Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
   Vector result(0.0f, 0.0f);
 
   switch (point % 3) {
-    case 0: // left
+    case 0: // Left.
       result.x = rect.get_left();
       break;
-    case 1: // middle
+    case 1: // Middle.
       result.x = rect.get_left() + (rect.get_right() - rect.get_left()) / 2.0f;
       break;
-    case 2: // right
+    case 2: // Right.
       result.x = rect.get_right();
       break;
     default:
@@ -86,13 +86,13 @@ Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
   }
 
   switch (point / 3) {
-    case 0: // top
+    case 0: // Top.
       result.y = rect.get_top();
       break;
-    case 1: // middle
+    case 1: // Middle.
       result.y = rect.get_top() + (rect.get_bottom() - rect.get_top()) / 2.0f;
       break;
-    case 2: // bottom
+    case 2: // Bottom.
       result.y = rect.get_bottom();
       break;
     default:
@@ -110,13 +110,13 @@ Vector get_anchor_pos(const Rectf& destrect, float width, float height,
   Vector result(0.0f, 0.0f);
 
   switch (point % 3) {
-    case 0: // left
+    case 0: // Left.
       result.x = destrect.get_left();
       break;
-    case 1: // middle
+    case 1: // Middle.
       result.x = destrect.get_middle().x - width / 2.0f;
       break;
-    case 2: // right
+    case 2: // Right.
       result.x = destrect.get_right() - width;
       break;
     default:
@@ -126,18 +126,57 @@ Vector get_anchor_pos(const Rectf& destrect, float width, float height,
   }
 
   switch (point / 3) {
-    case 0: // top
+    case 0: // Top.
       result.y = destrect.get_top();
       break;
-    case 1: // middle
+    case 1: // Middle.
       result.y = destrect.get_middle().y - height / 2.0f;
       break;
-    case 2: // bottom
+    case 2: // Bottom.
       result.y = destrect.get_bottom() - height;
       break;
     default:
       log_warning << "Invalid anchor point found" << std::endl;
       result.y = destrect.get_top();
+      break;
+  }
+
+  return result;
+}
+
+Vector get_anchor_center_pos(const Rectf& rect, AnchorPoint point)
+{
+  Vector result(0.0f, 0.0f);
+
+  switch (point % 3) {
+    case 0: // Left.
+      result.x = rect.get_left() + rect.get_width() / 4;
+      break;
+    case 1: // Middle.
+      result.x = rect.get_left() + rect.get_width() / 2;
+      break;
+    case 2: // Right.
+      result.x = rect.get_right() - rect.get_width() / 4;
+      break;
+    default:
+      log_warning << "Invalid anchor point found" << std::endl;
+      result.x = rect.get_left();
+      break;
+  }
+
+  switch (point / 3) {
+    case 0: // Top.
+      result.y = rect.get_top() + rect.get_height() / 4;
+      break;
+    case 1: // Middle.
+      result.y = rect.get_top() + rect.get_height() / 2;
+      break;
+    case 2: // Bottom.
+      result.y = rect.get_bottom() - rect.get_height() / 4;
+      break;
+    default:
+      log_warning << "Invalid anchor point found" << std::endl;
+      result.y = rect.get_top();
       break;
   }
 

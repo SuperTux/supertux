@@ -147,8 +147,8 @@ Editor::draw(Compositor& compositor)
       widget->draw(context);
     }
 
-    // Don't draw the sector if we're about to test - there's a dangling pointer
-    // with the PlayerStatus and I'm not experienced enough to fix it
+    // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
+    // issue with the PlayerStatus.
     if (!m_leveltested)
       m_sector->draw(context);
 
@@ -167,7 +167,7 @@ Editor::draw(Compositor& compositor)
 void
 Editor::update(float dt_sec, const Controller& controller)
 {
-  // Auto-save (interval)
+  // Auto-save (interval).
   if (m_level) {
     m_time_since_last_save += dt_sec;
     if (m_time_since_last_save >= static_cast<float>(std::max(
@@ -178,7 +178,7 @@ Editor::update(float dt_sec, const Controller& controller)
 
       // Set the test level file even though we're not testing, so that
       // if the user quits the editor without ever testing, it'll delete
-      // the autosave file anyways
+      // the autosave file anyways.
       m_autosave_levelfile = FileSystem::join(directory, backup_filename);
       try
       {
@@ -193,7 +193,7 @@ Editor::update(float dt_sec, const Controller& controller)
     m_time_since_last_save = 0.f;
   }
 
-  // Pass all requests
+  // Pass all requests.
   if (m_reload_request) {
     reload_level();
   }
@@ -203,7 +203,7 @@ Editor::update(float dt_sec, const Controller& controller)
   }
 
   if (m_newlevel_request) {
-    //Create new level
+    // Create new level.
   }
 
   if (m_reactivate_request) {
@@ -241,7 +241,7 @@ Editor::update(float dt_sec, const Controller& controller)
     return;
   }
 
-  // update other stuff
+  // Update other components.
   if (m_levelloaded && !m_leveltested) {
     BIND_SECTOR(*m_sector);
 
@@ -264,7 +264,7 @@ Editor::update(float dt_sec, const Controller& controller)
 void
 Editor::remove_autosave_file()
 {
-  // Clear the auto-save file
+  // Clear the auto-save file.
   if (!m_autosave_levelfile.empty())
   {
     // Try to remove the test level using the PhysFS file system
@@ -460,7 +460,7 @@ Editor::set_sector(Sector* sector)
   m_sector = sector;
   m_sector->activate("main");
 
-  { // initialize badguy sprites and other GameObject stuff
+  { // Initialize badguy sprites and perform other GameObject related tasks.
     BIND_SECTOR(*m_sector);
     for(auto& object : m_sector->get_objects()) {
       object->after_editor_set();
@@ -474,7 +474,7 @@ void
 Editor::delete_current_sector()
 {
   if (m_level->m_sectors.size() <= 1) {
-    log_fatal << "deleting the last sector is not allowed" << std::endl;
+    log_fatal << "Deleting the last sector is not allowed." << std::endl;
   }
 
   for (auto i = m_level->m_sectors.begin(); i != m_level->m_sectors.end(); ++i) {
@@ -506,7 +506,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
     m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
   }
 
-  // Re/load level
+  // Reload level.
   m_level = nullptr;
   m_levelloaded = true;
 
@@ -558,7 +558,7 @@ Editor::reload_level()
   undo_stack_cleanup();
 
   // Autosave files : Once the level is loaded, make sure
-  // to use the regular file
+  // to use the regular file.
   m_levelfile = get_levelname_from_autosave(m_levelfile);
   m_autosave_levelfile = FileSystem::join(get_level_directory(),
                                           get_autosave_from_levelname(m_levelfile));
@@ -573,7 +573,7 @@ Editor::quit_editor()
   {
     remove_autosave_file();
 
-    //Quit level editor
+    // Quit level editor.
     m_world = nullptr;
     m_levelfile = "";
     m_levelloaded = false;
@@ -583,7 +583,7 @@ Editor::quit_editor()
 #ifdef __EMSCRIPTEN__
     int persistent = EM_ASM_INT({
       return supertux2_ispersistent();
-    }, 0); // EM_ASM_INT is a variadic macro and Clang requires at least 1 value for the variadic argument
+    }, 0); // EM_ASM_INT is a variadic macro and Clang requires at least 1 value for the variadic argument.
     if (!persistent)
       Dialog::show_message(_("Don't forget that your levels and assets\naren't saved between sessions!\nIf you want to keep your levels, download them\nfrom the \"Manage Assets\" menu."));
 #endif
@@ -711,7 +711,7 @@ Editor::setup()
   m_layers_widget->setup();
   m_savegame = Savegame::from_file("levels/misc");
 
-  // Reactivate the editor after level test
+  // Reactivate the editor after level test.
   if (m_leveltested) {
     m_leveltested = false;
     Tile::draw_editor_images = true;

@@ -178,9 +178,9 @@ WorldSelect::draw(Compositor& compositor)
     float size = 1.f + (std::cos(angle) - 1.f) / 4.f;
     Rectf rect = world.icon->get_region();
     rect = Rectf(0, 0, rect.get_width() * size / 2.f, rect.get_height() * size / 2.f);
-    rect.move(Vector(static_cast<float>(context.get_width()) / 2.f - rect.get_width() / 2.f,
-                     static_cast<float>(context.get_height()) / 2.f - rect.get_height() / 2.f));
-    rect.move(Vector(std::sin(angle) * -static_cast<float>(context.get_width()) / 4.f, 0.f));
+    rect.move(Vector(context.get_width() / 2.f - rect.get_width() / 2.f,
+                     context.get_height() / 2.f - rect.get_height() / 2.f));
+    rect.move(Vector(std::sin(angle) * -context.get_width() / 4.f, 0.f));
 
     PaintStyle ps;
     ps.set_alpha(std::cos(angle) * .5f + .5f);
@@ -199,8 +199,8 @@ WorldSelect::draw(Compositor& compositor)
   float halfangle = 1.f / static_cast<float>(m_worlds.size()) * math::PI * 2;
   float o = distance * (.5f - std::cos(halfangle));
   context.color().draw_text(Resources::big_font, name_to_display,
-                            Vector(static_cast<float>(context.get_width()) / 2.f,
-                                   static_cast<float>(context.get_height()) * 3.f / 4.f + pow(10.f - o * 10.f, 2.f)),
+                            Vector(context.get_width() / 2.f,
+                                   context.get_height() * 3.f / 4.f + pow(10.f - o * 10.f, 2.f)),
                             FontAlignment::ALIGN_CENTER,
                             10,
                             Color(1.f, 1.f, 1.f,static_cast<float>(pow(o, 2.f)) * 4.f));
