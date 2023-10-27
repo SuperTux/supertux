@@ -2,7 +2,7 @@
   (action
     (name "left")
 	(fps 15)
-    (hitbox 5 15 50 25)
+    (hitbox 5 17 36 26)
     (images "leafshot-0.png"
             "leafshot-1.png"
             "leafshot-2.png"
@@ -13,36 +13,37 @@
   (action
     (name "right")
 	(fps 15)
-    (hitbox 9 15 50 25)
+    (hitbox 23 17 36 26)
     (mirror-action "left")
   )
   (action
     (name "iced-left")
-    (hitbox -1 8 36 18)
+    (hitbox 5 17 36 26)
     (images "leafshot-0.png")
   )
   (action
     (name "iced-right")
+	(hitbox 23 17 36 26)
     (mirror-action "iced-left")
   )
   (action
     (name "squished-left")
-	(hitbox 1 -21 32 32)
+	(hitbox 9 12 32 32)
     (images "../vicious_ivy/squished.png")
   )
   (action
     (name "squished-right")
-	(hitbox -1 -21 32 32)
+	(hitbox 19 12 32 32)
     (mirror-action "squished-left")
   )
   (action
     (name "collision-left")
-	(hitbox 2 1 21 25)
+	(hitbox 5 17 36 26)
     (images "collision-left.png")
   )
   (action
     (name "collision-right")
-    (hitbox 2 1 21 25)
+    (hitbox 23 17 36 26)
     (mirror-action "collision-left")
   )
   (action

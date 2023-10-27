@@ -3,7 +3,7 @@
   (name "left-up")
   (loops 1)
   (fps 25)
-  (hitbox 8 11 32 32)
+  (hitbox 9 8 32 43)
   (images "metal_up-2.png"
 		  "metal_up-1.png"
 		  "metal_down-1.png"
@@ -17,46 +17,46 @@
   (name "right-up")
   (loops 1)
   (fps 25)
-  (hitbox 10 11 32 32)
+  (hitbox 11 8 32 43)
   (mirror-action "left-up"))
 
  (action
   (name "left-down")
-  (hitbox 8 11 32 32)
+  (hitbox 9 8 32 43)
   (images "metal_up-3.png"))
 
  (action
   (name "right-down")
-  (hitbox 10 11 32 32)
+  (hitbox 11 8 32 43)
   (mirror-action "left-down"))
 
  (action
   (name "left-middle")
-  (hitbox 8 11 32 32)
+  (hitbox 9 8 32 43)
   (images "metal_up-3.png"))
 
  (action
   (name "right-middle")
-  (hitbox 10 11 32 32)
+  (hitbox 11 8 32 43)
   (mirror-action "left-middle"))
 
-(action
+ (action
   (name "iced-left")
-  (hitbox 2 5 31.8 31.8)
-  (images "metal_up-1.png"))
- 
+  (hitbox 9 8 32 43)
+  (images "metal_up-0.png"))
+
  (action
   (name "iced-right")
-  (hitbox 2 5 31.8 31.8)
+  (hitbox 11 8 32 43)
   (mirror-action "iced-left"))
 
  (action
   (name "editor-left")
-  (hitbox 8 11 32 32)
+  (hitbox 9 8 32 43)
   (images "metal_up-0.png"))
 
  (action
   (name "editor-right")
-  (hitbox 10 11 32 32)
+  (hitbox 11 8 32 43)
   (mirror-action "editor-left"))
 )
