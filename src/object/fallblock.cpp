@@ -67,7 +67,7 @@ FallBlock::update(float dt_sec)
   }
   for (auto& bumper : Sector::get().get_objects_by_type<Bumper>())
   {
-    Rectf bumper_bbox = bumper.get_bbox();
+    const Rectf& bumper_bbox = bumper.get_bbox();
     Rectf block_bbox = m_col.m_bbox.grown(8.0f);
     if ((bumper_bbox.get_left() < block_bbox.get_right())
     && (bumper_bbox.get_right() > block_bbox.get_left())
