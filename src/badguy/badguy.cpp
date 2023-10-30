@@ -658,6 +658,7 @@ BadGuy::run_dead_script()
   // Start the dead-script.
   if (!m_dead_script.empty()) {
     Sector::get().run_script(m_dead_script, "dead-script");
+    m_dead_script = "";
   }
 }
 
