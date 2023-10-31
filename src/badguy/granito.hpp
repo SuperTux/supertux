@@ -44,6 +44,7 @@ public:
   virtual void after_editor_set() override;
 
 protected:
+  virtual void initialize() override;
   virtual void update_hitbox() override;
 
   void activate() override;
@@ -75,6 +76,7 @@ private:
 
   bool m_has_waved;
   bool m_stepped_on; /** true if tux was on top of granito last frame */
+  bool m_airborne; /** unfortunately on_ground() sucks */
 
 private:
   Granito(const Granito&) = delete;

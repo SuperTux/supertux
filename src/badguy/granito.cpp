@@ -34,21 +34,6 @@ Granito::Granito(const ReaderMapping& reader):
 
   m_countMe = false;
 
-  switch (m_type)
-  {
-    case WALK:
-      set_action(m_dir);
-      break;
-
-    case SIT:
-      set_action("sit", m_dir);
-      break;
-
-    case STAND:
-      set_action("stand", m_dir);
-      break;
-  }
-
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   m_col.set_unisolid(true);
 }
@@ -63,16 +48,22 @@ void Granito::active_update(float dt_sec)
     return;
   }
 
-  if (!on_ground() && get_velocity_y() != 0)
+  Rectf airbornebox = get_bbox();
+  airbornebox.set_bottom(get_bbox().get_bottom() + 8.f);
+  bool airbornebefore = m_airborne;
+  m_airborne = (Sector::get().is_free_of_statics(airbornebox));
+
+  if (m_airborne && get_velocity_y() != 0)
   {
-    // a bit of clearance
+    // Choose if falling or jumping
     if (get_velocity_y() < 5)
       set_action("jump", m_dir);
     else if (get_velocity_y() > 5)
       set_action("fall", m_dir);
   }
-  else if (on_ground() && m_state == m_original_state)
+  else if (!m_airborne && airbornebefore)
   {
+    // Go back to normal action
     if (m_state == STATE_STAND)
     {
       if (m_type == SIT)
@@ -217,6 +208,7 @@ HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
 
 HitResponse Granito::collision(GameObject &other, const CollisionHit &hit) {
   m_col.propagate_movement(m_col.get_movement());
+  update_on_ground_flag(hit); // Hehe...
   return WalkingBadguy::collision(other, hit);
 }
 
@@ -243,6 +235,26 @@ GameObjectTypes Granito::get_types() const
 void Granito::after_editor_set()
 {
   WalkingBadguy::after_editor_set();
+
+  switch (m_type)
+  {
+    case WALK:
+      set_action(m_dir);
+      break;
+
+    case SIT:
+      set_action("sit", m_dir);
+      break;
+
+    case STAND:
+      set_action("stand", m_dir);
+      break;
+    }
+}
+
+void Granito::initialize()
+{
+  WalkingBadguy::initialize();
 
   switch (m_type)
   {
