@@ -647,9 +647,8 @@ BadGuy::run_dead_script()
 {
   if(!m_is_active_flag) {
      return;
-  } else {
-     m_is_active_flag = false;
-  }
+
+  m_is_active_flag = false;
 
   if (m_countMe)
     Sector::get().get_level().m_stats.increment_badguys();
