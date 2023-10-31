@@ -645,10 +645,10 @@ BadGuy::kill_fall()
 void
 BadGuy::run_dead_script()
 {
-  if(m_is_active_flag) {
-    m_is_active_flag = false;
+  if(!m_is_active_flag) {
+     return;
   } else {
-    return;
+     m_is_active_flag = false;
   }
 
   if (m_countMe)
