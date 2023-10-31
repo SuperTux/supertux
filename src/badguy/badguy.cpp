@@ -645,10 +645,14 @@ BadGuy::kill_fall()
 void
 BadGuy::run_dead_script()
 {
+  if(m_is_active_flag) {
+    m_is_active_flag = false;
+  } else {
+    return;
+  }
+
   if (m_countMe)
     Sector::get().get_level().m_stats.increment_badguys();
-
-  m_countMe = false;
 
   if (m_parent_dispenser != nullptr)
   {
@@ -658,7 +662,6 @@ BadGuy::run_dead_script()
   // Start the dead-script.
   if (!m_dead_script.empty()) {
     Sector::get().run_script(m_dead_script, "dead-script");
-    m_dead_script = "";
   }
 }
 
