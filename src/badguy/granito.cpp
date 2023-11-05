@@ -25,7 +25,8 @@ Granito::Granito(const ReaderMapping& reader):
   m_state(STATE_STAND),
   m_original_state(STATE_STAND),
   m_has_waved(false),
-  m_stepped_on(false)
+  m_stepped_on(false),
+  m_airborne(false)
 {
   parse_type(reader);
 
@@ -321,16 +322,35 @@ void Granito::wave()
 
 bool Granito::try_jump()
 {
-  if (walk_speed == 0 || !on_ground()) return false;
+  using RaycastResult = CollisionSystem::RaycastResult;
 
-  Rectf detect = get_bbox().grown(-1.f);
-  float inc = (m_dir == Direction::LEFT ? -32.f*1.25f : 32.f*.25f);
+  if (walk_speed == 0 || m_airborne) return false;
 
-  detect.set_pos({(m_dir == Direction::LEFT ? detect.get_left() : detect.get_right()) + inc, detect.get_top()});
-  if (Sector::get().is_free_of_tiles(detect, false, Tile::SOLID | ~Tile::SLOPE)) return false;
+  float eye = (m_dir == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right());
+  float inc = (m_dir == Direction::LEFT ? -32.f : 32.f);
 
-  detect.set_pos({detect.get_left(), detect.get_top() - (32.f*2)});
-  if (!Sector::get().is_free_of_tiles(detect)) return false;
+  RaycastResult result = Sector::get().get_first_line_intersection({eye, get_bbox().get_middle().y},
+                                                                   {eye + inc, get_bbox().get_middle().y},
+                                                                   false,
+                                                                   get_collision_object());
+
+  if (!result.is_valid) return false;
+  if (result.hit.tile && result.hit.tile->get_attributes() & Tile::SLOPE) return false;
+
+  if (result.hit.object)
+  {
+    Player* plr = get_nearest_player();
+    if (plr)
+    {
+      if (result.hit.object == plr->get_collision_object()) return false;
+    }
+  }
+
+  Rectf detect({eye + (m_dir == Direction::LEFT ? -48.f : 16.f),
+                get_bbox().get_top() - (32.f*2)},
+                get_bbox().get_size());
+
+  if (!Sector::get().is_free_of_tiles(detect.grown(-1.f))) return false;
 
   jump();
   return true;
