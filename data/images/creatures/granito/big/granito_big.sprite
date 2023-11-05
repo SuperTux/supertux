@@ -68,6 +68,6 @@
 	  (name "right")
 	  (hitbox 18 20 44 62)
 	  (fps 10)
-	  (mirror-action "walk-left")
+	  (mirror-action "left")
 	)
 )
