@@ -202,8 +202,12 @@ void DartTrap::on_type_change(int old_type)
   BadGuy::on_type_change(old_type);
 
   switch (m_type) {
-    case GRANITO: m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
-    case SKULL: m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+    case GRANITO:
+      m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
+      break;
+    case SKULL:
+      m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+      break;
   }
 }
 
