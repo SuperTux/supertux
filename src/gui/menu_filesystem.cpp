@@ -82,9 +82,10 @@ FileSystemMenu::refresh_items()
     }
     else
     {
-      if (AddonManager::current()->is_from_old_addon(filepath)) {
+      // Do not show deprecated, or unrelated add-on files
+      if (FileSystem::extension(FileSystem::strip_extension(file)) == ".deprecated" ||
+          AddonManager::current()->is_from_old_addon(filepath))
         return;
-      }
 
       if (has_right_suffix(file))
       {
