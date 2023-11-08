@@ -36,11 +36,14 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   m_state(IDLE),
   m_fire_timer()
 {
+  parse_type(reader);
+
   reader.get("enabled", m_enabled, true);
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
   reader.get("dart-sprite", m_dart_sprite, "images/creatures/darttrap/granito/root_dart.sprite");
+
   m_countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
   if (m_start_dir == Direction::AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
@@ -153,6 +156,23 @@ DartTrap::get_settings()
   return result;
 }
 
+GameObjectTypes DartTrap::get_types() const
+{
+  return {
+    {"granito", _("Corrupted Granito")},
+    {"skull", _("Skull")}
+  };
+}
+
+std::string DartTrap::get_default_sprite_name() const
+{
+  switch (m_type) {
+    case SKULL: return "images/creatures/darttrap/skull/darttrap_skull.sprite";
+    case GRANITO: return "images/creatures/darttrap/granito/darttrap_granito.sprite";
+  }
+  return "images/creatures/darttrap/granito/darttrap_granito.sprite";
+}
+
 std::vector<Direction>
 DartTrap::get_allowed_directions() const
 {
@@ -175,6 +195,20 @@ DartTrap::on_flip(float height)
   }
   else
     FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void DartTrap::on_type_change(int old_type)
+{
+  BadGuy::on_type_change(old_type);
+
+  switch (m_type) {
+    case GRANITO:
+      m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
+      break;
+    case SKULL:
+      m_dart_sprite = "images/creatures/darttrap/skull/skull_dart.sprite";
+      break;
+  }
 }
 
 /* EOF */
