@@ -30,6 +30,8 @@ CorruptedGranito::CorruptedGranito(const ReaderMapping& reader) :
   recover_timer(),
   state()
 {
+  parse_type(reader);
+
   SoundManager::current()->preload( CORRUPTED_GRANITO_SOUND );
 }
 
@@ -150,7 +152,26 @@ CorruptedGranito::unfreeze(bool melt)
 bool
 CorruptedGranito::is_freezable() const
 {
-  return true;
+  return m_type != GRANITO;
+}
+
+GameObjectTypes CorruptedGranito::get_types() const
+{
+  return {
+    {"granito", _("Granito")},
+    {"skullyhop", _("Skullyhop")}
+  };
+}
+
+std::string CorruptedGranito::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case GRANITO: return "images/creatures/granito/corrupted/corrupted_granito.sprite";
+    case SKULLYHOP: return "images/creatures/skullyhop/skullyhop.sprite";
+  }
+
+  return "images/creatures/granito/corrupted/corrupted_granito.sprite";
 }
 
 /* EOF */
