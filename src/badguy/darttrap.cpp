@@ -159,7 +159,7 @@ DartTrap::get_settings()
 GameObjectTypes DartTrap::get_types() const
 {
   return {
-    {"granito", _("Corrupted Granito")},
+    {"granito", _("Granito")},
     {"skull", _("Skull")}
   };
 }
