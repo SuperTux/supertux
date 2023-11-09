@@ -17,19 +17,25 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GRANITO_GIANT_HPP
 #define HEADER_SUPERTUX_BADGUY_GRANITO_GIANT_HPP
 
-#include "object/moving_sprite.hpp"
+#include "badguy/badguy.hpp"
 
-class GranitoGiant final : public MovingSprite
+class GranitoGiant final : public BadGuy
 {
 public:
-  explicit GranitoGiant(const ReaderMapping& reader);
+  GranitoGiant(const ReaderMapping& reader);
 
-  virtual HitResponse collision(GameObject &other, const CollisionHit &hit) override;
+  virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
 
   static std::string class_name() { return "granito_giant"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Giant Granito"); }
   virtual std::string get_display_name() const override { return display_name(); }
+
+  virtual bool is_flammable() const override { return false; }
+  virtual bool is_freezable() const override { return false; }
+  virtual bool is_hurtable() const override { return false; }
+  virtual bool is_snipable() const override { return false; }
+  virtual void kill_fall() override { return; }
 
   GameObjectTypes get_types() const override;
 

@@ -14,20 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/granito_giant.hpp"
+#include "granito_giant.hpp"
 
-#include "sprite/sprite.hpp"
-
-GranitoGiant::GranitoGiant(const ReaderMapping& reader)
-  : MovingSprite(reader, "images/creatures/granito/giant/granito_giant.sprite")
+GranitoGiant::GranitoGiant(const ReaderMapping& reader):
+  BadGuy(reader, "images/creatures/granito/giant/granito_giant.sprite", LAYER_OBJECTS-5)
 {
   parse_type(reader);
 
-  m_col.m_group = COLGROUP_MOVING_STATIC;
-  m_col.set_unisolid(true);
+  set_colgroup_active(COLGROUP_MOVING_STATIC);
+  m_col.set_unisolid(false);
+
+  m_countMe = false;
 }
 
-HitResponse GranitoGiant::collision(GameObject &other, const CollisionHit &hit)
+HitResponse GranitoGiant::collision_player(Player &player, const CollisionHit &hit)
 {
   return FORCE_MOVE;
 }
