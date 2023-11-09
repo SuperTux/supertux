@@ -72,8 +72,7 @@ Tip::set_info_for_object(GameObject& object)
   }
 
   if (!object.is_up_to_date())
-    m_warnings.push_back(_("This object's current functionality is deprecated.") + "\n" +
-                         _("Updating to get its latest functionality is recommended."));
+    m_warnings.push_back(_("This object's current functionality is deprecated.\nUpdating to get its latest functionality is recommended."));
 
   m_visible = true;
 }
