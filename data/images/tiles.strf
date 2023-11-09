@@ -21,7 +21,7 @@
 
   ;; next-id: 7195
   ;; free/skipped ids (please use before any other): 101
-  ;; 2080-2084 are empty tiles, 5023-5092, 5205, 5268-5283, 5433-5527, 7002 7005 7007 7008 7173
+  ;; 2080-2084 are empty tiles, 4719-4722, 5023-5092, 5205, 5268-5283, 5433-5527, 7002 7005 7007 7008 7173
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
 
   (tilegroup
@@ -1181,7 +1181,7 @@
       4709 4710 4712 4713
       4714 4715 4717 4718
       4691 4696 4701 4706
-      4719 4721 4720 4722
+      297  295  298  296
 
       4448 4449 4450 0
       4453 4454 4455 0
@@ -2525,31 +2525,6 @@
       1 1 1 1 3
     )
     (images "tiles/blocks/spikes-all.png")
-    (deprecated #t)
-  )
-
-  (tile
-    (id 295)
-    (images "creatures/spike/up.png")
-    (hurts #t)
-    (deprecated #t)
-  )
-  (tile
-    (id 296)
-    (images "creatures/spike/right.png")
-    (hurts #t)
-    (deprecated #t)
-  )
-  (tile
-    (id 297)
-    (images "creatures/spike/down.png")
-    (hurts #t)
-    (deprecated #t)
-  )
-  (tile
-    (id 298)
-    (images "creatures/spike/left.png")
-    (hurts #t)
     (deprecated #t)
   )
 
@@ -5348,25 +5323,25 @@
 
   (tile
     (id 3446)
-    (images "creatures/spike/spikeup.png")
+    (images "tiles/spike/spikeup.png")
     (hurts #t)
     (deprecated #t)
   )
   (tile
     (id 3447)
-    (images "creatures/spike/spikedown.png")
+    (images "tiles/spike/spikedown.png")
     (hurts #t)
     (deprecated #t)
   )
   (tile
     (id 3448)
-    (images "creatures/spike/spikeleft.png")
+    (images "tiles/spike/spikeleft.png")
     (hurts #t)
     (deprecated #t)
   )
   (tile
     (id 3449)
-    (images "creatures/spike/spikeright.png")
+    (images "tiles/spike/spikeright.png")
     (hurts #t)
     (deprecated #t)
   )
@@ -5392,24 +5367,29 @@
 
   (tile
     (id 3458)
-    (images "creatures/spike/spikeup2.png")
+    (images "tiles/spike/spikeup2.png")
     (hurts #t)
+    (deprecated #t)
   )
   (tile
     (id 3459)
-    (images "creatures/spike/spikedown2.png")
+    (images "tiles/spike/spikedown2.png")
     (hurts #t)
+    (deprecated #t)
   )
   (tile
     (id 3460)
-    (images "creatures/spike/spikeleft2.png")
+    (images "tiles/spike/spikeleft2.png")
     (hurts #t)
+    (deprecated #t)
   )
   (tile
     (id 3461)
-    (images "creatures/spike/spikeright2.png")
+    (images "tiles/spike/spikeright2.png")
     (hurts #t)
+    (deprecated #t)
   )
+
   (tiles
     (width 4)
     (height 3)
@@ -6345,8 +6325,8 @@
   (tiles
     (width 2)(height 2)
     (ids
-      4719 4720
-      4721 4722
+      297 298
+      295 296
     )
     (attributes
       1024 1024
