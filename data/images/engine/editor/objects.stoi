@@ -336,6 +336,9 @@
   (object
     (class "granito")
     (icon "images/creatures/granito/granito_stand-0.png"))
+  (object
+    (class "granito_big")
+    (icon "images/creatures/granito/big/granito_stand-0.png"))
  )
 
  (objectgroup
