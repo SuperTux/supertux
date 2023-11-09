@@ -61,6 +61,7 @@ private:
 private:
   float speed;
   double m_easing_progress;
+  Timer m_charge_timer;
   ZeeklingState state;
 
 private:

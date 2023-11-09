@@ -30,6 +30,7 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
   speed(gameRandom.randf(130.0f, 171.0f)),
   m_easing_progress(0.0),
+  m_charge_timer(),
   state(FLYING)
 {
   m_physic.enable_gravity(false);
@@ -216,14 +217,45 @@ Zeekling::active_update(float dt_sec) {
 
       break;
 
-    case REBOUND:
-      if (m_easing_progress < 1.0) m_easing_progress += 0.1;
-      else break;
+    case REBOUND: {
+      static float yvel;
+      static bool done;
 
-      m_physic.set_velocity_y(2 *
-                              fabsf(m_physic.get_velocity_x()) *
-                              QuarticEaseOut(m_easing_progress) +
-                              (5 * m_easing_progress));
+      /*
+      if (m_easing_progress == 0.0)
+        yvel = fabsf(m_physic.get_velocity_y());
+
+      if (m_easing_progress < 1.0)
+        m_easing_progress += 0.05;
+      else
+        break;
+      */
+
+      if (done) break;
+      done = false;
+
+      if (!m_charge_timer.started())
+      {
+        m_charge_timer.start(1.f);
+        yvel = fabsf(m_physic.get_velocity_y());
+      }
+
+      if (m_charge_timer.check())
+      {
+        done = true;
+        break;
+      }
+
+      double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
+                                                   m_charge_timer.get_period());
+
+      float ease = QuarticEaseOut(easing_progress);
+      m_physic.set_velocity_y(yvel - (ease * yvel));
+
+      std::cout << "yv: " << m_physic.get_velocity_y() << " ease: " << ease << " ep: " << easing_progress << " oyv: " << yvel << std::endl;
+
+      break;
+    }
 
     case RECOVERING:
       // Stop climbing when we're back at initial height.
