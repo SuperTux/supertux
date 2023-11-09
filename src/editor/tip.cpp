@@ -27,7 +27,8 @@
 Tip::Tip() :
   m_strings(),
   m_warnings(),
-  m_header()
+  m_header(),
+  m_visible(false)
 {
 }
 
@@ -36,6 +37,8 @@ Tip::set_info(const std::string& header, const std::vector<std::string>& text)
 {
   m_header = header;
   m_strings = text;
+
+  m_visible = true;
 }
 
 void
@@ -43,6 +46,8 @@ Tip::set_info(const std::string& text)
 {
   m_header = text;
   m_strings.clear();
+
+  m_visible = true;
 }
 
 void
