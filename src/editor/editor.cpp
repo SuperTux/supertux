@@ -19,6 +19,7 @@
 #include <fstream>
 #include <sstream>
 #include <limits>
+#include <unordered_map>
 
 #ifdef EMSCRIPTEN
 #include <emscripten.h>
@@ -47,6 +48,7 @@
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "physfs/util.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -661,6 +663,65 @@ Editor::check_deprecated_tiles()
           break;
         }
       }
+    }
+  }
+}
+
+void
+Editor::convert_tiles_by_file(const std::string& file)
+{
+  std::unordered_map<int, int> tiles;
+
+  try
+  {
+    IFileStream in(file);
+    if (!in.good())
+    {
+      log_warning << "Couldn't open conversion file '" << file << "'." << std::endl;
+      return;
+    }
+
+    int a, b;
+    std::string delimiter;
+    while (in >> a >> delimiter >> b)
+    {
+      if (delimiter != "->")
+      {
+        log_warning << "Couldn't parse conversion file '" << file << "'." << std::endl;
+        return;
+      }
+
+      tiles[a] = b;
+    }
+  }
+  catch (std::exception& err)
+  {
+    log_warning << "Couldn't parse conversion file '" << file << "': " << err.what() << std::endl;
+  }
+
+  for (const auto& sector : m_level->get_sectors())
+  {
+    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
+    {
+      tilemap.save_state();
+      // Can't use change_all(), if there's like `1 -> 2`and then
+      // `2 -> 3`, it'll do a double replacement
+      for (int x = 0; x < tilemap.get_width(); x++)
+      {
+        for (int y = 0; y < tilemap.get_height(); y++)
+        {
+          auto tile = tilemap.get_tile_id(x, y);
+          try
+          {
+            tilemap.change(x, y, tiles.at(tile));
+          }
+          catch (std::out_of_range&)
+          {
+            // Expected for tiles that don't need to be replaced
+          }
+        }
+      }
+      tilemap.check_state();
     }
   }
 }

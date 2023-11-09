@@ -23,25 +23,23 @@
 
 class EditorConvertersMenu final : public Menu
 {
-private:
-  enum MenuIDs {
-    MNID_CONVERT_TILES
-  };
-
-  struct Converter {
-    Converter() : title(), desc() {}
-
-    std::string title;
-    std::string desc;
-  };
-
 public:
   EditorConvertersMenu();
 
   void menu_action(MenuItem& item) override;
 
 private:
-  void convert_tiles(const std::string& file);
+  enum MenuIDs {
+    MNID_CONVERT_TILES
+  };
+
+  struct Converter
+  {
+    Converter() : title(), description() {}
+
+    std::string title;
+    std::string description;
+  };
 
 private:
   std::map<std::string, Converter> m_converters;

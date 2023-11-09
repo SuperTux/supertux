@@ -117,6 +117,9 @@ public:
 
   void remove_autosave_file();
 
+  /** Convert tiles on every tilemap in the level, according to a tile conversion file. */
+  void convert_tiles_by_file(const std::string& file);
+
   void check_deprecated_tiles();
   bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
