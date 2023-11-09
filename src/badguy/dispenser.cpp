@@ -219,6 +219,7 @@ Dispenser::launch_object()
 
       switch (m_type)
       {
+        case DispenserType::GRANITO:
         case DispenserType::DROPPER:
           if (m_flip == NO_FLIP)
           {
@@ -393,7 +394,8 @@ Dispenser::get_types() const
   return {
     { "dropper", _("dropper") },
     { "cannon", _("cannon") },
-    { "point", _("invisible") }
+    { "point", _("invisible") },
+    { "granito", _("Granito") }
   };
 }
 
@@ -404,6 +406,8 @@ Dispenser::get_default_sprite_name() const
   {
     case POINT:
       return "images/creatures/dispenser/invisible.sprite";
+    case GRANITO:
+      return "images/creatures/granito/corrupted/hive/granito_hive.sprite";
     default:
       return "images/creatures/dispenser/" + type_value_to_id(m_type) + ".sprite";
   }
