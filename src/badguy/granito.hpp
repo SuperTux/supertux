@@ -50,7 +50,7 @@ protected:
   void activate() override;
 
 protected:
-  enum Type { DEFAULT, STAND, SIT, WALK };
+  enum Type { DEFAULT, STAND, WALK, SIT };
   enum State
   {
     STATE_STAND,
