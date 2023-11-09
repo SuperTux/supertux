@@ -41,7 +41,7 @@ Granito::Granito(const ReaderMapping& reader):
 
 void Granito::active_update(float dt_sec)
 {
-  if (m_type == SIT)
+  if (m_type == SIT || m_type == WALK)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
@@ -116,7 +116,7 @@ void Granito::active_update(float dt_sec)
     }
   }
 
-  if (m_type == WALK && try_jump())
+  if (m_type == DEFAULT && try_jump())
   {
     WalkingBadguy::active_update(dt_sec);
     return;
@@ -139,7 +139,7 @@ void Granito::active_update(float dt_sec)
 
         break;
 
-      case WALK:
+      case DEFAULT:
       {
         if (gameRandom.rand(100) > 50 && walk_speed == 0)
         {
@@ -185,7 +185,7 @@ void Granito::active_update(float dt_sec)
 
 HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
 {
-  if (m_type == SIT) return FORCE_MOVE;
+  if (m_type == SIT || m_type == WALK) return FORCE_MOVE;
 
   if (hit.top)
   {
@@ -227,8 +227,12 @@ void Granito::activate()
 GameObjectTypes Granito::get_types() const
 {
   return {
-    {"walking", _("Walking")},
+    // Big & small granito
+    {"default", _("Default")},
     {"standing", _("Standing")},
+    {"walking", _("Walking")},
+
+    // Small granito only
     {"sitting", _("Sitting")}
   };
 }
@@ -239,7 +243,7 @@ void Granito::after_editor_set()
 
   switch (m_type)
   {
-    case WALK:
+    case DEFAULT:
       set_action(m_dir);
       break;
 
@@ -257,9 +261,15 @@ void Granito::initialize()
 {
   WalkingBadguy::initialize();
 
+  if (m_type == WALK)
+  {
+    m_original_state = STATE_WALK;
+    restore_original_state();
+  }
+
   switch (m_type)
   {
-    case WALK:
+    case DEFAULT:
       set_action(m_dir);
       break;
 

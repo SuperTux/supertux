@@ -20,7 +20,7 @@ GranitoBig::GranitoBig(const ReaderMapping& reader):
   Granito(reader)
 {
   change_sprite(get_default_sprite_name());
-    max_drop_height = 16;
+  max_drop_height = 16;
 }
 
 HitResponse GranitoBig::collision_player(Player &player, const CollisionHit &hit)
@@ -32,8 +32,9 @@ HitResponse GranitoBig::collision_player(Player &player, const CollisionHit &hit
 GameObjectTypes GranitoBig::get_types() const
 {
   return {
-    {"walking", _("Walking")},
-    {"standing", _("Standing")}
+    {"default", _("Default")},
+    {"standing", _("Standing")},
+    {"walking", _("Walking")}
   };
 }
 
