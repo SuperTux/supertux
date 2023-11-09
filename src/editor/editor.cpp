@@ -540,9 +540,11 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   check_deprecated_tiles();
   if (m_has_deprecated_tiles)
   {
-    Dialog::show_message(fmt::format(fmt::runtime(_("This level contains deprecated tiles.\nIt is strongly recommended to replace all deprecated tiles\nto avoid loss of compatibility in future versions.{}{}")),
-        !g_config->editor_show_deprecated_tiles ? "\n \n" : "",
-        !g_config->editor_show_deprecated_tiles ? _("Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu.") : ""));
+    std::string message = _("This level contains deprecated tiles.\nIt is strongly recommended to replace all deprecated tiles\nto avoid loss of compatibility in future versions.");
+    if (!g_config->editor_show_deprecated_tiles)
+      message += "\n \n" + _("Tip: Turn on \"Show Deprecated Tiles\" from the level editor menu.");
+
+    Dialog::show_message(message);
   }
 }
 
