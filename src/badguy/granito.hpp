@@ -40,7 +40,7 @@ public:
 
   virtual void kill_fall() override;
 
-  GameObjectTypes get_types() const override;
+  virtual GameObjectTypes get_types() const override;
   virtual void after_editor_set() override;
 
 protected:
@@ -61,10 +61,10 @@ protected:
   };
 
 protected:
-  bool try_wave();
+  virtual bool try_wave();
   void wave();
 
-  bool try_jump();
+  virtual bool try_jump();
   void jump();
 
   void restore_original_state();
