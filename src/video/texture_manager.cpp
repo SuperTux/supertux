@@ -75,21 +75,15 @@ GLenum string2filter(const std::string& text)
   }
 }
 
-SDLSurfacePtr image_to_surface(const std::string& filename)
+SDLSurfacePtr create_image_surface(const std::string& filename)
 {
-  SDLSurfacePtr surface;
   if (PHYSFS_exists(filename.c_str()))
-  {
-    surface = SDLSurface::from_file(filename);
-  }
-  else // If the image doesn't exist, attempt to load a ".deprecated" version
-  {
-    log_warning << "Image '" << filename << "' doesn't exist. Attempting to load \".deprecated\" version." << std::endl;
-    surface = SDLSurface::from_file(FileSystem::strip_extension(filename) + ".deprecated" +
-                                    FileSystem::extension(filename));
-  }
+    return SDLSurface::from_file(filename);
 
-  return surface;
+  // The image doesn't exist, so attempt to load a ".deprecated" version
+  log_warning << "Image '" << filename << "' doesn't exist. Attempting to load \".deprecated\" version." << std::endl;
+  return SDLSurface::from_file(FileSystem::strip_extension(filename) + ".deprecated" +
+                               FileSystem::extension(filename));
 }
 
 } // namespace
@@ -300,7 +294,7 @@ TextureManager::get_surface(const std::string& filename)
     return *i->second;
   }
 
-  SDLSurfacePtr surface = image_to_surface(filename);
+  SDLSurfacePtr surface = create_image_surface(filename);
   return *(m_surfaces[filename] = std::move(surface));
 }
 
@@ -386,7 +380,7 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
 TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename, const Sampler& sampler)
 {
-  SDLSurfacePtr surface = image_to_surface(filename);
+  SDLSurfacePtr surface = create_image_surface(filename);
   TexturePtr texture = VideoSystem::current()->new_texture(*surface, sampler);
   surface.reset(nullptr);
   return texture;
