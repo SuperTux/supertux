@@ -54,12 +54,16 @@ private:
     FLYING,
     CHARGING,
     DIVING,
+    CATCH,
     REBOUND,
     RECOVERING
   };
 
 private:
   float speed;
+
+  float m_original_yvel;
+
   double m_easing_progress;
   Timer m_charge_timer;
   ZeeklingState state;

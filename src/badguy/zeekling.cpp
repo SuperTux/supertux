@@ -28,7 +28,8 @@
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  speed(gameRandom.randf(130.0f, 171.0f)),
+  speed(150.f),
+  m_original_yvel(0.f),
   m_easing_progress(0.0),
   m_charge_timer(),
   state(FLYING)
@@ -202,7 +203,7 @@ Zeekling::active_update(float dt_sec) {
     case DIVING:
       if (should_we_rebound())
       {
-        state = REBOUND;
+        state = CATCH;
         m_easing_progress = 0.0;
         break;
       }
@@ -217,53 +218,68 @@ Zeekling::active_update(float dt_sec) {
 
       break;
 
-    case REBOUND: {
-      static float yvel;
-      static bool done;
-
-      /*
-      if (m_easing_progress == 0.0)
-        yvel = fabsf(m_physic.get_velocity_y());
-
-      if (m_easing_progress < 1.0)
-        m_easing_progress += 0.05;
-      else
+    case CATCH: {
+      if (m_charge_timer.check())
+      {
+        state = REBOUND;
         break;
-      */
-
-      if (done) break;
-      done = false;
+      }
 
       if (!m_charge_timer.started())
       {
+        set_action("recover", m_dir, 1);
         m_charge_timer.start(1.f);
-        yvel = fabsf(m_physic.get_velocity_y());
+        m_original_yvel = fabsf(m_physic.get_velocity_y());
       }
 
-      if (m_charge_timer.check())
+      // wait for recover action
+      if (m_sprite->animation_done())
       {
-        done = true;
-        break;
+        set_action(m_dir);
       }
 
       double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
                                                    m_charge_timer.get_period());
 
       float ease = QuarticEaseOut(easing_progress);
-      m_physic.set_velocity_y(yvel - (ease * yvel));
-
-      std::cout << "yv: " << m_physic.get_velocity_y() << " ease: " << ease << " ep: " << easing_progress << " oyv: " << yvel << std::endl;
+      m_physic.set_velocity_y(m_original_yvel - (ease * m_original_yvel));
 
       break;
     }
 
-    case RECOVERING:
-      // Stop climbing when we're back at initial height.
+    case REBOUND: {
+      if (m_charge_timer.check())
+      {
+        state = RECOVERING;
+        break;
+      }
+
+      if (!m_charge_timer.started())
+      {
+        m_charge_timer.start(1.f);
+      }
+
+      double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
+                                                   m_charge_timer.get_period());
+
+      float ease = QuarticEaseIn(easing_progress);
+      m_physic.set_velocity_y(-fabsf(ease * m_original_yvel));
+
+      break;
+    }
+
+    case RECOVERING: {
+      // Stop recovering when we're back at initial height.
       if (get_pos().y <= m_start_position.y) {
         state = FLYING;
         m_physic.set_velocity_y(0);
+        break;
       }
+
+
+
       break;
+    }
 
     default:
       break;
