@@ -22,7 +22,7 @@ GranitoGiant::GranitoGiant(const ReaderMapping& reader):
   parse_type(reader);
 
   set_colgroup_active(COLGROUP_MOVING_STATIC);
-  m_col.set_unisolid(false);
+  m_col.set_unisolid(true);
 
   m_countMe = false;
 }

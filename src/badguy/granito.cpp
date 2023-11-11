@@ -303,7 +303,9 @@ bool Granito::try_wave()
                                                                    false,
                                                                    get_collision_object());
 
-  if (result.hit.object != nullptr && result.hit.object == plr->get_collision_object())
+
+  CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
+  if (resultobj && *resultobj == plr->get_collision_object())
   {
     float xdist = get_bbox().get_middle().x - result.box.get_middle().x;
     if (std::abs(xdist) < 32.f*4.f)
@@ -345,14 +347,17 @@ bool Granito::try_jump()
                                                                    get_collision_object());
 
   if (!result.is_valid) return false;
-  if (result.hit.tile && result.hit.tile->get_attributes() & Tile::SLOPE) return false;
 
-  if (result.hit.object)
+  const Tile** resulttile = std::get_if<const Tile*>(&result.hit);
+  if (resulttile && !(*resulttile)->is_solid()) return false;
+
+  CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
+  if (resultobj)
   {
     Player* plr = get_nearest_player();
     if (plr)
     {
-      if (result.hit.object == plr->get_collision_object()) return false;
+      if (*resultobj == plr->get_collision_object()) return false;
     }
   }
 
