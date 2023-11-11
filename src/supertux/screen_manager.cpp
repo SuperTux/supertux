@@ -573,10 +573,6 @@ ScreenManager::handle_screen_switch()
 
 void ScreenManager::loop_iter()
 {
-  // Useful if screens edit their status without switching screens
-  Integration::update_status_all(m_screen_stack.back()->get_status());
-  Integration::update_all();
-
   Uint32 ticks = SDL_GetTicks();
   elapsed_ticks += ticks - last_ticks;
   last_ticks = ticks;
@@ -594,6 +590,10 @@ void ScreenManager::loop_iter()
     SDL_Delay(ms_per_step - elapsed_ticks);
     return;
   }
+
+  // Useful if screens edit their status without switching screens
+  Integration::update_status_all(m_screen_stack.back()->get_status());
+  Integration::update_all();
 
   g_real_time = static_cast<float>(ticks) / 1000.0f;
 

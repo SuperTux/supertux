@@ -34,6 +34,7 @@ Key::Key(const ReaderMapping& reader) :
   m_state(KeyState::NORMAL),
   m_wait_timer(),
   m_unlock_timer(),
+  m_physic(),
   m_chain_pos(1),
   m_my_door_pos(0.f, 0.f),
   m_color(Color::WHITE),
@@ -45,10 +46,6 @@ Key::Key(const ReaderMapping& reader) :
   std::vector<float> vColor;
   if (reader.get("color", vColor)) {
     m_color = Color(vColor);
-  }
-  else
-  {
-      m_color = Color::WHITE;
   }
   m_lightsprite->set_blend(Blend::ADD);
   m_lightsprite->set_color(m_color);

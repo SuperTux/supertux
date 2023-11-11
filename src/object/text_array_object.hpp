@@ -110,15 +110,15 @@ public:
   /** Gets the text item at a certain index.
       @param: index  the index of the text item to get.
       @return: pointer to the text array item; or nullptr if fails. */
-  TextArrayItem* get_text_item(ta_index index);
+  TextArrayItem* get_text_item(ta_index index) const;
 
   /** Gets the current text item.
       @return: pointer the current text array item; or nullptr if fails. */
-  TextArrayItem* get_current_text_item();
+  TextArrayItem* get_current_text_item() const;
 
   /** Gets the last text item.
       @return: pointer to the last text item; or nullptr if fails. */
-  TextArrayItem* get_last_text_item();
+  TextArrayItem* get_last_text_item() const;
 
 private:
   /** Overrides the properties of the text objects, according to the flags. */
@@ -134,7 +134,7 @@ private:
   /** Should fade transition logic apply
       @return: true if fadeTransition flag is on & the transition is valid;
       false otherwise. */
-  bool should_fade();
+  bool should_fade() const;
 
 private:
   bool m_isDone;

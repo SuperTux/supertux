@@ -25,6 +25,7 @@
 
 #include "math/vector.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
@@ -148,8 +149,7 @@ private:
   SurfacePtr m_statistics_backdrop;
 
   // scripts
-  typedef std::vector<HSQOBJECT> ScriptList;
-  ScriptList m_scripts;
+  SquirrelObjectList m_scripts;
 
   Sector* m_currentsector;
 

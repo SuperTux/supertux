@@ -219,15 +219,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       control = Control::REMOVE;
       break;
     default:
-      if (m_keyboard_config.m_keymap.count(event.keysym.sym) == 0)
-        return;
-
-      // Forbid events from players other than the first in menus
-      if (m_keyboard_config.m_keymap[event.keysym.sym].player != 0)
-        return;
-
-      control = m_keyboard_config.m_keymap[event.keysym.sym].control;
-      break;
+      return;
   }
 
   // Keep empty because this is in the menu; only the first player may navigate

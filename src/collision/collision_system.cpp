@@ -98,6 +98,11 @@ CollisionSystem::draw(DrawingContext& context)
     }
     const Rectf& rect = object->get_bbox();
     context.color().draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
+
+    // If unisolid, draw a line on top of the rectangle.
+    if (object->is_unisolid())
+      context.color().draw_line(rect.p1(), Vector(rect.get_right(), rect.get_top()),
+                                Color::YELLOW, LAYER_FOREGROUND1 + 11);
   }
 }
 
@@ -131,31 +136,40 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
 
   bool shiftout = false;
 
-  if (fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
-    if (ileft < SHIFT_DELTA) {
-      constraints.constrain_right(grown_other_obj_rect.get_left());
-      shiftout = true;
-    } else if (iright < SHIFT_DELTA) {
-      constraints.constrain_left(grown_other_obj_rect.get_right());
-      shiftout = true;
-    }
-  } else {
-    // Shiftout bottom/top.
-    if (itop < SHIFT_DELTA) {
-      constraints.constrain_bottom(grown_other_obj_rect.get_top());
-      shiftout = true;
-    } else if (ibottom < SHIFT_DELTA) {
-      constraints.constrain_top(grown_other_obj_rect.get_bottom());
-      shiftout = true;
+  if (!other_object || !other_object->is_unisolid())
+  {
+    if (fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
+      if (ileft < SHIFT_DELTA) {
+        constraints.constrain_right(grown_other_obj_rect.get_left());
+        shiftout = true;
+      } else if (iright < SHIFT_DELTA) {
+        constraints.constrain_left(grown_other_obj_rect.get_right());
+        shiftout = true;
+      }
+    } else {
+      // Shiftout bottom/top.
+      if (itop < SHIFT_DELTA) {
+        constraints.constrain_bottom(grown_other_obj_rect.get_top());
+        shiftout = true;
+      } else if (ibottom < SHIFT_DELTA) {
+        constraints.constrain_top(grown_other_obj_rect.get_bottom());
+        shiftout = true;
+      }
     }
   }
 
   if (!shiftout)
   {
-    if (other_object != nullptr && moving_object != nullptr) {
-      const HitResponse response = other_object->collision(*moving_object, dummy);
-      if (response == ABORT_MOVE)
-        return constraints;
+    if (other_object && other_object->is_unisolid())
+    {
+      // Constrain only on fall on top of the unisolid object.
+      if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top())
+      {
+        constraints.constrain_bottom(grown_other_obj_rect.get_top());
+        constraints.hit.bottom = true;
+      }
+
+      return constraints;
     }
 
     const float vert_penetration = std::min(itop, ibottom);
@@ -177,6 +191,16 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
         constraints.constrain_left(grown_other_obj_rect.get_right());
         constraints.hit.left = true;
       }
+    }
+    if (other_object && moving_object)
+    {
+      CollisionHit hit = constraints.hit;
+      moving_object->collision(*other_object, hit);
+      std::swap(hit.left, hit.right);
+      std::swap(hit.top, hit.bottom);
+      const HitResponse response = other_object->collision(*moving_object, hit);
+      if(response==ABORT_MOVE)
+        return collision::Constraints();
     }
   }
 
@@ -720,7 +744,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
         if ((tile->get_attributes() & Tile::SOLID))
         {
           result.is_valid = true;
-          result.hit.tile = tile;
+          result.hit = tile;
           result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
           return result;
         }
@@ -745,7 +769,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
       if (intersects_line(object->get_bbox(), line_start, line_end))
       {
         result.is_valid = true;
-        result.hit.object = object;
+        result.hit = object;
         result.box = object->get_bbox();
         return result;
       }

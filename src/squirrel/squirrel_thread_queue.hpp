@@ -20,6 +20,8 @@
 #include <squirrel.h>
 #include <vector>
 
+#include "squirrel/squirrel_util.hpp"
+
 class SquirrelVM;
 
 /** Keeps a list of SquirrelThreads that wait for a wakeup event */
@@ -36,7 +38,7 @@ public:
 
 private:
   SquirrelVM& m_vm;
-  std::vector<HSQOBJECT> m_threads;
+  SquirrelObjectList m_threads;
 
 private:
   SquirrelThreadQueue(const SquirrelThreadQueue&) = delete;

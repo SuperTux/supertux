@@ -42,7 +42,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
   m_tiles(new TileSelection()),
   m_object(),
-  m_object_tip(),
+  m_object_tip(new Tip()),
   m_input_type(InputType::NONE),
   m_active_tilegroup(),
   m_active_objectgroup(-1),
@@ -87,9 +87,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
 
   if (m_hovered_item != HoveredItem::NONE)
   {
-    if (m_object_tip) {
-      m_object_tip->draw(context, Vector(m_mouse_pos.x + 25, m_mouse_pos.y), true);
-    }
+    m_object_tip->draw(context, Vector(m_mouse_pos.x + 25, m_mouse_pos.y), true);
 
     context.color().draw_filled_rect(get_item_rect(m_hovered_item),
                                        g_config->editorhovercolor,
@@ -415,7 +413,7 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     m_hovered_item = HoveredItem::NONE;
     m_tile_scrolling = TileScrolling::NONE;
     m_has_mouse_focus = false;
-    m_object_tip = nullptr;
+    m_object_tip->set_visible(false);
     return false;
   }
 
@@ -432,7 +430,7 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       m_hovered_tile = get_tool_pos(m_mouse_pos);
     }
     m_tile_scrolling = TileScrolling::NONE;
-    m_object_tip = nullptr;
+    m_object_tip->set_visible(false);
     return false;
   } else {
     const int prev_hovered_tile = std::move(m_hovered_tile);
@@ -454,10 +452,10 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
           //       When the node marker is moved as a tool, this should be uncommented.
           // log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
         }
-        m_object_tip = std::make_unique<Tip>(obj_name);
+        m_object_tip->set_info(obj_name);
       }
       else {
-        m_object_tip = nullptr;
+        m_object_tip->set_visible(false);
       }
     }
   }

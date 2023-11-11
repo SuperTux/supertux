@@ -60,9 +60,6 @@ FallBlock::update(float dt_sec)
       }
       break;
     case FALL:
-      m_col.set_movement(m_physic.get_movement (dt_sec));
-      set_group(COLGROUP_MOVING_STATIC);
-      break;
     case LAND:
       m_col.set_movement(m_physic.get_movement (dt_sec));
       set_group(COLGROUP_MOVING_STATIC);
