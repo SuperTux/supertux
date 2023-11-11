@@ -744,7 +744,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
         if ((tile->get_attributes() & Tile::SOLID))
         {
           result.is_valid = true;
-          result.hit.tile = tile;
+          result.hit = tile;
           result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
           return result;
         }
@@ -769,7 +769,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
       if (intersects_line(object->get_bbox(), line_start, line_end))
       {
         result.is_valid = true;
-        result.hit.object = object;
+        result.hit = object;
         result.box = object->get_bbox();
         return result;
       }
