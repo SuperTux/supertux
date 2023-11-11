@@ -50,7 +50,8 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 
@@ -66,7 +67,8 @@ WalkingBadguy::WalkingBadguy(const ReaderMapping& reader,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 

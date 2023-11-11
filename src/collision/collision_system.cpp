@@ -160,12 +160,6 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
 
   if (!shiftout)
   {
-    if (other_object != nullptr && moving_object != nullptr) {
-      const HitResponse response = other_object->collision(*moving_object, dummy);
-      if (response == ABORT_MOVE)
-        return constraints;
-    }
-
     if (other_object && other_object->is_unisolid())
     {
       // Constrain only on fall on top of the unisolid object.
@@ -197,6 +191,16 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
         constraints.constrain_left(grown_other_obj_rect.get_right());
         constraints.hit.left = true;
       }
+    }
+    if (other_object && moving_object)
+    {
+      CollisionHit hit = constraints.hit;
+      moving_object->collision(*other_object, hit);
+      std::swap(hit.left, hit.right);
+      std::swap(hit.top, hit.bottom);
+      const HitResponse response = other_object->collision(*moving_object, hit);
+      if(response==ABORT_MOVE)
+        return collision::Constraints();
     }
   }
 
@@ -748,7 +752,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
         if ((tile->get_attributes() & Tile::SOLID))
         {
           result.is_valid = true;
-          result.hit.tile = tile;
+          result.hit = tile;
           result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
           return result;
         }
@@ -773,7 +777,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
       if (intersects_line(object->get_bbox(), line_start, line_end))
       {
         result.is_valid = true;
-        result.hit.object = object;
+        result.hit = object;
         result.box = object->get_bbox();
         return result;
       }

@@ -37,7 +37,6 @@
 #include "video/viewport.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-#include "worldmap/worldmap_screen.hpp"
 
 namespace {
 
@@ -226,24 +225,23 @@ void display_text_file(const std::string& filename)
   ScreenManager::current()->push_screen(std::make_unique<TextScrollerScreen>(filename));
 }
 
-void load_worldmap(const std::string& filename)
+void load_worldmap(const std::string& filename, const std::string& sector, const std::string& spawnpoint)
 {
   using namespace worldmap;
 
-  if (!::worldmap::WorldMap::current())
+  if (!WorldMap::current())
   {
     throw std::runtime_error("Can't start Worldmap without active WorldMap");
   }
   else
   {
-    ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
-                                            std::make_unique<::worldmap::WorldMap>(filename, ::worldmap::WorldMap::current()->get_savegame())));
+    WorldMap::current()->change(filename, sector, spawnpoint);
   }
 }
 
-void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint)
+void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
 {
-  GameManager::current()->set_next_worldmap(dirname, spawnpoint);
+  GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
 }
 
 void load_level(const std::string& filename)

@@ -645,10 +645,13 @@ BadGuy::kill_fall()
 void
 BadGuy::run_dead_script()
 {
+  if(!m_is_active_flag)
+     return;
+
+  m_is_active_flag = false;
+
   if (m_countMe)
     Sector::get().get_level().m_stats.increment_badguys();
-
-  m_countMe = false;
 
   if (m_parent_dispenser != nullptr)
   {
