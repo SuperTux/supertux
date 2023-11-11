@@ -402,13 +402,18 @@ Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 Snail::ungrab(MovingObject& object, Direction dir_)
 {
+  auto player = dynamic_cast<Player*> (&object);
   if (!m_frozen)
   {
     if (dir_ == Direction::UP) {
       be_flat();
     }
     else {
-      m_dir = dir_;
+      if (dir_ != Direction::DOWN) {
+        m_dir = dir_;
+      } else {
+        m_dir = player->m_dir;
+      }
       be_kicked(dynamic_cast<Owl*>(&object) ? false : true);
     }
   }
