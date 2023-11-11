@@ -25,6 +25,8 @@ class Zeekling final : public BadGuy
 public:
   Zeekling(const ReaderMapping& reader);
 
+  virtual void draw(DrawingContext& context) override;
+
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void active_update(float dt_sec) override;
@@ -62,7 +64,7 @@ private:
 private:
   float speed;
 
-  float m_original_yvel;
+  float m_original_xvel, m_original_yvel;
 
   double m_easing_progress;
   Timer m_charge_timer;

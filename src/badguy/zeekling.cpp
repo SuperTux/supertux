@@ -26,15 +26,38 @@
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
+#include <variant>
+
+const float CATCH_DURATION = 0.49f;
+const float CATCH_DISTANCE = 32.f*3.2f; // distance from the ground
+
+const float DIVE_DETECT_DIR = 2.1f;
+const float DIVE_DIR = 2.5f;
+
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  speed(150.f),
+  speed(160.f),
+  m_original_xvel(0.f),
   m_original_yvel(0.f),
   m_easing_progress(0.0),
   m_charge_timer(),
   state(FLYING)
 {
   m_physic.enable_gravity(false);
+}
+
+void Zeekling::draw(DrawingContext &context)
+{
+  BadGuy::draw(context);
+
+  Vector eye;
+  const Rectf& bbox = get_bbox().grown(1.f);
+  eye = bbox.get_middle();
+  eye.y = bbox.get_bottom();
+
+  const Vector rangeend = {eye.x, eye.y + CATCH_DISTANCE};
+
+  context.color().draw_line(eye, rangeend, Color::from_rgba8888(0xff, 0,0,0xff), 100);
 }
 
 void
@@ -142,14 +165,14 @@ Zeekling::should_we_dive()
   // Do not dive if we are too far above the player.
   if (height > 512) return false;
 
-  const Vector rangeend = {eye.x + ((plrmid.y - eye.y) *
+  const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * DIVE_DETECT_DIR *
                                      (m_dir == Direction::LEFT ? -1 : 1)),
                             plrmid.y};
 
-  const RaycastResult& result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
+  RaycastResult result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
 
-  return result.is_valid &&
-         result.hit.object == get_nearest_player()->get_collision_object();
+  CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
+  return result.is_valid && resultobj && *resultobj == get_nearest_player()->get_collision_object();
 }
 
 bool
@@ -162,13 +185,12 @@ Zeekling::should_we_rebound()
   eye = bbox.get_middle();
   eye.y = bbox.get_bottom();
 
-  const Vector rangeend = {eye.x, eye.y + 32*4};
+  const Vector rangeend = {eye.x, eye.y + CATCH_DISTANCE};
 
-  const RaycastResult& result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
+  RaycastResult result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
 
-  return result.is_valid &&
-         result.hit.tile != nullptr &&
-         result.hit.tile->is_solid();
+  const Tile** resulttile = std::get_if<const Tile*>(&result.hit);
+  return result.is_valid && resulttile && !(*resulttile)->is_slope();
 }
 
 void
@@ -204,16 +226,22 @@ Zeekling::active_update(float dt_sec) {
       if (should_we_rebound())
       {
         state = CATCH;
+        m_physic.set_velocity_x(m_original_xvel);
         m_easing_progress = 0.0;
         break;
+      }
+
+      if (m_easing_progress <= 0.0)
+      {
+        m_original_xvel = m_physic.get_velocity_x();
+        m_physic.set_velocity_x(m_original_xvel + (50 * (m_dir == Direction::LEFT ? 1 : -1)));
       }
 
       if (m_easing_progress >= 1.0) break;
 
       // swoop down
       m_easing_progress += 0.1;
-      m_physic.set_velocity_y(2 *
-                              fabsf(m_physic.get_velocity_x()) *
+      m_physic.set_velocity_y(2 * fabsf(m_original_xvel) *
                               std::min<double>(5.0, QuarticEaseIn(m_easing_progress)));
 
       break;
@@ -228,7 +256,7 @@ Zeekling::active_update(float dt_sec) {
       if (!m_charge_timer.started())
       {
         set_action("recover", m_dir, 1);
-        m_charge_timer.start(1.f);
+        m_charge_timer.start(CATCH_DURATION);
         m_original_yvel = fabsf(m_physic.get_velocity_y());
       }
 
@@ -256,7 +284,7 @@ Zeekling::active_update(float dt_sec) {
 
       if (!m_charge_timer.started())
       {
-        m_charge_timer.start(1.f);
+        m_charge_timer.start(CATCH_DURATION);
       }
 
       double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
@@ -275,8 +303,6 @@ Zeekling::active_update(float dt_sec) {
         m_physic.set_velocity_y(0);
         break;
       }
-
-
 
       break;
     }
