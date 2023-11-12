@@ -78,6 +78,10 @@ FileSystemMenu::refresh_items()
     std::string filepath = FileSystem::join(m_directory, file);
     if (physfsutil::is_directory(filepath))
     {
+      // Do not show directories, containing deprecated files
+      if (file == "deprecated")
+        return;
+
       m_directories.push_back(file);
     }
     else
