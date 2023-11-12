@@ -1697,7 +1697,7 @@
       0 1 0
       0 0 0
     )
-    (image "tiles/snow/background.png")
+    (image "tiles/snow/background2.png")
   )
   (tile
     (id 24)
@@ -1834,7 +1834,7 @@
     (id 63)
     (deprecated #t)
     (images
-      "tiles/background/backgroundtile1.png"
+      "tiles/snow/underground/background.png"
     )
     (solid #t)
   )
@@ -1859,7 +1859,7 @@
     (id 70)
     (deprecated #t)
     (images
-      "tiles/background/backgroundtile1.png"
+      "tiles/snow/underground/background.png"
     )
     (solid #t)
   )
@@ -1953,10 +1953,11 @@
   (tile
     (id 81)
     (images
-      "tiles/doodads/flag-0.png"
-      "tiles/doodads/flag-1.png"
+      "tiles/doodads/deprecated/flag-0.png"
+      "tiles/doodads/deprecated/flag-1.png"
     )
     (fps 10)
+    (deprecated #t)
   )
   (tile
     ; dupe of tile 26, this one will be kept.
@@ -2089,7 +2090,7 @@
       106 107 108
       109 110 111
     )
-    (image "tiles/snow/background3.png")
+    (image "tiles/snow/background.png")
   )
   (tile
     (id 112)
@@ -2281,7 +2282,7 @@
     (id 134)
     (deprecated #t)
     (images
-      (region "tiles/doodads/nolok-statue.png" 0 0 32 96)
+      (region "tiles/castle/nolok-statue.png" 0 0 32 96)
     )
   )
   ; For compatibility with 0.1.x levels, use tile to 1809-1814 instead
@@ -2289,7 +2290,7 @@
     (id 135)
     (deprecated #t)
     (images
-      (region "tiles/doodads/nolok-statue.png" 32 0 32 96)
+      (region "tiles/castle/nolok-statue.png" 32 0 32 96)
     )
   )
 
@@ -2366,28 +2367,30 @@
   (tile
     (id 173)
     (images
-      "tiles/lava/lava1-1.png"
-      "tiles/lava/lava1-2.png"
-      "tiles/lava/lava1-3.png"
-      "tiles/lava/lava1-4.png"
+      "tiles/lava/deprecated/lava1-1.png"
+      "tiles/lava/deprecated/lava1-2.png"
+      "tiles/lava/deprecated/lava1-3.png"
+      "tiles/lava/deprecated/lava1-4.png"
     )
     (water #t)
     (hurts #t)
     (fire #t)
     (fps 10)
+    (deprecated #t)
   )
   (tile
     (id 174)
     (images
-      "tiles/lava/lava2-1.png"
-      "tiles/lava/lava2-2.png"
-      "tiles/lava/lava2-3.png"
-      "tiles/lava/lava2-4.png"
+      "tiles/lava/deprecated/lava2-1.png"
+      "tiles/lava/deprecated/lava2-2.png"
+      "tiles/lava/deprecated/lava2-3.png"
+      "tiles/lava/deprecated/lava2-4.png"
     )
     (water #t)
     (hurts #t)
     (fire #t)
     (fps 10)
+    (deprecated #t)
   )
   (tiles
     (width 4)
@@ -3211,22 +3214,24 @@
   (tile
     (id 1342)
     (images
-      "tiles/doodads/blueice.png"
+      "tiles/doodads/deprecated/blueice.png"
     )
     (solid #t)
+    (deprecated #t)
   )
   (tile
     (id 1343)
     (images
-      "tiles/doodads/blueicetop.png"
+      "tiles/doodads/deprecated/blueicetop.png"
     )
+    (deprecated #t)
   )
   (tile
     (id 1350)
-    (deprecated #t)
     (images
-      "tiles/doodads/platter.png")
+      "tiles/doodads/deprecated/platter.png")
     (solid #f)
+    (deprecated #t)
   )
 
 
@@ -3621,224 +3626,241 @@
   (tile
     (id 1700)
     (images
-      "tiles/lava/zone/body-1-1.png"
-      "tiles/lava/zone/body-1-2.png"
-      "tiles/lava/zone/body-1-3.png"
-      "tiles/lava/zone/body-1-4.png")
+      "tiles/lava/deprecated/zone/body-1-1.png"
+      "tiles/lava/deprecated/zone/body-1-2.png"
+      "tiles/lava/deprecated/zone/body-1-3.png"
+      "tiles/lava/deprecated/zone/body-1-4.png")
     (water #t)
     (hurts #t)
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1701)
     (images
-      "tiles/lava/zone/edge-1-1.png"
-      "tiles/lava/zone/edge-1-2.png"
-      "tiles/lava/zone/edge-1-3.png"
-      "tiles/lava/zone/edge-1-4.png")
+      "tiles/lava/deprecated/zone/edge-1-1.png"
+      "tiles/lava/deprecated/zone/edge-1-2.png"
+      "tiles/lava/deprecated/zone/edge-1-3.png"
+      "tiles/lava/deprecated/zone/edge-1-4.png")
     (water #t)
     (hurts #t)
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1702)
     (images
-      "tiles/lava/zone/bubble-1-1.png"
-      "tiles/lava/zone/bubble-1-2.png"
-      "tiles/lava/zone/bubble-1-3.png"
-      "tiles/lava/zone/bubble-1-4.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png")
+      "tiles/lava/deprecated/zone/bubble-1-1.png"
+      "tiles/lava/deprecated/zone/bubble-1-2.png"
+      "tiles/lava/deprecated/zone/bubble-1-3.png"
+      "tiles/lava/deprecated/zone/bubble-1-4.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png")
     (hurts #t)
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1703)
     (images
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/bubble-in-1-1.png"
-      "tiles/lava/zone/bubble-in-1-2.png"
-      "tiles/lava/zone/bubble-in-1-3.png"
-      "tiles/lava/zone/bubble-in-1-4.png")
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/bubble-in-1-1.png"
+      "tiles/lava/deprecated/zone/bubble-in-1-2.png"
+      "tiles/lava/deprecated/zone/bubble-in-1-3.png"
+      "tiles/lava/deprecated/zone/bubble-in-1-4.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1704)
     (images
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/bubble-out-1-1.png"
-      "tiles/lava/zone/bubble-out-1-2.png"
-      "tiles/lava/zone/bubble-out-1-3.png"
-      "tiles/lava/zone/bubble-out-1-4.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/bubble-out-1-1.png"
+      "tiles/lava/deprecated/zone/bubble-out-1-2.png"
+      "tiles/lava/deprecated/zone/bubble-out-1-3.png"
+      "tiles/lava/deprecated/zone/bubble-out-1-4.png"
     )
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1705)
     (images
-      "tiles/lava/zone/body-2-1.png"
-      "tiles/lava/zone/body-2-2.png"
-      "tiles/lava/zone/body-2-3.png"
-      "tiles/lava/zone/body-2-4.png")
+      "tiles/lava/deprecated/zone/body-2-1.png"
+      "tiles/lava/deprecated/zone/body-2-2.png"
+      "tiles/lava/deprecated/zone/body-2-3.png"
+      "tiles/lava/deprecated/zone/body-2-4.png")
     (water #t)
     (hurts #t)
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1706)
     (images
-      "tiles/lava/zone/body-bottom-1-1.png"
-      "tiles/lava/zone/body-bottom-1-2.png"
-      "tiles/lava/zone/body-bottom-1-3.png"
-      "tiles/lava/zone/body-bottom-1-4.png")
+      "tiles/lava/deprecated/zone/body-bottom-1-1.png"
+      "tiles/lava/deprecated/zone/body-bottom-1-2.png"
+      "tiles/lava/deprecated/zone/body-bottom-1-3.png"
+      "tiles/lava/deprecated/zone/body-bottom-1-4.png")
     (water #t)
     (hurts #t)
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1707)
     (images
-      "tiles/lava/zone/edge-right-1-1.png"
-      "tiles/lava/zone/edge-right-1-2.png"
-      "tiles/lava/zone/edge-right-1-3.png"
-      "tiles/lava/zone/edge-right-1-4.png")
+      "tiles/lava/deprecated/zone/edge-right-1-1.png"
+      "tiles/lava/deprecated/zone/edge-right-1-2.png"
+      "tiles/lava/deprecated/zone/edge-right-1-3.png"
+      "tiles/lava/deprecated/zone/edge-right-1-4.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1708)
     (images
-      "tiles/lava/zone/surface-1-1.png"
-      "tiles/lava/zone/surface-1-2.png"
-      "tiles/lava/zone/surface-1-3.png"
-      "tiles/lava/zone/surface-1-4.png")
+      "tiles/lava/deprecated/zone/surface-1-1.png"
+      "tiles/lava/deprecated/zone/surface-1-2.png"
+      "tiles/lava/deprecated/zone/surface-1-3.png"
+      "tiles/lava/deprecated/zone/surface-1-4.png")
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1709)
     (images
-      "tiles/lava/zone/edge-left-1-1.png"
-      "tiles/lava/zone/edge-left-1-2.png"
-      "tiles/lava/zone/edge-left-1-3.png"
-      "tiles/lava/zone/edge-left-1-4.png")
+      "tiles/lava/deprecated/zone/edge-left-1-1.png"
+      "tiles/lava/deprecated/zone/edge-left-1-2.png"
+      "tiles/lava/deprecated/zone/edge-left-1-3.png"
+      "tiles/lava/deprecated/zone/edge-left-1-4.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1710)
     (images
-      "tiles/lava/zone/edge-right-1-4.png"
-      "tiles/lava/zone/edge-right-1-3.png"
-      "tiles/lava/zone/edge-right-1-2.png"
-      "tiles/lava/zone/edge-right-1-1.png")
+      "tiles/lava/deprecated/zone/edge-right-1-4.png"
+      "tiles/lava/deprecated/zone/edge-right-1-3.png"
+      "tiles/lava/deprecated/zone/edge-right-1-2.png"
+      "tiles/lava/deprecated/zone/edge-right-1-1.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1711)
     (images
-      "tiles/lava/zone/edge-left-1-4.png"
-      "tiles/lava/zone/edge-left-1-3.png"
-      "tiles/lava/zone/edge-left-1-3.png"
-      "tiles/lava/zone/edge-left-1-4.png")
+      "tiles/lava/deprecated/zone/edge-left-1-4.png"
+      "tiles/lava/deprecated/zone/edge-left-1-3.png"
+      "tiles/lava/deprecated/zone/edge-left-1-3.png"
+      "tiles/lava/deprecated/zone/edge-left-1-4.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1712)
     (images
-      "tiles/lava/zone/edge-flip-1-1.png"
-      "tiles/lava/zone/edge-flip-1-2.png"
-      "tiles/lava/zone/edge-flip-1-3.png"
-      "tiles/lava/zone/edge-flip-1-4.png")
+      "tiles/lava/deprecated/zone/edge-flip-1-1.png"
+      "tiles/lava/deprecated/zone/edge-flip-1-2.png"
+      "tiles/lava/deprecated/zone/edge-flip-1-3.png"
+      "tiles/lava/deprecated/zone/edge-flip-1-4.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1713)
     (images
-      "tiles/lava/zone/bubble-bottom-1-1.png"
-      "tiles/lava/zone/bubble-bottom-1-2.png"
-      "tiles/lava/zone/bubble-bottom-1-3.png"
-      "tiles/lava/zone/bubble-bottom-1-4.png")
+      "tiles/lava/deprecated/zone/bubble-bottom-1-1.png"
+      "tiles/lava/deprecated/zone/bubble-bottom-1-2.png"
+      "tiles/lava/deprecated/zone/bubble-bottom-1-3.png"
+      "tiles/lava/deprecated/zone/bubble-bottom-1-4.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1714)
     (images
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/bubble-out-1-1.png"
-      "tiles/lava/zone/bubble-out-1-2.png"
-      "tiles/lava/zone/bubble-out-1-3.png"
-      "tiles/lava/zone/bubble-out-1-4.png")
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/bubble-out-1-1.png"
+      "tiles/lava/deprecated/zone/bubble-out-1-2.png"
+      "tiles/lava/deprecated/zone/bubble-out-1-3.png"
+      "tiles/lava/deprecated/zone/bubble-out-1-4.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tile
     (id 1715)
     (images
-      "tiles/lava/zone/bubble-2-1.png"
-      "tiles/lava/zone/bubble-2-2.png"
-      "tiles/lava/zone/bubble-2-3.png"
-      "tiles/lava/zone/bubble-2-4.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png")
+      "tiles/lava/deprecated/zone/bubble-2-1.png"
+      "tiles/lava/deprecated/zone/bubble-2-2.png"
+      "tiles/lava/deprecated/zone/bubble-2-3.png"
+      "tiles/lava/deprecated/zone/bubble-2-4.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png")
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
 
   (tile
     (id 1716)
     (images
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/rest.png"
-      "tiles/lava/zone/bubble-in-1-1.png"
-      "tiles/lava/zone/bubble-in-1-2.png"
-      "tiles/lava/zone/bubble-in-1-3.png"
-      "tiles/lava/zone/bubble-in-1-4.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/rest.png"
+      "tiles/lava/deprecated/zone/bubble-in-1-1.png"
+      "tiles/lava/deprecated/zone/bubble-in-1-2.png"
+      "tiles/lava/deprecated/zone/bubble-in-1-3.png"
+      "tiles/lava/deprecated/zone/bubble-in-1-4.png"
     )
     (fire #t)
     (solid #f)
     (fps 8)
+    (deprecated #t)
   )
   (tiles
     (width 6)
@@ -4060,7 +4082,7 @@
       1810 1813
       1811 1814
     )
-    (image "tiles/doodads/nolok-statue.png")
+    (image "tiles/castle/nolok-statue.png")
   )
   (tiles
     (width 2)
@@ -4455,7 +4477,7 @@
      2187 2188 2189 2190   2191 2192 2193 2194
      2195 2196 2197 2198   2199 2200 2201 2202)
 
-    (image "tiles/snow/background2.png"))
+    (image "tiles/snow/background3.png"))
 
   (tiles
     (width  3)
@@ -5045,7 +5067,8 @@
       1 1
       1 1
     )
-    (image "tiles/halloween/black.png")
+    (image "tiles/halloween/deprecated/black.png")
+    (deprecated #t)
   )
 
   (tiles
@@ -5544,7 +5567,7 @@
   (tiles
     (width 4)
     (height 4)
-    (image "tiles/background/backgroundtile1.png")
+    (image "tiles/snow/underground/background.png")
     (ids
      3541 3542 3543 3544
      3545 3546 3547 3548
@@ -5977,7 +6000,7 @@
   
   (tiles
     (width 2)(height 3)
-    (image "tiles/doodads/nolok-statue-forest.png")
+    (image "tiles/castle/nolok-statue-forest.png")
     (ids
       4082 4083
       4084 4085
@@ -5992,7 +6015,7 @@
    
    (tiles
      (width 2)(height 3)
-     (image "tiles/doodads/nolok-statue-ghost.png")
+     (image "tiles/castle/nolok-statue-ghost.png")
      (ids
        4088 4089
        4090 4091
@@ -6007,7 +6030,7 @@
     
     (tiles
       (width 2)(height 3)
-      (image "tiles/doodads/nolok-statue-snow.png")
+      (image "tiles/castle/nolok-statue-snow.png")
       (ids
         4094 4095
         4096 4097
@@ -6291,7 +6314,7 @@
       4649 4650 4651 4652 4653 4654
       4655 4656 4657 4658 4659 4660
     )
-    (image "tiles/castle/castle_wall_2.png")
+    (image "tiles/castle/castle_wall.png")
   )
   (tiles
     (width 4)(height 7)
@@ -6304,7 +6327,7 @@
       4681 4682 4683 4684
       4685 4686 4687 4688
     )
-    (image "tiles/castle/chain_2.png")
+    (image "tiles/castle/chain.png")
   )
   (tiles
     (width 5)(height 6)
