@@ -3261,7 +3261,7 @@
       1
       1
     )
-    (image "tiles/doodads/pedestal.png")
+    (image "tiles/castle/pedestal.png")
   )
   (tile
     (id 1357)
