@@ -4862,8 +4862,8 @@
     (ids
       3044 3045 3046 3047
       3048 3049 3050 3051
-      3052 3053 3054 3055
-      3056 3057 3058 3059
+      3052 3053 0 3055
+      3056 3057 0 3059
     )
     (attributes
       1 1 1 1
@@ -4873,7 +4873,19 @@
     )
     (image "tiles/snow/special2.png")
   )
-
+  (tiles
+    (width 1)(height 2)
+    (ids
+      3054 ;duplicate of 3045
+      3058 ;duplicate of 3049
+    )
+    (attributes
+      1
+      1
+    )
+    (image (region "tiles/snow/special2.png" 32 0 32 64))
+    (deprecated #t)
+  )
   (tiles
     (width 4)(height 4)
     (ids
