@@ -17,6 +17,7 @@
 #include "badguy/dispenser.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/corrupted_granito.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/bullet.hpp"
@@ -29,7 +30,7 @@
 #include "util/reader_mapping.hpp"
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/dispenser/dropper.sprite"),
+  BadGuy(reader, "images/creatures/dispenser/dropper.sprite", LAYER_OBJECTS+5),
   ExposedObject<Dispenser, scripting::Dispenser>(this),
   m_cycle(),
   m_objects(),
@@ -282,7 +283,7 @@ Dispenser::launch_object()
 void
 Dispenser::freeze()
 {
-  if (m_type == DispenserType::POINT)
+  if (m_type == DispenserType::POINT || m_type == DispenserType::GRANITO)
     return;
 
   set_group(COLGROUP_MOVING_STATIC);
@@ -410,7 +411,19 @@ Dispenser::get_default_sprite_name() const
       return "images/creatures/granito/corrupted/hive/granito_hive.sprite";
     default:
       return "images/creatures/dispenser/" + type_value_to_id(m_type) + ".sprite";
-  }
+    }
+}
+
+void Dispenser::after_editor_set()
+{
+  BadGuy::after_editor_set();
+
+  //TODO: It shouldn't clear when you switch from POINT to DROPPER, for example.
+  m_objects.clear();
+
+  if (m_type != DispenserType::GRANITO) return;
+
+  add_object(GameObjectFactory::instance().create("corrupted_granito"));
 }
 
 void
