@@ -102,6 +102,13 @@ Zeekling::on_bump_vertical()
   }
 
   switch (state) {
+    case CHARGING:
+      state = FLYING;
+      m_physic.set_velocity_y(0.f);
+      m_easing_progress = 0.0;
+      set_action(m_dir);
+      break;
+
     case DIVING:
       state = RECOVERING;
       m_easing_progress = 0.0;
@@ -116,7 +123,7 @@ Zeekling::on_bump_vertical()
       break;
   }
 
-    m_physic.set_velocity_y(state == RECOVERING ? -speed : 0);
+  m_physic.set_velocity_y(state == RECOVERING ? -speed : 0);
 }
 
 void
