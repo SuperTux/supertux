@@ -64,20 +64,23 @@ bool is_christmas();
 void display_text_file(const std::string& filename);
 
 /**
- * Loads and displays a worldmap (on next screenswitch).
+ * Loads and displays a worldmap (on next screenswitch), using the savegame of the current worldmap.
  * @param string $filename
+ * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
+ * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
  */
-void load_worldmap(const std::string& filename);
+void load_worldmap(const std::string& filename, const std::string& sector, const std::string& spawnpoint);
 
 /**
  * Switches to a different worldmap after unloading the current one, after ""exit_screen()"" is called.
- * @param string $dirname
- * @param string $spawnpoint
+ * @param string $dirname The world directory, where the "worldmap.stwm" file is located.
+ * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
+ * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
  */
-void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint);
+void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint);
 
 /**
- * Loads and displays a level (on next screenswitch).
+ * Loads and displays a level (on next screenswitch), using the savegame of the current level.
  * @param string $filename
  */
 void load_level(const std::string& filename);

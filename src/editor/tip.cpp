@@ -27,7 +27,8 @@
 Tip::Tip() :
   m_strings(),
   m_warnings(),
-  m_header()
+  m_header(),
+  m_visible(false)
 {
 }
 
@@ -36,6 +37,8 @@ Tip::set_info(const std::string& header, const std::vector<std::string>& text)
 {
   m_header = header;
   m_strings = text;
+
+  m_visible = true;
 }
 
 void
@@ -43,6 +46,8 @@ Tip::set_info(const std::string& text)
 {
   m_header = text;
   m_strings.clear();
+
+  m_visible = true;
 }
 
 void
@@ -72,8 +77,7 @@ Tip::set_info_for_object(GameObject& object)
   }
 
   if (!object.is_up_to_date())
-    m_warnings.push_back(_("This object's current functionality is deprecated.") + "\n" +
-                         _("Updating to get its latest functionality is recommended."));
+    m_warnings.push_back(_("This object's current functionality is deprecated.\nUpdating to get its latest functionality is recommended."));
 
   m_visible = true;
 }

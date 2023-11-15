@@ -83,6 +83,12 @@ public:
    * @param string $spawnpoint
    */
   void move_to_spawnpoint(const std::string& spawnpoint);
+
+  /**
+   * Gets the path to the worldmap file. Useful for saving worldmap specific data.
+   */
+  std::string get_filename() const;
+
 };
 
 } // namespace scripting

@@ -125,8 +125,7 @@ Owl::active_update (float dt_sec)
         carried_object->grab (*this, obj_pos, m_dir);
     }
     else { /* if (is_above_player) */
-      carried_object->ungrab (*this, m_dir);
-      carried_object = nullptr;
+      ungrab_carried_object();
     }
   }
 }
@@ -141,10 +140,7 @@ Owl::collision_squished(GameObject& object)
   if (player)
     player->bounce (*this);
 
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
 
   kill_fall ();
   return true;
@@ -164,10 +160,7 @@ Owl::kill_fall()
   else
     BadGuy::kill_fall();
 
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
 
   // Start the dead-script.
   run_dead_script();
@@ -176,10 +169,7 @@ Owl::kill_fall()
 void
 Owl::freeze()
 {
-  if (carried_object != nullptr) {
-    carried_object->ungrab (*this, m_dir);
-    carried_object = nullptr;
-  }
+  ungrab_carried_object();
   m_physic.enable_gravity(true);
   BadGuy::freeze();
 }
@@ -226,11 +216,17 @@ Owl::collision_solid(const CollisionHit& hit)
 void
 Owl::ignite()
 {
+  ungrab_carried_object();
+  BadGuy::ignite();
+}
+
+void
+Owl::ungrab_carried_object()
+{
   if (carried_object != nullptr) {
     carried_object->ungrab (*this, m_dir);
     carried_object = nullptr;
   }
-  BadGuy::ignite();
 }
 
 ObjectSettings

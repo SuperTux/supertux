@@ -74,7 +74,7 @@ public:
   /**
    * Sets the sprite action.
    * @param string $action
-   * @param string $loops
+   * @param int $loops
    */
   void set_action(const std::string& action, int loops);
 };
