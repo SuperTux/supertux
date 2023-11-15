@@ -51,18 +51,18 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
   m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
+  m_scrollbar(),
+  m_scroll_progress(1.f),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_tile(-1),
-  m_tile_scrolling(TileScrolling::NONE),
-  m_using_scroll_wheel(false),
-  m_wheel_scroll_amount(0),
-  m_starting_tile(0),
   m_dragging(false),
   m_drag_start(0, 0),
   m_Xpos(512),
   m_mouse_pos(0, 0),
   m_has_mouse_focus(false)
 {
+  m_scrollbar.reset(new ControlScrollbar(1.f, 1.f, m_scroll_progress, 35.f));
+
   m_select_mode->push_mode("images/engine/editor/select-mode1.png");
   m_select_mode->push_mode("images/engine/editor/select-mode2.png");
   m_select_mode->push_mode("images/engine/editor/select-mode3.png");
@@ -74,18 +74,19 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
 void
 EditorToolboxWidget::draw(DrawingContext& context)
 {
-  //SCREEN_WIDTH SCREEN_HEIGHT
   context.color().draw_filled_rect(Rectf(Vector(static_cast<float>(m_Xpos), 0),
                                          Vector(context.get_width(),
                                                 context.get_height())),
                                      g_config->editorcolor,
                                      0.0f, LAYER_GUI-10);
-  if (m_dragging) {
+
+  if (m_dragging)
+  {
     context.color().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
                                        0.0f, LAYER_GUI+1);
   }
 
-  if (m_hovered_item != HoveredItem::NONE)
+  if (m_hovered_item != HoveredItem::NONE && m_hovered_item != HoveredItem::SCROLLBAR)
   {
     m_object_tip->draw(context, Vector(m_mouse_pos.x + 25, m_mouse_pos.y), true);
 
@@ -117,34 +118,45 @@ EditorToolboxWidget::draw(DrawingContext& context)
       break;
   }
 
-  draw_tilegroup(context);
-  draw_objectgroup(context);
+  const Rect original_clip = context.get_viewport();
+  context.set_viewport(Rect(m_Xpos, m_Ypos, SCREEN_WIDTH, SCREEN_HEIGHT));
+  switch (m_input_type)
+  {
+    case InputType::TILE:
+      draw_tilegroup(context);
+      break;
+
+    case InputType::OBJECT:
+      draw_objectgroup(context);
+      break;
+
+    default:
+      break;
+  }
+  context.set_viewport(original_clip);
+
+  if (m_hovered_item == HoveredItem::TILE || m_hovered_item == HoveredItem::SCROLLBAR)
+    m_scrollbar->draw(context);
 }
 
 void
 EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
 {
-  if (m_input_type == InputType::TILE) {
-    int pos = -1;
-    for (auto& tile_ID : m_active_tilegroup->tiles) {
-      pos++;
-      if (pos < m_starting_tile) {
-        continue;
-      }
-      auto position = get_tile_coords(pos - m_starting_tile);
-      draw_tile(context.color(), *m_editor.get_tileset(), tile_ID, position, LAYER_GUI - 9);
+  int pos = -1;
+  for (auto& tile_ID : m_active_tilegroup->tiles)
+  {
+    pos++;
+    if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
+      continue;
 
-      if (g_config->developer_mode && m_active_tilegroup->developers_group)
-      {
-        // Display tile ID on top of tile:
-        context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
-                                  position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
-      }
-      /*if (tile_ID == 0) {
-        continue;
-      }
-      const Tile* tg_tile = m_editor.get_tileset()->get(tile_ID);
-      tg_tile->draw(context.color(), get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
+    auto position = get_tile_coords(pos, false);
+    draw_tile(context.color(), *m_editor.get_tileset(), tile_ID, position, LAYER_GUI - 9);
+
+    if (g_config->developer_mode && m_active_tilegroup->developers_group)
+    {
+      // Display tile ID on top of tile:
+      context.color().draw_text(Resources::console_font, std::to_string(tile_ID),
+                                position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
     }
   }
 }
@@ -152,108 +164,52 @@ EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
 void
 EditorToolboxWidget::draw_objectgroup(DrawingContext& context)
 {
-  if (m_input_type == InputType::OBJECT) {
-    int pos = -1;
-    for (auto& icon : m_object_info->m_groups[m_active_objectgroup].get_icons()) {
-      pos++;
-      if (pos < m_starting_tile) {
-        continue;
-      }
-      icon.draw(context, get_tile_coords(pos - m_starting_tile));
-    }
-  }
-}
-
-void
-EditorToolboxWidget::update(float dt_sec)
-{
-  switch (m_tile_scrolling)
+  int pos = -1;
+  for (auto& icon : m_object_info->m_groups[m_active_objectgroup].get_icons())
   {
-    case TileScrolling::UP:
-      {
-        if (m_starting_tile > 0)
-        {
-          if (m_using_scroll_wheel)
-          {
-            m_starting_tile -= 4 * m_wheel_scroll_amount;
-            if (m_starting_tile < 0)
-            {
-              m_starting_tile = 0;
-            }
-            m_tile_scrolling = TileScrolling::NONE;
-          }
-          else
-          {
-            m_starting_tile -= 4;
-          }
-        }
-      }
-      break;
+    pos++;
+    if (pos / 4 < static_cast<int>(m_scroll_progress / 32.f))
+      continue;
 
-    case TileScrolling::DOWN:
-      {
-        int size;
-        if (m_input_type == InputType::OBJECT) {
-          size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size());
-        } else {
-          if (m_active_tilegroup == nullptr)
-          {
-            return;
-          }
-          size = static_cast<int>(m_active_tilegroup->tiles.size());
-        }
-        if (m_starting_tile < size-5) {
-          if (m_using_scroll_wheel)
-          {
-            m_starting_tile -= 4 * m_wheel_scroll_amount;
-            if (m_starting_tile > size - 4)
-            {
-              m_starting_tile = size - 4;
-            }
-            m_tile_scrolling = TileScrolling::NONE;
-          }
-          else
-          {
-            m_starting_tile += 4;
-          }
-        }
-      }
-      break;
-
-    default:
-      break;
+    icon.draw(context, get_tile_coords(pos, false));
   }
 }
 
 Rectf
-EditorToolboxWidget::normalize_selection() const
+EditorToolboxWidget::normalize_selection(bool rounded) const
 {
-  Vector drag_start_ = m_drag_start;
+  const float tile_scroll_progress = (rounded ? floorf(m_scroll_progress / 32.f) : m_scroll_progress / 32.f);
+
+  Vector drag_start = m_drag_start - Vector(0.f, tile_scroll_progress);
   Vector drag_end = Vector(static_cast<float>(m_hovered_tile % 4),
-                           static_cast<float>(m_hovered_tile / 4)); // NOLINT
-  if (drag_start_.x > drag_end.x) {
-    std::swap(drag_start_.x, drag_end.x);
+                           static_cast<float>(m_hovered_tile / 4) - tile_scroll_progress); // NOLINT
+  if (drag_start.x > drag_end.x) {
+    std::swap(drag_start.x, drag_end.x);
   }
-  if (drag_start_.y > drag_end.y) {
-    std::swap(drag_start_.y, drag_end.y);
+  if (drag_start.y > drag_end.y) {
+    std::swap(drag_start.y, drag_end.y);
   }
-  return Rectf(drag_start_, drag_end);
+  return Rectf(drag_start, drag_end);
 }
 
 Rectf
 EditorToolboxWidget::selection_draw_rect() const
 {
-  Rectf select = normalize_selection();
+  Rectf select = normalize_selection(false);
   select.set_p2(select.p2() + Vector(1, 1));
   select.set_p1((select.p1() * 32.0f) + Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos)));
   select.set_p2((select.p2() * 32.0f) + Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos)));
+
+  if (select.get_top() < static_cast<float>(m_Ypos)) // Do not go over tool bar
+    select.set_top(m_Ypos);
+
   return select;
 }
 
 void
 EditorToolboxWidget::update_selection()
 {
-  Rectf select = normalize_selection();
+  Rectf select = normalize_selection(true);
   m_tiles->m_tiles.clear();
   m_tiles->m_width = static_cast<int>(select.get_width() + 1);
   m_tiles->m_height = static_cast<int>(select.get_height() + 1);
@@ -261,7 +217,7 @@ EditorToolboxWidget::update_selection()
   int size = static_cast<int>(m_active_tilegroup->tiles.size());
   for (int y = static_cast<int>(select.get_top()); y <= static_cast<int>(select.get_bottom()); y++) {
     for (int x = static_cast<int>(select.get_left()); x <= static_cast<int>(select.get_right()); x++) {
-      int tile_pos = y*4 + x + m_starting_tile;
+      int tile_pos = (y + static_cast<int>(m_scroll_progress / 32.f)) * 4 + x;
       if (tile_pos < size && tile_pos >= 0) {
         m_tiles->m_tiles.push_back(m_active_tilegroup->tiles[tile_pos]);
       } else {
@@ -274,6 +230,8 @@ EditorToolboxWidget::update_selection()
 bool
 EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
+  m_scrollbar->on_mouse_button_up(button);
+
   m_dragging = false;
   return false;
 }
@@ -281,6 +239,9 @@ EditorToolboxWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 bool
 EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
+  if (m_scrollbar->on_mouse_button_down(button))
+    return true;
+
   if (button.button == SDL_BUTTON_LEFT)
   {
     switch (m_hovered_item)
@@ -293,10 +254,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         else
         {
-          m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[0]));
-          m_input_type = EditorToolboxWidget::InputType::TILE;
-          m_starting_tile = 0;
-          update_mouse_icon();
+          select_tilegroup(0);
         }
         return true;
 
@@ -318,7 +276,6 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             m_active_objectgroup = 0;
           }
           m_input_type = EditorToolboxWidget::InputType::OBJECT;
-          m_starting_tile = 0;
           update_mouse_icon();
         }
         return true;
@@ -331,10 +288,10 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
               m_dragging = true;
               m_drag_start = Vector(static_cast<float>(m_hovered_tile % 4),
                                     static_cast<float>(m_hovered_tile / 4)); // NOLINT
+
               int size = static_cast<int>(m_active_tilegroup->tiles.size());
-              int tile_pos = m_hovered_tile + m_starting_tile;
-              if (tile_pos < size && tile_pos >= 0) {
-                m_tiles->set_tile(m_active_tilegroup->tiles[tile_pos]);
+              if (m_hovered_tile < size && m_hovered_tile >= 0) {
+                m_tiles->set_tile(m_active_tilegroup->tiles[m_hovered_tile]);
               } else {
                 m_tiles->set_tile(0);
               }
@@ -345,7 +302,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             {
               int size = static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size());
               if (m_hovered_tile < size && m_hovered_tile >= 0) {
-                m_object = m_object_info->m_groups[m_active_objectgroup].get_icons()[m_hovered_tile + m_starting_tile].get_object_class();
+                m_object = m_object_info->m_groups[m_active_objectgroup].get_icons()[m_hovered_tile].get_object_class();
               }
               update_mouse_icon();
             }
@@ -379,18 +336,15 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             update_mouse_icon();
             break;
 			
-	      case 3:
-		    m_object = "#move";
-			update_mouse_icon();
-			break;
+          case 3:
+            m_object = "#move";
+            update_mouse_icon();
+            break;
 
           default:
             break;
         }
         return true;
-
-      case HoveredItem::NONE:
-        return false;
 
       default:
         return false;
@@ -405,13 +359,20 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
+  if (m_scrollbar->on_mouse_motion(motion))
+  {
+    m_hovered_item = HoveredItem::SCROLLBAR;
+    m_object_tip->set_visible(false);
+    return true;
+  }
+
   m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   float x = m_mouse_pos.x - static_cast<float>(m_Xpos);
   float y = m_mouse_pos.y - static_cast<float>(m_Ypos);
 
-  if (x < 0) {
+  if (x < 0)
+  {
     m_hovered_item = HoveredItem::NONE;
-    m_tile_scrolling = TileScrolling::NONE;
     m_has_mouse_focus = false;
     m_object_tip->set_visible(false);
     return false;
@@ -420,7 +381,8 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   // mouse is currently over the toolbox
   m_has_mouse_focus = true;
 
-  if (y < 0) {
+  if (y < 0) /** Tool bar */
+  {
     if (y < -64) {
       m_hovered_item = HoveredItem::TILEGROUP;
     } else if (y < -32) {
@@ -429,45 +391,12 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       m_hovered_item = HoveredItem::TOOL;
       m_hovered_tile = get_tool_pos(m_mouse_pos);
     }
-    m_tile_scrolling = TileScrolling::NONE;
     m_object_tip->set_visible(false);
     return false;
-  } else {
-    const int prev_hovered_tile = std::move(m_hovered_tile);
-    m_hovered_item = HoveredItem::TILE;
-    m_hovered_tile = get_tile_pos(m_mouse_pos);
-    if (m_dragging && m_input_type == InputType::TILE) {
-      update_selection();
-    }
-    else if (m_input_type == InputType::OBJECT && m_hovered_tile != prev_hovered_tile) {
-      const auto& icons = m_object_info->m_groups[m_active_objectgroup].get_icons();
-      if (m_hovered_tile + m_starting_tile < static_cast<int>(icons.size())) {
-        const std::string obj_class = icons[m_hovered_tile + m_starting_tile].get_object_class();
-        std::string obj_name = obj_class;
-        try {
-          obj_name = GameObjectFactory::instance().get_display_name(obj_class);
-        }
-        catch (std::exception&) {
-          // NOTE: Temporarily commented out, so hovering over node marker doesn't show a warning.
-          //       When the node marker is moved as a tool, this should be uncommented.
-          // log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
-        }
-        m_object_tip->set_info(obj_name);
-      }
-      else {
-        m_object_tip->set_visible(false);
-      }
-    }
   }
-
-  if (y < 16) {
-    m_tile_scrolling = TileScrolling::UP;
-    m_using_scroll_wheel = false;
-  } else if (y > static_cast<float>(SCREEN_HEIGHT - 16 - m_Ypos)) {
-    m_tile_scrolling = TileScrolling::DOWN;
-    m_using_scroll_wheel = false;
-  } else {
-    m_tile_scrolling = TileScrolling::NONE;
+  else /** Tile/object bar */
+  {
+    update_hovered_tile();
   }
 
   return false;
@@ -476,18 +405,43 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 EditorToolboxWidget::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
-  if (m_hovered_item != HoveredItem::NONE)
+  if (m_hovered_item == HoveredItem::TILE)
   {
-    if (wheel.y > 0) {
-      m_tile_scrolling = TileScrolling::UP;
+    m_scrollbar->on_mouse_wheel(wheel);
+    update_hovered_tile();
+  }
+
+  return false;
+}
+
+void
+EditorToolboxWidget::update_hovered_tile()
+{
+  const int prev_hovered_tile = std::move(m_hovered_tile);
+  m_hovered_item = HoveredItem::TILE;
+  m_hovered_tile = get_tile_pos(m_mouse_pos);
+  if (m_dragging && m_input_type == InputType::TILE) {
+    update_selection();
+  }
+  else if (m_input_type == InputType::OBJECT && m_hovered_tile != prev_hovered_tile) {
+    const auto& icons = m_object_info->m_groups[m_active_objectgroup].get_icons();
+    if (m_hovered_tile < static_cast<int>(icons.size())) {
+      const std::string obj_class = icons[m_hovered_tile].get_object_class();
+      std::string obj_name = obj_class;
+      try {
+        obj_name = GameObjectFactory::instance().get_display_name(obj_class);
+      }
+      catch (std::exception&) {
+        // NOTE: Temporarily commented out, so hovering over node marker doesn't show a warning.
+        //       When the node marker is moved as a tool, this should be uncommented.
+        // log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
+      }
+      m_object_tip->set_info(obj_name);
     }
     else {
-      m_tile_scrolling = TileScrolling::DOWN;
+      m_object_tip->set_visible(false);
     }
-    m_using_scroll_wheel = true;
-    m_wheel_scroll_amount = wheel.y;
   }
-  return false;
 }
 
 void
@@ -498,6 +452,11 @@ EditorToolboxWidget::resize()
   m_select_mode->m_pos   = Vector(static_cast<float>(m_Xpos) + 32.0f, 64.0f);
   m_move_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 64.0f, 64.0f);
   m_undo_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 96.0f, 64.0f);
+
+  const Vector screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT));
+  m_scrollbar->set_covered_region(screen_size.y - m_Ypos);
+  m_scrollbar->set_total_region(get_total_scrollbar_region());
+  m_scrollbar->set_rect(Rectf(Vector(screen_size.x - 5.f, m_Ypos), screen_size));
 }
 
 void
@@ -530,29 +489,25 @@ EditorToolboxWidget::update_mouse_icon()
 }
 
 Vector
-EditorToolboxWidget::get_tile_coords(const int pos) const
+EditorToolboxWidget::get_tile_coords(const int pos, bool relative) const
 {
-  int x = pos%4;
-  int y = pos/4;
-  return Vector(static_cast<float>(x * 32 + m_Xpos),
-                static_cast<float>(y * 32 + m_Ypos));
+  return Vector((pos % 4) * 32.f + (relative ? m_Xpos : 0),
+                (pos / 4) * 32.f + (relative ? m_Ypos : 0) - m_scroll_progress);
 }
 
 int
 EditorToolboxWidget::get_tile_pos(const Vector& coords) const
 {
   int x = static_cast<int>((coords.x - static_cast<float>(m_Xpos)) / 32.0f);
-  int y = static_cast<int>((coords.y - static_cast<float>(m_Ypos)) / 32.0f);
-  return y*4 + x;
+  int y = static_cast<int>((coords.y - static_cast<float>(m_Ypos) + m_scroll_progress) / 32.0f);
+  return y * 4 + x;
 }
 
 Vector
 EditorToolboxWidget::get_tool_coords(const int pos) const
 {
-  int x = pos%4;
-  int y = pos/4;
-  return Vector(static_cast<float>(x * 32 + m_Xpos),
-                static_cast<float>(y * 32 + 64));
+  return Vector(static_cast<float>((pos % 4) * 32 + m_Xpos),
+                static_cast<float>((pos / 4) * 32 + 64));
 }
 
 int
@@ -560,7 +515,7 @@ EditorToolboxWidget::get_tool_pos(const Vector& coords) const
 {
   int x = static_cast<int>((coords.x - static_cast<float>(m_Xpos)) / 32.0f);
   int y = static_cast<int>((coords.y - 64.0f) / 32.0f);
-  return y*4 + x;
+  return y * 4 + x;
 }
 
 Rectf
@@ -573,7 +528,12 @@ EditorToolboxWidget::get_item_rect(const HoveredItem& item) const
     case HoveredItem::TILE:
     {
       auto coords = get_tile_coords(m_hovered_tile);
-      return Rectf(coords, coords + Vector(32, 32));
+      Rectf rect(coords, coords + Vector(32, 32));
+
+      if (rect.get_top() < static_cast<float>(m_Ypos)) // Do not go over tool bar
+        rect.set_top(m_Ypos);
+
+      return rect;
     }
     case HoveredItem::TOOL:
     {
@@ -602,8 +562,8 @@ void
 EditorToolboxWidget::select_tilegroup(int id)
 {
   m_active_tilegroup.reset(new Tilegroup(m_editor.get_tileset()->get_tilegroups()[id]));
-  m_input_type = EditorToolboxWidget::InputType::TILE;
-  m_starting_tile = 0;
+  m_input_type = InputType::TILE;
+  reset_scrollbar();
   update_mouse_icon();
 }
 
@@ -611,9 +571,31 @@ void
 EditorToolboxWidget::select_objectgroup(int id)
 {
   m_active_objectgroup = id;
-  m_input_type = EditorToolboxWidget::InputType::OBJECT;
-  m_starting_tile = 0;
+  m_input_type = InputType::OBJECT;
+  reset_scrollbar();
   update_mouse_icon();
+}
+
+float
+EditorToolboxWidget::get_total_scrollbar_region() const
+{
+  switch (m_input_type)
+  {
+    case InputType::TILE:
+      return ceilf(static_cast<int>(m_active_tilegroup->tiles.size()) / 4.f) * 32.f;
+
+    case InputType::OBJECT:
+      return ceilf(static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size()) / 4.f) * 32.f;
+  }
+
+  return 1.f;
+}
+
+void
+EditorToolboxWidget::reset_scrollbar()
+{
+  m_scroll_progress = 0.f;
+  m_scrollbar->set_total_region(get_total_scrollbar_region());
 }
 
 bool

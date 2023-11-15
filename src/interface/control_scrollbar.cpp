@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,27 +25,25 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-ControlScrollbar::ControlScrollbar() :
+ControlScrollbar::ControlScrollbar(float total_region, float covered_region,
+                                   float& progress, float mouse_wheel_speed) :
+  m_mouse_wheel_speed(mouse_wheel_speed),
   m_scrolling(),
   m_hovering(),
-  m_total_region(),
-  m_covered_region(),
-  m_progress(),
+  m_total_region(total_region),
+  m_covered_region(covered_region),
+  m_progress(progress),
   m_rect(),
   //is_horizontal(),
-  last_mouse_pos()
+  m_last_mouse_pos()
   //zoom_factor()
 {
-  m_covered_region = VideoSystem::current()->get_viewport().get_rect().get_height();
-  m_total_region = 2000;
+  check_regions();
 }
 
 void
 ControlScrollbar::draw(DrawingContext& context)
 {
-  m_rect = Rectf(0, 0, 10, context.get_height());
-
-  context.color().draw_filled_rect(m_rect, Color(0.5f, 0.5f, 0.5f, 1.f), 8, LAYER_GUI);
   context.color().draw_filled_rect(get_bar_rect(),
                                    Color(1.f, 1.f, 1.f, (m_hovering || m_scrolling) ? 1.f : 0.5f),
                                    8,
@@ -70,7 +69,6 @@ ControlScrollbar::draw(DrawingContext& context)
 void
 ControlScrollbar::update(float dt_sec)
 {
-  
 }
 
 bool
@@ -99,49 +97,83 @@ ControlScrollbar::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 ControlScrollbar::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
-  //InterfaceControl::on_mouse_motion(motion);
-
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
-
-  /*if (mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
-    m_scrolling_vec = m_mouse_pos - Vector(MIDDLE, MIDDLE);
-    if (m_scrolling_vec.x != 0 || m_scrolling_vec.y != 0) {
-      float norm = m_scrolling_vec.norm();
-      m_scrolling_vec *= powf(static_cast<float>(M_E), norm / 16.0f - 1.0f);
-    }
-  }*/
-
   m_hovering = get_bar_rect().contains(mouse_pos);
 
-  int new_progress = m_progress + int((mouse_pos.y - last_mouse_pos) * VideoSystem::current()->get_viewport().get_scale().y * float(m_total_region) / float(m_covered_region));
-  last_mouse_pos = mouse_pos.y;
-
-  if (m_scrolling) {
-
-    m_progress = std::min(m_total_region - m_covered_region, std::max(0, new_progress));
-
-    printf("%d to %d of %d\n", m_progress, m_progress + m_covered_region, m_total_region);
-
-    return true;
-  } else {
+  if (m_scrolling)
+  {
+    const float new_progress = m_progress + (mouse_pos.y - m_last_mouse_pos) * m_total_region / m_covered_region;
+    m_progress = std::min(m_total_region - m_covered_region, std::max(0.f, new_progress));
+  }
+  else if (!m_hovering)
+  {
     return false;
   }
+
+  m_last_mouse_pos = mouse_pos.y;
+  return true;
+}
+
+bool
+ControlScrollbar::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
+{
+  /** This will always be executed, regardless of the mouse position.
+      The control's parent manager should check conditions, if needed,
+      before calling this function. */
+
+  scroll(-wheel.y);
+  return true;
+}
+
+void
+ControlScrollbar::scroll(float amount)
+{
+  m_progress += amount * m_mouse_wheel_speed;
+
+  if (m_progress < 0.f)
+    m_progress = 0.f;
+  else if (m_progress > m_total_region - m_covered_region)
+    m_progress = m_total_region - m_covered_region;
+}
+
+void
+ControlScrollbar::set_covered_region(float region)
+{
+  m_covered_region = region;
+  check_regions();
+}
+
+void
+ControlScrollbar::set_total_region(float region)
+{
+  m_total_region = region;
+  check_regions();
+}
+
+void
+ControlScrollbar::check_regions()
+{
+  if (m_total_region < m_covered_region)
+    m_total_region = m_covered_region;
+
+  if (m_progress > m_total_region - m_covered_region)
+    m_progress = m_total_region - m_covered_region;
 }
 
 Rectf
-ControlScrollbar::get_bar_rect()
+ControlScrollbar::get_bar_rect() const
 {
   return Rectf(m_rect.get_left(),
-               m_rect.get_top() + static_cast<float>(m_progress)
-                                * static_cast<float>(m_covered_region)
-                                / static_cast<float>(m_total_region),
+               m_rect.get_top() + m_progress
+                                * m_covered_region
+                                / m_total_region,
                m_rect.get_right(),
-               m_rect.get_top() + static_cast<float>(m_progress)
-                                * static_cast<float>(m_covered_region)
-                                / static_cast<float>(m_total_region)
+               m_rect.get_top() + m_progress
+                                * m_covered_region
+                                / m_total_region
                           + m_rect.get_height()
-                          * static_cast<float>(m_covered_region)
-                          / static_cast<float>(m_total_region)
+                          * m_covered_region
+                          / m_total_region
              );
 }
 
