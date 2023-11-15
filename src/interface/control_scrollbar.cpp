@@ -44,6 +44,9 @@ ControlScrollbar::ControlScrollbar(float total_region, float covered_region,
 void
 ControlScrollbar::draw(DrawingContext& context)
 {
+  if (!is_active())
+    return;
+
   context.color().draw_filled_rect(get_bar_rect(),
                                    Color(1.f, 1.f, 1.f, (m_hovering || m_scrolling) ? 1.f : 0.8f),
                                    8,
@@ -72,8 +75,18 @@ ControlScrollbar::update(float dt_sec)
 }
 
 bool
+ControlScrollbar::is_active() const
+{
+  // The scrollbar should not be active, when there is nothing to scroll through.
+  return m_covered_region < m_total_region;
+}
+
+bool
 ControlScrollbar::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
+  if (!is_active())
+    return false;
+
   m_scrolling = false;
   return false;
 }
@@ -81,6 +94,9 @@ ControlScrollbar::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 bool
 ControlScrollbar::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
+  if (!is_active())
+    return false;
+
   if (button.button == SDL_BUTTON_LEFT) {
     Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
     if (get_bar_rect().contains(mouse_pos)) {
@@ -97,6 +113,9 @@ ControlScrollbar::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 bool
 ControlScrollbar::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 {
+  if (!is_active())
+    return false;
+
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   m_hovering = get_bar_rect().contains(mouse_pos);
 
@@ -117,6 +136,9 @@ ControlScrollbar::on_mouse_motion(const SDL_MouseMotionEvent& motion)
 bool
 ControlScrollbar::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
 {
+  if (!is_active())
+    return false;
+
   /** This will always be executed, regardless of the mouse position.
       The control's parent manager should check conditions, if needed,
       before calling this function. */

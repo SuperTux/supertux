@@ -38,12 +38,14 @@ public:
   virtual bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
   virtual bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
 
+  bool is_active() const;
+
   void scroll(float amount);
 
   void set_mouse_wheel_speed(float speed) { m_mouse_wheel_speed = speed; }
 
   void set_rect(const Rectf& rect) { m_rect = rect; }
-  Rectf get_rect() const { return m_rect; }
+  const Rectf& get_rect() const { return m_rect; }
 
   float get_covered_region() const { return m_covered_region; }
   float get_total_region() const { return m_total_region; }
