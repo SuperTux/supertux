@@ -47,12 +47,12 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_active_tilegroup(),
   m_active_objectgroup(-1),
   m_object_info(new ObjectInfo()),
+  m_scrollbar(),
+  m_scroll_progress(1.f),
   m_rubber(new ToolIcon("images/engine/editor/rubber.png")),
   m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
   m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
-  m_scrollbar(),
-  m_scroll_progress(1.f),
   m_hovered_item(HoveredItem::NONE),
   m_hovered_tile(-1),
   m_dragging(false),
@@ -201,7 +201,7 @@ EditorToolboxWidget::selection_draw_rect() const
   select.set_p2((select.p2() * 32.0f) + Vector(static_cast<float>(m_Xpos), static_cast<float>(m_Ypos)));
 
   if (select.get_top() < static_cast<float>(m_Ypos)) // Do not go over tool bar
-    select.set_top(m_Ypos);
+    select.set_top(static_cast<float>(m_Ypos));
 
   return select;
 }
@@ -454,7 +454,7 @@ EditorToolboxWidget::resize()
   m_undo_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 96.0f, 64.0f);
 
   const Vector screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT));
-  m_scrollbar->set_covered_region(screen_size.y - m_Ypos);
+  m_scrollbar->set_covered_region(screen_size.y - static_cast<float>(m_Ypos));
   m_scrollbar->set_total_region(get_total_scrollbar_region());
   m_scrollbar->set_rect(Rectf(Vector(screen_size.x - 5.f, m_Ypos), screen_size));
 }
@@ -491,8 +491,8 @@ EditorToolboxWidget::update_mouse_icon()
 Vector
 EditorToolboxWidget::get_tile_coords(const int pos, bool relative) const
 {
-  return Vector((pos % 4) * 32.f + (relative ? m_Xpos : 0),
-                (pos / 4) * 32.f + (relative ? m_Ypos : 0) - m_scroll_progress);
+  return Vector(static_cast<float>((pos % 4) * 32 + (relative ? m_Xpos : 0)),
+                static_cast<float>((pos / 4) * 32 + (relative ? m_Ypos : 0)) - m_scroll_progress);
 }
 
 int
@@ -531,7 +531,7 @@ EditorToolboxWidget::get_item_rect(const HoveredItem& item) const
       Rectf rect(coords, coords + Vector(32, 32));
 
       if (rect.get_top() < static_cast<float>(m_Ypos)) // Do not go over tool bar
-        rect.set_top(m_Ypos);
+        rect.set_top(static_cast<float>(m_Ypos));
 
       return rect;
     }
@@ -582,13 +582,14 @@ EditorToolboxWidget::get_total_scrollbar_region() const
   switch (m_input_type)
   {
     case InputType::TILE:
-      return ceilf(static_cast<int>(m_active_tilegroup->tiles.size()) / 4.f) * 32.f;
+      return ceilf(static_cast<float>(m_active_tilegroup->tiles.size()) / 4.f) * 32.f;
 
     case InputType::OBJECT:
-      return ceilf(static_cast<int>(m_object_info->m_groups[m_active_objectgroup].get_icons().size()) / 4.f) * 32.f;
-  }
+      return ceilf(static_cast<float>(m_object_info->m_groups[m_active_objectgroup].get_icons().size()) / 4.f) * 32.f;
 
-  return 1.f;
+    default:
+      return 1.f;
+  }
 }
 
 void
