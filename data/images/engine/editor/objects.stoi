@@ -222,9 +222,6 @@
   (object
     (class "ispy")
     (icon "images/objects/ispy/i-idle.png"))
-  (object
-    (class "#node")
-    (icon "images/engine/editor/path_node.png"))
 ;;(object
 ;;  (class "path")
 ;;  (icon "images/engine/editor/path.png"))

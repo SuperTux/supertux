@@ -49,6 +49,7 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_object_info(new ObjectInfo()),
   m_rubber(new ToolIcon("images/engine/editor/rubber.png")),
   m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
+  m_node_marker_mode(new ToolIcon("images/engine/editor/path_node.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
   m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
   m_hovered_item(HoveredItem::NONE),
@@ -110,6 +111,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
       break;
 
     case InputType::OBJECT:
+      m_node_marker_mode->draw(context);
       m_move_mode->draw(context);
       break;
 
@@ -366,8 +368,16 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
           case 1:
-            if (m_input_type == InputType::TILE) {
-              m_select_mode->next_mode();
+            switch (m_input_type)
+            {
+              case InputType::TILE:
+                m_select_mode->next_mode();
+                break;
+              case InputType::OBJECT:
+                m_object = "#node";
+                break;
+              default:
+                break;
             }
             update_mouse_icon();
             break;
@@ -494,10 +504,11 @@ void
 EditorToolboxWidget::resize()
 {
   m_Xpos = SCREEN_WIDTH - 128;
-  m_rubber->m_pos        = Vector(static_cast<float>(m_Xpos)        , 64.0f);
-  m_select_mode->m_pos   = Vector(static_cast<float>(m_Xpos) + 32.0f, 64.0f);
-  m_move_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 64.0f, 64.0f);
-  m_undo_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 96.0f, 64.0f);
+  m_rubber->m_pos           = Vector(static_cast<float>(m_Xpos)        , 64.0f);
+  m_select_mode->m_pos      = Vector(static_cast<float>(m_Xpos) + 32.0f, 64.0f);
+  m_node_marker_mode->m_pos = Vector(static_cast<float>(m_Xpos) + 32.0f, 64.0f);
+  m_move_mode->m_pos        = Vector(static_cast<float>(m_Xpos) + 64.0f, 64.0f);
+  m_undo_mode->m_pos        = Vector(static_cast<float>(m_Xpos) + 96.0f, 64.0f);
 }
 
 void
@@ -518,7 +529,10 @@ EditorToolboxWidget::update_mouse_icon()
       if (m_object.empty()) {
         MouseCursor::current()->set_icon(m_rubber->get_current_surface());
       } else {
-        MouseCursor::current()->set_icon(m_move_mode->get_current_surface());
+        if (m_object == "#node")
+          MouseCursor::current()->set_icon(m_node_marker_mode->get_current_surface());
+        else
+          MouseCursor::current()->set_icon(m_move_mode->get_current_surface());
       }
       break;
     case InputType::TILE:
