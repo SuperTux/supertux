@@ -29,6 +29,7 @@
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
 #include "object/falling_coin.hpp"
+#include "object/key.hpp"
 #include "object/music_object.hpp"
 #include "object/particles.hpp"
 #include "object/portable.hpp"
@@ -226,7 +227,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_idle_stage(0),
   m_climbing(nullptr),
   m_ending_direction(0),
-  m_collected_keys(0)
+  m_collected_keys()
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -320,6 +321,9 @@ Player::move_to_sector(Sector& other)
     if (grabbed_game_object)
       get_parent()->move_object(grabbed_game_object->get_uid(), other);
   }
+
+  for (Key* key : m_collected_keys)
+    get_parent()->move_object(key->get_uid(), other);
 
   // Move the player.
   get_parent()->move_object(get_uid(), other);
@@ -2379,8 +2383,10 @@ Player::move(const Vector& vector)
   m_last_ground_y = vector.y;
   if (m_climbing) stop_climbing(*m_climbing);
 
-  // Make sure grabbed objects move directly with the player.
+  // Make sure objects following Tux move directly with him
   position_grabbed_object(true);
+  for (Key* key : m_collected_keys)
+    key->update_pos();
 
   m_physic.reset();
 }
@@ -2867,6 +2873,21 @@ Player::stop_rolling(bool violent)
     SoundManager::current()->play("sounds/brick.wav", get_pos());
   }
   m_stone = false;
+}
+
+void
+Player::add_collected_key(Key* key)
+{
+  m_collected_keys.push_back(key);
+}
+
+void
+Player::remove_collected_key(Key* key)
+{
+  m_collected_keys.erase(std::remove(m_collected_keys.begin(),
+                                     m_collected_keys.end(),
+                                     key),
+                         m_collected_keys.end());
 }
 
 /* EOF */

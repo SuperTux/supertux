@@ -31,10 +31,11 @@
 #include "video/surface_ptr.hpp"
 
 class BadGuy;
-class Portable;
 class Climbable;
 class Controller;
 class CodeController;
+class Key;
+class Portable;
 
 extern const float TUX_INVINCIBLE_TIME_WARNING;
 
@@ -243,8 +244,9 @@ public:
   void set_ending_direction(int direction) { m_ending_direction = direction; }
   int get_ending_direction() const { return m_ending_direction; }
 
-  int get_collected_keys() { return m_collected_keys; }
-  void add_collected_keys(int keynum) { m_collected_keys += keynum; }
+  const std::vector<Key*>& get_collected_keys() const { return m_collected_keys; }
+  void add_collected_key(Key* key);
+  void remove_collected_key(Key* key);
 
   bool track_state() const override { return false; }
 
@@ -394,7 +396,7 @@ private:
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
 
   int m_ending_direction;
-  int m_collected_keys;
+  std::vector<Key*> m_collected_keys;
 
 private:
   Player(const Player&) = delete;
