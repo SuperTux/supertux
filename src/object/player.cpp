@@ -29,6 +29,7 @@
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
 #include "object/falling_coin.hpp"
+#include "object/key.hpp"
 #include "object/music_object.hpp"
 #include "object/particles.hpp"
 #include "object/portable.hpp"
@@ -225,9 +226,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_idle_timer(),
   m_idle_stage(0),
   m_climbing(nullptr),
-  m_climbing_remove_listener(nullptr),
   m_ending_direction(0),
-  m_collected_keys(0)
+  m_collected_keys()
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -309,6 +309,24 @@ Player::do_scripting_controller(const std::string& control_text, bool pressed)
   if (const auto maybe_control = Control_from_string(control_text)) {
     m_scripting_controller->press(*maybe_control, pressed);
   }
+}
+
+void
+Player::move_to_sector(Sector& other)
+{
+  stop_climbing(*m_climbing);
+  if (m_grabbed_object)
+  {
+    auto grabbed_game_object = dynamic_cast<GameObject*>(m_grabbed_object);
+    if (grabbed_game_object)
+      get_parent()->move_object(grabbed_game_object->get_uid(), other);
+  }
+
+  for (Key* key : m_collected_keys)
+    get_parent()->move_object(key->get_uid(), other);
+
+  // Move the player.
+  get_parent()->move_object(get_uid(), other);
 }
 
 bool
@@ -1589,28 +1607,35 @@ Player::handle_input()
 }
 
 void
-Player::position_grabbed_object()
+Player::position_grabbed_object(bool teleport)
 {
+  if (!m_grabbed_object)
+    return;
+
   auto moving_object = dynamic_cast<MovingObject*>(m_grabbed_object);
   assert(moving_object);
   const auto& object_bbox = moving_object->get_bbox();
+
+  Vector pos;
   if (!m_swimming && !m_water_jump)
   {
     // Position where we will hold the lower-inner corner
-    Vector pos(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
-      m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f);
+    pos = Vector(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
+                 m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
     // Adjust to find the grabbed object's upper-left corner
     if (m_dir == Direction::LEFT)
       pos.x -= object_bbox.get_width();
     pos.y -= object_bbox.get_height();
-    m_grabbed_object->grab(*this, pos, m_dir);
   }
   else
   {
-    Vector pos(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
-               m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
-    m_grabbed_object->grab(*this, pos, m_dir);
+    pos = Vector(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
+                 m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
   }
+
+  if (teleport)
+    moving_object->set_pos(pos);
+  m_grabbed_object->grab(*this, pos, m_dir);
 }
 
 bool
@@ -2348,6 +2373,11 @@ Player::move(const Vector& vector)
   m_last_ground_y = vector.y;
   if (m_climbing) stop_climbing(*m_climbing);
 
+  // Make sure objects following Tux move directly with him
+  position_grabbed_object(true);
+  for (Key* key : m_collected_keys)
+    key->update_pos();
+
   m_physic.reset();
 }
 
@@ -2833,6 +2863,21 @@ Player::stop_rolling(bool violent)
     SoundManager::current()->play("sounds/brick.wav", get_pos());
   }
   m_stone = false;
+}
+
+void
+Player::add_collected_key(Key* key)
+{
+  m_collected_keys.push_back(key);
+}
+
+void
+Player::remove_collected_key(Key* key)
+{
+  m_collected_keys.erase(std::remove(m_collected_keys.begin(),
+                                     m_collected_keys.end(),
+                                     key),
+                         m_collected_keys.end());
 }
 
 /* EOF */
