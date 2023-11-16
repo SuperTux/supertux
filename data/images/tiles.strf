@@ -1694,7 +1694,7 @@
     )
     (attributes
       3 3 3
-      0 1 0
+      0 0 0
       0 0 0
     )
     (image "tiles/snow/background2.png")
@@ -2596,7 +2596,7 @@
   (tile
     (id 322)
     (images
-      "tiles/doodads/plant1.png"
+      "tiles/forest/plant1.png"
     )
   )
   (tiles
@@ -2893,24 +2893,6 @@
       1159 1160 1161 1162 1163 1164 1165 1166
     )
     (attributes
-      0  0  0  1 1 0  0  0
-      0  0  17 1 1 0  0  0
-      0  17 1  1 1 17 0  0
-      17 1  1  1 1 1  17 0
-      0  1  1  1 1 1  1  0
-      0  1  1  1 1 1  1  0
-      0  1  1  1 1 1  1  0
-      0  1  1  1 1 1  1  0
-      0  1  0  1 1 0  0  0
-      1  1  0  1 1 0  0  0
-      0  1  0  1 1 0  0  0
-      1  1  0  1 1 0  0  0
-    )
-    (datas
-      0 0 0 0 0 0 0 0
-      0 0 0 0 0 0 0 0
-      0 0 0 0 0 2 0 0
-      0 0 0 0 0 0 2 0
       0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0
@@ -2919,6 +2901,10 @@
       0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0
+      3 3 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0
+      3 3 0 0 0 0 0 0
     )
     (image "tiles/forest/deprecated/foresttiles-8.png")
     (deprecated #t)
@@ -3168,12 +3154,6 @@
       1329 1330 1331 1332
       1333 1334 1335 1336
     )
-    (attributes
-      1 1 1 1
-      1 1 1 1
-      1 1 1 1
-      1 1 1 1
-    )
     (image "tiles/snow/iceshrub.png")
   )
   (tile
@@ -3377,9 +3357,9 @@
       1510
     )
     (attributes
-      1
-      1
-      1
+      0
+      0
+      0
       1
       1
     )
@@ -4308,7 +4288,7 @@
     (attributes
       1 1 1 1 1
       1 1 1 1 1
-      1 1 1 1 0
+      1 1 1 1 1
       1 1 1 1 1
       1 1 1 1024 1024
       1 1 1 1024 1024
@@ -4590,8 +4570,18 @@
       1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0
       1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0
       1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0
-      1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0
-      1 1 1 1 1 1 1 1 0 1 1 1 1 0 0 0
+      1 1 1 1 1 1 1 1 17 1 1 1 1 17 0 0
+      1 1 1 1 1 1 1 1 0 17 1 1 17 0 0 0
+    )
+    (datas
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 1 0 0 0 0 3 0 0
+      0 0 0 0 0 0 0 0 0 1 0 0 3 0 0 0
     )
     (image "tiles/snowmountain/deprecated/ground.png")
     (deprecated #t)
@@ -4872,8 +4862,8 @@
     (ids
       3044 3045 3046 3047
       3048 3049 3050 3051
-      3052 3053 3054 3055
-      3056 3057 3058 3059
+      3052 3053 0 3055
+      3056 3057 0 3059
     )
     (attributes
       1 1 1 1
@@ -4883,7 +4873,19 @@
     )
     (image "tiles/snow/special2.png")
   )
-
+  (tiles
+    (width 1)(height 2)
+    (ids
+      3054 ;duplicate of 3045
+      3058 ;duplicate of 3049
+    )
+    (attributes
+      1
+      1
+    )
+    (image (region "tiles/snow/special2.png" 32 0 32 64))
+    (deprecated #t)
+  )
   (tiles
     (width 4)(height 4)
     (ids
@@ -4967,8 +4969,8 @@
       3104 3105
      )
     (attributes
-      0 0
-      0 0
+      1 1
+      1 1
     )
     (image "tiles/halloween/innerdarkness.png")
   )
@@ -5062,8 +5064,8 @@
       3265 3266 3267 3268
     )
     (attributes
-      1 1 1 1
-      0 0 0 0
+      1 1 0 0
+      1 1 0 0
     )
     (image "tiles/snow/deprecated/custom.png")
     (deprecated #t)
@@ -6345,7 +6347,7 @@
       0    4919 0    0    0    0    0
       4925 4926 4927 4928 0    0    0
       4932 4933 4934 4935 4936 4937 4938
-      4939 4940 4941 4942 4943 4944 0
+      4939 4940 4941 4942 4943 4944 4945
     )
     (image "tiles/crystalcave/crystals1.png")
   )
@@ -6763,13 +6765,6 @@
       0    0    5991 5992 0    0
     )
     (image "tiles/forest/tree3.png")
-  )
-  (tiles
-    (width 1)(height 1)
-    (ids
-      5995
-    )
-    (image "tiles/forest/plant1.png")
   )
   (tiles
     (width 4)(height 2)
