@@ -100,6 +100,9 @@
     (class "corrupted_granito")
     (icon "images/creatures/granito/corrupted/idle_left-0.png"))
   (object
+    (class "corrupted_granito_big")
+    (icon "images/creatures/granito/corrupted/big/rock_mine-0.png"))
+  (object
     (class "darttrap")
     (icon "images/creatures/darttrap/granito/empty_left.png"))
   (object

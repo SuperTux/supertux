@@ -21,6 +21,7 @@
 Timer::Timer() :
   m_period(0),
   m_cycle_start(0),
+  m_cycle_pause(0),
   m_cyclic(false)
 {
 }
@@ -31,6 +32,7 @@ Timer::start(float period, bool cyclic)
   m_period = period;
   m_cyclic = cyclic;
   m_cycle_start = g_game_time;
+  m_cycle_pause = 0;
 }
 
 bool
@@ -49,6 +51,17 @@ Timer::check()
   }
 
   return false;
+}
+
+void Timer::pause()
+{
+  m_cycle_pause = get_timeleft();
+  stop();
+}
+
+void Timer::unpause()
+{
+  start(m_cycle_pause);
 }
 
 /* EOF */

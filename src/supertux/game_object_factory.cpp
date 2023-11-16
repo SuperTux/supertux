@@ -21,6 +21,7 @@
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/captainsnowball.hpp"
 #include "badguy/corrupted_granito.hpp"
+#include "badguy/corrupted_granito_big.hpp"
 #include "badguy/crusher.hpp"
 #include "badguy/crystallo.hpp"
 #include "badguy/dart.hpp"
@@ -167,6 +168,7 @@ GameObjectFactory::init_factories()
   add_factory<CaptainSnowball>("captainsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<CorruptedGranito>("skullyhop"); // backward compatibility
   add_factory<CorruptedGranito>("corrupted_granito", OBJ_PARAM_DISPENSABLE);
+  add_factory<CorruptedGranitoBig>("corrupted_granito_big", OBJ_PARAM_DISPENSABLE);
   add_factory<Crusher>("icecrusher"); // backward compatibility
   add_factory<Crusher>("crusher");
   add_factory<Crystallo>("crystallo", OBJ_PARAM_DISPENSABLE);
