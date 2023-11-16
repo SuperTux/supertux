@@ -121,6 +121,7 @@ private:
 
   std::unique_ptr<ToolIcon> m_rubber;
   std::unique_ptr<ToolIcon> m_select_mode;
+  std::unique_ptr<ToolIcon> m_node_marker_mode;
   std::unique_ptr<ToolIcon> m_move_mode;
   std::unique_ptr<ToolIcon> m_undo_mode;
 
