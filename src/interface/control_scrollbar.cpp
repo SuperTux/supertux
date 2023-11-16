@@ -143,7 +143,7 @@ ControlScrollbar::on_mouse_wheel(const SDL_MouseWheelEvent& wheel)
       The control's parent manager should check conditions, if needed,
       before calling this function. */
 
-  scroll(-wheel.y);
+  scroll(static_cast<float>(-wheel.y));
   return true;
 }
 
