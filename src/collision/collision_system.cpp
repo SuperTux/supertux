@@ -334,6 +334,9 @@ CollisionSystem::get_hit_normal(const CollisionObject* object1, const CollisionO
   const float horiz_penetration = std::min(ileft, iright);
 
   // Apply movement only on top collision with an unisolid object.
+  if (object1->is_unisolid() &&
+      r2.get_bottom() - object2->m_movement.y > r1.get_top())
+    return;
   if (object2->is_unisolid() &&
       r1.get_bottom() - object1->m_movement.y > r2.get_top())
     return;
