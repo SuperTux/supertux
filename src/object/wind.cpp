@@ -136,18 +136,18 @@ Wind::collision(GameObject& other, const CollisionHit& )
     player->override_velocity();
     if (!player->on_ground())
 	  {
-      player->add_velocity(speed * acceleration * dt_sec, speed);
+      player->add_wind_velocity(speed * acceleration * dt_sec, speed);
     }
     else
     {
       if (player->get_controller().hold(Control::RIGHT) || player->get_controller().hold(Control::LEFT))
 	    {
-	      player->add_velocity(Vector(speed.x, 0) * acceleration * dt_sec, speed);
+	      player->add_wind_velocity(Vector(speed.x, 0) * acceleration * dt_sec, speed);
 	    }
 	    else
       {
 	      //When on ground, get blown slightly differently, but the max speed is less than it would be otherwise seen as we take "friction" into account
-	      player->add_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
+	      player->add_wind_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
 	    }
     }
   }
