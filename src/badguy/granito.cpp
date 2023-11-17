@@ -348,10 +348,10 @@ bool Granito::try_jump()
 
   if (!result.is_valid) return false;
 
-  const Tile** resulttile = std::get_if<const Tile*>(&result.hit);
-  if (resulttile && !(*resulttile)->is_solid()) return false;
+  auto resulttile = std::get_if<const Tile*>(&result.hit);
+  if (resulttile && (*resulttile)->is_slope()) return false;
 
-  CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
+  auto resultobj = std::get_if<CollisionObject*>(&result.hit);
   if (resultobj)
   {
     Player* plr = get_nearest_player();
