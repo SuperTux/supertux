@@ -150,6 +150,9 @@ public:
     }
   }
 
+  /** Move an object to another GameObjectManager. */
+  void move_object(const UID& uid, GameObjectManager& other);
+
   /** Register a callback to be called once the given name can be
       resolved to a UID. Note that this function is only valid in the
       construction phase, not during draw() or update() calls, use

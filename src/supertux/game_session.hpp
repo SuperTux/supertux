@@ -87,8 +87,7 @@ public:
 
   /** ends the current level */
   void finish(bool win = true);
-  void respawn(const std::string& sectorname, const std::string& spawnpointname,
-               bool retain_invincibility = false);
+  void respawn(const std::string& sectorname, const std::string& spawnpointname);
   void reset_level();
 
   void set_start_point(const std::string& sectorname,
@@ -167,9 +166,6 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;
   std::string m_newspawnpoint;
-
-  // Whether the player had invincibility before spawning in a new sector
-  std::unordered_map<int, float> m_invincibilitytimeleft;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;
