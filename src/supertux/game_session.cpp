@@ -50,8 +50,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   GameSessionRecorder(),
   reset_button(false),
   reset_checkpoint_button(false),
+  m_prevent_death(false),
   m_level(),
-  m_old_level(),
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
   m_scripts(),
   m_currentsector(nullptr),
@@ -66,7 +66,6 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
-  m_edit_mode(false),
   m_levelintro_shown(false),
   m_coins_at_start(),
   m_boni_at_start(),
@@ -138,12 +137,6 @@ GameSession::restart_level(bool after_death)
     }
   }
 
-
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return (-1);
-  }
-
   m_game_pause   = false;
   m_end_sequence = nullptr;
   m_endsequence_timer.stop();
@@ -158,7 +151,6 @@ GameSession::restart_level(bool after_death)
   }
 
   try {
-    m_old_level = std::move(m_level);
     m_level = LevelParser::from_file(m_levelfile, false, false);
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
@@ -335,38 +327,6 @@ bool
 GameSession::is_active() const
 {
   return !m_game_pause && m_active && !(m_end_sequence && m_end_sequence->is_running());
-}
-
-void
-GameSession::set_editmode(bool edit_mode_)
-{
-  if (m_edit_mode == edit_mode_) return;
-  m_edit_mode = edit_mode_;
-
-  for (auto* p : m_currentsector->get_players())
-  {
-    p->set_edit_mode(edit_mode_);
-  }
-
-  if (edit_mode_) {
-
-    // Entering edit mode.
-
-  } else {
-
-    // Leaving edit mode.
-    restart_level();
-
-  }
-}
-
-void
-GameSession::force_ghost_mode()
-{
-  for (auto* p : m_currentsector->get_players())
-  {
-    p->set_ghost_mode(true);
-  }
 }
 
 void
@@ -618,11 +578,6 @@ GameSession::finish(bool win)
 
   using namespace worldmap;
 
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return;
-  }
-
   if (win) {
     if (WorldMapSector::current())
     {
@@ -715,12 +670,6 @@ GameSession::has_active_sequence() const
 void
 GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* data)
 {
-  // Do not play sequences when in edit mode.
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return;
-  }
-
   // Handle special "stoptux" sequence.
   if (seq == SEQ_STOPTUX) {
     if (!m_end_sequence) {
