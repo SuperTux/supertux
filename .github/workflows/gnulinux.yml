@@ -187,6 +187,13 @@ jobs:
           make -j3 VERBOSE=1
           make install DESTDIR="/tmp/supertux" VERBOSE=1
 
+      - name: Upload elf
+        uses: actions/upload-artifact@v2
+        with:
+          name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.build_type }}${{ matrix.glbinding == 'ON' && '-glbinding' || '' }}-elf"
+          path: build/supertux2
+          if-no-files-found: ignore
+
       - name: Run tests
         # FIXME: GoogleTest isn't detected by CMake on Ubuntu 18.04
         # (also check the step that invokes CMake with -DBUILD_TESTS)
