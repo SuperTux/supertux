@@ -72,6 +72,9 @@ public:
   void try_open(Player* player);
 
 private:
+  void add_object(std::unique_ptr<GameObject> object);
+  void set_object(std::unique_ptr<GameObject> object);
+
   void on_type_change(int old_type) override;
 
   int get_default_hit_counter() const;
@@ -98,11 +101,16 @@ private:
 
 private:
   Content m_contents;
-  std::unique_ptr<MovingObject> m_object;
+
+  /** As of now, BonusBlock only supports one custom object.
+      This vector is needed for the object selection functionality in the editor.
+      `m_object` points to the only object in the vector. */
+  std::vector<std::unique_ptr<GameObject>> m_objects;
+  GameObject* m_object;
+
   int m_hit_counter;
   std::string m_script;
   SurfacePtr m_lightsprite;
-  sexp::Value m_custom_sx;
   std::string m_coin_sprite;
 
 private:

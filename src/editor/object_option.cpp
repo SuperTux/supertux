@@ -481,9 +481,11 @@ ColorObjectOption::add_to_menu(Menu& menu) const
 }
 
 ObjectSelectObjectOption::ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
-                                                   GameObject* parent, const std::string& key, unsigned int flags) :
+                                                   uint8_t get_objects_param, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func,
+                                                   const std::string& key, unsigned int flags) :
   ObjectOption(text, key, flags, pointer),
-  m_parent(parent)
+  m_get_objects_param(get_objects_param),
+  m_add_object_function(add_object_func)
 {
 }
 
@@ -498,7 +500,16 @@ ObjectSelectObjectOption::save(Writer& writer) const
   {
     auto& obj = *it;
     writer.start_list(obj->get_class_name());
-    obj->save(writer);
+
+    // Rectangle properties should not be saved.
+    auto settings = obj->get_settings();
+    settings.remove("region");
+    settings.remove("x");
+    settings.remove("y");
+
+    for (const auto& option : settings.get_options())
+      option->save(writer);
+
     writer.end_list(obj->get_class_name());
   }
   writer.end_list(get_key());
@@ -513,8 +524,9 @@ ObjectSelectObjectOption::to_string() const
 void
 ObjectSelectObjectOption::add_to_menu(Menu& menu) const
 {
-  menu.add_entry(get_text(), [pointer = m_value_pointer, parent = m_parent]() {
-    MenuManager::instance().push_menu(std::make_unique<ObjectSelectMenu>(*pointer, parent));
+  menu.add_entry(get_text(), [pointer = m_value_pointer, get_objects_param = m_get_objects_param,
+                              add_object_func = m_add_object_function]() {
+    MenuManager::instance().push_menu(std::make_unique<ObjectSelectMenu>(*pointer, get_objects_param, add_object_func));
   });
 }
 
