@@ -42,13 +42,14 @@ EditorToolboxWidget::EditorToolboxWidget(Editor& editor) :
   m_editor(editor),
   m_tiles(new TileSelection()),
   m_object(),
-  m_object_tip(),
+  m_object_tip(new Tip()),
   m_input_type(InputType::NONE),
   m_active_tilegroup(),
   m_active_objectgroup(-1),
   m_object_info(new ObjectInfo()),
   m_rubber(new ToolIcon("images/engine/editor/rubber.png")),
   m_select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
+  m_node_marker_mode(new ToolIcon("images/engine/editor/path_node.png")),
   m_move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
   m_undo_mode(new ToolIcon("images/engine/editor/arrow.png")),
   m_hovered_item(HoveredItem::NONE),
@@ -87,9 +88,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
 
   if (m_hovered_item != HoveredItem::NONE)
   {
-    if (m_object_tip) {
-      m_object_tip->draw(context, Vector(m_mouse_pos.x + 25, m_mouse_pos.y), true);
-    }
+    m_object_tip->draw(context, Vector(m_mouse_pos.x + 25, m_mouse_pos.y), true);
 
     context.color().draw_filled_rect(get_item_rect(m_hovered_item),
                                        g_config->editorhovercolor,
@@ -112,6 +111,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
       break;
 
     case InputType::OBJECT:
+      m_node_marker_mode->draw(context);
       m_move_mode->draw(context);
       break;
 
@@ -368,8 +368,16 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
             break;
 
           case 1:
-            if (m_input_type == InputType::TILE) {
-              m_select_mode->next_mode();
+            switch (m_input_type)
+            {
+              case InputType::TILE:
+                m_select_mode->next_mode();
+                break;
+              case InputType::OBJECT:
+                m_object = "#node";
+                break;
+              default:
+                break;
             }
             update_mouse_icon();
             break;
@@ -415,7 +423,7 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
     m_hovered_item = HoveredItem::NONE;
     m_tile_scrolling = TileScrolling::NONE;
     m_has_mouse_focus = false;
-    m_object_tip = nullptr;
+    m_object_tip->set_visible(false);
     return false;
   }
 
@@ -432,7 +440,7 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
       m_hovered_tile = get_tool_pos(m_mouse_pos);
     }
     m_tile_scrolling = TileScrolling::NONE;
-    m_object_tip = nullptr;
+    m_object_tip->set_visible(false);
     return false;
   } else {
     const int prev_hovered_tile = std::move(m_hovered_tile);
@@ -449,15 +457,13 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         try {
           obj_name = GameObjectFactory::instance().get_display_name(obj_class);
         }
-        catch (std::exception&) {
-          // NOTE: Temporarily commented out, so hovering over node marker doesn't show a warning.
-          //       When the node marker is moved as a tool, this should be uncommented.
-          // log_warning << "Unable to find name for object with class \"" << obj_class << "\": " << err.what() << std::endl;
+        catch (const std::exception& err) {
+          log_warning << "Unable to get display name of object '" << obj_class << "': " << err.what() << std::endl;
         }
-        m_object_tip = std::make_unique<Tip>(obj_name);
+        m_object_tip->set_info(obj_name);
       }
       else {
-        m_object_tip = nullptr;
+        m_object_tip->set_visible(false);
       }
     }
   }
@@ -496,10 +502,11 @@ void
 EditorToolboxWidget::resize()
 {
   m_Xpos = SCREEN_WIDTH - 128;
-  m_rubber->m_pos        = Vector(static_cast<float>(m_Xpos)        , 64.0f);
-  m_select_mode->m_pos   = Vector(static_cast<float>(m_Xpos) + 32.0f, 64.0f);
-  m_move_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 64.0f, 64.0f);
-  m_undo_mode->m_pos     = Vector(static_cast<float>(m_Xpos) + 96.0f, 64.0f);
+  m_rubber->m_pos           = Vector(static_cast<float>(m_Xpos)        , 64.0f);
+  m_select_mode->m_pos      = Vector(static_cast<float>(m_Xpos) + 32.0f, 64.0f);
+  m_node_marker_mode->m_pos = Vector(static_cast<float>(m_Xpos) + 32.0f, 64.0f);
+  m_move_mode->m_pos        = Vector(static_cast<float>(m_Xpos) + 64.0f, 64.0f);
+  m_undo_mode->m_pos        = Vector(static_cast<float>(m_Xpos) + 96.0f, 64.0f);
 }
 
 void
@@ -520,7 +527,10 @@ EditorToolboxWidget::update_mouse_icon()
       if (m_object.empty()) {
         MouseCursor::current()->set_icon(m_rubber->get_current_surface());
       } else {
-        MouseCursor::current()->set_icon(m_move_mode->get_current_surface());
+        if (m_object == "#node")
+          MouseCursor::current()->set_icon(m_node_marker_mode->get_current_surface());
+        else
+          MouseCursor::current()->set_icon(m_move_mode->get_current_surface());
       }
       break;
     case InputType::TILE:

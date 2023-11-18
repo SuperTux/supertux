@@ -16,6 +16,7 @@
 
 #include "math/random.hpp"
 
+#include <ctime>
 #include <limits>
 
 Random graphicsRandom;
@@ -29,6 +30,9 @@ Random::Random() :
 void
 Random::seed(int v)
 {
+  if (v <= 0)
+    v = static_cast<int>(std::time(nullptr)); // Use the UNIX timestamp of the current time as a seed.
+
   m_generator.seed(v);
 }
 

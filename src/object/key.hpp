@@ -41,6 +41,8 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  void update_pos();
+
 private:
   enum KeyState {
     NORMAL,

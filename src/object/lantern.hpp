@@ -39,6 +39,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override { return {}; }
   virtual void after_editor_set() override;
 
   /** returns true if lamp is currently open */

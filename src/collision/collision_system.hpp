@@ -20,6 +20,7 @@
 
 #include <vector>
 #include <memory>
+#include <variant>
 #include <stdint.h>
 
 #include "collision/collision.hpp"
@@ -38,11 +39,7 @@ public:
   struct RaycastResult
   {
     bool is_valid; /**< true if raycast hit something */
-    union
-    {
-      const CollisionObject* object;
-      const Tile* tile;
-    } hit; /**< tile/object that the raycast hit */
+    std::variant<const Tile*, CollisionObject*> hit; /**< tile/object that the raycast hit */
     Rectf box = {}; /**< hitbox of tile/object */
   };
 

@@ -17,8 +17,10 @@
 
 #include "scripting/level.hpp"
 
+#include "supertux/d_scope.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/sector.hpp"
 
 namespace scripting {
 
@@ -75,6 +77,7 @@ void
 Level_flip_vertically()
 {
   SCRIPT_GUARD_GAMESESSION();
+  BIND_SECTOR(::Sector::get());
   FlipLevelTransformer flip_transformer;
   flip_transformer.transform(game_session.get_current_level());
 }
@@ -84,13 +87,6 @@ Level_toggle_pause()
 {
   SCRIPT_GUARD_GAMESESSION();
   game_session.toggle_pause();
-}
-
-void
-Level_edit(bool edit_mode)
-{
-  SCRIPT_GUARD_GAMESESSION();
-  game_session.set_editmode(edit_mode);
 }
 
 void
