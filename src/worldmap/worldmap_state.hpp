@@ -21,13 +21,13 @@
 
 namespace worldmap {
 
-/** Macro to allow quick and easy access to the current Squirrel VM. **/
+/** Macro to allow easy access to the current Squirrel VM. **/
 #define WORLDMAP_STATE_SQUIRREL_VM_GUARD  \
   SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm()
 
-/** Macro to allow quick and easy access to the current WorldMapSector. **/
+/** Macro to allow easy access to the current WorldMapSector. **/
 #define WORLDMAP_STATE_SECTOR_GUARD   \
-  WorldMapSector& sector = *m_sector;
+  WorldMapSector& sector = *m_sector
 
 
 class WorldMap;
