@@ -31,6 +31,7 @@ public:
 
   virtual void initialize() override;
   virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void kill_fall() override;
 
   static std::string class_name() { return "corrupted_granito_big"; }
@@ -43,11 +44,22 @@ public:
   virtual bool is_flammable() const override { return false; }
 
 private:
+  enum State
+  {
+    STATE_READY,
+    STATE_CRACK1,
+    STATE_CRACK2,
+    STATE_BROKEN
+  };
+
   bool try_cracking();
   void crack();
 
+  State m_state;
   Timer m_crack_timer;
-  bool m_dead;
+
+  Timer m_shake_timer;
+  float m_shake_delta;
 
 private:
   CorruptedGranitoBig(const CorruptedGranitoBig&) = delete;

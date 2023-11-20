@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "collision/collision_system.hpp"
+#include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/shard.hpp"
 #include "supertux/sector.hpp"
@@ -28,8 +29,10 @@ const std::string SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_sp
 
 CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader):
   BadGuy(reader, "images/creatures/granito/corrupted/big/rock_mine.sprite"),
+  m_state(STATE_READY),
   m_crack_timer(),
-  m_dead(false)
+  m_shake_timer(),
+  m_shake_delta(0.f)
 {
   parse_type(reader);
 
@@ -42,6 +45,7 @@ void CorruptedGranitoBig::initialize()
 {
   BadGuy::initialize();
 
+  m_state = STATE_READY;
   set_action("idle", m_dir);
   set_colgroup_active(COLGROUP_MOVING_STATIC);
 }
@@ -50,23 +54,32 @@ void CorruptedGranitoBig::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
-  if (m_dead == true) return;
+  if (m_state == STATE_BROKEN) return;
 
   bool crack = try_cracking();
 
-  if (!m_crack_timer.started()) m_crack_timer.start(2.f);
+  if (m_shake_timer.started())
+    m_shake_delta = static_cast<float>(graphicsRandom.rand(-3, 3));
+  else
+    m_shake_delta = 0.f;
+
+  if (!m_crack_timer.started()) m_crack_timer.start(1.f);
 
   if (crack && m_crack_timer.paused()) m_crack_timer.unpause();
   if (!crack && !m_crack_timer.paused()) m_crack_timer.pause();
 }
 
+void CorruptedGranitoBig::draw(DrawingContext &context)
+{
+  m_sprite->draw(context.color(), {get_pos().x + m_shake_delta, get_pos().y}, m_layer, m_flip);
+}
+
 void CorruptedGranitoBig::kill_fall()
 {
+  m_state = STATE_BROKEN;
   set_action("broken", m_dir);
   set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
   m_col.set_unisolid(false);
-
-  m_dead = true;
 
   run_dead_script();
 
@@ -104,22 +117,31 @@ void CorruptedGranitoBig::crack()
 {
   if (m_crack_timer.paused()) return;
 
-  if (m_crack_timer.check())
+  if (m_state == STATE_CRACK2 && m_crack_timer.check())
   {
     kill_fall();
     return;
   }
 
   float progress = m_crack_timer.get_timegone() / m_crack_timer.get_period();
-  std::cout << progress << std::endl;
+  std::cout << m_state <<" "
+            << m_crack_timer.get_timegone() <<" "
+            << m_crack_timer.get_period() <<" "
+            << progress
+            << std::endl;
 
-  if (progress >= 0.5)
+  if (m_state == STATE_CRACK1 && progress >= 0.5f)
   {
+    m_state = STATE_CRACK2;
     set_action("cracked-2", m_dir);
-    return;
+    m_shake_timer.start(0.1f);
   }
-
-  set_action("cracked-1", m_dir);
+  else if (m_state == STATE_READY)
+  {
+    m_state = STATE_CRACK1;
+    set_action("cracked-1", m_dir);
+    m_shake_timer.start(0.1f);
+  }
 }
 
 /* EOF */
