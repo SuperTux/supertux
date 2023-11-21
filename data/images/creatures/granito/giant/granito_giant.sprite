@@ -1,15 +1,42 @@
 (supertux-sprite
   (action
-    (name "left")
+    (name "sleep-left")
 	(hitbox 85 27 90 156)
-    (fps 6)
-    (images "granito_sleep.png"
+    (fps 5)
+    (images "granito_sleep-0.png"
+            "granito_sleep-1.png"
+			"granito_sleep-2.png"
+			"granito_sleep-3.png"
+			"granito_sleep-3.png"
+			"granito_sleep-3.png"
+			"granito_sleep-3.png"
+			"granito_sleep-3.png"
+			"granito_sleep-2.png"
+			"granito_sleep-1.png"
+			"granito_sleep-0.png"
+			"granito_sleep-4.png"
+			"granito_sleep-4.png"
+			"granito_sleep-4.png"
+			"granito_sleep-4.png"
+			"granito_sleep-4.png")
+  )
+  (action
+    (name "sleep-right")
+	(hitbox 47 27 90 156)
+    (fps 5)
+    (mirror-action "sleep-left")
+  )
+  (action
+    (name "awake-left")
+	(hitbox 85 27 90 156)
+    (fps 5)
+    (images "granito_awake-0.png"
             )
   )
   (action
-    (name "right")
+    (name "awake-right")
 	(hitbox 47 27 90 156)
-    (fps 6)
-    (mirror-action "left")
+    (fps 5)
+    (mirror-action "awake-left")
   )
 )
