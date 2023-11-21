@@ -216,7 +216,16 @@
   (object
     (class "firefly")
     (icon "images/engine/editor/resetpoint.png"))
+(object
+    (class "granito")
+    (icon "images/creatures/granito/granito_stand-0.png"))
   (object
+    (class "granito_big")
+    (icon "images/creatures/granito/big/granito_stand-0.png"))
+  (object
+    (class "granito_giant")
+    (icon "images/creatures/granito/giant/granito_sleep.png"))  
+(object
     (class "dispenser")
     (icon "images/creatures/dispenser/dropper.png"))
   (object
@@ -330,15 +339,6 @@
   (object
     (class "text-area")
     (icon "images/engine/editor/textarray.png"))
-  (object
-    (class "granito")
-    (icon "images/creatures/granito/granito_stand-0.png"))
-  (object
-    (class "granito_big")
-    (icon "images/creatures/granito/big/granito_stand-0.png"))
-  (object
-    (class "granito_giant")
-    (icon "images/creatures/granito/giant/granito_sleep.png"))
  )
 
  (objectgroup
