@@ -23,7 +23,9 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/shard.hpp"
+#include "object/sprite_particle.hpp"
 #include "supertux/sector.hpp"
+#include "sprite/sprite_manager.hpp"
 
 const std::string SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_spike.sprite";
 
@@ -32,7 +34,8 @@ CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader):
   m_state(STATE_READY),
   m_crack_timer(),
   m_shake_timer(),
-  m_shake_delta(0.f)
+  m_shake_delta(0.f),
+  m_rock_particles(SpriteManager::current()->create("images/particles/granito_piece.sprite"))
 {
   parse_type(reader);
 
@@ -87,6 +90,8 @@ void CorruptedGranitoBig::kill_fall()
   Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), SHARD_SPRITE);
   Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),SHARD_SPRITE);
   Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),SHARD_SPRITE);
+
+  crack_effects(6);
 }
 
 bool CorruptedGranitoBig::try_cracking()
@@ -134,13 +139,32 @@ void CorruptedGranitoBig::crack()
   {
     m_state = STATE_CRACK2;
     set_action("cracked-2", m_dir);
-    m_shake_timer.start(0.1f);
+    crack_effects(4);
   }
   else if (m_state == STATE_READY)
   {
     m_state = STATE_CRACK1;
     set_action("cracked-1", m_dir);
-    m_shake_timer.start(0.1f);
+    crack_effects(3);
+  }
+}
+
+void CorruptedGranitoBig::crack_effects(size_t particles)
+{
+  SoundManager::current()->play("sounds/brick.wav", get_pos());
+  m_shake_timer.start(0.1f);
+
+  const auto gravity = Sector::get().get_gravity() * 100;
+  std::vector<std::string> pieces = {"piece-0", "piece-1", "piece-2", "piece-3", "piece-4", "piece-5"};
+  pieces = std::vector<std::string>(pieces.begin() + 1, pieces.begin() + particles);
+  for (std::string action : pieces)
+  {
+    Vector velocity(graphicsRandom.randf(-100, 100),
+                    graphicsRandom.randf(-400, -300));
+    Sector::get().add<SpriteParticle>(m_rock_particles->clone(), action,
+                                      get_bbox().get_middle(), ANCHOR_MIDDLE,
+                                      velocity, Vector(0, gravity),
+                                      LAYER_OBJECTS + 3, true);
   }
 }
 

@@ -54,12 +54,15 @@ private:
 
   bool try_cracking();
   void crack();
+  void crack_effects(size_t particles);
 
   State m_state;
   Timer m_crack_timer;
 
   Timer m_shake_timer;
   float m_shake_delta;
+
+  SpritePtr m_rock_particles;
 
 private:
   CorruptedGranitoBig(const CorruptedGranitoBig&) = delete;
