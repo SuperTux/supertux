@@ -128,7 +128,6 @@ void CorruptedGranitoBig::crack()
 
   if (m_crack_timer.paused())
   {
-    std::cout << "UNPAUSE" << std::endl;
     m_crack_timer.unpause();
   }
   else if (!m_crack_timer.started())
