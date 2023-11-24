@@ -28,6 +28,9 @@
 #include "sprite/sprite_manager.hpp"
 
 const std::string SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_spike.sprite";
+const float RANGE = 5; // tiles
+const float CRACK_TIME = 1.f; // seconds
+const float SHAKE_TIME = 0.1f; // seconds
 
 CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader):
   BadGuy(reader, "images/creatures/granito/corrupted/big/rock_mine.sprite"),
@@ -60,16 +63,17 @@ void CorruptedGranitoBig::active_update(float dt_sec)
   if (m_state == STATE_BROKEN) return;
 
   bool crack = try_cracking();
+  if (!crack && !m_crack_timer.paused() && m_crack_timer.started()) m_crack_timer.pause();
+
+  std::cout << crack <<" "
+            << m_crack_timer.started() <<" "
+            << m_crack_timer.paused() <<" "
+            << std::endl;
 
   if (m_shake_timer.started())
     m_shake_delta = static_cast<float>(graphicsRandom.rand(-3, 3));
   else
     m_shake_delta = 0.f;
-
-  if (!m_crack_timer.started()) m_crack_timer.start(1.f);
-
-  if (crack && m_crack_timer.paused()) m_crack_timer.unpause();
-  if (!crack && !m_crack_timer.paused()) m_crack_timer.pause();
 }
 
 void CorruptedGranitoBig::draw(DrawingContext &context)
@@ -112,7 +116,7 @@ bool CorruptedGranitoBig::try_cracking()
   auto* obj = std::get_if<CollisionObject*>(&result.hit);
   if (!obj || *obj != plr->get_collision_object()) return false;
 
-  if (glm::distance(mid, plrmid) > 32.f*4.f) return false;
+  if (glm::distance(mid, plrmid) > 32.f*RANGE) return false;
 
   crack();
   return true;
@@ -120,13 +124,20 @@ bool CorruptedGranitoBig::try_cracking()
 
 void CorruptedGranitoBig::crack()
 {
-  if (m_crack_timer.paused()) return;
 
   if (m_state == STATE_CRACK2 && m_crack_timer.check())
   {
     kill_fall();
     return;
   }
+
+  if (m_crack_timer.paused())
+  {
+    std::cout << "UNPAUSE" << std::endl;
+    m_crack_timer.unpause();
+  }
+  else if (!m_crack_timer.started())
+    m_crack_timer.start(CRACK_TIME);
 
   float progress = m_crack_timer.get_timegone() / m_crack_timer.get_period();
   std::cout << m_state <<" "
@@ -152,11 +163,11 @@ void CorruptedGranitoBig::crack()
 void CorruptedGranitoBig::crack_effects(size_t particles)
 {
   SoundManager::current()->play("sounds/brick.wav", get_pos());
-  m_shake_timer.start(0.1f);
+  m_shake_timer.start(SHAKE_TIME);
 
   const auto gravity = Sector::get().get_gravity() * 100;
   std::vector<std::string> pieces = {"piece-0", "piece-1", "piece-2", "piece-3", "piece-4", "piece-5"};
-  pieces = std::vector<std::string>(pieces.begin() + 1, pieces.begin() + particles);
+  pieces = std::vector<std::string>(pieces.begin(), pieces.begin() + particles);
   for (std::string action : pieces)
   {
     Vector velocity(graphicsRandom.randf(-100, 100),
