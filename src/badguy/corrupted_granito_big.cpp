@@ -65,11 +65,6 @@ void CorruptedGranitoBig::active_update(float dt_sec)
   bool crack = try_cracking();
   if (!crack && !m_crack_timer.paused() && m_crack_timer.started()) m_crack_timer.pause();
 
-  std::cout << crack <<" "
-            << m_crack_timer.started() <<" "
-            << m_crack_timer.paused() <<" "
-            << std::endl;
-
   if (m_shake_timer.started())
     m_shake_delta = static_cast<float>(graphicsRandom.rand(-3, 3));
   else
@@ -138,13 +133,6 @@ void CorruptedGranitoBig::crack()
   }
   else if (!m_crack_timer.started())
     m_crack_timer.start(CRACK_TIME);
-
-  float progress = m_crack_timer.get_timegone() / m_crack_timer.get_period();
-  std::cout << m_state <<" "
-            << m_crack_timer.get_timegone() <<" "
-            << m_crack_timer.get_period() <<" "
-            << progress
-            << std::endl;
 
   if (m_state == STATE_CRACK1 && progress >= 0.5f)
   {
