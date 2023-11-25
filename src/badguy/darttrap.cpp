@@ -156,7 +156,8 @@ DartTrap::get_settings()
   return result;
 }
 
-GameObjectTypes DartTrap::get_types() const
+GameObjectTypes
+DartTrap::get_types() const
 {
   return {
     {"granito", _("Granito")},
@@ -164,11 +165,15 @@ GameObjectTypes DartTrap::get_types() const
   };
 }
 
-std::string DartTrap::get_default_sprite_name() const
+std::string
+DartTrap::get_default_sprite_name() const
 {
-  switch (m_type) {
-    case SKULL: return "images/creatures/darttrap/skull/darttrap_skull.sprite";
-    case GRANITO: return "images/creatures/darttrap/granito/darttrap_granito.sprite";
+  switch (m_type)
+  {
+    case SKULL:
+      return "images/creatures/darttrap/skull/darttrap_skull.sprite";
+    case GRANITO:
+      return "images/creatures/darttrap/granito/darttrap_granito.sprite";
   }
   return "images/creatures/darttrap/granito/darttrap_granito.sprite";
 }
@@ -194,14 +199,18 @@ DartTrap::on_flip(float height)
     set_action(m_state == IDLE ? "idle" : "loading", m_dir, 1);
   }
   else
+  {
     FlipLevelTransformer::transform_flip(m_flip);
+  }
 }
 
-void DartTrap::on_type_change(int old_type)
+void
+DartTrap::on_type_change(int old_type)
 {
   BadGuy::on_type_change(old_type);
 
-  switch (m_type) {
+  switch (m_type)
+  {
     case GRANITO:
       m_dart_sprite = "images/creatures/darttrap/granito/root_dart.sprite";
       break;

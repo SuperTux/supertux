@@ -1,4 +1,4 @@
-//  Corrupted Granito - A "Evil" Granito
+//  SuperTux - Corrupted Granito - An "Evil" Granito
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-/** Badguy "Corrupted Granito" - A "Evil" Granito */
+/** An "Evil" Granito. */
 class CorruptedGranito final : public BadGuy
 {
 public:

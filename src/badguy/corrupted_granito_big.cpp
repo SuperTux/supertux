@@ -16,23 +16,21 @@
 
 #include "badguy/corrupted_granito_big.hpp"
 
-#include <variant>
-
 #include "audio/sound_manager.hpp"
 #include "collision/collision_system.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/shard.hpp"
 #include "object/sprite_particle.hpp"
-#include "supertux/sector.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/sector.hpp"
 
-const std::string SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_spike.sprite";
-const float RANGE = 5; // tiles
-const float CRACK_TIME = 1.f; // seconds
-const float SHAKE_TIME = 0.1f; // seconds
+static const std::string SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_spike.sprite";
+static const float RANGE = 5; // tiles
+static const float CRACK_TIME = 1.f; // seconds
+static const float SHAKE_TIME = 0.1f; // seconds
 
-CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader):
+CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/granito/corrupted/big/rock_mine.sprite"),
   m_state(STATE_READY),
   m_crack_timer(),
@@ -47,7 +45,8 @@ CorruptedGranitoBig::CorruptedGranitoBig(const ReaderMapping& reader):
   SoundManager::current()->preload("sounds/brick.wav");
 }
 
-void CorruptedGranitoBig::initialize()
+void
+CorruptedGranitoBig::initialize()
 {
   BadGuy::initialize();
 
@@ -56,13 +55,14 @@ void CorruptedGranitoBig::initialize()
   set_colgroup_active(COLGROUP_MOVING_STATIC);
 }
 
-void CorruptedGranitoBig::active_update(float dt_sec)
+void
+CorruptedGranitoBig::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
 
   if (m_state == STATE_BROKEN) return;
 
-  bool crack = try_cracking();
+  const bool crack = try_cracking();
   if (!crack && !m_crack_timer.paused() && m_crack_timer.started()) m_crack_timer.pause();
 
   if (m_shake_timer.started())
@@ -71,12 +71,14 @@ void CorruptedGranitoBig::active_update(float dt_sec)
     m_shake_delta = 0.f;
 }
 
-void CorruptedGranitoBig::draw(DrawingContext &context)
+void
+CorruptedGranitoBig::draw(DrawingContext &context)
 {
   m_sprite->draw(context.color(), {get_pos().x + m_shake_delta, get_pos().y}, m_layer, m_flip);
 }
 
-void CorruptedGranitoBig::kill_fall()
+void
+CorruptedGranitoBig::kill_fall()
 {
   m_state = STATE_BROKEN;
   set_action("broken", m_dir);
@@ -93,31 +95,31 @@ void CorruptedGranitoBig::kill_fall()
   crack_effects(6);
 }
 
-bool CorruptedGranitoBig::try_cracking()
+bool
+CorruptedGranitoBig::try_cracking()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
-  Player* plr = get_nearest_player();
-  if (!plr) return false;
+  Player* player = get_nearest_player();
+  if (!player) return false;
 
-  Vector mid = get_bbox().get_middle();
-  Vector plrmid = plr->get_bbox().get_middle();
+  const Vector middle = get_bbox().get_middle();
+  const Vector player_middle = player->get_bbox().get_middle();
 
-  RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
-                                                                   plr->get_bbox().get_middle(),
-                                                                   false,
-                                                                   get_collision_object());
+  RaycastResult result = Sector::get().get_first_line_intersection(middle, player_middle,
+                                                                   false, get_collision_object());
 
   auto* obj = std::get_if<CollisionObject*>(&result.hit);
-  if (!obj || *obj != plr->get_collision_object()) return false;
+  if (!obj || *obj != player->get_collision_object()) return false;
 
-  if (glm::distance(mid, plrmid) > 32.f*RANGE) return false;
+  if (glm::distance(middle, player_middle) > 32.f * RANGE) return false;
 
   crack();
   return true;
 }
 
-void CorruptedGranitoBig::crack()
+void
+CorruptedGranitoBig::crack()
 {
   if (m_state == STATE_CRACK2 && m_crack_timer.check())
   {
@@ -126,9 +128,7 @@ void CorruptedGranitoBig::crack()
   }
 
   if (m_crack_timer.paused())
-  {
-    m_crack_timer.unpause();
-  }
+    m_crack_timer.resume();
   else if (!m_crack_timer.started())
     m_crack_timer.start(CRACK_TIME);
 
@@ -148,19 +148,20 @@ void CorruptedGranitoBig::crack()
   }
 }
 
-void CorruptedGranitoBig::crack_effects(size_t particles)
+void
+CorruptedGranitoBig::crack_effects(int particles)
 {
+  assert(particles > 0 && particles <= 6);
+
   SoundManager::current()->play("sounds/brick.wav", get_pos());
   m_shake_timer.start(SHAKE_TIME);
 
-  const auto gravity = Sector::get().get_gravity() * 100;
-  std::vector<std::string> pieces = {"piece-0", "piece-1", "piece-2", "piece-3", "piece-4", "piece-5"};
-  pieces = std::vector<std::string>(pieces.begin(), pieces.begin() + particles);
-  for (std::string action : pieces)
+  const float gravity = Sector::get().get_gravity() * 100.f;
+  for (int i = 0; i < particles; i++)
   {
-    Vector velocity(graphicsRandom.randf(-100, 100),
-                    graphicsRandom.randf(-400, -300));
-    Sector::get().add<SpriteParticle>(m_rock_particles->clone(), action,
+    const Vector velocity(graphicsRandom.randf(-100, 100),
+                          graphicsRandom.randf(-400, -300));
+    Sector::get().add<SpriteParticle>(m_rock_particles->clone(), "piece-" + std::to_string(i),
                                       get_bbox().get_middle(), ANCHOR_MIDDLE,
                                       velocity, Vector(0, gravity),
                                       LAYER_OBJECTS + 3, true);

@@ -57,7 +57,6 @@ protected:
   void load();
   void fire();
 
-
 private:
   bool m_enabled;
   float m_initial_delay;

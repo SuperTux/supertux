@@ -19,11 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-/**
- * @brief Corrupted Big Granito (AKA Corrupted Chungus)
- *
- * Explodes into shards when player comes close with it
-*/
+/** Granito, which explodes into shards when player comes close to it. */
 class CorruptedGranitoBig final : public BadGuy
 {
 public:
@@ -44,6 +40,11 @@ public:
   virtual bool is_flammable() const override { return false; }
 
 private:
+  bool try_cracking();
+  void crack();
+  void crack_effects(int particles);
+
+private:
   enum State
   {
     STATE_READY,
@@ -51,10 +52,6 @@ private:
     STATE_CRACK2,
     STATE_BROKEN
   };
-
-  bool try_cracking();
-  void crack();
-  void crack_effects(size_t particles);
 
   State m_state;
   Timer m_crack_timer;

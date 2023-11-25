@@ -53,14 +53,16 @@ Timer::check()
   return false;
 }
 
-void Timer::pause()
+void
+Timer::pause()
 {
   float left = get_timeleft();
   stop();
   m_cycle_pause = left;
 }
 
-void Timer::unpause()
+void
+Timer::resume()
 {
   start(m_cycle_pause);
 }

@@ -41,8 +41,8 @@ public:
   /** pause the timer */
   void pause();
 
-  /** unpause the timer */
-  void unpause();
+  /** resume (unpause) the timer */
+  void resume();
 
   /** returns the period of the timer or 0 if it isn't started */
   float get_period() const { return m_period; }
