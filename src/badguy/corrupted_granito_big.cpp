@@ -119,7 +119,6 @@ bool CorruptedGranitoBig::try_cracking()
 
 void CorruptedGranitoBig::crack()
 {
-
   if (m_state == STATE_CRACK2 && m_crack_timer.check())
   {
     kill_fall();
@@ -132,6 +131,8 @@ void CorruptedGranitoBig::crack()
   }
   else if (!m_crack_timer.started())
     m_crack_timer.start(CRACK_TIME);
+
+  float progress = m_crack_timer.get_timegone() / m_crack_timer.get_period();
 
   if (m_state == STATE_CRACK1 && progress >= 0.5f)
   {
