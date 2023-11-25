@@ -19,6 +19,8 @@
 GranitoBig::GranitoBig(const ReaderMapping& reader):
   Granito(reader)
 {
+  m_layer = LAYER_OBJECTS-2;
+
   change_sprite(get_default_sprite_name());
   max_drop_height = 16;
 }

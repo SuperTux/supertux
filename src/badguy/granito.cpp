@@ -208,8 +208,9 @@ HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
 }
 
 HitResponse Granito::collision(GameObject &other, const CollisionHit &hit) {
-  m_col.propagate_movement(m_col.get_movement());
-  update_on_ground_flag(hit); // Hehe...
+  if (hit.top)
+    m_col.propagate_movement(m_col.get_movement());
+
   return WalkingBadguy::collision(other, hit);
 }
 
@@ -254,7 +255,7 @@ void Granito::after_editor_set()
     case STAND:
       set_action("stand", m_dir);
       break;
-    }
+  }
 }
 
 void Granito::initialize()
