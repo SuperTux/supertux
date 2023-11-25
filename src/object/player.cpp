@@ -221,7 +221,6 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
-  m_edit_mode(false),
   m_unduck_hurt_timer(),
   m_idle_timer(),
   m_idle_stage(0),
@@ -2317,8 +2316,8 @@ Player::kill(bool completely)
   } else {
     SoundManager::current()->play("sounds/kill.wav", get_pos());
 
-    // do not die when in edit mode
-    if (m_edit_mode) {
+    if (GameSession::current() && GameSession::current()->m_prevent_death)
+    {
       set_ghost_mode(true);
       return;
     }
@@ -2500,12 +2499,6 @@ Player::set_ghost_mode(bool enable)
     m_physic.enable_gravity(true);
     log_debug << "You feel solid again." << std::endl;
   }
-}
-
-void
-Player::set_edit_mode(bool enable)
-{
-  m_edit_mode = enable;
 }
 
 void

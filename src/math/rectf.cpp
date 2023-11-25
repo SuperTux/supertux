@@ -32,7 +32,7 @@ Rect
 Rectf::to_rect() const
 {
   return { static_cast<int>(m_p1.x), static_cast<int>(m_p1.y),
-           static_cast<int>(m_size.width), static_cast<int>(m_size.height) };
+           static_cast<int>(get_right()), static_cast<int>(get_bottom()) };
 }
 
 std::ostream& operator<<(std::ostream& out, const Rectf& rect)
