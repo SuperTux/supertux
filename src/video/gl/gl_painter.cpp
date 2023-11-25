@@ -517,7 +517,7 @@ GLPainter::set_clip_rect(const Rect& clip_rect)
   const Size& logical_size = m_renderer.get_logical_size();
 
   glScissor(rect.left + rect.get_width() * clip_rect.left / logical_size.width,
-            rect.top,
+            rect.bottom - rect.get_height() * clip_rect.bottom / logical_size.height,
             rect.get_width() * clip_rect.get_width() / logical_size.width,
             rect.get_height() * clip_rect.get_height() / logical_size.height);
   glEnable(GL_SCISSOR_TEST);
