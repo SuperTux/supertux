@@ -22,7 +22,9 @@
       integrated level editor.
     </p>
   </description>
-  <developer_name>The SuperTux Team</developer_name>
+  <developer id="supertuxproject.org">
+    <name>The SuperTux Team</name>
+  </developer>
   <url type="homepage">https://www.supertux.org</url>
   <url type="bugtracker">https://github.com/SuperTux/supertux/issues</url>
   <url type="donation">https://www.supertux.org/donate.html</url>
