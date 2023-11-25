@@ -29,7 +29,7 @@
   (action
     (name "awake-left")
 	(hitbox 85 27 90 156)
-    (fps 5)
+    (fps 10)
     (images "granito_awake-0.png"
 			  "granito_awake-0.png"
 			  "granito_awake-0.png"
@@ -70,7 +70,7 @@
   (action
     (name "awake-right")
 	(hitbox 47 27 90 156)
-    (fps 5)
+    (fps 10)
     (mirror-action "awake-left")
   )
 )
