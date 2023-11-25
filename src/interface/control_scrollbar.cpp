@@ -48,7 +48,7 @@ ControlScrollbar::draw(DrawingContext& context)
     return;
 
   context.color().draw_filled_rect(get_bar_rect(),
-                                   Color(1.f, 1.f, 1.f, (m_hovering || m_scrolling) ? 1.f : 0.8f),
+                                   Color(1.f, 1.f, 1.f, (m_hovering || m_scrolling) ? 1.f : 0.7f),
                                    8,
                                    LAYER_GUI);
 /*
