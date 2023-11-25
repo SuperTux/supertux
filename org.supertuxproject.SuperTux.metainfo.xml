@@ -27,8 +27,13 @@
   </developer>
   <url type="homepage">https://www.supertux.org</url>
   <url type="bugtracker">https://github.com/SuperTux/supertux/issues</url>
+  <url type="faq">https://github.com/SuperTux/supertux/wiki/SuperTux_FAQ</url>
+  <url type="help">https://github.com/SuperTux/supertux/wiki/User-Manual</url>
   <url type="donation">https://www.supertux.org/donate.html</url>
+  <url type="translate">https://github.com/SuperTux/supertux/wiki/Translation</url>
+  <url type="contact">https://github.com/SuperTux/supertux#community</url>
   <url type="vcs-browser">https://github.com/SuperTux/supertux</url>
+  <url type="contribute">https://github.com/SuperTux/supertux/blob/master/CONTRIBUTING.md</url>
   <categories>
     <category>Game</category>
     <category>ActionGame</category>
