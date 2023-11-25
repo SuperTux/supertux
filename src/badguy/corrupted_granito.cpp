@@ -134,14 +134,14 @@ CorruptedGranito::active_update(float dt_sec)
     return;
 
   // Charge when fully recovered.
-  if ((state == STANDING) && (recover_timer.check()))
+  if (state == STANDING && recover_timer.check())
   {
     set_state(CHARGING);
     return;
   }
 
   // Jump as soon as charging animation completed.
-  if ((state == CHARGING) && (m_sprite->animation_done()))
+  if (state == CHARGING && m_sprite->animation_done())
   {
     set_state(JUMPING);
     return;
