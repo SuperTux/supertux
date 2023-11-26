@@ -216,7 +216,7 @@
   (object
     (class "firefly")
     (icon "images/engine/editor/resetpoint.png"))
-(object
+  (object
     (class "granito")
     (icon "images/creatures/granito/granito_stand-0.png"))
   (object
@@ -224,8 +224,8 @@
     (icon "images/creatures/granito/big/granito_stand-0.png"))
   (object
     (class "granito_giant")
-    (icon "images/creatures/granito/giant/granito_sleep.png"))  
-(object
+    (icon "images/creatures/granito/giant/granito_sleep-0.png"))
+  (object
     (class "dispenser")
     (icon "images/creatures/dispenser/dropper.png"))
   (object

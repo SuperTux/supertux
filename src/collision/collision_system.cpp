@@ -734,6 +734,22 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
   return true;
 }
 
+bool
+CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+{
+  using namespace collision;
+
+  for (const auto& object : m_objects) {
+    if (object == ignore_object) continue;
+    if (!object->is_valid()) continue;
+    if ((object->get_group() == COLGROUP_MOVING_STATIC)
+        && (intersects(rect, object->get_bbox())))
+      return false;
+  }
+
+  return true;
+}
+
 CollisionSystem::RaycastResult
 CollisionSystem::get_first_line_intersection(const Vector& line_start,
                                              const Vector& line_end,

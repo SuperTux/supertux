@@ -27,16 +27,50 @@
     (mirror-action "sleep-left")
   )
   (action
-    (name "awake-left")
+    (name "idle-left")
 	(hitbox 85 27 90 156)
-    (fps 5)
+    (fps 10)
     (images "granito_awake-0.png"
-            )
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-0.png"
+			  "granito_awake-1.png"
+			  "granito_awake-2.png"
+			  "granito_awake-3.png"
+			  "granito_sleep-0.png"
+			  "granito_awake-3.png"
+			  "granito_awake-2.png"
+			  "granito_awake-1.png")
   )
   (action
-    (name "awake-right")
+    (name "idle-right")
 	(hitbox 47 27 90 156)
-    (fps 5)
-    (mirror-action "awake-left")
+    (fps 10)
+    (mirror-action "idle-left")
   )
 )

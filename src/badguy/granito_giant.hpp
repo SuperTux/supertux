@@ -25,6 +25,7 @@ public:
   GranitoGiant(const ReaderMapping& reader);
 
   virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
+  virtual void initialize() override;
 
   static std::string class_name() { return "granito_giant"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -38,9 +39,10 @@ public:
   virtual void kill_fall() override { return; }
 
   GameObjectTypes get_types() const override;
+  virtual void after_editor_set() override;
 
 private:
-  enum Type { STAND, SLEEP };
+  enum Type { AWAKE, SLEEP };
 
 private:
   GranitoGiant(const GranitoGiant&) = delete;

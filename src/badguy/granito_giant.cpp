@@ -21,24 +21,67 @@ GranitoGiant::GranitoGiant(const ReaderMapping& reader):
 {
   parse_type(reader);
 
-  set_colgroup_active(COLGROUP_MOVING_STATIC);
-  m_col.set_unisolid(true);
-
   m_countMe = false;
 }
 
-HitResponse GranitoGiant::collision_player(Player &player, const CollisionHit &hit)
+HitResponse
+GranitoGiant::collision_player(Player &player, const CollisionHit &hit)
 {
   return FORCE_MOVE;
+}
+
+void GranitoGiant::initialize()
+{
+  BadGuy::initialize();
+
+  switch (m_type)
+  {
+    case AWAKE:
+      set_action("awake", m_dir);
+      break;
+
+    case SLEEP:
+      set_action("sleep", m_dir);
+      break;
+
+    default:
+      break;
+  }
+
+  set_colgroup_active(COLGROUP_MOVING_STATIC);
+  m_col.set_unisolid(true);
 }
 
 GameObjectTypes
 GranitoGiant::get_types() const
 {
   return {
-    { "stand", _("Standing") },
-    { "sleep", _("Sleeping") }
+    { "awake", _("Awake") },
+    { "sleep", _("Sleeping") },
+    { "corrupted-a", _("Corrupted A") },
+    { "corrupted-b", _("Corrupted B") },
+    { "corrupted-c", _("Corrupted C") },
   };
+}
+
+void
+GranitoGiant::after_editor_set()
+{
+  BadGuy::after_editor_set();
+
+  switch (m_type)
+  {
+    case AWAKE:
+      set_action("awake", m_dir);
+      break;
+
+    case SLEEP:
+      set_action("sleep", m_dir);
+      break;
+
+    default:
+      break;
+  }
 }
 
 /* EOF */
