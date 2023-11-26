@@ -165,31 +165,40 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
       // Constrain only on fall on top of the unisolid object.
       if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top())
       {
-        constraints.constrain_bottom(grown_other_obj_rect.get_top());
+        constraints.constrain_bottom(other_obj_rect.get_top());
         constraints.hit.bottom = true;
       }
-
-      return constraints;
     }
+    else
+    {
+      const float vert_penetration = std::min(itop, ibottom);
+      const float horiz_penetration = std::min(ileft, iright);
 
-    const float vert_penetration = std::min(itop, ibottom);
-    const float horiz_penetration = std::min(ileft, iright);
-
-    if (vert_penetration < horiz_penetration) {
-      if (itop < ibottom) {
-        constraints.constrain_bottom(grown_other_obj_rect.get_top());
-        constraints.hit.bottom = true;
-      } else {
-        constraints.constrain_top(grown_other_obj_rect.get_bottom());
-        constraints.hit.top = true;
+      if (vert_penetration < horiz_penetration)
+      {
+        if (itop < ibottom)
+        {
+          constraints.constrain_bottom(grown_other_obj_rect.get_top());
+          constraints.hit.bottom = true;
+        }
+        else
+        {
+          constraints.constrain_top(grown_other_obj_rect.get_bottom());
+          constraints.hit.top = true;
+        }
       }
-    } else {
-      if (ileft < iright) {
-        constraints.constrain_right(grown_other_obj_rect.get_left());
-        constraints.hit.right = true;
-      } else {
-        constraints.constrain_left(grown_other_obj_rect.get_right());
-        constraints.hit.left = true;
+      else
+      {
+        if (ileft < iright)
+        {
+          constraints.constrain_right(grown_other_obj_rect.get_left());
+          constraints.hit.right = true;
+        }
+        else
+        {
+          constraints.constrain_left(grown_other_obj_rect.get_right());
+          constraints.hit.left = true;
+        }
       }
     }
     if (other_object && moving_object)
