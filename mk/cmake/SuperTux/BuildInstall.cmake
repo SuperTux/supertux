@@ -64,7 +64,7 @@ install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.stxt DESTINATION ${INSTALL_SUBDIR_SHARE})
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.appdata.xml DESTINATION "share/metainfo" )
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.supertuxproject.SuperTux.metainfo.xml DESTINATION "share/metainfo" )
 
 install(DIRECTORY
   ${CMAKE_CURRENT_SOURCE_DIR}/data/images
