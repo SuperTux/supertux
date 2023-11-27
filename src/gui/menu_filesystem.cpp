@@ -114,7 +114,7 @@ FileSystemMenu::refresh_items()
     if (in_basedir && m_item_processor)
       m_item_processor(menu_item);
 
-    std::string help_text = m_generate_help_text_for_file ? m_generate_help_text_for_file(FileSystem::join(m_directory, item)) : "";
+    const std::string help_text = m_generate_help_text_for_file ? m_generate_help_text_for_file(FileSystem::join(m_directory, item)) : "";
 
     if (!help_text.empty()) {
       menu_item.set_help(help_text);

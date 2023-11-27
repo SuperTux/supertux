@@ -299,7 +299,6 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
 {
   auto generate_help_text_for_file = [](std::string path) -> std::string
   {
-    std::string filename = FileSystem::basename(path);
     std::unique_ptr<SoundFile> sound_file;
     try {
       sound_file = load_sound_file(path);
@@ -307,18 +306,19 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
       return "";
     }
 
-    std::string& author = sound_file->m_author;
-    std::string& license = sound_file->m_license;
-    std::string& title = sound_file->m_title;
+    const std::string& author = sound_file->m_author;
+    const std::string& license = sound_file->m_license;
+    const std::string& title = sound_file->m_title;
 
     bool hasMusicMetadata = !title.empty() || !author.empty() || !license.empty();
     if (!hasMusicMetadata) {
       return "";
     }
 
-    std::string title_or_filename = title.empty() ? filename : "\"" + title + "\""; // assumes path is just a filename
+    const std::string filename = FileSystem::basename(path);
+    const std::string title_or_filename = title.empty() ? filename : "\"" + title + "\""; // assumes path is just a filename
 
-    std::string help_text =
+    const std::string help_text =
         title_or_filename + (author.empty() ? "" : "\n by " + author)
         + (license.empty() ? "" : "\nLicense: " + license);
 
