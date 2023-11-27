@@ -310,8 +310,7 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
     const std::string& license = sound_file->m_license;
     const std::string& title = sound_file->m_title;
 
-    bool hasMusicMetadata = !title.empty() || !author.empty() || !license.empty();
-    if (!hasMusicMetadata) {
+    if (title.empty() && author.empty() && license.empty()) {
       return "";
     }
 
