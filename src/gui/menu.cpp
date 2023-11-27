@@ -56,6 +56,8 @@
 
 #include "supertux/error_handler.hpp"
 
+static const float HELP_MARGIN_Y = 16.f;
+
 Menu::Menu() :
   m_pos(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
                static_cast<float>(SCREEN_HEIGHT) / 2.0f)),
@@ -603,12 +605,10 @@ Menu::draw(DrawingContext& context)
     const int text_width = static_cast<int>(Resources::normal_font->get_text_width(m_items[m_active_item]->get_help()));
     const int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
 
-    const float margin_y = 16.0f;
-
     const Rectf text_rect(m_pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - margin_y - static_cast<float>(text_height) - 4.0f,
+                          static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y - static_cast<float>(text_height) - 4.0f,
                           m_pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - margin_y + 4.0f);
+                          static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y + 4.0f);
 
     context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
                                            text_rect.p2() + Vector(4,4)),
@@ -622,7 +622,7 @@ Menu::draw(DrawingContext& context)
                                      LAYER_GUI);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
-                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - margin_y - static_cast<float>(text_height)),
+                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y - static_cast<float>(text_height)),
                               ALIGN_CENTER, LAYER_GUI);
   }
 }
