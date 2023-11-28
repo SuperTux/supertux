@@ -25,7 +25,7 @@ class Shard final : public MovingSprite
 {
 public:
   Shard(const ReaderMapping& reader);
-  Shard(const Vector& pos, const Vector& velocity);
+  Shard(const Vector& pos, const Vector& velocity, const std::string& sprite = "images/creatures/crystallo/shard.sprite");
 
   virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
