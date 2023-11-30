@@ -39,10 +39,11 @@ public:
   virtual void kill_fall() override { return; }
 
   GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
   virtual void after_editor_set() override;
 
 private:
-  enum Type { AWAKE, SLEEP };
+  enum Type { AWAKE, SLEEP, CORR_A, CORR_B, CORR_C };
 
 private:
   GranitoGiant(const GranitoGiant&) = delete;

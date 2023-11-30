@@ -44,6 +44,18 @@ void GranitoGiant::initialize()
       set_action("sleep", m_dir);
       break;
 
+    case CORR_A:
+      set_action("husk1", m_dir);
+      break;
+
+    case CORR_B:
+      set_action("husk2", m_dir);
+      break;
+
+    case CORR_C:
+      set_action("husk3", m_dir);
+      break;
+
     default:
       break;
   }
@@ -61,7 +73,15 @@ GranitoGiant::get_types() const
     { "corrupted-a", _("Corrupted A") },
     { "corrupted-b", _("Corrupted B") },
     { "corrupted-c", _("Corrupted C") },
-  };
+    };
+}
+
+std::string GranitoGiant::get_default_sprite_name() const
+{
+  if (m_type < CORR_A) // not corrupted
+    return "images/creatures/granito/giant/granito_giant.sprite";
+  else
+    return "images/creatures/granito/corrupted/giant/corrupted_giant.sprite";
 }
 
 void
@@ -77,6 +97,18 @@ GranitoGiant::after_editor_set()
 
     case SLEEP:
       set_action("sleep", m_dir);
+      break;
+
+    case CORR_A:
+      set_action("husk1", m_dir);
+      break;
+
+    case CORR_B:
+      set_action("husk2", m_dir);
+      break;
+
+    case CORR_C:
+      set_action("husk3", m_dir);
       break;
 
     default:
