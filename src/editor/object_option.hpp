@@ -327,14 +327,16 @@ class ObjectSelectObjectOption final : public ObjectOption<std::vector<std::uniq
 {
 public:
   ObjectSelectObjectOption(const std::string& text, std::vector<std::unique_ptr<GameObject>>* pointer,
-                           GameObject* parent, const std::string& key, unsigned int flags);
+                           uint8_t get_objects_param, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func,
+                           const std::string& key, unsigned int flags);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
 
 private:
-  GameObject* m_parent;
+  uint8_t m_get_objects_param;
+  const std::function<void (std::unique_ptr<GameObject>)> m_add_object_function;
 
 private:
   ObjectSelectObjectOption(const ObjectSelectObjectOption&) = delete;
