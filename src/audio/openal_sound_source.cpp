@@ -40,7 +40,7 @@ OpenALSoundSource::~OpenALSoundSource()
 }
 
 void
-OpenALSoundSource::stop()
+OpenALSoundSource::stop(bool unload_buffer)
 {
 #ifdef WIN32
   // See commit 417a8e7a8c599bfc2dceaec7b6f64ac865318ef1
@@ -48,7 +48,8 @@ OpenALSoundSource::stop()
 #else
   alSourceStop(m_source);
 #endif
-  alSourcei(m_source, AL_BUFFER, AL_NONE);
+  if (unload_buffer)
+    alSourcei(m_source, AL_BUFFER, AL_NONE);
   try
   {
     SoundManager::check_al_error("Problem stopping audio source: ");

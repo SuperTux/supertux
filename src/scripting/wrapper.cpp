@@ -25,93 +25,6 @@ static SQInteger AmbientSound_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
-static SQInteger AmbientSound_set_pos_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'set_pos' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::AmbientSound* _this = reinterpret_cast<scripting::AmbientSound*> (data);
-
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-  SQFloat arg1;
-  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_pos(arg0, arg1);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_pos'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::AmbientSound* _this = reinterpret_cast<scripting::AmbientSound*> (data);
-
-
-  try {
-    float return_value = _this->get_pos_x();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_x'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::AmbientSound* _this = reinterpret_cast<scripting::AmbientSound*> (data);
-
-
-  try {
-    float return_value = _this->get_pos_y();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_pos_y'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger Background_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Background* _this = reinterpret_cast<scripting::Background*> (ptr);
@@ -14114,27 +14027,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'AmbientSound'";
     throw SquirrelError(v, msg.str());
   }
-  sq_pushstring(v, "set_pos", -1);
-  sq_newclosure(v, &AmbientSound_set_pos_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|n");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_pos'");
-  }
-
-  sq_pushstring(v, "get_pos_x", -1);
-  sq_newclosure(v, &AmbientSound_get_pos_x_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_pos_x'");
-  }
-
-  sq_pushstring(v, "get_pos_y", -1);
-  sq_newclosure(v, &AmbientSound_get_pos_y_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_pos_y'");
-  }
-
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'AmbientSound'");
   }

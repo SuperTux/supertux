@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 mrkubax10 <mrkubax10@onet.pl>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,94 +15,49 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- *  Ambient Sound Source, gamma version. Features:
- *
- *  - "rounded rectangle" geometry with position, dimension and
- *    "rounding radius" (extending in all directions) of a 100%
- *    volume area, adjustable maximum volume, inverse square
- *    falloff outside area.
- *
- *  - degenerates gracefully to a disc for dimension=0
- *
- *  - parameters:
- *
- *    x, y               position
- *    width, height      dimension
- *    distance_factor    high = steep falloff
- *    distance_bias      high = big "100% disc"
- *    silence_distance   defaults reasonably.
- *    sample             sample to be played back in loop mode
- *
- *      basti_
- */
-
 #ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 
-#include "math/vector.hpp"
-#include "supertux/moving_object.hpp"
+#include "supertux/game_object.hpp"
 #include "scripting/ambient_sound.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "video/layer.hpp"
 
-class GameObject;
 class ReaderMapping;
 class SoundSource;
 
-class AmbientSound final : public MovingObject,
+class AmbientSound final : public GameObject,
                      public ExposedObject<AmbientSound, scripting::AmbientSound>
 {
 public:
   AmbientSound(const ReaderMapping& mapping);
-  AmbientSound(const Vector& pos, float factor, float bias, float vol, const std::string& file);
+  AmbientSound(float vol, float play_interval, const std::string& file);
   ~AmbientSound() override;
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
+  virtual void update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override {}
 
   static std::string class_name() { return "ambient-sound"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Ambient Sound"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual bool has_variable_size() const override { return true; }
-
-  /** @name Scriptable Methods
-      @{ */
-#ifndef SCRIPTING_API
-  virtual void set_pos(const Vector& pos) override;
-#endif
-  void set_pos(float x, float y);
-  float get_pos_x() const;
-  float get_pos_y() const;
-  /** @} */
-
-  virtual void draw(DrawingContext& context) override;
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/ambientsound.png"; }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
-
-  virtual int get_layer() const override { return LAYER_OBJECTS; }
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
-protected:
-  virtual void update(float dt_sec) override;
-  virtual void start_playing();
-  virtual void stop_playing();
+private:
+  std::string m_sample;
+  std::unique_ptr<SoundSource> m_sound_source;
+  float m_volume;
+  float m_play_interval;
+  float m_delay;
+  bool m_playing;
+  bool m_scheduled_for_removal;
 
 private:
-  std::string sample;
-  std::unique_ptr<SoundSource> sound_source;
-  int latency;
-
-  float distance_factor;  /// distance scaling
-  float distance_bias;    /// 100% volume disc radius
-  float silence_distance; /// not implemented yet
-
-  float maximumvolume; /// maximum volume
-  float targetvolume;  /// how loud we want to be
-  float currentvolume; /// how loud we are
+  void prepare_sound_source();
 
 private:
   AmbientSound(const AmbientSound&) = delete;
