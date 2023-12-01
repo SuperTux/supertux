@@ -159,35 +159,22 @@ endif()
 
 target_include_directories(supertux2_lib PUBLIC src/)
 
+get_target_property(INC supertux2_lib INCLUDE_DIRECTORIES)
+message("${INC}")
+
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   target_include_directories(supertux2_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
 
 if(WIN32)
-  add_executable(supertux2 WIN32 ${} ${PROJECT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+  add_executable(supertux2 WIN32 ${PROJECT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
 else()
   add_executable(supertux2)
 endif()
 
 target_sources(supertux2 PUBLIC src/main.cpp)
 target_link_libraries(supertux2 PUBLIC supertux2_lib)
-
-#[=[
-# Copy DLLs on Windows.
-# If this doesn't execute, you don't have a great enough
-# CMake version and will have to copy the DLLs manually.
-# Sorry.
-# ~ MatusGuy
-if(WIN32)
-  add_custom_command(TARGET supertux2_lib POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    $<TARGET_RUNTIME_DLLS:supertux2>
-    $<TARGET_FILE_DIR:supertux2>
-    COMMAND_EXPAND_LISTS
-  )
-endif()
-#]=]
 
 ## Install stuff
 include(SuperTux/BuildInstall)

@@ -53,6 +53,8 @@ macro(target_external_dependencies tar)
       set(deptar ${deptar}-static)
     endif()
 
+    message(VERBOSE "Link externally ${deptar}")
+
     set(oldbuildtype ${CMAKE_BUILD_TYPE})
     set(CMAKE_BUILD_TYPE Release)
 
@@ -107,11 +109,13 @@ macro(target_external_dependencies tar)
     set(${deptar}_LIBRARY ${deptar})
     set(${deptar}_LIBRARIES ${deptar})
 
-    add_custom_command(TARGET ${tar}
-      COMMAND ${CMAKE_COMMAND} -E copy_if_different
-      $<TARGET_FILE:${deptar}>
-      $<TARGET_FILE_DIR:${tar}>
-    )
+    if(NOT ${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
+      add_custom_command(TARGET ${tar}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:${deptar}>
+        $<TARGET_FILE_DIR:${tar}>
+      )
+    endif()
 
     add_dependencies(${tar} ${deptar})
   endforeach()
@@ -124,7 +128,9 @@ endmacro()
 #
 macro(target_dependencies tar)
   set(deps ${ARGN})
+  message(VERBOSE "Adding ${deps} to ${tar}")
   foreach(dep ${deps})
+    message(VERBOSE "Link ${dep}")
     find_package(${dep} QUIET)
 
     if(NOT ${${dep}_FOUND})
@@ -132,22 +138,29 @@ macro(target_dependencies tar)
         message(VERBOSE "Could not find ${dep} with find_package. Falling back to pkg-config.")
 
         pkg_search_module(${dep} ${dep})
-        if(NOT ${${dep}_FOUND})
+        if("${${dep}_MODULE_NAME} " STREQUAL " ")
           message(VERBOSE "Could not find ${dep} in pkg-config. Falling back to external/.")
+
+          target_external_dependencies(${tar} ${dep})
         else()
-          continue()
+          message(VERBOSE "Successfully found ${dep} with pkg-config (${${dep}_MODULE_NAME})")
         endif()
       else()
         message(VERBOSE "Could not find ${dep} with find_package. Falling back to external/.")
-      endif()
 
-      target_external_dependencies(${tar} ${dep})
-      continue()
+        target_external_dependencies(${tar} ${dep})
+        continue()
+      endif()
+    else()
+      message(VERBOSE "Successfully found ${dep}")
     endif()
 
     target_link_libraries(${tar} PUBLIC ${dep})
 
-    # try both names
-    target_include_directories(${tar} PUBLIC ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS})
+    # try all names
+    string(TOUPPER ${dep} UPPERDEP)
+    target_include_directories(${tar} PUBLIC ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR})
+
+    message(VERBOSE "${dep} includes: ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR}")
   endforeach()
 endmacro()
