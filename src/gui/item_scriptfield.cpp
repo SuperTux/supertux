@@ -16,10 +16,16 @@
 
 #include "gui/item_scriptfield.hpp"
 
-ItemScriptField::ItemScriptField(std::unique_ptr<ControlTextbox> control) :
+#include "supertux/globals.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
+
+ItemScriptField::ItemScriptField(std::unique_ptr<ControlTextbox> control, const Sizef& relative_size) :
   MenuItem(""),
-  m_control(std::move(control))
+  m_control(std::move(control)),
+  m_relative_size(relative_size)
 {
+  on_window_resize();
 }
 
 void
@@ -54,6 +60,13 @@ void
 ItemScriptField::event(const SDL_Event& ev)
 {
   m_control->event(ev);
+}
+
+void
+ItemScriptField::on_window_resize()
+{
+  m_control->set_size(Sizef(static_cast<float>(SCREEN_WIDTH) * m_relative_size.width,
+                            static_cast<float>(SCREEN_HEIGHT) * m_relative_size.height));
 }
 
 int

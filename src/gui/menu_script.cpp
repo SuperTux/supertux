@@ -18,10 +18,7 @@
 #include "gui/menu_script.hpp"
 
 #include "gui/item_scriptfield.hpp"
-#include "supertux/globals.hpp"
 #include "util/gettext.hpp"
-#include "video/video_system.hpp"
-#include "video/viewport.hpp"
 
 ScriptMenu::ScriptMenu(std::string* script)
 {
@@ -30,9 +27,7 @@ ScriptMenu::ScriptMenu(std::string* script)
 
   auto scriptbox = std::make_unique<ControlTextbox>(true);
   scriptbox->bind_string(script);
-  scriptbox->set_size(Sizef(static_cast<float>(SCREEN_WIDTH) / 1.4f,
-                            static_cast<float>(SCREEN_HEIGHT) / 1.4f));
-  MenuItem& item = add_item(std::make_unique<ItemScriptField>(std::move(scriptbox)));
+  MenuItem& item = add_item(std::make_unique<ItemScriptField>(std::move(scriptbox), Sizef(0.6f, 0.6f)));
 
   add_hl();
   add_back(_("OK"));

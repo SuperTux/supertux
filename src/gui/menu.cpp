@@ -566,11 +566,11 @@ Menu::on_window_resize()
   m_pos.x = static_cast<float>(SCREEN_WIDTH) / 2.0f;
   m_pos.y = static_cast<float>(SCREEN_HEIGHT) / 2.0f;
 
-  calculate_width();
-  calculate_height();
-
   for (auto& item : m_items)
     item->on_window_resize();
+
+  calculate_width();
+  calculate_height();
 }
 
 void

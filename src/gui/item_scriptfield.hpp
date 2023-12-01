@@ -25,13 +25,15 @@
 class ItemScriptField final : public MenuItem
 {
 public:
-  ItemScriptField(std::unique_ptr<ControlTextbox> control);
+  ItemScriptField(std::unique_ptr<ControlTextbox> control, const Sizef& relative_size);
 
   void draw(DrawingContext& context, const Vector& pos, int, bool) override;
   void update(float dt_sec) override;
 
   void process_action(const MenuAction& action) override;
   void event(const SDL_Event& ev) override;
+
+  void on_window_resize() override;
 
   int get_width() const override;
   int get_height() const override;
@@ -43,6 +45,7 @@ public:
 
 private:
   std::unique_ptr<ControlTextbox> m_control;
+  const Sizef m_relative_size;
 
 private:
   ItemScriptField(const ItemScriptField&) = delete;
