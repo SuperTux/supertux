@@ -65,6 +65,7 @@ public:
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
+  bool is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
 
 
   RaycastResult get_first_line_intersection(const Vector& line_start,

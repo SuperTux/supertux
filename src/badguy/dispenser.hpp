@@ -28,7 +28,7 @@ class Dispenser final : public BadGuy,
 {
 private:
   enum DispenserType {
-    DROPPER, CANNON, POINT
+    DROPPER, CANNON, POINT, GRANITO
   };
 
 public:
