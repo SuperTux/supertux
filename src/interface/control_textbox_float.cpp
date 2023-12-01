@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,84 +17,82 @@
 
 #include "interface/control_textbox_float.hpp"
 
-#include <string>
-#include <exception>
+static std::string format_float_string(std::string str)
+{
+  // Remove the trailing zeroes at the end of the decimal point...
+  while (!str.empty() && str.at(str.size() - 1) == '0')
+    str.pop_back();
+
+  // ...but keep at least one number after the point.
+  if (!str.empty() && str.at(str.size() - 1) == '.')
+    str += "0";
+
+  return str;
+}
+
 
 ControlTextboxFloat::ControlTextboxFloat() :
+  ControlTextbox(false),
   m_validate_float(),
   m_value(nullptr)
 {
-  revert_value();
 }
 
 void
-ControlTextboxFloat::update(float dt_sec)
+ControlTextboxFloat::set_value(float value)
 {
-  ControlTextbox::update(dt_sec);
-  if (!m_has_focus)
-    revert_value();
+  if (m_value)
+    *m_value = value;
+
+  m_internal_string_backup = format_float_string(std::to_string(*m_value));
+  put_text(m_internal_string_backup);
+}
+
+void
+ControlTextboxFloat::bind_value(float* value)
+{
+  m_value = value;
+
+  if (m_value)
+  {
+    m_internal_string_backup = format_float_string(std::to_string(*m_value));
+    put_text(m_internal_string_backup);
+  }
+  else
+  {
+    m_charlist.clear();
+    m_charlist.push_back({});
+  }
+
+  set_caret_pos(0);
+  set_secondary_caret_pos(0);
 }
 
 bool
-ControlTextboxFloat::parse_value(bool call_on_change /* = true (see header */)
+ControlTextboxFloat::validate_value()
 {
-  if (!m_value)
+  if (!ControlTextbox::validate_value())
     return false;
 
-  // Calling super will put the correct value in m_string.
-  if (!ControlTextbox::parse_value(false)) {
-    // If the parent has failed, abandon. Keeping parsing should still result
-    // in the parsing of a correct value (get_string() will return the last
-    // valid value), but it would be unnecessary, since the last valid value
-    // is already the one that's currently displayed.
-    return false;
-  }
+  const std::string contents = get_contents();
 
   float temp;
-  try {
-    temp = std::stof(get_contents());
-  } catch (std::exception&) {
-    revert_value();
+  try
+  {
+    temp = std::stof(contents);
+  }
+  catch (const std::exception&)
+  {
     return false;
   }
 
-  if (m_validate_float) {
-    if (!m_validate_float(this, temp)) {
-      revert_value();
-      return false;
-    }
-  }
+  if (m_validate_float && !m_validate_float(this, temp))
+    return false;
 
-  if (*m_value != temp) {
+  if (m_value)
     *m_value = temp;
 
-    // Revert the value regardless.
-    revert_value();
-
-    if (call_on_change && m_on_change)
-      m_on_change();
-  }
-
   return true;
-}
-
-void
-ControlTextboxFloat::revert_value()
-{
-  if (!m_value)
-    return;
-
-  m_internal_string_backup = std::to_string(*m_value);
-
-  // Remove the trailing zeroes at the end of the decimal point...
-  while (m_internal_string_backup.at(m_internal_string_backup.size() - 1) == '0')
-    m_internal_string_backup.pop_back();
-
-  // ...but keep at least one number after the point.
-  if (m_internal_string_backup.at(m_internal_string_backup.size() - 1) == '.')
-    m_internal_string_backup += "0";
-
-  ControlTextbox::revert_value();
 }
 
 /* EOF */

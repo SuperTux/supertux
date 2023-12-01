@@ -39,6 +39,7 @@ public:
 
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+  virtual void update(float dt_sec) {}
 
   virtual void on_window_resize() {}
 
@@ -47,6 +48,10 @@ public:
   virtual bool skippable() const {
     return false;
   }
+
+  /** Returns true when the menu item should lock menu up/down navigation,
+      when using the keyboard. */
+  virtual bool locks_navigation() const { return false; }
 
   /** Returns the distance between the items above and below the current
       menu item. */

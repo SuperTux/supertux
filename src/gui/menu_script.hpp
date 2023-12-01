@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,22 +23,12 @@
 class ScriptMenu final : public Menu
 {
 public:
-  ScriptMenu(std::string* script_);
-  ~ScriptMenu() override;
+  ScriptMenu(std::string* script);
 
-  void menu_action(MenuItem& item) override;
-
-  void remove_line();
-  ItemScriptLine* add_line();
+  void menu_action(MenuItem& item) override {}
 
 protected:
-  bool is_sensitive() const override;
-
-private:
-  std::string* base_script;
-  std::vector<std::unique_ptr<std::string> > script_strings;
-
-  void push_string(const std::string& new_line);
+  bool is_sensitive() const override { return true; }
 
 private:
   ScriptMenu(const ScriptMenu&) = delete;

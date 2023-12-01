@@ -44,7 +44,6 @@ class ItemLabel;
 class ItemObjectSelect;
 class ItemPaths;
 class ItemScript;
-class ItemScriptLine;
 class ItemList;
 class ItemStringSelect;
 class ItemTextField;
@@ -72,6 +71,7 @@ public:
   virtual void on_window_resize();
 
   void draw(DrawingContext& context);
+  void update(float dt_sec);
 
   virtual void event(const SDL_Event& event);
   virtual void process_action(const MenuAction& action);
@@ -93,7 +93,6 @@ public:
   ItemStringSelect& add_string_select(int id, const std::string& text, int default_item, const std::vector<std::string>& strings);
   ItemTextField& add_textfield(const std::string& text, std::string* input, int id = -1);
   ItemScript& add_script(const std::string& text, std::string* script, int id = -1);
-  ItemScriptLine& add_script_line(std::string* input, int id = -1);
   ItemIntField& add_intfield(const std::string& text, int* input, int id = -1, bool positive = false);
   ItemFloatField& add_floatfield(const std::string& text, float* input, int id = -1, bool positive = false);
   ItemFile& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,

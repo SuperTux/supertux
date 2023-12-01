@@ -103,6 +103,7 @@ public:
                                             m_p1.y + m_size.height / 2.0f); }
 
   void set_pos(const Vector& v) { m_p1 = v; }
+  void set_size(const Sizef& s) { m_size = s; }
 
   void set_width(float width) { m_size.width = width; }
   void set_height(float height) { m_size.height = height; }

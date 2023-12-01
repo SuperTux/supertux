@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,25 +20,22 @@
 
 #include "interface/control_textbox.hpp"
 
-class ControlTextboxFloat : public ControlTextbox
+class ControlTextboxFloat final : public ControlTextbox
 {
 public:
   ControlTextboxFloat();
 
-  virtual void update(float dt_sec) override;
-
   float get_value() const { return *m_value; }
-  void set_value(float value) { *m_value = value; revert_value(); }
+  void set_value(float value);
   /** Binds a float to this textbox. Set m_validate_float(float) if you want
    *  custom validation. (You may also use m_validate_string(string), though
    *  it's not recommended)
    *  @param value A pointer to the value to be bound. MUST NOT BE NULL (FIXME)
    */
-  void bind_value(float* value) { m_value = value; revert_value(); }
+  void bind_value(float* value);
 
 protected:
-  virtual bool parse_value(bool call_on_change = true) override;
-  virtual void revert_value() override;
+  virtual bool validate_value() override;
 
 public:
   /** Optional, a function to validate the float. If nullptr, then all values

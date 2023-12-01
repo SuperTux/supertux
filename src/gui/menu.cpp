@@ -33,7 +33,6 @@
 #include "gui/item_label.hpp"
 #include "gui/item_paths.hpp"
 #include "gui/item_script.hpp"
-#include "gui/item_script_line.hpp"
 #include "gui/item_stringselect.hpp"
 #include "gui/item_textfield.hpp"
 #include "gui/item_list.hpp"
@@ -183,15 +182,6 @@ ItemScript&
 Menu::add_script(const std::string& text, std::string* script, int id)
 {
   auto item = std::make_unique<ItemScript>(text, script, id);
-  auto item_ptr = item.get();
-  add_item(std::move(item));
-  return *item_ptr;
-}
-
-ItemScriptLine&
-Menu::add_script_line(std::string* input, int id)
-{
-  auto item = std::make_unique<ItemScriptLine>(input, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;
@@ -443,6 +433,9 @@ Menu::process_action(const MenuAction& action)
 
   switch (action) {
     case MenuAction::UP:
+      if (m_items[m_active_item]->locks_navigation())
+        break;
+
       do {
         if (m_active_item > 0)
           --m_active_item;
@@ -453,6 +446,9 @@ Menu::process_action(const MenuAction& action)
       break;
 
     case MenuAction::DOWN:
+      if (m_items[m_active_item]->locks_navigation())
+        break;
+
       do {
         if (m_active_item < int(m_items.size())-1 )
           ++m_active_item;
@@ -614,6 +610,13 @@ Menu::draw(DrawingContext& context)
                               Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
                               ALIGN_CENTER, LAYER_GUI);
   }
+}
+
+void
+Menu::update(float dt_sec)
+{
+  for (auto& item : m_items)
+    item->update(dt_sec);
 }
 
 MenuItem&

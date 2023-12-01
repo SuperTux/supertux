@@ -321,6 +321,7 @@ ScreenManager::update_gamelogic(float dt_sec)
     m_screen_stack.back()->update(dt_sec, controller);
   }
 
+  m_menu_manager->update(dt_sec);
   m_menu_manager->process_input(controller);
 
   if (m_screen_fade)
