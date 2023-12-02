@@ -120,7 +120,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
       break;
   }
 
-  const Rect original_clip = context.get_viewport();
+  context.push_transform();
   context.set_viewport(Rect(m_Xpos, m_Ypos, SCREEN_WIDTH, SCREEN_HEIGHT));
   switch (m_input_type)
   {
@@ -135,7 +135,7 @@ EditorToolboxWidget::draw(DrawingContext& context)
     default:
       break;
   }
-  context.set_viewport(original_clip);
+  context.pop_transform();
 
   if (m_hovered_item == HoveredItem::TILE || m_hovered_item == HoveredItem::SCROLLBAR)
     m_scrollbar->draw(context);
@@ -465,7 +465,7 @@ EditorToolboxWidget::resize()
   const Vector screen_size(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGHT));
   m_scrollbar->set_covered_region(screen_size.y - static_cast<float>(m_Ypos));
   m_scrollbar->set_total_region(get_total_scrollbar_region());
-  m_scrollbar->set_rect(Rectf(Vector(screen_size.x - 5.f, m_Ypos), screen_size));
+  m_scrollbar->set_rect(Rectf(Vector(screen_size.x - 10.f, m_Ypos), screen_size));
 }
 
 void
