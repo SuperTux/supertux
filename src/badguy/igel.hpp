@@ -25,8 +25,6 @@ class Igel final : public WalkingBadguy
 public:
   Igel(const ReaderMapping& reader);
 
-  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
-
   virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
@@ -38,15 +36,8 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
-  //  virtual bool collision_squished(GameObject& object) override;
-  // Enable this and the igel will no longer be butt-jumpable when frozen.
-  // Remember to enable it in .cpp too!
-  void be_normal(); /**< switch to state STATE_NORMAL */
-  void turn_around(); /**< reverse direction, assumes we are in STATE_NORMAL */
-  bool can_see(const MovingObject& o) const; /**< check if we can see o */
 
 private:
-  Timer turn_recover_timer; /**< wait time until we will turn around again when shot at */
 
 private:
   Igel(const Igel&) = delete;

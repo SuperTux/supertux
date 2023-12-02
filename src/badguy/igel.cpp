@@ -29,73 +29,15 @@ const float RANGE_OF_VISION = 256; /**< Sange in px at which we can see bullets.
 
 Igel::Igel(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "left", "right"),
-  turn_recover_timer()
 {
   walk_speed = IGEL_SPEED;
   max_drop_height = 16;
 }
 
 void
-Igel::be_normal()
-{
-  initialize();
-}
-
-void
-Igel::turn_around()
-{
-  WalkingBadguy::turn_around();
-  turn_recover_timer.start(TURN_RECOVER_TIME);
-}
-
-bool
-Igel::can_see(const MovingObject& o) const
-{
-  Rectf ob = o.get_bbox();
-
-  bool inReach_left = ((ob.get_right() < m_col.m_bbox.get_left()) && (ob.get_right() >= m_col.m_bbox.get_left()-((m_dir == Direction::LEFT) ? RANGE_OF_VISION : 0)));
-  bool inReach_right = ((ob.get_left() > m_col.m_bbox.get_right()) && (ob.get_left() <= m_col.m_bbox.get_right()+((m_dir == Direction::RIGHT) ? RANGE_OF_VISION : 0)));
-  bool inReach_top = (ob.get_bottom() >= m_col.m_bbox.get_top());
-  bool inReach_bottom = (ob.get_top() <= m_col.m_bbox.get_bottom());
-
-  return ((inReach_left || inReach_right) && inReach_top && inReach_bottom);
-}
-
-void
 Igel::active_update(float dt_sec)
 {
-  bool wants_to_flee = false;
-
-  // Check if we see a fire bullet.
-  for (const auto& bullet : Sector::get().get_objects_by_type<Bullet>()) {
-    if (bullet.get_type() != FIRE_BONUS) continue;
-    if (can_see(bullet)) wants_to_flee = true;
-  }
-
-  // If the Igel wants to flee and the turn recovery timer is not started,
-  // turn around and handle the fleeing behavior.
-  if (wants_to_flee && (!turn_recover_timer.started())) {
-    turn_around();
-    BadGuy::active_update(dt_sec);
-    return;
-  }
-
-  // Otherwise, adhere to the default behavior for WalkingBadguy.
   WalkingBadguy::active_update(dt_sec);
-}
-
-HitResponse
-Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
-{
-  // Default reaction if hit on the front side or for freeze and unfreeze conditions.
-  if (((m_dir == Direction::LEFT) && hit.left) || ((m_dir == Direction::RIGHT) && hit.right) ||
-    (bullet.get_type() == ICE_BONUS) || ((bullet.get_type() == FIRE_BONUS) && (m_frozen))) {
-    return BadGuy::collision_bullet(bullet, hit);
-  }
-
-  // Otherwise, make the bullet ricochet and ignore the hit for this case.
-  bullet.ricochet(*this, hit);
-  return FORCE_MOVE;
 }
 
 bool
