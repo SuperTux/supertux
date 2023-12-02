@@ -30,10 +30,10 @@ public:
   float alpha;
   float scale;
 
-  DrawingTransform(const Viewport& viewport) :
+  DrawingTransform(const Viewport& viewport_) :
     translation(0.0f, 0.0f),
     viewport(0, 0,
-             viewport.get_screen_width(), viewport.get_screen_height()),
+             viewport_.get_screen_width(), viewport_.get_screen_height()),
     flip(NO_FLIP),
     alpha(1.0f),
     scale(1.0f)
