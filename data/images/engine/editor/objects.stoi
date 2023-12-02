@@ -97,11 +97,14 @@
     (class "zeekling")
     (icon "images/creatures/zeekling/zeekling-0.png"))
   (object
-    (class "skullyhop")
-    (icon "images/creatures/skullyhop/stand-0.png"))
+    (class "corrupted_granito")
+    (icon "images/creatures/granito/corrupted/idle_left-0.png"))
+  (object
+    (class "corrupted_granito_big")
+    (icon "images/creatures/granito/corrupted/big/rock_mine-0.png"))
   (object
     (class "darttrap")
-    (icon "images/creatures/darttrap/charge_left-1.png"))
+    (icon "images/creatures/darttrap/granito/empty_left.png"))
   (object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
@@ -180,7 +183,7 @@
     (icon "images/engine/editor/stalactite_ice_yeti.png"))
   (object
     (class "dart")
-    (icon "images/creatures/darttrap/skull_dart_left.png"))
+    (icon "images/creatures/darttrap/granito/root_dart_left.png"))
  )
 
  (objectgroup

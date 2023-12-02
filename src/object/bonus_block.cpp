@@ -64,11 +64,11 @@ const float UPGRADE_SOUND_GAIN = 0.3f;
 BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
   Block(pos, "images/objects/bonus_block/bonusblock.sprite"),
   m_contents(),
+  m_objects(),
   m_object(),
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx(),
   m_coin_sprite(get_default_coin_sprite())
 {
   set_action("normal");
@@ -79,11 +79,11 @@ BonusBlock::BonusBlock(const Vector& pos, int tile_data) :
 BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   Block(mapping, "images/objects/bonus_block/bonusblock.sprite"),
   m_contents(Content::COIN),
+  m_objects(),
   m_object(),
   m_hit_counter(1),
   m_script(),
   m_lightsprite(),
-  m_custom_sx(),
   m_coin_sprite(get_default_coin_sprite())
 {
   parse_type(mapping);
@@ -104,30 +104,31 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     m_contents = get_content_from_string(content);
     if (m_contents == Content::CUSTOM)
     {
-      if (Editor::is_active()) {
-        mapping.get("custom-contents", m_custom_sx);
-      } else {
-        std::optional<ReaderCollection> content_collection;
-        if (!mapping.get("custom-contents", content_collection))
+      std::optional<ReaderCollection> content_collection;
+      if (mapping.get("custom-contents", content_collection))
+      {
+        const auto& object_specs = content_collection->get_objects();
+        if (!object_specs.empty())
         {
-          log_warning << "bonusblock is missing 'custom-contents' tag" << std::endl;
+          if (object_specs.size() > 1)
+            log_warning << "Only one custom object allowed inside bonus blocks, ignoring the rest." << std::endl;
+
+          const auto& spec = object_specs.at(0);
+          auto game_object = GameObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
+
+          if (dynamic_cast<MovingObject*>(game_object.get()))
+            set_object(std::move(game_object));
+          else
+            log_warning << "Only `MovingObject`s are allowed inside bonus blocks." << std::endl;
         }
         else
         {
-          const auto& object_specs = content_collection->get_objects();
-          if (!object_specs.empty()) {
-            if (object_specs.size() > 1) {
-              log_warning << "only one object allowed in bonusblock 'custom-contents', ignoring the rest" << std::endl;
-            }
-
-            const ReaderObject& spec = object_specs[0];
-            auto game_object = GameObjectFactory::instance().create(spec.get_name(), spec.get_mapping());
-            m_object = to_moving_object(std::move(game_object));
-            if (!m_object) {
-              log_warning << "Only MovingObjects are allowed inside BonusBlocks" << std::endl;
-            }
-          }
+          log_warning << "Custom object not set." << std::endl;
         }
+      }
+      else
+      {
+        log_warning << "Custom object not set." << std::endl;
       }
     }
   }
@@ -142,6 +143,24 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     if (m_contents == Content::LIGHT_ON)
       set_action("on");
   }
+}
+
+void
+BonusBlock::add_object(std::unique_ptr<GameObject> object)
+{
+  if (!m_objects.empty())
+    throw std::runtime_error(_("Only one custom object is allowed inside bonus blocks."));
+
+  set_object(std::move(object));
+}
+
+void
+BonusBlock::set_object(std::unique_ptr<GameObject> object)
+{
+  m_object = object.get();
+
+  m_objects.clear();
+  m_objects.push_back(std::move(object));
 }
 
 GameObjectTypes
@@ -249,12 +268,14 @@ BonusBlock::get_settings()
                   { "coin", "firegrow", "icegrow", "airgrow", "earthgrow", "retrogrow", "star", "retrostar", "1up", "custom", "script", "light", "light-on",
                    "trampoline", "portabletrampoline", "rain", "explode", "rock", "potion" },
                   static_cast<int>(Content::COIN), "contents");
-  result.add_sexp(_("Custom Content"), "custom-contents", m_custom_sx);
 
-  if (m_contents == Content::COIN || m_contents == Content::RAIN || m_contents == Content::EXPLODE)
+  if (m_contents == Content::CUSTOM)
+    result.add_objects(_("Custom Content"), &m_objects, ObjectFactory::RegisteredObjectParam::OBJ_PARAM_DISPENSABLE,
+                       [this](auto obj) { add_object(std::move(obj)); }, "custom-contents");
+  else if (m_contents == Content::COIN || m_contents == Content::RAIN || m_contents == Content::EXPLODE)
     result.add_sprite(_("Coin sprite"), &m_coin_sprite, "coin-sprite", get_default_coin_sprite());
 
-  result.reorder({"script", "count", "contents", "coin-sprite", "sprite", "x", "y"});
+  result.reorder({"script", "count", "contents", "custom-content", "coin-sprite", "sprite", "x", "y"});
 
   return result;
 }
@@ -386,7 +407,9 @@ BonusBlock::try_open(Player* player)
 
     case Content::CUSTOM:
     {
-      Sector::get().add<SpecialRiser>(get_pos(), std::move(m_object), true);
+      auto moving_obj_copy = to_moving_object(GameObjectFactory::instance().create(m_object->get_class_name(), get_pos() + Vector(0, -32),
+                                                                                   direction, m_object->save()));
+      Sector::get().add<SpecialRiser>(get_pos(), std::move(moving_obj_copy), true);
       play_upgrade_sound = true;
       break;
     }
@@ -553,8 +576,10 @@ BonusBlock::try_drop(Player *player)
     case Content::CUSTOM:
     {
       // NOTE: Non-portable trampolines could be moved to Content::CUSTOM, but they should not drop.
-      m_object->set_pos(get_pos() +  Vector(0, 32));
-      Sector::get().add_object(std::move(m_object));
+
+      auto obj_copy = GameObjectFactory::instance().create(m_object->get_class_name(), get_pos() + Vector(0, 32),
+                                                           direction, m_object->save());
+      Sector::get().add_object(std::move(obj_copy));
       play_upgrade_sound = true;
       countdown = true;
       break;
@@ -730,15 +755,15 @@ BonusBlock::preload_contents(int d)
       break;
 
     case 8: // Trampoline.
-      m_object = std::make_unique<Trampoline>(get_pos(), true);
+      set_object(std::make_unique<Trampoline>(get_pos(), true));
       break;
 
     case 9: // Rock.
-      m_object = std::make_unique<Rock>(get_pos(), "images/objects/rock/rock.sprite");
+      set_object(std::make_unique<Rock>(get_pos(), "images/objects/rock/rock.sprite"));
       break;
 
     case 12: // Red potion.
-      m_object = std::make_unique<PowerUp>(get_pos(), PowerUp::FLIP);
+      set_object(std::make_unique<PowerUp>(get_pos(), PowerUp::FLIP));
       break;
 
     default:

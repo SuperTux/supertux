@@ -32,8 +32,8 @@ Shard::Shard(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/crystallo-shardhit.ogg");
 }
 
-Shard::Shard(const Vector& pos, const Vector& velocity) :
-  MovingSprite(pos, "images/creatures/crystallo/shard.sprite", LAYER_TILES - 2, COLGROUP_MOVING),
+Shard::Shard(const Vector& pos, const Vector& velocity, const std::string& sprite) :
+  MovingSprite(pos, sprite, LAYER_TILES - 2, COLGROUP_MOVING),
   m_physic(),
   m_stick_timer()
 {

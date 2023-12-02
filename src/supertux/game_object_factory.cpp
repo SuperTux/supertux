@@ -20,6 +20,8 @@
 #include "badguy/angrystone.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/captainsnowball.hpp"
+#include "badguy/corrupted_granito.hpp"
+#include "badguy/corrupted_granito_big.hpp"
 #include "badguy/crusher.hpp"
 #include "badguy/crystallo.hpp"
 #include "badguy/dart.hpp"
@@ -49,7 +51,6 @@
 #include "badguy/plant.hpp"
 #include "badguy/rcrystallo.hpp"
 #include "badguy/short_fuse.hpp"
-#include "badguy/skullyhop.hpp"
 #include "badguy/skydive.hpp"
 #include "badguy/smartball.hpp"
 #include "badguy/smartblock.hpp"
@@ -165,8 +166,11 @@ GameObjectFactory::init_factories()
   add_factory<AngryStone>("angrystone");
   add_factory<BouncingSnowball>("bouncingsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<CaptainSnowball>("captainsnowball", OBJ_PARAM_DISPENSABLE);
-  add_factory<Crusher>("crusher");
+  add_factory<CorruptedGranito>("skullyhop"); // backward compatibility
+  add_factory<CorruptedGranito>("corrupted_granito", OBJ_PARAM_DISPENSABLE);
+  add_factory<CorruptedGranitoBig>("corrupted_granito_big", OBJ_PARAM_DISPENSABLE);
   add_factory<Crusher>("icecrusher"); // backward compatibility
+  add_factory<Crusher>("crusher");
   add_factory<Crystallo>("crystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<Dart>("dart", OBJ_PARAM_DISPENSABLE);
   add_factory<DartTrap>("darttrap");
@@ -206,7 +210,6 @@ GameObjectFactory::init_factories()
   add_factory<ShortFuse>("short_fuse", OBJ_PARAM_DISPENSABLE);
   add_factory<SSpiky>("sspiky", OBJ_PARAM_DISPENSABLE);
   add_factory<SkyDive>("skydive", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
-  add_factory<SkullyHop>("skullyhop", OBJ_PARAM_DISPENSABLE);
   add_factory<SmartBall>("smartball", OBJ_PARAM_DISPENSABLE);
   add_factory<SmartBlock>("smartblock", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<Snail>("snail", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
