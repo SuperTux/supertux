@@ -106,6 +106,8 @@ Canvas::render(Renderer& renderer, Filter filter)
         break;
     }
   }
+
+  painter.clear_clip_rect();
 }
 
 void
