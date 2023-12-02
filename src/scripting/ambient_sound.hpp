@@ -45,7 +45,20 @@ private:
 #endif
 
 public:
-  // TODO: Implement starting, stopping and changing sample from Squirrel.
+  /**
+   * Sets the position of the ambient sound.
+   * @param float $x
+   * @param float $y
+   */
+  void set_pos(float x, float y);
+  /**
+   * Returns the ambient sound's X coordinate.
+   */
+  float get_pos_x() const;
+  /**
+   * Returns the ambient sound's Y coordinate.
+   */
+  float get_pos_y() const;
 };
 
 } // namespace scripting

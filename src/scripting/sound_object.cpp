@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2023 mrkubax10 <mrkubax10@onet.pl>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,31 +14,52 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/ambient_sound.hpp"
+#include "scripting/sound_object.hpp"
 
-#include "object/ambient_sound.hpp"
+#include "object/sound_object.hpp"
 
 namespace scripting {
 
 void
-AmbientSound::set_pos(float x, float y)
+SoundObject::start_playing()
 {
   SCRIPT_GUARD_VOID;
-  object.set_pos(x, y);
+  object.play_looping_sounds();
+}
+
+void
+SoundObject::stop_playing()
+{
+  SCRIPT_GUARD_VOID;
+  object.stop_looping_sounds();
+}
+
+void
+SoundObject::set_volume(float volume)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_volume(volume);
 }
 
 float
-AmbientSound::get_pos_x() const
+SoundObject::get_volume() const
 {
   SCRIPT_GUARD_DEFAULT;
-  return object.get_pos_x();
+  return object.get_volume();
+}
+
+void
+SoundObject::set_play_interval(float play_interval)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_play_interval(play_interval);
 }
 
 float
-AmbientSound::get_pos_y() const
+SoundObject::get_play_interval() const
 {
   SCRIPT_GUARD_DEFAULT;
-  return object.get_pos_y();
+  return object.get_play_interval();
 }
 
 } // namespace scripting
