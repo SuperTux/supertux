@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
-//                2023 Vankata453
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,24 +14,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gui/menu_script.hpp"
+#ifndef HEADER_SUPERTUX_INTERFACE_CONTROL_SCRIPTBOX_HPP
+#define HEADER_SUPERTUX_INTERFACE_CONTROL_SCRIPTBOX_HPP
 
-#include "gui/item_scriptfield.hpp"
-#include "util/gettext.hpp"
+#include "interface/control_textbox.hpp"
 
-ScriptMenu::ScriptMenu(std::string* script)
+#include <vector>
+
+class ControlScriptbox final : public ControlTextbox
 {
-  add_label(_("Edit script"));
-  add_hl();
+public:
+  ControlScriptbox();
 
-  auto scriptbox = std::make_unique<ControlScriptbox>();
-  scriptbox->bind_string(script);
-  MenuItem& item = add_item(std::make_unique<ItemScriptField>(std::move(scriptbox), Sizef(0.6f, 0.6f)));
+  void draw(DrawingContext& context) override;
 
-  add_hl();
-  add_back(_("OK"));
+protected:
+  bool validate_value() override;
 
-  item.process_action(MenuAction::SELECT);
-}
+private:
+  std::vector<std::string> m_suggestions;
+
+private:
+  ControlScriptbox(const ControlScriptbox&) = delete;
+  ControlScriptbox& operator=(const ControlScriptbox&) = delete;
+};
+
+#endif
 
 /* EOF */

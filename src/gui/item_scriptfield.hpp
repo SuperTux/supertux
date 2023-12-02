@@ -19,13 +19,13 @@
 
 #include "gui/menu_item.hpp"
 
-#include "interface/control_textbox.hpp"
+#include "interface/control_scriptbox.hpp"
 
 /** A script field item, powered by an interface textbox control. */
 class ItemScriptField final : public MenuItem
 {
 public:
-  ItemScriptField(std::unique_ptr<ControlTextbox> control, const Sizef& relative_size);
+  ItemScriptField(std::unique_ptr<ControlScriptbox> control, const Sizef& relative_size);
 
   void draw(DrawingContext& context, const Vector& pos, int, bool) override;
   void update(float dt_sec) override;
@@ -44,7 +44,7 @@ public:
   ControlTextbox* get_control() const { return m_control.get(); }
 
 private:
-  std::unique_ptr<ControlTextbox> m_control;
+  std::unique_ptr<ControlScriptbox> m_control;
   const Sizef m_relative_size;
 
 private:

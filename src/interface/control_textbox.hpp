@@ -27,6 +27,10 @@
 
 class ControlTextbox : public InterfaceControl
 {
+protected:
+  static const float TEXT_X_OFFSET;
+  static const float TEXT_Y_OFFSET;
+
 public:
   ControlTextbox(bool multiline);
   ~ControlTextbox() override;

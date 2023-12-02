@@ -27,8 +27,8 @@
 // The time for the caret to change visibility (when it flashes).
 static const float CONTROL_CURSOR_TIMER = 0.5f;
 
-static const float TEXT_X_OFFSET = 5.f;
-static const float TEXT_Y_OFFSET = 5.f;
+const float ControlTextbox::TEXT_X_OFFSET = 5.f;
+const float ControlTextbox::TEXT_Y_OFFSET = 5.f;
 
 static const size_t UNDO_STACK_SIZE = 10;
 
@@ -110,10 +110,8 @@ ControlTextbox::draw(DrawingContext& context)
   if (m_has_focus)
     m_scrollbar->draw(context);
 
-  const Rect old_cliprect = context.get_viewport();
-  context.set_viewport(m_rect.to_rect());
-
   context.push_transform();
+  context.set_viewport(m_rect.to_rect());
   context.set_translation(m_offset);
 
   if (m_caret.pos != m_secondary_caret.pos)
@@ -157,7 +155,6 @@ ControlTextbox::draw(DrawingContext& context)
   }
 
   context.pop_transform();
-  context.set_viewport(old_cliprect);
 }
 
 bool
@@ -349,6 +346,11 @@ ControlTextbox::on_key_down(const SDL_KeyboardEvent& key)
     recenter_offset(true);
     parse_value();
     return true;
+  }
+  else if (key.keysym.sym == SDLK_TAB)
+  {
+    put_text("  "); // Tab key should insert 2 spaces
+    parse_value();
   }
   else if (key.keysym.sym == SDLK_BACKSPACE)
   {

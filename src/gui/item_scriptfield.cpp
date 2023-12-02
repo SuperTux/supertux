@@ -20,7 +20,7 @@
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
-ItemScriptField::ItemScriptField(std::unique_ptr<ControlTextbox> control, const Sizef& relative_size) :
+ItemScriptField::ItemScriptField(std::unique_ptr<ControlScriptbox> control, const Sizef& relative_size) :
   MenuItem(""),
   m_control(std::move(control)),
   m_relative_size(relative_size)
