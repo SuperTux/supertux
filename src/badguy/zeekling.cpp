@@ -85,9 +85,16 @@ Zeekling::on_bump_horizontal()
   set_action(m_dir);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
 
-  if (state == DIVING)
+  if (state == CATCH || state == R)
+  {
+    state = RECOVERING;
+    m_easing_progress = 0.0;
+    m_physic.set_velocity_y(-speed);
+  }
+  else if (state == DIVING || state == CHARGING)
   {
     state = FLYING;
+    m_easing_progress = 0.0;
     m_physic.set_velocity_y(0);
   }
 }
@@ -103,10 +110,9 @@ Zeekling::on_bump_vertical()
 
   switch (state) {
     case CHARGING:
-      state = FLYING;
-      m_physic.set_velocity_y(0.f);
+      state = DIVING;
       m_easing_progress = 0.0;
-      set_action(m_dir);
+      set_action("dive", m_dir);
       break;
 
     case DIVING:
@@ -114,6 +120,12 @@ Zeekling::on_bump_vertical()
       m_easing_progress = 0.0;
       set_action(m_dir);
       break;
+
+    case CATCH:
+    case REBOUND:
+      state = RECOVERING;
+      m_easing_progress = 0.0;
+      set_action(m_dir);
 
     case RECOVERING:
       state = FLYING;
@@ -178,7 +190,7 @@ Zeekling::should_we_dive()
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
 
-  CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
+  auto* resultobj = std::get_if<CollisionObject*>(&result.hit);
   return result.is_valid && resultobj && *resultobj == get_nearest_player()->get_collision_object();
 }
 
@@ -196,7 +208,7 @@ Zeekling::should_we_rebound()
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
 
-  const Tile** resulttile = std::get_if<const Tile*>(&result.hit);
+  auto* resulttile = std::get_if<const Tile*>(&result.hit);
   return result.is_valid && resulttile && !(*resulttile)->is_slope();
 }
 
