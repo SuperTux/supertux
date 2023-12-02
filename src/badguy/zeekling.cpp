@@ -85,7 +85,7 @@ Zeekling::on_bump_horizontal()
   set_action(m_dir);
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -speed : speed);
 
-  if (state == CATCH || state == R)
+  if (state == CATCH || state == REBOUND)
   {
     state = RECOVERING;
     m_easing_progress = 0.0;
