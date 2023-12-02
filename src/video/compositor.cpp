@@ -82,8 +82,6 @@ Compositor::render()
   {
     back_renderer->start_draw();
 
-    Painter& painter = back_renderer->get_painter();
-
     for (auto& ctx : m_drawing_contexts)
     {
       ctx->color().render(*back_renderer, Canvas::BELOW_LIGHTMAP);
@@ -97,7 +95,6 @@ Compositor::render()
     auto& renderer = m_video_system.get_renderer();
 
     renderer.start_draw();
-    Painter& painter = renderer.get_painter();
 
     for (auto& ctx : m_drawing_contexts)
     {
@@ -123,7 +120,7 @@ Compositor::render()
         request.texture = texture.get();
         request.color = Color::WHITE;
 
-        painter.draw_texture(request);
+        renderer.get_painter().draw_texture(request);
       }
     }
 
