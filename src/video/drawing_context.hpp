@@ -94,10 +94,10 @@ public:
 
   void set_viewport(const Rect& viewport)
   {
-    m_viewport = viewport;
+    transform().viewport = viewport;
   }
 
-  const Rect get_viewport() const;
+  const Rect& get_viewport() const;
 
   float get_width() const;
   float get_height() const;
@@ -122,7 +122,6 @@ private:
       rendered. */
   bool m_overlay;
 
-  Rect m_viewport;
   Color m_ambient_color;
   std::vector<DrawingTransform> m_transform_stack;
 
