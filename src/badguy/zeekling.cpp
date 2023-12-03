@@ -181,21 +181,23 @@ Zeekling::should_we_dive()
 
   if (m_frozen) return false;
 
+  Player* plr = get_nearest_player();
+  if (!plr) return false;
+
   // Left/rightmost point of the hitbox.
   Vector eye;
   const Rectf& bbox = get_bbox().grown(1.f);
   eye = bbox.get_middle();
   eye.x = m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right();
 
-  const Vector& plrmid = get_nearest_player()->get_bbox().get_middle();
-
   // Do not dive if we are not above the player.
-  float height = plrmid.y - eye.y;
+  float height = plr->get_bbox().get_top() - bbox.get_bottom();
   if (height <= 0) return false;
 
   // Do not dive if we are too far above the player.
   if (height > 512) return false;
 
+  const Vector& plrmid = plr->get_bbox().get_middle();
   const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * DIVE_DETECT_DIR *
                                      (m_dir == Direction::LEFT ? -1 : 1)),
                             plrmid.y};
