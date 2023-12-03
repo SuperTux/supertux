@@ -25,6 +25,8 @@ class Zeekling final : public BadGuy
 public:
   Zeekling(const ReaderMapping& reader);
 
+  virtual void draw(DrawingContext& context) override;
+
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual void active_update(float dt_sec) override;
@@ -44,23 +46,29 @@ private:
   virtual bool collision_squished(GameObject& object) override;
 
   bool should_we_dive();
-  void onBumpHorizontal();
-  void onBumpVertical();
+  bool should_we_rebound();
+
+  void on_bump_horizontal();
+  void on_bump_vertical();
 
 private:
   enum ZeeklingState {
     FLYING,
+    CHARGING,
     DIVING,
-    CLIMBING
+    CATCH,
+    REBOUND,
+    RECOVERING
   };
 
 private:
   float speed;
-  Timer diveRecoverTimer;
+
+  float m_original_xvel, m_original_yvel;
+
+  double m_easing_progress;
+  Timer m_charge_timer;
   ZeeklingState state;
-  const MovingObject* last_player; /**< Last player we tracked. */
-  Vector last_player_pos; /**< Position we last spotted the player at. */
-  Vector last_self_pos; /**< Position we last were at. */
 
 private:
   Zeekling(const Zeekling&) = delete;
