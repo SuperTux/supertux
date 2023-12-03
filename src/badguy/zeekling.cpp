@@ -50,6 +50,9 @@ void Zeekling::draw(DrawingContext &context)
 {
   BadGuy::draw(context);
 
+  Player* plr = get_nearest_player();
+  if (!plr) return;
+
   Vector reye;
   const Rectf& bbox = get_bbox().grown(1.f);
   reye.x = (m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right());
@@ -62,7 +65,7 @@ void Zeekling::draw(DrawingContext &context)
   eye = bbox.get_middle();
   eye.x = m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right();
 
-  const Vector& plrmid = get_nearest_player()->get_bbox().get_middle();
+  const Vector& plrmid = plr->get_bbox().get_middle();
 
   const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * DIVE_DETECT_DIR *
                                     (m_dir == Direction::LEFT ? -1 : 1)),
