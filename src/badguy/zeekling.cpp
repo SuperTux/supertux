@@ -50,13 +50,25 @@ void Zeekling::draw(DrawingContext &context)
 {
   BadGuy::draw(context);
 
-  Vector eye;
+  Vector reye;
   const Rectf& bbox = get_bbox().grown(1.f);
+  reye = bbox.get_middle();
+  reye.y = bbox.get_bottom();
+
+  const Vector rrangeend = {reye.x, reye.y + CATCH_DISTANCE};
+
+  // Left/rightmost point of the hitbox.
+  Vector eye;
   eye = bbox.get_middle();
-  eye.y = bbox.get_bottom();
+  eye.x = m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right();
 
-  const Vector rangeend = {eye.x, eye.y + CATCH_DISTANCE};
+  const Vector& plrmid = get_nearest_player()->get_bbox().get_middle();
 
+  const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * DIVE_DETECT_DIR *
+                                    (m_dir == Direction::LEFT ? -1 : 1)),
+                           plrmid.y};
+
+  context.color().draw_line(reye, rrangeend, Color::from_rgba8888(0xff, 0,0,0xff), 100);
   context.color().draw_line(eye, rangeend, Color::from_rgba8888(0xff, 0,0,0xff), 100);
 }
 
