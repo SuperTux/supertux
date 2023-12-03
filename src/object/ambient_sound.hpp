@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2023 mrkubax10 <mrkubax10@onet.pl>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -13,28 +14,6 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-/**
- *  Ambient Sound Source, gamma version. Features:
- *
- *  - "rounded rectangle" geometry with position, dimension and
- *    "rounding radius" (extending in all directions) of a 100%
- *    volume area, adjustable maximum volume, inverse square
- *    falloff outside area.
- *
- *  - degenerates gracefully to a disc for dimension=0
- *
- *  - parameters:
- *
- *    x, y               position
- *    width, height      dimension
- *    distance_factor    high = steep falloff
- *    distance_bias      high = big "100% disc"
- *    silence_distance   defaults reasonably.
- *    sample             sample to be played back in loop mode
- *
- *      basti_
- */
 
 #ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
@@ -50,11 +29,11 @@ class ReaderMapping;
 class SoundSource;
 
 class AmbientSound final : public MovingObject,
-                     public ExposedObject<AmbientSound, scripting::AmbientSound>
+                           public ExposedObject<AmbientSound, scripting::AmbientSound>
 {
 public:
   AmbientSound(const ReaderMapping& mapping);
-  AmbientSound(const Vector& pos, float factor, float bias, float vol, const std::string& file);
+  AmbientSound(const Vector& pos, float radius, float vol, const std::string& file);
   ~AmbientSound() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
@@ -78,7 +57,6 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }
 
@@ -87,21 +65,18 @@ public:
 
 protected:
   virtual void update(float dt_sec) override;
-  virtual void start_playing();
-  virtual void stop_playing();
 
 private:
-  std::string sample;
-  std::unique_ptr<SoundSource> sound_source;
-  int latency;
+  std::string m_sample;
+  std::unique_ptr<SoundSource> m_sound_source;
 
-  float distance_factor;  /// distance scaling
-  float distance_bias;    /// 100% volume disc radius
-  float silence_distance; /// not implemented yet
+  float m_radius;
+  float m_radius_in_px;
+  float m_volume;
+  bool m_first_update;
 
-  float maximumvolume; /// maximum volume
-  float targetvolume;  /// how loud we want to be
-  float currentvolume; /// how loud we are
+private:
+  void prepare_sound_source();
 
 private:
   AmbientSound(const AmbientSound&) = delete;
