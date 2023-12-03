@@ -52,7 +52,7 @@ void Zeekling::draw(DrawingContext &context)
 
   Vector reye;
   const Rectf& bbox = get_bbox().grown(1.f);
-  reye = bbox.get_middle();
+  reye.x = (m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right());
   reye.y = bbox.get_bottom();
 
   const Vector rrangeend = {reye.x, reye.y + CATCH_DISTANCE};
@@ -213,7 +213,7 @@ Zeekling::should_we_rebound()
 
   Vector eye;
   const Rectf& bbox = get_bbox().grown(1.f);
-  eye = bbox.get_middle();
+  eye.x = (m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right());
   eye.y = bbox.get_bottom();
 
   const Vector rangeend = {eye.x, eye.y + CATCH_DISTANCE};
