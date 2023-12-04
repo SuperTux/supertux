@@ -49,8 +49,6 @@ public:
   bool is_multiline() const { return m_multiline; }
   void set_multiline(bool enabled) { m_multiline = enabled; }
 
-  void on_rect_change() override;
-
   /** Binds a string to the textbox */
   void bind_string(std::string* value);
 
@@ -220,14 +218,26 @@ protected:
   bool m_shift_pressed, m_ctrl_pressed, m_mouse_pressed;
 
   std::unique_ptr<ControlScrollbar> m_scrollbar;
+
   /**
    * If the string is too long to be contained in the box,
    * use this offset to select which characters will be
    * displayed on the screen
    */
   Vector m_offset;
+  /**
+   * Indicates the offset of the textbox from m_rect.
+   * Set by child classes.
+   */
+  Vector m_box_offset;
+
+private:
+  /** m_rect with applied m_box_offset */
+  Rectf m_box_rect;
 
 protected:
+  void on_rect_change() override;
+
   void delete_char_before_caret();
 
   /** Returns the largest string fitting in the box. */
@@ -246,6 +256,10 @@ protected:
   /** Change caret positions, update other location variables. */
   void set_caret_pos(int pos);
   void set_secondary_caret_pos(int pos);
+
+  /** Virtual functions on caret position change */
+  virtual void on_caret_move() {}
+  virtual void on_secondary_caret_move() {}
 
 private:
   /** Internal function, called when changing caret positions. */

@@ -48,7 +48,9 @@ ControlTextbox::ControlTextbox(bool multiline) :
   m_ctrl_pressed(false),
   m_mouse_pressed(),
   m_scrollbar(),
-  m_offset(0.f, 0.f)
+  m_offset(0.f, 0.f),
+  m_box_offset(0.f, 0.f),
+  m_box_rect(m_rect)
 {
   m_scrollbar.reset(new ControlScrollbar(1.f, 1.f, m_offset.y, 35.f));
 }
@@ -94,8 +96,11 @@ ControlTextbox::update(float dt_sec)
 void
 ControlTextbox::on_rect_change()
 {
-  m_scrollbar->set_rect(Rectf(Vector(m_rect.get_right() - 5.f, m_rect.get_top()), m_rect.p2()));
-  m_scrollbar->set_covered_region(m_rect.get_height());
+  m_box_rect = Rectf(m_rect.p1() + m_box_offset, m_rect.p2());
+
+  m_scrollbar->set_rect(Rectf(Vector(m_box_rect.get_right() - 5.f, m_box_rect.get_top()),
+                              m_box_rect.p2()));
+  m_scrollbar->set_covered_region(m_box_rect.get_height());
 }
 
 void
@@ -103,7 +108,7 @@ ControlTextbox::draw(DrawingContext& context)
 {
   InterfaceControl::draw(context);
 
-  context.color().draw_filled_rect(m_rect,
+  context.color().draw_filled_rect(m_box_rect,
                                    m_has_focus ? Color(0.75f, 0.75f, 0.7f, 1.f)
                                                : Color(0.5f, 0.5f, 0.5f, 1.f),
                                    LAYER_GUI);
@@ -111,7 +116,7 @@ ControlTextbox::draw(DrawingContext& context)
     m_scrollbar->draw(context);
 
   context.push_transform();
-  context.set_viewport(m_rect.to_rect());
+  context.set_viewport(m_box_rect.to_rect());
   context.set_translation(m_offset);
 
   if (m_caret.pos != m_secondary_caret.pos)
@@ -140,7 +145,7 @@ ControlTextbox::draw(DrawingContext& context)
   {
     context.color().draw_text(Resources::control_font, get_contents(i),
                               Vector(TEXT_X_OFFSET, i * Resources::control_font->get_height() + TEXT_Y_OFFSET),
-                              FontAlignment::ALIGN_LEFT, LAYER_GUI + 1,
+                              FontAlignment::ALIGN_LEFT, LAYER_GUI,
                               Color::BLACK);
   }
 
@@ -175,8 +180,8 @@ ControlTextbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   if (m_scrollbar->on_mouse_button_down(button))
     return true;
 
-  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (m_rect.contains(mouse_pos))
+  const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
+  if (m_box_rect.contains(mouse_pos))
   {
     m_has_focus = true;
     m_cursor_timer = CONTROL_CURSOR_TIMER;
@@ -599,10 +604,10 @@ ControlTextbox::get_text_position(Vector pos) const
   // Get line index
   int line = 0;
   while (line < static_cast<int>(m_charlist.size()) - 1 &&
-         pos.y > m_rect.get_top() + (line + 1) * Resources::control_font->get_height() + TEXT_Y_OFFSET)
+         pos.y > m_box_rect.get_top() + (line + 1) * Resources::control_font->get_height() + TEXT_Y_OFFSET)
     line++;
 
-  const float dist = pos.x - m_rect.get_left();
+  const float dist = pos.x - m_box_rect.get_left();
   int i = 0;
 
   while (i < static_cast<int>(m_charlist[line].size()) &&
@@ -628,7 +633,7 @@ ControlTextbox::get_truncated_text(std::string text) const
 bool
 ControlTextbox::fits(const std::string& text) const
 {
-  return Resources::control_font->get_text_width(text) <= m_rect.get_width() - TEXT_X_OFFSET * 2;
+  return Resources::control_font->get_text_width(text) <= m_box_rect.get_width() - TEXT_X_OFFSET * 2;
 }
 
 void
@@ -638,8 +643,8 @@ ControlTextbox::recenter_offset(bool focus_on_line)
   const float char_pos = Resources::control_font->get_text_width(get_first_chars(m_caret.line, m_caret.line_pos));
   if (char_pos - m_offset.x < 0.f)
     m_offset.x = char_pos;
-  else if (char_pos - m_offset.x > m_rect.get_width() - TEXT_X_OFFSET * 2)
-    m_offset.x = char_pos - (m_rect.get_width() - TEXT_X_OFFSET * 2);
+  else if (char_pos - m_offset.x > m_box_rect.get_width() - TEXT_X_OFFSET * 2)
+    m_offset.x = char_pos - (m_box_rect.get_width() - TEXT_X_OFFSET * 2);
 
   /** If allowed, focus the Y offset on the line, where the main caret is. */
   if (focus_on_line)
@@ -652,8 +657,8 @@ ControlTextbox::recenter_offset(bool focus_on_line)
     }
 
     line_pos += Resources::control_font->get_height(); // Go to bottom position of line
-    if (line_pos - m_offset.y > m_rect.get_height())
-      m_offset.y = line_pos - m_rect.get_height();
+    if (line_pos - m_offset.y > m_box_rect.get_height())
+      m_offset.y = line_pos - m_box_rect.get_height();
   }
 }
 
@@ -902,6 +907,8 @@ ControlTextbox::set_caret_pos(int pos)
 {
   m_caret.pos = std::max(0, std::min(pos, get_total_character_count()));
   configure_caret(m_caret);
+
+  on_caret_move();
 }
 
 void
@@ -909,6 +916,8 @@ ControlTextbox::set_secondary_caret_pos(int pos)
 {
   m_secondary_caret.pos = std::max(0, std::min(pos, get_total_character_count()));
   configure_caret(m_secondary_caret);
+
+  on_secondary_caret_move();
 }
 
 void

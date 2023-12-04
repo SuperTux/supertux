@@ -21,18 +21,35 @@
 
 #include <vector>
 
+#include "interface/control_scrollbar.hpp"
+
 class ControlScriptbox final : public ControlTextbox
 {
 public:
   ControlScriptbox();
 
   void draw(DrawingContext& context) override;
+  void update(float dt_sec) override;
+
+  bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
+  bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
+  bool on_mouse_motion(const SDL_MouseMotionEvent& motion) override;
+  bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
+  bool on_key_down(const SDL_KeyboardEvent& key) override;
 
 protected:
-  bool validate_value() override;
+  void on_caret_move() override;
+
+private:
+  void autocomplete();
 
 private:
   std::vector<std::string> m_suggestions;
+  Rectf m_suggestions_rect;
+  std::unique_ptr<ControlScrollbar> m_suggestions_scrollbar;
+  float m_suggestions_offset;
+
+  size_t m_selected_suggestion;
 
 private:
   ControlScriptbox(const ControlScriptbox&) = delete;
