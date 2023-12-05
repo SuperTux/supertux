@@ -90,6 +90,8 @@ SoundObject::get_settings()
 
   result.reorder({"sample", "volume", "play-interval", "name"});
 
+  result.add_remove();
+
   return result;
 }
 
