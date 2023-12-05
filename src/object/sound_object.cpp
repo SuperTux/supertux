@@ -106,7 +106,7 @@ SoundObject::stop_looping_sounds()
 void
 SoundObject::play_looping_sounds()
 {
-  if (!Editor::is_active() && m_sound_source)
+  if (!Editor::is_active())
   {
     m_playing = true;
     m_delay = 0.0f;
@@ -116,6 +116,15 @@ SoundObject::play_looping_sounds()
 void
 SoundObject::prepare_sound_source()
 {
+  if (Editor::is_active())
+    return;
+
+  if (m_sample.empty())
+  {
+    m_scheduled_for_removal = true;
+    return;
+  }
+
   try
   {
     m_sound_source = SoundManager::current()->create_sound_source(m_sample);
@@ -124,12 +133,9 @@ SoundObject::prepare_sound_source()
     m_sound_source->set_gain(m_volume);
     m_sound_source->set_relative(true);
 
-    if (!Editor::is_active())
-    {
-      m_playing = true;
-      m_delay = 0.0f;
-      m_sound_source->play();
-    }
+    m_playing = true;
+    m_delay = 0.0f;
+    m_sound_source->play();
   }
   catch(const std::exception& e)
   {

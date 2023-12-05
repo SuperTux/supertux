@@ -189,6 +189,15 @@ AmbientSound::update(float dt_sec)
 void
 AmbientSound::prepare_sound_source()
 {
+  if (Editor::is_active())
+    return;
+
+  if (m_sample.empty())
+  {
+    remove_me();
+    return;
+  }
+
   try
   {
     m_sound_source = SoundManager::current()->create_sound_source(m_sample);
