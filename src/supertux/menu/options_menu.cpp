@@ -177,6 +177,9 @@ OptionsMenu::OptionsMenu(Type type, bool complete) :
       add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled)
         .set_help(_("Enable screen transitions and smooth menu animation"));
 
+      add_toggle(MNID_WORLD_PREVIEWS, _("Show world previews"), &g_config->show_world_previews)
+        .set_help(_("Show screenshot previews of the last worldmap state, when hovering over a world."));
+
       if (g_config->is_christmas() || g_config->christmas_mode)
         add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
 

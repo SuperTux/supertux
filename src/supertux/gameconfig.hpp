@@ -111,6 +111,7 @@ public:
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
   bool do_release_check;
+  bool show_world_previews;
 
 #ifdef ENABLE_DISCORD
   bool enable_discord;

@@ -22,7 +22,8 @@
 #include <string>
 #include <vector>
 
-class PlayerStatus;
+#include "supertux/levelset.hpp"
+#include "supertux/player_status.hpp"
 
 struct LevelState
 {
@@ -66,6 +67,24 @@ public:
 class Savegame final
 {
 public:
+  struct Progress
+  {
+  public:
+    Progress() :
+      solved(),
+      total()
+    {}
+    Progress(int solved_, int total_) :
+      solved(solved_),
+      total(total_)
+    {}
+    uint32_t solved;
+    uint32_t total;
+
+    uint32_t get_percentage() const;
+  };
+
+public:
   static std::unique_ptr<Savegame> from_file(const std::string& filename);
 
 public:
@@ -75,15 +94,19 @@ public:
   PlayerStatus& get_player_status() const { return *m_player_status; }
 
   std::string get_title() const;
+  const std::string& get_filename() const { return m_filename; }
 
-  std::vector<std::string> get_levelsets();
-  LevelsetState get_levelset_state(const std::string& name);
+  std::vector<std::string> get_levelsets() const;
+  LevelsetState get_levelset_state(const std::string& name) const;
   void set_levelset_state(const std::string& basedir,
                           const std::string& level_filename,
                           bool solved);
 
-  std::vector<std::string> get_worldmaps();
-  WorldmapState get_worldmap_state(const std::string& name);
+  Progress get_levelset_progress() const;
+  Progress get_worldmap_progress() const;
+
+  std::vector<std::string> get_worldmaps() const;
+  WorldmapState get_worldmap_state(const std::string& name) const;
 
   void save();
 

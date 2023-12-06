@@ -40,29 +40,18 @@ std::vector<LevelState> get_level_states(SquirrelVM& vm)
 {
   std::vector<LevelState> results;
 
-  sq_pushnull(vm.get_vm());
-  while (SQ_SUCCEEDED(sq_next(vm.get_vm(), -2)))
+  for (const std::string& level_file : vm.get_table_keys())
   {
-    //here -1 is the value and -2 is the key
-    const char* result;
-    if (SQ_FAILED(sq_getstring(vm.get_vm(), -2, &result)))
-    {
-      std::ostringstream msg;
-      msg << "Couldn't get string value";
-      throw SquirrelError(vm.get_vm(), msg.str());
-    }
-    else
-    {
-      LevelState level_state;
-      level_state.filename = result;
-      vm.get_bool("solved", level_state.solved);
-      vm.get_bool("perfect", level_state.perfect);
+    vm.get_table_entry(level_file);
 
-      results.push_back(level_state);
-    }
+    LevelState level_state;
+    level_state.filename = level_file;
+    vm.get_bool("solved", level_state.solved);
+    vm.get_bool("perfect", level_state.perfect);
 
-    // pops key and val before the next iteration
-    sq_pop(vm.get_vm(), 2);
+    results.push_back(level_state);
+
+    sq_pop(vm.get_vm(), 1);
   }
 
   return results;
@@ -107,6 +96,12 @@ LevelsetState::get_level_state(const std::string& filename) const
     state.filename = filename;
     return state;
   }
+}
+
+uint32_t
+Savegame::Progress::get_percentage() const
+{
+  return solved > 0 ? static_cast<uint32_t>(static_cast<float>(solved) / static_cast<float>(total) * 100) : 0;
 }
 
 std::unique_ptr<Savegame>
@@ -261,16 +256,6 @@ Savegame::save()
   writer.start_list("supertux-savegame");
   writer.write("version", 1);
 
-  using namespace worldmap;
-  if (WorldMap::current() != nullptr)
-  {
-    std::ostringstream title;
-    title << WorldMap::current()->get_title();
-    title << " (" << WorldMap::current()->solved_level_count()
-          << "/" << WorldMap::current()->level_count() << ")";
-    writer.write("title", title.str());
-  }
-
   writer.start_list("tux");
   m_player_status->write(writer);
   writer.end_list("tux");
@@ -294,7 +279,7 @@ Savegame::save()
 }
 
 std::vector<std::string>
-Savegame::get_worldmaps()
+Savegame::get_worldmaps() const
 {
   std::vector<std::string> worlds;
 
@@ -322,7 +307,7 @@ Savegame::get_worldmaps()
 }
 
 WorldmapState
-Savegame::get_worldmap_state(const std::string& name)
+Savegame::get_worldmap_state(const std::string& name) const
 {
   WorldmapState result;
 
@@ -344,9 +329,21 @@ Savegame::get_worldmap_state(const std::string& name)
     }
 
     vm.get_or_create_table_entry(name);
-    vm.get_or_create_table_entry("levels");
+    for (const std::string& sector : vm.get_table_keys())
+    {
+      vm.get_table_entry(sector);
 
-    result.level_states = get_level_states(vm);
+      if (vm.has_property("levels"))
+      {
+        vm.get_table_entry("levels");
+        for (const auto& level_state : get_level_states(vm))
+          result.level_states.push_back(std::move(level_state));
+
+        sq_pop(vm.get_vm(), 1);
+      }
+
+      sq_pop(vm.get_vm(), 1);
+    }
   }
   catch(const std::exception& err)
   {
@@ -359,7 +356,7 @@ Savegame::get_worldmap_state(const std::string& name)
 }
 
 std::vector<std::string>
-Savegame::get_levelsets()
+Savegame::get_levelsets() const
 {
   std::vector<std::string> results;
 
@@ -384,7 +381,7 @@ Savegame::get_levelsets()
 }
 
 LevelsetState
-Savegame::get_levelset_state(const std::string& basedir)
+Savegame::get_levelset_state(const std::string& basedir) const
 {
   LevelsetState result;
 
@@ -440,6 +437,48 @@ Savegame::set_levelset_state(const std::string& basedir,
   }
 
   sq_settop(vm.get_vm(), oldtop);
+}
+
+Savegame::Progress
+Savegame::get_levelset_progress() const
+{
+  Progress progress;
+
+  for (const std::string& levelset : get_levelsets())
+  {
+    for (const auto& level_state : get_levelset_state(levelset).level_states)
+    {
+      if (level_state.filename.empty())
+        continue;
+
+      if (level_state.solved)
+        progress.solved++;
+      progress.total++;
+    }
+  }
+
+  return progress;
+}
+
+Savegame::Progress
+Savegame::get_worldmap_progress() const
+{
+  Progress progress;
+
+  for (const std::string& map : get_worldmaps())
+  {
+    for (const auto& level_state : get_worldmap_state(map).level_states)
+    {
+      if (level_state.filename.empty())
+        continue;
+
+      if (level_state.solved)
+        progress.solved++;
+      progress.total++;
+    }
+  }
+
+  return progress;
 }
 
 /* EOF */

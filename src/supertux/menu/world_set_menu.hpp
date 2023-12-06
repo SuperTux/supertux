@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2015 Matthew <thebatmankiller3@gmail.com>
+//                2022-2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,20 +18,18 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_WORLD_SET_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_WORLD_SET_MENU_HPP
 
-#include "gui/menu.hpp"
+#include "supertux/menu/world_preview_menu.hpp"
 
-enum WorldSetMenuIDs
-{
-  WORLDSET_STORY,
-  WORLDSET_CONTRIB
-};
-
-class WorldSetMenu final : public Menu
+class WorldSetMenu final : public WorldPreviewMenu
 {
 public:
   WorldSetMenu();
 
   void menu_action(MenuItem& item) override;
+
+private:
+  WorldSetMenu(const WorldSetMenu&) = delete;
+  WorldSetMenu& operator=(const WorldSetMenu&) = delete;
 };
 
 #endif

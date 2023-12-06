@@ -19,9 +19,8 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
+#include "worldmap/worldmap.hpp"
 
 WorldmapMenu::WorldmapMenu()
 {
@@ -43,8 +42,8 @@ WorldmapMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_QUITWORLDMAP:
-      MenuManager::instance().clear_menu_stack();
-      ScreenManager::current()->pop_screen();
+      MenuManager::instance().clear_menu_stack(true); // Skip transition.
+      worldmap::WorldMap::current()->quit();
       break;
   }
 }
