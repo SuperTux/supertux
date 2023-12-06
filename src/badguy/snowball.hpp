@@ -27,7 +27,7 @@ public:
 
   static std::string class_name() { return "snowball"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Snowball"); }
+  static std::string display_name() { return _("Mr. Snowball"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual bool is_snipable() const override { return true; }

@@ -34,8 +34,8 @@ class ObjectFactory
 {
 private:
   struct FactoryFunctions {
-    std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> create;
-    std::function<std::string ()> get_display_name;
+    std::function<std::unique_ptr<GameObject> (const ReaderMapping&)> create = nullptr;
+    std::function<std::string ()> get_display_name = nullptr;
   };
   typedef std::map<std::string, FactoryFunctions> Factories;
 

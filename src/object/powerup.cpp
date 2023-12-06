@@ -309,8 +309,7 @@ PowerUp::get_settings()
 std::vector<std::string>
 PowerUp::get_patches() const
 {
-  return { _("Sprites no longer define the behaviour of the object.") + "\n" +
-           _("Object types are used instead.") };
+  return { _("Sprites no longer define the behaviour of the object.\nObject types are used instead.") };
 }
 
 void
