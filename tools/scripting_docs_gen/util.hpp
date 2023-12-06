@@ -49,6 +49,12 @@ public:
   XMLTextReader(std::string& buffer) :
     m_buffer(buffer)
   {}
+  ~XMLTextReader() override
+  {
+    // Remove excess spaces from the end of the string
+    while (!m_buffer.empty() && m_buffer.back() == ' ')
+      m_buffer.pop_back();
+  }
 
   virtual bool Visit(const tinyxml2::XMLText& txt) override
   {

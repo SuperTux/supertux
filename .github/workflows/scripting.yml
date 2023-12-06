@@ -68,6 +68,16 @@ jobs:
                              --home ../../../wiki/templates/ScriptingHome.md \
                              --page ../../../wiki/templates/ScriptingPage.md \
                              --output ../../../wiki
+                             --output-data ../../../data/scripts/reference.stsr
+
+      - name: Check for changes
+        working-directory: wiki
+        run: |
+          if git diff --exit-code; then
+            echo "::set-env name=reference_updated::true"
+          else
+            echo "::set-env name=reference_updated::false"
+          fi
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -76,6 +86,7 @@ jobs:
           known_hosts: ${{ secrets.wiki_repo_hosts }}
 
       - name: Push changes to wiki
+        if: ${{ env.reference_updated == 'true' }}
         working-directory: wiki
         run: |
           git --version
@@ -85,3 +96,11 @@ jobs:
           git add .
           git commit -m "Update scripting reference (SuperTux/supertux@${{ github.sha }})"
           git push git@github.com:SuperTux/wiki.git HEAD:master
+
+      - name: Push data file changes
+        if: ${{ env.reference_updated == 'true' }}
+        run: |
+          git status
+          git add data/scripts
+          git commit -m "Update scripting reference (SuperTux/supertux@${{ github.sha }})"
+          git push HEAD:master

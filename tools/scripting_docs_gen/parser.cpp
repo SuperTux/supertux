@@ -47,6 +47,13 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
         parse_xrefsect_desc(p_xrefsect, cls.summary);
       else if (title == "Instances")
         parse_xrefsect_desc(p_xrefsect, cls.instances);
+      else if (title == "Scope")
+      {
+        std::string scope;
+        parse_xrefsect_desc(p_xrefsect, scope);
+
+        cls.global = (scope == "global");
+      }
 
       p_xrefsect = p_xrefsect->NextSiblingElement("xrefsect");
     }

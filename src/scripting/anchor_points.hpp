@@ -22,6 +22,7 @@ namespace scripting {
 #ifdef DOXYGEN_SCRIPTING
 /**
  * @summary This module contains global anchor constants.
+ * @scope global
  */
 class AnchorPoints
 {

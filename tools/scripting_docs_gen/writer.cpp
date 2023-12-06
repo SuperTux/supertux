@@ -20,7 +20,7 @@
 
 #include "util.hpp"
 
-namespace Writer {
+namespace MarkdownWriter {
 
 std::string write_file_notice(const std::string& template_file)
 {
@@ -113,3 +113,70 @@ std::string write_class_ref(const std::string& name)
 }
 
 } // namespace Writer
+
+
+namespace SExpWriter {
+
+std::string write_data_file(const std::vector<Class>& classes)
+{
+  std::stringstream out;
+  std::string indent = "  ";
+
+  out << "(supertux-scripting-reference\n";
+  for (const Class& cl : classes)
+  {
+    if (!cl.global)
+    {
+      out << indent << "(class\n";
+      indent += "  ";
+      out << indent << "(name \"" << cl.name << "\")\n";
+      out << indent << "(summary (_ \"" << cl.summary << "\"))\n";
+      out << indent << "(instances (_ \"" << cl.instances << "\"))\n";
+    }
+
+    for (const Constant& con : cl.constants)
+    {
+      out << indent << "(constant\n";
+      indent += "  ";
+      out << indent << "(name \"" << con.name << "\")\n";
+      out << indent << "(type \"" << con.type << "\")\n";
+      if (!con.description.empty())
+        out << indent << "(description (_ \"" << con.description << "\"))\n";
+      indent.pop_back(); indent.pop_back();
+      out << indent << ")\n";
+    }
+    for (const Function& func : cl.functions)
+    {
+      out << indent << "(function\n";
+      indent += "  ";
+      out << indent << "(name \"" << func.name << "\")\n";
+      out << indent << "(type \"" << func.type << "\")\n";
+      if (!func.description.empty())
+        out << indent << "(description (_ \"" << func.description << "\"))\n";
+
+      for (const Parameter& param : func.parameters)
+      {
+        out << indent << "(parameter\n";
+        indent += "  ";
+        out << indent << "(name \"" << param.name << "\")\n";
+        out << indent << "(type \"" << param.type << "\")\n";
+        if (!param.description.empty())
+          out << indent << "(description (_ \"" << param.description << "\"))\n";
+        indent.pop_back(); indent.pop_back();
+        out << indent << ")\n";
+      }
+
+      indent.pop_back(); indent.pop_back();
+      out << indent << ")\n";
+    }
+
+    indent = "  ";
+    if (!cl.global)
+      out << indent << ")\n";
+  }
+  out << ")\n";
+
+  return out.str();
+}
+
+} // namespace SExpWriter

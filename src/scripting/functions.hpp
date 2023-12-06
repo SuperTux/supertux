@@ -30,6 +30,7 @@ namespace scripting {
 #ifdef DOXYGEN_SCRIPTING
 /**
  * @summary This module contains global methods.
+ * @scope global
  */
 class Globals
 {

@@ -14,28 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef WRITER_HEADER
-#define WRITER_HEADER
+#ifndef GENERATOR_HEADER
+#define GENERATOR_HEADER
 
 #include <string>
 #include <vector>
 
-#include "class.hpp"
+struct Class;
 
-namespace MarkdownWriter
+namespace Generator
 {
-  std::string write_file_notice(const std::string& template_file);
-
-  std::string write_constants_table(const std::vector<Constant>& constants);
-  std::string write_function_table(const std::vector<Function>& functions);
-  std::string write_class_list(const std::vector<Class>& classes);
-
-  std::string write_class_ref(const std::string& name);
-} // namespace MarkdownWriter
-
-namespace SExpWriter
-{
-  std::string write_data_file(const std::vector<Class>& classes);
-} // namespace SExpWriter
+  void generate_markdown_reference(const std::string& output_dir,
+                                   const std::string& home_template_file, const std::string& page_template_file,
+                                   const std::vector<Class>& classes);
+  void generate_data_file(const std::string& output_file, const std::vector<Class>& classes);
+} // namespace Generator
 
 #endif

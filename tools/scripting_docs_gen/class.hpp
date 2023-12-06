@@ -47,6 +47,7 @@ struct Class
   std::string name;
   std::string summary;
   std::string instances;
+  bool global;
   std::vector<Constant> constants;
   std::vector<Function> functions;
 };
