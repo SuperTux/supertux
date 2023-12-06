@@ -229,13 +229,14 @@ EditorMenu::menu_action(MenuItem& item)
       editor->check_deprecated_tiles();
       if (editor->has_deprecated_tiles())
       {
+        const std::string present_message = _("Deprecated tiles are still present in the level.");
         if (g_config->editor_show_deprecated_tiles)
         {
-          Dialog::show_message(_("Deprecated tiles are still available in the level."));
+          Dialog::show_message(present_message);
         }
         else
         {
-          Dialog::show_confirmation(_("Deprecated tiles are still available in the level.\n \nDo you want to show all deprecated tiles on active tilemaps?"), []() {
+          Dialog::show_confirmation(present_message + "\n \n" + _("Do you want to show all deprecated tiles on active tilemaps?"), []() {
             g_config->editor_show_deprecated_tiles = true;
           });
         }

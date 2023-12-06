@@ -78,11 +78,7 @@ EditorConvertersMenu::EditorConvertersMenu() :
 void
 EditorConvertersMenu::menu_action(MenuItem& item)
 {
-  if (item.get_id() != MNID_CONVERT_TILES)
-  {
-    log_warning << "Invalid item with ID " << item.get_id() << " pressed." << std::endl;
-    return;
-  }
+  assert(item.get_id() == MNID_CONVERT_TILES);
 
   if (m_tile_conversion_file.empty())
   {
