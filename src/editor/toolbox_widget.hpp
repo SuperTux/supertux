@@ -20,6 +20,7 @@
 #include <stdexcept>
 
 #include "control/input_manager.hpp"
+#include "editor/tip.hpp"
 #include "editor/widget.hpp"
 #include "math/vector.hpp"
 #include "supertux/screen.hpp"
@@ -31,7 +32,6 @@ class ObjectInfo;
 class Rectf;
 class TileSelection;
 class ToolIcon;
-class Tip;
 
 /** The toolbox is on the right side of the screen and allows
     selection of the current tool and contains the object or tile
@@ -81,7 +81,7 @@ public:
   TileSelection* get_tiles() const { return m_tiles.get(); }
 
   bool has_mouse_focus() const;
-  bool has_active_object_tip() const { return m_object_tip != nullptr; }
+  bool has_active_object_tip() const { return m_object_tip->get_visible(); }
 
 private:
   Vector get_tile_coords(const int pos) const;
@@ -113,6 +113,7 @@ private:
 
   std::unique_ptr<ToolIcon> m_rubber;
   std::unique_ptr<ToolIcon> m_select_mode;
+  std::unique_ptr<ToolIcon> m_node_marker_mode;
   std::unique_ptr<ToolIcon> m_move_mode;
   std::unique_ptr<ToolIcon> m_undo_mode;
 

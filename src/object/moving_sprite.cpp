@@ -121,6 +121,7 @@ void
 MovingSprite::update_hitbox()
 {
   m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.set_unisolid(m_sprite->is_current_hitbox_unisolid());
 }
 
 void

@@ -117,6 +117,8 @@ ConveyorBelt::draw(DrawingContext &context)
 void
 ConveyorBelt::update_hitbox()
 {
+  MovingSprite::update_hitbox();
+
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width() * static_cast<float>(m_length),
                         m_sprite->get_current_hitbox_height());
 }

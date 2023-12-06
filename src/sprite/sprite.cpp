@@ -192,6 +192,12 @@ Sprite::get_height() const
   return static_cast<int>(m_action->surfaces[m_frameidx]->get_height());
 }
 
+bool
+Sprite::is_current_hitbox_unisolid() const
+{
+  return m_action->hitbox_unisolid;
+}
+
 float
 Sprite::get_current_hitbox_x_offset() const
 {

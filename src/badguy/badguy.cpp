@@ -645,10 +645,13 @@ BadGuy::kill_fall()
 void
 BadGuy::run_dead_script()
 {
+  if(!m_is_active_flag)
+     return;
+
+  m_is_active_flag = false;
+
   if (m_countMe)
     Sector::get().get_level().m_stats.increment_badguys();
-
-  m_countMe = false;
 
   if (m_parent_dispenser != nullptr)
   {
@@ -772,7 +775,9 @@ BadGuy::might_fall(int height) const
     x1 = m_col.m_bbox.get_right();
     x2 = m_col.m_bbox.get_right() + 1;
   }
-  return Sector::get().is_free_of_statics(Rectf(x1, y1, x2, y2));
+  const Rectf rect = Rectf(x1, y1, x2, y2);
+
+  return Sector::get().is_free_of_statics(rect) && Sector::get().is_free_of_specifically_movingstatics(rect);
 }
 
 Player*

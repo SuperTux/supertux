@@ -264,20 +264,21 @@ SDLPainter::draw_gradient(const GradientRequest& request)
                                              fabsf(top.alpha - bottom.alpha))) * 255);
   n = std::max(n, 1);
 
-  float next_step = (direction == VERTICAL || direction == VERTICAL_SECTOR) ? region.get_top() : region.get_left();
+  int next_step = (direction == VERTICAL || direction == VERTICAL_SECTOR) ?
+                  static_cast<int>(region.get_top()) : static_cast<int>(region.get_left());
   for (int i = 0; i < n; ++i)
   {
-    SDL_FRect rect;
+    SDL_Rect rect;
 
     if (direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
-      rect.x = region.get_left();
+      rect.x = static_cast<int>(region.get_left());
       rect.y = next_step;
-      rect.w = region.get_right() - region.get_left();
-      rect.h = ceilf((region.get_bottom() - region.get_top()) / static_cast<float>(n));
+      rect.w = static_cast<int>(region.get_right() - region.get_left());
+      rect.h = static_cast<int>(ceilf((region.get_bottom() - region.get_top()) / static_cast<float>(n)));
 
       // Account for the build-up of rounding errors due to floating point precision.
-      if (next_step > region.get_top() + (region.get_bottom() - region.get_top()) * static_cast<float>(i) / static_cast<float>(n))
+      if (next_step > static_cast<int>(region.get_top() + (region.get_bottom() - region.get_top()) * static_cast<float>(i) / static_cast<float>(n)))
         --rect.h;
 
       next_step += rect.h;
@@ -285,12 +286,12 @@ SDLPainter::draw_gradient(const GradientRequest& request)
     else
     {
       rect.x = next_step;
-      rect.y = region.get_top();
-      rect.w = ceilf((region.get_right() - region.get_left()) / static_cast<float>(n));
-      rect.h = region.get_bottom() - region.get_top();
+      rect.y = static_cast<int>(region.get_top());
+      rect.w = static_cast<int>(ceilf((region.get_right() - region.get_left()) / static_cast<float>(n)));
+      rect.h = static_cast<int>(region.get_bottom() - region.get_top());
 
       // Account for the build-up of rounding errors due to floating point precision.
-      if (next_step > region.get_left() + (region.get_right() - region.get_left()) * static_cast<float>(i) / static_cast<float>(n))
+      if (next_step > static_cast<int>(region.get_left() + (region.get_right() - region.get_left()) * static_cast<float>(i) / static_cast<float>(n)))
         --rect.w;
 
       next_step += rect.w;
@@ -344,7 +345,7 @@ SDLPainter::draw_gradient(const GradientRequest& request)
 
     SDL_SetRenderDrawBlendMode(m_sdl_renderer, blend2sdl(request.blend));
     SDL_SetRenderDrawColor(m_sdl_renderer, r, g, b, a);
-    SDL_RenderFillRectF(m_sdl_renderer, &rect);
+    SDL_RenderFillRect(m_sdl_renderer, &rect);
   }
 }
 

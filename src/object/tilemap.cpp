@@ -339,8 +339,7 @@ TileMap::update(float dt_sec)
   }
 
   // handle tint fading
-  if (m_current_tint.red != m_tint.red || m_current_tint.green != m_tint.green ||
-      m_current_tint.blue != m_tint.blue || m_current_tint.alpha != m_tint.alpha) {
+  if (m_current_tint != m_tint) {
 
     m_remaining_tint_fade_time = std::max(0.0f, m_remaining_tint_fade_time - dt_sec);
     if (m_remaining_tint_fade_time == 0.0f) {

@@ -11512,6 +11512,33 @@ static SQInteger WorldMapSector_move_to_spawnpoint_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger WorldMapSector_get_filename_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_filename' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::WorldMapSector* _this = reinterpret_cast<scripting::WorldMapSector*> (data);
+
+
+  try {
+    std::string return_value = _this->get_filename();
+
+    assert(return_value.size() < static_cast<size_t>(std::numeric_limits<SQInteger>::max()));
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_filename'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return scripting::display(vm);
@@ -11590,9 +11617,19 @@ static SQInteger load_worldmap_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg2;
+  if(SQ_FAILED(sq_getstring(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a string"));
+    return SQ_ERROR;
+  }
 
   try {
-    scripting::load_worldmap(arg0);
+    scripting::load_worldmap(arg0, arg1, arg2);
 
     return 0;
 
@@ -11618,9 +11655,14 @@ static SQInteger set_next_worldmap_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 2 not a string"));
     return SQ_ERROR;
   }
+  const SQChar* arg2;
+  if(SQ_FAILED(sq_getstring(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a string"));
+    return SQ_ERROR;
+  }
 
   try {
-    scripting::set_next_worldmap(arg0, arg1);
+    scripting::set_next_worldmap(arg0, arg1, arg2);
 
     return 0;
 
@@ -12737,29 +12779,6 @@ static SQInteger Level_toggle_pause_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Level_edit_wrapper(HSQUIRRELVM vm)
-{
-  SQBool arg0;
-  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a bool"));
-    return SQ_ERROR;
-  }
-
-  try {
-    scripting::Level_edit(arg0 == SQTrue);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'Level_edit'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger Level_pause_target_timer_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -13726,14 +13745,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   sq_pushstring(v, "load_worldmap", -1);
   sq_newclosure(v, &load_worldmap_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".sss");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'load_worldmap'");
   }
 
   sq_pushstring(v, "set_next_worldmap", -1);
   sq_newclosure(v, &set_next_worldmap_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".ss");
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".sss");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_next_worldmap'");
   }
@@ -14072,13 +14091,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'Level_toggle_pause'");
-  }
-
-  sq_pushstring(v, "Level_edit", -1);
-  sq_newclosure(v, &Level_edit_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'Level_edit'");
   }
 
   sq_pushstring(v, "Level_pause_target_timer", -1);
@@ -15659,6 +15671,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'move_to_spawnpoint'");
+  }
+
+  sq_pushstring(v, "get_filename", -1);
+  sq_newclosure(v, &WorldMapSector_get_filename_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_filename'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

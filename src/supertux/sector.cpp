@@ -48,11 +48,9 @@
 #include "supertux/constants.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_object_factory.hpp"
-#include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
@@ -62,13 +60,6 @@
 
 Sector* Sector::s_current = nullptr;
 
-namespace {
-
-PlayerStatus dummy_player_status(1);
-
-} // namespace
-
-
 Sector::Sector(Level& parent) :
   Base::Sector("sector"),
   m_level(parent),
@@ -77,30 +68,6 @@ Sector::Sector(Level& parent) :
   m_gravity(10.0f),
   m_collision_system(new CollisionSystem(*this))
 {
-  Savegame* savegame = (Editor::current() && Editor::is_active()) ?
-    Editor::current()->m_savegame.get() :
-    GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
-  PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
-
-  if (savegame && !m_level.m_suppress_pause_menu && !savegame->is_title_screen()) {
-    add<PlayerStatusHUD>(player_status);
-  }
-
-  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
-  {
-    if (!InputManager::current()->has_corresponsing_controller(id)
-        && !InputManager::current()->m_uses_keyboard[id]
-        && savegame
-        && !savegame->is_title_screen()
-        && id != 0)
-      continue;
-
-    if (id > 0 && !savegame)
-      dummy_player_status.add_player();
-
-    add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
-  }
-
   add<DisplayEffect>("Effect");
   add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
@@ -217,6 +184,10 @@ void
 Sector::activate(const Vector& player_pos)
 {
   BIND_SECTOR(*this);
+
+  // Make sure all players are moved to this sector.
+  for (auto& player : m_level.get_players())
+    player->move_to_sector(*this);
 
   if (s_current != this) {
     if (s_current != nullptr)
@@ -336,7 +307,7 @@ Sector::calculate_foremost_layer() const
       }
     }
   }
-  log_debug << "Calculated baduy falling layer was: " << layer << std::endl;
+  log_debug << "Calculated badguy falling layer was: " << layer << std::endl;
   return layer;
 }
 
@@ -523,6 +494,13 @@ bool
 Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
   return m_collision_system->is_free_of_movingstatics(rect,
+                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
+}
+
+bool
+Sector::is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+{
+  return m_collision_system->is_free_of_specifically_movingstatics(rect,
                                                       ignore_object ? ignore_object->get_collision_object() : nullptr);
 }
 
@@ -798,18 +776,7 @@ Sector::get_camera() const
 std::vector<Player*>
 Sector::get_players() const
 {
-  auto players_raw = get_objects_by_type<Player>();
-
-  std::vector<Player*> players;
-
-  auto it = players_raw.begin();
-  while (it != players_raw.end())
-  {
-    players.push_back(&(*it));
-    it++;
-  }
-
-  return players;
+  return m_level.get_players();
 }
 
 DisplayEffect&
