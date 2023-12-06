@@ -26,8 +26,8 @@ class SoundObject;
 namespace scripting {
 
 /**
- * @summary An ""SoundObject"" that was given a name can be controlled by scripts.
- * @instances An ""SoundObject"" is instantiated by placing a definition inside a level.
+ * @summary A ""SoundObject"" that was given a name can be controlled by scripts.
+ * @instances A ""SoundObject"" is instantiated by placing a definition inside a level.
               It can then be accessed by its name from a script or via ""sector.name"" from the console.
  */
 class SoundObject final

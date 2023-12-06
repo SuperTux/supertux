@@ -35,7 +35,7 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   m_radius(),
   m_radius_in_px(),
   m_volume(),
-  m_first_update(true)
+  m_has_played_sound(false)
 {
   m_col.m_group = COLGROUP_DISABLED;
 
@@ -62,7 +62,7 @@ AmbientSound::AmbientSound(const Vector& pos, float radius, float vol, const std
   m_radius(radius),
   m_radius_in_px(m_radius*32.0f),
   m_volume(vol),
-  m_first_update(true)
+  m_has_played_sound(false)
 {
   m_col.m_group = COLGROUP_DISABLED;
 
@@ -150,9 +150,6 @@ AmbientSound::play_looping_sounds()
 void
 AmbientSound::update(float dt_sec)
 {
-  if (Editor::is_active())
-    return;
-
   const Player* const nearest_player = Sector::get().get_nearest_player(get_bbox().get_middle());
   if (!nearest_player)
     return;
@@ -164,25 +161,25 @@ AmbientSound::update(float dt_sec)
   else
   {
     float player_distance = m_radius+1;
-    if (player_center.x>=get_bbox().get_left() && player_center.x<=get_bbox().get_right())
-      player_distance = player_center.y<get_bbox().get_top() ? get_bbox().get_top()-player_center.y : player_center.y-get_bbox().get_bottom();
-    else if (player_center.y>=get_bbox().get_top() && player_center.y<=get_bbox().get_bottom())
-      player_distance = player_center.x<get_bbox().get_left() ? get_bbox().get_left()-player_center.x : player_center.x-get_bbox().get_right();
-    else if (player_center.x<=get_bbox().get_left() && player_center.y<=get_bbox().get_top())
+    if (player_center.x >= get_bbox().get_left() && player_center.x <= get_bbox().get_right())
+      player_distance = player_center.y < get_bbox().get_top() ? get_bbox().get_top() - player_center.y : player_center.y - get_bbox().get_bottom();
+    else if (player_center.y >= get_bbox().get_top() && player_center.y <= get_bbox().get_bottom())
+      player_distance = player_center.x < get_bbox().get_left() ? get_bbox().get_left() - player_center.x : player_center.x - get_bbox().get_right();
+    else if (player_center.x <= get_bbox().get_left() && player_center.y <= get_bbox().get_top())
       player_distance = glm::distance(player_center, get_bbox().p1());
-    else if (player_center.x>=get_bbox().get_right() && player_center.y<=get_bbox().get_top())
-      player_distance = glm::distance(player_center, get_bbox().p1()+Vector(get_bbox().get_width(), 0));
-    else if (player_center.x<=get_bbox().get_left() && player_center.y>=get_bbox().get_bottom())
-      player_distance = glm::distance(player_center, get_bbox().p1()+Vector(0, get_bbox().get_height()));
-    else if (player_center.x>=get_bbox().get_right() && player_center.y>=get_bbox().get_bottom())
+    else if (player_center.x >= get_bbox().get_right() && player_center.y <= get_bbox().get_top())
+      player_distance = glm::distance(player_center, get_bbox().p1() + Vector(get_bbox().get_width(), 0));
+    else if (player_center.x <= get_bbox().get_left() && player_center.y >= get_bbox().get_bottom())
+      player_distance = glm::distance(player_center, get_bbox().p1() + Vector(0, get_bbox().get_height()));
+    else if (player_center.x >= get_bbox().get_right() && player_center.y >= get_bbox().get_bottom())
       player_distance = glm::distance(player_center, get_bbox().p2());
-    m_sound_source->set_gain(std::max(m_radius_in_px-player_distance, 0.0f)/m_radius_in_px*m_volume);
+    m_sound_source->set_gain(std::max(m_radius_in_px - player_distance, 0.0f) / m_radius_in_px * m_volume);
   }
 
-  if (m_first_update)
+  if (!m_has_played_sound)
   {
     m_sound_source->play();
-    m_first_update = false;
+    m_has_played_sound = true;
   }
 }
 

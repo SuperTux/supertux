@@ -31,8 +31,7 @@ SoundObject::SoundObject(const ReaderMapping& mapping) :
   m_volume(),
   m_play_interval(),
   m_delay(0.0f),
-  m_playing(false),
-  m_scheduled_for_removal(false)
+  m_playing(false)
 {
   mapping.get("sample", m_sample, "");
   mapping.get("volume", m_volume, 1.0f);
@@ -48,8 +47,7 @@ SoundObject::SoundObject(float vol, float play_interval, const std::string& file
   m_volume(vol),
   m_play_interval(play_interval),
   m_delay(0.0f),
-  m_playing(false),
-  m_scheduled_for_removal(false)
+  m_playing(false)
 {
   prepare_sound_source();
 }
@@ -62,12 +60,6 @@ SoundObject::~SoundObject()
 void
 SoundObject::update(float dt_sec)
 {
-  if (m_scheduled_for_removal)
-  {
-    remove_me();
-    return;
-  }
-
   if (!m_sound_source->playing())
   {
     if (m_playing && m_delay>=m_play_interval)
@@ -123,7 +115,7 @@ SoundObject::prepare_sound_source()
 
   if (m_sample.empty())
   {
-    m_scheduled_for_removal = true;
+    remove_me();
     return;
   }
 
@@ -143,7 +135,7 @@ SoundObject::prepare_sound_source()
   {
     log_warning << "Couldn't play '" << m_sample << "': " << e.what() << "" << std::endl;
     m_sound_source.reset();
-    m_scheduled_for_removal = true;
+    remove_me();
   }
 }
 

@@ -64,7 +64,6 @@ private:
   float m_play_interval;
   float m_delay;
   bool m_playing;
-  bool m_scheduled_for_removal;
 
 private:
   void prepare_sound_source();

@@ -67,16 +67,16 @@ protected:
   virtual void update(float dt_sec) override;
 
 private:
+  void prepare_sound_source();
+
+private:
   std::string m_sample;
   std::unique_ptr<SoundSource> m_sound_source;
 
   float m_radius;
   float m_radius_in_px;
   float m_volume;
-  bool m_first_update;
-
-private:
-  void prepare_sound_source();
+  bool m_has_played_sound;
 
 private:
   AmbientSound(const AmbientSound&) = delete;
