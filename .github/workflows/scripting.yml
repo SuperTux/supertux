@@ -67,7 +67,7 @@ jobs:
           ./ScriptingDocsGen --dir docs/scripting/doxygen/xml \
                              --home ../../../wiki/templates/ScriptingHome.md \
                              --page ../../../wiki/templates/ScriptingPage.md \
-                             --output ../../../wiki
+                             --output ../../../wiki \
                              --output-data ../../../data/scripts/reference.stsr
 
       - name: Check for changes
