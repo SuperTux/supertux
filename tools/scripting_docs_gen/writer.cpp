@@ -130,8 +130,8 @@ std::string write_data_file(const std::vector<Class>& classes)
       out << indent << "(class\n";
       indent += "  ";
       out << indent << "(name \"" << cl.name << "\")\n";
-      out << indent << "(summary (_ \"" << cl.summary << "\"))\n";
-      out << indent << "(instances (_ \"" << cl.instances << "\"))\n";
+      out << indent << "(summary (_ \"" << escape(cl.summary) << "\"))\n";
+      out << indent << "(instances (_ \"" << escape(cl.instances) << "\"))\n";
     }
 
     for (const Constant& con : cl.constants)
@@ -141,7 +141,7 @@ std::string write_data_file(const std::vector<Class>& classes)
       out << indent << "(name \"" << con.name << "\")\n";
       out << indent << "(type \"" << con.type << "\")\n";
       if (!con.description.empty())
-        out << indent << "(description (_ \"" << con.description << "\"))\n";
+        out << indent << "(description (_ \"" << escape(con.description) << "\"))\n";
       indent.pop_back(); indent.pop_back();
       out << indent << ")\n";
     }
@@ -152,7 +152,7 @@ std::string write_data_file(const std::vector<Class>& classes)
       out << indent << "(name \"" << func.name << "\")\n";
       out << indent << "(type \"" << func.type << "\")\n";
       if (!func.description.empty())
-        out << indent << "(description (_ \"" << func.description << "\"))\n";
+        out << indent << "(description (_ \"" << escape(func.description) << "\"))\n";
 
       for (const Parameter& param : func.parameters)
       {
@@ -161,7 +161,7 @@ std::string write_data_file(const std::vector<Class>& classes)
         out << indent << "(name \"" << param.name << "\")\n";
         out << indent << "(type \"" << param.type << "\")\n";
         if (!param.description.empty())
-          out << indent << "(description (_ \"" << param.description << "\"))\n";
+          out << indent << "(description (_ \"" << escape(param.description) << "\"))\n";
         indent.pop_back(); indent.pop_back();
         out << indent << ")\n";
       }

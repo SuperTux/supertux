@@ -89,7 +89,14 @@ void generate_markdown_reference(const std::string& output_dir,
 
 void generate_data_file(const std::string& output_file, const std::vector<Class>& classes)
 {
-  write_file(output_file, SExpWriter::write_data_file(classes));
+  // Prepare target data
+  std::string target_data = SExpWriter::write_data_file(classes);
+
+  // Formatting
+  replace(target_data, "\\\"\\\"", "`");
+
+  // Write to target file
+  write_file(output_file, target_data);
 }
 
 } // namespace Writer

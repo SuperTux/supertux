@@ -36,11 +36,13 @@ bool starts_with(const std::string& str, const std::string& prefix)
 void replace(std::string& str, const std::string& from,
              const std::string to, const std::string to_if_empty)
 {
+  const std::string& to_ = (to.empty() ? to_if_empty : to);
+
   size_t start_pos = str.find(from);
   while (start_pos != std::string::npos)
   {
-    str.replace(start_pos, from.length(), to.empty() ? to_if_empty : to);
-    start_pos = str.find(from);
+    str.replace(start_pos, from.length(), to_);
+    start_pos = str.find(from, start_pos + to_.length());
   }
 }
 
@@ -48,6 +50,12 @@ void regex_replace(std::string& str, const std::regex from,
                    const std::string& to)
 {
   str = std::regex_replace(str, from, to);
+}
+
+std::string escape(std::string str)
+{
+  replace(str, "\"", "\\\"");
+  return str;
 }
 
 
