@@ -26,8 +26,7 @@ public:
   Igel(const ReaderMapping& reader);
 
   virtual void active_update(float dt_sec) override;
-
-  virtual bool is_freezable() const override;
+  virtual void initialize() override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
   static std::string class_name() { return "igel"; }
@@ -35,9 +34,9 @@ public:
   static std::string display_name() { return _("Igel"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
-protected:
+  virtual bool is_freezable() const override;
 
-private:
+  virtual GameObjectTypes get_types() const override;
 
 private:
   Igel(const Igel&) = delete;

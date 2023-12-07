@@ -28,7 +28,7 @@ const float RANGE_OF_VISION = 256; /**< Sange in px at which we can see bullets.
 } // namespace
 
 Igel::Igel(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "left", "right"),
+  WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "left", "right")
 {
   walk_speed = IGEL_SPEED;
   max_drop_height = 16;
@@ -46,13 +46,12 @@ Igel::is_freezable() const
   return true;
 }
 
-/**bool
-Igel::collision_squished(GameObject& )
+GameObjectTypes Igel::get_types() const
 {
-  // This will hurt.
-  return false;
-}*/
-// Enable this and the igle will no longer be butt-jumpable.
-// Don't forget to enable it in .hpp too!
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
 
 /* EOF */
