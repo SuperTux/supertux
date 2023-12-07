@@ -22,34 +22,34 @@
 
 struct Constant
 {
-  std::string type;
-  std::string name;
-  std::string description;
+  std::string type {};
+  std::string name {};
+  std::string description {};
 };
 
 struct Parameter
 {
-  std::string type;
-  std::string name;
-  std::string description;
+  std::string type {};
+  std::string name {};
+  std::string description {};
 };
 
 struct Function
 {
-  std::string type;
-  std::string name;
-  std::string description;
-  std::vector<Parameter> parameters;
+  std::string type {};
+  std::string name {};
+  std::string description {};
+  std::vector<Parameter> parameters {};
 };
 
 struct Class
 {
-  std::string name;
-  std::string summary;
-  std::string instances;
-  bool global;
-  std::vector<Constant> constants;
-  std::vector<Function> functions;
+  std::string name {};
+  std::string summary {};
+  std::string instances {};
+  bool global {};
+  std::vector<Constant> constants {};
+  std::vector<Function> functions {};
 };
 
 #endif
