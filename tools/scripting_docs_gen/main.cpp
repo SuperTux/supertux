@@ -78,11 +78,11 @@ int main(int argc, char** argv)
     Class cl; // Store class data
     Parser::parse_compounddef(doc.RootElement(), cl);
 
-    if (cl.constants.empty() && cl.functions.empty()) continue; // If there are no constants or functions, do not create a file
+    if (cl.constants.empty() && cl.functions.empty()) continue; // Exclude empty classes
 
     std::cout << "Successfully parsed scripting class \"" << cl.name << "\"." << std::endl;
 
-    // Save class, so it gets included in the home page
+    // Push to class stack
     classes.push_back(std::move(cl));
   }
 
