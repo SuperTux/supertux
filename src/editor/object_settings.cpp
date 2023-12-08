@@ -20,6 +20,7 @@
 #include <sexp/value.hpp>
 
 #include "audio/sound_file.hpp"
+#include "fmt/format.h"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
@@ -316,10 +317,12 @@ ObjectSettings::add_music(const std::string& text, std::string* value_ptr,
 
     const std::string filename = FileSystem::basename(path);
     const std::string title_or_filename = title.empty() ? filename : "\"" + title + "\""; // assumes path is just a filename
+    const std::string written_by = fmt::format(fmt::runtime(_("by {}")), author);
+    const std::string license_statement = fmt::format(fmt::runtime(_("License: {}")), license);
 
     const std::string help_text =
-        title_or_filename + (author.empty() ? "" : "\n by " + author)
-        + (license.empty() ? "" : "\nLicense: " + license);
+        title_or_filename + (author.empty() ? "" : "\n" + written_by)
+        + (license.empty() ? "" : "\n" + license_statement);
 
     return help_text;
   };
