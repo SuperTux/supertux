@@ -25,6 +25,7 @@
 
 #include "math/vector.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
+#include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
@@ -86,8 +87,7 @@ public:
 
   /** ends the current level */
   void finish(bool win = true);
-  void respawn(const std::string& sectorname, const std::string& spawnpointname,
-               bool retain_invincibility = false);
+  void respawn(const std::string& sectorname, const std::string& spawnpointname);
   void reset_level();
 
   void set_start_point(const std::string& sectorname,
@@ -117,18 +117,10 @@ public:
   std::string get_working_directory() const;
   bool has_active_sequence() const;
   int restart_level(bool after_death = false);
-  bool reset_button;
-  bool reset_checkpoint_button;
 
   void toggle_pause();
   void abort_level();
   bool is_active() const;
-
-  /** Enters or leaves level editor mode */
-  void set_editmode(bool edit_mode = true);
-
-  /** Forces all Players to enter ghost mode */
-  void force_ghost_mode();
 
   Savegame& get_savegame() const { return m_savegame; }
 
@@ -142,14 +134,18 @@ private:
 
   void on_escape_press(bool force_quick_respawn);
 
+public:
+  bool reset_button;
+  bool reset_checkpoint_button;
+
+  bool m_prevent_death; /**< true if players should enter ghost mode instead of dying */
+
 private:
   std::unique_ptr<Level> m_level;
-  std::unique_ptr<Level> m_old_level;
   SurfacePtr m_statistics_backdrop;
 
   // scripts
-  typedef std::vector<HSQOBJECT> ScriptList;
-  ScriptList m_scripts;
+  SquirrelObjectList m_scripts;
 
   Sector* m_currentsector;
 
@@ -168,9 +164,6 @@ private:
   std::string m_newsector;
   std::string m_newspawnpoint;
 
-  // Whether the player had invincibility before spawning in a new sector
-  std::unordered_map<int, float> m_invincibilitytimeleft;
-
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;
 
@@ -178,7 +171,6 @@ private:
   //       but NOT if Tux respawns at a checkpoint (for LevelTimes to work)
   float m_play_time; /**< total time in seconds that this session ran interactively */
 
-  bool m_edit_mode; /**< true if GameSession runs in level editor mode */
   bool m_levelintro_shown; /**< true if the LevelIntro screen was already shown */
 
   int m_coins_at_start; /** How many coins does the player have at the start */

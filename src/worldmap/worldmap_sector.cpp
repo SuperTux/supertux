@@ -506,12 +506,11 @@ WorldMapSector::finished_level(Level* gamelevel)
 SpawnPoint*
 WorldMapSector::get_spawnpoint_by_name(const std::string& spawnpoint_name) const
 {
-  for (const auto& sp : m_spawnpoints)
-  {
-    if (sp->get_name() == spawnpoint_name)
-      return sp.get();
-  }
-  return nullptr;
+  auto spawnpoint = std::find_if(m_spawnpoints.begin(), m_spawnpoints.end(), 
+    [spawnpoint_name](const auto& sp) {
+      return sp->get_name() == spawnpoint_name;
+    });
+  return spawnpoint != m_spawnpoints.end() ? spawnpoint->get() : nullptr;
 }
 
 bool

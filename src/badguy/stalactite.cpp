@@ -113,7 +113,7 @@ Stalactite::collision_player(Player& player, const CollisionHit& )
 HitResponse
 Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
-  if (state == STALACTITE_SQUISHED) return FORCE_MOVE;
+  if (state == STALACTITE_SQUISHED) return ABORT_MOVE;
 
   // Ignore other Stalactites.
   if (dynamic_cast<Stalactite*>(&other)) return FORCE_MOVE;

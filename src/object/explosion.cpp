@@ -33,23 +33,22 @@
 
 Explosion::Explosion(const Vector& pos, float p_push_strength,
     int p_num_particles, bool p_short_fuse) :
-  MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
-  hurt(true),
+  MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS + 40, COLGROUP_MOVING),
+  hurt(!p_short_fuse),
   push_strength(p_push_strength),
   num_particles(p_num_particles),
   state(STATE_WAITING),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
   short_fuse(p_short_fuse)
 {
-  SoundManager::current()->preload("sounds/explosion.wav");
-  SoundManager::current()->preload("sounds/firecracker.ogg");
+  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
   set_pos(get_pos() - (m_col.m_bbox.get_middle() - get_pos()));
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
 
 Explosion::Explosion(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
+  MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS + 40, COLGROUP_MOVING),
   hurt(true),
   push_strength(-1),
   num_particles(100),
@@ -57,8 +56,7 @@ Explosion::Explosion(const ReaderMapping& reader) :
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
   short_fuse(false)
 {
-  SoundManager::current()->preload("sounds/explosion.wav");
-  SoundManager::current()->preload("sounds/firecracker.ogg");
+  SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }

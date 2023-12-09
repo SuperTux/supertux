@@ -76,22 +76,22 @@ Tile::Tile(const std::vector<SurfacePtr>& images,
 void
 Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, const Color& color) const
 {
-  if (draw_editor_images) {
+  if (draw_editor_images && m_editor_images.size() > 0) {
+    size_t frame_no = 0;
     if (m_editor_images.size() > 1) {
-      size_t frame = size_t(g_game_time * m_fps) % m_editor_images.size();
-      canvas.draw_surface(m_editor_images[frame], pos, 0, color, Blend(), z_pos);
-      return;
-    } else if (m_editor_images.size() == 1) {
-      canvas.draw_surface(m_editor_images[0], pos, 0, color, Blend(), z_pos);
-      return;
+      frame_no = size_t(g_game_time * m_fps) % m_editor_images.size();
     }
+    canvas.draw_surface(m_editor_images[frame_no], pos, 0, color, Blend(), z_pos);
+    return;
   }
 
-  if (m_images.size() > 1) {
-    size_t frame = size_t(g_game_time * m_fps) % m_images.size();
-    canvas.draw_surface(m_images[frame], pos, 0, color, Blend(), z_pos);
-  } else if (m_images.size() == 1) {
-    canvas.draw_surface(m_images[0], pos, 0, color, Blend(), z_pos);
+  if(m_images.size() > 0)
+  {
+    size_t frame_no = 0;
+    if (m_images.size() > 1) {
+      frame_no = size_t(g_game_time * m_fps) % m_images.size();
+    }
+    canvas.draw_surface(m_images[frame_no], pos, 0, color, Blend(), z_pos);
   }
 }
 
