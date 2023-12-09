@@ -19,14 +19,13 @@
 
 #include "badguy/walking_badguy.hpp"
 
-/** Badguy "Igel" - a hedgehog that can absorb bullets */
+/** Giggle */
 class Igel final : public WalkingBadguy
 {
 public:
   Igel(const ReaderMapping& reader);
 
   virtual void active_update(float dt_sec) override;
-  virtual void initialize() override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
   static std::string class_name() { return "igel"; }
@@ -34,9 +33,17 @@ public:
   static std::string display_name() { return _("Igel"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
-  virtual bool is_freezable() const override;
-
   virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
+
+private:
+  enum Type { NORMAL, CORRUPTED };
+  enum State { STATE_NORMAL, STATE_ROLLING };
+
+  bool try_roll();
+  void roll();
+
+  State m_state;
 
 private:
   Igel(const Igel&) = delete;
