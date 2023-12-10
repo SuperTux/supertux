@@ -18,6 +18,7 @@
 
 #include <variant>
 
+#include "audio/sound_manager.hpp"
 #include "collision/collision_system.hpp"
 #include "object/player.hpp"
 #include "object/shard.hpp"
@@ -46,12 +47,15 @@ Igel::Igel(const ReaderMapping& reader) :
   m_state(STATE_NORMAL),
   m_roll_timer(),
   m_roll_cooldown(),
-  m_ease_timer()
+  m_ease_timer(),
+  m_bonked(false)
 {
   parse_type(reader);
 
   walk_speed = normal_walk_speed();
   max_drop_height = IGEL_MAX_DROP_HEIGHT;
+
+  SoundManager::current()->preload("sounds/thud.ogg");
 }
 
 void
@@ -106,6 +110,9 @@ Igel::active_update(float dt_sec)
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
 
+      if (m_bonked && m_ease_timer.check())
+        set_action("roll-end", m_dir);
+
       if (!m_roll_cooldown.started() && should_roll()) roll();
 
       break;
@@ -114,14 +121,15 @@ Igel::active_update(float dt_sec)
 
 void Igel::collision_solid(const CollisionHit &hit)
 {
+  WalkingBadguy::collision_solid(hit);
+
   if (m_state == STATE_ROLLING)
   {
-    if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
-      stop_rolling();
+    if ((hit.left && (m_dir == Direction::RIGHT)) || (hit.right && (m_dir == Direction::LEFT))) {
+      stop_rolling(true);
+      SoundManager::current()->play("sounds/thud.ogg");
     }
   }
-
-  WalkingBadguy::collision_solid(hit);
 }
 
 HitResponse Igel::collision_badguy(BadGuy &badguy, const CollisionHit &hit)
@@ -190,21 +198,30 @@ bool Igel::should_roll()
 void Igel::roll()
 {
   m_state = STATE_ROLLING;
+
   set_action("roll-start", m_dir);
-  //set_walk_speed(ROLL_SPEED);
-  //m_physic.set_velocity_x(ROLL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
+
   max_drop_height = ROLL_MAX_DROP_HEIGHT;
+
   m_roll_timer.start(ROLL_DURATION);
   m_ease_timer.start(ROLL_EASE_TIMER);
 }
 
-void Igel::stop_rolling()
+void Igel::stop_rolling(bool bonk)
 {
   m_state = STATE_NORMAL;
-  set_action("roll-end", m_dir);
-  //set_walk_speed(normal_walk_speed());
-  //m_physic.set_velocity_x(normal_walk_speed() * (m_dir == Direction::LEFT ? -1 : 1));
+  m_bonked = bonk;
+
+  set_action(m_bonked ? "roll" : "roll-end", m_dir);
+
+  if (m_bonked)
+  {
+    // Hop a little
+    m_physic.set_velocity_y(-250.f);
+  }
+
   max_drop_height = IGEL_MAX_DROP_HEIGHT;
+
   m_roll_timer.stop();
   m_roll_cooldown.start(ROLL_COOLDOWN);
   m_ease_timer.start(ROLL_EASE_TIMER);

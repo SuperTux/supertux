@@ -49,13 +49,14 @@ private:
 
   bool should_roll();
   void roll();
-  void stop_rolling();
+  void stop_rolling(bool bonk = false);
   float normal_walk_speed();
 
   State m_state;
   Timer m_roll_timer;
   Timer m_roll_cooldown;
   Timer m_ease_timer;
+  bool m_bonked;
 
 private:
   Igel(const Igel&) = delete;
