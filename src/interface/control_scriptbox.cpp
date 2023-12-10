@@ -16,7 +16,6 @@
 
 #include "interface/control_scriptbox.hpp"
 
-#include "squirrel/autocomplete.hpp"
 #include "supertux/resources.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -30,7 +29,8 @@ ControlScriptbox::ControlScriptbox() :
   m_suggestions_rect(),
   m_suggestions_scrollbar(),
   m_suggestions_offset(0.f),
-  m_selected_suggestion(0)
+  m_selected_suggestion(0),
+  m_suggestion_description()
 {
   m_suggestions_scrollbar.reset(new ControlScrollbar(1.f, SUGGESTION_RECT_HEIGHT, m_suggestions_offset, 35.f));
 
@@ -75,19 +75,37 @@ ControlScriptbox::draw(DrawingContext& context)
   context.set_viewport(m_suggestions_rect.to_rect());
   context.set_translation(Vector(0.f, m_suggestions_offset));
 
-  for (size_t i = 0; i < m_suggestions.size(); i++)
+  int i = 0;
+  for (auto suggestion = m_suggestions.begin(); suggestion != m_suggestions.end(); suggestion++)
   {
-    context.color().draw_text(Resources::control_font, m_suggestions[i],
+    context.color().draw_text(Resources::control_font, suggestion->first,
                               Vector(TEXT_X_OFFSET, i * Resources::control_font->get_height() + TEXT_Y_OFFSET),
                               ALIGN_LEFT, LAYER_GUI + 1, Color::BLACK);
 
-    if (i == m_selected_suggestion)
+    if (i == static_cast<int>(m_selected_suggestion))
+    {
       context.color().draw_filled_rect(Rectf(Vector(0.f, i * Resources::control_font->get_height() + TEXT_Y_OFFSET),
                                              Sizef(context.get_width(), Resources::control_font->get_height())),
                                        Color::WHITE, LAYER_GUI);
+    }
+
+    i++;
   }
 
   context.pop_transform();
+
+  if (!m_suggestion_description.empty())
+  {
+    const Rectf desc_rect(Vector(m_suggestions_rect.get_right(), m_suggestions_rect.get_top()
+                                  + static_cast<float>(m_selected_suggestion) * Resources::control_font->get_height() + TEXT_Y_OFFSET
+                                  - m_suggestions_offset),
+                          Sizef(Resources::control_font->get_text_width(m_suggestion_description) + 30.f,
+                                Resources::control_font->get_text_height(m_suggestion_description) + 30.f));
+
+    context.color().draw_filled_rect(desc_rect, Color(0.9f, 0.9f, 0.9f, 1.f), LAYER_GUI);
+    context.color().draw_text(Resources::control_font, m_suggestion_description,
+                              desc_rect.p1() + 15.f, ALIGN_LEFT, LAYER_GUI + 1, Color::BLACK);
+  }
 }
 
 void
@@ -147,6 +165,7 @@ ControlScriptbox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   m_selected_suggestion = std::min(static_cast<size_t>((mouse_pos.y - m_suggestions_rect.get_top() + m_suggestions_offset) /
                                                        Resources::control_font->get_height()),
                                    m_suggestions.size() - 1);
+  update_description();
   return true;
 }
 
@@ -175,6 +194,7 @@ ControlScriptbox::on_key_down(const SDL_KeyboardEvent& key)
       if (m_selected_suggestion > 0)
       {
         m_selected_suggestion--;
+        update_description();
         return true;
       }
       else
@@ -189,6 +209,7 @@ ControlScriptbox::on_key_down(const SDL_KeyboardEvent& key)
       if (m_selected_suggestion < m_suggestions.size() - 1)
       {
         m_selected_suggestion++;
+        update_description();
         return true;
       }
       else
@@ -210,6 +231,55 @@ ControlScriptbox::on_key_down(const SDL_KeyboardEvent& key)
 }
 
 void
+ControlScriptbox::update_description()
+{
+  m_suggestion_description.clear();
+  if (m_suggestions.empty())
+    return;
+
+  auto it = m_suggestions.begin();
+  advance(it, m_selected_suggestion);
+  const squirrel::ScriptingObject* object = it->second;
+  if (!object) return;
+
+  using namespace squirrel;
+
+  std::stringstream out;
+  switch (object->get_type())
+  {
+    case ScriptingObject::Type::CONSTANT:
+    {
+      const auto& con = static_cast<const ScriptingConstant&>(*object);
+
+      out << con.type << " " << con.name << "\n \n" << con.description;
+    }
+    break;
+
+    case ScriptingObject::Type::FUNCTION:
+    {
+      const auto& func = static_cast<const ScriptingFunction&>(*object);
+
+      out << func.type << " " << func.name << "(";
+      for (const auto& param : func.parameters)
+      {
+        out << param.type << " " << param.name;
+      }
+      out << ")\n \n" << func.description;
+    }
+    break;
+
+    case ScriptingObject::Type::CLASS:
+    {
+      const auto& cl = static_cast<const ScriptingClass&>(*object);
+
+      out << cl.summary << "\n \n" << cl.instances;
+    }
+    break;
+  }
+  m_suggestion_description = out.str();
+}
+
+void
 ControlScriptbox::autocomplete()
 {
   assert(!m_suggestions.empty());
@@ -218,7 +288,9 @@ ControlScriptbox::autocomplete()
   const size_t begin = line_content.find_first_not_of(" \t"); // Skip beginning spaces
   line_content = line_content.substr(begin);
 
-  const std::string& suggestion = m_suggestions[m_selected_suggestion];
+  auto it = m_suggestions.begin();
+  advance(it, m_selected_suggestion);
+  const std::string& suggestion = it->first;
 
   size_t line_pos = line_content.find_last_of('.');
   if (line_pos == std::string::npos)
@@ -251,11 +323,12 @@ ControlScriptbox::on_caret_move()
 
   m_selected_suggestion = 0;
   m_suggestions = squirrel::autocomplete(line_content, true);
+  update_description();
 
   // Re-calculate suggestions rect
   float max_suggestion_width = 0.f;
   for (const auto& suggestion : m_suggestions)
-    max_suggestion_width = std::max(max_suggestion_width, Resources::control_font->get_text_width(suggestion));
+    max_suggestion_width = std::max(max_suggestion_width, Resources::control_font->get_text_width(suggestion.first));
 
   const float caret_lgt = Resources::control_font->get_text_width(get_first_chars(m_caret.line, m_caret.line_pos));
   m_suggestions_rect = Rectf(m_rect.p1() + Vector(caret_lgt + TEXT_X_OFFSET,

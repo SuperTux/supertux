@@ -15,11 +15,78 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef HEADER_SUPERTUX_SQUIRREL_AUTOCOMPLETE_HPP
+#define HEADER_SUPERTUX_SQUIRREL_AUTOCOMPLETE_HPP
+
+#include <map>
 #include <string>
 #include <vector>
 
+class ReaderMapping;
+
 namespace squirrel {
 
-std::vector<std::string> autocomplete(const std::string& prefix, bool remove_prefix);
+struct ScriptingObject
+{
+  ScriptingObject() = default;
+  ScriptingObject(const ReaderMapping& reader);
+
+  enum class Type { CONSTANT, FUNCTION, CLASS };
+  virtual Type get_type() const = 0;
+
+  std::string name;
+};
+
+struct ScriptingConstant final : public ScriptingObject
+{
+  ScriptingConstant(const ReaderMapping& reader);
+
+  Type get_type() const override { return Type::CONSTANT; }
+
+  std::string type;
+  std::string description;
+};
+
+struct ScriptingFunction final : public ScriptingObject
+{
+  ScriptingFunction(const ReaderMapping& reader);
+
+  Type get_type() const override { return Type::FUNCTION; }
+
+  struct Parameter final
+  {
+    Parameter() = default;
+
+    std::string type;
+    std::string name;
+    std::string description;
+  };
+
+  std::string type;
+  std::string description;
+  std::vector<Parameter> parameters;
+};
+
+struct ScriptingClass final : public ScriptingObject
+{
+  ScriptingClass() = default;
+  ScriptingClass(const ReaderMapping& reader);
+
+  void add_object(const std::string& key, const ReaderMapping& reader);
+
+  Type get_type() const override { return Type::CLASS; }
+
+  std::string summary;
+  std::string instances;
+  std::vector<ScriptingConstant> constants;
+  std::vector<ScriptingFunction> functions;
+  std::vector<ScriptingClass> classes;
+};
+
+typedef std::map<std::string, const ScriptingObject*> SuggestionStack;
+
+SuggestionStack autocomplete(const std::string& prefix, bool remove_prefix);
 
 } // namespace squirrel
+
+#endif

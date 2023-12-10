@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "interface/control_scrollbar.hpp"
+#include "squirrel/autocomplete.hpp"
 
 class ControlScriptbox final : public ControlTextbox
 {
@@ -41,15 +42,17 @@ protected:
   void on_caret_move() override;
 
 private:
+  void update_description();
   void autocomplete();
 
 private:
-  std::vector<std::string> m_suggestions;
+  squirrel::SuggestionStack m_suggestions;
   Rectf m_suggestions_rect;
   std::unique_ptr<ControlScrollbar> m_suggestions_scrollbar;
   float m_suggestions_offset;
 
   size_t m_selected_suggestion;
+  std::string m_suggestion_description;
 
 private:
   ControlScriptbox(const ControlScriptbox&) = delete;

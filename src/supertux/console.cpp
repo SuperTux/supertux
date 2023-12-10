@@ -299,7 +299,7 @@ Console::autocomplete()
   m_buffer.addLines("> " + prefix);
 
   ready_vm();
-  const std::vector<std::string> cmds = squirrel::autocomplete(prefix, false);
+  const squirrel::SuggestionStack cmds = squirrel::autocomplete(prefix, false);
 
   // Depending on number of hits, show matches or autocomplete.
   if (cmds.empty())
@@ -309,17 +309,17 @@ Console::autocomplete()
   else if (cmds.size() == 1)
   {
     // One match: just replace input buffer with full command.
-    std::string replaceWith = cmds.front();
+    const std::string& replaceWith = cmds.begin()->first;
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
     m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
   }
   else if (cmds.size() > 1)
   {
     // Multiple matches: show all matches and set input buffer to longest common prefix.
-    std::string commonPrefix = cmds.front();
+    std::string commonPrefix = cmds.begin()->first;
     for (auto i = cmds.begin(); i != cmds.end(); i++)
     {
-      const std::string& cmd = *i;
+      const std::string& cmd = i->first;
       m_buffer.addLines(cmd);
       for (int n = static_cast<int>(commonPrefix.length()); n >= 1; n--) {
         if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;

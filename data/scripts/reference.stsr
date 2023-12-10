@@ -1,0 +1,3949 @@
+(supertux-scripting-reference
+  (class
+    (name "AmbientSound")
+    (summary (_ "An `AmbientSound` that was given a name can be controlled by scripts."))
+    (instances (_ "An `AmbientSound` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_pos")
+      (type "void")
+      (description (_ "Sets the position of the ambient sound."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_pos_x")
+      (type "float")
+      (description (_ "Returns the ambient sound's X coordinate."))
+    )
+    (function
+      (name "get_pos_y")
+      (type "float")
+      (description (_ "Returns the ambient sound's Y coordinate."))
+    )
+  )
+  (constant
+    (name "ANCHOR_TOP_LEFT")
+    (type "int")
+    (description (_ "Top-left anchor point."))
+  )
+  (constant
+    (name "ANCHOR_TOP")
+    (type "int")
+    (description (_ "Top anchor point."))
+  )
+  (constant
+    (name "ANCHOR_TOP_RIGHT")
+    (type "int")
+    (description (_ "Top-right anchor point."))
+  )
+  (constant
+    (name "ANCHOR_LEFT")
+    (type "int")
+    (description (_ "Left anchor point."))
+  )
+  (constant
+    (name "ANCHOR_MIDDLE")
+    (type "int")
+    (description (_ "Middle anchor point."))
+  )
+  (constant
+    (name "ANCHOR_RIGHT")
+    (type "int")
+    (description (_ "Right anchor point."))
+  )
+  (constant
+    (name "ANCHOR_BOTTOM_LEFT")
+    (type "int")
+    (description (_ "Bottom-left anchor point."))
+  )
+  (constant
+    (name "ANCHOR_BOTTOM")
+    (type "int")
+    (description (_ "Bottom anchor point."))
+  )
+  (constant
+    (name "ANCHOR_BOTTOM_RIGHT")
+    (type "int")
+    (description (_ "Bottom-right anchor point."))
+  )
+  (class
+    (name "Background")
+    (summary (_ "A `Background` that was given a name can be manipulated by scripts."))
+    (instances (_ "A `Background` can be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_image")
+      (type "void")
+      (description (_ "Sets the background's image."))
+      (parameter
+        (name "image")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_images")
+      (type "void")
+      (description (_ "Sets the top, middle and bottom background images."))
+      (parameter
+        (name "top_image")
+        (type "string")
+      )
+      (parameter
+        (name "middle_image")
+        (type "string")
+      )
+      (parameter
+        (name "bottom_image")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_speed")
+      (type "void")
+      (description (_ "Sets the background speed."))
+      (parameter
+        (name "speed")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_color_red")
+      (type "float")
+      (description (_ "Returns the red color value."))
+    )
+    (function
+      (name "get_color_green")
+      (type "float")
+      (description (_ "Returns the green color value."))
+    )
+    (function
+      (name "get_color_blue")
+      (type "float")
+      (description (_ "Returns the blue color value."))
+    )
+    (function
+      (name "get_color_alpha")
+      (type "float")
+      (description (_ "Returns the alpha color value."))
+    )
+    (function
+      (name "set_color")
+      (type "void")
+      (description (_ "Sets the background color."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_color")
+      (type "void")
+      (description (_ "Fades to specified background color in `time` seconds."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+  )
+  (class
+    (name "BadGuy")
+    (summary (_ "A `BadGuy` that was given a name can be controlled by scripts."))
+    (instances (_ "A `BadGuy` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "kill")
+      (type "void")
+      (description (_ "Kills the badguy."))
+    )
+    (function
+      (name "ignite")
+      (type "void")
+      (description (_ "Kills the badguy by igniting it."))
+    )
+    (function
+      (name "set_action")
+      (type "void")
+      (description (_ "Sets the badguy's sprite action."))
+      (parameter
+        (name "action")
+        (type "string")
+        (description (_ "The sprite action name."))
+      )
+      (parameter
+        (name "loops")
+        (type "int")
+        (description (_ "The amount of loops the action should repeat for."))
+      )
+    )
+    (function
+      (name "set_sprite")
+      (type "void")
+      (description (_ "Sets the badguy's sprite."))
+      (parameter
+        (name "sprite")
+        (type "string")
+      )
+    )
+  )
+  (class
+    (name "Camera")
+    (summary (_ "A `Camera` that was given a name can be manipulated by scripts."))
+    (instances (_ "An instance named `Camera` (`sector.Camera` in the console) is available.${SRG_NEWPARAGRAPH} The mode of the camera is either normal (the camera is following the player) or autoscroll. In the latter mode the camera is forced along a specified ${SRG_REF_Path}."))
+    (function
+      (name "reload_config")
+      (type "void")
+      (description (_ "Reloads the camera's configuration."))
+    )
+    (function
+      (name "shake")
+      (type "void")
+      (description (_ "Shakes the camera in a certain direction only 1 time."))
+      (parameter
+        (name "duration")
+        (type "float")
+      )
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "start_earthquake")
+      (type "void")
+      (description (_ "Starts \"earthquake\" mode, which shakes the camera vertically with a specified average `strength`, at a certain minimal `delay`, until stopped."))
+      (parameter
+        (name "strength")
+        (type "float")
+      )
+      (parameter
+        (name "delay")
+        (type "float")
+      )
+    )
+    (function
+      (name "stop_earthquake")
+      (type "void")
+      (description (_ "Stops \"earthquake\" mode."))
+    )
+    (function
+      (name "set_pos")
+      (type "void")
+      (description (_ "Moves the camera to the specified absolute position.The origin is at the top left. "))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "move")
+      (type "void")
+      (description (_ "Moves the camera `x` to the left and `y` down."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_mode")
+      (type "void")
+      (description (_ "Sets the camera mode."))
+      (parameter
+        (name "mode")
+        (type "string")
+        (description (_ "The mode can be \"normal\" or \"manual\"."))
+      )
+    )
+    (function
+      (name "scroll_to")
+      (type "void")
+      (description (_ "Scrolls the camera to specific coordinates in `scrolltime` seconds."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+      (parameter
+        (name "scrolltime")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_current_scale")
+      (type "float")
+      (description (_ "Returns the current scale factor of the camera."))
+    )
+    (function
+      (name "get_target_scale")
+      (type "float")
+      (description (_ "Returns the scale factor the camera is fading towards."))
+    )
+    (function
+      (name "set_scale")
+      (type "void")
+      (description (_ "Sets the scale factor."))
+      (parameter
+        (name "scale")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_scale_anchor")
+      (type "void")
+      (description (_ "Sets the scale factor and the target position anchor.NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode. "))
+      (parameter
+        (name "scale")
+        (type "float")
+      )
+      (parameter
+        (name "anchor")
+        (type "int")
+        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+      )
+    )
+    (function
+      (name "scale")
+      (type "void")
+      (description (_ "Fades to a specified scale factor in `time` seconds."))
+      (parameter
+        (name "scale")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "scale_anchor")
+      (type "void")
+      (description (_ "Fades to a specified scale factor and target position anchor in `time` seconds.NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode. "))
+      (parameter
+        (name "scale")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "anchor")
+        (type "int")
+        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+      )
+    )
+    (function
+      (name "ease_scale")
+      (type "void")
+      (description (_ "Fades to a specified scale factor in `time` seconds with easing (smooth movement)."))
+      (parameter
+        (name "scale")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "ease")
+        (type "string")
+      )
+    )
+    (function
+      (name "ease_scale_anchor")
+      (type "void")
+      (description (_ "Fades to a specified scale factor and target position anchor in `time` seconds with easing (smooth movement).NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode. "))
+      (parameter
+        (name "scale")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "anchor")
+        (type "int")
+        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+      )
+      (parameter
+        (name "ease")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_screen_width")
+      (type "float")
+      (description (_ "Gets the current width of the screen."))
+    )
+    (function
+      (name "get_screen_height")
+      (type "float")
+      (description (_ "Gets the current height of the screen."))
+    )
+    (function
+      (name "get_x")
+      (type "float")
+      (description (_ "Gets the X coordinate of the top-left corner of the screen."))
+    )
+    (function
+      (name "get_y")
+      (type "float")
+      (description (_ "Gets the Y coordinate of the top-left corner of the screen."))
+    )
+  )
+  (class
+    (name "Candle")
+    (summary (_ "A `Candle` that was given a name can be controlled by scripts."))
+    (instances (_ "A `Candle` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "get_burning")
+      (type "bool")
+      (description (_ "Returns `true` if the candle is lit up."))
+    )
+    (function
+      (name "set_burning")
+      (type "void")
+      (description (_ "Sets the burning state of the candle."))
+      (parameter
+        (name "burning")
+        (type "bool")
+        (description (_ "If `true`, the candle is lit up. If `false`, it's extinguished."))
+      )
+    )
+  )
+  (class
+    (name "Clouds")
+    (summary (_ "A `CloudParticleSystem` that was given a name can be controlled by scripts."))
+    (instances (_ "A `CloudParticleSystem` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_enabled")
+      (type "void")
+      (description (_ "Enables/disables the system."))
+      (parameter
+        (name "enable")
+        (type "bool")
+      )
+    )
+    (function
+      (name "get_enabled")
+      (type "bool")
+      (description (_ "Returns `true` if the system is enabled."))
+    )
+    (function
+      (name "fade_speed")
+      (type "void")
+      (description (_ "Smoothly changes the rain speed to the given value in `time` seconds."))
+      (parameter
+        (name "speed")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_amount")
+      (type "void")
+      (description (_ "Smoothly changes the amount of particles to the given value in `time` seconds."))
+      (parameter
+        (name "amount")
+        (type "int")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "time_between")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_amount")
+      (type "void")
+      (description (_ "Smoothly changes the amount of particles to the given value in `time` seconds."))
+      (parameter
+        (name "amount")
+        (type "int")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+  )
+  (class
+    (name "ConveyorBelt")
+    (summary (_ "A `ConveyorBelt` that was given a name can be controlled by scripts."))
+    (instances (_ "A `ConveyorBelt` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "start")
+      (type "void")
+      (description (_ "Starts the conveyor belt."))
+    )
+    (function
+      (name "stop")
+      (type "void")
+      (description (_ "Stops the conveyor belt."))
+    )
+    (function
+      (name "move_left")
+      (type "void")
+      (description (_ "Makes the conveyor shift objects to the left."))
+    )
+    (function
+      (name "move_right")
+      (type "void")
+      (description (_ "Makes the conveyor shift objects to the right."))
+    )
+    (function
+      (name "set_speed")
+      (type "void")
+      (description (_ "Change the shifting speed of the conveyor."))
+      (parameter
+        (name "target_speed")
+        (type "float")
+      )
+    )
+  )
+  (class
+    (name "CustomParticles")
+    (summary (_ "A `CustomParticleSystem` that was given a name can be controlled by scripts."))
+    (instances (_ "A `CustomParticleSystem` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_enabled")
+      (type "void")
+      (description (_ "Enables/disables the system."))
+      (parameter
+        (name "enable")
+        (type "bool")
+      )
+    )
+    (function
+      (name "get_enabled")
+      (type "bool")
+      (description (_ "Returns `true` if the system is enabled."))
+    )
+    (function
+      (name "clear")
+      (type "void")
+      (description (_ "Instantly removes all particles of that type on the screen."))
+    )
+    (function
+      (name "spawn_particles")
+      (type "void")
+      (description (_ "Spawns particles regardless of whether or not the particles are enabled."))
+      (parameter
+        (name "amount")
+        (type "int")
+      )
+      (parameter
+        (name "instantly")
+        (type "bool")
+        (description (_ "If `true`, disregard the delay settings."))
+      )
+    )
+    (function
+      (name "get_max_amount")
+      (type "int")
+    )
+    (function
+      (name "set_max_amount")
+      (type "void")
+      (parameter
+        (name "amount")
+        (type "int")
+      )
+    )
+    (function
+      (name "get_birth_mode")
+      (type "std::string")
+    )
+    (function
+      (name "set_birth_mode")
+      (type "void")
+      (parameter
+        (name "mode")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_death_mode")
+      (type "std::string")
+    )
+    (function
+      (name "set_death_mode")
+      (type "void")
+      (parameter
+        (name "mode")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_rotation_mode")
+      (type "std::string")
+    )
+    (function
+      (name "set_rotation_mode")
+      (type "void")
+      (parameter
+        (name "mode")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_collision_mode")
+      (type "std::string")
+    )
+    (function
+      (name "set_collision_mode")
+      (type "void")
+      (parameter
+        (name "mode")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_offscreen_mode")
+      (type "std::string")
+    )
+    (function
+      (name "set_offscreen_mode")
+      (type "void")
+      (parameter
+        (name "mode")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_cover_screen")
+      (type "bool")
+    )
+    (function
+      (name "set_cover_screen")
+      (type "void")
+      (parameter
+        (name "cover")
+        (type "bool")
+      )
+    )
+    (function
+      (name "get_delay")
+      (type "float")
+    )
+    (function
+      (name "set_delay")
+      (type "void")
+      (parameter
+        (name "delay")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_delay")
+      (type "void")
+      (parameter
+        (name "delay")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_delay")
+      (type "void")
+      (parameter
+        (name "delay")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_lifetime")
+      (type "float")
+    )
+    (function
+      (name "set_lifetime")
+      (type "void")
+      (parameter
+        (name "lifetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_lifetime")
+      (type "void")
+      (parameter
+        (name "lifetime")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_lifetime")
+      (type "void")
+      (parameter
+        (name "lifetime")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_lifetime_variation")
+      (type "float")
+    )
+    (function
+      (name "set_lifetime_variation")
+      (type "void")
+      (parameter
+        (name "lifetime_variation")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_lifetime_variation")
+      (type "void")
+      (parameter
+        (name "lifetime_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_lifetime_variation")
+      (type "void")
+      (parameter
+        (name "lifetime_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_birth_time")
+      (type "float")
+    )
+    (function
+      (name "set_birth_time")
+      (type "void")
+      (parameter
+        (name "birth_time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_birth_time")
+      (type "void")
+      (parameter
+        (name "birth_time")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_birth_time")
+      (type "void")
+      (parameter
+        (name "birth_time")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_birth_time_variation")
+      (type "float")
+    )
+    (function
+      (name "set_birth_time_variation")
+      (type "void")
+      (parameter
+        (name "birth_time_variation")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_birth_time_variation")
+      (type "void")
+      (parameter
+        (name "birth_time_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_birth_time_variation")
+      (type "void")
+      (parameter
+        (name "birth_time_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_death_time")
+      (type "float")
+    )
+    (function
+      (name "set_death_time")
+      (type "void")
+      (parameter
+        (name "death_time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_death_time")
+      (type "void")
+      (parameter
+        (name "death_time")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_death_time")
+      (type "void")
+      (parameter
+        (name "death_time")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_death_time_variation")
+      (type "float")
+    )
+    (function
+      (name "set_death_time_variation")
+      (type "void")
+      (parameter
+        (name "death_time_variation")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_death_time_variation")
+      (type "void")
+      (parameter
+        (name "death_time_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_death_time_variation")
+      (type "void")
+      (parameter
+        (name "death_time_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_speed_x")
+      (type "float")
+    )
+    (function
+      (name "set_speed_x")
+      (type "void")
+      (parameter
+        (name "speed_x")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_speed_x")
+      (type "void")
+      (parameter
+        (name "speed_x")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_speed_x")
+      (type "void")
+      (parameter
+        (name "speed_x")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_speed_y")
+      (type "float")
+    )
+    (function
+      (name "set_speed_y")
+      (type "void")
+      (parameter
+        (name "speed_y")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_speed_y")
+      (type "void")
+      (parameter
+        (name "speed_y")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_speed_y")
+      (type "void")
+      (parameter
+        (name "speed_y")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_speed_variation_x")
+      (type "float")
+    )
+    (function
+      (name "set_speed_variation_x")
+      (type "void")
+      (parameter
+        (name "speed_variation_x")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_speed_variation_x")
+      (type "void")
+      (parameter
+        (name "speed_variation_x")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_speed_variation_x")
+      (type "void")
+      (parameter
+        (name "speed_variation_x")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_speed_variation_y")
+      (type "float")
+    )
+    (function
+      (name "set_speed_variation_y")
+      (type "void")
+      (parameter
+        (name "speed_variation_y")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_speed_variation_y")
+      (type "void")
+      (parameter
+        (name "speed_variation_y")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_speed_variation_y")
+      (type "void")
+      (parameter
+        (name "speed_variation_y")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_acceleration_x")
+      (type "float")
+    )
+    (function
+      (name "set_acceleration_x")
+      (type "void")
+      (parameter
+        (name "acceleration_x")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_acceleration_x")
+      (type "void")
+      (parameter
+        (name "acceleration_x")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_acceleration_x")
+      (type "void")
+      (parameter
+        (name "acceleration_x")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_acceleration_y")
+      (type "float")
+    )
+    (function
+      (name "set_acceleration_y")
+      (type "void")
+      (parameter
+        (name "acceleration_y")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_acceleration_y")
+      (type "void")
+      (parameter
+        (name "acceleration_y")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_acceleration_y")
+      (type "void")
+      (parameter
+        (name "acceleration_y")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_friction_x")
+      (type "float")
+    )
+    (function
+      (name "set_friction_x")
+      (type "void")
+      (parameter
+        (name "friction_x")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_friction_x")
+      (type "void")
+      (parameter
+        (name "friction_x")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_friction_x")
+      (type "void")
+      (parameter
+        (name "friction_x")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_friction_y")
+      (type "float")
+    )
+    (function
+      (name "set_friction_y")
+      (type "void")
+      (parameter
+        (name "friction_y")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_friction_y")
+      (type "void")
+      (parameter
+        (name "friction_y")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_friction_y")
+      (type "void")
+      (parameter
+        (name "friction_y")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_feather_factor")
+      (type "float")
+    )
+    (function
+      (name "set_feather_factor")
+      (type "void")
+      (parameter
+        (name "feather_factor")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_feather_factor")
+      (type "void")
+      (parameter
+        (name "feather_factor")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_feather_factor")
+      (type "void")
+      (parameter
+        (name "feather_factor")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_rotation")
+      (type "float")
+    )
+    (function
+      (name "set_rotation")
+      (type "void")
+      (parameter
+        (name "rotation")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_rotation")
+      (type "void")
+      (parameter
+        (name "rotation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_rotation")
+      (type "void")
+      (parameter
+        (name "rotation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_rotation_variation")
+      (type "float")
+    )
+    (function
+      (name "set_rotation_variation")
+      (type "void")
+      (parameter
+        (name "rotation_variation")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_rotation_variation")
+      (type "void")
+      (parameter
+        (name "rotation_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_rotation_variation")
+      (type "void")
+      (parameter
+        (name "rotation_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_rotation_speed")
+      (type "float")
+    )
+    (function
+      (name "set_rotation_speed")
+      (type "void")
+      (parameter
+        (name "rotation_speed")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_rotation_speed")
+      (type "void")
+      (parameter
+        (name "rotation_speed")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_rotation_speed")
+      (type "void")
+      (parameter
+        (name "rotation_speed")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_rotation_speed_variation")
+      (type "float")
+    )
+    (function
+      (name "set_rotation_speed_variation")
+      (type "void")
+      (parameter
+        (name "rotation_speed_variation")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_rotation_speed_variation")
+      (type "void")
+      (parameter
+        (name "rotation_speed_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_rotation_speed_variation")
+      (type "void")
+      (parameter
+        (name "rotation_speed_variation")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_rotation_acceleration")
+      (type "float")
+    )
+    (function
+      (name "set_rotation_acceleration")
+      (type "void")
+      (parameter
+        (name "rotation_acceleration")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_rotation_acceleration")
+      (type "void")
+      (parameter
+        (name "rotation_acceleration")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_rotation_acceleration")
+      (type "void")
+      (parameter
+        (name "rotation_acceleration")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_rotation_decceleration")
+      (type "float")
+    )
+    (function
+      (name "set_rotation_decceleration")
+      (type "void")
+      (parameter
+        (name "rotation_decceleration")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_rotation_decceleration")
+      (type "void")
+      (parameter
+        (name "rotation_decceleration")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_rotation_decceleration")
+      (type "void")
+      (parameter
+        (name "rotation_decceleration")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+  )
+  (class
+    (name "Decal")
+    (summary (_ "A `Decal` that was given a name can be controlled by scripts."))
+    (instances (_ "A `Decal` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "fade_sprite")
+      (type "void")
+      (description (_ "Fades the decal sprite to a new one in `time` seconds."))
+      (parameter
+        (name "sprite")
+        (type "string")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "change_sprite")
+      (type "void")
+      (description (_ "Changes the decal sprite."))
+      (parameter
+        (name "sprite")
+        (type "string")
+      )
+    )
+    (function
+      (name "fade_in")
+      (type "void")
+      (description (_ "Fades in the decal in `time` seconds."))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_out")
+      (type "void")
+      (description (_ "Fades out the decal in `time` seconds."))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_action")
+      (type "void")
+      (description (_ "Sets the action for the decal's sprite."))
+      (parameter
+        (name "action")
+        (type "string")
+      )
+    )
+  )
+  (class
+    (name "Dispenser")
+    (summary (_ "A `Dispenser` that was given a name can be controlled by scripts."))
+    (instances (_ "A `Dispenser` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "activate")
+      (type "void")
+      (description (_ "Makes the dispenser start dispensing badguys."))
+    )
+    (function
+      (name "deactivate")
+      (type "void")
+      (description (_ "Stops the dispenser from dispensing badguys."))
+    )
+  )
+  (class
+    (name "DisplayEffect")
+    (summary (_ "`DisplayEffect` is an interface for toying with the display."))
+    (instances (_ "SuperTux creates an instance named `Effect` when starting the scripting engine. Its usage is preferred – creating another instance might have unexpected side effects and is strongly discouraged. (Use `sector.Effect` in the console.)"))
+    (function
+      (name "fade_out")
+      (type "void")
+      (description (_ "Gradually fades out the screen to black for the next `time` seconds."))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_in")
+      (type "void")
+      (description (_ "Gradually fades in the screen from black for the next `time` seconds."))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_black")
+      (type "void")
+      (description (_ "Blackens or un-blackens the screen (depending on the value of `black`)."))
+      (parameter
+        (name "black")
+        (type "bool")
+      )
+    )
+    (function
+      (name "is_black")
+      (type "bool")
+      (description (_ "Returns `true` if the screen has been blackened by `set_black`.Note: Calling `fade_in` or `fade_out` resets the return value to `false`. "))
+    )
+    (function
+      (name "sixteen_to_nine")
+      (type "void")
+      (description (_ "Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen.Should be used before cutscenes. Gradually fades to this state for the next `time` seconds. "))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "four_to_three")
+      (type "void")
+      (description (_ "Sets the display ratio to 4:3, removing the black bars added by `sixteen_to_nine()`.Should be used after cutscenes. Gradually fades to this state for the next `time` seconds. "))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+  )
+  (class
+    (name "FloatingImage")
+    (summary (_ "This class provides the ability to create, edit, and remove images floating in midair on the screen, such as the SuperTux logo. It is implemented as a wrapper around a sprite, so any sprite actions are applicable."))
+    (instances (_ "Floating Images are created in a script or from the console. Constructor:${SRG_NEWPARAGRAPH} ```<floatimage> <- FloatingImage(string filename)```${SRG_NEWPARAGRAPH} This creates a `FloatingImage` from `filename` (which is relative to the data directory root)."))
+    (function
+      (name "set_layer")
+      (type "void")
+      (description (_ "Sets the layer of the floating image."))
+      (parameter
+        (name "layer")
+        (type "int")
+      )
+    )
+    (function
+      (name "get_layer")
+      (type "int")
+      (description (_ "Returns the layer the floating image is on."))
+    )
+    (function
+      (name "set_pos")
+      (type "void")
+      (description (_ "Sets the location of the image in relation to the current anchor point."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_pos_x")
+      (type "float")
+      (description (_ "Returns the image's X coordinate relative to the current anchor point."))
+    )
+    (function
+      (name "get_pos_y")
+      (type "float")
+      (description (_ "Returns the image's Y coordinate relative to the current anchor point."))
+    )
+    (function
+      (name "set_anchor_point")
+      (type "void")
+      (description (_ "Sets the image's anchor point."))
+      (parameter
+        (name "anchor")
+        (type "int")
+        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+      )
+    )
+    (function
+      (name "get_anchor_point")
+      (type "int")
+      (description (_ "Returns the current anchor point."))
+    )
+    (function
+      (name "set_visible")
+      (type "void")
+      (description (_ "Sets the visibility of the floating image."))
+      (parameter
+        (name "visible")
+        (type "bool")
+      )
+    )
+    (function
+      (name "get_visible")
+      (type "bool")
+      (description (_ "Returns the visibility state of the floating image."))
+    )
+    (function
+      (name "set_action")
+      (type "void")
+      (description (_ "Sets the action of the image.This is only useful when the image is a sprite. "))
+      (parameter
+        (name "action")
+        (type "string")
+        (description (_ "Name of the action, as defined in the sprite."))
+      )
+    )
+    (function
+      (name "get_action")
+      (type "std::string")
+      (description (_ "Returns the name of the action of the image, as defined in the sprite.This is only useful when the image is a sprite. "))
+    )
+    (function
+      (name "fade_in")
+      (type "void")
+      (description (_ "Fades in the image for the next `time` seconds."))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_out")
+      (type "void")
+      (description (_ "Fades out the image for the next `time` seconds."))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+  )
+  (class
+    (name "GameObjectManager")
+    (summary (_ "This class provides basic controlling functions for a sector. Applies for both worldmap and in-level sectors."))
+    (instances (_ "For in-level sectors, an instance under `sector.settings` is available from scripts and the console.${SRG_NEWPARAGRAPH} For worldmap sectors, such instance is available under `worldmap.settings`."))
+    (function
+      (name "set_ambient_light")
+      (type "void")
+      (description (_ "Sets the sector's ambient light to the specified color."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_to_ambient_light")
+      (type "void")
+      (description (_ "Fades to a specified ambient light color in `fadetime` seconds."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_ambient_red")
+      (type "float")
+      (description (_ "Returns the red channel of the ambient light color."))
+    )
+    (function
+      (name "get_ambient_green")
+      (type "float")
+      (description (_ "Returns the green channel of the ambient light color."))
+    )
+    (function
+      (name "get_ambient_blue")
+      (type "float")
+      (description (_ "Returns the blue channel of the ambient light color."))
+    )
+    (function
+      (name "set_music")
+      (type "void")
+      (description (_ "Sets the sector's music."))
+      (parameter
+        (name "music")
+        (type "string")
+        (description (_ "Full filename, relative to the \"music\" folder."))
+      )
+    )
+    (function
+      (name "add_object")
+      (type "void")
+      (description (_ "Adds a `MovingObject` to the manager.Note: If adding objects to a worldmap sector, `posX` and `posY` have to be tile positions (sector position / 32). "))
+      (parameter
+        (name "class_name")
+        (type "string")
+        (description (_ "GameObject's class."))
+      )
+      (parameter
+        (name "name")
+        (type "string")
+        (description (_ "Name of the created object."))
+      )
+      (parameter
+        (name "posX")
+        (type "int")
+        (description (_ "X position inside the current sector."))
+      )
+      (parameter
+        (name "posY")
+        (type "int")
+        (description (_ "Y position inside the current sector."))
+      )
+      (parameter
+        (name "direction")
+        (type "string")
+        (description (_ "Direction."))
+      )
+      (parameter
+        (name "data")
+        (type "string")
+        (description (_ "Additional data in S-Expression format (check object definitions in level files)."))
+      )
+    )
+  )
+  (function
+    (name "display")
+    (type "SQInteger")
+    (description (_ "Displays the value of an argument.This is useful for inspecting tables. "))
+    (parameter
+      (name "object")
+      (type "ANY")
+    )
+  )
+  (function
+    (name "print_stacktrace")
+    (type "void")
+    (description (_ "Displays the contents of the current stack."))
+  )
+  (function
+    (name "get_current_thread")
+    (type "SQInteger")
+    (description (_ "Returns the currently running thread."))
+  )
+  (function
+    (name "is_christmas")
+    (type "bool")
+    (description (_ "Returns whether the game is in christmas mode."))
+  )
+  (function
+    (name "display_text_file")
+    (type "void")
+    (description (_ "Displays a text file and scrolls it over the screen (on next screenswitch)."))
+    (parameter
+      (name "filename")
+      (type "string")
+    )
+  )
+  (function
+    (name "load_worldmap")
+    (type "void")
+    (description (_ "Loads and displays a worldmap (on next screenswitch), using the savegame of the current worldmap."))
+    (parameter
+      (name "filename")
+      (type "string")
+    )
+    (parameter
+      (name "sector")
+      (type "string")
+      (description (_ "Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame."))
+    )
+    (parameter
+      (name "spawnpoint")
+      (type "string")
+      (description (_ "Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame."))
+    )
+  )
+  (function
+    (name "set_next_worldmap")
+    (type "void")
+    (description (_ "Switches to a different worldmap after unloading the current one, after `exit_screen()` is called."))
+    (parameter
+      (name "dirname")
+      (type "string")
+      (description (_ "The world directory, where the \"worldmap.stwm\" file is located."))
+    )
+    (parameter
+      (name "sector")
+      (type "string")
+      (description (_ "Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame."))
+    )
+    (parameter
+      (name "spawnpoint")
+      (type "string")
+      (description (_ "Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame."))
+    )
+  )
+  (function
+    (name "load_level")
+    (type "void")
+    (description (_ "Loads and displays a level (on next screenswitch), using the savegame of the current level."))
+    (parameter
+      (name "filename")
+      (type "string")
+    )
+  )
+  (function
+    (name "start_cutscene")
+    (type "void")
+    (description (_ "Starts a skippable cutscene."))
+  )
+  (function
+    (name "end_cutscene")
+    (type "void")
+    (description (_ "Ends a skippable cutscene."))
+  )
+  (function
+    (name "check_cutscene")
+    (type "bool")
+    (description (_ "Checks if a skippable cutscene is currently running."))
+  )
+  (function
+    (name "wait")
+    (type "void")
+    (description (_ "Suspends the script execution for a specified number of seconds."))
+    (parameter
+      (name "seconds")
+      (type "float")
+    )
+  )
+  (function
+    (name "wait_for_screenswitch")
+    (type "void")
+    (description (_ "Suspends the script execution until the current screen has been changed."))
+  )
+  (function
+    (name "exit_screen")
+    (type "void")
+    (description (_ "Exits the currently running screen (for example, force exits from worldmap or scrolling text)."))
+  )
+  (function
+    (name "translate")
+    (type "std::string")
+    (description (_ "Translates a text into the user's language (by looking in the `.po` files)."))
+    (parameter
+      (name "text")
+      (type "string")
+    )
+  )
+  (function
+    (name "_")
+    (type "std::string")
+    (description (_ "Same function as `translate()`."))
+    (parameter
+      (name "text")
+      (type "string")
+    )
+  )
+  (function
+    (name "translate_plural")
+    (type "std::string")
+    (description (_ "Translates a text into the user's language (by looking in the `.po` files).Returns `text` or `text_plural`, depending on `num` and the locale. "))
+    (parameter
+      (name "text")
+      (type "string")
+    )
+    (parameter
+      (name "text_plural")
+      (type "string")
+    )
+    (parameter
+      (name "num")
+      (type "int")
+    )
+  )
+  (function
+    (name "__")
+    (type "std::string")
+    (description (_ "Same function as `translate_plural()`."))
+    (parameter
+      (name "text")
+      (type "string")
+    )
+    (parameter
+      (name "text_plural")
+      (type "string")
+    )
+    (parameter
+      (name "num")
+      (type "int")
+    )
+  )
+  (function
+    (name "import")
+    (type "void")
+    (description (_ "Loads a script file and executes it.This is typically used to import functions from external files. "))
+    (parameter
+      (name "filename")
+      (type "string")
+    )
+  )
+  (function
+    (name "save_state")
+    (type "void")
+    (description (_ "Saves world state to scripting table."))
+  )
+  (function
+    (name "load_state")
+    (type "void")
+    (description (_ "Loads world state from scripting table."))
+  )
+  (function
+    (name "debug_collrects")
+    (type "void")
+    (description (_ "Enables/disables drawing of collision rectangles."))
+    (parameter
+      (name "enable")
+      (type "bool")
+    )
+  )
+  (function
+    (name "debug_show_fps")
+    (type "void")
+    (description (_ "Enables/disables drawing of FPS."))
+    (parameter
+      (name "enable")
+      (type "bool")
+    )
+  )
+  (function
+    (name "debug_draw_solids_only")
+    (type "void")
+    (description (_ "Enables/disables drawing of non-solid layers."))
+    (parameter
+      (name "enable")
+      (type "bool")
+    )
+  )
+  (function
+    (name "debug_draw_editor_images")
+    (type "void")
+    (description (_ "Enables/disables drawing of editor images."))
+    (parameter
+      (name "enable")
+      (type "bool")
+    )
+  )
+  (function
+    (name "debug_worldmap_ghost")
+    (type "void")
+    (description (_ "Enables/disables worldmap ghost mode."))
+    (parameter
+      (name "enable")
+      (type "bool")
+    )
+  )
+  (function
+    (name "play_music")
+    (type "void")
+    (description (_ "Changes the music to `musicfile`."))
+    (parameter
+      (name "musicfile")
+      (type "string")
+    )
+  )
+  (function
+    (name "fade_in_music")
+    (type "void")
+    (description (_ "Fades in the music from `musicfile` for `fadetime` seconds."))
+    (parameter
+      (name "musicfile")
+      (type "string")
+    )
+    (parameter
+      (name "fadetime")
+      (type "float")
+    )
+  )
+  (function
+    (name "stop_music")
+    (type "void")
+    (description (_ "Fades out the music for `fadetime` seconds."))
+    (parameter
+      (name "fadetime")
+      (type "float")
+      (description (_ "Set to \"0\" for no fade-out."))
+    )
+  )
+  (function
+    (name "resume_music")
+    (type "void")
+    (description (_ "Resumes and fades in the music for `fadetime` seconds."))
+    (parameter
+      (name "fadetime")
+      (type "float")
+      (description (_ "Set to \"0\" for no fade-in."))
+    )
+  )
+  (function
+    (name "pause_music")
+    (type "void")
+    (description (_ "Pauses the music with a fade-out for `fadetime` seconds."))
+    (parameter
+      (name "fadetime")
+      (type "float")
+      (description (_ "Set to \"0\" for no fade-out."))
+    )
+  )
+  (function
+    (name "play_sound")
+    (type "void")
+    (description (_ "Plays `soundfile` as a sound."))
+    (parameter
+      (name "soundfile")
+      (type "string")
+    )
+  )
+  (function
+    (name "set_game_speed")
+    (type "void")
+    (description (_ "Sets the game speed to `speed`."))
+    (parameter
+      (name "speed")
+      (type "float")
+    )
+  )
+  (function
+    (name "grease")
+    (type "void")
+    (description (_ "Speeds Tux up."))
+  )
+  (function
+    (name "invincible")
+    (type "void")
+    (description (_ "Makes Tux invincible for 10000 units of time."))
+  )
+  (function
+    (name "ghost")
+    (type "void")
+    (description (_ "Makes Tux a ghost, i.e.lets him float around and through solid objects. "))
+  )
+  (function
+    (name "mortal")
+    (type "void")
+    (description (_ "Recalls Tux's invincibility and ghost status."))
+  )
+  (function
+    (name "restart")
+    (type "void")
+    (description (_ "Re-initializes and respawns Tux at the beginning of the current level."))
+  )
+  (function
+    (name "whereami")
+    (type "void")
+    (description (_ "Prints Tux's current coordinates in the current level."))
+  )
+  (function
+    (name "gotoend")
+    (type "void")
+    (description (_ "Moves Tux near the end of the current level."))
+  )
+  (function
+    (name "warp")
+    (type "void")
+    (description (_ "Moves Tux to the X and Y blocks, relative to his position."))
+    (parameter
+      (name "offset_x")
+      (type "float")
+    )
+    (parameter
+      (name "offset_y")
+      (type "float")
+    )
+  )
+  (function
+    (name "camera")
+    (type "void")
+    (description (_ "Shows the camera's coordinates."))
+  )
+  (function
+    (name "set_gamma")
+    (type "void")
+    (description (_ "Adjusts the gamma."))
+    (parameter
+      (name "gamma")
+      (type "float")
+    )
+  )
+  (function
+    (name "rand")
+    (type "int")
+    (description (_ "Returns a random integer."))
+  )
+  (function
+    (name "record_demo")
+    (type "void")
+    (description (_ "Records a demo to the given file."))
+    (parameter
+      (name "filename")
+      (type "string")
+    )
+  )
+  (function
+    (name "play_demo")
+    (type "void")
+    (description (_ "Plays back a demo from the given file."))
+    (parameter
+      (name "filename")
+      (type "string")
+    )
+  )
+  (class
+    (name "Gradient")
+    (summary (_ "A `Gradient` that was given a name can be controlled by scripts."))
+    (instances (_ "A `Gradient` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_direction")
+      (type "void")
+      (description (_ "Sets the direction of the gradient."))
+      (parameter
+        (name "direction")
+        (type "string")
+        (description (_ "Can be \"horizontal\", \"vertical\", \"horizontal_sector\" or \"vertical_sector\"."))
+      )
+    )
+    (function
+      (name "get_direction")
+      (type "std::string")
+      (description (_ "Returns the direction of the gradient.Possible values are \"horizontal\", \"vertical\", \"horizontal_sector\" or \"vertical_sector\". "))
+    )
+    (function
+      (name "set_color1")
+      (type "void")
+      (description (_ "Set top gradient color."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_color2")
+      (type "void")
+      (description (_ "Set bottom gradient color."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_colors")
+      (type "void")
+      (description (_ "Set both gradient colors."))
+      (parameter
+        (name "red1")
+        (type "float")
+      )
+      (parameter
+        (name "green1")
+        (type "float")
+      )
+      (parameter
+        (name "blue1")
+        (type "float")
+      )
+      (parameter
+        (name "red2")
+        (type "float")
+      )
+      (parameter
+        (name "green2")
+        (type "float")
+      )
+      (parameter
+        (name "blue2")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_color1")
+      (type "void")
+      (description (_ "Fade the top gradient color to a specified new color in `time` seconds."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_color2")
+      (type "void")
+      (description (_ "Fade the bottom gradient color to a specified new color in `time` seconds."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_colors")
+      (type "void")
+      (description (_ "Fade both gradient colors to specified new colors in `time` seconds."))
+      (parameter
+        (name "red1")
+        (type "float")
+      )
+      (parameter
+        (name "green1")
+        (type "float")
+      )
+      (parameter
+        (name "blue1")
+        (type "float")
+      )
+      (parameter
+        (name "red2")
+        (type "float")
+      )
+      (parameter
+        (name "green2")
+        (type "float")
+      )
+      (parameter
+        (name "blue2")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "swap_colors")
+      (type "void")
+      (description (_ "Swap top and bottom gradient colors."))
+    )
+  )
+  (class
+    (name "Level")
+    (summary (_ "The `Level` class provides basic controlling functions for the current level."))
+    (instances (_ "An instance named `Level` is available from scripts and the console."))
+    (function
+      (name "finish")
+      (type "void")
+      (description (_ "Ends the current level."))
+      (parameter
+        (name "win")
+        (type "bool")
+        (description (_ "If `true`, the level is marked as completed if launched from a worldmap."))
+      )
+    )
+    (function
+      (name "has_active_sequence")
+      (type "bool")
+      (description (_ "Gets whether an end sequence has started.(AKA when the stats at the end are visible) "))
+    )
+    (function
+      (name "spawn")
+      (type "void")
+      (description (_ "Respawns Tux in sector named `sector` at spawnpoint named `spawnpoint`.${SRG_TABLENEWPARAGRAPH} Exceptions: If `sector` or `spawnpoint` are empty, or the specified sector does not exist, the function will bail out the first chance it gets. If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”. If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0). "))
+      (parameter
+        (name "sector")
+        (type "string")
+      )
+      (parameter
+        (name "spawnpoint")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_start_point")
+      (type "void")
+      (description (_ "Sets the default start spawnpoint of the level."))
+      (parameter
+        (name "sector")
+        (type "string")
+      )
+      (parameter
+        (name "spawnpoint")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_start_pos")
+      (type "void")
+      (description (_ "Sets the default start spawn position of the level."))
+      (parameter
+        (name "sector")
+        (type "string")
+      )
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_respawn_point")
+      (type "void")
+      (description (_ "Sets the default respawn spawnpoint of the level."))
+      (parameter
+        (name "sector")
+        (type "string")
+      )
+      (parameter
+        (name "spawnpoint")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_respawn_pos")
+      (type "void")
+      (description (_ "Sets the default respawn position of the level."))
+      (parameter
+        (name "sector")
+        (type "string")
+      )
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "flip_vertically")
+      (type "void")
+      (description (_ "Flips the level vertically (i.e.top is now bottom and vice versa). Call again to revert the effect. Make sure the player can land on something after the level is flipped! "))
+    )
+    (function
+      (name "toggle_pause")
+      (type "void")
+      (description (_ "Toggle pause."))
+    )
+    (function
+      (name "pause_target_timer")
+      (type "void")
+      (description (_ "Pauses the target timer."))
+    )
+    (function
+      (name "resume_target_timer")
+      (type "void")
+      (description (_ "Resumes the target timer."))
+    )
+  )
+  (class
+    (name "LevelTime")
+    (summary (_ "A `LevelTime` that was given a name can be controlled by scripts."))
+    (instances (_ "A `LevelTime` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "start")
+      (type "void")
+      (description (_ "Resumes the countdown (assuming it isn't already started, in which case it does nothing)."))
+    )
+    (function
+      (name "stop")
+      (type "void")
+      (description (_ "Pauses the countdown (assuming it isn't already stopped, in which case it does nothing)."))
+    )
+    (function
+      (name "get_time")
+      (type "float")
+      (description (_ "Returns the number of seconds left on the clock."))
+    )
+    (function
+      (name "set_time")
+      (type "void")
+      (description (_ "Sets the number of seconds left on the clock."))
+      (parameter
+        (name "time_left")
+        (type "float")
+      )
+    )
+  )
+  (class
+    (name "LitObject")
+    (summary (_ "A `LitObject` that was given a name can be controlled by scripts."))
+    (instances (_ "A `LitObject` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "get_action")
+      (type "std::string")
+      (description (_ "Returns the current sprite action."))
+    )
+    (function
+      (name "set_action")
+      (type "void")
+      (description (_ "Sets the sprite action."))
+      (parameter
+        (name "action")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_light_action")
+      (type "std::string")
+      (description (_ "Returns the current light sprite action."))
+    )
+    (function
+      (name "set_light_action")
+      (type "void")
+      (description (_ "Sets the light sprite action."))
+      (parameter
+        (name "action")
+        (type "string")
+      )
+    )
+  )
+  (class
+    (name "ParticleSystem")
+    (summary (_ "A `ParticleSystem` that was given a name can be controlled by scripts."))
+    (instances (_ "A `ParticleSystem` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_enabled")
+      (type "void")
+      (description (_ "Enables/disables the system."))
+      (parameter
+        (name "enable")
+        (type "bool")
+      )
+    )
+    (function
+      (name "get_enabled")
+      (type "bool")
+      (description (_ "Returns whether the system is enabled."))
+    )
+  )
+  (class
+    (name "Platform")
+    (summary (_ "A `Platform` that was given a name can be controlled by scripts. It moves along a specified path."))
+    (instances (_ "A `Platform` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "goto_node")
+      (type "void")
+      (description (_ "Moves the platform until at given node, then stops."))
+      (parameter
+        (name "node_no")
+        (type "int")
+      )
+    )
+    (function
+      (name "set_node")
+      (type "void")
+      (description (_ "Jumps instantly to the given node."))
+      (parameter
+        (name "node_no")
+        (type "int")
+      )
+    )
+    (function
+      (name "start_moving")
+      (type "void")
+      (description (_ "Starts moving the platform automatically."))
+    )
+    (function
+      (name "stop_moving")
+      (type "void")
+      (description (_ "Stops moving the platform."))
+    )
+    (function
+      (name "get_action")
+      (type "std::string")
+      (description (_ "Returns the current sprite action."))
+    )
+    (function
+      (name "set_action")
+      (type "void")
+      (description (_ "Sets the sprite action."))
+      (parameter
+        (name "action")
+        (type "string")
+      )
+      (parameter
+        (name "loops")
+        (type "int")
+      )
+    )
+  )
+  (class
+    (name "Player")
+    (summary (_ "This module contains methods controlling the player. (No, SuperTux doesn't use mind control. `Player` refers to the type of the player object.)"))
+    (instances (_ "The first player can be accessed using `Tux`, or `sector.Tux` from the console. All following players (2nd, 3rd, etc...) can be accessed by `Tux{index}`. For example, to access the 2nd player, use `Tux1` (or `sector.Tux1` from the console)."))
+    (function
+      (name "add_bonus")
+      (type "bool")
+      (description (_ "Gives Tux the specified bonus unless Tux’s current bonus is superior."))
+      (parameter
+        (name "bonus")
+        (type "string")
+        (description (_ "Can be \"grow\", \"fireflower\", \"iceflower\", \"airflower\" or \"earthflower\" at the moment."))
+      )
+    )
+    (function
+      (name "set_bonus")
+      (type "bool")
+      (description (_ "Gives Tux the specified bonus."))
+      (parameter
+        (name "bonus")
+        (type "string")
+        (description (_ "Can be \"grow\", \"fireflower\", \"iceflower\", \"airflower\" or \"earthflower\" at the moment."))
+      )
+    )
+    (function
+      (name "get_bonus")
+      (type "std::string")
+      (description (_ "Gets Tux's current bonus."))
+    )
+    (function
+      (name "add_coins")
+      (type "void")
+      (description (_ "Gives the player a number of coins.${SRG_TABLENEWPARAGRAPH} If count is a negative amount of coins, that number of coins will be taken from the player (until the number of coins the player has is 0, when it will stop changing). "))
+      (parameter
+        (name "count")
+        (type "int")
+      )
+    )
+    (function
+      (name "get_coins")
+      (type "int")
+      (description (_ "Returns the number of coins the player currently has."))
+    )
+    (function
+      (name "make_invincible")
+      (type "void")
+      (description (_ "Make Tux invincible for a short amount of time."))
+    )
+    (function
+      (name "deactivate")
+      (type "void")
+      (description (_ "Deactivate user/scripting input for Tux.Carried items like trampolines won't be dropped. "))
+    )
+    (function
+      (name "activate")
+      (type "void")
+      (description (_ "Give control back to user/scripting."))
+    )
+    (function
+      (name "walk")
+      (type "void")
+      (description (_ "Makes Tux walk."))
+      (parameter
+        (name "speed")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_dir")
+      (type "void")
+      (description (_ "Face Tux in the proper direction."))
+      (parameter
+        (name "right")
+        (type "bool")
+        (description (_ "Set to `true` to make Tux face right, `false` to face left."))
+      )
+    )
+    (function
+      (name "set_visible")
+      (type "void")
+      (description (_ "Set Tux visible or invisible."))
+      (parameter
+        (name "visible")
+        (type "bool")
+      )
+    )
+    (function
+      (name "get_visible")
+      (type "bool")
+      (description (_ "Returns `true` if Tux is currently visible (has not been set invisible by the `set_visible()` method)."))
+    )
+    (function
+      (name "kill")
+      (type "void")
+      (description (_ "Hurts Tux."))
+      (parameter
+        (name "completely")
+        (type "bool")
+        (description (_ "If true, he will be killed even if he had \"grow\" or a superior bonus."))
+      )
+    )
+    (function
+      (name "set_ghost_mode")
+      (type "void")
+      (description (_ "Switches ghost mode on/off.Lets Tux float around and through solid objects. "))
+      (parameter
+        (name "enable")
+        (type "bool")
+      )
+    )
+    (function
+      (name "get_ghost_mode")
+      (type "bool")
+      (description (_ "Returns whether ghost mode is currently enabled."))
+    )
+    (function
+      (name "kick")
+      (type "void")
+      (description (_ "Start kick animation."))
+    )
+    (function
+      (name "do_cheer")
+      (type "void")
+      (description (_ "Play cheer animation.${SRG_TABLENEWPARAGRAPH} This might need some space and behave in an unpredictable way. It's best to use this at level end. "))
+    )
+    (function
+      (name "do_duck")
+      (type "void")
+      (description (_ "Makes Tux duck down, if possible.Won't last long, as long as input is enabled. "))
+    )
+    (function
+      (name "do_standup")
+      (type "void")
+      (description (_ "Makes Tux stand back up, if possible."))
+    )
+    (function
+      (name "do_backflip")
+      (type "void")
+      (description (_ "Makes Tux do a backflip, if possible."))
+    )
+    (function
+      (name "do_jump")
+      (type "void")
+      (description (_ "Makes Tux jump in the air, if possible."))
+      (parameter
+        (name "yspeed")
+        (type "float")
+      )
+    )
+    (function
+      (name "trigger_sequence")
+      (type "void")
+      (description (_ "Orders the current `GameSession` to start a sequence."))
+      (parameter
+        (name "sequence_name")
+        (type "string")
+        (description (_ "One of “stoptux”, “endsequence” or “fireworks”."))
+      )
+    )
+    (function
+      (name "use_scripting_controller")
+      (type "void")
+      (description (_ "Uses a scriptable controller for all user input (or restores controls)."))
+      (parameter
+        (name "enable")
+        (type "bool")
+      )
+    )
+    (function
+      (name "do_scripting_controller")
+      (type "void")
+      (description (_ "Instructs the scriptable controller to press or release a button."))
+      (parameter
+        (name "control")
+        (type "string")
+        (description (_ "Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”, “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”, “peek-left”, “peek-right”, “peek-up” or “peek-down”."))
+      )
+      (parameter
+        (name "pressed")
+        (type "bool")
+      )
+    )
+    (function
+      (name "has_grabbed")
+      (type "bool")
+      (description (_ "Returns whether the player is carrying a certain object."))
+      (parameter
+        (name "name")
+        (type "string")
+        (description (_ "Name of the portable object to check for."))
+      )
+    )
+    (function
+      (name "get_velocity_x")
+      (type "float")
+      (description (_ "Returns Tux’s velocity in X direction."))
+    )
+    (function
+      (name "get_velocity_y")
+      (type "float")
+      (description (_ "Returns Tux’s velocity in Y direction."))
+    )
+    (function
+      (name "set_velocity")
+      (type "void")
+      (description (_ "Sets the velocity of the player to a programmable/variable speed."))
+      (parameter
+        (name "x")
+        (type "float")
+        (description (_ "The speed Tux will move on the x axis."))
+      )
+      (parameter
+        (name "y")
+        (type "float")
+        (description (_ "The speed Tux will move on the y axis."))
+      )
+    )
+    (function
+      (name "get_x")
+      (type "float")
+      (description (_ "Gets the X coordinate of the player."))
+    )
+    (function
+      (name "get_y")
+      (type "float")
+      (description (_ "Gets the Y coordinate of the player."))
+    )
+    (function
+      (name "set_pos")
+      (type "void")
+      (description (_ "Sets the position of the player to a programmable/variable position."))
+      (parameter
+        (name "x")
+        (type "float")
+        (description (_ "X position."))
+      )
+      (parameter
+        (name "y")
+        (type "float")
+        (description (_ "Y position."))
+      )
+    )
+    (function
+      (name "get_action")
+      (type "std::string")
+      (description (_ "Gets the player's current action/animation."))
+    )
+    (function
+      (name "get_input_pressed")
+      (type "bool")
+      (description (_ "Gets whether the current input on the keyboard/controller/touchpad has been pressed."))
+      (parameter
+        (name "input")
+        (type "string")
+        (description (_ "Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”, “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”, “peek-left”, “peek-right”, “peek-up” or “peek-down”."))
+      )
+    )
+    (function
+      (name "get_input_held")
+      (type "bool")
+      (description (_ "Gets whether the current input on the keyboard/controller/touchpad is being held."))
+      (parameter
+        (name "input")
+        (type "string")
+        (description (_ "Valid values are listed above."))
+      )
+    )
+    (function
+      (name "get_input_released")
+      (type "bool")
+      (description (_ "Gets whether the current input on the keyboard/controller/touchpad has been released."))
+      (parameter
+        (name "input")
+        (type "string")
+        (description (_ "Valid values are listed above."))
+      )
+    )
+  )
+  (class
+    (name "Rain")
+    (summary (_ "A `RainParticleSystem` that was given a name can be controlled by scripts."))
+    (instances (_ "A `RainParticleSystem` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_enabled")
+      (type "void")
+      (description (_ "Enables/disables the system."))
+      (parameter
+        (name "enable")
+        (type "bool")
+      )
+    )
+    (function
+      (name "get_enabled")
+      (type "bool")
+      (description (_ "Returns `true` if the system is enabled."))
+    )
+    (function
+      (name "fade_speed")
+      (type "void")
+      (description (_ "Smoothly changes the rain speed to the given value in `time` seconds."))
+      (parameter
+        (name "speed")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_amount")
+      (type "void")
+      (description (_ "Smoothly changes the amount of particles to the given value in `time` seconds."))
+      (parameter
+        (name "amount")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_angle")
+      (type "void")
+      (description (_ "Smoothly changes the angle of the rain the given value in `time` seconds, according to the provided easing function."))
+      (parameter
+        (name "angle")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "ease")
+        (type "string")
+      )
+    )
+  )
+  (class
+    (name "ScriptedObject")
+    (summary (_ "A `ScriptedObject` that was given a name can be controlled by scripts."))
+    (instances (_ "A `ScriptedObject` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_action")
+      (type "void")
+      (description (_ "Sets the sprite action/animation."))
+      (parameter
+        (name "animation")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_action")
+      (type "std::string")
+      (description (_ "Returns the current sprite action."))
+    )
+    (function
+      (name "get_name")
+      (type "std::string")
+      (description (_ "Returns the name of the object."))
+    )
+    (function
+      (name "move")
+      (type "void")
+      (description (_ "Moves the object by `x` units to the right and `y` down, relative to its current position."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_pos")
+      (type "void")
+      (description (_ "Identical to `move()`, except it's relative to the sector origin."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_pos_x")
+      (type "float")
+      (description (_ "Returns the X coordinate of the object's position."))
+    )
+    (function
+      (name "get_pos_y")
+      (type "float")
+      (description (_ "Returns the Y coordinate of the object's position."))
+    )
+    (function
+      (name "set_velocity")
+      (type "void")
+      (description (_ "Makes the object move in a certain `x` and `y` direction (with a certain speed)."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_velocity_x")
+      (type "float")
+      (description (_ "Returns the X coordinate of the object's velocity."))
+    )
+    (function
+      (name "get_velocity_y")
+      (type "float")
+      (description (_ "Returns the Y coordinate of the object's velocity."))
+    )
+    (function
+      (name "enable_gravity")
+      (type "void")
+      (description (_ "Enables or disables gravity, according to the value of `enabled`."))
+      (parameter
+        (name "enabled")
+        (type "bool")
+      )
+    )
+    (function
+      (name "gravity_enabled")
+      (type "bool")
+      (description (_ "Returns `true` if the object's gravity is enabled."))
+    )
+    (function
+      (name "set_visible")
+      (type "void")
+      (description (_ "Shows or hides the object, according to the value of `visible`."))
+      (parameter
+        (name "visible")
+        (type "bool")
+      )
+    )
+    (function
+      (name "is_visible")
+      (type "bool")
+      (description (_ "Returns `true` if the object is visible."))
+    )
+    (function
+      (name "set_solid")
+      (type "void")
+      (description (_ "Changes the solidity, according to the value of `solid`."))
+      (parameter
+        (name "solid")
+        (type "bool")
+      )
+    )
+    (function
+      (name "is_solid")
+      (type "bool")
+      (description (_ "Returns `true` if the object is solid."))
+    )
+  )
+  (class
+    (name "Sector")
+    (summary (_ "This class provides additional controlling functions for a sector, other than the ones listed at ${SRG_REF_GameObjectManager}."))
+    (instances (_ "An instance under `sector.settings` is available from scripts and the console."))
+    (function
+      (name "set_gravity")
+      (type "void")
+      (description (_ "Sets the sector's gravity."))
+      (parameter
+        (name "gravity")
+        (type "float")
+      )
+    )
+  )
+  (class
+    (name "Spotlight")
+    (summary (_ "A `Spotlight` that was given a name can be controlled by scripts."))
+    (instances (_ "A `Spotlight` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_enabled")
+      (type "void")
+      (description (_ "Enables/disables the spotlight."))
+      (parameter
+        (name "enabled")
+        (type "bool")
+      )
+    )
+    (function
+      (name "is_enabled")
+      (type "bool")
+      (description (_ "Returns `true` if the spotlight is enabled."))
+    )
+    (function
+      (name "set_direction")
+      (type "void")
+      (description (_ "Sets the direction of the spotlight."))
+      (parameter
+        (name "direction")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_angle")
+      (type "void")
+      (description (_ "Sets the angle of the spotlight."))
+      (parameter
+        (name "angle")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_angle")
+      (type "void")
+      (description (_ "Fades the angle of the spotlight in `time` seconds."))
+      (parameter
+        (name "angle")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_angle")
+      (type "void")
+      (description (_ "Fades the angle of the spotlight in `time` seconds, with easing."))
+      (parameter
+        (name "angle")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_speed")
+      (type "void")
+      (description (_ "Sets the speed of the spotlight."))
+      (parameter
+        (name "speed")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_speed")
+      (type "void")
+      (description (_ "Fades the speed of the spotlight in `time` seconds."))
+      (parameter
+        (name "speed")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_speed")
+      (type "void")
+      (description (_ "Fades the speed of the spotlight in `time` seconds, with easing."))
+      (parameter
+        (name "speed")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_color_rgba")
+      (type "void")
+      (description (_ "Sets the RGBA color of the spotlight."))
+      (parameter
+        (name "r")
+        (type "float")
+      )
+      (parameter
+        (name "g")
+        (type "float")
+      )
+      (parameter
+        (name "b")
+        (type "float")
+      )
+      (parameter
+        (name "a")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_color_rgba")
+      (type "void")
+      (description (_ "Fades the spotlight to a new RGBA color in `time` seconds."))
+      (parameter
+        (name "r")
+        (type "float")
+      )
+      (parameter
+        (name "g")
+        (type "float")
+      )
+      (parameter
+        (name "b")
+        (type "float")
+      )
+      (parameter
+        (name "a")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "ease_color_rgba")
+      (type "void")
+      (description (_ "Fades the spotlight to a new RGBA color in `time` seconds, with easing."))
+      (parameter
+        (name "r")
+        (type "float")
+      )
+      (parameter
+        (name "g")
+        (type "float")
+      )
+      (parameter
+        (name "b")
+        (type "float")
+      )
+      (parameter
+        (name "a")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "easing")
+        (type "string")
+      )
+    )
+  )
+  (class
+    (name "Text")
+    (summary (_ "A `TextObject` that was given a name can be controlled by scripts."))
+    (instances (_ "A `TextObject` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "set_text")
+      (type "void")
+      (description (_ "Sets the text string to be displayed."))
+      (parameter
+        (name "text")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_font")
+      (type "void")
+      (description (_ "Sets the font of the text to be displayed."))
+      (parameter
+        (name "fontname")
+        (type "string")
+        (description (_ "Valid values are normal, big and small."))
+      )
+    )
+    (function
+      (name "fade_in")
+      (type "void")
+      (description (_ "Fades in the specified text for the next `fadetime` seconds."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_out")
+      (type "void")
+      (description (_ "Fades out the specified text for the next `fadetime` seconds."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "grow_in")
+      (type "void")
+      (description (_ "Grows in the specified text for the next `fadetime` seconds."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "grow_out")
+      (type "void")
+      (description (_ "Grows out the specified text for the next `fadetime` seconds."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_visible")
+      (type "void")
+      (description (_ "Shows or hides the text abruptly (drastic counterpart to `fade_in()` and `fade_out()`)."))
+      (parameter
+        (name "visible")
+        (type "bool")
+      )
+    )
+    (function
+      (name "set_centered")
+      (type "void")
+      (description (_ "If `centered` is `true`, the text will be centered on the screen.Otherwise, it will be left-aligned. "))
+      (parameter
+        (name "centered")
+        (type "bool")
+      )
+    )
+    (function
+      (name "set_pos")
+      (type "void")
+      (description (_ "Sets the offset of the text, relative to the anchor point."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_pos_x")
+      (type "float")
+      (description (_ "Returns the X offset of the text, relative to the anchor point."))
+    )
+    (function
+      (name "get_pos_y")
+      (type "float")
+      (description (_ "Returns the Y offset of the text, relative to the anchor point."))
+    )
+    (function
+      (name "set_anchor_point")
+      (type "void")
+      (description (_ "Sets the anchor point of the text."))
+      (parameter
+        (name "anchor")
+        (type "int")
+        (description (_ "One of the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+      )
+    )
+    (function
+      (name "get_anchor_point")
+      (type "int")
+      (description (_ "Returns the current anchor point of the text (one of the `ANCHOR_*` constants; see ${SRG_REF_AnchorPoints})."))
+    )
+    (function
+      (name "set_anchor_offset")
+      (type "void")
+      (description (_ "Sets the anchor offset of the text."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_front_fill_color")
+      (type "void")
+      (description (_ "Sets the front fill color of the text."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_back_fill_color")
+      (type "void")
+      (description (_ "Sets the back fill color of the text."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_text_color")
+      (type "void")
+      (description (_ "Sets the text color."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_roundness")
+      (type "void")
+      (description (_ "Sets the frame's roundness."))
+      (parameter
+        (name "roundness")
+        (type "float")
+      )
+    )
+  )
+  (class
+    (name "TextArray")
+    (summary (_ "A `TextArrayObject` that was given a name can be controlled by scripts. Supports all functions of ${SRG_REF_Text}, applying them to the current text item.${SRG_NEWPARAGRAPH} Intended for scripts with narration."))
+    (instances (_ "A `TextArrayObject` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "clear")
+      (type "void")
+      (description (_ "Clears all text objects from the stack."))
+    )
+    (function
+      (name "add_text")
+      (type "void")
+      (description (_ "Adds a text object with a specific text at the end of the stack."))
+      (parameter
+        (name "text")
+        (type "string")
+      )
+    )
+    (function
+      (name "add_text_duration")
+      (type "void")
+      (description (_ "Adds a text object with a specific text and duration at the end of the stack."))
+      (parameter
+        (name "text")
+        (type "string")
+      )
+      (parameter
+        (name "duration")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_text_index")
+      (type "void")
+      (description (_ "Sets the current text object by its index."))
+      (parameter
+        (name "index")
+        (type "int")
+      )
+    )
+    (function
+      (name "set_keep_visible")
+      (type "void")
+      (description (_ "If set, keeps the current text object visible."))
+      (parameter
+        (name "keep_visible")
+        (type "bool")
+      )
+    )
+    (function
+      (name "set_fade_transition")
+      (type "void")
+      (description (_ "If set, allows for a fade-in and fade-out transition."))
+      (parameter
+        (name "fade_transition")
+        (type "bool")
+      )
+    )
+    (function
+      (name "set_fade_time")
+      (type "void")
+      (description (_ "Sets the fade-in and fade-out time."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_done")
+      (type "void")
+      (description (_ "If set, sets the text array as finished going through all text objects."))
+      (parameter
+        (name "done")
+        (type "bool")
+      )
+    )
+    (function
+      (name "set_auto")
+      (type "void")
+      (description (_ "If set, lets the text array automatically go through all text objects."))
+      (parameter
+        (name "is_auto")
+        (type "bool")
+      )
+    )
+    (function
+      (name "next_text")
+      (type "void")
+      (description (_ "If available, goes to the next text object in the stack."))
+    )
+    (function
+      (name "prev_text")
+      (type "void")
+      (description (_ "If available, goes to the previous text object in the stack."))
+    )
+  )
+  (class
+    (name "Thunderstorm")
+    (summary (_ "A `Thunderstorm` that was given a name can be controlled by scripts."))
+    (instances (_ "A `Thunderstorm` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "start")
+      (type "void")
+      (description (_ "Starts playing thunder and lightning at a configured interval."))
+    )
+    (function
+      (name "stop")
+      (type "void")
+      (description (_ "Stops playing thunder and lightning at a configured interval."))
+    )
+    (function
+      (name "thunder")
+      (type "void")
+      (description (_ "Plays thunder."))
+    )
+    (function
+      (name "lightning")
+      (type "void")
+      (description (_ "Plays lightning, i.e.calls `"))
+    )
+    (function
+      (name "flash")
+      (type "void")
+      (description (_ "Displays a flash."))
+    )
+    (function
+      (name "electrify")
+      (type "void")
+      (description (_ "Electrifies water throughout the whole sector for a short time."))
+    )
+  )
+  (class
+    (name "TileMap")
+    (summary (_ "A `TileMap` that was given a name can be controlled by scripts. The tilemap can be moved by specifying a path for it."))
+    (instances (_ "A `TileMap` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "goto_node")
+      (type "void")
+      (description (_ "Moves the tilemap along a path until at given node, then stops."))
+      (parameter
+        (name "node_no")
+        (type "int")
+      )
+    )
+    (function
+      (name "set_node")
+      (type "void")
+      (description (_ "Jumps instantly to the given node."))
+      (parameter
+        (name "node_no")
+        (type "int")
+      )
+    )
+    (function
+      (name "start_moving")
+      (type "void")
+      (description (_ "Starts moving the tilemap."))
+    )
+    (function
+      (name "stop_moving")
+      (type "void")
+      (description (_ "Stops the tilemap at the next node."))
+    )
+    (function
+      (name "get_tile_id")
+      (type "int")
+      (description (_ "Returns the ID of the tile at the given coordinates or 0 if out of bounds.The origin is at the top left. "))
+      (parameter
+        (name "x")
+        (type "int")
+      )
+      (parameter
+        (name "y")
+        (type "int")
+      )
+    )
+    (function
+      (name "get_tile_id_at")
+      (type "int")
+      (description (_ "Returns the ID of the tile at the given position (in-world coordinates)."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "change")
+      (type "void")
+      (description (_ "Changes the tile at the given coordinates to `newtile`.The origin is at the top left. "))
+      (parameter
+        (name "x")
+        (type "int")
+      )
+      (parameter
+        (name "y")
+        (type "int")
+      )
+      (parameter
+        (name "newtile")
+        (type "int")
+      )
+    )
+    (function
+      (name "change_at")
+      (type "void")
+      (description (_ "Changes the tile at the given position (in-world coordinates) to `newtile`."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+      (parameter
+        (name "newtile")
+        (type "int")
+      )
+    )
+    (function
+      (name "fade")
+      (type "void")
+      (description (_ "Starts fading the tilemap to the opacity given by `alpha`.Destination opacity will be reached after `time` seconds. Also influences solidity. "))
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+      (parameter
+        (name "time")
+        (type "float")
+      )
+    )
+    (function
+      (name "tint_fade")
+      (type "void")
+      (description (_ "Starts fading the tilemap to tint given by RGBA.Destination opacity will be reached after `time` seconds. Doesn't influence solidity. "))
+      (parameter
+        (name "time")
+        (type "float")
+      )
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_alpha")
+      (type "void")
+      (description (_ "Instantly switches the tilemap's opacity to `alpha`.Also influences solidity. "))
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_alpha")
+      (type "float")
+      (description (_ "Returns the tilemap's opacity.${SRG_TABLENEWPARAGRAPH} Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha. "))
+    )
+    (function
+      (name "set_solid")
+      (type "void")
+      (description (_ "Switches the tilemap's real solidity to `solid`.${SRG_TABLENEWPARAGRAPH} Note that the effective solidity is also influenced by the alpha of the tilemap. "))
+      (parameter
+        (name "solid")
+        (type "bool")
+      )
+    )
+  )
+  (class
+    (name "Torch")
+    (summary (_ "A `Torch` that was given a name can be controlled by scripts."))
+    (instances (_ "A `Torch` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "get_burning")
+      (type "bool")
+      (description (_ "Returns `true` if the torch is burning."))
+    )
+    (function
+      (name "set_burning")
+      (type "void")
+      (description (_ "Switches the burning state of the torch."))
+      (parameter
+        (name "burning")
+        (type "bool")
+      )
+    )
+  )
+  (class
+    (name "WillOWisp")
+    (summary (_ "A `WillOWisp` that was given a name can be controlled by scripts. The WillOWisp can be moved by specifying a path for it."))
+    (instances (_ "A `WillOWisp` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "goto_node")
+      (type "void")
+      (description (_ "Moves the WillOWisp along a path until at given node, then stops."))
+      (parameter
+        (name "node_no")
+        (type "int")
+      )
+    )
+    (function
+      (name "set_state")
+      (type "void")
+      (description (_ "Sets the state of the WillOWisp."))
+      (parameter
+        (name "state")
+        (type "string")
+        (description (_ "One of the following: \"stopped\", \"move_path\" (moves along a path), \"move_path_track\" (moves along a path but catches Tux when he is near), \"normal\" (starts tracking Tux when he is near enough), \"vanish\"."))
+      )
+    )
+    (function
+      (name "start_moving")
+      (type "void")
+      (description (_ "Starts following a path."))
+    )
+    (function
+      (name "stop_moving")
+      (type "void")
+      (description (_ "Stops following a path."))
+    )
+  )
+  (class
+    (name "Wind")
+    (summary (_ "A `Wind` that was given a name can be controlled by scripts."))
+    (instances (_ "A `Wind` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
+    (function
+      (name "start")
+      (type "void")
+      (description (_ "Starts blowing."))
+    )
+    (function
+      (name "stop")
+      (type "void")
+      (description (_ "Stops blowing."))
+    )
+  )
+  (class
+    (name "WorldMapSector")
+    (summary (_ "This class provides additional controlling functions for a worldmap sector, other than the ones listed at ${SRG_REF_GameObjectManager}."))
+    (instances (_ "An instance under `worldmap.settings` is available from scripts and the console."))
+    (function
+      (name "get_tux_x")
+      (type "float")
+      (description (_ "Gets Tux's X position on the worldmap."))
+    )
+    (function
+      (name "get_tux_y")
+      (type "float")
+      (description (_ "Gets Tux's Y position on the worldmap."))
+    )
+    (function
+      (name "set_sector")
+      (type "void")
+      (description (_ "Changes the current sector of the worldmap to a specified new sector."))
+      (parameter
+        (name "sector")
+        (type "string")
+      )
+    )
+    (function
+      (name "spawn")
+      (type "void")
+      (description (_ "Changes the current sector of the worldmap to a specified new sector, moving Tux to the specified spawnpoint."))
+      (parameter
+        (name "sector")
+        (type "string")
+      )
+      (parameter
+        (name "spawnpoint")
+        (type "string")
+      )
+    )
+    (function
+      (name "move_to_spawnpoint")
+      (type "void")
+      (description (_ "Moves Tux to a specified spawnpoint."))
+      (parameter
+        (name "spawnpoint")
+        (type "string")
+      )
+    )
+    (function
+      (name "get_filename")
+      (type "std::string")
+      (description (_ "Gets the path to the worldmap file.Useful for saving worldmap specific data. "))
+    )
+  )
+)
