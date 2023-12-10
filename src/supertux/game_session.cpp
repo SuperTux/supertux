@@ -179,7 +179,7 @@ GameSession::restart_level(bool after_death)
         throw std::runtime_error("Cannot find the position of the last activated checkpoint.");
       }
     }
-    else if (after_death) // Respawn from the last respawn position, because Tux is respawning.
+    else if (after_death && m_spawnpoints.size() > 1) // Respawn from the last respawn position, because Tux is respawning.
     {
       spawnpoint = &get_last_spawnpoint();
     }
