@@ -18,9 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_FADETOBLACK_HPP
 
 #include "supertux/screen_fade.hpp"
-
 #include "video/color.hpp"
-#include "video/layer.hpp"
 
 /**
  * Fades a screen towards a specific color
@@ -31,8 +29,7 @@ public:
   enum Direction { FADEOUT, FADEIN };
 
 public:
-  FadeToBlack(Direction direction, float fade_time, Color dest_color = Color(0, 0, 0),
-              int layer = LAYER_GUI + 1);
+  FadeToBlack(Direction direction, float fade_time, Color dest_color = Color(0, 0, 0));
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -40,14 +37,10 @@ public:
   /// returns true if the effect is completed
   virtual bool done() const override;
 
-  Direction get_direction() const { return m_direction; }
-
 private:
-  const Direction m_direction;
-  const float m_fade_time;
-  const Color m_color;
-  const int m_layer;
-
+  Direction m_direction;
+  float m_fade_time;
+  Color m_color;
   float m_accum_time;
 
 private:
