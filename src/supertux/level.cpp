@@ -16,10 +16,19 @@
 
 #include "supertux/level.hpp"
 
+#include <numeric>
+
+#include <physfs.h>
+
 #include "badguy/goldbomb.hpp"
+#include "editor/editor.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
+#include "object/player.hpp"
 #include "physfs/util.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/player_status_hud.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "util/file_system.hpp"
@@ -27,8 +36,7 @@
 #include "util/string_util.hpp"
 #include "util/writer.hpp"
 
-#include <physfs.h>
-#include <numeric>
+static PlayerStatus s_dummy_player_status(1);
 
 Level* Level::s_current = nullptr;
 
@@ -57,6 +65,44 @@ Level::Level(bool worldmap) :
 Level::~Level()
 {
   m_sectors.clear();
+}
+
+void
+Level::initialize()
+{
+  // Get the "main" sector.
+  Sector* main_sector = get_sector("main");
+  if (!main_sector)
+    throw std::runtime_error("No \"main\" sector found.");
+
+  m_stats.init(*this);
+
+  Savegame* savegame = (GameSession::current() && !Editor::current() ?
+    &GameSession::current()->get_savegame() : nullptr);
+  PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
+
+  if (savegame && !m_suppress_pause_menu && !savegame->is_title_screen())
+  {
+    for (auto& sector : m_sectors)
+      sector->add<PlayerStatusHUD>(player_status);
+  }
+
+  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
+  {
+    if (!InputManager::current()->has_corresponsing_controller(id)
+        && !InputManager::current()->m_uses_keyboard[id]
+        && savegame
+        && !savegame->is_title_screen()
+        && id != 0)
+      continue;
+
+    if (id > 0 && !savegame)
+      s_dummy_player_status.add_player();
+
+    // Add players only in the main sector. Players will be moved between sectors.
+    main_sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
+  }
+  main_sector->flush_game_objects();
 }
 
 void
@@ -248,6 +294,17 @@ Level::get_total_secrets() const
     return accumulator + sector->get_object_count<SecretAreaTrigger>();
   };
   return std::accumulate(m_sectors.begin(), m_sectors.end(), 0, get_secret_count);
+}
+
+std::vector<Player*>
+Level::get_players() const
+{
+  std::vector<Player*> players;
+  for (const auto& sector : m_sectors)
+    for (auto& player : sector->get_objects_by_type_index(typeid(Player)))
+      players.push_back(static_cast<Player*>(player));
+
+  return players;
 }
 
 void

@@ -84,8 +84,8 @@ private:
 
 private:
   struct StringOption {
-    std::vector<std::string> list;
-    int next;
+    std::vector<std::string> list = {};
+    int next = 0;
   };
 
 private:

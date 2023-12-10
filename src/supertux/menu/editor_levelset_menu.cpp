@@ -17,7 +17,7 @@
 #include "supertux/menu/editor_levelset_menu.hpp"
 
 #include "editor/editor.hpp"
-#include "gui/item_file.hpp"
+#include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"

@@ -108,12 +108,6 @@ void Level_flip_vertically();
 void Level_toggle_pause();
 
 /**
- * Switch to/from edit mode
- * @param bool $edit_mode
- */
-void Level_edit(bool edit_mode);
-
-/**
  * Pauses the target timer.
  */
 void Level_pause_target_timer();

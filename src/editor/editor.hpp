@@ -117,6 +117,12 @@ public:
 
   void remove_autosave_file();
 
+  /** Convert tiles on every tilemap in the level, according to a tile conversion file. */
+  void convert_tiles_by_file(const std::string& file);
+
+  void check_deprecated_tiles();
+  bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
+
   /** Checks whether the level can be saved and does not contain
       obvious issues (currently: check if main sector and a spawn point
       named "main" is present) */
@@ -207,6 +213,7 @@ private:
   bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
   TileSet* m_tileset;
+  bool m_has_deprecated_tiles;
 
   std::vector<std::unique_ptr<Widget> > m_widgets;
   ButtonWidget* m_undo_widget;

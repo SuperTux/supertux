@@ -69,7 +69,8 @@ public:
                      const std::optional<WalkMode>& default_value = {},
                      const std::string& key = {}, unsigned int flags = 0);
   void add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
-                   GameObject* parent = nullptr, const std::string& key = {}, unsigned int flags = 0);
+                   uint8_t get_objects_param = 0, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func = {},
+                   const std::string& key = {}, unsigned int flags = 0);
   void add_color(const std::string& text, Color* value_ptr,
                  const std::string& key = {},
                  const std::optional<Color>& default_value = {},

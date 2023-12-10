@@ -140,6 +140,7 @@ public:
   int editor_autosave_frequency;
   bool editor_undo_tracking;
   int editor_undo_stack_size;
+  bool editor_show_deprecated_tiles;
 
   bool multiplayer_auto_manage_players;
   bool multiplayer_multibind;
