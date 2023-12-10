@@ -1,0 +1,10 @@
+(supertux-converter-data
+  (nightly_all_tiles.sttc
+    (title (_ "Nightly Tiles"))
+    (description (_ "Levels, created in previous Nightly builds, have their tiles broken. Use this converter to restore all tiles in the level to their proper state!"))
+  )
+  (051_crystal_tiles.sttc
+    (title (_ "0.5.x Crystal Tiles"))
+    (description (_ "Levels, created in pre-0.6.3 versions, which use crystal tiles, have their crystal tiles broken. Use this converter to restore all crystal tiles in the level to their proper state!"))
+  )
+)

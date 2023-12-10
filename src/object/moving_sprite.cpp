@@ -17,7 +17,6 @@
 #include "object/moving_sprite.hpp"
 
 #include <math.h>
-#include <physfs.h>
 
 #include "editor/editor.hpp"
 #include "math/random.hpp"
@@ -62,8 +61,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid or sprite change fails
-  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str()) ||
-      !change_sprite(m_sprite_name))
+  if (m_sprite_name.empty() || !change_sprite(m_sprite_name))
   {
     change_sprite(m_default_sprite_name);
     m_sprite_found = false;
