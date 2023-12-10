@@ -32,7 +32,8 @@ const float RANGE_OF_VISION = 256; /**< Sange in px at which we can see bullets.
 
 Igel::Igel(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "left", "right"),
-  m_state(STATE_NORMAL)
+  m_state(STATE_NORMAL),
+  m_roll_timer()
 {
   walk_speed = IGEL_SPEED;
   max_drop_height = 16;
@@ -42,7 +43,32 @@ void
 Igel::active_update(float dt_sec)
 {
   WalkingBadguy::active_update(dt_sec);
-  try_roll();
+  switch (m_state)
+  {
+    case STATE_ROLLING:
+      if (get_action() == "roll-start-"+dir_to_string(m_dir) &&
+          m_sprite->animation_done())
+      {
+        set_action("roll", m_dir);
+      }
+
+      if (m_roll_timer.check())
+      {
+        stop_rolling();
+        break;
+      }
+
+      break;
+
+    case STATE_NORMAL:
+      if (get_action() == "roll-end-"+dir_to_string(m_dir) &&
+          m_sprite->animation_done())
+      {
+        set_action(m_dir);
+      }
+      try_roll();
+      break;
+  }
 }
 
 GameObjectTypes Igel::get_types() const
@@ -85,11 +111,21 @@ bool Igel::try_roll()
 
 void Igel::roll()
 {
-  m_state = STATE_NORMAL;
-  set_action("roll-start", m_dir, -1);
-  set_walk_speed(350);
+  m_state = STATE_ROLLING;
+  set_action("roll-start", m_dir);
+  set_walk_speed(250);
   m_physic.set_velocity_x(250 * (m_dir == Direction::LEFT ? -1 : 1));
   max_drop_height = 600;
+  m_roll_timer.start(2.f);
+}
+
+void Igel::stop_rolling()
+{
+  m_state = STATE_NORMAL;
+  set_action("roll-end", m_dir);
+  set_walk_speed(IGEL_SPEED);
+  m_physic.set_velocity_x(IGEL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
+  max_drop_height = 16;
 }
 
 /* EOF */

@@ -19,6 +19,8 @@
 
 #include "badguy/walking_badguy.hpp"
 
+#include "supertux/timer.hpp"
+
 /** Giggle */
 class Igel final : public WalkingBadguy
 {
@@ -42,8 +44,10 @@ private:
 
   bool try_roll();
   void roll();
+  void stop_rolling();
 
   State m_state;
+  Timer m_roll_timer;
 
 private:
   Igel(const Igel&) = delete;
