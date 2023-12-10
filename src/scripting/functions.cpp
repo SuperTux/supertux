@@ -137,7 +137,7 @@ bool check_cutscene()
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  if(GameSession::current()->get_current_level().m_skip_cutscene)
+  if(GameSession::current() != nullptr && GameSession::current()->get_current_level().m_skip_cutscene)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
@@ -153,7 +153,7 @@ void wait(HSQUIRRELVM vm, float seconds)
       log_warning << "wait(): no VM or environment available\n";
     }
   }
-  else if(GameSession::current()->get_current_level().m_is_in_cutscene)
+  else if(GameSession::current() != nullptr && GameSession::current()->get_current_level().m_is_in_cutscene)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
