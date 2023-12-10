@@ -20,12 +20,15 @@
 
 #include "gui/menu.hpp"
 
+#include <functional>
+
 class GameObject;
 
 class ObjectSelectMenu final : public Menu
 {
 public:
-  ObjectSelectMenu(std::vector<std::unique_ptr<GameObject>>& objects, GameObject* parent);
+  ObjectSelectMenu(std::vector<std::unique_ptr<GameObject>>& objects, uint8_t get_objects_param = 0,
+                   const std::function<void (std::unique_ptr<GameObject>)>& add_object_func = {});
 
   void refresh() override;
   void menu_action(MenuItem& item) override;
@@ -34,11 +37,10 @@ private:
   void add_object();
   void remove_object(GameObject* obj);
 
-  const std::vector<std::string> get_available_objects() const;
-
 private:
   std::vector<std::unique_ptr<GameObject>>& m_objects;
-  GameObject* m_parent;
+  uint8_t m_get_objects_param;
+  const std::function<void (std::unique_ptr<GameObject>)> m_add_object_function;
 
   std::string m_selected;
 

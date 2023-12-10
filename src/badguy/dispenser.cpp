@@ -385,7 +385,8 @@ Dispenser::get_settings()
   result.add_bool(_("Random"), &m_random, "random", false);
   if (m_type != GRANITO)
   {
-    result.add_objects(_("Objects"), &m_objects, this, "objects");
+    result.add_objects(_("Objects"), &m_objects, ObjectFactory::RegisteredObjectParam::OBJ_PARAM_DISPENSABLE,
+                       [this](auto obj) { add_object(std::move(obj)); }, "objects");
   }
   result.add_bool(_("Limit dispensed badguys"), &m_limit_dispensed_badguys,
                   "limit-dispensed-badguys", false);

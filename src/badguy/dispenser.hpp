@@ -34,8 +34,6 @@ private:
 public:
   Dispenser(const ReaderMapping& reader);
 
-  void add_object(std::unique_ptr<GameObject> object);
-
   virtual void draw(DrawingContext& context) override;
   virtual void initialize() override;
   virtual void activate() override;
@@ -76,6 +74,8 @@ public:
   }
 
 protected:
+  void add_object(std::unique_ptr<GameObject> object);
+
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   void launch_object();
 

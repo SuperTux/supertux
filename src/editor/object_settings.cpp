@@ -36,9 +36,10 @@ ObjectSettings::add_option(std::unique_ptr<BaseObjectOption> option)
 
 void
 ObjectSettings::add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
-                            GameObject* parent, const std::string& key, unsigned int flags)
+                            uint8_t get_objects_param, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func,
+                            const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<ObjectSelectObjectOption>(text, value_ptr, parent, key, flags));
+  add_option(std::make_unique<ObjectSelectObjectOption>(text, value_ptr, get_objects_param, add_object_func, key, flags));
 }
 
 void
