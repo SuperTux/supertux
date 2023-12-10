@@ -30,12 +30,15 @@ public:
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit &hit) override;
   virtual HitResponse collision_badguy(BadGuy &badguy, const CollisionHit &hit) override;
+  virtual void run_dead_script() override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
   static std::string class_name() { return "igel"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Igel"); }
   virtual std::string get_display_name() const override { return display_name(); }
+
+  virtual bool is_freezable() const override { return true; }
 
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
@@ -47,9 +50,11 @@ private:
   bool should_roll();
   void roll();
   void stop_rolling();
+  float normal_walk_speed();
 
   State m_state;
   Timer m_roll_timer;
+  Timer m_roll_cooldown;
   Timer m_ease_timer;
 
 private:

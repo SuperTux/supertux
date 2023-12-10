@@ -20,19 +20,24 @@
 
 #include "collision/collision_system.hpp"
 #include "object/player.hpp"
+#include "object/shard.hpp"
 #include "math/easing.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
 
-const float IGEL_SPEED = 80;
+const float IGEL_NORMAL_SPEED = 80;
+const float IGEL_CORRUPTED_SPEED = 120;
 const int   IGEL_MAX_DROP_HEIGHT = 16;
 
 const float ROLL_RANGE = 32*10;
-const int   ROLL_MAX_DROP_HEIGHT = -1;
 const float ROLL_SPEED = 350;
+const int   ROLL_MAX_DROP_HEIGHT = -1;
 const float ROLL_DURATION = 2.f;
 const float ROLL_EASE_TIMER = 0.5f;
+const float ROLL_COOLDOWN = 1.f;
+
+const std::string CORRUPTED_SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_spike.sprite";
 
 } // namespace
 
@@ -40,9 +45,12 @@ Igel::Igel(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "left", "right"),
   m_state(STATE_NORMAL),
   m_roll_timer(),
+  m_roll_cooldown(),
   m_ease_timer()
 {
-  walk_speed = IGEL_SPEED;
+  parse_type(reader);
+
+  walk_speed = normal_walk_speed();
   max_drop_height = IGEL_MAX_DROP_HEIGHT;
 }
 
@@ -62,7 +70,7 @@ Igel::active_update(float dt_sec)
       if (m_ease_timer.started())
       {
         float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
-        float vel = (SineEaseOut(progress) * (ROLL_SPEED - IGEL_SPEED)) + IGEL_SPEED;
+        float vel = (SineEaseOut(progress) * (ROLL_SPEED - normal_walk_speed())) + normal_walk_speed();
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
@@ -93,12 +101,12 @@ Igel::active_update(float dt_sec)
       if (m_ease_timer.started())
       {
         float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
-        float vel = (SineEaseIn(progress) * (IGEL_SPEED - ROLL_SPEED)) + ROLL_SPEED;
+        float vel = (SineEaseIn(progress) * (normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
 
-      if (should_roll()) roll();
+      if (!m_roll_cooldown.started() && should_roll()) roll();
 
       break;
   }
@@ -125,6 +133,19 @@ HitResponse Igel::collision_badguy(BadGuy &badguy, const CollisionHit &hit)
   }
 
   return WalkingBadguy::collision_badguy(badguy, hit);
+}
+
+void Igel::run_dead_script()
+{
+  if (m_type == CORRUPTED)
+  {
+    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), CORRUPTED_SHARD_SPRITE);
+    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), CORRUPTED_SHARD_SPRITE);
+    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),CORRUPTED_SHARD_SPRITE);
+    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),CORRUPTED_SHARD_SPRITE);
+  }
+
+  WalkingBadguy::run_dead_script();
 }
 
 GameObjectTypes Igel::get_types() const
@@ -181,11 +202,17 @@ void Igel::stop_rolling()
 {
   m_state = STATE_NORMAL;
   set_action("roll-end", m_dir);
-  //set_walk_speed(IGEL_SPEED);
-  //m_physic.set_velocity_x(IGEL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
+  //set_walk_speed(normal_walk_speed());
+  //m_physic.set_velocity_x(normal_walk_speed() * (m_dir == Direction::LEFT ? -1 : 1));
   max_drop_height = IGEL_MAX_DROP_HEIGHT;
   m_roll_timer.stop();
+  m_roll_cooldown.start(ROLL_COOLDOWN);
   m_ease_timer.start(ROLL_EASE_TIMER);
+}
+
+float Igel::normal_walk_speed()
+{
+  return m_type == CORRUPTED ? IGEL_CORRUPTED_SPEED : IGEL_NORMAL_SPEED;
 }
 
 /* EOF */
