@@ -662,7 +662,7 @@ Editor::check_deprecated_tiles()
         if (m_tileset->get(tile_id).is_deprecated())
         {
           m_has_deprecated_tiles = true;
-          break;
+          return;
         }
       }
     }
