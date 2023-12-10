@@ -47,8 +47,6 @@ static const std::string DEFAULT_TITLE_LEVEL = "levels/misc/menu.stl";
 static const std::string TITLE_MUSIC = "music/misc/theme.music";
 static const std::string CHRISTMAS_TITLE_MUSIC = "music/misc/christmas_theme.music";
 
-static const float LEVEL_FADE_TIME = 0.25f;
-
 TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
   m_savegame(savegame),
   m_christmas(christmas),
