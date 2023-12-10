@@ -1,0 +1,17 @@
+(supertux-sprite
+  (action
+    (name "idle")
+    (hitbox 18 14 32 80)
+	(fps 12)
+    (images "root_sapling-0.png"
+    )
+  )
+  (action
+	(name "squished")
+	(fps 12)
+	(loops 1)
+	(hitbox 18 14 32 80)
+	(images "corrupted_hill.png"
+    )
+  )
+)
