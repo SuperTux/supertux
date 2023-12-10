@@ -28,6 +28,8 @@ public:
   Igel(const ReaderMapping& reader);
 
   virtual void active_update(float dt_sec) override;
+  virtual void collision_solid(const CollisionHit &hit) override;
+  virtual HitResponse collision_badguy(BadGuy &badguy, const CollisionHit &hit) override;
 
   virtual std::string get_overlay_size() const override { return "2x1"; }
   static std::string class_name() { return "igel"; }
@@ -42,7 +44,7 @@ private:
   enum Type { NORMAL, CORRUPTED };
   enum State { STATE_NORMAL, STATE_ROLLING };
 
-  bool try_roll();
+  bool should_roll();
   void roll();
   void stop_rolling();
 

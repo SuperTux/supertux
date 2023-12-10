@@ -24,9 +24,13 @@
 
 namespace {
 
-const float IGEL_SPEED = 80; /**< Speed at which we walk around. */
-const float TURN_RECOVER_TIME = 0.5; /**< Seconds before we will again turn around when shot at. */
-const float RANGE_OF_VISION = 256; /**< Sange in px at which we can see bullets. */
+const float IGEL_SPEED = 80;
+const int   IGEL_MAX_DROP_HEIGHT = 16;
+
+const float ROLL_RANGE = 32*10;
+const int   ROLL_MAX_DROP_HEIGHT = -1;
+const float ROLL_SPEED = 350;
+const float ROLL_DURATION = 2.f;
 
 } // namespace
 
@@ -36,7 +40,7 @@ Igel::Igel(const ReaderMapping& reader) :
   m_roll_timer()
 {
   walk_speed = IGEL_SPEED;
-  max_drop_height = 16;
+  max_drop_height = IGEL_MAX_DROP_HEIGHT;
 }
 
 void
@@ -46,7 +50,7 @@ Igel::active_update(float dt_sec)
   switch (m_state)
   {
     case STATE_ROLLING:
-      if (get_action() == "roll-start-"+dir_to_string(m_dir) &&
+      if (get_action() == "roll-start-" + dir_to_string(m_dir) &&
           m_sprite->animation_done())
       {
         set_action("roll", m_dir);
@@ -54,6 +58,13 @@ Igel::active_update(float dt_sec)
 
       if (m_roll_timer.check())
       {
+        if (should_roll())
+        {
+          // We're still tryna chase them?
+          // Then continue chasing them.
+          m_roll_timer.start(ROLL_DURATION);
+          break;
+        }
         stop_rolling();
         break;
       }
@@ -61,14 +72,37 @@ Igel::active_update(float dt_sec)
       break;
 
     case STATE_NORMAL:
-      if (get_action() == "roll-end-"+dir_to_string(m_dir) &&
+      if (get_action() == "roll-end-" + dir_to_string(m_dir) &&
           m_sprite->animation_done())
       {
         set_action(m_dir);
       }
-      try_roll();
+      if (should_roll()) roll();
       break;
   }
+}
+
+void Igel::collision_solid(const CollisionHit &hit)
+{
+  if (m_state == STATE_ROLLING)
+  {
+    if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
+      stop_rolling();
+    }
+  }
+
+  WalkingBadguy::collision_solid(hit);
+}
+
+HitResponse Igel::collision_badguy(BadGuy &badguy, const CollisionHit &hit)
+{
+  if (m_state == STATE_ROLLING)
+  {
+    badguy.kill_fall();
+    return FORCE_MOVE;
+  }
+
+  return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
 GameObjectTypes Igel::get_types() const
@@ -89,43 +123,45 @@ std::string Igel::get_default_sprite_name() const
   return "images/creatures/igel/igel.sprite";
 }
 
-bool Igel::try_roll()
+bool Igel::should_roll()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
   Player* plr = get_nearest_player();
   if (!plr) return false;
 
-  Vector mid = get_bbox().get_middle();
-  Vector range = {mid.x + (32*10 * (m_dir == Direction::LEFT ? -1 : 1)), mid.y};
+  Rectf pb = plr->get_bbox();
 
-  RaycastResult result = Sector::get().get_first_line_intersection(mid, range, false, get_collision_object());
+  bool in_reach_left = (pb.get_right() >= get_bbox().get_right()-((m_dir == Direction::LEFT) ? ROLL_RANGE : 0));
+  bool in_reach_right = (pb.get_left() <= get_bbox().get_left()+((m_dir == Direction::RIGHT) ? ROLL_RANGE : 0));
+  bool in_reach_top = (pb.get_bottom() >= get_bbox().get_top());
+  bool in_reach_bottom = (pb.get_top() <= get_bbox().get_bottom());
 
-  auto* obj = std::get_if<CollisionObject*>(&result.hit);
-  if (!obj || *obj != plr->get_collision_object()) return false;
+  Rectf box = get_bbox().grown(1.f);
+  Vector eye = {m_dir == Direction::LEFT ? box.get_left() : box.get_right(), box.get_middle().y};
+  bool can_see_player = Sector::get().free_line_of_sight(eye, pb.get_middle(), true);
 
-  roll();
-
-  return true;
+  return in_reach_left && in_reach_right && in_reach_top && in_reach_bottom && can_see_player;
 }
 
 void Igel::roll()
 {
   m_state = STATE_ROLLING;
   set_action("roll-start", m_dir);
-  set_walk_speed(250);
-  m_physic.set_velocity_x(250 * (m_dir == Direction::LEFT ? -1 : 1));
-  max_drop_height = 600;
-  m_roll_timer.start(2.f);
+  set_walk_speed(ROLL_SPEED);
+  m_physic.set_velocity_x(ROLL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
+  max_drop_height = ROLL_MAX_DROP_HEIGHT;
+  m_roll_timer.start(ROLL_DURATION);
 }
 
 void Igel::stop_rolling()
 {
+  m_roll_timer.stop();
   m_state = STATE_NORMAL;
   set_action("roll-end", m_dir);
   set_walk_speed(IGEL_SPEED);
   m_physic.set_velocity_x(IGEL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
-  max_drop_height = 16;
+  max_drop_height = IGEL_MAX_DROP_HEIGHT;
 }
 
 /* EOF */
