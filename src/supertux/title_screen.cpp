@@ -57,8 +57,6 @@ TitleScreen::TitleScreen(Savegame& savegame, bool christmas) :
   m_frame(Surface::from_file("images/engine/menu/frame.png")),
   m_controller(new CodeController()),
   m_titlesession(),
-  m_titlesession_transition(),
-  m_titlesession_fade(),
   m_copyright_text(),
   m_videosystem_name(VideoSystem::current()->get_name()),
   m_jump_was_released(false)
@@ -130,31 +128,15 @@ TitleScreen::refresh_level()
 
       if (new_session)
       {
-        if (m_titlesession)
-        {
-          m_titlesession_transition = std::move(new_session);
-          m_titlesession_fade = std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, LEVEL_FADE_TIME, Color(0, 0, 0), LAYER_HUD - 1);
-        }
-        else
-        {
-          m_titlesession = std::move(new_session);
-          level_init = true;
-        }
+        m_titlesession = std::move(new_session);
+        level_init = true;
       }
     }
   }
   else if (!m_titlesession || m_titlesession->get_level_file() != DEFAULT_TITLE_LEVEL)
   {
-    if (m_titlesession)
-    {
-      m_titlesession_transition = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
-      m_titlesession_fade = std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, LEVEL_FADE_TIME, Color(0, 0, 0), LAYER_HUD - 1);
-    }
-    else
-    {
-      m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
-      level_init = true;
-    }
+    m_titlesession = std::make_unique<GameSession>(DEFAULT_TITLE_LEVEL, m_savegame, nullptr, true);
+    level_init = true;
   }
 
   /** Initialize the main sector. */
@@ -186,9 +168,6 @@ TitleScreen::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   m_titlesession->get_current_sector().draw(context);
-
-  if (m_titlesession_fade)
-    m_titlesession_fade->draw(context);
 
   context.color().draw_surface(m_logo,
                                Vector(context.get_width() / 2 - static_cast<float>(m_logo->get_width()) / 2,
@@ -224,24 +203,6 @@ TitleScreen::update(float dt_sec, const Controller& controller)
   ScreenManager::current()->set_speed(0.6f);
 
   update_level(dt_sec);
-  if (m_titlesession_fade)
-  {
-    m_titlesession_fade->update(dt_sec);
-
-    if (m_titlesession_fade->done())
-    {
-      if (m_titlesession_fade->get_direction() == FadeToBlack::FADEOUT)
-      {
-        m_titlesession = std::move(m_titlesession_transition);
-        setup_sector(m_titlesession->get_current_sector());
-        m_titlesession_fade = std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, LEVEL_FADE_TIME, Color(0, 0, 0), LAYER_HUD - 1);
-      }
-      else
-      {
-        m_titlesession_fade.reset();
-      }
-    }
-  }
 
   // Re-open main menu, if it was closed
   if (!MenuManager::instance().is_active() && !ScreenManager::current()->has_pending_fadeout())

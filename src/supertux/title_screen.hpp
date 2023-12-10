@@ -68,8 +68,6 @@ private:
 
   std::unique_ptr<CodeController> m_controller;
   std::unique_ptr<GameSession> m_titlesession;
-  std::unique_ptr<GameSession> m_titlesession_transition;
-  std::unique_ptr<FadeToBlack> m_titlesession_fade;
 
   std::string m_copyright_text;
   std::string m_videosystem_name;
