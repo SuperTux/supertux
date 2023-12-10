@@ -38,7 +38,7 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
 
   m_levelset = std::unique_ptr<Levelset>(new Levelset(m_world->get_basedir()));
 
-  auto savegame = Savegame::from_file(m_world->get_savegame_filename());
+  auto savegame = Savegame::from_current_profile(m_world->get_basename());
   LevelsetState state = savegame->get_levelset_state(m_world->get_basedir());
 
   add_label(m_world->get_title());

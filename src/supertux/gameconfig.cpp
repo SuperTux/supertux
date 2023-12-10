@@ -35,7 +35,6 @@
 
 Config::Config() :
   profile(1),
-  profiles(),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
   window_size(1280, 800),
@@ -141,29 +140,7 @@ Config::load()
 
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
-  std::optional<ReaderCollection> config_profiles_mapping;
-  if (config_mapping.get("profiles", config_profiles_mapping))
-  {
-    for (auto const& profile_node : config_profiles_mapping->get_objects())
-    {
-      if (profile_node.get_name() == "profile")
-      {
-        auto current_profile = profile_node.get_mapping();
 
-        int id;
-        std::string name;
-        if (current_profile.get("id", id) &&
-            current_profile.get("name", name))
-        {
-          profiles.push_back({id, name});
-        }
-      }
-      else
-      {
-        log_warning << "Unknown token in config file: " << profile_node.get_name() << std::endl;
-      }
-    }
-  }
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
@@ -375,16 +352,6 @@ Config::save()
   writer.start_list("supertux-config");
 
   writer.write("profile", profile);
-
-  writer.start_list("profiles");
-  for (const auto& current_profile : profiles)
-  {
-    writer.start_list("profile");
-    writer.write("id", current_profile.id);
-    writer.write("name", current_profile.name);
-    writer.end_list("profile");
-  }
-  writer.end_list("profiles");
 
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);

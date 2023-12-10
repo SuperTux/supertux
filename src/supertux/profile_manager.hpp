@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2022 Vankata453
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,30 +14,37 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_PROFILE_NAME_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_PROFILE_NAME_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_PROFILE_MANAGER_HPP
+#define HEADER_SUPERTUX_SUPERTUX_PROFILE_MANAGER_HPP
 
-#include "gui/menu.hpp"
+#include "util/currenton.hpp"
 
-class Profile;
+#include <map>
+#include <memory>
+#include <vector>
 
-class ProfileNameMenu final : public Menu
+#include "supertux/profile.hpp"
+
+class ProfileManager final : public Currenton<ProfileManager>
 {
 public:
-  ProfileNameMenu(Profile* profile = nullptr);
+  ProfileManager();
 
-  void menu_action(MenuItem& item) override;
+  Profile& get_current_profile();
+  Profile& get_profile(int id);
+  std::vector<Profile*> get_profiles();
+
+  void reset_profile(int id);
+  void delete_profile(int id);
 
 private:
-  Profile* m_profile;
-  std::string m_profile_name;
+  std::map<int, std::unique_ptr<Profile>> m_profiles;
 
 private:
-  ProfileNameMenu(const ProfileNameMenu&) = delete;
-  ProfileNameMenu& operator=(const ProfileNameMenu&) = delete;
+  ProfileManager(const ProfileManager&) = delete;
+  ProfileManager& operator=(const ProfileManager&) = delete;
 };
 
 #endif
 
 /* EOF */
- 

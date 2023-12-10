@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2022 Vankata453
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,30 +14,42 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_PROFILE_NAME_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_PROFILE_NAME_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_PROFILE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_PROFILE_HPP
 
-#include "gui/menu.hpp"
+#include <memory>
+#include <string>
 
-class Profile;
+class ReaderMapping;
 
-class ProfileNameMenu final : public Menu
+/** Contains general data about a profile, which preserves savegames. */
+class Profile final
 {
 public:
-  ProfileNameMenu(Profile* profile = nullptr);
+  Profile(int id);
 
-  void menu_action(MenuItem& item) override;
+public:
+  void save();
+  void reset();
+
+  void create_basedir();
+  std::string get_basedir() const;
+
+  int get_id() const { return m_id; }
+  std::string get_name() const { return m_name; }
+
+  void set_name(const std::string& name) { m_name = name; }
 
 private:
-  Profile* m_profile;
-  std::string m_profile_name;
+  const int m_id;
+
+  std::string m_name;
 
 private:
-  ProfileNameMenu(const ProfileNameMenu&) = delete;
-  ProfileNameMenu& operator=(const ProfileNameMenu&) = delete;
+  Profile(const Profile&) = delete;
+  Profile& operator=(const Profile&) = delete;
 };
 
 #endif
 
 /* EOF */
- 

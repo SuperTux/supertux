@@ -203,7 +203,6 @@ public:
   bool m_particle_editor_request;
   std::optional<std::pair<std::string, Vector>> m_test_pos;
 
-  std::unique_ptr<Savegame> m_savegame;
   std::string* m_particle_editor_filename;
 
 private:
