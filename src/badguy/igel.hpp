@@ -50,6 +50,7 @@ private:
 
   State m_state;
   Timer m_roll_timer;
+  Timer m_ease_timer;
 
 private:
   Igel(const Igel&) = delete;

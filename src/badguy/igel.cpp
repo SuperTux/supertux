@@ -20,6 +20,7 @@
 
 #include "collision/collision_system.hpp"
 #include "object/player.hpp"
+#include "math/easing.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -31,13 +32,15 @@ const float ROLL_RANGE = 32*10;
 const int   ROLL_MAX_DROP_HEIGHT = -1;
 const float ROLL_SPEED = 350;
 const float ROLL_DURATION = 2.f;
+const float ROLL_EASE_TIMER = 0.5f;
 
 } // namespace
 
 Igel::Igel(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "left", "right"),
   m_state(STATE_NORMAL),
-  m_roll_timer()
+  m_roll_timer(),
+  m_ease_timer()
 {
   walk_speed = IGEL_SPEED;
   max_drop_height = IGEL_MAX_DROP_HEIGHT;
@@ -56,6 +59,14 @@ Igel::active_update(float dt_sec)
         set_action("roll", m_dir);
       }
 
+      if (m_ease_timer.started())
+      {
+        float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
+        float vel = (SineEaseOut(progress) * (ROLL_SPEED - IGEL_SPEED)) + IGEL_SPEED;
+        set_walk_speed(vel);
+        m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
+      }
+
       if (m_roll_timer.check())
       {
         if (should_roll())
@@ -65,6 +76,7 @@ Igel::active_update(float dt_sec)
           m_roll_timer.start(ROLL_DURATION);
           break;
         }
+
         stop_rolling();
         break;
       }
@@ -77,7 +89,17 @@ Igel::active_update(float dt_sec)
       {
         set_action(m_dir);
       }
+
+      if (m_ease_timer.started())
+      {
+        float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
+        float vel = (SineEaseIn(progress) * (IGEL_SPEED - ROLL_SPEED)) + ROLL_SPEED;
+        set_walk_speed(vel);
+        m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
+      }
+
       if (should_roll()) roll();
+
       break;
   }
 }
@@ -148,20 +170,22 @@ void Igel::roll()
 {
   m_state = STATE_ROLLING;
   set_action("roll-start", m_dir);
-  set_walk_speed(ROLL_SPEED);
-  m_physic.set_velocity_x(ROLL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
+  //set_walk_speed(ROLL_SPEED);
+  //m_physic.set_velocity_x(ROLL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
   max_drop_height = ROLL_MAX_DROP_HEIGHT;
   m_roll_timer.start(ROLL_DURATION);
+  m_ease_timer.start(ROLL_EASE_TIMER);
 }
 
 void Igel::stop_rolling()
 {
-  m_roll_timer.stop();
   m_state = STATE_NORMAL;
   set_action("roll-end", m_dir);
-  set_walk_speed(IGEL_SPEED);
-  m_physic.set_velocity_x(IGEL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
+  //set_walk_speed(IGEL_SPEED);
+  //m_physic.set_velocity_x(IGEL_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
   max_drop_height = IGEL_MAX_DROP_HEIGHT;
+  m_roll_timer.stop();
+  m_ease_timer.start(ROLL_EASE_TIMER);
 }
 
 /* EOF */
