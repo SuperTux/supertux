@@ -1,5 +1,6 @@
 //  SuperTux - Badguy "Igel"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//                2023 MatusGuy
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,7 +22,6 @@
 
 #include "supertux/timer.hpp"
 
-/** Giggle */
 class Igel final : public WalkingBadguy
 {
 public:

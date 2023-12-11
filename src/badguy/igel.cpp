@@ -1,5 +1,6 @@
 //  SuperTux - Badguy "Igel"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//                2023 MatusGuy
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -74,7 +75,7 @@ Igel::active_update(float dt_sec)
       if (m_ease_timer.started())
       {
         float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
-        float vel = (SineEaseOut(progress) * (ROLL_SPEED - normal_walk_speed())) + normal_walk_speed();
+        float vel = (static_cast<float>(SineEaseOut(progress)) * (ROLL_SPEED - normal_walk_speed())) + normal_walk_speed();
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
@@ -105,7 +106,7 @@ Igel::active_update(float dt_sec)
       if (m_ease_timer.started())
       {
         float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
-        float vel = (SineEaseIn(progress) * (normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
+        float vel = (static_cast<float>(SineEaseIn(progress)) * (normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
@@ -119,7 +120,8 @@ Igel::active_update(float dt_sec)
   }
 }
 
-void Igel::collision_solid(const CollisionHit &hit)
+void
+Igel::collision_solid(const CollisionHit &hit)
 {
   WalkingBadguy::collision_solid(hit);
 
@@ -132,7 +134,8 @@ void Igel::collision_solid(const CollisionHit &hit)
   }
 }
 
-HitResponse Igel::collision_badguy(BadGuy &badguy, const CollisionHit &hit)
+HitResponse
+Igel::collision_badguy(BadGuy &badguy, const CollisionHit &hit)
 {
   if (m_state == STATE_ROLLING)
   {
@@ -143,7 +146,8 @@ HitResponse Igel::collision_badguy(BadGuy &badguy, const CollisionHit &hit)
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
-void Igel::run_dead_script()
+void
+Igel::run_dead_script()
 {
   if (m_type == CORRUPTED)
   {
@@ -156,7 +160,8 @@ void Igel::run_dead_script()
   WalkingBadguy::run_dead_script();
 }
 
-GameObjectTypes Igel::get_types() const
+GameObjectTypes
+Igel::get_types() const
 {
   return {
     { "normal", _("Normal") },
@@ -164,7 +169,8 @@ GameObjectTypes Igel::get_types() const
   };
 }
 
-std::string Igel::get_default_sprite_name() const
+std::string
+Igel::get_default_sprite_name() const
 {
   switch (m_type)
   {
@@ -174,28 +180,30 @@ std::string Igel::get_default_sprite_name() const
   return "images/creatures/igel/igel.sprite";
 }
 
-bool Igel::should_roll()
+bool
+Igel::should_roll()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
-  Player* plr = get_nearest_player();
-  if (!plr) return false;
+  Player* player = get_nearest_player();
+  if (!player) return false;
 
-  Rectf pb = plr->get_bbox();
+  Rectf player_box = player->get_bbox();
 
-  bool in_reach_left = (pb.get_right() >= get_bbox().get_right()-((m_dir == Direction::LEFT) ? ROLL_RANGE : 0));
-  bool in_reach_right = (pb.get_left() <= get_bbox().get_left()+((m_dir == Direction::RIGHT) ? ROLL_RANGE : 0));
-  bool in_reach_top = (pb.get_bottom() >= get_bbox().get_top());
-  bool in_reach_bottom = (pb.get_top() <= get_bbox().get_bottom());
+  bool in_reach_left = (player_box.get_right() >= get_bbox().get_right()-((m_dir == Direction::LEFT) ? ROLL_RANGE : 0));
+  bool in_reach_right = (player_box.get_left() <= get_bbox().get_left()+((m_dir == Direction::RIGHT) ? ROLL_RANGE : 0));
+  bool in_reach_top = (player_box.get_bottom() >= get_bbox().get_top());
+  bool in_reach_bottom = (player_box.get_top() <= get_bbox().get_bottom());
 
   Rectf box = get_bbox().grown(1.f);
   Vector eye = {m_dir == Direction::LEFT ? box.get_left() : box.get_right(), box.get_middle().y};
-  bool can_see_player = Sector::get().free_line_of_sight(eye, pb.get_middle(), true);
+  bool can_see_player = Sector::get().free_line_of_sight(eye, player_box.get_middle(), true);
 
   return in_reach_left && in_reach_right && in_reach_top && in_reach_bottom && can_see_player;
 }
 
-void Igel::roll()
+void
+Igel::roll()
 {
   m_state = STATE_ROLLING;
 
@@ -207,7 +215,8 @@ void Igel::roll()
   m_ease_timer.start(ROLL_EASE_TIMER);
 }
 
-void Igel::stop_rolling(bool bonk)
+void
+Igel::stop_rolling(bool bonk)
 {
   m_state = STATE_NORMAL;
   m_bonked = bonk;
@@ -227,7 +236,8 @@ void Igel::stop_rolling(bool bonk)
   m_ease_timer.start(ROLL_EASE_TIMER);
 }
 
-float Igel::normal_walk_speed()
+float
+Igel::normal_walk_speed()
 {
   return m_type == CORRUPTED ? IGEL_CORRUPTED_SPEED : IGEL_NORMAL_SPEED;
 }
