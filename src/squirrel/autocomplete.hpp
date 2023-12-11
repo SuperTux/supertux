@@ -45,6 +45,7 @@ struct ScriptingConstant final : public ScriptingObject
 
   std::string type;
   std::string description;
+  std::string detailed_description;
 };
 
 struct ScriptingFunction final : public ScriptingObject
@@ -64,6 +65,7 @@ struct ScriptingFunction final : public ScriptingObject
 
   std::string type;
   std::string description;
+  std::string detailed_description;
   std::vector<Parameter> parameters;
 };
 

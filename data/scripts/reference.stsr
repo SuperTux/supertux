@@ -220,7 +220,7 @@
   (class
     (name "Camera")
     (summary (_ "A `Camera` that was given a name can be manipulated by scripts."))
-    (instances (_ "An instance named `Camera` (`sector.Camera` in the console) is available.${SRG_NEWPARAGRAPH} The mode of the camera is either normal (the camera is following the player) or autoscroll. In the latter mode the camera is forced along a specified ${SRG_REF_Path}."))
+    (instances (_ "An instance named `Camera` (`sector.Camera` in the console) is available.The mode of the camera is either normal (the camera is following the player) or autoscroll. In the latter mode the camera is forced along a specified `Path`."))
     (function
       (name "reload_config")
       (type "void")
@@ -264,7 +264,8 @@
     (function
       (name "set_pos")
       (type "void")
-      (description (_ "Moves the camera to the specified absolute position.The origin is at the top left. "))
+      (description (_ "Moves the camera to the specified absolute position."))
+      (detailed-description (_ "The origin is at the top left."))
       (parameter
         (name "x")
         (type "float")
@@ -336,7 +337,8 @@
     (function
       (name "set_scale_anchor")
       (type "void")
-      (description (_ "Sets the scale factor and the target position anchor.NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode. "))
+      (description (_ "Sets the scale factor and the target position anchor."))
+      (detailed-description (_ "NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode."))
       (parameter
         (name "scale")
         (type "float")
@@ -344,7 +346,7 @@
       (parameter
         (name "anchor")
         (type "int")
-        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see `AnchorPoints`)."))
       )
     )
     (function
@@ -363,7 +365,8 @@
     (function
       (name "scale_anchor")
       (type "void")
-      (description (_ "Fades to a specified scale factor and target position anchor in `time` seconds.NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode. "))
+      (description (_ "Fades to a specified scale factor and target position anchor in `time` seconds."))
+      (detailed-description (_ "NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode."))
       (parameter
         (name "scale")
         (type "float")
@@ -375,7 +378,7 @@
       (parameter
         (name "anchor")
         (type "int")
-        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see `AnchorPoints`)."))
       )
     )
     (function
@@ -398,7 +401,8 @@
     (function
       (name "ease_scale_anchor")
       (type "void")
-      (description (_ "Fades to a specified scale factor and target position anchor in `time` seconds with easing (smooth movement).NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode. "))
+      (description (_ "Fades to a specified scale factor and target position anchor in `time` seconds with easing (smooth movement)."))
+      (detailed-description (_ "NOTE: Target position anchor is only applied, if the camera is in \"manual\" mode."))
       (parameter
         (name "scale")
         (type "float")
@@ -410,7 +414,7 @@
       (parameter
         (name "anchor")
         (type "int")
-        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see `AnchorPoints`)."))
       )
       (parameter
         (name "ease")
@@ -605,7 +609,7 @@
     )
     (function
       (name "get_birth_mode")
-      (type "std::string")
+      (type "string")
     )
     (function
       (name "set_birth_mode")
@@ -617,7 +621,7 @@
     )
     (function
       (name "get_death_mode")
-      (type "std::string")
+      (type "string")
     )
     (function
       (name "set_death_mode")
@@ -629,7 +633,7 @@
     )
     (function
       (name "get_rotation_mode")
-      (type "std::string")
+      (type "string")
     )
     (function
       (name "set_rotation_mode")
@@ -641,7 +645,7 @@
     )
     (function
       (name "get_collision_mode")
-      (type "std::string")
+      (type "string")
     )
     (function
       (name "set_collision_mode")
@@ -653,7 +657,7 @@
     )
     (function
       (name "get_offscreen_mode")
-      (type "std::string")
+      (type "string")
     )
     (function
       (name "set_offscreen_mode")
@@ -1659,12 +1663,14 @@
     (function
       (name "is_black")
       (type "bool")
-      (description (_ "Returns `true` if the screen has been blackened by `set_black`.Note: Calling `fade_in` or `fade_out` resets the return value to `false`. "))
+      (description (_ "Returns `true` if the screen has been blackened by `set_black`."))
+      (detailed-description (_ "Note: Calling `fade_in` or `fade_out` resets the return value to `false`."))
     )
     (function
       (name "sixteen_to_nine")
       (type "void")
-      (description (_ "Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen.Should be used before cutscenes. Gradually fades to this state for the next `time` seconds. "))
+      (description (_ "Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen."))
+      (detailed-description (_ "Should be used before cutscenes. Gradually fades to this state for the next `time` seconds."))
       (parameter
         (name "time")
         (type "float")
@@ -1673,7 +1679,8 @@
     (function
       (name "four_to_three")
       (type "void")
-      (description (_ "Sets the display ratio to 4:3, removing the black bars added by `sixteen_to_nine()`.Should be used after cutscenes. Gradually fades to this state for the next `time` seconds. "))
+      (description (_ "Sets the display ratio to 4:3, removing the black bars added by `sixteen_to_nine()`."))
+      (detailed-description (_ "Should be used after cutscenes. Gradually fades to this state for the next `time` seconds."))
       (parameter
         (name "time")
         (type "float")
@@ -1683,7 +1690,7 @@
   (class
     (name "FloatingImage")
     (summary (_ "This class provides the ability to create, edit, and remove images floating in midair on the screen, such as the SuperTux logo. It is implemented as a wrapper around a sprite, so any sprite actions are applicable."))
-    (instances (_ "Floating Images are created in a script or from the console. Constructor:${SRG_NEWPARAGRAPH} ```<floatimage> <- FloatingImage(string filename)```${SRG_NEWPARAGRAPH} This creates a `FloatingImage` from `filename` (which is relative to the data directory root)."))
+    (instances (_ "Floating Images are created in a script or from the console. Constructor:```<floatimage> <- FloatingImage(string filename)```This creates a `FloatingImage` from `filename` (which is relative to the data directory root)."))
     (function
       (name "set_layer")
       (type "void")
@@ -1728,7 +1735,7 @@
       (parameter
         (name "anchor")
         (type "int")
-        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+        (description (_ "Anchor point as represented by the `ANCHOR_*` constants (see `AnchorPoints`)."))
       )
     )
     (function
@@ -1753,7 +1760,8 @@
     (function
       (name "set_action")
       (type "void")
-      (description (_ "Sets the action of the image.This is only useful when the image is a sprite. "))
+      (description (_ "Sets the action of the image."))
+      (detailed-description (_ "This is only useful when the image is a sprite."))
       (parameter
         (name "action")
         (type "string")
@@ -1762,8 +1770,9 @@
     )
     (function
       (name "get_action")
-      (type "std::string")
-      (description (_ "Returns the name of the action of the image, as defined in the sprite.This is only useful when the image is a sprite. "))
+      (type "string")
+      (description (_ "Returns the name of the action of the image, as defined in the sprite."))
+      (detailed-description (_ "This is only useful when the image is a sprite."))
     )
     (function
       (name "fade_in")
@@ -1787,7 +1796,7 @@
   (class
     (name "GameObjectManager")
     (summary (_ "This class provides basic controlling functions for a sector. Applies for both worldmap and in-level sectors."))
-    (instances (_ "For in-level sectors, an instance under `sector.settings` is available from scripts and the console.${SRG_NEWPARAGRAPH} For worldmap sectors, such instance is available under `worldmap.settings`."))
+    (instances (_ "For in-level sectors, an instance under `sector.settings` is available from scripts and the console.For worldmap sectors, such instance is available under `worldmap.settings`."))
     (function
       (name "set_ambient_light")
       (type "void")
@@ -1854,7 +1863,8 @@
     (function
       (name "add_object")
       (type "void")
-      (description (_ "Adds a `MovingObject` to the manager.Note: If adding objects to a worldmap sector, `posX` and `posY` have to be tile positions (sector position / 32). "))
+      (description (_ "Adds a `MovingObject` to the manager."))
+      (detailed-description (_ "Note: If adding objects to a worldmap sector, `posX` and `posY` have to be tile positions (sector position / 32)."))
       (parameter
         (name "class_name")
         (type "string")
@@ -1890,7 +1900,8 @@
   (function
     (name "display")
     (type "SQInteger")
-    (description (_ "Displays the value of an argument.This is useful for inspecting tables. "))
+    (description (_ "Displays the value of an argument."))
+    (detailed-description (_ "This is useful for inspecting tables."))
     (parameter
       (name "object")
       (type "ANY")
@@ -2004,7 +2015,7 @@
   )
   (function
     (name "translate")
-    (type "std::string")
+    (type "string")
     (description (_ "Translates a text into the user's language (by looking in the `.po` files)."))
     (parameter
       (name "text")
@@ -2013,7 +2024,7 @@
   )
   (function
     (name "_")
-    (type "std::string")
+    (type "string")
     (description (_ "Same function as `translate()`."))
     (parameter
       (name "text")
@@ -2022,8 +2033,9 @@
   )
   (function
     (name "translate_plural")
-    (type "std::string")
-    (description (_ "Translates a text into the user's language (by looking in the `.po` files).Returns `text` or `text_plural`, depending on `num` and the locale. "))
+    (type "string")
+    (description (_ "Translates a text into the user's language (by looking in the `.po` files)."))
+    (detailed-description (_ "Returns `text` or `text_plural`, depending on `num` and the locale."))
     (parameter
       (name "text")
       (type "string")
@@ -2039,7 +2051,7 @@
   )
   (function
     (name "__")
-    (type "std::string")
+    (type "string")
     (description (_ "Same function as `translate_plural()`."))
     (parameter
       (name "text")
@@ -2057,7 +2069,8 @@
   (function
     (name "import")
     (type "void")
-    (description (_ "Loads a script file and executes it.This is typically used to import functions from external files. "))
+    (description (_ "Loads a script file and executes it."))
+    (detailed-description (_ "This is typically used to import functions from external files."))
     (parameter
       (name "filename")
       (type "string")
@@ -2201,7 +2214,8 @@
   (function
     (name "ghost")
     (type "void")
-    (description (_ "Makes Tux a ghost, i.e.lets him float around and through solid objects. "))
+    (description (_ "Makes Tux a ghost, i.e."))
+    (detailed-description (_ "lets him float around and through solid objects."))
   )
   (function
     (name "mortal")
@@ -2289,8 +2303,9 @@
     )
     (function
       (name "get_direction")
-      (type "std::string")
-      (description (_ "Returns the direction of the gradient.Possible values are \"horizontal\", \"vertical\", \"horizontal_sector\" or \"vertical_sector\". "))
+      (type "string")
+      (description (_ "Returns the direction of the gradient."))
+      (detailed-description (_ "Possible values are \"horizontal\", \"vertical\", \"horizontal_sector\" or \"vertical_sector\"."))
     )
     (function
       (name "set_color1")
@@ -2453,12 +2468,14 @@
     (function
       (name "has_active_sequence")
       (type "bool")
-      (description (_ "Gets whether an end sequence has started.(AKA when the stats at the end are visible) "))
+      (description (_ "Gets whether an end sequence has started."))
+      (detailed-description (_ "(AKA when the stats at the end are visible)"))
     )
     (function
       (name "spawn")
       (type "void")
-      (description (_ "Respawns Tux in sector named `sector` at spawnpoint named `spawnpoint`.${SRG_TABLENEWPARAGRAPH} Exceptions: If `sector` or `spawnpoint` are empty, or the specified sector does not exist, the function will bail out the first chance it gets. If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”. If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0). "))
+      (description (_ "Respawns Tux in sector named `sector` at spawnpoint named `spawnpoint`."))
+      (detailed-description (_ " Exceptions: If `sector` or `spawnpoint` are empty, or the specified sector does not exist, the function will bail out the first chance it gets. If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”. If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0)."))
       (parameter
         (name "sector")
         (type "string")
@@ -2531,7 +2548,8 @@
     (function
       (name "flip_vertically")
       (type "void")
-      (description (_ "Flips the level vertically (i.e.top is now bottom and vice versa). Call again to revert the effect. Make sure the player can land on something after the level is flipped! "))
+      (description (_ "Flips the level vertically (i.e."))
+      (detailed-description (_ "top is now bottom and vice versa). Call again to revert the effect. Make sure the player can land on something after the level is flipped!"))
     )
     (function
       (name "toggle_pause")
@@ -2584,7 +2602,7 @@
     (instances (_ "A `LitObject` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
     (function
       (name "get_action")
-      (type "std::string")
+      (type "string")
       (description (_ "Returns the current sprite action."))
     )
     (function
@@ -2598,7 +2616,7 @@
     )
     (function
       (name "get_light_action")
-      (type "std::string")
+      (type "string")
       (description (_ "Returns the current light sprite action."))
     )
     (function
@@ -2664,7 +2682,7 @@
     )
     (function
       (name "get_action")
-      (type "std::string")
+      (type "string")
       (description (_ "Returns the current sprite action."))
     )
     (function
@@ -2707,13 +2725,14 @@
     )
     (function
       (name "get_bonus")
-      (type "std::string")
+      (type "string")
       (description (_ "Gets Tux's current bonus."))
     )
     (function
       (name "add_coins")
       (type "void")
-      (description (_ "Gives the player a number of coins.${SRG_TABLENEWPARAGRAPH} If count is a negative amount of coins, that number of coins will be taken from the player (until the number of coins the player has is 0, when it will stop changing). "))
+      (description (_ "Gives the player a number of coins."))
+      (detailed-description (_ " If count is a negative amount of coins, that number of coins will be taken from the player (until the number of coins the player has is 0, when it will stop changing)."))
       (parameter
         (name "count")
         (type "int")
@@ -2732,7 +2751,8 @@
     (function
       (name "deactivate")
       (type "void")
-      (description (_ "Deactivate user/scripting input for Tux.Carried items like trampolines won't be dropped. "))
+      (description (_ "Deactivate user/scripting input for Tux."))
+      (detailed-description (_ "Carried items like trampolines won't be dropped."))
     )
     (function
       (name "activate")
@@ -2785,7 +2805,8 @@
     (function
       (name "set_ghost_mode")
       (type "void")
-      (description (_ "Switches ghost mode on/off.Lets Tux float around and through solid objects. "))
+      (description (_ "Switches ghost mode on/off."))
+      (detailed-description (_ "Lets Tux float around and through solid objects."))
       (parameter
         (name "enable")
         (type "bool")
@@ -2804,12 +2825,14 @@
     (function
       (name "do_cheer")
       (type "void")
-      (description (_ "Play cheer animation.${SRG_TABLENEWPARAGRAPH} This might need some space and behave in an unpredictable way. It's best to use this at level end. "))
+      (description (_ "Play cheer animation."))
+      (detailed-description (_ " This might need some space and behave in an unpredictable way. It's best to use this at level end."))
     )
     (function
       (name "do_duck")
       (type "void")
-      (description (_ "Makes Tux duck down, if possible.Won't last long, as long as input is enabled. "))
+      (description (_ "Makes Tux duck down, if possible."))
+      (detailed-description (_ "Won't last long, as long as input is enabled."))
     )
     (function
       (name "do_standup")
@@ -2925,7 +2948,7 @@
     )
     (function
       (name "get_action")
-      (type "std::string")
+      (type "string")
       (description (_ "Gets the player's current action/animation."))
     )
     (function
@@ -3036,12 +3059,12 @@
     )
     (function
       (name "get_action")
-      (type "std::string")
+      (type "string")
       (description (_ "Returns the current sprite action."))
     )
     (function
       (name "get_name")
-      (type "std::string")
+      (type "string")
       (description (_ "Returns the name of the object."))
     )
     (function
@@ -3148,7 +3171,7 @@
   )
   (class
     (name "Sector")
-    (summary (_ "This class provides additional controlling functions for a sector, other than the ones listed at ${SRG_REF_GameObjectManager}."))
+    (summary (_ "This class provides additional controlling functions for a sector, other than the ones listed at `GameObjectManager`."))
     (instances (_ "An instance under `sector.settings` is available from scripts and the console."))
     (function
       (name "set_gravity")
@@ -3412,7 +3435,8 @@
     (function
       (name "set_centered")
       (type "void")
-      (description (_ "If `centered` is `true`, the text will be centered on the screen.Otherwise, it will be left-aligned. "))
+      (description (_ "If `centered` is `true`, the text will be centered on the screen."))
+      (detailed-description (_ "Otherwise, it will be left-aligned."))
       (parameter
         (name "centered")
         (type "bool")
@@ -3448,13 +3472,13 @@
       (parameter
         (name "anchor")
         (type "int")
-        (description (_ "One of the `ANCHOR_*` constants (see ${SRG_REF_AnchorPoints})."))
+        (description (_ "One of the `ANCHOR_*` constants (see `AnchorPoints`)."))
       )
     )
     (function
       (name "get_anchor_point")
       (type "int")
-      (description (_ "Returns the current anchor point of the text (one of the `ANCHOR_*` constants; see ${SRG_REF_AnchorPoints})."))
+      (description (_ "Returns the current anchor point of the text (one of the `ANCHOR_*` constants; see `AnchorPoints`)."))
     )
     (function
       (name "set_anchor_offset")
@@ -3544,7 +3568,7 @@
   )
   (class
     (name "TextArray")
-    (summary (_ "A `TextArrayObject` that was given a name can be controlled by scripts. Supports all functions of ${SRG_REF_Text}, applying them to the current text item.${SRG_NEWPARAGRAPH} Intended for scripts with narration."))
+    (summary (_ "A `TextArrayObject` that was given a name can be controlled by scripts. Supports all functions of `Text`, applying them to the current text item.Intended for scripts with narration."))
     (instances (_ "A `TextArrayObject` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
     (function
       (name "clear")
@@ -3660,7 +3684,8 @@
     (function
       (name "lightning")
       (type "void")
-      (description (_ "Plays lightning, i.e.calls `"))
+      (description (_ "Plays lightning, i.e."))
+      (detailed-description (_ "calls `"))
     )
     (function
       (name "flash")
@@ -3708,7 +3733,8 @@
     (function
       (name "get_tile_id")
       (type "int")
-      (description (_ "Returns the ID of the tile at the given coordinates or 0 if out of bounds.The origin is at the top left. "))
+      (description (_ "Returns the ID of the tile at the given coordinates or 0 if out of bounds."))
+      (detailed-description (_ "The origin is at the top left."))
       (parameter
         (name "x")
         (type "int")
@@ -3734,7 +3760,8 @@
     (function
       (name "change")
       (type "void")
-      (description (_ "Changes the tile at the given coordinates to `newtile`.The origin is at the top left. "))
+      (description (_ "Changes the tile at the given coordinates to `newtile`."))
+      (detailed-description (_ "The origin is at the top left."))
       (parameter
         (name "x")
         (type "int")
@@ -3768,7 +3795,8 @@
     (function
       (name "fade")
       (type "void")
-      (description (_ "Starts fading the tilemap to the opacity given by `alpha`.Destination opacity will be reached after `time` seconds. Also influences solidity. "))
+      (description (_ "Starts fading the tilemap to the opacity given by `alpha`."))
+      (detailed-description (_ "Destination opacity will be reached after `time` seconds. Also influences solidity."))
       (parameter
         (name "alpha")
         (type "float")
@@ -3781,7 +3809,8 @@
     (function
       (name "tint_fade")
       (type "void")
-      (description (_ "Starts fading the tilemap to tint given by RGBA.Destination opacity will be reached after `time` seconds. Doesn't influence solidity. "))
+      (description (_ "Starts fading the tilemap to tint given by RGBA."))
+      (detailed-description (_ "Destination opacity will be reached after `time` seconds. Doesn't influence solidity."))
       (parameter
         (name "time")
         (type "float")
@@ -3806,7 +3835,8 @@
     (function
       (name "set_alpha")
       (type "void")
-      (description (_ "Instantly switches the tilemap's opacity to `alpha`.Also influences solidity. "))
+      (description (_ "Instantly switches the tilemap's opacity to `alpha`."))
+      (detailed-description (_ "Also influences solidity."))
       (parameter
         (name "alpha")
         (type "float")
@@ -3815,12 +3845,14 @@
     (function
       (name "get_alpha")
       (type "float")
-      (description (_ "Returns the tilemap's opacity.${SRG_TABLENEWPARAGRAPH} Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha. "))
+      (description (_ "Returns the tilemap's opacity."))
+      (detailed-description (_ " Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha."))
     )
     (function
       (name "set_solid")
       (type "void")
-      (description (_ "Switches the tilemap's real solidity to `solid`.${SRG_TABLENEWPARAGRAPH} Note that the effective solidity is also influenced by the alpha of the tilemap. "))
+      (description (_ "Switches the tilemap's real solidity to `solid`."))
+      (detailed-description (_ " Note that the effective solidity is also influenced by the alpha of the tilemap."))
       (parameter
         (name "solid")
         (type "bool")
@@ -3897,7 +3929,7 @@
   )
   (class
     (name "WorldMapSector")
-    (summary (_ "This class provides additional controlling functions for a worldmap sector, other than the ones listed at ${SRG_REF_GameObjectManager}."))
+    (summary (_ "This class provides additional controlling functions for a worldmap sector, other than the ones listed at `GameObjectManager`."))
     (instances (_ "An instance under `worldmap.settings` is available from scripts and the console."))
     (function
       (name "get_tux_x")
@@ -3942,8 +3974,9 @@
     )
     (function
       (name "get_filename")
-      (type "std::string")
-      (description (_ "Gets the path to the worldmap file.Useful for saving worldmap specific data. "))
+      (type "string")
+      (description (_ "Gets the path to the worldmap file."))
+      (detailed-description (_ "Useful for saving worldmap specific data."))
     )
   )
 )

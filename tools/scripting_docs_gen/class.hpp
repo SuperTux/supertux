@@ -25,6 +25,7 @@ struct Constant
   std::string type {};
   std::string name {};
   std::string description {};
+  std::string detailed_description {};
 };
 
 struct Parameter
@@ -39,6 +40,7 @@ struct Function
   std::string type {};
   std::string name {};
   std::string description {};
+  std::string detailed_description {};
   std::vector<Parameter> parameters {};
 };
 

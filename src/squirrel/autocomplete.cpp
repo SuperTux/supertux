@@ -201,20 +201,24 @@ ScriptingObject::ScriptingObject(const ReaderMapping& reader) :
 ScriptingConstant::ScriptingConstant(const ReaderMapping& reader) :
   ScriptingObject(reader),
   type(),
-  description()
+  description(),
+  detailed_description()
 {
   reader.get("type", type);
   reader.get("description", description);
+  reader.get("detailed-description", detailed_description);
 }
 
 ScriptingFunction::ScriptingFunction(const ReaderMapping& reader) :
   ScriptingObject(reader),
   type(),
   description(),
+  detailed_description(),
   parameters()
 {
   reader.get("type", type);
   reader.get("description", description);
+  reader.get("detailed-description", detailed_description);
 
   auto iter = reader.get_iter();
   while (iter.next())

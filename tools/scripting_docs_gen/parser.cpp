@@ -96,6 +96,8 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef)
 
       // Get general info
       func.type = p_memberdef->FirstChildElement("type")->GetText();
+      if (starts_with(func.type, "std::")) // Remove a potential "std::" part from the type string
+        func.type.erase(0, 5);
       func.name = p_memberdef->FirstChildElement("name")->GetText();
       if (starts_with(func.name, cl->name + "_")) // If function name starts with the string "{CLASS}_", remove it
         func.name.erase(0, cl->name.size() + 1);
@@ -107,7 +109,11 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef)
         p_descpara->Accept(&read);
       }
       if (p_detaileddescpara && p_detaileddescpara->GetText()) // The description may also continue in the detailed description. Check if more text is available.
-        func.description += p_detaileddescpara->GetText();
+      {
+        func.detailed_description = p_detaileddescpara->GetText();
+        while (!func.detailed_description.empty() && func.detailed_description.back() == ' ')
+          func.detailed_description.pop_back();
+      }
 
       /** Parse function parameters **/
       parse_parameterlist(p_memberdef, func);
@@ -125,6 +131,8 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef)
       // Get general info
       con.type = p_memberdef->FirstChildElement("type")->GetText();
       con.type.erase(0, 6); // Remove the "const " part from the type string
+      if (starts_with(con.type, "std::")) // Remove a potential "std::" part from the type string
+        con.type.erase(0, 5);
       con.name = p_memberdef->FirstChildElement("name")->GetText();
       tinyxml2::XMLElement* p_descpara = p_memberdef->FirstChildElement("briefdescription")->FirstChildElement("para");
       tinyxml2::XMLElement* p_detaileddescpara = p_memberdef->FirstChildElement("detaileddescription")->FirstChildElement("para");
@@ -134,7 +142,11 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef)
         p_descpara->Accept(&read);
       }
       if (p_detaileddescpara && p_detaileddescpara->GetText()) // The description may also continue in the detailed description. Check if more text is available.
-        con.description += p_detaileddescpara->GetText();
+      {
+        con.detailed_description = p_detaileddescpara->GetText();
+        while (!con.detailed_description.empty() && con.detailed_description.back() == ' ')
+          con.detailed_description.pop_back();
+      }
 
       // Add to constants list
       cl->constants.push_back(con);
@@ -162,7 +174,11 @@ void parse_parameterlist(tinyxml2::XMLElement* p_memberdef, Function& func)
     tinyxml2::XMLElement* p_parameternamelist = p_parameteritem->FirstChildElement("parameternamelist");
     tinyxml2::XMLElement* p_parametertype = p_parameternamelist->FirstChildElement("parametertype");
     if (p_parametertype) // Type has been provided
+    {
       param.type = p_parametertype->GetText();
+      if (starts_with(param.type, "std::")) // Remove a potential "std::" part from the type string
+        param.type.erase(0, 5);
+    }
 
     tinyxml2::XMLElement* p_parametername = p_parameternamelist->FirstChildElement("parametername");
     if (p_parametername) // Name has been provided

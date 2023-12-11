@@ -46,8 +46,17 @@ std::string write_constants_table(const std::vector<Constant>& constants)
   // Table contents (constants)
   for (const Constant& con : constants)
   {
-    // Print out type, name and description
-    table << "`" << con.type << " " << con.name << "` | " << con.description << std::endl;
+    // Print out type, name, regular and detailed description
+    table << "`" << con.type << " " << con.name << "` | " << con.description;
+    if (!con.detailed_description.empty())
+    {
+      std::string desc = con.detailed_description;
+      replace(desc, "NOTE:", "**NOTE:**"); // Make "NOTE:" strings bold
+      table << "<br /><br />" << desc;
+    }
+
+    // End table entry
+    table << std::endl;
   }
 
   return table.str();
@@ -74,8 +83,14 @@ std::string write_function_table(const std::vector<Function>& functions)
     }
     table << ")`";
 
-    // Print out description of function
+    // Print out regular and detailed description of function
     table << " | " << func.description;
+    if (!func.detailed_description.empty())
+    {
+      std::string desc = func.detailed_description;
+      replace(desc, "NOTE:", "**NOTE:**"); // Make "NOTE:" strings bold
+      table << "<br /><br />" << desc;
+    }
 
     // Print out descriptions of parameters
     bool has_printed_param_desc = false;
@@ -142,6 +157,8 @@ std::string write_data_file(const std::vector<Class>& classes)
       out << indent << "(type \"" << con.type << "\")\n";
       if (!con.description.empty())
         out << indent << "(description (_ \"" << escape(con.description) << "\"))\n";
+      if (!con.detailed_description.empty())
+        out << indent << "(detailed-description (_ \"" << escape(con.detailed_description) << "\"))\n";
       indent.pop_back(); indent.pop_back();
       out << indent << ")\n";
     }
@@ -153,6 +170,8 @@ std::string write_data_file(const std::vector<Class>& classes)
       out << indent << "(type \"" << func.type << "\")\n";
       if (!func.description.empty())
         out << indent << "(description (_ \"" << escape(func.description) << "\"))\n";
+      if (!func.detailed_description.empty())
+        out << indent << "(detailed-description (_ \"" << escape(func.detailed_description) << "\"))\n";
 
       for (const Parameter& param : func.parameters)
       {
