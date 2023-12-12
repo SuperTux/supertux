@@ -181,7 +181,7 @@ Igel::get_default_sprite_name() const
 }
 
 bool
-Igel::should_roll()
+Igel::should_roll() const
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
@@ -237,7 +237,7 @@ Igel::stop_rolling(bool bonk)
 }
 
 float
-Igel::normal_walk_speed()
+Igel::normal_walk_speed() const
 {
   return m_type == CORRUPTED ? IGEL_CORRUPTED_SPEED : IGEL_NORMAL_SPEED;
 }
