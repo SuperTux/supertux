@@ -353,7 +353,11 @@ bool Granito::try_jump()
   if (resulttile && (*resulttile)->is_slope()) return false;
 
   auto resultobj = std::get_if<CollisionObject*>(&result.hit);
-  if (resultobj && (*resultobj)->get_group() != COLGROUP_MOVING_STATIC) return false;
+  if (resultobj)
+  {
+    auto granito = dynamic_cast<Granito*>(dynamic_cast<GameObject*>(&(*resultobj)->get_listener()));
+    if (!granito) return false;
+  }
 
   Rectf detect({eye + (m_dir == Direction::LEFT ? -48.f : 16.f),
                 get_bbox().get_top() - (32.f*2)},
