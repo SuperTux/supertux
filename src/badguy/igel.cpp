@@ -174,17 +174,16 @@ Igel::get_default_sprite_name() const
 {
   switch (m_type)
   {
-    case NORMAL: return "images/creatures/igel/igel.sprite";
-    case CORRUPTED: return "images/creatures/igel/corrupted/corrupted_igel.sprite";
+    case CORRUPTED:
+      return "images/creatures/igel/corrupted/corrupted_igel.sprite";
+    default:
+      return "images/creatures/igel/igel.sprite";
   }
-  return "images/creatures/igel/igel.sprite";
 }
 
 bool
 Igel::should_roll() const
 {
-  using RaycastResult = CollisionSystem::RaycastResult;
-
   Player* player = get_nearest_player();
   if (!player) return false;
 
