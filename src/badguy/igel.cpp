@@ -21,9 +21,9 @@
 
 #include "audio/sound_manager.hpp"
 #include "collision/collision_system.hpp"
+#include "math/easing.hpp"
 #include "object/player.hpp"
 #include "object/shard.hpp"
-#include "math/easing.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
