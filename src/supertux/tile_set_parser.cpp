@@ -88,7 +88,7 @@ TileSetParser::parse(int32_t start, int32_t end, int32_t offset, bool imported)
       int32_t tiles_offset = 0;
       if (reader.get("offset", tiles_offset))
         for (int& tile : tilegroup.tiles)
-          tile += tiles_offset;
+          if (tile != 0) tile += tiles_offset;
 
       m_tileset.add_tilegroup(tilegroup);
     }
