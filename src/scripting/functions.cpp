@@ -137,7 +137,7 @@ bool check_cutscene()
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  auto session = GameSession::current()
+  auto session = GameSession::current();
 
   if(session && session->get_current_level().m_skip_cutscene)
   {
