@@ -37,7 +37,7 @@ void GranitoGiant::initialize()
   switch (m_type)
   {
     case AWAKE:
-      set_action("awake", m_dir);
+      set_action("idle", m_dir);
       break;
 
     case SLEEP:
@@ -73,7 +73,7 @@ GranitoGiant::get_types() const
     { "corrupted-a", _("Corrupted A") },
     { "corrupted-b", _("Corrupted B") },
     { "corrupted-c", _("Corrupted C") },
-    };
+  };
 }
 
 std::string GranitoGiant::get_default_sprite_name() const
