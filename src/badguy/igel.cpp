@@ -53,7 +53,7 @@ Igel::Igel(const ReaderMapping& reader) :
 {
   parse_type(reader);
 
-  walk_speed = normal_walk_speed();
+  walk_speed = get_normal_walk_speed();
   max_drop_height = IGEL_MAX_DROP_HEIGHT;
 
   SoundManager::current()->preload("sounds/thud.ogg");
@@ -75,7 +75,7 @@ Igel::active_update(float dt_sec)
       if (m_ease_timer.started())
       {
         float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
-        float vel = (static_cast<float>(SineEaseOut(progress)) * (ROLL_SPEED - normal_walk_speed())) + normal_walk_speed();
+        float vel = (static_cast<float>(SineEaseOut(progress)) * (ROLL_SPEED - get_normal_walk_speed())) + get_normal_walk_speed();
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
@@ -106,7 +106,7 @@ Igel::active_update(float dt_sec)
       if (m_ease_timer.started())
       {
         float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
-        float vel = (static_cast<float>(SineEaseIn(progress)) * (normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
+        float vel = (static_cast<float>(SineEaseIn(progress)) * (get_normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
         set_walk_speed(vel);
         m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
       }
@@ -237,7 +237,7 @@ Igel::stop_rolling(bool bonk)
 }
 
 float
-Igel::normal_walk_speed() const
+Igel::get_normal_walk_speed() const
 {
   return m_type == CORRUPTED ? IGEL_CORRUPTED_SPEED : IGEL_NORMAL_SPEED;
 }
