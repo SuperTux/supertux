@@ -47,11 +47,12 @@ private:
   enum Type { NORMAL, CORRUPTED };
   enum State { STATE_NORMAL, STATE_ROLLING };
 
-  bool should_roll();
+  bool should_roll() const;
   void roll();
   void stop_rolling(bool bonk = false);
-  float normal_walk_speed();
+  float get_normal_walk_speed() const;
 
+private:
   State m_state;
   Timer m_roll_timer;
   Timer m_roll_cooldown;
