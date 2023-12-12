@@ -146,7 +146,19 @@
       (id 11)
       (alt-id
         (id 19)
-        (weight 0.02)
+        (weight 0.002)
+      )
+      (alt-id
+        (id 1539)
+        (weight 0.002)
+      )
+      (alt-id
+        (id 5368)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 5369)
+        (weight 0.2)
       )
       (solid #t)
       (mask "11111***")
@@ -303,7 +315,6 @@
       (mask "01100*0*")
       (mask "01100010")
     )
-    ;; 3054 is the same as 3044
     (autotile
       (id 3055)
       (solid #t)
@@ -322,7 +333,6 @@
       (mask "11000*0*")
       (mask "11000010")
     )
-    ;; 3058 is the same as 3052
     (autotile
       (id 3059)
       (solid #f)
@@ -1086,6 +1096,431 @@
     )
   )
   (autotileset
+    (name "snow_unisolid2")
+    (default 2127)
+    (autotile
+      (id 5545)
+      (alt-id
+        (id 5543)
+        (weight 0.5)
+      )
+      (alt-id
+        (id 5549)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 5545)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 5538)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 5539)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 5540)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 5544)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 5546)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 5550)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 5551)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 5552)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 5541)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 5542)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 5547)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 5548)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
+    )
+    (autotile
+      (id 5553)
+      (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 5554)
+      (solid #f)
+      (mask "00100100")
+    )
+  )
+  (autotileset
+    (name "crystal_solid")
+    (default 2451)
+    (autotile
+      (id 4750)
+      (alt-id
+        (id 4751)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 4763)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 4764)
+        (weight 0.2)
+      )
+      (solid #t)
+      (mask "********")
+    )
+  )
+  (autotileset
+    (name "forest_unisolid")
+    (default 1024)
+    (autotile
+      (id 7062)
+      (alt-id
+        (id 7070)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 7071)
+        (weight 0.2)
+      )
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 7062)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 7055)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 7056)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 7057)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 7061)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 7063)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 7067)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 7068)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 7069)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 7058)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 7059)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 7064)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 7065)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
+    )
+    (autotile
+      (id 7060)
+      (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 7066)
+      (solid #f)
+      (mask "00100100")
+    )
+  )
+  (autotileset
+    (name "corrupted_unisolid")
+    (default 1362)
+    (autotile
+      (id 6417)
+      (alt-id
+        (id 6425)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 6426)
+        (weight 0.2)
+      )
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 6417)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 6410)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 6411)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 6412)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 6416)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 6418)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 6422)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 6423)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 6424)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 6413)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 6414)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 6419)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 6420)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
+    )
+    (autotile
+      (id 6415)
+      (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 6421)
+      (solid #f)
+      (mask "00100100")
+    )
+  )
+  (autotileset
+    (name "ruin_backwall")
+    (default 1476)
+    (autotile
+      (id 4454)
+      (alt-id
+        (id 1476)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 1477)
+        (weight 0.2)
+      )
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 4454)
+      (solid #f)
+      (mask "*1****1*")
+      (mask "***11***")
+    )
+    (autotile
+      (id 4448)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 4449)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 4450)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 4453)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 4455)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 4458)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 4459)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 4460)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 4451)
+      (solid #f)
+      (mask "*1*10*00")
+      (mask "*0110*00")
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 4452)
+      (solid #f)
+      (mask "*1*0100*")
+      (mask "10*0100*")
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 4456)
+      (solid #f)
+      (mask "*0010*1*")
+      (mask "*0010*01")
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 4457)
+      (solid #f)
+      (mask "00*01*1*")
+      (mask "00100*1*")
+      (mask "00*0110*")
+    )
+    (autotile
+      (id 4461)
+      (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 4462)
+      (solid #f)
+      (mask "00100100")
+    )
+  )
+  (autotileset
     (name "forest")
     (default 1010)
     (autotile
@@ -1468,6 +1903,2916 @@
       (id 3472)
       (solid #t)
       (mask "*1*00*0*")
+    )
+  )
+  (autotileset
+    (name "underground_forest")
+    (default 1870)
+    (autotile
+      (id 1860)
+      (solid #f)
+      (mask "*****011")
+    )
+    (autotile
+      (id 1861)
+      (alt-id
+        (id 1862)
+        (weight 0.5)
+      )
+      (solid #f)
+      (mask "*****111")
+    )
+    (autotile
+      (id 1863)
+      (solid #f)
+      (mask "*****110")
+    )
+    (autotile
+      (id 1864)
+      (solid #t)
+      (mask "*0*01011")
+    )
+    (autotile
+      (id 1865)
+      (alt-id
+        (id 1866)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11111")
+    )
+    (autotile
+      (id 1867)
+      (solid #t)
+      (mask "*0*10110")
+    )
+    (autotile
+      (id 1868)
+      (alt-id
+        (id 1872)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1101011")
+    )
+    (autotile
+      (id 1869)
+      (alt-id
+        (id 1870)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 1873)
+        (weight 0.3)
+      )
+      (alt-id
+        (id 1874)
+        (weight 0.3)
+      )
+      (alt-id
+        (id 7050)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 7041)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 7167)
+        (weight 0.1)
+      )
+      (solid #t)
+      (mask "11111111")
+    )
+    (autotile
+      (id 1871)
+      (alt-id
+        (id 1875)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "11*10110")
+    )
+    (autotile
+      (id 1876)
+      (solid #t)
+      (mask "*1101*0*")
+    )
+    (autotile
+      (id 1877)
+      (alt-id
+        (id 1879)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "11111*0*")
+    )
+    (autotile
+      (id 1880)
+      (solid #t)
+      (mask "11*10*0*")
+    )
+    (autotile
+      (id 3479)
+      (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 3480)
+      (alt-id
+        (id 3481)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 3482)
+      (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 3473)
+      (solid #t)
+      (mask "11*10111")
+    )
+    (autotile
+      (id 3474)
+      (solid #t)
+      (mask "*1101111")
+    )
+    (autotile
+      (id 3475)
+      (solid #t)
+      (mask "11011111")
+    )
+    (autotile
+      (id 3476)
+      (solid #t)
+      (mask "01111111")
+    )
+    (autotile
+      (id 3477)
+      (solid #t)
+      (mask "*0*10111")
+    )
+    (autotile
+      (id 3478)
+      (solid #t)
+      (mask "*0*01111")
+    )
+    (autotile
+      (id 3483)
+      (solid #f)
+      (mask "*****010")
+    )
+    (autotile
+      (id 3484)
+      (solid #t)
+      (mask "*0*00010")
+    )
+    (autotile
+      (id 3485)
+      (solid #t)
+      (mask "*1*00111")
+    )
+    (autotile
+      (id 3488)
+      (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 3489)
+      (solid #t)
+      (mask "*0*00111")
+    )
+    (autotile
+      (id 3486)
+      (solid #t)
+      (mask "*1*00010")
+    )
+    (autotile
+      (id 3487)
+      (solid #t)
+      (mask "01011111")
+    )
+    (autotile
+      (id 7136)
+      (solid #t)
+      (mask "11111110")
+    )
+    (autotile
+      (id 7137)
+      (solid #t)
+      (mask "11111011")
+    )
+    (autotile
+      (id 7138)
+      (solid #t)
+      (mask "01111110")
+    )
+    (autotile
+      (id 7139)
+      (solid #t)
+      (mask "11011011")
+    )
+    (autotile
+      (id 7140)
+      (solid #t)
+      (mask "11111010")
+    )
+    (autotile
+      (id 7141)
+      (solid #t)
+      (mask "01011010")
+    )
+    (autotile
+      (id 7142)
+      (solid #t)
+      (mask "*0*00*0*")
+    )
+    (autotile
+      (id 7102)
+      (solid #t)
+      (mask "*0*01010")
+    )
+    (autotile
+      (id 7103)
+      (solid #t)
+      (mask "*0*11110")
+    )
+    (autotile
+      (id 7104)
+      (solid #t)
+      (mask "*0*11011")
+    )
+    (autotile
+      (id 7105)
+      (solid #t)
+      (mask "*0*10010")
+    )
+    (autotile
+      (id 7106)
+      (solid #t)
+      (mask "*1001011")
+    )
+    (autotile
+      (id 7107)
+      (solid #t)
+      (mask "*1001010")
+    )
+    (autotile
+      (id 7108)
+      (solid #t)
+      (mask "01*10010")
+    )
+    (autotile
+      (id 7109)
+      (solid #t)
+      (mask "01*10110")
+    )
+    (autotile
+      (id 7110)
+      (solid #t)
+      (mask "01011*0*")
+    )
+    (autotile
+      (id 7111)
+      (solid #t)
+      (mask "*1101010")
+    )
+    (autotile
+      (id 7112)
+      (solid #t)
+      (mask "11*10010")
+    )
+    (autotile
+      (id 7113)
+      (solid #t)
+      (mask "*0*11010")
+    )
+    (autotile
+      (id 7114)
+      (solid #t)
+      (mask "*1001*0*")
+    )
+    (autotile
+      (id 7115)
+      (solid #t)
+      (mask "11011*0*")
+    )
+    (autotile
+      (id 7116)
+      (solid #t)
+      (mask "01111*0*")
+    )
+    (autotile
+      (id 7117)
+      (solid #t)
+      (mask "01*10*0*")
+    )
+    (autotile
+      (id 7118)
+      (solid #t)
+      (mask "11011010")
+    )
+    (autotile
+      (id 7119)
+      (solid #t)
+      (mask "01111010")
+    )
+    (autotile
+      (id 7120)
+      (solid #t)
+      (mask "*0*01110")
+    )
+    (autotile
+      (id 7121)
+      (solid #t)
+      (mask "*0*10011")
+    )
+    (autotile
+      (id 7122)
+      (solid #t)
+      (mask "01011110")
+    )
+    (autotile
+      (id 7123)
+      (solid #t)
+      (mask "01011011")
+    )
+    (autotile
+      (id 7124)
+      (solid #t)
+      (mask "11011110")
+    )
+    (autotile
+      (id 7125)
+      (solid #t)
+      (mask "01111011")
+    )
+    (autotile
+      (id 7126)
+      (solid #t)
+      (mask "11*10011")
+    )
+    (autotile
+      (id 7127)
+      (solid #t)
+      (mask "*1101110")
+    )
+    (autotile
+      (id 7128)
+      (solid #t)
+      (mask "01*10011")
+    )
+    (autotile
+      (id 7129)
+      (solid #t)
+      (mask "*1001110")
+    )
+    (autotile
+      (id 7130)
+      (solid #t)
+      (mask "01*10111")
+    )
+    (autotile
+      (id 7131)
+      (solid #t)
+      (mask "*1001111")
+    )
+    (autotile
+      (id 7132)
+      (solid #t)
+      (mask "*0*00011")
+    )
+    (autotile
+      (id 7133)
+      (solid #t)
+      (mask "*0*00110")
+    )
+    (autotile
+      (id 7134)
+      (solid #t)
+      (mask "*1*00011")
+    )
+    (autotile
+      (id 7135)
+      (solid #t)
+      (mask "*1*00110")
+    )
+  )
+  (autotileset
+    (name "spikevine")
+    (default 471)
+    (autotile
+      (id 1972)
+      (solid #t)
+      (mask "*0*01*1*")
+    )
+    (autotile
+      (id 1984)
+      (solid #t)
+      (mask "*0*10*1*")
+    )
+    (autotile
+      (id 1973)
+      (alt-id
+        (id 1974)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1*01*1*")
+    )
+    (autotile
+      (id 1976)
+      (alt-id
+        (id 1980)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11*1*")
+    )
+    (autotile
+      (id 1975)
+      (solid #t)
+      (mask "*1*01*0*")
+    )
+    (autotile
+      (id 1987)
+      (solid #t)
+      (mask "*1*10*0*")
+    )
+    (autotile
+      (id 1979)
+      (alt-id
+        (id 1983)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1*11*0*")
+    )
+    (autotile
+      (id 1985)
+      (alt-id
+        (id 1986)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1*10*1*")
+    )
+    (autotile
+      (id 5577)
+      (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 5582)
+      (solid #t)
+      (mask "*0*00*1*")
+    )
+    (autotile
+      (id 5578)
+      (alt-id
+        (id 5583)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 5584)
+      (alt-id
+        (id 5580)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 5585)
+      (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 5579)
+      (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 1977)
+      (alt-id
+        (id 1978)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 1981)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 1982)
+        (weight 0.2)
+      )
+      (solid #t)
+      (mask "*1*11*1*")
+    )
+    (autotile
+      (id 5581)
+      (solid #t)
+      (mask "*0*00*0*")
+    )
+  )
+  (autotileset-corner
+    (name "forest_bkg")
+    (default 2005)
+    (autotile
+      (id 5663)
+      (alt-id
+        (id 5664)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 5665)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 5674)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 5675)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 5676)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 5685)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 5686)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 5687)
+        (weight 0.1)
+      )
+      (mask "1111")
+    )
+    (autotile
+      (id 5645)
+      (mask "0001")
+    )
+    (autotile
+      (id 5646)
+      (mask "0010")
+    )
+    (autotile
+      (id 5643)
+      (mask "0100")
+    )
+    (autotile
+      (id 5644)
+      (mask "1000")
+    )
+    (autotile
+      (id 5666)
+      (mask "1110")
+    )
+    (autotile
+      (id 5667)
+      (mask "1100")
+    )
+    (autotile
+      (id 5668)
+      (mask "1101")
+    )
+    (autotile
+      (id 5677)
+      (mask "1010")
+    )
+    (autotile
+      (id 5679)
+      (mask "0101")
+    )
+    (autotile
+      (id 5688)
+      (mask "1011")
+    )
+    (autotile
+      (id 5689)
+      (mask "0011")
+    )
+    (autotile
+      (id 5690)
+      (mask "0111")
+    )
+    (autotile
+      (id 5680)
+      (mask "1001")
+    )
+    (autotile
+      (id 5681)
+      (mask "0110")
+    )
+  )
+  (autotileset
+    (name "corrupted_forest")
+    (default 1433)
+    (autotile
+      (id 1423)
+      (solid #f)
+      (mask "*****011")
+    )
+    (autotile
+      (id 1424)
+      (alt-id
+        (id 1425)
+        (weight 0.5)
+      )
+      (solid #f)
+      (mask "*****111")
+    )
+    (autotile
+      (id 1426)
+      (solid #f)
+      (mask "*****110")
+    )
+    (autotile
+      (id 1427)
+      (solid #t)
+      (mask "*0*01011")
+    )
+    (autotile
+      (id 1428)
+      (alt-id
+        (id 1429)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11111")
+    )
+    (autotile
+      (id 1430)
+      (solid #t)
+      (mask "*0*10110")
+    )
+    (autotile
+      (id 1431)
+      (alt-id
+        (id 1435)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1101011")
+    )
+    (autotile
+      (id 1432)
+      (alt-id
+        (id 1433)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 1436)
+        (weight 0.3)
+      )
+      (alt-id
+        (id 1437)
+        (weight 0.3)
+      )
+      (solid #t)
+      (mask "11111111")
+    )
+    (autotile
+      (id 1434)
+      (alt-id
+        (id 1438)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "11*10110")
+    )
+    (autotile
+      (id 1439)
+      (solid #t)
+      (mask "*1101*0*")
+    )
+    (autotile
+      (id 1440)
+      (alt-id
+        (id 1441)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "11111*0*")
+    )
+    (autotile
+      (id 1442)
+      (solid #t)
+      (mask "11*10*0*")
+    )
+    (autotile
+      (id 3923)
+      (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 3924)
+      (alt-id
+        (id 3925)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 3926)
+      (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 3417)
+      (solid #t)
+      (mask "*1*00111")
+    )
+    (autotile
+      (id 3373)
+      (solid #t)
+      (mask "*1101111")
+    )
+    (autotile
+      (id 3374)
+      (solid #t)
+      (mask "11*10111")
+    )
+    (autotile
+      (id 3375)
+      (solid #t)
+      (mask "*0*01111")
+    )
+    (autotile
+      (id 3378)
+      (solid #t)
+      (mask "01011010")
+    )
+    (autotile
+      (id 3379)
+      (solid #t)
+      (mask "01111111")
+    )
+    (autotile
+      (id 3380)
+      (solid #t)
+      (mask "11011111")
+    )
+    (autotile
+      (id 3381)
+      (solid #t)
+      (mask "01111110")
+    )
+    (autotile
+      (id 3376)
+      (solid #t)
+      (mask "*0*10111")
+    )
+    (autotile
+      (id 6541)
+      (solid #f)
+      (mask "*****010")
+    )
+    (autotile
+      (id 3414)
+      (solid #t)
+      (mask "11111110")
+    )
+    (autotile
+      (id 3415)
+      (solid #t)
+      (mask "11111011")
+    )
+    (autotile
+      (id 3382)
+      (solid #t)
+      (mask "11011011")
+    )
+    (autotile
+      (id 6542)
+      (solid #t)
+      (mask "*0*00010")
+    )
+    (autotile
+      (id 6543)
+      (solid #t)
+      (mask "*0*00111")
+    )
+    (autotile
+      (id 6544)
+      (solid #t)
+      (mask "*1*00010")
+    )
+    (autotile
+      (id 6546)
+      (solid #t)
+      (mask "01011111")
+    )
+    (autotile
+      (id 3401)
+      (solid #t)
+      (mask "11111010")
+    )
+    (autotile
+      (id 6547)
+      (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 6548)
+      (solid #t)
+      (mask "*0*00*0*")
+    )
+    ;; 6205, 6206 and 6208 are transition tiles from grassed to grassless
+    ;; 6193 to 6200 are grassless
+    (autotile
+      (id 6549)
+      (solid #t)
+      (mask "*0*01010")
+    )
+    (autotile
+      (id 6550)
+      (solid #t)
+      (mask "*0*11110")
+    )
+    (autotile
+      (id 6551)
+      (solid #t)
+      (mask "*0*11011")
+    )
+    (autotile
+      (id 6552)
+      (solid #t)
+      (mask "*0*10010")
+    )
+    (autotile
+      (id 6553)
+      (solid #t)
+      (mask "*1001011")
+    )
+    (autotile
+      (id 6554)
+      (solid #t)
+      (mask "*1001010")
+    )
+    (autotile
+      (id 6555)
+      (solid #t)
+      (mask "01*10010")
+    )
+    (autotile
+      (id 6556)
+      (solid #t)
+      (mask "01*10110")
+    )
+    (autotile
+      (id 6557)
+      (solid #t)
+      (mask "01011*0*")
+    )
+    (autotile
+      (id 6558)
+      (solid #t)
+      (mask "*1101010")
+    )
+    (autotile
+      (id 6559)
+      (solid #t)
+      (mask "11*10010")
+    )
+    (autotile
+      (id 6560)
+      (solid #t)
+      (mask "*0*11010")
+    )
+    (autotile
+      (id 6561)
+      (solid #t)
+      (mask "*1001*0*")
+    )
+    (autotile
+      (id 6562)
+      (solid #t)
+      (mask "11011*0*")
+    )
+    (autotile
+      (id 6563)
+      (solid #t)
+      (mask "01111*0*")
+    )
+    (autotile
+      (id 6564)
+      (solid #t)
+      (mask "01*10*0*")
+    )
+    (autotile
+      (id 6565)
+      (solid #t)
+      (mask "11011010")
+    )
+    (autotile
+      (id 6566)
+      (solid #t)
+      (mask "01111010")
+    )
+    ;; 6567 and 6568 are transitions from grassed to grassless
+    (autotile
+      (id 6569)
+      (solid #t)
+      (mask "01011110")
+    )
+    (autotile
+      (id 6570)
+      (solid #t)
+      (mask "01011011")
+    )
+    (autotile
+      (id 6571)
+      (solid #t)
+      (mask "*0*01110")
+    )
+    (autotile
+      (id 6572)
+      (solid #t)
+      (mask "*0*10011")
+    )
+    ;; 6573 and 6574 are transitions to grassless
+    (autotile
+      (id 6575)
+      (solid #t)
+      (mask "11011110")
+    )
+    (autotile
+      (id 6576)
+      (solid #t)
+      (mask "01111011")
+    )
+    (autotile
+      (id 6577)
+      (solid #t)
+      (mask "11*10011")
+    )
+    (autotile
+      (id 6578)
+      (solid #t)
+      (mask "*1101110")
+    )
+    (autotile
+      (id 6579)
+      (solid #t)
+      (mask "01*10011")
+    )
+    (autotile
+      (id 6580)
+      (solid #t)
+      (mask "*1001110")
+    )
+    (autotile
+      (id 6581)
+      (solid #t)
+      (mask "01*10111")
+    )
+    (autotile
+      (id 6582)
+      (solid #t)
+      (mask "*1001111")
+    )
+    ;; 6583 and 6584 transition grassless...
+    (autotile
+      (id 6585)
+      (solid #t)
+      (mask "*1*00011")
+    )
+    (autotile
+      (id 6586)
+      (solid #t)
+      (mask "*1*00110")
+    )
+    (autotile
+      (id 6587)
+      (solid #t)
+      (mask "*0*00011")
+    )
+    (autotile
+      (id 6588)
+      (solid #t)
+      (mask "*0*00110")
+    )
+    ;; 6589 to 6598 - grassless...
+  )
+  (autotileset
+    (name "underground_corrupted")
+    (default 3697)
+    (autotile
+      (id 6808)
+      (solid #f)
+      (mask "*****011")
+    )
+    (autotile
+      (id 6809)
+      (alt-id
+        (id 6810)
+        (weight 0.5)
+      )
+      (solid #f)
+      (mask "*****111")
+    )
+    (autotile
+      (id 6811)
+      (solid #f)
+      (mask "*****110")
+    )
+    (autotile
+      (id 6822)
+      (solid #t)
+      (mask "*0*01011")
+    )
+    (autotile
+      (id 6823)
+      (alt-id
+        (id 6824)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11111")
+    )
+    (autotile
+      (id 6825)
+      (solid #t)
+      (mask "*0*10110")
+    )
+    (autotile
+      (id 6836)
+      (alt-id
+        (id 6850)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1101011")
+    )
+    (autotile
+      (id 6837)
+      (alt-id
+        (id 6838)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6851)
+        (weight 0.3)
+      )
+      (alt-id
+        (id 6852)
+        (weight 0.3)
+      )
+      (alt-id
+        (id 6952)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6955)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6958)
+        (weight 0.1)
+      )
+      (solid #t)
+      (mask "11111111")
+    )
+    (autotile
+      (id 6839)
+      (alt-id
+        (id 6853)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "11*10110")
+    )
+    (autotile
+      (id 6864)
+      (solid #t)
+      (mask "*1101*0*")
+    )
+    (autotile
+      (id 6865)
+      (alt-id
+        (id 6866)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "11111*0*")
+    )
+    (autotile
+      (id 6867)
+      (solid #t)
+      (mask "11*10*0*")
+    )
+    (autotile
+      (id 6804)
+      (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 6805)
+      (alt-id
+        (id 6806)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 6807)
+      (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 6880)
+      (solid #t)
+      (mask "11*10111")
+    )
+    (autotile
+      (id 6881)
+      (solid #t)
+      (mask "*1101111")
+    )
+    (autotile
+      (id 6882)
+      (solid #t)
+      (mask "11011111")
+    )
+    (autotile
+      (id 6883)
+      (solid #t)
+      (mask "01111111")
+    )
+    (autotile
+      (id 6885)
+      (solid #t)
+      (mask "*0*10111")
+    )
+    (autotile
+      (id 6884)
+      (solid #t)
+      (mask "*0*01111")
+    )
+    (autotile
+      (id 6888)
+      (solid #f)
+      (mask "*****010")
+    )
+    (autotile
+      (id 6889)
+      (solid #t)
+      (mask "*0*00010")
+    )
+    (autotile
+      (id 6893)
+      (solid #t)
+      (mask "*1*00111")
+    )
+    (autotile
+      (id 6896)
+      (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 6890)
+      (solid #t)
+      (mask "*0*00111")
+    )
+    (autotile
+      (id 6891)
+      (solid #t)
+      (mask "*1*00010")
+    )
+    (autotile
+      (id 6892)
+      (solid #t)
+      (mask "01011111")
+    )
+    (autotile
+      (id 6878)
+      (solid #t)
+      (mask "11111110")
+    )
+    (autotile
+      (id 6879)
+      (solid #t)
+      (mask "11111011")
+    )
+    (autotile
+      (id 6886)
+      (solid #t)
+      (mask "01111110")
+    )
+    (autotile
+      (id 6887)
+      (solid #t)
+      (mask "11011011")
+    )
+    (autotile
+      (id 6894)
+      (solid #t)
+      (mask "11111010")
+    )
+    (autotile
+      (id 6895)
+      (solid #t)
+      (mask "01011010")
+    )
+    (autotile
+      (id 6897)
+      (solid #t)
+      (mask "*0*00*0*")
+    )
+    (autotile
+      (id 6898)
+      (solid #t)
+      (mask "*0*01010")
+    )
+    (autotile
+      (id 6899)
+      (solid #t)
+      (mask "*0*11110")
+    )
+    (autotile
+      (id 6900)
+      (solid #t)
+      (mask "*0*11011")
+    )
+    (autotile
+      (id 6901)
+      (solid #t)
+      (mask "*0*10010")
+    )
+    (autotile
+      (id 6902)
+      (solid #t)
+      (mask "*1001011")
+    )
+    (autotile
+      (id 6903)
+      (solid #t)
+      (mask "*1001010")
+    )
+    (autotile
+      (id 6904)
+      (solid #t)
+      (mask "01*10010")
+    )
+    (autotile
+      (id 6905)
+      (solid #t)
+      (mask "01*10110")
+    )
+    (autotile
+      (id 6906)
+      (solid #t)
+      (mask "01011*0*")
+    )
+    (autotile
+      (id 6907)
+      (solid #t)
+      (mask "*1101010")
+    )
+    (autotile
+      (id 6908)
+      (solid #t)
+      (mask "11*10010")
+    )
+    (autotile
+      (id 6909)
+      (solid #t)
+      (mask "*0*11010")
+    )
+    (autotile
+      (id 6910)
+      (solid #t)
+      (mask "*1001*0*")
+    )
+    (autotile
+      (id 6911)
+      (solid #t)
+      (mask "11011*0*")
+    )
+    (autotile
+      (id 6912)
+      (solid #t)
+      (mask "01111*0*")
+    )
+    (autotile
+      (id 6913)
+      (solid #t)
+      (mask "01*10*0*")
+    )
+    (autotile
+      (id 6914)
+      (solid #t)
+      (mask "11011010")
+    )
+    (autotile
+      (id 6915)
+      (solid #t)
+      (mask "01111010")
+    )
+    (autotile
+      (id 6916)
+      (solid #t)
+      (mask "*0*01110")
+    )
+    (autotile
+      (id 6917)
+      (solid #t)
+      (mask "*0*10011")
+    )
+    (autotile
+      (id 6918)
+      (solid #t)
+      (mask "01011110")
+    )
+    (autotile
+      (id 6919)
+      (solid #t)
+      (mask "01011011")
+    )
+    (autotile
+      (id 6920)
+      (solid #t)
+      (mask "11011110")
+    )
+    (autotile
+      (id 6921)
+      (solid #t)
+      (mask "01111011")
+    )
+    (autotile
+      (id 6922)
+      (solid #t)
+      (mask "11*10011")
+    )
+    (autotile
+      (id 6923)
+      (solid #t)
+      (mask "*1101110")
+    )
+    (autotile
+      (id 6924)
+      (solid #t)
+      (mask "01*10011")
+    )
+    (autotile
+      (id 6925)
+      (solid #t)
+      (mask "*1001110")
+    )
+    (autotile
+      (id 6926)
+      (solid #t)
+      (mask "01*10111")
+    )
+    (autotile
+      (id 6927)
+      (solid #t)
+      (mask "*1001111")
+    )
+    (autotile
+      (id 6928)
+      (solid #t)
+      (mask "*0*00011")
+    )
+    (autotile
+      (id 6929)
+      (solid #t)
+      (mask "*0*00110")
+    )
+    (autotile
+      (id 6930)
+      (solid #t)
+      (mask "*1*00011")
+    )
+    (autotile
+      (id 6931)
+      (solid #t)
+      (mask "*1*00110")
+    )
+  )
+  (autotileset
+    (name "corruptvine")
+    (default 1679)
+    (autotile
+      (id 6110)
+      (solid #t)
+      (mask "*0*01*1*")
+    )
+    (autotile
+      (id 6113)
+      (solid #t)
+      (mask "*0*10*1*")
+    )
+    (autotile
+      (id 6117)
+      (alt-id
+        (id 6124)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1*01*1*")
+    )
+    (autotile
+      (id 6111)
+      (alt-id
+        (id 6112)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11*1*")
+    )
+    (autotile
+      (id 6131)
+      (solid #t)
+      (mask "*1*01*0*")
+    )
+    (autotile
+      (id 6134)
+      (solid #t)
+      (mask "*1*10*0*")
+    )
+    (autotile
+      (id 6132)
+      (alt-id
+        (id 6133)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1*11*0*")
+    )
+    (autotile
+      (id 6120)
+      (alt-id
+        (id 6127)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1*10*1*")
+    )
+    (autotile
+      (id 6114)
+      (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 6123)
+      (solid #t)
+      (mask "*0*00*1*")
+    )
+    (autotile
+      (id 6115)
+      (alt-id
+        (id 6129)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 6130)
+      (alt-id
+        (id 6121)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 6137)
+      (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 6116)
+      (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 6118)
+      (alt-id
+        (id 6125)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 6119)
+        (weight 0.2)
+      )
+      (alt-id
+        (id 6126)
+        (weight 0.2)
+      )
+      (solid #t)
+      (mask "*1*11*1*")
+    )
+    (autotile
+      (id 6122)
+      (solid #t)
+      (mask "*0*00*0*")
+    )
+  )
+  (autotileset-corner
+    (name "corrupted_bkg")
+    (default 4435)
+    (autotile
+      (id 6160)
+      (alt-id
+        (id 6161)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6162)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6171)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6172)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6173)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6182)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6183)
+        (weight 0.1)
+      )
+      (alt-id
+        (id 6184)
+        (weight 0.1)
+      )
+      (mask "1111")
+    )
+    (autotile
+      (id 6142)
+      (mask "0001")
+    )
+    (autotile
+      (id 6143)
+      (mask "0010")
+    )
+    (autotile
+      (id 6140)
+      (mask "0100")
+    )
+    (autotile
+      (id 6141)
+      (mask "1000")
+    )
+    (autotile
+      (id 6163)
+      (mask "1110")
+    )
+    (autotile
+      (id 6164)
+      (mask "1100")
+    )
+    (autotile
+      (id 6165)
+      (mask "1101")
+    )
+    (autotile
+      (id 6174)
+      (mask "1010")
+    )
+    (autotile
+      (id 6176)
+      (mask "0101")
+    )
+    (autotile
+      (id 6185)
+      (mask "1011")
+    )
+    (autotile
+      (id 6186)
+      (mask "0011")
+    )
+    (autotile
+      (id 6187)
+      (mask "0111")
+    )
+    (autotile
+      (id 6177)
+      (mask "1001")
+    )
+    (autotile
+      (id 6178)
+      (mask "0110")
+    )
+  )
+  (autotileset
+    (name "halloween")
+    (default 3077)
+    (autotile
+      (id 3068)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 3069)
+      (alt-id
+        (id 3070)
+        (weight 0.5)
+      )
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 3071)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 3072)
+      (solid #f)
+      (mask "0000100*")
+    )
+    (autotile
+      (id 3073)
+      (alt-id
+        (id 3074)
+        (weight 0.5)
+      )
+      (solid #t)
+      (mask "000*****")
+    )
+    (autotile
+      (id 3075)
+      (solid #f)
+      (mask "00010*00")
+    )
+    (autotile
+      (id 3076)
+      (alt-id
+        (id 3080)
+        (weight 0.5)
+      )
+      (solid #f)
+      (mask "0010100*")
+    )
+    (autotile
+      (id 3077)
+      (alt-id
+        (id 3078)
+        (weight 0.25)
+      )
+      (alt-id
+        (id 3081)
+        (weight 0.25)
+      )
+      (alt-id
+        (id 3082)
+        (weight 0.25)
+      )
+      (solid #t)
+      (mask "*1******")
+    )
+    (autotile
+      (id 3079)
+      (alt-id
+        (id 3083)
+        (weight 0.5)
+      )
+      (solid #f)
+      (mask "10010*00")
+    )
+    (autotile
+      (id 3084)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 3085)
+      (alt-id
+        (id 3086)
+        (weight 0.5)
+      )
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 3087)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 3088)
+      (solid #f)
+      (mask "*1*10*00")
+    )
+    (autotile
+      (id 3089)
+      (solid #f)
+      (mask "*1*0100*")
+    )
+    ;; 3094 and 3095 are not autotileable with the current system
+    (autotile
+      (id 3090)
+      (solid #f)
+      (mask "10010*1*")
+    )
+    (autotile
+      (id 3091)
+      (solid #f)
+      (mask "00101*1*")
+    )
+    ;; 3096 and 3097 are not autotileable with the current system
+    (autotile
+      (id 3092)
+      (solid #t)
+      (mask "100*****")
+    )
+    (autotile
+      (id 3093)
+      (solid #t)
+      (mask "001*****")
+    )
+    (autotile
+      (id 3137)
+      (solid #f)
+      (mask "00010*1*")
+    )
+    (autotile
+      (id 3138)
+      (solid #f)
+      (mask "00001*1*")
+    )
+    ;; 3098 to 3105 are not autotileable with the current system
+    (autotile
+      (id 4971)
+      (solid #f)
+      (mask "00100001")
+    )
+    (autotile
+      (id 4972)
+      (solid #f)
+      (mask "00100*1*")
+    )
+    (autotile
+      (id 4973)
+      (solid #f)
+      (mask "00100100")
+    )
+    (autotile
+      (id 4974)
+      (solid #f)
+      (mask "*1*11*0*")
+    )
+    (autotile
+      (id 4975)
+      (solid #f)
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 4976)
+      (solid #f)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 4977)
+      (solid #f)
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 4978)
+      (solid #f)
+      (mask "10111*0*")
+    )
+    (autotile
+      (id 4979)
+      (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 4980)
+      (solid #f)
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 4981)
+      (solid #f)
+      (mask "10000100")
+    )
+    (autotile
+      (id 4982)
+      (solid #f)
+      (mask "10111*1*")
+    )
+    (autotile
+      (id 4983)
+      (solid #f)
+      (mask "*1*10*1*")
+    )
+    (autotile
+      (id 4984)
+      (solid #f)
+      (mask "*1*01*1*")
+    )
+    (autotile
+      (id 4985)
+      (solid #f)
+      (mask "*1*11*1*")
+    )
+    (autotile
+      (id 4986)
+      (solid #f)
+      (mask "00011*1*")
+    )
+    (autotile
+      (id 4987)
+      (solid #f)
+      (mask "00000101")
+    )
+    (autotile
+      (id 4988)
+      (solid #f)
+      (mask "10100000")
+    )
+    (autotile
+      (id 4989)
+      (solid #f)
+      (mask "10100101")
+    )
+    (autotile
+      (id 4990)
+      (solid #t)
+      (mask "101*****")
+    )
+    (autotile
+      (id 4991)
+      (solid #f)
+      (mask "*1*00101")
+    )
+    (autotile
+      (id 4992)
+      (solid #f)
+      (mask "10100*1*")
+    )
+    (autotile
+      (id 4993)
+      (solid #f)
+      (mask "1010110*")
+    )
+    (autotile
+      (id 4994)
+      (solid #f)
+      (mask "10110*01")
+    )
+    (autotile
+      (id 4995)
+      (solid #f)
+      (mask "*1*10*01")
+    )
+    (autotile
+      (id 4996)
+      (solid #f)
+      (mask "*1*0110*")
+    )
+    (autotile
+      (id 4997)
+      (solid #f)
+      (mask "1010100*")
+    )
+    (autotile
+      (id 4998)
+      (solid #f)
+      (mask "10110*00")
+    )
+    (autotile
+      (id 4999)
+      (solid #f)
+      (mask "10110*1*")
+    )
+    (autotile
+      (id 5000)
+      (solid #f)
+      (mask "10101*1*")
+    )
+    (autotile
+      (id 5001)
+      (solid #f)
+      (mask "0010110*")
+    )
+    (autotile
+      (id 5002)
+      (solid #f)
+      (mask "10010*01")
+    )
+    (autotile
+      (id 5003)
+      (solid #f)
+      (mask "00110*1*")
+    )
+    (autotile
+      (id 5004)
+      (solid #f)
+      (mask "10001*1*")
+    )
+    (autotile
+      (id 5005)
+      (solid #f)
+      (mask "00111*1*")
+    )
+    (autotile
+      (id 5006)
+      (solid #f)
+      (mask "10011*1*")
+    )
+    (autotile
+      (id 5007)
+      (solid #f)
+      (mask "10100100")
+    )
+    (autotile
+      (id 5008)
+      (solid #f)
+      (mask "10100001")
+    )
+    (autotile
+      (id 5009)
+      (solid #f)
+      (mask "10000101")
+    )
+    (autotile
+      (id 5010)
+      (solid #f)
+      (mask "00100101")
+    )
+    (autotile
+      (id 5011)
+      (solid #f)
+      (mask "00110*00")
+    )
+    (autotile
+      (id 5012)
+      (solid #f)
+      (mask "00010*01")
+    )
+    (autotile
+      (id 5013)
+      (solid #f)
+      (mask "0000110*")
+    )
+    (autotile
+      (id 5014)
+      (solid #f)
+      (mask "1000100*")
+    )
+    (autotile
+      (id 5015)
+      (solid #f)
+      (mask "00111*0*")
+    )
+    (autotile
+      (id 5016)
+      (solid #f)
+      (mask "10011*0*")
+    )
+    (autotile
+      (id 5017)
+      (solid #f)
+      (mask "00110*01")
+    )
+    (autotile
+      (id 5018)
+      (solid #f)
+      (mask "1000110*")
+    )
+    (autotile
+      (id 5019)
+      (solid #f)
+      (mask "00011*0*")
+    )
+  )
+  (autotileset-corner
+    (name "halloween_bkg")
+    (default 3106)
+    (autotile
+      (id 3114)
+      (alt-id
+        (id 3128)
+        (weight 0.5)
+      )
+      (mask "0001")
+    )
+    (autotile
+      (id 3115)
+      (alt-id
+        (id 3116)
+        (weight 0.5)
+      )
+      (mask "0011")
+    )
+    (autotile
+      (id 3117)
+      (alt-id
+        (id 3129)
+        (weight 0.5)
+      )
+      (mask "0010")
+    )
+    (autotile
+      (id 3121)
+      (alt-id
+        (id 3122)
+        (weight 0.5)
+      )
+      (mask "0101")
+    )
+    (autotile
+      (id 3106)
+      (alt-id
+        (id 3107)
+        (weight 0.25)
+      )
+      (alt-id
+        (id 3108)
+        (weight 0.25)
+      )
+      (alt-id
+        (id 3109)
+        (weight 0.25)
+      )
+      (mask "1111")
+    )
+    (autotile
+      (id 3123)
+      (alt-id
+        (id 3127)
+        (weight 0.5)
+      )
+      (mask "1010")
+    )
+    (autotile
+      (id 3131)
+      (alt-id
+        (id 3135)
+        (weight 0.5)
+      )
+      (mask "0100")
+    )
+    (autotile
+      (id 3132)
+      (alt-id
+        (id 3133)
+        (weight 0.5)
+      )
+      (mask "1100")
+    )
+    (autotile
+      (id 3134)
+      (alt-id
+        (id 3136)
+        (weight 0.5)
+      )
+      (mask "1000")
+    )
+    (autotile
+      (id 3118)
+      (mask "1110")
+    )
+    (autotile
+      (id 3119)
+      (mask "1101")
+    )
+    (autotile
+      (id 3120)
+      (mask "1001")
+    )
+    (autotile
+      (id 3126)
+      (mask "0110")
+    )
+    (autotile
+      (id 3124)
+      (mask "1011")
+    )
+    (autotile
+      (id 3125)
+      (mask "0111")
+    )
+  )
+  (autotileset
+    (name "snowfort_light")
+    (default 3934)
+    (autotile
+      (id 3930)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 3931)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 3932)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 3939)
+      (solid #f)
+      (mask "00*01*1*")
+    )
+    (autotile
+      (id 3933)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 3934)
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 3935)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 3941)
+      (solid #f)
+      (mask "*1*0100*")
+    )
+    (autotile
+      (id 3936)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 3937)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 3938)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 3940)
+      (solid #f)
+      (mask "*0010*1*")
+    )
+    (autotile
+      (id 5310)
+      (solid #f)
+      (mask "*0*11*1*")
+    )
+    (autotile
+      (id 5311)
+      (solid #f)
+      (mask "00100100")
+    )
+    (autotile
+      (id 5312)
+      (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 3942)
+      (solid #f)
+      (mask "*1*10*00")
+    )
+    (autotile
+      (id 5313)
+      (solid #f)
+      (mask "00100001")
+    )
+    (autotile
+      (id 3945)
+      (solid #f)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 5314)
+      (solid #f)
+      (mask "10000100")
+    )
+    (autotile
+      (id 5315)
+      (solid #f)
+      (mask "00000101")
+    )
+    (autotile
+      (id 3944)
+      (solid #f)
+      (mask "*1*10*1*")
+    )
+    (autotile
+      (id 3943)
+      (solid #f)
+      (mask "*1*01*1*")
+    )
+    (autotile
+      (id 5316)
+      (solid #f)
+      (mask "*1*11*0*")
+    )
+    (autotile
+      (id 5317)
+      (solid #f)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 5318)
+      (solid #f)
+      (mask "00100*1*")
+    )
+    (autotile
+      (id 5319)
+      (solid #f)
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 5320)
+      (solid #f)
+      (mask "10100*1*")
+    )
+    (autotile
+      (id 5321)
+      (solid #f)
+      (mask "10100000")
+    )
+    (autotile
+      (id 3947)
+      (solid #f)
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 3946)
+      (solid #f)
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 5322)
+      (solid #f)
+      (mask "*1*00101")
+    )
+    (autotile
+      (id 5323)
+      (solid #f)
+      (mask "*1*11*1*")
+    )
+    (autotile
+      (id 5324)
+      (solid #f)
+      (mask "00*0110*")
+    )
+    (autotile
+      (id 5325)
+      (solid #f)
+      (mask "*0010*01")
+    )
+    (autotile
+      (id 5326)
+      (solid #f)
+      (mask "10100001")
+    )
+    (autotile
+      (id 5327)
+      (solid #f)
+      (mask "10100101")
+    )
+    (autotile
+      (id 5328)
+      (solid #f)
+      (mask "10*0100*")
+    )
+    (autotile
+      (id 5329)
+      (solid #f)
+      (mask "*0110*00")
+    )
+    (autotile
+      (id 5330)
+      (solid #f)
+      (mask "10100100")
+    )
+    (autotile
+      (id 5331)
+      (solid #f)
+      (mask "10000101")
+    )
+    (autotile
+      (id 5332)
+      (solid #f)
+      (mask "10*0110*")
+    )
+    (autotile
+      (id 5333)
+      (solid #f)
+      (mask "*0110*01")
+    )
+    (autotile
+      (id 5288)
+      (solid #f)
+      (mask "*1*10*01")
+    )
+    (autotile
+      (id 5289)
+      (solid #f)
+      (mask "00100101")
+    )
+    (autotile
+      (id 5290)
+      (solid #f)
+      (mask "10*01*1*")
+    )
+    (autotile
+      (id 5291)
+      (solid #f)
+      (mask "*0110*1*")
+    )
+    (autotile
+      (id 5292)
+      (solid #f)
+      (mask "*1*0110*")
+    )
+  )
+  (autotileset
+    (name "snowfort_dark")
+    (default 3955)
+    (autotile
+      (id 3948)
+      (solid #f)
+      (mask "00000001")
+    )
+    (autotile
+      (id 3949)
+      (solid #f)
+      (mask "00000*1*")
+    )
+    (autotile
+      (id 3950)
+      (solid #f)
+      (mask "00000100")
+    )
+    (autotile
+      (id 3951)
+      (solid #f)
+      (mask "00*01*1*")
+    )
+    (autotile
+      (id 3954)
+      (solid #f)
+      (mask "00*0100*")
+    )
+    (autotile
+      (id 3955)
+      (solid #t)
+      (mask "********")
+    )
+    (autotile
+      (id 3956)
+      (solid #f)
+      (mask "*0010*00")
+    )
+    (autotile
+      (id 3957)
+      (solid #f)
+      (mask "*1*0100*")
+    )
+    (autotile
+      (id 3960)
+      (solid #f)
+      (mask "00100000")
+    )
+    (autotile
+      (id 3961)
+      (solid #f)
+      (mask "*1*00000")
+    )
+    (autotile
+      (id 3962)
+      (solid #f)
+      (mask "10000000")
+    )
+    (autotile
+      (id 3952)
+      (solid #f)
+      (mask "*0010*1*")
+    )
+    (autotile
+      (id 5338)
+      (solid #f)
+      (mask "*0*11*1*")
+    )
+    (autotile
+      (id 5339)
+      (solid #f)
+      (mask "00100100")
+    )
+    (autotile
+      (id 5294)
+      (solid #f)
+      (mask "10000001")
+    )
+    (autotile
+      (id 3958)
+      (solid #f)
+      (mask "*1*10*00")
+    )
+    (autotile
+      (id 5295)
+      (solid #f)
+      (mask "00100001")
+    )
+    (autotile
+      (id 3953)
+      (solid #f)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 5296)
+      (solid #f)
+      (mask "10000100")
+    )
+    (autotile
+      (id 5298)
+      (solid #f)
+      (mask "00000101")
+    )
+    (autotile
+      (id 3964)
+      (solid #f)
+      (mask "*1*10*1*")
+    )
+    (autotile
+      (id 3963)
+      (solid #f)
+      (mask "*1*01*1*")
+    )
+    (autotile
+      (id 5299)
+      (solid #f)
+      (mask "*1*11*0*")
+    )
+    (autotile
+      (id 5300)
+      (solid #f)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 5334)
+      (solid #f)
+      (mask "00100*1*")
+    )
+    (autotile
+      (id 5335)
+      (solid #f)
+      (mask "10000*1*")
+    )
+    (autotile
+      (id 5336)
+      (solid #f)
+      (mask "10100*1*")
+    )
+    (autotile
+      (id 5337)
+      (solid #f)
+      (mask "10100000")
+    )
+    (autotile
+      (id 3965)
+      (solid #f)
+      (mask "*1*00001")
+    )
+    (autotile
+      (id 3959)
+      (solid #f)
+      (mask "*1*00100")
+    )
+    (autotile
+      (id 5340)
+      (solid #f)
+      (mask "*1*00101")
+    )
+    (autotile
+      (id 5341)
+      (solid #f)
+      (mask "*1*11*1*")
+    )
+    (autotile
+      (id 5342)
+      (solid #f)
+      (mask "00*0110*")
+    )
+    (autotile
+      (id 5343)
+      (solid #f)
+      (mask "*0010*01")
+    )
+    (autotile
+      (id 5344)
+      (solid #f)
+      (mask "10100001")
+    )
+    (autotile
+      (id 5345)
+      (solid #f)
+      (mask "10100101")
+    )
+    (autotile
+      (id 5346)
+      (solid #f)
+      (mask "10*0100*")
+    )
+    (autotile
+      (id 5347)
+      (solid #f)
+      (mask "*0110*00")
+    )
+    (autotile
+      (id 5348)
+      (solid #f)
+      (mask "10100100")
+    )
+    (autotile
+      (id 5349)
+      (solid #f)
+      (mask "10000101")
+    )
+    (autotile
+      (id 5350)
+      (solid #f)
+      (mask "10*0110*")
+    )
+    (autotile
+      (id 5351)
+      (solid #f)
+      (mask "*0110*01")
+    )
+    (autotile
+      (id 5352)
+      (solid #f)
+      (mask "*1*10*01")
+    )
+    (autotile
+      (id 5353)
+      (solid #f)
+      (mask "00100101")
+    )
+    (autotile
+      (id 5354)
+      (solid #f)
+      (mask "10*01*1*")
+    )
+    (autotile
+      (id 5355)
+      (solid #f)
+      (mask "*0110*1*")
+    )
+    (autotile
+      (id 5356)
+      (solid #f)
+      (mask "*1*0110*")
+    )
+  )
+  (autotileset
+    (name "ice_chunks")
+    (default 3977)
+    (autotile
+      (id 3972)
+      (solid #t)
+      (mask "*0*01*11")
+    )
+    (autotile
+      (id 3973)
+      (solid #t)
+      (mask "*0*11111")
+    )
+    (autotile
+      (id 3974)
+      (solid #t)
+      (mask "*0*1011*")
+    )
+    (autotile
+      (id 3975)
+      (solid #t)
+      (mask "11011111")
+    )
+    (autotile
+      (id 3976)
+      (solid #t)
+      (mask "*1101*11")
+    )
+    (autotile
+      (id 3977)
+      (solid #t)
+      (mask "11111111")
+    )
+    (autotile
+      (id 3978)
+      (solid #t)
+      (mask "11*1011*")
+    )
+    (autotile
+      (id 3979)
+      (solid #t)
+      (mask "01111111")
+    )
+    (autotile
+      (id 3980)
+      (solid #t)
+      (mask "*1101*0*")
+    )
+    (autotile
+      (id 3981)
+      (solid #t)
+      (mask "11111*0*")
+    )
+    (autotile
+      (id 3982)
+      (solid #t)
+      (mask "11*10*0*")
+    )
+    (autotile
+      (id 3983)
+      (solid #t)
+      (mask "11111011")
+    )
+    (autotile
+      (id 3984)
+      (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 3985)
+      (solid #t)
+      (mask "11011011")
+    )
+    (autotile
+      (id 3986)
+      (solid #t)
+      (mask "01111110")
+    )
+    (autotile
+      (id 3987)
+      (solid #t)
+      (mask "11111110")
+    )
+    (autotile
+      (id 5206)
+      (solid #t)
+      (mask "11011110")
+    )
+    (autotile
+      (id 5207)
+      (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 5208)
+      (solid #t)
+      (mask "01111011")
+    )
+    (autotile
+      (id 5209)
+      (solid #t)
+      (mask "11111010")
+    )
+    (autotile
+      (id 5210)
+      (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 5211)
+      (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 5212)
+      (solid #t)
+      (mask "*0*00*1*")
+    )
+    (autotile
+      (id 5213)
+      (solid #t)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 5214)
+      (solid #t)
+      (mask "11011*0*")
+    )
+    (autotile
+      (id 5215)
+      (solid #t)
+      (mask "01111*0*")
+    )
+    (autotile
+      (id 5216)
+      (solid #t)
+      (mask "01011*0*")
+    )
+    (autotile
+      (id 5217)
+      (solid #t)
+      (mask "01011111")
+    )
+    (autotile
+      (id 5218)
+      (solid #t)
+      (mask "*0*11110")
+    )
+    (autotile
+      (id 5219)
+      (solid #t)
+      (mask "*0*11011")
+    )
+    (autotile
+      (id 5220)
+      (solid #t)
+      (mask "*0*11010")
+    )
+    (autotile
+      (id 5221)
+      (solid #t)
+      (mask "*0*00*0*")
+    )
+    (autotile
+      (id 5222)
+      (solid #t)
+      (mask "11*1001*")
+    )
+    (autotile
+      (id 5223)
+      (solid #t)
+      (mask "*1101*10")
+    )
+    (autotile
+      (id 5224)
+      (solid #t)
+      (mask "01011110")
+    )
+    (autotile
+      (id 5225)
+      (solid #t)
+      (mask "01011010")
+    )
+    (autotile
+      (id 5226)
+      (solid #t)
+      (mask "01*1011*")
+    )
+    (autotile
+      (id 5227)
+      (solid #t)
+      (mask "*1001*11")
+    )
+    (autotile
+      (id 5228)
+      (solid #t)
+      (mask "01011011")
+    )
+    (autotile
+      (id 5229)
+      (solid #t)
+      (mask "01111010")
+    )
+    (autotile
+      (id 5230)
+      (solid #t)
+      (mask "01*1001*")
+    )
+    (autotile
+      (id 5231)
+      (solid #t)
+      (mask "*1001*10")
+    )
+    (autotile
+      (id 5232)
+      (solid #t)
+      (mask "*0*01*10")
+    )
+    (autotile
+      (id 5233)
+      (solid #t)
+      (mask "11011010")
+    )
+    (autotile
+      (id 5234)
+      (solid #t)
+      (mask "01*10*0*")
+    )
+    (autotile
+      (id 5235)
+      (solid #t)
+      (mask "*1001*0*")
+    )
+    (autotile
+      (id 5236)
+      (solid #t)
+      (mask "*0*1001*")
+    )
+  )
+  (autotileset
+    (name "rope")
+    (default 3459)
+    (autotile
+      (id 4334)
+      (solid #t)
+      (mask "*0*01*1*")
+    )
+    (autotile
+      (id 4335)
+      (solid #t)
+      (mask "*0*10*1*")
+    )
+    (autotile
+      (id 3064)
+      (solid #t)
+      (mask "*1*01*1*")
+    )
+    (autotile
+      (id 3065)
+      (solid #t)
+      (mask "*0*11*1*")
+    )
+    (autotile
+      (id 4338)
+      (solid #t)
+      (mask "*1*01*0*")
+    )
+    (autotile
+      (id 4339)
+      (solid #t)
+      (mask "*1*10*0*")
+    )
+    (autotile
+      (id 3067)
+      (solid #t)
+      (mask "*1*11*0*")
+    )
+    (autotile
+      (id 3066)
+      (solid #t)
+      (mask "*1*10*1*")
+    )
+    (autotile
+      (id 4332)
+      (solid #t)
+      (mask "*0*01*0*")
+    )
+    (autotile
+      (id 4336)
+      (solid #t)
+      (mask "*0*00*1*")
+    )
+    (autotile
+      (id 3062)
+      (solid #t)
+      (mask "*0*11*0*")
+    )
+    (autotile
+      (id 3060)
+      (solid #t)
+      (mask "*1*00*1*")
+    )
+    (autotile
+      (id 3061)
+      (solid #t)
+      (mask "*1*00*0*")
+    )
+    (autotile
+      (id 4333)
+      (solid #t)
+      (mask "*0*10*0*")
+    )
+    (autotile
+      (id 3063)
+      (solid #t)
+      (mask "*1*11*1*")
+    )
+    (autotile
+      (id 4337)
+      (solid #t)
+      (mask "*0*00*0*")
     )
   )
 )
