@@ -29,11 +29,12 @@
 #include <variant>
 
 const float CATCH_DURATION = 0.49f;
-const float CATCH_DISTANCE = 32.f*3.2f; // distance from the ground
+const float CATCH_BIG_DISTANCE = 32.f*3.2f; // distance from the ground
+const float CATCH_SMALL_DISTANCE = 32.f*2.6f; // same here
 
-const float DIVE_DETECT_STAND = 1.f;
-const float DIVE_DETECT_WALK = 1.5f;
-const float DIVE_DETECT_RUNNING = 2.5f;
+const float DIVE_DETECT_STAND = .8f;
+const float DIVE_DETECT_WALK = 1.3f;
+const float DIVE_DETECT_RUNNING = 2.55f;
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
@@ -59,7 +60,8 @@ void Zeekling::draw(DrawingContext &context)
   reye.x = (m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right());
   reye.y = bbox.get_bottom();
 
-  const Vector rrangeend = {reye.x, reye.y + CATCH_DISTANCE};
+  float catch_distance = CATCH_SMALL_DISTANCE;
+  const Vector rrangeend = {reye.x, reye.y + catch_distance};
 
   // Left/rightmost point of the hitbox.
   Vector eye;
@@ -236,12 +238,16 @@ Zeekling::should_we_rebound()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
+  Player* plr = get_nearest_player();
+  if (!plr) return false;
+
   Vector eye;
   const Rectf& bbox = get_bbox().grown(1.f);
   eye.x = (m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right());
   eye.y = bbox.get_bottom();
 
-  const Vector rangeend = {eye.x, eye.y + CATCH_DISTANCE};
+  float catch_distance = plr->is_big() ? CATCH_BIG_DISTANCE : CATCH_SMALL_DISTANCE;
+  const Vector rangeend = {eye.x, eye.y + catch_distance};
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
 
