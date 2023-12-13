@@ -31,8 +31,9 @@
 const float CATCH_DURATION = 0.49f;
 const float CATCH_DISTANCE = 32.f*3.2f; // distance from the ground
 
-const float DIVE_DETECT_DIR = 2.1f;
-const float DIVE_DIR = 2.5f;
+const float DIVE_DETECT_STAND = 1.f;
+const float DIVE_DETECT_WALK = 1.5f;
+const float DIVE_DETECT_RUNNING = 2.5f;
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
@@ -62,13 +63,22 @@ void Zeekling::draw(DrawingContext &context)
 
   // Left/rightmost point of the hitbox.
   Vector eye;
-  eye = bbox.get_middle();
   eye.x = m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right();
+  eye.y = bbox.get_middle().y;
 
   const Vector& plrmid = plr->get_bbox().get_middle();
 
-  const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * DIVE_DETECT_DIR *
-                                    (m_dir == Direction::LEFT ? -1 : 1)),
+  float vel = std::fabs(plr->get_physic().get_velocity_x());
+  float detect_range;
+  if (vel <= 10)
+    detect_range = DIVE_DETECT_STAND;
+  else if (vel <= 230)
+    detect_range = DIVE_DETECT_WALK;
+  else
+    detect_range = DIVE_DETECT_RUNNING;
+
+  const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * detect_range *
+                                     (m_dir == Direction::LEFT ? -1 : 1)),
                            plrmid.y};
 
   context.color().draw_line(reye, rrangeend, Color::from_rgba8888(0xff, 0,0,0xff), 100);
@@ -193,17 +203,27 @@ Zeekling::should_we_dive()
   eye = bbox.get_middle();
   eye.x = m_dir == Direction::LEFT ? bbox.get_left() : bbox.get_right();
 
+  const Vector& plrmid = plr->get_bbox().get_middle();
+
   // Do not dive if we are not above the player.
-  float height = plr->get_bbox().get_top() - bbox.get_bottom();
+  float height = plrmid.y - eye.y;
   if (height <= 0) return false;
 
   // Do not dive if we are too far above the player.
   if (height > 512) return false;
 
-  const Vector& plrmid = plr->get_bbox().get_middle();
-  const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * DIVE_DETECT_DIR *
+  float vel = std::fabs(plr->get_physic().get_velocity_x());
+  float detect_range;
+  if (vel <= 10)
+    detect_range = DIVE_DETECT_STAND;
+  else if (vel <= 230)
+    detect_range = DIVE_DETECT_WALK;
+  else
+    detect_range = DIVE_DETECT_RUNNING;
+
+  const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * detect_range *
                                      (m_dir == Direction::LEFT ? -1 : 1)),
-                            plrmid.y};
+                           plrmid.y};
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, rangeend, false, nullptr);
 
