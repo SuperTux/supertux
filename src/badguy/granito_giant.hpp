@@ -22,7 +22,7 @@
 class GranitoGiant final : public BadGuy
 {
 public:
-  GranitoGiant(const ReaderMapping& reader);
+  explicit GranitoGiant(const ReaderMapping& reader);
 
   virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
   virtual void initialize() override;

@@ -355,7 +355,7 @@ bool Granito::try_jump()
   auto resultobj = std::get_if<CollisionObject*>(&result.hit);
   if (resultobj)
   {
-    auto granito = dynamic_cast<Granito*>(dynamic_cast<GameObject*>(&(*resultobj)->get_listener()));
+    const auto granito = dynamic_cast<Granito*>(dynamic_cast<GameObject*>(&(*resultobj)->get_listener()));
     if (!granito) return false;
   }
 

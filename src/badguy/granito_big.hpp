@@ -33,7 +33,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual GameObjectTypes get_types() const override;
-  virtual std::string get_default_sprite_name() const override;
+  std::string get_default_sprite_name() const override;
 
 protected:
   virtual bool try_wave() override;
