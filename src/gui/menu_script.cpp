@@ -17,6 +17,7 @@
 
 #include "gui/menu_script.hpp"
 
+#include "editor/editor.hpp"
 #include "gui/item_scriptfield.hpp"
 #include "util/gettext.hpp"
 
@@ -33,6 +34,15 @@ ScriptMenu::ScriptMenu(std::string* script)
   add_back(_("OK"));
 
   item.process_action(MenuAction::SELECT);
+
+  if (Editor::is_active())
+    Editor::current()->get_sector()->expose_objects();
+}
+
+ScriptMenu::~ScriptMenu()
+{
+  if (Editor::is_active())
+    Editor::current()->get_sector()->unexpose_objects();
 }
 
 /* EOF */

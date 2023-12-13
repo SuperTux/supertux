@@ -1,3 +1,7 @@
+;; Note: This file is auto-generated from the SuperTux scripting interface source code.
+;; DO NOT CHANGE!
+;; Register more scripting entries from scripting reference (.stsr) files using `register_scripting_reference(string filename)`.
+
 (supertux-scripting-reference
   (class
     (name "AmbientSound")
@@ -1616,6 +1620,7 @@
   )
   (class
     (name "Dispenser")
+    (base-class "BadGuy")
     (summary (_ "A `Dispenser` that was given a name can be controlled by scripts."))
     (instances (_ "A `Dispenser` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
     (function
@@ -2968,7 +2973,7 @@
       (parameter
         (name "input")
         (type "string")
-        (description (_ "Valid values are listed above."))
+        (description (_ "Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”, “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”, “peek-left”, “peek-right”, “peek-up” or “peek-down”."))
       )
     )
     (function
@@ -2978,7 +2983,7 @@
       (parameter
         (name "input")
         (type "string")
-        (description (_ "Valid values are listed above."))
+        (description (_ "Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”, “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”, “peek-left”, “peek-right”, “peek-up” or “peek-down”."))
       )
     )
   )
@@ -3171,6 +3176,7 @@
   )
   (class
     (name "Sector")
+    (base-class "GameObjectManager")
     (summary (_ "This class provides additional controlling functions for a sector, other than the ones listed at `GameObjectManager`."))
     (instances (_ "An instance under `sector.settings` is available from scripts and the console."))
     (function
@@ -3880,6 +3886,7 @@
   )
   (class
     (name "WillOWisp")
+    (base-class "BadGuy")
     (summary (_ "A `WillOWisp` that was given a name can be controlled by scripts. The WillOWisp can be moved by specifying a path for it."))
     (instances (_ "A `WillOWisp` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
     (function
@@ -3929,6 +3936,7 @@
   )
   (class
     (name "WorldMapSector")
+    (base-class "GameObjectManager")
     (summary (_ "This class provides additional controlling functions for a worldmap sector, other than the ones listed at `GameObjectManager`."))
     (instances (_ "An instance under `worldmap.settings` is available from scripts and the console."))
     (function

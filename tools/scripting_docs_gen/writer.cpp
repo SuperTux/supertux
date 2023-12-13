@@ -137,6 +137,10 @@ std::string write_data_file(const std::vector<Class>& classes)
   std::stringstream out;
   std::string indent = "  ";
 
+  out << ";; Note: This file is auto-generated from the SuperTux scripting interface source code.\n";
+  out << ";; DO NOT CHANGE!\n";
+  out << ";; Register more scripting entries from scripting reference (.stsr) files using `register_scripting_reference(string filename)`.\n\n";
+
   out << "(supertux-scripting-reference\n";
   for (const Class& cl : classes)
   {
@@ -145,6 +149,8 @@ std::string write_data_file(const std::vector<Class>& classes)
       out << indent << "(class\n";
       indent += "  ";
       out << indent << "(name \"" << cl.name << "\")\n";
+      for (const std::string& class_name : cl.base_classes)
+        out << indent << "(base-class \"" << class_name << "\")\n";
       out << indent << "(summary (_ \"" << escape(cl.summary) << "\"))\n";
       out << indent << "(instances (_ \"" << escape(cl.instances) << "\"))\n";
     }

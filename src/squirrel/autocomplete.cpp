@@ -33,7 +33,7 @@ static std::optional<ScriptingClass> s_scripting_root;
 namespace {
 
 void sq_insert_commands(SuggestionStack& cmds, HSQUIRRELVM vm,
-                        const std::string& table_prefix, const ScriptingClass* parent_class,
+                        const std::string& table_prefix, std::vector<const ScriptingClass*> parent_classes,
                         const std::string& search_prefix, bool remove_prefix);
 
 /**
@@ -43,7 +43,7 @@ void sq_insert_commands(SuggestionStack& cmds, HSQUIRRELVM vm,
  */
 void
 sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
-                  const std::string& table_prefix, const ScriptingClass* parent_class,
+                  const std::string& table_prefix, const std::vector<const ScriptingClass*>& parent_classes,
                   const std::string& search_prefix, bool remove_prefix)
 {
   const SQChar* key_chars;
@@ -53,58 +53,38 @@ sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
 
   const ScriptingObject* object = nullptr;
 
-  switch (sq_gettype(vm, -1))
+  const SQObjectType type = sq_gettype(vm, -1);
+  switch (type)
   {
     case OT_INSTANCE:
+    {
       key_string += ".";
-      if (search_prefix.substr(0, key_string.length()) == key_string)
+
+      // Search for class name
+      bool found_class = false;
+      sq_pushroottable(vm); // Push root table.
+      sq_pushnull(vm); // Push iterator.
+      while (!found_class && SQ_SUCCEEDED(sq_next(vm, -2)))
       {
-        // Search for class name
-        bool found_class = false;
-        sq_pushroottable(vm); // Push root table.
-        sq_pushnull(vm); // Push iterator.
-        while (!found_class && SQ_SUCCEEDED(sq_next(vm, -2)))
+        if (sq_gettype(vm, -1) == OT_CLASS)
         {
-          if (sq_gettype(vm, -1) == OT_CLASS)
+          sq_push(vm, -5); // Push instance.
+          if (sq_instanceof(vm))
           {
-            sq_push(vm, -5); // Push instance.
-            if (sq_instanceof(vm))
-            {
-              if (SQ_FAILED(sq_getstring(vm, -3, &key_chars))) return;
-              found_class = true;
-            }
-            sq_pop(vm, 1); // Pop instance.
+            if (SQ_FAILED(sq_getstring(vm, -3, &key_chars))) break;
+            found_class = true;
           }
-          sq_pop(vm, 2); // Pop key, value.
+          sq_pop(vm, 1); // Pop instance.
         }
-        sq_pop(vm, 2); // Pop iterator, root table.
-
-        const ScriptingClass* current_class = nullptr;
-        if (found_class) // Succeeded getting class name
-        {
-          base_name = key_chars; // Use class name
-
-          auto it = std::find_if(s_scripting_root->classes.begin(), s_scripting_root->classes.end(),
-                                 [&base_name](const auto& cl) { return cl.name == base_name; });
-          if (it != s_scripting_root->classes.end())
-          {
-            current_class = &*it;
-            object = current_class;
-          }
-        }
-
-        sq_getclass(vm, -1); // Push class.
-        sq_insert_commands(cmds, vm, key_string, current_class, search_prefix, remove_prefix);
-        sq_pop(vm, 1); // Pop class.
+        sq_pop(vm, 2); // Pop key, value.
       }
-      break;
+      sq_pop(vm, 2); // Pop iterator, root table.
 
-    case OT_TABLE:
-    case OT_CLASS:
-      key_string += ".";
-      if (search_prefix.substr(0, key_string.length()) == key_string)
+      const ScriptingClass* current_class = nullptr;
+      if (found_class) // Succeeded getting class name
       {
-        const ScriptingClass* current_class = nullptr;
+        base_name = key_chars; // Use class name
+
         auto it = std::find_if(s_scripting_root->classes.begin(), s_scripting_root->classes.end(),
                                [&base_name](const auto& cl) { return cl.name == base_name; });
         if (it != s_scripting_root->classes.end())
@@ -112,37 +92,87 @@ sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
           current_class = &*it;
           object = current_class;
         }
-
-        sq_insert_commands(cmds, vm, key_string, current_class, search_prefix, remove_prefix);
       }
-      break;
+
+      if (search_prefix.substr(0, key_string.length()) == key_string)
+      {
+        sq_getclass(vm, -1); // Push class.
+        sq_insert_commands(cmds, vm, key_string, { current_class }, search_prefix, remove_prefix);
+        sq_pop(vm, 1); // Pop class.
+      }
+    }
+    break;
+
+    case OT_TABLE:
+    {
+      key_string += ".";
+
+      if (search_prefix.substr(0, key_string.length()) == key_string)
+        sq_insert_commands(cmds, vm, key_string, {}, search_prefix, remove_prefix);
+    }
+    break;
+
+    case OT_CLASS:
+    {
+      key_string += ".";
+
+      const ScriptingClass* current_class = nullptr;
+      auto it = std::find_if(s_scripting_root->classes.begin(), s_scripting_root->classes.end(),
+                             [&base_name](const auto& cl) { return cl.name == base_name; });
+      if (it != s_scripting_root->classes.end())
+      {
+        current_class = &*it;
+        object = current_class;
+      }
+
+      if (search_prefix.substr(0, key_string.length()) == key_string)
+        sq_insert_commands(cmds, vm, key_string, { current_class }, search_prefix, remove_prefix);
+    }
+    break;
 
     case OT_CLOSURE:
+    {
       key_string += "()";
-      break;
+    }
+    break;
+
     case OT_NATIVECLOSURE:
+    {
       key_string += "()";
-      if (parent_class)
+      for (const ScriptingClass* cl : parent_classes)
       {
-        auto it = std::find_if(parent_class->functions.begin(), parent_class->functions.end(),
+        if (!cl) continue;
+
+        auto it = std::find_if(cl->functions.begin(), cl->functions.end(),
                                [&base_name](const auto& func) { return func.name == base_name; });
-        if (it != parent_class->functions.end())
+        if (it != cl->functions.end())
+        {
           object = &*it;
+          break;
+        }
       }
-      break;
+    }
+    break;
 
     case OT_INTEGER:
     case OT_FLOAT:
     case OT_BOOL:
     case OT_STRING:
-      if (parent_class)
+    {
+      for (const ScriptingClass* cl : parent_classes)
       {
-        auto it = std::find_if(parent_class->constants.begin(), parent_class->constants.end(),
+        if (!cl) continue;
+
+        auto it = std::find_if(cl->constants.begin(), cl->constants.end(),
                                [&base_name](const auto& func) { return func.name == base_name; });
-        if (it != parent_class->constants.end())
+        if (it != cl->constants.end())
+        {
           object = &*it;
+          break;
+        }
       }
-      break;
+    }
+    break;
 
     default:
       break;
@@ -158,18 +188,15 @@ sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
     const size_t pos = key_string.find_last_of('.', search_prefix.length());
     if (pos != std::string::npos)
     {
-      std::string result = key_string.substr(pos);
-      if (result != ".")
-      {
-        if (result.at(0) == '.')
-          result.erase(0, 1);
+      key_string = key_string.substr(pos);
+      if (key_string == ".")
+        return;
 
-        cmds.insert({ result, object }); // TEMP
-      }
-      return;
+      if (key_string.at(0) == '.')
+        key_string.erase(0, 1);
     }
   }
-  cmds.insert({ key_string, object }); // TEMP
+  cmds.push_back(Suggestion(key_string, object, type == OT_INSTANCE));
 }
 
 /**
@@ -177,13 +204,26 @@ sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
  */
 void
 sq_insert_commands(SuggestionStack& cmds, HSQUIRRELVM vm,
-                   const std::string& table_prefix, const ScriptingClass* parent_class,
+                   const std::string& table_prefix, std::vector<const ScriptingClass*> parent_classes,
                    const std::string& search_prefix, bool remove_prefix)
 {
+  for (const ScriptingClass* parent_class : parent_classes)
+  {
+    if (!parent_class) continue;
+
+    for (const std::string& base_class_name : parent_class->base_classes)
+    {
+      auto it = std::find_if(s_scripting_root->classes.begin(), s_scripting_root->classes.end(),
+                             [&base_class_name](const auto& cl) { return cl.name == base_class_name; });
+      if (it != s_scripting_root->classes.end())
+        parent_classes.push_back(&*it);
+    }
+  }
+
   sq_pushnull(vm); // Push iterator.
   while (SQ_SUCCEEDED(sq_next(vm, -2)))
   {
-    sq_insert_command(cmds, vm, table_prefix, parent_class, search_prefix, remove_prefix);
+    sq_insert_command(cmds, vm, table_prefix, parent_classes, search_prefix, remove_prefix);
     sq_pop(vm, 2); // Pop key, value.
   }
   sq_pop(vm, 1); // Pop iterator.
@@ -239,6 +279,7 @@ ScriptingFunction::ScriptingFunction(const ReaderMapping& reader) :
 
 ScriptingClass::ScriptingClass(const ReaderMapping& reader) :
   ScriptingObject(reader),
+  base_classes(),
   summary(),
   instances(),
   constants(),
@@ -250,7 +291,17 @@ ScriptingClass::ScriptingClass(const ReaderMapping& reader) :
 
   auto iter = reader.get_iter();
   while (iter.next())
+  {
+    if (iter.get_key() == "base-class")
+    {
+      std::string base_class_name;
+      iter.get(base_class_name);
+      base_classes.push_back(std::move(base_class_name));
+      continue;
+    }
+
     add_object(iter.get_key(), iter.as_mapping());
+  }
 }
 
 void
@@ -265,6 +316,14 @@ ScriptingClass::add_object(const std::string& key, const ReaderMapping& reader)
 }
 
 
+Suggestion::Suggestion(const std::string& name_, const ScriptingObject* ref_,
+                       const bool is_instance_) :
+  name(name_),
+  reference(ref_),
+  is_instance(is_instance_)
+{
+}
+
 SuggestionStack
 autocomplete(const std::string& prefix, bool remove_prefix)
 {
@@ -277,17 +336,24 @@ autocomplete(const std::string& prefix, bool remove_prefix)
     // Create global objects class
     s_scripting_root = ScriptingClass();
 
-    auto doc = ReaderDocument::from_file("scripts/reference.stsr");
-    auto root = doc.get_root();
-    if (root.get_name() == "supertux-scripting-reference")
+    try
     {
-      auto iter = root.get_mapping().get_iter();
-      while (iter.next())
-        s_scripting_root->add_object(iter.get_key(), iter.as_mapping());
+      auto doc = ReaderDocument::from_file("scripts/reference.stsr");
+      auto root = doc.get_root();
+      if (root.get_name() == "supertux-scripting-reference")
+      {
+        auto iter = root.get_mapping().get_iter();
+        while (iter.next())
+          s_scripting_root->add_object(iter.get_key(), iter.as_mapping());
+      }
+      else
+      {
+        throw std::runtime_error("File is not a 'supertux-scripting-reference' file.");
+      }
     }
-    else
+    catch (const std::exception& err)
     {
-      log_warning << "Cannot load scripting reference data: 'scripts/reference.stsr' is not a 'supertux-scripting-reference' file." << std::endl;
+      log_warning << "Cannot load scripting reference data from 'scripts/reference.stsr': " << err.what() << std::endl;
     }
   }
 
@@ -296,7 +362,7 @@ autocomplete(const std::string& prefix, bool remove_prefix)
   while (true)
   {
     // Check all keys (and their children) for matches.
-    sq_insert_commands(result, vm, "", &*s_scripting_root, prefix, remove_prefix);
+    sq_insert_commands(result, vm, "", { &*s_scripting_root }, prefix, remove_prefix);
 
     // Cycle through parent (delegate) table.
     SQInteger oldtop = sq_gettop(vm);

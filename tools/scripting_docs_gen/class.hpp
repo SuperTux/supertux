@@ -47,6 +47,7 @@ struct Function
 struct Class
 {
   std::string name {};
+  std::vector<std::string> base_classes {};
   std::string summary {};
   std::string instances {};
   bool global {};

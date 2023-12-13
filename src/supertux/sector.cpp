@@ -63,6 +63,7 @@ Sector* Sector::s_current = nullptr;
 Sector::Sector(Level& parent) :
   Base::Sector("sector"),
   m_level(parent),
+  m_editable(false),
   m_fully_constructed(false),
   m_foremost_layer(),
   m_gravity(10.0f),
@@ -92,6 +93,8 @@ Sector::~Sector()
 void
 Sector::finish_construction(bool editable)
 {
+  m_editable = editable;
+
   flush_game_objects();
 
   // FIXME: Is it a good idea to process some resolve requests this early?
@@ -157,6 +160,20 @@ Sector::finish_construction(bool editable)
 }
 
 void
+Sector::expose_objects()
+{
+  for (const auto& object : get_objects())
+    m_squirrel_environment->try_expose(*object);
+}
+
+void
+Sector::unexpose_objects()
+{
+  for (const auto& object : get_objects())
+    m_squirrel_environment->try_unexpose(*object);
+}
+
+void
 Sector::activate(const std::string& spawnpoint)
 {
   SpawnPointMarker* sp = nullptr;
@@ -196,9 +213,8 @@ Sector::activate(const Vector& player_pos)
 
     m_squirrel_environment->expose_self();
 
-    for (const auto& object : get_objects()) {
-      m_squirrel_environment->try_expose(*object);
-    }
+    if (!m_editable)
+      expose_objects();
   }
 
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
@@ -270,9 +286,8 @@ Sector::deactivate()
 
   m_squirrel_environment->unexpose_self();
 
-  for (const auto& object: get_objects()) {
-    m_squirrel_environment->try_unexpose(*object);
-  }
+  if (!m_editable)
+    unexpose_objects();
 
   m_squirrel_environment->unexpose("settings");
 
@@ -368,9 +383,8 @@ Sector::before_object_add(GameObject& object)
     tilemap->set_ground_movement_manager(m_collision_system->get_ground_movement_manager());
   }
 
-  if (s_current == this) {
+  if (!m_editable && s_current == this)
     m_squirrel_environment->try_expose(object);
-  }
 
   if (m_fully_constructed) {
     process_resolve_requests();
@@ -388,7 +402,7 @@ Sector::before_object_remove(GameObject& object)
     m_collision_system->remove(moving_object->get_collision_object());
   }
 
-  if (s_current == this)
+  if (!m_editable && s_current == this)
     m_squirrel_environment->try_unexpose(object);
 }
 

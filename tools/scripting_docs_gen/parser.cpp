@@ -34,6 +34,21 @@ void parse_compounddef(tinyxml2::XMLElement* p_root, Class& cls)
   cls.name = p_compounddef->FirstChildElement("compoundname")->GetText();
   replace(cls.name, "scripting::", ""); // Leave only the class name
 
+  // Get base classes
+  tinyxml2::XMLElement* p_basecompoundref = p_compounddef->FirstChildElement("basecompoundref");
+  while (p_basecompoundref)
+  {
+    if (p_basecompoundref->GetText())
+    {
+      std::string base_class_name = p_basecompoundref->GetText();
+      replace(base_class_name, "scripting::", ""); // Leave only the class name
+      if (!starts_with(base_class_name, "GameObject<")) // Exclude GameObject<> base template class
+        cls.base_classes.push_back(std::move(base_class_name));
+    }
+
+    p_basecompoundref = p_compounddef->NextSiblingElement("basecompoundref");
+  }
+
   // Get additional info
   tinyxml2::XMLElement* p_detaileddescpara = p_compounddef->FirstChildElement("detaileddescription")->FirstChildElement("para");
   if (p_detaileddescpara) // Detailed description (possibly containing additional info) is available
@@ -119,7 +134,7 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef)
       parse_parameterlist(p_memberdef, func);
 
       // Add to function list
-      cl->functions.push_back(func);
+      cl->functions.push_back(std::move(func));
     }
     else if (attr_equal(p_memberdef, "kind", "variable") &&
              !el_equal(p_memberdef, "type", "") &&
@@ -149,7 +164,7 @@ void parse_memberdef(tinyxml2::XMLElement* p_sectiondef)
       }
 
       // Add to constants list
-      cl->constants.push_back(con);
+      cl->constants.push_back(std::move(con));
     }
     p_memberdef = p_memberdef->NextSiblingElement("memberdef");
   }
@@ -194,7 +209,7 @@ void parse_parameterlist(tinyxml2::XMLElement* p_memberdef, Function& func)
     }
 
     // Add to parameter list
-    func.parameters.push_back(param);
+    func.parameters.push_back(std::move(param));
 
     p_parameteritem = p_parameteritem->NextSiblingElement("parameteritem");
   }

@@ -144,6 +144,9 @@ public:
   void set_gravity(float gravity);
   float get_gravity() const { return m_gravity; }
 
+  void expose_objects();
+  void unexpose_objects();
+
   Camera& get_camera() const;
   std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
@@ -162,6 +165,7 @@ private:
 
 private:
   Level& m_level; // Parent level
+  bool m_editable;
 
   bool m_fully_constructed;
   int m_foremost_layer;

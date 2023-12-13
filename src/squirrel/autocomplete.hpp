@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_SQUIRREL_AUTOCOMPLETE_HPP
 #define HEADER_SUPERTUX_SQUIRREL_AUTOCOMPLETE_HPP
 
-#include <map>
 #include <string>
 #include <vector>
 
@@ -78,6 +77,7 @@ struct ScriptingClass final : public ScriptingObject
 
   Type get_type() const override { return Type::CLASS; }
 
+  std::vector<std::string> base_classes;
   std::string summary;
   std::string instances;
   std::vector<ScriptingConstant> constants;
@@ -85,7 +85,17 @@ struct ScriptingClass final : public ScriptingObject
   std::vector<ScriptingClass> classes;
 };
 
-typedef std::map<std::string, const ScriptingObject*> SuggestionStack;
+
+struct Suggestion final
+{
+  Suggestion(const std::string& name_, const ScriptingObject* ref_,
+             const bool is_instance_);
+
+  std::string name;
+  const ScriptingObject* reference;
+  bool is_instance;
+};
+typedef std::vector<Suggestion> SuggestionStack;
 
 SuggestionStack autocomplete(const std::string& prefix, bool remove_prefix);
 

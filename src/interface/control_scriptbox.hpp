@@ -45,14 +45,21 @@ private:
   void update_description();
   void autocomplete();
 
+  Vector get_suggestion_rect_pos() const;
+
 private:
   squirrel::SuggestionStack m_suggestions;
   Rectf m_suggestions_rect;
   std::unique_ptr<ControlScrollbar> m_suggestions_scrollbar;
   float m_suggestions_offset;
 
+  /** Selected suggestion */
   size_t m_selected_suggestion;
-  std::string m_suggestion_description;
+  std::vector<std::string> m_suggestion_description;
+
+  /** Hovering over a parameter in function suggestion description */
+  std::vector<std::pair<Rectf, std::string>> m_function_parameters;
+  const std::pair<Rectf, std::string>* m_hovered_parameter;
 
 private:
   ControlScriptbox(const ControlScriptbox&) = delete;

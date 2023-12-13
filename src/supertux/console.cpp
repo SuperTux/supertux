@@ -309,17 +309,17 @@ Console::autocomplete()
   else if (cmds.size() == 1)
   {
     // One match: just replace input buffer with full command.
-    const std::string& replaceWith = cmds.begin()->first;
+    const std::string& replaceWith = cmds.begin()->name;
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
     m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
   }
   else if (cmds.size() > 1)
   {
     // Multiple matches: show all matches and set input buffer to longest common prefix.
-    std::string commonPrefix = cmds.begin()->first;
+    std::string commonPrefix = cmds.begin()->name;
     for (auto i = cmds.begin(); i != cmds.end(); i++)
     {
-      const std::string& cmd = i->first;
+      const std::string& cmd = i->name;
       m_buffer.addLines(cmd);
       for (int n = static_cast<int>(commonPrefix.length()); n >= 1; n--) {
         if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;

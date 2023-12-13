@@ -231,12 +231,16 @@ public:
 
   /**
    * Gets whether the current input on the keyboard/controller/touchpad is being held.
-   * @param string $input Valid values are listed above.
+   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+      “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
+      “peek-left”, “peek-right”, “peek-up” or “peek-down”.
    */
   bool get_input_held(const std::string& input);
   /**
    * Gets whether the current input on the keyboard/controller/touchpad has been released.
-   * @param string $input Valid values are listed above.
+   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+      “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
+      “peek-left”, “peek-right”, “peek-up” or “peek-down”.
    */
   bool get_input_released(const std::string& input);
 };

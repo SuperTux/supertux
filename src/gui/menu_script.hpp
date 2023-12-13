@@ -24,6 +24,7 @@ class ScriptMenu final : public Menu
 {
 public:
   ScriptMenu(std::string* script);
+  ~ScriptMenu();
 
   void menu_action(MenuItem& item) override {}
 
