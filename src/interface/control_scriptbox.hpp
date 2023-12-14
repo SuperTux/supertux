@@ -38,6 +38,8 @@ public:
   bool on_mouse_wheel(const SDL_MouseWheelEvent& wheel) override;
   bool on_key_down(const SDL_KeyboardEvent& key) override;
 
+  bool suggestions_active() const { return !m_suggestions.empty(); }
+
 protected:
   void on_caret_move() override;
 
@@ -45,7 +47,9 @@ private:
   void update_description();
   void autocomplete();
 
-  Vector get_suggestion_rect_pos() const;
+  void calculate_suggestion_rect();
+  void calculate_suggestion_description_rect();
+  Vector get_suggestion_description_rect_pos() const;
 
 private:
   squirrel::SuggestionStack m_suggestions;
@@ -56,6 +60,7 @@ private:
   /** Selected suggestion */
   size_t m_selected_suggestion;
   std::vector<std::string> m_suggestion_description;
+  Rectf m_suggestion_description_rect;
 
   /** Hovering over a parameter in function suggestion description */
   std::vector<std::pair<Rectf, std::string>> m_function_parameters;

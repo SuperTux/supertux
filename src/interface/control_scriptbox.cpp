@@ -18,6 +18,7 @@
 
 #include <fmt/format.h>
 
+#include "gui/mousecursor.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
@@ -36,6 +37,7 @@ ControlScriptbox::ControlScriptbox() :
   m_suggestions_offset(0.f),
   m_selected_suggestion(0),
   m_suggestion_description(),
+  m_suggestion_description_rect(),
   m_function_parameters(),
   m_hovered_parameter(nullptr)
 {
@@ -64,8 +66,8 @@ ControlScriptbox::draw(DrawingContext& context)
 
   for (int i = 0; i < static_cast<int>(m_charlist.size()); i++)
   {
-    context.color().draw_text(Resources::control_font, std::to_string(i + 1),
-                              Vector(LINE_NUMBER_RECT_WIDTH / 2.f, i * Resources::control_font->get_height() + TEXT_Y_OFFSET),
+    context.color().draw_text(Resources::small_control_font, std::to_string(i + 1),
+                              Vector(LINE_NUMBER_RECT_WIDTH / 2.f, i * Resources::control_font->get_height() + TEXT_Y_OFFSET * 2.f),
                               ALIGN_CENTER, LAYER_GUI, Color::BLACK);
   }
 
@@ -75,7 +77,7 @@ ControlScriptbox::draw(DrawingContext& context)
   if (!m_has_focus || m_suggestions.empty())
     return;
 
-  context.color().draw_filled_rect(m_suggestions_rect, Color(0.9f, 0.9f, 0.9f, 1.f), LAYER_GUI);
+  context.color().draw_filled_rect(m_suggestions_rect, Color(0.9f, 0.9f, 0.9f, 1.f), LAYER_GUI + 10);
   m_suggestions_scrollbar->draw(context);
 
   context.push_transform();
@@ -86,13 +88,13 @@ ControlScriptbox::draw(DrawingContext& context)
   {
     context.color().draw_text(Resources::control_font, m_suggestions.at(i).name,
                               Vector(TEXT_X_OFFSET, i * Resources::control_font->get_height() + TEXT_Y_OFFSET),
-                              ALIGN_LEFT, LAYER_GUI + 1, Color::BLACK);
+                              ALIGN_LEFT, LAYER_GUI + 11, Color::BLACK);
 
     if (i == static_cast<int>(m_selected_suggestion))
     {
       context.color().draw_filled_rect(Rectf(Vector(0.f, i * Resources::control_font->get_height() + TEXT_Y_OFFSET),
                                              Sizef(context.get_width(), Resources::control_font->get_height())),
-                                       Color::WHITE, LAYER_GUI);
+                                       Color::WHITE, LAYER_GUI + 10);
     }
   }
 
@@ -100,36 +102,36 @@ ControlScriptbox::draw(DrawingContext& context)
 
   if (!m_suggestion_description.empty())
   {
-    const Vector pos = get_suggestion_rect_pos();
-
-    Sizef size(0.f, 0.f);
+    float height = 0.f;
     for (const std::string& p : m_suggestion_description)
     {
-      size.width = std::max(size.width, Resources::control_font->get_text_width(p));
-
       context.color().draw_text(Resources::control_font, p,
-                                pos + SUGGESTION_DESCRIPTION_RECT_SPACING + Vector(0.f, size.height),
-                                ALIGN_LEFT, LAYER_GUI + 1, Color::BLACK);
-      size.height += Resources::control_font->get_text_height(p) + Resources::control_font->get_height();
+                                m_suggestion_description_rect.p1() + SUGGESTION_DESCRIPTION_RECT_SPACING +
+                                  Vector(0.f, height),
+                                ALIGN_LEFT, LAYER_GUI + 11, Color::BLACK);
+      height += Resources::control_font->get_text_height(p) + Resources::control_font->get_height();
     }
 
-    context.color().draw_filled_rect(Rectf(pos, size + Sizef(SUGGESTION_DESCRIPTION_RECT_SPACING * 2,
-                                                             SUGGESTION_DESCRIPTION_RECT_SPACING)),
-                                     Color(0.9f, 0.9f, 0.9f, 1.f), LAYER_GUI);
+    context.color().draw_filled_rect(m_suggestion_description_rect, Color(0.9f, 0.9f, 0.9f, 1.f), LAYER_GUI + 10);
 
     if (m_hovered_parameter)
     {
       const Rectf desc_rect(Vector(m_suggestions_rect.get_right(),
-                                   m_hovered_parameter->first.get_top() - Resources::control_font->get_height()
-                                     - Resources::control_font->get_text_height(m_hovered_parameter->second)
-                                     - SUGGESTION_DESCRIPTION_RECT_SPACING * 2),
+                                   m_hovered_parameter->first.get_top() - Resources::control_font->get_height() -
+                                     Resources::control_font->get_text_height(m_hovered_parameter->second) -
+                                     SUGGESTION_DESCRIPTION_RECT_SPACING * 2),
                             Vector(context.get_width(),
                                    m_hovered_parameter->first.get_top() - Resources::control_font->get_height()));
 
-      context.color().draw_filled_rect(desc_rect,Color::WHITE, LAYER_GUI + 1);
+      const float param_middle = m_hovered_parameter->first.get_left() + m_hovered_parameter->first.get_width() / 2;
+      context.color().draw_triangle(Vector(param_middle - 15.f, desc_rect.get_bottom()),
+                                    Vector(param_middle + 15.f, desc_rect.get_bottom()),
+                                    Vector(param_middle, m_hovered_parameter->first.get_top()),
+                                    Color::WHITE, LAYER_GUI + 11);
+      context.color().draw_filled_rect(desc_rect, Color::WHITE, LAYER_GUI + 11);
       context.color().draw_text(Resources::control_font, m_hovered_parameter->second,
                                 desc_rect.p1() + Vector(desc_rect.get_width() / 2, SUGGESTION_DESCRIPTION_RECT_SPACING),
-                                ALIGN_CENTER, LAYER_GUI + 2, Color::BLACK);
+                                ALIGN_CENTER, LAYER_GUI + 12, Color::BLACK);
     }
   }
 }
@@ -139,11 +141,16 @@ ControlScriptbox::update(float dt_sec)
 {
   ControlTextbox::update(dt_sec);
 
+  if (m_suggestions.empty())
+    return;
+
   // Deactivate autocomplete suggestions when unfocused or selecting
-  if (!m_has_focus && m_caret.pos != m_secondary_caret.pos)
+  if (!m_has_focus || m_caret.pos != m_secondary_caret.pos)
     m_suggestions.clear();
 
-  m_suggestions_scrollbar->set_total_region(static_cast<int>(m_suggestions.size()) * Resources::control_font->get_height() + TEXT_Y_OFFSET);
+  calculate_suggestion_rect();
+  m_suggestions_scrollbar->set_total_region(static_cast<int>(m_suggestions.size()) *
+                                            Resources::control_font->get_height() + TEXT_Y_OFFSET);
 }
 
 bool
@@ -165,10 +172,12 @@ ControlScriptbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     return true;
 
   const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (!m_suggestions_rect.contains(mouse_pos))
+
+  if (m_suggestions_rect.contains(mouse_pos))
+    autocomplete();
+  else if (!m_suggestion_description_rect.contains(mouse_pos))
     return ControlTextbox::on_mouse_button_down(button);
 
-  autocomplete();
   return true;
 }
 
@@ -180,21 +189,23 @@ ControlScriptbox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   if (m_suggestions.empty())
     return ControlTextbox::on_mouse_motion(motion);
 
-  if (m_suggestions_scrollbar->on_mouse_motion(motion))
-    return true;
+  MouseCursor::current()->set_state(MouseCursorState::NORMAL);
+  MouseCursor::current()->set_action(MouseCursorAction::SELECT);
 
-  if (ControlTextbox::on_mouse_motion(motion))
+  if (m_suggestions_scrollbar->on_mouse_motion(motion))
     return true;
 
   const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   if (m_suggestions_rect.contains(mouse_pos))
   {
+    MouseCursor::current()->set_state(MouseCursorState::LINK);
     m_selected_suggestion = std::min(static_cast<size_t>((mouse_pos.y - m_suggestions_rect.get_top() + m_suggestions_offset) /
                                                          Resources::control_font->get_height()),
                                      m_suggestions.size() - 1);
     update_description();
+    return true;
   }
-  else
+  else if (m_suggestion_description_rect.contains(mouse_pos))
   {
     for (const auto& parameter : m_function_parameters)
     {
@@ -204,9 +215,10 @@ ControlScriptbox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
         break;
       }
     }
+    return true;
   }
 
-  return true;
+  return ControlTextbox::on_mouse_motion(motion);
 }
 
 bool
@@ -293,8 +305,8 @@ ControlScriptbox::update_description()
   const squirrel::Suggestion& suggestion = m_suggestions.at(m_selected_suggestion);
   if (!suggestion.reference) return;
 
-  const float max_width = (static_cast<float>(SCREEN_WIDTH) - m_suggestions_rect.get_right()
-                             - SUGGESTION_DESCRIPTION_RECT_SPACING);
+  const float max_width = (static_cast<float>(SCREEN_WIDTH) - m_suggestions_rect.get_right() -
+                           SUGGESTION_DESCRIPTION_RECT_SPACING);
 
   using namespace squirrel;
 
@@ -315,7 +327,7 @@ ControlScriptbox::update_description()
     {
       const auto& func = static_cast<const ScriptingFunction&>(*suggestion.reference);
 
-      const Vector pos = get_suggestion_rect_pos();
+      const Vector pos = get_suggestion_description_rect_pos();
 
       std::stringstream out;
       out << func.type << " " << func.name << "(";
@@ -382,6 +394,8 @@ ControlScriptbox::update_description()
 
     m_suggestion_description.push_back(std::move(result));
   }
+
+  calculate_suggestion_description_rect();
 }
 
 void
@@ -426,7 +440,16 @@ ControlScriptbox::on_caret_move()
 
   m_selected_suggestion = 0;
   m_suggestions = squirrel::autocomplete(line_content, true);
+
+  calculate_suggestion_rect();
   update_description();
+}
+
+void
+ControlScriptbox::calculate_suggestion_rect()
+{
+  if (m_suggestions.empty())
+    return;
 
   // Re-calculate suggestions rect
   float max_suggestion_width = 0.f;
@@ -434,20 +457,39 @@ ControlScriptbox::on_caret_move()
     max_suggestion_width = std::max(max_suggestion_width, Resources::control_font->get_text_width(suggestion.name));
 
   const float caret_lgt = Resources::control_font->get_text_width(get_first_chars(m_caret.line, m_caret.line_pos));
-  m_suggestions_rect = Rectf(m_rect.p1() + Vector(caret_lgt + TEXT_X_OFFSET,
-                                                  (m_caret.line + 1) * Resources::control_font->get_height() + TEXT_Y_OFFSET),
+  m_suggestions_rect = Rectf(m_rect.p1() - m_offset +
+                             Vector(caret_lgt + TEXT_X_OFFSET,
+                                    (m_caret.line + 1) * Resources::control_font->get_height() + TEXT_Y_OFFSET),
                              Sizef(max_suggestion_width + TEXT_X_OFFSET * 2, SUGGESTION_RECT_HEIGHT));
 
   m_suggestions_scrollbar->set_rect(Rectf(Vector(m_suggestions_rect.get_right() - 5.f, m_suggestions_rect.get_top()),
                                           m_suggestions_rect.p2()));
 }
 
-Vector
-ControlScriptbox::get_suggestion_rect_pos() const
+void
+ControlScriptbox::calculate_suggestion_description_rect()
 {
-  return Vector(m_suggestions_rect.get_right(), m_suggestions_rect.get_top()
-                 + static_cast<float>(m_selected_suggestion) * Resources::control_font->get_height() + TEXT_Y_OFFSET
-                 - m_suggestions_offset);
+  if (m_suggestion_description.empty())
+    return;
+
+  Sizef size(0.f, 0.f);
+  for (const std::string& p : m_suggestion_description)
+  {
+    size.width = std::max(size.width, Resources::control_font->get_text_width(p));
+    size.height += Resources::control_font->get_text_height(p) + Resources::control_font->get_height();
+  }
+
+  m_suggestion_description_rect = Rectf(get_suggestion_description_rect_pos(),
+                                        size + Sizef(SUGGESTION_DESCRIPTION_RECT_SPACING * 2,
+                                                     SUGGESTION_DESCRIPTION_RECT_SPACING));
+}
+
+Vector
+ControlScriptbox::get_suggestion_description_rect_pos() const
+{
+  return Vector(m_suggestions_rect.get_right(), m_suggestions_rect.get_top() +
+                static_cast<float>(m_selected_suggestion) * Resources::control_font->get_height() + TEXT_Y_OFFSET -
+                m_suggestions_offset);
 }
 
 /* EOF */

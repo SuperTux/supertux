@@ -433,7 +433,8 @@ Menu::process_action(const MenuAction& action)
 
   switch (action) {
     case MenuAction::UP:
-      if (m_items[m_active_item]->locks_navigation())
+      if (m_items[m_active_item]->locks_navigation() ||
+          m_items[m_active_item]->locked())
         break;
 
       do {
@@ -446,7 +447,8 @@ Menu::process_action(const MenuAction& action)
       break;
 
     case MenuAction::DOWN:
-      if (m_items[m_active_item]->locks_navigation())
+      if (m_items[m_active_item]->locks_navigation() ||
+          m_items[m_active_item]->locked())
         break;
 
       do {
@@ -709,8 +711,10 @@ Menu::event(const SDL_Event& ev)
         }
 
         /* only change the mouse focus to a selectable item */
-        if (!m_items[new_active_item]->skippable() &&
-            new_active_item != m_active_item) {
+        if (!m_items[m_active_item]->locked() &&
+            !m_items[new_active_item]->skippable() &&
+            new_active_item != m_active_item)
+        {
           // Selection caused by mouse movement
           if (m_active_item != -1)
             process_action(MenuAction::UNSELECT);
@@ -718,12 +722,12 @@ Menu::event(const SDL_Event& ev)
           process_action(MenuAction::SELECT);
         }
 
-        if (MouseCursor::current())
+        if (!m_items[m_active_item]->overrides_cursor_state() && MouseCursor::current())
           MouseCursor::current()->set_state(MouseCursorState::LINK);
       }
       else
       {
-        if (MouseCursor::current())
+        if (!m_items[m_active_item]->overrides_cursor_state() && MouseCursor::current())
           MouseCursor::current()->set_state(MouseCursorState::NORMAL);
       }
     }

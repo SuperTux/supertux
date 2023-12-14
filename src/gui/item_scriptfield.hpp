@@ -39,7 +39,9 @@ public:
   int get_height() const override;
 
   bool locks_navigation() const override { return true; }
+  bool locked() const override { return m_control->suggestions_active(); }
   bool select_blink() const override { return false; }
+  bool overrides_cursor_state() const override { return true; }
 
   ControlTextbox* get_control() const { return m_control.get(); }
 

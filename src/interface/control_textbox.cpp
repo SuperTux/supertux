@@ -19,6 +19,7 @@
 
 #include <math.h>
 
+#include "gui/mousecursor.hpp"
 #include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/video_system.hpp"
@@ -87,7 +88,8 @@ ControlTextbox::update(float dt_sec)
   if (m_cursor_timer < -CONTROL_CURSOR_TIMER)
     m_cursor_timer = CONTROL_CURSOR_TIMER;
 
-  m_scrollbar->set_total_region(static_cast<int>(m_charlist.size()) * Resources::control_font->get_height() + TEXT_Y_OFFSET);
+  m_scrollbar->set_total_region(static_cast<int>(m_charlist.size()) *
+                                Resources::control_font->get_height() + TEXT_Y_OFFSET);
 
   // Apparently the stuff bugs from time to time.
   recenter_offset();
@@ -181,7 +183,7 @@ ControlTextbox::on_mouse_button_down(const SDL_MouseButtonEvent& button)
     return true;
 
   const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
-  if (m_box_rect.contains(mouse_pos))
+  if (m_rect.contains(mouse_pos))
   {
     m_has_focus = true;
     m_cursor_timer = CONTROL_CURSOR_TIMER;
@@ -201,12 +203,26 @@ ControlTextbox::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   InterfaceControl::on_mouse_motion(motion);
 
   if (m_scrollbar->on_mouse_motion(motion))
+  {
+    MouseCursor::current()->set_state(MouseCursorState::NORMAL);
+    MouseCursor::current()->set_action(MouseCursorAction::SELECT);
     return true;
+  }
+
+  const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
+  if (m_has_focus && (m_mouse_pressed || m_box_rect.contains(mouse_pos)))
+  {
+    MouseCursor::current()->set_action(MouseCursorAction::TEXT);
+  }
+  else
+  {
+    MouseCursor::current()->set_state(MouseCursorState::NORMAL);
+    MouseCursor::current()->set_action(MouseCursorAction::SELECT);
+  }
 
   if (!m_mouse_pressed)
     return false;
 
-  const Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
   set_caret_pos(get_text_position(mouse_pos));
 
   recenter_offset(true);
@@ -607,12 +623,25 @@ ControlTextbox::get_text_position(Vector pos) const
          pos.y > m_box_rect.get_top() + (line + 1) * Resources::control_font->get_height() + TEXT_Y_OFFSET)
     line++;
 
-  const float dist = pos.x - m_box_rect.get_left();
-  int i = 0;
+  const float dist = pos.x - m_box_rect.get_left() + TEXT_X_OFFSET;
 
-  while (i < static_cast<int>(m_charlist[line].size()) &&
-         Resources::control_font->get_text_width(get_first_chars(line, i)) < dist)
+  int i = 0;
+  float prev_width = 0.f;
+  while (i < static_cast<int>(m_charlist[line].size()))
+  {
+    const float width = Resources::control_font->get_text_width(get_first_chars(line, i));
+    if (width >= dist)
+    {
+      if (dist < width - (width - prev_width) / 2)
+        i--;
+
+      i--;
+      break;
+    }
+
+    prev_width = width;
     i++;
+  }
 
   // Add characters from previous lines to counter
   for (int y = 0; y < line; y++)

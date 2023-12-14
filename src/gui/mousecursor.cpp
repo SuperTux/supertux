@@ -32,6 +32,7 @@ MouseCursor* MouseCursor::current_ = nullptr;
 MouseCursor::MouseCursor(SpritePtr sprite) :
   m_state(MouseCursorState::NORMAL),
   m_applied_state(MouseCursorState::HIDE),
+  m_action(MouseCursorAction::SELECT),
   m_sprite(std::move(sprite)),
   m_x(),
   m_y(),
@@ -47,6 +48,12 @@ MouseCursor::set_state(MouseCursorState state)
 }
 
 void
+MouseCursor::set_action(MouseCursorAction action)
+{
+  m_action = action;
+}
+
+void
 MouseCursor::set_icon(SurfacePtr icon)
 {
   m_icon = std::move(icon);
@@ -55,27 +62,33 @@ MouseCursor::set_icon(SurfacePtr icon)
 void
 MouseCursor::apply_state(MouseCursorState state)
 {
-  if (m_applied_state != state)
+  m_applied_state = state;
+
+  switch (m_action)
   {
-    m_applied_state = state;
+    case MouseCursorAction::SELECT:
+      switch (state)
+      {
+        case MouseCursorState::NORMAL:
+          m_sprite->set_action("normal");
+          break;
 
-    switch(state)
-    {
-      case MouseCursorState::NORMAL:
-        m_sprite->set_action("normal");
-        break;
+        case MouseCursorState::CLICK:
+          m_sprite->set_action("click");
+          break;
 
-      case MouseCursorState::CLICK:
-        m_sprite->set_action("click");
-        break;
+        case MouseCursorState::LINK:
+          m_sprite->set_action("link");
+          break;
 
-      case MouseCursorState::LINK:
-        m_sprite->set_action("link");
-        break;
+        case MouseCursorState::HIDE:
+          break;
+      }
+      break;
 
-      case MouseCursorState::HIDE:
-        break;
-    }
+    case MouseCursorAction::TEXT:
+      m_sprite->set_action("text");
+      break;
   }
 }
 

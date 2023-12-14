@@ -53,6 +53,7 @@ public:
 
   /** Font used for control interface elements (particle editor) */
   static FontPtr control_font;
+  static FontPtr small_control_font;
 
   static SurfacePtr checkbox;
   static SurfacePtr checkbox_checked;

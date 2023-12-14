@@ -53,6 +53,9 @@ public:
       when using the keyboard. */
   virtual bool locks_navigation() const { return false; }
 
+  /** Returns true when the menu's focus is locked to this item. */
+  virtual bool locked() const { return false; }
+
   /** Returns the distance between the items above and below the current
       menu item. */
   virtual float get_distance() const { return 0.f; }
@@ -85,6 +88,10 @@ public:
   /** Returns true when the item should have a blink effect, provided by the menu,
       when active. */
   virtual bool select_blink() const { return true; }
+
+  /** Returns true when the menu shouldn't update the mouse cursor state, if this item
+      is active. */
+  virtual bool overrides_cursor_state() const { return false; }
 
 private:
   int m_id;
