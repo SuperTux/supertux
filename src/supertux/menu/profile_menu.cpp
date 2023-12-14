@@ -27,6 +27,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/menu/profile_name_menu.hpp"
 #include "supertux/profile_manager.hpp"
+#include "supertux/title_screen.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -42,6 +43,8 @@ void
 ProfileMenu::refresh()
 {
   m_profiles = ProfileManager::current()->get_profiles();
+  if (m_current_profile && g_config->profile != m_current_profile->get_id())
+    on_profile_change();
 
   rebuild_menu();
 }
@@ -127,6 +130,7 @@ ProfileMenu::menu_action(MenuItem& item)
       return;
     }
     g_config->profile = id;
+    on_profile_change();
     rebuild_menu();
   }
   else if (id == -1)
@@ -184,6 +188,13 @@ ProfileMenu::menu_action(MenuItem& item)
   {
     log_warning << "Unknown menu item with id \"" << id << "\" pressed." << std::endl;
   }
+}
+
+void
+ProfileMenu::on_profile_change()
+{
+  /** Perform actions on current profile change */
+  TitleScreen::current()->refresh_level();
 }
 
 /* EOF */

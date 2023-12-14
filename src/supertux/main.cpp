@@ -644,8 +644,10 @@ Main::launch_game(const CommandLineArguments& args)
     }
     else
     {
-      m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame));
-      if (g_config->do_release_check) release_check();
+      m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame, g_config->is_christmas()));
+
+      if (g_config->do_release_check)
+        release_check();
     }
   }
 
