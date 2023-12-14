@@ -142,6 +142,8 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
     m_lightsprite = Surface::from_file("/images/objects/lightmap_light/bonusblock_light.png");
     if (m_contents == Content::LIGHT_ON)
       set_action("on");
+    else
+      set_action("off");
   }
 }
 
