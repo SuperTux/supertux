@@ -20,8 +20,6 @@
 #include <sstream>
 
 #include "physfs/util.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
@@ -109,6 +107,12 @@ World::World(const std::string& directory) :
 {
 }
 
+std::string
+World::get_basename() const
+{
+  return FileSystem::basename(m_basedir);
+}
+
 void
 World::save(bool retry)
 {
@@ -176,15 +180,6 @@ std::string
 World::get_worldmap_filename() const
 {
   return FileSystem::join(m_basedir, "worldmap.stwm");
-}
-
-std::string
-World::get_savegame_filename() const
-{
-  const std::string worlddirname = FileSystem::basename(m_basedir);
-  std::ostringstream stream;
-  stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
-  return stream.str();
 }
 
 /* EOF */

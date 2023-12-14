@@ -35,7 +35,6 @@
 
 Config::Config() :
   profile(1),
-  profiles(),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
   window_size(1280, 800),
@@ -108,6 +107,7 @@ Config::Config() :
   editor_autosave_frequency(5),
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
+  editor_show_deprecated_tiles(false),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -140,29 +140,7 @@ Config::load()
 
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
-  std::optional<ReaderCollection> config_profiles_mapping;
-  if (config_mapping.get("profiles", config_profiles_mapping))
-  {
-    for (auto const& profile_node : config_profiles_mapping->get_objects())
-    {
-      if (profile_node.get_name() == "profile")
-      {
-        auto current_profile = profile_node.get_mapping();
 
-        int id;
-        std::string name;
-        if (current_profile.get("id", id) &&
-            current_profile.get("name", name))
-        {
-          profiles.push_back({id, name});
-        }
-      }
-      else
-      {
-        log_warning << "Unknown token in config file: " << profile_node.get_name() << std::endl;
-      }
-    }
-  }
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
@@ -260,6 +238,7 @@ Config::load()
       log_warning << "Undo stack size could not be lower than 1. Setting to lowest possible value (1)." << std::endl;
       editor_undo_stack_size = 1;
     }
+    editor_mapping->get("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
 
   if (is_christmas()) {
@@ -373,16 +352,6 @@ Config::save()
   writer.start_list("supertux-config");
 
   writer.write("profile", profile);
-
-  writer.start_list("profiles");
-  for (const auto& current_profile : profiles)
-  {
-    writer.start_list("profile");
-    writer.write("id", current_profile.id);
-    writer.write("name", current_profile.name);
-    writer.end_list("profile");
-  }
-  writer.end_list("profiles");
 
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
@@ -514,6 +483,7 @@ Config::save()
     writer.write("snap_to_grid", editor_snap_to_grid);
     writer.write("undo_tracking", editor_undo_tracking);
     writer.write("undo_stack_size", editor_undo_stack_size);
+    writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
   writer.end_list("editor");
 
