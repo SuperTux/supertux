@@ -2504,7 +2504,7 @@ Player::set_ghost_mode(bool enable)
 void
 Player::start_climbing(Climbable& climbable)
 {
-  if (m_climbing || m_swimming)
+  if (m_climbing || m_swimming || m_stone)
     return;
 
   m_climbing = &climbable;
