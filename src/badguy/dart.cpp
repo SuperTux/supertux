@@ -96,6 +96,10 @@ void
 Dart::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
+
+  m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.9f);
+  m_col.set_movement(m_physic.get_movement(dt_sec));
+
   sound_source->set_position(get_pos());
 }
 

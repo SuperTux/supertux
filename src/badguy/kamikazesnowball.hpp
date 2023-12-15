@@ -29,6 +29,7 @@ public:
 
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void active_update(float dt_sec) override;
   static std::string class_name() { return "kamikazesnowball"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Snowshot"); }

@@ -40,6 +40,7 @@ protected:
 
 private:
   float total_time_elapsed;
+  float prev_height;
   Timer puff_timer; /**< time until the next smoke puff is spawned */
 
 private:
