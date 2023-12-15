@@ -108,30 +108,108 @@ public:
    */
   void prev_text();
 
-#ifndef DOXYGEN_SCRIPTING
   /*
    * Text object api related
    * @see: text_object.hpp
    */
+  /**
+   * Current ""TextObject"": Sets the text string to be displayed.
+   * @param string $text
+   */
   void set_text(const std::string& text);
+  /**
+   * Current ""TextObject"": Sets the font of the text to be displayed.
+   * @param string $fontname Valid values are normal, big and small.
+   */
   void set_font(const std::string& fontname);
+  /**
+   * Current ""TextObject"": Fades in the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
   void fade_in(float fadetime);
+  /**
+   * Current ""TextObject"": Fades out the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
   void fade_out(float fadetime);
+  /**
+   * Current ""TextObject"": Grows in the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
   void grow_in(float fadetime);
+  /**
+   * Current ""TextObject"": Grows out the specified text for the next ""fadetime"" seconds.
+   * @param float $fadetime
+   */
   void grow_out(float fadetime);
+  /**
+   * Current ""TextObject"": Shows or hides the text abruptly (drastic counterpart to ""fade_in()"" and ""fade_out()"").
+   * @param bool $visible
+   */
   void set_visible(bool visible);
+  /**
+   * Current ""TextObject"": If ""centered"" is ""true"", the text will be centered on the screen. Otherwise, it will be left-aligned.
+   * @param bool $centered
+   */
   void set_centered(bool centered);
+  /**
+   * Current ""TextObject"": Sets the offset of the text, relative to the anchor point.
+   * @param float $x
+   * @param float $y
+   */
   void set_pos(float x, float y);
+  /**
+   * Current ""TextObject"": Returns the X offset of the text, relative to the anchor point.
+   */
   float get_pos_x() const;
+  /**
+   * Current ""TextObject"": Returns the Y offset of the text, relative to the anchor point.
+   */
   float get_pos_y() const;
+  /**
+   * Current ""TextObject"": Sets the anchor point of the text.
+   * @param int $anchor One of the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   */
   void set_anchor_point(int anchor);
+  /**
+   * Current ""TextObject"": Returns the current anchor point of the text (one of the ""ANCHOR_*"" constants; see ${SRG_REF_AnchorPoints}).
+   */
   int get_anchor_point() const;
+  /**
+   * Current ""TextObject"": Sets the anchor offset of the text.
+   * @param float $x
+   * @param float $y
+   */
   void set_anchor_offset(float x, float y);
+  /**
+   * Current ""TextObject"": Sets the front fill color of the text.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
   void set_front_fill_color(float red, float green, float blue, float alpha);
+  /**
+   * Current ""TextObject"": Sets the back fill color of the text.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
   void set_back_fill_color(float red, float green, float blue, float alpha);
+  /**
+   * Current ""TextObject"": Sets the text color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
   void set_text_color(float red, float green, float blue, float alpha);
+  /**
+   * Current ""TextObject"": Sets the frame's roundness.
+   * @param float $roundness
+   */
   void set_roundness(float roundness);
-#endif
 };
 
 } // namespace scripting

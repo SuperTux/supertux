@@ -3667,6 +3667,203 @@
       (type "void")
       (description (_ "If available, goes to the previous text object in the stack."))
     )
+    (function
+      (name "set_text")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the text string to be displayed."))
+      (parameter
+        (name "text")
+        (type "string")
+      )
+    )
+    (function
+      (name "set_font")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the font of the text to be displayed."))
+      (parameter
+        (name "fontname")
+        (type "string")
+        (description (_ "Valid values are normal, big and small."))
+      )
+    )
+    (function
+      (name "fade_in")
+      (type "void")
+      (description (_ "Current `TextObject`: Fades in the specified text for the next `fadetime` seconds."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "fade_out")
+      (type "void")
+      (description (_ "Current `TextObject`: Fades out the specified text for the next `fadetime` seconds."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "grow_in")
+      (type "void")
+      (description (_ "Current `TextObject`: Grows in the specified text for the next `fadetime` seconds."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "grow_out")
+      (type "void")
+      (description (_ "Current `TextObject`: Grows out the specified text for the next `fadetime` seconds."))
+      (parameter
+        (name "fadetime")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_visible")
+      (type "void")
+      (description (_ "Current `TextObject`: Shows or hides the text abruptly (drastic counterpart to `fade_in()` and `fade_out()`)."))
+      (parameter
+        (name "visible")
+        (type "bool")
+      )
+    )
+    (function
+      (name "set_centered")
+      (type "void")
+      (description (_ "Current `TextObject`: If `centered` is `true`, the text will be centered on the screen."))
+      (detailed-description (_ "Otherwise, it will be left-aligned."))
+      (parameter
+        (name "centered")
+        (type "bool")
+      )
+    )
+    (function
+      (name "set_pos")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the offset of the text, relative to the anchor point."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "get_pos_x")
+      (type "float")
+      (description (_ "Current `TextObject`: Returns the X offset of the text, relative to the anchor point."))
+    )
+    (function
+      (name "get_pos_y")
+      (type "float")
+      (description (_ "Current `TextObject`: Returns the Y offset of the text, relative to the anchor point."))
+    )
+    (function
+      (name "set_anchor_point")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the anchor point of the text."))
+      (parameter
+        (name "anchor")
+        (type "int")
+        (description (_ "One of the `ANCHOR_*` constants (see `AnchorPoints`)."))
+      )
+    )
+    (function
+      (name "get_anchor_point")
+      (type "int")
+      (description (_ "Current `TextObject`: Returns the current anchor point of the text (one of the `ANCHOR_*` constants; see `AnchorPoints`)."))
+    )
+    (function
+      (name "set_anchor_offset")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the anchor offset of the text."))
+      (parameter
+        (name "x")
+        (type "float")
+      )
+      (parameter
+        (name "y")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_front_fill_color")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the front fill color of the text."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_back_fill_color")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the back fill color of the text."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_text_color")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the text color."))
+      (parameter
+        (name "red")
+        (type "float")
+      )
+      (parameter
+        (name "green")
+        (type "float")
+      )
+      (parameter
+        (name "blue")
+        (type "float")
+      )
+      (parameter
+        (name "alpha")
+        (type "float")
+      )
+    )
+    (function
+      (name "set_roundness")
+      (type "void")
+      (description (_ "Current `TextObject`: Sets the frame's roundness."))
+      (parameter
+        (name "roundness")
+        (type "float")
+      )
+    )
   )
   (class
     (name "Thunderstorm")
