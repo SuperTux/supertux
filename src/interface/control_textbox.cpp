@@ -625,20 +625,17 @@ ControlTextbox::get_text_position(Vector pos) const
 
   const float dist = pos.x - m_box_rect.get_left() + TEXT_X_OFFSET;
 
-  int i = 0;
+  int i = 1; // Count newline character
   float prev_width = 0.f;
   while (i < static_cast<int>(m_charlist[line].size()))
   {
-    const float width = Resources::control_font->get_text_width(get_first_chars(line, i));
-    if (width >= dist)
+    const float width = Resources::control_font->get_text_width(get_first_chars(line, i + 1));
+    if (dist <= width)
     {
-      if (dist < width - (width - prev_width) / 2)
-        i--;
-
-      i--;
+      // Go left, if provided position is to the left from the last character's middle
+      if (dist < width - (width - prev_width) / 2) i--;
       break;
     }
-
     prev_width = width;
     i++;
   }
