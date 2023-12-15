@@ -1,6 +1,10 @@
 (supertux-sprite
   (action
-    (name "default")
+    (name "root")
     (hitbox 20 7 16 80)
     (images "root_attack.png"))
+ (action
+    (name "base")
+    (hitbox 20 7 16 80)
+    (images "root_base.png"))
 )
