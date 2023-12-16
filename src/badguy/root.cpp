@@ -1,5 +1,5 @@
-//  SuperTux - "Will-O-Wisp" Badguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  SuperTux - Corrupted Root
+//  Copyright (C) 2023 MatusGuy
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,76 +19,94 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-static const float SPEED_GROW = 256;
-static const float SPEED_SHRINK = 128;
-static const float HATCH_TIME = 0.75;
+static const float HATCH_TIME = 1.f;
+static const float APPEAR_TIME = 0.5f;
+static const float RETREAT_TIME = 1.f;
 
-Root::Root(const Vector& pos, Flip flip) :
-  BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
-  mystate(STATE_APPEARING),
-  base_sprite(SpriteManager::current()->create("images/creatures/ghosttree/root-base.sprite")),
-  offset_y(0),
-  hatch_timer()
+Root::Root(const Vector& pos, const std::string& sprite) :
+  BadGuy(pos, sprite, LAYER_TILES-10),
+  m_base_surface(nullptr),
+  m_timer(),
+  m_state(STATE_HATCHING),
+  m_offset(0.f)
 {
-  base_sprite->set_action("appearing", 1);
-  base_sprite->set_animation_loops(1); // TODO: Necessary because set_action ignores loops for default actions.
+  m_countMe = false;
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
-  m_flip = flip;
-}
 
-Root::~Root()
-{
-}
+  auto surfaces = m_sprite->get_action_surfaces("base");
+  if (surfaces.size() != 0)
+    m_base_surface = surfaces[0];
 
-void
-Root::deactivate()
-{
-  remove_me();
-  // No dead-script required for deactivation.
+  set_pos({pos.x, pos.y + get_bbox().get_height() + 1});
 }
 
 void
-Root::active_update(float dt_sec)
+Root::initialize()
 {
-  if (mystate == STATE_APPEARING) {
-    if (base_sprite->animation_done()) {
-      hatch_timer.start(HATCH_TIME);
-      mystate = STATE_HATCHING;
-    }
-  }
-  if (mystate == STATE_HATCHING) {
-    if (!hatch_timer.started()) mystate = STATE_GROWING;
-  }
-  else if (mystate == STATE_GROWING) {
-    offset_y -= dt_sec * SPEED_GROW;
-    if (offset_y < static_cast<float>(-m_sprite->get_height())) {
-      offset_y = static_cast<float>(-m_sprite->get_height());
-      mystate = STATE_SHRINKING;
-    }
-    set_pos(m_start_position + Vector(0, (m_flip == NO_FLIP ? offset_y : -offset_y)));
-  }
-  else if (mystate == STATE_SHRINKING) {
-    offset_y += dt_sec * SPEED_SHRINK;
-    if (offset_y > 0) {
-      offset_y = 0;
-      mystate = STATE_VANISHING;
-      base_sprite->set_action("vanishing", 2);
-      base_sprite->set_animation_loops(2); // TODO: Verify if setting loops to 1 works as intended.
-    }
-    set_pos(m_start_position + Vector(0, (m_flip == NO_FLIP ? offset_y : -offset_y)));
-  }
-  else if (mystate == STATE_VANISHING) {
-    if (base_sprite->animation_done()) remove_me();
-  }
+  m_timer.start(HATCH_TIME);
+}
+
+void Root::draw(DrawingContext &context)
+{
+  BadGuy::draw(context);
+
+  Vector pos = {m_start_position.x, m_start_position.y - get_bbox().get_height()};
+  context.color().draw_surface(m_base_surface,
+                               pos,
+                               m_sprite->get_angle(),
+                               m_sprite->get_color(),
+                               m_sprite->get_blend(),
+                               m_layer+1);
+}
+
+void
+Root::update(float dt_sec)
+{
   BadGuy::active_update(dt_sec);
-}
 
-void
-Root::draw(DrawingContext& context)
-{
-  base_sprite->draw(context.color(), m_start_position, LAYER_TILES+1, m_flip);
-  if ((mystate != STATE_APPEARING) && (mystate != STATE_VANISHING)) BadGuy::draw(context);
+  switch (m_state)
+  {
+    case STATE_HATCHING:
+      if (m_timer.check())
+      {
+        m_state = STATE_APPEARING;
+        m_timer.start(APPEAR_TIME);
+      }
+      break;
+
+    case STATE_APPEARING:
+    {
+      float progress = m_timer.get_timegone() / m_timer.get_period();
+      m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * get_bbox().get_height();
+      set_pos({m_start_position.x, m_start_position.y + m_offset});
+
+      if (m_timer.check())
+      {
+        m_state = STATE_RETREATING;
+        m_timer.start(RETREAT_TIME);
+      }
+
+      break;
+    }
+
+    case STATE_RETREATING:
+    {
+      float progress = m_timer.get_timegone() / m_timer.get_period();
+      m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * get_bbox().get_height();
+      set_pos({m_start_position.x, m_start_position.y + m_offset});
+
+      if (m_timer.check())
+      {
+        remove_me();
+      }
+
+      break;
+    }
+
+  }
+
+
 }
 
 /* EOF */

@@ -192,6 +192,13 @@ Sprite::get_height() const
   return static_cast<int>(m_action->surfaces[m_frameidx]->get_height());
 }
 
+const std::vector<SurfacePtr>& Sprite::get_action_surfaces(const std::string& name) const
+{
+  const SpriteData::Action* action = m_data.get_action(name);
+  if (!action) return {};
+  return action->surfaces;
+}
+
 bool
 Sprite::is_current_hitbox_unisolid() const
 {

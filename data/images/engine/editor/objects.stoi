@@ -49,6 +49,9 @@
     (class "rcrystallo")
     (icon "images/creatures/crystallo/roof_crystallo-editor.png"))
   (object
+    (class "root_sapling")
+    (icon "images/creatures/mole/corrupted/root_sapling-0.png"))
+  (object
     (class "crusher")
     (icon "images/creatures/crusher/krush_ice_hit.png"))
   (object

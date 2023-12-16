@@ -1,5 +1,5 @@
-//  SuperTux - Boss "GhostTree"
-//  Copyright (C) 2007 Matthias Braun <matze@braunis.de>
+//  SuperTux - Corrupted Root
+//  Copyright (C) 2023
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,30 +18,24 @@
 #define HEADER_SUPERTUX_BADGUY_ROOT_HPP
 
 #include "badguy/badguy.hpp"
+#include "supertux/timer.hpp"
 
 class Root final : public BadGuy
 {
 public:
-  Root(const Vector& pos, Flip flip);
-  ~Root() override;
+  Root(const Vector& pos, const std::string& sprite);
 
-  virtual void deactivate() override;
-  virtual void active_update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
-  virtual bool is_flammable() const override { return false; }
-  virtual bool is_freezable() const override { return false; }
-  virtual void kill_fall() override { }
-
-protected:
-  enum MyState {
-    STATE_APPEARING, STATE_HATCHING, STATE_GROWING, STATE_SHRINKING, STATE_VANISHING
-  };
+  virtual void initialize() override;
+  virtual void draw(DrawingContext &context) override;
+  virtual void update(float dt_sec) override;
 
 private:
-  MyState mystate;
-  SpritePtr base_sprite;
-  float offset_y;
-  Timer hatch_timer;
+  enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
+
+  SurfacePtr m_base_surface;
+  Timer m_timer;
+  State m_state;
+  float m_offset;
 };
 
 #endif

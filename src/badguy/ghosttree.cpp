@@ -154,12 +154,15 @@ GhostTree::active_update(float /*dt_sec*/)
       }
     }
 
+    // TODO: Add support for the new root implementation
+    /*
     if (root_timer.check()) {
-      /* TODO: indicate root with an animation. */
+      //TODO: indicate root with an animation.
       auto player = get_nearest_player();
       if (player)
         Sector::get().add<Root>(Vector(player->get_bbox().get_left(), (m_flip == NO_FLIP ? (m_col.m_bbox.get_bottom() + ROOT_TOP_OFFSET) : (m_col.m_bbox.get_top() - ROOT_TOP_OFFSET - ROOT_HEIGHT))), m_flip);
     }
+    */
   } else if (mystate == STATE_SWALLOWING) {
     if (suck_lantern) {
       // Suck in the lantern.
