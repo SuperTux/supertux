@@ -2316,7 +2316,9 @@ Player::kill(bool completely)
   } else {
     SoundManager::current()->play("sounds/kill.wav", get_pos());
 
-    if (GameSession::current() && GameSession::current()->m_prevent_death)
+    auto* session = GameSession::current();
+    if (session && session->m_prevent_death &&
+                   !session->reset_checkpoint_button)
     {
       set_ghost_mode(true);
       return;
