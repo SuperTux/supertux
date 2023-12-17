@@ -16,6 +16,8 @@
 
 #include "supertux/menu/editor_converters_menu.hpp"
 
+#include <fmt/format.h>
+
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/item_action.hpp"
@@ -44,6 +46,7 @@ EditorConvertersMenu::EditorConvertersMenu() :
 
       auto mapping = iter.as_mapping();
       mapping.get("title", converter.title);
+      mapping.get("author", converter.author);
       mapping.get("description", converter.description);
 
       m_converters.insert({ iter.get_key(), std::move(converter) });
@@ -65,7 +68,8 @@ EditorConvertersMenu::EditorConvertersMenu() :
                return;
 
              item.set_text("\"" + it->second.title + "\"");
-             item.set_help(it->second.description);
+             item.set_help(it->second.description + (it->second.author.empty() ? "" :
+                           "\n \n" + fmt::format(fmt::runtime(_("By: {}")), it->second.author)));
            });
 
   add_entry(MNID_CONVERT_TILES, _("Convert Tiles By File"))

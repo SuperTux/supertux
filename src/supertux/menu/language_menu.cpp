@@ -28,6 +28,7 @@ extern "C" {
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/title_screen.hpp"
 #include "util/gettext.hpp"
 #include "video/ttf_font.hpp"
 
@@ -101,8 +102,9 @@ LanguageMenu::menu_action(MenuItem& item)
     }
   }
 
-  // Reload font files
+  // Reload font files, refresh copyright text
   Resources::load();
+  TitleScreen::current()->refresh_copyright_text();
 
   if (g_dictionary_manager->get_language().get_language() != "en" &&
       !AddonManager::current()->is_addon_installed("language-pack"))

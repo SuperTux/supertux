@@ -35,9 +35,12 @@ private:
 
   struct Converter
   {
-    Converter() : title(), description() {}
+    Converter() :
+      title(), author(), description()
+    {}
 
     std::string title;
+    std::string author;
     std::string description;
   };
 
