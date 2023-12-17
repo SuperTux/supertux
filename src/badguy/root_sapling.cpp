@@ -18,9 +18,10 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/root.hpp"
-#include "collision/collision_group.hpp"
+#include "collision/collision_system.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
@@ -107,7 +108,44 @@ RootSapling::summon_root()
   Player* player = get_nearest_player();
   if (!player) return;
 
-  Vector pos = {player->get_pos().x, get_bbox().get_bottom() + 1};
+  Vector pos;
+  pos.x = player->get_bbox().get_middle().x;
+
+  if (player->on_ground())
+  {
+    pos.y = player->get_bbox().get_bottom() + 1;
+
+    bool should_summon = false;
+    for (TileMap* map : Sector::get().get_solid_tilemaps())
+    {
+      const Tile& tile = map->get_tile_at(pos);
+      if (tile.is_solid())
+      {
+        should_summon = true;
+        break;
+      }
+    }
+    if (!should_summon) return;
+  }
+  else
+  {
+    using RaycastResult = CollisionSystem::RaycastResult;
+
+    Vector eye = {player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1};
+    Vector end = {eye.x, eye.y + 600};
+    RaycastResult result = Sector::get().get_first_line_intersection(eye, end, true, nullptr);
+
+    if (std::holds_alternative<const Tile*>(result.hit) && !result.box.empty())
+    {
+      pos.y = result.box.p1().y;
+      std::cout << pos.y << std::endl;
+    }
+    else
+    {
+      return;
+    }
+  }
+
   Sector::get().add<Root>(pos, "images/creatures/mole/corrupted/root.sprite");
 }
 

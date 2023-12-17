@@ -30,6 +30,12 @@ public:
   virtual void draw(DrawingContext &context) override;
   virtual void active_update(float dt_sec) override;
 
+  virtual HitResponse collision_badguy(BadGuy &other, const CollisionHit &hit) override;
+
+  virtual bool is_flammable() const override { return false; }
+  virtual bool is_freezable() const override { return false; }
+  virtual bool is_snipable () const override { return false; }
+
 private:
   enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
 

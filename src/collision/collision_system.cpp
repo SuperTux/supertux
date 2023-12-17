@@ -761,7 +761,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
         {
           result.is_valid = true;
           result.hit = tile;
-          result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
+          result.box = solids->get_tile_bbox(test_vector.x / 32.f, test_vector.y / 32.f);
           return result;
         }
       }

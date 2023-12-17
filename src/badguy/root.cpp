@@ -126,7 +126,13 @@ Root::active_update(float dt_sec)
 
       break;
     }
-  }
+    }
+}
+
+HitResponse Root::collision_badguy(BadGuy &other, const CollisionHit &hit)
+{
+  other.kill_fall();
+  return ABORT_MOVE;
 }
 
 /* EOF */
