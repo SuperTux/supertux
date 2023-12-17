@@ -64,6 +64,8 @@ RootSapling::collision_squished(GameObject&)
 void
 RootSapling::active_update(float dt_sec)
 {
+  if (m_dead) return;
+
   BadGuy::active_update(dt_sec);
 
   Player* player = get_nearest_player();
@@ -92,7 +94,7 @@ RootSapling::summon_root()
   if (!player) return;
 
   Vector pos = {player->get_pos().x, get_bbox().get_bottom()};
-  Sector::get().add<Root>(pos, "images/creatures/mole/corrupted/root.sprite");
+  Root& root = Sector::get().add<Root>(pos, "images/creatures/mole/corrupted/root.sprite");
 }
 
 void

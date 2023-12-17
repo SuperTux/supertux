@@ -16,8 +16,7 @@
 
 #include "badguy/root.hpp"
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
+#include "audio/sound_manager.hpp"
 
 static const float HATCH_TIME = 1.f;
 static const float APPEAR_TIME = 0.5f;
@@ -28,30 +27,33 @@ Root::Root(const Vector& pos, const std::string& sprite) :
   m_base_surface(nullptr),
   m_timer(),
   m_state(STATE_HATCHING),
-  m_offset(0.f)
+  m_offset(0.f),
+  m_maxheight(0.f)
 {
   m_countMe = false;
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
+  set_action("root");
 
   auto surfaces = m_sprite->get_action_surfaces("base");
   if (surfaces.size() != 0)
     m_base_surface = surfaces[0];
 
-  set_pos({pos.x, pos.y + get_bbox().get_height() + 1});
+  m_timer.start(HATCH_TIME);
+
+  SoundManager::current()->preload("sounds/brick.wav");
 }
 
 void
 Root::initialize()
 {
-  m_timer.start(HATCH_TIME);
 }
 
 void Root::draw(DrawingContext &context)
 {
   BadGuy::draw(context);
 
-  Vector pos = {m_start_position.x, m_start_position.y - get_bbox().get_height()};
+  Vector pos = {m_start_position.x - m_sprite->get_current_hitbox_x_offset(), m_start_position.y - get_bbox().get_height() - 20};
   context.color().draw_surface(m_base_surface,
                                pos,
                                m_sprite->get_angle(),
@@ -61,9 +63,11 @@ void Root::draw(DrawingContext &context)
 }
 
 void
-Root::update(float dt_sec)
+Root::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
+
+
 
   switch (m_state)
   {
@@ -79,11 +83,13 @@ Root::update(float dt_sec)
     {
       float progress = m_timer.get_timegone() / m_timer.get_period();
       m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * get_bbox().get_height();
-      set_pos({m_start_position.x, m_start_position.y + m_offset});
+      set_pos({m_start_position.x, m_start_position.y - m_offset});
 
       if (m_timer.check())
       {
         m_state = STATE_RETREATING;
+        m_maxheight = get_pos().y;
+        SoundManager::current()->play("sounds/brick.wav", get_pos());
         m_timer.start(RETREAT_TIME);
       }
 
@@ -94,7 +100,7 @@ Root::update(float dt_sec)
     {
       float progress = m_timer.get_timegone() / m_timer.get_period();
       m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * get_bbox().get_height();
-      set_pos({m_start_position.x, m_start_position.y + m_offset});
+      set_pos({m_start_position.x, m_maxheight + m_offset});
 
       if (m_timer.check())
       {
@@ -103,10 +109,7 @@ Root::update(float dt_sec)
 
       break;
     }
-
   }
-
-
 }
 
 /* EOF */

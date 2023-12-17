@@ -20,6 +20,7 @@
 #include "badguy/badguy.hpp"
 #include "supertux/timer.hpp"
 
+//TODO: Roots for all directions
 class Root final : public BadGuy
 {
 public:
@@ -27,7 +28,7 @@ public:
 
   virtual void initialize() override;
   virtual void draw(DrawingContext &context) override;
-  virtual void update(float dt_sec) override;
+  virtual void active_update(float dt_sec) override;
 
 private:
   enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
@@ -36,6 +37,7 @@ private:
   Timer m_timer;
   State m_state;
   float m_offset;
+  float m_maxheight;
 };
 
 #endif
