@@ -22,6 +22,7 @@
 #include "control/input_manager.hpp"
 #include "editor/tip.hpp"
 #include "editor/widget.hpp"
+#include "interface/control_scrollbar.hpp"
 #include "math/vector.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/tile_set.hpp"
@@ -40,7 +41,7 @@ class EditorToolboxWidget final : public Widget
 {
 public:
   enum class HoveredItem {
-    NONE, TILEGROUP, OBJECTS, TILE, TOOL
+    NONE, TILEGROUP, OBJECTS, TILE, TOOL, SCROLLBAR
   };
 
   enum class TileScrolling {
@@ -55,7 +56,6 @@ public:
   EditorToolboxWidget(Editor& editor);
 
   virtual void draw(DrawingContext& context) override;
-  virtual void update(float dt_sec) override;
 
   virtual bool on_mouse_button_up(const SDL_MouseButtonEvent& button) override;
   virtual bool on_mouse_button_down(const SDL_MouseButtonEvent& button) override;
@@ -84,7 +84,7 @@ public:
   bool has_active_object_tip() const { return m_object_tip->get_visible(); }
 
 private:
-  Vector get_tile_coords(const int pos) const;
+  Vector get_tile_coords(const int pos, bool relative = true) const;
   int get_tile_pos(const Vector& coords) const;
   Vector get_tool_coords(const int pos) const;
   int get_tool_pos(const Vector& coords) const;
@@ -92,8 +92,13 @@ private:
   Rectf get_item_rect(const HoveredItem& item) const;
 
   void update_selection();
-  Rectf normalize_selection() const;
+  Rectf normalize_selection(bool rounded) const;
   Rectf selection_draw_rect() const;
+
+  void update_hovered_tile();
+
+  float get_total_scrollbar_region() const;
+  void reset_scrollbar();
 
   void draw_tilegroup(DrawingContext&);
   void draw_objectgroup(DrawingContext&);
@@ -111,6 +116,9 @@ private:
   int m_active_objectgroup;
   std::unique_ptr<ObjectInfo> m_object_info;
 
+  std::unique_ptr<ControlScrollbar> m_scrollbar;
+  float m_scroll_progress;
+
   std::unique_ptr<ToolIcon> m_rubber;
   std::unique_ptr<ToolIcon> m_select_mode;
   std::unique_ptr<ToolIcon> m_node_marker_mode;
@@ -119,10 +127,7 @@ private:
 
   HoveredItem m_hovered_item;
   int m_hovered_tile;
-  TileScrolling m_tile_scrolling;
-  bool m_using_scroll_wheel;
-  int m_wheel_scroll_amount;
-  int m_starting_tile;
+
   bool m_dragging;
   Vector m_drag_start;
 

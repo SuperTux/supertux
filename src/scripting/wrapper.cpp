@@ -11539,6 +11539,36 @@ static SQInteger WorldMapSector_get_filename_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger WorldMapSector_set_title_level_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_title_level' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::WorldMapSector* _this = reinterpret_cast<scripting::WorldMapSector*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_title_level(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_title_level'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
   return scripting::display(vm);
@@ -12544,6 +12574,29 @@ static SQInteger play_demo_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_demo'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger set_title_frame_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::set_title_frame(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_title_frame'"));
     return SQ_ERROR;
   }
 
@@ -14028,6 +14081,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'play_demo'");
+  }
+
+  sq_pushstring(v, "set_title_frame", -1);
+  sq_newclosure(v, &set_title_frame_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_title_frame'");
   }
 
   sq_pushstring(v, "Level_finish", -1);
@@ -15678,6 +15738,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_filename'");
+  }
+
+  sq_pushstring(v, "set_title_level", -1);
+  sq_newclosure(v, &WorldMapSector_set_title_level_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_title_level'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

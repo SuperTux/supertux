@@ -53,6 +53,7 @@ World::from_directory(const std::string& directory)
     info.get("levelset", world->m_is_levelset, true);
     info.get("hide-from-contribs", world->m_hide_from_contribs, false);
     info.get("contrib-type", world->m_contrib_type, "user");
+    info.get("title-level", world->m_title_level);
     return world;
   }
   catch (const std::exception& err)
@@ -103,7 +104,8 @@ World::World(const std::string& directory) :
   m_is_levelset(true),
   m_basedir(directory),
   m_hide_from_contribs(false),
-  m_contrib_type()
+  m_contrib_type(),
+  m_title_level()
 {
 }
 
@@ -149,6 +151,7 @@ World::save(bool retry)
     writer.write("levelset", m_is_levelset);
     writer.write("contrib-type", "user");
     writer.write("hide-from-contribs", m_hide_from_contribs);
+    writer.write("title-level", m_title_level);
 
     writer.end_list("supertux-level-subset");
     log_warning << "Levelset info saved as " << filepath << "." << std::endl;

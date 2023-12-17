@@ -2316,7 +2316,9 @@ Player::kill(bool completely)
   } else {
     SoundManager::current()->play("sounds/kill.wav", get_pos());
 
-    if (GameSession::current() && GameSession::current()->m_prevent_death)
+    auto* session = GameSession::current();
+    if (session && session->m_prevent_death &&
+                   !session->reset_checkpoint_button)
     {
       set_ghost_mode(true);
       return;
@@ -2504,7 +2506,7 @@ Player::set_ghost_mode(bool enable)
 void
 Player::start_climbing(Climbable& climbable)
 {
-  if (m_climbing || m_swimming)
+  if (m_climbing || m_swimming || m_stone)
     return;
 
   m_climbing = &climbable;

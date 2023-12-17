@@ -38,7 +38,8 @@ PlayerStatus::PlayerStatus(int num_players) :
   max_air_time(num_players),
   max_earth_time(num_players),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
-  last_worldmap()
+  last_worldmap(),
+  title_level()
 {
   reset(num_players);
 
@@ -165,6 +166,7 @@ PlayerStatus::write(Writer& writer)
 
   writer.write("worldmap-sprite", worldmap_sprite, false);
   writer.write("last-worldmap", last_worldmap, false);
+  writer.write("title-level", title_level);
 }
 
 void
@@ -228,6 +230,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
 
   mapping.get("worldmap-sprite", worldmap_sprite);
   mapping.get("last-worldmap", last_worldmap);
+  mapping.get("title-level", title_level);
 }
 
 void
