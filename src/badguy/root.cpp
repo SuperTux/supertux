@@ -17,13 +17,16 @@
 #include "badguy/root.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "math/random.hpp"
+#include "object/sprite_particle.hpp"
+#include "supertux/sector.hpp"
 
 static const float HATCH_TIME = 1.f;
 static const float APPEAR_TIME = 0.5f;
 static const float RETREAT_TIME = 1.f;
 
 Root::Root(const Vector& pos, const std::string& sprite) :
-  BadGuy(pos, sprite, LAYER_TILES-10),
+  BadGuy(pos, sprite, LAYER_TILES-5),
   m_base_surface(nullptr),
   m_timer(),
   m_state(STATE_HATCHING),
@@ -39,17 +42,33 @@ Root::Root(const Vector& pos, const std::string& sprite) :
   if (surfaces.size() != 0)
     m_base_surface = surfaces[0];
 
-  m_timer.start(HATCH_TIME);
-
   SoundManager::current()->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/dartfire.wav");
 }
 
 void
 Root::initialize()
 {
+  SoundManager::current()->play("sounds/brick.wav", get_pos());
+
+  Vector basepos = {get_bbox().get_middle().x, m_start_position.y - 10};
+  const float gravity = Sector::get().get_gravity() * 100.f;
+  for (int i = 0; i < 5; i++)
+  {
+    const Vector velocity(graphicsRandom.randf(-100, 100),
+                          graphicsRandom.randf(-400, -300));
+    Sector::get().add<SpriteParticle>("images/particles/corrupted_rock.sprite",
+                                      "piece-" + std::to_string(i),
+                                      basepos, ANCHOR_MIDDLE,
+                                      velocity, Vector(0, gravity),
+                                      LAYER_OBJECTS + 3, true);
+  }
+
+  m_timer.start(HATCH_TIME);
 }
 
-void Root::draw(DrawingContext &context)
+void
+Root::draw(DrawingContext &context)
 {
   BadGuy::draw(context);
 
@@ -66,8 +85,6 @@ void
 Root::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
-
-
 
   switch (m_state)
   {
@@ -89,7 +106,7 @@ Root::active_update(float dt_sec)
       {
         m_state = STATE_RETREATING;
         m_maxheight = get_pos().y;
-        SoundManager::current()->play("sounds/brick.wav", get_pos());
+        SoundManager::current()->play("sounds/darthit.wav", get_pos());
         m_timer.start(RETREAT_TIME);
       }
 

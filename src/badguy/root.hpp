@@ -1,5 +1,5 @@
 //  SuperTux - Corrupted Root
-//  Copyright (C) 2023
+//  Copyright (C) 2023 MatusGuy
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by

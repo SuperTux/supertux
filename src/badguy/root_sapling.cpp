@@ -18,18 +18,17 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/root.hpp"
+#include "collision/collision_group.hpp"
 #include "math/random.hpp"
-#include "math/util.hpp"
 #include "object/player.hpp"
-#include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
-static const float ROOT_SAPLING_RANGE = 32.f*5;
-static const float ROOT_SAPLING_SPAWN_TIME = 1.f;
+static const float ROOT_SAPLING_RANGE = 32.f*20;
+static const float ROOT_SAPLING_SPAWN_TIME = 2.f;
 
 RootSapling::RootSapling(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", LAYER_TILES-1),
+  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", LAYER_TILES-10),
   m_root_timer(),
   m_dead(false)
 {
@@ -42,7 +41,12 @@ void
 RootSapling::kill_fall()
 {
   m_dead = true;
+
   SoundManager::current()->play("sounds/fall.wav", get_pos());
+
+  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+  set_action("squished");
+
   run_dead_script();
 }
 
@@ -53,10 +57,20 @@ RootSapling::collision_badguy(BadGuy&, const CollisionHit&)
 }
 
 bool
-RootSapling::collision_squished(GameObject&)
+RootSapling::collision_squished(GameObject& object)
 {
   m_dead = true;
+
   SoundManager::current()->play("sounds/squish.wav", get_pos());
+
+  set_action("squished");
+  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+
+  auto player = dynamic_cast<Player*>(&object);
+  if (player) {
+    player->bounce(*this);
+  }
+
   run_dead_script();
   return true;
 }
@@ -93,8 +107,8 @@ RootSapling::summon_root()
   Player* player = get_nearest_player();
   if (!player) return;
 
-  Vector pos = {player->get_pos().x, get_bbox().get_bottom()};
-  Root& root = Sector::get().add<Root>(pos, "images/creatures/mole/corrupted/root.sprite");
+  Vector pos = {player->get_pos().x, get_bbox().get_bottom() + 1};
+  Sector::get().add<Root>(pos, "images/creatures/mole/corrupted/root.sprite");
 }
 
 void
