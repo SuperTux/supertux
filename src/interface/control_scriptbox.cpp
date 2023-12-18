@@ -440,7 +440,7 @@ ControlScriptbox::on_caret_move()
 
   m_selected_suggestion = 0;
   m_suggestions_offset = 0.f;
-  m_suggestions = squirrel::autocomplete(line_content, true);
+  m_suggestions = squirrel::get_suggestions(line_content, true);
 
   calculate_suggestion_rect();
   update_description();

@@ -15,22 +15,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "squirrel/autocomplete.hpp"
+#include "squirrel/suggestions.hpp"
 
 #include <algorithm>
-#include <optional>
 
 #include "squirrel/squirrel_virtual_machine.hpp"
-#include "util/log.hpp"
-#include "util/reader_document.hpp"
-#include "util/reader_iterator.hpp"
-#include "util/reader_mapping.hpp"
+
+static const std::string SCRIPTING_REFERENCE_FILE = "scripts/reference.stsr";
 
 namespace squirrel {
 
-static std::optional<ScriptingClass> s_scripting_root;
+Suggestion::Suggestion(const std::string& name_, const ScriptingObject* ref_,
+                       const bool is_instance_) :
+  name(name_),
+  reference(ref_),
+  is_instance(is_instance_)
+{
+}
 
-namespace {
 
 void sq_insert_commands(SuggestionStack& cmds, HSQUIRRELVM vm,
                         const std::string& table_prefix, std::vector<const ScriptingClass*> parent_classes,
@@ -80,24 +82,28 @@ sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
       }
       sq_pop(vm, 2); // Pop iterator, root table.
 
-      const ScriptingClass* current_class = nullptr;
+      std::vector<const ScriptingClass*> classes;
       if (found_class) // Succeeded getting class name
       {
         base_name = key_chars; // Use class name
 
-        auto it = std::find_if(s_scripting_root->classes.begin(), s_scripting_root->classes.end(),
-                               [&base_name](const auto& cl) { return cl.name == base_name; });
-        if (it != s_scripting_root->classes.end())
+        for (const auto& root : s_scripting_roots)
         {
-          current_class = &*it;
-          object = current_class;
+          auto it = std::find_if(root->classes.begin(), root->classes.end(),
+                                 [&base_name](const auto& cl) { return cl.name == base_name; });
+          if (it != root->classes.end())
+          {
+            classes.push_back(&*it);
+            if (!object)
+              object = classes.back();
+          }
         }
       }
 
       if (search_prefix.substr(0, key_string.length()) == key_string)
       {
         sq_getclass(vm, -1); // Push class.
-        sq_insert_commands(cmds, vm, key_string, { current_class }, search_prefix, remove_prefix);
+        sq_insert_commands(cmds, vm, key_string, classes, search_prefix, remove_prefix);
         sq_pop(vm, 1); // Pop class.
       }
     }
@@ -116,17 +122,21 @@ sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
     {
       key_string += ".";
 
-      const ScriptingClass* current_class = nullptr;
-      auto it = std::find_if(s_scripting_root->classes.begin(), s_scripting_root->classes.end(),
-                             [&base_name](const auto& cl) { return cl.name == base_name; });
-      if (it != s_scripting_root->classes.end())
+      std::vector<const ScriptingClass*> classes;
+      for (const auto& root : s_scripting_roots)
       {
-        current_class = &*it;
-        object = current_class;
+        auto it = std::find_if(root->classes.begin(), root->classes.end(),
+                               [&base_name](const auto& cl) { return cl.name == base_name; });
+        if (it != root->classes.end())
+        {
+          classes.push_back(&*it);
+          if (!object)
+            object = classes.back();
+        }
       }
 
       if (search_prefix.substr(0, key_string.length()) == key_string)
-        sq_insert_commands(cmds, vm, key_string, { current_class }, search_prefix, remove_prefix);
+        sq_insert_commands(cmds, vm, key_string, classes, search_prefix, remove_prefix);
     }
     break;
 
@@ -182,7 +192,7 @@ sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
   if (key_string == search_prefix || key_string.substr(0, search_prefix.length()) != search_prefix)
     return;
 
-  // Push string and object pointer
+  // Push string and scripting reference object pointer
   if (remove_prefix)
   {
     const size_t pos = key_string.find_last_of('.', search_prefix.length());
@@ -195,6 +205,11 @@ sq_insert_command(SuggestionStack& cmds, HSQUIRRELVM vm,
       if (key_string.at(0) == '.')
         key_string.erase(0, 1);
     }
+  }
+  else
+  {
+    if (key_string.back() == '.')
+      key_string.pop_back();
   }
   cmds.push_back(Suggestion(key_string, object, type == OT_INSTANCE));
 }
@@ -213,10 +228,16 @@ sq_insert_commands(SuggestionStack& cmds, HSQUIRRELVM vm,
 
     for (const std::string& base_class_name : parent_class->base_classes)
     {
-      auto it = std::find_if(s_scripting_root->classes.begin(), s_scripting_root->classes.end(),
-                             [&base_class_name](const auto& cl) { return cl.name == base_class_name; });
-      if (it != s_scripting_root->classes.end())
-        parent_classes.push_back(&*it);
+      for (const auto& root : s_scripting_roots)
+      {
+        auto it = std::find_if(root->classes.begin(), root->classes.end(),
+                               [&base_class_name](const auto& cl) { return cl.name == base_class_name; });
+        if (it != root->classes.end())
+        {
+          parent_classes.push_back(&*it);
+          break;
+        }
+      }
     }
   }
 
@@ -229,140 +250,28 @@ sq_insert_commands(SuggestionStack& cmds, HSQUIRRELVM vm,
   sq_pop(vm, 1); // Pop iterator.
 }
 
-} // namespace
-
-
-ScriptingObject::ScriptingObject(const ReaderMapping& reader) :
-  name()
-{
-  reader.get("name", name);
-}
-
-ScriptingConstant::ScriptingConstant(const ReaderMapping& reader) :
-  ScriptingObject(reader),
-  type(),
-  description(),
-  detailed_description()
-{
-  reader.get("type", type);
-  reader.get("description", description);
-  reader.get("detailed-description", detailed_description);
-}
-
-ScriptingFunction::ScriptingFunction(const ReaderMapping& reader) :
-  ScriptingObject(reader),
-  type(),
-  description(),
-  detailed_description(),
-  parameters()
-{
-  reader.get("type", type);
-  reader.get("description", description);
-  reader.get("detailed-description", detailed_description);
-
-  auto iter = reader.get_iter();
-  while (iter.next())
-  {
-    if (iter.get_key() != "parameter")
-      continue;
-
-    auto param_reader = iter.as_mapping();
-
-    Parameter param;
-    param_reader.get("type", param.type);
-    param_reader.get("name", param.name);
-    param_reader.get("description", param.description);
-
-    parameters.push_back(std::move(param));
-  }
-}
-
-ScriptingClass::ScriptingClass(const ReaderMapping& reader) :
-  ScriptingObject(reader),
-  base_classes(),
-  summary(),
-  instances(),
-  constants(),
-  functions(),
-  classes()
-{
-  reader.get("summary", summary);
-  reader.get("instances", instances);
-
-  auto iter = reader.get_iter();
-  while (iter.next())
-  {
-    if (iter.get_key() == "base-class")
-    {
-      std::string base_class_name;
-      iter.get(base_class_name);
-      base_classes.push_back(std::move(base_class_name));
-      continue;
-    }
-
-    add_object(iter.get_key(), iter.as_mapping());
-  }
-}
-
-void
-ScriptingClass::add_object(const std::string& key, const ReaderMapping& reader)
-{
-  if (key == "constant")
-    constants.push_back(ScriptingConstant(reader));
-  else if (key == "function")
-    functions.push_back(ScriptingFunction(reader));
-  else if (key == "class")
-    classes.push_back(ScriptingClass(reader));
-}
-
-
-Suggestion::Suggestion(const std::string& name_, const ScriptingObject* ref_,
-                       const bool is_instance_) :
-  name(name_),
-  reference(ref_),
-  is_instance(is_instance_)
-{
-}
 
 SuggestionStack
-autocomplete(const std::string& prefix, bool remove_prefix)
+get_suggestions(const std::string& prefix, bool remove_prefix)
 {
   SuggestionStack result;
   HSQUIRRELVM vm = SquirrelVirtualMachine::current()->get_vm().get_vm();
 
-  // Parse scripting reference data
-  if (!s_scripting_root)
-  {
-    // Create global objects class
-    s_scripting_root = ScriptingClass();
+  // Register main scripting reference data
+  if (!has_registered_reference_file(SCRIPTING_REFERENCE_FILE))
+    register_scripting_reference(SCRIPTING_REFERENCE_FILE);
 
-    try
-    {
-      auto doc = ReaderDocument::from_file("scripts/reference.stsr");
-      auto root = doc.get_root();
-      if (root.get_name() == "supertux-scripting-reference")
-      {
-        auto iter = root.get_mapping().get_iter();
-        while (iter.next())
-          s_scripting_root->add_object(iter.get_key(), iter.as_mapping());
-      }
-      else
-      {
-        throw std::runtime_error("File is not a 'supertux-scripting-reference' file.");
-      }
-    }
-    catch (const std::exception& err)
-    {
-      log_warning << "Cannot load scripting reference data from 'scripts/reference.stsr': " << err.what() << std::endl;
-    }
-  }
+  // Insert each scripting reference root into a pointer class
+  std::vector<const ScriptingClass*> root_classes;
+  for (const auto& root : s_scripting_roots)
+    root_classes.push_back(root.get());
 
   // Append all keys of the current root table to list.
   sq_pushroottable(vm); // Push root table.
   while (true)
   {
     // Check all keys (and their children) for matches.
-    sq_insert_commands(result, vm, "", { &*s_scripting_root }, prefix, remove_prefix);
+    sq_insert_commands(result, vm, "", root_classes, prefix, remove_prefix);
 
     // Cycle through parent (delegate) table.
     SQInteger oldtop = sq_gettop(vm);

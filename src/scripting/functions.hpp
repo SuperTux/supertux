@@ -302,6 +302,18 @@ void record_demo(const std::string& filename);
  */
 void play_demo(const std::string& filename);
 
+/**
+ * Registers a scripting reference data file ("supertux-scripting-reference").
+ * @param string $filename
+ */
+void register_scripting_reference(const std::string& filename);
+
+/**
+ * Unregisters scripting reference data, loaded from the specified file.
+ * @param string $filename
+ */
+void unregister_scripting_reference(const std::string& filename);
+
 #ifdef DOXYGEN_SCRIPTING
 }
 #endif

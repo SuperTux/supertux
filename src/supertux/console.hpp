@@ -30,6 +30,10 @@ class Console;
 class ConsoleStreamBuffer;
 class DrawingContext;
 
+namespace squirrel {
+  class Suggestion;
+} // namespace squirrel
+
 class ConsoleBuffer final : public Currenton<ConsoleBuffer>
 {
 public:
@@ -81,6 +85,9 @@ public:
   void toggle(); /**< display the console if hidden, hide otherwise */
 
   bool hasFocus() const; /**< true if characters should be sent to the console instead of their normal target */
+
+private:
+  void print_suggestion(const squirrel::Suggestion& suggestion);
 
 private:
   ConsoleBuffer& m_buffer;

@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
-//                2023 Vankata453
+//  Copyright (C) 2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,16 +14,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SQUIRREL_AUTOCOMPLETE_HPP
-#define HEADER_SUPERTUX_SQUIRREL_AUTOCOMPLETE_HPP
+#ifndef HEADER_SUPERTUX_SQUIRREL_SCRIPTING_REFERENCE_HPP
+#define HEADER_SUPERTUX_SQUIRREL_SCRIPTING_REFERENCE_HPP
 
 #include <string>
 #include <vector>
+#include <memory>
 
 class ReaderMapping;
 
 namespace squirrel {
 
+/** Scripting reference object tree structure */
 struct ScriptingObject
 {
   ScriptingObject() = default;
@@ -68,7 +69,7 @@ struct ScriptingFunction final : public ScriptingObject
   std::vector<Parameter> parameters;
 };
 
-struct ScriptingClass final : public ScriptingObject
+struct ScriptingClass : public ScriptingObject
 {
   ScriptingClass() = default;
   ScriptingClass(const ReaderMapping& reader);
@@ -85,19 +86,19 @@ struct ScriptingClass final : public ScriptingObject
   std::vector<ScriptingClass> classes;
 };
 
-
-struct Suggestion final
+struct ScriptingRoot final : public ScriptingClass
 {
-  Suggestion(const std::string& name_, const ScriptingObject* ref_,
-             const bool is_instance_);
+  ScriptingRoot(const std::string& file_);
 
-  std::string name;
-  const ScriptingObject* reference;
-  bool is_instance;
+  const std::string file; // Scripting reference file the root was loaded from
 };
-typedef std::vector<Suggestion> SuggestionStack;
 
-SuggestionStack autocomplete(const std::string& prefix, bool remove_prefix);
+extern std::vector<std::unique_ptr<ScriptingRoot>> s_scripting_roots;
+
+bool has_registered_reference_file(const std::string& file);
+
+void register_scripting_reference(const std::string& file);
+void unregister_scripting_reference(const std::string& file);
 
 } // namespace squirrel
 

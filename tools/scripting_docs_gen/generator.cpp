@@ -95,7 +95,7 @@ void generate_data_file(const std::string& output_file, const std::vector<Class>
   // Entries
   regex_replace(target_data, std::regex("\\$\\{SRG_REF_(.+?)\\}"), std::string("`$1`"));
   // Formatting
-  replace(target_data, "${SRG_NEWPARAGRAPH} ", "");
+  replace(target_data, "${SRG_NEWPARAGRAPH}", "");
   replace(target_data, "${SRG_TABLENEWPARAGRAPH}", "");
   replace(target_data, "\\\"\\\"", "`");
 

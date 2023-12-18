@@ -59,6 +59,7 @@ ControlTextbox::ControlTextbox(bool multiline) :
 ControlTextbox::~ControlTextbox()
 {
   parse_value();
+  MouseCursor::current()->set_action(MouseCursorAction::SELECT);
 }
 
 void

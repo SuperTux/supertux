@@ -16,11 +16,13 @@
 
 #include "supertux/console.hpp"
 
+#include <fmt/format.h>
+
 #include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "squirrel/autocomplete.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "squirrel/suggestions.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
@@ -299,12 +301,14 @@ Console::autocomplete()
   m_buffer.addLines("> " + prefix);
 
   ready_vm();
-  const squirrel::SuggestionStack cmds = squirrel::autocomplete(prefix, false);
+  const squirrel::SuggestionStack cmds = squirrel::get_suggestions(prefix, false);
 
   // Depending on number of hits, show matches or autocomplete.
+  m_buffer.addLine(""); // Additional spacing line
   if (cmds.empty())
   {
     m_buffer.addLines("No known command starts with \"" + prefix + "\"");
+    m_buffer.addLine(""); // End spacing line
   }
   else if (cmds.size() == 1)
   {
@@ -312,6 +316,9 @@ Console::autocomplete()
     const std::string& replaceWith = cmds.begin()->name;
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
     m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
+
+    print_suggestion(cmds.back());
+    m_buffer.addLine(""); // End spacing line
   }
   else if (cmds.size() > 1)
   {
@@ -319,15 +326,66 @@ Console::autocomplete()
     std::string commonPrefix = cmds.begin()->name;
     for (auto i = cmds.begin(); i != cmds.end(); i++)
     {
-      const std::string& cmd = i->name;
-      m_buffer.addLines(cmd);
+      print_suggestion(*i);
+      m_buffer.addLine(""); // Spacing line
       for (int n = static_cast<int>(commonPrefix.length()); n >= 1; n--) {
-        if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
+        if (i->name.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
       }
     }
     std::string replaceWith = commonPrefix;
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
     m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
+  }
+}
+
+void
+Console::print_suggestion(const squirrel::Suggestion& suggestion)
+{
+  if (!suggestion.reference)
+  {
+    m_buffer.addLine("\"" + suggestion.name + "\"");
+    return;
+  }
+
+  using namespace squirrel;
+
+  switch (suggestion.reference->get_type())
+  {
+    case ScriptingObject::Type::CONSTANT:
+    {
+      const auto& con = static_cast<const ScriptingConstant&>(*suggestion.reference);
+      m_buffer.addLine("\"" + con.type + " " + con.name + "\" - " + con.description);
+    }
+    break;
+
+    case ScriptingObject::Type::FUNCTION:
+    {
+      const auto& func = static_cast<const ScriptingFunction&>(*suggestion.reference);
+
+      std::stringstream out;
+      out << func.type << " " << func.name << "(";
+      for (size_t i = 0; i < func.parameters.size(); i++)
+      {
+        const auto& param = func.parameters.at(i);
+
+        out << param.type << " " << param.name;
+        if (i != func.parameters.size() - 1)
+          out << ", ";
+      }
+      out << ")";
+
+      m_buffer.addLine("\"" + out.str() + "\" - " + func.description);
+    }
+    break;
+
+    case ScriptingObject::Type::CLASS:
+    {
+      const auto& cl = static_cast<const ScriptingClass&>(*suggestion.reference);
+      m_buffer.addLine("\"" + suggestion.name + "\" - " +
+        (suggestion.is_instance ? fmt::format(fmt::runtime(_("Instance of `{}`.")), cl.name) + " " : "") +
+        cl.summary);
+    }
+    break;
   }
 }
 

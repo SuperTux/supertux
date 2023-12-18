@@ -22,7 +22,7 @@
 #include <vector>
 
 #include "interface/control_scrollbar.hpp"
-#include "squirrel/autocomplete.hpp"
+#include "squirrel/suggestions.hpp"
 
 class ControlScriptbox final : public ControlTextbox
 {

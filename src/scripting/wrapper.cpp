@@ -12549,6 +12549,52 @@ static SQInteger play_demo_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger register_scripting_reference_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::register_scripting_reference(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'register_scripting_reference'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger unregister_scripting_reference_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::unregister_scripting_reference(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'unregister_scripting_reference'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
 {
   SQBool arg0;
@@ -14028,6 +14074,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'play_demo'");
+  }
+
+  sq_pushstring(v, "register_scripting_reference", -1);
+  sq_newclosure(v, &register_scripting_reference_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'register_scripting_reference'");
+  }
+
+  sq_pushstring(v, "unregister_scripting_reference", -1);
+  sq_newclosure(v, &unregister_scripting_reference_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'unregister_scripting_reference'");
   }
 
   sq_pushstring(v, "Level_finish", -1);

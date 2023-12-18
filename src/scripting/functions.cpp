@@ -21,6 +21,7 @@
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
+#include "squirrel/scripting_reference.hpp"
 #include "supertux/console.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_manager.hpp"
@@ -480,6 +481,16 @@ void play_demo(const std::string& filename)
   gameRandom.seed(g_config->random_seed);
   session->restart_level();
   session->play_demo(filename);
+}
+
+void register_scripting_reference(const std::string& filename)
+{
+  squirrel::register_scripting_reference(filename);
+}
+
+void unregister_scripting_reference(const std::string& filename)
+{
+  squirrel::unregister_scripting_reference(filename);
 }
 
 }

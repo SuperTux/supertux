@@ -224,7 +224,7 @@
   (class
     (name "Camera")
     (summary (_ "A `Camera` that was given a name can be manipulated by scripts."))
-    (instances (_ "An instance named `Camera` (`sector.Camera` in the console) is available.The mode of the camera is either normal (the camera is following the player) or autoscroll. In the latter mode the camera is forced along a specified `Path`."))
+    (instances (_ "An instance named `Camera` (`sector.Camera` in the console) is available. The mode of the camera is either normal (the camera is following the player) or autoscroll. In the latter mode the camera is forced along a specified `Path`."))
     (function
       (name "reload_config")
       (type "void")
@@ -1695,7 +1695,7 @@
   (class
     (name "FloatingImage")
     (summary (_ "This class provides the ability to create, edit, and remove images floating in midair on the screen, such as the SuperTux logo. It is implemented as a wrapper around a sprite, so any sprite actions are applicable."))
-    (instances (_ "Floating Images are created in a script or from the console. Constructor:```<floatimage> <- FloatingImage(string filename)```This creates a `FloatingImage` from `filename` (which is relative to the data directory root)."))
+    (instances (_ "Floating Images are created in a script or from the console. Constructor: ```<floatimage> <- FloatingImage(string filename)``` This creates a `FloatingImage` from `filename` (which is relative to the data directory root)."))
     (function
       (name "set_layer")
       (type "void")
@@ -1801,7 +1801,7 @@
   (class
     (name "GameObjectManager")
     (summary (_ "This class provides basic controlling functions for a sector. Applies for both worldmap and in-level sectors."))
-    (instances (_ "For in-level sectors, an instance under `sector.settings` is available from scripts and the console.For worldmap sectors, such instance is available under `worldmap.settings`."))
+    (instances (_ "For in-level sectors, an instance under `sector.settings` is available from scripts and the console. For worldmap sectors, such instance is available under `worldmap.settings`."))
     (function
       (name "set_ambient_light")
       (type "void")
@@ -2287,6 +2287,24 @@
     (name "play_demo")
     (type "void")
     (description (_ "Plays back a demo from the given file."))
+    (parameter
+      (name "filename")
+      (type "string")
+    )
+  )
+  (function
+    (name "register_scripting_reference")
+    (type "void")
+    (description (_ "Registers a scripting reference data file (\"supertux-scripting-reference\")."))
+    (parameter
+      (name "filename")
+      (type "string")
+    )
+  )
+  (function
+    (name "unregister_scripting_reference")
+    (type "void")
+    (description (_ "Unregisters scripting reference data, loaded from the specified file."))
     (parameter
       (name "filename")
       (type "string")
@@ -3574,7 +3592,7 @@
   )
   (class
     (name "TextArray")
-    (summary (_ "A `TextArrayObject` that was given a name can be controlled by scripts. Supports all functions of `Text`, applying them to the current text item.Intended for scripts with narration."))
+    (summary (_ "A `TextArrayObject` that was given a name can be controlled by scripts. Supports all functions of `Text`, applying them to the current text item. Intended for scripts with narration."))
     (instances (_ "A `TextArrayObject` is instantiated by placing a definition inside a level. It can then be accessed by its name from a script or via `sector.name` from the console."))
     (function
       (name "clear")
