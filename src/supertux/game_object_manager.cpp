@@ -476,9 +476,8 @@ float
 GameObjectManager::get_width() const
 {
   float width = 0;
-  for (auto& tilemap: get_all_tilemaps()) {
+  for (auto& tilemap : get_solid_tilemaps())
     width = std::max(width, tilemap->get_bbox().get_right());
-  }
 
   return width;
 }
@@ -487,9 +486,28 @@ float
 GameObjectManager::get_height() const
 {
   float height = 0;
-  for (const auto& tilemap: get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
     height = std::max(height, tilemap->get_bbox().get_bottom());
-  }
+
+  return height;
+}
+
+float
+GameObjectManager::get_editor_width() const
+{
+  float width = 0;
+  for (const auto& tilemap : get_all_tilemaps()) // Determine from all tilemaps
+    width = std::max(width, tilemap->get_bbox().get_right());
+
+  return width;
+}
+
+float
+GameObjectManager::get_editor_height() const
+{
+  float height = 0;
+  for (const auto& tilemap : get_all_tilemaps()) // Determine from all tilemaps
+    height = std::max(height, tilemap->get_bbox().get_bottom());
 
   return height;
 }
@@ -498,7 +516,8 @@ float
 GameObjectManager::get_tiles_width() const
 {
   float width = 0;
-  for (const auto& tilemap : get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
+  {
     if (static_cast<float>(tilemap->get_width()) > width)
       width = static_cast<float>(tilemap->get_width());
   }
@@ -509,7 +528,8 @@ float
 GameObjectManager::get_tiles_height() const
 {
   float height = 0;
-  for (const auto& tilemap : get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
+  {
     if (static_cast<float>(tilemap->get_height()) > height)
       height = static_cast<float>(tilemap->get_height());
   }

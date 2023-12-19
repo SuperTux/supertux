@@ -79,6 +79,8 @@ public:
 
   float get_width() const;
   float get_height() const;
+  float get_editor_width() const;
+  float get_editor_height() const;
 
   /** returns the width (in tiles) of a worldmap */
   float get_tiles_width() const;
