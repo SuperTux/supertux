@@ -97,7 +97,7 @@ public:
   ItemAction& add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                        const std::string& basedir, bool path_relative_to_basedir,
                        const std::function<void (MenuItem&)>& item_processor = {},
-                       const std::function<std::string(std::string)> generate_help_text_for_file = nullptr,
+                       const std::function<std::string(std::string)>& generate_help_text_for_file = nullptr,
                        int id = -1);
 
   ItemColor& add_color(const std::string& text, Color* color, int id = -1);

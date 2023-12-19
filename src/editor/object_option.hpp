@@ -287,7 +287,7 @@ public:
                    const std::string& basedir,
                    bool path_relative_to_basedir,
                    unsigned int flags,
-                   std::function<std::string(std::string)> generate_help_text_for_file = nullptr);
+                   const std::function<std::string(std::string)>& generate_help_text_for_file = nullptr);
 
   virtual void save(Writer& write) const override;
   virtual std::string to_string() const override;

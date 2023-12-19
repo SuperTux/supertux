@@ -223,7 +223,7 @@ ObjectSettings::add_file(const std::string& text, std::string* value_ptr,
                          const std::string& basedir,
                          bool path_relative_to_basedir,
                          unsigned int flags,
-                         std::function<std::string(std::string)> generate_help_text_for_file)
+                         const std::function<std::string(std::string)>& generate_help_text_for_file)
 {
   add_option(std::make_unique<FileObjectOption>(text, value_ptr, default_value, key, filter, basedir, path_relative_to_basedir, flags, generate_help_text_for_file));
 }

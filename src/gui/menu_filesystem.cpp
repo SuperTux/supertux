@@ -32,7 +32,7 @@ FileSystemMenu::FileSystemMenu(std::string* filename, const std::vector<std::str
                                const std::string& basedir, bool path_relative_to_basedir,
                                std::function<void(std::string)> callback,
                                const std::function<void (MenuItem&)>& item_processor,
-                               std::function<std::string(std::string)> generate_help_text_for_file) :
+                               const std::function<std::string(std::string)>& generate_help_text_for_file) :
   m_filename(filename),
   // when a basedir is given, 'filename' is relative to basedir, so
   // it's useless as a starting point

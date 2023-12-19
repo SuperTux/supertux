@@ -407,7 +407,7 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
                                    const std::string& basedir,
                                    bool path_relative_to_basedir,
                                    unsigned int flags,
-                                   std::function<std::string(std::string)> generate_help_text_for_file) :
+                                   const std::function<std::string(std::string)>& generate_help_text_for_file) :
   ObjectOption(text, key, flags, pointer),
   m_default_value(std::move(default_value)),
   m_filter(std::move(filter)),

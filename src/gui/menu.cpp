@@ -289,7 +289,7 @@ ItemAction&
 Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                const std::string& basedir, bool path_relative_to_basedir,
                const std::function<void (MenuItem&)>& item_processor,
-               const std::function<std::string(std::string)> generate_help_text_for_file, int id)
+               const std::function<std::string(std::string)>& generate_help_text_for_file, int id)
 {
   auto item = std::make_unique<ItemAction>(text, id,
     [input, extensions, basedir, path_relative_to_basedir, item_processor, generate_help_text_for_file]()
