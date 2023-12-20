@@ -147,13 +147,18 @@ Root::active_update(float dt_sec)
 
       break;
     }
-    }
+  }
 }
 
 HitResponse Root::collision_badguy(BadGuy &other, const CollisionHit &hit)
 {
-  other.kill_fall();
-  return ABORT_MOVE;
+  if (other.get_group() == COLGROUP_MOVING)
+  {
+    other.kill_fall();
+    return ABORT_MOVE;
+  }
+
+  return BadGuy::collision_badguy(other, hit);
 }
 
 /* EOF */

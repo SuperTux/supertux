@@ -34,6 +34,7 @@ RootSapling::RootSapling(const ReaderMapping& reader) :
   m_dead(false)
 {
   m_physic.enable_gravity(false);
+  set_colgroup_active(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
 }
@@ -138,7 +139,6 @@ RootSapling::summon_root()
     if (std::holds_alternative<const Tile*>(result.hit) && !result.box.empty())
     {
       pos.y = result.box.p1().y;
-      std::cout << pos.y << std::endl;
     }
     else
     {
