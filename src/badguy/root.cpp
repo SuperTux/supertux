@@ -25,6 +25,27 @@ static const float HATCH_TIME = 1.f;
 static const float APPEAR_TIME = 0.5f;
 static const float RETREAT_TIME = 1.f;
 
+Root::Root(const ReaderMapping& reader) :
+  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-5),
+  m_base_surface(nullptr),
+  m_timer(),
+  m_state(STATE_HATCHING),
+  m_offset(0.f),
+  m_maxheight(0.f)
+{
+  m_countMe = false;
+  m_physic.enable_gravity(false);
+  set_colgroup_active(COLGROUP_TOUCHABLE);
+  set_action("root");
+
+  auto surfaces = m_sprite->get_action_surfaces("base");
+  if (surfaces.size() != 0)
+    m_base_surface = surfaces[0];
+
+  SoundManager::current()->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/dartfire.wav");
+}
+
 Root::Root(const Vector& pos, const std::string& sprite) :
   BadGuy(pos, sprite, LAYER_TILES-5),
   m_base_surface(nullptr),

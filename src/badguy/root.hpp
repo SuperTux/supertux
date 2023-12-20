@@ -24,13 +24,18 @@
 class Root final : public BadGuy
 {
 public:
+  Root(const ReaderMapping& reader);
   Root(const Vector& pos, const std::string& sprite);
 
   virtual void initialize() override;
   virtual void draw(DrawingContext &context) override;
   virtual void active_update(float dt_sec) override;
-
   virtual HitResponse collision_badguy(BadGuy &other, const CollisionHit &hit) override;
+
+  static std::string class_name() { return "root"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Root"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }

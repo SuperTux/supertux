@@ -50,6 +50,7 @@
 #include "badguy/owl.hpp"
 #include "badguy/plant.hpp"
 #include "badguy/rcrystallo.hpp"
+#include "badguy/root.hpp"
 #include "badguy/root_sapling.hpp"
 #include "badguy/short_fuse.hpp"
 #include "badguy/skydive.hpp"
@@ -207,6 +208,7 @@ GameObjectFactory::init_factories()
   add_factory<Owl>("owl", OBJ_PARAM_DISPENSABLE);
   add_factory<Plant>("plant", OBJ_PARAM_DISPENSABLE);
   add_factory<RCrystallo>("rcrystallo", OBJ_PARAM_DISPENSABLE);
+  add_factory<Root>("root");
   add_factory<RootSapling>("root_sapling");
   add_factory<SCrystallo>("scrystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<ShortFuse>("short_fuse", OBJ_PARAM_DISPENSABLE);
