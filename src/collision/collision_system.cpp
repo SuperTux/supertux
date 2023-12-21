@@ -655,20 +655,19 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
       for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
-        if (!(tile.get_attributes() & tiletype))
-          continue;
-        if (tile.is_unisolid () && ignoreUnisolid)
-          continue;
+        if ((tiletype == 0 && tile.get_attributes() == tiletype) ||
+            (tile.get_attributes() & tiletype))
+          return false;
+        if (tile.is_unisolid() && !ignoreUnisolid)
+          return false;
         if (tile.is_slope ()) {
           AATriangle triangle;
           const Rectf tbbox = solids->get_tile_bbox(x, y);
           triangle = AATriangle(tbbox, tile.get_data());
           Constraints constraints;
-          if (!collision::rectangle_aatriangle(&constraints, rect, triangle))
-            continue;
+          if (collision::rectangle_aatriangle(&constraints, rect, triangle))
+            return false;
         }
-        // We have a solid tile that overlaps the given rectangle.
-        return false;
       }
     }
   }

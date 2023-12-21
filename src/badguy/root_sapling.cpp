@@ -153,6 +153,10 @@ RootSapling::summon_root()
     }
   }
 
+  Rectf space(pos, Sizef(32.f, 32.f*3));
+  if (!Sector::get().is_free_of_tiles(space, true, 0))
+    return;
+
   Sector::get().add<Root>(pos, "images/creatures/mole/corrupted/root.sprite");
 }
 
