@@ -22,6 +22,7 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
@@ -29,12 +30,16 @@ static const float ROOT_SAPLING_RANGE = 32.f*20;
 static const float ROOT_SAPLING_SPAWN_TIME = 2.f;
 
 RootSapling::RootSapling(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", LAYER_TILES-10),
+  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite",
+         LAYER_TILES-10, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
   m_root_timer(),
   m_dead(false)
 {
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_STATIC);
+
+  m_glowing = true;
+
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
 }
@@ -43,6 +48,7 @@ void
 RootSapling::kill_fall()
 {
   m_dead = true;
+  m_glowing = false;
 
   SoundManager::current()->play("sounds/fall.wav", get_pos());
 
@@ -62,6 +68,7 @@ bool
 RootSapling::collision_squished(GameObject& object)
 {
   m_dead = true;
+  m_glowing = false;
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
 

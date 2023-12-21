@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
     (name "default")
-    (hitbox 0 0 350 350)
+    (hitbox 183 193 350 350)
 	(fps 12)
     (images "core_glow-0.png"
 			"core_glow-1.png"
