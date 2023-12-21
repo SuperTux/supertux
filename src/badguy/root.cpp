@@ -21,7 +21,7 @@
 #include "object/sprite_particle.hpp"
 #include "supertux/sector.hpp"
 
-static const float HATCH_TIME = 1.f;
+static const float HATCH_TIME = 0.7f;
 static const float APPEAR_TIME = 0.5f;
 static const float RETREAT_TIME = 1.f;
 
@@ -58,6 +58,7 @@ Root::Root(const Vector& pos, const std::string& sprite) :
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
   set_action("root");
+  set_pos({pos.x - (get_bbox().get_width() / 2), pos.y});
 
   auto surfaces = m_sprite->get_action_surfaces("base");
   if (surfaces.size() != 0)
@@ -152,7 +153,7 @@ Root::active_update(float dt_sec)
 
 HitResponse Root::collision_badguy(BadGuy &other, const CollisionHit &hit)
 {
-  if (other.get_group() == COLGROUP_MOVING)
+  if (other.get_group() == COLGROUP_MOVING && other.is_snipable())
   {
     other.kill_fall();
     return ABORT_MOVE;

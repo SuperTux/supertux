@@ -52,7 +52,7 @@ RootSapling::kill_fall()
 
   SoundManager::current()->play("sounds/fall.wav", get_pos());
 
-  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+  set_colgroup_active(COLGROUP_DISABLED);
   set_action("squished");
 
   run_dead_script();
@@ -73,7 +73,7 @@ RootSapling::collision_squished(GameObject& object)
   SoundManager::current()->play("sounds/squish.wav", get_pos());
 
   set_action("squished");
-  set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
+  set_colgroup_active(COLGROUP_DISABLED);
 
   auto player = dynamic_cast<Player*>(&object);
   if (player) {
