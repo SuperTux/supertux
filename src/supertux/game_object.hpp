@@ -200,6 +200,7 @@ protected:
   void parse_type(const ReaderMapping& reader);
 
   /** When the type has been changed from the editor. **/
+  enum TypeChange { INITIAL = -1 }; // "old_type < 0" indicates initial call
   virtual void on_type_change(int old_type) {}
 
   /** Conversion between type ID and value. **/

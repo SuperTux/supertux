@@ -216,7 +216,7 @@ GameObject::parse_type(const ReaderMapping& reader)
     }
   }
 
-  on_type_change(-1); // Initial object type initialization
+  on_type_change(TypeChange::INITIAL); // Initial object type initialization
 }
 
 GameObjectTypes

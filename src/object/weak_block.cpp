@@ -48,7 +48,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
     if (linked)
       m_type = HAY;
 
-    on_type_change(-1);
+    on_type_change(TypeChange::INITIAL);
   }
   else
   {

@@ -48,7 +48,7 @@ PowerUp::PowerUp(const Vector& pos, int type) :
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   m_type = type;
-  on_type_change(-1);
+  on_type_change(TypeChange::INITIAL);
 
   update_version();
   initialize();

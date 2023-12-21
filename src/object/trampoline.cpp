@@ -40,7 +40,7 @@ Trampoline::Trampoline(const ReaderMapping& mapping) :
   if (!portable)
   {
     m_type = STATIONARY;
-    on_type_change(-1);
+    on_type_change(TypeChange::INITIAL);
   }
   else
   {
@@ -54,7 +54,7 @@ Trampoline::Trampoline(const Vector& pos, int type) :
   Rock(pos, "images/objects/trampoline/trampoline.sprite")
 {
   m_type = type;
-  on_type_change(-1);
+  on_type_change(TypeChange::INITIAL);
 
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
 }
