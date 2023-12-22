@@ -63,6 +63,9 @@ void
 Igel::active_update(float dt_sec)
 {
   WalkingBadguy::active_update(dt_sec);
+
+  if (m_frozen) return;
+
   switch (m_state)
   {
     case STATE_ROLLING:
@@ -158,6 +161,26 @@ Igel::run_dead_script()
   }
 
   WalkingBadguy::run_dead_script();
+}
+
+void
+Igel::unfreeze(bool melt)
+{
+  WalkingBadguy::unfreeze(melt);
+
+  if (melt) return;
+
+  m_state = STATE_NORMAL;
+  m_bonked = false;
+
+  set_action(m_dir);
+
+  float vel = get_normal_walk_speed();
+  set_walk_speed(vel);
+  m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
+
+  m_roll_timer.stop();
+  m_ease_timer.stop();
 }
 
 GameObjectTypes
