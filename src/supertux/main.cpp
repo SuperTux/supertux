@@ -243,8 +243,12 @@ void PhysfsSubsystem::find_mount_datadir()
     if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
     {
       m_datadir = BUILD_DATA_DIR;
+
       // Add config dir for supplemental files
-      PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      if (FileSystem::is_directory(BUILD_CONFIG_DATA_DIR))
+      {
+        PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      }
     }
     else
     {
