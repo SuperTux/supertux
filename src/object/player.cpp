@@ -1853,7 +1853,7 @@ Player::set_bonus(BonusType type, bool animate)
     m_second_growup_sound_timer.start(0.5);
   }
 
-  set_bonus(type);
+  m_player_status.bonus[get_id()] = type;
   return true;
 }
 
