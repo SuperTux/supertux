@@ -31,9 +31,11 @@
 #include "supertux/sector.hpp"
 
 static const size_t WILLOWISP_COUNT = 10;
+static const float ROOT_TOP_OFFSET = 64;
 static const float WILLOWISP_TOP_OFFSET = -64;
 static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
 static const float SUCK_TARGET_SPREAD = 8;
+static const float ROOT_HEIGHT = 87;
 
 GhostTree::GhostTree(const ReaderMapping& mapping) :
   BadGuy(mapping, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10),
