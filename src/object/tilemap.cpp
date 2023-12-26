@@ -52,7 +52,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_height(0),
   m_z_pos(0),
   m_offset(Vector(0,0)),
-  m_movement(0,0),
+  m_movement(0, 0),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -86,8 +86,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_width(-1),
   m_height(-1),
   m_z_pos(0),
-  m_offset(Vector(0,0)),
-  m_movement(Vector(0,0)),
+  m_offset(Vector(0, 0)),
+  m_movement(Vector(0, 0)),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -354,9 +354,9 @@ TileMap::update(float dt_sec)
     }
   }
 
-  m_movement = Vector(0,0);
   // if we have a path to follow, follow it
   if (get_walker()) {
+    m_movement = Vector(0, 0);
     get_walker()->update(dt_sec);
     Vector v = get_walker()->get_pos(get_size() * 32, m_path_handle);
     if (get_path() && get_path()->is_valid()) {
@@ -404,7 +404,7 @@ TileMap::on_flip(float height)
   for (int x = 0; x < get_width(); ++x) {
     for (int y = 0; y < get_height()/2; ++y) {
       // swap tiles
-      int y2 = get_height()-1-y;
+      int y2 = get_height() - 1 - y;
       uint32_t t1 = get_tile_id(x, y);
       uint32_t t2 = get_tile_id(x, y2);
       change(x, y, t2);
@@ -812,10 +812,9 @@ TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op
 }
 
 bool
-TileMap::is_corner(uint32_t tile)
+TileMap::is_corner(uint32_t tile) const
 {
   auto* ats = m_tileset->get_autotileset_from_tile(tile);
-  
   return ats && ats->is_corner();
 }
 
@@ -954,11 +953,12 @@ TileMap::update_effective_solid()
   else if (!m_effective_solid && (m_current_alpha >= 0.75f))
     m_effective_solid = true;
 
-  if(Sector::current() != nullptr && old != m_effective_solid)
-  {
+  if(old != m_effective_solid) {
+    if(Sector::current() != nullptr) {
       Sector::get().update_solid(this);
-  } else if(worldmap::WorldMap::current() != nullptr && old != m_effective_solid) {
+    } else if(worldmap::WorldMap::current() != nullptr) {
       worldmap::WorldMapSector::current()->update_solid(this);
+    }
   }
 }
 
