@@ -53,6 +53,7 @@ jobs:
           brew install cmake googletest bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
                        fribidi glib gtk-doc glbinding@2 libraqm glm zlib
+          brew link glbinding@2
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
             /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
