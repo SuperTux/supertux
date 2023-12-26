@@ -185,7 +185,7 @@ Granito::active_update(float dt_sec)
 }
 
 HitResponse
-Granito::collision_player(Player& player, const CollisionHit &hit)
+Granito::collision_player(Player& player, const CollisionHit& hit)
 {
   if (m_type == SIT || m_type == WALK) return FORCE_MOVE;
 
