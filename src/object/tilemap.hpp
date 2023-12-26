@@ -119,7 +119,7 @@ public:
   /** Returns the position of the upper-left corner of tile (x, y) in
       the sector. */
   Vector get_tile_position(int x, int y) const
-  { return m_offset + Vector(x * 1.0f, y * 1.0f) * 32.0f; }
+  { return m_offset + Vector(static_cast<float>(x), static_cast<float>(y)) * 32.0f; }
 
   Rectf get_bbox() const {
     return Rectf(get_tile_position(0, 0),
