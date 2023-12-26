@@ -17,7 +17,7 @@
 #include "granito_giant.hpp"
 
 GranitoGiant::GranitoGiant(const ReaderMapping& reader):
-  BadGuy(reader, "images/creatures/granito/giant/granito_giant.sprite", LAYER_OBJECTS-5)
+  BadGuy(reader, "images/creatures/granito/giant/granito_giant.sprite", LAYER_OBJECTS - 5)
 {
   parse_type(reader);
 
@@ -30,32 +30,26 @@ GranitoGiant::collision_player(Player &player, const CollisionHit &hit)
   return FORCE_MOVE;
 }
 
-void GranitoGiant::initialize()
+void
+GranitoGiant::initialize()
 {
-  BadGuy::initialize();
-
   switch (m_type)
   {
     case AWAKE:
       set_action("idle", m_dir);
       break;
-
     case SLEEP:
       set_action("sleep", m_dir);
       break;
-
-    case CORR_A:
+    case CORRUPTED_A:
       set_action("husk1", m_dir);
       break;
-
-    case CORR_B:
+    case CORRUPTED_B:
       set_action("husk2", m_dir);
       break;
-
-    case CORR_C:
+    case CORRUPTED_C:
       set_action("husk3", m_dir);
       break;
-
     default:
       break;
   }
@@ -76,9 +70,10 @@ GranitoGiant::get_types() const
   };
 }
 
-std::string GranitoGiant::get_default_sprite_name() const
+std::string
+GranitoGiant::get_default_sprite_name() const
 {
-  if (m_type < CORR_A) // not corrupted
+  if (m_type < CORRUPTED_A) // Not corrupted
     return "images/creatures/granito/giant/granito_giant.sprite";
   else
     return "images/creatures/granito/corrupted/giant/corrupted_giant.sprite";
@@ -88,32 +83,7 @@ void
 GranitoGiant::after_editor_set()
 {
   BadGuy::after_editor_set();
-
-  switch (m_type)
-  {
-    case AWAKE:
-      set_action("awake", m_dir);
-      break;
-
-    case SLEEP:
-      set_action("sleep", m_dir);
-      break;
-
-    case CORR_A:
-      set_action("husk1", m_dir);
-      break;
-
-    case CORR_B:
-      set_action("husk2", m_dir);
-      break;
-
-    case CORR_C:
-      set_action("husk3", m_dir);
-      break;
-
-    default:
-      break;
-  }
+  initialize();
 }
 
 /* EOF */

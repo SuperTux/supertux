@@ -24,7 +24,7 @@ class GranitoGiant final : public BadGuy
 public:
   explicit GranitoGiant(const ReaderMapping& reader);
 
-  virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual void initialize() override;
 
   static std::string class_name() { return "granito_giant"; }
@@ -36,14 +36,13 @@ public:
   virtual bool is_freezable() const override { return false; }
   virtual bool is_hurtable() const override { return false; }
   virtual bool is_snipable() const override { return false; }
-  virtual void kill_fall() override { return; }
 
   GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
   virtual void after_editor_set() override;
 
 private:
-  enum Type { AWAKE, SLEEP, CORR_A, CORR_B, CORR_C };
+  enum Type { AWAKE, SLEEP, CORRUPTED_A, CORRUPTED_B, CORRUPTED_C };
 
 private:
   GranitoGiant(const GranitoGiant&) = delete;

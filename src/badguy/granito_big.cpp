@@ -14,43 +14,41 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "granito_big.hpp"
+#include "badguy/granito_big.hpp"
 
-GranitoBig::GranitoBig(const ReaderMapping& reader):
-  Granito(reader)
+GranitoBig::GranitoBig(const ReaderMapping& reader) :
+  Granito(reader, "images/creatures/granito/big/granito_big.sprite", LAYER_OBJECTS - 2)
 {
-  m_layer = LAYER_OBJECTS-2;
+  parse_type(reader);
 
-  change_sprite(get_default_sprite_name());
   max_drop_height = 16;
 }
 
-HitResponse GranitoBig::collision_player(Player &player, const CollisionHit &hit)
+HitResponse
+GranitoBig::collision_player(Player& player, const CollisionHit& hit)
 {
   // Prevent from triggering STATE_LOOKUP
   return FORCE_MOVE;
 }
 
-GameObjectTypes GranitoBig::get_types() const
+GameObjectTypes
+GranitoBig::get_types() const
 {
   return {
-    {"default", _("Default")},
-    {"standing", _("Standing")},
-    {"walking", _("Walking")}
+    { "default", _("Default") },
+    { "standing", _("Standing") },
+    { "walking", _("Walking") }
   };
 }
 
-std::string GranitoBig::get_default_sprite_name() const
-{
-  return "images/creatures/granito/big/granito_big.sprite";
-}
-
-bool GranitoBig::try_wave()
+bool
+GranitoBig::try_wave()
 {
   return false;
 }
 
-bool GranitoBig::try_jump()
+bool
+GranitoBig::try_jump()
 {
   return false;
 }

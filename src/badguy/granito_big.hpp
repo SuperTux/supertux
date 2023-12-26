@@ -17,15 +17,14 @@
 #ifndef HEADER_SUPERTUX_BADGUY_GRANITO_BIG_HPP
 #define HEADER_SUPERTUX_BADGUY_GRANITO_BIG_HPP
 
-#include "badguy/walking_badguy.hpp"
 #include "badguy/granito.hpp"
 
-class GranitoBig : public Granito
+class GranitoBig final : public Granito
 {
 public:
-  explicit GranitoBig(const ReaderMapping& reader);
+  GranitoBig(const ReaderMapping& reader);
 
-  virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
   static std::string class_name() { return "granito_big"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -33,11 +32,10 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual GameObjectTypes get_types() const override;
-  std::string get_default_sprite_name() const override;
 
 protected:
-  virtual bool try_wave() override;
-  virtual bool try_jump() override;
+  bool try_wave() override;
+  bool try_jump() override;
 
 private:
   GranitoBig(const GranitoBig&) = delete;

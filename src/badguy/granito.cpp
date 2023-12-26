@@ -14,14 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "granito.hpp"
+#include "badguy/granito.hpp"
 
 #include "math/random.hpp"
-#include "supertux/sector.hpp"
 #include "object/player.hpp"
+#include "supertux/sector.hpp"
 
-Granito::Granito(const ReaderMapping& reader):
-  WalkingBadguy(reader, "images/creatures/granito/granito.sprite", "left", "right"),
+Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, int layer) :
+  WalkingBadguy(reader, sprite_name, "left", "right", layer),
+  m_walk_interval(),
   m_state(STATE_STAND),
   m_original_state(STATE_STAND),
   m_has_waved(false),
@@ -39,7 +40,8 @@ Granito::Granito(const ReaderMapping& reader):
   m_col.set_unisolid(true);
 }
 
-void Granito::active_update(float dt_sec)
+void
+Granito::active_update(float dt_sec)
 {
   if (m_type == SIT || m_type == WALK)
   {
@@ -122,8 +124,8 @@ void Granito::active_update(float dt_sec)
     return;
   }
 
-  // only called when timer is finished
-  if ((!m_walk_interval.started() && !m_walk_interval.check()))
+  // Only called, when timer has finished
+  if (!m_walk_interval.started() && !m_walk_interval.check())
   {
     m_walk_interval.start(gameRandom.randf(1.f, 4.f));
 
@@ -132,7 +134,7 @@ void Granito::active_update(float dt_sec)
       case STAND:
         if (gameRandom.rand(100) > 50)
         {
-          // turn around
+          // Turn around
           m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
           set_action("stand", m_dir);
         }
@@ -143,13 +145,13 @@ void Granito::active_update(float dt_sec)
       {
         if (gameRandom.rand(100) > 50 && walk_speed == 0)
         {
-          // turn around
+          // Turn around
           m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
           set_action("stand", m_dir);
         }
         else
         {
-          // walk/stop
+          // Walk/stop
           if (walk_speed > 0)
           {
             walk_speed = 0;
@@ -160,8 +162,7 @@ void Granito::active_update(float dt_sec)
           }
           else
           {
-            // FIXME: Why do I need to add 1??? Grumbel, you...
-            m_dir = (gameRandom.rand(1 + 1) == 0 ? Direction::LEFT : Direction::RIGHT);
+            m_dir = (gameRandom.rand(2) == 0 ? Direction::LEFT : Direction::RIGHT);
             walk_speed = 80;
             m_state = STATE_WALK;
             m_original_state = STATE_WALK;
@@ -183,7 +184,8 @@ void Granito::active_update(float dt_sec)
   m_stepped_on = false;
 }
 
-HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
+HitResponse
+Granito::collision_player(Player& player, const CollisionHit &hit)
 {
   if (m_type == SIT || m_type == WALK) return FORCE_MOVE;
 
@@ -198,8 +200,7 @@ HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
       m_physic.set_velocity_x(0);
       set_action("lookup", m_dir);
 
-      // Don't wave again because we've
-      // already spotted the player
+      // Don't wave again because we've already spotted the player
       m_has_waved = true;
     }
   }
@@ -207,38 +208,38 @@ HitResponse Granito::collision_player(Player& player, const CollisionHit &hit)
   return FORCE_MOVE;
 }
 
-HitResponse Granito::collision(GameObject &other, const CollisionHit &hit) {
+HitResponse
+Granito::collision(GameObject& other, const CollisionHit& hit)
+{
   if (hit.top)
     m_col.propagate_movement(m_col.get_movement());
 
   return WalkingBadguy::collision(other, hit);
 }
 
-void Granito::kill_fall()
-{
-  return;
-}
-
-void Granito::activate()
+void
+Granito::activate()
 {
   WalkingBadguy::activate();
   m_has_waved = false;
 }
 
-GameObjectTypes Granito::get_types() const
+GameObjectTypes
+Granito::get_types() const
 {
   return {
     // Big & small granito
-    {"default", _("Default")},
-    {"standing", _("Standing")},
-    {"walking", _("Walking")},
+    { "default", _("Default") },
+    { "standing", _("Standing") },
+    { "walking", _("Walking") },
 
     // Small granito only
-    {"sitting", _("Sitting")}
+    { "sitting", _("Sitting") }
   };
 }
 
-void Granito::after_editor_set()
+void
+Granito::after_editor_set()
 {
   WalkingBadguy::after_editor_set();
 
@@ -247,18 +248,17 @@ void Granito::after_editor_set()
     case DEFAULT:
       set_action(m_dir);
       break;
-
     case SIT:
       set_action("sit", m_dir);
       break;
-
     case STAND:
       set_action("stand", m_dir);
       break;
   }
 }
 
-void Granito::initialize()
+void
+Granito::initialize()
 {
   WalkingBadguy::initialize();
 
@@ -284,29 +284,30 @@ void Granito::initialize()
   }
 }
 
-void Granito::update_hitbox()
+void
+Granito::update_hitbox()
 {
   WalkingBadguy::update_hitbox();
   m_col.set_unisolid(true);
 }
 
-bool Granito::try_wave()
+bool
+Granito::try_wave()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
   if (!on_ground()) return false;
 
-  Player* plr = get_nearest_player();
-  if (!plr) return false;
+  Player* player = get_nearest_player();
+  if (!player) return false;
 
   RaycastResult result = Sector::get().get_first_line_intersection(get_bbox().get_middle(),
-                                                                   plr->get_bbox().get_middle(),
+                                                                   player->get_bbox().get_middle(),
                                                                    false,
                                                                    get_collision_object());
 
-
   CollisionObject** resultobj = std::get_if<CollisionObject*>(&result.hit);
-  if (resultobj && *resultobj == plr->get_collision_object())
+  if (resultobj && *resultobj == player->get_collision_object())
   {
     float xdist = get_bbox().get_middle().x - result.box.get_middle().x;
     if (std::abs(xdist) < 32.f*4.f)
@@ -323,7 +324,8 @@ bool Granito::try_wave()
   return false;
 }
 
-void Granito::wave()
+void
+Granito::wave()
 {
   walk_speed = 0;
   m_physic.set_velocity_x(0);
@@ -333,7 +335,8 @@ void Granito::wave()
   set_action("wave", m_dir, 1);
 }
 
-bool Granito::try_jump()
+bool
+Granito::try_jump()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
@@ -349,19 +352,22 @@ bool Granito::try_jump()
 
   if (!result.is_valid) return false;
 
-  auto resulttile = std::get_if<const Tile*>(&result.hit);
-  if (resulttile && (*resulttile)->is_slope()) return false;
-
-  auto resultobj = std::get_if<CollisionObject*>(&result.hit);
-  if (resultobj)
+  auto result_tile = std::get_if<const Tile*>(&result.hit);
+  if (result_tile)
   {
-    const auto granito = dynamic_cast<Granito*>(dynamic_cast<GameObject*>(&(*resultobj)->get_listener()));
-    if (!granito) return false;
+    if ((*result_tile)->is_slope())
+      return false;
+  }
+  else
+  {
+    auto result_obj = std::get_if<CollisionObject*>(&result.hit);
+    if (result_obj && !dynamic_cast<Granito*>(&(*result_obj)->get_listener()))
+      return false;
   }
 
-  Rectf detect({eye + (m_dir == Direction::LEFT ? -48.f : 16.f),
-                get_bbox().get_top() - (32.f*2)},
-                get_bbox().get_size());
+  const Rectf detect(Vector(eye + (m_dir == Direction::LEFT ? -48.f : 16.f),
+                            get_bbox().get_top() - (32.f*2)),
+                     get_bbox().get_size());
 
   if (!Sector::get().is_free_of_tiles(detect.grown(-1.f))) return false;
 
@@ -369,13 +375,15 @@ bool Granito::try_jump()
   return true;
 }
 
-void Granito::jump()
+void
+Granito::jump()
 {
   m_state = STATE_JUMPING;
   m_physic.set_velocity_y(-420.f);
 }
 
-void Granito::restore_original_state()
+void
+Granito::restore_original_state()
 {
   if (m_state == m_original_state) return;
 
