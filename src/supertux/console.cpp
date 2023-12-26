@@ -98,7 +98,7 @@ ConsoleBuffer::flush(ConsoleStreamBuffer& buffer)
         s.erase(s.length()-1);
       }
       addLines(s);
-      s_outputBuffer.str(std::string());
+      s_outputBuffer.str("");
     }
   }
 }

@@ -366,7 +366,7 @@ Yeti::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
-  result.add_text("hud-icon", &m_hud_icon, "hud-icon", std::string("images/creatures/yeti/hudlife.png"), OPTION_HIDDEN);
+  result.add_text("hud-icon", &m_hud_icon, "hud-icon", "images/creatures/yeti/hudlife.png", OPTION_HIDDEN);
   result.add_bool(_("Fixed position"), &m_fixed_pos, "fixed-pos", false);
   result.add_int(_("Lives"), &m_hit_points, "lives", 5);
 
