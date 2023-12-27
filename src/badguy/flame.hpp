@@ -30,7 +30,7 @@ public:
   virtual void deactivate() override;
 
   virtual void active_update(float dt_sec) override;
-  virtual void draw(DrawingContext &context) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void kill_fall() override;
 
   virtual void freeze() override;
