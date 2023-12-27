@@ -20,6 +20,7 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "video/surface.hpp"
 
 CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/icebridge1.png", LAYER_OBJECTS, COLGROUP_STATIC),
@@ -28,7 +29,8 @@ CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
   radius(),
   speed(),
   timer(),
-  time(0.0)
+  time(0.0),
+  m_radius_indicator(Surface::from_file("images/objects/platforms/circleplatform-editor.png"))
 {
   reader.get("radius", radius, 100.0f);
   reader.get("speed", speed, 2.0f);
@@ -85,6 +87,20 @@ CirclePlatform::on_flip(float height)
   MovingObject::on_flip(height);
   start_position.y = height - start_position.y - get_bbox().get_height();
   FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void
+CirclePlatform::draw(DrawingContext& context)
+{
+  MovingSprite::draw(context);
+
+  if (Editor::is_active())
+  {
+    Rectf rect(Vector(start_position.x - radius + get_bbox().get_width() / 2,
+                      start_position.y - radius + get_bbox().get_height() / 2),
+               Sizef(radius * 2, radius * 2));
+    context.color().draw_surface_scaled(m_radius_indicator, rect, m_layer);
+  }
 }
 
 void
