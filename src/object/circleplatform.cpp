@@ -29,10 +29,9 @@ CirclePlatform::CirclePlatform(const ReaderMapping& reader) :
   radius(),
   speed(),
   timer(),
-  time(0.0)
+  time(0.0),
+  m_radius_indicator(Surface::from_file("images/objects/platforms/circleplatform-editor.png"))
 {
-  m_range_indicator = Surface::from_file("images/objects/platforms/circleplatform-editor.png");
-
   reader.get("radius", radius, 100.0f);
   reader.get("speed", speed, 2.0f);
   reader.get("time", time, 0.0f);
@@ -90,7 +89,8 @@ CirclePlatform::on_flip(float height)
   FlipLevelTransformer::transform_flip(m_flip);
 }
 
-void CirclePlatform::draw(DrawingContext& context)
+void
+CirclePlatform::draw(DrawingContext& context)
 {
   MovingSprite::draw(context);
 
@@ -99,7 +99,7 @@ void CirclePlatform::draw(DrawingContext& context)
     Rectf rect(Vector(start_position.x - radius + get_bbox().get_width() / 2,
                       start_position.y - radius + get_bbox().get_height() / 2),
                Sizef(radius * 2, radius * 2));
-    context.color().draw_surface_scaled(m_range_indicator, rect, m_layer);
+    context.color().draw_surface_scaled(m_radius_indicator, rect, m_layer);
   }
 }
 
