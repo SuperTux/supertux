@@ -47,7 +47,7 @@ protected:
   Timer timer;
   float time;
 
-  SurfacePtr m_range_indicator;
+  SurfacePtr m_radius_indicator;
 
 private:
   CirclePlatform(const CirclePlatform&) = delete;

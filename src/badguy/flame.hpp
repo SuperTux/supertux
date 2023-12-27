@@ -68,7 +68,7 @@ private:
   float speed;
 
   std::unique_ptr<SoundSource> sound_source;
-  SurfacePtr m_range_indicator;
+  SurfacePtr m_radius_indicator;
 
 private:
   Flame(const Flame&) = delete;

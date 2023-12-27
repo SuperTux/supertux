@@ -36,10 +36,9 @@ Flame::Flame(const ReaderMapping& reader, int type) :
   angle(0),
   radius(),
   speed(),
-  sound_source()
+  sound_source(),
+  m_radius_indicator(Surface::from_file("images/creatures/flame/flame-editor.png"))
 {
-  m_range_indicator = Surface::from_file("images/creatures/flame/flame-editor.png");
-
   if (type >= 0)
   {
     m_type = type;
@@ -143,7 +142,7 @@ Flame::draw(DrawingContext& context)
     Rectf rect(Vector(m_start_position.x - radius + get_bbox().get_width() / 2,
                       m_start_position.y - radius + get_bbox().get_height() / 2),
                Sizef(radius * 2, radius * 2));
-    context.color().draw_surface_scaled(m_range_indicator, rect, m_layer);
+    context.color().draw_surface_scaled(m_radius_indicator, rect, m_layer);
   }
 }
 
