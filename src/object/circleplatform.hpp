@@ -28,7 +28,7 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void update(float dt_sec) override;
   virtual void on_flip(float height) override;
-  virtual void draw(DrawingContext &context) override;
+  virtual void draw(DrawingContext& context) override;
   
   static std::string class_name() { return "circleplatform"; }
   virtual std::string get_class_name() const override { return class_name(); }
