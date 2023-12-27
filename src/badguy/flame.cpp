@@ -129,7 +129,7 @@ Flame::active_update(float dt_sec)
     m_sprite->set_angle(math::degrees(angle) * 3.0f);
 
   if (m_sprite->get_action() == "fade" && m_sprite->animation_done())
-  remove_me();
+    remove_me();
 }
 
 void
