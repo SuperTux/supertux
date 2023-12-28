@@ -94,7 +94,8 @@ PlayerStatusHUD::draw(DrawingContext& context)
   }
   std::string ammo_text;
 
-  hudpos += static_cast<float>(fire_surface->get_height()) + 3.0f;
+  constexpr float surface_margin { 3.0f };
+
   for (int target = 0; target < InputManager::current()->get_num_users(); target++)
   {
     if (m_player_status.bonus[target] == FIRE_BONUS) {
@@ -103,6 +104,8 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
       if (fire_surface)
       {
+          hudpos += static_cast<float>(fire_surface->get_height()) + surface_margin;
+
           context.color().draw_surface(fire_surface,
                                        Vector(context.get_width() - BORDER_X - static_cast<float>(fire_surface->get_width()) - Resources::fixed_font->get_text_width(ammo_text),
                                               hudpos),
@@ -124,6 +127,8 @@ PlayerStatusHUD::draw(DrawingContext& context)
 
       if (ice_surface)
       {
+          hudpos += static_cast<float>(ice_surface->get_height()) + surface_margin;
+
           context.color().draw_surface(ice_surface,
                                        Vector(context.get_width() - BORDER_X - static_cast<float>(ice_surface->get_width()) - Resources::fixed_font->get_text_width(ammo_text),
                                               hudpos),
