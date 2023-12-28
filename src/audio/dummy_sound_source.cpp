@@ -39,6 +39,16 @@ public:
     is_playing = false;
   }
 
+  virtual void pause() override
+  {
+    is_playing = false;
+  }
+
+  virtual void resume() override
+  {
+    is_playing = true;
+  }
+
   virtual bool playing() const override
   {
     return is_playing;

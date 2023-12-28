@@ -48,7 +48,8 @@ public:
   virtual void play_looping_sounds() override;
 
 private:
-  std::unique_ptr<SoundSource> ticking;
+  std::unique_ptr<SoundSource> m_fizz_sound;
+  std::unique_ptr<SoundSource> m_ticking_sound;
   SpritePtr m_exploding_sprite;
 
 private:

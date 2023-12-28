@@ -76,14 +76,6 @@ OpenALSoundSource::play()
   }
 }
 
-bool
-OpenALSoundSource::playing() const
-{
-  ALint state = AL_PLAYING;
-  alGetSourcei(m_source, AL_SOURCE_STATE, &state);
-  return state == AL_PLAYING;
-}
-
 void
 OpenALSoundSource::pause()
 {
@@ -107,6 +99,14 @@ OpenALSoundSource::resume()
   }
 
   play();
+}
+
+bool
+OpenALSoundSource::playing() const
+{
+  ALint state = AL_PLAYING;
+  alGetSourcei(m_source, AL_SOURCE_STATE, &state);
+  return state == AL_PLAYING;
 }
 
 bool

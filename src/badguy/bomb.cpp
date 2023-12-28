@@ -27,18 +27,23 @@
 
 Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
   BadGuy( pos, dir_, custom_sprite ),
-  ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav")),
+  m_fizz_sound(SoundManager::current()->create_sound_source("sounds/fizz.wav")),
+  m_ticking_sound(SoundManager::current()->create_sound_source("sounds/bomb_tick.ogg")),
   m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
   SoundManager::current()->preload("sounds/explosion.wav");
   set_action("ticking", dir_, 1);
   m_countMe = false;
 
-  ticking->set_position(get_pos());
-  ticking->set_looping(true);
-  ticking->set_gain(1.0f);
-  ticking->set_reference_distance(32);
-  ticking->play();
+  m_fizz_sound->set_position(get_pos());
+  m_fizz_sound->set_gain(1.0f);
+  m_fizz_sound->set_reference_distance(32);
+  m_fizz_sound->play();
+
+  m_ticking_sound->set_position(get_pos());
+  m_ticking_sound->set_gain(1.0f);
+  m_ticking_sound->set_reference_distance(32);
+  m_ticking_sound->play();
 }
 
 void
@@ -76,7 +81,9 @@ Bomb::active_update(float dt_sec)
 {
   if (on_ground()) m_physic.set_velocity_x(0);
 
-  ticking->set_position(get_pos());
+  if (m_fizz_sound->playing())
+    m_fizz_sound->set_position(get_pos());
+  m_ticking_sound->set_position(get_pos());
   if (m_sprite->animation_done()) {
     explode();
   }
@@ -99,7 +106,10 @@ Bomb::draw(DrawingContext& context)
 void
 Bomb::explode()
 {
-  ticking->stop();
+  if (m_fizz_sound->playing())
+    m_fizz_sound->stop();
+  if (m_ticking_sound->playing())
+    m_ticking_sound->stop();
 
   // Make the player let go before we explode, otherwise the player is holding
   // an invalid object. There's probably a better way to do this than in the
@@ -189,16 +199,18 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
 
 void Bomb::stop_looping_sounds()
 {
-  if (ticking) {
-    ticking->stop();
-  }
+  if (m_fizz_sound && m_fizz_sound->playing())
+    m_fizz_sound->pause();
+  if (m_ticking_sound && m_ticking_sound->playing())
+  m_ticking_sound->pause();
 }
 
 void Bomb::play_looping_sounds()
 {
-  if (ticking) {
-    ticking->play();
-  }
+  if (m_fizz_sound)
+    m_fizz_sound->resume();
+  if (m_ticking_sound)
+    m_ticking_sound->resume();
 }
 
 /* EOF */
