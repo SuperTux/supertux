@@ -289,7 +289,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
 
   for (const auto& sector : m_level->m_sectors)
   {
-    sector->clear_undo_stack();
+    sector->on_editor_save();
   }
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
@@ -702,6 +702,7 @@ Editor::convert_tiles_by_file(const std::string& file)
 
   for (const auto& sector : m_level->get_sectors())
   {
+    sector->start_change_stack();
     for (auto& tilemap : sector->get_objects_by_type<TileMap>())
     {
       tilemap.save_state();
@@ -724,6 +725,7 @@ Editor::convert_tiles_by_file(const std::string& file)
       }
       tilemap.check_state();
     }
+    sector->end_change_stack();
   }
 }
 

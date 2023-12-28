@@ -587,21 +587,38 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
   bool is_offset = resize_offset.width || resize_offset.height;
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
-  for (const auto& object : get_objects()) {
+
+  start_change_stack();
+  for (const auto& object : get_objects())
+  {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if (tilemap) {
-      if (tilemap->get_size() == old_size) {
+    if (tilemap)
+    {
+      if (tilemap->get_size() == old_size)
+      {
+        tilemap->save_state();
         tilemap->resize(new_size, resize_offset);
-      } else if (is_offset) {
-        tilemap->move_by(obj_shift);
+        tilemap->check_state();
       }
-    } else if (is_offset) {
+      else if (is_offset)
+      {
+        tilemap->save_state();
+        tilemap->move_by(obj_shift);
+        tilemap->check_state();
+      }
+    }
+    else if (is_offset)
+    {
       auto moving_object = dynamic_cast<MovingObject*>(object.get());
-      if (moving_object) {
+      if (moving_object)
+      {
+        moving_object->save_state();
         moving_object->move_to(moving_object->get_pos() + obj_shift);
+        moving_object->check_state();
       }
     }
   }
+  end_change_stack();
 }
 
 void

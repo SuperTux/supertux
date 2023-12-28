@@ -24,6 +24,7 @@
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
+#include <optional>
 
 #include "supertux/game_object.hpp"
 #include "util/uid_generator.hpp"
@@ -210,6 +211,11 @@ public:
   void undo();
   void redo();
 
+  /** Start/stop adding object changes to a change stack.
+      Used for tracking multiple object changes at once. */
+  void start_change_stack();
+  void end_change_stack();
+
   /** Save object change in the undo stack with given data.
       Used to save an object's previous state before a change had occurred. */
   void save_object_change(GameObject& object, const std::string& data);
@@ -219,6 +225,9 @@ public:
 
   /** Indicate if there are any object changes in the undo stack. */
   bool has_object_changes() const;
+
+  /** Called on editor level save. */
+  void on_editor_save();
 
 protected:
   void update_tilemaps();
@@ -240,12 +249,21 @@ protected:
   }
 
 private:
-  struct ObjectChange {
+  struct ObjectChange
+  {
     std::string name;
     UID uid;
     std::string data;
     bool creation; // If the change represents an object creation.
   };
+  struct ObjectChanges
+  {
+    UID uid;
+    std::vector<ObjectChange> objects;
+  };
+
+  /** Push an object change to either the undo stack, or a pending change stack. */
+  void push_to_undo_stack(ObjectChange change);
 
   /** Create object from object change. */
   void create_object_from_change(const ObjectChange& change);
@@ -267,10 +285,13 @@ private:
   UIDGenerator m_uid_generator;
 
   /** Undo/redo variables */
+  UIDGenerator m_change_uid_generator;
   bool m_undo_tracking;
   int m_undo_stack_size;
-  std::vector<ObjectChange> m_undo_stack;
-  std::vector<ObjectChange> m_redo_stack;
+  std::vector<ObjectChanges> m_undo_stack;
+  std::vector<ObjectChanges> m_redo_stack;
+  std::optional<ObjectChanges> m_pending_change_stack; // If set, add any object changes to this stack
+  UID m_last_saved_change;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 
