@@ -373,12 +373,16 @@ GameObjectManager::redo()
 void
 GameObjectManager::start_change_stack()
 {
-  m_pending_change_stack = { m_change_uid_generator.next(), {} };
+  if (m_undo_tracking)
+    m_pending_change_stack = { m_change_uid_generator.next(), {} };
 }
 
 void
 GameObjectManager::end_change_stack()
 {
+  if (!m_undo_tracking)
+    return;
+
   assert(m_pending_change_stack);
 
   if (!m_pending_change_stack->objects.empty())
