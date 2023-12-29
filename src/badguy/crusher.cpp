@@ -98,6 +98,8 @@ Crusher::get_default_sprite_name() const
 void
 Crusher::on_type_change(int old_type)
 {
+  MovingSprite::on_type_change(old_type);
+
   m_ic_size = (m_type % 2 == 0 ? NORMAL : LARGE);
   switch (m_type)
   {
@@ -114,8 +116,6 @@ Crusher::on_type_change(int old_type)
       m_ic_type = CORRUPTED;
       break;
   }
-
-  MovingSprite::on_type_change(old_type);
 }
 
 HitResponse
