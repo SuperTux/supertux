@@ -179,9 +179,7 @@ TitleScreen::draw(Compositor& compositor)
                                  LAYER_GUI + 2);
   }
 
-  context.color().draw_surface_scaled(m_frame,
-                                      Rectf(0, 0, context.get_width(), context.get_height()),
-                                      LAYER_GUI + 3);
+  context.color().draw_surface_scaled(m_frame, context.get_rect(), LAYER_GUI + 3);
 
   context.color().draw_text(Resources::small_font,
                             m_copyright_text,

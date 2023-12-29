@@ -257,9 +257,7 @@ Gradient::draw(DrawingContext& context)
   }
   else
   {
-    gradient_region = Rectf(0, 0,
-                            context.get_width(),
-                            context.get_height());
+    gradient_region = context.get_rect();
   }
 
   context.push_transform();

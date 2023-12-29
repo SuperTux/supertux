@@ -375,7 +375,7 @@ void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.color().draw_filled_rect(
-    Rectf(0, 0, context.get_width(), context.get_height()),
+    Rectf(context.get_rect()),
     Color(0.0f, 0.0f, 0.0f, 0.25f),
     LAYER_FOREGROUND1);
 }
