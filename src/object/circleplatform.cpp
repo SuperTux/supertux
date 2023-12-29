@@ -73,8 +73,8 @@ CirclePlatform::update(float dt_sec)
     angle = fmodf(angle + dt_sec * speed, math::TAU);
     if (!Editor::is_active())
     {
-      Vector newpos(start_position.x + cosf(angle) * radius,
-                    start_position.y + sinf(angle) * radius);
+      Vector newpos(get_pos().x + cosf(angle) * radius,
+                    get_pos().y + sinf(angle) * radius);
       m_col.set_movement(newpos - get_pos());
       m_col.propagate_movement(newpos - get_pos());
     }
