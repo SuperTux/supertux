@@ -24,7 +24,6 @@
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
-#include <optional>
 
 #include "supertux/game_object.hpp"
 #include "util/uid_generator.hpp"
