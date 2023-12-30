@@ -50,7 +50,7 @@ jobs:
       - name: Lint code with Cppcheck
         run: |
           ./danmar-cppcheck-*/cppcheck \
-            -DPACKAGE_VERSION=2 \
+            -DPACKAGE_VERSION="2" \
             --quiet --inline-suppr --language=c++ --error-exitcode=10 \
             -j"$(nproc)" --std=c++17 --enable=warning,style \
             --suppress=useStlAlgorithm  src/
