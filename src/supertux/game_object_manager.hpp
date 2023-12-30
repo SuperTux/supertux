@@ -211,11 +211,6 @@ public:
   void undo();
   void redo();
 
-  /** Start/stop adding object changes to a change stack.
-      Used for tracking multiple object changes at once. */
-  void start_change_stack();
-  void end_change_stack();
-
   /** Save object change in the undo stack with given data.
       Used to save an object's previous state before a change had occurred. */
   void save_object_change(GameObject& object, const std::string& data);
@@ -262,9 +257,6 @@ private:
     std::vector<ObjectChange> objects;
   };
 
-  /** Push an object change to either the undo stack, or a pending change stack. */
-  void push_to_undo_stack(ObjectChange change);
-
   /** Create object from object change. */
   void create_object_from_change(const ObjectChange& change);
 
@@ -290,7 +282,7 @@ private:
   int m_undo_stack_size;
   std::vector<ObjectChanges> m_undo_stack;
   std::vector<ObjectChanges> m_redo_stack;
-  std::optional<ObjectChanges> m_pending_change_stack; // If set, add any object changes to this stack
+  std::vector<ObjectChange> m_pending_change_stack; // Before a flush, any changes go here
   UID m_last_saved_change;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;

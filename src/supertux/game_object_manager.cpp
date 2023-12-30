@@ -219,9 +219,6 @@ GameObjectManager::draw(DrawingContext& context)
 void
 GameObjectManager::flush_game_objects()
 {
-  // The pending object change stack should only be utilized within one frame.
-  assert(!m_pending_change_stack);
-
   { // Clean up marked objects.
     m_gameobjects.erase(
       std::remove_if(m_gameobjects.begin(), m_gameobjects.end(),
@@ -255,6 +252,14 @@ GameObjectManager::flush_game_objects()
     }
   }
   update_tilemaps();
+
+  // If object changes have been performed this frame, push them to the undo stack.
+  if (m_undo_tracking && !m_pending_change_stack.empty())
+  {
+    m_undo_stack.push_back({ m_change_uid_generator.next(), std::move(m_pending_change_stack) });
+    m_redo_stack.clear();
+    undo_stack_cleanup();
+  }
 
   m_initialized = true;
 }
@@ -371,30 +376,6 @@ GameObjectManager::redo()
 }
 
 void
-GameObjectManager::start_change_stack()
-{
-  if (m_undo_tracking)
-    m_pending_change_stack = { m_change_uid_generator.next(), {} };
-}
-
-void
-GameObjectManager::end_change_stack()
-{
-  if (!m_undo_tracking)
-    return;
-
-  assert(m_pending_change_stack);
-
-  if (!m_pending_change_stack->objects.empty())
-  {
-    m_undo_stack.push_back(std::move(*m_pending_change_stack));
-    m_redo_stack.clear();
-    undo_stack_cleanup();
-  }
-  m_pending_change_stack.reset();
-}
-
-void
 GameObjectManager::create_object_from_change(const ObjectChange& change)
 {
   auto object = GameObjectFactory::instance().create(change.name, change.data);
@@ -431,9 +412,8 @@ void
 GameObjectManager::save_object_change(GameObject& object, bool creation)
 {
   if (m_undo_tracking && object.track_state() && object.m_track_undo)
-  {
-    push_to_undo_stack({ object.get_class_name(), object.get_uid(), object.save(), creation });
-  }
+    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
+
   object.m_track_undo = true;
 }
 
@@ -441,22 +421,7 @@ void
 GameObjectManager::save_object_change(GameObject& object, const std::string& data)
 {
   if (m_undo_tracking)
-    push_to_undo_stack({ object.get_class_name(), object.get_uid(), data, false });
-}
-
-void
-GameObjectManager::push_to_undo_stack(ObjectChange change)
-{
-  if (m_pending_change_stack)
-  {
-    m_pending_change_stack->objects.push_back(std::move(change));
-  }
-  else
-  {
-    m_undo_stack.push_back({ m_change_uid_generator.next(), { std::move(change) } });
-    m_redo_stack.clear();
-    undo_stack_cleanup();
-  }
+    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
 }
 
 void

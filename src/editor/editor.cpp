@@ -256,7 +256,8 @@ Editor::update(float dt_sec, const Controller& controller)
 
     // Now that all widgets have been updated, which should have relinquished
     // pointers to objects marked for deletion, we can actually delete them.
-    m_sector->flush_game_objects();
+    for (auto& sector : m_level->get_sectors())
+      sector->flush_game_objects();
 
     update_keyboard(controller);
   }
@@ -702,7 +703,6 @@ Editor::convert_tiles_by_file(const std::string& file)
 
   for (const auto& sector : m_level->get_sectors())
   {
-    sector->start_change_stack();
     for (auto& tilemap : sector->get_objects_by_type<TileMap>())
     {
       tilemap.save_state();
@@ -725,7 +725,6 @@ Editor::convert_tiles_by_file(const std::string& file)
       }
       tilemap.check_state();
     }
-    sector->end_change_stack();
   }
 }
 

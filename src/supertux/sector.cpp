@@ -588,7 +588,6 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
 
-  start_change_stack();
   for (const auto& object : get_objects())
   {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
@@ -618,7 +617,6 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
       }
     }
   }
-  end_change_stack();
 }
 
 void
