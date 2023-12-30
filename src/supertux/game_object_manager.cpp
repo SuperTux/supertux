@@ -253,7 +253,7 @@ GameObjectManager::flush_game_objects()
   }
   update_tilemaps();
 
-  // If object changes have been performed this frame, push them to the undo stack.
+  // If object changes have been performed since last flush, push them to the undo stack.
   if (m_undo_tracking && !m_pending_change_stack.empty())
   {
     m_undo_stack.push_back({ m_change_uid_generator.next(), std::move(m_pending_change_stack) });
