@@ -385,7 +385,7 @@ Sector::before_object_add(GameObject& object)
   }
 
   if (m_fully_constructed) {
-    process_resolve_requests();
+    try_process_resolve_requests();
     object.finish_construction();
   }
 

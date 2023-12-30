@@ -327,6 +327,20 @@ TileMap::after_editor_set()
 }
 
 void
+TileMap::save_state()
+{
+  GameObject::save_state();
+  PathObject::save_state();
+}
+
+void
+TileMap::check_state()
+{
+  GameObject::check_state();
+  PathObject::check_state();
+}
+
+void
 TileMap::update(float dt_sec)
 {
   // handle tilemap fading

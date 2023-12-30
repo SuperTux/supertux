@@ -64,7 +64,10 @@ GameObjectManager::request_name_resolve(const std::string& name, std::function<v
 void
 GameObjectManager::process_resolve_requests()
 {
-  assert(m_gameobjects_new.empty());
+  // FIXME: Why is this assertion needed?
+  // Removed to allow for resolving name requests in Sector before object creation,
+  // despite there being queued objects.
+  //assert(m_gameobjects_new.empty());
 
   for (const auto& request : m_name_resolve_requests)
   {
@@ -85,7 +88,11 @@ GameObjectManager::process_resolve_requests()
 void
 GameObjectManager::try_process_resolve_requests()
 {
-  assert(m_gameobjects_new.empty());
+  // FIXME: Why is this assertion needed?
+  // Removed to allow for resolving name requests in Sector before object creation,
+  // despite there being queued objects.
+  //assert(m_gameobjects_new.empty());
+
   std::vector<GameObjectManager::NameResolveRequest> new_list;
 
   for (const auto& request : m_name_resolve_requests)
@@ -256,6 +263,9 @@ GameObjectManager::flush_game_objects()
     }
   }
   update_tilemaps();
+
+  // A resolve request may depend on an object being added.
+  try_process_resolve_requests();
 
   // If object changes have been performed since last flush, push them to the undo stack.
   if (m_undo_tracking && !m_pending_change_stack.empty())
