@@ -121,7 +121,7 @@ public:
 
 private:
   void start_animation();
-  bool delay_gone() { return m_delay_remaining <= 0.f; }
+  bool delay_gone() const { return m_delay_remaining <= 0.f; }
 
 private:
   Vector m_original_pos;
