@@ -26,7 +26,7 @@
 
 TextObject::TextObject(const std::string& name) :
   GameObject(name),
-  ExposedObject<TextObject, scripting::Text>(this),
+  ExposedObject<TextObject, scripting::TextObject>(this),
   m_font(Resources::normal_font),
   m_text(),
   m_wrapped_text(),
@@ -37,6 +37,7 @@ TextObject::TextObject(const std::string& name) :
   m_anchor(ANCHOR_MIDDLE),
   m_anchor_offset(0, 0),
   m_pos(0, 0),
+  m_wrap_width(500.f),
   m_front_fill_color(0.6f, 0.7f, 0.8f, 0.5f),
   m_back_fill_color(0.2f, 0.3f, 0.4f, 0.8f),
   m_text_color(1.f, 1.f, 1.f, 1.f),
@@ -95,7 +96,7 @@ TextObject::wrap_text()
 
   do {
     std::string overflow;
-    m_wrapped_text += m_font->wrap_to_width(rest, 500, &overflow);
+    m_wrapped_text += m_font->wrap_to_width(rest, m_wrap_width, &overflow);
     if (!overflow.empty()) {
       m_wrapped_text += "\n";
     }

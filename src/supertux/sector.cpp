@@ -66,10 +66,10 @@ Sector::Sector(Level& parent) :
   m_fully_constructed(false),
   m_foremost_layer(),
   m_gravity(10.0f),
-  m_collision_system(new CollisionSystem(*this))
+  m_collision_system(new CollisionSystem(*this)),
+  m_text_object(add<TextObject>("Text"))
 {
   add<DisplayEffect>("Effect");
-  add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
 
   SoundManager::current()->preload("sounds/shoot.wav");
