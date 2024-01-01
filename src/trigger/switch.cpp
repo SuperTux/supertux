@@ -19,6 +19,7 @@
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
+#include "object/player.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
@@ -33,6 +34,7 @@ Switch::Switch(const ReaderMapping& reader) :
   m_script(),
   m_off_script(),
   m_state(OFF),
+  m_player_name(),
   m_bistable(),
   m_dir(Direction::NONE)
 {
@@ -78,9 +80,13 @@ Switch::update(float )
       break;
     case TURN_ON:
       if (m_sprite->animation_done()) {
+        assert(!m_player_name.empty());
+
         std::ostringstream location;
         location << "switch" << m_col.m_bbox.p1();
-        Sector::get().run_script(m_script, location.str());
+        Sector::get().run_script(m_script, location.str(), *this, {
+            { m_player_name, "Tux" } // Create trigger reference to the player
+          });
 
         set_action("on", m_dir, 1);
         m_state = ON;
@@ -95,9 +101,13 @@ Switch::update(float )
     case TURN_OFF:
       if (m_sprite->animation_done()) {
         if (m_bistable) {
+          assert(!m_player_name.empty());
+
           std::ostringstream location;
           location << "switch" << m_col.m_bbox.p1();
-          Sector::get().run_script(m_off_script, location.str());
+          Sector::get().run_script(m_off_script, location.str(), *this, {
+              { m_player_name, "Tux" } // Create trigger reference to the player
+            });
         }
 
         set_action("off", m_dir);
@@ -108,7 +118,7 @@ Switch::update(float )
 }
 
 void
-Switch::event(Player& , EventType type)
+Switch::event(Player& player, EventType type)
 {
   if (type != EVENT_ACTIVATE) return;
 
@@ -117,6 +127,7 @@ Switch::event(Player& , EventType type)
       set_action("turnon", m_dir, 1);
       SoundManager::current()->play(SWITCH_SOUND, get_pos());
       m_state = TURN_ON;
+      m_player_name = player.get_name();
       break;
     case TURN_ON:
       break;
@@ -125,6 +136,7 @@ Switch::event(Player& , EventType type)
         set_action("turnoff", m_dir, 1);
         SoundManager::current()->play(SWITCH_SOUND, get_pos());
         m_state = TURN_OFF;
+        m_player_name = player.get_name();
       }
       break;
     case TURN_OFF:

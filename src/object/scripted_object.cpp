@@ -71,7 +71,7 @@ ScriptedObject::get_settings()
   result.add_bool(_("Solid"), &solid, "solid", true);
   result.add_bool(_("Physics enabled"), &physic_enabled, "physic-enabled", true);
   result.add_bool(_("Visible"), &visible, "visible", true);
-  result.add_text(_("Hit script"), &hit_script, "hit-script");
+  result.add_script(_("Hit script"), &hit_script, "hit-script");
 
   result.reorder({"z-pos", "visible", "physic-enabled", "solid", "name", "sprite", "script", "button", "x", "y"});
 
@@ -200,7 +200,9 @@ ScriptedObject::collision(GameObject& other, const CollisionHit& )
 {
   auto player = dynamic_cast<Player*> (&other);
   if (player && !hit_script.empty()) {
-    Sector::get().run_script(hit_script, "hit-script");
+    Sector::get().run_script(hit_script, "hit-script", *this, {
+        { player->get_name(), "Tux" } // Create trigger reference to the player
+      });
   }
 
   return FORCE_MOVE;

@@ -17,6 +17,7 @@
 #include "trigger/scripttrigger.hpp"
 
 #include "editor/editor.hpp"
+#include "object/player.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
@@ -58,12 +59,14 @@ ScriptTrigger::get_settings()
 }
 
 void
-ScriptTrigger::event(Player& , EventType type)
+ScriptTrigger::event(Player& player, EventType type)
 {
   if (type != triggerevent || (oneshot && runcount >= 1))
     return;
 
-  Sector::get().run_script(script, "ScriptTrigger");
+  Sector::get().run_script(script, "ScriptTrigger", *this, {
+      { player.get_name(), "Tux" } // Create trigger reference to the player
+    });
   runcount++;
 }
 
