@@ -48,7 +48,7 @@ Root::construct()
   m_countMe = false;
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
-  set_action("root");
+  set_action("root", m_dir);
 
   Vector center = get_pos();
   switch (m_dir)
@@ -62,12 +62,14 @@ Root::construct()
     case Direction::RIGHT:
       center.y -= (get_bbox().get_height() / 2);
       break;
+
+    default: assert(false); break;
   }
 
   set_pos(center);
   set_start_position(center);
 
-  auto surfaces = m_sprite->get_action_surfaces("base");
+  auto surfaces = m_sprite->get_action_surfaces("base-" + dir_to_string(m_dir));
   if (surfaces.size() != 0)
     m_base_surface = surfaces[0];
 
@@ -95,6 +97,7 @@ Root::initialize()
     case Direction::RIGHT:
       basepos.x = m_start_position.x + 10;
       break;
+    default: assert(false); break;
   }
 
   const float gravity = Sector::get().get_gravity() * 100.f;
@@ -141,6 +144,8 @@ Root::draw(DrawingContext &context)
       pos.x += get_bbox().get_width() + 20;
       pos.y -= m_sprite->get_current_hitbox_y_offset();
       break;
+
+    default: assert(false); break;
   }
   context.color().draw_surface(m_base_surface,
                                pos,
@@ -177,6 +182,7 @@ Root::active_update(float dt_sec)
         case Direction::DOWN: pos.y += m_offset; break;
         case Direction::LEFT: pos.x -= m_offset; break;
         case Direction::RIGHT: pos.x += m_offset; break;
+        default: assert(false); break;
       }
       set_pos(pos);
 
@@ -194,6 +200,8 @@ Root::active_update(float dt_sec)
           case Direction::DOWN:
             m_maxheight = get_pos().y;
             break;
+
+          default: assert(false); break;
         }
         SoundManager::current()->play("sounds/darthit.wav", get_pos());
         m_timer.start(RETREAT_TIME);
@@ -214,6 +222,7 @@ Root::active_update(float dt_sec)
         case Direction::DOWN: pos.y = m_maxheight - m_offset; break;
         case Direction::LEFT: pos.x = m_maxheight + m_offset; break;
         case Direction::RIGHT: pos.x = m_maxheight - m_offset; break;
+        default: assert(false); break;
       }
       set_pos(pos);
 

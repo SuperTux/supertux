@@ -54,7 +54,7 @@ RootSapling::kill_fall()
   SoundManager::current()->play("sounds/fall.wav", get_pos());
 
   set_colgroup_active(COLGROUP_DISABLED);
-  set_action("squished");
+  set_action("squished", m_dir);
 
   run_dead_script();
 }
@@ -73,7 +73,7 @@ RootSapling::collision_squished(GameObject& object)
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
 
-  set_action("squished");
+  set_action("squished", m_dir);
   set_colgroup_active(COLGROUP_DISABLED);
 
   auto player = dynamic_cast<Player*>(&object);
@@ -132,6 +132,8 @@ RootSapling::summon_root()
       pos.y = player->get_bbox().get_middle().y;
       axis = &pos.x;
       break;
+
+    default: assert(false); break;
   }
 
   if (player->on_ground())
@@ -176,6 +178,8 @@ RootSapling::summon_root()
         eye = {player->get_bbox().get_left() - 1, player->get_bbox().get_middle().y};
         end = {eye.x - 600, eye.y};
         break;
+
+      default: assert(false); break;
     }
 
     RaycastResult result = Sector::get().get_first_line_intersection(eye, end, true, nullptr);
@@ -193,6 +197,8 @@ RootSapling::summon_root()
         case Direction::RIGHT:
           (*axis) = result.box.p1().x;
           break;
+
+        default: assert(false); break;
       }
     }
     else
@@ -208,6 +214,7 @@ RootSapling::summon_root()
     case Direction::DOWN: size.height *= -2; break;
     case Direction::LEFT: size.width *= 3; break;
     case Direction::RIGHT: size.width *= -2; break;
+    default: assert(false); break;
   }
 
   Rectf space(pos, size);

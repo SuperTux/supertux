@@ -3,8 +3,19 @@
     (name "root")
     (hitbox 20 7 16 80)
     (images "root_attack.png"))
- (action
-    (name "base")
+
+  (action
+    (name "root-up")
+    (clone-action "root"))
+  (action
+    (name "base-up")
     (hitbox 20 7 16 80)
     (images "root_base.png"))
+
+  (action
+    (name "root-down")
+    (flip-action "root-up"))
+  (action
+    (name "base-down")
+    (flip-action "base-up"))
 )

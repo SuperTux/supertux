@@ -7,11 +7,23 @@
     )
   )
   (action
-	(name "squished")
+    (name "idle-up")
+    (clone-action "idle")
+  )
+  (action
+    (name "squished-up")
 	(fps 12)
 	(loops 1)
 	(hitbox 18 14 32 80)
 	(images "corrupted_hill.png"
     )
+  )
+  (action
+    (name "idle-down")
+    (flip-action "idle-up")
+  )
+  (action
+    (name "squished-down")
+    (flip-action "squished-up")
   )
 )
