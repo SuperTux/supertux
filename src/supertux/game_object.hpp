@@ -111,7 +111,7 @@ public:
   virtual bool track_state() const { return true; }
 
   /** Indicates if the object should be added at the beginning of the object list. */
-  virtual bool priority_in_list() const { return false; }
+  virtual bool has_object_manager_priority() const { return false; }
 
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */
