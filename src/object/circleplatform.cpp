@@ -96,8 +96,8 @@ CirclePlatform::draw(DrawingContext& context)
 
   if (Editor::is_active())
   {
-    Rectf rect(Vector(start_position.x - radius + get_bbox().get_width() / 2,
-                      start_position.y - radius + get_bbox().get_height() / 2),
+    Rectf rect(Vector(get_pos().x - radius + get_bbox().get_width() / 2,
+                      get_pos().y - radius + get_bbox().get_height() / 2),
                Sizef(radius * 2, radius * 2));
     context.color().draw_surface_scaled(m_radius_indicator, rect, m_layer);
   }
