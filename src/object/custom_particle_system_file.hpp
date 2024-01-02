@@ -35,8 +35,10 @@ public:
   CustomParticleSystemFile(const ReaderMapping& reader);
   ~CustomParticleSystemFile() override;
 
-  virtual std::string get_class() const override { return "particles-custom-file"; }
-  virtual std::string get_display_name() const override { return _("Custom Particles from file"); }
+  static std::string class_name() { return "particles-custom-file"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Custom Particles from file"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {

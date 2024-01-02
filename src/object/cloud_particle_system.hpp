@@ -37,8 +37,10 @@ public:
 
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "particles-clouds"; }
-  virtual std::string get_display_name() const override { return _("Cloud Particles"); }
+  static std::string class_name() { return "particles-clouds"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Cloud Particles"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
 
   virtual const std::string get_icon_path() const override {
@@ -88,10 +90,7 @@ private:
   float m_target_speed;
   float m_speed_fade_time_remaining;
 
-  float m_current_amount;
-  //float m_target_amount;
-  //float m_amount_fade_time_remaining;
-  
+  int m_current_amount;
   int m_current_real_amount;
 
 private:

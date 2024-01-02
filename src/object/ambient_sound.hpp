@@ -59,8 +59,10 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit_) override;
 
-  virtual std::string get_class() const override { return "ambient-sound"; }
-  virtual std::string get_display_name() const override { return _("Ambient Sound"); }
+  static std::string class_name() { return "ambient-sound"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Ambient Sound"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual bool has_variable_size() const override { return true; }
 
   /** @name Scriptable Methods
@@ -79,6 +81,9 @@ public:
   virtual void after_editor_set() override;
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }
+
+  virtual void stop_looping_sounds() override;
+  virtual void play_looping_sounds() override;
 
 protected:
   virtual void update(float dt_sec) override;

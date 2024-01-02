@@ -26,10 +26,10 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 
-static const float MOLE_WAIT_TIME = 0.2f; /**< time to wait before and after throwing */
-static const float THROW_TIME = 4.6f; /**< time to spend throwing */
-static const float THROW_INTERVAL = 1; /**< time between two thrown rocks */
-static const float THROW_VELOCITY = 400; /**< initial velocity of thrown rocks */
+static const float MOLE_WAIT_TIME = 0.2f; /**< Time to wait before and after throwing. */
+static const float THROW_TIME = 4.6f;    /**< Time to spend throwing. */
+static const float THROW_INTERVAL = 1;   /**< Time between two thrown rocks. */
+static const float THROW_VELOCITY = 400; /**< Initial velocity of thrown rocks. */
 
 Mole::Mole(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/mole.sprite", LAYER_TILES-1),
@@ -66,10 +66,6 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 bool
 Mole::collision_squished(GameObject& )
 {
-  if (m_frozen) {
-    unfreeze();
-  }
-
   set_state(DEAD);
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   run_dead_script();
@@ -93,9 +89,6 @@ void
 Mole::active_update(float dt_sec)
 {
   BadGuy::active_update(dt_sec);
-
-  if (m_frozen)
-    return;
 
   switch (state) {
     case PRE_THROWING:
@@ -133,45 +126,36 @@ Mole::active_update(float dt_sec)
 
 }
 
-bool
-Mole::is_freezable() const
-{
-  return true;
-}
-
 void
 Mole::set_state(MoleState new_state)
 {
-  if (m_frozen)
-    return;
-
   switch (new_state) {
     case PRE_THROWING:
-      m_sprite->set_action("idle");
+      set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
       break;
     case THROWING:
-      m_sprite->set_action("idle");
+      set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(THROW_TIME);
       throw_timer.start(THROW_INTERVAL);
       break;
     case POST_THROWING:
-      m_sprite->set_action("idle");
+      set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       timer.start(MOLE_WAIT_TIME);
       break;
     case PEEKING:
-      m_sprite->set_action("peeking", 1);
+      set_action("peeking", 1);
       set_colgroup_active(COLGROUP_STATIC);
       break;
     case DEAD:
-      m_sprite->set_action("idle");
+      set_action("squished");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
     case BURNING:
-      m_sprite->set_action("burning", 1);
+      set_action("burning", 1);
       set_colgroup_active(COLGROUP_DISABLED);
       break;
   }
@@ -184,6 +168,12 @@ Mole::ignite() {
   set_state(BURNING);
   run_dead_script();
   SoundManager::current()->play("sounds/fire.ogg", get_pos());
+}
+
+std::vector<Direction>
+Mole::get_allowed_directions() const
+{
+  return {};
 }
 
 void

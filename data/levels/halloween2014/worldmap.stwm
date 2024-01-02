@@ -118,7 +118,7 @@
     )
     (decal
       (z-pos 200)
-      (sprite "/images/background/halloween/vignette.png")
+      (sprite "/images/background/misc/vignette.png")
       (x 0)
       (y 0)
     )

@@ -44,7 +44,7 @@ void
 GameSessionRecorder::start_recording()
 {
   if (!m_capture_file.empty()) {
-    int newSeed = 0;               // next run uses a new seed
+    int newSeed = 0;               // Next run uses a new seed
     while (newSeed == 0)            // which is the next non-zero random num.
       newSeed = gameRandom.rand();
     g_config->random_seed = newSeed;
@@ -65,7 +65,7 @@ GameSessionRecorder::record_demo(const std::string& filename)
   }
   m_capture_file = filename;
 
-  char buf[30];                            // save the seed in the demo file
+  char buf[30];                            // Save the seed in the demo file.
   snprintf(buf, sizeof(buf), "random_seed=%10d", g_config->random_seed);
   for (int i = 0; i == 0 || buf[i-1]; i++)
     m_capture_demo_stream->put(buf[i]);
@@ -77,7 +77,7 @@ GameSessionRecorder::get_demo_random_seed(const std::string& filename) const
   std::unique_ptr<std::istream> test_stream(new std::ifstream(filename.c_str()));
   if (test_stream->good())
   {
-    char buf[30];                     // recall the seed from the demo file
+    char buf[30];                     // Recall the seed from the demo file.
     int seed;
 
     for (int i=0; i<30 && (i==0 || buf[i-1]); i++)
@@ -85,12 +85,12 @@ GameSessionRecorder::get_demo_random_seed(const std::string& filename) const
 
     if (sscanf(buf, "random_seed=%10d", &seed) == 1)
     {
-      log_info << "Random seed " << seed << " from demo file" << std::endl;
+      log_info << "Random seed " << seed << " from demo file." << std::endl;
       return seed;
     }
     else
     {
-      log_info << "Demo file contains no random number" << std::endl;
+      log_info << "Demo file contains no random number." << std::endl;
     }
   }
   return 0;
@@ -113,13 +113,13 @@ GameSessionRecorder::play_demo(const std::string& filename)
 
   reset_demo_controller();
 
-  // skip over random seed, if it exists in the file
-  char buf[30];                            // ascii decimal seed
+  // Skip over random seed, if it exists in the file.
+  char buf[30];                            // Ascii decimal seed.
   int seed;
   for (int i=0; i<30 && (i==0 || buf[i-1]); i++)
     m_playback_demo_stream->get(buf[i]);
   if (sscanf(buf, "random_seed=%010d", &seed) != 1)
-    m_playback_demo_stream->seekg(0);     // old style w/o seed, restart at beg
+    m_playback_demo_stream->seekg(0);     // Old style w/o seed, restart at beg.
 
   m_playing = false;
 }
@@ -133,14 +133,15 @@ GameSessionRecorder::reset_demo_controller()
 
   auto game_session = GameSession::current();
   assert(game_session != nullptr);
-  Player& player = game_session->get_current_sector().get_player();
+  // FIXME: How is this going to be handled?
+  Player& player = *(game_session->get_current_sector().get_players()[0]);
   player.set_controller(m_demo_controller.get());
 }
 
 void
 GameSessionRecorder::process_events()
 {
-  // playback a demo?
+  // Playback a demo?
   if (m_playback_demo_stream != nullptr)
   {
     m_demo_controller->update();
@@ -162,7 +163,7 @@ GameSessionRecorder::process_events()
     m_demo_controller->press(Control::ACTION,  action != 0);
   }
 
-  // save input for demo?
+  // Save input for demo?
   if (m_capture_demo_stream != nullptr)
   {
     Controller& controller = InputManager::current()->get_controller();

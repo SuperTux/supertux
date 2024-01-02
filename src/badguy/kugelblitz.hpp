@@ -35,10 +35,15 @@ public:
   virtual bool is_flammable() const override;
 
   virtual void draw(DrawingContext& context) override;
-  virtual std::string get_class() const override { return "kugelblitz"; }
-  virtual std::string get_display_name() const override { return _("Kugelblitz"); }
+  static std::string class_name() { return "kugelblitz"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Kugelblitz"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   void explode();
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
   void try_activate();

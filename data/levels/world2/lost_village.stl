@@ -197,7 +197,7 @@
       (y 488)
     )
     (music
-      (file "forest\\shallow-green.music")
+      (file "music/forest/shallow-green.music")
     )
     (particles-rain
     )
@@ -1014,7 +1014,7 @@ tischsaege.goto_node( 0 ) 	")
       (y 744)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 2560)
       (y 672)
     )
@@ -1034,7 +1034,7 @@ tischsaege.goto_node( 0 ) 	")
       (y 1001.778)
     )
     (music
-      (file "/music/forest/shallow-green.music")
+      (file "music/forest/shallow-green.music")
     )
     (particles-ghosts
     )

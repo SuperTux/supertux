@@ -1,47 +1,49 @@
 (supertux-sprite
   (action
     (name "left")
-    (hitbox 4 18 36 18)
-    (images "left-1.png"
-            "left-2.png"
-            "left-1.png"
-            "left-2.png"
-            "left-3.png"
-            "left-4.png"
-            "left-3.png"
-            "left-4.png"
-            "left-3.png"
-            "left-2.png")
+	(fps 15)
+    (hitbox 5 17 36 26)
+    (images "leafshot-0.png"
+            "leafshot-1.png"
+            "leafshot-2.png"
+            "leafshot-3.png"
+            "leafshot-4.png"
+            "leafshot-5.png")
   )
   (action
     (name "right")
+	(fps 15)
+    (hitbox 23 17 36 26)
     (mirror-action "left")
   )
   (action
     (name "iced-left")
-    (hitbox 4 18 36 18)
-    (images "frozen.png")
+    (hitbox 5 17 36 26)
+    (images "leafshot-0.png")
   )
   (action
     (name "iced-right")
+	(hitbox 23 17 36 26)
     (mirror-action "iced-left")
   )
   (action
     (name "squished-left")
-    (hitbox 0 6 36 2)
-    (images "../poison_ivy/squished.png")
+	(hitbox 9 12 32 32)
+    (images "../vicious_ivy/squished.png")
   )
   (action
     (name "squished-right")
+	(hitbox 19 12 32 32)
     (mirror-action "squished-left")
   )
   (action
     (name "collision-left")
-    (images "collision.png")
+	(hitbox 5 17 36 26)
+    (images "collision-left.png")
   )
   (action
     (name "collision-right")
-    (hitbox -27 18 15 18)
+    (hitbox 23 17 36 26)
     (mirror-action "collision-left")
   )
   (action

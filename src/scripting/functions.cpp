@@ -32,17 +32,17 @@
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller_screen.hpp"
 #include "supertux/tile.hpp"
+#include "supertux/title_screen.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-#include "worldmap/worldmap_screen.hpp"
 
 namespace {
 
-// not added to header, function to only be used by others
-// in this file
+// Not added to header, function to only be used by others
+// in this file.
 bool validate_sector_player()
 {
   if (::Sector::current() == nullptr)
@@ -91,9 +91,9 @@ void start_cutscene()
 
   if (session->get_current_level().m_is_in_cutscene)
   {
-    log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceeding cutscene (use end_cutscene() in scripts!)" << std::endl;
+    log_warning << "start_cutscene(): starting a new cutscene above another one, ending preceding cutscene (use end_cutscene() in scripts!)" << std::endl;
 
-    // Remove all sounds that started playing while skipping
+    // Remove all sounds that started playing while skipping.
     if (session->get_current_level().m_skip_cutscene)
       SoundManager::current()->stop_sounds();
   }
@@ -107,16 +107,16 @@ void end_cutscene()
   auto session = GameSession::current();
   if (session == nullptr)
   {
-    log_info << "No game session" << std::endl;
+    log_info << "No game session." << std::endl;
     return;
   }
 
   if (!session->get_current_level().m_is_in_cutscene)
   {
-    log_warning << "end_cutscene(): no cutscene to end, resetting status anyways" << std::endl;
+    log_warning << "end_cutscene(): no cutscene to end, resetting status anyways." << std::endl;
   }
 
-  // Remove all sounds that started playing while skipping
+  // Remove all sounds that started playing while skipping.
   if (session->get_current_level().m_skip_cutscene)
     SoundManager::current()->stop_sounds();
 
@@ -138,11 +138,13 @@ bool check_cutscene()
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  if(GameSession::current()->get_current_level().m_skip_cutscene)
+  auto session = GameSession::current();
+
+  if(session && session->get_current_level().m_skip_cutscene)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
-      // wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`
+      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
       squirrelenv->wait_for_seconds(vm, 0);
     }
     else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
@@ -154,18 +156,18 @@ void wait(HSQUIRRELVM vm, float seconds)
       log_warning << "wait(): no VM or environment available\n";
     }
   }
-  else if(GameSession::current()->get_current_level().m_is_in_cutscene)
+  else if(session && session->get_current_level().m_is_in_cutscene)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
-      // wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game
+      // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
       squirrelenv->skippable_wait_for_seconds(vm, seconds);
-      //GameSession::current()->set_scheduler(squirrelenv->get_scheduler());
+      //session->set_scheduler(squirrelenv->get_scheduler());
     }
     else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
     {
       squirrelvm->skippable_wait_for_seconds(vm, seconds);
-      //GameSession::current()->set_scheduler(squirrelvm->get_scheduler());
+      //session->set_scheduler(squirrelvm->get_scheduler());
     }
     else
     {
@@ -226,24 +228,23 @@ void display_text_file(const std::string& filename)
   ScreenManager::current()->push_screen(std::make_unique<TextScrollerScreen>(filename));
 }
 
-void load_worldmap(const std::string& filename)
+void load_worldmap(const std::string& filename, const std::string& sector, const std::string& spawnpoint)
 {
   using namespace worldmap;
 
-  if (!::worldmap::WorldMap::current())
+  if (!WorldMap::current())
   {
     throw std::runtime_error("Can't start Worldmap without active WorldMap");
   }
   else
   {
-    ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
-                                            std::make_unique<::worldmap::WorldMap>(filename, ::worldmap::WorldMap::current()->get_savegame())));
+    WorldMap::current()->change(filename, sector, spawnpoint);
   }
 }
 
-void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint)
+void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
 {
-  GameManager::current()->set_next_worldmap(dirname, spawnpoint);
+  GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
 }
 
 void load_level(const std::string& filename)
@@ -286,12 +287,12 @@ void debug_draw_editor_images(bool enable)
 
 void debug_worldmap_ghost(bool enable)
 {
-  auto worldmap = worldmap::WorldMap::current();
+  auto worldmap_sector = worldmap::WorldMapSector::current();
 
-  if (worldmap == nullptr)
-    throw std::runtime_error("Can't change ghost mode without active WorldMap");
+  if (worldmap_sector == nullptr)
+    throw std::runtime_error("Can't change ghost mode without active WorldMapSector.");
 
-  auto& tux = worldmap->get_singleton_by_type<worldmap::Tux>();
+  auto& tux = worldmap_sector->get_singleton_by_type<worldmap::Tux>();
   tux.set_ghost_mode(enable);
 }
 
@@ -301,7 +302,7 @@ void save_state()
 
   if (!worldmap)
   {
-    throw std::runtime_error("Can't save state without active Worldmap");
+    throw std::runtime_error("Can't save state without active Worldmap.");
   }
   else
   {
@@ -315,7 +316,7 @@ void load_state()
 
   if (!worldmap)
   {
-    throw std::runtime_error("Can't save state without active Worldmap");
+    throw std::runtime_error("Can't save state without active Worldmap.");
   }
   else
   {
@@ -356,28 +357,32 @@ void play_sound(const std::string& filename)
 void grease()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player(); // scripting::Player != ::Player
+  // FIXME: This only has effect on the first player.
+  ::Player& tux = *(::Sector::get().get_players()[0]); // scripting::Player != ::Player
   tux.get_physic().set_velocity_x(tux.get_physic().get_velocity_x()*3);
 }
 
 void invincible()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player.
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.m_invincible_timer.start(10000);
 }
 
 void ghost()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player.
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.set_ghost_mode(true);
 }
 
 void mortal()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player.
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.m_invincible_timer.stop();
   tux.set_ghost_mode(false);
 }
@@ -387,7 +392,7 @@ void restart()
   auto session = GameSession::current();
   if (session == nullptr)
   {
-    log_info << "No game session" << std::endl;
+    log_info << "No game session." << std::endl;
     return;
   }
   session->restart_level();
@@ -396,14 +401,16 @@ void restart()
 void whereami()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player.
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   log_info << "You are at x " << (static_cast<int>(tux.get_pos().x)) << ", y " << (static_cast<int>(tux.get_pos().y)) << std::endl;
 }
 
 void gotoend()
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player.
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.move(Vector(
               (::Sector::get().get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
   ::Sector::get().get_camera().reset(
@@ -413,7 +420,8 @@ void gotoend()
 void warp(float offset_x, float offset_y)
 {
   if (!validate_sector_player()) return;
-  ::Player& tux = ::Sector::get().get_player();
+  // FIXME: This only has effect on the first player.
+  ::Player& tux = *(::Sector::get().get_players()[0]);
   tux.move(Vector(
               tux.get_pos().x + (offset_x*32), tux.get_pos().y - (offset_y*32)));
   ::Sector::get().get_camera().reset(
@@ -432,11 +440,6 @@ void set_gamma(float gamma)
   VideoSystem::current()->set_gamma(gamma);
 }
 
-void quit()
-{
-  ScreenManager::current()->quit();
-}
-
 int rand()
 {
   return gameRandom.rand();
@@ -448,7 +451,7 @@ void set_game_speed(float speed)
   {
     // Always put a minimum speed above 0 - if the user enabled transitions,
     // executing transitions would take an unreaonably long time if we allow
-    // game speeds like 0.00001
+    // game speeds like 0.00001.
     log_warning << "Cannot set game speed to less than 0.05" << std::endl;
     throw std::runtime_error("Cannot set game speed to less than 0.05");
   }
@@ -460,7 +463,7 @@ void record_demo(const std::string& filename)
 {
   if (GameSession::current() == nullptr)
   {
-    log_info << "No game session" << std::endl;
+    log_info << "No game session." << std::endl;
     return;
   }
   GameSession::current()->restart_level();
@@ -472,14 +475,25 @@ void play_demo(const std::string& filename)
   auto session = GameSession::current();
   if (session == nullptr)
   {
-    log_info << "No game session" << std::endl;
+    log_info << "No game session." << std::endl;
     return;
   }
-  // Reset random seed
+  // Reset random seed.
   g_config->random_seed = session->get_demo_random_seed(filename);
   gameRandom.seed(g_config->random_seed);
   session->restart_level();
   session->play_demo(filename);
+}
+
+void set_title_frame(const std::string& image)
+{
+  auto title_screen = TitleScreen::current();
+  if (!title_screen)
+  {
+    log_info << "No title screen loaded." << std::endl;
+    return;
+  }
+  title_screen->set_frame(image);
 }
 
 }

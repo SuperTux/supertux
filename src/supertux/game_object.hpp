@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <string>
+#include <vector>
 
 #include "editor/object_settings.hpp"
 #include "supertux/game_object_component.hpp"
@@ -28,9 +29,17 @@
 
 class DrawingContext;
 class GameObjectComponent;
+class GameObjectManager;
 class ObjectRemoveListener;
 class ReaderMapping;
 class Writer;
+
+struct GameObjectType
+{
+  const std::string id;
+  const std::string name;
+};
+typedef std::vector<GameObjectType> GameObjectTypes;
 
 /**
     Base class for all the things that make up Levels' Sectors.
@@ -74,8 +83,16 @@ public:
 
   /** This function saves the object. Editor will use that. */
   virtual void save(Writer& writer);
-  virtual std::string get_class() const { return "game-object"; }
+  std::string save();
+  virtual std::string get_class_name() const { return "game-object"; }
   virtual std::string get_display_name() const { return _("Unknown object"); }
+
+  /** Version checking/updating, patch information */
+  virtual std::vector<std::string> get_patches() const;
+  int get_version() const { return m_version; }
+  int get_latest_version() const;
+  bool is_up_to_date() const;
+  virtual void update_version();
 
   /** If true only a single object of this type is allowed in a
       given GameObjectManager */
@@ -89,12 +106,21 @@ public:
       be skipped on saving and can't be cloned in the editor. */
   virtual bool is_saveable() const { return true; }
 
+  /** Indicates if the object's state should be tracked.
+      If false, load_state() and save_state() calls would not do anything. */
+  virtual bool track_state() const { return true; }
+
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */
   virtual bool has_settings() const { return is_saveable(); }
   virtual ObjectSettings get_settings();
 
-  virtual void after_editor_set() {}
+  /** Get all types of the object, if available. **/
+  virtual GameObjectTypes get_types() const;
+  int get_type() const { return m_type; }
+  void set_type(int type) { m_type = type; }
+
+  virtual void after_editor_set();
 
   /** When level is flipped vertically */
   virtual void on_flip(float height) {}
@@ -150,6 +176,10 @@ public:
     }
   }
 
+  /** Save/check the current state of the object. */
+  virtual void save_state();
+  virtual void check_state();
+
   /** The editor requested the deletion of the object */
   virtual void editor_delete() { remove_me(); }
 
@@ -163,24 +193,64 @@ public:
       together (e.g. platform on a path) */
   virtual void editor_update() {}
 
+  GameObjectManager* get_parent() const { return m_parent; }
+
+protected:
+  /** Parse object type. **/
+  void parse_type(const ReaderMapping& reader);
+
+  /** When the type has been changed from the editor. **/
+  virtual void on_type_change(int old_type) {}
+
+  /** Conversion between type ID and value. **/
+  int type_id_to_value(const std::string& id) const;
+  std::string type_value_to_id(int value) const;
+
 private:
   void set_uid(const UID& uid) { m_uid = uid; }
+
+private:
+  /** The parent GameObjectManager. Set by the manager itself. */
+  GameObjectManager* m_parent;
 
 protected:
   /** a name for the gameobject, this is mostly a hint for scripts and
       for debugging, don't rely on names being set or being unique */
   std::string m_name;
 
+  /** Type of the GameObject. Used to provide special functionality,
+      based on the child object. */
+  int m_type;
+
   /** Fade Helpers are for easing/fading script functions */
   std::vector<std::unique_ptr<FadeHelper>> m_fade_helpers;
 
+  /** Track the following creation/deletion of this object for undo.
+      If track_state() returns false, this object would not be tracked,
+      regardless of the value of this variable. */
+  bool m_track_undo;
+
 private:
+  /** The object's type at the time of the last get_settings() call.
+      Used to check if the type has changed. **/
+  int m_previous_type;
+
+  /** Indicates the object's version. By default, this is equal to 1.
+      Useful for retaining retro-compatibility for objects, whilst allowing for
+      updated behaviour in newer levels.
+      The version of an object can be updated from the editor. */
+  int m_version;
+
   /** A unique id for the object to safely refer to it. This will be
       set by the GameObjectManager. */
   UID m_uid;
 
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_scheduled_for_removal;
+
+  /** The object's data at the time of the last state save.
+      Used to check for changes that may have occured. */
+  std::string m_last_state;
 
   std::vector<std::unique_ptr<GameObjectComponent> > m_components;
 

@@ -49,9 +49,11 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
 
   void active_update(float dt_sec, float target_velocity, float modifier = 1.f);
+  /** used by objects that should make badguys not turn around when they are walking on them */
+  void override_stay_on_platform() { m_stay_on_platform_overridden = true; }
 
   float get_velocity_x() const { return m_physic.get_velocity_x(); }
   float get_velocity_y() const { return m_physic.get_velocity_y(); }
@@ -74,6 +76,7 @@ protected:
   int max_drop_height; /**< Maximum height of drop before we will turn around, or -1 to just drop from any ledge */
   Timer turn_around_timer;
   int turn_around_counter; /**< counts number of turns since turn_around_timer was started */
+  bool m_stay_on_platform_overridden;
 
 private:
   WalkingBadguy(const WalkingBadguy&) = delete;

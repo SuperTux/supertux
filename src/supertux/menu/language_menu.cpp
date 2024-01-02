@@ -21,13 +21,16 @@
 extern "C" {
 #include <findlocale.h>
 }
+#include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/title_screen.hpp"
 #include "util/gettext.hpp"
+#include "video/ttf_font.hpp"
 
 enum {
   MNID_LANGUAGE_AUTO_DETECT = 0,
@@ -46,10 +49,14 @@ LanguageMenu::LanguageMenu()
   auto languages = g_dictionary_manager->get_languages();
   for (auto& lang : languages)
   {
-    // TODO: Currently, the fonts used in SuperTux don't contain the glyphs to
-    // display the language names in the respective language. Thus reverting for
-    // 0.5.0.
-    add_entry(mnid++, lang.get_name());
+    auto& item = add_entry(mnid++, lang.get_localized_name());
+    auto font = Resources::default_font;
+    if(Resources::needs_custom_font(lang))
+    {
+      auto font_path = Resources::get_font_for_locale(lang);
+      font = std::make_shared<TTFFont>(font_path, 18, 1.25f, 2, 1);
+    }
+    item.set_font(font);
   }
 
   add_hl();
@@ -95,13 +102,14 @@ LanguageMenu::menu_action(MenuItem& item)
     }
   }
 
-  // Reload font files
+  // Reload font files, refresh copyright text
   Resources::load();
+  TitleScreen::current()->refresh_copyright_text();
 
   if (g_dictionary_manager->get_language().get_language() != "en" &&
       !AddonManager::current()->is_addon_installed("language-pack"))
   {
-    MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
+    MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU, true);
   }
   else
   {

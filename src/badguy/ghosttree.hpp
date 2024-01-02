@@ -38,13 +38,18 @@ public:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  virtual std::string get_class() const override { return "ghosttree"; }
-  virtual std::string get_display_name() const override { return _("Ghost Tree"); }
+  static std::string class_name() { return "ghosttree"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Ghost Tree"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void on_flip(float height) override;
 
   void willowisp_died(TreeWillOWisp* willowisp);
   void die();
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
   enum MyState {

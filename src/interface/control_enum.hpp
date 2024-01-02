@@ -40,6 +40,13 @@ public:
 
   void add_option(T key, std::string label) { m_options.push_back(std::make_pair(key, label)); }
 
+  Rectf get_list_rect() const {
+    return Rectf (
+      m_rect.get_left(), m_rect.get_top(),
+      m_rect.get_right(), m_rect.get_bottom() + m_rect.get_height() * float(m_options.size())
+    );
+  }
+
 private:
   T* m_value;
   bool m_open_list;
@@ -149,11 +156,7 @@ ControlEnum<T>::on_mouse_button_up(const SDL_MouseButtonEvent& button)
     m_open_list = !m_open_list;
     m_has_focus = true;
     return true;
-  } else if (Rectf(m_rect.get_left(),
-             m_rect.get_top(),
-             m_rect.get_right(),
-             m_rect.get_bottom() + m_rect.get_height() * float(m_options.size())
-            ).contains(mouse_pos) && m_open_list) {
+  } else if (get_list_rect().contains(mouse_pos) && m_open_list) {
     return true;
   } else {
     return false;
@@ -166,11 +169,7 @@ ControlEnum<T>::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
   Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(button.x, button.y);
   if (m_open_list) {
-    if (!Rectf(m_rect.get_left(),
-               m_rect.get_top(),
-               m_rect.get_right(),
-               m_rect.get_bottom() + m_rect.get_height() * float(m_options.size())
-              ).contains(mouse_pos)) {
+    if (!get_list_rect().contains(mouse_pos)) {
       m_has_focus = false;
       m_open_list = false;
     } else {
@@ -263,7 +262,7 @@ ControlEnum<T>::on_key_down(const SDL_KeyboardEvent& key)
     bool currently_on_first = true;
     T last_value = *m_value; // must assign a value else clang will complain
 
-    // Hacky way to get the preceeding one in the list
+    // Hacky way to get the preceding one in the list
     for (const auto& option : m_options) {
       if (option.first == *m_value) {
         if (currently_on_first) {

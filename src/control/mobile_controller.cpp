@@ -16,7 +16,6 @@
 
 #include "control/mobile_controller.hpp"
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
 
 #include <string>
 
@@ -28,20 +27,6 @@
 #include "supertux/gameconfig.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
-
-// Util to automatically put rectangles in their corners
-static Rectf apply_corner(const Rectf& rect, int screen_width, int screen_height)
-{
-  Rectf r = rect;
-
-  if (r.p1().x < 0)
-    r.move(Vector(static_cast<float>(screen_width), 0));
-
-  if (r.p1().y < 0)
-    r.move(Vector(0, static_cast<float>(screen_height)));
-
-  return r;
-}
 
 MobileController::MobileController() :
   m_up(false),
@@ -62,12 +47,19 @@ MobileController::MobileController() :
   m_old_cheats(false),
   m_old_debug(false),
   m_old_escape(false),
+  m_fingers(),
   m_rect_directions(16.f, -144.f, 144.f, -16.f),
   m_rect_jump(-160.f, -80.f, -96.f, -16.f),
   m_rect_action(-80.f, -80.f, -16.f, -16.f),
   m_rect_cheats(-160.f, 16.f, -96.f, 80.f),
   m_rect_debug(-80.f, 16.f, -16.f, 80.f),
   m_rect_escape(16.f, 16.f, 64.f, 64.f),
+  m_draw_directions(16.f, -144.f, 144.f, -16.f),
+  m_draw_jump(-160.f, -80.f, -96.f, -16.f),
+  m_draw_action(-80.f, -80.f, -16.f, -16.f),
+  m_draw_cheats(-160.f, 16.f, -96.f, 80.f),
+  m_draw_debug(-80.f, 16.f, -16.f, 80.f),
+  m_draw_escape(16.f, 16.f, 64.f, 64.f),
   m_tex_dirs(Surface::from_file("/images/engine/mobile/direction.png")),
   m_tex_btn(Surface::from_file("/images/engine/mobile/button.png")),
   m_tex_btn_press(Surface::from_file("/images/engine/mobile/button_press.png")),
@@ -81,7 +73,8 @@ MobileController::MobileController() :
   m_tex_cheats(Surface::from_file("/images/engine/mobile/cheats.png")),
   m_tex_debug(Surface::from_file("/images/engine/mobile/debug.png")),
   m_screen_width(),
-  m_screen_height()
+  m_screen_height(),
+  m_mobile_controls_scale()
 {
 }
 
@@ -91,36 +84,78 @@ MobileController::draw(DrawingContext& context)
   if (!g_config->mobile_controls)
     return;
 
-  m_screen_width = context.get_width();
-  m_screen_height = context.get_height();
+  if (m_screen_width != static_cast<int>(context.get_width()) ||
+      m_screen_height != static_cast<int>(context.get_height()) ||
+      m_mobile_controls_scale != g_config->m_mobile_controls_scale)
+  {
+    m_screen_width = static_cast<int>(context.get_width());
+    m_screen_height = static_cast<int>(context.get_height());
+    float width = static_cast<float>(m_screen_width);
+    float height = static_cast<float>(m_screen_height);
+    m_mobile_controls_scale = g_config->m_mobile_controls_scale;
+    // Buttons on Android are bigger, and direction buttons are extra wide
+    // Use screen height to calculate button size, because 20:9 screen ratios are common
+#ifdef __ANDROID__
+    const float BUTTON_SCALE = 0.4f * g_config->m_mobile_controls_scale;
+#else
+    const float BUTTON_SCALE = 0.2f * g_config->m_mobile_controls_scale;
+#endif
+    m_rect_directions.set_size(height * BUTTON_SCALE * 4 / 3, height * BUTTON_SCALE);
+    m_rect_directions.set_pos(Vector(0, height - height * BUTTON_SCALE));
+    m_draw_directions = Rectf::from_center(m_rect_directions.get_middle(),
+      Sizef(m_rect_directions.get_height() / 2, m_rect_directions.get_height() / 2));
 
-  context.color().draw_surface_scaled(m_tex_dirs, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    m_rect_jump.set_size(height * BUTTON_SCALE, height * BUTTON_SCALE);
+    m_rect_jump.set_pos(Vector(width - height * BUTTON_SCALE, height - height * BUTTON_SCALE));
+    m_draw_jump = m_rect_jump.grown(-m_rect_jump.get_height() * 3 / 8);
+
+    m_rect_action.set_size(height * BUTTON_SCALE, height * BUTTON_SCALE);
+    m_rect_action.set_pos(Vector(width - 2 * height * BUTTON_SCALE, height - height * BUTTON_SCALE));
+    m_draw_action = m_rect_action.grown(-m_rect_action.get_height() * 3 / 8);
+
+    m_rect_escape.set_size(height * BUTTON_SCALE / 2, height * BUTTON_SCALE / 2);
+    m_rect_escape.set_pos(Vector(0, 0));
+    m_draw_escape = m_rect_escape.grown(-m_rect_escape.get_height() / 4);
+
+    m_rect_cheats.set_size(height * BUTTON_SCALE / 2, height * BUTTON_SCALE / 2);
+    m_rect_cheats.set_pos(Vector(width - 2 * height * BUTTON_SCALE / 2, 0));
+    m_draw_cheats = m_rect_cheats.grown(-m_rect_cheats.get_height() / 4);
+
+    m_rect_debug.set_size(height * BUTTON_SCALE / 2, height * BUTTON_SCALE / 2);
+    m_rect_debug.set_pos(Vector(width - height * BUTTON_SCALE / 2, 0));
+    m_draw_debug = m_rect_debug.grown(-m_rect_debug.get_height() / 4);
+  }
+
+  PaintStyle translucent;
+  translucent.set_alpha(0.5f);
+
+  context.color().draw_surface_scaled(m_tex_dirs, m_draw_directions, LAYER_GUI + 99, translucent);
 
   if (m_up)
-    context.color().draw_surface_scaled(m_tex_up, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    context.color().draw_surface_scaled(m_tex_up, m_draw_directions, LAYER_GUI + 99, translucent);
   if (m_down)
-    context.color().draw_surface_scaled(m_tex_dwn, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    context.color().draw_surface_scaled(m_tex_dwn, m_draw_directions, LAYER_GUI + 99, translucent);
   if (m_left)
-    context.color().draw_surface_scaled(m_tex_lft, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    context.color().draw_surface_scaled(m_tex_lft, m_draw_directions, LAYER_GUI + 99, translucent);
   if (m_right)
-    context.color().draw_surface_scaled(m_tex_rgt, apply_corner(m_rect_directions, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    context.color().draw_surface_scaled(m_tex_rgt, m_draw_directions, LAYER_GUI + 99, translucent);
 
-  context.color().draw_surface_scaled(m_action ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_action, m_screen_width, m_screen_height), LAYER_GUI + 99);
-  context.color().draw_surface_scaled(m_tex_action, apply_corner(m_rect_action, m_screen_width, m_screen_height), LAYER_GUI + 99);
+  context.color().draw_surface_scaled(m_action ? m_tex_btn_press : m_tex_btn, m_draw_action, LAYER_GUI + 99, translucent);
+  context.color().draw_surface_scaled(m_tex_action, m_draw_action, LAYER_GUI + 99, translucent);
 
-  context.color().draw_surface_scaled(m_jump ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_jump, m_screen_width, m_screen_height), LAYER_GUI + 99);
-  context.color().draw_surface_scaled(m_tex_jump, apply_corner(m_rect_jump, m_screen_width, m_screen_height), LAYER_GUI + 99);
+  context.color().draw_surface_scaled(m_jump ? m_tex_btn_press : m_tex_btn, m_draw_jump, LAYER_GUI + 99, translucent);
+  context.color().draw_surface_scaled(m_tex_jump, m_draw_jump, LAYER_GUI + 99, translucent);
 
-  context.color().draw_surface_scaled(m_escape ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_escape, m_screen_width, m_screen_height), LAYER_GUI + 99);
-  context.color().draw_surface_scaled(m_tex_pause, apply_corner(m_rect_escape, m_screen_width, m_screen_height).grown(-8.f), LAYER_GUI + 99);
+  context.color().draw_surface_scaled(m_escape ? m_tex_btn_press : m_tex_btn, m_draw_escape, LAYER_GUI + 99, translucent);
+  context.color().draw_surface_scaled(m_tex_pause, m_draw_escape.grown(-m_draw_escape.get_height() / 8), LAYER_GUI + 99, translucent);
 
   if (g_config->developer_mode)
   {
-    context.color().draw_surface_scaled(m_cheats ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_cheats, m_screen_width, m_screen_height), LAYER_GUI + 99);
-    context.color().draw_surface_scaled(m_tex_cheats, apply_corner(m_rect_cheats, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    context.color().draw_surface_scaled(m_cheats ? m_tex_btn_press : m_tex_btn, m_draw_cheats, LAYER_GUI + 99, translucent);
+    context.color().draw_surface_scaled(m_tex_cheats, m_draw_cheats, LAYER_GUI + 99, translucent);
 
-    context.color().draw_surface_scaled(m_debug ? m_tex_btn_press : m_tex_btn, apply_corner(m_rect_debug, m_screen_width, m_screen_height), LAYER_GUI + 99);
-    context.color().draw_surface_scaled(m_tex_debug, apply_corner(m_rect_debug, m_screen_width, m_screen_height), LAYER_GUI + 99);
+    context.color().draw_surface_scaled(m_debug ? m_tex_btn_press : m_tex_btn, m_draw_debug, LAYER_GUI + 99, translucent);
+    context.color().draw_surface_scaled(m_tex_debug, m_draw_debug, LAYER_GUI + 99, translucent);
   }
 }
 
@@ -150,26 +185,9 @@ MobileController::update()
     activate_widget_at_pos(static_cast<float>(x), static_cast<float>(y));
   }
 
-  // FIXME: This assumes that 1) there is only one touchscreen and 2) SuperTux
-  // fills the whole screen
-  if (SDL_GetNumTouchDevices() < 1)
-    return;
-
-  SDL_TouchID device = SDL_GetTouchDevice(0);
-
-  if (device == 0)
-    throw new std::runtime_error("Error getting touchscreen info: " + std::string(SDL_GetError()));
-
-  int num_touches = SDL_GetNumTouchFingers(device);
-
-  for (int i = 0; i < num_touches; i++)
+  for (auto& i : m_fingers)
   {
-    SDL_Finger* finger = SDL_GetTouchFinger(device, i);
-
-    if (!finger)
-      continue;
-
-    activate_widget_at_pos(finger->x * float(m_screen_width), finger->y * float(m_screen_height));
+    activate_widget_at_pos(i.second.x, i.second.y);
   }
 }
 
@@ -197,6 +215,50 @@ MobileController::apply(Controller& controller) const
     controller.set_control(Control::DEBUG_MENU, m_debug);
   if (m_escape != m_old_escape)
     controller.set_control(Control::ESCAPE, m_escape);
+
+  if (m_up || m_down || m_left || m_right || m_jump || m_action || m_cheats || m_debug || m_escape)
+  {
+    controller.set_touchscreen(true);
+  }
+}
+
+bool
+MobileController::process_finger_down_event(const SDL_TouchFingerEvent& event)
+{
+  Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
+  m_fingers[event.fingerId] = pos;
+  return m_rect_jump.contains(pos) ||
+    m_rect_action.contains(pos) ||
+    m_rect_escape.contains(pos) ||
+    m_rect_directions.contains(pos) ||
+    (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
+    (g_config->developer_mode && m_rect_debug.contains(pos));
+}
+
+bool
+MobileController::process_finger_up_event(const SDL_TouchFingerEvent& event)
+{
+  Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
+  m_fingers.erase(event.fingerId);
+  return m_rect_jump.contains(pos) ||
+    m_rect_action.contains(pos) ||
+    m_rect_escape.contains(pos) ||
+    m_rect_directions.contains(pos) ||
+    (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
+    (g_config->developer_mode && m_rect_debug.contains(pos));
+}
+
+bool
+MobileController::process_finger_motion_event(const SDL_TouchFingerEvent& event)
+{
+  Vector pos(event.x * float(m_screen_width), event.y * float(m_screen_height));
+  m_fingers[event.fingerId] = pos;
+  return m_rect_jump.contains(pos) ||
+    m_rect_action.contains(pos) ||
+    m_rect_escape.contains(pos) ||
+    m_rect_directions.contains(pos) ||
+    (g_config->developer_mode && m_rect_cheats.contains(pos)) ||
+    (g_config->developer_mode && m_rect_debug.contains(pos));
 }
 
 void
@@ -207,46 +269,44 @@ MobileController::activate_widget_at_pos(float x, float y)
 
   Vector pos(x, y);
 
-  if (apply_corner(m_rect_jump, m_screen_width, m_screen_height).contains(pos))
+  if (m_rect_jump.contains(pos))
     m_jump = true;
 
-  if (apply_corner(m_rect_action, m_screen_width, m_screen_height).contains(pos))
+  if (m_rect_action.contains(pos))
     m_action = true;
 
   if (g_config->developer_mode)
   {
-    if (apply_corner(m_rect_cheats, m_screen_width, m_screen_height).contains(pos))
+    if (m_rect_cheats.contains(pos))
       m_cheats = true;
 
-    if (apply_corner(m_rect_debug, m_screen_width, m_screen_height).contains(pos))
+    if (m_rect_debug.contains(pos))
       m_debug = true;
   }
 
-  if (apply_corner(m_rect_escape, m_screen_width, m_screen_height).contains(pos))
+  if (m_rect_escape.contains(pos))
     m_escape = true;
 
-  Rectf applied = apply_corner(m_rect_directions, m_screen_width, m_screen_height);
-  Rectf up = applied;
+  Rectf up = m_rect_directions;
   up.set_bottom(up.get_bottom() - up.get_height() * 2.f / 3.f);
   if (up.contains(pos))
     m_up = true;
 
-  Rectf down = applied;
+  Rectf down = m_rect_directions;
   down.set_top(down.get_top() + down.get_height() * 2.f / 3.f);
   if (down.contains(pos))
     m_down = true;
 
-  Rectf left = applied;
-  left.set_right(left.get_right() - left.get_width() * 2.f / 3.f);
+  Rectf left = m_rect_directions;
+  left.set_right(left.get_right() - left.get_width() * 7.f / 12.f);
   if (left.contains(pos))
     m_left = true;
 
-  Rectf right = applied;
-  right.set_left(right.get_left() + right.get_width() * 2.f / 3.f);
+  Rectf right = m_rect_directions;
+  right.set_left(right.get_left() + right.get_width() * 7.f / 12.f);
   if (right.contains(pos))
     m_right = true;
 }
 
-#endif
 
 /* EOF */

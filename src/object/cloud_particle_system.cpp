@@ -20,6 +20,7 @@
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/globals.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "video/surface_batch.hpp"
@@ -35,9 +36,7 @@ CloudParticleSystem::CloudParticleSystem() :
   m_target_speed(1.f),
   m_speed_fade_time_remaining(0.f),
 
-  m_current_amount(15.f),
-  //m_target_amount(15.f),
-  //m_amount_fade_time_remaining(0.f),
+  m_current_amount(15),
   m_current_real_amount(0)
 {
   init();
@@ -52,11 +51,10 @@ CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader) :
   m_target_speed(1.f),
   m_speed_fade_time_remaining(0.f),
 
-  m_current_amount(15.f),
-  //m_target_amount(15.f),
-  //m_amount_fade_time_remaining(0.f),
+  m_current_amount(15),
   m_current_real_amount(0)
 {
+  reader.get("intensity", m_current_amount);
   init();
 }
 
@@ -68,15 +66,15 @@ void CloudParticleSystem::init()
 {
   virtual_width = 2000.0;
 
-  // create some random clouds
-  add_clouds(15, 0.f);
+  // Create some random clouds.
+  add_clouds(m_current_amount, 0.f);
 }
 
 ObjectSettings CloudParticleSystem::get_settings()
 {
   ObjectSettings result = ParticleSystem::get_settings();
 
-  result.add_float(_("Intensity"), &m_current_amount, "intensity", 15.f);
+  result.add_int(_("Intensity"), &m_current_amount, "intensity", 15);
 
   result.reorder({"intensity", "enabled", "name"});
 
@@ -89,7 +87,7 @@ void CloudParticleSystem::update(float dt_sec)
   if (!enabled)
     return;
 
-  // Update speed
+  // Update speed.
   if (m_speed_fade_time_remaining > 0.f) {
     if (dt_sec >= m_speed_fade_time_remaining) {
       m_current_speed = m_target_speed;
@@ -102,6 +100,9 @@ void CloudParticleSystem::update(float dt_sec)
   }
 
   auto& cam = Sector::get().get_singleton_by_type<Camera>();
+  auto scale = cam.get_current_scale();
+  auto screen_width = static_cast<float>(SCREEN_WIDTH) / scale;
+  auto screen_height = static_cast<float>(SCREEN_HEIGHT) / scale;
 
   for (auto& particle : particles) {
     auto cloudParticle = dynamic_cast<CloudParticle*>(particle.get());
@@ -109,22 +110,22 @@ void CloudParticleSystem::update(float dt_sec)
       continue;
     cloudParticle->pos.x += cloudParticle->speed * dt_sec * m_current_speed;
     while (cloudParticle->pos.x < cam.get_translation().x - static_cast<float>(cloudParticle->texture->get_width()))
-      cloudParticle->pos.x += virtual_width;
-    while (cloudParticle->pos.x > cam.get_translation().x + static_cast<float>(SCREEN_WIDTH))
-      cloudParticle->pos.x -= virtual_width;
+      cloudParticle->pos.x += screen_width + static_cast<float>(cloudParticle->texture->get_width()) * 2.f;
+    while (cloudParticle->pos.x > cam.get_translation().x + screen_width)
+      cloudParticle->pos.x -= screen_width + static_cast<float>(cloudParticle->texture->get_width()) * 2.f;
     while (cloudParticle->pos.y < cam.get_translation().y - static_cast<float>(cloudParticle->texture->get_height()))
-      cloudParticle->pos.y += virtual_height;
-    while (cloudParticle->pos.y > cam.get_translation().y + static_cast<float>(SCREEN_HEIGHT))
-      cloudParticle->pos.y -= virtual_height;
+      cloudParticle->pos.y += screen_height + static_cast<float>(cloudParticle->texture->get_height()) * 2.f;
+    while (cloudParticle->pos.y > cam.get_translation().y + screen_height)
+      cloudParticle->pos.y -= screen_height + static_cast<float>(cloudParticle->texture->get_height()) * 2.f;
 
-    // Update alpha
+    // Update alpha.
     if (cloudParticle->target_time_remaining > 0.f) {
       if (dt_sec >= cloudParticle->target_time_remaining) {
         cloudParticle->alpha = cloudParticle->target_alpha;
         cloudParticle->target_time_remaining = 0.f;
         if (cloudParticle->alpha == 0.f) {
-          // Remove this particle
-          // But not right here, else it'd mess with the iterator
+          // Remove this particle, but not at this point
+          // as it would interfere with the iterator.
         }
       } else {
         float amount = dt_sec / cloudParticle->target_time_remaining;
@@ -134,9 +135,9 @@ void CloudParticleSystem::update(float dt_sec)
     }
   }
 
-  // Clear dead clouds
-  // Scroll through the vector backwards, because removing an element affects
-  //   the index of all elements after it (prevents buggy behavior)
+  // Clear dead clouds.
+  // Iterate through the vector backwards to avoid affecting the index of elements
+  // after removal, preventing buggy behavior.
   for (int i = static_cast<int>(particles.size()) - 1; i >= 0; --i) {
     auto particle = dynamic_cast<CloudParticle*>(particles.at(i).get());
     
@@ -157,7 +158,7 @@ int CloudParticleSystem::add_clouds(int amount, float fade_time)
   for (int i = 0; i < amount_to_add; ++i) {
     auto particle = std::make_unique<CloudParticle>();
     // Don't consider the camera, because the Sector might not exist yet
-    // Instead, rely on update() to correct this when it will be called
+    // Instead, rely on update() to correct this when it will be called.
     particle->pos.x = graphicsRandom.randf(virtual_width);
     particle->pos.y = graphicsRandom.randf(virtual_height);
     particle->texture = cloudimage;
@@ -187,7 +188,7 @@ int CloudParticleSystem::remove_clouds(int amount, float fade_time)
   
     auto particle = dynamic_cast<CloudParticle*>(particles.at(i).get());
     if (particle->target_alpha != 1.f || particle->target_time_remaining != 0.f) {
-      // Skip that one, it doesn't count
+      // Skip that one, it doesn't count.
       --i;
     } else {
       particle->target_alpha = 0.f;
@@ -200,9 +201,9 @@ int CloudParticleSystem::remove_clouds(int amount, float fade_time)
 
 void CloudParticleSystem::fade_speed(float new_speed, float fade_time)
 {
-  // No check to enabled; change the fading even if it's disabled
+  // No check for enabled; change the fading even if it's disabled.
 
-  // If time is 0 (or smaller?), then update() will never change m_current_speed
+  // If fade_time is 0 or smaller, update() will never change m_current_speed.
   if (fade_time <= 0.f)
   {
     m_current_speed = new_speed;
@@ -214,7 +215,7 @@ void CloudParticleSystem::fade_speed(float new_speed, float fade_time)
 
 void CloudParticleSystem::fade_amount(int new_amount, float fade_time, float time_between)
 {
-  // No check to enabled; change the fading even if it's disabled
+  // No check for enabled; change the fading even if it's disabled.
 
   int delta = new_amount - m_current_real_amount;
 
@@ -225,7 +226,7 @@ void CloudParticleSystem::fade_amount(int new_amount, float fade_time, float tim
   else if (delta > 0)
   {
     add_clouds(delta, fade_time);
-  } // Else delta == 0, in which case there is nothing to do
+  } // If delta is zero, there is nothing to do.
 }
 
 
@@ -268,7 +269,7 @@ void CloudParticleSystem::draw(DrawingContext& context)
     auto& surface = it.first;
     auto& batch = it.second;
     // FIXME: What is the colour used for?
-    // RESOLVED : That's the tint and the alpha
+    // RESOLVED : That's the tint and the alpha.
     context.color().draw_surface_batch(surface, batch.move_srcrects(),
       batch.move_dstrects(), batch.move_angles(), batch.get_color(), z_pos);
   }

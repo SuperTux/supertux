@@ -49,7 +49,7 @@ RustyTrampoline::update(float dt_sec)
     if (counter < 1) {
       remove_me();
     } else {
-      m_sprite->set_action("normal");
+      set_action("normal");
     }
 
   }
@@ -87,12 +87,12 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
           vy = VY_BOUNCE;
         }
         player->get_physic().set_velocity_y(vy);
-        SoundManager::current()->play(BOUNCE_SOUND);
+        SoundManager::current()->play(BOUNCE_SOUND, get_pos());
         counter--;
         if (counter > 0) {
-          m_sprite->set_action("swinging", 1);
+          set_action("swinging", 1);
         } else {
-          m_sprite->set_action("breaking", 1);
+          set_action("breaking", 1);
         }
 
         return FORCE_MOVE;
@@ -106,12 +106,12 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
       if (hit.top && vy >= 0) {
         vy = VY_BOUNCE;
         walking_badguy->set_velocity_y(vy);
-        SoundManager::current()->play(BOUNCE_SOUND);
+        SoundManager::current()->play(BOUNCE_SOUND, get_pos());
         counter--;
         if (counter > 0) {
-          m_sprite->set_action("swinging", 1);
+          set_action("swinging", 1);
         } else {
-          m_sprite->set_action("breaking", 1);
+          set_action("breaking", 1);
         }
         return FORCE_MOVE;
       }
@@ -132,9 +132,10 @@ RustyTrampoline::grab(MovingObject& object, const Vector& pos, Direction dir) {
 }
 
 void
-RustyTrampoline::ungrab(MovingObject& object, Direction dir) {
+RustyTrampoline::ungrab(MovingObject& object, Direction dir)
+{
   Rock::ungrab(object, dir);
-  m_sprite->set_action("breaking", 1);
+  set_action("breaking", 1);
   counter = 0; //remove in update()
 }
 

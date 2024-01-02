@@ -19,7 +19,10 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/electrifier.hpp"
+#include "supertux/level.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/tile_set.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -41,7 +44,8 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   m_strike_script(),
   time_to_thunder(),
   time_to_lightning(),
-  flash_display_timer()
+  flash_display_timer(),
+  changing_tiles(TileManager::current()->get_tileset(Level::current()->get_tileset())->m_thunderstorm_tiles)
 {
   reader.get("running", running);
   reader.get("interval", interval);
@@ -100,10 +104,7 @@ Thunderstorm::draw(DrawingContext& context)
   float alpha = 0.33f;
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_filled_rect(Rectf(0, 0,
-                                         static_cast<float>(context.get_width()),
-                                         static_cast<float>(context.get_height())),
-                                   Color(1, 1, 1, alpha), layer);
+  context.color().draw_filled_rect(context.get_rect(), Color(1, 1, 1, alpha), layer);
   context.pop_transform();
 
 }
@@ -152,20 +153,6 @@ Thunderstorm::flash()
 void
 Thunderstorm::electrify()
 {
-  auto changing_tiles = Electrifier::TileChangeMap({
-    {200, 1421}, {201, 1422},
-    {3419, 3523}, {3420, 3524},
-    {3421, 3525}, {3422, 3526},
-    {3423, 3527}, {3424, 3528},
-    {3425, 3529}, {3426, 3530},
-    {3427, 3523}, {3428, 3524},
-    {3429, 3525}, {3430, 3526},
-    {3431, 3527}, {3432, 3528},
-    {3433, 3529}, {3434, 3530},
-	{2019, 3873}, {2140, 3874},
-	{2141, 3875}, {2142, 3876},
-	{2020, 3877}
-  });
   Sector::get().add<Electrifier>(changing_tiles, ELECTRIFY_TIME);
 }
 

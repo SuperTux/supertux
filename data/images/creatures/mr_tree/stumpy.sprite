@@ -1,38 +1,40 @@
 (supertux-sprite
   (action
-    (hitbox 20 23 42 62)
+    (hitbox 22 38 46 50)
     (name "left")
-    (images 
-      "small-left-0.png"
-      "small-left-1.png"
-      "small-left-2.png"
-      "small-left-3.png"
-      "small-left-4.png"
-      "small-left-5.png"
-    )
+    (fps 15)
+    (images "stumpy-0.png"
+            "stumpy-1.png"
+            "stumpy-2.png"
+            "stumpy-3.png"
+            "stumpy-4.png"
+            "stumpy-5.png"
+            "stumpy-6.png"
+            "stumpy-7.png"
+            "stumpy-8.png"
+            "stumpy-9.png")
   )
   (action
-    (hitbox 20 23 42 62)
+    (hitbox 22 38 46 50)
     (name "right")
+    (fps 15)
     (mirror-action "left")
   )
   (action
     (hitbox 20 23 42 62)
     (fps 15)
     (name "burning-left")
-    (images 
-      "small-burning-0.png"
-      "small-burning-1.png"
-      "small-burning-2.png"
-      "small-burning-3.png"
-      "small-burning-4.png"
-      "small-burning-5.png"
-      "small-burning-6.png"
-      "small-burning-7.png"
-      "small-burning-8.png"
-      "small-burning-9.png"
-      "small-burning-10.png"
-    )
+    (images "small-burning-0.png"
+            "small-burning-1.png"
+            "small-burning-2.png"
+            "small-burning-3.png"
+            "small-burning-4.png"
+            "small-burning-5.png"
+            "small-burning-6.png"
+            "small-burning-7.png"
+            "small-burning-8.png"
+            "small-burning-9.png"
+            "small-burning-10.png")
   )
   (action
     (hitbox 20 23 42 62)
@@ -41,38 +43,42 @@
     (mirror-action "burning-left")
   )
   (action
-    (hitbox 20 23 42 62)
+    (hitbox 22 38 46 50)
     (name "iced-left")
-    (images "small-frozen.png")
+    (images "stumpy-7.png")
   )
   (action
-    (hitbox 20 23 42 62)
+    (hitbox 22 38 46 50)
     (name "iced-right")
     (mirror-action "iced-left")
   )
   (action
-    (hitbox 20 23 42 62)
+    (hitbox 22 38 46 50)
     (name "dizzy-left")
-    (images 
-      "dizzy-0.png"
-      "dizzy-1.png"
-      "dizzy-2.png"
-    )
+    (fps 15)
+    (loop-frame 4)
+    (images "dizzy-0.png"
+            "dizzy-1.png"
+            "dizzy-2.png"
+            "dizzy-3.png"
+            "dizzy-4.png"
+            "dizzy-5.png"
+            "dizzy-4.png")
   )
   (action
-    (hitbox 20 23 42 62)
+    (hitbox 22 38 46 50)
     (name "dizzy-right")
+    (fps 15)
+    (loop-frame 4)
     (mirror-action "dizzy-left")
   )
   (action
-    (hitbox 20 23 42 42)
+    (hitbox 22 38 46 32)
     (name "squished-left")
-    (images 
-      "squished-left.png"
-    )
+    (images "squished.png")
   )
   (action
-    (hitbox 20 23 42 42)
+    (hitbox 22 38 46 32)
     (name "squished-right")
     (mirror-action "squished-left")
   )

@@ -48,42 +48,75 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
-  virtual std::string get_class() const override { return "moving-sprite"; }
-  virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
+  static std::string class_name() { return "moving-sprite"; }
+  virtual std::string get_class_name() const override { return class_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
+  virtual void on_type_change(int old_type = -1) override;
 
   virtual int get_layer() const override { return m_layer; }
 
-  std::string get_sprite_name() const;
-  void change_sprite(const std::string& new_sprite_name);
+  bool has_found_sprite();
+  const std::string& get_sprite_name() const { return m_sprite_name; }
+  virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
+
+  bool matches_sprite(const std::string& sprite_file) const;
+  bool change_sprite(const std::string& new_sprite_name);
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
-protected:
-  /** set new action for sprite and resize bounding box.  use with
-      care as you can easily get stuck when resizing the bounding box. */
-  void set_action(const std::string& action, int loops);
+  /** Get various sprite properties. **/
+  Sprite* get_sprite() const { return m_sprite.get(); }
+  const std::string& get_action() const { return m_sprite->get_action(); }
 
-  /** set new action for sprite and re-center bounding box.  use with
+  /** Set new action for sprite and resize bounding box.  use with
+      care as you can easily get stuck when resizing the bounding box. */
+  void set_action(const std::string& name, int loops = -1);
+
+  /** Sets the action from an action name and a particular direction
+      in the form of "name-direction", eg. "walk-left".
+   */
+  void set_action(const std::string& name, const Direction& dir, int loops = -1);
+
+  /** Sets the action from an action name and a particular direction
+      in the form of "direction-name", eg. "left-up".
+   */
+  void set_action(const Direction& dir, const std::string& name, int loops = -1);
+
+  /** Sets the action from a string from a particular direction
+      in the form of "direction", e.g. "left".
+   */
+  void set_action(const Direction& dir, int loops = -1);
+
+  /** Set new action for sprite and re-center bounding box.  use with
       care as you can easily get stuck when resizing the bounding
       box. */
-  void set_action_centered(const std::string& action, int loops);
+  void set_action_centered(const std::string& action, int loops = -1);
 
-  /** set new action for sprite and align bounding boxes at
+  /** Set new action for sprite and align bounding boxes at
       anchorPoint.  use with care as you can easily get stuck when
       resizing the bounding box. */
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
 
 protected:
+  /** Update hitbox, based on sprite. */
+  virtual void update_hitbox();
+
+protected:
   std::string m_sprite_name;
 
-  /** The default sprite for this MovingObject */
+  /** The default sprite for this MovingObject.
+      NOTE: Unless in a constructor, use get_default_sprite_name() instead,
+            so support for sprite switching for object types is retained. */
   std::string m_default_sprite_name;
   SpritePtr m_sprite;
   int m_layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 
   Flip m_flip;
+
+private:
+  /** A custom sprite has been successfully found and set on initialization. */
+  bool m_sprite_found;
 
 private:
   MovingSprite(const MovingSprite&) = delete;

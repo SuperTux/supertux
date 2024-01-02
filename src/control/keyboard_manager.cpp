@@ -19,7 +19,6 @@
 
 #include "control/joystick_manager.hpp"
 #include "control/input_manager.hpp"
-#include "control/keyboard_config.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/console.hpp"
 
@@ -39,7 +38,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 
   // if console key was pressed: toggle console
   if (key_mapping != m_keyboard_config.m_keymap.end() &&
-      key_mapping->second == Control::CONSOLE)
+      key_mapping->second.control == Control::CONSOLE)
   {
     if (event.type == SDL_KEYDOWN)
     {
@@ -75,10 +74,13 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     auto control = key_mapping->second;
     bool value = (event.type == SDL_KEYDOWN);
 
-    m_parent->get_controller().set_control(control, value);
+    if (control.player >= m_parent->get_num_users())
+      return;
 
-    if (m_keyboard_config.m_jump_with_up_kbd && control == Control::UP) {
-      m_parent->get_controller().set_control(Control::JUMP, value);
+    m_parent->get_controller(control.player).set_control(control.control, value);
+
+    if (m_keyboard_config.m_jump_with_up_kbd && control.control == Control::UP) {
+      m_parent->get_controller(control.player).set_jump_key_with_up(value);
     }
   }
 }
@@ -164,11 +166,11 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     if (event.keysym.sym != SDLK_ESCAPE &&
         event.keysym.sym != SDLK_PAUSE)
     {
-      m_keyboard_config.bind_key(event.keysym.sym, *m_wait_for_key);
+      m_keyboard_config.bind_key(event.keysym.sym, m_wait_for_key->player, m_wait_for_key->control);
     }
     m_parent->reset();
     MenuManager::instance().refresh();
-    m_wait_for_key = boost::none;
+    m_wait_for_key = std::nullopt;
     return;
   }
 
@@ -217,21 +219,17 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       control = Control::REMOVE;
       break;
     default:
-      if (m_keyboard_config.m_keymap.count(event.keysym.sym) == 0)
-      {
-        return;
-      }
-      control = m_keyboard_config.m_keymap[event.keysym.sym];
-      break;
+      return;
   }
 
+  // Keep empty because this is in the menu; only the first player may navigate
   m_parent->get_controller().set_control(control, (event.type == SDL_KEYDOWN));
 }
 
 void
-KeyboardManager::bind_next_event_to(Control id)
+KeyboardManager::bind_next_event_to(int player_id, Control id)
 {
-  m_wait_for_key = id;
+  m_wait_for_key = KeyboardConfig::PlayerControl{player_id, id};
 }
 
 /* EOF */

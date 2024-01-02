@@ -54,7 +54,7 @@ BicyclePlatformChild::collision(GameObject& other, const CollisionHit& )
 {
   const float gravity = Sector::get().get_gravity();
 
-  // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
+  // Somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
   if ((mo->get_bbox().get_bottom()) > (m_col.m_bbox.get_top() + 2)) return FORCE_MOVE;
@@ -78,7 +78,7 @@ BicyclePlatformChild::collision(GameObject& other, const CollisionHit& )
 
 void BicyclePlatformChild::editor_delete()
 {
-  // removing a child removes the whole platform
+  // Removing a child removes the whole platform.
   m_parent.editor_delete();
 }
 
@@ -142,7 +142,7 @@ void
 BicyclePlatform::update(float dt_sec)
 {
   float total_angular_momentum = 0.0f;
-  for (auto& child : m_children)
+  for (const auto& child : m_children)
   {
     const float child_angle = m_angle + child->m_angle_offset;
     const float angular_momentum = cosf(child_angle) * child->m_momentum;
@@ -179,13 +179,13 @@ BicyclePlatform::on_flip(float height)
 void
 BicyclePlatform::editor_delete()
 {
-  // remove children
+  // Remove children.
   for (auto& child : m_children)
   {
     child->remove_me();
   }
 
-  // remove self
+  // Remove self.
   remove_me();
 }
 

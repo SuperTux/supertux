@@ -1,7 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2008-2020 A. Semphris <semphris@protonmail.com>,
-//                          Matthias Braun <matze@braunis.de>,
-//                          Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2020 A. Semphris <semphris@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,20 +27,21 @@ class ReaderMapping;
 class AutotileParser final
 {
 private:
-  std::vector<AutotileSet*>* m_autotilesets;
+  std::vector<std::unique_ptr<AutotileSet>>& m_autotilesets;
   std::string m_filename;
   std::string m_tiles_path;
 
 public:
-  AutotileParser(std::vector<AutotileSet*>* autotilesets, const std::string& filename);
+  AutotileParser(std::vector<std::unique_ptr<AutotileSet>>& autotilesets, const std::string& filename);
 
   void parse();
 
 private:
   void parse_autotileset(const ReaderMapping& reader, bool corner);
   Autotile* parse_autotile(const ReaderMapping& reader, bool corner);
-  void parse_mask(std::string mask, std::vector<AutotileMask*>* autotile_masks, bool solid);
-  void parse_mask_corner(std::string mask, std::vector<AutotileMask*>* autotile_masks);
+  void parse_mask(std::string mask, std::vector<AutotileMask>& autotile_masks, bool solid);
+  void parse_mask_corner(std::string mask, std::vector<AutotileMask>& autotile_masks);
+  void parse_mask(std::string mask, std::vector<AutotileMask>& autotile_masks, bool solid, bool is_corner);
 
 private:
   AutotileParser(const AutotileParser&) = delete;

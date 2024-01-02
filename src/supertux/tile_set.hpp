@@ -17,18 +17,19 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
+#include <map>
 #include <memory>
 #include <stdint.h>
 #include <string>
 
 #include "math/fwd.hpp"
 #include "supertux/autotile.hpp"
+#include "supertux/tile.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class Canvas;
 class DrawingContext;
-class Tile;
 
 class Tilegroup final
 {
@@ -47,13 +48,16 @@ public:
 
 public:
   TileSet();
-  ~TileSet();
+  ~TileSet() = default;
 
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
   /** Adds a group of tiles that haven't
       been assigned to any other group */
   void add_unassigned_tilegroup();
+
+  /** Check for and remove any deprecated tiles from tilegroups. */
+  void remove_deprecated_tiles();
 
   void add_tilegroup(const Tilegroup& tilegroup);
 
@@ -73,7 +77,12 @@ public:
   
 public:
   // Must be public because of tile_set_parser.cpp
-  std::vector<AutotileSet*>* m_autotilesets;
+  std::vector<std::unique_ptr<AutotileSet>> m_autotilesets;
+
+  // Additional attributes
+
+  // Must be public because of tile_set_parser.cpp and thunderstorm.cpp
+  std::map<uint32_t, uint32_t> m_thunderstorm_tiles;
 
 private:
   std::vector<std::unique_ptr<Tile> > m_tiles;

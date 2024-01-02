@@ -20,15 +20,18 @@
 #include "audio/sound_source.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
   BadGuy( pos, dir_, custom_sprite ),
-  ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))
+  ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav")),
+  m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
 {
   SoundManager::current()->preload("sounds/explosion.wav");
-  set_action(dir_ == Direction::LEFT ? "ticking-left" : "ticking-right", 1);
+  set_action("ticking", dir_, 1);
   m_countMe = false;
 
   ticking->set_position(get_pos());
@@ -44,12 +47,10 @@ Bomb::collision_solid(const CollisionHit& hit)
   if (is_grabbed()) {
     return;
   }
-  if (hit.top || hit.bottom)
+  if (hit.bottom)
     m_physic.set_velocity_y(0);
-  if (hit.left || hit.right)
-    m_physic.set_velocity_x(-m_physic.get_velocity_x());
-  if (hit.crush)
-    m_physic.set_velocity(0, 0);
+  else
+    explode();
 
   update_on_ground_flag(hit);
 }
@@ -57,12 +58,16 @@ Bomb::collision_solid(const CollisionHit& hit)
 HitResponse
 Bomb::collision_player(Player& , const CollisionHit& )
 {
+  if (m_physic.get_velocity() != Vector())
+    explode();
   return ABORT_MOVE;
 }
 
 HitResponse
 Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 {
+  if (m_physic.get_velocity() != Vector())
+    explode();
   return ABORT_MOVE;
 }
 
@@ -78,6 +83,17 @@ Bomb::active_update(float dt_sec)
   else if (!is_grabbed()) {
     m_col.set_movement(m_physic.get_movement(dt_sec));
   }
+}
+
+void
+Bomb::draw(DrawingContext& context)
+{
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+  m_exploding_sprite->set_action("exploding");
+  m_exploding_sprite->set_blend(Blend::ADD);
+  m_exploding_sprite->draw(context.light(),
+    get_pos() + Vector(get_bbox().get_width() / 2, get_bbox().get_height() / 2), m_layer, m_flip);
+  BadGuy::draw(context);
 }
 
 void
@@ -116,6 +132,12 @@ Bomb::ignite()
   explode();
 }
 
+bool
+Bomb::is_portable() const
+{
+  return true;
+}
+
 void
 Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
@@ -124,8 +146,8 @@ Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_dir = dir_;
 
   // We actually face the opposite direction of Tux here to make the fuse more
-  // visible instead of hiding it behind Tux
-  m_sprite->set_action_continued(m_dir == Direction::LEFT ? "ticking-right" : "ticking-left");
+  // visible instead of hiding it behind Tux.
+  set_action("ticking", m_dir, Sprite::LOOPS_CONTINUED);
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
@@ -133,19 +155,19 @@ void
 Bomb::ungrab(MovingObject& object, Direction dir_)
 {
   auto player = dynamic_cast<Player*> (&object);
-  //handle swimming
+  // Handle swimming state of the player.
   if (player && (player->is_swimming() || player->is_water_jumping()))
   {
     float swimangle = player->get_swimming_angle();
     m_physic.set_velocity(Vector(std::cos(swimangle) * 40.f, std::sin(swimangle) * 40.f) +
       player->get_physic().get_velocity());
   }
-  //handle non-swimming
+  // Handle non-swimming.
   else
   {
     if (player)
     {
-      //handle x-movement
+      // Handle x-movement based on the player's direction and velocity.
       if (fabsf(player->get_physic().get_velocity_x()) < 1.0f)
         m_physic.set_velocity_x(0.f);
       else if ((player->m_dir == Direction::LEFT && player->get_physic().get_velocity_x() <= -1.0f)
@@ -155,7 +177,7 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
       else
         m_physic.set_velocity_x(player->get_physic().get_velocity_x()
           + (player->m_dir == Direction::LEFT ? -330.f : 330.f));
-      //handle y-movement
+      // Handle y-movement based on the player's direction and velocity.
       m_physic.set_velocity_y(dir_ == Direction::UP ? -500.f :
         dir_ == Direction::DOWN ? 500.f :
         player->get_physic().get_velocity_x() != 0.f ? -200.f : 0.f);

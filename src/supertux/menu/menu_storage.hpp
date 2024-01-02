@@ -19,11 +19,7 @@
 
 #include <memory>
 
-class JoystickMenu;
-class KeyboardMenu;
 class Menu;
-class OptionsMenu;
-class ProfileMenu;
 
 class MenuStorage final
 {
@@ -48,6 +44,7 @@ public:
     LANGUAGE_MENU,
     KEYBOARD_MENU,
     JOYSTICK_MENU,
+    VIDEO_SYSTEM_MENU,
     WORLDMAP_MENU,
     WORLDMAP_CHEAT_MENU,
     WORLDMAP_LEVEL_SELECT_MENU,
@@ -63,13 +60,15 @@ public:
     EDITOR_SECTORS_MENU,
     EDITOR_SECTOR_MENU,
     EDITOR_LEVEL_MENU,
-    EDITOR_LEVELSET_MENU,
+    EDITOR_CONVERTERS_MENU,
     PARTICLE_EDITOR_MENU,
     PARTICLE_EDITOR_SAVE_AS,
     PARTICLE_EDITOR_OPEN,
     INTEGRATIONS_MENU,
     ASSET_MENU,
-    CUSTOM_MENU_MENU
+    CUSTOM_MENU_MENU,
+    MULTIPLAYER_MENU,
+    MULTIPLAYER_PLAYERS_MENU
   };
 
 public:

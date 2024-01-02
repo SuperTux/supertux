@@ -20,6 +20,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -59,17 +60,41 @@ LevelTime::update(float dt_sec)
 {
   if (!running) return;
 
+  int players_alive = Sector::current() ? Sector::current()->get_object_count<Player>([](const Player& p) {
+    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+  }) : 0;
+
+  if (!players_alive)
+    return;
+
   int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= dt_sec;
   if (time_left <= 0) {
-    if (time_left <= -5 || !Sector::get().get_player().get_coins())
+    // Needed to avoid charging a player coins if they had a checkpoint
+    if (GameSession::current())
+      GameSession::current()->clear_respawn_points();
+
+    if (time_left <= -5 || !Sector::get().get_players()[0]->get_coins())
     {
-      Sector::get().get_player().kill(true);
+      for (auto& p : Sector::get().get_players())
+      {
+        p->kill(true);
+      }
       stop();
     }
+
     if (prev_time != static_cast<int>(floorf(time_left*5)))
     {
-      Sector::get().get_player().add_coins(-1);
+      for (auto& p : Sector::get().get_players())
+      {
+        if (p->is_dead() || p->is_dying() || p->is_winning())
+          continue;
+
+        p->add_coins(-1);
+        // FIXME: Find a cleaner way to handle this
+        //        (Remove only one coin per second, not per player per second)
+        break;
+      }
     }
   }
 }
@@ -77,8 +102,11 @@ LevelTime::update(float dt_sec)
 void
 LevelTime::draw(DrawingContext& context)
 {
+  if (Editor::is_active())
+    return;
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
 
   if ((time_left > TIME_WARNING) || (int(g_game_time * 2.5f) % 2)) {
     std::stringstream ss;
@@ -89,13 +117,13 @@ LevelTime::draw(DrawingContext& context)
     {
       float all_width = static_cast<float>(time_surface->get_width()) + Resources::normal_font->get_text_width(time_text);
       context.color().draw_surface(time_surface,
-                                   Vector((static_cast<float>(context.get_width()) - all_width) / 2.0f,
+                                   Vector((context.get_width() - all_width) / 2.0f,
                                           BORDER_Y + 1),
-                                   LAYER_FOREGROUND1);
+                                   LAYER_HUD);
       context.color().draw_text(Resources::normal_font, time_text,
-                                Vector((static_cast<float>(context.get_width()) - all_width) / 2.0f + static_cast<float>(time_surface->get_width()),
-                                       BORDER_Y),
-                                ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
+                                Vector((context.get_width() - all_width) / 2.0f + static_cast<float>(time_surface->get_width()),
+                                       BORDER_Y + 14),
+                                ALIGN_LEFT, LAYER_HUD, LevelTime::text_color);
     }
   }
 

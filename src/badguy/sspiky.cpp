@@ -31,7 +31,7 @@ SSpiky::initialize()
 {
   state = SSPIKY_SLEEPING;
   m_physic.set_velocity_x(0);
-  m_sprite->set_action(m_dir == Direction::LEFT ? "sleeping-left" : "sleeping-right");
+  set_action("sleeping", m_dir);
 }
 
 void
@@ -73,8 +73,8 @@ SSpiky::active_update(float dt_sec) {
       bool inReach_bottom = (pb.get_top() <= m_col.m_bbox.get_bottom());
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
-        // wake up
-        m_sprite->set_action(m_dir == Direction::LEFT ? "waking-left" : "waking-right", 1);
+        // Wake up.
+        set_action("waking", m_dir, 1);
         state = SSPIKY_WAKING;
       }
     }
@@ -84,7 +84,7 @@ SSpiky::active_update(float dt_sec) {
 
   if (state == SSPIKY_WAKING) {
     if (m_sprite->animation_done()) {
-      // start walking
+      // Start walking.
       state = SSPIKY_WALKING;
       WalkingBadguy::initialize();
     }
@@ -97,7 +97,7 @@ void
 SSpiky::freeze()
 {
   WalkingBadguy::freeze();
-  state = SSPIKY_WALKING; // if we get hit while sleeping, wake up :)
+  state = SSPIKY_WALKING; // If we get hit while sleeping, wake up.
 }
 
 bool
@@ -110,6 +110,14 @@ bool
 SSpiky::is_flammable() const
 {
   return state != SSPIKY_SLEEPING;
+}
+
+void
+SSpiky::after_editor_set()
+{
+  WalkingBadguy::after_editor_set();
+  if (m_start_dir == Direction::AUTO)
+    set_action("sleeping-left");
 }
 
 /* EOF */

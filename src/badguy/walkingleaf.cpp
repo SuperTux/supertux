@@ -17,19 +17,89 @@
 #include "badguy/walkingleaf.hpp"
 
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
+  WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right"),
+  m_fall_speed()
 {
-  walk_speed = 60;
+  parse_type(reader);
+
   max_drop_height = 16;
+}
+
+GameObjectTypes
+WalkingLeaf::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
+
+std::string
+WalkingLeaf::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/walkingleaf/corrupted/rotten_leaf.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
+void
+WalkingLeaf::on_type_change(int old_type)
+{
+  MovingSprite::on_type_change();
+
+  switch (m_type)
+  {
+    case NORMAL:
+      walk_speed = 60.f;
+      m_fall_speed = 35.f;
+      break;
+    case CORRUPTED:
+      walk_speed = 55.f;
+      m_fall_speed = 80.f;
+      break;
+    default:
+      break;
+  }
+}
+
+void
+WalkingLeaf::active_update(float dt_sec)
+{
+  if (!m_frozen && !m_ignited)
+  {
+    Rectf floatbox = get_bbox();
+    floatbox.set_bottom(get_bbox().get_bottom() + 8.f);
+    bool float_here = (Sector::get().is_free_of_statics(floatbox));
+
+    if (!float_here) {
+      set_action(m_dir);
+    }
+    else {
+      set_action("float", m_dir);
+      if (m_physic.get_velocity_y() >= m_fall_speed) {
+        m_physic.set_velocity_y(m_fall_speed);
+      }
+    }
+  }
+
+  WalkingBadguy::active_update(dt_sec);
 }
 
 bool
 WalkingLeaf::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
-  // Spawn death particles
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(object);
+
+  set_action("squished", m_dir);
+  // Spawn death particles.
   spawn_explosion_sprites(3, "images/particles/walkingleaf.sprite");
   kill_squished(object);
   return true;
@@ -40,4 +110,5 @@ WalkingLeaf::is_freezable() const
 {
   return true;
 }
+
 /* EOF */

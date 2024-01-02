@@ -40,8 +40,7 @@ GameMenu::GameMenu() :
 
     GameSession::current()->reset_checkpoint_button = true;
   }),
-  abort_callback ( [] {
-    MenuManager::instance().clear_menu_stack();
+  abort_callback([] {
     GameSession::current()->abort_level();
   })
 {
@@ -52,7 +51,7 @@ GameMenu::GameMenu() :
   add_entry(MNID_CONTINUE, _("Continue"));
   add_entry(MNID_RESETLEVEL, _("Restart Level"));
 
-  if (Sector::current()->get_player().get_status().can_reach_checkpoint()) {
+  if (Sector::current()->get_players()[0]->get_status().can_reach_checkpoint()) {
     add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart from Checkpoint"));
   }
 

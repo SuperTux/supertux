@@ -157,18 +157,6 @@ ScriptedObject::enable_gravity(bool f)
 }
 
 void
-ScriptedObject::set_action(const std::string& animation)
-{
-  m_sprite->set_action(animation);
-}
-
-std::string
-ScriptedObject::get_action() const
-{
-  return m_sprite->get_action();
-}
-
-void
 ScriptedObject::update(float dt_sec)
 {
   if (!physic_enabled)

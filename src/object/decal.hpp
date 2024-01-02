@@ -36,8 +36,10 @@ public:
 
   virtual HitResponse collision(GameObject& , const CollisionHit& ) override { return FORCE_MOVE; }
 
-  virtual std::string get_class() const override { return "decal"; }
-  virtual std::string get_display_name() const override { return _("Decal"); }
+  static std::string class_name() { return "decal"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Decal"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 

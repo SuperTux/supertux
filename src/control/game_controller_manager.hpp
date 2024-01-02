@@ -17,8 +17,9 @@
 #ifndef HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
 #define HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
 
-#include <vector>
 #include <array>
+#include <vector>
+#include <unordered_map>
 
 #include "control/controller.hpp"
 
@@ -28,6 +29,11 @@ struct SDL_ControllerButtonEvent;
 struct _SDL_GameController;
 typedef struct _SDL_GameController SDL_GameController;
 
+/**
+ * Manages GameControllers.
+ * 
+ * WARNING: Any edit done to this class should also be done to JoystickManager!
+ */
 class GameControllerManager final
 {
 public:
@@ -40,10 +46,20 @@ public:
   void on_controller_added(int joystick_index);
   void on_controller_removed(int instance_id);
 
+  void on_player_removed(int player_id);
+  bool has_corresponding_game_controller(int player_id) const;
+
+  /** @returns 0 if success, 1 if controller doesn't support rumbling, 2 if game doesn't support rumbling */
+  int rumble(SDL_GameController* controller) const;
+
+  void bind_controller(SDL_GameController* controller, int player_id);
+
+  std::unordered_map<SDL_GameController*, int>& get_controller_mapping() { return m_game_controllers; }
+
 private:
   InputManager* m_parent;
   int m_deadzone;
-  std::vector<SDL_GameController*> m_game_controllers;
+  std::unordered_map<SDL_GameController*, int> m_game_controllers;
   std::array<bool, static_cast<int>(Control::CONTROLCOUNT)> m_stick_state;
   std::array<bool, static_cast<int>(Control::CONTROLCOUNT)> m_button_state;
 

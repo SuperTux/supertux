@@ -20,12 +20,14 @@
 #include <algorithm>
 #include <physfs.h>
 
+#include "control/input_manager.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/profile_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
@@ -108,56 +110,75 @@ LevelsetState::get_level_state(const std::string& filename) const
   }
 }
 
+
 std::unique_ptr<Savegame>
-Savegame::from_file(const std::string& filename)
+Savegame::from_profile(int profile, const std::string& world_name, bool base_data)
 {
-  std::unique_ptr<Savegame> savegame(new Savegame(filename));
-  savegame->load();
+  auto savegame = std::make_unique<Savegame>(ProfileManager::current()->get_profile(profile), world_name);
+  savegame->load(base_data);
   return savegame;
 }
 
-Savegame::Savegame(const std::string& filename) :
-  m_filename(filename),
-  m_player_status(new PlayerStatus)
+std::unique_ptr<Savegame>
+Savegame::from_current_profile(const std::string& world_name, bool base_data)
 {
+  auto savegame = std::make_unique<Savegame>(ProfileManager::current()->get_current_profile(), world_name);
+  savegame->load(base_data);
+  return savegame;
+}
+
+
+Savegame::Savegame(Profile& profile, const std::string& world_name) :
+  m_profile(profile),
+  m_world_name(world_name),
+  m_player_status(new PlayerStatus(InputManager::current()->get_num_users()))
+{
+}
+
+std::string
+Savegame::get_filename() const
+{
+  return FileSystem::join(m_profile.get_basedir(), m_world_name + ".stsg");
 }
 
 bool
 Savegame::is_title_screen() const
 {
-  // bit of a hack, TileScreen uses a dummy savegame without a filename
-  return m_filename.empty();
+  // bit of a hack, TitleScreen uses a dummy savegame without a world name
+  return m_world_name.empty();
 }
 
 void
-Savegame::load()
+Savegame::load(bool base_data)
 {
-  if (m_filename.empty())
+  if (m_world_name.empty())
   {
-    log_debug << "no filename set for savegame, skipping load" << std::endl;
+    log_debug << "no world name provided for savegame, skipping load" << std::endl;
     return;
   }
 
   clear_state_table();
 
-  if (!PHYSFS_exists(m_filename.c_str()))
+  const std::string filename = get_filename();
+
+  if (!PHYSFS_exists(filename.c_str()))
   {
-    log_info << m_filename << " doesn't exist, not loading state" << std::endl;
+    log_info << filename << " doesn't exist, not loading state" << std::endl;
   }
   else
   {
-    if (physfsutil::is_directory(m_filename))
+    if (physfsutil::is_directory(filename))
     {
-      log_info << m_filename << " is a directory, not loading state" << std::endl;
+      log_info << filename << " is a directory, not loading state" << std::endl;
       return;
     }
-    log_debug << "loading savegame from " << m_filename << std::endl;
+    log_debug << "loading savegame from " << filename << std::endl;
 
     try
     {
       SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
 
-      auto doc = ReaderDocument::from_file(m_filename);
+      auto doc = ReaderDocument::from_file(filename);
       auto root = doc.get_root();
 
       if (root.get_name() != "supertux-savegame")
@@ -176,7 +197,8 @@ Savegame::load()
         }
         else
         {
-          boost::optional<ReaderMapping> tux;
+          /** Load Tux */
+          std::optional<ReaderMapping> tux;
           if (!mapping.get("tux", tux))
           {
             throw std::runtime_error("No tux section in savegame");
@@ -185,7 +207,11 @@ Savegame::load()
             m_player_status->read(*tux);
           }
 
-          boost::optional<ReaderMapping> state;
+          if (base_data)
+            return;
+
+          /** Load "state" table */
+          std::optional<ReaderMapping> state;
           if (!mapping.get("state", state))
           {
             throw std::runtime_error("No state section in savegame");
@@ -224,38 +250,20 @@ Savegame::clear_state_table()
 void
 Savegame::save()
 {
-  if (m_filename.empty())
+  if (m_world_name.empty())
   {
-    log_debug << "no filename set for savegame, skipping save" << std::endl;
+    log_debug << "no world name set for savegame, skipping save" << std::endl;
     return;
   }
 
-  log_debug << "saving savegame to " << m_filename << std::endl;
+  const std::string filename = get_filename();
+  log_debug << "saving savegame to " << filename << std::endl;
 
-  { // make sure the savegame directory exists
-    std::string dirname = FileSystem::dirname(m_filename);
-    if (!PHYSFS_exists(dirname.c_str()))
-    {
-      if (!PHYSFS_mkdir(dirname.c_str()))
-      {
-        std::ostringstream msg;
-        msg << "Couldn't create directory for savegames '"
-            << dirname << "': " <<PHYSFS_getLastErrorCode();
-        throw std::runtime_error(msg.str());
-      }
-    }
-
-    if (!physfsutil::is_directory(dirname))
-    {
-      std::ostringstream msg;
-      msg << "Savegame path '" << dirname << "' is not a directory";
-      throw std::runtime_error(msg.str());
-    }
-  }
+  m_profile.save(); // Make sure profile directory exists, save profile info
 
   SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
 
-  Writer writer(m_filename);
+  Writer writer(filename);
 
   writer.start_list("supertux-savegame");
   writer.write("version", 1);

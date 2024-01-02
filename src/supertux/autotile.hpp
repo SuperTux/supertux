@@ -17,22 +17,11 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_AUTOTILE_HPP
 
+#include <algorithm>
 #include <memory>
 #include <stdint.h>
 #include <string>
-#include <algorithm>
-
-#include "math/rect.hpp"
-#include "math/rectf.hpp"
-#include "math/size.hpp"
-#include "object/path_object.hpp"
-#include "object/path_walker.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/tilemap.hpp"
-#include "supertux/game_object.hpp"
-#include "video/color.hpp"
-#include "video/flip.hpp"
-#include "video/drawing_target.hpp"
+#include <vector>
 
 class AutotileMask final
 {
@@ -41,29 +30,25 @@ public:
 
   bool matches(uint8_t mask, bool center) const;
 
-  uint8_t get_mask() const;
+  uint8_t get_mask() const { return m_mask; }
 
 private:
   uint8_t m_mask;
   bool m_center; // m_center should *always* be the same as the m_solid of the corresponding Autotile
-
-private:
-  AutotileMask(const AutotileMask&) = delete;
-  AutotileMask& operator=(const AutotileMask&) = delete;
 };
 
 class Autotile final
 {
 public:
   Autotile(uint32_t tile_id,
-    std::vector<std::pair<uint32_t, float>> alt_tiles,
-    std::vector<AutotileMask*> masks,
+    const std::vector<std::pair<uint32_t, float>>& alt_tiles,
+    const std::vector<AutotileMask>& masks,
     bool solid);
 
   bool matches(uint8_t mask, bool center) const;
 
   /** @deprecated Returns the base tile ID. */
-  uint32_t get_tile_id() const;
+  uint32_t get_tile_id() const { return m_tile_id; }
 
   /** Picks a tile randomly amongst the possible ones for this autotile. */
   uint32_t pick_tile(int x, int y) const;
@@ -75,15 +60,15 @@ public:
   uint8_t get_first_mask() const;
 
   /** Returns all possible tiles for this autotile */
-  std::vector<std::pair<uint32_t, float>> get_all_tile_ids() const;
+  const std::vector<std::pair<uint32_t, float>>& get_all_tile_ids() const { return m_alt_tiles; }
 
   /** Returns true if the "center" bool of masks are true. All masks of given Autotile must have the same value for their "center" property.*/
-  bool is_solid() const;
+  bool is_solid() const { return m_solid; }
 
 private:
   uint32_t m_tile_id;
   std::vector<std::pair<uint32_t, float>> m_alt_tiles;
-  std::vector<AutotileMask*> m_masks;
+  std::vector<AutotileMask> m_masks;
   bool m_solid;
 
 private:
@@ -98,7 +83,8 @@ public:
   //static AutotileSet* get_tileset_from_tile(uint32_t tile_id);
 
 public:
-  AutotileSet(std::vector<Autotile*> autotiles, uint32_t default_tile, std::string name, bool corner);
+  AutotileSet(const std::vector<Autotile*>& autotiles, uint32_t default_tile, const std::string& name, bool corner);
+  ~AutotileSet();
 
   /** Returns the ID of the tile to use, based on the surrounding tiles.
    *  If the autotileset is corner-based, the top, left, right, bottom and
@@ -112,7 +98,7 @@ public:
   ) const;
 
   /** Returns the id of the first block in the autotileset. Used for erronous configs. */
-  uint32_t get_default_tile() const;
+  uint32_t get_default_tile() const { return m_default; }
 
   /** true if the given tile is present in the autotileset */
   bool is_member(uint32_t tile_id) const;
@@ -133,7 +119,7 @@ public:
   void validate() const;
 
 public:
-  static std::vector<AutotileSet*>* m_autotilesets;
+  static std::vector<std::unique_ptr<AutotileSet>> m_autotilesets;
 
 private:
   std::vector<Autotile*> m_autotiles;

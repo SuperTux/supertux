@@ -35,6 +35,7 @@
 #include "util/string_util.hpp"
 #include "video/surface_ptr.hpp"
 
+class ButtonWidget;
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -42,7 +43,6 @@ class Path;
 class Savegame;
 class Sector;
 class TileSet;
-class UndoManager;
 class World;
 
 class Editor final : public Screen,
@@ -97,6 +97,8 @@ public:
 
   EditorToolboxWidget::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_input_type(); }
 
+  bool has_active_toolbox_tip() const { return m_toolbox_widget->has_active_object_tip(); }
+
   int get_tileselect_select_mode() const;
   int get_tileselect_move_mode() const;
 
@@ -114,6 +116,12 @@ public:
   bool is_testing_level() const { return m_leveltested; }
 
   void remove_autosave_file();
+
+  /** Convert tiles on every tilemap in the level, according to a tile conversion file. */
+  void convert_tiles_by_file(const std::string& file);
+
+  void check_deprecated_tiles();
+  bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
   /** Checks whether the level can be saved and does not contain
       obvious issues (currently: check if main sector and a spawn point
@@ -150,6 +158,9 @@ public:
 
   Sector* get_sector() { return m_sector; }
 
+  void retoggle_undo_tracking();
+  void undo_stack_cleanup();
+
   void undo();
   void redo();
 
@@ -167,8 +178,10 @@ private:
    *                    new filename.
    */
   void save_level(const std::string& filename = "", bool switch_file = false);
-  void test_level(const boost::optional<std::pair<std::string, Vector>>& test_pos);
+  void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
+
+  void post_undo_redo_actions();
 
 protected:
   std::unique_ptr<Level> m_level;
@@ -188,9 +201,8 @@ public:
   bool m_save_request_switch;
   bool m_test_request;
   bool m_particle_editor_request;
-  boost::optional<std::pair<std::string, Vector>> m_test_pos;
+  std::optional<std::pair<std::string, Vector>> m_test_pos;
 
-  std::unique_ptr<Savegame> m_savegame;
   std::string* m_particle_editor_filename;
 
 private:
@@ -198,10 +210,14 @@ private:
 
   bool m_levelloaded;
   bool m_leveltested;
+  bool m_after_setup; // Set to true after setup function finishes and to false after leave function finishes
 
   TileSet* m_tileset;
+  bool m_has_deprecated_tiles;
 
   std::vector<std::unique_ptr<Widget> > m_widgets;
+  ButtonWidget* m_undo_widget;
+  ButtonWidget* m_redo_widget;
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
@@ -209,11 +225,6 @@ private:
   bool m_enabled;
   SurfacePtr m_bgr_surface;
 
-  std::unique_ptr<UndoManager> m_undo_manager;
-  bool m_ignore_sector_change;
-  
-  bool m_level_first_loaded;
-  
   float m_time_since_last_save;
 
   float m_scroll_speed;

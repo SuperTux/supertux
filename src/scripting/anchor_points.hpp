@@ -19,16 +19,29 @@
 
 namespace scripting {
 
+#ifdef DOXYGEN_SCRIPTING
+/**
+ * @summary This module contains global anchor constants.
+ */
+class AnchorPoints
+{
+public:
+#endif
+
 // TODO get these from the definitions in anchor.h (needs miniswig update)
-static const int ANCHOR_TOP         = 0x0010;
-static const int ANCHOR_BOTTOM      = 0x0020;
-static const int ANCHOR_LEFT        = 0x0001;
-static const int ANCHOR_RIGHT       = 0x0002;
-static const int ANCHOR_MIDDLE      = 0x0000;
-static const int ANCHOR_TOP_LEFT    = 0x0011;
-static const int ANCHOR_TOP_RIGHT   = 0x0012;
-static const int ANCHOR_BOTTOM_LEFT = 0x0021;
-static const int ANCHOR_BOTTOM_RIGHT = 0x0022;
+static const int ANCHOR_TOP_LEFT     = 0; /**< Top-left anchor point. */
+static const int ANCHOR_TOP          = 1; /**< Top anchor point. */
+static const int ANCHOR_TOP_RIGHT    = 2; /**< Top-right anchor point. */
+static const int ANCHOR_LEFT         = 3; /**< Left anchor point. */
+static const int ANCHOR_MIDDLE       = 4; /**< Middle anchor point. */
+static const int ANCHOR_RIGHT        = 5; /**< Right anchor point. */
+static const int ANCHOR_BOTTOM_LEFT  = 6; /**< Bottom-left anchor point. */
+static const int ANCHOR_BOTTOM       = 7; /**< Bottom anchor point. */
+static const int ANCHOR_BOTTOM_RIGHT = 8; /**< Bottom-right anchor point. */
+
+#ifdef DOXYGEN_SCRIPTING
+}
+#endif
 
 } // namespace scripting
 

@@ -1,63 +1,64 @@
 (supertux-sprite
   (action
     (name "idle")
-    (hitbox 27 39 26 39)
-    (images 
-      "mhill.png"
+    (hitbox 18 22 32 40)
+	(fps 12)
+    (images "mole_hill.png"
     )
   )
   (action
     (name "peeking")
-    (hitbox 27 39 26 39)
+    (hitbox 18 22 32 40)
     (fps 12)
-    (images 
-	  "mhill.png"
-	  "mhill.png"
-	  "mhill.png"
-      "m1.png"
-	  "m2.png"
-	  "m3.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m4.png"
-	  "m5.png"
-	  "m6.png"
-	  "m7.png"
-	  "m8.png"
-	  "m9.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m10.png"
-	  "m11.png"
-	  "m12.png"
+    (images "mole_hill.png"
+			"up-0.png"
+			"up-1.png"
+			"up-2.png"
+			"up-3.png"
+			"center.png"
+			"center.png"
+			"center.png"
+			"peek_left-0.png"
+			"peek_left-1.png"
+			"peek_left-2.png"
+			"peek_left-2.png"
+			"peek_left-2.png"
+			"peek_left-1.png"
+			"peek_left-0.png"
+			"center.png"
+			"peek_right-0.png"
+			"peek_right-1.png"
+			"peek_right-2.png"
+			"peek_right-2.png"
+			"peek_right-2.png"
+			"peek_right-1.png"
+			"peek_right-0.png"
+			"center.png"
+			"center.png"
+			"center.png"
+			"down-0.png"
+			"down-1.png"
+			"down-2.png"
+			"mole_hill.png"
     )
   )
   (action
     (name "burning")
-    (hitbox 27 39 26 39)
+    (hitbox 18 22 32 40)
     (fps 15)
-    (images 
-      "fire1.png"
-	  "fire2.png"
-	  "fire3.png"
-	  "fire4.png"
-	  "fire5.png"
+	(loops 1)
+    (images "mole_hill.png"
+    )
+  )
+  (action
+	(name "squished")
+	(fps 12)
+	(loops 1)
+	(hitbox 18 22 32 40)
+	(images "down-0.png"
+			"down-1.png"
+			"down-2.png"
+			"mole_hill.png"
     )
   )
 )

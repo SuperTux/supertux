@@ -19,11 +19,13 @@
 #include <algorithm>
 #include <sstream>
 
+#include "editor/editor.hpp"
 #include "gui/item_stringselect.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/texture_manager.hpp"
 
 DebugMenu::DebugMenu() :
@@ -32,10 +34,10 @@ DebugMenu::DebugMenu() :
   add_label(_("Debug"));
   add_hl();
 
-  { // game speed menu entry
+  { // Game speed menu entry.
     std::vector<float> game_speed_multiplier;
     std::vector<std::string> game_speeds;
-    for (int percent : {0, 5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500, 1000, 1500, 3000})
+    for (int percent : {5, 10, 25, 50, 75, 100, 150, 200, 300, 400, 500, 1000, 1500, 3000})
     {
       std::ostringstream out;
       out << percent << "%";
@@ -69,10 +71,18 @@ DebugMenu::DebugMenu() :
   add_toggle(-1, _("Use Bitmap Fonts"),
              []{ return g_debug.get_use_bitmap_fonts(); },
              [](bool value){ g_debug.set_use_bitmap_fonts(value); });
-  add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(std::cout); });
+  add_entry(_("Dump Texture Cache"), []{ TextureManager::current()->debug_print(get_logging_instance()); });
 
   add_hl();
   add_back(_("Back"));
+}
+
+DebugMenu::~DebugMenu()
+{
+  auto editor = Editor::current();
+
+  if (editor == nullptr) return;
+  editor->m_reactivate_request = true;
 }
 
 void

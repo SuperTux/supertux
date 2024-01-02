@@ -6,6 +6,7 @@
 #include "scripting/camera.hpp"
 #include "scripting/candle.hpp"
 #include "scripting/clouds.hpp"
+#include "scripting/conveyor_belt.hpp"
 #include "scripting/custom_particles.hpp"
 #include "scripting/decal.hpp"
 #include "scripting/dispenser.hpp"
@@ -16,6 +17,7 @@
 #include "scripting/gradient.hpp"
 #include "scripting/level.hpp"
 #include "scripting/level_time.hpp"
+#include "scripting/lit_object.hpp"
 #include "scripting/particlesystem.hpp"
 #include "scripting/platform.hpp"
 #include "scripting/player.hpp"
@@ -31,6 +33,6 @@
 #include "scripting/torch.hpp"
 #include "scripting/willowisp.hpp"
 #include "scripting/wind.hpp"
-#include "scripting/worldmap.hpp"
+#include "scripting/worldmap_sector.hpp"
 
 /* EOF */

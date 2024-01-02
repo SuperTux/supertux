@@ -18,13 +18,11 @@
 #define HEADER_SUPERTUX_BADGUY_SNAIL_HPP
 
 #include "badguy/walking_badguy.hpp"
-#include "object/portable.hpp"
 
 /** Badguy "Snail" - a snail-like creature that can be flipped and
     tossed around at an angle */
 class Snail final :
-  public WalkingBadguy,
-  public Portable
+  public WalkingBadguy
 {
 public:
   Snail(const ReaderMapping& reader);
@@ -38,8 +36,15 @@ public:
   virtual void active_update(float dt_sec) override;
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "snail"; }
-  virtual std::string get_display_name() const override { return _("Snail"); }
+  virtual bool is_snipable() const override;
+
+  static std::string class_name() { return "snail"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Snail"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+
+  virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual bool is_portable() const override;
   virtual void ungrab(MovingObject& , Direction dir_) override;
@@ -48,24 +53,38 @@ public:
 protected:
   virtual bool collision_squished(GameObject& object) override;
 
+private:
   void be_normal(); /**< switch to state STATE_NORMAL */
+  void be_guard(); /**< switch to state STATE_GUARD_SHAKE (prepare for STATE_GUARD) */
   void be_flat(); /**< switch to state STATE_FLAT */
   void be_kicked(bool upwards); /**< switch to state STATE_KICKED_DELAY */
   void be_grabbed();
+  void wake_up();
 
 private:
   enum State {
     STATE_NORMAL, /**< walking around */
+    STATE_GUARD_SHAKE, /**< short delay before switching to STATE_GUARD, plays respective animation */
+    STATE_GUARD, /**< short guarding state, periodically activated on corrupted snails while walking */
+    STATE_GUARD_RETRACT, /**< short delay before switching back to STATE_NORMAL, plays respective animation */
     STATE_FLAT, /**< flipped upside-down */
+    STATE_WAKING, /**< is waking up */
     STATE_KICKED_DELAY, /**< short delay before being launched */
     STATE_KICKED, /**< launched */
     STATE_GRABBED, /**< grabbed by tux */
+  };
+  enum Type {
+    NORMAL,
+    CORRUPTED
   };
 
 private:
   State state;
   Timer kicked_delay_timer; /**< wait time until switching from STATE_KICKED_DELAY to STATE_KICKED */
-  int   squishcount;
+  Timer flat_timer;
+  Timer m_guard_timer;
+  Timer m_guard_end_timer;
+  int squishcount;
 
 private:
   Snail(const Snail&) = delete;

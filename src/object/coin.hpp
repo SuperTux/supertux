@@ -28,21 +28,26 @@ class TileMap;
 class Coin : public MovingSprite,
              public PathObject
 {
-
-friend class HeavyCoin;
+  friend class HeavyCoin;
 
 public:
-  Coin(const Vector& pos);
-  Coin(const ReaderMapping& reader);
+  Coin(const Vector& pos, bool count_stats = true,
+       const std::string& sprite_path = "images/objects/coin/coin.sprite");
+  Coin(const ReaderMapping& reader, bool count_stats = true);
   virtual void finish_construction() override;
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   virtual void update(float dt_sec) override;
-  virtual std::string get_class() const override { return "coin"; }
-  virtual std::string get_display_name() const override { return _("Coin"); }
+  static std::string class_name() { return "coin"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Coin"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
   virtual void after_editor_set() override;
   virtual void editor_update() override;
 
@@ -53,6 +58,12 @@ public:
   void collect();
 
 private:
+  enum Type {
+    NORMAL,
+    RETRO
+  };
+
+private:
   Vector m_offset;
   bool m_from_tilemap;
   bool m_add_path;
@@ -60,6 +71,8 @@ private:
   std::string m_collect_script;
 
   int m_starting_node;
+
+  const bool m_count_stats;
 
 private:
   Coin(const Coin&) = delete;
@@ -69,14 +82,17 @@ private:
 class HeavyCoin final : public Coin
 {
 public:
-  HeavyCoin(const Vector& pos, const Vector& init_velocity);
-  HeavyCoin(const ReaderMapping& reader);
+  HeavyCoin(const Vector& pos, const Vector& init_velocity, bool count_stats = true,
+            const std::string& sprite_path = "images/objects/coin/coin.sprite");
+  HeavyCoin(const ReaderMapping& reader, bool count_stats = true);
 
   virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
 
-  virtual std::string get_class() const override { return "heavycoin"; }
-  virtual std::string get_display_name() const override { return _("Heavy Coin"); }
+  static std::string class_name() { return "heavycoin"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Heavy Coin"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;

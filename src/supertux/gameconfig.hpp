@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 
-#include "config.h"
+#include <optional>
 
 #include "control/joystick_config.hpp"
 #include "control/keyboard_config.hpp"
@@ -25,10 +25,6 @@
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
 #include "video/video_system.hpp"
-
-#include <boost/date_time/gregorian/gregorian.hpp>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
-#include <boost/optional.hpp>
 
 class Config final
 {
@@ -84,7 +80,7 @@ public:
   std::string record_demo;
 
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
-  boost::optional<Vector> tux_spawn_pos;
+  std::optional<Vector> tux_spawn_pos;
 
   /** force SuperTux language to this locale, e.g. "de". A file
       "data/locale/xx.po" must exist for this to work. An empty string
@@ -94,9 +90,8 @@ public:
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
   bool mobile_controls;
-#endif
+  float m_mobile_controls_scale;
 
   struct Addon
   {
@@ -111,11 +106,21 @@ public:
   bool confirmation_dialog;
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
+  bool do_release_check;
+  bool custom_title_levels;
 
 #ifdef ENABLE_DISCORD
   bool enable_discord;
 #endif
   bool hide_editor_levelnames;
+
+  struct Notification
+  {
+    std::string id;
+    bool disabled;
+  };
+  std::vector<Notification> notifications;
+
   Color menubackcolor;
   Color menufrontcolor;
   Color menuhelpbackcolor;
@@ -136,23 +141,17 @@ public:
   bool editor_autotile_mode;
   bool editor_autotile_help;
   int editor_autosave_frequency;
+  bool editor_undo_tracking;
+  int editor_undo_stack_size;
+  bool editor_show_deprecated_tiles;
+
+  bool multiplayer_auto_manage_players;
+  bool multiplayer_multibind;
+  bool multiplayer_buzz_controllers;
 
   std::string repository_url;
 
-  bool is_christmas() const {
-    try
-    {
-      using namespace boost::gregorian;
-      using namespace boost::posix_time;
-      date today = second_clock::local_time().date();
-      date saint_nicholas_day(today.year(), Dec, 6);
-      return today >= saint_nicholas_day;
-    }
-    catch(...)
-    {
-      return false;
-    }
-  }
+  bool is_christmas() const;
 };
 
 #endif

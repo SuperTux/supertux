@@ -19,14 +19,15 @@
 #include <assert.h>
 
 #include "supertux/menu/addon_menu.hpp"
+#include "supertux/menu/addon_browse_menu.hpp"
 #include "supertux/menu/cheat_menu.hpp"
 #include "supertux/menu/debug_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/custom_menu_menu.hpp"
+#include "supertux/menu/editor_converters_menu.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_level_menu.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
-#include "supertux/menu/editor_levelset_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
@@ -39,11 +40,14 @@
 #include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
 #include "supertux/menu/main_menu.hpp"
-#include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/multiplayer_menu.hpp"
+#include "supertux/menu/multiplayer_players_menu.hpp"
+#include "supertux/menu/options_select_menu.hpp"
 #include "supertux/menu/particle_editor_menu.hpp"
 #include "supertux/menu/particle_editor_save_as.hpp"
 #include "supertux/menu/particle_editor_open.hpp"
 #include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/video_system_menu.hpp"
 #include "supertux/menu/web_asset_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/menu/worldmap_cheat_menu.hpp"
@@ -82,10 +86,10 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<LanguageMenu>();
 
     case OPTIONS_MENU:
-      return std::unique_ptr<Menu>(new OptionsMenu(true));
+      return std::make_unique<OptionsSelectMenu>(true);
 
     case INGAME_OPTIONS_MENU:
-      return std::unique_ptr<Menu>(new OptionsMenu(false));
+      return std::make_unique<OptionsSelectMenu>(false);
 
     case PROFILE_MENU:
       return std::make_unique<ProfileMenu>();
@@ -95,6 +99,9 @@ MenuStorage::create(MenuId menu_id)
 
     case JOYSTICK_MENU:
       return std::unique_ptr<Menu>(new JoystickMenu(*InputManager::current()));
+
+    case VIDEO_SYSTEM_MENU:
+      return std::make_unique<VideoSystemMenu>();
 
     case WORLDMAP_MENU:
       return std::make_unique<WorldmapMenu>();
@@ -127,7 +134,7 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<AddonMenu>();
 
     case LANGPACK_MENU:
-      return std::unique_ptr<Menu>(new AddonMenu);
+      return std::unique_ptr<Menu>(new AddonMenu(true));
 
     case EDITOR_LEVELSET_SELECT_MENU:
       return std::make_unique<EditorLevelsetSelectMenu>();
@@ -136,7 +143,7 @@ MenuStorage::create(MenuId menu_id)
       return std::make_unique<EditorNewLevelsetMenu>();
 
     case LANGPACK_AUTO_UPDATE_MENU:
-      return std::unique_ptr<Menu>(new AddonMenu(true));
+      return std::unique_ptr<Menu>(new AddonBrowseMenu(true, true));
 
     case EDITOR_LEVEL_SELECT_MENU:
       return std::make_unique<EditorLevelSelectMenu>();
@@ -159,8 +166,8 @@ MenuStorage::create(MenuId menu_id)
     case EDITOR_LEVEL_MENU:
       return std::make_unique<EditorLevelMenu>();
 
-    case EDITOR_LEVELSET_MENU:
-      return std::make_unique<EditorLevelsetMenu>();
+    case EDITOR_CONVERTERS_MENU:
+      return std::make_unique<EditorConvertersMenu>();
 
     case INTEGRATIONS_MENU:
       return std::make_unique<IntegrationsMenu>();
@@ -183,6 +190,12 @@ MenuStorage::create(MenuId menu_id)
 
     case CUSTOM_MENU_MENU:
       return std::make_unique<CustomMenuMenu>();
+
+    case MULTIPLAYER_MENU:
+      return std::make_unique<MultiplayerMenu>();
+
+    case MULTIPLAYER_PLAYERS_MENU:
+      return std::make_unique<MultiplayerPlayersMenu>();
 
     case NO_MENU:
       return std::unique_ptr<Menu>();

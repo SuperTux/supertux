@@ -17,24 +17,22 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
 #define HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
 
-#include "supertux/sequence.hpp"
 #include "trigger/trigger_base.hpp"
 
-class Player;
-class ReaderMapping;
+#include "supertux/sequence.hpp"
 
-class SequenceTrigger final : public TriggerBase
+class SequenceTrigger final : public Trigger
 {
 public:
   SequenceTrigger(const ReaderMapping& reader);
-  SequenceTrigger(const Vector& pos, const std::string& sequence_name);
 
-  virtual std::string get_class() const override { return "sequencetrigger"; }
-  virtual std::string get_display_name() const override { return _("Sequence Trigger"); }
+  static std::string class_name() { return "sequencetrigger"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Sequence Trigger"); }
+  virtual std::string get_display_name() const override { return display_name(); }
   virtual bool has_variable_size() const override { return true; }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
   virtual void event(Player& player, EventType type) override;
   virtual void draw(DrawingContext& context) override;
@@ -44,7 +42,6 @@ public:
 private:
   EventType triggerevent;
   Sequence sequence;
-  Vector new_size;
   std::string new_spawnpoint;
   std::string fade_tilemap;
   TilemapFadeType fade;

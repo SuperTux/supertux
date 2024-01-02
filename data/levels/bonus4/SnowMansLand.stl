@@ -4,6 +4,8 @@
   (author "alex")
   (license "CC-BY-SA 4.0 International")
   (target-time 80)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
@@ -20,8 +22,6 @@
     )
     (background
       (color 1 1 1)
-      (x 999.281)
-      (y 291.428)
       (alignment "top")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -46,15 +46,39 @@
       (y 1876.549)
     )
     (coin
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (path-ref "gen154593619893863526603520")
     )
     (coin
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (path-ref "gen154593619893863518981744")
     )
     (coin
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (path-ref "gen154593619893863479674848")
     )
     (coin
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (path-ref "gen154593619893863526506448")
     )
     (crystallo
@@ -185,6 +209,7 @@
     (path
       (name "gen154593619893863526603520")
       (path
+        (adapt_speed #f)
         (node
           (x 10080)
           (y 1856)
@@ -206,6 +231,7 @@
     (path
       (name "gen154593619893863518981744")
       (path
+        (adapt_speed #f)
         (node
           (x 10159.15)
           (y 1791.999)
@@ -227,6 +253,7 @@
     (path
       (name "gen154593619893863479674848")
       (path
+        (adapt_speed #f)
         (node
           (x 10240)
           (y 1856)
@@ -248,6 +275,7 @@
     (path
       (name "gen154593619893863526506448")
       (path
+        (adapt_speed #f)
         (node
           (x 10160.02)
           (y 1921.781)
@@ -1115,6 +1143,7 @@
       (name "gen154593619893863513486720")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 4896)
           (y 448)
@@ -1129,6 +1158,7 @@
       (name "gen154593619893863513486416")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 4896)
           (y 832)
@@ -1143,6 +1173,7 @@
       (name "gen154593619893863513383456")
       (path
         (mode "oneshot")
+        (adapt_speed #f)
         (node
           (x 13312)
           (y 383.9999)
@@ -1154,12 +1185,24 @@
       )
     )
     (platform
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (running #f)
       (name "plat2")
       (path-ref "gen154593619893863513486720")
       (sprite "/images/objects/platforms/big.sprite")
     )
     (platform
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (running #f)
       (name "plat1")
       (path-ref "gen154593619893863513486416")
@@ -1509,6 +1552,12 @@ chains.goto_node(1);")
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos -100)
       (name "chains")

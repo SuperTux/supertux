@@ -40,14 +40,15 @@ public:
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_class() const override { return "path"; }
-  virtual std::string get_display_name() const override { return _("Path"); }
+  static std::string class_name() { return "path"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Path"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/path.png";
   }
 
-  virtual void editor_update() override;
   virtual void editor_select() override;
   virtual void editor_deselect() override;
 
@@ -61,9 +62,8 @@ public:
 
   void copy_into(PathGameObject& other);
 
-private:
-  /** Removes the object if the path is not referenced anywhere */
-  void check_references();
+  /** Allows saving the object only if the path is referenced somewhere. */
+  bool is_saveable() const override;
 
 private:
   std::unique_ptr<Path> m_path;

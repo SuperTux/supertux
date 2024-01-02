@@ -16,11 +16,14 @@
 
 #include "control/keyboard_config.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+
+/** Delimiter used for config save/load between the control and the player id */
+static constexpr const char DELIMITER = ':';
 
 KeyboardConfig::KeyboardConfig() :
   m_keymap(),
@@ -28,26 +31,39 @@ KeyboardConfig::KeyboardConfig() :
   m_jump_with_up_kbd(false)
 {
   // initialize default keyboard map
-  m_keymap[SDLK_LEFT]     = Control::LEFT;
-  m_keymap[SDLK_RIGHT]    = Control::RIGHT;
-  m_keymap[SDLK_UP]       = Control::UP;
-  m_keymap[SDLK_DOWN]     = Control::DOWN;
-  m_keymap[SDLK_SPACE]    = Control::JUMP;
-  m_keymap[SDLK_LCTRL]    = Control::ACTION;
-  m_keymap[SDLK_LALT]     = Control::ACTION;
-  m_keymap[SDLK_ESCAPE]   = Control::ESCAPE;
-  m_keymap[SDLK_p]        = Control::START;
-  m_keymap[SDLK_PAUSE]    = Control::START;
-  m_keymap[SDLK_RETURN]   = Control::MENU_SELECT;
-  m_keymap[SDLK_KP_ENTER] = Control::MENU_SELECT;
-  m_keymap[SDLK_CARET]    = Control::CONSOLE;
-  m_keymap[SDLK_DELETE]   = Control::PEEK_LEFT;
-  m_keymap[SDLK_PAGEDOWN] = Control::PEEK_RIGHT;
-  m_keymap[SDLK_HOME]     = Control::PEEK_UP;
-  m_keymap[SDLK_END]      = Control::PEEK_DOWN;
-  m_keymap[SDLK_F1]       = Control::CHEAT_MENU;
-  m_keymap[SDLK_F2]       = Control::DEBUG_MENU;
-  m_keymap[SDLK_BACKSPACE]= Control::REMOVE;
+  m_keymap[SDLK_LEFT]      = {0, Control::LEFT};
+  m_keymap[SDLK_RIGHT]     = {0, Control::RIGHT};
+  m_keymap[SDLK_UP]        = {0, Control::UP};
+  m_keymap[SDLK_DOWN]      = {0, Control::DOWN};
+  m_keymap[SDLK_SPACE]     = {0, Control::JUMP};
+  m_keymap[SDLK_LCTRL]     = {0, Control::ACTION};
+  m_keymap[SDLK_ESCAPE]    = {0, Control::ESCAPE};
+  m_keymap[SDLK_p]         = {0, Control::START};
+  m_keymap[SDLK_PAUSE]     = {0, Control::START};
+  m_keymap[SDLK_RETURN]    = {0, Control::MENU_SELECT};
+  m_keymap[SDLK_KP_ENTER]  = {0, Control::MENU_SELECT};
+  m_keymap[SDLK_CARET]     = {0, Control::CONSOLE};
+  m_keymap[SDLK_DELETE]    = {0, Control::PEEK_LEFT};
+  m_keymap[SDLK_PAGEDOWN]  = {0, Control::PEEK_RIGHT};
+  m_keymap[SDLK_HOME]      = {0, Control::PEEK_UP};
+  m_keymap[SDLK_END]       = {0, Control::PEEK_DOWN};
+  m_keymap[SDLK_F1]        = {0, Control::CHEAT_MENU};
+  m_keymap[SDLK_F2]        = {0, Control::DEBUG_MENU};
+  m_keymap[SDLK_BACKSPACE] = {0, Control::REMOVE};
+
+  m_keymap[SDLK_a]         = {1, Control::LEFT};
+  m_keymap[SDLK_d]         = {1, Control::RIGHT};
+  m_keymap[SDLK_w]         = {1, Control::UP};
+  m_keymap[SDLK_s]         = {1, Control::DOWN};
+  m_keymap[SDLK_e]         = {1, Control::JUMP};
+  m_keymap[SDLK_q]         = {1, Control::ACTION};
+
+  m_keymap[SDLK_j]         = {2, Control::LEFT};
+  m_keymap[SDLK_l]         = {2, Control::RIGHT};
+  m_keymap[SDLK_i]         = {2, Control::UP};
+  m_keymap[SDLK_k]         = {2, Control::DOWN};
+  m_keymap[SDLK_o]         = {2, Control::JUMP};
+  m_keymap[SDLK_u]         = {2, Control::ACTION};
 
   m_configurable_controls = {
     Control::UP,
@@ -92,10 +108,25 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
     std::string control_text;
     map.get("control", control_text);
 
-    const boost::optional<Control> maybe_control = Control_from_string(control_text);
+    int player_id = 0;
+    size_t pos = control_text.find(DELIMITER);
+    if (pos != std::string::npos)
+    {
+      try
+      {
+        player_id = std::stoi(control_text.substr(0, pos));
+      }
+      catch (const std::exception&)
+      {
+        log_warning << "Could not parse player ID '" << control_text.substr(0, pos) << "' to number" << std::endl;
+      }
+      control_text = control_text.substr(pos + 1);
+    }
+
+    const std::optional<Control> maybe_control = Control_from_string(control_text);
     if (maybe_control) {
       if (m_configurable_controls.count(*maybe_control)) {
-        bind_key(static_cast<SDL_Keycode>(key), *maybe_control);
+        bind_key(static_cast<SDL_Keycode>(key), player_id, *maybe_control);
       }
     } else {
       log_warning << "Invalid control '" << control_text << "' in keymap" << std::endl;
@@ -104,12 +135,12 @@ KeyboardConfig::read(const ReaderMapping& keymap_mapping)
 }
 
 void
-KeyboardConfig::bind_key(SDL_Keycode key, Control control)
+KeyboardConfig::bind_key(SDL_Keycode key, int player, Control c)
 {
   // remove all previous mappings for that control and for that key
   for (auto i = m_keymap.begin(); i != m_keymap.end(); /* no ++i */)
   {
-    if (i->second == control)
+    if (i->second == PlayerControl{player, c})
     {
       auto e = i;
       ++i;
@@ -126,15 +157,15 @@ KeyboardConfig::bind_key(SDL_Keycode key, Control control)
     m_keymap.erase(i);
 
   // add new mapping
-  m_keymap[key] = control;
+  m_keymap[key] = PlayerControl{player, c};
 }
 
 SDL_Keycode
-KeyboardConfig::reversemap_key(Control c) const
+KeyboardConfig::reversemap_key(int player, Control c) const
 {
   for (const auto& i : m_keymap)
   {
-    if (i.second == c)
+    if (i.second == PlayerControl{player, c})
     {
       return i.first;
     }
@@ -155,9 +186,10 @@ KeyboardConfig::write(Writer& writer)
 
   for (const auto& i : m_keymap)
   {
+    std::string player_prefix = (i.second.player > 0) ? std::to_string(i.second.player) + DELIMITER : "";
     writer.start_list("map");
     writer.write("key", static_cast<int>(i.first));
-    writer.write("control", Control_to_string(i.second));
+    writer.write("control", player_prefix + Control_to_string(i.second.control));
     writer.end_list("map");
   }
 }

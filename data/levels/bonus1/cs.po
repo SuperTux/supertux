@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Jiří Paleček <narre@protonmail.com>, 2021
+# Jiří Paleček <narre@protonmail.com>, 2021-2023
 # Jiří Paleček <narre@protonmail.com>, 2015
 # Hume2 <teratux.mail@gmail.com>, 2013,2015
 msgid ""
@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-22 21:08+0000\n"
-"Last-Translator: Jiří Paleček <narre@protonmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: Jiří Paleček <narre@protonmail.com>, 2021-2023\n"
+"Language-Team: Czech (http://app.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,11 +39,11 @@ msgstr "Vlak odjíždí za minutu"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr "Bonus Dias!"
+msgstr "Bonusu zdar!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr "Brána hradu"
+msgstr "Hradní brána"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
@@ -94,7 +94,7 @@ msgstr "Rybina"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
-msgstr "Oblaka k odpalu"
+msgstr "Oblaka na odpal"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
@@ -136,7 +136,7 @@ msgstr "Jeskyně zrcadel"
 
 #: data/levels/bonus1/wansti-level3.stl:3
 msgid "A Maze In The Sky"
-msgstr "Bludiště na nebi"
+msgstr "Bludiště v oblacích"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"

@@ -17,15 +17,19 @@
 
 #include "addon/addon.hpp"
 
+#include <optional>
+#include <fmt/format.h>
 #include <sstream>
 
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
+#include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
 
-namespace {
-
 static const char* s_allowed_characters = "-_0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+namespace addon_string_util {
 
 Addon::Type addon_type_from_string(const std::string& type)
 {
@@ -45,17 +49,72 @@ Addon::Type addon_type_from_string(const std::string& type)
   {
     return Addon::LANGUAGEPACK;
   }
+  else if (type == "resourcepack")
+  {
+    return Addon::RESOURCEPACK;
+  }
   else if (type == "addon")
   {
     return Addon::ADDON;
   }
   else
   {
-    throw std::runtime_error("not a valid Addon::Type: " + type);
+    throw std::runtime_error("Not a valid Addon::Type: " + type);
   }
 }
 
-} // namespace
+std::string addon_type_to_translated_string(Addon::Type type)
+{
+  switch (type)
+  {
+    case Addon::LEVELSET:
+      return _("Levelset");
+
+    case Addon::WORLDMAP:
+      return _("Worldmap");
+
+    case Addon::WORLD:
+      return _("World");
+
+    case Addon::ADDON:
+      return _("Add-on");
+
+    case Addon::LANGUAGEPACK:
+      return _("Language Pack");
+
+    case Addon::RESOURCEPACK:
+      return _("Resource Pack");
+
+    default:
+      return _("Unknown");
+  }
+}
+
+std::string generate_menu_item_text(const Addon& addon)
+{
+  std::string text;
+  std::string type = addon_type_to_translated_string(addon.get_type());
+
+  if (!addon.get_author().empty())
+  {
+    text = fmt::format(fmt::runtime(_("{} \"{}\" by \"{}\"")),
+                       type, addon.get_title(), addon.get_author());
+  }
+  else
+  {
+    // Only add-on type and name, no need for translation.
+    text = fmt::format("{} \"{}\"", type, addon.get_title());
+  }
+
+  return text;
+}
+
+std::string get_addon_plural_form(size_t count)
+{
+  return (count == 1 ? _("add-on") : _("add-ons"));
+}
+
+} // namespace addon_string_util
 
 std::unique_ptr<Addon>
 Addon::parse(const ReaderMapping& mapping)
@@ -71,26 +130,49 @@ Addon::parse(const ReaderMapping& mapping)
 
     if (addon->m_id.empty())
     {
-      throw std::runtime_error("addon id is empty");
+      throw std::runtime_error("Add-on id is empty");
     }
 
     if (addon->m_id.find_first_not_of(s_allowed_characters) != std::string::npos)
     {
-      throw std::runtime_error("addon id contains illegal characters: " + addon->m_id);
+      throw std::runtime_error("Add-on id contains illegal characters: " + addon->m_id);
     }
 
     mapping.get("version", addon->m_version);
 
     std::string type;
     mapping.get("type", type);
-    addon->m_type = addon_type_from_string(type);
+    addon->m_type = addon_string_util::addon_type_from_string(type);
 
     mapping.get("title", addon->m_title);
     mapping.get("author", addon->m_author);
     mapping.get("license", addon->m_license);
+    mapping.get("description", addon->m_description);
     mapping.get("url", addon->m_url);
     mapping.get("md5", addon->m_md5);
     mapping.get("format", addon->m_format);
+    std::optional<ReaderCollection> screenshots_reader;
+    if (mapping.get("screenshots", screenshots_reader))
+    {
+      for (auto& obj : screenshots_reader->get_objects())
+      {
+        std::string url;
+        auto data = obj.get_mapping();
+        data.get("url", url);
+        addon->m_screenshots.push_back(url);
+      }
+    }
+    std::optional<ReaderCollection> dependencies_reader;
+    if (mapping.get("dependencies", dependencies_reader))
+    {
+      for (auto& obj : dependencies_reader->get_objects())
+      {
+        std::string id;
+        auto data = obj.get_mapping();
+        data.get("id", id);
+        addon->m_dependencies.push_back(id);
+      }
+    }
 
     return addon;
   }
@@ -112,7 +194,7 @@ Addon::parse(const std::string& fname)
     auto root = doc.get_root();
     if (root.get_name() != "supertux-addoninfo")
     {
-      throw std::runtime_error("file is not a supertux-addoninfo file.");
+      throw std::runtime_error("File is not a supertux-addoninfo file.");
     }
     else
     {
@@ -135,8 +217,11 @@ Addon::Addon() :
   m_author(),
   m_license(),
   m_format(0),
+  m_description(),
   m_url(),
   m_md5(),
+  m_screenshots(),
+  m_dependencies(),
   m_install_filename(),
   m_enabled(false)
 {}
@@ -163,6 +248,33 @@ bool
 Addon::is_enabled() const
 {
   return m_enabled;
+}
+
+bool
+Addon::is_visible() const
+{
+  return true;
+}
+
+bool
+Addon::is_levelset() const
+{
+  // Determines if the add-on is a levelset.
+  return m_type == WORLD || m_type == WORLDMAP || m_type == LEVELSET;
+}
+
+bool
+Addon::overrides_data() const
+{
+  // Determines if the add-on should override game data.
+  return m_type == RESOURCEPACK;
+}
+
+bool
+Addon::requires_restart() const
+{
+  // Determines if the add-on requires a restart.
+  return m_type == LANGUAGEPACK || m_type == RESOURCEPACK;
 }
 
 void

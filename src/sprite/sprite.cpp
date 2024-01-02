@@ -18,6 +18,7 @@
 
 #include <assert.h>
 
+#include "supertux/direction.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/surface.hpp"
@@ -64,6 +65,30 @@ Sprite::clone() const
 }
 
 void
+Sprite::set_action(const std::string& name, const Direction& dir, int loops)
+{
+  if (dir == Direction::NONE)
+    set_action(name, loops);
+  else
+    set_action(name + "-" + dir_to_string(dir), loops);
+}
+
+void
+Sprite::set_action(const Direction& dir, const std::string& name, int loops)
+{
+  if (dir == Direction::NONE)
+    set_action(name, loops);
+  else
+    set_action(dir_to_string(dir) + "-" + name, loops);
+}
+
+void
+Sprite::set_action(const Direction& dir, int loops)
+{
+  set_action(dir_to_string(dir), loops);
+}
+
+void
 Sprite::set_action(const std::string& name, int loops)
 {
   if (m_action && m_action->name == name)
@@ -72,6 +97,14 @@ Sprite::set_action(const std::string& name, int loops)
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
     log_debug << "Action '" << name << "' not found." << std::endl;
+    return;
+  }
+
+  // The action's loops were set to continued; use the ones from the previous action.
+  if (loops == LOOPS_CONTINUED)
+  {
+    m_action = newaction;
+    update();
     return;
   }
 
@@ -86,22 +119,6 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   m_action = newaction;
-}
-
-void
-Sprite::set_action_continued(const std::string& name)
-{
-  if (m_action && m_action->name == name)
-    return;
-
-  const SpriteData::Action* newaction = m_data.get_action(name);
-  if (!newaction) {
-    log_debug << "Action '" << name << "' not found." << std::endl;
-    return;
-  }
-
-  m_action = newaction;
-  update();
 }
 
 bool
@@ -124,7 +141,8 @@ Sprite::update()
   }
 
   while (m_frameidx >= get_frames() && !animation_done()) {
-    m_frameidx -= get_frames();
+    // Loop animation.
+    m_frameidx -= get_frames() - (m_action->loop_frame - 1);
     m_animation_loops--;
   }
 
@@ -172,6 +190,12 @@ Sprite::get_height() const
 {
   assert(m_frameidx < get_frames());
   return static_cast<int>(m_action->surfaces[m_frameidx]->get_height());
+}
+
+bool
+Sprite::is_current_hitbox_unisolid() const
+{
+  return m_action->hitbox_unisolid;
 }
 
 float

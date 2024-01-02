@@ -152,7 +152,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
 #ifdef WORDS_BIGENDIAN
   if (m_bits_per_sample != 16)
     return readsize;
-  char *tmp = (char*)buffer;
+  char *tmp = static_cast<char *>(buffer);
 
   for (size_t i = 0; i < readsize / 2; i++)
   {
@@ -160,8 +160,6 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
     tmp[2*i]   = tmp[2*i+1];
     tmp[2*i+1] = c;
   }
-
-  *(char *)buffer = *tmp;
 #endif
 
   return readsize;

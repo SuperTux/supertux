@@ -62,8 +62,10 @@ public:
   virtual void update(float dt_sec) override;
   virtual void on_flip(float height) override;
 
-  virtual std::string get_class() const override { return "bicycle-platform"; }
-  virtual std::string get_display_name() const override { return _("Bicycle Platform"); }
+  static std::string class_name() { return "bicycle-platform"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Bicycle Platform"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void editor_delete() override;

@@ -26,11 +26,32 @@ public:
   WalkingLeaf(const ReaderMapping& reader);
 
   virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "walkingleaf"; }
-  virtual std::string get_display_name() const override { return _("Autumn Leaf"); }
+
+  virtual std::string get_overlay_size() const override { return "2x1"; }
+  static std::string class_name() { return "walkingleaf"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Walking Leaf"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
+  virtual void active_update(float dt_sec) override;
+  virtual bool is_snipable() const override { return true; }
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
+
+  void on_type_change(int old_type) override;
+
+protected:
+  enum Type {
+    NORMAL,
+    CORRUPTED
+  };
+
+private:
+  float m_fall_speed;
 
 private:
   WalkingLeaf(const WalkingLeaf&) = delete;

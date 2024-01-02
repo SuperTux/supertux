@@ -19,8 +19,10 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "badguy/bomb.hpp"
+#include "badguy/owl.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
@@ -29,22 +31,34 @@
 MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 80;
   max_drop_height = 16;
 
-  //Prevent stutter when Tux jumps on Mr Bomb
+  // Prevent stutter when Tux jumps on Mr Bomb.
   SoundManager::current()->preload("sounds/explosion.wav");
+}
 
-  //Check if we need another sprite
-  if ( !reader.get( "sprite", m_sprite_name ) ){
-    return;
+GameObjectTypes
+MrBomb::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "classic", _("Classic") }
+  };
+}
+
+std::string
+MrBomb::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CLASSIC:
+      return "images/creatures/mr_bomb/old_bomb/old_bomb.sprite";
+    default:
+      return m_default_sprite_name;
   }
-  if (m_sprite_name.empty()) {
-    m_sprite_name = "images/creatures/mr_bomb/mr_bomb.sprite";
-    return;
-  }
-  //Replace sprite
-  m_sprite = SpriteManager::current()->create( m_sprite_name );
 }
 
 HitResponse
@@ -66,6 +80,9 @@ MrBomb::collision_player(Player& player, const CollisionHit& hit)
 bool
 MrBomb::collision_squished(GameObject& object)
 {
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(object);
+
   auto player = dynamic_cast<Player*>(&object);
   if (player && player->is_invincible()) {
     player->bounce(*this);
@@ -101,17 +118,23 @@ void
 MrBomb::kill_fall()
 {
   if (is_valid()) {
-    remove_me();
-    Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
-      EXPLOSION_STRENGTH_DEFAULT);
+    if (m_frozen)
+      BadGuy::kill_fall();
+    else
+    {
+      remove_me();
+      Sector::get().add<Explosion>(m_col.m_bbox.get_middle(),
+        EXPLOSION_STRENGTH_DEFAULT);
+      run_dead_script();
+    }
   }
-
-  run_dead_script();
 }
 
 void
 MrBomb::ignite()
 {
+  if (m_frozen)
+    unfreeze();
   kill_fall();
 }
 
@@ -119,19 +142,16 @@ void
 MrBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   Portable::grab(object, pos, dir_);
-  assert(m_frozen);
+  if (dynamic_cast<Owl*>(&object))
+    set_action(dir_);
+  else
+  {
+    assert(m_frozen);
+    set_action("iced", dir_);
+  }
   m_col.set_movement(pos - get_pos());
   m_dir = dir_;
-  m_sprite->set_action(dir_ == Direction::LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
-}
-
-void
-MrBomb::ungrab(MovingObject& object, Direction dir_)
-{
-  m_dir = dir_;
-  set_colgroup_active(COLGROUP_MOVING);
-  Portable::ungrab(object, dir_);
 }
 
 bool

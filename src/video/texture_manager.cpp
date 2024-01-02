@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <sstream>
 
+#include <physfs.h>
+
 #include "math/rect.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
@@ -73,11 +75,25 @@ GLenum string2filter(const std::string& text)
   }
 }
 
+SDLSurfacePtr create_image_surface(const std::string& filename)
+{
+  if (PHYSFS_exists(filename.c_str()))
+    return SDLSurface::from_file(filename);
+
+  // The image doesn't exist, so attempt to load a ".deprecated" version
+  log_warning << "Image '" << filename << "' doesn't exist. Attempting to load \".deprecated\" version." << std::endl;
+  return SDLSurface::from_file(FileSystem::strip_extension(filename) + ".deprecated" +
+                               FileSystem::extension(filename));
+}
+
 } // namespace
+
+const std::string TextureManager::s_dummy_texture = "images/engine/missing.png";
 
 TextureManager::TextureManager() :
   m_image_textures(),
-  m_surfaces()
+  m_surfaces(),
+  m_load_successful(false)
 {
 }
 
@@ -95,7 +111,7 @@ TextureManager::~TextureManager()
 }
 
 TexturePtr
-TextureManager::get(const ReaderMapping& mapping, const boost::optional<Rect>& region)
+TextureManager::get(const ReaderMapping& mapping, const std::optional<Rect>& region)
 {
   std::string filename;
   if (!mapping.get("file", filename))
@@ -107,7 +123,7 @@ TextureManager::get(const ReaderMapping& mapping, const boost::optional<Rect>& r
     filename = FileSystem::join(mapping.get_doc().get_directory(), filename);
   }
 
-  boost::optional<Rect> rect;
+  std::optional<Rect> rect;
   std::vector<int> rect_v;
   if (mapping.get("rect", rect_v))
   {
@@ -202,7 +218,7 @@ TextureManager::get(const std::string& _filename)
 
 TexturePtr
 TextureManager::get(const std::string& _filename,
-                    const boost::optional<Rect>& rect,
+                    const std::optional<Rect>& rect,
                     const Sampler& sampler)
 {
   std::string filename = FileSystem::normalize(_filename);
@@ -256,6 +272,7 @@ TextureManager::reap_cache_entry(const Texture::Key& key)
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename, const Rect& rect, const Sampler& sampler)
 {
+  m_load_successful = true;
   try
   {
     return create_image_texture_raw(filename, rect, sampler);
@@ -263,6 +280,7 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
   catch(const std::exception& err)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+    m_load_successful = false;
     return create_dummy_texture();
   }
 }
@@ -275,18 +293,9 @@ TextureManager::get_surface(const std::string& filename)
   {
     return *i->second;
   }
-  else
-  {
-    SDLSurfacePtr image = SDLSurface::from_file(filename);
-    if (!image)
-    {
-      std::ostringstream msg;
-      msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-      throw std::runtime_error(msg.str());
-    }
 
-    return *(m_surfaces[filename] = std::move(image));
-  }
+  SDLSurfacePtr surface = create_image_surface(filename);
+  return *(m_surfaces[filename] = std::move(surface));
 }
 
 TexturePtr
@@ -355,6 +364,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename, const Sampler& sampler)
 {
+  m_load_successful = true;
   try
   {
     return create_image_texture_raw(filename, sampler);
@@ -362,6 +372,7 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
   catch (const std::exception& err)
   {
     log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+    m_load_successful = false;
     return create_dummy_texture();
   }
 }
@@ -369,44 +380,33 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
 TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename, const Sampler& sampler)
 {
-  SDLSurfacePtr image = SDLSurface::from_file(filename);
-  if (!image)
-  {
-    std::ostringstream msg;
-    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
-  else
-  {
-    TexturePtr texture = VideoSystem::current()->new_texture(*image, sampler);
-    image.reset(nullptr);
-    return texture;
-  }
+  SDLSurfacePtr surface = create_image_surface(filename);
+  TexturePtr texture = VideoSystem::current()->new_texture(*surface, sampler);
+  surface.reset(nullptr);
+  return texture;
 }
 
 TexturePtr
 TextureManager::create_dummy_texture()
 {
-  const std::string dummy_texture_fname = "images/engine/missing.png";
-
   // on error, try loading placeholder file
   try
   {
-    TexturePtr tex = create_image_texture_raw(dummy_texture_fname, Sampler());
+    TexturePtr tex = create_image_texture_raw(s_dummy_texture, Sampler());
     return tex;
   }
   catch (const std::exception& err)
   {
     // on error (when loading placeholder), try using empty surface,
     // when that fails to, just give up
-    SDLSurfacePtr image(SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0));
+    SDLSurfacePtr image(SDL_CreateRGBSurface(0, 128, 128, 8, 0, 0, 0, 0));
     if (!image)
     {
       throw;
     }
     else
     {
-      log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
+      log_warning << "Couldn't load texture '" << s_dummy_texture << "' (now using empty one): " << err.what() << std::endl;
       TexturePtr texture = VideoSystem::current()->new_texture(*image);
       return texture;
     }

@@ -52,9 +52,11 @@ public:
 
   virtual void finish_construction() override;
 
-  virtual std::string get_class() const override { return "tilemap"; }
+  static std::string class_name() { return "tilemap"; }
+  virtual std::string get_class_name() const override { return class_name(); }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
-  virtual std::string get_display_name() const override { return _("Tilemap"); }
+  static std::string display_name() { return _("Tilemap"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -68,6 +70,9 @@ public:
 
   /** Move tilemap until at given node, then stop */
   void goto_node(int node_no);
+
+  /** Instantly jump to the given node */
+  void jump_to_node(int node_no);
 
   /** Start moving tilemap */
   void start_moving();
@@ -106,9 +111,9 @@ public:
   {
     if (actual) {
       return m_movement;
-    } else {
-      return Vector(m_movement.x, std::max(0.0f, m_movement.y));
     }
+    
+    return Vector(m_movement.x, std::max(0.0f, m_movement.y));
   }
 
   /** Returns the position of the upper-left corner of tile (x, y) in
@@ -136,7 +141,7 @@ public:
   void notify_object_removal(CollisionObject* other);
 
   int get_layer() const { return m_z_pos; }
-  void set_layer(int layer_) { m_z_pos = layer_; }
+  void set_layer(int layer) { m_z_pos = layer; }
 
   bool is_solid() const { return m_real_solid && m_effective_solid; }
 
@@ -192,6 +197,8 @@ public:
       Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
   void tint_fade(const Color& new_tint, float seconds = 0);
 
+  Color get_current_tint() const { return m_current_tint; }
+
   /** Instantly switch tilemap's opacity to @c alpha. Also influences solidity. */
   void set_alpha(float alpha);
 
@@ -208,7 +215,7 @@ private:
   void update_effective_solid();
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
-  bool is_corner(uint32_t tile);
+  bool is_corner(uint32_t tile) const;
 
   void apply_offset_x(int fill_id, int xoffset);
   void apply_offset_y(int fill_id, int yoffset);

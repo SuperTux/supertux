@@ -26,14 +26,20 @@ public:
 
   virtual void initialize() override;
   virtual ObjectSettings get_settings() override;
-  virtual std::string get_class() const override { return "scrystallo"; }
-  virtual std::string get_display_name() const override { return _("Sleeping Crystallo"); }
+  static std::string class_name() { return "scrystallo"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Sleeping Crystallo"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
 
   virtual void active_update(float dt_sec) override;
   virtual bool is_flammable() const override;
+  virtual bool is_snipable() const override { return true; }
+
+  virtual void after_editor_set() override;
+  virtual void on_flip(float height) override;
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
@@ -45,12 +51,14 @@ protected:
     SCRYSTALLO_JUMPING,
     SCRYSTALLO_WALKING
   };
-  SCrystalloState state;
+  SCrystalloState m_state;
 
 private:
+  bool m_roof;
   float m_radius;
   float m_range;
   Vector m_radius_anchor;
+
 private:
   SCrystallo(const SCrystallo&) = delete;
   SCrystallo& operator=(const SCrystallo&) = delete;

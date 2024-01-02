@@ -1,5 +1,6 @@
 //  SuperTux - Badguy "Igel"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//                2023 MatusGuy
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,30 +20,45 @@
 
 #include "badguy/walking_badguy.hpp"
 
-/** Badguy "Igel" - a hedgehog that can absorb bullets */
+#include "supertux/timer.hpp"
+
 class Igel final : public WalkingBadguy
 {
 public:
   Igel(const ReaderMapping& reader);
 
-  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
-
   virtual void active_update(float dt_sec) override;
+  virtual void collision_solid(const CollisionHit &hit) override;
+  virtual HitResponse collision_badguy(BadGuy &badguy, const CollisionHit &hit) override;
+  virtual void run_dead_script() override;
 
-  virtual bool is_freezable() const override;
-  virtual std::string get_class() const override { return "igel"; }
-  virtual std::string get_display_name() const override { return _("Igel"); }
+  virtual std::string get_overlay_size() const override { return "2x1"; }
+  static std::string class_name() { return "igel"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Igel"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
-protected:
-  //  virtual bool collision_squished(GameObject& object) override;
-  // Enable this and the igel will no longer be butt-jumpable when frozen.
-  // Remember to enable it in .cpp too!
-  void be_normal(); /**< switch to state STATE_NORMAL */
-  void turn_around(); /**< reverse direction, assumes we are in STATE_NORMAL */
-  bool can_see(const MovingObject& o) const; /**< check if we can see o */
+  virtual bool is_freezable() const override { return true; }
+  virtual void unfreeze(bool melt = true) override;
+
+  virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
 
 private:
-  Timer turn_recover_timer; /**< wait time until we will turn around again when shot at */
+  enum Type { NORMAL, CORRUPTED };
+  enum State { STATE_NORMAL, STATE_ROLLING };
+
+  bool should_roll() const;
+  void roll();
+  void stop_rolling(bool bonk = false);
+  float get_normal_walk_speed() const;
+
+private:
+  State m_state;
+  Timer m_roll_timer;
+  Timer m_roll_cooldown;
+  Timer m_ease_timer;
+  bool m_bonked;
 
 private:
   Igel(const Igel&) = delete;

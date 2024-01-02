@@ -31,24 +31,37 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
-  virtual std::string get_class() const override { return "weak_block"; }
-  virtual std::string get_display_name() const override { return _("Weak Tile"); }
+  static std::string class_name() { return "weak_block"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Weak Tile"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
-  virtual ObjectSettings get_settings() override;
+  std::vector<std::string> get_patches() const override;
+  void update_version() override;
+  void save(Writer& writer) override;
+
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
+
+  void startBurning();
 
 private:
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 
 private:
   /** called by self when hit by a bullet */
-  void startBurning();
 
   /** pass hit to nearby WeakBlock objects */
   void spreadHit();
 
 private:
+  enum Type {
+    ICE,
+    HAY
+  };
+
   enum State {
     STATE_NORMAL, /**< default state */
     STATE_BURNING, /**< on fire, still solid */
@@ -57,7 +70,6 @@ private:
 
 private:
   State state;
-  bool linked;
   SpritePtr lightsprite;
 
 private:

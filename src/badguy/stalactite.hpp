@@ -28,20 +28,32 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
-  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& ) override;
+  virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit) override;
+
+  virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void kill_fall() override;
   virtual void draw(DrawingContext& context) override;
   virtual void deactivate() override;
 
-  virtual std::string get_class() const override { return "stalactite"; }
-  virtual std::string get_display_name() const override { return _("Stalactite"); }
+  static std::string class_name() { return "stalactite"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Stalactite"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void on_flip(float height) override;
 
   void squish();
 
 protected:
+  std::vector<Direction> get_allowed_directions() const override;
+
+protected:
+  enum StalactiteType {
+    ICE,
+    ROCK
+  };
   enum StalactiteState {
     STALACTITE_HANGING,
     STALACTITE_SHAKING,

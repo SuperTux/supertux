@@ -65,58 +65,6 @@
       (x 4671)
       (y 788)
     )
-    (flame
-      (x -5747)
-      (y -8696)
-    )
-    (flyingsnowball
-      (x 2486)
-      (y -7404)
-    )
-    (flyingsnowball
-      (x 2582)
-      (y -7403)
-    )
-    (flyingsnowball
-      (x 2278)
-      (y -7379)
-    )
-    (flyingsnowball
-      (x 3064)
-      (y -7392)
-    )
-    (flyingsnowball
-      (x 4438)
-      (y -7618)
-    )
-    (flyingsnowball
-      (x 4519)
-      (y -7668)
-    )
-    (flyingsnowball
-      (x 4599)
-      (y -7710)
-    )
-    (flyingsnowball
-      (x 3677)
-      (y -7648)
-    )
-    (flyingsnowball
-      (x 3765)
-      (y -7628)
-    )
-    (flyingsnowball
-      (x 3866)
-      (y -7613)
-    )
-    (flyingsnowball
-      (x 3965)
-      (y -7576)
-    )
-    (flyingsnowball
-      (x 4179)
-      (y -7526)
-    )
     (gradient
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)

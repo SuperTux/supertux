@@ -10,7 +10,7 @@
     )
     (decal
       (z-pos 200)
-      (sprite "/images/background/halloween/vignette.png")
+      (sprite "/images/background/misc/vignette.png")
       (x 0)
       (y 0)
     )
@@ -26,7 +26,7 @@
       (y 9)
     )
     (level
-      (level "who_is_dawn.stl")
+      (level "who_is_gown.stl")
       (x 13)
       (y 11)
     )

@@ -33,10 +33,13 @@ public:
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
   virtual void ungrab(MovingObject& object, Direction dir) override;
 
-  virtual std::string get_class() const override { return "lantern"; }
-  virtual std::string get_display_name() const override { return _("Lantern"); }
+  static std::string class_name() { return "lantern"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Lantern"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override { return {}; }
   virtual void after_editor_set() override;
 
   /** returns true if lamp is currently open */

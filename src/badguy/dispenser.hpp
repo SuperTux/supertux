@@ -21,34 +21,39 @@
 #include "scripting/dispenser.hpp"
 #include "squirrel/exposed_object.hpp"
 
+class GameObject;
+
 class Dispenser final : public BadGuy,
                         public ExposedObject<Dispenser, scripting::Dispenser>
 {
 private:
-  enum class DispenserType {
-    DROPPER, ROCKETLAUNCHER, CANNON, POINT
+  enum DispenserType {
+    DROPPER, CANNON, POINT, GRANITO
   };
-
-  static DispenserType DispenserType_from_string(const std::string& type_string);
-  static std::string DispenserType_to_string(DispenserType type);
 
 public:
   Dispenser(const ReaderMapping& reader);
 
   virtual void draw(DrawingContext& context) override;
+  virtual void initialize() override;
   virtual void activate() override;
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;
 
   virtual void freeze() override;
-  virtual void unfreeze() override;
+  virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
   virtual bool is_flammable() const override;
-  virtual std::string get_class() const override { return "dispenser"; }
-  virtual std::string get_display_name() const override { return _("Dispenser"); }
+  virtual bool is_portable() const override;
+
+  static std::string class_name() { return "dispenser"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Dispenser"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
+  virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
 
@@ -69,26 +74,24 @@ public:
   }
 
 protected:
-  virtual bool collision_squished(GameObject& object) override;
+  void add_object(std::unique_ptr<GameObject> object);
+
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  void launch_badguy();
+  void launch_object();
+
+  void on_type_change(int old_type) override;
 
 private:
   void set_correct_action();
 
 private:
   float m_cycle;
-  std::vector<std::string> m_badguys;
-  unsigned int m_next_badguy;
+  std::vector<std::unique_ptr<GameObject>> m_objects;
+  unsigned int m_next_object;
   Timer m_dispense_timer;
   bool m_autotarget;
-  bool m_swivel;
-  bool m_broken;
   bool m_random;
   bool m_gravity;
-
-  DispenserType m_type;
-  std::string m_type_str;
 
   /** Do we need to limit the number of dispensed badguys? */
   bool m_limit_dispensed_badguys;

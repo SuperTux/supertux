@@ -17,29 +17,25 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
 #define HEADER_SUPERTUX_TRIGGER_SWITCH_HPP
 
-#include <string>
-
 #include "trigger/trigger_base.hpp"
-#include "video/flip.hpp"
 
-class ReaderMapping;
-
-class Switch final : public TriggerBase
+class Switch final : public SpritedTrigger
 {
 public:
   Switch(const ReaderMapping& reader);
   ~Switch() override;
 
-  virtual std::string get_class() const override { return "switch"; }
-  virtual std::string get_display_name() const override { return _("Switch"); }
+  static std::string class_name() { return "switch"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Switch"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
 
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
   virtual void event(Player& player, EventType type) override;
 
+  virtual void after_editor_set() override;
   virtual void on_flip(float height) override;
 
 private:
@@ -51,13 +47,11 @@ private:
   };
 
 private:
-  std::string sprite_name;
-  SpritePtr sprite;
-  std::string script;
-  std::string off_script;
-  SwitchState state;
-  bool bistable;
-  Flip m_flip;
+  std::string m_script;
+  std::string m_off_script;
+  SwitchState m_state;
+  bool m_bistable;
+  Direction m_dir;
 
 private:
   Switch(const Switch&) = delete;

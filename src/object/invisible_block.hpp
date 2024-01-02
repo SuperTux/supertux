@@ -19,23 +19,32 @@
 
 #include "object/block.hpp"
 
-class ReaderMapping;
-
 class InvisibleBlock final : public Block
 {
 public:
   InvisibleBlock(const Vector& pos);
   InvisibleBlock(const ReaderMapping& mapping);
 
-  virtual std::string get_class() const override { return "invisible_block"; }
-  virtual std::string get_display_name() const override { return _("Invisible Block"); }
+  static std::string class_name() { return "invisible_block"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Invisible Block"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void draw(DrawingContext& context) override;
   virtual bool collides(GameObject& other, const CollisionHit& hit) const override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
+  GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
+
 private:
   virtual void hit(Player& player) override;
+
+private:
+  enum Type {
+    NORMAL,
+    RETRO
+  };
 
 private:
   bool visible;

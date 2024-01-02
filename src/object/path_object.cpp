@@ -16,7 +16,7 @@
 
 #include "object/path_object.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "editor/editor.hpp"
 #include "object/path_gameobject.hpp"
@@ -43,7 +43,7 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   bool running = running_default;
   mapping.get("running", running);
 
-  boost::optional<ReaderMapping> handle_map;
+  std::optional<ReaderMapping> handle_map;
   if (mapping.get("handle", handle_map))
   {
     handle_map->get("scale_x", m_path_handle.m_scalar_pos.x);
@@ -53,7 +53,7 @@ PathObject::init_path(const ReaderMapping& mapping, bool running_default)
   }
 
   std::string path_ref;
-  boost::optional<ReaderMapping> path_mapping;
+  std::optional<ReaderMapping> path_mapping;
   if (mapping.get("path", path_mapping))
   {
     auto& path_gameobject = d_gameobject_manager->add<PathGameObject>(*path_mapping, true);

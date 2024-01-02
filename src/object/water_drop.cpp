@@ -49,11 +49,11 @@ WaterDrop::collision_solid(const CollisionHit& hit)
     wd_state = WDS_SPLASH;
     physic.enable_gravity(false);
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
-    m_sprite->set_action("splash", 1);
+    set_action("splash", 1);
 
     // spawn water particles
     for (int i = 50; i; i--) {
-      int pa = graphicsRandom.rand(0,3);
+      int pa = graphicsRandom.rand(0, 3);
       float px = graphicsRandom.randf(m_col.m_bbox.get_left(), m_col.m_bbox.get_right());
       float py = graphicsRandom.randf(m_col.m_bbox.get_top(), m_col.m_bbox.get_bottom());
       Vector ppos = Vector(px, py);
@@ -61,9 +61,9 @@ WaterDrop::collision_solid(const CollisionHit& hit)
       pspeed.x *= 12;
       pspeed.y *= 12;
       Sector::get().add<SpriteParticle>(sprite_path, "particle_" + std::to_string(pa),
-                                             ppos, ANCHOR_MIDDLE,
-                                             pspeed, Vector(0, 100 * Sector::get().get_gravity()),
-                                             LAYER_OBJECTS+1);
+                                        ppos, ANCHOR_MIDDLE,
+                                        pspeed, Vector(0, 100 * Sector::get().get_gravity()),
+                                        LAYER_OBJECTS + 1);
     }
   }
 }

@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Jagadeeshvarma, 2021
+# Nanowarrior, 2021
 # 
 #, fuzzy
 msgid ""
@@ -13,8 +13,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2019-11-24 01:44+0100\n"
 "PO-Revision-Date: 2019-11-24 00:59+0000\n"
-"Last-Translator: Jagadeeshvarma, 2021\n"
-"Language-Team: Telugu (https://www.transifex.com/arctic-games/teams/95/te/)\n"
+"Last-Translator: Nanowarrior, 2021\n"
+"Language-Team: Telugu (https://app.transifex.com/arctic-games/teams/95/te/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

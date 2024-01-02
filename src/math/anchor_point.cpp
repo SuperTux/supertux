@@ -23,53 +23,42 @@
 
 #include "math/rectf.hpp"
 #include "util/log.hpp"
+#include "util/gettext.hpp"
+
+std::vector<std::string> get_anchor_names()
+{
+  // The language setting must be dynamic because it can change at runtime,
+  // and it requires initialization of the TinyGetText library (tinygettext).
+  return {
+    _("Top Left"),
+    _("Top"),
+    _("Top Right"),
+    _("Left"),
+    _("Middle"),
+    _("Right"),
+    _("Bottom Left"),
+    _("Bottom"),
+    _("Bottom Right"),
+  };
+}
 
 std::string anchor_point_to_string(AnchorPoint point)
 {
-  switch (point) {
-    case ANCHOR_TOP_LEFT:
-      return "topleft";
-    case ANCHOR_TOP:
-      return "top";
-    case ANCHOR_TOP_RIGHT:
-      return "topright";
-    case ANCHOR_LEFT:
-      return "left";
-    case ANCHOR_MIDDLE:
-      return "middle";
-    case ANCHOR_RIGHT:
-      return "right";
-    case ANCHOR_BOTTOM_LEFT:
-      return "bottomleft";
-    case ANCHOR_BOTTOM:
-      return "bottom";
-    case ANCHOR_BOTTOM_RIGHT:
-      return "bottomright";
-    default:
-      throw std::runtime_error("Invalid anchor point");
+  try
+  {
+    return g_anchor_keys.at(point);
+  }
+  catch(const std::out_of_range&)
+  {
+    throw std::runtime_error("Invalid anchor point");
   }
 }
 
 AnchorPoint string_to_anchor_point(const std::string& str)
 {
-  if (str == "topleft")
-    return ANCHOR_TOP_LEFT;
-  else if (str == "top")
-    return ANCHOR_TOP;
-  else if (str == "topright")
-    return ANCHOR_TOP_RIGHT;
-  else if (str == "left")
-    return ANCHOR_LEFT;
-  else if (str == "middle")
-    return ANCHOR_MIDDLE;
-  else if (str == "right")
-    return ANCHOR_RIGHT;
-  else if (str == "bottomleft")
-    return ANCHOR_BOTTOM_LEFT;
-  else if (str == "bottom")
-    return ANCHOR_BOTTOM;
-  else if (str == "bottomright")
-    return ANCHOR_BOTTOM_RIGHT;
+  for (size_t i = 0; i < g_anchor_keys.size(); i++)
+    if (g_anchor_keys.at(i) == str)
+      return static_cast<AnchorPoint>(i);
 
   std::ostringstream msg;
   msg << "Unknown anchor '" << str << "'";
@@ -80,14 +69,14 @@ Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
 {
   Vector result(0.0f, 0.0f);
 
-  switch (point & ANCHOR_V_MASK) {
-    case ANCHOR_LEFT:
+  switch (point % 3) {
+    case 0: // Left.
       result.x = rect.get_left();
       break;
-    case ANCHOR_MIDDLE:
+    case 1: // Middle.
       result.x = rect.get_left() + (rect.get_right() - rect.get_left()) / 2.0f;
       break;
-    case ANCHOR_RIGHT:
+    case 2: // Right.
       result.x = rect.get_right();
       break;
     default:
@@ -96,14 +85,14 @@ Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
       break;
   }
 
-  switch (point & ANCHOR_H_MASK) {
-    case ANCHOR_TOP:
+  switch (point / 3) {
+    case 0: // Top.
       result.y = rect.get_top();
       break;
-    case ANCHOR_MIDDLE:
+    case 1: // Middle.
       result.y = rect.get_top() + (rect.get_bottom() - rect.get_top()) / 2.0f;
       break;
-    case ANCHOR_BOTTOM:
+    case 2: // Bottom.
       result.y = rect.get_bottom();
       break;
     default:
@@ -120,14 +109,14 @@ Vector get_anchor_pos(const Rectf& destrect, float width, float height,
 {
   Vector result(0.0f, 0.0f);
 
-  switch (point & ANCHOR_V_MASK) {
-    case ANCHOR_LEFT:
+  switch (point % 3) {
+    case 0: // Left.
       result.x = destrect.get_left();
       break;
-    case ANCHOR_MIDDLE:
+    case 1: // Middle.
       result.x = destrect.get_middle().x - width / 2.0f;
       break;
-    case ANCHOR_RIGHT:
+    case 2: // Right.
       result.x = destrect.get_right() - width;
       break;
     default:
@@ -136,19 +125,58 @@ Vector get_anchor_pos(const Rectf& destrect, float width, float height,
       break;
   }
 
-  switch (point & ANCHOR_H_MASK) {
-    case ANCHOR_TOP:
+  switch (point / 3) {
+    case 0: // Top.
       result.y = destrect.get_top();
       break;
-    case ANCHOR_MIDDLE:
+    case 1: // Middle.
       result.y = destrect.get_middle().y - height / 2.0f;
       break;
-    case ANCHOR_BOTTOM:
+    case 2: // Bottom.
       result.y = destrect.get_bottom() - height;
       break;
     default:
       log_warning << "Invalid anchor point found" << std::endl;
       result.y = destrect.get_top();
+      break;
+  }
+
+  return result;
+}
+
+Vector get_anchor_center_pos(const Rectf& rect, AnchorPoint point)
+{
+  Vector result(0.0f, 0.0f);
+
+  switch (point % 3) {
+    case 0: // Left.
+      result.x = rect.get_left() + rect.get_width() / 4;
+      break;
+    case 1: // Middle.
+      result.x = rect.get_left() + rect.get_width() / 2;
+      break;
+    case 2: // Right.
+      result.x = rect.get_right() - rect.get_width() / 4;
+      break;
+    default:
+      log_warning << "Invalid anchor point found" << std::endl;
+      result.x = rect.get_left();
+      break;
+  }
+
+  switch (point / 3) {
+    case 0: // Top.
+      result.y = rect.get_top() + rect.get_height() / 4;
+      break;
+    case 1: // Middle.
+      result.y = rect.get_top() + rect.get_height() / 2;
+      break;
+    case 2: // Bottom.
+      result.y = rect.get_bottom() - rect.get_height() / 4;
+      break;
+    default:
+      log_warning << "Invalid anchor point found" << std::endl;
+      result.y = rect.get_top();
       break;
   }
 

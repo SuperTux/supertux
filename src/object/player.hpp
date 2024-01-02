@@ -31,10 +31,11 @@
 #include "video/surface_ptr.hpp"
 
 class BadGuy;
-class Portable;
 class Climbable;
 class Controller;
 class CodeController;
+class Key;
+class Portable;
 
 extern const float TUX_INVINCIBLE_TIME_WARNING;
 
@@ -64,7 +65,10 @@ private:
   };
 
 public:
-  Player(PlayerStatus& player_status, const std::string& name);
+  static Color get_player_color(int id);
+
+public:
+  Player(PlayerStatus& player_status, const std::string& name, int player_id);
   ~Player() override;
 
   virtual void update(float dt_sec) override;
@@ -74,7 +78,11 @@ public:
   virtual void collision_tile(uint32_t tile_attributes) override;
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
-  virtual bool is_singleton() const override { return true; }
+  virtual bool is_singleton() const override { return false; }
+  virtual void remove_me() override;
+
+  int get_id() const { return m_id; }
+  void set_id(int id);
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
@@ -91,6 +99,9 @@ public:
 
   void use_scripting_controller(bool use_or_release);
   void do_scripting_controller(const std::string& control, bool pressed);
+
+  /** Move the player to a different sector, including any objects that it points to, or references. */
+  void move_to_sector(Sector& other);
 
   void make_invincible();
 
@@ -116,11 +127,17 @@ public:
 
   /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
+  BonusType get_bonus() const;
+
+  std::string bonus_to_string() const;
 
   PlayerStatus& get_status() const { return m_player_status; }
 
   /** set kick animation */
   void kick();
+
+  /** gets the players action */
+  std::string get_action() const;
 
   /** play cheer animation.
       This might need some space and behave in an unpredictable way.
@@ -152,10 +169,12 @@ public:
   Vector get_velocity() const;
 
   void bounce(BadGuy& badguy);
+  void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
   bool is_big() const;
   bool is_stone() const { return m_stone; }
+  bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }
   bool is_swimboosting() const { return m_swimboosting; }
   bool is_water_jumping() const { return m_water_jump; }
@@ -169,7 +188,7 @@ public:
   void set_on_ground(bool flag);
 
   Portable* get_grabbed_object() const { return m_grabbed_object; }
-  void stop_grabbing() { m_grabbed_object = nullptr; }
+  void stop_grabbing() { ungrab_object(); }
 
   /** Checks whether the player has grabbed a certain object
       @param name Name of the object to check */
@@ -178,10 +197,6 @@ public:
   /** Switches ghost mode on/off.
       Lets Tux float around and through solid objects. */
   void set_ghost_mode(bool enable);
-
-  /** Switches edit mode on/off.
-      In edit mode, Tux will enter ghost_mode instead of dying. */
-  void set_edit_mode(bool enable);
 
   /** Returns whether ghost mode is currently enabled */
   bool get_ghost_mode() const { return m_ghost_mode; }
@@ -215,16 +230,28 @@ public:
   void set_dir(bool right);
   void stop_backflipping();
 
-  void position_grabbed_object();
-  void try_grab();
+  void position_grabbed_object(bool teleport = false);
+  bool try_grab();
 
   /** Boosts Tux in a certain direction, sideways. Useful for bumpers/walljumping. */
   void sideways_push(float delta);
+
+  void multiplayer_prepare_spawn();
+
+  void set_ending_direction(int direction) { m_ending_direction = direction; }
+  int get_ending_direction() const { return m_ending_direction; }
+
+  const std::vector<Key*>& get_collected_keys() const { return m_collected_keys; }
+  void add_collected_key(Key* key);
+  void remove_collected_key(Key* key);
+
+  bool track_state() const override { return false; }
 
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
+  void handle_input_rolling();
 
   void handle_input_swimming();
 
@@ -234,9 +261,8 @@ private:
   void do_jump_apex();
   void early_jump_apex();
 
+  void slide();
   void swim(float pointx, float pointy, bool boost);
-
-  bool slightly_above_ground() const;
 
   BonusType string_to_bonus(const std::string& bonus) const;
 
@@ -251,13 +277,23 @@ private:
    */
   void ungrab_object(GameObject* gameobject = nullptr);
 
+  void next_target();
+  void prev_target();
+
+  void multiplayer_respawn();
+
+  void stop_rolling(bool violent = true);
+
 private:
+  int m_id;
+  std::unique_ptr<UID> m_target; /**< (Multiplayer) If not null, then the player does not exist in game and is offering the player to spawn at that player's position */
   bool m_deactivated;
 
   const Controller* m_controller;
   std::unique_ptr<CodeController> m_scripting_controller; /**< This controller is used when the Player is controlled via scripting */
   PlayerStatus& m_player_status;
   bool m_duck;
+  bool m_crawl;
   bool m_dead;
   bool m_dying;
   bool m_winning;
@@ -265,22 +301,31 @@ private:
   int  m_backflip_direction;
   Direction m_peekingX;
   Direction m_peekingY;
-  float m_ability_time;
   bool m_stone;
+  bool m_sliding;
+  bool m_slidejumping;
   bool m_swimming;
   bool m_swimboosting;
+  bool m_no_water;
   bool m_on_left_wall;
   bool m_on_right_wall;
   bool m_in_walljump_tile;
   bool m_can_walljump;
   float m_boost;
   float m_speedlimit;
+  bool m_velocity_override;
   const Controller* m_scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
   bool m_jump_early_apex;
   bool m_on_ice;
   bool m_ice_this_frame;
-  SpritePtr m_lightsprite;
-  SpritePtr m_powersprite;
+  //SpritePtr m_santahatsprite;
+  SpritePtr m_multiplayer_arrow;
+
+  // Multiplayer tag stuff (number displayed over the players)
+  Timer m_tag_timer;
+  std::unique_ptr<FadeHelper> m_tag_fade;
+  float m_tag_alpha;
+  bool m_has_moved; // If the player sent input to move the player
 
 public:
   Direction m_dir;
@@ -299,6 +344,7 @@ private:
   Timer m_jump_button_timer; /**< started when player presses the jump button; runs until Tux jumps or JUMP_GRACE_TIME runs out */
   Timer m_coyote_timer; /**< started when Tux falls off a ledge; runs until Tux jumps or COYOTE_TIME runs out */
   bool m_wants_buttjump;
+  bool m_buttjump_stomp;
 
 public:
   bool m_does_buttjump;
@@ -308,9 +354,7 @@ private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
   Timer m_kick_timer;
-  Timer m_shooting_timer;   // used to show the arm when Tux is shooting
-  Timer m_ability_timer;  // maximum lengh of time that special abilities can last
-  Timer m_cooldown_timer; // minimum time period between successive uses of a special ability
+  Timer m_buttjump_timer;
 
 public:
   Timer m_dying_timer;
@@ -326,6 +370,7 @@ private:
 
   Portable* m_grabbed_object;
   std::unique_ptr<ObjectRemoveListener> m_grabbed_object_remove_listener;
+  bool m_released_object;
 
   SpritePtr m_sprite; /**< The main sprite representing Tux */
 
@@ -338,7 +383,6 @@ private:
   Vector m_floor_normal;
 
   bool m_ghost_mode; /**< indicates if Tux should float around and through solid objects */
-  bool m_edit_mode; /**< indicates if Tux should switch to ghost mode rather than dying */
 
   Timer m_unduck_hurt_timer; /**< if Tux wants to stand up again after ducking and cannot, this timer is started */
 
@@ -346,7 +390,9 @@ private:
   unsigned int m_idle_stage;
 
   Climbable* m_climbing; /**< Climbable object we are currently climbing, null if none */
-  std::unique_ptr<ObjectRemoveListener> m_climbing_remove_listener;
+
+  int m_ending_direction;
+  std::vector<Key*> m_collected_keys;
 
 private:
   Player(const Player&) = delete;

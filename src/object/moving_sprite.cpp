@@ -17,7 +17,6 @@
 #include "object/moving_sprite.hpp"
 
 #include <math.h>
-#include <physfs.h>
 
 #include "editor/editor.hpp"
 #include "math/random.hpp"
@@ -34,29 +33,18 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   m_default_sprite_name(sprite_name_),
   m_sprite(SpriteManager::current()->create(m_sprite_name)),
   m_layer(layer_),
-  m_flip(NO_FLIP)
+  m_flip(NO_FLIP),
+  m_sprite_found(false)
 {
   m_col.m_bbox.set_pos(pos);
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   set_group(collision_group);
 }
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int layer_, CollisionGroup collision_group) :
-  MovingObject(reader),
-  m_sprite_name(),
-  m_default_sprite_name(),
-  m_sprite(),
-  m_layer(layer_),
-  m_flip(NO_FLIP)
+  MovingSprite(reader, layer_, collision_group)
 {
   m_col.m_bbox.set_pos(pos);
-  if (!reader.get("sprite", m_sprite_name))
-    throw std::runtime_error("no sprite name set");
-
-  //m_default_sprite_name = m_sprite_name;
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
-  set_group(collision_group);
 }
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
@@ -65,20 +53,20 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_default_sprite_name(sprite_name_),
   m_sprite(),
   m_layer(layer_),
-  m_flip(NO_FLIP)
+  m_flip(NO_FLIP),
+  m_sprite_found(false)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
-  reader.get("sprite", m_sprite_name);
+  m_sprite_found = reader.get("sprite", m_sprite_name);
 
-  //Make the sprite go default when the sprite file is invalid
-  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str())) {
-    m_sprite = SpriteManager::current()->create(m_default_sprite_name);
-  } else {
-    m_sprite = SpriteManager::current()->create(m_sprite_name);
+  //Make the sprite go default when the sprite file is invalid or sprite change fails
+  if (m_sprite_name.empty() || !change_sprite(m_sprite_name))
+  {
+    change_sprite(m_default_sprite_name);
+    m_sprite_found = false;
   }
 
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
 
@@ -88,16 +76,16 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_default_sprite_name(),
   m_sprite(),
   m_layer(layer_),
-  m_flip(NO_FLIP)
+  m_flip(NO_FLIP),
+  m_sprite_found(false)
 {
   reader.get("x", m_col.m_bbox.get_left());
   reader.get("y", m_col.m_bbox.get_top());
-  if (!reader.get("sprite", m_sprite_name))
-    throw std::runtime_error("no sprite name set");
+  m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //m_default_sprite_name = m_sprite_name;
   m_sprite = SpriteManager::current()->create(m_sprite_name);
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   set_group(collision_group);
 }
 
@@ -112,17 +100,60 @@ MovingSprite::update(float )
 {
 }
 
-std::string
-MovingSprite::get_sprite_name() const
+bool
+MovingSprite::has_found_sprite()
 {
-  return m_sprite_name;
+  bool found = m_sprite_found;
+  m_sprite_found = false; // After the first call, indicate that a custom sprite has not been found.
+  return found;
 }
 
 void
-MovingSprite::set_action(const std::string& action, int loops)
+MovingSprite::on_type_change(int old_type)
 {
-  m_sprite->set_action(action, loops);
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite(get_default_sprite_name());
+}
+
+bool
+MovingSprite::matches_sprite(const std::string& sprite_file) const
+{
+  return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
+}
+
+void
+MovingSprite::update_hitbox()
+{
   m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.set_unisolid(m_sprite->is_current_hitbox_unisolid());
+}
+
+void
+MovingSprite::set_action(const std::string& name, int loops)
+{
+  m_sprite->set_action(name, loops);
+  update_hitbox();
+}
+
+void
+MovingSprite::set_action(const std::string& name, const Direction& dir, int loops)
+{
+  m_sprite->set_action(name, dir, loops);
+  update_hitbox();
+}
+
+void
+MovingSprite::set_action(const Direction& dir, const std::string& name, int loops)
+{
+  m_sprite->set_action(dir, name, loops);
+  update_hitbox();
+}
+
+void
+MovingSprite::set_action(const Direction& dir, int loops)
+{
+  m_sprite->set_action(dir, loops);
+  update_hitbox();
 }
 
 void
@@ -130,7 +161,7 @@ MovingSprite::set_action_centered(const std::string& action, int loops)
 {
   Vector old_size = m_col.m_bbox.get_size().as_vector();
   m_sprite->set_action(action, loops);
-  m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   set_pos(get_pos() - (m_col.m_bbox.get_size().as_vector() - old_size) / 2.0f);
 }
 
@@ -139,17 +170,19 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
 {
   Rectf old_bbox = m_col.m_bbox;
   m_sprite->set_action(action, loops);
-  float w = m_sprite->get_current_hitbox_width();
-  float h = m_sprite->get_current_hitbox_height();
-  m_col.set_size(w, h);
-  set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
+  update_hitbox();
+  set_pos(get_anchor_pos(old_bbox, m_sprite->get_current_hitbox_width(),
+                         m_sprite->get_current_hitbox_height(), anchorPoint));
 }
 
-void
+bool
 MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
+  m_sprite = SpriteManager::current()->create(new_sprite_name);
   m_sprite_name = new_sprite_name;
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
+  update_hitbox();
+
+  return SpriteManager::current()->last_load_successful();
 }
 
 ObjectSettings
@@ -157,7 +190,7 @@ MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", m_default_sprite_name);
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name());
 
   result.reorder({"sprite", "x", "y"});
 
@@ -167,11 +200,16 @@ MovingSprite::get_settings()
 void
 MovingSprite::after_editor_set()
 {
+  MovingObject::after_editor_set();
+
   std::string current_action = m_sprite->get_action();
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
+  if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
+  {
+    change_sprite(get_default_sprite_name());
+  }
   m_sprite->set_action(current_action);
 
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
 }
 
 void

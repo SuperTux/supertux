@@ -35,16 +35,14 @@ public:
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
-  virtual std::string get_class() const override { return "scriptedobject"; }
-  virtual std::string get_display_name() const override { return _("Scripted Object"); }
+  static std::string class_name() { return "scriptedobject"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Scripted Object"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
 
   virtual void on_flip(float height) override;
-
-  // --- scripting Interface stuff ---
-  void set_action(const std::string& animation);
-  std::string get_action() const;
 
   void move(float x, float y);
   float get_pos_x() const;

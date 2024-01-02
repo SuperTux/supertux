@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_UTIL_STRING_UTIL_HPP
 
 #include <string>
+#include <vector>
 
 class StringUtil final
 {
@@ -28,11 +29,15 @@ public:
       what 'sort -n' does. */
   static bool numeric_less(const std::string& lhs, const std::string& rhs);
 
+  static bool starts_with(const std::string& str, const std::string& prefix);
+
   static std::string tolower(const std::string& text);
 
   static std::string replace_all(const std::string& haystack,
                                  const std::string& needle,
                                  const std::string& replacement);
+
+  static void split(std::vector<std::string>& result, const std::string& str, char ch);
 };
 
 #endif

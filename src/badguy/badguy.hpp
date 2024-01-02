@@ -19,27 +19,34 @@
 
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
+#include "object/portable.hpp"
 #include "scripting/badguy.hpp"
 #include "squirrel/exposed_object.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
-class Dispenser;
+enum class Direction;
 class Player;
 class Bullet;
 
 /** Base class for moving sprites that can hurt the Player. */
 class BadGuy : public MovingSprite,
-               public ExposedObject<BadGuy, scripting::BadGuy>
+               public ExposedObject<BadGuy, scripting::BadGuy>,
+               public Portable
 {
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
   BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
+  BadGuy(const ReaderMapping& reader, const std::string& sprite_name, Direction default_direction, int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
+         const std::string& ice_sprite_name = "images/creatures/overlays/iceoverlay/iceoverlay.sprite");
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -49,8 +56,12 @@ public:
       state and calls active_update and inactive_update */
   virtual void update(float dt_sec) override;
 
-  virtual std::string get_class() const override { return "badguy"; }
-  virtual std::string get_display_name() const override { return _("Badguy"); }
+  static std::string class_name() { return "badguy"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Badguy"); }
+  virtual std::string get_display_name() const override { return display_name(); }
+
+  virtual std::string get_overlay_size() const { return "1x1"; }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -78,6 +89,10 @@ public:
   Vector get_start_position() const { return m_start_position; }
   void set_start_position(const Vector& vec) { m_start_position = vec; }
 
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) override;
+  virtual void ungrab(MovingObject& object, Direction dir) override;
+  virtual bool is_portable() const override;
+
   /** Called when hit by a fire bullet, and is_flammable() returns true */
   virtual void ignite();
 
@@ -94,13 +109,17 @@ public:
   virtual void freeze();
 
   /** Called to unfreeze the badguy. */
-  virtual void unfreeze();
+  virtual void unfreeze(bool melt = true);
 
   virtual bool is_freezable() const;
 
   /** Return true if this badguy can be hurt by tiles
       with the attribute "hurts" */
   virtual bool is_hurtable() const { return true; }
+
+  /** Can enemy be sniped by sliding or swimboosting Tux?
+    Returns false if enemy is spiky or too large */
+  virtual bool is_snipable() const { return false; }
 
   bool is_frozen() const;
 
@@ -110,18 +129,6 @@ public:
   virtual std::string get_water_sprite() const {
     return "images/objects/water_drop/water_drop.sprite";
   }
-
-  void set_sprite_action(const std::string& action, int loops = 1)
-  {
-    set_action(action, loops);
-  }
-
-  /** Sets the dispenser that spawns this badguy.
-      @param parent The dispenser */
-  void set_parent_dispenser(Dispenser* parent) { m_parent_dispenser = parent; }
-
-  /** Returns the dispenser this badguys was spawned by */
-  Dispenser* get_parent_dispenser() const { return m_parent_dispenser; }
 
   /** Returns true if the badguy can currently be affected by wind */
   virtual bool can_be_affected_by_wind() const;
@@ -180,6 +187,9 @@ protected:
   /** called when the badguy has been deactivated */
   virtual void deactivate();
 
+  /** Returns a vector of directions the badguy can be set to. */
+  virtual std::vector<Direction> get_allowed_directions() const;
+
   void kill_squished(GameObject& object);
 
   void set_state(State state);
@@ -199,9 +209,6 @@ protected:
   /** Returns true if we might soon fall at least @c height
       pixels. Minimum value for height is 1 pixel */
   bool might_fall(int height = 1) const;
-
-  /** Get Direction from String. */
-  Direction str2dir(const std::string& dir_str) const;
 
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so
@@ -258,11 +265,8 @@ protected:
   float m_melting_time;
 
   SpritePtr m_lightsprite;
+  SpritePtr m_freezesprite;
   bool m_glowing;
-
-  /** If this badguy was dispensed from a dispenser,
-      save the dispenser here. */
-  Dispenser* m_parent_dispenser;
 
 private:
   State m_state;
@@ -272,6 +276,8 @@ private:
   bool m_is_active_flag;
 
   Timer m_state_timer;
+
+  Timer m_unfreeze_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */

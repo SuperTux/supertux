@@ -27,10 +27,13 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
-  virtual std::string get_class() const override { return "pushbutton"; }
-  virtual std::string get_display_name() const override { return _("Button"); }
+  static std::string class_name() { return "pushbutton"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Button"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
   virtual void on_flip(float height) override;
 
@@ -40,8 +43,10 @@ private:
     ON
   };
 
-  std::string script;
-  PushButtonState state;
+  std::string m_script;
+  PushButtonState m_state;
+
+  Direction m_dir;
 
 private:
   PushButton(const PushButton&) = delete;

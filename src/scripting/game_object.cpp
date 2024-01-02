@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,21 +18,15 @@
 #include "scripting/game_object.hpp"
 
 #include "supertux/sector.hpp"
-#include "worldmap/worldmap.hpp"
 
 namespace scripting {
 
-::GameObjectManager& get_game_object_manager()
+::Sector& get_sector()
 {
-  using namespace worldmap;
-
-  if (::Sector::current() != nullptr) {
+  if (::Sector::current())
     return ::Sector::get();
-  } else if (::worldmap::WorldMap::current() != nullptr) {
-    return *::worldmap::WorldMap::current();
-  } else {
-    throw std::runtime_error("Neither sector nor worldmap active");
-  }
+
+  throw std::runtime_error("Unable to perform scripting action: No active Sector.");
 }
 
 } // namespace scripting

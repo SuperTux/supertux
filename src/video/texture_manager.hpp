@@ -24,7 +24,7 @@
 #include <set>
 #include <string>
 #include <vector>
-#include <boost/optional.hpp>
+#include <optional>
 
 #include "math/rect.hpp"
 #include "util/currenton.hpp"
@@ -39,20 +39,25 @@ struct SDL_Surface;
 
 class TextureManager final : public Currenton<TextureManager>
 {
-public:
   friend class Texture;
+
+private:
+  static const std::string s_dummy_texture;
 
 public:
   TextureManager();
   ~TextureManager() override;
 
-  TexturePtr get(const ReaderMapping& mapping, const boost::optional<Rect>& region = boost::none);
+  TexturePtr get(const ReaderMapping& mapping, const std::optional<Rect>& region = std::nullopt);
   TexturePtr get(const std::string& filename);
   TexturePtr get(const std::string& filename,
-                 const boost::optional<Rect>& rect,
+                 const std::optional<Rect>& rect,
                  const Sampler& sampler = Sampler());
+  TexturePtr create_dummy_texture();
 
   void debug_print(std::ostream& out) const;
+
+  bool last_load_successful() const { return m_load_successful; }
 
 private:
   const SDL_Surface& get_surface(const std::string& filename);
@@ -67,11 +72,10 @@ private:
   TexturePtr create_image_texture_raw(const std::string& filename, const Sampler& sampler);
   TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect, const Sampler& sampler);
 
-  TexturePtr create_dummy_texture();
-
 private:
   std::map<Texture::Key, std::weak_ptr<Texture> > m_image_textures;
   std::map<std::string, SDLSurfacePtr> m_surfaces;
+  bool m_load_successful;
 
 private:
   TextureManager(const TextureManager&) = delete;

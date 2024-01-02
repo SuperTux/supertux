@@ -1,6 +1,6 @@
 Install instructions for SuperTux - <https://supertux.org/>
 ====================================================================
-Last update: December 18, 2021
+Last update: May 19, 2023
 
 Quick links:
 - [Binaires](#binaries)
@@ -10,6 +10,7 @@ Quick links:
   - [Requirements](#requirements)
   - [Unix and Unix-like (Linux/MacOS/\*BSD)](#linuxunix-using-cmake)
   - [Windows](#windows-using-cmake-and-visual-studio)
+  - [Android](#android-using-sdl2)
   - [Browser (WASM)](#wasm-using-emscripten)
   - [Ubuntu Touch](#ubuntu-touch-using-clickable)
 
@@ -77,7 +78,6 @@ distributions.
 * C++ OpenGL library (choose one of the two options below):
   - [GLEW](http://glew.sourceforge.net/) or
   - [glbinding](https://github.com/hpicgs/glbinding)
-* [Boost](http://www.boost.org) smart_ptr and format headers, along with date_time and filesystem libraries
 * [cURL](http://curl.haxx.se/libcurl/): for Add-on downloads
 * [libogg and libvorbis](https://www.xiph.org/)
 * [FreeType](https://www.freetype.org/)
@@ -87,7 +87,7 @@ distributions.
   to display Arabic
 
 **Note I:** for any of the above listed libraries (OpenGL, SDL2, SDL2_image,
-OpenAL, GLEW/glbinding, Boost, cURL, libogg and libvorbis), you should
+OpenAL, GLEW/glbinding, cURL, libogg and libvorbis), you should
 also have development headers installed. Debian-based distributions have `-devel`
 packages containing the mentioned headers, on Arch Linux these should be included
 in the library package.
@@ -106,7 +106,12 @@ For ease of use, here are some installation lines for some Linux distributions:
 
 - Ubuntu 18.04/20.04:
   ```
-  sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libboost-all-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
+  sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
+  ```
+
+- ArchLinux (using sudo, as of June 3rd 2023)
+  ```
+  sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
   ```
 
 ### Linux/UNIX using CMake
@@ -168,9 +173,43 @@ line. Some common command line switches are:
 - `-DCMAKE_BUILD_TYPE=RELEASE`
   : Enables release mode and compiles some sanity checks out of the build.
 
+- `-DCMAKE_C_COMPILER=cc`, `-DCMAKE_CXX_COMPILER=cpp`
+  : Changes which compiler to use. Options are also available for the linker,
+    but using this option is less common.
+
+- `-DENABLE_OPENGL=ON`, `-DENABLE_OPENGLES2=ON`
+  : The former controls whether to compile in OpenGL support (else the game
+  will use the SDL renderer), the latter controls supporting OpenGL ES 2.
+
+- `-DBUILD_TESTS=ON`
+  : Enables compiling the test suite. To run the test suite, run
+  "test_supertux2" after compiling SuperTux. Requires installing
+  [GoogleTest](https://github.com/google/googletest) as an additional
+  dependency.
+
+- `-DBUILD_DOCUMENTATION=ON`
+  : Enables building documentation. Requires downloading and installing
+  [Doxygen](https://www.doxygen.nl/index.html) as an additional dependency.
+  You may build documentation after building SuperTux by running
+  "doxygen docs/Doxyfile" from the build directory, and by opening
+  "docs/doxygen/html/index.html".
+
 - `-DENABLE_DISCORD=ON`
   : Enables compiling the Discord integration in SuperTux. You may re-disable
-  the integration later by replacing `ON` with `OFF`.
+  the integration later by replacing "ON" with "OFF".
+
+- `-DVCPKG_BUILD=ON`
+  : Used if using vcpkg for dependencies. If you are using this, don't forget
+  `-DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake` and
+  `-DVCPKG_TARGET_TRIPLET=your-triplet` if necessary.
+
+- `-DWARNINGS=ON`
+  : Enable all warnings. The CI enables this option, so it might be useful to
+  keep this option activated during development.
+
+- `-DWERROR=ON`
+  : Treat all warnings as errors. The CI enables this option, so it might be
+  useful to enable this option and to recompile before opening a pull request.
 
 
 #### Notes for GIT users
@@ -196,33 +235,216 @@ make -j $(nproc || sysctl -n hw.ncpu || echo 2)
 
 ### Windows using CMake and Visual Studio
 
-To build SuperTux on Windows with Visual Studio you need to have CMake and a
-recent version of Visual Studio installed. Visual Studio 2015 Community Edition
-is known to work fine.
+**Note: SuperTux is currently not compilable with MinGW.**
 
-Because it's difficult to build and download all the dependencies per hand on windows,
-SuperTux provides a [dependency package](https://download.supertux.org/builddep/)
-that should contain all headers and libraries needed to build SuperTux on Windows.
+To build SuperTux on Windows with Visual Studio, you will need:
+- An IDE of your choice (Optional, but Git will need you to select one when installing)
+- Visual Studio Community (or any edition). SuperTux is tested with Visual Studio 16 (2019).
+- [CMake](https://cmake.org/download/)
+- [vcpkg](https://github.com/Microsoft/vcpkg)
+- [Git](https://git-scm.com/)
+
+Once all of these are installed; you may install dependencies with vcpkg. In any CLI, from the vcpkg folder, run:
+```
+./bootstrap-vcpkg.bat -disableMetrics
+./vcpkg integrate install
+./vcpkg install --triplet=x86-windows gtest curl freetype glew libogg libraqm libvorbis openal-soft sdl2 sdl2-image[libjpeg-turbo] glm zlib
+```
+
+**Note:** If you wish to produce 64-bit builds, replace `--triplet=x86-windows` with `--triplet=x64-windows`.
+
+Once dependencies are installed:
 
 1. Unpack the SuperTux source pack or get the source with git (`git clone --recursive https://github.com/SuperTux/supertux.git`).
 
-2. Extract the [dependency package](https://download.supertux.org/builddep/)
-into the source directory, so the `dependencies` folder is besides the `src` folder.
+2. Create a new, empty `build` folder.
 
-3. Create a new, empty `build` folder.
+3. Open a console window and navigate to the `build` directory.
 
-4. Open a console window and navigate to the `build` directory.
+5. Run `cmake .. -A Win32 -DCMAKE_BUILD_TYPE=Release -DVCPKG_BUILD=ON -DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x86-windows`.
 
-5. Run `cmake ..` to create the VS solution that builds SuperTux with standard options.
-For more CMake options, look at end of the Linux/UNIX build section.
+    **Make sure to change the path to vcpkg to the actual path to vcpkg on your system!**
 
-5. Open the new Visual Studio solution `SUPERTUX.sln` in the `build` directory.
-You may also run `cmake --build .` instead.
+    Options:
+    - `-A Win32` tells CMake to produce 32-bit executables. To produce 64-bit executables, you may either replace `Win32` with `x64`, or omit this argument entirely (remove everything, including the `-A`).
+    - `-DCMAKE_BUILD_TYPE=Release` creates a Release build, which does not contain debug information and runs faster. You may also produce `Debug` builds, but these run significantly slower. Other options may be available, such as `RelWithDebInfo` and `MinSizeRel`, but they are not tested. [More info](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html)
+    - `-DVCPKG_BUILD=ON` tells SuperTux to use vcpkg to find dependencies.
+    - `-DCMAKE_TOOLCHAIN_FILE=C:/PATH/TO/vcpkg/scripts/buildsystems/vcpkg.cmake` tells CMake to use the vcpkg toolchain to load dependencies. **Make sure to change the path to the actual path to vcpkg on your system!**
+    - `-DVCPKG_TARGET_TRIPLET=x86-windows` tells vcpkg to use 32-bit dependencies for Windows. If you are compiling 64-bit executables, replace "x86" with "x64".
+    - Optionally, you may add `-G "Visual Studio 16 2019"` to force a certain version of Visual Studio if multiple are installed on your system.
 
-6. Build the project.
+    For more CMake options, look at end of the Linux/UNIX build section.
 
-7. Now you can run SuperTux using the run_supertux.bat file
+5. You may now build SuperTux either by opening the new Visual Studio solution "SUPERTUX.sln" in the "build" directory, or by running `cmake --build . --config Release` instead. (If you prefer building a debug build, change "Release" to "Debug". Make sure you use the same option as when calling CMake!)
 
+6. Move the file "run_supertux.bat" from the "build" folder to the "build/Release" (or "build/Debug") folder.
+
+7. Now you can run SuperTux using the "run_supertux.bat" file. If you run this file from the command line, note that you need to `cd` in the Release/Debug folder beforehand.
+
+### Android using SDL2
+
+This port exists thanks to **[Pelya](https://github.com/pelya)**!
+
+You will need to install Android Studio with the command-line tools and with
+NDK **version 23** (other versions won't work). You will also need git.
+
+It is recommended to run these commands on Ubuntu 20.04.
+
+Note that the commands which require a certain wordking directory will have the
+assumed initial directory at the top of hte code block; if you follow these
+instructions step by step, you should have the assumed Current Working
+Directory at each step.
+
+1. Unpack the source archive or clone the repository recursively using git.
+
+```
+git clone --recursive https://github.com/supertux/supertux
+```
+
+2. Inside the repository, unpack
+[Pelya's cross-compilation suite](https://github.com/pelya/commandergenius) on
+commit `532acc9192`. Rename the folder "build.android" and place it at the root
+of the SuperTux repository.
+
+```
+# Assuming CWD = root of the SuperTux source folder
+# Use `cd supertux` if you ran the commands from the preceeding step verbatim
+
+git clone --depth=100 https://github.com/pelya/commandergenius.git build.android
+git -C build.android checkout 532acc9192
+
+# You can also download it from GitHub, but make sure you download it from
+# commit 532acc9192!
+```
+
+3. Clone the submodules that SuperTux needs: Iconv, SDL2, SDL2_image,
+SDL2_mixer and SDL2_ttf.
+
+```
+# Assuming CWD = root of the SuperTux source folder
+cd build.android
+
+git submodule update --init --recursive --depth=1 \
+          project/jni/iconv/src                   \
+          project/jni/sdl2 project/jni/sdl2_image \
+          project/jni/sdl2_mixer project/jni/sdl2_ttf
+```
+
+4. Symlink the project inside the build directory.
+
+```
+# Assuming CWD = build.android
+cd ..
+
+rm -rf build.android/project/jni/application/supertux/supertux
+ln -s `pwd` build.android/project/jni/application/supertux/supertux
+ln -s supertux build.android/project/jni/application/src
+```
+
+5. Optionally, limit the build to a certain set of architectures.
+
+```
+# Assuming CWD = root of the SuperTux source folder
+
+# Possible options: armeabi-v7a arm64-v8a x86 x86_64
+# You may specify multiple; if so, separate each architecture with a space.
+sed -i "s/MultiABI=.*/MultiABI='armeabi-v7a arm64-v8a x86 x86_64'/g" \
+          build.android/project/jni/application/supertux/AndroidAppSettings.cfg
+
+# You can also edit that file manually using any text editor.
+```
+
+6. Add your $ANDROID_NDK_HOME to your PATH, then configure SuperTux.
+(Tip: Your NDK home is probably `$HOME/Android/Sdk/ndk/[version 23]`, if it is
+not already set.)
+
+```
+# Assuming CWD = root of the SuperTux source folder
+
+export PATH=$ANDROID_NDK_LATEST_HOME:$PATH
+cd build.android
+./changeAppSettings.sh
+```
+
+7. Accept the Android Studio Licenses. You may either open the
+`build.android/project` folder in Android Studio, although it might get laggy;
+you can also accept licenses from the CLI.
+
+```
+# It is recommended to read the licenses, but if you've already read them, you
+# can execute `sudo -v` to enable sudo priviledges and add `yes | ` in front of
+# the next line.
+sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
+```
+
+8. Assemble a release build. <sub>TODO: Check for debug builds</sub>
+
+```
+# Assuming CWD = build.android
+cd project
+
+./gradlew assembleRelease
+```
+
+9. Accept the licenses again, but this time by specifying the project as root.
+
+```
+# Similarly as step #7, you can prepend `yes | ` to accept all licenses
+sudo $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses \
+          --sdk_root=`pwd`
+```
+
+10. Generate a debug key, if you don't have one already.
+
+```
+mkdir -p ~/.android
+keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android \
+          -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 \
+          -validity 10000 \
+          -dname "CN=Debug, OU=Debug, O=Debug, L=Debug, ST=Debug, C=Debug"
+```
+
+11. Setup the project properties. <sub>TODO: What do these do and what value can
+they take?</sub>
+
+```
+# Assuming CWD = build.android/project
+
+echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+echo "proguard.config=proguard.cfg;proguard-local.cfg" >> local.properties
+```
+
+12. Build SuperTux by running the `build.sh` script in the build.android folder.
+
+```
+# Assuming CWD = build.android/project
+cd ..
+
+export PATH=$ANDROID_NDK_HOME:$ANDROID_SDK_ROOT/build-tools/31.0.0:$PATH
+./build.sh
+```
+
+13. To generate a .aab, run `./gradlew bundleReleaseWithDebugInfo` from the
+project folder. The file will be located, from `build.android/project`, at
+`app/build/outputs/bundle/releaseWithDebugInfo/app-releaseWithDebugInfo.aab`.
+
+```
+# Assuming CWD = build.android
+
+cd project
+./gradlew bundleReleaseWithDebugInfo
+```
+
+14. To generate a .apk, run `./create-apk-with-data.sh` from the
+`build.android/project/jni/application/supertux` folder. The file will be
+located at `build.android/SuperTux-with-data.apk`.
+
+```
+# Assuming CWD = build.android/project
+
+cd jni/application/supertux
+./create-apk-with-data.sh
+```
 
 ### WASM using Emscripten
 
@@ -241,57 +463,43 @@ toolchain; newer versions are known not to work properly.
 git submodule update --init --recursive
 ```
 
-1. Patch SDL_ttf by applying the patch in `mk/emscripten/SDL_ttf.patch`:
+1. Install [Emscripten](emscripten.org):
 ```
-# For git users:
-git apply mk/emscripten/SDL_ttf.patch
-
-# If you do not have git installed:
-patch -p1 < mk/emscripten/SDL_ttf.patch
-```
-
-2. Install dependencies using Vcpkg (Make sure you enabled Emscripten and ran
-`source .../emsdk_env.sh`!):
-```
-vcpkg integrate install
-vcpkg install --target wasm32-emscripten boost-date-time boost-filesystem boost-format boost-locale boost-optional boost-system glbinding libpng libogg libvorbis glm zlib
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
 ```
 
-3. Run CMake using Emscripten's wrapper:
+2. Run CMake using Emscripten's wrapper:
 ```
-emcmake cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_OPENGLES2=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=wasm32-emscripten -DGLBINDING_ENABLED=ON -DEMSCRIPTEN=1 ..
+# Make sure you ran `source /path/to/emsdk/emsdk_env.sh` if you opened a new terminal since last step!
+emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
 ```
-Replace `/path/to/vcpkg` with the absolute path to where Vcpkg is installed.
-Note that Debug builds are generally unplayably slow. Also, the
-`-DENABLE_OPENGLES2=ON` flag is optional and will enable using WebGL instead of
-the SDL renderer. Currently, the WebGL renderer is much slower than the SDL
-renderer.
 
-4. Copy data files to the build folder, as Emscripten will package them to make
+3. Copy data files to the build folder, as Emscripten will package them to make
 them usable from WASM:
 ```
 rsync -aP ../data/ data/
 ```
 
-5. Build SuperTux:
+4. Build SuperTux:
 ```
 emmake make -j$(nproc || sysctl -n hw.ncpu || echo 2)
 ```
 
-6. Replace the Emscripten HTML template with SuperTux's custom container:
+5. Replace the Emscripten HTML template with SuperTux's custom container:
 ```
-rm supertux2.html && cp template.html supertux2.html
+cp template.html supertux2.html
 ```
 You may skip the step above you intend to directly open the `template.html` file;
 note that SuperTux won't work if it is not located in the custom template, as it
 requires some custom JavaScript functions to work properly.
 
-7. Run the Emscripten webserver:
+6. Run the Emscripten webserver:
 ```
-# Without --no-browser, Emscripten does not wait for data to finish downloading,
-# which fails the process. It only works by launching Emscripten in no-browser
-# mode, and then by opening the browser manually.
-emrun --no_browser .
+emrun supertux2.html
 ```
 
 You can now play SuperTux by opening `http://localhost:6931/supertux2.html` in
@@ -312,10 +520,18 @@ First, make sure you have all the submodules:
 git submodule update --init --recursive
 ```
 
+Then, enable developer mode on your phone, if it isn't enabled already.
+
 Then:
 - To install SuperTux on your phone, plug your phone to your computer and run:
   ```
-  clickable --config mk/clickable/clickable.json
+  clickable
+  ```
+  This will by default build with the SDL renderer only; if you wish to use the
+  OpenGL renderer, you may specify a different build file with `--config` to
+  build with one of the files located at `mk/clickable/build-with-*.json`:
+  ```
+  clickable --config mk/clickable/build-with-glew.json
   ```
 
 - To run SuperTux directly on your computer:

@@ -84,9 +84,8 @@ calculate_scale(const Size& min_size, const Size& max_size,
     }
   }
 
-#ifdef ENABLE_TOUCHSCREEN_SUPPORT
-  scale = std::max(scale, 1.f);
-#endif
+  if (g_config->mobile_controls)
+    scale = std::max(scale, 1.f);
 
   return scale;
 }

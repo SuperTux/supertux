@@ -1,4 +1,4 @@
-//  Dart - Your average poison dart
+//  Dart - Sharp projectile commonly shot from DartTrap
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,12 @@
 
 class SoundSource;
 
-/** Badguy "Dart" - Your average poison dart */
+/** Badguy "Dart" - Sharp projectile commonly shot from DartTrap */
 class Dart final : public BadGuy
 {
 public:
   Dart(const ReaderMapping& reader);
-  Dart(const Vector& pos, Direction d, const BadGuy* parent);
+  Dart(const Vector& pos, Direction d, const BadGuy* parent, const std::string& sprite = "images/creatures/darttrap/granito/root_dart.sprite");
 
   virtual void initialize() override;
   virtual void activate() override;
@@ -39,8 +39,10 @@ public:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  virtual std::string get_class() const override { return "dart"; }
-  virtual std::string get_display_name() const override { return _("Dart"); }
+  static std::string class_name() { return "dart"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Dart"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual bool is_flammable() const override;
 
@@ -50,6 +52,11 @@ public:
   virtual void play_looping_sounds() override;
 
   virtual void on_flip(float height) override;
+
+  void set_flip(Flip flip);
+
+protected:
+  virtual std::vector<Direction> get_allowed_directions() const override;
 
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */

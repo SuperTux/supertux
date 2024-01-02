@@ -36,11 +36,13 @@ class TextObject final : public GameObject,
 
 public:
   TextObject(const ReaderMapping& reader);
-  TextObject(const std::string& name = std::string());
+  TextObject(const std::string& name = "");
   ~TextObject() override;
 
-  virtual std::string get_class() const override { return "textobject"; }
-  virtual std::string get_display_name() const override { return _("Text"); }
+  static std::string class_name() { return "textobject"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Text"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual const std::string get_icon_path() const override { return "images/engine/editor/textarray.png"; }
 
@@ -66,6 +68,7 @@ public:
 
   void set_anchor_point(AnchorPoint anchor) { m_anchor = anchor; }
   AnchorPoint get_anchor_point() const { return m_anchor; }
+  void set_anchor_offset(const Vector& offset) { m_anchor_offset = offset; }
 
   void set_pos(const Vector& pos) { m_pos = pos; }
   const Vector& get_pos() const { return m_pos; }
@@ -82,6 +85,7 @@ private:
   bool m_visible;
   bool m_centered;
   AnchorPoint m_anchor;
+  Vector m_anchor_offset;
   Vector m_pos;
   Color m_front_fill_color;
   Color m_back_fill_color;

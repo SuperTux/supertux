@@ -17,7 +17,7 @@
 
 #include "object/textscroller.hpp"
 
-#include <boost/optional.hpp>
+#include <optional>
 #include <sexp/value.hpp>
 
 #include "control/input_manager.hpp"
@@ -148,7 +148,7 @@ TextScroller::parse_root(const ReaderObject& root)
     }
     else if (version == 2)
     {
-      boost::optional<ReaderCollection> content_collection;
+      std::optional<ReaderCollection> content_collection;
       if (!mapping.get("content", content_collection)) {
         throw std::runtime_error("File doesn't contain content");
       } else {
@@ -190,7 +190,7 @@ TextScroller::parse_content(const ReaderCollection& collection)
           m_lines.emplace_back(new InfoBoxLine('\t', name));
         }
 
-        if (item.get_mapping().get("image", image_file) && !simple) {
+        if (item.get_mapping().get("image", image_file)) {
           m_lines.emplace_back(new InfoBoxLine('!', image_file));
         }
 
@@ -243,9 +243,10 @@ TextScroller::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
 
-  const float ctx_w = static_cast<float>(context.get_width());
-  const float ctx_h = static_cast<float>(context.get_height());
+  const float ctx_w = context.get_width();
+  const float ctx_h = context.get_height();
 
   float y = floorf(ctx_h - m_scroll);
 

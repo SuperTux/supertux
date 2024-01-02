@@ -17,54 +17,41 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 #define HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_ptr.hpp"
-#include "supertux/moving_object.hpp"
-#include "video/flip.hpp"
+#include "object/moving_sprite.hpp"
 
 class Player;
 class ReaderMapping;
 
-class Block : public MovingObject
+class Block : public MovingSprite
 {
   friend class FlipLevelTransformer;
 
 public:
-  Block(SpritePtr sprite);
+  Block(const Vector& pos, const std::string& sprite_file);
   Block(const ReaderMapping& mapping, const std::string& sprite_file);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_default_sprite_name() const { return m_default_sprite_name; }
-
-  virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set() override;
-
   virtual void on_flip(float height) override;
 
   virtual int get_layer() const override { return LAYER_OBJECTS + 1; }
 
+  void start_bounce(GameObject* hitter);
+
 protected:
   virtual void hit(Player& player) = 0;
 
-  void start_bounce(GameObject* hitter);
   void start_break(GameObject* hitter);
   void break_me();
 
 protected:
-  SpritePtr m_sprite;
-  std::string m_sprite_name;
-  std::string m_default_sprite_name;
   bool m_bouncing;
   bool m_breaking;
   float m_bounce_dir;
   float m_bounce_offset;
   float m_original_y;
-
-private:
-  Flip m_flip;
 
 private:
   Block(const Block&) = delete;

@@ -32,7 +32,8 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 
@@ -49,7 +50,8 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 
@@ -65,7 +67,8 @@ WalkingBadguy::WalkingBadguy(const ReaderMapping& reader,
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
-  turn_around_counter()
+  turn_around_counter(),
+  m_stay_on_platform_overridden(false)
 {
 }
 
@@ -74,7 +77,7 @@ WalkingBadguy::initialize()
 {
   if (m_frozen)
     return;
-  m_sprite->set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
+  set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -walk_speed : walk_speed);
   m_physic.set_acceleration_x (0.0);
@@ -101,12 +104,9 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
   float current_x_velocity = m_physic.get_velocity_x ();
 
   if (m_frozen)
-  {
-    m_physic.set_velocity_x (0.0);
-    m_physic.set_acceleration_x (0.0);
-  }
+    return;
   /* We're very close to our target speed. Just set it to avoid oscillation */
-  else if ((current_x_velocity > (dest_x_velocity - 5.0f)) &&
+  if ((current_x_velocity > (dest_x_velocity - 5.0f)) &&
            (current_x_velocity < (dest_x_velocity + 5.0f)))
   {
     m_physic.set_velocity_x (dest_x_velocity);
@@ -134,12 +134,9 @@ WalkingBadguy::active_update(float dt_sec, float dest_x_velocity, float modifier
     assert(false);
   }
 
-  if (max_drop_height > -1) {
-    if (on_ground() && might_fall(max_drop_height+1))
-    {
-      turn_around();
-    }
-  }
+  if (max_drop_height > -1 && on_ground() && might_fall(max_drop_height+1) && !m_stay_on_platform_overridden)
+    turn_around();
+  m_stay_on_platform_overridden = false;
 
   if ((m_dir == Direction::LEFT) && (m_physic.get_velocity_x () > 0.0f)) {
     m_dir = Direction::RIGHT;
@@ -163,6 +160,12 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 
   update_on_ground_flag(hit);
 
+  if (m_frozen)
+  {
+    BadGuy::collision_solid(hit);
+    return;
+  }
+
   if (hit.top) {
     if (m_physic.get_velocity_y() < 0) m_physic.set_velocity_y(0);
   }
@@ -177,11 +180,14 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
+WalkingBadguy::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   if (hit.top) {
     return FORCE_MOVE;
   }
+
+  if (badguy.is_frozen())
+    collision_solid(hit);
 
   if ((hit.left && (m_dir == Direction::LEFT)) || (hit.right && (m_dir == Direction::RIGHT))) {
     turn_around();
@@ -197,7 +203,7 @@ WalkingBadguy::turn_around()
     return;
   m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
   if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE) {
-    m_sprite->set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
+    set_action(m_dir == Direction::LEFT ? walk_left_action : walk_right_action);
   }
   m_physic.set_velocity_x(-m_physic.get_velocity_x());
   m_physic.set_acceleration_x (-m_physic.get_acceleration_x ());
@@ -216,13 +222,12 @@ void
 WalkingBadguy::freeze()
 {
   BadGuy::freeze();
-  m_physic.set_velocity_x(0);
 }
 
 void
-WalkingBadguy::unfreeze()
+WalkingBadguy::unfreeze(bool melt)
 {
-  BadGuy::unfreeze();
+  BadGuy::unfreeze(melt);
   WalkingBadguy::initialize();
 }
 

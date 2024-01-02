@@ -27,138 +27,289 @@
 
 namespace scripting {
 
-/** Display the value of the argument. This is useful for inspecting tables. */
+#ifdef DOXYGEN_SCRIPTING
+/**
+ * @summary This module contains global methods.
+ */
+class Globals
+{
+public:
+#endif
+
+/**
+ * Displays the value of an argument. This is useful for inspecting tables.
+ * @param ANY $object
+ */
 SQInteger display(HSQUIRRELVM vm) __custom("t.");
 
-/** Displays contents of the current stack */
+/**
+ * Displays the contents of the current stack.
+ */
 void print_stacktrace(HSQUIRRELVM vm);
 
-/** returns the currently running thread */
+/**
+ * Returns the currently running thread.
+ */
 SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
 
-/** Should use christmas mode */
+/**
+ * Returns whether the game is in christmas mode.
+ */
 bool is_christmas();
 
-/** Display a text file and scrolls it over the screen (on next screenswitch) */
+/**
+ * Displays a text file and scrolls it over the screen (on next screenswitch).
+ * @param string $filename
+ */
 void display_text_file(const std::string& filename);
 
-/** Load and display a worldmap (on next screenswitch) */
-void load_worldmap(const std::string& filename);
+/**
+ * Loads and displays a worldmap (on next screenswitch), using the savegame of the current worldmap.
+ * @param string $filename
+ * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
+ * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
+ */
+void load_worldmap(const std::string& filename, const std::string& sector, const std::string& spawnpoint);
 
-/** Switch to a different worldmap after unloading current one, after exit_screen() is called */
-void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint);
+/**
+ * Switches to a different worldmap after unloading the current one, after ""exit_screen()"" is called.
+ * @param string $dirname The world directory, where the "worldmap.stwm" file is located.
+ * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
+ * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
+ */
+void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint);
 
-/** Load and display a level (on next screenswitch) */
+/**
+ * Loads and displays a level (on next screenswitch), using the savegame of the current level.
+ * @param string $filename
+ */
 void load_level(const std::string& filename);
 
-/** Manages skippable cutscenes (cancels calls to wait()) */
+/**
+ * Starts a skippable cutscene.
+ */
 void start_cutscene();
+/**
+ * Ends a skippable cutscene.
+ */
 void end_cutscene();
+/**
+ * Checks if a skippable cutscene is currently running.
+ */
 bool check_cutscene();
 
-/** Suspend the script execution for the specified number of seconds */
+/**
+ * Suspends the script execution for a specified number of seconds.
+ * @param float $seconds
+ */
 void wait(HSQUIRRELVM vm, float seconds) __suspend;
 
-/** Suspend the script execution until the current screen has been changed */
+/**
+ * Suspends the script execution until the current screen has been changed.
+ */
 void wait_for_screenswitch(HSQUIRRELVM vm) __suspend;
 
-/** Exits the currently running screen (force exit from worldmap or scrolling text for example) */
+/**
+ * Exits the currently running screen (for example, force exits from worldmap or scrolling text).
+ */
 void exit_screen();
 
-/** Translate a text into the users language (by looking it up in the .po files) */
+/**
+ * Translates a text into the user's language (by looking in the "".po"" files).
+ * @param string $text
+ */
 std::string translate(const std::string& text);
+/**
+ * Same function as ""translate()"".
+ * @param string $text
+ */
 std::string _(const std::string& text);
 
+/**
+ * Translates a text into the user's language (by looking in the "".po"" files).
+   Returns ""text"" or ""text_plural"", depending on ""num"" and the locale.
+ * @param string $text
+ * @param string $text_plural
+ * @param int $num
+ */
 std::string translate_plural(const std::string& text, const std::string&
     text_plural, int num);
+/**
+ * Same function as ""translate_plural()"".
+ * @param string $text
+ * @param string $text_plural
+ * @param int $num
+ */
 std::string __(const std::string& text, const std::string& text_plural, int num);
 
-/** Load a script file and executes it. This is typically used to import functions from external files. */
+/**
+ * Loads a script file and executes it. This is typically used to import functions from external files.
+ * @param string $filename
+ */
 void import(HSQUIRRELVM v, const std::string& filename);
 
-/** Save world state to scripting table */
+/**
+ * Saves world state to scripting table.
+ */
 void save_state();
 
-/** Load world state from scripting table */
+/**
+ * Loads world state from scripting table.
+ */
 void load_state();
 
-/** enable/disable drawing of collision rectangles */
+/**
+ * Enables/disables drawing of collision rectangles.
+ * @param bool $enable
+ */
 void debug_collrects(bool enable);
 
-/** enable/disable drawing of fps */
+/**
+ * Enables/disables drawing of FPS.
+ * @param bool $enable
+ */
 void debug_show_fps(bool enable);
 
-/** enable/disable drawing of non-solid layers */
+/**
+ * Enables/disables drawing of non-solid layers.
+ * @param bool $enable
+ */
 void debug_draw_solids_only(bool enable);
 
-/** enable/disable drawing of editor images */
+/**
+ * Enables/disables drawing of editor images.
+ * @param bool $enable
+ */
 void debug_draw_editor_images(bool enable);
 
-/** enable/disable worldmap ghost mode */
+/**
+ * Enables/disables worldmap ghost mode.
+ * @param bool $enable
+ */
 void debug_worldmap_ghost(bool enable);
 
-/** Changes music to musicfile */
+/**
+ * Changes the music to ""musicfile"".
+ * @param string $musicfile
+ */
 void play_music(const std::string& musicfile);
 
-/** Stops the music */
-void stop_music(float fadetime);
-
-/** Fade in music */
+/**
+ * Fades in the music from ""musicfile"" for ""fadetime"" seconds.
+ * @param string $musicfile
+ * @param float $fadetime
+ */
 void fade_in_music(const std::string& musicfile, float fadetime);
 
-/** Resume music */
+/**
+ * Fades out the music for ""fadetime"" seconds.
+ * @param float $fadetime Set to "0" for no fade-out.
+ */
+void stop_music(float fadetime);
+
+/**
+ * Resumes and fades in the music for ""fadetime"" seconds.
+ * @param float $fadetime Set to "0" for no fade-in.
+ */
 void resume_music(float fadetime);
 
-/** Pause music **/
+/**
+ * Pauses the music with a fade-out for ""fadetime"" seconds.
+ * @param float $fadetime Set to "0" for no fade-out.
+ */
 void pause_music(float fadetime);
 
-/** Plays a soundfile */
+/**
+ * Plays ""soundfile"" as a sound.
+ * @param string $soundfile
+ */
 void play_sound(const std::string& soundfile);
 
-/**  Set the game_speed */
+/**
+ * Sets the game speed to ""speed"".
+ * @param float $speed
+ */
 void set_game_speed(float speed);
 
-/** speeds Tux up */
+/**
+ * Speeds Tux up.
+ */
 void grease();
 
-/** makes Tux invincible for 10000 units of time */
+/**
+ * Makes Tux invincible for 10000 units of time.
+ */
 void invincible();
 
-/** makes Tux a ghost, i.e. lets him float around and through solid objects */
+/**
+ * Makes Tux a ghost, i.e. lets him float around and through solid objects.
+ */
 void ghost();
 
-/** recall Tux's invincibility and ghost status */
+/**
+ * Recalls Tux's invincibility and ghost status.
+ */
 void mortal();
 
-/** reinitialise and respawn Tux at the beginning of the current level */
+/**
+ * Re-initializes and respawns Tux at the beginning of the current level.
+ */
 void restart();
 
-/** print Tux's current coordinates in a level */
+/**
+ * Prints Tux's current coordinates in the current level.
+ */
 void whereami();
 
-/** move Tux near the end of the level */
+/**
+ * Moves Tux near the end of the current level.
+ */
 void gotoend();
 
-/** move Tux to the X and Y blocks relative to his position */
+/**
+ * Moves Tux to the X and Y blocks, relative to his position.
+ * @param float $offset_x
+ * @param float $offset_y
+ */
 void warp(float offset_x, float offset_y);
 
-/** show the camera's coordinates */
+/**
+ * Shows the camera's coordinates.
+ */
 void camera();
 
-/** adjust gamma */
+/**
+ * Adjusts the gamma.
+ * @param float $gamma
+ */
 void set_gamma(float gamma);
 
-/** exit the game */
-void quit();
-
-/** Returns a random integer */
+/**
+ * Returns a random integer.
+ */
 int rand();
 
-/** Record a demo to the given file. */
+/**
+ * Records a demo to the given file.
+ * @param string $filename
+ */
 void record_demo(const std::string& filename);
 
-/** Play back a demo from the given file. */
+/**
+ * Plays back a demo from the given file.
+ * @param string $filename
+ */
 void play_demo(const std::string& filename);
+
+/**
+ * Sets the frame, displayed on the title screen.
+ * @param string $image
+ */
+void set_title_frame(const std::string& image);
+
+#ifdef DOXYGEN_SCRIPTING
+}
+#endif
 
 } // namespace scripting
 

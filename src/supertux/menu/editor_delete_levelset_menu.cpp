@@ -15,7 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/menu/editor_delete_levelset_menu.hpp"
-#include <boost/format.hpp>
+
+#include <fmt/format.h>
+
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "physfs/util.hpp"
@@ -50,7 +52,7 @@ EditorDeleteLevelsetMenu::refresh()
     }
     if (!world->is_levelset() && !world->is_worldmap())
     {
-      log_warning << level_world << ": unknown World type" << std::endl;
+      log_warning << level_world << ": Unknown World type." << std::endl;
       continue;
     }
     auto title = world->get_title();
@@ -78,7 +80,7 @@ EditorDeleteLevelsetMenu::menu_action(MenuItem& item)
       Dialog::show_message(_("You cannot delete the world that you are editing"));
     else
     {
-      Dialog::show_confirmation(str(boost::format(_("You are about to delete world \"%s\". Are you sure?")) % m_world_names[id]), [this, id, &contrib_worlds]()
+      Dialog::show_confirmation(fmt::format(_("You are about to delete world \"{}\". Are you sure?"), m_world_names[id]), [this, id, &contrib_worlds]()
       {
         physfsutil::remove_with_content(contrib_worlds[id]);
         m_editor_levelset_select_menu->reload_menu();

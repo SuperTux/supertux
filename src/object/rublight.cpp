@@ -33,11 +33,11 @@ RubLight::RubLight(const ReaderMapping& mapping) :
   stored_energy(0),
   light(SpriteManager::current()->create(
     "images/objects/lightmap_light/lightmap_light.sprite")),
-  color(1.0f, 0.5f, 0.3f),
+  color(1.f, 1.f, 1.f),
   fading_speed(5.0f),
   strength_multiplier(1.0f)
 {
-  m_sprite->set_action("normal");
+  set_action("inactive");
 
   std::vector<float> vColor;
   if (mapping.get("color", vColor))
@@ -95,6 +95,7 @@ void RubLight::rub(float strength)
 {
   if (strength <= 0)
     return;
+  set_action("active");
   strength *= strength_multiplier;
   stored_energy = std::max<float>(stored_energy, strength);
   if (state == STATE_DARK)
@@ -104,9 +105,14 @@ void RubLight::rub(float strength)
 void
 RubLight::update(float dt_sec)
 {
+  if (m_sprite->get_action() == "active" && m_sprite->animation_done())
+  {
+    set_action("inactive");
+  }
+
   switch (state) {
   case STATE_DARK:
-    // Nothing to do
+    set_action("inactive");
     break;
 
   case STATE_FADING:

@@ -24,21 +24,28 @@
 class GrowUp final : public MovingSprite
 {
 public:
-  GrowUp(const Vector& pos, Direction direction = Direction::RIGHT);
-  virtual bool is_saveable() const override {
-    return false;
-  }
+  GrowUp(const Vector& pos, Direction direction = Direction::RIGHT, const std::string& custom_sprite = "");
+
+  virtual bool is_saveable() const override { return false; }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+
   void do_jump();
 
 private:
   Physic physic;
+
+  const bool m_custom_sprite;
   SpritePtr shadesprite;
   SpritePtr lightsprite;
+
+private:
+  GrowUp(const GrowUp&) = delete;
+  GrowUp& operator=(const GrowUp&) = delete;
 };
 
 #endif

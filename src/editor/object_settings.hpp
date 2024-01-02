@@ -23,10 +23,9 @@
 #include "editor/object_option.hpp"
 #include "object/path_walker.hpp"
 
-#include <algorithm>
-
 class Color;
 enum class Direction;
+class GameObject;
 class PathObject;
 enum class WalkMode;
 namespace worldmap {
@@ -46,78 +45,87 @@ public:
 
   void add_bool(const std::string& text, bool* value_ptr,
                 const std::string& key = {},
-                const boost::optional<bool>& default_value = {},
+                const std::optional<bool>& default_value = {},
                 unsigned int flags = 0);
   void add_float(const std::string& text, float* value_ptr,
                  const std::string& key = {},
-                 const boost::optional<float>& default_value = {},
+                 const std::optional<float>& default_value = {},
                  unsigned int flags = 0);
   void add_int(const std::string& text, int* value_ptr,
                const std::string& key = {},
-               const boost::optional<int>& default_value = {},
+               const std::optional<int>& default_value = {},
                unsigned int flags = 0);
   void add_label(const std::string& text, unsigned int flags = 0);
   void add_rectf(const std::string& text, Rectf* value_ptr,
                  const std::string& key = {},
                  unsigned int flags = 0);
   void add_worldmap_direction(const std::string& text, worldmap::Direction* value_ptr,
-                              boost::optional<worldmap::Direction> default_value = {},
+                              std::optional<worldmap::Direction> default_value = {},
                               const std::string& key = {}, unsigned int flags = 0);
   void add_direction(const std::string& text, Direction* value_ptr,
-                     boost::optional<Direction> default_value = {},
+                     std::vector<Direction> possible_directions = {},
                      const std::string& key = {}, unsigned int flags = 0);
   void add_walk_mode(const std::string& text, WalkMode* value_ptr,
-                     const boost::optional<WalkMode>& default_value = {},
+                     const std::optional<WalkMode>& default_value = {},
                      const std::string& key = {}, unsigned int flags = 0);
-  void add_badguy(const std::string& text, std::vector<std::string>* value_ptr,
-                  const std::string& key = {}, unsigned int flags = 0);
+  void add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
+                   uint8_t get_objects_param = 0, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func = {},
+                   const std::string& key = {}, unsigned int flags = 0);
   void add_color(const std::string& text, Color* value_ptr,
                  const std::string& key = {},
-                 const boost::optional<Color>& default_value = {},
+                 const std::optional<Color>& default_value = {},
                  unsigned int flags = 0);
   void add_rgba(const std::string& text, Color* value_ptr,
                 const std::string& key = {},
-                const boost::optional<Color>& default_value = {},
+                const std::optional<Color>& default_value = {},
                 unsigned int flags = 0);
   void add_rgb(const std::string& text, Color* value_ptr,
                const std::string& key = {},
-               const boost::optional<Color>& default_value = {},
+               const std::optional<Color>& default_value = {},
                unsigned int flags = 0);
   void add_remove();
   void add_script(const std::string& text, std::string* value_ptr,
                   const std::string& key = {}, unsigned int flags = 0);
   void add_text(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
-                const boost::optional<std::string>& default_value = {},
+                const std::optional<std::string>& default_value = {},
                 unsigned int flags = 0);
   void add_translatable_text(const std::string& text, std::string* value_ptr,
                              const std::string& key = {},
-                             const boost::optional<std::string>& default_value = {},
+                             const std::optional<std::string>& default_value = {},
                              unsigned int flags = 0);
+  void add_multiline_text(const std::string& text, std::string* value_ptr,
+                          const std::string& key = {},
+                          const std::optional<std::string>& default_value = {},
+                          unsigned int flags = 0);
+  void add_multiline_translatable_text(const std::string& text, std::string* value_ptr,
+                                       const std::string& key = {},
+                                       const std::optional<std::string>& default_value = {},
+                                       unsigned int flags = 0);
   void add_string_select(const std::string& text, int* value_ptr, const std::vector<std::string>& select,
-                         const boost::optional<int>& default_value = {},
+                         const std::optional<int>& default_value = {},
                          const std::string& key = {}, unsigned int flags = 0);
   void add_enum(const std::string& text, int* value_ptr,
                 const std::vector<std::string>& labels,
                 const std::vector<std::string>& symbols,
-                const boost::optional<int>& default_value = {},
+                const std::optional<int>& default_value = {},
                 const std::string& key = {}, unsigned int flags = 0);
 
   void add_sprite(const std::string& text, std::string* value_ptr,
                   const std::string& key = {},
-                  boost::optional<std::string> default_value = {},
+                  std::optional<std::string> default_value = {},
                   unsigned int flags = 0);
   void add_surface(const std::string& text, std::string* value_ptr,
                    const std::string& key = {},
-                   boost::optional<std::string> default_value = {},
+                   std::optional<std::string> default_value = {},
                    unsigned int flags = 0);
   void add_sound(const std::string& text, std::string* value_ptr,
                  const std::string& key = {},
-                 boost::optional<std::string> default_value = {},
+                 std::optional<std::string> default_value = {},
                  unsigned int flags = 0);
   void add_music(const std::string& text, std::string* value_ptr,
                  const std::string& key = {},
-                 boost::optional<std::string> default_value = {},
+                 std::optional<std::string> default_value = {},
                  unsigned int flags = 0);
 
   void add_worldmap(const std::string& text, std::string* value_ptr, const std::string& key = {},
@@ -132,21 +140,24 @@ public:
                     const std::string& key = {}, unsigned int flags = 0);
   void add_file(const std::string& text, std::string* value_ptr,
                 const std::string& key = {},
-                const boost::optional<std::string>& default_value = {},
+                const std::optional<std::string>& default_value = {},
                 const std::vector<std::string>& filter = {},
                 const std::string& basedir = {},
+                bool path_relative_to_basedir = true,
                 unsigned int flags = 0);
   void add_sexp(const std::string& text, const std::string& key,
                 sexp::Value& value, unsigned int flags = 0);
+  void add_string_array(const std::string& text, const std::string& key, std::vector<std::string>& items);
   void add_test_from_here();
   void add_particle_editor();
   void add_path_handle(const std::string& text, PathWalker::Handle& handle,
                        const std::string& key = {}, unsigned int flags = 0);
+  void add_list(const std::string& text, const std::string& key, const std::vector<std::string>& items, std::string* value_ptr);
 
   // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
   void add_button(const std::string& text, const std::function<void()>& callback);
 
-  const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
+  const std::vector<std::unique_ptr<BaseObjectOption> >& get_options() const { return m_options; }
 
   /** Reorder the options in the given order, this is a hack to get
       saving identical to the other editor */
@@ -156,11 +167,11 @@ public:
   void remove(const std::string& key);
 
 private:
-  void add_option(std::unique_ptr<ObjectOption> option);
+  void add_option(std::unique_ptr<BaseObjectOption> option);
 
 private:
   std::string m_name;
-  std::vector<std::unique_ptr<ObjectOption> > m_options;
+  std::vector<std::unique_ptr<BaseObjectOption> > m_options;
 
 private:
   ObjectSettings(const ObjectSettings&) = delete;

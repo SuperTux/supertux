@@ -17,19 +17,39 @@
 #include "object/rock.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "badguy/icecrusher.hpp"
-#include "object/explosion.hpp"
+#include "badguy/crusher.hpp"
+#include "badguy/badguy.hpp"
 #include "object/coin.hpp"
+#include "object/explosion.hpp"
+#include "object/lit_object.hpp"
+#include "object/pushbutton.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "object/player.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {
-const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
-}
+  const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
+  const float GROUND_FRICTION = 0.1f; // Amount of friction to apply while on ground.
+} // namespace
 
-static const float GROUND_FRICTION = 0.1f; // Amount of friction to apply while on ground.
+
+Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
+  MovingSprite(reader, spritename),
+  ExposedObject<Rock, scripting::Rock>(this),
+  physic(),
+  on_ground(false),
+  last_movement(0.0f, 0.0f),
+  on_grab_script(),
+  on_ungrab_script()
+{
+  parse_type(reader);
+  reader.get("on-grab-script", on_grab_script, "");
+  reader.get("on-ungrab-script", on_ungrab_script, "");
+
+  SoundManager::current()->preload(ROCK_SOUND);
+  set_group(COLGROUP_MOVING_STATIC);
+}
 
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
@@ -44,34 +64,25 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/rock/rock.sprite"),
-  ExposedObject<Rock, scripting::Rock>(this),
-  physic(),
-  on_ground(false),
-  last_movement(0.0f, 0.0f),
-  on_grab_script(),
-  on_ungrab_script()
+GameObjectTypes
+Rock::get_types() const
 {
-  reader.get("on-grab-script", on_grab_script, "");
-  reader.get("on-ungrab-script", on_ungrab_script, "");
-  SoundManager::current()->preload(ROCK_SOUND);
-  set_group(COLGROUP_MOVING_STATIC);
+  return {
+    { "small", _("Small") },
+    { "large", _("Large") }
+  };
 }
 
-Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
-  MovingSprite(reader, spritename),
-  ExposedObject<Rock, scripting::Rock>(this),
-  physic(),
-  on_ground(false),
-  last_movement(0.0f, 0.0f),
-  on_grab_script(),
-  on_ungrab_script()
+std::string
+Rock::get_default_sprite_name() const
 {
-  if (!reader.get("on-grab-script", on_grab_script)) on_grab_script = "";
-  if (!reader.get("on-ungrab-script", on_ungrab_script)) on_ungrab_script = "";
-  SoundManager::current()->preload(ROCK_SOUND);
-  set_group(COLGROUP_MOVING_STATIC);
+  switch (m_type)
+  {
+    case LARGE:
+      return "images/objects/rock/rock-b.png";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void
@@ -122,15 +133,27 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
+  // Why is it necessary to list exceptions here? Why doesn't the rock just not
+  // affect object that have ABORT_MOVE on all collisions?
+  auto litobject = dynamic_cast<LitObject*> (&other);
+  if (litobject) {
+    return ABORT_MOVE;
+  }
+
+  auto pushbutton = dynamic_cast<PushButton*> (&other);
+  if (pushbutton) {
+    return ABORT_MOVE;
+  }
+
   if (is_grabbed()) {
     return ABORT_MOVE;
   }
 
-  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
-  if (icecrusher) {
-    auto state = icecrusher->get_state();
-    if(state == IceCrusher::IceCrusherState::RECOVERING ||
-       state == IceCrusher::IceCrusherState::IDLE) {
+  auto crusher = dynamic_cast<Crusher*> (&other);
+  if (crusher) {
+    auto state = crusher->get_state();
+    if(state == Crusher::CrusherState::RECOVERING ||
+       state == Crusher::CrusherState::IDLE) {
         return ABORT_MOVE;
        }
   }
@@ -145,10 +168,16 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 
   if (!on_ground) {
     if (hit.bottom && physic.get_velocity_y() > 200) {
-      auto moving_object = dynamic_cast<MovingObject*> (&other);
-      if (moving_object && moving_object->get_group() != COLGROUP_TOUCHABLE) {
+      auto badguy = dynamic_cast<BadGuy*> (&other);
+      auto player = dynamic_cast<Player*> (&other);
+      if (badguy && badguy->get_group() != COLGROUP_TOUCHABLE) {
         //Getting a rock on the head hurts. A lot.
-        moving_object->collision_tile(Tile::HURTS);
+        badguy->kill_fall();
+        physic.set_velocity_y(0);
+      }
+      else if(player)
+      {
+        player->kill(false);
         physic.set_velocity_y(0);
       }
     }

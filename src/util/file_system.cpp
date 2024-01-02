@@ -16,8 +16,7 @@
 
 #include "util/file_system.hpp"
 
-#include <boost/filesystem.hpp>
-#include <boost/version.hpp>
+#include <filesystem>
 #include <sstream>
 #include <stdexcept>
 #include <sys/stat.h>
@@ -34,18 +33,20 @@
 #include <emscripten/html5.h>
 #endif
 
+#include <SDL.h>
+
 #include "gui/dialog.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 
 namespace FileSystem {
 
 bool exists(const std::string& path)
 {
   fs::path location(path);
-  boost::system::error_code ec;
+  std::error_code ec;
 
   // If we get an error (such as "Permission denied"), then ignore it
   // and pretend that the path doesn't exist.
@@ -65,6 +66,11 @@ void mkdir(const std::string& directory)
   {
     throw std::runtime_error("failed to create directory: "  + directory);
   }
+}
+
+void copy(const std::string& source_path, const std::string& target_path)
+{
+  fs::copy_file(source_path, target_path, fs::copy_options::overwrite_existing);
 }
 
 std::string dirname(const std::string& filename)
@@ -91,43 +97,16 @@ std::string basename(const std::string& filename)
 
 std::string relpath(const std::string& filename, const std::string& basedir)
 {
-#if BOOST_VERSION >= 106000
   return fs::relative(filename, basedir).string();
-#else
-  fs::path from = basedir;
-  fs::path to = filename;
+}
 
-  // Taken from https://stackoverflow.com/a/29221546
+std::string extension(const std::string& filename)
+{
+  std::string::size_type p = filename.find_last_of('.');
+  if (p == std::string::npos)
+    return "";
 
-  // Start at the root path and while they are the same then do nothing then when they first
-  // diverge take the entire from path, swap it with '..' segments, and then append the remainder of the to path.
-  fs::path::const_iterator fromIter = from.begin();
-  fs::path::const_iterator toIter = to.begin();
-
-  // Loop through both while they are the same to find nearest common directory
-  while (fromIter != from.end() && toIter != to.end() && (*toIter) == (*fromIter))
-  {
-    ++toIter;
-    ++fromIter;
-  }
-
-  // Replace from path segments with '..' (from => nearest common directory)
-  fs::path finalPath;
-  while (fromIter != from.end())
-  {
-    finalPath /= "..";
-    ++fromIter;
-  }
-
-  // Append the remainder of the to path (nearest common directory => to)
-  while (toIter != to.end())
-  {
-    finalPath /= *toIter;
-    ++toIter;
-  }
-
-  return finalPath.string();
-#endif
+  return filename.substr(p);
 }
 
 std::string strip_extension(const std::string& filename)
@@ -148,7 +127,6 @@ std::string normalize(const std::string& filename)
   while (true) {
     while (*p == '/' || *p == '\\') {
       p++;
-      continue;
     }
 
     const char* pstart = p;
@@ -168,7 +146,7 @@ std::string normalize(const std::string& filename)
       if (path_stack.empty()) {
 
         log_warning << "Invalid '..' in path '" << filename << "'" << std::endl;
-        // push it into the result path so that the user sees his error...
+        // Push it into the result path so that the user sees this error...
         path_stack.push_back(pathelem);
       } else {
         path_stack.pop_back();
@@ -178,7 +156,7 @@ std::string normalize(const std::string& filename)
     }
   }
 
-  // construct path
+  // Construct path.
   std::ostringstream result;
   for (std::vector<std::string>::iterator i = path_stack.begin();
        i != path_stack.end(); ++i) {
@@ -226,7 +204,10 @@ bool remove(const std::string& path)
 
 void open_path(const std::string& path)
 {
-#if defined(_WIN32) || defined (_WIN64)
+#ifdef __ANDROID__
+  // SDL >= 2.0.14 is strictly required for Android
+  SDL_OpenURL(("file://" + path).c_str());
+#elif defined(_WIN32) || defined (_WIN64)
   ShellExecute(NULL, "open", path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 #elif defined(__EMSCRIPTEN__)
   emscripten_run_script(("window.supertux_download('" + path + "');").c_str());
@@ -246,6 +227,17 @@ void open_path(const std::string& path)
   {
     log_fatal << "error " << ret << " while executing: " << cmd << std::endl;
   }
+#endif
+}
+
+void open_url(const std::string& url)
+{
+#if SDL_VERSION_ATLEAST(2,0,14)
+  SDL_OpenURL(url.c_str());
+#elif defined(__EMSCRIPTEN__)
+  emscripten_run_script(("window.open('" + url + "');").c_str());
+#else
+  open_path(url);
 #endif
 }
 

@@ -31,8 +31,10 @@ public:
 
   virtual void update(float dt_sec) override;
 
-  virtual std::string get_class() const override { return "particles-snow"; }
-  virtual std::string get_display_name() const override { return _("Snow Particles"); }
+  static std::string class_name() { return "particles-snow"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Snow Particles"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/snow.png";

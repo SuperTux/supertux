@@ -34,8 +34,13 @@ public:
   void set_text(const std::string& text) { m_text = text; }
   const std::string& get_text() const { return m_text; }
 
+  void set_font(const FontPtr font) { m_font = font; }
+  const FontPtr& get_font() const { return m_font; }
+
   /** Draws the menu item. */
   virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+
+  virtual void on_window_resize() {}
 
   /** Returns true when the menu item has no action and therefore can be skipped.
       Useful for labels and horizontal lines.*/
@@ -43,8 +48,15 @@ public:
     return false;
   }
 
+  /** Returns the distance between the items above and below the current
+      menu item. */
+  virtual float get_distance() const { return 0.f; }
+
   /** Returns the minimum width of the menu item. */
   virtual int get_width() const;
+
+  /** Returns height of menu item. */
+  virtual int get_height() const { return 24; }
 
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) { }
@@ -65,10 +77,15 @@ public:
     return false;
   }
 
+  /** Returns true when the item should have a blink effect, provided by the menu,
+      when active. */
+  virtual bool select_blink() const { return true; }
+
 private:
   int m_id;
   std::string m_text;
   std::string m_help;
+  FontPtr m_font;
 
 private:
   MenuItem(const MenuItem&) = delete;

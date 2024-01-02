@@ -25,13 +25,15 @@ class Shard final : public MovingSprite
 {
 public:
   Shard(const ReaderMapping& reader);
-  Shard(const Vector& pos, const Vector& velocity);
+  Shard(const Vector& pos, const Vector& velocity, const std::string& sprite = "images/creatures/crystallo/shard.sprite");
 
   virtual void update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
-  virtual std::string get_class() const override { return "shard"; }
-  virtual std::string get_display_name() const override { return _("Shard"); }
+  static std::string class_name() { return "shard"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Shard"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
 protected:
   Physic m_physic;

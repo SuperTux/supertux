@@ -1,3 +1,0 @@
-(supertux-sprite
-       (action
-         (images"down.png")))

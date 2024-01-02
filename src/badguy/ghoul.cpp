@@ -23,8 +23,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-static const float FLYSPEED = 80.0f; /**< speed in px per second */
-static const float TRACK_RANGE = 2500.0f; /**< at what distance to start tracking the player */
+static const float FLYSPEED = 80.0f; /**< Speed in px per second. */
+static const float TRACK_RANGE = 2500.0f; /**< At what distance to start tracking the player. */
 
 Ghoul::Ghoul(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/ghoul/ghoul.sprite"),
@@ -40,8 +40,8 @@ Ghoul::Ghoul(const ReaderMapping& reader) :
   reader.get("running", running, false);
 
   init_path(reader, running);
-  
-  m_sprite->set_action(m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+
+  set_action(m_dir);
 }
 
 bool
@@ -50,7 +50,7 @@ Ghoul::collision_squished(GameObject& object)
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
   if (player)
     player->bounce (*this);
-  m_sprite->set_action("squished", 1);
+  set_action("squished", 1);
   kill_fall();
   return true;
 }
@@ -113,11 +113,11 @@ Ghoul::active_update(float dt_sec)
   const Rectf& player_bbox = player->get_bbox();
   
   if (player_bbox.get_right() < m_col.m_bbox.get_left()) {
-    m_sprite->set_action("left", -1);
+    set_action("left", -1);
   }
   
   if (player_bbox.get_left() > m_col.m_bbox.get_right()) {
-    m_sprite->set_action("right", -1);
+    set_action("right", -1);
   }
 
   switch (m_mystate) {
@@ -205,6 +205,12 @@ Ghoul::move_to(const Vector& pos)
     get_path()->move_by(shift);
   }
   set_pos(pos);
+}
+
+std::vector<Direction>
+Ghoul::get_allowed_directions() const
+{
+  return {};
 }
 
 /* EOF */

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# IAN RODRÍGUEZ Lorenzo, 2023
 # 515ce455fbf38ec9585626e8d26b6324_7a9a6ef, 2017
 # Ryo Nakano, 2019-2021
 # b1e11c107ebf1f339ff7adfc86b9dbe0_2e3e89d, 2016
@@ -14,9 +15,9 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-18 00:51+0000\n"
-"Last-Translator: Ryo Nakano\n"
-"Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
+"Language-Team: Japanese (http://app.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -217,7 +218,7 @@ msgstr "木の根っこ"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Rooted Forest"
-msgstr ""
+msgstr "根づく森"
 
 #: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."

@@ -4,15 +4,15 @@
   (author "Tore Bergebakken")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 40)
+  (icon "")
+  (icon-locked "")
   (sector
     (name "main")
     (ambient-light
       (color 1 1 1)
     )
     (background
-      (scroll-offset-y 300)
-      (x 1184)
-      (y 320)
+      (color 1 1 1)
       (alignment "bottom")
       (scroll-speed-x 0.5)
       (scroll-speed-y 0.5)
@@ -31,27 +31,27 @@
       (bottom_color 1 1 1)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 4768)
       (y 576)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 3968)
       (y 640)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 3520)
       (y 608)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 4384)
       (y 576)
     )
     (jumpy
-      (sprite "/images/creatures/jumpy/wooden.sprite")
+      (sprite "/images/creatures/jumpy/woodjumpy.sprite")
       (x 1664)
       (y 480)
     )
@@ -87,6 +87,7 @@
     (path
       (name "327e44d6-7a13-47ab-b50d-34cf14191fc6")
       (path
+        (adapt_speed #f)
         (node
           (x 2144)
           (y 576)
@@ -140,42 +141,42 @@
       (y 608)
     )
     (stalactite
-      (sprite "/images/creatures/stalactite/forest_stalactite.sprite")
+      (sprite "/images/creatures/stalactite/rock_stalactite.sprite")
       (x 544)
       (y 320)
     )
     (stalactite
-      (sprite "/images/creatures/stalactite/forest_stalactite.sprite")
+      (sprite "/images/creatures/stalactite/rock_stalactite.sprite")
       (x 576)
       (y 320)
     )
     (stalactite
-      (sprite "/images/creatures/stalactite/forest_stalactite.sprite")
+      (sprite "/images/creatures/stalactite/rock_stalactite.sprite")
       (x 608)
       (y 320)
     )
     (stalactite
-      (sprite "/images/creatures/stalactite/forest_stalactite.sprite")
+      (sprite "/images/creatures/stalactite/rock_stalactite.sprite")
       (x 640)
       (y 320)
     )
     (stalactite
-      (sprite "/images/creatures/stalactite/forest_stalactite.sprite")
+      (sprite "/images/creatures/stalactite/rock_stalactite.sprite")
       (x 672)
       (y 320)
     )
     (stalactite
-      (sprite "/images/creatures/stalactite/forest_stalactite.sprite")
+      (sprite "/images/creatures/stalactite/rock_stalactite.sprite")
       (x 704)
       (y 320)
     )
     (stalactite
-      (sprite "/images/creatures/stalactite/forest_stalactite.sprite")
+      (sprite "/images/creatures/stalactite/rock_stalactite.sprite")
       (x 736)
       (y 320)
     )
     (stalactite
-      (sprite "/images/creatures/stalactite/forest_stalactite.sprite")
+      (sprite "/images/creatures/stalactite/rock_stalactite.sprite")
       (x 768)
       (y 320)
     )
@@ -405,6 +406,12 @@
       )
     )
     (tilemap
+      (handle
+        (scale_x 0)
+        (scale_y 0)
+        (offset_x 0)
+        (offset_y 0)
+      )
       (solid #f)
       (z-pos 100)
       (name "secret1")

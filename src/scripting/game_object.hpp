@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -77,31 +78,33 @@
   }                                                                     \
   auto& object = *object_ptr
 
-class GameObjectManager;
+class Sector;
 
 namespace scripting {
 
-::GameObjectManager& get_game_object_manager();
+::Sector& get_sector();
 
 template<class T>
 class GameObject
 {
 public:
-  GameObject() :
-    m_uid()
-  {}
-
-  GameObject(UID uid) :
-    m_uid(uid)
+  GameObject(const ::GameObject& object) :
+    m_uid(object.get_uid()),
+    m_parent(*object.get_parent())
   {}
 
   T* get_object_ptr() const
   {
-    return get_game_object_manager().get_object_by_uid<T>(m_uid);
+    return m_parent.get_object_by_uid<T>(m_uid);
   }
 
 protected:
   UID m_uid;
+  ::GameObjectManager& m_parent;
+
+private:
+  GameObject(const GameObject&) = delete;
+  GameObject& operator=(const GameObject&) = delete;
 };
 
 } // namespace scripting

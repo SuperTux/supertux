@@ -38,8 +38,10 @@ public:
 
   virtual bool is_saveable() const override;
 
-  virtual std::string get_class() const override { return "gradient"; }
-  virtual std::string get_display_name() const override { return _("Gradient"); }
+  static std::string class_name() { return "gradient"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Gradient"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual const std::string get_icon_path() const override {
     return "images/engine/editor/gradient.png";
@@ -49,13 +51,15 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void set_gradient(Color top, Color bottom);
-  void fade_gradient(Color top, Color bottom, float time);
+  void set_gradient(const Color& top, const Color& bottom);
+  void fade_gradient(const Color& top, const Color& bottom, float time);
   Color get_gradient_top() const { return m_gradient_top; }
   Color get_gradient_bottom() const { return m_gradient_bottom; }
 
   GradientDirection get_direction() const { return m_gradient_direction; }
+  std::string get_direction_string() const;
   void set_direction(const GradientDirection& direction);
+  void set_direction(const std::string& direction);
 
   void set_layer(int layer) { m_layer = layer; }
   int get_layer() const { return m_layer; }

@@ -35,6 +35,7 @@ TextObject::TextObject(const std::string& name) :
   m_visible(false),
   m_centered(false),
   m_anchor(ANCHOR_MIDDLE),
+  m_anchor_offset(0, 0),
   m_pos(0, 0),
   m_front_fill_color(0.6f, 0.7f, 0.8f, 0.5f),
   m_back_fill_color(0.2f, 0.3f, 0.4f, 0.8f),
@@ -77,7 +78,7 @@ TextObject::wrap_text()
 
   // strip all newlines except double ones (markdown'ish)
   char prev_c = ' ';
-  for(char& c : m_text) {
+  for (const char& c : m_text) {
     if (c == '\n') {
       if (prev_c == '\n') {
         rest += '\n';
@@ -87,6 +88,7 @@ TextObject::wrap_text()
     } else {
       rest += c;
     }
+    prev_c = c;
   }
 
   m_wrapped_text.clear();
@@ -147,8 +149,14 @@ TextObject::fade_out(float fadetime)
 void
 TextObject::set_visible(bool visible)
 {
-  m_visible = visible;
-  m_fade_progress = 1;
+  if (visible)
+  {
+    fade_in(0);
+  }
+  else
+  {
+    fade_out(0);
+  }
 }
 
 void
@@ -186,6 +194,7 @@ TextObject::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
   if (m_fader)
     context.set_alpha(m_fade_progress);
 
@@ -197,17 +206,16 @@ TextObject::draw(DrawingContext& context)
 
   float width  = m_font->get_text_width(m_wrapped_text) + 20.0f;
   float height = m_font->get_text_height(m_wrapped_text) + 20.0f;
-  Vector spos = m_pos + get_anchor_pos(Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
-                                       width, height, m_anchor);
+  Vector spos = m_pos + get_anchor_pos(context.get_rect(),
+                                       width, height, m_anchor) + m_anchor_offset;
   Vector sizepos = spos + (Vector(width / 2.f, height / 2.f)) - (Vector(width / 2.f, height / 2.f) * (m_fade_progress));
 
   if (m_fade_progress > 0.f)
   {
-    context.color().draw_filled_rect(Rectf((m_grower ? sizepos : spos) - Vector(4.f, 4.f), Sizef((width * (m_fader ? 1.f : m_fade_progress)) + 8.f, (height * (m_fader ? 1.f : m_fade_progress)) + 8.f)),
-      m_back_fill_color, m_roundness + 4.f, LAYER_GUI + 50);
+    const Rectf draw_rect(m_grower ? sizepos : spos, Sizef(width, height) * (m_fader ? 1.f : m_fade_progress));
 
-    context.color().draw_filled_rect(Rectf((m_grower ? sizepos : spos), Sizef(width, height) * (m_fader ? 1.f : m_fade_progress)),
-      m_front_fill_color, m_roundness, LAYER_GUI + 50);
+    context.color().draw_filled_rect(draw_rect.grown(4.0f), m_back_fill_color, m_roundness + 4.f, LAYER_GUI + 50);
+    context.color().draw_filled_rect(draw_rect, m_front_fill_color, m_roundness, LAYER_GUI + 50);
   }
 
   if (m_fader || (m_grower && m_fade_progress >= 1.f))

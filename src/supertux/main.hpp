@@ -31,6 +31,7 @@
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/profile_manager.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
@@ -51,17 +52,29 @@ private:
 class PhysfsSubsystem final
 {
 private:
-  boost::optional<std::string> m_forced_datadir;
-  boost::optional<std::string> m_forced_userdir;
+  std::optional<std::string> m_forced_datadir;
+  std::optional<std::string> m_forced_userdir;
+
+  std::string m_datadir;
+  std::string m_userdir;
 
 public:
   PhysfsSubsystem(const char* argv0,
-                  boost::optional<std::string> forced_datadir,
-                  boost::optional<std::string> forced_userdir);
+                  std::optional<std::string> forced_datadir,
+                  std::optional<std::string> forced_userdir);
   ~PhysfsSubsystem();
-  void find_datadir() const;
-  void find_userdir() const;
+
+private:
+  void find_mount_datadir();
+  void find_mount_userdir();
+
+public:
+  void remount_datadir_static() const;
+
   static void print_search_path();
+
+private:
+  void add_data_to_search_path(const std::string& dir) const;
 };
 
 class SDLSubsystem final
@@ -86,6 +99,7 @@ private:
 
   void launch_game(const CommandLineArguments& args);
   void resave(const std::string& input_filename, const std::string& output_filename);
+  void release_check();
 
 private:
   // Using pointers allows us to initialize them whenever we want
@@ -100,12 +114,15 @@ private:
   std::unique_ptr<SquirrelVirtualMachine> m_squirrel_virtual_machine;
   std::unique_ptr<TileManager> m_tile_manager;
   std::unique_ptr<SpriteManager> m_sprite_manager;
+  std::unique_ptr<ProfileManager> m_profile_manager;
   std::unique_ptr<Resources> m_resources;
   std::unique_ptr<AddonManager> m_addon_manager;
   std::unique_ptr<Console> m_console;
   std::unique_ptr<GameManager> m_game_manager;
   std::unique_ptr<ScreenManager> m_screen_manager;
   std::unique_ptr<Savegame> m_savegame;
+
+  Downloader m_downloader; // Used for getting the version of the latest SuperTux release.
 
 private:
   Main(const Main&) = delete;

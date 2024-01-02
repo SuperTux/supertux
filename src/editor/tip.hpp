@@ -28,16 +28,21 @@ class GameObject;
 class Tip final
 {
 public:
-  Tip(GameObject& object);
-  Tip(std::string text);
-  Tip(std::string header, std::vector<std::string> text);
+  Tip();
 
-  void draw(DrawingContext& context, const Vector& pos);
-  void draw_up(DrawingContext& context, const Vector& pos);
+  void draw(DrawingContext& context, const Vector& pos, const bool align_right = false);
+  void draw_up(DrawingContext& context, const Vector& pos, const bool align_right = false);
+  void set_info(const std::string& text);
+  void set_info(const std::string& header, const std::vector<std::string>& text);
+  void set_info_for_object(GameObject& object);
+  void set_visible(bool visible) { m_visible = visible; }
+  bool get_visible() const { return m_visible; }
 
 private:
   std::vector<std::string> m_strings;
+  std::vector<std::string> m_warnings;
   std::string m_header;
+  bool m_visible;
 
 private:
   Tip(const Tip&) = delete;

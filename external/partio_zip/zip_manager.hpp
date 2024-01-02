@@ -1,8 +1,12 @@
 // SOURCE: https://github.com/wdas/partio/blob/main/src/lib/io/ZIP.h
+// NOTE: This file was edited for purposes of compatibility with SuperTux.
+
+// This include has been added to fix a problem with GCC 11+ (and maybe 10)
+#include <memory>
+
+// =============================================================================
 
 /*
-
-NOTE: This file was edited for purposes of compatibility with SuperTux.
 
 PARTIO SOFTWARE
 Copyright 2010 Disney Enterprises, Inc. All rights reserved

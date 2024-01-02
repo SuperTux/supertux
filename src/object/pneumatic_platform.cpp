@@ -111,7 +111,7 @@ void
 PneumaticPlatform::update(float dt_sec)
 {
   const int contact_diff = static_cast<int>(m_children[0]->m_contacts.size()) - static_cast<int>(m_children[1]->m_contacts.size());
-  for (auto& child : m_children) {
+  for (const auto& child : m_children) {
     child->m_contacts.clear();
   }
 
@@ -158,7 +158,7 @@ PneumaticPlatform::get_settings()
 {
   ObjectSettings result = GameObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", std::string("images/objects/platforms/small.sprite"));
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", "images/objects/platforms/small.sprite");
   result.add_float(_("X"), &m_pos.x, "x", 0.0f, OPTION_HIDDEN);
   result.add_float(_("Y"), &m_pos.y, "y", 0.0f, OPTION_HIDDEN);
 

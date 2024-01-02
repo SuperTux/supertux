@@ -84,7 +84,7 @@ TextArrayObject::next_text()
   if (m_isDone)
     return;
 
-  if (m_curTextIndex+1 >= m_texts.size()) {
+  if (m_curTextIndex + 1 >= m_texts.size()) {
     m_isDone = true;
     return;
   }
@@ -123,7 +123,7 @@ TextArrayObject::set_fade_transition(bool fade_transition)
 }
 
 TextArrayItem*
-TextArrayObject::get_text_item(ta_index index)
+TextArrayObject::get_text_item(ta_index index) const
 {
   auto vecSize = m_texts.size();
 
@@ -134,13 +134,13 @@ TextArrayObject::get_text_item(ta_index index)
 }
 
 TextArrayItem*
-TextArrayObject::get_current_text_item()
+TextArrayObject::get_current_text_item() const
 {
   return get_text_item(m_curTextIndex);
 }
 
 TextArrayItem*
-TextArrayObject::get_last_text_item()
+TextArrayObject::get_last_text_item() const
 {
   return get_text_item(m_lastTextIndex);
 }
@@ -261,7 +261,7 @@ TextArrayObject::handle_input_requests()
 }
 
 bool
-TextArrayObject::should_fade()
+TextArrayObject::should_fade() const
 {
   return m_fadeTransition && (m_curTextIndex != m_lastTextIndex);
 }

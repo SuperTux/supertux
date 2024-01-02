@@ -24,17 +24,23 @@
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
 Stalactite::Stalactite(const ReaderMapping& mapping) :
-  BadGuy(mapping, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
+  BadGuy(mapping, "images/creatures/stalactite/stalactite_ice.sprite", LAYER_TILES - 1),
   timer(),
   state(STALACTITE_HANGING),
   shake_delta(0.0f, 0.0f)
 {
+  parse_type(mapping);
+
+  if (m_type != StalactiteType::ICE)
+    after_editor_set();
+
   m_countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/cracking.wav");
@@ -75,10 +81,9 @@ Stalactite::squish()
 {
   state = STALACTITE_SQUISHED;
   m_physic.enable_gravity(true);
-  m_physic.set_velocity_x(0);
-  m_physic.set_velocity_y(0);
+  m_physic.set_velocity(0, 0);
   set_state(STATE_SQUISHED);
-  m_sprite->set_action("squished");
+  set_action("squished");
   SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   run_dead_script();
@@ -108,14 +113,14 @@ Stalactite::collision_player(Player& player, const CollisionHit& )
 HitResponse
 Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
-  if (state == STALACTITE_SQUISHED) return FORCE_MOVE;
+  if (state == STALACTITE_SQUISHED) return ABORT_MOVE;
 
-  // ignore other Stalactites
+  // Ignore other Stalactites.
   if (dynamic_cast<Stalactite*>(&other)) return FORCE_MOVE;
 
   if (state != STALACTITE_FALLING) return BadGuy::collision_badguy(other, hit);
 
-  if (other.is_freezable()) {
+  if (other.is_freezable() && m_type != StalactiteType::ROCK) {
     other.freeze();
   } else {
     other.kill_fall();
@@ -125,9 +130,14 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 }
 
 HitResponse
-Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
+Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
-  if (state == STALACTITE_HANGING) {
+  if (m_type == StalactiteType::ROCK)
+  {
+    bullet.ricochet(*this, hit);
+  }
+  else if (state == STALACTITE_HANGING)
+  {
     timer.start(SHAKE_TIME);
     state = STALACTITE_SHAKING;
     bullet.remove_me();
@@ -137,6 +147,27 @@ Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
   }
 
   return FORCE_MOVE;
+}
+
+GameObjectTypes
+Stalactite::get_types() const
+{
+  return {
+    { "ice", _("ice") },
+    { "rock", _("rock") }
+  };
+}
+
+std::string
+Stalactite::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case ROCK:
+      return "images/creatures/stalactite/stalactite_rock.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void
@@ -169,6 +200,12 @@ Stalactite::deactivate()
 {
   if (state != STALACTITE_HANGING)
     remove_me();
+}
+
+std::vector<Direction>
+Stalactite::get_allowed_directions() const
+{
+  return {};
 }
 
 void

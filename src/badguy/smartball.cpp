@@ -21,14 +21,46 @@
 SmartBall::SmartBall(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 80;
   max_drop_height = 16;
+}
+
+GameObjectTypes
+SmartBall::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "pumpkin", _("Pumpkin") }
+  };
+}
+
+std::string
+SmartBall::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case PUMPKIN:
+      return "images/creatures/pumpkin/pumpkin.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
+bool
+SmartBall::is_freezable() const
+{
+  return m_type == PUMPKIN;
 }
 
 bool
 SmartBall::collision_squished(GameObject& object)
 {
-  m_sprite->set_action(m_dir == Direction::LEFT ? "squished-left" : "squished-right");
+  if (m_frozen)
+    return WalkingBadguy::collision_squished(object);
+
+  set_action("squished", m_dir);
   kill_squished(object);
   return true;
 }

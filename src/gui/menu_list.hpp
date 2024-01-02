@@ -1,5 +1,6 @@
 //  SuperTux -- List menu
 //  Copyright (C) 2021 Rami <rami.slicer@gmail.com>
+//                2023 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,19 +20,22 @@
 
 #include "gui/menu.hpp"
 
-class ListMenu final : public Menu 
+#include <functional>
+
+class ListMenu final : public Menu
 {
 public:
-  ListMenu(const std::vector<std::string>& items, int* selected, Menu* parent);
+  ListMenu(const std::vector<std::string>& entries, std::string* selected, Menu* parent,
+           const std::function<std::string (const std::string&)>& text_processor = {});
 
   void menu_action(MenuItem& item) override;
 
 private:
-  int* m_selected;
+  const std::vector<std::string> m_entries;
+  std::string* m_selected;
   Menu* m_parent;
 
 private:
-  // non-copyable footer
   ListMenu(const ListMenu&) = delete;
   ListMenu& operator=(const ListMenu&) = delete;
 };

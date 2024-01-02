@@ -17,15 +17,16 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 
+#include "supertux/sector_base.hpp"
+
 #include <vector>
 #include <stdint.h>
 
+#include "collision/collision_system.hpp"
 #include "math/anchor_point.hpp"
 #include "math/easing.hpp"
 #include "math/fwd.hpp"
-#include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
-#include "supertux/game_object_manager.hpp"
 #include "supertux/tile.hpp"
 #include "video/color.hpp"
 
@@ -34,7 +35,6 @@ class Constraints;
 }
 
 class Camera;
-class CollisionSystem;
 class CollisionGroundMovementManager;
 class DisplayEffect;
 class DrawingContext;
@@ -49,7 +49,7 @@ class Writer;
 
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */
-class Sector final : public GameObjectManager
+class Sector final : public Base::Sector
 {
 public:
   friend class CollisionSystem;
@@ -67,20 +67,19 @@ public:
   Sector(Level& parent);
   ~Sector() override;
 
-  /** Needs to be called after parsing to finish the construction of
-      the Sector before using it. */
-  void finish_construction(bool editable);
+  void finish_construction(bool editable) override;
 
-  Level& get_level() const;
+  Level& get_level() const { return m_level; }
+  TileSet* get_tileset() const override;
+  bool in_worldmap() const override;
 
   /** activates this sector (change music, initialize player class, ...) */
   void activate(const std::string& spawnpoint);
   void activate(const Vector& player_pos);
   void deactivate();
 
-  void update(float dt_sec);
-
-  void draw(DrawingContext& context);
+  void draw(DrawingContext& context) override;
+  void update(float dt_sec) override;
 
   void save(Writer &writer);
 
@@ -89,9 +88,6 @@ public:
 
   /** continues the looping sounds in whole sector. */
   void play_looping_sounds();
-
-  void set_name(const std::string& name_) { m_name = name_; }
-  const std::string& get_name() const { return m_name; }
 
   /** tests if a given rectangle is inside the sector
       (a rectangle that is on top of the sector is considered inside) */
@@ -113,6 +109,14 @@ public:
       This includes badguys and players. */
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
 
+  /** Checks if the specified rectangle is free of MovingObjects in COLGROUP_MOVINGSTATIC.
+      Note that this does not include moving badguys, or players */
+  bool is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+
+  CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
+                                                             const Vector& line_end,
+                                                             bool ignore_objects,
+                                                             const CollisionObject* ignore_object) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
@@ -138,16 +142,10 @@ public:
 
   /** set gravity throughout sector */
   void set_gravity(float gravity);
-  float get_gravity() const;
-
-  void set_init_script(const std::string& init_script) {
-    m_init_script = init_script;
-  }
-
-  void run_script(const std::string& script, const std::string& sourcename);
+  float get_gravity() const { return m_gravity; }
 
   Camera& get_camera() const;
-  Player& get_player() const;
+  std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
 
 private:
@@ -163,21 +161,14 @@ private:
   void convert_tiles2gameobject();
 
 private:
-  /** Parent level containing this sector */
-  Level& m_level;
-
-  std::string m_name;
+  Level& m_level; // Parent level
 
   bool m_fully_constructed;
-
-  std::string m_init_script;
-
   int m_foremost_layer;
 
-  std::unique_ptr<SquirrelEnvironment> m_squirrel_environment;
-  std::unique_ptr<CollisionSystem> m_collision_system;
-
   float m_gravity;
+
+  std::unique_ptr<CollisionSystem> m_collision_system;
 
 private:
   Sector(const Sector&) = delete;

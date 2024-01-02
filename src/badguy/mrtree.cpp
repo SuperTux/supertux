@@ -19,8 +19,8 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
-#include "badguy/poisonivy.hpp"
 #include "badguy/stumpy.hpp"
+#include "badguy/viciousivy.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
 #include "object/player.hpp"
@@ -29,19 +29,57 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-static const float TREE_SPEED = 100;
+static const float VICIOUSIVY_WIDTH = 32;
+static const float VICIOUSIVY_HEIGHT = 32;
+static const float VICIOUSIVY_Y_OFFSET = 24;
 
-static const float POISONIVY_WIDTH = 32;
-static const float POISONIVY_HEIGHT = 32;
-static const float POISONIVY_Y_OFFSET = 24;
-
-MrTree::MrTree(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right", LAYER_OBJECTS,
-                  "images/objects/lightmap_light/lightmap_light-large.sprite")
+MrTree::MrTree(const ReaderMapping& reader) :
+  WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right", LAYER_OBJECTS,
+                "images/objects/lightmap_light/lightmap_light-large.sprite")
 {
-  walk_speed = TREE_SPEED;
+  parse_type(reader);
+
   max_drop_height = 16;
   SoundManager::current()->preload("sounds/mr_tree.ogg");
+}
+
+GameObjectTypes
+MrTree::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
+
+std::string
+MrTree::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/mr_tree/corrupted/haunted_tree.sprite";
+    default:
+      return m_default_sprite_name;
+  }
+}
+
+void
+MrTree::on_type_change(int old_type)
+{
+  MovingSprite::on_type_change();
+
+  switch (m_type)
+  {
+    case NORMAL:
+      walk_speed = 80.f;
+      break;
+    case CORRUPTED:
+      walk_speed = 70.f;
+      break;
+    default:
+      break;
+  }
 }
 
 bool
@@ -53,6 +91,9 @@ MrTree::is_freezable() const
 bool
 MrTree::collision_squished(GameObject& object)
 {
+  if (m_type == CORRUPTED || m_frozen)
+    return WalkingBadguy::collision_squished(object);
+
   auto player = dynamic_cast<Player*>(&object);
   if (player && (player->m_does_buttjump || player->is_invincible())) {
     player->bounce(*this);
@@ -60,19 +101,19 @@ MrTree::collision_squished(GameObject& object)
     return true;
   }
 
-  // replace with Stumpy
+  // Replace with Stumpy.
   Vector stumpy_pos = get_pos();
-  stumpy_pos.x += 20;
-  stumpy_pos.y += 25;
+  stumpy_pos.x += 8;
+  stumpy_pos.y += 28;
   auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
   remove_me();
 
-  // give Feedback
+  // Give feedback.
   SoundManager::current()->play("sounds/mr_tree.ogg", get_pos());
   if (player) player->bounce(*this);
 
-  // spawn some particles
-  // TODO: provide convenience function in MovingSprite or MovingObject?
+  // Spawn some particles.
+  // TODO: Provide convenience function in MovingSprite or MovingObject?
   for (int px = static_cast<int>(stumpy.get_bbox().get_left()); px < static_cast<int>(stumpy.get_bbox().get_right()); px+=10) {
     Vector ppos = Vector(static_cast<float>(px),
                          static_cast<float>(stumpy.get_bbox().get_top()) - 5.0f);
@@ -89,20 +130,20 @@ MrTree::collision_squished(GameObject& object)
                                            LAYER_OBJECTS-1);
   }
 
-  if (!m_frozen) { //Frozen Mr.Trees don't spawn any PoisonIvys.
-    // spawn PoisonIvy
-    Vector leaf1_pos(stumpy_pos.x - POISONIVY_WIDTH - 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
-    Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);
+  if (!m_frozen) { // Mr.Trees that are frozen don't spawn any Vicious Ivys.
+    // Spawn ViciousIvy.
+    Vector leaf1_pos(stumpy_pos.x - VICIOUSIVY_WIDTH - 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
+    Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + VICIOUSIVY_WIDTH, leaf1_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf1_bbox, this)) {
-      auto& leaf1 = Sector::get().add<PoisonIvy>(leaf1_bbox.p1(), Direction::LEFT);
+      auto& leaf1 = Sector::get().add<ViciousIvy>(leaf1_bbox.p1(), Direction::LEFT);
       leaf1.m_countMe = false;
     }
 
-    // spawn PoisonIvy
-    Vector leaf2_pos(stumpy_pos.x + m_sprite->get_current_hitbox_width() + 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
-    Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + POISONIVY_WIDTH, leaf2_pos.y + POISONIVY_HEIGHT);
+    // Spawn ViciousIvy.
+    Vector leaf2_pos(stumpy_pos.x + m_sprite->get_current_hitbox_width() + 1, stumpy_pos.y - VICIOUSIVY_Y_OFFSET);
+    Rectf leaf2_bbox(leaf2_pos.x, leaf2_pos.y, leaf2_pos.x + VICIOUSIVY_WIDTH, leaf2_pos.y + VICIOUSIVY_HEIGHT);
     if (Sector::get().is_free_of_movingstatics(leaf2_bbox, this)) {
-      auto& leaf2 = Sector::get().add<PoisonIvy>(leaf2_bbox.p1(), Direction::RIGHT);
+      auto& leaf2 = Sector::get().add<ViciousIvy>(leaf2_bbox.p1(), Direction::RIGHT);
       leaf2.m_countMe = false;
     }
   }

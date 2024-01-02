@@ -19,6 +19,7 @@
 FadeHelper::FadeHelper(float time, float target_value,
                        float start_value, easing ease) :
   m_value(nullptr),
+  m_progress(start_value),
   m_start(start_value),
   m_target(target_value),
   m_time(0.f),
@@ -30,6 +31,7 @@ FadeHelper::FadeHelper(float time, float target_value,
 FadeHelper::FadeHelper(float* value, float time,
                        float target_value, easing ease) :
   m_value(value),
+  m_progress(*value),
   m_start(*value),
   m_target(target_value),
   m_time(0.f),
@@ -46,6 +48,7 @@ FadeHelper::update(float dt_sec)
   if (completed())
   {
     m_time = m_total_time;
+    m_progress = m_target;
     if (m_value)
       *m_value = m_target;
     return m_target;
@@ -57,16 +60,23 @@ FadeHelper::update(float dt_sec)
   // here (it takes a lot of space).               ~ Semphris
   float progress = m_start + (m_target - m_start) * static_cast<float>(m_ease(
                                   static_cast<double>(m_time / m_total_time)));
+
+  m_progress = progress;
   if (m_value)
     *m_value = progress;
   return progress;
-
 }
 
 bool
 FadeHelper::completed() const
 {
   return m_time >= m_total_time;
+}
+
+float
+FadeHelper::get_value() const
+{
+  return m_progress;
 }
 
 /* EOF */

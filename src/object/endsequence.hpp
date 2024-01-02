@@ -20,6 +20,8 @@
 #include "control/codecontroller.hpp"
 #include "supertux/game_object.hpp"
 
+#include <unordered_map>
+
 class EndSequence : public GameObject
 {
 public:
@@ -30,24 +32,28 @@ public:
   virtual void draw(DrawingContext& context) override;
 
   void start(); /**< play EndSequence */
-  void stop_tux(); /**< called when Tux has reached his final position */
+  void stop_tux(int player); /**< called when Tux has reached his final position */
   void stop(); /**< stop playing EndSequence, mark it as done playing */
-  bool is_tux_stopped() const; /**< returns true if Tux has reached his final position */
+  bool is_running() const; /**< returns true if the ending cinematic started */
+  bool is_tux_stopped(int player); /**< returns true if Tux has reached his final position */
   bool is_done() const; /**< returns true if EndSequence has finished playing */
   virtual bool is_saveable() const override {
     return false;
   }
 
+  const Controller* get_controller(int player);
+
 protected:
+  CodeController* get_code_controller(int player);
   virtual void starting(); /**< called when EndSequence starts */
   virtual void running(float dt_sec); /**< called while the EndSequence is running */
   virtual void stopping(); /**< called when EndSequence stops */
 
 protected:
-  bool isrunning; /**< true while EndSequence plays */
-  bool isdone; /**< true if EndSequence has finished playing */
-  bool tux_may_walk; /**< true while tux is allowed to walk */
-  std::unique_ptr<CodeController> end_sequence_controller;
+  bool m_is_running; /**< true while EndSequence plays */
+  bool m_is_done; /**< true if EndSequence has finished playing */
+  std::unordered_map<int, bool> m_tux_is_stopped; /**< true while tux is allowed to walk */
+  std::unordered_map<int, std::unique_ptr<CodeController>> m_end_sequence_controllers;
 
 private:
   EndSequence(const EndSequence&) = delete;

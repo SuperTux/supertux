@@ -20,6 +20,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
+#include "object/camera.hpp"
 #include "supertux/info_box_line.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -35,21 +36,22 @@ InfoBlock::InfoBlock(const ReaderMapping& mapping) :
   m_frontcolor(0.6f, 0.7f, 0.8f, 0.5f),
   m_backcolor(0.f, 0.f, 0.f, 0.f),
   m_roundness(16.f),
-  m_fadetransition(true)
+  m_fadetransition(true),
+  m_initial_y(0.0f)
 {
   if (!mapping.get("message", m_message) && !(Editor::is_active()))
   {
     log_warning << "No message in InfoBlock" << std::endl;
   }
-  std::vector<float> m_frontcolor_;
-  if (mapping.get("frontcolor", m_frontcolor_))
+  std::vector<float> front_color;
+  if (mapping.get("frontcolor", front_color))
   {
-    m_frontcolor = Color(m_frontcolor_);
+    m_frontcolor = Color(front_color);
   }
-  std::vector<float> m_backcolor_;
-  if (mapping.get("backcolor", m_backcolor_))
+  std::vector<float> back_color;
+  if (mapping.get("backcolor", back_color))
   {
-    m_backcolor = Color(m_backcolor_);
+    m_backcolor = Color(back_color);
   }
   mapping.get("roundness", m_roundness, 0.f);
   mapping.get("fadetransition", m_fadetransition, true);
@@ -71,7 +73,7 @@ InfoBlock::get_settings()
 {
   ObjectSettings result = Block::get_settings();
 
-  result.add_translatable_text(_("Message"), &m_message, "message");
+  result.add_multiline_translatable_text(_("Message"), &m_message, "message");
 
   result.add_color(_("Front Color"), &m_frontcolor, "frontcolor", Color(0.6f, 0.7f, 0.8f, 0.5f));
 
@@ -106,6 +108,12 @@ InfoBlock::hit(Player& player)
         block.hide_message();
       }
     }
+
+    Camera& cam = Sector::get().get_singleton_by_type<Camera>();
+    if (m_original_y - m_lines_height - 10.f < cam.get_translation().y)
+      m_initial_y = cam.get_translation().y + 10.0f;
+    else
+      m_initial_y = m_original_y - m_lines_height - 10.f;
 
     show_message();
 
@@ -177,7 +185,7 @@ InfoBlock::draw(DrawingContext& context)
   float height = m_lines_height; // this is the text height only
   float x1 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 - width/2;
   float x2 = (m_col.m_bbox.get_left() + m_col.m_bbox.get_right())/2 + width/2;
-  float y1 = m_original_y - height - 10.f;
+  float y1 = m_initial_y;
 
   if (x1 < 0) {
     x1 = 0;

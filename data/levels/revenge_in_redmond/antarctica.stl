@@ -19,7 +19,7 @@
       (color 1 1 1)
       (alignment "bottom")
       (speed 0.5)
-      (image "/images/background/block_snow/block-snow-midground.png")
+      (image "/images/background/retro/block-snow-midground.png")
       (z-pos -200)
     )
     (bonusblock

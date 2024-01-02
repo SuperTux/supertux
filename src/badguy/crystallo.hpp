@@ -24,13 +24,20 @@ class Crystallo final : public WalkingBadguy
 {
 public:
   Crystallo(const ReaderMapping& reader);
+  Crystallo(const Vector& pos, const Vector& start_pos, float vel_x, SpritePtr sprite,
+            Direction dir, float radius, const std::string& script);
 
   virtual ObjectSettings get_settings() override;
-  virtual std::string get_class() const override { return "crystallo"; }
-  virtual std::string get_display_name() const override { return _("Crystallo"); }
+  static std::string class_name() { return "crystallo"; }
+  virtual std::string get_class_name() const override { return class_name(); }
+  static std::string display_name() { return _("Crystallo"); }
+  virtual std::string get_display_name() const override { return display_name(); }
 
   virtual void active_update(float dt_sec) override;
   virtual bool is_flammable() const override;
+  virtual bool is_snipable() const override { return true; }
+
+  virtual void on_flip(float height) override;
 
 protected:
   virtual bool collision_squished(GameObject& object) override;

@@ -25,8 +25,7 @@
 #include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
-#include "object/endsequence_walkleft.hpp"
-#include "object/endsequence_walkright.hpp"
+#include "object/endsequence_walk.hpp"
 #include "object/level_time.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
@@ -47,12 +46,13 @@
 #include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
+                         bool preserve_music) :
   GameSessionRecorder(),
   reset_button(false),
   reset_checkpoint_button(false),
+  m_prevent_death(false),
   m_level(),
-  m_old_level(),
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
   m_scripts(),
   m_currentsector(nullptr),
@@ -60,57 +60,83 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_game_pause(false),
   m_speed_before_pause(ScreenManager::current()->get_speed()),
   m_levelfile(levelfile_),
-  m_start_sector("main"),
-  m_start_spawnpoint("main"),
-  m_start_pos(0.0f, 0.0f),
-  m_reset_sector(),
-  m_reset_pos(0.0f, 0.0f),
+  m_spawnpoints(),
+  m_activated_checkpoint(),
   m_newsector(),
   m_newspawnpoint(),
-  m_pastinvincibility(false),
-  m_newinvincibilityperiod(0),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
-  m_edit_mode(false),
   m_levelintro_shown(false),
   m_coins_at_start(),
-  m_bonus_at_start(),
+  m_boni_at_start(),
   m_max_fire_bullets_at_start(),
   m_max_ice_bullets_at_start(),
   m_active(false),
   m_is_testing(false),
   m_end_seq_started(false),
-  m_current_cutscene_text()
+  m_pause_target_timer(false),
+  m_current_cutscene_text(),
+  m_endsequence_timer()
 {
-  if (restart_level() != 0)
+  set_start_point("main", "main");
+
+  m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
+  m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
+  m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
+
+  if (restart_level(false, preserve_music) != 0)
     throw std::runtime_error ("Initializing the level failed.");
 }
 
 void
 GameSession::reset_level()
 {
-  m_currentsector->get_player().set_bonus(m_bonus_at_start);
+  for (const auto& p : m_currentsector->get_players())
+  {
+    try
+    {
+      p->set_bonus(m_boni_at_start.at(p->get_id()));
+    }
+    catch(const std::out_of_range&)
+    {
+    }
+  }
+
   PlayerStatus& currentStatus = m_savegame.get_player_status();
   currentStatus.coins = m_coins_at_start;
+  currentStatus.bonus = m_boni_at_start;
   currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
   currentStatus.max_ice_bullets = m_max_ice_bullets_at_start;
-  m_reset_sector = "";
-  m_reset_pos = Vector(0.0f, 0.0f);
+
+  clear_respawn_points();
+  m_activated_checkpoint = nullptr;
+  m_pause_target_timer = false;
 }
 
 int
-GameSession::restart_level(bool after_death)
+GameSession::restart_level(bool after_death, bool preserve_music)
 {
   const PlayerStatus& currentStatus = m_savegame.get_player_status();
   m_coins_at_start = currentStatus.coins;
-  m_bonus_at_start = currentStatus.bonus;
   m_max_fire_bullets_at_start = currentStatus.max_fire_bullets;
   m_max_ice_bullets_at_start = currentStatus.max_ice_bullets;
+  m_boni_at_start = currentStatus.bonus;
 
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return (-1);
+  // Needed for the title screen apparently.
+  if (m_currentsector)
+  {
+    try
+    {
+      for (const auto& p : m_currentsector->get_players())
+      {
+        p->set_bonus(m_boni_at_start.at(p->get_id()));
+        m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
+      }
+    }
+    catch (const std::out_of_range&)
+    {
+    }
   }
 
   if(m_is_testing && after_death)
@@ -120,6 +146,7 @@ GameSession::restart_level(bool after_death)
 
   m_game_pause   = false;
   m_end_sequence = nullptr;
+  m_endsequence_timer.stop();
 
   InputManager::current()->reset();
 
@@ -131,40 +158,86 @@ GameSession::restart_level(bool after_death)
   }
 
   try {
-    m_old_level = std::move(m_level);
     m_level = LevelParser::from_file(m_levelfile, false, false);
 
-    if (!m_reset_sector.empty()) {
-      m_currentsector = m_level->get_sector(m_reset_sector);
-      if (!m_currentsector) {
-        std::stringstream msg;
-        msg << "Couldn't find sector '" << m_reset_sector << "' for resetting tux.";
-        throw std::runtime_error(msg.str());
+    /* Determine the spawnpoint to spawn/respawn Tux to. */
+    const GameSession::SpawnPoint* spawnpoint = nullptr;
+    if (m_activated_checkpoint && reset_checkpoint_button) // Checkpoint is activated and respawn from it is requested.
+    {
+      reset_checkpoint_button = false;
+
+      // Attempt to find the last checkpoint's spawnpoint.
+      for (int i = static_cast<int>(m_spawnpoints.size()) - 1; i >= 0; i--)
+      {
+        if (m_spawnpoints.at(i).is_checkpoint) // Checkpoint found.
+        {
+          spawnpoint = &m_spawnpoints.at(i);
+
+          // Remove any spawnpoints after the checkpoint one.
+          if (i < static_cast<int>(m_spawnpoints.size()) - 1)
+            m_spawnpoints.erase(m_spawnpoints.begin() + i + 1, m_spawnpoints.end());
+
+          break;
+        }
       }
-      m_currentsector->activate(m_reset_pos);
-    } else {
-      m_currentsector = m_level->get_sector(m_start_sector);
-      if (!m_currentsector)
-        throw std::runtime_error("Couldn't find main sector");
-      m_play_time = 0;
-      if (m_start_spawnpoint.empty()) {
-        m_currentsector->activate(m_start_pos);
-      } else {
-        m_currentsector->activate(m_start_spawnpoint);
+
+      if (!spawnpoint) // Spawnpoint has not been found.
+      {
+        throw std::runtime_error("Cannot find the position of the last activated checkpoint.");
       }
     }
-  } catch(std::exception& e) {
+    else if (after_death && m_spawnpoints.size() > 1) // Respawn from the last respawn position, because Tux is respawning.
+    {
+      spawnpoint = &get_last_spawnpoint();
+    }
+    else // Respawn from the start position.
+    {
+      spawnpoint = &m_spawnpoints.front();
+
+      m_play_time = 0; // Reset play time.
+    }
+
+    /* Perform the respawn from the chosen spawnpoint. */
+    // Load the spawn sector.
+    m_currentsector = m_level->get_sector(spawnpoint->sector);
+    if (!m_currentsector)
+    {
+      throw std::runtime_error("Couldn't find sector '" + spawnpoint->sector + "' to spawn/respawn Tux.");
+    }
+    // Activate on either the spawnpoint (if set), or the spawn position.
+    if (spawnpoint->spawnpoint.empty())
+    {
+      m_currentsector->activate(spawnpoint->position);
+    }
+    else
+    {
+      m_currentsector->activate(spawnpoint->spawnpoint);
+    }
+  }
+  catch (std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
     ScreenManager::current()->pop_screen();
     return (-1);
   }
 
-  auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
-  if (after_death == true) {
-    music_object.resume_music();
-  } else {
-    SoundManager::current()->stop_music();
-    music_object.play_music(LEVEL_MUSIC);
+  if (!preserve_music)
+  {
+    auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
+    if (after_death == true) {
+      music_object.resume_music();
+    } else {
+      SoundManager::current()->stop_music();
+      music_object.play_music(LEVEL_MUSIC);
+    }
+  }
+
+  auto level_times = m_currentsector->get_objects_by_type<LevelTime>();
+  auto it = level_times.begin();
+
+  while (it != level_times.end())
+  {
+    it->set_time(it->get_time() - m_play_time);
+    it++;
   }
 
   start_recording();
@@ -175,16 +248,31 @@ GameSession::restart_level(bool after_death)
 void
 GameSession::on_escape_press(bool force_quick_respawn)
 {
-  if ((m_currentsector->get_player().is_dying() && (m_play_time > 2.0f
-      || force_quick_respawn))
-    || m_end_sequence)
-  {
-    // Let the timers run out, we fast-forward them to force past a sequence
-    if (m_end_sequence)
-      m_end_sequence->stop();
+  auto players = m_currentsector->get_players();
 
-    m_currentsector->get_player().m_dying_timer.start(FLT_EPSILON);
-    return;   // don't let the player open the menu, when Tux is dying
+  int alive = m_currentsector->get_object_count<Player>([](const Player& p) {
+    return !p.is_dead() && !p.is_dying();
+  });
+
+  if ((!alive && (m_play_time > 2.0f || force_quick_respawn)) || m_end_sequence)
+  {
+    // Let the timers run out, we fast-forward them to force past a sequence.
+    if (m_end_sequence)
+    {
+      if (m_end_sequence->is_running())
+      {
+        m_end_sequence->stop();
+      }
+      else
+      {
+        m_endsequence_timer.start(FLT_EPSILON);
+      }
+    }
+
+    for (auto* player : players)
+      player->m_dying_timer.start(FLT_EPSILON);
+
+    return;   // Don't let the player open the menu, when Tux is dying.
   }
 
   if (m_level->m_is_in_cutscene && !m_level->m_skip_cutscene)
@@ -206,7 +294,7 @@ GameSession::on_escape_press(bool force_quick_respawn)
 void
 GameSession::toggle_pause()
 {
-  // pause
+  // Pause.
   if (!m_game_pause && !MenuManager::instance().is_active())
   {
     m_speed_before_pause = ScreenManager::current()->get_speed();
@@ -218,7 +306,7 @@ GameSession::toggle_pause()
     m_game_pause = true;
   }
 
-  // unpause is done in update() after the menu is processed
+  // Unpause is done in update() after the menu is processed.
 }
 
 void
@@ -226,7 +314,18 @@ GameSession::abort_level()
 {
   MenuManager::instance().clear_menu_stack();
   ScreenManager::current()->pop_screen();
-  m_currentsector->get_player().set_bonus(m_bonus_at_start);
+
+  for (const auto& p : m_currentsector->get_players())
+  {
+    try
+    {
+      p->set_bonus(m_boni_at_start.at(p->get_id()));
+    }
+    catch(const std::out_of_range&)
+    {
+    }
+  }
+
   PlayerStatus& currentStatus = m_savegame.get_player_status();
   currentStatus.coins = m_coins_at_start;
   currentStatus.max_fire_bullets = m_max_fire_bullets_at_start;
@@ -237,7 +336,7 @@ GameSession::abort_level()
 bool
 GameSession::is_active() const
 {
-  return !m_game_pause && m_active && !m_end_sequence;
+  return !m_game_pause && m_active && !(m_end_sequence && m_end_sequence->is_running());
 }
 
 void
@@ -277,12 +376,25 @@ GameSession::force_ghost_mode()
 void
 GameSession::check_end_conditions()
 {
-  Player& tux = m_currentsector->get_player();
+  bool all_dead = true;
+  for (const auto* p : m_currentsector->get_players())
+    if (!(all_dead &= p->is_dead()))
+      break;
+
+  bool all_dead_or_winning = true;
+  for (const auto* p : m_currentsector->get_players())
+    if (!(all_dead_or_winning &= (p->is_dead() || p->is_dying() || p->is_winning())))
+      break;
 
   /* End of level? */
-  if (m_end_sequence && m_end_sequence->is_done()) {
+  if (m_endsequence_timer.check() || (all_dead_or_winning && m_end_sequence && m_endsequence_timer.get_period() > 0.f)) {
+    m_endsequence_timer.stop();
+    for (auto* p : m_currentsector->get_players())
+      p->set_winning();
+    start_sequence(nullptr, Sequence::SEQ_ENDSEQUENCE);
+  } else if (m_end_sequence && m_end_sequence->is_done()) {
     finish(true);
-  } else if (!m_end_sequence && tux.is_dead()) {
+  } else if (!m_end_sequence && all_dead) {
     restart_level(true);
   }
 }
@@ -303,7 +415,7 @@ void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.color().draw_filled_rect(
-    Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+    Rectf(context.get_rect()),
     Color(0.0f, 0.0f, 0.0f, 0.25f),
     LAYER_FOREGROUND1);
 }
@@ -315,7 +427,7 @@ GameSession::setup()
     return;
 
   if (m_currentsector != Sector::current()) {
-    m_currentsector->activate(m_currentsector->get_player().get_pos());
+    m_currentsector->activate(m_currentsector->get_players()[0]->get_pos());
   }
   m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
 
@@ -337,12 +449,12 @@ GameSession::leave()
 void
 GameSession::update(float dt_sec, const Controller& controller)
 {
-  // Set active flag
+  // Set active flag.
   if (!m_active)
   {
     m_active = true;
   }
-  // handle controller
+  // Handle controller.
 
   if (controller.pressed(Control::ESCAPE) ||
       controller.pressed(Control::START))
@@ -372,12 +484,12 @@ GameSession::update(float dt_sec, const Controller& controller)
   }
 
   // Animate the full-completion stats stuff - do this even when the game isn't paused (that's a
-  // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`)
+  // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`).
   m_level->m_stats.update_timers(dt_sec);
 
   process_events();
 
-  // Unpause the game if the menu has been closed
+  // Unpause the game if the menu has been closed.
   if (m_game_pause && !MenuManager::instance().is_active()) {
     ScreenManager::current()->set_speed(m_speed_before_pause);
     SoundManager::current()->resume_music();
@@ -389,48 +501,58 @@ GameSession::update(float dt_sec, const Controller& controller)
 
   check_end_conditions();
 
-  // respawning in new sector?
+  // Respawning in new sector?
   if (!m_newsector.empty() && !m_newspawnpoint.empty()) {
     auto sector = m_level->get_sector(m_newsector);
+    std::string current_music = m_currentsector->get_singleton_by_type<MusicObject>().get_music();
     if (sector == nullptr) {
       log_warning << "Sector '" << m_newsector << "' not found" << std::endl;
-      sector = m_level->get_sector(m_start_sector);
+      sector = m_level->get_sector(m_spawnpoints.at(0).sector); // Assign start sector.
     }
     assert(m_currentsector != nullptr);
     m_currentsector->stop_looping_sounds();
+
     sector->activate(m_newspawnpoint);
-    sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
+
+    // Start the new sector's music only if it's different from the current one.
+    if (current_music != sector->get_singleton_by_type<MusicObject>().get_music())
+      sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
+
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
     if (is_playing_demo())
-    {
       reset_demo_controller();
-    }
-    //Keep persistent across sectors
-    if (m_edit_mode)
-      m_currentsector->get_player().set_edit_mode(m_edit_mode);
+
     m_newsector = "";
     m_newspawnpoint = "";
-    // retain invincibility if the player has it
-    if (m_pastinvincibility) {
-      m_currentsector->get_player().m_invincible_timer.start(static_cast<float>(m_newinvincibilityperiod));
-    }
   }
 
-  // Update the world state and all objects in the world
+  // Update the world state and all objects in the world.
   if (!m_game_pause) {
     assert(m_currentsector != nullptr);
-    // Update the world
-    if (!m_end_sequence) {
-      if (!m_level->m_is_in_cutscene)
+    // Update the world.
+    if (!m_end_sequence || !m_end_sequence->is_running()) {
+      if (!m_level->m_is_in_cutscene && !m_pause_target_timer)
       {
         m_play_time += dt_sec;
         m_level->m_stats.finish(m_play_time);
       }
       m_currentsector->update(dt_sec);
     } else {
-      if (!m_end_sequence->is_tux_stopped()) {
+      bool are_all_stopped = true;
+
+      for (const auto& player : m_currentsector->get_players())
+      {
+        if (!(m_end_sequence->is_tux_stopped(player->get_id())
+            || player->get_ending_direction() == 0))
+        {
+          are_all_stopped = false;
+          break;
+        }
+      }
+
+      if (!are_all_stopped) {
         m_currentsector->update(dt_sec);
       } else {
         m_end_sequence->update(dt_sec);
@@ -441,19 +563,29 @@ GameSession::update(float dt_sec, const Controller& controller)
   if (m_currentsector == nullptr)
     return;
 
-  // update sounds
+  // Update sounds.
   SoundManager::current()->set_listener_position(m_currentsector->get_camera().get_center());
 
   /* Handle music: */
   if (m_end_sequence)
     return;
 
-  if (m_currentsector->get_player().m_invincible_timer.started()) {
-    if (m_currentsector->get_player().m_invincible_timer.get_timeleft() <=
-       TUX_INVINCIBLE_TIME_WARNING) {
-      m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_WARNING_MUSIC);
+  bool invincible_timer_started = false;
+  float max_invincible_timer_left = 0.f;
+
+  for (const auto* p : m_currentsector->get_players())
+  {
+    invincible_timer_started |= (p->m_invincible_timer.started() && !p->is_winning());
+    max_invincible_timer_left = std::max(max_invincible_timer_left, p->m_invincible_timer.get_timeleft());
+  }
+
+  if (invincible_timer_started) {
+    if (max_invincible_timer_left <= TUX_INVINCIBLE_TIME_WARNING) {
+      if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != HERRING_WARNING_MUSIC)
+        m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_WARNING_MUSIC);
     } else {
-      m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
+      if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != HERRING_MUSIC)
+        m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
     }
   } else if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != LEVEL_MUSIC) {
     m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
@@ -463,9 +595,8 @@ GameSession::update(float dt_sec, const Controller& controller)
     reset_level();
     restart_level();
   } else if(reset_checkpoint_button) {
-    reset_checkpoint_button = false;
-
-    get_current_sector().get_player().kill(true);
+    for (auto* p : m_currentsector->get_players())
+      p->kill(true);
   }
 }
 
@@ -491,15 +622,10 @@ GameSession::finish(bool win)
 
   using namespace worldmap;
 
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return;
-  }
-
   if (win) {
-    if (WorldMap::current())
+    if (WorldMapSector::current())
     {
-      WorldMap::current()->finished_level(m_level.get());
+      WorldMapSector::current()->finished_level(m_level.get());
     }
 
     if (LevelsetScreen::current())
@@ -512,38 +638,65 @@ GameSession::finish(bool win)
 }
 
 void
-GameSession::respawn(const std::string& sector, const std::string& spawnpoint,
-                     const bool invincibility, const int invincibilityperiod)
+GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 {
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
-  m_pastinvincibility = invincibility;
-  m_newinvincibilityperiod = invincibilityperiod;
 }
 
 void
 GameSession::set_start_point(const std::string& sector,
                              const std::string& spawnpoint)
 {
-  m_start_sector = sector;
-  m_start_spawnpoint = spawnpoint;
-  m_start_pos = Vector(0.0f, 0.0f);
+  if (!m_spawnpoints.empty()) m_spawnpoints.erase(m_spawnpoints.begin());
+  m_spawnpoints.insert(m_spawnpoints.begin(), { sector, spawnpoint });
 }
 
 void
-GameSession::set_start_pos(const std::string& sector,
-                           const Vector& pos)
+GameSession::set_start_pos(const std::string& sector, const Vector& pos)
 {
-  m_start_sector = sector;
-  m_start_spawnpoint = "";
-  m_start_pos = pos;
+  if (!m_spawnpoints.empty()) m_spawnpoints.erase(m_spawnpoints.begin());
+  m_spawnpoints.insert(m_spawnpoints.begin(), { sector, pos });
 }
 
 void
-GameSession::set_reset_point(const std::string& sector, const Vector& pos)
+GameSession::set_respawn_point(const std::string& sector,
+                               const std::string& spawnpoint)
 {
-  m_reset_sector = sector;
-  m_reset_pos = pos;
+  m_spawnpoints.push_back({ sector, spawnpoint });
+}
+
+void
+GameSession::set_respawn_pos(const std::string& sector, const Vector& pos)
+{
+  m_spawnpoints.push_back({ sector, pos });
+}
+
+void
+GameSession::clear_respawn_points()
+{
+  // Delete all respawn points (all, other than the start one).
+  if (m_spawnpoints.size() > 1)
+    m_spawnpoints.erase(m_spawnpoints.begin() + 1, m_spawnpoints.end());
+}
+
+const GameSession::SpawnPoint&
+GameSession::get_last_spawnpoint() const
+{
+  return m_spawnpoints.back();
+}
+
+void
+GameSession::set_checkpoint_pos(const std::string& sector, const Vector& pos)
+{
+  m_spawnpoints.push_back({ sector, pos, true });
+  m_activated_checkpoint = &m_spawnpoints.back();
+}
+
+const GameSession::SpawnPoint*
+GameSession::get_active_checkpoint_spawnpoint() const
+{
+  return m_activated_checkpoint;
 }
 
 std::string
@@ -552,73 +705,125 @@ GameSession::get_working_directory() const
   return FileSystem::dirname(m_levelfile);
 }
 
-void
-GameSession::start_sequence(Sequence seq, const SequenceData* data)
+bool
+GameSession::has_active_sequence() const
 {
-  // do not play sequences when in edit mode
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return;
-  }
+  return m_end_sequence;
+}
 
-  // handle special "stoptux" sequence
+void
+GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* data)
+{
+  // Handle special "stoptux" sequence.
   if (seq == SEQ_STOPTUX) {
     if (!m_end_sequence) {
       log_warning << "Final target reached without an active end sequence" << std::endl;
-      start_sequence(SEQ_ENDSEQUENCE);
+      start_sequence(caller, SEQ_ENDSEQUENCE);
     }
-    if (m_end_sequence) m_end_sequence->stop_tux();
+
+    if (m_end_sequence)
+    {
+      if (caller)
+      {
+        m_end_sequence->stop_tux(caller->get_id());
+      }
+      else
+      {
+        for (const auto* player : Sector::get().get_players())
+          m_end_sequence->stop_tux(player->get_id());
+      }
+    }
     return;
   }
 
-  // abort if a sequence is already playing
-  if (m_end_sequence)
+  if (caller)
+    caller->set_winning();
+
+  int remaining_players = get_current_sector().get_object_count<Player>([](const Player& p){
+    return !p.is_dead() && !p.is_dying() && !p.is_winning();
+  });
+
+  // Abort if a sequence is already playing.
+  if (m_end_sequence && m_end_sequence->is_running())
     return;
 
-  std::unique_ptr<EndSequence> end_sequence;
-  if (seq == SEQ_ENDSEQUENCE) {
-    if (m_currentsector->get_player().get_physic().get_velocity_x() < 0) {
-      end_sequence = std::make_unique<EndSequenceWalkLeft>();
+  // Set the sequence to prepare it.
+  if (!m_end_sequence) {
+    std::unique_ptr<EndSequence> end_sequence;
+    if (seq == SEQ_ENDSEQUENCE) {
+      end_sequence = std::make_unique<EndSequenceWalk>();
+    } else if (seq == SEQ_FIREWORKS) {
+      end_sequence = std::make_unique<EndSequenceFireworks>();
     } else {
-      end_sequence = std::make_unique<EndSequenceWalkRight>();
+      log_warning << "Unknown sequence '" << static_cast<int>(seq) << "'. Ignoring." << std::endl;
+      return;
     }
-  } else if (seq == SEQ_FIREWORKS) {
-    end_sequence = std::make_unique<EndSequenceFireworks>();
-  } else {
-    log_warning << "Unknown sequence '" << static_cast<int>(seq) << "'. Ignoring." << std::endl;
+
+    m_end_sequence = static_cast<EndSequence*>(&m_currentsector->add_object(std::move(end_sequence)));
+  }
+
+  if (caller)
+  {
+    caller->set_ending_direction((caller->get_physic().get_velocity_x() < 0) ? -1 : 1);
+    caller->set_controller(m_end_sequence->get_controller(caller->get_id()));
+    caller->set_speedlimit(230); // MAX_WALK_XM
+  }
+
+  // Don't play the prepared sequence if there are more players that are still playing.
+  if (remaining_players > 0)
+  {
+    if (!m_endsequence_timer.started())
+      m_endsequence_timer.start(10.f);
+
     return;
   }
 
-  if (const auto& worldmap = worldmap::WorldMap::current())
+  m_endsequence_timer.stop();
+
+  if (const auto& worldmap_sector = worldmap::WorldMapSector::current())
   {
     if (data != nullptr)
     {
       if (!data->fade_tilemap.empty())
       {
-        worldmap->set_initial_fade_tilemap(data->fade_tilemap, data->fade_type);
+        worldmap_sector->set_initial_fade_tilemap(data->fade_tilemap, data->fade_type);
       }
       if (!data->spawnpoint.empty())
       {
-        worldmap->set_initial_spawnpoint(data->spawnpoint);
+        worldmap_sector->get_worldmap().set_initial_spawnpoint(data->spawnpoint);
       }
     }
   }
 
-  /* slow down the game for end-sequence */
+  /* Slow down the game for end-sequence. */
   ScreenManager::current()->set_speed(0.5f);
 
-  m_end_sequence = static_cast<EndSequence*>(&m_currentsector->add_object(std::move(end_sequence)));
   m_end_sequence->start();
 
   SoundManager::current()->play_music("music/misc/leveldone.ogg", false);
-  m_currentsector->get_player().set_winning();
+  for (auto* p : m_currentsector->get_players())
+  {
+    p->set_winning();
+    p->set_controller(m_end_sequence->get_controller(p->get_id()));
+    p->set_speedlimit(230); // MAX_WALK_XM.
+  }
 
   // Stop all clocks.
-  for (const auto& obj : m_currentsector->get_objects())
+  for (LevelTime& lt : m_currentsector->get_objects_by_type<LevelTime>())
   {
-    auto lt = dynamic_cast<LevelTime*>(obj.get());
-    if (lt)
-      lt->stop();
+    lt.stop();
+  }
+}
+void 
+GameSession::set_target_timer_paused(bool paused)
+{
+  m_pause_target_timer = paused;
+  for (LevelTime& lt : m_currentsector->get_objects_by_type<LevelTime>())
+  {
+    if(paused)
+      lt.stop();
+    else
+      lt.start();
   }
 }
 
@@ -626,8 +831,8 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
 void
 GameSession::drawstatus(DrawingContext& context)
 {
-  // draw level stats while end_sequence is running
-  if (m_end_sequence) {
+  // Draw level stats while end_sequence is running.
+  if (m_end_sequence && m_end_sequence->is_running()) {
     m_level->m_stats.draw_endseq_panel(context, m_best_level_statistics, m_statistics_backdrop, m_level->m_target_time);
   }
 
