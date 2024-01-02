@@ -25,12 +25,13 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 static const float ROOT_SAPLING_RANGE = 32.f*20;
 static const float ROOT_SAPLING_SPAWN_TIME = 2.f;
 
 RootSapling::RootSapling(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite",
+  BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP,
          LAYER_TILES-10, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
   m_root_timer(),
   m_dead(false)
@@ -107,7 +108,7 @@ RootSapling::active_update(float dt_sec)
 std::vector<Direction>
 RootSapling::get_allowed_directions() const
 {
-  return {};
+  return { Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT };
 }
 
 void
@@ -117,11 +118,25 @@ RootSapling::summon_root()
   if (!player) return;
 
   Vector pos;
-  pos.x = player->get_bbox().get_middle().x;
+  float* axis;
+  switch (m_dir)
+  {
+    case Direction::UP:
+    case Direction::DOWN:
+      pos.x = player->get_bbox().get_middle().x;
+      axis = &pos.y;
+      break;
+
+    case Direction::LEFT:
+    case Direction::RIGHT:
+      pos.y = player->get_bbox().get_middle().y;
+      axis = &pos.x;
+      break;
+  }
 
   if (player->on_ground())
   {
-    pos.y = player->get_bbox().get_bottom() + 1;
+    (*axis) = player->get_bbox().get_bottom() + 1;
 
     bool should_summon = false;
     for (TileMap* map : Sector::get().get_solid_tilemaps())
@@ -139,13 +154,46 @@ RootSapling::summon_root()
   {
     using RaycastResult = CollisionSystem::RaycastResult;
 
-    Vector eye = {player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1};
-    Vector end = {eye.x, eye.y + 600};
+    Vector eye, end;
+    switch (m_dir)
+    {
+      case Direction::UP:
+        eye = {player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1};
+        end = {eye.x, eye.y + 600};
+        break;
+
+      case Direction::DOWN:
+        eye = {player->get_bbox().get_middle().x, player->get_bbox().get_top() - 1};
+        end = {eye.x, eye.y - 600};
+        break;
+
+      case Direction::LEFT:
+        eye = {player->get_bbox().get_right() + 1, player->get_bbox().get_middle().y};
+        end = {eye.x + 600, eye.y};
+        break;
+
+      case Direction::RIGHT:
+        eye = {player->get_bbox().get_left() - 1, player->get_bbox().get_middle().y};
+        end = {eye.x - 600, eye.y};
+        break;
+    }
+
     RaycastResult result = Sector::get().get_first_line_intersection(eye, end, true, nullptr);
 
     if (std::holds_alternative<const Tile*>(result.hit) && !result.box.empty())
     {
-      pos.y = result.box.p1().y;
+      switch (m_dir)
+      {
+        case Direction::UP:
+        case Direction::DOWN:
+          (*axis) = result.box.p1().y;
+          break;
+
+        case Direction::LEFT:
+        case Direction::RIGHT:
+          (*axis) = result.box.p1().x;
+          break;
+      }
     }
     else
     {
@@ -153,11 +201,20 @@ RootSapling::summon_root()
     }
   }
 
-  Rectf space(pos, Sizef(32.f, 32.f*3));
+  Sizef size(32.f, 32.f);
+  switch (m_dir)
+  {
+    case Direction::UP: size.height *= 3; break;
+    case Direction::DOWN: size.height *= -2; break;
+    case Direction::LEFT: size.width *= 3; break;
+    case Direction::RIGHT: size.width *= -2; break;
+  }
+
+  Rectf space(pos, size);
   if (!Sector::get().is_free_of_tiles(space, true, 0))
     return;
 
-  Sector::get().add<Root>(pos, "images/creatures/mole/corrupted/root.sprite");
+  Sector::get().add<Root>(pos, m_dir, "images/creatures/mole/corrupted/root.sprite");
 }
 
 void

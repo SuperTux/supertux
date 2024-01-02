@@ -1,5 +1,5 @@
 //  SuperTux - Corrupted Root
-//  Copyright (C) 2023 MatusGuy
+//  Copyright (C) 2023 MatusGuy <matusguy@supertuxproject.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ class Root final : public BadGuy
 {
 public:
   Root(const ReaderMapping& reader);
-  Root(const Vector& pos, const std::string& sprite);
+  Root(const Vector& pos, Direction dir, const std::string& sprite);
 
   virtual void initialize() override;
   virtual void draw(DrawingContext &context) override;
@@ -41,8 +41,12 @@ public:
   virtual bool is_freezable() const override { return false; }
   virtual bool is_snipable () const override { return false; }
 
+  virtual std::vector<Direction> get_allowed_directions() const override;
+
 private:
   enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
+
+  void construct();
 
   SurfacePtr m_base_surface;
   Timer m_timer;

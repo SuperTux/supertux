@@ -1,5 +1,5 @@
 //  SuperTux - Corrupted Root
-//  Copyright (C) 2023 MatusGuy
+//  Copyright (C) 2023 MatusGuy <matusguy@supertuxproject.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -26,39 +26,46 @@ static const float APPEAR_TIME = 0.5f;
 static const float RETREAT_TIME = 1.f;
 
 Root::Root(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-5),
-  m_base_surface(nullptr),
-  m_timer(),
-  m_state(STATE_HATCHING),
-  m_offset(0.f),
-  m_maxheight(0.f)
+  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-5)
 {
-  m_countMe = false;
-  m_physic.enable_gravity(false);
-  set_colgroup_active(COLGROUP_TOUCHABLE);
-  set_action("root");
-
-  auto surfaces = m_sprite->get_action_surfaces("base");
-  if (surfaces.size() != 0)
-    m_base_surface = surfaces[0];
-
-  SoundManager::current()->preload("sounds/brick.wav");
-  SoundManager::current()->preload("sounds/dartfire.wav");
+  construct();
 }
 
-Root::Root(const Vector& pos, const std::string& sprite) :
-  BadGuy(pos, sprite, LAYER_TILES-5),
-  m_base_surface(nullptr),
-  m_timer(),
-  m_state(STATE_HATCHING),
-  m_offset(0.f),
-  m_maxheight(0.f)
+Root::Root(const Vector& pos, Direction dir, const std::string& sprite) :
+  BadGuy(pos, dir, sprite, LAYER_TILES-5)
 {
+  construct();
+}
+
+void
+Root::construct()
+{
+  m_base_surface = nullptr;
+  m_state = STATE_HATCHING;
+  m_offset = 0.f;
+  m_maxheight = 0.f;
+
   m_countMe = false;
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
   set_action("root");
-  set_pos({pos.x - (get_bbox().get_width() / 2), pos.y});
+
+  Vector center = get_pos();
+  switch (m_dir)
+  {
+    case Direction::UP:
+    case Direction::DOWN:
+      center.x -= (get_bbox().get_width() / 2);
+      break;
+
+    case Direction::LEFT:
+    case Direction::RIGHT:
+      center.y -= (get_bbox().get_height() / 2);
+      break;
+  }
+
+  set_pos(center);
+  set_start_position(center);
 
   auto surfaces = m_sprite->get_action_surfaces("base");
   if (surfaces.size() != 0)
@@ -73,7 +80,23 @@ Root::initialize()
 {
   SoundManager::current()->play("sounds/brick.wav", get_pos());
 
-  Vector basepos = {get_bbox().get_middle().x, m_start_position.y - 10};
+  Vector basepos = get_bbox().get_middle();
+  switch (m_dir)
+  {
+    case Direction::UP:
+      basepos.y = m_start_position.y - 10;
+      break;
+    case Direction::DOWN:
+      basepos.y = m_start_position.y + 10;
+      break;
+    case Direction::LEFT:
+      basepos.x = m_start_position.x - 10;
+      break;
+    case Direction::RIGHT:
+      basepos.x = m_start_position.x + 10;
+      break;
+  }
+
   const float gravity = Sector::get().get_gravity() * 100.f;
   for (int i = 0; i < 5; i++)
   {
@@ -94,7 +117,31 @@ Root::draw(DrawingContext &context)
 {
   BadGuy::draw(context);
 
-  Vector pos = {m_start_position.x - m_sprite->get_current_hitbox_x_offset(), m_start_position.y - get_bbox().get_height() - 20};
+  if (!m_base_surface) return;
+
+  Vector pos = m_start_position;
+  switch (m_dir)
+  {
+    case Direction::UP:
+      pos.x -= m_sprite->get_current_hitbox_x_offset();
+      pos.y -= get_bbox().get_height() + 20;
+      break;
+
+    case Direction::DOWN:
+      pos.x -= m_sprite->get_current_hitbox_x_offset();
+      pos.y += get_bbox().get_height() - 20;
+      break;
+
+    case Direction::LEFT:
+      pos.x -= get_bbox().get_width() - 20;
+      pos.y -= m_sprite->get_current_hitbox_y_offset();
+      break;
+
+    case Direction::RIGHT:
+      pos.x += get_bbox().get_width() + 20;
+      pos.y -= m_sprite->get_current_hitbox_y_offset();
+      break;
+  }
   context.color().draw_surface(m_base_surface,
                                pos,
                                m_sprite->get_angle(),
@@ -122,12 +169,32 @@ Root::active_update(float dt_sec)
     {
       float progress = m_timer.get_timegone() / m_timer.get_period();
       m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * get_bbox().get_height();
-      set_pos({m_start_position.x, m_start_position.y - m_offset});
+
+      Vector pos = m_start_position;
+      switch (m_dir)
+      {
+        case Direction::UP: pos.y -= m_offset; break;
+        case Direction::DOWN: pos.y += m_offset; break;
+        case Direction::LEFT: pos.x -= m_offset; break;
+        case Direction::RIGHT: pos.x += m_offset; break;
+      }
+      set_pos(pos);
 
       if (m_timer.check())
       {
         m_state = STATE_RETREATING;
-        m_maxheight = get_pos().y;
+        switch (m_dir)
+        {
+          case Direction::LEFT:
+          case Direction::RIGHT:
+            m_maxheight = get_pos().x;
+            break;
+
+          case Direction::UP:
+          case Direction::DOWN:
+            m_maxheight = get_pos().y;
+            break;
+        }
         SoundManager::current()->play("sounds/darthit.wav", get_pos());
         m_timer.start(RETREAT_TIME);
       }
@@ -139,7 +206,16 @@ Root::active_update(float dt_sec)
     {
       float progress = m_timer.get_timegone() / m_timer.get_period();
       m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * get_bbox().get_height();
-      set_pos({m_start_position.x, m_maxheight + m_offset});
+
+      Vector pos = m_start_position;
+      switch (m_dir)
+      {
+        case Direction::UP: pos.y = m_maxheight + m_offset; break;
+        case Direction::DOWN: pos.y = m_maxheight - m_offset; break;
+        case Direction::LEFT: pos.x = m_maxheight + m_offset; break;
+        case Direction::RIGHT: pos.x = m_maxheight - m_offset; break;
+      }
+      set_pos(pos);
 
       if (m_timer.check())
       {
@@ -151,7 +227,8 @@ Root::active_update(float dt_sec)
   }
 }
 
-HitResponse Root::collision_badguy(BadGuy &other, const CollisionHit &hit)
+HitResponse
+Root::collision_badguy(BadGuy &other, const CollisionHit &hit)
 {
   if (other.get_group() == COLGROUP_MOVING && other.is_snipable())
   {
@@ -160,6 +237,12 @@ HitResponse Root::collision_badguy(BadGuy &other, const CollisionHit &hit)
   }
 
   return BadGuy::collision_badguy(other, hit);
+}
+
+std::vector<Direction>
+Root::get_allowed_directions() const
+{
+  return { Direction::UP, Direction::DOWN, Direction::LEFT, Direction::RIGHT };
 }
 
 /* EOF */
