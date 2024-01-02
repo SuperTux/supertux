@@ -117,8 +117,20 @@ Sector::finish_construction(bool editable)
     }
   }
 
-  if (get_solid_tilemaps().empty()) {
-    log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+  if (get_solid_tilemaps().empty())
+  {
+    if (editable)
+    {
+      log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+    }
+    else
+    {
+      log_warning << "sector '" << get_name() << "' does not contain a solid tile layer. Creating an empty one." << std::endl;
+
+      TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
+      tilemap.resize(100, 35);
+      tilemap.set_solid();
+    }
   }
 
   if (!get_object_by_type<Camera>()) {

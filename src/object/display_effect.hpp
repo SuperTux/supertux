@@ -25,7 +25,7 @@ class DisplayEffect final : public GameObject,
                       public ExposedObject<DisplayEffect, scripting::DisplayEffect>
 {
 public:
-  DisplayEffect(const std::string& name = std::string());
+  DisplayEffect(const std::string& name = "");
   ~DisplayEffect() override;
 
   virtual void update(float dt_sec) override;

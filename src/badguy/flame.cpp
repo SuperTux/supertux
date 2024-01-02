@@ -26,6 +26,7 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
@@ -35,7 +36,8 @@ Flame::Flame(const ReaderMapping& reader, int type) :
   angle(0),
   radius(),
   speed(),
-  sound_source()
+  sound_source(),
+  m_radius_indicator(Surface::from_file("images/creatures/flame/flame-editor.png"))
 {
   if (type >= 0)
   {
@@ -128,6 +130,20 @@ Flame::active_update(float dt_sec)
 
   if (m_sprite->get_action() == "fade" && m_sprite->animation_done())
     remove_me();
+}
+
+void
+Flame::draw(DrawingContext& context)
+{
+  BadGuy::draw(context);
+
+  if (Editor::is_active())
+  {
+    Rectf rect(Vector(get_pos().x - radius + get_bbox().get_width() / 2,
+                      get_pos().y - radius + get_bbox().get_height() / 2),
+               Sizef(radius * 2, radius * 2));
+    context.color().draw_surface_scaled(m_radius_indicator, rect, m_layer);
+  }
 }
 
 void

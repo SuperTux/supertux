@@ -137,7 +137,7 @@ PathWalker::get_pos(const Sizef& object_size, const Handle& handle) const
 void
 PathWalker::goto_node(int node_no)
 {
-  Path* path = get_path();
+  const Path* path = get_path();
   if (!path) return;
 
   if (node_no == m_stop_at_node_nr) return;

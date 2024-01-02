@@ -36,7 +36,7 @@ class TextObject final : public GameObject,
 
 public:
   TextObject(const ReaderMapping& reader);
-  TextObject(const std::string& name = std::string());
+  TextObject(const std::string& name = "");
   ~TextObject() override;
 
   static std::string class_name() { return "textobject"; }

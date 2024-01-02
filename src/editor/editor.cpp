@@ -312,7 +312,7 @@ Editor::get_level_directory() const
   {
     basedir = FileSystem::dirname(m_levelfile);
   }
-  return std::string(basedir);
+  return basedir;
 }
 
 void
@@ -382,8 +382,8 @@ Editor::scroll(const Vector& velocity)
 
   Rectf bounds(0.0f,
                0.0f,
-               std::max(0.0f, m_sector->get_width() - static_cast<float>(SCREEN_WIDTH - 128)),
-               std::max(0.0f, m_sector->get_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
+               std::max(0.0f, m_sector->get_editor_width() - static_cast<float>(SCREEN_WIDTH - 128)),
+               std::max(0.0f, m_sector->get_editor_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
   Camera& camera = m_sector->get_camera();
   Vector pos = camera.get_translation() + velocity;
   pos = Vector(math::clamp(pos.x, bounds.get_left(), bounds.get_right()),
@@ -1057,7 +1057,7 @@ Editor::get_status() const
 PHYSFS_EnumerateCallbackResult
 Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
 {
-  auto full_path = FileSystem::join(std::string(origdir), std::string(fname));
+  auto full_path = FileSystem::join(origdir, fname);
 
   PHYSFS_Stat ps;
   PHYSFS_stat(full_path.c_str(), &ps);
@@ -1069,7 +1069,7 @@ Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
   {
     auto* zip = static_cast<Partio::ZipFileWriter*>(data);
     auto os = zip->Add_File(full_path);
-    auto filename = FileSystem::join(std::string(PHYSFS_getWriteDir()), full_path);
+    auto filename = FileSystem::join(PHYSFS_getWriteDir(), full_path);
     *os << std::ifstream(filename).rdbuf();
   }
 
@@ -1084,7 +1084,7 @@ Editor::pack_addon()
   int version = 0;
   try
   {
-    Partio::ZipFileReader zipold(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
+    Partio::ZipFileReader zipold(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
     auto info_file = zipold.Get_File(id + ".nfo");
     if (info_file)
     {
@@ -1099,7 +1099,7 @@ Editor::pack_addon()
   }
   version++;
 
-  Partio::ZipFileWriter zip(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
+  Partio::ZipFileWriter zip(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
   PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
 
   std::stringstream ss;

@@ -33,6 +33,8 @@ public:
 private:
   void rebuild_menu();
 
+  void on_profile_change();
+
 private:
   std::vector<Profile*> m_profiles;
   Profile* m_current_profile;

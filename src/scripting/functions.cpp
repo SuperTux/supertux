@@ -32,6 +32,7 @@
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller_screen.hpp"
 #include "supertux/tile.hpp"
+#include "supertux/title_screen.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -482,6 +483,17 @@ void play_demo(const std::string& filename)
   gameRandom.seed(g_config->random_seed);
   session->restart_level();
   session->play_demo(filename);
+}
+
+void set_title_frame(const std::string& image)
+{
+  auto title_screen = TitleScreen::current();
+  if (!title_screen)
+  {
+    log_info << "No title screen loaded." << std::endl;
+    return;
+  }
+  title_screen->set_frame(image);
 }
 
 }

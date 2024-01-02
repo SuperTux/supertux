@@ -43,15 +43,15 @@ InfoBlock::InfoBlock(const ReaderMapping& mapping) :
   {
     log_warning << "No message in InfoBlock" << std::endl;
   }
-  std::vector<float> m_frontcolor_;
-  if (mapping.get("frontcolor", m_frontcolor_))
+  std::vector<float> front_color;
+  if (mapping.get("frontcolor", front_color))
   {
-    m_frontcolor = Color(m_frontcolor_);
+    m_frontcolor = Color(front_color);
   }
-  std::vector<float> m_backcolor_;
-  if (mapping.get("backcolor", m_backcolor_))
+  std::vector<float> back_color;
+  if (mapping.get("backcolor", back_color))
   {
-    m_backcolor = Color(m_backcolor_);
+    m_backcolor = Color(back_color);
   }
   mapping.get("roundness", m_roundness, 0.f);
   mapping.get("fadetransition", m_fadetransition, true);

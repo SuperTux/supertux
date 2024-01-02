@@ -84,7 +84,7 @@ TextArrayObject::next_text()
   if (m_isDone)
     return;
 
-  if (m_curTextIndex+1 >= m_texts.size()) {
+  if (m_curTextIndex + 1 >= m_texts.size()) {
     m_isDone = true;
     return;
   }

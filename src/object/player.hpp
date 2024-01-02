@@ -127,6 +127,7 @@ public:
 
   /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
+  BonusType get_bonus() const;
 
   std::string bonus_to_string() const;
 

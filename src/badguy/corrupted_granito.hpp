@@ -43,7 +43,7 @@ public:
   static std::string display_name() { return _("Corrupted Granito"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
-  virtual bool is_flammable() const override { return false; }
+  virtual bool is_flammable() const override { return m_type != GRANITO; }
 
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
