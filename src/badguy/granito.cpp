@@ -218,7 +218,7 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-Granito::kill_fall() const
+Granito::kill_fall()
 {
   return;
 }

@@ -41,7 +41,7 @@ public:
   virtual bool is_freezable() const override { return false; }
   virtual bool is_flammable() const override { return false; }
 
-  virtual void kill_fall() const override;
+  virtual void kill_fall() override;
 
   virtual GameObjectTypes get_types() const override;
   virtual void after_editor_set() override;
