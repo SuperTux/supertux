@@ -28,26 +28,19 @@ SoundObject::SoundObject(const ReaderMapping& mapping) :
   ExposedObject<SoundObject, scripting::SoundObject>(this),
   m_sample(),
   m_sound_source(),
-  m_volume(),
-  m_play_interval(),
-  m_delay(0.0f),
-  m_playing(false)
+  m_volume()
 {
   mapping.get("sample", m_sample, "");
   mapping.get("volume", m_volume, 1.0f);
-  mapping.get("play-interval", m_play_interval, 0.0f);
 
   prepare_sound_source();
 }
 
-SoundObject::SoundObject(float vol, float play_interval, const std::string& file) :
+SoundObject::SoundObject(float vol, const std::string& file) :
   ExposedObject<SoundObject, scripting::SoundObject>(this),
   m_sample(file),
   m_sound_source(),
-  m_volume(vol),
-  m_play_interval(play_interval),
-  m_delay(0.0f),
-  m_playing(false)
+  m_volume(vol)
 {
   prepare_sound_source();
 }
@@ -57,20 +50,6 @@ SoundObject::~SoundObject()
   stop_looping_sounds();
 }
 
-void
-SoundObject::update(float dt_sec)
-{
-  if (!m_sound_source->playing())
-  {
-    if (m_playing && m_delay>=m_play_interval)
-    {
-      m_sound_source->play();
-      m_delay = 0.0f;
-    }
-    m_delay+=dt_sec;
-  }
-}
-
 ObjectSettings
 SoundObject::get_settings()
 {
@@ -78,9 +57,8 @@ SoundObject::get_settings()
 
   result.add_sound(_("Sound"), &m_sample, "sample");
   result.add_float(_("Volume"), &m_volume, "volume");
-  result.add_float(_("Play interval"), &m_play_interval, "play-interval");
 
-  result.reorder({"sample", "volume", "play-interval", "name"});
+  result.reorder({"sample", "volume", "name"});
 
   result.add_remove();
 
@@ -91,20 +69,14 @@ void
 SoundObject::stop_looping_sounds()
 {
   if (m_sound_source)
-  {
     m_sound_source->stop(false);
-    m_playing = false;
-  }
 }
 
 void
 SoundObject::play_looping_sounds()
 {
-  if (!Editor::is_active())
-  {
-    m_playing = true;
-    m_delay = 0.0f;
-  }
+  if (!Editor::is_active() && m_sound_source)
+    m_sound_source->play();
 }
 
 void
@@ -124,16 +96,19 @@ SoundObject::prepare_sound_source()
     m_sound_source = SoundManager::current()->create_sound_source(m_sample);
     if (!m_sound_source)
       throw std::runtime_error("file not found");
-    m_sound_source->set_gain(m_volume);
-    m_sound_source->set_relative(true);
 
-    m_playing = true;
-    m_delay = 0.0f;
+    // Maybe FIXME: Apparently this is an OpenAL error, if gain is not set to 0 before making source looping
+    // it won't be possible to pause it.
+    m_sound_source->set_gain(0);
+    m_sound_source->set_looping(true);
+    m_sound_source->set_relative(true);
+    m_sound_source->set_gain(m_volume);
+
     m_sound_source->play();
   }
   catch(const std::exception& e)
   {
-    log_warning << "Couldn't play '" << m_sample << "': " << e.what() << "" << std::endl;
+    log_warning << "Couldn't load '" << m_sample << "': " << e.what() << "" << std::endl;
     m_sound_source.reset();
     remove_me();
   }
@@ -144,13 +119,6 @@ SoundObject::set_volume(float volume)
 {
   m_volume = volume;
   m_sound_source->set_gain(volume);
-}
-
-void
-SoundObject::set_play_interval(float play_interval)
-{
-  m_play_interval = play_interval;
-  m_delay = 0.0f;
 }
 
 /* EOF */

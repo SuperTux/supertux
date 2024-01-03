@@ -65,17 +65,6 @@ public:
    * Returns the volume of sound played by SoundObject.
    */
   float get_volume() const;
-
-  /**
-   * Sets the interval between replaying sound.
-   * @param float $play_interval
-   */
-  void set_play_interval(float play_interval);
-
-  /**
-   * Returns the interval between replaying sound.
-   */
-  float get_play_interval() const;
 };
 
 } // namespace scripting

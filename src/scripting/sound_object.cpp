@@ -48,20 +48,6 @@ SoundObject::get_volume() const
   return object.get_volume();
 }
 
-void
-SoundObject::set_play_interval(float play_interval)
-{
-  SCRIPT_GUARD_VOID;
-  object.set_play_interval(play_interval);
-}
-
-float
-SoundObject::get_play_interval() const
-{
-  SCRIPT_GUARD_DEFAULT;
-  return object.get_play_interval();
-}
-
 } // namespace scripting
 
 /* EOF */

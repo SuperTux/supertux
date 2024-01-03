@@ -31,15 +31,15 @@ class SoundObject final : public GameObject,
 {
 public:
   SoundObject(const ReaderMapping& mapping);
-  SoundObject(float vol, float play_interval, const std::string& file);
+  SoundObject(float vol, const std::string& file);
   ~SoundObject() override;
 
-  virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override {}
+  virtual void update(float dt_sec) override {}
 
   static std::string class_name() { return "sound-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Sound Object"); }
+  static std::string display_name() { return _("Sound"); }
   virtual std::string get_display_name() const override { return display_name(); }
   // TODO: Create new icon for SoundObject
   virtual const std::string get_icon_path() const override { return "images/engine/editor/ambientsound.png"; }
@@ -53,17 +53,12 @@ public:
       @{ */
   void set_volume(float volume);
   float get_volume() const { return m_volume; }
-  void set_play_interval(float play_interval);
-  float get_play_interval() const { return m_play_interval; }
   /** @} */
 
 private:
   std::string m_sample;
   std::unique_ptr<SoundSource> m_sound_source;
   float m_volume;
-  float m_play_interval;
-  float m_delay;
-  bool m_playing;
 
 private:
   void prepare_sound_source();

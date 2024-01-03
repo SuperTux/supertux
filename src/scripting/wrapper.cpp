@@ -8684,62 +8684,6 @@ static SQInteger SoundObject_get_volume_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger SoundObject_set_play_interval_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'set_play_interval' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::SoundObject* _this = reinterpret_cast<scripting::SoundObject*> (data);
-
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_play_interval(arg0);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_play_interval'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger SoundObject_get_play_interval_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'get_play_interval' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::SoundObject* _this = reinterpret_cast<scripting::SoundObject*> (data);
-
-
-  try {
-    float return_value = _this->get_play_interval();
-
-    sq_pushfloat(vm, return_value);
-    return 1;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_play_interval'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger Spotlight_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Spotlight* _this = reinterpret_cast<scripting::Spotlight*> (ptr);
@@ -16578,20 +16522,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_volume'");
-  }
-
-  sq_pushstring(v, "set_play_interval", -1);
-  sq_newclosure(v, &SoundObject_set_play_interval_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_play_interval'");
-  }
-
-  sq_pushstring(v, "get_play_interval", -1);
-  sq_newclosure(v, &SoundObject_get_play_interval_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'get_play_interval'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

@@ -207,7 +207,7 @@ AmbientSound::prepare_sound_source()
   }
   catch(std::exception& e)
   {
-    log_warning << "Couldn't play '" << m_sample << "': " << e.what() << "" << std::endl;
+    log_warning << "Couldn't load '" << m_sample << "': " << e.what() << "" << std::endl;
     m_sound_source.reset();
     remove_me();
   }

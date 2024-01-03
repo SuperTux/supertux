@@ -34,9 +34,8 @@ public:
     is_playing = true;
   }
 
-  virtual void stop(bool unload_buffer = true) override
+  virtual void stop(bool) override
   {
-    (void) unload_buffer;
     is_playing = false;
   }
 
