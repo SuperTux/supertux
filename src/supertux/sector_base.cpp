@@ -47,8 +47,8 @@ Sector::run_script(const std::string& script, const std::string& sourcename,
         catch (...) {}
       });
 
-    for (auto it = triggers.begin(); it != triggers.end(); it++)
-      m_squirrel_environment->create_reference(it->first, it->second, "triggers", object.get_name());
+    for (const auto& [name, ref_name] : triggers)
+      m_squirrel_environment->create_reference(name, ref_name, "triggers", object.get_name());
   }
 
   m_squirrel_environment->run_script(script, sourcename);
