@@ -218,11 +218,18 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
+Granito::kill_fall() const
+{
+  return;
+}
+
+void
 Granito::activate()
 {
   WalkingBadguy::activate();
   m_has_waved = false;
 }
+
 
 GameObjectTypes
 Granito::get_types() const
