@@ -35,7 +35,7 @@ class TextArrayObject final : public GameObject,
                               public ExposedObject<TextArrayObject, scripting::TextArray>
 {
 public:
-  TextArrayObject(const std::string& name = std::string());
+  TextArrayObject(const std::string& name = "");
   TextArrayObject(const ReaderMapping& reader);
 
   ~TextArrayObject() override = default;

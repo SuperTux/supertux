@@ -30,6 +30,7 @@ public:
   virtual void deactivate() override;
 
   virtual void active_update(float dt_sec) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void kill_fall() override;
 
   virtual void freeze() override;
@@ -67,6 +68,7 @@ private:
   float speed;
 
   std::unique_ptr<SoundSource> sound_source;
+  SurfacePtr m_radius_indicator;
 
 private:
   Flame(const Flame&) = delete;

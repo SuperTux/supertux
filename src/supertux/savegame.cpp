@@ -112,18 +112,18 @@ LevelsetState::get_level_state(const std::string& filename) const
 
 
 std::unique_ptr<Savegame>
-Savegame::from_profile(int profile, const std::string& world_name)
+Savegame::from_profile(int profile, const std::string& world_name, bool base_data)
 {
   auto savegame = std::make_unique<Savegame>(ProfileManager::current()->get_profile(profile), world_name);
-  savegame->load();
+  savegame->load(base_data);
   return savegame;
 }
 
 std::unique_ptr<Savegame>
-Savegame::from_current_profile(const std::string& world_name)
+Savegame::from_current_profile(const std::string& world_name, bool base_data)
 {
   auto savegame = std::make_unique<Savegame>(ProfileManager::current()->get_current_profile(), world_name);
-  savegame->load();
+  savegame->load(base_data);
   return savegame;
 }
 
@@ -149,7 +149,7 @@ Savegame::is_title_screen() const
 }
 
 void
-Savegame::load()
+Savegame::load(bool base_data)
 {
   if (m_world_name.empty())
   {
@@ -206,6 +206,9 @@ Savegame::load()
           {
             m_player_status->read(*tux);
           }
+
+          if (base_data)
+            return;
 
           /** Load "state" table */
           std::optional<ReaderMapping> state;

@@ -111,9 +111,9 @@ public:
   {
     if (actual) {
       return m_movement;
-    } else {
-      return Vector(m_movement.x, std::max(0.0f, m_movement.y));
     }
+    
+    return Vector(m_movement.x, std::max(0.0f, m_movement.y));
   }
 
   /** Returns the position of the upper-left corner of tile (x, y) in
@@ -141,7 +141,7 @@ public:
   void notify_object_removal(CollisionObject* other);
 
   int get_layer() const { return m_z_pos; }
-  void set_layer(int layer_) { m_z_pos = layer_; }
+  void set_layer(int layer) { m_z_pos = layer; }
 
   bool is_solid() const { return m_real_solid && m_effective_solid; }
 
@@ -215,7 +215,7 @@ private:
   void update_effective_solid();
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
-  bool is_corner(uint32_t tile);
+  bool is_corner(uint32_t tile) const;
 
   void apply_offset_x(int fill_id, int xoffset);
   void apply_offset_y(int fill_id, int yoffset);

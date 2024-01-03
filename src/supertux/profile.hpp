@@ -37,13 +37,16 @@ public:
 
   int get_id() const { return m_id; }
   std::string get_name() const { return m_name; }
+  std::string get_last_world() const { return m_last_world; }
 
   void set_name(const std::string& name) { m_name = name; }
+  void set_last_world(const std::string& world) { m_last_world = world; }
 
 private:
   const int m_id;
 
   std::string m_name;
+  std::string m_last_world;
 
 private:
   Profile(const Profile&) = delete;

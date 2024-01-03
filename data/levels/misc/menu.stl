@@ -9,37 +9,25 @@
   (sector
     (name "main")
     (init-script "
-logo <- FloatingImage(\"images/objects/logo/@LOGO_FILE@\");
-if(is_christmas()) {
-  christmas_hat <- FloatingImage(\"images/objects/logo/logo_santahat.sprite\");
-  christmas_hat.set_anchor_point(ANCHOR_MIDDLE);
-  christmas_hat.set_pos(35, -255);
-  christmas_hat.set_visible(true);
+      if (is_christmas())
+      {
+        // enable snow particles
+        snow_particles.set_enabled(true);
 
-  // enable snow particles
-  snow_particles.set_enabled(true);
+        // change ambient light
+        settings.fade_to_ambient_light(0.8, 0.82, 1, 0);
 
-  // change ambient light
-  settings.fade_to_ambient_light(0.8, 0.82, 1, 0);
+        // change background
+        background.set_color1(0, 0, 0);
+        background.set_color2(0, 0, 0.4);
+        parallax1.set_color(0.32, 0.42, 0.5, 1);
+        parallax2.set_color(0.125, 0.18, 0.35, 1);
+        skybox.set_image(\"images/background/misc/skybox_night.png\");
 
-  // change background
-  background.set_color1(0, 0, 0);
-  background.set_color2(0, 0, 0.4);
-  parallax1.set_color(0.32, 0.42, 0.5, 1);
-  parallax2.set_color(0.125, 0.18, 0.35, 1);
-  skybox.set_image(\"images/background/misc/skybox_night.png\");
-
-
-  // change music
-  settings.set_music(\"music/misc/christmas_theme.music\");
-
-  // change tilemaps
-  sector.christmas.set_alpha(1);
-}
-logo.set_anchor_point(ANCHOR_MIDDLE);
-logo.set_pos(0, -200);
-logo.set_visible(true);
-")
+        // change tilemaps
+        christmas.set_alpha(1);
+      }
+    ")
     (ambient-light
       (color 1 1 1)
     )
@@ -85,9 +73,6 @@ logo.set_visible(true);
       (height 32)
       (x 18240)
       (y 1408)
-    )
-    (music
-      (file "/music/misc/theme.music")
     )
     (particles-snow
       (enabled #f)

@@ -93,7 +93,6 @@ SpriteParticle::update(float dt_sec)
   Camera& camera = Sector::get().get_camera();
   if (!camera.get_rect().contains(position)) {
     remove_me();
-    return;
   }
 }
 
@@ -106,7 +105,7 @@ SpriteParticle::draw(DrawingContext& context)
   if (glow)
   {
     sprite->draw(context.light(), position, drawing_layer);
-    lightsprite->draw(context.light(), position + Vector(12,12), 0);
+    lightsprite->draw(context.light(), position + Vector(12, 12), 0);
   }
 
 }

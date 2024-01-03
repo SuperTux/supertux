@@ -22,6 +22,8 @@
 
 class World final
 {
+  friend class EditorLevelsetMenu;
+
 public:
   /** Load a World
       @param directory  Directory containing the info file, e.g. "levels/world1" */
@@ -41,22 +43,23 @@ public:
 
   bool is_levelset() const { return m_is_levelset; }
   bool is_worldmap() const { return !m_is_levelset; }
-  
+
   std::string get_contrib_type() const { return m_contrib_type; }
+  std::string get_title_level() const { return m_title_level; }
 
   std::string get_worldmap_filename() const;
 
   void save(bool retry = false);
 
-public:
+private:
   std::string m_title;
   std::string m_description;
   bool m_is_levelset;
 
-private:
   std::string m_basedir;
   bool m_hide_from_contribs;
   std::string m_contrib_type; // Type of world if it is contrib: official, community, user
+  std::string m_title_level; // Level, which should be used for the title screen, after exiting the world
 
 private:
   World(const World&) = delete;

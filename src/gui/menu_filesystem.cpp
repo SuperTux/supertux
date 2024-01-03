@@ -100,7 +100,7 @@ FileSystemMenu::refresh_items()
 
   for (const auto& item : m_directories)
   {
-    add_entry(item_id, "[" + std::string(item) + "]");
+    add_entry(item_id, "[" + item + "]");
     item_id++;
   }
 

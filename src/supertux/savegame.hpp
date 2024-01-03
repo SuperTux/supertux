@@ -67,8 +67,8 @@ public:
 class Savegame final
 {
 public:
-  static std::unique_ptr<Savegame> from_profile(int profile, const std::string& world_name);
-  static std::unique_ptr<Savegame> from_current_profile(const std::string& world_name);
+  static std::unique_ptr<Savegame> from_profile(int profile, const std::string& world_name, bool base_data = false);
+  static std::unique_ptr<Savegame> from_current_profile(const std::string& world_name, bool base_data = false);
 
 public:
   Savegame(Profile& profile, const std::string& world_name);
@@ -95,7 +95,7 @@ public:
   bool is_title_screen() const;
 
 private:
-  void load();
+  void load(bool base_data = false);
   void clear_state_table();
 
 private:

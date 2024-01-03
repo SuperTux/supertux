@@ -151,17 +151,8 @@
     (class "spidermite")
     (icon "images/creatures/spidermite/spidermite1.png"))
   (object
-    (class "plant")
-    (icon "images/creatures/plant/left-0.png"))
-  (object
     (class "totem")
     (icon "images/creatures/totem/walking1.png"))
-  (object
-    (class "angrystone")
-    (icon "images/creatures/angrystone/charging-0.png"))
-  (object
-    (class "kugelblitz")
-    (icon "images/creatures/kugelblitz/flying-0.png"))
  )
 
  (objectgroup

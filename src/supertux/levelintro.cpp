@@ -128,10 +128,7 @@ LevelIntro::draw(Compositor& compositor)
   int py = static_cast<int>(context.get_height() / 2.0f - Resources::normal_font->get_height() / 2.0f);
 
   context.set_ambient_color(Color(1.0f, 1.0f, 1.0f, 1.0f));
-  context.color().draw_filled_rect(Rectf(0, 0,
-                                         context.get_width(),
-                                         context.get_height()),
-                                   Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
+  context.color().draw_filled_rect(context.get_rect(), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
   {
     context.color().draw_center_text(Resources::normal_font, m_level.get_name(), Vector(0, static_cast<float>(py)), LAYER_FOREGROUND1, s_header_color);
