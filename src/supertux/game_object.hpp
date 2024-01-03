@@ -118,7 +118,6 @@ public:
   /** Get all types of the object, if available. **/
   virtual GameObjectTypes get_types() const;
   int get_type() const { return m_type; }
-  void set_type(int type) { m_type = type; }
 
   virtual void after_editor_set();
 

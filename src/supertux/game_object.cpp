@@ -207,7 +207,7 @@ GameObject::parse_type(const ReaderMapping& reader)
   {
     try
     {
-      set_type(type_id_to_value(type));
+      m_type = type_id_to_value(type);
     }
     catch (...)
     {
