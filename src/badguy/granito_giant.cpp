@@ -58,6 +58,12 @@ GranitoGiant::initialize()
   m_col.set_unisolid(true);
 }
 
+void
+GranitoGiant::kill_fall()
+{
+  return;
+}
+
 GameObjectTypes
 GranitoGiant::get_types() const
 {

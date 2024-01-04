@@ -32,6 +32,8 @@ public:
   static std::string display_name() { return _("Giant Granito"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+  virtual void kill_fall() override;
+
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
   virtual bool is_hurtable() const override { return false; }
