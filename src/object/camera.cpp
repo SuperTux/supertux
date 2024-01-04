@@ -293,6 +293,12 @@ Camera::get_translation() const
   return m_translation + ((screen_size * (get_current_scale() - 1.f)) / 2.f);
 }
 
+void
+Camera::set_translation_centered(const Vector& translation)
+{
+  m_translation = translation - m_screen_size.as_vector() / 2;
+}
+
 Rectf
 Camera::get_rect() const
 {
