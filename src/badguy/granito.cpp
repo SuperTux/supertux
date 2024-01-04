@@ -214,6 +214,8 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
 
   if (hit.bottom)
   {
+    if (m_state == STATE_SIT) return WalkingBadguy::collision(other, hit);
+
     // yo big granito can i sit on top of your head?
     GranitoBig* granito = dynamic_cast<GranitoBig*>(&other);
 
