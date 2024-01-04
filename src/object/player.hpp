@@ -79,6 +79,7 @@ public:
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return false; }
+  virtual bool has_object_manager_priority() const override { return true; }
   virtual void remove_me() override;
 
   int get_id() const { return m_id; }
