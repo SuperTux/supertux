@@ -8571,6 +8571,119 @@ static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger SoundObject_release_hook(SQUserPointer ptr, SQInteger )
+{
+  scripting::SoundObject* _this = reinterpret_cast<scripting::SoundObject*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger SoundObject_start_playing_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'start_playing' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::SoundObject* _this = reinterpret_cast<scripting::SoundObject*> (data);
+
+
+  try {
+    _this->start_playing();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'start_playing'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger SoundObject_stop_playing_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'stop_playing' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::SoundObject* _this = reinterpret_cast<scripting::SoundObject*> (data);
+
+
+  try {
+    _this->stop_playing();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'stop_playing'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger SoundObject_set_volume_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_volume' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::SoundObject* _this = reinterpret_cast<scripting::SoundObject*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_volume(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_volume'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger SoundObject_get_volume_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'get_volume' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::SoundObject* _this = reinterpret_cast<scripting::SoundObject*> (data);
+
+
+  try {
+    float return_value = _this->get_volume();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_volume'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Spotlight_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Spotlight* _this = reinterpret_cast<scripting::Spotlight*> (ptr);
@@ -13469,6 +13582,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::Sector* object, bool set
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::SoundObject* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "SoundObject", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'SoundObject'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'SoundObject'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, SoundObject_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Spotlight* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -16415,6 +16554,45 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'ScriptedObject'");
+  }
+
+  // Register class SoundObject
+  sq_pushstring(v, "SoundObject", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'SoundObject'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "start_playing", -1);
+  sq_newclosure(v, &SoundObject_start_playing_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'start_playing'");
+  }
+
+  sq_pushstring(v, "stop_playing", -1);
+  sq_newclosure(v, &SoundObject_stop_playing_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'stop_playing'");
+  }
+
+  sq_pushstring(v, "set_volume", -1);
+  sq_newclosure(v, &SoundObject_set_volume_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_volume'");
+  }
+
+  sq_pushstring(v, "get_volume", -1);
+  sq_newclosure(v, &SoundObject_get_volume_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_volume'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'SoundObject'");
   }
 
   // Register class Spotlight

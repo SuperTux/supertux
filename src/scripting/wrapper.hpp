@@ -58,6 +58,8 @@ class ScriptedObject;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::ScriptedObject* object, bool setup_releasehook = false);
 class Sector;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Sector* object, bool setup_releasehook = false);
+class SoundObject;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::SoundObject* object, bool setup_releasehook = false);
 class Spotlight;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Spotlight* object, bool setup_releasehook = false);
 class Text;

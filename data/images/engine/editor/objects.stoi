@@ -356,24 +356,21 @@
   (object
     (class "particles-ghosts")
     (icon "images/engine/editor/ghostparticles.png"))
-
-
-
 ;;  +-- This should be disabled, as it probably won't support multiple textures
 ;;  |   per config object.
 ;;  v                               ~ Semphris
   (object
     (class "particles-custom")
     (icon "images/engine/editor/particle.png"))
-
-
-
   (object
     (class "particles-custom-file")
     (icon "images/engine/editor/particle_file.png"))
   (object
     (class "textscroller")
     (icon "images/engine/editor/textscroller.png"))
+  (object
+    (class "sound-object")
+    (icon "images/engine/editor/sound.png"))
  )
 
  (objectgroup
