@@ -243,7 +243,11 @@ GameObjectManager::flush_game_objects()
         {
           if (!m_initialized) object->m_track_undo = false;
           this_before_object_add(*object);
-          m_gameobjects.push_back(std::move(object));
+
+          if (object->has_object_manager_priority())
+            m_gameobjects.insert(m_gameobjects.begin(), std::move(object));
+          else
+            m_gameobjects.push_back(std::move(object));
         }
       }
     }
