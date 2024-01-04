@@ -156,7 +156,7 @@ AmbientSound::update(float dt_sec)
   const Rectf& player_bbox = nearest_player->get_bbox();
   const Vector player_center = player_bbox.get_middle();
 
-  if (collision::intersects(player_bbox, get_bbox()))
+  if (get_bbox().contains(player_bbox))
     m_sound_source->set_gain(m_volume);
   else
   {
@@ -205,9 +205,9 @@ AmbientSound::prepare_sound_source()
     m_sound_source->set_looping(true);
     m_sound_source->set_relative(true);
   }
-  catch(std::exception& e)
+  catch(const std::exception& e)
   {
-    log_warning << "Couldn't load '" << m_sample << "': " << e.what() << "" << std::endl;
+    log_warning << "Couldn't load '" << m_sample << "': " << e.what() << std::endl;
     m_sound_source.reset();
     remove_me();
   }
