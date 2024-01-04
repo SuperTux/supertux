@@ -41,8 +41,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Sound"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  // TODO: Create new icon for SoundObject
-  virtual const std::string get_icon_path() const override { return "images/engine/editor/ambientsound.png"; }
+  virtual const std::string get_icon_path() const override { return "images/engine/editor/sound.png"; }
 
   virtual ObjectSettings get_settings() override;
 

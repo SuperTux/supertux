@@ -379,7 +379,7 @@
     (icon "images/engine/editor/textscroller.png"))
   (object
     (class "sound-object")
-    (icon "images/engine/editor/ambientsound.png"))
+    (icon "images/engine/editor/sound.png"))
  )
 
  (objectgroup
