@@ -132,9 +132,9 @@ PathObject::editor_clone_path(PathGameObject* path_object)
     return;
 
   auto new_path_obj = GameObjectFactory::instance().create(path_object->get_class_name(), path_object->save());
-  auto* new_path = static_cast<PathGameObject*>(&Editor::current()->get_sector()->add_object(std::move(new_path_obj)));
-  new_path->regenerate_name();
-  m_path_uid = new_path->get_uid();
+  auto& new_path = static_cast<PathGameObject&>(Editor::current()->get_sector()->add_object(std::move(new_path_obj)));
+  new_path.regenerate_name();
+  m_path_uid = new_path.get_uid();
 }
 
 void
