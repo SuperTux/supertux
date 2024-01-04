@@ -17,7 +17,8 @@
 #include "badguy/granito_big.hpp"
 
 GranitoBig::GranitoBig(const ReaderMapping& reader) :
-  Granito(reader, "images/creatures/granito/big/granito_big.sprite", LAYER_OBJECTS - 2)
+  Granito(reader, "images/creatures/granito/big/granito_big.sprite", LAYER_OBJECTS - 2),
+  m_carrying(nullptr)
 {
   parse_type(reader);
 
@@ -29,6 +30,19 @@ GranitoBig::collision_player(Player& player, const CollisionHit& hit)
 {
   // Prevent from triggering STATE_LOOKUP
   return FORCE_MOVE;
+}
+
+void
+GranitoBig::active_update(float dt_sec)
+{
+  Granito::active_update(dt_sec);
+
+  if (!m_carrying) return;
+
+  Vector pos(get_bbox().get_middle().x - m_carrying->get_bbox().get_width() / 2,
+             get_bbox().get_top() - m_carrying->get_bbox().get_height());
+  m_carrying->set_pos(pos);
+  m_carrying->set_action("sit", m_dir);
 }
 
 GameObjectTypes

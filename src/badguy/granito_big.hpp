@@ -26,12 +26,16 @@ public:
 
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
 
+  virtual void active_update(float dt_sec) override;
+
   static std::string class_name() { return "granito_big"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Big Granito"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual GameObjectTypes get_types() const override;
+
+  Granito* m_carrying;
 
 protected:
   bool try_wave() override;

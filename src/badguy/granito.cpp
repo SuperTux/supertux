@@ -16,6 +16,7 @@
 
 #include "badguy/granito.hpp"
 
+#include "badguy/granito_big.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
@@ -43,7 +44,7 @@ Granito::Granito(const ReaderMapping& reader, const std::string& sprite_name, in
 void
 Granito::active_update(float dt_sec)
 {
-  if (m_type == SIT || m_type == WALK)
+  if (m_state == STATE_SIT || m_type == WALK)
   {
     // Don't do any extra calculations
     WalkingBadguy::active_update(dt_sec);
@@ -69,10 +70,7 @@ Granito::active_update(float dt_sec)
     // Go back to normal action
     if (m_state == STATE_STAND)
     {
-      if (m_type == SIT)
-        set_action("sit", m_dir);
-      else
-        set_action("stand", m_dir);
+      set_action("stand", m_dir);
     }
     else if (m_state == STATE_WALK)
     {
@@ -187,7 +185,7 @@ Granito::active_update(float dt_sec)
 HitResponse
 Granito::collision_player(Player& player, const CollisionHit& hit)
 {
-  if (m_type == SIT || m_type == WALK) return FORCE_MOVE;
+  if (m_state == STATE_SIT || m_type == WALK) return FORCE_MOVE;
 
   if (hit.top)
   {
@@ -213,6 +211,30 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
 {
   if (hit.top)
     m_col.propagate_movement(m_col.get_movement());
+
+  if (hit.bottom)
+  {
+    // yo big granito can i sit on top of your head?
+    GranitoBig* granito = dynamic_cast<GranitoBig*>(&other);
+
+    if (!granito)
+    {
+      // i'm not a granito
+      return WalkingBadguy::collision(other, hit);
+    }
+
+    if (granito->m_carrying != nullptr)
+    {
+      // sorry im already carrying this guy
+      return WalkingBadguy::collision(other, hit);
+    }
+
+    // sure dude
+    granito->m_carrying = this;
+
+    // yay
+    m_state = STATE_SIT;
+  }
 
   return WalkingBadguy::collision(other, hit);
 }
@@ -272,6 +294,11 @@ Granito::initialize()
   if (m_type == WALK)
   {
     m_original_state = STATE_WALK;
+    restore_original_state();
+  }
+  else if (m_type == SIT)
+  {
+    m_original_state = STATE_SIT;
     restore_original_state();
   }
 

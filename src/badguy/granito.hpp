@@ -19,6 +19,8 @@
 
 #include "badguy/walking_badguy.hpp"
 
+class GranitoBig;
+
 /** Interactable friendly NPC */
 class Granito : public WalkingBadguy
 {
@@ -56,6 +58,7 @@ protected:
   enum Type { DEFAULT, STAND, WALK, SIT };
   enum State
   {
+    STATE_SIT,
     STATE_STAND,
     STATE_WALK,
     STATE_WAVE,
