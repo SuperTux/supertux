@@ -30,10 +30,13 @@ bool GameObjectManager::s_draw_solids_only = false;
 GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_initialized(false),
   m_uid_generator(),
+  m_change_uid_generator(),
   m_undo_tracking(undo_tracking),
   m_undo_stack_size(20),
   m_undo_stack(),
   m_redo_stack(),
+  m_pending_change_stack(),
+  m_last_saved_change(),
   m_gameobjects(),
   m_gameobjects_new(),
   m_solid_tilemaps(),
@@ -254,6 +257,14 @@ GameObjectManager::flush_game_objects()
   }
   update_tilemaps();
 
+  // If object changes have been performed since last flush, push them to the undo stack.
+  if (m_undo_tracking && !m_pending_change_stack.empty())
+  {
+    m_undo_stack.push_back({ m_change_uid_generator.next(), std::move(m_pending_change_stack) });
+    m_redo_stack.clear();
+    undo_stack_cleanup();
+  }
+
   m_initialized = true;
 }
 
@@ -337,14 +348,21 @@ GameObjectManager::undo_stack_cleanup()
 }
 
 void
+GameObjectManager::on_editor_save()
+{
+  m_last_saved_change = (m_undo_stack.empty() ? UID() : m_undo_stack.back().uid);
+}
+
+void
 GameObjectManager::undo()
 {
   if (m_undo_stack.empty()) return;
-  ObjectChange& change = m_undo_stack.back();
+  ObjectChanges& changes = m_undo_stack.back();
 
-  process_object_change(change);
+  for (auto& obj_change : changes.objects)
+    process_object_change(obj_change);
 
-  m_redo_stack.push_back(change);
+  m_redo_stack.push_back(std::move(changes));
   m_undo_stack.pop_back();
 }
 
@@ -352,11 +370,12 @@ void
 GameObjectManager::redo()
 {
   if (m_redo_stack.empty()) return;
-  ObjectChange& change = m_redo_stack.back();
+  ObjectChanges& changes = m_redo_stack.back();
 
-  process_object_change(change);
+  for (auto& obj_change : changes.objects)
+    process_object_change(obj_change);
 
-  m_undo_stack.push_back(change);
+  m_undo_stack.push_back(std::move(changes));
   m_redo_stack.pop_back();
 }
 
@@ -397,22 +416,16 @@ void
 GameObjectManager::save_object_change(GameObject& object, bool creation)
 {
   if (m_undo_tracking && object.track_state() && object.m_track_undo)
-  {
-    m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
-    m_redo_stack.clear();
-    undo_stack_cleanup();
-  }
+    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
+
   object.m_track_undo = true;
 }
 
 void
 GameObjectManager::save_object_change(GameObject& object, const std::string& data)
 {
-  if (!m_undo_tracking) return;
-
-  m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
-  m_redo_stack.clear();
-  undo_stack_cleanup();
+  if (m_undo_tracking)
+    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
 }
 
 void
@@ -420,12 +433,14 @@ GameObjectManager::clear_undo_stack()
 {
   m_undo_stack.clear();
   m_redo_stack.clear();
+  m_last_saved_change = UID();
 }
 
 bool
 GameObjectManager::has_object_changes() const
 {
-  return !m_undo_stack.empty();
+  return (m_undo_stack.empty() && m_last_saved_change) ||
+         (!m_undo_stack.empty() && m_undo_stack.back().uid != m_last_saved_change);
 }
 
 void

@@ -256,7 +256,8 @@ Editor::update(float dt_sec, const Controller& controller)
 
     // Now that all widgets have been updated, which should have relinquished
     // pointers to objects marked for deletion, we can actually delete them.
-    m_sector->flush_game_objects();
+    for (auto& sector : m_level->get_sectors())
+      sector->flush_game_objects();
 
     update_keyboard(controller);
   }
@@ -289,7 +290,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
 
   for (const auto& sector : m_level->m_sectors)
   {
-    sector->clear_undo_stack();
+    sector->on_editor_save();
   }
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
@@ -380,12 +381,21 @@ Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
 
-  Rectf bounds(0.0f,
-               0.0f,
-               std::max(0.0f, m_sector->get_editor_width() - static_cast<float>(SCREEN_WIDTH - 128)),
-               std::max(0.0f, m_sector->get_editor_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
   Camera& camera = m_sector->get_camera();
-  Vector pos = camera.get_translation() + velocity;
+  camera.set_translation(camera.get_translation() + velocity);
+  keep_camera_in_bounds();
+}
+
+void
+Editor::keep_camera_in_bounds()
+{
+  const Rectf bounds(0.0f,
+                     0.0f,
+                     std::max(0.0f, m_sector->get_editor_width() - static_cast<float>(SCREEN_WIDTH - 128)),
+                     std::max(0.0f, m_sector->get_editor_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
+
+  Camera& camera = m_sector->get_camera();
+  Vector pos = camera.get_translation();
   pos = Vector(math::clamp(pos.x, bounds.get_left(), bounds.get_right()),
                math::clamp(pos.y, bounds.get_top(), bounds.get_bottom()));
   camera.set_translation(pos);
@@ -648,18 +658,31 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
 }
 
 void
-Editor::check_deprecated_tiles()
+Editor::check_deprecated_tiles(bool focus)
 {
   // Check for any deprecated tiles, used throughout the entire level
   m_has_deprecated_tiles = false;
-  for (size_t sector_num = 0; sector_num < m_level->get_sector_count(); sector_num++)
+  for (const auto& sector : m_level->get_sectors())
   {
-    for (auto& tilemap : m_level->get_sector(sector_num)->get_objects_by_type<TileMap>())
+    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
     {
+      int pos = -1;
       for (const uint32_t& tile_id : tilemap.get_tiles())
       {
+        pos++;
         if (m_tileset->get(tile_id).is_deprecated())
         {
+          // Focus on deprecated tile
+          if (focus)
+          {
+            set_sector(sector.get());
+            m_layers_widget->set_selected_tilemap(&tilemap);
+
+            const int width = tilemap.get_width();
+            m_sector->get_camera().set_translation_centered(Vector(pos % width, pos / width) * 32.f);
+            keep_camera_in_bounds();
+          }
+
           m_has_deprecated_tiles = true;
           return;
         }

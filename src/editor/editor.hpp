@@ -120,7 +120,7 @@ public:
   /** Convert tiles on every tilemap in the level, according to a tile conversion file. */
   void convert_tiles_by_file(const std::string& file);
 
-  void check_deprecated_tiles();
+  void check_deprecated_tiles(bool focus = false);
   bool has_deprecated_tiles() const { return m_has_deprecated_tiles; }
 
   /** Checks whether the level can be saved and does not contain
@@ -180,6 +180,8 @@ private:
   void save_level(const std::string& filename = "", bool switch_file = false);
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
+
+  void keep_camera_in_bounds();
 
   void post_undo_redo_actions();
 
