@@ -256,7 +256,8 @@ Editor::update(float dt_sec, const Controller& controller)
 
     // Now that all widgets have been updated, which should have relinquished
     // pointers to objects marked for deletion, we can actually delete them.
-    m_sector->flush_game_objects();
+    for (auto& sector : m_level->get_sectors())
+      sector->flush_game_objects();
 
     update_keyboard(controller);
   }
@@ -289,7 +290,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
 
   for (const auto& sector : m_level->m_sectors)
   {
-    sector->clear_undo_stack();
+    sector->on_editor_save();
   }
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
