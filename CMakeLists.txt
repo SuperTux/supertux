@@ -182,6 +182,7 @@ include(SuperTux/ProvideSexpcpp)
 include(SuperTux/ProvideSavePNG)
 include(SuperTux/ProvidePartioZip)
 include(SuperTux/ProvideOpenGL)
+include(SuperTux/ProvideENet)
 
 ## Build stuff
 include(SuperTux/BuildVersion)
@@ -273,6 +274,7 @@ target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
+target_link_libraries(supertux2_lib PUBLIC LibENet)
 
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)

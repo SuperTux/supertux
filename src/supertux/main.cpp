@@ -26,6 +26,7 @@
 #include <physfs.h>
 #include <tinygettext/log.hpp>
 #include <fmt/format.h>
+#include <enet/enet.h>
 extern "C" {
 #include <findlocale.h>
 }
@@ -556,6 +557,10 @@ Main::launch_game(const CommandLineArguments& args)
   m_profile_manager.reset(new ProfileManager());
   m_resources.reset(new Resources());
 
+  s_timelog.log("network");
+  if (enet_initialize() != 0)
+    throw std::runtime_error("Error initializing ENet networking library!");
+
   s_timelog.log("integrations");
   Integration::setup();
 
@@ -653,6 +658,9 @@ Main::launch_game(const CommandLineArguments& args)
   }
 
   m_screen_manager->run();
+
+  /** Deinitialization */
+  enet_deinitialize();
 }
 
 int
