@@ -14,85 +14,91 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/text_array.hpp"
-#include "object/text_array_object.hpp"
+#include "scripting/text_array_object.hpp"
 
+#include "object/text_array_object.hpp"
 #include "object/text_object.hpp"
+#include "supertux/sector.hpp"
 
 namespace scripting {
 
+TextArrayObject::TextArrayObject() :
+  GameObject(get_sector().add<::TextArrayObject>())
+{
+}
+
 void
-TextArray::add_text_duration(const std::string& text, float duration)
+TextArrayObject::add_text_duration(const std::string& text, float duration)
 {
   SCRIPT_GUARD_VOID;
   object.add_text(text, duration);
 }
 
 void
-TextArray::add_text(const std::string& text)
+TextArrayObject::add_text(const std::string& text)
 {
   SCRIPT_GUARD_VOID;
   object.add_text(text);
 }
 
 void
-TextArray::clear()
+TextArrayObject::clear()
 {
   SCRIPT_GUARD_VOID;
   object.clear();
 }
 
 void
-TextArray::set_fade_transition(bool fade_transition)
+TextArrayObject::set_fade_transition(bool fade_transition)
 {
   SCRIPT_GUARD_VOID;
   object.set_fade_transition(fade_transition);
 }
 
 void
-TextArray::set_fade_time(float fadetime)
+TextArrayObject::set_fade_time(float fadetime)
 {
   SCRIPT_GUARD_VOID;
   object.set_fade_time(fadetime);
 }
 
 void
-TextArray::set_text_index(int index)
+TextArrayObject::set_text_index(int index)
 {
   SCRIPT_GUARD_VOID;
   object.set_text_index(index);
 }
 
 void
-TextArray::next_text()
+TextArrayObject::next_text()
 {
   SCRIPT_GUARD_VOID;
   object.next_text();
 }
 
 void
-TextArray::prev_text()
+TextArrayObject::prev_text()
 {
   SCRIPT_GUARD_VOID;
   object.prev_text();
 }
 
 void
-TextArray::set_keep_visible(bool keep_visible)
+TextArrayObject::set_keep_visible(bool keep_visible)
 {
   SCRIPT_GUARD_VOID;
   object.set_keep_visible(keep_visible);
 }
 
 void
-TextArray::set_done(bool done)
+TextArrayObject::set_done(bool done)
 {
   SCRIPT_GUARD_VOID;
   object.set_done(done);
 }
 
 void
-TextArray::set_auto(bool is_auto)
+TextArrayObject::set_auto(bool is_auto)
 {
   SCRIPT_GUARD_VOID;
   object.set_auto(is_auto);
@@ -101,7 +107,7 @@ TextArray::set_auto(bool is_auto)
 /////////// text api
 
 void
-TextArray::set_text(const std::string& text)
+TextArrayObject::set_text(const std::string& text)
 {
   SCRIPT_GUARD_VOID;
 
@@ -114,7 +120,7 @@ TextArray::set_text(const std::string& text)
 }
 
 void
-TextArray::set_font(const std::string& fontname)
+TextArrayObject::set_font(const std::string& fontname)
 {
   SCRIPT_GUARD_VOID;
 
@@ -124,7 +130,7 @@ TextArray::set_font(const std::string& fontname)
 }
 
 void
-TextArray::fade_in(float fadetime)
+TextArrayObject::fade_in(float fadetime)
 {
   SCRIPT_GUARD_VOID;
 
@@ -134,7 +140,7 @@ TextArray::fade_in(float fadetime)
 }
 
 void
-TextArray::fade_out(float fadetime)
+TextArrayObject::fade_out(float fadetime)
 {
   SCRIPT_GUARD_VOID;
 
@@ -144,7 +150,7 @@ TextArray::fade_out(float fadetime)
 }
 
 void
-TextArray::grow_in(float fadetime)
+TextArrayObject::grow_in(float fadetime)
 {
   SCRIPT_GUARD_VOID;
 
@@ -154,7 +160,7 @@ TextArray::grow_in(float fadetime)
 }
 
 void
-TextArray::grow_out(float fadetime)
+TextArrayObject::grow_out(float fadetime)
 {
   SCRIPT_GUARD_VOID;
 
@@ -164,7 +170,7 @@ TextArray::grow_out(float fadetime)
 }
 
 void
-TextArray::set_visible(bool visible)
+TextArrayObject::set_visible(bool visible)
 {
   SCRIPT_GUARD_VOID;
 
@@ -174,7 +180,7 @@ TextArray::set_visible(bool visible)
 }
 
 void
-TextArray::set_centered(bool centered)
+TextArrayObject::set_centered(bool centered)
 {
   SCRIPT_GUARD_VOID;
 
@@ -184,7 +190,7 @@ TextArray::set_centered(bool centered)
 }
 
 void
-TextArray::set_pos(float x, float y)
+TextArrayObject::set_pos(float x, float y)
 {
   SCRIPT_GUARD_VOID;
 
@@ -194,33 +200,33 @@ TextArray::set_pos(float x, float y)
 }
 
 float
-TextArray::get_pos_x() const
+TextArrayObject::get_pos_x() const
 {
   SCRIPT_GUARD_DEFAULT;
 
   if (auto* textItem = object.get_current_text_item()) {
     return textItem->text_object.get_pos().x;
   } else {
-    log_warning << "TextArray position is not set. Assuming (0,0)" << std::endl;
+    log_warning << "TextArrayObject position is not set. Assuming (0,0)" << std::endl;
     return 0;
   }
 }
 
 float
-TextArray::get_pos_y() const
+TextArrayObject::get_pos_y() const
 {
   SCRIPT_GUARD_DEFAULT;
 
   if (auto* textItem = object.get_current_text_item()) {
     return textItem->text_object.get_pos().y;
   } else {
-    log_warning << "TextArray position is not set. Assuming (0,0)" << std::endl;
+    log_warning << "TextArrayObject position is not set. Assuming (0,0)" << std::endl;
     return 0;
   }
 }
 
 void
-TextArray::set_anchor_point(int anchor)
+TextArrayObject::set_anchor_point(int anchor)
 {
   SCRIPT_GUARD_VOID;
 
@@ -230,7 +236,7 @@ TextArray::set_anchor_point(int anchor)
 }
 
 int
-TextArray::get_anchor_point() const
+TextArrayObject::get_anchor_point() const
 {
   SCRIPT_GUARD_DEFAULT;
 
@@ -242,7 +248,7 @@ TextArray::get_anchor_point() const
 }
 
 void
-TextArray::set_anchor_offset(float x, float y)
+TextArrayObject::set_anchor_offset(float x, float y)
 {
   SCRIPT_GUARD_VOID;
 
@@ -251,8 +257,30 @@ TextArray::set_anchor_offset(float x, float y)
   }
 }
 
+float
+TextArrayObject::get_wrap_width() const
+{
+  SCRIPT_GUARD_DEFAULT;
+
+  if (auto* textItem = object.get_current_text_item()) {
+    return textItem->text_object.get_wrap_width();
+  } else {
+    return 0;
+  }
+}
+
 void
-TextArray::set_front_fill_color(float red, float green, float blue, float alpha)
+TextArrayObject::set_wrap_width(float width)
+{
+  SCRIPT_GUARD_VOID;
+
+  if (auto* textItem = object.get_current_text_item()) {
+    textItem->text_object.set_wrap_width(width);
+  }
+}
+
+void
+TextArrayObject::set_front_fill_color(float red, float green, float blue, float alpha)
 {
   SCRIPT_GUARD_VOID;
   if (auto* textItem = object.get_current_text_item()) {
@@ -261,7 +289,7 @@ TextArray::set_front_fill_color(float red, float green, float blue, float alpha)
 }
 
 void
-TextArray::set_back_fill_color(float red, float green, float blue, float alpha)
+TextArrayObject::set_back_fill_color(float red, float green, float blue, float alpha)
 {
   SCRIPT_GUARD_VOID;
   if (auto* textItem = object.get_current_text_item()) {
@@ -270,7 +298,7 @@ TextArray::set_back_fill_color(float red, float green, float blue, float alpha)
 }
 
 void
-TextArray::set_text_color(float red, float green, float blue, float alpha)
+TextArrayObject::set_text_color(float red, float green, float blue, float alpha)
 {
   SCRIPT_GUARD_VOID;
   if (auto* textItem = object.get_current_text_item()) {
@@ -279,7 +307,7 @@ TextArray::set_text_color(float red, float green, float blue, float alpha)
 }
 
 void
-TextArray::set_roundness(float roundness)
+TextArrayObject::set_roundness(float roundness)
 {
   SCRIPT_GUARD_VOID;
   if (auto* textItem = object.get_current_text_item()) {
