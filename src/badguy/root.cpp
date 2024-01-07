@@ -50,24 +50,26 @@ Root::construct()
   set_colgroup_active(COLGROUP_TOUCHABLE);
   set_action("root", m_dir);
 
-  Vector center = get_pos();
+  Vector pos = get_pos();
   switch (m_dir)
   {
-    case Direction::UP:
     case Direction::DOWN:
-      center.x -= (get_bbox().get_width() / 2);
+      pos.y -= get_bbox().get_height();
+    case Direction::UP:
+      pos.x -= (get_bbox().get_width() / 2);
       break;
 
-    case Direction::LEFT:
     case Direction::RIGHT:
-      center.y -= (get_bbox().get_height() / 2);
+      pos.x -= get_bbox().get_width();
+    case Direction::LEFT:
+      pos.y -= (get_bbox().get_height() / 2);
       break;
 
     default: assert(false); break;
   }
 
-  set_pos(center);
-  set_start_position(center);
+  set_pos(pos);
+  set_start_position(pos);
 
   auto surfaces = m_sprite->get_action_surfaces("base-" + dir_to_string(m_dir));
   if (surfaces.size() != 0)
@@ -89,13 +91,13 @@ Root::initialize()
       basepos.y = m_start_position.y - 10;
       break;
     case Direction::DOWN:
-      basepos.y = m_start_position.y + 10;
+      basepos.y = m_start_position.y + get_bbox().get_height() + 10;
       break;
     case Direction::LEFT:
       basepos.x = m_start_position.x - 10;
       break;
     case Direction::RIGHT:
-      basepos.x = m_start_position.x + 10;
+      basepos.x = m_start_position.x + get_bbox().get_width() + 10;
       break;
     default: assert(false); break;
   }
@@ -132,7 +134,7 @@ Root::draw(DrawingContext &context)
 
     case Direction::DOWN:
       pos.x -= m_sprite->get_current_hitbox_x_offset();
-      pos.y += get_bbox().get_height() - 20;
+      pos.y += get_bbox().get_height() - 5;
       break;
 
     case Direction::LEFT:
@@ -141,7 +143,7 @@ Root::draw(DrawingContext &context)
       break;
 
     case Direction::RIGHT:
-      pos.x += get_bbox().get_width() + 20;
+      pos.x += get_bbox().get_width() - 5;
       pos.y -= m_sprite->get_current_hitbox_y_offset();
       break;
 

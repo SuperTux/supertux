@@ -26,4 +26,27 @@
     (name "squished-down")
     (flip-action "squished-up")
   )
+  (action
+    (name "idle-left")
+    (hitbox 18 14 80 32)
+    (fps 12)
+    (images "root_sapling-0-left.png"
+    )
+  )
+  (action
+    (name "squished-left")
+    (fps 12)
+    (loops 1)
+    (hitbox 18 14 80 32)
+    (images "corrupted_hill-left.png"
+    )
+  )
+  (action
+    (name "idle-right")
+    (mirror-action "idle-left")
+  )
+  (action
+    (name "squished-right")
+    (mirror-action "squished-left")
+  )
 )

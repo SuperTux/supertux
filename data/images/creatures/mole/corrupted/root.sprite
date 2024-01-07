@@ -18,4 +18,20 @@
   (action
     (name "base-down")
     (flip-action "base-up"))
+
+  (action
+    (name "root-left")
+    (hitbox 7 20 80 16)
+    (images "root_attack-left.png"))
+  (action
+    (name "base-left")
+    (hitbox 7 20 80 16)
+    (images "root_base-left.png"))
+
+  (action
+    (name "root-right")
+    (mirror-action "root-left"))
+  (action
+    (name "base-right")
+    (mirror-action "base-left"))
 )

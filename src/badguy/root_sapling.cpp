@@ -38,6 +38,7 @@ RootSapling::RootSapling(const ReaderMapping& reader) :
 {
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_STATIC);
+  set_action("idle", m_dir);
 
   m_glowing = true;
 
@@ -136,7 +137,7 @@ RootSapling::summon_root()
     default: assert(false); break;
   }
 
-  if (player->on_ground())
+  if (player->on_ground() && m_dir == Direction::UP)
   {
     (*axis) = player->get_bbox().get_bottom() + 1;
 
@@ -184,19 +185,73 @@ RootSapling::summon_root()
 
     RaycastResult result = Sector::get().get_first_line_intersection(eye, end, true, nullptr);
 
-    if (std::holds_alternative<const Tile*>(result.hit) && !result.box.empty())
+    auto tile_p = std::get_if<const Tile*>(&result.hit);
+    if (tile_p && !result.box.empty())
     {
       switch (m_dir)
       {
         case Direction::UP:
-        case Direction::DOWN:
           (*axis) = result.box.p1().y;
           break;
 
         case Direction::LEFT:
-        case Direction::RIGHT:
           (*axis) = result.box.p1().x;
           break;
+
+        /*
+         * This "Raycasting" I've been using so far is not actual raycasting.
+         * It just checks for tiles/objects that intersect a line and returns
+         * the closest one to the top left (or whatever order it's on). Which
+         * means it only works properly when pointing down or right. If you
+         * try otherwise it will return the furthest tile/object in the line.
+         *
+         * TODO: Rename this to "Intersection checking" or something like that.
+         *
+         * Anyway, To work around this, iterate over all tiles to the opposite
+         * direction and check for the first non-solid tile.
+         *
+         * Usually, when I write big comments, that means I won't need it. I hope
+         * that's the case.
+         *
+         * ~ MatusGuy
+         */
+        case Direction::DOWN:
+        {
+          Vector pos = result.box.p1();
+          bool solid;
+          do {
+            solid = false;
+            pos.y += 32.f;
+            for (auto map : Sector::get().get_solid_tilemaps()) {
+              if (map->get_tile_at(pos).is_solid())
+              {
+                solid = true;
+                break;
+              }
+            }
+          } while (solid);
+          (*axis) = pos.y;
+          break;
+        }
+
+        case Direction::RIGHT:
+        {
+          Vector pos = result.box.p1();
+          bool solid;
+          do {
+            solid = false;
+            pos.x += 32.f;
+            for (auto map : Sector::get().get_solid_tilemaps()) {
+              if (map->get_tile_at(pos).is_solid())
+              {
+                solid = true;
+                break;
+              }
+            }
+          } while (solid);
+          (*axis) = pos.x;
+          break;
+        }
 
         default: assert(false); break;
       }
@@ -229,6 +284,7 @@ RootSapling::on_flip(float height)
 {
   BadGuy::on_flip(height);
   FlipLevelTransformer::transform_flip(m_flip);
+  m_dir = invert_dir(m_dir);
 }
 
 /* EOF */
