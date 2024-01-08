@@ -14,30 +14,45 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_NETWORK_SERVER_HPP
-#define HEADER_SUPERTUX_NETWORK_SERVER_HPP
+#ifndef HEADER_SUPERTUX_NETWORK_REQUEST_HPP
+#define HEADER_SUPERTUX_NETWORK_REQUEST_HPP
 
-#include "network/host.hpp"
+#include "network/packet.hpp"
+#include "supertux/timer.hpp"
 
-#include "network/address.hpp"
+#include <memory>
 
 namespace network {
 
-/** A server, which clients can connect to. */
-class Server final : public Host
+/** Stores information about a request, consisting of a staged,
+    and on success, a response packet. */
+class Request final
 {
+  friend class Host;
+
 public:
-  Server(uint16_t port, size_t peer_count, size_t channel_limit,
-         uint32_t incoming_bandwidth = 0, uint32_t outgoing_bandwidth = 0);
+  enum class FailReason
+  {
+    REQUEST_TIMED_OUT, // Cannot send request: Timed out
+    RESPONSE_TIMED_OUT // No response: Timed out
+  };
 
-  Address get_address() const;
-
-protected:
-  void process_event(const ENetEvent& event) override;
+public:
+  Request(std::unique_ptr<StagedPacket> staged_packet, float response_sec);
 
 private:
-  Server(const Server&) = delete;
-  Server& operator=(const Server&) = delete;
+  UID id;
+
+  const float response_time;
+  Timer timer;
+
+public:
+  std::unique_ptr<StagedPacket> staged;
+  RecievedPacket* recieved;
+
+private:
+  Request(const Request&) = delete;
+  Request& operator=(const Request&) = delete;
 };
 
 } // namespace network

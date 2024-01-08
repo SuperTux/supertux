@@ -16,22 +16,70 @@
 
 #include "network/server.hpp"
 
+#include <functional>
 #include <stdexcept>
+
+#include <version.h>
+
+#include "network/connection_result.hpp"
 
 namespace network {
 
-Server::Server(enet_uint16 port, size_t peer_count, size_t channel_limit,
-               enet_uint32 incoming_bandwidth, enet_uint32 outgoing_bandwidth) :
+Server::Server(uint16_t port, size_t peer_count, size_t channel_limit,
+               uint32_t incoming_bandwidth, uint32_t outgoing_bandwidth) :
   Host()
 {
   ENetAddress address;
   address.host = ENET_HOST_ANY;
-  address.port = port;
+  address.port = static_cast<enet_uint16>(port);
 
   m_host = enet_host_create(&address, peer_count, channel_limit,
-                            incoming_bandwidth, outgoing_bandwidth);
+                            static_cast<enet_uint32>(incoming_bandwidth),
+                            static_cast<enet_uint32>(outgoing_bandwidth));
   if (!m_host)
     throw std::runtime_error("Error initializing ENet server!");
+}
+
+void
+Server::process_event(const ENetEvent& event)
+{
+  switch (event.type)
+  {
+    case ENET_EVENT_TYPE_CONNECT:
+    {
+      // Hash the game version
+      std::hash<std::string> hasher;
+      const enet_uint32 version = static_cast<enet_uint32>(hasher(PACKAGE_VERSION));
+
+      // Make sure remote peer game version is the same
+      if (event.data != version)
+      {
+        enet_peer_disconnect(event.peer, RESPONSE_VERSION_MISMATCH);
+        return;
+      }
+
+      Peer peer(*event.peer);
+      m_protocol->on_server_connect(peer);
+      break;
+    }
+    case ENET_EVENT_TYPE_DISCONNECT:
+    {
+      Peer peer(*event.peer);
+      m_protocol->on_server_disconnect(peer);
+
+      // Reset the peer's client information
+      event.peer->data = NULL;
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+Address
+Server::get_address() const
+{
+  return Address(m_host->address);
 }
 
 } // namespace network

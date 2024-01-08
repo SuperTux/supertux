@@ -17,45 +17,101 @@
 #include "network/client.hpp"
 
 #include <cassert>
+#include <functional>
 #include <stdexcept>
+
+#include <version.h>
 
 namespace network {
 
 Client::Client(size_t outgoing_connections, size_t channel_limit,
-               enet_uint32 incoming_bandwidth, enet_uint32 outgoing_bandwidth) :
+               uint32_t incoming_bandwidth, uint32_t outgoing_bandwidth) :
   Host()
 {
   m_host = enet_host_create(NULL, outgoing_connections, channel_limit,
-                            incoming_bandwidth, outgoing_bandwidth);
+                            static_cast<enet_uint32>(incoming_bandwidth),
+                            static_cast<enet_uint32>(outgoing_bandwidth));
   if (!m_host)
     throw std::runtime_error("Error initializing ENet client!");
 }
 
-Client::ConnectionResult
-Client::connect(const char* hostname, enet_uint16 port, size_t channel_count)
+void
+Client::process_event(const ENetEvent& event)
+{
+  if (event.type == ENET_EVENT_TYPE_DISCONNECT)
+  {
+    Peer peer(*event.peer);
+    m_protocol->on_client_disconnect(peer);
+
+    // Reset the peer's client information
+    event.peer->data = NULL;
+  }
+}
+
+ConnectionResult
+Client::connect(const char* hostname, uint16_t port,
+                uint32_t wait_ms, size_t channel_count)
+{
+  auto result = connect_internal(hostname, port, wait_ms, channel_count);
+  if (m_protocol)
+    m_protocol->on_client_connect(result);
+  return result;
+}
+
+ConnectionResult
+Client::connect_internal(const char* hostname, uint16_t port,
+                         uint32_t wait_ms, size_t channel_count)
 {
   ENetAddress address;
   enet_address_set_host(&address, hostname);
-  address.port = port;
+  address.port = static_cast<enet_uint16>(port);
+
+  // Hash the game version
+  std::hash<std::string> hasher;
+  const enet_uint32 version = static_cast<enet_uint32>(hasher(PACKAGE_VERSION));
 
   // Initiate the connection
-  ENetPeer* peer = enet_host_connect(m_host, &address, channel_count, 0);
+  ENetPeer* peer = enet_host_connect(m_host, &address, channel_count, version);
   if (!peer)
     return ConnectionResult(nullptr, ConnectionStatus::FAILED_NO_PEERS);
 
-  // Wait up to 5 seconds for the connection attempt to succeed
+  // Wait up to 5 seconds for the connection attempt to succeed.
+  // Return failure if disconnection events are fired.
   ENetEvent event;
-  if (enet_host_service(m_host, &event, 5000) == 0)
+  bool connected = false;
+  while (enet_host_service(m_host, &event, static_cast<enet_uint32>(wait_ms)) > 0)
+  {
+    switch (event.type)
+    {
+      case ENET_EVENT_TYPE_CONNECT:
+      {
+        connected = true;
+        break;
+      }
+      case ENET_EVENT_TYPE_DISCONNECT:
+      {
+        enet_peer_reset(peer);
+
+        if (event.data == RESPONSE_VERSION_MISMATCH)
+          return ConnectionResult(nullptr, ConnectionStatus::FAILED_VERSION_MISMATCH);
+
+        return ConnectionResult(nullptr, ConnectionStatus::FAILED_CONNECTION_REFUSED);
+      }
+      default:
+        break;
+    }
+  }
+
+  // If no connection or disconnection event was fired, the connection has timed out
+  if (!connected)
   {
     enet_peer_reset(peer);
     return ConnectionResult(nullptr, ConnectionStatus::FAILED_TIMED_OUT);
   }
-  if (event.type != ENET_EVENT_TYPE_CONNECT)
-  {
-    enet_peer_reset(peer);
-    return ConnectionResult(nullptr, ConnectionStatus::FAILED_DISCONNECT);
-  }
 
+  // Connection was successful!
+  // Set peer properties and return result.
+  enet_peer_ping_interval(peer, 10);
   return ConnectionResult(peer, ConnectionStatus::SUCCESS);
 }
 
@@ -64,6 +120,12 @@ Client::disconnect(ENetPeer* peer)
 {
   if (!peer) return;
   assert(peer->host == m_host);
+
+  if (m_protocol)
+  {
+    Peer peer_info(*peer);
+    m_protocol->on_client_disconnect(peer_info);
+  }
 
   enet_peer_disconnect(peer, 0);
 

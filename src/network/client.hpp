@@ -19,35 +19,27 @@
 
 #include "network/host.hpp"
 
+#include "network/connection_result.hpp"
+
 namespace network {
 
 /** A client, which can connect to servers. */
 class Client final : public Host
 {
 public:
-  enum class ConnectionStatus
-  {
-    SUCCESS, // Connected to peer successfully. Available via the "peer" pointer.
-    FAILED_NO_PEERS, // Failed (no peers are currently available).
-    FAILED_TIMED_OUT, // Failed (connection timed out).
-    FAILED_DISCONNECT // Failed (a disconnect event was recieved instead).
-  };
-  struct ConnectionResult final
-  {
-    ConnectionResult(ENetPeer* peer_, ConnectionStatus status_) :
-      peer(peer_), status(status_)
-    {}
-
-    ENetPeer* const peer;
-    ConnectionStatus status;
-  };
-
-public:
   Client(size_t outgoing_connections, size_t channel_limit,
-         enet_uint32 incoming_bandwidth = 0, enet_uint32 outgoing_bandwidth = 0);
+         uint32_t incoming_bandwidth = 0, uint32_t outgoing_bandwidth = 0);
 
-  ConnectionResult connect(const char* hostname, enet_uint16 port, size_t channel_count);
+  ConnectionResult connect(const char* hostname, uint16_t port,
+                           uint32_t wait_ms, size_t channel_count);
   void disconnect(ENetPeer* peer);
+
+protected:
+  void process_event(const ENetEvent& event) override;
+
+private:
+  ConnectionResult connect_internal(const char* hostname, uint16_t port,
+                                    uint32_t wait_ms, size_t channel_count);
 
 private:
   Client(const Client&) = delete;

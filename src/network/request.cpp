@@ -14,13 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "network/peer.hpp"
+#include "network/request.hpp"
 
 namespace network {
 
-Peer::Peer(ENetPeer& peer) :
-  enet(peer),
-  address(peer.address)
+Request::Request(std::unique_ptr<StagedPacket> staged_packet, float response_sec) :
+  id(),
+  response_time(response_sec),
+  timer(),
+  staged(std::move(staged_packet)),
+  recieved()
 {
 }
 

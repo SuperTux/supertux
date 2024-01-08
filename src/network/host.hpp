@@ -18,27 +18,51 @@
 #define HEADER_SUPERTUX_NETWORK_HOST_HPP
 
 #include <memory>
+#include <unordered_map>
 
 #include "network/protocol.hpp"
+#include "util/uid_generator.hpp"
+
+class Timer;
 
 namespace network {
 
-/** Represents an ENet host (server, client). */
+/** Represents an ENet host (server, client), which can send and recieve packets. */
 class Host
 {
+private:
+  static void on_enet_packet_free(ENetPacket* packet);
+
 public:
   Host();
   virtual ~Host();
 
   virtual void update();
 
-  void send_packet(ENetPeer* peer, const char* data, enet_uint8 channel_id);
+  ENetPacket* send_packet(ENetPeer* peer, StagedPacket& packet, uint8_t channel_id);
+  void send_request(ENetPeer* peer, std::unique_ptr<Request> request, uint8_t channel_id);
+
+  size_t get_channel_limit() const { return m_host->channelLimit; }
+  size_t get_peer_limit() const { return m_host->peerCount; }
+  size_t get_connected_peers() const { return m_host->connectedPeers; }
 
   void set_protocol(std::unique_ptr<Protocol> protocol) { m_protocol = std::move(protocol); }
 
 protected:
+  virtual void process_event(const ENetEvent& event) {}
+
+private:
+  void on_packet_send(ENetPacket* packet);
+
+protected:
   ENetHost* m_host;
   std::unique_ptr<Protocol> m_protocol;
+
+private:
+  std::unordered_map<ENetPacket*, std::unique_ptr<Timer>> m_packet_timers;
+
+  UIDGenerator m_request_uid_generator;
+  std::vector<std::unique_ptr<Request>> m_requests;
 
 private:
   Host(const Host&) = delete;
