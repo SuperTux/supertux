@@ -44,6 +44,7 @@ public:
   // saves to a levelfile
   void save(const std::string& filename, bool retry = false);
   void save(std::ostream& stream);
+  std::string save();
 
   void add_sector(std::unique_ptr<Sector> sector);
   const std::string& get_name() const { return m_name; }

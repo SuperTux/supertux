@@ -161,7 +161,14 @@ EditorLevelSelectMenu::open_level(const std::string& filename)
   if (m_world)
     editor->set_world(std::move(m_world));
 
-  editor->set_level(filename);
+  auto callback = [filename]() { Editor::current()->set_level(filename); };
+  if (editor->is_hosting_level())
+    Dialog::show_confirmation(_("Changing the level will stop hosting the current one. Are you sure?"), callback);
+  else if (editor->is_editing_remote_level())
+    Dialog::show_confirmation(_("Changing the level will end the current connection. Are you sure?"), callback);
+  else
+    callback();
+
   MenuManager::instance().clear_menu_stack();
 }
 

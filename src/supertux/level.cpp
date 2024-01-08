@@ -111,6 +111,14 @@ Level::save(std::ostream& stream)
   save(writer);
 }
 
+std::string
+Level::save()
+{
+  std::ostringstream stream;
+  save(stream);
+  return stream.str();
+}
+
 void
 Level::save(const std::string& filepath, bool retry)
 {

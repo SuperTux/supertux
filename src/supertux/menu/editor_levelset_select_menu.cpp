@@ -21,6 +21,7 @@
 #include <fmt/format.h>
 
 #include "editor/editor.hpp"
+#include "gui/item_goto.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/util.hpp"
@@ -109,10 +110,15 @@ EditorLevelsetSelectMenu::initialize()
   }
 
   add_hl();
+  add_submenu(_("Edit Remote Level"), MenuStorage::EDITOR_EDIT_REMOTE_LEVEL_MENU)
+    .set_help(_("Edit a level, hosted by another SuperTux instance."));
+
+  add_hl();
   add_submenu(_("Create World"), MenuStorage::EDITOR_NEW_LEVELSET_MENU);
   add_entry(-3, _("Delete World"));
   add_back(_("Back"),-2);
 }
+
 void EditorLevelsetSelectMenu::reload_menu()
 {
   clear();
