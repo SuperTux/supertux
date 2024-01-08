@@ -17,9 +17,7 @@
 #ifndef HEADER_SUPERTUX_NETWORK_PEER_HPP
 #define HEADER_SUPERTUX_NETWORK_PEER_HPP
 
-#include <enet/enet.h>
-
-#include <string>
+#include "network/address.hpp"
 
 namespace network {
 
@@ -27,15 +25,9 @@ namespace network {
 class Peer final
 {
 public:
-  struct Address
-  {
-    std::string host;
-    enet_uint16 port;
-  };
-
-public:
   Peer(ENetPeer& peer);
 
+public:
   ENetPeer& enet;
   Address address;
 };

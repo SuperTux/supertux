@@ -14,14 +14,24 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "network/peer.hpp"
+#include "network/address.hpp"
 
 namespace network {
 
-Peer::Peer(ENetPeer& peer) :
-  enet(peer),
-  address(peer.address)
+Address::Address() :
+  host(),
+  port()
 {
+}
+
+Address::Address(ENetAddress& address) :
+  Address()
+{
+  char hostname[1024];
+  enet_address_get_host(&address, hostname, 1024);
+
+  host = std::string(hostname);
+  port = static_cast<uint16_t>(address.port);
 }
 
 } // namespace network

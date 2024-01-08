@@ -19,7 +19,10 @@
 
 #include <enet/enet.h>
 
+#include "network/connection_result.hpp"
+#include "network/packet.hpp"
 #include "network/peer.hpp"
+#include "network/request.hpp"
 
 namespace network {
 
@@ -31,9 +34,38 @@ public:
   Protocol() {}
   virtual ~Protocol() {}
 
-  virtual void on_connect(Peer& peer) {}
-  virtual void on_disconnect(Peer& peer) {}
-  virtual void on_packet_recieve(ENetPacket& packet) {}
+  /** Used as a unique identifier for the protocol
+      to confirm a remote peer, receiving a packet,
+      is running the same protocol as the one sending out the packet. */
+  virtual std::string get_name() const = 0;
+
+  /** The protocol is updated every time the host it's binded to is.
+      Called after all events have been processed. */
+  virtual void update() {}
+
+  virtual void on_server_connect(Peer& peer) {}
+  virtual void on_server_disconnect(Peer& peer) {}
+
+  virtual void on_client_connect(const ConnectionResult& result) {}
+  virtual void on_client_disconnect(Peer& peer) {}
+
+  /** Return value indicates whether the packet is valid and can be sent over. */
+  virtual bool verify_packet(const StagedPacket& packet) = 0;
+
+  /** The provided RecievedPacket represents the packet in the same way
+      the remote peer would have recieved it. `packet.peer` is not set. */
+  virtual void on_packet_send(const RecievedPacket& packet) {}
+  virtual void on_packet_abort(const RecievedPacket& packet) {}
+  virtual void on_packet_recieve(const RecievedPacket& packet) {}
+
+  /** On request, a staged packet to be sent back must be provided. */
+  virtual StagedPacket on_request_recieve(const RecievedPacket& packet) { return {}; }
+  virtual void on_request_fail(const Request& request, Request::FailReason reason) {}
+  virtual void on_request_response(const Request& request) {}
+
+private:
+  Protocol(const Protocol&) = delete;
+  Protocol& operator=(const Protocol&) = delete;
 };
 
 } // namespace network

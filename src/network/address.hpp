@@ -14,16 +14,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "network/peer.hpp"
+#ifndef HEADER_SUPERTUX_NETWORK_ADDRESS_HPP
+#define HEADER_SUPERTUX_NETWORK_ADDRESS_HPP
+
+#include <enet/enet.h>
+
+#include <string>
 
 namespace network {
 
-Peer::Peer(ENetPeer& peer) :
-  enet(peer),
-  address(peer.address)
+/** Collects data about an ENet address. */
+class Address final
 {
-}
+public:
+  Address();
+  Address(ENetAddress& address);
+
+public:
+  std::string host;
+  uint16_t port;
+};
 
 } // namespace network
+
+#endif
 
 /* EOF */
