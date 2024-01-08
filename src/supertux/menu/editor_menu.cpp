@@ -17,6 +17,7 @@
 #include "supertux/menu/editor_menu.hpp"
 
 #include <physfs.h>
+#include <fmt/format.h>
 
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
@@ -55,12 +56,34 @@ EditorMenu::refresh()
   snap_grid_sizes.push_back(_("medium tile (16px)"));
   snap_grid_sizes.push_back(_("big tile (32px)"));
 
+  const bool editing_remote_level = Editor::current()->is_editing_remote_level();
+
   add_label(_("Level Editor"));
   add_hl();
+
+  if (Editor::current()->is_hosting_level())
+  {
+    const network::Address address = Editor::current()->get_server_address();
+    const size_t peers = Editor::current()->get_connected_peers();
+    add_inactive(fmt::format(fmt::runtime(_("Hosting level on port {}")), address.port));
+    add_inactive(fmt::format(fmt::runtime(__("{} peer connected", "{} peers connected", static_cast<int>(peers))),
+                             peers));
+    add_hl();
+  }
+  else if (editing_remote_level)
+  {
+    network::Address address = Editor::current()->get_server_address();
+    add_inactive(fmt::format(fmt::runtime(_("Connected to {}:{}")),
+                 address.host, address.port));
+    add_hl();
+  }
+
   add_entry(MNID_RETURNTOEDITOR, _("Return to Editor"));
-  add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
+  if (!editing_remote_level)
+    add_entry(MNID_SAVELEVEL, worldmap ? _("Save Worldmap") : _("Save Level"));
   if (!worldmap) {
-    add_entry(MNID_SAVEASLEVEL, _("Save Level as"));
+    if (!editing_remote_level)
+      add_entry(MNID_SAVEASLEVEL, _("Save Level as"));
     add_entry(MNID_SAVECOPYLEVEL, _("Save Copy"));
     add_entry(MNID_TESTLEVEL, _("Test Level"));
   } else {
@@ -71,9 +94,24 @@ EditorMenu::refresh()
 
   add_entry(MNID_SHARE, _("Share Level"));
 
-  add_entry(MNID_PACK, _("Package Add-On"));
+  if (!editing_remote_level)
+  {
+    add_entry(MNID_PACK, _("Package Add-On"));
 
-  add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
+    add_entry(MNID_OPEN_DIR, _("Open Level Directory"));
+
+    if (Editor::current()->is_hosting_level())
+      add_entry(MNID_STOP_HOSTING_LEVEL, _("Stop Hosting Level"))
+        .set_help(_("Stop hosting the current level over the network."));
+    else
+      add_submenu(_("Host Level"), MenuStorage::EDITOR_HOST_LEVEL_MENU)
+        .set_help(_("Host the current level over the network."));
+  }
+  else
+  {
+    add_entry(MNID_RELOAD_LEVEL, _("Reload Level"))
+      .set_help(_("Reloads the current level from the remote server."));
+  }
 
   if (is_world)
     add_entry(MNID_LEVELSEL, _("Edit Another Level"));
@@ -113,8 +151,9 @@ EditorMenu::refresh()
 
   add_hl();
 
-  add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
-              MenuStorage::EDITOR_LEVEL_MENU);
+  if (!editing_remote_level)
+    add_submenu(worldmap ? _("Worldmap Settings") : _("Level Settings"),
+                MenuStorage::EDITOR_LEVEL_MENU);
   add_entry(MNID_HELP, _("Keyboard Shortcuts"));
 
   add_hl();
@@ -199,7 +238,20 @@ EditorMenu::menu_action(MenuItem& item)
     }
     break;
 
-	case MNID_HELP:
+    case MNID_STOP_HOSTING_LEVEL:
+      Editor::current()->stop_hosting_level();
+      refresh();
+      break;
+
+    case MNID_RELOAD_LEVEL:
+      Dialog::show_confirmation(_("Reloading would remove any local changes, not available on the server.") + "\n \n" +
+                                _("Are you sure?"),
+        []() {
+          Editor::current()->reload_remote_level();
+        });
+      break;
+
+    case MNID_HELP:
     {
       auto dialog = std::make_unique<Dialog>();
       dialog->set_text(_("Keyboard Shortcuts:\n---------------------\nEsc = Open Menu\nCtrl+S = Save\nCtrl+T = Test\nCtrl+Z = Undo\nCtrl+Y = Redo\nF6 = Render Light\nF7 = Grid Snapping\nF8 = Show Grid\n \nScripting Shortcuts:\n    -------------    \nHome = Go to beginning of line\nEnd = Go to end of line\nLeft arrow = Go back in text\nRight arrow = Go forward in text\nBackspace = Delete in front of text cursor\nDelete = Delete behind text cursor\nCtrl+X = Cut whole line\nCtrl+C = Copy whole line\nCtrl+V = Paste\nCtrl+D = Duplicate line\nCtrl+Z = Undo\nCtrl+Y = Redo"));

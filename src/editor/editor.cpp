@@ -34,6 +34,7 @@
 #include "control/input_manager.hpp"
 #include "editor/button_widget.hpp"
 #include "editor/layer_icon.hpp"
+#include "editor/network_protocol.hpp"
 #include "editor/object_info.hpp"
 #include "editor/particle_editor.hpp"
 #include "editor/resize_marker.hpp"
@@ -92,9 +93,11 @@ Editor::Editor() :
   m_world(),
   m_levelfile(),
   m_autosave_levelfile(),
+  m_remote_level_contents(),
   m_quit_request(false),
   m_newlevel_request(false),
   m_reload_request(false),
+  m_reload_request_reset(true),
   m_reactivate_request(false),
   m_deactivate_request(false),
   m_save_request(false),
@@ -116,6 +119,9 @@ Editor::Editor() :
   m_overlay_widget(),
   m_toolbox_widget(),
   m_layers_widget(),
+  m_network_server(),
+  m_network_client(),
+  m_network_server_peer(),
   m_enabled(false),
   m_bgr_surface(Surface::from_file("images/engine/menu/bg_editor.png")),
   m_time_since_last_save(0.f),
@@ -168,8 +174,14 @@ Editor::draw(Compositor& compositor)
 void
 Editor::update(float dt_sec, const Controller& controller)
 {
+  if (m_network_server)
+    m_network_server->update();
+  else if (m_network_client)
+    m_network_client->update();
+
   // Auto-save (interval).
-  if (m_level) {
+  if (m_level && !is_editing_remote_level())
+  {
     m_time_since_last_save += dt_sec;
     if (m_time_since_last_save >= static_cast<float>(std::max(
         g_config->editor_autosave_frequency, 1)) * 60.f) {
@@ -358,6 +370,26 @@ Editor::open_level_directory()
   FileSystem::open_path(path);
 }
 
+network::Address
+Editor::get_server_address() const
+{
+  if (m_network_server)
+    return m_network_server->get_address();
+  else if (m_network_server_peer)
+    return network::Address(m_network_server_peer->address);
+
+  return network::Address();
+}
+
+size_t
+Editor::get_connected_peers() const
+{
+  if (m_network_server)
+    return m_network_server->get_connected_peers();
+
+  return 0;
+}
+
 void
 Editor::set_world(std::unique_ptr<World> w)
 {
@@ -511,6 +543,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   }
 
   m_reload_request = false;
+  m_reload_request_reset = true;
   m_enabled = true;
 
   if (reset) {
@@ -543,6 +576,8 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_toolbox_widget->update_mouse_icon();
   m_overlay_widget->on_level_change();
 
+  MenuManager::instance().clear_menu_stack();
+
   if (!reset) return;
 
   // Warn the user if any deprecated tiles are used throughout the level
@@ -558,23 +593,159 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 }
 
 void
+Editor::set_level(const std::string& levelfile, bool reset, bool remote)
+{
+  if (remote)
+    m_remote_level_contents = levelfile;
+  else
+    m_levelfile = levelfile;
+
+  m_reload_request = true;
+  m_reload_request_reset = reset;
+}
+
+void
+Editor::set_remote_level(const std::string& hostname, uint16_t port)
+{
+  if (m_network_server_peer)
+  {
+    Dialog::show_message(_("A connection is currently active. Please try again later!"));
+    return;
+  }
+
+  try
+  {
+    m_network_client = std::make_unique<network::Client>(1, 2);
+  }
+  catch (const std::exception& err)
+  {
+    Dialog::show_message(_("Error starting network client:") + "\n" + err.what());
+    return;
+  }
+
+  m_network_client->set_protocol(std::make_unique<EditorNetworkProtocol>(*this));
+
+  auto connection = m_network_client->connect(hostname.c_str(), port, 1500, 2);
+  if (connection.status != network::ConnectionStatus::SUCCESS)
+  {
+    switch (connection.status)
+    {
+      case network::ConnectionStatus::FAILED_NO_PEERS:
+        Dialog::show_message(_("Failed to connect: No peers available."));
+        break;
+      case network::ConnectionStatus::FAILED_TIMED_OUT:
+        Dialog::show_message(_("Failed to connect: Connection request timed out."));
+        break;
+      case network::ConnectionStatus::FAILED_VERSION_MISMATCH:
+        Dialog::show_message(_("Failed to connect: Local and server SuperTux versions do not match."));
+        break;
+      case network::ConnectionStatus::FAILED_CONNECTION_REFUSED:
+        Dialog::show_message(_("Failed to connect: The server refused the connection."));
+        break;
+      default:
+        Dialog::show_message(_("Failed to connect!"));
+        break;
+    }
+
+    m_network_client.reset();
+    m_network_server_peer = nullptr;
+    return;
+  }
+
+  m_network_server_peer = connection.peer;
+
+  // Request the level from the remote server.
+  // If successfully recieved, the protocol will take care of setting the level.
+  m_network_client->send_request(m_network_server_peer,
+                                 std::make_unique<network::Request>(
+                                   std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_LEVEL_REQUEST, "", 10.f),
+                                   10.f),
+                                 0);
+}
+
+void
+Editor::reload_remote_level()
+{
+  if (!m_network_server_peer) return;
+
+  // Request the level from the remote server.
+  // If successfully recieved, the protocol will take care of setting the level.
+  m_network_client->send_request(m_network_server_peer,
+                                 std::make_unique<network::Request>(
+                                   std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_LEVEL_REREQUEST, "", 10.f),
+                                   10.f),
+                                 0);
+}
+
+void
+Editor::host_level(uint16_t port)
+{
+  try
+  {
+    m_network_server = std::make_unique<network::Server>(port, 32, 2);
+  }
+  catch (const std::exception& err)
+  {
+    Dialog::show_message(_("Error starting network server:") + "\n" + err.what());
+    return;
+  }
+
+  m_network_server->set_protocol(std::make_unique<EditorNetworkProtocol>(*this));
+}
+
+void
+Editor::stop_hosting_level()
+{
+  m_network_server.reset();
+}
+
+void
+Editor::close_connections()
+{
+  if (m_network_server_peer) // Client - disconnect from server
+  {
+    m_network_client->set_protocol({});
+    m_network_client->disconnect(m_network_server_peer);
+    m_network_client.reset();
+    m_network_server_peer = nullptr;
+  }
+  else if (m_network_server) // Server - stop hosting level
+    m_network_server.reset();
+}
+
+void
 Editor::reload_level()
 {
-  ReaderMapping::s_translations_enabled = false;
-  set_level(LevelParser::from_file(m_world ?
-                                   FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                   StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                   true));
-  ReaderMapping::s_translations_enabled = true;
+  if (m_remote_level_contents.empty()) // Local level
+  {
+    close_connections();
+
+    ReaderMapping::s_translations_enabled = false;
+    set_level(LevelParser::from_file(m_world ?
+                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
+                                     true), m_reload_request_reset);
+    ReaderMapping::s_translations_enabled = true;
+  }
+  else // Remote level
+  {
+    std::istringstream stream(m_remote_level_contents);
+    set_level(LevelParser::from_stream(stream, "", false, true), m_reload_request_reset);
+
+    m_remote_level_contents.clear();
+  }
 
   retoggle_undo_tracking();
   undo_stack_cleanup();
 
-  // Autosave files : Once the level is loaded, make sure
-  // to use the regular file.
-  m_levelfile = get_levelname_from_autosave(m_levelfile);
-  m_autosave_levelfile = FileSystem::join(get_level_directory(),
-                                          get_autosave_from_levelname(m_levelfile));
+  if (!is_editing_remote_level())
+  {
+    // Autosave files : Once the level is loaded, make sure
+    // to use the regular file.
+    m_levelfile = get_levelname_from_autosave(m_levelfile);
+    m_autosave_levelfile = FileSystem::join(get_level_directory(),
+                                            get_autosave_from_levelname(m_levelfile));
+  }
 }
 
 void
@@ -585,6 +756,7 @@ Editor::quit_editor()
   auto quit = [this] ()
   {
     remove_autosave_file();
+    close_connections();
 
     // Quit level editor.
     m_world = nullptr;

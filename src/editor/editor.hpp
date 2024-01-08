@@ -27,6 +27,8 @@
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
+#include "network/client.hpp"
+#include "network/server.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/world.hpp"
 #include "util/currenton.hpp"
@@ -36,6 +38,7 @@
 #include "video/surface_ptr.hpp"
 
 class ButtonWidget;
+class EditorNetworkProtocol;
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -44,6 +47,10 @@ class Savegame;
 class Sector;
 class TileSet;
 class World;
+
+namespace network {
+class Client;
+} // namespace network
 
 class Editor final : public Screen,
                      public Currenton<Editor>
@@ -104,16 +111,26 @@ public:
 
   std::string get_levelfile() const { return m_levelfile; }
 
-  void set_level(const std::string& levelfile_) {
-    m_levelfile = levelfile_;
-    m_reload_request = true;
-  }
+  void set_level(const std::string& levelfile, bool reset = true, bool remote = false);
+  void set_remote_level(const std::string& hostname, uint16_t port);
+  void reload_remote_level();
+
+  void host_level(uint16_t port);
+  void stop_hosting_level();
 
   std::string get_level_directory() const;
 
   void open_level_directory();
 
+  bool is_editing_remote_level() const { return m_network_server_peer; }
+  bool is_hosting_level() const { return m_network_server.get(); }
   bool is_testing_level() const { return m_leveltested; }
+
+  /** Get address of the local or remote server. */
+  network::Address get_server_address() const;
+
+  /** Get connected peers to the local server. */
+  size_t get_connected_peers() const;
 
   void remove_autosave_file();
 
@@ -181,6 +198,10 @@ private:
   void test_level(const std::optional<std::pair<std::string, Vector>>& test_pos);
   void update_keyboard(const Controller& controller);
 
+  /** If server, stop hosting level.
+      If client, disconnect from server. */
+  void close_connections();
+
   void keep_camera_in_bounds();
 
   void post_undo_redo_actions();
@@ -192,10 +213,13 @@ protected:
   std::string m_levelfile;
   std::string m_autosave_levelfile;
 
+  std::string m_remote_level_contents;
+
 public:
   bool m_quit_request;
   bool m_newlevel_request;
   bool m_reload_request;
+  bool m_reload_request_reset;
   bool m_reactivate_request;
   bool m_deactivate_request;
   bool m_save_request;
@@ -223,6 +247,10 @@ private:
   EditorOverlayWidget* m_overlay_widget;
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
+
+  std::unique_ptr<network::Server> m_network_server;
+  std::unique_ptr<network::Client> m_network_client;
+  ENetPeer* m_network_server_peer;
 
   bool m_enabled;
   SurfacePtr m_bgr_surface;

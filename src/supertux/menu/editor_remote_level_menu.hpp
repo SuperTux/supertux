@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,47 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_REMOTE_LEVEL_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_REMOTE_LEVEL_MENU_HPP
 
 #include "gui/menu.hpp"
 
-class EditorMenu final : public Menu
+class EditorRemoteLevelMenu final : public Menu
 {
-private:
-  enum MenuIDs {
-    MNID_RETURNTOEDITOR,
-    MNID_SAVELEVEL,
-    MNID_SAVEASLEVEL,
-    MNID_SAVECOPYLEVEL,
-    MNID_TESTLEVEL,
-    MNID_OPTIONS,
-    MNID_PACK,
-    MNID_OPEN_DIR,
-    MNID_SHARE,
-    MNID_STOP_HOSTING_LEVEL,
-    MNID_RELOAD_LEVEL,
-    MNID_LEVELSEL,
-    MNID_LEVELSETSEL,
-	  MNID_HELP,
-    MNID_QUITEDITOR,
-    MNID_CHECKDEPRECATEDTILES
-  };
-
 public:
-  EditorMenu();
-  ~EditorMenu() override;
+  EditorRemoteLevelMenu(bool connect);
 
-  void refresh() override;
   void menu_action(MenuItem& item) override;
 
-  bool on_back_action() override;
+private:
+  /** True - connecting to server.
+      False - hosting level. */
+  const bool m_connect;
+
+  std::string m_host_address;
+  int m_port;
 
 private:
-  EditorMenu(const EditorMenu&) = delete;
-  EditorMenu& operator=(const EditorMenu&) = delete;
+  EditorRemoteLevelMenu(const EditorRemoteLevelMenu&) = delete;
+  EditorRemoteLevelMenu& operator=(const EditorRemoteLevelMenu&) = delete;
 };
 
 #endif
 
 /* EOF */
+ 

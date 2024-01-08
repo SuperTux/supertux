@@ -31,6 +31,7 @@
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
+#include "supertux/menu/editor_remote_level_menu.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
@@ -168,6 +169,12 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_CONVERTERS_MENU:
       return std::make_unique<EditorConvertersMenu>();
+
+    case EDITOR_EDIT_REMOTE_LEVEL_MENU:
+      return std::make_unique<EditorRemoteLevelMenu>(true);
+
+    case EDITOR_HOST_LEVEL_MENU:
+      return std::make_unique<EditorRemoteLevelMenu>(false);
 
     case INTEGRATIONS_MENU:
       return std::make_unique<IntegrationsMenu>();

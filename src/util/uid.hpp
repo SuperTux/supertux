@@ -55,6 +55,11 @@ public:
   UID(const UID& other) = default;
   UID& operator=(const UID& other) = default;
 
+  inline UID& operator=(uint32_t value) {
+    m_value = value;
+    return *this;
+  }
+
   inline operator bool() const {
     return m_value != 0;
   }
