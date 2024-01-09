@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Andrei Stepanov <adem4ik@gmail.com>, 2018-2019,2021
+# Andrei Stepanov, 2018-2019,2021
 # Dmitry Anikonov <starwars32@yandex.ru>, 2016
 # melikamp <melikamp@melikamp.com>, 2014
 # se luxxy <70luxxy@gmail.com>, 2018
-# Translator TRA, 2021
+# 85e8e9a0e917e081842b0894245d15cc_1e402b3, 2021
+# Темак, 2022-2023
 # Dmitry Anikonov <starwars32@yandex.ru>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-20 13:46+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
-"Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: Темак, 2022-2023\n"
+"Language-Team: Russian (http://app.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -41,7 +42,7 @@ msgstr "Заброшенная Крепость"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
-msgstr "Еще один холодный день"
+msgstr "Ещё один холодный день"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
@@ -77,7 +78,7 @@ msgstr "Холодная Пещера"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#Хорошая работа! Ты сохранил красный фонарь! Ты мог бы этого и не делать, но раз сделал, то получай 100 монет!"
+msgstr "#Хорошая работа! Ты сохранил красный светильник! Ты мог бы этого и не делать, но раз сделал, то получай 100 монет!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"

@@ -144,4 +144,43 @@ Vector get_anchor_pos(const Rectf& destrect, float width, float height,
   return result;
 }
 
+Vector get_anchor_center_pos(const Rectf& rect, AnchorPoint point)
+{
+  Vector result(0.0f, 0.0f);
+
+  switch (point % 3) {
+    case 0: // Left.
+      result.x = rect.get_left() + rect.get_width() / 4;
+      break;
+    case 1: // Middle.
+      result.x = rect.get_left() + rect.get_width() / 2;
+      break;
+    case 2: // Right.
+      result.x = rect.get_right() - rect.get_width() / 4;
+      break;
+    default:
+      log_warning << "Invalid anchor point found" << std::endl;
+      result.x = rect.get_left();
+      break;
+  }
+
+  switch (point / 3) {
+    case 0: // Top.
+      result.y = rect.get_top() + rect.get_height() / 4;
+      break;
+    case 1: // Middle.
+      result.y = rect.get_top() + rect.get_height() / 2;
+      break;
+    case 2: // Bottom.
+      result.y = rect.get_bottom() - rect.get_height() / 4;
+      break;
+    default:
+      log_warning << "Invalid anchor point found" << std::endl;
+      result.y = rect.get_top();
+      break;
+  }
+
+  return result;
+}
+
 /* EOF */

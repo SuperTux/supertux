@@ -22,6 +22,7 @@
 #include <vector>
 #include <stdint.h>
 
+#include "collision/collision_system.hpp"
 #include "math/anchor_point.hpp"
 #include "math/easing.hpp"
 #include "math/fwd.hpp"
@@ -34,7 +35,6 @@ class Constraints;
 }
 
 class Camera;
-class CollisionSystem;
 class CollisionGroundMovementManager;
 class DisplayEffect;
 class DrawingContext;
@@ -44,6 +44,7 @@ class Player;
 class ReaderMapping;
 class Rectf;
 class Size;
+class TextObject;
 class TileMap;
 class Writer;
 
@@ -109,6 +110,14 @@ public:
       This includes badguys and players. */
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
 
+  /** Checks if the specified rectangle is free of MovingObjects in COLGROUP_MOVINGSTATIC.
+      Note that this does not include moving badguys, or players */
+  bool is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+
+  CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
+                                                             const Vector& line_end,
+                                                             bool ignore_objects,
+                                                             const CollisionObject* ignore_object) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects = false, const MovingObject* ignore_object = nullptr) const;
   bool can_see_player(const Vector& eye) const;
 
@@ -139,6 +148,7 @@ public:
   Camera& get_camera() const;
   std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
+  TextObject& get_text_object() const { return m_text_object; }
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
@@ -161,6 +171,8 @@ private:
   float m_gravity;
 
   std::unique_ptr<CollisionSystem> m_collision_system;
+
+  TextObject& m_text_object;
 
 private:
   Sector(const Sector&) = delete;

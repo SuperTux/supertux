@@ -23,6 +23,7 @@
 #include <vector>
 
 class PlayerStatus;
+class Profile;
 
 struct LevelState
 {
@@ -66,10 +67,14 @@ public:
 class Savegame final
 {
 public:
-  static std::unique_ptr<Savegame> from_file(const std::string& filename);
+  static std::unique_ptr<Savegame> from_profile(int profile, const std::string& world_name, bool base_data = false);
+  static std::unique_ptr<Savegame> from_current_profile(const std::string& world_name, bool base_data = false);
 
 public:
-  Savegame(const std::string& filename);
+  Savegame(Profile& profile, const std::string& world_name);
+
+  Profile& get_profile() const { return m_profile; }
+  std::string get_filename() const;
 
   /** Returns content of (tux ...) entry */
   PlayerStatus& get_player_status() const { return *m_player_status; }
@@ -90,11 +95,12 @@ public:
   bool is_title_screen() const;
 
 private:
-  void load();
+  void load(bool base_data = false);
   void clear_state_table();
 
 private:
-  std::string m_filename;
+  Profile& m_profile;
+  std::string m_world_name;
   std::unique_ptr<PlayerStatus> m_player_status;
 
 private:

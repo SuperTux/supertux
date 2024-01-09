@@ -45,9 +45,31 @@ Brick::Brick(const ReaderMapping& mapping, const std::string& sprite_name) :
   m_breakable(),
   m_coin_counter(0)
 {
+  parse_type(mapping);
   mapping.get("breakable", m_breakable, true);
   if (!m_breakable) {
     m_coin_counter = 5;
+  }
+}
+
+GameObjectTypes
+Brick::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "retro", _("Retro") }
+  };
+}
+
+std::string
+Brick::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case RETRO:
+      return "images/objects/bonus_block/retro_brick.sprite";
+    default:
+      return m_default_sprite_name;
   }
 }
 
@@ -118,11 +140,10 @@ Brick::try_break(Player* player, bool slider)
     if (player) {
       if (player->is_big()) {
         start_break(player);
-        return;
       } else {
         start_bounce(player);
-        return;
       }
+      return;
     }
     break_me();
   }

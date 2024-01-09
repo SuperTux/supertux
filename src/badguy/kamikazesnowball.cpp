@@ -28,7 +28,7 @@ KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader, const std::strin
   BadGuy(reader, sprite_name)
 {
   SoundManager::current()->preload(SPLAT_SOUND);
-  set_action (m_dir == Direction::LEFT ? "left" : "right", /* loops = */ -1);
+  set_action (m_dir, /* loops = */ -1);
 }
 
 void
@@ -99,6 +99,7 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 LeafShot::LeafShot(const ReaderMapping& reader) :
   KamikazeSnowball(reader, "images/creatures/leafshot/leafshot.sprite")
 {
+  parse_type(reader);
 }
 
 void
@@ -107,6 +108,27 @@ LeafShot::initialize()
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -LEAFSHOT_SPEED : LEAFSHOT_SPEED);
   m_physic.enable_gravity(false);
   set_action(m_dir);
+}
+
+GameObjectTypes
+LeafShot::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
+
+std::string
+LeafShot::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/leafshot/corrupted/rotshot.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 bool

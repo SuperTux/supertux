@@ -50,6 +50,7 @@ public:
 
 protected:
   bool is_above_player() const;
+  void ungrab_carried_object();
   virtual void active_update (float dt_sec) override;
   virtual bool collision_squished(GameObject& object) override;
 

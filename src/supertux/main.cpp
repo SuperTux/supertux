@@ -133,6 +133,7 @@ Main::Main() :
   m_squirrel_virtual_machine(),
   m_tile_manager(),
   m_sprite_manager(),
+  m_profile_manager(),
   m_resources(),
   m_addon_manager(),
   m_console(),
@@ -226,8 +227,12 @@ void PhysfsSubsystem::find_mount_datadir()
     if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
     {
       m_datadir = BUILD_DATA_DIR;
+
       // Add config dir for supplemental files
-      PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      if (FileSystem::is_directory(BUILD_CONFIG_DATA_DIR))
+      {
+        PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      }
     }
     else
     {
@@ -574,6 +579,7 @@ Main::launch_game(const CommandLineArguments& args)
   s_timelog.log("resources");
   m_tile_manager.reset(new TileManager());
   m_sprite_manager.reset(new SpriteManager());
+  m_profile_manager.reset(new ProfileManager());
   m_resources.reset(new Resources());
 
   s_timelog.log("integrations");
@@ -583,7 +589,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   s_timelog.log(nullptr);
 
-  m_savegame = std::make_unique<Savegame>(std::string());
+  m_savegame = std::make_unique<Savegame>(m_profile_manager->get_current_profile(), "");
 
   m_game_manager.reset(new GameManager());
   m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));
@@ -672,8 +678,10 @@ Main::launch_game(const CommandLineArguments& args)
     }
     else
     {
-      m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame));
-      if (g_config->do_release_check) release_check();
+      m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame, g_config->is_christmas()));
+
+      if (g_config->do_release_check)
+        release_check();
     }
   }
 

@@ -22,7 +22,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "collision/collision.hpp"
-#include "collision/collision_system.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "math/rect.hpp"
@@ -49,11 +48,9 @@
 #include "supertux/constants.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/game_object_factory.hpp"
-#include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/player_status_hud.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
@@ -63,47 +60,16 @@
 
 Sector* Sector::s_current = nullptr;
 
-namespace {
-
-PlayerStatus dummy_player_status(1);
-
-} // namespace
-
-
 Sector::Sector(Level& parent) :
   Base::Sector("sector"),
   m_level(parent),
   m_fully_constructed(false),
   m_foremost_layer(),
   m_gravity(10.0f),
-  m_collision_system(new CollisionSystem(*this))
+  m_collision_system(new CollisionSystem(*this)),
+  m_text_object(add<TextObject>("Text"))
 {
-  Savegame* savegame = (Editor::current() && Editor::is_active()) ?
-    Editor::current()->m_savegame.get() :
-    GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
-  PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
-
-  if (savegame && !m_level.m_suppress_pause_menu && !savegame->is_title_screen()) {
-    add<PlayerStatusHUD>(player_status);
-  }
-
-  for (int id = 0; id < InputManager::current()->get_num_users() || id == 0; id++)
-  {
-    if (!InputManager::current()->has_corresponsing_controller(id)
-        && !InputManager::current()->m_uses_keyboard[id]
-        && savegame
-        && !savegame->is_title_screen()
-        && id != 0)
-      continue;
-
-    if (id > 0 && !savegame)
-      dummy_player_status.add_player();
-
-    add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
-  }
-
   add<DisplayEffect>("Effect");
-  add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
 
   SoundManager::current()->preload("sounds/shoot.wav");
@@ -151,8 +117,20 @@ Sector::finish_construction(bool editable)
     }
   }
 
-  if (get_solid_tilemaps().empty()) {
-    log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+  if (get_solid_tilemaps().empty())
+  {
+    if (editable)
+    {
+      log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+    }
+    else
+    {
+      log_warning << "sector '" << get_name() << "' does not contain a solid tile layer. Creating an empty one." << std::endl;
+
+      TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
+      tilemap.resize(100, 35);
+      tilemap.set_solid();
+    }
   }
 
   if (!get_object_by_type<Camera>()) {
@@ -218,6 +196,10 @@ void
 Sector::activate(const Vector& player_pos)
 {
   BIND_SECTOR(*this);
+
+  // Make sure all players are moved to this sector.
+  for (auto& player : m_level.get_players())
+    player->move_to_sector(*this);
 
   if (s_current != this) {
     if (s_current != nullptr)
@@ -337,7 +319,7 @@ Sector::calculate_foremost_layer() const
       }
     }
   }
-  log_debug << "Calculated baduy falling layer was: " << layer << std::endl;
+  log_debug << "Calculated badguy falling layer was: " << layer << std::endl;
   return layer;
 }
 
@@ -528,6 +510,21 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
+Sector::is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+{
+  return m_collision_system->is_free_of_specifically_movingstatics(rect,
+                                                      ignore_object ? ignore_object->get_collision_object() : nullptr);
+}
+
+CollisionSystem::RaycastResult
+Sector::get_first_line_intersection(const Vector& line_start,
+                                    const Vector& line_end,
+                                    bool ignore_objects,
+                                    const CollisionObject* ignore_object) const {
+  return m_collision_system->get_first_line_intersection(line_start, line_end, ignore_objects, ignore_object);
+}
+
+bool
 Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const MovingObject* ignore_object) const
 {
   return m_collision_system->free_line_of_sight(line_start, line_end, ignore_objects,
@@ -590,18 +587,33 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
   bool is_offset = resize_offset.width || resize_offset.height;
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
-  for (const auto& object : get_objects()) {
+
+  for (const auto& object : get_objects())
+  {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if (tilemap) {
-      if (tilemap->get_size() == old_size) {
+    if (tilemap)
+    {
+      if (tilemap->get_size() == old_size)
+      {
+        tilemap->save_state();
         tilemap->resize(new_size, resize_offset);
-      } else if (is_offset) {
-        tilemap->move_by(obj_shift);
+        tilemap->check_state();
       }
-    } else if (is_offset) {
+      else if (is_offset)
+      {
+        tilemap->save_state();
+        tilemap->move_by(obj_shift);
+        tilemap->check_state();
+      }
+    }
+    else if (is_offset)
+    {
       auto moving_object = dynamic_cast<MovingObject*>(object.get());
-      if (moving_object) {
+      if (moving_object)
+      {
+        moving_object->save_state();
         moving_object->move_to(moving_object->get_pos() + obj_shift);
+        moving_object->check_state();
       }
     }
   }
@@ -791,18 +803,7 @@ Sector::get_camera() const
 std::vector<Player*>
 Sector::get_players() const
 {
-  auto players_raw = get_objects_by_type<Player>();
-
-  std::vector<Player*> players;
-
-  auto it = players_raw.begin();
-  while (it != players_raw.end())
-  {
-    players.push_back(&(*it));
-    it++;
-  }
-
-  return players;
+  return m_level.get_players();
 }
 
 DisplayEffect&

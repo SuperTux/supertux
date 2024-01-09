@@ -20,10 +20,10 @@
 #include "math/random.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
-#include "scripting/level.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -34,19 +34,72 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   no_physics(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
+  parse_type(mapping);
   mapping.get("script", script, "");
   mapping.get("disable-physics", no_physics, false);
   initialize();
 }
 
-PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
-  MovingSprite(pos, sprite_name_, LAYER_OBJECTS, COLGROUP_MOVING),
+PowerUp::PowerUp(const Vector& pos, int type) :
+  MovingSprite(pos, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
   no_physics(false),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
+  m_type = type;
+  on_type_change();
+
+  update_version();
   initialize();
+}
+
+GameObjectTypes
+PowerUp::get_types() const
+{
+  return {
+    { "egg", _("Egg") },
+    { "fire", _("Fire Flower") },
+    { "ice", _("Ice Flower") },
+    { "air", _("Air Flower") },
+    { "earth", _("Earth Flower") },
+    { "star", _("Star") },
+    { "oneup", _("Tux Doll") },
+    { "flip", _("Flip Potion") },
+    { "mints", _("Mints") },
+    { "coffee", _("Coffee") },
+    { "herring", _("Herring") }
+  };
+}
+
+std::string
+PowerUp::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case FIRE:
+      return "images/powerups/fireflower/fireflower.sprite";
+    case ICE:
+      return "images/powerups/iceflower/iceflower.sprite";
+    case AIR:
+      return "images/powerups/airflower/airflower.sprite";
+    case EARTH:
+      return "images/powerups/earthflower/earthflower.sprite";
+    case STAR:
+      return "images/powerups/star/star.sprite";
+    case ONEUP:
+      return "images/powerups/1up/1up.sprite";
+    case FLIP:
+      return "images/powerups/potions/red-potion.sprite";
+    case MINTS:
+      return "images/powerups/retro/mints.png";
+    case COFFEE:
+      return "images/powerups/retro/coffee.png";
+    case HERRING:
+      return "images/powerups/retro/golden_herring.png";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void
@@ -55,23 +108,69 @@ PowerUp::initialize()
   physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/grow.ogg");
   SoundManager::current()->preload("sounds/fire-flower.wav");
-   SoundManager::current()->preload("sounds/gulp.wav");
-  //set default light for glow effect for standard sprites
+  SoundManager::current()->preload("sounds/gulp.wav");
+
+  // Older levels utilize hardcoded behaviour from the chosen sprite
+  if (get_version() == 1)
+  {
+    if (matches_sprite("images/powerups/egg/egg.sprite"))
+      m_type = EGG;
+    else if (matches_sprite("images/powerups/fireflower/fireflower.sprite"))
+      m_type = FIRE;
+    else if (matches_sprite("images/powerups/iceflower/iceflower.sprite"))
+      m_type = ICE;
+    else if (matches_sprite("images/powerups/airflower/airflower.sprite"))
+      m_type = AIR;
+    else if (matches_sprite("images/powerups/earthflower/earthflower.sprite"))
+      m_type = EARTH;
+    else if (matches_sprite("images/powerups/star/star.sprite"))
+      m_type = STAR;
+    else if (matches_sprite("images/powerups/1up/1up.sprite"))
+      m_type = ONEUP;
+    else if (matches_sprite("images/powerups/potions/red-potion.sprite"))
+      m_type = FLIP;
+  }
+
+  setup_lightsprite();
+}
+
+void
+PowerUp::setup_lightsprite()
+{
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
-  if (m_sprite_name == "images/powerups/egg/egg.sprite" || m_sprite_name == "/images/powerups/egg/egg.sprite") {
-    lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
-  } else if (m_sprite_name == "images/powerups/fireflower/fireflower.sprite" || m_sprite_name == "/images/powerups/fireflower/fireflower.sprite") {
-    lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
-  } else if (m_sprite_name == "images/powerups/iceflower/iceflower.sprite" || m_sprite_name == "/images/powerups/iceflower/iceflower.sprite") {
-    lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
-  } else if (m_sprite_name == "images/powerups/airflower/airflower.sprite" || m_sprite_name == "/images/powerups/airflower/airflower.sprite") {
-    lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
-  } else if (m_sprite_name == "images/powerups/earthflower/earthflower.sprite" || m_sprite_name == "/images/powerups/earthflower/earthflower.sprite") {
-    lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
-  } else if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite") {
-    lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
+  // Set default light for glow effect for default sprites.
+  if (matches_sprite(get_default_sprite_name()))
+  {
+    switch (m_type)
+    {
+      case EGG:
+        lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+        break;
+      case FIRE:
+        lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
+        break;
+      case ICE:
+        lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
+        break;
+      case AIR:
+        lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
+        break;
+      case EARTH:
+        lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
+        break;
+      case STAR:
+        lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
+        break;
+    }
   }
+}
+
+void
+PowerUp::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+  setup_lightsprite();
 }
 
 void
@@ -89,49 +188,59 @@ HitResponse
 PowerUp::collision(GameObject& other, const CollisionHit&)
 {
   Player* player = dynamic_cast<Player*>(&other);
-  if (player == nullptr)
+  if (!player)
     return FORCE_MOVE;
 
-  if (m_sprite_name == "images/powerups/potions/blue-potion.sprite" ||
-      m_sprite_name == "images/powerups/potions/red-potion.sprite" ||
-	  m_sprite_name == "/images/powerups/potions/blue-potion.sprite" || 
-	  m_sprite_name == "/images/powerups/potions/red-potion.sprite") {
-      SoundManager::current()->play("sounds/gulp.wav", get_pos());
-  }
+  if (m_type == FLIP)
+    SoundManager::current()->play("sounds/gulp.wav", get_pos());
 
-  if (!script.empty()) {
+  if (!script.empty())
+  {
     Sector::get().run_script(script, "powerup-script");
     remove_me();
     return ABORT_MOVE;
   }
 
-  // some defaults if no script has been set
-  if (m_sprite_name == "images/powerups/egg/egg.sprite" || m_sprite_name == "/images/powerups/egg/egg.sprite") {
-    if (!player->add_bonus(GROWUP_BONUS, true))
-      return FORCE_MOVE;
-    SoundManager::current()->play("sounds/grow.ogg", get_pos());
-  } else if (m_sprite_name == "images/powerups/fireflower/fireflower.sprite" || m_sprite_name == "/images/powerups/fireflower/fireflower.sprite") {
-    if (!player->add_bonus(FIRE_BONUS, true))
-      return FORCE_MOVE;
-    SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
-  } else if (m_sprite_name == "images/powerups/iceflower/iceflower.sprite" || m_sprite_name == "/images/powerups/iceflower/iceflower.sprite") {
-    if (!player->add_bonus(ICE_BONUS, true))
-      return FORCE_MOVE;
-    SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
-  } else if (m_sprite_name == "images/powerups/airflower/airflower.sprite" || m_sprite_name == "/images/powerups/airflower/airflower.sprite") {
-    if (!player->add_bonus(AIR_BONUS, true))
-      return FORCE_MOVE;
-    SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
-  } else if (m_sprite_name == "images/powerups/earthflower/earthflower.sprite" || m_sprite_name == "/images/powerups/earthflower/earthflower.sprite") {
-    if (!player->add_bonus(EARTH_BONUS, true))
-      return FORCE_MOVE;
-    SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
-  } else if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite") {
-    player->make_invincible();
-  } else if (m_sprite_name == "images/powerups/1up/1up.sprite" || m_sprite_name == "/images/powerups/1up/1up.sprite") {
-    player->get_status().add_coins(100);
-  } else if (m_sprite_name == "images/powerups/potions/red-potion.sprite" || m_sprite_name == "/images/powerups/potions/red-potion.sprite") {
-    scripting::Level_flip_vertically();
+  switch (m_type)
+  {
+    case EGG:
+    case MINTS:
+      if (!player->add_bonus(GROWUP_BONUS, true))
+        return FORCE_MOVE;
+      SoundManager::current()->play("sounds/grow.ogg", get_pos());
+      break;
+    case FIRE:
+    case COFFEE:
+      if (!player->add_bonus(FIRE_BONUS, true))
+        return FORCE_MOVE;
+      SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
+      break;
+    case ICE:
+      if (!player->add_bonus(ICE_BONUS, true))
+        return FORCE_MOVE;
+      SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
+      break;
+    case AIR:
+      if (!player->add_bonus(AIR_BONUS, true))
+        return FORCE_MOVE;
+      SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
+      break;
+    case EARTH:
+      if (!player->add_bonus(EARTH_BONUS, true))
+        return FORCE_MOVE;
+      SoundManager::current()->play("sounds/fire-flower.wav", get_pos());
+      break;
+    case STAR:
+    case HERRING:
+      player->make_invincible();
+      break;
+    case ONEUP:
+      player->get_status().add_coins(100);
+      break;
+    case FLIP:
+      FlipLevelTransformer flip_transformer;
+      flip_transformer.transform(GameSession::current()->get_current_level());
+      break;
   }
 
   remove_me();
@@ -143,9 +252,12 @@ PowerUp::update(float dt_sec)
 {
   if (!no_physics)
     m_col.set_movement(physic.get_movement(dt_sec));
-  //Stars sparkle when close to Tux
-  if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite"){
-    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox)) {
+
+  // Stars and herrings should sparkle when close to Tux.
+  if (m_type == STAR || m_type == HERRING)
+  {
+    if (auto* player = Sector::get().get_nearest_player(m_col.m_bbox))
+    {
       float disp_x = player->get_bbox().get_left() - m_col.m_bbox.get_left();
       float disp_y = player->get_bbox().get_top() - m_col.m_bbox.get_top();
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
@@ -174,11 +286,9 @@ PowerUp::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  // Stars are brighter
-  if (m_sprite_name == "images/powerups/star/star.sprite" || m_sprite_name == "/images/powerups/star/star.sprite")
-  {
+  // Stars and herrings are brighter.
+  if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  }
 
   lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
@@ -194,6 +304,12 @@ PowerUp::get_settings()
   result.reorder({"script", "disable-physics", "sprite", "x", "y"});
 
   return result;
+}
+
+std::vector<std::string>
+PowerUp::get_patches() const
+{
+  return { _("Sprites no longer define the behaviour of the object.\nObject types are used instead.") };
 }
 
 void

@@ -139,14 +139,14 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
   // check to see if screen size has been changed
   if (!(WMAP_INFO_TOP_Y1 == static_cast<float>(SCREEN_HEIGHT - 100))) {
     calculate_max_caption_length();
-    WMAP_INFO_LEFT_X = static_cast<float>(context.get_width() - 32 - m_max_width);
+    WMAP_INFO_LEFT_X = context.get_width() - 32.f - static_cast<float>(m_max_width);
     WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + static_cast<float>(m_max_width);
     WMAP_INFO_TOP_Y1 = static_cast<float>(SCREEN_HEIGHT - 100);
     WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
   }
 
   context.color().draw_text(
-    Resources::small_font, std::string("- ") + _("Best Level Statistics") + " -",
+    Resources::small_font, "- " + _("Best Level Statistics") + " -",
     Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1),
     ALIGN_CENTER, LAYER_HUD,Statistics::header_color);
 
@@ -212,12 +212,12 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, c
 
   int box_w = 220+110+110;
   int box_h = 30+20+20+20;
-  int box_x = static_cast<int>((context.get_width() - box_w) / 2);
+  int box_x = static_cast<int>((static_cast<int>(context.get_width()) - box_w) / 2);
   int box_y = static_cast<int>(SCREEN_HEIGHT / 2) - box_h;
 
   int bd_w = static_cast<int>(backdrop->get_width());
   int bd_h = static_cast<int>(backdrop->get_height());
-  int bd_x = static_cast<int>((context.get_width() - bd_w) / 2);
+  int bd_x = static_cast<int>((static_cast<int>(context.get_width()) - bd_w) / 2);
   int bd_y = box_y + (box_h / 2) - (bd_h / 2);
 
   float col1_x = static_cast<float>(box_x);
@@ -319,10 +319,10 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     if (!on_pause_menu)
       x_offset *= std::min(1.f, -std::abs(m_coins_time - 2.5f) + 2.5f);
 
-    Vector pos(static_cast<float>(context.get_width()) - x_offset,
-               static_cast<float>(context.get_height()) - height * 6.f - 20.f);
+    Vector pos(context.get_width() - x_offset,
+               context.get_height() - height * 6.f - 20.f - 16.f);
 
-    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
+    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 37.f,
                                            pos.y + height).grown(5.f),
                                      Color(0.f, 0.f, 0.f, 0.5f),
                                      10.f, LAYER_HUD - 1);
@@ -333,8 +333,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                                     : Statistics::perfect_color
                               );
     context.color().draw_surface_scaled(coin_icon,
-                                        Rectf(pos.x + width + 1.f, pos.y + 1.f,
-                                              pos.x + width + 16.f, pos.y + 16.f),
+                                        Rectf(Vector(pos.x + width + 3.f, pos.y - 5.f), Sizef(32.f, 32.f)),
                                         LAYER_HUD);
   }
 
@@ -348,10 +347,10 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     if (!on_pause_menu)
       x_offset *= std::min(1.f, -std::abs(m_badguys_time - 2.5f) + 2.5f);
 
-    Vector pos(static_cast<float>(context.get_width()) - x_offset,
-               static_cast<float>(context.get_height()) - height * 5.f - 10.f);
+    Vector pos(context.get_width() - x_offset,
+               context.get_height() - height * 5.f - 10.f - 8.f);
 
-    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
+    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 37.f,
                                            pos.y + height).grown(5.f),
                                      Color(0.f, 0.f, 0.f, 0.5f),
                                      10.f, LAYER_HUD - 1);
@@ -362,8 +361,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                                     : Statistics::perfect_color
                               );
     context.color().draw_surface_scaled(badguy_icon,
-                                        Rectf(pos.x + width + 1.f, pos.y + 1.f,
-                                              pos.x + width + 16.f, pos.y + 16.f),
+                                        Rectf(Vector(pos.x + width + 3.f, pos.y - 5.f), Sizef(32.f, 32.f)),
                                         LAYER_HUD);
   }
 
@@ -377,10 +375,10 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
     if (!on_pause_menu)
       x_offset *= std::min(1.f, -std::abs(m_secrets_time - 2.5f) + 2.5f);
 
-    Vector pos(static_cast<float>(context.get_width()) - x_offset,
-               static_cast<float>(context.get_height()) - height * 4.f);
+    Vector pos(context.get_width() - x_offset,
+               context.get_height() - height * 4.f);
 
-    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 21.f,
+    context.color().draw_filled_rect(Rectf(pos.x, pos.y, pos.x + width + 37.f,
                                            pos.y + height).grown(5.f),
                                      Color(0.f, 0.f, 0.f, 0.5f),
                                      10.f, LAYER_HUD - 1);
@@ -391,8 +389,7 @@ Statistics::draw_ingame_stats(DrawingContext& context, bool on_pause_menu)
                                     : Statistics::perfect_color
                               );
     context.color().draw_surface_scaled(secret_icon,
-                                        Rectf(pos.x + width + 1.f, pos.y + 1.f,
-                                              pos.x + width + 16.f, pos.y + 16.f),
+                                        Rectf(Vector(pos.x + width + 3.f, pos.y - 5.f), Sizef(32.f, 32.f)),
                                         LAYER_HUD);
   }
 }

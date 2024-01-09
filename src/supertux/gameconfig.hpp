@@ -36,13 +36,6 @@ public:
 
   int profile;
 
-  struct Profile
-  {
-    int id;
-    std::string name;
-  };
-  std::vector<Profile> profiles;
-
   /** the width/height to be used to display the game in fullscreen */
   Size fullscreen_size;
 
@@ -111,6 +104,7 @@ public:
   bool pause_on_focusloss;
   bool custom_mouse_cursor;
   bool do_release_check;
+  bool custom_title_levels;
 
 #ifdef ENABLE_DISCORD
   bool enable_discord;
@@ -146,6 +140,7 @@ public:
   int editor_autosave_frequency;
   bool editor_undo_tracking;
   int editor_undo_stack_size;
+  bool editor_show_deprecated_tiles;
 
   bool multiplayer_auto_manage_players;
   bool multiplayer_multibind;

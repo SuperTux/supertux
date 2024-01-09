@@ -192,9 +192,9 @@ Background::get_settings()
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.0f);
   result.add_float(_("Parallax Speed x"), &m_parallax_speed.x, "speed", std::nullopt);
   result.add_float(_("Parallax Speed y"), &m_parallax_speed.y, "speed-y", m_parallax_speed.x);
-  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", std::string());
+  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", "");
   result.add_surface(_("Image"), &m_imagefile, "image");
-  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", std::string());
+  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", "");
   result.add_rgba(_("Colour"), &m_color, "color");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
                   {_("Normal"), _("Lightmap")},
@@ -279,8 +279,8 @@ void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
   const Sizef level(d_gameobject_manager->get_width(), d_gameobject_manager->get_height());
-  const Sizef screen(static_cast<float>(context.get_width()),
-                     static_cast<float>(context.get_height()));
+  const Sizef screen(context.get_width(),
+                     context.get_height());
   const Sizef parallax_image_size((1.0f - m_parallax_speed.x) * screen.width + level.width * m_parallax_speed.x,
                                   (1.0f - m_parallax_speed.y) * screen.height + level.height * m_parallax_speed.y);
 
@@ -301,10 +301,10 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 
   if (m_fill)
   {
-    Rectf dstrect(Vector(pos_.x - static_cast<float>(context.get_width()) / 2.0f,
-                         pos_.y - static_cast<float>(context.get_height()) / 2.0f),
-                  Sizef(static_cast<float>(context.get_width()),
-                        static_cast<float>(context.get_height())));
+    Rectf dstrect(Vector(pos_.x - context.get_width() / 2.0f,
+                         pos_.y - context.get_height() / 2.0f),
+                  Sizef(context.get_width(),
+                        context.get_height()));
     canvas.draw_surface_scaled(m_image, dstrect, m_layer);
   }
   else
@@ -384,8 +384,8 @@ Background::draw(DrawingContext& context)
 
   Sizef level_size(d_gameobject_manager->get_width(),
                    d_gameobject_manager->get_height());
-  Sizef screen(static_cast<float>(context.get_width()),
-               static_cast<float>(context.get_height()));
+  Sizef screen(context.get_width(),
+               context.get_height());
   Sizef translation_range = level_size - screen;
   Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
                        context.get_translation().y - translation_range.height / 2.0f);

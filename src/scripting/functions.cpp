@@ -32,12 +32,12 @@
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller_screen.hpp"
 #include "supertux/tile.hpp"
+#include "supertux/title_screen.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-#include "worldmap/worldmap_screen.hpp"
 
 namespace {
 
@@ -138,7 +138,9 @@ bool check_cutscene()
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  if(GameSession::current()->get_current_level().m_skip_cutscene)
+  auto session = GameSession::current();
+
+  if(session && session->get_current_level().m_skip_cutscene)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
@@ -154,18 +156,18 @@ void wait(HSQUIRRELVM vm, float seconds)
       log_warning << "wait(): no VM or environment available\n";
     }
   }
-  else if(GameSession::current()->get_current_level().m_is_in_cutscene)
+  else if(session && session->get_current_level().m_is_in_cutscene)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
       // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
       squirrelenv->skippable_wait_for_seconds(vm, seconds);
-      //GameSession::current()->set_scheduler(squirrelenv->get_scheduler());
+      //session->set_scheduler(squirrelenv->get_scheduler());
     }
     else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
     {
       squirrelvm->skippable_wait_for_seconds(vm, seconds);
-      //GameSession::current()->set_scheduler(squirrelvm->get_scheduler());
+      //session->set_scheduler(squirrelvm->get_scheduler());
     }
     else
     {
@@ -226,24 +228,23 @@ void display_text_file(const std::string& filename)
   ScreenManager::current()->push_screen(std::make_unique<TextScrollerScreen>(filename));
 }
 
-void load_worldmap(const std::string& filename)
+void load_worldmap(const std::string& filename, const std::string& sector, const std::string& spawnpoint)
 {
   using namespace worldmap;
 
-  if (!::worldmap::WorldMap::current())
+  if (!WorldMap::current())
   {
     throw std::runtime_error("Can't start Worldmap without active WorldMap");
   }
   else
   {
-    ScreenManager::current()->push_screen(std::make_unique<WorldMapScreen>(
-                                            std::make_unique<::worldmap::WorldMap>(filename, ::worldmap::WorldMap::current()->get_savegame())));
+    WorldMap::current()->change(filename, sector, spawnpoint);
   }
 }
 
-void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint)
+void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
 {
-  GameManager::current()->set_next_worldmap(dirname, spawnpoint);
+  GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
 }
 
 void load_level(const std::string& filename)
@@ -482,6 +483,17 @@ void play_demo(const std::string& filename)
   gameRandom.seed(g_config->random_seed);
   session->restart_level();
   session->play_demo(filename);
+}
+
+void set_title_frame(const std::string& image)
+{
+  auto title_screen = TitleScreen::current();
+  if (!title_screen)
+  {
+    log_info << "No title screen loaded." << std::endl;
+    return;
+  }
+  title_screen->set_frame(image);
 }
 
 }

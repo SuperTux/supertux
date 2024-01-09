@@ -28,13 +28,11 @@ class Dispenser final : public BadGuy,
 {
 private:
   enum DispenserType {
-    CANNON, DROPPER, POINT
+    DROPPER, CANNON, POINT, GRANITO
   };
 
 public:
   Dispenser(const ReaderMapping& reader);
-
-  void add_object(std::unique_ptr<GameObject> object);
 
   virtual void draw(DrawingContext& context) override;
   virtual void initialize() override;
@@ -55,6 +53,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
   virtual GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
 
@@ -75,6 +74,8 @@ public:
   }
 
 protected:
+  void add_object(std::unique_ptr<GameObject> object);
+
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   void launch_object();
 

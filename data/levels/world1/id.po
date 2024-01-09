@@ -3,16 +3,18 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Christian Elbrianno, 2017
+# CRS.ECHO51 <christian.elbrianno41@gmail.com>, 2022
+# CRS.ECHO51 <christian.elbrianno41@gmail.com>, 2017
 # Christian Elbrianno Yoga, 2017
+# IAN RODRÍGUEZ Lorenzo, 2023
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2020-09-08 01:02+0000\n"
-"Last-Translator: Triyan W. Nugroho <triyan.wn@gmail.com>\n"
-"Language-Team: Indonesian (http://www.transifex.com/arctic-games/supertux/language/id/)\n"
+"PO-Revision-Date: 2013-08-10 22:58+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
+"Language-Team: Indonesian (http://app.transifex.com/arctic-games/supertux/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -85,7 +87,7 @@ msgstr "Pintu Masuk Gua"
 
 #: data/levels/world1/fork_in_the_road.stl:3
 msgid "A Fork in the Road"
-msgstr "Sebuah Persimpangan Jalan"
+msgstr "Di Persimpangan Arah"
 
 #: data/levels/world1/fork_in_the_road.stl:84
 msgid ""
@@ -122,7 +124,7 @@ msgstr "Padang Beku"
 
 #: data/levels/world1/frozen_bridge.stl:3
 msgid "Over the Frozen Bridge"
-msgstr "Melewati Jembatan Beku"
+msgstr "Lewati Jembatan Beku"
 
 #: data/levels/world1/ice_in_the_hole.stl:3
 msgid "Ice in the Hole"
@@ -275,7 +277,7 @@ msgstr "Via Nostalgica"
 
 #: data/levels/world1/welcome_antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Selamat Datang di Antartika"
+msgstr "Selamat Datang di Antarktika"
 
 #: data/levels/world1/welcome_antarctica.stl:74
 msgid ""
@@ -291,7 +293,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-shade.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Telur\n!images/powerups/egg/egg-shade.png\n#Telur akan menjadikan Tux tumbuh lebih besar. Tux kemudian bisa menghancurkan blok dengan kepalanya."
+msgstr "-Telur\n!images/powerups/egg/egg-shade.png\n#Telur menjadikan Tux tumbuh lebih besar. Tux bahkan bisa menghancurkan blok kayu dengan kepalanya."
 
 #: data/levels/world1/welcome_antarctica.stl:90
 msgid ""
@@ -305,27 +307,27 @@ msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Berlari\n!images/tiles/signs/run.png\n#Jalan di depanmu terhalang. Dapatkan kecepatan sebelum melompat untuk melewati penghalang."
+msgstr "-Lari\n!images/tiles/signs/run.png\n#Jalan di depanmu terhalang. Tingkatkan kecepatan sebelum melompat untuk melewati penghalang."
 
 #: data/levels/world1/welcome_antarctica.stl:104
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Bunga Api\n!images/powerups/fireflower/fire_flower-0.png\n#Bunga api memberikan Tux kemampuan untuk menembakkan bola api."
+msgstr "-Bunga Api\n!images/powerups/fireflower/fire_flower-0.png\n#Bunga api memberi Tux kemampuan untuk menembakkan bola api."
 
 #: data/levels/world1/welcome_antarctica.stl:111
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Boneka Tux\n!images/powerups/1up/1up.png\n#Boneka Tux memberikanmu 100 koin."
+msgstr "-Boneka Tux\n!images/powerups/1up/1up.png\n#Boneka Tux memberimu 100 koin."
 
 #: data/levels/world1/welcome_antarctica.stl:118
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Area Tersembunyi\n#Beberapa level memiliki area tersembunyi di balik apa yang tampak seperti dinding polos. Carilah petunjuk untuk menemukannya."
+msgstr "-Area Tersembunyi\n#Beberapa level memiliki area tersembunyi di balik dinding polos. Carilah petunjuk untuk menemukannya."
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icy Island"
@@ -333,7 +335,7 @@ msgstr "Pulau Es"
 
 #: data/levels/world1/yeti_boss.stl:3
 msgid "No More Mr. Ice Guy"
-msgstr "Tak Ada Lagi Tuan Es"
+msgstr "Oh tidak, bukan Manusia Salju"
 
 #: data/levels/world1/yeti_cutscene.stl:3
 msgid "A Yeti in the Distance"

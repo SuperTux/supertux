@@ -36,6 +36,7 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Sleeping Spiky"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual void after_editor_set() override;
 
 protected:
   enum SSpikyState {

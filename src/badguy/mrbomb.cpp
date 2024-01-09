@@ -31,11 +31,34 @@
 MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right")
 {
+  parse_type(reader);
+
   walk_speed = 80;
   max_drop_height = 16;
 
   // Prevent stutter when Tux jumps on Mr Bomb.
   SoundManager::current()->preload("sounds/explosion.wav");
+}
+
+GameObjectTypes
+MrBomb::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "classic", _("Classic") }
+  };
+}
+
+std::string
+MrBomb::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CLASSIC:
+      return "images/creatures/mr_bomb/old_bomb/old_bomb.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 HitResponse

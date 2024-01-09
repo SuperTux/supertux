@@ -29,16 +29,17 @@ ObjectSettings::ObjectSettings(const std::string& name) :
 }
 
 void
-ObjectSettings::add_option(std::unique_ptr<ObjectOption> option)
+ObjectSettings::add_option(std::unique_ptr<BaseObjectOption> option)
 {
   m_options.push_back(std::move(option));
 }
 
 void
 ObjectSettings::add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
-                            GameObject* parent, const std::string& key, unsigned int flags)
+                            uint8_t get_objects_param, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func,
+                            const std::string& key, unsigned int flags)
 {
-  add_option(std::make_unique<ObjectSelectObjectOption>(text, value_ptr, parent, key, flags));
+  add_option(std::make_unique<ObjectSelectObjectOption>(text, value_ptr, get_objects_param, add_object_func, key, flags));
 }
 
 void
@@ -245,7 +246,7 @@ ObjectSettings::add_path_ref(const std::string& text, PathObject& target, const 
 
   if (!path_ref.empty()) {
     m_options.erase(std::remove_if(m_options.begin(), m_options.end(),
-                                   [](const std::unique_ptr<ObjectOption>& obj) {
+                                   [](const std::unique_ptr<BaseObjectOption>& obj) {
                                      return obj->get_key() == "x" || obj->get_key() == "y";
                                    }),
                     m_options.end());
@@ -352,7 +353,7 @@ ObjectSettings::add_list(const std::string& text, const std::string& key, const 
 void
 ObjectSettings::reorder(const std::vector<std::string>& order)
 {
-  std::vector<std::unique_ptr<ObjectOption> > new_options;
+  std::vector<std::unique_ptr<BaseObjectOption> > new_options;
 
   // put all items not in 'order' into 'new_options'
   for(auto& option : m_options) {
@@ -368,7 +369,7 @@ ObjectSettings::reorder(const std::vector<std::string>& order)
   // put all other items in 'order' into 'new_options' in the order of 'order'
   for(const auto& option_name : order) {
     auto it = std::find_if(m_options.begin(), m_options.end(),
-                           [option_name](const std::unique_ptr<ObjectOption>& option){
+                           [option_name](const std::unique_ptr<BaseObjectOption>& option){
                              return option && option->get_key() == option_name;
                            });
     if (it != m_options.end()) {
@@ -385,7 +386,7 @@ void
 ObjectSettings::remove(const std::string& key)
 {
   m_options.erase(std::remove_if(m_options.begin(), m_options.end(),
-                                 [key](const std::unique_ptr<ObjectOption>& option){
+                                 [key](const std::unique_ptr<BaseObjectOption>& option){
                                    return option->get_key() == key;
                                  }),
                   m_options.end());

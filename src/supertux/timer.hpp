@@ -38,15 +38,23 @@ public:
   /** stop the timer */
   void stop() { start(0); }
 
+  /** pause the timer */
+  void pause();
+
+  /** resume (unpause) the timer */
+  void resume();
+
   /** returns the period of the timer or 0 if it isn't started */
   float get_period() const { return m_period; }
   float get_timeleft() const{ return m_period - (g_game_time - m_cycle_start); }
   float get_timegone() const { return g_game_time - m_cycle_start; }
-  bool started() const { return m_period != 0 && get_timeleft() > 0; }
+  bool started() const { return (m_period != 0 && get_timeleft() > 0); }
+  bool paused() const { return m_cycle_pause != 0; }
 
 private:
   float m_period;
   float m_cycle_start;
+  float m_cycle_pause;
   bool m_cyclic;
 
 private:

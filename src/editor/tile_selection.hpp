@@ -33,6 +33,9 @@ public:
   /** Sets the tile selection to a single tile. */
   void set_tile(uint32_t tile);
 
+  /** Clears the selection. */
+  void clear();
+
   /** Returns true when has no tiles or is full of zeros */
   bool empty() const;
 

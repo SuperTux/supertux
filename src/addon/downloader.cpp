@@ -281,6 +281,7 @@ public:
     else
     {
       curl_easy_setopt(m_handle, CURLOPT_URL, url.c_str());
+      // cppcheck-suppress unknownMacro
       curl_easy_setopt(m_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
 
       #ifdef __ANDROID__

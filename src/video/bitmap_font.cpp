@@ -29,8 +29,8 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/utf8_iterator.hpp"
+#include "video/canvas.hpp"
 #include "video/drawing_request.hpp"
-#include "video/painter.hpp"
 #include "video/surface.hpp"
 #include "video/sdl_surface.hpp"
 

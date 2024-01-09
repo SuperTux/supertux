@@ -140,6 +140,13 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
+# Configure main menu logo
+if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+  set(LOGO_FILE "logo.png")
+else()
+  set(LOGO_FILE "logo_dev.png")
+endif()
+
 if(WIN32)
   include(SuperTux/Win32)
 endif()
@@ -317,6 +324,7 @@ include(SuperTux/BuildInstall)
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
+#[[
 ## Configure main menu logo
 if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
   set(LOGO_FILE "logo_final.sprite")
@@ -341,6 +349,7 @@ if(ANDROID)
     WORKING_DIRECTORY ${DATADIR}
   )
 endif()
+#]]
 
 ## Build tests
 include(SuperTux/BuildTests)

@@ -73,6 +73,7 @@ private:
     MNID_DEVELOPER_MODE,
     MNID_CHRISTMAS_MODE,
     MNID_TRANSITIONS,
+    MNID_CUSTOM_TITLE_LEVELS,
     MNID_CONFIRMATION_DIALOG,
     MNID_PAUSE_ON_FOCUSLOSS,
     MNID_CUSTOM_CURSOR,
@@ -83,8 +84,8 @@ private:
 
 private:
   struct StringOption {
-    std::vector<std::string> list;
-    int next;
+    std::vector<std::string> list = {};
+    int next = 0;
   };
 
 private:

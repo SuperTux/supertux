@@ -1,246 +1,223 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# DusXMT <merkur32@gmail.com>, 2014
+# IAN RODRÍGUEZ Lorenzo, 2022
+# Jose Riha <jose1711@gmail.com>, 2021
+# c79a840bffc1621596a73d9f7d995b66_5f97bea <821296eb068acbf38f8fe02d322f4248_155187>, 2014
 # MiroslavR <miroslavr256@gmail.com>, 2016
 # Roman 'Kaktuxista' Benji <romanbeno273@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-23 15:39+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
-"Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Slovak (http://app.transifex.com/arctic-games/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
+#: data/levels/world2/ancient_ruins.stl:3
+msgid "Ancient Ruins"
+msgstr "Starobylé ruiny"
+
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
+#: data/levels/world2/crumbling_path.stl:278
+#: data/levels/world2/crumbling_path.stl:1651
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
+#: data/levels/world2/mouldy_grotto.stl:559
+#: data/levels/world2/penguin_grow_trees.stl:459
+#: data/levels/world2/penguin_grow_trees.stl:467
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
+#: data/levels/world2/wooden_roots.stl:279
+#: data/levels/world2/worldmap.stwm:186
+msgid "You found a secret area!"
+msgstr "Našli ste tajné miesto!"
+
+#: data/levels/world2/beside_bushes.stl:3
+msgid "Beside the Bushes"
+msgstr "Vedľa kríkov"
+
+#: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Skackajúce špirály"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr "Vstup do zámku"
+#: data/levels/world2/bye_bye_forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "Zbohom les"
 
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "Protiprúd"
-
-#: data/levels/world2/Crumbling_Path.stl:3
+#: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Rozpadajúci sa chodník"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "Kanálom"
+#: data/levels/world2/darkness_awaits.stl:3
+msgid "Darkness Awaits"
+msgstr "Tma čaká"
 
-#: data/levels/world2/El_Castillo.stl:3
-msgid "A Short Visit to El Castillo"
-msgstr ""
-
-#: data/levels/world2/Find_Big_Fish.stl:3
+#: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Nájdi väčšiu rybu!"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
-msgstr ""
+msgstr "-Veľká ryba... pre teba."
 
-#: data/levels/world2/Going_Underground.stl:3
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "Nové miesto"
+
+#: data/levels/world2/ghost_cutscene.stl:3
+msgid "What is Happening?"
+msgstr "Čo sa deje?"
+
+#: data/levels/world2/ghostly_misery.stl:3
+msgid "Ghostly Misery"
+msgstr "Strašidelná bieda"
+
+#: data/levels/world2/ghosttrees_challenges.stl:3
+msgid "Ghosttree's Challenges"
+msgstr "Výzvy Ghosttree"
+
+#: data/levels/world2/ghouls_lair.stl:3
+msgid "Ghouls' Lair"
+msgstr "Lair Ghouls"
+
+#: data/levels/world2/ghouls_lair.stl:849
+msgid ""
+"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
+"of them."
+msgstr "#Lucerny sa používajú na výrobu pevných magických blokov, takže po nich môžete chodiť."
+
+#: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Kurz: Podzemie"
 
-#: data/levels/world2/Kneep_Deep.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "Až po kolená v hlbine"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:3
+msgid "I Spy With My Little Eye"
+msgstr "Špehovam svojím malým okom"
 
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "Malé Benátky"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+msgid ""
+"-Ispy\n"
+"#Ispys will activate things like platforms whenever Tux is in their sight."
+msgstr "-Špehujem\n#Špehujem aktivuje veci ako platformy, kedykoľvek je Tux v ich očiach."
 
-#: data/levels/world2/Mouldy_Grotto.stl:3
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+msgid "Hint: Use snails to break blocks!"
+msgstr "Tip: Použite slimáky na rozbitie blokov!"
+
+#: data/levels/world2/leaf_wind.stl:3
+msgid "Like a leaf in the Wind"
+msgstr "Ako list vo vetre"
+
+#: data/levels/world2/lost_village.stl:3
+msgid "Lost Village"
+msgstr "Stratená dedina"
+
+#: data/levels/world2/lost_village.stl:187
+msgid "#Don't forget to hit the switch!"
+msgstr "#Nezabudnite aktivovať prepínač!"
+
+#: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "Plesnivá jaskyňa"
 
-#: data/levels/world2/Penguin_Grow_Trees.stl:3
+#: data/levels/world2/owls_again.stl:3
+msgid "The Owls again..."
+msgstr "Opäť sovy..."
+
+#: data/levels/world2/owls_skydive_commando.stl:3
+msgid "Owls' Skydive Commando"
+msgstr "Sovy zoskokové komando"
+
+#: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
 msgstr "Tučniaci nerastú na stromoch"
-
-#: data/levels/world2/Rabbit_Hole.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "Dole zajačiou dierou"
-
-#: data/levels/world2/Rabbit_Hole.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr "-Ach, nie!\n#Cesta je zablokovaná!\n#Zdá sa, že jediná cesta\n#vedie cez tú temnú\n#dieru v zemi..."
-
-#: data/levels/world2/Rabbit_Hole.stl:55
-msgid "-Are you lost?"
-msgstr "-Ste stratený?"
-
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "Tiché múry"
-
-#: data/levels/world2/Three_Sheets.stl:3
-msgid "Three sheets to the wind"
-msgstr "Tri listy do vetra"
-
-#: data/levels/world2/Treasure_Skies.stl:3
-msgid "Treasure in the skies"
-msgstr "Poklad na nebesiach"
-
-#: data/levels/world2/Tree_Fortress.stl:3
-msgid "Tree Fortress"
-msgstr "Stromová pevnosť"
-
-#: data/levels/world2/Tux_Builder.stl:3
-msgid "Tux the Builder"
-msgstr "Staviteľ Tux"
-
-#: data/levels/world2/Tux_Builder.stl:46
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Prenosné kamene:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "Dve malé veže"
-
-#: data/levels/world2/Up_and_Down.stl:3
-msgid "Up and Down"
-msgstr "Hore a dole"
-
-#: data/levels/world2/Walking_Leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Chodiace listy"
-
-#: data/levels/world2/Welcome_Forest.stl:3
-msgid "Welcome to the Forest"
-msgstr "Vitajte v lese"
-
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
-msgstr "Ľadovcová pevnosť"
-
-#: data/levels/world2/castledoor.stl:3
-#: data/levels/world2/dfk-placeholder-1.stl:3
-msgid "NOLOK"
-msgstr "NOLOK"
-
-#: data/levels/world2/christophD.stl:3
-msgid "Room of Stars"
-msgstr "Izba hviezd"
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr "Dan Morial"
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr "Obchádzka"
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Pevnosť Temného lesa - Komnata zla"
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Pevnosť Temného lesa - Nolokove oči"
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr "Pevnosť Temného lesa - Čierna veža"
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr "Lesný level 1"
-
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr "Strašidelný svet"
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr "kľúč 1 vodný - má sa umiestniť za vodopád"
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr "kľúč 2 zemný - má sa umiestniť pod zem"
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr "kľúč 3 drevený - má sa umiestniť do vysokého stromu"
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr "kľúč 4 ohnivý - má sa umiestniť do malého hradu"
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr "kľúč 5 vzdušný - má sa umiestniť do oblakov"
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr "Zelené kopce"
-
-#: data/levels/world2/level6.stl:3
-msgid "No Name"
-msgstr "Bez názvu"
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr "Svetlo a mágia"
-
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr "Pomsta sov"
-
-#: data/levels/world2/roots_woody_roots.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Korene, drevnaté korene"
-
-#: data/levels/world2/roots_woody_roots.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Rada:\n#Ak sa vám zdá, že dostať sa\n#k nejakým dverám je nemožné,\n#myslite aj na možnosť, že z tých\n#dverí máte vyjsť..."
-
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr "---Tu treba vložiť medziscénu---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Šokujúce"
 
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr "Ešte nedokončené"
+#: data/levels/world2/the_forest_is_rotting.stl:3
+msgid "The Forest Is Rotting"
+msgstr "Les Hnije"
 
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forest"
-msgstr "Dedina v lese"
+#: data/levels/world2/through_dark.stl:3
+msgid "Through the Dark"
+msgstr "Cez temnotu"
+
+#: data/levels/world2/through_dark.stl:96
+msgid ""
+"-Earth Flower\n"
+"!images/powerups/earthflower/earth_flower-1.png\n"
+"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
+"#This does not work while jumping or falling!"
+msgstr "- Zemský kvet\n!images/powerups/earthflower/earth_flower-1.png\n#Kvet zeme dáva Tuxovi schopnosť premeniť sa na kameň súčasným stlačením klávesy AKCIA a DOLE.\n#Toto nefunguje pri skákaní alebo páde!"
+
+#: data/levels/world2/tower_cutscene.stl:3
+msgid "Tower Cutscene"
+msgstr "Cutscéna veže"
+
+#: data/levels/world2/tower_of_ghosts.stl:3
+msgid "Tower Of Ghosts"
+msgstr "Veža duchov"
+
+#: data/levels/world2/tux_builder.stl:3
+msgid "Tux the Builder"
+msgstr "Staviteľ Tux"
+
+#: data/levels/world2/tux_builder.stl:77
+msgid ""
+"-Portable Objects:\n"
+"!images/objects/rock/rock.png\n"
+"#Tux can pick up certain objects and carry them around.\n"
+"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
+msgstr "-Prenosné predmety:\n!images/objects/rock/rock.png\n#Tux dokáže zdvihnúť určité predmety a prenášať ich.\n#Stlačte kláves AKCIA na uchopenie predmetu a podržte ho stlačený tak dlho, ako chcete predmet prenášať. Uvoľnením klávesu AKCIA objekt odhodíte."
+
+#: data/levels/world2/tux_own_horror_show.stl:3
+msgid "Tux' Own Horror Show"
+msgstr "Tuxova vlastná hororová šou"
+
+#: data/levels/world2/tux_own_horror_show.stl:790
+msgid ""
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr "#Wisps sú malí otravní duchovia, ktorí vás prenesú na rôzne, často nebezpečné miesta."
+
+#: data/levels/world2/walking_leaves.stl:3
+msgid "Walking Leaves"
+msgstr "Chodiace listy"
+
+#: data/levels/world2/welcome_forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "Vitajte v lese"
+
+#: data/levels/world2/welcome_forest.stl:50
+msgid ""
+"-Doors\n"
+"!images/objects/door/door-0.png\n"
+"#Tux can go through a door by pressing the UP key."
+msgstr "- Dvere\n!images/objects/door/door-0.png\n#Tux môže prejsť dverami stlačením klávesu HORE."
+
+#: data/levels/world2/wooden_roots.stl:3
+msgid "Wooden Roots"
+msgstr "Drevené korene"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Lesný svet"
+msgid "Rooted Forest"
+msgstr "Zakorenený les"
+
+#: data/levels/world2/worldmap.stwm:200
+msgid "To be continued..."
+msgstr "Pokračovanie nabudúce..."

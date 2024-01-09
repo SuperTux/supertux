@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Bingen Galartza Iparragirre <bingalipa@gmail.com>, 2017
+# IAN RODRÍGUEZ Lorenzo, 2023
 # Mielanjel Iraeta <pospolos@gmail.com>, 2018-2020
 # Urtzi Odriozola <urtzi.odriozola@gmail.com>, 2017
 msgid ""
@@ -11,9 +12,9 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
 "POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 21:21+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Basque (http://www.transifex.com/arctic-games/supertux/language/eu/)\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2023\n"
+"Language-Team: Basque (http://app.transifex.com/arctic-games/supertux/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -191,7 +192,7 @@ msgstr "Tuxen berezko Horrow Show-a"
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different,"
 " often dangerous places."
-msgstr ""
+msgstr "#Sauceen mamutxoak fantasia txiki eta gogaikarriak dira, leku ezberdinetara eramango zaituztenak eta, askotan, arriskutsuetara."
 
 #: data/levels/world2/walking_leaves.stl:3
 msgid "Walking Leaves"
@@ -214,7 +215,7 @@ msgstr "Egur sustraiak"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Rooted Forest"
-msgstr ""
+msgstr "Sustraitutako Basoa"
 
 #: data/levels/world2/worldmap.stwm:200
 msgid "To be continued..."

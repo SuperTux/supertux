@@ -24,7 +24,7 @@ class Crystallo final : public WalkingBadguy
 {
 public:
   Crystallo(const ReaderMapping& reader);
-  Crystallo(const Vector& pos, const Vector& start_pos, float vel_x, std::unique_ptr<Sprite> sprite,
+  Crystallo(const Vector& pos, const Vector& start_pos, float vel_x, SpritePtr sprite,
             Direction dir, float radius, const std::string& script);
 
   virtual ObjectSettings get_settings() override;

@@ -17,6 +17,7 @@
 #include "badguy/flame.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
 #include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "object/sprite_particle.hpp"
@@ -25,30 +26,79 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
-Flame::Flame(const ReaderMapping& reader, const std::string& sprite) :
-  BadGuy(reader, sprite, LAYER_FLOATINGOBJECTS,
+Flame::Flame(const ReaderMapping& reader, int type) :
+  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS,
          "images/objects/lightmap_light/lightmap_light-small.sprite"),
   angle(0),
   radius(),
   speed(),
-  sound_source()
+  sound_source(),
+  m_radius_indicator(Surface::from_file("images/creatures/flame/flame-editor.png"))
 {
+  if (type >= 0)
+  {
+    m_type = type;
+    on_type_change();
+  }
+  else
+  {
+    parse_type(reader);
+  }
+
   reader.get("radius", radius, 100.0f);
   reader.get("speed", speed, 2.0f);
-  if (!Editor::is_active()) {
+
+  if (!Editor::is_active())
+  {
     m_col.m_bbox.set_pos(Vector(m_start_position.x + cosf(angle) * radius,
                                 m_start_position.y + sinf(angle) * radius));
   }
   m_countMe = false;
+  m_glowing = true;
   SoundManager::current()->preload(FLAME_SOUND);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
 
-  m_lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
-  m_glowing = true;
+  switch (m_type)
+  {
+    case FIRE:
+      m_lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
+      break;
+    case GHOST:
+      m_lightsprite->set_color(Color(0.21f, 0.00f, 0.21f));
+      break;
+    case ICE:
+      m_lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
+      break;
+  }
+}
+
+GameObjectTypes
+Flame::get_types() const
+{
+  return {
+    { "fire", _("Fire") },
+    { "ghost", _("Ghost") },
+    { "ice", _("Ice") }
+  };
+}
+
+std::string
+Flame::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case GHOST:
+      return "images/creatures/flame/ghostflame.sprite";
+    case ICE:
+      return "images/creatures/flame/iceflame.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 ObjectSettings
@@ -75,7 +125,25 @@ Flame::active_update(float dt_sec)
     sound_source->set_position(get_pos());
   }
 
-  if (m_sprite->get_action() == "fade" && m_sprite->animation_done()) remove_me();
+  if (m_type == ICE)
+    m_sprite->set_angle(math::degrees(angle) * 3.0f);
+
+  if (m_sprite->get_action() == "fade" && m_sprite->animation_done())
+    remove_me();
+}
+
+void
+Flame::draw(DrawingContext& context)
+{
+  BadGuy::draw(context);
+
+  if (Editor::is_active())
+  {
+    Rectf rect(Vector(get_pos().x - radius + get_bbox().get_width() / 2,
+                      get_pos().y - radius + get_bbox().get_height() / 2),
+               Sizef(radius * 2, radius * 2));
+    context.color().draw_surface_scaled(m_radius_indicator, rect, m_layer);
+  }
 }
 
 void
@@ -106,6 +174,9 @@ Flame::kill_fall()
 void
 Flame::freeze()
 {
+  if (!is_freezable())
+    return;
+
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   set_action("fade", 1);
   Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
@@ -118,26 +189,47 @@ Flame::freeze()
   run_dead_script();
 }
 
+void
+Flame::ignite()
+{
+  if (!is_flammable())
+    return;
+
+  SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
+  set_action("fade", 1);
+  Sector::get().add<SpriteParticle>("images/particles/smoke.sprite",
+                                         "default",
+                                         m_col.m_bbox.get_middle(), ANCHOR_MIDDLE,
+                                         Vector(0, -150), Vector(0,0),
+                                         LAYER_BACKGROUNDTILES+2);
+  set_group(COLGROUP_DISABLED);
+
+  // Start death script.
+  run_dead_script();
+}
+
 bool
 Flame::is_freezable() const
 {
-  return true;
+  return m_type == FIRE;
 }
 
 bool
 Flame::is_flammable() const
 {
-  return false;
+  return m_type == ICE;
 }
 
-void Flame::stop_looping_sounds()
+void
+Flame::stop_looping_sounds()
 {
   if (sound_source) {
     sound_source->stop();
   }
 }
 
-void Flame::play_looping_sounds()
+void
+Flame::play_looping_sounds()
 {
   if (sound_source) {
     sound_source->play();

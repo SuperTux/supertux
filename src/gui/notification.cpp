@@ -97,7 +97,7 @@ Notification::draw(DrawingContext& context)
     return;
   }
 
-  m_pos = Vector(static_cast<float>(context.get_width()) - std::max(m_text_size.width, m_mini_text_size.width) - 90.0f,
+  m_pos = Vector(context.get_width() - std::max(m_text_size.width, m_mini_text_size.width) - 90.0f,
                  static_cast<float>(context.get_height() / 12) - m_text_size.height - m_mini_text_size.height + 10.0f);
   Rectf bg_rect(m_pos, m_size);
 

@@ -87,6 +87,13 @@ public:
   virtual std::string get_class_name() const { return "game-object"; }
   virtual std::string get_display_name() const { return _("Unknown object"); }
 
+  /** Version checking/updating, patch information */
+  virtual std::vector<std::string> get_patches() const;
+  int get_version() const { return m_version; }
+  int get_latest_version() const;
+  bool is_up_to_date() const;
+  virtual void update_version();
+
   /** If true only a single object of this type is allowed in a
       given GameObjectManager */
   virtual bool is_singleton() const { return false; }
@@ -102,6 +109,9 @@ public:
   /** Indicates if the object's state should be tracked.
       If false, load_state() and save_state() calls would not do anything. */
   virtual bool track_state() const { return true; }
+
+  /** Indicates if the object should be added at the beginning of the object list. */
+  virtual bool has_object_manager_priority() const { return false; }
 
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */
@@ -227,6 +237,12 @@ private:
   /** The object's type at the time of the last get_settings() call.
       Used to check if the type has changed. **/
   int m_previous_type;
+
+  /** Indicates the object's version. By default, this is equal to 1.
+      Useful for retaining retro-compatibility for objects, whilst allowing for
+      updated behaviour in newer levels.
+      The version of an object can be updated from the editor. */
+  int m_version;
 
   /** A unique id for the object to safely refer to it. This will be
       set by the GameObjectManager. */

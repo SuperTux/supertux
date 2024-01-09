@@ -29,7 +29,7 @@ SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite")
 {
   SoundManager::current()->preload("sounds/explosion.wav");
-  set_action("normal", 1);
+  set_action("normal");
 }
 
 void
@@ -113,7 +113,7 @@ SkyDive::ungrab(MovingObject& object, Direction dir_)
   }
   else if (!m_frozen)
   {
-    set_action("falling", 1);
+    set_action("falling");
     m_physic.set_velocity_y(0);
     m_physic.set_acceleration_y(0);
   }
@@ -165,6 +165,18 @@ SkyDive::collision_tile(uint32_t tile_attributes)
 }
 
 void
+SkyDive::initialize()
+{
+  if (!m_owner)
+  {
+    set_action("falling");
+    m_physic.set_velocity_y(0);
+    m_physic.set_acceleration_y(0);
+  }
+  BadGuy::initialize();
+}
+
+void
 SkyDive::kill_fall()
 {
   explode();
@@ -179,10 +191,8 @@ SkyDive::explode()
     BadGuy::kill_fall();
   else
   {
-    auto& explosion = Sector::get().add<Explosion>(
+    Sector::get().add<Explosion>(
       get_anchor_pos(m_col.m_bbox, ANCHOR_BOTTOM), EXPLOSION_STRENGTH_DEFAULT);
-
-    explosion.hurts(true);
 
     remove_me();
   }

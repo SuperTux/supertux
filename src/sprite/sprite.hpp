@@ -89,6 +89,8 @@ public:
   int get_width() const;
   int get_height() const;
 
+  /** Return the "unisolid" property for the current action's hitbox. */
+  bool is_current_hitbox_unisolid() const;
   /** return x-offset of current action's hitbox, relative to start of image */
   float get_current_hitbox_x_offset() const;
   /** return y-offset of current action's hitbox, relative to start of image */

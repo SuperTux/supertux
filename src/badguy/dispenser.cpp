@@ -29,7 +29,7 @@
 #include "util/reader_mapping.hpp"
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/dispenser/dropper.sprite"),
+  BadGuy(reader, "images/creatures/dispenser/dropper.sprite", LAYER_OBJECTS + 5),
   ExposedObject<Dispenser, scripting::Dispenser>(this),
   m_cycle(),
   m_objects(),
@@ -75,9 +75,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
 
-  set_correct_action();
-
-  m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  update_hitbox();
   m_countMe = false;
 }
 
@@ -141,11 +139,16 @@ Dispenser::active_update(float dt_sec)
   }
   if (m_dispense_timer.check())
   {
-    // Auto always shoots in Tux's direction.
-    if (m_autotarget)
+    auto player = get_nearest_player();
+    if (player)
     {
-      auto player = get_nearest_player();
-      if (player)
+      if(player->is_dying() || player->is_dead())
+      {
+        return;
+      }
+      
+      // Auto always shoots in Tux's direction.
+      if (m_autotarget)
       {
         Direction target_dir = (player->get_pos().x > get_pos().x) ? Direction::RIGHT : Direction::LEFT;
         if (m_dir != target_dir)
@@ -155,6 +158,7 @@ Dispenser::active_update(float dt_sec)
         }
       }
     }
+
     launch_object();
   }
 }
@@ -215,6 +219,7 @@ Dispenser::launch_object()
 
       switch (m_type)
       {
+        case DispenserType::GRANITO:
         case DispenserType::DROPPER:
           if (m_flip == NO_FLIP)
           {
@@ -277,7 +282,7 @@ Dispenser::launch_object()
 void
 Dispenser::freeze()
 {
-  if (m_type == DispenserType::POINT)
+  if (m_type == DispenserType::POINT || m_type == DispenserType::GRANITO)
     return;
 
   set_group(COLGROUP_MOVING_STATIC);
@@ -343,13 +348,10 @@ Dispenser::is_portable() const
 void
 Dispenser::set_correct_action()
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/dispenser/" + (m_type == DispenserType::POINT ? "invisible" : type_value_to_id(m_type)) + ".sprite");
-
   switch (m_type)
   {
     case DispenserType::CANNON:
-      set_action(dir_to_string(m_dir));
+      set_action(m_dir);
       break;
     case DispenserType::POINT:
       set_colgroup_active(COLGROUP_DISABLED);
@@ -362,6 +364,15 @@ Dispenser::set_correct_action()
 void
 Dispenser::on_type_change(int old_type)
 {
+  MovingSprite::on_type_change(old_type);
+
+  if (old_type == GRANITO || m_type == GRANITO)
+  {
+    m_objects.clear();
+    if (m_type == GRANITO) // Switching to type GRANITO
+      add_object(GameObjectFactory::instance().create("corrupted_granito"));
+  }
+
   set_correct_action();
 }
 
@@ -372,7 +383,11 @@ Dispenser::get_settings()
 
   result.add_float(_("Interval (seconds)"), &m_cycle, "cycle");
   result.add_bool(_("Random"), &m_random, "random", false);
-  result.add_objects(_("Objects"), &m_objects, this, "objects");
+  if (m_type != GRANITO)
+  {
+    result.add_objects(_("Objects"), &m_objects, ObjectFactory::RegisteredObjectParam::OBJ_PARAM_DISPENSABLE,
+                       [this](auto obj) { add_object(std::move(obj)); }, "objects");
+  }
   result.add_bool(_("Limit dispensed badguys"), &m_limit_dispensed_badguys,
                   "limit-dispensed-badguys", false);
   result.add_bool(_("Obey Gravity"), &m_gravity,
@@ -389,10 +404,25 @@ GameObjectTypes
 Dispenser::get_types() const
 {
   return {
-    { "cannon", _("cannon") },
-    { "dropper", _("dropper") },
-    { "point", _("invisible") }
+    { "dropper", _("Dropper") },
+    { "cannon", _("Cannon") },
+    { "point", _("Invisible") },
+    { "granito", _("Granito") }
   };
+}
+
+std::string
+Dispenser::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case POINT:
+      return "images/creatures/dispenser/invisible.sprite";
+    case GRANITO:
+      return "images/creatures/granito/corrupted/hive/granito_hive.sprite";
+    default:
+      return "images/creatures/dispenser/" + type_value_to_id(m_type) + ".sprite";
+  }
 }
 
 void

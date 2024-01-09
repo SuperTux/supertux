@@ -35,7 +35,6 @@
 
 Config::Config() :
   profile(1),
-  profiles(),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
   window_size(1280, 800),
@@ -82,6 +81,7 @@ Config::Config() :
 #else
   do_release_check(true),
 #endif
+  custom_title_levels(true),
 #ifdef ENABLE_DISCORD
   enable_discord(false),
 #endif
@@ -108,6 +108,7 @@ Config::Config() :
   editor_autosave_frequency(5),
   editor_undo_tracking(true),
   editor_undo_stack_size(20),
+  editor_show_deprecated_tiles(false),
   multiplayer_auto_manage_players(true),
   multiplayer_multibind(false),
 #if SDL_VERSION_ATLEAST(2, 0, 9)
@@ -140,29 +141,7 @@ Config::load()
 
   auto config_mapping = root.get_mapping();
   config_mapping.get("profile", profile);
-  std::optional<ReaderCollection> config_profiles_mapping;
-  if (config_mapping.get("profiles", config_profiles_mapping))
-  {
-    for (auto const& profile_node : config_profiles_mapping->get_objects())
-    {
-      if (profile_node.get_name() == "profile")
-      {
-        auto current_profile = profile_node.get_mapping();
 
-        int id;
-        std::string name;
-        if (current_profile.get("id", id) &&
-            current_profile.get("name", name))
-        {
-          profiles.push_back({id, name});
-        }
-      }
-      else
-      {
-        log_warning << "Unknown token in config file: " << profile_node.get_name() << std::endl;
-      }
-    }
-  }
   config_mapping.get("show_fps", show_fps);
   config_mapping.get("show_player_pos", show_player_pos);
   config_mapping.get("show_controller", show_controller);
@@ -171,6 +150,7 @@ Config::load()
   config_mapping.get("pause_on_focusloss", pause_on_focusloss);
   config_mapping.get("custom_mouse_cursor", custom_mouse_cursor);
   config_mapping.get("do_release_check", do_release_check);
+  config_mapping.get("custom_title_levels", custom_title_levels);
 
   std::optional<ReaderMapping> config_integrations_mapping;
   if (config_mapping.get("integrations", config_integrations_mapping))
@@ -259,6 +239,7 @@ Config::load()
       log_warning << "Undo stack size could not be lower than 1. Setting to lowest possible value (1)." << std::endl;
       editor_undo_stack_size = 1;
     }
+    editor_mapping->get("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
 
   if (is_christmas()) {
@@ -373,16 +354,6 @@ Config::save()
 
   writer.write("profile", profile);
 
-  writer.start_list("profiles");
-  for (const auto& current_profile : profiles)
-  {
-    writer.start_list("profile");
-    writer.write("id", current_profile.id);
-    writer.write("name", current_profile.name);
-    writer.end_list("profile");
-  }
-  writer.end_list("profiles");
-
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("show_controller", show_controller);
@@ -391,6 +362,7 @@ Config::save()
   writer.write("pause_on_focusloss", pause_on_focusloss);
   writer.write("custom_mouse_cursor", custom_mouse_cursor);
   writer.write("do_release_check", do_release_check);
+  writer.write("custom_title_levels", custom_title_levels);
 
   writer.start_list("integrations");
   {
@@ -513,6 +485,7 @@ Config::save()
     writer.write("snap_to_grid", editor_snap_to_grid);
     writer.write("undo_tracking", editor_undo_tracking);
     writer.write("undo_stack_size", editor_undo_stack_size);
+    writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
   writer.end_list("editor");
 
@@ -523,6 +496,9 @@ Config::save()
 bool
 Config::is_christmas() const
 {
+  if (christmas_mode)
+    return true;
+
   std::time_t time = std::time(nullptr);
   const std::tm* now = std::localtime(&time);
 
