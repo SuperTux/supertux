@@ -411,7 +411,10 @@ Snail::ungrab(MovingObject& object, Direction dir_)
       if (dir_ != Direction::DOWN) {
         m_dir = dir_;
       } else {
-        m_dir = dynamic_cast<Player*>(&object)->m_dir;
+        const Player* player = dynamic_cast<Player*>(&object);
+        if(player) {
+          m_dir = player->m_dir;
+        }
       }
       be_kicked(dynamic_cast<Owl*>(&object) ? false : true);
     }
