@@ -49,7 +49,7 @@ jobs:
           key: Android-${{ matrix.arch }}-dependencies-${{ hashFiles('.github/workflows/android.yml') }}
 
       - name: Prepare SDL Android project
-        if: steps.use-dependencies.outputs.cache-hit != 'true'
+        #if: steps.use-dependencies.outputs.cache-hit != 'true'
         run: |
           ./.ci_scripts/clone_dependency.sh libsdl-org/SDL release-2.26.5
           mv ./SDL/android-project/ ./build.android
@@ -57,7 +57,7 @@ jobs:
 
       - name: Clone dependencies
         working-directory: build.android/app/jni
-        if: steps.use-dependencies.outputs.cache-hit != 'true'
+        #if: steps.use-dependencies.outputs.cache-hit != 'true'
         run: |
           ../../../.ci_scripts/clone_dependency.sh libsdl-org/SDL_image release-2.6.3
           ../../../.ci_scripts/clone_dependency.sh libsdl-org/SDL_ttf release-2.20.2
