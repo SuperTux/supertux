@@ -324,20 +324,12 @@ include(SuperTux/BuildInstall)
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
-#[[
-## Configure main menu logo
-if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
-  set(LOGO_FILE "logo_final.sprite")
-else()
-  set(LOGO_FILE "logo.sprite")
-endif()
-configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
+# Make android data.zip
 if(ANDROID)
   get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
   if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
     file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
   endif()
-  file(COPY_FILE ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl ${DATADIR}/levels/misc/menu.stl)
   file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
   message("DATA: ${DATA_CONTENTS}")
   #file(ARCHIVE_CREATE OUTPUT ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
@@ -349,7 +341,6 @@ if(ANDROID)
     WORKING_DIRECTORY ${DATADIR}
   )
 endif()
-#]]
 
 ## Build tests
 include(SuperTux/BuildTests)
