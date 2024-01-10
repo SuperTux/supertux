@@ -29,6 +29,8 @@
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
+class GameObjectChange;
+class GameObjectChanges;
 class MovingObject;
 class TileMap;
 
@@ -47,8 +49,35 @@ private:
   };
 
 public:
-  GameObjectManager(bool undo_tracking = false);
+  /** Allows for external handling of various GameObjectManager events. */
+  class EventHandler
+  {
+  public:
+    EventHandler() {}
+    virtual ~EventHandler() {}
+
+    /** Return value indicates whether the object should be updated to its latest version. */
+    virtual bool should_update_object(const GameObject& object) { return false; }
+
+    /** Return value indicates whether object should be added. */
+    virtual bool before_object_add(GameObject& object) { return true; }
+    virtual void before_object_remove(GameObject& object) {}
+
+    virtual void on_object_changes(const GameObjectChanges& changes) {}
+
+  private:
+    EventHandler(const EventHandler&) = delete;
+    EventHandler& operator=(const EventHandler&) = delete;
+  };
+
+public:
+  GameObjectManager();
   virtual ~GameObjectManager();
+
+  void set_event_handler(std::unique_ptr<EventHandler> handler)
+  {
+    m_event_handler = std::move(handler);
+  }
 
   /** Queue an object up to be added to the object list */
   GameObject& add_object(std::unique_ptr<GameObject> object);
@@ -243,24 +272,11 @@ protected:
   }
 
 private:
-  struct ObjectChange
-  {
-    std::string name;
-    UID uid;
-    std::string data;
-    bool creation; // If the change represents an object creation.
-  };
-  struct ObjectChanges
-  {
-    UID uid;
-    std::vector<ObjectChange> objects;
-  };
-
   /** Create object from object change. */
-  void create_object_from_change(const ObjectChange& change);
+  void create_object_from_change(const GameObjectChange& change);
 
   /** Process object change on undo/redo. */
-  void process_object_change(ObjectChange& change);
+  void process_object_change(GameObjectChange& change);
 
   /** Save object change in the undo stack. */
   void save_object_change(GameObject& object, bool creation = false);
@@ -279,10 +295,13 @@ private:
   UIDGenerator m_change_uid_generator;
   bool m_undo_tracking;
   int m_undo_stack_size;
-  std::vector<ObjectChanges> m_undo_stack;
-  std::vector<ObjectChanges> m_redo_stack;
-  std::vector<ObjectChange> m_pending_change_stack; // Before a flush, any changes go here
+  std::vector<GameObjectChanges> m_undo_stack;
+  std::vector<GameObjectChanges> m_redo_stack;
+  std::vector<GameObjectChange> m_pending_change_stack; // Before a flush, any changes go here
   UID m_last_saved_change;
+
+  /** External event handling */
+  std::unique_ptr<EventHandler> m_event_handler;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 

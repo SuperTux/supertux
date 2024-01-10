@@ -24,6 +24,9 @@
 #include "util/writer.hpp"
 #include "video/color.hpp"
 
+bool GameObject::s_read_uid = false;
+bool GameObject::s_save_uid = false;
+
 GameObject::GameObject() :
   m_parent(),
   m_name(),
@@ -61,6 +64,8 @@ GameObject::GameObject(const ReaderMapping& reader) :
 {
   reader.get("name", m_name, "");
   reader.get("version", m_version, 1);
+  if (s_read_uid)
+    reader.get("uid", m_uid);
 }
 
 GameObject::~GameObject()
@@ -94,6 +99,9 @@ GameObject::save(Writer& writer)
   {
     option->save(writer);
   }
+
+  if (s_save_uid)
+    writer.write("uid", m_uid);
 }
 
 std::string

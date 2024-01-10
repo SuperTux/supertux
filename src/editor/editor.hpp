@@ -169,7 +169,7 @@ public:
     m_overlay_widget->edit_path(path, new_marked_object);
   }
 
-  void add_layer(GameObject* layer) { m_layers_widget->add_layer(layer); }
+  void add_layer(GameObject& object);
 
   TileMap* get_selected_tilemap() const { return m_layers_widget->get_selected_tilemap(); }
 
@@ -204,6 +204,7 @@ private:
 
   void keep_camera_in_bounds();
 
+  void setup_sector(Sector& sector);
   void post_undo_redo_actions();
 
 protected:

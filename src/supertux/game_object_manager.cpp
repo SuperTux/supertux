@@ -20,23 +20,24 @@
 
 #include <algorithm>
 
-#include "editor/editor.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/game_object_change.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
-GameObjectManager::GameObjectManager(bool undo_tracking) :
+GameObjectManager::GameObjectManager() :
   m_initialized(false),
   m_uid_generator(),
   m_change_uid_generator(),
-  m_undo_tracking(undo_tracking),
+  m_undo_tracking(false),
   m_undo_stack_size(20),
   m_undo_stack(),
   m_redo_stack(),
   m_pending_change_stack(),
   m_last_saved_change(),
+  m_event_handler(),
   m_gameobjects(),
   m_gameobjects_new(),
   m_solid_tilemaps(),
@@ -119,15 +120,11 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
 
   object->m_parent = this;
 
-  if (!object->get_uid())
-  {
-    object->set_uid(m_uid_generator.next());
+  if (m_initialized && m_event_handler && m_event_handler->should_update_object(*object))
+    object->update_version();
 
-    // No object UID would indicate the object is not a result of undo/redo.
-    // Any newly placed object in the editor should be on its latest version.
-    if (m_initialized && Editor::is_active())
-      object->update_version();
-  }
+  if (!object->get_uid())
+    object->set_uid(m_uid_generator.next());
 
   // Make sure the object isn't already in the list.
 #ifndef NDEBUG
@@ -138,10 +135,6 @@ GameObjectManager::add_object(std::unique_ptr<GameObject> object)
     assert(gameobject != object);
   }
 #endif
-
-  // Attempt to add object to editor layers.
-  if (m_initialized && Editor::is_active())
-    Editor::current()->add_layer(object.get());
 
   GameObject& tmp = *object;
   m_gameobjects_new.push_back(std::move(object));
@@ -170,6 +163,7 @@ GameObjectManager::add_object_scripting(const std::string& class_name, const std
   if (!name.empty())
     obj->set_name(name);
 
+  obj->update_version();
   add_object(std::move(obj));
   return *moving_object;
 }
@@ -226,6 +220,8 @@ GameObjectManager::flush_game_objects()
                        if (!obj->is_valid())
                        {
                          this_before_object_remove(*obj);
+                         if (m_event_handler)
+                           m_event_handler->before_object_remove(*obj);
                          before_object_remove(*obj);
                          return true;
                        } else {
@@ -244,6 +240,9 @@ GameObjectManager::flush_game_objects()
       {
         if (before_object_add(*object))
         {
+          if (m_event_handler && !m_event_handler->before_object_add(*object))
+            continue;
+
           if (!m_initialized) object->m_track_undo = false;
           this_before_object_add(*object);
 
@@ -260,7 +259,11 @@ GameObjectManager::flush_game_objects()
   // If object changes have been performed since last flush, push them to the undo stack.
   if (m_undo_tracking && !m_pending_change_stack.empty())
   {
-    m_undo_stack.push_back({ m_change_uid_generator.next(), std::move(m_pending_change_stack) });
+    GameObjectChanges changes(m_change_uid_generator.next(), std::move(m_pending_change_stack));
+    if (m_event_handler)
+      m_event_handler->on_object_changes(changes);
+
+    m_undo_stack.push_back(std::move(changes));
     m_redo_stack.clear();
     undo_stack_cleanup();
   }
@@ -357,7 +360,7 @@ void
 GameObjectManager::undo()
 {
   if (m_undo_stack.empty()) return;
-  ObjectChanges& changes = m_undo_stack.back();
+  GameObjectChanges& changes = m_undo_stack.back();
 
   for (auto& obj_change : changes.objects)
     process_object_change(obj_change);
@@ -370,7 +373,7 @@ void
 GameObjectManager::redo()
 {
   if (m_redo_stack.empty()) return;
-  ObjectChanges& changes = m_redo_stack.back();
+  GameObjectChanges& changes = m_redo_stack.back();
 
   for (auto& obj_change : changes.objects)
     process_object_change(obj_change);
@@ -380,7 +383,7 @@ GameObjectManager::redo()
 }
 
 void
-GameObjectManager::create_object_from_change(const ObjectChange& change)
+GameObjectManager::create_object_from_change(const GameObjectChange& change)
 {
   auto object = GameObjectFactory::instance().create(change.name, change.data);
   object->m_track_undo = false;
@@ -390,7 +393,7 @@ GameObjectManager::create_object_from_change(const ObjectChange& change)
 }
 
 void
-GameObjectManager::process_object_change(ObjectChange& change)
+GameObjectManager::process_object_change(GameObjectChange& change)
 {
   GameObject* object = get_object_by_uid<GameObject>(change.uid);
   if (object) // Object exists, remove it.

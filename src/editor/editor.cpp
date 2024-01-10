@@ -38,6 +38,7 @@
 #include "editor/object_info.hpp"
 #include "editor/particle_editor.hpp"
 #include "editor/resize_marker.hpp"
+#include "editor/sector_handler.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
@@ -482,15 +483,32 @@ Editor::update_keyboard(const Controller& controller)
 }
 
 void
+Editor::add_layer(GameObject& object)
+{
+  // Must be adding the object to the current sector
+  if (object.get_parent() != m_sector)
+    return;
+
+  m_layers_widget->add_layer(&object);
+}
+
+void
+Editor::setup_sector(Sector& sector)
+{
+  // Set event handler
+  sector.set_event_handler(std::make_unique<EditorSectorHandler>());
+
+  // Set properties
+  sector.set_undo_stack_size(g_config->editor_undo_stack_size);
+  sector.toggle_undo_tracking(g_config->editor_undo_tracking);
+}
+
+void
 Editor::load_sector(const std::string& name)
 {
   Sector* sector = m_level->get_sector(name);
-  if (!sector) {
+  if (!sector)
     sector = m_level->get_sector(0);
-  }
-
-  sector->set_undo_stack_size(g_config->editor_undo_stack_size);
-  sector->toggle_undo_tracking(g_config->editor_undo_tracking);
 
   set_sector(sector);
 }
@@ -551,14 +569,15 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   }
 
   // Reload level.
-  m_level = nullptr;
-  m_levelloaded = true;
-
   m_level = std::move(level);
+  m_levelloaded = true;
 
   if (reset) {
     m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
   }
+
+  for (auto& sector : m_level->get_sectors())
+    setup_sector(*sector);
 
   load_sector(sector_name);
 
@@ -659,7 +678,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port)
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
                                    std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_LEVEL_REQUEST, "", 10.f),
-                                   10.f),
+                                   12.f),
                                  0);
 }
 
@@ -673,7 +692,7 @@ Editor::reload_remote_level()
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
                                    std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_LEVEL_REREQUEST, "", 10.f),
-                                   10.f),
+                                   12.f),
                                  0);
 }
 
@@ -730,7 +749,10 @@ Editor::reload_level()
   else // Remote level
   {
     std::istringstream stream(m_remote_level_contents);
+
+    GameObject::s_read_uid = true;
     set_level(LevelParser::from_stream(stream, "", false, true), m_reload_request_reset);
+    GameObject::s_read_uid = false;
 
     m_remote_level_contents.clear();
   }
