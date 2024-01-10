@@ -74,9 +74,16 @@ EditorNetworkProtocol::on_request_recieve(const network::RecievedPacket& packet)
   {
     case OP_LEVEL_REQUEST:
     case OP_LEVEL_REREQUEST:
+    {
       if (!m_editor.get_level()) return {};
+
+      GameObject::s_save_uid = true;
+      const std::string level_data = m_editor.get_level()->save();
+      GameObject::s_save_uid = false;
+
       return network::StagedPacket(packet.code == OP_LEVEL_REQUEST ? OP_LEVEL_RESPONSE : OP_LEVEL_RERESPONSE,
-                                   m_editor.get_level()->save());
+                                   level_data, 10.f);
+    }
 
     default:
       return {};

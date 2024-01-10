@@ -88,6 +88,13 @@ class GameObject : public ExposableClass
 public:
   static void register_class(ssq::VM& vm);
 
+  /** If set, any object will have its UID parsed on creation.
+      Used for remote levels in the editor to allow for proper change handling. */
+  static bool s_read_uid;
+  /** If set, any object's UID would be written on save.
+      Used for remote levels in the editor to allow for proper change handling. */
+  static bool s_save_uid;
+
 public:
   GameObject();
   GameObject(const std::string& name);

@@ -32,6 +32,8 @@
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
+class GameObjectChange;
+class GameObjectChanges;
 class MovingObject;
 class TileMap;
 
@@ -59,10 +61,37 @@ private:
   };
 
 public:
+  /** Allows for external handling of various GameObjectManager events. */
+  class EventHandler
+  {
+  public:
+    EventHandler() {}
+    virtual ~EventHandler() {}
+
+    /** Return value indicates whether the object should be updated to its latest version. */
+    virtual bool should_update_object(const GameObject& object) { return false; }
+
+    /** Return value indicates whether object should be added. */
+    virtual bool before_object_add(GameObject& object) { return true; }
+    virtual void before_object_remove(GameObject& object) {}
+
+    virtual void on_object_changes(const GameObjectChanges& changes) {}
+
+  private:
+    EventHandler(const EventHandler&) = delete;
+    EventHandler& operator=(const EventHandler&) = delete;
+  };
+
+public:
   GameObjectManager(bool undo_tracking = false);
   virtual ~GameObjectManager() override;
 
   virtual std::string get_exposed_class_name() const override { return "GameObjectManager"; }
+
+  void set_event_handler(std::unique_ptr<EventHandler> handler)
+  {
+    m_event_handler = std::move(handler);
+  }
 
   /** Queue an object up to be added to the object list */
   GameObject& add_object(std::unique_ptr<GameObject> object);
@@ -350,6 +379,9 @@ private:
   std::vector<GameObjectChangeSet> m_redo_stack;
   std::vector<GameObjectChange> m_pending_change_stack; // Before a flush, any changes go here
   UID m_last_saved_change;
+
+  /** External event handling */
+  std::unique_ptr<EventHandler> m_event_handler;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 
