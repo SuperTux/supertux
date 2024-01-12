@@ -32,7 +32,7 @@
 namespace {
 
 const float LIGHTNING_DELAY = 2.0f;
-const float FLASH_DISPLAY_TIME = 0.1f;
+const float FLASH_DISPLAY_TIME = 0.5f;
 const float ELECTRIFY_TIME = 0.5f;
 
 } // namespace
