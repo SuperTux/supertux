@@ -47,7 +47,9 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   time_to_thunder(),
   time_to_lightning(),
   flash_display_timer(),
-  changing_tiles(TileManager::current()->get_tileset(Level::current()->get_tileset())->m_thunderstorm_tiles)
+  changing_tiles(TileManager::current()->get_tileset(Level::current()->get_tileset())->m_thunderstorm_tiles),
+  last_ambient_color(),
+  last_layer()
 {
   reader.get("running", running);
   reader.get("interval", interval);
@@ -56,6 +58,7 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
     log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
   }
   layer = reader_get_layer (reader, LAYER_BACKGROUNDTILES - 1);
+  last_layer = layer;
 
   SoundManager::current()->preload("sounds/thunder.wav");
   SoundManager::current()->preload("sounds/lightning.wav");
@@ -99,6 +102,7 @@ Thunderstorm::update(float )
   if(flash_display_timer.check()) {
     Sector::current()->get_singleton_by_type<AmbientLight>()
       .set_ambient_light(last_ambient_color);
+    layer = last_layer;
   }
 }
 
@@ -152,6 +156,7 @@ Thunderstorm::lightning()
 
   set_background_color(Color::WHITE);
   Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(Color::LIGHTNING_HIT_COLOR);
+  layer = std::numeric_limits<int>::max();
 }
 
 void
