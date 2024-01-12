@@ -111,10 +111,10 @@ Thunderstorm::draw(DrawingContext& context)
 {
   if (!flash_display_timer.started()) return;
 
-  float alpha = 0.33f;
+  float alpha = 0.66f;
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_filled_rect(context.get_rect(), Color(1, 1, 1, alpha), layer);
+  context.color().draw_filled_rect(context.get_rect(), Color(1, 1, 1, alpha), layer, Blend::ADD);
   context.pop_transform();
 
 }
