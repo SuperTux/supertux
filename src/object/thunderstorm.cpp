@@ -32,7 +32,7 @@
 namespace {
 
 const float LIGHTNING_DELAY = 2.0f;
-const float FLASH_DISPLAY_TIME = 0.3f;
+const float FLASH_DISPLAY_TIME = 1.2f;
 const float ELECTRIFY_TIME = 0.5f;
 
 } // namespace
@@ -110,8 +110,8 @@ void
 Thunderstorm::draw(DrawingContext& context)
 {
   if (!flash_display_timer.started()) return;
+  float alpha = 1.0f - flash_display_timer.get_progress();
 
-  float alpha = 0.66f;
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.color().draw_filled_rect(context.get_rect(), Color(1, 1, 1, alpha), layer, Blend::ADD);
