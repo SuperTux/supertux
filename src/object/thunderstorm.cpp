@@ -141,7 +141,7 @@ void
 Thunderstorm::thunder()
 {
   SoundManager::current()->play("sounds/thunder.wav");
-  set_background_color(Color(0.4f, 0.4f, 0.4f));
+  change_background_colors(false);
   last_ambient_color = Sector::current()->get_singleton_by_type<AmbientLight>().get_ambient_light();
 }
 
@@ -154,7 +154,7 @@ Thunderstorm::lightning()
 	  Sector::get().run_script(m_strike_script, "strike-script");
   }
 
-  set_background_color(Color::WHITE);
+  change_background_colors(true);
   Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(Color::LIGHTNING_HIT_COLOR);
   layer = std::numeric_limits<int>::max();
 }
@@ -173,12 +173,14 @@ Thunderstorm::electrify()
 }
 
 void
-Thunderstorm::set_background_color(const Color& color)
+Thunderstorm::change_background_colors(bool is_lightning)
 {
+  auto factor = is_lightning ? (1.0f / 0.7f) : 0.7f;
   auto backgrounds = Sector::current()->get_objects_by_type<Background>();
   for(auto& background : backgrounds)
   {
-    background.fade_color(color, 0.1f);
+    auto new_color = background.get_color() * factor;
+    background.fade_color(new_color.validate(), 0.1f);
   }
 }
 
