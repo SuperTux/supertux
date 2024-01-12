@@ -71,7 +71,7 @@ public:
   /** @} */
 
 private:
-  void set_background_color(const Color& color);
+  void change_background_colors(bool is_lightning);
 
 private:
   bool running; /**< whether we currently automatically trigger lightnings */
