@@ -132,7 +132,7 @@ CorruptedGranitoBig::crack()
   else if (!m_crack_timer.started())
     m_crack_timer.start(CRACK_TIME);
 
-  float progress = m_crack_timer.get_timegone() / m_crack_timer.get_period();
+  float progress = m_crack_timer.get_progress();
 
   if (m_state == STATE_CRACK1 && progress >= 0.5f)
   {
