@@ -32,8 +32,6 @@
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
-class GameObjectChange;
-class GameObjectChanges;
 class MovingObject;
 class TileMap;
 
@@ -75,7 +73,7 @@ public:
     virtual bool before_object_add(GameObject& object) { return true; }
     virtual void before_object_remove(GameObject& object) {}
 
-    virtual void on_object_changes(const GameObjectChanges& changes) {}
+    virtual void on_object_changes(const GameObjectStates& changes) {}
 
   private:
     EventHandler(const EventHandler&) = delete;
@@ -368,6 +366,9 @@ protected:
   /** An initial flush_game_objects() call has been initiated. */
   bool m_initialized;
 
+  /** External event handling */
+  std::unique_ptr<EventHandler> m_event_handler;
+
 private:
   UIDGenerator m_uid_generator;
 
@@ -379,9 +380,6 @@ private:
   std::vector<GameObjectChangeSet> m_redo_stack;
   std::vector<GameObjectChange> m_pending_change_stack; // Before a flush, any changes go here
   UID m_last_saved_change;
-
-  /** External event handling */
-  std::unique_ptr<EventHandler> m_event_handler;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 

@@ -17,10 +17,13 @@
 #include "editor/sector_handler.hpp"
 
 #include "editor/editor.hpp"
-#include "supertux/game_object_change.hpp"
+#include "editor/network_protocol.hpp"
+#include "network/host.hpp"
 #include "util/writer.hpp"
 
-EditorSectorHandler::EditorSectorHandler()
+EditorSectorHandler::EditorSectorHandler(Editor& editor, Sector& sector) :
+  m_editor(editor),
+  m_sector(sector)
 {
 }
 
@@ -35,19 +38,70 @@ bool
 EditorSectorHandler::before_object_add(GameObject& object)
 {
   // Attempt to add the new object to the layers widget.
-  Editor::current()->add_layer(object);
+  m_editor.add_layer(object);
 
   return true;
 }
 
 void
-EditorSectorHandler::on_object_changes(const GameObjectChanges& changes)
+EditorSectorHandler::on_object_changes(const GameObjectStates& changes)
 {
+  broadcast_sector_changes([this, changes](Writer& writer)
+    {
+      writer.write("sector", m_sector.get_name());
+      writer.start_list("object-changes");
+
+      GameObjectStates states = changes;
+      for (GameObjectState& state : states.objects)
+      {
+        switch (state.action)
+        {
+          case GameObjectState::Action::MODIFY: // Need to send current object data
+            state.data = m_sector.get_object_by_uid<GameObject>(state.uid)->save();
+            break;
+
+          case GameObjectState::Action::DELETE: // No need to send data, just the action is enough
+            state.data.clear();
+            break;
+
+          default:
+            break;
+        }
+      }
+      states.save(writer);
+
+      writer.end_list("object-changes");
+    });
+}
+
+void
+EditorSectorHandler::on_property_changes(const std::string& original_name)
+{
+  broadcast_sector_changes([this, original_name](Writer& writer)
+    {
+      writer.write("sector", original_name);
+      m_sector.save_properties(writer);
+    });
+}
+
+
+void
+EditorSectorHandler::broadcast_sector_changes(const std::function<void(Writer&)>& write_func) const
+{
+  // This function is needed for remote level editing.
+  // Do not proceed if no networking is active.
+  if (!m_editor.get_network_host())
+    return;
+
   std::ostringstream stream;
   Writer writer(stream);
 
-  changes.save(writer);
-  log_warning << stream.str() << std::endl;
+  writer.start_list("supertux-sector-changes");
+  write_func(writer);
+  writer.end_list("supertux-sector-changes");
+
+  network::StagedPacket packet(EditorNetworkProtocol::OP_SECTOR_CHANGES, stream.str(), 5.f);
+  m_editor.get_network_host()->broadcast_packet(packet, 0);
 }
 
 /* EOF */

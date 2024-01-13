@@ -22,7 +22,6 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/sector_parser.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 
@@ -57,26 +56,8 @@ EditorSectorsMenu::~EditorSectorsMenu()
 void
 EditorSectorsMenu::create_sector()
 {
-  auto level = Editor::current()->get_level();
+  Editor::current()->create_sector();
 
-  auto new_sector = SectorParser::from_nothing(*level);
-
-  if (!new_sector) {
-    log_warning << "Failed to create a new sector." << std::endl;
-    return;
-  }
-
-  // Find an unique name.
-  std::string sector_name;
-  int num = 2;
-  do {
-    sector_name = "sector" + std::to_string(num);
-    num++;
-  } while ( level->get_sector(sector_name) );
-  new_sector->set_name(sector_name);
-
-  level->add_sector(std::move(new_sector));
-  Editor::current()->load_sector(sector_name);
   MenuManager::instance().clear_menu_stack();
   Editor::current()->m_reactivate_request = true;
 }
@@ -99,7 +80,8 @@ EditorSectorsMenu::delete_sector()
     dialog->add_cancel_button(_("Cancel"));
     dialog->add_button(_("Delete sector"), [] {
         MenuManager::instance().clear_menu_stack();
-        Editor::current()->delete_current_sector();
+        Editor::current()->delete_sector(Editor::current()->get_sector()->get_name());
+        Editor::current()->m_reactivate_request = true;
       });
   }
   MenuManager::instance().set_dialog(std::move(dialog));

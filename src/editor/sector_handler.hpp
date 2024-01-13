@@ -17,21 +17,32 @@
 #ifndef HEADER_SUPERTUX_EDITOR_SECTOR_HANDLER_HPP
 #define HEADER_SUPERTUX_EDITOR_SECTOR_HANDLER_HPP
 
-#include "supertux/game_object_manager.hpp"
+#include "supertux/sector.hpp"
 
-class Sector;
+#include <functional>
+
+class Editor;
+class Writer;
 
 /** Handles various events on level sectors in editor. */
-class EditorSectorHandler final : public GameObjectManager::EventHandler
+class EditorSectorHandler final : public Sector::EventHandler
 {
 public:
-  EditorSectorHandler();
+  EditorSectorHandler(Editor& editor, Sector& sector);
 
-  virtual bool should_update_object(const GameObject& object) override;
+  bool should_update_object(const GameObject& object) override;
 
-  virtual bool before_object_add(GameObject& object) override;
+  bool before_object_add(GameObject& object) override;
 
-  virtual void on_object_changes(const GameObjectChanges& changes) override;
+  void on_object_changes(const GameObjectStates& changes) override;
+  void on_property_changes(const std::string& original_name) override;
+
+private:
+  void broadcast_sector_changes(const std::function<void(Writer&)>& write_func) const;
+
+private:
+  Editor& m_editor;
+  Sector& m_sector;
 
 private:
   EditorSectorHandler(const EditorSectorHandler&) = delete;

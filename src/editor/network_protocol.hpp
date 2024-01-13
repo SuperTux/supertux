@@ -31,7 +31,9 @@ public:
     OP_LEVEL_REREQUEST,
     OP_LEVEL_RESPONSE,
     OP_LEVEL_RERESPONSE,
-    //OBJECT_ACTION_EVENT,
+    OP_SECTOR_CHANGES,
+    OP_SECTOR_CREATE,
+    OP_SECTOR_DELETE,
     OP_END
   };
 
@@ -46,6 +48,9 @@ public:
   void on_client_disconnect(network::Peer&) override;
 
   bool verify_packet(const network::StagedPacket& packet) override;
+
+  void on_packet_abort(const network::RecievedPacket& packet) override;
+  void on_packet_recieve(const network::RecievedPacket& packet) override;
 
   network::StagedPacket on_request_recieve(const network::RecievedPacket& packet) override;
   void on_request_fail(const network::Request& request, network::Request::FailReason reason) override;

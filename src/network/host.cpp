@@ -195,11 +195,8 @@ Host::update()
 }
 
 ENetPacket*
-Host::send_packet(ENetPeer* peer, StagedPacket& packet, uint8_t channel_id)
+Host::create_packet(StagedPacket& packet)
 {
-  if (!peer) return nullptr;
-  assert(peer->host == m_host);
-
   if (m_protocol)
   {
     if (!m_protocol->verify_packet(packet))
@@ -224,8 +221,32 @@ Host::send_packet(ENetPeer* peer, StagedPacket& packet, uint8_t channel_id)
   timer->start(packet.send_time);
   m_packet_timers[enet_packet] = std::move(timer);
 
+  return enet_packet;
+}
+
+ENetPacket*
+Host::send_packet(ENetPeer* peer, StagedPacket& packet, uint8_t channel_id)
+{
+  if (!peer) return nullptr;
+  assert(peer->host == m_host);
+
+  ENetPacket* enet_packet = create_packet(packet);
+  if (!enet_packet) return nullptr;
+
   // Send the packet over
   enet_peer_send(peer, static_cast<enet_uint8>(channel_id), enet_packet);
+
+  return enet_packet;
+}
+
+ENetPacket*
+Host::broadcast_packet(StagedPacket& packet, uint8_t channel_id)
+{
+  ENetPacket* enet_packet = create_packet(packet);
+  if (!enet_packet) return nullptr;
+
+  // Send the packet over to all peers
+  enet_host_broadcast(m_host, static_cast<enet_uint8>(channel_id), enet_packet);
 
   return enet_packet;
 }

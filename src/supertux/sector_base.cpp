@@ -18,6 +18,8 @@
 
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace Base {
 
@@ -29,10 +31,34 @@ Sector::Sector(const std::string& type) :
 }
 
 void
+<<<<<<< HEAD
 Sector::finish_construction(bool)
 {
   for (auto& object : get_objects())
     object->finish_construction();
+=======
+Sector::parse_properties(const ReaderMapping& reader)
+{
+  reader.get("name", m_name);
+  reader.get("init-script", m_init_script);
+}
+
+void
+Sector::save_properties(Writer& writer) const
+{
+  writer.write("name", m_name);
+  writer.write("init-script", m_init_script);
+}
+
+std::string
+Sector::get_properties() const
+{
+  std::ostringstream stream;
+  Writer writer(stream);
+  save_properties(writer);
+
+  return stream.str();
+>>>>>>> 3d9c693f5 (Rename to `GameObjectState`, perform remote sector/object actions)
 }
 
 void
@@ -52,6 +78,13 @@ void
 Sector::before_object_remove(GameObject& object)
 {
   m_squirrel_environment->unexpose(object.get_name());
+}
+
+Sector::EventHandler&
+Sector::get_event_handler() const
+{
+  assert(m_event_handler);
+  return static_cast<EventHandler&>(*m_event_handler);
 }
 
 } // namespace Base

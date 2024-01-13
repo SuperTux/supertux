@@ -27,7 +27,6 @@
 #include "object/ambient_light.hpp"
 #include "object/music_object.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/game_object_change.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
 #include "util/reader_document.hpp"
@@ -38,6 +37,7 @@ bool GameObjectManager::s_draw_solids_only = false;
 
 GameObjectManager::GameObjectManager() :
   m_initialized(false),
+  m_event_handler(),
   m_uid_generator(),
   m_change_uid_generator(),
   m_undo_tracking(false),
@@ -46,7 +46,6 @@ GameObjectManager::GameObjectManager() :
   m_redo_stack(),
   m_pending_change_stack(),
   m_last_saved_change(),
-  m_event_handler(),
   m_gameobjects(),
   m_gameobjects_new(),
   m_solid_tilemaps(),
@@ -284,15 +283,18 @@ GameObjectManager::flush_game_objects()
   try_process_resolve_requests();
 
   // If object changes have been performed since last flush, push them to the undo stack.
-  if (m_undo_tracking && !m_pending_change_stack.empty())
+  if (!m_pending_change_stack.empty())
   {
-    GameObjectChanges changes(m_change_uid_generator.next(), std::move(m_pending_change_stack));
+    GameObjectStates changes(m_change_uid_generator.next(), std::move(m_pending_change_stack));
     if (m_event_handler)
       m_event_handler->on_object_changes(changes);
 
-    m_undo_stack.push_back(std::move(changes));
-    m_redo_stack.clear();
-    undo_stack_cleanup();
+    if (m_undo_tracking)
+    {
+      m_undo_stack.push_back(std::move(changes));
+      m_redo_stack.clear();
+      undo_stack_cleanup();
+    }
   }
 
   m_initialized = true;
