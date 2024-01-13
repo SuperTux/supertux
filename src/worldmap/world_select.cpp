@@ -223,7 +223,7 @@ WorldSelect::update(float dt_sec, const Controller& controller)
   if (!m_enabled)
     return;
 
-  if (controller.pressed(Control::ESCAPE) || controller.pressed(Control::ACTION))
+  if (controller.pressed_any(Control::ESCAPE, Control::ACTION))
   {
     m_enabled = false;
     ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::Direction::FADEOUT, 0.25f));
