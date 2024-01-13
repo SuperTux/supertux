@@ -37,6 +37,10 @@ class MenuStorage;
 class ScreenFade;
 class VideoSystem;
 
+namespace network {
+class HostManager;
+} // namespace network
+
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
  */
@@ -75,6 +79,7 @@ private:
   InputManager& m_input_manager;
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
+  std::unique_ptr<network::HostManager> m_network_host_manager;
   std::unique_ptr<ControllerHUD> m_controller_hud;
   MobileController m_mobile_controller;
 

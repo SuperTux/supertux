@@ -46,6 +46,9 @@
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/util.hpp"
+#include "network/client.hpp"
+#include "network/host_manager.hpp"
+#include "network/server.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "object/spawnpoint.hpp"
@@ -176,10 +179,6 @@ Editor::draw(Compositor& compositor)
 void
 Editor::update(float dt_sec, const Controller& controller)
 {
-  network::Host* network_host = get_network_host();
-  if (network_host)
-    network_host->update();
-
   // Auto-save (interval).
   if (m_level && !is_editing_remote_level())
   {
@@ -375,9 +374,9 @@ network::Host*
 Editor::get_network_host() const
 {
   if (m_network_server)
-    return m_network_server.get();
+    return m_network_server;
   else if (m_network_client)
-    return m_network_client.get();
+    return m_network_client;
 
   return nullptr;
 }
@@ -701,7 +700,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port)
 
   try
   {
-    m_network_client = std::make_unique<network::Client>(1, 2);
+    m_network_client = &network::HostManager::current()->create<network::Client>(1, 2);
   }
   catch (const std::exception& err)
   {
@@ -733,7 +732,8 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port)
         break;
     }
 
-    m_network_client.reset();
+    network::HostManager::current()->destroy(m_network_client);
+    m_network_client = nullptr;
     m_network_server_peer = nullptr;
     return;
   }
@@ -768,7 +768,7 @@ Editor::host_level(uint16_t port)
 {
   try
   {
-    m_network_server = std::make_unique<network::Server>(port, 32, 2);
+    m_network_server = &network::HostManager::current()->create<network::Server>(port, 32, 2);
   }
   catch (const std::exception& err)
   {
@@ -782,7 +782,8 @@ Editor::host_level(uint16_t port)
 void
 Editor::stop_hosting_level()
 {
-  m_network_server.reset();
+  network::HostManager::current()->destroy(m_network_server);
+  m_network_server = nullptr;
 }
 
 void
@@ -792,11 +793,12 @@ Editor::close_connections()
   {
     m_network_client->set_protocol({});
     m_network_client->disconnect(m_network_server_peer);
-    m_network_client.reset();
+    network::HostManager::current()->destroy(m_network_client);
+    m_network_client = nullptr;
     m_network_server_peer = nullptr;
   }
   else if (m_network_server) // Server - stop hosting level
-    m_network_server.reset();
+    stop_hosting_level();
 }
 
 void

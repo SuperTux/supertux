@@ -25,6 +25,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
+#include "network/host_manager.hpp"
 #include "object/player.hpp"
 #include "sdk/integration.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
@@ -136,6 +137,7 @@ ScreenManager::ScreenManager(VideoSystem& video_system, InputManager& input_mana
   m_input_manager(input_manager),
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager()),
+  m_network_host_manager(new network::HostManager()),
   m_controller_hud(new ControllerHUD),
   m_mobile_controller(),
   last_ticks(0),
@@ -306,6 +308,8 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 void
 ScreenManager::update_gamelogic(float dt_sec)
 {
+  m_network_host_manager->update();
+
   Controller& controller = m_input_manager.get_controller();
 
   if (g_config->mobile_controls)

@@ -27,8 +27,7 @@
 #include "editor/toolbox_widget.hpp"
 #include "editor/layers_widget.hpp"
 #include "editor/scroller_widget.hpp"
-#include "network/client.hpp"
-#include "network/server.hpp"
+#include "network/host.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/world.hpp"
 #include "util/currenton.hpp"
@@ -50,6 +49,7 @@ class World;
 
 namespace network {
 class Client;
+class Server;
 } // namespace network
 
 class Editor final : public Screen,
@@ -125,7 +125,7 @@ public:
   void open_level_directory();
 
   bool is_editing_remote_level() const { return m_network_server_peer; }
-  bool is_hosting_level() const { return m_network_server.get(); }
+  bool is_hosting_level() const { return m_network_server; }
   bool is_testing_level() const { return m_leveltested; }
 
   /** Get address of the local or remote server. */
@@ -254,8 +254,8 @@ private:
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
 
-  std::unique_ptr<network::Server> m_network_server;
-  std::unique_ptr<network::Client> m_network_client;
+  network::Server* m_network_server;
+  network::Client* m_network_client;
   ENetPeer* m_network_server_peer;
 
   bool m_enabled;
