@@ -112,10 +112,6 @@ SectorParser::parse(const ReaderMapping& reader)
 
   auto iter = reader.get_iter();
   while (iter.next()) {
-    if (iter.get_key() == "name" || iter.get_key() == "init-script" ||
-        iter.get_key() == "gravity")
-      continue; // Parsed by sector earlier
-
     if (iter.get_key() == "music")
     {
       const auto& sx = iter.get_sexp();
@@ -145,6 +141,11 @@ SectorParser::parse(const ReaderMapping& reader)
         // modern format
         m_sector.add<AmbientLight>(iter.as_mapping());
       }
+    }
+    else if (iter.get_key() == "name" || iter.get_key() == "init-script" ||
+             iter.get_key() == "gravity")
+    {
+      continue; // Already parsed by the sector
     }
     else
     {
