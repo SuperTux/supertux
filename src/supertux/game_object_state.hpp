@@ -21,7 +21,6 @@
 
 #include "util/uid.hpp"
 
-class GameObject;
 class ReaderMapping;
 class Writer;
 
