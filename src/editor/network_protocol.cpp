@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/d_scope.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/sector.hpp"
@@ -113,6 +114,7 @@ EditorNetworkProtocol::on_packet_recieve(const network::RecievedPacket& packet)
         return;
       }
 
+      BIND_SECTOR(*sector);
       sector->parse_properties(reader);
 
       std::optional<ReaderMapping> object_changes_mapping;
