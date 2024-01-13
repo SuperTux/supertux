@@ -830,7 +830,7 @@ EditorOverlayWidget::rubber_rect()
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     const Rectf& bbox = moving_object.get_bbox();
-    if (dr.contains(bbox)) {
+    if (dr.overlaps(bbox)) {
       moving_object.editor_delete();
     }
 

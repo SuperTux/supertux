@@ -122,9 +122,8 @@ public:
     return v.x >= m_p1.x && v.y >= m_p1.y && v.x < get_right() && v.y < get_bottom();
   }
 
-  bool contains(const Rectf& other) const
+  bool overlaps(const Rectf& other) const
   {
-    // FIXME: This is overlaps(), not contains()!
     if (m_p1.x >= other.get_right() || other.get_left() >= get_right())
       return false;
     if (m_p1.y >= other.get_bottom() || other.get_top() >= get_bottom())
