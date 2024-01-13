@@ -17,6 +17,8 @@
 #include "supertux/sector_base.hpp"
 
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace Base {
 
@@ -25,6 +27,30 @@ Sector::Sector(const std::string& type) :
   m_init_script(),
   m_squirrel_environment(new SquirrelEnvironment(SquirrelVirtualMachine::current()->get_vm(), type))
 {
+}
+
+void
+Sector::parse_properties(const ReaderMapping& reader)
+{
+  reader.get("name", m_name);
+  reader.get("init-script", m_init_script);
+}
+
+void
+Sector::save_properties(Writer& writer) const
+{
+  writer.write("name", m_name);
+  writer.write("init-script", m_init_script);
+}
+
+std::string
+Sector::get_properties() const
+{
+  std::ostringstream stream;
+  Writer writer(stream);
+  save_properties(writer);
+
+  return stream.str();
 }
 
 void
@@ -44,6 +70,13 @@ void
 Sector::before_object_remove(GameObject& object)
 {
   m_squirrel_environment->try_unexpose(object);
+}
+
+Sector::EventHandler&
+Sector::get_event_handler() const
+{
+  assert(m_event_handler);
+  return static_cast<EventHandler&>(*m_event_handler);
 }
 
 } // namespace Base

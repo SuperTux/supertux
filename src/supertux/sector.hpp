@@ -64,6 +64,9 @@ public:
   static Sector* current() { return s_current; }
 
 public:
+  typedef Base::Sector::EventHandler EventHandler;
+
+public:
   Sector(Level& parent);
   ~Sector() override;
 
@@ -81,6 +84,8 @@ public:
   void draw(DrawingContext& context) override;
   void update(float dt_sec) override;
 
+  void parse_properties(const ReaderMapping& reader) override;
+  void save_properties(Writer& writer) const override;
   void save(Writer &writer);
 
   /** stops all looping sounds in whole sector. */

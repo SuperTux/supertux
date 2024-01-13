@@ -22,7 +22,9 @@
 #include "squirrel/squirrel_environment.hpp"
 
 class Level;
+class ReaderMapping;
 class TileSet;
+class Writer;
 
 namespace Base {
 
@@ -30,11 +32,29 @@ namespace Base {
 class Sector : public GameObjectManager
 {
 public:
+  /** Allows for external handling of various base sector events. */
+  class EventHandler : public GameObjectManager::EventHandler
+  {
+  public:
+    EventHandler() {}
+
+    virtual void on_property_changes(const std::string& original_name) {}
+
+  private:
+    EventHandler(const EventHandler&) = delete;
+    EventHandler& operator=(const EventHandler&) = delete;
+  };
+
+public:
   Sector(const std::string& type);
 
   /** Needs to be called after parsing to finish the construction of
       the Sector before using it. */
   virtual void finish_construction(bool editable) {}
+
+  virtual void parse_properties(const ReaderMapping& reader);
+  virtual void save_properties(Writer& writer) const;
+  std::string get_properties() const;
 
   virtual void draw(DrawingContext& context) = 0;
   virtual void update(float dt_sec) = 0;
@@ -51,6 +71,8 @@ public:
 protected:
   virtual bool before_object_add(GameObject& object) override;
   virtual void before_object_remove(GameObject& object) override;
+
+  EventHandler& get_event_handler() const;
 
 protected:
   std::string m_name;

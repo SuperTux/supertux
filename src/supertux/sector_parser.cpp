@@ -107,24 +107,15 @@ SectorParser::parse_object_additional(const std::string& name, const ReaderMappi
 void
 SectorParser::parse(const ReaderMapping& reader)
 {
+  m_sector.parse_properties(reader);
+
   auto iter = reader.get_iter();
   while (iter.next()) {
-    if (iter.get_key() == "name")
-    {
-      std::string value;
-      iter.get(value);
-      m_sector.set_name(value);
-    }
-    else if (iter.get_key() == "gravity")
-    {
-      auto sector = dynamic_cast<Sector*>(&m_sector);
-      if (!sector) continue;
+    if (iter.get_key() == "name" || iter.get_key() == "init-script" ||
+        iter.get_key() == "gravity")
+      continue; // Parsed by sector earlier
 
-      float value;
-      iter.get(value);
-      sector->set_gravity(value);
-    }
-    else if (iter.get_key() == "music")
+    if (iter.get_key() == "music")
     {
       const auto& sx = iter.get_sexp();
       if (sx.is_array() && sx.as_array().size() == 2 && sx.as_array()[1].is_string()) {
@@ -134,12 +125,6 @@ SectorParser::parse(const ReaderMapping& reader)
       } else {
         m_sector.add<MusicObject>(iter.as_mapping());
       }
-    }
-    else if (iter.get_key() == "init-script")
-    {
-      std::string value;
-      iter.get(value);
-      m_sector.set_init_script(value);
     }
     else if (iter.get_key() == "ambient-light")
     {

@@ -26,11 +26,10 @@
 #include <vector>
 
 #include "supertux/game_object.hpp"
+#include "supertux/game_object_state.hpp"
 #include "util/uid_generator.hpp"
 
 class DrawingContext;
-class GameObjectChange;
-class GameObjectChanges;
 class MovingObject;
 class TileMap;
 
@@ -63,7 +62,7 @@ public:
     virtual bool before_object_add(GameObject& object) { return true; }
     virtual void before_object_remove(GameObject& object) {}
 
-    virtual void on_object_changes(const GameObjectChanges& changes) {}
+    virtual void on_object_changes(const GameObjectStates& changes) {}
 
   private:
     EventHandler(const EventHandler&) = delete;
@@ -239,6 +238,10 @@ public:
   void undo();
   void redo();
 
+  /** Apply saved object states. */
+  void apply_object_state(const GameObjectState& state);
+  void apply_object_states(const GameObjectStates& states);
+
   /** Save object change in the undo stack with given data.
       Used to save an object's previous state before a change had occurred. */
   void save_object_change(GameObject& object, const std::string& data);
@@ -273,13 +276,13 @@ protected:
 
 private:
   /** Create object from object change. */
-  void create_object_from_change(const GameObjectChange& change);
+  void create_object_from_state(const GameObjectState& state, bool track_undo);
 
-  /** Process object change on undo/redo. */
-  void process_object_change(GameObjectChange& change);
+  /** Undo/redo object change. */
+  void process_object_change(GameObjectState& change);
 
   /** Save object change in the undo stack. */
-  void save_object_change(GameObject& object, bool creation = false);
+  void save_object_state(GameObject& object, GameObjectState::Action action);
 
   void this_before_object_add(GameObject& object);
   void this_before_object_remove(GameObject& object);
@@ -288,6 +291,9 @@ protected:
   /** An initial flush_game_objects() call has been initiated. */
   bool m_initialized;
 
+  /** External event handling */
+  std::unique_ptr<EventHandler> m_event_handler;
+
 private:
   UIDGenerator m_uid_generator;
 
@@ -295,13 +301,10 @@ private:
   UIDGenerator m_change_uid_generator;
   bool m_undo_tracking;
   int m_undo_stack_size;
-  std::vector<GameObjectChanges> m_undo_stack;
-  std::vector<GameObjectChanges> m_redo_stack;
-  std::vector<GameObjectChange> m_pending_change_stack; // Before a flush, any changes go here
+  std::vector<GameObjectStates> m_undo_stack;
+  std::vector<GameObjectStates> m_redo_stack;
+  std::vector<GameObjectState> m_pending_change_stack; // Before a flush, any changes go here
   UID m_last_saved_change;
-
-  /** External event handling */
-  std::unique_ptr<EventHandler> m_event_handler;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 

@@ -14,75 +14,75 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/game_object_change.hpp"
+#include "supertux/game_object_state.hpp"
 
 #include "util/log.hpp"
 #include "util/reader_iterator.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-GameObjectChange::GameObjectChange(const std::string& name_, const UID& uid_,
-                                   const std::string& data_, bool creation_) :
+GameObjectState::GameObjectState(const std::string& name_, const UID& uid_,
+                                 const std::string& data_, Action action_) :
   name(name_),
   uid(uid_),
   data(data_),
-  creation(creation_)
+  action(action_)
 {
 }
 
-GameObjectChange::GameObjectChange(const ReaderMapping& reader) :
+GameObjectState::GameObjectState(const ReaderMapping& reader) :
   name(),
   uid(),
   data(),
-  creation()
+  action()
 {
   reader.get("name", name);
   reader.get("uid", uid);
   reader.get("data", data);
-  reader.get("creation", creation);
+  reader.get("action", reinterpret_cast<int&>(action));
 }
 
 void
-GameObjectChange::save(Writer& writer) const
+GameObjectState::save(Writer& writer) const
 {
   writer.write("name", name);
   writer.write("uid", uid);
   writer.write("data", data);
-  writer.write("creation", creation);
+  writer.write("action", reinterpret_cast<const int&>(action));
 }
 
 
-GameObjectChanges::GameObjectChanges(const UID& uid_, std::vector<GameObjectChange> objects_) :
+GameObjectStates::GameObjectStates(const UID& uid_, std::vector<GameObjectState> objects_) :
   uid(uid_),
   objects(std::move(objects_))
 {
 }
 
-GameObjectChanges::GameObjectChanges(const ReaderMapping& reader) :
+GameObjectStates::GameObjectStates(const ReaderMapping& reader) :
   uid(),
   objects()
 {
   auto iter = reader.get_iter();
   while (iter.next())
   {
-    if (iter.get_key() != "object-change")
+    if (iter.get_key() != "object-state")
     {
-      log_warning << "Unknown key '" << iter.get_key() << "' in GameObjectChanges data. Ignoring." << std::endl;
+      log_warning << "Unknown key '" << iter.get_key() << "' in GameObjectStates data. Ignoring." << std::endl;
       continue;
     }
 
-    objects.push_back(GameObjectChange(iter.as_mapping()));
+    objects.push_back(GameObjectState(iter.as_mapping()));
   }
 }
 
 void
-GameObjectChanges::save(Writer& writer) const
+GameObjectStates::save(Writer& writer) const
 { 
   for (const auto& change : objects)
   {
-    writer.start_list("object-change");
+    writer.start_list("object-state");
     change.save(writer);
-    writer.end_list("object-change");
+    writer.end_list("object-state");
   }
 }
 

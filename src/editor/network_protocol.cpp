@@ -21,7 +21,10 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/editor_menu.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 
 static void refresh_editor_menu()
 {
@@ -65,6 +68,76 @@ EditorNetworkProtocol::verify_packet(const network::StagedPacket& packet)
     return false;
 
   return true;
+}
+
+void
+EditorNetworkProtocol::on_packet_abort(const network::RecievedPacket& packet)
+{
+  switch (packet.code)
+  {
+    case OP_SECTOR_CHANGES:
+      log_warning << "Failed to send sector changes." << std::endl;
+      break;
+
+    default:
+      break;
+  }
+}
+
+void
+EditorNetworkProtocol::on_packet_recieve(const network::RecievedPacket& packet)
+{
+  switch (packet.code)
+  {
+    case OP_SECTOR_CHANGES:
+    {
+      std::istringstream stream(packet.data);
+      auto doc = ReaderDocument::from_stream(stream);
+      auto root = doc.get_root();
+      if (root.get_name() != "supertux-sector-changes")
+      {
+        log_warning << "Ignoring incoming sector changes data: Not 'supertux-sector-changes' data." << std::endl;
+        return;
+      }
+
+      auto reader = root.get_mapping();
+
+      std::string sector_name;
+      reader.get("sector", sector_name);
+
+      Sector* sector = m_editor.get_level()->get_sector(sector_name);
+      if (!sector)
+      {
+        log_warning << "Ignoring incoming sector changes data: No sector with name '" << sector_name
+                    << "' found." << std::endl;
+        return;
+      }
+
+      sector->parse_properties(reader);
+
+      std::optional<ReaderMapping> object_changes_mapping;
+      if (reader.get("object-changes", object_changes_mapping))
+      {
+        GameObjectStates states(*object_changes_mapping);
+        sector->apply_object_states(states);
+      }
+      break;
+    }
+
+    case OP_SECTOR_CREATE:
+    {
+      m_editor.create_sector(packet.data, true);
+      break;
+    }
+    case OP_SECTOR_DELETE:
+    {
+      m_editor.delete_sector(packet.data, true);
+      break;
+    }
+
+    default:
+      break;
+  }
 }
 
 network::StagedPacket

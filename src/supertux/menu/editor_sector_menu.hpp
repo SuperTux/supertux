@@ -38,6 +38,7 @@ private:
 
   Sector* sector;
   std::string original_name;
+  const std::string m_original_properties;
 
   Size size;
   Size new_size;

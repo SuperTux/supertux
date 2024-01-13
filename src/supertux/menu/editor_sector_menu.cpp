@@ -25,6 +25,7 @@
 EditorSectorMenu::EditorSectorMenu() :
   sector(Editor::current()->get_sector()),
   original_name(sector->get_name()),
+  m_original_properties(sector->get_properties()),
   size(sector->get_editor_size()),
   new_size(size),
   offset(0, 0)
@@ -52,6 +53,14 @@ EditorSectorMenu::~EditorSectorMenu()
   if (editor == nullptr) {
     return;
   }
+
+  // Proceed only if sector properties have been changed.
+  if (m_original_properties == sector->get_properties())
+    return;
+
+  if (sector->m_event_handler)
+    sector->get_event_handler().on_property_changes(original_name);
+
   // Makes sure that the name of the sector isn't already used.
   auto level = editor->get_level();
   bool is_sector = false;

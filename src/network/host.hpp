@@ -40,6 +40,7 @@ public:
   virtual void update();
 
   ENetPacket* send_packet(ENetPeer* peer, StagedPacket& packet, uint8_t channel_id);
+  ENetPacket* broadcast_packet(StagedPacket& packet, uint8_t channel_id);
   void send_request(ENetPeer* peer, std::unique_ptr<Request> request, uint8_t channel_id);
 
   size_t get_channel_limit() const { return m_host->channelLimit; }
@@ -52,6 +53,8 @@ protected:
   virtual void process_event(const ENetEvent& event) {}
 
 private:
+  ENetPacket* create_packet(StagedPacket& packet);
+
   void on_packet_send(ENetPacket* packet);
 
 protected:

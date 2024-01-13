@@ -14,53 +14,55 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_CHANGE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_CHANGE_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_STATE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_STATE_HPP
 
 #include <string>
 
 #include "util/uid.hpp"
 
+class GameObject;
 class ReaderMapping;
 class Writer;
 
 /** Stores a change in a GameObject's state. */
-class GameObjectChange final
+class GameObjectState final
 {
-  friend class GameObjectManager;
-
-private:
-  GameObjectChange(const std::string& name, const UID& uid,
-                   const std::string& data, bool creation);
+public:
+  enum class Action
+  {
+    NONE,
+    CREATE,
+    DELETE,
+    MODIFY
+  };
 
 public:
-  GameObjectChange(const ReaderMapping& reader);
+  GameObjectState(const std::string& name, const UID& uid,
+                  const std::string& data, Action action);
+  GameObjectState(const ReaderMapping& reader);
 
   void save(Writer& writer) const;
 
-private:
+public:
   std::string name;
   UID uid;
   std::string data;
-  bool creation; // Set when the change represents an object creation
+  Action action; // The action which triggered a state change
 };
 
-/** Stores multiple GameObjectChanges. */
-class GameObjectChanges final
+/** Stores multiple GameObjectStates. */
+class GameObjectStates final
 {
-  friend class GameObjectManager;
-
-private:
-  GameObjectChanges(const UID& uid, std::vector<GameObjectChange> objects);
-
 public:
-  GameObjectChanges(const ReaderMapping& reader);
+  GameObjectStates(const UID& uid, std::vector<GameObjectState> objects);
+  GameObjectStates(const ReaderMapping& reader);
 
   void save(Writer& writer) const;
 
-private:
+public:
   UID uid;
-  std::vector<GameObjectChange> objects;
+  std::vector<GameObjectState> objects;
 };
 
 #endif

@@ -55,6 +55,8 @@ class Client;
 class Editor final : public Screen,
                      public Currenton<Editor>
 {
+  friend class EditorSectorHandler;
+
 public:
   static bool is_active();
 
@@ -147,7 +149,8 @@ public:
   void check_unsaved_changes(const std::function<void ()>& action);
 
   void load_sector(const std::string& name);
-  void delete_current_sector();
+  void create_sector(const std::string& name = {}, bool from_network = false);
+  void delete_sector(const std::string& name, bool from_network = false);
 
   void update_node_iterators();
   void esc_press();
@@ -206,6 +209,8 @@ private:
 
   void setup_sector(Sector& sector);
   void post_undo_redo_actions();
+
+  network::Host* get_network_host() const;
 
 protected:
   std::unique_ptr<Level> m_level;

@@ -34,7 +34,7 @@ class StagedPacket final
   friend class Host;
 
 public:
-  StagedPacket(int code_ = -1, const std::string& data_ = {},
+  StagedPacket(int code = -1, const std::string& data = {},
                float send_sec = 5.f);
 
   std::string get_staged_data() const;
@@ -56,14 +56,14 @@ private:
 };
 
 /** Retrieves S-Expression-formatted ENet packet data.
-    Can represent sent data from a local peer,
+    Can represent locally sent data,
     or recieved data from a remote peer (`peer` will be set). */
 class RecievedPacket final
 {
   friend class Host;
 
 public:
-  RecievedPacket(ENetPacket& packet, Peer* peer_ = nullptr);
+  RecievedPacket(ENetPacket& packet, Peer* peer = nullptr);
 
 public:
   ENetPacket& enet;

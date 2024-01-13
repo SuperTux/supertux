@@ -64,6 +64,7 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/sector_parser.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
@@ -175,10 +176,9 @@ Editor::draw(Compositor& compositor)
 void
 Editor::update(float dt_sec, const Controller& controller)
 {
-  if (m_network_server)
-    m_network_server->update();
-  else if (m_network_client)
-    m_network_client->update();
+  network::Host* network_host = get_network_host();
+  if (network_host)
+    network_host->update();
 
   // Auto-save (interval).
   if (m_level && !is_editing_remote_level())
@@ -371,6 +371,17 @@ Editor::open_level_directory()
   FileSystem::open_path(path);
 }
 
+network::Host*
+Editor::get_network_host() const
+{
+  if (m_network_server)
+    return m_network_server.get();
+  else if (m_network_client)
+    return m_network_client.get();
+
+  return nullptr;
+}
+
 network::Address
 Editor::get_server_address() const
 {
@@ -496,7 +507,7 @@ void
 Editor::setup_sector(Sector& sector)
 {
   // Set event handler
-  sector.set_event_handler(std::make_unique<EditorSectorHandler>());
+  sector.set_event_handler(std::make_unique<EditorSectorHandler>(*this, sector));
 
   // Set properties
   sector.set_undo_stack_size(g_config->editor_undo_stack_size);
@@ -532,21 +543,77 @@ Editor::set_sector(Sector* sector)
 }
 
 void
-Editor::delete_current_sector()
+Editor::create_sector(const std::string& name, bool from_network)
 {
-  if (m_level->m_sectors.size() <= 1) {
-    log_fatal << "Deleting the last sector is not allowed." << std::endl;
+  auto new_sector = SectorParser::from_nothing(*m_level);
+  if (!new_sector)
+  {
+    log_warning << "Failed to create a new sector." << std::endl;
+    return;
   }
 
-  for (auto i = m_level->m_sectors.begin(); i != m_level->m_sectors.end(); ++i) {
-    if ( i->get() == get_sector() ) {
+  std::string sector_name;
+  if (name.empty())
+  {
+    // Find an unique name.
+    int num = 2;
+    do
+    {
+      sector_name = "sector" + std::to_string(num);
+      num++;
+    } while (m_level->get_sector(sector_name));
+  }
+  else
+  {
+    sector_name = name;
+  }
+  new_sector->set_name(sector_name);
+
+  setup_sector(*new_sector);
+  m_level->add_sector(std::move(new_sector));
+
+  if (!from_network)
+  {
+    load_sector(sector_name);
+
+    network::Host* network_host = get_network_host();
+    if (network_host)
+    {
+      network::StagedPacket packet(EditorNetworkProtocol::OP_SECTOR_CREATE, sector_name);
+      network_host->broadcast_packet(packet, 0);
+    }
+  }
+}
+
+void
+Editor::delete_sector(const std::string& name, bool from_network)
+{
+  if (m_level->m_sectors.size() <= 1)
+  {
+    log_warning << "Deleting the last sector is not allowed." << std::endl;
+    return;
+  }
+
+  for (auto i = m_level->m_sectors.begin(); i != m_level->m_sectors.end(); ++i)
+  {
+    if ((*i)->get_name() == name)
+    {
       m_level->m_sectors.erase(i);
       break;
     }
   }
 
   set_sector(m_level->m_sectors.front().get());
-  m_reactivate_request = true;
+
+  if (!from_network)
+  {
+    network::Host* network_host = get_network_host();
+    if (network_host)
+    {
+      network::StagedPacket packet(EditorNetworkProtocol::OP_SECTOR_DELETE, name);
+      network_host->broadcast_packet(packet, 0);
+    }
+  }
 }
 
 void
@@ -804,7 +871,7 @@ Editor::quit_editor()
 void
 Editor::check_unsaved_changes(const std::function<void ()>& action)
 {
-  if (!m_levelloaded)
+  if (!m_levelloaded || is_editing_remote_level())
   {
     action();
     return;

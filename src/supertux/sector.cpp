@@ -54,6 +54,7 @@
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "util/file_system.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -691,23 +692,29 @@ void Sector::play_looping_sounds()
 }
 
 void
+Sector::parse_properties(const ReaderMapping& reader)
+{
+  Base::Sector::parse_properties(reader);
+
+  reader.get("gravity", m_gravity);
+}
+
+void
+Sector::save_properties(Writer& writer) const
+{
+  Base::Sector::save_properties(writer);
+
+  writer.write("gravity", m_gravity);
+}
+
+void
 Sector::save(Writer &writer)
 {
   BIND_SECTOR(*this);
 
   writer.start_list("sector", false);
 
-  writer.write("name", m_name, false);
-
-  if (!m_level.is_worldmap()) {
-    if (m_gravity != 10.0f) {
-      writer.write("gravity", m_gravity);
-    }
-  }
-
-  if (m_init_script.size()) {
-    writer.write("init-script", m_init_script,false);
-  }
+  save_properties(writer);
 
   // saving objects;
   std::vector<GameObject*> objects(get_objects().size());
