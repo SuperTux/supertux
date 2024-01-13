@@ -407,7 +407,9 @@ ScreenManager::process_events()
     }
     m_input_manager.process_event(event);
 
-    m_menu_manager->event(event);
+    if(m_menu_manager->is_active()) {
+      m_menu_manager->event(event);
+    }
 
     if (Editor::is_active()) {
       Editor::current()->event(event);
