@@ -143,24 +143,27 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
 
+# HACK
 set(HAVE_SDL ON)
+
 if(NOT EMSCRIPTEN)
-  target_dependencies(supertux2_lib SDL2 SDL2_image SDL2_ttf libcurl_shared)
+  target_dependencies(supertux2_lib SDL2 SDL2_image freetype libcurl_shared)
   # TODO: oggvorbis
 endif()
 
-set(FMT_INSTALL OFF)
-target_dependencies(supertux2_lib tinygettext sexp OpenAL glm fmt physfs)
+set(FMT_INSTALL ON)
+target_dependencies(supertux2_lib sexp OpenAL fmt-header-only zlib physfs)
+target_external_dependencies(supertux2_lib partio_zip)
 target_external_dependencies_from_folder(supertux2_lib squirrel squirrel sqstdlib)
 
 if(ENABLE_DISCORD)
-  target_dependencies(supertux2_lib discord-rpc)
+  target_external_dependencies(supertux2_lib discord-rpc)
 endif()
 
-target_include_directories(supertux2_lib PUBLIC src/)
+target_include_directories(supertux2_lib PUBLIC src/ external/findlocale external/obstack ${PROJECT_BINARY_DIR})
 
-get_target_property(INC supertux2_lib INCLUDE_DIRECTORIES)
-message("${INC}")
+# glm is a header only library... We don't need to link it with cmake.
+target_include_directories(supertux2_lib PUBLIC external/glm/glm)
 
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
@@ -181,14 +184,6 @@ include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${PROJECT_BINARY_DIR}/config.h )
-
-## Configure main menu logo
-if(IS_SUPERTUX_RELEASE OR STEAM_BUILD)
-  set(LOGO_FILE "logo_final.sprite")
-else()
-  set(LOGO_FILE "logo.sprite")
-endif()
-configure_file(data/levels/misc/menu.stl.in ${PROJECT_BINARY_DIR}/data/levels/misc/menu.stl)
 
 ## Build tests
 include(SuperTux/BuildTests)

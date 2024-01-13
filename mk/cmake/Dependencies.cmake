@@ -73,14 +73,18 @@ macro(target_external_dependencies tar)
       continue()
     endif()
 
+    string(TOUPPER ${deptar} UPPERDEP)
+
     set(${deptar}_FOUND OFF)
+    set(${UPPERDEP}_FOUND ON)
 
     if(NOT TARGET ${deptar})
       message(WARNING "Could NOT find ${deptar} in ${subdir}. Skipping.")
       continue()
     endif()
-    
+
     set(${deptar}_FOUND ON)
+    set(${UPPERDEP}_FOUND ON)
 
     get_target_property(DEP_TYPE ${deptar} TYPE)
     if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
@@ -100,14 +104,22 @@ macro(target_external_dependencies tar)
     endif()
 
     target_include_directories(${tar} PUBLIC ${DEP_INCLUDES})
-    # Try both names
+
+    string(TOUPPER ${deptar} UPPERDEP)
+
+    # Try all names
     set(${deptar}_INCLUDE_DIR ${DEP_INCLUDES})
     set(${deptar}_INCLUDE_DIRS ${DEP_INCLUDES})
+    set(${UPPERDEP}_INCLUDE_DIR ${DEP_INCLUDES})
+    set(${UPPERDEP}_INCLUDE_DIRS ${DEP_INCLUDES})
 
     target_link_libraries(${tar} PUBLIC ${deptar})
-    # Try both names, again
+
+    # Try all names, again
     set(${deptar}_LIBRARY ${deptar})
     set(${deptar}_LIBRARIES ${deptar})
+    set(${UPPERDEP}_LIBRARY ${deptar})
+    set(${UPPERDEP}_LIBRARIES ${deptar})
 
     if(NOT ${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
       add_custom_command(TARGET ${tar}

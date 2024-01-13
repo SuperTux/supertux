@@ -17,7 +17,7 @@
 	path = external/discord-sdk
 	url = https://github.com/discord/discord-rpc
 [submodule "external/fmt"]
-	path = external/fmt
+	path = external/fmt-header-only
 	url = https://github.com/fmtlib/fmt.git
 [submodule "tools/miniswig"]
 	path = tools/miniswig
@@ -48,3 +48,7 @@
 	path = external/libcurl_shared
 	url = https://github.com/curl/curl
 	branch = master
+[submodule "external/freetype"]
+	path = external/freetype
+	url = https://github.com/freetype/freetype
+	branch = 2.6.5
