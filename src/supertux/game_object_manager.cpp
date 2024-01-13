@@ -24,6 +24,7 @@
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
+#include "video/drawing_context.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
@@ -211,6 +212,9 @@ GameObjectManager::draw(DrawingContext& context)
       if (tm && !tm->is_solid())
         continue;
     }
+
+    if(!object->is_within_bounds(context.get_cliprect()))
+      continue;
 
     object->draw(context);
   }

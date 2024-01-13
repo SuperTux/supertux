@@ -81,6 +81,8 @@ public:
     return m_col.get_movement();
   }
 
+  bool is_within_bounds(const Rectf& cliprect) const override;
+
   CollisionGroup get_group() const
   {
     return m_col.m_group;

@@ -134,6 +134,8 @@ public:
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const { return !m_scheduled_for_removal; }
 
+  virtual bool is_within_bounds(const Rectf& cliprect) const { return true; }
+
   /** registers a remove listener which will be called if the object
       gets removed/destroyed */
   void add_remove_listener(ObjectRemoveListener* listener);
