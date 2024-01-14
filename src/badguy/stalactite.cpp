@@ -113,7 +113,7 @@ Stalactite::collision_player(Player& player, const CollisionHit& )
 HitResponse
 Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
-  if (state == STALACTITE_SQUISHED) return FORCE_MOVE;
+  if (state == STALACTITE_SQUISHED) return ABORT_MOVE;
 
   // Ignore other Stalactites.
   if (dynamic_cast<Stalactite*>(&other)) return FORCE_MOVE;
@@ -158,11 +158,16 @@ Stalactite::get_types() const
   };
 }
 
-void
-Stalactite::on_type_change(int old_type)
+std::string
+Stalactite::get_default_sprite_name() const
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/stalactite/stalactite_" + std::string(m_type == StalactiteType::ROCK ? "rock" : "") + ".sprite");
+  switch (m_type)
+  {
+    case ROCK:
+      return "images/creatures/stalactite/stalactite_rock.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void

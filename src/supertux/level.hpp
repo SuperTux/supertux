@@ -19,6 +19,7 @@
 
 #include "supertux/statistics.hpp"
 
+class Player;
 class ReaderMapping;
 class Sector;
 class Writer;
@@ -54,6 +55,8 @@ public:
   Sector* get_sector(size_t num) const;
   const std::vector<std::unique_ptr<Sector> >& get_sectors() const { return m_sectors; }
 
+  std::vector<Player*> get_players() const;
+
   std::string get_tileset() const { return m_tileset; }
 
   int get_total_coins() const;
@@ -67,6 +70,8 @@ public:
   std::string get_license() const { return m_license; }
 
 private:
+  void initialize();
+
   void save(Writer& writer);
   void load_old_format(const ReaderMapping& reader);
 

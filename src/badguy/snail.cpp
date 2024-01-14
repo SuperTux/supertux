@@ -46,7 +46,6 @@ Snail::Snail(const ReaderMapping& reader) :
   squishcount(0)
 {
   parse_type(reader);
-  on_type_change(-1);
 
   walk_speed = 80;
   max_drop_height = 600;
@@ -72,11 +71,16 @@ Snail::get_types() const
   };
 }
 
-void
-Snail::on_type_change(int old_type)
+std::string
+Snail::get_default_sprite_name() const
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
-    change_sprite("images/creatures/snail/" + std::string(m_type == Type::CORRUPTED ? "corrupted/corrupted_" : "") + "snail.sprite");
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/snail/corrupted/corrupted_snail.sprite";
+    default:
+      return m_default_sprite_name;
+  }
 }
 
 void
@@ -388,7 +392,7 @@ Snail::grab(MovingObject& object, const Vector& pos, Direction dir_)
   m_dir = dir_;
   if (!m_frozen)
   {
-    set_action(dir_ == Direction::LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+    set_action("flat", dir_, /* loops = */ -1);
     be_grabbed();
     flat_timer.stop();
   }
@@ -404,7 +408,14 @@ Snail::ungrab(MovingObject& object, Direction dir_)
       be_flat();
     }
     else {
-      m_dir = dir_;
+      if (dir_ != Direction::DOWN) {
+        m_dir = dir_;
+      } else {
+        const Player* player = dynamic_cast<Player*>(&object);
+        if(player) {
+          m_dir = player->m_dir;
+        }
+      }
       be_kicked(dynamic_cast<Owl*>(&object) ? false : true);
     }
   }

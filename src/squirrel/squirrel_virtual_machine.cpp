@@ -49,11 +49,11 @@ __attribute__((__format__ (__printf__, 2, 0)))
 void printfunc(HSQUIRRELVM, const char* fmt, ...)
 {
   char buf[4096];
-  char separator[] = "\n";
+  const char separator[] = "\n";
   va_list arglist;
   va_start(arglist, fmt);
   vsnprintf(buf, sizeof(buf), fmt, arglist);
-  char* ptr = strtok(buf, separator);
+  const char* ptr = strtok(buf, separator);
   while (ptr != nullptr)
   {
     ConsoleBuffer::output << "[SCRIPTING] " << ptr << std::endl;

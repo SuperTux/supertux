@@ -47,8 +47,8 @@ InfoBox::InfoBox(const std::string& text) :
 void
 InfoBox::draw(DrawingContext& context)
 {
-  float x1 = static_cast<float>(context.get_width()) / 2.0f - 200.0f;
-  float y1 = static_cast<float>(context.get_height()) / 2.0f - 200.0f;
+  float x1 = context.get_width() / 2.0f - 200.0f;
+  float y1 = context.get_height() / 2.0f - 200.0f;
   float width = 400.0f;
   float height = 200.0f;
 

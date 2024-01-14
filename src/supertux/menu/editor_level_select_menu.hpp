@@ -19,19 +19,15 @@
 
 #include "gui/menu.hpp"
 
+class EditorLevelsetSelectMenu;
 class Levelset;
 class World;
-class EditorLevelsetSelectMenu;
 
 class EditorLevelSelectMenu final : public Menu
 {
-private:
-  std::unique_ptr<Levelset> m_levelset;
-  EditorLevelsetSelectMenu* m_levelset_select_menu;
-
 public:
   EditorLevelSelectMenu();
-  EditorLevelSelectMenu(std::unique_ptr<World> world, EditorLevelsetSelectMenu* levelset_select_menu);
+  EditorLevelSelectMenu(std::unique_ptr<World> world, EditorLevelsetSelectMenu* levelset_select_menu = nullptr);
   ~EditorLevelSelectMenu() override;
 
   void menu_action(MenuItem& item) override;
@@ -45,6 +41,13 @@ private:
   void create_level();
   void create_worldmap();
   void create_item(bool worldmap);
+
+  World* get_world() const;
+
+private:
+  std::unique_ptr<World> m_world; // Contains a provided world, not associated with the editor
+  std::unique_ptr<Levelset> m_levelset;
+  EditorLevelsetSelectMenu* m_levelset_select_menu;
 
 private:
   EditorLevelSelectMenu(const EditorLevelSelectMenu&) = delete;

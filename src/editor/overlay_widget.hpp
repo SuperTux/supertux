@@ -25,6 +25,7 @@
 #include "editor/widget.hpp"
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/timer.hpp"
 #include "util/typed_uid.hpp"
 
 class Color;
@@ -45,6 +46,8 @@ public:
   static Color text_autotile_available_color;
   static Color text_autotile_active_color;
   static Color text_autotile_error_color;
+  static Color warning_color;
+  static Color error_color;
 
 public:
   EditorOverlayWidget(Editor& editor);
@@ -120,6 +123,8 @@ private:
   Rectf selection_draw_rect() const;
   void update_tile_selection();
 
+  void set_warning(const std::string& text, float time);
+
 private:
   Editor& m_editor;
   Vector m_hovered_tile;
@@ -145,6 +150,12 @@ private:
   Vector m_obj_mouse_desync;
 
   std::unique_ptr<TileSelection> m_rectangle_preview;
+
+  // Warnings
+  Timer m_warning_timer;
+  std::string m_warning_text;
+
+  bool m_selection_warning;
 
 private:
   EditorOverlayWidget(const EditorOverlayWidget&) = delete;

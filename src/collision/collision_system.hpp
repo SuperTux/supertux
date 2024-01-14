@@ -20,6 +20,7 @@
 
 #include <vector>
 #include <memory>
+#include <variant>
 #include <stdint.h>
 
 #include "collision/collision.hpp"
@@ -34,6 +35,14 @@ class Sector;
 
 class CollisionSystem final
 {
+public:
+  struct RaycastResult
+  {
+    bool is_valid; /**< true if raycast hit something */
+    std::variant<const Tile*, CollisionObject*> hit; /**< tile/object that the raycast hit */
+    Rectf box = {}; /**< hitbox of tile/object */
+  };
+
 public:
   CollisionSystem(Sector& sector);
 
@@ -56,6 +65,13 @@ public:
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
   bool is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const;
   bool is_free_of_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
+  bool is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const;
+
+
+  RaycastResult get_first_line_intersection(const Vector& line_start,
+                                            const Vector& line_end,
+                                            bool ignore_objects,
+                                            const CollisionObject* ignore_object) const;
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, bool ignore_objects, const CollisionObject* ignore_object) const;
 
   std::vector<CollisionObject*> get_nearby_objects(const Vector& center, float max_distance) const;

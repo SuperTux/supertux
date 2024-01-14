@@ -1,5 +1,6 @@
 //  SuperTux - Badguy "Igel"
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//                2023 MatusGuy
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,101 +17,251 @@
 
 #include "badguy/igel.hpp"
 
-#include "object/bullet.hpp"
+#include <variant>
+
+#include "audio/sound_manager.hpp"
+#include "collision/collision_system.hpp"
+#include "math/easing.hpp"
+#include "object/player.hpp"
+#include "object/shard.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
 
-const float IGEL_SPEED = 80; /**< Speed at which we walk around. */
-const float TURN_RECOVER_TIME = 0.5; /**< Seconds before we will again turn around when shot at. */
-const float RANGE_OF_VISION = 256; /**< Sange in px at which we can see bullets. */
+const float IGEL_NORMAL_SPEED = 80;
+const float IGEL_CORRUPTED_SPEED = 120;
+const int   IGEL_MAX_DROP_HEIGHT = 16;
+
+const float ROLL_RANGE = 32*10;
+const float ROLL_SPEED = 350;
+const int   ROLL_MAX_DROP_HEIGHT = -1;
+const float ROLL_DURATION = 2.f;
+const float ROLL_EASE_TIMER = 0.5f;
+const float ROLL_COOLDOWN = 1.f;
+
+const std::string CORRUPTED_SHARD_SPRITE = "images/creatures/granito/corrupted/big/root_spike.sprite";
 
 } // namespace
 
 Igel::Igel(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "left", "right"),
-  turn_recover_timer()
+  m_state(STATE_NORMAL),
+  m_roll_timer(),
+  m_roll_cooldown(),
+  m_ease_timer(),
+  m_bonked(false)
 {
-  walk_speed = IGEL_SPEED;
-  max_drop_height = 16;
-}
+  parse_type(reader);
 
-void
-Igel::be_normal()
-{
-  initialize();
-}
+  walk_speed = get_normal_walk_speed();
+  max_drop_height = IGEL_MAX_DROP_HEIGHT;
 
-void
-Igel::turn_around()
-{
-  WalkingBadguy::turn_around();
-  turn_recover_timer.start(TURN_RECOVER_TIME);
-}
-
-bool
-Igel::can_see(const MovingObject& o) const
-{
-  Rectf ob = o.get_bbox();
-
-  bool inReach_left = ((ob.get_right() < m_col.m_bbox.get_left()) && (ob.get_right() >= m_col.m_bbox.get_left()-((m_dir == Direction::LEFT) ? RANGE_OF_VISION : 0)));
-  bool inReach_right = ((ob.get_left() > m_col.m_bbox.get_right()) && (ob.get_left() <= m_col.m_bbox.get_right()+((m_dir == Direction::RIGHT) ? RANGE_OF_VISION : 0)));
-  bool inReach_top = (ob.get_bottom() >= m_col.m_bbox.get_top());
-  bool inReach_bottom = (ob.get_top() <= m_col.m_bbox.get_bottom());
-
-  return ((inReach_left || inReach_right) && inReach_top && inReach_bottom);
+  SoundManager::current()->preload("sounds/thud.ogg");
 }
 
 void
 Igel::active_update(float dt_sec)
 {
-  bool wants_to_flee = false;
-
-  // Check if we see a fire bullet.
-  for (const auto& bullet : Sector::get().get_objects_by_type<Bullet>()) {
-    if (bullet.get_type() != FIRE_BONUS) continue;
-    if (can_see(bullet)) wants_to_flee = true;
-  }
-
-  // If the Igel wants to flee and the turn recovery timer is not started,
-  // turn around and handle the fleeing behavior.
-  if (wants_to_flee && (!turn_recover_timer.started())) {
-    turn_around();
-    BadGuy::active_update(dt_sec);
-    return;
-  }
-
-  // Otherwise, adhere to the default behavior for WalkingBadguy.
   WalkingBadguy::active_update(dt_sec);
+
+  if (m_frozen) return;
+
+  switch (m_state)
+  {
+    case STATE_ROLLING:
+      if (get_action() == "roll-start-" + dir_to_string(m_dir) &&
+          m_sprite->animation_done())
+      {
+        set_action("roll", m_dir);
+      }
+
+      if (m_ease_timer.started())
+      {
+        float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
+        float vel = (static_cast<float>(SineEaseOut(static_cast<double>(progress))) * (ROLL_SPEED - get_normal_walk_speed())) + get_normal_walk_speed();
+        set_walk_speed(vel);
+        m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
+      }
+
+      if (m_roll_timer.check())
+      {
+        if (should_roll())
+        {
+          // We're still tryna chase them?
+          // Then continue chasing them.
+          m_roll_timer.start(ROLL_DURATION);
+          break;
+        }
+
+        stop_rolling();
+        break;
+      }
+
+      break;
+
+    case STATE_NORMAL:
+      if (get_action() == "roll-end-" + dir_to_string(m_dir) &&
+          m_sprite->animation_done())
+      {
+        set_action(m_dir);
+      }
+
+      if (m_ease_timer.started())
+      {
+        float progress = m_ease_timer.get_timegone() / m_ease_timer.get_period();
+        float vel = (static_cast<float>(SineEaseIn(static_cast<double>(progress))) * (get_normal_walk_speed() - ROLL_SPEED)) + ROLL_SPEED;
+        set_walk_speed(vel);
+        m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
+      }
+
+      if (m_bonked && m_ease_timer.check())
+        set_action("roll-end", m_dir);
+
+      if (!m_roll_cooldown.started() && should_roll()) roll();
+
+      break;
+  }
+}
+
+void
+Igel::collision_solid(const CollisionHit &hit)
+{
+  WalkingBadguy::collision_solid(hit);
+
+  if (m_state == STATE_ROLLING)
+  {
+    if ((hit.left && (m_dir == Direction::RIGHT)) || (hit.right && (m_dir == Direction::LEFT))) {
+      stop_rolling(true);
+      SoundManager::current()->play("sounds/thud.ogg");
+    }
+  }
 }
 
 HitResponse
-Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
+Igel::collision_badguy(BadGuy &badguy, const CollisionHit &hit)
 {
-  // Default reaction if hit on the front side or for freeze and unfreeze conditions.
-  if (((m_dir == Direction::LEFT) && hit.left) || ((m_dir == Direction::RIGHT) && hit.right) ||
-    (bullet.get_type() == ICE_BONUS) || ((bullet.get_type() == FIRE_BONUS) && (m_frozen))) {
-    return BadGuy::collision_bullet(bullet, hit);
+  if (m_state == STATE_ROLLING)
+  {
+    badguy.kill_fall();
+    return FORCE_MOVE;
   }
 
-  // Otherwise, make the bullet ricochet and ignore the hit for this case.
-  bullet.ricochet(*this, hit);
-  return FORCE_MOVE;
+  return WalkingBadguy::collision_badguy(badguy, hit);
+}
+
+void
+Igel::run_dead_script()
+{
+  if (m_type == CORRUPTED)
+  {
+    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(100.f, -500.f), CORRUPTED_SHARD_SPRITE);
+    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(270.f, -350.f), CORRUPTED_SHARD_SPRITE);
+    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-100.f, -500.f),CORRUPTED_SHARD_SPRITE);
+    Sector::get().add<Shard>(get_bbox().get_middle(), Vector(-270.f, -350.f),CORRUPTED_SHARD_SPRITE);
+  }
+
+  WalkingBadguy::run_dead_script();
+}
+
+void
+Igel::unfreeze(bool melt)
+{
+  WalkingBadguy::unfreeze(melt);
+
+  if (melt) return;
+
+  m_state = STATE_NORMAL;
+  m_bonked = false;
+
+  set_action(m_dir);
+
+  float vel = get_normal_walk_speed();
+  set_walk_speed(vel);
+  m_physic.set_velocity_x(vel * (m_dir == Direction::LEFT ? -1 : 1));
+
+  m_roll_timer.stop();
+  m_ease_timer.stop();
+}
+
+GameObjectTypes
+Igel::get_types() const
+{
+  return {
+    { "normal", _("Normal") },
+    { "corrupted", _("Corrupted") }
+  };
+}
+
+std::string
+Igel::get_default_sprite_name() const
+{
+  switch (m_type)
+  {
+    case CORRUPTED:
+      return "images/creatures/igel/corrupted/corrupted_igel.sprite";
+    default:
+      return "images/creatures/igel/igel.sprite";
+  }
 }
 
 bool
-Igel::is_freezable() const
+Igel::should_roll() const
 {
-  return true;
+  Player* player = get_nearest_player();
+  if (!player) return false;
+
+  Rectf player_box = player->get_bbox();
+
+  bool in_reach_left = (player_box.get_right() >= get_bbox().get_right()-((m_dir == Direction::LEFT) ? ROLL_RANGE : 0));
+  bool in_reach_right = (player_box.get_left() <= get_bbox().get_left()+((m_dir == Direction::RIGHT) ? ROLL_RANGE : 0));
+  bool in_reach_top = (player_box.get_bottom() >= get_bbox().get_top());
+  bool in_reach_bottom = (player_box.get_top() <= get_bbox().get_bottom());
+
+  Rectf box = get_bbox().grown(1.f);
+  Vector eye = {m_dir == Direction::LEFT ? box.get_left() : box.get_right(), box.get_middle().y};
+  bool can_see_player = Sector::get().free_line_of_sight(eye, player_box.get_middle(), true);
+
+  return in_reach_left && in_reach_right && in_reach_top && in_reach_bottom && can_see_player;
 }
 
-/**bool
-Igel::collision_squished(GameObject& )
+void
+Igel::roll()
 {
-  // This will hurt.
-  return false;
-}*/
-// Enable this and the igle will no longer be butt-jumpable.
-// Don't forget to enable it in .hpp too!
+  m_state = STATE_ROLLING;
+
+  set_action("roll-start", m_dir);
+
+  max_drop_height = ROLL_MAX_DROP_HEIGHT;
+
+  m_roll_timer.start(ROLL_DURATION);
+  m_ease_timer.start(ROLL_EASE_TIMER);
+}
+
+void
+Igel::stop_rolling(bool bonk)
+{
+  m_state = STATE_NORMAL;
+  m_bonked = bonk;
+
+  set_action(m_bonked ? "roll" : "roll-end", m_dir);
+
+  if (m_bonked)
+  {
+    // Hop a little
+    m_physic.set_velocity_y(-250.f);
+  }
+
+  max_drop_height = IGEL_MAX_DROP_HEIGHT;
+
+  m_roll_timer.stop();
+  m_roll_cooldown.start(ROLL_COOLDOWN);
+  m_ease_timer.start(ROLL_EASE_TIMER);
+}
+
+float
+Igel::get_normal_walk_speed() const
+{
+  return m_type == CORRUPTED ? IGEL_CORRUPTED_SPEED : IGEL_NORMAL_SPEED;
+}
 
 /* EOF */

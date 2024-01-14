@@ -70,11 +70,11 @@ MusicObject::play_music(MusicType type)
 }
 
 void
-MusicObject::resume_music()
+MusicObject::resume_music(bool instantly)
 {
   if (SoundManager::current()->get_current_music() == m_music)
   {
-    SoundManager::current()->resume_music(3.2f);
+    SoundManager::current()->resume_music(instantly ? 0.f : 3.2f);
   }
   else
   {

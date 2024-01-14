@@ -69,7 +69,8 @@ public:
                      const std::optional<WalkMode>& default_value = {},
                      const std::string& key = {}, unsigned int flags = 0);
   void add_objects(const std::string& text, std::vector<std::unique_ptr<GameObject>>* value_ptr,
-                   GameObject* parent = nullptr, const std::string& key = {}, unsigned int flags = 0);
+                   uint8_t get_objects_param = 0, const std::function<void (std::unique_ptr<GameObject>)>& add_object_func = {},
+                   const std::string& key = {}, unsigned int flags = 0);
   void add_color(const std::string& text, Color* value_ptr,
                  const std::string& key = {},
                  const std::optional<Color>& default_value = {},
@@ -156,7 +157,7 @@ public:
   // VERY UNSTABLE - use with care   ~ Semphris (author of that option)
   void add_button(const std::string& text, const std::function<void()>& callback);
 
-  const std::vector<std::unique_ptr<ObjectOption> >& get_options() const { return m_options; }
+  const std::vector<std::unique_ptr<BaseObjectOption> >& get_options() const { return m_options; }
 
   /** Reorder the options in the given order, this is a hack to get
       saving identical to the other editor */
@@ -166,11 +167,11 @@ public:
   void remove(const std::string& key);
 
 private:
-  void add_option(std::unique_ptr<ObjectOption> option);
+  void add_option(std::unique_ptr<BaseObjectOption> option);
 
 private:
   std::string m_name;
-  std::vector<std::unique_ptr<ObjectOption> > m_options;
+  std::vector<std::unique_ptr<BaseObjectOption> > m_options;
 
 private:
   ObjectSettings(const ObjectSettings&) = delete;

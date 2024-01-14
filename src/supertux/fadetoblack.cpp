@@ -47,10 +47,7 @@ FadeToBlack::draw(DrawingContext& context)
   // linear fading (it may only work correctly with black).
   col.alpha = Color::remove_gamma(col.alpha);
 
-  context.color().draw_filled_rect(Rectf(0, 0,
-                                         static_cast<float>(context.get_width()),
-                                         static_cast<float>(context.get_height())),
-                                   col, LAYER_GUI + 1);
+  context.color().draw_filled_rect(context.get_rect(), col, LAYER_GUI + 1);
 }
 
 bool

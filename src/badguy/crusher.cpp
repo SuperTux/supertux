@@ -59,7 +59,6 @@ Crusher::Crusher(const ReaderMapping& reader) :
   m_whites()
 {
   parse_type(reader);
-  on_type_change(-1);
 
   reader.get("sideways", m_sideways);
   // TODO: Add distinct sounds for crusher hitting the ground and hitting Tux.
@@ -74,22 +73,49 @@ Crusher::get_types() const
   return {
     { "ice-krush", _("Ice (normal)") },
     { "ice-krosh", _("Ice (big)") },
+    { "rock-krush", _("Rock (normal)") },
+    { "rock-krosh", _("Rock (big)") },
     { "corrupted-krush", _("Corrupted (normal)") },
     { "corrupted-krosh", _("Corrupted (big)") }
   };
 }
 
+std::string
+Crusher::get_default_sprite_name() const
+{
+  const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
+  switch (m_ic_type)
+  {
+    case ROCK:
+      return "images/creatures/crusher/" + size_prefix + "_rock.sprite";
+    case CORRUPTED:
+      return "images/creatures/crusher/corrupted/" + size_prefix + "_corrupt.sprite";
+    default:
+      return "images/creatures/crusher/" + size_prefix + "_ice.sprite";
+  }
+}
+
 void
 Crusher::on_type_change(int old_type)
 {
-  m_ic_size = (m_type == 0 || m_type == 2 ? NORMAL : LARGE);
-  m_ic_type = (m_type == 0 || m_type == 1 ? ICE : CORRUPTED);
-
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+  m_ic_size = (m_type % 2 == 0 ? NORMAL : LARGE);
+  switch (m_type)
   {
-    const std::string size_prefix = (m_ic_size == NORMAL ? "krush" : "krosh");
-    change_sprite("images/creatures/crusher/" + (m_ic_type == CORRUPTED ? "corrupted/" + size_prefix + "_corrupt" : size_prefix + "_ice") + ".sprite");
+    case 0:
+    case 1:
+      m_ic_type = ICE;
+      break;
+    case 2:
+    case 3:
+      m_ic_type = ROCK;
+      break;
+    case 4:
+    case 5:
+      m_ic_type = CORRUPTED;
+      break;
   }
+
+  MovingSprite::on_type_change();
 }
 
 HitResponse
@@ -187,9 +213,11 @@ Crusher::collision_solid(const CollisionHit& hit)
     }
     if (hit.bottom)
       spawn_roots(Direction::DOWN);
-    if (hit.left)
+    else if (hit.top)
+      spawn_roots(Direction::UP);
+    else if (hit.left)
       spawn_roots(Direction::LEFT);
-    if (hit.right)
+    else if (hit.right)
       spawn_roots(Direction::RIGHT);
     break;
   default:
@@ -373,6 +401,15 @@ Crusher::spawn_roots(Direction direction)
     test_solid_offset_2 = Rectf(Vector(16, 8), Size(1, 1));
     break;
 
+  case Direction::UP:
+    vertical = true;
+    origin.x = m_col.m_bbox.get_middle().x - 16.f;
+    origin.y = m_col.m_bbox.get_top() - 6.f;
+    test_empty_offset = Rectf(Vector(4, 4), Size(16, 1));
+    test_solid_offset_1 = Rectf(Vector(6, -8), Size(1, 1));
+    test_solid_offset_2 = Rectf(Vector(16, -8), Size(1, 1));
+    break;
+
   case Direction::LEFT:
     origin.x = m_col.m_bbox.get_left() - 6.f;
     origin.y = m_col.m_bbox.get_middle().y - 16.f;
@@ -402,7 +439,6 @@ Crusher::spawn_roots(Direction direction)
       bool solid_2 = Sector::current()->is_free_of_tiles(test_solid_offset_2.moved(pos));
       bool empty = Sector::current()->is_free_of_tiles(test_empty_offset.moved(pos));
 
-      printf("Empty %d, solid1 %d, solid2 %d\n", empty, solid_1, solid_2);
       if (!empty || solid_1 || solid_2)
         break;
 
@@ -611,7 +647,7 @@ Crusher::on_flip(float height)
 }
 
 CrusherRoot::CrusherRoot(Vector position, Crusher::Direction direction, float delay, int layer) :
-  MovingSprite(position, direction == Crusher::Direction::DOWN ?
+  MovingSprite(position, direction == Crusher::Direction::DOWN || direction == Crusher::Direction::UP ?
     "images/creatures/crusher/roots/crusher_root.sprite" :
     "images/creatures/crusher/roots/crusher_root_side.sprite"),
   m_original_pos(position),
@@ -672,6 +708,7 @@ CrusherRoot::update(float dt_sec)
     m_col.move_to(m_original_pos + Vector(0, -m_sprite->get_current_hitbox_height()));
     break;
 
+  case Crusher::Direction::UP:
   case Crusher::Direction::LEFT:
     m_col.move_to(m_original_pos);
     break;
@@ -691,19 +728,21 @@ CrusherRoot::start_animation()
   {
   case Crusher::Direction::DOWN:
     set_action("downwards");
-    m_sprite->set_animation_loops(1);
+    break;
+
+  case Crusher::Direction::UP:
+    set_action("upwards");
     break;
 
   case Crusher::Direction::LEFT:
     set_action("sideways-left");
-    m_sprite->set_animation_loops(1);
     break;
 
   case Crusher::Direction::RIGHT:
     set_action("sideways-right");
-    m_sprite->set_animation_loops(1);
     break;
   }
+  m_sprite->set_animation_loops(1);
 }
 
 /* EOF */

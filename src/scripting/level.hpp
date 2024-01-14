@@ -23,8 +23,8 @@
 #include <string>
 
 /** Macro to help easily check if there is a current GameSession and define it, if so. **/
-#define SCRIPT_GUARD_GAMESESSION                        \
-  if (!GameSession::current()) return;                  \
+#define SCRIPT_GUARD_GAMESESSION(returnvalue)           \
+  if (!GameSession::current()) return returnvalue;      \
   GameSession& game_session = *GameSession::current()
 
 #endif
@@ -51,6 +51,10 @@ public:
  * @param bool $win If ""true"", the level is marked as completed if launched from a worldmap.
  */
 void Level_finish(bool win);
+/**
+ * Gets whether an end sequence has started. (AKA when the stats at the end are visible)
+ */
+bool Level_has_active_sequence();
 
 /**
  * Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"".${SRG_TABLENEWPARAGRAPH}
@@ -102,12 +106,6 @@ void Level_flip_vertically();
  * Toggle pause.
  */
 void Level_toggle_pause();
-
-/**
- * Switch to/from edit mode
- * @param bool $edit_mode
- */
-void Level_edit(bool edit_mode);
 
 /**
  * Pauses the target timer.

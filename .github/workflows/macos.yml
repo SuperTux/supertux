@@ -50,24 +50,18 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-11' }}
         run: |
-          brew install cmake googletest bash rename libogg libvorbis glew\
-                       openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz  \
-                       fribidi glib gtk-doc glbinding libraqm glm zlib
+          brew install cmake googletest bash rename libogg libvorbis glew \
+                       openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
+                       fribidi glib gtk-doc glbinding@2 libraqm glm zlib
+          brew link glbinding@2
+          install_name_tool -change \
+            '@rpath/libsharpyuv.0.dylib' \
+            /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
+            /usr/local/opt/webp/lib/libwebp.7.dylib
 
           # Something funky happens with freetype if mono is left
           sudo mv /Library/Frameworks/Mono.framework                           \
                   /Library/Frameworks/Mono.framework-disabled
-
-      - name: Rollback harfbuzz version
-        if: ${{ matrix.os == 'macos-11' }}
-        run: |
-          PKG_NAME=harfbuzz
-          FORMULA_COMMIT=beb314d142c6ba06c23c761699ebe6a96d0d9864
-          brew uninstall --ignore-dependencies "${PKG_NAME}" || true
-          FORMULA_URL="https://raw.githubusercontent.com/Homebrew/homebrew-core/${FORMULA_COMMIT}/Formula/${PKG_NAME}.rb"
-          FORMULA_FILE=$(find $(brew --repository) -path "*/Formula/${PKG_NAME}.rb")
-          curl -fsSL "$FORMULA_URL" > "${FORMULA_FILE}"
-          HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_FROM_API=1 brew install "${PKG_NAME}"
 
       - name: Set compiler
         run: |
@@ -129,8 +123,8 @@ jobs:
           aws_key_id: ${{ secrets.CI_DOWNLOAD_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.CI_DOWNLOAD_SECRET_ACCESS_KEY }}
           source_dir: 'build/upload'
-          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}" 
-           
+          destination_dir: "${{ github.sha }}/gh-actions/${{ matrix.os }}-${{ matrix.arch }}/${{ github.run_id }}"
+
       - name: Post uploaded file
         if: matrix.release && env.DOWNLOAD_APIKEY != null
         working-directory: build

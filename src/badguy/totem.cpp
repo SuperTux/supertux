@@ -83,15 +83,12 @@ Totem::active_update(float dt_sec)
     }
 
     // Jump slightly if we encounter a suitable totem.
-    for (auto& obj : Sector::get().get_objects_by_type<MovingObject>()) {
-      auto t = dynamic_cast<Totem*>(&obj);
-      if (!t) continue;
-
+    for (auto& t : Sector::get().get_objects_by_type<Totem>()) {
       // Skip if we are not approaching each other.
-      if (!((m_dir == Direction::LEFT) && (t->m_dir == Direction::RIGHT))) continue;
+      if (!((m_dir == Direction::LEFT) && (t.m_dir == Direction::RIGHT))) continue;
 
       Vector p1 = m_col.m_bbox.p1();
-      Vector p2 = t->get_pos();
+      Vector p2 = t.get_pos();
 
       // Skip if we are not on the same height.
       float dy = (p1.y - p2.y);

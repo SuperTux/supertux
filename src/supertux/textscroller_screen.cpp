@@ -104,8 +104,8 @@ TextScrollerScreen::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  const float ctx_w = static_cast<float>(context.get_width());
-  const float ctx_h = static_cast<float>(context.get_height());
+  const float ctx_w = context.get_width();
+  const float ctx_h = context.get_height();
 
   { // draw background
     const float bg_w = static_cast<float>(m_background->get_width());

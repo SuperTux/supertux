@@ -1,245 +1,223 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
+# Ariadna Pascual <ariadnapascual7@gmail.com>, 2016
 # Catalanoic <catalanoic@gmail.com>, 2016
-# Marc Celeiro <maceleiro@gmail.com>, 2014-2015
+# IAN RODRÍGUEZ Lorenzo, 2022
+# 76352799d6904fac47e3a0fa3ed5fd59_334826e <af5856938576e19ac7f099472ce1a9b6_234157>, 2014-2015
+# Yael Codesal, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-17 18:42+0000\n"
-"Last-Translator: Catalanoic <catalanoic@gmail.com>\n"
-"Language-Team: Catalan (http://www.transifex.com/arctic-games/supertux/language/ca/)\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Catalan (http://app.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
+#: data/levels/world2/ancient_ruins.stl:3
+msgid "Ancient Ruins"
+msgstr "Ruïnes antigues"
+
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
+#: data/levels/world2/crumbling_path.stl:278
+#: data/levels/world2/crumbling_path.stl:1651
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
+#: data/levels/world2/mouldy_grotto.stl:559
+#: data/levels/world2/penguin_grow_trees.stl:459
+#: data/levels/world2/penguin_grow_trees.stl:467
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
+#: data/levels/world2/wooden_roots.stl:279
+#: data/levels/world2/worldmap.stwm:186
+msgid "You found a secret area!"
+msgstr "Has trobat una àrea secreta!"
+
+#: data/levels/world2/beside_bushes.stl:3
+msgid "Beside the Bushes"
+msgstr "Al costat dels matolls"
+
+#: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "Bobines saltarines"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr "Entrada al castell"
+#: data/levels/world2/bye_bye_forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "Adéu Bosc"
 
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "Contracorrent"
-
-#: data/levels/world2/Crumbling_Path.stl:3
+#: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "Camí inestable"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "Mico de conducte"
+#: data/levels/world2/darkness_awaits.stl:3
+msgid "Darkness Awaits"
+msgstr "La foscor espera"
 
-#: data/levels/world2/El_Castillo.stl:3
-msgid "A Short Visit to El Castillo"
-msgstr "Una curta visita a El Castillo"
-
-#: data/levels/world2/Find_Big_Fish.stl:3
+#: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Troba el peix més gran!"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
-msgstr "-Un peix gros... per tu."
+msgstr "-Un peix gran... per a tu."
 
-#: data/levels/world2/Going_Underground.stl:3
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "Una nova ubicació"
+
+#: data/levels/world2/ghost_cutscene.stl:3
+msgid "What is Happening?"
+msgstr "Que està passant?"
+
+#: data/levels/world2/ghostly_misery.stl:3
+msgid "Ghostly Misery"
+msgstr "Misèria fantasmal"
+
+#: data/levels/world2/ghosttrees_challenges.stl:3
+msgid "Ghosttree's Challenges"
+msgstr "Els reptes de Ghosttree"
+
+#: data/levels/world2/ghouls_lair.stl:3
+msgid "Ghouls' Lair"
+msgstr "Cau dels Ghouls"
+
+#: data/levels/world2/ghouls_lair.stl:849
+msgid ""
+"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
+"of them."
+msgstr "#Les llanternes s'utilitzen per fer blocs màgics sòlids, de manera que podreu caminar sobre ells."
+
+#: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "Sota terra"
 
-#: data/levels/world2/Kneep_Deep.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "Fins als genolls en la profunditat"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:3
+msgid "I Spy With My Little Eye"
+msgstr "Espio amb el meu ull petit"
 
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "Petita Venècia"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+msgid ""
+"-Ispy\n"
+"#Ispys will activate things like platforms whenever Tux is in their sight."
+msgstr "-Espío\n#Los espíos activaràn coses com ara plataformes sempre que Tux estigui a la seva vista."
 
-#: data/levels/world2/Mouldy_Grotto.stl:3
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+msgid "Hint: Use snails to break blocks!"
+msgstr "Pista: utilitza cargols per trencar blocs!"
+
+#: data/levels/world2/leaf_wind.stl:3
+msgid "Like a leaf in the Wind"
+msgstr "Com una fulla al vent"
+
+#: data/levels/world2/lost_village.stl:3
+msgid "Lost Village"
+msgstr "Poble Perdut"
+
+#: data/levels/world2/lost_village.stl:187
+msgid "#Don't forget to hit the switch!"
+msgstr "#No t'oblidis de prémer l'interruptor!"
+
+#: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Cova foradada"
+msgstr "Una cova florida"
 
-#: data/levels/world2/Penguin_Grow_Trees.stl:3
+#: data/levels/world2/owls_again.stl:3
+msgid "The Owls again..."
+msgstr "Els mussols de nou..."
+
+#: data/levels/world2/owls_skydive_commando.stl:3
+msgid "Owls' Skydive Commando"
+msgstr "Comando de paracaigudisme dels mussols"
+
+#: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
 msgstr "Els pingüins no creixen en els arbres"
-
-#: data/levels/world2/Rabbit_Hole.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "Sota el forat del conill"
-
-#: data/levels/world2/Rabbit_Hole.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr "-Oh no!\n#El camí està bloquejat!\n#Sembla que és l'única via\n#que condueix a través d'aquest fosc\n#forat a terra..."
-
-#: data/levels/world2/Rabbit_Hole.stl:55
-msgid "-Are you lost?"
-msgstr "-T'has perdut?"
-
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "Les parets silencioses"
-
-#: data/levels/world2/Three_Sheets.stl:3
-msgid "Three sheets to the wind"
-msgstr "Tres fulles al vent"
-
-#: data/levels/world2/Treasure_Skies.stl:3
-msgid "Treasure in the skies"
-msgstr "Un tresor al cel"
-
-#: data/levels/world2/Tree_Fortress.stl:3
-msgid "Tree Fortress"
-msgstr "Fortalesa de l'arbre"
-
-#: data/levels/world2/Tux_Builder.stl:3
-msgid "Tux the Builder"
-msgstr "Tux el constructor"
-
-#: data/levels/world2/Tux_Builder.stl:46
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Roques portàtils:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "Dues petites torres"
-
-#: data/levels/world2/Up_and_Down.stl:3
-msgid "Up and Down"
-msgstr "Amunt i avall"
-
-#: data/levels/world2/Walking_Leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Fulles errants"
-
-#: data/levels/world2/Welcome_Forest.stl:3
-msgid "Welcome to the Forest"
-msgstr "Benvingut al bosc"
-
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
-msgstr "Fortalesa de l'iceberg"
-
-#: data/levels/world2/castledoor.stl:3
-#: data/levels/world2/dfk-placeholder-1.stl:3
-msgid "NOLOK"
-msgstr "NOLOK"
-
-#: data/levels/world2/christophD.stl:3
-msgid "Room of Stars"
-msgstr "Habitació de les estrelles"
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr "Dan Morial"
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr "Desviament"
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Dark Forest Keep - La Cambra Mal"
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Dark Forest Keep - Els ulls dels Nolok"
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr "Dark Forest Keep - La Torre Negre"
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr "Nivell 1 del bosc"
-
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr "Món forestal"
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr "clau 1 d'aigua - a col·locar-se darrere de la cascada"
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr "clau 2 de la terra - a col·locar-se sota terra"
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr "clau 3 de fusta - per a ser col·locat en un arbre gran"
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr "tecla 4 de foc - per a ser col·locat en un petit castell"
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr "tecla 5 d'aire - a col·locar-se en els núvols"
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr "Turons verds"
-
-#: data/levels/world2/level6.stl:3
-msgid "No Name"
-msgstr "Sense nom"
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr "Llum i màgia"
-
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr "La venjança del mussol"
-
-#: data/levels/world2/roots_woody_roots.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Arrels, les arrels llenyoses"
-
-#: data/levels/world2/roots_woody_roots.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Pista:\n#Si sembla que no hi ha\n#forma d'arribar a una porta,\n#recorda que se suposa\n#que anaven a sortir\n#de la porta..."
-
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr "---Inserir Cinemàtica Aquí---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Aterrador"
 
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr "Sota la construcció"
+#: data/levels/world2/the_forest_is_rotting.stl:3
+msgid "The Forest Is Rotting"
+msgstr "El bosc s'està podrint"
 
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forest"
-msgstr "Una vila al bosc"
+#: data/levels/world2/through_dark.stl:3
+msgid "Through the Dark"
+msgstr "A través de la foscor"
+
+#: data/levels/world2/through_dark.stl:96
+msgid ""
+"-Earth Flower\n"
+"!images/powerups/earthflower/earth_flower-1.png\n"
+"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
+"#This does not work while jumping or falling!"
+msgstr "- Flor de la Terra\n!images/powerups/earthflower/earth_flower-1.png\n#La flor de la terra dóna a Tux la capacitat de convertir-se en pedra prement la tecla ACCIÓ i la tecla BAIX al mateix temps.\n#Això no funciona mentre salta o cau!"
+
+#: data/levels/world2/tower_cutscene.stl:3
+msgid "Tower Cutscene"
+msgstr "Escena de la torre"
+
+#: data/levels/world2/tower_of_ghosts.stl:3
+msgid "Tower Of Ghosts"
+msgstr "Torre dels fantasmes"
+
+#: data/levels/world2/tux_builder.stl:3
+msgid "Tux the Builder"
+msgstr "Tux el constructor"
+
+#: data/levels/world2/tux_builder.stl:77
+msgid ""
+"-Portable Objects:\n"
+"!images/objects/rock/rock.png\n"
+"#Tux can pick up certain objects and carry them around.\n"
+"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
+msgstr "- Objectes portàtils:\n!images/objects/rock/rock.png\n#Tux pot recollir determinats objectes i portar-los allà.\n#Premeu la tecla ACCIÓ per agafar un objecte i manteniu-lo premut mentre vulgueu portar l'objecte. Deixeu anar la tecla ACCIÓ per deixar anar l'objecte."
+
+#: data/levels/world2/tux_own_horror_show.stl:3
+msgid "Tux' Own Horror Show"
+msgstr "Espectacle de terror propi de Tux"
+
+#: data/levels/world2/tux_own_horror_show.stl:790
+msgid ""
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr "#Els Wips són fantasmes petits i molests que et transporten a llocs diferents, sovint perillosos."
+
+#: data/levels/world2/walking_leaves.stl:3
+msgid "Walking Leaves"
+msgstr "Fulles errants"
+
+#: data/levels/world2/welcome_forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "Benvingut al bosc"
+
+#: data/levels/world2/welcome_forest.stl:50
+msgid ""
+"-Doors\n"
+"!images/objects/door/door-0.png\n"
+"#Tux can go through a door by pressing the UP key."
+msgstr "-Portes\n!imatges/objectes/porta/porta-0.png\n#Tux pot passar per una porta prement la tecla UP."
+
+#: data/levels/world2/wooden_roots.stl:3
+msgid "Wooden Roots"
+msgstr "Arrels de fusta"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "Món forestal"
+msgid "Rooted Forest"
+msgstr "Bosc arrelat"
+
+#: data/levels/world2/worldmap.stwm:200
+msgid "To be continued..."
+msgstr "Continuarà..."

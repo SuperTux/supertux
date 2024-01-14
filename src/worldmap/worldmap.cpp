@@ -77,10 +77,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame,
   mapping.get("name", m_name);
 
   std::string tileset_name;
-  if (mapping.get("tileset", tileset_name))
-    m_tileset = TileManager::current()->get_tileset(tileset_name);
-  else
-    m_tileset = TileManager::current()->get_tileset("images/ice_world.strf");
+  mapping.get("tileset", tileset_name, "images/ice_world.strf");
+  m_tileset = TileManager::current()->get_tileset(tileset_name);
 
   auto iter = mapping.get_iter();
   while (iter.next())
@@ -334,6 +332,12 @@ WorldMap::set_sector(const std::string& name, const std::string& spawnpoint,
   // If a spawnpoint has been provided, move to it.
   if (!spawnpoint.empty())
     m_sector->move_to_spawnpoint(spawnpoint);
+}
+
+std::string
+WorldMap::get_filename() const
+{
+  return m_map_filename;
 }
 
 } // namespace worldmap

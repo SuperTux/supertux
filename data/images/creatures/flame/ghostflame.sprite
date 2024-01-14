@@ -7,10 +7,5 @@
           "ghostflame-2.png"
           "ghostflame-3.png"
           "ghostflame-4.png"))
- (action
-  (hitbox 96 96 127.8 31.8)
-  (name "editor")
-  (images "ghostflame-editor.png"))
-
 )
 

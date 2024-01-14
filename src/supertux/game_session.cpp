@@ -46,12 +46,13 @@
 #include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
 
-GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
+GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
+                         bool preserve_music) :
   GameSessionRecorder(),
   reset_button(false),
   reset_checkpoint_button(false),
+  m_prevent_death(false),
   m_level(),
-  m_old_level(),
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
   m_scripts(),
   m_currentsector(nullptr),
@@ -63,11 +64,9 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_activated_checkpoint(),
   m_newsector(),
   m_newspawnpoint(),
-  m_invincibilitytimeleft(),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
-  m_edit_mode(false),
   m_levelintro_shown(false),
   m_coins_at_start(),
   m_boni_at_start(),
@@ -85,7 +84,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
   m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
 
-  if (restart_level() != 0)
+  if (restart_level(false, preserve_music) != 0)
     throw std::runtime_error ("Initializing the level failed.");
 }
 
@@ -115,7 +114,7 @@ GameSession::reset_level()
 }
 
 int
-GameSession::restart_level(bool after_death)
+GameSession::restart_level(bool after_death, bool preserve_music)
 {
   const PlayerStatus& currentStatus = m_savegame.get_player_status();
   m_coins_at_start = currentStatus.coins;
@@ -139,12 +138,6 @@ GameSession::restart_level(bool after_death)
     }
   }
 
-
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return (-1);
-  }
-
   m_game_pause   = false;
   m_end_sequence = nullptr;
   m_endsequence_timer.stop();
@@ -159,7 +152,6 @@ GameSession::restart_level(bool after_death)
   }
 
   try {
-    m_old_level = std::move(m_level);
     m_level = LevelParser::from_file(m_levelfile, false, false);
 
     /* Determine the spawnpoint to spawn/respawn Tux to. */
@@ -188,7 +180,7 @@ GameSession::restart_level(bool after_death)
         throw std::runtime_error("Cannot find the position of the last activated checkpoint.");
       }
     }
-    else if (after_death) // Respawn from the last respawn position, because Tux is respawning.
+    else if (after_death && m_spawnpoints.size() > 1) // Respawn from the last respawn position, because Tux is respawning.
     {
       spawnpoint = &get_last_spawnpoint();
     }
@@ -222,12 +214,15 @@ GameSession::restart_level(bool after_death)
     return (-1);
   }
 
-  auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
-  if (after_death == true) {
-    music_object.resume_music();
-  } else {
-    SoundManager::current()->stop_music();
-    music_object.play_music(LEVEL_MUSIC);
+  if (!preserve_music)
+  {
+    auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
+    if (after_death == true) {
+      music_object.resume_music();
+    } else {
+      SoundManager::current()->stop_music();
+      music_object.play_music(LEVEL_MUSIC);
+    }
   }
 
   auto level_times = m_currentsector->get_objects_by_type<LevelTime>();
@@ -339,38 +334,6 @@ GameSession::is_active() const
 }
 
 void
-GameSession::set_editmode(bool edit_mode_)
-{
-  if (m_edit_mode == edit_mode_) return;
-  m_edit_mode = edit_mode_;
-
-  for (auto* p : m_currentsector->get_players())
-  {
-    p->set_edit_mode(edit_mode_);
-  }
-
-  if (edit_mode_) {
-
-    // Entering edit mode.
-
-  } else {
-
-    // Leaving edit mode.
-    restart_level();
-
-  }
-}
-
-void
-GameSession::force_ghost_mode()
-{
-  for (auto* p : m_currentsector->get_players())
-  {
-    p->set_ghost_mode(true);
-  }
-}
-
-void
 GameSession::check_end_conditions()
 {
   bool all_dead = true;
@@ -412,7 +375,7 @@ void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.color().draw_filled_rect(
-    Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+    Rectf(context.get_rect()),
     Color(0.0f, 0.0f, 0.0f, 0.25f),
     LAYER_FOREGROUND1);
 }
@@ -508,28 +471,21 @@ GameSession::update(float dt_sec, const Controller& controller)
     }
     assert(m_currentsector != nullptr);
     m_currentsector->stop_looping_sounds();
+
     sector->activate(m_newspawnpoint);
+
     // Start the new sector's music only if it's different from the current one.
     if (current_music != sector->get_singleton_by_type<MusicObject>().get_music())
       sector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
+
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
 
     if (is_playing_demo())
-    {
       reset_demo_controller();
-    }
-    // Keep persistent across sectors.
-    if (m_edit_mode)
-      for (auto* p : m_currentsector->get_players())
-        p->set_edit_mode(m_edit_mode);
+
     m_newsector = "";
     m_newspawnpoint = "";
-
-    // Retain invincibility if the player has it.
-    auto players = m_currentsector->get_players();
-    for (const auto& player : players)
-      player->m_invincible_timer.start(m_invincibilitytimeleft[player->get_id()]);
   }
 
   // Update the world state and all objects in the world.
@@ -626,11 +582,6 @@ GameSession::finish(bool win)
 
   using namespace worldmap;
 
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return;
-  }
-
   if (win) {
     if (WorldMapSector::current())
     {
@@ -647,18 +598,10 @@ GameSession::finish(bool win)
 }
 
 void
-GameSession::respawn(const std::string& sector, const std::string& spawnpoint,
-                     bool retain_invincibility)
+GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 {
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
-
-  m_invincibilitytimeleft.clear();
-
-  if (retain_invincibility)
-    for (const auto* player : Sector::get().get_players())
-      if (player->is_invincible())
-        m_invincibilitytimeleft[player->get_id()] = player->m_invincible_timer.get_timeleft();
 }
 
 void
@@ -722,15 +665,15 @@ GameSession::get_working_directory() const
   return FileSystem::dirname(m_levelfile);
 }
 
+bool
+GameSession::has_active_sequence() const
+{
+  return m_end_sequence;
+}
+
 void
 GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* data)
 {
-  // Do not play sequences when in edit mode.
-  if (m_edit_mode) {
-    force_ghost_mode();
-    return;
-  }
-
   // Handle special "stoptux" sequence.
   if (seq == SEQ_STOPTUX) {
     if (!m_end_sequence) {

@@ -1,244 +1,223 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# Myeongjin <aranet100@gmail.com>, 2016
+# IAN RODRÍGUEZ Lorenzo, 2022
+# JungHee Lee <daemul72@gmail.com>, 2022
+# JungHee Lee <daemul72@gmail.com>, 2022
+# Myeongjin <aranet100@gmail.com>, 2016-2017,2019,2021
+# Youngjun, Choi, 2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-08-23 05:59+0000\n"
-"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
-"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: IAN RODRÍGUEZ Lorenzo, 2022\n"
+"Language-Team: Korean (http://app.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/levels/world2/Bouncy_Coils.stl:3
+#: data/levels/world2/ancient_ruins.stl:3
+msgid "Ancient Ruins"
+msgstr "고대 유적"
+
+#: data/levels/world2/ancient_ruins.stl:1463
+#: data/levels/world2/ancient_ruins.stl:1471
+#: data/levels/world2/bouncy_coils.stl:380
+#: data/levels/world2/bouncy_coils.stl:388
+#: data/levels/world2/bye_bye_forest.stl:1607
+#: data/levels/world2/crumbling_path.stl:278
+#: data/levels/world2/crumbling_path.stl:1651
+#: data/levels/world2/going_underground.stl:246
+#: data/levels/world2/going_underground.stl:1249
+#: data/levels/world2/mouldy_grotto.stl:559
+#: data/levels/world2/penguin_grow_trees.stl:459
+#: data/levels/world2/penguin_grow_trees.stl:467
+#: data/levels/world2/through_dark.stl:361
+#: data/levels/world2/tux_builder.stl:384
+#: data/levels/world2/wooden_roots.stl:279
+#: data/levels/world2/worldmap.stwm:186
+msgid "You found a secret area!"
+msgstr "비밀공간 구역을 찾았어요!"
+
+#: data/levels/world2/beside_bushes.stl:3
+msgid "Beside the Bushes"
+msgstr "덤불 옆에"
+
+#: data/levels/world2/bouncy_coils.stl:3
 msgid "Bouncy Coils"
 msgstr "튀는 코일"
 
-#: data/levels/world2/Castle_Entrance.stl:3
-msgid "Entrance to the Castle"
-msgstr "성 입구"
+#: data/levels/world2/bye_bye_forest.stl:3
+msgid "Bye Bye Forest"
+msgstr "잘 가 숲"
 
-#: data/levels/world2/CounterCurrent.stl:3
-msgid "Countercurrent"
-msgstr "역류"
-
-#: data/levels/world2/Crumbling_Path.stl:3
+#: data/levels/world2/crumbling_path.stl:3
 msgid "Crumbling Path"
 msgstr "무너지는 길"
 
-#: data/levels/world2/Duct_Ape.stl:3
-msgid "Duct Ape"
-msgstr "덕트 에이프"
+#: data/levels/world2/darkness_awaits.stl:3
+msgid "Darkness Awaits"
+msgstr "어둠이 기다린다"
 
-#: data/levels/world2/El_Castillo.stl:3
-msgid "A Short Visit to El Castillo"
-msgstr "엘 카시티요로의 짧은 방문"
-
-#: data/levels/world2/Find_Big_Fish.stl:3
+#: data/levels/world2/find_big_fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "더 큰 물고기를 찾아라!"
 
-#: data/levels/world2/Find_Big_Fish.stl:449
+#: data/levels/world2/find_big_fish.stl:1058
 msgid "-A big fish... for you."
 msgstr "-너를 위해... 큰 물고기."
 
-#: data/levels/world2/Going_Underground.stl:3
+#: data/levels/world2/forest_intro.stl:3
+msgid "A New Location"
+msgstr "새로운 위치"
+
+#: data/levels/world2/ghost_cutscene.stl:3
+msgid "What is Happening?"
+msgstr "무슨 일이 일어나고 있죠?"
+
+#: data/levels/world2/ghostly_misery.stl:3
+msgid "Ghostly Misery"
+msgstr "유령의 불행"
+
+#: data/levels/world2/ghosttrees_challenges.stl:3
+msgid "Ghosttree's Challenges"
+msgstr "유령나무의 도전"
+
+#: data/levels/world2/ghouls_lair.stl:3
+msgid "Ghouls' Lair"
+msgstr "구울의 은신처"
+
+#: data/levels/world2/ghouls_lair.stl:849
+msgid ""
+"#Lanterns are used to make magic blocks solid, so you're able to walk atop "
+"of them."
+msgstr "#랜턴은 마법 블록을 단단하게 만드는 데 사용되므로 그 위를 걸을 수 있습니다."
+
+#: data/levels/world2/going_underground.stl:3
 msgid "Going Underground"
 msgstr "지하로 가는 중"
 
-#: data/levels/world2/Kneep_Deep.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "무릎 깊이의 깊음"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:3
+msgid "I Spy With My Little Eye"
+msgstr "나는 작은 눈으로 감시해요"
 
-#: data/levels/world2/Little_Venice.stl:3
-msgid "Little Venice"
-msgstr "작은 베네치아"
+#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+msgid ""
+"-Ispy\n"
+"#Ispys will activate things like platforms whenever Tux is in their sight."
+msgstr "-이스파이\n#이스파이 는 Tux가 시야에 들어올 때마다 플랫폼과 같은 것을 활성화합니다."
 
-#: data/levels/world2/Mouldy_Grotto.stl:3
+#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+msgid "Hint: Use snails to break blocks!"
+msgstr "힌트: 블록을 깨려면 달팽이를 사용하세요!"
+
+#: data/levels/world2/leaf_wind.stl:3
+msgid "Like a leaf in the Wind"
+msgstr "바람 속의 나뭇잎처럼"
+
+#: data/levels/world2/lost_village.stl:3
+msgid "Lost Village"
+msgstr "잃어버린 마을"
+
+#: data/levels/world2/lost_village.stl:187
+msgid "#Don't forget to hit the switch!"
+msgstr "#스위치를 치는 걸 잊지 마세요!"
+
+#: data/levels/world2/mouldy_grotto.stl:3
 msgid "A Mouldy Grotto"
 msgstr "지겨운 저장고"
 
-#: data/levels/world2/Penguin_Grow_Trees.stl:3
+#: data/levels/world2/owls_again.stl:3
+msgid "The Owls again..."
+msgstr "올빼미는 다시..."
+
+#: data/levels/world2/owls_skydive_commando.stl:3
+msgid "Owls' Skydive Commando"
+msgstr "올빼미의 스카이다이빙 특공대"
+
+#: data/levels/world2/penguin_grow_trees.stl:3
 msgid "Penguins don't grow on Trees"
 msgstr "펭귄은 나무를 자라게 하지 않아"
-
-#: data/levels/world2/Rabbit_Hole.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "토끼 구멍 아래"
-
-#: data/levels/world2/Rabbit_Hole.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr "-안돼!\n#길이 막혀 있어!\n#오로지 지하의 어두운\n#구멍을 통해 그 길로\n#가야 할 거 같아..."
-
-#: data/levels/world2/Rabbit_Hole.stl:55
-msgid "-Are you lost?"
-msgstr "-길을 잃었어?"
-
-#: data/levels/world2/Silent_Walls.stl:3
-msgid "The Silent Walls"
-msgstr "고요한 벽"
-
-#: data/levels/world2/Three_Sheets.stl:3
-msgid "Three sheets to the wind"
-msgstr "바람으로의 시트 세 장"
-
-#: data/levels/world2/Treasure_Skies.stl:3
-msgid "Treasure in the skies"
-msgstr "하늘들에 보물"
-
-#: data/levels/world2/Tree_Fortress.stl:3
-msgid "Tree Fortress"
-msgstr "나무 요새"
-
-#: data/levels/world2/Tux_Builder.stl:3
-msgid "Tux the Builder"
-msgstr "턱스 건축가"
-
-#: data/levels/world2/Tux_Builder.stl:46
-msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-들고 다닐 수 있는 바위:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
-
-#: data/levels/world2/Two_Towers.stl:3
-msgid "Two Tiny Towers"
-msgstr "두 작은 성"
-
-#: data/levels/world2/Up_and_Down.stl:3
-msgid "Up and Down"
-msgstr "위 아래"
-
-#: data/levels/world2/Walking_Leaves.stl:3
-msgid "Walking Leaves"
-msgstr "걸어다니는 잎"
-
-#: data/levels/world2/Welcome_Forest.stl:3
-msgid "Welcome to the Forest"
-msgstr "어서 와, 숲은 처음이지?"
-
-#: data/levels/world2/castle.stl:3
-msgid "Iceberg Fortress"
-msgstr "빙산 요새"
-
-#: data/levels/world2/castledoor.stl:3
-#: data/levels/world2/dfk-placeholder-1.stl:3
-msgid "NOLOK"
-msgstr "놀록"
-
-#: data/levels/world2/christophD.stl:3
-msgid "Room of Stars"
-msgstr "별들의 방"
-
-#: data/levels/world2/dan_morial.stl:3
-msgid "Dan Morial"
-msgstr "단 모리알"
-
-#: data/levels/world2/detour.stl:3
-msgid "Detour"
-msgstr "우회"
-
-#: data/levels/world2/dfk-level1.stl:3
-msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "어두운 숲이 머무는 - 사악한 챔버"
-
-#: data/levels/world2/dfk-level2.stl:3
-msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "어두운 숲이 머무는 - 놀록의 눈"
-
-#: data/levels/world2/dfk-level3.stl:3
-msgid "Dark Forest Keep - The Black Tower"
-msgstr "어두운 숲이 머무는 - 검은 탑"
-
-#: data/levels/world2/forest1-grumbel.stl:3
-msgid "Forest Level 1"
-msgstr "숲 레벨 1"
-
-#: data/levels/world2/ghostly.stl:3
-msgid "A Ghostly World"
-msgstr "유령 세계"
-
-#: data/levels/world2/key1.stl:3
-msgid "key 1 water - to be placed behind waterfall"
-msgstr "열쇠 1 물 - 폭포 뒤에 놓여 있음"
-
-#: data/levels/world2/key2.stl:3
-msgid "key 2 earth - to be placed underground"
-msgstr "열쇠 2 지구 - 지하에 놓여 있음"
-
-#: data/levels/world2/key3.stl:3
-msgid "key 3 wood - to be placed in a big tree"
-msgstr "열쇠 3 목재 - 큰 나무에 놓여 있음"
-
-#: data/levels/world2/key4.stl:3
-msgid "key 4 fire - to be placed in a small castle"
-msgstr "열쇠 4 불 - 작은 성에 놓여 있음"
-
-#: data/levels/world2/key5.stl:3
-msgid "key 5 air - to be placed in clouds "
-msgstr "열쇠 5 공기 - 구름에 놓여 있음"
-
-#: data/levels/world2/level5.stl:3
-msgid "Green Hills"
-msgstr "청구"
-
-#: data/levels/world2/level6.stl:3
-msgid "No Name"
-msgstr "이름 없음"
-
-#: data/levels/world2/light+magic.stl:3
-msgid "Light and Magic"
-msgstr "빛과 마법"
-
-#: data/levels/world2/owls_revenge.stl:3
-msgid "Owls' Revenge"
-msgstr "올빼미들의 복수"
-
-#: data/levels/world2/roots_woody_roots.stl:3
-msgid "Roots, Woody Roots"
-msgstr "뿌리, 우거진 뿌리"
-
-#: data/levels/world2/roots_woody_roots.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-힌트:\n#문에 다다를 수 있는\n#방법이 없을 것 같으면,\n#문 밖으로 나와야 할 수도\n#있음을 기억해..."
-
-#: data/levels/world2/scripts_default.txt:2
-msgid "---Insert Cutscene Here---"
-msgstr "---여기에 컷신을 넣으세요---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "충격"
 
-#: data/levels/world2/underconstruction.stl:3
-msgid "Under Construction"
-msgstr "공사 중"
+#: data/levels/world2/the_forest_is_rotting.stl:3
+msgid "The Forest Is Rotting"
+msgstr "숲이 썩어가고 있어요"
 
-#: data/levels/world2/village.stl:3
-msgid "A Village in the Forest"
-msgstr "숲 속 마을"
+#: data/levels/world2/through_dark.stl:3
+msgid "Through the Dark"
+msgstr "어둠을 뚫고"
+
+#: data/levels/world2/through_dark.stl:96
+msgid ""
+"-Earth Flower\n"
+"!images/powerups/earthflower/earth_flower-1.png\n"
+"#The earth flower gives Tux the ability to turn into stone by pressing the ACTION Key and the DOWN Key at the same time.\n"
+"#This does not work while jumping or falling!"
+msgstr "-흙 꽃\n!images/powerups/earthflower/earth_flower-1.png\n#흙 꽃은 턱스에게 액션 키와 아래 방향키를 동시에 누르면 돌로 변하는 능력을 줍니다.\n#점프나 낙하 중에는 작동하지 않습니다!"
+
+#: data/levels/world2/tower_cutscene.stl:3
+msgid "Tower Cutscene"
+msgstr "타워 절단현장"
+
+#: data/levels/world2/tower_of_ghosts.stl:3
+msgid "Tower Of Ghosts"
+msgstr "유령의 탑"
+
+#: data/levels/world2/tux_builder.stl:3
+msgid "Tux the Builder"
+msgstr "턱스 건축가"
+
+#: data/levels/world2/tux_builder.stl:77
+msgid ""
+"-Portable Objects:\n"
+"!images/objects/rock/rock.png\n"
+"#Tux can pick up certain objects and carry them around.\n"
+"#Press the ACTION key to grab an object and hold it pressed as long as you want to carry the object. Release the ACTION key to drop the object."
+msgstr "-휴대용 물건:\n!images/objects/rock/rock.png\n#턱스는 특정 물건을 집어 들고 다닐 수 있습니다.\n#액션 키를 눌러 물건을 잡고 물건을 옮기고 싶은 만큼 길게 누릅니다. 물건을 떨어뜨리려면 액션 키를 놓습니다."
+
+#: data/levels/world2/tux_own_horror_show.stl:3
+msgid "Tux' Own Horror Show"
+msgstr "턱스 자신만의 호러 쇼"
+
+#: data/levels/world2/tux_own_horror_show.stl:790
+msgid ""
+"#Will o' Wisps are small, annoying ghosts, which transport you to different,"
+" often dangerous places."
+msgstr "#위습는 작고 성가신 유령으로, 종종 위험한 곳으로 이동합니다."
+
+#: data/levels/world2/walking_leaves.stl:3
+msgid "Walking Leaves"
+msgstr "걸어다니는 잎"
+
+#: data/levels/world2/welcome_forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "숲에 오신 것을 환영합니다"
+
+#: data/levels/world2/welcome_forest.stl:50
+msgid ""
+"-Doors\n"
+"!images/objects/door/door-0.png\n"
+"#Tux can go through a door by pressing the UP key."
+msgstr "-문\n!images/objects/door/door-0.png\n#턱스는 위쪽 방향키를 눌러 문을 통과할 수 있습니다."
+
+#: data/levels/world2/wooden_roots.stl:3
+msgid "Wooden Roots"
+msgstr "나무 뿌리"
 
 #: data/levels/world2/worldmap.stwm:3
-msgid "Forest World"
-msgstr "숲 세계"
+msgid "Rooted Forest"
+msgstr "뿌리깊은 숲"
+
+#: data/levels/world2/worldmap.stwm:200
+msgid "To be continued..."
+msgstr "다음에 계속..."

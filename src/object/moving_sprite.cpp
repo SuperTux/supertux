@@ -17,7 +17,6 @@
 #include "object/moving_sprite.hpp"
 
 #include <math.h>
-#include <physfs.h>
 
 #include "editor/editor.hpp"
 #include "math/random.hpp"
@@ -62,14 +61,12 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid or sprite change fails
-  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str()) ||
-      !change_sprite(m_sprite_name))
+  if (m_sprite_name.empty() || !change_sprite(m_sprite_name))
   {
     change_sprite(m_default_sprite_name);
     m_sprite_found = false;
   }
 
-  update_hitbox();
   set_group(collision_group);
 }
 
@@ -111,16 +108,24 @@ MovingSprite::has_found_sprite()
   return found;
 }
 
-std::string
-MovingSprite::get_sprite_name() const
+void
+MovingSprite::on_type_change(int old_type)
 {
-  return m_sprite_name;
+  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+    change_sprite(get_default_sprite_name());
+}
+
+bool
+MovingSprite::matches_sprite(const std::string& sprite_file) const
+{
+  return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
 }
 
 void
 MovingSprite::update_hitbox()
 {
   m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
+  m_col.set_unisolid(m_sprite->is_current_hitbox_unisolid());
 }
 
 void
@@ -175,6 +180,7 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
   m_sprite = SpriteManager::current()->create(new_sprite_name);
   m_sprite_name = new_sprite_name;
+  update_hitbox();
 
   return SpriteManager::current()->last_load_successful();
 }
@@ -184,7 +190,7 @@ MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
 
-  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", m_default_sprite_name);
+  result.add_sprite(_("Sprite"), &m_sprite_name, "sprite", get_default_sprite_name());
 
   result.reorder({"sprite", "x", "y"});
 
@@ -199,7 +205,7 @@ MovingSprite::after_editor_set()
   std::string current_action = m_sprite->get_action();
   if (!change_sprite(m_sprite_name)) // If sprite change fails, change back to default.
   {
-    change_sprite(m_default_sprite_name);
+    change_sprite(get_default_sprite_name());
   }
   m_sprite->set_action(current_action);
 

@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_CRUSHER_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 
 class Player;
@@ -37,6 +36,7 @@ public:
   enum class Direction
   {
     DOWN,
+    UP,
     LEFT,
     RIGHT
   };
@@ -51,6 +51,7 @@ private:
   enum Type
   {
     ICE,
+    ROCK,
     CORRUPTED
   };
 
@@ -72,6 +73,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
   GameObjectTypes get_types() const override;
+  std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
 
@@ -119,7 +121,7 @@ public:
 
 private:
   void start_animation();
-  bool delay_gone() { return m_delay_remaining <= 0.f; }
+  bool delay_gone() const { return m_delay_remaining <= 0.f; }
 
 private:
   Vector m_original_pos;

@@ -84,6 +84,13 @@ else()
   option(HIDE_NONMOBILE_OPTIONS "Hide options that are impractical on mobile devices (e. g. changing screen resolution)" OFF)
 endif()
 
+# Configure main menu logo
+if(("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$") OR IS_SUPERTUX_RELEASE OR STEAM_BUILD)
+  set(LOGO_FILE "logo.png")
+else()
+  set(LOGO_FILE "logo_dev.png")
+endif()
+
 if(WIN32)
   ## Enable multi-processor compilation (faster)
   if(MSVC)

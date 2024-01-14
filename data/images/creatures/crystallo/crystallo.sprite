@@ -157,4 +157,23 @@
     (loops 1)
     (mirror-action "waking-left")
   )
+  (action
+    (name "jumping-left")
+    (fps 14)
+    (hitbox 10 12 32 26)
+    (loops 1)
+    (images "jump-0.png"
+            "jump-1.png"
+            "jump-2.png"
+            "jump-3.png"
+            "jump-4.png"
+            "jump-5.png")
+  )
+  (action
+    (name "jumping-right")
+    (fps 14)
+    (hitbox 8 12 32 26)
+    (loops 1)
+    (mirror-action "jumping-left")
+  )
 )
