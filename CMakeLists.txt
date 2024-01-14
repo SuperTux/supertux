@@ -151,16 +151,16 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
 
 # HACK
-set(HAVE_SDL ON)
+set(HAVE_OPENGL OFF)
 
 if(NOT EMSCRIPTEN)
-  target_dependencies(supertux2_lib SDL2 SDL2_image freetype libcurl_shared)
+  target_dependencies(supertux2_lib SDL2 SDL2_image SDL2_ttf libcurl_shared ogg vorbis)
   # TODO: oggvorbis
 endif()
 
 set(FMT_INSTALL ON)
 target_dependencies(supertux2_lib sexp OpenAL fmt-header-only zlib physfs)
-target_external_dependencies(supertux2_lib partio_zip)
+target_external_dependencies(supertux2_lib partio_zip tinygettext)
 target_external_dependencies_from_folder(supertux2_lib squirrel squirrel sqstdlib)
 
 if(ENABLE_DISCORD)

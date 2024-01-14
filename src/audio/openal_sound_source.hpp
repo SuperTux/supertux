@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_AUDIO_OPENAL_SOUND_SOURCE_HPP
 #define HEADER_SUPERTUX_AUDIO_OPENAL_SOUND_SOURCE_HPP
 
-#include <al.h>
+#include <AL/al.h>
 
 #include "audio/sound_source.hpp"
 

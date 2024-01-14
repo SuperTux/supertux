@@ -52,3 +52,9 @@
 	path = external/freetype
 	url = https://github.com/freetype/freetype
 	branch = 2.6.5
+[submodule "external/vorbis"]
+	path = external/vorbis
+	url = https://gitlab.xiph.org/xiph/vorbis.git
+[submodule "external/ogg"]
+	path = external/ogg
+	url = https://gitlab.xiph.org/xiph/ogg.git

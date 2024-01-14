@@ -296,7 +296,7 @@ Camera::get_translation() const
 void
 Camera::set_translation_centered(const Vector& translation)
 {
-  m_translation = translation - m_screen_size.as_vector() / 2;
+  m_translation = translation - m_screen_size.as_vector() / 2.f;
 }
 
 Rectf

@@ -15,36 +15,15 @@ endif()
 #   target_external_dependencies_from_folder(target squirrel squirrel sqstdlib)
 #
 macro(target_external_dependencies_from_folder tar folder)
-  set(deps ${ARGN})
+  cmake_parse_arguments(DEPS_ARGS "STATIC" "" "" ${ARGN})
 
-  set(subdir ${PROJECT_SOURCE_DIR}/external/${folder})
+  set(subdir ${PROJECT_SOURCE_DIR}/${folder})
+  set(oldbuildtype ${CMAKE_BUILD_TYPE})
+  set(CMAKE_BUILD_TYPE Release)
+
   add_subdirectory(${subdir})
 
-  foreach(dep ${deps})
-    if(NOT TARGET ${dep})
-      message(WARNING "Could NOT find ${dep} in ${subdir}. Skipping.")
-      continue()
-    endif()
-  
-    get_target_property(DEP_INCLUDES ${dep} INCLUDE_DIRECTORIES)
-    target_include_directories(${tar} PUBLIC ${DEP_INCLUDES})
-    target_link_libraries(${tar} PUBLIC ${dep})
-    add_dependencies(${tar} ${dep})
-  endforeach()
-endmacro()
-
-# Add a subfolder from ${PROJECT_SOURCE_DIR}/external/
-# and link a target with the same name. Example:
-#
-#   target_external_dependencies(target SDL2 SDL2_image ...)
-#
-# You can also use a static library if available:
-#
-#   target_external_dependencies(target STATIC SDL2 SDL2_image ...)
-#
-macro(target_external_dependencies tar)
-  cmake_parse_arguments(DEPS_ARGS "STATIC" "" "" ${ARGN})
-  set(deps ${DEPS_ARGS_UNPARSED_ARGUMENTS})
+  set(CMAKE_BUILD_TYPE ${oldbuildtype})
 
   foreach(dep ${deps})
     set(deptar "${dep}")
@@ -54,14 +33,6 @@ macro(target_external_dependencies tar)
     endif()
 
     message(VERBOSE "Link externally ${deptar}")
-
-    set(oldbuildtype ${CMAKE_BUILD_TYPE})
-    set(CMAKE_BUILD_TYPE Release)
-
-    set(subdir ${PROJECT_SOURCE_DIR}/external/${dep})
-    add_subdirectory(${subdir})
-
-    set(CMAKE_BUILD_TYPE ${oldbuildtype})
 
     if(DEPS_ARGS_STATIC AND NOT TARGET ${deptar})
       message(VERBOSE "Could not find ${deptar} in ${subdir}. Falling back to non-static version.")
@@ -76,7 +47,7 @@ macro(target_external_dependencies tar)
     string(TOUPPER ${deptar} UPPERDEP)
 
     set(${deptar}_FOUND OFF)
-    set(${UPPERDEP}_FOUND ON)
+    set(${UPPERDEP}_FOUND OFF)
 
     if(NOT TARGET ${deptar})
       message(WARNING "Could NOT find ${deptar} in ${subdir}. Skipping.")
@@ -113,13 +84,13 @@ macro(target_external_dependencies tar)
     set(${UPPERDEP}_INCLUDE_DIR ${DEP_INCLUDES})
     set(${UPPERDEP}_INCLUDE_DIRS ${DEP_INCLUDES})
 
-    target_link_libraries(${tar} PUBLIC ${deptar})
-
     # Try all names, again
     set(${deptar}_LIBRARY ${deptar})
     set(${deptar}_LIBRARIES ${deptar})
     set(${UPPERDEP}_LIBRARY ${deptar})
     set(${UPPERDEP}_LIBRARIES ${deptar})
+
+    target_link_libraries(${tar} PUBLIC ${deptar})
 
     if(NOT ${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
       add_custom_command(TARGET ${tar}
@@ -130,6 +101,28 @@ macro(target_external_dependencies tar)
     endif()
 
     add_dependencies(${tar} ${deptar})
+  endforeach()
+endmacro()
+
+# Add a subfolder from ${PROJECT_SOURCE_DIR}/external/
+# and link a target with the same name. Example:
+#
+#   target_external_dependencies(target SDL2 SDL2_image ...)
+#
+# You can also use a static library if available:
+#
+#   target_external_dependencies(target STATIC SDL2 SDL2_image ...)
+#
+macro(target_external_dependencies tar)
+  cmake_parse_arguments(DEPS_ARGS "STATIC" "" "" ${ARGN})
+  set(deps ${DEPS_ARGS_UNPARSED_ARGUMENTS})
+
+  foreach(dep ${deps})
+    if(DEPS_ARGS_STATIC)
+      target_external_dependencies_from_folder(${dep} external/${dep} STATIC)
+    else()
+      target_external_dependencies_from_folder(${dep} external/${dep})
+    endif()
   endforeach()
 endmacro()
 
@@ -171,7 +164,7 @@ macro(target_dependencies tar)
 
     # try all names
     string(TOUPPER ${dep} UPPERDEP)
-    target_include_directories(${tar} PUBLIC ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR})
+    #target_include_directories(${tar} PUBLIC ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR})
 
     message(VERBOSE "${dep} includes: ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR}")
   endforeach()
