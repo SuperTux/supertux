@@ -18,8 +18,6 @@
 #include "supertux/resources.hpp"
 
 #include "gui/mousecursor.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/debug.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -52,7 +50,7 @@ void
 Resources::load(bool reload)
 {
   // Load the mouse-cursor
-  mouse_cursor.reset(new MouseCursor(SpriteManager::current()->create("images/engine/menu/mousecursor.sprite")));
+  mouse_cursor.reset(new MouseCursor());
   MouseCursor::set_current(mouse_cursor.get());
 
   default_font.reset(new TTFFont("fonts/SuperTux-Medium.ttf", 18, 1.25f, 2, 1));

@@ -50,9 +50,9 @@ Client::process_event(const ENetEvent& event)
 
 ConnectionResult
 Client::connect(const char* hostname, uint16_t port,
-                uint32_t wait_ms, size_t channel_count)
+                uint32_t wait_ms, size_t allocated_channels)
 {
-  auto result = connect_internal(hostname, port, wait_ms, channel_count);
+  auto result = connect_internal(hostname, port, wait_ms, allocated_channels);
   if (m_protocol)
     m_protocol->on_client_connect(result);
   return result;
@@ -60,18 +60,22 @@ Client::connect(const char* hostname, uint16_t port,
 
 ConnectionResult
 Client::connect_internal(const char* hostname, uint16_t port,
-                         uint32_t wait_ms, size_t channel_count)
+                         uint32_t wait_ms, size_t allocated_channels)
 {
   ENetAddress address;
   enet_address_set_host(&address, hostname);
   address.port = static_cast<enet_uint16>(port);
+
+  // If a protocol is binded, use its required allocated channel count
+  if (m_protocol)
+    allocated_channels = m_protocol->get_channel_count();
 
   // Hash the game version
   std::hash<std::string> hasher;
   const enet_uint32 version = static_cast<enet_uint32>(hasher(PACKAGE_VERSION));
 
   // Initiate the connection
-  ENetPeer* peer = enet_host_connect(m_host, &address, channel_count, version);
+  ENetPeer* peer = enet_host_connect(m_host, &address, allocated_channels, version);
   if (!peer)
     return ConnectionResult(nullptr, ConnectionStatus::FAILED_NO_PEERS);
 

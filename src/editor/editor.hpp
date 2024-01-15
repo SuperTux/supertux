@@ -39,6 +39,7 @@
 
 class ButtonWidget;
 class EditorNetworkProtocol;
+class EditorNetworkUser;
 class GameObject;
 class Level;
 class ObjectGroup;
@@ -56,6 +57,7 @@ class Server;
 class Editor final : public Screen,
                      public Currenton<Editor>
 {
+  friend class EditorNetworkProtocol;
   friend class EditorSectorHandler;
 
 public:
@@ -75,6 +77,15 @@ private:
   static std::string get_autosave_from_levelname(const std::string& filename) {
     return is_autosave_file(filename) ? filename : filename + "~";
   }
+
+public:
+  struct RemoteMousePosition
+  {
+    RemoteMousePosition() : sector(), pos() {}
+
+    std::string sector;
+    Vector pos;
+  };
 
 public:
   static bool s_resaving_in_progress;
@@ -104,6 +115,7 @@ public:
   TileSet* get_tileset() const { return m_tileset; }
   TileSelection* get_tiles() const { return m_toolbox_widget->get_tilebox().get_tiles(); }
   std::string get_tileselect_object() const { return m_toolbox_widget->get_tilebox().get_object(); }
+  Vector get_mouse_sector_pos() const { return m_overlay_widget->get_mouse_sector_pos(); }
 
   EditorTilebox::InputType get_tileselect_input_type() const { return m_toolbox_widget->get_tilebox().get_input_type(); }
 
@@ -155,6 +167,7 @@ public:
   void create_sector(const std::string& name = {}, bool from_network = false);
   void delete_sector(const std::string& name, bool from_network = false);
 
+  void update_network_cursor();
   void update_node_iterators();
   void esc_press();
   void delete_markers();
@@ -214,6 +227,10 @@ private:
   void post_undo_redo_actions();
 
   network::Host* get_network_host() const;
+  EditorNetworkUser* get_network_user(const std::string& nickname) const;
+
+  void parse_network_users(const std::string& data);
+  std::string save_network_users(EditorNetworkUser* except = nullptr) const;
 
 protected:
   std::unique_ptr<Level> m_level;
@@ -257,6 +274,7 @@ private:
   EditorToolboxWidget* m_toolbox_widget;
   EditorLayersWidget* m_layers_widget;
 
+  std::vector<std::unique_ptr<EditorNetworkUser>> m_network_users;
   network::Server* m_network_server;
   network::Client* m_network_client;
   ENetPeer* m_network_server_peer;

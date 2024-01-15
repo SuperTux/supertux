@@ -101,7 +101,7 @@ EditorSectorHandler::broadcast_sector_changes(const std::function<void(Writer&)>
   writer.end_list("supertux-sector-changes");
 
   network::StagedPacket packet(EditorNetworkProtocol::OP_SECTOR_CHANGES, stream.str(), 5.f);
-  m_editor.get_network_host()->broadcast_packet(packet, 0);
+  m_editor.get_network_host()->broadcast_packet(packet, true);
 }
 
 /* EOF */
