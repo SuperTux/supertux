@@ -59,14 +59,14 @@ public:
   /** Provides the channel a staged packet should be sent over. */
   virtual uint8_t get_packet_channel(const StagedPacket& packet) const = 0;
 
-  /** The provided RecievedPacket represents the packet in the same way
-      the remote peer would have recieved it. `packet.peer` is not set. */
-  virtual void on_packet_send(RecievedPacket packet) {}
-  virtual void on_packet_abort(RecievedPacket packet) {}
-  virtual void on_packet_recieve(RecievedPacket packet) {}
+  /** The provided ReceivedPacket represents the packet in the same way
+      the remote peer would have received it. `packet.peer` is not set. */
+  virtual void on_packet_send(ReceivedPacket packet) {}
+  virtual void on_packet_abort(ReceivedPacket packet) {}
+  virtual void on_packet_receive(ReceivedPacket packet) {}
 
   /** On request, a staged packet to be sent back must be provided. */
-  virtual StagedPacket on_request_recieve(const RecievedPacket& packet) { return { -1, "" }; }
+  virtual StagedPacket on_request_receive(const ReceivedPacket& packet) { return { -1, "" }; }
   virtual void on_request_fail(const Request& request, Request::FailReason reason) {}
   virtual void on_request_response(const Request& request) {}
 

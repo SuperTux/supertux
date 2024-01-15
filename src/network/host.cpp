@@ -74,7 +74,7 @@ Host::update()
           Peer peer(*event.peer);
           try
           {
-            RecievedPacket packet(*event.packet, &peer);
+            ReceivedPacket packet(*event.packet, &peer);
             if (m_protocol && packet.protocol != m_protocol->get_name())
             {
               throw std::runtime_error("Protocols '" + packet.protocol + "' and '" +
@@ -90,7 +90,7 @@ Host::update()
             {
               try
               {
-                StagedPacket response = m_protocol->on_request_recieve(packet);
+                StagedPacket response = m_protocol->on_request_receive(packet);
                 response.response_id = packet.request_id;
 
                 // Send the response over
@@ -98,7 +98,7 @@ Host::update()
               }
               catch (const std::exception& err)
               {
-                log_warning << "Error processing recieved request in protocol: " << err.what() << std::endl;
+                log_warning << "Error processing received request in protocol: " << err.what() << std::endl;
               }
             }
             else if (packet.response_id) // The packet is a response to a request, notify protocol of request response
@@ -115,7 +115,7 @@ Host::update()
               else
               {
                 const auto& request = *it;
-                request->recieved = &packet;
+                request->received = &packet;
                 try
                 {
                   m_protocol->on_request_response(*request);
@@ -129,21 +129,21 @@ Host::update()
                 m_requests.erase(it);
               }
             }
-            else // The packet is not a part of a request, notify protocol of packet recieve
+            else // The packet is not a part of a request, notify protocol of packet receive
             {
               try
               {
-                m_protocol->on_packet_recieve(std::move(packet));
+                m_protocol->on_packet_receive(std::move(packet));
               }
               catch (const std::exception& err)
               {
-                log_warning << "Error processing recieved packet in protocol: " << err.what() << std::endl;
+                log_warning << "Error processing received packet in protocol: " << err.what() << std::endl;
               }
             }
           }
           catch (const std::exception& err)
           {
-            log_warning << "Error processing recieved packet: " << err.what() << std::endl;
+            log_warning << "Error processing received packet: " << err.what() << std::endl;
           }
 
           // Clean up the packet now that we're done using it
@@ -167,7 +167,7 @@ Host::update()
 
           if (m_protocol)
           {
-            RecievedPacket packet(*it->first);
+            ReceivedPacket packet(*it->first);
             if (packet.request_id) // The packet is a part of a request, notify protocol of request fail
             {
               auto it_req = std::find_if(m_requests.begin(), m_requests.end(),
@@ -223,7 +223,7 @@ Host::update()
         const auto& request = *it;
         if (request->timer.check()) // Request response wait time has expired
         {
-          log_warning << "Unable to recieve request response: Wait time of "
+          log_warning << "Unable to receive request response: Wait time of "
                       << request->response_time << " exceeded." << std::endl;
 
           try
@@ -370,7 +370,7 @@ Host::on_packet_send(ENetPacket* packet)
 
   if (m_protocol && packet->referenceCount > 0) // Make sure the packet has been sent to at least 1 peer
   {
-    RecievedPacket packet_info(*packet);
+    ReceivedPacket packet_info(*packet);
     if (packet_info.request_id) // The packet is a part of a request, start the request's response timer
     {
       auto it = std::find_if(m_requests.begin(), m_requests.end(),

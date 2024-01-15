@@ -134,7 +134,7 @@ Client::disconnect(ENetPeer* peer)
   enet_peer_disconnect(peer, 0);
 
   // Allow up to 3 seconds for the disconnect to succeed.
-  // Drop any recieved packets.
+  // Drop any received packets.
   ENetEvent event;
   bool success = false;
   while (!success && enet_host_service(m_host, &event, 3000) > 0)

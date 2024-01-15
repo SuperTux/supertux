@@ -27,7 +27,7 @@ class Timer;
 
 namespace network {
 
-/** Represents an ENet host (server, client), which can send and recieve packets. */
+/** Represents an ENet host (server, client), which can send and receive packets. */
 class Host
 {
 private:

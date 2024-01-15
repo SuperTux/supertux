@@ -77,7 +77,7 @@ GameObjectStates::GameObjectStates(const ReaderMapping& reader) :
 
 void
 GameObjectStates::save(Writer& writer) const
-{ 
+{
   for (const auto& change : objects)
   {
     writer.start_list("object-state");

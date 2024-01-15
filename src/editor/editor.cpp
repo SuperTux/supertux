@@ -813,7 +813,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port)
                                    3.f));
 
   // Request the level from the remote server.
-  // If successfully recieved, the protocol will take care of setting the level.
+  // If successfully received, the protocol will take care of setting the level.
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
                                    std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_LEVEL_REQUEST, "", 10.f),
@@ -826,7 +826,7 @@ Editor::reload_remote_level()
   if (!m_network_server_peer) return;
 
   // Request the level from the remote server.
-  // If successfully recieved, the protocol will take care of setting the level.
+  // If successfully received, the protocol will take care of setting the level.
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
                                    std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_LEVEL_REREQUEST, "", 10.f),
