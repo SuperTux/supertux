@@ -78,15 +78,6 @@ private:
   }
 
 public:
-  struct RemoteMousePosition
-  {
-    RemoteMousePosition() : sector(), pos() {}
-
-    std::string sector;
-    Vector pos;
-  };
-
-public:
   static bool s_resaving_in_progress;
 
 public:
