@@ -48,7 +48,7 @@ private:
 
 public:
   std::unique_ptr<StagedPacket> staged;
-  RecievedPacket* recieved;
+  ReceivedPacket* received;
 
 private:
   Request(const Request&) = delete;

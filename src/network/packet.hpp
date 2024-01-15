@@ -27,7 +27,7 @@
 namespace network {
 
 class Peer;
-class RecievedPacket;
+class ReceivedPacket;
 
 /** Stores data to be sent over via an ENet packet.
     Converts it all to S-Expression format, when creating the packet. */
@@ -40,7 +40,7 @@ public:
                float send_sec = 5.f);
   StagedPacket(int code = -1, std::vector<std::string> data = {},
                float send_sec = 5.f);
-  StagedPacket(const RecievedPacket& packet);
+  StagedPacket(const ReceivedPacket& packet);
 
   std::string get_staged_data() const;
 
@@ -67,13 +67,13 @@ private:
 
 /** Retrieves S-Expression-formatted ENet packet data.
     Can represent locally sent data,
-    or recieved data from a remote peer (`peer` will be set). */
-class RecievedPacket final
+    or received data from a remote peer (`peer` will be set). */
+class ReceivedPacket final
 {
   friend class Host;
 
 public:
-  RecievedPacket(ENetPacket& packet, Peer* peer = nullptr);
+  ReceivedPacket(ENetPacket& packet, Peer* peer = nullptr);
 
 public:
   ENetPacket& enet;
@@ -89,8 +89,8 @@ public:
   std::vector<std::string> data;
 
 private:
-  RecievedPacket(const RecievedPacket&) = default;
-  RecievedPacket& operator=(const RecievedPacket&) = default;
+  ReceivedPacket(const ReceivedPacket&) = default;
+  ReceivedPacket& operator=(const ReceivedPacket&) = default;
 };
 
 } // namespace network

@@ -157,7 +157,7 @@ EditorNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) c
 }
 
 void
-EditorNetworkProtocol::on_packet_abort(network::RecievedPacket packet)
+EditorNetworkProtocol::on_packet_abort(network::ReceivedPacket packet)
 {
   switch (packet.code)
   {
@@ -171,7 +171,7 @@ EditorNetworkProtocol::on_packet_abort(network::RecievedPacket packet)
 }
 
 void
-EditorNetworkProtocol::on_packet_recieve(network::RecievedPacket packet)
+EditorNetworkProtocol::on_packet_receive(network::ReceivedPacket packet)
 {
   /** Remote server connection */
   switch (packet.code)
@@ -290,9 +290,9 @@ EditorNetworkProtocol::on_packet_recieve(network::RecievedPacket packet)
 }
 
 network::StagedPacket
-EditorNetworkProtocol::on_request_recieve(const network::RecievedPacket& packet)
+EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
 {
-  switch (packet.code) 
+  switch (packet.code)
   {
     case OP_USERS_REQUEST:
     {
@@ -330,7 +330,7 @@ EditorNetworkProtocol::on_request_fail(const network::Request& request, network:
       fail_reason = _("Cannot send request: Timed out.");
       break;
     case network::Request::FailReason::RESPONSE_TIMED_OUT:
-      fail_reason = _("Did not recieve response: Timed out.");
+      fail_reason = _("Did not receive response: Timed out.");
       break;
   }
 
@@ -360,7 +360,7 @@ EditorNetworkProtocol::on_request_fail(const network::Request& request, network:
 void
 EditorNetworkProtocol::on_request_response(const network::Request& request)
 {
-  const network::RecievedPacket& packet = *request.recieved;
+  const network::ReceivedPacket& packet = *request.received;
   switch (packet.code)
   {
     case OP_USERS_RESPONSE:

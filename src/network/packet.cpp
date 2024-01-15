@@ -42,7 +42,7 @@ StagedPacket::StagedPacket(int code_, std::vector<std::string> data_, float send
 {
 }
 
-StagedPacket::StagedPacket(const RecievedPacket& packet) :
+StagedPacket::StagedPacket(const ReceivedPacket& packet) :
   send_time(5.f),
   protocol(),
   request_id(),
@@ -75,7 +75,7 @@ StagedPacket::get_staged_data() const
 }
 
 
-RecievedPacket::RecievedPacket(ENetPacket& packet, Peer* peer_) :
+ReceivedPacket::ReceivedPacket(ENetPacket& packet, Peer* peer_) :
   enet(packet),
   peer(peer_),
   protocol(),
@@ -88,14 +88,14 @@ RecievedPacket::RecievedPacket(ENetPacket& packet, Peer* peer_) :
   auto doc = ReaderDocument::from_stream(stream);
   auto root = doc.get_root();
   if (root.get_name() != "supertux-network-packet")
-    throw std::runtime_error("Recieved packet is not a valid 'supertux-network-packet'.");
+    throw std::runtime_error("Received packet is not a valid 'supertux-network-packet'.");
 
   auto reader = root.get_mapping();
   reader.get("protocol", protocol);
   if (!reader.get("request-id", request_id))
     reader.get("response-id", response_id);
   if (!reader.get("code", code))
-    throw std::runtime_error("Recieved packet does not contain a response code.");
+    throw std::runtime_error("Received packet does not contain a response code.");
   reader.get("data", data);
 }
 

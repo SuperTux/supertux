@@ -23,7 +23,7 @@ Request::Request(std::unique_ptr<StagedPacket> staged_packet, float response_sec
   response_time(response_sec),
   timer(),
   staged(std::move(staged_packet)),
-  recieved()
+  received()
 {
 }
 

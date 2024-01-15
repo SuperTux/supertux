@@ -69,10 +69,10 @@ public:
   bool verify_packet(network::StagedPacket& packet) const override;
   uint8_t get_packet_channel(const network::StagedPacket& packet) const override;
 
-  void on_packet_abort(network::RecievedPacket packet) override;
-  void on_packet_recieve(network::RecievedPacket packet) override;
+  void on_packet_abort(network::ReceivedPacket packet) override;
+  void on_packet_receive(network::ReceivedPacket packet) override;
 
-  network::StagedPacket on_request_recieve(const network::RecievedPacket& packet) override;
+  network::StagedPacket on_request_receive(const network::ReceivedPacket& packet) override;
   void on_request_fail(const network::Request& request, network::Request::FailReason reason) override;
   void on_request_response(const network::Request& request) override;
 
