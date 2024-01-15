@@ -1090,6 +1090,8 @@ EditorOverlayWidget::update_tile_selection()
 bool
 EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 {
+  m_editor.update_network_cursor();
+
   if (button.button == SDL_BUTTON_LEFT)
   {
     if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE)
@@ -1124,6 +1126,8 @@ EditorOverlayWidget::on_mouse_button_up(const SDL_MouseButtonEvent& button)
 bool
 EditorOverlayWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
 {
+  m_editor.update_network_cursor();
+
   switch (button.button)
   {
     case SDL_BUTTON_LEFT:
@@ -1258,6 +1262,8 @@ EditorOverlayWidget::update_pos()
 
   m_sector_pos = m_mouse_pos + m_editor.get_sector()->get_camera().get_translation();
   m_hovered_tile = sp_to_tp(m_sector_pos);
+
+  m_editor.update_network_cursor();
 
   // update tip
   hover_object();

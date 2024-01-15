@@ -39,21 +39,26 @@ public:
 
   virtual void update();
 
-  ENetPacket* send_packet(ENetPeer* peer, StagedPacket& packet, uint8_t channel_id);
-  ENetPacket* broadcast_packet(StagedPacket& packet, uint8_t channel_id);
-  void send_request(ENetPeer* peer, std::unique_ptr<Request> request, uint8_t channel_id);
+  /** Sending packets and requests.
+      Provided channel ID will be ignored, if a protocol is binded. */
+  ENetPacket* send_packet(ENetPeer* peer, StagedPacket& packet,
+                          bool reliable, uint8_t channel_id = 0);
+  ENetPacket* broadcast_packet(StagedPacket& packet, bool reliable, uint8_t channel_id = 0);
+  ENetPacket* broadcast_packet_except(ENetPeer* peer, StagedPacket& packet,
+                                      bool reliable, uint8_t channel_id = 0);
+  void send_request(ENetPeer* peer, std::unique_ptr<Request> request, uint8_t channel_id = 0);
 
   size_t get_channel_limit() const { return m_host->channelLimit; }
   size_t get_peer_limit() const { return m_host->peerCount; }
   size_t get_connected_peers() const { return m_host->connectedPeers; }
 
-  void set_protocol(std::unique_ptr<Protocol> protocol) { m_protocol = std::move(protocol); }
+  void set_protocol(std::unique_ptr<Protocol> protocol);
 
 protected:
   virtual void process_event(const ENetEvent& event) {}
 
 private:
-  ENetPacket* create_packet(StagedPacket& packet);
+  ENetPacket* create_packet(StagedPacket& packet, bool reliable);
 
   void on_packet_send(ENetPacket* packet);
 

@@ -27,12 +27,29 @@
 namespace network {
 
 StagedPacket::StagedPacket(int code_, const std::string& data_, float send_sec) :
+  StagedPacket(code_, std::vector<std::string>({ data_ }), send_sec)
+{
+}
+
+StagedPacket::StagedPacket(int code_, std::vector<std::string> data_, float send_sec) :
   send_time(send_sec),
   protocol(),
   request_id(),
   response_id(),
   code(code_),
-  data(data_)
+  data(std::move(data_)),
+  foreign_broadcast(false)
+{
+}
+
+StagedPacket::StagedPacket(const RecievedPacket& packet) :
+  send_time(5.f),
+  protocol(),
+  request_id(),
+  response_id(),
+  code(packet.code),
+  data(packet.data),
+  foreign_broadcast(true)
 {
 }
 
@@ -43,6 +60,7 @@ StagedPacket::get_staged_data() const
   Writer writer(stream);
 
   writer.start_list("supertux-network-packet");
+
   writer.write("protocol", protocol);
   if (request_id)
     writer.write("request-id", request_id);
@@ -50,6 +68,7 @@ StagedPacket::get_staged_data() const
     writer.write("response-id", response_id);
   writer.write("code", code);
   writer.write("data", data);
+
   writer.end_list("supertux-network-packet");
 
   return stream.str();

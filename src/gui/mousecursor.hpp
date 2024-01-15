@@ -19,14 +19,16 @@
 
 #include <string>
 #include <vector>
+#include <optional>
 
 #include "config.h"
 
-#include "sprite/sprite_ptr.hpp"
-#include "util/currenton.hpp"
+#include "sprite/sprite.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
+class ReaderMapping;
+class Writer;
 
 enum class MouseCursorState
 {
@@ -40,7 +42,7 @@ enum class MouseCursorState
     Used to create mouse cursors.
     The mouse cursors can be animated
     and can be used in four different states. */
-class MouseCursor final : public Currenton<MouseCursor>
+class MouseCursor final
 {
 public:
   static MouseCursor* current() { return current_; }
@@ -50,14 +52,19 @@ private:
   static MouseCursor* current_;
 
 public:
+  MouseCursor();
   MouseCursor(SpritePtr sprite);
 
-  void draw(DrawingContext& context);
+  void draw(DrawingContext& context, float alpha = 1.f, const std::string& overlay_text = {});
+  void update_state();
 
   void set_state(MouseCursorState state);
   void set_icon(SurfacePtr icon);
 
   void set_pos(int x, int y) { m_mobile_mode = true; m_x = x; m_y = y; }
+
+  void parse_state(const ReaderMapping& reader);
+  void write_state(Writer& writer, const std::optional<Vector>& pos = std::nullopt) const;
 
 private:
   void apply_state(MouseCursorState state);

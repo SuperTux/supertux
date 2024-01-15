@@ -14,33 +14,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_NETWORK_SERVER_HPP
-#define HEADER_SUPERTUX_NETWORK_SERVER_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_NETWORK_USER_HPP
+#define HEADER_SUPERTUX_EDITOR_NETWORK_USER_HPP
 
-#include "network/host.hpp"
+#include <string>
 
-#include "network/address.hpp"
+#include "gui/mousecursor.hpp"
 
-namespace network {
+class ReaderMapping;
+class Writer;
 
-/** A server, which clients can connect to. */
-class Server final : public Host
+/** Represents a remote peer, editing a level over the network. */
+class EditorNetworkUser final
 {
 public:
-  Server(uint16_t port, size_t peer_count, size_t channel_limit = 1,
-         uint32_t incoming_bandwidth = 0, uint32_t outgoing_bandwidth = 0);
+  EditorNetworkUser(const std::string& nickname);
+  EditorNetworkUser(const ReaderMapping& reader);
 
-  Address get_address() const;
+  void write(Writer& writer) const;
+  std::string serialize() const;
 
-protected:
-  void process_event(const ENetEvent& event) override;
+public:
+  std::string nickname;
+  std::string sector;
+  MouseCursor mouse_cursor;
 
 private:
-  Server(const Server&) = delete;
-  Server& operator=(const Server&) = delete;
+  EditorNetworkUser(const EditorNetworkUser&) = delete;
+  EditorNetworkUser& operator=(const EditorNetworkUser&) = delete;
 };
-
-} // namespace network
 
 #endif
 

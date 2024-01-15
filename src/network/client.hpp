@@ -27,11 +27,14 @@ namespace network {
 class Client final : public Host
 {
 public:
-  Client(size_t outgoing_connections, size_t channel_limit,
+  Client(size_t outgoing_connections, size_t channel_limit = 1,
          uint32_t incoming_bandwidth = 0, uint32_t outgoing_bandwidth = 0);
 
+  /** Connect/disconnect from a peer.
+      On connection, if a protocol is binded, the provided
+      allocated channel count will be ignored. */
   ConnectionResult connect(const char* hostname, uint16_t port,
-                           uint32_t wait_ms, size_t channel_count);
+                           uint32_t wait_ms, size_t allocated_channels = 0);
   void disconnect(ENetPeer* peer);
 
 protected:
@@ -39,7 +42,7 @@ protected:
 
 private:
   ConnectionResult connect_internal(const char* hostname, uint16_t port,
-                                    uint32_t wait_ms, size_t channel_count);
+                                    uint32_t wait_ms, size_t allocated_channels);
 
 private:
   Client(const Client&) = delete;

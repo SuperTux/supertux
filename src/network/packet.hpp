@@ -20,12 +20,14 @@
 #include <enet/enet.h>
 
 #include <string>
+#include <vector>
 
 #include "util/uid.hpp"
 
 namespace network {
 
 class Peer;
+class RecievedPacket;
 
 /** Stores data to be sent over via an ENet packet.
     Converts it all to S-Expression format, when creating the packet. */
@@ -36,8 +38,13 @@ class StagedPacket final
 public:
   StagedPacket(int code = -1, const std::string& data = {},
                float send_sec = 5.f);
+  StagedPacket(int code = -1, std::vector<std::string> data = {},
+               float send_sec = 5.f);
+  StagedPacket(const RecievedPacket& packet);
 
   std::string get_staged_data() const;
+
+  bool is_part_of_request() const { return request_id || response_id; }
 
 private:
   const float send_time;
@@ -48,11 +55,14 @@ private:
 
 public:
   int code;
-  std::string data;
+  std::vector<std::string> data;
+
+  /** If set, this is a foreign packet being broadcasted to other peers. */
+  const bool foreign_broadcast;
 
 private:
-  StagedPacket(const StagedPacket&) = delete;
-  StagedPacket& operator=(const StagedPacket&) = delete;
+  StagedPacket(const StagedPacket&) = default;
+  StagedPacket& operator=(const StagedPacket&) = default;
 };
 
 /** Retrieves S-Expression-formatted ENet packet data.
@@ -76,11 +86,11 @@ private:
 
 public:
   int code;
-  std::string data;
+  std::vector<std::string> data;
 
 private:
-  RecievedPacket(const RecievedPacket&) = delete;
-  RecievedPacket& operator=(const RecievedPacket&) = delete;
+  RecievedPacket(const RecievedPacket&) = default;
+  RecievedPacket& operator=(const RecievedPacket&) = default;
 };
 
 } // namespace network

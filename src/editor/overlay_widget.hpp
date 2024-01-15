@@ -70,6 +70,8 @@ public:
   void edit_path(PathGameObject* path, GameObject* new_marked_object = nullptr);
   void reset_action_press();
 
+  Vector get_mouse_sector_pos() const { return m_sector_pos; }
+
 private:
   static bool action_pressed;
   static bool alt_pressed;

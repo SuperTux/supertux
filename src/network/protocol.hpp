@@ -39,6 +39,9 @@ public:
       is running the same protocol as the one sending out the packet. */
   virtual std::string get_name() const = 0;
 
+  /** Indicates the amount of required channels to be used on the host. */
+  virtual size_t get_channel_count() const = 0;
+
   /** The protocol is updated every time the host it's binded to is.
       Called after all events have been processed. */
   virtual void update() {}
@@ -49,17 +52,21 @@ public:
   virtual void on_client_connect(const ConnectionResult& result) {}
   virtual void on_client_disconnect(Peer& peer) {}
 
-  /** Return value indicates whether the packet is valid and can be sent over. */
-  virtual bool verify_packet(const StagedPacket& packet) = 0;
+  /** Return value indicates whether the packet is valid and can be sent over.
+      This function can also be used to modify a packet before it's sent. */
+  virtual bool verify_packet(StagedPacket& packet) const = 0;
+
+  /** Provides the channel a staged packet should be sent over. */
+  virtual uint8_t get_packet_channel(const StagedPacket& packet) const = 0;
 
   /** The provided RecievedPacket represents the packet in the same way
       the remote peer would have recieved it. `packet.peer` is not set. */
-  virtual void on_packet_send(const RecievedPacket& packet) {}
-  virtual void on_packet_abort(const RecievedPacket& packet) {}
-  virtual void on_packet_recieve(const RecievedPacket& packet) {}
+  virtual void on_packet_send(RecievedPacket packet) {}
+  virtual void on_packet_abort(RecievedPacket packet) {}
+  virtual void on_packet_recieve(RecievedPacket packet) {}
 
   /** On request, a staged packet to be sent back must be provided. */
-  virtual StagedPacket on_request_recieve(const RecievedPacket& packet) { return {}; }
+  virtual StagedPacket on_request_recieve(const RecievedPacket& packet) { return { -1, "" }; }
   virtual void on_request_fail(const Request& request, Request::FailReason reason) {}
   virtual void on_request_response(const Request& request) {}
 

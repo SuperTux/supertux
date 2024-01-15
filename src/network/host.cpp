@@ -49,6 +49,16 @@ Host::~Host()
 }
 
 void
+Host::set_protocol(std::unique_ptr<Protocol> protocol)
+{
+  if (protocol)
+  {
+    enet_host_channel_limit(m_host, protocol->get_channel_count());
+  }
+  m_protocol = std::move(protocol);
+}
+
+void
 Host::update()
 {
   if (m_protocol)
@@ -78,11 +88,18 @@ Host::update()
 
             if (packet.request_id) // The packet is a part of a request, ask protocol for response
             {
-              StagedPacket response = m_protocol->on_request_recieve(packet);
-              response.response_id = packet.request_id;
+              try
+              {
+                StagedPacket response = m_protocol->on_request_recieve(packet);
+                response.response_id = packet.request_id;
 
-              // Send the response over
-              send_packet(event.peer, response, event.channelID); 
+                // Send the response over
+                send_packet(event.peer, response, true, event.channelID);
+              }
+              catch (const std::exception& err)
+              {
+                log_warning << "Error processing recieved request in protocol: " << err.what() << std::endl;
+              }
             }
             else if (packet.response_id) // The packet is a response to a request, notify protocol of request response
             {
@@ -99,7 +116,14 @@ Host::update()
               {
                 const auto& request = *it;
                 request->recieved = &packet;
-                m_protocol->on_request_response(*request);
+                try
+                {
+                  m_protocol->on_request_response(*request);
+                }
+                catch (const std::exception& err)
+                {
+                  log_warning << "Error processing request response in protocol: " << err.what() << std::endl;
+                }
 
                 // Remove the request now that it has completed
                 m_requests.erase(it);
@@ -107,7 +131,14 @@ Host::update()
             }
             else // The packet is not a part of a request, notify protocol of packet recieve
             {
-              m_protocol->on_packet_recieve(packet);
+              try
+              {
+                m_protocol->on_packet_recieve(std::move(packet));
+              }
+              catch (const std::exception& err)
+              {
+                log_warning << "Error processing recieved packet in protocol: " << err.what() << std::endl;
+              }
             }
           }
           catch (const std::exception& err)
@@ -150,13 +181,27 @@ Host::update()
               }
               else
               {
-                m_protocol->on_request_fail(**it_req, Request::FailReason::REQUEST_TIMED_OUT);
+                try
+                {
+                  m_protocol->on_request_fail(**it_req, Request::FailReason::REQUEST_TIMED_OUT);
+                }
+                catch (const std::exception& err)
+                {
+                  log_warning << "Error processing request failure in protocol: " << err.what() << std::endl;
+                }
                 m_requests.erase(it_req);
               }
             }
             else // The packet is not a part of a request, notify protocol of packet abort
             {
-              m_protocol->on_packet_abort(packet);
+              try
+              {
+                m_protocol->on_packet_abort(std::move(packet));
+              }
+              catch (const std::exception& err)
+              {
+                log_warning << "Error processing packet abort in protocol: " << err.what() << std::endl;
+              }
             }
           }
 
@@ -181,7 +226,14 @@ Host::update()
           log_warning << "Unable to recieve request response: Wait time of "
                       << request->response_time << " exceeded." << std::endl;
 
-          m_protocol->on_request_fail(*request, Request::FailReason::RESPONSE_TIMED_OUT);
+          try
+          {
+            m_protocol->on_request_fail(*request, Request::FailReason::RESPONSE_TIMED_OUT);
+          }
+          catch (const std::exception& err)
+          {
+            log_warning << "Error processing request failure in protocol: " << err.what() << std::endl;
+          }
           it = m_requests.erase(it);
         }
         else
@@ -195,7 +247,7 @@ Host::update()
 }
 
 ENetPacket*
-Host::create_packet(StagedPacket& packet)
+Host::create_packet(StagedPacket& packet, bool reliable)
 {
   if (m_protocol)
   {
@@ -212,26 +264,34 @@ Host::create_packet(StagedPacket& packet)
   // Create a reliable packet containing the provided data
   const std::string staged_data = packet.get_staged_data();
   ENetPacket* enet_packet = enet_packet_create(staged_data.c_str(), staged_data.length() + 1,
-                                               ENET_PACKET_FLAG_RELIABLE);
-  enet_packet->userData = this;
-  enet_packet->freeCallback = &on_enet_packet_free;
+                                               reliable ? ENET_PACKET_FLAG_RELIABLE : 0);
+  if (reliable)
+  {
+    enet_packet->userData = this;
+    enet_packet->freeCallback = &on_enet_packet_free;
 
-  // Set time period, in which the packet should be sent
-  auto timer = std::make_unique<Timer>();
-  timer->start(packet.send_time);
-  m_packet_timers[enet_packet] = std::move(timer);
+    // Set time period, in which the packet should be sent
+    auto timer = std::make_unique<Timer>();
+    timer->start(packet.send_time);
+    m_packet_timers[enet_packet] = std::move(timer);
+  }
 
   return enet_packet;
 }
 
 ENetPacket*
-Host::send_packet(ENetPeer* peer, StagedPacket& packet, uint8_t channel_id)
+Host::send_packet(ENetPeer* peer, StagedPacket& packet,
+                  bool reliable, uint8_t channel_id)
 {
   if (!peer) return nullptr;
   assert(peer->host == m_host);
 
-  ENetPacket* enet_packet = create_packet(packet);
+  ENetPacket* enet_packet = create_packet(packet, reliable);
   if (!enet_packet) return nullptr;
+
+  // If a protocol is binded, use the channel the protocol has determined for the packet
+  if (m_protocol)
+    channel_id = m_protocol->get_packet_channel(packet);
 
   // Send the packet over
   enet_peer_send(peer, static_cast<enet_uint8>(channel_id), enet_packet);
@@ -240,13 +300,53 @@ Host::send_packet(ENetPeer* peer, StagedPacket& packet, uint8_t channel_id)
 }
 
 ENetPacket*
-Host::broadcast_packet(StagedPacket& packet, uint8_t channel_id)
+Host::broadcast_packet(StagedPacket& packet, bool reliable, uint8_t channel_id)
 {
-  ENetPacket* enet_packet = create_packet(packet);
+  ENetPacket* enet_packet = create_packet(packet, reliable);
   if (!enet_packet) return nullptr;
+
+  // If a protocol is binded, use the channel the protocol has determined for the packet
+  if (m_protocol)
+    channel_id = m_protocol->get_packet_channel(packet);
 
   // Send the packet over to all peers
   enet_host_broadcast(m_host, static_cast<enet_uint8>(channel_id), enet_packet);
+
+  return enet_packet;
+}
+
+ENetPacket*
+Host::broadcast_packet_except(ENetPeer* peer, StagedPacket& packet,
+                              bool reliable, uint8_t channel_id)
+{
+  if (!peer) return nullptr;
+  assert(peer->host == m_host);
+
+  ENetPacket* enet_packet = create_packet(packet, reliable);
+  if (!enet_packet) return nullptr;
+
+  // If a protocol is binded, use the channel the protocol has determined for the packet
+  if (m_protocol)
+    channel_id = m_protocol->get_packet_channel(packet);
+
+  // Send the packet over to all peers, except the provided one
+  for (ENetPeer* current_peer = m_host->peers;
+       current_peer < &m_host->peers[m_host->peerCount];
+       current_peer++)
+  {
+     if (current_peer->state != ENET_PEER_STATE_CONNECTED ||
+         current_peer->incomingPeerID == peer->incomingPeerID)
+       continue;
+
+     enet_peer_send(current_peer, static_cast<enet_uint8>(channel_id), enet_packet);
+  }
+
+  // Destroy packet, if it was not sent to any peer
+  if (enet_packet->referenceCount == 0)
+  {
+    enet_packet_destroy(enet_packet);
+    return nullptr;
+  }
 
   return enet_packet;
 }
@@ -259,7 +359,7 @@ Host::send_request(ENetPeer* peer, std::unique_ptr<Request> request, uint8_t cha
   request->id = m_request_uid_generator.next();
   request->staged->request_id = request->id;
 
-  if (send_packet(peer, *request->staged, channel_id))
+  if (send_packet(peer, *request->staged, true, channel_id))
     m_requests.push_back(std::move(request));
 }
 
@@ -268,7 +368,7 @@ Host::on_packet_send(ENetPacket* packet)
 {
   assert(packet->userData == this);
 
-  if (m_protocol)
+  if (m_protocol && packet->referenceCount > 0) // Make sure the packet has been sent to at least 1 peer
   {
     RecievedPacket packet_info(*packet);
     if (packet_info.request_id) // The packet is a part of a request, start the request's response timer
@@ -290,7 +390,14 @@ Host::on_packet_send(ENetPacket* packet)
     }
     else // The packet is not a part of a request, notify protocol of packet send
     {
-      m_protocol->on_packet_send(packet_info);
+      try
+      {
+        m_protocol->on_packet_send(std::move(packet_info));
+      }
+      catch (const std::exception& err)
+      {
+        log_warning << "Error processing packet send in protocol: " << err.what() << std::endl;
+      }
     }
   }
 
