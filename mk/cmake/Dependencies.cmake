@@ -10,17 +10,19 @@ if(LINUX)
 endif()
 
 # Link various targets that come from a subfolder in
-# ${PROJECT_SOURCE_DIR}/external/. Example:
+# ${PROJECT_SOURCE_DIR}. Example:
 #
-#   target_external_dependencies_from_folder(target squirrel squirrel sqstdlib)
+#   target_external_dependencies_from_folder(target external/squirrel squirrel sqstdlib)
 #
 macro(target_external_dependencies_from_folder tar folder)
   cmake_parse_arguments(DEPS_ARGS "STATIC" "" "" ${ARGN})
+  set(deps "${DEPS_ARGS_UNPARSED_ARGUMENTS}")
 
   set(subdir ${PROJECT_SOURCE_DIR}/${folder})
   set(oldbuildtype ${CMAKE_BUILD_TYPE})
   set(CMAKE_BUILD_TYPE Release)
 
+  message(STATUS "Adding ${subdir}")
   add_subdirectory(${subdir})
 
   set(CMAKE_BUILD_TYPE ${oldbuildtype})
@@ -32,16 +34,16 @@ macro(target_external_dependencies_from_folder tar folder)
       set(deptar ${deptar}-static)
     endif()
 
-    message(VERBOSE "Link externally ${deptar}")
-
-    if(DEPS_ARGS_STATIC AND NOT TARGET ${deptar})
-      message(VERBOSE "Could not find ${deptar} in ${subdir}. Falling back to non-static version.")
-      set(deptar ${dep})
+    if(${deptar}_FOUND)
+      message(STATUS "Already found ${deptar} earlier. Skipping.")
+      continue()
     endif()
 
-    if(${deptar}_FOUND)
-      message(VERBOSE "Already found ${deptar} earlier. Skipping.")
-      continue()
+    message(STATUS "Linking ${deptar} from ${subdir}")
+
+    if(DEPS_ARGS_STATIC AND NOT TARGET ${deptar})
+      message(STATUS "Could not find ${deptar} in ${subdir}. Falling back to non-static version.")
+      set(deptar ${dep})
     endif()
 
     string(TOUPPER ${deptar} UPPERDEP)
@@ -67,11 +69,14 @@ macro(target_external_dependencies_from_folder tar folder)
 
     get_target_property(DEP_INCLUDES ${deptar} INCLUDE_DIRECTORIES)
     if("${DEP_INCLUDES}" STREQUAL "DEP_INCLUDES-NOTFOUND")
+      message(WARNING "Could NOT find include directories for ${deptar}.")
+      #[[
       # Try to check interface include directories
       get_target_property(DEP_INCLUDES ${deptar} INTERFACE_INCLUDE_DIRECTORIES)
       if("${DEP_INCLUDES}" STREQUAL "DEP_INCLUDES-NOTFOUND")
         message(WARNING "Could NOT find include directories for ${deptar}.")
       endif()
+      #]]
     endif()
 
     target_include_directories(${tar} PUBLIC ${DEP_INCLUDES})
@@ -119,9 +124,9 @@ macro(target_external_dependencies tar)
 
   foreach(dep ${deps})
     if(DEPS_ARGS_STATIC)
-      target_external_dependencies_from_folder(${dep} external/${dep} STATIC)
+      target_external_dependencies_from_folder(${tar} external/${dep} STATIC ${dep})
     else()
-      target_external_dependencies_from_folder(${dep} external/${dep})
+      target_external_dependencies_from_folder(${tar} external/${dep} ${dep})
     endif()
   endforeach()
 endmacro()
@@ -133,39 +138,44 @@ endmacro()
 #
 macro(target_dependencies tar)
   set(deps ${ARGN})
-  message(VERBOSE "Adding ${deps} to ${tar}")
+  message(STATUS "Adding ${deps} to ${tar}")
   foreach(dep ${deps})
-    message(VERBOSE "Link ${dep}")
+    message(STATUS "Linking ${dep}")
     find_package(${dep} QUIET)
 
     if(NOT ${${dep}_FOUND})
       if(USE_PKGCONFIG)
-        message(VERBOSE "Could not find ${dep} with find_package. Falling back to pkg-config.")
+        message(STATUS "Could not find ${dep} with find_package. Falling back to pkg-config.")
 
         pkg_search_module(${dep} ${dep})
         if("${${dep}_MODULE_NAME} " STREQUAL " ")
-          message(VERBOSE "Could not find ${dep} in pkg-config. Falling back to external/.")
+          message(STATUS "Could not find ${dep} in pkg-config. Falling back to external/.")
 
           target_external_dependencies(${tar} ${dep})
         else()
-          message(VERBOSE "Successfully found ${dep} with pkg-config (${${dep}_MODULE_NAME})")
+          message(STATUS "Successfully found ${dep} with pkg-config (${${dep}_MODULE_NAME})")
         endif()
       else()
-        message(VERBOSE "Could not find ${dep} with find_package. Falling back to external/.")
+        message(STATUS "Could not find ${dep} with find_package. Falling back to external/.")
 
         target_external_dependencies(${tar} ${dep})
         continue()
       endif()
     else()
-      message(VERBOSE "Successfully found ${dep}")
+      message(STATUS "Successfully found ${dep} with find_package")
     endif()
-
-    target_link_libraries(${tar} PUBLIC ${dep})
 
     # try all names
     string(TOUPPER ${dep} UPPERDEP)
-    #target_include_directories(${tar} PUBLIC ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR})
+    set(libraries ${${dep}_LIBRARY} ${${dep}_LIBRARIES} ${${UPPERDEP}_LIBRARY} ${${UPPERDEP}_LIBRARIES})
+    message(STATUS "${dep} libraries: ${libraries}")
 
-    message(VERBOSE "${dep} includes: ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR}")
+    target_link_libraries(${tar} PUBLIC ${libraries})
+
+    set(includes ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR})
+
+    target_include_directories(${tar} PUBLIC ${includes})
+
+    message(STATUS "${dep} includes: ${includes}")
   endforeach()
 endmacro()

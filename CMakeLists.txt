@@ -122,13 +122,18 @@ include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
 include(SuperTux/BuildMiniswigWrapper)
 
+# TODO: opengl
+set(HAVE_OPENGL OFF)
+
 ## Globbing
 file(GLOB SUPERTUX_RC ${PROJECT_BINARY_DIR}/tmp/*.rc)
 file(GLOB_RECURSE SUPERTUX_SRC src/*.cpp src/*.hpp)
 list(REMOVE_ITEM SUPERTUX_SRC src/main.cpp)
 
-# TODO: that "HAVE_OPENGL" thingy
-set(HAVE_OPENGL OFF)
+if(NOT HAVE_OPENGL)
+  file(GLOB SUPERTUX_SRC_GL src/video/gl/*.cpp src/video/gl/*.hpp)
+  list(REMOVE_ITEM SUPERTUX_SRC ${SUPERTUX_SRC_GL})
+endif()
 
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/src/scripting/wrapper.cpp)
   list(APPEND SUPERTUX_SRC ${PROJECT_SOURCE_DIR}/src/scripting/wrapper.cpp)
@@ -150,8 +155,6 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
 
-# HACK
-set(HAVE_OPENGL OFF)
 
 if(NOT EMSCRIPTEN)
   target_dependencies(supertux2_lib SDL2 SDL2_image SDL2_ttf libcurl_shared ogg vorbis)
@@ -160,8 +163,8 @@ endif()
 
 set(FMT_INSTALL ON)
 target_dependencies(supertux2_lib sexp OpenAL fmt-header-only zlib physfs)
-target_external_dependencies(supertux2_lib partio_zip tinygettext)
-target_external_dependencies_from_folder(supertux2_lib squirrel squirrel sqstdlib)
+target_external_dependencies(supertux2_lib partio_zip tinygettext SDL_SavePNG)
+target_external_dependencies_from_folder(supertux2_lib external/squirrel squirrel sqstdlib)
 
 if(ENABLE_DISCORD)
   target_external_dependencies(supertux2_lib discord-rpc)
