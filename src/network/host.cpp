@@ -36,9 +36,11 @@ Host::on_enet_packet_free(ENetPacket* packet)
 Host::Host() :
   m_host(),
   m_protocol(),
-  m_packet_timers(),
+  m_staged_packets(),
+  m_staged_packets_new(),
   m_request_uid_generator(),
-  m_requests()
+  m_requests(),
+  m_requests_new()
 {
 }
 
@@ -61,9 +63,28 @@ Host::set_protocol(std::unique_ptr<Protocol> protocol)
 void
 Host::update()
 {
+  /** Merge in newly added packets */
+  {
+    auto it = m_staged_packets_new.begin();
+    while (it != m_staged_packets_new.end())
+    {
+      m_staged_packets.insert(std::move(*it));
+      it = m_staged_packets_new.erase(it);
+    }
+  }
+  /** Merge in newly added pending requests */
+  {
+    auto it = m_requests_new.begin();
+    while (it != m_requests_new.end())
+    {
+      m_requests.push_back(std::move(*it));
+      it = m_requests_new.erase(it);
+    }
+  }
+
+  /** Event handling on binded protocol */
   if (m_protocol)
   {
-    /** Event handling on binded protocol */
     ENetEvent event;
     while (enet_host_service(m_host, &event, 0) > 0)
     {
@@ -155,95 +176,96 @@ Host::update()
           break;
       }
     }
+  }
 
-    /** Abort timed-out sent packets */
+  /** Abort timed-out sent packets */
+  {
+    auto it = m_staged_packets.begin();
+    while (it != m_staged_packets.end())
     {
-      auto it = m_packet_timers.begin();
-      while (it != m_packet_timers.end())
+      if (it->second->check()) // Packet send time has expired
       {
-        if (it->second->check()) // Packet send time has expired
-        {
-          log_warning << "Unable to send packet: Send time of " << it->second->get_timegone() << " exceeded." << std::endl;
+        log_warning << "Unable to send packet: Send time of " << it->second->get_timegone() << " exceeded." << std::endl;
 
-          if (m_protocol)
+        if (m_protocol)
+        {
+          ReceivedPacket packet(*it->first);
+          if (packet.request_id) // The packet is a part of a request, notify protocol of request fail
           {
-            ReceivedPacket packet(*it->first);
-            if (packet.request_id) // The packet is a part of a request, notify protocol of request fail
+            auto it_req = std::find_if(m_requests.begin(), m_requests.end(),
+                                       [req_id = packet.request_id](const auto& req)
+              {
+                return req->id == req_id;
+              });
+            if (it_req == m_requests.end())
             {
-              auto it_req = std::find_if(m_requests.begin(), m_requests.end(),
-                                         [req_id = packet.request_id](const auto& req)
-                {
-                  return req->id == req_id;
-                });
-              if (it_req == m_requests.end())
-              {
-                log_warning << "Cannot notify protocol of request fail: No request with ID " << packet.request_id << std::endl;
-              }
-              else
-              {
-                try
-                {
-                  m_protocol->on_request_fail(**it_req, Request::FailReason::REQUEST_TIMED_OUT);
-                }
-                catch (const std::exception& err)
-                {
-                  log_warning << "Error processing request failure in protocol: " << err.what() << std::endl;
-                }
-                m_requests.erase(it_req);
-              }
+              log_warning << "Cannot notify protocol of request fail: No request with ID " << packet.request_id << std::endl;
             }
-            else // The packet is not a part of a request, notify protocol of packet abort
+            else
             {
               try
               {
-                m_protocol->on_packet_abort(std::move(packet));
+                m_protocol->on_request_fail(**it_req, Request::FailReason::REQUEST_TIMED_OUT);
               }
               catch (const std::exception& err)
               {
-                log_warning << "Error processing packet abort in protocol: " << err.what() << std::endl;
+                log_warning << "Error processing request failure in protocol: " << err.what() << std::endl;
               }
+              m_requests.erase(it_req);
             }
           }
-
-          it->first->freeCallback = nullptr; // Prevent calling `on_packet_send()`
-          enet_packet_destroy(it->first);
-
-          it = m_packet_timers.erase(it);
-        }
-        else
-          it++;
-      }
-    }
-
-    /** Cancel timed-out requests */
-    {
-      auto it = m_requests.begin();
-      while (it != m_requests.end())
-      {
-        const auto& request = *it;
-        if (request->timer.check()) // Request response wait time has expired
-        {
-          log_warning << "Unable to receive request response: Wait time of "
-                      << request->response_time << " exceeded." << std::endl;
-
-          try
+          else // The packet is not a part of a request, notify protocol of packet abort
           {
-            m_protocol->on_request_fail(*request, Request::FailReason::RESPONSE_TIMED_OUT);
+            try
+            {
+              m_protocol->on_packet_abort(std::move(packet));
+            }
+            catch (const std::exception& err)
+            {
+              log_warning << "Error processing packet abort in protocol: " << err.what() << std::endl;
+            }
           }
-          catch (const std::exception& err)
-          {
-            log_warning << "Error processing request failure in protocol: " << err.what() << std::endl;
-          }
-          it = m_requests.erase(it);
         }
-        else
-          it++;
-      }
-    }
 
-    /** Update binded protocol */
-    m_protocol->update();
+        it->first->freeCallback = nullptr; // Prevent calling `on_packet_send()`
+        enet_packet_destroy(it->first);
+
+        it = m_staged_packets.erase(it);
+      }
+      else
+        it++;
+    }
   }
+
+  /** Cancel timed-out requests */
+  {
+    auto it = m_requests.begin();
+    while (it != m_requests.end())
+    {
+      const auto& request = *it;
+      if (request->timer.check()) // Request response wait time has expired
+      {
+        log_warning << "Unable to receive request response: Wait time of "
+                    << request->response_time << " exceeded." << std::endl;
+
+        try
+        {
+          m_protocol->on_request_fail(*request, Request::FailReason::RESPONSE_TIMED_OUT);
+        }
+        catch (const std::exception& err)
+        {
+          log_warning << "Error processing request failure in protocol: " << err.what() << std::endl;
+        }
+        it = m_requests.erase(it);
+      }
+      else
+        it++;
+    }
+  }
+
+  /** Update binded protocol */
+  if (m_protocol)
+    m_protocol->update();
 }
 
 ENetPacket*
@@ -273,7 +295,7 @@ Host::create_packet(StagedPacket& packet, bool reliable)
     // Set time period, in which the packet should be sent
     auto timer = std::make_unique<Timer>();
     timer->start(packet.send_time);
-    m_packet_timers[enet_packet] = std::move(timer);
+    m_staged_packets_new[enet_packet] = std::move(timer);
   }
 
   return enet_packet;
@@ -360,7 +382,7 @@ Host::send_request(ENetPeer* peer, std::unique_ptr<Request> request, uint8_t cha
   request->staged->request_id = request->id;
 
   if (send_packet(peer, *request->staged, true, channel_id))
-    m_requests.push_back(std::move(request));
+    m_requests_new.push_back(std::move(request));
 }
 
 void
@@ -401,7 +423,7 @@ Host::on_packet_send(ENetPacket* packet)
     }
   }
 
-  m_packet_timers.erase(packet);
+  m_staged_packets.erase(packet);
 }
 
 } // namespace network

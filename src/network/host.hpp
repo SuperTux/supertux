@@ -67,10 +67,12 @@ protected:
   std::unique_ptr<Protocol> m_protocol;
 
 private:
-  std::unordered_map<ENetPacket*, std::unique_ptr<Timer>> m_packet_timers;
+  std::unordered_map<ENetPacket*, std::unique_ptr<Timer>> m_staged_packets;
+  std::unordered_map<ENetPacket*, std::unique_ptr<Timer>> m_staged_packets_new;
 
   UIDGenerator m_request_uid_generator;
   std::vector<std::unique_ptr<Request>> m_requests;
+  std::vector<std::unique_ptr<Request>> m_requests_new;
 
 private:
   Host(const Host&) = delete;
