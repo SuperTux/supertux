@@ -105,7 +105,7 @@ MovingObject::is_within_bounds(const Rectf& cliprect) const
 {
   const Rect& bbox = get_bbox().to_rect();
   auto grow_amount = static_cast<float>(std::max(bbox.get_width(), bbox.get_height()));
-  return cliprect.grown(grow_amount).contains(bbox);
+  return cliprect.grown(grow_amount).overlaps(bbox);
 }
 
 /* EOF */
