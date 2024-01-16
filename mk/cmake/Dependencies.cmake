@@ -152,6 +152,7 @@ macro(target_dependencies tar)
           message(STATUS "Could not find ${dep} in pkg-config. Falling back to external/.")
 
           target_external_dependencies(${tar} ${dep})
+          continue()
         else()
           message(STATUS "Successfully found ${dep} with pkg-config (${${dep}_MODULE_NAME})")
         endif()
@@ -170,7 +171,16 @@ macro(target_dependencies tar)
     set(libraries ${${dep}_LIBRARY} ${${dep}_LIBRARIES} ${${UPPERDEP}_LIBRARY} ${${UPPERDEP}_LIBRARIES})
     message(STATUS "${dep} libraries: ${libraries}")
 
-    target_link_libraries(${tar} PUBLIC ${libraries})
+    target_link_libraries(${tar} PUBLIC ${dep})
+
+    #[[
+    if("${libraries}" MATCHES "^ *$")
+      target_link_libraries(${tar} PUBLIC ${dep})
+    else()
+      message("TEST")
+      target_link_libraries(${tar} PUBLIC ${libraries})
+    endif()
+    #]]
 
     set(includes ${${dep}_INCLUDE_DIR} ${${dep}_INCLUDE_DIRS} ${${UPPERDEP}_INCLUDE_DIR} ${${UPPERDEP}_INCLUDE_DIRS} ${${dep}_INCLUDEDIR})
 
