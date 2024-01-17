@@ -107,7 +107,7 @@ public:
 
   bool operator < (const Color& other) const;
 
-  std::vector<float> toVector();
+  std::vector<float> toVector() const;
 
   inline uint8_t r8() const { return static_cast<uint8_t>(255.0f * red); }
   inline uint8_t g8() const { return static_cast<uint8_t>(255.0f * green); }

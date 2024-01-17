@@ -286,9 +286,9 @@ Menu::add_color_display(Color* color, int id)
 }
 
 ItemColor&
-Menu::add_color(const std::string& text, Color* color, int id)
+Menu::add_color(const std::string& text, Color* color, bool edit_alpha, int id)
 {
-  return add_item<ItemColor>(text, color, id);
+  return add_item<ItemColor>(text, color, edit_alpha, id);
 }
 
 ItemStringArray&

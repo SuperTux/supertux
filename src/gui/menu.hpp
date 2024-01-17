@@ -98,7 +98,7 @@ public:
                        const std::string& basedir, bool path_relative_to_basedir,
                        const std::function<void (MenuItem&)>& item_processor = {}, int id = -1);
 
-  ItemColor& add_color(const std::string& text, Color* color, int id = -1);
+  ItemColor& add_color(const std::string& text, Color* color, bool edit_alpha = true, int id = -1);
   ItemColorDisplay& add_color_display(Color* color, int id = -1);
   ItemColorChannelRGBA& add_color_channel_rgba(float* input, Color channel, int id = -1,
     bool is_linear = false);

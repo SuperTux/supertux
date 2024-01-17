@@ -18,7 +18,7 @@
 
 #include "util/gettext.hpp"
 
-ColorMenu::ColorMenu(Color* color_) :
+ColorMenu::ColorMenu(Color* color_, bool edit_alpha) :
   color(color_)
 {
   add_label(_("Mix the colour"));
@@ -30,7 +30,8 @@ ColorMenu::ColorMenu(Color* color_) :
   add_color_channel_rgba(&(color->red), Color::RED);
   add_color_channel_rgba(&(color->green), Color::GREEN);
   add_color_channel_rgba(&(color->blue), Color::BLUE);
-  add_color_channel_rgba(&(color->alpha), Color::BLACK, -1, true);
+  if (edit_alpha)
+    add_color_channel_rgba(&(color->alpha), Color::BLACK, -1, true);
   add_color_display(color);
 
   add_hl();

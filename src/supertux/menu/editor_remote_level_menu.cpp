@@ -24,17 +24,23 @@ EditorRemoteLevelMenu::EditorRemoteLevelMenu(bool connect) :
   m_connect(connect),
   m_host_address(),
   m_port(),
-  m_nickname()
+  m_nickname(),
+  m_nickname_color(1, 1, 1, 1)
 {
   add_label(m_connect ? _("Edit Remote Level") : _("Host Level"));
   add_hl();
 
   if (m_connect)
-    add_textfield(_("Host address"), &m_host_address);
+    add_textfield(_("Host Address"), &m_host_address);
   add_intfield(_("Port"), &m_port, -1, true);
   if (m_connect)
+  {
     add_textfield(_("Nickname"), &m_nickname)
       .set_help(_("Nickname character count must be between 3 and 20."));
+    add_color(_("Nickname Color"), &m_nickname_color, false);
+
+    add_hl();
+  }
 
   add_entry(1, m_connect ? _("Connect") : _("Host"));
 
@@ -50,7 +56,7 @@ EditorRemoteLevelMenu::menu_action(MenuItem& item)
   if (m_connect)
   {
     Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
-                                        m_nickname);
+                                        m_nickname, m_nickname_color);
   }
   else
   {

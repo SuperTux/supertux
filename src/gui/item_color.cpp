@@ -21,16 +21,18 @@
 #include "gui/menu_manager.hpp"
 #include "video/color.hpp"
 
-ItemColor::ItemColor(const std::string& text, Color* color_, int id) :
+ItemColor::ItemColor(const std::string& text, Color* color_,
+                     bool edit_alpha, int id) :
   MenuItem(text, id),
-  color(color_)
+  color(color_),
+  m_edit_alpha(edit_alpha)
 {
 }
 
 void
 ItemColor::process_action(const MenuAction& action) {
   if (action == MenuAction::HIT) {
-    MenuManager::instance().push_menu(std::make_unique<ColorMenu>(color));
+    MenuManager::instance().push_menu(std::make_unique<ColorMenu>(color, m_edit_alpha));
   }
 }
 

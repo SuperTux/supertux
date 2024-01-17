@@ -22,7 +22,7 @@
 class ColorMenu final : public Menu
 {
 public:
-  ColorMenu(Color* color_);
+  ColorMenu(Color* color_, bool edit_alpha);
 
   void menu_action(MenuItem& item) override;
 
