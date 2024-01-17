@@ -32,6 +32,9 @@ class Host;
 class EditorNetworkProtocol final : public network::Protocol
 {
 public:
+  static bool verify_nickname(const std::string& nickname);
+
+public:
   enum DisconnectionReason
   {
     DISCONNECTED_REGISTER_TIMED_OUT // The time for the client to send a registration packet in has expired.
