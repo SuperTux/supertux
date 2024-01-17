@@ -771,6 +771,12 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port, const std::
     return;
   }
 
+  if (!EditorNetworkProtocol::verify_nickname(nickname))
+  {
+    Dialog::show_message(_("The provided nickname is invalid. Please try again!"));
+    return;
+  }
+
   try
   {
     m_network_client = &network::HostManager::current()->create<network::Client>(1);

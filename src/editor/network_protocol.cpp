@@ -30,6 +30,9 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
+static const std::string DEFAULT_SERVER_NICKNAME = "Host";
+static const float USER_REGISTER_TIME = 5.f;
+
 static void refresh_editor_menu()
 {
   if (MenuManager::instance().is_active())
@@ -40,8 +43,16 @@ static void refresh_editor_menu()
   }
 }
 
-static const std::string DEFAULT_SERVER_NICKNAME = "Host";
-static const float USER_REGISTER_TIME = 5.f;
+bool
+EditorNetworkProtocol::verify_nickname(const std::string& nickname)
+{
+  // Must be between 3 and 20 characters.
+  if (nickname.length() < 3 || nickname.length() > 20)
+    return false;
+
+  return true;
+}
+
 
 EditorNetworkProtocol::EditorNetworkProtocol(Editor& editor, network::Host& host) :
   m_editor(editor),
@@ -354,9 +365,7 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
       m_pending_users.erase(&packet.peer->enet);
 
       // Check if nickname is valid
-      // Must be between 3 and 20 characters.
-      const std::string& nickname = packet.data[0];
-      if (nickname.length() < 3 || nickname.length() > 20)
+      if (!verify_nickname(packet.data[0]))
       {
         network::Server& server = static_cast<network::Server&>(m_host);
         server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_INVALID);
