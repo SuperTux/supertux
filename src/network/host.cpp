@@ -36,6 +36,7 @@ Host::on_enet_packet_free(ENetPacket* packet)
 Host::Host() :
   m_host(),
   m_protocol(),
+  m_scheduled_for_removal(false),
   m_staged_packets(),
   m_staged_packets_new(),
   m_request_uid_generator(),
@@ -61,7 +62,7 @@ Host::set_protocol(std::unique_ptr<Protocol> protocol)
 }
 
 void
-Host::update()
+Host::flush_packets()
 {
   /** Merge in newly added packets */
   {
@@ -81,6 +82,12 @@ Host::update()
       it = m_requests_new.erase(it);
     }
   }
+}
+
+void
+Host::update()
+{
+  flush_packets();
 
   /** Event handling on binded protocol */
   if (m_protocol)
@@ -175,6 +182,8 @@ Host::update()
           process_event(event);
           break;
       }
+
+      flush_packets();
     }
   }
 
@@ -424,6 +433,7 @@ Host::on_packet_send(ENetPacket* packet)
   }
 
   m_staged_packets.erase(packet);
+  m_staged_packets_new.erase(packet);
 }
 
 } // namespace network

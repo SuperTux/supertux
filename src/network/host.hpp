@@ -37,6 +37,9 @@ public:
   Host();
   virtual ~Host();
 
+  void destroy() { m_scheduled_for_removal = true; }
+  bool is_valid() const { return !m_scheduled_for_removal; }
+
   virtual void update();
 
   /** Sending packets and requests.
@@ -58,8 +61,9 @@ protected:
   virtual void process_event(const ENetEvent& event) {}
 
 private:
-  ENetPacket* create_packet(StagedPacket& packet, bool reliable);
+  void flush_packets();
 
+  ENetPacket* create_packet(StagedPacket& packet, bool reliable);
   void on_packet_send(ENetPacket* packet);
 
 protected:
@@ -67,6 +71,8 @@ protected:
   std::unique_ptr<Protocol> m_protocol;
 
 private:
+  bool m_scheduled_for_removal;
+
   std::unordered_map<ENetPacket*, std::unique_ptr<Timer>> m_staged_packets;
   std::unordered_map<ENetPacket*, std::unique_ptr<Timer>> m_staged_packets_new;
 

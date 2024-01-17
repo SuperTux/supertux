@@ -41,7 +41,6 @@ public:
     m_hosts.push_back(std::move(host));
     return host_ref;
   }
-  void destroy(Host* host);
 
 private:
   std::vector<std::unique_ptr<Host>> m_hosts;
