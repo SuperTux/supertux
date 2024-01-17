@@ -273,9 +273,21 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_QUITEDITOR:
-      MenuManager::instance().clear_menu_stack();
-      Editor::current()->m_quit_request = true;
-      break;
+    {
+      auto callback = []()
+      {
+        MenuManager::instance().clear_menu_stack();
+        Editor::current()->m_quit_request = true;
+      };
+
+      if (editor->is_hosting_level())
+        Dialog::show_confirmation(_("Quitting will stop hosting the current level. Are you sure?"), callback);
+      else if (editor->is_editing_remote_level())
+        Dialog::show_confirmation(_("Quitting will close the current connection. Are you sure?"), callback);
+      else
+        callback();
+    }
+    break;
 
     case MNID_CHECKDEPRECATEDTILES:
       editor->check_deprecated_tiles(true);
