@@ -78,6 +78,7 @@ public:
 
   void on_client_disconnect(network::Peer&, uint32_t code) override;
 
+  bool allow_packet_send(network::Peer& peer) const override;
   bool verify_packet(network::StagedPacket& packet) const override;
   uint8_t get_packet_channel(const network::StagedPacket& packet) const override;
 

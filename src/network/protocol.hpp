@@ -52,6 +52,9 @@ public:
   virtual void on_client_connect(const ConnectionResult& result) {}
   virtual void on_client_disconnect(Peer& peer, uint32_t code) {}
 
+  /** Return value indicates whether packets can be sent to a peer. */
+  virtual bool allow_packet_send(Peer& peer) const { return true; }
+
   /** Return value indicates whether the packet is valid and can be sent over.
       This function can also be used to modify a packet before it's sent. */
   virtual bool verify_packet(StagedPacket& packet) const = 0;

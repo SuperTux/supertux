@@ -94,7 +94,7 @@ EditorNetworkProtocol::on_server_disconnect(network::Peer& peer)
 
     // Notify all other peers of the disconnect user
     network::StagedPacket packet(OP_USER_SERVER_DISCONNECT, user->nickname);
-    m_host.broadcast_packet_except(&peer.enet, packet, true);
+    m_host.broadcast_packet(packet, true, &peer.enet);
 
     // Remove the editor user
     auto it = m_editor.m_network_users.begin();
@@ -143,6 +143,22 @@ EditorNetworkProtocol::on_client_disconnect(network::Peer&, uint32_t code)
       m_editor.m_quit_request = true;
       break;
   }
+}
+
+bool
+EditorNetworkProtocol::allow_packet_send(network::Peer& peer) const
+{
+  // Do not allow sending packets to any unregistered peers
+  auto it = m_pending_users.begin();
+  while (it != m_pending_users.end())
+  {
+    if (it->first == &peer.enet)
+      return false;
+
+    it++;
+  }
+
+  return true;
 }
 
 bool
@@ -250,7 +266,7 @@ EditorNetworkProtocol::on_packet_receive(network::ReceivedPacket packet)
 
     network::StagedPacket broadcasted_packet(packet);
     broadcasted_packet.data.insert(broadcasted_packet.data.begin(), user->nickname);
-    m_host.broadcast_packet_except(&packet.peer->enet, broadcasted_packet, true);
+    m_host.broadcast_packet(broadcasted_packet, true, &packet.peer->enet);
   }
   else // Client: Get user from editor users list.
   {
@@ -366,7 +382,7 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
 
       // Notify all other peers of the newly connected user
       network::StagedPacket staged_packet(OP_USER_SERVER_CONNECT, user->serialize());
-      m_host.broadcast_packet_except(&packet.peer->enet, staged_packet, true);
+      m_host.broadcast_packet(staged_packet, true, &packet.peer->enet);
 
       // Add to users list
       m_editor.m_network_users.push_back(std::move(user));

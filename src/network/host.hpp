@@ -46,9 +46,8 @@ public:
       Provided channel ID will be ignored, if a protocol is binded. */
   ENetPacket* send_packet(ENetPeer* peer, StagedPacket& packet,
                           bool reliable, uint8_t channel_id = 0);
-  ENetPacket* broadcast_packet(StagedPacket& packet, bool reliable, uint8_t channel_id = 0);
-  ENetPacket* broadcast_packet_except(ENetPeer* peer, StagedPacket& packet,
-                                      bool reliable, uint8_t channel_id = 0);
+  ENetPacket* broadcast_packet(StagedPacket& packet, bool reliable,
+                               ENetPeer* except_peer = nullptr, uint8_t channel_id = 0);
   void send_request(ENetPeer* peer, std::unique_ptr<Request> request, uint8_t channel_id = 0);
 
   size_t get_channel_limit() const { return m_host->channelLimit; }
