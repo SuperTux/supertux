@@ -83,7 +83,7 @@ EditorNetworkProtocol::on_server_connect(network::Peer& peer)
 }
 
 void
-EditorNetworkProtocol::on_server_disconnect(network::Peer& peer)
+EditorNetworkProtocol::on_server_disconnect(network::Peer& peer, uint32_t)
 {
   refresh_editor_menu();
 

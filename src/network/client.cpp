@@ -131,7 +131,7 @@ Client::disconnect(ENetPeer* peer)
     m_protocol->on_client_disconnect(peer_info, DISCONNECTED_OK);
   }
 
-  enet_peer_disconnect(peer, 0);
+  enet_peer_disconnect(peer, DISCONNECTED_OK);
 
   // Allow up to 3 seconds for the disconnect to succeed.
   // Drop any received packets.
