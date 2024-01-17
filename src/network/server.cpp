@@ -65,7 +65,7 @@ Server::process_event(const ENetEvent& event)
     case ENET_EVENT_TYPE_DISCONNECT:
     {
       Peer peer(*event.peer);
-      m_protocol->on_server_disconnect(peer);
+      m_protocol->on_server_disconnect(peer, static_cast<uint32_t>(event.data));
 
       // Reset the peer's client information
       event.peer->data = NULL;

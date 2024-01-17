@@ -47,7 +47,7 @@ public:
   virtual void update() {}
 
   virtual void on_server_connect(Peer& peer) {}
-  virtual void on_server_disconnect(Peer& peer) {}
+  virtual void on_server_disconnect(Peer& peer, uint32_t code) {}
 
   virtual void on_client_connect(const ConnectionResult& result) {}
   virtual void on_client_disconnect(Peer& peer, uint32_t code) {}

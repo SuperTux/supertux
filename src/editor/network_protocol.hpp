@@ -74,7 +74,7 @@ public:
   void update() override;
 
   void on_server_connect(network::Peer& peer) override;
-  void on_server_disconnect(network::Peer& peer) override;
+  void on_server_disconnect(network::Peer& peer, uint32_t) override;
 
   void on_client_disconnect(network::Peer&, uint32_t code) override;
 
