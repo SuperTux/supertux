@@ -109,7 +109,8 @@ MouseCursor::update_state()
 }
 
 void
-MouseCursor::draw(DrawingContext& context, float alpha, const std::string& overlay_text)
+MouseCursor::draw(DrawingContext& context, float alpha,
+                  const std::string& overlay_text, const Color& overlay_text_color)
 {
   // This option should only hide the main cursor.
   if (!g_config->custom_mouse_cursor && current_ == this)
@@ -148,7 +149,7 @@ MouseCursor::draw(DrawingContext& context, float alpha, const std::string& overl
     context.color().draw_text(Resources::small_font, overlay_text,
                               mouse_pos + Vector(m_sprite->get_current_hitbox_width() / 2,
                                                  m_sprite->get_current_hitbox_height() / 2),
-                              ALIGN_CENTER, LAYER_GUI + 100, Color::WHITE);
+                              ALIGN_CENTER, LAYER_GUI + 100, overlay_text_color);
   }
 }
 

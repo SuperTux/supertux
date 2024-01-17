@@ -173,7 +173,7 @@ Editor::draw(Compositor& compositor)
 
       for (const auto& user : m_network_users)
         if (user->sector == m_sector->get_name())
-          user->mouse_cursor.draw(context, 0.5f, user->nickname);
+          user->mouse_cursor.draw(context, 0.5f, user->nickname, user->nickname_color);
 
       context.pop_transform();
     }
@@ -763,7 +763,8 @@ Editor::set_level(const std::string& levelfile, bool reset, bool remote)
 }
 
 void
-Editor::set_remote_level(const std::string& hostname, uint16_t port, const std::string& nickname)
+Editor::set_remote_level(const std::string& hostname, uint16_t port,
+                         const std::string& nickname, const Color& nickname_color)
 {
   if (m_network_server_peer)
   {
@@ -820,11 +821,11 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port, const std::
   m_network_server_peer = connection.peer;
 
   // Request registration on the server.
+  EditorNetworkUser user(nickname, nickname_color);
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
                                    std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_USER_REGISTER,
-                                       nickname,
-                                     2.f),
+                                     user.serialize(), 2.f),
                                    4.f));
 }
 

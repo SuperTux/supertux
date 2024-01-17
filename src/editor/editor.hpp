@@ -117,7 +117,8 @@ public:
   std::string get_levelfile() const { return m_levelfile; }
 
   void set_level(const std::string& levelfile, bool reset = true, bool remote = false);
-  void set_remote_level(const std::string& hostname, uint16_t port, const std::string& nickname);
+  void set_remote_level(const std::string& hostname, uint16_t port,
+                        const std::string& nickname, const Color& nickname_color);
   void reload_remote_level();
 
   void host_level(uint16_t port);

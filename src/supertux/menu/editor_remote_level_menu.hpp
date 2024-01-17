@@ -19,6 +19,8 @@
 
 #include "gui/menu.hpp"
 
+#include "video/color.hpp"
+
 class EditorRemoteLevelMenu final : public Menu
 {
 public:
@@ -33,7 +35,9 @@ private:
 
   std::string m_host_address;
   int m_port;
+
   std::string m_nickname;
+  Color m_nickname_color;
 
 private:
   EditorRemoteLevelMenu(const EditorRemoteLevelMenu&) = delete;

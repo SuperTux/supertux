@@ -364,8 +364,19 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
     {
       m_pending_users.erase(&packet.peer->enet);
 
+      // Parse the editor user
+      std::istringstream stream(packet.data[0]);
+      auto doc = ReaderDocument::from_stream(stream);
+      auto root = doc.get_root();
+      if (root.get_name() != "supertux-editor-network-user")
+        throw std::runtime_error("Cannot parse editor network user: Data is not 'supertux-editor-network-user'.");
+
+      auto reader = root.get_mapping();
+      std::string nickname;
+      reader.get("nickname", nickname);
+
       // Check if nickname is valid
-      if (!verify_nickname(packet.data[0]))
+      if (!verify_nickname(nickname))
       {
         network::Server& server = static_cast<network::Server&>(m_host);
         server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_INVALID);
@@ -376,7 +387,7 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
       // Check if nickname is taken
       for (const auto& user : m_editor.m_network_users)
       {
-        if (user->nickname == packet.data[0])
+        if (user->nickname == nickname)
         {
           network::Server& server = static_cast<network::Server&>(m_host);
           server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_TAKEN);
@@ -385,8 +396,8 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
         }
       }
 
-      // Create the editor user
-      auto user = std::make_unique<EditorNetworkUser>(packet.data[0]);
+      // Create the editor user.
+      auto user = std::make_unique<EditorNetworkUser>(reader);
       packet.peer->enet.data = user.get();
 
       // Notify all other peers of the newly connected user

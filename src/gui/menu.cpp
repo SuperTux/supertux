@@ -348,8 +348,8 @@ Menu::add_color_display(Color* color, int id) {
 }
 
 ItemColor&
-Menu::add_color(const std::string& text, Color* color, int id) {
-  auto item = std::make_unique<ItemColor>(text, color, id);
+Menu::add_color(const std::string& text, Color* color, bool edit_alpha, int id) {
+  auto item = std::make_unique<ItemColor>(text, color, edit_alpha, id);
   auto item_ptr = item.get();
   add_item(std::move(item));
   return *item_ptr;

@@ -28,7 +28,7 @@ class Writer;
 class EditorNetworkUser final
 {
 public:
-  EditorNetworkUser(const std::string& nickname);
+  EditorNetworkUser(const std::string& nickname, Color nickname_color = Color(1, 1, 1, 1));
   EditorNetworkUser(const ReaderMapping& reader);
 
   void write(Writer& writer) const;
@@ -36,6 +36,8 @@ public:
 
 public:
   std::string nickname;
+  Color nickname_color;
+
   std::string sector;
   MouseCursor mouse_cursor;
 

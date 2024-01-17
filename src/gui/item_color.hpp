@@ -24,7 +24,8 @@ class Color;
 class ItemColor final : public MenuItem
 {
 public:
-  ItemColor(const std::string& text_, Color* color_, int id = -1);
+  ItemColor(const std::string& text_, Color* color_,
+            bool edit_alpha, int id = -1);
 
   /** Processes the menu action. */
   virtual void process_action(const MenuAction& action) override;
@@ -35,6 +36,7 @@ public:
 
 private:
   Color* color;
+  const bool m_edit_alpha;
 
 private:
   ItemColor(const ItemColor&) = delete;

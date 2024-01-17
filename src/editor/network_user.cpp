@@ -19,8 +19,9 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-EditorNetworkUser::EditorNetworkUser(const std::string& nickname_) :
+EditorNetworkUser::EditorNetworkUser(const std::string& nickname_, Color nickname_color_) :
   nickname(nickname_),
+  nickname_color(nickname_color_),
   sector(),
   mouse_cursor()
 {
@@ -28,10 +29,15 @@ EditorNetworkUser::EditorNetworkUser(const std::string& nickname_) :
 
 EditorNetworkUser::EditorNetworkUser(const ReaderMapping& reader) :
   nickname(),
+  nickname_color(1, 1, 1, 1),
   sector(),
   mouse_cursor()
 {
   reader.get("nickname", nickname);
+  std::vector<float> v_nickcolor;
+  if (reader.get("nickname-color", v_nickcolor))
+    nickname_color = Color(v_nickcolor);
+
   reader.get("sector", sector);
 
   std::optional<ReaderMapping> cursor_mapping;
@@ -43,6 +49,10 @@ void
 EditorNetworkUser::write(Writer& writer) const
 {
   writer.write("nickname", nickname);
+  auto v_nickcolor = nickname_color.toVector();
+  v_nickcolor.pop_back(); // Remove alpha
+  writer.write("nickname-color", v_nickcolor);
+
   writer.write("sector", sector);
 
   writer.start_list("cursor");

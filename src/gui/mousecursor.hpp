@@ -55,7 +55,8 @@ public:
   MouseCursor();
   MouseCursor(SpritePtr sprite);
 
-  void draw(DrawingContext& context, float alpha = 1.f, const std::string& overlay_text = {});
+  void draw(DrawingContext& context, float alpha = 1.f,
+            const std::string& overlay_text = {}, const Color& overlay_text_color = {});
   void update_state();
 
   void set_state(MouseCursorState state);
