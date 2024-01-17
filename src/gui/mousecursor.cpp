@@ -93,7 +93,7 @@ MouseCursor::update_state()
   if (m_state == MouseCursorState::HIDE)
     return;
 
-  // The current cursor should be updated according to the mouse state.
+  // The main cursor should be updated according to the mouse state.
   if (current_ == this)
   {
     const Uint32 ispressed = SDL_GetMouseState(NULL, NULL);
@@ -111,6 +111,7 @@ MouseCursor::update_state()
 void
 MouseCursor::draw(DrawingContext& context, float alpha, const std::string& overlay_text)
 {
+  // This option should only hide the main cursor.
   if (!g_config->custom_mouse_cursor && current_ == this)
     return;
 
@@ -121,11 +122,12 @@ MouseCursor::draw(DrawingContext& context, float alpha, const std::string& overl
 
   int x = m_x;
   int y = m_y;
-
-  if (!m_mobile_mode && current_ == this)
+  if (!m_mobile_mode && current_ == this) // Not on a mobile device, and using the main cursor.
     SDL_GetMouseState(&x, &y);
 
-  Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
+  Vector mouse_pos(x, y);
+  if (m_mobile_mode || current_ == this) // On a mobile device, or using the main cursor.
+    mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
 
   context.push_transform();
   context.transform().alpha = alpha;
@@ -141,7 +143,7 @@ MouseCursor::draw(DrawingContext& context, float alpha, const std::string& overl
 
   context.pop_transform();
 
-  if (!overlay_text.empty()) // Text to be drawn over the cursor has been provided
+  if (!overlay_text.empty()) // Text to be drawn over the cursor has been provided.
   {
     context.color().draw_text(Resources::small_font, overlay_text,
                               mouse_pos + Vector(m_sprite->get_current_hitbox_width() / 2,

@@ -165,15 +165,22 @@ Editor::draw(Compositor& compositor)
     // Avoid drawing the sector if we're about to test it, as there is a dangling pointer
     // issue with the PlayerStatus.
     if (!m_leveltested)
+    {
       m_sector->draw(context);
+
+      context.push_transform();
+      context.set_translation(m_sector->get_camera().get_translation());
+
+      for (const auto& user : m_network_users)
+        if (user->sector == m_sector->get_name())
+          user->mouse_cursor.draw(context, 0.5f, user->nickname);
+
+      context.pop_transform();
+    }
 
     context.color().draw_filled_rect(context.get_rect(),
                                      Color(0.0f, 0.0f, 0.0f),
                                      0.0f, std::numeric_limits<int>::min());
-
-    for (const auto& user : m_network_users)
-      if (user->sector == m_sector->get_name())
-        user->mouse_cursor.draw(context, 0.5f, user->nickname);
   }
   else
   {
