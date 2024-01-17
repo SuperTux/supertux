@@ -317,6 +317,19 @@ Host::send_packet(ENetPeer* peer, StagedPacket& packet,
   if (!peer) return nullptr;
   assert(peer->host == m_host);
 
+  // Do not send over to peers, blocked by the protocol
+  if (m_protocol)
+  {
+    Peer peer_info(*peer);
+    if (!m_protocol->allow_packet_send(peer_info))
+    {
+      log_warning << "Aborting sending over packet with code " << packet.code
+                  << ": Communication with peer " << peer->incomingPeerID
+                  << " not allowed." << std::endl;
+      return nullptr;
+    }
+  }
+
   ENetPacket* enet_packet = create_packet(packet, reliable);
   if (!enet_packet) return nullptr;
 
@@ -331,28 +344,9 @@ Host::send_packet(ENetPeer* peer, StagedPacket& packet,
 }
 
 ENetPacket*
-Host::broadcast_packet(StagedPacket& packet, bool reliable, uint8_t channel_id)
+Host::broadcast_packet(StagedPacket& packet, bool reliable,
+                       ENetPeer* except_peer, uint8_t channel_id)
 {
-  ENetPacket* enet_packet = create_packet(packet, reliable);
-  if (!enet_packet) return nullptr;
-
-  // If a protocol is binded, use the channel the protocol has determined for the packet
-  if (m_protocol)
-    channel_id = m_protocol->get_packet_channel(packet);
-
-  // Send the packet over to all peers
-  enet_host_broadcast(m_host, static_cast<enet_uint8>(channel_id), enet_packet);
-
-  return enet_packet;
-}
-
-ENetPacket*
-Host::broadcast_packet_except(ENetPeer* peer, StagedPacket& packet,
-                              bool reliable, uint8_t channel_id)
-{
-  if (!peer) return nullptr;
-  assert(peer->host == m_host);
-
   ENetPacket* enet_packet = create_packet(packet, reliable);
   if (!enet_packet) return nullptr;
 
@@ -361,15 +355,21 @@ Host::broadcast_packet_except(ENetPeer* peer, StagedPacket& packet,
     channel_id = m_protocol->get_packet_channel(packet);
 
   // Send the packet over to all peers, except the provided one
-  for (ENetPeer* current_peer = m_host->peers;
-       current_peer < &m_host->peers[m_host->peerCount];
-       current_peer++)
+  for (ENetPeer* peer = m_host->peers; peer < &m_host->peers[m_host->peerCount]; peer++)
   {
-     if (current_peer->state != ENET_PEER_STATE_CONNECTED ||
-         current_peer->incomingPeerID == peer->incomingPeerID)
-       continue;
+    if (peer->state != ENET_PEER_STATE_CONNECTED ||
+        peer == except_peer)
+      continue;
 
-     enet_peer_send(current_peer, static_cast<enet_uint8>(channel_id), enet_packet);
+    // Do not send over to peers, blocked by the protocol
+    if (m_protocol)
+    {
+      Peer peer_info(*peer);
+      if (!m_protocol->allow_packet_send(peer_info))
+        continue;
+    }
+
+    enet_peer_send(peer, static_cast<enet_uint8>(channel_id), enet_packet);
   }
 
   // Destroy packet, if it was not sent to any peer
