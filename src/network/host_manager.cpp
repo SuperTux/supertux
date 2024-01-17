@@ -28,21 +28,18 @@ HostManager::HostManager() :
 void
 HostManager::update()
 {
-  for (auto& host : m_hosts)
-    host->update();
-}
-
-void
-HostManager::destroy(Host* host)
-{
+  /** Update hosts.
+      Remove ones, queued for removal. */
   auto it = m_hosts.begin();
   while (it != m_hosts.end())
   {
-    if (it->get() == host)
-    {
-      m_hosts.erase(it);
-      break;
-    }
+    const auto& host = *it;
+    host->update();
+
+    if (host->is_valid())
+      it++;
+    else
+      it = m_hosts.erase(it);
   }
 }
 
