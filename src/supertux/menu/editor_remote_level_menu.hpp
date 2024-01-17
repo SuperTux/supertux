@@ -33,6 +33,7 @@ private:
 
   std::string m_host_address;
   int m_port;
+  std::string m_nickname;
 
 private:
   EditorRemoteLevelMenu(const EditorRemoteLevelMenu&) = delete;

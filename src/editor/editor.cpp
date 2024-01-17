@@ -789,7 +789,7 @@ Editor::set_level(const std::string& levelfile, bool reset, bool remote)
 }
 
 void
-Editor::set_remote_level(const std::string& hostname, uint16_t port)
+Editor::set_remote_level(const std::string& hostname, uint16_t port, const std::string& nickname)
 {
   if (m_network_server_peer)
   {
@@ -831,7 +831,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port)
         break;
     }
 
-    network::HostManager::current()->destroy(m_network_client);
+    m_network_client->destroy();
     m_network_client = nullptr;
     m_network_server_peer = nullptr;
     return;
@@ -839,18 +839,13 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port)
 
   m_network_server_peer = connection.peer;
 
-  // Request a list of all other users, connected to the server.
+  // Request registration on the server.
   m_network_client->send_request(m_network_server_peer,
                                  std::make_unique<network::Request>(
-                                   std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_USERS_REQUEST, "", 1.f),
-                                   3.f));
-
-  // Request the level from the remote server.
-  // If successfully received, the protocol will take care of setting the level.
-  m_network_client->send_request(m_network_server_peer,
-                                 std::make_unique<network::Request>(
-                                   std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_LEVEL_REQUEST, "", 10.f),
-                                   12.f));
+                                   std::make_unique<network::StagedPacket>(EditorNetworkProtocol::OP_USER_REGISTER,
+                                       nickname,
+                                     2.f),
+                                   4.f));
 }
 
 void
@@ -887,7 +882,7 @@ Editor::stop_hosting_level()
 {
   m_network_users.clear();
 
-  network::HostManager::current()->destroy(m_network_server);
+  m_network_server->destroy();
   m_network_server = nullptr;
 }
 
@@ -900,7 +895,7 @@ Editor::close_connections()
   {
     m_network_client->set_protocol({});
     m_network_client->disconnect(m_network_server_peer);
-    network::HostManager::current()->destroy(m_network_client);
+    m_network_client->destroy();
     m_network_client = nullptr;
     m_network_server_peer = nullptr;
   }

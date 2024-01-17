@@ -54,7 +54,7 @@ Server::process_event(const ENetEvent& event)
       // Make sure remote peer game version is the same
       if (event.data != version)
       {
-        enet_peer_disconnect(event.peer, RESPONSE_VERSION_MISMATCH);
+        enet_peer_disconnect(event.peer, DISCONNECTED_VERSION_MISMATCH);
         return;
       }
 
@@ -74,6 +74,15 @@ Server::process_event(const ENetEvent& event)
     default:
       break;
   }
+}
+
+void
+Server::disconnect(ENetPeer* peer, uint32_t code)
+{
+  if (!peer) return;
+  assert(peer->host == m_host);
+
+  enet_peer_disconnect(peer, static_cast<enet_uint32>(code));
 }
 
 Address

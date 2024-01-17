@@ -21,10 +21,14 @@
 
 namespace network {
 
-/** Failure response, sent via a disconnect call shortly after a connection. */
-enum ConnectionFailure
+/** A server's reason for disconnecting the client. */
+enum DisconnectionReason
 {
-  RESPONSE_VERSION_MISMATCH // Server and client SuperTux versions do not match.
+  DISCONNECTED_PING_TIMEOUT, // The remote peer is no longer accessible.
+  DISCONNECTED_OK, // Disconnected by a proper request.
+  DISCONNECTED_VERSION_MISMATCH, // Server and client SuperTux versions do not match.
+
+  DISCONNECTION_REASONS_END // (Custom disconnection reasons in protocols should be implemented from here)
 };
 
 /** Status of a connection after a connection attempt. */
