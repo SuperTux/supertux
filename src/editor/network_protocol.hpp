@@ -19,7 +19,10 @@
 
 #include "network/protocol.hpp"
 
+#include <unordered_map>
+
 class Editor;
+class Timer;
 
 namespace network {
 class Host;
@@ -29,8 +32,16 @@ class Host;
 class EditorNetworkProtocol final : public network::Protocol
 {
 public:
+  enum DisconnectionReason
+  {
+    DISCONNECTED_REGISTER_TIMED_OUT // The time for the client to send a registration packet in has expired.
+      = network::DISCONNECTION_REASONS_END,
+    DISCONNECTED_NICKNAME_INVALID, // The provided nickname is invalid.
+    DISCONNECTED_NICKNAME_TAKEN // The provided nickname has already been taken by another client.
+  };
   enum Operation
   {
+    OP_USER_REGISTER,
     OP_USERS_REQUEST,
     OP_USERS_RESPONSE,
     OP_USER_SERVER_CONNECT,
@@ -51,20 +62,21 @@ public:
     CH_LEVEL_REQUESTS,
     CH_SECTOR_CHANGES,
     CH_MOUSE_UPDATES,
-    CH_LAST
+    CH_END
   };
 
 public:
   EditorNetworkProtocol(Editor& editor, network::Host& host);
 
   std::string get_name() const override { return "editor"; }
-  size_t get_channel_count() const override { return CH_LAST; }
+  size_t get_channel_count() const override { return CH_END; }
+
+  void update() override;
 
   void on_server_connect(network::Peer& peer) override;
   void on_server_disconnect(network::Peer& peer) override;
 
-  void on_client_connect(const network::ConnectionResult& result) override;
-  void on_client_disconnect(network::Peer&) override;
+  void on_client_disconnect(network::Peer&, uint32_t code) override;
 
   bool verify_packet(network::StagedPacket& packet) const override;
   uint8_t get_packet_channel(const network::StagedPacket& packet) const override;
@@ -79,6 +91,9 @@ public:
 private:
   Editor& m_editor;
   network::Host& m_host;
+
+  /** Pending users without a recieved registration data packet. */
+  std::unordered_map<ENetPeer*, std::unique_ptr<Timer>> m_pending_users;
 
 private:
   EditorNetworkProtocol(const EditorNetworkProtocol&) = delete;

@@ -16,16 +16,16 @@
 
 #include "editor/network_protocol.hpp"
 
-#include <ctime>
-
 #include "editor/editor.hpp"
 #include "editor/network_user.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "network/server.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/timer.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -41,11 +41,34 @@ static void refresh_editor_menu()
 }
 
 static const std::string DEFAULT_SERVER_NICKNAME = "Host";
+static const float USER_REGISTER_TIME = 5.f;
 
 EditorNetworkProtocol::EditorNetworkProtocol(Editor& editor, network::Host& host) :
   m_editor(editor),
-  m_host(host)
+  m_host(host),
+  m_pending_users()
 {
+}
+
+void
+EditorNetworkProtocol::update()
+{
+  // Remove any timed-out pending (non-registered) peers
+  {
+    auto it = m_pending_users.begin();
+    while (it != m_pending_users.end())
+    {
+      if (it->second->check())
+      {
+        network::Server& server = static_cast<network::Server&>(m_host);
+        server.disconnect(it->first, DISCONNECTED_REGISTER_TIMED_OUT);
+
+        it = m_pending_users.erase(it);
+      }
+      else
+        it++;
+    }
+  }
 }
 
 void
@@ -53,16 +76,10 @@ EditorNetworkProtocol::on_server_connect(network::Peer& peer)
 {
   refresh_editor_menu();
 
-  // Create the editor user
-  auto user = std::make_unique<EditorNetworkUser>(std::to_string(std::time(nullptr))); // TEMP
-  peer.enet.data = user.get();
-
-  // Notify all other peers of the newly connected user
-  network::StagedPacket packet(OP_USER_SERVER_CONNECT, user->serialize());
-  m_host.broadcast_packet_except(&peer.enet, packet, true);
-
-  // Register the editor user
-  m_editor.m_network_users.push_back(std::move(user));
+  // Stage the user and wait for registration packet
+  auto timer = std::make_unique<Timer>();
+  timer->start(USER_REGISTER_TIME);
+  m_pending_users[&peer.enet] = std::move(timer);
 }
 
 void
@@ -70,42 +87,62 @@ EditorNetworkProtocol::on_server_disconnect(network::Peer& peer)
 {
   refresh_editor_menu();
 
-  // Get editor user
-  assert(peer.enet.data);
-  EditorNetworkUser* user = static_cast<EditorNetworkUser*>(peer.enet.data);
-
-  // Notify all other peers of the disconnect user
-  network::StagedPacket packet(OP_USER_SERVER_DISCONNECT, user->nickname);
-  m_host.broadcast_packet_except(&peer.enet, packet, true);
-
-  // Remove the editor user
-  auto it = m_editor.m_network_users.begin();
-  while (it != m_editor.m_network_users.end())
+  // Get editor user (if it has been registered)
+  if (peer.enet.data)
   {
-    if (it->get() == user)
+    EditorNetworkUser* user = static_cast<EditorNetworkUser*>(peer.enet.data);
+
+    // Notify all other peers of the disconnect user
+    network::StagedPacket packet(OP_USER_SERVER_DISCONNECT, user->nickname);
+    m_host.broadcast_packet_except(&peer.enet, packet, true);
+
+    // Remove the editor user
+    auto it = m_editor.m_network_users.begin();
+    while (it != m_editor.m_network_users.end())
     {
-      m_editor.m_network_users.erase(it);
-      return;
+      if (it->get() == user)
+      {
+        m_editor.m_network_users.erase(it);
+        break;
+      }
+      it++;
     }
   }
 }
 
 void
-EditorNetworkProtocol::on_client_connect(const network::ConnectionResult& result)
+EditorNetworkProtocol::on_client_disconnect(network::Peer&, uint32_t code)
 {
-  if (result.status != network::ConnectionStatus::SUCCESS)
-    return;
+  switch (code)
+  {
+    case network::DISCONNECTED_OK:
+      break;
 
-  // Add server at the beginning of network users list
-  m_editor.m_network_users.clear();
-  m_editor.m_network_users.push_back(std::make_unique<EditorNetworkUser>(DEFAULT_SERVER_NICKNAME));
-}
+    case network::DISCONNECTED_PING_TIMEOUT:
+      Dialog::show_message(_("Disconnected: The server is no longer reachable."));
+      m_editor.m_quit_request = true;
+      break;
 
-void
-EditorNetworkProtocol::on_client_disconnect(network::Peer&)
-{
-  m_editor.m_quit_request = true;
-  Dialog::show_message(_("Disconnected: The server is no longer reachable."));
+    case DISCONNECTED_REGISTER_TIMED_OUT:
+      Dialog::show_message(_("Disconnected: No registration packet received for too long."));
+      m_editor.close_connections();
+      break;
+
+    case DISCONNECTED_NICKNAME_INVALID:
+      Dialog::show_message(_("Disconnected: The provided nickname is invalid."));
+      m_editor.close_connections();
+      break;
+
+    case DISCONNECTED_NICKNAME_TAKEN:
+      Dialog::show_message(_("Disconnected: The provided nickname has been taken."));
+      m_editor.close_connections();
+      break;
+
+    default:
+      Dialog::show_message(_("Disconnected: Unknown reason."));
+      m_editor.m_quit_request = true;
+      break;
+  }
 }
 
 bool
@@ -131,6 +168,7 @@ EditorNetworkProtocol::get_packet_channel(const network::StagedPacket& packet) c
 {
   switch (packet.code)
   {
+    case OP_USER_REGISTER:
     case OP_USERS_REQUEST:
     case OP_USERS_RESPONSE:
     case OP_USER_SERVER_CONNECT:
@@ -195,8 +233,9 @@ EditorNetworkProtocol::on_packet_receive(network::ReceivedPacket packet)
         if ((*it)->nickname == packet.data[0])
         {
           m_editor.m_network_users.erase(it);
-          return;
+          break;
         }
+        it++;
       }
       return;
     }
@@ -294,12 +333,50 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
 {
   switch (packet.code)
   {
-    case OP_USERS_REQUEST:
+    case OP_USER_REGISTER:
     {
-      assert(packet.peer && packet.peer->enet.data);
+      m_pending_users.erase(&packet.peer->enet);
+
+      // Check if nickname is valid
+      // Must be between 3 and 20 characters.
+      const std::string& nickname = packet.data[0];
+      if (nickname.length() < 3 || nickname.length() > 20)
+      {
+        network::Server& server = static_cast<network::Server&>(m_host);
+        server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_INVALID);
+
+        throw std::runtime_error("Cannot register user: Provided nickname is invalid.");
+      }
+
+      // Check if nickname is taken
+      for (const auto& user : m_editor.m_network_users)
+      {
+        if (user->nickname == packet.data[0])
+        {
+          network::Server& server = static_cast<network::Server&>(m_host);
+          server.disconnect(&packet.peer->enet, DISCONNECTED_NICKNAME_TAKEN);
+
+          throw std::runtime_error("Cannot register user: Provided nickname taken.");
+        }
+      }
+
+      // Create the editor user
+      auto user = std::make_unique<EditorNetworkUser>(packet.data[0]);
+      packet.peer->enet.data = user.get();
+
+      // Notify all other peers of the newly connected user
+      network::StagedPacket staged_packet(OP_USER_SERVER_CONNECT, user->serialize());
+      m_host.broadcast_packet_except(&packet.peer->enet, staged_packet, true);
+
+      // Add to users list
+      m_editor.m_network_users.push_back(std::move(user));
+
+      return network::StagedPacket(OP_USER_REGISTER, ""); // Indicate success
+    }
+
+    case OP_USERS_REQUEST:
       return network::StagedPacket(OP_USERS_RESPONSE,
                                    m_editor.save_network_users(static_cast<EditorNetworkUser*>(packet.peer->enet.data)));
-    }
 
     case OP_LEVEL_REQUEST:
     case OP_LEVEL_REREQUEST:
@@ -337,18 +414,25 @@ EditorNetworkProtocol::on_request_fail(const network::Request& request, network:
   const network::StagedPacket& packet = *request.staged;
   switch (packet.code)
   {
+    case OP_USER_REGISTER:
+    {
+      Dialog::show_message(_("Disconnected: Registration request failed:") + "\n \n" + fail_reason);
+      m_editor.close_connections();
+      break;
+    }
+
     case OP_USERS_REQUEST:
     {
-      m_editor.m_quit_request = true;
       Dialog::show_message(_("Disconnected: Network users request failed:") + "\n \n" + fail_reason);
+      m_editor.m_quit_request = true;
       break;
     }
 
     case OP_LEVEL_REQUEST:
     case OP_LEVEL_REREQUEST:
     {
-      m_editor.m_quit_request = true;
       Dialog::show_message(_("Disconnected: Remote level request failed:") + "\n \n" + fail_reason);
+      m_editor.m_quit_request = true;
       break;
     }
 
@@ -363,6 +447,26 @@ EditorNetworkProtocol::on_request_response(const network::Request& request)
   const network::ReceivedPacket& packet = *request.received;
   switch (packet.code)
   {
+    case OP_USER_REGISTER: /** This client has been registered on the remote server. */
+    {
+      // Add server at the beginning of network users list.
+      m_editor.m_network_users.clear();
+      m_editor.m_network_users.push_back(std::make_unique<EditorNetworkUser>(DEFAULT_SERVER_NICKNAME));
+
+      // Request a list of all other users, connected to the server.
+      m_host.send_request(m_editor.m_network_server_peer,
+                          std::make_unique<network::Request>(
+                            std::make_unique<network::StagedPacket>(OP_USERS_REQUEST, "", 1.f),
+                            3.f));
+
+      // Request the level from the remote server.
+      m_host.send_request(m_editor.m_network_server_peer,
+                          std::make_unique<network::Request>(
+                            std::make_unique<network::StagedPacket>(OP_LEVEL_REQUEST, "", 10.f),
+                            12.f));
+      break;
+    }
+
     case OP_USERS_RESPONSE:
       m_editor.parse_network_users(packet.data[0]);
       break;

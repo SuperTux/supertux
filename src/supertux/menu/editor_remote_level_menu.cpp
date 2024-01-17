@@ -17,13 +17,14 @@
 #include "supertux/menu/editor_remote_level_menu.hpp"
 
 #include "editor/editor.hpp"
-#include "gui/menu_item.hpp"
+#include "gui/item_textfield.hpp"
 #include "gui/menu_manager.hpp"
 
 EditorRemoteLevelMenu::EditorRemoteLevelMenu(bool connect) :
   m_connect(connect),
   m_host_address(),
-  m_port()
+  m_port(),
+  m_nickname()
 {
   add_label(m_connect ? _("Edit Remote Level") : _("Host Level"));
   add_hl();
@@ -31,6 +32,9 @@ EditorRemoteLevelMenu::EditorRemoteLevelMenu(bool connect) :
   if (m_connect)
     add_textfield(_("Host address"), &m_host_address);
   add_intfield(_("Port"), &m_port, -1, true);
+  if (m_connect)
+    add_textfield(_("Nickname"), &m_nickname)
+      .set_help(_("Nickname character count must be between 3 and 20."));
 
   add_entry(1, m_connect ? _("Connect") : _("Host"));
 
@@ -45,7 +49,8 @@ EditorRemoteLevelMenu::menu_action(MenuItem& item)
 
   if (m_connect)
   {
-    Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port));
+    Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
+                                        m_nickname);
   }
   else
   {

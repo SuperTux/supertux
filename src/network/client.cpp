@@ -41,7 +41,7 @@ Client::process_event(const ENetEvent& event)
   if (event.type == ENET_EVENT_TYPE_DISCONNECT)
   {
     Peer peer(*event.peer);
-    m_protocol->on_client_disconnect(peer);
+    m_protocol->on_client_disconnect(peer, static_cast<uint32_t>(event.data));
 
     // Reset the peer's client information
     event.peer->data = NULL;
@@ -96,7 +96,7 @@ Client::connect_internal(const char* hostname, uint16_t port,
       {
         enet_peer_reset(peer);
 
-        if (event.data == RESPONSE_VERSION_MISMATCH)
+        if (event.data == DISCONNECTED_VERSION_MISMATCH)
           return ConnectionResult(nullptr, ConnectionStatus::FAILED_VERSION_MISMATCH);
 
         return ConnectionResult(nullptr, ConnectionStatus::FAILED_CONNECTION_REFUSED);
@@ -128,7 +128,7 @@ Client::disconnect(ENetPeer* peer)
   if (m_protocol)
   {
     Peer peer_info(*peer);
-    m_protocol->on_client_disconnect(peer_info);
+    m_protocol->on_client_disconnect(peer_info, DISCONNECTED_OK);
   }
 
   enet_peer_disconnect(peer, 0);
