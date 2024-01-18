@@ -17,7 +17,8 @@
 #include "supertux/menu/editor_remote_level_menu.hpp"
 
 #include "editor/editor.hpp"
-#include "gui/item_textfield.hpp"
+#include "gui/dialog.hpp"
+#include "gui/item_intfield.hpp"
 #include "gui/menu_manager.hpp"
 
 EditorRemoteLevelMenu::EditorRemoteLevelMenu(bool connect) :
@@ -32,8 +33,13 @@ EditorRemoteLevelMenu::EditorRemoteLevelMenu(bool connect) :
 
   if (m_connect)
     add_textfield(_("Host Address"), &m_host_address);
-  add_intfield(_("Port"), &m_port, -1, true);
-  if (m_connect)
+
+  auto& port_field = add_intfield(_("Port"), &m_port, -1, true);
+  if (!m_connect)
+  {
+    port_field.set_help(_("Port number must be between 1024 and 65535.\nSet to 0 for random port."));
+  }
+  else
   {
     add_textfield(_("Nickname"), &m_nickname)
       .set_help(_("Nickname character count must be between 3 and 20."));
@@ -52,6 +58,12 @@ void
 EditorRemoteLevelMenu::menu_action(MenuItem& item)
 {
   if (item.get_id() != 1) return;
+
+  if (m_port != 0 && (m_port < 1024 || m_port > 65535))
+  {
+    Dialog::show_message(_("Port number must be between 1024 and 65535."));
+    return;
+  }
 
   if (m_connect)
   {
