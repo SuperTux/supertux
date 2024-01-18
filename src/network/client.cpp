@@ -22,6 +22,8 @@
 
 #include <version.h>
 
+#include "util/log.hpp"
+
 namespace network {
 
 Client::Client(size_t outgoing_connections, size_t channel_limit,
@@ -83,8 +85,11 @@ Client::connect_internal(const char* hostname, uint16_t port,
   // Return failure if disconnection events are fired.
   ENetEvent event;
   bool connected = false;
-  while (enet_host_service(m_host, &event, static_cast<enet_uint32>(wait_ms)) > 0)
+  while (!connected && enet_host_service(m_host, &event, static_cast<enet_uint32>(wait_ms)) > 0)
   {
+    if (event.peer != peer)
+      continue;
+
     switch (event.type)
     {
       case ENET_EVENT_TYPE_CONNECT:
@@ -139,6 +144,9 @@ Client::disconnect(ENetPeer* peer)
   bool success = false;
   while (!success && enet_host_service(m_host, &event, 3000) > 0)
   {
+    if (event.peer != peer)
+      continue;
+
     switch (event.type)
     {
       case ENET_EVENT_TYPE_RECEIVE:
@@ -154,7 +162,11 @@ Client::disconnect(ENetPeer* peer)
 
   // Force the connection down, if disconnecting failed
   if (!success)
+  {
+    log_warning << "Disconnecting from peer " << peer->incomingPeerID
+                << " failed. Forcing the connection down." << std::endl;
     enet_peer_reset(peer);
+  }
 }
 
 } // namespace network
