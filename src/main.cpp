@@ -16,7 +16,7 @@
 
 #include <SDL.h>
 
-#include <config.h>
+//#include <config.h>
 #include <memory>
 
 #include "supertux/main.hpp"

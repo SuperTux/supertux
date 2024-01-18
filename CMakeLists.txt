@@ -155,9 +155,8 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
 
-
 if(NOT EMSCRIPTEN)
-  target_dependencies(supertux2_lib SDL2 SDL2_image SDL2_ttf libcurl_shared ogg vorbis)
+  target_dependencies(supertux2_lib SDL2 SDL2_image freetype SDL2_ttf libcurl_shared ogg vorbis)
   # TODO: oggvorbis
 endif()
 
@@ -181,6 +180,9 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   target_include_directories(supertux2_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
 
+include(SuperTux/Definitions)
+setup_supertux_definitions(supertux2_lib)
+
 if(WIN32)
   add_executable(supertux2 WIN32 ${PROJECT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
 else()
@@ -194,7 +196,8 @@ target_link_libraries(supertux2 PUBLIC supertux2_lib)
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
-configure_file(config.h.cmake ${PROJECT_BINARY_DIR}/config.h )
+#configure_file(config.h.cmake ${PROJECT_BINARY_DIR}/config.h )
+
 
 ## Build tests
 include(SuperTux/BuildTests)

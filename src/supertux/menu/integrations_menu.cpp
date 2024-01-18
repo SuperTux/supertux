@@ -18,7 +18,7 @@
 
 #include "supertux/menu/integrations_menu.hpp"
 
-#include "config.h"
+//#include "config.h"
 
 #include "audio/sound_manager.hpp"
 #include "gui/item_goto.hpp"

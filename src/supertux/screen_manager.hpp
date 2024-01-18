@@ -21,7 +21,7 @@
 #include <memory>
 #include <SDL.h>
 
-#include "config.h"
+//#include "config.h"
 
 #include "control/mobile_controller.hpp"
 #include "squirrel/squirrel_thread_queue.hpp"

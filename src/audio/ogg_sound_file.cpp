@@ -16,7 +16,7 @@
 
 #include "audio/ogg_sound_file.hpp"
 
-#include <config.h>
+//#include <config.h>
 
 #include <assert.h>
 #include <physfs.h>

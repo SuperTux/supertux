@@ -59,26 +59,16 @@ macro(target_external_dependencies_from_folder tar folder)
     set(${deptar}_FOUND ON)
     set(${UPPERDEP}_FOUND ON)
 
-    get_target_property(DEP_TYPE ${deptar} TYPE)
-    if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
-      # We're dealing with an interface library
-      # Doing this should be enough, right?
-      target_link_libraries(${tar} PUBLIC ${deptar})
-      continue()
-    endif()
-
     get_target_property(DEP_INCLUDES ${deptar} INCLUDE_DIRECTORIES)
     if("${DEP_INCLUDES}" STREQUAL "DEP_INCLUDES-NOTFOUND")
-      message(WARNING "Could NOT find include directories for ${deptar}.")
-      #[[
       # Try to check interface include directories
       get_target_property(DEP_INCLUDES ${deptar} INTERFACE_INCLUDE_DIRECTORIES)
       if("${DEP_INCLUDES}" STREQUAL "DEP_INCLUDES-NOTFOUND")
         message(WARNING "Could NOT find include directories for ${deptar}.")
       endif()
-      #]]
     endif()
 
+    get_target_property(DEP_TYPE ${deptar} TYPE)
     target_include_directories(${tar} PUBLIC ${DEP_INCLUDES})
 
     string(TOUPPER ${deptar} UPPERDEP)
@@ -89,20 +79,37 @@ macro(target_external_dependencies_from_folder tar folder)
     set(${UPPERDEP}_INCLUDE_DIR ${DEP_INCLUDES})
     set(${UPPERDEP}_INCLUDE_DIRS ${DEP_INCLUDES})
 
-    # Try all names, again
-    set(${deptar}_LIBRARY ${deptar})
-    set(${deptar}_LIBRARIES ${deptar})
-    set(${UPPERDEP}_LIBRARY ${deptar})
-    set(${UPPERDEP}_LIBRARIES ${deptar})
+    if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
+      target_link_libraries(${tar} INTERFACE ${deptar})
+    else()
+      get_target_property(DEP_OUT_NAME ${deptar} OUTPUT_NAME_${CMAKE_BUILD_TYPE})
+      get_target_property(DEP_OUT_DIR ${deptar} OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE})
+      set(DEP_OUT_PATH "$<TARGET_FILE:${deptar}>")
 
-    target_link_libraries(${tar} PUBLIC ${deptar})
+      # Try all names, again
+      set(${deptar}_LIBRARY ${DEP_OUT_PATH})
+      set(${deptar}_LIBRARIES ${DEP_OUT_PATH})
+      set(${UPPERDEP}_LIBRARY ${DEP_OUT_PATH})
+      set(${UPPERDEP}_LIBRARIES ${DEP_OUT_PATH})
 
-    if(NOT ${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
+      target_link_libraries(${tar} PRIVATE -L$<TARGET_FILE_DIR:${deptar}>
+        # CMake generator expressions is my favourite programming language.
+        #$<$<NOT:$<STREQUAL:$<TARGET_FILE_BASE_NAME:${deptar}>, >>:
+        -l$<IF:$<BOOL:$<TARGET_FILE_PREFIX:${deptar}>>,
+            $<TARGET_FILE_BASE_NAME:${deptar}>
+          ,
+            :$<TARGET_FILE_BASE_NAME:${deptar}>$<TARGET_FILE_SUFFIX:${deptar}>
+          >
+        #>
+      )
+
+      #[[
       add_custom_command(TARGET ${tar}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:${deptar}>
         $<TARGET_FILE_DIR:${tar}>
       )
+      ]]
     endif()
 
     add_dependencies(${tar} ${deptar})

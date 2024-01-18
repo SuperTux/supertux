@@ -16,7 +16,7 @@
 
 #include "supertux/main.hpp"
 
-#include <config.h>
+//#include <config.h>
 #include <version.h>
 #include <filesystem>
 #include <fstream>

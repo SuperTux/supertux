@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_SDK_INTEGRATION_HPP
 #define HEADER_SUPERTUX_SDK_INTEGRATION_HPP
 
-#include "config.h"
-
 #include <memory>
 #include <string>
 #include <vector>
