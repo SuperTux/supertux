@@ -47,7 +47,9 @@ Host::Host() :
 
 Host::~Host()
 {
-  assert(m_host);
+  // In case of an error creating a host, the variable wouldn't
+  if (!m_host) return;
+
   enet_host_destroy(m_host);
 }
 

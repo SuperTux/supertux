@@ -852,7 +852,7 @@ Editor::host_level(uint16_t port)
   }
   catch (const std::exception& err)
   {
-    Dialog::show_message(_("Error starting network server:") + "\n" + err.what());
+    Dialog::show_message(_("Error starting network server:") + "\n \n" + err.what());
     return;
   }
 

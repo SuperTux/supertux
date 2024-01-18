@@ -22,6 +22,7 @@
 
 #include <version.h>
 
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 
 namespace network {
@@ -34,7 +35,7 @@ Client::Client(size_t outgoing_connections, size_t channel_limit,
                             static_cast<enet_uint32>(incoming_bandwidth),
                             static_cast<enet_uint32>(outgoing_bandwidth));
   if (!m_host)
-    throw std::runtime_error("Error initializing ENet client!");
+    throw std::runtime_error(_("Error initializing ENet client!"));
 }
 
 void

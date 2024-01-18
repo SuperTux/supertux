@@ -22,6 +22,7 @@
 #include <version.h>
 
 #include "network/connection_result.hpp"
+#include "util/gettext.hpp"
 
 namespace network {
 
@@ -29,6 +30,9 @@ Server::Server(uint16_t port, size_t peer_count, size_t channel_limit,
                uint32_t incoming_bandwidth, uint32_t outgoing_bandwidth) :
   Host()
 {
+  if (port != 0 && port < 1024)
+    throw std::runtime_error(_("Port number is less than 1024."));
+
   ENetAddress address;
   address.host = ENET_HOST_ANY;
   address.port = static_cast<enet_uint16>(port);
@@ -37,7 +41,7 @@ Server::Server(uint16_t port, size_t peer_count, size_t channel_limit,
                             static_cast<enet_uint32>(incoming_bandwidth),
                             static_cast<enet_uint32>(outgoing_bandwidth));
   if (!m_host)
-    throw std::runtime_error("Error initializing ENet server!");
+    throw std::runtime_error(_("Error initializing ENet server!"));
 }
 
 void
