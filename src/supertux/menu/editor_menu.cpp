@@ -239,8 +239,11 @@ EditorMenu::menu_action(MenuItem& item)
     break;
 
     case MNID_STOP_HOSTING_LEVEL:
-      Editor::current()->stop_hosting_level();
-      refresh();
+      Dialog::show_confirmation(_("This will close all current connections. Are you sure?"), [this]()
+        {
+          Editor::current()->stop_hosting_level();
+          refresh();
+        });
       break;
 
     case MNID_RELOAD_LEVEL:
