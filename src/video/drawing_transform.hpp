@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_VIDEO_DRAWING_TRANSFORM_HPP
 #define HEADER_SUPERTUX_VIDEO_DRAWING_TRANSFORM_HPP
 
+#include <limits>
+
 #include "math/vector.hpp"
 #include "video/texture.hpp"
 #include "video/viewport.hpp"
@@ -29,6 +31,7 @@ public:
   Flip flip;
   float alpha;
   float scale;
+  int max_layer;
 
   DrawingTransform(const Viewport& viewport_) :
     translation(0.0f, 0.0f),
@@ -36,7 +39,8 @@ public:
              viewport_.get_screen_width(), viewport_.get_screen_height()),
     flip(NO_FLIP),
     alpha(1.0f),
-    scale(1.0f)
+    scale(1.0f),
+    max_layer(std::numeric_limits<int>::max())
   {}
 };
 

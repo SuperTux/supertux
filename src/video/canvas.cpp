@@ -128,7 +128,7 @@ Canvas::draw_surface(const SurfacePtr& surface,
 
   auto request = new(m_obst) TextureRequest(m_context.transform());
 
-  request->layer = layer;
+  request->layer = std::min(layer, m_context.transform().max_layer);
   request->flip = m_context.transform().flip ^ surface->get_flip();
   request->blend = blend;
 
@@ -166,7 +166,7 @@ Canvas::draw_surface_part(const SurfacePtr& surface, const Rectf& srcrect, const
 
   auto request = new(m_obst) TextureRequest(m_context.transform());
 
-  request->layer = layer;
+  request->layer = std::min(layer, m_context.transform().max_layer);
   request->flip = m_context.transform().flip ^ surface->get_flip();
   request->alpha = m_context.transform().alpha * style.get_alpha();
   request->blend = style.get_blend();
@@ -208,7 +208,7 @@ Canvas::draw_surface_batch(const SurfacePtr& surface,
 
   auto request = new(m_obst) TextureRequest(m_context.transform());
 
-  request->layer = layer;
+  request->layer = std::min(layer, m_context.transform().max_layer);
   request->flip = m_context.transform().flip ^ surface->get_flip();
   request->color = color;
 
@@ -250,7 +250,7 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
 {
   auto request = new(m_obst) GradientRequest(m_context.transform());
 
-  request->layer = layer;
+  request->layer = std::min(layer, m_context.transform().max_layer);
   request->blend = blend;
 
   request->top = top;
@@ -274,7 +274,7 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
 {
   auto request = new(m_obst) FillRectRequest(m_context.transform());
 
-  request->layer  = layer;
+  request->layer = std::min(layer, m_context.transform().max_layer);
 
   request->rect = Rectf(apply_translate(rect.p1())*scale(),
                         rect.get_size()*scale());
@@ -290,7 +290,7 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
 {
   auto request = new(m_obst) InverseEllipseRequest(m_context.transform());
 
-  request->layer  = layer;
+  request->layer = std::min(layer, m_context.transform().max_layer);
 
   request->pos          = apply_translate(pos)*scale();
   request->color        = color;
@@ -305,7 +305,7 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
 {
   auto request = new(m_obst) LineRequest(m_context.transform());
 
-  request->layer  = layer;
+  request->layer = std::min(layer, m_context.transform().max_layer);
 
   request->pos          = apply_translate(pos1)*scale();
   request->color        = color;
@@ -320,7 +320,7 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 {
   auto request = new(m_obst) TriangleRequest(m_context.transform());
 
-  request->layer  = layer;
+  request->layer = std::min(layer, m_context.transform().max_layer);
 
   request->pos1 = apply_translate(pos1)*scale();
   request->pos2 = apply_translate(pos2)*scale();

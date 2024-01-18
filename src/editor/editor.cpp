@@ -170,6 +170,7 @@ Editor::draw(Compositor& compositor)
 
       context.push_transform();
       context.set_translation(m_sector->get_camera().get_translation());
+      context.transform().max_layer = LAYER_GUI - 20;
 
       for (const auto& user : m_network_users)
         if (user->sector == m_sector->get_name())
