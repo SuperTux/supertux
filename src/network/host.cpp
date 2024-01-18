@@ -47,7 +47,7 @@ Host::Host() :
 
 Host::~Host()
 {
-  // In case of an error creating a host, the variable wouldn't
+  // In case of an error creating a host, the host pointer will not be set.
   if (!m_host) return;
 
   enet_host_destroy(m_host);
