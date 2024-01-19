@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_TEXT_ARRAY_HPP
-#define HEADER_SUPERTUX_SCRIPTING_TEXT_ARRAY_HPP
+#ifndef HEADER_SUPERTUX_SCRIPTING_TEXT_ARRAY_OBJECT_HPP
+#define HEADER_SUPERTUX_SCRIPTING_TEXT_ARRAY_OBJECT_HPP
 
 #ifndef SCRIPTING_API
 #include <string>
@@ -29,13 +29,14 @@ class TextArrayObject;
 namespace scripting {
 
 /**
- * @summary A ""TextArrayObject"" that was given a name can be controlled by scripts.
+ * @summary A ""TextArrayObject"" that was given a name (or manually instantiated) can be controlled by scripts.
             Supports all functions of ${SRG_REF_Text}, applying them to the current text item.${SRG_NEWPARAGRAPH}
             Intended for scripts with narration.
- * @instances A ""TextArrayObject"" is instantiated by placing a definition inside a level.
-              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ * @instances A ""TextArrayObject"" instance is already provided in sectors under ""sector.TextArray"".${SRG_NEWPARAGRAPH}
+              A ""TextArrayObject"" can also be created in a script or from the console. Constructor:${SRG_NEWPARAGRAPH}
+              """"""<textarrayobj> <- TextArrayObject()""""""
  */
-class TextArray final
+class TextArrayObject final
 #ifndef SCRIPTING_API
   : public GameObject<::TextArrayObject>
 #endif
@@ -45,11 +46,13 @@ public:
   using GameObject::GameObject;
 
 private:
-  TextArray(const TextArray&) = delete;
-  TextArray& operator=(const TextArray&) = delete;
+  TextArrayObject(const TextArrayObject&) = delete;
+  TextArrayObject& operator=(const TextArrayObject&) = delete;
 #endif
 
 public:
+  TextArrayObject();
+
   /*
    * The text array api.
    * @see: text_array_object.hpp
@@ -127,6 +130,8 @@ public:
   void set_anchor_point(int anchor);
   int get_anchor_point() const;
   void set_anchor_offset(float x, float y);
+  float get_wrap_width() const;
+  void set_wrap_width(float width);
   void set_front_fill_color(float red, float green, float blue, float alpha);
   void set_back_fill_color(float red, float green, float blue, float alpha);
   void set_text_color(float red, float green, float blue, float alpha);

@@ -289,16 +289,13 @@ TextScroller::update(float dt_sec)
     }
 
     // allow jumping ahead with certain keys
-    if ((controller->pressed(Control::JUMP) ||
-         controller->pressed(Control::ACTION) ||
-         controller->pressed(Control::MENU_SELECT)) &&
+    if (controller->pressed_any(Control::JUMP, Control::ACTION, Control::MENU_SELECT) &&
         !(controller->pressed(Control::UP))) { // prevent skipping if jump with up is enabled
       scroll(SCROLL_JUMP);
     }
 
     // use start or escape keys to exit
-    if ((controller->pressed(Control::START) ||
-        controller->pressed(Control::ESCAPE)) &&
+    if (controller->pressed_any(Control::START, Control::ESCAPE) &&
         !m_fading  && m_finish_script.empty()) {
       m_fading = true;
       ScreenManager::current()->pop_screen(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, 0.5f));

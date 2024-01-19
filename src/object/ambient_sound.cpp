@@ -156,7 +156,7 @@ AmbientSound::update(float dt_sec)
   const Rectf& player_bbox = nearest_player->get_bbox();
   const Vector player_center = player_bbox.get_middle();
 
-  if (get_bbox().contains(player_bbox))
+  if (get_bbox().overlaps(player_bbox))
     m_sound_source->set_gain(m_volume);
   else
   {

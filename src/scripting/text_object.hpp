@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
-#define HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
+#ifndef HEADER_SUPERTUX_SCRIPTING_TEXT_OBJECT_HPP
+#define HEADER_SUPERTUX_SCRIPTING_TEXT_OBJECT_HPP
 
 #ifndef SCRIPTING_API
 #include <memory>
@@ -27,11 +27,12 @@ class TextObject;
 namespace scripting {
 
 /**
- * @summary A ""TextObject"" that was given a name can be controlled by scripts.
- * @instances A ""TextObject"" is instantiated by placing a definition inside a level.
-              It can then be accessed by its name from a script or via ""sector.name"" from the console.
+ * @summary A ""TextObject"" that was given a name (or manually instantiated) can be controlled by scripts.
+ * @instances A ""TextObject"" instance is already provided in sectors under ""sector.Text"".${SRG_NEWPARAGRAPH}
+              A ""TextObject"" can also be created in a script or from the console. Constructor:${SRG_NEWPARAGRAPH}
+              """"""<textobj> <- TextObject()""""""
  */
-class Text final
+class TextObject final
 #ifndef SCRIPTING_API
   : public GameObject<::TextObject>
 #endif
@@ -41,11 +42,13 @@ public:
   using GameObject::GameObject;
 
 private:
-  Text(const Text&) = delete;
-  Text& operator=(const Text&) = delete;
+  TextObject(const TextObject&) = delete;
+  TextObject& operator=(const TextObject&) = delete;
 #endif
 
 public:
+  TextObject();
+
   /**
    * Sets the text string to be displayed.
    * @param string $text
@@ -115,6 +118,15 @@ public:
    * @param float $y
    */
   void set_anchor_offset(float x, float y);
+  /**
+   * Gets the text wrap width of the text.
+   */
+  float get_wrap_width() const;
+  /**
+   * Sets the text wrap width of the text.
+   * @param float $width
+   */
+  void set_wrap_width(float width);
   /**
    * Sets the front fill color of the text.
    * @param float $red

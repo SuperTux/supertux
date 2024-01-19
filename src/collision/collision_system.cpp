@@ -118,7 +118,7 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
   // adjacent or at least extremely close.
   const Rectf grown_other_obj_rect = other_obj_rect.grown(EPSILON);
 
-  if (!collision::intersects(moving_obj_rect, grown_other_obj_rect))
+  if (!moving_obj_rect.overlaps(grown_other_obj_rect))
     return constraints;
   
   const CollisionHit dummy;
@@ -378,7 +378,7 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
   const Rectf& r2 = object2->m_dest;
 
   CollisionHit hit;
-  if (intersects(r1, r2)) {
+  if (r1.overlaps(r2)) {
     Vector normal(0.0f, 0.0f);
     get_hit_normal(object1, object2, hit, normal);
 
@@ -619,7 +619,7 @@ CollisionSystem::update()
          || !object_2->is_valid())
         continue;
 
-      if (intersects(object->m_dest, object_2->m_dest)) {
+      if (object->m_dest.overlaps(object_2->m_dest)) {
         Vector normal(0.0f, 0.0f);
         CollisionHit hit;
         get_hit_normal(object, object_2, hit, normal);
@@ -707,7 +707,7 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ig
     if (object == ignore_object) continue;
     if (!object->is_valid()) continue;
     if (object->get_group() == COLGROUP_STATIC) {
-      if (intersects(rect, object->get_bbox())) return false;
+      if (rect.overlaps(object->get_bbox())) return false;
     }
   }
 
@@ -727,7 +727,7 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
         || (object->get_group() == COLGROUP_STATIC)) {
-      if (intersects(rect, object->get_bbox())) return false;
+      if (rect.overlaps(object->get_bbox())) return false;
     }
   }
 
@@ -743,7 +743,7 @@ CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const 
     if (object == ignore_object) continue;
     if (!object->is_valid()) continue;
     if ((object->get_group() == COLGROUP_MOVING_STATIC)
-        && (intersects(rect, object->get_bbox())))
+        && (rect.overlaps(object->get_bbox())))
       return false;
   }
 

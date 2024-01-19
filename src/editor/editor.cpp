@@ -800,9 +800,12 @@ Editor::setup()
     m_leveltested = false;
     Tile::draw_editor_images = true;
     m_level->reactivate();
-    m_sector->activate(m_sector->get_players()[0]->get_pos());
+
+    m_sector->activate(Vector(0,0));
+
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
+
     m_deactivate_request = false;
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();

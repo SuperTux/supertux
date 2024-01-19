@@ -20,6 +20,9 @@
 #include <stdexcept>
 #include <sstream>
 
+#include <sexp/io.hpp>
+#include <sexp/value.hpp>
+
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_collection.hpp"
@@ -272,7 +275,50 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   { // Load images
     std::optional<ReaderCollection> surfaces_collection;
     std::vector<std::string> images;
-    if (mapping.get("images", images))
+    std::optional<ReaderMapping> regions_mapping;
+    if (mapping.get("regions", regions_mapping)) // Regions from images
+    {
+      float max_w = 0;
+      float max_h = 0;
+
+      auto iter = regions_mapping->get_iter();
+      while (iter.next())
+      {
+        if (iter.get_key() != "region")
+        {
+          log_warning << "Unknown field '" << iter.get_key() << "' under 'regions'." << std::endl;
+          continue;
+        }
+
+        const auto& sx = iter.as_mapping().get_sexp();
+        const auto& arr = sx.as_array();
+        if (arr.size() != 6)
+        {
+          log_warning << "(region IMAGE_FILE X Y WIDTH HEIGHT) tag malformed: " << sx << std::endl;
+          continue;
+        }
+
+        Rect region;
+        region.left = arr[2].as_int();
+        region.top = arr[3].as_int();
+        const int w = arr[4].as_int();
+        const int h = arr[5].as_int();
+        region.right = region.left + w;
+        region.bottom = region.top + h;
+
+        max_w = std::max(max_w, static_cast<float>(w));
+        max_h = std::max(max_w, static_cast<float>(h));
+
+        auto surface = Surface::from_file(FileSystem::join(mapping.get_doc().get_directory(),
+                                                           arr[1].as_string()),
+                                          region);
+        action->surfaces.push_back(surface);
+      }
+
+      if (action->hitbox_w < 1) action->hitbox_w = max_w - action->x_offset;
+      if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
+    }
+    else if (mapping.get("images", images))
     {
       float max_w = 0;
       float max_h = 0;

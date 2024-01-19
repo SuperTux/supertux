@@ -257,7 +257,7 @@ Crusher::update(float dt_sec)
     brickbox.set_right((m_sideways && m_physic.get_velocity_x() > 0.f) ?
       get_bbox().get_right() + 9.f : get_bbox().get_right() - 1.f);
 
-    if (brickbox.contains(brick.get_bbox()))
+    if (brickbox.overlaps(brick.get_bbox()))
     {
       if (brick.get_class_name() != "heavy-brick")
       {
