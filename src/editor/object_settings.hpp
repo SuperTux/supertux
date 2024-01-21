@@ -27,10 +27,14 @@ class Color;
 enum class Direction;
 class GameObject;
 class PathObject;
+class ReaderMapping;
 enum class WalkMode;
+class Writer;
+
 namespace worldmap {
 enum class Direction;
 } // namespace worldmap
+
 namespace sexp {
 class Value;
 } // namespace sexp
@@ -39,7 +43,9 @@ class ObjectSettings final
 {
 public:
   ObjectSettings(const std::string& name);
-  ObjectSettings(ObjectSettings&&) = default;
+  ObjectSettings(ObjectSettings&& other);
+
+  ObjectSettings& operator=(ObjectSettings&&) = default;
 
   const std::string& get_name() const { return m_name; }
 
@@ -165,6 +171,19 @@ public:
 
   /** Remove an option from the list, this is a hack */
   void remove(const std::string& key);
+
+  /** Save the current states of all options. */
+  void save_state();
+
+  /** Check all options for any with a changed state. */
+  bool has_state_changed() const;
+
+  /** Parse option properties. */
+  void parse(const ReaderMapping& reader);
+
+  /** Write the old/new states of all modified options. */
+  void save_old_state(std::ostream& out) const;
+  void save_new_state(Writer& writer) const;
 
 private:
   void add_option(std::unique_ptr<BaseObjectOption> option);

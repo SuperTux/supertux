@@ -29,8 +29,12 @@
 #include "gui/menu_object_select.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/direction.hpp"
+#include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
+#include "util/reader_iterator.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
 
@@ -46,11 +50,56 @@ std::string fmt_to_string(const T& v)
 
 } // namespace
 
+bool BaseObjectOption::s_allow_saving_defaults = false;
+
 BaseObjectOption::BaseObjectOption(const std::string& text, const std::string& key, unsigned int flags) :
   m_text(text),
   m_key(key),
-  m_flags(flags)
+  m_flags(flags),
+  m_last_state()
 {
+}
+
+std::string
+BaseObjectOption::save() const
+{
+  std::ostringstream stream;
+  Writer writer(stream);
+  save(writer);
+
+  return stream.str();
+}
+
+void
+BaseObjectOption::save_state()
+{
+  s_allow_saving_defaults = true;
+  m_last_state = save();
+  s_allow_saving_defaults = false;
+}
+
+bool
+BaseObjectOption::has_state_changed() const
+{
+  s_allow_saving_defaults = true;
+  const bool result = m_last_state != save();
+  s_allow_saving_defaults = false;
+
+  return result;
+}
+
+void
+BaseObjectOption::save_old_state(std::ostream& out) const
+{
+  out << m_last_state;
+}
+
+void
+BaseObjectOption::save_new_state(Writer& writer) const
+{
+  s_allow_saving_defaults = true;
+  save(writer);
+  s_allow_saving_defaults = false;
 }
 
 template<typename T>
@@ -75,10 +124,16 @@ BoolObjectOption::add_to_menu(Menu& menu) const
 }
 
 void
+BoolObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 BoolObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    if (m_default_value && *m_default_value == *m_value_pointer) {
+    if (!s_allow_saving_defaults && m_default_value && *m_default_value == *m_value_pointer) {
       // skip
     } else {
       writer.write(get_key(), *m_value_pointer);
@@ -101,10 +156,16 @@ IntObjectOption::IntObjectOption(const std::string& text, int* pointer, const st
 }
 
 void
+IntObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 IntObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    if (m_default_value && *m_default_value == *m_value_pointer) {
+    if (!s_allow_saving_defaults && m_default_value && *m_default_value == *m_value_pointer) {
       // skip
     } else {
       writer.write(get_key(), *m_value_pointer);
@@ -130,11 +191,6 @@ LabelObjectOption::LabelObjectOption(const std::string& text,
 {
 }
 
-void
-LabelObjectOption::save(Writer& writer) const
-{
-}
-
 std::string
 LabelObjectOption::to_string() const
 {
@@ -153,6 +209,13 @@ RectfObjectOption::RectfObjectOption(const std::string& text, Rectf* pointer, co
   m_width(m_value_pointer->get_width()),
   m_height(m_value_pointer->get_height())
 {
+}
+
+void
+RectfObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get("width", m_width);
+  reader.get("height", m_height);
 }
 
 void
@@ -188,10 +251,16 @@ FloatObjectOption::FloatObjectOption(const std::string& text, float* pointer, co
 }
 
 void
+FloatObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 FloatObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    if (m_default_value && *m_default_value == *m_value_pointer) {
+    if (!s_allow_saving_defaults && m_default_value && *m_default_value == *m_value_pointer) {
       // skip
     } else {
       writer.write(get_key(), *m_value_pointer);
@@ -220,10 +289,18 @@ StringObjectOption::StringObjectOption(const std::string& text, std::string* poi
 }
 
 void
+StringObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 StringObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    if ((m_default_value && *m_default_value == *m_value_pointer) || m_value_pointer->empty()) {
+    if (!s_allow_saving_defaults &&
+        ((m_default_value && *m_default_value == *m_value_pointer) ||
+         m_value_pointer->empty())) {
       // skip
     } else {
       writer.write(get_key(), *m_value_pointer, (get_flags() & OPTION_TRANSLATABLE));
@@ -252,10 +329,18 @@ StringMultilineObjectOption::StringMultilineObjectOption(const std::string& text
 }
 
 void
+StringMultilineObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 StringMultilineObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    if ((m_default_value && *m_default_value == *m_value_pointer) || m_value_pointer->empty()) {
+    if (!s_allow_saving_defaults &&
+        ((m_default_value && *m_default_value == *m_value_pointer) ||
+         m_value_pointer->empty())) {
       // skip
     } else {
       writer.write(get_key(), *m_value_pointer, (get_flags() & OPTION_TRANSLATABLE));
@@ -289,10 +374,16 @@ StringSelectObjectOption::StringSelectObjectOption(const std::string& text, int*
 }
 
 void
+StringSelectObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 StringSelectObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    if (m_default_value && *m_default_value == *m_value_pointer) {
+    if (!s_allow_saving_defaults && m_default_value && *m_default_value == *m_value_pointer) {
       // skip
     } else {
       writer.write(get_key(), *m_value_pointer);
@@ -334,12 +425,27 @@ EnumObjectOption::EnumObjectOption(const std::string& text, int* pointer,
 }
 
 void
+EnumObjectOption::parse(const ReaderMapping& reader)
+{
+  std::string symbol;
+  if (reader.get(get_key().c_str(), symbol))
+  {
+    int i = 0;
+    while (i < static_cast<int>(m_symbols.size()) && m_symbols[i] != symbol)
+      i++;
+
+    if (0 <= i && i < static_cast<int>(m_symbols.size()))
+      *m_value_pointer = i;
+  }
+}
+
+void
 EnumObjectOption::save(Writer& writer) const
 {
-  if (0 <= *m_value_pointer && *m_value_pointer < int(m_symbols.size()) &&
+  if (0 <= *m_value_pointer && *m_value_pointer < static_cast<int>(m_symbols.size()) &&
       !get_key().empty())
   {
-    if (m_default_value && *m_default_value == *m_value_pointer) {
+    if (!s_allow_saving_defaults && m_default_value && *m_default_value == *m_value_pointer) {
       // skip
     } else {
       writer.write(get_key(), m_symbols[*m_value_pointer]);
@@ -350,7 +456,7 @@ EnumObjectOption::save(Writer& writer) const
 std::string
 EnumObjectOption::to_string() const
 {
-  if (0 <= *m_value_pointer && *m_value_pointer < int(m_labels.size())) {
+  if (0 <= *m_value_pointer && *m_value_pointer < static_cast<int>(m_labels.size())) {
     return m_labels[*m_value_pointer];
   } else {
     return _("invalid");
@@ -374,10 +480,16 @@ ScriptObjectOption::ScriptObjectOption(const std::string& text, std::string* poi
 }
 
 void
+ScriptObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 ScriptObjectOption::save(Writer& writer) const
 {
   auto& value = *m_value_pointer;
-  if (!value.empty())
+  if (s_allow_saving_defaults || !value.empty())
   {
     if (!get_key().empty()) {
       writer.write(get_key(), value);
@@ -416,9 +528,15 @@ FileObjectOption::FileObjectOption(const std::string& text, std::string* pointer
 }
 
 void
+FileObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 FileObjectOption::save(Writer& writer) const
 {
-  if (m_default_value && *m_default_value == *m_value_pointer) {
+  if (!s_allow_saving_defaults && m_default_value && *m_default_value == *m_value_pointer) {
     // skip
   } else {
     auto& value = *m_value_pointer;
@@ -453,10 +571,18 @@ ColorObjectOption::ColorObjectOption(const std::string& text, Color* pointer, co
 }
 
 void
+ColorObjectOption::parse(const ReaderMapping& reader)
+{
+  std::vector<float> v_color;
+  if (reader.get(get_key().c_str(), v_color))
+    *m_value_pointer = Color(v_color, m_use_alpha);
+}
+
+void
 ColorObjectOption::save(Writer& writer) const
 {
   if (!get_key().empty()) {
-    if (m_default_value && *m_default_value == *m_value_pointer) {
+    if (!s_allow_saving_defaults && m_default_value && *m_default_value == *m_value_pointer) {
       // skip
     } else {
       auto vec = m_value_pointer->toVector();
@@ -487,6 +613,34 @@ ObjectSelectObjectOption::ObjectSelectObjectOption(const std::string& text, std:
   m_get_objects_param(get_objects_param),
   m_add_object_function(add_object_func)
 {
+}
+
+void
+ObjectSelectObjectOption::parse(const ReaderMapping& reader)
+{
+  std::optional<ReaderMapping> objects_mapping;
+  if (reader.get(get_key().c_str(), objects_mapping))
+  {
+    m_value_pointer->clear();
+
+    auto iter = objects_mapping->get_iter();
+    while (iter.next())
+    {
+      try
+      {
+        auto obj = GameObjectFactory::instance().create(iter.get_key(), iter.as_mapping());
+        if (m_add_object_function)
+          m_add_object_function(std::move(obj));
+        else
+          m_value_pointer->push_back(std::move(obj));
+      }
+      catch (const std::exception& err)
+      {
+        log_warning << "Error adding object select option object '" << iter.get_key()
+                    << "': " << err.what() << std::endl;
+      }
+    }
+  }
 }
 
 void
@@ -532,17 +686,22 @@ ObjectSelectObjectOption::add_to_menu(Menu& menu) const
 
 TilesObjectOption::TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
                                      unsigned int flags) :
-  ObjectOption(text, key, flags),
-  m_tilemap(tilemap)
+  ObjectOption(text, key, flags, tilemap)
 {
+}
+
+void
+TilesObjectOption::parse(const ReaderMapping& reader)
+{
+  m_value_pointer->parse_tiles(reader);
 }
 
 void
 TilesObjectOption::save(Writer& write) const
 {
-  write.write("width", m_tilemap->get_width());
-  write.write("height", m_tilemap->get_height());
-  write.write("tiles", m_tilemap->get_tiles(), m_tilemap->get_width());
+  write.write("width", m_value_pointer->get_width());
+  write.write("height", m_value_pointer->get_height());
+  write.write("tiles", m_value_pointer->get_tiles(), m_value_pointer->get_width());
 }
 
 std::string
@@ -560,6 +719,12 @@ PathObjectOption::PathObjectOption(const std::string& text, Path* path, const st
                                    unsigned int flags) :
   ObjectOption(text, key, flags, path)
 {
+}
+
+void
+PathObjectOption::parse(const ReaderMapping& reader)
+{
+  m_value_pointer->read(reader);
 }
 
 void
@@ -584,6 +749,12 @@ PathRefObjectOption::PathRefObjectOption(const std::string& text, PathObject& ta
   ObjectOption(text, key, flags, &target),
   m_path_ref(path_ref)
 {
+}
+
+void
+PathRefObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), m_path_ref);
 }
 
 void
@@ -613,6 +784,12 @@ SExpObjectOption::SExpObjectOption(const std::string& text, const std::string& k
 }
 
 void
+SExpObjectOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
+
+void
 SExpObjectOption::save(Writer& writer) const
 {
   if (!m_value_pointer->is_nil()) {
@@ -636,6 +813,19 @@ PathHandleOption::PathHandleOption(const std::string& text, PathWalker::Handle& 
   ObjectOption(text, key, flags),
   m_target(handle)
 {
+}
+
+void
+PathHandleOption::parse(const ReaderMapping& reader)
+{
+  std::optional<ReaderMapping> handle_mapping;
+  if (reader.get(get_key().c_str(), handle_mapping))
+  {
+    handle_mapping->get("scale_x", m_target.m_scalar_pos.x);
+    handle_mapping->get("scale_y", m_target.m_scalar_pos.y);
+    handle_mapping->get("offset_x", m_target.m_pixel_offset.x);
+    handle_mapping->get("offset_y", m_target.m_pixel_offset.y);
+  }
 }
 
 void
@@ -743,6 +933,12 @@ StringArrayOption::StringArrayOption(const std::string& text, const std::string&
 {}
 
 void
+StringArrayOption::parse(const ReaderMapping& reader)
+{
+  reader.get("strings", m_items);
+}
+
+void
 StringArrayOption::save(Writer& write) const
 {
   write.write("strings", m_items);
@@ -758,6 +954,12 @@ ListOption::ListOption(const std::string& text, const std::string& key, const st
   ObjectOption(text, key, 0, value_ptr),
   m_items(items)
 {}
+
+void
+ListOption::parse(const ReaderMapping& reader)
+{
+  reader.get(get_key().c_str(), *m_value_pointer);
+}
 
 void
 ListOption::save(Writer& writer) const
@@ -780,6 +982,14 @@ DirectionOption::DirectionOption(const std::string& text, Direction* value_ptr,
   if (m_possible_directions.empty())
     m_possible_directions = { Direction::AUTO, Direction::NONE, Direction::LEFT,
                               Direction::RIGHT, Direction::UP, Direction::DOWN };
+}
+
+void
+DirectionOption::parse(const ReaderMapping& reader)
+{
+  std::string dir_string;
+  if (reader.get(get_key().c_str(), dir_string))
+    *m_value_pointer = string_to_dir(dir_string);
 }
 
 void

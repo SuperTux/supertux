@@ -45,6 +45,9 @@ ReaderMapping::get_iter() const
 const sexp::Value*
 ReaderMapping::get_item(const char* key) const
 {
+  if (!key || !key[0]) // Check whether key is valid and non-empty
+    return nullptr;
+
   for (size_t i = 1; i < m_arr.size(); ++i)
   {
     auto const& pair = m_arr[i];

@@ -50,6 +50,8 @@ public:
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   ~TileMap() override;
 
+  void parse_tiles(const ReaderMapping& reader);
+
   virtual void finish_construction() override;
 
   static std::string class_name() { return "tilemap"; }

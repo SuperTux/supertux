@@ -156,6 +156,12 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_effective_solid = m_real_solid;
   update_effective_solid ();
 
+  parse_tiles(reader);
+}
+
+void
+TileMap::parse_tiles(const ReaderMapping& reader)
+{
   reader.get("width", m_width);
   reader.get("height", m_height);
   if (m_width < 0 || m_height < 0) {
@@ -190,6 +196,11 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   {
     log_info << "Tilemap '" << get_name() << "', z-pos '" << m_z_pos << "' is empty." << std::endl;
   }
+
+  m_new_size_x = m_width;
+  m_new_size_y = m_height;
+  m_new_offset_x = 0;
+  m_new_offset_y = 0;
 }
 
 void

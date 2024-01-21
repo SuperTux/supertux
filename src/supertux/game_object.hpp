@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <optional>
 
 #include "editor/object_settings.hpp"
 #include "supertux/game_object_component.hpp"
@@ -259,9 +260,9 @@ private:
   /** this flag indicates if the object should be removed at the end of the frame */
   bool m_scheduled_for_removal;
 
-  /** The object's data at the time of the last state save.
+  /** The object's settings at the time of the last state save.
       Used to check for changes that may have occured. */
-  std::string m_last_state;
+  std::optional<ObjectSettings> m_last_state;
 
   std::vector<std::unique_ptr<GameObjectComponent> > m_components;
 
