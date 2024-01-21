@@ -61,6 +61,9 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  void save_state() override;
+  void check_state() override;
+
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
 

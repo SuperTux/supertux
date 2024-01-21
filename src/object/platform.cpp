@@ -196,20 +196,14 @@ void
 Platform::save_state()
 {
   MovingSprite::save_state();
-
-  PathGameObject* path_object = get_path_gameobject();
-  if (path_object)
-    path_object->save_state();
+  PathObject::save_state();
 }
 
 void
 Platform::check_state()
 {
   MovingSprite::check_state();
-
-  PathGameObject* path_object = get_path_gameobject();
-  if (path_object)
-    path_object->check_state();
+  PathObject::check_state();
 }
 
 /* EOF */

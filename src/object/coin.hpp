@@ -51,6 +51,9 @@ public:
   virtual void after_editor_set() override;
   virtual void editor_update() override;
 
+  void save_state() override;
+  void check_state() override;
+
   virtual void move_to(const Vector& pos) override;
 
   virtual void on_flip(float height) override;

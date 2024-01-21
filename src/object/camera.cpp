@@ -286,6 +286,20 @@ Camera::after_editor_set()
   }
 }
 
+void
+Camera::save_state()
+{
+  GameObject::save_state();
+  PathObject::save_state();
+}
+
+void
+Camera::check_state()
+{
+  GameObject::check_state();
+  PathObject::check_state();
+}
+
 const Vector
 Camera::get_translation() const
 {

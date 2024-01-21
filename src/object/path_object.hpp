@@ -41,10 +41,15 @@ public:
   Path* get_path() const;
   PathWalker* get_walker() const { return m_walker.get(); }
 
+  void editor_clone_path(PathGameObject* path_object);
+
   std::string get_path_ref() const;
   void editor_set_path_by_ref(const std::string& new_ref);
 
 protected:
+  void save_state() const;
+  void check_state() const;
+
   void on_flip();
 
   PathWalker::Handle m_path_handle;
