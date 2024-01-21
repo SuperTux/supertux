@@ -20,6 +20,7 @@
 #include <sexp/value.hpp>
 
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/color.hpp"
 
 ObjectSettings::ObjectSettings(const std::string& name) :
@@ -28,9 +29,25 @@ ObjectSettings::ObjectSettings(const std::string& name) :
 {
 }
 
+ObjectSettings::ObjectSettings(ObjectSettings&& other) :
+  m_name(other.m_name),
+  m_options(std::move(other.m_options))
+{
+}
+
 void
 ObjectSettings::add_option(std::unique_ptr<BaseObjectOption> option)
 {
+  if (!option->get_key().empty())
+  {
+    // Make sure no option with the same key exists
+    assert(std::none_of(m_options.begin(), m_options.end(),
+                        [key = option->get_key()](const auto& opt)
+                        {
+                          return key == opt->get_key();
+                        }));
+  }
+
   m_options.push_back(std::move(option));
 }
 
@@ -390,6 +407,56 @@ ObjectSettings::remove(const std::string& key)
                                    return option->get_key() == key;
                                  }),
                   m_options.end());
+}
+
+void
+ObjectSettings::save_state()
+{
+  for (const auto& option : m_options)
+    option->save_state();
+}
+
+bool
+ObjectSettings::has_state_changed() const
+{
+  for (const auto& option : m_options)
+    if (option->has_state_changed())
+      return true;
+
+  return false;
+}
+
+void
+ObjectSettings::parse(const ReaderMapping& reader)
+{
+  for (const auto& option : m_options)
+  {
+    try
+    {
+      option->parse(reader);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Error processing data for option '" << option->get_key()
+                  << "': " << err.what() << std::endl;
+    }
+  }
+}
+
+void
+ObjectSettings::save_old_state(std::ostream& out) const
+{
+  for (const auto& option : m_options)
+    if (option->has_state_changed())
+      option->save_old_state(out);
+}
+
+void
+ObjectSettings::save_new_state(Writer& writer) const
+{
+  for (const auto& option : m_options)
+    if (option->has_state_changed())
+      option->save_new_state(writer);
 }
 
 /* EOF */

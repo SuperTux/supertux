@@ -29,6 +29,9 @@
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
@@ -283,7 +286,7 @@ GameObjectManager::flush_game_objects()
   // If object changes have been performed since last flush, push them to the undo stack.
   if (m_undo_tracking && !m_pending_change_stack.empty())
   {
-    m_undo_stack.push_back({ m_change_uid_generator.next(), std::move(m_pending_change_stack) });
+    m_undo_stack.emplace_back(m_change_uid_generator.next(), std::move(m_pending_change_stack));
     m_redo_stack.clear();
     undo_stack_cleanup();
   }
@@ -377,15 +380,92 @@ GameObjectManager::on_editor_save()
 }
 
 void
+GameObjectManager::apply_object_change(const GameObjectChange& change, bool track_undo)
+{
+  GameObject* object = get_object_by_uid<GameObject>(change.uid);
+  switch (change.action)
+  {
+    case GameObjectChange::Action::CREATE:
+    {
+      create_object_from_change(change, track_undo);
+    }
+    break;
+
+    case GameObjectChange::Action::DELETE:
+    {
+      if (!object)
+        throw std::runtime_error("Object does not exist.");
+
+      object->m_track_undo = track_undo;
+      object->remove_me();
+    }
+    break;
+
+    case GameObjectChange::Action::MODIFY:
+    {
+      if (!object)
+        throw std::runtime_error("Object does not exist.");
+
+      auto settings = object->get_settings();
+      if (track_undo)
+        settings.save_state();
+
+      parse_object_settings(settings, change.data); // Parse settings
+      object->after_editor_set();
+
+      if (track_undo)
+        save_object_change(*object, settings);
+    }
+    break;
+
+    default:
+      break;
+  }
+}
+
+void
+GameObjectManager::apply_object_changes(const GameObjectChanges& changes, bool track_undo)
+{
+  for (const auto& change : changes.objects)
+  {
+    try
+    {
+      apply_object_change(change, track_undo);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Cannot process object state change for object with UID "
+                  << change.uid << ": " << err.what() << std::endl;
+    }
+  }
+}
+
+void
 GameObjectManager::undo()
 {
   if (m_undo_stack.empty()) return;
-  ObjectChanges& changes = m_undo_stack.back();
+  GameObjectChanges& changes = m_undo_stack.back();
 
-  for (auto& obj_change : changes.objects)
-    process_object_change(obj_change);
+  auto it = changes.objects.begin();
+  while (it != changes.objects.end())
+  {
+    try
+    {
+      process_object_change(*it);
+      it++;
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Cannot process object change: " << err.what() << std::endl;
+      it = changes.objects.erase(it); // Drop invalid changes
+    }
+  }
 
-  m_redo_stack.push_back(std::move(changes));
+  if (!changes.objects.empty())
+  {
+    // Changes have been reversed for redo
+    m_redo_stack.push_back(std::move(changes));
+  }
   m_undo_stack.pop_back();
 }
 
@@ -393,62 +473,137 @@ void
 GameObjectManager::redo()
 {
   if (m_redo_stack.empty()) return;
-  ObjectChanges& changes = m_redo_stack.back();
+  GameObjectChanges& changes = m_redo_stack.back();
 
-  for (auto& obj_change : changes.objects)
-    process_object_change(obj_change);
+  auto it = changes.objects.begin();
+  while (it != changes.objects.end())
+  {
+    try
+    {
+      process_object_change(*it);
+      it++;
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Cannot process object change: " << err.what() << std::endl;
+      it = changes.objects.erase(it); // Drop invalid changes
+    }
+  }
 
-  m_undo_stack.push_back(std::move(changes));
+  if (!changes.objects.empty())
+  {
+    // Changes have been reversed for undo
+    m_undo_stack.push_back(std::move(changes));
+  }
   m_redo_stack.pop_back();
 }
 
 void
-GameObjectManager::create_object_from_change(const ObjectChange& change)
+GameObjectManager::create_object_from_change(const GameObjectChange& change, bool track_undo)
 {
   auto object = GameObjectFactory::instance().create(change.name, change.data);
-  object->m_track_undo = false;
+  object->m_track_undo = track_undo;
   object->set_uid(change.uid);
   object->after_editor_set();
   add_object(std::move(object));
 }
 
 void
-GameObjectManager::process_object_change(ObjectChange& change)
+GameObjectManager::parse_object_settings(ObjectSettings& settings, const std::string& data)
+{
+  std::istringstream stream(data);
+  auto doc = ReaderDocument::from_stream(stream);
+  auto root = doc.get_root();
+  if (root.get_name() != "supertux-game-object")
+    throw std::runtime_error("Data is not 'supertux-game-object'.");
+
+  settings.parse(root.get_mapping());
+}
+
+std::string
+GameObjectManager::save_object_settings_state(const ObjectSettings& settings, bool new_state)
+{
+  std::ostringstream stream;
+  Writer writer(stream);
+
+  writer.start_list("supertux-game-object");
+  if (new_state)
+    settings.save_new_state(writer);
+  else
+    settings.save_old_state(stream);
+  writer.end_list("supertux-game-object");
+
+  return stream.str();
+}
+
+void
+GameObjectManager::process_object_change(GameObjectChange& change)
 {
   GameObject* object = get_object_by_uid<GameObject>(change.uid);
-  if (object) // Object exists, remove it.
+  switch (change.action)
   {
-    object->m_track_undo = false;
-    object->remove_me();
+    case GameObjectChange::Action::CREATE: /** Object was added, remove it. */
+    {
+      assert(object);
 
-    const std::string data = object->save();
+      object->m_track_undo = false;
+      object->remove_me();
 
-    // If settings have changed, re-create object with old settings.
-    if (!change.creation && change.data != data)
-      create_object_from_change(change);
+      // Prepare for redo
+      change.data = object->save();
+      change.action = GameObjectChange::Action::DELETE;
+    }
+    break;
 
-    change.data = std::move(data);
-  }
-  else // Object doesn't exist, create it.
-  {
-    create_object_from_change(change);
+    case GameObjectChange::Action::DELETE: /** Object was deleted, create it. */
+    {
+      create_object_from_change(change, false);
+
+      // Prepare for redo
+      change.action = GameObjectChange::Action::CREATE;
+    }
+    break;
+
+    case GameObjectChange::Action::MODIFY: /** Object was modified, revert settings. */
+    {
+      assert(object);
+
+      auto settings = object->get_settings();
+      settings.save_state();
+
+      parse_object_settings(settings, change.data); // Parse old settings
+      object->after_editor_set();
+
+      // Prepare for redo
+      change.data = save_object_settings_state(settings, false);
+      change.new_data = save_object_settings_state(settings, true);
+    }
+    break;
+
+    default:
+      break;
   }
 }
 
 void
-GameObjectManager::save_object_change(GameObject& object, bool creation)
+GameObjectManager::save_object_state(GameObject& object, GameObjectChange::Action action)
 {
-  if (m_undo_tracking && object.track_state() && object.m_track_undo)
-    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
+  if (object.track_state() && object.m_track_undo)
+    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(),
+                                       object.save(), "", action });
 
   object.m_track_undo = true;
 }
 
 void
-GameObjectManager::save_object_change(GameObject& object, const std::string& data)
+GameObjectManager::save_object_change(const GameObject& object, const ObjectSettings& settings)
 {
-  if (m_undo_tracking)
-    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
+  if (!settings.has_state_changed()) return;
+
+  m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(),
+                                     save_object_settings_state(settings, false),
+                                     save_object_settings_state(settings, true),
+                                     GameObjectChange::Action::MODIFY });
 }
 
 void
@@ -489,13 +644,13 @@ GameObjectManager::this_before_object_add(GameObject& object)
     }
   }
 
-  save_object_change(object, true);
+  save_object_state(object, GameObjectChange::Action::CREATE);
 }
 
 void
 GameObjectManager::this_before_object_remove(GameObject& object)
 {
-  save_object_change(object);
+  save_object_state(object, GameObjectChange::Action::DELETE);
 
   { // By name:
     const std::string& name = object.get_name();

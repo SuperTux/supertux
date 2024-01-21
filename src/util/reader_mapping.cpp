@@ -45,6 +45,9 @@ ReaderMapping::get_iter() const
 const sexp::Value*
 ReaderMapping::get_item(const char* key) const
 {
+  if (!key || !key[0]) // Check whether key is valid and non-empty
+    return nullptr;
+
   for (size_t i = 1; i < m_arr.size(); ++i)
   {
     auto const& pair = m_arr[i];
@@ -91,6 +94,12 @@ ReaderMapping::get(const char* key, int& value, const std::optional<int>& defaul
 
 bool
 ReaderMapping::get(const char* key, uint32_t& value, const std::optional<uint32_t>& default_value) const
+{
+  GET_VALUE_MACRO("uint32_t", is_integer, as_int)
+}
+
+bool
+ReaderMapping::get(const char* key, UID& value, const std::optional<UID>& default_value) const
 {
   GET_VALUE_MACRO("uint32_t", is_integer, as_int)
 }
