@@ -64,7 +64,6 @@ public:
   static const Color MAGENTA;
   static const Color YELLOW;
   static const Color WHITE;
-  static const Color LIGHTNING_HIT_COLOR;
 
 public:
   static Color from_rgb888(uint8_t r, uint8_t g, uint8_t b)

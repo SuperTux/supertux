@@ -35,6 +35,8 @@ const float LIGHTNING_DELAY = 2.0f;
 const float FLASH_DISPLAY_TIME = 1.2f;
 const float ELECTRIFY_TIME = 0.5f;
 
+const Color LIGHTNING_HIT_COLOR = Color(0.6f, 0.6f, 0.6f, 0.5f);
+
 } // namespace
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
@@ -155,8 +157,8 @@ Thunderstorm::lightning()
   }
 
   change_background_colors(true);
-  Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(Color::LIGHTNING_HIT_COLOR);
-  layer = std::numeric_limits<int>::max();
+  Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(LIGHTNING_HIT_COLOR);
+  layer = LAYER_LIGHTMAP;
 }
 
 void
