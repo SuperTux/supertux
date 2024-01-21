@@ -73,7 +73,7 @@ public:
     virtual bool before_object_add(GameObject& object) { return true; }
     virtual void before_object_remove(GameObject& object) {}
 
-    virtual void on_object_changes(const GameObjectStates& changes) {}
+    virtual void on_object_changes(const GameObjectChanges& changes) {}
 
   private:
     EventHandler(const EventHandler&) = delete;

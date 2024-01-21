@@ -34,7 +34,7 @@ public:
 
   bool before_object_add(GameObject& object) override;
 
-  void on_object_changes(const GameObjectStates& changes) override;
+  void on_object_changes(const GameObjectChanges& changes) override;
   void on_property_changes(const std::string& original_name) override;
 
 private:

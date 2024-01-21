@@ -285,7 +285,7 @@ GameObjectManager::flush_game_objects()
   // If object changes have been performed since last flush, push them to the undo stack.
   if (!m_pending_change_stack.empty())
   {
-    GameObjectStates changes(m_change_uid_generator.next(), std::move(m_pending_change_stack));
+    GameObjectChanges changes(m_change_uid_generator.next(), std::move(m_pending_change_stack));
     if (m_event_handler)
       m_event_handler->on_object_changes(changes);
 
@@ -470,6 +470,9 @@ GameObjectManager::undo()
   if (!change_set.changes.empty())
   {
     // Changes have been reversed for redo
+    if (m_event_handler)
+      m_event_handler->on_object_changes(change_set);
+
     m_redo_stack.push_back(std::move(change_set));
   }
   m_undo_stack.pop_back();
@@ -499,6 +502,9 @@ GameObjectManager::redo()
   if (!change_set.changes.empty())
   {
     // Changes have been reversed for undo
+    if (m_event_handler)
+      m_event_handler->on_object_changes(change_set);
+
     m_undo_stack.push_back(std::move(change_set));
   }
   m_redo_stack.pop_back();
