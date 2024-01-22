@@ -173,25 +173,17 @@ public:
   /** Remove an option from the list, this is a hack */
   void remove(const std::string& key);
 
-<<<<<<< HEAD
   /** Parse option properties. */
   void parse(const ReaderMapping& reader);
 
-=======
->>>>>>> 3544ee759 (`GameObject` change undo/redo refactor to track different options)
   /** Save the current states of all options. */
   void save_state();
 
   /** Check all options for any with a changed state. */
   bool has_state_changed() const;
 
-<<<<<<< HEAD
   /** Parse option properties from an alternative state. */
   void parse_state(const ReaderMapping& reader);
-=======
-  /** Parse option properties. */
-  void parse(const ReaderMapping& reader);
->>>>>>> 3544ee759 (`GameObject` change undo/redo refactor to track different options)
 
   /** Write the old/new states of all modified options. */
   void save_old_state(std::ostream& out) const;
