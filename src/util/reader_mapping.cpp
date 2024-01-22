@@ -146,6 +146,7 @@ ReaderMapping::get(const char* key, std::string& value, const std::optional<cons
     return false;                                                       \
   } else {                                                              \
     assert_is_array(m_doc, *sx);                                        \
+    value.clear();                                                      \
     auto const& item = sx->as_array();                                  \
     for (size_t i = 1; i < item.size(); ++i)                            \
     {                                                                   \
@@ -159,7 +160,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<bool>& value,
                    const std::optional<std::vector<bool>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("bool", is_boolean, as_bool)
 }
 
@@ -167,7 +167,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<int>& value,
                    const std::optional<std::vector<int>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("int", is_integer, as_int)
 }
 
@@ -176,7 +175,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<float>& value,
                    const std::optional<std::vector<float>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("float", is_real, as_float)
 }
 
@@ -184,7 +182,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<std::string>& value,
                    const std::optional<std::vector<std::string>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("string", is_string, as_string)
 }
 
@@ -192,7 +189,6 @@ bool
 ReaderMapping::get(const char* key, std::vector<unsigned int>& value,
                    const std::optional<std::vector<unsigned int>>& default_value) const
 {
-  value.clear();
   GET_VALUES_MACRO("unsigned int", is_integer, as_int)
 }
 
