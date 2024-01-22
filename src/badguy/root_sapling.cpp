@@ -86,6 +86,17 @@ RootSapling::collision_squished(GameObject& object)
   return true;
 }
 
+HitResponse RootSapling::collision_player(Player &player, const CollisionHit &hit)
+{
+  if (m_dir != Direction::DOWN) return BadGuy::collision_player(player, hit);
+
+  if (!hit.bottom) return BadGuy::collision_player(player, hit);
+
+  player.get_physic().set_acceleration_y(0);
+  kill_fall();
+  return CONTINUE;
+}
+
 void
 RootSapling::active_update(float dt_sec)
 {

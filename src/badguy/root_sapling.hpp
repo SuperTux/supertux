@@ -27,6 +27,7 @@ public:
   virtual void kill_fall() override;
   virtual HitResponse collision_badguy(BadGuy&, const CollisionHit&) override;
   virtual bool collision_squished(GameObject& object) override;
+  virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
   virtual void active_update(float) override;
 
   virtual bool is_flammable() const override { return false; }
