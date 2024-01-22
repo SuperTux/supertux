@@ -172,7 +172,7 @@ public:
   /** Remove an option from the list, this is a hack */
   void remove(const std::string& key);
 
-  /** Parse option properties from a previous state. */
+  /** Parse option properties. */
   void parse(const ReaderMapping& reader);
 
   /** Save the current states of all options. */
