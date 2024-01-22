@@ -410,6 +410,23 @@ ObjectSettings::remove(const std::string& key)
 }
 
 void
+ObjectSettings::parse(const ReaderMapping& reader)
+{
+  for (const auto& option : m_options)
+  {
+    try
+    {
+      option->parse(reader);
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Error processing data for option '" << option->get_key()
+                  << "': " << err.what() << std::endl;
+    }
+  }
+}
+
+void
 ObjectSettings::save_state()
 {
   for (const auto& option : m_options)
@@ -427,17 +444,17 @@ ObjectSettings::has_state_changed() const
 }
 
 void
-ObjectSettings::parse(const ReaderMapping& reader)
+ObjectSettings::parse_state(const ReaderMapping& reader)
 {
   for (const auto& option : m_options)
   {
     try
     {
-      option->parse(reader);
+      option->parse_state(reader);
     }
     catch (const std::exception& err)
     {
-      log_warning << "Error processing data for option '" << option->get_key()
+      log_warning << "Error processing state data for option '" << option->get_key()
                   << "': " << err.what() << std::endl;
     }
   }
