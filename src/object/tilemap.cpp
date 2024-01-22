@@ -164,7 +164,8 @@ TileMap::parse_tiles(const ReaderMapping& reader)
 {
   reader.get("width", m_width);
   reader.get("height", m_height);
-  if (m_width < 0 || m_height < 0) {
+  if (m_width < 0 || m_height < 0)
+  {
     //throw std::runtime_error("Invalid/No width/height specified in tilemap.");
     m_width = 0;
     m_height = 0;
@@ -172,13 +173,15 @@ TileMap::parse_tiles(const ReaderMapping& reader)
     resize(static_cast<int>(Sector::get().get_width() / 32.0f),
            static_cast<int>(Sector::get().get_height() / 32.0f));
     m_editor_active = false;
-  } else {
-    if (!reader.get("tiles", m_tiles))
+  }
+  else
+  {
+    reader.get("tiles", m_tiles);
+    if (m_tiles.empty())
       throw std::runtime_error("No tiles in tilemap.");
 
-    if (int(m_tiles.size()) != m_width * m_height) {
+    if (static_cast<int>(m_tiles.size()) != m_width * m_height)
       throw std::runtime_error("wrong number of tiles in tilemap.");
-    }
   }
 
   bool empty = true;
@@ -701,6 +704,12 @@ TileMap::change(int x, int y, uint32_t newtile)
     return;
 
   m_tiles[y*m_width + x] = newtile;
+}
+
+void
+TileMap::change(int idx, uint32_t newtile)
+{
+  m_tiles[idx] = newtile;
 }
 
 void

@@ -158,6 +158,7 @@ public:
   uint32_t get_tile_id_at(const Vector& pos) const;
 
   void change(int x, int y, uint32_t newtile);
+  void change(int idx, uint32_t newtile);
 
   void change_at(const Vector& pos, uint32_t newtile);
 

@@ -89,6 +89,12 @@ BaseObjectOption::has_state_changed() const
 }
 
 void
+BaseObjectOption::parse_state(const ReaderMapping& reader)
+{
+  parse(reader);
+}
+
+void
 BaseObjectOption::save_old_state(std::ostream& out) const
 {
   out << m_last_state;
@@ -684,9 +690,17 @@ ObjectSelectObjectOption::add_to_menu(Menu& menu) const
   });
 }
 
+TilesObjectOption::TilesState::TilesState() :
+  width(),
+  height(),
+  tiles()
+{
+}
+
 TilesObjectOption::TilesObjectOption(const std::string& text, TileMap* tilemap, const std::string& key,
                                      unsigned int flags) :
-  ObjectOption(text, key, flags, tilemap)
+  ObjectOption(text, key, flags, tilemap),
+  m_last_tiles_state()
 {
 }
 
@@ -713,6 +727,74 @@ TilesObjectOption::to_string() const
 void
 TilesObjectOption::add_to_menu(Menu& menu) const
 {
+}
+
+void
+TilesObjectOption::save_state()
+{
+  BaseObjectOption::save_state();
+
+  m_last_tiles_state.width = m_value_pointer->get_width();
+  m_last_tiles_state.height = m_value_pointer->get_height();
+  m_last_tiles_state.tiles = m_value_pointer->get_tiles();
+}
+
+void
+TilesObjectOption::parse_state(const ReaderMapping& reader)
+{
+  parse(reader);
+
+  std::vector<int> tile_changes; // Array of pairs (index, old/new tile ID).
+  if (!reader.get("tile-changes", tile_changes))
+    return;
+
+  if (tile_changes.size() % 2 != 0)
+    throw std::runtime_error("'tile-changes' does not contain number pairs.");
+
+  for (size_t i = 0; i < tile_changes.size(); i += 2)
+    m_value_pointer->change(tile_changes[i], static_cast<uint32_t>(tile_changes[i + 1]));
+}
+
+void
+TilesObjectOption::save_old_state(std::ostream& out) const
+{
+  Writer writer(out);
+  save_tile_changes(writer, false);
+}
+
+void
+TilesObjectOption::save_new_state(Writer& writer) const
+{
+  save_tile_changes(writer, true);
+}
+
+void
+TilesObjectOption::save_tile_changes(Writer& writer, bool new_tiles) const
+{
+  writer.write("width", new_tiles ? m_value_pointer->get_width() : m_last_tiles_state.width);
+  writer.write("height", new_tiles ? m_value_pointer->get_height() : m_last_tiles_state.height);
+
+  assert(!m_last_tiles_state.tiles.empty());
+  const auto& tiles = m_value_pointer->get_tiles();
+
+  // Tiles have been resized. Save all tiles.
+  if (m_last_tiles_state.tiles.size() != tiles.size())
+  {
+    writer.write("tiles", new_tiles ? tiles : m_last_tiles_state.tiles);
+    return;
+  }
+
+  // Get and write old/new states of changed tiles in the array.
+  std::vector<uint32_t> tile_changes; // Array of pairs (index, old/new tile ID).
+  for (uint32_t i = 0; i < static_cast<uint32_t>(m_last_tiles_state.tiles.size()); i++)
+  {
+    if (m_last_tiles_state.tiles[i] != tiles[i])
+    {
+      tile_changes.push_back(i);
+      tile_changes.push_back(new_tiles ? tiles[i] : m_last_tiles_state.tiles[i]);
+    }
+  }
+  writer.write("tile-changes", tile_changes);
 }
 
 PathObjectOption::PathObjectOption(const std::string& text, Path* path, const std::string& key,

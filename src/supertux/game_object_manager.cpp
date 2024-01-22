@@ -505,7 +505,7 @@ GameObjectManager::parse_object_settings(ObjectSettings& settings, const std::st
   if (root.get_name() != "supertux-game-object")
     throw std::runtime_error("Data is not 'supertux-game-object'.");
 
-  settings.parse(root.get_mapping());
+  settings.parse_state(root.get_mapping());
 }
 
 std::string

@@ -69,6 +69,7 @@ public:
 
   virtual void save_state();
   bool has_state_changed() const;
+  virtual void parse_state(const ReaderMapping& reader);
   virtual void save_old_state(std::ostream& out) const;
   virtual void save_new_state(Writer& writer) const;
 
@@ -381,6 +382,25 @@ public:
   virtual void save(Writer& writer) const override;
   virtual std::string to_string() const override;
   virtual void add_to_menu(Menu& menu) const override;
+
+  virtual void save_state() override;
+  virtual void parse_state(const ReaderMapping& reader) override;
+  virtual void save_old_state(std::ostream& out) const override;
+  virtual void save_new_state(Writer& writer) const override;
+
+private:
+  void save_tile_changes(Writer& writer, bool new_tiles) const;
+
+private:
+  struct TilesState final
+  {
+    TilesState();
+
+    int width;
+    int height;
+    std::vector<uint32_t> tiles;
+  };
+  TilesState m_last_tiles_state;
 
 private:
   TilesObjectOption(const TilesObjectOption&) = delete;
