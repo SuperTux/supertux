@@ -129,7 +129,7 @@ Root::draw(DrawingContext &context)
   {
     case Direction::UP:
       pos.x -= m_sprite->get_current_hitbox_x_offset();
-      pos.y -= get_bbox().get_height() + 20;
+      pos.y -= get_bbox().get_height() + 17.5f;
       break;
 
     case Direction::DOWN:
@@ -138,7 +138,7 @@ Root::draw(DrawingContext &context)
       break;
 
     case Direction::LEFT:
-      pos.x -= get_bbox().get_width() - 20;
+      pos.x -= get_bbox().get_width() + 12.5f;
       pos.y -= m_sprite->get_current_hitbox_y_offset();
       break;
 
@@ -174,8 +174,23 @@ Root::active_update(float dt_sec)
 
     case STATE_APPEARING:
     {
+      float size = 0;
+      switch (m_dir)
+      {
+        case Direction::LEFT:
+        case Direction::RIGHT:
+          size = get_bbox().get_width();
+          break;
+
+        case Direction::UP:
+        case Direction::DOWN:
+          size = get_bbox().get_height();
+          break;
+
+        default: assert(false); break;
+      }
       float progress = m_timer.get_timegone() / m_timer.get_period();
-      m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * get_bbox().get_height();
+      m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
 
       Vector pos = m_start_position;
       switch (m_dir)
@@ -214,8 +229,23 @@ Root::active_update(float dt_sec)
 
     case STATE_RETREATING:
     {
+      float size = 0;
+      switch (m_dir)
+      {
+        case Direction::LEFT:
+        case Direction::RIGHT:
+          size = get_bbox().get_width();
+          break;
+
+        case Direction::UP:
+        case Direction::DOWN:
+          size = get_bbox().get_height();
+          break;
+
+        default: assert(false); break;
+      }
       float progress = m_timer.get_timegone() / m_timer.get_period();
-      m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * get_bbox().get_height();
+      m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
 
       Vector pos = m_start_position;
       switch (m_dir)
