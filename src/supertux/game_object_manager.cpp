@@ -376,7 +376,7 @@ GameObjectManager::apply_object_change(const GameObjectChange& change, bool trac
     case GameObjectChange::Action::DELETE:
     {
       if (!object)
-        throw std::runtime_error("Object does not exist.");
+        throw std::runtime_error("Object '" + change.name + "' does not exist.");
 
       object->m_track_undo = track_undo;
       object->remove_me();
@@ -386,7 +386,7 @@ GameObjectManager::apply_object_change(const GameObjectChange& change, bool trac
     case GameObjectChange::Action::MODIFY:
     {
       if (!object)
-        throw std::runtime_error("Object does not exist.");
+        throw std::runtime_error("Object '" + change.name + "' does not exist.");
 
       auto settings = object->get_settings();
       if (track_undo)
@@ -532,7 +532,8 @@ GameObjectManager::process_object_change(GameObjectChange& change)
   {
     case GameObjectChange::Action::CREATE: /** Object was added, remove it. */
     {
-      assert(object);
+      if (!object)
+        throw std::runtime_error("Object '" + change.name + "' no longer exists.");
 
       object->m_track_undo = false;
       object->remove_me();
@@ -554,7 +555,8 @@ GameObjectManager::process_object_change(GameObjectChange& change)
 
     case GameObjectChange::Action::MODIFY: /** Object was modified, revert settings. */
     {
-      assert(object);
+      if (!object)
+        throw std::runtime_error("Object '" + change.name + "' no longer exists.");
 
       auto settings = object->get_settings();
       settings.save_state();
