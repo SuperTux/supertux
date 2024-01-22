@@ -23,24 +23,19 @@
 #include "video/surface.hpp"
 
 SpawnPointMarker::SpawnPointMarker(const std::string& name, const Vector& pos) :
+  MovingObject(),
   m_surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
   m_name = name;
   m_col.m_bbox.set_p1(pos);
   m_col.m_bbox.set_size(32, 32);
-
-  if (!Editor::is_active()) {
-    set_group(COLGROUP_DISABLED);
-  }
+  set_group(COLGROUP_DISABLED);
 }
 
 SpawnPointMarker::SpawnPointMarker(const ReaderMapping& mapping) :
+  MovingObject(mapping),
   m_surface(Surface::from_file("images/engine/editor/spawnpoint.png"))
 {
-  mapping.get("name", m_name, "");
-  mapping.get("x", m_col.m_bbox.get_left(), 0.0f);
-  mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
-
   m_col.m_bbox.set_size(32, 32);
   set_group(COLGROUP_DISABLED);
 }
