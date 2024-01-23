@@ -25,7 +25,8 @@ class Root final : public BadGuy
 {
 public:
   Root(const ReaderMapping& reader);
-  Root(const Vector& pos, Direction dir, const std::string& sprite);
+  Root(const Vector& pos, Direction dir, const std::string& sprite,
+       float delay = -1, bool play_sound = true);
 
   virtual void initialize() override;
   virtual void draw(DrawingContext &context) override;
@@ -46,13 +47,14 @@ public:
 private:
   enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
 
-  void construct();
+  void construct(float delay = -1, bool play_sound = true);
 
   SurfacePtr m_base_surface;
   Timer m_timer;
   State m_state;
-  float m_offset;
+  float m_delay;
   float m_maxheight;
+  bool m_play_sound;
 };
 
 #endif

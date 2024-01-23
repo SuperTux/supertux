@@ -31,19 +31,21 @@ Root::Root(const ReaderMapping& reader) :
   construct();
 }
 
-Root::Root(const Vector& pos, Direction dir, const std::string& sprite) :
+Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
+           float delay, bool play_sound) :
   BadGuy(pos, dir, sprite, LAYER_TILES-5)
 {
-  construct();
+  construct(delay, play_sound);
 }
 
 void
-Root::construct()
+Root::construct(float delay, bool play_sound)
 {
   m_base_surface = nullptr;
   m_state = STATE_HATCHING;
-  m_offset = 0.f;
+  m_delay = (delay == -1 ? HATCH_TIME : delay);
   m_maxheight = 0.f;
+  m_play_sound = play_sound;
 
   m_countMe = false;
   m_physic.enable_gravity(false);
@@ -75,14 +77,16 @@ Root::construct()
   if (surfaces.size() != 0)
     m_base_surface = surfaces[0];
 
-  SoundManager::current()->preload("sounds/brick.wav");
-  SoundManager::current()->preload("sounds/dartfire.wav");
+  if (m_play_sound)
+    SoundManager::current()->preload("sounds/dartfire.wav");
+    SoundManager::current()->preload("sounds/brick.wav");
 }
 
 void
 Root::initialize()
 {
-  SoundManager::current()->play("sounds/brick.wav", get_pos());
+  if (m_play_sound)
+    SoundManager::current()->play("sounds/brick.wav", get_pos());
 
   Vector basepos = get_bbox().get_middle();
   switch (m_dir)
@@ -114,7 +118,7 @@ Root::initialize()
                                       LAYER_OBJECTS + 3, true);
   }
 
-  m_timer.start(HATCH_TIME);
+  m_timer.start(m_delay);
 }
 
 void
@@ -190,15 +194,15 @@ Root::active_update(float dt_sec)
         default: assert(false); break;
       }
       float progress = m_timer.get_timegone() / m_timer.get_period();
-      m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
+      float offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
 
       Vector pos = m_start_position;
       switch (m_dir)
       {
-        case Direction::UP: pos.y -= m_offset; break;
-        case Direction::DOWN: pos.y += m_offset; break;
-        case Direction::LEFT: pos.x -= m_offset; break;
-        case Direction::RIGHT: pos.x += m_offset; break;
+        case Direction::UP: pos.y -= offset; break;
+        case Direction::DOWN: pos.y += offset; break;
+        case Direction::LEFT: pos.x -= offset; break;
+        case Direction::RIGHT: pos.x += offset; break;
         default: assert(false); break;
       }
       set_pos(pos);
@@ -220,7 +224,10 @@ Root::active_update(float dt_sec)
 
           default: assert(false); break;
         }
-        SoundManager::current()->play("sounds/darthit.wav", get_pos());
+
+        if (m_play_sound)
+          SoundManager::current()->play("sounds/darthit.wav", get_pos());
+
         m_timer.start(RETREAT_TIME);
       }
 
@@ -245,15 +252,15 @@ Root::active_update(float dt_sec)
         default: assert(false); break;
       }
       float progress = m_timer.get_timegone() / m_timer.get_period();
-      m_offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
+      float offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
 
       Vector pos = m_start_position;
       switch (m_dir)
       {
-        case Direction::UP: pos.y = m_maxheight + m_offset; break;
-        case Direction::DOWN: pos.y = m_maxheight - m_offset; break;
-        case Direction::LEFT: pos.x = m_maxheight + m_offset; break;
-        case Direction::RIGHT: pos.x = m_maxheight - m_offset; break;
+        case Direction::UP: pos.y = m_maxheight + offset; break;
+        case Direction::DOWN: pos.y = m_maxheight - offset; break;
+        case Direction::LEFT: pos.x = m_maxheight + offset; break;
+        case Direction::RIGHT: pos.x = m_maxheight - offset; break;
         default: assert(false); break;
       }
       set_pos(pos);
