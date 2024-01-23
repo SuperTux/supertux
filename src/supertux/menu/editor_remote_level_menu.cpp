@@ -65,14 +65,24 @@ EditorRemoteLevelMenu::menu_action(MenuItem& item)
     return;
   }
 
+  auto editor = Editor::current();
   if (m_connect)
   {
-    Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
-                                        m_nickname, m_nickname_color);
+    auto callback = [this]()
+      {
+        Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
+                                            m_nickname, m_nickname_color);
+      };
+    if (editor->is_hosting_level())
+      Dialog::show_confirmation(_("Changing the level will stop hosting the current one. Are you sure?"), callback);
+    else if (editor->is_editing_remote_level())
+      Dialog::show_confirmation(_("Changing the level will end the current connection. Are you sure?"), callback);
+    else
+      callback();
   }
   else
   {
-    Editor::current()->host_level(static_cast<uint16_t>(m_port));
+    editor->host_level(static_cast<uint16_t>(m_port));
 
     MenuManager::instance().pop_menu();
     MenuManager::instance().current_menu()->refresh();
