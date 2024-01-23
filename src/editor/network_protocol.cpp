@@ -424,8 +424,11 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
       const std::string level_data = m_editor.get_level()->save();
       GameObject::s_save_uid = false;
 
-      return network::StagedPacket(packet.code == OP_LEVEL_REQUEST ? OP_LEVEL_RESPONSE : OP_LEVEL_RERESPONSE,
-                                   level_data, 10.f);
+      int code = packet.code == OP_LEVEL_REQUEST ? OP_LEVEL_RESPONSE : OP_LEVEL_RERESPONSE;
+      if (m_editor.get_level()->is_worldmap())
+        code = packet.code == OP_LEVEL_REQUEST ? OP_WORLDMAP_RESPONSE : OP_WORLDMAP_RERESPONSE;
+
+      return network::StagedPacket(code, level_data, 10.f);
     }
 
     default:
@@ -509,8 +512,15 @@ EditorNetworkProtocol::on_request_response(const network::Request& request)
 
     case OP_LEVEL_RESPONSE:
     case OP_LEVEL_RERESPONSE:
-      m_editor.set_level(packet.data[0], packet.code == OP_LEVEL_RESPONSE, true);
+    case OP_WORLDMAP_RESPONSE:
+    case OP_WORLDMAP_RERESPONSE:
+    {
+      m_editor.set_world({});
+      m_editor.set_level(packet.data[0],
+                         packet.code == OP_LEVEL_RESPONSE || packet.code == OP_WORLDMAP_RESPONSE, true,
+                         packet.code == OP_WORLDMAP_RESPONSE || packet.code == OP_WORLDMAP_RERESPONSE);
       break;
+    }
 
     default:
       break;

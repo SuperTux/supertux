@@ -62,15 +62,18 @@ LevelTile::LevelTile(const ReaderMapping& mapping) :
   if (m_basedir == "./")
     m_basedir = "";
 
-  if (!PHYSFS_exists(FileSystem::join(m_basedir, m_level_filename).c_str()))
+  if (!Editor::current() || !Editor::current()->is_editing_remote_level())
   {
-    log_warning << "level file '" << m_level_filename
-                << "' does not exist and will not be added to the worldmap" << std::endl;
-    return;
-  }
+    if (!PHYSFS_exists(FileSystem::join(m_basedir, m_level_filename).c_str()))
+    {
+      log_warning << "level file '" << m_level_filename
+                  << "' does not exist and will not be added to the worldmap" << std::endl;
+      return;
+    }
 
-  if (in_worldmap())
-    load_level_information();
+    if (in_worldmap())
+      load_level_information();
+  }
 }
 
 LevelTile::~LevelTile()
@@ -158,7 +161,8 @@ LevelTile::get_settings()
 
   ObjectSettings result = WorldMapObject::get_settings();
 
-  result.add_level(_("Level"), &m_level_filename, "level", basedir);
+  if (!Editor::current() || !Editor::current()->is_editing_remote_level())
+    result.add_level(_("Level"), &m_level_filename, "level", basedir);
   result.add_script(_("Outro script"), &m_extro_script, "extro-script");
   result.add_bool(_("Auto play"), &m_auto_play, "auto-play", false);
   result.add_color(_("Title colour"), &m_title_color, "color", Color::WHITE);
