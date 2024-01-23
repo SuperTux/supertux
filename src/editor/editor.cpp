@@ -55,6 +55,7 @@
 #include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
+#include "physfs/ofile_stream.hpp"
 #include "physfs/util.hpp"
 #include "sdk/integration.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -94,16 +95,18 @@ Editor::is_active()
   }
 }
 
+static const char* NETWORK_LEVEL_DIR = "levels/network_temp";
+
 Editor::Editor() :
   m_level(),
   m_world(),
   m_levelfile(),
   m_autosave_levelfile(),
-  m_remote_level_contents(),
   m_quit_request(false),
   m_newlevel_request(false),
   m_reload_request(false),
   m_reload_request_reset(true),
+  m_reload_request_remote(false),
   m_reactivate_request(false),
   m_deactivate_request(false),
   m_save_request(false),
@@ -149,6 +152,8 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
+  // Erase temporary network levels directory.
+  physfsutil::remove_with_content(NETWORK_LEVEL_DIR);
 }
 
 void
@@ -352,7 +357,8 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
 
   Tile::draw_editor_images = false;
   Compositor::s_render_lighting = true;
-  std::string backup_filename = get_autosave_from_levelname(m_levelfile);
+  std::string backup_filename = (is_editing_remote_level() ? FileSystem::basename(m_levelfile) :
+                                   get_autosave_from_levelname(m_levelfile));
   std::string directory = get_level_directory();
 
   // This is jank to get an owned World pointer, GameManager/World
@@ -364,9 +370,16 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
     current_world = owned_world.get();
   }
 
-  m_autosave_levelfile = FileSystem::join(directory, backup_filename);
-  m_level->save(m_autosave_levelfile);
-  m_time_since_last_save = 0.f;
+  if (!is_editing_remote_level())
+  {
+    m_autosave_levelfile = FileSystem::join(directory, backup_filename);
+    m_level->save(m_autosave_levelfile);
+    m_time_since_last_save = 0.f;
+  }
+  else
+  {
+    m_level->save(m_levelfile);
+  }
   m_leveltested = true;
 
   if (!m_level->is_worldmap())
@@ -375,7 +388,9 @@ Editor::test_level(const std::optional<std::pair<std::string, Vector>>& test_pos
   }
   else
   {
-    GameManager::current()->start_worldmap(*current_world, m_autosave_levelfile, test_pos);
+    GameManager::current()->start_worldmap(*current_world,
+                                           is_editing_remote_level() ? m_levelfile : m_autosave_levelfile,
+                                           test_pos);
   }
 }
 
@@ -702,6 +717,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 
   m_reload_request = false;
   m_reload_request_reset = true;
+  m_reload_request_remote = false;
   m_enabled = true;
 
   if (reset) {
@@ -752,15 +768,29 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
 }
 
 void
-Editor::set_level(const std::string& levelfile, bool reset, bool remote)
+Editor::set_level(const std::string& levelfile, bool reset,
+                  bool remote, bool remote_worldmap)
 {
+  // If a remote level has been provided, m_levelfile contains level data, instead of a file.
   if (remote)
-    m_remote_level_contents = levelfile;
+  {
+    if (!PHYSFS_exists(NETWORK_LEVEL_DIR) && !PHYSFS_mkdir(NETWORK_LEVEL_DIR))
+      throw std::runtime_error("Couldn't create temporary network levels directory.");
+
+    // Create a temporary file to store this level locally.
+    m_levelfile = FileSystem::join(NETWORK_LEVEL_DIR, std::to_string(std::time(nullptr)) +
+        (remote_worldmap ? ".stwm" : ".stl"));
+    OFileStream stream(m_levelfile);
+    stream << levelfile;
+  }
   else
+  {
     m_levelfile = levelfile;
+  }
 
   m_reload_request = true;
   m_reload_request_reset = reset;
+  m_reload_request_remote = remote;
 }
 
 void
@@ -779,6 +809,7 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
     return;
   }
 
+  close_connections();
   try
   {
     m_network_client = &network::HostManager::current()->create<network::Client>(1);
@@ -888,27 +919,18 @@ Editor::close_connections()
 void
 Editor::reload_level()
 {
-  if (m_remote_level_contents.empty()) // Local level
-  {
+  if (!m_reload_request_remote) // Not loading a remote level
     close_connections();
 
-    ReaderMapping::s_translations_enabled = false;
-    set_level(LevelParser::from_file(m_world ?
-                                     FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
-                                     StringUtil::has_suffix(m_levelfile, ".stwm"),
-                                     true), m_reload_request_reset);
-    ReaderMapping::s_translations_enabled = true;
-  }
-  else // Remote level
-  {
-    std::istringstream stream(m_remote_level_contents);
-
+  if (m_reload_request_remote) // Loading a remote level
     GameObject::s_read_uid = true;
-    set_level(LevelParser::from_stream(stream, "", false, true), m_reload_request_reset);
-    GameObject::s_read_uid = false;
-
-    m_remote_level_contents.clear();
-  }
+  ReaderMapping::s_translations_enabled = false;
+  set_level(LevelParser::from_file(m_world ?
+                                   FileSystem::join(m_world->get_basedir(), m_levelfile) : m_levelfile,
+                                   StringUtil::has_suffix(m_levelfile, ".stwm"),
+                                   true), m_reload_request_reset);
+  ReaderMapping::s_translations_enabled = true;
+  GameObject::s_read_uid = false;
 
   retoggle_undo_tracking();
   undo_stack_cleanup();

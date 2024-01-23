@@ -116,7 +116,8 @@ public:
 
   std::string get_levelfile() const { return m_levelfile; }
 
-  void set_level(const std::string& levelfile, bool reset = true, bool remote = false);
+  void set_level(const std::string& levelfile, bool reset = true,
+                 bool remote = false, bool remote_worldmap = false);
   void set_remote_level(const std::string& hostname, uint16_t port,
                         const std::string& nickname, const Color& nickname_color);
   void reload_remote_level();
@@ -228,13 +229,12 @@ protected:
   std::string m_levelfile;
   std::string m_autosave_levelfile;
 
-  std::string m_remote_level_contents;
-
 public:
   bool m_quit_request;
   bool m_newlevel_request;
   bool m_reload_request;
   bool m_reload_request_reset;
+  bool m_reload_request_remote;
   bool m_reactivate_request;
   bool m_deactivate_request;
   bool m_save_request;
