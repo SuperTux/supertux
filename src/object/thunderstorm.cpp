@@ -158,7 +158,7 @@ Thunderstorm::lightning()
 
   change_background_colors(true);
   Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(LIGHTNING_HIT_COLOR);
-  layer = LAYER_LIGHTMAP;
+  layer = Sector::current()->get_foremost_layer() + 1;
 }
 
 void
