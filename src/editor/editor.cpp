@@ -797,7 +797,7 @@ void
 Editor::set_remote_level(const std::string& hostname, uint16_t port,
                          const std::string& nickname, const Color& nickname_color)
 {
-  if (m_network_server_peer)
+  if (!m_levelloaded && m_network_server_peer)
   {
     Dialog::show_message(_("A connection is currently active. Please try again later!"));
     return;
@@ -809,7 +809,10 @@ Editor::set_remote_level(const std::string& hostname, uint16_t port,
     return;
   }
 
+  if (m_levelloaded)
+    reset_level();
   close_connections();
+
   try
   {
     m_network_client = &network::HostManager::current()->create<network::Client>(1);
@@ -943,6 +946,20 @@ Editor::reload_level()
     m_autosave_levelfile = FileSystem::join(get_level_directory(),
                                             get_autosave_from_levelname(m_levelfile));
   }
+}
+
+void
+Editor::reset_level()
+{
+  m_levelloaded = false;
+  m_level.reset();
+  m_world.reset();
+  m_levelfile.clear();
+  m_sector = nullptr;
+
+  m_reload_request = false;
+  m_reload_request_reset = true;
+  m_reload_request_remote = false;
 }
 
 void

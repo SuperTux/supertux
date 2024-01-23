@@ -129,8 +129,8 @@ public:
 
   void open_level_directory();
 
-  bool is_editing_remote_level() const { return m_network_server_peer; }
-  bool is_hosting_level() const { return m_network_server; }
+  bool is_editing_remote_level() const { return m_levelloaded && m_network_server_peer; }
+  bool is_hosting_level() const { return m_levelloaded && m_network_server; }
   bool is_testing_level() const { return m_leveltested; }
 
   /** Get address of the local or remote server. */
@@ -196,6 +196,7 @@ private:
   void set_sector(Sector* sector);
   void set_level(std::unique_ptr<Level> level, bool reset = true);
   void reload_level();
+  void reset_level();
   void quit_editor();
   /**
    * @param filename    If non-empty, save to this file instead.
