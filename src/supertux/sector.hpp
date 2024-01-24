@@ -130,6 +130,7 @@ public:
 
   Rectf get_active_region() const;
 
+  int get_foremost_opaque_layer() const;
   int get_foremost_layer() const;
 
   /** returns the editor size (in tiles) of a sector */
@@ -156,7 +157,7 @@ private:
   virtual bool before_object_add(GameObject& object) override;
   virtual void before_object_remove(GameObject& object) override;
 
-  int calculate_foremost_layer() const;
+  int calculate_foremost_layer(bool including_transparent = true) const;
 
   /** Convert tiles into their corresponding GameObjects (e.g.
       bonusblocks, add light to lava tiles) */
@@ -167,6 +168,7 @@ private:
 
   bool m_fully_constructed;
   int m_foremost_layer;
+  int m_foremost_opaque_layer;
 
   float m_gravity;
 
