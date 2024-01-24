@@ -2035,7 +2035,10 @@ Player::draw(DrawingContext& context)
       {
         if (m_water_jump && m_dir != m_old_dir)
           log_debug << "Obracanko (:" << std::endl;
-        if (glm::length(m_physic.get_velocity()) < 50.f)
+        // By using get_velocity_y, we can switch to "-swim" so as to give off the impression that the
+        // penguin is working extra hard to go upwards (in a platformer that's mostly involving the X
+        // coordinates. TL;DR: "Resistance" when going upwards, "zooooom" when going downwards.
+        if ((glm::length(m_physic.get_velocity()) < 60.f) && (glm::length(m_physic.get_velocity_y()) < 30.f))
           m_sprite->set_action(sa_prefix + "-float" + sa_postfix);
         else if (m_water_jump)
           m_sprite->set_action(sa_prefix + "-swimjump" + sa_postfix);
