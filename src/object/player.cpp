@@ -1474,11 +1474,11 @@ Player::handle_input()
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
   if (m_controller->pressed(Control::ACTION) && (get_bonus() == FIRE_BONUS || get_bonus() == ICE_BONUS) && !just_grabbed) {
-    if ((get_bonus() == FIRE_BONUS &&
-      active_bullets < m_player_status.max_fire_bullets[get_id()]) ||
-      (get_bonus() == ICE_BONUS &&
-      active_bullets < m_player_status.max_ice_bullets[get_id()]))
-    {
+    if (((get_bonus() == FIRE_BONUS &&
+          active_bullets < m_player_status.max_fire_bullets[get_id()]) ||
+          (get_bonus() == ICE_BONUS &&
+          active_bullets < m_player_status.max_ice_bullets[get_id()])) &&
+            (!m_duck)) {
       Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
       Direction swim_dir;
       swim_dir = ((std::abs(m_swimming_angle) <= math::PI_2)
