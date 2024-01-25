@@ -20,10 +20,12 @@
 #include "editor/network_user.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
+#include "network/client.hpp"
 #include "network/server.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/editor_menu.hpp"
+#include "supertux/menu/server_management_menu.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/timer.hpp"
 #include "util/log.hpp"
@@ -32,16 +34,6 @@
 
 static const std::string DEFAULT_SERVER_NICKNAME = "Host";
 static const float USER_REGISTER_TIME = 5.f;
-
-static void refresh_editor_menu()
-{
-  if (MenuManager::instance().is_active())
-  {
-    auto* editor_menu = dynamic_cast<EditorMenu*>(MenuManager::instance().current_menu());
-    if (editor_menu)
-      editor_menu->refresh();
-  }
-}
 
 bool
 EditorNetworkProtocol::verify_nickname(const std::string& nickname)
@@ -85,7 +77,7 @@ EditorNetworkProtocol::update()
 void
 EditorNetworkProtocol::on_server_connect(network::Peer& peer)
 {
-  refresh_editor_menu();
+  MenuManager::instance().refresh_menu<EditorMenu>();
 
   // Stage the user and wait for registration packet
   auto timer = std::make_unique<Timer>();
@@ -96,7 +88,7 @@ EditorNetworkProtocol::on_server_connect(network::Peer& peer)
 void
 EditorNetworkProtocol::on_server_disconnect(network::Peer& peer, uint32_t)
 {
-  refresh_editor_menu();
+  MenuManager::instance().refresh_menu<EditorMenu>();
 
   // Get editor user (if it has been registered)
   if (peer.enet.data)
@@ -131,29 +123,47 @@ EditorNetworkProtocol::on_client_disconnect(network::Peer&, uint32_t code)
 
     case network::DISCONNECTED_PING_TIMEOUT:
       Dialog::show_message(_("Disconnected: The server is no longer reachable."));
-      m_editor.m_quit_request = true;
+      break;
+
+    case network::DISCONNECTED_SERVER_CLOSED:
+      Dialog::show_message(_("Disconnected: The server was closed."));
+      break;
+
+    case network::DISCONNECTED_NOT_WHITELISTED:
+      Dialog::show_message(_("Disconnected: You are not whitelisted on the server."));
+      break;
+
+    case network::DISCONNECTED_KICKED:
+      Dialog::show_message(_("Disconnected: You have been kicked from the server."));
+      break;
+
+    case network::DISCONNECTED_BANNED:
+      Dialog::show_message(_("Disconnected: You have been banned from the server."));
       break;
 
     case DISCONNECTED_REGISTER_TIMED_OUT:
       Dialog::show_message(_("Disconnected: No registration packet received for too long."));
-      m_editor.close_connections();
       break;
 
     case DISCONNECTED_NICKNAME_INVALID:
       Dialog::show_message(_("Disconnected: The provided nickname is invalid."));
-      m_editor.close_connections();
       break;
 
     case DISCONNECTED_NICKNAME_TAKEN:
       Dialog::show_message(_("Disconnected: The provided nickname has been taken."));
-      m_editor.close_connections();
       break;
 
     default:
       Dialog::show_message(_("Disconnected: Unknown reason."));
-      m_editor.m_quit_request = true;
       break;
   }
+
+  m_editor.reset_level();
+
+  // Just destroy the client, since we are already disconnected from the server
+  m_editor.m_network_client->destroy();
+  m_editor.m_network_client = nullptr;
+  m_editor.m_network_server_peer = nullptr;
 }
 
 bool
@@ -406,6 +416,7 @@ EditorNetworkProtocol::on_request_receive(const network::ReceivedPacket& packet)
 
       // Add to users list
       m_editor.m_network_users.push_back(std::move(user));
+      MenuManager::instance().refresh_menu<ServerManagementMenu>();
 
       return network::StagedPacket(OP_USER_REGISTER, ""); // Indicate success
     }
@@ -525,6 +536,18 @@ EditorNetworkProtocol::on_request_response(const network::Request& request)
     default:
       break;
   }
+}
+
+
+void
+EditorNetworkProtocol::get_remote_user_data(network::RemoteUser& user) const
+{
+  if (user.peer.enet.data) // The peer has been registered
+    user.display_text = static_cast<EditorNetworkUser*>(user.peer.enet.data)->nickname;
+  else
+    user.display_text = "UNREGISTERED";
+
+  user.display_text += " (" + user.peer.address.to_string() + ")";
 }
 
 /* EOF */

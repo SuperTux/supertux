@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
+//  Copyright (C) 2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,33 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_STRING_ARRAY_HPP
-#define HEADER_SUPERTUX_GUI_MENU_STRING_ARRAY_HPP
+#ifndef HEADER_SUPERTUX_NETWORK_REMOTE_USER_HPP
+#define HEADER_SUPERTUX_NETWORK_REMOTE_USER_HPP
 
-#include "gui/menu.hpp"
+#include <string>
 
-#include <vector>
+#include "network/peer.hpp"
 
-class StringArrayMenu final : public Menu
+namespace network {
+
+/** Represents a peer as a user with additional data.
+    Used in ServerManagementMenu. */
+class RemoteUser final
 {
 public:
-  StringArrayMenu(std::vector<std::string>& items, const std::string& menu_label = {});
+  RemoteUser(ENetPeer& peer);
 
-  virtual void menu_action(MenuItem& item) override;
+public:
+  const Peer peer;
 
-private:
-  void reload();
-
-private:
-  std::string m_custom_label;
-  std::vector<std::string>& m_array_items;
-  std::string m_text;
-  int m_selected_item;
-
-private:
-  StringArrayMenu(const StringArrayMenu&) = delete;
-  StringArrayMenu& operator=(const StringArrayMenu&) = delete;
+  std::string display_text;
 };
 
+} // namespace network
+
 #endif
+
 /* EOF */

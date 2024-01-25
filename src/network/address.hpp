@@ -30,10 +30,14 @@ public:
   Address();
   Address(ENetAddress& address);
 
+  std::string to_string() const;
+
 public:
   std::string host;
   uint16_t port;
 };
+
+std::ostream& operator<<(std::ostream& os, const Address& address);
 
 } // namespace network
 

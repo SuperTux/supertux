@@ -126,6 +126,8 @@ public:
   void host_level(uint16_t port);
   void stop_hosting_level();
 
+  void open_server_menu() const;
+
   std::string get_level_directory() const;
 
   void open_level_directory();

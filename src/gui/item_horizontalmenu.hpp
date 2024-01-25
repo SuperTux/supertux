@@ -44,6 +44,8 @@ public:
     const std::string text;
     const std::string description;
     const SurfacePtr icon;
+
+    bool disabled;
   };
 
 protected:
@@ -61,9 +63,10 @@ public:
   ItemHorizontalMenu(int id, float height, float min_item_width = -1.f);
 
   Item& get_selected_item();
+  Item& get_item_by_id(int id);
 
   void add_item(const std::string& text, const std::string& description,
-                const std::string& icon_file, int id = -1);
+                const std::string& icon_file, int id = -1, bool disabled = false);
 
   void draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) override;
   void draw_item(DrawingContext& context, const Item& item, bool active,

@@ -19,7 +19,6 @@
 
 #include "control/input_manager.hpp"
 #include "gui/dialog.hpp"
-#include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
 #include "gui/notification.hpp"
 #include "supertux/globals.hpp"

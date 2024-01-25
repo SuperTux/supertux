@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,46 +14,47 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_SERVER_MANAGEMENT_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_SERVER_MANAGEMENT_MENU_HPP
 
 #include "gui/menu.hpp"
 
-class EditorMenu final : public Menu
+namespace network {
+class RemoteUser;
+class Server;
+} // namespace network
+
+class ServerManagementMenu final : public Menu
 {
 private:
-  enum MenuIDs {
-    MNID_MANAGESERVER,
-    MNID_RETURNTOEDITOR,
-    MNID_SAVELEVEL,
-    MNID_SAVEASLEVEL,
-    MNID_SAVECOPYLEVEL,
-    MNID_TESTLEVEL,
-    MNID_OPTIONS,
-    MNID_PACK,
-    MNID_OPEN_DIR,
-    MNID_SHARE,
-    MNID_STOP_HOSTING_LEVEL,
-    MNID_RELOAD_LEVEL,
-    MNID_LEVELSEL,
-    MNID_LEVELSETSEL,
-	  MNID_HELP,
-    MNID_QUITEDITOR,
-    MNID_CHECKDEPRECATEDTILES
+  enum MenuIDs
+  {
+    MNID_ACTION_MENU = -1,
+    MNID_KICK = -2,
+    MNID_BAN = -3,
+    MNID_BANLIST = -4,
+    MNID_WHITELIST = -5,
+    MNID_RESTRICT_MODE = -6
   };
 
 public:
-  EditorMenu();
-  ~EditorMenu() override;
+  ServerManagementMenu(network::Server& server);
 
   void refresh() override;
   void menu_action(MenuItem& item) override;
 
-  bool on_back_action() override;
+private:
+  void rebuild_menu();
 
 private:
-  EditorMenu(const EditorMenu&) = delete;
-  EditorMenu& operator=(const EditorMenu&) = delete;
+  network::Server& m_server;
+  std::vector<network::RemoteUser> m_users;
+
+  int m_selected_user;
+
+private:
+  ServerManagementMenu(const ServerManagementMenu&) = delete;
+  ServerManagementMenu& operator=(const ServerManagementMenu&) = delete;
 };
 
 #endif

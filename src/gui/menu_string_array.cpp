@@ -21,7 +21,8 @@
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 
-StringArrayMenu::StringArrayMenu(std::vector<std::string>& items) :
+StringArrayMenu::StringArrayMenu(std::vector<std::string>& items, const std::string& menu_label) :
+  m_custom_label(menu_label),
   m_array_items(items),
   m_text(),
   m_selected_item(-1)
@@ -67,7 +68,7 @@ void
 StringArrayMenu::reload()
 {
   clear();
-  add_label(_("Edit string array"));
+  add_label(m_custom_label.empty() ? _("Edit string array") : m_custom_label);
   add_hl();
   for (unsigned int i = 0; i < m_array_items.size(); i++)
   {

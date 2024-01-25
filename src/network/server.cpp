@@ -16,13 +16,19 @@
 
 #include "network/server.hpp"
 
+#include <algorithm>
 #include <functional>
 #include <stdexcept>
 
 #include <version.h>
 
+#include "gui/menu_manager.hpp"
 #include "network/connection_result.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/menu/server_management_menu.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 namespace network {
 
@@ -44,6 +50,20 @@ Server::Server(uint16_t port, size_t peer_count, size_t channel_limit,
     throw std::runtime_error(_("Error initializing ENet server!"));
 }
 
+Server::~Server()
+{
+  // Disconnect all connected peers, notifying them that the server was closed
+  for (ENetPeer* peer = m_host->peers; peer < &m_host->peers[m_host->peerCount]; peer++)
+  {
+    if (peer->state != ENET_PEER_STATE_CONNECTED) continue;
+
+    enet_peer_disconnect_now(peer, DISCONNECTED_SERVER_CLOSED);
+
+    // Reset the peer's client information
+    peer->data = NULL;
+  }
+}
+
 void
 Server::process_event(const ENetEvent& event)
 {
@@ -58,21 +78,47 @@ Server::process_event(const ENetEvent& event)
       // Make sure remote peer game version is the same
       if (event.data != version)
       {
-        enet_peer_disconnect(event.peer, DISCONNECTED_VERSION_MISMATCH);
+        enet_peer_disconnect_now(event.peer, DISCONNECTED_VERSION_MISMATCH);
         return;
       }
 
+      // Make sure the peer is not banned/is whitelisted (depending on restriction mode)
       Peer peer(*event.peer);
-      m_protocol->on_server_connect(peer);
+      if (g_config->network_restrict_mode == Config::NetworkRestrictMode::BLACKLIST &&
+          std::find(g_config->network_blacklist.begin(), g_config->network_blacklist.end(),
+                    peer.address.host) != g_config->network_blacklist.end())
+      {
+        log_warning << "Banned peer '" << peer.address
+                    << "' attempted to connect to server. Disconnecting." << std::endl;
+        enet_peer_disconnect_now(event.peer, DISCONNECTED_BANNED);
+        return;
+      }
+      else if (g_config->network_restrict_mode == Config::NetworkRestrictMode::WHITELIST &&
+               std::find(g_config->network_whitelist.begin(), g_config->network_whitelist.end(),
+                         peer.address.host) == g_config->network_whitelist.end())
+      {
+        log_warning << "Non-whitelisted peer '" << peer.address
+                    << "' attempted to connect to server. Disconnecting." << std::endl;
+        enet_peer_disconnect_now(event.peer, DISCONNECTED_NOT_WHITELISTED);
+        return;
+      }
+
+      if (m_protocol)
+        m_protocol->on_server_connect(peer);
+
+      MenuManager::instance().refresh_menu<ServerManagementMenu>();
       break;
     }
     case ENET_EVENT_TYPE_DISCONNECT:
     {
       Peer peer(*event.peer);
-      m_protocol->on_server_disconnect(peer, static_cast<uint32_t>(event.data));
+      if (m_protocol)
+        m_protocol->on_server_disconnect(peer, static_cast<uint32_t>(event.data));
 
       // Reset the peer's client information
       event.peer->data = NULL;
+
+      MenuManager::instance().refresh_menu<ServerManagementMenu>();
       break;
     }
     default:
@@ -86,7 +132,91 @@ Server::disconnect(ENetPeer* peer, uint32_t code)
   if (!peer) return;
   assert(peer->host == m_host);
 
-  enet_peer_disconnect(peer, static_cast<enet_uint32>(code));
+  if (code == DISCONNECTED_KICKED)
+    kick(peer);
+  else if (code == DISCONNECTED_BANNED)
+    ban(peer);
+  else
+    enet_peer_disconnect(peer, static_cast<enet_uint32>(code));
+}
+
+void
+Server::kick(ENetPeer* peer)
+{
+  if (!peer) return;
+  assert(peer->host == m_host);
+
+  enet_peer_disconnect_now(peer, DISCONNECTED_KICKED);
+
+  // No ENET_EVENT_TYPE_DISCONNECT will be generated, so notify protocol directly from here
+  if (m_protocol)
+  {
+    Peer peer_info(*peer);
+    m_protocol->on_server_disconnect(peer_info, DISCONNECTED_KICKED);
+  }
+
+  // Reset the peer's client information
+  peer->data = NULL;
+
+  MenuManager::instance().refresh_menu<ServerManagementMenu>();
+}
+
+void
+Server::ban(ENetPeer* peer)
+{
+  if (!peer) return;
+  assert(peer->host == m_host);
+
+  // Save banned user in config
+  Peer peer_info(*peer);
+  g_config->network_blacklist.push_back(peer_info.address.host);
+
+  // Disconnect every peer from the provided peer's host address
+  for (ENetPeer* it_peer = m_host->peers; it_peer < &m_host->peers[m_host->peerCount]; it_peer++)
+  {
+    if (it_peer->state == ENET_PEER_STATE_CONNECTED &&
+        Address(it_peer->address).host == peer_info.address.host)
+    {
+      enet_peer_disconnect_now(it_peer, DISCONNECTED_BANNED);
+    }
+  }
+
+  // No ENET_EVENT_TYPE_DISCONNECT will be generated, so notify protocol directly from here
+  if (m_protocol)
+    m_protocol->on_server_disconnect(peer_info, DISCONNECTED_BANNED);
+
+  // Reset the peer's client information
+  peer->data = NULL;
+
+  MenuManager::instance().refresh_menu<ServerManagementMenu>();
+}
+
+std::vector<RemoteUser>
+Server::get_users() const
+{
+  std::vector<RemoteUser> result;
+
+  for (ENetPeer* peer = m_host->peers; peer < &m_host->peers[m_host->peerCount]; peer++)
+  {
+    if (peer->state != ENET_PEER_STATE_CONNECTED) continue;
+
+    RemoteUser user(*peer);
+    if (m_protocol) // Request user data from the protocol
+    {
+      try
+      {
+        m_protocol->get_remote_user_data(user);
+      }
+      catch (const std::exception& err)
+      {
+        log_warning << "Error getting user from peer " << peer->incomingPeerID
+                    << " in protocol: " << err.what() << std::endl;
+      }
+    }
+    result.push_back(std::move(user));
+  }
+
+  return result;
 }
 
 Address

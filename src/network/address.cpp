@@ -34,6 +34,17 @@ Address::Address(ENetAddress& address) :
   port = static_cast<uint16_t>(address.port);
 }
 
+std::string
+Address::to_string() const
+{
+  return host + ":" + std::to_string(port);
+}
+
+std::ostream& operator<<(std::ostream& os, const Address& address)
+{
+  return os << address.to_string();
+}
+
 } // namespace network
 
 /* EOF */

@@ -20,6 +20,7 @@
 #include "network/host.hpp"
 
 #include "network/address.hpp"
+#include "network/remote_user.hpp"
 
 namespace network {
 
@@ -29,9 +30,15 @@ class Server final : public Host
 public:
   Server(uint16_t port, size_t peer_count, size_t channel_limit = 1,
          uint32_t incoming_bandwidth = 0, uint32_t outgoing_bandwidth = 0);
+  ~Server() override;
 
   void disconnect(ENetPeer* peer, uint32_t code = 0);
 
+  /** Server moderation */
+  void kick(ENetPeer* peer);
+  void ban(ENetPeer* peer);
+
+  std::vector<RemoteUser> get_users() const;
   Address get_address() const;
 
 protected:
