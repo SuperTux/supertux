@@ -167,26 +167,27 @@ Server::ban(ENetPeer* peer)
   if (!peer) return;
   assert(peer->host == m_host);
 
-  // Save banned user in config
-  Peer peer_info(*peer);
-  g_config->network_blacklist.push_back(peer_info.address.host);
+  // Save banned host in config
+  Address ban_address(peer->address);
+  g_config->network_blacklist.push_back(ban_address.host);
 
   // Disconnect every peer from the provided peer's host address
   for (ENetPeer* it_peer = m_host->peers; it_peer < &m_host->peers[m_host->peerCount]; it_peer++)
   {
+    Peer peer_info(*it_peer);
     if (it_peer->state == ENET_PEER_STATE_CONNECTED &&
-        Address(it_peer->address).host == peer_info.address.host)
+        peer_info.address.host == ban_address.host)
     {
       enet_peer_disconnect_now(it_peer, DISCONNECTED_BANNED);
+
+      // No ENET_EVENT_TYPE_DISCONNECT will be generated, so notify protocol directly from here
+      if (m_protocol)
+        m_protocol->on_server_disconnect(peer_info, DISCONNECTED_BANNED);
+
+      // Reset the peer's client information
+      it_peer->data = NULL;
     }
   }
-
-  // No ENET_EVENT_TYPE_DISCONNECT will be generated, so notify protocol directly from here
-  if (m_protocol)
-    m_protocol->on_server_disconnect(peer_info, DISCONNECTED_BANNED);
-
-  // Reset the peer's client information
-  peer->data = NULL;
 
   MenuManager::instance().refresh_menu<ServerManagementMenu>();
 }
