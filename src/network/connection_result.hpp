@@ -21,20 +21,6 @@
 
 namespace network {
 
-/** A server's reason for disconnecting the client. */
-enum DisconnectionReason
-{
-  DISCONNECTED_PING_TIMEOUT, // The remote peer is no longer accessible.
-  DISCONNECTED_OK, // Disconnected by a proper request.
-  DISCONNECTED_SERVER_CLOSED, // The server was closed.
-  DISCONNECTED_VERSION_MISMATCH, // Server and client SuperTux versions do not match.
-  DISCONNECTED_NOT_WHITELISTED, // The client is not whitelisted on the server.
-  DISCONNECTED_KICKED, // The client was kicked from the server.
-  DISCONNECTED_BANNED, // The client was banned from the server.
-
-  DISCONNECTION_REASONS_END // (Custom disconnection reasons in protocols should be implemented from here)
-};
-
 /** Status of a connection after a connection attempt. */
 enum class ConnectionStatus
 {

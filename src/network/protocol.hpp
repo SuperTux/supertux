@@ -20,6 +20,7 @@
 #include <enet/enet.h>
 
 #include "network/connection_result.hpp"
+#include "network/disconnection_reason.hpp"
 #include "network/packet.hpp"
 #include "network/remote_user.hpp"
 #include "network/request.hpp"
