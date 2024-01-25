@@ -65,6 +65,7 @@
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/server_management_menu.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
@@ -152,8 +153,7 @@ Editor::Editor() :
 
 Editor::~Editor()
 {
-  // Erase temporary network levels directory.
-  physfsutil::remove_with_content(NETWORK_LEVEL_DIR);
+  close_connections();
 }
 
 void
@@ -903,8 +903,18 @@ Editor::stop_hosting_level()
 }
 
 void
+Editor::open_server_menu() const
+{
+  assert(m_network_server);
+  MenuManager::instance().push_menu(std::make_unique<ServerManagementMenu>(*m_network_server));
+}
+
+void
 Editor::close_connections()
 {
+  // Erase temporary network levels directory
+  physfsutil::remove_with_content(NETWORK_LEVEL_DIR);
+
   m_network_users.clear();
 
   if (m_network_server_peer) // Client - disconnect from server
@@ -960,6 +970,8 @@ Editor::reset_level()
   m_reload_request = false;
   m_reload_request_reset = true;
   m_reload_request_remote = false;
+
+  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
 }
 
 void

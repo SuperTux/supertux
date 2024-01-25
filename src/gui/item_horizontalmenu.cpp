@@ -18,6 +18,7 @@
 
 #include "gui/menu_manager.hpp"
 #include "math/util.hpp"
+#include "supertux/colorscheme.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
@@ -54,11 +55,22 @@ ItemHorizontalMenu::get_selected_item()
   return m_items[m_selected_item];
 }
 
+ItemHorizontalMenu::Item&
+ItemHorizontalMenu::get_item_by_id(int id)
+{
+  auto it = std::find_if(m_items.begin(), m_items.end(),
+                         [id](const Item& item) {
+                           return item.id == id;
+                         });
+  assert(it != m_items.end());
+  return *it;
+}
+
 void
 ItemHorizontalMenu::add_item(const std::string& text, const std::string& description,
-                             const std::string& icon_file, int id)
+                             const std::string& icon_file, int id, bool disabled)
 {
-  m_items.push_back({ id, text, description, Surface::from_file(icon_file) });
+  m_items.push_back({ id, text, description, Surface::from_file(icon_file), disabled });
   calculate_width();
 }
 
@@ -157,37 +169,44 @@ ItemHorizontalMenu::draw_item(DrawingContext& context, const ItemHorizontalMenu:
                               const Vector& pos, const float& item_width)
 {
   // Draw icon.
+  PaintStyle style;
+  if (item.disabled)
+    style.set_color(ColorScheme::Menu::inactive_color);
   const float icon_w = m_height / 1.5f;
   context.color().draw_surface_scaled(item.icon, Rectf(Vector(pos.x + item_width / 2 - icon_w / 2,
                                                               pos.y + s_icon_y),
-                                                       Sizef(icon_w, icon_w)), LAYER_GUI);
+                                                       Sizef(icon_w, icon_w)), LAYER_GUI, style);
 
   // Draw text.
   const float text_y = m_height - 35.f;
   context.color().draw_text(Resources::normal_font, item.text,
                             Vector(pos.x + item_width / 2, pos.y + text_y),
-                            ALIGN_CENTER, LAYER_GUI);
+                            ALIGN_CENTER, LAYER_GUI,
+                            item.disabled ? ColorScheme::Menu::inactive_color : Color::WHITE);
 
   // Draw selection border, if active.
   if (active)
   {
-    const float blink = (sinf(g_real_time * math::PI * 1.0f) / 2.0f + 0.5f) * 0.5f + 0.25f;
+    Color blink_color = item.disabled ? ColorScheme::Menu::inactive_color : Color(1.0f, 1.0f, 1.0f);
+    blink_color.alpha = (sinf(g_real_time * math::PI * 1.0f) / 2.0f + 0.5f) * 0.5f + 0.25f;
 
     const float text_height = Resources::normal_font->get_text_height(item.text);
     const Rectf item_rect(Vector(pos.x - 7.5f, pos.y + s_icon_y),
                           Sizef(item_width + 10.f, text_y + text_height));
 
     context.color().draw_filled_rect(item_rect,
-                                     Color(1.0f, 1.0f, 1.0f, blink),
+                                     blink_color,
                                      std::max(0.f, g_config->menuroundness - 2.f),
                                      LAYER_GUI - 10);
+    blink_color.alpha = 0.5f;
     context.color().draw_filled_rect(item_rect.grown(3.0f),
-                                     Color(1.0f, 1.0f, 1.0f, 0.5f),
+                                     blink_color,
                                      std::max(0.f, g_config->menuroundness - 4.f),
                                      LAYER_GUI - 10);
 
     // Set item description.
-    set_help(item.description);
+    if (!item.disabled)
+      set_help(item.description);
   }
 }
 

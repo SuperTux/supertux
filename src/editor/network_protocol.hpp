@@ -94,6 +94,8 @@ public:
   void on_request_fail(const network::Request& request, network::Request::FailReason reason) override;
   void on_request_response(const network::Request& request) override;
 
+  void get_remote_user_data(network::RemoteUser& user) const override;
+
 private:
   Editor& m_editor;
   network::Host& m_host;

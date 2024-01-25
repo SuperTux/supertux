@@ -24,6 +24,7 @@
 #include <vector>
 
 #include "control/controller.hpp"
+#include "gui/menu.hpp"
 #include "gui/menu_action.hpp"
 #include "gui/menu_transition.hpp"
 #include "math/rectf.hpp"
@@ -67,6 +68,15 @@ public:
   void event(const SDL_Event& event);
   void process_input(const Controller& controller);
   void refresh();
+
+  /** If a menu in the stack matches the provided type, refresh it. */
+  template<class C>
+  void refresh_menu()
+  {
+    for (const auto& menu : m_menu_stack)
+      if (dynamic_cast<C*>(menu.get()))
+        menu->refresh();
+  }
 
   void draw(DrawingContext& context);
 

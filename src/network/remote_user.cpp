@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2021 mrkubax10 <mrkubax10@onet.pl>
+//  Copyright (C) 2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,33 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_MENU_STRING_ARRAY_HPP
-#define HEADER_SUPERTUX_GUI_MENU_STRING_ARRAY_HPP
+#include "network/remote_user.hpp"
 
-#include "gui/menu.hpp"
+namespace network {
 
-#include <vector>
-
-class StringArrayMenu final : public Menu
+RemoteUser::RemoteUser(ENetPeer& peer_) :
+  peer(peer_),
+  display_text(peer.address.to_string())
 {
-public:
-  StringArrayMenu(std::vector<std::string>& items, const std::string& menu_label = {});
+}
 
-  virtual void menu_action(MenuItem& item) override;
+} // namespace network
 
-private:
-  void reload();
-
-private:
-  std::string m_custom_label;
-  std::vector<std::string>& m_array_items;
-  std::string m_text;
-  int m_selected_item;
-
-private:
-  StringArrayMenu(const StringArrayMenu&) = delete;
-  StringArrayMenu& operator=(const StringArrayMenu&) = delete;
-};
-
-#endif
 /* EOF */

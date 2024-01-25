@@ -148,6 +148,15 @@ public:
 
   std::string repository_url;
 
+  enum class NetworkRestrictMode
+  {
+    BLACKLIST,
+    WHITELIST
+  };
+  NetworkRestrictMode network_restrict_mode;
+  std::vector<std::string> network_blacklist;
+  std::vector<std::string> network_whitelist;
+
   bool is_christmas() const;
 };
 

@@ -119,7 +119,10 @@ Config::Config() :
   // and those with an older SDL; they won't have to check the setting each time.
   multiplayer_buzz_controllers(false),
 #endif
-  repository_url()
+  repository_url(),
+  network_restrict_mode(NetworkRestrictMode::BLACKLIST),
+  network_blacklist(),
+  network_whitelist()
 {
 }
 
@@ -344,6 +347,50 @@ Config::load()
       }
     }
   }
+
+  std::optional<ReaderMapping> config_network_mapping;
+  if (config_mapping.get("network", config_network_mapping))
+  {
+    config_network_mapping->get("restrict-mode", reinterpret_cast<int&>(network_restrict_mode));
+
+    std::optional<ReaderMapping> config_network_blacklist_mapping;
+    if (config_network_mapping->get("blacklist", config_network_blacklist_mapping))
+    {
+      auto iter = config_network_blacklist_mapping->get_iter();
+      while (iter.next())
+      {
+        if (iter.get_key() == "host")
+        {
+          std::string host;
+          iter.get(host);
+          network_blacklist.push_back(std::move(host));
+        }
+        else
+        {
+          log_warning << "Unknown token in config file: " << iter.get_key() << std::endl;
+        }
+      }
+    }
+
+    std::optional<ReaderMapping> config_network_whitelist_mapping;
+    if (config_network_mapping->get("whitelist", config_network_whitelist_mapping))
+    {
+      auto iter = config_network_whitelist_mapping->get_iter();
+      while (iter.next())
+      {
+        if (iter.get_key() == "host")
+        {
+          std::string host;
+          iter.get(host);
+          network_whitelist.push_back(std::move(host));
+        }
+        else
+        {
+          log_warning << "Unknown token in config file: " << iter.get_key() << std::endl;
+        }
+      }
+    }
+  }
 }
 
 void
@@ -489,6 +536,26 @@ Config::save()
     writer.write("show_deprecated_tiles", editor_show_deprecated_tiles);
   }
   writer.end_list("editor");
+
+  writer.start_list("network");
+  {
+    writer.write("restrict-mode", reinterpret_cast<const int&>(network_restrict_mode));
+
+    writer.start_list("blacklist");
+    for (const std::string& host : network_blacklist)
+    {
+      writer.write("host", host);
+    }
+    writer.end_list("blacklist");
+
+    writer.start_list("whitelist");
+    for (const std::string& host : network_whitelist)
+    {
+      writer.write("host", host);
+    }
+    writer.end_list("whitelist");
+  }
+  writer.end_list("network");
 
   writer.end_list("supertux-config");
 }

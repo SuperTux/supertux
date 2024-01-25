@@ -21,7 +21,7 @@
 
 #include "network/connection_result.hpp"
 #include "network/packet.hpp"
-#include "network/peer.hpp"
+#include "network/remote_user.hpp"
 #include "network/request.hpp"
 
 namespace network {
@@ -72,6 +72,9 @@ public:
   virtual StagedPacket on_request_receive(const ReceivedPacket& packet) { return { -1, "" }; }
   virtual void on_request_fail(const Request& request, Request::FailReason reason) {}
   virtual void on_request_response(const Request& request) {}
+
+  /** Fills in additional data about a RemoteUser of a server. */
+  virtual void get_remote_user_data(RemoteUser& user) const {}
 
 private:
   Protocol(const Protocol&) = delete;

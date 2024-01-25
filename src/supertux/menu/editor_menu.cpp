@@ -68,6 +68,7 @@ EditorMenu::refresh()
     add_inactive(fmt::format(fmt::runtime(_("Hosting level on port {}")), address.port));
     add_inactive(fmt::format(fmt::runtime(__("{} peer connected", "{} peers connected", static_cast<int>(peers))),
                              peers));
+    add_entry(MNID_MANAGESERVER, _("Manage Server"));
     add_hl();
   }
   else if (editing_remote_level)
@@ -176,6 +177,10 @@ EditorMenu::menu_action(MenuItem& item)
   auto editor = Editor::current();
   switch (item.get_id())
   {
+    case MNID_MANAGESERVER:
+      Editor::current()->open_server_menu();
+      break;
+
     case MNID_RETURNTOEDITOR:
       MenuManager::instance().clear_menu_stack();
       break;
