@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2016 Tapesh Mandal <tapesh.mandal@gmail.com>
+//  Copyright (C) 2023 mrkubax10 <mrkubax10@onet.pl>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,36 +14,40 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gtest/gtest.h>
+#include "scripting/sound_object.hpp"
 
-#include "math/rectf.hpp"
+#include "object/sound_object.hpp"
 
-TEST(collisionTest, overlaps_test)
+namespace scripting {
+
+void
+SoundObject::start_playing()
 {
-    Rectf r1(1.0,4.0,2.0,5.0);
-    Rectf r2(6.0,8.0,10.0,9.0);
-
-    ASSERT_EQ(false, r1.overlaps(r2));
-
-    Rectf r3(8.0,3.0,10.0,5.0);
-    Rectf r4(2.0,7.0,4.0,9.0);
-
-    ASSERT_EQ(false, r3.overlaps(r4));
-
-    Rectf r5(4.0,1.0,5.0,2.0);
-    Rectf r6(8.0,6.0,9.0,10.0);
-
-    ASSERT_EQ(false, r5.overlaps(r6));
-
-    Rectf r7(3.0,8.0,5.0,10.0);
-    Rectf r8(7.0,2.0,9.0,4.0);
-
-    ASSERT_EQ(false, r7.overlaps(r8));
-
-    Rectf r9(3.0,6.0,17.0,15.0);
-    Rectf r10(9.0,7.0,10.0,8.0);
-
-    ASSERT_EQ(true, r9.overlaps(r10));
+  SCRIPT_GUARD_VOID;
+  object.play_looping_sounds();
 }
+
+void
+SoundObject::stop_playing()
+{
+  SCRIPT_GUARD_VOID;
+  object.stop_looping_sounds();
+}
+
+void
+SoundObject::set_volume(float volume)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_volume(volume);
+}
+
+float
+SoundObject::get_volume() const
+{
+  SCRIPT_GUARD_DEFAULT;
+  return object.get_volume();
+}
+
+} // namespace scripting
 
 /* EOF */

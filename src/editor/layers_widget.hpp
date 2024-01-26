@@ -69,9 +69,9 @@ public:
   bool has_mouse_focus() const;
 
   TileMap* get_selected_tilemap() const;
+  void set_selected_tilemap(TileMap* tilemap);
 
 private:
-  void set_selected_tilemap(TileMap* tilemap);
   Vector get_layer_coords(const int pos) const;
   int get_layer_pos(const Vector& coords) const;
   void update_tip();

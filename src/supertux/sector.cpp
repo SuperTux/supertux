@@ -66,10 +66,10 @@ Sector::Sector(Level& parent) :
   m_fully_constructed(false),
   m_foremost_layer(),
   m_gravity(10.0f),
-  m_collision_system(new CollisionSystem(*this))
+  m_collision_system(new CollisionSystem(*this)),
+  m_text_object(add<TextObject>("Text"))
 {
   add<DisplayEffect>("Effect");
-  add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
 
   SoundManager::current()->preload("sounds/shoot.wav");
@@ -117,8 +117,20 @@ Sector::finish_construction(bool editable)
     }
   }
 
-  if (get_solid_tilemaps().empty()) {
-    log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+  if (get_solid_tilemaps().empty())
+  {
+    if (editable)
+    {
+      log_warning << "sector '" << get_name() << "' does not contain a solid tile layer." << std::endl;
+    }
+    else
+    {
+      log_warning << "sector '" << get_name() << "' does not contain a solid tile layer. Creating an empty one." << std::endl;
+
+      TileMap& tilemap = add<TileMap>(TileManager::current()->get_tileset(m_level.get_tileset()));
+      tilemap.resize(100, 35);
+      tilemap.set_solid();
+    }
   }
 
   if (!get_object_by_type<Camera>()) {
@@ -373,7 +385,7 @@ Sector::before_object_add(GameObject& object)
   }
 
   if (m_fully_constructed) {
-    process_resolve_requests();
+    try_process_resolve_requests();
     object.finish_construction();
   }
 
@@ -575,18 +587,33 @@ Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& re
   bool is_offset = resize_offset.width || resize_offset.height;
   Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
                             static_cast<float>(resize_offset.height) * 32.0f);
-  for (const auto& object : get_objects()) {
+
+  for (const auto& object : get_objects())
+  {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if (tilemap) {
-      if (tilemap->get_size() == old_size) {
+    if (tilemap)
+    {
+      if (tilemap->get_size() == old_size)
+      {
+        tilemap->save_state();
         tilemap->resize(new_size, resize_offset);
-      } else if (is_offset) {
-        tilemap->move_by(obj_shift);
+        tilemap->check_state();
       }
-    } else if (is_offset) {
+      else if (is_offset)
+      {
+        tilemap->save_state();
+        tilemap->move_by(obj_shift);
+        tilemap->check_state();
+      }
+    }
+    else if (is_offset)
+    {
       auto moving_object = dynamic_cast<MovingObject*>(object.get());
-      if (moving_object) {
+      if (moving_object)
+      {
+        moving_object->save_state();
         moving_object->move_to(moving_object->get_pos() + obj_shift);
+        moving_object->check_state();
       }
     }
   }

@@ -154,17 +154,8 @@
     (class "spidermite")
     (icon "images/creatures/spidermite/spidermite1.png"))
   (object
-    (class "plant")
-    (icon "images/creatures/plant/left-0.png"))
-  (object
     (class "totem")
     (icon "images/creatures/totem/walking1.png"))
-  (object
-    (class "angrystone")
-    (icon "images/creatures/angrystone/charging-0.png"))
-  (object
-    (class "kugelblitz")
-    (icon "images/creatures/kugelblitz/flying-0.png"))
  )
 
  (objectgroup
@@ -368,24 +359,21 @@
   (object
     (class "particles-ghosts")
     (icon "images/engine/editor/ghostparticles.png"))
-
-
-
 ;;  +-- This should be disabled, as it probably won't support multiple textures
 ;;  |   per config object.
 ;;  v                               ~ Semphris
   (object
     (class "particles-custom")
     (icon "images/engine/editor/particle.png"))
-
-
-
   (object
     (class "particles-custom-file")
     (icon "images/engine/editor/particle_file.png"))
   (object
     (class "textscroller")
     (icon "images/engine/editor/textscroller.png"))
+  (object
+    (class "sound-object")
+    (icon "images/engine/editor/sound.png"))
  )
 
  (objectgroup

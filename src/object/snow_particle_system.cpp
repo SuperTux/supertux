@@ -110,7 +110,7 @@ void SnowParticleSystem::update(float dt_sec)
       // stop wind
       gust_current_velocity = 0;
       // new wind strength
-      gust_onset   = graphicsRandom.randf(-SNOW::WIND_SPEED, SNOW::WIND_SPEED);
+      gust_onset = graphicsRandom.randf(-SNOW::WIND_SPEED, SNOW::WIND_SPEED);
     }
     timer.start(graphicsRandom.randf(SNOW::STATE_LENGTH));
   }

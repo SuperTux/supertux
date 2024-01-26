@@ -47,7 +47,7 @@ Decal::get_settings()
 
   result.add_int(_("Z-pos"), &m_layer, "z-pos", LAYER_OBJECTS);
   result.add_bool(_("Solid"), &m_solid, "solid", false);
-  result.add_text(_("Action"), &m_default_action, "action", std::string("default"));
+  result.add_text(_("Action"), &m_default_action, "action", "default");
 
   result.reorder({"z-pos", "sprite", "x", "y"});
 

@@ -256,7 +256,8 @@ Editor::update(float dt_sec, const Controller& controller)
 
     // Now that all widgets have been updated, which should have relinquished
     // pointers to objects marked for deletion, we can actually delete them.
-    m_sector->flush_game_objects();
+    for (auto& sector : m_level->get_sectors())
+      sector->flush_game_objects();
 
     update_keyboard(controller);
   }
@@ -289,7 +290,7 @@ Editor::save_level(const std::string& filename, bool switch_file)
 
   for (const auto& sector : m_level->m_sectors)
   {
-    sector->clear_undo_stack();
+    sector->on_editor_save();
   }
   m_level->save(m_world ? FileSystem::join(m_world->get_basedir(), file) : file);
   m_time_since_last_save = 0.f;
@@ -312,7 +313,7 @@ Editor::get_level_directory() const
   {
     basedir = FileSystem::dirname(m_levelfile);
   }
-  return std::string(basedir);
+  return basedir;
 }
 
 void
@@ -380,12 +381,21 @@ Editor::scroll(const Vector& velocity)
 {
   if (!m_levelloaded) return;
 
-  Rectf bounds(0.0f,
-               0.0f,
-               std::max(0.0f, m_sector->get_width() - static_cast<float>(SCREEN_WIDTH - 128)),
-               std::max(0.0f, m_sector->get_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
   Camera& camera = m_sector->get_camera();
-  Vector pos = camera.get_translation() + velocity;
+  camera.set_translation(camera.get_translation() + velocity);
+  keep_camera_in_bounds();
+}
+
+void
+Editor::keep_camera_in_bounds()
+{
+  const Rectf bounds(0.0f,
+                     0.0f,
+                     std::max(0.0f, m_sector->get_editor_width() - static_cast<float>(SCREEN_WIDTH - 128)),
+                     std::max(0.0f, m_sector->get_editor_height() - static_cast<float>(SCREEN_HEIGHT - 32)));
+
+  Camera& camera = m_sector->get_camera();
+  Vector pos = camera.get_translation();
   pos = Vector(math::clamp(pos.x, bounds.get_left(), bounds.get_right()),
                math::clamp(pos.y, bounds.get_top(), bounds.get_bottom()));
   camera.set_translation(pos);
@@ -648,18 +658,31 @@ Editor::check_unsaved_changes(const std::function<void ()>& action)
 }
 
 void
-Editor::check_deprecated_tiles()
+Editor::check_deprecated_tiles(bool focus)
 {
   // Check for any deprecated tiles, used throughout the entire level
   m_has_deprecated_tiles = false;
-  for (size_t sector_num = 0; sector_num < m_level->get_sector_count(); sector_num++)
+  for (const auto& sector : m_level->get_sectors())
   {
-    for (auto& tilemap : m_level->get_sector(sector_num)->get_objects_by_type<TileMap>())
+    for (auto& tilemap : sector->get_objects_by_type<TileMap>())
     {
+      int pos = -1;
       for (const uint32_t& tile_id : tilemap.get_tiles())
       {
+        pos++;
         if (m_tileset->get(tile_id).is_deprecated())
         {
+          // Focus on deprecated tile
+          if (focus)
+          {
+            set_sector(sector.get());
+            m_layers_widget->set_selected_tilemap(&tilemap);
+
+            const int width = tilemap.get_width();
+            m_sector->get_camera().set_translation_centered(Vector(pos % width, pos / width) * 32.f);
+            keep_camera_in_bounds();
+          }
+
           m_has_deprecated_tiles = true;
           return;
         }
@@ -777,9 +800,12 @@ Editor::setup()
     m_leveltested = false;
     Tile::draw_editor_images = true;
     m_level->reactivate();
-    m_sector->activate(m_sector->get_players()[0]->get_pos());
+
+    m_sector->activate(Vector(0,0));
+
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
+
     m_deactivate_request = false;
     m_enabled = true;
     m_toolbox_widget->update_mouse_icon();
@@ -1057,7 +1083,7 @@ Editor::get_status() const
 PHYSFS_EnumerateCallbackResult
 Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
 {
-  auto full_path = FileSystem::join(std::string(origdir), std::string(fname));
+  auto full_path = FileSystem::join(origdir, fname);
 
   PHYSFS_Stat ps;
   PHYSFS_stat(full_path.c_str(), &ps);
@@ -1069,7 +1095,7 @@ Editor::foreach_recurse(void *data, const char *origdir, const char *fname)
   {
     auto* zip = static_cast<Partio::ZipFileWriter*>(data);
     auto os = zip->Add_File(full_path);
-    auto filename = FileSystem::join(std::string(PHYSFS_getWriteDir()), full_path);
+    auto filename = FileSystem::join(PHYSFS_getWriteDir(), full_path);
     *os << std::ifstream(filename).rdbuf();
   }
 
@@ -1084,7 +1110,7 @@ Editor::pack_addon()
   int version = 0;
   try
   {
-    Partio::ZipFileReader zipold(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
+    Partio::ZipFileReader zipold(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
     auto info_file = zipold.Get_File(id + ".nfo");
     if (info_file)
     {
@@ -1099,7 +1125,7 @@ Editor::pack_addon()
   }
   version++;
 
-  Partio::ZipFileWriter zip(FileSystem::join(std::string(PHYSFS_getWriteDir()), "addons/" + id + ".zip"));
+  Partio::ZipFileWriter zip(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
   PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
 
   std::stringstream ss;

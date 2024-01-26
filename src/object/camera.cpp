@@ -286,11 +286,31 @@ Camera::after_editor_set()
   }
 }
 
+void
+Camera::save_state()
+{
+  GameObject::save_state();
+  PathObject::save_state();
+}
+
+void
+Camera::check_state()
+{
+  GameObject::check_state();
+  PathObject::check_state();
+}
+
 const Vector
 Camera::get_translation() const
 {
   Vector screen_size = m_screen_size.as_vector();
   return m_translation + ((screen_size * (get_current_scale() - 1.f)) / 2.f);
+}
+
+void
+Camera::set_translation_centered(const Vector& translation)
+{
+  m_translation = translation - m_screen_size.as_vector() / 2;
 }
 
 Rectf

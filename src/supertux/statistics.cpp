@@ -146,7 +146,7 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
   }
 
   context.color().draw_text(
-    Resources::small_font, std::string("- ") + _("Best Level Statistics") + " -",
+    Resources::small_font, "- " + _("Best Level Statistics") + " -",
     Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1),
     ALIGN_CENTER, LAYER_HUD,Statistics::header_color);
 

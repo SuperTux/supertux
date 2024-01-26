@@ -226,7 +226,7 @@ EditorMenu::menu_action(MenuItem& item)
       break;
 
     case MNID_CHECKDEPRECATEDTILES:
-      editor->check_deprecated_tiles();
+      editor->check_deprecated_tiles(true);
       if (editor->has_deprecated_tiles())
       {
         const std::string present_message = _("Deprecated tiles are still present in the level.");

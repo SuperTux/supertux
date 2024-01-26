@@ -26,7 +26,7 @@ public:
   bool get_use_bitmap_fonts() const;
 
   void set_game_speed_multiplier(float v);
-  float get_game_speed_multiplier() const;
+  float get_game_speed_multiplier() const { return m_game_speed_multiplier; }
 
 public:
   /** Show collision rectangles of moving objects */

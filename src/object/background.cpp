@@ -192,9 +192,9 @@ Background::get_settings()
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.0f);
   result.add_float(_("Parallax Speed x"), &m_parallax_speed.x, "speed", std::nullopt);
   result.add_float(_("Parallax Speed y"), &m_parallax_speed.y, "speed-y", m_parallax_speed.x);
-  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", std::string());
+  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", "");
   result.add_surface(_("Image"), &m_imagefile, "image");
-  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", std::string());
+  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", "");
   result.add_rgba(_("Colour"), &m_color, "color");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
                   {_("Normal"), _("Lightmap")},

@@ -67,26 +67,11 @@ Gradient::Gradient(const ReaderMapping& reader) :
   std::string direction;
   if (reader.get("direction", direction))
   {
-    if (direction == "horizontal")
-    {
-      m_gradient_direction = HORIZONTAL;
-    }
-    else if (direction == "horizontal_sector")
-    {
-      m_gradient_direction = HORIZONTAL_SECTOR;
-    }
-    else if (direction == "vertical_sector")
-    {
-      m_gradient_direction = VERTICAL_SECTOR;
-    }
-    else
-    {
-      m_gradient_direction = VERTICAL;
-    }
+    set_direction(direction);
   }
   else
   {
-    m_gradient_direction = VERTICAL;
+    set_direction(VERTICAL);
   }
 
   if (reader.get("top_color", bkgd_top_color)) {
@@ -209,10 +194,51 @@ Gradient::fade_gradient(const Color& top, const Color& bottom, float time)
   m_fade_time = time;
 }
 
+std::string
+Gradient::get_direction_string() const
+{
+  if (m_gradient_direction == HORIZONTAL)
+    return "horizontal";
+  if (m_gradient_direction == VERTICAL)
+    return "vertical";
+  if (m_gradient_direction == HORIZONTAL_SECTOR)
+    return "horizontal_sector";
+  if (m_gradient_direction == VERTICAL_SECTOR)
+    return "vertical_sector";
+
+  return nullptr;
+}
+
 void
 Gradient::set_direction(const GradientDirection& direction)
 {
   m_gradient_direction = direction;
+}
+
+void
+Gradient::set_direction(const std::string& direction)
+{
+  if (direction == "horizontal")
+  {
+    m_gradient_direction = HORIZONTAL;
+  }
+  else if (direction == "horizontal_sector")
+  {
+    m_gradient_direction = HORIZONTAL_SECTOR;
+  }
+  else if (direction == "vertical_sector")
+  {
+    m_gradient_direction = VERTICAL_SECTOR;
+  }
+  else if (direction == "vertical")
+  {
+    m_gradient_direction = VERTICAL;
+  }
+  else
+  {
+    log_info << "Invalid direction for gradient \"" << direction << "\"";
+    m_gradient_direction = VERTICAL;
+  }
 }
 
 void
@@ -231,9 +257,7 @@ Gradient::draw(DrawingContext& context)
   }
   else
   {
-    gradient_region = Rectf(0, 0,
-                            context.get_width(),
-                            context.get_height());
+    gradient_region = context.get_rect();
   }
 
   context.push_transform();
