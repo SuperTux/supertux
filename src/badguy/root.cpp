@@ -287,6 +287,11 @@ Root::collision_badguy(BadGuy &other, const CollisionHit &hit)
   return BadGuy::collision_badguy(other, hit);
 }
 
+void
+Root::kill_fall()
+{
+}
+
 std::vector<Direction>
 Root::get_allowed_directions() const
 {

@@ -32,6 +32,7 @@ public:
   virtual void draw(DrawingContext &context) override;
   virtual void active_update(float dt_sec) override;
   virtual HitResponse collision_badguy(BadGuy &other, const CollisionHit &hit) override;
+  virtual void kill_fall() override;
 
   static std::string class_name() { return "root"; }
   virtual std::string get_class_name() const override { return class_name(); }

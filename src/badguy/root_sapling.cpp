@@ -37,7 +37,7 @@ RootSapling::RootSapling(const ReaderMapping& reader) :
   m_dead(false)
 {
   m_physic.enable_gravity(false);
-  set_colgroup_active(COLGROUP_STATIC);
+  set_colgroup_active(COLGROUP_MOVING);
   set_action("idle", m_dir);
 
   m_glowing = true;
@@ -61,9 +61,17 @@ RootSapling::kill_fall()
 }
 
 HitResponse
-RootSapling::collision_badguy(BadGuy&, const CollisionHit&)
+RootSapling::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
-  return FORCE_MOVE;
+  if (other.is_frozen())
+  {
+    kill_fall();
+    return FORCE_MOVE;
+  }
+
+  //if (dynamic_cast<>(other))
+
+  return BadGuy::collision_badguy(other, hit);
 }
 
 bool
