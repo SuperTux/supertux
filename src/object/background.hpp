@@ -19,13 +19,13 @@
 
 #include "math/vector.hpp"
 #include "scripting/background.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include "video/blend.hpp"
 #include "video/drawing_context.hpp"
 #include "video/flip.hpp"
-#include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
@@ -68,6 +68,11 @@ public:
   void set_color(Color color) { m_color = color; }
   void fade_color(Color color, float time);
 
+  void set_top_image_action(const std::string& action);
+  void set_image_action(const std::string& action);
+  void set_bottom_image_action(const std::string& action);
+  void set_image_actions(const std::string& action);
+
 private:
   enum Alignment {
     NO_ALIGNMENT,
@@ -78,7 +83,8 @@ private:
   };
 
 private:
-  SurfacePtr load_background(const std::string& image_path);
+  SpritePtr load_background(const std::string& image_path);
+  SpritePtr load_background_sprite(const std::string& image_path);
 
 private:
   /** Backgrounds with NO_ALIGNMENT are repeated over the whole
@@ -99,9 +105,9 @@ private:
   Vector m_parallax_speed;
   Vector m_scroll_speed;
   Vector m_scroll_offset;
-  SurfacePtr m_image_top; /**< image to draw above pos */
-  SurfacePtr m_image; /**< image to draw, anchored at pos */
-  SurfacePtr m_image_bottom; /**< image to draw below pos+screenheight */
+  SpritePtr m_image_top; /**< image to draw above pos */
+  SpritePtr m_image; /**< image to draw, anchored at pos */
+  SpritePtr m_image_bottom; /**< image to draw below pos+screenheight */
 
   Blend m_blend;
   Color m_color;

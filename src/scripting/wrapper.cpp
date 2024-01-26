@@ -418,6 +418,126 @@ static SQInteger Background_fade_color_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Background_set_top_image_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_top_image_action' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_top_image_action(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_top_image_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Background_set_image_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_image_action' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_image_action(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_image_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Background_set_bottom_image_action_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_bottom_image_action' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_bottom_image_action(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_bottom_image_action'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Background_set_image_actions_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'set_image_actions' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_image_actions(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_image_actions'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger BadGuy_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::BadGuy* _this = reinterpret_cast<scripting::BadGuy*> (ptr);
@@ -14564,6 +14684,34 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|nb|nb|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'fade_color'");
+  }
+
+  sq_pushstring(v, "set_top_image_action", -1);
+  sq_newclosure(v, &Background_set_top_image_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_top_image_action'");
+  }
+
+  sq_pushstring(v, "set_image_action", -1);
+  sq_newclosure(v, &Background_set_image_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_image_action'");
+  }
+
+  sq_pushstring(v, "set_bottom_image_action", -1);
+  sq_newclosure(v, &Background_set_bottom_image_action_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_bottom_image_action'");
+  }
+
+  sq_pushstring(v, "set_image_actions", -1);
+  sq_newclosure(v, &Background_set_image_actions_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_image_actions'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {

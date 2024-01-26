@@ -28,6 +28,7 @@ Sprite::Sprite(SpriteData& newdata) :
   m_frame(0),
   m_frameidx(0),
   m_animation_loops(-1),
+  m_animation_enabled(true),
   m_last_ticks(),
   m_angle(0.0f),
   m_alpha(1.0f),
@@ -45,6 +46,7 @@ Sprite::Sprite(const Sprite& other) :
   m_frame(other.m_frame),
   m_frameidx(other.m_frameidx),
   m_animation_loops(other.m_animation_loops),
+  m_animation_enabled(other.m_animation_enabled),
   m_last_ticks(g_game_time),
   m_angle(0.0f), // FIXME: this can't be right
   m_alpha(1.0f),
@@ -96,7 +98,7 @@ Sprite::set_action(const std::string& name, int loops)
 
   const SpriteData::Action* newaction = m_data.get_action(name);
   if (!newaction) {
-    log_debug << "Action '" << name << "' not found." << std::endl;
+    log_warning << "Action '" << name << "' not found." << std::endl;
     return;
   }
 
@@ -133,6 +135,8 @@ Sprite::update()
   float frame_inc = m_action->fps * (g_game_time - m_last_ticks);
   m_last_ticks = g_game_time;
 
+  if (!m_animation_enabled) return;
+
   m_frame += frame_inc;
 
   while (m_frame >= 1.0f) {
@@ -158,9 +162,8 @@ void
 Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
              Flip flip)
 {
-  assert(m_action != nullptr);
+  assert(m_action);
   update();
-
 
   DrawingContext& context = canvas.get_context();
   context.push_transform();
@@ -174,6 +177,24 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
                     m_color,
                     m_blend,
                     layer);
+
+  context.pop_transform();
+}
+
+void
+Sprite::draw_scaled(Canvas& canvas, const Rectf& dest_rect, int layer,
+                    Flip flip)
+{
+  assert(m_action);
+  update();
+
+  DrawingContext& context = canvas.get_context();
+  context.push_transform();
+
+  context.set_flip(context.get_flip() ^ flip);
+  context.set_alpha(context.get_alpha() * m_alpha);
+
+  canvas.draw_surface_scaled(m_action->surfaces[m_frameidx], dest_rect, layer);
 
   context.pop_transform();
 }

@@ -20,6 +20,8 @@
 #include <utility>
 
 #include "editor/editor.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/gameconfig.hpp"
@@ -28,7 +30,6 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
-#include "video/surface.hpp"
 
 Background::Background() :
   ExposedObject<Background, scripting::Background>(this),
@@ -192,9 +193,9 @@ Background::get_settings()
   result.add_float(_("Scroll speed y"), &m_scroll_speed.y, "scroll-speed-y", 0.0f);
   result.add_float(_("Parallax Speed x"), &m_parallax_speed.x, "speed", std::nullopt);
   result.add_float(_("Parallax Speed y"), &m_parallax_speed.y, "speed-y", m_parallax_speed.x);
-  result.add_surface(_("Top image"), &m_imagefile_top, "image-top", "");
-  result.add_surface(_("Image"), &m_imagefile, "image");
-  result.add_surface(_("Bottom image"), &m_imagefile_bottom, "image-bottom", "");
+  result.add_sprite(_("Top image"), &m_imagefile_top, "image-top", "");
+  result.add_sprite(_("Image"), &m_imagefile, "image");
+  result.add_sprite(_("Bottom image"), &m_imagefile_bottom, "image-bottom", "");
   result.add_rgba(_("Colour"), &m_color, "color");
   result.add_enum(_("Draw target"), reinterpret_cast<int*>(&m_target),
                   {_("Normal"), _("Lightmap")},
@@ -299,13 +300,16 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
   Canvas& canvas = context.get_canvas(m_target);
   context.set_flip(context.get_flip() ^ m_flip);
 
+  m_image->set_color(m_color);
+  m_image->set_blend(m_blend);
+
   if (m_fill)
   {
     Rectf dstrect(Vector(pos_.x - context.get_width() / 2.0f,
                          pos_.y - context.get_height() / 2.0f),
                   Sizef(context.get_width(),
                         context.get_height()));
-    canvas.draw_surface_scaled(m_image, dstrect, m_layer);
+    m_image->draw_scaled(canvas, dstrect, m_layer);
   }
   else
   {
@@ -316,7 +320,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x - parallax_image_size.width / 2.0f,
                    pos_.y + static_cast<float>(y) * img_h - img_h_2);
-          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+          m_image->draw(canvas, p, m_layer);
         }
         break;
 
@@ -325,7 +329,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + parallax_image_size.width / 2.0f - img_w,
                    pos_.y + static_cast<float>(y) * img_h - img_h_2);
-          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+          m_image->draw(canvas, p, m_layer);
         }
         break;
 
@@ -334,7 +338,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                    pos_.y - parallax_image_size.height / 2.0f);
-          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+          m_image->draw(canvas, p, m_layer);
         }
         break;
 
@@ -343,7 +347,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
         {
           Vector p(pos_.x + static_cast<float>(x) * img_w - img_w_2,
                    pos_.y - img_h + parallax_image_size.height / 2.0f);
-          canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+          m_image->draw(canvas, p, m_layer);
         }
         break;
 
@@ -356,15 +360,21 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 
             if (m_image_top && (y < 0))
             {
-              canvas.draw_surface(m_image_top, p, 0.f, m_color, m_blend, m_layer);
+              m_image_top->set_color(m_color);
+              m_image_top->set_blend(m_blend);
+
+              m_image_top->draw(canvas, p, m_layer);
             }
             else if (m_image_bottom && (y > 0))
             {
-              canvas.draw_surface(m_image_bottom, p, 0.f, m_color, m_blend, m_layer);
+              m_image_bottom->set_color(m_color);
+              m_image_bottom->set_blend(m_blend);
+
+              m_image_bottom->draw(canvas, p, m_layer);
             }
             else
             {
-              canvas.draw_surface(m_image, p, 0.f, m_color, m_blend, m_layer);
+              m_image->draw(canvas, p, m_layer);
             }
           }
         break;
@@ -459,15 +469,25 @@ std::unordered_map<std::string, std::string> fallback_paths = {
 
 } // namespace
 
-SurfacePtr
+SpritePtr
 Background::load_background(const std::string& image_path)
+{
+  SpritePtr sprite = load_background_sprite(image_path);
+  if (!sprite) return nullptr;
+
+  sprite->set_animation_enabled(!Editor::is_active());
+  return sprite;
+}
+
+SpritePtr
+Background::load_background_sprite(const std::string& image_path)
 {
   if (image_path.empty())
     return nullptr;
 
   if (PHYSFS_exists(image_path.c_str()))
     // No need to search fallback paths.
-    return Surface::from_file(image_path);
+    return SpriteManager::current()->create(image_path);
 
   // Search for a fallback image in fallback_paths.
   const std::string& default_dir = "images/background/";
@@ -477,13 +497,42 @@ Background::load_background(const std::string& image_path)
     new_path.erase(0, default_dir.length());
   else if (image_path.substr(0, default_dir2.length()) == default_dir2)
     new_path.erase(0, default_dir2.length());
+
   auto it = fallback_paths.find(new_path);
   if (it == fallback_paths.end())
-    // Unknown image, let the texture manager select the dummy texture.
-    return Surface::from_file(image_path);
+    // Unknown image, try checking for a ".deprecated" version, or use the dummy texture.
+    return SpriteManager::current()->create(image_path);
 
   new_path = default_dir + it->second;
-  return Surface::from_file(new_path);
+  return SpriteManager::current()->create(new_path);
+}
+
+void
+Background::set_top_image_action(const std::string& action)
+{
+  if (m_image_top)
+    m_image_top->set_action(action);
+}
+
+void
+Background::set_image_action(const std::string& action)
+{
+  m_image->set_action(action);
+}
+
+void
+Background::set_bottom_image_action(const std::string& action)
+{
+  if (m_image_bottom)
+    m_image_bottom->set_action(action);
+}
+
+void
+Background::set_image_actions(const std::string& action)
+{
+  set_top_image_action(action);
+  set_image_action(action);
+  set_bottom_image_action(action);
 }
 
 void

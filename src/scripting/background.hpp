@@ -98,6 +98,27 @@ public:
    * @param float $time
    */
   void fade_color(float red, float green, float blue, float alpha, float time);
+
+  /**
+   * Sets the sprite action for the top image.
+   * @param string $action
+   */
+  void set_top_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for the main (middle) image.
+   * @param string $action
+   */
+  void set_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for the bottom image.
+   * @param string $action
+   */
+  void set_bottom_image_action(const std::string& action);
+  /**
+   * Sets the sprite action for all images (top, middle and bottom).
+   * @param string $action
+   */
+  void set_image_actions(const std::string& action);
 };
 
 } // namespace scripting
