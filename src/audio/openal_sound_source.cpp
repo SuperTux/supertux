@@ -62,6 +62,20 @@ OpenALSoundSource::stop(bool unload_buffer)
 }
 
 void
+OpenALSoundSource::pause()
+{
+  alSourcePause(m_source);
+  try
+  {
+    SoundManager::check_al_error("Couldn't pause audio source: ");
+  }
+  catch(const std::exception& e)
+  {
+    log_warning << e.what() << std::endl;
+  }
+}
+
+void
 OpenALSoundSource::play()
 {
   alSourcePlay(m_source);
@@ -83,20 +97,6 @@ OpenALSoundSource::playing() const
   ALint state = AL_PLAYING;
   alGetSourcei(m_source, AL_SOURCE_STATE, &state);
   return state == AL_PLAYING;
-}
-
-void
-OpenALSoundSource::pause()
-{
-  alSourcePause(m_source);
-  try
-  {
-    SoundManager::check_al_error("Couldn't pause audio source: ");
-  }
-  catch(const std::exception& e)
-  {
-    log_warning << e.what() << std::endl;
-  }
 }
 
 void
