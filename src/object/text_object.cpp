@@ -221,12 +221,10 @@ TextObject::draw(DrawingContext& context)
 
   if (m_fader || (m_grower && m_fade_progress >= 1.f))
   {
-    if (m_centered) {
-      context.color().draw_center_text(m_font, m_wrapped_text, spos, LAYER_GUI + 60, m_text_color);
-    }
-    else {
-      context.color().draw_text(m_font, m_wrapped_text, spos + Vector(10.f, 10.f), ALIGN_LEFT, LAYER_GUI + 60, m_text_color);
-    }
+    context.color().draw_text(m_font, m_wrapped_text,
+                              spos + Vector(m_centered ? width / 2.f : 10.f, 10.f),
+                              m_centered ? ALIGN_CENTER : ALIGN_LEFT,
+                              LAYER_GUI + 60, m_text_color);
   }
 
   context.pop_transform();
