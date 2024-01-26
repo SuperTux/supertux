@@ -16,10 +16,6 @@
 
 #include "editor/overlay_widget.hpp"
 
-#include "util/reader_document.hpp"
-#include "util/reader_mapping.hpp"
-#include "util/writer.hpp"
-
 #include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
@@ -730,29 +726,19 @@ EditorOverlayWidget::clone_object()
       return;
     }
 
-    auto* pm = dynamic_cast<MarkerObject*>(m_hovered_object.get());
-    if (!pm)
-    {
-      m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
+    if (dynamic_cast<MarkerObject*>(m_hovered_object.get()))
+      return;
 
-      // clone the current object by means of saving and loading it
-      auto game_object_uptr = [this]{
-        std::stringstream stream;
-        Writer writer(stream);
-        writer.start_list(m_hovered_object->get_class_name());
-        m_hovered_object->save(writer);
-        writer.end_list(m_hovered_object->get_class_name());
+    m_obj_mouse_desync = m_sector_pos - m_hovered_object->get_pos();
 
-        auto doc = ReaderDocument::from_stream(stream);
-        auto object_sx = doc.get_root();
-        return GameObjectFactory::instance().create(object_sx.get_name(), object_sx.get_mapping());
-      }();
+    auto obj = GameObjectFactory::instance().create(m_hovered_object->get_class_name(), m_hovered_object->save());
 
-      GameObject& game_object = m_editor.get_sector()->add_object(std::move(game_object_uptr));
+    auto* path_object = dynamic_cast<PathObject*>(obj.get());
+    if (path_object)
+      path_object->editor_clone_path(dynamic_cast<PathObject*>(m_hovered_object.get())->get_path_gameobject());
 
-      m_dragged_object = dynamic_cast<MovingObject*>(&game_object);
-      m_dragged_object->after_editor_set();
-    }
+    m_dragged_object = static_cast<MovingObject*>(&m_editor.get_sector()->add_object(std::move(obj)));
+    m_dragged_object->after_editor_set();
   }
   else
   {
@@ -830,7 +816,7 @@ EditorOverlayWidget::rubber_rect()
   for (auto& moving_object : m_editor.get_sector()->get_objects_by_type<MovingObject>())
   {
     const Rectf& bbox = moving_object.get_bbox();
-    if (dr.contains(bbox)) {
+    if (dr.overlaps(bbox)) {
       moving_object.editor_delete();
     }
 

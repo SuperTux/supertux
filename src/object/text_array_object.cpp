@@ -18,7 +18,7 @@
 #include "control/input_manager.hpp"
 
 TextArrayObject::TextArrayObject(const std::string& name) :
-  ExposedObject<TextArrayObject, scripting::TextArray>(this),
+  ExposedObject<TextArrayObject, scripting::TextArrayObject>(this),
   m_isDone(false),
   m_isAuto(false),
   m_keepVisible(false),
@@ -30,21 +30,6 @@ TextArrayObject::TextArrayObject(const std::string& name) :
   m_waiting()
 {
   m_name = name;
-}
-
-TextArrayObject::TextArrayObject(const ReaderMapping& reader) :
-  GameObject(reader),
-  ExposedObject<TextArrayObject, scripting::TextArray>(this),
-  m_isDone(false),
-  m_isAuto(false),
-  m_keepVisible(false),
-  m_fadeTransition(true),
-  m_fadetime(1.0),
-  m_texts(),
-  m_curTextIndex(0),
-  m_lastTextIndex(0),
-  m_waiting()
-{
 }
 
 void
@@ -84,7 +69,7 @@ TextArrayObject::next_text()
   if (m_isDone)
     return;
 
-  if (m_curTextIndex+1 >= m_texts.size()) {
+  if (m_curTextIndex + 1 >= m_texts.size()) {
     m_isDone = true;
     return;
   }

@@ -375,7 +375,7 @@ void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.color().draw_filled_rect(
-    Rectf(0, 0, context.get_width(), context.get_height()),
+    Rectf(context.get_rect()),
     Color(0.0f, 0.0f, 0.0f, 0.25f),
     LAYER_FOREGROUND1);
 }
@@ -416,8 +416,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   }
   // Handle controller.
 
-  if (controller.pressed(Control::ESCAPE) ||
-      controller.pressed(Control::START))
+  if (controller.pressed_any(Control::ESCAPE, Control::START))
   {
     on_escape_press(controller.hold(Control::LEFT)
       || controller.hold(Control::RIGHT));

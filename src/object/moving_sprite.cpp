@@ -116,7 +116,7 @@ MovingSprite::on_type_change(int old_type)
 }
 
 bool
-MovingSprite::matches_sprite(const std::string& sprite_file)
+MovingSprite::matches_sprite(const std::string& sprite_file) const
 {
   return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
 }

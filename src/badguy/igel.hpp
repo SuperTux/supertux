@@ -39,6 +39,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual bool is_freezable() const override { return true; }
+  virtual void unfreeze(bool melt = true) override;
 
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;

@@ -179,9 +179,7 @@ TitleScreen::draw(Compositor& compositor)
                                  LAYER_GUI + 2);
   }
 
-  context.color().draw_surface_scaled(m_frame,
-                                      Rectf(0, 0, context.get_width(), context.get_height()),
-                                      LAYER_GUI + 3);
+  context.color().draw_surface_scaled(m_frame, context.get_rect(), LAYER_GUI + 3);
 
   context.color().draw_text(Resources::small_font,
                             m_copyright_text,
@@ -254,8 +252,9 @@ TitleScreen::update_level(float dt_sec)
 void
 TitleScreen::refresh_copyright_text()
 {
+  // cppcheck-suppress unknownMacro
   m_copyright_text = "SuperTux " PACKAGE_VERSION "\n" +
-    _("Copyright") + " (c) 2003-2023 SuperTux Devel Team\n" +
+    _("Copyright") + " (c) 2003-2024 SuperTux Devel Team\n" +
     _("This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
       "redistribute it under certain conditions; see the license file for details.\n");
 }

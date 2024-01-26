@@ -458,10 +458,10 @@ AddonManager::install_addon_from_local_file(const std::string& filename)
     return;
 
   const std::string& target_directory = FileSystem::join(PHYSFS_getRealDir(m_addon_directory.c_str()), m_addon_directory);
-  const std::string& target_filename = FileSystem::join(target_directory, std::string(source_filename));
+  const std::string& target_filename = FileSystem::join(target_directory, source_filename);
   const std::string& physfs_target_filename = FileSystem::join(m_addon_directory, source_filename);
 
-  FileSystem::copy(std::string(filename), target_filename);
+  FileSystem::copy(filename, target_filename);
   MD5 target_md5 = md5_from_file(physfs_target_filename);
   add_installed_archive(physfs_target_filename, target_md5.hex_digest(), true);
 }
@@ -759,7 +759,7 @@ AddonManager::scan_for_archives() const
 std::string
 AddonManager::scan_for_info(const std::string& archive_os_path) const
 {
-  std::string nfoFilename = std::string();
+  std::string nfoFilename = "";
   physfsutil::enumerate_files("/", [archive_os_path, &nfoFilename](const std::string& file) {
     if (StringUtil::has_suffix(file, ".nfo"))
     {

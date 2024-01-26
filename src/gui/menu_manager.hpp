@@ -83,6 +83,7 @@ public:
   void on_window_resize();
 
   bool is_active() const;
+  bool is_menu_visible() const { return is_active() || m_transition->is_active(); }
   bool has_dialog() const;
 
   Menu* current_menu() const;

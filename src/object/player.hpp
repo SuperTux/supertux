@@ -79,6 +79,7 @@ public:
   virtual void on_flip(float height) override;
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return false; }
+  virtual bool has_object_manager_priority() const override { return true; }
   virtual void remove_me() override;
 
   int get_id() const { return m_id; }
@@ -127,6 +128,7 @@ public:
 
   /** like add_bonus, but can also downgrade the bonus items carried */
   bool set_bonus(BonusType type, bool animate = false);
+  BonusType get_bonus() const;
 
   std::string bonus_to_string() const;
 
