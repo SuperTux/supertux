@@ -32,6 +32,7 @@
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller_screen.hpp"
 #include "supertux/tile.hpp"
+#include "supertux/title_screen.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
@@ -137,7 +138,9 @@ bool check_cutscene()
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
-  if(GameSession::current()->get_current_level().m_skip_cutscene)
+  auto session = GameSession::current();
+
+  if(session && session->get_current_level().m_skip_cutscene)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
@@ -153,18 +156,18 @@ void wait(HSQUIRRELVM vm, float seconds)
       log_warning << "wait(): no VM or environment available\n";
     }
   }
-  else if(GameSession::current()->get_current_level().m_is_in_cutscene)
+  else if(session && session->get_current_level().m_is_in_cutscene)
   {
     if (auto squirrelenv = static_cast<SquirrelEnvironment*>(sq_getforeignptr(vm)))
     {
       // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
       squirrelenv->skippable_wait_for_seconds(vm, seconds);
-      //GameSession::current()->set_scheduler(squirrelenv->get_scheduler());
+      //session->set_scheduler(squirrelenv->get_scheduler());
     }
     else if (auto squirrelvm = static_cast<SquirrelVirtualMachine*>(sq_getsharedforeignptr(vm)))
     {
       squirrelvm->skippable_wait_for_seconds(vm, seconds);
-      //GameSession::current()->set_scheduler(squirrelvm->get_scheduler());
+      //session->set_scheduler(squirrelvm->get_scheduler());
     }
     else
     {
@@ -480,6 +483,17 @@ void play_demo(const std::string& filename)
   gameRandom.seed(g_config->random_seed);
   session->restart_level();
   session->play_demo(filename);
+}
+
+void set_title_frame(const std::string& image)
+{
+  auto title_screen = TitleScreen::current();
+  if (!title_screen)
+  {
+    log_info << "No title screen loaded." << std::endl;
+    return;
+  }
+  title_screen->set_frame(image);
 }
 
 }

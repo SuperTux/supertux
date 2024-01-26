@@ -151,15 +151,14 @@ Haywire::active_update(float dt_sec)
       }
       else
       {
-        // Jump over gaps if Tux isn't below.
+        // Jump over gaps
         Rectf gap_box = get_bbox();
         gap_box.set_left(m_col.m_bbox.get_left() + (m_dir == Direction::LEFT ? -38.f : 26.f));
         gap_box.set_right(m_col.m_bbox.get_right() + (m_dir == Direction::LEFT ? -26.f : 38.f));
         gap_box.set_top(m_col.m_bbox.get_top());
         gap_box.set_bottom(m_col.m_bbox.get_bottom() + 28.f);
 
-        if (Sector::get().is_free_of_statics(gap_box)
-          && (player->get_bbox().get_bottom() <= m_col.m_bbox.get_bottom()))
+        if (Sector::get().is_free_of_statics(gap_box))
         {
           m_physic.set_velocity_y(-325.f);
           m_jumping = true;

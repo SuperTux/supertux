@@ -130,7 +130,7 @@ ConveyorBelt::after_editor_set()
 
   if (m_length <= 0)
     m_length = 1;
-  set_action(dir_to_string(m_dir));
+  set_action(m_dir);
 }
 
 void

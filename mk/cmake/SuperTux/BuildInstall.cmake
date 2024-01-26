@@ -83,15 +83,11 @@ if(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
     DESTINATION ${INSTALL_SUBDIR_SHARE}
     PATTERN "data/levels/test" EXCLUDE
     PATTERN "data/levels/test_old" EXCLUDE
-    PATTERN "data/levels/incubator" EXCLUDE
-    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
+    PATTERN "data/levels/incubator" EXCLUDE)
 else()
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
-    DESTINATION ${INSTALL_SUBDIR_SHARE}
-    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
+    DESTINATION ${INSTALL_SUBDIR_SHARE})
 endif()
-
-install(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INSTALL_SUBDIR_SHARE}/levels/misc")
 
 # move some config clutter to the advanced section
 mark_as_advanced(

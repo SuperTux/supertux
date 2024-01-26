@@ -112,7 +112,7 @@ GameObject::get_settings()
   ObjectSettings result(get_display_name());
 
   result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
-  result.add_text(_("Name"), &m_name, "name", std::string());
+  result.add_text(_("Name"), &m_name, "name", "");
 
   const GameObjectTypes types = get_types();
   if (!types.empty())

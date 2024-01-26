@@ -21,7 +21,9 @@
 #include "editor/editor.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/debug.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
@@ -50,7 +52,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   m_height(0),
   m_z_pos(0),
   m_offset(Vector(0,0)),
-  m_movement(0,0),
+  m_movement(0, 0),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -84,8 +86,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   m_width(-1),
   m_height(-1),
   m_z_pos(0),
-  m_offset(Vector(0,0)),
-  m_movement(Vector(0,0)),
+  m_offset(Vector(0, 0)),
+  m_movement(Vector(0, 0)),
   m_objects_hit_bottom(),
   m_ground_movement_manager(nullptr),
   m_flip(NO_FLIP),
@@ -325,6 +327,20 @@ TileMap::after_editor_set()
 }
 
 void
+TileMap::save_state()
+{
+  GameObject::save_state();
+  PathObject::save_state();
+}
+
+void
+TileMap::check_state()
+{
+  GameObject::check_state();
+  PathObject::check_state();
+}
+
+void
 TileMap::update(float dt_sec)
 {
   // handle tilemap fading
@@ -352,9 +368,9 @@ TileMap::update(float dt_sec)
     }
   }
 
-  m_movement = Vector(0,0);
   // if we have a path to follow, follow it
   if (get_walker()) {
+    m_movement = Vector(0, 0);
     get_walker()->update(dt_sec);
     Vector v = get_walker()->get_pos(get_size() * 32, m_path_handle);
     if (get_path() && get_path()->is_valid()) {
@@ -402,7 +418,7 @@ TileMap::on_flip(float height)
   for (int x = 0; x < get_width(); ++x) {
     for (int y = 0; y < get_height()/2; ++y) {
       // swap tiles
-      int y2 = get_height()-1-y;
+      int y2 = get_height() - 1 - y;
       uint32_t t1 = get_tile_id(x, y);
       uint32_t t2 = get_tile_id(x, y2);
       change(x, y, t2);
@@ -462,6 +478,14 @@ TileMap::draw(DrawingContext& context)
 
       if (g_debug.show_collision_rects) {
         tile.draw_debug(context.color(), pos, LAYER_FOREGROUND1);
+      }
+
+      // If the tilemap is active in editor and showing deprecated tiles is enabled, draw indication over each deprecated tile
+      if (Editor::is_active() && m_editor_active &&
+          g_config->editor_show_deprecated_tiles && tile.is_deprecated())
+      {
+        context.color().draw_text(Resources::normal_font, "!", pos + Vector(16, 8),
+                                  ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
       }
 
       const SurfacePtr& surface = Editor::is_active() ? tile.get_current_editor_surface() : tile.get_current_surface();
@@ -802,10 +826,9 @@ TileMap::autotile_corner(int x, int y, uint32_t tile, AutotileCornerOperation op
 }
 
 bool
-TileMap::is_corner(uint32_t tile)
+TileMap::is_corner(uint32_t tile) const
 {
   auto* ats = m_tileset->get_autotileset_from_tile(tile);
-  
   return ats && ats->is_corner();
 }
 
@@ -944,11 +967,12 @@ TileMap::update_effective_solid()
   else if (!m_effective_solid && (m_current_alpha >= 0.75f))
     m_effective_solid = true;
 
-  if(Sector::current() != nullptr && old != m_effective_solid)
-  {
+  if(old != m_effective_solid) {
+    if(Sector::current() != nullptr) {
       Sector::get().update_solid(this);
-  } else if(worldmap::WorldMap::current() != nullptr && old != m_effective_solid) {
+    } else if(worldmap::WorldMap::current() != nullptr) {
       worldmap::WorldMapSector::current()->update_solid(this);
+    }
   }
 }
 

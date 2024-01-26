@@ -110,6 +110,9 @@ public:
       If false, load_state() and save_state() calls would not do anything. */
   virtual bool track_state() const { return true; }
 
+  /** Indicates if the object should be added at the beginning of the object list. */
+  virtual bool has_object_manager_priority() const { return false; }
+
   /** Indicates if get_settings() is implemented. If true the editor
       will display Tip and ObjectMenu. */
   virtual bool has_settings() const { return is_saveable(); }
@@ -130,6 +133,8 @@ public:
 
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const { return !m_scheduled_for_removal; }
+
+  virtual bool is_within_bounds(const Rectf& cliprect) const { return true; }
 
   /** registers a remove listener which will be called if the object
       gets removed/destroyed */

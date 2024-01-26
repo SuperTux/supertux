@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <sstream>
 
+#include <physfs.h>
+
 #include "math/rect.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
@@ -71,6 +73,17 @@ GLenum string2filter(const std::string& text)
     log_warning << "unknown texture filter: " << text << std::endl;
     return GL_LINEAR;
   }
+}
+
+SDLSurfacePtr create_image_surface(const std::string& filename)
+{
+  if (PHYSFS_exists(filename.c_str()))
+    return SDLSurface::from_file(filename);
+
+  // The image doesn't exist, so attempt to load a ".deprecated" version
+  log_warning << "Image '" << filename << "' doesn't exist. Attempting to load \".deprecated\" version." << std::endl;
+  return SDLSurface::from_file(FileSystem::strip_extension(filename) + ".deprecated" +
+                               FileSystem::extension(filename));
 }
 
 } // namespace
@@ -280,18 +293,9 @@ TextureManager::get_surface(const std::string& filename)
   {
     return *i->second;
   }
-  else
-  {
-    SDLSurfacePtr image = SDLSurface::from_file(filename);
-    if (!image)
-    {
-      std::ostringstream msg;
-      msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-      throw std::runtime_error(msg.str());
-    }
 
-    return *(m_surfaces[filename] = std::move(image));
-  }
+  SDLSurfacePtr surface = create_image_surface(filename);
+  return *(m_surfaces[filename] = std::move(surface));
 }
 
 TexturePtr
@@ -376,19 +380,10 @@ TextureManager::create_image_texture(const std::string& filename, const Sampler&
 TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename, const Sampler& sampler)
 {
-  SDLSurfacePtr image = SDLSurface::from_file(filename);
-  if (!image)
-  {
-    std::ostringstream msg;
-    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
-  else
-  {
-    TexturePtr texture = VideoSystem::current()->new_texture(*image, sampler);
-    image.reset(nullptr);
-    return texture;
-  }
+  SDLSurfacePtr surface = create_image_surface(filename);
+  TexturePtr texture = VideoSystem::current()->new_texture(*surface, sampler);
+  surface.reset(nullptr);
+  return texture;
 }
 
 TexturePtr

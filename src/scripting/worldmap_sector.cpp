@@ -66,6 +66,13 @@ WorldMapSector::get_filename() const
   return worldmap.get_filename();
 }
 
+void
+WorldMapSector::set_title_level(const std::string& filename)
+{
+  SCRIPT_GUARD_WORLDMAP;
+  worldmap.get_savegame().get_player_status().title_level = filename;
+}
+
 } // namespace scripting
 
 /* EOF */

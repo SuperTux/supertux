@@ -20,7 +20,7 @@
 
 #include "gui/menu.hpp"
 
-#include <map>
+class Profile;
 
 class ProfileMenu final : public Menu
 {
@@ -33,16 +33,16 @@ public:
 private:
   void rebuild_menu();
 
-private:
-  std::vector<int> m_profiles;
-  std::map<int, std::string> m_profile_names;
-};
+  void on_profile_change();
 
-namespace savegames_util
-{
-  std::vector<int> get_savegames();
-  void delete_savegames(int idx, bool reset = false);
-}
+private:
+  std::vector<Profile*> m_profiles;
+  Profile* m_current_profile;
+
+private:
+  ProfileMenu(const ProfileMenu&) = delete;
+  ProfileMenu& operator=(const ProfileMenu&) = delete;
+};
 
 #endif
 

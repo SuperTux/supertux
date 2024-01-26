@@ -351,7 +351,7 @@ Dispenser::set_correct_action()
   switch (m_type)
   {
     case DispenserType::CANNON:
-      set_action(dir_to_string(m_dir));
+      set_action(m_dir);
       break;
     case DispenserType::POINT:
       set_colgroup_active(COLGROUP_DISABLED);

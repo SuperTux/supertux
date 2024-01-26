@@ -57,7 +57,9 @@ public:
   Color get_gradient_bottom() const { return m_gradient_bottom; }
 
   GradientDirection get_direction() const { return m_gradient_direction; }
+  std::string get_direction_string() const;
   void set_direction(const GradientDirection& direction);
+  void set_direction(const std::string& direction);
 
   void set_layer(int layer) { m_layer = layer; }
   int get_layer() const { return m_layer; }

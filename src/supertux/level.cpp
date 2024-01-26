@@ -36,6 +36,8 @@
 #include "util/string_util.hpp"
 #include "util/writer.hpp"
 
+static PlayerStatus s_dummy_player_status(1);
+
 Level* Level::s_current = nullptr;
 
 Level::Level(bool worldmap) :
@@ -75,12 +77,9 @@ Level::initialize()
 
   m_stats.init(*this);
 
-  Savegame* savegame = (Editor::current() && Editor::is_active()) ?
-    Editor::current()->m_savegame.get() :
-    GameSession::current() ? &GameSession::current()->get_savegame() : nullptr;
-
-  PlayerStatus dummy_player_status(1);
-  PlayerStatus& player_status = savegame ? savegame->get_player_status() : dummy_player_status;
+  Savegame* savegame = (GameSession::current() && !Editor::current() ?
+    &GameSession::current()->get_savegame() : nullptr);
+  PlayerStatus& player_status = savegame ? savegame->get_player_status() : s_dummy_player_status;
 
   if (savegame && !m_suppress_pause_menu && !savegame->is_title_screen())
   {
@@ -98,7 +97,7 @@ Level::initialize()
       continue;
 
     if (id > 0 && !savegame)
-      dummy_player_status.add_player();
+      s_dummy_player_status.add_player();
 
     // Add players only in the main sector. Players will be moved between sectors.
     main_sector->add<Player>(player_status, "Tux" + (id == 0 ? "" : std::to_string(id + 1)), id);
@@ -176,7 +175,7 @@ Level::save(Writer& writer)
   writer.write("name", m_name, true);
   writer.write("author", m_author, false);
   if (!m_note.empty()) {
-    writer.write("note", m_note, false);
+    writer.write("note", m_note, true);
   }
   if (!m_contact.empty()) {
     writer.write("contact", m_contact, false);

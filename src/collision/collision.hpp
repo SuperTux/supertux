@@ -102,9 +102,6 @@ private:
   float position_bottom;
 };
 
-/** checks if 2 rectangle intersect each other */
-bool intersects(const Rectf& r1, const Rectf& r2);
-
 /** does collision detection between a rectangle and an axis aligned triangle
  * Returns true in case of a collision and fills in the hit structure then.
  */

@@ -117,10 +117,9 @@
 #include "object/scripted_object.hpp"
 #include "object/shard.hpp"
 #include "object/snow_particle_system.hpp"
+#include "object/sound_object.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
-#include "object/text_array_object.hpp"
-#include "object/text_object.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -277,10 +276,10 @@ GameObjectFactory::init_factories()
   add_factory<ScriptedObject>("scriptedobject");
   add_factory<Shard>("shard", OBJ_PARAM_DISPENSABLE);
   add_type_factory<UnstableTile>("skull_tile", UnstableTile::DELAYED); // Backward compatibility.
+  add_factory<SoundObject>("sound-object");
   add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
   add_factory<TextScroller>("textscroller");
-  add_factory<TextArrayObject>("text-array");
   add_factory<Thunderstorm>("thunderstorm");
   add_factory<Torch>("torch");
   add_factory<Trampoline>("trampoline", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);

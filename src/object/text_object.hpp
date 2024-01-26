@@ -17,10 +17,11 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 
-#include "math/anchor_point.hpp"
-#include "scripting/text.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
+
+#include "math/anchor_point.hpp"
+#include "scripting/text_object.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font_ptr.hpp"
@@ -30,13 +31,12 @@ class ReaderMapping;
 
 /** A text object intended for scripts that want to tell a story */
 class TextObject final : public GameObject,
-                         public ExposedObject<TextObject, scripting::Text>
+                         public ExposedObject<TextObject, scripting::TextObject>
 {
   static Color default_color;
 
 public:
-  TextObject(const ReaderMapping& reader);
-  TextObject(const std::string& name = std::string());
+  TextObject(const std::string& name = "");
   ~TextObject() override;
 
   static std::string class_name() { return "textobject"; }
@@ -48,9 +48,7 @@ public:
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float dt_sec) override;
-  virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override { return false; }
-
 
   void set_text(const std::string& text);
   void set_font(const std::string& name);
@@ -70,6 +68,9 @@ public:
   AnchorPoint get_anchor_point() const { return m_anchor; }
   void set_anchor_offset(const Vector& offset) { m_anchor_offset = offset; }
 
+  float get_wrap_width() const { return m_wrap_width; }
+  void set_wrap_width(float width) { m_wrap_width = width; }
+
   void set_pos(const Vector& pos) { m_pos = pos; }
   const Vector& get_pos() const { return m_pos; }
 
@@ -87,6 +88,7 @@ private:
   AnchorPoint m_anchor;
   Vector m_anchor_offset;
   Vector m_pos;
+  float m_wrap_width;
   Color m_front_fill_color;
   Color m_back_fill_color;
   Color m_text_color;

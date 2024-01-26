@@ -53,7 +53,7 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
   va_list arglist;
   va_start(arglist, fmt);
   vsnprintf(buf, sizeof(buf), fmt, arglist);
-  char* ptr = strtok(buf, separator);
+  const char* ptr = strtok(buf, separator);
   while (ptr != nullptr)
   {
     ConsoleBuffer::output << "[SCRIPTING] " << ptr << std::endl;

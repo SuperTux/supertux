@@ -165,8 +165,7 @@ WorldMap::process_input(const Controller& controller)
     return;
   }
 
-  if (controller.pressed(Control::JUMP) ||
-      controller.pressed(Control::MENU_SELECT))
+  if (controller.pressed_any(Control::JUMP, Control::MENU_SELECT))
   {
     // some people define UP and JUMP on the same key...
     if (!controller.pressed(Control::UP)) {
@@ -174,8 +173,7 @@ WorldMap::process_input(const Controller& controller)
     }
   }
 
-  if (controller.pressed(Control::START) ||
-      controller.pressed(Control::ESCAPE))
+  if (controller.pressed_any(Control::START, Control::ESCAPE))
   {
     on_escape_press();
   }

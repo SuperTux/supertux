@@ -24,16 +24,20 @@
 #include "object/tilemap.hpp"
 #include "supertux/game_object_factory.hpp"
 #include "supertux/moving_object.hpp"
+#include "video/drawing_context.hpp"
 
 bool GameObjectManager::s_draw_solids_only = false;
 
 GameObjectManager::GameObjectManager(bool undo_tracking) :
   m_initialized(false),
   m_uid_generator(),
+  m_change_uid_generator(),
   m_undo_tracking(undo_tracking),
   m_undo_stack_size(20),
   m_undo_stack(),
   m_redo_stack(),
+  m_pending_change_stack(),
+  m_last_saved_change(),
   m_gameobjects(),
   m_gameobjects_new(),
   m_solid_tilemaps(),
@@ -61,7 +65,10 @@ GameObjectManager::request_name_resolve(const std::string& name, std::function<v
 void
 GameObjectManager::process_resolve_requests()
 {
-  assert(m_gameobjects_new.empty());
+  // FIXME: Why is this assertion needed?
+  // Removed to allow for resolving name requests in Sector before object creation,
+  // despite there being queued objects.
+  //assert(m_gameobjects_new.empty());
 
   for (const auto& request : m_name_resolve_requests)
   {
@@ -82,7 +89,11 @@ GameObjectManager::process_resolve_requests()
 void
 GameObjectManager::try_process_resolve_requests()
 {
-  assert(m_gameobjects_new.empty());
+  // FIXME: Why is this assertion needed?
+  // Removed to allow for resolving name requests in Sector before object creation,
+  // despite there being queued objects.
+  //assert(m_gameobjects_new.empty());
+
   std::vector<GameObjectManager::NameResolveRequest> new_list;
 
   for (const auto& request : m_name_resolve_requests)
@@ -209,6 +220,9 @@ GameObjectManager::draw(DrawingContext& context)
         continue;
     }
 
+    if(!object->is_within_bounds(context.get_cliprect()))
+      continue;
+
     object->draw(context);
   }
 }
@@ -243,12 +257,27 @@ GameObjectManager::flush_game_objects()
         {
           if (!m_initialized) object->m_track_undo = false;
           this_before_object_add(*object);
-          m_gameobjects.push_back(std::move(object));
+
+          if (object->has_object_manager_priority())
+            m_gameobjects.insert(m_gameobjects.begin(), std::move(object));
+          else
+            m_gameobjects.push_back(std::move(object));
         }
       }
     }
   }
   update_tilemaps();
+
+  // A resolve request may depend on an object being added.
+  try_process_resolve_requests();
+
+  // If object changes have been performed since last flush, push them to the undo stack.
+  if (m_undo_tracking && !m_pending_change_stack.empty())
+  {
+    m_undo_stack.push_back({ m_change_uid_generator.next(), std::move(m_pending_change_stack) });
+    m_redo_stack.clear();
+    undo_stack_cleanup();
+  }
 
   m_initialized = true;
 }
@@ -333,14 +362,21 @@ GameObjectManager::undo_stack_cleanup()
 }
 
 void
+GameObjectManager::on_editor_save()
+{
+  m_last_saved_change = (m_undo_stack.empty() ? UID() : m_undo_stack.back().uid);
+}
+
+void
 GameObjectManager::undo()
 {
   if (m_undo_stack.empty()) return;
-  ObjectChange& change = m_undo_stack.back();
+  ObjectChanges& changes = m_undo_stack.back();
 
-  process_object_change(change);
+  for (auto& obj_change : changes.objects)
+    process_object_change(obj_change);
 
-  m_redo_stack.push_back(change);
+  m_redo_stack.push_back(std::move(changes));
   m_undo_stack.pop_back();
 }
 
@@ -348,11 +384,12 @@ void
 GameObjectManager::redo()
 {
   if (m_redo_stack.empty()) return;
-  ObjectChange& change = m_redo_stack.back();
+  ObjectChanges& changes = m_redo_stack.back();
 
-  process_object_change(change);
+  for (auto& obj_change : changes.objects)
+    process_object_change(obj_change);
 
-  m_undo_stack.push_back(change);
+  m_undo_stack.push_back(std::move(changes));
   m_redo_stack.pop_back();
 }
 
@@ -393,22 +430,16 @@ void
 GameObjectManager::save_object_change(GameObject& object, bool creation)
 {
   if (m_undo_tracking && object.track_state() && object.m_track_undo)
-  {
-    m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
-    m_redo_stack.clear();
-    undo_stack_cleanup();
-  }
+    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(), object.save(), creation });
+
   object.m_track_undo = true;
 }
 
 void
 GameObjectManager::save_object_change(GameObject& object, const std::string& data)
 {
-  if (!m_undo_tracking) return;
-
-  m_undo_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
-  m_redo_stack.clear();
-  undo_stack_cleanup();
+  if (m_undo_tracking)
+    m_pending_change_stack.push_back({ object.get_class_name(), object.get_uid(), data, false });
 }
 
 void
@@ -416,12 +447,14 @@ GameObjectManager::clear_undo_stack()
 {
   m_undo_stack.clear();
   m_redo_stack.clear();
+  m_last_saved_change = UID();
 }
 
 bool
 GameObjectManager::has_object_changes() const
 {
-  return !m_undo_stack.empty();
+  return (m_undo_stack.empty() && m_last_saved_change) ||
+         (!m_undo_stack.empty() && m_undo_stack.back().uid != m_last_saved_change);
 }
 
 void
@@ -476,9 +509,8 @@ float
 GameObjectManager::get_width() const
 {
   float width = 0;
-  for (auto& tilemap: get_all_tilemaps()) {
+  for (auto& tilemap : get_solid_tilemaps())
     width = std::max(width, tilemap->get_bbox().get_right());
-  }
 
   return width;
 }
@@ -487,9 +519,28 @@ float
 GameObjectManager::get_height() const
 {
   float height = 0;
-  for (const auto& tilemap: get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
     height = std::max(height, tilemap->get_bbox().get_bottom());
-  }
+
+  return height;
+}
+
+float
+GameObjectManager::get_editor_width() const
+{
+  float width = 0;
+  for (const auto& tilemap : get_all_tilemaps()) // Determine from all tilemaps
+    width = std::max(width, tilemap->get_bbox().get_right());
+
+  return width;
+}
+
+float
+GameObjectManager::get_editor_height() const
+{
+  float height = 0;
+  for (const auto& tilemap : get_all_tilemaps()) // Determine from all tilemaps
+    height = std::max(height, tilemap->get_bbox().get_bottom());
 
   return height;
 }
@@ -498,7 +549,8 @@ float
 GameObjectManager::get_tiles_width() const
 {
   float width = 0;
-  for (const auto& tilemap : get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
+  {
     if (static_cast<float>(tilemap->get_width()) > width)
       width = static_cast<float>(tilemap->get_width());
   }
@@ -509,7 +561,8 @@ float
 GameObjectManager::get_tiles_height() const
 {
   float height = 0;
-  for (const auto& tilemap : get_all_tilemaps()) {
+  for (const auto& tilemap : get_solid_tilemaps())
+  {
     if (static_cast<float>(tilemap->get_height()) > height)
       height = static_cast<float>(tilemap->get_height());
   }
