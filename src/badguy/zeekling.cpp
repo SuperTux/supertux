@@ -32,9 +32,8 @@ const float CATCH_DURATION = 0.49f;
 const float CATCH_BIG_DISTANCE = 32.f*3.2f; // distance from the ground
 const float CATCH_SMALL_DISTANCE = 32.f*2.6f; // same here
 
-const float DIVE_DETECT_STAND = .8f;
-const float DIVE_DETECT_WALK = 1.3f;
-const float DIVE_DETECT_RUNNING = 2.55f;
+const float DIVE_DETECT_STAND = 0.9f;
+const float DIVE_DETECT_DIVIDER = 128.f; // some weird magic number i thought of
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
@@ -71,13 +70,7 @@ void Zeekling::draw(DrawingContext &context)
   const Vector& plrmid = plr->get_bbox().get_middle();
 
   float vel = std::fabs(plr->get_physic().get_velocity_x());
-  float detect_range;
-  if (vel <= 10)
-    detect_range = DIVE_DETECT_STAND;
-  else if (vel <= 230)
-    detect_range = DIVE_DETECT_WALK;
-  else
-    detect_range = DIVE_DETECT_RUNNING;
+  float detect_range = std::max((vel / 128), DIVE_DETECT_STAND);
 
   const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * detect_range *
                                      (m_dir == Direction::LEFT ? -1 : 1)),
@@ -215,13 +208,8 @@ Zeekling::should_we_dive()
   if (height > 512) return false;
 
   float vel = std::fabs(plr->get_physic().get_velocity_x());
-  float detect_range;
-  if (vel <= 10)
-    detect_range = DIVE_DETECT_STAND;
-  else if (vel <= 230)
-    detect_range = DIVE_DETECT_WALK;
-  else
-    detect_range = DIVE_DETECT_RUNNING;
+  std::cout << vel << std::endl;
+  float detect_range = std::max((vel / 128), DIVE_DETECT_STAND);
 
   const Vector rangeend = {eye.x + ((plrmid.y - eye.y) * detect_range *
                                      (m_dir == Direction::LEFT ? -1 : 1)),
