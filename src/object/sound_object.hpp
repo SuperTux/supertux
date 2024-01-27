@@ -35,7 +35,7 @@ public:
   ~SoundObject() override;
 
   virtual void draw(DrawingContext& context) override {}
-  virtual void update(float dt_sec) override {}
+  virtual void update(float dt_sec) override;
 
   static std::string class_name() { return "sound-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -58,6 +58,7 @@ private:
   std::string m_sample;
   std::unique_ptr<SoundSource> m_sound_source;
   float m_volume;
+  bool m_started;
 
 private:
   void prepare_sound_source();
