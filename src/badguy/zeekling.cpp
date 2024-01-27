@@ -268,7 +268,7 @@ Zeekling::active_update(float dt_sec) {
       //double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
       //                                             m_charge_timer.get_period());
 
-      m_physic.set_velocity_y(-325 * QuarticEaseOut(m_sprite->get_current_frame_progress()));
+      m_physic.set_velocity_y(-325.f * static_cast<float>(QuarticEaseOut(m_sprite->get_current_frame_progress())));
       break;
     }
 
@@ -319,7 +319,7 @@ Zeekling::active_update(float dt_sec) {
       double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
                                                    m_charge_timer.get_period());
 
-      float ease = QuarticEaseOut(easing_progress);
+      float ease = static_cast<float>(QuarticEaseOut(easing_progress));
       m_physic.set_velocity_y(m_original_yvel - (ease * m_original_yvel));
 
       break;
@@ -340,7 +340,7 @@ Zeekling::active_update(float dt_sec) {
       double easing_progress = static_cast<double>(m_charge_timer.get_timegone() /
                                                    m_charge_timer.get_period());
 
-      float ease = QuarticEaseIn(easing_progress);
+      float ease = static_cast<float>(QuarticEaseIn(easing_progress));
       m_physic.set_velocity_y(-fabsf(ease * m_original_yvel));
 
       break;
