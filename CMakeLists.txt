@@ -155,9 +155,11 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
 
+### Hell no
+set(FREETYPE_NO_DIST ON)
+
 if(NOT EMSCRIPTEN)
   target_dependencies(supertux2_lib SDL2 SDL2_image freetype SDL2_ttf libcurl_shared ogg vorbis)
-  # TODO: oggvorbis
 endif()
 
 set(FMT_INSTALL ON)

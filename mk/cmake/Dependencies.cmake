@@ -82,15 +82,21 @@ macro(target_external_dependencies_from_folder tar folder)
     if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
       target_link_libraries(${tar} INTERFACE ${deptar})
     else()
-      get_target_property(DEP_OUT_NAME ${deptar} OUTPUT_NAME_${CMAKE_BUILD_TYPE})
-      get_target_property(DEP_OUT_DIR ${deptar} OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE})
+      #get_target_property(DEP_OUT_NAME ${deptar} OUTPUT_NAME_${CMAKE_BUILD_TYPE})
+      #get_target_property(DEP_OUT_DIR ${deptar} OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE})
+      message("AAAA ${deptar}")
       set(DEP_OUT_PATH "$<TARGET_FILE:${deptar}>")
 
       # Try all names, again
-      set(${deptar}_LIBRARY ${DEP_OUT_PATH})
-      set(${deptar}_LIBRARIES ${DEP_OUT_PATH})
-      set(${UPPERDEP}_LIBRARY ${DEP_OUT_PATH})
-      set(${UPPERDEP}_LIBRARIES ${DEP_OUT_PATH})
+      set(${deptar}_LIBRARY "$<TARGET_FILE:${deptar}>")
+      set(${deptar}_LIBRARIES "$<TARGET_FILE:${deptar}>")
+      set(${UPPERDEP}_LIBRARY "$<TARGET_FILE::${deptar}>")
+      set(${UPPERDEP}_LIBRARIES "$<TARGET_FILE:${deptar}>")
+      message("BBBB ${${UPPERDEP}_LIBRARY}")
+
+      add_custom_command(TARGET ${tar}
+        COMMAND "echo Hey, ya dingus: ${deptar} $<TARGET_FILE_BASE_NAME:${deptar}>"
+      )
 
       target_link_libraries(${tar} PRIVATE -L$<TARGET_FILE_DIR:${deptar}>
         # CMake generator expressions is my favourite programming language.
