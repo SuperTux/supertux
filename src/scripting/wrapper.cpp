@@ -8571,6 +8571,200 @@ static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Sector_is_free_of_solid_tiles_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'is_free_of_solid_tiles' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+  SQBool arg4;
+  if(SQ_FAILED(sq_getbool(vm, 6, &arg4))) {
+    sq_throwerror(vm, _SC("Argument 5 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->is_free_of_solid_tiles(arg0, arg1, arg2, arg3, arg4 == SQTrue);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_free_of_solid_tiles'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Sector_is_free_of_statics_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'is_free_of_statics' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+  SQBool arg4;
+  if(SQ_FAILED(sq_getbool(vm, 6, &arg4))) {
+    sq_throwerror(vm, _SC("Argument 5 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->is_free_of_statics(arg0, arg1, arg2, arg3, arg4 == SQTrue);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_free_of_statics'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Sector_is_free_of_movingstatics_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'is_free_of_movingstatics' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->is_free_of_movingstatics(arg0, arg1, arg2, arg3);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_free_of_movingstatics'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Sector_is_free_of_specifically_movingstatics_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
+    sq_throwerror(vm, _SC("'is_free_of_specifically_movingstatics' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->is_free_of_specifically_movingstatics(arg0, arg1, arg2, arg3);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_free_of_specifically_movingstatics'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger SoundObject_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::SoundObject* _this = reinterpret_cast<scripting::SoundObject*> (ptr);
@@ -15980,6 +16174,34 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|n");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_gravity'");
+  }
+
+  sq_pushstring(v, "is_free_of_solid_tiles", -1);
+  sq_newclosure(v, &Sector_is_free_of_solid_tiles_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|nb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'is_free_of_solid_tiles'");
+  }
+
+  sq_pushstring(v, "is_free_of_statics", -1);
+  sq_newclosure(v, &Sector_is_free_of_statics_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|nb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'is_free_of_statics'");
+  }
+
+  sq_pushstring(v, "is_free_of_movingstatics", -1);
+  sq_newclosure(v, &Sector_is_free_of_movingstatics_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'is_free_of_movingstatics'");
+  }
+
+  sq_pushstring(v, "is_free_of_specifically_movingstatics", -1);
+  sq_newclosure(v, &Sector_is_free_of_specifically_movingstatics_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|nb|n");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'is_free_of_specifically_movingstatics'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
