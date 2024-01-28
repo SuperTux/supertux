@@ -88,7 +88,7 @@ private:
   Color last_ambient_color;
   int last_layer;
   int flash_layer;
-  float flash_alpha;
+  Color flash_color;
 
 private:
   Thunderstorm(const Thunderstorm&) = delete;
