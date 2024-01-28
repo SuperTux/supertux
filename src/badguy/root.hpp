@@ -33,6 +33,9 @@ public:
   virtual void kill_fall() override { }
 
 protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
+private:
   enum MyState {
     STATE_APPEARING, STATE_HATCHING, STATE_GROWING, STATE_SHRINKING, STATE_VANISHING
   };

@@ -45,7 +45,7 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   willo_radius(200),
   willo_speed(1.8f),
   willo_color(0),
-  glow_sprite(SpriteManager::current()->create("images/creatures/ghosttree/ghosttree-glow.sprite")),
+  glow_sprite(m_sprite->get_linked_sprite("glow")),
   colorchange_timer(),
   suck_timer(),
   root_timer(),
@@ -57,6 +57,14 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/tree_howling.ogg");
   SoundManager::current()->preload("sounds/tree_suck.ogg");
+}
+
+std::vector<MovingSprite::LinkedSprite>
+GhostTree::get_linked_sprites()
+{
+  return {
+    { "glow", glow_sprite }
+  };
 }
 
 void

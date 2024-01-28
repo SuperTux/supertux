@@ -47,6 +47,9 @@ public:
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   std::unique_ptr<SoundSource> ticking;
   SpritePtr m_exploding_sprite;

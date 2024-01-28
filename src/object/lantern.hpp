@@ -49,6 +49,9 @@ public:
   Color get_color() const { return lightcolor; }
   void add_color(const Color& c);
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   Color lightcolor;
   SpritePtr lightsprite;

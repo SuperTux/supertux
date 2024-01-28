@@ -36,6 +36,9 @@ public:
 
   void do_jump();
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   Physic physic;
 

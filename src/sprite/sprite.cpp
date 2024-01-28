@@ -18,6 +18,7 @@
 
 #include <assert.h>
 
+#include "sprite/sprite_manager.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -176,6 +177,25 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
                     layer);
 
   context.pop_transform();
+}
+
+SpritePtr
+Sprite::get_linked_sprite(const std::string& key) const
+{
+  return SpriteManager::current()->create(get_linked_sprite_file(key));
+}
+
+std::string
+Sprite::get_linked_sprite_file(const std::string& key) const
+{
+  auto it = m_data.linked_sprites.find(key);
+  if (it == m_data.linked_sprites.end()) // No linked sprite with such key
+  {
+    log_warning << "No linked sprite with key '" << key << "'." << std::endl;
+    return ""; // Empty sprite name leads to a dummy sprite
+  }
+
+  return it->second;
 }
 
 int

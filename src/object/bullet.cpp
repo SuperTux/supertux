@@ -30,7 +30,7 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
   physic(),
   life_count(3),
   sprite(),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  lightsprite(),
   type(type_)
 {
   physic.set_velocity(xm);
@@ -38,6 +38,7 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
   switch (type) {
     case FIRE_BONUS:
       sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
+      lightsprite = sprite->get_linked_sprite("light");
       lightsprite->set_blend(Blend::ADD);
       lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
       break;
@@ -61,12 +62,19 @@ void
 Bullet::update(float dt_sec)
 {
   // Cause fireball color to flicker randomly.
-  if (graphicsRandom.rand(5) != 0) {
-    lightsprite->set_color(Color(0.3f + graphicsRandom.randf(10) / 100.0f,
-                                 0.1f + graphicsRandom.randf(20.0f) / 100.0f,
-                                 graphicsRandom.randf(10.0f) / 100.0f));
-  } else
-    lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
+  if (lightsprite)
+  {
+    if (graphicsRandom.rand(5) != 0)
+    {
+      lightsprite->set_color(Color(0.3f + graphicsRandom.randf(10) / 100.0f,
+                                   0.1f + graphicsRandom.randf(20.0f) / 100.0f,
+                                   graphicsRandom.randf(10.0f) / 100.0f));
+    }
+    else
+    {
+      lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
+    }
+  }
 
   if (life_count <= 0)
   {
@@ -92,9 +100,8 @@ void
 Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  if (type == FIRE_BONUS){
+  if (lightsprite)
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
-  }
 }
 
 void

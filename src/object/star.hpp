@@ -35,6 +35,9 @@ public:
 
   virtual bool is_saveable() const override { return false; }
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   Physic physic;
   SpritePtr lightsprite;

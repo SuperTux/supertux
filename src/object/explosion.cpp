@@ -28,7 +28,6 @@
 #include "object/weak_block.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
 Explosion::Explosion(const Vector& pos, float p_push_strength,
@@ -38,7 +37,7 @@ Explosion::Explosion(const Vector& pos, float p_push_strength,
   push_strength(p_push_strength),
   num_particles(p_num_particles),
   state(STATE_WAITING),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
+  lightsprite(m_sprite->get_linked_sprite("light")),
   short_fuse(p_short_fuse)
 {
   SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
@@ -53,12 +52,20 @@ Explosion::Explosion(const ReaderMapping& reader) :
   push_strength(-1),
   num_particles(100),
   state(STATE_WAITING),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-large.sprite")),
+  lightsprite(m_sprite->get_linked_sprite("light")),
   short_fuse(false)
 {
   SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Explosion::get_linked_sprites()
+{
+  return {
+    { "light", lightsprite }
+  };
 }
 
 void

@@ -19,7 +19,6 @@
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -27,9 +26,9 @@ Torch::Torch(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/torch/torch1.sprite"),
   ExposedObject<Torch, scripting::Torch>(this),
   m_light_color(1.f, 1.f, 1.f),
-  m_flame(SpriteManager::current()->create("images/objects/torch/flame.sprite")),
-  m_flame_glow(SpriteManager::current()->create("images/objects/torch/flame_glow.sprite")),
-  m_flame_light(SpriteManager::current()->create("images/objects/torch/flame_light.sprite")),
+  m_flame(m_sprite->get_linked_sprite("flame")),
+  m_flame_glow(m_sprite->get_linked_sprite("glow")),
+  m_flame_light(m_sprite->get_linked_sprite("light")),
   m_burning(true)
 {
   reader.get("burning", m_burning, true);
@@ -48,6 +47,16 @@ Torch::Torch(const ReaderMapping& reader) :
     m_flame_light->set_color(m_light_color);
   }
   set_group(COLGROUP_TOUCHABLE);
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Torch::get_linked_sprites()
+{
+  return {
+    { "flame", m_flame },
+    { "glow", m_flame_glow },
+    { "light", m_flame_light }
+  };
 }
 
 void

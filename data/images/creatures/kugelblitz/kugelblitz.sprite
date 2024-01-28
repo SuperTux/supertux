@@ -21,4 +21,8 @@
           "pop-1.png"
           "pop-2.png"
           "pop-3.png"))
-) 
+
+  (linked-sprites
+    (light "images/objects/lightmap_light/lightmap_light.sprite")
+  )
+)

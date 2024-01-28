@@ -29,10 +29,18 @@ const float DiveMine::s_max_float_acceleration = 15.f;
 
 DiveMine::DiveMine(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dive_mine/dive_mine.sprite"),
-  m_ticking_glow(SpriteManager::current()->create("images/creatures/dive_mine/ticking_glow/ticking_glow.sprite")),
+  m_ticking_glow(m_sprite->get_linked_sprite("ticking-glow")),
   m_chasing(true)
 {
   reset_sprites();
+}
+
+std::vector<MovingSprite::LinkedSprite>
+DiveMine::get_linked_sprites()
+{
+  return {
+    { "ticking-glow", m_ticking_glow }
+  };
 }
 
 void

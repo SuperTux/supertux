@@ -20,6 +20,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include "video/surface_ptr.hpp"
 
@@ -98,6 +99,7 @@ private:
 private:
   Actions actions;
   std::string name;
+  std::unordered_map<std::string, std::string> linked_sprites;
 };
 
 #endif

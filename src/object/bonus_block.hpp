@@ -71,6 +71,9 @@ public:
 
   void try_open(Player* player);
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   void add_object(std::unique_ptr<GameObject> object);
   void set_object(std::unique_ptr<GameObject> object);
@@ -110,7 +113,7 @@ private:
 
   int m_hit_counter;
   std::string m_script;
-  SurfacePtr m_lightsprite;
+  SpritePtr m_lightsprite;
   std::string m_coin_sprite;
 
 private:

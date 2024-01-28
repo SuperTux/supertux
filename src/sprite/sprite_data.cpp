@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <sstream>
 
+#include <physfs.h>
 #include <sexp/io.hpp>
 #include <sexp/value.hpp>
 
@@ -50,16 +51,38 @@ SpriteData::Action::Action() :
 
 SpriteData::SpriteData(const ReaderMapping& mapping) :
   actions(),
-  name()
+  name(),
+  linked_sprites()
 {
   auto iter = mapping.get_iter();
   while (iter.next())
   {
-    if (iter.get_key() == "name") {
+    if (iter.get_key() == "name")
+    {
       iter.get(name);
-    } else if (iter.get_key() == "action") {
+    }
+    else if (iter.get_key() == "action")
+    {
       parse_action(iter.as_mapping());
-    } else {
+    }
+    else if (iter.get_key() == "linked-sprites")
+    {
+      auto iter_sprites = iter.as_mapping().get_iter();
+      while (iter_sprites.next())
+      {
+        std::string filename;
+        iter_sprites.get(filename);
+
+        // If file path is not relative to current directory, make it relative to root
+        std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), filename);
+        if (!PHYSFS_exists(filepath.c_str()))
+          filepath = filename;
+
+        linked_sprites[iter_sprites.get_key()] = filepath;
+      }
+    }
+    else
+    {
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
     }
   }
@@ -69,7 +92,8 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
 
 SpriteData::SpriteData(const std::string& image) :
   actions(),
-  name()
+  name(),
+  linked_sprites()
 {
   auto surface = Surface::from_file(image);
   if (!TextureManager::current()->last_load_successful())
@@ -82,7 +106,8 @@ SpriteData::SpriteData(const std::string& image) :
 
 SpriteData::SpriteData() :
   actions(),
-  name()
+  name(),
+  linked_sprites()
 {
   auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
   auto action = create_action_from_surface(surface);

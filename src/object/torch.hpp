@@ -55,6 +55,9 @@ public:
                                      torch */
   /** @} */
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   Color m_light_color;
   SpritePtr m_flame;

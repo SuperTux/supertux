@@ -180,7 +180,14 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
   m_sprite = SpriteManager::current()->create(new_sprite_name);
   m_sprite_name = new_sprite_name;
+
+  // Update hitbox
   update_hitbox();
+
+  // Update all linked sprites
+  auto linked_sprites = get_linked_sprites();
+  for (const LinkedSprite& data : linked_sprites)
+    data.sprite = m_sprite->get_linked_sprite(data.key);
 
   return SpriteManager::current()->last_load_successful();
 }

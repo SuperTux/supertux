@@ -7,4 +7,8 @@
    "fire_bullet-2.png"
    "fire_bullet-3.png")
  )
+
+  (linked-sprites
+    (light "images/objects/lightmap_light/lightmap_light-small.sprite")
+  )
 )

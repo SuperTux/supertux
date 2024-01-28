@@ -37,6 +37,9 @@ public:
 
   virtual void on_flip(float height) override;
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   enum State {
     STATE_DARK,
@@ -55,6 +58,7 @@ private:
   void rub(float strength);
   float get_brightness() const;
 
+private:
   RubLight(const RubLight&) = delete;
   RubLight& operator=(const RubLight&) = delete;
 };

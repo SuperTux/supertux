@@ -20,7 +20,6 @@
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
 static const float INITIALJUMP = -400;
@@ -30,12 +29,20 @@ static const float JUMPSTAR_SPEED = -300;
 Star::Star(const Vector& pos, Direction direction, const std::string& custom_sprite) :
   MovingSprite(pos, custom_sprite.empty() ? "images/powerups/star/star.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(m_sprite->get_linked_sprite("light"))
 {
   physic.set_velocity((direction == Direction::LEFT) ? -STAR_SPEED : STAR_SPEED, INITIALJUMP);
   //set light for glow effect
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Star::get_linked_sprites()
+{
+  return {
+    { "light", lightsprite }
+  };
 }
 
 void

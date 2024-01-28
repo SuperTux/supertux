@@ -41,6 +41,9 @@ public:
 
   virtual void on_flip(float height) override;
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   void update_state();
 

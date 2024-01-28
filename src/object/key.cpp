@@ -22,7 +22,6 @@
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/door.hpp"
 #include "util/reader_mapping.hpp"
@@ -39,7 +38,7 @@ Key::Key(const ReaderMapping& reader) :
   m_my_door_pos(0.f, 0.f),
   m_color(Color::WHITE),
   m_owner(),
-  m_lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  m_lightsprite(m_sprite->get_linked_sprite("light")),
   m_total_time_elapsed(),
   m_target_speed()
 {
@@ -54,6 +53,14 @@ Key::Key(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/metal_hit.ogg");
   m_sprite->set_color(m_color);
   m_physic.enable_gravity(false);
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Key::get_linked_sprites()
+{
+  return {
+    { "light", m_lightsprite }
+  };
 }
 
 void
@@ -74,7 +81,7 @@ Key::update(float dt_sec)
     if (spawn_particle_now)
     {
       Sector::get().add<SpriteParticle>(
-        "images/particles/sparkle.sprite", "small",
+        m_sprite->get_linked_sprite_file("sparkle"), "small",
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS + 6, false, m_color);
     }
 
@@ -219,7 +226,7 @@ Key::spawn_use_particles()
   for (int i = 1; i < 9; i++)
   {
     Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
-    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-key-collect",
+    Sector::get().add<SpriteParticle>(m_sprite->get_linked_sprite_file("sparkle"), "small-key-collect",
       get_bbox().get_middle(),
       ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false, m_color);
   }

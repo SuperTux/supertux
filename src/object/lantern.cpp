@@ -23,13 +23,12 @@
 #include "badguy/willowisp.hpp"
 #include "editor/editor.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 
 Lantern::Lantern(const ReaderMapping& reader) :
   Rock(reader, "images/objects/lantern/lantern.sprite"),
   lightcolor(1.0f, 1.0f, 1.0f),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+  lightsprite(m_sprite->get_linked_sprite("light"))
 {
   std::vector<float> vColor;
   if (reader.get("color", vColor)) {
@@ -47,11 +46,19 @@ Lantern::Lantern(const ReaderMapping& reader) :
 Lantern::Lantern(const Vector& pos) :
   Rock(pos, "images/objects/lantern/lantern.sprite"),
   lightcolor(0.0f, 0.0f, 0.0f),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+  lightsprite(m_sprite->get_linked_sprite("light"))
 {
   lightsprite->set_blend(Blend::ADD);
   updateColor();
   SoundManager::current()->preload("sounds/willocatch.wav");
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Lantern::get_linked_sprites()
+{
+  return {
+    { "light", lightsprite }
+  };
 }
 
 ObjectSettings

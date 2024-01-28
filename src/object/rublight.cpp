@@ -19,20 +19,17 @@
 #include "badguy/walking_badguy.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "video/color.hpp"
 #include "util/reader_mapping.hpp"
-
 
 RubLight::RubLight(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/rublight/rublight.sprite", LAYER_TILES,
     COLGROUP_STATIC),
   state(STATE_DARK),
   stored_energy(0),
-  light(SpriteManager::current()->create(
-    "images/objects/lightmap_light/lightmap_light.sprite")),
+  light(m_sprite->get_linked_sprite("light")),
   color(1.f, 1.f, 1.f),
   fading_speed(5.0f),
   strength_multiplier(1.0f)
@@ -44,6 +41,14 @@ RubLight::RubLight(const ReaderMapping& mapping) :
     color = Color(vColor);
   mapping.get("fading_speed", fading_speed);
   mapping.get("strength_multiplier", strength_multiplier);
+}
+
+std::vector<MovingSprite::LinkedSprite>
+RubLight::get_linked_sprites()
+{
+  return {
+    { "light", light }
+  };
 }
 
 ObjectSettings

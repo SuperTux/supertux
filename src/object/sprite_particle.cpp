@@ -33,16 +33,16 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
 {
   if (sprite_name == "images/particles/sparkle.sprite")
   {
-    glow = true;
+    lightsprite = sprite->get_linked_sprite("light");
     lightsprite->set_blend(Blend::ADD);
-    if (action=="dark") {
+    if (action == "dark")
+    {
       lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
     }
     else
     {
       lightsprite->set_color(color_);
     }
-
   }
   no_time_out = notimeout;
   sprite->set_color(color_);
@@ -56,8 +56,7 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
   velocity(velocity_),
   acceleration(acceleration_),
   drawing_layer(drawing_layer_),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
-  glow(false),
+  lightsprite(),
   no_time_out(false),
   color(Color::WHITE)
 {
@@ -101,13 +100,12 @@ SpriteParticle::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), position, drawing_layer);
 
-  //Sparkles glow in the dark
-  if (glow)
+  // Sparkles glow in the dark.
+  if (lightsprite)
   {
     sprite->draw(context.light(), position, drawing_layer);
     lightsprite->draw(context.light(), position + Vector(12, 12), 0);
   }
-
 }
 
 /* EOF */

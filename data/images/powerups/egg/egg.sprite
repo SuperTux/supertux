@@ -7,5 +7,9 @@
     (name "shadow")
     (images "egg-shade.png")
   )
-)
 
+  (linked-sprites
+    (shade "egg.sprite")
+    (light "images/objects/lightmap_light/lightmap_light-small.sprite")
+  )
+)

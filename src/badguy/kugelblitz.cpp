@@ -43,7 +43,7 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   movement_timer(),
   lifetime(),
   direction(),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+  lightsprite(m_sprite->get_linked_sprite("light"))
 {
   m_start_position.x = m_col.m_bbox.get_left();
   set_action("falling");
@@ -62,6 +62,14 @@ Kugelblitz::initialize()
   m_physic.set_velocity(-20, 300); // Fall a little to the left.
   direction = 1;
   dying = false;
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Kugelblitz::get_linked_sprites()
+{
+  return {
+    { "light", lightsprite }
+  };
 }
 
 void

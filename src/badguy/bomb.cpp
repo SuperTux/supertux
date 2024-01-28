@@ -28,7 +28,7 @@
 Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
   BadGuy( pos, dir_, custom_sprite ),
   ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav")),
-  m_exploding_sprite(SpriteManager::current()->create("images/creatures/mr_bomb/ticking_glow/ticking_glow.sprite"))
+  m_exploding_sprite(m_sprite->get_linked_sprite("explode"))
 {
   SoundManager::current()->preload("sounds/explosion.wav");
   set_action("ticking", dir_, 1);
@@ -39,6 +39,14 @@ Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /
   ticking->set_gain(1.0f);
   ticking->set_reference_distance(32);
   ticking->play();
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Bomb::get_linked_sprites()
+{
+  return {
+    { "explode", m_exploding_sprite }
+  };
 }
 
 void

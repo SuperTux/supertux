@@ -59,6 +59,8 @@ public:
 protected:
   virtual bool collision_squished(GameObject& object) override;
 
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   void flee(Direction dir);
   void cornered();

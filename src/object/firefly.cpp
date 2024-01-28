@@ -24,7 +24,6 @@
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
@@ -40,7 +39,7 @@ Firefly::Firefly(const ReaderMapping& mapping) :
    initial_position(get_pos())
 {
   if (m_sprite_name.find("torch", 0) != std::string::npos) {
-    m_sprite_light = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite");
+    m_sprite_light = m_sprite->get_linked_sprite("light");
     m_sprite_light->set_blend(Blend::ADD);
     m_sprite_light->set_color(TORCH_LIGHT_COLOR);
   }
@@ -57,6 +56,19 @@ Firefly::Firefly(const ReaderMapping& mapping) :
   else {
     SoundManager::current()->preload("sounds/savebell2.wav");
   }
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Firefly::get_linked_sprites()
+{
+  // FIXME: Sprite name hardcoding
+  if (m_sprite_name.find("torch", 0) != std::string::npos)
+  {
+    return {
+      { "light", m_sprite_light }
+    };
+  }
+  return {};
 }
 
 void

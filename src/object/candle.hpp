@@ -25,7 +25,7 @@
  * A burning candle: Simple, scriptable level decoration.
  */
 class Candle final : public MovingSprite,
-               public ExposedObject<Candle, scripting::Candle>
+                     public ExposedObject<Candle, scripting::Candle>
 {
 public:
   Candle(const ReaderMapping& mapping);
@@ -48,6 +48,9 @@ public:
   bool get_burning() const; /**< returns true if candle is lighted */
   void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
   /** @} */
+
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
 
 private:
   bool burning; /**< true if candle is currently lighted */

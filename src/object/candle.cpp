@@ -19,7 +19,6 @@
 #include "math/random.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -30,8 +29,8 @@ Candle::Candle(const ReaderMapping& mapping) :
   burning(true),
   flicker(true),
   lightcolor(1.0f, 1.0f, 1.0f),
-  candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
-  candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
+  candle_light_1(m_sprite->get_linked_sprite("light-1")),
+  candle_light_2(m_sprite->get_linked_sprite("light-2"))
 {
   mapping.get("burning", burning, true);
   mapping.get("flicker", flicker, true);
@@ -52,6 +51,15 @@ Candle::Candle(const ReaderMapping& mapping) :
   }
 
   set_action(burning ? "on" : "off");
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Candle::get_linked_sprites()
+{
+  return {
+    { "light-1", candle_light_1 },
+    { "light-2", candle_light_2 }
+  };
 }
 
 void

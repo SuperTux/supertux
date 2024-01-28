@@ -98,7 +98,20 @@ public:
       resizing the bounding box. */
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
 
+public:
+  struct LinkedSprite final
+  {
+    LinkedSprite(const std::string& key_, SpritePtr& sprite_) :
+      key(key_), sprite(sprite_)
+    {}
+
+    std::string key;
+    SpritePtr& sprite;
+  };
+
 protected:
+  virtual std::vector<LinkedSprite> get_linked_sprites() { return {}; }
+
   /** Update hitbox, based on sprite. */
   virtual void update_hitbox();
 

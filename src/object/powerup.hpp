@@ -44,10 +44,15 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   /** Initialize power up sprites and other defaults */
   void initialize();
   void setup_lightsprite();
+
+  bool has_lightsprite() const;
 
 public:
   enum Type {

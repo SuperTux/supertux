@@ -43,6 +43,9 @@ public:
 
   void update_pos();
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   enum KeyState {
     NORMAL,

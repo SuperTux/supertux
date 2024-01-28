@@ -19,9 +19,8 @@
 #include "audio/sound_manager.hpp"
 #include "math/random.hpp"
 #include "object/player.hpp"
-#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
+#include "object/sprite_particle.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/screen_manager.hpp"
@@ -35,7 +34,7 @@ Door::Door(const ReaderMapping& mapping) :
   target_sector(),
   target_spawnpoint(),
   script(),
-  lock_sprite(SpriteManager::current()->create("images/objects/door/door_lock.sprite")),
+  lock_sprite(m_sprite->get_linked_sprite("lock")),
   stay_open_timer(),
   unlocking_timer(),
   lock_warn_timer(),
@@ -64,6 +63,14 @@ Door::Door(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/turnkey.ogg");
 }
 
+std::vector<MovingSprite::LinkedSprite>
+Door::get_linked_sprites()
+{
+  return {
+    { "lock", lock_sprite }
+  };
+}
+
 ObjectSettings
 Door::get_settings()
 {
@@ -85,6 +92,7 @@ Door::after_editor_set()
 {
   SpritedTrigger::after_editor_set();
 
+  state = m_locked ? DoorState::LOCKED : DoorState::CLOSED;
   lock_sprite->set_color(lock_color);
 }
 

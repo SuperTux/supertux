@@ -21,7 +21,6 @@
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
@@ -32,7 +31,7 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   physic(),
   script(),
   no_physics(),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite()
 {
   parse_type(mapping);
   mapping.get("script", script, "");
@@ -45,13 +44,25 @@ PowerUp::PowerUp(const Vector& pos, int type) :
   physic(),
   script(),
   no_physics(false),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite()
 {
   m_type = type;
   on_type_change();
 
   update_version();
   initialize();
+}
+
+std::vector<MovingSprite::LinkedSprite>
+PowerUp::get_linked_sprites()
+{
+  if (has_lightsprite())
+  {
+    return {
+      { "light", lightsprite }
+    };
+  }
+  return {};
 }
 
 GameObjectTypes
@@ -137,32 +148,53 @@ PowerUp::initialize()
 void
 PowerUp::setup_lightsprite()
 {
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
-  // Set default light for glow effect for default sprites.
-  if (matches_sprite(get_default_sprite_name()))
+  if (!has_lightsprite())
   {
-    switch (m_type)
-    {
-      case EGG:
-        lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
-        break;
-      case FIRE:
-        lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
-        break;
-      case ICE:
-        lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
-        break;
-      case AIR:
-        lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
-        break;
-      case EARTH:
-        lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
-        break;
-      case STAR:
-        lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
-        break;
-    }
+    lightsprite.reset();
+    return;
+  }
+
+  lightsprite = m_sprite->get_linked_sprite("light");
+  lightsprite->set_blend(Blend::ADD);
+
+  switch (m_type)
+  {
+    case EGG:
+      lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+      break;
+    case FIRE:
+      lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
+      break;
+    case ICE:
+      lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
+      break;
+    case AIR:
+      lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
+      break;
+    case EARTH:
+      lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
+      break;
+    case STAR:
+      lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
+      break;
+  }
+}
+
+bool
+PowerUp::has_lightsprite() const
+{
+  switch (m_type)
+  {
+    case EGG:
+    case FIRE:
+    case ICE:
+    case AIR:
+    case EARTH:
+    case STAR:
+      return true;
+
+    default:
+      return false;
   }
 }
 
@@ -290,7 +322,8 @@ PowerUp::draw(DrawingContext& context)
   if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  if (lightsprite)
+    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 ObjectSettings

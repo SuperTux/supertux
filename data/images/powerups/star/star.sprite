@@ -8,4 +8,9 @@
                  "star-4.png"
                  "star-3.png"
                  "star-2.png"
-                 "star-1.png")))
+                 "star-1.png"))
+
+  (linked-sprites
+    (light "images/objects/lightmap_light/lightmap_light-small.sprite")
+  )
+)

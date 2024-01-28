@@ -26,7 +26,7 @@ static const float HATCH_TIME = 0.75;
 Root::Root(const Vector& pos, Flip flip) :
   BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
   mystate(STATE_APPEARING),
-  base_sprite(SpriteManager::current()->create("images/creatures/ghosttree/root-base.sprite")),
+  base_sprite(m_sprite->get_linked_sprite("base")),
   offset_y(0),
   hatch_timer()
 {
@@ -46,6 +46,14 @@ Root::deactivate()
 {
   remove_me();
   // No dead-script required for deactivation.
+}
+
+std::vector<MovingSprite::LinkedSprite>
+Root::get_linked_sprites()
+{
+  return {
+    { "base", base_sprite }
+  };
 }
 
 void

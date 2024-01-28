@@ -6,4 +6,9 @@
                  "air_flower-2.png"
                  "air_flower-3.png"
                  "air_flower-2.png"
-                 "air_flower-1.png")))
+                 "air_flower-1.png"))
+
+  (linked-sprites
+    (light "images/objects/lightmap_light/lightmap_light-small.sprite")
+  )
+)

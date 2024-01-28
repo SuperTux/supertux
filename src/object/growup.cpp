@@ -22,14 +22,13 @@
 #include "math/util.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 
 GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom_sprite) :
   MovingSprite(pos, custom_sprite.empty() ? "images/powerups/egg/egg.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   m_custom_sprite(!custom_sprite.empty()),
-  shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  shadesprite(m_sprite->get_linked_sprite("shade")),
+  lightsprite(m_sprite->get_linked_sprite("light"))
 {
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
@@ -39,6 +38,15 @@ GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom
   // Configure the light sprite for the glow effect.
   lightsprite->set_blend(Blend::ADD);
   lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
+}
+
+std::vector<MovingSprite::LinkedSprite>
+GrowUp::get_linked_sprites()
+{
+  return {
+    { "shade", shadesprite },
+    { "light", lightsprite }
+  };
 }
 
 void

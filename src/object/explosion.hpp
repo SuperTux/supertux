@@ -43,6 +43,9 @@ public:
   bool hurts() const { return hurt; }
   void hurts (bool val) { hurt = val; }
 
+protected:
+  std::vector<LinkedSprite> get_linked_sprites() override;
+
 private:
   /** plays sound, starts animation */
   void explode();
