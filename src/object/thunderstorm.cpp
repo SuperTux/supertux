@@ -48,7 +48,9 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   flash_display_timer(),
   changing_tiles(TileManager::current()->get_tileset(Level::current()->get_tileset())->m_thunderstorm_tiles),
   last_ambient_color(),
-  last_layer()
+  last_layer(),
+  flash_layer(),
+  flash_alpha()
 {
   reader.get("running", running);
   reader.get("interval", interval);
@@ -98,7 +100,14 @@ Thunderstorm::update(float )
     lightning();
     time_to_thunder.start(interval);
   }
-  if(flash_display_timer.check()) {
+  if(flash_display_timer.started()) {
+    flash_alpha = 1.0f;
+    if(flash_display_timer.get_timegone() > 0.4f)
+      flash_alpha = 1.0f - (flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.4f);
+  }
+
+  if(flash_alpha <= 0.0f) {
+    flash_display_timer.stop();
     Sector::current()->get_singleton_by_type<AmbientLight>()
       .set_ambient_light(last_ambient_color);
   }
@@ -108,19 +117,12 @@ void
 Thunderstorm::draw(DrawingContext& context)
 {
   if (!flash_display_timer.started()) return;
-
-  float alpha = 1.0f;
-  if(flash_display_timer.get_timegone() > 0.4f)
-     alpha = 1.0f - (flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.4f);
-  
-  auto color = Color(1, 1, 1, alpha);
-  auto _layer = Sector::current()->get_foremost_layer() + 1;
+  auto color = Color(1, 1, 1, flash_alpha);
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_filled_rect(context.get_rect(), color, _layer, Blend::BLEND);
+  context.color().draw_filled_rect(context.get_rect(), color, flash_layer, Blend::BLEND);
   context.pop_transform();
-
 }
 
 void
@@ -159,6 +161,7 @@ Thunderstorm::lightning()
   }
 
   change_background_colors(true);
+  flash_layer = Sector::current()->get_foremost_layer() + 1;
   Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(Color::WHITE);
 }
 
