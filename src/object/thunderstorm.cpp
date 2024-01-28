@@ -103,8 +103,10 @@ Thunderstorm::update(float )
 
   if(flash_display_timer.started()) {
     float alpha = 1.0f;
-    if(flash_display_timer.get_timegone() > 0.4f)
-      alpha = 1.0f - (flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.4f);
+    if(flash_display_timer.get_timegone() > 0.4f) {
+      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.4f;
+      alpha = 1.0f - progress;
+    }
     
     if(alpha < 0.0f) {
       flash_display_timer.stop();
@@ -115,11 +117,6 @@ Thunderstorm::update(float )
 
     flash_color = Color(1, 1, 1, alpha);
     flash_layer = Sector::current()->get_foremost_layer() + 1;
-
-    if(flash_display_timer.check()) {
-      Sector::current()->get_singleton_by_type<AmbientLight>()
-        .set_ambient_light(last_ambient_color);
-    }
   }
 }
 
