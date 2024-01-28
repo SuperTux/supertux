@@ -47,9 +47,6 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   time_to_lightning(),
   flash_display_timer(),
   changing_tiles(TileManager::current()->get_tileset(Level::current()->get_tileset())->m_thunderstorm_tiles),
-  last_ambient_color(),
-  last_layer(),
-  flash_layer(),
   flash_color()
 {
   reader.get("running", running);
@@ -59,7 +56,6 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
     log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
   }
   layer = reader_get_layer (reader, LAYER_BACKGROUNDTILES - 1);
-  last_layer = layer;
 
   SoundManager::current()->preload("sounds/thunder.wav");
   SoundManager::current()->preload("sounds/lightning.wav");
@@ -103,29 +99,20 @@ Thunderstorm::update(float )
 
   if(flash_display_timer.started()) {
     float alpha = 0.9f;
-    auto& ambient_light = 
-      Sector::current()->get_singleton_by_type<AmbientLight>();
-    if(flash_display_timer.get_timegone() > 0.1f) {
-      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
+    if(flash_display_timer.get_timegone() > 0.01f) {
+      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.01f;
       if(progress < 0.0f)
         progress = 0.0f;
 
       alpha = 0.9f - progress;
-      auto first_component = Color::WHITE * alpha;
-      auto second_component = last_ambient_color * progress;
-      auto next_ambient_color = first_component + second_component;
-
-      ambient_light.set_ambient_light(next_ambient_color.validate());
     }
     
     if(alpha < 0.0f) {
-      ambient_light.set_ambient_light(last_ambient_color);
       flash_display_timer.stop();
       return;
     }
 
     flash_color = Color(1, 1, 1, alpha);
-    flash_layer = Sector::current()->get_foremost_layer() + 1;
   }
 }
 
@@ -136,7 +123,7 @@ Thunderstorm::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_filled_rect(context.get_rect(), flash_color, flash_layer, Blend::BLEND);
+  context.color().draw_filled_rect(context.get_rect(), flash_color, 500, Blend::ADD);
   context.pop_transform();
 }
 
@@ -163,7 +150,6 @@ Thunderstorm::thunder()
 {
   SoundManager::current()->play("sounds/thunder.wav");
   change_background_colors(false);
-  last_ambient_color = Sector::current()->get_singleton_by_type<AmbientLight>().get_ambient_light();
 }
 
 void
@@ -176,7 +162,6 @@ Thunderstorm::lightning()
   }
 
   change_background_colors(true);
-  Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(Color::WHITE);
 }
 
 void
