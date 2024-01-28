@@ -102,13 +102,13 @@ Thunderstorm::update(float )
   }
 
   if(flash_display_timer.started()) {
-    float alpha = 1.0f;
-    if(flash_display_timer.get_timegone() > 0.3f) {
-      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.3f;
+    float alpha = 0.9f;
+    if(flash_display_timer.get_timegone() > 0.1f) {
+      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
       if(progress < 0.0f)
         progress = 0.0f;
 
-      alpha = 1.0f - progress;
+      alpha = 0.9f - progress;
       auto first_component = Color::WHITE * alpha;
       auto second_component = last_ambient_color * progress;
       auto next_ambient_color = first_component + second_component;
