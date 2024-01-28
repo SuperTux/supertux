@@ -32,11 +32,8 @@
 namespace {
 
 const float LIGHTNING_DELAY = 2.0f;
-const float FLASH_DISPLAY_TIME = 1.2f;
+const float FLASH_DISPLAY_TIME = 2.0f;
 const float ELECTRIFY_TIME = 0.5f;
-
-const Color LIGHTNING_HIT_COLOR = Color(0.6f, 0.6f, 0.6f, 0.5f);
-
 } // namespace
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
@@ -104,7 +101,6 @@ Thunderstorm::update(float )
   if(flash_display_timer.check()) {
     Sector::current()->get_singleton_by_type<AmbientLight>()
       .set_ambient_light(last_ambient_color);
-    layer = last_layer;
   }
 }
 
@@ -112,11 +108,17 @@ void
 Thunderstorm::draw(DrawingContext& context)
 {
   if (!flash_display_timer.started()) return;
-  float alpha = 1.0f - flash_display_timer.get_progress();
+
+  float alpha = 1.0f;
+  if(flash_display_timer.get_timegone() > 0.4f)
+     alpha = 1.0f - (flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.4f);
+  
+  auto color = Color(1, 1, 1, alpha);
+  auto _layer = Sector::current()->get_foremost_layer() + 1;
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_filled_rect(context.get_rect(), Color(1, 1, 1, alpha), layer, Blend::ADD);
+  context.color().draw_filled_rect(context.get_rect(), color, _layer, Blend::BLEND);
   context.pop_transform();
 
 }
@@ -157,8 +159,7 @@ Thunderstorm::lightning()
   }
 
   change_background_colors(true);
-  Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(LIGHTNING_HIT_COLOR);
-  layer = Sector::current()->get_foremost_layer() + 1;
+  Sector::current()->get_singleton_by_type<AmbientLight>().set_ambient_light(Color::WHITE);
 }
 
 void
