@@ -67,7 +67,7 @@
       (y 1120)
     )
     (icecrusher
-      (sprite "/images/creatures/icecrusher/krosh.sprite")
+      (type "ice-krosh)
       (x 10016)
       (y 160)
     )
@@ -92,7 +92,7 @@
       (y 832)
     )
     (icecrusher
-      (sprite "/images/creatures/icecrusher/krosh.sprite")
+      (type "ice-krosh")
       (x 3616)
       (y 480)
     )
