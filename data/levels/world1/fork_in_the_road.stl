@@ -399,13 +399,14 @@
       (y 0)
     )
     (switch
+      (direction "left")
       (script "lift1.goto_node(1);")
       (x 5036)
       (y 836)
     )
     (switch
+      (direction "right")
       (script "secret.goto_node(1);")
-      (sprite "images/objects/switch/right.sprite")
       (x 10656)
       (y 999)
     )
