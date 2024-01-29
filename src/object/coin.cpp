@@ -141,6 +141,20 @@ Coin::editor_update()
 }
 
 void
+Coin::save_state()
+{
+  MovingSprite::save_state();
+  PathObject::save_state();
+}
+
+void
+Coin::check_state()
+{
+  MovingSprite::check_state();
+  PathObject::check_state();
+}
+
+void
 Coin::collect()
 {
   static Timer sound_timer;

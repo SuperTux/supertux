@@ -801,7 +801,7 @@ Main::release_check()
         notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux v{}!")), latest_ver));
         notif->on_press([latest_ver]()
                        {
-                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n \nDo you want to visit the website now?")), latest_ver), []()
+                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()
                                                    {
                                                      FileSystem::open_url("https://supertux.org");
                                                    });
