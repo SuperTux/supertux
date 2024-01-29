@@ -401,7 +401,7 @@
     (switch
       (direction "left")
       (script "lift1.goto_node(1);")
-      (x 5036)
+      (x 5024)
       (y 836)
     )
     (switch

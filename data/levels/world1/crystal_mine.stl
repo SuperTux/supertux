@@ -1734,7 +1734,7 @@ door2.goto_node(1);")
     (switch
       (direction "left")
       (script "door2.goto_node(1);")
-      (x 12844)
+      (x 12832)
       (y 1344)
     )
     (tilemap
