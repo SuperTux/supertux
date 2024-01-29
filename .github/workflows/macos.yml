@@ -50,11 +50,11 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-11' }}
         run: |
+          brew install --from-source jpeg-xl
           brew install cmake googletest bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
                        fribidi glib gtk-doc glbinding@2 libraqm glm zlib
           brew link glbinding@2
-          find / -name libjxl_cms.0.9.dylib
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
             /usr/local/opt/webp/lib/libsharpyuv.0.dylib \
