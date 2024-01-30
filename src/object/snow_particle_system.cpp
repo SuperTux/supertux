@@ -117,14 +117,16 @@ SnowParticleSystem::update(float dt_sec)
 {
   if (!enabled)
     return;
-
+  
   // Simple ADSR wind gusts.
 
-  if (m_timer.check()) {
+  if (m_timer.check()) 
+  {
     // Change state
     m_state = static_cast<State>((m_state + 1) % MAX_STATE);
 
-    if (m_state == RESTING) {
+    if (m_state == RESTING) 
+    {
       // Stop wind.
       m_gust_current_velocity = 0;
       // New wind strength.
@@ -134,7 +136,8 @@ SnowParticleSystem::update(float dt_sec)
   }
 
   // Update velocities.
-  switch (m_state) {
+  switch (m_state) 
+  {
   case ATTACKING:
     m_gust_current_velocity += m_gust_onset * dt_sec;
     break;
