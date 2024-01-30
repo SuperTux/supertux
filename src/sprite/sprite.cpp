@@ -184,10 +184,15 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
 SpritePtr
 Sprite::get_linked_light_sprite() const
 {
-  if (!m_data.linked_light_sprite)
+  if (!m_data.linked_light_sprite && !m_action->linked_light_sprite)
     return nullptr;
 
-  SpritePtr sprite = SpriteManager::current()->create(m_data.linked_light_sprite->file);
+  SpritePtr sprite;
+  if (m_action->linked_light_sprite)
+    sprite = SpriteManager::current()->create(m_action->linked_light_sprite->file);
+  else
+    sprite = SpriteManager::current()->create(m_data.linked_light_sprite->file);
+
   sprite->set_blend(Blend::ADD);
   sprite->set_color(m_data.linked_light_sprite->color);
   return sprite;
@@ -196,7 +201,8 @@ Sprite::get_linked_light_sprite() const
 std::string
 Sprite::get_linked_light_sprite_file() const
 {
-  return m_data.linked_light_sprite ? m_data.linked_light_sprite->file : "";
+  return m_action->linked_light_sprite ? m_action->linked_light_sprite->file :
+         (m_data.linked_light_sprite ? m_data.linked_light_sprite->file : "");
 }
 
 SpritePtr
@@ -208,7 +214,11 @@ Sprite::get_linked_sprite(const std::string& key) const
 std::string
 Sprite::get_linked_sprite_file(const std::string& key) const
 {
-  auto it = m_data.linked_sprites.find(key);
+  auto it = m_action->linked_sprites.find(key);
+  if (it != m_action->linked_sprites.end())
+    return it->second;
+
+  it = m_data.linked_sprites.find(key);
   if (it == m_data.linked_sprites.end()) // No linked sprite with such key
   {
     log_warning << "No linked sprite with key '" << key << "'." << std::endl;

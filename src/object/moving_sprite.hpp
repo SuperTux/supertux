@@ -105,6 +105,9 @@ protected:
   /** Provides all linked sprites of the object, so they can be updated on main sprite change. */
   virtual LinkedSprites get_linked_sprites() { return {}; }
 
+  /** Update the object after a sprite or sprite action change. */
+  virtual void on_sprite_update();
+
   /** Update hitbox, based on sprite. */
   virtual void update_hitbox();
 

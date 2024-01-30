@@ -135,28 +135,28 @@ void
 MovingSprite::set_action(const std::string& name, int loops)
 {
   m_sprite->set_action(name, loops);
-  update_hitbox();
+  on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const std::string& name, const Direction& dir, int loops)
 {
   m_sprite->set_action(name, dir, loops);
-  update_hitbox();
+  on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, const std::string& name, int loops)
 {
   m_sprite->set_action(dir, name, loops);
-  update_hitbox();
+  on_sprite_update();
 }
 
 void
 MovingSprite::set_action(const Direction& dir, int loops)
 {
   m_sprite->set_action(dir, loops);
-  update_hitbox();
+  on_sprite_update();
 }
 
 void
@@ -164,7 +164,7 @@ MovingSprite::set_action_centered(const std::string& action, int loops)
 {
   Vector old_size = m_col.m_bbox.get_size().as_vector();
   m_sprite->set_action(action, loops);
-  update_hitbox();
+  on_sprite_update();
   set_pos(get_pos() - (m_col.m_bbox.get_size().as_vector() - old_size) / 2.0f);
 }
 
@@ -173,17 +173,14 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
 {
   Rectf old_bbox = m_col.m_bbox;
   m_sprite->set_action(action, loops);
-  update_hitbox();
+  on_sprite_update();
   set_pos(get_anchor_pos(old_bbox, m_sprite->get_current_hitbox_width(),
                          m_sprite->get_current_hitbox_height(), anchorPoint));
 }
 
-bool
-MovingSprite::change_sprite(const std::string& new_sprite_name)
+void
+MovingSprite::on_sprite_update()
 {
-  m_sprite = SpriteManager::current()->create(new_sprite_name);
-  m_sprite_name = new_sprite_name;
-
   // Update hitbox
   update_hitbox();
 
@@ -194,6 +191,14 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
   auto linked_sprites = get_linked_sprites();
   for (const auto& [key, sprite] : linked_sprites)
     sprite = m_sprite->get_linked_sprite(key);
+}
+
+bool
+MovingSprite::change_sprite(const std::string& new_sprite_name)
+{
+  m_sprite = SpriteManager::current()->create(new_sprite_name);
+  m_sprite_name = new_sprite_name;
+  on_sprite_update();
 
   return SpriteManager::current()->last_load_successful();
 }
@@ -221,8 +226,7 @@ MovingSprite::after_editor_set()
     change_sprite(get_default_sprite_name());
   }
   m_sprite->set_action(current_action);
-
-  update_hitbox();
+  on_sprite_update();
 }
 
 void

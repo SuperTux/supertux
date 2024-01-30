@@ -49,6 +49,17 @@ public:
   }
 
 private:
+  struct LinkedLightSprite final
+  {
+    LinkedLightSprite(const std::string& file_) :
+      file(file_), color()
+    {}
+
+    std::string file;
+    Color color;
+  };
+  typedef std::unordered_map<std::string, std::string> LinkedSprites;
+
   struct Action
   {
     Action();
@@ -89,6 +100,9 @@ private:
     std::string family_name;
 
     std::vector<SurfacePtr> surfaces;
+
+    std::optional<LinkedLightSprite> linked_light_sprite;
+    LinkedSprites linked_sprites;
   };
 
   typedef std::map<std::string, std::unique_ptr<Action> > Actions;
@@ -103,17 +117,8 @@ private:
   Actions actions;
   std::string name;
 
-  struct LinkedLightSprite final
-  {
-    LinkedLightSprite(const std::string& file_) :
-      file(file_), color()
-    {}
-
-    std::string file;
-    Color color;
-  };
   std::optional<LinkedLightSprite> linked_light_sprite;
-  std::unordered_map<std::string, std::string> linked_sprites;
+  LinkedSprites linked_sprites;
 };
 
 #endif

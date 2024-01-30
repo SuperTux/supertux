@@ -46,7 +46,9 @@ SpriteData::Action::Action() :
   loop_frame(1),
   has_custom_loops(false),
   family_name(),
-  surfaces()
+  surfaces(),
+  linked_light_sprite(),
+  linked_sprites()
 {
 }
 
@@ -190,6 +192,35 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   if (!mapping.get("family_name", action->family_name))
   {
     action->family_name = "::" + action->name;
+  }
+
+  std::optional<ReaderMapping> linked_sprites_mapping;
+  if (mapping.get("linked-sprites", linked_sprites_mapping)) // "(linked-sprites ({key} "{path}" {color r/g/b [optional]}) )"
+  {
+    auto iter_sprites = linked_sprites_mapping->get_iter();
+    while (iter_sprites.next())
+    {
+      const auto& sx = iter_sprites.as_mapping().get_sexp();
+      const auto& arr = sx.as_array();
+
+      std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), arr[1].as_string());
+      if (!PHYSFS_exists(filepath.c_str())) // If file path is not relative to current directory, make it relative to root
+        filepath = arr[1].as_string();
+
+      if (arr[0].as_string() == "light") // The key "light" is reserved for light sprites
+      {
+        action->linked_light_sprite = LinkedLightSprite(filepath);
+        if (arr.size() >= 5) // Color has been specified
+        {
+          action->linked_light_sprite->color = Color(arr[2].as_float(), arr[3].as_float(),
+                                                     arr[4].as_float());
+        }
+      }
+      else
+      {
+        action->linked_sprites[arr[0].as_string()] = filepath;
+      }
+    }
   }
 
   std::string mirror_action;
