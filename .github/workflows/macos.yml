@@ -50,30 +50,9 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-11' }}
         run: |
-          brew install --build-from-source jpeg-xl
-          brew install --build-from-source cmake
-          brew install --build-from-source googletest
-          brew install --build-from-source bash
-          brew install --build-from-source rename
-          brew install --build-from-source libogg
-          brew install --build-from-source libvorbis
-          brew install --build-from-source glew
-          brew install --build-from-source openal-soft
-          brew install --build-from-source sdl2
-          brew install --build-from-source sdl2_image
-          brew install --build-from-source sdl2_ttf
-          brew install --build-from-source freetype
-          brew install --build-from-source harfbuzz
-          brew install --build-from-source fribidi
-          brew install --build-from-source glib
-          brew install --build-from-source gtk-doc
-          brew install --build-from-source glbinding@2
-          brew install --build-from-source libraqm
-          brew install --build-from-source glm
-          brew install --build-from-source zlib
-          # brew install cmake googletest bash rename libogg libvorbis glew \
-          #              openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
-          #              fribidi glib gtk-doc glbinding@2 libraqm glm zlib
+          brew install cmake googletest bash rename libogg libvorbis glew \
+                       openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
+                       fribidi glib gtk-doc glbinding@2 libraqm glm zlib
           brew link glbinding@2
           install_name_tool -change \
             '@rpath/libsharpyuv.0.dylib' \
