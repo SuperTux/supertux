@@ -44,13 +44,6 @@ public:
     NORMAL, MANUAL, AUTOSCROLL, SCROLLTO
   };
 
-private:
-  /** The camera basically provides lookahead on the left or right
-      side or is undecided. */
-  enum class LookaheadMode {
-    NONE, LEFT, RIGHT
-  };
-
 public:
   Camera(const std::string& name);
   Camera(const ReaderMapping& reader);
@@ -149,8 +142,6 @@ private:
   Vector m_translation;
 
   // normal mode
-  LookaheadMode m_lookahead_mode;
-  float m_changetime;
   Vector m_lookahead_pos;
   Vector m_peek_pos;
   Vector m_cached_translation;
