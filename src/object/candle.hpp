@@ -50,7 +50,7 @@ public:
   /** @} */
 
 protected:
-  std::vector<LinkedSprite> get_linked_sprites() override;
+  LinkedSprites get_linked_sprites() override;
 
 private:
   bool burning; /**< true if candle is currently lighted */

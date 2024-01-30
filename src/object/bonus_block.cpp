@@ -164,7 +164,7 @@ BonusBlock::set_object(std::unique_ptr<GameObject> object)
   m_objects.push_back(std::move(object));
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 BonusBlock::get_linked_sprites()
 {
   if (m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON)

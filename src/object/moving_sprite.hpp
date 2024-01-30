@@ -99,18 +99,11 @@ public:
   void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
 
 public:
-  struct LinkedSprite final
-  {
-    LinkedSprite(const std::string& key_, SpritePtr& sprite_) :
-      key(key_), sprite(sprite_)
-    {}
-
-    std::string key;
-    SpritePtr& sprite;
-  };
+  typedef std::map<std::string, SpritePtr&> LinkedSprites;
 
 protected:
-  virtual std::vector<LinkedSprite> get_linked_sprites() { return {}; }
+  /** Provides all linked sprites of the object, so they can be updated on main sprite change. */
+  virtual LinkedSprites get_linked_sprites() { return {}; }
 
   /** Update hitbox, based on sprite. */
   virtual void update_hitbox();

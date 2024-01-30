@@ -60,7 +60,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   m_exploding_sprite->set_action("default", 1);
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 GoldBomb::get_linked_sprites()
 {
   return {

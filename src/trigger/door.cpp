@@ -63,7 +63,7 @@ Door::Door(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/turnkey.ogg");
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 Door::get_linked_sprites()
 {
   return {

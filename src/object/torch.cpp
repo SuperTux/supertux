@@ -48,7 +48,7 @@ Torch::Torch(const ReaderMapping& reader) :
   set_group(COLGROUP_TOUCHABLE);
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 Torch::get_linked_sprites()
 {
   return {

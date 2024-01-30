@@ -48,7 +48,7 @@ public:
   Color get_lock_color() const { return lock_color; }
 
 protected:
-  std::vector<LinkedSprite> get_linked_sprites() override;
+  LinkedSprites get_linked_sprites() override;
 
 private:
   enum DoorState {

@@ -192,8 +192,8 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
 
   // Update other linked sprites
   auto linked_sprites = get_linked_sprites();
-  for (const LinkedSprite& data : linked_sprites)
-    data.sprite = m_sprite->get_linked_sprite(data.key);
+  for (const auto& [key, sprite] : linked_sprites)
+    sprite = m_sprite->get_linked_sprite(key);
 
   return SpriteManager::current()->last_load_successful();
 }

@@ -36,7 +36,7 @@ GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom
   shadesprite->set_action("shadow");
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 GrowUp::get_linked_sprites()
 {
   return {

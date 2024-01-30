@@ -56,7 +56,7 @@ public:
   /** @} */
 
 protected:
-  std::vector<LinkedSprite> get_linked_sprites() override;
+  LinkedSprites get_linked_sprites() override;
 
 private:
   Color m_light_color;

@@ -35,7 +35,7 @@ DiveMine::DiveMine(const ReaderMapping& reader) :
   reset_sprites();
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 DiveMine::get_linked_sprites()
 {
   return {

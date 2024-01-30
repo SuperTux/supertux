@@ -59,7 +59,7 @@ GhostTree::GhostTree(const ReaderMapping& mapping) :
   SoundManager::current()->preload("sounds/tree_suck.ogg");
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 GhostTree::get_linked_sprites()
 {
   return {

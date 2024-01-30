@@ -48,7 +48,7 @@ Root::deactivate()
   // No dead-script required for deactivation.
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 Root::get_linked_sprites()
 {
   return {

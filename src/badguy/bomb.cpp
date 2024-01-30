@@ -41,7 +41,7 @@ Bomb::Bomb(const Vector& pos, Direction dir_, const std::string& custom_sprite /
   ticking->play();
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 Bomb::get_linked_sprites()
 {
   return {

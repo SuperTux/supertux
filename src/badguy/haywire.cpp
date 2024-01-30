@@ -57,7 +57,7 @@ Haywire::Haywire(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/explosion.wav");
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 Haywire::get_linked_sprites()
 {
   return {

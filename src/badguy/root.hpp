@@ -33,7 +33,7 @@ public:
   virtual void kill_fall() override { }
 
 protected:
-  std::vector<LinkedSprite> get_linked_sprites() override;
+  LinkedSprites get_linked_sprites() override;
 
 private:
   enum MyState {

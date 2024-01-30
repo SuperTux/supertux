@@ -53,7 +53,7 @@ Candle::Candle(const ReaderMapping& mapping) :
   set_action(burning ? "on" : "off");
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 Candle::get_linked_sprites()
 {
   return {

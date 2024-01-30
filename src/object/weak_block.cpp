@@ -70,7 +70,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
   set_action("normal");
 }
 
-std::vector<MovingSprite::LinkedSprite>
+MovingSprite::LinkedSprites
 WeakBlock::get_linked_sprites()
 {
   if (m_type == HAY)
