@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 #define HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 
-#include <memory>
 #include <string>
 
 #include "math/anchor_point.hpp"
