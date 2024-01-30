@@ -22,15 +22,14 @@
 
 #include "math/random.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
   
-static const float S_DECAY_RATIO = 0.2f; // Ratio of attack speed to decay speed.
-static const float S_WOBBLE_DECAY = 0.99f; // Wobble decays exponentially by this much each tick.
-static const float S_WOBBLE_FACTOR = 4 * .005f; // Wobble approaches drift_speed by this much each tick.
+static const float DECAY_RATIO = 0.2f; // Ratio of attack speed to decay speed.
+static const float WOBBLE_DECAY = 0.99f; // Wobble decays exponentially by this much each tick.
+static const float WOBBLE_FACTOR = 4 * .005f; // Wobble approaches drift_speed by this much each tick.
 
 SnowParticleSystem::SnowParticleSystem() :
   m_state(RELEASING),
@@ -142,7 +141,7 @@ SnowParticleSystem::update(float dt_sec)
     m_gust_current_velocity += m_gust_onset * dt_sec;
     break;
   case DECAYING:
-    m_gust_current_velocity -= m_gust_onset * dt_sec * S_DECAY_RATIO;
+    m_gust_current_velocity -= m_gust_onset * dt_sec * DECAY_RATIO;
     break;
   case RELEASING:
     // Uses current time/velocity instead of constants.
@@ -173,8 +172,8 @@ SnowParticleSystem::update(float dt_sec)
     // Wobbling (particle approaches anchorx).
     particle->pos.x += particle->wobble * dt_sec * sq_g;
     anchor_delta = (particle->anchorx - particle->pos.x);
-    particle->wobble += (S_WOBBLE_FACTOR * anchor_delta) + graphicsRandom.randf(-m_epsilon, m_epsilon);
-    particle->wobble *= S_WOBBLE_DECAY;
+    particle->wobble += (WOBBLE_FACTOR * anchor_delta) + graphicsRandom.randf(-m_epsilon, m_epsilon);
+    particle->wobble *= WOBBLE_DECAY;
     // Spinning.
     particle->angle += particle->spin_speed * dt_sec;
     particle->angle = fmodf(particle->angle, 360.0);
