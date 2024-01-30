@@ -30,7 +30,6 @@ public:
   SnowParticleSystem(const ReaderMapping& reader);
   ~SnowParticleSystem() override;
 
-  void init();
   virtual void update(float dt_sec) override;
 
   static std::string class_name() { return "particles-snow"; }
@@ -45,6 +44,8 @@ public:
   }
 
 private:
+  void init();
+
   class SnowParticle : public Particle
   {
   public:
@@ -69,9 +70,8 @@ private:
     {}
   };
 
-  // Wind is simulated in discrete "gusts".
-  
-  // Gust states.
+  // Wind is simulated in discrete "gusts",
+  // gust states:
   enum State {
     ATTACKING,
     DECAYING,
@@ -99,7 +99,6 @@ private:
   float m_state_length; // Interval for how long to affect the particles with wind.
 
   SurfacePtr m_snowimages[3];
-
 private:
   SnowParticleSystem(const SnowParticleSystem&) = delete;
   SnowParticleSystem& operator=(const SnowParticleSystem&) = delete;
