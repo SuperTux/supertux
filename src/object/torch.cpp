@@ -28,7 +28,6 @@ Torch::Torch(const ReaderMapping& reader) :
   m_light_color(1.f, 1.f, 1.f),
   m_flame(m_sprite->get_linked_sprite("flame")),
   m_flame_glow(m_sprite->get_linked_sprite("glow")),
-  m_flame_light(m_sprite->get_linked_sprite("light")),
   m_burning(true)
 {
   reader.get("burning", m_burning, true);
@@ -38,13 +37,13 @@ Torch::Torch(const ReaderMapping& reader) :
   if (!reader.get("color", vColor)) vColor = { 1.f, 1.f, 1.f };
 
   m_flame_glow->set_blend(Blend::ADD);
-  m_flame_light->set_blend(Blend::ADD);
   if (vColor.size() >= 3)
   {
     m_light_color = Color(vColor);
     m_flame->set_color(m_light_color);
     m_flame_glow->set_color(m_light_color);
-    m_flame_light->set_color(m_light_color);
+    if (m_light_sprite)
+      m_light_sprite->set_color(m_light_color);
   }
   set_group(COLGROUP_TOUCHABLE);
 }
@@ -54,8 +53,7 @@ Torch::get_linked_sprites()
 {
   return {
     { "flame", m_flame },
-    { "glow", m_flame_glow },
-    { "light", m_flame_light }
+    { "glow", m_flame_glow }
   };
 }
 
@@ -69,8 +67,11 @@ Torch::draw(DrawingContext& context)
     m_flame->draw(context.color(), pos, m_layer - 1, m_flip);
     m_flame->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
 
-    m_flame_light->draw(context.light(), pos, m_layer);
-    m_flame_light->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+    if (m_light_sprite)
+    {
+      m_light_sprite->draw(context.light(), pos, m_layer);
+      m_light_sprite->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
+    }
 
     m_flame_glow->draw(context.color(), pos, m_layer - 1, m_flip);
     m_flame_glow->set_action(m_light_color.greyscale() >= 1.f ? "default" : "greyscale");
@@ -116,7 +117,8 @@ Torch::after_editor_set()
 
   m_flame->set_color(m_light_color);
   m_flame_glow->set_color(m_light_color);
-  m_flame_light->set_color(m_light_color);
+  if (m_light_sprite)
+    m_light_sprite->set_color(m_light_color);
 }
 
 bool

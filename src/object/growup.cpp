@@ -27,25 +27,20 @@ GrowUp::GrowUp(const Vector& pos, Direction direction, const std::string& custom
   MovingSprite(pos, custom_sprite.empty() ? "images/powerups/egg/egg.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   m_custom_sprite(!custom_sprite.empty()),
-  shadesprite(m_sprite->get_linked_sprite("shade")),
-  lightsprite(m_sprite->get_linked_sprite("light"))
+  shadesprite(m_sprite->get_linked_sprite("shade"))
 {
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == Direction::LEFT) ? -100.0f : 100.0f);
   SoundManager::current()->preload("sounds/grow.ogg");
   // Set the shadow action for the egg sprite, so it remains in place as the egg rolls.
   shadesprite->set_action("shadow");
-  // Configure the light sprite for the glow effect.
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
 }
 
 std::vector<MovingSprite::LinkedSprite>
 GrowUp::get_linked_sprites()
 {
   return {
-    { "shade", shadesprite },
-    { "light", lightsprite }
+    { "shade", shadesprite }
   };
 }
 
@@ -67,7 +62,6 @@ GrowUp::draw(DrawingContext& context)
     return;
 
   shadesprite->draw(context.color(), get_pos(), m_layer);
-  lightsprite->draw(context.light(), get_bbox().get_middle(), 0);
 }
 
 void

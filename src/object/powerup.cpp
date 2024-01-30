@@ -30,8 +30,7 @@ PowerUp::PowerUp(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
-  no_physics(),
-  lightsprite()
+  no_physics()
 {
   parse_type(mapping);
   mapping.get("script", script, "");
@@ -43,26 +42,13 @@ PowerUp::PowerUp(const Vector& pos, int type) :
   MovingSprite(pos, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
-  no_physics(false),
-  lightsprite()
+  no_physics(false)
 {
   m_type = type;
   on_type_change();
 
   update_version();
   initialize();
-}
-
-std::vector<MovingSprite::LinkedSprite>
-PowerUp::get_linked_sprites()
-{
-  if (has_lightsprite())
-  {
-    return {
-      { "light", lightsprite }
-    };
-  }
-  return {};
 }
 
 GameObjectTypes
@@ -141,68 +127,6 @@ PowerUp::initialize()
     else if (matches_sprite("images/powerups/potions/red-potion.sprite"))
       m_type = FLIP;
   }
-
-  setup_lightsprite();
-}
-
-void
-PowerUp::setup_lightsprite()
-{
-  if (!has_lightsprite())
-  {
-    lightsprite.reset();
-    return;
-  }
-
-  lightsprite = m_sprite->get_linked_sprite("light");
-  lightsprite->set_blend(Blend::ADD);
-
-  switch (m_type)
-  {
-    case EGG:
-      lightsprite->set_color(Color(0.2f, 0.2f, 0.0f));
-      break;
-    case FIRE:
-      lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
-      break;
-    case ICE:
-      lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
-      break;
-    case AIR:
-      lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
-      break;
-    case EARTH:
-      lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
-      break;
-    case STAR:
-      lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
-      break;
-  }
-}
-
-bool
-PowerUp::has_lightsprite() const
-{
-  switch (m_type)
-  {
-    case EGG:
-    case FIRE:
-    case ICE:
-    case AIR:
-    case EARTH:
-    case STAR:
-      return true;
-
-    default:
-      return false;
-  }
-}
-
-void
-PowerUp::after_editor_set()
-{
-  MovingSprite::after_editor_set();
-  setup_lightsprite();
 }
 
 void
@@ -322,8 +246,8 @@ PowerUp::draw(DrawingContext& context)
   if (m_type == STAR || m_type == HERRING)
     m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  if (lightsprite)
-    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  if (m_light_sprite)
+    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 ObjectSettings

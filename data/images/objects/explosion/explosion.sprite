@@ -27,6 +27,6 @@
   )
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light-large.sprite")
+    (light "images/objects/lightmap_light/lightmap_light-large.sprite" 0.6 0.6 0.6)
   )
 )

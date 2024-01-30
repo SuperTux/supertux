@@ -170,13 +170,33 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   context.set_alpha(context.get_alpha() * m_alpha);
 
   canvas.draw_surface(m_action->surfaces[m_frameidx],
-                    pos - Vector(m_action->x_offset, flip == NO_FLIP ? m_action->y_offset : (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h)),
-                    m_angle,
-                    m_color,
-                    m_blend,
-                    layer);
+                      pos - Vector(m_action->x_offset,
+                                   flip == NO_FLIP ? m_action->y_offset :
+                                     (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h + m_action->flip_offset)),
+                      m_angle,
+                      m_color,
+                      m_blend,
+                      layer);
 
   context.pop_transform();
+}
+
+SpritePtr
+Sprite::get_linked_light_sprite() const
+{
+  if (!m_data.linked_light_sprite)
+    return nullptr;
+
+  SpritePtr sprite = SpriteManager::current()->create(m_data.linked_light_sprite->file);
+  sprite->set_blend(Blend::ADD);
+  sprite->set_color(m_data.linked_light_sprite->color);
+  return sprite;
+}
+
+std::string
+Sprite::get_linked_light_sprite_file() const
+{
+  return m_data.linked_light_sprite ? m_data.linked_light_sprite->file : "";
 }
 
 SpritePtr

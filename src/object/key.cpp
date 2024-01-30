@@ -38,7 +38,6 @@ Key::Key(const ReaderMapping& reader) :
   m_my_door_pos(0.f, 0.f),
   m_color(Color::WHITE),
   m_owner(),
-  m_lightsprite(m_sprite->get_linked_sprite("light")),
   m_total_time_elapsed(),
   m_target_speed()
 {
@@ -46,21 +45,13 @@ Key::Key(const ReaderMapping& reader) :
   if (reader.get("color", vColor)) {
     m_color = Color(vColor);
   }
-  m_lightsprite->set_blend(Blend::ADD);
-  m_lightsprite->set_color(m_color);
+  if (m_light_sprite)
+    m_light_sprite->set_color(m_color);
 
   // TODO: Add proper sound
   SoundManager::current()->preload("sounds/metal_hit.ogg");
   m_sprite->set_color(m_color);
   m_physic.enable_gravity(false);
-}
-
-std::vector<MovingSprite::LinkedSprite>
-Key::get_linked_sprites()
-{
-  return {
-    { "light", m_lightsprite }
-  };
 }
 
 void
@@ -188,7 +179,9 @@ void
 Key::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-  m_lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer+1);
+
+  if (m_light_sprite)
+    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), m_layer + 1);
 }
 
 ObjectSettings
@@ -208,8 +201,8 @@ Key::after_editor_set()
 {
   MovingSprite::after_editor_set();
 
-  m_lightsprite->set_blend(Blend::ADD);
-  m_lightsprite->set_color(m_color);
+  if (m_light_sprite)
+    m_light_sprite->set_color(m_color);
   m_sprite->set_color(m_color);
 }
 

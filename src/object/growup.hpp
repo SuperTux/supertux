@@ -44,7 +44,6 @@ private:
 
   const bool m_custom_sprite;
   SpritePtr shadesprite;
-  SpritePtr lightsprite;
 
 private:
   GrowUp(const GrowUp&) = delete;

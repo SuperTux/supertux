@@ -138,7 +138,7 @@ BonusBlock::BonusBlock(const ReaderMapping& mapping) :
   if (m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON)
   {
     SoundManager::current()->preload("sounds/switch.ogg");
-    m_lightsprite = m_sprite->get_linked_sprite("light");
+    m_lightsprite = m_sprite->get_linked_sprite("on-light");
     if (m_contents == Content::LIGHT_ON)
       set_action("on");
     else

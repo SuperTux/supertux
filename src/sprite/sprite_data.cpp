@@ -37,6 +37,7 @@ SpriteData::Action::Action() :
   name(),
   x_offset(0),
   y_offset(0),
+  flip_offset(0),
   hitbox_w(0),
   hitbox_h(0),
   hitbox_unisolid(false),
@@ -52,6 +53,7 @@ SpriteData::Action::Action() :
 SpriteData::SpriteData(const ReaderMapping& mapping) :
   actions(),
   name(),
+  linked_light_sprite(),
   linked_sprites()
 {
   auto iter = mapping.get_iter();
@@ -65,20 +67,31 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
     {
       parse_action(iter.as_mapping());
     }
-    else if (iter.get_key() == "linked-sprites")
+    else if (iter.get_key() == "linked-sprites") // "(linked-sprites ({key} "{path}" {color r/g/b [optional]}) )"
     {
       auto iter_sprites = iter.as_mapping().get_iter();
       while (iter_sprites.next())
       {
-        std::string filename;
-        iter_sprites.get(filename);
+        const auto& sx = iter_sprites.as_mapping().get_sexp();
+        const auto& arr = sx.as_array();
 
-        // If file path is not relative to current directory, make it relative to root
-        std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), filename);
-        if (!PHYSFS_exists(filepath.c_str()))
-          filepath = filename;
+        std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), arr[1].as_string());
+        if (!PHYSFS_exists(filepath.c_str())) // If file path is not relative to current directory, make it relative to root
+          filepath = arr[1].as_string();
 
-        linked_sprites[iter_sprites.get_key()] = filepath;
+        if (arr[0].as_string() == "light") // The key "light" is reserved for light sprites
+        {
+          linked_light_sprite = LinkedLightSprite(filepath);
+          if (arr.size() >= 5) // Color has been specified
+          {
+            linked_light_sprite->color = Color(arr[2].as_float(), arr[3].as_float(),
+                                               arr[4].as_float());
+          }
+        }
+        else
+        {
+          linked_sprites[arr[0].as_string()] = filepath;
+        }
       }
     }
     else
@@ -93,6 +106,7 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
 SpriteData::SpriteData(const std::string& image) :
   actions(),
   name(),
+  linked_light_sprite(),
   linked_sprites()
 {
   auto surface = Surface::from_file(image);
@@ -107,6 +121,7 @@ SpriteData::SpriteData(const std::string& image) :
 SpriteData::SpriteData() :
   actions(),
   name(),
+  linked_light_sprite(),
   linked_sprites()
 {
   auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
@@ -156,6 +171,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         throw std::runtime_error("hitbox should specify 2/4 coordinates");
     }
   }
+  mapping.get("flip-offset", action->flip_offset);
   mapping.get("unisolid", action->hitbox_unisolid);
   mapping.get("fps", action->fps);
   if (mapping.get("loops", action->loops))

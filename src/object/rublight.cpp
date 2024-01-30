@@ -29,7 +29,6 @@ RubLight::RubLight(const ReaderMapping& mapping) :
     COLGROUP_STATIC),
   state(STATE_DARK),
   stored_energy(0),
-  light(m_sprite->get_linked_sprite("light")),
   color(1.f, 1.f, 1.f),
   fading_speed(5.0f),
   strength_multiplier(1.0f)
@@ -41,14 +40,6 @@ RubLight::RubLight(const ReaderMapping& mapping) :
     color = Color(vColor);
   mapping.get("fading_speed", fading_speed);
   mapping.get("strength_multiplier", strength_multiplier);
-}
-
-std::vector<MovingSprite::LinkedSprite>
-RubLight::get_linked_sprites()
-{
-  return {
-    { "light", light }
-  };
 }
 
 ObjectSettings
@@ -140,12 +131,15 @@ RubLight::get_brightness() const
 void
 RubLight::draw(DrawingContext& context)
 {
-  if (state == STATE_FADING) {
+  if (state == STATE_FADING)
+  {
     float brightness = get_brightness();
     Color col = color.multiply_linearly(brightness);
-    light->set_color(col);
-    light->set_blend(Blend::ADD);
-    light->draw(context.light(), get_pos(), m_layer);
+    if (m_light_sprite)
+    {
+      m_light_sprite->set_color(col);
+      m_light_sprite->draw(context.light(), get_pos(), m_layer);
+    }
   }
 
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);

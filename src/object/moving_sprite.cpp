@@ -31,13 +31,15 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
                            int layer_, CollisionGroup collision_group) :
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
-  m_sprite(SpriteManager::current()->create(m_sprite_name)),
+  m_sprite(),
+  m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false)
 {
+  change_sprite(m_sprite_name);
+
   m_col.m_bbox.set_pos(pos);
-  update_hitbox();
   set_group(collision_group);
 }
 
@@ -52,12 +54,11 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_name(sprite_name_),
   m_default_sprite_name(sprite_name_),
   m_sprite(),
+  m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false)
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid or sprite change fails
@@ -75,17 +76,16 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   m_sprite_name(),
   m_default_sprite_name(),
   m_sprite(),
+  m_light_sprite(),
   m_layer(layer_),
   m_flip(NO_FLIP),
   m_sprite_found(false)
 {
-  reader.get("x", m_col.m_bbox.get_left());
-  reader.get("y", m_col.m_bbox.get_top());
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
-  //m_default_sprite_name = m_sprite_name;
-  m_sprite = SpriteManager::current()->create(m_sprite_name);
-  update_hitbox();
+  if (m_sprite_name.empty() || !change_sprite(m_sprite_name))
+    m_sprite_found = false;
+
   set_group(collision_group);
 }
 
@@ -93,6 +93,9 @@ void
 MovingSprite::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+
+  if (m_light_sprite)
+    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void
@@ -184,7 +187,10 @@ MovingSprite::change_sprite(const std::string& new_sprite_name)
   // Update hitbox
   update_hitbox();
 
-  // Update all linked sprites
+  // Update light sprite
+  m_light_sprite = m_sprite->get_linked_light_sprite();
+
+  // Update other linked sprites
   auto linked_sprites = get_linked_sprites();
   for (const LinkedSprite& data : linked_sprites)
     data.sprite = m_sprite->get_linked_sprite(data.key);

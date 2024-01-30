@@ -38,9 +38,6 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
   switch (type) {
     case FIRE_BONUS:
       sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
-      lightsprite = sprite->get_linked_sprite("light");
-      lightsprite->set_blend(Blend::ADD);
-      lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
       break;
 
     case ICE_BONUS:
@@ -53,6 +50,10 @@ Bullet::Bullet(const Vector& pos, const Vector& xm, Direction dir, BonusType typ
       sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
       break;
   }
+
+  lightsprite = sprite->get_linked_light_sprite();
+  if (lightsprite)
+    lightsprite->set_blend(Blend::ADD);
 
   m_col.m_bbox.set_pos(pos);
   m_col.m_bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());

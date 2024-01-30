@@ -23,6 +23,6 @@
           "pop-3.png"))
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light.sprite")
+    (light "images/objects/lightmap_light/lightmap_light.sprite" 0.2 0.1 0)
   )
 )

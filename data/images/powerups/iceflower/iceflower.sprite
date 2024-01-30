@@ -9,6 +9,6 @@
                  "ice_flower-1.png"))
 
   (linked-sprites
-    (light "images/objects/lightmap_light/lightmap_light-small.sprite")
+    (light "images/objects/lightmap_light/lightmap_light-small.sprite" 0 0.1 0.2)
   )
 )

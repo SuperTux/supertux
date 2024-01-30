@@ -29,21 +29,11 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const Color TORCH_LIGHT_COLOR = Color(0.87f, 0.64f, 0.12f); /** Color of the light specific to the torch firefly sprite. */
-static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite. */
-
 Firefly::Firefly(const ReaderMapping& mapping) :
-   MovingSprite(mapping, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
-   m_sprite_light(),
-   activated(false),
-   initial_position(get_pos())
+  MovingSprite(mapping, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+  activated(false),
+  initial_position(get_pos())
 {
-  if (m_sprite_name.find("torch", 0) != std::string::npos) {
-    m_sprite_light = m_sprite->get_linked_sprite("light");
-    m_sprite_light->set_blend(Blend::ADD);
-    m_sprite_light->set_color(TORCH_LIGHT_COLOR);
-  }
-
   update_state();
 
   // Load sound.
@@ -58,28 +48,13 @@ Firefly::Firefly(const ReaderMapping& mapping) :
   }
 }
 
-std::vector<MovingSprite::LinkedSprite>
-Firefly::get_linked_sprites()
-{
-  // FIXME: Sprite name hardcoding
-  if (m_sprite_name.find("torch", 0) != std::string::npos)
-  {
-    return {
-      { "light", m_sprite_light }
-    };
-  }
-  return {};
-}
-
 void
 Firefly::draw(DrawingContext& context)
 {
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
 
-  if (m_sprite_name.find("torch", 0) != std::string::npos && (activated ||
-        m_sprite->get_action() == "ringing")) {
-    m_sprite_light->draw(context.light(), m_col.m_bbox.get_middle() + (m_flip == NO_FLIP ? -TORCH_LIGHT_OFFSET : TORCH_LIGHT_OFFSET), 0);
-  }
+  if (m_light_sprite && (activated || m_sprite->get_action() == "ringing"))
+    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0, m_flip);
 }
 
 void

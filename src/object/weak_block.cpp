@@ -32,7 +32,7 @@
 #include "util/writer.hpp"
 
 WeakBlock::WeakBlock(const ReaderMapping& mapping) :
-  MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_TILES, COLGROUP_STATIC),
+  MovingSprite(mapping, "images/objects/weak_block/meltbox.sprite", LAYER_OBJECTS + 10, COLGROUP_STATIC),
   state(STATE_NORMAL),
   lightsprite()
 {
@@ -59,7 +59,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
 
   if (m_type == HAY)
   {
-    lightsprite = m_sprite->get_linked_sprite("light");
+    lightsprite = m_sprite->get_linked_sprite("burn-light");
     SoundManager::current()->preload("sounds/fire.ogg"); // TODO: Use own sound?
   }
   else
@@ -76,7 +76,7 @@ WeakBlock::get_linked_sprites()
   if (m_type == HAY)
   {
     return {
-      { "light", lightsprite }
+      { "burn-light", lightsprite }
     };
   }
   return {};
@@ -229,8 +229,7 @@ WeakBlock::update(float )
 void
 WeakBlock::draw(DrawingContext& context)
 {
-  //Draw the Sprite just in front of other objects
-  m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10, m_flip);
+  MovingSprite::draw(context);
 
   if (lightsprite && (state != STATE_NORMAL))
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);

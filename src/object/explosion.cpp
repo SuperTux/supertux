@@ -37,13 +37,10 @@ Explosion::Explosion(const Vector& pos, float p_push_strength,
   push_strength(p_push_strength),
   num_particles(p_num_particles),
   state(STATE_WAITING),
-  lightsprite(m_sprite->get_linked_sprite("light")),
   short_fuse(p_short_fuse)
 {
   SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
   set_pos(get_pos() - (m_col.m_bbox.get_middle() - get_pos()));
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
 
 Explosion::Explosion(const ReaderMapping& reader) :
@@ -52,20 +49,9 @@ Explosion::Explosion(const ReaderMapping& reader) :
   push_strength(-1),
   num_particles(100),
   state(STATE_WAITING),
-  lightsprite(m_sprite->get_linked_sprite("light")),
   short_fuse(false)
 {
   SoundManager::current()->preload(short_fuse ? "sounds/firecracker.ogg" : "sounds/explosion.wav");
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
-}
-
-std::vector<MovingSprite::LinkedSprite>
-Explosion::get_linked_sprites()
-{
-  return {
-    { "light", lightsprite }
-  };
 }
 
 void
@@ -174,7 +160,9 @@ void
 Explosion::draw(DrawingContext& context)
 {
   m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+40);
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+
+  if (m_light_sprite)
+    m_light_sprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 HitResponse

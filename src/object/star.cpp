@@ -28,21 +28,9 @@ static const float JUMPSTAR_SPEED = -300;
 
 Star::Star(const Vector& pos, Direction direction, const std::string& custom_sprite) :
   MovingSprite(pos, custom_sprite.empty() ? "images/powerups/star/star.sprite" : custom_sprite, LAYER_OBJECTS, COLGROUP_MOVING),
-  physic(),
-  lightsprite(m_sprite->get_linked_sprite("light"))
+  physic()
 {
   physic.set_velocity((direction == Direction::LEFT) ? -STAR_SPEED : STAR_SPEED, INITIALJUMP);
-  //set light for glow effect
-  lightsprite->set_blend(Blend::ADD);
-  lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
-}
-
-std::vector<MovingSprite::LinkedSprite>
-Star::get_linked_sprites()
-{
-  return {
-    { "light", lightsprite }
-  };
 }
 
 void
@@ -72,13 +60,6 @@ Star::update(float dt_sec)
       }
     }
   }
-}
-
-void
-Star::draw(DrawingContext& context)
-{
-  MovingSprite::draw(context);
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 void

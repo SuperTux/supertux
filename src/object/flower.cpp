@@ -33,31 +33,27 @@ Flower::Flower(BonusType _type, const std::string& custom_sprite) :
   if (type == FIRE_BONUS) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/fireflower/fireflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
-    lightsprite = sprite->get_linked_sprite("light");
-    lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
   }
   else if (type == ICE_BONUS) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/iceflower/iceflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
-    lightsprite = sprite->get_linked_sprite("light");
-    lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
   }
   else if (type == AIR_BONUS) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/airflower/airflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
-    lightsprite = sprite->get_linked_sprite("light");
-    lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
   }
   else if (type == EARTH_BONUS) {
     sprite = SpriteManager::current()->create(custom_sprite.empty() ? "images/powerups/earthflower/earthflower.sprite" : custom_sprite);
     SoundManager::current()->preload("sounds/fire-flower.wav");
-    lightsprite = sprite->get_linked_sprite("light");
-    lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
-  } else {
+  }
+  else {
     assert(false);
   }
 
-  lightsprite->set_blend(Blend::ADD);
+  lightsprite = sprite->get_linked_light_sprite();
+  if (lightsprite)
+    lightsprite->set_blend(Blend::ADD);
+
   set_group(COLGROUP_TOUCHABLE);
 }
 
@@ -70,7 +66,8 @@ void
 Flower::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, flip);
-  lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
+  if (lightsprite)
+    lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
 }
 
 HitResponse

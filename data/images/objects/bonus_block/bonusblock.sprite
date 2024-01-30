@@ -31,6 +31,6 @@
          (images "lightblock_off.png"))
 
   (linked-sprites
-    (light "images/objects/lightmap_light/bonusblock_light.png")
+    (on-light "images/objects/lightmap_light/bonusblock_light.png")
   )
 )

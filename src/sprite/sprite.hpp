@@ -86,6 +86,10 @@ public:
   /** Get current action name */
   const std::string& get_action() const { return m_action->name; }
 
+  /** Get linked light sprite */
+  SpritePtr get_linked_light_sprite() const;
+  std::string get_linked_light_sprite_file() const;
+
   /** Get linked sprite by key */
   SpritePtr get_linked_sprite(const std::string& key) const;
   std::string get_linked_sprite_file(const std::string& key) const;

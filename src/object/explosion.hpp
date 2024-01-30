@@ -43,9 +43,6 @@ public:
   bool hurts() const { return hurt; }
   void hurts (bool val) { hurt = val; }
 
-protected:
-  std::vector<LinkedSprite> get_linked_sprites() override;
-
 private:
   /** plays sound, starts animation */
   void explode();
@@ -61,7 +58,6 @@ private:
   float push_strength;
   int num_particles;
   State state;
-  SpritePtr lightsprite;
   bool short_fuse;
 
 private:
