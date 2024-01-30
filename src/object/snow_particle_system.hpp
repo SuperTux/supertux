@@ -99,6 +99,7 @@ private:
   float m_state_length; // Interval for how long to affect the particles with wind.
 
   SurfacePtr m_snowimages[3];
+  
 private:
   SnowParticleSystem(const SnowParticleSystem&) = delete;
   SnowParticleSystem& operator=(const SnowParticleSystem&) = delete;
