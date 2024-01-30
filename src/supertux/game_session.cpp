@@ -48,7 +48,6 @@
 
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
                          bool preserve_music) :
-  GameSessionRecorder(),
   reset_button(false),
   reset_checkpoint_button(false),
   m_prevent_death(false),
@@ -233,8 +232,6 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     it->set_time(it->get_time() - m_play_time);
     it++;
   }
-
-  start_recording();
 
   return (0);
 }
@@ -446,8 +443,6 @@ GameSession::update(float dt_sec, const Controller& controller)
   // design choice, if you prefer it not to animate when paused, add `if (!m_game_pause)`).
   m_level->m_stats.update_timers(dt_sec);
 
-  process_events();
-
   // Unpause the game if the menu has been closed.
   if (m_game_pause && !MenuManager::instance().is_active()) {
     ScreenManager::current()->set_speed(m_speed_before_pause);
@@ -479,9 +474,6 @@ GameSession::update(float dt_sec, const Controller& controller)
 
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
-
-    if (is_playing_demo())
-      reset_demo_controller();
 
     m_newsector = "";
     m_newspawnpoint = "";

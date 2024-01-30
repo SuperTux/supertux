@@ -12998,52 +12998,6 @@ static SQInteger rand_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger record_demo_wrapper(HSQUIRRELVM vm)
-{
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    scripting::record_demo(arg0);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'record_demo'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger play_demo_wrapper(HSQUIRRELVM vm)
-{
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    scripting::play_demo(arg0);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'play_demo'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger set_title_frame_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -14558,20 +14512,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'rand'");
-  }
-
-  sq_pushstring(v, "record_demo", -1);
-  sq_newclosure(v, &record_demo_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'record_demo'");
-  }
-
-  sq_pushstring(v, "play_demo", -1);
-  sq_newclosure(v, &play_demo_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".s");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'play_demo'");
   }
 
   sq_pushstring(v, "set_title_frame", -1);

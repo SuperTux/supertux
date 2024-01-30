@@ -459,32 +459,6 @@ void set_game_speed(float speed)
   ::g_debug.set_game_speed_multiplier(speed);
 }
 
-void record_demo(const std::string& filename)
-{
-  if (GameSession::current() == nullptr)
-  {
-    log_info << "No game session." << std::endl;
-    return;
-  }
-  GameSession::current()->restart_level();
-  GameSession::current()->record_demo(filename);
-}
-
-void play_demo(const std::string& filename)
-{
-  auto session = GameSession::current();
-  if (session == nullptr)
-  {
-    log_info << "No game session." << std::endl;
-    return;
-  }
-  // Reset random seed.
-  g_config->random_seed = session->get_demo_random_seed(filename);
-  gameRandom.seed(g_config->random_seed);
-  session->restart_level();
-  session->play_demo(filename);
-}
-
 void set_title_frame(const std::string& image)
 {
   auto title_screen = TitleScreen::current();

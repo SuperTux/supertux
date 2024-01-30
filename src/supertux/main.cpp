@@ -605,10 +605,8 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else
       { // launch game
-        std::unique_ptr<GameSession> session (
-          new GameSession(filename, *m_savegame));
+        std::unique_ptr<GameSession> session = std::make_unique<GameSession>(filename, *m_savegame);
 
-        g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
         gameRandom.seed(g_config->random_seed);
         graphicsRandom.seed(0);
 
@@ -631,11 +629,6 @@ Main::launch_game(const CommandLineArguments& args)
           session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
 
-        if (!g_config->start_demo.empty())
-          session->play_demo(g_config->start_demo);
-
-        if (!g_config->record_demo.empty())
-          session->record_demo(g_config->record_demo);
         m_screen_manager->push_screen(std::move(session));
       }
     }

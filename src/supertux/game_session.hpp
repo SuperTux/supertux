@@ -17,6 +17,9 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 
+#include "supertux/screen.hpp"
+#include "util/currenton.hpp"
+
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -27,12 +30,9 @@
 #include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/game_session_recorder.hpp"
 #include "supertux/player_status.hpp"
-#include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
-#include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
 
 class CodeController;
@@ -46,7 +46,6 @@ class Savegame;
 
 /** Screen that runs a Level, where Players run and jump through Sectors. */
 class GameSession final : public Screen,
-                          public GameSessionRecorder,
                           public Currenton<GameSession>
 {
 private:
