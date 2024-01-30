@@ -31,11 +31,10 @@ class SpriteData;
 class SpriteManager final : public Currenton<SpriteManager>
 {
 private:
-  static SpriteData* s_dummy_sprite_data;
-
-private:
   typedef std::map<std::string, std::unique_ptr<SpriteData> > Sprites;
   Sprites m_sprites;
+  SpriteData* m_dummy_sprite;
+
   bool m_load_successful;
 
 public:
@@ -45,7 +44,6 @@ public:
 
   /** loads a sprite. */
   SpritePtr create(const std::string& filename);
-  SpritePtr create_dummy_sprite() const;
 
 private:
   SpriteData* load(const std::string& filename);
