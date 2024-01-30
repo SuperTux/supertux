@@ -547,31 +547,6 @@ static SQInteger Camera_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
-static SQInteger Camera_reload_config_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, nullptr, SQTrue)) || !data) {
-    sq_throwerror(vm, _SC("'reload_config' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
-
-
-  try {
-    _this->reload_config();
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'reload_config'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -14878,13 +14853,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'Camera'";
     throw SquirrelError(v, msg.str());
   }
-  sq_pushstring(v, "reload_config", -1);
-  sq_newclosure(v, &Camera_reload_config_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'reload_config'");
-  }
-
   sq_pushstring(v, "shake", -1);
   sq_newclosure(v, &Camera_shake_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, ".b|nb|nb|n");

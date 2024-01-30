@@ -104,8 +104,6 @@ public:
   void scroll_to(const Vector& goal, float scrolltime);
   void move(const int dx, const int dy);
 
-  void reload_config();
-
   /** get the coordinates of the point directly in the center of this
       camera */
   Vector get_center() const;
@@ -176,8 +174,6 @@ private:
   Vector m_scroll_goal;
   float m_scroll_to_pos;
   float m_scrollspeed;
-
-  std::unique_ptr<CameraConfig> m_config;
 
   float m_scale,
         m_scale_origin,

@@ -24,14 +24,6 @@
 namespace scripting {
 
 void
-Camera::reload_config()
-{
-  SCRIPT_GUARD_VOID;
-  BIND_SECTOR(::Sector::get());
-  object.reload_config();
-}
-
-void
 Camera::shake(float duration, float x, float y)
 {
   SCRIPT_GUARD_VOID;
