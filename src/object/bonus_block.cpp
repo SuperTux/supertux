@@ -170,7 +170,7 @@ BonusBlock::get_linked_sprites()
   if (m_contents == Content::LIGHT || m_contents == Content::LIGHT_ON)
   {
     return {
-      { "light", m_lightsprite }
+      { "on-light", m_lightsprite }
     };
   }
   return {};
