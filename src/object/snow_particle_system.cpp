@@ -137,21 +137,21 @@ SnowParticleSystem::update(float dt_sec)
   // Update velocities.
   switch (m_state) 
   {
-  case ATTACKING:
-    m_gust_current_velocity += m_gust_onset * dt_sec;
-    break;
-  case DECAYING:
-    m_gust_current_velocity -= m_gust_onset * dt_sec * DECAY_RATIO;
-    break;
-  case RELEASING:
-    // Uses current time/velocity instead of constants.
-    m_gust_current_velocity -= m_gust_current_velocity * dt_sec / m_timer.get_timeleft();
-    break;
-  case SUSTAINING:
-  case RESTING:
-    break;
-  default:
-    assert(false);
+	case ATTACKING:
+		m_gust_current_velocity += m_gust_onset * dt_sec;
+		break;
+	case DECAYING:
+		m_gust_current_velocity -= m_gust_onset * dt_sec * DECAY_RATIO;
+		break;
+	case RELEASING:
+		// Uses current time/velocity instead of constants.
+		m_gust_current_velocity -= m_gust_current_velocity * dt_sec / m_timer.get_timeleft();
+		break;
+	case SUSTAINING:
+	case RESTING:
+		break;
+	default:
+		assert(false);
   }
 
   float sq_g = sqrtf(Sector::get().get_gravity());
