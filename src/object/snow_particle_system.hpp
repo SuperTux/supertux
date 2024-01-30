@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2023 bruhmoent
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,18 +30,19 @@ public:
   SnowParticleSystem(const ReaderMapping& reader);
   ~SnowParticleSystem() override;
 
+  void init();
   virtual void update(float dt_sec) override;
 
   static std::string class_name() { return "particles-snow"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Snow Particles"); }
   virtual std::string get_display_name() const override { return display_name(); }
+  virtual ObjectSettings get_settings() override;
 
-  virtual const std::string get_icon_path() const override {
+  virtual const std::string get_icon_path() const override
+  {
     return "images/engine/editor/snow.png";
   }
-
-  void init();
 
 private:
   class SnowParticle : public Particle
@@ -51,10 +53,10 @@ private:
     float anchorx;
     float drift_speed;
 
-    // Turning speed
+    // Turning speed.
     float spin_speed;
 
-    // for inertia
+    // For inertia.
     unsigned int flake_size;
 
     SnowParticle() :
@@ -67,9 +69,9 @@ private:
     {}
   };
 
-  // Wind is simulated in discrete "gusts"
-
-  // Gust state
+  // Wind is simulated in discrete "gusts".
+  
+  // Gust states.
   enum State {
     ATTACKING,
     DECAYING,
@@ -80,18 +82,23 @@ private:
   };
 
 private:
-  State state;
+  State m_state;
 
-  // Gust state delay timer
-  Timer timer;
+  // Gust state delay timer.
+  Timer m_timer;
 
-  // Peak magnitude of gust is gust_onset * randf(5)
-  float gust_onset;
+  // Peak magnitude of gust is gust_onset * randf(5).
+  float m_gust_onset;
 
-  // Current blowing velocity of gust
-  float gust_current_velocity;
+  // Current blowing velocity of gust.
+  float m_gust_current_velocity;
 
-  SurfacePtr snowimages[3];
+  float m_wind_speed;
+  float m_epsilon; // Velocity changes by up to this much each tick.
+  float m_spin_speed;
+  float m_state_length; // Interval for how long to affect the particles with wind.
+
+  SurfacePtr m_snowimages[3];
 
 private:
   SnowParticleSystem(const SnowParticleSystem&) = delete;
