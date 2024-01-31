@@ -24,12 +24,21 @@
 namespace network {
 
 void
-Host::on_enet_packet_free(ENetPacket* packet)
+Host::on_enet_reliable_packet_free(ENetPacket* packet)
 {
   assert(packet->userData);
 
   Host* host = static_cast<Host*>(packet->userData);
-  host->on_packet_send(packet);
+  host->on_reliable_packet_send(packet);
+}
+
+void
+Host::on_enet_unreliable_packet_free(ENetPacket* packet)
+{
+  assert(packet->userData);
+
+  Host* host = static_cast<Host*>(packet->userData);
+  host->on_unreliable_packet_send(packet);
 }
 
 
@@ -298,15 +307,20 @@ Host::create_packet(StagedPacket& packet, bool reliable)
   const std::string staged_data = packet.get_staged_data();
   ENetPacket* enet_packet = enet_packet_create(staged_data.c_str(), staged_data.length() + 1,
                                                reliable ? ENET_PACKET_FLAG_RELIABLE : 0);
+
+  enet_packet->userData = this;
   if (reliable)
   {
-    enet_packet->userData = this;
-    enet_packet->freeCallback = &on_enet_packet_free;
+    enet_packet->freeCallback = &on_enet_reliable_packet_free;
 
     // Set time period, in which the packet should be sent
     auto timer = std::make_unique<Timer>();
     timer->start(packet.send_time);
     m_staged_packets_new[enet_packet] = std::move(timer);
+  }
+  else
+  {
+    enet_packet->freeCallback = &on_enet_unreliable_packet_free;
   }
 
   return enet_packet;
@@ -397,7 +411,7 @@ Host::send_request(ENetPeer* peer, std::unique_ptr<Request> request, uint8_t cha
 }
 
 void
-Host::on_packet_send(ENetPacket* packet)
+Host::on_reliable_packet_send(ENetPacket* packet)
 {
   assert(packet->userData == this);
 
@@ -429,13 +443,30 @@ Host::on_packet_send(ENetPacket* packet)
       }
       catch (const std::exception& err)
       {
-        log_warning << "Error processing packet send in protocol: " << err.what() << std::endl;
+        log_warning << "Error processing reliable packet send in protocol: " << err.what() << std::endl;
       }
     }
   }
 
   m_staged_packets.erase(packet);
   m_staged_packets_new.erase(packet);
+}
+
+void
+Host::on_unreliable_packet_send(ENetPacket* packet)
+{
+  if (m_protocol && packet->referenceCount > 0) // Make sure the packet has been sent to at least 1 peer
+  {
+    ReceivedPacket packet_info(*packet);
+    try
+    {
+      m_protocol->on_packet_send(std::move(packet_info));
+    }
+    catch (const std::exception& err)
+    {
+      log_warning << "Error processing unreliable packet send in protocol: " << err.what() << std::endl;
+    }
+  }
 }
 
 } // namespace network

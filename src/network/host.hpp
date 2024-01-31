@@ -31,7 +31,8 @@ namespace network {
 class Host
 {
 private:
-  static void on_enet_packet_free(ENetPacket* packet);
+  static void on_enet_reliable_packet_free(ENetPacket* packet);
+  static void on_enet_unreliable_packet_free(ENetPacket* packet);
 
 public:
   Host();
@@ -63,7 +64,8 @@ private:
   void flush_packets();
 
   ENetPacket* create_packet(StagedPacket& packet, bool reliable);
-  void on_packet_send(ENetPacket* packet);
+  void on_reliable_packet_send(ENetPacket* packet);
+  void on_unreliable_packet_send(ENetPacket* packet);
 
 protected:
   ENetHost* m_host;
