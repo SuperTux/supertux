@@ -129,7 +129,8 @@ SnowParticleSystem::update(float dt_sec)
       // Stop wind.
       m_gust_current_velocity = 0;
       // New wind strength.
-      m_gust_onset = -m_wind_speed, m_wind_speed;
+      m_gust_onset = -m_wind_speed;
+      m_wind_speed = m_wind_speed;
     }
     m_timer.start(graphicsRandom.randf(m_state_length));
   }
