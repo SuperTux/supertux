@@ -282,7 +282,9 @@ void PhysfsSubsystem::remount_datadir_static() const
   add_data_to_search_path("shader");
 
   // Re-mount levels from the user directory
-  if (!PHYSFS_mount(FileSystem::join(m_userdir, "levels").c_str(), "levels", 0))
+  const std::string userdir_levels = FileSystem::join(m_userdir, "levels");
+  if (FileSystem::exists(userdir_levels) &&
+      !PHYSFS_mount(userdir_levels.c_str(), "levels", 0))
   {
     log_warning << "Couldn't mount levels from the user directory '" << m_userdir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
