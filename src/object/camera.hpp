@@ -32,7 +32,6 @@
 class Path;
 class PathWalker;
 class ReaderMapping;
-class CameraConfig;
 
 class Camera final : public GameObject,
                      public ExposedObject<Camera, scripting::Camera>,
