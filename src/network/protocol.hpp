@@ -71,7 +71,7 @@ private:
   /** The provided ReceivedPacket represents the packet in the same way
       the remote peer would have received it. `packet.peer` is not set. */
   virtual void on_packet_send(ReceivedPacket packet) {}
-  virtual void on_packet_abort(ReceivedPacket packet) {}
+  virtual void on_packet_abort(ReceivedPacket packet) {} /** NOTE: Only called for reliable packets. */
   virtual void on_packet_receive(ReceivedPacket packet) {}
 
   /** On request, a staged packet to be sent back must be provided. */
