@@ -455,6 +455,8 @@ Host::on_reliable_packet_send(ENetPacket* packet)
 void
 Host::on_unreliable_packet_send(ENetPacket* packet)
 {
+  assert(packet->userData == this);
+
   if (m_protocol && packet->referenceCount > 0) // Make sure the packet has been sent to at least 1 peer
   {
     ReceivedPacket packet_info(*packet);
