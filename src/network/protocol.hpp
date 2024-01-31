@@ -31,6 +31,10 @@ namespace network {
     its binded with. */
 class Protocol
 {
+  friend class Client;
+  friend class Host;
+  friend class Server;
+
 public:
   Protocol() {}
   virtual ~Protocol() {}
@@ -43,6 +47,7 @@ public:
   /** Indicates the amount of required channels to be used on the host. */
   virtual size_t get_channel_count() const = 0;
 
+private:
   /** The protocol is updated every time the host it's binded to is.
       Called after all events have been processed. */
   virtual void update() {}
