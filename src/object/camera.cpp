@@ -18,7 +18,6 @@
 #include "object/camera.hpp"
 
 #include <math.h>
-#include <physfs.h>
 
 #include "math/random.hpp"
 #include "math/util.hpp"
