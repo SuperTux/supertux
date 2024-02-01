@@ -26,6 +26,8 @@ public:
 
   virtual void active_update(float dt_sec) override;
 
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+
   static std::string class_name() { return "fish-chasing"; }
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Chasing Fish"); }
@@ -45,6 +47,9 @@ private:
 
   ChaseState m_chase_state;
   Timer m_realization_timer;
+  Timer m_acceleration_timer;
+  bool m_is_accelerating;
+  float m_last_chase_velocity;
   float m_track_distance;
   float m_lost_distance;
   float m_chase_speed;

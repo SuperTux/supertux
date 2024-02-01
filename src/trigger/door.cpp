@@ -197,7 +197,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         }
 
         if (!target_sector.empty()) {
-          GameSession::current()->respawn(target_sector, target_spawnpoint, true);
+          GameSession::current()->respawn(target_sector, target_spawnpoint);
           ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
         }
       }

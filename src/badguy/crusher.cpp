@@ -98,6 +98,8 @@ Crusher::get_default_sprite_name() const
 void
 Crusher::on_type_change(int old_type)
 {
+  MovingSprite::on_type_change(old_type);
+
   m_ic_size = (m_type % 2 == 0 ? NORMAL : LARGE);
   switch (m_type)
   {
@@ -114,8 +116,6 @@ Crusher::on_type_change(int old_type)
       m_ic_type = CORRUPTED;
       break;
   }
-
-  MovingSprite::on_type_change();
 }
 
 HitResponse
@@ -257,7 +257,7 @@ Crusher::update(float dt_sec)
     brickbox.set_right((m_sideways && m_physic.get_velocity_x() > 0.f) ?
       get_bbox().get_right() + 9.f : get_bbox().get_right() - 1.f);
 
-    if (brickbox.contains(brick.get_bbox()))
+    if (brickbox.overlaps(brick.get_bbox()))
     {
       if (brick.get_class_name() != "heavy-brick")
       {

@@ -118,7 +118,7 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
   // adjacent or at least extremely close.
   const Rectf grown_other_obj_rect = other_obj_rect.grown(EPSILON);
 
-  if (!collision::intersects(moving_obj_rect, grown_other_obj_rect))
+  if (!moving_obj_rect.overlaps(grown_other_obj_rect))
     return constraints;
   
   const CollisionHit dummy;
@@ -160,12 +160,6 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
 
   if (!shiftout)
   {
-    if (other_object != nullptr && moving_object != nullptr) {
-      const HitResponse response = other_object->collision(*moving_object, dummy);
-      if (response == ABORT_MOVE)
-        return constraints;
-    }
-
     if (other_object && other_object->is_unisolid())
     {
       // Constrain only on fall on top of the unisolid object.
@@ -197,6 +191,16 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
         constraints.constrain_left(grown_other_obj_rect.get_right());
         constraints.hit.left = true;
       }
+    }
+    if (other_object && moving_object)
+    {
+      CollisionHit hit = constraints.hit;
+      moving_object->collision(*other_object, hit);
+      std::swap(hit.left, hit.right);
+      std::swap(hit.top, hit.bottom);
+      const HitResponse response = other_object->collision(*moving_object, hit);
+      if(response==ABORT_MOVE)
+        return collision::Constraints();
     }
   }
 
@@ -353,7 +357,7 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
   const Rectf& r2 = object2->m_dest;
 
   CollisionHit hit;
-  if (intersects(object1->m_dest, object2->m_dest)) {
+  if (object1->m_dest.overlaps(object2->m_dest)) {
     Vector normal(0.0f, 0.0f);
     get_hit_normal(r1, r2, hit, normal);
 
@@ -594,7 +598,7 @@ CollisionSystem::update()
          || !object_2->is_valid())
         continue;
 
-      if (intersects(object->m_dest, object_2->m_dest)) {
+      if (object->m_dest.overlaps(object_2->m_dest)) {
         Vector normal(0.0f, 0.0f);
         CollisionHit hit;
         get_hit_normal(object->m_dest, object_2->m_dest,
@@ -683,7 +687,7 @@ CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ig
     if (object == ignore_object) continue;
     if (!object->is_valid()) continue;
     if (object->get_group() == COLGROUP_STATIC) {
-      if (intersects(rect, object->get_bbox())) return false;
+      if (rect.overlaps(object->get_bbox())) return false;
     }
   }
 
@@ -703,8 +707,24 @@ CollisionSystem::is_free_of_movingstatics(const Rectf& rect, const CollisionObje
     if ((object->get_group() == COLGROUP_MOVING)
         || (object->get_group() == COLGROUP_MOVING_STATIC)
         || (object->get_group() == COLGROUP_STATIC)) {
-      if (intersects(rect, object->get_bbox())) return false;
+      if (rect.overlaps(object->get_bbox())) return false;
     }
+  }
+
+  return true;
+}
+
+bool
+CollisionSystem::is_free_of_specifically_movingstatics(const Rectf& rect, const CollisionObject* ignore_object) const
+{
+  using namespace collision;
+
+  for (const auto& object : m_objects) {
+    if (object == ignore_object) continue;
+    if (!object->is_valid()) continue;
+    if ((object->get_group() == COLGROUP_MOVING_STATIC)
+        && (rect.overlaps(object->get_bbox())))
+      return false;
   }
 
   return true;
@@ -740,7 +760,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
         if ((tile->get_attributes() & Tile::SOLID))
         {
           result.is_valid = true;
-          result.hit.tile = tile;
+          result.hit = tile;
           result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
           return result;
         }
@@ -765,7 +785,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
       if (intersects_line(object->get_bbox(), line_start, line_end))
       {
         result.is_valid = true;
-        result.hit.object = object;
+        result.hit = object;
         result.box = object->get_bbox();
         return result;
       }

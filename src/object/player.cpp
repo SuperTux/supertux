@@ -29,6 +29,7 @@
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
 #include "object/falling_coin.hpp"
+#include "object/key.hpp"
 #include "object/music_object.hpp"
 #include "object/particles.hpp"
 #include "object/portable.hpp"
@@ -220,14 +221,12 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_airarrow(Surface::from_file("images/engine/hud/airarrow.png")),
   m_floor_normal(0.0f, 0.0f),
   m_ghost_mode(false),
-  m_edit_mode(false),
   m_unduck_hurt_timer(),
   m_idle_timer(),
   m_idle_stage(0),
   m_climbing(nullptr),
-  m_climbing_remove_listener(nullptr),
   m_ending_direction(0),
-  m_collected_keys(0)
+  m_collected_keys()
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -309,6 +308,24 @@ Player::do_scripting_controller(const std::string& control_text, bool pressed)
   if (const auto maybe_control = Control_from_string(control_text)) {
     m_scripting_controller->press(*maybe_control, pressed);
   }
+}
+
+void
+Player::move_to_sector(Sector& other)
+{
+  stop_climbing(*m_climbing);
+  if (m_grabbed_object)
+  {
+    auto grabbed_game_object = dynamic_cast<GameObject*>(m_grabbed_object);
+    if (grabbed_game_object)
+      get_parent()->move_object(grabbed_game_object->get_uid(), other);
+  }
+
+  for (Key* key : m_collected_keys)
+    get_parent()->move_object(key->get_uid(), other);
+
+  // Move the player.
+  get_parent()->move_object(get_uid(), other);
 }
 
 bool
@@ -738,7 +755,7 @@ Player::update(float dt_sec)
     sidebrickbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 12.f : -1.f));
 
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (sidebrickbox.contains(brick.get_bbox()) && (m_stone || (m_sliding && brick.get_class_name() != "heavy-brick")) &&
+      if (sidebrickbox.overlaps(brick.get_bbox()) && (m_stone || (m_sliding && brick.get_class_name() != "heavy-brick")) &&
         std::abs(m_physic.get_velocity_x()) >= 150.f) {
         brick.try_break(this, is_big());
       }
@@ -752,11 +769,11 @@ Player::update(float dt_sec)
     downbox.set_bottom(downbox.get_bottom() + 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
       // stoneform breaks through any kind of bricks
-      if (downbox.contains(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
+      if (downbox.overlaps(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
         brick.try_break(this, is_big());
     }
     for (auto& badguy : Sector::get().get_objects_by_type<BadGuy>()) {
-      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable() && !badguy.is_grabbed())
+      if (downbox.overlaps(badguy.get_bbox()) && badguy.is_snipable() && !badguy.is_grabbed())
         badguy.kill_fall();
     }
   }
@@ -767,7 +784,7 @@ Player::update(float dt_sec)
     Rectf topbox = get_bbox().grown(-1.f);
     topbox.set_top(get_bbox().get_top() - 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (topbox.contains(brick.get_bbox()))
+      if (topbox.overlaps(brick.get_bbox()))
         brick.try_break(this, is_big());
     }
   }
@@ -1005,7 +1022,7 @@ Player::set_on_ground(bool flag)
 bool
 Player::is_big() const
 {
-  if (m_player_status.bonus[get_id()] == NO_BONUS)
+  if (get_bonus() == NO_BONUS)
     return false;
 
   return true;
@@ -1093,9 +1110,9 @@ Player::handle_horizontal_input()
       ax = dirsign * RUN_ACCELERATION_X;
     }
     // limit speed
-    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((m_player_status.bonus[get_id()] == AIR_BONUS) ? 1 : 0)) {
+    if (vx >= MAX_RUN_XM + BONUS_RUN_XM *((get_bonus() == AIR_BONUS) ? 1 : 0)) {
       ax = std::min(ax, -OVERSPEED_DECELERATION);
-    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM *((m_player_status.bonus[get_id()] == AIR_BONUS) ? 1 : 0)) {
+    } else if (vx <= -MAX_RUN_XM - BONUS_RUN_XM * ((get_bonus() == AIR_BONUS) ? 1 : 0)) {
       ax = std::max(ax, OVERSPEED_DECELERATION);
     }
   }
@@ -1228,7 +1245,7 @@ Player::do_backflip() {
 
   m_backflip_direction = (m_dir == Direction::LEFT)?(+1):(-1);
   m_backflipping = true;
-  do_jump((m_player_status.bonus[get_id()] == AIR_BONUS) ? -720.0f : -580.0f);
+  do_jump((get_bonus() == AIR_BONUS) ? -720.0f : -580.0f);
   SoundManager::current()->play("sounds/flip.wav", get_pos());
   m_backflip_timer.start(TUX_BACKFLIP_TIME);
 }
@@ -1306,7 +1323,7 @@ Player::handle_vertical_input()
     } else {
       // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
-      if (m_player_status.bonus[get_id()] == AIR_BONUS)
+      if (get_bonus() == AIR_BONUS)
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -620.0f : -580.0f);
       else
         do_jump((fabsf(m_physic.get_velocity_x()) > MAX_WALK_XM) ? -580.0f : -520.0f);
@@ -1315,7 +1332,7 @@ Player::handle_vertical_input()
     m_coyote_timer.stop();
     // airflower glide only when holding jump key
   }
-  else if (m_controller->hold(Control::JUMP) && m_player_status.bonus[get_id()] == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
+  else if (m_controller->hold(Control::JUMP) && get_bonus() == AIR_BONUS && m_physic.get_velocity_y() > MAX_GLIDE_YM) {
     // glide stops if buttjump is initiated
     if (!m_controller->hold(Control::DOWN))
     {
@@ -1365,7 +1382,7 @@ Player::handle_vertical_input()
   if (m_controller->pressed(Control::JUMP) && m_can_walljump && !m_backflipping)
   {
     SoundManager::current()->play((is_big()) ? "sounds/bigjump.wav" : "sounds/jump.wav", get_pos());
-    m_physic.set_velocity_x(m_player_status.bonus[get_id()] == AIR_BONUS ?
+    m_physic.set_velocity_x(get_bonus() == AIR_BONUS ?
       m_on_left_wall ? 480.f : -480.f : m_on_left_wall ? 380.f : -380.f);
     do_jump(-520.f);
   }
@@ -1456,10 +1473,10 @@ Player::handle_input()
 
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>([this](const Bullet& b){ return &b.get_player() == this; });
-  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus[get_id()] == FIRE_BONUS || m_player_status.bonus[get_id()] == ICE_BONUS) && !just_grabbed) {
-    if ((m_player_status.bonus[get_id()] == FIRE_BONUS &&
+  if (m_controller->pressed(Control::ACTION) && (get_bonus() == FIRE_BONUS || get_bonus() == ICE_BONUS) && !just_grabbed) {
+    if ((get_bonus() == FIRE_BONUS &&
       active_bullets < m_player_status.max_fire_bullets[get_id()]) ||
-      (m_player_status.bonus[get_id()] == ICE_BONUS &&
+      (get_bonus() == ICE_BONUS &&
       active_bullets < m_player_status.max_ice_bullets[get_id()]))
     {
       Vector pos = get_pos() + Vector(m_col.m_bbox.get_width() / 2.f, m_col.m_bbox.get_height() / 2.f);
@@ -1473,13 +1490,13 @@ Player::handle_input()
       Sector::get().add<Bullet>(pos, (m_swimming || m_water_jump) ?
         m_physic.get_velocity() + (Vector(std::cos(m_swimming_angle), std::sin(m_swimming_angle)) * 600.f) :
         Vector(((m_dir == Direction::RIGHT ? 600.f : -600.f) + m_physic.get_velocity_x()), 0.f),
-        m_dir, m_player_status.bonus[get_id()], *this);
+        m_dir, get_bonus(), *this);
       SoundManager::current()->play("sounds/shoot.wav", get_pos());
     }
   }
 
   /* Turn to Stone */
-  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && m_player_status.bonus[get_id()] == EARTH_BONUS) {
+  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && get_bonus() == EARTH_BONUS) {
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     adjust_height(TUX_WIDTH);
     m_stone = true;
@@ -1580,7 +1597,7 @@ Player::handle_input()
   else if (!m_sliding && (m_coyote_timer.started()) && !m_skidding_timer.started() &&
     (m_floor_normal.y != 0 || (m_controller->hold(Control::LEFT) || m_controller->hold(Control::RIGHT)))
     && m_controller->pressed(Control::DOWN) && std::abs(m_physic.get_velocity_x()) > 1.f &&
-    m_player_status.bonus[get_id()] != EARTH_BONUS)
+    get_bonus()!= EARTH_BONUS)
   {
     sideways_push(m_dir == Direction::LEFT ? -100.f : 100.f);
     adjust_height(DUCKED_TUX_HEIGHT);
@@ -1589,28 +1606,35 @@ Player::handle_input()
 }
 
 void
-Player::position_grabbed_object()
+Player::position_grabbed_object(bool teleport)
 {
+  if (!m_grabbed_object)
+    return;
+
   auto moving_object = dynamic_cast<MovingObject*>(m_grabbed_object);
   assert(moving_object);
   const auto& object_bbox = moving_object->get_bbox();
+
+  Vector pos;
   if (!m_swimming && !m_water_jump)
   {
     // Position where we will hold the lower-inner corner
-    Vector pos(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
-      m_col.m_bbox.get_top() + m_col.m_bbox.get_height()*0.66666f);
+    pos = Vector(m_col.m_bbox.get_left() + m_col.m_bbox.get_width() / 2,
+                 m_col.m_bbox.get_top() + m_col.m_bbox.get_height() * 0.66666f);
     // Adjust to find the grabbed object's upper-left corner
     if (m_dir == Direction::LEFT)
       pos.x -= object_bbox.get_width();
     pos.y -= object_bbox.get_height();
-    m_grabbed_object->grab(*this, pos, m_dir);
   }
   else
   {
-    Vector pos(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
-               m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
-    m_grabbed_object->grab(*this, pos, m_dir);
+    pos = Vector(m_col.m_bbox.get_left() + (std::cos(m_swimming_angle) * 32.f),
+                 m_col.m_bbox.get_top() + (std::sin(m_swimming_angle) * 32.f));
   }
+
+  if (teleport)
+    moving_object->set_pos(pos);
+  m_grabbed_object->grab(*this, pos, m_dir);
 }
 
 bool
@@ -1729,7 +1753,7 @@ Player::string_to_bonus(const std::string& bonus) const {
 std::string
 Player::bonus_to_string() const
 {
-  switch(m_player_status.bonus[get_id()])
+  switch(get_bonus())
   {
     case GROWUP_BONUS:
       return "grow";
@@ -1768,7 +1792,7 @@ Player::add_bonus(BonusType type, bool animate)
 
   // ignore GROWUP_BONUS if we're already big
   if (type == GROWUP_BONUS) {
-    if (m_player_status.bonus[get_id()] != NO_BONUS)
+    if (get_bonus() != NO_BONUS)
       return true;
   }
 
@@ -1782,7 +1806,7 @@ Player::set_bonus(BonusType type, bool animate)
     return false;
   }
 
-  if ((m_player_status.bonus[get_id()] == NO_BONUS) && (type != NO_BONUS || m_stone)) {
+  if ((get_bonus() == NO_BONUS) && (type != NO_BONUS || m_stone)) {
     if (!m_swimming)
     {
       if (!adjust_height(BIG_TUX_HEIGHT))
@@ -1824,13 +1848,19 @@ Player::set_bonus(BonusType type, bool animate)
   if (type == EARTH_BONUS) m_player_status.max_earth_time[get_id()]++;
 
   if (!m_second_growup_sound_timer.started() &&
-     type > GROWUP_BONUS && type != m_player_status.bonus[get_id()])
+     type > GROWUP_BONUS && type != get_bonus())
   {
     m_second_growup_sound_timer.start(0.5);
   }
 
   m_player_status.bonus[get_id()] = type;
   return true;
+}
+
+BonusType
+Player::get_bonus() const
+{
+  return m_player_status.bonus[m_id];
 }
 
 void
@@ -1896,15 +1926,15 @@ Player::draw(DrawingContext& context)
   std::string sa_prefix = "";
   std::string sa_postfix = "";
 
-  if (m_player_status.bonus[get_id()] == GROWUP_BONUS)
+  if (get_bonus() == GROWUP_BONUS)
     sa_prefix = "big";
-  else if (m_player_status.bonus[get_id()] == FIRE_BONUS)
+  else if (get_bonus() == FIRE_BONUS)
     sa_prefix = "fire";
-  else if (m_player_status.bonus[get_id()] == ICE_BONUS)
+  else if (get_bonus() == ICE_BONUS)
     sa_prefix = "ice";
-  else if (m_player_status.bonus[get_id()] == AIR_BONUS)
+  else if (get_bonus() == AIR_BONUS)
     sa_prefix = "air";
-  else if (m_player_status.bonus[get_id()] == EARTH_BONUS)
+  else if (get_bonus() == EARTH_BONUS)
     sa_prefix = "earth";
   else
     sa_prefix = "small";
@@ -2096,10 +2126,10 @@ Player::draw(DrawingContext& context)
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
 
   //TODO: Replace recoloring with proper costumes
-  Color power_color = (m_player_status.bonus[get_id()] == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
-    m_player_status.bonus[get_id()] == ICE_BONUS ? Color(0.7f, 1.f, 1.f) :
-    m_player_status.bonus[get_id()] == AIR_BONUS ? Color(0.7f, 1.f, 0.5f) :
-    m_player_status.bonus[get_id()] == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
+  Color power_color = (get_bonus() == FIRE_BONUS ? Color(1.f, 0.7f, 0.5f) :
+    get_bonus() == ICE_BONUS ? Color(0.7f, 1.f, 1.f) :
+    get_bonus() == AIR_BONUS ? Color(0.7f, 1.f, 0.5f) :
+    get_bonus() == EARTH_BONUS ? Color(1.f, 0.9f, 0.6f) :
     Color(1.f, 1.f, 1.f));
 
   m_sprite->set_color(m_stone ? Color(1.f, 1.f, 1.f) : power_color);
@@ -2277,13 +2307,13 @@ Player::kill(bool completely)
   if (!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav", get_pos());
 
-    if (m_player_status.bonus[get_id()] == FIRE_BONUS
-      || m_player_status.bonus[get_id()] == ICE_BONUS
-      || m_player_status.bonus[get_id()] == AIR_BONUS
-      || m_player_status.bonus[get_id()] == EARTH_BONUS) {
+    if (get_bonus() == FIRE_BONUS
+      || get_bonus() == ICE_BONUS
+      || get_bonus() == AIR_BONUS
+      || get_bonus() == EARTH_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME);
       set_bonus(GROWUP_BONUS, true);
-    } else if (m_player_status.bonus[get_id()] == GROWUP_BONUS) {
+    } else if (get_bonus() == GROWUP_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       m_duck = false;
       stop_backflipping();
@@ -2292,8 +2322,10 @@ Player::kill(bool completely)
   } else {
     SoundManager::current()->play("sounds/kill.wav", get_pos());
 
-    // do not die when in edit mode
-    if (m_edit_mode) {
+    auto* session = GameSession::current();
+    if (session && session->m_prevent_death &&
+                   !session->reset_checkpoint_button)
+    {
       set_ghost_mode(true);
       return;
     }
@@ -2347,6 +2379,11 @@ Player::move(const Vector& vector)
   stop_backflipping();
   m_last_ground_y = vector.y;
   if (m_climbing) stop_climbing(*m_climbing);
+
+  // Make sure objects following Tux move directly with him
+  position_grabbed_object(true);
+  for (Key* key : m_collected_keys)
+    key->update_pos();
 
   m_physic.reset();
 }
@@ -2410,7 +2447,7 @@ Player::get_velocity() const
 void
 Player::bounce(BadGuy& )
 {
-  if (!(m_player_status.bonus[get_id()] == AIR_BONUS))
+  if (!(get_bonus() == AIR_BONUS))
     m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -520.0f : -300.0f);
   else {
     m_physic.set_velocity_y(m_controller->hold(Control::JUMP) ? -580.0f : -340.0f);
@@ -2473,15 +2510,9 @@ Player::set_ghost_mode(bool enable)
 }
 
 void
-Player::set_edit_mode(bool enable)
-{
-  m_edit_mode = enable;
-}
-
-void
 Player::start_climbing(Climbable& climbable)
 {
-  if (m_climbing || m_swimming)
+  if (m_climbing || m_swimming || m_stone)
     return;
 
   m_climbing = &climbable;
@@ -2512,7 +2543,7 @@ Player::stop_climbing(Climbable& /*climbable*/)
   if (m_controller->hold(Control::JUMP) && !m_controller->hold(Control::DOWN)) {
     m_on_ground_flag = true;
     m_jump_early_apex = false;
-    do_jump(m_player_status.bonus[get_id()] == BonusType::AIR_BONUS ? -540.0f : -480.0f);
+    do_jump(get_bonus() == AIR_BONUS ? -540.0f : -480.0f);
   }
   else if (m_controller->hold(Control::UP)) {
     m_on_ground_flag = true;
@@ -2567,7 +2598,7 @@ Player::handle_input_rolling()
     if (!m_controller->hold(Control::DOWN)) {
       stop_rolling(false);
     }
-    else if (m_player_status.bonus[get_id()] != EARTH_BONUS) {
+    else if (get_bonus() != EARTH_BONUS) {
       stop_rolling();
     }
   }
@@ -2833,6 +2864,21 @@ Player::stop_rolling(bool violent)
     SoundManager::current()->play("sounds/brick.wav", get_pos());
   }
   m_stone = false;
+}
+
+void
+Player::add_collected_key(Key* key)
+{
+  m_collected_keys.push_back(key);
+}
+
+void
+Player::remove_collected_key(Key* key)
+{
+  m_collected_keys.erase(std::remove(m_collected_keys.begin(),
+                                     m_collected_keys.end(),
+                                     key),
+                         m_collected_keys.end());
 }
 
 /* EOF */

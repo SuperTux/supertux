@@ -48,7 +48,7 @@ WeakBlock::WeakBlock(const ReaderMapping& mapping) :
     if (linked)
       m_type = HAY;
 
-    on_type_change();
+    on_type_change(TypeChange::INITIAL);
   }
   else
   {
@@ -73,7 +73,7 @@ WeakBlock::update_version()
   if (get_version() == 1)
   {
     m_type = ICE;
-    on_type_change();
+    on_type_change(m_type);
   }
 
   GameObject::update_version();
@@ -263,8 +263,7 @@ WeakBlock::on_flip(float height)
 std::vector<std::string>
 WeakBlock::get_patches() const
 {
-  return { _("Sprites no longer define the behaviour of the object.") + "\n" +
-           _("Object types are used instead.") };
+  return { _("Sprites no longer define the behaviour of the object.\nObject types are used instead.") };
 }
 
 /* EOF */

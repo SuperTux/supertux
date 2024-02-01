@@ -71,7 +71,7 @@ TextArea::event(Player& player, EventType type)
           return;
         }
 
-        TextObject& text_object = Sector::get().get_singleton_by_type<TextObject>();
+        TextObject& text_object = Sector::get().get_text_object();
 
         m_current_text = 0;
         m_status = Status::FADING_IN;
@@ -95,7 +95,7 @@ TextArea::update(float dt_sec)
 
   if (m_timer.check())
   {
-    TextObject& text_object = Sector::get().get_singleton_by_type<TextObject>();
+    TextObject& text_object = Sector::get().get_text_object();
 
     switch(m_status)
     {

@@ -17,7 +17,6 @@
 #include "object/moving_sprite.hpp"
 
 #include <math.h>
-#include <physfs.h>
 
 #include "editor/editor.hpp"
 #include "math/random.hpp"
@@ -62,8 +61,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   m_sprite_found = reader.get("sprite", m_sprite_name);
 
   //Make the sprite go default when the sprite file is invalid or sprite change fails
-  if (m_sprite_name.empty() || !PHYSFS_exists(m_sprite_name.c_str()) ||
-      !change_sprite(m_sprite_name))
+  if (m_sprite_name.empty() || !change_sprite(m_sprite_name))
   {
     change_sprite(m_default_sprite_name);
     m_sprite_found = false;
@@ -102,23 +100,17 @@ MovingSprite::update(float )
 {
 }
 
-bool
-MovingSprite::has_found_sprite()
-{
-  bool found = m_sprite_found;
-  m_sprite_found = false; // After the first call, indicate that a custom sprite has not been found.
-  return found;
-}
-
 void
 MovingSprite::on_type_change(int old_type)
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+  /** Don't change the sprite to the default one for the current type,
+      if this is the initial `on_type_change()` call, and a custom sprite has just been loaded. */
+  if (old_type >= 0 || !m_sprite_found)
     change_sprite(get_default_sprite_name());
 }
 
 bool
-MovingSprite::matches_sprite(const std::string& sprite_file)
+MovingSprite::matches_sprite(const std::string& sprite_file) const
 {
   return m_sprite_name == sprite_file || m_sprite_name == "/" + sprite_file;
 }

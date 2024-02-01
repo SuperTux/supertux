@@ -79,6 +79,8 @@ public:
 
   float get_width() const;
   float get_height() const;
+  float get_editor_width() const;
+  float get_editor_height() const;
 
   /** returns the width (in tiles) of a worldmap */
   float get_tiles_width() const;
@@ -150,6 +152,9 @@ public:
     }
   }
 
+  /** Move an object to another GameObjectManager. */
+  void move_object(const UID& uid, GameObjectManager& other);
+
   /** Register a callback to be called once the given name can be
       resolved to a UID. Note that this function is only valid in the
       construction phase, not during draw() or update() calls, use
@@ -215,6 +220,9 @@ public:
   /** Indicate if there are any object changes in the undo stack. */
   bool has_object_changes() const;
 
+  /** Called on editor level save. */
+  void on_editor_save();
+
 protected:
   void update_tilemaps();
 
@@ -235,11 +243,17 @@ protected:
   }
 
 private:
-  struct ObjectChange {
+  struct ObjectChange
+  {
     std::string name;
     UID uid;
     std::string data;
     bool creation; // If the change represents an object creation.
+  };
+  struct ObjectChanges
+  {
+    UID uid;
+    std::vector<ObjectChange> objects;
   };
 
   /** Create object from object change. */
@@ -262,10 +276,13 @@ private:
   UIDGenerator m_uid_generator;
 
   /** Undo/redo variables */
+  UIDGenerator m_change_uid_generator;
   bool m_undo_tracking;
   int m_undo_stack_size;
-  std::vector<ObjectChange> m_undo_stack;
-  std::vector<ObjectChange> m_redo_stack;
+  std::vector<ObjectChanges> m_undo_stack;
+  std::vector<ObjectChanges> m_redo_stack;
+  std::vector<ObjectChange> m_pending_change_stack; // Before a flush, any changes go here
+  UID m_last_saved_change;
 
   std::vector<std::unique_ptr<GameObject>> m_gameobjects;
 

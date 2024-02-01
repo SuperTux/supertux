@@ -133,6 +133,7 @@ Main::Main() :
   m_squirrel_virtual_machine(),
   m_tile_manager(),
   m_sprite_manager(),
+  m_profile_manager(),
   m_resources(),
   m_addon_manager(),
   m_console(),
@@ -242,8 +243,12 @@ void PhysfsSubsystem::find_mount_datadir()
     if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
     {
       m_datadir = BUILD_DATA_DIR;
+
       // Add config dir for supplemental files
-      PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      if (FileSystem::is_directory(BUILD_CONFIG_DATA_DIR))
+      {
+        PHYSFS_mount(std::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), nullptr, 1);
+      }
     }
     else
     {
@@ -277,7 +282,9 @@ void PhysfsSubsystem::remount_datadir_static() const
   add_data_to_search_path("shader");
 
   // Re-mount levels from the user directory
-  if (!PHYSFS_mount(FileSystem::join(m_userdir, "levels").c_str(), "levels", 0))
+  const std::string userdir_levels = FileSystem::join(m_userdir, "levels");
+  if (FileSystem::exists(userdir_levels) &&
+      !PHYSFS_mount(userdir_levels.c_str(), "levels", 0))
   {
     log_warning << "Couldn't mount levels from the user directory '" << m_userdir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
@@ -544,6 +551,7 @@ Main::launch_game(const CommandLineArguments& args)
   s_timelog.log("resources");
   m_tile_manager.reset(new TileManager());
   m_sprite_manager.reset(new SpriteManager());
+  m_profile_manager.reset(new ProfileManager());
   m_resources.reset(new Resources());
 
   s_timelog.log("integrations");
@@ -553,7 +561,7 @@ Main::launch_game(const CommandLineArguments& args)
 
   s_timelog.log(nullptr);
 
-  m_savegame = std::make_unique<Savegame>(std::string());
+  m_savegame = std::make_unique<Savegame>(m_profile_manager->get_current_profile(), "");
 
   m_game_manager.reset(new GameManager());
   m_screen_manager.reset(new ScreenManager(*m_video_system, *m_input_manager));
@@ -642,8 +650,10 @@ Main::launch_game(const CommandLineArguments& args)
     }
     else
     {
-      m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame));
-      if (g_config->do_release_check) release_check();
+      m_screen_manager->push_screen(std::make_unique<TitleScreen>(*m_savegame, g_config->is_christmas()));
+
+      if (g_config->do_release_check)
+        release_check();
     }
   }
 
@@ -793,7 +803,7 @@ Main::release_check()
         notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux v{}!")), latest_ver));
         notif->on_press([latest_ver]()
                        {
-                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n \nDo you want to visit the website now?")), latest_ver), []()
+                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()
                                                    {
                                                      FileSystem::open_url("https://supertux.org");
                                                    });

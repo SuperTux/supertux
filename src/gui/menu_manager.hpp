@@ -46,9 +46,9 @@ public:
 private:
   template<typename T>
   struct SettableItem {
-    std::unique_ptr<T> current;
-    std::unique_ptr<T> next;
-    bool has_next;
+    std::unique_ptr<T> current = nullptr;
+    std::unique_ptr<T> next = nullptr;
+    bool has_next = false;
   };
 
 private:
@@ -83,6 +83,7 @@ public:
   void on_window_resize();
 
   bool is_active() const;
+  bool is_menu_visible() const { return is_active() || m_transition->is_active(); }
   bool has_dialog() const;
 
   Menu* current_menu() const;

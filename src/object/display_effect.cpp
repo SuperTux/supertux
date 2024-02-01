@@ -113,10 +113,7 @@ DisplayEffect::draw(DrawingContext& context)
       // Same as in fadetoblack.cpp.
       alpha = Color::remove_gamma(alpha);
     }
-    context.color().draw_filled_rect(Rectf(0, 0,
-                                           context.get_width(),
-                                           context.get_height()),
-                                     Color(0, 0, 0, alpha), LAYER_GUI - 10);
+    context.color().draw_filled_rect(context.get_rect(), Color(0, 0, 0, alpha), LAYER_GUI - 10);
   }
 
   if (borders) {

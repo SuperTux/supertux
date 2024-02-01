@@ -276,42 +276,48 @@ WorldMapSector::update(float dt_sec)
   m_camera->update(dt_sec);
 
   {
-    // check for teleporters
-    auto teleporter = at_object<Teleporter>();
-    if (teleporter && (teleporter->is_automatic() || (m_parent.m_enter_level && (!m_tux->is_moving())))) {
-      m_parent.m_enter_level = false;
-      if (!teleporter->get_worldmap().empty())
-      {
-        // Change worldmap.
-        m_parent.change(teleporter->get_worldmap(), teleporter->get_sector(),
-                        teleporter->get_spawnpoint());
-      }
-      else
-      {
-        // TODO: an animation, camera scrolling or a fading would be a nice touch
-        SoundManager::current()->play("sounds/warp.wav");
-        m_tux->m_back_direction = Direction::NONE;
-        if (!teleporter->get_sector().empty())
+    if(!m_tux->is_moving())
+    {
+      // check for teleporters
+      auto teleporter = at_object<Teleporter>();
+      if (teleporter && (teleporter->is_automatic() || (m_parent.m_enter_level))) {
+        m_parent.m_enter_level = false;
+        if (!teleporter->get_worldmap().empty())
         {
-          // A target sector is set, so teleport to it at the specified spawnpoint.
-          m_parent.set_sector(teleporter->get_sector(), teleporter->get_spawnpoint());
+          // Change worldmap.
+          m_parent.change(teleporter->get_worldmap(), teleporter->get_sector(),
+                          teleporter->get_spawnpoint());
         }
         else
         {
-          // No target sector is set, so teleport at the specified spawnpoint in the current one.
-          move_to_spawnpoint(teleporter->get_spawnpoint(), true);
+          // TODO: an animation, camera scrolling or a fading would be a nice touch
+          SoundManager::current()->play("sounds/warp.wav");
+          m_tux->m_back_direction = Direction::NONE;
+          if (!teleporter->get_sector().empty())
+          {
+            // A target sector is set, so teleport to it at the specified spawnpoint.
+            m_parent.set_sector(teleporter->get_sector(), teleporter->get_spawnpoint());
+          }
+          else
+          {
+            // No target sector is set, so teleport at the specified spawnpoint in the current one.
+            move_to_spawnpoint(teleporter->get_spawnpoint(), true);
+          }
         }
       }
     }
   }
 
   {
-    // check for auto-play levels
-    auto level = at_object<LevelTile>();
-    if (level && level->is_auto_play() && !level->is_solved() && !m_tux->is_moving()) {
-      m_parent.m_enter_level = true;
-      // automatically mark these levels as solved in case player aborts
-      level->set_solved(true);
+    if(!m_tux->is_moving())
+    {
+      // check for auto-play levels
+      auto level = at_object<LevelTile>();
+      if (level && level->is_auto_play() && !level->is_solved()) {
+        m_parent.m_enter_level = true;
+        // automatically mark these levels as solved in case player aborts
+        level->set_solved(true);
+      }
     }
   }
 
@@ -506,12 +512,11 @@ WorldMapSector::finished_level(Level* gamelevel)
 SpawnPoint*
 WorldMapSector::get_spawnpoint_by_name(const std::string& spawnpoint_name) const
 {
-  for (const auto& sp : m_spawnpoints)
-  {
-    if (sp->get_name() == spawnpoint_name)
-      return sp.get();
-  }
-  return nullptr;
+  auto spawnpoint = std::find_if(m_spawnpoints.begin(), m_spawnpoints.end(), 
+    [spawnpoint_name](const auto& sp) {
+      return sp->get_name() == spawnpoint_name;
+    });
+  return spawnpoint != m_spawnpoints.end() ? spawnpoint->get() : nullptr;
 }
 
 bool

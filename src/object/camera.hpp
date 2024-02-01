@@ -73,6 +73,9 @@ public:
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
 
+  void save_state() override;
+  void check_state() override;
+
   virtual const std::string get_icon_path() const override { return "images/engine/editor/camera.png"; }
   /** @} */
 
@@ -87,6 +90,7 @@ public:
   /** return camera position */
   const Vector get_translation() const;
   void set_translation(const Vector& translation) { m_translation = translation; }
+  void set_translation_centered(const Vector& translation);
 
   /** shake camera in a direction 1 time */
   void shake(float duration, float x, float y);

@@ -112,7 +112,7 @@ GameObject::get_settings()
   ObjectSettings result(get_display_name());
 
   result.add_int(_("Version"), &m_version, "version", 1, OPTION_HIDDEN);
-  result.add_text(_("Name"), &m_name, "name", std::string());
+  result.add_text(_("Name"), &m_name, "name", "");
 
   const GameObjectTypes types = get_types();
   if (!types.empty())
@@ -207,7 +207,7 @@ GameObject::parse_type(const ReaderMapping& reader)
   {
     try
     {
-      set_type(type_id_to_value(type));
+      m_type = type_id_to_value(type);
     }
     catch (...)
     {
@@ -216,7 +216,7 @@ GameObject::parse_type(const ReaderMapping& reader)
     }
   }
 
-  on_type_change(-1); // Initial object type initialization
+  on_type_change(TypeChange::INITIAL); // Initial object type initialization
 }
 
 GameObjectTypes

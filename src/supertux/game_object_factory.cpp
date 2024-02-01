@@ -20,6 +20,8 @@
 #include "badguy/angrystone.hpp"
 #include "badguy/bouncing_snowball.hpp"
 #include "badguy/captainsnowball.hpp"
+#include "badguy/corrupted_granito.hpp"
+#include "badguy/corrupted_granito_big.hpp"
 #include "badguy/crusher.hpp"
 #include "badguy/crystallo.hpp"
 #include "badguy/dart.hpp"
@@ -49,7 +51,6 @@
 #include "badguy/plant.hpp"
 #include "badguy/rcrystallo.hpp"
 #include "badguy/short_fuse.hpp"
-#include "badguy/skullyhop.hpp"
 #include "badguy/skydive.hpp"
 #include "badguy/smartball.hpp"
 #include "badguy/smartblock.hpp"
@@ -116,10 +117,9 @@
 #include "object/scripted_object.hpp"
 #include "object/shard.hpp"
 #include "object/snow_particle_system.hpp"
+#include "object/sound_object.hpp"
 #include "object/spawnpoint.hpp"
 #include "object/spotlight.hpp"
-#include "object/text_array_object.hpp"
-#include "object/text_object.hpp"
 #include "object/textscroller.hpp"
 #include "object/thunderstorm.hpp"
 #include "object/tilemap.hpp"
@@ -165,8 +165,11 @@ GameObjectFactory::init_factories()
   add_factory<AngryStone>("angrystone");
   add_factory<BouncingSnowball>("bouncingsnowball", OBJ_PARAM_DISPENSABLE);
   add_factory<CaptainSnowball>("captainsnowball", OBJ_PARAM_DISPENSABLE);
-  add_factory<Crusher>("crusher");
+  add_type_factory<CorruptedGranito>("skullyhop", CorruptedGranito::SKULLYHOP); // backward compatibility
+  add_factory<CorruptedGranito>("corrupted_granito", OBJ_PARAM_DISPENSABLE);
+  add_factory<CorruptedGranitoBig>("corrupted_granito_big", OBJ_PARAM_DISPENSABLE);
   add_factory<Crusher>("icecrusher"); // backward compatibility
+  add_factory<Crusher>("crusher");
   add_factory<Crystallo>("crystallo", OBJ_PARAM_DISPENSABLE);
   add_factory<Dart>("dart", OBJ_PARAM_DISPENSABLE);
   add_factory<DartTrap>("darttrap");
@@ -206,7 +209,6 @@ GameObjectFactory::init_factories()
   add_factory<ShortFuse>("short_fuse", OBJ_PARAM_DISPENSABLE);
   add_factory<SSpiky>("sspiky", OBJ_PARAM_DISPENSABLE);
   add_factory<SkyDive>("skydive", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
-  add_factory<SkullyHop>("skullyhop", OBJ_PARAM_DISPENSABLE);
   add_factory<SmartBall>("smartball", OBJ_PARAM_DISPENSABLE);
   add_factory<SmartBlock>("smartblock", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
   add_factory<Snail>("snail", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
@@ -274,10 +276,10 @@ GameObjectFactory::init_factories()
   add_factory<ScriptedObject>("scriptedobject");
   add_factory<Shard>("shard", OBJ_PARAM_DISPENSABLE);
   add_type_factory<UnstableTile>("skull_tile", UnstableTile::DELAYED); // Backward compatibility.
+  add_factory<SoundObject>("sound-object");
   add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
   add_factory<TextScroller>("textscroller");
-  add_factory<TextArrayObject>("text-array");
   add_factory<Thunderstorm>("thunderstorm");
   add_factory<Torch>("torch");
   add_factory<Trampoline>("trampoline", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);

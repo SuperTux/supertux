@@ -97,11 +97,14 @@
     (class "zeekling")
     (icon "images/creatures/zeekling/zeekling-0.png"))
   (object
-    (class "skullyhop")
-    (icon "images/creatures/skullyhop/stand-0.png"))
+    (class "corrupted_granito")
+    (icon "images/creatures/granito/corrupted/idle_left-0.png"))
+  (object
+    (class "corrupted_granito_big")
+    (icon "images/creatures/granito/corrupted/big/rock_mine-0.png"))
   (object
     (class "darttrap")
-    (icon "images/creatures/darttrap/charge_left-1.png"))
+    (icon "images/creatures/darttrap/granito/empty_left.png"))
   (object
     (class "ghoul")
     (icon "images/creatures/ghoul/g1.png"))
@@ -148,17 +151,8 @@
     (class "spidermite")
     (icon "images/creatures/spidermite/spidermite1.png"))
   (object
-    (class "plant")
-    (icon "images/creatures/plant/left-0.png"))
-  (object
     (class "totem")
     (icon "images/creatures/totem/walking1.png"))
-  (object
-    (class "angrystone")
-    (icon "images/creatures/angrystone/charging-0.png"))
-  (object
-    (class "kugelblitz")
-    (icon "images/creatures/kugelblitz/flying-0.png"))
  )
 
  (objectgroup
@@ -180,7 +174,7 @@
     (icon "images/engine/editor/stalactite_ice_yeti.png"))
   (object
     (class "dart")
-    (icon "images/creatures/darttrap/skull_dart_left.png"))
+    (icon "images/creatures/darttrap/granito/root_dart_left.png"))
  )
 
  (objectgroup
@@ -222,9 +216,6 @@
   (object
     (class "ispy")
     (icon "images/objects/ispy/i-idle.png"))
-  (object
-    (class "#node")
-    (icon "images/engine/editor/path_node.png"))
 ;;(object
 ;;  (class "path")
 ;;  (icon "images/engine/editor/path.png"))
@@ -365,24 +356,21 @@
   (object
     (class "particles-ghosts")
     (icon "images/engine/editor/ghostparticles.png"))
-
-
-
 ;;  +-- This should be disabled, as it probably won't support multiple textures
 ;;  |   per config object.
 ;;  v                               ~ Semphris
   (object
     (class "particles-custom")
     (icon "images/engine/editor/particle.png"))
-
-
-
   (object
     (class "particles-custom-file")
     (icon "images/engine/editor/particle_file.png"))
   (object
     (class "textscroller")
     (icon "images/engine/editor/textscroller.png"))
+  (object
+    (class "sound-object")
+    (icon "images/engine/editor/sound.png"))
  )
 
  (objectgroup

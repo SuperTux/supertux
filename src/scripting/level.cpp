@@ -90,13 +90,6 @@ Level_toggle_pause()
 }
 
 void
-Level_edit(bool edit_mode)
-{
-  SCRIPT_GUARD_GAMESESSION();
-  game_session.set_editmode(edit_mode);
-}
-
-void
 Level_pause_target_timer()
 {
   SCRIPT_GUARD_GAMESESSION();

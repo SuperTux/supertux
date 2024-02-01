@@ -75,6 +75,17 @@ public:
   /** returns true if the control has just been pressed down this frame */
   bool pressed(Control control) const;
 
+  template<typename... Control>
+  bool pressed_any(Control&&... controls) const
+  {
+    for(const auto& control : {controls... })
+    {
+      if(pressed(control))
+        return true;
+    }
+    return false;
+  }
+
   /** returns true if the control has just been released this frame */
   bool released(Control control) const;
 
