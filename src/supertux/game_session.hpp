@@ -123,6 +123,7 @@ public:
   void toggle_pause();
   void abort_level();
   bool is_active() const;
+  void perform_test(const std::string& filename);
 
   Savegame& get_savegame() const { return m_savegame; }
 
@@ -181,6 +182,8 @@ private:
   std::vector<int> m_max_ice_bullets_at_start; /** How many ice bullets does the player have */
 
   bool m_active; /** Game active? **/
+
+  bool m_is_testing;
 
   bool m_end_seq_started;
   bool m_pause_target_timer;

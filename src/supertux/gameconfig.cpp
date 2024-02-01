@@ -61,6 +61,7 @@ Config::Config() :
   music_volume(50),
   random_seed(0), // Set by time(), by default (unless in config).
   enable_script_debugger(false),
+  test(),
   start_demo(),
   record_demo(),
   tux_spawn_pos(),

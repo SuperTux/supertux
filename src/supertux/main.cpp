@@ -520,7 +520,7 @@ Main::launch_game(const CommandLineArguments& args)
 
 #ifndef EMSCRIPTEN
   auto video = g_config->video;
-  if (args.resave && *args.resave) {
+  if ((args.resave && *args.resave) || args.test) {
     if (args.video) {
       video = *args.video;
     } else {
@@ -631,6 +631,11 @@ Main::launch_game(const CommandLineArguments& args)
         {
           // FIXME: Specify start pos for multiple players
           session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
+        }
+
+        if(!g_config->test.empty())
+        {
+          session->perform_test(g_config->test);
         }
 
         if (!g_config->start_demo.empty())

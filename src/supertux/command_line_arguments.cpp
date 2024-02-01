@@ -43,6 +43,7 @@ CommandLineArguments::CommandLineArguments() :
   music_enabled(),
   filenames(),
   enable_script_debugger(),
+  test(),
   start_demo(),
   record_demo(),
   tux_spawn_pos(),
@@ -114,6 +115,7 @@ CommandLineArguments::print_help(const char* arg0) const
     << "\n"
     << _("Game Options:") << "\n"
     << _("  --edit-level                 Open given level in editor") << "\n"
+    << _("  --test FILE                  Test given level using demo from FILE") << "\n"
     << _("  --resave                     Loads given level and saves it") << "\n"
     << _("  --show-fps                   Display framerate in levels") << "\n"
     << _("  --no-show-fps                Do not display framerate in levels") << "\n"
@@ -319,6 +321,17 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       music_enabled = false;
     }
+    else if (arg == "--test")
+    {
+      if (i + 1 >= argc)
+      {
+        throw std::runtime_error("Need to specify a test filename");
+      }
+      else
+      {
+        test = argv[++i];
+      }
+    }
     else if (arg == "--play-demo")
     {
       if (i + 1 >= argc)
@@ -427,6 +440,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(sound_enabled)
   merge_option(music_enabled)
   merge_option(enable_script_debugger)
+  merge_option(test)
   merge_option(start_demo)
   merge_option(record_demo)
   merge_option(tux_spawn_pos)

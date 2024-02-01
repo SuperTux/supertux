@@ -73,6 +73,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_fire_bullets_at_start(),
   m_max_ice_bullets_at_start(),
   m_active(false),
+  m_is_testing(false),
   m_end_seq_started(false),
   m_pause_target_timer(false),
   m_current_cutscene_text(),
@@ -136,6 +137,11 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     catch (const std::out_of_range&)
     {
     }
+  }
+
+  if(m_is_testing && after_death)
+  {
+    throw std::runtime_error("Performed test failed: Tux died!");
   }
 
   m_game_pause   = false;
@@ -331,6 +337,40 @@ bool
 GameSession::is_active() const
 {
   return !m_game_pause && m_active && !(m_end_sequence && m_end_sequence->is_running());
+}
+
+void
+GameSession::perform_test(const std::string & filename)
+{
+  m_is_testing = true;
+  m_levelintro_shown = true;
+  play_demo(filename);
+}
+
+void
+GameSession::set_editmode(bool edit_mode_)
+{
+  if (m_edit_mode == edit_mode_) return;
+  m_edit_mode = edit_mode_;
+
+  m_currentsector->get_player().set_edit_mode(edit_mode_);
+
+  if (edit_mode_) {
+
+    // entering edit mode
+
+  } else {
+
+    // leaving edit mode
+    restart_level();
+
+  }
+}
+
+void
+GameSession::force_ghost_mode()
+{
+  m_currentsector->get_player().set_ghost_mode(true);
 }
 
 void
