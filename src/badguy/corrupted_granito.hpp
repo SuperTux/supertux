@@ -29,6 +29,7 @@ public:
 
 public:
   CorruptedGranito(const ReaderMapping& reader);
+  CorruptedGranito(const ReaderMapping& reader, int type);
 
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;

@@ -416,8 +416,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   }
   // Handle controller.
 
-  if (controller.pressed(Control::ESCAPE) ||
-      controller.pressed(Control::START))
+  if (controller.pressed_any(Control::ESCAPE, Control::START))
   {
     on_escape_press(controller.hold(Control::LEFT)
       || controller.hold(Control::RIGHT));
