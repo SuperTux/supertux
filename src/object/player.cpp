@@ -1434,6 +1434,27 @@ Player::handle_input()
       m_sprite->set_angle(0);
       //m_santahatsprite->set_angle(0);
     }
+    if (m_sliding)
+    {
+      float sliding_angle = 0.0f;
+
+      if (on_ground())
+      {
+        if (m_floor_normal.y != 0.0f)
+        {
+          sliding_angle = math::degrees(math::angle(m_floor_normal)) + 90.0f;
+        }
+      }
+      else
+      {
+        sliding_angle = math::degrees(math::angle(m_physic.get_velocity()));
+        if (m_physic.get_velocity_x() < 0.0f)
+        {
+          sliding_angle += 180.0f;
+        }
+      }
+      m_sprite->set_angle(sliding_angle);
+    }
     if (!m_jump_early_apex) {
       m_physic.set_gravity_modifier(1.0f);
     }
