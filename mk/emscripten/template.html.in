@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta name="description" content="This website hosts the official online version of SuperTux, which you can play in your browser. It is hosted here at the request of the SuperTux development team.">
   <title>Play SuperTux online</title>
   <style>
     body {
