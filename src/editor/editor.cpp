@@ -971,6 +971,7 @@ Editor::reset_level()
   m_reload_request_reset = true;
   m_reload_request_remote = false;
 
+  MouseCursor::current()->set_icon(nullptr);
   MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
 }
 
