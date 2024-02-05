@@ -16,6 +16,8 @@
 
 #include "supertux/menu/editor_remote_level_menu.hpp"
 
+#include <fmt/format.h>
+
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/item_intfield.hpp"
@@ -65,27 +67,35 @@ EditorRemoteLevelMenu::menu_action(MenuItem& item)
     return;
   }
 
-  auto editor = Editor::current();
   if (m_connect)
   {
-    auto callback = [this]()
+    Dialog::show_confirmation(fmt::format(fmt::runtime(_("You are about to connect to {}:{}.\nMake sure you trust this remote server, before proceeding.\n\nProceed?")),
+                                          m_host_address, m_port),
+      [this]()
       {
-        Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
-                                            m_nickname, m_nickname_color);
-      };
-    if (editor->is_hosting_level())
-      Dialog::show_confirmation(_("Changing the level will stop hosting the current one. Are you sure?"), callback);
-    else if (editor->is_editing_remote_level())
-      Dialog::show_confirmation(_("Changing the level will end the current connection. Are you sure?"), callback);
-    else
-      callback();
+        auto callback = [this]()
+          {
+            Editor::current()->set_remote_level(m_host_address, static_cast<uint16_t>(m_port),
+                                                m_nickname, m_nickname_color);
+          };
+        if (Editor::current()->is_hosting_level())
+          Dialog::show_confirmation(_("Changing the level will stop hosting the current one. Are you sure?"), callback);
+        else if (Editor::current()->is_editing_remote_level())
+          Dialog::show_confirmation(_("Changing the level will end the current connection. Are you sure?"), callback);
+        else
+          callback();
+      });
   }
   else
   {
-    editor->host_level(static_cast<uint16_t>(m_port));
+    Dialog::show_confirmation(_("You are about to host this level.\nKeep in mind any custom resources used should be shared with remote users for proper editing.\n\nProceed?"),
+      [this]()
+      {
+        Editor::current()->host_level(static_cast<uint16_t>(m_port));
 
-    MenuManager::instance().pop_menu();
-    MenuManager::instance().current_menu()->refresh();
+        MenuManager::instance().pop_menu();
+        MenuManager::instance().current_menu()->refresh();
+      });
   }
 }
 
