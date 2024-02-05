@@ -44,6 +44,7 @@ class Player;
 class ReaderMapping;
 class Rectf;
 class Size;
+class TextObject;
 class TileMap;
 class Writer;
 
@@ -152,6 +153,7 @@ public:
   Camera& get_camera() const;
   std::vector<Player*> get_players() const;
   DisplayEffect& get_effect() const;
+  TextObject& get_text_object() const { return m_text_object; }
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
@@ -174,6 +176,8 @@ private:
   float m_gravity;
 
   std::unique_ptr<CollisionSystem> m_collision_system;
+
+  TextObject& m_text_object;
 
 private:
   Sector(const Sector&) = delete;

@@ -755,7 +755,7 @@ Player::update(float dt_sec)
     sidebrickbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 12.f : -1.f));
 
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (sidebrickbox.contains(brick.get_bbox()) && (m_stone || (m_sliding && brick.get_class_name() != "heavy-brick")) &&
+      if (sidebrickbox.overlaps(brick.get_bbox()) && (m_stone || (m_sliding && brick.get_class_name() != "heavy-brick")) &&
         std::abs(m_physic.get_velocity_x()) >= 150.f) {
         brick.try_break(this, is_big());
       }
@@ -769,11 +769,11 @@ Player::update(float dt_sec)
     downbox.set_bottom(downbox.get_bottom() + 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
       // stoneform breaks through any kind of bricks
-      if (downbox.contains(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
+      if (downbox.overlaps(brick.get_bbox()) && (m_stone || !dynamic_cast<HeavyBrick*>(&brick)))
         brick.try_break(this, is_big());
     }
     for (auto& badguy : Sector::get().get_objects_by_type<BadGuy>()) {
-      if (downbox.contains(badguy.get_bbox()) && badguy.is_snipable() && !badguy.is_grabbed())
+      if (downbox.overlaps(badguy.get_bbox()) && badguy.is_snipable() && !badguy.is_grabbed())
         badguy.kill_fall();
     }
   }
@@ -784,7 +784,7 @@ Player::update(float dt_sec)
     Rectf topbox = get_bbox().grown(-1.f);
     topbox.set_top(get_bbox().get_top() - 16.f);
     for (auto& brick : Sector::get().get_objects_by_type<Brick>()) {
-      if (topbox.contains(brick.get_bbox()))
+      if (topbox.overlaps(brick.get_bbox()))
         brick.try_break(this, is_big());
     }
   }
@@ -1433,6 +1433,27 @@ Player::handle_input()
     {
       m_sprite->set_angle(0);
       //m_santahatsprite->set_angle(0);
+    }
+    if (m_sliding)
+    {
+      float sliding_angle = 0.0f;
+
+      if (on_ground())
+      {
+        if (m_floor_normal.y != 0.0f)
+        {
+          sliding_angle = math::degrees(math::angle(m_floor_normal)) + 90.0f;
+        }
+      }
+      else
+      {
+        sliding_angle = math::degrees(math::angle(m_physic.get_velocity()));
+        if (m_physic.get_velocity_x() < 0.0f)
+        {
+          sliding_angle += 180.0f;
+        }
+      }
+      m_sprite->set_angle(sliding_angle);
     }
     if (!m_jump_early_apex) {
       m_physic.set_gravity_modifier(1.0f);

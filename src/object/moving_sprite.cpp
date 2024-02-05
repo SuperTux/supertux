@@ -100,18 +100,12 @@ MovingSprite::update(float )
 {
 }
 
-bool
-MovingSprite::has_found_sprite()
-{
-  bool found = m_sprite_found;
-  m_sprite_found = false; // After the first call, indicate that a custom sprite has not been found.
-  return found;
-}
-
 void
 MovingSprite::on_type_change(int old_type)
 {
-  if (!has_found_sprite()) // Change sprite only if a custom sprite has not just been loaded.
+  /** Don't change the sprite to the default one for the current type,
+      if this is the initial `on_type_change()` call, and a custom sprite has just been loaded. */
+  if (old_type >= 0 || !m_sprite_found)
     change_sprite(get_default_sprite_name());
 }
 

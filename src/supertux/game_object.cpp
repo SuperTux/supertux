@@ -209,7 +209,7 @@ GameObject::parse_type(const ReaderMapping& reader)
   {
     try
     {
-      set_type(type_id_to_value(type));
+      m_type = type_id_to_value(type);
     }
     catch (...)
     {
@@ -218,7 +218,7 @@ GameObject::parse_type(const ReaderMapping& reader)
     }
   }
 
-  on_type_change(-1); // Initial object type initialization
+  on_type_change(TypeChange::INITIAL); // Initial object type initialization
 }
 
 GameObjectTypes

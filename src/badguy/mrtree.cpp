@@ -67,7 +67,7 @@ MrTree::get_default_sprite_name() const
 void
 MrTree::on_type_change(int old_type)
 {
-  MovingSprite::on_type_change();
+  MovingSprite::on_type_change(old_type);
 
   switch (m_type)
   {

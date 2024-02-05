@@ -974,7 +974,7 @@ CustomParticleSystem::collision(Particle* object, const Vector& movement)
               water = true;
           }
         } else { // Normal rectangular tile.
-          if (intersects(dest, rect)) {
+          if (dest.overlaps(rect)) {
             if (tile.get_attributes() & Tile::WATER)
               water = true;
             set_rectangle_rectangle_constraints(&constraints, dest, rect);
@@ -1056,7 +1056,7 @@ CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
           AATriangle triangle = AATriangle(rect, tile.get_data());
           rectangle_aatriangle(&constraints, dest, triangle);
         } else { // Normal rectangular tile.
-          if (intersects(dest, rect)) {
+          if (dest.overlaps(rect)) {
             set_rectangle_rectangle_constraints(&constraints, dest, rect);
           }
         }

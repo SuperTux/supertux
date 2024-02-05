@@ -67,10 +67,10 @@ Sector::Sector(Level& parent) :
   m_fully_constructed(false),
   m_foremost_layer(),
   m_gravity(10.0f),
-  m_collision_system(new CollisionSystem(*this))
+  m_collision_system(new CollisionSystem(*this)),
+  m_text_object(add<TextObject>("Text"))
 {
   add<DisplayEffect>("Effect");
-  add<TextObject>("Text");
   add<TextArrayObject>("TextArray");
 
   SoundManager::current()->preload("sounds/shoot.wav");
@@ -386,7 +386,7 @@ Sector::before_object_add(GameObject& object)
   }
 
   if (m_fully_constructed) {
-    process_resolve_requests();
+    try_process_resolve_requests();
     object.finish_construction();
   }
 

@@ -279,7 +279,9 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 
   // draw effects and hud
   auto& context = compositor.make_context(true);
-  m_menu_manager->draw(context);
+  if(m_menu_manager->is_menu_visible()) {
+    m_menu_manager->draw(context);
+  }
 
   if (m_screen_fade) {
     m_screen_fade->draw(context);
@@ -325,7 +327,10 @@ ScreenManager::update_gamelogic(float dt_sec)
     m_screen_stack.back()->update(dt_sec, controller);
   }
 
-  m_menu_manager->process_input(controller);
+  if(m_menu_manager->is_active())
+  {
+    m_menu_manager->process_input(controller);
+  }
 
   if (m_screen_fade)
   {
@@ -406,7 +411,9 @@ ScreenManager::process_events()
     }
     m_input_manager.process_event(event);
 
-    m_menu_manager->event(event);
+    if(m_menu_manager->is_active()) {
+      m_menu_manager->event(event);
+    }
 
     if (Editor::is_active()) {
       Editor::current()->event(event);
@@ -610,7 +617,7 @@ void ScreenManager::loop_iter()
   float fps = m_fps_statistics->get_fps();
   if (fps != 0) {
     // Skip if fps not ready yet (during first 0.5 seconds of startup).
-    float seconds_per_frame = 1.0f / m_fps_statistics->get_fps();
+    float seconds_per_frame = 1.0f / fps;
     int max_steps_per_frame = static_cast<int>(
       ceilf(seconds_per_frame / seconds_per_step));
     if (max_steps_per_frame < 2)
