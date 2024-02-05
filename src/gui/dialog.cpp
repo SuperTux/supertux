@@ -49,7 +49,16 @@ Dialog::~Dialog()
 void
 Dialog::set_text(const std::string& text)
 {
-  m_text = text;
+  std::string rest = text;
+  do
+  {
+    std::string overflow;
+    m_text += Resources::normal_font->wrap_to_width(rest, static_cast<float>(SCREEN_WIDTH), &overflow);
+    if (!overflow.empty())
+      m_text += "\n";
+    rest = overflow;
+  }
+  while (!rest.empty());
 
   m_text_size = Sizef(Resources::normal_font->get_text_width(m_text),
                       Resources::normal_font->get_text_height(m_text));
