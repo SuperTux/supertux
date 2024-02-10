@@ -50,6 +50,8 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-13' }}
         run: |
+          brew untap homebrew/cask
+          brew untap homebrew/core
           brew config
           brew doctor
           brew update
