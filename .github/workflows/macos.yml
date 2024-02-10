@@ -50,6 +50,9 @@ jobs:
       - name: Install macos dependencies
         if: ${{ matrix.os == 'macos-13' }}
         run: |
+          brew config
+          brew doctor
+          brew update
           brew install cmake googletest bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
                        fribidi glib gtk-doc glbinding@2 libraqm glm zlib
