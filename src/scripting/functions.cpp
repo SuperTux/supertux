@@ -395,7 +395,7 @@ void restart()
     log_info << "No game session." << std::endl;
     return;
   }
-  session->restart_level();
+  session->reset_button = true;
 }
 
 void whereami()

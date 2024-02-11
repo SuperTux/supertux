@@ -215,7 +215,7 @@ public:
   const std::vector<uint32_t>& get_tiles() const { return m_tiles; }
 
 private:
-  void update_effective_solid();
+  void update_effective_solid(bool update_manager = true);
   void float_channel(float target, float &current, float remaining_time, float dt_sec);
 
   bool is_corner(uint32_t tile) const;
