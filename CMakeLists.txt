@@ -157,14 +157,18 @@ add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
 
 ### Hell no
 set(FREETYPE_NO_DIST ON)
+set(ALSOFT_UTILS OFF)
+set(ALSOFT_EXAMPLES OFF)
 
 if(NOT EMSCRIPTEN)
-  target_dependencies(supertux2_lib SDL2 SDL2_image freetype SDL2_ttf libcurl_shared ogg vorbis)
+  target_dependencies(supertux2_lib SDL2 SDL2_image freetype SDL2_ttf libcurl_shared)
+  target_external_dependencies_from_folder(supertux2_lib external/ogg ogg)
+  target_external_dependencies_from_folder(supertux2_lib external/vorbis vorbis vorbisfile)
 endif()
 
 set(FMT_INSTALL ON)
 target_dependencies(supertux2_lib sexp fmt-header-only zlib physfs)
-target_external_dependencies(supertux2_lib partio_zip tinygettext SDL_SavePNG)
+target_external_dependencies(supertux2_lib partio_zip tinygettext SDL_SavePNG findlocale obstack)
 target_external_dependencies_from_folder(supertux2_lib external/squirrel squirrel sqstdlib)
 target_external_dependencies_from_folder(supertux2_lib external/OpenAL OpenAL)
 
@@ -172,10 +176,14 @@ if(ENABLE_DISCORD)
   target_external_dependencies(supertux2_lib discord-rpc)
 endif()
 
-target_include_directories(supertux2_lib PUBLIC src/ external/findlocale external/obstack ${PROJECT_BINARY_DIR})
+target_include_directories(supertux2_lib PUBLIC src/ ${PROJECT_BINARY_DIR})
 
 # glm is a header only library... We don't need to link it with cmake.
 target_include_directories(supertux2_lib PUBLIC external/glm/glm)
+
+# fmt seems to add every directory except the include directory (????)
+# (can we just get rid of this library already)
+target_include_directories(supertux2_lib PUBLIC external/fmt-header-only/include)
 
 # Include altivec wrapper on ppc
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")

@@ -23,7 +23,7 @@ macro(target_external_dependencies_from_folder tar folder)
   set(CMAKE_BUILD_TYPE Release)
 
   message(STATUS "Adding ${subdir}")
-  add_subdirectory(${subdir})
+  add_subdirectory(${subdir} EXCLUDE_FROM_ALL)
 
   set(CMAKE_BUILD_TYPE ${oldbuildtype})
 
@@ -80,32 +80,29 @@ macro(target_external_dependencies_from_folder tar folder)
     set(${UPPERDEP}_INCLUDE_DIRS ${DEP_INCLUDES})
 
     if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
-      target_link_libraries(${tar} INTERFACE ${deptar})
+      target_link_libraries(${tar} PRIVATE ${deptar})
     else()
       #get_target_property(DEP_OUT_NAME ${deptar} OUTPUT_NAME_${CMAKE_BUILD_TYPE})
       #get_target_property(DEP_OUT_DIR ${deptar} OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE})
-      message("AAAA ${deptar}")
+      #message("AAAA ${deptar}")
       set(DEP_OUT_PATH "$<TARGET_FILE:${deptar}>")
 
       # Try all names, again
       set(${deptar}_LIBRARY "$<TARGET_FILE:${deptar}>")
       set(${deptar}_LIBRARIES "$<TARGET_FILE:${deptar}>")
-      set(${UPPERDEP}_LIBRARY "$<TARGET_FILE::${deptar}>")
+      set(${UPPERDEP}_LIBRARY "$<TARGET_FILE:${deptar}>")
       set(${UPPERDEP}_LIBRARIES "$<TARGET_FILE:${deptar}>")
-      message("BBBB ${${UPPERDEP}_LIBRARY}")
+      #message("BBBB ${${UPPERDEP}_LIBRARY}")
 
-      add_custom_command(TARGET ${tar}
-        COMMAND "echo Hey, ya dingus: ${deptar} $<TARGET_FILE_BASE_NAME:${deptar}>"
-      )
-
-      target_link_libraries(${tar} PRIVATE -L$<TARGET_FILE_DIR:${deptar}>
+      target_link_directories(${tar} PRIVATE $<TARGET_FILE_DIR:${deptar}>)
+      target_link_libraries(${tar} PRIVATE
         # CMake generator expressions is my favourite programming language.
         #$<$<NOT:$<STREQUAL:$<TARGET_FILE_BASE_NAME:${deptar}>, >>:
-        -l$<IF:$<BOOL:$<TARGET_FILE_PREFIX:${deptar}>>,
-            $<TARGET_FILE_BASE_NAME:${deptar}>
-          ,
-            :$<TARGET_FILE_BASE_NAME:${deptar}>$<TARGET_FILE_SUFFIX:${deptar}>
-          >
+        $<IF:$<BOOL:$<TARGET_FILE_PREFIX:${deptar}>>,
+          $<TARGET_FILE_BASE_NAME:${deptar}>
+        ,
+          :$<TARGET_FILE_BASE_NAME:${deptar}>$<TARGET_FILE_SUFFIX:${deptar}>
+        >
         #>
       )
 
@@ -118,7 +115,7 @@ macro(target_external_dependencies_from_folder tar folder)
       ]]
     endif()
 
-    add_dependencies(${tar} ${deptar})
+  add_dependencies(${tar} ${deptar})
   endforeach()
 endmacro()
 

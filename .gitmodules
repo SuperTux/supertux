@@ -58,3 +58,6 @@
 [submodule "external/ogg"]
 	path = external/ogg
 	url = https://gitlab.xiph.org/xiph/ogg.git
+[submodule "external/harfbuzz"]
+	path = external/harfbuzz
+	url = https://github.com/harfbuzz/harfbuzz

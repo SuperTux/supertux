@@ -48,7 +48,7 @@ directory of a Freetype installation.
 #]=======================================================================]
 
 # Created by Eric Wing.
-# Modifications by Alexander Neundorf.
+# Modifications by Alexander Neundorf and MatusGuy.
 # This file has been renamed to "FindFreetype.cmake" instead of the correct
 # "FindFreeType.cmake" in order to be compatible with the one from KDE4, Alex.
 
@@ -64,6 +64,8 @@ directory of a Freetype installation.
 # wants explicit full paths and this trickery doesn't work too well.
 # I'm going to attempt to cut out the middleman and hope
 # everything still works.
+
+cmake_policy(SET CMP0026 OLD)
 
 set(_Freetype_args)
 if (Freetype_FIND_VERSION)
@@ -156,7 +158,7 @@ if (freetype_FOUND)
   endforeach ()
   unset(_Freetype_component)
 
-  include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
+  include(FindPackageHandleStandardArgs)
   find_package_handle_standard_args(Freetype
     HANDLE_COMPONENTS
     VERSION_VAR FREETYPE_VERSION_STRING
@@ -215,7 +217,7 @@ if(NOT FREETYPE_LIBRARY)
     PATH_SUFFIXES
       lib
   )
-  include(${CMAKE_CURRENT_LIST_DIR}/SelectLibraryConfigurations.cmake)
+  include(SelectLibraryConfigurations)
   select_library_configurations(FREETYPE)
 else()
   # on Windows, ensure paths are in canonical format (forward slahes):
@@ -257,7 +259,7 @@ if(FREETYPE_INCLUDE_DIR_freetype2 AND FREETYPE_H)
   endforeach()
 endif()
 
-include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
+include(FindPackageHandleStandardArgs)
 
 find_package_handle_standard_args(
   Freetype

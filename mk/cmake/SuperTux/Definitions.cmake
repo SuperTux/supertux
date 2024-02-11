@@ -39,4 +39,8 @@ macro(setup_supertux_definitions tar)
   else()
     target_compile_definitions(${tar} PUBLIC ICONV_CONST)
   endif()
+
+  get_target_property(defs ${tar} COMPILE_DEFINITIONS)
+  list(FILTER defs EXCLUDE REGEX [[^FT_CONFIG_OPTION_USE_HARFBUZZ$]])
+  set_property(TARGET ${tar} PROPERTY COMPILE_DEFINITIONS ${defs})
 endmacro()

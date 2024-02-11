@@ -52,6 +52,9 @@ find_package_handle_standard_args(HarfBuzz DEFAULT_MSG
     HARFBUZZ_LIBRARY
     HARFBUZZ_INCLUDE_DIR)
 
+# Freetype looks for this instead of HARFBUZZ_INCLUDE_DIR
+set(HARFBUZZ_INCLUDE_DIRS ${HARFBUZZ_INCLUDE_DIR})
+
 mark_as_advanced(FORCE
     HARFBUZZ_LIBRARY
     HARFBUZZ_INCLUDE_DIR)
