@@ -538,16 +538,17 @@ GameSession::update(float dt_sec, const Controller& controller)
     max_invincible_timer_left = std::max(max_invincible_timer_left, p->m_invincible_timer.get_timeleft());
   }
 
+  auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
   if (invincible_timer_started) {
     if (max_invincible_timer_left <= TUX_INVINCIBLE_TIME_WARNING) {
-      if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != HERRING_WARNING_MUSIC)
-        m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_WARNING_MUSIC);
+      if (music_object.get_music_type() != HERRING_WARNING_MUSIC)
+        music_object.play_music(HERRING_WARNING_MUSIC);
     } else {
-      if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != HERRING_MUSIC)
-        m_currentsector->get_singleton_by_type<MusicObject>().play_music(HERRING_MUSIC);
+      if (music_object.get_music_type() != HERRING_MUSIC)
+        music_object.play_music(HERRING_MUSIC);
     }
-  } else if (m_currentsector->get_singleton_by_type<MusicObject>().get_music_type() != LEVEL_MUSIC) {
-    m_currentsector->get_singleton_by_type<MusicObject>().play_music(LEVEL_MUSIC);
+  } else if (music_object.get_music_type() != LEVEL_MUSIC) {
+    music_object.play_music(LEVEL_MUSIC);
   }
   if (reset_button) {
     reset_button = false;
