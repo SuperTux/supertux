@@ -9,8 +9,31 @@ if(LINUX)
   endif()
 endif()
 
+# Use a library from a subfolder in ${PROJECT_SOURCE_DIR}/external
+# whose code is all in the root directory. Example:
+#
+#   target_use_minilib(target findlocale SDL_SavePNG ...)
+#
+macro(target_use_minilib tar)
+  set(deps "${ARGN}")
+  foreach(dep ${deps})
+    message(STATUS "Using ${dep} minilib")
+
+    set(subdir ${PROJECT_SOURCE_DIR}/external/${dep})
+    if(NOT EXISTS ${subdir})
+      message(WARNING "Could NOT find ${dep} minilib in ${subdir}. Skipping.")
+      continue()
+    endif()
+
+    file(GLOB depsrc ${subdir}/*.cpp ${subdir}/*.c ${subdir}/*.hpp ${subdir}/*.h)
+    target_sources(${tar} PRIVATE ${depsrc})
+    get_target_property(srcs ${tar} SOURCES)
+    target_include_directories(${tar} PRIVATE ${subdir})
+  endforeach()
+endmacro()
+
 # Link various targets that come from a subfolder in
-# ${PROJECT_SOURCE_DIR}. Example:
+# ${PROJECT_SOURCE_DIR}/external. Example:
 #
 #   target_external_dependencies_from_folder(target external/squirrel squirrel sqstdlib)
 #

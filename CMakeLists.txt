@@ -168,13 +168,15 @@ endif()
 
 set(FMT_INSTALL ON)
 target_dependencies(supertux2_lib sexp fmt-header-only zlib physfs)
-target_external_dependencies(supertux2_lib partio_zip tinygettext SDL_SavePNG findlocale obstack)
+target_external_dependencies(supertux2_lib tinygettext)
 target_external_dependencies_from_folder(supertux2_lib external/squirrel squirrel sqstdlib)
 target_external_dependencies_from_folder(supertux2_lib external/OpenAL OpenAL)
 
 if(ENABLE_DISCORD)
   target_external_dependencies(supertux2_lib discord-rpc)
 endif()
+
+target_use_minilib(supertux2_lib partio_zip obstack SDL_SavePNG findlocale)
 
 target_include_directories(supertux2_lib PUBLIC src/ ${PROJECT_BINARY_DIR})
 
