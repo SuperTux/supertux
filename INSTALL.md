@@ -104,15 +104,72 @@ with the flag -DGLBINDING_ENABLED=ON
 
 For ease of use, here are some installation lines for some Linux distributions:
 
-- Ubuntu 18.04/20.04:
+- Debian-base (Ubuntu, Linux Mint, Pop!_OS):
   ```
   sudo apt-get update && sudo apt-get install -y cmake build-essential libogg-dev libvorbis-dev libopenal-dev libsdl2-dev libsdl2-image-dev libfreetype6-dev libraqm-dev libcurl4-openssl-dev libglew-dev libharfbuzz-dev libfribidi-dev libglm-dev zlib1g-dev
   ```
 
-- ArchLinux (using sudo, as of June 3rd 2023)
+- Arch-base (Manjaro, EndeavourOS, Garuda)
   ```
   sudo pacman -Sy cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
   ```
+  
+- Fedora-base (Nobara, Ultramarine Linux, QubesOS)
+  ```
+  sudo dnf install cmake gcc gcc-c++ libogg libvorbis openal-soft SDL2 SDL2_image freetype freetype-devel libraqm libraqm-devel libcurl openssl-devel glew harfbuzz harfbuzz-devel fribidi fribidi-devel glm-devel zlib zlib-devel
+  ```
+
+- Gentoo-base (Redcore, Calculate Linux, Sabayon)
+  ```
+  sudo emerge -av dev-util/cmake sys-devel/base-system media-libs/libogg media-libs/libvorbis media-libs/openal media-libs/libsdl2 media-libs/sdl2-image media-libs/freetype media-libs/libraqm net-misc/curl dev-libs/openssl media-libs/glew media-libs/harfbuzz media-libs/fribidi media-libs/glm sys-libs/zlib
+  ```
+  
+- Alpine-base (Adélie Linux)
+  ```
+  sudo apk add cmake build-base libogg libvorbis openal-soft sdl2 sdl2_image freetype- libraqm curl openssl-dev glew harfbuzz fribidi glm zlib
+  ```
+
+- NixOS-base
+  ```
+  sudo nix-env -iA nixos.cmake nixos.libogg nixos.libvorbis nixos.openal nixos.sdl2 nixos.sdl2_image nixos.freetype nixos.harfbuzz nixos.fribidi nixos.glm nixos.zlib nixos.curl nixos.openssl nixos.glew nixos.raqm
+  ```
+
+- Void-base
+  ```
+  sudo xbps-install -S cmake base-devel libogg libvorbis openal-soft SDL2 SDL2_image freetype libraqm curl libressl glew harfbuzz fribidi glm zlib
+  ```
+
+- Solus-base
+  ```
+  sudo eopkg it -c system.devel && sudo eopkg it libogg libvorbis openal-soft sdl2 sdl2_image freetype libraqm curl openssl glew harfbuzz fribidi glm zlib
+  ```
+
+- Mageia-base
+  ```
+  sudo urpmi cmake gcc-c++ libogg libvorbis-devel openal-soft-devel sdl2 sdl2_image-devel freetype2-devel libraqm-devel libcurl4-devel libopenssl-devel glew-devel harfbuzz-devel fribidi-devel glm-devel zlib-devel
+  ```
+  
+- Clear Linux-base
+  ```
+  sudo swupd bundle-add devpkg-openssl devpkg-libogg devpkg-libvorbis devpkg-openal devpkg-sdl2 devpkg-sdl2_image devpkg-freetype devpkg-libraqm devpkg-curl devpkg-openssl devpkg-glew devpkg-harfbuzz devpkg-fribidi devpkg-glm devpkg-zlib
+  ```
+
+- ALT Linux-base
+  ```
+  sudo apt-get install cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
+  ```
+
+- Tiny Core-base
+  ```
+  sudo tc-update install cmake base-devel libogg libvorbis openal sdl2 sdl2_image freetype2 libraqm curl openssl glew harfbuzz fribidi glm zlib
+  ```
+
+- Slackware-base
+  ```
+  sudo slackpkg install cmake base libogg libvorbis openal sdl2 sdl2_image freetype libraqm curl openssl glew harfbuzz fribidi glm zlib
+  ```
+
+Replace sudo with doas depending on what you use.
 
 ### Linux/UNIX using CMake
 
