@@ -1,6 +1,6 @@
 Install instructions for SuperTux - <https://supertux.org/>
 ====================================================================
-Last update: May 19, 2023
+Last update: February 12, 2024
 
 Quick links:
 - [Binaires](#binaries)
