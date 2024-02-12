@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13.4)
 
-project(SuperTux VERSION 0.6.3 LANGUAGES CXX)
+project(SuperTux VERSION 0.6.3 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -176,7 +176,14 @@ if(ENABLE_DISCORD)
   target_external_dependencies(supertux2_lib discord-rpc)
 endif()
 
-target_use_minilib(supertux2_lib partio_zip obstack SDL_SavePNG findlocale)
+target_use_minilib(supertux2_lib partio_zip)
+
+# We need to make another target for the libraries in external/
+# that use C instead of C++, because if you mix those in the same
+# target the generator will just refuse to work.
+add_library(supertux2_c OBJECT)
+target_use_minilib(supertux2_c obstack SDL_SavePNG findlocale)
+target_link_libraries(supertux2_lib PRIVATE supertux2_c)
 
 target_include_directories(supertux2_lib PUBLIC src/ ${PROJECT_BINARY_DIR})
 
