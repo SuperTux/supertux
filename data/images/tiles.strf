@@ -7418,6 +7418,11 @@
       1570 1573
       1572 1574
     )
+    (attributes
+      1024 0
+      0    0
+      0    1024
+    )
     (image "tiles/forest/pogonia.png")
   )
   (tiles
