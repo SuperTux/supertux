@@ -30,11 +30,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-11]
+        os: [macos-12]
         build_type: [Debug, Release]
         glbinding: [ON, OFF]
         include:
-          - os: macos-11
+          - os: macos-12
             build_type: Release
             glbinding: OFF
             release: ON
@@ -48,7 +48,7 @@ jobs:
           submodules: true
 
       - name: Install macos dependencies
-        if: ${{ matrix.os == 'macos-11' }}
+        if: ${{ matrix.os == 'macos-12' }}
         run: |
           brew install cmake googletest bash rename libogg libvorbis glew \
                        openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz \
@@ -138,8 +138,8 @@ jobs:
         env:
           OS: ${{ matrix.os }}
         run: |
-          if [ "$OS" = "macos-11" ]; then
-            rename 's/.dmg/-11.dmg/' build/upload/SuperTux-*
+          if [ "$OS" = "macos-12" ]; then
+            rename 's/.dmg/-12.dmg/' build/upload/SuperTux-*
           fi
 
       - name: Create Release
