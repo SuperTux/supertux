@@ -1,0 +1,5 @@
+(supertux-music
+  (file "world-1-worldmap")
+  (loop-begin 0)
+  (loop-at -1)
+)
