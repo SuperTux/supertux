@@ -1,5 +1,5 @@
 (supertux-music
-  (file "world-1-worldmap")
+  (file "worldmap-ice.ogg")
   (loop-begin 0)
   (loop-at -1)
 )
