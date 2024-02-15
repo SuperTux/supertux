@@ -4,21 +4,15 @@
 [submodule "external/squirrel"]
 	path = external/squirrel
 	url = https://github.com/albertodemichelis/squirrel.git
-[submodule "external/sexp"]
-	path = external/sexp
-	url = https://github.com/SuperTux/sexp-cpp.git
 [submodule "external/physfs"]
 	path = external/physfs
 	url = https://github.com/SuperTux/physfs.git
 [submodule "external/SDL2_ttf"]
 	path = external/SDL2_ttf
 	url = https://github.com/SuperTux/SDL_ttf
-[submodule "discord-sdk"]
+[submodule "external/discord-sdk"]
 	path = external/discord-sdk
 	url = https://github.com/discord/discord-rpc
-[submodule "external/fmt"]
-	path = external/fmt-header-only
-	url = https://github.com/fmtlib/fmt.git
 [submodule "tools/miniswig"]
 	path = tools/miniswig
 	url = https://github.com/WindstilleTeam/miniswig
@@ -36,13 +30,9 @@
 	path = external/SDL2_image
 	url = https://github.com/libsdl-org/SDL_image
 	branch = SDL2
-[submodule "external/png_shared"]
-	path = external/png_shared
-	url = https://github.com/glennrp/libpng
-	branch = libpng16
 [submodule "external/zlib"]
 	path = external/zlib
-	url = https://github.com/luvit/zlib
+	url = https://github.com/madler/zlib
 	branch = master
 [submodule "external/libcurl_shared"]
 	path = external/libcurl_shared
@@ -58,6 +48,9 @@
 [submodule "external/ogg"]
 	path = external/ogg
 	url = https://gitlab.xiph.org/xiph/ogg.git
-[submodule "external/harfbuzz"]
-	path = external/harfbuzz
-	url = https://github.com/harfbuzz/harfbuzz
+[submodule "external/fmt"]
+  path = external/fmt
+  url = https://github.com/fmtlib/fmt
+[submodule "external/sexp-cpp"]
+  path = external/sexp-cpp
+  url = https://github.com/SuperTux/sexp-cpp

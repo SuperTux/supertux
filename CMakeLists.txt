@@ -171,10 +171,12 @@ if(NOT EMSCRIPTEN)
 endif()
 
 set(FMT_INSTALL ON)
-target_dependencies(supertux2_lib sexp fmt-header-only zlib physfs)
+target_dependencies(supertux2_lib physfs)
 target_external_dependencies(supertux2_lib tinygettext partio_zip obstack SDL_SavePNG findlocale)
 target_external_dependencies_from_folder(supertux2_lib external/squirrel squirrel sqstdlib)
 target_external_dependencies_from_folder(supertux2_lib external/OpenAL OpenAL)
+target_external_dependencies_from_folder(supertux2_lib external/fmt fmt-header-only)
+target_external_dependencies_from_folder(supertux2_lib external/sexp-cpp sexp)
 
 if(ENABLE_DISCORD)
   target_external_dependencies(supertux2_lib discord-rpc)

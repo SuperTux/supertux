@@ -150,6 +150,7 @@ if (freetype_FOUND)
   list(INSERT FREETYPE_LIBRARIES 0
     "${_Freetype_location}")
   unset(_Freetype_location)
+  set(FREETYPE_INCLUDE_DIR_ft2build ${FREETYPE_INCLUDE_DIR}) # don't mind me
   set(Freetype_FOUND 1)
   set(FREETYPE_FOUND 1)
   set(FREETYPE_VERSION_STRING "${freetype_VERSION}")
