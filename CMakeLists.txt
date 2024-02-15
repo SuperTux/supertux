@@ -151,6 +151,10 @@ endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
+## Sort source lists to have deterministic linking order
+list(SORT SUPERTUX_SRC)
+list(SORT SUPERTUX_RC)
+
 ## Add target for supertux binary
 
 add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
@@ -168,7 +172,7 @@ endif()
 
 set(FMT_INSTALL ON)
 target_dependencies(supertux2_lib sexp fmt-header-only zlib physfs)
-target_external_dependencies(supertux2_lib tinygettext)
+target_external_dependencies(supertux2_lib tinygettext partio_zip obstack SDL_SavePNG findlocale)
 target_external_dependencies_from_folder(supertux2_lib external/squirrel squirrel sqstdlib)
 target_external_dependencies_from_folder(supertux2_lib external/OpenAL OpenAL)
 
@@ -176,14 +180,16 @@ if(ENABLE_DISCORD)
   target_external_dependencies(supertux2_lib discord-rpc)
 endif()
 
-target_use_minilib(supertux2_lib partio_zip)
+#target_use_minilib(supertux2_lib partio_zip obstack SDL_SavePNG findlocale)
 
+#[[
 # We need to make another target for the libraries in external/
 # that use C instead of C++, because if you mix those in the same
 # target the generator will just refuse to work.
 add_library(supertux2_c OBJECT)
 target_use_minilib(supertux2_c obstack SDL_SavePNG findlocale)
 target_link_libraries(supertux2_lib PRIVATE supertux2_c)
+]]
 
 target_include_directories(supertux2_lib PUBLIC src/ ${PROJECT_BINARY_DIR})
 

@@ -27,7 +27,8 @@ macro(target_use_minilib tar)
 
     file(GLOB depsrc ${subdir}/*.cpp ${subdir}/*.c ${subdir}/*.hpp ${subdir}/*.h)
     target_sources(${tar} PRIVATE ${depsrc})
-    get_target_property(srcs ${tar} SOURCES)
+    #get_target_property(srcs ${tar} SOURCES)
+    message("${subdir} BAH ${tar}")
     target_include_directories(${tar} PRIVATE ${subdir})
   endforeach()
 endmacro()
@@ -102,7 +103,7 @@ macro(target_external_dependencies_from_folder tar folder)
     set(${UPPERDEP}_INCLUDE_DIR ${DEP_INCLUDES})
     set(${UPPERDEP}_INCLUDE_DIRS ${DEP_INCLUDES})
 
-    if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY")
+    if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY" OR ${DEP_TYPE} STREQUAL "OBJECT_LIBRARY")
       target_link_libraries(${tar} PRIVATE ${deptar})
     else()
       #get_target_property(DEP_OUT_NAME ${deptar} OUTPUT_NAME_${CMAKE_BUILD_TYPE})
@@ -128,6 +129,9 @@ macro(target_external_dependencies_from_folder tar folder)
         >
         #>
       )
+      set_property(TARGET ${deptar}
+                   PROPERTY IMPORTED_LOCATION ${${deptar}_LIBRARY})
+
 
       #[[
       add_custom_command(TARGET ${tar}
