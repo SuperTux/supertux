@@ -23,9 +23,8 @@
 #include "squirrel/squirrel_util.hpp"
 
 SquirrelVM::SquirrelVM() :
-  m_vm()
+  m_vm(sq_open(64))
 {
-  m_vm = sq_open(64);
   if (m_vm == nullptr)
     throw std::runtime_error("Couldn't initialize squirrel vm");
 }
