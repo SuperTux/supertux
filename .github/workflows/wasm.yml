@@ -97,5 +97,4 @@ jobs:
           cd build/upload/
           mv supertux2.html index.html
           zip supertux2.zip *
-          # TODO: Decomment (or replace URL with a different host)
-          # curl -F "archive=@$(pwd)/supertux2.zip" -F "message=$(git log --format=%B -n 1 | head -1)" $UPLOAD_URL
+          curl -F "archive=@$(pwd)/supertux2.zip" -F "message=$(git log --format=%B -n 1 | head -1)" $UPLOAD_URL

@@ -43,7 +43,7 @@ public:
   WorldMapSector(WorldMap& parent);
   ~WorldMapSector() override;
 
-  void finish_construction(bool) override;
+  void finish_construction(bool editable) override;
 
   void setup();
   void leave();
