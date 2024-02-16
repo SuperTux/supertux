@@ -122,9 +122,6 @@ include(SuperTux/BuildDocumentation)
 include(SuperTux/BuildMessagePot)
 include(SuperTux/BuildMiniswigWrapper)
 
-# TODO: opengl
-set(HAVE_OPENGL OFF)
-
 ## Globbing
 file(GLOB SUPERTUX_RC ${PROJECT_BINARY_DIR}/tmp/*.rc)
 file(GLOB_RECURSE SUPERTUX_SRC src/*.cpp src/*.hpp)
@@ -170,7 +167,14 @@ if(NOT EMSCRIPTEN)
   target_external_dependencies_from_folder(supertux2_lib external/vorbis vorbis vorbisfile)
 endif()
 
-set(FMT_INSTALL ON)
+if(HAVE_OPENGL)
+  find_package(OpenGL REQUIRED)
+  target_external_dependencies_from_folder(supertux2_lib external/glew libglew_shared)
+  target_link_libraries(supertux2_lib PRIVATE OpenGL::GL)
+  target_include_directories(supertux2_lib PRIVATE ${OPENGL_INCLUDE_DIRS})
+endif()
+
+set(FMT_INSTALL ON) # Weird
 target_dependencies(supertux2_lib physfs)
 target_external_dependencies(supertux2_lib tinygettext partio_zip obstack SDL_SavePNG findlocale)
 target_external_dependencies_from_folder(supertux2_lib external/squirrel squirrel sqstdlib)

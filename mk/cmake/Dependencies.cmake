@@ -44,12 +44,9 @@ macro(target_external_dependencies_from_folder tar folder)
 
   set(subdir ${PROJECT_SOURCE_DIR}/${folder})
   set(oldbuildtype ${CMAKE_BUILD_TYPE})
-  set(CMAKE_BUILD_TYPE Release)
 
   message(STATUS "Adding ${subdir}")
   add_subdirectory(${subdir} EXCLUDE_FROM_ALL)
-
-  set(CMAKE_BUILD_TYPE ${oldbuildtype})
 
   foreach(dep ${deps})
     set(deptar "${dep}")
@@ -106,9 +103,6 @@ macro(target_external_dependencies_from_folder tar folder)
     if(${DEP_TYPE} STREQUAL "INTERFACE_LIBRARY" OR ${DEP_TYPE} STREQUAL "OBJECT_LIBRARY")
       target_link_libraries(${tar} PRIVATE ${deptar})
     else()
-      #get_target_property(DEP_OUT_NAME ${deptar} OUTPUT_NAME_${CMAKE_BUILD_TYPE})
-      #get_target_property(DEP_OUT_DIR ${deptar} OUTPUT_DIRECTORY_${CMAKE_BUILD_TYPE})
-      #message("AAAA ${deptar}")
       set(DEP_OUT_PATH "$<TARGET_FILE:${deptar}>")
 
       # Try all names, again
@@ -116,30 +110,9 @@ macro(target_external_dependencies_from_folder tar folder)
       set(${deptar}_LIBRARIES "$<TARGET_FILE:${deptar}>")
       set(${UPPERDEP}_LIBRARY "$<TARGET_FILE:${deptar}>")
       set(${UPPERDEP}_LIBRARIES "$<TARGET_FILE:${deptar}>")
-      #message("BBBB ${${UPPERDEP}_LIBRARY}")
 
       target_link_directories(${tar} PRIVATE $<TARGET_FILE_DIR:${deptar}>)
-      target_link_libraries(${tar} PRIVATE
-        # CMake generator expressions is my favourite programming language.
-        #$<$<NOT:$<STREQUAL:$<TARGET_FILE_BASE_NAME:${deptar}>, >>:
-        $<IF:$<BOOL:$<TARGET_FILE_PREFIX:${deptar}>>,
-          $<TARGET_FILE_BASE_NAME:${deptar}>
-        ,
-          :$<TARGET_FILE_BASE_NAME:${deptar}>$<TARGET_FILE_SUFFIX:${deptar}>
-        >
-        #>
-      )
-      set_property(TARGET ${deptar}
-                   PROPERTY IMPORTED_LOCATION ${${deptar}_LIBRARY})
-
-
-      #[[
-      add_custom_command(TARGET ${tar}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:${deptar}>
-        $<TARGET_FILE_DIR:${tar}>
-      )
-      ]]
+      target_link_libraries(${tar} PRIVATE ${deptar})
     endif()
 
   add_dependencies(${tar} ${deptar})

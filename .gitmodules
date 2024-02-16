@@ -54,3 +54,6 @@
 [submodule "external/sexp-cpp"]
   path = external/sexp-cpp
   url = https://github.com/SuperTux/sexp-cpp
+[submodule "external/glew"]
+	path = external/glew
+	url = https://github.com/Perlmint/glew-cmake
