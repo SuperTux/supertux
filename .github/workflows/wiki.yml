@@ -17,6 +17,7 @@
 
 name: wiki
 on:
+  workflow_dispatch:
   gollum
 
 jobs:
