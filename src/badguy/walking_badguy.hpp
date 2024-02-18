@@ -21,34 +21,19 @@
 
 class Timer;
 
+static const int s_normal_max_drop_height = 600;
+
 /** Base class for Badguys that walk on the floor. */
 class WalkingBadguy : public BadGuy
 {
 public:
   enum class LedgeBehavior
   {
-    /**
-     * Do not fall off any ledge at all.
-     */
-    STRICT,
 
-    /**
-     * Do not fall off any ledge, but still
-     * go down slopes.
-     */
-    SMART,
-
-    /**
-     * Fall off any ledge, unless the ledge
-     * is too tall (600px) or the ledge falls
-     * offscreen.
-     */
-    NORMAL,
-
-    /**
-     * Fall off any ledge.
-     */
-    FALL
+    STRICT, /**< Do not fall off any ledge at all. */
+    SMART, /**< Do not fall off any ledge, but still go down slopes. */
+    NORMAL, /**< Fall off any ledge, unless the ledge is too tall (600px) or the ledge falls offscreen. */
+    FALL /**< Fall off any ledge. */
   };
 
 public:

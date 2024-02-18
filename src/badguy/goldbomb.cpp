@@ -168,7 +168,7 @@ GoldBomb::active_update(float dt_sec)
     return;
   }
 
-  if ((tstate == STATE_FLEEING || tstate == STATE_CORNERED) && on_ground() && might_fall(600+1))
+  if ((tstate == STATE_FLEEING || tstate == STATE_CORNERED) && on_ground() && might_fall(s_normal_max_drop_height+1))
   {
     // also check for STATE_CORNERED just so
     // the bomb doesnt automatically turn around

@@ -103,7 +103,7 @@ void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
       break;
 
     case LedgeBehavior::NORMAL:
-      max_drop_height = 600;
+      max_drop_height = s_normal_max_drop_height;
       break;
 
     case LedgeBehavior::FALL:
