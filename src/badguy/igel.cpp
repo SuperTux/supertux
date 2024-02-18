@@ -33,7 +33,6 @@ const float IGEL_CORRUPTED_SPEED = 120;
 
 const float ROLL_RANGE = 32*10;
 const float ROLL_SPEED = 350;
-const int   ROLL_MAX_DROP_HEIGHT = -1;
 const float ROLL_DURATION = 2.f;
 const float ROLL_EASE_TIMER = 0.5f;
 const float ROLL_COOLDOWN = 1.f;
