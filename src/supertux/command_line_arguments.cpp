@@ -17,7 +17,7 @@
 #include "supertux/command_line_arguments.hpp"
 
 #include <fmt/format.h>
-#include <config.h>
+//#include <config.h>
 #include <physfs.h>
 
 #include "editor/overlay_widget.hpp"

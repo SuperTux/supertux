@@ -20,8 +20,7 @@
 #include <SDL.h>
 #include <map>
 
-#include "config.h"
-
+//#include "config.h"
 
 #include "math/rectf.hpp"
 #include "math/vector.hpp"

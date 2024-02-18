@@ -57,5 +57,7 @@ set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/title_scree
   PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.cpp
   PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
+set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/downloader.cpp
+  PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 
 # EOF #

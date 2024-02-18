@@ -18,7 +18,7 @@
 
 #include <algorithm>
 
-#include "config.h"
+//#include "config.h"
 
 #include "math/rect.hpp"
 #include "math/size.hpp"

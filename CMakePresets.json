@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "hidden": true,
+      "name": "Qt",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "$env{QTDIR}"
+      },
+      "environment": {
+        "PATH": "$penv{PATH};$env{QTDIR}/bin"
+      },
+      "vendor": {
+        "qt-project.org/Qt": {
+          "checksum": "Sp19WUpde73JS7nK33HZMqVZTyI="
+        }
+      }
+    }
+  ],
+  "vendor": {
+    "qt-project.org/Presets": {
+      "checksum": "+knLrtcP3xTAxZGDu4uUoEIBvBs="
+    }
+  }
+}

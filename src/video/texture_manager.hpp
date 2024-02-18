@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 #define HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 
-#include <config.h>
+//#include <config.h>
 #include <map>
 #include <memory>
 #include <ostream>

@@ -18,7 +18,7 @@
 
 #include <assert.h>
 #include <optional>
-#include <config.h>
+//#include <config.h>
 #include <iomanip>
 #include <physfs.h>
 #include <sstream>

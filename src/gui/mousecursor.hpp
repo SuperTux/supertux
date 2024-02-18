@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-#include "config.h"
+//#include "config.h"
 
 #include "sprite/sprite_ptr.hpp"
 #include "util/currenton.hpp"

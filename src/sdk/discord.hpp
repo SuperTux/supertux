@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SDK_DISCORD_HPP
 #define HEADER_SUPERTUX_SDK_DISCORD_HPP
 
-#include "config.h"
+//#include "config.h"
 
 #ifdef ENABLE_DISCORD
 

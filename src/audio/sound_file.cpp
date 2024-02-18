@@ -18,7 +18,7 @@
 
 #include "audio/sound_file.hpp"
 
-#include <config.h>
+//#include <config.h>
 
 #include <string.h>
 #include <physfs.h>

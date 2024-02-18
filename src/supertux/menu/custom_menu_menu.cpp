@@ -16,7 +16,7 @@
 
 #include "supertux/menu/custom_menu_menu.hpp"
 
-#include "config.h"
+//#include "config.h"
 
 #include "gui/item_goto.hpp"
 #include "gui/item_stringselect.hpp"

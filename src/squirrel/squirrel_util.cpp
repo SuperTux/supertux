@@ -16,7 +16,7 @@
 
 #include "squirrel/squirrel_util.hpp"
 
-#include <config.h>
+//#include <config.h>
 
 #include <stdio.h>
 #include <sqstdaux.h>

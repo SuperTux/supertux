@@ -30,7 +30,7 @@ docs/doxygen/
 tools/scripting_docs_gen/build/
 
 # Qt Creator project file
-CMakeLists.txt.user
+CMakeLists.txt.user*
 
 # Clangd
 .cache/
@@ -42,6 +42,7 @@ language.settings.xml
 
 # Visual Studio project files
 *.vs/
+CMakeSettings.json
 
 # JetBrains IDE project files
 .idea/

@@ -4,24 +4,53 @@
 [submodule "external/squirrel"]
 	path = external/squirrel
 	url = https://github.com/albertodemichelis/squirrel.git
-[submodule "external/sexp-cpp"]
-	path = external/sexp-cpp
-	url = https://github.com/SuperTux/sexp-cpp.git
 [submodule "external/physfs"]
 	path = external/physfs
 	url = https://github.com/SuperTux/physfs.git
-[submodule "external/SDL_ttf"]
-	path = external/SDL_ttf
+[submodule "external/SDL2_ttf"]
+	path = external/SDL2_ttf
 	url = https://github.com/SuperTux/SDL_ttf
-[submodule "discord-sdk"]
+[submodule "external/discord-sdk"]
 	path = external/discord-sdk
 	url = https://github.com/discord/discord-rpc
-[submodule "external/fmt"]
-	path = external/fmt
-	url = https://github.com/fmtlib/fmt.git
 [submodule "tools/miniswig"]
 	path = tools/miniswig
 	url = https://github.com/WindstilleTeam/miniswig
 [submodule "external/glm"]
 	path = external/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "external/OpenAL"]
+	path = external/OpenAL
+	url = https://github.com/kcat/openal-soft
+[submodule "external/SDL2"]
+	path = external/SDL2
+	url = https://github.com/libsdl-org/SDL
+	branch = SDL2
+[submodule "external/SDL2_image"]
+	path = external/SDL2_image
+	url = https://github.com/libsdl-org/SDL_image
+	branch = SDL2
+[submodule "external/zlib"]
+	path = external/zlib
+	url = https://github.com/madler/zlib
+	branch = master
+[submodule "external/libcurl_shared"]
+	path = external/libcurl_shared
+	url = https://github.com/curl/curl
+	branch = master
+[submodule "external/freetype"]
+	path = external/freetype
+	url = https://github.com/freetype/freetype
+	branch = 2.6.5
+[submodule "external/vorbis"]
+	path = external/vorbis
+	url = https://gitlab.xiph.org/xiph/vorbis.git
+[submodule "external/ogg"]
+	path = external/ogg
+	url = https://gitlab.xiph.org/xiph/ogg.git
+[submodule "external/fmt"]
+  path = external/fmt
+  url = https://github.com/fmtlib/fmt
+[submodule "external/sexp-cpp"]
+  path = external/sexp-cpp
+  url = https://github.com/SuperTux/sexp-cpp
