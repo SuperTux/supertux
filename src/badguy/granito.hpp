@@ -81,8 +81,8 @@ private:
   State m_original_state;
 
   bool m_has_waved;
-  bool m_stepped_on; /** true if tux was on top of granito last frame */
-  bool m_airborne; /** unfortunately on_ground() sucks */
+  bool m_stepped_on; /** True if tux was on top of granito last frame. */
+  bool m_airborne; /** Unfortunately, on_ground() sucks. */
 
 private:
   Granito(const Granito&) = delete;

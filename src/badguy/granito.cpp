@@ -216,25 +216,25 @@ Granito::collision(GameObject& other, const CollisionHit& hit)
   {
     if (m_state == STATE_SIT) return WalkingBadguy::collision(other, hit);
 
-    // yo big granito can i sit on top of your head?
+    // Yo big granito can i sit on top of your head?
     GranitoBig* granito = dynamic_cast<GranitoBig*>(&other);
 
     if (!granito)
     {
-      // i'm not a granito
+      // I'm not a big granito.
       return WalkingBadguy::collision(other, hit);
     }
 
     if (granito->m_carrying != nullptr)
     {
-      // sorry im already carrying this guy
+      // Sorry, im already carrying this guy.
       return WalkingBadguy::collision(other, hit);
     }
 
-    // sure dude
+    // Sure dude.
     granito->m_carrying = this;
 
-    // yay
+    // Yay!
     m_state = STATE_SIT;
   }
 
