@@ -37,6 +37,9 @@
 #include "badguy/ghosttree.hpp"
 #include "badguy/ghoul.hpp"
 #include "badguy/goldbomb.hpp"
+#include "badguy/granito.hpp"
+#include "badguy/granito_big.hpp"
+#include "badguy/granito_giant.hpp"
 #include "badguy/haywire.hpp"
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
@@ -186,6 +189,9 @@ GameObjectFactory::init_factories()
   add_factory<GhostTree>("ghosttree");
   add_factory<Ghoul>("ghoul", OBJ_PARAM_DISPENSABLE);
   add_factory<GoldBomb>("goldbomb", OBJ_PARAM_PORTABLE | OBJ_PARAM_DISPENSABLE);
+  add_factory<Granito>("granito", OBJ_PARAM_DISPENSABLE);
+  add_factory<GranitoBig>("granito_big", OBJ_PARAM_DISPENSABLE);
+  add_factory<GranitoGiant>("granito_giant", OBJ_PARAM_DISPENSABLE);
   add_factory<Haywire>("haywire", OBJ_PARAM_DISPENSABLE);
   add_type_factory<Flame>("iceflame", Flame::ICE); // Backward compatibility.
   add_factory<Igel>("igel", OBJ_PARAM_DISPENSABLE);
