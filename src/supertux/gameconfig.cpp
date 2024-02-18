@@ -51,7 +51,7 @@ Config::Config() :
   use_fullscreen(false),
 #endif
   video(VideoSystem::VIDEO_AUTO),
-  vsync(),
+  vsync(1),
   show_fps(false),
   show_player_pos(false),
   show_controller(false),
