@@ -30,7 +30,6 @@ namespace {
 
 const float IGEL_NORMAL_SPEED = 80;
 const float IGEL_CORRUPTED_SPEED = 120;
-const int   IGEL_MAX_DROP_HEIGHT = 16;
 
 const float ROLL_RANGE = 32*10;
 const float ROLL_SPEED = 350;
@@ -54,7 +53,7 @@ Igel::Igel(const ReaderMapping& reader) :
   parse_type(reader);
 
   walk_speed = get_normal_walk_speed();
-  max_drop_height = IGEL_MAX_DROP_HEIGHT;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/thud.ogg");
 }
@@ -231,7 +230,7 @@ Igel::roll()
 
   set_action("roll-start", m_dir);
 
-  max_drop_height = ROLL_MAX_DROP_HEIGHT;
+  set_ledge_behavior(LedgeBehavior::FALL);
 
   m_roll_timer.start(ROLL_DURATION);
   m_ease_timer.start(ROLL_EASE_TIMER);
@@ -251,7 +250,7 @@ Igel::stop_rolling(bool bonk)
     m_physic.set_velocity_y(-250.f);
   }
 
-  max_drop_height = IGEL_MAX_DROP_HEIGHT;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   m_roll_timer.stop();
   m_roll_cooldown.start(ROLL_COOLDOWN);
