@@ -120,6 +120,34 @@ Background::fade_color(float red, float green, float blue, float alpha, float ti
   object.fade_color(Color(red, green, blue, alpha), time);
 }
 
+void
+Background::set_top_image_action(const std::string& action)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_top_image_action(action);
+}
+
+void
+Background::set_image_action(const std::string& action)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_image_action(action);
+}
+
+void
+Background::set_bottom_image_action(const std::string& action)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_bottom_image_action(action);
+}
+
+void
+Background::set_image_actions(const std::string& action)
+{
+  SCRIPT_GUARD_VOID;
+  object.set_image_actions(action);
+}
+
 } // namespace scripting
 
 /* EOF */
