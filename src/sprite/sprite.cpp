@@ -202,6 +202,12 @@ Sprite::get_height() const
   return static_cast<int>(m_action->surfaces[m_frameidx]->get_height());
 }
 
+Vector
+Sprite::get_size() const
+{
+  return Vector(get_width(), get_height());
+}
+
 bool
 Sprite::is_current_hitbox_unisolid() const
 {

@@ -108,10 +108,7 @@ MouseCursor::draw(DrawingContext& context)
     m_sprite->draw(context.color(), mouse_pos, LAYER_GUI + 100);
 
     if (m_icon) {
-      context.color().draw_surface(m_icon,
-                                   Vector(mouse_pos.x,
-                                          mouse_pos.y - static_cast<float>(m_icon->get_height())),
-                                   LAYER_GUI + 100);
+      context.color().draw_surface(m_icon, mouse_pos + m_sprite->get_size(), LAYER_GUI + 100);
     }
   }
 }

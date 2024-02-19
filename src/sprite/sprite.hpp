@@ -92,6 +92,7 @@ public:
 
   int get_width() const;
   int get_height() const;
+  Vector get_size() const;
 
   /** Return the "unisolid" property for the current action's hitbox. */
   bool is_current_hitbox_unisolid() const;
