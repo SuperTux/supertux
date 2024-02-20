@@ -652,10 +652,10 @@ OptionsMenu::menu_action(MenuItem& item)
           vsync = -1;
           break;
         case 1:
-          vsync = 1;
+          vsync = 0;
           break;
         case 0:
-          vsync = 0;
+          vsync = 1;
           break;
         default:
           assert(false);
