@@ -225,9 +225,9 @@ Sector::activate(const Vector& player_pos)
     Player& player = *static_cast<Player*>(player_ptr);
     // spawn smalltux below spawnpoint
     if (!player.is_big()) {
-      player.move(player_pos + Vector(0,32));
+      player.set_pos(player_pos + Vector(0,32));
     } else {
-      player.move(player_pos);
+      player.set_pos(player_pos);
     }
 
     // spawning tux in the ground would kill him
@@ -236,7 +236,7 @@ Sector::activate(const Vector& player_pos)
       log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
       Vector npos = player.get_bbox().p1();
       npos.y-=32;
-      player.move(npos);
+      player.set_pos(npos);
     }
   }
 
@@ -245,10 +245,10 @@ Sector::activate(const Vector& player_pos)
   {
     Player& player = *(get_players()[0]);
     Camera& camera = get_camera();
-    player.move(player.get_pos()+Vector(-32, 0));
+    player.set_pos(player.get_pos()+Vector(-32, 0));
     camera.reset(player.get_pos());
     camera.update(1);
-    player.move(player.get_pos()+(Vector(32, 0)));
+    player.set_pos(player.get_pos()+(Vector(32, 0)));
     camera.update(1);
   }
 

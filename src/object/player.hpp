@@ -132,7 +132,8 @@ public:
    * @param bool $completely If true, he will be killed even if he had "grow" or a superior bonus.
    */
   void kill(bool completely);
-  void move(const Vector& vector);
+
+  void set_pos(const Vector& vector) override;
 
   /**
    * Gives Tux the specified bonus unless Tux’s current bonus is superior.

@@ -535,8 +535,7 @@ void gotoend()
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]);
-  tux.move(Vector(
-              (::Sector::get().get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
+  tux.set_pos(Vector((::Sector::get().get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
   ::Sector::get().get_camera().reset(
     Vector(tux.get_pos().x, tux.get_pos().y));
 }
@@ -550,8 +549,7 @@ void warp(float offset_x, float offset_y)
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
   ::Player& tux = *(::Sector::get().get_players()[0]);
-  tux.move(Vector(
-              tux.get_pos().x + (offset_x*32), tux.get_pos().y - (offset_y*32)));
+  tux.set_pos(Vector(tux.get_pos().x + (offset_x*32), tux.get_pos().y - (offset_y*32)));
   ::Sector::get().get_camera().reset(
     Vector(tux.get_pos().x, tux.get_pos().y));
 }
