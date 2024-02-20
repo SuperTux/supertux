@@ -1073,7 +1073,7 @@ CustomParticleSystem::SpriteProperties
 CustomParticleSystem::get_random_texture()
 {
   float val = graphicsRandom.randf(texture_sum_odds);
-  for (auto texture : m_textures)
+  for (const auto& texture : m_textures)
   {
     val -= texture.likeliness;
     if (val <= 0)

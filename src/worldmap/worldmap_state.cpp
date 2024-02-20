@@ -281,7 +281,7 @@ WorldMapState::save_state() const
     vm.get_or_create_table_entry("worlds");
 
     /** Get or create state table for the current worldmap. **/
-    vm.get_or_create_table_entry(m_worldmap.m_map_filename.c_str());
+    vm.get_or_create_table_entry(m_worldmap.m_map_filename);
 
     // Save the current sector.
     vm.store_string("sector", sector.get_name());

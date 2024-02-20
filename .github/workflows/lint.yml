@@ -17,6 +17,7 @@
 name: Code Linting
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master

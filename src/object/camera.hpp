@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 #define HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 
-#include <memory>
 #include <string>
 
 #include "math/anchor_point.hpp"
@@ -31,7 +30,6 @@
 class Path;
 class PathWalker;
 class ReaderMapping;
-class CameraConfig;
 
 class Camera final : public GameObject,
                      public PathObject
@@ -43,13 +41,6 @@ public:
   enum class Mode
   {
     NORMAL, MANUAL, AUTOSCROLL, SCROLLTO
-  };
-
-private:
-  /** The camera basically provides lookahead on the left or right
-      side or is undecided. */
-  enum class LookaheadMode {
-    NONE, LEFT, RIGHT
   };
 
 public:
@@ -104,8 +95,6 @@ public:
       to the position goal */
   void scroll_to(const Vector& goal, float scrolltime);
   void move(const int dx, const int dy);
-
-  void reload_config();
 
   /** get the coordinates of the point directly in the center of this
       camera */
@@ -236,8 +225,6 @@ private:
   Vector m_translation;
 
   // normal mode
-  LookaheadMode m_lookahead_mode;
-  float m_changetime;
   Vector m_lookahead_pos;
   Vector m_peek_pos;
   Vector m_cached_translation;
@@ -260,8 +247,6 @@ private:
   Vector m_scroll_goal;
   float m_scroll_to_pos;
   float m_scrollspeed;
-
-  std::unique_ptr<CameraConfig> m_config;
 
   float m_scale,
         m_scale_origin,
