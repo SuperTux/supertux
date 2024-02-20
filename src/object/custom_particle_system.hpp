@@ -75,10 +75,10 @@ private:
   void add_particle(float lifetime, float x, float y);
   void spawn_particles(float lifetime);
 
-  std::vector<ParticleZone::ZoneDetails> get_zones();
+  std::vector<ParticleZone::ZoneDetails> get_zones() const;
 
-  float get_abs_x();
-  float get_abs_y();
+  float get_abs_x() const;
+  float get_abs_y() const;
 
   float texture_sum_odds;
   float time_last_remaining;
@@ -102,38 +102,38 @@ public:
   /**
    * @deprecated Use the ""max_amount"" property instead!
    */
-  int get_max_amount();
+  int get_max_amount() const;
   /**
    * @deprecated Use the ""max_amount"" property instead!
    * @param int $amount
    */
   void set_max_amount(int amount);
 
-  std::string get_birth_mode();
+  std::string get_birth_mode() const;
   /**
    * @param string $mode
    */
   void set_birth_mode(std::string mode);
 
-  std::string get_death_mode();
+  std::string get_death_mode() const;
   /**
    * @param string $mode
    */
   void set_death_mode(std::string mode);
 
-  std::string get_rotation_mode();
+  std::string get_rotation_mode() const;
   /**
    * @param string $mode
    */
   void set_rotation_mode(std::string mode);
 
-  std::string get_collision_mode();
+  std::string get_collision_mode() const;
   /**
    * @param string $mode
    */
   void set_collision_mode(std::string mode);
 
-  std::string get_offscreen_mode();
+  std::string get_offscreen_mode() const;
   /**
    * @param string $mode
    */
@@ -142,7 +142,7 @@ public:
   /**
    * @deprecated Use the ""cover_screen"" property instead!
    */
-  bool get_cover_screen();
+  bool get_cover_screen() const;
   /**
    * @deprecated Use the ""cover_screen"" property instead!
    * @param bool $cover
@@ -152,7 +152,7 @@ public:
   /**
    * @deprecated Use the ""delay"" property instead!
    */
-  float get_delay();
+  float get_delay() const;
   /**
    * @deprecated Use the ""delay"" property instead!
    * @param float $delay
@@ -173,7 +173,7 @@ public:
   /**
    * @deprecated Use the ""particle_lifetime"" property instead!
    */
-  float get_lifetime();
+  float get_lifetime() const;
   /**
    * @deprecated Use the ""particle_lifetime"" property instead!
    * @param float $lifetime
@@ -194,7 +194,7 @@ public:
   /**
    * @deprecated Use the ""particle_lifetime_variation"" property instead!
    */
-  float get_lifetime_variation();
+  float get_lifetime_variation() const;
   /**
    * @deprecated Use the ""particle_lifetime_variation"" property instead!
    * @param float $lifetime_variation
@@ -215,7 +215,7 @@ public:
   /**
    * @deprecated Use the ""particle_birth_time"" property instead!
    */
-  float get_birth_time();
+  float get_birth_time() const;
   /**
    * @deprecated Use the ""particle_birth_time"" property instead!
    * @param float $birth_time
@@ -236,7 +236,7 @@ public:
   /**
    * @deprecated Use the ""particle_birth_time_variation"" property instead!
    */
-  float get_birth_time_variation();
+  float get_birth_time_variation() const;
   /**
    * @deprecated Use the ""particle_birth_time_variation"" property instead!
    * @param float $birth_time_variation
@@ -257,7 +257,7 @@ public:
   /**
    * @deprecated Use the ""particle_death_time"" property instead!
    */
-  float get_death_time();
+  float get_death_time() const;
   /**
    * @deprecated Use the ""particle_death_time"" property instead!
    * @param float $death_time
@@ -278,7 +278,7 @@ public:
   /**
    * @deprecated Use the ""particle_death_time_variation"" property instead!
    */
-  float get_death_time_variation();
+  float get_death_time_variation() const;
   /**
    * @deprecated Use the ""particle_death_time_variation"" property instead!
    * @param float $death_time_variation
@@ -299,7 +299,7 @@ public:
   /**
    * @deprecated Use the ""particle_speed_x"" property instead!
    */
-  float get_speed_x();
+  float get_speed_x() const;
   /**
    * @deprecated Use the ""particle_speed_x"" property instead!
    * @param float $speed_x
@@ -320,7 +320,7 @@ public:
   /**
    * @deprecated Use the ""particle_speed_y"" property instead!
    */
-  float get_speed_y();
+  float get_speed_y() const;
   /**
    * @deprecated Use the ""particle_speed_y"" property instead!
    * @param float $speed_y
@@ -341,7 +341,7 @@ public:
   /**
    * @deprecated Use the ""particle_speed_variation_x"" property instead!
    */
-  float get_speed_variation_x();
+  float get_speed_variation_x() const;
   /**
    * @deprecated Use the ""particle_speed_variation_x"" property instead!
    * @param float $speed_variation_x
@@ -362,7 +362,7 @@ public:
   /**
    * @deprecated Use the ""particle_speed_variation_y"" property instead!
    */
-  float get_speed_variation_y();
+  float get_speed_variation_y() const;
   /**
    * @deprecated Use the ""particle_speed_variation_y"" property instead!
    * @param float $speed_variation_y
@@ -383,7 +383,7 @@ public:
   /**
    * @deprecated Use the ""particle_acceleration_x"" property instead!
    */
-  float get_acceleration_x();
+  float get_acceleration_x() const;
   /**
    * @deprecated Use the ""particle_acceleration_x"" property instead!
    * @param float $acceleration_x
@@ -404,7 +404,7 @@ public:
   /**
    * @deprecated Use the ""particle_acceleration_y"" property instead!
    */
-  float get_acceleration_y();
+  float get_acceleration_y() const;
   /**
    * @deprecated Use the ""particle_acceleration_y"" property instead!
    * @param float $acceleration_y
@@ -425,7 +425,7 @@ public:
   /**
    * @deprecated Use the ""particle_friction_x"" property instead!
    */
-  float get_friction_x();
+  float get_friction_x() const;
   /**
    * @deprecated Use the ""particle_friction_x"" property instead!
    * @param float $friction_x
@@ -446,7 +446,7 @@ public:
   /**
    * @deprecated Use the ""particle_friction_y"" property instead!
    */
-  float get_friction_y();
+  float get_friction_y() const;
   /**
    * @deprecated Use the ""particle_friction_y"" property instead!
    * @param float $friction_y
@@ -467,7 +467,7 @@ public:
   /**
    * @deprecated Use the ""particle_feather_factor"" property instead!
    */
-  float get_feather_factor();
+  float get_feather_factor() const;
   /**
    * @deprecated Use the ""particle_feather_factor"" property instead!
    * @param float $feather_factor
@@ -488,7 +488,7 @@ public:
   /**
    * @deprecated Use the ""particle_rotation"" property instead!
    */
-  float get_rotation();
+  float get_rotation() const;
   /**
    * @deprecated Use the ""particle_rotation"" property instead!
    * @param float $rotation
@@ -509,7 +509,7 @@ public:
   /**
    * @deprecated Use the ""particle_rotation_variation"" property instead!
    */
-  float get_rotation_variation();
+  float get_rotation_variation() const;
   /**
    * @deprecated Use the ""particle_rotation_variation"" property instead!
    * @param float $rotation_variation
@@ -530,7 +530,7 @@ public:
   /**
    * @deprecated Use the ""particle_rotation_speed"" property instead!
    */
-  float get_rotation_speed();
+  float get_rotation_speed() const;
   /**
    * @deprecated Use the ""particle_rotation_speed"" property instead!
    * @param float $rotation_speed
@@ -551,7 +551,7 @@ public:
   /**
    * @deprecated Use the ""particle_rotation_speed_variation"" property instead!
    */
-  float get_rotation_speed_variation();
+  float get_rotation_speed_variation() const;
   /**
    * @deprecated Use the ""particle_rotation_speed_variation"" property instead!
    * @param float $rotation_speed_variation
@@ -572,7 +572,7 @@ public:
   /**
    * @deprecated Use the ""particle_rotation_acceleration"" property instead!
    */
-  float get_rotation_acceleration();
+  float get_rotation_acceleration() const;
   /**
    * @deprecated Use the ""particle_rotation_acceleration"" property instead!
    * @param float $rotation_acceleration
@@ -593,7 +593,7 @@ public:
   /**
    * @deprecated Use the ""particle_rotation_decceleration"" property instead!
    */
-  float get_rotation_decceleration();
+  float get_rotation_decceleration() const;
   /**
    * @deprecated Use the ""particle_rotation_decceleration"" property instead!
    * @param float $rotation_decceleration
@@ -697,7 +697,7 @@ private:
     }
   };
 
-  SpriteProperties get_random_texture();
+  SpriteProperties get_random_texture() const;
 
   class CustomParticle : public Particle
   {

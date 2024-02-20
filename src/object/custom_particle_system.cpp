@@ -1070,7 +1070,7 @@ CustomParticleSystem::get_collision(Particle* object, const Vector& movement)
 // LOCAL
 
 CustomParticleSystem::SpriteProperties
-CustomParticleSystem::get_random_texture()
+CustomParticleSystem::get_random_texture() const
 {
   float val = graphicsRandom.randf(texture_sum_odds);
   for (const auto& texture : m_textures)
@@ -1085,7 +1085,7 @@ CustomParticleSystem::get_random_texture()
 }
 
 std::vector<ParticleZone::ZoneDetails>
-CustomParticleSystem::get_zones()
+CustomParticleSystem::get_zones() const
 {
   std::vector<ParticleZone::ZoneDetails> list;
 
@@ -1114,13 +1114,13 @@ CustomParticleSystem::get_zones()
 }
 
 float
-CustomParticleSystem::get_abs_x()
+CustomParticleSystem::get_abs_x() const
 {
   return (Sector::current()) ? Sector::get().get_camera().get_translation().x : 0.f;
 }
 
 float
-CustomParticleSystem::get_abs_y()
+CustomParticleSystem::get_abs_y() const
 {
   return (Sector::current()) ? Sector::get().get_camera().get_translation().y : 0.f;
 }
@@ -1268,7 +1268,7 @@ CustomParticleSystem::spawn_particles(int amount, bool instantly)
 // =============================================================================
 
 int
-CustomParticleSystem::get_max_amount()
+CustomParticleSystem::get_max_amount() const
 {
   return m_max_amount;
 }
@@ -1280,7 +1280,7 @@ CustomParticleSystem::set_max_amount(int amount)
 }
 
 bool
-CustomParticleSystem::get_cover_screen()
+CustomParticleSystem::get_cover_screen() const
 {
   return m_cover_screen;
 }
@@ -1292,7 +1292,7 @@ CustomParticleSystem::set_cover_screen(bool cover)
 }
 
 std::string
-CustomParticleSystem::get_birth_mode()
+CustomParticleSystem::get_birth_mode() const
 {
   switch (m_particle_birth_mode)
   {
@@ -1332,7 +1332,7 @@ CustomParticleSystem::set_birth_mode(std::string mode)
 }
 
 std::string
-CustomParticleSystem::get_death_mode()
+CustomParticleSystem::get_death_mode() const
 {
   switch (m_particle_death_mode)
   {
@@ -1372,7 +1372,7 @@ CustomParticleSystem::set_death_mode(std::string mode)
 }
 
 std::string
-CustomParticleSystem::get_rotation_mode()
+CustomParticleSystem::get_rotation_mode() const
 {
   switch (m_particle_rotation_mode)
   {
@@ -1412,7 +1412,7 @@ CustomParticleSystem::set_rotation_mode(std::string mode)
 }
 
 std::string
-CustomParticleSystem::get_collision_mode()
+CustomParticleSystem::get_collision_mode() const
 {
   switch (m_particle_collision_mode)
   {
@@ -1473,7 +1473,7 @@ CustomParticleSystem::set_collision_mode(std::string mode)
 }
 
 std::string
-CustomParticleSystem::get_offscreen_mode()
+CustomParticleSystem::get_offscreen_mode() const
 {
   switch (m_particle_offscreen_mode)
   {
@@ -1517,7 +1517,7 @@ CustomParticleSystem::set_offscreen_mode(std::string mode)
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_delay()
+CustomParticleSystem::get_delay() const
 {
   return m_delay;
 }
@@ -1545,7 +1545,7 @@ CustomParticleSystem::ease_delay(float delay, float time, std::string easing)
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_lifetime()
+CustomParticleSystem::get_lifetime() const
 {
   return m_particle_lifetime;
 }
@@ -1573,7 +1573,7 @@ CustomParticleSystem::ease_lifetime(float lifetime, float time, std::string easi
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_lifetime_variation()
+CustomParticleSystem::get_lifetime_variation() const
 {
   return m_particle_lifetime_variation;
 }
@@ -1601,7 +1601,7 @@ CustomParticleSystem::ease_lifetime_variation(float lifetime_variation, float ti
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_birth_time()
+CustomParticleSystem::get_birth_time() const
 {
   return m_particle_birth_time;
 }
@@ -1629,7 +1629,7 @@ CustomParticleSystem::ease_birth_time(float birth_time, float time, std::string 
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_birth_time_variation()
+CustomParticleSystem::get_birth_time_variation() const
 {
   return m_particle_birth_time_variation;
 }
@@ -1657,7 +1657,7 @@ CustomParticleSystem::ease_birth_time_variation(float birth_time_variation, floa
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_death_time()
+CustomParticleSystem::get_death_time() const
 {
   return m_particle_death_time;
 }
@@ -1686,7 +1686,7 @@ CustomParticleSystem::ease_death_time(float death_time, float time, std::string 
 //   Death time variation
 // -----------------------------------------------------------------------------
 float
-CustomParticleSystem::get_death_time_variation()
+CustomParticleSystem::get_death_time_variation() const
 {
   return m_particle_death_time_variation;
 }
@@ -1714,7 +1714,7 @@ CustomParticleSystem::ease_death_time_variation(float death_time_variation, floa
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_speed_x()
+CustomParticleSystem::get_speed_x() const
 {
   return m_particle_speed_x;
 }
@@ -1742,7 +1742,7 @@ CustomParticleSystem::ease_speed_x(float speed_x, float time, std::string easing
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_speed_y()
+CustomParticleSystem::get_speed_y() const
 {
   return m_particle_speed_y;
 }
@@ -1770,7 +1770,7 @@ CustomParticleSystem::ease_speed_y(float speed_y, float time, std::string easing
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_speed_variation_x()
+CustomParticleSystem::get_speed_variation_x() const
 {
   return m_particle_speed_variation_x;
 }
@@ -1798,7 +1798,7 @@ CustomParticleSystem::ease_speed_variation_x(float speed_variation_x, float time
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_speed_variation_y()
+CustomParticleSystem::get_speed_variation_y() const
 {
   return m_particle_speed_variation_y;
 }
@@ -1826,7 +1826,7 @@ CustomParticleSystem::ease_speed_variation_y(float speed_variation_y, float time
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_acceleration_x()
+CustomParticleSystem::get_acceleration_x() const
 {
   return m_particle_acceleration_x;
 }
@@ -1854,7 +1854,7 @@ CustomParticleSystem::ease_acceleration_x(float acceleration_x, float time, std:
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_acceleration_y()
+CustomParticleSystem::get_acceleration_y() const
 {
   return m_particle_acceleration_y;
 }
@@ -1882,7 +1882,7 @@ CustomParticleSystem::ease_acceleration_y(float acceleration_y, float time, std:
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_friction_x()
+CustomParticleSystem::get_friction_x() const
 {
   return m_particle_friction_x;
 }
@@ -1910,7 +1910,7 @@ CustomParticleSystem::ease_friction_x(float friction_x, float time, std::string 
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_friction_y()
+CustomParticleSystem::get_friction_y() const
 {
   return m_particle_friction_y;
 }
@@ -1938,7 +1938,7 @@ CustomParticleSystem::ease_friction_y(float friction_y, float time, std::string 
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_feather_factor()
+CustomParticleSystem::get_feather_factor() const
 {
   return m_particle_feather_factor;
 }
@@ -1966,7 +1966,7 @@ CustomParticleSystem::ease_feather_factor(float feather_factor, float time, std:
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_rotation()
+CustomParticleSystem::get_rotation() const
 {
   return m_particle_rotation;
 }
@@ -1994,7 +1994,7 @@ CustomParticleSystem::ease_rotation(float rotation, float time, std::string easi
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_rotation_variation()
+CustomParticleSystem::get_rotation_variation() const
 {
   return m_particle_rotation_variation;
 }
@@ -2022,7 +2022,7 @@ CustomParticleSystem::ease_rotation_variation(float rotation_variation, float ti
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_rotation_speed()
+CustomParticleSystem::get_rotation_speed() const
 {
   return m_particle_rotation_speed;
 }
@@ -2050,7 +2050,7 @@ CustomParticleSystem::ease_rotation_speed(float rotation_speed, float time, std:
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_rotation_speed_variation()
+CustomParticleSystem::get_rotation_speed_variation() const
 {
   return m_particle_rotation_speed_variation;
 }
@@ -2078,7 +2078,7 @@ CustomParticleSystem::ease_rotation_speed_variation(float rotation_speed_variati
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_rotation_acceleration()
+CustomParticleSystem::get_rotation_acceleration() const
 {
   return m_particle_rotation_acceleration;
 }
@@ -2106,7 +2106,7 @@ CustomParticleSystem::ease_rotation_acceleration(float rotation_acceleration, fl
 // -----------------------------------------------------------------------------
 
 float
-CustomParticleSystem::get_rotation_decceleration()
+CustomParticleSystem::get_rotation_decceleration() const
 {
   return m_particle_rotation_decceleration;
 }
