@@ -24,7 +24,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/util.hpp"
-#include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_vm.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/resources.hpp"

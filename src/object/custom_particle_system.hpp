@@ -17,20 +17,21 @@
 #ifndef HEADER_SUPERTUX_OBJECT_CUSTOM_PARTICLE_SYSTEM_HPP
 #define HEADER_SUPERTUX_OBJECT_CUSTOM_PARTICLE_SYSTEM_HPP
 
+#include "object/particlesystem_interactive.hpp"
+
 #include "math/easing.hpp"
 #include "math/vector.hpp"
-#include "object/particlesystem_interactive.hpp"
 #include "object/particle_zone.hpp"
-#include "scripting/custom_particles.hpp"
 #include "video/surface.hpp"
 #include "video/surface_ptr.hpp"
 
-class CustomParticleSystem :
-  public ParticleSystem_Interactive,
-  public ExposedObject<CustomParticleSystem, scripting::CustomParticles>
+class CustomParticleSystem : public ParticleSystem_Interactive
 {
   friend class ParticleEditor;
-  friend class scripting::CustomParticles;
+
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   CustomParticleSystem();
   CustomParticleSystem(const ReaderMapping& reader);
@@ -43,6 +44,7 @@ public:
 
   static std::string class_name() { return "particles-custom"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "CustomParticleSystem"; }
   static std::string display_name() { return _("Custom Particles"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual void save(Writer& writer) override;
@@ -52,15 +54,8 @@ public:
     return "images/engine/editor/sparkle.png";
   }
 
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
-    ExposedObject<CustomParticleSystem, scripting::CustomParticles>::expose(vm, table_idx);
-  }
-
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override {
-    ExposedObject<CustomParticleSystem, scripting::CustomParticles>::unexpose(vm, table_idx);
-  }
-
   //void fade_amount(int new_amount, float fade_time);
+
 protected:
   virtual int collision(Particle* particle, const Vector& movement) override;
   CollisionHit get_collision(Particle* particle, const Vector& movement);
@@ -90,8 +85,531 @@ private:
 
 public:
   // Scripting
-  void clear() { custom_particles.clear(); }
   void ease_value(float* value, float target, float time, easing func);
+
+  /** 
+   * Instantly removes all particles of that type on the screen.
+   */
+  void clear();
+
+  /**
+   * Spawns particles regardless of whether or not the particles are enabled.
+   * @param int $amount
+   * @param bool $instantly If ""true"", disregard the delay settings.
+   */
+  void spawn_particles(int amount, bool instantly);
+
+  /**
+   * @deprecated Use the ""max_amount"" property instead!
+   */
+  int get_max_amount();
+  /**
+   * @deprecated Use the ""max_amount"" property instead!
+   * @param int $amount
+   */
+  void set_max_amount(int amount);
+
+  std::string get_birth_mode();
+  /**
+   * @param string $mode
+   */
+  void set_birth_mode(std::string mode);
+
+  std::string get_death_mode();
+  /**
+   * @param string $mode
+   */
+  void set_death_mode(std::string mode);
+
+  std::string get_rotation_mode();
+  /**
+   * @param string $mode
+   */
+  void set_rotation_mode(std::string mode);
+
+  std::string get_collision_mode();
+  /**
+   * @param string $mode
+   */
+  void set_collision_mode(std::string mode);
+
+  std::string get_offscreen_mode();
+  /**
+   * @param string $mode
+   */
+  void set_offscreen_mode(std::string mode);
+
+  /**
+   * @deprecated Use the ""cover_screen"" property instead!
+   */
+  bool get_cover_screen();
+  /**
+   * @deprecated Use the ""cover_screen"" property instead!
+   * @param bool $cover
+   */
+  void set_cover_screen(bool cover);
+
+  /**
+   * @deprecated Use the ""delay"" property instead!
+   */
+  float get_delay();
+  /**
+   * @deprecated Use the ""delay"" property instead!
+   * @param float $delay
+   */
+  void set_delay(float delay);
+  /**
+   * @param float $delay
+   * @param float $time
+   */
+  void fade_delay(float delay, float time);
+  /**
+   * @param float $delay
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_delay(float delay, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_lifetime"" property instead!
+   */
+  float get_lifetime();
+  /**
+   * @deprecated Use the ""particle_lifetime"" property instead!
+   * @param float $lifetime
+   */
+  void set_lifetime(float lifetime);
+  /**
+   * @param float $lifetime
+   * @param float $time
+   */
+  void fade_lifetime(float lifetime, float time);
+  /**
+   * @param float $lifetime
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_lifetime(float lifetime, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_lifetime_variation"" property instead!
+   */
+  float get_lifetime_variation();
+  /**
+   * @deprecated Use the ""particle_lifetime_variation"" property instead!
+   * @param float $lifetime_variation
+   */
+  void set_lifetime_variation(float lifetime_variation);
+  /**
+   * @param float $lifetime_variation
+   * @param float $time
+   */
+  void fade_lifetime_variation(float lifetime_variation, float time);
+  /**
+   * @param float $lifetime_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_lifetime_variation(float lifetime_variation, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_birth_time"" property instead!
+   */
+  float get_birth_time();
+  /**
+   * @deprecated Use the ""particle_birth_time"" property instead!
+   * @param float $birth_time
+   */
+  void set_birth_time(float birth_time);
+  /**
+   * @param float $birth_time
+   * @param float $time
+   */
+  void fade_birth_time(float birth_time, float time);
+  /**
+   * @param float $birth_time
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_birth_time(float birth_time, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_birth_time_variation"" property instead!
+   */
+  float get_birth_time_variation();
+  /**
+   * @deprecated Use the ""particle_birth_time_variation"" property instead!
+   * @param float $birth_time_variation
+   */
+  void set_birth_time_variation(float birth_time_variation);
+  /**
+   * @param float $birth_time_variation
+   * @param float $time
+   */
+  void fade_birth_time_variation(float birth_time_variation, float time);
+  /**
+   * @param float $birth_time_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_birth_time_variation(float birth_time_variation, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_death_time"" property instead!
+   */
+  float get_death_time();
+  /**
+   * @deprecated Use the ""particle_death_time"" property instead!
+   * @param float $death_time
+   */
+  void set_death_time(float death_time);
+  /**
+   * @param float $death_time
+   * @param float $time
+   */
+  void fade_death_time(float death_time, float time);
+  /**
+   * @param float $death_time
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_death_time(float death_time, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_death_time_variation"" property instead!
+   */
+  float get_death_time_variation();
+  /**
+   * @deprecated Use the ""particle_death_time_variation"" property instead!
+   * @param float $death_time_variation
+   */
+  void set_death_time_variation(float death_time_variation);
+  /**
+   * @param float $death_time_variation
+   * @param float $time
+   */
+  void fade_death_time_variation(float death_time_variation, float time);
+  /**
+   * @param float $death_time_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_death_time_variation(float death_time_variation, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_speed_x"" property instead!
+   */
+  float get_speed_x();
+  /**
+   * @deprecated Use the ""particle_speed_x"" property instead!
+   * @param float $speed_x
+   */
+  void set_speed_x(float speed_x);
+  /**
+   * @param float $speed_x
+   * @param float $time
+   */
+  void fade_speed_x(float speed_x, float time);
+  /**
+   * @param float $speed_x
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed_x(float speed_x, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_speed_y"" property instead!
+   */
+  float get_speed_y();
+  /**
+   * @deprecated Use the ""particle_speed_y"" property instead!
+   * @param float $speed_y
+   */
+  void set_speed_y(float speed_y);
+  /**
+   * @param float $speed_y
+   * @param float $time
+   */
+  void fade_speed_y(float speed_y, float time);
+  /**
+   * @param float $speed_y
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed_y(float speed_y, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_speed_variation_x"" property instead!
+   */
+  float get_speed_variation_x();
+  /**
+   * @deprecated Use the ""particle_speed_variation_x"" property instead!
+   * @param float $speed_variation_x
+   */
+  void set_speed_variation_x(float speed_variation_x);
+  /**
+   * @param float $speed_variation_x
+   * @param float $time
+   */
+  void fade_speed_variation_x(float speed_variation_x, float time);
+  /**
+   * @param float $speed_variation_x
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed_variation_x(float speed_variation_x, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_speed_variation_y"" property instead!
+   */
+  float get_speed_variation_y();
+  /**
+   * @deprecated Use the ""particle_speed_variation_y"" property instead!
+   * @param float $speed_variation_y
+   */
+  void set_speed_variation_y(float speed_variation_y);
+  /**
+   * @param float $speed_variation_y
+   * @param float $time
+   */
+  void fade_speed_variation_y(float speed_variation_y, float time);
+  /**
+   * @param float $speed_variation_y
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed_variation_y(float speed_variation_y, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_acceleration_x"" property instead!
+   */
+  float get_acceleration_x();
+  /**
+   * @deprecated Use the ""particle_acceleration_x"" property instead!
+   * @param float $acceleration_x
+   */
+  void set_acceleration_x(float acceleration_x);
+  /**
+   * @param float $acceleration_x
+   * @param float $time
+   */
+  void fade_acceleration_x(float acceleration_x, float time);
+  /**
+   * @param float $acceleration_x
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_acceleration_x(float acceleration_x, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_acceleration_y"" property instead!
+   */
+  float get_acceleration_y();
+  /**
+   * @deprecated Use the ""particle_acceleration_y"" property instead!
+   * @param float $acceleration_y
+   */
+  void set_acceleration_y(float acceleration_y);
+  /**
+   * @param float $acceleration_y
+   * @param float $time
+   */
+  void fade_acceleration_y(float acceleration_y, float time);
+  /**
+   * @param float $acceleration_y
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_acceleration_y(float acceleration_y, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_friction_x"" property instead!
+   */
+  float get_friction_x();
+  /**
+   * @deprecated Use the ""particle_friction_x"" property instead!
+   * @param float $friction_x
+   */
+  void set_friction_x(float friction_x);
+  /**
+   * @param float $friction_x
+   * @param float $time
+   */
+  void fade_friction_x(float friction_x, float time);
+  /**
+   * @param float $friction_x
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_friction_x(float friction_x, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_friction_y"" property instead!
+   */
+  float get_friction_y();
+  /**
+   * @deprecated Use the ""particle_friction_y"" property instead!
+   * @param float $friction_y
+   */
+  void set_friction_y(float friction_y);
+  /**
+   * @param float $friction_y
+   * @param float $time
+   */
+  void fade_friction_y(float friction_y, float time);
+  /**
+   * @param float $friction_y
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_friction_y(float friction_y, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_feather_factor"" property instead!
+   */
+  float get_feather_factor();
+  /**
+   * @deprecated Use the ""particle_feather_factor"" property instead!
+   * @param float $feather_factor
+   */
+  void set_feather_factor(float feather_factor);
+  /**
+   * @param float $feather_factor
+   * @param float $time
+   */
+  void fade_feather_factor(float feather_factor, float time);
+  /**
+   * @param float $feather_factor
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_feather_factor(float feather_factor, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_rotation"" property instead!
+   */
+  float get_rotation();
+  /**
+   * @deprecated Use the ""particle_rotation"" property instead!
+   * @param float $rotation
+   */
+  void set_rotation(float rotation);
+  /**
+   * @param float $rotation
+   * @param float $time
+   */
+  void fade_rotation(float rotation, float time);
+  /**
+   * @param float $rotation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation(float rotation, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_rotation_variation"" property instead!
+   */
+  float get_rotation_variation();
+  /**
+   * @deprecated Use the ""particle_rotation_variation"" property instead!
+   * @param float $rotation_variation
+   */
+  void set_rotation_variation(float rotation_variation);
+  /**
+   * @param float $rotation_variation
+   * @param float $time
+   */
+  void fade_rotation_variation(float rotation_variation, float time);
+  /**
+   * @param float $rotation_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_variation(float rotation_variation, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_rotation_speed"" property instead!
+   */
+  float get_rotation_speed();
+  /**
+   * @deprecated Use the ""particle_rotation_speed"" property instead!
+   * @param float $rotation_speed
+   */
+  void set_rotation_speed(float rotation_speed);
+  /**
+   * @param float $rotation_speed
+   * @param float $time
+   */
+  void fade_rotation_speed(float rotation_speed, float time);
+  /**
+   * @param float $rotation_speed
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_speed(float rotation_speed, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_rotation_speed_variation"" property instead!
+   */
+  float get_rotation_speed_variation();
+  /**
+   * @deprecated Use the ""particle_rotation_speed_variation"" property instead!
+   * @param float $rotation_speed_variation
+   */
+  void set_rotation_speed_variation(float rotation_speed_variation);
+  /**
+   * @param float $rotation_speed_variation
+   * @param float $time
+   */
+  void fade_rotation_speed_variation(float rotation_speed_variation, float time);
+  /**
+   * @param float $rotation_speed_variation
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_speed_variation(float rotation_speed_variation, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_rotation_acceleration"" property instead!
+   */
+  float get_rotation_acceleration();
+  /**
+   * @deprecated Use the ""particle_rotation_acceleration"" property instead!
+   * @param float $rotation_acceleration
+   */
+  void set_rotation_acceleration(float rotation_acceleration);
+  /**
+   * @param float $rotation_acceleration
+   * @param float $time
+   */
+  void fade_rotation_acceleration(float rotation_acceleration, float time);
+  /**
+   * @param float $rotation_acceleration
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_acceleration(float rotation_acceleration, float time, std::string easing);
+
+  /**
+   * @deprecated Use the ""particle_rotation_decceleration"" property instead!
+   */
+  float get_rotation_decceleration();
+  /**
+   * @deprecated Use the ""particle_rotation_decceleration"" property instead!
+   * @param float $rotation_decceleration
+   */
+  void set_rotation_decceleration(float rotation_decceleration);
+  /**
+   * @param float $rotation_decceleration
+   * @param float $time
+   */
+  void fade_rotation_decceleration(float rotation_decceleration, float time);
+  /**
+   * @param float $rotation_decceleration
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_rotation_decceleration(float rotation_decceleration, float time, std::string easing);
 
 private:
   std::vector<ease_request> script_easings;

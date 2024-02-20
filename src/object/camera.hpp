@@ -25,8 +25,6 @@
 #include "math/size.hpp"
 #include "math/vector.hpp"
 #include "object/path_object.hpp"
-#include "scripting/camera.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
@@ -36,9 +34,11 @@ class ReaderMapping;
 class CameraConfig;
 
 class Camera final : public GameObject,
-                     public ExposedObject<Camera, scripting::Camera>,
                      public PathObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   enum class Mode
   {
@@ -67,6 +67,7 @@ public:
 
   static std::string class_name() { return "camera"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Camera"; }
   static std::string display_name() { return _("Camera"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -128,6 +129,89 @@ public:
   /** smoothly slide the scale and anchor position of the camera towards a new value */
   void ease_scale(float scale, float time, easing ease, AnchorPoint anchor = AnchorPoint::ANCHOR_MIDDLE);
   /** @} */
+
+  /**
+   * Moves the camera to the specified absolute position. The origin is at the top left.
+   * @param float $x
+   * @param float $y
+   */
+  void set_pos(float x, float y);
+  /**
+   * Moves the camera ""x"" to the left and ""y"" down.
+   * @param float $x
+   * @param float $y
+   */
+  void move(float x, float y);
+  /**
+   * Sets the camera mode.
+   * @param string $mode The mode can be "normal" or "manual".
+   */
+  void set_mode(const std::string& mode);
+  /**
+   * Scrolls the camera to specific coordinates in ""scrolltime"" seconds.
+   * @param float $x
+   * @param float $y
+   * @param float $scrolltime
+   */
+  void scroll_to(float x, float y, float scrolltime);
+  /**
+   * Sets the scale factor.
+   * @param float $scale
+   */
+  void set_scale(float scale);
+  /**
+   * Sets the scale factor and the target position anchor.
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   */
+  void set_scale_anchor(float scale, int anchor);
+  /**
+   * Fades to a specified scale factor in ""time"" seconds.
+   * @param float $scale
+   * @param float $time
+   */
+  void scale(float scale, float time);
+  /**
+   * Fades to a specified scale factor and target position anchor in ""time"" seconds.
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param float $time
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   */
+  void scale_anchor(float scale, float time, int anchor);
+  /**
+   * Fades to a specified scale factor in ""time"" seconds with easing (smooth movement).
+   * @param float $scale
+   * @param float $time
+   * @param string $ease
+   */
+  void ease_scale(float scale, float time, const std::string& ease);
+  /**
+   * Fades to a specified scale factor and target position anchor in ""time"" seconds with easing (smooth movement).
+     NOTE: Target position anchor is only applied, if the camera is in "manual" mode.
+   * @param float $scale
+   * @param float $time
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   * @param string $ease
+   */
+  void ease_scale_anchor(float scale, float time, int anchor, const std::string& ease);
+  /**
+   * Gets the current width of the screen.
+   */
+  float get_screen_width() const;
+  /**
+   * Gets the current height of the screen.
+   */
+  float get_screen_height() const;
+  /**
+   * Gets the X coordinate of the top-left corner of the screen.
+   */
+  float get_x() const;
+  /**
+   * Gets the Y coordinate of the top-left corner of the screen.
+   */
+  float get_y() const;
 
 private:
   void keep_in_bounds(Vector& vector);

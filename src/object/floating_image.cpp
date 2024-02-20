@@ -16,9 +16,13 @@
 
 #include "object/floating_image.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/sector.hpp"
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
   sprite(SpriteManager::current()->create(spritefile)),
@@ -54,13 +58,67 @@ FloatingImage::update(float dt_sec)
 }
 
 void
+FloatingImage::set_layer(int layer_)
+{
+  layer = layer_;
+}
+
+int
+FloatingImage::get_layer() const
+{
+  return layer;
+}
+
+void
+FloatingImage::set_pos(float x, float y)
+{
+  pos = Vector(x, y);
+}
+
+float
+FloatingImage::get_x() const
+{
+  return pos.x;
+}
+
+float
+FloatingImage::get_y() const
+{
+  return pos.y;
+}
+
+void
+FloatingImage::set_anchor_point(int anchor)
+{
+  anchor = static_cast<AnchorPoint>(anchor);
+}
+
+int
+FloatingImage::get_anchor_point() const
+{
+  return static_cast<int>(anchor);
+}
+
+bool
+FloatingImage::get_visible() const
+{
+  return visible;
+}
+
+void
+FloatingImage::set_visible(bool visible_)
+{
+  visible = visible_;
+}
+
+void
 FloatingImage::set_action(const std::string& action)
 {
   sprite->set_action(action);
 }
 
 std::string
-FloatingImage::get_action()
+FloatingImage::get_action() const
 {
   return sprite->get_action();
 }
@@ -102,6 +160,40 @@ FloatingImage::draw(DrawingContext& context)
   sprite->draw(context.color(), spos, layer);
 
   context.pop_transform();
+}
+
+
+void
+FloatingImage::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addClass("FloatingImage", [](const std::string spritefile)
+    {
+      if (!Sector::current())
+        throw std::runtime_error("Tried to create 'FloatingImage' without an active sector.");
+
+      return &Sector::get().add<FloatingImage>(spritefile);
+    },
+    false /* Do not free pointer from Squirrel */,
+    vm.findClass("GameObject"));
+
+  cls.addFunc("set_layer", &FloatingImage::set_layer);
+  cls.addFunc("get_layer", &FloatingImage::get_layer);
+  cls.addFunc("set_pos", &FloatingImage::set_pos);
+  cls.addFunc("get_x", &FloatingImage::get_x);
+  cls.addFunc("get_y", &FloatingImage::get_y);
+  cls.addFunc("get_pos_x", &FloatingImage::get_x);
+  cls.addFunc("get_pos_y", &FloatingImage::get_y);
+  cls.addFunc("set_anchor_point", &FloatingImage::set_anchor_point);
+  cls.addFunc("get_anchor_point", &FloatingImage::get_anchor_point);
+  cls.addFunc("set_visible", &FloatingImage::set_visible);
+  cls.addFunc("get_visible", &FloatingImage::get_visible);
+  cls.addFunc("set_action", &FloatingImage::set_action);
+  cls.addFunc("get_action", &FloatingImage::get_action);
+  cls.addFunc("fade_in", &FloatingImage::fade_in);
+  cls.addFunc("fade_out", &FloatingImage::fade_out);
+
+  cls.addVar("layer", &FloatingImage::layer);
+  cls.addVar("visible", &FloatingImage::visible);
 }
 
 /* EOF */

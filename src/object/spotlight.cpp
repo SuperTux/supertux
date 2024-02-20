@@ -16,6 +16,9 @@
 
 #include "object/spotlight.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
@@ -51,7 +54,6 @@ Spotlight::Direction_to_string(Direction dir)
 
 Spotlight::Spotlight(const ReaderMapping& mapping) :
   MovingObject(mapping),
-  ExposedObject<Spotlight, scripting::Spotlight>(this),
   angle(),
   center(SpriteManager::current()->create("images/objects/spotlight/spotlight_center.sprite")),
   base(SpriteManager::current()->create("images/objects/spotlight/spotlight_base.sprite")),
@@ -170,6 +172,123 @@ HitResponse
 Spotlight::collision(GameObject& other, const CollisionHit& hit_)
 {
   return FORCE_MOVE;
+}
+
+void
+Spotlight::set_enabled(bool enabled)
+{
+  m_enabled = enabled;
+}
+
+bool
+Spotlight::is_enabled()
+{
+  return m_enabled;
+}
+
+void
+Spotlight::set_direction(const std::string& direction)
+{
+  m_direction = Direction_from_string(direction);
+}
+
+void
+Spotlight::set_speed(float speed_)
+{
+  speed = speed_;
+}
+
+void
+Spotlight::fade_speed(float speed, float time)
+{
+  ease_speed(time, speed);
+}
+
+void
+Spotlight::ease_speed(float speed, float time, const std::string& easing)
+{
+  ease_speed(time, speed, EasingMode_from_string(easing));
+}
+
+void
+Spotlight::set_angle(float angle_)
+{
+  angle = angle_;
+}
+
+void
+Spotlight::fade_angle(float angle, float time)
+{
+  ease_angle(time, angle);
+}
+
+void
+Spotlight::ease_angle(float angle, float time, const std::string& easing)
+{
+  ease_angle(time, angle, EasingMode_from_string(easing));
+}
+
+void
+Spotlight::set_color_rgba(float r, float g, float b, float a)
+{
+  color = Color(r, g, b, a);
+}
+
+void
+Spotlight::fade_color_rgba(float r, float g, float b, float a, float time)
+{
+  ease_color(time, Color(r, g, b, a));
+}
+
+void
+Spotlight::ease_color_rgba(float r, float g, float b, float a, float time, const std::string& easing)
+{
+  ease_color(time, Color(r, g, b, a), EasingMode_from_string(easing));
+}
+
+void
+Spotlight::ease_angle(float time, float target, EasingMode ease)
+{
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&angle, time, target, getEasingByName(ease)));
+}
+
+void
+Spotlight::ease_speed(float time, float target, EasingMode ease)
+{
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&speed, time, target, getEasingByName(ease)));
+}
+
+void
+Spotlight::ease_color(float time, Color target, EasingMode ease)
+{
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.red,   time, target.red,   getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.green, time, target.green, getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.blue,  time, target.blue,  getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.alpha, time, target.alpha, getEasingByName(ease)));
+}
+
+
+void
+Spotlight::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Spotlight>("Spotlight", vm.findClass("MovingObject"));
+
+  cls.addFunc("set_enabled", &Spotlight::set_enabled);
+  cls.addFunc("is_enabled", &Spotlight::is_enabled);
+  cls.addFunc("set_direction", &Spotlight::set_direction);
+  cls.addFunc("set_angle", &Spotlight::set_angle);
+  cls.addFunc("fade_angle", &Spotlight::fade_angle);
+  cls.addFunc<void, Spotlight, float, float, const std::string&>("ease_angle", &Spotlight::ease_angle);
+  cls.addFunc("set_speed", &Spotlight::set_speed);
+  cls.addFunc("fade_speed", &Spotlight::fade_speed);
+  cls.addFunc<void, Spotlight, float, float, const std::string&>("ease_speed", &Spotlight::ease_speed);
+  cls.addFunc("set_color_rgba", &Spotlight::set_color_rgba);
+  cls.addFunc("fade_color_rgba", &Spotlight::fade_color_rgba);
+  cls.addFunc("ease_color_rgba", &Spotlight::ease_color_rgba);
+
+  cls.addVar("enabled", &Spotlight::m_enabled);
+  cls.addVar("angle", &Spotlight::angle);
+  cls.addVar("speed", &Spotlight::speed);
 }
 
 /* EOF */

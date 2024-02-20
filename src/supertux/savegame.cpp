@@ -24,7 +24,7 @@
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
-#include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/profile_manager.hpp"

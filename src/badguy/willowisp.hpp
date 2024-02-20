@@ -19,16 +19,15 @@
 
 #include "badguy/badguy.hpp"
 #include "object/path_object.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/willowisp.hpp"
 
 class SoundSource;
 
-class WillOWisp final :
-  public BadGuy,
-  public ExposedObject<WillOWisp, scripting::WillOWisp>,
-  public PathObject
+class WillOWisp final : public BadGuy,
+                        public PathObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   WillOWisp(const ReaderMapping& reader);
 
@@ -44,16 +43,22 @@ public:
   virtual bool is_hurtable() const override { return false; }
   virtual void kill_fall() override { vanish(); }
 
-  virtual void goto_node(int node_no);
-  virtual void set_state(const std::string& state);
-  virtual void start_moving();
-  virtual void stop_moving();
+  void goto_node(int node_no);
+
+  /**
+   * Sets the state of the WillOWisp.
+   * @param string $state One of the following: "stopped", "move_path" (moves along a path),
+      "move_path_track" (moves along a path but catches Tux when he is near), "normal" (starts tracking Tux when he is near enough),
+      "vanish".
+   */
+  void set_state(const std::string& state);
 
   virtual void stop_looping_sounds() override;
   virtual void play_looping_sounds() override;
 
   static std::string class_name() { return "willowisp"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "WillOWisp"; }
   static std::string display_name() { return _("Will o' Wisp"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -61,16 +66,6 @@ public:
   virtual void move_to(const Vector& pos) override;
 
   virtual void on_flip(float height) override;
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
-  {
-    ExposedObject<WillOWisp, scripting::WillOWisp>::expose(vm, table_idx);
-  }
-
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override
-  {
-    ExposedObject<WillOWisp, scripting::WillOWisp>::unexpose(vm, table_idx);
-  }
 
   /** make WillOWisp vanish */
   void vanish();

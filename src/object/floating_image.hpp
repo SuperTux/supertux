@@ -24,49 +24,96 @@
 class FloatingImage final : public GameObject
 {
 public:
+  static void register_class(ssq::VM& vm);
+
+public:
   FloatingImage(const std::string& sprite);
   ~FloatingImage() override;
-  virtual bool is_saveable() const override {
-    return false;
-  }
 
-  void set_layer(int layer_) {
-    layer = layer_;
-  }
-
-  int get_layer() const {
-    return layer;
-  }
-
-  void set_pos(const Vector& pos_) {
-    pos = pos_;
-  }
-  const Vector& get_pos() const {
-    return pos;
-  }
-
-  void set_anchor_point(AnchorPoint anchor_) {
-    anchor = anchor_;
-  }
-  AnchorPoint get_anchor_point() const {
-    return anchor;
-  }
-
-  void set_visible(bool visible_) {
-    visible = visible_;
-  }
-  bool get_visible() const {
-    return visible;
-  }
-
-  void set_action(const std::string& action);
-  std::string get_action();
-
-  void fade_in(float fadetime);
-  void fade_out(float fadetime);
+  virtual bool is_saveable() const override { return false; }
+  virtual std::string get_exposed_class_name() const override { return "FloatingImage"; }
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
+
+  /**
+   * @deprecated Use the ""layer"" property instead!
+   * Sets the layer of the floating image.
+   * @param int $layer
+   */
+  void set_layer(int layer);
+  /**
+   * @deprecated Use the ""layer"" property instead!
+   * Returns the layer the floating image is on.
+   */
+  int get_layer() const;
+  /**
+   * Sets the location of the image in relation to the current anchor point.
+   * @param float $x
+   * @param float $y
+   */
+  void set_pos(float x, float y);
+  /**
+   * Returns the image's X coordinate relative to the current anchor point.
+   */
+  float get_x() const;
+  /**
+   * Returns the image's Y coordinate relative to the current anchor point.
+   */
+  float get_y() const;
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @deprecated Use ""get_x()"" instead!
+   * Returns the image's X coordinate relative to the current anchor point.
+   */
+  float get_pos_x() const;
+  /**
+   * @deprecated Use ""get_y()"" instead!
+   * Returns the image's Y coordinate relative to the current anchor point.
+   */
+  float get_pos_y() const;
+#endif
+  /**
+   * Sets the image's anchor point.
+   * @param int $anchor Anchor point as represented by the ""ANCHOR_*"" constants (see ${SRG_REF_AnchorPoints}).
+   */
+  void set_anchor_point(int anchor);
+  /**
+   * Returns the current anchor point.
+   */
+  int get_anchor_point() const;
+  /**
+   * @deprecated Use the ""visible"" property instead!
+   * Sets the visibility of the floating image.
+   * @param bool $visible
+   */
+  void set_visible(bool visible);
+  /**
+   * @deprecated Use the ""visible"" property instead!
+   * Returns the visibility state of the floating image.
+   */
+  bool get_visible() const;
+  /**
+   * Sets the action of the image.
+   * This is only useful when the image is a sprite.
+   * @param string $action Name of the action, as defined in the sprite.
+   */
+  void set_action(const std::string& action);
+  /**
+   * Returns the name of the action of the image, as defined in the sprite.
+   * This is only useful when the image is a sprite.
+   */
+  std::string get_action() const;
+  /**
+   * Fades in the image for the next ""time"" seconds.
+   * @param float $time
+   */
+  void fade_in(float time);
+  /**
+   * Fades out the image for the next ""time"" seconds.
+   * @param float $time
+   */
+  void fade_out(float time);
 
 private:
   SpritePtr sprite;

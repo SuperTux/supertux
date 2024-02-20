@@ -16,6 +16,9 @@
 
 #include "object/conveyor_belt.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "badguy/walking_badguy.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -25,7 +28,6 @@
 
 ConveyorBelt::ConveyorBelt(const ReaderMapping &reader) :
   MovingSprite(reader, "images/objects/conveyor_belt/conveyor.sprite"),
-  ExposedObject<ConveyorBelt, scripting::ConveyorBelt>(this),
   m_running(true),
   m_dir(Direction::LEFT),
   m_length(1),
@@ -168,6 +170,19 @@ ConveyorBelt::set_speed(float target_speed)
 {
   target_speed = math::clamp(target_speed, 0.0f, MAX_SPEED);
   m_speed = target_speed;
+}
+
+
+void
+ConveyorBelt::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<ConveyorBelt>("ConveyorBelt", vm.findClass("MovingSprite"));
+
+  cls.addFunc("start", &ConveyorBelt::start);
+  cls.addFunc("stop", &ConveyorBelt::stop);
+  cls.addFunc("move_left", &ConveyorBelt::move_left);
+  cls.addFunc("move_right", &ConveyorBelt::move_right);
+  cls.addFunc("set_speed", &ConveyorBelt::set_speed);
 }
 
 /* EOF */

@@ -37,6 +37,9 @@ class MovingObject : public GameObject,
   friend class CollisionSystem;
 
 public:
+  static void register_class(ssq::VM& vm);
+
+public:
   MovingObject();
   MovingObject(const ReaderMapping& reader);
   ~MovingObject() override;
@@ -62,6 +65,10 @@ public:
   virtual void move_to(const Vector& pos)
   {
     m_col.move_to(pos);
+  }
+  virtual void move(const Vector& dist)
+  {
+    m_col.m_bbox.move(dist);
   }
 
   virtual bool listener_is_valid() const override { return is_valid(); }
@@ -99,6 +106,7 @@ public:
 
   static std::string class_name() { return "moving-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "MovingObject"; }
   virtual ObjectSettings get_settings() override;
 
   virtual void editor_select() override;
@@ -106,6 +114,36 @@ public:
   virtual void on_flip(float height) override;
 
   virtual int get_layer() const = 0;
+
+  /**
+   * Returns the object's X coordinate.
+   */
+  float get_x() const;
+  /**
+   * Returns the object's Y coordinate.
+   */
+  float get_y() const;
+  /**
+   * Sets the position of the object.
+   * @param float $x
+   * @param float $y
+   */
+  void set_pos(float x, float y);
+  /**
+   * Moves the object by ""x"" units to the right and ""y"" down, relative to its current position.
+   * @param float $x
+   * @param float $y
+   */
+  void move(float x, float y);
+
+  /**
+   * Returns the object's hitbox width.
+   */
+  float get_width() const;
+  /**
+   * Returns the object's hitbox height.
+   */
+  float get_height() const;
 
 protected:
   void set_group(CollisionGroup group)

@@ -25,8 +25,7 @@
 #include <sqstdstring.h>
 #include <stdarg.h>
 
-#include "squirrel/script_interface.hpp"
-#include "supertux/game_object.hpp"
+#include "squirrel/squirrel_error.hpp"
 #include "util/log.hpp"
 
 std::string squirrel2string(HSQUIRRELVM v, SQInteger i)

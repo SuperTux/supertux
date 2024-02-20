@@ -21,17 +21,18 @@
 #include <string>
 #include <vector>
 
-#include <squirrel.h>
+#include <simplesquirrel/simplesquirrel.hpp>
 
 /** Basic wrapper around HSQUIRRELVM with some utility functions, not
     to be confused with SquirrelVirtualMachine. The classes might be
     merged in the future. */
-class SquirrelVM
+class SquirrelVM final
 {
 public:
   SquirrelVM();
   ~SquirrelVM();
 
+  ssq::VM& get_ssq_vm() { return m_ssq_vm; }
   HSQUIRRELVM get_vm() const { return m_vm; }
 
   void begin_table(const char* name);
@@ -69,6 +70,7 @@ public:
   HSQOBJECT create_thread();
 
 private:
+  ssq::VM m_ssq_vm;
   HSQUIRRELVM m_vm;
 
 private:

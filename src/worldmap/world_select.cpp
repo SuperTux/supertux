@@ -20,6 +20,7 @@
 
 #include "control/controller.hpp"
 #include "math/util.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"

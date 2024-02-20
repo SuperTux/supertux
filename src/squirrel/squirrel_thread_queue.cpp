@@ -16,8 +16,9 @@
 
 #include "squirrel/squirrel_thread_queue.hpp"
 
-#include "squirrel/squirrel_virtual_machine.hpp"
+#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "util/log.hpp"
 
 SquirrelThreadQueue::SquirrelThreadQueue(SquirrelVM& vm) :
@@ -26,7 +27,7 @@ SquirrelThreadQueue::SquirrelThreadQueue(SquirrelVM& vm) :
 {
 }
 
-void
+SQInteger
 SquirrelThreadQueue::add(HSQUIRRELVM vm)
 {
   // create a weakref to the VM
@@ -42,6 +43,7 @@ SquirrelThreadQueue::add(HSQUIRRELVM vm)
   m_threads.push_back(object);
 
   sq_pop(m_vm.get_vm(), 2);
+  return sq_suspendvm(vm);
 }
 
 void

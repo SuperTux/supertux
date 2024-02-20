@@ -35,18 +35,18 @@ public:
 
   SquirrelVM& get_vm() { return m_vm; }
 
-  void wait_for_seconds(HSQUIRRELVM vm, float seconds);
-  void skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds);
+  SQInteger wait_for_seconds(HSQUIRRELVM vm, float seconds);
+  SQInteger skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds);
   void update(float dt_sec);
 
   /** adds thread waiting for a screen switch event */
-  void wait_for_screenswitch(HSQUIRRELVM vm);
+  SQInteger wait_for_screenswitch(HSQUIRRELVM vm);
 
   /** wakes up threads waiting for a screen switch event */
   void wakeup_screenswitch();
 
 private:
-    void update_debugger();
+  void update_debugger();
 
 private:
   SquirrelVM m_vm;

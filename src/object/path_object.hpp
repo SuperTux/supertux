@@ -25,9 +25,16 @@
 #include "object/path_walker.hpp"
 #include "util/uid.hpp"
 
+namespace ssq {
+class Class;
+} // namespace ssq
+
 /** A class for all objects that contain / make use of a path. */
 class PathObject
 {
+protected:
+  static void register_members(ssq::Class& cls);
+
 public:
   PathObject();
   virtual ~PathObject();
@@ -46,12 +53,32 @@ public:
   std::string get_path_ref() const;
   void editor_set_path_by_ref(const std::string& new_ref);
 
+  /**
+   * Moves the path object until at given node, then stops.
+   * @param int $node_no
+   */
+  void goto_node(int node_no);
+  /**
+   * Jumps instantly to the given node.
+   * @param int $node_no
+   */
+  void set_node(int node_no);
+  /**
+   * Starts moving the path object automatically.
+   */
+  void start_moving();
+  /**
+   * Stops moving the path object.
+   */
+  void stop_moving();
+
 protected:
   void save_state() const;
   void check_state() const;
 
   void on_flip();
 
+protected:
   PathWalker::Handle m_path_handle;
 
 private:

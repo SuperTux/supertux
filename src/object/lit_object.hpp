@@ -18,15 +18,14 @@
 #define HEADER_SUPERTUX_OBJECT_LIT_OBJECT_HPP
 
 #include "object/moving_sprite.hpp"
-#include "squirrel/exposed_object.hpp"
-
-#include "scripting/lit_object.hpp"
 
 class ReaderMapping;
 
-class LitObject final : public MovingSprite,
-                        public ExposedObject<LitObject, scripting::LitObject>
+class LitObject final : public MovingSprite
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   LitObject(const ReaderMapping& reader);
 
@@ -37,6 +36,7 @@ public:
 
   static std::string class_name() { return "lit-object"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "LitObject"; }
   static std::string display_name() { return _("Lit object"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -47,8 +47,14 @@ public:
 
   virtual void on_flip(float height) override;
 
-  const std::string& get_action() const;
-  const std::string& get_light_action() const;
+  /**
+   * Returns the current light sprite action.
+   */
+  std::string get_light_action() const;
+  /**
+   * Sets the light sprite action.
+   * @param string $action
+   */
   void set_light_action(const std::string& action);
 
 private:

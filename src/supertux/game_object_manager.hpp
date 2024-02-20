@@ -19,6 +19,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_MANAGER_HPP
 
+#include "squirrel/exposable_class.hpp"
+
 #include <functional>
 #include <iostream>
 #include <typeindex>
@@ -34,10 +36,13 @@ class TileMap;
 
 template<class T> class GameObjectRange;
 
-class GameObjectManager
+class GameObjectManager : public ExposableClass
 {
 public:
   static bool s_draw_solids_only;
+
+public:
+  static void register_class(ssq::VM& vm);
 
 private:
   struct NameResolveRequest
@@ -49,6 +54,8 @@ private:
 public:
   GameObjectManager(bool undo_tracking = false);
   virtual ~GameObjectManager();
+
+  virtual std::string get_exposed_class_name() const override { return "GameObjectManager"; }
 
   /** Queue an object up to be added to the object list */
   GameObject& add_object(std::unique_ptr<GameObject> object);
@@ -64,11 +71,6 @@ public:
     return obj_ref;
   }
 
-  /** Add a MovingObject from scripting. */
-  virtual MovingObject& add_object_scripting(const std::string& class_name, const std::string& name,
-                                             const Vector& pos, const std::string& direction,
-                                             const std::string& data);
-
   void update(float dt_sec);
   void draw(DrawingContext& context);
 
@@ -76,6 +78,54 @@ public:
 
   /** Commit the queued up additions and deletions to the object list */
   void flush_game_objects();
+
+  /**
+   * Sets the sector's ambient light to the specified color.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   */
+  void set_ambient_light(float red, float green, float blue);
+  /**
+   * Fades to a specified ambient light color in ""fadetime"" seconds.
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $fadetime
+   */
+  void fade_to_ambient_light(float red, float green, float blue, float fadetime);
+  /**
+   * Returns the red channel of the ambient light color.
+   */
+  float get_ambient_red() const;
+  /**
+   * Returns the green channel of the ambient light color.
+   */
+  float get_ambient_green() const;
+  /**
+   * Returns the blue channel of the ambient light color.
+   */
+  float get_ambient_blue() const;
+
+  /**
+   * Sets the sector's music.
+   * @param string $music Full filename, relative to the "music" folder.
+   */
+  void set_music(const std::string& music);
+
+  /**
+   * Adds a ""MovingObject"" to the manager.
+     Note: If adding objects to a worldmap sector, ""posX"" and ""posY"" have to be tile positions (sector position / 32).
+   * @param string $class_name GameObject's class.
+   * @param string $name Name of the created object.
+   * @param float $pos_x X position inside the current sector.
+   * @param float $pos_y Y position inside the current sector.
+   * @param string $direction Direction.
+   * @param string $data Additional data in S-Expression format (check object definitions in level files).
+   */
+  void add_object(const std::string& class_name, const std::string& name,
+                  float pos_x, float pos_y, const std::string& direction,
+                  const std::string& data);
 
   float get_width() const;
   float get_height() const;
@@ -224,6 +274,11 @@ public:
   void on_editor_save();
 
 protected:
+  /** Add a MovingObject from scripting. */
+  virtual MovingObject& add_object_scripting(const std::string& class_name, const std::string& name,
+                                             const Vector& pos, const std::string& direction,
+                                             const std::string& data);
+
   void update_tilemaps();
 
   void process_resolve_requests();

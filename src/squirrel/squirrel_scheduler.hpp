@@ -32,7 +32,7 @@ public:
 
   /** time must be absolute time, not relative updates, i.e. g_game_time */
   void update(float time);
-  void schedule_thread(HSQUIRRELVM vm, float time, bool skippable);
+  SQInteger schedule_thread(HSQUIRRELVM vm, float time, bool skippable);
 
 private:
   struct ScheduleEntry {

@@ -16,8 +16,11 @@
 
 #include "supertux/sector.hpp"
 
-#include <physfs.h>
 #include <algorithm>
+
+#include <physfs.h>
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
@@ -42,7 +45,6 @@
 #include "object/tilemap.hpp"
 #include "object/vertical_stripes.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "scripting/sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/constants.hpp"
@@ -207,12 +209,12 @@ Sector::activate(const Vector& player_pos)
     m_squirrel_environment->expose_self();
 
     for (const auto& object : get_objects()) {
-      m_squirrel_environment->try_expose(*object);
+      m_squirrel_environment->expose(*object, object->get_name());
     }
   }
 
   // The Sector object is called 'settings' as it is accessed as 'sector.settings'
-  m_squirrel_environment->expose("settings", std::make_unique<scripting::Sector>(this));
+  m_squirrel_environment->expose(*this, "settings");
 
   if (Editor::is_active())
     return;
@@ -280,9 +282,8 @@ Sector::deactivate()
 
   m_squirrel_environment->unexpose_self();
 
-  for (const auto& object: get_objects()) {
-    m_squirrel_environment->try_unexpose(*object);
-  }
+  for (const auto& object : get_objects())
+    m_squirrel_environment->unexpose(object->get_name());
 
   m_squirrel_environment->unexpose("settings");
 
@@ -379,7 +380,7 @@ Sector::before_object_add(GameObject& object)
   }
 
   if (s_current == this) {
-    m_squirrel_environment->try_expose(object);
+    m_squirrel_environment->expose(object, object.get_name());
   }
 
   if (m_fully_constructed) {
@@ -399,7 +400,7 @@ Sector::before_object_remove(GameObject& object)
   }
 
   if (s_current == this)
-    m_squirrel_environment->try_unexpose(object);
+    m_squirrel_environment->unexpose(object.get_name());
 }
 
 void
@@ -493,11 +494,27 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, uint32_t 
 }
 
 bool
+Sector::is_free_of_solid_tiles(float left, float top, float right, float bottom,
+                               bool ignore_unisolid) const
+{
+  return m_collision_system->is_free_of_tiles(Rectf(Vector(left, top), Vector(right, bottom)),
+                                              ignore_unisolid, Tile::SOLID);
+}
+
+bool
 Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
   return m_collision_system->is_free_of_statics(rect,
                                                 ignore_object ? ignore_object->get_collision_object() : nullptr,
                                                 ignoreUnisolid);
+}
+
+bool
+Sector::is_free_of_statics(float left, float top, float right, float bottom,
+                           bool ignore_unisolid) const
+{
+  return m_collision_system->is_free_of_statics(Rectf(Vector(left, top), Vector(right, bottom)),
+                                                nullptr, ignore_unisolid);
 }
 
 bool
@@ -508,10 +525,22 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
+Sector::is_free_of_movingstatics(float left, float top, float right, float bottom) const
+{
+  return m_collision_system->is_free_of_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
+}
+
+bool
 Sector::is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
 {
   return m_collision_system->is_free_of_specifically_movingstatics(rect,
                                                       ignore_object ? ignore_object->get_collision_object() : nullptr);
+}
+
+bool
+Sector::is_free_of_specifically_movingstatics(float left, float top, float right, float bottom) const
+{
+  return m_collision_system->is_free_of_specifically_movingstatics(Rectf(Vector(left, top), Vector(right, bottom)), nullptr);
 }
 
 CollisionSystem::RaycastResult
@@ -634,6 +663,12 @@ Sector::set_gravity(float gravity)
   }
 
   m_gravity = gravity;
+}
+
+float
+Sector::get_gravity() const
+{
+  return m_gravity;
 }
 
 Player*
@@ -808,6 +843,22 @@ DisplayEffect&
 Sector::get_effect() const
 {
   return get_singleton_by_type<DisplayEffect>();
+}
+
+
+void
+Sector::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Sector>("Sector", vm.findClass("GameObjectManager"));
+
+  cls.addFunc("set_gravity", &Sector::set_gravity);
+  cls.addFunc("get_gravity", &Sector::get_gravity);
+  cls.addFunc("is_free_of_solid_tiles", &Sector::is_free_of_solid_tiles);
+  cls.addFunc<bool, Sector, float, float, float, float, bool>("is_free_of_statics", &Sector::is_free_of_statics);
+  cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_movingstatics", &Sector::is_free_of_movingstatics);
+  cls.addFunc<bool, Sector, float, float, float, float>("is_free_of_specifically_movingstatics", &Sector::is_free_of_specifically_movingstatics);
+
+  cls.addVar("gravity", &Sector::m_gravity);
 }
 
 /* EOF */

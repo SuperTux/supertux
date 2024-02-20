@@ -25,15 +25,15 @@
 class Rectf;
 
 enum AnchorPoint {
-  ANCHOR_TOP_LEFT,
-  ANCHOR_TOP,
-  ANCHOR_TOP_RIGHT,
-  ANCHOR_LEFT,
-  ANCHOR_MIDDLE,
-  ANCHOR_RIGHT,
-  ANCHOR_BOTTOM_LEFT,
-  ANCHOR_BOTTOM,
-  ANCHOR_BOTTOM_RIGHT,
+  ANCHOR_TOP_LEFT,     /**< Top-left anchor point. */
+  ANCHOR_TOP,          /**< Top anchor point. */
+  ANCHOR_TOP_RIGHT,    /**< Top-right anchor point. */
+  ANCHOR_LEFT,         /**< Left anchor point. */
+  ANCHOR_MIDDLE,       /**< Middle anchor point. */
+  ANCHOR_RIGHT,        /**< Right anchor point. */
+  ANCHOR_BOTTOM_LEFT,  /**< Bottom-left anchor point. */
+  ANCHOR_BOTTOM,       /**< Bottom anchor point. */
+  ANCHOR_BOTTOM_RIGHT, /**< Bottom-right anchor point. */
   ANCHOR_LAST = ANCHOR_BOTTOM_RIGHT
 };
 

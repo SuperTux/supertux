@@ -18,12 +18,12 @@
 #define HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
 
 #include "supertux/game_object.hpp"
-#include "scripting/display_effect.hpp"
-#include "squirrel/exposed_object.hpp"
 
-class DisplayEffect final : public GameObject,
-                      public ExposedObject<DisplayEffect, scripting::DisplayEffect>
+class DisplayEffect final : public GameObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   DisplayEffect(const std::string& name = "");
   ~DisplayEffect() override;
@@ -32,16 +32,43 @@ public:
   virtual void draw(DrawingContext& context) override;
   virtual bool is_singleton() const override { return true; }
   virtual bool is_saveable() const override { return false; }
+  virtual std::string get_exposed_class_name() const override { return "DisplayEffect"; }
 
   /** @name Scriptable Methods
       @{ */
 
-  void fade_out(float fadetime);
-  void fade_in(float fadetime);
-  void set_black(bool enabled);
+  /**
+   * Gradually fades out the screen to black for the next ""time"" seconds.
+   * @param float $time
+   */
+  void fade_out(float time);
+  /**
+   * Gradually fades in the screen from black for the next ""time"" seconds.
+   * @param float $time
+   */
+  void fade_in(float time);
+  /**
+   * Blackens or un-blackens the screen (depending on the value of ""black"").
+   * @param bool $black
+   */
+  void set_black(bool black);
+  /**
+   * Returns ""true"" if the screen has been blackened by ""set_black"".
+     Note: Calling ""fade_in"" or ""fade_out"" resets the return value to ""false"".
+   */
   bool is_black() const;
-  void sixteen_to_nine(float fadetime);
-  void four_to_three(float fadetime);
+  /**
+   * Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen.
+     Should be used before cutscenes. Gradually fades to this state for the next ""time"" seconds.
+   * @param float $time
+   */
+  void sixteen_to_nine(float time);
+  /**
+   * Sets the display ratio to 4:3, removing the black bars added by ""sixteen_to_nine()"".
+     Should be used after cutscenes. Gradually fades to this state for the next ""time"" seconds.
+   * @param float $time
+   */
+  void four_to_three(float time);
 
   /** @} */
 

@@ -19,15 +19,15 @@
 
 #include "object/moving_sprite.hpp"
 #include "object/path_object.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/platform.hpp"
 
 /** This class is the base class for platforms that tux can stand
     on */
 class Platform : public MovingSprite,
-                 public ExposedObject<Platform, scripting::Platform>,
                  public PathObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Platform(const ReaderMapping& reader);
   Platform(const ReaderMapping& reader, const std::string& default_sprite);
@@ -43,6 +43,7 @@ public:
 
   static std::string class_name() { return "platform"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Platform"; }
   static std::string display_name() { return _("Platform"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -54,22 +55,6 @@ public:
   void check_state() override;
 
   const Vector& get_speed() const { return m_speed; }
-
-  /** @name Scriptable Methods
-      @{ */
-
-  /** Move platform until at given node, then stop */
-  void goto_node(int node_no);
-
-  /** Move platform instantly to given node */
-  void jump_to_node(int node_no);
-
-  /** Start moving platform */
-  void start_moving();
-
-  /** Stop platform at next node */
-  void stop_moving();
-  /** @} */
 
 private:
   Vector m_speed;

@@ -20,7 +20,8 @@
 
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
-#include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_error.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "util/log.hpp"

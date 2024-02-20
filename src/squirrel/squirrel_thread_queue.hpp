@@ -31,7 +31,7 @@ public:
   SquirrelThreadQueue(SquirrelVM& vm);
 
   /** adds a thread (actually a weakref to the thread) */
-  void add(HSQUIRRELVM vm);
+  SQInteger add(HSQUIRRELVM vm);
 
   /** wakes up threads in the list */
   void wakeup();

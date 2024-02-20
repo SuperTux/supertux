@@ -23,11 +23,9 @@
 #include "squirrel/squirrel_util.hpp"
 
 SquirrelVM::SquirrelVM() :
-  m_vm()
+  m_ssq_vm(64, ssq::Libs::BLOB & ssq::Libs::MATH & ssq::Libs::STRING),
+  m_vm(m_ssq_vm.getHandle())
 {
-  m_vm = sq_open(64);
-  if (m_vm == nullptr)
-    throw std::runtime_error("Couldn't initialize squirrel vm");
 }
 
 SquirrelVM::~SquirrelVM()
@@ -38,8 +36,6 @@ SquirrelVM::~SquirrelVM()
     debugger = nullptr;
   }
 #endif
-
-  sq_close(m_vm);
 }
 
 void

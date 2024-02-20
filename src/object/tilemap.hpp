@@ -25,26 +25,25 @@
 #include "math/size.hpp"
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/tilemap.hpp"
 #include "supertux/autotile.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
 #include "video/flip.hpp"
 #include "video/drawing_target.hpp"
 
-class DrawingContext;
 class CollisionObject;
 class CollisionGroundMovementManager;
+class DrawingContext;
 class Tile;
 class TileSet;
 
 /** This class is responsible for drawing the level tiles */
-class TileMap final :
-  public GameObject,
-  public ExposedObject<TileMap, scripting::TileMap>,
-  public PathObject
+class TileMap final : public GameObject,
+                      public PathObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   TileMap(const TileSet *tileset);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
@@ -54,6 +53,7 @@ public:
 
   static std::string class_name() { return "tilemap"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "TileMap"; }
   virtual const std::string get_icon_path() const override { return "images/engine/editor/tilemap.png"; }
   static std::string display_name() { return _("Tilemap"); }
   virtual std::string get_display_name() const override { return display_name(); }
@@ -70,18 +70,6 @@ public:
   virtual void editor_update() override;
 
   virtual void on_flip(float height) override;
-
-  /** Move tilemap until at given node, then stop */
-  void goto_node(int node_no);
-
-  /** Instantly jump to the given node */
-  void jump_to_node(int node_no);
-
-  /** Start moving tilemap */
-  void start_moving();
-
-  /** Stop tilemap at next node */
-  void stop_moving();
 
   void set(int width, int height, const std::vector<unsigned int>& vec,
            int z_pos, bool solid);
@@ -148,21 +136,52 @@ public:
 
   bool is_solid() const { return m_real_solid && m_effective_solid; }
 
-  /** Changes Tilemap's solidity, i.e. whether to consider it when
-      doing collision detection. */
+  /**
+   * Switches the tilemap's real solidity to ""solid"".${SRG_TABLENEWPARAGRAPH}
+     Note that the effective solidity is also influenced by the alpha of the tilemap.
+   * @param bool $solid
+   */
   void set_solid(bool solid = true);
 
   bool is_outside_bounds(const Vector& pos) const;
   const Tile& get_tile(int x, int y) const;
   const Tile& get_tile_at(const Vector& pos) const;
+  /**
+   * Returns the ID of the tile at the given coordinates or 0 if out of bounds.
+     The origin is at the top left.
+   * @param int $x
+   * @param int $y
+   */
   uint32_t get_tile_id(int x, int y) const;
+  /**
+   * Returns the ID of the tile at the given position (in world coordinates).
+   * @param float $x
+   * @param float $y
+   */
+  uint32_t get_tile_id_at(float x, float y) const;
   uint32_t get_tile_id_at(const Vector& pos) const;
 
+  /**
+   * Changes the tile at the given coordinates to ""newtile"".
+     The origin is at the top left.
+   * @param int $x
+   * @param int $y
+   * @param int $newtile
+   */
   void change(int x, int y, uint32_t newtile);
-
+  /**
+   * Changes the tile at the given position (in-world coordinates) to ""newtile"".
+   * @param float $x
+   * @param float $y
+   * @param int $newtile
+   */
+  void change_at(float x, float y, uint32_t newtile);
   void change_at(const Vector& pos, uint32_t newtile);
-
-  /** changes all tiles with the given ID */
+  /**
+   * Changes all tiles with the given ID.
+   * @param int $oldtile
+   * @param int $newtile
+   */
   void change_all(uint32_t oldtile, uint32_t newtile);
 
   /** Puts the correct autotile block at the given position */
@@ -191,23 +210,39 @@ public:
   void set_flip(Flip flip) { m_flip = flip; }
   Flip get_flip() const { return m_flip; }
 
-  /** Start fading the tilemap to opacity given by @c alpha.
-      Destination opacity will be reached after @c seconds seconds.
-      Also influences solidity. */
-  void fade(float alpha, float seconds = 0);
+  /**
+   * Starts fading the tilemap to the opacity given by ""alpha"".
+   * Destination opacity will be reached after ""time"" seconds. Also influences solidity.
+   * @param float $alpha
+   * @param float $time
+   */
+  void fade(float alpha, float time);
 
   /** Start fading the tilemap to tint given by RGBA.
       Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity. */
-  void tint_fade(const Color& new_tint, float seconds = 0);
+  void tint_fade(const Color& new_tint, float time = 0.f);
+  /**
+   * Starts fading the tilemap to tint given by RGBA.
+   * Destination opacity will be reached after ""time"" seconds. Doesn't influence solidity.
+   * @param float $time
+   * @param float $red
+   * @param float $green
+   * @param float $blue
+   * @param float $alpha
+   */
+  void tint_fade(float time, float red, float green, float blue, float alpha);
 
   Color get_current_tint() const { return m_current_tint; }
 
-  /** Instantly switch tilemap's opacity to @c alpha. Also influences solidity. */
+  /**
+   * Instantly switches the tilemap's opacity to ""alpha"". Also influences solidity.
+   * @param float $alpha
+   */
   void set_alpha(float alpha);
-
-  /** Return tilemap's opacity. Note that while the tilemap is fading
-      in or out, this will return the current alpha value, not the
-      target alpha. */
+  /**
+   * Returns the tilemap's opacity.${SRG_TABLENEWPARAGRAPH}
+     Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
+   */
   float get_alpha() const;
 
   void set_tileset(const TileSet* new_tileset);

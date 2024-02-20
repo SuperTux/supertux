@@ -18,8 +18,9 @@
 
 #include <algorithm>
 
-#include "squirrel/squirrel_virtual_machine.hpp"
+#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/level.hpp"
 #include "util/log.hpp"
 
@@ -69,7 +70,7 @@ SquirrelScheduler::update(float time)
   }
 }
 
-void
+SQInteger
 SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time, bool skippable)
 {
   // create a weakref to the VM
@@ -89,6 +90,8 @@ SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time, bool sk
 
   schedule.push_back(entry);
   std::push_heap(schedule.begin(), schedule.end());
+
+  return sq_suspendvm(scheduled_vm);
 }
 
 /* EOF */

@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
-//                2023 Vankata453
+//  Copyright (C) 2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,20 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/game_object.hpp"
+#ifndef HEADER_SUPERTUX_SQUIRREL_SUPERTUX_API_HPP
+#define HEADER_SUPERTUX_SQUIRREL_SUPERTUX_API_HPP
 
-#include "supertux/sector.hpp"
+namespace ssq {
+class VM;
+} // namespace ssq
 
-namespace scripting {
+void register_supertux_scripting_api(ssq::VM& vm);
 
-::Sector& get_sector()
-{
-  if (::Sector::current())
-    return ::Sector::get();
-
-  throw std::runtime_error("Unable to perform scripting action: No active Sector.");
-}
-
-} // namespace scripting
+#endif
 
 /* EOF */

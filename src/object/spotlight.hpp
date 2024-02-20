@@ -17,17 +17,17 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 
-#include "scripting/spotlight.hpp"
 #include "sprite/sprite_ptr.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/color.hpp"
 
 class ReaderMapping;
 
-class Spotlight final : public MovingObject,
-                        public ExposedObject<Spotlight, scripting::Spotlight>
+class Spotlight final : public MovingObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   enum class Direction {
     CLOCKWISE,
@@ -49,6 +49,7 @@ public:
 
   static std::string class_name() { return "spotlight"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Spotlight"; }
   static std::string display_name() { return _("Spotlight"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -56,41 +57,105 @@ public:
 
   virtual int get_layer() const override { return m_layer; }
 
-  void set_enabled(bool enabled) { m_enabled = enabled; }
-  bool is_enabled() const { return m_enabled; }
+  /**
+   * @deprecated Use the ""enabled"" property instead!
+   * Enables/disables the spotlight.
+   * @param bool $enabled
+   */
+  void set_enabled(bool enabled);
+  /**
+   * @deprecated Use the ""enabled"" property instead!
+   * Returns ""true"" if the spotlight is enabled.
+   */
+  bool is_enabled();
 
-  void set_angle(float angle_) { angle = angle_; }
-  void set_speed(float speed_) { speed = speed_; }
-  void set_color(Color color_) { color = color_; }
-  void set_direction(Direction dir) { m_direction = dir; }
+  /**
+   * Sets the direction of the spotlight.
+   * @param string $direction
+   */
+  void set_direction(const std::string& direction);
 
-  void ease_angle(float time, float target, EasingMode ease = EasingMode::EaseNone)
-  {
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&angle, time, target, getEasingByName(ease)));
-  }
+  /**
+   * @deprecated Use the ""angle"" property instead!
+   * Sets the angle of the spotlight.
+   * @param float $angle
+   */
+  void set_angle(float angle);
+  /**
+   * Fades the angle of the spotlight in ""time"" seconds.
+   * @param float $angle
+   * @param float $time
+   */
+  void fade_angle(float angle, float time);
+  /**
+   * Fades the angle of the spotlight in ""time"" seconds, with easing.
+   * @param float $angle
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_angle(float angle, float time, const std::string& easing);
 
-  void ease_speed(float time, float target, EasingMode ease = EasingMode::EaseNone)
-  {
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&speed, time, target, getEasingByName(ease)));
-  }
+  /**
+   * @deprecated Use the ""speed"" property instead!
+   * Sets the speed of the spotlight.
+   * @param float $speed
+   */
+  void set_speed(float speed);
+  /**
+   * Fades the speed of the spotlight in ""time"" seconds.
+   * @param float $speed
+   * @param float $time
+   */
+  void fade_speed(float speed, float time);
+  /**
+   * Fades the speed of the spotlight in ""time"" seconds, with easing.
+   * @param float $speed
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_speed(float speed, float time, const std::string& easing);
 
-  void ease_color(float time, Color target, EasingMode ease = EasingMode::EaseNone)
-  {
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.red,   time, target.red,   getEasingByName(ease)));
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.green, time, target.green, getEasingByName(ease)));
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.blue,  time, target.blue,  getEasingByName(ease)));
-    m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.alpha, time, target.alpha, getEasingByName(ease)));
-  }
+  /**
+   * Sets the RGBA color of the spotlight.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   */
+  void set_color_rgba(float r, float g, float b, float a);
+  /**
+   * Fades the spotlight to a new RGBA color in ""time"" seconds.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   * @param float $time
+   */
+  void fade_color_rgba(float r, float g, float b, float a, float time);
+  /**
+   * Fades the spotlight to a new RGBA color in ""time"" seconds, with easing.
+   * @param float $r
+   * @param float $g
+   * @param float $b
+   * @param float $a
+   * @param float $time
+   * @param string $easing
+   */
+  void ease_color_rgba(float r, float g, float b, float a, float time, const std::string& easing);
+
+  void ease_angle(float time, float target, EasingMode ease = EasingMode::EaseNone);
+  void ease_speed(float time, float target, EasingMode ease = EasingMode::EaseNone);
+  void ease_color(float time, Color target, EasingMode ease = EasingMode::EaseNone);
 
 private:
-  float   angle;
+  float angle;
   SpritePtr center;
   SpritePtr base;
   SpritePtr lights;
   SpritePtr light;
   SpritePtr lightcone;
 
-  Color   color;
+  Color color;
 
   /** Speed that the spotlight is rotating with */
   float speed;

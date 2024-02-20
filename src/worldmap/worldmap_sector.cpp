@@ -18,13 +18,15 @@
 
 #include "worldmap/worldmap_sector.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "object/ambient_light.hpp"
 #include "object/display_effect.hpp"
 #include "object/music_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "scripting/worldmap_sector.hpp"
 #include "squirrel/squirrel_environment.hpp"
 #include "supertux/d_scope.hpp"
 #include "supertux/debug.hpp"
@@ -132,7 +134,7 @@ WorldMapSector::setup()
 
   // register worldmap_table as "worldmap" in scripting
   m_squirrel_environment->expose_self();
-  m_squirrel_environment->expose("settings", std::make_unique<scripting::WorldMapSector>(this));
+  m_squirrel_environment->expose(*this, "settings");
 
   /** Perform scripting related actions. **/
   // Run default.nut just before init script
@@ -562,6 +564,24 @@ WorldMapSector::path_ok(const Direction& direction, const Vector& old_pos, Vecto
 }
 
 void
+WorldMapSector::set_sector(const std::string& sector)
+{
+  m_parent.set_sector(sector);
+}
+
+void
+WorldMapSector::spawn(const std::string& sector, const std::string& spawnpoint)
+{
+  m_parent.set_sector(sector, spawnpoint);
+}
+
+void
+WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint)
+{
+  move_to_spawnpoint(spawnpoint, false);
+}
+
+void
 WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 {
   auto sp = get_spawnpoint_by_name(spawnpoint);
@@ -599,6 +619,45 @@ Vector
 WorldMapSector::get_tux_pos() const
 {
   return m_tux->get_pos();
+}
+
+float
+WorldMapSector::get_tux_x() const
+{
+  return m_tux->get_pos().x;
+}
+
+float
+WorldMapSector::get_tux_y() const
+{
+  return m_tux->get_pos().y;
+}
+
+std::string
+WorldMapSector::get_filename() const
+{
+  return m_parent.get_filename();
+}
+
+void
+WorldMapSector::set_title_level(const std::string& filename)
+{
+  m_parent.get_savegame().get_player_status().title_level = filename;
+}
+
+
+void
+WorldMapSector::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<WorldMapSector>("WorldMapSector", vm.findClass("GameObjectManager"));
+
+  cls.addFunc("get_tux_x", &WorldMapSector::get_tux_x);
+  cls.addFunc("get_tux_y", &WorldMapSector::get_tux_y);
+  cls.addFunc("set_sector", &WorldMapSector::set_sector);
+  cls.addFunc("spawn", &WorldMapSector::spawn);
+  cls.addFunc<void, WorldMapSector, const std::string&>("move_to_spawnpoint", &WorldMapSector::move_to_spawnpoint);
+  cls.addFunc("get_filename", &WorldMapSector::get_filename);
+  cls.addFunc("set_title_level", &WorldMapSector::set_title_level);
 }
 
 } // namespace worldmap

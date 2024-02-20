@@ -17,9 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
-#include "scripting/player.hpp"
 #include "sprite/sprite_ptr.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/object_remove_listener.hpp"
@@ -39,9 +37,11 @@ class Portable;
 
 extern const float TUX_INVINCIBLE_TIME_WARNING;
 
-class Player final : public MovingObject,
-                     public ExposedObject<Player, scripting::Player>
+class Player final : public MovingObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
@@ -80,6 +80,7 @@ public:
   virtual bool is_saveable() const override { return false; }
   virtual bool is_singleton() const override { return false; }
   virtual bool has_object_manager_priority() const override { return true; }
+  virtual std::string get_exposed_class_name() const override { return "Player"; }
   virtual void remove_me() override;
 
   int get_id() const { return m_id; }
@@ -98,12 +99,26 @@ public:
 
   const Controller& get_controller() const { return *m_controller; }
 
-  void use_scripting_controller(bool use_or_release);
+  /**
+   * Uses a scriptable controller for all user input (or restores controls).
+   * @param bool $enable
+   */
+  void use_scripting_controller(bool enable);
+  /**
+   * Instructs the scriptable controller to press or release a button.
+   * @param string $control Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+      “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
+      “peek-left”, “peek-right”, “peek-up” or “peek-down”.
+   * @param bool $pressed
+   */
   void do_scripting_controller(const std::string& control, bool pressed);
 
   /** Move the player to a different sector, including any objects that it points to, or references. */
   void move_to_sector(Sector& other);
 
+  /**
+   * Make Tux invincible for a short amount of time.
+   */
   void make_invincible();
 
   bool is_invincible() const { return m_invincible_timer.started(); }
@@ -112,12 +127,41 @@ public:
   Direction peeking_direction_x() const { return m_peekingX; }
   Direction peeking_direction_y() const { return m_peekingY; }
 
+  /**
+   * Hurts Tux.
+   * @param bool $completely If true, he will be killed even if he had "grow" or a superior bonus.
+   */
   void kill(bool completely);
   void move(const Vector& vector);
 
+  /**
+   * Gives Tux the specified bonus unless Tux’s current bonus is superior.
+   * @param string $bonus Can be "grow", "fireflower", "iceflower", "airflower" or "earthflower" at the moment.
+   */
   bool add_bonus(const std::string& bonus);
+  /**
+   * Gives Tux the specified bonus.
+   * @param string $bonus Can be "grow", "fireflower", "iceflower", "airflower" or "earthflower" at the moment.
+   */
   bool set_bonus(const std::string& bonus);
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * Returns Tux's current bonus.
+   */
+  std::string get_bonus() const;
+#endif
+
+  /**
+   * Gives the player a number of coins.${SRG_TABLENEWPARAGRAPH}
+   * If count is a negative amount of coins, that number of coins will be taken
+   * from the player (until the number of coins the player has is 0, when it
+   * will stop changing).
+   * @param int $count
+   */
   void add_coins(int count);
+  /**
+   * Returns the number of coins the player currently has.
+   */
   int get_coins() const;
 
   /** picks up a bonus, taking care not to pick up lesser bonus items than we already have
@@ -134,30 +178,45 @@ public:
 
   PlayerStatus& get_status() const { return m_player_status; }
 
-  /** set kick animation */
+  /**
+   * Start kick animation.
+   */
   void kick();
 
-  /** gets the players action */
+  /**
+   * Gets the player's current action/animation.
+   */
   std::string get_action() const;
 
-  /** play cheer animation.
-      This might need some space and behave in an unpredictable way.
-      Best to use this at level end. */
+  /**
+   * Play cheer animation.${SRG_TABLENEWPARAGRAPH}
+   * This might need some space and behave in an unpredictable way. It's best to use this at level end.
+   */
   void do_cheer();
 
-  /** duck down if possible.
-      this won't last long as long as input is enabled. */
+  /**
+   * Makes Tux duck down, if possible. Won't last long, as long as input is enabled.
+   */
   void do_duck();
 
-  /** stand back up if possible. */
+  /**
+   * Makes Tux stand back up, if possible.
+   */
+  void do_standup();
+  /**
+   * Makes Tux stand back up, if possible.
+   */
   void do_standup(bool force_standup);
 
-  /** do a backflip if possible. */
+  /**
+   * Makes Tux do a backflip, if possible.
+   */
   void do_backflip();
 
-  /** jump in the air if possible
-      sensible values for yspeed are negative - unless we want to jump
-      into the ground of course */
+  /**
+   * Makes Tux jump in the air, if possible.
+   * @param float $yspeed Sensible values are negative - unless we want to jump into the ground of course.
+   */
   void do_jump(float yspeed);
 
   /** Adds velocity to the player (be careful when using this) */
@@ -168,6 +227,20 @@ public:
 
   /** Returns the current velocity of the player */
   Vector get_velocity() const;
+  /**
+   * Returns Tux’s velocity in X direction.
+   */
+  float get_velocity_x() const;
+  /**
+   * Returns Tux’s velocity in Y direction.
+   */
+  float get_velocity_y() const;
+  /**
+   * Sets the velocity of the player to a programmable/variable speed.
+   * @param float $x The speed Tux will move on the x axis.
+   * @param float $y The speed Tux will move on the y axis.
+   */
+  void set_velocity(float x, float y);
 
   void bounce(BadGuy& badguy);
   void override_velocity() { m_velocity_override = true; }
@@ -182,7 +255,16 @@ public:
   bool is_skidding() const { return m_skidding_timer.started(); }
   float get_swimming_angle() const { return m_swimming_angle; }
 
+  /**
+   * @deprecated
+   * Set Tux visible or invisible.
+   * @param bool $visible
+   */
   void set_visible(bool visible);
+  /**
+   * @deprecated
+   * Returns ""true"" if Tux is currently visible (has not been set invisible by the ""set_visible()"" method).
+   */
   bool get_visible() const;
 
   bool on_ground() const;
@@ -191,25 +273,36 @@ public:
   Portable* get_grabbed_object() const { return m_grabbed_object; }
   void stop_grabbing() { ungrab_object(); }
 
-  /** Checks whether the player has grabbed a certain object
-      @param name Name of the object to check */
-  bool has_grabbed(const std::string& object_name) const;
+  /**
+   * Returns whether the player is carrying a certain object.
+   * @param string $name Name of the portable object to check for.
+   */
+  bool has_grabbed(const std::string& name) const;
 
-  /** Switches ghost mode on/off.
-      Lets Tux float around and through solid objects. */
+  /**
+   * Switches ghost mode on/off. Lets Tux float around and through solid objects.
+   * @param bool $enable
+   */
   void set_ghost_mode(bool enable);
-
-  /** Returns whether ghost mode is currently enabled */
-  bool get_ghost_mode() const { return m_ghost_mode; }
+  /**g
+   * Returns whether ghost mode is currently enabled.
+   */
+  bool get_ghost_mode() const;
 
   /** Changes height of bounding box.
       Returns true if successful, false otherwise */
   bool adjust_height(float new_height, float bottom_offset = 0);
 
+  /**
+   * Orders the current ""GameSession"" to start a sequence.
+   * @param string $sequence_name One of “stoptux”, “endsequence” or “fireworks”.
+   */
+  void trigger_sequence(const std::string& sequence_name);
+
   /** Orders the current GameSession to start a sequence
       @param sequence_name Name of the sequence to start
       @param data Custom additional sequence data */
-  void trigger_sequence(const std::string& sequence_name, const SequenceData* data = nullptr);
+  void trigger_sequence(const std::string& sequence_name, const SequenceData* data);
 
   /** Orders the current GameSession to start a sequence
       @param sequence Sequence to start
@@ -224,10 +317,43 @@ public:
 
   Physic& get_physic() { return m_physic; }
 
+  /**
+   * Give control back to user/scripting.
+   */
   void activate();
+  /**
+   * Deactivate user/scripting input for Tux.
+     Carried items like trampolines won't be dropped.
+   */
   void deactivate();
 
+  /**
+   * Gets whether the current input on the keyboard/controller/touchpad has been pressed.
+   * @param string $input Can be “left”, “right”, “up”, “down”, “jump”, “action”, “start”, “escape”,
+      “menu-select”, “menu-select-space”, “menu-back”, “remove”, “cheat-menu”, “debug-menu”, “console”,
+      “peek-left”, “peek-right”, “peek-up” or “peek-down”.
+   */
+  bool get_input_pressed(const std::string& input);
+  /**
+   * Gets whether the current input on the keyboard/controller/touchpad is being held.
+   * @param string $input Valid values are listed above.
+   */
+  bool get_input_held(const std::string& input);
+  /**
+   * Gets whether the current input on the keyboard/controller/touchpad has been released.
+   * @param string $input Valid values are listed above.
+   */
+  bool get_input_released(const std::string& input);
+
+  /**
+   * Makes Tux walk.
+   * @param float $speed
+   */
   void walk(float speed);
+  /**
+   * Face Tux in the proper direction.
+   * @param bool $right Set to ""true"" to make Tux face right, ""false"" to face left.
+   */
   void set_dir(bool right);
   void stop_backflipping();
 

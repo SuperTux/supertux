@@ -16,6 +16,9 @@
 
 #include "object/thunderstorm.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/electrifier.hpp"
@@ -37,7 +40,6 @@ const float ELECTRIFY_TIME = 0.5f;
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   GameObject(reader),
-  ExposedObject<Thunderstorm, scripting::Thunderstorm>(this),
   running(true),
   interval(10.0f),
   layer(LAYER_BACKGROUNDTILES-1),
@@ -154,6 +156,20 @@ void
 Thunderstorm::electrify()
 {
   Sector::get().add<Electrifier>(changing_tiles, ELECTRIFY_TIME);
+}
+
+
+void
+Thunderstorm::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Thunderstorm>("Thunderstorm", vm.findClass("GameObject"));
+
+  cls.addFunc("start", &Thunderstorm::start);
+  cls.addFunc("stop", &Thunderstorm::stop);
+  cls.addFunc("thunder", &Thunderstorm::thunder);
+  cls.addFunc("lightning", &Thunderstorm::lightning);
+  cls.addFunc("flash", &Thunderstorm::flash);
+  cls.addFunc("electrify", &Thunderstorm::electrify);
 }
 
 /* EOF */

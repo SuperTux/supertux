@@ -18,8 +18,9 @@
 
 #include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "squirrel/squirrel_virtual_machine.hpp"
+#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_util.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"

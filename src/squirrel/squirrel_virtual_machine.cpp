@@ -25,11 +25,11 @@
 #include <stdio.h>
 
 #include "physfs/ifile_stream.hpp"
-#include "scripting/wrapper.hpp"
 #include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_thread_queue.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
-#include "squirrel_util.hpp"
+#include "squirrel/squirrel_util.hpp"
+#include "squirrel/supertux_api.hpp"
 #include "supertux/console.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -69,7 +69,7 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   m_screenswitch_queue(),
   m_scheduler()
 {
-  sq_setsharedforeignptr(m_vm.get_vm(), this);
+  m_vm.get_ssq_vm().setForeignPtr(this);
 
   m_screenswitch_queue = std::make_unique<SquirrelThreadQueue>(m_vm);
   m_scheduler = std::make_unique<SquirrelScheduler>(m_vm);
@@ -89,20 +89,12 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
 #endif
   }
 
-  sq_pushroottable(m_vm.get_vm());
-  if (SQ_FAILED(sqstd_register_bloblib(m_vm.get_vm())))
-    throw SquirrelError(m_vm.get_vm(), "Couldn't register blob lib");
-  if (SQ_FAILED(sqstd_register_mathlib(m_vm.get_vm())))
-    throw SquirrelError(m_vm.get_vm(), "Couldn't register math lib");
-  if (SQ_FAILED(sqstd_register_stringlib(m_vm.get_vm())))
-    throw SquirrelError(m_vm.get_vm(), "Couldn't register string lib");
-
   // remove rand and srand calls from sqstdmath, we'll provide our own
   m_vm.delete_table_entry("srand");
   m_vm.delete_table_entry("rand");
 
   // register supertux API
-  scripting::register_supertux_wrapper(m_vm.get_vm());
+  register_supertux_scripting_api(m_vm.get_ssq_vm());
 
   sq_pop(m_vm.get_vm(), 1);
 
@@ -147,22 +139,22 @@ SquirrelVirtualMachine::update_debugger()
 #endif
 }
 
-void
+SQInteger
 SquirrelVirtualMachine::wait_for_seconds(HSQUIRRELVM vm, float seconds)
 {
-  m_scheduler->schedule_thread(vm, g_game_time + seconds, false);
+  return m_scheduler->schedule_thread(vm, g_game_time + seconds, false);
 }
 
-void
+SQInteger
 SquirrelVirtualMachine::skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds)
 {
-  m_scheduler->schedule_thread(vm, g_game_time + seconds, true);
+  return m_scheduler->schedule_thread(vm, g_game_time + seconds, true);
 }
 
-void
+SQInteger
 SquirrelVirtualMachine::wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  m_screenswitch_queue->add(vm);
+  return m_screenswitch_queue->add(vm);
 }
 
 void

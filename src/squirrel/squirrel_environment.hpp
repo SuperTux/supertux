@@ -22,12 +22,13 @@
 #include <vector>
 
 #include <squirrel.h>
+#include <simplesquirrel/table.hpp>
 
+#include "squirrel/exposable_class.hpp"
+#include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel/squirrel_util.hpp"
-
-class GameObject;
-class ScriptInterface;
-class SquirrelVM;
+#include "squirrel/squirrel_vm.hpp"
+#include "util/log.hpp"
 
 /** The SquirrelEnvironment contains the environment in which a script
     is executed, meaning a root table containing objects and
@@ -45,20 +46,8 @@ public:
   void expose_self();
   void unexpose_self();
 
-  /** Expose the GameObject if it has a ScriptInterface, otherwise do
-      nothing. */
-  void try_expose(GameObject& object);
-  void try_unexpose(GameObject& object);
-
-  /** Generic expose function, T must be a type that has a
-      create_squirrel_instance() associated with it. */
-  template<typename T>
-  void expose(const std::string& name, std::unique_ptr<T> script_object)
-  {
-    sq_pushobject(m_vm.get_vm(), m_table);
-    expose_object(m_vm.get_vm(), -1, std::move(script_object), name.c_str());
-    sq_pop(m_vm.get_vm(), 1);
-  }
+  /** Expose and unexpose objects */
+  void expose(ExposableClass& object, const std::string& name);
   void unexpose(const std::string& name);
 
   /** Convenience function that takes an std::string instead of an
@@ -72,15 +61,15 @@ public:
   void run_script(std::istream& in, const std::string& sourcename);
 
   void update(float dt_sec);
-  void wait_for_seconds(HSQUIRRELVM vm, float seconds);
-  void skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds);
+  SQInteger wait_for_seconds(HSQUIRRELVM vm, float seconds);
+  SQInteger skippable_wait_for_seconds(HSQUIRRELVM vm, float seconds);
 
 private:
   void garbage_collect();
 
 private:
   SquirrelVM& m_vm;
-  HSQOBJECT m_table;
+  ssq::Table m_table;
   std::string m_name;
   SquirrelObjectList m_scripts;
   std::unique_ptr<SquirrelScheduler> m_scheduler;
