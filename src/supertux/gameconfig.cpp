@@ -416,7 +416,7 @@ Config::save()
   } else {
     writer.write("video", VideoSystem::get_video_string(video));
   }
-  writer.write("vsync", VideoSystem::current()->get_vsync());
+  writer.write("vsync", vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);

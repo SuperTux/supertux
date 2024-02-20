@@ -644,22 +644,27 @@ OptionsMenu::menu_action(MenuItem& item)
 #endif
 
     case MNID_VSYNC:
+    {
+      int vsync = 0;
       switch (m_vsyncs.next)
       {
         case 2:
-          VideoSystem::current()->set_vsync(-1);
+          vsync = -1;
           break;
         case 1:
-          VideoSystem::current()->set_vsync(0);
+          vsync = 1;
           break;
         case 0:
-          VideoSystem::current()->set_vsync(1);
+          vsync = 0;
           break;
         default:
           assert(false);
           break;
       }
-      break;
+      g_config->vsync = vsync;
+      VideoSystem::current()->set_vsync(vsync);
+    }
+    break;
 
     case MNID_FULLSCREEN:
       VideoSystem::current()->apply_config();
