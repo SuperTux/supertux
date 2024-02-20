@@ -53,7 +53,7 @@ private:
 
 public:
   GameObjectManager(bool undo_tracking = false);
-  virtual ~GameObjectManager();
+  virtual ~GameObjectManager() override;
 
   virtual std::string get_exposed_class_name() const override { return "GameObjectManager"; }
 
