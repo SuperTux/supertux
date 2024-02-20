@@ -166,7 +166,7 @@ FloatingImage::draw(DrawingContext& context)
 void
 FloatingImage::register_class(ssq::VM& vm)
 {
-  ssq::Class cls = vm.addClass("FloatingImage", [](const std::string spritefile)
+  ssq::Class cls = vm.addClass("FloatingImage", [](const std::string& spritefile)
     {
       if (!Sector::current())
         throw std::runtime_error("Tried to create 'FloatingImage' without an active sector.");
