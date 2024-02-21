@@ -19,7 +19,6 @@
 
 #include <stdexcept>
 
-#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_util.hpp"
 
 SquirrelVM::SquirrelVM() :
@@ -49,7 +48,7 @@ void
 SquirrelVM::end_table(const char* name)
 {
   if (SQ_FAILED(sq_createslot(m_vm, -3)))
-    throw SquirrelError(m_vm, "Failed to create '" + std::string(name) + "' table entry");
+    throw ssq::Exception(m_vm, "Failed to create '" + std::string(name) + "' table entry");
 }
 
 void
@@ -74,7 +73,7 @@ SquirrelVM::store_bool(const char* name, bool val)
   sq_pushstring(m_vm, name, -1);
   sq_pushbool(m_vm, val ? SQTrue : SQFalse);
   if (SQ_FAILED(sq_createslot(m_vm, -3)))
-    throw SquirrelError(m_vm, "Couldn't add float value to table");
+    throw ssq::Exception(m_vm, "Couldn't add float value to table");
 }
 
 void
@@ -83,7 +82,7 @@ SquirrelVM::store_int(const char* name, int val)
   sq_pushstring(m_vm, name, -1);
   sq_pushinteger(m_vm, val);
   if (SQ_FAILED(sq_createslot(m_vm, -3)))
-    throw SquirrelError(m_vm, "Couldn't add int value to table");
+    throw ssq::Exception(m_vm, "Couldn't add int value to table");
 }
 
 void
@@ -92,7 +91,7 @@ SquirrelVM::store_float(const char* name, float val)
   sq_pushstring(m_vm, name, -1);
   sq_pushfloat(m_vm, val);
   if (SQ_FAILED(sq_createslot(m_vm, -3)))
-    throw SquirrelError(m_vm, "Couldn't add float value to table");
+    throw ssq::Exception(m_vm, "Couldn't add float value to table");
 }
 
 void
@@ -101,7 +100,7 @@ SquirrelVM::store_string(const char* name, const std::string& val)
   sq_pushstring(m_vm, name, -1);
   sq_pushstring(m_vm, val.c_str(), val.length());
   if (SQ_FAILED(sq_createslot(m_vm, -3)))
-    throw SquirrelError(m_vm, "Couldn't add float value to table");
+    throw ssq::Exception(m_vm, "Couldn't add float value to table");
 }
 
 void
@@ -110,7 +109,7 @@ SquirrelVM::store_object(const char* name, const HSQOBJECT& val)
   sq_pushstring(m_vm, name, -1);
   sq_pushobject(m_vm, val);
   if (SQ_FAILED(sq_createslot(m_vm, -3)))
-    throw SquirrelError(m_vm, "Couldn't add object value to table");
+    throw ssq::Exception(m_vm, "Couldn't add object value to table");
 }
 
 bool
@@ -154,7 +153,7 @@ SquirrelVM::read_bool(const char* name)
   if (SQ_FAILED(sq_getbool(m_vm, -1, &result))) {
     std::ostringstream msg;
     msg << "Couldn't get bool value for '" << name << "' from table";
-    throw SquirrelError(m_vm, msg.str());
+    throw ssq::Exception(m_vm, msg.str());
   }
   sq_pop(m_vm, 1);
 
@@ -170,7 +169,7 @@ SquirrelVM::read_int(const char* name)
   if (SQ_FAILED(sq_getinteger(m_vm, -1, &result))) {
     std::ostringstream msg;
     msg << "Couldn't get int value for '" << name << "' from table";
-    throw SquirrelError(m_vm, msg.str());
+    throw ssq::Exception(m_vm, msg.str());
   }
   sq_pop(m_vm, 1);
 
@@ -186,7 +185,7 @@ SquirrelVM::read_float(const char* name)
   if (SQ_FAILED(sq_getfloat(m_vm, -1, &result))) {
     std::ostringstream msg;
     msg << "Couldn't get float value for '" << name << "' from table";
-    throw SquirrelError(m_vm, msg.str());
+    throw ssq::Exception(m_vm, msg.str());
   }
   sq_pop(m_vm, 1);
 
@@ -202,7 +201,7 @@ SquirrelVM::read_string(const char* name)
   if (SQ_FAILED(sq_getstring(m_vm, -1, &result))) {
     std::ostringstream msg;
     msg << "Couldn't get string value for '" << name << "' from table";
-    throw SquirrelError(m_vm, msg.str());
+    throw ssq::Exception(m_vm, msg.str());
   }
   sq_pop(m_vm, 1);
 
@@ -217,7 +216,7 @@ SquirrelVM::get_table_entry(const std::string& name)
   {
     std::ostringstream msg;
     msg << "failed to get '" << name << "' table entry";
-    throw SquirrelError(m_vm, msg.str());
+    throw ssq::Exception(m_vm, msg.str());
   }
   else
   {
@@ -262,7 +261,7 @@ SquirrelVM::rename_table_entry(const char* oldname, const char* newname)
   sq_pushstring(m_vm, oldname, -1);
   if (SQ_FAILED(sq_deleteslot(m_vm, oldtop, SQTrue))) {
     sq_settop(m_vm, oldtop);
-    throw SquirrelError(m_vm, "Couldn't find 'oldname' entry in table");
+    throw ssq::Exception(m_vm, "Couldn't find 'oldname' entry in table");
   }
 
   // create new entry
@@ -284,7 +283,7 @@ SquirrelVM::get_table_keys()
     const char* result;
     if (SQ_FAILED(sq_getstring(m_vm, -2, &result)))
     {
-      throw SquirrelError(m_vm, "Couldn't get string value for key");
+      throw ssq::Exception(m_vm, "Couldn't get string value for key");
     }
     else
     {
@@ -305,12 +304,12 @@ SquirrelVM::create_thread()
 {
   HSQUIRRELVM new_vm = sq_newthread(m_vm, 64);
   if (new_vm == nullptr)
-    throw SquirrelError(m_vm, "Couldn't create new VM");
+    throw ssq::Exception(m_vm, "Couldn't create new VM");
 
   HSQOBJECT vm_object;
   sq_resetobject(&vm_object);
   if (SQ_FAILED(sq_getstackobj(m_vm, -1, &vm_object)))
-    throw SquirrelError(m_vm, "Couldn't get squirrel thread from stack");
+    throw ssq::Exception(m_vm, "Couldn't get squirrel thread from stack");
   sq_addref(m_vm, &vm_object);
 
   sq_pop(m_vm, 1);

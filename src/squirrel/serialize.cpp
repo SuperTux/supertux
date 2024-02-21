@@ -17,10 +17,11 @@
 #include "squirrel/serialize.hpp"
 
 #include <iostream>
+
 #include <sexp/value.hpp>
 #include <sexp/util.hpp>
+#include <simplesquirrel/exceptions.hpp>
 
-#include "squirrel/squirrel_error.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -82,7 +83,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     }
 
     if (SQ_FAILED(sq_createslot(vm, table_idx)))
-      throw SquirrelError(vm, "Couldn't create new index");
+      throw ssq::Exception(vm, "Couldn't create new index");
   }
 }
 

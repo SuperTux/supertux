@@ -25,7 +25,6 @@
 #include <stdio.h>
 
 #include "physfs/ifile_stream.hpp"
-#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_thread_queue.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel/squirrel_util.hpp"
@@ -79,12 +78,12 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
     sq_enabledebuginfo(m_vm.get_vm(), SQTrue);
     debugger = sq_rdbg_init(m_vm.get_vm(), 1234, SQFalse);
     if (debugger == nullptr)
-      throw SquirrelError(m_vm.get_vm(), "Couldn't initialize squirrel debugger");
+      throw ssq::Exception(m_vm.get_vm(), "Couldn't initialize squirrel debugger");
 
     sq_enabledebuginfo(m_vm.get_vm(), SQTrue);
     log_info << "Waiting for debug client..." << std::endl;
     if (SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
-      throw SquirrelError(m_vm.get_vm(), "Waiting for debug clients failed");
+      throw ssq::Exception(m_vm.get_vm(), "Waiting for debug clients failed");
     log_info << "debug client connected." << std::endl;
 #endif
   }

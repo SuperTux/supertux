@@ -21,7 +21,6 @@
 #include <simplesquirrel/class.hpp>
 #include <simplesquirrel/vm.hpp>
 
-#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/globals.hpp"
@@ -40,11 +39,11 @@ SquirrelEnvironment::SquirrelEnvironment(SquirrelVM& vm, const std::string& name
   sq_pushobject(m_vm.get_vm(), m_table.getRaw());
   sq_pushroottable(m_vm.get_vm());
   if (SQ_FAILED(sq_setdelegate(m_vm.get_vm(), -2)))
-    throw SquirrelError(m_vm.get_vm(), "Couldn't set table delegate");
+    throw ssq::Exception(m_vm.get_vm(), "Couldn't set table delegate");
 
   sq_resetobject(&m_table.getRaw());
   if (SQ_FAILED(sq_getstackobj(m_vm.get_vm(), -1, &m_table.getRaw()))) {
-    throw SquirrelError(m_vm.get_vm(), "Couldn't get table");
+    throw ssq::Exception(m_vm.get_vm(), "Couldn't get table");
   }
 
   sq_addref(m_vm.get_vm(), &m_table.getRaw());

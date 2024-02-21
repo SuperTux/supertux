@@ -24,7 +24,6 @@
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
-#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/profile_manager.hpp"
@@ -50,7 +49,7 @@ std::vector<LevelState> get_level_states(SquirrelVM& vm)
     {
       std::ostringstream msg;
       msg << "Couldn't get string value";
-      throw SquirrelError(vm.get_vm(), msg.str());
+      throw ssq::Exception(vm.get_vm(), msg.str());
     }
     else
     {

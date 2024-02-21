@@ -20,7 +20,6 @@
 
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
-#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
@@ -216,7 +215,7 @@ WorldMapState::load_tilemap_visibility()
       sq_pop(vm.get_vm(), 1); // leave tilemaps table
     }
   }
-  catch(const SquirrelError&)
+  catch(const ssq::Exception&)
   {
     // Failed to get tilemap entry. This could indicate
     // that no savable tilemaps have been found. In any

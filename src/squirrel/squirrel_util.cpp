@@ -25,7 +25,8 @@
 #include <sqstdstring.h>
 #include <stdarg.h>
 
-#include "squirrel/squirrel_error.hpp"
+#include <simplesquirrel/exceptions.hpp>
+
 #include "util/log.hpp"
 
 std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
@@ -223,7 +224,7 @@ SQInteger squirrel_read_char(SQUserPointer file)
 void compile_script(HSQUIRRELVM vm, std::istream& in, const std::string& sourcename)
 {
   if (SQ_FAILED(sq_compile(vm, squirrel_read_char, &in, sourcename.c_str(), true)))
-    throw SquirrelError(vm, "Couldn't parse script");
+    throw ssq::Exception(vm, "Couldn't parse script");
 }
 
 void compile_and_run(HSQUIRRELVM vm, std::istream& in,
@@ -236,7 +237,7 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
   try {
     sq_pushroottable(vm);
     if (SQ_FAILED(sq_call(vm, 1, SQFalse, SQTrue)))
-      throw SquirrelError(vm, "Couldn't start script");
+      throw ssq::Exception(vm, "Couldn't start script");
   } catch(...) {
     sq_settop(vm, oldtop);
     throw;

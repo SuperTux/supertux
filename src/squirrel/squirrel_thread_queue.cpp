@@ -16,7 +16,8 @@
 
 #include "squirrel/squirrel_thread_queue.hpp"
 
-#include "squirrel/squirrel_error.hpp"
+#include <simplesquirrel/exceptions.hpp>
+
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "util/log.hpp"
@@ -37,7 +38,7 @@ SquirrelThreadQueue::add(HSQUIRRELVM vm)
   HSQOBJECT object;
   if (SQ_FAILED(sq_getstackobj(m_vm.get_vm(), -1, &object))) {
     sq_pop(m_vm.get_vm(), 2);
-    throw SquirrelError(m_vm.get_vm(), "Couldn't get thread weakref from vm");
+    throw ssq::Exception(m_vm.get_vm(), "Couldn't get thread weakref from vm");
   }
   sq_addref(m_vm.get_vm(), &object);
   m_threads.push_back(object);

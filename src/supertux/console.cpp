@@ -18,7 +18,6 @@
 
 #include "math/sizef.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "squirrel/squirrel_error.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/gameconfig.hpp"
@@ -158,12 +157,12 @@ Console::ready_vm()
     m_vm = SquirrelVirtualMachine::current()->get_vm().get_vm();
     HSQUIRRELVM new_vm = sq_newthread(m_vm, 16);
     if (new_vm == nullptr)
-      throw SquirrelError(m_vm, "Couldn't create new VM thread for console");
+      throw ssq::Exception(m_vm, "Couldn't create new VM thread for console");
 
     // Store reference to thread.
     sq_resetobject(&m_vm_object);
     if (SQ_FAILED(sq_getstackobj(m_vm, -1, &m_vm_object)))
-      throw SquirrelError(m_vm, "Couldn't get vm object for console");
+      throw ssq::Exception(m_vm, "Couldn't get vm object for console");
     sq_addref(m_vm, &m_vm_object);
     sq_pop(m_vm, 1);
 
@@ -171,7 +170,7 @@ Console::ready_vm()
     sq_newtable(new_vm);
     sq_pushroottable(new_vm);
     if (SQ_FAILED(sq_setdelegate(new_vm, -2)))
-      throw SquirrelError(new_vm, "Couldn't set console_table delegate");
+      throw ssq::Exception(new_vm, "Couldn't set console_table delegate");
 
     sq_setroottable(new_vm);
 
@@ -196,11 +195,11 @@ Console::execute_script(const std::string& command)
   try {
     if (SQ_FAILED(sq_compilebuffer(m_vm, command.c_str(), command.length(),
                                   "", SQTrue)))
-      throw SquirrelError(m_vm, "Couldn't compile command");
+      throw ssq::Exception(m_vm, "Couldn't compile command");
 
     sq_pushroottable(m_vm);
     if (SQ_FAILED(sq_call(m_vm, 1, SQTrue, SQTrue)))
-      throw SquirrelError(m_vm, "Problem while executing command");
+      throw ssq::Exception(m_vm, "Problem while executing command");
 
     if (sq_gettype(m_vm, -1) != OT_NULL)
       m_buffer.addLines(squirrel2string(m_vm, -1));
