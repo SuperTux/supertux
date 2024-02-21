@@ -349,7 +349,7 @@ Player::adjust_height(float new_height, float bottom_offset)
 
   // adjust bbox accordingly
   // note that we use members of moving_object for this, so we can run this during CD, too
-  set_pos(bbox2.p1());
+  m_col.set_pos(bbox2.p1());
   m_col.set_size(bbox2.get_width(), bbox2.get_height());
   return true;
 }
@@ -2434,21 +2434,21 @@ Player::check_bounds()
   if (get_pos().x < 0) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the left side
-    set_pos(Vector(0, get_pos().y));
+    m_col.set_pos(Vector(0, get_pos().y));
   }
 
   if (m_col.m_bbox.get_right() > Sector::get().get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(),
-                   m_col.m_bbox.get_top()));
+    m_col.set_pos(Vector(Sector::get().get_width() - m_col.m_bbox.get_width(),
+                         m_col.m_bbox.get_top()));
   }
 
   // If Tux is swimming, don't allow him to go below the sector
   if (m_swimming && !m_ghost_mode && !is_dying() && !is_dead()
       && m_col.m_bbox.get_bottom() > Sector::get().get_height()) {
-    set_pos(Vector(m_col.m_bbox.get_left(),
-                   Sector::get().get_height() - m_col.m_bbox.get_height()));
+    m_col.set_pos(Vector(m_col.m_bbox.get_left(),
+                         Sector::get().get_height() - m_col.m_bbox.get_height()));
   }
 
   /* fallen out of the level? */
