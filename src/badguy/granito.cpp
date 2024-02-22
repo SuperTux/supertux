@@ -212,10 +212,10 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
 {
   if (hit.top)
     m_col.propagate_movement(m_col.get_movement());
-
-  if (hit.bottom)
+  else if (hit.bottom)
   {
-    if (m_state == STATE_SIT) return WalkingBadguy::collision(other, hit);
+    if (m_state == STATE_SIT)
+      return WalkingBadguy::collision(other, hit);
 
     // Yo big granito can i sit on top of your head?
     GranitoBig* granito = dynamic_cast<GranitoBig*>(&other);
@@ -238,6 +238,8 @@ Granito::collision(MovingObject& other, const CollisionHit& hit)
     // Yay!
     m_state = STATE_SIT;
     Sector::get().run_script(m_carried_script, "carried-script");
+    walk_speed = 0;
+    m_physic.reset();
   }
 
   return WalkingBadguy::collision(other, hit);
