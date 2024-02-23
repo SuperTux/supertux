@@ -1,0 +1,6 @@
+(supertux-music
+  (file "crystalmine_intro.ogg")
+  (loop-begin 0)
+  (loop-at -1)
+)
+
