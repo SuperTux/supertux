@@ -39,9 +39,9 @@ public:
 private:
   void parse_autotileset(const ReaderMapping& reader, bool corner);
   Autotile* parse_autotile(const ReaderMapping& reader, bool corner);
-  void parse_mask(std::string mask, std::vector<AutotileMask>& autotile_masks, bool solid);
-  void parse_mask_corner(std::string mask, std::vector<AutotileMask>& autotile_masks);
-  void parse_mask(std::string mask, std::vector<AutotileMask>& autotile_masks, bool solid, bool is_corner);
+  void parse_mask(const std::string& mask, std::vector<AutotileMask>& autotile_masks, bool solid);
+  void parse_mask_corner(const std::string& mask, std::vector<AutotileMask>& autotile_masks);
+  void parse_mask(const std::string& mask, std::vector<AutotileMask>& autotile_masks, bool solid, bool is_corner);
 
 private:
   AutotileParser(const AutotileParser&) = delete;

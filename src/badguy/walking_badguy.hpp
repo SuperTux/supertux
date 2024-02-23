@@ -25,6 +25,15 @@ class Timer;
 class WalkingBadguy : public BadGuy
 {
 public:
+  enum class LedgeBehavior
+  {
+    STRICT, /**< Do not fall off any ledge at all. */
+    SMART, /**< Do not fall off any ledge, but still go down slopes. */
+    NORMAL, /**< Fall off any ledge, unless the ledge is too tall (600px) or the ledge falls offscreen. */
+    FALL /**< Fall off any ledge. */
+  };
+
+public:
   WalkingBadguy(const Vector& pos,
                 const std::string& sprite_name,
                 const std::string& walk_left_action,
@@ -66,8 +75,14 @@ public:
   void set_walk_speed (float);
   bool is_active() const { return BadGuy::is_active(); }
 
+  /** Set max_drop_height depending on the given behavior */
+  void set_ledge_behavior(LedgeBehavior behavior);
+
 protected:
   void turn_around();
+
+protected:
+  static const int s_normal_max_drop_height = 600;
 
 protected:
   std::string walk_left_action;

@@ -56,7 +56,7 @@ public:
   void expose(const std::string& name, std::unique_ptr<T> script_object)
   {
     sq_pushobject(m_vm.get_vm(), m_table);
-    expose_object(m_vm.get_vm(), -1, std::move(script_object), name.c_str());
+    expose_object(m_vm.get_vm(), -1, std::move(script_object), name);
     sq_pop(m_vm.get_vm(), 1);
   }
   void unexpose(const std::string& name);
