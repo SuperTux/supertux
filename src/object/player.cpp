@@ -234,7 +234,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_current_sliding_angle(0.0f),
   m_target_sliding_angle(0.0f),
   m_sliding_rotation_timer(),
-  m_is_slidejump_falling(false)
+  m_is_slidejump_falling(false),
+  m_was_crawling_before_slide(false)
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -510,6 +511,7 @@ Player::update(float dt_sec)
           stop_rolling();
         m_sliding = false;
         m_slidejumping = false;
+        m_was_crawling_before_slide = false;
         m_no_water = false;
         m_water_jump = false;
         m_swimming = true;
@@ -730,6 +732,7 @@ Player::update(float dt_sec)
   {
     m_crawl = false;
     m_sliding = true;
+    m_was_crawling_before_slide = true;
   }
 
   //sliding
@@ -790,8 +793,13 @@ Player::update(float dt_sec)
 
     //if you stop holding down when sliding, then it stops.
     //or, stop sliding if you come to a stop and are not on a slope.
-    if (!m_controller->hold(Control::DOWN) ||
-      (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f))
+    if (!m_controller->hold(Control::DOWN))
+    {
+      m_sliding = false;
+      m_was_crawling_before_slide = false;
+      m_slidejumping = false;
+    }
+    else if (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f)
     {
       if (is_big())
       {
@@ -802,6 +810,7 @@ Player::update(float dt_sec)
       }
       m_sliding = false;
       m_slidejumping = false;
+      m_was_crawling_before_slide = false;
     }
   }
 
@@ -872,9 +881,11 @@ Player::slide()
   if (m_swimming || m_water_jump || m_stone)
   {
     m_sliding = false;
+    m_was_crawling_before_slide = false;
     return;
   }
   m_sliding = true;
+
   if (m_physic.get_velocity_x() > 0.f) {
     m_dir = Direction::RIGHT;
   }
@@ -1568,6 +1579,7 @@ Player::handle_input()
     m_stone = true;
     m_swimming = false;
     m_sliding = false;
+    m_was_crawling_before_slide = false;
     m_crawl = false;
     m_duck = false;
   }
@@ -2056,6 +2068,11 @@ Player::draw(DrawingContext& context)
     }
     else {
       m_sprite->set_action(sa_prefix + "-slide" + sa_postfix);
+      if (m_was_crawling_before_slide)
+      {
+        m_sprite->set_frame(m_sprite->get_frames()); // Skip the "duck" animation when coming from crawling
+        m_was_crawling_before_slide = false;
+      }
     }
   }
   else if (m_duck && is_big() && !m_swimming && !m_crawl) {
@@ -2065,11 +2082,12 @@ Player::draw(DrawingContext& context)
   {
     if (on_ground())
     {
+      m_sprite->set_action(sa_prefix + "-crawl" + sa_postfix);
       if (m_physic.get_velocity_x() != 0.f) {
-        m_sprite->set_action(sa_prefix + "-crawl" + sa_postfix);
+        m_sprite->set_animation_loops();
       }
       else {
-        m_sprite->set_action(sa_prefix + "-duck" + sa_postfix);
+        m_sprite->stop_animation();
       }
     }
     else {

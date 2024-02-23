@@ -400,6 +400,7 @@ private:
   float m_target_sliding_angle;
   Timer m_sliding_rotation_timer;
   bool m_is_slidejump_falling;
+  bool m_was_crawling_before_slide;
 
 private:
   Player(const Player&) = delete;
