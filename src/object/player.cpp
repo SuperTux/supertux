@@ -718,13 +718,13 @@ Player::update(float dt_sec)
   if (m_climbing) {
     if ((m_physic.get_velocity_x() == 0) && (m_physic.get_velocity_y() == 0))
     {
-      m_sprite->stop_animation();
-      //m_santahatsprite->stop_animation();
+      m_sprite->pause_animation();
+      //m_santahatsprite->pause_animation();
     }
     else if (!m_growing)
     {
-      m_sprite->set_animation_loops(-1);
-      //m_santahatsprite->set_animation_loops(-1);
+      m_sprite->resume_animation();
+      //m_santahatsprite->resume_animation();
     }
   }
 
@@ -2057,7 +2057,7 @@ Player::draw(DrawingContext& context)
 
     // Avoid flickering briefly after growing on ladder
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
-      m_sprite->stop_animation();
+      m_sprite->pause_animation();
   }
   else if (m_backflipping) {
     m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
@@ -2084,10 +2084,10 @@ Player::draw(DrawingContext& context)
     {
       m_sprite->set_action(sa_prefix + "-crawl" + sa_postfix);
       if (m_physic.get_velocity_x() != 0.f) {
-        m_sprite->set_animation_loops();
+        m_sprite->resume_animation();
       }
       else {
-        m_sprite->stop_animation();
+        m_sprite->pause_animation();
       }
     }
     else {
