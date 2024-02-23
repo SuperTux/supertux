@@ -371,7 +371,7 @@ private:
   Timer m_backflip_timer;
 
   Physic m_physic;
-
+  Vector m_wind_velocity;
   bool m_visible;
 
   Portable* m_grabbed_object;

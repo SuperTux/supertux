@@ -24,6 +24,7 @@
 #include "editor/editor.hpp"
 #include "math/util.hpp"
 #include "math/random.hpp"
+#include "math/vector.hpp"
 #include "object/brick.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -207,6 +208,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_growing(false),
   m_backflip_timer(),
   m_physic(),
+  m_wind_velocity(),
   m_visible(true),
   m_grabbed_object(nullptr),
   m_grabbed_object_remove_listener(new GrabListener(*this)),
@@ -1468,6 +1470,9 @@ Player::handle_input()
 
   /* Handle vertical movement: */
   if (!m_stone && !m_swimming) handle_vertical_input();
+
+  m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
+  m_wind_velocity = Vector(0.f, 0.f);
 
   /* grabbing */
   bool just_grabbed = try_grab();
@@ -2885,13 +2890,13 @@ Player::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
 {
   // Only add velocity in the same direction as the wind.
   if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
-    m_physic.set_velocity_x(std::min(m_physic.get_velocity_x() + velocity.x, end_speed.x));
+    m_wind_velocity.x = std::min(m_wind_velocity.x + velocity.x, end_speed.x);
   if (end_speed.x < 0 && m_physic.get_velocity_x() > end_speed.x)
-    m_physic.set_velocity_x(std::max(m_physic.get_velocity_x() + velocity.x, end_speed.x));
+    m_wind_velocity.x = std::max(m_wind_velocity.x + velocity.x, end_speed.x);
   if (end_speed.y > 0 && m_physic.get_velocity_y() < end_speed.y)
-    m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
+    m_wind_velocity.y = std::min(m_wind_velocity.y + velocity.y, end_speed.y);
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
-    m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
+    m_wind_velocity.y = std::max(m_wind_velocity.y + velocity.y, end_speed.y);
 }
 
 

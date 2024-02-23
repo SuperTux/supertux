@@ -44,6 +44,7 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
 
   virtual ObjectSettings get_settings() override;
+  virtual GameObjectTypes get_types() const override;
 
   virtual int get_layer() const override { return LAYER_OBJECTS; }
 
@@ -59,6 +60,12 @@ public:
   void stop();
 
   /** @} */
+
+private:
+  enum Type {
+    WIND,
+    CURRENT,
+  };
 
 private:
   bool blowing; /**< true if wind is currently switched on */

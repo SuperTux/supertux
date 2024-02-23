@@ -17,6 +17,7 @@
 #include "object/wind.hpp"
 
 #include "badguy/badguy.hpp"
+#include "badguy/dive_mine.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
 #include "object/particles.hpp"
@@ -25,6 +26,7 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -43,6 +45,7 @@ Wind::Wind(const ReaderMapping& reader) :
   fancy_wind()
 {
   float w,h;
+  parse_type(reader);
   reader.get("x", m_col.m_bbox.get_left(), 0.0f);
   reader.get("y", m_col.m_bbox.get_top(), 0.0f);
   reader.get("width", w, 32.0f);
@@ -89,6 +92,14 @@ Wind::get_settings()
   return result;
 }
 
+GameObjectTypes
+Wind::get_types() const {
+  return {
+    { "wind", _("Wind") },
+    { "current", _("Current") }
+  };
+}
+
 void
 Wind::update(float dt_sec_)
 {
@@ -107,7 +118,14 @@ Wind::update(float dt_sec_)
     // emit a particle
 	  if (fancy_wind)
     {
-	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1); 
+      switch (m_type) {
+        case WIND: // Normal wind
+          Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1);
+          break;
+        case CURRENT: // Current variant
+          Sector::get().add<SpriteParticle>("images/particles/water_piece1.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1);
+          break;
+      }
 	  }
 	  else
     {
@@ -134,28 +152,15 @@ Wind::collision(GameObject& other, const CollisionHit& )
   if (player && affects_player)
   {
     player->override_velocity();
-    if (!player->on_ground())
-	  {
-      player->add_wind_velocity(speed * acceleration * dt_sec, speed);
-    }
-    else
-    {
-      if (player->get_controller().hold(Control::RIGHT) || player->get_controller().hold(Control::LEFT))
-	    {
-	      player->add_wind_velocity(Vector(speed.x, 0) * acceleration * dt_sec, speed);
-	    }
-	    else
-      {
-	      //When on ground, get blown slightly differently, but the max speed is less than it would be otherwise seen as we take "friction" into account
-	      player->add_wind_velocity((Vector(speed.x, 0) * 0.1f) * (acceleration+1), (Vector(speed.x, speed.y) * 0.5f));
-	    }
-    }
+    player->add_wind_velocity(speed * acceleration * dt_sec, speed);
   }
 
   auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy && affects_badguys && badguy->can_be_affected_by_wind())
   {
-    badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    if (m_type == CURRENT && !dynamic_cast<DiveMine*>(&other)) { // Dive mines are not affected by currents
+      badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    }
   }
 
   auto rock = dynamic_cast<Rock*>(&other);
