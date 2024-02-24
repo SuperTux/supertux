@@ -127,7 +127,8 @@ FishSwimming::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   return CONTINUE;
 }
 
-void FishSwimming::update(float dt_sec)
+void
+FishSwimming::update(float dt_sec)
 {
   // Don't allow dying by going below the sector.
   if (m_in_water && get_bbox().get_bottom() >= Sector::get().get_height())
