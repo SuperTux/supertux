@@ -21,26 +21,24 @@
 #include <string>
 #include <vector>
 
-#include <squirrel.h>
-#include <simplesquirrel/table.hpp>
+#include <simplesquirrel/vm.hpp>
 
 #include "squirrel/exposable_class.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
 #include "squirrel/squirrel_util.hpp"
-#include "squirrel/squirrel_vm.hpp"
 #include "util/log.hpp"
 
 /** The SquirrelEnvironment contains the environment in which a script
     is executed, meaning a root table containing objects and
     variables. */
-class SquirrelEnvironment
+class SquirrelEnvironment final
 {
 public:
-  SquirrelEnvironment(SquirrelVM& vm, const std::string& name);
+  SquirrelEnvironment(ssq::VM& vm, const std::string& name);
   virtual ~SquirrelEnvironment();
 
 public:
-  SquirrelVM& get_vm() const { return m_vm; }
+  ssq::VM& get_vm() const { return m_vm; }
 
   /** Expose this engine under 'name' */
   void expose_self();
@@ -68,10 +66,10 @@ private:
   void garbage_collect();
 
 private:
-  SquirrelVM& m_vm;
+  ssq::VM& m_vm;
   ssq::Table m_table;
   std::string m_name;
-  SquirrelObjectList m_scripts;
+  std::vector<ssq::VM> m_scripts;
   std::unique_ptr<SquirrelScheduler> m_scheduler;
 
 private:

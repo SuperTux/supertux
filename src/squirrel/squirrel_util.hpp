@@ -17,27 +17,19 @@
 #ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_UTIL_HPP
 #define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_UTIL_HPP
 
-#include <assert.h>
-#include <limits>
-#include <memory>
-#include <sstream>
+#include <string>
 #include <vector>
 
 #include <squirrel.h>
 
+namespace ssq {
+class Object;
+} // namespace ssq
+
 typedef std::vector<HSQOBJECT> SquirrelObjectList;
 
-std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
+std::string squirrel_to_string(const ssq::Object& object);
 void print_squirrel_stack(HSQUIRRELVM vm);
-
-SQInteger squirrel_read_char(SQUserPointer file);
-
-HSQUIRRELVM object_to_vm(const HSQOBJECT& object);
-
-void compile_script(HSQUIRRELVM vm, std::istream& in,
-                    const std::string& sourcename);
-void compile_and_run(HSQUIRRELVM vm, std::istream& in,
-                     const std::string& sourcename);
 
 #endif
 

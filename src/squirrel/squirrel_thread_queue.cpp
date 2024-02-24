@@ -22,7 +22,7 @@
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "util/log.hpp"
 
-SquirrelThreadQueue::SquirrelThreadQueue(SquirrelVM& vm) :
+SquirrelThreadQueue::SquirrelThreadQueue(ssq::VM& vm) :
   m_vm(vm),
   m_threads()
 {
@@ -32,18 +32,19 @@ SQInteger
 SquirrelThreadQueue::add(HSQUIRRELVM vm)
 {
   // create a weakref to the VM
-  sq_pushthread(m_vm.get_vm(), vm);
-  sq_weakref(m_vm.get_vm(), -1);
+  sq_pushthread(m_vm.getHandle(), vm);
+  sq_weakref(m_vm.getHandle(), -1);
 
   HSQOBJECT object;
-  if (SQ_FAILED(sq_getstackobj(m_vm.get_vm(), -1, &object))) {
-    sq_pop(m_vm.get_vm(), 2);
-    throw ssq::Exception(m_vm.get_vm(), "Couldn't get thread weakref from vm");
+  if (SQ_FAILED(sq_getstackobj(m_vm.getHandle(), -1, &object)))
+  {
+    sq_pop(m_vm.getHandle(), 2);
+    throw ssq::RuntimeException(m_vm.getHandle(), "Couldn't get thread weakref from VM!");
   }
-  sq_addref(m_vm.get_vm(), &object);
+  sq_addref(m_vm.getHandle(), &object);
   m_threads.push_back(object);
 
-  sq_pop(m_vm.get_vm(), 2);
+  sq_pop(m_vm.getHandle(), 2);
   return sq_suspendvm(vm);
 }
 
@@ -55,20 +56,20 @@ SquirrelThreadQueue::wakeup()
 
   for (HSQOBJECT& object : threads)
   {
-    sq_pushobject(m_vm.get_vm(), object);
-    sq_getweakrefval(m_vm.get_vm(), -1);
+    sq_pushobject(m_vm.getHandle(), object);
+    sq_getweakrefval(m_vm.getHandle(), -1);
 
     HSQUIRRELVM scheduled_vm;
-    if (sq_gettype(m_vm.get_vm(), -1) == OT_THREAD &&
-       SQ_SUCCEEDED(sq_getthread(m_vm.get_vm(), -1, &scheduled_vm)))
+    if (sq_gettype(m_vm.getHandle(), -1) == OT_THREAD &&
+       SQ_SUCCEEDED(sq_getthread(m_vm.getHandle(), -1, &scheduled_vm)))
     {
       if (SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         log_warning << "Couldn't wakeup scheduled squirrel VM" << std::endl;
       }
     }
 
-    sq_release(m_vm.get_vm(), &object);
-    sq_pop(m_vm.get_vm(), 1);
+    sq_release(m_vm.getHandle(), &object);
+    sq_pop(m_vm.getHandle(), 1);
   }
 }
 

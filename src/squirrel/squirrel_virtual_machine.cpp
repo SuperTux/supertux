@@ -16,17 +16,13 @@
 
 #include "squirrel/squirrel_virtual_machine.hpp"
 
-#include <sqstdaux.h>
-#include <sqstdblob.h>
-#include <sqstdmath.h>
-#include <sqstdstring.h>
 #include <cstring>
 #include <stdarg.h>
 #include <stdio.h>
 
 #include "physfs/ifile_stream.hpp"
-#include "squirrel/squirrel_thread_queue.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
+#include "squirrel/squirrel_thread_queue.hpp"
 #include "squirrel/squirrel_util.hpp"
 #include "squirrel/supertux_api.hpp"
 #include "supertux/console.hpp"
@@ -40,82 +36,55 @@ HSQREMOTEDBG debugger = nullptr;
 } // namespace
 #endif
 
-namespace {
-
-#ifdef __clang__
-__attribute__((__format__ (__printf__, 2, 0)))
-#endif
-void printfunc(HSQUIRRELVM, const char* fmt, ...)
-{
-  char buf[4096];
-  const char separator[] = "\n";
-  va_list arglist;
-  va_start(arglist, fmt);
-  vsnprintf(buf, sizeof(buf), fmt, arglist);
-  const char* ptr = strtok(buf, separator);
-  while (ptr != nullptr)
-  {
-    ConsoleBuffer::output << "[SCRIPTING] " << ptr << std::endl;
-    ptr = strtok(nullptr, separator);
-  }
-  va_end(arglist);
-}
-
-} // namespace
-
 SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
-  m_vm(),
+  m_vm(64, ssq::Libs::BLOB & ssq::Libs::MATH & ssq::Libs::STRING),
   m_screenswitch_queue(),
   m_scheduler()
 {
-  m_vm.get_ssq_vm().setForeignPtr(this);
+  m_vm.setForeignPtr(this);
 
   m_screenswitch_queue = std::make_unique<SquirrelThreadQueue>(m_vm);
   m_scheduler = std::make_unique<SquirrelScheduler>(m_vm);
 
   if (enable_debugger) {
 #ifdef ENABLE_SQDBG
-    sq_enabledebuginfo(m_vm.get_vm(), SQTrue);
-    debugger = sq_rdbg_init(m_vm.get_vm(), 1234, SQFalse);
+    sq_enabledebuginfo(m_vm.getHandle(), SQTrue);
+    debugger = sq_rdbg_init(m_vm.getHandle(), 1234, SQFalse);
     if (debugger == nullptr)
-      throw ssq::Exception(m_vm.get_vm(), "Couldn't initialize squirrel debugger");
+      throw ssq::Exception(m_vm.getHandle(), "Couldn't initialize squirrel debugger");
 
-    sq_enabledebuginfo(m_vm.get_vm(), SQTrue);
+    sq_enabledebuginfo(m_vm.getHandle(), SQTrue);
     log_info << "Waiting for debug client..." << std::endl;
     if (SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
-      throw ssq::Exception(m_vm.get_vm(), "Waiting for debug clients failed");
+      throw ssq::Exception(m_vm.getHandle(), "Waiting for debug clients failed");
     log_info << "debug client connected." << std::endl;
 #endif
   }
 
-  // remove rand and srand calls from sqstdmath, we'll provide our own
-  m_vm.delete_table_entry("srand");
-  m_vm.delete_table_entry("rand");
+  // Remove rand and srand calls from sqstdmath, we'll provide our own.
+  m_vm.remove("srand");
+  m_vm.remove("rand");
 
-  // register supertux API
-  register_supertux_scripting_api(m_vm.get_ssq_vm());
+  // Register SuperTux API.
+  register_supertux_scripting_api(m_vm);
 
-  sq_pop(m_vm.get_vm(), 1);
-
-  // register print function
-  sq_setprintfunc(m_vm.get_vm(), printfunc, printfunc);
-  // register default error handlers
-  sqstd_seterrorhandlers(m_vm.get_vm());
-
-  // try to load default script
-  try {
-    std::string filename = "scripts/default.nut";
-    IFileStream stream(filename);
-    compile_and_run(m_vm.get_vm(), stream, filename);
-  } catch(std::exception& e) {
-    log_warning << "Couldn't load default.nut: " << e.what() << std::endl;
+  // Try to load the default script.
+  try
+  {
+    IFileStream stream("scripts/default.nut");
+    m_vm.run(m_vm.compileSource(stream, "scripts/default.nut"));
+  }
+  catch (const std::exception& err)
+  {
+    log_warning << "Couldn't load 'default.nut': " << err.what() << std::endl;
   }
 }
 
 SquirrelVirtualMachine::~SquirrelVirtualMachine()
 {
 #ifdef ENABLE_SQDBG
-  if (debugger != nullptr) {
+  if (debugger)
+  {
     sq_rdbg_shutdown(debugger);
     debugger = nullptr;
   }
@@ -133,7 +102,7 @@ void
 SquirrelVirtualMachine::update_debugger()
 {
 #ifdef ENABLE_SQDBG
-  if (debugger != nullptr)
+  if (debugger)
     sq_rdbg_update(debugger);
 #endif
 }

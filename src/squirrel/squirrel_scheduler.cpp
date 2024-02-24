@@ -25,7 +25,7 @@
 #include "supertux/level.hpp"
 #include "util/log.hpp"
 
-SquirrelScheduler::SquirrelScheduler(SquirrelVM& vm) :
+SquirrelScheduler::SquirrelScheduler(ssq::VM& vm) :
   m_vm(vm),
   schedule()
 {
@@ -34,19 +34,19 @@ SquirrelScheduler::SquirrelScheduler(SquirrelVM& vm) :
 void
 SquirrelScheduler::update(float time)
 {
-  while (!schedule.empty() && (schedule.front().wakeup_time < time ||
-        (schedule.front().skippable &&
-        Level::current() != nullptr &&
-        Level::current()->m_skip_cutscene)
-      )) {
+  while (!schedule.empty() &&
+         (schedule.front().wakeup_time < time ||
+          (schedule.front().skippable && Level::current() != nullptr &&
+           Level::current()->m_skip_cutscene)))
+  {
     HSQOBJECT thread_ref = schedule.front().thread_ref;
 
-    sq_pushobject(m_vm.get_vm(), thread_ref);
-    sq_getweakrefval(m_vm.get_vm(), -1);
+    sq_pushobject(m_vm.getHandle(), thread_ref);
+    sq_getweakrefval(m_vm.getHandle(), -1);
 
     HSQUIRRELVM scheduled_vm;
-    if (sq_gettype(m_vm.get_vm(), -1) == OT_THREAD &&
-       SQ_SUCCEEDED(sq_getthread(m_vm.get_vm(), -1, &scheduled_vm))) {
+    if (sq_gettype(m_vm.getHandle(), -1) == OT_THREAD &&
+       SQ_SUCCEEDED(sq_getthread(m_vm.getHandle(), -1, &scheduled_vm))) {
       if (SQ_FAILED(sq_wakeupvm(scheduled_vm, SQFalse, SQFalse, SQTrue, SQFalse))) {
         std::ostringstream msg;
         msg << "Error waking VM: ";
@@ -63,8 +63,8 @@ SquirrelScheduler::update(float time)
       }
     }
 
-    sq_release(m_vm.get_vm(), &thread_ref);
-    sq_pop(m_vm.get_vm(), 2);
+    sq_release(m_vm.getHandle(), &thread_ref);
+    sq_pop(m_vm.getHandle(), 2);
 
     std::pop_heap(schedule.begin(), schedule.end());
     schedule.pop_back();
@@ -75,19 +75,19 @@ SQInteger
 SquirrelScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time, bool skippable)
 {
   // create a weakref to the VM
-  sq_pushthread(m_vm.get_vm(), scheduled_vm);
-  sq_weakref(m_vm.get_vm(), -1);
+  sq_pushthread(m_vm.getHandle(), scheduled_vm);
+  sq_weakref(m_vm.getHandle(), -1);
 
   ScheduleEntry entry;
-  if (SQ_FAILED(sq_getstackobj(m_vm.get_vm(), -1, & entry.thread_ref))) {
-    sq_pop(m_vm.get_vm(), 2);
-    throw ssq::Exception(m_vm.get_vm(), "Couldn't get thread weakref from vm");
+  if (SQ_FAILED(sq_getstackobj(m_vm.getHandle(), -1, & entry.thread_ref))) {
+    sq_pop(m_vm.getHandle(), 2);
+    throw ssq::Exception(m_vm.getHandle(), "Couldn't get thread weakref from vm");
   }
   entry.wakeup_time = time;
   entry.skippable = skippable;
 
-  sq_addref(m_vm.get_vm(), & entry.thread_ref);
-  sq_pop(m_vm.get_vm(), 2);
+  sq_addref(m_vm.getHandle(), & entry.thread_ref);
+  sq_pop(m_vm.getHandle(), 2);
 
   schedule.push_back(entry);
   std::push_heap(schedule.begin(), schedule.end());

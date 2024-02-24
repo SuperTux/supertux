@@ -22,9 +22,10 @@
 #include <iomanip>
 #include <limits>
 
+#include <simplesquirrel/table.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "math/util.hpp"
-#include "squirrel/squirrel_vm.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/resources.hpp"
@@ -93,39 +94,37 @@ Statistics::calculate_max_caption_length()
 }
 
 void
-Statistics::serialize_to_squirrel(SquirrelVM& vm) const
+Statistics::serialize_to_squirrel(ssq::Table& table) const
 {
   if (m_status != FINAL) return;
-  
-  vm.begin_table("statistics");
-  vm.store_int("coins-collected", m_coins);
-  vm.store_int("badguys-killed", m_badguys);
-  vm.store_int("secrets-found", m_secrets);
-  vm.store_float("time-needed", m_time);
-  vm.store_int("coins-collected-total", m_total_coins);
-  vm.store_int("badguys-killed-total", m_total_badguys);
-  vm.store_int("secrets-found-total", m_total_secrets);
-  vm.end_table("statistics");
+
+  ssq::Table statistics = table.addTable("statistics");
+  statistics.set("coins-collected", m_coins);
+  statistics.set("badguys-killed", m_badguys);
+  statistics.set("secrets-found", m_secrets);
+  statistics.set("time-needed", m_time);
+  statistics.set("coins-collected-total", m_total_coins);
+  statistics.set("badguys-killed-total", m_total_badguys);
+  statistics.set("secrets-found-total", m_total_secrets);
 }
 
 void
-Statistics::unserialize_from_squirrel(SquirrelVM& vm)
+Statistics::unserialize_from_squirrel(const ssq::Table& table)
 {
   try
   {
-    vm.get_table_entry("statistics");
-    vm.get_int("coins-collected", m_coins);
-    vm.get_int("badguys-killed", m_badguys);
-    vm.get_int("secrets-found", m_secrets);
-    vm.get_float("time-needed", m_time);
-    vm.get_int("coins-collected-total", m_total_coins);
-    vm.get_int("badguys-killed-total", m_total_badguys);
-    vm.get_int("secrets-found-total", m_total_secrets);
-    sq_pop(vm.get_vm(), 1);
+    const ssq::Table statistics = table.findTable("statistics");
+    statistics.get("coins-collected", m_coins);
+    statistics.get("badguys-killed", m_badguys);
+    statistics.get("secrets-found", m_secrets);
+    statistics.get("time-needed", m_time);
+    statistics.get("coins-collected-total", m_total_coins);
+    statistics.get("badguys-killed-total", m_total_badguys);
+    statistics.get("secrets-found-total", m_total_secrets);
 
     m_status = FINAL;
   }
-  catch(const std::exception&)
+  catch(const ssq::NotFoundException&)
   {
     // ignore non-existing or malformed statistics table
   }

@@ -50,10 +50,9 @@ namespace Globals {
  * Displays the value of an argument. This is useful for inspecting tables.
  * @param ANY $object
  */
-SQInteger display(HSQUIRRELVM vm, const ssq::Object&)
+void display(const ssq::Object& object)
 {
-  ConsoleBuffer::output << squirrel2string(vm, 2) << std::endl;
-  return 0;
+  ConsoleBuffer::output << squirrel_to_string(object) << std::endl;
 }
 /**
  * Displays the contents of the current stack.
@@ -148,49 +147,48 @@ bool check_cutscene()
  */
 SQInteger wait(HSQUIRRELVM vm, float seconds)
 {
-  auto session = GameSession::current();
+  ssq::VM& ssq_vm = ssq::VM::get(vm);
+  if (!ssq_vm.isThread()) return 0;
 
+  auto session = GameSession::current();
   if (session && session->get_current_level().m_skip_cutscene)
   {
-    SQUserPointer env = sq_getforeignptr(vm);
-    if (env)
+    if (ssq_vm.getForeignPtr())
     {
-      auto squirrelenv = static_cast<SquirrelEnvironment*>(env);
+      auto squirrelenv = ssq_vm.getForeignPtr<SquirrelEnvironment>();
       // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}`.
       return squirrelenv->wait_for_seconds(vm, 0);
     }
     else
     {
-      auto squirrelvm = ssq::VM::get(vm)->getForeignPtr<SquirrelVirtualMachine>();
+      auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
       return squirrelvm->wait_for_seconds(vm, 0);
     }
   }
   else if (session && session->get_current_level().m_is_in_cutscene)
   {
-    SQUserPointer env = sq_getforeignptr(vm);
-    if (env)
+    if (ssq_vm.getForeignPtr())
     {
-      auto squirrelenv = static_cast<SquirrelEnvironment*>(env);
+      auto squirrelenv = ssq_vm.getForeignPtr<SquirrelEnvironment>();
       // Wait anyways, to prevent scripts like `while (true) {wait(0.1); ...}` from freezing the game.
       return squirrelenv->skippable_wait_for_seconds(vm, seconds);
     }
     else
     {
-      auto squirrelvm = ssq::VM::get(vm)->getForeignPtr<SquirrelVirtualMachine>();
+      auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
       return squirrelvm->skippable_wait_for_seconds(vm, seconds);
     }
   }
   else
   {
-    SQUserPointer env = sq_getforeignptr(vm);
-    if (env)
+    if (ssq_vm.getForeignPtr())
     {
-      auto squirrelenv = static_cast<SquirrelEnvironment*>(env);
+      auto squirrelenv = ssq_vm.getForeignPtr<SquirrelEnvironment>();
       return squirrelenv->wait_for_seconds(vm, seconds);
     }
     else
     {
-      auto squirrelvm = ssq::VM::get(vm)->getForeignPtr<SquirrelVirtualMachine>();
+      auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
       return squirrelvm->wait_for_seconds(vm, seconds);
     }
   }
@@ -201,7 +199,7 @@ SQInteger wait(HSQUIRRELVM vm, float seconds)
  */
 SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  auto squirrelvm = ssq::VM::get(vm)->getForeignPtr<SquirrelVirtualMachine>();
+  auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
   return squirrelvm->wait_for_screenswitch(vm);
 }
 /**
@@ -312,8 +310,10 @@ void load_level(const std::string& filename)
  */
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
+  ssq::VM& ssq_vm = ssq::VM::get(vm);
+
   IFileStream in(filename);
-  compile_and_run(vm, in, filename);
+  ssq_vm.run(ssq_vm.compileSource(in, filename.c_str()));
 }
 
 /**
