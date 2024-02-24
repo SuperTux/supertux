@@ -127,9 +127,20 @@ FishSwimming::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   return CONTINUE;
 }
 
+void FishSwimming::update(float dt_sec)
+{
+  // Don't allow dying by going below the sector.
+  if (m_in_water && get_bbox().get_bottom() >= Sector::get().get_height())
+  {
+    set_pos(Vector(get_bbox().get_left(),
+                   Sector::get().get_height() - m_col.m_bbox.get_height()));
+  }
+
+  BadGuy::update(dt_sec);
+}
+
 void
 FishSwimming::active_update(float dt_sec) {
-
   // Perform basic updates.
   BadGuy::active_update(dt_sec);
   m_in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
