@@ -83,6 +83,7 @@ void
 PathObject::goto_node(int node_no)
 {
   if (!m_walker) return;
+  BIND_SECTOR(Sector::get());
   m_walker->goto_node(node_no);
 }
 
@@ -90,6 +91,7 @@ void
 PathObject::set_node(int node_no)
 {
   if (!m_walker) return;
+  BIND_SECTOR(Sector::get());
   m_walker->jump_to_node(node_no);
 }
 
