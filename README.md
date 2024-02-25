@@ -114,3 +114,6 @@ the Ghostree Level, are considered to be placeholders, because for the next vers
 great overhaul is planned with new features like reworked boss fights, graphics, and worlds.
 If you have some Constructive Feedback, Contributions or ideas to share, don't hestitate
 to contact us with one of the possibilities given above.
+
+
+![image](https://github.com/SuperTux/supertux/assets/134429563/fa503fb0-6fa7-449a-93be-920af267d0e9)
