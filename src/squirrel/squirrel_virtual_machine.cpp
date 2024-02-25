@@ -37,7 +37,7 @@ HSQREMOTEDBG debugger = nullptr;
 #endif
 
 SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
-  m_vm(64, ssq::Libs::BLOB & ssq::Libs::MATH & ssq::Libs::STRING),
+  m_vm(64, ssq::Libs::BLOB | ssq::Libs::MATH | ssq::Libs::STRING),
   m_screenswitch_queue(),
   m_scheduler()
 {
