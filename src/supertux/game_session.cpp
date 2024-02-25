@@ -30,6 +30,7 @@
 #include "object/music_object.hpp"
 #include "object/player.hpp"
 #include "sdk/integration.hpp"
+#include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/fadetoblack.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
@@ -53,7 +54,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_prevent_death(false),
   m_level(),
   m_statistics_backdrop(Surface::from_file("images/engine/menu/score-backdrop.png")),
-  m_scripts(),
+  m_data_table(SquirrelVirtualMachine::current()->get_vm().findTable("Level").getOrCreateTable("data")),
   m_currentsector(nullptr),
   m_end_sequence(nullptr),
   m_game_pause(false),
@@ -83,6 +84,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
   m_max_ice_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);
 
+  m_data_table.clear();
+
   if (restart_level(false, preserve_music) != 0)
     throw std::runtime_error ("Initializing the level failed.");
 }
@@ -110,6 +113,8 @@ GameSession::reset_level()
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
   m_pause_target_timer = false;
+
+  m_data_table.clear();
 }
 
 int
@@ -188,6 +193,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
       spawnpoint = &m_spawnpoints.front();
 
       m_play_time = 0; // Reset play time.
+      m_data_table.clear();
     }
 
     /* Perform the respawn from the chosen spawnpoint. */
@@ -401,6 +407,7 @@ GameSession::setup()
 void
 GameSession::leave()
 {
+  m_data_table.clear();
 }
 
 void

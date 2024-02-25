@@ -24,7 +24,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <squirrel.h>
+#include <simplesquirrel/table.hpp>
 
 #include "math/vector.hpp"
 #include "squirrel/squirrel_scheduler.hpp"
@@ -145,8 +145,7 @@ private:
   std::unique_ptr<Level> m_level;
   SurfacePtr m_statistics_backdrop;
 
-  // scripts
-  SquirrelObjectList m_scripts;
+  ssq::Table m_data_table;
 
   Sector* m_currentsector;
 

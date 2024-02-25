@@ -74,6 +74,7 @@ void
 TitleScreen::leave()
 {
   m_titlesession->get_current_sector().deactivate();
+  m_titlesession->leave();
   MenuManager::instance().clear_menu_stack();
 }
 
