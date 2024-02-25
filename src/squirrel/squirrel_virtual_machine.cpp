@@ -36,6 +36,25 @@ HSQREMOTEDBG debugger = nullptr;
 } // namespace
 #endif
 
+#ifdef __clang__
+__attribute__((__format__ (__printf__, 2, 0)))
+#endif
+static void printFunc(HSQUIRRELVM, const char* fmt, ...)
+{
+  char buf[4096];
+  const char separator[] = "\n";
+  va_list arglist;
+  va_start(arglist, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, arglist);
+  const char* ptr = strtok(buf, separator);
+  while (ptr != nullptr)
+  {
+    ConsoleBuffer::output << "[SCRIPTING] " << ptr << std::endl;
+    ptr = strtok(nullptr, separator);
+  }
+  va_end(arglist);
+}
+
 SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
   m_vm(64, ssq::Libs::BLOB | ssq::Libs::MATH | ssq::Libs::STRING),
   m_screenswitch_queue(),
@@ -60,6 +79,9 @@ SquirrelVirtualMachine::SquirrelVirtualMachine(bool enable_debugger) :
     log_info << "debug client connected." << std::endl;
 #endif
   }
+
+  // Set print function.
+  m_vm.setPrintFunc(&printFunc, &printFunc);
 
   // Remove rand and srand calls from sqstdmath, we'll provide our own.
   m_vm.remove("srand");
