@@ -88,9 +88,9 @@ FloatingImage::get_y() const
 }
 
 void
-FloatingImage::set_anchor_point(int anchor)
+FloatingImage::set_anchor_point(int anchor_)
 {
-  anchor = static_cast<AnchorPoint>(anchor);
+  anchor = static_cast<AnchorPoint>(anchor_);
 }
 
 int
