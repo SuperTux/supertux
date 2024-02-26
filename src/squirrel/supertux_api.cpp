@@ -50,21 +50,21 @@ namespace Globals {
  * Displays the value of an argument. This is useful for inspecting tables.
  * @param ANY $object
  */
-void display(const ssq::Object& object)
+static void display(const ssq::Object& object)
 {
   ConsoleBuffer::output << squirrel_to_string(object) << std::endl;
 }
 /**
  * Displays the contents of the current stack.
  */
-void print_stacktrace(HSQUIRRELVM vm)
+static void print_stacktrace(HSQUIRRELVM vm)
 {
   print_squirrel_stack(vm);
 }
 /**
  * Returns the currently running thread.
  */
-SQInteger get_current_thread(HSQUIRRELVM vm)
+static SQInteger get_current_thread(HSQUIRRELVM vm)
 {
   sq_pushthread(vm, vm);
   return 1;
@@ -73,7 +73,7 @@ SQInteger get_current_thread(HSQUIRRELVM vm)
 /**
  * Returns whether the game is in christmas mode.
  */
-bool is_christmas()
+static bool is_christmas()
 {
   return g_config->christmas_mode;
 }
@@ -81,7 +81,7 @@ bool is_christmas()
 /**
  * Starts a skippable cutscene.
  */
-void start_cutscene()
+static void start_cutscene()
 {
   auto session = GameSession::current();
   if (session == nullptr)
@@ -105,7 +105,7 @@ void start_cutscene()
 /**
  * Ends a skippable cutscene.
  */
-void end_cutscene()
+static void end_cutscene()
 {
   auto session = GameSession::current();
   if (session == nullptr)
@@ -129,7 +129,7 @@ void end_cutscene()
 /**
  * Checks if a skippable cutscene is currently running.
  */
-bool check_cutscene()
+static bool check_cutscene()
 {
   auto session = GameSession::current();
   if (session == nullptr)
@@ -145,7 +145,7 @@ bool check_cutscene()
  * Suspends the script execution for a specified number of seconds.
  * @param float $seconds
  */
-SQInteger wait(HSQUIRRELVM vm, float seconds)
+static SQInteger wait(HSQUIRRELVM vm, float seconds)
 {
   ssq::VM* ssq_vm = ssq::VM::get(vm);
   if (ssq_vm && !ssq_vm->isThread()) return 0;
@@ -197,7 +197,7 @@ SQInteger wait(HSQUIRRELVM vm, float seconds)
 /**
  * Suspends the script execution until the current screen has been changed.
  */
-SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
+static SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
 {
   auto squirrelvm = ssq::VM::getMain(vm).getForeignPtr<SquirrelVirtualMachine>();
   return squirrelvm->wait_for_screenswitch(vm);
@@ -205,7 +205,7 @@ SQInteger wait_for_screenswitch(HSQUIRRELVM vm)
 /**
  * Exits the currently running screen (for example, force exits from worldmap or scrolling text).
  */
-void exit_screen()
+static void exit_screen()
 {
   ScreenManager::current()->pop_screen();
 }
@@ -214,7 +214,7 @@ void exit_screen()
  * Translates a text into the user's language (by looking in the "".po"" files).
  * @param string $text
  */
-std::string translate(const std::string& text)
+static std::string translate(const std::string& text)
 {
   return g_dictionary_manager->get_dictionary().translate(text);
 }
@@ -223,7 +223,7 @@ std::string translate(const std::string& text)
  * Same function as ""translate()"".
  * @param string $text
  */
-std::string _(const std::string& text)
+static std::string _(const std::string& text)
 {
 }
 #endif
@@ -234,7 +234,7 @@ std::string _(const std::string& text)
  * @param string $text_plural
  * @param int $num
  */
-std::string translate_plural(const std::string& text, const std::string& text_plural, int num)
+static std::string translate_plural(const std::string& text, const std::string& text_plural, int num)
 {
   return g_dictionary_manager->get_dictionary().translate_plural(text, text_plural, num);
 }
@@ -245,7 +245,7 @@ std::string translate_plural(const std::string& text, const std::string& text_pl
  * @param string $text_plural
  * @param int $num
  */
-std::string __(const std::string& text, const std::string& text_plural, int num)
+static std::string __(const std::string& text, const std::string& text_plural, int num)
 {
 }
 #endif
@@ -254,7 +254,7 @@ std::string __(const std::string& text, const std::string& text_plural, int num)
  * Displays a text file and scrolls it over the screen (on next screenswitch).
  * @param string $filename
  */
-void display_text_file(const std::string& filename)
+static void display_text_file(const std::string& filename)
 {
   ScreenManager::current()->push_screen(std::make_unique<TextScrollerScreen>(filename));
 }
@@ -265,7 +265,7 @@ void display_text_file(const std::string& filename)
  * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
  * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
  */
-void load_worldmap(const std::string& filename, const std::string& sector, const std::string& spawnpoint)
+static void load_worldmap(const std::string& filename, const std::string& sector, const std::string& spawnpoint)
 {
   using namespace worldmap;
 
@@ -284,7 +284,7 @@ void load_worldmap(const std::string& filename, const std::string& sector, const
  * @param string $sector Forced sector to spawn in the worldmap on. Leave empty to use last sector from savegame.
  * @param string $spawnpoint Forced spawnpoint to spawn in the worldmap on. Leave empty to use last position from savegame.
  */
-void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
+static void set_next_worldmap(const std::string& dirname, const std::string& sector, const std::string& spawnpoint)
 {
   GameManager::current()->set_next_worldmap(dirname, sector, spawnpoint);
 }
@@ -292,7 +292,7 @@ void set_next_worldmap(const std::string& dirname, const std::string& sector, co
  * Loads and displays a level (on next screenswitch), using the savegame of the current level.
  * @param string $filename
  */
-void load_level(const std::string& filename)
+static void load_level(const std::string& filename)
 {
   if (!GameSession::current())
   {
@@ -308,7 +308,7 @@ void load_level(const std::string& filename)
  * Loads a script file and executes it. This is typically used to import functions from external files.
  * @param string $filename
  */
-void import(HSQUIRRELVM vm, const std::string& filename)
+static void import(HSQUIRRELVM vm, const std::string& filename)
 {
   ssq::VM ssq_vm(vm);
 
@@ -320,7 +320,7 @@ void import(HSQUIRRELVM vm, const std::string& filename)
  * Enables/disables drawing of collision rectangles.
  * @param bool $enable
  */
-void debug_collrects(bool enable)
+static void debug_collrects(bool enable)
 {
   g_debug.show_collision_rects = enable;
 }
@@ -328,7 +328,7 @@ void debug_collrects(bool enable)
  * Enables/disables drawing of FPS.
  * @param bool $enable
  */
-void debug_show_fps(bool enable)
+static void debug_show_fps(bool enable)
 {
   g_config->show_fps = enable;
 }
@@ -336,7 +336,7 @@ void debug_show_fps(bool enable)
  * Enables/disables drawing of non-solid layers.
  * @param bool $enable
  */
-void debug_draw_solids_only(bool enable)
+static void debug_draw_solids_only(bool enable)
 {
   ::Sector::s_draw_solids_only = enable;
 }
@@ -344,7 +344,7 @@ void debug_draw_solids_only(bool enable)
  * Enables/disables drawing of editor images.
  * @param bool $enable
  */
-void debug_draw_editor_images(bool enable)
+static void debug_draw_editor_images(bool enable)
 {
   Tile::draw_editor_images = enable;
 }
@@ -352,7 +352,7 @@ void debug_draw_editor_images(bool enable)
  * Enables/disables worldmap ghost mode.
  * @param bool $enable
  */
-void debug_worldmap_ghost(bool enable)
+static void debug_worldmap_ghost(bool enable)
 {
   auto worldmap_sector = worldmap::WorldMapSector::current();
 
@@ -366,7 +366,7 @@ void debug_worldmap_ghost(bool enable)
  * Sets the game speed to ""speed"".
  * @param float $speed
  */
-void set_game_speed(float speed)
+static void set_game_speed(float speed)
 {
   if (speed < 0.05f)
   {
@@ -383,7 +383,7 @@ void set_game_speed(float speed)
 /**
  * Saves world state to scripting table.
  */
-void save_state()
+static void save_state()
 {
   auto worldmap = worldmap::WorldMap::current();
 
@@ -399,7 +399,7 @@ void save_state()
 /**
  * Loads world state from scripting table.
  */
-void load_state()
+static void load_state()
 {
   auto worldmap = worldmap::WorldMap::current();
 
@@ -417,7 +417,7 @@ void load_state()
  * Changes the music to ""musicfile"".
  * @param string $musicfile
  */
-void play_music(const std::string& filename)
+static void play_music(const std::string& filename)
 {
   SoundManager::current()->play_music(filename);
 }
@@ -426,7 +426,7 @@ void play_music(const std::string& filename)
  * @param string $musicfile
  * @param float $fadetime
  */
-void fade_in_music(const std::string& filename, float fadetime)
+static void fade_in_music(const std::string& filename, float fadetime)
 {
   SoundManager::current()->play_music(filename, fadetime);
 }
@@ -434,7 +434,7 @@ void fade_in_music(const std::string& filename, float fadetime)
  * Fades out the music for ""fadetime"" seconds.
  * @param float $fadetime Set to "0" for no fade-out.
  */
-void stop_music(float fadetime)
+static void stop_music(float fadetime)
 {
   SoundManager::current()->stop_music(fadetime);
 }
@@ -442,7 +442,7 @@ void stop_music(float fadetime)
  * Resumes and fades in the music for ""fadetime"" seconds.
  * @param float $fadetime Set to "0" for no fade-in.
  */
-void resume_music(float fadetime)
+static void resume_music(float fadetime)
 {
   SoundManager::current()->resume_music(fadetime);
 }
@@ -450,7 +450,7 @@ void resume_music(float fadetime)
  * Pauses the music with a fade-out for ""fadetime"" seconds.
  * @param float $fadetime Set to "0" for no fade-out.
  */
-void pause_music(float fadetime)
+static void pause_music(float fadetime)
 {
   SoundManager::current()->pause_music(fadetime);
 }
@@ -458,7 +458,7 @@ void pause_music(float fadetime)
  * Plays ""soundfile"" as a sound.
  * @param string $soundfile
  */
-void play_sound(const std::string& filename)
+static void play_sound(const std::string& filename)
 {
   SoundManager::current()->play(filename);
 }
@@ -466,7 +466,7 @@ void play_sound(const std::string& filename)
 /**
  * Speeds Tux up.
  */
-void grease()
+static void grease()
 {
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
@@ -476,7 +476,7 @@ void grease()
 /**
  * Makes Tux invincible for 10000 units of time.
  */
-void invincible()
+static void invincible()
 {
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
@@ -486,7 +486,7 @@ void invincible()
 /**
  * Makes Tux a ghost, i.e. lets him float around and through solid objects.
  */
-void ghost()
+static void ghost()
 {
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
@@ -496,7 +496,7 @@ void ghost()
 /**
  * Recalls Tux's invincibility and ghost status.
  */
-void mortal()
+static void mortal()
 {
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
@@ -507,7 +507,7 @@ void mortal()
 /**
  * Re-initializes and respawns Tux at the beginning of the current level.
  */
-void restart()
+static void restart()
 {
   auto session = GameSession::current();
   if (session == nullptr)
@@ -520,7 +520,7 @@ void restart()
 /**
  * Prints Tux's current coordinates in the current level.
  */
-void whereami()
+static void whereami()
 {
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
@@ -530,7 +530,7 @@ void whereami()
 /**
  * Moves Tux near the end of the current level.
  */
-void gotoend()
+static void gotoend()
 {
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
@@ -544,7 +544,7 @@ void gotoend()
  * @param float $offset_x
  * @param float $offset_y
  */
-void warp(float offset_x, float offset_y)
+static void warp(float offset_x, float offset_y)
 {
   if (!Sector::current()) return;
   // FIXME: This only has effect on the first player.
@@ -558,7 +558,7 @@ void warp(float offset_x, float offset_y)
  * Adjusts the gamma.
  * @param float $gamma
  */
-void set_gamma(float gamma)
+static void set_gamma(float gamma)
 {
   VideoSystem::current()->set_gamma(gamma);
 }
@@ -566,7 +566,7 @@ void set_gamma(float gamma)
 /**
  * Returns a random integer.
  */
-int rand()
+static int rand()
 {
   return gameRandom.rand();
 }
@@ -575,7 +575,7 @@ int rand()
  * Sets the frame, displayed on the title screen.
  * @param string $image
  */
-void set_title_frame(const std::string& image)
+static void set_title_frame(const std::string& image)
 {
   auto title_screen = TitleScreen::current();
   if (!title_screen)
@@ -595,7 +595,7 @@ namespace Level {
  * Ends the current level.
  * @param bool $win If ""true"", the level is marked as completed if launched from a worldmap.
  */
-void finish(bool win)
+static void finish(bool win)
 {
   if (!GameSession::current()) return;
   GameSession::current()->finish(win);
@@ -603,7 +603,7 @@ void finish(bool win)
 /**
  * Returns whether an end sequence has started. (AKA when the stats at the end are visible)
  */
-bool has_active_sequence()
+static bool has_active_sequence()
 {
   if (!GameSession::current()) return false;
   return GameSession::current()->has_active_sequence();
@@ -617,7 +617,7 @@ bool has_active_sequence()
  * @param string $sector
  * @param string $spawnpoint
  */
-void spawn(const std::string& sector, const std::string& spawnpoint)
+static void spawn(const std::string& sector, const std::string& spawnpoint)
 {
   if (!GameSession::current()) return;
   GameSession::current()->respawn(sector, spawnpoint);
@@ -628,7 +628,7 @@ void spawn(const std::string& sector, const std::string& spawnpoint)
  * @param string $sector
  * @param string $spawnpoint
  */
-void set_start_point(const std::string& sector, const std::string& spawnpoint)
+static void set_start_point(const std::string& sector, const std::string& spawnpoint)
 {
   if (!GameSession::current()) return;
   GameSession::current()->set_start_point(sector, spawnpoint);
@@ -639,7 +639,7 @@ void set_start_point(const std::string& sector, const std::string& spawnpoint)
  * @param float $x
  * @param float $y
  */
-void set_start_pos(const std::string& sector, float x, float y)
+static void set_start_pos(const std::string& sector, float x, float y)
 {
   if (!GameSession::current()) return;
   GameSession::current()->set_start_pos(sector, Vector(x, y));
@@ -649,7 +649,7 @@ void set_start_pos(const std::string& sector, float x, float y)
  * @param string $sector
  * @param string $spawnpoint
  */
-void set_respawn_point(const std::string& sector, const std::string& spawnpoint)
+static void set_respawn_point(const std::string& sector, const std::string& spawnpoint)
 {
   if (!GameSession::current()) return;
   GameSession::current()->set_respawn_point(sector, spawnpoint);
@@ -660,7 +660,7 @@ void set_respawn_point(const std::string& sector, const std::string& spawnpoint)
  * @param float $x
  * @param float $y
  */
-void set_respawn_pos(const std::string& sector, float x, float y)
+static void set_respawn_pos(const std::string& sector, float x, float y)
 {
   if (!GameSession::current()) return;
   GameSession::current()->set_respawn_pos(sector, Vector(x, y));
@@ -670,7 +670,7 @@ void set_respawn_pos(const std::string& sector, float x, float y)
  * Flips the level vertically (i.e. top is now bottom and vice versa).
    Call again to revert the effect. Make sure the player can land on something after the level is flipped!
  */
-void flip_vertically()
+static void flip_vertically()
 {
   if (!GameSession::current()) return;
   BIND_SECTOR(::Sector::get());
@@ -681,7 +681,7 @@ void flip_vertically()
 /**
  * Toggles pause.
  */
-void toggle_pause()
+static void toggle_pause()
 {
   if (!GameSession::current()) return;
   GameSession::current()->toggle_pause();
@@ -690,7 +690,7 @@ void toggle_pause()
 /**
  * Pauses the target timer.
  */
-void pause_target_timer()
+static void pause_target_timer()
 {
   if (!GameSession::current()) return;
   GameSession::current()->set_target_timer_paused(true);
@@ -698,7 +698,7 @@ void pause_target_timer()
 /**
  * Resumes the target timer.
  */
-void resume_target_timer()
+static void resume_target_timer()
 {
   if (!GameSession::current()) return;
   GameSession::current()->set_target_timer_paused(false);
