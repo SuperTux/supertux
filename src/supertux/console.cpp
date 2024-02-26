@@ -188,9 +188,13 @@ Console::execute_script(const std::string& command)
   }
 
   if (m_vm.getTop() < old_top)
+  {
     log_fatal << "Script destroyed Squirrel stack..." << std::endl;
+  }
   else
+  {
     sq_settop(m_vm.getHandle(), old_top);
+  }
 }
 
 void

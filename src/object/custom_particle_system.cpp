@@ -1311,7 +1311,7 @@ CustomParticleSystem::get_birth_mode() const
 }
 
 void
-CustomParticleSystem::set_birth_mode(std::string mode)
+CustomParticleSystem::set_birth_mode(const std::string& mode)
 {
   if (mode == "None")
   {
@@ -1351,7 +1351,7 @@ CustomParticleSystem::get_death_mode() const
 }
 
 void
-CustomParticleSystem::set_death_mode(std::string mode)
+CustomParticleSystem::set_death_mode(const std::string& mode)
 {
   if (mode == "None")
   {
@@ -1391,7 +1391,7 @@ CustomParticleSystem::get_rotation_mode() const
 }
 
 void
-CustomParticleSystem::set_rotation_mode(std::string mode)
+CustomParticleSystem::set_rotation_mode(const std::string& mode)
 {
   if (mode == "Fixed")
   {
@@ -1440,7 +1440,7 @@ CustomParticleSystem::get_collision_mode() const
 }
 
 void
-CustomParticleSystem::set_collision_mode(std::string mode)
+CustomParticleSystem::set_collision_mode(const std::string& mode)
 {
   if (mode == "Ignore")
   {
@@ -1492,7 +1492,7 @@ CustomParticleSystem::get_offscreen_mode() const
 }
 
 void
-CustomParticleSystem::set_offscreen_mode(std::string mode)
+CustomParticleSystem::set_offscreen_mode(const std::string& mode)
 {
   if (mode == "Never")
   {
@@ -1535,9 +1535,9 @@ CustomParticleSystem::fade_delay(float delay, float time)
 }
 
 void
-CustomParticleSystem::ease_delay(float delay, float time, std::string easing)
+CustomParticleSystem::ease_delay(float delay, float time, const std::string& easing_)
 {
-  ease_value(&m_delay, delay, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_delay, delay, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1563,9 +1563,9 @@ CustomParticleSystem::fade_lifetime(float lifetime, float time)
 }
 
 void
-CustomParticleSystem::ease_lifetime(float lifetime, float time, std::string easing)
+CustomParticleSystem::ease_lifetime(float lifetime, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_lifetime, lifetime, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_lifetime, lifetime, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1591,9 +1591,9 @@ CustomParticleSystem::fade_lifetime_variation(float lifetime_variation, float ti
 }
 
 void
-CustomParticleSystem::ease_lifetime_variation(float lifetime_variation, float time, std::string easing)
+CustomParticleSystem::ease_lifetime_variation(float lifetime_variation, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_lifetime_variation, lifetime_variation, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_lifetime_variation, lifetime_variation, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1619,9 +1619,9 @@ CustomParticleSystem::fade_birth_time(float birth_time, float time)
 }
 
 void
-CustomParticleSystem::ease_birth_time(float birth_time, float time, std::string easing)
+CustomParticleSystem::ease_birth_time(float birth_time, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_birth_time, birth_time, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_birth_time, birth_time, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1647,9 +1647,9 @@ CustomParticleSystem::fade_birth_time_variation(float birth_time_variation, floa
 }
 
 void
-CustomParticleSystem::ease_birth_time_variation(float birth_time_variation, float time, std::string easing)
+CustomParticleSystem::ease_birth_time_variation(float birth_time_variation, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_birth_time_variation, birth_time_variation, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_birth_time_variation, birth_time_variation, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1675,9 +1675,9 @@ CustomParticleSystem::fade_death_time(float death_time, float time)
 }
 
 void
-CustomParticleSystem::ease_death_time(float death_time, float time, std::string easing)
+CustomParticleSystem::ease_death_time(float death_time, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_death_time, death_time, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_death_time, death_time, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 
@@ -1704,9 +1704,9 @@ CustomParticleSystem::fade_death_time_variation(float death_time_variation, floa
 }
 
 void
-CustomParticleSystem::ease_death_time_variation(float death_time_variation, float time, std::string easing)
+CustomParticleSystem::ease_death_time_variation(float death_time_variation, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_death_time_variation, death_time_variation, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_death_time_variation, death_time_variation, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1732,9 +1732,9 @@ CustomParticleSystem::fade_speed_x(float speed_x, float time)
 }
 
 void
-CustomParticleSystem::ease_speed_x(float speed_x, float time, std::string easing)
+CustomParticleSystem::ease_speed_x(float speed_x, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_speed_x, speed_x, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_speed_x, speed_x, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1760,9 +1760,9 @@ CustomParticleSystem::fade_speed_y(float speed_y, float time)
 }
 
 void
-CustomParticleSystem::ease_speed_y(float speed_y, float time, std::string easing)
+CustomParticleSystem::ease_speed_y(float speed_y, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_speed_y, speed_y, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_speed_y, speed_y, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1788,9 +1788,9 @@ CustomParticleSystem::fade_speed_variation_x(float speed_variation_x, float time
 }
 
 void
-CustomParticleSystem::ease_speed_variation_x(float speed_variation_x, float time, std::string easing)
+CustomParticleSystem::ease_speed_variation_x(float speed_variation_x, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_speed_variation_x, speed_variation_x, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_speed_variation_x, speed_variation_x, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1816,9 +1816,9 @@ CustomParticleSystem::fade_speed_variation_y(float speed_variation_y, float time
 }
 
 void
-CustomParticleSystem::ease_speed_variation_y(float speed_variation_y, float time, std::string easing)
+CustomParticleSystem::ease_speed_variation_y(float speed_variation_y, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_speed_variation_y, speed_variation_y, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_speed_variation_y, speed_variation_y, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1844,9 +1844,9 @@ CustomParticleSystem::fade_acceleration_x(float acceleration_x, float time)
 }
 
 void
-CustomParticleSystem::ease_acceleration_x(float acceleration_x, float time, std::string easing)
+CustomParticleSystem::ease_acceleration_x(float acceleration_x, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_acceleration_x, acceleration_x, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_acceleration_x, acceleration_x, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1872,9 +1872,9 @@ CustomParticleSystem::fade_acceleration_y(float acceleration_y, float time)
 }
 
 void
-CustomParticleSystem::ease_acceleration_y(float acceleration_y, float time, std::string easing)
+CustomParticleSystem::ease_acceleration_y(float acceleration_y, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_acceleration_y, acceleration_y, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_acceleration_y, acceleration_y, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1900,9 +1900,9 @@ CustomParticleSystem::fade_friction_x(float friction_x, float time)
 }
 
 void
-CustomParticleSystem::ease_friction_x(float friction_x, float time, std::string easing)
+CustomParticleSystem::ease_friction_x(float friction_x, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_friction_x, friction_x, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_friction_x, friction_x, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1928,9 +1928,9 @@ CustomParticleSystem::fade_friction_y(float friction_y, float time)
 }
 
 void
-CustomParticleSystem::ease_friction_y(float friction_y, float time, std::string easing)
+CustomParticleSystem::ease_friction_y(float friction_y, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_friction_y, friction_y, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_friction_y, friction_y, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1956,9 +1956,9 @@ CustomParticleSystem::fade_feather_factor(float feather_factor, float time)
 }
 
 void
-CustomParticleSystem::ease_feather_factor(float feather_factor, float time, std::string easing)
+CustomParticleSystem::ease_feather_factor(float feather_factor, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_feather_factor, feather_factor, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_feather_factor, feather_factor, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -1984,9 +1984,9 @@ CustomParticleSystem::fade_rotation(float rotation, float time)
 }
 
 void
-CustomParticleSystem::ease_rotation(float rotation, float time, std::string easing)
+CustomParticleSystem::ease_rotation(float rotation, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_rotation, rotation, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_rotation, rotation, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -2012,9 +2012,9 @@ CustomParticleSystem::fade_rotation_variation(float rotation_variation, float ti
 }
 
 void
-CustomParticleSystem::ease_rotation_variation(float rotation_variation, float time, std::string easing)
+CustomParticleSystem::ease_rotation_variation(float rotation_variation, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_rotation_variation, rotation_variation, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_rotation_variation, rotation_variation, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -2040,9 +2040,9 @@ CustomParticleSystem::fade_rotation_speed(float rotation_speed, float time)
 }
 
 void
-CustomParticleSystem::ease_rotation_speed(float rotation_speed, float time, std::string easing)
+CustomParticleSystem::ease_rotation_speed(float rotation_speed, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_rotation_speed, rotation_speed, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_rotation_speed, rotation_speed, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -2068,9 +2068,9 @@ CustomParticleSystem::fade_rotation_speed_variation(float rotation_speed_variati
 }
 
 void
-CustomParticleSystem::ease_rotation_speed_variation(float rotation_speed_variation, float time, std::string easing)
+CustomParticleSystem::ease_rotation_speed_variation(float rotation_speed_variation, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_rotation_speed_variation, rotation_speed_variation, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_rotation_speed_variation, rotation_speed_variation, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -2096,9 +2096,9 @@ CustomParticleSystem::fade_rotation_acceleration(float rotation_acceleration, fl
 }
 
 void
-CustomParticleSystem::ease_rotation_acceleration(float rotation_acceleration, float time, std::string easing)
+CustomParticleSystem::ease_rotation_acceleration(float rotation_acceleration, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_rotation_acceleration, rotation_acceleration, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_rotation_acceleration, rotation_acceleration, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 // =============================================================================
@@ -2124,9 +2124,9 @@ CustomParticleSystem::fade_rotation_decceleration(float rotation_decceleration, 
 }
 
 void
-CustomParticleSystem::ease_rotation_decceleration(float rotation_decceleration, float time, std::string easing)
+CustomParticleSystem::ease_rotation_decceleration(float rotation_decceleration, float time, const std::string& easing_)
 {
-  ease_value(&m_particle_rotation_decceleration, rotation_decceleration, time, getEasingByName(EasingMode_from_string(easing)));
+  ease_value(&m_particle_rotation_decceleration, rotation_decceleration, time, getEasingByName(EasingMode_from_string(easing_)));
 }
 
 

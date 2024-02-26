@@ -54,14 +54,14 @@ Spotlight::Direction_to_string(Direction dir)
 
 Spotlight::Spotlight(const ReaderMapping& mapping) :
   MovingObject(mapping),
-  angle(),
-  center(SpriteManager::current()->create("images/objects/spotlight/spotlight_center.sprite")),
-  base(SpriteManager::current()->create("images/objects/spotlight/spotlight_base.sprite")),
-  lights(SpriteManager::current()->create("images/objects/spotlight/spotlight_lights.sprite")),
-  light(SpriteManager::current()->create("images/objects/spotlight/light.sprite")),
-  lightcone(SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite")),
-  color(1.0f, 1.0f, 1.0f),
-  speed(50.0f),
+  m_angle(),
+  m_center(SpriteManager::current()->create("images/objects/spotlight/spotlight_center.sprite")),
+  m_base(SpriteManager::current()->create("images/objects/spotlight/spotlight_base.sprite")),
+  m_lights(SpriteManager::current()->create("images/objects/spotlight/spotlight_lights.sprite")),
+  m_light(SpriteManager::current()->create("images/objects/spotlight/light.sprite")),
+  m_lightcone(SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite")),
+  m_color(1.0f, 1.0f, 1.0f),
+  m_speed(50.0f),
   m_direction(),
   m_layer(0),
   m_enabled(true)
@@ -72,8 +72,8 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   mapping.get("y", m_col.m_bbox.get_top(), 0.0f);
   m_col.m_bbox.set_size(32, 32);
 
-  mapping.get("angle", angle, 0.0f);
-  mapping.get("speed", speed, 50.0f);
+  mapping.get("angle", m_angle, 0.0f);
+  mapping.get("speed", m_speed, 50.0f);
 
   if (!mapping.get_custom("r-direction", m_direction, Direction_from_string))
   {
@@ -84,9 +84,8 @@ Spotlight::Spotlight(const ReaderMapping& mapping) :
   }
 
   std::vector<float> vColor;
-  if ( mapping.get( "color", vColor ) ){
-    color = Color( vColor );
-  }
+  if (mapping.get("color", vColor))
+    m_color = Color(vColor);
 
   mapping.get("layer", m_layer, 0);
   mapping.get("enabled", m_enabled, true);
@@ -102,9 +101,9 @@ Spotlight::get_settings()
   ObjectSettings result = MovingObject::get_settings();
 
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
-  result.add_float(_("Angle"), &angle, "angle");
-  result.add_color(_("Color"), &color, "color", Color::WHITE);
-  result.add_float(_("Speed"), &speed, "speed", 50.0f);
+  result.add_float(_("Angle"), &m_angle, "angle");
+  result.add_color(_("Color"), &m_color, "color", Color::WHITE);
+  result.add_float(_("Speed"), &m_speed, "speed", 50.0f);
   result.add_enum(_("Direction"), reinterpret_cast<int*>(&m_direction),
                   {_("Clockwise"), _("Counter-clockwise"), _("Stopped")},
                   {"clockwise", "counter-clockwise", "stopped"},
@@ -127,11 +126,11 @@ Spotlight::update(float dt_sec)
   switch (m_direction)
   {
   case Direction::CLOCKWISE:
-    angle += dt_sec * speed;
+    m_angle += dt_sec * m_speed;
     break;
 
   case Direction::COUNTERCLOCKWISE:
-    angle -= dt_sec * speed;
+    m_angle -= dt_sec * m_speed;
     break;
   
   case Direction::STOPPED:
@@ -144,27 +143,27 @@ Spotlight::draw(DrawingContext& context)
 {
   if (m_enabled)
   {
-    light->set_color(color);
-    light->set_blend(Blend::ADD);
-    light->set_angle(angle);
-    light->draw(context.light(), m_col.m_bbox.p1(), m_layer);
+    m_light->set_color(m_color);
+    m_light->set_blend(Blend::ADD);
+    m_light->set_angle(m_angle);
+    m_light->draw(context.light(), m_col.m_bbox.p1(), m_layer);
 
-    //lightcone->set_angle(angle);
-    //lightcone->draw(context.color(), position, m_layer);
+    //m_lightcone->set_angle(angle);
+    //m_lightcone->draw(context.color(), position, m_layer);
 
-    lights->set_angle(angle);
-    lights->draw(context.color(), m_col.m_bbox.p1(), m_layer);
+    m_lights->set_angle(m_angle);
+    m_lights->draw(context.color(), m_col.m_bbox.p1(), m_layer);
   }
 
-  base->set_angle(angle);
-  base->draw(context.color(), m_col.m_bbox.p1(), m_layer);
+  m_base->set_angle(m_angle);
+  m_base->draw(context.color(), m_col.m_bbox.p1(), m_layer);
 
-  center->draw(context.color(), m_col.m_bbox.p1(), m_layer);
+  m_center->draw(context.color(), m_col.m_bbox.p1(), m_layer);
 
   if (m_enabled)
   {
-    lightcone->set_angle(angle);
-    lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);
+    m_lightcone->set_angle(m_angle);
+    m_lightcone->draw(context.color(), m_col.m_bbox.p1(), LAYER_FOREGROUND1 + 10);
   }
 }
 
@@ -193,9 +192,9 @@ Spotlight::set_direction(const std::string& direction)
 }
 
 void
-Spotlight::set_speed(float speed_)
+Spotlight::set_speed(float speed)
 {
-  speed = speed_;
+  m_speed = speed;
 }
 
 void
@@ -211,9 +210,9 @@ Spotlight::ease_speed(float speed, float time, const std::string& easing)
 }
 
 void
-Spotlight::set_angle(float angle_)
+Spotlight::set_angle(float angle)
 {
-  angle = angle_;
+  m_angle = angle;
 }
 
 void
@@ -231,7 +230,7 @@ Spotlight::ease_angle(float angle, float time, const std::string& easing)
 void
 Spotlight::set_color_rgba(float r, float g, float b, float a)
 {
-  color = Color(r, g, b, a);
+  m_color = Color(r, g, b, a);
 }
 
 void
@@ -249,22 +248,22 @@ Spotlight::ease_color_rgba(float r, float g, float b, float a, float time, const
 void
 Spotlight::ease_angle(float time, float target, EasingMode ease)
 {
-  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&angle, time, target, getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&m_angle, time, target, getEasingByName(ease)));
 }
 
 void
 Spotlight::ease_speed(float time, float target, EasingMode ease)
 {
-  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&speed, time, target, getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&m_speed, time, target, getEasingByName(ease)));
 }
 
 void
 Spotlight::ease_color(float time, Color target, EasingMode ease)
 {
-  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.red,   time, target.red,   getEasingByName(ease)));
-  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.green, time, target.green, getEasingByName(ease)));
-  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.blue,  time, target.blue,  getEasingByName(ease)));
-  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&color.alpha, time, target.alpha, getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&m_color.red,   time, target.red,   getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&m_color.green, time, target.green, getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&m_color.blue,  time, target.blue,  getEasingByName(ease)));
+  m_fade_helpers.push_back(std::make_unique<FadeHelper>(&m_color.alpha, time, target.alpha, getEasingByName(ease)));
 }
 
 
@@ -287,8 +286,8 @@ Spotlight::register_class(ssq::VM& vm)
   cls.addFunc("ease_color_rgba", &Spotlight::ease_color_rgba);
 
   cls.addVar("enabled", &Spotlight::m_enabled);
-  cls.addVar("angle", &Spotlight::angle);
-  cls.addVar("speed", &Spotlight::speed);
+  cls.addVar("angle", &Spotlight::m_angle);
+  cls.addVar("speed", &Spotlight::m_speed);
 }
 
 /* EOF */

@@ -148,17 +148,17 @@ public:
   void ease_color(float time, Color target, EasingMode ease = EasingMode::EaseNone);
 
 private:
-  float angle;
-  SpritePtr center;
-  SpritePtr base;
-  SpritePtr lights;
-  SpritePtr light;
-  SpritePtr lightcone;
+  float m_angle;
+  SpritePtr m_center;
+  SpritePtr m_base;
+  SpritePtr m_lights;
+  SpritePtr m_light;
+  SpritePtr m_lightcone;
 
-  Color color;
+  Color m_color;
 
   /** Speed that the spotlight is rotating with */
-  float speed;
+  float m_speed;
 
   /** The direction of the spotlight */
   Direction m_direction;

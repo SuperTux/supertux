@@ -113,31 +113,31 @@ public:
   /**
    * @param string $mode
    */
-  void set_birth_mode(std::string mode);
+  void set_birth_mode(const std::string& mode);
 
   std::string get_death_mode() const;
   /**
    * @param string $mode
    */
-  void set_death_mode(std::string mode);
+  void set_death_mode(const std::string& mode);
 
   std::string get_rotation_mode() const;
   /**
    * @param string $mode
    */
-  void set_rotation_mode(std::string mode);
+  void set_rotation_mode(const std::string& mode);
 
   std::string get_collision_mode() const;
   /**
    * @param string $mode
    */
-  void set_collision_mode(std::string mode);
+  void set_collision_mode(const std::string& mode);
 
   std::string get_offscreen_mode() const;
   /**
    * @param string $mode
    */
-  void set_offscreen_mode(std::string mode);
+  void set_offscreen_mode(const std::string& mode);
 
   /**
    * @deprecated Use the ""cover_screen"" property instead!
@@ -168,7 +168,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_delay(float delay, float time, std::string easing);
+  void ease_delay(float delay, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_lifetime"" property instead!
@@ -189,7 +189,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_lifetime(float lifetime, float time, std::string easing);
+  void ease_lifetime(float lifetime, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_lifetime_variation"" property instead!
@@ -210,7 +210,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_lifetime_variation(float lifetime_variation, float time, std::string easing);
+  void ease_lifetime_variation(float lifetime_variation, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_birth_time"" property instead!
@@ -231,7 +231,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_birth_time(float birth_time, float time, std::string easing);
+  void ease_birth_time(float birth_time, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_birth_time_variation"" property instead!
@@ -252,7 +252,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_birth_time_variation(float birth_time_variation, float time, std::string easing);
+  void ease_birth_time_variation(float birth_time_variation, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_death_time"" property instead!
@@ -273,7 +273,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_death_time(float death_time, float time, std::string easing);
+  void ease_death_time(float death_time, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_death_time_variation"" property instead!
@@ -294,7 +294,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_death_time_variation(float death_time_variation, float time, std::string easing);
+  void ease_death_time_variation(float death_time_variation, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_speed_x"" property instead!
@@ -315,7 +315,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_speed_x(float speed_x, float time, std::string easing);
+  void ease_speed_x(float speed_x, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_speed_y"" property instead!
@@ -336,7 +336,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_speed_y(float speed_y, float time, std::string easing);
+  void ease_speed_y(float speed_y, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_speed_variation_x"" property instead!
@@ -357,7 +357,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_speed_variation_x(float speed_variation_x, float time, std::string easing);
+  void ease_speed_variation_x(float speed_variation_x, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_speed_variation_y"" property instead!
@@ -378,7 +378,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_speed_variation_y(float speed_variation_y, float time, std::string easing);
+  void ease_speed_variation_y(float speed_variation_y, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_acceleration_x"" property instead!
@@ -399,7 +399,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_acceleration_x(float acceleration_x, float time, std::string easing);
+  void ease_acceleration_x(float acceleration_x, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_acceleration_y"" property instead!
@@ -420,7 +420,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_acceleration_y(float acceleration_y, float time, std::string easing);
+  void ease_acceleration_y(float acceleration_y, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_friction_x"" property instead!
@@ -441,7 +441,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_friction_x(float friction_x, float time, std::string easing);
+  void ease_friction_x(float friction_x, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_friction_y"" property instead!
@@ -462,7 +462,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_friction_y(float friction_y, float time, std::string easing);
+  void ease_friction_y(float friction_y, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_feather_factor"" property instead!
@@ -483,7 +483,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_feather_factor(float feather_factor, float time, std::string easing);
+  void ease_feather_factor(float feather_factor, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_rotation"" property instead!
@@ -504,7 +504,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_rotation(float rotation, float time, std::string easing);
+  void ease_rotation(float rotation, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_rotation_variation"" property instead!
@@ -525,7 +525,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_rotation_variation(float rotation_variation, float time, std::string easing);
+  void ease_rotation_variation(float rotation_variation, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_rotation_speed"" property instead!
@@ -546,7 +546,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_rotation_speed(float rotation_speed, float time, std::string easing);
+  void ease_rotation_speed(float rotation_speed, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_rotation_speed_variation"" property instead!
@@ -567,7 +567,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_rotation_speed_variation(float rotation_speed_variation, float time, std::string easing);
+  void ease_rotation_speed_variation(float rotation_speed_variation, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_rotation_acceleration"" property instead!
@@ -588,7 +588,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_rotation_acceleration(float rotation_acceleration, float time, std::string easing);
+  void ease_rotation_acceleration(float rotation_acceleration, float time, const std::string& easing);
 
   /**
    * @deprecated Use the ""particle_rotation_decceleration"" property instead!
@@ -609,7 +609,7 @@ public:
    * @param float $time
    * @param string $easing
    */
-  void ease_rotation_decceleration(float rotation_decceleration, float time, std::string easing);
+  void ease_rotation_decceleration(float rotation_decceleration, float time, const std::string& easing);
 
 private:
   std::vector<ease_request> script_easings;
