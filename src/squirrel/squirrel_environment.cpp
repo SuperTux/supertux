@@ -108,7 +108,7 @@ SquirrelEnvironment::garbage_collect()
 {
   m_scripts.erase(
     std::remove_if(m_scripts.begin(), m_scripts.end(),
-                   [this](ssq::VM& thread){
+                   [](ssq::VM& thread) {
                      return thread.getState() != SQ_VMSTATE_SUSPENDED;
                    }),
     m_scripts.end());
