@@ -118,6 +118,9 @@ const float MAX_FALL_SLIDE_SPEED = 475.f; /**< Max slide speed that Tux can get 
 const float DOWN_SLIDE_ACCEL = 1000.f; /** < Acceleration for sliding DOWN slopes */
 const float UP_SLIDE_ACCEL = 1100.f; /**< Acceleration for sliding UP slopes */
 
+const float MAX_SLIDE_ROTATING_TIME = 0.15f;
+const float MIN_SLIDE_ROTATING_TIME = 0.075f;
+
 /* Tux's collision rectangle */
 const float TUX_WIDTH = 31.8f;
 const float RUNNING_TUX_WIDTH = 34;
@@ -226,7 +229,13 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_idle_stage(0),
   m_climbing(nullptr),
   m_ending_direction(0),
-  m_collected_keys()
+  m_collected_keys(),
+  m_last_sliding_angle(0.0f),
+  m_current_sliding_angle(0.0f),
+  m_target_sliding_angle(0.0f),
+  m_sliding_rotation_timer(),
+  m_is_slidejump_falling(false),
+  m_was_crawling_before_slide(false)
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -502,6 +511,7 @@ Player::update(float dt_sec)
           stop_rolling();
         m_sliding = false;
         m_slidejumping = false;
+        m_was_crawling_before_slide = false;
         m_no_water = false;
         m_water_jump = false;
         m_swimming = true;
@@ -639,7 +649,7 @@ Player::update(float dt_sec)
       m_backflipping = false;
       m_backflip_direction = 0;
       m_physic.set_velocity_x(0);
-      if (!m_stone) {
+      if (!m_stone && !m_sliding) {
         m_sprite->set_angle(0.0f);
         //m_santahatsprite->set_angle(0.0f);
       }
@@ -678,9 +688,6 @@ Player::update(float dt_sec)
   if (!m_ice_this_frame && on_ground())
     m_on_ice = false;
 
-  m_on_ground_flag = false;
-  m_ice_this_frame = false;
-
   // when invincible, spawn particles
   if (m_invincible_timer.started())
   {
@@ -711,13 +718,13 @@ Player::update(float dt_sec)
   if (m_climbing) {
     if ((m_physic.get_velocity_x() == 0) && (m_physic.get_velocity_y() == 0))
     {
-      m_sprite->stop_animation();
-      //m_santahatsprite->stop_animation();
+      m_sprite->pause_animation();
+      //m_santahatsprite->pause_animation();
     }
     else if (!m_growing)
     {
-      m_sprite->set_animation_loops(-1);
-      //m_santahatsprite->set_animation_loops(-1);
+      m_sprite->resume_animation();
+      //m_santahatsprite->resume_animation();
     }
   }
 
@@ -725,16 +732,74 @@ Player::update(float dt_sec)
   {
     m_crawl = false;
     m_sliding = true;
+    m_was_crawling_before_slide = true;
   }
 
   //sliding
 
   if (m_sliding)
   {
+    float sliding_angle = 0.0f;
+
+    if (on_ground())
+    {
+      float floor_angle = 0.0f;
+
+      if (m_floor_normal.y != 0.0f)
+      {
+        floor_angle = math::degrees(math::angle(m_floor_normal)) + 90.0f;
+      }
+
+      if (m_target_sliding_angle != floor_angle)
+      {
+        const float current_velocity = glm::length(m_physic.get_velocity());
+        constexpr float max_velocity = 500.0f;
+        const float rotation_time = MIN_SLIDE_ROTATING_TIME + (1.0f - (std::min(max_velocity, current_velocity) / max_velocity)) * (MAX_SLIDE_ROTATING_TIME - MIN_SLIDE_ROTATING_TIME);
+        m_last_sliding_angle = m_current_sliding_angle;
+        m_target_sliding_angle = floor_angle;
+        m_sliding_rotation_timer.start(rotation_time);
+      }
+
+      if (m_sliding_rotation_timer.started())
+      {
+        const float progress = m_sliding_rotation_timer.get_timegone() / m_sliding_rotation_timer.get_period();
+        const float angle_difference = m_target_sliding_angle - m_last_sliding_angle;
+
+        sliding_angle = m_current_sliding_angle = m_last_sliding_angle + (angle_difference * progress);
+      }
+      else
+      {
+        sliding_angle = m_last_sliding_angle = floor_angle;
+      }
+    }
+    else
+    {
+      if (!m_jumping && !m_is_slidejump_falling)
+      {
+        sliding_angle = math::degrees(math::angle(m_physic.get_velocity()));
+        if (m_physic.get_velocity_x() < 0.0f)
+        {
+          sliding_angle -= 180.0f;
+        }
+        m_target_sliding_angle = m_current_sliding_angle = sliding_angle;
+      }
+      else
+      {
+        // Do not rotate while slidejump animation is displayed
+        sliding_angle = 0.0f;
+      }
+    }
+    m_sprite->set_angle(sliding_angle);
+
     //if you stop holding down when sliding, then it stops.
     //or, stop sliding if you come to a stop and are not on a slope.
-    if (!m_controller->hold(Control::DOWN) ||
-      (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f))
+    if (!m_controller->hold(Control::DOWN))
+    {
+      m_sliding = false;
+      m_was_crawling_before_slide = false;
+      m_slidejumping = false;
+    }
+    else if (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f)
     {
       if (is_big())
       {
@@ -745,6 +810,7 @@ Player::update(float dt_sec)
       }
       m_sliding = false;
       m_slidejumping = false;
+      m_was_crawling_before_slide = false;
     }
   }
 
@@ -795,16 +861,18 @@ Player::update(float dt_sec)
   launchbox.set_bottom(get_bbox().get_bottom() - 8.f);
   launchbox.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -32.f : 33.f));
   launchbox.set_right(get_bbox().get_right() + (m_dir == Direction::RIGHT ? 32.f : -33.f));
-  if (m_sliding && !on_ground() && m_floor_normal.y != 0 && m_floor_normal.x * m_physic.get_velocity_x() < 0.f &&
+  if (m_sliding && on_ground() && m_floor_normal.y != 0 && m_floor_normal.x * m_physic.get_velocity_x() < 0.f &&
     Sector::get().is_free_of_statics(launchbox) && !m_slidejumping)
   {
     m_slidejumping = true;
     m_physic.set_velocity_y(-glm::length(m_physic.get_velocity()) * std::abs(m_floor_normal.x));
   }
-
-  if (m_sliding && on_ground()) {
+  else if (m_sliding && on_ground()) {
     m_slidejumping = false;
   }
+
+  m_ice_this_frame = false;
+  m_on_ground_flag = false;
 }
 
 void
@@ -813,9 +881,11 @@ Player::slide()
   if (m_swimming || m_water_jump || m_stone)
   {
     m_sliding = false;
+    m_was_crawling_before_slide = false;
     return;
   }
   m_sliding = true;
+
   if (m_physic.get_velocity_x() > 0.f) {
     m_dir = Direction::RIGHT;
   }
@@ -1346,6 +1416,12 @@ Player::handle_vertical_input()
   else if (!m_controller->hold(Control::JUMP)) {
     if (!m_backflipping && m_jumping && m_physic.get_velocity_y() < 0) {
       m_jumping = false;
+
+      if (m_sliding)
+      {
+        m_is_slidejump_falling = true;
+      }
+
       early_jump_apex();
     }
   }
@@ -1434,6 +1510,7 @@ Player::handle_input()
       m_sprite->set_angle(0);
       //m_santahatsprite->set_angle(0);
     }
+
     if (!m_jump_early_apex) {
       m_physic.set_gravity_modifier(1.0f);
     }
@@ -1502,6 +1579,7 @@ Player::handle_input()
     m_stone = true;
     m_swimming = false;
     m_sliding = false;
+    m_was_crawling_before_slide = false;
     m_crawl = false;
     m_duck = false;
   }
@@ -1951,6 +2029,7 @@ Player::draw(DrawingContext& context)
 
   /* Set Tux sprite action */
   if (m_dying) {
+    m_sprite->set_angle(0.0f);
     m_sprite->set_action("gameover");
   }
   else if (m_growing)
@@ -1978,17 +2057,22 @@ Player::draw(DrawingContext& context)
 
     // Avoid flickering briefly after growing on ladder
     if ((m_physic.get_velocity_x()==0)&&(m_physic.get_velocity_y()==0))
-      m_sprite->stop_animation();
+      m_sprite->pause_animation();
   }
   else if (m_backflipping) {
     m_sprite->set_action(sa_prefix+"-backflip"+sa_postfix);
   }
   else if (m_sliding) {
-    if (m_jumping) {
+    if (m_jumping || m_is_slidejump_falling) {
       m_sprite->set_action(sa_prefix +"-slidejump"+ sa_postfix);
     }
     else {
       m_sprite->set_action(sa_prefix + "-slide" + sa_postfix);
+      if (m_was_crawling_before_slide)
+      {
+        m_sprite->set_frame(m_sprite->get_frames()); // Skip the "duck" animation when coming from crawling
+        m_was_crawling_before_slide = false;
+      }
     }
   }
   else if (m_duck && is_big() && !m_swimming && !m_crawl) {
@@ -1998,11 +2082,12 @@ Player::draw(DrawingContext& context)
   {
     if (on_ground())
     {
+      m_sprite->set_action(sa_prefix + "-crawl" + sa_postfix);
       if (m_physic.get_velocity_x() != 0.f) {
-        m_sprite->set_action(sa_prefix + "-crawl" + sa_postfix);
+        m_sprite->resume_animation();
       }
       else {
-        m_sprite->set_action(sa_prefix + "-duck" + sa_postfix);
+        m_sprite->pause_animation();
       }
     }
     else {
@@ -2172,6 +2257,8 @@ Player::collision_solid(const CollisionHit& hit)
     if (!m_swimming)
       m_on_ground_flag = true;
     m_floor_normal = hit.slope_normal;
+    m_is_slidejump_falling = false;
+    m_slidejumping = false;
 
     // Butt Jump landed
     if (m_does_buttjump) {
@@ -2218,8 +2305,6 @@ Player::collision_solid(const CollisionHit& hit)
 
   if ((hit.left && m_boost < 0.f) || (hit.right && m_boost > 0.f))
     m_boost = 0.f;
-
-  m_slidejumping = false;
 }
 
 HitResponse

@@ -115,7 +115,7 @@ Crusher::on_type_change(int old_type)
       break;
   }
 
-  MovingSprite::on_type_change();
+  MovingSprite::on_type_change(old_type);
 }
 
 HitResponse

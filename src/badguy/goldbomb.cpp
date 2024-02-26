@@ -40,8 +40,6 @@ static const float SAFE_DIST = 32.f * 10.f;
 
 static const float NORMAL_WALK_SPEED = 80.0f;
 static const float FLEEING_WALK_SPEED = 180.0f;
-static const int NORMAL_MAX_DROP_HEIGHT = 16;
-static const int FLEEING_MAX_DROP_HEIGHT = 600;
 
 GoldBomb::GoldBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/gold_bomb/gold_bomb.sprite", "left", "right"),
@@ -53,7 +51,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   assert(SAFE_DIST >= REALIZE_DIST);
 
   walk_speed = NORMAL_WALK_SPEED;
-  max_drop_height = NORMAL_MAX_DROP_HEIGHT;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/explosion.wav");
 
@@ -170,7 +168,7 @@ GoldBomb::active_update(float dt_sec)
     return;
   }
 
-  if ((tstate == STATE_FLEEING || tstate == STATE_CORNERED) && on_ground() && might_fall(FLEEING_MAX_DROP_HEIGHT+1))
+  if ((tstate == STATE_FLEEING || tstate == STATE_CORNERED) && on_ground() && might_fall(s_normal_max_drop_height+1))
   {
     // also check for STATE_CORNERED just so
     // the bomb doesnt automatically turn around
@@ -222,7 +220,7 @@ GoldBomb::active_update(float dt_sec)
     m_physic.set_velocity_x(NORMAL_WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1));
     m_physic.set_acceleration_x(0);
     set_action(m_dir);
-    max_drop_height = NORMAL_MAX_DROP_HEIGHT;
+    set_ledge_behavior(LedgeBehavior::SMART);
     set_walk_speed(NORMAL_WALK_SPEED);
     return;
   }
@@ -432,7 +430,7 @@ void
 GoldBomb::flee(Direction dir)
 {
   set_walk_speed(FLEEING_WALK_SPEED);
-  max_drop_height = FLEEING_MAX_DROP_HEIGHT;
+  set_ledge_behavior(LedgeBehavior::NORMAL);
   m_dir = dir;
 
   const float speed = FLEEING_WALK_SPEED * (m_dir == Direction::LEFT ? -1 : 1);

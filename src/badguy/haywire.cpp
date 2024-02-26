@@ -52,7 +52,7 @@ Haywire::Haywire(const ReaderMapping& reader) :
   stomped_timer()
 {
   walk_speed = NORMAL_WALK_SPEED;
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
 
   SoundManager::current()->preload("sounds/explosion.wav");
 }
@@ -284,7 +284,7 @@ void
 Haywire::start_exploding()
 {
   set_walk_speed (EXPLODING_WALK_SPEED);
-  max_drop_height = -1;
+  set_ledge_behavior(LedgeBehavior::FALL);
   time_until_explosion = TIME_EXPLOSION;
   m_is_exploding = true;
 
@@ -306,7 +306,7 @@ Haywire::stop_exploding()
   walk_left_action = "left";
   walk_right_action = "right";
   set_walk_speed(NORMAL_WALK_SPEED);
-  max_drop_height = 16;
+  set_ledge_behavior(LedgeBehavior::SMART);
   time_until_explosion = 0.0f;
   m_is_exploding = false;
 

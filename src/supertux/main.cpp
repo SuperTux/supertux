@@ -282,7 +282,9 @@ void PhysfsSubsystem::remount_datadir_static() const
   add_data_to_search_path("shader");
 
   // Re-mount levels from the user directory
-  if (!PHYSFS_mount(FileSystem::join(m_userdir, "levels").c_str(), "levels", 0))
+  const std::string userdir_levels = FileSystem::join(m_userdir, "levels");
+  if (FileSystem::exists(userdir_levels) &&
+      !PHYSFS_mount(userdir_levels.c_str(), "levels", 0))
   {
     log_warning << "Couldn't mount levels from the user directory '" << m_userdir << "' to PhysFS searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
   }
@@ -605,10 +607,8 @@ Main::launch_game(const CommandLineArguments& args)
       }
       else
       { // launch game
-        std::unique_ptr<GameSession> session (
-          new GameSession(filename, *m_savegame));
+        std::unique_ptr<GameSession> session = std::make_unique<GameSession>(filename, *m_savegame);
 
-        g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
         gameRandom.seed(g_config->random_seed);
         graphicsRandom.seed(0);
 
@@ -631,11 +631,6 @@ Main::launch_game(const CommandLineArguments& args)
           session->get_current_sector().get_players()[0]->set_pos(*g_config->tux_spawn_pos);
         }
 
-        if (!g_config->start_demo.empty())
-          session->play_demo(g_config->start_demo);
-
-        if (!g_config->record_demo.empty())
-          session->record_demo(g_config->record_demo);
         m_screen_manager->push_screen(std::move(session));
       }
     }
@@ -801,7 +796,7 @@ Main::release_check()
         notif->set_text(fmt::format(fmt::runtime(_("New release: SuperTux v{}!")), latest_ver));
         notif->on_press([latest_ver]()
                        {
-                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n \nDo you want to visit the website now?")), latest_ver), []()
+                         Dialog::show_confirmation(fmt::format(fmt::runtime(_("A new release of SuperTux (v{}) is available!\nFor more information, you can visit the SuperTux website.\n\nDo you want to visit the website now?")), latest_ver), []()
                                                    {
                                                      FileSystem::open_url("https://supertux.org");
                                                    });

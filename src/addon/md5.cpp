@@ -170,7 +170,7 @@ std::string MD5::hex_digest() {
 }
 
 std::ostream& operator<<(std::ostream &stream, MD5 context) {
-  stream << context.hex_digest().c_str();
+  stream << context.hex_digest();
   return stream;
 }
 

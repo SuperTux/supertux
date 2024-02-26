@@ -34,6 +34,13 @@ CorruptedGranito::CorruptedGranito(const ReaderMapping& reader) :
   SoundManager::current()->preload(CORRUPTED_GRANITO_SOUND);
 }
 
+CorruptedGranito::CorruptedGranito(const ReaderMapping& reader, int type) :
+  CorruptedGranito(reader)
+{
+  m_type = type;
+  on_type_change(TypeChange::INITIAL);
+}
+
 void
 CorruptedGranito::initialize()
 {

@@ -48,7 +48,7 @@ Snail::Snail(const ReaderMapping& reader) :
   parse_type(reader);
 
   walk_speed = 80;
-  max_drop_height = 600;
+  set_ledge_behavior(LedgeBehavior::NORMAL);
   SoundManager::current()->preload("sounds/iceblock_bump.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
   SoundManager::current()->preload("sounds/kick.wav");

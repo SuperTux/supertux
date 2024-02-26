@@ -27,7 +27,21 @@ static constexpr const char DELIMITER = ':';
 
 KeyboardConfig::KeyboardConfig() :
   m_keymap(),
-  m_configurable_controls(),
+  m_configurable_controls({
+    Control::UP,
+    Control::DOWN,
+    Control::LEFT,
+    Control::RIGHT,
+    Control::JUMP,
+    Control::ACTION,
+    Control::PEEK_LEFT,
+    Control::PEEK_RIGHT,
+    Control::PEEK_UP,
+    Control::PEEK_DOWN,
+    Control::CONSOLE,
+    Control::CHEAT_MENU,
+    Control::DEBUG_MENU
+  }),
   m_jump_with_up_kbd(false)
 {
   // initialize default keyboard map
@@ -64,22 +78,6 @@ KeyboardConfig::KeyboardConfig() :
   m_keymap[SDLK_k]         = {2, Control::DOWN};
   m_keymap[SDLK_o]         = {2, Control::JUMP};
   m_keymap[SDLK_u]         = {2, Control::ACTION};
-
-  m_configurable_controls = {
-    Control::UP,
-    Control::DOWN,
-    Control::LEFT,
-    Control::RIGHT,
-    Control::JUMP,
-    Control::ACTION,
-    Control::PEEK_LEFT,
-    Control::PEEK_RIGHT,
-    Control::PEEK_UP,
-    Control::PEEK_DOWN,
-    Control::CONSOLE,
-    Control::CHEAT_MENU,
-    Control::DEBUG_MENU
-  };
 }
 
 void

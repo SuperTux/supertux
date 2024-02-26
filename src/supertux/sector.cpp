@@ -158,9 +158,7 @@ Sector::finish_construction(bool editable)
 
   process_resolve_requests();
 
-  for (auto& object : get_objects()) {
-    object->finish_construction();
-  }
+  Base::Sector::finish_construction(editable);
 
   m_initialized = false;
   flush_game_objects();
