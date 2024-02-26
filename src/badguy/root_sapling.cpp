@@ -236,39 +236,41 @@ RootSapling::summon_root()
          */
         case Direction::DOWN:
         {
-          Vector pos = result.box.p1();
+          Vector tilepos = result.box.p1();
           bool solid;
           do {
             solid = false;
-            pos.y += 32.f;
+            tilepos.y += 32.f;
             for (auto map : Sector::get().get_solid_tilemaps()) {
-              if (map->get_tile_at(pos).is_solid())
+              const Tile& tile = map->get_tile_at(tilepos);
+              if (tile.is_solid() && !tile.is_unisolid())
               {
                 solid = true;
                 break;
               }
             }
           } while (solid);
-          (*axis) = pos.y;
+          (*axis) = tilepos.y;
           break;
         }
 
         case Direction::RIGHT:
         {
-          Vector pos = result.box.p1();
+          Vector tilepos = result.box.p1();
           bool solid;
           do {
             solid = false;
-            pos.x += 32.f;
+            tilepos.x += 32.f;
             for (auto map : Sector::get().get_solid_tilemaps()) {
-              if (map->get_tile_at(pos).is_solid())
+              const Tile& tile = map->get_tile_at(tilepos);
+              if (tile.is_solid() && !tile.is_unisolid())
               {
                 solid = true;
                 break;
               }
             }
           } while (solid);
-          (*axis) = pos.x;
+          (*axis) = tilepos.x;
           break;
         }
 
@@ -291,11 +293,56 @@ RootSapling::summon_root()
     default: assert(false); break;
   }
 
-  Rectf space(pos, size);
-  if (!Sector::get().is_free_of_tiles(space, true, 0))
+  Vector bboxpos = pos;
+  switch (m_dir)
+  {
+    case Direction::UP:
+    case Direction::DOWN:
+      bboxpos.x -= 16.f;
+      break;
+
+    case Direction::LEFT:
+    case Direction::RIGHT:
+      bboxpos.y -= 16.f;
+      break;
+
+    default: assert(false); break;
+  }
+
+  // Check if the hitbox of the root is entirely
+  // occupied by solid tiles.
+  Rectf space(bboxpos, size);
+  if (!should_summon_root(space))
     return;
 
   Sector::get().add<Root>(pos, m_dir, "images/creatures/mole/corrupted/root.sprite");
+}
+
+bool
+RootSapling::should_summon_root(const Rectf& bbox)
+{
+  for (const auto& solids : Sector::get().get_solid_tilemaps()) {
+    // Test with all tiles in the root's hitbox
+    const Rect test_tiles = solids->get_tiles_overlapping(bbox);
+
+    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
+      for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
+        const Tile& tile = solids->get_tile(x, y);
+
+        if (!(tile.get_attributes() & Tile::SOLID))
+        {
+          goto next_tilemap;
+        }
+      }
+    }
+
+    return true;
+
+next_tilemap:
+    ;
+  }
+
+  return false;
 }
 
 void
@@ -305,5 +352,5 @@ RootSapling::on_flip(float height)
   FlipLevelTransformer::transform_flip(m_flip);
   m_dir = invert_dir(m_dir);
 }
-
+\
 /* EOF */

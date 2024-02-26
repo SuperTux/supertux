@@ -46,6 +46,7 @@ protected:
 
 private:
   void summon_root();
+  bool should_summon_root(const Rectf& bbox);
 
   Timer m_root_timer;
   bool m_dead;

@@ -655,8 +655,7 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
       for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
-        if ((tiletype == 0 && tile.get_attributes() == tiletype) ||
-            (tile.get_attributes() & tiletype))
+        if (tile.get_attributes() & tiletype)
           return false;
         if (tile.is_unisolid() && !ignoreUnisolid)
           return false;
