@@ -116,13 +116,13 @@ public:
   void fade_out(float time);
 
 private:
-  SpritePtr sprite;
-  int layer;
-  bool visible;
-  AnchorPoint anchor;
-  Vector pos;
-  float fading;
-  float fadetime;
+  SpritePtr m_sprite;
+  int m_layer;
+  bool m_visible;
+  AnchorPoint m_anchor;
+  Vector m_pos;
+  float m_fading;
+  float m_fadetime;
 };
 
 #endif
