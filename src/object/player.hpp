@@ -395,6 +395,13 @@ private:
   int m_ending_direction;
   std::vector<Key*> m_collected_keys;
 
+  float m_last_sliding_angle;
+  float m_current_sliding_angle;
+  float m_target_sliding_angle;
+  Timer m_sliding_rotation_timer;
+  bool m_is_slidejump_falling;
+  bool m_was_crawling_before_slide;
+
 private:
   Player(const Player&) = delete;
   Player& operator=(const Player&) = delete;
