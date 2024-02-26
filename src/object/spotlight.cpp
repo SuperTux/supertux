@@ -204,9 +204,9 @@ Spotlight::fade_speed(float speed, float time)
 }
 
 void
-Spotlight::ease_speed(float speed, float time, const std::string& easing)
+Spotlight::ease_speed(float speed, float time, const std::string& easing_)
 {
-  ease_speed(time, speed, EasingMode_from_string(easing));
+  ease_speed(time, speed, EasingMode_from_string(easing_));
 }
 
 void
@@ -222,9 +222,9 @@ Spotlight::fade_angle(float angle, float time)
 }
 
 void
-Spotlight::ease_angle(float angle, float time, const std::string& easing)
+Spotlight::ease_angle(float angle, float time, const std::string& easing_)
 {
-  ease_angle(time, angle, EasingMode_from_string(easing));
+  ease_angle(time, angle, EasingMode_from_string(easing_));
 }
 
 void
@@ -240,9 +240,9 @@ Spotlight::fade_color_rgba(float r, float g, float b, float a, float time)
 }
 
 void
-Spotlight::ease_color_rgba(float r, float g, float b, float a, float time, const std::string& easing)
+Spotlight::ease_color_rgba(float r, float g, float b, float a, float time, const std::string& easing_)
 {
-  ease_color(time, Color(r, g, b, a), EasingMode_from_string(easing));
+  ease_color(time, Color(r, g, b, a), EasingMode_from_string(easing_));
 }
 
 void
