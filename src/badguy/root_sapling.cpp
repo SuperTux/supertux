@@ -181,22 +181,22 @@ RootSapling::summon_root()
     {
       case Direction::UP:
         eye = {player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1};
-        end = {eye.x, eye.y + 600};
+        end = {eye.x, eye.y + ROOT_SAPLING_RANGE};
         break;
 
       case Direction::DOWN:
         eye = {player->get_bbox().get_middle().x, player->get_bbox().get_top() - 1};
-        end = {eye.x, eye.y - 600};
+        end = {eye.x, eye.y - ROOT_SAPLING_RANGE};
         break;
 
       case Direction::LEFT:
         eye = {player->get_bbox().get_right() + 1, player->get_bbox().get_middle().y};
-        end = {eye.x + 600, eye.y};
+        end = {eye.x + ROOT_SAPLING_RANGE, eye.y};
         break;
 
       case Direction::RIGHT:
         eye = {player->get_bbox().get_left() - 1, player->get_bbox().get_middle().y};
-        end = {eye.x - 600, eye.y};
+        end = {eye.x - ROOT_SAPLING_RANGE, eye.y};
         break;
 
       default: assert(false); break;
@@ -210,10 +210,14 @@ RootSapling::summon_root()
       switch (m_dir)
       {
         case Direction::UP:
+          if ((*tile_p)->is_unisolid())
+            return;
           (*axis) = result.box.p1().y;
           break;
 
         case Direction::LEFT:
+          if ((*tile_p)->is_unisolid())
+            return;
           (*axis) = result.box.p1().x;
           break;
 

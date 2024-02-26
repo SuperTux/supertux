@@ -57,12 +57,14 @@ Root::construct(float delay, bool play_sound)
   {
     case Direction::DOWN:
       pos.y -= get_bbox().get_height();
+      [[fallthrough]];
     case Direction::UP:
       pos.x -= (get_bbox().get_width() / 2);
       break;
 
     case Direction::RIGHT:
       pos.x -= get_bbox().get_width();
+      [[fallthrough]];
     case Direction::LEFT:
       pos.y -= (get_bbox().get_height() / 2);
       break;
