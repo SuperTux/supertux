@@ -80,17 +80,17 @@ Root::construct(float delay, bool play_sound)
     m_base_surface = surfaces[0];
 
   if (m_play_sound)
+  {
     SoundManager::current()->preload("sounds/dartfire.wav");
     SoundManager::current()->preload("sounds/brick.wav");
+  }
 }
 
 void
 Root::initialize()
 {
   if (m_play_sound)
-  {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
-  }
 
   Vector basepos = get_bbox().get_middle();
   switch (m_dir)
