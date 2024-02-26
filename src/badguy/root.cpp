@@ -88,7 +88,9 @@ void
 Root::initialize()
 {
   if (m_play_sound)
+  {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
+  }
 
   Vector basepos = get_bbox().get_middle();
   switch (m_dir)

@@ -138,7 +138,7 @@ RootSapling::summon_root()
   if (!player) return;
 
   Vector pos;
-  float* axis;
+  float* axis = nullptr;
   switch (m_dir)
   {
     case Direction::UP:
