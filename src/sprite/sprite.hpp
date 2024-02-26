@@ -68,6 +68,10 @@ public:
   /* Stop animation */
   void stop_animation() { m_animation_loops = 0; }
 
+  void pause_animation() { m_is_paused = true; }
+
+  void resume_animation() { m_is_paused = false; }
+
   /** Check if animation is stopped or not */
   bool animation_done() const;
 
@@ -136,6 +140,7 @@ private:
   float m_alpha;
   Color m_color;
   Blend m_blend;
+  bool m_is_paused;
 
   const SpriteData::Action* m_action;
 

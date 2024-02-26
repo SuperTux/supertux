@@ -36,7 +36,6 @@
 #include "video/drawing_context.hpp"
 #include "video/layer.hpp"
 #include "video/surface.hpp"
-#include "worldmap/worldmap.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
   ExposedObject<TileMap, scripting::TileMap>(this),
@@ -154,7 +153,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   /* Initialize effective_solid based on real_solid and current_alpha. */
   m_effective_solid = m_real_solid;
-  update_effective_solid ();
+  update_effective_solid(false);
 
   reader.get("width", m_width);
   reader.get("height", m_height);
@@ -195,6 +194,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 void
 TileMap::finish_construction()
 {
+  get_parent()->update_solid(this);
+
   if (get_path() && get_path()->get_nodes().size() > 0) {
     if (m_starting_node >= static_cast<int>(get_path()->get_nodes().size()))
       m_starting_node = static_cast<int>(get_path()->get_nodes().size()) - 1;
@@ -957,9 +958,8 @@ TileMap::move_by(const Vector& shift)
 }
 
 void
-TileMap::update_effective_solid()
+TileMap::update_effective_solid(bool update_manager)
 {
-  bool old = m_effective_solid;
   if (!m_real_solid)
     m_effective_solid = false;
   else if (m_effective_solid && (m_current_alpha < 0.25f))
@@ -967,13 +967,8 @@ TileMap::update_effective_solid()
   else if (!m_effective_solid && (m_current_alpha >= 0.75f))
     m_effective_solid = true;
 
-  if(old != m_effective_solid) {
-    if(Sector::current() != nullptr) {
-      Sector::get().update_solid(this);
-    } else if(worldmap::WorldMap::current() != nullptr) {
-      worldmap::WorldMapSector::current()->update_solid(this);
-    }
-  }
+  if (update_manager)
+    get_parent()->update_solid(this);
 }
 
 void

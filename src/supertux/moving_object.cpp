@@ -17,7 +17,6 @@
 #include "supertux/moving_object.hpp"
 
 #include "editor/resize_marker.hpp"
-#include "math/rect.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -98,14 +97,6 @@ MovingObject::on_flip(float height)
   Vector pos = get_pos();
   pos.y = height - pos.y - get_bbox().get_height();
   set_pos(pos);
-}
-
-bool
-MovingObject::is_within_bounds(const Rectf& cliprect) const
-{
-  const Rect& bbox = get_bbox().to_rect();
-  auto grow_amount = static_cast<float>(std::max(bbox.get_width(), bbox.get_height()));
-  return cliprect.grown(grow_amount).overlaps(bbox);
 }
 
 /* EOF */

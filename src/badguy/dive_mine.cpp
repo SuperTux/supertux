@@ -101,6 +101,12 @@ DiveMine::collision_player(Player& player, const CollisionHit& hit)
 }
 
 void
+DiveMine::kill_fall()
+{
+  explode();
+}
+
+void
 DiveMine::draw(DrawingContext& context)
 {
   BadGuy::draw(context);

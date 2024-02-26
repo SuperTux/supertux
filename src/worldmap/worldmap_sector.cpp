@@ -81,7 +81,7 @@ WorldMapSector::~WorldMapSector()
 }
 
 void
-WorldMapSector::finish_construction(bool)
+WorldMapSector::finish_construction(bool editable)
 {
   flush_game_objects();
 
@@ -95,6 +95,8 @@ WorldMapSector::finish_construction(bool)
     add<DisplayEffect>("Effect");
 
   flush_game_objects();
+
+  Base::Sector::finish_construction(editable);
 }
 
 

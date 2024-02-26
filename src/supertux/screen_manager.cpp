@@ -277,9 +277,7 @@ ScreenManager::draw(Compositor& compositor, FPS_Stats& fps_statistics)
 
   // draw effects and hud
   auto& context = compositor.make_context(true);
-  if(m_menu_manager->is_menu_visible()) {
-    m_menu_manager->draw(context);
-  }
+  m_menu_manager->draw(context);
 
   if (m_screen_fade) {
     m_screen_fade->draw(context);
@@ -323,10 +321,7 @@ ScreenManager::update_gamelogic(float dt_sec)
     m_screen_stack.back()->update(dt_sec, controller);
   }
 
-  if(m_menu_manager->is_active())
-  {
-    m_menu_manager->process_input(controller);
-  }
+  m_menu_manager->process_input(controller);
 
   if (m_screen_fade)
   {
@@ -407,9 +402,7 @@ ScreenManager::process_events()
     }
     m_input_manager.process_event(event);
 
-    if(m_menu_manager->is_active()) {
-      m_menu_manager->event(event);
-    }
+    m_menu_manager->event(event);
 
     if (Editor::is_active()) {
       Editor::current()->event(event);
