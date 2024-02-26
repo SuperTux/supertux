@@ -61,9 +61,9 @@ WorldSelect::WorldSelect(const std::string& current_world_filename) :
     world_select.get("prefix", prefix);
     if (!prefix.empty())
     {
-      for (int i = 0; unsigned(i) < worlds.size(); i++)
+      for (size_t y = 0; y < worlds.size(); y++)
       {
-        worlds[i] = prefix + std::to_string(i+1) + "/worldmap.stwm";
+        worlds[y] = prefix + std::to_string(y + 1) + "/worldmap.stwm";
       }
     }
 
