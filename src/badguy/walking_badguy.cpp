@@ -90,6 +90,28 @@ WalkingBadguy::set_walk_speed (float ws)
   /* physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed); */
 }
 
+void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
+{
+  switch (behavior)
+  {
+    case LedgeBehavior::STRICT:
+      max_drop_height = 0;
+      break;
+
+    case LedgeBehavior::SMART:
+      max_drop_height = static_cast<int>(get_bbox().get_width()) / 2;
+      break;
+
+    case LedgeBehavior::NORMAL:
+      max_drop_height = s_normal_max_drop_height;
+      break;
+
+    case LedgeBehavior::FALL:
+      max_drop_height = -1;
+      break;
+  }
+}
+
 void
 WalkingBadguy::add_velocity (const Vector& velocity)
 {

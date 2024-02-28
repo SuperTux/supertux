@@ -420,7 +420,7 @@ ControlTextbox::get_text_position(const Vector& pos) const
 }
 
 std::string
-ControlTextbox::get_truncated_text(std::string text) const
+ControlTextbox::get_truncated_text(const std::string& text) const
 {
   if (fits(text)) return text;
 
