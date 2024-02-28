@@ -25,18 +25,13 @@ on:
   pull_request: {}
 
 jobs:
-  bsd:
-
+  freebsd:
     strategy:
       fail-fast: false
       matrix:
-        # TODO: Add the OpenBSD, NetBSD and Solaris VMs whenever possible
-        vm_os: [freebsd]
         build_type: [Debug, Release]
-        # FreeBSD does not have glbinding
-        # glbinding: [ON, OFF]
 
-    runs-on: macos-10.15
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
         with:
@@ -45,13 +40,11 @@ jobs:
           submodules: true
 
       - name: Build in FreeBSD
-        if: ${{ matrix.vm_os == 'freebsd' }}
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
-          # GLBINDING: ${{ matrix.glbinding }} # TODO: Re-add if available
-        uses: vmactions/freebsd-vm@v0.1.4
+        uses: vmactions/freebsd-vm@v0
         with:
-          envs: 'BUILD_TYPE' # TODO: Add GLBINDING here if it comes to FreeBSD
+          envs: BUILD_TYPE
           sync: rsync
           usesh: true
           prepare: |
@@ -63,7 +56,6 @@ jobs:
             pkg install -y sdl2_image
             pkg install -y openal-soft
             pkg install -y glew
-            # pkg install -y glbinding # TODO: Uncomment whenever possible
             pkg install -y curl
             pkg install -y libogg
             pkg install -y libvorbis
@@ -71,12 +63,62 @@ jobs:
             pkg install -y libraqm
             pkg install -y glm
           run: |
+            df -h
             mkdir build && cd build
             cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
                      -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
                      -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
                      -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
-                                            # TODO: Uncomment whenever possible
+            df -h
             make -j3 VERBOSE=1
+            df -h
+            make install DESTDIR="/tmp/supertux" VERBOSE=1
+            ./test_supertux2
+
+  openbsd:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Fetch the whole tree so git describe works
+          fetch-depth: 0
+          submodules: true
+
+      - name: Build in OpenBSD
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        uses: vmactions/openbsd-vm@v0
+        with:
+          envs: BUILD_TYPE
+          sync: rsync
+          usesh: true
+          copyback: false
+          prepare: |
+            pkg_add git
+            pkg_add cmake
+            pkg_add gtest
+            pkg_add sdl2
+            pkg_add sdl2-image
+            pkg_add openal
+            pkg_add glew
+            pkg_add curl
+            pkg_add libogg
+            pkg_add libvorbis
+            pkg_add freetype
+            pkg_add glm
+          run: |
+            mkdir build && cd build
+            df -h
+            cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON  \
+                     -DBUILD_TESTS=ON -DINSTALL_SUBDIR_SHARE=share/supertux2   \
+                     -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr \
+                     -DINSTALL_SUBDIR_BIN=bin # -DGLBINDING_ENABLED=$GLBINDING
+            make -j3 VERBOSE=1
+            df -h
             make install DESTDIR="/tmp/supertux" VERBOSE=1
             ./test_supertux2
