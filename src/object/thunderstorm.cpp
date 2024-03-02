@@ -32,7 +32,7 @@
 namespace {
 
 const float LIGHTNING_DELAY = 2.0f;
-const float FLASH_DISPLAY_TIME = 2.0f;
+const float FLASH_DISPLAY_TIME = 1.3f;
 const float ELECTRIFY_TIME = 0.5f;
 } // namespace
 
@@ -97,10 +97,10 @@ Thunderstorm::update(float )
     time_to_thunder.start(interval);
   }
 
-  if(flash_display_timer.started()) {
+    if(flash_display_timer.started()) {
     float alpha = 0.9f;
-    if(flash_display_timer.get_timegone() > 0.01f) {
-      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.01f;
+    if(flash_display_timer.get_timegone() > 0.1f) {
+      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
       if(progress < 0.0f)
         progress = 0.0f;
 
@@ -112,7 +112,7 @@ Thunderstorm::update(float )
       return;
     }
 
-    m_flash_color = Color(1, 1, 1, alpha);
+    m_flash_color = Color(alpha, alpha, alpha, 1.0);
   }
 }
 
@@ -123,7 +123,7 @@ Thunderstorm::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_filled_rect(context.get_rect(), m_flash_color, 500, Blend::ADD);
+  context.color().draw_gradient(m_flash_color, m_flash_color, 500, GradientDirection::HORIZONTAL, context.get_rect(), Blend::ADD);
   context.pop_transform();
 }
 
