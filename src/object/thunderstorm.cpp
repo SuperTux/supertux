@@ -97,7 +97,7 @@ Thunderstorm::update(float )
     time_to_thunder.start(interval);
   }
 
-    if(flash_display_timer.started()) {
+  if(flash_display_timer.started()) {
     float alpha = 0.9f;
     if(flash_display_timer.get_timegone() > 0.1f) {
       auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
