@@ -85,7 +85,7 @@ private:
   Timer flash_display_timer; /**< counts down while flash is displayed */
 
   std::map<uint32_t, uint32_t> changing_tiles; /**< preserves the tiles which an electrocution should change */
-  Color flash_color;
+  Color m_flash_color;
 
 private:
   Thunderstorm(const Thunderstorm&) = delete;
