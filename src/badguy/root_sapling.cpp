@@ -32,9 +32,10 @@ static const float ROOT_SAPLING_SPAWN_TIME = 2.f;
 
 RootSapling::RootSapling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP,
-         LAYER_TILES-10, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
+         LAYER_TILES-15, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
   m_root_timer(),
-  m_dead(false)
+  m_dead(false),
+  m_space()
 {
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_MOVING);
@@ -291,22 +292,26 @@ RootSapling::summon_root()
   switch (m_dir)
   {
     case Direction::UP: size.height *= 3; break;
-    case Direction::DOWN: size.height *= -2; break;
+    case Direction::DOWN: size.height *= 3; break;
     case Direction::LEFT: size.width *= 3; break;
-    case Direction::RIGHT: size.width *= -2; break;
+    case Direction::RIGHT: size.width *= 3; break;
     default: assert(false); break;
   }
 
   Vector bboxpos = pos;
   switch (m_dir)
   {
-    case Direction::UP:
     case Direction::DOWN:
+      bboxpos.y = std::max(bboxpos.y - (32.f * 3.f), 0.f);
+      [[fallthrough]];
+    case Direction::UP:
       bboxpos.x -= 16.f;
       break;
 
-    case Direction::LEFT:
     case Direction::RIGHT:
+      bboxpos.x = std::max(bboxpos.x - (32.f * 3.f), 0.f);
+      [[fallthrough]];
+    case Direction::LEFT:
       bboxpos.y -= 16.f;
       break;
 
@@ -316,7 +321,7 @@ RootSapling::summon_root()
   // Check if the hitbox of the root is entirely
   // occupied by solid tiles.
   Rectf space(bboxpos, size);
-  if (!should_summon_root(space))
+  if (!should_summon_root(space.grown(-1)))
     return;
 
   Sector::get().add<Root>(pos, m_dir, "images/creatures/mole/corrupted/root.sprite");
@@ -356,5 +361,5 @@ RootSapling::on_flip(float height)
   FlipLevelTransformer::transform_flip(m_flip);
   m_dir = invert_dir(m_dir);
 }
-\
+
 /* EOF */

@@ -26,14 +26,14 @@ static const float APPEAR_TIME = 0.5f;
 static const float RETREAT_TIME = 1.f;
 
 Root::Root(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-15)
+  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-10)
 {
   construct();
 }
 
 Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
            float delay, bool play_sound) :
-  BadGuy(pos, dir, sprite, LAYER_TILES-15)
+  BadGuy(pos, dir, sprite, LAYER_TILES-10)
 {
   construct(delay, play_sound);
 }
