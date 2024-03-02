@@ -343,6 +343,24 @@ Camera::update(float dt_sec)
 }
 
 void
+Camera::keep_in_bounds(const Rectf& bounds)
+{
+  // Determines the difference between normal and scaled translation.
+  const Vector scale_factor = (m_screen_size.as_vector() * (get_current_scale() - 1.f)) / 2.f;
+
+  // Keep the translation's scaled position in provided bounds.
+  m_translation.x = (bounds.get_width() > m_screen_size.width ?
+      math::clamp(m_translation.x + scale_factor.x, bounds.get_left(), bounds.get_right() - m_screen_size.width ) :
+      0.f);
+  m_translation.y = (bounds.get_height() > m_screen_size.height ?
+      math::clamp(m_translation.y + scale_factor.y, bounds.get_top(), bounds.get_bottom() - m_screen_size.height) :
+      0.f);
+
+  // Remove any scale factor we may have added in the checks above.
+  m_translation -= scale_factor;
+}
+
+void
 Camera::keep_in_bounds(Vector& translation_)
 {
   float width = d_sector->get_width();
@@ -760,10 +778,9 @@ Camera::get_screen_size() const
 
 
 void
-Camera::move(const int dx, const int dy)
+Camera::move(const Vector& offset)
 {
-  m_translation.x += static_cast<float>(dx);
-  m_translation.y += static_cast<float>(dy);
+  scroll_to(m_translation + offset, 0.0f);
 }
 
 bool
