@@ -761,23 +761,43 @@ BadGuy::try_activate()
 bool
 BadGuy::might_fall(int height) const
 {
+  using RaycastResult = CollisionSystem::RaycastResult;
+
   // Make sure we check for at least a 1-pixel fall.
   assert(height > 0);
 
-  float x1;
-  float x2;
-  float y1 = m_col.m_bbox.get_bottom() + 1;
-  float y2 = m_col.m_bbox.get_bottom() + 1 + static_cast<float>(height);
+  Vector eye;
+  Vector end;
+  eye.y = m_col.m_bbox.get_bottom();
+  end.y = eye.y + 600;
   if (m_dir == Direction::LEFT) {
-    x1 = m_col.m_bbox.get_left() - 1;
-    x2 = m_col.m_bbox.get_left();
+    eye.x = m_col.m_bbox.get_left() - 1;
   } else {
-    x1 = m_col.m_bbox.get_right();
-    x2 = m_col.m_bbox.get_right() + 1;
+    eye.x = m_col.m_bbox.get_right() + 1;
   }
-  const Rectf rect = Rectf(x1, y1, x2, y2);
+  end.x = eye.x;
+  //const Rectf rect = Rectf(x1, y1, x2, y2);
 
-  return Sector::get().is_free_of_statics(rect) && Sector::get().is_free_of_specifically_movingstatics(rect);
+  RaycastResult result = Sector::get().get_first_line_intersection(eye, end, true, nullptr);
+
+  auto tile_p = std::get_if<const Tile*>(&result.hit);
+  if (tile_p && !result.box.empty())
+  {
+    std::cout << "tile " << eye.y <<" "<< result.box.p1().y <<" "<< (result.box.p1().y - eye.y) <<" "<< (static_cast<float>(height)) << std::endl;
+    if ((*tile_p)->is_slope())
+      // Only fall if the slope is too far off the ledge
+      return result.box.p1().y - eye.y > 600.f;
+    else
+    {
+      return result.box.p1().y - eye.y > static_cast<float>(height);
+    }
+  }
+  else
+  {
+    return true;
+  }
+
+  //return Sector::get().is_free_of_statics(rect) && Sector::get().is_free_of_specifically_movingstatics(rect);
 }
 
 Player*
