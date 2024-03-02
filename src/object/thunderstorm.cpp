@@ -47,7 +47,7 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   time_to_lightning(),
   flash_display_timer(),
   changing_tiles(TileManager::current()->get_tileset(Level::current()->get_tileset())->m_thunderstorm_tiles),
-  flash_color()
+  m_flash_color()
 {
   reader.get("running", running);
   reader.get("interval", interval);
@@ -112,7 +112,7 @@ Thunderstorm::update(float )
       return;
     }
 
-    flash_color = Color(1, 1, 1, alpha);
+    m_flash_color = Color(1, 1, 1, alpha);
   }
 }
 
@@ -123,7 +123,7 @@ Thunderstorm::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.color().draw_filled_rect(context.get_rect(), flash_color, 500, Blend::ADD);
+  context.color().draw_filled_rect(context.get_rect(), m_flash_color, 500, Blend::ADD);
   context.pop_transform();
 }
 
