@@ -34,8 +34,7 @@ RootSapling::RootSapling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP,
          LAYER_TILES-15, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
   m_root_timer(),
-  m_dead(false),
-  m_space()
+  m_dead(false)
 {
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_MOVING);
