@@ -76,7 +76,7 @@
 
 static const float CAMERA_MIN_ZOOM = 0.5f;
 static const float CAMERA_MAX_ZOOM = 3.0f;
-static const float CAMERA_ZOOM_SCROLL_SENSITIVITY = 0.05f;
+static const float CAMERA_ZOOM_SENSITIVITY = 0.05f;
 static const float CAMERA_ZOOM_FOCUS_PROGRESSION = 8.f;
 
 bool Editor::s_resaving_in_progress = false;
@@ -863,14 +863,14 @@ Editor::event(const SDL_Event& ev)
           case SDLK_PLUS: // Zoom In
           case SDLK_KP_PLUS:
             if (m_sector->get_camera().get_current_scale() < CAMERA_MAX_ZOOM)
-              m_sector->get_camera().set_scale(m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SCROLL_SENSITIVITY);
+              m_sector->get_camera().set_scale(m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SENSITIVITY);
 
             keep_camera_in_bounds();
             break;
           case SDLK_MINUS: // Zoom Out
           case SDLK_KP_MINUS:
             if (m_sector->get_camera().get_current_scale() > CAMERA_MIN_ZOOM)
-              m_sector->get_camera().set_scale(m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SCROLL_SENSITIVITY);
+              m_sector->get_camera().set_scale(m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SENSITIVITY);
 
             keep_camera_in_bounds();
             break;
@@ -898,7 +898,7 @@ Editor::event(const SDL_Event& ev)
         Camera& camera = m_sector->get_camera();
         if (ev.wheel.y > 0 && camera.get_current_scale() < CAMERA_MAX_ZOOM)
         {
-          camera.set_scale(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SCROLL_SENSITIVITY);
+          camera.set_scale(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY);
 
           // When zooming in, focus on the position of the mouse.
           camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
@@ -906,7 +906,7 @@ Editor::event(const SDL_Event& ev)
         }
         else if (ev.wheel.y < 0 && camera.get_current_scale() > CAMERA_MIN_ZOOM)
         {
-          camera.set_scale(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SCROLL_SENSITIVITY);
+          camera.set_scale(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SENSITIVITY);
         }
         keep_camera_in_bounds();
       }
