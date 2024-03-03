@@ -32,6 +32,9 @@ public:
   void menu_action(MenuItem& item) override;
 
 private:
+  void refresh_control(const Control& control);
+
+private:
   InputManager& m_input_manager;
   int m_player_id;
 
