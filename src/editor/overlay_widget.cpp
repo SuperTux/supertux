@@ -1494,7 +1494,9 @@ EditorOverlayWidget::draw(DrawingContext& context)
 
   m_object_tip->draw(context, m_mouse_pos);
 
-  auto cam_translation = m_editor.get_sector()->get_camera().get_translation();
+  context.push_transform();
+  context.set_translation(m_editor.get_sector()->get_camera().get_translation());
+  context.transform().scale = m_editor.get_sector()->get_camera().get_current_scale();
 
   if (m_editor.get_tileselect_input_type() == EditorToolboxWidget::InputType::TILE &&
       !g_config->editor_show_deprecated_tiles) // If showing deprecated tiles is enabled, this is redundant, since tiles are indicated without the need of hovering over.
@@ -1503,7 +1505,7 @@ EditorOverlayWidget::draw(DrawingContext& context)
     auto sel_tilemap = m_editor.get_selected_tilemap();
     if (m_editor.get_tileset()->get(sel_tilemap->get_tile_id(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))).is_deprecated())
       context.color().draw_text(Resources::normal_font, "!",
-                                tp_to_sp(Vector(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))) - cam_translation + Vector(16, 8),
+                                tp_to_sp(Vector(static_cast<int>(m_hovered_tile.x), static_cast<int>(m_hovered_tile.y))) + Vector(16, 8),
                                 ALIGN_CENTER, LAYER_GUI - 10, Color::RED);
   }
 
@@ -1511,8 +1513,8 @@ EditorOverlayWidget::draw(DrawingContext& context)
       && !m_dragging_right)
   {
     // Draw selection rectangle...
-    Vector p0 = m_drag_start - cam_translation;
-    Vector p3 = m_mouse_pos;
+    Vector p0 = m_drag_start;
+    Vector p3 = m_sector_pos;
     if (p0.x > p3.x) {
       std::swap(p0.x, p3.x);
     }
@@ -1544,6 +1546,8 @@ EditorOverlayWidget::draw(DrawingContext& context)
     context.color().draw_filled_rect(selection_draw_rect(), selection_color,
                                      0.0f, LAYER_GUI-13);
   }
+
+  context.pop_transform();
 
   if (m_warning_timer.get_timeleft() > 0.f) // Draw warning, if set
   {
