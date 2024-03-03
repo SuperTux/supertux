@@ -860,6 +860,20 @@ Editor::event(const SDL_Event& ev)
           case SDLK_y:
             redo();
             break;
+          case SDLK_PLUS: // Zoom In
+          case SDLK_KP_PLUS:
+            if (m_sector->get_camera().get_current_scale() < CAMERA_MAX_ZOOM)
+              m_sector->get_camera().set_scale(m_sector->get_camera().get_current_scale() + CAMERA_ZOOM_SCROLL_SENSITIVITY);
+
+            keep_camera_in_bounds();
+            break;
+          case SDLK_MINUS: // Zoom Out
+          case SDLK_KP_MINUS:
+            if (m_sector->get_camera().get_current_scale() > CAMERA_MIN_ZOOM)
+              m_sector->get_camera().set_scale(m_sector->get_camera().get_current_scale() - CAMERA_ZOOM_SCROLL_SENSITIVITY);
+
+            keep_camera_in_bounds();
+            break;
         }
       }
     }
