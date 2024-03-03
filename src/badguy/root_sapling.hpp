@@ -48,6 +48,9 @@ private:
   void summon_root();
   bool should_summon_root(const Rectf& bbox);
 
+  /** Fix raycasting down/right. More info in the implementation. */
+  float reverse_raycast(const Rectf& tilebbox);
+
   Timer m_root_timer;
   bool m_dead;
 

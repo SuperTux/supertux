@@ -221,62 +221,10 @@ RootSapling::summon_root()
           (*axis) = result.box.p1().x;
           break;
 
-        /*
-         * This "Raycasting" I've been using so far is not actual raycasting.
-         * It just checks for tiles/objects that intersect a line and returns
-         * the closest one to the top left (or whatever order it's on). Which
-         * means it only works properly when pointing down or right. If you
-         * try otherwise it will return the furthest tile/object in the line.
-         *
-         * TODO: Rename this to "Intersection checking" or something like that.
-         *
-         * Anyway, To work around this, iterate over all tiles to the opposite
-         * direction and check for the first non-solid tile.
-         *
-         * Usually, when I write big comments, that means I won't need it. I hope
-         * that's the case.
-         *
-         * ~ MatusGuy
-         */
         case Direction::DOWN:
-        {
-          Vector tilepos = result.box.p1();
-          bool solid;
-          do {
-            solid = false;
-            tilepos.y += 32.f;
-            for (auto map : Sector::get().get_solid_tilemaps()) {
-              const Tile& tile = map->get_tile_at(tilepos);
-              if (tile.is_solid() && !tile.is_unisolid())
-              {
-                solid = true;
-                break;
-              }
-            }
-          } while (solid);
-          (*axis) = tilepos.y;
-          break;
-        }
-
         case Direction::RIGHT:
-        {
-          Vector tilepos = result.box.p1();
-          bool solid;
-          do {
-            solid = false;
-            tilepos.x += 32.f;
-            for (auto map : Sector::get().get_solid_tilemaps()) {
-              const Tile& tile = map->get_tile_at(tilepos);
-              if (tile.is_solid() && !tile.is_unisolid())
-              {
-                solid = true;
-                break;
-              }
-            }
-          } while (solid);
-          (*axis) = tilepos.x;
+          (*axis) = reverse_raycast(result.box);
           break;
-        }
 
         default: assert(false); break;
       }
@@ -351,6 +299,51 @@ next_tilemap:
   }
 
   return false;
+}
+
+float
+RootSapling::reverse_raycast(const Rectf& tilebbox)
+{
+  /*
+   * This "Raycasting" I've been using so far is not actual raycasting.
+   * It just checks for tiles/objects that intersect a line and returns
+   * the closest one to the top left (or whatever order it's on). Which
+   * means it only works properly when pointing down or right. If you
+   * try otherwise it will return the furthest tile/object in the line.
+   *
+   * TODO: Rename this to "Intersection checking" or something like that.
+   *
+   * Anyway, To work around this, iterate over all tiles to the opposite
+   * direction and check for the first non-solid tile.
+   *
+   * Usually, when I write big comments, that means I won't need it. I hope
+   * that's the case.
+   *
+   * ~ MatusGuy
+   */
+
+  Vector tilepos = tilebbox.p1();
+  bool solid;
+  do {
+    solid = false;
+    if (m_dir == Direction::DOWN)
+      tilepos.y += 32.f;
+    else
+      tilepos.x += 32.f;
+    for (auto map : Sector::get().get_solid_tilemaps()) {
+      if (map->get_path())
+        // Do not support moving tilemaps. Not planned.
+        break;
+
+      const Tile& tile = map->get_tile_at(tilepos);
+      if (tile.is_solid() && !tile.is_unisolid())
+      {
+        solid = true;
+        break;
+      }
+    }
+  } while (solid);
+  return m_dir == Direction::DOWN ? tilepos.y : tilepos.x;
 }
 
 void
