@@ -17,6 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/test/swimming.stl:3
-msgid "Swimming Test"
+#: data/levels/world4/worldmap.stwm:3
+msgid "Mountain Peak"
 msgstr ""

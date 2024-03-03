@@ -1769,8 +1769,8 @@ msgstr "Tekan escape untuk melewati"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Penggunaan: %s [OPSI] [BERKASLEVEL]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Penggunaan: {} [OPSI] [BERKASLEVEL]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2492,13 +2492,13 @@ msgstr "Ganti ukuran"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2546,8 +2546,8 @@ msgstr "Tak Diketahui"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" oleh \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" oleh \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2559,13 +2559,13 @@ msgstr "Tak ada Add-on ditemukan"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Pasang %s *BARU*"
+msgid "Install {} *NEW*"
+msgstr "Pasang {} *BARU*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Pasang %s"
+msgid "Install {}"
+msgstr "Pasang {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2585,8 +2585,8 @@ msgstr "Mengunduh Indeks Repositori Add-On"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Mengunduh %s"
+msgid "Downloading {}"
+msgstr "Mengunduh {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3099,8 +3099,8 @@ msgstr "Anda tidak dapat menghapus level yang sedang Anda edit!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "kontribusi oleh %s"
+msgid "contributed by {}"
+msgstr "kontribusi oleh {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

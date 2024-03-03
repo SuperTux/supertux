@@ -1184,8 +1184,8 @@ msgstr "Okänt objekt"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Användning: %s [FLAGGOR] [BANFIL]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Användning: {} [FLAGGOR] [BANFIL]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
@@ -1812,13 +1812,13 @@ msgstr "Ändra storlek"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1850,8 +1850,8 @@ msgstr "Okänd"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" av \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" av \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -1863,13 +1863,13 @@ msgstr "Inga tillägg funna"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Installera %s *NY*"
+msgid "Install {} *NEW*"
+msgstr "Installera {} *NY*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Installera %s"
+msgid "Install {}"
+msgstr "Installera {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -1889,8 +1889,8 @@ msgstr "Hämtar ner arkivindex för tillägg"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Hämtar ner %s"
+msgid "Downloading {}"
+msgstr "Hämtar ner {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -2306,8 +2306,8 @@ msgstr "Jag fattar!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "bidrag från %s"
+msgid "contributed by {}"
+msgstr "bidrag från {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"
