@@ -1770,8 +1770,8 @@ msgstr "Mine edasi klahviga \"Escape\""
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Kasutamine: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Kasutamine: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2494,13 +2494,13 @@ msgstr "Suuruse muutmine"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profiil %s]"
+msgid "[Profile {}]"
+msgstr "[Profiil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profiil %s"
+msgid "Profile {}"
+msgstr "Profiil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2548,8 +2548,8 @@ msgstr "Tundmatu"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\", loodud \"%s\" poolt"
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\", loodud \"{}\" poolt"
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2561,13 +2561,13 @@ msgstr "Lisandmooduleid ei leitud"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Paigalda %s *UUS*"
+msgid "Install {} *NEW*"
+msgstr "Paigalda {} *UUS*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Paigalda %s"
+msgid "Install {}"
+msgstr "Paigalda {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2587,8 +2587,8 @@ msgstr "Lisandmooduli hoidla indeksi allalaadimine"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Allalaadimine %s"
+msgid "Downloading {}"
+msgstr "Allalaadimine {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3101,8 +3101,8 @@ msgstr "Redigeeritavat taset ei saa kustutada!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "loodud %s poolt"
+msgid "contributed by {}"
+msgstr "loodud {} poolt"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"
