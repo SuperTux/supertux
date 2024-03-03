@@ -882,14 +882,18 @@ Editor::event(const SDL_Event& ev)
       if (m_ctrl_pressed)
       {
         Camera& camera = m_sector->get_camera();
-        camera.set_scale(math::clamp(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SCROLL_SENSITIVITY,
-                                     CAMERA_MIN_ZOOM, CAMERA_MAX_ZOOM));
+        if (ev.wheel.y > 0 && camera.get_current_scale() < CAMERA_MAX_ZOOM)
+        {
+          camera.set_scale(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SCROLL_SENSITIVITY);
 
-        // If zooming in, focus on the position of the mouse.
-        if (ev.wheel.y > 0)
+          // When zooming in, focus on the position of the mouse.
           camera.move((m_mouse_pos - Vector(static_cast<float>(SCREEN_WIDTH - 128),
                                             static_cast<float>(SCREEN_HEIGHT - 32)) / 2.f) / CAMERA_ZOOM_FOCUS_PROGRESSION);
-
+        }
+        else if (ev.wheel.y < 0 && camera.get_current_scale() > CAMERA_MIN_ZOOM)
+        {
+          camera.set_scale(camera.get_current_scale() + static_cast<float>(ev.wheel.y) * CAMERA_ZOOM_SCROLL_SENSITIVITY);
+        }
         keep_camera_in_bounds();
       }
       else
