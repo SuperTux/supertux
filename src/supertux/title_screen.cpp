@@ -258,7 +258,7 @@ TitleScreen::update_level(float dt_sec)
   // Wrap around at the end of the level back to the beginning
   if (sector.get_width() - 320.f < player.get_pos().x)
   {
-    sector.activate("main");
+    sector.activate(DEFAULT_SECTOR_NAME);
     sector.get_camera().reset(player.get_pos());
   }
 }

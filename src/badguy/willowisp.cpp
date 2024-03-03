@@ -22,6 +22,7 @@
 #include "editor/editor.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"
+#include "object/spawnpoint.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
@@ -53,8 +54,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
     reader.get("sector", m_target_sector);
     reader.get("spawnpoint", m_target_spawnpoint);
   } else {
-    reader.get("sector", m_target_sector, "main");
-    reader.get("spawnpoint", m_target_spawnpoint, "main");
+    reader.get("sector", m_target_sector, DEFAULT_SECTOR_NAME.c_str());
+    reader.get("spawnpoint", m_target_spawnpoint, DEFAULT_SPAWNPOINT_NAME.c_str());
   }
 
   reader.get("flyspeed", m_flyspeed, FLYSPEED);

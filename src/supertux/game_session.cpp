@@ -87,7 +87,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_current_cutscene_text(),
   m_endsequence_timer()
 {
-  set_start_point("main", "main");
+  set_start_point(DEFAULT_SECTOR_NAME, DEFAULT_SPAWNPOINT_NAME);
 
   m_boni_at_start.resize(InputManager::current()->get_num_users(), NO_BONUS);
   m_max_fire_bullets_at_start.resize(InputManager::current()->get_num_users(), 0);

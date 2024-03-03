@@ -22,6 +22,7 @@
 #include "object/ambient_light.hpp"
 #include "object/display_effect.hpp"
 #include "object/music_object.hpp"
+#include "object/spawnpoint.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/worldmap_sector.hpp"
@@ -333,7 +334,7 @@ WorldMapSector::update(float dt_sec)
         int tile_data = tile_data_at(m_tux->get_tile_pos());
         if (!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
           log_warning << "Player at illegal position " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << " respawning." << std::endl;
-          move_to_spawnpoint("main");
+          move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
           return;
         }
         log_warning << "No level to enter at: " << m_tux->get_tile_pos().x << ", " << m_tux->get_tile_pos().y << std::endl;
@@ -576,8 +577,8 @@ WorldMapSector::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
   }
 
   log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-  if (spawnpoint != "main") {
-    move_to_spawnpoint("main");
+  if (spawnpoint != DEFAULT_SPAWNPOINT_NAME) {
+    move_to_spawnpoint(DEFAULT_SPAWNPOINT_NAME);
   }
 }
 
