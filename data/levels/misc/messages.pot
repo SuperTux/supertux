@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.6.2-963-gb4a1b149f\n"
+"Project-Id-Version: SuperTux v0.6.3-1080-g2e08c1b7f\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: data/levels/misc/credits.stl:3
-msgid "Credits"
+msgid "Credits Level"
 msgstr ""
 
-#: data/levels/misc/menu.stl.in:3
+#: data/levels/misc/menu.stl:3
 msgid "Menu Level"
 msgstr ""
