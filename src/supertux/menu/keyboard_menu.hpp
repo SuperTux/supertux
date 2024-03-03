@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
 
+#include "control/controller.hpp"
 #include "gui/menu_item.hpp"
 
 class InputManager;
