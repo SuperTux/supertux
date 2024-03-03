@@ -414,38 +414,38 @@ Editor::esc_press()
 void
 Editor::update_keyboard(const Controller& controller)
 {
-  if (!m_enabled){
+  if (!m_enabled) {
     return;
   }
 
-  if (MenuManager::instance().current_menu() == nullptr)
+  if (MenuManager::instance().is_active() || MenuManager::instance().has_dialog())
+    return;
+
+  if (controller.pressed(Control::ESCAPE)) {
+    esc_press();
+    return;
+  }
+  if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
   {
-    if (controller.pressed(Control::ESCAPE)) {
-      esc_press();
-      return;
-    }
-    if (controller.pressed(Control::DEBUG_MENU) && g_config->developer_mode)
-    {
-      m_enabled = false;
-      m_overlay_widget->delete_markers();
-      MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
-      return;
-    }
-    if (controller.hold(Control::LEFT)) {
-      scroll({ -m_scroll_speed, 0.0f });
-    }
+    m_enabled = false;
+    m_overlay_widget->delete_markers();
+    MenuManager::instance().set_menu(MenuStorage::DEBUG_MENU);
+    return;
+  }
+  if (controller.hold(Control::LEFT)) {
+    scroll({ -m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::RIGHT)) {
-      scroll({ m_scroll_speed, 0.0f });
-    }
+  if (controller.hold(Control::RIGHT)) {
+    scroll({ m_scroll_speed, 0.0f });
+  }
 
-    if (controller.hold(Control::UP)) {
-      scroll({ 0.0f, -m_scroll_speed });
-    }
+  if (controller.hold(Control::UP)) {
+    scroll({ 0.0f, -m_scroll_speed });
+  }
 
-    if (controller.hold(Control::DOWN)) {
-      scroll({ 0.0f, m_scroll_speed });
-    }
+  if (controller.hold(Control::DOWN)) {
+    scroll({ 0.0f, m_scroll_speed });
   }
 }
 
