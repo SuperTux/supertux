@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_SPIDERMITE_HPP
-#define HEADER_SUPERTUX_BADGUY_SPIDERMITE_HPP
+#ifndef HEADER_SUPERTUX_BADGUY_TARANTULA_HPP
+#define HEADER_SUPERTUX_BADGUY_TARANTULA_HPP
 
 #include "badguy/badguy.hpp"
 
-class SpiderMite final : public BadGuy
+class Tarantula final : public BadGuy
 {
 public:
-  SpiderMite(const ReaderMapping& reader);
+  Tarantula(const ReaderMapping& reader);
 
   virtual void initialize() override;
   virtual void active_update(float dt_sec) override;
@@ -32,10 +32,10 @@ public:
   virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
 
-  virtual std::string get_overlay_size() const override { return "2x2"; }
-  static std::string class_name() { return "spidermite"; }
+  virtual std::string get_overlay_size() const override { return "3x3"; }
+  static std::string class_name() { return "tarantula"; }
   virtual std::string get_class_name() const override { return class_name(); }
-  static std::string display_name() { return _("Spidermite"); }
+  static std::string display_name() { return _("Tarantula"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
 
@@ -43,7 +43,7 @@ protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 protected:
-  enum SpiderMiteMode {
+  enum TarantulaMode {
     FLY_UP,
     FLY_DOWN
   };
@@ -52,12 +52,12 @@ protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
-  SpiderMiteMode mode;
+  TarantulaMode mode;
   Timer timer;
 
 private:
-  SpiderMite(const SpiderMite&) = delete;
-  SpiderMite& operator=(const SpiderMite&) = delete;
+  Tarantula(const Tarantula&) = delete;
+  Tarantula& operator=(const Tarantula&) = delete;
 };
 
 #endif

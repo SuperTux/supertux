@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/spidermite.hpp"
+#include "badguy/tarantula.hpp"
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -22,8 +22,8 @@
 static const float FLYTIME = 1.2f;
 static const float MOVE_SPEED = -100.0f;
 
-SpiderMite::SpiderMite(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
+Tarantula::Tarantula(const ReaderMapping& reader) :
+  BadGuy(reader, "images/creatures/tarantula/tarantula.sprite"),
   mode(),
   timer()
 {
@@ -31,7 +31,7 @@ SpiderMite::SpiderMite(const ReaderMapping& reader) :
 }
 
 void
-SpiderMite::initialize()
+Tarantula::initialize()
 {
   set_action(m_dir);
   mode = FLY_UP;
@@ -40,7 +40,7 @@ SpiderMite::initialize()
 }
 
 bool
-SpiderMite::collision_squished(GameObject& object)
+Tarantula::collision_squished(GameObject& object)
 {
   if (m_frozen)
     return BadGuy::collision_squished(object);
@@ -51,7 +51,7 @@ SpiderMite::collision_squished(GameObject& object)
 }
 
 void
-SpiderMite::collision_solid(const CollisionHit& hit)
+Tarantula::collision_solid(const CollisionHit& hit)
 {
   if (hit.top || hit.bottom) { // Hit floor or roof?
     m_physic.set_velocity_y(0);
@@ -61,7 +61,7 @@ SpiderMite::collision_solid(const CollisionHit& hit)
 }
 
 void
-SpiderMite::active_update(float dt_sec)
+Tarantula::active_update(float dt_sec)
 {
   if (m_frozen)
   {
@@ -88,14 +88,14 @@ SpiderMite::active_update(float dt_sec)
 }
 
 void
-SpiderMite::freeze()
+Tarantula::freeze()
 {
   m_physic.enable_gravity(true);
   BadGuy::freeze();
 }
 
 void
-SpiderMite::unfreeze(bool melt)
+Tarantula::unfreeze(bool melt)
 {
   BadGuy::unfreeze(melt);
   m_physic.enable_gravity(false);
@@ -103,13 +103,13 @@ SpiderMite::unfreeze(bool melt)
 }
 
 bool
-SpiderMite::is_freezable() const
+Tarantula::is_freezable() const
 {
   return true;
 }
 
 std::vector<Direction>
-SpiderMite::get_allowed_directions() const
+Tarantula::get_allowed_directions() const
 {
   return {};
 }
