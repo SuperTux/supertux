@@ -59,7 +59,7 @@ TextScroller::TextScroller(const ReaderMapping& mapping) :
 {
   if (!mapping.get("file", m_filename))
   {
-    log_warning << mapping.get_doc().get_filename() << "'file' tag missing" << std::endl;
+    log_warning << mapping.get_doc().get_filename() << ": 'file' tag missing" << std::endl;
   }
   else
   {
