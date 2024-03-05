@@ -24,7 +24,8 @@
 class ShrinkFade final : public ScreenFade
 {
 public:
-  ShrinkFade(const Vector& point, float fade_time);
+  enum Direction { FADEOUT, FADEIN };
+  ShrinkFade(const Vector& point, float fade_time, Direction = FADEOUT);
 
   virtual void update(float dt_sec) override;
   virtual void draw(DrawingContext& context) override;
@@ -36,6 +37,7 @@ private:
   float m_fade_time;
   float m_accum_time;
   float m_initial_size;
+  Direction m_direction;
 
 private:
   ShrinkFade(const ShrinkFade&) = delete;
