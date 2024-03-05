@@ -76,6 +76,13 @@ private:
   };
 
 public:
+  enum class FadeType
+  {
+    NONE,
+    FADE,
+    CIRCLE
+  };
+
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr,
               bool preserve_music = false);
 
@@ -88,6 +95,7 @@ public:
   /** ends the current level */
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void respawn_with_fade(const std::string& sectorname, const std::string& spawnpointname, const FadeType fade_type, const Vector fade_point);
   void reset_level();
 
   void set_start_point(const std::string& sectorname,
@@ -135,6 +143,8 @@ private:
 
   void on_escape_press(bool force_quick_respawn);
 
+  Vector get_fade_point() const;
+
 public:
   bool reset_button;
   bool reset_checkpoint_button;
@@ -164,6 +174,9 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;
   std::string m_newspawnpoint;
+  FadeType m_spawn_fade_type;
+  Vector m_spawn_fade_point;
+  Timer m_spawn_fade_timer;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;

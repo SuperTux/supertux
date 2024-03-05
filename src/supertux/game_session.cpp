@@ -29,8 +29,10 @@
 #include "object/level_time.hpp"
 #include "object/music_object.hpp"
 #include "object/player.hpp"
+#include "object/spawnpoint.hpp"
 #include "sdk/integration.hpp"
 #include "supertux/fadetoblack.hpp"
+#include "supertux/shrinkfade.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
@@ -45,6 +47,8 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
+
+static const float FADE_TIME = 1.0f;
 
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
                          bool preserve_music) :
@@ -63,6 +67,9 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_activated_checkpoint(),
   m_newsector(),
   m_newspawnpoint(),
+  m_spawn_fade_type(FadeType::NONE),
+  m_spawn_fade_point(0.0f, 0.0f),
+  m_spawn_fade_timer(),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
@@ -213,6 +220,12 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     return (-1);
   }
 
+  if (m_levelintro_shown)
+  {
+    const Vector shrinkpos = get_fade_point() - m_currentsector->get_camera().get_translation();
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEIN));
+  }
+
   if (!preserve_music)
   {
     auto& music_object = m_currentsector->get_singleton_by_type<MusicObject>();
@@ -280,6 +293,23 @@ GameSession::on_escape_press(bool force_quick_respawn)
   } else {
 	  abort_level();
   }
+}
+
+Vector
+GameSession::get_fade_point() const
+{
+  // Get first player that is alive
+  // Should work for single player without problems,
+  // but for multiplayer a proper handling needs to be done
+  for (const auto& player : m_currentsector->get_players())
+  {
+    if (!player->is_dead() && !player->is_dying())
+    {
+      return player->get_bbox().get_middle();
+    }
+  }
+
+  return Vector(0.0f, 0.f);
 }
 
 void
@@ -393,8 +423,15 @@ GameSession::setup()
     m_levelintro_shown = true;
     m_active = false;
     ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame.get_player_status()));
+    ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, FADE_TIME));
   }
-  ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, 1.0f));
+  else
+  {
+    const Vector shrinkpos = get_fade_point() - m_currentsector->get_camera().get_translation();
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEIN));
+  }
+
+
   m_end_seq_started = false;
 }
 
@@ -456,7 +493,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   check_end_conditions();
 
   // Respawning in new sector?
-  if (!m_newsector.empty() && !m_newspawnpoint.empty()) {
+  if (!m_newsector.empty() && !m_newspawnpoint.empty() && (m_spawn_fade_timer.check() || m_spawn_fade_type == FadeType::NONE)) {
     auto sector = m_level->get_sector(m_newsector);
     std::string current_music = m_currentsector->get_singleton_by_type<MusicObject>().get_music();
     if (sector == nullptr) {
@@ -474,6 +511,26 @@ GameSession::update(float dt_sec, const Controller& controller)
 
     m_currentsector = sector;
     m_currentsector->play_looping_sounds();
+
+    switch (m_spawn_fade_type)
+    {
+    case FadeType::FADE:
+    {
+      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, FADE_TIME));
+      break;
+    }
+    case FadeType::CIRCLE:
+    {
+      const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
+      const Vector shrinkpos = spawn_point_position - sector->get_camera().get_translation();
+
+      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEIN));
+      break;
+    }
+    case FadeType::NONE:
+    default:
+      break;
+    }
 
     m_newsector = "";
     m_newspawnpoint = "";
@@ -594,6 +651,38 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 {
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
+}
+
+void
+GameSession::respawn_with_fade(const std::string& sector, const std::string& spawnpoint, const FadeType fade_type, const Vector fade_point)
+{
+  respawn(sector, spawnpoint);
+
+  m_spawn_fade_type = fade_type;
+  m_spawn_fade_point = fade_point;
+
+  m_spawn_fade_timer.start(FADE_TIME);
+
+  switch (m_spawn_fade_type)
+  {
+  case FadeType::FADE:
+  {
+    ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, FADE_TIME));
+    break;
+  }
+  case FadeType::CIRCLE:
+  {
+    const bool is_fade_point_valid = fade_point.x != 0.0f && fade_point.y != 0.0f;
+    const Vector shrinkpos = (is_fade_point_valid ? fade_point : get_fade_point()) - Sector::current()->get_camera().get_translation();
+
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEOUT));
+    break;
+  }
+  case FadeType::NONE:
+  default:
+    break;
+  }
+
 }
 
 void

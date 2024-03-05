@@ -47,6 +47,7 @@ class Size;
 class TextObject;
 class TileMap;
 class Writer;
+class SpawnPointMarker;
 
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */
@@ -151,6 +152,8 @@ public:
   DisplayEffect& get_effect() const;
   TextObject& get_text_object() const { return m_text_object; }
 
+  Vector get_spawn_point_position(const std::string& spawnpoint);
+
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
@@ -162,6 +165,8 @@ private:
   /** Convert tiles into their corresponding GameObjects (e.g.
       bonusblocks, add light to lava tiles) */
   void convert_tiles2gameobject();
+
+  SpawnPointMarker* get_spawn_point(const std::string& spawnpoint);
 
 private:
   Level& m_level; // Parent level
