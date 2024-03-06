@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2024 MatusGuy <matusguy@supertuxproject.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -39,21 +39,19 @@ public:
   virtual std::string get_display_name() const override { return display_name(); }
   virtual bool is_snipable() const override { return true; }
 
+  virtual GameObjectTypes get_types() const override;
+  virtual std::string get_default_sprite_name() const override;
+
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 protected:
-  enum TarantulaMode {
-    FLY_UP,
-    FLY_DOWN
-  };
+  enum TarantulaType { TARANTULA, SPIDERMITE };
 
 protected:
   virtual bool collision_squished(GameObject& object) override;
 
 private:
-  TarantulaMode mode;
-  Timer timer;
 
 private:
   Tarantula(const Tarantula&) = delete;
