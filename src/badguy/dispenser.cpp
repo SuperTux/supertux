@@ -97,8 +97,12 @@ Dispenser::add_object(std::unique_ptr<GameObject> object)
 void
 Dispenser::draw(DrawingContext& context)
 {
-  if (m_type != DispenserType::POINT || Editor::is_active())
+  if (m_type != DispenserType::POINT || Editor::is_active()) {
+    if (m_type == DispenserType::CANNON && m_start_dir == Direction::AUTO) {
+      set_action("center", 1);
+    }
     BadGuy::draw(context);
+  }
 }
 
 void
