@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_KEYBOARD_MENU_HPP
 
+#include "control/controller.hpp"
 #include "gui/menu_item.hpp"
 
 class InputManager;
@@ -30,6 +31,9 @@ public:
   void refresh() override;
   std::string get_key_name(SDL_Keycode key) const;
   void menu_action(MenuItem& item) override;
+
+private:
+  void refresh_control(const Control& control);
 
 private:
   InputManager& m_input_manager;

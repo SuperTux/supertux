@@ -315,13 +315,16 @@ Camera::update(float dt_sec)
 
   switch (m_mode) {
     case Mode::NORMAL:
-      if (Sector::current() && Sector::current()->get_object_count<Player>() > 1)
+      if (Sector::current())
       {
-        update_scroll_normal_multiplayer(dt_sec);
-      }
-      else
-      {
-        update_scroll_normal(dt_sec);
+        if (Sector::current()->get_object_count<Player>() > 1)
+        {
+          update_scroll_normal_multiplayer(dt_sec);
+        }
+        else if (!(Sector::current()->get_players()[0]->is_dying()))
+        {
+          update_scroll_normal(dt_sec);
+        }
       }
       break;
     case Mode::MANUAL:

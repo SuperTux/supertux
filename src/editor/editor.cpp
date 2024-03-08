@@ -1106,11 +1106,12 @@ void
 Editor::pack_addon()
 {
   auto id = FileSystem::basename(get_world()->get_basedir());
+  auto output_file_path = FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip");
 
   int version = 0;
   try
   {
-    Partio::ZipFileReader zipold(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
+    Partio::ZipFileReader zipold(output_file_path);
     auto info_file = zipold.Get_File(id + ".nfo");
     if (info_file)
     {
@@ -1125,7 +1126,7 @@ Editor::pack_addon()
   }
   version++;
 
-  Partio::ZipFileWriter zip(FileSystem::join(PHYSFS_getWriteDir(), "addons/" + id + ".zip"));
+  Partio::ZipFileWriter zip(output_file_path);
   PHYSFS_enumerate(get_world()->get_basedir().c_str(), foreach_recurse, &zip);
 
   std::stringstream ss;
