@@ -18,12 +18,20 @@
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
-static const float FLYTIME = 1.2f;
-static const float MOVE_SPEED = 100.0f;
+static const float DROP_TIME = .5f;
+static const float HANG_TIME = .5f;
+static const float HANG_HEIGHT = 50.f;
+static const float MOVE_SPEED = 75.f;
 
 Tarantula::Tarantula(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/tarantula/tarantula.sprite")
+  BadGuy(reader, "images/creatures/tarantula/tarantula.sprite"),
+  m_state(STATE_IDLE),
+  m_timer(),
+  m_was_grabbed(false),
+  m_target_height(0),
+  m_last_height(0)
 {
   parse_type(reader);
 
@@ -33,7 +41,7 @@ Tarantula::Tarantula(const ReaderMapping& reader) :
 void
 Tarantula::initialize()
 {
-  m_physic.set_velocity_x(MOVE_SPEED);
+  m_last_height = m_start_position.y;
 }
 
 bool
@@ -48,27 +56,147 @@ Tarantula::collision_squished(GameObject& object)
 }
 
 void
+Tarantula::active_update(float dt_sec)
+{
+  BadGuy::active_update(dt_sec);
+
+  if (is_grabbed())
+  {
+    m_was_grabbed = true;
+    return;
+  }
+
+  switch (m_state)
+  {
+    case STATE_IDLE:
+    case STATE_APPROACHING:
+      switch (try_approach())
+      {
+        case NONE:
+          m_physic.set_velocity_x(0.f);
+          break;
+
+        case DROP:
+          m_physic.set_velocity_x(0.f);
+          try_drop();
+          break;
+
+        default:
+          break;
+      }
+
+      break;
+
+    case STATE_DROPPING:
+    {
+      hang_to(m_target_height, HANG_TIME, STATE_HANG_UP, EaseQuadIn);
+      break;
+    }
+
+    case STATE_HANG_UP:
+    {
+      hang_to(m_last_height - HANG_HEIGHT, HANG_TIME, STATE_HANG_DOWN, EaseSineInOut);
+      break;
+    }
+
+    case STATE_HANG_DOWN:
+    {
+      hang_to(m_last_height + HANG_HEIGHT, HANG_TIME, STATE_HANG_UP, EaseSineInOut);
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
+Tarantula::ApproachResponse
+Tarantula::try_approach()
+{
+  Player* player = get_nearest_player();
+  if (!player)
+    return NONE;
+
+  if (get_bbox().get_bottom() >= player->get_bbox().get_top())
+    return NONE;
+
+  Vector eye(get_bbox().get_middle().x, get_bbox().get_bottom() + 1);
+  float dist = eye.x - player->get_bbox().get_middle().x;
+
+  if (std::abs(dist) > 5.f*32)
+    return NONE;
+
+  if (!Sector::get().can_see_player(eye))
+    return NONE;
+
+  if (std::abs(dist) <= 7.5f)
+    return DROP;
+  else if (dist > 0)
+    m_physic.set_velocity_x(-MOVE_SPEED);
+  else if (dist < 0)
+    m_physic.set_velocity_x(MOVE_SPEED);
+
+  m_state = STATE_APPROACHING;
+  return APPROACH;
+}
+
+bool Tarantula::try_drop()
+{
+  using RaycastResult = CollisionSystem::RaycastResult;
+
+  // Assuming the player has already been checked...
+
+  Vector eye(get_bbox().get_middle().x, get_bbox().get_bottom() + 1);
+  RaycastResult result = Sector::get().get_first_line_intersection(eye,
+                                                                   Vector(eye.x, eye.y + 600.f),
+                                                                   true,
+                                                                   nullptr);
+
+  if (!result.is_valid)
+    return false;
+
+  m_state = STATE_DROPPING;
+  m_target_height = std::max(result.box.get_top() - 32.f - get_bbox().get_height(), 0.f);
+  m_timer.start(DROP_TIME);
+
+  return true;
+}
+
+void Tarantula::hang_to(float height, float nexttime, State nextstate, EasingMode easing)
+{
+  m_target_height = height;
+
+  if (!m_timer.started())
+  {
+    m_state = nextstate;
+    m_last_height = height;
+    m_timer.start(nexttime);
+    return;
+  }
+
+  double progress = static_cast<double>(m_timer.get_timegone() / m_timer.get_period());
+  float offset = static_cast<float>(getEasingByName(easing)(progress)) * (m_target_height - m_last_height);
+
+  Vector pos(get_bbox().get_left(), m_last_height + offset);
+  set_pos(pos);
+}
+
+void
 Tarantula::collision_solid(const CollisionHit& hit)
 {
   BadGuy::collision_solid(hit);
 
-  if (hit.bottom) {
+  if (m_was_grabbed && m_frozen && hit.bottom) {
     kill_fall();
-  }
-
-  if (hit.left) {
-    m_physic.set_velocity_x(MOVE_SPEED);
-  }
-
-  if (hit.right) {
-    m_physic.set_velocity_x(-MOVE_SPEED);
   }
 }
 
 void
-Tarantula::active_update(float dt_sec)
+Tarantula::draw(DrawingContext& context)
 {
-  BadGuy::active_update(dt_sec);
+  BadGuy::draw(context);
+
+  context.color().draw_filled_rect(Rectf(Vector(get_bbox().get_left()-3, m_target_height -3), Sizef(3,3)), Color::CYAN, 1.5f, LAYER_HUD);
 }
 
 void
@@ -79,17 +207,20 @@ Tarantula::freeze()
 }
 
 void
-Tarantula::unfreeze(bool melt)
+Tarantula::unfreeze(bool)
 {
-  BadGuy::unfreeze(melt);
-  m_physic.enable_gravity(false);
-  initialize();
+  kill_fall();
 }
 
 bool
 Tarantula::is_freezable() const
 {
   return true;
+}
+
+bool Tarantula::is_snipable() const
+{
+  return m_state != STATE_DROPPING;
 }
 
 GameObjectTypes

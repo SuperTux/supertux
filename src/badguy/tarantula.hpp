@@ -27,9 +27,10 @@ public:
   virtual void initialize() override;
   virtual void active_update(float dt_sec) override;
   virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void draw(DrawingContext& context) override;
 
   virtual void freeze() override;
-  virtual void unfreeze(bool melt = true) override;
+  virtual void unfreeze(bool) override;
   virtual bool is_freezable() const override;
 
   virtual std::string get_overlay_size() const override { return "3x3"; }
@@ -37,21 +38,43 @@ public:
   virtual std::string get_class_name() const override { return class_name(); }
   static std::string display_name() { return _("Tarantula"); }
   virtual std::string get_display_name() const override { return display_name(); }
-  virtual bool is_snipable() const override { return true; }
+  virtual bool is_snipable() const override;
 
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
 
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
-
-protected:
-  enum TarantulaType { TARANTULA, SPIDERMITE };
-
-protected:
   virtual bool collision_squished(GameObject& object) override;
 
+protected:
+  enum Type { TARANTULA, SPIDERMITE };
+  enum State
+  {
+    STATE_IDLE,
+    STATE_APPROACHING,
+    STATE_DROPPING,
+    STATE_HANG_UP,
+    STATE_HANG_DOWN,
+    STATE_RETREATING
+  };
+  enum ApproachResponse
+  {
+    NONE,
+    APPROACH,
+    DROP
+  };
+
 private:
+  ApproachResponse try_approach();
+  bool try_drop();
+  void hang_to(float height, float nexttime, State nextstate, EasingMode easing);
+
+  State m_state;
+  Timer m_timer;
+  float m_target_height;
+  float m_last_height;
+  bool m_was_grabbed;
 
 private:
   Tarantula(const Tarantula&) = delete;
