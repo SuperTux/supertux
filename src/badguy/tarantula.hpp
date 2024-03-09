@@ -73,6 +73,7 @@ private:
 
   State m_state;
   Timer m_timer;
+  SurfacePtr m_silk;
   float m_target_height;
   float m_last_height;
   bool m_was_grabbed;

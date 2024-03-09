@@ -19,6 +19,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
+#include "video/surface.hpp"
 
 static const float DROP_TIME = .5f;
 static const float HANG_TIME = .5f;
@@ -27,6 +28,7 @@ static const float MOVE_SPEED = 75.f;
 
 Tarantula::Tarantula(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/tarantula/tarantula.sprite"),
+  m_silk(Surface::from_file("images/creatures/tarantula/silk.png")),
   m_state(STATE_IDLE),
   m_timer(),
   m_was_grabbed(false),
@@ -227,7 +229,19 @@ Tarantula::draw(DrawingContext& context)
 {
   BadGuy::draw(context);
 
-  context.color().draw_filled_rect(Rectf(Vector(get_bbox().get_left()-3, m_target_height -3), Sizef(3,3)), Color::CYAN, 1.5f, LAYER_HUD);
+  if (BadGuy::get_state() == STATE_FALLING ||
+      BadGuy::get_state() == STATE_SQUISHED)
+    return;
+
+  //FIXME: Hello reviewers, is there a better way to center the silk horizontally? Thank you.
+  Vector pos(get_bbox().get_left() + ((get_bbox().get_width() - static_cast<float>(m_silk->get_width()))/2),
+             m_start_position.y - 32.f);
+
+  float length = std::floor((get_bbox().get_top() - m_start_position.y) / m_silk->get_height());
+  for (int i = 0; i <= static_cast<int>(length) + 1; i++) {
+    context.color().draw_surface(m_silk, pos, LAYER_TILES-5);
+    pos.y += 32.f;
+  }
 }
 
 void
