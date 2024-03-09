@@ -68,13 +68,15 @@ protected:
 private:
   ApproachResponse try_approach();
   bool try_drop();
-  void hang_to(float height, float nexttime, State nextstate, EasingMode easing);
+  bool hang_to(float height, float nexttime, State nextstate, EasingMode easing,
+               const std::string& action);
 
   State m_state;
   Timer m_timer;
   float m_target_height;
   float m_last_height;
   bool m_was_grabbed;
+  bool m_retreat;
 
 private:
   Tarantula(const Tarantula&) = delete;

@@ -22,7 +22,7 @@
 
 static const float DROP_TIME = .5f;
 static const float HANG_TIME = .5f;
-static const float HANG_HEIGHT = 50.f;
+static const float HANG_HEIGHT = 70.f;
 static const float MOVE_SPEED = 75.f;
 
 Tarantula::Tarantula(const ReaderMapping& reader) :
@@ -31,9 +31,11 @@ Tarantula::Tarantula(const ReaderMapping& reader) :
   m_timer(),
   m_was_grabbed(false),
   m_target_height(0),
-  m_last_height(0)
+  m_last_height(0),
+  m_retreat(true)
 {
   parse_type(reader);
+  set_action("idle");
 
   m_physic.enable_gravity(false);
 }
@@ -66,9 +68,26 @@ Tarantula::active_update(float dt_sec)
     return;
   }
 
+  if (m_state == STATE_HANG_UP || m_state == STATE_HANG_DOWN)
+  {
+    Player* player = get_nearest_player();
+    if (!player)
+      goto state_logic;
+
+    float dist = get_bbox().get_left() - player->get_bbox().get_left();
+    if (std::abs(dist) > 5.f*32)
+    {
+      m_retreat = true;
+    }
+  }
+
+state_logic:
+
   switch (m_state)
   {
     case STATE_IDLE:
+      m_retreat = false;
+      [[fallthrough]];
     case STATE_APPROACHING:
       switch (try_approach())
       {
@@ -88,22 +107,30 @@ Tarantula::active_update(float dt_sec)
       break;
 
     case STATE_DROPPING:
-    {
-      hang_to(m_target_height, HANG_TIME, STATE_HANG_UP, EaseQuadIn);
+      hang_to(m_target_height, DROP_TIME, STATE_HANG_UP, EaseQuadIn, "dive");
       break;
-    }
 
     case STATE_HANG_UP:
-    {
-      hang_to(m_last_height - HANG_HEIGHT, HANG_TIME, STATE_HANG_DOWN, EaseSineInOut);
+      hang_to(m_last_height - HANG_HEIGHT, HANG_TIME, STATE_HANG_DOWN, EaseSineInOut, "rebound");
       break;
-    }
 
     case STATE_HANG_DOWN:
     {
-      hang_to(m_last_height + HANG_HEIGHT, HANG_TIME, STATE_HANG_UP, EaseSineInOut);
-      break;
+      bool finished = hang_to(m_last_height + HANG_HEIGHT, HANG_TIME, STATE_HANG_UP, EaseSineInOut, "dive");
+      if (m_retreat && finished)
+      {
+        m_state = STATE_RETREATING;
+        [[fallthrough]];
+      }
+      else
+      {
+        break;
+      }
     }
+
+    case STATE_RETREATING:
+      hang_to(m_start_position.y, DROP_TIME, STATE_IDLE, EaseQuadIn, "rebound");
+      break;
 
     default:
       break;
@@ -121,7 +148,7 @@ Tarantula::try_approach()
     return NONE;
 
   Vector eye(get_bbox().get_middle().x, get_bbox().get_bottom() + 1);
-  float dist = eye.x - player->get_bbox().get_middle().x;
+  float dist = get_bbox().get_left() - player->get_bbox().get_left();
 
   if (std::abs(dist) > 5.f*32)
     return NONE;
@@ -156,14 +183,16 @@ bool Tarantula::try_drop()
     return false;
 
   m_state = STATE_DROPPING;
-  m_target_height = std::max(result.box.get_top() - 32.f - get_bbox().get_height(), 0.f);
+  m_target_height = std::max(result.box.get_top() - 16.f - get_bbox().get_height(), 0.f);
   m_timer.start(DROP_TIME);
 
   return true;
 }
 
-void Tarantula::hang_to(float height, float nexttime, State nextstate, EasingMode easing)
+bool Tarantula::hang_to(float height, float nexttime, State nextstate, EasingMode easing, const std::string& action)
 {
+  set_action(action, 0);
+
   m_target_height = height;
 
   if (!m_timer.started())
@@ -171,7 +200,7 @@ void Tarantula::hang_to(float height, float nexttime, State nextstate, EasingMod
     m_state = nextstate;
     m_last_height = height;
     m_timer.start(nexttime);
-    return;
+    return true;
   }
 
   double progress = static_cast<double>(m_timer.get_timegone() / m_timer.get_period());
@@ -179,6 +208,8 @@ void Tarantula::hang_to(float height, float nexttime, State nextstate, EasingMod
 
   Vector pos(get_bbox().get_left(), m_last_height + offset);
   set_pos(pos);
+
+  return false;
 }
 
 void
