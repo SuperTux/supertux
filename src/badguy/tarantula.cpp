@@ -34,7 +34,8 @@ Tarantula::Tarantula(const ReaderMapping& reader) :
   m_was_grabbed(false),
   m_target_height(0),
   m_last_height(0),
-  m_retreat(true)
+  m_retreat(true),
+  m_attach_ceiling(false)
 {
   parse_type(reader);
   set_action("idle");
@@ -46,6 +47,9 @@ void
 Tarantula::initialize()
 {
   m_last_height = m_start_position.y;
+  Rectf ceiling(Vector(get_bbox().get_left(), get_bbox().get_top() - 2.5f),
+                Sizef(get_bbox().get_width(), 2.5f));
+  m_attach_ceiling = !Sector::get().is_free_of_tiles(ceiling);
 }
 
 bool
@@ -160,7 +164,18 @@ Tarantula::try_approach()
 
   if (std::abs(dist) <= 7.5f)
     return DROP;
-  else if (dist > 0)
+
+  if (m_attach_ceiling)
+  {
+    Vector pos(get_bbox().get_left(), get_bbox().get_top() - 32.f);
+    if (dist < 0)
+      pos.x += 32.f;
+
+    if (Sector::get().is_free_of_tiles(Rectf(pos, Sizef(2.5f, 32.f))))
+      return NONE;
+  }
+
+  if (dist > 0)
     m_physic.set_velocity_x(-MOVE_SPEED);
   else if (dist < 0)
     m_physic.set_velocity_x(MOVE_SPEED);
@@ -219,9 +234,11 @@ Tarantula::collision_solid(const CollisionHit& hit)
 {
   BadGuy::collision_solid(hit);
 
-  if (m_was_grabbed && m_frozen && hit.bottom) {
+  if (hit.top)
+    m_attach_ceiling = true;
+
+  if (m_was_grabbed && m_frozen && hit.bottom)
     kill_fall();
-  }
 }
 
 void

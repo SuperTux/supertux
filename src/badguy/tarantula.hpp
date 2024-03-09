@@ -78,6 +78,7 @@ private:
   float m_last_height;
   bool m_was_grabbed;
   bool m_retreat;
+  bool m_attach_ceiling;
 
 private:
   Tarantula(const Tarantula&) = delete;
