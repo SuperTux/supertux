@@ -36,7 +36,6 @@ namespace {
 
 Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   MovingSprite(reader, spritename),
-  ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
   last_movement(0.0f, 0.0f),
@@ -53,7 +52,6 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
 
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
-  ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
   last_movement(0.0f, 0.0f),

@@ -16,6 +16,9 @@
 
 #include "badguy/dispenser.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
@@ -30,7 +33,6 @@
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dropper.sprite", LAYER_OBJECTS + 5),
-  ExposedObject<Dispenser, scripting::Dispenser>(this),
   m_cycle(),
   m_objects(),
   m_next_object(0),
@@ -431,6 +433,16 @@ Dispenser::on_flip(float height)
   BadGuy::on_flip(height);
   if (!m_gravity)
     FlipLevelTransformer::transform_flip(m_flip);
+}
+
+
+void
+Dispenser::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Dispenser>("Dispenser", vm.findClass("BadGuy"));
+
+  cls.addFunc("activate", &Dispenser::activate);
+  cls.addFunc("deactivate", &Dispenser::deactivate);
 }
 
 /* EOF */

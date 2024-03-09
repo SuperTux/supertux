@@ -23,7 +23,6 @@
 
 ParticleZone::ParticleZone(const ReaderMapping& reader) :
   MovingObject(reader),
-  //ExposedObject<ParticleZone, scripting::Wind>(this),
   m_enabled(),
   m_particle_name()
 {

@@ -21,6 +21,8 @@
 
 #include "interface/control.hpp"
 
+#include "util/log.hpp"
+
 template<class T>
 class ControlEnum : public InterfaceControl
 {

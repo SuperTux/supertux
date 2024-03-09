@@ -24,7 +24,6 @@
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/util.hpp"
 #include "squirrel/serialize.hpp"
-#include "squirrel/squirrel_util.hpp"
 #include "squirrel/squirrel_virtual_machine.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/profile_manager.hpp"
@@ -37,33 +36,26 @@
 
 namespace {
 
-std::vector<LevelState> get_level_states(SquirrelVM& vm)
+std::vector<LevelState> get_level_states(ssq::Table& levels)
 {
   std::vector<LevelState> results;
-
-  sq_pushnull(vm.get_vm());
-  while (SQ_SUCCEEDED(sq_next(vm.get_vm(), -2)))
+  for (const auto& [key, value] : levels.convertRaw())
   {
-    //here -1 is the value and -2 is the key
-    const char* result;
-    if (SQ_FAILED(sq_getstring(vm.get_vm(), -2, &result)))
+    try
     {
-      std::ostringstream msg;
-      msg << "Couldn't get string value";
-      throw SquirrelError(vm.get_vm(), msg.str());
-    }
-    else
-    {
+      ssq::Table table = value.toTable();
+
       LevelState level_state;
-      level_state.filename = result;
-      vm.get_bool("solved", level_state.solved);
-      vm.get_bool("perfect", level_state.perfect);
+      level_state.filename = key;
+      table.get("solved", level_state.solved);
+      table.get("perfect", level_state.perfect);
 
-      results.push_back(level_state);
+      results.push_back(std::move(level_state));
     }
-
-    // pops key and val before the next iteration
-    sq_pop(vm.get_vm(), 2);
+    catch (const ssq::TypeException&)
+    {
+      // Ignore non-table entries
+    }
   }
 
   return results;
@@ -131,7 +123,8 @@ Savegame::from_current_profile(const std::string& world_name, bool base_data)
 Savegame::Savegame(Profile& profile, const std::string& world_name) :
   m_profile(profile),
   m_world_name(world_name),
-  m_player_status(new PlayerStatus(InputManager::current()->get_num_users()))
+  m_player_status(new PlayerStatus(InputManager::current()->get_num_users())),
+  m_state_table()
 {
 }
 
@@ -176,8 +169,6 @@ Savegame::load(bool base_data)
 
     try
     {
-      SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
-
       auto doc = ReaderDocument::from_file(filename);
       auto root = doc.get_root();
 
@@ -213,16 +204,9 @@ Savegame::load(bool base_data)
           /** Load "state" table */
           std::optional<ReaderMapping> state;
           if (!mapping.get("state", state))
-          {
             throw std::runtime_error("No state section in savegame");
-          }
           else
-          {
-            sq_pushroottable(vm.get_vm());
-            vm.get_table_entry("state");
-            load_squirrel_table(vm.get_vm(), -1, *state);
-            sq_pop(vm.get_vm(), 2);
-          }
+            load_squirrel_table(m_state_table, *state);
         }
       }
     }
@@ -236,15 +220,10 @@ Savegame::load(bool base_data)
 void
 Savegame::clear_state_table()
 {
-  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
+  ssq::VM& vm = SquirrelVirtualMachine::current()->get_vm();
 
-  // delete existing state table, if it exists
-  sq_pushroottable(vm.get_vm());
-  {
-    // create a new empty state table
-    vm.create_empty_table("state");
-  }
-  sq_pop(vm.get_vm(), 1);
+  vm.remove("state");
+  m_state_table = vm.addTable("state");
 }
 
 void
@@ -260,8 +239,6 @@ Savegame::save()
   log_debug << "saving savegame to " << filename << std::endl;
 
   m_profile.save(); // Make sure profile directory exists, save profile info
-
-  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
 
   Writer writer(filename);
 
@@ -283,18 +260,13 @@ Savegame::save()
   writer.end_list("tux");
 
   writer.start_list("state");
-
-  sq_pushroottable(vm.get_vm());
   try
   {
-    vm.get_table_entry("state"); // Push "state"
-    save_squirrel_table(vm.get_vm(), -1, writer);
-    sq_pop(vm.get_vm(), 1); // Pop "state"
+    save_squirrel_table(m_state_table, writer);
   }
   catch(const std::exception&)
   {
   }
-  sq_pop(vm.get_vm(), 1); // Pop root table
   writer.end_list("state");
 
   writer.end_list("supertux-savegame");
@@ -305,22 +277,15 @@ Savegame::get_worldmaps()
 {
   std::vector<std::string> worlds;
 
-  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm.get_vm());
-
   try
   {
-    sq_pushroottable(vm.get_vm());
-    vm.get_table_entry("state");
-    vm.get_or_create_table_entry("worlds");
-    worlds = vm.get_table_keys();
+    ssq::Table worlds_table = m_state_table.getOrCreateTable("worlds");
+    worlds = worlds_table.getKeys();
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
-
-  sq_settop(vm.get_vm(), oldtop);
 
   // ensure that the loaded worldmap names have their canonical form
   std::transform(worlds.begin(), worlds.end(), worlds.begin(), physfsutil::realpath);
@@ -333,34 +298,25 @@ Savegame::get_worldmap_state(const std::string& name)
 {
   WorldmapState result;
 
-  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm.get_vm());
-
   try
   {
-    sq_pushroottable(vm.get_vm());
-    vm.get_table_entry("state");
-    vm.get_or_create_table_entry("worlds");
+    ssq::Table worlds = m_state_table.getOrCreateTable("worlds");
 
     // if a non-canonical entry is present, replace them with a canonical one
-    if (name != "/levels/world2/worldmap.stwm") {
+    if (name != "/levels/world2/worldmap.stwm")
+    {
       std::string old_map_filename = name.substr(1);
-      if (vm.has_property(old_map_filename.c_str())) {
-        vm.rename_table_entry(old_map_filename.c_str(), name.c_str());
-      }
+      if (worlds.hasEntry(old_map_filename.c_str()))
+        worlds.rename(old_map_filename.c_str(), name.c_str());
     }
 
-    vm.get_or_create_table_entry(name);
-    vm.get_or_create_table_entry("levels");
-
-    result.level_states = get_level_states(vm);
+    ssq::Table levels = worlds.getOrCreateTable(name.c_str()).getOrCreateTable("levels");
+    result.level_states = get_level_states(levels);
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
-
-  sq_settop(vm.get_vm(), oldtop);
 
   return result;
 }
@@ -370,22 +326,15 @@ Savegame::get_levelsets()
 {
   std::vector<std::string> results;
 
-  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm.get_vm());
-
   try
   {
-    sq_pushroottable(vm.get_vm());
-    vm.get_table_entry("state");
-    vm.get_or_create_table_entry("levelsets");
-    results = vm.get_table_keys();
+    ssq::Table levelsets = m_state_table.getOrCreateTable("levelsets");
+    results = levelsets.getKeys();
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
-
-  sq_settop(vm.get_vm(), oldtop);
 
   return results;
 }
@@ -395,25 +344,16 @@ Savegame::get_levelset_state(const std::string& basedir)
 {
   LevelsetState result;
 
-  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm.get_vm());
-
   try
   {
-    sq_pushroottable(vm.get_vm());
-    vm.get_table_entry("state");
-    vm.get_or_create_table_entry("levelsets");
-    vm.get_or_create_table_entry(basedir);
-    vm.get_or_create_table_entry("levels");
-
-    result.level_states = get_level_states(vm);
+    ssq::Table levelsets = m_state_table.getOrCreateTable("levelsets");
+    ssq::Table levels = levelsets.getOrCreateTable(basedir.c_str()).getOrCreateTable("levels");
+    result.level_states = get_level_states(levels);
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
-
-  sq_settop(vm.get_vm(), oldtop);
 
   return result;
 }
@@ -425,28 +365,20 @@ Savegame::set_levelset_state(const std::string& basedir,
 {
   LevelsetState state = get_levelset_state(basedir);
 
-  SquirrelVM& vm = SquirrelVirtualMachine::current()->get_vm();
-  SQInteger oldtop = sq_gettop(vm.get_vm());
-
   try
   {
-    sq_pushroottable(vm.get_vm());
-    vm.get_table_entry("state");
-    vm.get_or_create_table_entry("levelsets");
-    vm.get_or_create_table_entry(basedir);
-    vm.get_or_create_table_entry("levels");
-    vm.get_or_create_table_entry(level_filename);
+    ssq::Table levelsets = m_state_table.getOrCreateTable("levelsets");
+    ssq::Table levels = levelsets.getOrCreateTable(basedir.c_str()).getOrCreateTable("levels");
+    ssq::Table level = levels.getOrCreateTable(level_filename.c_str());
 
     bool old_solved = false;
-    vm.get_bool("solved", old_solved);
-    vm.store_bool("solved", solved || old_solved);
+    level.get("solved", old_solved);
+    level.set("solved", solved || old_solved);
   }
   catch(const std::exception& err)
   {
     log_warning << err.what() << std::endl;
   }
-
-  sq_settop(vm.get_vm(), oldtop);
 }
 
 /* EOF */

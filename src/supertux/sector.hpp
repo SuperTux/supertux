@@ -52,9 +52,11 @@ class Writer;
     Sectors contain GameObjects, e.g. Badguys and Players. */
 class Sector final : public Base::Sector
 {
-public:
   friend class CollisionSystem;
   friend class EditorSectorMenu;
+
+public:
+  static void register_class(ssq::VM& vm);
 
 private:
   static Sector* s_current;
@@ -69,6 +71,8 @@ public:
   ~Sector() override;
 
   void finish_construction(bool editable) override;
+
+  std::string get_exposed_class_name() const override { return "Sector"; }
 
   Level& get_level() const { return m_level; }
   TileSet* get_tileset() const override;
@@ -97,22 +101,65 @@ public:
   /** Checks if the specified rectangle is free of (solid) tiles.
       Note that this does not include static objects, e.g. bonus blocks. */
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
+  /**
+   * Checks if the specified sector-relative rectangle is free of solid tiles.
+   * @param float $left
+   * @param float $top
+   * @param float $right
+   * @param float $bottom
+   * @param bool $ignore_unisolid If ""true"", unisolid tiles will be ignored.
+   */
+  bool is_free_of_solid_tiles(float left, float top, float right, float bottom,
+                              bool ignore_unisolid) const;
 
   /** Checks if the specified rectangle is free of both
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC.
       Note that this does not include badguys or players. */
   bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
+  /**
+   * Checks if the specified sector-relative rectangle is free of both:
+       1) Solid tiles.
+       2) ""MovingObject""s in ""COLGROUP_STATIC"".
+     Note that this does not include badguys or players.
+   * @param float $left
+   * @param float $top
+   * @param float $right
+   * @param float $bottom
+   * @param bool $ignore_unisolid If ""true"", unisolid tiles will be ignored.
+   */
+  bool is_free_of_statics(float left, float top, float right, float bottom,
+                          bool ignore_unisolid) const;
 
   /** Checks if the specified rectangle is free of both
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
       This includes badguys and players. */
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  /**
+   * Checks if the specified sector-relative rectangle is free of both:
+       1) Solid tiles.
+       2) ""MovingObject""s in ""COLGROUP_STATIC"", ""COLGROUP_MOVINGSTATIC"" or ""COLGROUP_MOVING"".
+     This includes badguys and players.
+   * @param float $left
+   * @param float $top
+   * @param float $right
+   * @param float $bottom
+   */
+  bool is_free_of_movingstatics(float left, float top, float right, float bottom) const;
 
   /** Checks if the specified rectangle is free of MovingObjects in COLGROUP_MOVINGSTATIC.
       Note that this does not include moving badguys, or players */
   bool is_free_of_specifically_movingstatics(const Rectf& rect, const MovingObject* ignore_object = nullptr) const;
+  /**
+   * Checks if the specified sector-relative rectangle is free of ""MovingObject""s in ""COLGROUP_MOVINGSTATIC"".
+     Note that this does not include moving badguys or players.
+   * @param float $left
+   * @param float $top
+   * @param float $right
+   * @param float $bottom
+   */
+  bool is_free_of_specifically_movingstatics(float left, float top, float right, float bottom) const;
 
   CollisionSystem::RaycastResult get_first_line_intersection(const Vector& line_start,
                                                              const Vector& line_end,
@@ -141,9 +188,18 @@ public:
   /** globally changes solid tilemaps' tile ids */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
-  /** set gravity throughout sector */
+  /**
+   * @deprecated Use the ""gravity"" property instead!
+   * Sets the sector's gravity.
+   * @param float $gravity
+   */
   void set_gravity(float gravity);
-  float get_gravity() const { return m_gravity; }
+  /**
+   * @deprecated Use the ""gravity"" property instead!
+   * Returns the sector's gravity.
+   * @param float $gravity
+   */
+  float get_gravity() const;
 
   Camera& get_camera() const;
   std::vector<Player*> get_players() const;

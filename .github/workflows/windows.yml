@@ -50,7 +50,7 @@ jobs:
         with:
           # Fetch the whole tree so git describe works
           fetch-depth: 0
-          submodules: true
+          submodules: recursive
 
       - name: Use cached dependencies
         id: cache-dependencies

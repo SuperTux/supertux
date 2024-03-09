@@ -16,17 +16,20 @@
 
 #include "object/text_object.hpp"
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
 TextObject::TextObject(const std::string& name) :
   GameObject(name),
-  ExposedObject<TextObject, scripting::TextObject>(this),
   m_font(Resources::normal_font),
   m_text(),
   m_wrapped_text(),
@@ -151,21 +154,69 @@ TextObject::set_centered(bool centered)
 }
 
 void
-TextObject::set_front_fill_color(Color frontfill)
+TextObject::set_pos(float x, float y)
 {
-  m_front_fill_color = frontfill;
+  m_pos = Vector(x, y);
+}
+
+float
+TextObject::get_x() const
+{
+  return m_pos.x;
+}
+
+float
+TextObject::get_y() const
+{
+  return m_pos.y;
 }
 
 void
-TextObject::set_back_fill_color(Color backfill)
+TextObject::set_anchor_point(int anchor)
 {
-  m_back_fill_color = backfill;
+  m_anchor = static_cast<AnchorPoint>(anchor);
+}
+
+int
+TextObject::get_anchor_point() const
+{
+  return static_cast<int>(m_anchor);
 }
 
 void
-TextObject::set_text_color(Color textcolor)
+TextObject::set_anchor_offset(float x, float y)
 {
-  m_text_color = textcolor;
+  m_anchor_offset = Vector(x, y);
+}
+
+float
+TextObject::get_wrap_width() const
+{
+  return m_wrap_width;
+}
+
+void
+TextObject::set_wrap_width(float width)
+{
+  m_wrap_width = width;
+}
+
+void
+TextObject::set_front_fill_color(float red, float green, float blue, float alpha)
+{
+  m_front_fill_color = Color(red, green, blue, alpha);
+}
+
+void
+TextObject::set_back_fill_color(float red, float green, float blue, float alpha)
+{
+  m_back_fill_color = Color(red, green, blue, alpha);
+}
+
+void
+TextObject::set_text_color(float red, float green, float blue, float alpha)
+{
+  m_text_color = Color(red, green, blue, alpha);
 }
 
 void
@@ -241,6 +292,50 @@ TextObject::update(float dt_sec)
       m_fader = false;
     }
   }
+}
+
+
+void
+TextObject::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addClass("TextObject", []()
+    {
+      if (!Sector::current())
+        throw std::runtime_error("Tried to create 'TextObject' without an active sector.");
+
+      return &Sector::get().add<TextObject>();
+    },
+    false /* Do not free pointer from Squirrel */,
+    vm.findClass("GameObject"));
+
+  /* NOTE: Any functions exposed here should also be exposed in TextArrayObject. */
+  cls.addFunc("set_text", &TextObject::set_text);
+  cls.addFunc("set_font", &TextObject::set_font);
+  cls.addFunc("fade_in", &TextObject::fade_in);
+  cls.addFunc("fade_out", &TextObject::fade_out);
+  cls.addFunc("grow_in", &TextObject::grow_in);
+  cls.addFunc("grow_out", &TextObject::grow_out);
+  cls.addFunc("set_visible", &TextObject::set_visible);
+  cls.addFunc("set_centered", &TextObject::set_centered);
+  cls.addFunc<void, TextObject, float, float>("set_pos", &TextObject::set_pos);
+  cls.addFunc("get_x", &TextObject::get_x);
+  cls.addFunc("get_y", &TextObject::get_y);
+  cls.addFunc("get_pos_x", &TextObject::get_x); // Deprecated
+  cls.addFunc("get_pos_y", &TextObject::get_y); // Deprecated
+  cls.addFunc<void, TextObject, int>("set_anchor_point", &TextObject::set_anchor_point);
+  cls.addFunc("get_anchor_point", &TextObject::get_anchor_point);
+  cls.addFunc<void, TextObject, float, float>("set_anchor_offset", &TextObject::set_anchor_offset);
+  cls.addFunc("get_wrap_width", &TextObject::get_wrap_width);
+  cls.addFunc("set_wrap_width", &TextObject::set_wrap_width);
+  cls.addFunc("set_front_fill_color", &TextObject::set_front_fill_color);
+  cls.addFunc("set_back_fill_color", &TextObject::set_back_fill_color);
+  cls.addFunc("set_text_color", &TextObject::set_text_color);
+  cls.addFunc("set_roundness", &TextObject::set_roundness);
+
+  cls.addVar("visible", &TextObject::m_visible);
+  cls.addVar("centered", &TextObject::m_centered);
+  cls.addVar("wrap_width", &TextObject::m_wrap_width);
+  cls.addVar("roundness", &TextObject::m_roundness);
 }
 
 /* EOF */

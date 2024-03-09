@@ -17,27 +17,26 @@
 #ifndef HEADER_SUPERTUX_SQUIRREL_SQUIRREL_THREAD_QUEUE_HPP
 #define HEADER_SUPERTUX_SQUIRREL_SQUIRREL_THREAD_QUEUE_HPP
 
-#include <squirrel.h>
 #include <vector>
 
-#include "squirrel/squirrel_util.hpp"
+#include <simplesquirrel/vm.hpp>
 
-class SquirrelVM;
+#include "squirrel/squirrel_util.hpp"
 
 /** Keeps a list of SquirrelThreads that wait for a wakeup event */
 class SquirrelThreadQueue final
 {
 public:
-  SquirrelThreadQueue(SquirrelVM& vm);
+  SquirrelThreadQueue(ssq::VM& vm);
 
   /** adds a thread (actually a weakref to the thread) */
-  void add(HSQUIRRELVM vm);
+  SQInteger add(HSQUIRRELVM vm);
 
   /** wakes up threads in the list */
   void wakeup();
 
 private:
-  SquirrelVM& m_vm;
+  ssq::VM& m_vm;
   SquirrelObjectList m_threads;
 
 private:

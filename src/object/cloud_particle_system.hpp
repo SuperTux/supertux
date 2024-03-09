@@ -18,15 +18,16 @@
 #define HEADER_SUPERTUX_OBJECT_CLOUD_PARTICLE_SYSTEM_HPP
 
 #include "object/particlesystem.hpp"
-#include "scripting/clouds.hpp"
+
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
-class CloudParticleSystem final :
-  public ParticleSystem,
-  public ExposedObject<CloudParticleSystem, scripting::Clouds>
+class CloudParticleSystem final : public ParticleSystem
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   CloudParticleSystem();
   CloudParticleSystem(const ReaderMapping& reader);
@@ -39,6 +40,7 @@ public:
 
   static std::string class_name() { return "particles-clouds"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "CloudParticleSystem"; }
   static std::string display_name() { return _("Cloud Particles"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
@@ -47,20 +49,29 @@ public:
     return "images/engine/editor/clouds.png";
   }
 
-  void fade_speed(float new_speed, float fade_time);
-  void fade_amount(int new_amount, float fade_time, float time_between = 0.f);
+  /**
+   * Smoothly changes the rain speed to the given value in ""time"" seconds.
+   * @param float $speed
+   * @param float $time
+   */
+  void fade_speed(float speed, float time);
+  /**
+   * Smoothly changes the amount of particles to the given value in ""time"" seconds.
+   * @param int $amount
+   * @param float $time
+   * @param float $time_between
+   */
+  void fade_amount(int amount, float time, float time_between);
+  /**
+   * Smoothly changes the amount of particles to the given value in ""time"" seconds.
+   * @param int $amount
+   * @param float $time
+   */
+  void set_amount(int amount, float time);
 
   // Minimum and maximum multiplier for the amount of clouds
   static int constexpr const max_amount = 500;
   static int constexpr const min_amount = 0;
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override {
-    ExposedObject<CloudParticleSystem, scripting::Clouds>::expose(vm, table_idx);
-  }
-
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override {
-    ExposedObject<CloudParticleSystem, scripting::Clouds>::unexpose(vm, table_idx);
-  }
 
 private:
   /** Returns the amount that got inserted (In case max_amount got hit) */

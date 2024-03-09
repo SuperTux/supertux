@@ -19,8 +19,6 @@
 
 #include <map>
 
-#include "squirrel/exposed_object.hpp"
-#include "scripting/thunderstorm.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
@@ -29,9 +27,11 @@ class ReaderMapping;
 
 /** Thunderstorm scriptable GameObject; plays thunder, lightning and
     electrifies water at regular interval */
-class Thunderstorm final : public GameObject,
-                     public ExposedObject<Thunderstorm, scripting::Thunderstorm>
+class Thunderstorm final : public GameObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   Thunderstorm(const ReaderMapping& reader);
 
@@ -40,6 +40,7 @@ public:
 
   static std::string class_name() { return "thunderstorm"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Thunderstorm"; }
   static std::string display_name() { return _("Thunderstorm"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -50,22 +51,30 @@ public:
   /** @name Scriptable Methods
       @{ */
 
-  /** Start playing thunder and lightning at configured interval */
+  /**
+   * Starts playing thunder and lightning at a configured interval.
+   */
   void start();
-
-  /** Stop playing thunder and lightning at configured interval */
+  /**
+   * Stops playing thunder and lightning at a configured interval.
+   */
   void stop();
 
-  /** Play thunder */
+  /**
+   * Plays thunder.
+   */
   void thunder();
-
-  /** Play lightning, i.e. call flash() and electrify() */
+  /**
+   * Plays lightning, i.e. calls ""flash()"" and ""electrify()"".
+   */
   void lightning();
-
-  /** Display a nice flash */
+  /**
+   * Displays a flash.
+   */
   void flash();
-
-  /** Electrify water throughout the whole sector for a short time */
+  /**
+   * Electrifies water throughout the whole sector for a short time.
+   */
   void electrify();
 
   /** @} */

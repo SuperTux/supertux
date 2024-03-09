@@ -20,8 +20,6 @@
 #include <vector>
 
 #include "math/vector.hpp"
-#include "squirrel/exposed_object.hpp"
-#include "scripting/particlesystem.hpp"
 #include "supertux/game_object.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -43,9 +41,11 @@ class ReaderMapping;
   class, initialize particles in the constructor and move them in the
   simulate function.
  */
-class ParticleSystem : public GameObject,
-                       public ExposedObject<ParticleSystem, scripting::ParticleSystem>
+class ParticleSystem : public GameObject
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   ParticleSystem(const ReaderMapping& reader, float max_particle_size = 60);
   ParticleSystem(float max_particle_size = 60);
@@ -55,11 +55,21 @@ public:
 
   static std::string class_name() { return "particle-system"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "ParticleSystem"; }
   static std::string display_name() { return _("Particle system"); }
   virtual std::string get_display_name() const override { return display_name(); }
   virtual ObjectSettings get_settings() override;
 
-  void set_enabled(bool enabled_);
+  /**
+   * @deprecated Use the ""enabled"" property instead!
+   * Enables/disables the system.
+   * @param bool $enable
+   */
+  void set_enabled(bool enable);
+  /**
+   * @deprecated Use the ""enabled"" property instead!
+   * Returns ""true"" if the system is enabled.
+   */
   bool get_enabled() const;
 
   int get_layer() const { return z_pos; }

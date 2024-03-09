@@ -19,6 +19,9 @@
 
 #include <limits>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "editor/editor.hpp"
@@ -29,7 +32,6 @@
 
 AmbientSound::AmbientSound(const ReaderMapping& mapping) :
   MovingObject(mapping),
-  ExposedObject<AmbientSound, scripting::AmbientSound>(this),
   m_sample(),
   m_sound_source(),
   m_radius(),
@@ -56,7 +58,6 @@ AmbientSound::AmbientSound(const ReaderMapping& mapping) :
 }
 
 AmbientSound::AmbientSound(const Vector& pos, float radius, float vol, const std::string& file) :
-  ExposedObject<AmbientSound, scripting::AmbientSound>(this),
   m_sample(file),
   m_sound_source(),
   m_radius(radius),
@@ -89,32 +90,6 @@ AmbientSound::get_settings()
   result.reorder({"sample", "radius", "volume", "region", "name", "x", "y", "width", "height"});
 
   return result;
-}
-
-#ifndef SCRIPTING_API
-void
-AmbientSound::set_pos(const Vector& pos)
-{
-  MovingObject::set_pos(pos);
-}
-#endif
-
-void
-AmbientSound::set_pos(float x, float y)
-{
-  m_col.m_bbox.set_pos(Vector(x, y));
-}
-
-float
-AmbientSound::get_pos_x() const
-{
-  return m_col.m_bbox.get_left();
-}
-
-float
-AmbientSound::get_pos_y() const
-{
-  return m_col.m_bbox.get_top();
 }
 
 HitResponse
@@ -211,6 +186,16 @@ AmbientSound::prepare_sound_source()
     m_sound_source.reset();
     remove_me();
   }
+}
+
+
+void
+AmbientSound::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<AmbientSound>("AmbientSound");
+
+  cls.addFunc("get_pos_x", &MovingObject::get_x);
+  cls.addFunc("get_pos_y", &MovingObject::get_y);
 }
 
 /* EOF */

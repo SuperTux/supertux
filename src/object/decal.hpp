@@ -18,17 +18,17 @@
 #define HEADER_SUPERTUX_OBJECT_DECAL_HPP
 
 #include "object/moving_sprite.hpp"
-#include "scripting/decal.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/timer.hpp"
 
 class ReaderMapping;
 
 /** A decorative image, perhaps part of the terrain */
-class Decal final : public MovingSprite,
-                    public ExposedObject<Decal, scripting::Decal>
+class Decal final : public MovingSprite
 {
   friend class FlipLevelTransformer;
+
+public:
+  static void register_class(ssq::VM& vm);
 
 public:
   Decal(const ReaderMapping& reader);
@@ -38,6 +38,7 @@ public:
 
   static std::string class_name() { return "decal"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Decal"; }
   static std::string display_name() { return _("Decal"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -48,9 +49,30 @@ public:
 
   virtual void on_flip(float height) override;
 
-  void fade_in(float fade_time);
-  void fade_out(float fade_time);
-  void fade_sprite(const std::string& new_sprite, float fade_time);
+  /**
+   * Fades the decal sprite to a new one in ""time"" seconds.
+   * @param string $sprite
+   * @param float $time
+   */
+  void fade_sprite(const std::string& sprite, float time);
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * @deprecated Use ""set_sprite()"" instead!
+   * Changes the decal sprite.
+   * @param string $sprite
+   */
+  void change_sprite(const std::string& sprite);
+#endif
+  /**
+   * Fades in the decal in ""time"" seconds.
+   * @param float $time
+   */
+  void fade_in(float time);
+  /**
+   * Fades out the decal in ""time"" seconds.
+   * @param float $time
+   */
+  void fade_out(float time);
 
   void set_visible(bool v) { m_visible = v; }
   bool is_visible() const { return m_visible; }

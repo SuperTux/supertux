@@ -30,6 +30,9 @@ class ReaderMapping;
 class MovingSprite : public MovingObject
 {
 public:
+  static void register_class(ssq::VM& vm);
+
+public:
   MovingSprite(const Vector& pos,
                const std::string& sprite_name,
                int layer = LAYER_OBJECTS,
@@ -50,6 +53,7 @@ public:
   virtual void update(float dt_sec) override;
   static std::string class_name() { return "moving-sprite"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "MovingSprite"; }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -67,11 +71,38 @@ public:
 
   /** Get various sprite properties. **/
   Sprite* get_sprite() const { return m_sprite.get(); }
-  const std::string& get_action() const { return m_sprite->get_action(); }
 
-  /** Set new action for sprite and resize bounding box.  use with
-      care as you can easily get stuck when resizing the bounding box. */
-  void set_action(const std::string& name, int loops = -1);
+#ifdef DOXYGEN_SCRIPTING
+  /**
+   * Sets the sprite of the object.
+   * @param string $file
+   */
+  void set_sprite(const std::string& file);
+  /**
+   * Returns the file of the object's sprite.
+   */
+  std::string get_sprite() const;
+#endif
+  /**
+   * Returns the name of the current action of the sprite.
+   */
+  std::string get_action() const;
+  /**
+   * Sets the current action of the sprite and resizes the bounding box.
+     Use with care as you can easily get stuck when resizing the bounding box.
+   * @param string $name
+   */
+  void set_action(const std::string& name);
+  /**
+   * Sets the current action of the sprite, as well as the number of times it should loop, and resizes the bounding box.
+     Use with care as you can easily get stuck when resizing the bounding box.
+   * @param string $name
+   * @param int $loops
+   */
+  void set_action_loops(const std::string& name, int loops);
+
+  /** Sets the action from an action name, as well as the number of times it should loop. */
+  void set_action(const std::string& name, int loops);
 
   /** Sets the action from an action name and a particular direction
       in the form of "name-direction", eg. "walk-left".

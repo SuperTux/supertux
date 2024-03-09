@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2018 Ashish Bhattarai <ashishbhattarai@protonmail.com>
+//  Copyright (C) 2024 Vankata453
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,23 +14,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/dispenser.hpp"
-#include "scripting/dispenser.hpp"
+#ifndef HEADER_SUPERTUX_SQUIRREL_EXPOSABLE_CLASS_HPP
+#define HEADER_SUPERTUX_SQUIRREL_EXPOSABLE_CLASS_HPP
 
-namespace scripting {
+#include <simplesquirrel/exposable_class.hpp>
 
-void Dispenser::activate()
+#include <string>
+
+/** Represents a class, which can be exposed to scripting. */
+class ExposableClass : public ssq::ExposableClass
 {
-  SCRIPT_GUARD_VOID_T(Dispenser);
-  object.activate();
-}
+public:
+  ExposableClass() {}
+  virtual ~ExposableClass() override {}
 
-void Dispenser::deactivate()
-{
-  SCRIPT_GUARD_VOID_T(Dispenser);
-  object.deactivate();
-}
+  virtual std::string get_exposed_class_name() const = 0;
 
-}
+private:
+  ExposableClass(const ExposableClass&) = delete;
+  ExposableClass& operator=(const ExposableClass&) = delete;
+};
+
+#endif
 
 /* EOF */

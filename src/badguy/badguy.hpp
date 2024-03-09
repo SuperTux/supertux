@@ -20,8 +20,6 @@
 #include "editor/object_option.hpp"
 #include "object/moving_sprite.hpp"
 #include "object/portable.hpp"
-#include "scripting/badguy.hpp"
-#include "squirrel/exposed_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
@@ -31,9 +29,11 @@ class Bullet;
 
 /** Base class for moving sprites that can hurt the Player. */
 class BadGuy : public MovingSprite,
-               public ExposedObject<BadGuy, scripting::BadGuy>,
                public Portable
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 public:
   BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
          const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite",
@@ -58,6 +58,7 @@ public:
 
   static std::string class_name() { return "badguy"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "BadGuy"; }
   static std::string display_name() { return _("Badguy"); }
   virtual std::string get_display_name() const override { return display_name(); }
 

@@ -18,14 +18,14 @@
 #define HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
 
 #include "badguy/badguy.hpp"
-#include "scripting/dispenser.hpp"
-#include "squirrel/exposed_object.hpp"
 
 class GameObject;
 
-class Dispenser final : public BadGuy,
-                        public ExposedObject<Dispenser, scripting::Dispenser>
+class Dispenser final : public BadGuy
 {
+public:
+  static void register_class(ssq::VM& vm);
+
 private:
   enum DispenserType {
     DROPPER, CANNON, POINT, GRANITO
@@ -48,6 +48,7 @@ public:
 
   static std::string class_name() { return "dispenser"; }
   virtual std::string get_class_name() const override { return class_name(); }
+  virtual std::string get_exposed_class_name() const override { return "Dispenser"; }
   static std::string display_name() { return _("Dispenser"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
@@ -56,16 +57,6 @@ public:
   std::string get_default_sprite_name() const override;
 
   virtual void on_flip(float height) override;
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override
-  {
-    ExposedObject<Dispenser, scripting::Dispenser>::expose(vm, table_idx);
-  }
-
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override
-  {
-    ExposedObject<Dispenser, scripting::Dispenser>::unexpose(vm, table_idx);
-  }
 
   void notify_dead() {
     if (m_limit_dispensed_badguys) {

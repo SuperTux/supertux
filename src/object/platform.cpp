@@ -16,6 +16,8 @@
 
 #include "object/platform.hpp"
 
+#include <simplesquirrel/vm.hpp>
+
 #include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
@@ -30,7 +32,6 @@ Platform::Platform(const ReaderMapping& reader) :
 
 Platform::Platform(const ReaderMapping& reader, const std::string& default_sprite) :
   MovingSprite(reader, default_sprite, LAYER_OBJECTS, COLGROUP_STATIC),
-  ExposedObject<Platform, scripting::Platform>(this),
   PathObject(),
   m_speed(Vector(0,0)),
   m_automatic(false),
@@ -151,30 +152,6 @@ Platform::editor_update()
 }
 
 void
-Platform::goto_node(int node_no)
-{
-  get_walker()->goto_node(node_no);
-}
-
-void
-Platform::jump_to_node(int node_no)
-{
-  get_walker()->jump_to_node(node_no);
-}
-
-void
-Platform::start_moving()
-{
-  get_walker()->start_moving();
-}
-
-void
-Platform::stop_moving()
-{
-  get_walker()->stop_moving();
-}
-
-void
 Platform::move_to(const Vector& pos)
 {
   Vector shift = pos - m_col.m_bbox.p1();
@@ -204,6 +181,15 @@ Platform::check_state()
 {
   MovingSprite::check_state();
   PathObject::check_state();
+}
+
+
+void
+Platform::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<Platform>("Platform", vm.findClass("MovingSprite"));
+
+  PathObject::register_members(cls);
 }
 
 /* EOF */

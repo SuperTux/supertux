@@ -18,6 +18,9 @@
 
 #include <math.h>
 
+#include <simplesquirrel/class.hpp>
+#include <simplesquirrel/vm.hpp>
+
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
@@ -32,7 +35,6 @@
 
 ParticleSystem::ParticleSystem(const ReaderMapping& reader, float max_particle_size_) :
   GameObject(reader),
-  ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
   max_particle_size(max_particle_size_),
   z_pos(LAYER_BACKGROUND1),
   particles(),
@@ -46,7 +48,6 @@ ParticleSystem::ParticleSystem(const ReaderMapping& reader, float max_particle_s
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
   GameObject(),
-  ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
   max_particle_size(max_particle_size_),
   z_pos(LAYER_BACKGROUND1),
   particles(),
@@ -141,6 +142,18 @@ bool
 ParticleSystem::get_enabled() const
 {
   return enabled;
+}
+
+
+void
+ParticleSystem::register_class(ssq::VM& vm)
+{
+  ssq::Class cls = vm.addAbstractClass<ParticleSystem>("ParticleSystem", vm.findClass("GameObject"));
+
+  cls.addFunc("set_enabled", &ParticleSystem::set_enabled);
+  cls.addFunc("get_enabled", &ParticleSystem::get_enabled);
+
+  cls.addVar("enabled", &ParticleSystem::enabled);
 }
 
 /* EOF */
