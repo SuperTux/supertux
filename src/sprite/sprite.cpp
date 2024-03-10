@@ -202,10 +202,10 @@ Sprite::get_height() const
   return static_cast<int>(m_action->surfaces[m_frameidx]->get_height());
 }
 
-const std::vector<SurfacePtr>& Sprite::get_action_surfaces(const std::string& name) const
+const std::optional<std::vector<SurfacePtr>> Sprite::get_action_surfaces(const std::string& name) const
 {
   const SpriteData::Action* action = m_data.get_action(name);
-  if (!action) return {};
+  if (!action) return std::nullopt;
   return action->surfaces;
 }
 

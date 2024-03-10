@@ -76,8 +76,8 @@ Root::construct(float delay, bool play_sound)
   set_start_position(pos);
 
   auto surfaces = m_sprite->get_action_surfaces("base-" + dir_to_string(m_dir));
-  if (surfaces.size() != 0)
-    m_base_surface = surfaces[0];
+  if (surfaces.has_value())
+    m_base_surface = surfaces.value()[0];
 
   if (m_play_sound)
   {
