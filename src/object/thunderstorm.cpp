@@ -97,17 +97,20 @@ Thunderstorm::update(float )
     time_to_thunder.start(interval);
   }
 
-  if(flash_display_timer.started()) {
+  if(flash_display_timer.started())
+  {
     float alpha = 0.9f;
-    if(flash_display_timer.get_timegone() > 0.1f) {
+    if(flash_display_timer.get_timegone() > 0.1f)
+    {
       auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
       if(progress < 0.0f)
         progress = 0.0f;
 
       alpha = 0.9f - progress;
     }
-    
-    if(alpha < 0.0f) {
+
+    if(alpha < 0.0f)
+    {
       flash_display_timer.stop();
       return;
     }
