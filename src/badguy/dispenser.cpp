@@ -351,7 +351,7 @@ Dispenser::set_correct_action()
   switch (m_type)
   {
     case DispenserType::CANNON:
-      set_action(m_dir);
+      set_action(m_start_dir);
       break;
     case DispenserType::POINT:
       set_colgroup_active(COLGROUP_DISABLED);
@@ -431,6 +431,12 @@ Dispenser::on_flip(float height)
   BadGuy::on_flip(height);
   if (!m_gravity)
     FlipLevelTransformer::transform_flip(m_flip);
+}
+
+void Dispenser::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  set_correct_action();
 }
 
 /* EOF */
