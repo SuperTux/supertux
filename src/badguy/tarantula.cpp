@@ -28,12 +28,12 @@ static const float MOVE_SPEED = 75.f;
 
 Tarantula::Tarantula(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/tarantula/tarantula.sprite"),
-  m_silk(Surface::from_file("images/creatures/tarantula/silk.png")),
   m_state(STATE_IDLE),
   m_timer(),
-  m_was_grabbed(false),
+  m_silk(Surface::from_file("images/creatures/tarantula/silk.png")),
   m_target_height(0),
   m_last_height(0),
+  m_was_grabbed(false),
   m_retreat(true),
   m_attach_ceiling(false)
 {
@@ -254,7 +254,7 @@ Tarantula::draw(DrawingContext& context)
   Vector pos(get_bbox().get_left() + ((get_bbox().get_width() - static_cast<float>(m_silk->get_width()))/2),
              m_start_position.y - 32.f);
 
-  float length = std::floor((get_bbox().get_top() - m_start_position.y) / m_silk->get_height());
+  float length = std::floor((get_bbox().get_top() - m_start_position.y) / static_cast<float>(m_silk->get_height()));
   for (int i = 0; i <= static_cast<int>(length) + 1; i++) {
     context.color().draw_surface(m_silk, pos, LAYER_TILES-5);
     pos.y += 32.f;
