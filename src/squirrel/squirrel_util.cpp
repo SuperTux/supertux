@@ -29,7 +29,7 @@
 #include "supertux/game_object.hpp"
 #include "util/log.hpp"
 
-std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
+std::string squirrel2string(HSQUIRRELVM v, SQInteger i, bool lisp_format)
 {
   std::ostringstream os;
   switch (sq_gettype(v, i))
@@ -41,9 +41,19 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
       SQBool p;
       if (SQ_SUCCEEDED(sq_getbool(v, i, &p))) {
         if (p)
-          os << "true";
+        {
+          if(lisp_format)
+            os << "#t";
+          else
+            os << "true";
+        }
         else
-          os << "false";
+        {
+          if(lisp_format)
+            os << "#f";
+          else
+            os << "false";
+        }
       }
       break;
     }
@@ -62,7 +72,10 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
     case OT_STRING: {
       const SQChar* val;
       sq_getstring(v, i, &val);
-      os << "\"" << val << "\"";
+      if(lisp_format)
+        os << val;
+      else
+        os << "\"" << val << "\"";
       break;
     }
     case OT_TABLE: {
@@ -88,23 +101,28 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
     }
     case OT_ARRAY: {
       bool first = true;
-      os << "[";
+      if(!lisp_format)
+        os << "[";
       sq_pushnull(v);  //null iterator
       while (SQ_SUCCEEDED(sq_next(v,i-1)))
       {
         if (!first) {
-          os << ", ";
+          if(lisp_format)
+            os << " ";
+          else
+            os << ", ";
         }
         first = false;
 
         //here -1 is the value and -2 is the key
         // we ignore the key, since that is just the index in an array
-        os << squirrel2string(v, -1);
+        os << squirrel2string(v, -1, lisp_format);
 
         sq_pop(v,2); //pops key and val before the nex iteration
       }
       sq_pop(v, 1);
-      os << "]";
+      if(!lisp_format)
+        os << "]";
       break;
     }
     case OT_USERDATA:
