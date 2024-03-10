@@ -1,0 +1,5 @@
+(supertux-music
+  (file "sunset.ogg")
+  (loop-begin 7.683)
+  (loop-at 88.320)
+)

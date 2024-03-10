@@ -1,0 +1,5 @@
+(supertux-music
+  (file "between_two_glaciers.ogg")
+  (loop-begin 12.311)
+  (loop-at 86.154)
+)
