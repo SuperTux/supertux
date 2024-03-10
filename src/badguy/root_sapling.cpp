@@ -278,6 +278,10 @@ bool
 RootSapling::should_summon_root(const Rectf& bbox)
 {
   for (const auto& solids : Sector::get().get_solid_tilemaps()) {
+    if (solids->get_path())
+      // Do not support moving tilemaps. Not planned.
+      continue;
+
     // Test with all tiles in the root's hitbox
     const Rect test_tiles = solids->get_tiles_overlapping(bbox);
 
@@ -333,7 +337,7 @@ RootSapling::reverse_raycast(const Rectf& tilebbox)
     for (auto map : Sector::get().get_solid_tilemaps()) {
       if (map->get_path())
         // Do not support moving tilemaps. Not planned.
-        break;
+        continue;
 
       const Tile& tile = map->get_tile_at(tilepos);
       if (tile.is_solid() && !tile.is_unisolid())
