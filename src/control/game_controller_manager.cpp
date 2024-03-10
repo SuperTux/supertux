@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 #include "control/game_controller_manager.hpp"
 
 #include <algorithm>
@@ -326,6 +327,12 @@ GameControllerManager::has_corresponding_game_controller(int player_id) const
 int
 GameControllerManager::rumble(SDL_GameController* controller) const
 {
+  return rumble(controller, 0xFFFF, 0xFFFF, 100);
+}
+
+int
+GameControllerManager::rumble(SDL_GameController* controller, uint16_t low_frequency_rumble, uint16_t high_frequency_rumble, uint32_t duration_ms) const
+{
 #if SDL_VERSION_ATLEAST(2, 0, 9)
   if (g_config->multiplayer_buzz_controllers)
   {
@@ -333,8 +340,7 @@ GameControllerManager::rumble(SDL_GameController* controller) const
     if (SDL_GameControllerHasRumble(controller))
     {
 #endif
-      // TODO: Rumble intensity setting (like volume).
-      SDL_GameControllerRumble(controller, 0xFFFF, 0xFFFF, 300);
+      SDL_GameControllerRumble(controller, low_frequency_rumble, high_frequency_rumble, duration_ms);
 #if SDL_VERSION_ATLEAST(2, 0, 18)
     }
     else

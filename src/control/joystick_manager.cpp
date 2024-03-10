@@ -93,6 +93,7 @@ JoystickManager::on_joystick_added(int joystick_index)
         parent->push_user();
 
       joysticks[joystick] = id;
+      // joystick->rumble();
 
       if (GameSession::current() && !GameSession::current()->get_savegame().is_title_screen() && id != 0)
       {
@@ -327,17 +328,23 @@ JoystickManager::has_corresponding_joystick(int player_id) const
 }
 
 int
-JoystickManager::rumble(SDL_Joystick* controller) const
+JoystickManager::rumble(SDL_Joystick* joystick) const
+{
+  return rumble(joystick, 0xFFFF, 0xFFFF, 100);
+}
+
+int
+JoystickManager::rumble(SDL_Joystick* joystick, uint16_t low_frequency_rumble, uint16_t high_frequency_rumble, uint32_t duration_ms) const
 {
 #if SDL_VERSION_ATLEAST(2, 0, 9)
+  // In the game, joysticks are controllers. SDL treats them as two separate things.
   if (g_config->multiplayer_buzz_controllers)
   {
 #if SDL_VERSION_ATLEAST(2, 0, 18)
-    if (SDL_JoystickHasRumble(controller))
+    if (SDL_JoystickHasRumble(joystick))
     {
 #endif
-      // TODO: Rumble intensity setting (like volume)
-      SDL_JoystickRumble(controller, 0xFFFF, 0xFFFF, 300);
+      SDL_JoystickRumble(joystick, low_frequency_rumble, high_frequency_rumble, duration_ms);
 #if SDL_VERSION_ATLEAST(2, 0, 18)
     }
     else
