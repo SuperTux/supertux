@@ -372,7 +372,12 @@ Dispenser::on_type_change(int old_type)
     if (m_type == GRANITO) // Switching to type GRANITO
       add_object(GameObjectFactory::instance().create("corrupted_granito"));
   }
+}
 
+void
+Dispenser::after_editor_set()
+{
+  BadGuy::after_editor_set();
   set_correct_action();
 }
 
@@ -431,12 +436,6 @@ Dispenser::on_flip(float height)
   BadGuy::on_flip(height);
   if (!m_gravity)
     FlipLevelTransformer::transform_flip(m_flip);
-}
-
-void Dispenser::after_editor_set()
-{
-  BadGuy::after_editor_set();
-  set_correct_action();
 }
 
 /* EOF */
