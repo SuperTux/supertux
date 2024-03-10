@@ -1,0 +1,95 @@
+(supertux-level
+  (version 3)
+  (name (_ "Test low jump"))
+  (author "zwatotem")
+  (contact "zwatotem@gmail.com")
+  (license "CC-BY-SA 4.0 International")
+  (target-time 1)
+  (icon "")
+  (icon-locked "")
+  (sector
+    (name "main")
+    (init-script "finish_var <- false;")
+    (ambient-light
+      (color 1 1 1)
+    )
+    (camera
+      (name "Camera")
+      (mode "normal")
+    )
+    (leveltime
+      (time 5)
+    )
+    (music
+    )
+    (scripttrigger
+      (width 250)
+      (height 122)
+      (oneshot #t)
+      (script "finish_var <- true;")
+      (button #f)
+      (x -43)
+      (y 58)
+    )
+    (scripttrigger
+      (width 32)
+      (height 32)
+      (script "if(finish_var) sector.Tux.trigger_sequence(\"endsequence\");")
+      (button #f)
+      (x 64)
+      (y 256)
+    )
+    (scripttrigger
+      (width 32)
+      (height 320)
+      (oneshot #t)
+      (script "block.set_solid(false);")
+      (button #f)
+      (x 64)
+      (y -96)
+    )
+    (spawnpoint
+      (name "main")
+      (x 64)
+      (y 224)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos 0)
+      (name "start")
+      (width 5)
+      (height 10)
+      (tiles
+      0 227 227 227 0
+      0 227 227 227 0
+      0 227 227 227 0
+      0 227 227 227 0
+      0 227 227 227 0
+      0 227 0 227 0
+      0 227 0 227 0
+      0 227 0 227 0
+      0 227 0 227 0
+      0 227 227 227 0
+      )
+    )
+    (tilemap
+      (solid #t)
+      (z-pos 0)
+      (name "block")
+      (width 5)
+      (height 10)
+      (tiles
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 48 0 0
+      0 0 0 0 0
+      )
+    )
+  )
+)
