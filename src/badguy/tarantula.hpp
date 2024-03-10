@@ -43,6 +43,8 @@ public:
   virtual GameObjectTypes get_types() const override;
   virtual std::string get_default_sprite_name() const override;
 
+  virtual ObjectSettings get_settings() override;
+
 protected:
   virtual std::vector<Direction> get_allowed_directions() const override;
   virtual bool collision_squished(GameObject& object) override;
@@ -79,6 +81,7 @@ private:
   bool m_was_grabbed;
   bool m_retreat;
   bool m_attach_ceiling;
+  bool m_static; // FIXME: Better name
 
 private:
   Tarantula(const Tarantula&) = delete;

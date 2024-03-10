@@ -19,6 +19,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
 static const float DROP_TIME = .5f;
@@ -35,10 +36,13 @@ Tarantula::Tarantula(const ReaderMapping& reader) :
   m_last_height(0),
   m_was_grabbed(false),
   m_retreat(true),
-  m_attach_ceiling(false)
+  m_attach_ceiling(false),
+  m_static(false)
 {
   parse_type(reader);
   set_action("idle");
+
+  reader.get("static", m_static, false);
 
   m_physic.enable_gravity(false);
 }
@@ -164,6 +168,9 @@ Tarantula::try_approach()
 
   if (std::abs(dist) <= 7.5f)
     return DROP;
+
+  if (m_static)
+    return NONE;
 
   if (m_attach_ceiling)
   {
@@ -303,6 +310,15 @@ Tarantula::get_default_sprite_name() const
     case SPIDERMITE: return "images/creatures/spidermite/spidermite.sprite";
   }
   return "images/creatures/tarantula/tarantula.sprite";
+}
+
+ObjectSettings Tarantula::get_settings()
+{
+  ObjectSettings result = BadGuy::get_settings();
+
+  result.add_bool(_("Static"), &m_static, "static", false);
+
+  return result;
 }
 
 std::vector<Direction>
