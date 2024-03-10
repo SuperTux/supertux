@@ -1,5 +1,0 @@
-(supertux-music
-  (file "yetiboss.ogg")
-  (loop-begin 1.446)
-  (loop-at 82.410)
-)
