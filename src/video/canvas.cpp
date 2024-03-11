@@ -264,19 +264,17 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
 
 void
 Canvas::draw_filled_rect(const Rectf& rect, const Color& color,
-                         int layer, const Blend& blend)
+                         int layer)
 {
   draw_filled_rect(rect, color, 0.0f, layer);
 }
 
 void
-Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer,
-                         const Blend& blend)
+Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer)
 {
   auto request = new(m_obst) FillRectRequest(m_context.transform());
 
   request->layer  = layer;
-  request->blend = blend;
 
   request->rect = Rectf(apply_translate(rect.p1())*scale(),
                         rect.get_size()*scale());
