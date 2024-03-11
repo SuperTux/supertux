@@ -126,6 +126,7 @@ Thunderstorm::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
   context.color().draw_gradient(m_flash_color, m_flash_color, 500, GradientDirection::HORIZONTAL, context.get_rect(), Blend::ADD);
   context.pop_transform();
 }
