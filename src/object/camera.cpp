@@ -461,11 +461,8 @@ Camera::update_scroll_normal(float dt_sec)
     else if (player.peeking_direction_y() == Direction::DOWN)
       peek_to_y = top_edge - translation_compensation_y;
 
-    float peek_move_y = (peek_to_y - m_peek_pos.y) * g_config->camera_peek_multiplier;
-    if (fabsf(peek_move_y) < 1.0f)
-      peek_move_y = 0.0;
-
-    m_peek_pos.y += peek_move_y;
+    if (m_translation.y + m_screen_size.height < get_parent()->get_height())
+      m_peek_pos.y += (peek_to_y - m_peek_pos.y) * g_config->camera_peek_multiplier;
 
     m_translation.y -= m_peek_pos.y;
     m_translation.y = math::clamp(m_translation.y,
@@ -524,11 +521,7 @@ Camera::update_scroll_normal(float dt_sec)
     else if (player.peeking_direction_x() == Direction::RIGHT)
       peek_to_x = left_edge - translation_compensation_x;
 
-    float peek_move_x = (peek_to_x - m_peek_pos.x) * g_config->camera_peek_multiplier;
-    if (fabsf(peek_move_x) < 1.0f)
-      peek_move_x = 0.0f;
-
-    m_peek_pos.x += peek_move_x;
+    m_peek_pos.x += (peek_to_x - m_peek_pos.x) * g_config->camera_peek_multiplier;
 
     m_translation.x -= m_peek_pos.x;
     m_translation.x = math::clamp(m_translation.x,
