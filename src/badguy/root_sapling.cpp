@@ -69,8 +69,6 @@ RootSapling::collision_badguy(BadGuy& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
-  //if (dynamic_cast<>(other))
-
   return BadGuy::collision_badguy(other, hit);
 }
 
@@ -96,9 +94,8 @@ RootSapling::collision_squished(GameObject& object)
 
 HitResponse RootSapling::collision_player(Player &player, const CollisionHit &hit)
 {
-  if (m_dir != Direction::DOWN) return BadGuy::collision_player(player, hit);
-
-  if (!hit.bottom) return BadGuy::collision_player(player, hit);
+  if (m_dir != Direction::DOWN || !hit.bottom)
+    return BadGuy::collision_player(player, hit);
 
   player.get_physic().set_acceleration_y(0);
   kill_fall();

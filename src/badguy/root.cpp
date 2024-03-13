@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "math/random.hpp"
 #include "object/sprite_particle.hpp"
+#include "util/reader_mapping.hpp"
 #include "supertux/sector.hpp"
 
 static const float HATCH_TIME = 0.7f;
@@ -26,14 +27,26 @@ static const float APPEAR_TIME = 0.5f;
 static const float RETREAT_TIME = 1.f;
 
 Root::Root(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-10)
+  BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-10),
+  m_base_surface(nullptr),
+  m_state(STATE_HATCHING),
+  m_delay(HATCH_TIME),
+  m_maxheight(0.f),
+  m_play_sound(true)
 {
+  reader.get("delay", m_delay, HATCH_TIME);
+  reader.get("play-sound", m_play_sound, true);
   construct();
 }
 
 Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
            float delay, bool play_sound) :
-  BadGuy(pos, dir, sprite, LAYER_TILES-10)
+  BadGuy(pos, dir, sprite, LAYER_TILES-10),
+  m_base_surface(nullptr),
+  m_state(STATE_HATCHING),
+  m_delay(delay == -1 ? HATCH_TIME : delay),
+  m_maxheight(0.f),
+  m_play_sound(play_sound)
 {
   construct(delay, play_sound);
 }
@@ -41,12 +54,6 @@ Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
 void
 Root::construct(float delay, bool play_sound)
 {
-  m_base_surface = nullptr;
-  m_state = STATE_HATCHING;
-  m_delay = (delay == -1 ? HATCH_TIME : delay);
-  m_maxheight = 0.f;
-  m_play_sound = play_sound;
-
   m_countMe = false;
   m_physic.enable_gravity(false);
   set_colgroup_active(COLGROUP_TOUCHABLE);
@@ -182,21 +189,9 @@ Root::active_update(float dt_sec)
 
     case STATE_APPEARING:
     {
-      float size = 0;
-      switch (m_dir)
-      {
-        case Direction::LEFT:
-        case Direction::RIGHT:
-          size = get_bbox().get_width();
-          break;
-
-        case Direction::UP:
-        case Direction::DOWN:
-          size = get_bbox().get_height();
-          break;
-
-        default: assert(false); break;
-      }
+      const float size = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+                         ? get_bbox().get_width()
+                         : get_bbox().get_height();
       float progress = m_timer.get_timegone() / m_timer.get_period();
       float offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
 
@@ -214,20 +209,9 @@ Root::active_update(float dt_sec)
       if (m_timer.check())
       {
         m_state = STATE_RETREATING;
-        switch (m_dir)
-        {
-          case Direction::LEFT:
-          case Direction::RIGHT:
-            m_maxheight = get_pos().x;
-            break;
-
-          case Direction::UP:
-          case Direction::DOWN:
-            m_maxheight = get_pos().y;
-            break;
-
-          default: assert(false); break;
-        }
+        m_maxheight = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+                      ? get_pos().x
+                      : get_pos().y;
 
         if (m_play_sound)
           SoundManager::current()->play("sounds/darthit.wav", get_pos());
@@ -240,21 +224,9 @@ Root::active_update(float dt_sec)
 
     case STATE_RETREATING:
     {
-      float size = 0;
-      switch (m_dir)
-      {
-        case Direction::LEFT:
-        case Direction::RIGHT:
-          size = get_bbox().get_width();
-          break;
-
-        case Direction::UP:
-        case Direction::DOWN:
-          size = get_bbox().get_height();
-          break;
-
-        default: assert(false); break;
-      }
+      const float size = (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+                         ? get_bbox().get_width()
+                         : get_bbox().get_height();
       float progress = m_timer.get_timegone() / m_timer.get_period();
       float offset = static_cast<float>(QuadraticEaseIn(static_cast<double>(progress))) * size;
 
