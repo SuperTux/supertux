@@ -1,5 +1,0 @@
-(supertux-music
-  (file "midday.ogg")
-  (loop-begin 9.235)
-  (loop-at 80.000)
-)
