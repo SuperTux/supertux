@@ -197,8 +197,13 @@ if(NOT EMSCRIPTEN)
   target_external_dependencies(supertux2_lib external/vorbis vorbis vorbisfile)
 endif()
 
+find_package(OpenGL REQUIRED)
+if(OPENGL_FOUND)
+  option(HAVE_OPENGL "Use OpenGL renderer for SuperTux." ON)
+endif()
+
+
 if(HAVE_OPENGL)
-  find_package(OpenGL REQUIRED)
   target_dependencies(supertux2_lib GLEW external/glew libglew_shared)
   target_link_libraries(supertux2_lib PRIVATE OpenGL::GL)
   target_include_directories(supertux2_lib PRIVATE ${OPENGL_INCLUDE_DIRS})
