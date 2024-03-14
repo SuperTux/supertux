@@ -18,8 +18,6 @@
 
 #include "supertux/title_screen.hpp"
 
-#include <version.h>
-
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
 #include "object/music_object.hpp"

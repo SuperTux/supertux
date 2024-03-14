@@ -25,7 +25,7 @@
 #include <physfs.h>
 #include <sstream>
 #include <stdexcept>
-#include <version.h>
+//#include <version.h>
 
 #ifdef EMSCRIPTEN
 #include <emscripten.h>

@@ -24,7 +24,6 @@
 #include "physfs/ifile_stream.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
-#include "version.h"
 
 CommandLineArguments::CommandLineArguments() :
   m_action(NO_ACTION),
