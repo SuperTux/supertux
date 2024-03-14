@@ -118,6 +118,9 @@ private:
   /** A custom sprite has been successfully found and set on initialization. */
   bool m_sprite_found;
 
+  /** A custom layer has been specified. */
+  const bool m_custom_layer;
+
 private:
   MovingSprite(const MovingSprite&) = delete;
   MovingSprite& operator=(const MovingSprite&) = delete;
