@@ -47,6 +47,7 @@ if(FORCE_VERSION_STRING)
 endif()
 set(SUPERTUX_VERSION ${SUPERTUX_VERSION_STRING})
 
+#[[
 configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h )
 
 set_source_files_properties(${CMAKE_BINARY_DIR}/version.h
@@ -59,5 +60,6 @@ set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.
   PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 set_source_files_properties(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/downloader.cpp
   PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
+]]
 
 # EOF #

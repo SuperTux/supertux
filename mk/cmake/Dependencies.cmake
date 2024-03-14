@@ -9,6 +9,9 @@ if(LINUX)
   endif()
 endif()
 
+# How nice of you.
+#set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 # Use a library from a subfolder in ${PROJECT_SOURCE_DIR}/external
 # whose code is all in the root directory. Example:
 #
@@ -106,16 +109,21 @@ macro(target_external_dependencies_from_folder tar folder)
       set(DEP_OUT_PATH "$<TARGET_FILE:${deptar}>")
 
       # Try all names, again
-      set(${deptar}_LIBRARY "$<TARGET_FILE:${deptar}>")
-      set(${deptar}_LIBRARIES "$<TARGET_FILE:${deptar}>")
-      set(${UPPERDEP}_LIBRARY "$<TARGET_FILE:${deptar}>")
-      set(${UPPERDEP}_LIBRARIES "$<TARGET_FILE:${deptar}>")
+      set(${deptar}_LIBRARY ${deptar})
+      set(${deptar}_LIBRARIES ${deptar})
+      set(${UPPERDEP}_LIBRARY ${deptar})
+      set(${UPPERDEP}_LIBRARIES ${deptar})
 
-      target_link_directories(${tar} PRIVATE $<TARGET_FILE_DIR:${deptar}>)
+      #target_link_directories(${tar} PRIVATE $<TARGET_FILE_DIR:${deptar}>)
       target_link_libraries(${tar} PRIVATE ${deptar})
     endif()
 
   add_dependencies(${tar} ${deptar})
+  message(STATUS
+    "${deptar} has been added.\n"
+    "-- - ${deptar}_LIBRARY: ${${deptar}_LIBRARY}\n"
+    "-- - ${deptar}_INCLUDE_DIR: ${${deptar}_INCLUDE_DIR}"
+  )
   endforeach()
 endmacro()
 
@@ -151,9 +159,10 @@ macro(target_dependencies tar)
   message(STATUS "Adding ${deps} to ${tar}")
   foreach(dep ${deps})
     message(STATUS "Linking ${dep}")
+    string(TOUPPER ${dep} UPPERDEP)
     find_package(${dep} QUIET)
 
-    if(NOT ${${dep}_FOUND})
+    if(NOT "${${dep}_FOUND}" STREQUAL "" OR NOT "${${UPPERDEP}_FOUND}" STREQUAL "")
       if(USE_PKGCONFIG)
         message(STATUS "Could not find ${dep} with find_package. Falling back to pkg-config.")
 
@@ -179,7 +188,7 @@ macro(target_dependencies tar)
     # try all names
     string(TOUPPER ${dep} UPPERDEP)
     set(libraries ${${dep}_LIBRARY} ${${dep}_LIBRARIES} ${${UPPERDEP}_LIBRARY} ${${UPPERDEP}_LIBRARIES})
-    message(STATUS "${dep} libraries: ${libraries}")
+    message(STATUS "- ${dep} libraries: ${libraries}")
 
     target_link_libraries(${tar} PUBLIC ${dep})
 
@@ -196,6 +205,6 @@ macro(target_dependencies tar)
 
     target_include_directories(${tar} PUBLIC ${includes})
 
-    message(STATUS "${dep} includes: ${includes}")
+    message(STATUS "- ${dep} includes: ${includes}")
   endforeach()
 endmacro()

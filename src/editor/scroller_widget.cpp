@@ -29,7 +29,7 @@ namespace {
 const float TOPLEFT = 16;
 const float MIDDLE = 48;
 const float BOTTOMRIGHT = 80;
-const float SIZE = 96;
+const float _SIZE = 96;
 
 }
 
@@ -46,7 +46,7 @@ EditorScrollerWidget::EditorScrollerWidget(Editor& editor) :
 bool
 EditorScrollerWidget::can_scroll() const
 {
-  return m_scrolling && m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE;
+  return m_scrolling && m_mouse_pos.x < _SIZE && m_mouse_pos.y < _SIZE;
 }
 
 void
@@ -54,7 +54,7 @@ EditorScrollerWidget::draw(DrawingContext& context)
 {
   if (!rendered) return;
 
-  context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(SIZE, SIZE)),
+  context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(_SIZE, _SIZE)),
                                      Color(0.9f, 0.9f, 1.0f, 0.6f),
                                      MIDDLE, LAYER_GUI-10);
   context.color().draw_filled_rect(Rectf(Vector(40, 40), Vector(56, 56)),
@@ -105,7 +105,7 @@ EditorScrollerWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
   if (button.button == SDL_BUTTON_LEFT) {
     if (!rendered) return false;
 
-    if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
+    if (m_mouse_pos.x < _SIZE && m_mouse_pos.y < _SIZE) {
       m_scrolling = true;
       return true;
     } else {
@@ -122,7 +122,7 @@ EditorScrollerWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   if (!rendered) return false;
 
   m_mouse_pos = VideoSystem::current()->get_viewport().to_logical(motion.x, motion.y);
-  if (m_mouse_pos.x < SIZE && m_mouse_pos.y < SIZE) {
+  if (m_mouse_pos.x < _SIZE && m_mouse_pos.y < _SIZE) {
     m_scrolling_vec = m_mouse_pos - Vector(MIDDLE, MIDDLE);
     if (m_scrolling_vec.x != 0 || m_scrolling_vec.y != 0) {
       float norm = glm::length(m_scrolling_vec);

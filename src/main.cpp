@@ -14,16 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#define SDL_MAIN_HANDLED
 #include <SDL.h>
 
-//#include <config.h>
 #include <memory>
 
 #include "supertux/main.hpp"
 
 static std::unique_ptr<Main> g_main;
 
+#ifdef _MSC_VER
+#define argc __argc
+#define argv __argv
+int WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR szCmdLine, int sw)
+#else
 int main(int argc, char** argv)
+#endif
 {
   g_main = std::make_unique<Main>();
 

@@ -17,6 +17,7 @@ macro(setup_supertux_definitions tar)
     BUILD_CONFIG_DATA_DIR="${BUILD_CONFIG_DATA_DIR}"
     INSTALL_SUBDIR_BIN="${INSTALL_SUBDIR_BIN}"
     INSTALL_SUBDIR_SHARE="${INSTALL_SUBDIR_SHARE}"
+    GLM_ENABLE_EXPERIMENTAL # glm wont work if we dont have this for weird reasons
   )
 
   _add_define(${tar}

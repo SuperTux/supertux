@@ -43,6 +43,8 @@ language.settings.xml
 # Visual Studio project files
 *.vs/
 CMakeSettings.json
+CMakePresets.json
+CMakeUserPresets.json
 
 # JetBrains IDE project files
 .idea/

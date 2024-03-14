@@ -57,3 +57,6 @@
 [submodule "external/glew"]
 	path = external/glew
 	url = https://github.com/Perlmint/glew-cmake
+[submodule "external/png_shared"]
+	path = external/png_shared
+	url = https://github.com/pnggroup/libpng

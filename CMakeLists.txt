@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.13.4)
+cmake_policy(SET CMP0002 OLD)
 
 project(SuperTux VERSION 0.6.3 LANGUAGES CXX C)
 
@@ -160,9 +161,27 @@ add_library(supertux2_lib STATIC ${SUPERTUX_SRC})
 set(FREETYPE_NO_DIST ON)
 set(ALSOFT_UTILS OFF)
 set(ALSOFT_EXAMPLES OFF)
+set(SDL2IMAGE_XCF OFF)
+set(SDL2TTF_INSTALL OFF)
+set(FMT_INSTALL ON)
 
 if(NOT EMSCRIPTEN)
-  target_dependencies(supertux2_lib SDL2 SDL2_image freetype SDL2_ttf libcurl_shared)
+  target_dependencies(supertux2_lib SDL2 png_shared SDL2_image libcurl_shared)
+  set(SDL_LIBRARY ${SDL2_LIBRARY})
+  set(SDL_INCLUDE_DIR ${SDL2_INCLUDE_DIRS})
+  set(PNG_LIBRARY ${png_shared_LIBRARY})
+  set(PNG_INCLUDE_DIRS ${png_shared_INCLUDE_DIRS})
+
+  if(MSVC)
+    set(_oldsharedlibs ${BUILD_SHARED_LIBS})
+    set(BUILD_SHARED_LIBS OFF)
+    target_dependencies(supertux2_lib freetype)
+    set(BUILD_SHARED_LIBS ${_oldsharedlibs})
+  else()
+    target_dependencies(supertux2_lib freetype)
+  endif()
+  target_dependencies(supertux2_lib SDL2_ttf)
+
   target_external_dependencies_from_folder(supertux2_lib external/ogg ogg)
   target_external_dependencies_from_folder(supertux2_lib external/vorbis vorbis vorbisfile)
 endif()
@@ -174,8 +193,7 @@ if(HAVE_OPENGL)
   target_include_directories(supertux2_lib PRIVATE ${OPENGL_INCLUDE_DIRS})
 endif()
 
-set(FMT_INSTALL ON) # Weird
-target_dependencies(supertux2_lib physfs)
+target_dependencies(supertux2_lib physfs zlib)
 target_external_dependencies(supertux2_lib tinygettext partio_zip obstack SDL_SavePNG findlocale)
 target_external_dependencies_from_folder(supertux2_lib external/squirrel squirrel sqstdlib)
 target_external_dependencies_from_folder(supertux2_lib external/OpenAL OpenAL)
@@ -200,7 +218,7 @@ target_link_libraries(supertux2_lib PRIVATE supertux2_c)
 target_include_directories(supertux2_lib PUBLIC src/ ${PROJECT_BINARY_DIR})
 
 # glm is a header only library... We don't need to link it with cmake.
-target_include_directories(supertux2_lib PUBLIC external/glm/glm)
+target_include_directories(supertux2_lib PUBLIC external/glm)
 
 # fmt seems to add every directory except the include directory (????)
 # (can we just get rid of this library already)
@@ -210,6 +228,7 @@ target_include_directories(supertux2_lib PUBLIC external/fmt-header-only/include
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
   target_include_directories(supertux2_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src/ppc)
 endif()
+
 
 include(SuperTux/Definitions)
 setup_supertux_definitions(supertux2_lib)
@@ -222,6 +241,23 @@ endif()
 
 target_sources(supertux2 PUBLIC src/main.cpp)
 target_link_libraries(supertux2 PUBLIC supertux2_lib)
+
+if(WIN32 AND ${CMAKE_VERSION} VERSION_GREATER "3.13.4")
+  # Copy DLLS next to executable for Windows to
+  # recognize them
+  add_custom_command(TARGET supertux2 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    $<TARGET_RUNTIME_DLLS:supertux2>
+    ${PROJECT_BINARY_DIR}
+    COMMAND_EXPAND_LISTS
+  )
+  add_custom_command(TARGET supertux2 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy -t
+    $<TARGET_FILE_DIR:supertux2>
+    $<TARGET_RUNTIME_DLLS:supertux2>
+    COMMAND_EXPAND_LISTS
+  )
+endif()
 
 ## Install stuff
 include(SuperTux/BuildInstall)
