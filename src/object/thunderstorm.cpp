@@ -18,7 +18,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
-#include "object/ambient_light.hpp"
 #include "object/background.hpp"
 #include "object/electrifier.hpp"
 #include "supertux/level.hpp"
