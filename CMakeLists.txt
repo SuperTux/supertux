@@ -94,7 +94,7 @@ endif()
 
 if(WIN32)
   ## Enable multi-processor compilation (faster)
-  if(MSVC)
+  if(MSVC AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
   endif()
   

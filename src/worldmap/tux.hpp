@@ -20,7 +20,7 @@
 
 #include "supertux/game_object.hpp"
 
-#include "sprite/sprite_ptr.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/player_status.hpp"
 
 class Controller;

@@ -21,8 +21,7 @@
 #include "object/path_object.hpp"
 #include "squirrel/exposed_object.hpp"
 #include "scripting/willowisp.hpp"
-
-class SoundSource;
+#include "audio/sound_source.hpp"
 
 class WillOWisp final :
   public BadGuy,

@@ -27,7 +27,7 @@ macro(target_external_dependencies tar subdir)
   set(oldbuildtype ${CMAKE_BUILD_TYPE})
 
   message(STATUS "Adding ${subdir}")
-  add_subdirectory(${subdir} EXCLUDE_FROM_ALL)
+  add_subdirectory(${PROJECT_SOURCE_DIR}/${subdir} EXCLUDE_FROM_ALL)
 
   foreach(dep ${deps})
     set(deptar "${dep}")
