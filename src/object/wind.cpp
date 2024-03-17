@@ -19,6 +19,7 @@
 #include "badguy/badguy.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "object/rock.hpp"
@@ -96,6 +97,7 @@ Wind::update(float dt_sec_)
 
   if (!blowing) return;
   if (m_col.m_bbox.get_width() <= 16 || m_col.m_bbox.get_height() <= 16) return;
+  float partangle = math::angle(speed);
 
   Vector ppos = Vector(graphicsRandom.randf(m_col.m_bbox.get_left()+8, m_col.m_bbox.get_right()-8), graphicsRandom.randf(m_col.m_bbox.get_top()+8, m_col.m_bbox.get_bottom()-8));
   Vector pspeed = Vector(graphicsRandom.randf(speed.x-20, speed.x+20), graphicsRandom.randf(speed.y-20, speed.y+20));
@@ -107,11 +109,13 @@ Wind::update(float dt_sec_)
     // emit a particle
 	  if (fancy_wind)
     {
-	    Sector::get().add<SpriteParticle>("images/particles/wind.sprite", (std::abs(speed.x) > std::abs(speed.y)) ? "default" : "flip", ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), LAYER_BACKGROUNDTILES + 1); 
+      auto& windparticle = Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default",
+        ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), get_layer());
+      windparticle.get_sprite()->set_angle(math::degrees(partangle));
 	  }
 	  else
     {
-	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, LAYER_BACKGROUNDTILES + 1);
+	    Sector::get().add<Particles>(ppos, 44, 46, pspeed, Vector(0, 0), 1, Color(.4f, .4f, .4f), 3, .1f, get_layer());
 	  }
   }
 }
@@ -121,7 +125,7 @@ Wind::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
     context.color().draw_filled_rect(m_col.m_bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+                             0.0f, get_layer());
   }
 }
 
