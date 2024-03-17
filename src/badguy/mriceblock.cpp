@@ -165,9 +165,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     break;
   case ICESTATE_KICKED: {
     if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT)) {
-      spawn_side_squish_particles(hit.left ? Direction::LEFT : Direction::RIGHT, m_type == LAPTOP ? "metal_piece" :
-        m_sprite_name.find("smart_block") != std::string::npos ? "iceblock_piece_alt" :
-        "iceblock_piece");
+      spawn_side_squish_particles(hit.left ? Direction::LEFT : Direction::RIGHT, "generic_piece_small");
       m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
       SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
       m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);

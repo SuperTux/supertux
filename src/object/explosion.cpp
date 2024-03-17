@@ -86,18 +86,11 @@ Explosion::explode()
   for (int i = 0; i < num_particles; i++) {
     float pangle = graphicsRandom.randf(-360.f, 360.f);
     Vector pspeed = Vector(std::cos(math::radians(pangle)), std::sin(math::radians(pangle)));
+    std::string current_sprite = graphicsRandom.rand(0, 2) == 0 ?
+      "images/particles/generic_piece_small.sprite" : "images/particles/generic_piece.sprite";
 
-    Sector::get().add<SpriteParticle>("images/particles/generic_piece_small.sprite", "default", get_bbox().get_middle(),
+    Sector::get().add<SpriteParticle>(current_sprite, "default", get_bbox().get_middle(),
       ANCHOR_MIDDLE, graphicsRandom.randf(450.f, 900.f) * Vector(pspeed), accel, LAYER_OBJECTS - 1);
-  }
-
-  // spawn death sparkles
-  for (int i = 1; i < 9; i++)
-  {
-    Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
-    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-noglow",
-      get_bbox().get_middle(),
-      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 3.5f, LAYER_OBJECTS + 6, false);
   }
 
   if (does_push) {

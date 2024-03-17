@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
     (name "default")
-    (fps 0.75)
+    (fps 3)
     (images 
       "generic-piece-small.png"
     )

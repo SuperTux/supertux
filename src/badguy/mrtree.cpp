@@ -113,7 +113,7 @@ MrTree::collision_squished(GameObject& object)
   if (player) player->bounce(*this);
 
   // Spawn some particles.
-  spawn_squish_particles("leaf");
+  spawn_squish_particles("viciousivy", 100.f);
 
   if (!m_frozen) { // Mr.Trees that are frozen don't spawn any Vicious Ivys.
     // Spawn ViciousIvy.

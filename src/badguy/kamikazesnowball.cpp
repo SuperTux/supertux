@@ -72,10 +72,10 @@ void
 KamikazeSnowball::kill_collision()
 {
   std::string squish_sprite = m_sprite_name.find("kamikaze-snowball") != std::string::npos ?
-    "snow_piece" : m_sprite_name.find("leafshot.sprite") != std::string::npos ? "leaf" : "generic_piece";
+    "snow_piece" : m_sprite_name.find("leafshot.sprite") != std::string::npos ? "viciousivy" : "generic_piece";
   //make leaf particles fall slower
-  float y_accel = m_sprite_name.find("leafshot.sprite") != std::string::npos ? 500.f : 800.f;
-  spawn_side_squish_particles(m_dir, squish_sprite, y_accel);
+  float y_accel = m_sprite_name.find("leafshot.sprite") != std::string::npos ? 100.f : 800.f;
+  spawn_side_squish_particles(m_dir, squish_sprite, y_accel, 5.f);
   set_action("collision", m_dir);
   SoundManager::current()->play(SPLAT_SOUND, get_pos());
   m_physic.set_velocity(0, 0);
@@ -166,7 +166,7 @@ LeafShot::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
   std::string squish_sprite = m_type == NORMAL ?
-    "leaf" : "generic_piece";
+    "viciousivy" : "generic_piece";
   spawn_squish_particles(squish_sprite);
   set_action("squished", m_dir);
   kill_squished(object);
