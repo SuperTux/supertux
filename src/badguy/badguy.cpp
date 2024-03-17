@@ -1145,7 +1145,7 @@ BadGuy::spawn_squish_particles(std::string particle_name, float y_accel)
 }
 
 void
-BadGuy::spawn_side_squish_particles(Direction direction, std::string particle_name, float y_accel, float particle_num)
+BadGuy::spawn_side_squish_particles(Direction direction, std::string particle_name, float y_accel, int particle_num)
 {
   for (int i = 0; i < particle_num; i++) {
     float angle = graphicsRandom.randf(direction == Direction::LEFT ? -90.f : 90.f, direction == Direction::LEFT ? 90.f : 270.f);
