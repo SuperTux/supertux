@@ -136,6 +136,11 @@ public:
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
+  void spawn_squish_particles(std::string particle_name = "generic_piece");
+  void spawn_side_squish_particles(Direction direction, std::string particle_name = "generic_piece_small");
+
+  void spawn_kill_particles();
+
 protected:
   enum State {
     STATE_INIT,

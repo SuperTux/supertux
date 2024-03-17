@@ -113,8 +113,10 @@ ViciousIvy::collision_squished(GameObject& object)
     return WalkingBadguy::collision_squished(object);
 
   set_action("squished", m_dir);
-  // Spawn death particles.
-  spawn_explosion_sprites(3, "images/particles/viciousivy.sprite");
+  // Spawn death particles. :)
+  std::string squish_sprite = m_type == NORMAL ?
+    "viciousivy" : "generic_piece";
+  spawn_squish_particles(squish_sprite);
   kill_squished(object);
   return true;
 }

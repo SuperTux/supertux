@@ -16,7 +16,9 @@
 
 #include "badguy/smartball.hpp"
 
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/sector.hpp"
 
 SmartBall::SmartBall(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite", "left", "right")
@@ -60,6 +62,9 @@ SmartBall::collision_squished(GameObject& object)
   if (m_frozen)
     return WalkingBadguy::collision_squished(object);
 
+  std::string squish_sprite = m_type == PUMPKIN ? "pumpkin_piece" :
+    "snow_piece_alt";
+  spawn_squish_particles(squish_sprite);
   set_action("squished", m_dir);
   kill_squished(object);
   return true;

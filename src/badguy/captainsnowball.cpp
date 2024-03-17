@@ -93,6 +93,7 @@ CaptainSnowball::collision_solid(const CollisionHit& hit)
 bool
 CaptainSnowball::collision_squished(GameObject& object)
 {
+  spawn_squish_particles("snow_piece");
   set_action("squished", m_dir);
   kill_squished(object);
   return true;

@@ -93,6 +93,8 @@ Snowman::collision_squished(GameObject& object)
 
   SoundManager::current()->play("sounds/pop.ogg", get_pos());
 
+  spawn_squish_particles("snow_piece");
+
   loose_head();
 
   return true;

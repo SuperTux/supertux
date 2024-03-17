@@ -95,6 +95,10 @@ BouncingSnowball::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
 
+  std::string squish_sprite = m_type == NORMAL ?
+    "snow_piece" : "generic_piece";
+  spawn_squish_particles(squish_sprite);
+
   set_action("squished", m_dir);
   kill_squished(object);
   return true;

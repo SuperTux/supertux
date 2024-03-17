@@ -48,6 +48,7 @@ Zeekling::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
 
+  spawn_squish_particles();
   set_action("squished", m_dir);
   kill_squished(object);
   return true;

@@ -212,23 +212,4 @@ MovingSprite::after_editor_set()
   update_hitbox();
 }
 
-void
-MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
-{
-    for (int i = 0; i < count; i++) {
-      Vector ppos = m_col.m_bbox.get_middle();
-      float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
-      float velocity = graphicsRandom.randf(350, 400);
-      float vx = sinf(angle)*velocity;
-      float vy = -cosf(angle)*velocity;
-      Vector pspeed = Vector(vx, vy);
-      Vector paccel = Vector(0, Sector::get().get_gravity()*10);
-      Sector::get().add<SpriteParticle>(sprite_path,
-                                             "default",
-                                             ppos, ANCHOR_MIDDLE,
-                                             pspeed, paccel,
-                                             LAYER_OBJECTS-1);
-  }
-}
-
 /* EOF */

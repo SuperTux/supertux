@@ -20,6 +20,7 @@
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -605,6 +606,8 @@ BadGuy::kill_fall()
 {
   if (!is_active()) return;
 
+  spawn_kill_particles();
+
   if (m_frozen) {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     Vector pr_pos(0.0f, 0.0f);
@@ -994,6 +997,8 @@ BadGuy::ignite()
   m_sprite->stop_animation();
   m_ignited = true;
 
+  spawn_kill_particles();
+
   if (m_sprite->has_action("melting-left")) {
 
     // Melt it!
@@ -1124,6 +1129,46 @@ BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
+}
+
+void
+BadGuy::spawn_squish_particles(std::string particle_name)
+{
+  for (int i = 0; i < 5; i++)
+  {
+    float pspeedx = (80.f * (static_cast<float>(i) - 2)) + graphicsRandom.randf(-30.f, 30.f);
+    float pspeedy = ((i == 2) ? -250.f : -5.f * (std::abs(40.f / (static_cast<float>(i) - 2)))) + graphicsRandom.randf(-30.f, 30.f);
+
+    Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite",
+      "piece-" + std::to_string(i),
+      Vector(get_bbox().get_middle().x, get_bbox().get_top()),
+      ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, 1000.f), LAYER_OBJECTS + 6);
+  }
+}
+
+void
+BadGuy::spawn_side_squish_particles(Direction direction, std::string particle_name)
+{
+  for (int i = 0; i < 5; i++) {
+    float angle = graphicsRandom.randf(direction == Direction::LEFT ? -90.f : 90.f, direction == Direction::LEFT ? 90.f : 270.f);
+    Vector speed = graphicsRandom.randf(50.f, 200.f) * Vector(std::cos(math::radians(angle)), std::sin(math::radians(angle)));
+    Vector accel = Vector(0.f, 800.f);
+    Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite", "piece-" + std::to_string(i),
+      Vector(direction == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right(), get_bbox().get_middle().y), ANCHOR_MIDDLE,
+      speed, accel, LAYER_OBJECTS + 6);
+  }
+}
+
+void
+BadGuy::spawn_kill_particles()
+{
+  for (int i = 1; i < 9; i++)
+  {
+    Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
+    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-noglow",
+      get_bbox().get_middle(),
+      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false);
+  }
 }
 
 /* EOF */

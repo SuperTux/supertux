@@ -100,7 +100,9 @@ WalkingLeaf::collision_squished(GameObject& object)
 
   set_action("squished", m_dir);
   // Spawn death particles.
-  spawn_explosion_sprites(3, "images/particles/walkingleaf.sprite");
+  std::string squish_sprite = m_type == NORMAL ?
+    "walkingleaf" : "generic_piece";
+  spawn_squish_particles(squish_sprite);
   kill_squished(object);
   return true;
 }

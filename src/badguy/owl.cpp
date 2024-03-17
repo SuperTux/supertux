@@ -143,6 +143,8 @@ Owl::collision_squished(GameObject& object)
   if (m_frozen)
     return BadGuy::collision_squished(object);
 
+  spawn_squish_particles();
+
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
   if (player)
     player->bounce (*this);

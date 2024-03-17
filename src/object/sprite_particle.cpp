@@ -31,7 +31,7 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
                  position_, anchor, velocity_, acceleration_,
                  drawing_layer_, notimeout, color_)
 {
-  if (sprite_name == "images/particles/sparkle.sprite")
+  if (sprite_name == "images/particles/sparkle.sprite" && sprite->get_action() != "small-noglow")
   {
     glow = true;
     lightsprite->set_blend(Blend::ADD);
