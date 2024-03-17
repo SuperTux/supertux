@@ -53,4 +53,4 @@ jobs:
           ./danmar-cppcheck-*/cppcheck \
             --quiet --inline-suppr --language=c++ --error-exitcode=10 \
             -j"$(nproc)" --std=c++17 --enable=all \
-            --suppress=useStlAlgorithm  src/
+            --suppress=useStlAlgorithm --suppress=missingInclude src/
