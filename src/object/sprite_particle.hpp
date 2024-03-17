@@ -39,7 +39,7 @@ public:
                  int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
   ~SpriteParticle() override;
 
-  SpritePtr& get_sprite() { return sprite; }
+  Sprite& get_sprite() { return *sprite; }
 
 protected:
   virtual void update(float dt_sec) override;

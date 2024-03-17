@@ -111,7 +111,7 @@ Wind::update(float dt_sec_)
     {
       auto& windparticle = Sector::get().add<SpriteParticle>("images/particles/wind.sprite", "default",
         ppos, ANCHOR_MIDDLE, pspeed, Vector(0, 0), get_layer());
-      windparticle.get_sprite()->set_angle(math::degrees(partangle));
+      windparticle.get_sprite().set_angle(math::degrees(partangle));
 	  }
 	  else
     {
