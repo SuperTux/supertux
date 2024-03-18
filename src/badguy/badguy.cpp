@@ -186,7 +186,8 @@ BadGuy::update(float dt_sec)
     if (m_unfreeze_timer.check())
       unfreeze(false);
   }
-  if (!Sector::get().inside(m_col.m_bbox)) {
+  if (get_pos().x > Sector::get().get_width() || get_pos().x < -get_bbox().get_width() ||
+    get_pos().y > Sector::get().get_height()) {
     auto this_portable = dynamic_cast<Portable*> (this);
     if (!this_portable || !this_portable->is_grabbed())
     {
