@@ -90,12 +90,12 @@
  
   (action
   (name "iced-left")
-  (hitbox 12 42 44 34)
-  (images "dive-1.png")
+  (hitbox 9 42 64 43)
+  (images "charge-4.png")
  )
  (action
   (name "iced-right")
-  (hitbox 36 42 44 34)
+  (hitbox 18 42 64 43)
   (mirror-action "iced-left")
  )
  

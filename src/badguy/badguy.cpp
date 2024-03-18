@@ -359,10 +359,11 @@ BadGuy::collision_tile(uint32_t tile_attributes)
       {
         if (is_flammable()) ignite();
       }
-      else if (tile_attributes & Tile::ICE)
-      {
-        if (is_freezable()) freeze();
-      }
+      // Why is this even here????
+      //else if (tile_attributes & Tile::ICE)
+      //{
+      //  if (is_freezable() && !m_frozen) freeze();
+      //}
       else
       {
         kill_fall();
@@ -908,7 +909,6 @@ BadGuy::freeze()
     get_overlay_size() == "2x1" ? 43.f :
     get_overlay_size() == "1x2" ? 62.f : 43.f;
 
-  m_col.set_size(freezesize_x, freezesize_y);
   set_pos(Vector(get_bbox().get_left(), get_bbox().get_bottom() - freezesize_y));
 
   if (m_sprite->has_action("iced-left"))
@@ -925,6 +925,7 @@ BadGuy::freeze()
       m_sprite->stop_animation();
     }
   }
+  m_col.set_size(freezesize_x, freezesize_y);
 }
 
 void
