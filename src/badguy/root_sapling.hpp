@@ -19,6 +19,8 @@
 
 #include "badguy/badguy.hpp"
 
+#include "collision/collision_system.hpp"
+
 class RootSapling final : public BadGuy
 {
 public:
@@ -49,7 +51,7 @@ private:
   bool should_summon_root(const Rectf& bbox);
 
   /** Fix raycasting down/right. More info in the implementation. */
-  float reverse_raycast(const Rectf& tilebbox);
+  CollisionSystem::RaycastResult reverse_raycast(const Vector& line_start, const Vector& line_end);
 
   Timer m_root_timer;
   bool m_dead;
