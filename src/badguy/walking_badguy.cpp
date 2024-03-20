@@ -99,7 +99,7 @@ void WalkingBadguy::set_ledge_behavior(LedgeBehavior behavior)
       break;
 
     case LedgeBehavior::SMART:
-      max_drop_height = static_cast<int>(get_bbox().get_width()) / 2;
+      max_drop_height = 16.f;
       break;
 
     case LedgeBehavior::NORMAL:

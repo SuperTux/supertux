@@ -781,7 +781,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
         {
           result.is_valid = true;
           result.hit = tile;
-          result.box = solids->get_tile_bbox(test_vector.x / 32.f, test_vector.y / 32.f);
+          result.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f), static_cast<int>(test_vector.y / 32.f));
           return result;
         }
       }

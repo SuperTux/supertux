@@ -766,30 +766,39 @@ BadGuy::might_fall(int height) const
   // Make sure we check for at least a 1-pixel fall.
   assert(height > 0);
 
-  Vector eye;
-  Vector end;
+  Vector eye, end;
   eye.y = m_col.m_bbox.get_bottom();
-  end.y = eye.y + 600;
-  if (m_dir == Direction::LEFT) {
+  end.y = eye.y + 600.f;
+  if (m_dir == Direction::LEFT)
     eye.x = m_col.m_bbox.get_left() - 1;
-  } else {
+  else
     eye.x = m_col.m_bbox.get_right() + 1;
-  }
   end.x = eye.x;
-  //const Rectf rect = Rectf(x1, y1, x2, y2);
 
   RaycastResult result = Sector::get().get_first_line_intersection(eye, end, true, nullptr);
 
   auto tile_p = std::get_if<const Tile*>(&result.hit);
   if (tile_p && !result.box.empty())
   {
-    std::cout << "tile " << eye.y <<" "<< result.box.p1().y <<" "<< (result.box.p1().y - eye.y) <<" "<< (static_cast<float>(height)) << std::endl;
+    std::cout <<"tile " << eye.y
+              <<" "<< result.box.p1().y
+              <<" "<< (result.box.p1().y - eye.y)
+              <<" "<< (static_cast<float>(height))
+              << std::endl;
     if ((*tile_p)->is_slope())
       // Only fall if the slope is too far off the ledge
       return result.box.p1().y - eye.y > 600.f;
     else
     {
-      return result.box.p1().y - eye.y > static_cast<float>(height);
+      Vector groundcheck;
+      if (m_dir == Direction::RIGHT)
+        groundcheck.x = m_col.m_bbox.get_left() - 1;
+      else
+        groundcheck.x = m_col.m_bbox.get_right() + 1;
+
+      return !Sector::get().is_free_of_tiles(Rectf(groundcheck, Sizef(1.f, 1.f)),
+                                             false, Tile::SLOPE) ||
+             result.box.p1().y - eye.y > static_cast<float>(height);
     }
   }
   else
