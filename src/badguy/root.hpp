@@ -20,7 +20,6 @@
 #include "badguy/badguy.hpp"
 #include "supertux/timer.hpp"
 
-//TODO: Roots for all directions
 class Root final : public BadGuy
 {
 public:
