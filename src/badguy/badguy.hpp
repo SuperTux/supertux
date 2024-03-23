@@ -136,6 +136,8 @@ public:
   /** Adds velocity from wind */
   virtual void add_wind_velocity(const Vector& velocity, const Vector& end_speed);
 
+  Physic& get_physic() { return m_physic; }
+
 protected:
   enum State {
     STATE_INIT,

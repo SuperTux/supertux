@@ -215,6 +215,11 @@ BadGuy::update(float dt_sec)
     set_state(STATE_INACTIVE);
   }
 
+  bool in_water = !Sector::get().is_free_of_tiles(get_bbox(), true, Tile::WATER);
+  if (m_physic.gravity_enabled()) {
+    m_physic.set_gravity_modifier(in_water ? 0.3f : 1.f);
+  }
+
   switch (m_state) {
     case STATE_ACTIVE:
       m_is_active_flag = true;
