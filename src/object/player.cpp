@@ -1878,7 +1878,7 @@ Player::add_bonus(BonusType type, bool animate)
 }
 
 bool
-Player::set_bonus(BonusType type, bool animate)
+Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
 {
   if (m_dying) {
     return false;
@@ -1920,10 +1920,14 @@ Player::set_bonus(BonusType type, bool animate)
     m_player_status.max_air_time[get_id()] = 0;
     m_player_status.max_earth_time[get_id()] = 0;
   }
-  if (type == FIRE_BONUS) m_player_status.max_fire_bullets[get_id()]++;
-  if (type == ICE_BONUS) m_player_status.max_ice_bullets[get_id()]++;
-  if (type == AIR_BONUS) m_player_status.max_air_time[get_id()]++;
-  if (type == EARTH_BONUS) m_player_status.max_earth_time[get_id()]++;
+
+  if (increment_powerup_counter)
+  {
+    if (type == FIRE_BONUS) m_player_status.max_fire_bullets[get_id()]++;
+    if (type == ICE_BONUS) m_player_status.max_ice_bullets[get_id()]++;
+    if (type == AIR_BONUS) m_player_status.max_air_time[get_id()]++;
+    if (type == EARTH_BONUS) m_player_status.max_earth_time[get_id()]++;
+  }
 
   if (!m_second_growup_sound_timer.started() &&
      type > GROWUP_BONUS && type != get_bonus())
@@ -2206,7 +2210,7 @@ Player::draw(DrawingContext& context)
   }  // don't draw Tux
 
   else if (m_dying)
-    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_layer() + 1);
+    m_sprite->draw(context.color(), get_pos(), Sector::get().get_foremost_opaque_layer() + 1);
   else
     m_sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
 

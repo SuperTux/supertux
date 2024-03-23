@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SuperTux v0.6.2-963-gb4a1b149f\n"
+"Project-Id-Version: SuperTux v0.6.3-1080-g2e08c1b7f\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgstr ""
 #: data/levels/world2/penguin_grow_trees.stl:467
 #: data/levels/world2/through_dark.stl:361
 #: data/levels/world2/tux_builder.stl:384
-#: data/levels/world2/wooden_roots.stl:279 data/levels/world2/worldmap.stwm:186
+#: data/levels/world2/wooden_roots.stl:285 data/levels/world2/worldmap.stwm:191
 msgid "You found a secret area!"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Ghouls' Lair"
 msgstr ""
 
-#: data/levels/world2/ghouls_lair.stl:849
+#: data/levels/world2/ghouls_lair.stl:859
 msgid ""
 "#Lanterns are used to make magic blocks solid, so you're able to walk atop "
 "of them."
@@ -101,13 +101,13 @@ msgstr ""
 msgid "I Spy With My Little Eye"
 msgstr ""
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:221
+#: data/levels/world2/i_spy_with_my_little_eye.stl:218
 msgid ""
 "-Ispy\n"
 "#Ispys will activate things like platforms whenever Tux is in their sight."
 msgstr ""
 
-#: data/levels/world2/i_spy_with_my_little_eye.stl:595
+#: data/levels/world2/i_spy_with_my_little_eye.stl:674
 msgid "Hint: Use snails to break blocks!"
 msgstr ""
 
@@ -119,7 +119,7 @@ msgstr ""
 msgid "Lost Village"
 msgstr ""
 
-#: data/levels/world2/lost_village.stl:187
+#: data/levels/world2/lost_village.stl:185
 msgid "#Don't forget to hit the switch!"
 msgstr ""
 
@@ -160,10 +160,6 @@ msgid ""
 "#This does not work while jumping or falling!"
 msgstr ""
 
-#: data/levels/world2/tower_cutscene.stl:3
-msgid "Tower Cutscene"
-msgstr ""
-
 #: data/levels/world2/tower_of_ghosts.stl:3
 msgid "Tower Of Ghosts"
 msgstr ""
@@ -185,7 +181,7 @@ msgstr ""
 msgid "Tux' Own Horror Show"
 msgstr ""
 
-#: data/levels/world2/tux_own_horror_show.stl:790
+#: data/levels/world2/tux_own_horror_show.stl:947
 msgid ""
 "#Will o' Wisps are small, annoying ghosts, which transport you to different, "
 "often dangerous places."
@@ -214,6 +210,6 @@ msgstr ""
 msgid "Rooted Forest"
 msgstr ""
 
-#: data/levels/world2/worldmap.stwm:200
+#: data/levels/world2/worldmap.stwm:205
 msgid "To be continued..."
 msgstr ""

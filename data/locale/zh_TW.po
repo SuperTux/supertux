@@ -1064,8 +1064,8 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:79
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "用法： %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "用法： {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid "General Options:"
@@ -1237,8 +1237,8 @@ msgstr ""
 
 #: src/supertux/levelintro.cpp:120
 #, c-format
-msgid "contributed by %s"
-msgstr "貢獻者：%s"
+msgid "contributed by {}"
+msgstr "貢獻者：{}"
 
 #: src/supertux/levelintro.cpp:141 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
@@ -1278,8 +1278,8 @@ msgstr "世界 "
 
 #: src/supertux/menu/addon_menu.cpp:83
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" 由 \"%s\" 設計"
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" 由 \"{}\" 設計"
 
 #: src/supertux/menu/addon_menu.cpp:139
 msgid "Language packs"
@@ -1315,13 +1315,13 @@ msgstr "沒有找到附加元件"
 
 #: src/supertux/menu/addon_menu.cpp:224
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "安裝 %s *新*"
+msgid "Install {} *NEW*"
+msgstr "安裝 {} *新*"
 
 #: src/supertux/menu/addon_menu.cpp:235
 #, c-format
-msgid "Install %s"
-msgstr "安裝 %s"
+msgid "Install {}"
+msgstr "安裝 {}"
 
 #: src/supertux/menu/addon_menu.cpp:246
 msgid "No new Language packs found"
@@ -1360,8 +1360,8 @@ msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:361
 #, c-format
-msgid "Downloading %s"
-msgstr "正在下載 %s"
+msgid "Downloading {}"
+msgstr "正在下載 {}"
 
 #: src/supertux/menu/addon_menu.cpp:408
 msgid ""
@@ -2019,13 +2019,13 @@ msgstr "聖誕節模式"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[設定檔 %s]"
+msgid "[Profile {}]"
+msgstr "[設定檔 {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "設定檔 %s"
+msgid "Profile {}"
+msgstr "設定檔 {}"
 
 #: src/supertux/menu/world_set_menu.cpp:41
 msgid "Story Mode"

@@ -92,6 +92,7 @@ DisplayEffect::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
+  context.transform().scale = 1.f;
 
   if (black || screen_fade != FadeType::NO_FADE) {
     float alpha;
