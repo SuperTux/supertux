@@ -22,6 +22,7 @@
 #include "badguy/mole_rock.hpp"
 #include "math/random.hpp"
 #include "math/util.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
@@ -64,9 +65,13 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 }
 
 bool
-Mole::collision_squished(GameObject& )
+Mole::collision_squished(GameObject& obj)
 {
   set_state(DEAD);
+
+  if (auto player = dynamic_cast<Player*>(&obj))
+    player->bounce(*this);
+
   SoundManager::current()->play("sounds/squish.wav", get_pos());
   run_dead_script();
   return true;
