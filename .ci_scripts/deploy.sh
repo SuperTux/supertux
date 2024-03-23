@@ -16,7 +16,7 @@ for file in upload/SuperTux*; do
     curl --data "apikey=$DOWNLOAD_APIKEY" \
          --data "url=$url" \
          --data "size=$size" \
-         --data "branch=$(git branch --show-current)" \
+         --data "branch=$BRANCH_NAME" \
          --data "shasum=$shasum" \
          -L -s https://download.supertux.org/submit.php
 done
