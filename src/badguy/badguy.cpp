@@ -136,6 +136,19 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
 void
 BadGuy::draw(DrawingContext& context)
 {
+  float x1, x2;
+  float y1 = get_bbox().get_bottom() + 1;
+  float y2 = y1 + 16.f;
+  if (m_dir == Direction::LEFT) {
+    x1 = get_bbox().get_left() - 1;
+    x2 = get_bbox().get_left();
+  } else {
+    x1 = get_bbox().get_right();
+    x2 = get_bbox().get_right() + 1;
+  }
+  const Rectf rect = Rectf(x1, y1, x2, y2);
+  context.color().draw_filled_rect(rect, Color::CYAN, 0, 200);
+
   if (!m_sprite.get()) return;
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
@@ -761,52 +774,24 @@ BadGuy::try_activate()
 bool
 BadGuy::might_fall(int height) const
 {
-  using RaycastResult = CollisionSystem::RaycastResult;
-
-  // Make sure we check for at least a 1-pixel fall.
   assert(height > 0);
 
-  Vector eye, end;
-  eye.y = m_col.m_bbox.get_bottom();
-  end.y = eye.y + 600.f;
-  if (m_dir == Direction::LEFT)
-    eye.x = m_col.m_bbox.get_left() - 1;
-  else
-    eye.x = m_col.m_bbox.get_right() + 1;
-  end.x = eye.x;
-
-  RaycastResult result = Sector::get().get_first_line_intersection(eye, end, true, nullptr);
-
-  auto tile_p = std::get_if<const Tile*>(&result.hit);
-  if (tile_p && !result.box.empty())
-  {
-    std::cout <<"tile " << eye.y
-              <<" "<< result.box.p1().y
-              <<" "<< (result.box.p1().y - eye.y)
-              <<" "<< (static_cast<float>(height))
-              << std::endl;
-    if ((*tile_p)->is_slope())
-      // Only fall if the slope is too far off the ledge
-      return result.box.p1().y - eye.y > 600.f;
-    else
-    {
-      Vector groundcheck;
-      if (m_dir == Direction::RIGHT)
-        groundcheck.x = m_col.m_bbox.get_left() - 1;
-      else
-        groundcheck.x = m_col.m_bbox.get_right() + 1;
-
-      return !Sector::get().is_free_of_tiles(Rectf(groundcheck, Sizef(1.f, 1.f)),
-                                             false, Tile::SLOPE) ||
-             result.box.p1().y - eye.y > static_cast<float>(height);
-    }
+  float x1, x2;
+  float y1 = get_bbox().get_bottom() + 1;
+  float y2 = y1 + static_cast<float>(height);
+  if (m_dir == Direction::LEFT) {
+    x1 = get_bbox().get_left() - 1;
+    x2 = get_bbox().get_left();
+  } else {
+    x1 = get_bbox().get_right();
+    x2 = get_bbox().get_right() + 1;
   }
-  else
-  {
-    return true;
-  }
+  const Rectf rect = Rectf(x1, y1, x2, y2);
 
-  //return Sector::get().is_free_of_statics(rect) && Sector::get().is_free_of_specifically_movingstatics(rect);
+  // Specifying Tile::SLOPE skips the AATriangle checks.
+  return Sector::get().is_free_of_statics(rect, nullptr, false, Tile::SOLID | Tile::UNISOLID | Tile::SLOPE) &&
+         Sector::get().is_free_of_specifically_movingstatics(rect);
+
 }
 
 Player*

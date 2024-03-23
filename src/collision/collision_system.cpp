@@ -675,20 +675,18 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
       for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
-        if (!(tile.get_attributes() & tiletype))
-          continue;
-        if (tile.is_unisolid () && ignoreUnisolid)
-          continue;
-        if (tile.is_slope ()) {
+        if (tile.get_attributes() & tiletype)
+          return false;
+        if (!ignoreUnisolid & tile.is_unisolid())
+          return false;
+        if (tile.is_slope()) {
           AATriangle triangle;
           const Rectf tbbox = solids->get_tile_bbox(x, y);
           triangle = AATriangle(tbbox, tile.get_data());
           Constraints constraints;
           if (!collision::rectangle_aatriangle(&constraints, rect, triangle))
-            continue;
+            return false;
         }
-        // We have a solid tile that overlaps the given rectangle.
-        return false;
       }
     }
   }
@@ -697,11 +695,11 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
 }
 
 bool
-CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid) const
+CollisionSystem::is_free_of_statics(const Rectf& rect, const CollisionObject* ignore_object, const bool ignoreUnisolid, uint32_t tiletype) const
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
+  if (!is_free_of_tiles(rect, ignoreUnisolid, tiletype)) return false;
 
   for (const auto& object : m_objects) {
     if (object == ignore_object) continue;
