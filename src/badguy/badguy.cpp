@@ -138,7 +138,7 @@ BadGuy::draw(DrawingContext& context)
 {
   float x1, x2;
   float y1 = get_bbox().get_bottom() + 1;
-  float y2 = y1 + 16.f;
+  float y2 = y1 + get_bbox().get_width() * 2.f;
   if (m_dir == Direction::LEFT) {
     x1 = get_bbox().get_left() - 1;
     x2 = get_bbox().get_left();
@@ -782,16 +782,39 @@ BadGuy::might_fall(int height) const
   if (m_dir == Direction::LEFT) {
     x1 = get_bbox().get_left() - 1;
     x2 = get_bbox().get_left();
-  } else {
+  }
+  else
+  {
     x1 = get_bbox().get_right();
     x2 = get_bbox().get_right() + 1;
   }
-  const Rectf rect = Rectf(x1, y1, x2, y2);
+  Rectf rect(x1, y1, x2, y2);
 
-  // Specifying Tile::SLOPE skips the AATriangle checks.
-  return Sector::get().is_free_of_statics(rect, nullptr, false, Tile::SOLID | Tile::UNISOLID | Tile::SLOPE) &&
-         Sector::get().is_free_of_specifically_movingstatics(rect);
+  // Is walking on slope
+  Rectf slopecheck(Vector(get_bbox().get_left(), get_bbox().get_bottom()), Sizef(get_bbox().get_width(), 1.f));
+  bool slope = !Sector::get().is_free_of_tiles(slopecheck, false, Tile::SLOPE);
 
+  if (slope)
+  {
+    height = static_cast<int>(get_bbox().get_width() * 1.5f);
+    rect.set_height(static_cast<float>(height));
+    return Sector::get().is_free_of_statics(rect) &&
+           Sector::get().is_free_of_specifically_movingstatics(rect);
+  }
+  else
+  {
+    /*
+     * Some slopes are too steep for badguys with big hitboxes to
+     * recognize they're going down the slope.
+     * This is because the width is so big that the badguy doesn't
+     * finish going down the slope which means the max drop height
+     * becomes insufficient.
+     *
+     * HACK: Specifying Tile::SLOPE skips the AATriangle checks.
+     */
+    return Sector::get().is_free_of_statics(rect, nullptr, false, Tile::SOLID | Tile::SLOPE) &&
+           Sector::get().is_free_of_specifically_movingstatics(rect);
+  }
 }
 
 Player*
