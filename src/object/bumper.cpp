@@ -16,6 +16,7 @@
 #include "object/bumper.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/badguy.hpp"
 #include "object/player.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
@@ -92,6 +93,16 @@ Bumper::collision(GameObject& other, const CollisionHit& hit)
     SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
     set_action("swinging", m_dir, 1);
   }
+
+  auto badguy = dynamic_cast<BadGuy*> (&other);
+  if (badguy)
+  {
+    float BOUNCE_DIR = (m_dir == Direction::LEFT) ? -400.f : 400.f;
+    badguy->get_physic().set_velocity(BOUNCE_DIR, 0.f);
+    SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+    set_action("swinging", m_dir, 1);
+  }
+
   auto bumper = dynamic_cast<Bumper*> (&other);
   if (bumper)
   {
