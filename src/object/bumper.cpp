@@ -17,6 +17,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -32,10 +33,12 @@ const float BOUNCE_X = 700.0f;
 Bumper::Bumper(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
-  m_dir(Direction::RIGHT)
+  m_dir(Direction::RIGHT),
+  m_original_pos()
 {
   std::string dir_str;
   bool old_facing_left = false;
+  m_original_pos = get_pos();
 
   if (reader.get("direction", dir_str))
     m_dir = string_to_dir(dir_str);
@@ -60,6 +63,20 @@ Bumper::update(float dt_sec)
 {
   if (m_sprite->animation_done())
     set_action("normal", m_dir);
+
+  Rectf smallbox = get_bbox().grown(1.f);
+
+  for (auto& rock : Sector::get().get_objects_by_type<Rock>()) {
+    if (smallbox.overlaps(rock.get_bbox()))
+    {
+      float BOUNCE_DIR = m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X;
+      rock.get_physic().set_velocity(BOUNCE_DIR * 0.7f, BOUNCE_Y * 0.6f);
+      SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+      m_sprite->set_action("swinging", m_dir, 1);
+      set_pos(m_original_pos);
+    }
+  }
+
   m_col.set_movement(m_physic.get_movement (dt_sec));
 }
 
