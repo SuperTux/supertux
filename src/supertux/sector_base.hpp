@@ -19,6 +19,8 @@
 
 #include "supertux/game_object_manager.hpp"
 
+#include <map>
+
 #include "squirrel/squirrel_environment.hpp"
 
 class Level;
@@ -47,6 +49,8 @@ public:
 
   void set_init_script(const std::string& init_script) { m_init_script = init_script; }
   void run_script(const std::string& script, const std::string& sourcename);
+  void run_script(const std::string& script, const std::string& sourcename,
+                  const GameObject& object, std::map<std::string, std::string> triggers);
 
 protected:
   virtual bool before_object_add(GameObject& object) override;

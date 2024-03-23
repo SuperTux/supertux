@@ -129,6 +129,46 @@ SquirrelEnvironment::run_script(const std::string& script, const std::string& so
 }
 
 void
+SquirrelEnvironment::create_reference(const std::string& name, const std::string& ref_name,
+                                      const std::string& ref_table, const std::string& ref_sub_table)
+{
+  const SQInteger old_top = sq_gettop(m_vm.get_vm());
+
+  sq_pushobject(m_vm.get_vm(), m_table);
+  sq_pushstring(m_vm.get_vm(), name.c_str(), -1);
+  if (SQ_FAILED(sq_get(m_vm.get_vm(), -2)))
+  {
+    log_warning << "Failed to get entry '" << name << "' from '" << m_name << "'. "
+                << "Cannot create reference." << std::endl;
+  }
+  else
+  {
+    const SQInteger entry_top = sq_gettop(m_vm.get_vm());
+
+    sq_pushobject(m_vm.get_vm(), m_table);
+    m_vm.get_or_create_table_entry(ref_table);
+    if (!ref_sub_table.empty())
+      m_vm.get_or_create_table_entry(ref_sub_table);
+
+    sq_pushstring(m_vm.get_vm(), ref_name.c_str(), -1);
+    sq_weakref(m_vm.get_vm(), entry_top);
+    if (SQ_FAILED(sq_createslot(m_vm.get_vm(), -3)))
+      log_warning << "Unable to create reference to entry '" << name << "' from '" << m_name << "'." << std::endl;
+  }
+
+  sq_settop(m_vm.get_vm(), old_top);
+}
+
+void
+SquirrelEnvironment::modify_table(const std::function<void(SquirrelVM&)>& function)
+{
+  const SQInteger old_top = sq_gettop(m_vm.get_vm());
+  sq_pushobject(m_vm.get_vm(), m_table);
+  function(m_vm);
+  sq_settop(m_vm.get_vm(), old_top);
+}
+
+void
 SquirrelEnvironment::garbage_collect()
 {
   m_scripts.erase(
