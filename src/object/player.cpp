@@ -793,8 +793,8 @@ Player::update(float dt_sec)
 
     //if you stop holding down when sliding, then it stops.
     //or, stop sliding if you come to a stop and are not on a slope.
-
-    if (!m_controller->hold(Control::DOWN) || (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f))
+    if (!m_controller->hold(Control::DOWN) ||
+      (m_floor_normal.y == 0.f && std::abs(m_physic.get_velocity_x()) <= 1.f))
     {
       if (is_big())
       {
