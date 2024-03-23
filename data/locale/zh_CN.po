@@ -1179,8 +1179,8 @@ msgstr "未知对象"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "用法： %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "用法： {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
@@ -1806,13 +1806,13 @@ msgstr "调整大小"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
-msgid "[Profile %s]"
-msgstr "[配置文件 %s]"
+msgid "[Profile {}]"
+msgstr "[配置文件 {}]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "Profile %s"
-msgstr "配置文件 %s"
+msgid "Profile {}"
+msgstr "配置文件 {}"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 #: src/supertux/menu/editor_new_levelset_menu.cpp:35
@@ -1844,8 +1844,8 @@ msgstr "未知"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" by \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" by \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -1857,13 +1857,13 @@ msgstr "没有找到扩展"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "安装 %s *NEW*"
+msgid "Install {} *NEW*"
+msgstr "安装 {} *NEW*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "安装 %s"
+msgid "Install {}"
+msgstr "安装 {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -1883,8 +1883,8 @@ msgstr "正在下载扩展源索引"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "正在下载 %s"
+msgid "Downloading {}"
+msgstr "正在下载 {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -2300,8 +2300,8 @@ msgstr "了解！"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "由 %s 贡献"
+msgid "contributed by {}"
+msgstr "由 {} 贡献"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

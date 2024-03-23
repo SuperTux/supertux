@@ -128,7 +128,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
     {
       for (const auto& p : m_currentsector->get_players())
       {
-        p->set_bonus(m_boni_at_start.at(p->get_id()));
+        p->set_bonus(m_boni_at_start.at(p->get_id()), false, false);
         m_boni_at_start[p->get_id()] = currentStatus.bonus[p->get_id()];
       }
     }

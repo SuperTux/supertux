@@ -1772,8 +1772,8 @@ msgstr "Нажмите Escape для пропуска"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Использование: %s [ПАРАМЕТРЫ] [ФАЙЛ_УРОВНЯ]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Использование: {} [ПАРАМЕТРЫ] [ФАЙЛ_УРОВНЯ]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2498,13 +2498,13 @@ msgstr "Изменить размер"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Учётная запись %s]"
+msgid "[Profile {}]"
+msgstr "[Учётная запись {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Учётная запись %s"
+msgid "Profile {}"
+msgstr "Учётная запись {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2552,8 +2552,8 @@ msgstr "Неизвестно"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s %s от %s"
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} {} от {}"
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2565,13 +2565,13 @@ msgstr "Дополнения не найдены"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Установить %s *НОВИНКА*"
+msgid "Install {} *NEW*"
+msgstr "Установить {} *НОВИНКА*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Установить %s"
+msgid "Install {}"
+msgstr "Установить {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2591,8 +2591,8 @@ msgstr "Загрузка индекса сетевого хранилища до
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Загружается %s"
+msgid "Downloading {}"
+msgstr "Загружается {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3105,8 +3105,8 @@ msgstr "Нельзя удалить уровень, который вы реда
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "автор: %s"
+msgid "contributed by {}"
+msgstr "автор: {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

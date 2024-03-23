@@ -1776,8 +1776,8 @@ msgstr "スキップするにはエスケープキーを押してください"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "使用法: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "使用法: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2499,13 +2499,13 @@ msgstr "サイズ変更"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[プロファイル %s]"
+msgid "[Profile {}]"
+msgstr "[プロファイル {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "プロファイル %s"
+msgid "Profile {}"
+msgstr "プロファイル {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2553,8 +2553,8 @@ msgstr "不明"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" 作成者: \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" 作成者: \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2566,13 +2566,13 @@ msgstr "アドオンが見つかりませんでした"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "%s をインストール *新規*"
+msgid "Install {} *NEW*"
+msgstr "{} をインストール *新規*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "%s をインストール"
+msgid "Install {}"
+msgstr "{} をインストール"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2592,8 +2592,8 @@ msgstr "アドオンのレポジトリのインデックスをダウンロード
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "%s をダウンロードしています"
+msgid "Downloading {}"
+msgstr "{} をダウンロードしています"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3106,8 +3106,8 @@ msgstr "編集中のレベルは削除できません。"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "%s さんの作品"
+msgid "contributed by {}"
+msgstr "{} さんの作品"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

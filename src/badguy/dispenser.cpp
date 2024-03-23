@@ -351,7 +351,7 @@ Dispenser::set_correct_action()
   switch (m_type)
   {
     case DispenserType::CANNON:
-      set_action(m_dir);
+      set_action(m_start_dir);
       break;
     case DispenserType::POINT:
       set_colgroup_active(COLGROUP_DISABLED);
@@ -372,7 +372,12 @@ Dispenser::on_type_change(int old_type)
     if (m_type == GRANITO) // Switching to type GRANITO
       add_object(GameObjectFactory::instance().create("corrupted_granito"));
   }
+}
 
+void
+Dispenser::after_editor_set()
+{
+  BadGuy::after_editor_set();
   set_correct_action();
 }
 

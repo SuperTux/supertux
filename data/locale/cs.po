@@ -1776,8 +1776,8 @@ msgstr "Přeskoč stiskem ESC"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Použití: %s [OPTIONS] [LEVELFILE]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Použití: {} [OPTIONS] [LEVELFILE]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2502,13 +2502,13 @@ msgstr "Změnit velikost"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2556,8 +2556,8 @@ msgstr "Neznámý"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" od autora \"%s\""
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} \"{}\" od autora \"{}\""
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2569,13 +2569,13 @@ msgstr "Nebyly nalezeny žádné doplňky"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Instalovat %s *NOVÝ*"
+msgid "Install {} *NEW*"
+msgstr "Instalovat {} *NOVÝ*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Instalovat %s"
+msgid "Install {}"
+msgstr "Instalovat {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2595,8 +2595,8 @@ msgstr "Stahuji informace o doplňcích"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Stahuji %s"
+msgid "Downloading {}"
+msgstr "Stahuji {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3109,8 +3109,8 @@ msgstr "Nemůžeš odstranit úroveň, která je právě otevřena!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "příspěl/a %s"
+msgid "contributed by {}"
+msgstr "příspěl/a {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"
