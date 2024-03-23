@@ -47,6 +47,7 @@ private:
   Physic m_physic;
 
   Direction m_dir;
+  Vector m_original_pos;
 
 private:
   Bumper(const Bumper&) = delete;

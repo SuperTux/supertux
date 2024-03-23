@@ -127,8 +127,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
             vy = VY_INITIAL - 40;
         }
         player->get_physic().set_velocity_y(vy);
-        SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
-        set_action("swinging", 1);
+        bounce();
         return FORCE_MOVE;
       }
     }
@@ -161,6 +160,13 @@ bool
 Trampoline::is_portable() const
 {
   return Rock::is_portable() && m_type == PORTABLE;
+}
+
+void
+Trampoline::bounce()
+{
+  SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
+  m_sprite->set_action("swinging", 1);
 }
 
 /* EOF */
