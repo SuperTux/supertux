@@ -50,12 +50,12 @@ Level_spawn_transition(const std::string& sector, const std::string& spawnpoint,
 {
   SCRIPT_GUARD_GAMESESSION();
 
-  GameSession::FadeType fade_type = GameSession::FadeType::NONE;
+  ScreenFade::FadeType fade_type = ScreenFade::FadeType::NONE;
 
   if (transition == "fade")
-    fade_type = GameSession::FadeType::FADE;
+    fade_type = ScreenFade::FadeType::FADE;
   else if (transition == "circle")
-    fade_type = GameSession::FadeType::CIRCLE;
+    fade_type = ScreenFade::FadeType::CIRCLE;
 
   game_session.respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f});
 }

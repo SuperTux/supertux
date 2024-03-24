@@ -67,7 +67,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_activated_checkpoint(),
   m_newsector(),
   m_newspawnpoint(),
-  m_spawn_fade_type(FadeType::NONE),
+  m_spawn_fade_type(ScreenFade::FadeType::NONE),
   m_spawn_fade_point(0.0f, 0.0f),
   m_spawn_fade_timer(),
   m_spawn_with_invincibilty(false),
@@ -496,7 +496,7 @@ GameSession::update(float dt_sec, const Controller& controller)
   check_end_conditions();
 
   // Respawning in new sector?
-  if (!m_newsector.empty() && !m_newspawnpoint.empty() && (m_spawn_fade_timer.check() || m_spawn_fade_type == FadeType::NONE)) {
+  if (!m_newsector.empty() && !m_newspawnpoint.empty() && (m_spawn_fade_timer.check() || m_spawn_fade_type == ScreenFade::FadeType::NONE)) {
     auto sector = m_level->get_sector(m_newsector);
     std::string current_music = m_currentsector->get_singleton_by_type<MusicObject>().get_music();
     if (sector == nullptr) {
@@ -517,22 +517,21 @@ GameSession::update(float dt_sec, const Controller& controller)
 
     switch (m_spawn_fade_type)
     {
-    case FadeType::FADE:
-    {
-      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, FADE_TIME));
-      break;
-    }
-    case FadeType::CIRCLE:
-    {
-      const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
-      const Vector shrinkpos = spawn_point_position - sector->get_camera().get_translation();
+      case ScreenFade::FadeType::FADE:
+      {
+        ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, FADE_TIME));
+        break;
+      }
+      case ScreenFade::FadeType::CIRCLE:
+      {
+        const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
+        const Vector shrinkpos = spawn_point_position - sector->get_camera().get_translation();
 
-      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEIN));
-      break;
-    }
-    case FadeType::NONE:
-    default:
-      break;
+        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEIN));
+        break;
+      }
+      default:
+        break;
     }
 
     if (m_spawn_with_invincibilty)
@@ -669,8 +668,8 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 void
 GameSession::respawn_with_fade(const std::string& sector,
                                const std::string& spawnpoint,
-                               const FadeType fade_type,
-                               const Vector fade_point,
+                               const ScreenFade::FadeType fade_type,
+                               const Vector& fade_point,
                                const bool make_invincible)
 {
   respawn(sector, spawnpoint);
@@ -683,22 +682,21 @@ GameSession::respawn_with_fade(const std::string& sector,
 
   switch (m_spawn_fade_type)
   {
-  case FadeType::FADE:
-  {
-    ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, FADE_TIME));
-    break;
-  }
-  case FadeType::CIRCLE:
-  {
-    const bool is_fade_point_valid = fade_point.x != 0.0f && fade_point.y != 0.0f;
-    const Vector shrinkpos = (is_fade_point_valid ? fade_point : get_fade_point()) - Sector::current()->get_camera().get_translation();
+    case ScreenFade::FadeType::FADE:
+    {
+      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, FADE_TIME));
+      break;
+    }
+    case ScreenFade::FadeType::CIRCLE:
+    {
+      const bool is_fade_point_valid = fade_point.x != 0.0f && fade_point.y != 0.0f;
+      const Vector shrinkpos = (is_fade_point_valid ? fade_point : get_fade_point()) - Sector::current()->get_camera().get_translation();
 
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEOUT));
-    break;
-  }
-  case FadeType::NONE:
-  default:
-    break;
+      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEOUT));
+      break;
+    }
+    default:
+      break;
   }
 
 }

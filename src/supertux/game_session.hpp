@@ -34,6 +34,7 @@
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
 #include "video/surface_ptr.hpp"
+#include "supertux/screen_fade.hpp"
 
 class CodeController;
 class DrawingContext;
@@ -76,13 +77,6 @@ private:
   };
 
 public:
-  enum class FadeType
-  {
-    NONE,
-    FADE,
-    CIRCLE
-  };
-
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = nullptr,
               bool preserve_music = false);
 
@@ -97,8 +91,8 @@ public:
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
   void respawn_with_fade(const std::string& sectorname,
                          const std::string& spawnpointname,
-                         const FadeType fade_type,
-                         const Vector fade_point,
+                         const ScreenFade::FadeType fade_type,
+                         const Vector &fade_point,
                          const bool make_invincible = false);
   void reset_level();
 
@@ -178,7 +172,7 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;
   std::string m_newspawnpoint;
-  FadeType m_spawn_fade_type;
+  ScreenFade::FadeType m_spawn_fade_type;
   Vector m_spawn_fade_point;
   Timer m_spawn_fade_timer;
   bool m_spawn_with_invincibilty;
