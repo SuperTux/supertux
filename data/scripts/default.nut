@@ -8,6 +8,7 @@ Level <- {
   finish=Level_finish,
   has_active_sequence=Level_has_active_sequence,
   spawn=Level_spawn,
+  spawn_transition=Level_spawn_transition,
   set_start_point=Level_set_start_point,
   set_start_pos=Level_set_start_pos,
   set_respawn_point=Level_set_respawn_point,

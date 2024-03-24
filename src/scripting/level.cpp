@@ -46,6 +46,21 @@ Level_spawn(const std::string& sector, const std::string& spawnpoint)
 }
 
 void
+Level_spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition)
+{
+  SCRIPT_GUARD_GAMESESSION();
+
+  GameSession::FadeType fade_type = GameSession::FadeType::NONE;
+
+  if (transition == "fade")
+    fade_type = GameSession::FadeType::FADE;
+  else if (transition == "circle")
+    fade_type = GameSession::FadeType::CIRCLE;
+
+  game_session.respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f});
+}
+
+void
 Level_set_start_point(const std::string& sector, const std::string& spawnpoint)
 {
   SCRIPT_GUARD_GAMESESSION();
