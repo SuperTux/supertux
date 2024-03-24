@@ -206,7 +206,11 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
           }
 
           if (!m_target_sector.empty() ) {
-            GameSession::current()->respawn_with_fade(m_target_sector, m_target_spawnpoint, GameSession::FadeType::CIRCLE, get_bbox().get_middle());
+            GameSession::current()->respawn_with_fade(m_target_sector,
+                                                      m_target_spawnpoint,
+                                                      GameSession::FadeType::CIRCLE,
+                                                      get_bbox().get_middle(),
+                                                      true);
           }
         }
       }

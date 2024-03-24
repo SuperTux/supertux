@@ -70,6 +70,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_spawn_fade_type(FadeType::NONE),
   m_spawn_fade_point(0.0f, 0.0f),
   m_spawn_fade_timer(),
+  m_spawn_with_invincibilty(false),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
@@ -117,6 +118,7 @@ GameSession::reset_level()
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
   m_pause_target_timer = false;
+  m_spawn_with_invincibilty = false;
 }
 
 int
@@ -147,6 +149,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   m_game_pause   = false;
   m_end_sequence = nullptr;
   m_endsequence_timer.stop();
+  m_spawn_with_invincibilty = false;
 
   InputManager::current()->reset();
 
@@ -532,6 +535,15 @@ GameSession::update(float dt_sec, const Controller& controller)
       break;
     }
 
+    if (m_spawn_with_invincibilty)
+    {
+      for (auto* p : m_currentsector->get_players())
+      {
+        // Make all players temporarily safe after spawning
+        p->make_temporarily_safe();
+      }
+    }
+
     m_newsector = "";
     m_newspawnpoint = "";
   }
@@ -651,15 +663,21 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 {
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
+  m_spawn_with_invincibilty = false;
 }
 
 void
-GameSession::respawn_with_fade(const std::string& sector, const std::string& spawnpoint, const FadeType fade_type, const Vector fade_point)
+GameSession::respawn_with_fade(const std::string& sector,
+                               const std::string& spawnpoint,
+                               const FadeType fade_type,
+                               const Vector fade_point,
+                               const bool make_invincible)
 {
   respawn(sector, spawnpoint);
 
   m_spawn_fade_type = fade_type;
   m_spawn_fade_point = fade_point;
+  m_spawn_with_invincibilty = make_invincible;
 
   m_spawn_fade_timer.start(FADE_TIME);
 

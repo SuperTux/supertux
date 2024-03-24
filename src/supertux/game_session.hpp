@@ -95,7 +95,11 @@ public:
   /** ends the current level */
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
-  void respawn_with_fade(const std::string& sectorname, const std::string& spawnpointname, const FadeType fade_type, const Vector fade_point);
+  void respawn_with_fade(const std::string& sectorname,
+                         const std::string& spawnpointname,
+                         const FadeType fade_type,
+                         const Vector fade_point,
+                         const bool make_invincible = false);
   void reset_level();
 
   void set_start_point(const std::string& sectorname,
@@ -177,6 +181,7 @@ private:
   FadeType m_spawn_fade_type;
   Vector m_spawn_fade_point;
   Timer m_spawn_fade_timer;
+  bool m_spawn_with_invincibilty;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;
