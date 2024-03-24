@@ -27,12 +27,12 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const float ROOT_SAPLING_RANGE = 32.f*20;
+static const float ROOT_SAPLING_RANGE = 32.f * 20;
 static const float ROOT_SAPLING_SPAWN_TIME = 2.f;
 
 RootSapling::RootSapling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP,
-         LAYER_TILES-15, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
+         LAYER_TILES - 15, "images/creatures/mole/corrupted/core_glow/core_glow.sprite"),
   m_root_timer(),
   m_dead(false)
 {
@@ -84,15 +84,15 @@ RootSapling::collision_squished(GameObject& object)
   set_colgroup_active(COLGROUP_DISABLED);
 
   auto player = dynamic_cast<Player*>(&object);
-  if (player) {
+  if (player)
     player->bounce(*this);
-  }
 
   run_dead_script();
   return true;
 }
 
-HitResponse RootSapling::collision_player(Player &player, const CollisionHit &hit)
+HitResponse
+RootSapling::collision_player(Player& player, const CollisionHit& hit)
 {
   if (m_dir != Direction::DOWN || !hit.bottom)
     return BadGuy::collision_player(player, hit);
@@ -158,9 +158,9 @@ RootSapling::summon_root()
     (*axis) = player->get_bbox().get_bottom() + 1;
 
     bool should_summon = false;
-    for (TileMap* map : Sector::get().get_solid_tilemaps())
+    for (TileMap* tilemap : Sector::get().get_solid_tilemaps())
     {
-      const Tile& tile = map->get_tile_at(pos);
+      const Tile& tile = tilemap->get_tile_at(pos);
       if (tile.is_solid())
       {
         should_summon = true;
@@ -177,23 +177,23 @@ RootSapling::summon_root()
     switch (m_dir)
     {
       case Direction::UP:
-        eye = {player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1};
-        end = {eye.x, eye.y + ROOT_SAPLING_RANGE};
+        eye = { player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1 };
+        end = { eye.x, eye.y + ROOT_SAPLING_RANGE };
         break;
 
       case Direction::DOWN:
-        eye = {player->get_bbox().get_middle().x, player->get_bbox().get_top() - 1};
-        end = {eye.x, eye.y - ROOT_SAPLING_RANGE};
+        eye = { player->get_bbox().get_middle().x, player->get_bbox().get_top() - 1 };
+        end = { eye.x, eye.y - ROOT_SAPLING_RANGE };
         break;
 
       case Direction::LEFT:
-        eye = {player->get_bbox().get_right() + 1, player->get_bbox().get_middle().y};
-        end = {eye.x + ROOT_SAPLING_RANGE, eye.y};
+        eye = { player->get_bbox().get_right() + 1, player->get_bbox().get_middle().y };
+        end = { eye.x + ROOT_SAPLING_RANGE, eye.y };
         break;
 
       case Direction::RIGHT:
-        eye = {player->get_bbox().get_left() - 1, player->get_bbox().get_middle().y};
-        end = {eye.x - ROOT_SAPLING_RANGE, eye.y};
+        eye = { player->get_bbox().get_left() - 1, player->get_bbox().get_middle().y };
+        end = { eye.x - ROOT_SAPLING_RANGE, eye.y };
         break;
 
       default: assert(false); break;
@@ -204,37 +204,33 @@ RootSapling::summon_root()
                            reverse_raycast(eye, end);
 
     auto tile_p = std::get_if<const Tile*>(&result.hit);
-    if (tile_p && !result.box.empty())
-    {
-      switch (m_dir)
-      {
-        case Direction::UP:
-        case Direction::DOWN:
-          if ((*tile_p)->is_unisolid())
-            return;
-          (*axis) = result.box.p1().y;
-          break;
-
-        case Direction::LEFT:
-        case Direction::RIGHT:
-          if ((*tile_p)->is_unisolid())
-            return;
-          (*axis) = result.box.p1().x;
-          break;
-
-        /*
-        case Direction::DOWN:
-        case Direction::RIGHT:
-          (*axis) = reverse_raycast(result.box);
-          break;
-        */
-
-        default: assert(false); break;
-      }
-    }
-    else
-    {
+    if (!tile_p || result.box.empty())
       return;
+
+    switch (m_dir)
+    {
+      case Direction::UP:
+      case Direction::DOWN:
+        if ((*tile_p)->is_unisolid())
+          return;
+        (*axis) = result.box.p1().y;
+        break;
+
+      case Direction::LEFT:
+      case Direction::RIGHT:
+        if ((*tile_p)->is_unisolid())
+          return;
+        (*axis) = result.box.p1().x;
+        break;
+
+      /*
+      case Direction::DOWN:
+      case Direction::RIGHT:
+        (*axis) = reverse_raycast(result.box);
+        break;
+      */
+
+      default: assert(false); break;
     }
   }
 
@@ -280,22 +276,22 @@ RootSapling::summon_root()
 bool
 RootSapling::should_summon_root(const Rectf& bbox)
 {
-  for (const auto& solids : Sector::get().get_solid_tilemaps()) {
+  for (const auto& solids : Sector::get().get_solid_tilemaps())
+  {
     if (solids->get_path())
-      // Do not support moving tilemaps. Not planned.
-      continue;
+      continue; // Do not support moving tilemaps. Not planned.
 
     // Test with all tiles in the root's hitbox
     const Rect test_tiles = solids->get_tiles_overlapping(bbox);
 
-    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
-      for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
+    for (int x = test_tiles.left; x < test_tiles.right; ++x)
+    {
+      for (int y = test_tiles.top; y < test_tiles.bottom; ++y)
+      {
         const Tile& tile = solids->get_tile(x, y);
 
         if (!(tile.get_attributes() & Tile::SOLID))
-        {
           goto next_tilemap;
-        }
       }
     }
 

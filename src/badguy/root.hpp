@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_ROOT_HPP
 
 #include "badguy/badguy.hpp"
+
 #include "supertux/timer.hpp"
 
 class Root final : public BadGuy
@@ -28,9 +29,9 @@ public:
        float delay = -1, bool play_sound = true);
 
   virtual void initialize() override;
-  virtual void draw(DrawingContext &context) override;
+  virtual void draw(DrawingContext& context) override;
   virtual void active_update(float dt_sec) override;
-  virtual HitResponse collision_badguy(BadGuy &other, const CollisionHit &hit) override;
+  virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
   virtual void kill_fall() override;
 
   static std::string class_name() { return "root"; }
@@ -40,21 +41,26 @@ public:
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
-  virtual bool is_snipable () const override { return false; }
+  virtual bool is_snipable() const override { return false; }
 
   virtual std::vector<Direction> get_allowed_directions() const override;
 
 private:
-  enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
-
   void construct(float delay = -1, bool play_sound = true);
 
+  enum State { STATE_HATCHING, STATE_APPEARING, STATE_RETREATING };
+
+private:
   SurfacePtr m_base_surface;
   Timer m_timer;
   State m_state;
   float m_delay;
   float m_maxheight;
   bool m_play_sound;
+
+private:
+  Root(const Root&) = delete;
+  Root& operator=(const Root&) = delete;
 };
 
 #endif

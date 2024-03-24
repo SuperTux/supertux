@@ -124,8 +124,7 @@ public:
   Blend get_blend() const;
 
   bool has_action (const std::string& name) const { return (m_data.get_action(name) != nullptr); }
-
-  std::size_t get_actions_count() { return m_data.actions.size(); }
+  size_t get_actions_count() const { return m_data.actions.size(); }
 
 private:
   void update();

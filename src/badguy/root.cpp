@@ -19,8 +19,8 @@
 #include "audio/sound_manager.hpp"
 #include "math/random.hpp"
 #include "object/sprite_particle.hpp"
-#include "util/reader_mapping.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 static const float HATCH_TIME = 0.7f;
 static const float APPEAR_TIME = 0.5f;
@@ -29,6 +29,7 @@ static const float RETREAT_TIME = 1.f;
 Root::Root(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/corrupted/root.sprite" , LAYER_TILES-10),
   m_base_surface(nullptr),
+  m_timer(),
   m_state(STATE_HATCHING),
   m_delay(HATCH_TIME),
   m_maxheight(0.f),
@@ -41,8 +42,9 @@ Root::Root(const ReaderMapping& reader) :
 
 Root::Root(const Vector& pos, Direction dir, const std::string& sprite,
            float delay, bool play_sound) :
-  BadGuy(pos, dir, sprite, LAYER_TILES-10),
+  BadGuy(pos, dir, sprite, LAYER_TILES - 10),
   m_base_surface(nullptr),
+  m_timer(),
   m_state(STATE_HATCHING),
   m_delay(delay == -1 ? HATCH_TIME : delay),
   m_maxheight(0.f),
@@ -133,7 +135,7 @@ Root::initialize()
 }
 
 void
-Root::draw(DrawingContext &context)
+Root::draw(DrawingContext& context)
 {
   BadGuy::draw(context);
 
@@ -252,7 +254,7 @@ Root::active_update(float dt_sec)
 }
 
 HitResponse
-Root::collision_badguy(BadGuy &other, const CollisionHit &hit)
+Root::collision_badguy(BadGuy& other, const CollisionHit& hit)
 {
   if (other.get_group() == COLGROUP_MOVING && other.is_snipable())
   {
