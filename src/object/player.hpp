@@ -173,7 +173,7 @@ public:
   void override_velocity() { m_velocity_override = true; }
 
   bool is_dead() const { return m_dead; }
-  bool is_big() const { return get_bonus() != NO_BONUS; };
+  bool is_big() const { return get_bonus() != NO_BONUS; }
   bool is_stone() const { return m_stone; }
   bool is_sliding() const { return m_sliding; }
   bool is_swimming() const { return m_swimming; }
