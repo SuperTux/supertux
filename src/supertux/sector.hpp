@@ -102,7 +102,8 @@ public:
       1.) solid tiles and
       2.) MovingObjects in COLGROUP_STATIC.
       Note that this does not include badguys or players. */
-  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr, const bool ignoreUnisolid = false) const;
+  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = nullptr,
+                          const bool ignoreUnisolid = false, uint32_t tiletype = Tile::SOLID) const;
 
   /** Checks if the specified rectangle is free of both
       1.) solid tiles and

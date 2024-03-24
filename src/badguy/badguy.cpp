@@ -136,6 +136,19 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
 void
 BadGuy::draw(DrawingContext& context)
 {
+  float x1, x2;
+  float y1 = get_bbox().get_bottom() + 1;
+  float y2 = y1 + get_bbox().get_width() * 2.f;
+  if (m_dir == Direction::LEFT) {
+    x1 = get_bbox().get_left() - 1;
+    x2 = get_bbox().get_left();
+  } else {
+    x1 = get_bbox().get_right();
+    x2 = get_bbox().get_right() + 1;
+  }
+  const Rectf rect = Rectf(x1, y1, x2, y2);
+  context.color().draw_filled_rect(rect, Color::CYAN, 0, 200);
+
   if (!m_sprite.get()) return;
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
@@ -761,23 +774,47 @@ BadGuy::try_activate()
 bool
 BadGuy::might_fall(int height) const
 {
-  // Make sure we check for at least a 1-pixel fall.
   assert(height > 0);
 
-  float x1;
-  float x2;
-  float y1 = m_col.m_bbox.get_bottom() + 1;
-  float y2 = m_col.m_bbox.get_bottom() + 1 + static_cast<float>(height);
+  float x1, x2;
+  float y1 = get_bbox().get_bottom() + 1;
+  float y2 = y1 + static_cast<float>(height);
   if (m_dir == Direction::LEFT) {
-    x1 = m_col.m_bbox.get_left() - 1;
-    x2 = m_col.m_bbox.get_left();
-  } else {
-    x1 = m_col.m_bbox.get_right();
-    x2 = m_col.m_bbox.get_right() + 1;
+    x1 = get_bbox().get_left() - 1;
+    x2 = get_bbox().get_left();
   }
-  const Rectf rect = Rectf(x1, y1, x2, y2);
+  else
+  {
+    x1 = get_bbox().get_right();
+    x2 = get_bbox().get_right() + 1;
+  }
+  Rectf rect(x1, y1, x2, y2);
 
-  return Sector::get().is_free_of_statics(rect) && Sector::get().is_free_of_specifically_movingstatics(rect);
+  // Is walking on slope
+  Rectf slopecheck(Vector(get_bbox().get_left(), get_bbox().get_bottom()), Sizef(get_bbox().get_width(), 1.f));
+  bool slope = !Sector::get().is_free_of_tiles(slopecheck, false, Tile::SLOPE);
+
+  if (slope)
+  {
+    height = static_cast<int>(get_bbox().get_width() * 1.5f);
+    rect.set_height(static_cast<float>(height));
+    return Sector::get().is_free_of_statics(rect) &&
+           Sector::get().is_free_of_specifically_movingstatics(rect);
+  }
+  else
+  {
+    /*
+     * Some slopes are too steep for badguys with big hitboxes to
+     * recognize they're going down the slope.
+     * This is because the width is so big that the badguy doesn't
+     * finish going down the slope which means the max drop height
+     * becomes insufficient.
+     *
+     * HACK: Specifying Tile::SLOPE skips the AATriangle checks.
+     */
+    return Sector::get().is_free_of_statics(rect, nullptr, false, Tile::SOLID | Tile::SLOPE) &&
+           Sector::get().is_free_of_specifically_movingstatics(rect);
+  }
 }
 
 Player*
