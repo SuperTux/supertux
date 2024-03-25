@@ -3115,6 +3115,11 @@ msgstr "No se puede borrar el nivel en el que estás trabajando."
 msgid "contributed by {}"
 msgstr "aportado por {}"
 
+#: src/editor/object_settings.cpp:320
+#, c-format
+msgid "by %s"
+msgstr "de %s"
+
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"
 msgstr "Malotes destruidos"

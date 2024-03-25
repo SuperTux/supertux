@@ -16,6 +16,7 @@
 
 #include "gui/menu.hpp"
 
+#include "audio/sound_file.hpp"
 #include "control/input_manager.hpp"
 #include "gui/item_action.hpp"
 #include "gui/item_back.hpp"
@@ -47,12 +48,15 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "util/file_system.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
 #include "supertux/error_handler.hpp"
+
+static const float HELP_MARGIN_Y = 16.f;
 
 Menu::Menu() :
   m_pos(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f,
@@ -284,13 +288,14 @@ Menu::add_string_select(int id, const std::string& text, int default_item, const
 ItemAction&
 Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions,
                const std::string& basedir, bool path_relative_to_basedir,
-               const std::function<void (MenuItem&)>& item_processor, int id)
+               const std::function<void (MenuItem&)>& item_processor,
+               const std::function<std::string(std::string)>& generate_help_text_for_file, int id)
 {
   auto item = std::make_unique<ItemAction>(text, id,
-    [input, extensions, basedir, path_relative_to_basedir, item_processor]()
+    [input, extensions, basedir, path_relative_to_basedir, item_processor, generate_help_text_for_file]()
     {
       MenuManager::instance().push_menu(std::make_unique<FileSystemMenu>(input, extensions, basedir,
-          path_relative_to_basedir, nullptr, item_processor));
+          path_relative_to_basedir, nullptr, item_processor, generate_help_text_for_file));
     });
   auto item_ptr = item.get();
   add_item(std::move(item));
@@ -601,9 +606,9 @@ Menu::draw(DrawingContext& context)
     const int text_height = static_cast<int>(Resources::normal_font->get_text_height(m_items[m_active_item]->get_help()));
 
     const Rectf text_rect(m_pos.x - static_cast<float>(text_width) / 2.0f - 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f - 4.0f,
+                          static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y - static_cast<float>(text_height) - 4.0f,
                           m_pos.x + static_cast<float>(text_width) / 2.0f + 8.0f,
-                          static_cast<float>(SCREEN_HEIGHT) - 48.0f + static_cast<float>(text_height) / 2.0f + 4.0f);
+                          static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y + 4.0f);
 
     context.color().draw_filled_rect(Rectf(text_rect.p1() - Vector(4,4),
                                            text_rect.p2() + Vector(4,4)),
@@ -617,7 +622,7 @@ Menu::draw(DrawingContext& context)
                                      LAYER_GUI);
 
     context.color().draw_text(Resources::normal_font, m_items[m_active_item]->get_help(),
-                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - 48.0f - static_cast<float>(text_height) / 2.0f),
+                              Vector(m_pos.x, static_cast<float>(SCREEN_HEIGHT) - HELP_MARGIN_Y - static_cast<float>(text_height)),
                               ALIGN_CENTER, LAYER_GUI);
   }
 }

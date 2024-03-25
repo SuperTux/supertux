@@ -343,7 +343,7 @@
     )
     (text
       (type "normal")
-      (string "Bart K.")
+      (string "Bart Kelsey")
     )
     (text
       (type "normal")
@@ -355,7 +355,7 @@
     )
     (text
       (type "normal")
-      (string "Chris Leutwyler")
+      (string "Chris \"Krobonil\" Leutwyler")
     )
     (text
       (type "normal")
@@ -364,6 +364,30 @@
     (text
       (type "normal")
       (string "Tobias \"ToBeFree\" Frei")
+    )
+    (text
+      (type "normal")
+      (string "Alex \"cynicmusic\" Smith")
+    )
+    (text
+      (type "normal")
+      (string "congusbongus")
+    )
+    (text
+      (type "normal")
+      (string "Enol \"Meji\" Monte")
+    )
+    (text
+      (type "normal")
+      (string "Flan")
+    )
+    (text
+      (type "normal")
+      (string "Alasdair \"Servalot\"")
+    )
+    (text
+      (type "normal")
+      (string "ZhayTee")
     )
     (blank)
     (blank)

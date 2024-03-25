@@ -1,5 +1,7 @@
 (supertux-music
   (file "forest-sprint.ogg")
+  (author "Jason Lavallée")
+  (license "CC-BY-SA / GPL 2+")
   (loop-begin 0)
   (loop-at    207)
 )
