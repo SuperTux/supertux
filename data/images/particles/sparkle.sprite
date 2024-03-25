@@ -34,4 +34,8 @@
       "sparkle-0.png"
     )
   )
+
+  (linked-sprites
+    (light "images/objects/lightmap_light/lightmap_light-tiny.sprite")
+  )
 )

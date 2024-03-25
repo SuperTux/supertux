@@ -18,6 +18,7 @@
 
 #include <assert.h>
 
+#include "sprite/sprite_manager.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -179,13 +180,62 @@ Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
   context.set_alpha(context.get_alpha() * m_alpha);
 
   canvas.draw_surface(m_action->surfaces[m_frameidx],
-                    pos - Vector(m_action->x_offset, flip == NO_FLIP ? m_action->y_offset : (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h)),
-                    m_angle,
-                    m_color,
-                    m_blend,
-                    layer);
+                      pos - Vector(m_action->x_offset,
+                                   flip == NO_FLIP ? m_action->y_offset :
+                                     (static_cast<float>(m_action->surfaces[m_frameidx]->get_height()) - m_action->y_offset - m_action->hitbox_h + m_action->flip_offset)),
+                      m_angle,
+                      m_color,
+                      m_blend,
+                      layer);
 
   context.pop_transform();
+}
+
+SpritePtr
+Sprite::get_linked_light_sprite() const
+{
+  if (!m_data.linked_light_sprite && !m_action->linked_light_sprite)
+    return nullptr;
+
+  SpritePtr sprite;
+  if (m_action->linked_light_sprite)
+    sprite = SpriteManager::current()->create(m_action->linked_light_sprite->file);
+  else
+    sprite = SpriteManager::current()->create(m_data.linked_light_sprite->file);
+
+  sprite->set_blend(Blend::ADD);
+  sprite->set_color(m_data.linked_light_sprite->color);
+  return sprite;
+}
+
+std::string
+Sprite::get_linked_light_sprite_file() const
+{
+  return m_action->linked_light_sprite ? m_action->linked_light_sprite->file :
+         (m_data.linked_light_sprite ? m_data.linked_light_sprite->file : "");
+}
+
+SpritePtr
+Sprite::get_linked_sprite(const std::string& key) const
+{
+  return SpriteManager::current()->create(get_linked_sprite_file(key));
+}
+
+std::string
+Sprite::get_linked_sprite_file(const std::string& key) const
+{
+  auto it = m_action->linked_sprites.find(key);
+  if (it != m_action->linked_sprites.end())
+    return it->second;
+
+  it = m_data.linked_sprites.find(key);
+  if (it == m_data.linked_sprites.end()) // No linked sprite with such key
+  {
+    log_warning << "No linked sprite with key '" << key << "'." << std::endl;
+    return ""; // Empty sprite name leads to a dummy sprite
+  }
+
+  return it->second;
 }
 
 int

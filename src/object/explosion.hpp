@@ -58,7 +58,6 @@ private:
   float push_strength;
   int num_particles;
   State state;
-  SpritePtr lightsprite;
   bool short_fuse;
 
 private:

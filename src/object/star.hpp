@@ -28,7 +28,6 @@ public:
   Star(const Vector& pos, Direction direction = Direction::RIGHT, const std::string& custom_sprite = "");
 
   virtual void update(float dt_sec) override;
-  virtual void draw(DrawingContext& context) override;
 
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
@@ -37,7 +36,6 @@ public:
 
 private:
   Physic physic;
-  SpritePtr lightsprite;
 
 private:
   Star(const Star&) = delete;

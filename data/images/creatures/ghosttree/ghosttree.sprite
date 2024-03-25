@@ -28,4 +28,8 @@
       "ghosttree-dying-0.png"
     )
   )
+
+  (linked-sprites
+    (glow "ghosttree-glow.sprite")
+  )
 )

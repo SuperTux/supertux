@@ -27,14 +27,14 @@
 #include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
 
-std::unique_ptr<SpriteData> SpriteManager::s_dummy_sprite_data = nullptr;
-
 SpriteManager::SpriteManager() :
   m_sprites(),
+  m_dummy_sprite(),
   m_load_successful(false)
 {
-  if (!s_dummy_sprite_data)
-    s_dummy_sprite_data.reset(new SpriteData());
+  auto dummy_data = std::make_unique<SpriteData>();
+  m_dummy_sprite = dummy_data.get();
+  m_sprites[""] = std::move(dummy_data); // Empty sprite name -> dummy sprite
 }
 
 SpritePtr
@@ -53,7 +53,7 @@ SpriteManager::create(const std::string& name)
     {
       log_warning << "Error loading sprite '" << name << "', using dummy texture: " << err.what() << std::endl;
       m_load_successful = false;
-      return SpritePtr(new Sprite(*s_dummy_sprite_data)); // Return a dummy sprite.
+      return SpritePtr(new Sprite(*m_dummy_sprite)); // Return a dummy sprite.
     }
   }
   else

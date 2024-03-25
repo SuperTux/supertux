@@ -140,9 +140,8 @@ BadGuy::draw(DrawingContext& context)
 
   if (m_state == STATE_INIT || m_state == STATE_INACTIVE)
   {
-    if (Editor::is_active()) {
-      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
-    }
+    if (Editor::is_active())
+      MovingSprite::draw(context);
   }
   else
   {
@@ -150,7 +149,7 @@ BadGuy::draw(DrawingContext& context)
     {
       context.push_transform();
       context.set_flip(context.get_flip() ^ VERTICAL_FLIP);
-      m_sprite->draw(context.color(), get_pos(), m_layer, m_flip);
+      MovingSprite::draw(context);
       context.pop_transform();
     }
     else
@@ -165,7 +164,11 @@ BadGuy::draw(DrawingContext& context)
       {
         if (m_frozen && is_portable())
           m_freezesprite->draw(context.color(), get_pos(), m_layer);
-        m_sprite->draw(context.color(), get_pos(), m_layer - (m_frozen ? 1 : 0), m_flip);
+
+        if (m_frozen)
+          m_sprite->draw(context.color(), get_pos(), m_layer - 1, m_flip);
+        else
+          MovingSprite::draw(context);
       }
 
       if (m_glowing)

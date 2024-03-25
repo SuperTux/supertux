@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <sstream>
 
+#include <physfs.h>
 #include <sexp/io.hpp>
 #include <sexp/value.hpp>
 
@@ -36,6 +37,7 @@ SpriteData::Action::Action() :
   name(),
   x_offset(0),
   y_offset(0),
+  flip_offset(0),
   hitbox_w(0),
   hitbox_h(0),
   hitbox_unisolid(false),
@@ -44,22 +46,58 @@ SpriteData::Action::Action() :
   loop_frame(1),
   has_custom_loops(false),
   family_name(),
-  surfaces()
+  surfaces(),
+  linked_light_sprite(),
+  linked_sprites()
 {
 }
 
 SpriteData::SpriteData(const ReaderMapping& mapping) :
   actions(),
-  name()
+  name(),
+  linked_light_sprite(),
+  linked_sprites()
 {
   auto iter = mapping.get_iter();
   while (iter.next())
   {
-    if (iter.get_key() == "name") {
+    if (iter.get_key() == "name")
+    {
       iter.get(name);
-    } else if (iter.get_key() == "action") {
+    }
+    else if (iter.get_key() == "action")
+    {
       parse_action(iter.as_mapping());
-    } else {
+    }
+    else if (iter.get_key() == "linked-sprites") // "(linked-sprites ({key} "{path}" {color r/g/b [optional]}) )"
+    {
+      auto iter_sprites = iter.as_mapping().get_iter();
+      while (iter_sprites.next())
+      {
+        const auto& sx = iter_sprites.as_mapping().get_sexp();
+        const auto& arr = sx.as_array();
+
+        std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), arr[1].as_string());
+        if (!PHYSFS_exists(filepath.c_str())) // If file path is not relative to current directory, make it relative to root
+          filepath = arr[1].as_string();
+
+        if (arr[0].as_string() == "light") // The key "light" is reserved for light sprites
+        {
+          linked_light_sprite = LinkedLightSprite(filepath);
+          if (arr.size() >= 5) // Color has been specified
+          {
+            linked_light_sprite->color = Color(arr[2].as_float(), arr[3].as_float(),
+                                               arr[4].as_float());
+          }
+        }
+        else
+        {
+          linked_sprites[arr[0].as_string()] = filepath;
+        }
+      }
+    }
+    else
+    {
       log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
     }
   }
@@ -69,7 +107,9 @@ SpriteData::SpriteData(const ReaderMapping& mapping) :
 
 SpriteData::SpriteData(const std::string& image) :
   actions(),
-  name()
+  name(),
+  linked_light_sprite(),
+  linked_sprites()
 {
   auto surface = Surface::from_file(image);
   if (!TextureManager::current()->last_load_successful())
@@ -82,7 +122,9 @@ SpriteData::SpriteData(const std::string& image) :
 
 SpriteData::SpriteData() :
   actions(),
-  name()
+  name(),
+  linked_light_sprite(),
+  linked_sprites()
 {
   auto surface = Surface::from_texture(TextureManager::current()->create_dummy_texture());
   auto action = create_action_from_surface(surface);
@@ -131,6 +173,7 @@ SpriteData::parse_action(const ReaderMapping& mapping)
         throw std::runtime_error("hitbox should specify 2/4 coordinates");
     }
   }
+  mapping.get("flip-offset", action->flip_offset);
   mapping.get("unisolid", action->hitbox_unisolid);
   mapping.get("fps", action->fps);
   if (mapping.get("loops", action->loops))
@@ -149,6 +192,35 @@ SpriteData::parse_action(const ReaderMapping& mapping)
   if (!mapping.get("family_name", action->family_name))
   {
     action->family_name = "::" + action->name;
+  }
+
+  std::optional<ReaderMapping> linked_sprites_mapping;
+  if (mapping.get("linked-sprites", linked_sprites_mapping)) // "(linked-sprites ({key} "{path}" {color r/g/b [optional]}) )"
+  {
+    auto iter_sprites = linked_sprites_mapping->get_iter();
+    while (iter_sprites.next())
+    {
+      const auto& sx = iter_sprites.as_mapping().get_sexp();
+      const auto& arr = sx.as_array();
+
+      std::string filepath = FileSystem::join(mapping.get_doc().get_directory(), arr[1].as_string());
+      if (!PHYSFS_exists(filepath.c_str())) // If file path is not relative to current directory, make it relative to root
+        filepath = arr[1].as_string();
+
+      if (arr[0].as_string() == "light") // The key "light" is reserved for light sprites
+      {
+        action->linked_light_sprite = LinkedLightSprite(filepath);
+        if (arr.size() >= 5) // Color has been specified
+        {
+          action->linked_light_sprite->color = Color(arr[2].as_float(), arr[3].as_float(),
+                                                     arr[4].as_float());
+        }
+      }
+      else
+      {
+        action->linked_sprites[arr[0].as_string()] = filepath;
+      }
+    }
   }
 
   std::string mirror_action;

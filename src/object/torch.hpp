@@ -55,11 +55,13 @@ public:
                                      torch */
   /** @} */
 
+protected:
+  LinkedSprites get_linked_sprites() override;
+
 private:
   Color m_light_color;
   SpritePtr m_flame;
   SpritePtr m_flame_glow;
-  SpritePtr m_flame_light;
   bool m_burning;
 
 private:

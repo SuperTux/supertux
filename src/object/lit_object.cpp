@@ -27,8 +27,7 @@ LitObject::LitObject(const ReaderMapping& reader) :
   m_light_offset(-6.f, -17.f),
   m_light_sprite_name("images/objects/lightflower/light/glow_light.sprite"),
   m_sprite_action("default"),
-  m_light_sprite_action("default"),
-  m_light_sprite()
+  m_light_sprite_action("default")
 {
   reader.get("light-offset-x", m_light_offset.x);
   reader.get("light-offset-y", m_light_offset.y);

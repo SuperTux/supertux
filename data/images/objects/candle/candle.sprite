@@ -18,5 +18,9 @@
       "candle-0.png"
 	)
   )
-)
 
+  (linked-sprites
+    (light-1 "candle-light-1.sprite")
+    (light-2 "candle-light-2.sprite")
+  )
+)
