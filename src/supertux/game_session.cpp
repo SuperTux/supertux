@@ -48,7 +48,6 @@
 #include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
 
-static const float FADE_TIME = 1.0f;
 static const float SAFE_TIME = 1.0f;
 
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
@@ -227,7 +226,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   if (m_levelintro_shown)
   {
     const Vector shrinkpos = get_fade_point() - m_currentsector->get_camera().get_translation();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEIN));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEIN));
   }
 
   if (!preserve_music)
@@ -427,12 +426,12 @@ GameSession::setup()
     m_levelintro_shown = true;
     m_active = false;
     ScreenManager::current()->push_screen(std::make_unique<LevelIntro>(*m_level, m_best_level_statistics, m_savegame.get_player_status()));
-    ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, FADE_TIME));
+    ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, TELEPORT_FADE_TIME));
   }
   else
   {
     const Vector shrinkpos = get_fade_point() - m_currentsector->get_camera().get_translation();
-    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEIN));
+    ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEIN));
   }
 
 
@@ -520,7 +519,7 @@ GameSession::update(float dt_sec, const Controller& controller)
     {
       case ScreenFade::FadeType::FADE:
       {
-        ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, FADE_TIME));
+        ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEIN, TELEPORT_FADE_TIME));
         break;
       }
       case ScreenFade::FadeType::CIRCLE:
@@ -528,16 +527,20 @@ GameSession::update(float dt_sec, const Controller& controller)
         const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
         const Vector shrinkpos = spawn_point_position - sector->get_camera().get_translation();
 
-        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEIN));
+        ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEIN));
         break;
       }
       default:
         break;
     }
 
-    if (m_spawn_with_invincibilty)
+
+    for (auto* p : m_currentsector->get_players())
     {
-      for (auto* p : m_currentsector->get_players())
+      // Give back control to the player
+      p->activate();
+
+      if (m_spawn_with_invincibilty)
       {
         // Make all players temporarily safe after spawning
         p->make_temporarily_safe(SAFE_TIME);
@@ -679,13 +682,13 @@ GameSession::respawn_with_fade(const std::string& sector,
   m_spawn_fade_point = fade_point;
   m_spawn_with_invincibilty = make_invincible;
 
-  m_spawn_fade_timer.start(FADE_TIME);
+  m_spawn_fade_timer.start(TELEPORT_FADE_TIME);
 
   switch (m_spawn_fade_type)
   {
     case ScreenFade::FadeType::FADE:
     {
-      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, FADE_TIME));
+      ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, TELEPORT_FADE_TIME));
       break;
     }
     case ScreenFade::FadeType::CIRCLE:
@@ -693,7 +696,7 @@ GameSession::respawn_with_fade(const std::string& sector,
       const bool is_fade_point_valid = fade_point.x != 0.0f && fade_point.y != 0.0f;
       const Vector shrinkpos = (is_fade_point_valid ? fade_point : get_fade_point()) - Sector::current()->get_camera().get_translation();
 
-      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, FADE_TIME, ShrinkFade::FADEOUT));
+      ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEOUT));
       break;
     }
     default:

@@ -206,6 +206,10 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
           }
 
           if (!m_target_sector.empty() ) {
+            // Do not allow the player to move away during fade animation...
+            player->deactivate();
+            // ... but make him safe for this time
+            player->make_temporarily_safe(GameSession::TELEPORT_FADE_TIME);
             GameSession::current()->respawn_with_fade(m_target_sector,
                                                       m_target_spawnpoint,
                                                       ScreenFade::FadeType::CIRCLE,
