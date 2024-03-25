@@ -105,7 +105,7 @@ public:
   void move_to_sector(Sector& other);
 
   void make_invincible();
-  void make_temporarily_safe();
+  void make_temporarily_safe(const float safe_time);
 
   bool is_invincible() const { return m_invincible_timer.started(); }
   bool is_dying() const { return m_dying; }

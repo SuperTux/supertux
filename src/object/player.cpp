@@ -2375,9 +2375,9 @@ Player::make_invincible()
 }
 
 void
-Player::make_temporarily_safe()
+Player::make_temporarily_safe(const float safe_time)
 {
-  m_safe_timer.start(TUX_SAFE_TIME);
+  m_safe_timer.start(safe_time);
   m_safe_due_to_hurt = false;
 }
 

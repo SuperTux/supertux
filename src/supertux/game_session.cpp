@@ -49,6 +49,7 @@
 #include "worldmap/worldmap.hpp"
 
 static const float FADE_TIME = 1.0f;
+static const float SAFE_TIME = 1.0f;
 
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics,
                          bool preserve_music) :
@@ -539,7 +540,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       for (auto* p : m_currentsector->get_players())
       {
         // Make all players temporarily safe after spawning
-        p->make_temporarily_safe();
+        p->make_temporarily_safe(SAFE_TIME);
       }
     }
 

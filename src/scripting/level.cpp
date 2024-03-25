@@ -57,7 +57,7 @@ Level_spawn_transition(const std::string& sector, const std::string& spawnpoint,
   else if (transition == "circle")
     fade_type = ScreenFade::FadeType::CIRCLE;
 
-  game_session.respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f});
+  game_session.respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f}, true);
 }
 
 void
