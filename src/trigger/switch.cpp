@@ -80,7 +80,7 @@ Switch::get_settings()
 void
 Switch::update(float dt_sec)
 {
-  if ((m_dir == Direction::LEFT || m_dir == Direction::RIGHT) && m_sticky)
+  if ((m_dir != Direction::NONE) && m_sticky)
   {
     // dynamic with tilemap, platform, and fallblock.
     Rectf large_overlap_box = get_bbox().grown(8.f);
