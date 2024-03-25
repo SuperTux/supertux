@@ -59,6 +59,7 @@ protected:
 
 private:
   bool m_enabled;
+  bool m_sticky;
   float m_initial_delay;
   float m_fire_delay;
   int m_ammo; // ammo left (-1 means unlimited)

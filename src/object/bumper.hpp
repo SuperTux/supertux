@@ -48,6 +48,7 @@ private:
 
   Direction m_dir;
   Vector m_original_pos;
+  bool m_sticky;
 
 private:
   Bumper(const Bumper&) = delete;

@@ -31,6 +31,7 @@
 DartTrap::DartTrap(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/darttrap/granito/darttrap_granito.sprite", get_allowed_directions()[0], LAYER_TILES-1),
   m_enabled(true),
+  m_sticky(),
   m_initial_delay(),
   m_fire_delay(),
   m_ammo(),
@@ -41,6 +42,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   parse_type(reader);
 
   reader.get("enabled", m_enabled, true);
+  reader.get("sticky", m_sticky, false);
   reader.get("initial-delay", m_initial_delay, 0.0f);
   reader.get("fire-delay", m_fire_delay, 2.0f);
   reader.get("ammo", m_ammo, -1);
@@ -78,31 +80,33 @@ DartTrap::collision_player(Player&, const CollisionHit& )
 void
 DartTrap::active_update(float dt_sec)
 {
-  // dynamic with tilemap, platform, and fallblock.
-  Rectf large_overlap_box = get_bbox().grown(8.f);
+  if (m_sticky) {
+    // dynamic with tilemap, platform, and fallblock.
+    Rectf large_overlap_box = get_bbox().grown(8.f);
 
-  for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
-  {
-    if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
-      !Sector::get().is_free_of_statics(large_overlap_box))
+    for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
     {
-      m_col.set_movement(tm.get_movement(true));
+      if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
+        !Sector::get().is_free_of_statics(large_overlap_box))
+      {
+        m_col.set_movement(tm.get_movement(true));
+      }
     }
-  }
 
-  for (auto& platform : Sector::get().get_objects_by_type<Platform>())
-  {
-    if (large_overlap_box.overlaps(platform.get_bbox()))
+    for (auto& platform : Sector::get().get_objects_by_type<Platform>())
     {
-      m_col.set_movement(platform.get_movement());
+      if (large_overlap_box.overlaps(platform.get_bbox()))
+      {
+        m_col.set_movement(platform.get_movement());
+      }
     }
-  }
 
-  for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
-  {
-    if (large_overlap_box.overlaps(fallblock.get_bbox()))
+    for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
     {
-      m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+      if (large_overlap_box.overlaps(fallblock.get_bbox()))
+      {
+        m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+      }
     }
   }
 
@@ -179,11 +183,12 @@ DartTrap::get_settings()
 
   result.add_float(_("Initial delay"), &m_initial_delay, "initial-delay");
   result.add_bool(_("Enabled"), &m_enabled, "enabled", true);
+  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
   result.add_float(_("Fire delay"), &m_fire_delay, "fire-delay");
   result.add_int(_("Ammo"), &m_ammo, "ammo");
   result.add_sprite(_("Dart sprite"), &m_dart_sprite, "dart-sprite", "images/creatures/darttrap/granito/root_dart.sprite");
 
-  result.reorder({"initial-delay", "fire-delay", "ammo", "direction", "x", "y", "dart-sprite"});
+  result.reorder({"initial-delay", "fire-delay", "ammo", "sticky", "direction", "x", "y", "dart-sprite"});
 
   return result;
 }

@@ -37,6 +37,7 @@ Switch::Switch(const ReaderMapping& reader) :
   m_off_script(),
   m_state(OFF),
   m_bistable(),
+  m_sticky(),
   m_dir(Direction::NONE)
 {
   std::string dir_str;
@@ -48,6 +49,7 @@ Switch::Switch(const ReaderMapping& reader) :
   set_action("off", m_dir);
 
   reader.get("script", m_script);
+  reader.get("sticky", m_sticky, false);
   m_bistable = reader.get("off-script", m_off_script);
 
   SoundManager::current()->preload(SWITCH_SOUND);
@@ -68,7 +70,9 @@ Switch::get_settings()
   result.add_script(_("Turn on script"), &m_script, "script");
   result.add_script(_("Turn off script"), &m_off_script, "off-script");
 
-  result.reorder({"direction", "script", "off-script", "sprite", "x", "y"});
+  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
+
+  result.reorder({"direction", "script", "off-script", "sticky", "sprite", "x", "y"});
 
   return result;
 }
@@ -76,7 +80,7 @@ Switch::get_settings()
 void
 Switch::update(float dt_sec)
 {
-  if (m_dir == Direction::LEFT || m_dir == Direction::RIGHT)
+  if ((m_dir == Direction::LEFT || m_dir == Direction::RIGHT) && m_sticky)
   {
     // dynamic with tilemap, platform, and fallblock.
     Rectf large_overlap_box = get_bbox().grown(8.f);

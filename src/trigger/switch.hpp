@@ -51,6 +51,7 @@ private:
   std::string m_off_script;
   SwitchState m_state;
   bool m_bistable;
+  bool m_sticky;
   Direction m_dir;
 
 private:
