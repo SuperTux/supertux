@@ -17,8 +17,12 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "badguy/crusher.hpp"
+#include "object/fallblock.hpp"
 #include "object/player.hpp"
+#include "object/platform.hpp"
 #include "object/rock.hpp"
+#include "object/tilemap.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -65,16 +69,48 @@ Bumper::update(float dt_sec)
   if (m_sprite->animation_done())
     set_action("normal", m_dir);
 
-  Rectf smallbox = get_bbox().grown(1.f);
+  // Pushing rocks, as well as dynamic with tilemap, platform, and fallblock.
 
-  for (auto& rock : Sector::get().get_objects_by_type<Rock>()) {
-    if (smallbox.overlaps(rock.get_bbox()))
+  Rectf small_overlap_box = get_bbox().grown(1.f);
+  Rectf large_overlap_box = get_bbox().grown(8.f);
+
+  for (auto& rock : Sector::get().get_objects_by_type<Rock>())
+  {
+    if (small_overlap_box.overlaps(rock.get_bbox()))
     {
       float BOUNCE_DIR = m_dir == Direction::LEFT ? -BOUNCE_X : BOUNCE_X;
       rock.get_physic().set_velocity(BOUNCE_DIR * 0.7f, BOUNCE_Y * 0.6f);
       SoundManager::current()->play(TRAMPOLINE_SOUND, get_pos());
       m_sprite->set_action("swinging", m_dir, 1);
       set_pos(m_original_pos);
+    }
+  }
+
+  for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
+  {
+    if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
+      !Sector::get().is_free_of_statics(large_overlap_box))
+    {
+      m_col.set_movement(tm.get_movement(true));
+      return;
+    }
+  }
+
+  for (auto& platform : Sector::get().get_objects_by_type<Platform>())
+  {
+    if (large_overlap_box.overlaps(platform.get_bbox()))
+    {
+      m_col.set_movement(platform.get_movement());
+      return;
+    }
+  }
+
+  for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
+  {
+    if (small_overlap_box.overlaps(fallblock.get_bbox()))
+    {
+      m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+      return;
     }
   }
 
