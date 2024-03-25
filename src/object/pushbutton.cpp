@@ -17,7 +17,10 @@
 #include "object/pushbutton.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "object/fallblock.hpp"
+#include "object/platform.hpp"
 #include "object/player.hpp"
+#include "object/tilemap.hpp"
 #include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -33,7 +36,8 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   MovingSprite(mapping, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   m_script(),
   m_state(OFF),
-  m_dir(Direction::UP)
+  m_dir(Direction::UP),
+  m_sticky()
 {
   SoundManager::current()->preload(BUTTON_SOUND);
 
@@ -50,6 +54,8 @@ PushButton::PushButton(const ReaderMapping& mapping) :
   else if (mapping.get("upside-down", old_upside_down) && old_upside_down)
     m_dir = Direction::DOWN;
 
+  mapping.get("sticky", m_sticky, false);
+
   set_action("off", m_dir, -1);
 }
 
@@ -60,8 +66,9 @@ PushButton::get_settings()
 
   result.add_direction(_("Direction"), &m_dir, { Direction::UP, Direction::DOWN }, "direction");
   result.add_script(_("Script"), &m_script, "script");
+  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
 
-  result.reorder({"direction", "script", "x", "y"});
+  result.reorder({"direction", "script", "sticky", "x", "y"});
 
   return result;
 }
@@ -74,8 +81,38 @@ PushButton::after_editor_set()
 }
 
 void
-PushButton::update(float /*dt_sec*/)
+PushButton::update(float dt_sec)
 {
+  if (m_sticky)
+  {
+    // dynamic with tilemap, platform, and fallblock.
+    Rectf large_overlap_box = get_bbox().grown(8.f);
+
+    for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
+    {
+      if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec)
+        && !Sector::get().is_free_of_statics(large_overlap_box))
+      {
+        m_col.set_movement(tm.get_movement(true));
+      }
+    }
+
+    for (auto& platform : Sector::get().get_objects_by_type<Platform>())
+    {
+      if (large_overlap_box.overlaps(platform.get_bbox()))
+      {
+        m_col.set_movement(platform.get_movement());
+      }
+    }
+
+    for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
+    {
+      if (large_overlap_box.overlaps(fallblock.get_bbox()))
+      {
+        m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+      }
+    }
+  }
 }
 
 HitResponse
