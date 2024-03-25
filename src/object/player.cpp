@@ -2195,7 +2195,7 @@ Player::draw(DrawingContext& context)
   */
 
   /* Draw Tux */
-  if (!m_visible || (m_safe_timer.started() && size_t(g_game_time * 40) % 2))
+  if (!m_visible || (m_safe_timer.started() && m_safe_due_to_hurt && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
@@ -2365,6 +2365,13 @@ Player::make_invincible()
 }
 
 void
+Player::make_temporarily_safe(const float safe_time)
+{
+  m_safe_timer.start(safe_time);
+  m_safe_due_to_hurt = false;
+}
+
+void
 Player::kill(bool completely)
 {
   if (m_dying || m_deactivated || is_winning() )
@@ -2391,9 +2398,11 @@ Player::kill(bool completely)
       || get_bonus() == AIR_BONUS
       || get_bonus() == EARTH_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME);
+      m_safe_due_to_hurt = true;
       set_bonus(GROWUP_BONUS, true);
     } else if (get_bonus() == GROWUP_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
+      m_safe_due_to_hurt = true;
       m_duck = false;
       stop_backflipping();
       set_bonus(NO_BONUS, true);

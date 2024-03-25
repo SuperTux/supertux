@@ -34,6 +34,7 @@
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
 #include "video/surface_ptr.hpp"
+#include "supertux/screen_fade.hpp"
 
 class CodeController;
 class DrawingContext;
@@ -88,6 +89,11 @@ public:
   /** ends the current level */
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void respawn_with_fade(const std::string& sectorname,
+                         const std::string& spawnpointname,
+                         const ScreenFade::FadeType fade_type,
+                         const Vector &fade_point,
+                         const bool make_invincible = false);
   void reset_level();
 
   void set_start_point(const std::string& sectorname,
@@ -135,11 +141,15 @@ private:
 
   void on_escape_press(bool force_quick_respawn);
 
+  Vector get_fade_point() const;
+
 public:
   bool reset_button;
   bool reset_checkpoint_button;
 
   bool m_prevent_death; /**< true if players should enter ghost mode instead of dying */
+
+  static constexpr float TELEPORT_FADE_TIME = 1.0f; /**< Duration of teleport fade animation */
 
 private:
   std::unique_ptr<Level> m_level;
@@ -164,6 +174,10 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string m_newsector;
   std::string m_newspawnpoint;
+  ScreenFade::FadeType m_spawn_fade_type;
+  Vector m_spawn_fade_point;
+  Timer m_spawn_fade_timer;
+  bool m_spawn_with_invincibilty;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;

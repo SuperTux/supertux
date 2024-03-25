@@ -66,6 +66,19 @@ bool Level_has_active_sequence();
  */
 void Level_spawn(const std::string& sector, const std::string& spawnpoint);
 
+
+/**
+ * Respawns Tux in sector named ""sector"" at spawnpoint named ""spawnpoint"" with the given transition ""transition"".${SRG_TABLENEWPARAGRAPH}
+   Exceptions: If ""sector"" or ""spawnpoint"" are empty, or the specified sector does not exist, the function will bail out the first chance it gets.
+   If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named “main”.
+   If that spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).
+ * @param string $sector
+ * @param string $spawnpoint
+ * @param string $transition
+ */
+void Level_spawn_transition(const std::string& sector, const std::string& spawnpoint, const std::string& transition);
+
+
 /**
  * Sets the default start spawnpoint of the level.
  * @param string $sector

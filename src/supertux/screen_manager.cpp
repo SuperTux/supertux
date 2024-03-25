@@ -159,10 +159,7 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
 {
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
 }
 
@@ -170,10 +167,7 @@ void
 ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
   log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::POP_ACTION);
 }
 
@@ -195,10 +189,7 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
   g_config->save();
 #endif
 
-  if (g_config->transitions_enabled)
-  {
-    m_screen_fade = std::move(screen_fade);
-  }
+  set_screen_fade(std::move(screen_fade));
   m_actions.emplace_back(Action::QUIT_ACTION);
 }
 

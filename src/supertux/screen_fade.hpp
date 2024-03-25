@@ -27,6 +27,13 @@ class DrawingContext;
 class ScreenFade
 {
 public:
+  enum class FadeType
+  {
+    NONE,
+    FADE,
+    CIRCLE
+  };
+
   virtual ~ScreenFade() {}
 
   /** returns true if the effect is completed */
