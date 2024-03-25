@@ -39,12 +39,14 @@ Bumper::Bumper(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/trampoline/bumper.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   m_physic(),
   m_dir(Direction::RIGHT),
-  m_original_pos()
+  m_original_pos(),
+  m_sticky()
 {
   std::string dir_str;
   bool old_facing_left = false;
   m_original_pos = get_pos();
 
+  reader.get("sticky", m_sticky, false);
   if (reader.get("direction", dir_str))
     m_dir = string_to_dir(dir_str);
   else if (reader.get("left", old_facing_left) && old_facing_left)
@@ -58,8 +60,9 @@ Bumper::get_settings()
 {
   ObjectSettings result = MovingSprite::get_settings();
 
+  result.add_bool(_("Sticky"), &m_sticky, "sticky", false);
   result.add_direction(_("Direction"), &m_dir, { Direction::RIGHT, Direction::LEFT }, "direction");
-  result.reorder({"direction", "sprite", "x", "y"});
+  result.reorder({"sticky", "direction", "sprite", "x", "y"});
   return result;
 }
 
@@ -72,7 +75,6 @@ Bumper::update(float dt_sec)
   // Pushing rocks, as well as dynamic with tilemap, platform, and fallblock.
 
   Rectf small_overlap_box = get_bbox().grown(1.f);
-  Rectf large_overlap_box = get_bbox().grown(8.f);
 
   for (auto& rock : Sector::get().get_objects_by_type<Rock>())
   {
@@ -86,31 +88,36 @@ Bumper::update(float dt_sec)
     }
   }
 
-  for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
+  if (m_sticky)
   {
-    if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
-      !Sector::get().is_free_of_statics(large_overlap_box))
-    {
-      m_col.set_movement(tm.get_movement(true));
-      return;
-    }
-  }
+    Rectf large_overlap_box = get_bbox().grown(8.f);
 
-  for (auto& platform : Sector::get().get_objects_by_type<Platform>())
-  {
-    if (large_overlap_box.overlaps(platform.get_bbox()))
+    for (auto& tm : Sector::get().get_objects_by_type<TileMap>())
     {
-      m_col.set_movement(platform.get_movement());
-      return;
+      if (large_overlap_box.overlaps(tm.get_bbox()) && tm.is_solid() && glm::length(tm.get_movement(true)) > (1.f * dt_sec) &&
+        !Sector::get().is_free_of_statics(large_overlap_box))
+      {
+        m_col.set_movement(tm.get_movement(true));
+        return;
+      }
     }
-  }
 
-  for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
-  {
-    if (small_overlap_box.overlaps(fallblock.get_bbox()))
+    for (auto& platform : Sector::get().get_objects_by_type<Platform>())
     {
-      m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
-      return;
+      if (large_overlap_box.overlaps(platform.get_bbox()))
+      {
+        m_col.set_movement(platform.get_movement());
+        return;
+      }
+    }
+
+    for (auto& fallblock : Sector::get().get_objects_by_type<FallBlock>())
+    {
+      if (small_overlap_box.overlaps(fallblock.get_bbox()))
+      {
+        m_col.set_movement((fallblock.get_state() == FallBlock::State::LAND) ? Vector(0.f, 0.f) : fallblock.get_physic().get_movement(dt_sec));
+        return;
+      }
     }
   }
 
