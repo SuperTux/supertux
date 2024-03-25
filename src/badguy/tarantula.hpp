@@ -70,8 +70,10 @@ protected:
 private:
   ApproachResponse try_approach();
   bool try_drop();
-  bool hang_to(float height, float nexttime, State nextstate, EasingMode easing,
-               const std::string& action);
+
+  bool hang_to(float height, float time, bool calctime, State nextstate,
+               EasingMode easing, const std::string& action);
+  float calculate_time(float div);
 
   State m_state;
   Timer m_timer;

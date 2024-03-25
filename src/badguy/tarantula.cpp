@@ -22,10 +22,21 @@
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
-static const float DROP_TIME = .5f;
-static const float HANG_TIME = .5f;
+// These are divided by the distance between the
+// floor and the ceiling
+static const float DROP_TIME = 450.f;
+static const float RETREAT_TIME = 175.f;
+
+// These aren't touched
+static const float HANG_TIME = 0.7f;
+
 static const float HANG_HEIGHT = 70.f;
+
 static const float MOVE_SPEED = 75.f;
+
+static const float APPROACH_RANGE = 8.f*32;
+static const float DROP_RANGE = 4.f*32;
+static const float RETREAT_RANGE = 4.f*32;
 
 Tarantula::Tarantula(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/tarantula/tarantula.sprite"),
@@ -85,7 +96,7 @@ Tarantula::active_update(float dt_sec)
       goto state_logic;
 
     float dist = get_bbox().get_left() - player->get_bbox().get_left();
-    if (std::abs(dist) > 5.f*32)
+    if (std::abs(dist) > RETREAT_RANGE)
     {
       m_retreat = true;
     }
@@ -117,16 +128,17 @@ state_logic:
       break;
 
     case STATE_DROPPING:
-      hang_to(m_target_height, DROP_TIME, STATE_HANG_UP, EaseQuadIn, "dive");
+      // doesn't matter what time we put because timer already started
+      hang_to(m_target_height, 0.f, false, STATE_HANG_UP, EaseQuadIn, "dive");
       break;
 
     case STATE_HANG_UP:
-      hang_to(m_last_height - HANG_HEIGHT, HANG_TIME, STATE_HANG_DOWN, EaseSineInOut, "rebound");
+      hang_to(m_last_height - HANG_HEIGHT, HANG_TIME, false, STATE_HANG_DOWN, EaseSineInOut, "rebound");
       break;
 
     case STATE_HANG_DOWN:
     {
-      bool finished = hang_to(m_last_height + HANG_HEIGHT, HANG_TIME, STATE_HANG_UP, EaseSineInOut, "dive");
+      bool finished = hang_to(m_last_height + HANG_HEIGHT, HANG_TIME, false, STATE_HANG_UP, EaseSineInOut, "dive");
       if (m_retreat && finished)
       {
         m_state = STATE_RETREATING;
@@ -139,7 +151,7 @@ state_logic:
     }
 
     case STATE_RETREATING:
-      hang_to(m_start_position.y, DROP_TIME, STATE_IDLE, EaseQuadIn, "rebound");
+      hang_to(m_start_position.y, RETREAT_TIME, true, STATE_IDLE, EaseQuadIn, "rebound");
       break;
 
     default:
@@ -160,13 +172,13 @@ Tarantula::try_approach()
   Vector eye(get_bbox().get_middle().x, get_bbox().get_bottom() + 1);
   float dist = get_bbox().get_left() - player->get_bbox().get_left();
 
-  if (std::abs(dist) > 5.f*32)
+  if (std::abs(dist) > APPROACH_RANGE)
     return NONE;
 
   if (!Sector::get().can_see_player(eye))
     return NONE;
 
-  if (std::abs(dist) <= 7.5f)
+  if (std::abs(dist) <= DROP_RANGE)
     return DROP;
 
   if (m_static)
@@ -191,7 +203,8 @@ Tarantula::try_approach()
   return APPROACH;
 }
 
-bool Tarantula::try_drop()
+bool
+Tarantula::try_drop()
 {
   using RaycastResult = CollisionSystem::RaycastResult;
 
@@ -208,23 +221,33 @@ bool Tarantula::try_drop()
 
   m_state = STATE_DROPPING;
   m_target_height = std::max(result.box.get_top() - 16.f - get_bbox().get_height(), 0.f);
-  m_timer.start(DROP_TIME);
+  m_timer.start(calculate_time(DROP_TIME));
 
   return true;
 }
 
-bool Tarantula::hang_to(float height, float nexttime, State nextstate, EasingMode easing, const std::string& action)
+bool
+Tarantula::hang_to(float height, float time, bool calctime, State nextstate, EasingMode easing, const std::string& action)
 {
   set_action(action, 0);
 
+  bool is_newstate = (m_target_height != height);
   m_target_height = height;
+  std::cout << is_newstate << " " << height << std::endl;
 
   if (!m_timer.started())
   {
-    m_state = nextstate;
-    m_last_height = height;
-    m_timer.start(nexttime);
-    return true;
+    if (!is_newstate)
+    {
+      // Timer finished
+      m_state = nextstate;
+      m_last_height = height;
+      return true;
+    }
+    else
+    {
+      m_timer.start(calctime ? calculate_time(time) : time);
+    }
   }
 
   double progress = static_cast<double>(m_timer.get_timegone() / m_timer.get_period());
@@ -234,6 +257,15 @@ bool Tarantula::hang_to(float height, float nexttime, State nextstate, EasingMod
   set_pos(pos);
 
   return false;
+}
+
+float
+Tarantula::calculate_time(float div)
+{
+  if (div <= 0.f)
+    return 0.f;
+
+  return std::abs(m_target_height - get_bbox().get_top()) / div;
 }
 
 void
@@ -312,7 +344,8 @@ Tarantula::get_default_sprite_name() const
   return "images/creatures/tarantula/tarantula.sprite";
 }
 
-ObjectSettings Tarantula::get_settings()
+ObjectSettings
+Tarantula::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
 
