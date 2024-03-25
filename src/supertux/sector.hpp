@@ -20,6 +20,7 @@
 #include "supertux/sector_base.hpp"
 
 #include <vector>
+#include <string>
 #include <stdint.h>
 
 #include "collision/collision_system.hpp"
@@ -47,6 +48,13 @@ class Size;
 class TextObject;
 class TileMap;
 class Writer;
+
+namespace {
+ /**
+  * The sector that gets activated by default when a level is started
+  */
+  const std::string DEFAULT_SECTOR_NAME = "main";
+}
 
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */
