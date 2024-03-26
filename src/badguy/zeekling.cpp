@@ -19,12 +19,13 @@
 
 #include <math.h>
 
+#include "math/random.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  speed(150.f),
+  speed(gameRandom.randf(150.0f)),
   diveRecoverTimer(),
   state(FLYING),
   last_player(nullptr),
