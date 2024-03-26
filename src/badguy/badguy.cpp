@@ -186,7 +186,8 @@ BadGuy::update(float dt_sec)
     if (m_unfreeze_timer.check())
       unfreeze(false);
   }
-  if (!Sector::get().inside(m_col.m_bbox)) {
+  if (get_pos().x > Sector::get().get_width() || get_pos().x < -get_bbox().get_width() ||
+    get_pos().y > Sector::get().get_height()) {
     auto this_portable = dynamic_cast<Portable*> (this);
     if (!this_portable || !this_portable->is_grabbed())
     {
@@ -359,10 +360,11 @@ BadGuy::collision_tile(uint32_t tile_attributes)
       {
         if (is_flammable()) ignite();
       }
-      else if (tile_attributes & Tile::ICE)
-      {
-        if (is_freezable()) freeze();
-      }
+      // Why is this even here????
+      //else if (tile_attributes & Tile::ICE)
+      //{
+      //  if (is_freezable() && !m_frozen) freeze();
+      //}
       else
       {
         kill_fall();
@@ -908,7 +910,6 @@ BadGuy::freeze()
     get_overlay_size() == "2x1" ? 43.f :
     get_overlay_size() == "1x2" ? 62.f : 43.f;
 
-  m_col.set_size(freezesize_x, freezesize_y);
   set_pos(Vector(get_bbox().get_left(), get_bbox().get_bottom() - freezesize_y));
 
   if (m_sprite->has_action("iced-left"))
@@ -925,6 +926,7 @@ BadGuy::freeze()
       m_sprite->stop_animation();
     }
   }
+  m_col.set_size(freezesize_x, freezesize_y);
 }
 
 void

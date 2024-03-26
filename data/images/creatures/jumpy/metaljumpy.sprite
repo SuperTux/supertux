@@ -42,12 +42,12 @@
 
  (action
   (name "iced-left")
-  (hitbox 9 8 32 43)
+  (hitbox 3 3 45 64)
   (images "metal_up-0.png"))
 
  (action
   (name "iced-right")
-  (hitbox 11 8 32 43)
+  (hitbox 3 3 45 64)
   (mirror-action "iced-left"))
 
  (action

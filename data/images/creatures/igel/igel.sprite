@@ -71,12 +71,12 @@
   )
   (action
     (name "iced-left")
-    (hitbox 15 10 36 32)
+    (hitbox 2 4 64 43)
     (images "walk-0.png")
   )
   (action
     (name "iced-right")
-    (hitbox 17 10 36 32)
+    (hitbox 2 4 64 43)
     (mirror-action "iced-left")
   )
   (action
