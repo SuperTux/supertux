@@ -36,6 +36,7 @@ static const float MOVE_SPEED = 75.f;
 
 static const float APPROACH_RANGE = 8.f*32;
 static const float DROP_RANGE = 4.f*32;
+static const float DROP_DETECT_RANGE = 1200.f;
 static const float RETREAT_RANGE = 4.f*32;
 
 Tarantula::Tarantula(const ReaderMapping& reader) :
@@ -212,12 +213,24 @@ Tarantula::try_drop()
 
   Vector eye(get_bbox().get_middle().x, get_bbox().get_bottom() + 1);
   RaycastResult result = Sector::get().get_first_line_intersection(eye,
-                                                                   Vector(eye.x, eye.y + 600.f),
+                                                                   Vector(eye.x, eye.y + DROP_DETECT_RANGE),
                                                                    true,
                                                                    nullptr);
 
   if (!result.is_valid)
-    return false;
+  {
+    float sectorheight = static_cast<float>(Sector::get().get_editor_size().height * 32);
+    if (sectorheight <= eye.y + DROP_DETECT_RANGE + 1.f)
+    {
+      // Out of bounds. Drop to the lowest point possible by faking
+      // a raycast result.
+      result.box = Rectf(Vector(0.f, sectorheight), Sizef(1.f, 1.f));
+    }
+    else
+    {
+      return false;
+    }
+  }
 
   m_state = STATE_DROPPING;
   m_target_height = std::max(result.box.get_top() - 16.f - get_bbox().get_height(), 0.f);
