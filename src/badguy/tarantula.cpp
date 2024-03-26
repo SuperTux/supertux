@@ -24,7 +24,7 @@
 
 // These are divided by the distance between the
 // floor and the ceiling
-static const float DROP_TIME = 450.f;
+static const float DROP_TIME = 420.f;
 static const float RETREAT_TIME = 175.f;
 
 // These aren't touched
@@ -246,7 +246,6 @@ Tarantula::hang_to(float height, float time, bool calctime, State nextstate, Eas
 
   bool is_newstate = (m_target_height != height);
   m_target_height = height;
-  std::cout << is_newstate << " " << height << std::endl;
 
   if (!m_timer.started())
   {
