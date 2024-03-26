@@ -1005,8 +1005,6 @@ BadGuy::ignite()
     //  set_state(STATE_GROUND_MELTING);
     //} else {
       set_action("melting", m_dir, 1);
-      SoundManager::current()->play("sounds/splash.ogg", get_pos());
-    //SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
       set_state(STATE_MELTING);
     //}
 
