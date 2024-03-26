@@ -39,6 +39,8 @@ static const float DROP_RANGE = 4.f*32;
 static const float DROP_DETECT_RANGE = 1200.f;
 static const float RETREAT_RANGE = 4.f*32;
 
+float Tarantula::s_ground_height = -1.f;
+
 Tarantula::Tarantula(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/tarantula/tarantula.sprite"),
   m_state(STATE_IDLE),
@@ -90,20 +92,25 @@ Tarantula::active_update(float dt_sec)
     return;
   }
 
-  if (m_state == STATE_HANG_UP || m_state == STATE_HANG_DOWN)
+  Player* player = get_nearest_player();
+  if (player)
   {
-    Player* player = get_nearest_player();
-    if (!player)
-      goto state_logic;
-
-    float dist = get_bbox().get_left() - player->get_bbox().get_left();
-    if (std::abs(dist) > RETREAT_RANGE)
+    if (!Sector::get().is_free_of_statics(Rectf(Vector(player->get_bbox().get_left(),
+                                                       player->get_bbox().get_bottom()+1.f),
+                                                Sizef(player->get_bbox().get_width(), 1.f))))
     {
-      m_retreat = true;
+      s_ground_height = player->get_bbox().get_top();
+    }
+
+    if (m_state == STATE_HANG_UP || m_state == STATE_HANG_DOWN)
+    {
+      float dist = get_bbox().get_left() - player->get_bbox().get_left();
+      if (std::abs(dist) > RETREAT_RANGE)
+      {
+        m_retreat = true;
+      }
     }
   }
-
-state_logic:
 
   switch (m_state)
   {
@@ -224,7 +231,9 @@ Tarantula::try_drop()
     {
       // Out of bounds. Drop to the lowest point possible by faking
       // a raycast result.
-      result.box = Rectf(Vector(0.f, sectorheight), Sizef(1.f, 1.f));
+      if (s_ground_height < 0.f)
+        s_ground_height = sectorheight;
+      result.box = Rectf(Vector(0.f, s_ground_height), Sizef(1.f, 1.f));
     }
     else
     {
