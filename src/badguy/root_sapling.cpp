@@ -166,7 +166,7 @@ RootSapling::summon_root()
           break;
         }
       }
-      if (!should_summon) return;
+      if (!should_summon) continue;
     }
     else
     {
@@ -204,21 +204,21 @@ RootSapling::summon_root()
 
       auto tile_p = std::get_if<const Tile*>(&result.hit);
       if (!tile_p || result.box.empty())
-        return;
+        continue;
 
       switch (m_dir)
       {
         case Direction::UP:
         case Direction::DOWN:
           if ((*tile_p)->is_unisolid())
-            return;
+            continue;
           (*axis) = result.box.p1().y;
           break;
 
         case Direction::LEFT:
         case Direction::RIGHT:
           if ((*tile_p)->is_unisolid())
-            return;
+            continue;
           (*axis) = result.box.p1().x;
           break;
 
@@ -259,7 +259,7 @@ RootSapling::summon_root()
       // occupied by solid tiles.
       Rectf space(bboxpos, size);
       if (!should_summon_root(space.grown(-1)))
-        return;
+        continue;
 
       Sector::get().add<Root>(pos, m_dir, "images/creatures/mole/corrupted/root.sprite");
     }
