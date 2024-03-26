@@ -17,12 +17,8 @@
 #define HEADER_SUPERTUX_BADGUY_GHOUL_HPP
 
 #include "badguy/badguy.hpp"
-#include "object/path_object.hpp"
 
-// FIXME: Ghoul inherits PathObject, but does not override get_settings() to add
-//        the missing options.
-class Ghoul final : public BadGuy,
-                    public PathObject
+class Ghoul final : public BadGuy
 {
 public:
   Ghoul(const ReaderMapping& reader);
@@ -30,37 +26,35 @@ public:
   static std::string display_name() { return _("Ghoul"); }
   std::string get_class_name() const override { return class_name(); }
   std::string get_display_name() const override { return display_name(); }
-  bool is_freezable() const override;
-  bool is_flammable() const override;
   virtual bool is_snipable() const override { return true; }
+  virtual bool is_flammable() const override { return false; }
 
-  void finish_construction() override;
-
-  void activate() override;
-  void deactivate() override;
   void active_update(float dt_sec) override;
-  
-  void goto_node(int node_no);
-  void set_state(const std::string& state);
-  void start_moving();
-  void stop_moving();
-
-  void move_to(const Vector& pos) override;
+  virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void collision_solid(const CollisionHit& hit) override;
+  virtual void collision_tile(uint32_t tile_attributes) override;
+  virtual ObjectSettings get_settings() override;
 
 protected:
   bool collision_squished(GameObject& object) override;
-  std::vector<Direction> get_allowed_directions() const override;
-  
+  virtual void kill_fall() override;
+
 private:
-  enum MyState {
-    STATE_STOPPED, STATE_IDLE, STATE_TRACKING, STATE_PATHMOVING, STATE_PATHMOVING_TRACK
-  };
-  
-private:
-  MyState m_mystate;
-  float m_flyspeed;
+  float m_speed;
   float m_track_range;
-  
+  float m_speed_modifier;
+  bool m_fake_dead;
+  Vector m_chase_dir;
+  Timer m_respawn_timer;
+
+private:
+  enum SpriteState {
+    NORMAL,
+    FAST
+  };
+
+  SpriteState m_sprite_state;
+
 private:
   Ghoul(const Ghoul&) = delete;
   Ghoul& operator=(const Ghoul&) = delete;
