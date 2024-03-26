@@ -24,17 +24,17 @@
 class RootSapling final : public BadGuy
 {
 public:
-  RootSapling(const ReaderMapping& );
+  RootSapling(const ReaderMapping& reader);
 
   virtual void kill_fall() override;
-  virtual HitResponse collision_badguy(BadGuy&other, const CollisionHit&hit) override;
+  virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit) override;
   virtual bool collision_squished(GameObject& object) override;
-  virtual HitResponse collision_player(Player &player, const CollisionHit &hit) override;
+  virtual HitResponse collision_player(Player& player, const CollisionHit& hit) override;
   virtual void active_update(float) override;
 
   virtual bool is_flammable() const override { return false; }
   virtual bool is_freezable() const override { return false; }
-  virtual bool is_snipable () const override { return false; }
+  virtual bool is_snipable() const override { return false; }
 
   static std::string class_name() { return "root_sapling"; }
   virtual std::string get_class_name() const override { return class_name(); }
@@ -53,6 +53,7 @@ private:
   /** Fix raycasting down/right. More info in the implementation. */
   CollisionSystem::RaycastResult reverse_raycast(const Vector& line_start, const Vector& line_end);
 
+private:
   Timer m_root_timer;
   bool m_dead;
 
