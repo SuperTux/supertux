@@ -131,150 +131,150 @@ RootSapling::get_allowed_directions() const
 void
 RootSapling::summon_root()
 {
-  Player* player = get_nearest_player();
-  if (!player) return;
-
-  Vector pos;
-  float* axis = nullptr;
-  switch (m_dir)
+  for (Player* player : Sector::get().get_players())
   {
-    case Direction::UP:
-    case Direction::DOWN:
-      pos.x = player->get_bbox().get_middle().x;
-      axis = &pos.y;
-      break;
-
-    case Direction::LEFT:
-    case Direction::RIGHT:
-      pos.y = player->get_bbox().get_middle().y;
-      axis = &pos.x;
-      break;
-
-    default: assert(false); break;
-  }
-
-  if (player->on_ground() && m_dir == Direction::UP)
-  {
-    (*axis) = player->get_bbox().get_bottom() + 1;
-
-    bool should_summon = false;
-    for (TileMap* map : Sector::get().get_solid_tilemaps())
-    {
-      const Tile& tile = map->get_tile_at(pos);
-      if (tile.is_solid())
-      {
-        should_summon = true;
-        break;
-      }
-    }
-    if (!should_summon) return;
-  }
-  else
-  {
-    using RaycastResult = CollisionSystem::RaycastResult;
-
-    Vector eye, end;
+    Vector pos;
+    float* axis = nullptr;
     switch (m_dir)
     {
       case Direction::UP:
-        eye = {player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1};
-        end = {eye.x, eye.y + ROOT_SAPLING_RANGE};
-        break;
-
       case Direction::DOWN:
-        eye = {player->get_bbox().get_middle().x, player->get_bbox().get_top() - 1};
-        end = {eye.x, eye.y - ROOT_SAPLING_RANGE};
+        pos.x = player->get_bbox().get_middle().x;
+        axis = &pos.y;
         break;
 
       case Direction::LEFT:
-        eye = {player->get_bbox().get_right() + 1, player->get_bbox().get_middle().y};
-        end = {eye.x + ROOT_SAPLING_RANGE, eye.y};
-        break;
-
       case Direction::RIGHT:
-        eye = {player->get_bbox().get_left() - 1, player->get_bbox().get_middle().y};
-        end = {eye.x - ROOT_SAPLING_RANGE, eye.y};
+        pos.y = player->get_bbox().get_middle().y;
+        axis = &pos.x;
         break;
 
       default: assert(false); break;
     }
 
-    RaycastResult result = m_dir == Direction::LEFT || m_dir == Direction::UP ?
-                           Sector::get().get_first_line_intersection(eye, end, true, nullptr) :
-                           reverse_raycast(eye, end);
-
-    auto tile_p = std::get_if<const Tile*>(&result.hit);
-    if (tile_p && !result.box.empty())
+    if (player->on_ground() && m_dir == Direction::UP)
     {
-      switch (m_dir)
+      (*axis) = player->get_bbox().get_bottom() + 1;
+
+      bool should_summon = false;
+      for (TileMap* map : Sector::get().get_solid_tilemaps())
       {
-        case Direction::UP:
-        case Direction::DOWN:
-          if ((*tile_p)->is_unisolid())
-            return;
-          (*axis) = result.box.p1().y;
+        const Tile& tile = map->get_tile_at(pos);
+        if (tile.is_solid())
+        {
+          should_summon = true;
           break;
-
-        case Direction::LEFT:
-        case Direction::RIGHT:
-          if ((*tile_p)->is_unisolid())
-            return;
-          (*axis) = result.box.p1().x;
-          break;
-
-        /*
-        case Direction::DOWN:
-        case Direction::RIGHT:
-          (*axis) = reverse_raycast(result.box);
-          break;
-        */
-
-        default: assert(false); break;
+        }
       }
+      if (!should_summon) return;
     }
     else
     {
-      return;
+      using RaycastResult = CollisionSystem::RaycastResult;
+
+      Vector eye, end;
+      switch (m_dir)
+      {
+        case Direction::UP:
+          eye = {player->get_bbox().get_middle().x, player->get_bbox().get_bottom() + 1};
+          end = {eye.x, eye.y + ROOT_SAPLING_RANGE};
+          break;
+
+        case Direction::DOWN:
+          eye = {player->get_bbox().get_middle().x, player->get_bbox().get_top() - 1};
+          end = {eye.x, eye.y - ROOT_SAPLING_RANGE};
+          break;
+
+        case Direction::LEFT:
+          eye = {player->get_bbox().get_right() + 1, player->get_bbox().get_middle().y};
+          end = {eye.x + ROOT_SAPLING_RANGE, eye.y};
+          break;
+
+        case Direction::RIGHT:
+          eye = {player->get_bbox().get_left() - 1, player->get_bbox().get_middle().y};
+          end = {eye.x - ROOT_SAPLING_RANGE, eye.y};
+          break;
+
+        default: assert(false); break;
+      }
+
+      RaycastResult result = m_dir == Direction::LEFT || m_dir == Direction::UP ?
+                             Sector::get().get_first_line_intersection(eye, end, true, nullptr) :
+                             reverse_raycast(eye, end);
+
+      auto tile_p = std::get_if<const Tile*>(&result.hit);
+      if (tile_p && !result.box.empty())
+      {
+        switch (m_dir)
+        {
+          case Direction::UP:
+          case Direction::DOWN:
+            if ((*tile_p)->is_unisolid())
+              return;
+            (*axis) = result.box.p1().y;
+            break;
+
+          case Direction::LEFT:
+          case Direction::RIGHT:
+            if ((*tile_p)->is_unisolid())
+              return;
+            (*axis) = result.box.p1().x;
+            break;
+
+          /*
+          case Direction::DOWN:
+          case Direction::RIGHT:
+            (*axis) = reverse_raycast(result.box);
+            break;
+          */
+
+          default: assert(false); break;
+        }
+      }
+      else
+      {
+        return;
+      }
     }
+
+    Sizef size(32.f, 32.f);
+    switch (m_dir)
+    {
+      case Direction::UP: size.height *= 3; break;
+      case Direction::DOWN: size.height *= 3; break;
+      case Direction::LEFT: size.width *= 3; break;
+      case Direction::RIGHT: size.width *= 3; break;
+      default: assert(false); break;
+    }
+
+    Vector bboxpos = pos;
+    switch (m_dir)
+    {
+      case Direction::DOWN:
+        bboxpos.y = std::max(bboxpos.y - (32.f * 3.f), 0.f);
+        [[fallthrough]];
+      case Direction::UP:
+        bboxpos.x -= 16.f;
+        break;
+
+      case Direction::RIGHT:
+        bboxpos.x = std::max(bboxpos.x - (32.f * 3.f), 0.f);
+        [[fallthrough]];
+      case Direction::LEFT:
+        bboxpos.y -= 16.f;
+        break;
+
+      default: assert(false); break;
+    }
+
+    // Check if the hitbox of the root is entirely
+    // occupied by solid tiles.
+    Rectf space(bboxpos, size);
+    if (!should_summon_root(space.grown(-1)))
+      return;
+
+    Sector::get().add<Root>(pos, m_dir, "images/creatures/mole/corrupted/root.sprite");
   }
-
-  Sizef size(32.f, 32.f);
-  switch (m_dir)
-  {
-    case Direction::UP: size.height *= 3; break;
-    case Direction::DOWN: size.height *= 3; break;
-    case Direction::LEFT: size.width *= 3; break;
-    case Direction::RIGHT: size.width *= 3; break;
-    default: assert(false); break;
-  }
-
-  Vector bboxpos = pos;
-  switch (m_dir)
-  {
-    case Direction::DOWN:
-      bboxpos.y = std::max(bboxpos.y - (32.f * 3.f), 0.f);
-      [[fallthrough]];
-    case Direction::UP:
-      bboxpos.x -= 16.f;
-      break;
-
-    case Direction::RIGHT:
-      bboxpos.x = std::max(bboxpos.x - (32.f * 3.f), 0.f);
-      [[fallthrough]];
-    case Direction::LEFT:
-      bboxpos.y -= 16.f;
-      break;
-
-    default: assert(false); break;
-  }
-
-  // Check if the hitbox of the root is entirely
-  // occupied by solid tiles.
-  Rectf space(bboxpos, size);
-  if (!should_summon_root(space.grown(-1)))
-    return;
-
-  Sector::get().add<Root>(pos, m_dir, "images/creatures/mole/corrupted/root.sprite");
 }
 
 bool
