@@ -25,7 +25,7 @@
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  speed(gameRandom.randf(150.0f)),
+  speed(gameRandom.randf(130.0f, 171.0f)),
   diveRecoverTimer(),
   state(FLYING),
   last_player(nullptr),
