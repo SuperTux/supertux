@@ -97,9 +97,9 @@ RootSapling::collision_player(Player& player, const CollisionHit& hit)
   if (m_dir != Direction::DOWN || !hit.bottom)
     return BadGuy::collision_player(player, hit);
 
-  player.get_physic().set_acceleration_y(0);
+  player.get_physic().set_velocity_y(-player.get_physic().get_velocity_y());
   kill_fall();
-  return CONTINUE;
+  return FORCE_MOVE;
 }
 
 void
