@@ -15,33 +15,125 @@
 
 #include "badguy/ghoul.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "object/player.hpp"
-#include "editor/editor.hpp"
-#include "sprite/sprite.hpp"
-#include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/writer.hpp"
 
-static const float FLYSPEED = 80.0f; /**< Speed in px per second. */
-static const float TRACK_RANGE = 2500.0f; /**< At what distance to start tracking the player. */
+static const float DEFAULT_SPEED = 40.0f;
+static const float DEFAULT_TRACK_RANGE = 2500.0f;
+static const float RESPAWN_TIME = 5.f;
 
 Ghoul::Ghoul(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/ghoul/ghoul.sprite"),
-  PathObject(),
-  m_mystate(STATE_IDLE),
-  m_flyspeed(),
-  m_track_range()
+  m_speed(),
+  m_track_range(),
+  m_speed_modifier(),
+  m_fake_dead(),
+  m_chase_dir(),
+  m_respawn_timer(),
+  m_sprite_state(SpriteState::NORMAL)
 {
-  reader.get("flyspeed", m_flyspeed, FLYSPEED);
-  reader.get("track-range", m_track_range, TRACK_RANGE);
-  
-  bool running;
-  reader.get("running", running, false);
+  m_countMe = false;
 
-  init_path(reader, running);
+  reader.get("speed", m_speed, DEFAULT_SPEED);
+  reader.get("track-range", m_track_range, DEFAULT_TRACK_RANGE);
 
-  set_action(m_dir);
+  m_sprite->set_action(m_dir);
+  m_physic.set_gravity_modifier(0.2f);
+
+  SoundManager::current()->preload("sounds/fall.wav");
+}
+
+void
+Ghoul::active_update(float dt_sec)
+{
+  BadGuy::active_update(dt_sec);
+  if (m_frozen)
+    return;
+
+  if (m_fake_dead && m_respawn_timer.check()) {
+    initialize();
+    m_physic.enable_gravity(true);
+    set_colgroup_active(COLGROUP_MOVING);
+    m_fake_dead = false;
+    m_respawn_timer.stop();
+  }
+
+  if (m_fake_dead)
+    return;
+
+  auto player = get_nearest_player();
+  if (!player)
+  {
+    m_physic.reset();
+    return;
+  }
+  Vector p1 = m_col.m_bbox.get_middle();
+  Vector p2 = player->get_bbox().get_middle();
+  Vector dist = (p2 - p1);
+
+  switch (m_sprite_state)
+  {
+  case NORMAL:
+    m_speed_modifier = std::max(0.f, m_speed_modifier - (dt_sec * 2.f));
+    m_sprite->set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "normal-left" : "normal-right", 1);
+    if (m_sprite->animation_done()) {
+      m_chase_dir = glm::normalize(dist);
+      m_sprite_state = SpriteState::FAST;
+    }
+    break;
+  case FAST:
+    m_sprite->set_action(player->get_bbox().get_middle().x < get_bbox().get_middle().x ? "fast-left" : "fast-right", 1);
+    m_speed_modifier = 3.5f;
+    if (m_sprite->animation_done()) {
+      m_sprite_state = SpriteState::NORMAL;
+    }
+    break;
+  }
+
+  if ((glm::length(dist) >= 1) && (glm::length(dist) < m_track_range))
+  {
+    m_physic.set_velocity(m_chase_dir * m_speed * m_speed_modifier);
+  }
+  else
+  {
+    m_physic.set_velocity(0.f, 0.f);
+    m_physic.set_acceleration(0.f, 0.f);
+  }
+}
+
+HitResponse
+Ghoul::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
+{
+  BadGuy::collision_badguy(badguy, hit);
+  return CONTINUE;
+}
+
+void
+Ghoul::collision_solid(const CollisionHit& hit)
+{
+// allows it to continue moving if it hits a wall.
+}
+
+void
+Ghoul::collision_tile(uint32_t tile_attributes)
+{
+  // don't give it any unique tile interactions, such as hurting on spikes or swimming in water.
+}
+
+
+ObjectSettings
+Ghoul::get_settings()
+{
+  ObjectSettings result = BadGuy::get_settings();
+
+  result.add_float(_("Track Range"), &m_track_range, "track-range", DEFAULT_TRACK_RANGE);
+  result.add_float(_("Speed"), &m_speed, "speed", DEFAULT_SPEED);
+
+  result.reorder({ "track-range", "speed", "direction", "x", "y" });
+
+  return result;
 }
 
 bool
@@ -49,168 +141,23 @@ Ghoul::collision_squished(GameObject& object)
 {
   auto player = Sector::get().get_nearest_player(m_col.m_bbox);
   if (player)
-    player->bounce (*this);
-  set_action("squished", 1);
+    player->bounce(*this);
   kill_fall();
   return true;
 }
 
-bool
-Ghoul::is_freezable() const
-{
-  return false;
-}
-
-bool
-Ghoul::is_flammable() const
-{
-  return false;
-}
-
 void
-Ghoul::finish_construction()
+Ghoul::kill_fall()
 {
-  if (get_walker() && get_walker()->is_running()) {
-    m_mystate = STATE_PATHMOVING_TRACK;
-  }
-}
-
-void
-Ghoul::activate()
-{
-  if (Editor::is_active())
-    return;
-}
-
-void
-Ghoul::deactivate()
-{
-  switch (m_mystate) {
-    case STATE_TRACKING:
-      m_mystate = STATE_IDLE;
-      break;
-    default:
-      break;
-  }
-}
-
-void
-Ghoul::active_update(float dt_sec)
-{
-  if (Editor::is_active() && get_path() && get_path()->is_valid()) {
-    get_walker()->update(dt_sec);
-    set_pos(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle));
-    return;
-  }
-
-  auto player = get_nearest_player();
-  if (!player) 
-  return;
-  Vector p1 = m_col.m_bbox.get_middle();
-  Vector p2 = player->get_bbox().get_middle();
-  Vector dist = (p2 - p1);
-  
-  const Rectf& player_bbox = player->get_bbox();
-  
-  if (player_bbox.get_right() < m_col.m_bbox.get_left()) {
-    set_action("left", -1);
-  }
-  
-  if (player_bbox.get_left() > m_col.m_bbox.get_right()) {
-    set_action("right", -1);
-  }
-
-  switch (m_mystate) {
-    case STATE_STOPPED:
-      break;
-
-    case STATE_IDLE:
-      if (glm::length(dist) <= m_track_range) {
-        m_mystate = STATE_TRACKING;
-      }
-      break;
-
-    case STATE_TRACKING:
-      if (glm::length(dist) >= 1) {
-        Vector dir_ = glm::normalize(dist);
-        m_col.set_movement(dir_ * dt_sec * m_flyspeed);
-      } else {
-        /* We somehow landed right on top of the player without colliding.
-         * Sit tight and avoid a division by zero. */
-      }
-      break;
-
-    case STATE_PATHMOVING:
-    case STATE_PATHMOVING_TRACK:
-      if (get_walker() == nullptr)
-        return;
-      get_walker()->update(dt_sec);
-      m_col.set_movement(get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos());
-      if (m_mystate == STATE_PATHMOVING_TRACK && glm::length(dist) <= m_track_range) {
-        m_mystate = STATE_TRACKING;
-      }
-      break;
-
-    default:
-      assert(false);
-  }
-}
-
-void
-Ghoul::goto_node(int node_no)
-{
-  get_walker()->goto_node(node_no);
-  if (m_mystate != STATE_PATHMOVING && m_mystate != STATE_PATHMOVING_TRACK) {
-    m_mystate = STATE_PATHMOVING;
-  }
-}
-
-void
-Ghoul::start_moving()
-{
-  get_walker()->start_moving();
-}
-
-void
-Ghoul::stop_moving()
-{
-  get_walker()->stop_moving();
-}
-
-void
-Ghoul::set_state(const std::string& new_state)
-{
-  if (new_state == "stopped") {
-    m_mystate = STATE_STOPPED;
-  } else if (new_state == "idle") {
-    m_mystate = STATE_IDLE;
-  } else if (new_state == "move_path") {
-    m_mystate = STATE_PATHMOVING;
-    get_walker()->start_moving();
-  } else if (new_state == "move_path_track") {
-    m_mystate = STATE_PATHMOVING_TRACK;
-    get_walker()->start_moving();
-  } else if (new_state == "normal") {
-    m_mystate = STATE_IDLE;
-  } else {
-    log_warning << "Can't set unknown state '" << new_state << std::endl;
-  }
-}
-
-void
-Ghoul::move_to(const Vector& pos)
-{
-  Vector shift = pos - m_col.m_bbox.p1();
-  if (get_path()) {
-    get_path()->move_by(shift);
-  }
-  set_pos(pos);
-}
-
-std::vector<Direction>
-Ghoul::get_allowed_directions() const
-{
-  return {};
+  // "killing" the Ghoul doesn't actually kill it, because it is going to respawn, but it pretends to die.
+  set_action("squished");
+  SoundManager::current()->play("sounds/fall.wav", get_pos());
+  m_physic.enable_gravity(false);
+  m_physic.set_velocity(0.f, 0.f);
+  m_physic.set_acceleration(0.f, 0.f);
+  m_fake_dead = true;
+  set_colgroup_active(COLGROUP_DISABLED);
+  m_respawn_timer.start(RESPAWN_TIME);
 }
 
 /* EOF */

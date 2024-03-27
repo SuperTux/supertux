@@ -1,37 +1,61 @@
 (supertux-sprite
+
   (action
-    (name "left")
-	(fps 12)
+    (name "normal-left")
+    (fps 12)
+    (loops 1)
     (hitbox 8 10 45 45)
-    (images "g2.png"
-	"g3.png"
-	"g4.png"
-	"g5.png"
-	"g5.png"
-	"g6.png"
-	"g7.png"
-	"g7.png"
-	"g7.png"
-	"g8.png"
-	"g1.png"
-	"g1.png"
-	"g1.png"
-	"g1.png"
-	"g1.png"
-	"g1.png"
-	"g1.png"
-	"g1.png"
-	"g1.png")
-  )
+    (images "g8.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g1.png"
+            "g2.png"
+            "g3.png"
+            "g4.png"
+            "g5.png"
+            "g5.png"))
+
   (action
-    (name "right")
-	(fps 12)
+    (name "normal-right")
+    (fps 12)
+    (loops 1)
     (hitbox 47 10 45 45)
-    (mirror-action "left")
-  )
+    (mirror-action "normal-left"))
+
+  (action
+    (name "fast-left")
+    (fps 12)
+    (loops 1)
+    (hitbox 8 10 45 45)
+    (images "g6.png"
+            "g7.png"
+            "g7.png"
+            "g7.png"))
+
+  (action
+    (name "fast-right")
+    (fps 12)
+    (loops 1)
+    (hitbox 47 10 45 45)
+    (mirror-action "fast-left"))
+
   (action
     (name "squished")
     (hitbox 0 0 1 48)
-    (images "d1.png")
-  )
+    (images "d1.png"))
+
 )
