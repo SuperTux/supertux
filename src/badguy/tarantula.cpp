@@ -16,6 +16,7 @@
 
 #include "badguy/tarantula.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
@@ -307,7 +308,8 @@ Tarantula::draw(DrawingContext& context)
   BadGuy::draw(context);
 
   if (BadGuy::get_state() == STATE_FALLING ||
-      BadGuy::get_state() == STATE_SQUISHED)
+      BadGuy::get_state() == STATE_SQUISHED ||
+      Editor::is_active())
     return;
 
   //FIXME: Hello reviewers, is there a better way to center the silk horizontally? Thank you.
