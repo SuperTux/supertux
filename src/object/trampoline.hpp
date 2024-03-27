@@ -40,6 +40,8 @@ public:
   GameObjectTypes get_types() const override;
   std::string get_default_sprite_name() const override;
 
+  void bounce();
+
 public:
   enum Type {
     PORTABLE,

@@ -47,6 +47,7 @@ private:
   PushButtonState m_state;
 
   Direction m_dir;
+  bool m_sticky;
 
 private:
   PushButton(const PushButton&) = delete;

@@ -33,6 +33,7 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   ExposedObject<Platform, scripting::Platform>(this),
   PathObject(),
   m_speed(Vector(0,0)),
+  m_movement(Vector(0, 0)),
   m_automatic(false),
   m_player_contact(false),
   m_last_player_contact(false),
@@ -132,10 +133,10 @@ Platform::update(float dt_sec)
   }
 
   get_walker()->update(dt_sec);
-  Vector movement = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos();
-  m_col.set_movement(movement);
-  m_col.propagate_movement(movement);
-  m_speed = movement / dt_sec;
+  m_movement = get_walker()->get_pos(m_col.m_bbox.get_size(), m_path_handle) - get_pos();
+  m_col.set_movement(m_movement);
+  m_col.propagate_movement(m_movement);
+  m_speed = m_movement / dt_sec;
 }
 
 void
