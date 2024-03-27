@@ -45,7 +45,7 @@ public:
 
   virtual ObjectSettings get_settings() override;
 
-  virtual int get_layer() const override { return LAYER_OBJECTS; }
+  virtual int get_layer() const override { return LAYER_BACKGROUNDTILES + 1; }
 
   virtual void on_flip(float height) override;
 
