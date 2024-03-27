@@ -116,7 +116,7 @@ Decal::update(float)
     else
     {
       // Square root makes the background stay at fairly constant color/transparency
-      float new_alpha = sqrtf(m_sprite_timer.get_timegone() / m_sprite_timer.get_period());
+      float new_alpha = sqrtf(m_sprite_timer.get_progress());
       float old_alpha = sqrtf(m_sprite_timer.get_timeleft() / m_sprite_timer.get_period());
       m_sprite.get()->set_alpha(new_alpha);
       m_fade_sprite.get()->set_alpha(old_alpha);
@@ -136,7 +136,7 @@ Decal::update(float)
     else
     {
       float alpha;
-      if (m_visible) alpha = m_fade_timer.get_timegone() / m_fade_timer.get_period();
+      if (m_visible) alpha = m_fade_timer.get_progress();
       else alpha = m_fade_timer.get_timeleft() / m_fade_timer.get_period();
       m_sprite.get()->set_alpha(alpha);
     }

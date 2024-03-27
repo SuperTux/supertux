@@ -247,11 +247,13 @@ if(EMSCRIPTEN)
 endif()
 
 if(WIN32 AND NOT VCPKG_BUILD)
+if(NOT MINGW)
   ## Copy dlls on windows
   add_custom_command(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${DEPENDENCY_FOLDER}/dll"
     $<TARGET_FILE_DIR:supertux2_lib>)
+endif()
 endif()
 
 ## Some additional include paths
