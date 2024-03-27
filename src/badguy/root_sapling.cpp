@@ -28,7 +28,7 @@
 #include "util/reader_mapping.hpp"
 
 static const float ROOT_SAPLING_RANGE = 32.f * 20;
-static const float ROOT_SAPLING_SPAWN_TIME = 2.f;
+static const float ROOT_SAPLING_SPAWN_TIME = 1.35f;
 
 RootSapling::RootSapling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/corrupted/root_sapling.sprite", Direction::UP,
