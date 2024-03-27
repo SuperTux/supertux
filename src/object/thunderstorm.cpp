@@ -187,7 +187,9 @@ Thunderstorm::change_background_colors(bool is_lightning)
   auto backgrounds = Sector::current()->get_objects_by_type<Background>();
   for(auto& background : backgrounds)
   {
-    auto new_color = background.get_color() * factor;
+    auto color = background.get_color();
+    auto new_color = color * factor;
+    new_color.a = color.alpha;
     background.fade_color(new_color.validate(), 0.1f);
   }
 }
