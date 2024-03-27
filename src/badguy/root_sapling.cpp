@@ -324,8 +324,8 @@ RootSapling::reverse_raycast(const Vector& line_start, const Vector& line_end)
   // Check if no tile is in the way.
   const float lsx = std::max(line_start.x, line_end.x);
   const float lex = std::min(line_start.x, line_end.x);
-  const float lsy = std::min(line_start.y, line_end.y);
-  const float ley = std::max(line_start.y, line_end.y);
+  const float lsy = std::max(line_start.y, line_end.y);
+  const float ley = std::min(line_start.y, line_end.y);
 
   for (float test_x = lsx; test_x >= lex; test_x -= 16) { // NOLINT.
     for (float test_y = lsy; test_y >= ley; test_y -= 16) { // NOLINT.
