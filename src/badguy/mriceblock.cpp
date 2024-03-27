@@ -267,7 +267,7 @@ MrIceBlock::collision_squished(GameObject& object)
   }
 
   if (squishcount < MAXSQUISHES) {
-    spawn_squish_particles(squish_sprite);
+    spawn_squish_particles(squish_sprite, 1000.f);
   }
 
   switch (ice_state)
@@ -286,7 +286,7 @@ MrIceBlock::collision_squished(GameObject& object)
   {
     squishcount++;
     if (squishcount >= MAXSQUISHES) {
-      spawn_squish_particles(squish_sprite);
+      spawn_squish_particles(squish_sprite, 1000.f);
       kill_fall();
       return true;
     }

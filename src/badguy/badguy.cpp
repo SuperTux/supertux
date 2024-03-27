@@ -1138,7 +1138,7 @@ BadGuy::spawn_squish_particles(std::string particle_name, float y_accel)
     Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite",
       "piece-" + std::to_string(i),
       Vector(get_bbox().get_middle().x, get_bbox().get_top()),
-      ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, y_accel), LAYER_OBJECTS + 6, true);
+      ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, y_accel), LAYER_OBJECTS + 6, false, Color(1.f, 1.f, 1.f), true, 2.f);
   }
 }
 
@@ -1151,7 +1151,7 @@ BadGuy::spawn_side_squish_particles(Direction direction, std::string particle_na
     Vector accel = Vector(0.f, y_accel);
     Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite", "piece-" + std::to_string(i),
       Vector(direction == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right(), get_bbox().get_middle().y), ANCHOR_MIDDLE,
-      speed, accel, LAYER_OBJECTS + 6, true);
+      speed, accel, LAYER_OBJECTS + 6, false, Color(1.f, 1.f, 1.f), true, 2.f);
   }
 }
 
@@ -1161,7 +1161,7 @@ BadGuy::spawn_kill_particles()
   for (int i = 1; i < 9; i++)
   {
     Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
-    Sector::get().add<SpriteParticle>("images/particles/generic_piece_small.sprite", "default",
+    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-noglow",
       get_bbox().get_middle(),
       ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false);
   }

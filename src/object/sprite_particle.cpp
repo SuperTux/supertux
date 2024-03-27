@@ -26,10 +26,10 @@
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color_) :
+                               int drawing_layer_, bool notimeout, Color color_, bool fadeout_, float fadetime_) :
   SpriteParticle(SpriteManager::current()->create(sprite_name), action,
                  position_, anchor, velocity_, acceleration_,
-                 drawing_layer_, notimeout, color_)
+                 drawing_layer_, notimeout, color_, fadeout_, fadetime_)
 {
   if (sprite_name == "images/particles/sparkle.sprite" && sprite->get_action() != "small-noglow")
   {
@@ -46,11 +46,13 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
   }
   no_time_out = notimeout;
   sprite->set_color(color_);
+  fadeout = fadeout_;
+  fadetime = fadetime_;
 }
 
 SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_, bool notimeout, Color color_) :
+                               int drawing_layer_, bool notimeout, Color color_, bool fadeout_, float fadetime_) :
   sprite(std::move(sprite_)),
   position(position_),
   velocity(velocity_),
@@ -59,7 +61,11 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
   glow(false),
   no_time_out(false),
-  color(Color::WHITE)
+  color(Color::WHITE),
+  fadeout(),
+  fadetime(1.f),
+  fade_timer(),
+  done_fading(false)
 {
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
@@ -67,6 +73,8 @@ SpriteParticle::SpriteParticle(SpritePtr sprite_, const std::string& action,
 
   position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
   no_time_out = notimeout;
+  fadeout = fadeout_;
+  fadetime = fadetime_;
 }
 
 SpriteParticle::~SpriteParticle()
@@ -78,7 +86,7 @@ void
 SpriteParticle::update(float dt_sec)
 {
   // die when animation is complete
-  if (sprite->animation_done() && !no_time_out) {
+  if (sprite->animation_done() && !no_time_out && !fadeout) {
     remove_me();
     return;
   }
@@ -91,8 +99,27 @@ SpriteParticle::update(float dt_sec)
 
   // die when too far offscreen
   Camera& camera = Sector::get().get_camera();
-  if (!camera.get_rect().contains(position)) {
+  if (!camera.get_rect().contains(position) && !fadeout) {
     remove_me();
+  }
+
+  //fade out when animation is complete
+
+  if (fadeout) {
+    if (!fade_timer.started() && sprite->animation_done() && !done_fading)
+    {
+      fade_timer.start(fadetime);
+      done_fading = true;
+    }
+
+    sprite->set_alpha(fade_timer.started() ? ((fade_timer.get_timeleft()) / (fadetime)) : done_fading ? 0.f : 1.f);
+
+    if (fade_timer.check())
+    {
+      fade_timer.stop();
+      done_fading = true;
+      remove_me();
+    }
   }
 }
 

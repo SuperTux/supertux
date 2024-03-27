@@ -103,7 +103,7 @@ Stumpy::collision_squished(GameObject& object)
     m_col.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
     kill_squished(object);
     // Spawn some particles.
-    spawn_squish_particles("bark");
+    spawn_squish_particles("bark", 1000.f);
 
     return true;
 

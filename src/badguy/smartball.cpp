@@ -64,7 +64,7 @@ SmartBall::collision_squished(GameObject& object)
 
   std::string squish_sprite = m_type == PUMPKIN ? "pumpkin_piece" :
     "snow_piece_alt";
-  spawn_squish_particles(squish_sprite);
+  spawn_squish_particles(squish_sprite, 1000.f);
   set_action("squished", m_dir);
   kill_squished(object);
   return true;
