@@ -105,7 +105,7 @@ MrTree::collision_squished(GameObject& object)
   Vector stumpy_pos = get_pos();
   stumpy_pos.x += 8;
   stumpy_pos.y += 28;
-  auto& stumpy = Sector::get().add<Stumpy>(stumpy_pos, m_dir);
+  Sector::get().add<Stumpy>(stumpy_pos, m_dir);
   remove_me();
 
   // Give feedback.
@@ -113,22 +113,7 @@ MrTree::collision_squished(GameObject& object)
   if (player) player->bounce(*this);
 
   // Spawn some particles.
-  // TODO: Provide convenience function in MovingSprite or MovingObject?
-  for (int px = static_cast<int>(stumpy.get_bbox().get_left()); px < static_cast<int>(stumpy.get_bbox().get_right()); px+=10) {
-    Vector ppos = Vector(static_cast<float>(px),
-                         static_cast<float>(stumpy.get_bbox().get_top()) - 5.0f);
-    float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
-    float velocity = graphicsRandom.randf(45, 90);
-    float vx = sinf(angle)*velocity;
-    float vy = -cosf(angle)*velocity;
-    Vector pspeed = Vector(vx, vy);
-    Vector paccel = Vector(0, Sector::get().get_gravity()*10);
-    Sector::get().add<SpriteParticle>("images/particles/leaf.sprite",
-                                           "default",
-                                           ppos, ANCHOR_MIDDLE,
-                                           pspeed, paccel,
-                                           LAYER_OBJECTS-1);
-  }
+  spawn_squish_particles("viciousivy", 100.f);
 
   if (!m_frozen) { // Mr.Trees that are frozen don't spawn any Vicious Ivys.
     // Spawn ViciousIvy.

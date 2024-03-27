@@ -21,6 +21,7 @@
 #include "math/anchor_point.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/timer.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
@@ -32,11 +33,13 @@ public:
   SpriteParticle(SpritePtr sprite, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
+                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE,
+                 bool fadeout = false, float fadetime = 1.f);
   SpriteParticle(const std::string& sprite_name, const std::string& action,
                  const Vector& position, AnchorPoint anchor,
                  const Vector& velocity, const Vector& acceleration,
-                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE);
+                 int drawing_layer = LAYER_OBJECTS-1, bool notimeout = false, Color color = Color::WHITE,
+                 bool fadeout = false, float fadetime = 1.f);
   ~SpriteParticle() override;
 
 protected:
@@ -56,6 +59,10 @@ private:
   bool glow;
   bool no_time_out;
   Color color;
+  bool fadeout;
+  float fadetime;
+  Timer fade_timer;
+  bool done_fading;
 
 private:
   SpriteParticle(const SpriteParticle&) = delete;

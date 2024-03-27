@@ -90,6 +90,7 @@ MrBomb::collision_squished(GameObject& object)
     return true;
   }
   if (is_valid()) {
+    spawn_squish_particles("generic_piece_small");
     auto& bomb = Sector::get().add<Bomb>(get_pos(), m_dir, m_sprite_name);
 
     // Do not trigger dispenser because we need to wait for

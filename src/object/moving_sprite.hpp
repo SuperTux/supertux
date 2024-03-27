@@ -63,7 +63,6 @@ public:
 
   bool matches_sprite(const std::string& sprite_file) const;
   bool change_sprite(const std::string& new_sprite_name);
-  void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
   /** Get various sprite properties. **/
   Sprite* get_sprite() const { return m_sprite.get(); }

@@ -1,0 +1,9 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (fps 0.75)
+    (images 
+      "generic-piece-small.png"
+    )
+  )
+)

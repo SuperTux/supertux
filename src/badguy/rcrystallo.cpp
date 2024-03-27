@@ -193,6 +193,7 @@ RCrystallo::kill_fall()
     SoundManager::current()->play("sounds/crystallo-shatter.ogg", get_pos());
     if (is_valid())
     {
+      spawn_kill_particles();
       remove_me();
       // Create 4 shards that the enemy splits into, which serve as an additional threat.
       Sector::get().add<Shard>(m_col.m_bbox.get_middle(), Vector(100.f, -500.f));

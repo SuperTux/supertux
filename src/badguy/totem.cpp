@@ -130,6 +130,8 @@ Totem::collision_squished(GameObject& object)
     jump_off();
   }
 
+  spawn_squish_particles();
+
   set_action("squished", m_dir);
   m_col.m_bbox.set_size(m_sprite->get_current_hitbox_width(), m_sprite->get_current_hitbox_height());
 
