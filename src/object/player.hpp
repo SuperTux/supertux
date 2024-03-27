@@ -401,6 +401,7 @@ private:
   Timer m_sliding_rotation_timer;
   bool m_is_slidejump_falling;
   bool m_was_crawling_before_slide;
+  bool m_slidegrowing;
 
 private:
   Player(const Player&) = delete;

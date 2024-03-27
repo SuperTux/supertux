@@ -235,7 +235,8 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_target_sliding_angle(0.0f),
   m_sliding_rotation_timer(),
   m_is_slidejump_falling(false),
-  m_was_crawling_before_slide(false)
+  m_was_crawling_before_slide(false),
+  m_slidegrowing(false)
 {
   m_name = name_;
   m_idle_timer.start(static_cast<float>(TIME_UNTIL_IDLE) / 1000.0f);
@@ -468,7 +469,7 @@ Player::update(float dt_sec)
         adjust_height(BIG_TUX_HEIGHT, 10.f);
         do_duck();
       }
-      else if (!is_big() || m_stone)
+      else if (!is_big() || (m_stone && !m_growing))
       {
         adjust_height(SMALL_TUX_HEIGHT);
       }
@@ -590,8 +591,8 @@ Player::update(float dt_sec)
 
   //End of wallclinging
 
-  // Roll the sprite if Tux is rolling
-  if (m_stone)
+  // Roll the sprite if Tux is rolling (and not growing)
+  if (m_stone && !m_growing)
   {
     float f = 1.f;
 
@@ -711,7 +712,11 @@ Player::update(float dt_sec)
   }
 
   if (m_growing) {
-    if (m_sprite->animation_done()) m_growing = false;
+    if (m_sprite->animation_done())
+    {
+      m_growing = false;
+      m_slidegrowing = false;
+    }
   }
 
   // when climbing animate only while moving
@@ -1563,7 +1568,7 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && get_bonus() == EARTH_BONUS) {
+  if (m_controller->hold(Control::DOWN) && !m_does_buttjump && m_coyote_timer.started() && !m_swimming && (std::abs(m_physic.get_velocity_x()) > 150.f) && get_bonus() == EARTH_BONUS && !m_growing) {
     m_physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     adjust_height(TUX_WIDTH);
     m_stone = true;
@@ -1578,11 +1583,11 @@ Player::handle_input()
     apply_friction();
 
   /* Duck or Standup! */
-  if ((m_controller->pressed(Control::DOWN) || ((m_duck || m_wants_buttjump) && m_controller->hold(Control::DOWN))) &&
-    !m_swimming && !m_sliding && !m_stone) {
+  if (((m_controller->pressed(Control::DOWN) && !m_growing && !m_stone) || ((m_duck || m_wants_buttjump) && m_controller->hold(Control::DOWN))) &&
+    !m_swimming && !m_sliding && !m_stone && !m_growing && !m_slidegrowing) {
     do_duck();
   }
-  else {
+  else if (!m_slidegrowing) {
     do_standup(false);
   }
 
@@ -1875,7 +1880,7 @@ Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
   }
 
   if ((get_bonus() == NO_BONUS) && (type != NO_BONUS || m_stone)) {
-    if (!m_swimming)
+    if (!m_swimming && !m_sliding && !m_slidegrowing)
     {
       if (!adjust_height(BIG_TUX_HEIGHT))
       {
@@ -1890,7 +1895,10 @@ Player::set_bonus(BonusType type, bool animate, bool increment_powerup_counter)
       else if (m_swimming)
         m_sprite->set_action("swimgrow", m_dir, 1);
       else if (m_sliding)
+      {
         m_sprite->set_action("slidegrow", m_dir, 1);
+        m_slidegrowing = true;
+      }
       else
         m_sprite->set_action("grow", m_dir , 1);
     }
@@ -2035,7 +2043,7 @@ Player::draw(DrawingContext& context)
     if (m_swimming || m_water_jump) {
       action = "swimgrow";
     }
-    else if (m_sliding) {
+    else if (m_sliding || m_slidegrowing) {
       action = "slidegrow";
     }
     else if (m_climbing) {
@@ -2062,14 +2070,14 @@ Player::draw(DrawingContext& context)
     }
     else {
       m_sprite->set_action(sa_prefix + "-slide" + sa_postfix);
-      if (m_was_crawling_before_slide)
+      if (m_was_crawling_before_slide || m_slidegrowing)
       {
         m_sprite->set_frame(m_sprite->get_frames()); // Skip the "duck" animation when coming from crawling
         m_was_crawling_before_slide = false;
       }
     }
   }
-  else if (m_duck && is_big() && !m_swimming && !m_crawl) {
+  else if (m_duck && is_big() && !m_swimming && !m_crawl && !m_stone) {
     m_sprite->set_action(sa_prefix+"-duck"+sa_postfix);
   }
   else if (m_crawl)
