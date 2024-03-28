@@ -28,6 +28,7 @@
 #include "object/camera.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
+#include "object/rock.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/flip_level_transformer.hpp"
@@ -138,6 +139,14 @@ Crusher::collision(GameObject& other, const CollisionHit& hit)
   auto* badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy && m_state == CRUSHING) {
     badguy->kill_fall();
+  }
+
+  auto* rock = dynamic_cast<Rock*>(&other);
+  if (rock && !rock->is_grabbed() && hit.bottom && m_state == CRUSHING) {
+    SoundManager::current()->play("sounds/brick.wav", get_pos());
+    m_physic.reset();
+    set_state(RECOVERING);
+    return ABORT_MOVE;
   }
 
   const auto* heavy_coin = dynamic_cast<HeavyCoin*>(&other);
