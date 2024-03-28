@@ -44,10 +44,14 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 {
   parse_type(reader);
 
-  set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
+
   reader.get("cycle", m_cycle, 5.0f);
-  if (reader.get("gravity", m_gravity)) m_physic.enable_gravity(true);
+
+  reader.get("gravity", m_gravity);
+  set_colgroup_active(m_gravity ? COLGROUP_MOVING_STATIC : COLGROUP_STATIC);
+  m_physic.enable_gravity(m_gravity);
+
   reader.get("random", m_random, false);
 
   std::vector<std::string> badguys;
