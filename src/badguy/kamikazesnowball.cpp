@@ -17,6 +17,7 @@
 #include "badguy/kamikazesnowball.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "supertux/direction.hpp"
 
 namespace{
   static const float KAMIKAZE_SPEED = 200;
@@ -37,6 +38,14 @@ KamikazeSnowball::initialize()
   m_physic.set_velocity_x(m_dir == Direction::LEFT ? -KAMIKAZE_SPEED : KAMIKAZE_SPEED);
   m_physic.enable_gravity(false);
   set_action(m_dir);
+}
+
+void
+KamikazeSnowball::active_update(float dt_sec) {
+  m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.9f);
+  m_col.set_movement(m_physic.get_movement(dt_sec));
+
+  BadGuy::active_update(dt_sec);
 }
 
 bool

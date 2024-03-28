@@ -184,6 +184,12 @@ Zeekling::active_update(float dt_sec) {
     BadGuy::active_update(dt_sec);
     return;
   } else if (state == DIVING) {
+    // Something took away our diving velocity so we should go back up.
+    if (m_physic.get_velocity_y() <= 0.0f) {
+      state = CLIMBING;
+      m_physic.set_velocity_y(-2*fabsf(m_physic.get_velocity_x()));
+      set_action(m_dir);
+    }
     BadGuy::active_update(dt_sec);
     return;
   } else if (state == CLIMBING) {

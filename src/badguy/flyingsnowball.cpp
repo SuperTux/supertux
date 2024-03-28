@@ -32,6 +32,7 @@ const float GLOBAL_SPEED_MULT = 0.8f; /**< The overall movement speed/rate. */
 FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite"),
   total_time_elapsed(),
+  prev_height(0.f),
   puff_timer()
 {
   m_physic.enable_gravity(false);
@@ -77,14 +78,21 @@ FlyingSnowBall::active_update(float dt_sec)
 
   // Put that function in a graphing calculator :
   // sin(x)^3 + sin(3(x - pi/3))/3
-  float targetHgt = std::pow(std::sin(delta), 3.f) +
-                    std::sin(3.f *
-                             ((delta - math::PI) / 3.f)
-                            ) / 3.f;
-  targetHgt = targetHgt * 100.f + m_start_position.y;
-  m_physic.set_velocity_y(targetHgt - get_pos().y);
+  float targetHgt = (
+                        std::pow(std::sin(delta), 3.f) +
+                        std::sin(3.f *
+                            ((delta - math::PI) / 3.f)
+                        ) / 3.f
+                    ) * 100.f;
 
-  m_col.set_movement(m_physic.get_movement(1.f));
+  m_physic.set_velocity_y(m_physic.get_velocity_y() + (targetHgt - prev_height) / dt_sec);
+  prev_height = targetHgt;
+
+  m_physic.set_velocity_x(m_physic.get_velocity_x() * pow(0.5f, dt_sec));
+
+  m_col.set_movement(m_physic.get_movement(dt_sec));
+
+  m_physic.set_velocity_y(0.f);
 
   auto player = get_nearest_player();
   if (player) {

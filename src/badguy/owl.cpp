@@ -102,6 +102,8 @@ Owl::is_above_player() const
 void
 Owl::active_update (float dt_sec)
 {
+  m_physic.set_velocity_y(m_physic.get_velocity_y() * 0.9f);
+
   BadGuy::active_update (dt_sec);
 
   if (m_frozen)
