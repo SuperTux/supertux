@@ -268,9 +268,6 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^ppc.*")
 endif()
 
 ## Link supertux binary with squirrel and other libraries
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
-endif()
 
 target_link_libraries(supertux2_lib PUBLIC LibSquirrel)
 target_link_libraries(supertux2_lib PUBLIC LibSqstdlib)
@@ -282,9 +279,12 @@ target_link_libraries(supertux2_lib PUBLIC LibOpenAL)
 target_link_libraries(supertux2_lib PUBLIC LibGlm)
 target_link_libraries(supertux2_lib PUBLIC LibFmt)
 target_link_libraries(supertux2_lib PUBLIC LibPhysfs)
+
 if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibSDL2_ttf)
+  target_link_libraries(supertux2_lib PUBLIC LibSDL2 LibSDL2_image)
   target_link_libraries(supertux2_lib PUBLIC LibOggVorbis)
+  target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
 if(HAVE_OPENGL)
@@ -293,10 +293,6 @@ endif()
 
 if(ENABLE_DISCORD)
   target_link_libraries(supertux2_lib PUBLIC LibDiscord)
-endif()
-
-if(NOT EMSCRIPTEN)
-  target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
 ## Install stuff
