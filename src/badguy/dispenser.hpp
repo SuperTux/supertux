@@ -86,6 +86,7 @@ protected:
 
 private:
   void set_correct_action();
+  void set_correct_colgroup();
 
 private:
   float m_cycle;
