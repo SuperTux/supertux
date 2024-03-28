@@ -419,6 +419,14 @@ CollisionSystem::collision_static(collision::Constraints* constraints,
   // Collision with other (static) objects.
   for (auto* static_object : m_objects)
   {
+    float static_size = static_object->get_bbox().get_width() * static_object->get_bbox().get_height();
+    float object_size = object.get_bbox().get_width() * object.get_bbox().get_height();
+    float forgiveness = 16.f * 16.f;
+    // let's skip this if two colgroup_moving_static's connect and our object is somewhat larger than the static object.
+    if ((object.get_group() == COLGROUP_MOVING_STATIC && static_object->get_group() == COLGROUP_MOVING_STATIC) &&
+      (object_size > static_size + forgiveness)) {
+      return;
+    }
     if ((
           static_object->get_group() == COLGROUP_STATIC ||
           static_object->get_group() == COLGROUP_MOVING_STATIC
@@ -639,9 +647,9 @@ CollisionSystem::update()
   {
     auto object = *i;
 
-    if ((object->get_group() != COLGROUP_MOVING
-        && object->get_group() != COLGROUP_MOVING_STATIC)
-       || !object->is_valid())
+    if (!object->is_valid() ||
+        (object->get_group() != COLGROUP_MOVING &&
+         object->get_group() != COLGROUP_MOVING_STATIC))
       continue;
 
     for (auto i2 = i+1; i2 != m_objects.end(); ++i2) {
