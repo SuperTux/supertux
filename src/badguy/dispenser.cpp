@@ -170,7 +170,6 @@ Dispenser::active_update(float dt_sec)
 void
 Dispenser::kill_fall()
 {
-  return;
 }
 
 void
