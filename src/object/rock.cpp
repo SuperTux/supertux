@@ -151,7 +151,7 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
 
   auto crusher = dynamic_cast<Crusher*> (&other);
   if (crusher) {
-    return CONTINUE;
+    return FORCE_MOVE;
   }
 
   // Don't fall further if we are on a rock which is on the ground.
