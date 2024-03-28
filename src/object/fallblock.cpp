@@ -16,6 +16,7 @@
 #include "object/fallblock.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/badguy.hpp"
 #include "object/bumper.hpp"
 #include "object/player.hpp"
 #include "object/camera.hpp"
@@ -61,35 +62,9 @@ FallBlock::update(float dt_sec)
       break;
     case FALL:
     case LAND:
-      m_col.set_movement(m_physic.get_movement (dt_sec));
+      m_col.set_movement(m_physic.get_movement(dt_sec));
       set_group(COLGROUP_MOVING_STATIC);
       break;
-  }
-  for (auto& bumper : Sector::get().get_objects_by_type<Bumper>())
-  {
-    Rectf bumper_bbox = bumper.get_bbox();
-    if ((bumper_bbox.get_left() < (m_col.m_bbox.get_right() + 8))
-    && (bumper_bbox.get_right() > (m_col.m_bbox.get_left() - 8))
-    && (bumper_bbox.get_bottom() > (m_col.m_bbox.get_top() - 8))
-    && (bumper_bbox.get_top() < (m_col.m_bbox.get_bottom() + 8)))
-    {
-      switch (m_state)
-      {
-        case IDLE:
-          break;
-        case SHAKE:
-          break;
-        case FALL:
-          bumper.get_physic().enable_gravity(true);
-          break;
-        case LAND:
-          bumper.get_physic().enable_gravity(false);
-          bumper.get_physic().set_gravity_modifier(0.f);
-          bumper.get_physic().set_velocity_y(0.f);
-          bumper.get_physic().reset();
-          break;
-      }
-    }
   }
 }
 
@@ -110,6 +85,12 @@ FallBlock::collision(GameObject& other, const CollisionHit& hit)
     SoundManager::current()->play("sounds/cracking.wav", get_pos());
     m_timer.start(0.5f);
   }
+
+  auto badguy = dynamic_cast<BadGuy*>(&other);
+  if (badguy && hit.bottom && (m_state == FALL || m_state == LAND)) {
+    badguy->kill_fall();
+  }
+
   return FORCE_MOVE;
 }
 
@@ -119,6 +100,11 @@ FallBlock::collision_solid(const CollisionHit& hit)
   if (hit.top || hit.bottom || hit.crush)
   {
     m_physic.set_velocity(0.0f, 0.0f);
+  }
+
+  if (hit.bottom) {
+    m_physic.set_acceleration_y(0.f);
+    m_physic.reset();
   }
 
   if (m_state == FALL && hit.bottom)
@@ -139,7 +125,7 @@ FallBlock::draw(DrawingContext& context)
     pos.x += static_cast<float>(graphicsRandom.rand(-8, 8));
     pos.y += static_cast<float>(graphicsRandom.rand(-5, 5));
   }
-  MovingSprite::draw(context);
+  m_sprite->draw(context.color(), pos, m_layer, m_flip);
 }
 
 bool

@@ -41,9 +41,9 @@ public:
   static std::string display_name() { return _("Falling Platform"); }
   virtual std::string get_display_name() const override { return display_name(); }
 
+protected:
   virtual void on_flip(float height) override;
 
-protected:
   enum State
   {
     IDLE,
