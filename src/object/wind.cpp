@@ -39,6 +39,7 @@ Wind::Wind(const ReaderMapping& reader) :
   acceleration(),
   new_size(0.0f, 0.0f),
   dt_sec(0),
+  feather_distance(0.f),
   affects_badguys(),
   affects_objects(),
   affects_player(),
@@ -54,6 +55,7 @@ Wind::Wind(const ReaderMapping& reader) :
 
   reader.get("blowing", blowing, true);
 
+  reader.get("feather-distance", feather_distance, 16.f);
   reader.get("speed-x", speed.x, 0.0f);
   reader.get("speed-y", speed.y, 0.0f);
 
@@ -81,13 +83,14 @@ Wind::get_settings()
   result.add_float(_("Speed X"), &speed.x, "speed-x");
   result.add_float(_("Speed Y"), &speed.y, "speed-y");
   result.add_float(_("Acceleration"), &acceleration, "acceleration");
+  result.add_float(_("Feather Distance"), &feather_distance, "feather-distance");
   result.add_bool(_("Blowing"), &blowing, "blowing", true);
   result.add_bool(_("Affects Badguys"), &affects_badguys, "affects-badguys", false);
   result.add_bool(_("Affects Objects"), &affects_objects, "affects-objects", false);
   result.add_bool(_("Affects Player"), &affects_player, "affects-player");
   result.add_bool(_("Fancy Particles"), &fancy_wind, "fancy-wind", false);
 
-  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "region", "name", "x", "y"});
+  result.reorder({"blowing", "speed-x", "speed-y", "acceleration", "feather-distance", "affects-badguys", "affects-objects", "affects-player", "fancy-wind", "region", "name", "x", "y"});
 
   return result;
 }
@@ -152,21 +155,22 @@ Wind::collision(GameObject& other, const CollisionHit& )
   if (player && affects_player)
   {
     player->override_velocity();
-    player->add_wind_velocity(speed * dt_sec, acceleration, speed);
+    player->add_wind_velocity(speed * get_wind_strength(player->get_bbox().get_middle()) * dt_sec, acceleration, speed);
   }
 
   auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy && affects_badguys && badguy->can_be_affected_by_wind())
   {
     if (m_type == CURRENT && !dynamic_cast<DiveMine*>(&other)) { // Dive mines are not affected by currents
-      badguy->add_wind_velocity(speed * acceleration * dt_sec, speed);
+      return ABORT_MOVE;
     }
+    badguy->add_wind_velocity(speed * get_wind_strength(badguy->get_bbox().get_middle()) * acceleration * dt_sec, speed);
   }
 
   auto rock = dynamic_cast<Rock*>(&other);
   if (rock && affects_objects)
   {
-    rock->add_wind_velocity(speed * acceleration * dt_sec, speed);
+    rock->add_wind_velocity(speed * get_wind_strength(rock->get_bbox().get_middle()) * acceleration * dt_sec, speed);
   }
 
   return ABORT_MOVE;
@@ -189,6 +193,25 @@ Wind::on_flip(float height)
 {
   MovingObject::on_flip(height);
   speed.y = -speed.y;
+}
+
+float
+Wind::get_wind_strength(Vector pos) {
+  // Point isn't inside the wind
+  if (!m_col.m_bbox.contains(pos))
+    return 0.0;
+
+  float strength = 1.0;
+
+
+  float dl = pos.x - m_col.m_bbox.get_left();
+  float dr = m_col.m_bbox.get_right() - pos.x;
+  float dt = pos.y - m_col.m_bbox.get_top();
+  float db = m_col.m_bbox.get_bottom() - pos.y;
+
+  strength = std::clamp(std::min({dl, dr, dt, db}) / feather_distance, 0.f, 1.f);
+
+  return strength;
 }
 
 /* EOF */
