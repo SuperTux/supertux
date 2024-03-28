@@ -642,14 +642,14 @@ CollisionSystem::update()
     }
   }
 
-  // Part 3: COLGROUP_MOVING vs COLGROUP_MOVING
+  // Part 3: COLGROUP_MOVING vs COLGROUP_MOVING.
   for (auto i = m_objects.begin(); i != m_objects.end(); ++i)
   {
     auto object = *i;
 
-    if ((object->get_group() != COLGROUP_MOVING
-      && object->get_group() != COLGROUP_MOVING_STATIC)
-       || !object->is_valid())
+    if (!object->is_valid() ||
+        (object->get_group() != COLGROUP_MOVING &&
+         object->get_group() != COLGROUP_MOVING_STATIC))
       continue;
 
     for (auto i2 = i+1; i2 != m_objects.end(); ++i2) {
