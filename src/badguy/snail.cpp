@@ -260,7 +260,7 @@ Snail::collision_solid(const CollisionHit& hit)
           m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
           set_action("flat", m_dir, /* loops = */ -1);
 
-          m_physic.set_velocity_x(-m_physic.get_velocity_x());
+          m_physic.set_velocity(-m_physic.get_velocity_x(), -std::abs(m_physic.get_velocity_x()));
         }
       }
       [[fallthrough]];
@@ -327,7 +327,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
       m_dir = Direction::LEFT;
     }
     player.kick();
-    be_kicked(false);
+    be_kicked(true);
     return FORCE_MOVE;
   }
 
@@ -404,19 +404,49 @@ Snail::ungrab(MovingObject& object, Direction dir_)
 {
   if (!m_frozen)
   {
-    if (dir_ == Direction::UP) {
-      be_flat();
-    }
-    else {
-      if (dir_ != Direction::DOWN) {
-        m_dir = dir_;
-      } else {
-        const Player* player = dynamic_cast<Player*>(&object);
-        if(player) {
+    const Player* player = dynamic_cast<Player*>(&object);
+    const Owl* owl = dynamic_cast<Owl*>(&object);
+
+    if (player)
+    {
+      if (!player->is_swimming() && !player->is_water_jumping())
+      {
+        switch (dir_)
+        {
+        case Direction::UP:
+          if (std::abs(player->get_velocity().x) < 4.f) {
+            be_flat();
+            m_physic.set_velocity_y(SNAIL_KICK_SPEED_Y);
+          }
+          else {
+            be_kicked(true);
+          }
+          break;
+        case Direction::LEFT:
+        case Direction::RIGHT:
+          m_dir = dir_;
+          be_kicked(false);
+          break;
+        case Direction::DOWN:
           m_dir = player->m_dir;
+          be_kicked(false);
+          m_physic.set_velocity_y(500.f);
+          break;
+        default:
+          break;
         }
       }
-      be_kicked(dynamic_cast<Owl*>(&object) ? false : true);
+      else
+      {
+        float swimangle = player->get_swimming_angle();
+        m_col.m_bbox.move(Vector(std::cos(swimangle) * 48.f, std::sin(swimangle) * 48.f));
+        be_kicked(false);
+        m_physic.set_velocity(SNAIL_KICK_SPEED * 1.5f * Vector(std::cos(swimangle), std::sin(swimangle)));
+        m_dir = m_physic.get_velocity_x() > 0.f ? Direction::RIGHT : Direction::LEFT;
+      }
+    }
+    else if (owl) {
+      be_kicked(false);
     }
   }
   else
