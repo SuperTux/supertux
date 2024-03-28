@@ -137,12 +137,16 @@ Crusher::collision(GameObject& other, const CollisionHit& hit)
   }
 
   auto* badguy = dynamic_cast<BadGuy*>(&other);
-  if (badguy && m_state == CRUSHING) {
+  if (badguy && m_state == CRUSHING && ((!m_sideways && hit.bottom) ||
+    (m_sideways && ((hit.left && m_physic.get_velocity_x() < 0.f) || (hit.right && m_physic.get_velocity_x() > 0.f)))))
+  {
     badguy->kill_fall();
   }
 
   auto* rock = dynamic_cast<Rock*>(&other);
-  if (rock && !rock->is_grabbed() && ((hit.bottom && !m_sideways) || (m_sideways && (hit.left || hit.right))) && m_state == CRUSHING) {
+  if (rock && !rock->is_grabbed() && m_state == CRUSHING && ((!m_sideways && hit.bottom) ||
+    (m_sideways && ((hit.left && m_physic.get_velocity_x() < 0.f) || (hit.right && m_physic.get_velocity_x() > 0.f)))))
+  {
     SoundManager::current()->play("sounds/brick.wav", get_pos());
     m_physic.reset();
     set_state(RECOVERING);
