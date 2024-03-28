@@ -21,7 +21,6 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
-#include "editor/util.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/colorscheme.hpp"
@@ -152,7 +151,7 @@ EditorToolboxWidget::draw_tilegroup(DrawingContext& context)
       continue;
 
     auto position = get_tile_coords(pos, false);
-    draw_tile(context.color(), *m_editor.get_tileset(), tile_ID, position, LAYER_GUI - 9);
+    m_editor.get_tileset()->get(tile_ID).draw(context.color(), position, LAYER_GUI - 9);
 
     if (g_config->developer_mode && m_active_tilegroup->developers_group)
     {

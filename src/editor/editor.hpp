@@ -231,6 +231,9 @@ private:
 
   float m_scroll_speed;
 
+  bool m_ctrl_pressed;
+  Vector m_mouse_pos;
+
 private:
   Editor(const Editor&) = delete;
   Editor& operator=(const Editor&) = delete;
