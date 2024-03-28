@@ -75,6 +75,9 @@ public:
   virtual void undo();
   virtual void redo();
 
+  virtual void activate() override;
+  virtual void deactivate() override;
+
 protected:
   std::string m_input_undo;
   std::string m_input_redo;

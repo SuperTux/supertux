@@ -197,29 +197,13 @@ PhysfsSubsystem::PhysfsSubsystem(const char* argv0,
 void PhysfsSubsystem::find_mount_datadir()
 {
 #ifndef __EMSCRIPTEN__
-  if (const char* assetpack = getenv("ANDROID_ASSET_PACK_PATH"))
-  {
-    // Android asset pack has a hardcoded prefix for data files, and PhysFS cannot strip it, so we mount an archive inside an archive
-    if (!PHYSFS_mount(std::filesystem::canonical(assetpack).string().c_str(), nullptr, 1))
+#ifdef __ANDROID__
+    if (!setup_android_datadir())
     {
-      log_warning << "Couldn't add '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
-      return;
+      log_warning << "Couldn't setup android assets: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
     }
-
-    PHYSFS_File* data = PHYSFS_openRead("assets/data.zip");
-    if (!data)
-    {
-      log_warning << "Couldn't open assets/data.zip inside '" << assetpack << "' : " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
-      return;
-    }
-
-    if (!PHYSFS_mountHandle(data, "assets/data.zip", nullptr, 1))
-    {
-      log_warning << "Couldn't add assets/data.zip inside '" << assetpack << "' to physfs searchpath: " << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << std::endl;
-    }
-
     return;
-  }
+#endif
 
   if (m_forced_datadir)
   {
@@ -416,6 +400,52 @@ void PhysfsSubsystem::print_search_path()
     log_info << "  " << *i << std::endl;
   }
   PHYSFS_freeList(searchpath);
+}
+
+bool
+PhysfsSubsystem::setup_android_datadir() const
+{
+  /*
+  Only SDL knows about the data zip inside the APK
+  (this means only SDL knows how to use the JNI to load assets)
+  1. Copy the data zip inside the apk to userdir
+  2. Physfs mounts that new data zip
+  This solution works... until it doesn't
+  */
+
+  std::string zippath = "data.zip";
+  std::string newzip = m_forced_userdir.value();
+  newzip.append("/");
+  newzip.append(zippath);
+
+  size_t zipsz;
+  void* zipdata = SDL_LoadFile(zippath.c_str(), &zipsz);
+
+  bool newdata = true;
+  if (FileSystem::exists(newzip)) {
+    // Oh wait, the zip already exists?
+    // Well is it different?
+    size_t currzipsz;
+    void* currzip = SDL_LoadFile(newzip.c_str(), &currzipsz);
+
+    newdata = (zipsz != currzipsz);
+
+    SDL_free(currzip);
+  }
+
+  if (newdata) {
+    // Copy
+    SDL_RWops* zipcp = SDL_RWFromFile(newzip.c_str(), "w");
+    if (!zipcp) return false;
+    SDL_RWwrite(zipcp, zipdata, sizeof(char), zipsz);
+    SDL_RWclose(zipcp);
+  }
+
+  SDL_free(zipdata);
+
+  PHYSFS_mount(newzip.c_str(), nullptr, 1);
+
+  return true;
 }
 
 PhysfsSubsystem::~PhysfsSubsystem()
@@ -708,8 +738,14 @@ Main::run(int argc, char** argv)
       return EXIT_FAILURE;
     }
 
-    m_physfs_subsystem.reset(new PhysfsSubsystem(argv[0], args.datadir, args.userdir));
+#ifdef __ANDROID__
+    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, SDL_AndroidGetExternalStoragePath()));
+#else
+    m_physfs_subsystem.reset(new PhysfsSubsystem(nullptr, args.datadir, args.userdir));
+#endif
     m_physfs_subsystem->print_search_path();
+
+    m_sdl_subsystem.reset(new SDLSubsystem());
 
     s_timelog.log("config");
     m_config_subsystem.reset(new ConfigSubsystem());
@@ -757,7 +793,7 @@ Main::run(int argc, char** argv)
   // SDL2 keeps shared libraries loaded after the app is closed,
   // when we launch the app again the static initializers will run twice and crash the app.
   // So we just need to terminate the app process 'gracefully', without running destructors or atexit() functions.
-  _exit(result);
+  _Exit(result);
 #endif
 
   return result;

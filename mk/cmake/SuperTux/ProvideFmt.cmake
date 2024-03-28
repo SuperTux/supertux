@@ -1,12 +1,14 @@
 option(USE_SYSTEM_FMT "Use preinstalled fmt if available, must be 8.0.0 or newer" ON)
 if(USE_SYSTEM_FMT)
   find_package(fmt 8.0.0 QUIET)
+elseif(ANDROID)
+  find_library(fmt fmt)
 endif()
 
-if(TARGET fmt::fmt)
+if(TARGET fmt)
   message(STATUS "Found fmt")
 
-  add_library(LibFmt ALIAS fmt::fmt)
+  add_library(LibFmt ALIAS fmt)
 
 else()
   message(STATUS "Could NOT find fmt, using external/fmt fallback")

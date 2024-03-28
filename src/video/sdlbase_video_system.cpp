@@ -34,6 +34,7 @@ SDLBaseVideoSystem::SDLBaseVideoSystem() :
   if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
   {
     log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
+    m_desktop_size = g_config->window_size;
   }
   else
   {

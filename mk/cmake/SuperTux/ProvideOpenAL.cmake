@@ -3,7 +3,11 @@ if(NOT EMSCRIPTEN)
     find_package(OpenAL CONFIG REQUIRED)
     add_library(LibOpenAL ALIAS OpenAL::OpenAL)
   else()
-    find_package(OpenAL REQUIRED)
+    if(ANDROID)
+      find_library(OpenAL OpenAL)
+    else()
+      find_package(OpenAL REQUIRED)
+    endif()
 
     add_library(LibOpenAL INTERFACE IMPORTED)
     set_target_properties(LibOpenAL PROPERTIES
@@ -14,7 +18,7 @@ if(NOT EMSCRIPTEN)
 else()
   add_library(LibOpenAL INTERFACE IMPORTED)
   set_target_properties(LibOpenAL PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/mk/emscripten/AL"
+    INTERFACE_INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/mk/emscripten/AL"
     INTERFACE_LINK_LIBRARIES "-lopenal"
     )
 endif()

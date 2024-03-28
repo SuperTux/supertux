@@ -117,7 +117,7 @@ if(EMSCRIPTEN)
 endif()
 
 # TODO: Add " OR ANDROID OR IOS" to this
-if(EMSCRIPTEN OR UBUNTU_TOUCH OR ANDROID)
+if(EMSCRIPTEN)
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" ON)
 else()
   option(REMOVE_QUIT_BUTTON "Remove the option to quit the game (useful on mobile devices)" OFF)
@@ -235,6 +235,8 @@ target_include_directories(supertux2_lib PUBLIC ${CMAKE_BINARY_DIR} src/)
 if(WIN32)
   add_executable(supertux2 WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
   target_link_libraries(supertux2 LibSDL2main)
+elseif(ANDROID)
+  add_library(supertux2 src/main.cpp)
 else()
   add_executable(supertux2 src/main.cpp)
 endif()
@@ -299,11 +301,47 @@ if(NOT EMSCRIPTEN)
   target_link_libraries(supertux2_lib PUBLIC LibCurl)
 endif()
 
+# FIXME: Some libraries made by Provide*.cmake
+# scripts are not passed to the linker. This
+# forcefully links them
+if(ANDROID)
+  target_link_libraries(supertux2_lib PUBLIC physfs)
+  target_link_libraries(supertux2_lib PUBLIC libcurl)
+  target_link_libraries(supertux2_lib PUBLIC OpenAL)
+  target_link_libraries(supertux2_lib PUBLIC ogg)
+  target_link_libraries(supertux2_lib PUBLIC vorbis)
+  target_link_libraries(supertux2_lib PUBLIC vorbisenc)
+  target_link_libraries(supertux2_lib PUBLIC vorbisfile)
+  target_link_libraries(supertux2_lib PUBLIC glm)
+  find_library(png png)
+  target_link_libraries(supertux2_lib PUBLIC png)
+  find_library(log-lib log)
+  target_link_libraries(supertux2_lib PUBLIC ${log-lib})
+endif()
+
 ## Install stuff
 include(SuperTux/BuildInstall)
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
+
+# Make android data.zip
+if(ANDROID)
+  get_filename_component(DATADIR ${PROJECT_SOURCE_DIR}/data REALPATH)
+  if(NOT EXISTS ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
+    file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets)
+  endif()
+  file(GLOB DATA_CONTENTS RELATIVE ${DATADIR} ${DATADIR}/*)
+  message("DATA: ${DATA_CONTENTS}")
+  #file(ARCHIVE_CREATE OUTPUT ${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip PATHS ${DATA_CONTENTS} FORMAT zip)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar "cfv"
+    "${PROJECT_SOURCE_DIR}/build.android/app/src/main/assets/data.zip"
+    --format=zip
+    ${DATA_CONTENTS}
+
+    WORKING_DIRECTORY ${DATADIR}
+  )
+endif()
 
 ## Build tests
 include(SuperTux/BuildTests)

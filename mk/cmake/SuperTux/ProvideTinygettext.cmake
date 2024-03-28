@@ -1,6 +1,11 @@
 option(USE_SYSTEM_TINYGETTEXT "Use preinstalled tinygettext if available" ON)
 if(USE_SYSTEM_TINYGETTEXT)
-  find_package(tinygettext QUIET)
+  if(ANDROID)
+    find_library(tinygettext NAMES tinygettext PATHS ${TINYGETTEXT_PATH})
+    message("TGT: ${tinygettext}")
+  else()
+    find_package(tinygettext QUIET)
+  endif()
 endif()
 
 if(TARGET tinygettext)
@@ -12,8 +17,8 @@ else()
     message(STATUS "Could NOT find tinygettext, using external/tinygettext fallback")
   endif()
 
-  if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
-    message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
+  if(NOT EXISTS ${CMAKE_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
+    message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
   endif()
 
   # Include altivec wrapper on ppc
