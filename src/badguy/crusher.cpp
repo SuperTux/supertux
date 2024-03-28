@@ -328,7 +328,7 @@ Crusher::update(float dt_sec)
   switch (m_state)
   {
   case IDLE:
-    m_start_position = get_pos();
+    //m_start_position = get_pos();
     if (found_victim())
     {
       set_state(CRUSHING);
@@ -360,9 +360,11 @@ Crusher::update(float dt_sec)
   case RECOVERING:
     if (returned_down || returned_up || returned_left || returned_right)
     {
-      set_pos(Vector(m_sideways ? m_start_position.x : get_pos().x,
-        m_sideways ? get_pos().y : m_start_position.y));
-      m_physic.set_velocity(0.f, 0.f);
+      m_physic.reset();
+      // we have to offset the crusher when we bring it back to its original position because otherwise it will gain an ugly offset. #JustPhysicErrorThings
+      set_pos(Vector(m_sideways ? m_start_position.x + (2.6f * (m_side_dir == Direction::LEFT ? -1.f : 1.f)) : get_pos().x,
+        m_sideways ? get_pos().y : m_start_position.y + (2.6f * (m_flip ? -1.f : 1.f))));
+
       if (m_ic_size == LARGE)
         m_cooldown_timer = PAUSE_TIME_LARGE;
       else
