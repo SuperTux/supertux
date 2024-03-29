@@ -33,6 +33,7 @@ namespace {
 const float LIGHTNING_DELAY = 2.0f;
 const float FLASH_DISPLAY_TIME = 1.3f;
 const float ELECTRIFY_TIME = 0.5f;
+const float RESTORE_BACKGROUND_COLOR_TIME = 0.1f;
 } // namespace
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
@@ -45,6 +46,8 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   time_to_thunder(),
   time_to_lightning(),
   flash_display_timer(),
+  restore_background_color_timer(),
+  m_background_colors(),
   changing_tiles(TileManager::current()->get_tileset(Level::current()->get_tileset())->m_thunderstorm_tiles),
   m_flash_color()
 {
@@ -85,6 +88,12 @@ Thunderstorm::get_settings()
 void
 Thunderstorm::update(float )
 {
+  // need this out here for lone lightning strikes
+  if (restore_background_color_timer.check()) {
+    restore_background_colors();
+    restore_background_color_timer.stop();
+  }
+
   if (!running) return;
 
   if (time_to_thunder.check()) {
@@ -188,9 +197,23 @@ Thunderstorm::change_background_colors(bool is_lightning)
   for(auto& background : backgrounds)
   {
     auto color = background.get_color();
+    m_background_colors.push_back(color);
     auto new_color = color * factor;
     new_color.a = color.alpha;
-    background.fade_color(new_color.validate(), 0.1f);
+    background.fade_color(new_color.validate(), RESTORE_BACKGROUND_COLOR_TIME);
+  }
+  restore_background_color_timer.start(RESTORE_BACKGROUND_COLOR_TIME);
+}
+
+void
+Thunderstorm::restore_background_colors()
+{
+  auto backgrounds = Sector::current()->get_objects_by_type<Background>();
+  for (auto& background : backgrounds)
+  {
+    auto color = m_background_colors.front();
+    background.fade_color(color, RESTORE_BACKGROUND_COLOR_TIME);
+    m_background_colors.pop_front();
   }
 }
 
