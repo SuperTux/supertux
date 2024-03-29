@@ -301,7 +301,7 @@ GameSession::on_escape_press(bool force_quick_respawn)
 Vector
 GameSession::get_fade_point() const
 {
-  if (m_level->m_is_in_cutscene)
+  if (m_level->m_is_in_cutscene || m_currentsector->get_camera().get_mode() == Camera::Mode::MANUAL)
   {
     return m_currentsector->get_camera().get_center();
   }
