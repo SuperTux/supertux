@@ -94,6 +94,27 @@ Thunderstorm::update(float )
     restore_background_color_timer.stop();
   }
 
+  if (flash_display_timer.started())
+  {
+    float alpha = 0.9f;
+    if (flash_display_timer.get_timegone() > 0.1f)
+    {
+      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
+      if (progress < 0.0f)
+        progress = 0.0f;
+
+      alpha = 0.9f - progress;
+    }
+
+    if (alpha < 0.0f)
+    {
+      flash_display_timer.stop();
+      return;
+    }
+
+    m_flash_color = Color(alpha, alpha, alpha, 1.0);
+  }
+
   if (!running) return;
 
   if (time_to_thunder.check()) {
@@ -103,27 +124,6 @@ Thunderstorm::update(float )
   if (time_to_lightning.check()) {
     lightning();
     time_to_thunder.start(interval);
-  }
-
-  if(flash_display_timer.started())
-  {
-    float alpha = 0.9f;
-    if(flash_display_timer.get_timegone() > 0.1f)
-    {
-      auto progress = flash_display_timer.get_timegone() / flash_display_timer.get_timeleft() - 0.1f;
-      if(progress < 0.0f)
-        progress = 0.0f;
-
-      alpha = 0.9f - progress;
-    }
-
-    if(alpha < 0.0f)
-    {
-      flash_display_timer.stop();
-      return;
-    }
-
-    m_flash_color = Color(alpha, alpha, alpha, 1.0);
   }
 }
 
@@ -165,7 +165,7 @@ Thunderstorm::thunder()
 }
 
 void
-Thunderstorm::lightning()
+Thunderstorm::lightning(bool is_scripted)
 {
   flash();
   electrify();
@@ -173,7 +173,7 @@ Thunderstorm::lightning()
 	  Sector::get().run_script(m_strike_script, "strike-script");
   }
 
-  change_background_colors(true);
+  change_background_colors(true, is_scripted);
 }
 
 void
@@ -190,19 +190,23 @@ Thunderstorm::electrify()
 }
 
 void
-Thunderstorm::change_background_colors(bool is_lightning)
+Thunderstorm::change_background_colors(bool is_lightning, bool is_scripted)
 {
   auto factor = is_lightning ? (1.0f / 0.7f) : 0.7f;
   auto backgrounds = Sector::current()->get_objects_by_type<Background>();
   for(auto& background : backgrounds)
   {
     auto color = background.get_color();
-    m_background_colors.push_back(color);
     auto new_color = color * factor;
+    if (is_scripted) {
+      m_background_colors.push_back(color);
+    }
     new_color.a = color.alpha;
     background.fade_color(new_color.validate(), RESTORE_BACKGROUND_COLOR_TIME);
   }
-  restore_background_color_timer.start(RESTORE_BACKGROUND_COLOR_TIME);
+  if (is_scripted) {
+    restore_background_color_timer.start(RESTORE_BACKGROUND_COLOR_TIME);
+  }
 }
 
 void

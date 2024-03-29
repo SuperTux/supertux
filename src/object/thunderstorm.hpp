@@ -61,7 +61,7 @@ public:
   void thunder();
 
   /** Play lightning, i.e. call flash() and electrify() */
-  void lightning();
+  void lightning(bool is_scripted = false);
 
   /** Display a nice flash */
   void flash();
@@ -72,7 +72,7 @@ public:
   /** @} */
 
 private:
-  void change_background_colors(bool is_lightning);
+  void change_background_colors(bool is_lightning, bool is_scripted = false);
   void restore_background_colors();
 
 private:
