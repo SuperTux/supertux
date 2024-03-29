@@ -212,7 +212,7 @@ Snail::active_update(float dt_sec)
 
     case STATE_KICKED:
       m_physic.set_velocity_x(m_physic.get_velocity_x() * powf(0.99f, dt_sec/0.02f));
-      if (fabsf(m_physic.get_velocity_x()) < walk_speed) be_normal();
+      if (on_ground() && (fabsf(m_physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 
     case STATE_GRABBED:
