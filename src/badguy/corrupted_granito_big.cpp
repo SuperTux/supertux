@@ -80,6 +80,9 @@ CorruptedGranitoBig::draw(DrawingContext &context)
 void
 CorruptedGranitoBig::kill_fall()
 {
+  if (m_state == STATE_BROKEN)
+    return;
+
   m_state = STATE_BROKEN;
   set_action("broken", m_dir);
   set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
