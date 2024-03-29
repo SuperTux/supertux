@@ -301,18 +301,32 @@ GameSession::on_escape_press(bool force_quick_respawn)
 Vector
 GameSession::get_fade_point() const
 {
-  // Get first player that is alive
-  // Should work for single player without problems,
-  // but for multiplayer a proper handling needs to be done
-  for (const auto& player : m_currentsector->get_players())
+  if (m_level->m_is_in_cutscene)
   {
-    if (!player->is_dead() && !player->is_dying())
+    return m_currentsector->get_camera().get_center();
+  }
+  else
+  {
+    // Get "middle" of all alive players
+    Vector position(0.0f, 0.0f);
+    size_t alive_players = 0U;
+
+    for (const auto* player : m_currentsector->get_players())
     {
-      return player->get_bbox().get_middle();
+      if (!player->is_dead() && !player->is_dying())
+      {
+        position += player->get_bbox().get_middle();
+        alive_players++;
+      }
+    }
+
+    if (alive_players > 0U)
+    {
+      return position / alive_players;
     }
   }
 
-  return Vector(0.0f, 0.f);
+  return m_currentsector->get_camera().get_center();
 }
 
 void
