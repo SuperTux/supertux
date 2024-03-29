@@ -203,6 +203,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_, int player
   m_invincible_timer(),
   m_skidding_timer(),
   m_safe_timer(),
+  m_is_intentionally_safe(false),
   m_kick_timer(),
   m_buttjump_timer(),
   m_dying_timer(),
@@ -2205,7 +2206,7 @@ Player::draw(DrawingContext& context)
   */
 
   /* Draw Tux */
-  if (!m_visible || (m_safe_timer.started() && m_safe_due_to_hurt && size_t(g_game_time * 40) % 2))
+  if (!m_visible || (m_safe_timer.started() && !m_is_intentionally_safe && size_t(g_game_time * 40) % 2))
   {
   }  // don't draw Tux
 
@@ -2378,7 +2379,7 @@ void
 Player::make_temporarily_safe(const float safe_time)
 {
   m_safe_timer.start(safe_time);
-  m_safe_due_to_hurt = false;
+  m_is_intentionally_safe = true;
 }
 
 void
@@ -2408,11 +2409,11 @@ Player::kill(bool completely)
       || get_bonus() == AIR_BONUS
       || get_bonus() == EARTH_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME);
-      m_safe_due_to_hurt = true;
+      m_is_intentionally_safe = false;
       set_bonus(GROWUP_BONUS, true);
     } else if (get_bonus() == GROWUP_BONUS) {
       m_safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      m_safe_due_to_hurt = true;
+      m_is_intentionally_safe = false;
       m_duck = false;
       stop_backflipping();
       set_bonus(NO_BONUS, true);
@@ -2511,7 +2512,9 @@ Player::check_bounds()
   }
 
   /* fallen out of the level? */
-  if ((get_pos().y > Sector::get().get_height()) && (!m_ghost_mode)) {
+  if ((get_pos().y > Sector::get().get_height())
+      && (!m_ghost_mode)
+      && !(m_is_intentionally_safe && m_safe_timer.started())) {
     kill(true);
     return;
   }

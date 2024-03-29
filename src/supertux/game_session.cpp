@@ -539,7 +539,8 @@ GameSession::update(float dt_sec, const Controller& controller)
       case ScreenFade::FadeType::CIRCLE:
       {
         const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
-        const Vector shrinkpos = spawn_point_position - sector->get_camera().get_translation();
+        const bool is_fade_point_valid = spawn_point_position.x != 0.0f && spawn_point_position.y != 0.0f;
+        const Vector shrinkpos = (is_fade_point_valid ? spawn_point_position : get_fade_point()) - Sector::current()->get_camera().get_translation();
 
         ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEIN));
         break;
@@ -696,13 +697,14 @@ GameSession::respawn_with_fade(const std::string& sector,
   m_spawn_fade_point = fade_point;
   m_spawn_with_invincibilty = make_invincible;
 
-  m_spawn_fade_timer.start(TELEPORT_FADE_TIME);
+  bool transition_takes_time = false;
 
   switch (m_spawn_fade_type)
   {
     case ScreenFade::FadeType::FADE:
     {
       ScreenManager::current()->set_screen_fade(std::make_unique<FadeToBlack>(FadeToBlack::FADEOUT, TELEPORT_FADE_TIME));
+      transition_takes_time = true;
       break;
     }
     case ScreenFade::FadeType::CIRCLE:
@@ -711,10 +713,22 @@ GameSession::respawn_with_fade(const std::string& sector,
       const Vector shrinkpos = (is_fade_point_valid ? fade_point : get_fade_point()) - Sector::current()->get_camera().get_translation();
 
       ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEOUT));
+      transition_takes_time = true;
       break;
     }
     default:
       break;
+  }
+
+  if (transition_takes_time)
+  {
+    m_spawn_fade_timer.start(TELEPORT_FADE_TIME);
+
+    // Make all players safe during the fadeout transition
+    for (Player* player : m_currentsector->get_players())
+    {
+      player->make_temporarily_safe(TELEPORT_FADE_TIME);
+    }
   }
 
 }

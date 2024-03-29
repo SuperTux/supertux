@@ -355,7 +355,7 @@ public:
 private:
   Timer m_skidding_timer;
   Timer m_safe_timer;
-  bool m_safe_due_to_hurt;
+  bool m_is_intentionally_safe;
   Timer m_kick_timer;
   Timer m_buttjump_timer;
 
