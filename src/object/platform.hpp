@@ -62,7 +62,7 @@ public:
   void goto_node(int node_no);
 
   /** Move platform instantly to given node */
-  void jump_to_node(int node_no);
+  void jump_to_node(int node_no, bool instantaneous = false);
 
   /** Start moving platform */
   void start_moving();
