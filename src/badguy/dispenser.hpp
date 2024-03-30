@@ -40,6 +40,7 @@ public:
   virtual void deactivate() override;
   virtual void active_update(float dt_sec) override;
 
+  virtual void kill_fall() override;
   virtual void freeze() override;
   virtual void unfreeze(bool melt = true) override;
   virtual bool is_freezable() const override;
@@ -85,6 +86,7 @@ protected:
 
 private:
   void set_correct_action();
+  void set_correct_colgroup();
 
 private:
   float m_cycle;
