@@ -40,6 +40,7 @@
 namespace {
 
 static const char* ADDON_INFO_PATH = "/addons/repository.nfo";
+static const char* ADDON_REPOSITORY_URL = "https://raw.githubusercontent.com/SuperTux/addons/master/index-0_6.nfo";
 
 MD5 md5_from_file(const std::string& filename)
 {
@@ -145,7 +146,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_addon_directory(addon_directory),
   m_cache_directory(FileSystem::join(m_addon_directory, "cache")),
   m_screenshots_cache_directory(FileSystem::join(m_cache_directory, "screenshots")),
-  m_repository_url("https://raw.githubusercontent.com/SuperTux/addons/master/index-0_6.nfo"),
+  m_repository_url(ADDON_REPOSITORY_URL),
   m_addon_config(addon_config),
   m_installed_addons(),
   m_repository_addons(),
