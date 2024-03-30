@@ -188,17 +188,13 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
     case CLOSED:
       break;
     case OPENING:
-      break;
-    case OPEN:
     {
-      // If door is open and was touched by a player, teleport the player.
+      // If door is opening and was touched by a player, teleport the player.
       Player* player = dynamic_cast<Player*> (&other);
 
       if (player) {
-        // Restart the stay open time to allow the fade transition to fisish
         if (!m_transition_triggered)
         {
-          m_stay_open_timer.start(STAY_OPEN_TIME);
           m_transition_triggered = true;
 
           if (!m_script.empty()) {
@@ -218,8 +214,9 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
           }
         }
       }
+      break;
     }
-    break;
+    case OPEN:
     case CLOSING:
     case LOCKED:
     case UNLOCKING:
