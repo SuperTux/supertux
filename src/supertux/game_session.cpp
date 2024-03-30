@@ -225,7 +225,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
 
   if (m_levelintro_shown)
   {
-    const Vector shrinkpos = get_fade_point() - m_currentsector->get_camera().get_translation();
+    const Vector shrinkpos = get_fade_point();
     ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEIN));
   }
 
@@ -301,32 +301,53 @@ GameSession::on_escape_press(bool force_quick_respawn)
 Vector
 GameSession::get_fade_point() const
 {
-  if (m_level->m_is_in_cutscene || m_currentsector->get_camera().get_mode() == Camera::Mode::MANUAL)
+  return get_fade_point(Vector(0.0f, 0.0f));
+}
+
+Vector
+GameSession::get_fade_point(const Vector& position) const
+{
+  Vector fade_point(0.0f, 0.0f);
+
+  if (position.x != 0.0f && position.y != 0.0f)
   {
-    return m_currentsector->get_camera().get_center();
+    fade_point = position;
   }
   else
   {
-    // Get "middle" of all alive players
-    Vector position(0.0f, 0.0f);
-    size_t alive_players = 0U;
-
-    for (const auto* player : m_currentsector->get_players())
+    if (m_level->m_is_in_cutscene || m_currentsector->get_camera().get_mode() == Camera::Mode::MANUAL)
     {
-      if (!player->is_dead() && !player->is_dying())
-      {
-        position += player->get_bbox().get_middle();
-        alive_players++;
-      }
+      fade_point = m_currentsector->get_camera().get_center();
     }
-
-    if (alive_players > 0U)
+    else
     {
-      return position / alive_players;
+      // Get "middle" of all alive players
+      Vector average_position(0.0f, 0.0f);
+      size_t alive_players = 0U;
+
+      for (const auto* player : m_currentsector->get_players())
+      {
+        if (!player->is_dead() && !player->is_dying())
+        {
+          average_position += player->get_bbox().get_middle();
+          alive_players++;
+        }
+      }
+
+      if (alive_players > 0U)
+      {
+        fade_point = average_position / alive_players;
+      }
+      else
+      {
+        fade_point = m_currentsector->get_camera().get_center();
+      }
     }
   }
 
-  return m_currentsector->get_camera().get_center();
+  fade_point = (fade_point - m_currentsector->get_camera().get_translation()) * m_currentsector->get_camera().get_current_scale();
+
+  return fade_point;
 }
 
 void
@@ -444,7 +465,7 @@ GameSession::setup()
   }
   else
   {
-    const Vector shrinkpos = get_fade_point() - m_currentsector->get_camera().get_translation();
+    const Vector shrinkpos = get_fade_point();
     ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEIN));
   }
 
@@ -539,8 +560,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       case ScreenFade::FadeType::CIRCLE:
       {
         const Vector spawn_point_position = sector->get_spawn_point_position(m_newspawnpoint);
-        const bool is_fade_point_valid = spawn_point_position.x != 0.0f && spawn_point_position.y != 0.0f;
-        const Vector shrinkpos = (is_fade_point_valid ? spawn_point_position : get_fade_point()) - Sector::current()->get_camera().get_translation();
+        const Vector shrinkpos = get_fade_point(spawn_point_position);
 
         ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEIN));
         break;
@@ -709,9 +729,7 @@ GameSession::respawn_with_fade(const std::string& sector,
     }
     case ScreenFade::FadeType::CIRCLE:
     {
-      const bool is_fade_point_valid = fade_point.x != 0.0f && fade_point.y != 0.0f;
-      const Vector shrinkpos = (is_fade_point_valid ? fade_point : get_fade_point()) - Sector::current()->get_camera().get_translation();
-
+      const Vector shrinkpos = get_fade_point(fade_point);
       ScreenManager::current()->set_screen_fade(std::make_unique<ShrinkFade>(shrinkpos, TELEPORT_FADE_TIME, ShrinkFade::FADEOUT));
       transition_takes_time = true;
       break;
