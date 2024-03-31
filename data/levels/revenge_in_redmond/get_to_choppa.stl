@@ -1,7 +1,7 @@
 (supertux-level
   (version 3)
   (name (_ "Get to da Choppa!"))
-  (author "alex & Carsten Wirtz")
+  (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (target-time 50)
   (icon "")
