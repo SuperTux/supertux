@@ -668,6 +668,10 @@ Player::update(float dt_sec)
       m_boost = 0.f;
   }
 
+  m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
+  m_wind_velocity = Vector(0.f, 0.f);
+  m_wind_acceleration = 0.0;
+
   // calculate movement for this frame
   m_col.set_movement(m_physic.get_movement(dt_sec) + Vector(m_boost * dt_sec, 0));
 
@@ -1471,10 +1475,6 @@ Player::handle_input()
 
   /* Handle vertical movement: */
   if (!m_stone && !m_swimming) handle_vertical_input();
-
-  m_physic.set_velocity(m_physic.get_velocity() + m_wind_velocity);
-  m_wind_velocity = Vector(0.f, 0.f);
-  m_wind_acceleration = 0.0;
 
   /* grabbing */
   bool just_grabbed = try_grab();
@@ -2890,7 +2890,7 @@ Player::remove_collected_key(Key* key)
 void
 Player::add_wind_velocity(const Vector& speed, const float acceleration, const Vector& end_speed)
 {
-  Vector velocity = speed * acceleration;
+  Vector velocity = glm::normalize(end_speed) * acceleration;
   m_wind_acceleration = acceleration;
   // Only add velocity in the same direction as the wind.
   if (end_speed.x > 0 && m_physic.get_velocity_x() < end_speed.x)
