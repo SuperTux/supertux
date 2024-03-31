@@ -122,7 +122,7 @@ Thunderstorm::update(float )
     time_to_lightning.start(LIGHTNING_DELAY);
   }
   if (time_to_lightning.check()) {
-    lightning();
+    lightning_in_sequence();
     time_to_thunder.start(interval);
   }
 }
@@ -165,7 +165,7 @@ Thunderstorm::thunder()
 }
 
 void
-Thunderstorm::lightning(bool is_scripted)
+Thunderstorm::lightning()
 {
   flash();
   electrify();
@@ -173,7 +173,18 @@ Thunderstorm::lightning(bool is_scripted)
 	  Sector::get().run_script(m_strike_script, "strike-script");
   }
 
-  change_background_colors(true, is_scripted);
+  change_background_colors(true, true);
+}
+
+void
+Thunderstorm::lightning_in_sequence()
+{
+  flash();
+  electrify();
+  if (!m_strike_script.empty()) {
+    Sector::get().run_script(m_strike_script, "strike-script");
+  }
+  change_background_colors(true, false);
 }
 
 void

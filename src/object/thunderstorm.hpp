@@ -61,7 +61,12 @@ public:
   void thunder();
 
   /** Play lightning, i.e. call flash() and electrify() */
-  void lightning(bool is_scripted = false);
+  void lightning();
+
+  /** TODO(?): Separating the lightning methods for thunderstorm sequences and by scripting is apparently necessary
+      in preparation for SimpleSquirrel according to Vankata453, so direct all your complaints regarding the
+      necessity of this to him. This comment can be deleted when SimpleSquirrel is actually implemented. */
+  void lightning_in_sequence();
 
   /** Display a nice flash */
   void flash();

@@ -39,7 +39,7 @@ void Thunderstorm::thunder()
 void Thunderstorm::lightning()
 {
   SCRIPT_GUARD_VOID;
-  object.lightning(true);
+  object.lightning();
 }
 
 void Thunderstorm::flash()
