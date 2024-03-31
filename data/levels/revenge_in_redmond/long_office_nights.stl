@@ -1,7 +1,7 @@
 (supertux-level
   (version 3)
   (name (_ "Long Office Nights"))
-  (author "alex & Carsten Wirtz")
+  (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (target-time 45)
   (icon "")
