@@ -22,7 +22,7 @@
     )
     (camera
       (name "Camera")
-      (mode "normal")
+      (mode "manual")
     )
     (decal
       (solid #t)
