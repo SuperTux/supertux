@@ -60,12 +60,9 @@ public:
   /** Play thunder */
   void thunder();
 
-  /** Play lightning, i.e. call flash() and electrify() */
+  /** Methods for doing lightning by different methods. Necessary for the future implementation of SimpleSquirrel. */
+  void lightning_general();
   void lightning();
-
-  /** TODO(?): Separating the lightning methods for thunderstorm sequences and by scripting is apparently necessary
-      in preparation for SimpleSquirrel according to Vankata453, so direct all your complaints regarding the
-      necessity of this to him. This comment can be deleted when SimpleSquirrel is actually implemented. */
   void lightning_in_sequence();
 
   /** Display a nice flash */

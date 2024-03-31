@@ -165,25 +165,26 @@ Thunderstorm::thunder()
 }
 
 void
-Thunderstorm::lightning()
-{
-  flash();
-  electrify();
-  if (!m_strike_script.empty()) {
-	  Sector::get().run_script(m_strike_script, "strike-script");
-  }
-
-  change_background_colors(true, true);
-}
-
-void
-Thunderstorm::lightning_in_sequence()
+Thunderstorm::lightning_general()
 {
   flash();
   electrify();
   if (!m_strike_script.empty()) {
     Sector::get().run_script(m_strike_script, "strike-script");
   }
+}
+
+void
+Thunderstorm::lightning()
+{
+  lightning_general();
+  change_background_colors(true, true);
+}
+
+void
+Thunderstorm::lightning_in_sequence()
+{
+  lightning_general();
   change_background_colors(true, false);
 }
 
