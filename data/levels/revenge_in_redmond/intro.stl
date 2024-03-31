@@ -1,7 +1,7 @@
 (supertux-level
   (version 3)
   (name (_ "A Blast From The Past"))
-  (author "SuperTux Player")
+  (author "Carsten Wirtz")
   (license "CC-BY-SA 4.0 International")
   (suppress-pause-menu #t)
   (icon "")
