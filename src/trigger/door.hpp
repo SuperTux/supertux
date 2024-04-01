@@ -69,6 +69,7 @@ private:
   bool m_locked;
   Color m_lock_color;
   bool m_transition_triggered;
+  Player* m_triggering_player;
 
 private:
   Door(const Door&) = delete;

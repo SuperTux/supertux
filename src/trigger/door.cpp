@@ -32,6 +32,9 @@
 
 static const float STAY_OPEN_TIME = 1.0f;
 static const float LOCK_WARN_TIME = 0.5f;
+static const float CENTER_EPSILON = 5.0f;
+static const float WALK_SPEED = 100.0f;
+
 
 Door::Door(const ReaderMapping& mapping) :
   SpritedTrigger(mapping, "images/objects/door/door.sprite"),
@@ -45,7 +48,8 @@ Door::Door(const ReaderMapping& mapping) :
   m_lock_warn_timer(),
   m_locked(),
   m_lock_color(Color::WHITE),
-  m_transition_triggered(false)
+  m_transition_triggered(false),
+  m_triggering_player(nullptr)
 {
   mapping.get("sector", m_target_sector);
   mapping.get("spawnpoint", m_target_spawnpoint);
@@ -98,6 +102,7 @@ Door::update(float )
 {
   switch (m_state) {
     case CLOSED:
+      m_transition_triggered = false;
       break;
     case OPENING:
       // If door has finished opening, start timer and keep door open.
@@ -136,6 +141,24 @@ Door::update(float )
         m_state = DoorState::CLOSED;
       }
       break;
+  }
+
+  if (m_triggering_player)
+  {
+    // Check if Tux should move a bit closer to the door so that he could go through smoothly
+    const Vector diff_to_center = get_bbox().get_middle() - m_triggering_player->get_bbox().get_middle();
+
+    if (fabs(diff_to_center.x) >= CENTER_EPSILON)
+    {
+      const bool move_right = diff_to_center.x > 0.0f;
+      m_triggering_player->set_dir(move_right);
+      m_triggering_player->walk(move_right ? WALK_SPEED : -WALK_SPEED);
+    }
+    else
+    {
+      m_triggering_player->walk(0.0);
+      m_triggering_player = nullptr;
+    }
   }
 }
 
@@ -190,22 +213,24 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
     case OPENING:
     {
       // If door is opening and was touched by a player, teleport the player.
-      Player* player = dynamic_cast<Player*> (&other);
+      Player* player = dynamic_cast<Player*>(&other);
 
-      if (player) {
+      if (player)
+      {
         if (!m_transition_triggered)
         {
           m_transition_triggered = true;
+          m_triggering_player = player;
 
           if (!m_script.empty()) {
             Sector::get().run_script(m_script, "Door");
           }
-
-          if (!m_target_sector.empty() ) {
-            // Do not allow the player to move away during fade animation...
-            player->deactivate();
-            // ... but make him safe for this time
-            player->make_temporarily_safe(GameSession::TELEPORT_FADE_TIME);
+          if (!m_target_sector.empty())
+          {
+            // Disable controls, make Tux temporarily safe and initiate screen fade
+            // Controls will be reactivated after spawn
+            m_triggering_player->deactivate();
+            m_triggering_player->make_temporarily_safe(GameSession::TELEPORT_FADE_TIME);
             GameSession::current()->respawn_with_fade(m_target_sector,
                                                       m_target_spawnpoint,
                                                       ScreenFade::FadeType::CIRCLE,
