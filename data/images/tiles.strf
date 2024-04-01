@@ -19,7 +19,7 @@
     (source "autotiles.satc")
   )
 
-  ;; next-id: 7195
+  ;; next-id: 7215
   ;; free/skipped ids (please use before any other): 101
   ;; 2080-2084 are empty tiles, 4619-4660, 4719-4722, 5023-5092, 5205, 5268-5283, 5433-5527, 6962-6977, 7002 7005 7007 7008 7173
   ;; No group ids are currently skipped! Delete this line if any are and replace it with said ids...
