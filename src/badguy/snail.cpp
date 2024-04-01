@@ -327,7 +327,7 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
       m_dir = Direction::LEFT;
     }
     player.kick();
-    be_kicked(true);
+    be_kicked(false);
     return FORCE_MOVE;
   }
 
@@ -371,7 +371,7 @@ Snail::collision_squished(GameObject& object)
           m_dir = Direction::LEFT;
         }
       }
-      be_kicked(true);
+      be_kicked(false);
       break;
 
     default:
