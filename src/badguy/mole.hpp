@@ -63,6 +63,7 @@ private:
   MoleState state;
   Timer timer;
   Timer throw_timer;
+  int cycle_num;
 
 private:
   Mole(const Mole&) = delete;
