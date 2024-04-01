@@ -273,7 +273,7 @@ Player::get_speedlimit() const
 void
 Player::set_speedlimit(float newlimit)
 {
-  m_speedlimit=newlimit;
+  m_speedlimit = newlimit;
 }
 
 void
@@ -292,7 +292,7 @@ Player::set_controller(const Controller* controller_)
 void
 Player::set_winning()
 {
-  if ( ! is_winning() ){
+  if (!is_winning()) {
     m_winning = true;
     m_invincible_timer.start(10000.0f);
   }
@@ -949,7 +949,7 @@ Player::handle_input_swimming()
 
   bool boost = m_controller->hold(Control::JUMP);
 
-  swim(pointx,pointy,boost);
+  swim(pointx, pointy, boost);
 }
 
 void
@@ -1089,15 +1089,6 @@ Player::set_on_ground(bool flag)
   m_on_ground_flag = flag;
 }
 
-bool
-Player::is_big() const
-{
-  if (get_bonus() == NO_BONUS)
-    return false;
-
-  return true;
-}
-
 void
 Player::apply_friction()
 {
@@ -1233,7 +1224,6 @@ Player::handle_horizontal_input()
   if (dirsign == 0) {
     apply_friction();
   }
-
 }
 
 void
@@ -1499,7 +1489,7 @@ Player::handle_input()
   {
     if (m_water_jump)
     {
-      swim(0,0,0);
+      swim(0, 0, 0);
     }
   }
 
@@ -1851,13 +1841,13 @@ Player::bonus_to_string() const
 bool
 Player::add_bonus(const std::string& bonustype)
 {
-  return add_bonus( string_to_bonus(bonustype) );
+  return add_bonus(string_to_bonus(bonustype));
 }
 
 bool
 Player::set_bonus(const std::string& bonustype)
 {
-  return set_bonus( string_to_bonus(bonustype) );
+  return set_bonus(string_to_bonus(bonustype));
 }
 
 bool
@@ -1946,9 +1936,9 @@ Player::get_bonus() const
 }
 
 void
-Player::set_visible(bool visible_)
+Player::set_visible(bool visible)
 {
-  m_visible = visible_;
+  m_visible = visible;
 }
 
 bool
