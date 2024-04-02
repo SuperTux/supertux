@@ -60,6 +60,18 @@ BouncingSnowball::active_update(float dt_sec)
   {
     set_action(m_dir);
   }
+
+  // Left-right faux collision
+
+  Rectf side_look_box = get_bbox().grown(-1.f);
+  side_look_box.set_left(get_bbox().get_left() + (m_dir == Direction::LEFT ? -1.f : 1.f));
+  side_look_box.set_right(get_bbox().get_right() + (m_dir == Direction::LEFT ? -1.f : 1.f));
+  if (!Sector::get().is_free_of_statics(side_look_box))
+  {
+    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
+    set_action(m_dir);
+    m_physic.set_velocity_x(-m_physic.get_velocity_x());
+  }
 }
 
 GameObjectTypes
@@ -124,13 +136,8 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     m_physic.set_velocity_y(0);
   }
 
-  // Left or right collision.
-  // The direction must correspond, otherwise, we would experience fake bounces on slopes.
-  if ((hit.left && m_dir == Direction::LEFT) || (hit.right && m_dir == Direction::RIGHT)) {
-    m_dir = m_dir == Direction::LEFT ? Direction::RIGHT : Direction::LEFT;
-    set_action(m_dir);
-    m_physic.set_velocity_x(-m_physic.get_velocity_x());
-  }
+  //Left/right collisions handled in update because otherwise we would get weird wall-hugging behavior.
+
 }
 
 HitResponse
