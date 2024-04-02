@@ -42,10 +42,10 @@ public:
     SOUTHEAST,
     NORTHWEST,
     DIRECTION_MASK = 0x0003,
-    DEFORM_BOTTOM = 0x0010,
-    DEFORM_TOP = 0x0020,
-    DEFORM_LEFT = 0x0030,
-    DEFORM_RIGHT = 0x0040,
+    DEFORM_BOTTOM = 0x0010, // Deform1
+    DEFORM_TOP = 0x0020, // Deform2
+    DEFORM_LEFT = 0x0030, // Deform3
+    DEFORM_RIGHT = 0x0040, // Deform4
     DEFORM_MASK = 0x0070
   };
 
@@ -62,6 +62,12 @@ public:
     dir(newdir)
   {
   }
+
+  inline int get_dir() const { return dir & DIRECTION_MASK; }
+  inline int get_deform() const { return dir & DEFORM_MASK; }
+
+  inline bool is_north() const { return get_dir() == NORTHEAST || get_dir() == NORTHWEST; }
+  inline bool is_east() const { return get_dir() == NORTHEAST || get_dir() == SOUTHEAST; }
 
 public:
   Rectf bbox;
