@@ -199,6 +199,7 @@ EditorToolboxWidget::on_mouse_motion(const SDL_MouseMotionEvent& motion)
   if (m_tilebox->on_mouse_motion(motion))
   {
     m_hovered_item = HoveredItem::TILEBOX;
+    m_has_mouse_focus = true;
     return false; // The layers widget wouldn't be able to scroll otherwise.
   }
 
