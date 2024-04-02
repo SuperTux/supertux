@@ -514,7 +514,7 @@ Editor::set_level(std::unique_ptr<Level> level, bool reset)
   m_enabled = true;
 
   if (reset) {
-    m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+    m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   }
 
   // Reload level.
@@ -928,7 +928,7 @@ void
 Editor::change_tileset()
 {
   m_tileset = TileManager::current()->get_tileset(m_level->get_tileset());
-  m_toolbox_widget->set_input_type(EditorToolboxWidget::InputType::NONE);
+  m_toolbox_widget->get_tilebox().set_input_type(EditorTilebox::InputType::NONE);
   for (const auto& sector : m_level->m_sectors) {
     for (auto& tilemap : sector->get_objects_by_type<TileMap>()) {
       tilemap.set_tileset(m_tileset);
@@ -945,7 +945,7 @@ Editor::select_objectgroup(int id)
 const std::vector<ObjectGroup>&
 Editor::get_objectgroups() const
 {
-  return m_toolbox_widget->get_object_info().m_groups;
+  return m_toolbox_widget->get_tilebox().get_object_info().m_groups;
 }
 
 void
