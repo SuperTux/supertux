@@ -123,7 +123,7 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         }
         else
         {
-          m_tilebox->select_tilegroup(0);
+          select_tilegroup(0);
         }
         return true;
 
@@ -137,14 +137,9 @@ EditorToolboxWidget::on_mouse_button_down(const SDL_MouseButtonEvent& button)
         else
         {
           if (m_editor.get_level()->is_worldmap())
-          {
-            m_tilebox->select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
-          }
+            select_objectgroup(m_tilebox->get_object_info().get_first_worldmap_group_index());
           else
-          {
-            m_tilebox->select_objectgroup(0);
-          }
-          update_mouse_icon();
+            select_objectgroup(0);
         }
         return true;
 
