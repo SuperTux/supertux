@@ -22,6 +22,8 @@
 #include "supertux/game_session.hpp"
 #include "supertux/sector.hpp"
 
+#include "util/log.hpp"
+
 namespace scripting {
 
 void
@@ -56,6 +58,8 @@ Level_spawn_transition(const std::string& sector, const std::string& spawnpoint,
     fade_type = ScreenFade::FadeType::FADE;
   else if (transition == "circle")
     fade_type = ScreenFade::FadeType::CIRCLE;
+  else
+    log_warning << "Invalid transition type '" << transition << "'." << std::endl;
 
   game_session.respawn_with_fade(sector, spawnpoint, fade_type, {0.0f, 0.0f}, true);
 }

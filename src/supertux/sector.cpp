@@ -182,7 +182,6 @@ Sector::get_spawn_point(const std::string& spawnpoint)
   return sp;
 }
 
-
 Vector
 Sector::get_spawn_point_position(const std::string& spawnpoint)
 {

@@ -32,7 +32,6 @@
 #include "object/spawnpoint.hpp"
 #include "sdk/integration.hpp"
 #include "supertux/fadetoblack.hpp"
-#include "supertux/shrinkfade.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
@@ -42,6 +41,7 @@
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/shrinkfade.hpp"
 #include "util/file_system.hpp"
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
@@ -70,7 +70,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   m_spawn_fade_type(ScreenFade::FadeType::NONE),
   m_spawn_fade_point(0.0f, 0.0f),
   m_spawn_fade_timer(),
-  m_spawn_with_invincibilty(false),
+  m_spawn_with_invincibility(false),
   m_best_level_statistics(statistics),
   m_savegame(savegame),
   m_play_time(0),
@@ -118,7 +118,7 @@ GameSession::reset_level()
   clear_respawn_points();
   m_activated_checkpoint = nullptr;
   m_pause_target_timer = false;
-  m_spawn_with_invincibilty = false;
+  m_spawn_with_invincibility = false;
 }
 
 int
@@ -149,7 +149,7 @@ GameSession::restart_level(bool after_death, bool preserve_music)
   m_game_pause   = false;
   m_end_sequence = nullptr;
   m_endsequence_timer.stop();
-  m_spawn_with_invincibilty = false;
+  m_spawn_with_invincibility = false;
 
   InputManager::current()->reset();
 
@@ -294,7 +294,7 @@ GameSession::on_escape_press(bool force_quick_respawn)
   if (!m_level->m_suppress_pause_menu) {
     toggle_pause();
   } else {
-	  abort_level();
+    abort_level();
   }
 }
 
@@ -345,9 +345,9 @@ GameSession::get_fade_point(const Vector& position) const
     }
   }
 
-  fade_point = (fade_point - m_currentsector->get_camera().get_translation()) * m_currentsector->get_camera().get_current_scale();
+  const Camera& camera = m_currentsector->get_camera();
 
-  return fade_point;
+  return (fade_point - camera.get_translation()) * camera.get_current_scale();
 }
 
 void
@@ -575,7 +575,7 @@ GameSession::update(float dt_sec, const Controller& controller)
       // Give back control to the player
       p->activate();
 
-      if (m_spawn_with_invincibilty)
+      if (m_spawn_with_invincibility)
       {
         // Make all players temporarily safe after spawning
         p->make_temporarily_safe(SAFE_TIME);
@@ -701,7 +701,7 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 {
   m_newsector = sector;
   m_newspawnpoint = spawnpoint;
-  m_spawn_with_invincibilty = false;
+  m_spawn_with_invincibility = false;
 }
 
 void
@@ -715,7 +715,7 @@ GameSession::respawn_with_fade(const std::string& sector,
 
   m_spawn_fade_type = fade_type;
   m_spawn_fade_point = fade_point;
-  m_spawn_with_invincibilty = make_invincible;
+  m_spawn_with_invincibility = make_invincible;
 
   bool transition_takes_time = false;
 
@@ -921,7 +921,7 @@ GameSession::start_sequence(Player* caller, Sequence seq, const SequenceData* da
     lt.stop();
   }
 }
-void 
+void
 GameSession::set_target_timer_paused(bool paused)
 {
   m_pause_target_timer = paused;

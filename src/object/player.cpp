@@ -2376,7 +2376,7 @@ Player::make_invincible()
 }
 
 void
-Player::make_temporarily_safe(const float safe_time)
+Player::make_temporarily_safe(float safe_time)
 {
   m_safe_timer.start(safe_time);
   m_is_intentionally_safe = true;
@@ -2513,7 +2513,7 @@ Player::check_bounds()
 
   /* fallen out of the level? */
   if ((get_pos().y > Sector::get().get_height())
-      && (!m_ghost_mode)
+      && !m_ghost_mode
       && !(m_is_intentionally_safe && m_safe_timer.started())) {
     kill(true);
     return;

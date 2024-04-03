@@ -31,10 +31,10 @@
 #include "squirrel/squirrel_util.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/screen_fade.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
 #include "video/surface_ptr.hpp"
-#include "supertux/screen_fade.hpp"
 
 class CodeController;
 class DrawingContext;
@@ -178,7 +178,7 @@ private:
   ScreenFade::FadeType m_spawn_fade_type;
   Vector m_spawn_fade_point;
   Timer m_spawn_fade_timer;
-  bool m_spawn_with_invincibilty;
+  bool m_spawn_with_invincibility;
 
   Statistics* m_best_level_statistics;
   Savegame& m_savegame;

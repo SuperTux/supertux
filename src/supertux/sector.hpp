@@ -44,10 +44,10 @@ class Player;
 class ReaderMapping;
 class Rectf;
 class Size;
+class SpawnPointMarker;
 class TextObject;
 class TileMap;
 class Writer;
-class SpawnPointMarker;
 
 /** Represents one of (potentially) multiple, separate parts of a Level.
     Sectors contain GameObjects, e.g. Badguys and Players. */

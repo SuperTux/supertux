@@ -29,12 +29,10 @@
 #include "supertux/flip_level_transformer.hpp"
 #include "util/reader_mapping.hpp"
 
-
 static const float STAY_OPEN_TIME = 1.0f;
 static const float LOCK_WARN_TIME = 0.5f;
 static const float CENTER_EPSILON = 5.0f;
 static const float WALK_SPEED = 100.0f;
-
 
 Door::Door(const ReaderMapping& mapping) :
   SpritedTrigger(mapping, "images/objects/door/door.sprite"),
