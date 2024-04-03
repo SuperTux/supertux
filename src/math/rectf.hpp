@@ -124,9 +124,9 @@ public:
 
   bool overlaps(const Rectf& other) const
   {
-    if (m_p1.x >= other.get_right() || other.get_left() >= get_right())
+    if (get_right() < other.get_left() || get_left() > other.get_right())
       return false;
-    if (m_p1.y >= other.get_bottom() || other.get_top() >= get_bottom())
+    if (get_bottom() < other.get_top() || get_top() > other.get_bottom())
       return false;
 
     return true;

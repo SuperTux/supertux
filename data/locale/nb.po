@@ -1768,8 +1768,8 @@ msgstr "Trykk escape for å hoppe over"
 
 #: src/supertux/command_line_arguments.cpp:94
 #, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Bruk: %s [VALG] [BRETTFIL]"
+msgid "Usage: {} [OPTIONS] [LEVELFILE]"
+msgstr "Bruk: {} [VALG] [BRETTFIL]"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "General Options:"
@@ -2492,13 +2492,13 @@ msgstr "Endre størrelse"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
-msgid "[Profile %s]"
-msgstr "[Profil %s]"
+msgid "[Profile {}]"
+msgstr "[Profil {}]"
 
 #: src/supertux/menu/profile_menu.cpp:45
 #, c-format
-msgid "Profile %s"
-msgstr "Profil %s"
+msgid "Profile {}"
+msgstr "Profil {}"
 
 #: src/supertux/menu/profile_menu.cpp:50
 msgid "Reset profile"
@@ -2546,8 +2546,8 @@ msgstr "Ukjent"
 
 #: src/supertux/menu/addon_menu.cpp:71
 #, c-format
-msgid "%s \"%s\" by \"%s\""
-msgstr "%s «%s» av «%s»"
+msgid "{} \"{}\" by \"{}\""
+msgstr "{} «{}» av «{}»"
 
 #: src/supertux/menu/addon_menu.cpp:129
 msgid "No Add-ons installed"
@@ -2559,13 +2559,13 @@ msgstr "Fant ingen tilleggkart"
 
 #: src/supertux/menu/addon_menu.cpp:179
 #, c-format
-msgid "Install %s *NEW*"
-msgstr "Installer %s *NY*"
+msgid "Install {} *NEW*"
+msgstr "Installer {} *NY*"
 
 #: src/supertux/menu/addon_menu.cpp:190
 #, c-format
-msgid "Install %s"
-msgstr "Installer %s"
+msgid "Install {}"
+msgstr "Installer {}"
 
 #: src/supertux/menu/addon_menu.cpp:199
 msgid "No new Add-ons found"
@@ -2585,8 +2585,8 @@ msgstr "Laster ned indeks over tilleggskart"
 
 #: src/supertux/menu/addon_menu.cpp:301
 #, c-format
-msgid "Downloading %s"
-msgstr "Laster ned %s"
+msgid "Downloading {}"
+msgstr "Laster ned {}"
 
 #: src/supertux/menu/addon_menu.cpp:348
 msgid ""
@@ -3099,8 +3099,8 @@ msgstr "Du kan ikke slette nivåer du redigerer for øyeblikket!"
 
 #: src/supertux/levelintro.cpp:136
 #, c-format
-msgid "contributed by %s"
-msgstr "Laget av %s"
+msgid "contributed by {}"
+msgstr "Laget av {}"
 
 #: src/supertux/levelintro.cpp:169
 msgid "Badguys killed"

@@ -46,8 +46,9 @@ public:
 
   /** returns the period of the timer or 0 if it isn't started */
   float get_period() const { return m_period; }
-  float get_timeleft() const{ return m_period - (g_game_time - m_cycle_start); }
+  float get_timeleft() const { return m_period - (g_game_time - m_cycle_start); }
   float get_timegone() const { return g_game_time - m_cycle_start; }
+  float get_progress() const { return get_timegone() / get_period(); }
   bool started() const { return (m_period != 0 && get_timeleft() > 0); }
   bool paused() const { return m_cycle_pause != 0; }
 

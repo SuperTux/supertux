@@ -43,11 +43,11 @@
   
  (action
   (name "iced-left")
-  (hitbox 24 15 45 44)
+  (hitbox 20 15 64 64)
   (images "carry-8.png"))
 
  (action
   (name "iced-right")
-  (hitbox 31 15 45 44)
+  (hitbox 20 15 64 64)
   (mirror-action "iced-left"))
 )

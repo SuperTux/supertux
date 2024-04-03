@@ -29,6 +29,7 @@ public:
   virtual void initialize() override;
   virtual void collision_solid(const CollisionHit& hit) override;
   virtual HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  virtual void update(float dt_sec) override;
   virtual void active_update(float dt_sec) override;
 
   virtual void freeze() override;

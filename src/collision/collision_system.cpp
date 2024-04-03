@@ -165,31 +165,40 @@ collision::Constraints check_collisions(const Vector& obj_movement, const Rectf&
       // Constrain only on fall on top of the unisolid object.
       if (moving_obj_rect.get_bottom() - obj_movement.y <= grown_other_obj_rect.get_top())
       {
-        constraints.constrain_bottom(grown_other_obj_rect.get_top());
+        constraints.constrain_bottom(other_obj_rect.get_top());
         constraints.hit.bottom = true;
       }
-
-      return constraints;
     }
+    else
+    {
+      const float vert_penetration = std::min(itop, ibottom);
+      const float horiz_penetration = std::min(ileft, iright);
 
-    const float vert_penetration = std::min(itop, ibottom);
-    const float horiz_penetration = std::min(ileft, iright);
-
-    if (vert_penetration < horiz_penetration) {
-      if (itop < ibottom) {
-        constraints.constrain_bottom(grown_other_obj_rect.get_top());
-        constraints.hit.bottom = true;
-      } else {
-        constraints.constrain_top(grown_other_obj_rect.get_bottom());
-        constraints.hit.top = true;
+      if (vert_penetration < horiz_penetration)
+      {
+        if (itop < ibottom)
+        {
+          constraints.constrain_bottom(grown_other_obj_rect.get_top());
+          constraints.hit.bottom = true;
+        }
+        else
+        {
+          constraints.constrain_top(grown_other_obj_rect.get_bottom());
+          constraints.hit.top = true;
+        }
       }
-    } else {
-      if (ileft < iright) {
-        constraints.constrain_right(grown_other_obj_rect.get_left());
-        constraints.hit.right = true;
-      } else {
-        constraints.constrain_left(grown_other_obj_rect.get_right());
-        constraints.hit.left = true;
+      else
+      {
+        if (ileft < iright)
+        {
+          constraints.constrain_right(grown_other_obj_rect.get_left());
+          constraints.hit.right = true;
+        }
+        else
+        {
+          constraints.constrain_left(grown_other_obj_rect.get_right());
+          constraints.hit.left = true;
+        }
       }
     }
     if (other_object && moving_object)
@@ -318,9 +327,13 @@ CollisionSystem::collision_tile_attributes(const Rectf& dest, const Vector& mov)
 }
 
 /** Fills the CollisionHit and Normal vector between two intersecting rectangles. */
-static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
-                           Vector& normal)
+void
+CollisionSystem::get_hit_normal(const CollisionObject* object1, const CollisionObject* object2,
+                                CollisionHit& hit, Vector& normal) const
 {
+  const Rectf& r1 = object1->m_dest;
+  const Rectf& r2 = object2->m_dest;
+
   const float itop = r1.get_bottom() - r2.get_top();
   const float ibottom = r2.get_bottom() - r1.get_top();
   const float ileft = r1.get_right() - r2.get_left();
@@ -328,6 +341,14 @@ static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
 
   const float vert_penetration = std::min(itop, ibottom);
   const float horiz_penetration = std::min(ileft, iright);
+
+  // Apply movement only on top collision with an unisolid object.
+  if (object1->is_unisolid() &&
+      r2.get_bottom() - object2->m_movement.y > r1.get_top())
+    return;
+  if (object2->is_unisolid() &&
+      r1.get_bottom() - object1->m_movement.y > r2.get_top())
+    return;
 
   if (vert_penetration < horiz_penetration) {
     if (itop < ibottom) {
@@ -357,9 +378,9 @@ CollisionSystem::collision_object(CollisionObject* object1, CollisionObject* obj
   const Rectf& r2 = object2->m_dest;
 
   CollisionHit hit;
-  if (object1->m_dest.overlaps(object2->m_dest)) {
+  if (r1.overlaps(r2)) {
     Vector normal(0.0f, 0.0f);
-    get_hit_normal(r1, r2, hit, normal);
+    get_hit_normal(object1, object2, hit, normal);
 
     if (!object1->collides(*object2, hit))
       return;
@@ -601,8 +622,7 @@ CollisionSystem::update()
       if (object->m_dest.overlaps(object_2->m_dest)) {
         Vector normal(0.0f, 0.0f);
         CollisionHit hit;
-        get_hit_normal(object->m_dest, object_2->m_dest,
-                       hit, normal);
+        get_hit_normal(object, object_2, hit, normal);
         if (!object->collides(*object_2, hit))
           continue;
         if (!object_2->collides(*object, hit))
@@ -655,20 +675,18 @@ CollisionSystem::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid, 
       for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const Tile& tile = solids->get_tile(x, y);
 
-        if (!(tile.get_attributes() & tiletype))
-          continue;
-        if (tile.is_unisolid () && ignoreUnisolid)
-          continue;
+        if (tile.get_attributes() & tiletype)
+          return false;
+        if (tile.is_unisolid() && !ignoreUnisolid)
+          return false;
         if (tile.is_slope ()) {
           AATriangle triangle;
           const Rectf tbbox = solids->get_tile_bbox(x, y);
           triangle = AATriangle(tbbox, tile.get_data());
           Constraints constraints;
-          if (!collision::rectangle_aatriangle(&constraints, rect, triangle))
-            continue;
+          if (collision::rectangle_aatriangle(&constraints, rect, triangle))
+            return false;
         }
-        // We have a solid tile that overlaps the given rectangle.
-        return false;
       }
     }
   }
@@ -761,7 +779,7 @@ CollisionSystem::get_first_line_intersection(const Vector& line_start,
         {
           result.is_valid = true;
           result.hit = tile;
-          result.box = {glm::floor((test_vector - solids->get_offset()) / 32.0f), Sizef(32.f, 32.f)};
+          result.box = solids->get_tile_bbox(static_cast<int>(test_vector.x / 32.f), static_cast<int>(test_vector.y / 32.f));
           return result;
         }
       }

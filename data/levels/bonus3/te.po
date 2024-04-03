@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
 "PO-Revision-Date: 2013-08-10 23:08+0000\n"
 "Last-Translator: Nanowarrior, 2021-2022\n"
 "Language-Team: Telugu (http://app.transifex.com/arctic-games/supertux/language/te/)\n"
@@ -26,7 +26,7 @@ msgstr "స్థాయిని గతంలో \"-89,2 డిగ్రీల�
 msgid "Global Warming"
 msgstr "ప్రపంచం వేడెక్కడం"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "ఆకాశంలో ఒక రాత్రి"
 
@@ -78,7 +78,7 @@ msgstr "#మంచి పని! మీరు ఎరుపు లాంతరు
 msgid "Coconut Fortress"
 msgstr "కొబ్బరి కోట"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "స్పటిక సూర్యాస్తమయం"
 
@@ -139,7 +139,7 @@ msgstr "పుష్పం బోనస్"
 msgid "After the Glaciers"
 msgstr "హిమానీనదాల తరువాత"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "పైకప్పు నుండి వేలాడుతోంది"
 
@@ -215,7 +215,7 @@ msgstr "ఒక మంచు కొండ"
 msgid "Three Frosty Icebergs"
 msgstr "మూడు అతిశీతలమైన మంచుకొండలు"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "మంచు కింద"
 
