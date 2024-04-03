@@ -20,9 +20,12 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -162,6 +165,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     break;
   case ICESTATE_KICKED: {
     if ((hit.right && m_dir == Direction::RIGHT) || (hit.left && m_dir == Direction::LEFT)) {
+      spawn_side_squish_particles(hit.left ? Direction::LEFT : Direction::RIGHT, "generic_piece_small");
       m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
       SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
       m_physic.set_velocity_x(-m_physic.get_velocity_x() * .975f);
@@ -252,11 +256,18 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 bool
 MrIceBlock::collision_squished(GameObject& object)
 {
+  std::string squish_sprite = m_type == LAPTOP ? "metal_piece" :
+    m_sprite_name.find("smart_block") != std::string::npos ? "iceblock_piece_alt" :
+    "iceblock_piece";
   Player* player = dynamic_cast<Player*>(&object);
   if (player && (player->m_does_buttjump || player->is_invincible())) {
     player->bounce(*this);
     kill_fall();
     return true;
+  }
+
+  if (squishcount < MAXSQUISHES) {
+    spawn_squish_particles(squish_sprite, 1000.f);
   }
 
   switch (ice_state)
@@ -275,6 +286,7 @@ MrIceBlock::collision_squished(GameObject& object)
   {
     squishcount++;
     if (squishcount >= MAXSQUISHES) {
+      spawn_squish_particles(squish_sprite, 1000.f);
       kill_fall();
       return true;
     }

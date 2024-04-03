@@ -74,6 +74,7 @@ Mole::collision_squished(GameObject& obj)
     player->bounce(*this);
 
   SoundManager::current()->play("sounds/squish.wav", get_pos());
+  spawn_squish_particles();
   run_dead_script();
   return true;
 }

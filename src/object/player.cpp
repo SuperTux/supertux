@@ -1191,11 +1191,17 @@ Player::handle_horizontal_input()
       if (fabsf(vx)>SKID_XM && !m_skidding_timer.started()) {
         m_skidding_timer.start(SKID_TIME);
         SoundManager::current()->play("sounds/skid.wav", get_pos());
-        // dust some particles
-        Sector::get().add<Particles>(
-            Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() : m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
-            m_dir == Direction::LEFT ? 50 : -70, m_dir == Direction::LEFT ? 70 : -50, 260.0f, 280.0f,
-            Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+        // dust some particles 
+        for (int i = 1; i <= 3; i++)
+        {
+          float angle = graphicsRandom.randf(m_dir == Direction::LEFT ? -30.f : -120.f, m_dir == Direction::LEFT ? -60.f : -150.f);
+          Vector speed = graphicsRandom.randf(300.f, 320.f) * Vector(std::cos(math::radians(angle)), std::sin(math::radians(angle)));
+
+          Sector::get().add<SpriteParticle>("images/particles/generic_piece_small.sprite", "default",
+            Vector(m_dir == Direction::LEFT ? m_col.m_bbox.get_right() + m_col.m_bbox.get_width() : m_col.m_bbox.get_left() - m_col.m_bbox.get_width(),
+              m_col.m_bbox.get_bottom()),
+            (ANCHOR_MIDDLE), speed, Vector(0.f, 800.f), LAYER_OBJECTS + 1, false);
+        }
 
         ax *= 2.5f;
       } else {
@@ -2255,14 +2261,25 @@ Player::collision_solid(const CollisionHit& hit)
       m_buttjump_stomp = true;
       m_physic.set_velocity_y(-300);
       m_on_ground_flag = false;
-      Sector::get().add<Particles>(
-        m_col.m_bbox.p2(),
-        50, 70, 260, 280, Vector(0, 300), 3,
-        Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
-      Sector::get().add<Particles>(
-        Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
-        -70, -50, 260, 280, Vector(0, 300), 3,
-        Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1);
+
+      for (int j = 1; j <= 3; j++)
+      {
+        Vector accel = Vector(0.f, 800.f);
+        std::string current_sprite = graphicsRandom.rand(0, 3) != 0 ?
+          "images/particles/generic_piece_small.sprite" : "images/particles/generic_piece.sprite";
+        float downangle1 = graphicsRandom.randf(-45.f, -75.f);
+        float downangle2 = graphicsRandom.randf(-105.f, -135.f);
+        Vector downspeed1 = Vector(std::cos(math::radians(downangle1)), std::sin(math::radians(downangle1)));
+        Vector downspeed2 = Vector(std::cos(math::radians(downangle2)), std::sin(math::radians(downangle2)));
+
+        Sector::get().add<SpriteParticle>(current_sprite, "default",
+          Vector(m_col.m_bbox.get_right() + (m_col.m_bbox.get_width()/2.f), m_col.m_bbox.get_bottom()),
+          ANCHOR_MIDDLE, graphicsRandom.randf(300.f, 320.f) * Vector(downspeed1), accel, LAYER_OBJECTS + 1);
+        Sector::get().add<SpriteParticle>(current_sprite, "default",
+          Vector(m_col.m_bbox.get_left(), m_col.m_bbox.get_bottom()),
+          ANCHOR_MIDDLE, graphicsRandom.randf(300.f, 320.f) * Vector(downspeed2), accel, LAYER_OBJECTS + 1);
+      }
+
       Sector::get().get_camera().shake(.1f, 0.f, 10.f);
     }
 

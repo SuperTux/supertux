@@ -19,8 +19,11 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
@@ -91,6 +94,8 @@ Haywire::collision_squished(GameObject& object)
     start_exploding();
     stomped_timer.start(STOMPED_TIME);
   }
+
+  spawn_squish_particles("generic_piece_small");
 
   time_stunned = TIME_STUNNED;
   is_stunned = true;
@@ -343,6 +348,11 @@ void
 Haywire::collision_solid(const CollisionHit& hit)
 {
   WalkingBadguy::collision_solid(hit);
+
+  if (m_is_exploding && (hit.left || hit.right))
+  {
+    spawn_side_squish_particles(hit.left ? Direction::LEFT : Direction::RIGHT);
+  }
 
   m_jumping = false;
 }

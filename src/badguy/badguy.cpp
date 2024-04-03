@@ -20,6 +20,7 @@
 #include "badguy/dispenser.hpp"
 #include "editor/editor.hpp"
 #include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -633,6 +634,7 @@ BadGuy::kill_fall()
     m_physic.set_velocity_y(0);
     m_physic.set_acceleration_y(0);
     m_physic.enable_gravity(true);
+    spawn_kill_particles();
     set_state(STATE_FALLING);
 
     // Set the badguy layer to be the foremost, so that
@@ -999,15 +1001,14 @@ BadGuy::ignite()
   if (m_sprite->has_action("melting-left")) {
 
     // Melt it!
-    if (m_sprite->has_action("ground-melting-left") && on_ground()) {
-      set_action("ground-melting", m_dir, 1);
-      SoundManager::current()->play("sounds/splash.ogg", get_pos());
-      set_state(STATE_GROUND_MELTING);
-    } else {
+    //if (m_sprite->has_action("ground-melting-left") && on_ground()) {
+    //  set_action("ground-melting", m_dir, 1);
+    //  SoundManager::current()->play("sounds/splash.ogg", get_pos());
+    //  set_state(STATE_GROUND_MELTING);
+    //} else {
       set_action("melting", m_dir, 1);
-      SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
       set_state(STATE_MELTING);
-    }
+    //}
 
     run_dead_script();
 
@@ -1126,6 +1127,46 @@ BadGuy::add_wind_velocity(const Vector& velocity, const Vector& end_speed)
     m_physic.set_velocity_y(std::min(m_physic.get_velocity_y() + velocity.y, end_speed.y));
   if (end_speed.y < 0 && m_physic.get_velocity_y() > end_speed.y)
     m_physic.set_velocity_y(std::max(m_physic.get_velocity_y() + velocity.y, end_speed.y));
+}
+
+void
+BadGuy::spawn_squish_particles(std::string particle_name, float y_accel)
+{
+  for (int i = 0; i < 5; i++)
+  {
+    float pspeedx = (80.f * (static_cast<float>(i) - 2)) + graphicsRandom.randf(-30.f, 30.f);
+    float pspeedy = ((i == 2) ? -250.f : -5.f * (std::abs(40.f / (static_cast<float>(i) - 2)))) + graphicsRandom.randf(-30.f, 30.f);
+
+    Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite",
+      "piece-" + std::to_string(i),
+      Vector(get_bbox().get_middle().x, get_bbox().get_top()),
+      ANCHOR_MIDDLE, Vector(pspeedx, pspeedy), Vector(0.f, y_accel), LAYER_OBJECTS + 6, false, Color(1.f, 1.f, 1.f), true, 2.f);
+  }
+}
+
+void
+BadGuy::spawn_side_squish_particles(Direction direction, std::string particle_name, float y_accel, int particle_num)
+{
+  for (int i = 0; i < particle_num; i++) {
+    float angle = graphicsRandom.randf(direction == Direction::LEFT ? -90.f : 90.f, direction == Direction::LEFT ? 90.f : 270.f);
+    Vector speed = graphicsRandom.randf(50.f, 200.f) * Vector(std::cos(math::radians(angle)), std::sin(math::radians(angle)));
+    Vector accel = Vector(0.f, y_accel);
+    Sector::get().add<SpriteParticle>("images/particles/" + particle_name + ".sprite", "piece-" + std::to_string(i),
+      Vector(direction == Direction::LEFT ? get_bbox().get_left() : get_bbox().get_right(), get_bbox().get_middle().y), ANCHOR_MIDDLE,
+      speed, accel, LAYER_OBJECTS + 6, false, Color(1.f, 1.f, 1.f), true, 2.f);
+  }
+}
+
+void
+BadGuy::spawn_kill_particles()
+{
+  for (int i = 1; i < 9; i++)
+  {
+    Vector direction = glm::normalize(Vector(std::cos(float(i) * math::PI_4), std::sin(float(i) * math::PI_4)));
+    Sector::get().add<SpriteParticle>("images/particles/sparkle.sprite", "small-noglow",
+      get_bbox().get_middle(),
+      ANCHOR_MIDDLE, Vector(400.f * direction), -Vector(400.f * direction) * 2.8f, LAYER_OBJECTS + 6, false);
+  }
 }
 
 /* EOF */

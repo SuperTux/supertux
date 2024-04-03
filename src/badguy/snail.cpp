@@ -20,8 +20,11 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/owl.hpp"
+#include "math/random.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -260,6 +263,8 @@ Snail::collision_solid(const CollisionHit& hit)
           m_dir = (m_dir == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
           set_action("flat", m_dir, /* loops = */ -1);
 
+          spawn_side_squish_particles(hit.left ? Direction::LEFT : Direction::RIGHT);
+
           m_physic.set_velocity_x(-m_physic.get_velocity_x());
         }
       }
@@ -342,9 +347,14 @@ Snail::collision_squished(GameObject& object)
 
   Player* player = dynamic_cast<Player*>(&object);
   if (player && (player->is_invincible() || player->m_does_buttjump)) {
+    spawn_squish_particles();
     kill_fall();
     player->bounce(*this);
     return true;
+  }
+
+  if (squishcount < MAX_SNAIL_SQUISHES) {
+    spawn_squish_particles("generic_piece_small");
   }
 
   switch (state) {
@@ -353,6 +363,7 @@ Snail::collision_squished(GameObject& object)
     case STATE_KICKED:
       squishcount++;
       if (squishcount >= MAX_SNAIL_SQUISHES) {
+        spawn_squish_particles();
         kill_fall();
         return true;
       }
