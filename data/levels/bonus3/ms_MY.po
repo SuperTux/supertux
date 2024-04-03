@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the SuperTux package.
 # 
 # Translators:
-# abuyop <abuyop@gmail.com>, 2018,2020-2021
+# abuyop <abuyop@gmail.com>, 2018,2020-2022
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Malay (Malaysia) (http://www.transifex.com/arctic-games/supertux/language/ms_MY/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: abuyop <abuyop@gmail.com>, 2018,2020-2022\n"
+"Language-Team: Malay (Malaysia) (http://app.transifex.com/arctic-games/supertux/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,13 +20,13 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "The Level Formely Known As \"-89,2 Degrees\""
-msgstr ""
+msgstr "Dahulu Aras Dikenali Sebagai \"-89,2 Darjah\""
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
 msgstr "Pemanasan Sejagat"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Semalaman di Kayangan"
 
@@ -40,7 +40,7 @@ msgstr "Suatu hari yang sejuk"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Forest Rain (aka \"Antarctic Rain\")"
-msgstr ""
+msgstr "Hujan Hutan (iaitu \"Hujan Antartika\")"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
@@ -78,7 +78,7 @@ msgstr "#Bagus! Anda masih ada tanglung merah! Sebenarnya anda tidak memerlukann
 msgid "Coconut Fortress"
 msgstr "Kubu Kelapa"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Senja Hablur"
 
@@ -129,7 +129,7 @@ msgstr "Memasuki istana"
 
 #: data/levels/bonus3/entering_castle.stl:60
 msgid "#Sorry, nothing to see here! Use the rope to get out!"
-msgstr ""
+msgstr "#Maaf, tiada apa-apa yang menarik untuk lihat di sini! Guna tali untuk keluar!"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
@@ -139,7 +139,7 @@ msgstr "Bonus Bunga"
 msgid "After the Glaciers"
 msgstr "Selepas Glasier"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Tergantung di Bawah Bumbung"
 
@@ -215,7 +215,7 @@ msgstr "Sebuah bukit bersalji"
 msgid "Three Frosty Icebergs"
 msgstr "Tiga Aisberg Beribun"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Di bawah Ais"
 

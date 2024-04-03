@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 19:20+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Afrikaans (South Africa) (http://www.transifex.com/arctic-games/supertux/language/af_ZA/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:08+0000\n"
+"Last-Translator: Martin van Zijl <martin.vanzijl@gmail.com>, 2019-2020\n"
+"Language-Team: Afrikaans (South Africa) (http://app.transifex.com/arctic-games/supertux/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Global Warming"
 msgstr "Wêreldwye Opwarming"
 
-#: data/levels/bonus3/One Night in the Sky.stl:3
+#: ⁨data/levels/bonus3/One Night in the Sky.stl⁩:3
 msgid "One Night in the Sky"
 msgstr "Een Nag in die Lug"
 
@@ -78,7 +78,7 @@ msgstr "#Goed gedoen! Jy het die rooi lantern behou! Dit was eintlik nie nodig n
 msgid "Coconut Fortress"
 msgstr "Kokosneut Fort"
 
-#: data/levels/bonus3/crystal sunset.stl:3
+#: ⁨data/levels/bonus3/crystal sunset.stl⁩:3
 msgid "Crystal Sunset"
 msgstr "Kristal Sonsondergang"
 
@@ -139,7 +139,7 @@ msgstr "Blombonus"
 msgid "After the Glaciers"
 msgstr "Na die Gletsers"
 
-#: data/levels/bonus3/hanging roof.stl:3
+#: ⁨data/levels/bonus3/hanging roof.stl⁩:3
 msgid "Hanging From the Roof"
 msgstr "Hang Van die Dak Af"
 
@@ -215,7 +215,7 @@ msgstr ""
 msgid "Three Frosty Icebergs"
 msgstr "Drie Koue Ysberge"
 
-#: data/levels/bonus3/under ice.stl:3
+#: ⁨data/levels/bonus3/under ice.stl⁩:3
 msgid "Under the Ice"
 msgstr "Onder die Ys"
 

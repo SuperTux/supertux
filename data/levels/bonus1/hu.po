@@ -6,6 +6,7 @@
 # a3c26b0c46589cfc4adc6b915848a308_dec3c1d <78de00fab75bbfdea72c30362fd33a08_110353>, 2015
 # D. J. S. <djsossz@freemail.hu>, 2012
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
+# Guih48, 2022
 # Haba Tamás <habatamas0@gmail.com>, 2016
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
 # Kristóf Kófiás <kristof.kofias@gmail.com>, 2020
@@ -14,10 +15,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
-"POT-Creation-Date: 2021-12-12 20:05+0100\n"
-"PO-Revision-Date: 2021-12-12 20:16+0000\n"
-"Last-Translator: Transifex Bot <>\n"
-"Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
+"POT-Creation-Date: 2024-03-03 03:26+0100\n"
+"PO-Revision-Date: 2013-08-10 23:04+0000\n"
+"Last-Translator: Guih48, 2022\n"
+"Language-Team: Hungarian (http://app.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -111,7 +112,7 @@ msgstr "A Rosszfiúk Bűzlenek"
 msgid ""
 "#These levels were made Swimming-Ready by Serano and revamped by "
 "AllyTheOcelot"
-msgstr ""
+msgstr "#Ezeket a pályákat az úszésra előkészítette Serano és átdolgozta AllyTheOcelot"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -123,7 +124,7 @@ msgstr "Túl könnyű"
 
 #: data/levels/bonus1/torfi-level2.stl:56
 msgid "#All these levels were upgraded for milestone 2 by Hume."
-msgstr ""
+msgstr "#Ezt az összes pályát Hume tette alkalmassá a 2. mérföldkőre."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
