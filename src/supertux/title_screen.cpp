@@ -228,10 +228,9 @@ TitleScreen::update_level(float dt_sec)
   m_controller->press(Control::RIGHT);
 
   // Check if we should press the jump button
-  Vector eye = player.get_bbox().get_middle();
-  eye.x = player.get_bbox().get_right();
-  Vector end = eye;
-  end.x += 46.f;
+  const Rectf& bbox = player.get_bbox();
+  const Vector eye(bbox.get_right(), bbox.get_top() + bbox.get_height() / 2);
+  const Vector end(eye.x + 46.f, eye.y);
 
   RaycastResult result = sector.get_first_line_intersection(eye, end, false, player.get_collision_object());
 
