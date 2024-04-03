@@ -187,13 +187,9 @@ Sector::get_spawn_point_position(const std::string& spawnpoint)
 {
   SpawnPointMarker* sp = get_spawn_point(spawnpoint);
   if (sp)
-  {
     return sp->get_pos();
-  }
   else
-  {
     return Vector(0.0f, 0.0f);
-  }
 }
 
 void
