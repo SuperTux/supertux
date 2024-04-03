@@ -176,7 +176,6 @@ private:
   std::string m_newsector;
   std::string m_newspawnpoint;
   ScreenFade::FadeType m_spawn_fade_type;
-  Vector m_spawn_fade_point;
   Timer m_spawn_fade_timer;
   bool m_spawn_with_invincibility;
 
