@@ -53,6 +53,9 @@ Mole::activate()
 void
 Mole::kill_fall()
 {
+  if (state == DEAD)
+    return;
+
   set_state(DEAD);
   SoundManager::current()->play("sounds/fall.wav", get_pos());
   run_dead_script();
