@@ -482,7 +482,7 @@ AddonManager::uninstall_addon(const AddonId& addon_id)
   {
     if (PHYSFS_delete(FileSystem::join(m_addon_directory, addon.get_filename()).c_str()) == 0)
     {
-      throw std::runtime_error("Error deleting addon .zip file: \"PHYSFS_delete\" failed: " + PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+      throw std::runtime_error("Error deleting addon .zip file: \"PHYSFS_delete\" failed: " + std::string(PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode())));
     }
     m_installed_addons.erase(it);
   }
